@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758581BD61F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:33:49 +0200 (CEST)
-Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D881BD654
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:43:24 +0200 (CEST)
+Received: from localhost ([::1]:43924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThE4-0002ke-Fk
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:33:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46206)
+	id 1jThNL-0001Qs-V8
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:43:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh21-0007u1-Gu
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:19 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTh28-0007uN-R4
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1i-0003yS-R2
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60951
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jTh1i-0003zp-Sf
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:28 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21136
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1h-0003wu-KY
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1h-0003v5-NG
  for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588144860;
+ s=mimecast20190719; t=1588144857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IE0ACh06lsV4xdUtL6CVvp7fPI2t78e9W1N+YfzHsbY=;
- b=PnJuEAWpeS0SJLRgl/RA1KPxqALaVh1GBwec2Xs8CHT+ThMK+SiJ7g0VzHDyXWhWTZcrVO
- 4VQB17k47SMcOtEHsjH3cpljMAFOUvZzgA+OQjaKDUgkmX6NL7oqOq/Bd04EMnWA3HpxsK
- p7C+GDJBj6Y/LUzQ+/+gcNAZxRfBwI0=
+ bh=wH9qFb1vz2F+UQwonoBfny/s8QXIKAguywZ3WwtIZ4Y=;
+ b=R+7mlO5pNB5eIc4L8qxat0S6o7S+XHa6FnsM38HM38+KRBG3cz5f4qjBPdEQxJI4e2ISzj
+ WFdmcfohUwB6l8yo+SVZzbkpuMf5wlf+gox79LqNMrn6ye1wbrh3DFTU2rOvoAZeSKc0vE
+ gXELUAtI8+weZxi1fjhlKjXxLeJyAik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-cU81mEKMNLq05zJK78rA3w-1; Wed, 29 Apr 2020 03:20:58 -0400
-X-MC-Unique: cU81mEKMNLq05zJK78rA3w-1
+ us-mta-208-csiLGFbeOgWZNSc8JbmkmA-1; Wed, 29 Apr 2020 03:20:56 -0400
+X-MC-Unique: csiLGFbeOgWZNSc8JbmkmA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 410041009446;
- Wed, 29 Apr 2020 07:20:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 453AA1009447
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:55 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E8C21000329;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 169E910021B3;
  Wed, 29 Apr 2020 07:20:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 054CF11358C7; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
+ id 1016E11358C8; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/32] cryptodev: Fix cryptodev_builtin_cleanup() error API
- violation
-Date: Wed, 29 Apr 2020 09:20:27 +0200
-Message-Id: <20200429072048.29963-12-armbru@redhat.com>
+Subject: [PULL 12/32] block/file-posix: Fix check_cache_dropped() error
+ handling
+Date: Wed, 29 Apr 2020 09:20:28 +0200
+Message-Id: <20200429072048.29963-13-armbru@redhat.com>
 In-Reply-To: <20200429072048.29963-1-armbru@redhat.com>
 References: <20200429072048.29963-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -60,11 +60,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,7 +76,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gonglei <arei.gonglei@huawei.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,48 +86,41 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-cryptodev_builtin_cleanup() passes @errp to
-cryptodev_builtin_sym_close_session() in a loop.  Harmless, because
-cryptodev_builtin_sym_close_session() can't actually fail.  Fix it
-anyway.
+check_cache_dropped() calls error_setg() in a loop.  It fails to break
+the loop in one instance.  If a subsequent iteration error_setg()s
+again, it trips error_setv()'s assertion.
 
-Cc: Gonglei <arei.gonglei@huawei.com>
+Fix it to break the loop.
+
+Fixes: 31be8a2a97ecba7d31a82932286489cac318e9e9
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200422130719.28225-2-armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200422130719.28225-3-armbru@redhat.com>
 ---
- backends/cryptodev-builtin.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ block/file-posix.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
-index c8ae3b9742..14316333fe 100644
---- a/backends/cryptodev-builtin.c
-+++ b/backends/cryptodev-builtin.c
-@@ -282,12 +282,7 @@ static int cryptodev_builtin_sym_close_session(
-     CryptoDevBackendBuiltin *builtin =3D
-                       CRYPTODEV_BACKEND_BUILTIN(backend);
-=20
--    if (session_id >=3D MAX_NUM_SESSIONS ||
--              builtin->sessions[session_id] =3D=3D NULL) {
--        error_setg(errp, "Cannot find a valid session id: %" PRIu64 "",
--                      session_id);
--        return -1;
--    }
-+    assert(session_id < MAX_NUM_SESSIONS && builtin->sessions[session_id])=
-;
-=20
-     qcrypto_cipher_free(builtin->sessions[session_id]->cipher);
-     g_free(builtin->sessions[session_id]);
-@@ -356,8 +351,7 @@ static void cryptodev_builtin_cleanup(
-=20
-     for (i =3D 0; i < MAX_NUM_SESSIONS; i++) {
-         if (builtin->sessions[i] !=3D NULL) {
--            cryptodev_builtin_sym_close_session(
--                    backend, i, 0, errp);
-+            cryptodev_builtin_sym_close_session(backend, i, 0, &error_abor=
-t);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 7e19bbff5f..094e3b0212 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2691,10 +2691,13 @@ static void check_cache_dropped(BlockDriverState *b=
+s, Error **errp)
+         vec_end =3D DIV_ROUND_UP(length, page_size);
+         for (i =3D 0; i < vec_end; i++) {
+             if (vec[i] & 0x1) {
+-                error_setg(errp, "page cache still in use!");
+                 break;
+             }
          }
++        if (i < vec_end) {
++            error_setg(errp, "page cache still in use!");
++            break;
++        }
      }
 =20
+     if (window) {
 --=20
 2.21.1
 
