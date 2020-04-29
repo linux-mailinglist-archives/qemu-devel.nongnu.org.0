@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB4C1BE1C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:54:25 +0200 (CEST)
-Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613FF1BE1D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:56:50 +0200 (CEST)
+Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTo6S-0002j8-IA
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
+	id 1jTo8n-0006Xl-A9
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52150)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTo4S-000727-DW
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:52:20 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTo7X-0004n6-2g
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:55:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTo4R-0004c4-37
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:52:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40838
+ (envelope-from <eblake@redhat.com>) id 1jTo7W-0005z4-BD
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:55:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36284
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTo4Q-0004br-Mq
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:52:18 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTo7V-0005pU-Rj
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:55:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588171938;
+ s=mimecast20190719; t=1588172128;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UFTxqrHdb3Fxmn+49gxrBLqSvLSZ7TXc9O+OWjQyAGM=;
- b=IOdp4AbyMVy2vdpGGsYaKy1/sDWtBSytW2XNB1PQBa9RedvFItGu7h4FgIASQu5RpH3N3s
- Axglo07rMi05DXGaLgb2vOom4rmS5r/V2XnZQ6hjocTZgY4n9wxExMazLPQ+uszkRBYQvI
- DriJ5DWwLgkmdZzMyEQ354kHXg9kVBE=
+ bh=XLNpJosC4b8/+sIjY4Z2IHGTFMDr5d1UUJ34VO9VuMQ=;
+ b=RIqGhpHuZQKPaQ6GNxsRQlhrSa+HOWErwlSLi1GRhSbvvzIy3+KPa2i4hm7pWddV5LPJYz
+ roF7gA68ighw1QSZihQhmpXMI2FpjMGTwIa3jgp4Osk9q0VKkj11zjqnNIJGJBenyZkPks
+ FnhLIHVL1PVg/CTDSL/T/Ndx8Nkc3T8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-_AHK4wJDOcauLIaDV2FIHg-1; Wed, 29 Apr 2020 10:52:16 -0400
-X-MC-Unique: _AHK4wJDOcauLIaDV2FIHg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-477-BiNSSER9NZa5_WCxAl0PVw-1; Wed, 29 Apr 2020 10:55:26 -0400
+X-MC-Unique: BiNSSER9NZa5_WCxAl0PVw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EF1783DD59;
- Wed, 29 Apr 2020 14:52:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B98F8835B67;
+ Wed, 29 Apr 2020 14:55:25 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F27A65C296;
- Wed, 29 Apr 2020 14:52:13 +0000 (UTC)
-Subject: Re: [PATCH v2 3/4] block: Add blk_make_empty()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B19B282E2;
+ Wed, 29 Apr 2020 14:55:24 +0000 (UTC)
+Subject: Re: [PATCH v2 4/4] block: Use blk_make_empty() after commits
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200429141126.85159-1-mreitz@redhat.com>
- <20200429141126.85159-4-mreitz@redhat.com>
+ <20200429141126.85159-5-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <334b4045-0321-697f-b93e-a0cf78018c07@redhat.com>
-Date: Wed, 29 Apr 2020 09:52:12 -0500
+Message-ID: <dc44399a-402d-c3fc-d68f-fa6c38d1f27a@redhat.com>
+Date: Wed, 29 Apr 2020 09:55:24 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200429141126.85159-4-mreitz@redhat.com>
+In-Reply-To: <20200429141126.85159-5-mreitz@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
@@ -83,15 +83,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/29/20 9:11 AM, Max Reitz wrote:
-> Two callers of BlockDriver.bdrv_make_empty() remain that should not call
-> this method directly.  Both do not have access to a BdrvChild, but they
-> can use a BlockBackend, so we add this function that lets them use it.
+> bdrv_commit() already has a BlockBackend pointing to the BDS that we
+> want to empty, it just has the wrong permissions.
+> 
+> qemu-img commit has no BlockBackend pointing to the old backing file
+> yet, but introducing one is simple.
+> 
+> After this commit, bdrv_make_empty() is the only remaining caller of
+> BlockDriver.bdrv_make_empty().
 > 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->   include/sysemu/block-backend.h |  2 ++
->   block/block-backend.c          | 10 ++++++++++
->   2 files changed, 12 insertions(+)
+>   block/commit.c | 16 +++++++++-------
+>   qemu-img.c     | 19 ++++++++++++++-----
+>   2 files changed, 23 insertions(+), 12 deletions(-)
 > 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
