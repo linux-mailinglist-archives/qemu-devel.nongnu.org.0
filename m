@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8AB1BDA3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:05:16 +0200 (CEST)
-Received: from localhost ([::1]:36632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7D01BDA60
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:10:10 +0200 (CEST)
+Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTkWh-0006jC-K9
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:05:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44802)
+	id 1jTkbR-0005ty-DW
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:10:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44814)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jTkUs-0005An-IH
+ (envelope-from <kraxel@redhat.com>) id 1jTkUu-0005BC-1f
  for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:03:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jTkTv-0003mh-4E
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:03:22 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40613
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1jTkTw-0003qF-4w
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:03:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38665
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTkTu-0003kc-JV
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:02:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTkTv-0003n2-JO
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:02:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588158141;
+ s=mimecast20190719; t=1588158142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=w9dEuFL4uqjQpJmk17jkYiUQm5ji2Ty3LIgcgd4JiAo=;
- b=SMaMPQtrCuWH/0E3EJgAuT2euY9mX5/nz9t7ev4F/mXRlibPQx1fOuMbM5oym9BlkirrqE
- ogw85n13uA2NnGcLhFjDI80yMIhhPV/Ed6/XKZtC3sA2d/HSkis4cuQMpkscSkV9tuYwjQ
- 73JhNy9pRfVejPvDF2wenMnQ3ELpWsM=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CGI6929XT3WDPTBfh8WRGmzTNqGkYLrFczKvF3RsMAk=;
+ b=eWa/3s/SUb+J6nrwCLE+8xZixl13teP2jMM3TLvsqv9/HZEpmWsyJOP6K9hYssQCiA1EwV
+ f2X+6IEtPQmMQDIYipt5938SW6FaU/1xURwL9bJQxGouUEmo5jfU96ZQudg1zT0HZ/yq+Y
+ VTYTjKKF/yVzlehH4xh+4fNDKhe49Xk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-DO3xz7iEOL-vBYNmlKjkNA-1; Wed, 29 Apr 2020 07:02:19 -0400
-X-MC-Unique: DO3xz7iEOL-vBYNmlKjkNA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-494-c9qzpF6nNfONNYFYjiQsrA-1; Wed, 29 Apr 2020 07:02:19 -0400
+X-MC-Unique: c9qzpF6nNfONNYFYjiQsrA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F30AE835B46
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7C31801504
  for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 11:02:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 025AD5C1BE;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E4EF282E2;
  Wed, 29 Apr 2020 11:02:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 031001753B; Wed, 29 Apr 2020 13:02:14 +0200 (CEST)
+ id 0C3009D99; Wed, 29 Apr 2020 13:02:15 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/12] audio: deprecate -soundhw
-Date: Wed, 29 Apr 2020 13:02:02 +0200
-Message-Id: <20200429110214.29037-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Subject: [PATCH 01/12] stubs: add isa_create_simple
+Date: Wed, 29 Apr 2020 13:02:03 +0200
+Message-Id: <20200429110214.29037-2-kraxel@redhat.com>
+In-Reply-To: <20200429110214.29037-1-kraxel@redhat.com>
+References: <20200429110214.29037-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,41 +81,41 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Needed for -soundhw cleanup.
 
-
-Gerd Hoffmann (12):
-  stubs: add isa_create_simple
-  stubs: add pci_create_simple
-  audio: add deprecated_register_soundhw
-  audio: deprecate -soundhw ac97
-  audio: deprecate -soundhw es1370
-  audio: deprecate -soundhw adlib
-  audio: deprecate -soundhw cs4231a
-  audio: deprecate -soundhw gus
-  audio: deprecate -soundhw sb16
-  audio: deprecate -soundhw hda
-  audio: deprecate -soundhw pcspk
-  [RFC] audio: try use onboard audiodev for pcspk
-
- include/hw/audio/soundhw.h |  2 ++
- hw/audio/ac97.c            |  9 ++-------
- hw/audio/adlib.c           |  8 +-------
- hw/audio/cs4231a.c         |  8 +-------
- hw/audio/es1370.c          |  9 ++-------
- hw/audio/gus.c             |  8 +-------
- hw/audio/intel-hda.c       |  3 +++
- hw/audio/pcspk.c           | 27 ++++++++++++++++++++++++---
- hw/audio/sb16.c            |  9 ++-------
- hw/audio/soundhw.c         | 24 +++++++++++++++++++++++-
- qdev-monitor.c             |  2 ++
- stubs/isa-bus.c            |  7 +++++++
- stubs/pci-bus.c            |  7 +++++++
- stubs/Makefile.objs        |  2 ++
- 14 files changed, 79 insertions(+), 46 deletions(-)
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ stubs/isa-bus.c     | 7 +++++++
+ stubs/Makefile.objs | 1 +
+ 2 files changed, 8 insertions(+)
  create mode 100644 stubs/isa-bus.c
- create mode 100644 stubs/pci-bus.c
 
--- 
+diff --git a/stubs/isa-bus.c b/stubs/isa-bus.c
+new file mode 100644
+index 000000000000..cbebaed4ad04
+--- /dev/null
++++ b/stubs/isa-bus.c
+@@ -0,0 +1,7 @@
++#include "qemu/osdep.h"
++#include "hw/isa/isa.h"
++
++ISADevice *isa_create_simple(ISABus *bus, const char *name)
++{
++    return NULL;
++}
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index 45be5dc0ed78..c61ff38cc801 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -13,6 +13,7 @@ stub-obj-y +=3D get-vm-name.o
+ stub-obj-y +=3D iothread.o
+ stub-obj-y +=3D iothread-lock.o
+ stub-obj-y +=3D is-daemonized.o
++stub-obj-y +=3D isa-bus.o
+ stub-obj-$(CONFIG_LINUX_AIO) +=3D linux-aio.o
+ stub-obj-$(CONFIG_LINUX_IO_URING) +=3D io_uring.o
+ stub-obj-y +=3D machine-init-done.o
+--=20
 2.18.2
 
 
