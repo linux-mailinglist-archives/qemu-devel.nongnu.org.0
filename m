@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15EBD1BD603
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:29:02 +0200 (CEST)
-Received: from localhost ([::1]:48608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593ED1BD63E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:40:46 +0200 (CEST)
+Received: from localhost ([::1]:34574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTh9Q-0003hS-Vf
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:29:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46164)
+	id 1jThKn-0004ta-9O
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46252)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1v-0007ti-Vk
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:14 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTh27-0007uG-8H
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1g-0003wW-Iu
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38445
+ (envelope-from <armbru@redhat.com>) id 1jTh1i-0003zN-MI
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31206
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1f-0003u4-Ps
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:20:59 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1h-0003uf-IT
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588144856;
+ s=mimecast20190719; t=1588144857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PhhhUudLUbRStHxYbTEaO9gPqZJVt40K2eleSR+HyVE=;
- b=MgQPxevOY2zlrL6xKxk3njT7KuJ0ZL2nQBndXvsbpEqs6pW67RkBJ0Wvv0Mg46k61jWzAj
- GtdrVKC33vW9ocnb2mmTlf7xB5N34Ra4WG7ccvUzWNscKG71s69lhGvv9YX0RJIFUpfoCl
- CpFyrj2oQTcGm7rFLbIfAFZ0HLyV1Bc=
+ bh=ARsxO36GYr/5NC74E6ItLer6/hyG11wa9m/wl3IdRbI=;
+ b=FLm0doXrB3X2HO92y8Kwl0zTgccp+/hHd8ZrWQK8PXIb4ifY/IH1UC1HJKPtNFlgAdD8+F
+ ztw+Gb9aml48074+9LLOgIh2kvLZCQHXVTrCUKmCXrtvtCqq8VKW39H4bN7+FDYxgHwTJE
+ AMHPyZgMX9c5uFWpUU5x6vlXdNyxRTY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-UV-j63ukPdaHtcS_9EJg1g-1; Wed, 29 Apr 2020 03:20:54 -0400
-X-MC-Unique: UV-j63ukPdaHtcS_9EJg1g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-288-0a0jWyUZOZ2y_NQq2XFQHw-1; Wed, 29 Apr 2020 03:20:54 -0400
+X-MC-Unique: 0a0jWyUZOZ2y_NQq2XFQHw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9FED801504
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD69C8015CE;
+ Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 794EA648DF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 815721000329;
  Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 41F8411358D1; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
+ id 47D3311358D2; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/32] io: Fix qio_channel_socket_close() error handling
-Date: Wed, 29 Apr 2020 09:20:36 +0200
-Message-Id: <20200429072048.29963-21-armbru@redhat.com>
+Subject: [PULL 21/32] migration/colo: Fix qmp_xen_colo_do_checkpoint() error
+ handling
+Date: Wed, 29 Apr 2020 09:20:37 +0200
+Message-Id: <20200429072048.29963-22-armbru@redhat.com>
 In-Reply-To: <20200429072048.29963-1-armbru@redhat.com>
 References: <20200429072048.29963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -75,7 +76,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Zhang Chen <chen.zhang@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,45 +88,47 @@ latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
 call.
 
-qio_channel_socket_close() passes @errp first to
-socket_listen_cleanup(), and then, if closesocket() fails, to
-error_setg_errno().  If socket_listen_cleanup() failed, this will trip
-the assertion in error_setv().
+qmp_xen_colo_do_checkpoint() passes @errp first to
+replication_do_checkpoint_all(), and then to
+colo_notify_filters_event().  If both fail, this will trip the
+assertion in error_setv().
 
-Fix by ignoring a second error.
+Similar code in secondary_vm_do_failover() calls
+colo_notify_filters_event() only after replication_do_checkpoint_all()
+succeeded.  Do the same here.
 
-Fixes: 73564c407caedf992a1c688b5fea776a8b56ba2a
-Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Fixes: 0e8818f023616677416840d6ddc880db8de3c967
+Cc: Zhang Chen <chen.zhang@intel.com>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Message-Id: <20200422130719.28225-11-armbru@redhat.com>
+Reviewed-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
+Message-Id: <20200422130719.28225-12-armbru@redhat.com>
 ---
- io/channel-socket.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ migration/colo.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index b74f5b92a0..e1b4667087 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -704,6 +704,7 @@ qio_channel_socket_close(QIOChannel *ioc,
+diff --git a/migration/colo.c b/migration/colo.c
+index a54ac84f41..1b3493729b 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -263,7 +263,13 @@ ReplicationStatus *qmp_query_xen_replication_status(Er=
+ror **errp)
+=20
+ void qmp_xen_colo_do_checkpoint(Error **errp)
  {
-     QIOChannelSocket *sioc =3D QIO_CHANNEL_SOCKET(ioc);
-     int rc =3D 0;
+-    replication_do_checkpoint_all(errp);
 +    Error *err =3D NULL;
-=20
-     if (sioc->fd !=3D -1) {
- #ifdef WIN32
-@@ -715,8 +716,8 @@ qio_channel_socket_close(QIOChannel *ioc,
-=20
-         if (closesocket(sioc->fd) < 0) {
-             sioc->fd =3D -1;
--            error_setg_errno(errp, errno,
--                             "Unable to close socket");
-+            error_setg_errno(&err, errno, "Unable to close socket");
-+            error_propagate(errp, err);
-             return -1;
-         }
-         sioc->fd =3D -1;
++
++    replication_do_checkpoint_all(&err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
+     /* Notify all filters of all NIC to do checkpoint */
+     colo_notify_filters_event(COLO_EVENT_CHECKPOINT, errp);
+ }
 --=20
 2.21.1
 
