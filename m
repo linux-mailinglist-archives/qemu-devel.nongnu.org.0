@@ -2,111 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819A11BD808
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:17:47 +0200 (CEST)
-Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F1081BD80F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:19:26 +0200 (CEST)
+Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTiqg-00064s-IR
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:17:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60708)
+	id 1jTisH-0007tq-Ep
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60828)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTipf-0005Ms-3v
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:16:45 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTiqy-0006sL-8w
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:18:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTipV-0002dH-4M
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:16:42 -0400
-Received: from mail-am6eur05on2094.outbound.protection.outlook.com
- ([40.107.22.94]:38051 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jTiog-0008KM-CJ; Wed, 29 Apr 2020 05:15:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m8PNB4ViHEETbEsXO8KZ1ECHytv0wr5e4sPL7soAK2q51jH5/xBbb1LHuRC9XgMteiDFMRwmauJ+/sijt9VWQLL5DfvWqb6o17+wx2WAG/s0weknzjqhHEPdMcWBCZHJ6fZ9yQJcH2Hni0SWhMGD6YjngEuVB8fSQNUMFgLhWIbE50E3GcBs6AiNivfS+s9dMaBEV9H1u9HsBjiDBTFSc2FjgL+2KiZzb5gBu/2GuA3XmB2S9dd2YPYs2xIkGw0OZrs/WnV7cv1pO7vJMM+pJOLCGmKUfXdVSaK3Rj6xRNNwzHnrK1xQ8jjVKPZZ/JZhsYV+jImCfoZnQdtjcZUm9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6yDp9M6lnHVyajxYH0Bm2cPqXwtvmZlYkpPh1UUj/ZU=;
- b=kpmBB618KyMQ1PSFLSpd7esY7i82pRG9qm8H73BRcaYBxMyXeQOvO5uWchkk3uZeY9PcGCHyCWpyzEiQAUGcK83az6nmsxWCjffbnQGQLanp+Cx57F2CwW31ABFWJf5Td20+IYqKp5buG8zqb+aG79ky4wQ76YY8u7Ky4q4gyPPK8zzOBk2alvceQeSYCQlSdEDno3MB5+aYOOLT6w2ucfnSNVOXZbSXBIu0DKdtCOryACqlMJzSaSWrg4cJQY7bqBoq4Bij4cr2T4Y0rCHjWIXLHTkkYVl0LD6ZQOna7xgBOtA08N6JpkjrVKCxjKGK1BenIT8nRZ8Z34Zb1ZtI/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6yDp9M6lnHVyajxYH0Bm2cPqXwtvmZlYkpPh1UUj/ZU=;
- b=ZMLl1IFDmQ32n/QFOjn83bxZf2kYQpyQrexDsNX/okjnCQEij0iuTBUaSt0wIYcOZDxev50S8HBXS9ywiTU0ssVml+9ysUxgEXX1qXJs7TjySxpFClAlrLYT3LRbe09zqUcTLVgUTPUZ8uot+C8KS+L6jcgVsjYj/IRNjqFr/Iw=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5302.eurprd08.prod.outlook.com (2603:10a6:20b:103::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Wed, 29 Apr
- 2020 09:15:37 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Wed, 29 Apr 2020
- 09:15:37 +0000
-Subject: Re: backing chain & block status & filters
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>
-References: <a1c1b734-34dc-f8d3-b6a0-43b136e237e2@virtuozzo.com>
- <20e6c43f-c1a7-57db-58b9-3cb70f0e637f@redhat.com>
- <20200428112853.GC5789@linux.fritz.box>
- <2e3eab55-4a1d-f1a9-ab28-3f9399c57bfe@virtuozzo.com>
- <25f6278c-466d-c663-73e0-ef2d256b326d@redhat.com>
- <04dd8365-7077-766a-6d42-1aac26abbdeb@virtuozzo.com>
- <91b741ac-248c-2065-17b9-7fe31eafee40@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200429121535352
-Message-ID: <7b1d4246-e59b-0fdb-3c44-6810eea6e5b8@virtuozzo.com>
-Date: Wed, 29 Apr 2020 12:15:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <91b741ac-248c-2065-17b9-7fe31eafee40@virtuozzo.com>
-Content-Type: multipart/mixed; boundary="------------DBA025E4B6D5E27CB3B4512D"
-Content-Language: en-US
-X-ClientProxiedBy: FRYP281CA0007.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::17)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTiqw-0003jC-Uz
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:18:04 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36698)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTiqw-0003j4-I5
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:18:02 -0400
+Received: by mail-wr1-x443.google.com with SMTP id d15so1609763wrx.3
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 02:18:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wjzMsQFWMuczVHaxFD+2PR77xvg8KQSYCG6kk8sgW1g=;
+ b=SxxxCZC/Z4tCrj8mycZuosYue2xu/qGwzVVeBz93UTxtVbM2T2Z+/GXVSttW0iPJXL
+ FltdhydIit09HzSAg7lc+y6uwlzX5RLV/OZOtCTC8IyeX1OA8XuxNTk7pAyqNLfJTYUC
+ bcpyIzcQA2O4k51YTOWAlQL5p1de2JklFxxLpBKTTOl+NkC+a4kwUHVX5qSfZrhbBDMB
+ +zFSWtmTa3wzIcfmc5xDt15x3QYaVkDsGm3Bf9UiborfjGIGXe7LW1W7RmvOCzcGlr0T
+ xJIgtBGalUlJ4/8V3Znxr1FH5D7vBBwx5c+UrShDpAUhjitGrpuT9ngxZnLUG74lSerH
+ 0J2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wjzMsQFWMuczVHaxFD+2PR77xvg8KQSYCG6kk8sgW1g=;
+ b=KjaEBh2bZjhWmaaStcHp1+JenBQKzpScRqOIc/inBIlt2WgnrgrRM2HdGoCmXawnvb
+ WnXXmGztmTWTLK1kfDcl2SqmrLMNLDCtGAr4prBJdOxg4qozoZikd8R1wW+cc1CgLhur
+ nvfPG2tuM3JTyD+LxERFSHaM+h6Z9m5XBiFWXn2Y48bBFEPm5KX7+ccIcdf0cpY0jEoF
+ IyLha09CzMBHTFbbaMNfeHOCwJCPaRxeX/xiP5XAYcPUoSso2vL0iIgwZyKgc6BcErC7
+ Lax1adjabfGolghxKqXLnXAlt0OIXpBMrqa0chgeIdUyHRQSjIspxats7+I5kYrXWM8W
+ rFbg==
+X-Gm-Message-State: AGi0PuZf0TQJNuzfSO/PMfIwaFoN62A8LYTVksyjHWMUyCX7/gp90a/T
+ tvpVFCEuS8GOuM7PczAL6f/cgzsBYHo=
+X-Google-Smtp-Source: APiQypI545fSNed9bdutxUgPk2eMDBm2ckLLgH0np77or7IqmxEB4vb/4Tyh7h25VigzxAJaXXKBpQ==
+X-Received: by 2002:a5d:694a:: with SMTP id r10mr38211789wrw.228.1588151880708; 
+ Wed, 29 Apr 2020 02:18:00 -0700 (PDT)
+Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.137])
+ by smtp.gmail.com with ESMTPSA id x13sm6966550wmc.5.2020.04.29.02.17.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Apr 2020 02:18:00 -0700 (PDT)
+Subject: Re: [PATCH for-5.1 3/7] hw/mips: Add CPU IRQ3 delivery for KVM
+To: Huacai Chen <chenhuacai@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
+ <1587979995-17717-3-git-send-email-chenhc@lemote.com>
+ <5a4cc457-971c-de9b-7380-c5e81d1b378b@amsat.org>
+ <CABDp7Voe_WJwa6J9W-rQdSRHMx+u=46tfd9ufEdAkE36e59_FQ@mail.gmail.com>
+ <CAHiYmc5R8icimeJ3i=E-8_uUWpRMUUH67xZKFk04CrjgXKHgcQ@mail.gmail.com>
+ <CAAhV-H6tTU0jLfFFotrfCE_4sQKB0UEhKbxoGQrOhqzVBvo35g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <9d7b79c9-8d95-93ef-e0c3-ddccf5b46a84@amsat.org>
+Date: Wed, 29 Apr 2020 11:17:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.184) by
- FRYP281CA0007.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.19 via Frontend Transport; Wed, 29 Apr 2020 09:15:36 +0000
-X-Tagtoolbar-Keys: D20200429121535352
-X-Originating-IP: [185.215.60.184]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2e18e04f-d6f8-434a-7231-08d7ec1de10f
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5302:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB530234D734384B78ADB3B8CFC1AD0@AM7PR08MB5302.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 03883BD916
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eaqVYEY7SfttPYc2IPsJ+XbUfpocPg9AkkVupEOhfe2Y6e48W4XAU/xMGmaVLZFngSkOttVM29LhGrPBK2lc0eGbCEtBihjPLOmWjDElGkriIOetyMmy88VZx327pawrnm4/V66LMCoddEsBTIqF65yWyV5rCav74pT+2CHlnUMydRfggEfs9e5dLEDzPc2/ouxDhz9oUIRCbMe8+TA5UIpim/TD5N886QXykQ+vxQzQWczWUe2kzhDgqyc60ygGNKyUiM47UsbNjXKIHDTek86qLLF/Fwzx/AMhYMezDmfViGQyNc6Ium5dQ9tASR1p3U0cTdxjlEJ4XTkibNqJJyd27NTh4TZxR5DFZOInjOPWnRLijbrTS8+HXE95HuJkrpV8dFqmvmrMhRfRK+zssxJwSYTAdPQYlBdQXGQmedKvtyhx5R6CG/Fvusanj5vBLQ8djRyNyipwqvfYC2MMwZwcqpBoTRMbUxanHcwqH8Fpntij3QU+rGFXzKRAa4x/Oj3m6Hg65+GmnXJ/uWzuUw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(396003)(136003)(346002)(39830400003)(376002)(966005)(66476007)(66616009)(4326008)(2616005)(66556008)(31686004)(110136005)(33964004)(66946007)(956004)(5660300002)(235185007)(54906003)(16576012)(52116002)(478600001)(53546011)(26005)(16526019)(186003)(8936002)(36756003)(86362001)(31696002)(8676002)(2906002)(6486002)(316002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 8yzrme0zcW6mGkh9viQ9qrCdGo5U5SK9vbDBAFs9B0x6Zp7lV1osEMgZiKOHcTAqAl7Kxxl1ut9sKG88hZ/t+4tkvySQOiFKnxyJ9/m8jUedx4tG30nhq6n6Q2JfnLYPFlY3s+78Q9wiKh1Rd0lajhVhMfCg56SeyYGrqPOTymBC2XCFTt9NNCyRy4Ms5YR/7Yludhy5TXLDQ6Jws28RxXoa5JXjW1QOK+LT5d2suiQroq7qAeGGPaE4l98qcKSbTfhuUBTfIEL2uo1lmHAU/a5GbiQsQLOWAz4m/PHtfNXh1BudAhhJLgn9OPIKIl4N4DIjT714+pC9f35FyJJDKKUjeo0s4US9B7KRgeHOTxcW+QtGECsAjUz/RwpJEa2FyKonlJmckqX5R9Gs0XbqUsgNRpRw938vqlZmRGA8sIxBLl8/G8ae/ggaCZGHTMhnT1068bKJkciP3l0ZoKBwMlkA5Gze+2UsiZDH0daa0RsPZk5DbgwmXjlJXUS069qi+YkmVE/4b1nVuBdkGam4lFg/LWJSZowXuO3VnteNQnkQ+485cCWdWkaP9HY7lhyQw1o6gGLhZ0B4GyTSiRBnLRXrrN0UYSMKZNKPUF1MSlIjzSheZofFAJxJdtcLSEviQ/lWIbtf/ewkSOKV4pGYpsBHHK3dQxpahKk+Kx67TTVY7yLT6zKF+Yfr0xNP4TQtBQhMTbMEP0aqIKUgzzJaweycw37xEoIhtRVDSkP5mJW4Lk8PYdSZPmTc9n2JbR3zAg9x1gHaSQuwGdsQLRUZ5Xw34ngdEWFVgvR6OKQ0eX8=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e18e04f-d6f8-434a-7231-08d7ec1de10f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 09:15:37.1452 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5q8ujOmXmm/vJAQ6hBYGLIOSvLpICxj8P1YLeeMwEoWbxkZ7R8mDC/dDqFUg5X76F8L0GpJnSRgLflLVKQ8HYb5f1+GO16JCk3YZtnWl49c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5302
-Received-SPF: pass client-ip=40.107.22.94;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 05:15:38
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.22.94
+In-Reply-To: <CAAhV-H6tTU0jLfFFotrfCE_4sQKB0UEhKbxoGQrOhqzVBvo35g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,168 +93,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu block <qemu-block@nongnu.org>
+Cc: chen huacai <zltjiangshi@gmail.com>, qemu-level <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------DBA025E4B6D5E27CB3B4512D
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-28.04.2020 22:44, Vladimir Sementsov-Ogievskiy wrote:
-> 28.04.2020 19:46, Vladimir Sementsov-Ogievskiy wrote:
->> 28.04.2020 19:18, Eric Blake wrote:
->>> On 4/28/20 10:13 AM, Vladimir Sementsov-Ogievskiy wrote:
->>>
->>>>>> Hm.  I could imagine that there are formats that have non-zero holes
->>>>>> (e.g. 0xff or just garbage).  It would be a bit wrong for them to return
->>>>>> ZERO or DATA then.
->>>>>>
->>>>>> But OTOH we don’t care about such cases, do we?  We need to know whether
->>>>>> ranges are zero, data, or unallocated.  If they aren’t zero, we only
->>>>>> care about whether reading from it will return data from this layer or not.
->>>>>>
->>>>>> So I suppose that anything that doesn’t support backing files (or
->>>>>> filtered children) should always return ZERO and/or DATA.
->>>>>
->>>>> I'm not sure I agree with the notion that everything should be
->>>>> BDRV_BLOCK_ALLOCATED at the lowest layer. It's not what it means today
->>>>> at least. If we want to change this, we will have to check all callers
->>>>> of bdrv_is_allocated() and friends who might use this to find holes in
->>>>> the file.
->>>>
->>>> Yes. Because they are doing incorrect (or at least undocumented and unreliable) thing.
->>>
->>> Here's some previous mails discussing the same question about what block_status should actually mean.  At the time, I was so scared of the prospect of something breaking if I changed things that I ended up keeping status quo, so here we are revisiting the topic several years later, still asking the same questions.
->>>
->>> https://lists.gnu.org/archive/html/qemu-devel/2017-12/msg00069.html
->>> https://lists.gnu.org/archive/html/qemu-devel/2018-02/msg03757.html
->>>
->>>>
->>>>>
->>>>> Basically, the way bdrv_is_allocated() works today is that we assume an
->>>>> implicit zeroed backing layer even for block drivers that don't support
->>>>> backing files.
->>>>
->>>> But read doesn't work so: it will read data from the bottom layer, not from
->>>> this implicit zeroed backing layer. And it is inconsistent. On read data
->>>> comes exactly from this layer, not from its implicit backing. So it should
->>>> return BDRV_BLOCK_ALLOCATED, accordingly to its definition..
->>>>
->>>> Or, we should at least document current behavior:
->>>>
->>>>    BDRV_BLOCK_ALLOCATED: the content of the block is determined by this
->>>>    layer rather than any backing, set by block. Attention: it may not be set
->>>>    for drivers without backing support, still data is of course read from
->>>>    this layer. Note, that for such drivers BDRV_BLOCK_ALLOCATED may mean
->>>>    allocation on fs level, which occupies real space on disk.. So, for such drivers
->>>>
->>>>    ZERO | ALLOCATED means that, read as zero, data may be allocated on fs, or
->>>>    (most probably) not,
->>>>    don't look at ALLOCATED flag, as it is added by generic layer for another logic,
->>>>    not related to fs-allocation.
->>>>
->>>>    0 means that, most probably, data doesn't occupy space on fs, zero-status is
->>>>    unknown (most probably non-zero)
->>>>
->>>
->>> That may be right in describing the current situation, but again, needs a GOOD audit of what we are actually using it for, and whether it is what we really WANT to be using it for.  If we're going to audit/refactor the code, we might as well get semantics that are actually useful, rather than painfully contorted to documentation that happens to match our current contorted code.
->>>
->>
->> Honest enough:) I'll try to make a table.
->>
->> I don't think that reporting fs-allocation status is a bad thing. But I'm sure that it should be separated from backing-chain-allocated concept.
->>
+On 4/29/20 3:52 AM, Huacai Chen wrote:
+> Hi, Philippe and Aleksandar,
 > 
-> As a first step, I've don brief analysis of .bdrv_co_block_status of drivers (attached)
+> I'm not refusing to change my patch, but I have two questions:
+> 1, Why we should identify Loongson-3 to deliver IP3? It seems that
+> deliver all IPs (IP2~IP7) unconditionally is harmless as well.
+> 2, How to identify Loongson-3 by Config6/Config7? Loongson-3 is not
+> the only processor which has Config6/Config7.
+Please don't top-post on technical lists, it makes the conversation
+harder to follow.
+
+This code is modelling the device, not KVM.
+
+Commit b1bd8b28cca is not very verbose. I wonder why not delivering all 
+IRQs to kvm_mips_set_interrupt, that would make this patch simpler.
+
+I think the problem in QEMU MIPS IRQ delivery is one implementation is 
+in cpu_mips_irq_request() while another one (vectored IRQ) in 
+cpu_mips_hw_interrupts_pending (see 138afb024bb) and KVM is also in the 
+middle.
+
+And I see you selected CP0C3_VInt in the R4 definition... so what is 
+delivered here?
+
 > 
+> Huacai
+> 
+> On Wed, Apr 29, 2020 at 2:58 AM Aleksandar Markovic
+> <aleksandar.qemu.devel@gmail.com> wrote:
+>>
+>> уто, 28. апр 2020. у 10:21 chen huacai <zltjiangshi@gmail.com> је написао/ла:
+>>>
+>>> Hi, Philippe,
+>>>
+>>> On Mon, Apr 27, 2020 at 5:57 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>>
+>>>> On 4/27/20 11:33 AM, Huacai Chen wrote:
+>>>>> Currently, KVM/MIPS only deliver I/O interrupt via IP2, this patch add
+>>>>> IP2 delivery as well, because Loongson-3 based machine use both IRQ2
 
-As a second step, here is brief analysis of all block_status usage
+"IP3 delivery as well"?
 
--- 
-Best regards,
-Vladimir
-
---------------DBA025E4B6D5E27CB3B4512D
-Content-Type: text/plain; charset=UTF-8;
- name="block-status-usage-report"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="block-status-usage-report"
-
-UHVibGljIGludGVyZmFjZSBvZiBibG9jay1zdGF0dXMgaXM6CgogICAgYmRydl9ibG9ja19zdGF0
-dXMKICAgIGJkcnZfYmxvY2tfc3RhdHVzX2Fib3ZlCiAgICBiZHJ2X2lzX2FsbG9jYXRlZAogICAg
-YmRydl9pc19hbGxvY2F0ZWRfYWJvdmUKCgo9IGJkcnZfYmxvY2tfc3RhdHVzID0KCmJkcnZfbWFr
-ZV96ZXJvOiB3b3JrcyBvbiBjdXJyZW50IGxldmVsIG9mIGJhY2tpbmctY2hhaW4sIHdhbnQncyB0
-byBza2lwIHplcm9lcywgbm90IGludGVyZXN0ZWQgaW4gQG1hcCBhbmQgQGZpbGUKCmltZyBjb252
-ZXJ0OiBjb252ZXJ0X2l0ZXJhdGlvbl9zZWN0b3JzOiB3YW50cyB0byBkaXN0aW5ndWlzaCBaRVJP
-LCBEQVRBIGFuZCBnby10by1iYWNraW5nLiBJdCBhbHNvIHRyaWVzIHRvIG5vdCB3cml0ZSB6ZXJv
-ZXMsIGlmIGhhdmUgc2hvcnQgYmFja2luZyBmaWxlLCBidXQgZG9lcyBpdCBhIGJpdCB3cm9uZy4g
-VHJlYXRzIHVuYWxsb2NhdGVkIGFzIERBVEEgaWYgbm8gYmFja2luZy4KCmltZy1tYXA6IGdldF9i
-bG9ja19zdGF0dXM6IGRpc3Rpbmd1aXNoIFpFUk8sIERBVEEgYW5kIGdvLXRvLWJhY2tpbmcuIENv
-dW50IGRlcHRoIG9mIHRoZSBiYWNraW5nLiBKdXN0IHJlcG9ydHMgZmluYWwgWkVSTyBhbmQgREFU
-QS4gU28sIGZzLXVuYWxsb2NhdGVkIHRoaW5nIGlzIHJlcG9ydGVkIHRvIHVzZXIKCj0gYmRydl9i
-bG9ja19zdGF0dXNfYWJvdmUgPQoKYmxvY2stY29weTogYmxvY2tfY29weV9ibG9ja19zdGF0dXM6
-IHdhbnRzIHR3byB0aGluZ3M6CiAgCiAgMS4gc2tpcCBnby10by1iYWNraW5nIGhvbGVzIGluIHRv
-cCBsYXllciBmb3IgdG9wIG1vZGUKICAyLiBkbyB3cml0ZV96ZXJvIGZvciBaRVJPIGFyZWFzCgpt
-aXJyb3I6IGNhbGwgb24gdGhlIHdob2xlIGJhY2tpbmcgY2hhaW4KICAgLSBmb3IgREFUQSAoYW5k
-IGZvciBEQVRBfFpFUk8gd2hpY2ggaXMgYmFkKSBkbyBqdXN0IGNvcHkKICAgLSBmb3IgWkVSTyBk
-byBqdXN0IFpFUk8KICAgLSBmb3IgMCAod2hpY2ggbWVhbnMgdGhhdCBib3R0b20gbGF5ZXIgZG9l
-c24ndCByZXBvcnQgdGhhdCB1bmFsbG9jYXRlZCBhcmUgemVybykgZG9lcyBESVNDQVJEICh3aGlj
-aCBpcyBtb3N0LXByb2JhYmx5IHplcm9pbmcpIC0gYWJzb2x1dGVseSB3cm9uZyB0aGluZwoKcWNv
-dzI6IGlzX3plcm86IGNhbGwgb24gdGhlIHdob2xlIGJhY2tpbmcgY2hhaW4sIHdhbnQncyBqdXN0
-IHRvIGNoZWNrIGlzIHJlYWRzLWFzLXplcm8gb3Igbm90LgoKcWNvdzI6IHFjb3cyX21lYXN1cmU6
-IGNhbGwgb24gdGhlIHdob2xlIGJhY2tpbmcgY2hhaW46CiAgIC0gc2tpcCBaRVJPCiAgIC0gY291
-bnQgY2x1c3RlcnMgd2l0aCBib3RoIERBVEEgYW5kIEFMTE9DQVRFRCBzZXQuIEhtbS4gQUxMT0NB
-VEVEIGlzIGFsd2F5cyBzZXQgZm9yIERBVEEuIFNlZW1zIHRoZSBmdW5jdGlvbiBhY3R1YWxseSB0
-cmllcyB0byBjYWxjdWxhdGUgZGlzayBvY2N1cGF0aW9uLCBhc3N1bWluZyB0aGF0IEJEUlZfQkxP
-Q0tfQUxMT0NBVEVEIGhlbHBzIGluIGl0LCBidXQgaXQgYWN0dWFsbHkgZG9lc24ndC4uCgogICBJ
-IHRoaW5rLCBjb3JyZWN0IHNvbHV0aW9uIGlzIHRvIHN1cHBvcnQgb2Zmc2V0IGFuZCBieXRlcyBp
-biBiZHJ2X21lYXN1cmUsIGFuZCBzcGxpdCBpdCBmcm9tIGJsb2NrX3N0YXR1cy4gVGhlbiBxY293
-Ml9tZWFzdXJlIHdpbGwganVzdCByZWN1cnNpdmVseSBjYWxsIGJkcnZfbWVhc3VyZSBvbiBpdHMg
-Y2hpbGRyZW4uIFRoaXMgd291bGQgYmUgY2xlYW4uCgpuYmQ6IG5iZF9jb19zZW5kX3NwYXJzZV9y
-ZWFkOiBjYWxsIG9uIHRoZSB3aG9sZSBiYWNraW5nIGNoYWluOgogICAtIHdhbnRzIHRvIGRpc3Rp
-bmd1aXNoIHplcm9lcwoKbmJkOiBibG9ja3N0YXR1c190b19leHRlbnRzOiBjYWxsIG9uIHRoZSB3
-aG9sZSBiYWNraW5nIGNoYWluOgogICAhQUxMT0NBVEVEIC0+IE5CRF9IT0xFCiAgIFpFUk8gLT4g
-TkJEX1pFUk8KCiAgIFNvLCB3ZSByZXBvcnQgSE9MRSBvbmx5IGlmIGl0J3Mgbm90IEJEUlZfQkxP
-Q0tfQUxMT0NBVEVEIG9uIGFueSBsYXllci4uIFRoYXQncyB3cm9uZy4gSSB0aGluaywgd2Ugc2hv
-dWxkIHJlcG9ydCBIT0xFIGluIGEgbG90IG1vcmUgY2FzZXMuIEFjdHVhbGx5LCB3aGVuIG5vdCBv
-Y2N1cHkgcmVhbCBzcGFjZSBvbiBkaXNrLgoKaW1nLWNvbXBhcmU6IGNhbGwgb24gdGhlIHdob2xl
-IGJhY2tpbmcgY2hhaW46CiAgLSBkbyBub3QgY29tcGFyZSB6ZXJvZXMKICAtIGRvIG5vdCBjb21w
-YXJlIGlmIGJvdGggcmVwb3J0IHVuYWxsb2NhdGVkLi4gaXQncyBhY3R1YWxseSBub3QgY29ycmVj
-dCBmb3IgcHJvdG9jb2xzIHdoaWNoIHJlcG9ydHMgZnMtdW5hbGxvY2F0ZWQtbm9uLXplcm9lcy4g
-QXMgcmVhZHMgbWF5IGRpZmZlciBhY3R1YWxseS4gU3RpbGwsIHJlYWQgZnJvbSBmcy11bmFsbG9j
-YXRlZCBhcmVhIGlzIG5vdCBndWFyYW50ZWVkIHRvIHJldHVybiBzYW1lIHRoaW5nIGVhY2ggdGlt
-ZSwgeWVzPyBBdCBsZWFzdCwgbnVsbC1jbyBkb2Vzbid0IGd1YXJhbnRlZSBpdCA6KS4uIFNvLCBp
-dCBtYXkgYmUgY29ycmVjdCB0byBza2lwIHRoZXNlIGFyZWFzLiBPciBtYXkgYmUgYmV0dGVyIHRv
-IGFsd2F5cyByZXBvcnQgdGhlbSBkaWZmZXJlbnQ/PwogIC0gY29uc2lkZXIgZGF0YS16ZXJvZXMg
-ZXF1YWwgdG8gdW5hbGxvY2F0ZWQuLiBpdCdzIGRlZmluaXRlbHkgbm90IGNvcnJlY3QgZm9yIHBy
-b3RvY29scyB3aGljaCByZXBvcnRzIGZzLXVuYWxsb2NhdGVkLW5vbi16ZXJvZXMKCiAgSSB0aGlu
-aywgaW1nLWNvbXBhcmUgbXVzdCBvbmx5IGNvbnNpZGVyIHplcm8vbm9uLXplcm8sIGFuZCBkb24n
-dCB0b3VjaCBvdGhlciBibG9jay1zdGF0dXMgZmVhdHVyZXMuIE90aGVyd2lzZSBpdCdzIGEgbWVz
-cwoKaW1nLWNvbnZlcnQ6IGNvbnZlcnRfaXRlcmF0aW9uX3NlY3RvcnM6IGNhbGwgb24gdGhlIHdo
-b2xlIGJhY2tpbmcgY2hhaW46IGFscmVhZHkgZGVzY3JpYmVkIGluIGJkcnZfYmxvY2tfc3RhdHVz
-IHNlY3Rpb24KCj0gYmRydl9pc19hbGxvY2F0ZWQgPQoKT2J2aW91cyB0aGluZyBmb3IgYmFja2lu
-Zy1jaGFpbiByZWxhdGVkIG9wZXJhdGlvbiAoc3RpbGwgd3JvbmcgdGhhdCBzb21lIHByb3RvY29s
-IGRyaXZlcnMgbWF5IHJldHVybiBmcy11bmFsbG9jYXRlZCBhbmQgaXQgaXMgdHJlYXRlZCBhcyBn
-by10by1iYWNraW5nIGFyZWFzKToKICAgIGJsb2NrLWNvcHksIGNvbW1pdCwgY29weS1vbi1yZWFk
-LCBzdHJlYW0sIGltZy1yZWJhc2UKCk90aGVyczoKdnZmYXQ6IG9fTyBpdCBoYXMgcWNvdyBjaGls
-ZC4uIGFuZCBvcGVyYXRlcyBsaWtlIHNlbGYgaXMgYSBiYWNraW5nIG9mIHRoaXMgY2hpbGQuIEJ1
-dCB5ZXMsIGl0IGp1c3QgdXNlcyBiZHJ2X2lzX2FsbG9jYXRlZCB0byB1bmRlcnN0YW5kIGlzIGNo
-dW5rIGlzIHJld3JpdHRlbiBpbiBxY293LgoKbWlncmF0aW9uL2Jsb2NrOiBza2lwIHVuYWxsb2Nh
-dGVkIGZvciB0b3AgbW9kZSAoc2hhcmVkX2Jhc2UsIGFzIGl0IGNhbGxlZCBoZXJlKQoKaW8tYWxs
-b2M6IGp1c3QgcmVwb3J0IG51bWJlciBvZiBhbGxvY2F0ZWQgaW4gdG9wIGxheWVyCgppby1tYXA6
-IG1hcF9pc19hbGxvY2F0ZWQ6IHNhbWUgdGhpbmcgYXMgaW8tYWxsb2MsIGJ1dCByZXBvcnQgY2h1
-bmtzCgp0ZXN0X3N5bmNfb3BfYmxvY2tfc3RhdHVzOiBqdXN0IGNoZWNrIHdoYXQgaXQgcmV0dXJu
-cwoKPSBiZHJ2X2lzX2FsbG9jYXRlZF9hYm92ZSA9CgpPYnZpb3VzIHVzYWdlIGZvciBiYWNraW5n
-LWNoYWluIHJlbGF0ZWQ6IGNvbW1pdCwgbWlycm9yLCBzdHJlYW0sIGltZy1yZWJhc2UuIFdyb25n
-IGZvciBmcy11bmFsbG9jYXRlZC1ub24temVybyByZXBvcnRpbmcgZHJpdmVycwoKT3RoZXJzOgpx
-Y293MjogaXNfdW5hbGxvY2F0ZWQ6IGNhbGwgZm9yIHRoZSB3aG9sZSBiYWNraW5nIGNoYWluLiBV
-c2VkIHRvIGNoZWNrIGlzLXplcm8uLiBXcm9uZyBmb3IgZnMtdW5hbGxvY2F0ZWQtbm9uLXplcm8g
-cmVwb3J0aW5nIGRyaXZlcnMsIGFuZCBtYXkgYmUgbW9yZSBlZmZpY2llbnQgaWYgY29uc2lkZXIg
-YWxzbyBaRVJPIHN0YXR1cy4uIGJ1dCBpbiBzb21lIHNtYXJ0LWZhc3Qgd2F5LgoKcmVwbGljYXRp
-b246IGFsbG9jYXRlZCBvciBub3QgaW4gYmFja2luZy1jaGFpbjogY29tbW9uIGNhc2UK
-
---------------DBA025E4B6D5E27CB3B4512D--
+>>>>> (CPU's IP2) and IRQ3 (CPU's IP3).
+>>>>>
+>>>>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+>>>>> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>>>> ---
+>>>>>   hw/mips/mips_int.c | 6 ++----
+>>>>>   1 file changed, 2 insertions(+), 4 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+>>>>> index 796730b..5526219 100644
+>>>>> --- a/hw/mips/mips_int.c
+>>>>> +++ b/hw/mips/mips_int.c
+>>>>> @@ -48,16 +48,14 @@ static void cpu_mips_irq_request(void *opaque, int irq, int level)
+>>>>>       if (level) {
+>>>>>           env->CP0_Cause |= 1 << (irq + CP0Ca_IP);
+>>>>>
+>>>>> -        if (kvm_enabled() && irq == 2) {
+>>>>> +        if (kvm_enabled() && (irq == 2 || irq == 3))
+>>>>
+>>>> Shouldn't we check env->CP0_Config6 (or Config7) has the required
+>>>> feature first?
+>>> I'm sorry that I can't understand IRQ delivery has something to do
+>>> with Config6/Config7, to identify Loongson-3?
+>>>
+>>
+>> Obviously, yes.
+>>
+>> Thanks,
+>> Aleksandar
+>>
+>>
+>>>>
+>>>>>               kvm_mips_set_interrupt(cpu, irq, level);
+>>>>> -        }
+>>>>>
+>>>>>       } else {
+>>>>>           env->CP0_Cause &= ~(1 << (irq + CP0Ca_IP));
+>>>>>
+>>>>> -        if (kvm_enabled() && irq == 2) {
+>>>>> +        if (kvm_enabled() && (irq == 2 || irq == 3))
+>>>>>               kvm_mips_set_interrupt(cpu, irq, level);
+>>>>> -        }
+>>>>>       }
+>>>>>
+>>>>>       if (env->CP0_Cause & CP0Ca_IP_mask) {
+>>>>>
+>>>
+>>>
+>>>
+>>> --
+>>> Huacai Chen
+> 
 
