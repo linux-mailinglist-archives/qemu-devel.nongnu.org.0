@@ -2,79 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AC41BD8BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:49:56 +0200 (CEST)
-Received: from localhost ([::1]:47466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129D01BD8F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 12:00:51 +0200 (CEST)
+Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTjLn-0002tc-1W
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35546)
+	id 1jTjWL-0001ww-JM
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 06:00:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36878)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jTjKN-0001sD-4b
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:48:41 -0400
+ (envelope-from <mst@redhat.com>) id 1jTjVI-0001Sk-45
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:59:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jTjId-0006YW-JH
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:48:26 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:33555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jTjId-0006YG-5x
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:46:39 -0400
-Received: by mail-il1-x141.google.com with SMTP id q10so1842233ile.0
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 02:46:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=568Exfl5/FR9TmIJa2L9iZymCH6Bn8adiNX/MQRcNwU=;
- b=kZjt1Aee0g3hSfXcNlwGSfkc70arzCQyCR31E0AI8hgmidQeUA9SvEQXPXLWnXPJyi
- 6r9h9SX5u4hKDlG0vvEBm/WvM/8bnLTuyq0ljGrKovwmlAMT8lroN116HvlLV6gCC8jk
- vnwf1O2DegmvCM3dslrBhnnrFVy4cFfD8F3zDuAGgil084/5shnWeT+HIWPsQQtEmriM
- hJOE6gR2ojNJ0VIVQbK9K3yh/Ny2Y8oztXjRo9J7A1gIK3eMjfbuW+KJOPnhyKToOTsy
- COk5ZVKrI7A/PIIkxxPF9KDyA8Dw8rh/qdGMLz/WgABB172jLqmVdcG2qzUQ5bj5nY+k
- tA+Q==
+ (envelope-from <mst@redhat.com>) id 1jTjVG-0002Zq-BS
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:59:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52804
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jTjVF-0002ZM-Np
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:59:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588154379;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6jYOq4Gb+OkYpVamoTbaBqMjn4E1fE8/sdbhLXcJUPY=;
+ b=GoEdJCAocUbisWES2VWaBEDPc1nI+rayO2qQYuH/k3drBfIsWJPqykmCcvqy08IYs+E4Xt
+ 5OD0+d4PZCsKdIVaP7iumwe1kgTIUgGA3rUc5gsDvBrOJXB5ysbGeI+UP+H1P3LRl5MKW8
+ 1Zdmy7YEJZlJDzlMd4TfJhoKxzYSChY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-89-mzUDz_ofPTucDPfcUQlXhA-1; Wed, 29 Apr 2020 05:59:38 -0400
+X-MC-Unique: mzUDz_ofPTucDPfcUQlXhA-1
+Received: by mail-wm1-f72.google.com with SMTP id t62so1000267wma.0
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 02:59:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=568Exfl5/FR9TmIJa2L9iZymCH6Bn8adiNX/MQRcNwU=;
- b=uQvwFDK3d3zUTxyew1ND8cy42nl8hWoP4IPMhFhcO1YOhzT2qIOPnjFh+XPHA4f5Sp
- qIO7m3n+r6wTXT2Y7YpeKEXmoL/G5LtqqUIEiA/z+9mt4b0o2qucAAjVF6e8cc0rHYGe
- zH6oNw7QtNIDd311kdFXGGaQjEWlALcQtOhSX2bU2jiQweyQ1v0+HyEH1gQ6QZGfbK2g
- gQahqLBOT+mZtu40TPtJkwm1M8dNMVpf+HvTRPAIQrw2XWFojymUJLjbxCakkGoNbp6b
- S0IVOG+5SDuEgDAw9ilMDUpYy4GogSKUZg3iJLqWxDzmpZqJvNMTwXzLVKCnMF6HmU0N
- YCZw==
-X-Gm-Message-State: AGi0PuYICVxKLWmhcZx7RTSlG+9qk4UhSukxBqPhSNJuu+ZMyqKCp0fP
- eCPhZEuSjE63bZATFapahRCqp1M/DWf/d3OJJnI=
-X-Google-Smtp-Source: APiQypI9eXlK8voOt+t6P5U9u3tyfFfKXpGyu9jWBs5tJLv0m0vprf+u1oRiEkDQKvM0TlEOOGHwfax4bVpEfGdSn6Q=
-X-Received: by 2002:a92:c52a:: with SMTP id m10mr30516172ili.208.1588153597341; 
- Wed, 29 Apr 2020 02:46:37 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JYxdyAlutb9zDaOY9t3Vu3+pNQAF3vOgY2lUUuKWw+M=;
+ b=qVAoiLxezlDMJoSapPYupSDirlmRAtmbywggjuZzk97pCtTHlId7i775YxKgyFLrZt
+ 9PE4PIZ9an6vFDJKI4ccye6kvXm1WcP3h1iHLxFB5VM9U8y/gp1Jb0bdiS2kgYHX1cNn
+ FydclmT5uMtxfW8/H6mCOKU1L3JDA+tDr3OoWZh7s0HT5W+n2JJ7vhePEcZz8tmSlr6D
+ 15Nt693M1rR8nWl77DLAUeyaV8tnl3GFqC37rQ5OVQe8FSLjKBIaNoHm7il9BKnu8HOi
+ /q2XbAk9rYGWTp1zgbT4vdX0ehUR1gIo4m7jbD/4ZnuPSGcUlrxdCJr86jI98bwOVqg+
+ e0OA==
+X-Gm-Message-State: AGi0PuYxTd7Muz/qugk9+ptJdMd9ZxM3nhjjNXh3DsfmPfLQEjV5ydWm
+ pALFTYtpVP2+YOeUqN0/EUihXp/V/3EEDRsdR2W6tWXsMmSeJM9RwGONDkyl1296tTLm0L6pax0
+ 9B2XHmPJvJUHia+Q=
+X-Received: by 2002:a05:600c:c8:: with SMTP id
+ u8mr2451637wmm.142.1588154377005; 
+ Wed, 29 Apr 2020 02:59:37 -0700 (PDT)
+X-Google-Smtp-Source: APiQypK/7CegLYWmlY3x0cK612JYNPQcPXZkkFHuAc/jVZiBak5TvPqkLToP/Ypa0vKcGBgldmemUg==
+X-Received: by 2002:a05:600c:c8:: with SMTP id
+ u8mr2451602wmm.142.1588154376821; 
+ Wed, 29 Apr 2020 02:59:36 -0700 (PDT)
+Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
+ by smtp.gmail.com with ESMTPSA id
+ w6sm30327391wrm.86.2020.04.29.02.59.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Apr 2020 02:59:36 -0700 (PDT)
+Date: Wed, 29 Apr 2020 05:59:32 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH RESEND v6 00/36] Initial support for multi-process qemu
+Message-ID: <20200429055243-mutt-send-email-mst@kernel.org>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <20200428172920.GA111124@stefanha-x1.localdomain>
+ <20200428134350-mutt-send-email-mst@kernel.org>
+ <20200429093030.GD122432@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
- <1587979995-17717-4-git-send-email-chenhc@lemote.com>
- <c1a3aec6-dc45-3484-3a70-c06449bee609@amsat.org>
- <CABDp7Vq-YX0LWU3iM=oygpcKzoS8cmXG6mvTQ5Gm_PbQsQMAgw@mail.gmail.com>
- <CAHiYmc6zFjBtgXRv=8+dqnbDtZqKqiwSDwEi0wKqJmJnys_y0g@mail.gmail.com>
- <CAAhV-H6NFV7hbaOp8BwPck3FWm5ZHBpuoA9FDmN6tby5LcoTeg@mail.gmail.com>
- <a791f90b-a2a5-6665-59b5-212f98c7afc8@amsat.org>
- <CAAhV-H7NS_KCTuYQYvZeseNEZh56FBFz97kEj4KK-NsBDMJotQ@mail.gmail.com>
- <a1b333c6-e9a0-aabc-9ec2-b9bcb2007211@amsat.org>
- <CAAhV-H5_0Nn-omF+_+6T1mbtnFC-3VHTOgvAPfbc44Fnv0px_Q@mail.gmail.com>
- <c133fe4a-03a9-c3c5-540b-31fd0283d62d@amsat.org>
-In-Reply-To: <c133fe4a-03a9-c3c5-540b-31fd0283d62d@amsat.org>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Wed, 29 Apr 2020 17:54:06 +0800
-Message-ID: <CAAhV-H5fi-A9_zWL+HOJP2Np4JBi_MevSp5OTUDWuKXxKc381g@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 4/7] target/mips: Add Loongson-3 CPU definition
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200429093030.GD122432@stefanha-x1.localdomain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=chenhuacai@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::141
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,232 +95,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chen huacai <zltjiangshi@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-level <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ jag.raman@oracle.com, quintela@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, thanos.makatos@nutanix.com, rth@twiddle.net,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Philippe,
+On Wed, Apr 29, 2020 at 10:30:30AM +0100, Stefan Hajnoczi wrote:
+> > > I suggest dropping the remote device program from this patch series (=
+and
+> > > maybe never bringing it back).  Instead, use the softmmu target for t=
+he
+> > > remote device.
 
-On Wed, Apr 29, 2020 at 5:30 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 4/29/20 11:25 AM, Huacai Chen wrote:
-> > Hi, Philippe,
-> >
-> > I think that this CPU definition is for Guest, not for Host (Maybe I'm =
-wrong?).
->
-> OK, it was not obvious to me (I haven't received the cover letter of
-> this series).
-> The code you modified is used by both host emulation and guest
-> virtualization.
-I'm very sorry that I hadn't send a cover letter...
-Now I preparing the V2 series and I think put the cover letter of V2
-here could make life easier...
-----
-Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
-R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
-Loongson-3A R4 is the newest and its ISA is almost the superset of all
-others. To reduce complexity, in QEMU we just define two CPU types:
+...
 
-1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It is
-   suitable for TCG because Loongson-3A R1 has fewest ASE.
-2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It is
-   suitable for KVM because Loongson-3A R4 has the VZ ASE.
+> >=20
+> > Building QEMU twices just to get the remote is however not very
+> > attractive. So how about making remote a special target?
+> > Either remote-softmmu/ or if impossible x86_64-remote-softmmu/
+>=20
+> Yes, that's a good idea.  It needs to be the full x86_64-remote-softmmu
+> because hw/ code depends on the QEMU target :(.
 
-Loongson-3 lacks English documents. I've tried to translated them with
-translate.google.com, and the machine translated documents (together
-with their original Chinese versions) are available here.
+BTW using QEMU as backend source also gives us goodies such as
+cross-version compatibility for free.
 
-......
+--=20
+MST
 
-We are preparing to add QEMU's Loongson-3 support. MIPS VZ extension is
-fully supported in Loongson-3A R4+, so we at first add QEMU/KVM support
-in this series. And the next series will add QEMU/TCG support (it will
-emulate Loongson-3A R1).
-
-We already have a full functional Linux kernel (based on Linux-5.4.x LTS
-but not upstream yet) here:
-
-https://github.com/chenhuacai/linux
-
-How to use QEMU/Loongson-3?
-1, Download kernel source from the above URL;
-2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
-3, Boot the a Loongson-3A4000 host with this kernel;
-4, Build QEMU-5.0.0 with this patchset;
-5, modprobe kvm;
-6, Use QEMU with TCG (available in future):
-       qemu-system-mips64el -M loongson3,accel=3Dtcg -cpu
-Loongson-3A1000 -kernel <path_to_kernel> -append ...
-   Use QEMU with KVM (available at present):
-       qemu-system-mips64el -M loongson3,accel=3Dkvm -cpu
-Loongson-3A4000 -kernel <path_to_kernel> -append ...
-
-   The "-cpu" parameter can be omitted here and QEMU will use the
-correct type for TCG/KVM automatically.
-----
->
-> If you want to only add a guest cpu type, you should name it
-> "Loongson-3A virtualized" and can restrict with:
->
->    if (kvm_enabled()) {
->      add_guest_cpu();
->    }
->
-> But cleaner is to add the host cpu regardless, and in cpu_state_reset()
-> restrict when virtualized:
->
->    if (kvm_enabled()) {
->      /* disable host features on guest */
->      env->CP0_Config3 &=3D ~CP0C3_VZ;
->      ...
->    }
->
-> >
-> > On Wed, Apr 29, 2020 at 4:58 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >>
-> >> On 4/29/20 10:27 AM, Huacai Chen wrote:
-> >>> Hi, Philippe,
-> >>>
-> >>> The major differences of R3 and R4 are:
-> >>> 1, R4 has complete MIPS VZ ASE (while R3 is incomplete), so very
-> >>> usable for KVM host;
-> >>
-> >> So you need to set CP0C3_VZ.
-> > If the definition is for Guest, I think CP0C3_VZ should not be set in
-> > CP0_Config3, because only the Host can see VZ ASE.
-> >
-> >>
-> >>> 2, R4 has MSA ASE while R3 hasn't;
-> >>
-> >> So you need to set CP0C5_MSAEn.
-> > I have already set CP0C5_MSAEn CP0_Config5_rw_bitmask, but I don't
-> > think it should be set in CP0_Config5 because MSA is disabled by
-> > default.
-> >
-> >>
-> >>> 3, R4 has cpucfg, rdcsr and wrcsr instructions (similar to cpuid,
-> >>> rdmsr and wrmsr in X86).
-> >>
-> >> OK, these are not implemented.
->
-> I was looking at TCG emulation, now I understand why you don't mind
-> about them there.
-Assume that you have read my cover letter now. So TCG only need to
-consider Loongson-3A1000 and KVM only need to consider Loongson-3A4000
-(in V2 I will define two types of CPU).
-
->
-> >>
-> >> [...]
-> >>
-> >>>>>>>>> diff --git a/target/mips/translate_init.inc.c b/target/mips/tra=
-nslate_init.inc.c
-> >>>>>>>>> index 6d145a9..a32412d 100644
-> >>>>>>>>> --- a/target/mips/translate_init.inc.c
-> >>>>>>>>> +++ b/target/mips/translate_init.inc.c
-> >>>>>>>>> @@ -802,6 +802,57 @@ const mips_def_t mips_defs[] =3D
-> >>>>>>>>>             .mmu_type =3D MMU_TYPE_R4000,
-> >>>>>>>>>         },
-> >>>>>>>>>         {
-> >>>>>>>>> +        .name =3D "Loongson-3A",
-> >>>>>>>>> +        .CP0_PRid =3D 0x14C000,
-> >>>>>>>>> +        /* 64KB I-cache and d-cache. 4 way with 32 bit cache l=
-ine size.  */
-> >>>>>>>>> +        .CP0_Config0 =3D MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0=
-x2 << CP0C0_AT) |
-> >>>>>>>>> +                       (MMU_TYPE_R4000 << CP0C0_MT),
-> >>>>>>>>> +        .CP0_Config1 =3D MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 =
-<< CP0C1_MMU) |
-> >>>>>>>>> +                       (2 << CP0C1_IS) | (4 << CP0C1_IL) | (3 =
-<< CP0C1_IA) |
-> >>>>>>>>> +                       (2 << CP0C1_DS) | (4 << CP0C1_DL) | (3 =
-<< CP0C1_DA) |
-> >>>>>>>>> +                       (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 =
-<< CP0C1_EP),
-> >>>>>>>>> +        .CP0_Config2 =3D MIPS_CONFIG2,
-> >>>>>>>>> +        .CP0_Config3 =3D MIPS_CONFIG3 | (1U << CP0C3_M) | (1 <=
-< CP0C3_MSAP) |
-> >>>>>>>>> +                       (1 << CP0C3_BP) | (1 << CP0C3_BI) | (1 =
-<< CP0C3_ULRI) |
-> >>>>>>>>> +                       (1 << CP0C3_RXI) | (1 << CP0C3_LPA) | (=
-1 << CP0C3_VInt),
-> >>>>>>>>> +        .CP0_Config4 =3D MIPS_CONFIG4 | (1U << CP0C4_M) | (2 <=
-< CP0C4_IE) |
-> >>>>>>>>> +                       (1 << CP0C4_AE) | (0x1c << CP0C4_KScrEx=
-ist),
-> >>>>>>>>> +        .CP0_Config4_rw_bitmask =3D 0,
-> >>>>>>>>> +        .CP0_Config5 =3D MIPS_CONFIG5 | (1 << CP0C5_NFExists) =
-| (1 << 18),
-> >>>>>>>>> +        .CP0_Config5_rw_bitmask =3D (1 << CP0C5_K) | (1 << CP0=
-C5_CV) |
-> >>>>>>>>> +                                  (1 << CP0C5_MSAEn) | (1 << C=
-P0C5_UFE) |
-> >>>>>>>>> +                                  (1 << CP0C5_FRE) | (1 << CP0=
-C5_SBRI),
-> >>>>>>>>> +        .CP0_Config6 =3D (1 << CP0C6_VCLRU) | (1 << CP0C6_DCLR=
-U) | (1 << CP0C6_SFBEN) |
-> >>>>>>>>> +                       (1 << CP0C6_FLTINT) | (1 << CP0C6_INSTP=
-REF) | (1 << CP0C6_DATAPREF),
-> >>>>>>>>> +        .CP0_Config6_rw_bitmask =3D (1 << CP0C6_BPPASS) | (0x3=
-f << CP0C6_KPOS) |
-> >>>>>>>>> +                                  (1 << CP0C6_KE) | (1 << CP0C=
-6_VTLBONLY) | (1 << CP0C6_LASX) |
-> >>>>>>>>> +                                  (1 << CP0C6_SSEN) | (1 << CP=
-0C6_DISDRTIME) |
-> >>>>>>>>> +                                  (1 << CP0C6_PIXNUEN) | (1 <<=
- CP0C6_SCRAND) |
-> >>>>>>>>> +                                  (1 << CP0C6_LLEXCEN) | (1 <<=
- CP0C6_DISVC) |
-> >>>>>>>>> +                                  (1 << CP0C6_VCLRU) | (1 << C=
-P0C6_DCLRU) |
-> >>>>>>>>> +                                  (1 << CP0C6_PIXUEN) | (1 << =
-CP0C6_DISBLKLYEN) |
-> >>>>>>>>> +                                  (1 << CP0C6_UMEMUALEN) | (1 =
-<< CP0C6_SFBEN) |
-> >>>>>>>>> +                                  (1 << CP0C6_FLTINT) | (1 << =
-CP0C6_VLTINT) |
-> >>>>>>>>> +                                  (1 << CP0C6_DISBTB) | (3 << =
-CP0C6_STPREFCTL) |
-> >>>>>>>>> +                                  (1 << CP0C6_INSTPREF) | (1 <=
-< CP0C6_DATAPREF),
-> >>>>>>>>> +        .CP0_Config7 =3D 0,
-> >>>>>>>>> +        .CP0_Config7_rw_bitmask =3D (1 << CP0C7_NAPCGEN) | (1 =
-<< CP0C7_UNIMUEN) | \
-> >>>>>>>>> +                                  (1 << CP0C7_VFPUCGEN),
-> >>>>>>>>> +        .CP0_LLAddr_rw_bitmask =3D 1,
-> >>>>>>>>> +        .SYNCI_Step =3D 16,
-> >>>>>>>>> +        .CCRes =3D 2,
-> >>>>>>>>> +        .CP0_Status_rw_bitmask =3D 0x7DDBFFFF,
-> >>>>>>>>> +        .CP0_PageGrain_rw_bitmask =3D (1U << CP0PG_RIE) | (1 <=
-< CP0PG_XIE) |
-> >>>>>>>>> +                    (1 << CP0PG_ELPA) | (1 << CP0PG_IEC),
-> >>>>>>>>> +        .CP1_fcr0 =3D (0x5 << FCR0_PRID) | (0x1 << FCR0_REV) |=
- (0x1 << FCR0_F64),
-> >>>>>>>>> +        .CP1_fcr31 =3D 0,
-> >>>>>>>>> +        .CP1_fcr31_rw_bitmask =3D 0xFF83FFFF,
-> >>>>>>>>> +        .SEGBITS =3D 48,
-> >>>>>>>>> +        .PABITS =3D 48,
-> >>>>>>>>> +        .insn_flags =3D CPU_LOONGSON3A,
-> >>>>>>>>> +        .mmu_type =3D MMU_TYPE_R4000,
-> >>>>>>>>> +    },
-> >>>>>>>>> +    {
-> >>>>>>>>>             /* A generic CPU providing MIPS64 DSP R2 ASE featur=
-es.
-> >>>>>>>>>                FIXME: Eventually this should be replaced by a r=
-eal CPU model. */
-> >>>>>>>>>             .name =3D "mips64dspr2",
-> >>>>>>>>>
-> >>>>>>>
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> --
-> >>>>>>> Huacai Chen
-> >>>>>
-> >>>
-> >
 
