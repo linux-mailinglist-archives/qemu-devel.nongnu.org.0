@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDD11BD733
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:24:28 +0200 (CEST)
-Received: from localhost ([::1]:39180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1AE21BD74F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:31:13 +0200 (CEST)
+Received: from localhost ([::1]:49584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTi14-0007dX-Rj
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:24:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
+	id 1jTi7c-0004ze-1K
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:31:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54614)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jThzY-0006Ko-GW
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:23:09 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTi5p-0003jK-P2
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:29:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <chenhuacai@gmail.com>) id 1jThwr-0006N7-4Z
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:22:52 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:38122)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTi5p-0002J4-AR
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:29:21 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jThwq-0006Mt-NV
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:20:04 -0400
-Received: by mail-io1-xd44.google.com with SMTP id k23so1280327ios.5
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 01:20:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jTi5o-0002Iv-Uf
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:29:20 -0400
+Received: by mail-wr1-x432.google.com with SMTP id d17so1375434wrg.11
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 01:29:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qEGWa/HgIaS8Ns6akDzhLV344GlqN8J0/IH3s40dVAc=;
- b=YEBXYidzpQ/2mZlsfZ76el8RZp2gmokwOKL6eOBi4SnorExYaWlf94ZVRPibeD7/pi
- iRVAVrm7Gbot+kW53dvW9u4idrcc4XCOQlg6FGmWXm0QLIntsJvBvkdKQ9hnhnFAZZH/
- EAN2sZRZCCJ4xNwpVFgXtpSfBTyWWN84/IBfG/JjXCFPcO8Uj6wAJ+NTH2TL1ddmJjDB
- KT/1/bxbVnR1lYVw6w1Dp7sfa5jRUjPh2R/yjc5Q16JbFm3dNWCOjekKHtm4h2RZWa2p
- QOC74h2We6GU5AzupUkRlubiWmgHVoYsUVT2EOdCo4OFqjarp4fb3VY+Klli+trUipfo
- z/BQ==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DwPbxu23lkjyUl5B0qgGKA8zAjYZIJItzWNye25rgBQ=;
+ b=O2QoJLrjysCNKN6oJKzFwY9zKog7X3tENWgF+PGhWpA+vaii/rvI2mzXFamMtwBne3
+ aXwZ4WRslIw9fw7UEcwUc36uwwMYtPM90dLnGs9r55cvyBxS80GqKGxdr8cYBuuo0Mpq
+ zrb37U6cV/HP52m3eyH3Aj2FS3yntJfs+LusIgXtojDun3IaX3gUQfhoQjsz0uuDiTU6
+ egFQN281PqEjiKYtP3h7NkR0vj4+E8luTSnyEfANr3wCB7uyhitlUYNzkU/BeDwx4Cki
+ VvIZqksm71swfEYDIbyxuC4v9Z9GPQZWa/tH9x3VHNIaZnx49k+0/skdsLNvqmkIkEco
+ Nxhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qEGWa/HgIaS8Ns6akDzhLV344GlqN8J0/IH3s40dVAc=;
- b=gNJX1B4NiaXnCgrVgpVGgPPwpgIBvfW5l08R9/YlyT3Iy6CdzcXFDimf97UhDxSssd
- /8mNwum9T8tIDDx4hj8oWc5u5Nrm0f6TAm9otWYVc+wIZj0wnqSvKO1d+5sQYw+YUOat
- 7rnjlDag9py2p1SzC4r7c7GyAHaf0qXvrpi41XKozaw6JCjsVVQdf1JwFlKu/0hjWUQi
- NwB/u5gvYDETJa+mG64lfdsjx2RLXgSUovT6X+vdBphwLT9ok/YedVfFYlFoHsVImc+r
- bKQ2w8NxCCw3mnHOvhktoKFaF6p7wnH9QMxcko4EwsTHRtu/h66jtBZFsGesaIQLZQVt
- HL+Q==
-X-Gm-Message-State: AGi0PuYit7yT2G5p6faQ6Cl9wSkz1h51AG8mLRH82f8RLvMa7OHv6G7l
- 66hjTJShIAOgvBmuRiWKCvqSv30Qnp9Y3semv4g=
-X-Google-Smtp-Source: APiQypID70B4O+Hf9wnkrIEfOCUOkNxw4GXHpS9rVGkZ8ozKQmoNVW1w+/75mO8odFNbLXXGytB4VX7qqO8QCgiCYmM=
-X-Received: by 2002:a5e:9747:: with SMTP id h7mr8620181ioq.196.1588148403151; 
- Wed, 29 Apr 2020 01:20:03 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=DwPbxu23lkjyUl5B0qgGKA8zAjYZIJItzWNye25rgBQ=;
+ b=HhTC+GzrA2npGPiqvDvABYKoFlOnZzNcjunchrkPeYMjigFxTCAzCKS5QvLlko+Z39
+ fP3N8aRoa+W6TrwY2h+Zy5a6norJyTC7ApXd4NdNX/jA04Vzu7olLBU+4bSESSX/6/HG
+ 0d3UVjPpQDm3Aj/F4PLIe1vogpR3l1GsypgSndanGEygDCG4HGswxQa3kIeD4sGcBsAd
+ zVg39XsZDAyMvtoYii3Az9AythZxFpqk3a35bo+020U0NJ3F4NNAGmaoN17Yymt3/RKf
+ 9FtHyX5CLj+W4oUEXGSbsGSlxc+3kHPwbCV+HOnYfVu5XQkx7Pga/8ugM8OaFyg+VjlK
+ KsGQ==
+X-Gm-Message-State: AGi0PuZsuORt4BoZ+DHGzLEXnwXPET+q58ujs2TMCOg9F4dNor8a+RDT
+ IqoHqwXfrgi4/KWgrpJB0TuHkUhwyoU=
+X-Google-Smtp-Source: APiQypJRps+Y3wGpDH6nRw/7042oXxDpHezPO0wd05kUN98asGHqIkkJiqz4yLKqXCcvNIjQy0iaHQ==
+X-Received: by 2002:a5d:438c:: with SMTP id i12mr37645574wrq.14.1588148959214; 
+ Wed, 29 Apr 2020 01:29:19 -0700 (PDT)
+Received: from localhost.localdomain (137.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.137])
+ by smtp.gmail.com with ESMTPSA id a9sm6373615wmm.38.2020.04.29.01.29.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Apr 2020 01:29:18 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] mips: Minor simplifications for KVM use
+Date: Wed, 29 Apr 2020 10:29:14 +0200
+Message-Id: <20200429082916.10669-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
- <1587979995-17717-4-git-send-email-chenhc@lemote.com>
- <c1a3aec6-dc45-3484-3a70-c06449bee609@amsat.org>
- <CABDp7Vq-YX0LWU3iM=oygpcKzoS8cmXG6mvTQ5Gm_PbQsQMAgw@mail.gmail.com>
- <CAHiYmc6zFjBtgXRv=8+dqnbDtZqKqiwSDwEi0wKqJmJnys_y0g@mail.gmail.com>
- <CAAhV-H6NFV7hbaOp8BwPck3FWm5ZHBpuoA9FDmN6tby5LcoTeg@mail.gmail.com>
- <a791f90b-a2a5-6665-59b5-212f98c7afc8@amsat.org>
-In-Reply-To: <a791f90b-a2a5-6665-59b5-212f98c7afc8@amsat.org>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Wed, 29 Apr 2020 16:27:33 +0800
-Message-ID: <CAAhV-H7NS_KCTuYQYvZeseNEZh56FBFz97kEj4KK-NsBDMJotQ@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 4/7] target/mips: Add Loongson-3 CPU definition
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=chenhuacai@gmail.com; helo=mail-io1-xd44.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::d44
+X-Received-From: 2a00:1450:4864:20::432
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,322 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chen huacai <zltjiangshi@gmail.com>,
+Cc: Huacai Chen <chenhuacai@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-level <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+ Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Philippe,
+A pair of trivial patches while reviewing Huacai's
+"KVM target support for MIPS64" series.
 
-The major differences of R3 and R4 are:
-1, R4 has complete MIPS VZ ASE (while R3 is incomplete), so very
-usable for KVM host;
-2, R4 has MSA ASE while R3 hasn't;
-3, R4 has cpucfg, rdcsr and wrcsr instructions (similar to cpuid,
-rdmsr and wrmsr in X86).
+Philippe Mathieu-Daudé (2):
+  hw/mips/mips_int: De-duplicate KVM interrupt delivery
+  target/mips/kvm: Assert unreachable code is not used
 
-On Wed, Apr 29, 2020 at 4:09 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 4/29/20 5:51 AM, Huacai Chen wrote:
-> > Hi, Aleksandar,
-> >
-> > I've tried translate.google.com, and documents are available here:
-> > Loongson-3A R1 (Loongson-3A1000)
-> > User Manual Part 1:
-> > http://ftp.godson.ac.cn/lemote/3A1000_p1.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P1.=
-pdf
-> > (Chinese Version)
-> > User Manual Part 2:
-> > http://ftp.godson.ac.cn/lemote/3A1000_p2.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P2.=
-pdf
-> > (Chinese Version)
-> >
-> > Loongson-3A R2 (Loongson-3A2000)
-> > User Manual Part 1:
-> > http://ftp.godson.ac.cn/lemote/3A2000_p1.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A2000_user1.pdf (Chinese Versio=
-n)
-> > User Manual Part 2:
-> > http://ftp.godson.ac.cn/lemote/3A2000_p2.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A2000_user2.pdf (Chinese Versio=
-n)
-> >
-> > Loongson-3A R3 (Loongson-3A3000)
-> > User Manual Part 1:
-> > http://ftp.godson.ac.cn/lemote/3A3000_p1.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual1.pdf
-> > (Chinese Version)
-> > User Manual Part 2:
-> > http://ftp.godson.ac.cn/lemote/3A3000_p2.pdf
-> > http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual2.pdf
-> > (Chinese Version)
-> >
-> > Loongson-3A R4 (Loongson-3A4000)
-> > User Manual Part 1:
-> > http://ftp.godson.ac.cn/lemote/3A4000_p1.pdf
-> > http://ftp.godson.ac.cn/lemote/3A4000user.pdf (Chinese Version)
-> > User Manual Part 2:
-> > I'm sorry that it is unavailable now.
->
-> Thanks for the translations!
->
-> Since we can only review Loongson-3A R3, are there specific features
-> from R4 you need that are not available in R3?
->
-> >
-> > On Wed, Apr 29, 2020 at 2:37 AM Aleksandar Markovic
-> > <aleksandar.qemu.devel@gmail.com> wrote:
-> >>
-> >> Huacai,
-> >>
-> >> Can you please do machine translation of the document?
-> >>
-> >> It can be done via translate.google.com (it accepts pdf files, but
-> >> does not have download feature, and workaround is to "print to pdf"...
-> >>
-> >> Thanks in advance!
-> >> Aleksandar
-> >>
-> >> =D1=83=D1=82=D0=BE, 28. =D0=B0=D0=BF=D1=80 2020. =D1=83 10:26 chen hua=
-cai <zltjiangshi@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=
-=B0=D0=BE/=D0=BB=D0=B0:
-> >>>
-> >>> Hi, Philippe,
-> >>>
-> >>> On Tue, Apr 28, 2020 at 2:34 PM Philippe Mathieu-Daud=C3=A9 <f4bug@am=
-sat.org> wrote:
-> >>>>
-> >>>> Hi Huacai,
-> >>>>
-> >>>> On 4/27/20 11:33 AM, Huacai Chen wrote:
-> >>>>> Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-=
-3B
-> >>>>> R1/R2. Loongson-3A R4 is the newest and its ISA is almost the super=
-set
-> >>>>> of all others. To reduce complexity, we just define a "Loongson-3A"=
- CPU
-> >>>>> which is corresponding to Loongson-3A R4. Loongson-3A has CONFIG6 a=
-nd
-> >>>>> CONFIG7, so add their bit-fields as well.
-> >>>>
-> >>>> Is there a public datasheet for R4? (If possible in English).
-> >>> I'm sorry that we only have Chinese datasheet in www.loongson.cn.
-> >>>
-> >>>>
-> >>>>>
-> >>>>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> >>>>> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >>>>> ---
-> >>>>>   target/mips/cpu.h                | 28 ++++++++++++++++++++++
-> >>>>>   target/mips/internal.h           |  2 ++
-> >>>>>   target/mips/mips-defs.h          |  7 ++++--
-> >>>>>   target/mips/translate.c          |  2 ++
-> >>>>>   target/mips/translate_init.inc.c | 51 +++++++++++++++++++++++++++=
-+++++++++++++
-> >>>>>   5 files changed, 88 insertions(+), 2 deletions(-)
-> >>>>>
-> >>>>> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-> >>>>> index 94d01ea..0b3c987 100644
-> >>>>> --- a/target/mips/cpu.h
-> >>>>> +++ b/target/mips/cpu.h
-> >>>>> @@ -940,7 +940,35 @@ struct CPUMIPSState {
-> >>>>>   #define CP0C5_UFR          2
-> >>>>>   #define CP0C5_NFExists     0
-> >>>>>       int32_t CP0_Config6;
-> >>>>> +    int32_t CP0_Config6_rw_bitmask;
-> >>>>> +#define CP0C6_BPPASS          31
-> >>>>> +#define CP0C6_KPOS            24
-> >>>>> +#define CP0C6_KE              23
-> >>>>> +#define CP0C6_VTLBONLY        22
-> >>>>> +#define CP0C6_LASX            21
-> >>>>> +#define CP0C6_SSEN            20
-> >>>>> +#define CP0C6_DISDRTIME       19
-> >>>>> +#define CP0C6_PIXNUEN         18
-> >>>>> +#define CP0C6_SCRAND          17
-> >>>>> +#define CP0C6_LLEXCEN         16
-> >>>>> +#define CP0C6_DISVC           15
-> >>>>> +#define CP0C6_VCLRU           14
-> >>>>> +#define CP0C6_DCLRU           13
-> >>>>> +#define CP0C6_PIXUEN          12
-> >>>>> +#define CP0C6_DISBLKLYEN      11
-> >>>>> +#define CP0C6_UMEMUALEN       10
-> >>>>> +#define CP0C6_SFBEN           8
-> >>>>> +#define CP0C6_FLTINT          7
-> >>>>> +#define CP0C6_VLTINT          6
-> >>>>> +#define CP0C6_DISBTB          5
-> >>>>> +#define CP0C6_STPREFCTL       2
-> >>>>> +#define CP0C6_INSTPREF        1
-> >>>>> +#define CP0C6_DATAPREF        0
-> >>>>>       int32_t CP0_Config7;
-> >>>>> +    int64_t CP0_Config7_rw_bitmask;
-> >>>>> +#define CP0C7_NAPCGEN       2
-> >>>>> +#define CP0C7_UNIMUEN       1
-> >>>>> +#define CP0C7_VFPUCGEN      0
-> >>>>>       uint64_t CP0_LLAddr;
-> >>>>>       uint64_t CP0_MAAR[MIPS_MAAR_MAX];
-> >>>>>       int32_t CP0_MAARI;
-> >>>>> diff --git a/target/mips/internal.h b/target/mips/internal.h
-> >>>>> index 1bf274b..7853cb1 100644
-> >>>>> --- a/target/mips/internal.h
-> >>>>> +++ b/target/mips/internal.h
-> >>>>> @@ -36,7 +36,9 @@ struct mips_def_t {
-> >>>>>       int32_t CP0_Config5;
-> >>>>>       int32_t CP0_Config5_rw_bitmask;
-> >>>>>       int32_t CP0_Config6;
-> >>>>> +    int32_t CP0_Config6_rw_bitmask;
-> >>>>>       int32_t CP0_Config7;
-> >>>>> +    int32_t CP0_Config7_rw_bitmask;
-> >>>>>       target_ulong CP0_LLAddr_rw_bitmask;
-> >>>>>       int CP0_LLAddr_shift;
-> >>>>>       int32_t SYNCI_Step;
-> >>>>> diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
-> >>>>> index a831bb4..c2c96db 100644
-> >>>>> --- a/target/mips/mips-defs.h
-> >>>>> +++ b/target/mips/mips-defs.h
-> >>>>> @@ -51,8 +51,9 @@
-> >>>>>    */
-> >>>>>   #define INSN_LOONGSON2E   0x0001000000000000ULL
-> >>>>>   #define INSN_LOONGSON2F   0x0002000000000000ULL
-> >>>>> -#define INSN_VR54XX       0x0004000000000000ULL
-> >>>>> -#define INSN_R5900        0x0008000000000000ULL
-> >>>>> +#define INSN_LOONGSON3A   0x0004000000000000ULL
-> >>>>> +#define INSN_VR54XX       0x0008000000000000ULL
-> >>>>> +#define INSN_R5900        0x0010000000000000ULL
-> >>>>>   /*
-> >>>>>    *   bits 56-63: vendor-specific ASEs
-> >>>>>    */
-> >>>>> @@ -94,6 +95,8 @@
-> >>>>>   /* Wave Computing: "nanoMIPS" */
-> >>>>>   #define CPU_NANOMIPS32  (CPU_MIPS32R6 | ISA_NANOMIPS32)
-> >>>>>
-> >>>>> +#define CPU_LOONGSON3A  (CPU_MIPS64R2 | INSN_LOONGSON3A)
-> >>>>> +
-> >>>>>   /*
-> >>>>>    * Strictly follow the architecture standard:
-> >>>>>    * - Disallow "special" instruction handling for PMON/SPIM.
-> >>>>> diff --git a/target/mips/translate.c b/target/mips/translate.c
-> >>>>> index 25b595a..2caf4cb 100644
-> >>>>> --- a/target/mips/translate.c
-> >>>>> +++ b/target/mips/translate.c
-> >>>>> @@ -31206,7 +31206,9 @@ void cpu_state_reset(CPUMIPSState *env)
-> >>>>>       env->CP0_Config5 =3D env->cpu_model->CP0_Config5;
-> >>>>>       env->CP0_Config5_rw_bitmask =3D env->cpu_model->CP0_Config5_r=
-w_bitmask;
-> >>>>>       env->CP0_Config6 =3D env->cpu_model->CP0_Config6;
-> >>>>> +    env->CP0_Config6_rw_bitmask =3D env->cpu_model->CP0_Config6_rw=
-_bitmask;
-> >>>>>       env->CP0_Config7 =3D env->cpu_model->CP0_Config7;
-> >>>>> +    env->CP0_Config7_rw_bitmask =3D env->cpu_model->CP0_Config7_rw=
-_bitmask;
-> >>>>>       env->CP0_LLAddr_rw_bitmask =3D env->cpu_model->CP0_LLAddr_rw_=
-bitmask
-> >>>>>                                    << env->cpu_model->CP0_LLAddr_sh=
-ift;
-> >>>>>       env->CP0_LLAddr_shift =3D env->cpu_model->CP0_LLAddr_shift;
-> >>>>> diff --git a/target/mips/translate_init.inc.c b/target/mips/transla=
-te_init.inc.c
-> >>>>> index 6d145a9..a32412d 100644
-> >>>>> --- a/target/mips/translate_init.inc.c
-> >>>>> +++ b/target/mips/translate_init.inc.c
-> >>>>> @@ -802,6 +802,57 @@ const mips_def_t mips_defs[] =3D
-> >>>>>           .mmu_type =3D MMU_TYPE_R4000,
-> >>>>>       },
-> >>>>>       {
-> >>>>> +        .name =3D "Loongson-3A",
-> >>>>> +        .CP0_PRid =3D 0x14C000,
-> >>>>> +        /* 64KB I-cache and d-cache. 4 way with 32 bit cache line =
-size.  */
-> >>>>> +        .CP0_Config0 =3D MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 <=
-< CP0C0_AT) |
-> >>>>> +                       (MMU_TYPE_R4000 << CP0C0_MT),
-> >>>>> +        .CP0_Config1 =3D MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << C=
-P0C1_MMU) |
-> >>>>> +                       (2 << CP0C1_IS) | (4 << CP0C1_IL) | (3 << C=
-P0C1_IA) |
-> >>>>> +                       (2 << CP0C1_DS) | (4 << CP0C1_DL) | (3 << C=
-P0C1_DA) |
-> >>>>> +                       (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 << C=
-P0C1_EP),
-> >>>>> +        .CP0_Config2 =3D MIPS_CONFIG2,
-> >>>>> +        .CP0_Config3 =3D MIPS_CONFIG3 | (1U << CP0C3_M) | (1 << CP=
-0C3_MSAP) |
-> >>>>> +                       (1 << CP0C3_BP) | (1 << CP0C3_BI) | (1 << C=
-P0C3_ULRI) |
-> >>>>> +                       (1 << CP0C3_RXI) | (1 << CP0C3_LPA) | (1 <<=
- CP0C3_VInt),
-> >>>>> +        .CP0_Config4 =3D MIPS_CONFIG4 | (1U << CP0C4_M) | (2 << CP=
-0C4_IE) |
-> >>>>> +                       (1 << CP0C4_AE) | (0x1c << CP0C4_KScrExist)=
-,
-> >>>>> +        .CP0_Config4_rw_bitmask =3D 0,
-> >>>>> +        .CP0_Config5 =3D MIPS_CONFIG5 | (1 << CP0C5_NFExists) | (1=
- << 18),
-> >>>>> +        .CP0_Config5_rw_bitmask =3D (1 << CP0C5_K) | (1 << CP0C5_C=
-V) |
-> >>>>> +                                  (1 << CP0C5_MSAEn) | (1 << CP0C5=
-_UFE) |
-> >>>>> +                                  (1 << CP0C5_FRE) | (1 << CP0C5_S=
-BRI),
-> >>>>> +        .CP0_Config6 =3D (1 << CP0C6_VCLRU) | (1 << CP0C6_DCLRU) |=
- (1 << CP0C6_SFBEN) |
-> >>>>> +                       (1 << CP0C6_FLTINT) | (1 << CP0C6_INSTPREF)=
- | (1 << CP0C6_DATAPREF),
-> >>>>> +        .CP0_Config6_rw_bitmask =3D (1 << CP0C6_BPPASS) | (0x3f <<=
- CP0C6_KPOS) |
-> >>>>> +                                  (1 << CP0C6_KE) | (1 << CP0C6_VT=
-LBONLY) | (1 << CP0C6_LASX) |
-> >>>>> +                                  (1 << CP0C6_SSEN) | (1 << CP0C6_=
-DISDRTIME) |
-> >>>>> +                                  (1 << CP0C6_PIXNUEN) | (1 << CP0=
-C6_SCRAND) |
-> >>>>> +                                  (1 << CP0C6_LLEXCEN) | (1 << CP0=
-C6_DISVC) |
-> >>>>> +                                  (1 << CP0C6_VCLRU) | (1 << CP0C6=
-_DCLRU) |
-> >>>>> +                                  (1 << CP0C6_PIXUEN) | (1 << CP0C=
-6_DISBLKLYEN) |
-> >>>>> +                                  (1 << CP0C6_UMEMUALEN) | (1 << C=
-P0C6_SFBEN) |
-> >>>>> +                                  (1 << CP0C6_FLTINT) | (1 << CP0C=
-6_VLTINT) |
-> >>>>> +                                  (1 << CP0C6_DISBTB) | (3 << CP0C=
-6_STPREFCTL) |
-> >>>>> +                                  (1 << CP0C6_INSTPREF) | (1 << CP=
-0C6_DATAPREF),
-> >>>>> +        .CP0_Config7 =3D 0,
-> >>>>> +        .CP0_Config7_rw_bitmask =3D (1 << CP0C7_NAPCGEN) | (1 << C=
-P0C7_UNIMUEN) | \
-> >>>>> +                                  (1 << CP0C7_VFPUCGEN),
-> >>>>> +        .CP0_LLAddr_rw_bitmask =3D 1,
-> >>>>> +        .SYNCI_Step =3D 16,
-> >>>>> +        .CCRes =3D 2,
-> >>>>> +        .CP0_Status_rw_bitmask =3D 0x7DDBFFFF,
-> >>>>> +        .CP0_PageGrain_rw_bitmask =3D (1U << CP0PG_RIE) | (1 << CP=
-0PG_XIE) |
-> >>>>> +                    (1 << CP0PG_ELPA) | (1 << CP0PG_IEC),
-> >>>>> +        .CP1_fcr0 =3D (0x5 << FCR0_PRID) | (0x1 << FCR0_REV) | (0x=
-1 << FCR0_F64),
-> >>>>> +        .CP1_fcr31 =3D 0,
-> >>>>> +        .CP1_fcr31_rw_bitmask =3D 0xFF83FFFF,
-> >>>>> +        .SEGBITS =3D 48,
-> >>>>> +        .PABITS =3D 48,
-> >>>>> +        .insn_flags =3D CPU_LOONGSON3A,
-> >>>>> +        .mmu_type =3D MMU_TYPE_R4000,
-> >>>>> +    },
-> >>>>> +    {
-> >>>>>           /* A generic CPU providing MIPS64 DSP R2 ASE features.
-> >>>>>              FIXME: Eventually this should be replaced by a real CP=
-U model. */
-> >>>>>           .name =3D "mips64dspr2",
-> >>>>>
-> >>>
-> >>>
-> >>>
-> >>> --
-> >>> Huacai Chen
-> >
+ hw/mips/mips_int.c | 11 +++--------
+ target/mips/kvm.c  |  8 ++------
+ 2 files changed, 5 insertions(+), 14 deletions(-)
+
+-- 
+2.21.1
+
 
