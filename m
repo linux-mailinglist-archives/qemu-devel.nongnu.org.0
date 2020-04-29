@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C1A1BD489
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:19:39 +0200 (CEST)
-Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662FE1BD4B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:34:12 +0200 (CEST)
+Received: from localhost ([::1]:58282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTg4I-000111-Le
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39916)
+	id 1jTgIM-0007tZ-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:34:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41792)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent.desnogues@gmail.com>) id 1jTg24-0007fk-EA
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:17:20 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTgHY-0007TE-SE
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:33:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <laurent.desnogues@gmail.com>) id 1jTg23-00066a-Qn
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:17:20 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:44570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laurent.desnogues@gmail.com>)
- id 1jTg23-00066D-Dg; Wed, 29 Apr 2020 02:17:19 -0400
-Received: by mail-il1-x141.google.com with SMTP id s10so1288801iln.11;
- Tue, 28 Apr 2020 23:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=iSIbzNzDUoU2tb+jAkvnU1+YMosV9gs5oQXAMlCd7EU=;
- b=rpnGuceESD1r1pGomRxn30x7zVyMDexrwTnuxxqPP45hS5Y8J1mN0eEi30T68/fWGX
- RP3l8NYRH16MD464hV69j2XKmJaR9/+kVKHvqbfc57PRfRhrWGXlQT+p1IDIWd8rmfCn
- Hi9b9a+dw26GYu9VGBq2l+PsaBY+UgFNm1Rt27Yi1btwuU0sWGVBHb4h3xo3ZrBFIwBE
- hhbcFYLgYu2HnrHzQDwrdZMw2L+yUfuy/CeeRmYXZDnLDLDfOm/EBeF5GWrcSjFYusVs
- 9f48xi9Os6mB3Qm06y7KBOi+EofBnmlq1W94kvnc52IYcppKMYiHv86c6eBGk9Oj9fIu
- g8Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iSIbzNzDUoU2tb+jAkvnU1+YMosV9gs5oQXAMlCd7EU=;
- b=JezPMPsQJEHUw7/YTIcsMhAeKcVwQgSej7kRSWWKBiLMbHlBMi6Tz12VlSjXWF/P0M
- XE7e/lxe8KbqQ8ooFFoYW0Y1aQBlyFZLdrF0ZX9FT7OgleXPYCnOo5G8s6qfkwNLtElo
- ZnPZq4KYBVHo38ar5HRkTJGWWhLA/JgqRy6UKiqj0M62+uyyJx3KSpeUYL/Xswn/A7gK
- /ibf5kUKgGYH3gd+DDbkRVPVzm/Paiy6XV3GVWaa3Dymy79xLP+v6GQily6NbBm0xFMD
- SWtZSn+YkMeAn0rOOZeYiKIy0ak8wwTXvJUrHnFVHiWjYaQ0ePVnN/diYhobbr8/bSMy
- Utgw==
-X-Gm-Message-State: AGi0PubtUFpvxPLPmHxCX1F35LgUJLsj2nC/LyeZ47S+4Jz6qIaPzWA9
- Eiztmx/oaUWxcUyaCNpmCrRuxfvfjlKb5T0mM68RVDtZvfY=
-X-Google-Smtp-Source: APiQypJVT6ml1Z8yKbB7GcGmsnmAxuaLW7dpC6iNXx4doII6zACkBbZTk5GuEzCuvyT1u5r22/bM3VjQbFpGtVVYh6s=
-X-Received: by 2002:a92:3dca:: with SMTP id k71mr11134521ilf.22.1588141037809; 
- Tue, 28 Apr 2020 23:17:17 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1jTgHW-0004XN-K8
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:33:20 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45178
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTgHW-0004PE-6Z
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:33:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588141996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ozNSTf9a2OAIoyI8Vuiax468877N86UUhoRUM8ifn6Y=;
+ b=VIAi+awVRO6jkiA1pbKzKkwZ1E3gHyNnYabyAmyBO6UmxqSydKP/nlj7omwieBGFKy28/Y
+ q2u+s088/NwnGse5pymBn4aqJx8efTeDTHXMlbESnsRRBWiTtMZvlnmEA6jU6JhUb25KyM
+ p7lI5Sg/Tf45O+AHiT6HGYemtOwHs70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-LqzUJz5TPIqYMaF_YqUQsA-1; Wed, 29 Apr 2020 02:33:14 -0400
+X-MC-Unique: LqzUJz5TPIqYMaF_YqUQsA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62F551899520;
+ Wed, 29 Apr 2020 06:33:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EA55C5D76B;
+ Wed, 29 Apr 2020 06:33:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5487E11358BC; Wed, 29 Apr 2020 08:33:11 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 08/11] mips/boston: Fix boston_mach_init() error handling
+References: <20200424192027.11404-1-armbru@redhat.com>
+ <20200424192027.11404-9-armbru@redhat.com>
+Date: Wed, 29 Apr 2020 08:33:11 +0200
+In-Reply-To: <20200424192027.11404-9-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 24 Apr 2020 21:20:24 +0200")
+Message-ID: <87h7x2vm1k.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200428172634.29707-1-f4bug@amsat.org>
-In-Reply-To: <20200428172634.29707-1-f4bug@amsat.org>
-From: Laurent Desnogues <laurent.desnogues@gmail.com>
-Date: Wed, 29 Apr 2020 08:17:06 +0200
-Message-ID: <CABoDooMniYBAJPCkSjBwgRAQNpt_7P6PwnpoZKrdHBaEQQ0mGw@mail.gmail.com>
-Subject: Re: [PATCH v3] target/arm: Use correct variable for setting 'max'
- cpu's MIDR_EL1
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=laurent.desnogues@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::141
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:28:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,73 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Paul Burton <pburton@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 28, 2020 at 7:26 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> MIDR_EL1 a 64-bit system register with the top 32-bit being RES0.
->
-> This fixes when compiling with -Werror=3Dconversion:
->
->   target/arm/cpu64.c: In function =E2=80=98aarch64_max_initfn=E2=80=99:
->   target/arm/cpu64.c:628:21: error: conversion from =E2=80=98uint64_t=E2=
-=80=99 {aka =E2=80=98long unsigned int=E2=80=99} to =E2=80=98uint32_t=E2=80=
-=99 {aka =E2=80=98unsigned int=E2=80=99} may change value [-Werror=3Dconver=
-sion]
->     628 |         cpu->midr =3D t;
->         |                     ^
->
-> Suggested-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Markus Armbruster <armbru@redhat.com> writes:
 
-Reviewed-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+> pointer to a variable containing NULL.  Passing an argument of the
+> latter kind twice without clearing it in between is wrong: if the
+> first call sets an error, it no longer points to NULL for the second
 
-Thanks,
+  call.
 
-Laurent
+Whoops!
 
+>
+> boston_mach_init() is wrong that way.  The last calls treats an error
+> as fatal.  Do that for the prior ones, too.
+>
+> Fixes: df1d8a1f29f567567b9d20be685a4241282e7005
+> Cc: Paul Burton <pburton@wavecomp.com>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
-> Since v2: Do not use RESERVED bits.
-> Since v1: Follow Laurent and Peter suggestion.
-> ---
->  target/arm/cpu.h | 2 +-
->  target/arm/cpu.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  hw/mips/boston.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 >
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 8b9f2961ba..592fb217d6 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -894,7 +894,7 @@ struct ARMCPU {
->          uint64_t id_aa64dfr0;
->          uint64_t id_aa64dfr1;
->      } isar;
-> -    uint32_t midr;
-> +    uint64_t midr;
->      uint32_t revidr;
->      uint32_t reset_fpsid;
->      uint32_t ctr;
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index a79f233b17..7ff80894b6 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -2757,7 +2757,7 @@ static const ARMCPUInfo arm_cpus[] =3D {
->  static Property arm_cpu_properties[] =3D {
->      DEFINE_PROP_BOOL("start-powered-off", ARMCPU, start_powered_off, fal=
-se),
->      DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
-> -    DEFINE_PROP_UINT32("midr", ARMCPU, midr, 0),
-> +    DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
->      DEFINE_PROP_UINT64("mp-affinity", ARMCPU,
->                          mp_affinity, ARM64_AFFINITY_INVALID),
->      DEFINE_PROP_INT32("node-id", ARMCPU, node_id, CPU_UNSET_NUMA_NODE_ID=
-),
-> --
-> 2.21.1
->
+> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+> index 98ecd25e8e..2832dfa6ae 100644
+> --- a/hw/mips/boston.c
+> +++ b/hw/mips/boston.c
+> @@ -458,14 +458,11 @@ static void boston_mach_init(MachineState *machine)
+>      sysbus_init_child_obj(OBJECT(machine), "cps", OBJECT(&s->cps),
+>                            sizeof(s->cps), TYPE_MIPS_CPS);
+>      object_property_set_str(OBJECT(&s->cps), machine->cpu_type, "cpu-typ=
+e",
+> -                            &err);
+> -    object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp"=
+, &err);
+> -    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
+> -
+> -    if (err !=3D NULL) {
+> -        error_report("%s", error_get_pretty(err));
+> -        exit(1);
+> -    }
+> +                            &error_fatal);
+> +    object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp"=
+,
+> +                            &error_fatal);
+> +    object_property_set_bool(OBJECT(&s->cps), true, "realized",
+> +                             &error_fatal);
+> =20
+>      sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
+
 
