@@ -2,72 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C069A1BD659
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:44:47 +0200 (CEST)
-Received: from localhost ([::1]:44320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10EC31BD6C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:02:49 +0200 (CEST)
+Received: from localhost ([::1]:57790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThOg-0001ad-IP
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:44:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48066)
+	id 1jThg8-0003sL-1Q
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:02:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luc.michel@greensocs.com>) id 1jThJK-0003VS-KK
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:20 -0400
+ (envelope-from <mst@redhat.com>) id 1jThJE-0003Jx-SO
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <luc.michel@greensocs.com>) id 1jThJ5-0004Ki-TG
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:14 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:58120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1jThGN-0001yq-7h; Wed, 29 Apr 2020 03:36:11 -0400
-Received: from [172.17.10.6] (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPSA id A1C2096EF2;
- Wed, 29 Apr 2020 07:36:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1588145769;
+ (envelope-from <mst@redhat.com>) id 1jThIS-0003t4-O3
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46830
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jThIS-0003nt-7L
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:38:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588145899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TzhevfxjE6BknwcVZueUscmT1UamdlbbHVzaCvbbbdE=;
- b=ylsOsKkBDpNYTInJ2+G6Tvmb3o+YYvM/ZCJ0jjr143R209MbMAYzxc3uzxnizAprDFUJsK
- 3DLMUa+4AaZH/r7hHUhuRxPj+p/doU1ARFft23rqN03q6g2QBF6zkoxqFBzpqj4/P0SMfw
- 3OMb9P/qAzow4NOatDmhZbtVXugZ3d8=
-Subject: Re: [PATCH v1 10/11] hw/arm: versal-virt: Add support for SD
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
-References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
- <20200427181649.26851-11-edgar.iglesias@gmail.com>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <8a3fa218-f92c-5e99-701e-b6f37b532ef0@greensocs.com>
-Date: Wed, 29 Apr 2020 09:36:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ bh=+eYhJiXO1Uw+QM6xXWdLaxW5Wfl1IHnN586DWPqybsE=;
+ b=MpsG/Cp4d/ZFyxIVbMLKbiTvl92N+en5Gb1yWnDQ+zt54DA8o/L+iTBjdBYTripaJrP3J/
+ dFF586OJnh33tsfVOTkwlTFrHnKQZJn2ABoaCFVnMhuKqjHo52nlo0Bfwe29vW7JMDjyN9
+ 37ipxVSJwJ3Aqs7hFIp2q7RHf+YKD/Y=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-GTnmhMvOPJy7SEbYr_WKFg-1; Wed, 29 Apr 2020 03:38:17 -0400
+X-MC-Unique: GTnmhMvOPJy7SEbYr_WKFg-1
+Received: by mail-wm1-f70.google.com with SMTP id h22so853044wml.1
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 00:38:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=A9WBZG+WcWFWtcJ5nYZQXh6zP8peCmAbg0zAbNtGJaQ=;
+ b=UTGCFgBcdJ9xqPCOPio2WcoHXKOWZ1ERSxTEeMmuGiI5QqVPWmUxeAE225RGIFwymH
+ bYKmqhjxQQKiZEREpbef26dn5TpRTTchhI60nZSoD/rlycMs2vIEn6M29gg3H3uyplfz
+ ng783B1BThdAZPDKJCJA+I7flEPcHTWN29oxpz1Z5xz6wrnyhup3Ku3R8e8jN0ANUlzE
+ z8WGKfOfJAw/L1Pk7PIHZQ9y1420RK54b3FiwKjCxrE2/czUiAeWo2gylH5MHkHNZ3Qp
+ fl/VbH4G10Jr6pFrmvtQDltBscRhFdBMbvsrmZxJKgHHnmWgKvZDDIWiz38hLj+1CVNY
+ tATA==
+X-Gm-Message-State: AGi0PuacGQLX5Cz4OB1nlecqQdLbc/55Uc7cTq2SSAOP1lauURuXuN83
+ SrQRQbciBINIIsGpccFtMhExqkZjeMB8/t+Ouh/jX4+7f6ibg6Ah7P6vLnyPtFJlR1jpKTZ0Kkj
+ QyZcCAEchdQ+ZijQ=
+X-Received: by 2002:a7b:c1c4:: with SMTP id a4mr1720715wmj.86.1588145896728;
+ Wed, 29 Apr 2020 00:38:16 -0700 (PDT)
+X-Google-Smtp-Source: APiQypI2J07c1aXmt+4cOfJiTBVl3sIUKxe31zerHqdYr30/gzhXtPoe+JyyGLxIVTMfE3a98VZzoQ==
+X-Received: by 2002:a7b:c1c4:: with SMTP id a4mr1720688wmj.86.1588145896500;
+ Wed, 29 Apr 2020 00:38:16 -0700 (PDT)
+Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
+ by smtp.gmail.com with ESMTPSA id
+ n6sm30959889wrs.81.2020.04.29.00.38.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Apr 2020 00:38:15 -0700 (PDT)
+Date: Wed, 29 Apr 2020 03:38:13 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Ani Sinha <ani.sinha@nutanix.com>
+Subject: Re: [PATCH V2] Add a new PIIX option to control PCI hot unplugging
+ of devices on non-root buses
+Message-ID: <20200429033657-mutt-send-email-mst@kernel.org>
+References: <20200428121837-mutt-send-email-mst@kernel.org>
+ <CAARzgwwTo+r9xFge_XL_eu8-nsRFBFXEaQmTOhT1YHJifzfCJA@mail.gmail.com>
+ <20200428164428-mutt-send-email-mst@kernel.org>
+ <CAARzgwznhCPhGmwOxUBf_6bnFX7-Za7TxFMd999CARM+hDm8bA@mail.gmail.com>
+ <20200429011228-mutt-send-email-mst@kernel.org>
+ <544B4749-9A1C-44BB-BD89-C37A7E8D86F4@nutanix.com>
+ <20200429025200-mutt-send-email-mst@kernel.org>
+ <A69272ED-DDFF-4CC7-B12C-2994B004C013@nutanix.com>
+ <20200429025535-mutt-send-email-mst@kernel.org>
+ <B5DF1405-B261-4CE4-8484-F3738BE83E14@nutanix.com>
 MIME-Version: 1.0
-In-Reply-To: <20200427181649.26851-11-edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1588145769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TzhevfxjE6BknwcVZueUscmT1UamdlbbHVzaCvbbbdE=;
- b=Blqi+/IK6zKXrIye3xUPhdpruzMl8sel+Jr/0UgxfjhcC9e1OvxaeWsu415Q2DjOlQkUJE
- 7uWNW7GGEwzaU6he1EyVxihS5b3/pK/LC9lzn6+m/8BCg1rRvoQP6J8hozRMlZjk30Bo72
- aT8RXRrZs/Uf2wI0iySTeQ7YkZi0SkA=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1588145769; a=rsa-sha256; cv=none;
- b=4HfhGo9z02s3pkWxM+kzDKbCC2xfplRv90wn6KFFyw/JoVsXJi4D8qoL5ey5HMU3yKCBcD
- og2QizvmnTCZy+nbjcMRC3uk7Q0FCFX8/LtQ4OtMo/I0S4UpRgr79NpFliFfFhhxG5ejHe
- 2BOnQ7bhAjZVm2WMMkEM13Q4xyp1x3M=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 03:23:35
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 5.135.226.135
+In-Reply-To: <B5DF1405-B261-4CE4-8484-F3738BE83E14@nutanix.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,115 +100,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
- edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, alistair@alistair23.me,
- richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
- philmd@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/20 8:16 PM, Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> 
-> Add support for SD.
-> 
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+On Wed, Apr 29, 2020 at 07:02:56AM +0000, Ani Sinha wrote:
+>=20
+>=20
+> > On Apr 29, 2020, at 12:27 PM, Michael S. Tsirkin <mst@redhat.com> wrote=
+:
+> >=20
+> > On Wed, Apr 29, 2020 at 06:54:52AM +0000, Ani Sinha wrote:
+> >>=20
+> >>=20
+> >>> On Apr 29, 2020, at 12:22 PM, Michael S. Tsirkin <mst@redhat.com> wro=
+te:
+> >>>=20
+> >>> On Wed, Apr 29, 2020 at 06:11:20AM +0000, Ani Sinha wrote:
+> >>>>=20
+> >>>>=20
+> >>>>> On Apr 29, 2020, at 10:58 AM, Michael S. Tsirkin <mst@redhat.com> w=
+rote:
+> >>>>>=20
+> >>>>> o if there's a need to disable
+> >>>>> just one of these, commit log needs to do a better job documenting =
+the
+> >>>>> usecase.
+> >>>>=20
+> >>>> The use case is simple. With this feature admins will be able to do =
+what they were forced to do from Windows driver level but now at the bus le=
+vel. Hence,=20
+> >>>> (a) They need not have access to the guest VM to change or update wi=
+ndows driver registry settings. They can enable the same setting from admin=
+ management console without any access to VM.
+> >>>> (b) It is more robust. No need to mess with driver settings. Incorre=
+ct settings can brick guest OS. Also no guest specific knowhow required.
+> >>>> (c) It is more scalable since a single cluster wide setting can be u=
+sed for all VM power ons and the management plane can take care of the rest=
+ automatically. No need to access individual VMs to enforce this.
+> >>>> (d) I am told that the driver level solution does not persist across=
+ a reboot.=20
+> >>>>=20
+> >>>> Ani
+> >>>=20
+> >>> Looks like disabling both plug and unplug would also address these ne=
+eds.
+> >>=20
+> >> No the driver level solution does not prevent hot plugging of devices =
+but blocks just hot unplugging. The solution I am proposing tries to do the=
+ same but from the bus/hypervisor level.
+> >=20
+> > Why does the driver level solution need to prevent just hot unplugging?
+>=20
+> Because it not fair to prevent end users from hot plugging new devices wh=
+en it is the (accidental?) hot unplugging of existing devices which causes =
+issues.
 
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Accidental? So maybe what you need is actually something else then -
+avoid *removing* the device when it's powered down.
 
-> ---
->  hw/arm/xlnx-versal-virt.c | 46 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
-> 
-> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-> index d7be1ad494..0afee48672 100644
-> --- a/hw/arm/xlnx-versal-virt.c
-> +++ b/hw/arm/xlnx-versal-virt.c
-> @@ -20,6 +20,7 @@
->  #include "hw/arm/sysbus-fdt.h"
->  #include "hw/arm/fdt.h"
->  #include "cpu.h"
-> +#include "hw/qdev-properties.h"
->  #include "hw/arm/xlnx-versal.h"
->  
->  #define TYPE_XLNX_VERSAL_VIRT_MACHINE MACHINE_TYPE_NAME("xlnx-versal-virt")
-> @@ -256,6 +257,32 @@ static void fdt_add_zdma_nodes(VersalVirt *s)
->      }
->  }
->  
-> +static void fdt_add_sd_nodes(VersalVirt *s)
-> +{
-> +    const char clocknames[] = "clk_xin\0clk_ahb";
-> +    const char compat[] = "arasan,sdhci-8.9a";
-> +    int i;
-> +
-> +    for (i = ARRAY_SIZE(s->soc.pmc.iou.sd) - 1; i >= 0; i--) {
-> +        uint64_t addr = MM_PMC_SD0 + MM_PMC_SD0_SIZE * i;
-> +        char *name = g_strdup_printf("/sdhci@%" PRIx64, addr);
-> +
-> +        qemu_fdt_add_subnode(s->fdt, name);
-> +
-> +        qemu_fdt_setprop_cells(s->fdt, name, "clocks",
-> +                               s->phandle.clk_25Mhz, s->phandle.clk_25Mhz);
-> +        qemu_fdt_setprop(s->fdt, name, "clock-names",
-> +                         clocknames, sizeof(clocknames));
-> +        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-> +                               GIC_FDT_IRQ_TYPE_SPI, VERSAL_SD0_IRQ_0 + i * 2,
-> +                               GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-> +        qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-> +                                     2, addr, 2, MM_PMC_SD0_SIZE);
-> +        qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
-> +        g_free(name);
-> +    }
-> +}
-> +
->  static void fdt_nop_memory_nodes(void *fdt, Error **errp)
->  {
->      Error *err = NULL;
-> @@ -411,10 +438,23 @@ static void create_virtio_regions(VersalVirt *s)
->      }
->  }
->  
-> +static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
-> +{
-> +    BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
-> +    DeviceState *card;
-> +
-> +    card = qdev_create(qdev_get_child_bus(DEVICE(sd), "sd-bus"), TYPE_SD_CARD);
-> +    object_property_add_child(OBJECT(sd), "card[*]", OBJECT(card),
-> +                              &error_fatal);
-> +    qdev_prop_set_drive(card, "drive", blk, &error_fatal);
-> +    object_property_set_bool(OBJECT(card), true, "realized", &error_fatal);
-> +}
-> +
->  static void versal_virt_init(MachineState *machine)
->  {
->      VersalVirt *s = XLNX_VERSAL_VIRT_MACHINE(machine);
->      int psci_conduit = QEMU_PSCI_CONDUIT_DISABLED;
-> +    int i;
->  
->      /*
->       * If the user provides an Operating System to be loaded, we expect them
-> @@ -455,6 +495,7 @@ static void versal_virt_init(MachineState *machine)
->      fdt_add_gic_nodes(s);
->      fdt_add_timer_nodes(s);
->      fdt_add_zdma_nodes(s);
-> +    fdt_add_sd_nodes(s);
->      fdt_add_cpu_nodes(s, psci_conduit);
->      fdt_add_clk_node(s, "/clk125", 125000000, s->phandle.clk_125Mhz);
->      fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
-> @@ -464,6 +505,11 @@ static void versal_virt_init(MachineState *machine)
->      memory_region_add_subregion_overlap(get_system_memory(),
->                                          0, &s->soc.fpd.apu.mr, 0);
->  
-> +    /* Plugin SD cards.  */
-> +    for (i = 0; i < ARRAY_SIZE(s->soc.pmc.iou.sd); i++) {
-> +        sd_plugin_card(&s->soc.pmc.iou.sd[i], drive_get_next(IF_SD));
-> +    }
-> +
->      s->binfo.ram_size = machine->ram_size;
->      s->binfo.loader_start = 0x0;
->      s->binfo.get_dtb = versal_virt_get_dtb;
-> 
+> >=20
+> >=20
+> >>=20
+> >>> --=20
+> >>> MST
+
 
