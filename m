@@ -2,76 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FD81BE075
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:15:41 +0200 (CEST)
-Received: from localhost ([::1]:55338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137C91BE09B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:19:16 +0200 (CEST)
+Received: from localhost ([::1]:38300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTnUy-0002YH-2x
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45086)
+	id 1jTnYR-0007OG-2j
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46098)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTnT2-0008RM-1z
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:13:40 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jTnWu-0006L0-D6
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:17:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTnT1-00058d-5w
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:13:39 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41162
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mreitz@redhat.com>) id 1jTnWZ-0000b8-EZ
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:17:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55881
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTnT0-00057o-M7
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:13:38 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTnWY-0000ag-To
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:17:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588169617;
+ s=mimecast20190719; t=1588169838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z5KJj0/IEeIDfSeMUgMfCAULVkkEU1Ysj/D3ASB/G5k=;
- b=Jjnbt07/xHr9MSmwaGkRW+SU9zwLeg+tWBLDpcyaJ8kdFqzNXqs+sEv7dMEg25VtatmkQP
- KVHYYUzXoJ3iF5ofIjcdAIOwebO1HzafF3GsApowtIdeKuzToBlhJ2YJteqXue17tRnISt
- 8uaRc+dwGmPPJEWBnZpxUSI2MkpKONY=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ilXUloMoH9SBaVQqa0Mja6DNW6CXsswAoCbCSJyULyE=;
+ b=M2grZucArYHd6np541Hch8arY+/4wqusSG46DiZjj3EShQL4KyqSEkVgtUEtDzV0kPBYAT
+ 9YKZOzzCwpMqeEuyh1vzqeYCjLHCtkqfDAspCXKTimQF49tOiOfMeAqjcRhgWooW7PF9+/
+ RcGV3H2yhdmwMUXCw+jmMrlkTeZGYOI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-eJjW36AfMLWIeaVqCQ_XUQ-1; Wed, 29 Apr 2020 10:13:23 -0400
-X-MC-Unique: eJjW36AfMLWIeaVqCQ_XUQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-412-gMkwMZDdPMupOjBKZ9jQbg-1; Wed, 29 Apr 2020 10:17:13 -0400
+X-MC-Unique: gMkwMZDdPMupOjBKZ9jQbg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C31EF108BD0F;
- Wed, 29 Apr 2020 14:13:19 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 998945D9E5;
- Wed, 29 Apr 2020 14:13:02 +0000 (UTC)
-Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-To: Yan Zhao <yan.y.zhao@intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200421023718.GA12111@joy-OptiPlex-7040>
- <AADFC41AFE54684AB9EE6CBC0274A5D19D86DF06@SHSMSX104.ccr.corp.intel.com>
- <20200422073628.GA12879@joy-OptiPlex-7040> <20200424191049.GU3106@work-vm>
- <20200426013628.GC12879@joy-OptiPlex-7040> <20200427153743.GK2923@work-vm>
- <20200428005429.GJ12879@joy-OptiPlex-7040> <20200428141437.GG2794@work-vm>
- <20200429072616.GL12879@joy-OptiPlex-7040> <20200429082201.GA2834@work-vm>
- <20200429093555.GM12879@joy-OptiPlex-7040>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <94cd58d2-0580-53cd-6ca2-2c33146e0f2c@redhat.com>
-Date: Wed, 29 Apr 2020 09:13:01 -0500
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 967751009629;
+ Wed, 29 Apr 2020 14:17:03 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-19.ams2.redhat.com
+ [10.36.113.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74AE05C324;
+ Wed, 29 Apr 2020 14:17:02 +0000 (UTC)
+Subject: Re: [PATCH v2 4/4] block: Use blk_make_empty() after commits
+To: qemu-block@nongnu.org
+References: <20200429141126.85159-1-mreitz@redhat.com>
+ <20200429141126.85159-5-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <47a06f2d-4ebb-f50f-a168-acc56e7b279c@redhat.com>
+Date: Wed, 29 Apr 2020 16:17:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200429093555.GM12879@joy-OptiPlex-7040>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
+In-Reply-To: <20200429141126.85159-5-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JEQ9BurEIFnPWad3RvBlSrXL80pXkARJm"
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,58 +101,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "Yang, Ziye" <ziye.yang@intel.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
- "Tian, Kevin" <kevin.tian@intel.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
- "dinechin@redhat.com" <dinechin@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Liu, Changpeng" <changpeng.liu@intel.com>,
- "berrange@redhat.com" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
- Shaopeng" <shaopeng.he@intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[meta-comment]
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JEQ9BurEIFnPWad3RvBlSrXL80pXkARJm
+Content-Type: multipart/mixed; boundary="MxAVVfPfzldwjiC013Mu6rzZU9UvvdKKw"
 
-On 4/29/20 4:35 AM, Yan Zhao wrote:
-> On Wed, Apr 29, 2020 at 04:22:01PM +0800, Dr. David Alan Gilbert wrote:
+--MxAVVfPfzldwjiC013Mu6rzZU9UvvdKKw
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 29.04.20 16:11, Max Reitz wrote:
+> bdrv_commit() already has a BlockBackend pointing to the BDS that we
+> want to empty, it just has the wrong permissions.
+>=20
+> qemu-img commit has no BlockBackend pointing to the old backing file
+> yet, but introducing one is simple.
+>=20
+> After this commit, bdrv_make_empty() is the only remaining caller of
+> BlockDriver.bdrv_make_empty().
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  block/commit.c | 16 +++++++++-------
+>  qemu-img.c     | 19 ++++++++++++++-----
+>  2 files changed, 23 insertions(+), 12 deletions(-)
+
 [...]
->>>>>>>>>>>>>>>>> This patchset introduces a migration_version attribute under sysfs
->>>>>>>>>>> of VFIO
->>>>>>>>>>>>>>>>> Mediated devices.
 
-Hmm, several pages with up to 16 levels of quoting, with editors making 
-the lines ragged, all before I get to the real meat of the email. 
-Remember, it's okay to trim content,...
+> diff --git a/qemu-img.c b/qemu-img.c
+> index 7f52742ef2..77f3575538 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -1065,11 +1065,20 @@ static int img_commit(int argc, char **argv)
+>          goto unref_backing;
+>      }
+> =20
+> -    if (!drop && bs->drv->bdrv_make_empty) {
+> -        ret =3D bs->drv->bdrv_make_empty(bs);
+> -        if (ret) {
+> -            error_setg_errno(&local_err, -ret, "Could not empty %s",
+> -                             filename);
+> +    if (!drop) {
+> +        BlockBackend *old_backing_blk;
+> +
+> +        old_backing_blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE, BLK_PERM=
+_ALL,
+> +                                          &local_err);
+> +        if (!old_backing_blk) {
+> +            goto unref_backing;
+> +        }
+> +        ret =3D blk_make_empty(old_backing_blk, &local_err);
+> +        blk_unref(old_backing_blk);
+> +        if (ret =3D=3D -ENOTSUP) {
+> +            error_free(local_err);
+> +            local_err =3D NULL;
+> +        } else if (ret < 0) {
+>              goto unref_backing;
+>          }
+>      }
 
->> So why don't we split the difference; lets say that it should start with
->> the hex PCI Vendor ID.
->>
-> The problem is for mdev devices, if the parent devices are not PCI devices,
-> they don't have PCI vendor IDs.
+This patch should also include a %s/Could not empty/Failed to empty/ on
+tests/qemu-iotests/098.out...
 
-...to just what you are replying to.
+Max
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+
+--MxAVVfPfzldwjiC013Mu6rzZU9UvvdKKw--
+
+--JEQ9BurEIFnPWad3RvBlSrXL80pXkARJm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6pjF0ACgkQ9AfbAGHV
+z0Dsqgf/dUMNL4SV/IV0CadDjGB+EaMpy6ZgJnK1G7OGjXGOBOhgf4bcGYchIsbf
+ZyBVrFrYv9yRI0PkZm0J1MxtyDsmEMRGEDhkMhj/iebBUaZujLDbeYm47+A+0sQO
+Cp+2IBE+X1Ki+oLhfiNB0eTon5c4z9Hrp6CpDnC+CpTlTfvqLNdbXEkuSgZWTesJ
+nUIeVc/+JucPsM7BLl+QLY/prk5dU3GgR0kA8UDPjjoizAc6sVskCtY4N7BSxeIW
+eVw5MZseKHKtNHOeMx7mpp87iNJj2ElhKxNFTwMog2rrcBr0ZdbiNBGNlcsc+0E0
+eqqPBsrIWqFsceSU5KW1Q16gKWSDrw==
+=QZ9l
+-----END PGP SIGNATURE-----
+
+--JEQ9BurEIFnPWad3RvBlSrXL80pXkARJm--
 
 
