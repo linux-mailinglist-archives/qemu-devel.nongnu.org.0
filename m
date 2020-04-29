@@ -2,95 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560491BD6D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:07:41 +0200 (CEST)
-Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9322E1BD6CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:07:04 +0200 (CEST)
+Received: from localhost ([::1]:45438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThkq-0003bH-BO
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50662)
+	id 1jThkF-0002GN-J8
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:07:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50736)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jThgA-0004eF-DT
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:05:06 -0400
+ (envelope-from <mszeredi@redhat.com>) id 1jThgN-0004ze-Hg
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:05:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jThbg-0001Ml-BX
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:02:49 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20839
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <mszeredi@redhat.com>) id 1jThdK-0002Ju-6x
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:03:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30937
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jThbf-0001M6-P6
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:58:11 -0400
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1jThdJ-0002Jl-PE
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:59:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588147090;
+ s=mimecast20190719; t=1588147192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=x2aTTj0F7hIXvGyY70KkfRFYrPMxUZiJB5XUQF4IaoE=;
- b=hKR+mo4rVlimKeeZUIABvd2H5KOoBurd9msRtie7M7N6FWA6cePNzPJKHq4eiZDX7aEC2x
- Uk0xfpUdfGvScqNUgDyMTJcP+ERGX6Xplc3ykR2EeHTbKAMgaLUh2hConv5vOHIdA5FWBk
- ktUwg1L6vU71Pplr5wDvlBHZAbe8IeM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-hVoAmiEUPLa0Z5_pgyVDXQ-1; Wed, 29 Apr 2020 03:58:08 -0400
-X-MC-Unique: hVoAmiEUPLa0Z5_pgyVDXQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AB85835B41;
- Wed, 29 Apr 2020 07:58:07 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-19.ams2.redhat.com
- [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FFBE600DB;
- Wed, 29 Apr 2020 07:58:05 +0000 (UTC)
-Subject: Re: [PATCH 4/4] block: Use blk_make_empty() after commits
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20200428132629.796753-1-mreitz@redhat.com>
- <20200428132629.796753-5-mreitz@redhat.com>
- <0fb5d21f-4075-8c6a-0105-01fc60acaecf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <5b22a747-c00e-02a2-17fb-652d1eaea453@redhat.com>
-Date: Wed, 29 Apr 2020 09:58:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=slkTxr4aAjAq40yrag2UiNVbydADFCBElOueerHLyhM=;
+ b=OheRfsUsBU+00upur4C9qh0HOojP165lh63Ad9kPu1q6vxRTIH2LVRZ8Jqe4IbGq7UNeXJ
+ 9N5eemMptULNBbZPmghs6DWeaAwq/neTjBhxP4lUg9vUoYDP07CbqyUD/IeHdRfCEZdiX3
+ aH1T+uVQdghQ/f4ShA8Z9pYrOrB59/4=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-HkI_HzZnMyOLFo5cDOsqFQ-1; Wed, 29 Apr 2020 03:59:50 -0400
+X-MC-Unique: HkI_HzZnMyOLFo5cDOsqFQ-1
+Received: by mail-qv1-f72.google.com with SMTP id cr5so1710368qvb.14
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 00:59:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=slkTxr4aAjAq40yrag2UiNVbydADFCBElOueerHLyhM=;
+ b=CFmQ4++UiukWqsx2H+2Od/16Y7hbcVYd9IQ9F/gspUNT2FvFF2E1x+uxK0W05ufxFs
+ fkT3UoLpu2C0HUJxdUO0Hbol9bIVr3N5JVKv9V0hTb3P6xAAbJDL3d2LqewCFeGe2XFy
+ k/NYFtMqcxCokWSAqsfCkBzl0yUtPoJxwp1SNG4fMduKngVPIkhUfXq6qgxNGNkp+BlA
+ j6yllNZPs289cgCN596GCIxRGLguJEbuxmgYMreoOpgc+r0fM+wwlENoGqDwNjLBLqM/
+ 1IiqWlBrLgYOSqUwM1uOiPigwki693xLj8u0qD5tJtZ40O/oa68uqDQq20EasAzrzatS
+ LoCw==
+X-Gm-Message-State: AGi0PuYw/V0XTzK7QfzRF9+zx/VDRY/HqK8L/DrRuJ8QEQWv+CuptDQk
+ NV6Qj0KUaKWIPDkA+WD9fFG/W7IyILZNjqNJTzECe3pxrFW5yoBpuFJ6eS0WDI+zlrWyboct79W
+ U31AiF+fpOy7J8WY4tmoFO76uEv2wN3g=
+X-Received: by 2002:aed:2e83:: with SMTP id k3mr33373047qtd.2.1588147190129;
+ Wed, 29 Apr 2020 00:59:50 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJTWi0pdVdHLnuS+xa6cQqFh2tFMwkwfuzHcfvbnO+pYwBTGa+Wqv+qIQzOmetvEoIt2TwKaomTnO0fQ5QUdoA=
+X-Received: by 2002:aed:2e83:: with SMTP id k3mr33373034qtd.2.1588147189882;
+ Wed, 29 Apr 2020 00:59:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0fb5d21f-4075-8c6a-0105-01fc60acaecf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20200424133516.73077-1-mreitz@redhat.com>
+ <20200427175902.GM2923@work-vm>
+ <20200428145143.GB107541@stefanha-x1.localdomain>
+ <CAOssrKcoXBAxE=Ld5ZY79G=Dy=qBh3HdSxxC+nMGJOX52rUxxg@mail.gmail.com>
+ <20200428191523.GU2794@work-vm>
+In-Reply-To: <20200428191523.GU2794@work-vm>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Wed, 29 Apr 2020 09:59:38 +0200
+Message-ID: <CAOssrKcsVvMok6i+vAm1KJaq07Ep9JLcMiB1nWhsNU2n1m-Fmw@mail.gmail.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Show submounts
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="m9wEpVvEhjEC9nfuOHA6DIecCsv4wjmdg"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mszeredi@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,161 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---m9wEpVvEhjEC9nfuOHA6DIecCsv4wjmdg
-Content-Type: multipart/mixed; boundary="gHhCvHdmBrzcHjs1cm9BoxkpDCHrmINOE"
+On Tue, Apr 28, 2020 at 9:15 PM Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
 
---gHhCvHdmBrzcHjs1cm9BoxkpDCHrmINOE
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> So our current sequence is:
+>
+>    (new namespace)
+>  1)    if (mount(NULL, "/", NULL, MS_REC | MS_SLAVE, NULL) < 0) {
+>  2)   if (mount("proc", "/proc", "proc",
+>            ....
+>  3)   if (mount(source, source, NULL, MS_BIND | MS_REC, NULL) < 0) {
+>  4)  (chdir newroot, pivot, chdir oldroot)
+>  5)   if (mount("", ".", "", MS_SLAVE | MS_REC, NULL) < 0) {
+>  6)   if (umount2(".", MNT_DETACH) < 0) {
+>
+> So are you saying we need a:
+>        if (mount(NULL, "/", NULL, MS_REC | MS_SHARED, NULL) < 0) {
+>
+>   and can this go straight after (1) ?
 
-On 28.04.20 16:07, Eric Blake wrote:
-> On 4/28/20 8:26 AM, Max Reitz wrote:
->> bdrv_commit() already has a BlockBackend pointing to the BDS that we
->> want to empty, it just has the wrong permissions.
->>
->> qemu-img commit has no BlockBackend pointing to the old backing file
->> yet, but introducing one is simple.
->>
->> After this commit, bdrv_make_empty() is the only remaining caller of
->> BlockDriver.bdrv_make_empty().
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->> =C2=A0 block/commit.c |=C2=A0 8 +++++++-
->> =C2=A0 qemu-img.c=C2=A0=C2=A0=C2=A0=C2=A0 | 19 ++++++++++++++-----
->> =C2=A0 2 files changed, 21 insertions(+), 6 deletions(-)
->>
->> diff --git a/block/commit.c b/block/commit.c
->> index 8e672799af..24720ba67d 100644
->> --- a/block/commit.c
->> +++ b/block/commit.c
->> @@ -493,10 +493,16 @@ int bdrv_commit(BlockDriverState *bs)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (drv->bdrv_make_empty) {
->=20
-> This 'if' is still a bit awkward. Do all filter drivers set this
-> function, or will bdrv_make_empty() automatically take care of looking
-> through filters?=C2=A0 Should this be a check of a supported_ variable
-> instead (similar to how Kevin just added supported_truncate_flags)?
->=20
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D drv->bdrv_make_empty=
-(bs);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D blk_set_perm(src, BL=
-K_PERM_WRITE, BLK_PERM_ALL, NULL);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 goto ro_cleanup;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D blk_make_empty(src, =
-NULL);
->=20
-> So, if the driver lacks the callback, you miss calling blk_make_empty()
-> even if it would have done something.
+Or right before (3).   Important thing is that that new mount will
+only receive propagation if the type of the mount at source (before
+(3) is performed) is shared.
 
-We can=E2=80=99t just call blk_make_empty() and then special case -ENOTSUP =
-here,
-though, because the BB doesn=E2=80=99t have a WRITE permission beforehand. =
- So
-we have to take that permission before we can call blk_make_empty().
-But taking the permission can fail, and then we kind of have to report
-the -EPERM, even though the BlockDriver may not support emptying anyway.
-
-I suppose if we just have to take the WRITE_UNCHANGED permission,
-though, we can assume that that=E2=80=99s basically always allowed, so it
-shouldn=E2=80=99t be that much of a problem there.
-
-Max
-
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto=
- ro_cleanup;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blk_flush(src);
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 diff --git a/qemu-img.c b/qemu-img.c
->> index 821cbf610e..a5e8659867 100644
->> --- a/qemu-img.c
->> +++ b/qemu-img.c
->> @@ -1065,11 +1065,20 @@ static int img_commit(int argc, char **argv)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto unref_backin=
-g;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 -=C2=A0=C2=A0=C2=A0 if (!drop && bs->drv->bdrv_make_empty) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D bs->drv->bdrv_make_e=
-mpty(bs);
->=20
-> Old code: if the driver had the callback, use it.
->=20
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 erro=
-r_setg_errno(&local_err, -ret, "Could not empty %s",
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 filename);
->> +=C2=A0=C2=A0=C2=A0 if (!drop) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BlockBackend *old_backing_bl=
-k;
->> +
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 old_backing_blk =3D blk_new_=
-with_bs(bs, BLK_PERM_WRITE,
->> BLK_PERM_ALL,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 &local_err);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!old_backing_blk) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto=
- unref_backing;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D blk_make_empty(old_b=
-acking_blk, &local_err);
->=20
-> New code: Call blk_make_empty() whether or not driver has the callback,
-> then deal with the fallout.
->=20
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 blk_unref(old_backing_blk);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret =3D=3D -ENOTSUP) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 erro=
-r_free(local_err);
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 loca=
-l_err =3D NULL;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (ret < 0) {
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 goto unref_backing;
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
-> But this actually looks smarter than the commit case.
->=20
-
-
-
---gHhCvHdmBrzcHjs1cm9BoxkpDCHrmINOE--
-
---m9wEpVvEhjEC9nfuOHA6DIecCsv4wjmdg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6pM4wACgkQ9AfbAGHV
-z0DQAAf/V2Wqlar1KUiDrPKrhCio3YNBB/nrDnHMxN4whnAqmUhRN8bnDpJ02xg/
-2lUOxCLiwI0+ELM1Hnve19dqt6/ac8smR/PBCvyh9XhuIcZZUyp1Qye1bCtuCuGP
-VlnO8OLrAVA5QE7qAXeqywFuGS2+pvdF7Cd7sIR2u0ifqt3SsX5Rmy1v/BuhyECW
-sopaxLybQZgKTG8Jl2RPAuxx9OlHZgqfUuaVVPxvGf49kcD6sIqDsJba/OWY5fc8
-nRw4xzogpNtg9KhIDvBPg/aSx9h53hUYBi+CTqMEf1gSmrl2goTcgYpQan90dWCr
-6zj19BUsW1+Gta5vB5da3qSAG2+aSQ==
-=+Je3
------END PGP SIGNATURE-----
-
---m9wEpVvEhjEC9nfuOHA6DIecCsv4wjmdg--
+Thanks,
+Miklos
 
 
