@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3BB1BE67C
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:44:14 +0200 (CEST)
-Received: from localhost ([::1]:48592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457121BE669
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:41:30 +0200 (CEST)
+Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTrgr-00027s-3r
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:44:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37438)
+	id 1jTreD-0006O2-49
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37418)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
- id 1jTraC-0008Mt-UH
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:23 -0400
+ id 1jTraB-0008KM-Jy
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
  (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
- id 1jTraA-0003Um-9r
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:20 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:2041)
+ id 1jTra9-0003UH-2B
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:19 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:2049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
- id 1jTra4-0003PZ-0V; Wed, 29 Apr 2020 14:37:12 -0400
+ id 1jTra4-0003Ps-08; Wed, 29 Apr 2020 14:37:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1588185432; x=1619721432;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=XLpDvnqj9bkxM9N2CIUAMQTvObl1PtMILsBu24h494E=;
- b=je0Xkv9ViJ/uVmeZlI3wtclSsHDidhQnSOyxoM7SFOkMZMmqsxdpFq1/
- ZvadbW+9pNZfXktLRgdcW9zfWTo/udDY1NHkikhk1At50uVEsSlQBZLsE
- Ni1iD7QBzHvJhWOUiRsaBsqSpvJq8LC1jMXJeV0z8HrFXxdPWiiKhLpw1
- hTJ4GGBKgBwNPqPhIR6aM+wYcoYL6cgeEAtjpjI6DgUH5vVoks94MBVtC
- HbP+ybhtWqhmtrLRp9L6qayZgjxfpAwAUCxJR1DBz+u15zXAmHALLn4PH
- eoH7Y2P+O1idWoXikSDlNGl7rFvSsvZxKSuUU16yy2giyuUKIckLRkt/2 w==;
-IronPort-SDR: 8ae9a7ukD/32AfHjJHy8JPinavPAZbi2IHaNK2UfJhQOWYQxMiwijlgleEZBRFiqWqt0ZvzUp6
- X6w0NiTldYqNiGZPBtKWHmOTdCebNt1ZDSEqRA3zUNVzhp6k5bRMwaexBjDfjF+q87xvmBIIH9
- fNZmOtr/Yi+9rraYN8jA/aQOZFF5n4PkIhaaVloMQS51RsvF+sMufUZ3KC7OcLxcI1tHf9FNFE
- Kx7iM2LPGGwtbozmCD+ZZK94rXsb0mqp5yacnHfjfsAxkpGBCWWllDTU2mgtHlwJedMDbUBt65
- MiQ=
-X-IronPort-AV: E=Sophos;i="5.73,332,1583164800"; d="scan'208";a="137935137"
+ bh=V4JMB03R57xU/l231U+ZmY2qS+gGKlGPiocloP9j6yI=;
+ b=XF99wHMhgFy1GmHhQTWWFEUPa8TH/Vz1/CvEnDGcZq4wDnzlNM6YInVS
+ u234OMWd3IkWLrK13Kn5ZLeCDz7noPInu4kqB6dbH/q6doaQiGarZlNt9
+ JLh0NR2Q/dmjOTBMwR96hUmr29bj0citxP2Wt64yUrtH83MDQMHErBekt
+ 4UQI4UMPcVI6ebcPtSfhTKBmKOA+gS+88qQbp0x1dTCw7X/uxsogLRpLZ
+ EJe4zuNJnB/taoo3pQJ3PAX7hC3Nk74X6Wkd2mrs61cXe/2eNZLU0Hui3
+ HNTI3a06ekJ0Nnf4uQwT0GC1oiwT5Wfr34iUzVvgByTVDMWR/DI6saJG9 g==;
+IronPort-SDR: SfMcyCMQkKxBjHuYR6Acg08w8qIZMLWcsbgJSQBpXfMPEtk3bE6hNrpnVowOg9uDEV+vQ8M1nM
+ hd5cKECxRi9917A6AaKypxGp2wx1Rkil8hr3Ivtn9ayW3iaa7y9qDHMf6PDSEXQ4ZgfZQhZXVy
+ KudC48TxhD7v352M2tsQ5qKc8mU66p/UZzVcb0oRMj/QcBiBUzqSsNnU+Pf0R/0yZeiOvwdxtz
+ Ag9KAKrJjDL13obt3Wsdlxmr2aj9Fclq+U5Ms6y6QzLUR7XBSzumALe6P6KeTx3C0vAQ5Gx+Td
+ CWQ=
+X-IronPort-AV: E=Sophos;i="5.73,332,1583164800"; d="scan'208";a="137935140"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 30 Apr 2020 02:37:05 +0800
-IronPort-SDR: PNxSYnsoDEkEDFpxnLHip78/qRSSJJTHgfjco9gMG8ybw7Dhgp2oSmHCkX8RIs+QNfbUurzaOW
- cYv1Daw2S/baYaBzWjMXkyxtkUyKn3suY=
+IronPort-SDR: SgFEKWjHZ5FwDFTOdjRF/MKvSTsnfSrGgZiyuYYLbKfL99E5DKUOs31tt7i2nr/4UpfwJdgPcU
+ c3k9GtoerLkjZdU/w7qXyN/pYIA1fhMOM=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Apr 2020 11:27:09 -0700
-IronPort-SDR: qvNtRoU4NEt4HH3UQ+Y4pS6N1/+TYSKNXajx5zJt6+slGiJJm2P7kSrWF606wuPdEI0TJ+5SCI
- 0lJf6+1O5YOg==
+IronPort-SDR: fETdQyidHjnMHYlUrkY61gFLkGOW8y0zGJIF4cSrpIpK1ArQaC7GFNiEBuxZpB9/jdGgVsWT7p
+ 06eSB16oKD4Q==
 WDCIronportException: Internal
 Received: from cnf007834.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.55.253])
  by uls-op-cesaip01.wdc.com with ESMTP; 29 Apr 2020 11:37:03 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 04/14] riscv: Don't use stage-2 PTE lookup protection flags
-Date: Wed, 29 Apr 2020 11:28:46 -0700
-Message-Id: <20200429182856.2588202-5-alistair.francis@wdc.com>
+Subject: [PULL 05/14] riscv: AND stage-1 and stage-2 protection flags
+Date: Wed, 29 Apr 2020 11:28:47 -0700
+Message-Id: <20200429182856.2588202-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200429182856.2588202-1-alistair.francis@wdc.com>
 References: <20200429182856.2588202-1-alistair.francis@wdc.com>
@@ -88,36 +88,50 @@ Cc: qemu-riscv@nongnu.org, Anup Patel <anup@brainfault.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When doing the fist of a two stage lookup (Hypervisor extensions) don't
-set the current protection flags from the second stage lookup of the
-base address PTE.
+Take the result of stage-1 and stage-2 page table walks and AND the two
+protection flags together. This way we require both to set permissions
+instead of just stage-2.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Anup Patel <anup@brainfault.org>
-Message-id: 931db85d6890ed4bc2b527fd1011197cd28299aa.1585262586.git.alistair.francis@wdc.com
-Message-Id: <931db85d6890ed4bc2b527fd1011197cd28299aa.1585262586.git.alistair.francis@wdc.com>
+Message-id: 846f1e18f5922d818bc464ec32c144ef314ec724.1585262586.git.alistair.francis@wdc.com
+Message-Id: <846f1e18f5922d818bc464ec32c144ef314ec724.1585262586.git.alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu_helper.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index d3ba9efb02..f36d184b7b 100644
+index f36d184b7b..50e13a064f 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -452,10 +452,11 @@ restart:
-         hwaddr pte_addr;
+@@ -707,7 +707,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ #ifndef CONFIG_USER_ONLY
+     vaddr im_address;
+     hwaddr pa = 0;
+-    int prot;
++    int prot, prot2;
+     bool pmp_violation = false;
+     bool m_mode_two_stage = false;
+     bool hs_mode_two_stage = false;
+@@ -757,13 +757,15 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+             /* Second stage lookup */
+             im_address = pa;
  
-         if (two_stage && first_stage) {
-+            int vbase_prot;
-             hwaddr vbase;
+-            ret = get_physical_address(env, &pa, &prot, im_address,
++            ret = get_physical_address(env, &pa, &prot2, im_address,
+                                        access_type, mmu_idx, false, true);
  
-             /* Do the second stage translation on the base PTE address. */
--            get_physical_address(env, &vbase, prot, base, access_type,
-+            get_physical_address(env, &vbase, &vbase_prot, base, access_type,
-                                  mmu_idx, false, true);
+             qemu_log_mask(CPU_LOG_MMU,
+                     "%s 2nd-stage address=%" VADDR_PRIx " ret %d physical "
+                     TARGET_FMT_plx " prot %d\n",
+-                    __func__, im_address, ret, pa, prot);
++                    __func__, im_address, ret, pa, prot2);
++
++            prot &= prot2;
  
-             pte_addr = vbase + idx * ptesize;
+             if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+                 (ret == TRANSLATE_SUCCESS) &&
 -- 
 2.26.2
 
