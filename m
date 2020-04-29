@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB3C1BE305
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 17:45:01 +0200 (CEST)
-Received: from localhost ([::1]:34678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6101BE2E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 17:38:58 +0200 (CEST)
+Received: from localhost ([::1]:49732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTotQ-0003c1-QK
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 11:45:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34228)
+	id 1jTonZ-00053p-00
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 11:38:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33018)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTos5-0002qZ-A1
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:43:37 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jTolt-0002hr-Sc
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:37:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTos4-0000qi-IC
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:43:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40895
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <imammedo@redhat.com>) id 1jToi0-0003Bt-97
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:36:41 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44140
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTodZ-0006hY-Rx
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:28:37 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jTohz-00038W-Sb
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:33:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588174116;
+ s=mimecast20190719; t=1588174388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=S9uxGuo89lqDHaFh0CjJqlhlEyNKNG44WyZGfy8vqwI=;
- b=i9MA3x5k2PFfsn+yBBqpzuuhxvw1SevqrCIYv48dBinzYDX64dbODE5FFdQuWxd1yZxIf+
- j0noQ16dIx3tYUc/w7i6ogKGwl4ERJbDBTopZib7UWwZZ6+Mtk3mDbBjmx7eEQXXlO9BBl
- ZD5bb627px6tRKPlizSJwONUVdkrZ4U=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X5bxZ/W7rL1Fd2qslcQp1LARUxM9Lx/djYUTjHUOd2c=;
+ b=WgUidnJ5vo0J5G3epYif1rkHkJJ5J9uizyyns4JwvAr+nSr1fwEar5c/TzKqmtNxsIdFEw
+ yRjGE6VU6hAOubnLxo4zG4r9q0I3JpVcG/CDOnQPA2I0bY8SiS3re+vwqqAMr/SGsSMVhb
+ iqaMNl5n5GYwZORFoILpB0BFRIv9smg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-Q5uklgRuOGCxmWlYyXxRlw-1; Wed, 29 Apr 2020 11:28:30 -0400
-X-MC-Unique: Q5uklgRuOGCxmWlYyXxRlw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-342-B7DUCMcPP8-ODSRY2NGIkQ-1; Wed, 29 Apr 2020 11:33:05 -0400
+X-MC-Unique: B7DUCMcPP8-ODSRY2NGIkQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B35EF1005510;
- Wed, 29 Apr 2020 15:28:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A93F710013BD;
- Wed, 29 Apr 2020 15:28:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3264411358BC; Wed, 29 Apr 2020 17:28:25 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Failing property setters + hardwired devices + -global = a bad day
-Date: Wed, 29 Apr 2020 17:28:25 +0200
-Message-ID: <87mu6uia5i.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1737984B8A6;
+ Wed, 29 Apr 2020 15:33:04 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FBB266065;
+ Wed, 29 Apr 2020 15:32:56 +0000 (UTC)
+Date: Wed, 29 Apr 2020 17:32:54 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH] Add a new PIIX option to control PCI hot unplugging of
+ devices on non-root buses
+Message-ID: <20200429173254.58c8582f@redhat.com>
+In-Reply-To: <20200424184448.GS4952@habkost.net>
+References: <1587136411-200885-1-git-send-email-ani.sinha@nutanix.com>
+ <20200417112620-mutt-send-email-mst@kernel.org>
+ <2A13ACCD-BD24-41FB-B6EA-2804F7C1FF1D@nutanix.com>
+ <20200417120732-mutt-send-email-mst@kernel.org>
+ <20200420092459.GF346737@redhat.com>
+ <20200420105936-mutt-send-email-mst@kernel.org>
+ <07BC06B8-34F6-4C46-ACCE-DD7A4CBA9BC7@nutanix.com>
+ <20200421150201.GI479771@redhat.com>
+ <A31A7DC2-E1FB-409B-9A99-324F8879E9AD@nutanix.com>
+ <819DA747-F897-44A4-A238-B6F20C4C8B08@nutanix.com>
+ <20200424184448.GS4952@habkost.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,259 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ani Sinha <ani.sinha@nutanix.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFu?= =?UTF-8?B?Z8Op?=" <berrange@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Marcel Apfelbaum <marcel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here's how we represent QOM properties:
-
-    struct ObjectProperty
-    {
-        gchar *name;
-        [...]
-        ObjectPropertyAccessor *get;
-        ObjectPropertyAccessor *set;
-        ObjectPropertyInit *init;
-        void *opaque;
-        QObject *defval;
-    };
-
-=3D The setter =3D
-
-A ->set() method looks like this:
-
-    void TYPE_set_PROP(Object *obj, Visitor *v,
-                       const char *name, void *opaque, Error **errp)
-
-The bit to remember for later is that it can fail.
-
-=3D Default defaults =3D
-
-When an object gets created, its memory is zeroed, and then any class
-properties with an ->init() are initialized with
-
-    obj->init(obj, prop);
-
-We have just one ->init():
-
-    void object_property_init_defval(Object *obj, ObjectProperty *prop)
-
-It initializes from ->defval using ->set().
-
-Aside: feels overengineered, but let's move on.
-
-For TYPE_DEVICE objects, "static" properties get initialized the same.
-
-Aside: if I know what "static" means, I'll be hanged.
-
-The bit to remember for later is that properties start at zero, and some
-have their zero overwritten with ->set().
-
-=3D "Compat" defaults =3D
-
-TYPE_DEVICE objects and the accelerator (the thing you configure with
--accel) next undergo object_apply_compat_props().
-
-TYPE_DEVICE objects do this from ->instance_post_init().
-
-For the accelerator, we do it where we create it, in
-do_configure_accelerator().
-
-This provides for defaults that depend on the accelerator, the machine
-type, or certain legacy command line option desugaring (don't ask).
-
-These default values are stored as strings, and applied with
-object_property_parse(), which uses ->set().
-
-The bit to remember for later is that some properties have their default
-default overwritten with ->set() one or more times.
-
-=3D -global defaults =3D
-
-TYPE_DEVICE objects next undergo qdev_prop_set_globals(), still from
-->instance_post_init().  This applies the user's -global options.
-
-These default values are also stored as strings, and also applied with
-object_property_parse(), which uses ->set().
-
-The bit to remember for later is that some properties have their
-built-in default overwritten with ->set() one more time.
-
-=3D Configuration =3D
-
-Now we come to a fork in the road: devices created with configuration
-taken from -device / device_add, and devices the code creates by itself.
-
-=3D=3D -device / device_add =3D=3D
-
-This is qdev_device_add().  Works as follows:
-
-    1. create object (this applies the various defaults)
-    2. Pass the users KEY=3DVALUE,... to object_property_parse() one by
-       one
-    3. realize
-
-The bit to remember for later is that properties of user-creatable
-devices get overwritten with ->set one final time.
-
-=3D=3D Hardwired devices =3D=3D
-
-Common pattern:
-
-    1. create object (this applies the various defaults)
-    2. set properties with qdev_prop_set_FOO() one by one
-    3. realize
-
-=3D Handling ->set() failure =3D
-
-Here's how the uses of ->set() we've seen so far handle failure:
-
-* Default defaults
-
-  An ->init() method cannot fail; object_property_init_defval() passes
-  &error_abort.
-
-  Rationale: if the defaults we bake into QEMU don't work, it's a
-  programming error.
-
-* "Compat" defaults
-
-  do_configure_accelerator() can fail, but an ->instance_post_init()
-  method can't; object_apply_compat_props() uses &error_abort, except
-  for the legacy command line option desugaring, where it uses
-  &error_fatal.
-
-  Rationale: if the defaults we bake into QEMU don't work, it's a
-  programming error.  If legacy CLI options can't be applied, it's a
-  fatal error.
-
-* -global defaults
-
-  An ->instance_post_init() method can't fail; qdev_prop_set_globals()
-  uses &error_fatal.
-
-  Rationale: if the user's -global can't be applied, it's a fatal error.
-
-  Except it *ignores* errors afterward initial configuration (after
-  qdev_machine_creation_done()).
-
-  Rationale: silently ignoring the user's -global for hot-plugged
-  devices is bad, killing the VM is worse.  We suck.
-
-* -device / device_add
-
-  qdev_device_add() fails cleanly.
-
-  Rationale: sometimes we manage not to suck.
-
-* Hardwired devices
-
-  The qdev_prop_set_FOO() can't fail; they pass &error_abort.
-
-  Rationale: if the configuration we bake into QEMU doesn't work, it's a
-  programming error.
-
-  Except qdev_prop_set_drive() can fail.  Of its 43 callers, 9 pass
-  &error_abort, 27 pass &error_fatal, and 7 try to handle failure.
-  Of these seven, several are obviously wrong.
-
-  Rationale: uh, we like exceptions?
-
-=3D Can this get more depressing? =3D
-
-Yes!
-
-->set() can run many times, yet I found three ->set() methods that can't
-handle overwriting non-zero:
-
-* set_netdev() fails with "Property NETDEV doesn't take value VALUE"
-
-  Reproducer:
-
-    $ upstream-qemu -nodefaults -S -monitor stdio -display none -nic user -=
-netdev user,id=3Dfoo -global e1000.netdev=3Dfoo
-    QEMU 5.0.0 monitor - type 'help' for more information
-    (qemu) Unexpected error in error_set_from_qdev_prop_error() at /work/ar=
-mbru/qemu/hw/core/qdev-properties.c:1105:
-    upstream-qemu: Property 'e1000.netdev' doesn't take value '__org.qemu.n=
-ic0
-    '
-    Aborted (core dumped)
-
-  The abort is courtesy qdev_prop_set_net().
-
-* set_drive() leaves the old value attached to the device, which is wrong
-
-  Reproducer:
-
-    $ upstream-qemu -S -monitor stdio -display none -fda tmp.qcow2 -drive i=
-f=3Dnone,file=3Dtest.qcow2 -global isa-fdc.driveA=3Dnone0
-    QEMU 5.0.0 monitor - type 'help' for more information
-    (qemu) info block
-    floppy0 (#block162): tmp.qcow2 (qcow2)
-  --->  Attached to:      /machine/unattached/device[16]
-        Removable device: not locked, tray closed
-        Cache mode:       writeback
-        Backing file:     tmp.img (chain depth: 1)
-
-    none0 (#block535): test.qcow2 (qcow2)
-  --->  Attached to:      /machine/unattached/device[15]
-        Cache mode:       writeback
-        Backing file:     f29.raw (chain depth: 1)
-
-    ide1-cd0: [not inserted]
-        Attached to:      /machine/unattached/device[23]
-        Removable device: not locked, tray closed
-
-    sd0: [not inserted]
-        Removable device: not locked, tray closed
-
-  device[15] is "isa-fdc".
-
-  device[16] is the "floppy" hanging of "isa-fdc".  Magic in fdc.c moved
-  it from "isa-fdc" (don't ask).
-
-* set_chr() calls qemu_chr_fe_init() again without qemu_chr_fe_deinit(),
-  which is wrong
-
-  Reproducer:
-
-    $ upstream-qemu -nodefaults -S -monitor stdio -display none -chardev nu=
-ll,id=3Dfoo -chardev null,id=3Dbar -serial chardev:foo -global isa-serial.c=
-hardev=3Dbar
-
-The "if the configuration we bake into QEMU doesn't work, it's a
-programming error" idea needs amending: "doesn't work with any -global
-shenanigans users may come up with".
-
-I guess these ->set() flaws are fixable.
-
-The knee-jerk fix is to have ->set() fail rather than screw up.  This is
-what set_netdev() does.  It founders on the amended "if the
-configuration we bake into QEMU don't work, it's a programming error"
-idea: ->set() can then fail there because -global set it up for failure.
-
-Making all the qdev_prop_set_FOO() users handle errors would be a lot of
-work: in addition to the 43 users of qdev_prop_set_drive(), we have more
-than 50 of qdev_prop_set_chr() and almost 40 of
-qdev_set_nic_properties().  Infeasible for me.  Bye, bye knee-jerk fix.
-
-Is there any sane use for configuring backends via any of the default
-mechanisms?
-
-I'm aware of one, but it's outdated: -global isa-fdc.driveA=3D...  Use
--device floppy instead.
-
-I'd love to deprecate -global wholesale, but we can't as long as we
-don't have better means to configure onboard devices.  Can we deprecate
-its use with backend properties at least?
-
-While we're talking about deprecation: what about use of -global with
-hot-plugged devices?  Remember, bad -global gets silently ignored there.
+On Fri, 24 Apr 2020 14:44:48 -0400
+Eduardo Habkost <ehabkost@redhat.com> wrote:
+
+> On Fri, Apr 24, 2020 at 03:23:56PM +0000, Ani Sinha wrote:
+> >=20
+> >  =20
+> > > On Apr 22, 2020, at 4:15 PM, Ani Sinha <ani.sinha@nutanix.com> wrote:
+> > >=20
+> > >=20
+> > >  =20
+> > >> On Apr 21, 2020, at 8:32 PM, Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com> wrote:
+> > >>=20
+> > >> On Tue, Apr 21, 2020 at 02:45:04PM +0000, Ani Sinha wrote: =20
+> > >>>=20
+> > >>>  =20
+> > >>>> On Apr 20, 2020, at 8:32 PM, Michael S. Tsirkin <mst@redhat.com> w=
+rote:
+> > >>>>=20
+> > >>>> But I for one would like to focus on keeping PIIX stable
+> > >>>> and focus development on q35.  Not bloating PIIX with lots of new
+> > >>>> features is IMHO a good way to do that. =20
+> > >>>=20
+> > >>> Does this mean this patch is a no-go then? :( =20
+> > >>=20
+> > >> I'd support this patch, as I don't think it can really be described =
+as
+> > >> bloat or destabalizing. It is just adding a simple property to
+> > >> conditionalize existing functionality.  Telling people to switch to =
+Q35
+> > >> is unreasonable as it is not a simple 1-1 conversion from existing u=
+se
+> > >> of PIIX. Q35 has much higher complexity in its configuration, has hi=
+gher
+> > >> memory overhead per VM too, and lacks certain features of PIIX too. =
+=20
+> > >=20
+> > > Cool. How do we go forward from here?
+> > >  =20
+> >=20
+> > We would really appreciate if we can add this extra knob in
+> > Qemu. Maybe someone else also in the community will find this
+> > useful. We don=E2=80=99t want to maintain this patch internally forever
+> > but rather prefer we maintain this as a Qemu community. =20
+>=20
+> Michael, I agree with Daniel here and I don't think we should
+> start refusing PIIX features if they are useful for a portion of
+> the QEMU community.
+>=20
+> Would you reconsider and merge this patch?
+
+I put this patch on my review queue (hopefully next week I'd be able to get=
+ to it)
 
 
