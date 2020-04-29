@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA391BE63A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:26:36 +0200 (CEST)
-Received: from localhost ([::1]:43512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272A11BE661
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:40:04 +0200 (CEST)
+Received: from localhost ([::1]:33212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTrPm-0003Tb-GM
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:26:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35920)
+	id 1jTrcp-0004EE-4H
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:40:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jTrOq-0002rn-M3
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:25:37 -0400
+ (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
+ id 1jTra7-0008C5-O7
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jTrOp-0006lA-1Z
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:25:36 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34221)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jTrOo-0006gZ-JE
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:25:34 -0400
-Received: by mail-wr1-x433.google.com with SMTP id j1so3770813wrt.1
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 11:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=0jzzCWf2fvbVbXzVXOPue4rdF/n2PzQn71bF47MOdbc=;
- b=ypGf2sg1KDJI4jztKNSpM8l6I4Gch+k0T0zm3TATd/WOlq1SpY8guifrkQ3b0tYPud
- M5ZMttVts0r2aGC9KY/DQI80DR65vUIbPzRvGSG0pve0Fw/4DPyvdcfKxvsHbSHIxsqx
- Z6pX+Z70b6Ys8Ls1B1JUAvInzQBR8hl33SunFr9L0i3tZVGSk4W0wZAfI5x7Znd7Yvj/
- MYzk6X+Y7thoubdHwEpp3TcuSPoEXuHOP3ghmyYRxCanDwpFM0Y2hyvEVUG4uShKxoE9
- byzaFxBlRLCS9m0CYSDQjma5XDuW9Yok55INWOk8KzLB7VI3EmRNAo6bkxrrQ4diFYnI
- gbjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=0jzzCWf2fvbVbXzVXOPue4rdF/n2PzQn71bF47MOdbc=;
- b=WIDM6afI3VrgiClg3+q6UT4eGJgw+k+uoLwN82gAGMDSoQ+/ZJhQVbl2pcAc2CtJ5k
- ate08PzGnfm3WrtADCgAx826D8UnqvAqr7bXhAOGa1RzajiagQNPT9pElLXYfz3Uoxo5
- SBWtz3zsKhTPsh5ATLJq81CXfJwhevOJaUqD+xQbPrw6dEvlTW7brd7/38eecW9NcsqM
- YfT6e0NK16E5j0Z9RVgurhVIWRC17UgYXz3QbyNuNFKbeqLFCHjicc8qku2DJMhTtAsf
- cgPepze8DVV374zRYi3JNmt/2wrMGs1+7KaDiUyOjG8ObbB7VvpUElUrDrPRg2zGOUiB
- 35rA==
-X-Gm-Message-State: AGi0PuaG9tk5SwnlN0QHDrdEsV4ouOkdrqs02AVNgqLReUdXlSOczlFn
- l4EWjmXjEoSP5wnavD+Yo4IGlw==
-X-Google-Smtp-Source: APiQypKzFig62LVUsUUiLRthX30+aTes/UR+uhzLegXLhVJy1m0pWmmIggJtmPD5hDRlP6nv4nsfMg==
-X-Received: by 2002:a05:6000:f:: with SMTP id
- h15mr39908437wrx.408.1588184732416; 
- Wed, 29 Apr 2020 11:25:32 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a67sm9364647wmc.30.2020.04.29.11.25.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Apr 2020 11:25:31 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 75B071FF7E;
- Wed, 29 Apr 2020 19:25:30 +0100 (BST)
-References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
- <87lfmhl0xa.fsf@linaro.org>
- <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
- <87imhlkwun.fsf@linaro.org>
- <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
- <87ftcoknvu.fsf@linaro.org>
- <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <871ro6ld2f.fsf@linaro.org>
- <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
-User-agent: mu4e 1.4.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Dino Papararo <skizzato73@msn.com>
-Subject: Re: R: R: About hardfloat in ppc
-In-reply-to: <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
-Date: Wed, 29 Apr 2020 19:25:30 +0100
-Message-ID: <87sggmjgit.fsf@linaro.org>
+ (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
+ id 1jTra5-0003SK-GA
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:15 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:2035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
+ id 1jTra1-0003PL-3o; Wed, 29 Apr 2020 14:37:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1588185430; x=1619721430;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1XgLDz26nHEpu0y9cchduMq7HttvXlRu1DO0Cxc980c=;
+ b=gHaxnY0ahJrOgO2//M8kwml7XFL2JjaxtpJDBOMeCDUVH+hV9cy5ksih
+ BAffZL9iuILzN3oeEeucGY0U2GZHYY7a3D7xBT/O7vjQ+UQG8rPC/1yNF
+ sdg/IUN1zr6eXrn5d2/7BPGWiZ+D8lmhuf/zoxBnMeFY3ew5B3S2UIkB1
+ nSl2+71nkw5PMy9W6EodzcTtp3wSAJUYe6c52MqG76N03Lf0DxH2cvd6j
+ 0hADduEunGZp1R6P1OKrT3kJQLP17OaCVRVn/WwafxuArZc8K/X92dv2X
+ XVfKXAm0VQ4G7VTnKb/AECrxuv2iQaLFAoMOqRZC8bnCRzlalyi88upa+ A==;
+IronPort-SDR: ttwrcDOhqC7HG77Q3N01ltTOz6dawUJBo7SLwzsguXB33u8rrF2LYEB0MuVDV+ssA5IY3BMfe0
+ u9Rx9+mUsfePhHXWs72agolRwe+19YB0ToPP6SVQoijWCmnuHcaqaVURfMN24mTeXzP2jqhQuW
+ ExpPX9Qf+8ENFyobsgJ7fD8rJRiK/JiQN8w4PSJ5EEErCB3dZ/npcQEZR6f6iWvZxlljYfPbU9
+ /2RhvVInz5e/jvmP2UVmdvY5q2uEtP7vpHllck88FVfu7+/bOqh5NN+tiUxOKWTqZPaETwr2mk
+ 4FM=
+X-IronPort-AV: E=Sophos;i="5.73,332,1583164800"; d="scan'208";a="137935126"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 30 Apr 2020 02:37:04 +0800
+IronPort-SDR: 62ykwJIudIHRRjtow64sxiI8BA0AYD2N91pP12yWlaeIzbeUlFTXe4noKO0Qw9SshMrpNcK0U3
+ 4pdSBbrpBFjnFu21KbDsjpgGYWGmHXlXo=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2020 11:27:08 -0700
+IronPort-SDR: t3qSngCryoWVlFS84BFNntMO/IxERhDyrcbbdq/91Z0rqEFe5vKzzDqZqZIFvGKnjqusWGXeoc
+ vRnfN8Fvvx1A==
+WDCIronportException: Internal
+Received: from cnf007834.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.55.253])
+ by uls-op-cesaip01.wdc.com with ESMTP; 29 Apr 2020 11:37:02 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/14] RISC-V Patch Queue for 5.1
+Date: Wed, 29 Apr 2020 11:28:42 -0700
+Message-Id: <20200429182856.2588202-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::433
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=381fbd49e=alistair.francis@wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 14:37:03
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 216.71.154.45
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,44 +81,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Programmingkid <programmingkidx@gmail.com>,
- "luoyonggang@gmail.com" <luoyonggang@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, palmerdabbelt@google.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit a7922a3c81f34f45b1ebc9670a7769edc4c42a43:
 
-Dino Papararo <skizzato73@msn.com> writes:
+  Open 5.1 development tree (2020-04-29 15:07:10 +0100)
 
-> Hi Alex,
-<snip>
->
-> I leave to you TCG's experts how it works and how to implement it, I'm
-> only tryng to explain a possible fast way to go (if ever possible) =F0=9F=
-=98=8A
+are available in the Git repository at:
 
-This is all a theoretical discussion unless someone cares enough to
-improve the situation. While I have an interest in improving TCG
-performance I'm afraid there are many more easier wins before tackling a
-target specific hack for which I'm not familiar. No doubt this thread
-will be referred to next time someone wants something done about it.
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200429-1
 
-> ..Large majority of software don't check for exceptions at all and if
-> I really want to pursue max precision I'll go for a software
-> multiprecision library like GMP or MPFR Libraries.
+for you to fetch changes up to 23766b6a35d5b1664ab782c02624bf2435c4ed5d:
 
-However for QEMU we regard failure to correctly emulate the architecture
-as a bug - we don't code to common software patterns because there is
-plenty of software out there that doesn't follow it.
+  hw/riscv/spike: Allow more than one CPUs (2020-04-29 11:23:44 -0700)
 
-> So the hardfloats 'should' be set as first choice and only if
-> instruction requires precision/error check process it in softfloats.
+----------------------------------------------------------------
+RISC-V pull request for 5.1
 
-Sure but someone will have to do the work to support that.
+This is the first pull request for the 5.1 development period. It
+contains all of the patches that were sent during the 5.0 timeframe.
 
---=20
-Alex Benn=C3=A9e
+This is an assortment of fixes for RISC-V, including fixes for the
+Hypervisor extension, the Spike machine and an update to OpenSBI.
+
+----------------------------------------------------------------
+Alistair Francis (4):
+      riscv/sifive_u: Fix up file ordering
+      riscv/sifive_u: Add a serial property to the sifive_u SoC
+      riscv: Don't use stage-2 PTE lookup protection flags
+      riscv: AND stage-1 and stage-2 protection flags
+
+Anup Patel (4):
+      riscv: Fix Stage2 SV32 page table walk
+      hw/riscv: Add optional symbol callback ptr to riscv_load_firmware()
+      hw/riscv/spike: Allow loading firmware separately using -bios option
+      hw/riscv/spike: Allow more than one CPUs
+
+Bin Meng (3):
+      riscv/sifive_u: Add a serial property to the sifive_u machine
+      hw/riscv: Generate correct "mmu-type" for 32-bit machines
+      roms: opensbi: Upgrade from v0.6 to v0.7
+
+Corey Wharton (2):
+      riscv: sifive_e: Support changing CPU type
+      target/riscv: Add a sifive-e34 cpu type
+
+LIU Zhiwei (1):
+      linux-user/riscv: fix up struct target_ucontext definition
+
+ hw/riscv/boot.c                              |  13 ++-
+ hw/riscv/sifive_e.c                          |   5 +-
+ hw/riscv/sifive_u.c                          | 143 ++++++++++++++++-----------
+ hw/riscv/spike.c                             |  30 +++++-
+ hw/riscv/virt.c                              |   6 +-
+ include/hw/riscv/boot.h                      |   6 +-
+ include/hw/riscv/sifive_u.h                  |   3 +
+ linux-user/riscv/signal.c                    |   3 +-
+ pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin | Bin 49472 -> 49520 bytes
+ pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin 41280 -> 49504 bytes
+ pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin 53760 -> 57936 bytes
+ pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin 49664 -> 57920 bytes
+ roms/opensbi                                 |   2 +-
+ target/riscv/cpu.c                           |  10 ++
+ target/riscv/cpu.h                           |   1 +
+ target/riscv/cpu_helper.c                    |  18 ++--
+ 16 files changed, 160 insertions(+), 80 deletions(-)
 
