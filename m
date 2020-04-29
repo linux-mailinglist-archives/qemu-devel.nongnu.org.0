@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426511BD6A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:55:08 +0200 (CEST)
-Received: from localhost ([::1]:44494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 058421BD6B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:00:09 +0200 (CEST)
+Received: from localhost ([::1]:52348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThYb-0005uo-UD
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47026)
+	id 1jThdS-000139-Ie
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:00:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47058)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luc.michel@greensocs.com>) id 1jTh8n-0003uQ-6t
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:28:21 -0400
+ (envelope-from <luc.michel@greensocs.com>) id 1jTh8y-0004LT-5J
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:28:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <luc.michel@greensocs.com>) id 1jTh8m-0001fm-Jd
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:28:20 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:57580)
+ (envelope-from <luc.michel@greensocs.com>) id 1jTh8x-0002Nz-Hr
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:28:31 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:57644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1jTh8j-0001TZ-S2; Wed, 29 Apr 2020 03:28:18 -0400
+ id 1jTh8v-00026E-4E; Wed, 29 Apr 2020 03:28:29 -0400
 Received: from [172.17.10.6] (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPSA id CC6A996EF0;
- Wed, 29 Apr 2020 07:28:15 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 00FC896F50;
+ Wed, 29 Apr 2020 07:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1588145296;
+ s=mail; t=1588145307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cmGDo8BRETGZBlkt2JiIXD8QKpYsSIx2sNRNaCHh0Vg=;
- b=tYTlxTHiDsgfPhsKhhSta3a5l/HW5ZQuM5y35yVbzLYXrCrrY8zUfHQoV2qEuyEC6ykkXH
- pRGCHTXXrdGU4389sLSEGGyfd+FAT1ULUFcNqRhtp00y1dO1DOi2pJLpxvMVdi7MDJ8NsR
- w5eJazblQsw0nT9R2ODQshqicR0+jso=
-Subject: Re: [PATCH v1 07/11] hw/arm: versal: Embedd the APUs into the SoC type
+ bh=lcXrqv8SurMPQyvkEowbFOtGnsXGIdxnzjJ2Y4dOXxo=;
+ b=04Axgw3Irxi4iloaAS3GnhIULiUIp2ua5MJTAqBYK/ttKTtOko1e2qGy8KrUPMzY2L2nCv
+ IHICMVqYY1lLKNg65I3dwhac+F8SR/172ymYH578I/0pg0SGN6B7o2Yfvb8DM5IdFE4R7b
+ P4C+w7frSHyiuO4RkJ3CifkIrOlMcoU=
+Subject: Re: [PATCH v1 08/11] hw/arm: versal: Add support for SD
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
 References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
- <20200427181649.26851-8-edgar.iglesias@gmail.com>
+ <20200427181649.26851-9-edgar.iglesias@gmail.com>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <bf2493aa-853d-6b2b-efaa-6b8084a71270@greensocs.com>
-Date: Wed, 29 Apr 2020 09:28:15 +0200
+Message-ID: <fd616955-5a08-c848-817a-e1bb0086fd7c@greensocs.com>
+Date: Wed, 29 Apr 2020 09:28:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200427181649.26851-8-edgar.iglesias@gmail.com>
+In-Reply-To: <20200427181649.26851-9-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US-large
 Content-Transfer-Encoding: 7bit
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1588145296;
+ s=mail; t=1588145307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cmGDo8BRETGZBlkt2JiIXD8QKpYsSIx2sNRNaCHh0Vg=;
- b=y6eLxXDl4A/HHELAZV2BKWw7tq6W55yGgmBuJxOCRwe+xz59wiT85laEnbqe3CbXj4mLR+
- CvynaQZXEN6WCbEc8sOwZj6BFk4k6mqObQLScGiFmuq9t0sxQfbUUkJcXO4xPCVPB564hv
- FMHR5UJpEO4uSO2XDwNGaqaVAIQUTFU=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1588145296; a=rsa-sha256; cv=none;
- b=G5VVo4St3h4Tp+JhALwpozYaWovt8bc/Ge0SI1x0tRHLKPoYepG5Fu2v6IUhKqsG0j4XGg
- pIQz0wCfI2bHJnRoDKvol1aOmB5t5qWmbT+ReZIuGFEJWrThzCWudVwoJ7fgL+Q1dEkb+F
- p3UKkzBHQys0//VLrruEkSvIUMOyGKU=
+ bh=lcXrqv8SurMPQyvkEowbFOtGnsXGIdxnzjJ2Y4dOXxo=;
+ b=eD00FOakiwpec71tekzP+n+cBKU+c6bYLTPl+AGrzx7osiJZEomox0jDJBr/4wzsvEkSV1
+ oNyJNXgt+Dfxtq0j0/1PRmpnXiLwO1+vaq4h6L9RWtzcfSVmjrAWEL2LCl+pdRTzNRdMN7
+ 7lBUfxBbwsWWRfb2kSzpmJh6IJOEsyI=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1588145307; a=rsa-sha256; cv=none;
+ b=P/+AG+L7V03OGzx/SP+5cVYNCsaxyC5ib3YLqdWH0XBz4LuEqx3dTcRBS9FMHiVw5S42Y9
+ GBwBculA+z50awzP0n4HOzGJFrJNbKWvoX6892+8hR+WNVACVstlTc5bQm4uFAbGdhlPbO
+ 0Tzu+0Ee9+XXEmzM5Ipq/Ul+4s9mrMo=
 ARC-Authentication-Results: i=1; ORIGINATING;
  auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
 Received-SPF: pass client-ip=5.135.226.135;
@@ -90,92 +90,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 4/27/20 8:16 PM, Edgar E. Iglesias wrote:
 > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 > 
-> Embedd the APUs into the SoC type.
+> Add support for SD.
 > 
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
 > ---
->  hw/arm/xlnx-versal-virt.c    |  4 ++--
->  hw/arm/xlnx-versal.c         | 19 +++++--------------
->  include/hw/arm/xlnx-versal.h |  2 +-
->  3 files changed, 8 insertions(+), 17 deletions(-)
+>  hw/arm/xlnx-versal.c         | 31 +++++++++++++++++++++++++++++++
+>  include/hw/arm/xlnx-versal.h | 12 ++++++++++++
+>  2 files changed, 43 insertions(+)
 > 
-> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-> index 8a608074d1..d7be1ad494 100644
-> --- a/hw/arm/xlnx-versal-virt.c
-> +++ b/hw/arm/xlnx-versal-virt.c
-> @@ -469,9 +469,9 @@ static void versal_virt_init(MachineState *machine)
->      s->binfo.get_dtb = versal_virt_get_dtb;
->      s->binfo.modify_dtb = versal_virt_modify_dtb;
->      if (machine->kernel_filename) {
-> -        arm_load_kernel(s->soc.fpd.apu.cpu[0], machine, &s->binfo);
-> +        arm_load_kernel(&s->soc.fpd.apu.cpu[0], machine, &s->binfo);
->      } else {
-> -        AddressSpace *as = arm_boot_address_space(s->soc.fpd.apu.cpu[0],
-> +        AddressSpace *as = arm_boot_address_space(&s->soc.fpd.apu.cpu[0],
->                                                    &s->binfo);
->          /* Some boot-loaders (e.g u-boot) don't like blobs at address 0 (NULL).
->           * Offset things by 4K.  */
 > diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> index ebd2dc51be..c8a296e2e0 100644
+> index c8a296e2e0..e263bdf77a 100644
 > --- a/hw/arm/xlnx-versal.c
 > +++ b/hw/arm/xlnx-versal.c
-> @@ -31,19 +31,11 @@ static void versal_create_apu_cpus(Versal *s)
->  
->      for (i = 0; i < ARRAY_SIZE(s->fpd.apu.cpu); i++) {
->          Object *obj;
-> -        char *name;
-> -
-> -        obj = object_new(XLNX_VERSAL_ACPU_TYPE);
-> -        if (!obj) {
-> -            error_report("Unable to create apu.cpu[%d] of type %s",
-> -                         i, XLNX_VERSAL_ACPU_TYPE);
-> -            exit(EXIT_FAILURE);
-> -        }
-> -
-> -        name = g_strdup_printf("apu-cpu[%d]", i);
-> -        object_property_add_child(OBJECT(s), name, obj, &error_fatal);
-> -        g_free(name);
->  
-> +        object_initialize_child(OBJECT(s), "apu-cpu[*]",
-> +                                &s->fpd.apu.cpu[i], sizeof(s->fpd.apu.cpu[i]),
-> +                                XLNX_VERSAL_ACPU_TYPE, &error_abort, NULL);
-> +        obj = OBJECT(&s->fpd.apu.cpu[i]);
->          object_property_set_int(obj, s->cfg.psci_conduit,
->                                  "psci-conduit", &error_abort);
->          if (i) {
-> @@ -57,7 +49,6 @@ static void versal_create_apu_cpus(Versal *s)
->          object_property_set_link(obj, OBJECT(&s->fpd.apu.mr), "memory",
->                                   &error_abort);
->          object_property_set_bool(obj, true, "realized", &error_fatal);
-> -        s->fpd.apu.cpu[i] = ARM_CPU(obj);
+> @@ -210,6 +210,36 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
 >      }
 >  }
 >  
-> @@ -95,7 +86,7 @@ static void versal_create_apu_gic(Versal *s, qemu_irq *pic)
->      }
+> +#define SDHCI_CAPABILITIES  0x280737ec6481 /* Same as on ZynqMP.  */
+> +static void versal_create_sds(Versal *s, qemu_irq *pic)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < ARRAY_SIZE(s->pmc.iou.sd); i++) {
+> +        DeviceState *dev;
+> +        MemoryRegion *mr;
+> +
+> +        sysbus_init_child_obj(OBJECT(s), "sd[*]",
+> +                              &s->pmc.iou.sd[i], sizeof(s->pmc.iou.sd[i]),
+> +                              TYPE_SYSBUS_SDHCI);
+> +        dev = DEVICE(&s->pmc.iou.sd[i]);
+> +
+> +        object_property_set_uint(OBJECT(dev),
+> +                                 3, "sd-spec-version", &error_fatal);
+> +        object_property_set_uint(OBJECT(dev), SDHCI_CAPABILITIES, "capareg",
+> +                                 &error_fatal);
+> +        object_property_set_uint(OBJECT(dev), UHS_I, "uhs", &error_fatal);
+> +        qdev_init_nofail(dev);
+> +
+> +        mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
+> +        memory_region_add_subregion(&s->mr_ps,
+> +                                    MM_PMC_SD0 + i * MM_PMC_SD0_SIZE, mr);
+> +
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
+> +                           pic[VERSAL_SD0_IRQ_0 + i * 2]);
+> +    }
+> +}
+> +
+>  /* This takes the board allocated linear DDR memory and creates aliases
+>   * for each split DDR range/aperture on the Versal address map.
+>   */
+> @@ -292,6 +322,7 @@ static void versal_realize(DeviceState *dev, Error **errp)
+>      versal_create_uarts(s, pic);
+>      versal_create_gems(s, pic);
+>      versal_create_admas(s, pic);
+> +    versal_create_sds(s, pic);
+>      versal_map_ddr(s);
+>      versal_unimp(s);
 >  
->      for (i = 0; i < nr_apu_cpus; i++) {
-> -        DeviceState *cpudev = DEVICE(s->fpd.apu.cpu[i]);
-> +        DeviceState *cpudev = DEVICE(&s->fpd.apu.cpu[i]);
->          int ppibase = XLNX_VERSAL_NR_IRQS + i * GIC_INTERNAL + GIC_NR_SGIS;
->          qemu_irq maint_irq;
->          int ti;
 > diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-> index 94b7826fd4..426b66449d 100644
+> index 426b66449d..e11693e29d 100644
 > --- a/include/hw/arm/xlnx-versal.h
 > +++ b/include/hw/arm/xlnx-versal.h
-> @@ -36,7 +36,7 @@ typedef struct Versal {
+> @@ -14,6 +14,7 @@
+>  
+>  #include "hw/sysbus.h"
+>  #include "hw/arm/boot.h"
+> +#include "hw/sd/sdhci.h"
+>  #include "hw/intc/arm_gicv3.h"
+>  #include "hw/char/pl011.h"
+>  #include "hw/dma/xlnx-zdma.h"
+> @@ -26,6 +27,7 @@
+>  #define XLNX_VERSAL_NR_UARTS   2
+>  #define XLNX_VERSAL_NR_GEMS    2
+>  #define XLNX_VERSAL_NR_ADMAS   8
+> +#define XLNX_VERSAL_NR_SDS     2
+>  #define XLNX_VERSAL_NR_IRQS    192
+>  
+>  typedef struct Versal {
+> @@ -58,6 +60,13 @@ typedef struct Versal {
+>          } iou;
+>      } lpd;
+>  
+> +    /* The Platform Management Controller subsystem.  */
+> +    struct {
+> +        struct {
+> +            SDHCIState sd[XLNX_VERSAL_NR_SDS];
+> +        } iou;
+> +    } pmc;
+> +
 >      struct {
->          struct {
->              MemoryRegion mr;
-> -            ARMCPU *cpu[XLNX_VERSAL_NR_ACPUS];
-> +            ARMCPU cpu[XLNX_VERSAL_NR_ACPUS];
->              GICv3State gic;
->          } apu;
->      } fpd;
+>          MemoryRegion *mr_ddr;
+>          uint32_t psci_conduit;
+> @@ -80,6 +89,7 @@ typedef struct Versal {
+>  #define VERSAL_GEM1_IRQ_0          58
+>  #define VERSAL_GEM1_WAKE_IRQ_0     59
+>  #define VERSAL_ADMA_IRQ_0          60
+> +#define VERSAL_SD0_IRQ_0           126
+>  
+>  /* Architecturally reserved IRQs suitable for virtualization.  */
+>  #define VERSAL_RSVD_IRQ_FIRST 111
+> @@ -129,6 +139,8 @@ typedef struct Versal {
+>  #define MM_FPD_CRF                  0xfd1a0000U
+>  #define MM_FPD_CRF_SIZE             0x140000
+>  
+> +#define MM_PMC_SD0                  0xf1040000U
+> +#define MM_PMC_SD0_SIZE             0x10000
+>  #define MM_PMC_CRP                  0xf1260000U
+>  #define MM_PMC_CRP_SIZE             0x10000
+>  #endif
 > 
 
