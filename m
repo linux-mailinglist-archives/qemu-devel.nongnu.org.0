@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFD11BDFE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:03:20 +0200 (CEST)
-Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDA81BE02D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:07:21 +0200 (CEST)
+Received: from localhost ([::1]:50026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTnJ1-0004KN-3A
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42378)
+	id 1jTnMu-0003OB-Ll
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:07:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jTnGW-0002E4-Dy
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:01:04 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jTnGe-0002GK-AR
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:01:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jTnGA-0003qb-1v
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44001
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1jTnGB-0003s6-0x
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57245
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTnG9-0003oy-JO
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:21 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTnGA-0003qL-Ge
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588168820;
+ s=mimecast20190719; t=1588168821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aC0zQw/NnoGL/JhiojHL3INj+DHgvZROMxh43h66evM=;
- b=QxU+oFKwa0QEo2kaU+K8uxTilQBrSPPCnrptYi3cplIZ2e/PLP/L+WOit7Z/nb1XmkNXhs
- iCtO1mE/tJ/4OB7VTmyLHJWxgx+rbY0b3NTU3R4QEmO7lXh3nyMzUlpKtv4/TFllna73cO
- lOcItRMY477tFkqH5f75ho/TwUDGf2g=
+ bh=Ns10TmOrrDyIyxSx6sKY7GiFbnXZHstnlbWiBISKw4g=;
+ b=RW9gdY45FENHQx4Uhf151Fa9tiye7MhrQGnfSoGC6OloABYi+jZXyQ5oZg/4w562HNcnGQ
+ FczR3SRzceg/On2cPBZtx4k3iPjOLjxe7ZtSNIsXUAREfB2siAUbsaom/bQVp68mlA1tCp
+ GILcgECNn6jhOPTVB5bE9kqHlmOwekE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-zyXDUhxnN42CTqXnmmSrBQ-1; Wed, 29 Apr 2020 10:00:17 -0400
-X-MC-Unique: zyXDUhxnN42CTqXnmmSrBQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-480-vLy9JsC-PXmXvgt9G2oSIA-1; Wed, 29 Apr 2020 10:00:20 -0400
+X-MC-Unique: vLy9JsC-PXmXvgt9G2oSIA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DEBE468;
- Wed, 29 Apr 2020 14:00:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF38091165;
+ Wed, 29 Apr 2020 14:00:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25E565C1BE;
- Wed, 29 Apr 2020 14:00:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C706648D2;
+ Wed, 29 Apr 2020 14:00:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 43E779D9D; Wed, 29 Apr 2020 16:00:03 +0200 (CEST)
+ id 4FAA99D9E; Wed, 29 Apr 2020 16:00:03 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/15] acpi: drop pointless _STA method
-Date: Wed, 29 Apr 2020 15:59:52 +0200
-Message-Id: <20200429140003.7336-5-kraxel@redhat.com>
+Subject: [PATCH v3 05/15] acpi: add ISADeviceClass->build_aml()
+Date: Wed, 29 Apr 2020 15:59:53 +0200
+Message-Id: <20200429140003.7336-6-kraxel@redhat.com>
 In-Reply-To: <20200429140003.7336-1-kraxel@redhat.com>
 References: <20200429140003.7336-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,63 +86,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When returning a constant there is no point in having a method
-in the first place, _STA can be a simple integer instead.
+Also add isa_aml_build() function which walks all isa devices.
+This allows to move aml builder code to isa devices.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ include/hw/isa/isa.h |  2 ++
+ hw/i386/acpi-build.c |  1 +
+ hw/isa/isa-bus.c     | 15 +++++++++++++++
+ 3 files changed, 18 insertions(+)
 
+diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
+index 59a4d4b50a6d..02c235027484 100644
+--- a/include/hw/isa/isa.h
++++ b/include/hw/isa/isa.h
+@@ -69,6 +69,7 @@ typedef struct IsaDmaClass {
+=20
+ typedef struct ISADeviceClass {
+     DeviceClass parent_class;
++    void (*build_aml)(ISADevice *dev, Aml *scope);
+ } ISADeviceClass;
+=20
+ struct ISABus {
+@@ -107,6 +108,7 @@ ISADevice *isa_try_create(ISABus *bus, const char *name=
+);
+ ISADevice *isa_create_simple(ISABus *bus, const char *name);
+=20
+ ISADevice *isa_vga_init(ISABus *bus);
++void isa_build_aml(ISABus *bus, Aml *scope);
+=20
+ /**
+  * isa_register_ioport: Install an I/O port region on the ISA bus.
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 23c77eeb95a9..3a046b03e4cd 100644
+index 3a046b03e4cd..97f3c75cd995 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -1151,14 +1151,11 @@ static Aml *build_kbd_device_aml(void)
+@@ -1288,6 +1288,7 @@ static void build_isa_devices_aml(Aml *table)
+         error_report("No ISA bus, unable to define IPMI ACPI data");
+     } else {
+         build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
++        isa_build_aml(ISA_BUS(obj), scope);
+     }
+=20
+     aml_append(table, scope);
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index 798dd9194e8f..1f2189f4d5db 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -207,6 +207,21 @@ ISADevice *isa_vga_init(ISABus *bus)
+     }
+ }
+=20
++void isa_build_aml(ISABus *bus, Aml *scope)
++{
++    BusChild *kid;
++    ISADevice *dev;
++    ISADeviceClass *dc;
++
++    QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
++        dev =3D ISA_DEVICE(kid->child);
++        dc =3D ISA_DEVICE_GET_CLASS(dev);
++        if (dc->build_aml) {
++            dc->build_aml(dev, scope);
++        }
++    }
++}
++
+ static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent)
  {
-     Aml *dev;
-     Aml *crs;
--    Aml *method;
-=20
-     dev =3D aml_device("KBD");
-     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0303")));
-=20
--    method =3D aml_method("_STA", 0, AML_NOTSERIALIZED);
--    aml_append(method, aml_return(aml_int(0x0f)));
--    aml_append(dev, method);
-+    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-=20
-     crs =3D aml_resource_template();
-     aml_append(crs, aml_io(AML_DECODE16, 0x0060, 0x0060, 0x01, 0x01));
-@@ -1173,14 +1170,11 @@ static Aml *build_mouse_device_aml(void)
- {
-     Aml *dev;
-     Aml *crs;
--    Aml *method;
-=20
-     dev =3D aml_device("MOU");
-     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0F13")));
-=20
--    method =3D aml_method("_STA", 0, AML_NOTSERIALIZED);
--    aml_append(method, aml_return(aml_int(0x0f)));
--    aml_append(dev, method);
-+    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-=20
-     crs =3D aml_resource_template();
-     aml_append(crs, aml_irq_no_flags(12));
-@@ -2238,9 +2232,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-                                            TPM_CRB_ADDR_SIZE, AML_READ_WRI=
-TE));
-         aml_append(dev, aml_name_decl("_CRS", crs));
-=20
--        method =3D aml_method("_STA", 0, AML_NOTSERIALIZED);
--        aml_append(method, aml_return(aml_int(0x0f)));
--        aml_append(dev, method);
-+        aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-=20
-         tpm_build_ppi_acpi(tpm, dev);
-=20
+     ISADevice *d =3D ISA_DEVICE(dev);
 --=20
 2.18.2
 
