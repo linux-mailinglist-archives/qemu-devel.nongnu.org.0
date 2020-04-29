@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51331BDA7F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:20:50 +0200 (CEST)
-Received: from localhost ([::1]:43264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635411BDA87
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:22:30 +0200 (CEST)
+Received: from localhost ([::1]:48302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTkll-0006LE-Va
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47022)
+	id 1jTknN-0008WN-BH
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:22:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47040)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jTkil-00059e-1u
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:19:32 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jTkin-00059l-7s
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:19:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jTkh2-0005rP-4K
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:17:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44553
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kwolf@redhat.com>) id 1jTkh3-0005s7-Vx
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:17:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51134
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jTkh1-0005r3-NH
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:15:55 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jTkh3-0005rn-Jk
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:15:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588158955;
+ s=mimecast20190719; t=1588158956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bZPsVCSXiV9p7JDzxiy0Y5sACwWktPtXil+AUGleyGs=;
- b=Xby8GZYGTqQUEl2PSSRGp9nmJvBLvEWXf/0AwsRU0yhLy7zAevH+u9BEquTm4ReBsZrst0
- YiMg8q51cNYX5jWXSl/RFtwTc7EPmKHGJgeR2rLjJoEci9SvlN0izkdPlCfv1lWgGGeiwo
- vv14rB2ysctAccNJUCa56bzTL8rh/ko=
+ bh=/vUVligddMUA0c2cGyY9NKoJ1Pjf53ccgeC2HcFcMdY=;
+ b=AtCFC0GF2tRjDIgWf2hQxmUd9BniIivZMV8M9cdd4/WWcas2GZub0W4BY9Osw4AQu5RYPN
+ Pd6rU6lq4jxvA4WFx3k4/N6U+j31NSIBX0uX36VsuBsRa+2r84WCfHH7tsAnTKRu8A+xaN
+ Rmz7BCU/12u3M0HqPCKxISdJmLcHtWc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-oiRou9xHMBOxIFfZGxUz8Q-1; Wed, 29 Apr 2020 07:15:53 -0400
-X-MC-Unique: oiRou9xHMBOxIFfZGxUz8Q-1
+ us-mta-493-7v7SC7I8N1yE3t4a6g6kTw-1; Wed, 29 Apr 2020 07:15:55 -0400
+X-MC-Unique: 7v7SC7I8N1yE3t4a6g6kTw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39F821800D4A;
- Wed, 29 Apr 2020 11:15:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09EAC107ACF3;
+ Wed, 29 Apr 2020 11:15:54 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-66.ams2.redhat.com [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0F9460BF4;
- Wed, 29 Apr 2020 11:15:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84AF160BF4;
+ Wed, 29 Apr 2020 11:15:52 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/3] backup: Make sure that source and target size match
-Date: Wed, 29 Apr 2020 13:15:38 +0200
-Message-Id: <20200429111539.42103-3-kwolf@redhat.com>
+Subject: [PATCH 3/3] iotests: Backup with different source/target size
+Date: Wed, 29 Apr 2020 13:15:39 +0200
+Message-Id: <20200429111539.42103-4-kwolf@redhat.com>
 In-Reply-To: <20200429111539.42103-1-kwolf@redhat.com>
 References: <20200429111539.42103-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +57,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:28:11
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,111 +78,122 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the introduction of a backup filter node, the backup block job
-crashes when the target image is smaller than the source image because
-it will try to write after the end of the target node without having
-BLK_PERM_RESIZE. (Previously, the BlockBackend layer would have caught
-this and errored out gracefully.)
+This tests that the backup jobs catches situations where the target node
+has a different size than the source node. It must also forbid resize
+operations when the job is already running.
 
-We can fix this and even do better than the old behaviour: Check that
-source and target have the same image size at the start of the block job
-and unshare BLK_PERM_RESIZE. This will immediately error out when
-starting the job instead of only when writing to a block that doesn't
-exist in the target.
-
-Longer target than source would technically work because we would never
-write to blocks that don't exist, but semantically these are invalid,
-too, because a backup is supposed to create a copy, not just an image
-that starts with a copy.
-
-The bugs were introduced in commits 2c8074c45 (BLK_PERM_RESIZE is shared
-since this commit) and 00e30f05d (BdrvChild instead of BlockBackend
-turns I/O errors into assertion failures).
-
-Fixes: 2c8074c453ff13a94bd08ec26061917670ec03be
-Fixes: 00e30f05de1d19586345ec373970ef4c192c6270
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1778593
-Cc: qemu-stable@nongnu.org
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/backup-top.c | 12 ++++++++----
- block/backup.c     | 14 +++++++++++++-
- 2 files changed, 21 insertions(+), 5 deletions(-)
+ tests/qemu-iotests/055     | 60 ++++++++++++++++++++++++++++++++++++--
+ tests/qemu-iotests/055.out |  4 +--
+ 2 files changed, 60 insertions(+), 4 deletions(-)
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index 3b50c06e2c..0e515a7705 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -148,8 +148,10 @@ static void backup_top_child_perm(BlockDriverState *bs=
-, BdrvChild *c,
-          *
-          * Share write to target (child_file), to not interfere
-          * with guest writes to its disk which may be in target backing ch=
-ain.
-+         * Can't resize during a backup block job because we check the siz=
-e
-+         * only upfront.
-          */
--        *nshared =3D BLK_PERM_ALL;
-+        *nshared =3D BLK_PERM_ALL & ~BLK_PERM_RESIZE;
-         *nperm =3D BLK_PERM_WRITE;
-     } else {
-         /* Source child */
-@@ -192,11 +194,13 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverS=
-tate *source,
- {
-     Error *local_err =3D NULL;
-     BDRVBackupTopState *state;
--    BlockDriverState *top =3D bdrv_new_open_driver(&bdrv_backup_top_filter=
-,
--                                                 filter_node_name,
--                                                 BDRV_O_RDWR, errp);
-+    BlockDriverState *top;
-     bool appended =3D false;
+diff --git a/tests/qemu-iotests/055 b/tests/qemu-iotests/055
+index 82b9f5f47d..243d66a62e 100755
+--- a/tests/qemu-iotests/055
++++ b/tests/qemu-iotests/055
+@@ -48,8 +48,10 @@ class TestSingleDrive(iotests.QMPTestCase):
+     def setUp(self):
+         qemu_img('create', '-f', iotests.imgfmt, blockdev_target_img, str(=
+image_len))
 =20
-+    assert(source->total_sectors =3D=3D target->total_sectors);
-+
-+    top =3D bdrv_new_open_driver(&bdrv_backup_top_filter, filter_node_name=
-,
-+                              BDRV_O_RDWR, errp);
-     if (!top) {
-         return NULL;
-     }
-diff --git a/block/backup.c b/block/backup.c
-index c4c3b8cd46..4f13bb20a5 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -340,7 +340,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDr=
-iverState *bs,
-                   BlockCompletionFunc *cb, void *opaque,
-                   JobTxn *txn, Error **errp)
- {
--    int64_t len;
-+    int64_t len, target_len;
-     BackupBlockJob *job =3D NULL;
-     int64_t cluster_size;
-     BdrvRequestFlags write_flags;
-@@ -405,6 +405,18 @@ BlockJob *backup_job_create(const char *job_id, BlockD=
-riverState *bs,
-         goto error;
-     }
+-        self.vm =3D iotests.VM().add_drive('blkdebug::' + test_img)
+-        self.vm.add_drive(blockdev_target_img, interface=3D"none")
++        self.vm =3D iotests.VM()
++        self.vm.add_drive('blkdebug::' + test_img, 'node-name=3Dsource')
++        self.vm.add_drive(blockdev_target_img, 'node-name=3Dtarget',
++                          interface=3D"none")
+         if iotests.qemu_default_machine =3D=3D 'pc':
+             self.vm.add_drive(None, 'media=3Dcdrom', 'ide')
+         self.vm.launch()
+@@ -112,6 +114,60 @@ class TestSingleDrive(iotests.QMPTestCase):
+     def test_pause_blockdev_backup(self):
+         self.do_test_pause('blockdev-backup', 'drive1', blockdev_target_im=
+g)
 =20
-+    target_len =3D bdrv_getlength(target);
-+    if (target_len < 0) {
-+        error_setg_errno(errp, -target_len, "Unable to get length for '%s'=
-",
-+                         bdrv_get_device_or_node_name(bs));
-+        goto error;
-+    }
++    def test_source_resize_blockdev_backup(self):
++        self.assert_no_active_block_jobs()
 +
-+    if (target_len !=3D len) {
-+        error_setg(errp, "Source and target image have different sizes");
-+        goto error;
-+    }
++        def pre_finalize():
++            result =3D self.vm.qmp('block_resize', device=3D'drive0', size=
+=3D65536)
++            self.assert_qmp(result, 'error/class', 'GenericError')
 +
-     cluster_size =3D backup_calculate_cluster_size(target, errp);
-     if (cluster_size < 0) {
-         goto error;
++            result =3D self.vm.qmp('block_resize', node_name=3D'source', s=
+ize=3D65536)
++            self.assert_qmp(result, 'error/class', 'GenericError')
++
++        result =3D self.vm.qmp('blockdev-backup', job_id=3D'job0', device=
+=3D'drive0',
++                             target=3D'drive1', sync=3D'full', auto_finali=
+ze=3DFalse,
++                             auto_dismiss=3DFalse)
++        self.assert_qmp(result, 'return', {})
++
++        self.vm.run_job('job0', auto_finalize=3DFalse, pre_finalize=3Dpre_=
+finalize,
++                        use_log=3DFalse)
++
++    def test_target_resize_blockdev_backup(self):
++        self.assert_no_active_block_jobs()
++
++        def pre_finalize():
++            result =3D self.vm.qmp('block_resize', device=3D'drive1', size=
+=3D65536)
++            self.assert_qmp(result, 'error/class', 'GenericError')
++
++            result =3D self.vm.qmp('block_resize', node_name=3D'target', s=
+ize=3D65536)
++            self.assert_qmp(result, 'error/class', 'GenericError')
++
++        result =3D self.vm.qmp('blockdev-backup', job_id=3D'job0', device=
+=3D'drive0',
++                             target=3D'drive1', sync=3D'full', auto_finali=
+ze=3DFalse,
++                             auto_dismiss=3DFalse)
++        self.assert_qmp(result, 'return', {})
++
++        self.vm.run_job('job0', auto_finalize=3DFalse, pre_finalize=3Dpre_=
+finalize,
++                        use_log=3DFalse)
++
++    def test_small_target(self):
++        short_len =3D image_len // 2
++        result =3D self.vm.qmp('block_resize', device=3D'drive1', size=3Ds=
+hort_len)
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('blockdev-backup', job_id=3D'job0', device=
+=3D'drive0',
++                             target=3D'drive1', sync=3D'full')
++        self.assert_qmp(result, 'error/class', 'GenericError')
++
++    def test_large_target(self):
++        short_len =3D image_len * 2
++        result =3D self.vm.qmp('block_resize', device=3D'drive1', size=3Ds=
+hort_len)
++        self.assert_qmp(result, 'return', {})
++
++        result =3D self.vm.qmp('blockdev-backup', job_id=3D'job0', device=
+=3D'drive0',
++                             target=3D'drive1', sync=3D'full')
++        self.assert_qmp(result, 'error/class', 'GenericError')
++
+     def test_medium_not_found(self):
+         if iotests.qemu_default_machine !=3D 'pc':
+             return
+diff --git a/tests/qemu-iotests/055.out b/tests/qemu-iotests/055.out
+index 5ce2f9a2ed..88bf7fa73a 100644
+--- a/tests/qemu-iotests/055.out
++++ b/tests/qemu-iotests/055.out
+@@ -1,5 +1,5 @@
+-..............................
++..................................
+ ----------------------------------------------------------------------
+-Ran 30 tests
++Ran 34 tests
+=20
+ OK
 --=20
 2.25.3
 
