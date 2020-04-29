@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7D01BDA60
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:10:10 +0200 (CEST)
-Received: from localhost ([::1]:53140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9331BDA44
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:06:52 +0200 (CEST)
+Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTkbR-0005ty-DW
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:10:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44814)
+	id 1jTkY9-00019v-RF
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jTkUu-0005BC-1f
+ (envelope-from <kraxel@redhat.com>) id 1jTkUs-0005Ae-1u
  for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:03:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jTkTw-0003qF-4w
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:03:23 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38665
+ (envelope-from <kraxel@redhat.com>) id 1jTkTv-0003ma-0p
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:03:21 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29027
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTkTv-0003n2-JO
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:02:23 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTkTu-0003lo-KC
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:02:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588158142;
+ s=mimecast20190719; t=1588158141;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CGI6929XT3WDPTBfh8WRGmzTNqGkYLrFczKvF3RsMAk=;
- b=eWa/3s/SUb+J6nrwCLE+8xZixl13teP2jMM3TLvsqv9/HZEpmWsyJOP6K9hYssQCiA1EwV
- f2X+6IEtPQmMQDIYipt5938SW6FaU/1xURwL9bJQxGouUEmo5jfU96ZQudg1zT0HZ/yq+Y
- VTYTjKKF/yVzlehH4xh+4fNDKhe49Xk=
+ bh=VAdLDhz6Qh7ovRYkXWjD79W/T/Cg9GrR3PS+WxGbdoI=;
+ b=ZNsPueYret6nECkNEw/RpFCtx9mHlI1s2hR4bojqr68jLZGre8o+84qLN73X6NiVqqYsQy
+ ZprvpjKUv+PnmHv0IcBQ55nCAMmvVjfExpRIDqTvmnS3m82dbBlH+TnujLOU4ldPa8b+1G
+ wctf+x8tvW5govJb4mB9TyMIYwli92w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-c9qzpF6nNfONNYFYjiQsrA-1; Wed, 29 Apr 2020 07:02:19 -0400
-X-MC-Unique: c9qzpF6nNfONNYFYjiQsrA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-263-jG_COuaRPuOiLYmqc5px7Q-1; Wed, 29 Apr 2020 07:02:19 -0400
+X-MC-Unique: jG_COuaRPuOiLYmqc5px7Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7C31801504
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB802108C30D
  for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 11:02:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E4EF282E2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 046AF5C1C8;
  Wed, 29 Apr 2020 11:02:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0C3009D99; Wed, 29 Apr 2020 13:02:15 +0200 (CEST)
+ id 164689D9B; Wed, 29 Apr 2020 13:02:15 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/12] stubs: add isa_create_simple
-Date: Wed, 29 Apr 2020 13:02:03 +0200
-Message-Id: <20200429110214.29037-2-kraxel@redhat.com>
+Subject: [PATCH 02/12] stubs: add pci_create_simple
+Date: Wed, 29 Apr 2020 13:02:04 +0200
+Message-Id: <20200429110214.29037-3-kraxel@redhat.com>
 In-Reply-To: <20200429110214.29037-1-kraxel@redhat.com>
 References: <20200429110214.29037-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:28:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,36 +85,36 @@ Needed for -soundhw cleanup.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- stubs/isa-bus.c     | 7 +++++++
+ stubs/pci-bus.c     | 7 +++++++
  stubs/Makefile.objs | 1 +
  2 files changed, 8 insertions(+)
- create mode 100644 stubs/isa-bus.c
+ create mode 100644 stubs/pci-bus.c
 
-diff --git a/stubs/isa-bus.c b/stubs/isa-bus.c
+diff --git a/stubs/pci-bus.c b/stubs/pci-bus.c
 new file mode 100644
-index 000000000000..cbebaed4ad04
+index 000000000000..e833947f1f41
 --- /dev/null
-+++ b/stubs/isa-bus.c
++++ b/stubs/pci-bus.c
 @@ -0,0 +1,7 @@
 +#include "qemu/osdep.h"
-+#include "hw/isa/isa.h"
++#include "hw/pci/pci.h"
 +
-+ISADevice *isa_create_simple(ISABus *bus, const char *name)
++PCIDevice *pci_create_simple(PCIBus *bus, int devfn, const char *name)
 +{
 +    return NULL;
 +}
 diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index 45be5dc0ed78..c61ff38cc801 100644
+index c61ff38cc801..5e7f2b3f061e 100644
 --- a/stubs/Makefile.objs
 +++ b/stubs/Makefile.objs
-@@ -13,6 +13,7 @@ stub-obj-y +=3D get-vm-name.o
- stub-obj-y +=3D iothread.o
- stub-obj-y +=3D iothread-lock.o
- stub-obj-y +=3D is-daemonized.o
-+stub-obj-y +=3D isa-bus.o
- stub-obj-$(CONFIG_LINUX_AIO) +=3D linux-aio.o
- stub-obj-$(CONFIG_LINUX_IO_URING) +=3D io_uring.o
- stub-obj-y +=3D machine-init-done.o
+@@ -40,6 +40,7 @@ stub-obj-y +=3D target-get-monitor-def.o
+ stub-obj-y +=3D vmgenid.o
+ stub-obj-y +=3D xen-common.o
+ stub-obj-y +=3D xen-hvm.o
++stub-obj-y +=3D pci-bus.o
+ stub-obj-y +=3D pci-host-piix.o
+ stub-obj-y +=3D ram-block.o
+ stub-obj-y +=3D ramfb.o
 --=20
 2.18.2
 
