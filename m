@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8731BE7C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 21:53:04 +0200 (CEST)
-Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370BA1BE7C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 21:51:26 +0200 (CEST)
+Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTslT-0005I8-N7
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 15:53:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48156)
+	id 1jTsjt-00031h-6C
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 15:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48194)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsfr-0006on-5g
+ (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsfu-0006p6-4P
  for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsdf-0000ly-Tk
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:14 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18084)
+ (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsdk-0000nT-K8
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jTsdf-0000lr-Ct
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:44:59 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1jTsdk-0000nG-3c
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:45:04 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03TJaL9M012560
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:58 -0400
+ 03TJWrkG137413
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:45:03 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mguxgafr-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30mh9q556s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:58 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03TJaMfP012570
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:44:57 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mguxgaf4-1
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:45:02 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03TJYYTB001160
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:45:02 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30mh9q5564-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 15:44:57 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03TJi47G008588;
- Wed, 29 Apr 2020 19:44:56 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04wdc.us.ibm.com with ESMTP id 30mcu77ctg-1
+ Wed, 29 Apr 2020 15:45:02 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03TJUWUl004204;
+ Wed, 29 Apr 2020 19:45:01 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma04dal.us.ibm.com with ESMTP id 30mcu718wh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 19:44:56 +0000
+ Wed, 29 Apr 2020 19:45:01 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 03TJitp627591030
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 03TJix1N24903948
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Apr 2020 19:44:55 GMT
+ Wed, 29 Apr 2020 19:44:59 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6CC496A04F;
- Wed, 29 Apr 2020 19:44:55 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id AD3326A04D;
+ Wed, 29 Apr 2020 19:44:59 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AA7C16A051;
- Wed, 29 Apr 2020 19:44:54 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id EE38F6A047;
+ Wed, 29 Apr 2020 19:44:58 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.84.167])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 29 Apr 2020 19:44:54 +0000 (GMT)
+ Wed, 29 Apr 2020 19:44:58 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] configure: add flag to enable SafeStack
-Date: Wed, 29 Apr 2020 15:44:19 -0400
-Message-Id: <20200429194420.21147-4-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH 4/4] check-block: Enable iotests with SafeStack
+Date: Wed, 29 Apr 2020 15:44:20 -0400
+Message-Id: <20200429194420.21147-5-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
 References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
@@ -75,9 +75,9 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
  definitions=2020-04-29_10:2020-04-29,
  2020-04-29 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 clxscore=1015 mlxlogscore=516 mlxscore=0 suspectscore=1
- bulkscore=0 adultscore=0 impostorscore=0 phishscore=0 spamscore=0
+ clxscore=1015 bulkscore=0
+ spamscore=0 malwarescore=0 adultscore=0 suspectscore=1 mlxlogscore=897
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
  priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2004290145
 Received-SPF: none client-ip=148.163.156.1;
@@ -103,85 +103,41 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a flag to enable the SafeStack instrumentation provided
-by LLVM.
-The checks make sure that the compiler supports the flags, and that we
-are using the proper coroutine implementation (coroutine-ucontext).
-While SafeStack is supported only on Linux, NetBSD, FreeBSD and macOS,
-we are not checking for the O.S. since this is already done by LLVM.
+SafeStack is a stack protection technique implemented in llvm. It is
+enabled with a -fsanitize flag.
+iotests are currently disabled when any -fsanitize option is used.
+Since SafeStack is useful on production environments, and its
+implementation may break the binary, filter it out when the check is
+performed, so that if SafeStack was the only -fsanitize option, iotests
+are still performed.
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 ---
- configure | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ tests/check-block.sh | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 23b5e93752..f37e4ae0bd 100755
---- a/configure
-+++ b/configure
-@@ -302,6 +302,7 @@ audio_win_int=""
- libs_qga=""
- debug_info="yes"
- stack_protector=""
-+safe_stack="no"
- use_containers="yes"
- gdb_bin=$(command -v "gdb")
- 
-@@ -1275,6 +1276,8 @@ for opt do
-   ;;
-   --disable-stack-protector) stack_protector="no"
-   ;;
-+  --enable-safe-stack) safe_stack="yes"
-+  ;;
-   --disable-curses) curses="no"
-   ;;
-   --enable-curses) curses="yes"
-@@ -1774,6 +1777,8 @@ Advanced options (experts only):
-   --with-coroutine=BACKEND coroutine backend. Supported options:
-                            ucontext, sigaltstack, windows
-   --enable-gcov            enable test coverage analysis with gcov
-+  --enable-safe-stack      enable the SafeStack stack protection. Depends on
-+                           clang/llvm >= 3.7 and coroutine backend ucontext.
-   --gcov=GCOV              use specified gcov [$gcov_tool]
-   --disable-blobs          disable installing provided firmware blobs
-   --with-vss-sdk=SDK-path  enable Windows VSS support in QEMU Guest Agent
-@@ -5501,6 +5506,29 @@ if test "$debug_stack_usage" = "yes"; then
-   fi
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index ad320c21ba..8e29c868e5 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -21,7 +21,17 @@ if grep -q "CONFIG_GPROF=y" config-host.mak 2>/dev/null ; then
+     exit 0
  fi
  
-+##################################################
-+# Check if SafeStack is enabled and supported
-+
-+if test "$safe_stack" = "yes"; then
-+  cat > $TMPC << EOF
-+int main(int argc, char *argv[])
-+{
-+    return 0;
-+}
-+EOF
-+  flag="-fsanitize=safe-stack"
-+  # Check that safe-stack is supported.
-+  if compile_prog "-Werror $flag" ""; then
-+    # Flag needed both at compilation and at linking
-+    QEMU_CFLAGS="$QEMU_CFLAGS $flag"
-+    QEMU_LDFLAGS="$QEMU_LDFLAGS $flag"
-+  else
-+    error_exit "SafeStack not supported by your compiler"
-+  fi
-+  if test "$coroutine" != "ucontext"; then
-+    error_exit "SafeStack is only supported by the coroutine backend ucontext"
-+  fi
-+fi
- 
- ##########################################
- # check if we have open_by_handle_at
-@@ -6595,6 +6623,7 @@ echo "sparse enabled    $sparse"
- echo "strip binaries    $strip_opt"
- echo "profiler          $profiler"
- echo "static build      $static"
-+echo "safe stack        $safe_stack"
- if test "$darwin" = "yes" ; then
-     echo "Cocoa support     $cocoa"
+-if grep -q "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null ; then
++# Disable tests with any sanitizer except for SafeStack
++CFLAGS=$( grep "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null )
++SANITIZE_FLAGS=""
++#Remove all occurrencies of -fsanitize=safe-stack
++for i in ${CFLAGS}; do
++        if [ "${i}" != "-fsanitize=safe-stack" ]; then
++                SANITIZE_FLAGS="${SANITIZE_FLAGS} ${i}"
++        fi
++done
++if echo ${SANITIZE_FLAGS} | grep -q "\-fsanitize" 2>/dev/null; then
++    # Have a sanitize flag that is not allowed, stop
+     echo "Sanitizers are enabled ==> Not running the qemu-iotests."
+     exit 0
  fi
 -- 
 2.26.2
