@@ -2,102 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1E71BD474
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:12:54 +0200 (CEST)
-Received: from localhost ([::1]:50294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4923A1BD479
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:14:24 +0200 (CEST)
+Received: from localhost ([::1]:57532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTfxm-0007nT-1B
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:12:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39352)
+	id 1jTfzD-0002H9-AL
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39370)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTfwB-0005hR-DX
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:16 -0400
+ (envelope-from <jingqi.liu@intel.com>) id 1jTfwO-0006Dc-9V
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTfwA-0002De-NB
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:15 -0400
-Received: from mail-vi1eur05on2121.outbound.protection.outlook.com
- ([40.107.21.121]:61758 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (envelope-from <jingqi.liu@intel.com>) id 1jTfwM-0002vK-Lv
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:27 -0400
+Received: from mga14.intel.com ([192.55.52.115]:37047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jTfw8-000240-Gr; Wed, 29 Apr 2020 02:11:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LZgjAy+SdvgfVknH9zvnF7nLY7FeyDyaz3j03SxS4KEtCGuuAkaZ6W2KVPtxzDFhwyBImw5SPRdsLRZ1dzzjautJHltj3FsGi4Oi2qijsl7axFu7tOvVyGWMF2zKTJTJfL6inN/Qmzsbujua18QW4xy4wMtMwQ75DpSb/n8lCisRxjzxef2ElNv5FU6e6gj6uGWY/5Xtnao1LRvKObA3GkEry5oFY685E/AEdVi3eXGJdbUSI88gMIrfL2YGJudyewxpszCat236NzrRwN+QvN3oMFp7Z4tUmS3p4PO5PBamMr23dgXNaOjBkBVRUjGoSTVFhx+a43WP9csveKgGMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C5D696Yi8Wv5VGGI7YednpN3hUbTU8uj/t9xqrnlOeo=;
- b=X/o+HOGg6zgWRlaBfJkVZ8++xt4QL/FXMW36pbYNb7IeLoR3jCx5cjqB9c6dfsIhzXCldCCSAj9tZDBumi3pznPYO9e0jvIyROjHoHxYSyESWVFfs0qvyNllL6GFm90OY89sVpBfSP7Snw2m95Fw3/ktcnsl1lsxBpiIc1au7QtU+bxDhhSW85WLpybxmdS3tSQSyymvmp0yict8wlT4qPhU04gWIYIMg0R/hiJqfJs12vE+JAZLWGryQg4yM5bmOrQkX8EwQpCrKdhFzGcWQcv5dPwlZFWVWm/g+u88bqnjjSvXkJ7caZBpHLzovTJtawgz0YpMmXSJSAKrc1ShcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C5D696Yi8Wv5VGGI7YednpN3hUbTU8uj/t9xqrnlOeo=;
- b=R44ChJfu0yd/wWOrAORwIkoV9Cg/YfvAX+KHQI+/2b+TARH7aOlRc+7GH49uybDNqO04RA9uwJfwvoLgdcKEQCrP1abyX3nBSgKDKqch+96b2gsBsCROx1OqBRDbkNclq6Xp8HuUbWu7qHgzWdU25uXK/9A+V7eKtdGtWTRSkc8=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5301.eurprd08.prod.outlook.com (2603:10a6:20b:dd::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Wed, 29 Apr
- 2020 06:11:08 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Wed, 29 Apr 2020
- 06:11:08 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 5/5] block/block-copy: use aio-task-pool API
-Date: Wed, 29 Apr 2020 09:10:39 +0300
-Message-Id: <20200429061039.12687-6-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200429061039.12687-1-vsementsov@virtuozzo.com>
-References: <20200429061039.12687-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0023.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::10) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1jTfwM-0002Rz-2U
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:26 -0400
+IronPort-SDR: eL/Wtek0e7AtFXGRrWcBF4eeNIIuPjEwmHDAJt0T54bL+yWMN5wMhVqR7uiKJ2G2KoTuQyG+4A
+ h3Nc2S88nSrA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2020 23:11:18 -0700
+IronPort-SDR: IlZMj7Kf+Kczz0iK4+8LPC/6u+vJgn1eAnGEu3WARZFJ3YxZXCMoDbNoTMFgK7Eu1LSCydJzOg
+ a77ezAfhfOkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,330,1583222400"; 
+ d="scan'208,217";a="459481662"
+Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.238.4.212])
+ ([10.238.4.212])
+ by fmsmga006.fm.intel.com with ESMTP; 28 Apr 2020 23:11:17 -0700
+Subject: Re: [PATCH v2 2/3] docs/nvdimm: add description of alignment
+ requirement of device dax
+To: Joao Martins <joao.m.martins@oracle.com>
+References: <20200415033538.43329-1-jingqi.liu@intel.com>
+ <20200415033538.43329-3-jingqi.liu@intel.com>
+ <b520218c-a8f5-101e-1e3e-ad212fe35cdd@oracle.com>
+From: "Liu, Jingqi" <jingqi.liu@intel.com>
+Message-ID: <a8d90850-6782-35b9-5113-a1f56aadbdb0@intel.com>
+Date: Wed, 29 Apr 2020 14:11:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.184) by
- FR2P281CA0023.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Wed, 29 Apr 2020 06:11:08 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.184]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34a1f54e-833a-4a14-c62e-08d7ec041bb0
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5301:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5301535EE48E4A41DDCADCD3C1AD0@AM7PR08MB5301.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:304;
-X-Forefront-PRVS: 03883BD916
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nlqacPEPxclUycu6RZDW4xP1ZMvrtbzj6vC2lT3dk3Z11UvXg/K/yqgZVbt7fhyKYd0SKuYaaSRHrJoXzJSB4Asbwp7IK/PoTV/dUrnyHpmQb4buO0NTCTwWAvOQUESuwGs7VP6L8sDs/9LcpaebPG0arMEeDreklhDo0/fV5J7cbay7dLx/MTul7jn5ffxhmLg9K28LPU/g1twR/8mCZfDX9gAL2uXi7MWhwa0wWXrtxBNP4NJjg8t2VqHkrZNpnli2VvU9Kux+tEJ2MiJqUzRDs6dsnHgiv/on+DJOCI/F7AEiTbVa53f3PW25RueVrIO5dfmKZQHN4naiwF2C+LA0RH8VW11SEV2bkjAGUWQNI3usfh/Xr2U4SMSDItvJsJlLej+b0cuc8nrQnadcUJLKVENgmtUPKRU7CZkjdUJ29noAvY1QahMUQgU8c79EnURl7ppkXtoobjuYdbAn20DMGKDK9PbKsnPj5ZtsJtyNJ4rlOOu8RrJKbGhWb5nW
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(39830400003)(136003)(376002)(396003)(366004)(2906002)(1076003)(86362001)(36756003)(186003)(16526019)(26005)(956004)(4326008)(52116002)(5660300002)(6506007)(69590400007)(107886003)(6512007)(6486002)(2616005)(6666004)(478600001)(316002)(6916009)(8676002)(66556008)(66476007)(8936002)(66946007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 4ZkntWOoBAoKoEMyInZsnTmWOZzcHK0dnZUSLXTOFq1Ho+H6wTKnrMIx6lsTonWTJMxzNy5tGJwfd7EAUCYtG2ra52t0SkEHOgCnofC8z74zHhoSf4Z28QWtRJRz5hHNAojVrM5fS0SG1Oy/d95XBePZrZoPJZywjz4clWv2HmxPxcL2gyMLKAHi0FKHNe+PhkMZNvwi7tSszfNalrzZIg6duhTA8qRsF1T5Ru07zBN3J4DqdBl9aQHpVGtC6CeXGH7YcQvHsUKWtcJZy41HA99hXTS1jefWLCoV3RUJddYR1YFdqF3zEtHrR50guvKw6bs1XL4klxf6e89AHi5lwmqFUIQFUI/jogrMWa8hokf2V2OcyFmKGEHOHFCGykAqvBnr1NczMN/qlcscNcib4Kb2iPtNKU5DaWxW2wwG5LX6OuGLWkM5UtQc7v/wkAY3JsaL83dvhMmiU3F8Lpf16DvjniSjLt1xNaZ6YLuqsMoE+khJqOVNZGx4uc7HHvN3QNNWB6qrKT6LQXfjX1o9W5PxzbdNcVonOt9q/XKIql1XnrBb0UA0UzC4TuwYbXIm0+jxUgYSsPzmTBhQkqDzM5jm/9c5sZizxcIcwSM3Z8VswfLyTGdbafsc0+ZeMZudp/j8j/bwyJvT3Qb921IiZUq2sH1W5I2z1Lz3AGRD6QaMh5mtBJZ8yqrbXv9bIvKwDaG3Pusa6sueQ0p6dggpyPCQtg+0Em3Ywmzmwelb1BvGgfXAOkUD6rAJqHsA63oFtQlnLZq25TU9SmCuToUl4MtjrfuNd+PXavcvhdFKAhs=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34a1f54e-833a-4a14-c62e-08d7ec041bb0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 06:11:08.6262 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C4ILRAQ+LhatvXEfDJrBBkScPMEZg1fsW/z7vb92yb4K28sO7ZDlLEnt88BaO7sFX1FZaF8/cKPUwxE9LjznTXhZ7tsAaBYUo2PxdQHYi1E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5301
-Received-SPF: pass client-ip=40.107.21.121;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 02:11:07
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.21.121
+In-Reply-To: <b520218c-a8f5-101e-1e3e-ad212fe35cdd@oracle.com>
+Content-Type: multipart/alternative;
+ boundary="------------AC36DB6C685D9406A2F9EC4D"
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=jingqi.liu@intel.com;
+ helo=mga14.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 02:11:18
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 192.55.52.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,219 +67,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Run block_copy iterations in parallel in aio tasks.
+This is a multi-part message in MIME format.
+--------------AC36DB6C685D9406A2F9EC4D
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Changes:
-  - BlockCopyTask becomes aio task structure. Add zeroes field to pass
-    it to block_copy_do_copy
-  - add call state - it's a state of one call of block_copy(), shared
-    between parallel tasks. For now used only to keep information about
-    first error: is it read or not.
-  - convert block_copy_dirty_clusters to aio-task loop.
+On 4/29/2020 12:22 AM, Joao Martins wrote:
+> On 4/15/20 4:35 AM, Jingqi Liu wrote:
+>> For device dax (e.g., /dev/dax0.0), the NUM of 'align=NUM' option
+>> needs to match the alignment requirement of the device dax.
+>> It must be larger than or equal to the 'align' of device dax.
+>>
+>> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+>> ---
+>>   docs/nvdimm.txt | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
+>> index 362e99109e..3c7b6dab5f 100644
+>> --- a/docs/nvdimm.txt
+>> +++ b/docs/nvdimm.txt
+>> @@ -132,6 +132,15 @@ address to the page size (getpagesize(2)) by default. However, some
+>>   types of backends may require an alignment different than the page
+>>   size. In that case, QEMU v2.12.0 and later provide 'align' option to
+>>   memory-backend-file to allow users to specify the proper alignment.
+>> +For device dax (e.g., /dev/dax0.0), this alignment needs to match the
+>> +alignment requirement of the device dax. The NUM of 'align=NUM' option
+>> +must be larger than or equal to the 'align' of device dax.
+>> +We can use the following command to show the 'align' of device dax.
+>> +
+>> +    ndctl list -X
+>> +
+>> +In order to get the proper 'align' of device dax, you need to install
+>> +the library 'libdaxctl'.
+>>   
+>>   For example, device dax require the 2 MB alignment, so we can use
+>>   following QEMU command line options to use it (/dev/dax0.0) as the
+>>
+> Given that this series introduces support for libdaxctl, perhaps suggesting in
+> the docs how you can also query the @align with daxctl tool? e.g.
+>
+> "We can one of the following commands to show the 'align' of device dax:
+>
+>       ndctl list -X
+>       daxctl list -R"
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Thanks for your comments.
+I'll add "daxctl list -R" in this doc.
+
+Jingqi
+
+> The unlikely reason being that users may only install daxctl-{,libs,devel} and
+> not ndctl-*. It also covers other users like ACPI HMAT/hmem which are not
+> instrumented with ndctl.
+>
+> With that:
+>
+>    Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
+>
+> 	Joao
+
+Thanks.
+
+
+--------------AC36DB6C685D9406A2F9EC4D
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 4/29/2020 12:22 AM, Joao Martins
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:b520218c-a8f5-101e-1e3e-ad212fe35cdd@oracle.com">
+      <pre class="moz-quote-pre" wrap="">On 4/15/20 4:35 AM, Jingqi Liu wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">For device dax (e.g., /dev/dax0.0), the NUM of 'align=NUM' option
+needs to match the alignment requirement of the device dax.
+It must be larger than or equal to the 'align' of device dax.
+
+Signed-off-by: Jingqi Liu <a class="moz-txt-link-rfc2396E" href="mailto:jingqi.liu@intel.com">&lt;jingqi.liu@intel.com&gt;</a>
 ---
- block/block-copy.c | 104 +++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 91 insertions(+), 13 deletions(-)
+ docs/nvdimm.txt | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 5cf032c4d8..f5ef91f292 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -19,15 +19,29 @@
- #include "block/block-copy.h"
- #include "sysemu/block-backend.h"
- #include "qemu/units.h"
-+#include "qemu/coroutine.h"
-+#include "block/aio_task.h"
+diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
+index 362e99109e..3c7b6dab5f 100644
+--- a/docs/nvdimm.txt
++++ b/docs/nvdimm.txt
+@@ -132,6 +132,15 @@ address to the page size (getpagesize(2)) by default. However, some
+ types of backends may require an alignment different than the page
+ size. In that case, QEMU v2.12.0 and later provide 'align' option to
+ memory-backend-file to allow users to specify the proper alignment.
++For device dax (e.g., /dev/dax0.0), this alignment needs to match the
++alignment requirement of the device dax. The NUM of 'align=NUM' option
++must be larger than or equal to the 'align' of device dax.
++We can use the following command to show the 'align' of device dax.
++
++    ndctl list -X
++
++In order to get the proper 'align' of device dax, you need to install
++the library 'libdaxctl'.
  
- #define BLOCK_COPY_MAX_COPY_RANGE (16 * MiB)
- #define BLOCK_COPY_MAX_BUFFER (1 * MiB)
- #define BLOCK_COPY_MAX_MEM (128 * MiB)
-+#define BLOCK_COPY_MAX_WORKERS 64
-+
-+static coroutine_fn int block_copy_task_entry(AioTask *task);
-+
-+typedef struct BlockCopyCallState {
-+    bool failed;
-+    bool error_is_read;
-+} BlockCopyCallState;
- 
- typedef struct BlockCopyTask {
-+    AioTask task;
-+
-     BlockCopyState *s;
-+    BlockCopyCallState *call_state;
-     int64_t offset;
-     int64_t bytes;
-+    bool zeroes;
-     QLIST_ENTRY(BlockCopyTask) list;
-     CoQueue wait_queue; /* coroutines blocked on this task */
- } BlockCopyTask;
-@@ -116,6 +130,7 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
-  * the beginning of it.
-  */
- static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
-+                                             BlockCopyCallState *call_state,
-                                              int64_t offset, int64_t bytes)
- {
-     if (!bdrv_dirty_bitmap_next_dirty_area(s->copy_bitmap,
-@@ -133,7 +148,9 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
- 
-     BlockCopyTask *task = g_new(BlockCopyTask, 1);
-     *task = (BlockCopyTask) {
-+        .task.func = block_copy_task_entry,
-         .s = s,
-+        .call_state = call_state,
-         .offset = offset,
-         .bytes = bytes,
-     };
-@@ -261,6 +278,30 @@ void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm)
-     s->progress = pm;
- }
- 
-+/* Takes ownership on @task */
-+static coroutine_fn int block_copy_task_run(AioTaskPool *pool,
-+                                            BlockCopyTask *task)
-+{
-+    if (!pool) {
-+        int ret = task->task.func(&task->task);
-+
-+        g_free(task);
-+        return ret;
-+    }
-+
-+    aio_task_pool_wait_slot(pool);
-+    if (aio_task_pool_status(pool) < 0) {
-+        co_put_to_shres(task->s->mem, task->bytes);
-+        block_copy_task_end(task, -EAGAIN);
-+        g_free(task);
-+        return aio_task_pool_status(pool);
-+    }
-+
-+    aio_task_pool_start_task(pool, &task->task);
-+
-+    return 0;
-+}
-+
- /*
-  * block_copy_do_copy
-  *
-@@ -364,6 +405,27 @@ out:
-     return ret;
- }
- 
-+static coroutine_fn int block_copy_task_entry(AioTask *task)
-+{
-+    BlockCopyTask *t = container_of(task, BlockCopyTask, task);
-+    bool error_is_read;
-+    int ret;
-+
-+    ret = block_copy_do_copy(t->s, t->offset, t->bytes, t->zeroes,
-+                             &error_is_read);
-+    if (ret < 0 && !t->call_state->failed) {
-+        t->call_state->failed = true;
-+        t->call_state->error_is_read = error_is_read;
-+    } else {
-+        progress_work_done(t->s->progress, t->bytes);
-+        t->s->progress_bytes_callback(t->bytes, t->s->progress_opaque);
-+    }
-+    co_put_to_shres(t->s->mem, t->bytes);
-+    block_copy_task_end(t, ret);
-+
-+    return ret;
-+}
-+
- static int block_copy_block_status(BlockCopyState *s, int64_t offset,
-                                    int64_t bytes, int64_t *pnum)
- {
-@@ -482,6 +544,8 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-     int ret = 0;
-     bool found_dirty = false;
-     int64_t end = offset + bytes;
-+    AioTaskPool *aio = NULL;
-+    BlockCopyCallState call_state = {false, false};
- 
-     /*
-      * block_copy() user is responsible for keeping source and target in same
-@@ -493,11 +557,11 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-     assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
-     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
- 
--    while (bytes) {
--        g_autofree BlockCopyTask *task = NULL;
-+    while (bytes && aio_task_pool_status(aio) == 0) {
-+        BlockCopyTask *task;
-         int64_t status_bytes;
- 
--        task = block_copy_task_create(s, offset, bytes);
-+        task = block_copy_task_create(s, &call_state, offset, bytes);
-         if (!task) {
-             /* No more dirty bits in the bitmap */
-             trace_block_copy_skip_range(s, offset, bytes);
-@@ -517,6 +581,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-         }
-         if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
-             block_copy_task_end(task, 0);
-+            g_free(task);
-             progress_set_remaining(s->progress,
-                                    bdrv_get_dirty_count(s->copy_bitmap) +
-                                    s->in_flight_bytes);
-@@ -525,25 +590,38 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-             bytes = end - offset;
-             continue;
-         }
-+        task->zeroes = ret & BDRV_BLOCK_ZERO;
- 
-         trace_block_copy_process(s, task->offset);
- 
-         co_get_from_shres(s->mem, task->bytes);
--        ret = block_copy_do_copy(s, task->offset, task->bytes,
--                                 ret & BDRV_BLOCK_ZERO, error_is_read);
--        co_put_to_shres(s->mem, task->bytes);
--        block_copy_task_end(task, ret);
--        if (ret < 0) {
--            return ret;
--        }
- 
--        progress_work_done(s->progress, task->bytes);
--        s->progress_bytes_callback(task->bytes, s->progress_opaque);
-         offset = task_end(task);
-         bytes = end - offset;
-+
-+        if (!aio && bytes) {
-+            aio = aio_task_pool_new(BLOCK_COPY_MAX_WORKERS);
-+        }
-+
-+        ret = block_copy_task_run(aio, task);
-+        if (ret < 0) {
-+            goto out;
-+        }
-+    }
-+
-+out:
-+    if (aio) {
-+        aio_task_pool_wait_all(aio);
-+        if (ret == 0) {
-+            ret = aio_task_pool_status(aio);
-+        }
-+        g_free(aio);
-+    }
-+    if (error_is_read && ret < 0) {
-+        *error_is_read = call_state.error_is_read;
-     }
- 
--    return found_dirty;
-+    return ret < 0 ? ret : found_dirty;
- }
- 
- /*
--- 
-2.21.0
+ For example, device dax require the 2 MB alignment, so we can use
+ following QEMU command line options to use it (/dev/dax0.0) as the
 
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Given that this series introduces support for libdaxctl, perhaps suggesting in
+the docs how you can also query the @align with daxctl tool? e.g.
+
+"We can one of the following commands to show the 'align' of device dax:
+
+     ndctl list -X
+     daxctl list -R"
+</pre>
+    </blockquote>
+    <pre>Thanks for your comments.
+I'll add "daxctl list -R" in this doc.
+
+Jingqi 
+</pre>
+    <blockquote type="cite"
+      cite="mid:b520218c-a8f5-101e-1e3e-ad212fe35cdd@oracle.com">
+      <pre class="moz-quote-pre" wrap="">
+The unlikely reason being that users may only install daxctl-{,libs,devel} and
+not ndctl-*. It also covers other users like ACPI HMAT/hmem which are not
+instrumented with ndctl.
+
+With that:
+
+  Reviewed-by: Joao Martins <a class="moz-txt-link-rfc2396E" href="mailto:joao.m.martins@oracle.com">&lt;joao.m.martins@oracle.com&gt;</a>
+
+	Joao</pre>
+    </blockquote>
+    <pre>Thanks.</pre>
+    <blockquote type="cite"
+      cite="mid:b520218c-a8f5-101e-1e3e-ad212fe35cdd@oracle.com">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------AC36DB6C685D9406A2F9EC4D--
 
