@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04BB1BD694
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:52:01 +0200 (CEST)
-Received: from localhost ([::1]:37122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B8FF1BD68D
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:50:33 +0200 (CEST)
+Received: from localhost ([::1]:57684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThVg-0002i8-K0
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46932)
+	id 1jThUF-0007ff-Rh
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:50:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46954)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh8A-0002rn-BP
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:27:43 -0400
+ (envelope-from <luc.michel@greensocs.com>) id 1jTh8G-0002w7-Hd
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:27:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh88-0000jj-DF
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:27:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:43395
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh86-0000PN-CP
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:27:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588145256;
+ (envelope-from <luc.michel@greensocs.com>) id 1jTh8F-0000ux-OY
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:27:48 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:57488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1jTh8B-0000rI-0s; Wed, 29 Apr 2020 03:27:43 -0400
+Received: from [172.17.10.6] (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 824BB96EF0;
+ Wed, 29 Apr 2020 07:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1588145261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RzuqMdQe/809M7Rx0MUJ+9lSGhW1ibHtH2DKCeZNun0=;
- b=BUJ4M40Kctw2S39c8GqtjkuXAZo/sZFBNGYN/OZYkiwrndtr0b+ocSiBSfZPjSDJRoTQFF
- vW5GEgRGrR7Wsec5tc9wvwd1pS+CYPc0xZZtHGybmueSslIOzjwzO0xd41a9ZvRAnxL2f9
- /06t0Khfd6iCUZTtRdCD/h8eSfNsIS0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-PhD_TkVLOhCNqhbcQDTw8A-1; Wed, 29 Apr 2020 03:27:33 -0400
-X-MC-Unique: PhD_TkVLOhCNqhbcQDTw8A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12503872FE0;
- Wed, 29 Apr 2020 07:27:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 861121000329;
- Wed, 29 Apr 2020 07:27:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0B41911358BC; Wed, 29 Apr 2020 09:27:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 07/11] mips/malta: Fix create_cps() error handling
-References: <20200424192027.11404-1-armbru@redhat.com>
- <20200424192027.11404-8-armbru@redhat.com>
- <75dc4fbc-2b39-c8ef-8030-370672621c2f@amsat.org>
- <871ro6x26g.fsf@dusky.pond.sub.org>
- <d9a17752-6a8d-a59e-f661-a9e6c59b670f@amsat.org>
-Date: Wed, 29 Apr 2020 09:27:29 +0200
-In-Reply-To: <d9a17752-6a8d-a59e-f661-a9e6c59b670f@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 29 Apr 2020 09:13:10
- +0200")
-Message-ID: <87sggmrbtq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ bh=tRPxFcTt97/CgfBx4Hwtkr2YGSp9F9XZKDpY5xF9yco=;
+ b=ykEn1vR+m2e5To4Yyd4MeoPUbQILA5/5X4ALLUOtbqu6tNdT420Ak/OEIyyGgnWOTGRvYV
+ G/UZAz2yfUZJ+Bxvn5vTMXDVAi/bMXYVTTTFz1SvmXmHRfCZqE2/s7NZ48U8DR0BRwEjg2
+ A6RsrnyQ78RgeE+Y28oewoiUrSpdkVg=
+Subject: Re: [PATCH v1 04/11] hw/arm: versal: Embedd the UARTs into the SoC
+ type
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
+ <20200427181649.26851-5-edgar.iglesias@gmail.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <47568156-f9f1-ac9d-3d8f-8ccf98ba934f@greensocs.com>
+Date: Wed, 29 Apr 2020 09:27:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200427181649.26851-5-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1588145261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tRPxFcTt97/CgfBx4Hwtkr2YGSp9F9XZKDpY5xF9yco=;
+ b=mFB8aVRllB/diCe0uZJdliT5HOQNA6AqQG+o49n7BUoiihcKOLlN8FSvRKyjT46wQNz9re
+ ldghKGA3iF0o5n52E6CyzFX8AAHOvgpQoUGm7pfzIgLwK95PscVOcABFcEcpcm8adi3hb8
+ m/Qk/5YxNyIvRj89M8RxBUj/rulGx7M=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1588145261; a=rsa-sha256; cv=none;
+ b=OFQLJ3f7cGTBBPEvbHLypRr0jz6xzRYQc4Z0nsuJtLVTWX94xhSrfi6YG8B7YBZrPLV37Y
+ aRT6KkCXjWiESgbqMkhwMQlUgJbrBwAvg9k8ix/HPKms/fd1tXg+6sURPXsMk8mmcYSEra
+ AjaQ+lK063vhNP2TKqa4QCxlVtgRDgM=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 03:23:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,111 +80,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+On 4/27/20 8:16 PM, Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> 
+> Embedd the UARTs into the SoC type.
+> 
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-> +Peter for crediting his advice.
->
-> On 4/29/20 7:59 AM, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
->>
->>> On 4/24/20 9:20 PM, Markus Armbruster wrote:
->>>> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
->>>> pointer to a variable containing NULL.  Passing an argument of the
->>>> latter kind twice without clearing it in between is wrong: if the
->>>> first call sets an error, it no longer points to NULL for the second
->>>>
->>>> create_cps() is wrong that way.  The last calls treats an error as
->>>> fatal.  Do that for the prior ones, too.
->>>>
->>>> Fixes: bff384a4fbd5d0e86939092e74e766ef0f5f592c
->>>> Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
->>>> Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
->>>> Cc: Aurelien Jarno <aurelien@aurel32.net>
->>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>>> ---
->>>>   hw/mips/mips_malta.c | 15 ++++++---------
->>>>   1 file changed, 6 insertions(+), 9 deletions(-)
->>>>
->>>> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
->>>> index e4c4de1b4e..17bf41616b 100644
->>>> --- a/hw/mips/mips_malta.c
->>>> +++ b/hw/mips/mips_malta.c
->>>> @@ -1185,17 +1185,14 @@ static void create_cpu_without_cps(MachineStat=
-e *ms,
->>>>   static void create_cps(MachineState *ms, MaltaState *s,
->>>>                          qemu_irq *cbus_irq, qemu_irq *i8259_irq)
->>>>   {
->>>> -    Error *err =3D NULL;
->>>> -
->>>>       sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(=
-s->cps),
->>>>                             TYPE_MIPS_CPS);
->>>> -    object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type"=
-, &err);
->>>> -    object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp", =
-&err);
->>>> -    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err)=
-;
->>>> -    if (err !=3D NULL) {
->>>> -        error_report("%s", error_get_pretty(err));
->>>
->>> In https://www.mail-archive.com/qemu-devel@nongnu.org/msg695645.html I
->>> also remove "qemu/error-report.h" which is not needed once you remove
->>> this call.
->>
->> Missed it, sorry.  I only reviewed the Coccinelle scripts [PATCH 1+3/7].
->
-> My bad for not Cc'ing you on the whole series, which is Error related,
-> and use the default get_maintainer.pl selection.
->
->> I'd replace my patch by yours to give you proper credit, but your commit
->> message mentions "the coccinelle script", presumably the one from PATCH
->> 1/7, and that patch isn't quite ready in my opinion.
->
-> I'm not worried about credit, but duplicating effort or wasting time.
->
-> Peter once warned the problem with Coccinelle scripts is finding the
-> correct balance between time spent to improve QEMU codebase, and time
-> spent learning Coccinelle and improving a script that is often used
-> only once in a lifetime.
-> If the script is not provided, we ask for the script. If the script is
-> embedded in various patch descriptions, we ask to add it independently
-> for reuse or as example. Then the script must be almost
-> perfect. Meanwhile all the following patches referencing it, while
-> reviewed, are stuck.
+Hi Edgar,
 
-True.  I try not to ask for undue perfection, but perfection eludes me
-in that, too :)
+Just a small thing, I find it easier to review when you have
 
-For PATCH 1/7, I only asked you to explain the script's limitations in
-the script and the commit message.  Her's a bit of inspiration from the
-kernel's scripts/coccinelle/misc/doubleinit.cocci (picked almost at
-random):
+[diff]
+    orderFile = scripts/git.orderfile
 
-    /// Find duplicate field initializations.  This has a high rate of fals=
-e
-    /// positives due to #ifdefs, which Coccinelle is not aware of in a str=
-ucture
-    /// initialization.
-    ///
-    // Confidence: Low
+in your QEMU's .git/config. This way header files come first in the patches.
 
-I like the Confidence: tag.  It should come with an explanation, as it
-does here.
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
-For PATCH 3/7, I had a question.
-
-> Anyway back to your patch:
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-Thanks!
-
+> ---
+>  hw/arm/xlnx-versal.c         | 12 ++++++------
+>  include/hw/arm/xlnx-versal.h |  3 ++-
+>  2 files changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index cc696e44c0..dbde03b7e6 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -21,7 +21,6 @@
+>  #include "kvm_arm.h"
+>  #include "hw/misc/unimp.h"
+>  #include "hw/arm/xlnx-versal.h"
+> -#include "hw/char/pl011.h"
+>  
+>  #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
+>  #define GEM_REVISION        0x40070106
+> @@ -144,16 +143,17 @@ static void versal_create_uarts(Versal *s, qemu_irq *pic)
+>          DeviceState *dev;
+>          MemoryRegion *mr;
+>  
+> -        dev = qdev_create(NULL, TYPE_PL011);
+> -        s->lpd.iou.uart[i] = SYS_BUS_DEVICE(dev);
+> +        sysbus_init_child_obj(OBJECT(s), name,
+> +                              &s->lpd.iou.uart[i], sizeof(s->lpd.iou.uart[i]),
+> +                              TYPE_PL011);
+> +        dev = DEVICE(&s->lpd.iou.uart[i]);
+>          qdev_prop_set_chr(dev, "chardev", serial_hd(i));
+> -        object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_fatal);
+>          qdev_init_nofail(dev);
+>  
+> -        mr = sysbus_mmio_get_region(s->lpd.iou.uart[i], 0);
+> +        mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
+>          memory_region_add_subregion(&s->mr_ps, addrs[i], mr);
+>  
+> -        sysbus_connect_irq(s->lpd.iou.uart[i], 0, pic[irqs[i]]);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[irqs[i]]);
+>          g_free(name);
+>      }
+>  }
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index 6c0a692b2f..a3dfd064b3 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -15,6 +15,7 @@
+>  #include "hw/sysbus.h"
+>  #include "hw/arm/boot.h"
+>  #include "hw/intc/arm_gicv3.h"
+> +#include "hw/char/pl011.h"
+>  
+>  #define TYPE_XLNX_VERSAL "xlnx-versal"
+>  #define XLNX_VERSAL(obj) OBJECT_CHECK(Versal, (obj), TYPE_XLNX_VERSAL)
+> @@ -49,7 +50,7 @@ typedef struct Versal {
+>          MemoryRegion mr_ocm;
+>  
+>          struct {
+> -            SysBusDevice *uart[XLNX_VERSAL_NR_UARTS];
+> +            PL011State uart[XLNX_VERSAL_NR_UARTS];
+>              SysBusDevice *gem[XLNX_VERSAL_NR_GEMS];
+>              SysBusDevice *adma[XLNX_VERSAL_NR_ADMAS];
+>          } iou;
+> 
 
