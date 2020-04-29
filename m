@@ -1,46 +1,44 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5806C1CD0D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 06:26:42 +0200 (CEST)
-Received: from localhost ([::1]:48712 helo=lists1p.gnu.org)
+Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 824181C3B27
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 15:24:04 +0200 (CEST)
+Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY01Z-0000iz-Ed
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 00:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57186)
+	id 1jVb4l-0003xs-JP
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 09:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
- id 1jY00i-0008Gl-7v
- for qemu-devel@nongnu.org; Mon, 11 May 2020 00:25:48 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:42930)
+ id 1jVb3q-0003Wk-W9
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 09:23:07 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:51576)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jY00f-0007yU-Dv
- for qemu-devel@nongnu.org; Mon, 11 May 2020 00:25:47 -0400
-Received: from moya.office.hostfission.com (office.hostfission.com
- [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id 7E7C44D62A;
- Mon, 11 May 2020 14:25:38 +1000 (AEST)
+ (envelope-from <geoff@hostfission.com>) id 1jVb3o-0005VB-QU
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 09:23:06 -0400
+Received: from aeryn.lan.ktmba (office.hostfission.com [220.233.29.71])
+ by mail1.hostfission.com (Postfix) with ESMTP id 37EFF4E950;
+ Mon,  4 May 2020 23:23:00 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1589171138;
- bh=dZiJKb6dEYUScDysl2kZEy93uowxXImAqoIvLv1V/W4=;
- h=From:Date:Subject:To:Cc:From;
- b=lW4DDTiymH0rJmVMmJcBaWO1BCUoVEcVHeiY3LSzKalPVteuAdzHjR34qO6frP6Gl
- f5xchZaJDIjIAmO5nBLXFf7XOlDUvxXmzfd9XdRGVcJaKacPXKf93eT2WFhdSjOtyA
- DplmO0O1m5hDmoCE5dYiE5xZ8H6lhoivbPMSm7PI=
-Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id 60E863A0386; Mon, 11 May 2020 14:25:38 +1000 (AEST)
+ s=mail; t=1588598580;
+ bh=/FA5VPxYICQMLm7xr+EPGZisysmRGJqpfmVpfwqnpTs=;
+ h=From:To:Date:Subject:From;
+ b=mo0inmmktEuUkgFbkn5EhLu2PzoRFASFcjoAa2ObuGnIYyy0akHoILyl4x1PWkOwn
+ fgOgJ1yD3op6fbVqYmYPny6LaIWvth7cc/+1fD4By/02rWoBOD4dt/wXV1ckCv73hH
+ 1sdhygH2EFb+IZmZBYazULryxVRMgO8l9oeUY9y0=
+Received: by aeryn.lan.ktmba (Postfix, from userid 1000)
+ id 1AE883C10EF; Mon,  4 May 2020 23:23:00 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
-Date: Wed, 29 Apr 2020 15:53:58 +1000
-Subject: [PATCH v8] audio/jack: add JACK client audiodev
 To: <qemu-devel@nongnu.org>
-Cc: "Gerd Hoffmann" <kraxel@redhat.com>
+Date: Wed, 29 Apr 2020 15:53:58 +1000
+Subject: [PATCH v5] audio/jack: add JACK client audiodev
 X-Mailer: mail (GNU Mailutils 3.5)
-Message-Id: <20200511042538.60E863A0386@moya.office.hostfission.com>
+Message-Id: <20200504132300.1AE883C10EF@aeryn.lan.ktmba>
 Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
  helo=mail1.hostfission.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 00:25:39
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 09:23:00
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: 6
 X-Spam_score: 0.6
@@ -72,10 +70,10 @@ Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
  audio/Makefile.objs    |   5 +
  audio/audio.c          |   1 +
  audio/audio_template.h |   2 +
- audio/jackaudio.c      | 677 +++++++++++++++++++++++++++++++++++++++++
- configure              |  17 ++
+ audio/jackaudio.c      | 707 +++++++++++++++++++++++++++++++++++++++++
+ configure              |  17 +
  qapi/audio.json        |  56 +++-
- 6 files changed, 756 insertions(+), 2 deletions(-)
+ 6 files changed, 786 insertions(+), 2 deletions(-)
  create mode 100644 audio/jackaudio.c
 
 diff --git a/audio/Makefile.objs b/audio/Makefile.objs
@@ -118,10 +116,10 @@ index 7013d3041f..8dd48ce14e 100644
      case AUDIODEV_DRIVER_PA:
 diff --git a/audio/jackaudio.c b/audio/jackaudio.c
 new file mode 100644
-index 0000000000..34563f5a13
+index 0000000000..7bac6db566
 --- /dev/null
 +++ b/audio/jackaudio.c
-@@ -0,0 +1,677 @@
+@@ -0,0 +1,707 @@
 +/*
 + * QEMU JACK Audio Connection Kit Client
 + *
@@ -162,39 +160,41 @@ index 0000000000..34563f5a13
 +struct QJack;
 +
 +typedef enum QJackState {
-+    QJACK_STATE_DISCONNECTED,
-+    QJACK_STATE_STOPPED,
-+    QJACK_STATE_RUNNING,
-+    QJACK_STATE_SHUTDOWN
++  QJACK_STATE_DISCONNECTED,
++  QJACK_STATE_IDLE,
++  QJACK_STATE_RUNNING,
++  QJACK_STATE_STOPPED,
++  QJACK_STATE_SHUTDOWN
 +}
 +QJackState;
 +
 +typedef struct QJackBuffer {
-+    int          channels;
-+    int          frames;
-+    _Atomic(int) used;
-+    int          rptr, wptr;
-+    float      **data;
++  int          channels;
++  int          frames;
++  _Atomic(int) used;
++  int          rptr, wptr;
++  float      **data;
 +}
 +QJackBuffer;
 +
 +typedef struct QJackClient {
-+    AudiodevJackPerDirectionOptions *opt;
++  AudiodevJackPerDirectionOptions *opt;
 +
-+    bool out;
-+    bool finished;
-+    bool connect_ports;
-+    int  packets;
++  bool out;
++  bool enable;
++  bool finished;
++  bool connect_ports;
++  int  packets;
 +
-+    QJackState      state;
-+    jack_client_t  *client;
-+    jack_nframes_t  freq;
++  QJackState      state;
++  jack_client_t  *client;
++  jack_nframes_t  freq;
 +
-+    struct QJack   *j;
-+    int             nchannels;
-+    int             buffersize;
-+    jack_port_t   **port;
-+    QJackBuffer     fifo;
++  struct QJack   *j;
++  int             nchannels;
++  int             buffersize;
++  jack_port_t   **port;
++  QJackBuffer     fifo;
 +}
 +QJackClient;
 +
@@ -211,6 +211,7 @@ index 0000000000..34563f5a13
 +QJackIn;
 +
 +static int qjack_client_init(QJackClient *c);
++static void qjack_client_enable(QJackClient *c, bool enable);
 +static void qjack_client_connect_ports(QJackClient *c);
 +static void qjack_client_fini(QJackClient *c);
 +
@@ -394,21 +395,31 @@ index 0000000000..34563f5a13
 +static int qjack_process(jack_nframes_t nframes, void *arg)
 +{
 +    QJackClient *c = (QJackClient *)arg;
++    jack_transport_state_t ts = jack_transport_query(c->client, NULL);
++    if (ts == JackTransportRolling) {
 +
-+    if (c->state != QJACK_STATE_RUNNING) {
-+        return 0;
-+    }
++        if (c->state != QJACK_STATE_RUNNING) {
++            return 0;
++        }
 +
-+    /* get the buffers for the ports */
-+    float *buffers[c->nchannels];
-+    for (int i = 0; i < c->nchannels; ++i) {
-+        buffers[i] = jack_port_get_buffer(c->port[i], nframes);
-+    }
++        /* get the buffers for the ports */
++        float *buffers[c->nchannels];
++        for (int i = 0; i < c->nchannels; ++i) {
++            buffers[i] = jack_port_get_buffer(c->port[i], nframes);
++        }
 +
-+    if (c->out) {
-+        qjack_buffer_read_l(&c->fifo, buffers, nframes);
-+    } else {
-+        qjack_buffer_write_l(&c->fifo, buffers, nframes);
++        if (c->out) {
++            qjack_buffer_read_l(&c->fifo, buffers, nframes);
++        } else {
++            qjack_buffer_write_l(&c->fifo, buffers, nframes);
++        }
++
++    } else if (ts == JackTransportStopped) {
++
++        if (c->state == QJACK_STATE_RUNNING) {
++            c->state = QJACK_STATE_STOPPED;
++        }
++
 +    }
 +
 +    return 0;
@@ -453,6 +464,7 @@ index 0000000000..34563f5a13
 +        if (!c->finished) {
 +            dolog("attempting to reconnect to server\n");
 +            qjack_client_init(c);
++            qjack_client_enable(c, c->enable);
 +        }
 +    }
 +}
@@ -603,7 +615,7 @@ index 0000000000..34563f5a13
 +    c->buffersize = jack_get_buffer_size(c->client);
 +
 +    qjack_client_connect_ports(c);
-+    c->state = QJACK_STATE_RUNNING;
++    c->state = QJACK_STATE_IDLE;
 +    return 0;
 +}
 +
@@ -683,9 +695,13 @@ index 0000000000..34563f5a13
 +{
 +    switch (c->state) {
 +    case QJACK_STATE_RUNNING:
++        jack_transport_stop(c->client);
 +        /* fallthrough */
 +
 +    case QJACK_STATE_STOPPED:
++        /* fallthrough */
++
++    case QJACK_STATE_IDLE:
 +        for (int i = 0; i < c->nchannels; ++i) {
 +            jack_port_unregister(c->client, c->port[i]);
 +        }
@@ -720,12 +736,36 @@ index 0000000000..34563f5a13
 +    qjack_client_fini(&ji->c);
 +}
 +
++static void qjack_client_enable(QJackClient *c, bool enable)
++{
++    c->enable = enable;
++    if (enable) {
++        if (c->state != QJACK_STATE_IDLE) {
++            return;
++        }
++
++        jack_transport_start(c->client);
++        c->state = QJACK_STATE_RUNNING;
++    } else {
++        if (c->state != QJACK_STATE_RUNNING) {
++            return;
++        }
++
++        jack_transport_stop(c->client);
++        c->state = QJACK_STATE_IDLE;
++    }
++}
++
 +static void qjack_enable_out(HWVoiceOut *hw, bool enable)
 +{
++    QJackOut *jo = (QJackOut *)hw;
++    qjack_client_enable(&jo->c, enable);
 +}
 +
 +static void qjack_enable_in(HWVoiceIn *hw, bool enable)
 +{
++    QJackIn *ji = (QJackIn *)hw;
++    qjack_client_enable(&ji->c, enable);
 +}
 +
 +static int qjack_thread_creator(jack_native_thread_t *thread,
@@ -781,22 +821,10 @@ index 0000000000..34563f5a13
 +    .voice_size_in  = sizeof(QJackIn)
 +};
 +
-+static void qjack_error(const char *msg)
-+{
-+    dolog("E: %s\n", msg);
-+}
-+
-+static void qjack_info(const char *msg)
-+{
-+    dolog("I: %s\n", msg);
-+}
-+
 +static void register_audio_jack(void)
 +{
 +    audio_driver_register(&jack_driver);
 +    jack_set_thread_creator(qjack_thread_creator);
-+    jack_set_error_function(qjack_error);
-+    jack_set_info_function(qjack_info);
 +}
 +type_init(register_audio_jack);
 diff --git a/configure b/configure
@@ -835,7 +863,7 @@ index 23b5e93752..004502c775 100755
    echo "CONFIG_AUDIO_WIN_INT=y" >> $config_host_mak
  fi
 diff --git a/qapi/audio.json b/qapi/audio.json
-index c31251f45b..8a86c90260 100644
+index c31251f45b..bdb0552d15 100644
 --- a/qapi/audio.json
 +++ b/qapi/audio.json
 @@ -152,6 +152,55 @@
@@ -848,21 +876,21 @@ index c31251f45b..8a86c90260 100644
 +# Options of the JACK backend that are used for both playback and
 +# recording.
 +#
-+# @server-name: select from among several possible concurrent server instances
-+# (default: environment variable $JACK_DEFAULT_SERVER if set, else "default")
++# @server-name: select from among several possible concurrent server instances.
++# If unspecified, use "default" unless $JACK_DEFAULT_SERVER is defined in the
++# process environment.
 +#
 +# @client-name: the client name to use. The server will modify this name to
-+# create a unique variant, if needed unless @exact_name is true (default: the
-+# guest's name)
++# create a unique variant, if needed unless @exact_name is true.
 +#
-+# @connect-ports: if set, a regular expression of JACK client port name(s) to
-+# monitor for and automatically connect to
++# @connect-ports: if set, a regular expression of port name(s) to match to auto
++# connect to at startup.
 +#
-+# @start-server: start a jack server process if one is not lready present
-+# (default: false)
++# @start-server: set to true to start a jack server instance if one is not
++# present.
 +#
 +# @exact-name: use the exact name requested otherwise JACK automatically
-+# generates a unique one, if needed (default: false)
++# generates a unique one, if needed.
 +#
 +# Since: 5.1
 +##
