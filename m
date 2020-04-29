@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0F51BE89D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 22:34:07 +0200 (CEST)
-Received: from localhost ([::1]:33206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF2B1BE912
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 22:49:14 +0200 (CEST)
+Received: from localhost ([::1]:47296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTtPB-0007pa-Hh
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 16:34:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53372)
+	id 1jTtdp-0001CE-9O
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 16:49:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54518)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTtNK-0006Ls-Bs
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 16:32:50 -0400
+ (envelope-from <mhohmann@physnet.uni-hamburg.de>) id 1jTtVX-0007tN-3V
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 16:40:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTtJS-0005vQ-LI
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 16:32:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47202
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTtJQ-0005ux-WA
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 16:28:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588192087;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qSq3vZYAKDQjQAKE4D8xiqg+i+Lw+X1sipG4ALihLKA=;
- b=RqqCsvGRNDizl/YOm9LEZLd8yL3QMpe8nSrzYHf1H6w/1Vjhi+vCUEuD9gfmUdKkK7B18o
- nGgHNR0DVPeEvxExtvn3MYKy6+TNsevYaVQEQ5qVaspwMKHgfd/e3PFM38SIRGDQLYube/
- 5bqe2SGdlzn9A/ugWp/gPpHeNkvtfdc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-25s0jj-SNFunHBOX-sjpjw-1; Wed, 29 Apr 2020 16:28:03 -0400
-X-MC-Unique: 25s0jj-SNFunHBOX-sjpjw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06494800C78;
- Wed, 29 Apr 2020 20:28:01 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BCE35D780;
- Wed, 29 Apr 2020 20:27:50 +0000 (UTC)
-Subject: Re: [PATCH v2 04/17] block/io: use int64_t bytes in driver wrappers
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200427082325.10414-1-vsementsov@virtuozzo.com>
- <20200427082325.10414-5-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b9daa960-b607-6ef4-9dbb-67807d4fd13c@redhat.com>
-Date: Wed, 29 Apr 2020 15:27:49 -0500
+ (envelope-from <mhohmann@physnet.uni-hamburg.de>) id 1jTtVV-0004td-RD
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 16:40:38 -0400
+Received: from mail.physnet.uni-hamburg.de ([134.100.106.230]:48368)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mhohmann@physnet.uni-hamburg.de>)
+ id 1jTtVV-0004tD-3p
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 16:40:37 -0400
+Received: from 227-98-191-90.dyn.estpak.ee ([90.191.98.227]
+ helo=[192.168.1.129]) by mail.physnet.uni-hamburg.de with esmtpsa
+ (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
+ (envelope-from <mhohmann@physnet.uni-hamburg.de>)
+ id 1jTtVR-0004A4-Ka; Wed, 29 Apr 2020 22:40:34 +0200
+From: Manuel Hohmann <mhohmann@physnet.uni-hamburg.de>
+Subject: Error "cannot bind memory to host NUMA nodes: Operation not
+ permitted" running inside docker
+To: qemu-devel@nongnu.org
+Autocrypt: addr=mhohmann@physnet.uni-hamburg.de; prefer-encrypt=mutual;
+ keydata=
+ mQENBEzzkJ0BCACoFEyKwRypWgc6Bbl/t5CRmCq+wnrLqGTji2iB9gHhP/dFisO3bdPjX2bT
+ bZSG48rR7Q999M5NjCX7juQbAKQm5vv3NDBNqq35Q7nSALsEEazy1awbx56EBXPn/5VbH4JT
+ c3sZiQR/MZY81WcWANPxZr3XWOl71netiVNzO5OBZSTxRV7dnB2meYBlhgD7dDzZTfJ8tpqu
+ XlzlaZ+H2QDDt2TH0LYm6rhK2OXDqTCs09BiZi48Ev6YI/DC/RpLNGlVtACV1RB1i+GAKIZJ
+ /E+E1A5wQTG+/wHblFq9PcFJKTJOQvMh3kV/4S4GuQbXoAMVn+6FGIF7mat4Oo+mNjchABEB
+ AAG0ME1hbnVlbCBIb2htYW5uIDxtaG9obWFubkBwaHlzbmV0LnVuaS1oYW1idXJnLmRlPokB
+ OAQTAQIAIgUCTPOQnQIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ+9/1Gux6RLIN
+ fgf+MHuA2VcJxo/xAvTjfrvmDFgTsepHFlWPKkEdEQY2FSG1dqhAHtEIlEJ0M/6Y0r5cSn+L
+ E8yqW8OWP0aCsd0BTcp+h1t8lIZhx33ZGmOFDxLVcnIq/zyEloRbVZPG05yvKgmc3N3opaw4
+ 8WrdnQ7Q6+iQhY9v+S+BcRyJNDL6cWXZF2uLOvXDAq2Y1lihZSwBXvcQOgQ7nfgJYAveA140
+ fqRmg5e7usL2xq1kaWDvRrxBk/D6kWqLBkvYQrxxflTfsbM4IJP4lmCIfyr0BxY0VOzjZ8Wu
+ SYl9ETJcHSc4zR+s94PnDAlFsZbZHGoXK6YxD6SlyaisT00bqvZXmY8gHbkBDQRM85CdAQgA
+ l90YtA7ak5BUEHw4WPY9AIpfP0IWSI3lQbudSdTcJ2GPx5fE01dd/W1V+7K7VBiDw7m1CjT7
+ qnv5ZPFWIhGCBzxGhi/81NXhnEsHoElJEzea0XY64/7hf+CeM4rrx7CaXjByHDbVfFPQqUEZ
+ yhZhxYChmpCi/5CAvs5sJKFNqTqF6AXFCNdam0iWu1pT2MVhl2RqYQq0rUNVDhlh/v/fPKsM
+ tUqyfXbiXVaG9zcozC7AS6U+0jly9oMsGrz9eCE6uDc3YceTnhUqRvuBzj3wB6hFNXj82T/+
+ 4r60s9zAc2VMi3F0jKBr0+7b+5JOjeraPlvNB0ftCfnFNDGeC0pZAQARAQABiQEfBBgBAgAJ
+ BQJM85CdAhsMAAoJEPvf9RrsekSyMAMH/2gVwokA0EEeF00AO6K9uTukidAflrXYFS+KLKC2
+ oa8uAb2Or6y2OOZeaLmYhbOdRapFCElqjGSMYlBHPFmu10KDUYzNuaVmSULw84e0KzNPCeJG
+ zOF4bGvLY9bv4cp2tMeUNDIvQHsmZ0PE+O9i9cVtuITEjsXxa/62SE1TSnLg3QUUZEvTIIKN
+ ZEoxKIHrxiLVsa5Rd21YDVyShLjK4sa4Tc0PUPpe5yWkET6hVBIw2g15hAO8+qkShbRYg9CH
+ pZQlUIv2wMJqzXV4UaHYzRJcgZZ0YEvNHE/Vstl7GLHk/QtaCxqva6novYYXWK/rMGrK19gw
+ 3dYtCkCgf6rLwTE=
+Organization: University of Tartu
+Message-ID: <76d8eb61-e89e-0465-974b-6901a5fb848e@physnet.uni-hamburg.de>
+Date: Wed, 29 Apr 2020 23:40:32 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200427082325.10414-5-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 14:59:33
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="RrhljUiMlyS4X1jzI31plhmllHXQsXwpu"
+Received-SPF: none client-ip=134.100.106.230;
+ envelope-from=mhohmann@physnet.uni-hamburg.de;
+ helo=mail.physnet.uni-hamburg.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 15:09:05
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Received-From: 134.100.106.230
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,118 +81,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, integration@gluster.org, berto@igalia.com,
- pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org, dillaman@redhat.com,
- pl@kamp.de, ronniesahlberg@gmail.com, mreitz@redhat.com, den@openvz.org,
- sheepdog@lists.wpkg.org, stefanha@redhat.com, namei.unix@gmail.com,
- pbonzini@redhat.com, sw@weilnetz.de, jsnow@redhat.com, ari@tuxera.com
+Cc: imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/20 3:23 AM, Vladimir Sementsov-Ogievskiy wrote:
-> We are generally moving to int64_t for both offset and bytes parameters
-> on all io paths. Convert driver wrappers parameters which are
-> already 64bit to signed type.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block/io.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/block/io.c b/block/io.c
-> index 1267918def..4796476835 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -1086,7 +1086,7 @@ static void bdrv_co_io_em_complete(void *opaque, int ret)
->   }
->   
->   static int coroutine_fn bdrv_driver_preadv(BlockDriverState *bs,
-> -                                           uint64_t offset, uint64_t bytes,
-> +                                           int64_t offset, int64_t bytes,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--RrhljUiMlyS4X1jzI31plhmllHXQsXwpu
+Content-Type: multipart/mixed; boundary="hZAyTGUnQLJgEcA3MQ4FXxSoPiOLBJfa6"
 
-Remains 64 bits, the question is whether any caller could pass in 
-something larger than 63 bits.  Callers are:
+--hZAyTGUnQLJgEcA3MQ4FXxSoPiOLBJfa6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-bdrv_co_do_copy_on_readv() - passes 'int64_t pnum', but sets pnum in a 
-fragmenting loop, MAX_BOUNCE_BUFFER when copy-on-read is needed, or 
-max_transfer bounded by BDRV_REQUEST_MAX_BYTES otherwise
-bdrv_aligned_preadv() - passes 'unsigned int bytes' further limited by 
-fragmenting loop on max_transfer <= INT_MAX
+Hi,
 
-Input is bounded to < 2G, internal use of 'bytes' is:
-drv->bdrv_co_preadv_part(uint64_t) - safe
-qemu_iovec_init_slice(size_t) - potential truncation on 32-bit platform, 
-if you don't fix qemu_iovec
-drv->bdrv_co_preadv(uint64_t) - safe
-drv->bdrv_aio_preadv(uint64_t) - safe
-drv->bdrv_co_readv(int) after assertion of <2G - safe
+I encountered the following error message on the QEMU 5.0.0 release, comp=
+iled and run inside a docker image:
 
->                                              QEMUIOVector *qiov,
->                                              size_t qiov_offset, int flags)
->   {
-> @@ -1155,7 +1155,7 @@ out:
->   }
->   
->   static int coroutine_fn bdrv_driver_pwritev(BlockDriverState *bs,
-> -                                            uint64_t offset, uint64_t bytes,
-> +                                            int64_t offset, int64_t bytes,
+"cannot bind memory to host NUMA nodes: Operation not permitted"
 
-Remains 64 bits, the question is whether any caller could pass in 
-something larger than 63.  Callers are:
+The QEMU command line to reproduce this behavior (it happens also on -x86=
+_64, -arm, -aarch64 with similar command line):
 
-bdrv_co_do_copy_on_readv() - passes 'int64_t pnum', but set in a 
-fragmenting loop bounded by MAX_BOUNCE_BUFFER
-bdrv_co_do_pwrite_zeroes() - passes 'int num'
-bdrv_aligned_pwritev() - passes 'unsigned int bytes' further limited by 
-fragmenting loop on max_transfer <= INT_MAX
+qemu-system-i386 -m 64 -M pc -smp 1 -display none -monitor stdio -drive f=
+ile=3Dmp-acpi/NOS.iso,media=3Dcdrom,id=3Dd -boot order=3Dd -d cpu_reset
 
-Input is bounded to < 2G, internal use of 'bytes' is:
-drv->bdrv_co_pwritev_part(uint64_t) - safe
-qemu_iovec_init_slice(size_t) - potential truncation on 32-bit platform, 
-if you don't fix qemu_iovec
-drv->bdrv_co_pwritev(uint64_t) - safe
-drv->bdrv_aio_pwritev(uint64_t) - safe
-drv->bdrv_co_writev(int) after assertion of <2G - safe
+The docker image which shows the error is available here:
 
->                                               QEMUIOVector *qiov,
->                                               size_t qiov_offset, int flags)
->   {
-> @@ -1235,8 +1235,8 @@ emulate_flags:
->   }
->   
->   static int coroutine_fn
-> -bdrv_driver_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
-> -                               uint64_t bytes, QEMUIOVector *qiov,
-> +bdrv_driver_pwritev_compressed(BlockDriverState *bs, int64_t offset,
-> +                               int64_t bytes, QEMUIOVector *qiov,
->                                  size_t qiov_offset)
+https://hub.docker.com/repository/docker/xenos1984/test-qemu
 
-Remains 64 bits, the question is whether any caller could pass in 
-something larger than 63.  Callers are:
+Built on Ubuntu 20.04, and including NUMA support with libnuma-dev packag=
+e installed, from the following sources:
 
-bdrv_aligned_pwritev() - passes 'unsigned int bytes'
+https://github.com/xenos1984/cross-toolchain/tree/master/tools-qemu
+https://github.com/xenos1984/cross-toolchain/tree/master/test-qemu
 
-Input is bounded to < 4G, internal use of 'bytes' is:
-drv->bdrv_co_pwritev_compressed_part(uint64_t) - safe
-drv->bdrv_co_pwritev_compressed(uint64_t) - safe
-qemu_iovec_init_slice(size_t) - potential truncation on 32-bit platform, 
-if you don't fix qemu_iovec
+The iso image used can be obtained here, but should not be relevant:
 
-Because our input is bounded, all of the changes made here have no 
-semantic impact, and I argue this patch is safe.  However, I also 
-pointed out the spots where we have latent bugs (on 32-bit machines 
-only) if the callers are relaxed to pass larger than 2G or 4G.  As long 
-as you are auditing things, it would be nice to either fix that in this 
-patch, or document in the commit message how a future patch will address 
-that latent problem (whether by enforcing max_transfer to be capped at 
-2G on 32-bit platforms, or else fixing qemu_iovec to use int64_t instead 
-of size_t bounds).
+https://github.com/xenos1984/NOS/releases/download/latest/nos-i686.iso.bz=
+2
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+The command fails when the image is used in a CI environment:
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+https://circleci.com/gh/xenos1984/NOS/953
 
+On recommendation by @imammedo I post the issue to qemu-devel, and also t=
+ried the following patch:
+
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -384,3 +384,3 @@
+           if (mbind(ptr, sz, backend->policy,
+-                  maxnode ? backend->host_nodes : NULL, maxnode + 1, fla=
+gs)) {
++                  maxnode ? backend->host_nodes : NULL, 0, flags)) {
+               if (backend->policy !=3D MPOL_DEFAULT || errno !=3D ENOSYS=
+) {
+
+But no success, the same error occurs. It happens only within docker - th=
+e same command runs fine on my desktop (also Ubuntu 20.04) system.
+
+Best regards,
+xenos1984 / Manuel Hohmann
+
+PS: I apologize if this mail is sent / received more than once; there was=
+ a problem with my outgoing mails.
+
+
+
+--hZAyTGUnQLJgEcA3MQ4FXxSoPiOLBJfa6--
+
+--RrhljUiMlyS4X1jzI31plhmllHXQsXwpu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEGQ1wnDd/ca3CjRdj+9/1Gux6RLIFAl6p5kAACgkQ+9/1Gux6
+RLIfsAf7B6PtDG/huDf+EfyFs2et2sc+CzHMK85o7bhKKNBrh04cHZ6dA8hWrwCG
+5ySQuko5eIZduKQ20k0NmrcfAQd6E2yO7gLt+f8c//vsVjFU8a1Oi2rPqx92R89G
+z5O41Gs0v8afXWlqb7WadIVFBmDtIOEectVC51asZCN8f7spINw38yAJX+XUmiuG
+3wETeXaTOjwljUBLfCQ44NiAhItEe3DQPTwtkfw5jWg67Ztm8yc5nAo7ECVegLqa
+U6HV6RANdAVAnpr15TipWc4emMKH5h1oahL6prfUfzOrBFuDQA7PLFAFyyoT7315
+RcZ7IEKp7xQFeOfqa8uJD8apZbli+g==
+=R7Zx
+-----END PGP SIGNATURE-----
+
+--RrhljUiMlyS4X1jzI31plhmllHXQsXwpu--
 
