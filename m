@@ -2,94 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778551BDB3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:59:09 +0200 (CEST)
-Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEF91BDB30
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:56:10 +0200 (CEST)
+Received: from localhost ([::1]:54960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTlMq-0008EN-Ga
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:59:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51008)
+	id 1jTlJx-000347-OO
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51216)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1jTlHR-0007VY-6F
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:53:33 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTlIj-0001e9-A8
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:54:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <stefanb@linux.ibm.com>) id 1jTlHQ-00026G-NS
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:53:32 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16816
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTlIh-0002OK-A7
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:54:52 -0400
+Received: from mail-am6eur05on2114.outbound.protection.outlook.com
+ ([40.107.22.114]:60005 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1jTlHO-00024e-FP; Wed, 29 Apr 2020 07:53:30 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03TBVGKg168157; Wed, 29 Apr 2020 07:53:26 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30q80pj2g7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 07:53:26 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03TBdMDu189276;
- Wed, 29 Apr 2020 07:53:26 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30q80pj2fy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 07:53:25 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03TBj2qW011051;
- Wed, 29 Apr 2020 11:53:25 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma02dal.us.ibm.com with ESMTP id 30mcu6wjh6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 11:53:25 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 03TBrOKj19071432
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Apr 2020 11:53:24 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 842FEAE05F;
- Wed, 29 Apr 2020 11:53:24 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6AA08AE05C;
- Wed, 29 Apr 2020 11:53:24 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 29 Apr 2020 11:53:24 +0000 (GMT)
-Subject: Re: [PATCH 0/2] virt: Set tpm-tis-device ppi property to off by
- default
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200427143145.16251-1-eric.auger@redhat.com>
- <20200428123826.1ec68e6c.cohuck@redhat.com>
- <0257ca1e-2323-e437-4e19-d8a4dfa6d792@linux.ibm.com>
- <20200429081129.18e9760a.cohuck@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <b109541b-36cf-03b3-eac7-910f1caafa55@linux.ibm.com>
-Date: Wed, 29 Apr 2020 07:53:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200429081129.18e9760a.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jTlIg-0002Fd-HR; Wed, 29 Apr 2020 07:54:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ciXvn58h1bJXvPKkMrYKL/T5L2Ckq+k2iBrgkxULPqYL1uQIlJlvbaCDugUlp0fBVGMU4x4Z3fD4ZObGpKIHtgC0I/7Ma2G+GTnqwOqZ22xIqIZYtyeyne21Bu6BKkkhQVsCa2aVEvBTmwqmkUp8OqKaXJaB74FUyapFjpRPEV7In8VsUdetqqM7zByjAaOFrokBKviUXqnQ/YQ1mxhwXIoD3daE/oLHT+lPOkK82NQt92P72Pr2teDX22bL49OtFaQmWI/z71OAK7KGfJpotPkK4l8WDcj56SNRONZfqJK4ZSO4dKVl/2/OCS9PWvtXeOUHynGm73FDP5pM2qmrIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JbDQG1CKVXSNBMq1OIHRpIzroViDb6czDFibm3mG/b4=;
+ b=ZBwydJIFVWgYNeO1USkO6qfeRLTNlepmFUMkG8L7gDXiYwcThlTOg9Y1o2bOXB4rpKXZ4URpNE+HV/q16jqT0RPyM90/b0jHdu1UQ0vMcDN0Yh8NO/ne5FNwuMUYc+LpYzWfviizQITxWaEYiG50/mtu1y8WTAFLB9ItdcLPOLM1kp5XnOwYxIjjqkUQG1uBk8SvJKSzPeclZcXsFxOcNFAp+8+NUq7VzA2vHlx4GNW1gB1ajsggvDjFKq68krKJAXMW/IAV3V7xA3ZPVCejEfOjWx3QhboPF8YY90zC9ecLtsxROle70QAytwKGShh72D2dVTS1jhYPR4O1B7GWTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JbDQG1CKVXSNBMq1OIHRpIzroViDb6czDFibm3mG/b4=;
+ b=X1oKhgyBx2voV21GQub22fqKQT9+NeTgRJASxwW007bi5CnpXWvp1BnQ47ahl6RUhin4DLJEwZBSnT+CXWpWfJmmm80sf4zwNnSUCyV+g6sOsGdjpDm4O0Lq4hsX4Z8tFckZFMQKhmfmBCt1JrrwkI+m9NJwvlcyBMkiVmOZ/PY=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5528.eurprd08.prod.outlook.com (2603:10a6:20b:dd::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Wed, 29 Apr
+ 2020 11:54:47 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Wed, 29 Apr 2020
+ 11:54:47 +0000
+Subject: Re: [PATCH v3 4/5] block/block-copy: refactor task creation
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200429061039.12687-1-vsementsov@virtuozzo.com>
+ <20200429061039.12687-5-vsementsov@virtuozzo.com>
+ <affc8770-2b70-c3e4-af1b-ca620119c2d5@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200429145445577
+Message-ID: <92dd552d-b181-5b39-c796-e228c4d33379@virtuozzo.com>
+Date: Wed, 29 Apr 2020 14:54:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <affc8770-2b70-c3e4-af1b-ca620119c2d5@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-29_04:2020-04-29,
- 2020-04-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 mlxscore=0 clxscore=1015 impostorscore=0 phishscore=0
- bulkscore=0 spamscore=0 lowpriorityscore=0 adultscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004290093
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 07:53:27
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Received-From: 148.163.158.5
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM4PR0101CA0073.eurprd01.prod.exchangelabs.com
+ (2603:10a6:200:41::41) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.184) by
+ AM4PR0101CA0073.eurprd01.prod.exchangelabs.com (2603:10a6:200:41::41) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20 via Frontend
+ Transport; Wed, 29 Apr 2020 11:54:46 +0000
+X-Tagtoolbar-Keys: D20200429145445577
+X-Originating-IP: [185.215.60.184]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ed0a4e82-4aab-4ebb-587c-08d7ec341d2e
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5528:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5528AD469962E6833E2D9F5CC1AD0@AM7PR08MB5528.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:338;
+X-Forefront-PRVS: 03883BD916
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(8936002)(2906002)(16576012)(498600001)(66476007)(8676002)(66946007)(66556008)(5660300002)(52116002)(186003)(16526019)(53546011)(31696002)(86362001)(36756003)(26005)(107886003)(6486002)(2616005)(31686004)(956004)(4326008);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rOhCSa+Odr+a68pNSWyoSKQXB34wo4Iz17dhdyXZm278ba2co04oJhSyRcqDho4QHndjge329eQMVI1TFY/Y6XkKvjrvNEainG/rpOSxDLaHbAWaLAJPMIQfj/YhYAffFcXWtKVSDEc0vZoPINd/69PH1w3RlA8Itxfda+XkaRSHucx4Tgn5CGjMx/+82azotExi8gk5q8ngFLa2yMCZeROZioq9qTY/CyM68JtZu5t2TQC6i/woi15JNbT1bqRrLZaAO9wFNI+pGeTTZge7L/7sgWhFEc2UqNGzztXcDh+fBIzuJCma9/eD4969yCDhPyh0/aCFCglFZ5XcMg13CWbQ4nuUQWWF9YgoBPiRShluJgYyhNvpmCxChbyCqr2Zp0RdU3ErUVennjcs0pgL6ZpQuYBuvr0P2B+u/K4/NJAAPNWQ+buDopQoCrcG9Le5
+X-MS-Exchange-AntiSpam-MessageData: gxsHD12hT9JJ/GQ8O3UvT1Smn5E7WQyEAYh68/1HEcZWCjsGfWmnMXWDAzuT7TUTPQuNGvy7S7HefHZe2G82kTEdIHNWMgBDceBHWTkd/3o+6aCi/SblGnMuganR/9RxnLisZ3bsWCakVJT1/2GcVsKmnuiXiWnmXHdOtj2w2wUEmHM9im0LY6bYWO/ikHwuCWMGXaapDwWBPYnjnIULqoGoM3PTGLXuGPYQ56OELCTov0cYO8viDmOZWH4cIHzE6dZht3Zaku4jz5CvP3nl5DxGPMbpTCyzVCZNpumdFjQtgzPBqOLdte0dnHZigaYsYz1ryp/6Oj1xma/3uwd8qSnz5xqTxk6aZiCqzWhb/5AMLCK9vCUpJAXTL7LffRYPHDtgM62/X4wRRD1NymvL0AliFQPm/0eeun0HDMOtjv3O/pGko2uKc+CLN0WNG7zWeWs7VP1H3Veb+gnTlj9l+Zx5cKaWO94Xa25WltaczXZeWhLnGynUh7MAYuDcIR7Xx+3MjM/BNa7fc5KEJQB1MovNL4+SE3+ODkcV8an0paHH5owtr6hBvHTH+op7rJHFyTNGRmJtm5GVb5QJwLFWhFWMo3G5ank+GXZqziQ60wKg//6WeyZW1zjPfJAEJZQs+1HfKI9JlD0Ez5InbtYtelt/n6oRsdriC8xbrSHD6o0wJQJPpNjNh2GK2K0I/UuC/nFmu6sXq5NQLEwL3ktVZTO2qzgN3LGewfpupFtEBwCmyzPsKzmOH5HzcVdeWDEujnf5v123Senwq/Itdgi40TmfRH5DbDL9EOfcLZbO194=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed0a4e82-4aab-4ebb-587c-08d7ec341d2e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 11:54:46.9798 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NwhRCO/TyLekjtOBpVTZXyFIxxkw/WkVv7Ou1U+2T37Xk5M2OwMTdYvnU7Uv8+6ZeS0oTGx5+3NuoyDmlRdO1J6H+Epld29n759TDa6Ix/w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5528
+Received-SPF: pass client-ip=40.107.22.114;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 07:54:48
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.22.114
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,65 +115,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
- eric.auger.pro@gmail.com
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/20 2:11 AM, Cornelia Huck wrote:
-> On Tue, 28 Apr 2020 16:13:05 -0400
-> Stefan Berger <stefanb@linux.ibm.com> wrote:
->
->> On 4/28/20 6:38 AM, Cornelia Huck wrote:
->>> On Mon, 27 Apr 2020 16:31:43 +0200
->>> Eric Auger <eric.auger@redhat.com> wrote:
->>>   
->>>> Instead of using a compat in the mach-virt machine to force
->>>> PPI off for all virt machines (PPI not supported by the
->>>> tpm-tis-device device), let's simply change the default value
->>>> in the sysbus device.
->>>>
->>>> Best Regards
->>>>
->>>> Eric
->>>>
->>>> Eric Auger (2):
->>>>     tpm: tpm-tis-device: set PPI to false by default
->>>>     hw/arm/virt: Remove the compat forcing tpm-tis-device PPI to off
->>>>
->>>>    hw/arm/virt.c           | 5 -----
->>>>    hw/tpm/tpm_tis_sysbus.c | 2 +-
->>>>    2 files changed, 1 insertion(+), 6 deletions(-)
->>>>   
->>> I think we can apply the compat machines patch on top of these two
->>> patches.
->>>
->>> Q: Who will queue this and the machine types patch? It feels a bit
->>> weird taking arm patches through the s390 tree :)
->>>   
->> I can queue them and would send the PR soon. I am also fine with someone
->> else doing it.
-> Would be great if you could queue these together with
-> https://patchew.org/QEMU/20200424090314.544-1-cohuck@redhat.com/
-> (hopefully should still apply cleanly, let me know if a respin is
-> needed).
->
-It's probably better to respin:
+29.04.2020 14:38, Max Reitz wrote:
+> On 29.04.20 08:10, Vladimir Sementsov-Ogievskiy wrote:
+>> Instead of just relying on the comment "Called only on full-dirty
+>> region" in block_copy_task_create() let's move initial dirty area
+>> search directly to block_copy_task_create(). Let's also use effective
+>> bdrv_dirty_bitmap_next_dirty_area instead of looping through all
+>> non-dirty clusters.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   block/block-copy.c | 78 ++++++++++++++++++++++++++--------------------
+>>   1 file changed, 44 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/block/block-copy.c b/block/block-copy.c
+>> index 35ff9cc3ef..5cf032c4d8 100644
+>> --- a/block/block-copy.c
+>> +++ b/block/block-copy.c
+> 
+> [...]
+> 
+>> @@ -106,17 +111,27 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
+>>       return true;
+>>   }
+>>   
+>> -/* Called only on full-dirty region */
+>> +/*
+>> + * Search for the first dirty area in offset/bytes range and create task at
+>> + * the beginning of it.
+> 
+> Oh, that�s even better.
+> 
+>> + */
+>>   static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+>>                                                int64_t offset, int64_t bytes)
+>>   {
+>> -    BlockCopyTask *task = g_new(BlockCopyTask, 1);
+>> +    if (!bdrv_dirty_bitmap_next_dirty_area(s->copy_bitmap,
+>> +                                           offset, offset + bytes,
+>> +                                           s->copy_size, &offset, &bytes))
+>> +    {
+>> +        return NULL;
+>> +    }
+>>   
+>> +    /* region is dirty, so no existent tasks possible in it */
+>>       assert(!find_conflicting_task(s, offset, bytes));
+>>   
+>>       bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
+>>       s->in_flight_bytes += bytes;
+>>   
+>> +    BlockCopyTask *task = g_new(BlockCopyTask, 1);
+> 
+> This should be declared at the top of the function.
+> 
 
- > patches apply id:20200424090314.544-1-cohuck@redhat.com
-Applying: hw: add compat machines for 5.1
-Using index info to reconstruct a base tree...
-M    hw/arm/virt.c
-Falling back to patching base and 3-way merge...
-Auto-merging hw/arm/virt.c
-CONFLICT (content): Merge conflict in hw/arm/virt.c
-error: Failed to merge in the changes.
-hint: Use 'git am --show-current-patch' to see the failed patch
-Patch failed at 0001 hw: add compat machines for 5.1
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
+I just thought, why not to try another style? Are you against? Requirement to declare variables at start of block is obsolete, isn't it?
+
+> 
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+> 
+>>       *task = (BlockCopyTask) {
+>>           .s = s,
+>>           .offset = offset,
+> 
 
 
+-- 
+Best regards,
+Vladimir
 
