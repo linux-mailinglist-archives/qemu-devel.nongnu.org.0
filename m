@@ -2,53 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36991BE6A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:50:42 +0200 (CEST)
-Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020BB1BE68C
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:47:15 +0200 (CEST)
+Received: from localhost ([::1]:56058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTrn7-0002cA-T4
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38564)
+	id 1jTrjl-0005xh-Uy
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:47:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <volker.ruemelin@t-online.de>) id 1jTrh3-0003xz-0t
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:44:38 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jTrh4-00040w-OB
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:44:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <volker.ruemelin@t-online.de>) id 1jTrfc-0006FG-KF
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:44:24 -0400
-Received: from mailout10.t-online.de ([194.25.134.21]:55218)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jTrfc-0005w6-3b
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:42:56 -0400
-Received: from fwd13.aul.t-online.de (fwd13.aul.t-online.de [172.20.27.62])
- by mailout10.t-online.de (Postfix) with SMTP id C1CBF4174D14;
- Wed, 29 Apr 2020 20:42:52 +0200 (CEST)
-Received: from linpower.localnet
- (ZehMggZdohLM7dz8Vr0OOfXCHX+zQkxCJHC7gO019PofqGWqOIQmoUb30gNdJImZMB@[46.86.59.135])
- by fwd13.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jTrfW-4QM8MS0; Wed, 29 Apr 2020 20:42:50 +0200
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 72218200F41; Wed, 29 Apr 2020 20:42:50 +0200 (CEST)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 1/1] Fix win32 keycode for VK_OEM_102
-Date: Wed, 29 Apr 2020 20:42:50 +0200
-Message-Id: <20200429184250.8238-1-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <1862f332-a40e-2416-5ab4-37d885f87337@t-online.de>
-References: <1862f332-a40e-2416-5ab4-37d885f87337@t-online.de>
+ (envelope-from <richard.henderson@linaro.org>) id 1jTrg3-0006qs-6e
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:44:26 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jTrg2-0006mR-N4
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:43:22 -0400
+Received: by mail-pl1-x642.google.com with SMTP id t16so1156705plo.7
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 11:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=kp0zvv03JXhADP/c8bAM6urg6EvCkhydXj2S8B/j2zQ=;
+ b=y+QfwR4JmWzYZM+dhE3iBO7ZUquBE/X5ujlH6U0MytpBhhKyPf/W1r3ZcFlp5Yy5DJ
+ JTm3/MlmRMbN3aINedEHhqCett2HPh95III6zbI/FwYHwhEQFZL2E8uSZU+S6r2IuxBA
+ eQR0c7VkB40QPqjiNdEzvgpbf7aF5eG4sNDxpz/MPu3L+B3wDxdyJcHw25/OW/ivcajW
+ QO8ANItSLLDX1Z7TJuWEDhlo1FaCR7xy0/H6zR3oQaZVynSv2rv/1wZxjD3QEjUVLsny
+ +y1C65qWxfjXplmVNINX1tFwqEvgZe4wrL17pXlgPusSMG3ssSsiXpWp0m8CoN+oJ8w6
+ gRzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kp0zvv03JXhADP/c8bAM6urg6EvCkhydXj2S8B/j2zQ=;
+ b=FdjKCOZPgPpCSTBW8SQtNieJ9zyBiGYyIt2DoQSHmvUflPlc5PueXaG/K+qXpWlxnh
+ dKkiEFv1PmzfXMWdtWzLcmswxEyZN4RHOpPJWb5Neds4LPbErnaApZ+yP+frzNHQnBxS
+ S3WTWm4arFJE208QzTYLcP3trjufZrtgKLbVSIPSrV73Ox5oP9HTPJ7ac2f4VVo8URWc
+ d3GeFaIC5rS1W2Y9/t4FTblkzXwphmsj4sDG0ejKn7MtGuOFHBOlssAKI/A0v745SCEt
+ mQk6gp5PvBaNtwfHo4lE90HbEeUuaSIpdnedYLfs/D59URZZQRsymjXsiioAVyTpQQM1
+ h7Pg==
+X-Gm-Message-State: AGi0PuYx4lQERN81DF9aSM3zAR+9IGtBcMeL9GM1JFMEAE5ZM5/LDKIR
+ YKZuepJOrNsOJrL7BMjup8QTTPN4Tcs=
+X-Google-Smtp-Source: APiQypIlgFfNxUlm3w1KuxHoF7PeseLXS6LhNjC6WhvwzgRCFFsvD/LWUCvnCfz4wBVZp9WPJk6K6Q==
+X-Received: by 2002:a17:90a:5a:: with SMTP id 26mr4904684pjb.74.1588185801035; 
+ Wed, 29 Apr 2020 11:43:21 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id b1sm1588632pfi.140.2020.04.29.11.43.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Apr 2020 11:43:20 -0700 (PDT)
+Subject: Re: [PATCH 4/4] target/arm: Implement ARMv8.2-TTS2UXN
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200330210400.11724-1-peter.maydell@linaro.org>
+ <20200330210400.11724-5-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <98a9cb27-0a9c-b9c7-f683-968e01202343@linaro.org>
+Date: Wed, 29 Apr 2020 11:43:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ID: ZehMggZdohLM7dz8Vr0OOfXCHX+zQkxCJHC7gO019PofqGWqOIQmoUb30gNdJImZMB
-X-TOI-MSGID: 9373f70b-6e07-404a-ba0b-155f282ea0cc
-Received-SPF: none client-ip=194.25.134.21;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout10.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 14:42:52
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 194.25.134.21
+In-Reply-To: <20200330210400.11724-5-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::642
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,32 +86,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The win32 keycode for VK_OEM_102 is 0xe2. The Microsoft docu-
-mentation for virtual-key codes agrees with mingw32/winuser.h.
+On 3/30/20 2:04 PM, Peter Maydell wrote:
+> The ARMv8.2-TTS2UXN feature extends the XN field in stage 2
+> translation table descriptors from just bit [54] to bits [54:53],
+> allowing stage 2 to control execution permissions separately for EL0
+> and EL1. Implement the new semantics of the XN field and enable
+> the feature for our 'max' CPU.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/cpu.h    | 15 +++++++++++++++
+>  target/arm/cpu.c    |  1 +
+>  target/arm/cpu64.c  |  2 ++
+>  target/arm/helper.c | 37 +++++++++++++++++++++++++++++++------
+>  4 files changed, 49 insertions(+), 6 deletions(-)
 
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- data/keymaps.csv | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/data/keymaps.csv b/data/keymaps.csv
-index bc2376c..8111047 100644
---- a/data/keymaps.csv
-+++ b/data/keymaps.csv
-@@ -145,7 +145,7 @@ KEY_KPDOT,83,ANSI_KeypadDecimal,0x41,0x53,0x71,0x71,99,VK_DECIMAL,0x6e,83,83,XK_
- KEY_KPDOT,83,ANSI_KeypadDecimal,0x41,0x53,0x71,0x71,99,VK_DECIMAL,0x6e,83,83,XK_KP_Decimal,0xffae,NumpadDecimal,KPDC,kp_decimal,0x32,0x41
- ,84,,,0x54,,,,,,,,,,,,,,
- KEY_ZENKAKUHANKAKU,85,,,0x76,0x5f,,148,,,,,,,Lang5,HZTG,,,
--KEY_102ND,86,,,0x56,0x61,0x13,100,VK_OEM_102,0xe1,86,86,,,IntlBackslash,LSGT,less,0x7c,
-+KEY_102ND,86,,,0x56,0x61,0x13,100,VK_OEM_102,0xe2,86,86,,,IntlBackslash,LSGT,less,0x7c,
- KEY_F11,87,F11,0x67,0x57,0x78,0x56,68,VK_F11,0x7a,87,87,XK_F11,0xffc8,F11,FK11,f11,0x09,0x67
- KEY_F12,88,F12,0x6f,0x58,0x07,0x5e,69,VK_F12,0x7b,88,88,XK_F12,0xffc9,F12,FK12,f12,0x0b,0x6f
- KEY_RO,89,,,0x73,0x51,,135,,,,,,,IntlRo,AB11,ro,,
--- 
-2.16.4
-
+r~
 
