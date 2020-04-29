@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800E81BE18D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:48:57 +0200 (CEST)
-Received: from localhost ([::1]:49518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C1C1BE1BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:53:34 +0200 (CEST)
+Received: from localhost ([::1]:58054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTo1A-0004BK-I3
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50926)
+	id 1jTo5d-0008VZ-F7
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51230)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mszeredi@redhat.com>) id 1jTnzs-0003YD-Io
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:47:36 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jTo20-0005Vd-9n
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:49:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mszeredi@redhat.com>) id 1jTnzr-0003TO-FA
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:47:36 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27951
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
- id 1jTnzq-0003T8-TR
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:47:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588171654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2lEtLDyp7iFnZjul8Zm0DuDY7EJzkmLrU8teGYAr/28=;
- b=FJk1Y3O8TpoTh5JaDWKyaQNKT49P40BR2d3e7iUgkHC77E2FsaeLduAA9vvYyMV8BTIlUP
- 0qssUZ96sDDQi8LAXDH/3TqrfCFg67UqU06/h/WoUNEcl1RvUzMMzK7Bvu3K4R8gwhsKfJ
- xtSHMqB6Ub4yyCL9iQqwy8WP+2b0YSc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-msrCTe9xNdy3h_wZ9Oi42Q-1; Wed, 29 Apr 2020 10:47:32 -0400
-X-MC-Unique: msrCTe9xNdy3h_wZ9Oi42Q-1
-Received: by mail-qk1-f198.google.com with SMTP id 198so2901122qkf.2
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:47:32 -0700 (PDT)
+ (envelope-from <peter.maydell@linaro.org>) id 1jTo1y-0003uQ-SC
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:49:48 -0400
+Received: from mail-oo1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:41870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jTo1y-0003uC-DB
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:49:46 -0400
+Received: by mail-oo1-xc2d.google.com with SMTP id t3so475778oou.8
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:49:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0fQ8UfZ6XSti3VkPBlrs9GDBA7hTbayMlPd/qo+hVHQ=;
+ b=meAKgOoXW2Qu4RpJOcS4QIhCuDxh4vf0owSDX4+LipFrtwfarFBpW2LFgks9Dwo400
+ Sa/SepSixsGcP3A9H7PTAl2UmO6wo+Wl7WshruBBVXwpapzxUfY32bWrqucnSJFrU2Vn
+ cFO+BkWSM8KEKct1EWYIlAm2463zOhRxI6mDQE/GpeiFr96R+IIXUSjJRJZBii/fsbVV
+ 9OIUrTuHZOhA8UHnItcaGuKwTCWk0ighwBLGH7xLf7JUbmGgSjpuE885v+jRK+t2DJZu
+ D7a+G+XX+rS/Ghgr3NeD2ELmmUQ7PwButsW5VH4gu1TzUwobeDTXLvBc04iGhzTFioUq
+ zbcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yPAsUBIs03h4yunxvaD+gRFwr2wU1gJ1iuNONBVz6TQ=;
- b=SUQeBoZ9YvmmXE5trW9yBZl16/eluT7jsMI/VAAT2vN3YovbQKfZ4aN5TPdU5VL9D/
- 5DFZ8X5O27kE0vMLIuS91GaOh+veoyW6UY1Lh+TkbyVPNtZRldmMsH6zsDXrlAJNgzgf
- JeYsAPO1e8MbQK6TSro2gRfgc7qhCYV8GLgjW/5OusUCpkk/gKjHQhFKKlmQXo2CUVsd
- Tzi/hGOPakmgTnebjD9OP95s721uHPFJgGRmEY11R411YzI8mMoiAByG77MHioudVYu0
- ntAute0vnFeibmvwY4Q9dIhOFXYmAu1bRv/h0ztQ9NtNg5R29UQSbI1glrTkcWPy0HHi
- oJNg==
-X-Gm-Message-State: AGi0PuaXNroUW+lQAMIq8X1z+qjnQeuJUqGSyuoo/YQ2R5X83aann281
- jQZ7zy94I4+dlq0UVcVML83ytUxR5QDrGDe7l0vBpVDbo2hHB3ZHhJN9kjjaFcLSxuzVZHebiu4
- Qwcif2bKOACaEsfF0cBD3ZsFn17+I6gk=
-X-Received: by 2002:a37:a102:: with SMTP id k2mr12358313qke.199.1588171652138; 
- Wed, 29 Apr 2020 07:47:32 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLuAAW+UNJEJ418Ix6qNVbDQZb5IiKtpEyGiY9UPaEhGj3h/Uzql0N3iWGJ7qa1+9l52/IXZknWigVmD43Rg1U=
-X-Received: by 2002:a37:a102:: with SMTP id k2mr12358296qke.199.1588171651937; 
- Wed, 29 Apr 2020 07:47:31 -0700 (PDT)
+ bh=0fQ8UfZ6XSti3VkPBlrs9GDBA7hTbayMlPd/qo+hVHQ=;
+ b=IVsOFidSkDr1iPB4G2UZ70n73ySbRuGtgKhNCipVoMGKuUYkY/DPrQWrIg7ORm/sAj
+ 9WwsMlHUYEmnt8HMLmQjWT/sY2I1QqcQULuE//kElha//LLBlYqLFcLf2wrNQTuVvnYg
+ omvykvTmaZEXt4eI7tcT6F6HNTpNJF1P/ebbVLraW2UAmsmlXnEOT8NxPdp26L4lvjQO
+ SFcyDThcW5hAmgDVrHYlrSycF3oYGJcYbOwlyqn8ZI81EiZndaNDJostJvsQgQyXrKN4
+ Iiu0PhvKeEXP/IYR3kKvCNKtJM87/rqPsDS4EOMna9mFmphpu/vbcwlel+iOx/42r4BD
+ MjVg==
+X-Gm-Message-State: AGi0PuaCNB9U+65/FFOPqCyEMF2QNTxF1QNEKhV/ELanI9M0SJ+sD2cV
+ rbfsK+7rS8fkdn4FRbYPDJpoqsHv4pjMKnHPjOcwVA==
+X-Google-Smtp-Source: APiQypISk+bPDQED9YhJOm5bHEXsM5ethp7Z6E7Sp3Zp/7t1B6wLL+a+ZORGyRGuWN6uzkEeyd2pexbsCy5n76KZsOE=
+X-Received: by 2002:a4a:8253:: with SMTP id t19mr27464961oog.69.1588171785015; 
+ Wed, 29 Apr 2020 07:49:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200429124733.22488-1-mszeredi@redhat.com>
- <20200429143600.GE231284@redhat.com>
-In-Reply-To: <20200429143600.GE231284@redhat.com>
-From: Miklos Szeredi <mszeredi@redhat.com>
-Date: Wed, 29 Apr 2020 16:47:19 +0200
-Message-ID: <CAOssrKcOgP7eLo+uQdv==HssuqU3qpBKibvYAXypU88QXvypKw@mail.gmail.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: jail lo->proc_self_fd
-To: Vivek Goyal <vgoyal@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
+ <87lfmhl0xa.fsf@linaro.org>
+ <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
+ <87imhlkwun.fsf@linaro.org>
+ <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
+ <87ftcoknvu.fsf@linaro.org>
+ <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <871ro6ld2f.fsf@linaro.org>
+ <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+In-Reply-To: <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 29 Apr 2020 15:49:33 +0100
+Message-ID: <CAFEAcA_c7hb-Ahi-fws9yjLiCHn5LnF6mdYaHyw8T3athzDZ8w@mail.gmail.com>
+Subject: Re: R: About hardfloat in ppc
+To: Dino Papararo <skizzato73@msn.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mszeredi@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc2d.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::c2d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,39 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Programmingkid <programmingkidx@gmail.com>,
+ "luoyonggang@gmail.com" <luoyonggang@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 29, 2020 at 4:36 PM Vivek Goyal <vgoyal@redhat.com> wrote:
+On Wed, 29 Apr 2020 at 15:33, Dino Papararo <skizzato73@msn.com> wrote:
 >
-> On Wed, Apr 29, 2020 at 02:47:33PM +0200, Miklos Szeredi wrote:
-> > While it's not possible to escape the proc filesystem through
-> > lo->proc_self_fd, it is possible to escape to the root of the proc
-> > filesystem itself through "../..".
+> Hi Alex,
+> maybe a pseudo code can show better what I mean
 >
-> Hi Miklos,
+> if (ppc_fpu_instruction == USE_FPSCR) /* instruction have dot '.' so FPSCR will be updated and we need have care about it */
+>         soft_decode (ppc_fpu_instruction)
+> else  /* instruction have not dot '.' and FPSCR will be never updated and we don't need to have care about it -> maxspeed */
+>         hard_decode (ppc_fpu_instruction)
+
+My understanding was that the '.' indicates whether
+the instruction updates CR1 (the condition register),
+which is separate from whether it updates FPSCR
+flags. So all insns update FPSCR flags; insns with
+a '.' additionally update CR state which can be
+tested by a following branch insn. (I'm not a PPC
+expert but that's what my reading of the ISA spec is.)
+
+> In ppc assembly all instructions who needs to take care of inexact flag and/or exception flags, are processed prior than test instructions, look at following exception handling example:
 >
-> So this attack will work with some form of *at(lo->proc_self_fd, "../..")
-> call?
+>    fadd. f0,f1,f2 # f1 + f2 = f0. CR1 contains except.summary
+>    bta   4,error  # if bit 0 of CR1 is set, go to error
+>                   # bit 0 is set if any exception occurs
+>    .              # if clear, continue operation
+>    .
+>    .
+> error:
+>    mcrfs 2,1   # copy FPSCR bits 4-7 to CR field 2
+>                # now CR1 and CR2 (bits 6 through 10)
+>                # contain all exception bits from FPSCR
 
-Right.
+This may be a common pattern, but the architecture doesn't
+require it. You could equally do
 
->
-> >
-> > Use a temporary mount for opening lo->proc_self_fd, that has it's root =
-at
-> > /proc/self/fd/, preventing access to the ancestor directories.
->
-> Does this mean that now similar attack can happen using "../.." on tmpdir
-> fd instead and be able to look at peers of tmpdir. Or it is blocked
-> due to mount point or something else.
+    fadd f0,f1,f2   # insn which sets fpscr bits
+    mffs 30         # copy whole fpscr to a gp register
+    # now do stuff based on that value
 
-No, because tmpdir is detached, the root of that tree will be the
-directory pointed to by the fd.  ".." will just lead to the same
-directory.
+So unless you can tell for certain that nothing in
+the future guest execution can the relevant FPSCR bits
+before they're overwritten, you have to generate them
+correctly; or be able to re-generate them later, if
+you want to get fancy (you could imagine a scheme
+similar to how we handle CPU condition flags on
+some guests, where instead of calculating them every
+time we make a note of what the operation that should
+have set them was, so that at the point where the
+guest actually does read the fpscr or do something
+else that demands the real flag value we can recreate
+them, in this case by repeating the fp operation via
+softfloat. Getting that working would be a non-trivial
+project, though.)
 
-Thanks,
-Miklos
-
+thanks
+-- PMM
 
