@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA8A1BE2F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 17:40:41 +0200 (CEST)
-Received: from localhost ([::1]:56946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB3C1BE305
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 17:45:01 +0200 (CEST)
+Received: from localhost ([::1]:34678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTopE-0008Q7-HR
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 11:40:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33040)
+	id 1jTotQ-0003c1-QK
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 11:45:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34228)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jTom2-0002ja-Mu
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:37:24 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTos5-0002qZ-A1
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:43:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jTocA-0007tE-1S
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:30:40 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38185
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jTos4-0000qi-IC
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:43:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40895
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jToc9-0007sQ-Ih
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:27:09 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTodZ-0006hY-Rx
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 11:28:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588174027;
+ s=mimecast20190719; t=1588174116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NP7oes80jMZLO5POXHfQYdzuf8rcV2BJA2f5Onrnf1o=;
- b=ctAoL8LA+1mVYU9LZsvLy/D1dZ3XMLAiTG6KnZdDM8vcLL2ucgjFm/o/6iB+udQrrRbtpG
- N5kv10eKbfIWfUir3wnc48xvCBJGj0audeA+wHEzQwTAvlgzM49fSgG9I1Uc2qY5rs9Wzq
- vYH1Xewb7VaDfHsmo/cViUw9GM8+h94=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=S9uxGuo89lqDHaFh0CjJqlhlEyNKNG44WyZGfy8vqwI=;
+ b=i9MA3x5k2PFfsn+yBBqpzuuhxvw1SevqrCIYv48dBinzYDX64dbODE5FFdQuWxd1yZxIf+
+ j0noQ16dIx3tYUc/w7i6ogKGwl4ERJbDBTopZib7UWwZZ6+Mtk3mDbBjmx7eEQXXlO9BBl
+ ZD5bb627px6tRKPlizSJwONUVdkrZ4U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-VH0eOEcbOTKXI53g109tlA-1; Wed, 29 Apr 2020 11:27:05 -0400
-X-MC-Unique: VH0eOEcbOTKXI53g109tlA-1
+ us-mta-503-Q5uklgRuOGCxmWlYyXxRlw-1; Wed, 29 Apr 2020 11:28:30 -0400
+X-MC-Unique: Q5uklgRuOGCxmWlYyXxRlw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DADB872FE1
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:27:04 +0000 (UTC)
-Received: from localhost (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 22B1410013BD;
- Wed, 29 Apr 2020 15:27:00 +0000 (UTC)
-Date: Wed, 29 Apr 2020 16:26:59 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: jail lo->proc_self_fd
-Message-ID: <20200429152659.GA134868@stefanha-x1.localdomain>
-References: <20200429124733.22488-1-mszeredi@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B35EF1005510;
+ Wed, 29 Apr 2020 15:28:29 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A93F710013BD;
+ Wed, 29 Apr 2020 15:28:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3264411358BC; Wed, 29 Apr 2020 17:28:25 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Failing property setters + hardwired devices + -global = a bad day
+Date: Wed, 29 Apr 2020 17:28:25 +0200
+Message-ID: <87mu6uia5i.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200429124733.22488-1-mszeredi@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,55 +73,259 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---yrj/dFKFPuw6o+aM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here's how we represent QOM properties:
 
-On Wed, Apr 29, 2020 at 02:47:33PM +0200, Miklos Szeredi wrote:
-> While it's not possible to escape the proc filesystem through
-> lo->proc_self_fd, it is possible to escape to the root of the proc
-> filesystem itself through "../..".
->=20
-> Use a temporary mount for opening lo->proc_self_fd, that has it's root at
-> /proc/self/fd/, preventing access to the ancestor directories.
->=20
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 27 +++++++++++++++++++++++++--
->  1 file changed, 25 insertions(+), 2 deletions(-)
+    struct ObjectProperty
+    {
+        gchar *name;
+        [...]
+        ObjectPropertyAccessor *get;
+        ObjectPropertyAccessor *set;
+        ObjectPropertyInit *init;
+        void *opaque;
+        QObject *defval;
+    };
 
-Good idea!
+=3D The setter =3D
 
-It's important to note that the proc file system is already mounted
-within a new pid namespace.  Therefore the only process visible is our
-own process and we don't need to worry about /proc/$PID.  However, there
-are a bunch of other files in /proc.  Some of them are protected by
-capability checks like /proc/kcore and virtiofsd is unable to access
-them, but it's hard to guarantee that they are all off limits.  Better
-safe than sorry!
+A ->set() method looks like this:
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+    void TYPE_set_PROP(Object *obj, Visitor *v,
+                       const char *name, void *opaque, Error **errp)
 
---yrj/dFKFPuw6o+aM
-Content-Type: application/pgp-signature; name="signature.asc"
+The bit to remember for later is that it can fail.
 
------BEGIN PGP SIGNATURE-----
+=3D Default defaults =3D
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6pnMMACgkQnKSrs4Gr
-c8gVhAf9HxQ28zYG8KXMDIkOoF+8g4feaj3fdMjwcC9JV56+AJ7oKPJo+hMFqarF
-UR41YIMTHhbojaSjnlWLWL0rUIrBre+YlQft1tzpc4B7BXuVrqbZgVwuhztVjs2R
-Cpjc/9SiB/nBslL6USs18A46x3pI40XQYCDlgZ0P6aC7vtCLkGEcjYNa630rvZhQ
-KqZpMPu4e2Xvl/iEo0oeExr2xmRJnrI1ECjL+pRS02HZpWoNRYB2K0JT+AQnvwsT
-Lcoe0y9UXciq/UvvpL8ZtAkNoheK//PG8zx/HxCE9LO9O4z9/fdwjQuK5by1kV9o
-Fpwybg8jn/dUP8JxX2ceXK64wDDQyg==
-=S+XI
------END PGP SIGNATURE-----
+When an object gets created, its memory is zeroed, and then any class
+properties with an ->init() are initialized with
 
---yrj/dFKFPuw6o+aM--
+    obj->init(obj, prop);
+
+We have just one ->init():
+
+    void object_property_init_defval(Object *obj, ObjectProperty *prop)
+
+It initializes from ->defval using ->set().
+
+Aside: feels overengineered, but let's move on.
+
+For TYPE_DEVICE objects, "static" properties get initialized the same.
+
+Aside: if I know what "static" means, I'll be hanged.
+
+The bit to remember for later is that properties start at zero, and some
+have their zero overwritten with ->set().
+
+=3D "Compat" defaults =3D
+
+TYPE_DEVICE objects and the accelerator (the thing you configure with
+-accel) next undergo object_apply_compat_props().
+
+TYPE_DEVICE objects do this from ->instance_post_init().
+
+For the accelerator, we do it where we create it, in
+do_configure_accelerator().
+
+This provides for defaults that depend on the accelerator, the machine
+type, or certain legacy command line option desugaring (don't ask).
+
+These default values are stored as strings, and applied with
+object_property_parse(), which uses ->set().
+
+The bit to remember for later is that some properties have their default
+default overwritten with ->set() one or more times.
+
+=3D -global defaults =3D
+
+TYPE_DEVICE objects next undergo qdev_prop_set_globals(), still from
+->instance_post_init().  This applies the user's -global options.
+
+These default values are also stored as strings, and also applied with
+object_property_parse(), which uses ->set().
+
+The bit to remember for later is that some properties have their
+built-in default overwritten with ->set() one more time.
+
+=3D Configuration =3D
+
+Now we come to a fork in the road: devices created with configuration
+taken from -device / device_add, and devices the code creates by itself.
+
+=3D=3D -device / device_add =3D=3D
+
+This is qdev_device_add().  Works as follows:
+
+    1. create object (this applies the various defaults)
+    2. Pass the users KEY=3DVALUE,... to object_property_parse() one by
+       one
+    3. realize
+
+The bit to remember for later is that properties of user-creatable
+devices get overwritten with ->set one final time.
+
+=3D=3D Hardwired devices =3D=3D
+
+Common pattern:
+
+    1. create object (this applies the various defaults)
+    2. set properties with qdev_prop_set_FOO() one by one
+    3. realize
+
+=3D Handling ->set() failure =3D
+
+Here's how the uses of ->set() we've seen so far handle failure:
+
+* Default defaults
+
+  An ->init() method cannot fail; object_property_init_defval() passes
+  &error_abort.
+
+  Rationale: if the defaults we bake into QEMU don't work, it's a
+  programming error.
+
+* "Compat" defaults
+
+  do_configure_accelerator() can fail, but an ->instance_post_init()
+  method can't; object_apply_compat_props() uses &error_abort, except
+  for the legacy command line option desugaring, where it uses
+  &error_fatal.
+
+  Rationale: if the defaults we bake into QEMU don't work, it's a
+  programming error.  If legacy CLI options can't be applied, it's a
+  fatal error.
+
+* -global defaults
+
+  An ->instance_post_init() method can't fail; qdev_prop_set_globals()
+  uses &error_fatal.
+
+  Rationale: if the user's -global can't be applied, it's a fatal error.
+
+  Except it *ignores* errors afterward initial configuration (after
+  qdev_machine_creation_done()).
+
+  Rationale: silently ignoring the user's -global for hot-plugged
+  devices is bad, killing the VM is worse.  We suck.
+
+* -device / device_add
+
+  qdev_device_add() fails cleanly.
+
+  Rationale: sometimes we manage not to suck.
+
+* Hardwired devices
+
+  The qdev_prop_set_FOO() can't fail; they pass &error_abort.
+
+  Rationale: if the configuration we bake into QEMU doesn't work, it's a
+  programming error.
+
+  Except qdev_prop_set_drive() can fail.  Of its 43 callers, 9 pass
+  &error_abort, 27 pass &error_fatal, and 7 try to handle failure.
+  Of these seven, several are obviously wrong.
+
+  Rationale: uh, we like exceptions?
+
+=3D Can this get more depressing? =3D
+
+Yes!
+
+->set() can run many times, yet I found three ->set() methods that can't
+handle overwriting non-zero:
+
+* set_netdev() fails with "Property NETDEV doesn't take value VALUE"
+
+  Reproducer:
+
+    $ upstream-qemu -nodefaults -S -monitor stdio -display none -nic user -=
+netdev user,id=3Dfoo -global e1000.netdev=3Dfoo
+    QEMU 5.0.0 monitor - type 'help' for more information
+    (qemu) Unexpected error in error_set_from_qdev_prop_error() at /work/ar=
+mbru/qemu/hw/core/qdev-properties.c:1105:
+    upstream-qemu: Property 'e1000.netdev' doesn't take value '__org.qemu.n=
+ic0
+    '
+    Aborted (core dumped)
+
+  The abort is courtesy qdev_prop_set_net().
+
+* set_drive() leaves the old value attached to the device, which is wrong
+
+  Reproducer:
+
+    $ upstream-qemu -S -monitor stdio -display none -fda tmp.qcow2 -drive i=
+f=3Dnone,file=3Dtest.qcow2 -global isa-fdc.driveA=3Dnone0
+    QEMU 5.0.0 monitor - type 'help' for more information
+    (qemu) info block
+    floppy0 (#block162): tmp.qcow2 (qcow2)
+  --->  Attached to:      /machine/unattached/device[16]
+        Removable device: not locked, tray closed
+        Cache mode:       writeback
+        Backing file:     tmp.img (chain depth: 1)
+
+    none0 (#block535): test.qcow2 (qcow2)
+  --->  Attached to:      /machine/unattached/device[15]
+        Cache mode:       writeback
+        Backing file:     f29.raw (chain depth: 1)
+
+    ide1-cd0: [not inserted]
+        Attached to:      /machine/unattached/device[23]
+        Removable device: not locked, tray closed
+
+    sd0: [not inserted]
+        Removable device: not locked, tray closed
+
+  device[15] is "isa-fdc".
+
+  device[16] is the "floppy" hanging of "isa-fdc".  Magic in fdc.c moved
+  it from "isa-fdc" (don't ask).
+
+* set_chr() calls qemu_chr_fe_init() again without qemu_chr_fe_deinit(),
+  which is wrong
+
+  Reproducer:
+
+    $ upstream-qemu -nodefaults -S -monitor stdio -display none -chardev nu=
+ll,id=3Dfoo -chardev null,id=3Dbar -serial chardev:foo -global isa-serial.c=
+hardev=3Dbar
+
+The "if the configuration we bake into QEMU doesn't work, it's a
+programming error" idea needs amending: "doesn't work with any -global
+shenanigans users may come up with".
+
+I guess these ->set() flaws are fixable.
+
+The knee-jerk fix is to have ->set() fail rather than screw up.  This is
+what set_netdev() does.  It founders on the amended "if the
+configuration we bake into QEMU don't work, it's a programming error"
+idea: ->set() can then fail there because -global set it up for failure.
+
+Making all the qdev_prop_set_FOO() users handle errors would be a lot of
+work: in addition to the 43 users of qdev_prop_set_drive(), we have more
+than 50 of qdev_prop_set_chr() and almost 40 of
+qdev_set_nic_properties().  Infeasible for me.  Bye, bye knee-jerk fix.
+
+Is there any sane use for configuring backends via any of the default
+mechanisms?
+
+I'm aware of one, but it's outdated: -global isa-fdc.driveA=3D...  Use
+-device floppy instead.
+
+I'd love to deprecate -global wholesale, but we can't as long as we
+don't have better means to configure onboard devices.  Can we deprecate
+its use with backend properties at least?
+
+While we're talking about deprecation: what about use of -global with
+hot-plugged devices?  Remember, bad -global gets silently ignored there.
 
 
