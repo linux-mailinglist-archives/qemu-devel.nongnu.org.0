@@ -2,145 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9911BDFA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 15:55:56 +0200 (CEST)
-Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DB61BDFE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:03:32 +0200 (CEST)
+Received: from localhost ([::1]:33768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTnBr-0000KD-0j
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 09:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41666)
+	id 1jTnJC-0004Ze-SW
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42374)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jTnB1-00082h-5I
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 09:55:03 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jTnGW-0002E3-9G
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:01:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jsnow@redhat.com>) id 1jTnB0-0001Li-D8
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 09:55:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50908
+ (envelope-from <kraxel@redhat.com>) id 1jTnG9-0003q7-OP
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37806
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jTnAz-0001LH-44
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 09:55:01 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTnG9-0003nD-95
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588168499;
+ s=mimecast20190719; t=1588168820;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=nIZE/dx6GYv4pIW4G1AeihJmIpddqBADWYqn2C88xZw=;
- b=bzE65lO+C30Tq8c+PFAMulACmO/zSvZWdv+MPuQOMQKQpjC0/P1HwbX+C+qXaHF6C+plEu
- XVxeCYMbS7AbqGnTevpX62Uq2M4bSR4nN5mINzZophmWZ/kEeocu+xkmmXFz74vp20Qhs2
- ehGOTtBbJM0yQ/g02FMRuurSNWnmMqA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Pil/b8MmaFxQICR//sKN7Pgx/oFCcB938Y3KC3rV6jE=;
+ b=dL/U7vpjbwqRski01/4Lr0YN5HCZxs/El+gebVPHc8+3PzoJfiV7zeDgJ7HFNSBmlZIhM2
+ 06HiOil5dPTkUrH4DCQWHSCE36o+/kxochGVk9eTal58n4WxCo59YogBso27cJ869G0fvl
+ UGP/wIhfdJifYD8fHkJD4h8RsOLpOlo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-AIEpFKEPMaGOrySwY5Qr3A-1; Wed, 29 Apr 2020 09:54:56 -0400
-X-MC-Unique: AIEpFKEPMaGOrySwY5Qr3A-1
+ us-mta-336-QzlS1_TKNpeWSee6aRJ0CQ-1; Wed, 29 Apr 2020 10:00:17 -0400
+X-MC-Unique: QzlS1_TKNpeWSee6aRJ0CQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D70911852E4F;
- Wed, 29 Apr 2020 13:54:54 +0000 (UTC)
-Received: from [10.10.117.103] (ovpn-117-103.rdu2.redhat.com [10.10.117.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E61E282FC;
- Wed, 29 Apr 2020 13:54:48 +0000 (UTC)
-Subject: Re: [PATCH 4/4] scripts/qmp: Fix QEMU Python scripts path
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200421094216.24927-1-f4bug@amsat.org>
- <20200421094216.24927-5-f4bug@amsat.org>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <395d7263-c4f0-7422-0355-7e082135f6cd@redhat.com>
-Date: Wed, 29 Apr 2020 09:54:48 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5BC380B70B;
+ Wed, 29 Apr 2020 14:00:15 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
+ [10.36.113.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F64128554;
+ Wed, 29 Apr 2020 14:00:04 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1EC641753B; Wed, 29 Apr 2020 16:00:03 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/15] acpi: i386 tweaks
+Date: Wed, 29 Apr 2020 15:59:48 +0200
+Message-Id: <20200429140003.7336-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200421094216.24927-5-f4bug@amsat.org>
-Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -152,142 +73,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+First batch of microvm patches, some generic acpi stuff.
+Split the acpi-build.c monster, specifically split the
+pc and q35 and pci bits into a separate file which we
+can skip building at some point in the future.
 
+v2 changes: leave acpi-build.c largely as-is, move useful
+bits to other places to allow them being reused, specifically:
 
-On 4/21/20 5:42 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> QEMU Python scripts have been moved in commit 8f8fd9edba4 ("Introduce
-> Python module structure"). Use the same sys.path modification used
-> in the referenced commit to be able to use these scripts again.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  scripts/qmp/qmp      | 4 +++-
->  scripts/qmp/qom-fuse | 4 +++-
->  scripts/qmp/qom-get  | 4 +++-
->  scripts/qmp/qom-list | 4 +++-
->  scripts/qmp/qom-set  | 4 +++-
->  scripts/qmp/qom-tree | 4 +++-
->  6 files changed, 18 insertions(+), 6 deletions(-)
->=20
-> diff --git a/scripts/qmp/qmp b/scripts/qmp/qmp
-> index 0625fc2aba..8e52e4a54d 100755
-> --- a/scripts/qmp/qmp
-> +++ b/scripts/qmp/qmp
-> @@ -11,7 +11,9 @@
->  # See the COPYING file in the top-level directory.
-> =20
->  import sys, os
-> -from qmp import QEMUMonitorProtocol
-> +
-> +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
-> +from qemu.qmp import QEMUMonitorProtocol
-> =20
+ * move isa device generator functions to individual isa devices.
+ * move fw_cfg generator function to fw_cfg.c
 
-Try to avoid using sys.path hacks; they don't work in pylint or mypy and
-it provides an active barrier to CQA work here.
-(They also tend to be quite fragile.)
+v3 changes: fix rtc, support multiple lpt devices.
 
-We can discuss the right way to do this; one of those ways is to create
-an installable package that we can install locally in a virtual environment=
-.
+take care,
+  Gerd
 
-Another way is perhaps to set PYTHONPATH in the calling environment so
-that standard "import" directives will work.
+Gerd Hoffmann (15):
+  move 'typedef Aml' to qemu/types.h
+  acpi: add aml builder stubs
+  qtest: allow DSDT acpi table changes
+  acpi: drop pointless _STA method
+  acpi: add ISADeviceClass->build_aml()
+  rtc: add RTC_ISA_BASE
+  acpi: move aml builder code for rtc device
+  acpi: serial: don't use _STA method
+  acpi: move aml builder code for serial device
+  acpi: parallel: don't use _STA method
+  acpi: move aml builder code for parallel device
+  acpi: move aml builder code for floppy device
+  acpi: move aml builder code for i8042 (kbd+mouse) device
+  acpi: factor out fw_cfg_add_acpi_dsdt()
+  acpi: simplify build_isa_devices_aml()
 
-Both ultimately involve changing the environment of the user to
-accommodate the script.
+ hw/i386/fw_cfg.h                            |   1 +
+ include/hw/acpi/aml-build.h                 |   1 -
+ include/hw/isa/isa.h                        |   2 +
+ include/hw/rtc/mc146818rtc.h                |   1 +
+ include/qemu/typedefs.h                     |   1 +
+ tests/qtest/bios-tables-test-allowed-diff.h |  17 ++
+ hw/acpi/aml-build-stub.c                    |  79 ++++++
+ hw/block/fdc.c                              |  83 ++++++
+ hw/char/parallel.c                          |  32 +++
+ hw/char/serial-isa.c                        |  32 +++
+ hw/i386/acpi-build.c                        | 271 +-------------------
+ hw/i386/fw_cfg.c                            |  28 ++
+ hw/input/pckbd.c                            |  31 +++
+ hw/isa/isa-bus.c                            |  15 ++
+ hw/rtc/mc146818rtc.c                        |  25 +-
+ stubs/cmos.c                                |   7 +
+ hw/acpi/Makefile.objs                       |   4 +-
+ stubs/Makefile.objs                         |   1 +
+ 18 files changed, 361 insertions(+), 270 deletions(-)
+ create mode 100644 hw/acpi/aml-build-stub.c
+ create mode 100644 stubs/cmos.c
 
->  def print_response(rsp, prefix=3D[]):
->      if type(rsp) =3D=3D list:
-> diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-> index 6bada2c33d..5fa6b3bf64 100755
-> --- a/scripts/qmp/qom-fuse
-> +++ b/scripts/qmp/qom-fuse
-> @@ -15,7 +15,9 @@ import fuse, stat
->  from fuse import Fuse
->  import os, posix
->  from errno import *
-> -from qmp import QEMUMonitorProtocol
-> +
-> +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
-> +from qemu.qmp import QEMUMonitorProtocol
-> =20
->  fuse.fuse_python_api =3D (0, 2)
-> =20
-> diff --git a/scripts/qmp/qom-get b/scripts/qmp/qom-get
-> index 72ccd79330..59090069dc 100755
-> --- a/scripts/qmp/qom-get
-> +++ b/scripts/qmp/qom-get
-> @@ -13,7 +13,9 @@
-> =20
->  import sys
->  import os
-> -from qmp import QEMUMonitorProtocol
-> +
-> +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
-> +from qemu.qmp import QEMUMonitorProtocol
-> =20
->  cmd, args =3D sys.argv[0], sys.argv[1:]
->  socket_path =3D None
-> diff --git a/scripts/qmp/qom-list b/scripts/qmp/qom-list
-> index 5b8f9fd855..c5d0c8127d 100755
-> --- a/scripts/qmp/qom-list
-> +++ b/scripts/qmp/qom-list
-> @@ -13,7 +13,9 @@
-> =20
->  import sys
->  import os
-> -from qmp import QEMUMonitorProtocol
-> +
-> +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
-> +from qemu.qmp import QEMUMonitorProtocol
-> =20
->  cmd, args =3D sys.argv[0], sys.argv[1:]
->  socket_path =3D None
-> diff --git a/scripts/qmp/qom-set b/scripts/qmp/qom-set
-> index b475e397fc..e9d7e0b054 100755
-> --- a/scripts/qmp/qom-set
-> +++ b/scripts/qmp/qom-set
-> @@ -13,7 +13,9 @@
-> =20
->  import sys
->  import os
-> -from qmp import QEMUMonitorProtocol
-> +
-> +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
-> +from qemu.qmp import QEMUMonitorProtocol
-> =20
->  cmd, args =3D sys.argv[0], sys.argv[1:]
->  socket_path =3D None
-> diff --git a/scripts/qmp/qom-tree b/scripts/qmp/qom-tree
-> index 86233fa211..d96b17256e 100755
-> --- a/scripts/qmp/qom-tree
-> +++ b/scripts/qmp/qom-tree
-> @@ -15,7 +15,9 @@
-> =20
->  import sys
->  import os
-> -from qmp import QEMUMonitorProtocol
-> +
-> +sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'pyt=
-hon'))
-> +from qemu.qmp import QEMUMonitorProtocol
-> =20
->  cmd, args =3D sys.argv[0], sys.argv[1:]
->  socket_path =3D None
->=20
+-- 
+2.18.2
 
 
