@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D55E1BD470
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:12:28 +0200 (CEST)
-Received: from localhost ([::1]:47702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9036E1BD65B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:44:51 +0200 (CEST)
+Received: from localhost ([::1]:47970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTfxK-0006lm-NA
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39274)
+	id 1jThOk-00034X-KF
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46730)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jTfvx-0005SP-G8
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:02 -0400
+ (envelope-from <geoff@hostfission.com>) id 1jTh6D-0007UJ-GW
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:25:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jTfvv-00023b-R4
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:01 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:48664)
+ (envelope-from <geoff@hostfission.com>) id 1jTh5D-0005zD-Eo
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:25:41 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:49276)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jTfvv-00023D-0P
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:10:59 -0400
+ (envelope-from <geoff@hostfission.com>) id 1jTh5C-0005z0-KC
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:24:39 -0400
 Received: from aeryn.lan.ktmba (office.hostfission.com [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id 40B434EE52;
- Wed, 29 Apr 2020 16:10:54 +1000 (AEST)
+ by mail1.hostfission.com (Postfix) with ESMTP id 192274F462;
+ Wed, 29 Apr 2020 17:24:36 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1588140654;
+ s=mail; t=1588145076;
  bh=31XEfPO3x+/EbtY/uk8i1oMFhqu54+pliIfH+j9KeSE=;
  h=From:Date:Subject:To:From;
- b=SvcEOpCquM6esJ90PquBnOYG6Xzu/x5UMvdROevoc9xLKMgfBZeaTevL/MZLuGX21
- 8k1hf6Pk/YJaHN8HsEZza/56enB1sztcWxmDPWQMbZ5Llnw92ZMZcclPf/2c7c6ZBV
- Q2vF8typKvtGmR5Q3UlfQdew9msWWinhOYF0YxtM=
+ b=XKYYsO6cYk70FzmEILYBDFBWcZ47uRuHMZxBSxHceWioM6DKMIkCYrKlmhiuie1IF
+ 3MC6f2bAPkFtTccqUlUNSwVXcxlQ9I2mOjhIErWM2TqWnK706tY77DeXMJs/gUNKsR
+ e+Na3fYTHeDKIou+Zi2hy6DWkBgPl+/39vWybt8o=
 Received: by aeryn.lan.ktmba (Postfix, from userid 1000)
- id 348B23C0D11; Wed, 29 Apr 2020 16:10:54 +1000 (AEST)
+ id F13E23C0D11; Wed, 29 Apr 2020 17:24:35 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
 Date: Wed, 29 Apr 2020 15:53:58 +1000
-Subject: [PATCH] audio/jack: add JACK client audiodev
+Subject: [PATCH v2] audio/jack: add JACK client audiodev
 To: <qemu-devel@nongnu.org>
 X-Mailer: mail (GNU Mailutils 3.5)
-Message-Id: <20200429061054.348B23C0D11@aeryn.lan.ktmba>
+Message-Id: <20200429072435.F13E23C0D11@aeryn.lan.ktmba>
 Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
  helo=mail1.hostfission.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 02:10:55
