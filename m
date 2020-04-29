@@ -2,87 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033CD1BD6CF
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:07:28 +0200 (CEST)
-Received: from localhost ([::1]:47386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C069A1BD659
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:44:47 +0200 (CEST)
+Received: from localhost ([::1]:44320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThkd-00038x-1v
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:07:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47792)
+	id 1jThOg-0001ad-IP
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:44:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48066)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jThGX-0007gr-G4
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:37:42 -0400
+ (envelope-from <luc.michel@greensocs.com>) id 1jThJK-0003VS-KK
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jThFl-0008JH-H8
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:36:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28183
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jThFl-0008Iw-1L
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:35:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588145732;
+ (envelope-from <luc.michel@greensocs.com>) id 1jThJ5-0004Ki-TG
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:14 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:58120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1jThGN-0001yq-7h; Wed, 29 Apr 2020 03:36:11 -0400
+Received: from [172.17.10.6] (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id A1C2096EF2;
+ Wed, 29 Apr 2020 07:36:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1588145769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bn031hu9FuB+hQDcncldDV7O7zumKkeKonc8xXgOjJg=;
- b=IuyDMJypIQ3ovKtWXhuaqRKJg2/es0PXoVufuGn5dudfDxyCEC91fDC1YwKFtHrwTbRYfq
- JQveJYaqxXbQ4mkrmA/MY6lughy4glIDv/BFYVCQXX4Gk06pYDQQEUqBXWYtflsBy+IIyx
- EFIc3+1Ebv/5YTU8ym6YIpL4iqMf75s=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-ukRg9_LRO1KHbY917G3DGA-1; Wed, 29 Apr 2020 03:35:30 -0400
-X-MC-Unique: ukRg9_LRO1KHbY917G3DGA-1
-Received: by mail-wm1-f69.google.com with SMTP id 71so660419wmb.8
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 00:35:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qrOy8jSEtT2CwsIuD9tAV5omsz0ophXWymW3wRqWZ6c=;
- b=qd9tNvn1pedVWL/k9xD/OnULVvVDPKpZFveTkdSp3YDfaG51T/qaV+PH3oh+z1EQ3a
- Cpv/NJX003drxRhM+Os97h9vz0TxC/+/slgGBQT8w1L1wYinmkZAD12eVSauQ05F7IBm
- UP2in6brNpNvsLZmbYpJ98oHSB/KriMvAhqzlFaNuyYXT3ZOR6WByBRAUgfXnYuJ0wto
- ihOAx3eQ3Swe4G3kJYE62Bn9IgovDtP8DVZM1fa+W9uhiJ0EAeaJXgSQmESpIlw8hKel
- CX8UB6S9bml69pfkkTHTjZnJwweraX5FUd2e/0ftw7GFHw2RC1NwPDl4qoHfPka5WJIa
- 05pA==
-X-Gm-Message-State: AGi0PuaLSETACd/ojcndWy/O87QnTpHNPH7u9wD7C6ewd8RvBqRg3P1o
- Vc3zxsP113HE0GLnSQ3CAyulIcASc5Xxl2zwjyCTo2e0agYmUxIZQi2gzcAagNybXuibMzTZf1i
- PK6I+lBEp3Ft6E/M=
-X-Received: by 2002:adf:f881:: with SMTP id u1mr36777527wrp.348.1588145729233; 
- Wed, 29 Apr 2020 00:35:29 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIX/8ORmATcXFniftZNkoqwfWbCSu7FhKLKm3BRyGMcX5KuYLTpXB4bFdlkxaUlDyl56pge4g==
-X-Received: by 2002:adf:f881:: with SMTP id u1mr36777499wrp.348.1588145728943; 
- Wed, 29 Apr 2020 00:35:28 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id g25sm6383889wmh.24.2020.04.29.00.35.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Apr 2020 00:35:28 -0700 (PDT)
-Subject: Re: [PATCH 16/17] spapr_pci: Drop some dead error handling
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200428163419.4483-1-armbru@redhat.com>
- <20200428163419.4483-17-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <12c0d93f-672a-41e7-4374-6b2d8a35bf53@redhat.com>
-Date: Wed, 29 Apr 2020 09:35:27 +0200
+ bh=TzhevfxjE6BknwcVZueUscmT1UamdlbbHVzaCvbbbdE=;
+ b=ylsOsKkBDpNYTInJ2+G6Tvmb3o+YYvM/ZCJ0jjr143R209MbMAYzxc3uzxnizAprDFUJsK
+ 3DLMUa+4AaZH/r7hHUhuRxPj+p/doU1ARFft23rqN03q6g2QBF6zkoxqFBzpqj4/P0SMfw
+ 3OMb9P/qAzow4NOatDmhZbtVXugZ3d8=
+Subject: Re: [PATCH v1 10/11] hw/arm: versal-virt: Add support for SD
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20200427181649.26851-1-edgar.iglesias@gmail.com>
+ <20200427181649.26851-11-edgar.iglesias@gmail.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <8a3fa218-f92c-5e99-701e-b6f37b532ef0@greensocs.com>
+Date: Wed, 29 Apr 2020 09:36:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200428163419.4483-17-armbru@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+In-Reply-To: <20200427181649.26851-11-edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1588145769;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TzhevfxjE6BknwcVZueUscmT1UamdlbbHVzaCvbbbdE=;
+ b=Blqi+/IK6zKXrIye3xUPhdpruzMl8sel+Jr/0UgxfjhcC9e1OvxaeWsu415Q2DjOlQkUJE
+ 7uWNW7GGEwzaU6he1EyVxihS5b3/pK/LC9lzn6+m/8BCg1rRvoQP6J8hozRMlZjk30Bo72
+ aT8RXRrZs/Uf2wI0iySTeQ7YkZi0SkA=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1588145769; a=rsa-sha256; cv=none;
+ b=4HfhGo9z02s3pkWxM+kzDKbCC2xfplRv90wn6KFFyw/JoVsXJi4D8qoL5ey5HMU3yKCBcD
+ og2QizvmnTCZy+nbjcMRC3uk7Q0FCFX8/LtQ4OtMo/I0S4UpRgr79NpFliFfFhhxG5ejHe
+ 2BOnQ7bhAjZVm2WMMkEM13Q4xyp1x3M=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 03:23:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 5.135.226.135
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,238 +79,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, berrange@redhat.com, ehabkost@redhat.com
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me,
+ richard.henderson@linaro.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/20 6:34 PM, Markus Armbruster wrote:
-> chassis_from_bus() uses object_property_get_uint() to get property
-> "chassis_nr" of the bridge device.  Failure would be a programming
-> error.  Pass &error_abort, and simplify its callers.
->=20
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: qemu-ppc@nongnu.org
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 4/27/20 8:16 PM, Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+> 
+> Add support for SD.
+> 
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+
 > ---
->   hw/ppc/spapr_pci.c | 86 ++++++++++------------------------------------
->   1 file changed, 18 insertions(+), 68 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 1d73d05a0a..b6036be51c 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1203,46 +1203,36 @@ static SpaprDrc *drc_from_devfn(SpaprPhbState *ph=
-b,
->                              drc_id_from_devfn(phb, chassis, devfn));
->   }
->  =20
-> -static uint8_t chassis_from_bus(PCIBus *bus, Error **errp)
-> +static uint8_t chassis_from_bus(PCIBus *bus)
->   {
->       if (pci_bus_is_root(bus)) {
->           return 0;
->       } else {
->           PCIDevice *bridge =3D pci_bridge_get_device(bus);
->  =20
-> -        return object_property_get_uint(OBJECT(bridge), "chassis_nr", er=
-rp);
-> +        return object_property_get_uint(OBJECT(bridge), "chassis_nr",
-> +                                        &error_abort);
->       }
->   }
->  =20
->   static SpaprDrc *drc_from_dev(SpaprPhbState *phb, PCIDevice *dev)
->   {
-> -    Error *local_err =3D NULL;
-> -    uint8_t chassis =3D chassis_from_bus(pci_get_bus(dev), &local_err);
-> -
-> -    if (local_err) {
-> -        error_report_err(local_err);
-> -        return NULL;
-> -    }
-> +    uint8_t chassis =3D chassis_from_bus(pci_get_bus(dev));
->  =20
->       return drc_from_devfn(phb, chassis, dev->devfn);
->   }
->  =20
-> -static void add_drcs(SpaprPhbState *phb, PCIBus *bus, Error **errp)
-> +static void add_drcs(SpaprPhbState *phb, PCIBus *bus)
->   {
->       Object *owner;
->       int i;
->       uint8_t chassis;
-> -    Error *local_err =3D NULL;
->  =20
->       if (!phb->dr_enabled) {
->           return;
->       }
->  =20
-> -    chassis =3D chassis_from_bus(bus, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> +    chassis =3D chassis_from_bus(bus);
->  =20
->       if (pci_bus_is_root(bus)) {
->           owner =3D OBJECT(phb);
-> @@ -1256,21 +1246,16 @@ static void add_drcs(SpaprPhbState *phb, PCIBus *=
-bus, Error **errp)
->       }
->   }
->  =20
-> -static void remove_drcs(SpaprPhbState *phb, PCIBus *bus, Error **errp)
-> +static void remove_drcs(SpaprPhbState *phb, PCIBus *bus)
->   {
->       int i;
->       uint8_t chassis;
-> -    Error *local_err =3D NULL;
->  =20
->       if (!phb->dr_enabled) {
->           return;
->       }
->  =20
-> -    chassis =3D chassis_from_bus(bus, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> +    chassis =3D chassis_from_bus(bus);
->  =20
->       for (i =3D PCI_SLOT_MAX * PCI_FUNC_MAX - 1; i >=3D 0; i--) {
->           SpaprDrc *drc =3D drc_from_devfn(phb, chassis, i);
-> @@ -1488,17 +1473,11 @@ int spapr_pci_dt_populate(SpaprDrc *drc, SpaprMac=
-hineState *spapr,
->   }
->  =20
->   static void spapr_pci_bridge_plug(SpaprPhbState *phb,
-> -                                  PCIBridge *bridge,
-> -                                  Error **errp)
-> +                                  PCIBridge *bridge)
->   {
-> -    Error *local_err =3D NULL;
->       PCIBus *bus =3D pci_bridge_get_sec_bus(bridge);
->  =20
-> -    add_drcs(phb, bus, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> +    add_drcs(phb, bus);
->   }
->  =20
->   static void spapr_pci_plug(HotplugHandler *plug_handler,
-> @@ -1529,11 +1508,7 @@ static void spapr_pci_plug(HotplugHandler *plug_ha=
-ndler,
->       g_assert(drc);
->  =20
->       if (pc->is_bridge) {
-> -        spapr_pci_bridge_plug(phb, PCI_BRIDGE(plugged_dev), &local_err);
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> -            return;
-> -        }
-> +        spapr_pci_bridge_plug(phb, PCI_BRIDGE(plugged_dev));
->       }
->  =20
->       /* Following the QEMU convention used for PCIe multifunction
-> @@ -1560,12 +1535,7 @@ static void spapr_pci_plug(HotplugHandler *plug_ha=
-ndler,
->           spapr_drc_reset(drc);
->       } else if (PCI_FUNC(pdev->devfn) =3D=3D 0) {
->           int i;
-> -        uint8_t chassis =3D chassis_from_bus(pci_get_bus(pdev), &local_e=
-rr);
-> -
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> -            return;
-> -        }
-> +        uint8_t chassis =3D chassis_from_bus(pci_get_bus(pdev));
->  =20
->           for (i =3D 0; i < 8; i++) {
->               SpaprDrc *func_drc;
-> @@ -1587,17 +1557,11 @@ out:
->   }
->  =20
->   static void spapr_pci_bridge_unplug(SpaprPhbState *phb,
-> -                                    PCIBridge *bridge,
-> -                                    Error **errp)
-> +                                    PCIBridge *bridge)
->   {
-> -    Error *local_err =3D NULL;
->       PCIBus *bus =3D pci_bridge_get_sec_bus(bridge);
->  =20
-> -    remove_drcs(phb, bus, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        return;
-> -    }
-> +    remove_drcs(phb, bus);
->   }
->  =20
->   static void spapr_pci_unplug(HotplugHandler *plug_handler,
-> @@ -1619,11 +1583,7 @@ static void spapr_pci_unplug(HotplugHandler *plug_=
-handler,
->       pci_device_reset(PCI_DEVICE(plugged_dev));
->  =20
->       if (pc->is_bridge) {
-> -        Error *local_err =3D NULL;
-> -        spapr_pci_bridge_unplug(phb, PCI_BRIDGE(plugged_dev), &local_err=
-);
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> -        }
-> +        spapr_pci_bridge_unplug(phb, PCI_BRIDGE(plugged_dev));
->           return;
->       }
->  =20
-> @@ -1654,13 +1614,7 @@ static void spapr_pci_unplug_request(HotplugHandle=
-r *plug_handler,
->           SpaprDrcClass *func_drck;
->           SpaprDREntitySense state;
->           int i;
-> -        Error *local_err =3D NULL;
-> -        uint8_t chassis =3D chassis_from_bus(pci_get_bus(pdev), &local_e=
-rr);
-> -
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> -            return;
-> -        }
-> +        uint8_t chassis =3D chassis_from_bus(pci_get_bus(pdev));
->  =20
->           if (pc->is_bridge) {
->               error_setg(errp, "PCI: Hot unplug of PCI bridges not suppor=
-ted");
-> @@ -1741,7 +1695,7 @@ static void spapr_phb_unrealize(DeviceState *dev)
->           }
->       }
->  =20
-> -    remove_drcs(sphb, phb->bus, &error_abort);
-> +    remove_drcs(sphb, phb->bus);
->  =20
->       for (i =3D PCI_NUM_PINS - 1; i >=3D 0; i--) {
->           if (sphb->lsi_table[i].irq) {
-> @@ -1980,11 +1934,7 @@ static void spapr_phb_realize(DeviceState *dev, Er=
-ror **errp)
->       }
->  =20
->       /* allocate connectors for child PCI devices */
-> -    add_drcs(sphb, phb->bus, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        goto unrealize;
-> -    }
-> +    add_drcs(sphb, phb->bus);
->  =20
->       /* DMA setup */
->       for (i =3D 0; i < windows_supported; ++i) {
->=20
-
-Very nice cleanup.
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
+>  hw/arm/xlnx-versal-virt.c | 46 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+> 
+> diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+> index d7be1ad494..0afee48672 100644
+> --- a/hw/arm/xlnx-versal-virt.c
+> +++ b/hw/arm/xlnx-versal-virt.c
+> @@ -20,6 +20,7 @@
+>  #include "hw/arm/sysbus-fdt.h"
+>  #include "hw/arm/fdt.h"
+>  #include "cpu.h"
+> +#include "hw/qdev-properties.h"
+>  #include "hw/arm/xlnx-versal.h"
+>  
+>  #define TYPE_XLNX_VERSAL_VIRT_MACHINE MACHINE_TYPE_NAME("xlnx-versal-virt")
+> @@ -256,6 +257,32 @@ static void fdt_add_zdma_nodes(VersalVirt *s)
+>      }
+>  }
+>  
+> +static void fdt_add_sd_nodes(VersalVirt *s)
+> +{
+> +    const char clocknames[] = "clk_xin\0clk_ahb";
+> +    const char compat[] = "arasan,sdhci-8.9a";
+> +    int i;
+> +
+> +    for (i = ARRAY_SIZE(s->soc.pmc.iou.sd) - 1; i >= 0; i--) {
+> +        uint64_t addr = MM_PMC_SD0 + MM_PMC_SD0_SIZE * i;
+> +        char *name = g_strdup_printf("/sdhci@%" PRIx64, addr);
+> +
+> +        qemu_fdt_add_subnode(s->fdt, name);
+> +
+> +        qemu_fdt_setprop_cells(s->fdt, name, "clocks",
+> +                               s->phandle.clk_25Mhz, s->phandle.clk_25Mhz);
+> +        qemu_fdt_setprop(s->fdt, name, "clock-names",
+> +                         clocknames, sizeof(clocknames));
+> +        qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
+> +                               GIC_FDT_IRQ_TYPE_SPI, VERSAL_SD0_IRQ_0 + i * 2,
+> +                               GIC_FDT_IRQ_FLAGS_LEVEL_HI);
+> +        qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
+> +                                     2, addr, 2, MM_PMC_SD0_SIZE);
+> +        qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
+> +        g_free(name);
+> +    }
+> +}
+> +
+>  static void fdt_nop_memory_nodes(void *fdt, Error **errp)
+>  {
+>      Error *err = NULL;
+> @@ -411,10 +438,23 @@ static void create_virtio_regions(VersalVirt *s)
+>      }
+>  }
+>  
+> +static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
+> +{
+> +    BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
+> +    DeviceState *card;
+> +
+> +    card = qdev_create(qdev_get_child_bus(DEVICE(sd), "sd-bus"), TYPE_SD_CARD);
+> +    object_property_add_child(OBJECT(sd), "card[*]", OBJECT(card),
+> +                              &error_fatal);
+> +    qdev_prop_set_drive(card, "drive", blk, &error_fatal);
+> +    object_property_set_bool(OBJECT(card), true, "realized", &error_fatal);
+> +}
+> +
+>  static void versal_virt_init(MachineState *machine)
+>  {
+>      VersalVirt *s = XLNX_VERSAL_VIRT_MACHINE(machine);
+>      int psci_conduit = QEMU_PSCI_CONDUIT_DISABLED;
+> +    int i;
+>  
+>      /*
+>       * If the user provides an Operating System to be loaded, we expect them
+> @@ -455,6 +495,7 @@ static void versal_virt_init(MachineState *machine)
+>      fdt_add_gic_nodes(s);
+>      fdt_add_timer_nodes(s);
+>      fdt_add_zdma_nodes(s);
+> +    fdt_add_sd_nodes(s);
+>      fdt_add_cpu_nodes(s, psci_conduit);
+>      fdt_add_clk_node(s, "/clk125", 125000000, s->phandle.clk_125Mhz);
+>      fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
+> @@ -464,6 +505,11 @@ static void versal_virt_init(MachineState *machine)
+>      memory_region_add_subregion_overlap(get_system_memory(),
+>                                          0, &s->soc.fpd.apu.mr, 0);
+>  
+> +    /* Plugin SD cards.  */
+> +    for (i = 0; i < ARRAY_SIZE(s->soc.pmc.iou.sd); i++) {
+> +        sd_plugin_card(&s->soc.pmc.iou.sd[i], drive_get_next(IF_SD));
+> +    }
+> +
+>      s->binfo.ram_size = machine->ram_size;
+>      s->binfo.loader_start = 0x0;
+>      s->binfo.get_dtb = versal_virt_get_dtb;
+> 
 
