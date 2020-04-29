@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A3AB1BD5EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:23:32 +0200 (CEST)
-Received: from localhost ([::1]:51022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758581BD61F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:33:49 +0200 (CEST)
+Received: from localhost ([::1]:37978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTh47-0001E5-3D
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:23:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46106)
+	id 1jThE4-0002ke-Fk
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46206)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1m-0007tK-QL
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:11 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTh21-0007u1-Gu
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1b-0003tD-W5
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:06 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51483
+ (envelope-from <armbru@redhat.com>) id 1jTh1i-0003yS-R2
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60951
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1b-0003qO-Bc
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:20:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1h-0003wu-KY
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588144854;
+ s=mimecast20190719; t=1588144860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JUehSluyCfYKVpllec9HGLDt3XECTdSIT8Fz2eXmjrM=;
- b=ekRl+AdR8Yj0Qec4hYp0vNNLHnC2VIUe+vU1aLnkV2wSi1tsG8Pt+OVJWJ4yARu2UEKrrL
- 36Pc6M+TOfSW6aDGq1WFMYwijfOTfntplexT0wzDCAFk9NEKpsmFDTNqwreoM5v/cLQTFm
- mNXMYERZKIg9vnG/RCOY4Fli7uz3WmM=
+ bh=IE0ACh06lsV4xdUtL6CVvp7fPI2t78e9W1N+YfzHsbY=;
+ b=PnJuEAWpeS0SJLRgl/RA1KPxqALaVh1GBwec2Xs8CHT+ThMK+SiJ7g0VzHDyXWhWTZcrVO
+ 4VQB17k47SMcOtEHsjH3cpljMAFOUvZzgA+OQjaKDUgkmX6NL7oqOq/Bd04EMnWA3HpxsK
+ p7C+GDJBj6Y/LUzQ+/+gcNAZxRfBwI0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-C1Vv83YfNUagfZNF-Z8baQ-1; Wed, 29 Apr 2020 03:20:53 -0400
-X-MC-Unique: C1Vv83YfNUagfZNF-Z8baQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-325-cU81mEKMNLq05zJK78rA3w-1; Wed, 29 Apr 2020 03:20:58 -0400
+X-MC-Unique: cU81mEKMNLq05zJK78rA3w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24A5B1895A2E
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 410041009446;
+ Wed, 29 Apr 2020 07:20:52 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9FBD5D9F1;
- Wed, 29 Apr 2020 07:20:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E8C21000329;
+ Wed, 29 Apr 2020 07:20:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EE3CB11358C6; Wed, 29 Apr 2020 09:20:48 +0200 (CEST)
+ id 054CF11358C7; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/32] qemu-img: Reject broken -o ""
-Date: Wed, 29 Apr 2020 09:20:26 +0200
-Message-Id: <20200429072048.29963-11-armbru@redhat.com>
+Subject: [PULL 11/32] cryptodev: Fix cryptodev_builtin_cleanup() error API
+ violation
+Date: Wed, 29 Apr 2020 09:20:27 +0200
+Message-Id: <20200429072048.29963-12-armbru@redhat.com>
 In-Reply-To: <20200429072048.29963-1-armbru@redhat.com>
 References: <20200429072048.29963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -75,70 +76,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Gonglei <arei.gonglei@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-img create, convert, amend, and measure use accumulate_options()
-to merge multiple -o options.  This is broken for -o "":
+The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+pointer to a variable containing NULL.  Passing an argument of the
+latter kind twice without clearing it in between is wrong: if the
+first call sets an error, it no longer points to NULL for the second
+call.
 
-    $ qemu-img create -f qcow2 -o backing_file=3Da -o "" -o backing_fmt=3Dr=
-aw,size=3D1M new.qcow2
-    qemu-img: warning: Could not verify backing image. This may become an e=
-rror in future versions.
-    Could not open 'a,backing_fmt=3Draw': No such file or directory
-    Formatting 'new.qcow2', fmt=3Dqcow2 size=3D1048576 backing_file=3Da,,ba=
-cking_fmt=3Draw cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D1=
-6
-    $ qemu-img info new.qcow2
-    image: new.qcow2
-    file format: qcow2
-    virtual size: 1 MiB (1048576 bytes)
-    disk size: 196 KiB
-    cluster_size: 65536
---> backing file: a,backing_fmt=3Draw
-    Format specific information:
-        compat: 1.1
-        lazy refcounts: false
-        refcount bits: 16
-        corrupt: false
+cryptodev_builtin_cleanup() passes @errp to
+cryptodev_builtin_sym_close_session() in a loop.  Harmless, because
+cryptodev_builtin_sym_close_session() can't actually fail.  Fix it
+anyway.
 
-Merging these three -o the obvious way is wrong, because it results in
-an unwanted ',' escape:
-
-    backing_file=3Da,,backing_fmt=3Draw,size=3D1M
-                  ~~
-
-We could silently drop -o "", but Kevin asked me to reject it instead.
-
+Cc: Gonglei <arei.gonglei@huawei.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20200415074927.19897-10-armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200422130719.28225-2-armbru@redhat.com>
 ---
- qemu-img.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ backends/cryptodev-builtin.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index cc51db7ed4..a2369766f0 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -229,14 +229,16 @@ static bool qemu_img_object_print_help(const char *ty=
-pe, QemuOpts *opts)
-  * To make that work, @optarg must not start with ',' (or else a
-  * separating ',' preceding it gets escaped), and it must not end with
-  * an odd number of ',' (or else a separating ',' following it gets
-- * escaped).
-+ * escaped), or be empty (or else a separating ',' preceding it can
-+ * escape a separating ',' following it).
-+ *=20
-  */
- static bool is_valid_option_list(const char *optarg)
- {
-     size_t len =3D strlen(optarg);
-     size_t i;
+diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
+index c8ae3b9742..14316333fe 100644
+--- a/backends/cryptodev-builtin.c
++++ b/backends/cryptodev-builtin.c
+@@ -282,12 +282,7 @@ static int cryptodev_builtin_sym_close_session(
+     CryptoDevBackendBuiltin *builtin =3D
+                       CRYPTODEV_BACKEND_BUILTIN(backend);
 =20
--    if (optarg[0] =3D=3D ',') {
-+    if (!optarg[0] || optarg[0] =3D=3D ',') {
-         return false;
+-    if (session_id >=3D MAX_NUM_SESSIONS ||
+-              builtin->sessions[session_id] =3D=3D NULL) {
+-        error_setg(errp, "Cannot find a valid session id: %" PRIu64 "",
+-                      session_id);
+-        return -1;
+-    }
++    assert(session_id < MAX_NUM_SESSIONS && builtin->sessions[session_id])=
+;
+=20
+     qcrypto_cipher_free(builtin->sessions[session_id]->cipher);
+     g_free(builtin->sessions[session_id]);
+@@ -356,8 +351,7 @@ static void cryptodev_builtin_cleanup(
+=20
+     for (i =3D 0; i < MAX_NUM_SESSIONS; i++) {
+         if (builtin->sessions[i] !=3D NULL) {
+-            cryptodev_builtin_sym_close_session(
+-                    backend, i, 0, errp);
++            cryptodev_builtin_sym_close_session(backend, i, 0, &error_abor=
+t);
+         }
      }
 =20
 --=20
