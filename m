@@ -2,73 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8F31BD45C
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:05:29 +0200 (CEST)
-Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518151BD472
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:12:42 +0200 (CEST)
+Received: from localhost ([::1]:49126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTfqa-00034R-F5
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:05:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
+	id 1jTfxZ-0007Kc-9I
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTfp3-0001vW-HR
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:03:54 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTfw7-0005a1-C8
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTfp1-0005UJ-R4
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:03:53 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43765
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTfp1-0005Ts-EN
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:03:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588140230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P8LYLa4KmQKZn2Q6Gc2pl5AKUX38QDno+ks/+CM7uAs=;
- b=LvkT04j3zjrGn5ffC3EqYdGdsRAHglwFh8GVZv8XXtbL29o5jO2GXHnRN4NIGl3dUKK7Kg
- EG4voujyT1iWz+h4dQd5gOUZ/pnOudpXNU4tAI1V7cjMrt83Ngvt3q6Tmg3pZyOebqH4zZ
- 0AMSjIlz0+AjHAMdZXCtMYlnhyr8bMw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-fmpifmRiOLy0DDikxt1m1Q-1; Wed, 29 Apr 2020 02:03:48 -0400
-X-MC-Unique: fmpifmRiOLy0DDikxt1m1Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D755D1005510;
- Wed, 29 Apr 2020 06:03:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 127335D9E5;
- Wed, 29 Apr 2020 06:03:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 74C2011358BC; Wed, 29 Apr 2020 08:03:35 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-5.1 v3 01/24] various: Remove suspicious '\' character
- outside of #define in C code
-References: <20200412223619.11284-1-f4bug@amsat.org>
- <20200412223619.11284-2-f4bug@amsat.org>
-Date: Wed, 29 Apr 2020 08:03:35 +0200
-In-Reply-To: <20200412223619.11284-2-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 13 Apr 2020 00:35:56
- +0200")
-Message-ID: <87v9livnew.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTfw6-00026E-Px
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:11 -0400
+Received: from mail-db8eur05on2137.outbound.protection.outlook.com
+ ([40.107.20.137]:43808 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jTfw3-00023u-Qd; Wed, 29 Apr 2020 02:11:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gDIsEPCBM0dagF4VJIhTDmkZ7u4bwucAFsMgcpVr3CMgjzihF7983ynhj7t0tdTNfVe9mmcD8S1ymdRTsyLnqLvxGjDwBh+nMkyWphVQXDhgf0nOn1Lve4maeaghZXXzGNfZrt3A5CSfDKN50AoxFNYGajdSAr2WQb7t6beeAcKMoVC2duvRt92p+XE2zQ0KAqWFrxx/4h4oF0cVAu7zL66gs6Mf3wZkDNRipiXZBQTlH/g4s9FDSi8eWvqEdJczd/ILYZ6cxbevz0EOced0NzkdY1RWjQomjkUNvtlJFe0VUzYMNEtfNxJJ0mRDrHSZtkHsl6W+Y4Sli3WI4qcJ6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cE2Kw5GDWK4VWbS/3MJSLYfWIGdijEuwzQ1Dik8oA8Y=;
+ b=JPyfX3gCNQOloLGLtn+XiOPMdByjzupc60J4Y5MCCxMzgzv+Hes/XdB6tE7cdZFEq6Fv3nnNJFipvsXCuThPNuZSe/5uKkUKpghKDZ0khVi1ic94lySWNIQMXk0XLKdhQMm0aDGbVLGAMhFh1G4PjxkLPXOsbUXru8O5JU6C4tx07OCcVH88yinO0V/8yAOCQW7teZc/3n+IVnrqwCYPNbbaHRjLlVp8wgIOro+bnaejnHMdFeDZF/zWJjIeldUEpSczLFrGZ5FCxUUQzuhLzuhDk6x+sYeyzXe7Py+sazMz8Lf9+QwJI3NOcuQX2ga7JbXiFD5FkJ2CzfIEGGapPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cE2Kw5GDWK4VWbS/3MJSLYfWIGdijEuwzQ1Dik8oA8Y=;
+ b=K8a+ha37ZvGkJSAeImWnpvCABGliB1xMwdtiMtWKJTsPuLLCEAB84+l/me602oPeHE18CFkDr/IW6ROsjc7aqDa+Fs2SjoV+O26gmp3Hqop7EsZozjuE2Itqy7SVc5+HXaDeAgYlMnZ7NMIYz+J9JKAd4cRnoyJgh+7ouhi2AY0=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5382.eurprd08.prod.outlook.com (2603:10a6:20b:108::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Wed, 29 Apr
+ 2020 06:11:05 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Wed, 29 Apr 2020
+ 06:11:04 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v3 0/5] block-copy: use aio-task-pool
+Date: Wed, 29 Apr 2020 09:10:34 +0300
+Message-Id: <20200429061039.12687-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR2P281CA0023.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::10) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:28:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.184) by
+ FR2P281CA0023.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2937.13 via Frontend Transport; Wed, 29 Apr 2020 06:11:04 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.184]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 51be3b49-79b4-4d11-2913-08d7ec04196a
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5382:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5382E3DD0171D7C5D740FB6DC1AD0@AM7PR08MB5382.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2000;
+X-Forefront-PRVS: 03883BD916
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(366004)(346002)(136003)(376002)(39830400003)(396003)(26005)(5660300002)(16526019)(36756003)(316002)(86362001)(6486002)(956004)(6666004)(107886003)(8676002)(1076003)(2616005)(8936002)(186003)(4326008)(6506007)(69590400007)(52116002)(2906002)(478600001)(66946007)(66476007)(6512007)(66556008)(6916009);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CDZpDO5U9/ddN7YCAQtZCzE+hfeWMmjkWjACI0k8W6ziVbP7WWQVgcr+xeDa/qoj3/H7WBn2L0CDHDlt9zOMdgYxfZe57vpH/SQyK2ZaA6FLdyvu3GqH3v1TQsJ0TbJ0nzwGOiY3qcsTPWWr7pYtL6YgpbgiBD7x5QFqJjdwTkdwORYzntFViKpGB1kjuAlEN2WvNSAC5jWmwS9J2qRQRjaAgcPCl49FPxA1XHgGGQpDscuSgmc4fpbyiLnAtHmt9EXKgICXJVLUNlSWae1pDOqlmEDmqKsCV5nblajYFVmas033wxKARH7tIaOIfzy7KTqaTi3dmd1nLUA8XcUjF4sPGLxR2XyleJ0pLdhHEzcXafljKyWQlNIFZuKEGOWteJcRPSxSpZfyp7qmtg9tUn2Q5XGxS/Z8FljWiYDWUGtJqbHTIRoqlPe0fDs8GY7LHg2JazBO86X6kGfxgXmlqbKvNU3SftXOwxz5iNG8KOuLKo7XH7o+/JgD8AM3iwO4
+X-MS-Exchange-AntiSpam-MessageData: e6KCD+MR3wDDzj3DlaOKaw5vqcW30qXQSi0KMpMjdbGAfd6hWZFtKBDh4oNk3Z4wggBcFQZ4gb34vQekqrJ4I4ja6De21E/99FwDRfRcimmG+ahjW12G+IlYb9n+KSHNgUBMPB1NPARY3ZRlsAqnkgpIhFBcQMZ1b1dG9Zj4hls7GlB54pZHM8zWuUNAbo+iGc10TX3NCviieygceOX5Lw87/1WYqZVeIvanFBnip3xnUtVArCTN9df3PBA9M8Nq0DcCymCOWeS1+h2N7wBp4MUQoL9Q9rmQKOxq37zaXV2V92puHqIMRqCGMjFyO0R8/nU3ZrmokXx7Zj90dngoFv9wW8ZPW3DSEVkMUlJztmFZTJScK66P0aXO+64BgozQ4Kd692W+DYRIGLzuNZCd78E6Jn60lSywZnrZ44QDKmn7xFErWm2h1KKdMdCk5F80YvTBigvphucClf+L2R9JA4b2JhApETJHSQPj0IJOmqWXR8YoZqOH88NnpZTfwUa23f6YfdW/QYBRRte8acW6a1SkZ9DirXDu1ncsTrrWquFZzBMVLPbV53ETr3QzOK67K/pWug7xkVweyNRDrXQTPGljTn9/e4zAR8WkRXtXMlSjWPOHxx1jSl2UTbrr+fSj1nMIlMeZZZNIRNiowCkUhXj9YBrl8KSWEZhewTRxtAxL29lzyiD2Vf11qHC6MOPrnLNFZv12vWypyLk7UcMdvpk4NC+Us1mPQ3MDlZfZna9TKqG7jugkDp0uvxID6HVwKpRMQJgPU9X+6CSCtQKFTAhWK7cOpJiqzXkGfq3WiRw=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51be3b49-79b4-4d11-2913-08d7ec04196a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 06:11:04.8597 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tAEVAkBs6FJS+oNd8H424QyCc2Eth5toZmTn0ZL7bpka+WC2tep1TuaXrCxbiOMR7lxaIsCZgvquvH3kInNrfMcEbHF3c+yVhnl7yy5V6E4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5382
+Received-SPF: pass client-ip=40.107.20.137;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 02:11:05
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.20.137
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,50 +107,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jeff Cody <codyprime@gmail.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Max Reitz <mreitz@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Joel Stanley <joel@jms.id.au>,
- =?utf-8?Q?Marc-Andr?= =?utf-8?Q?=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-riscv@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
- Wen Congyang <wencongyang2@huawei.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Hi all!
 
-> Fixes the following coccinelle warnings:
->
->   $ spatch --sp-file --verbose-parsing  ... \
->       scripts/coccinelle/remove_local_err.cocci
->   ...
->   SUSPICIOUS: a \ character appears outside of a #define at ./target/ppc/=
-translate_init.inc.c:5213
-[...]
->   SUSPICIOUS: a \ character appears outside of a #define at ./block/repli=
-cation.c:173
->
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+v3:
+01: drop extra line "+    s->in_flight_bytes -= task->bytes - new_bytes;"
+02: add Max's r-b
+03: rebased on 01 fix (dropped line not updated now). keep Max's r-b
+04: more refactoring:
+     don't require offset argument of block_copy_task_create being dirty,
+     use !bdrv_dirty_bitmap_next_dirty_area() in block_copy_task_create()
+05: declare block_copy_task_entry (as moving patch dropped)
+    rebased on 04 changes
 
-I'm queuing this patch just to get it out of the way.  Thanks!
+==
+
+This is the next step of improving block-copy: use aio task pool.
+
+Async copying loop has better performance than linear, which is shown
+in original series (was
+"[RFC 00/24] backup performance: block_status + async".
+
+Vladimir Sementsov-Ogievskiy (5):
+  block/block-copy: rename in-flight requests to tasks
+  block/block-copy: alloc task on each iteration
+  block/block-copy: add state pointer to BlockCopyTask
+  block/block-copy: refactor task creation
+  block/block-copy: use aio-task-pool API
+
+ block/block-copy.c | 262 ++++++++++++++++++++++++++++++---------------
+ 1 file changed, 177 insertions(+), 85 deletions(-)
+
+-- 
+2.21.0
 
 
