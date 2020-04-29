@@ -1,46 +1,46 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF301C5F84
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 20:01:54 +0200 (CEST)
-Received: from localhost ([::1]:55438 helo=lists1p.gnu.org)
+Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F7A1CF232
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 12:17:23 +0200 (CEST)
+Received: from localhost ([::1]:60272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jW1tA-00061H-EA
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 14:01:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45490)
+	id 1jYRyU-0005K0-6H
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 06:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <geoff@hostfission.com>)
- id 1jW1dF-0008Fl-KT
- for qemu-devel@nongnu.org; Tue, 05 May 2020 13:45:25 -0400
-Received: from mail1.hostfission.com ([139.99.139.48]:37126)
+ id 1jYRxM-0004gH-77
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 06:16:12 -0400
+Received: from mail1.hostfission.com ([139.99.139.48]:57538)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <geoff@hostfission.com>) id 1jW1dD-0006BP-Do
- for qemu-devel@nongnu.org; Tue, 05 May 2020 13:45:25 -0400
+ (envelope-from <geoff@hostfission.com>) id 1jYRxK-0002gI-3Q
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 06:16:11 -0400
 Received: from moya.office.hostfission.com (office.hostfission.com
  [220.233.29.71])
- by mail1.hostfission.com (Postfix) with ESMTP id EC33A4F475;
- Wed,  6 May 2020 03:45:20 +1000 (AEST)
+ by mail1.hostfission.com (Postfix) with ESMTP id 13CB14EA49;
+ Tue, 12 May 2020 20:16:04 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=hostfission.com;
- s=mail; t=1588700720;
- bh=CxSTMvzE2x+zjKsE/Dv8SGKghDHv6qT6LwSRLP0z46I=;
+ s=mail; t=1589278564;
+ bh=UEjL/+q/EY2vV05zBo2u38vXVQwZ1BvJdZeczuHPhzs=;
  h=From:Date:Subject:To:Cc:From;
- b=lBTwLUEuZlonL2cLFmX6K+yPm0+ujTaQs+75+dbnblgz+6NHpdKP7E2yqrg870YVt
- B8DUev3/806xh+KTx0bpKqAsHs9bajnLcDEstq2hBbIcJzb6eiKqIWp84iqaGNLKdF
- iHIxCeJjlU2WQqx7+dBJGJsNwmtYdULEd4XEQSNA=
+ b=B+FAwxNStLpUs/iO3M2vXin6w5OcwW1Gdw/MaLU/zf8jKPUtSeFZsckh5RpNR7Kjg
+ 8Qmq4k+SkePh4buXLBCC+MQyQWGVlJP3lRpl8HGMw2omFl8qvNV5FV84JFOrgEC+wA
+ kMErp9zpusFH4F/wAMH3Ndv/+FtL1RXRU6OALJ7I=
 Received: by moya.office.hostfission.com (Postfix, from userid 0)
- id CD62A3A021D; Wed,  6 May 2020 03:45:20 +1000 (AEST)
+ id E3DB73A038E; Tue, 12 May 2020 20:16:03 +1000 (AEST)
 From: Geoffrey McRae <geoff@hostfission.com>
 Date: Wed, 29 Apr 2020 15:53:58 +1000
-Subject: [PATCH v7] audio/jack: add JACK client audiodev
+Subject: [PATCH v9] audio/jack: add JACK client audiodev
 To: <qemu-devel@nongnu.org>
-Cc: <geoff@hostfission.com>
+Cc: "Gerd Hoffmann" <kraxel@redhat.com>
 X-Mailer: mail (GNU Mailutils 3.5)
-Message-Id: <20200505174520.CD62A3A021D@moya.office.hostfission.com>
+Message-Id: <20200512101603.E3DB73A038E@moya.office.hostfission.com>
 Received-SPF: pass client-ip=139.99.139.48; envelope-from=geoff@hostfission.com;
  helo=mail1.hostfission.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 13:45:22
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 06:16:05
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: 6
 X-Spam_score: 0.6
@@ -72,10 +72,10 @@ Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
  audio/Makefile.objs    |   5 +
  audio/audio.c          |   1 +
  audio/audio_template.h |   2 +
- audio/jackaudio.c      | 677 +++++++++++++++++++++++++++++++++++++++++
+ audio/jackaudio.c      | 667 +++++++++++++++++++++++++++++++++++++++++
  configure              |  17 ++
  qapi/audio.json        |  56 +++-
- 6 files changed, 756 insertions(+), 2 deletions(-)
+ 6 files changed, 746 insertions(+), 2 deletions(-)
  create mode 100644 audio/jackaudio.c
 
 diff --git a/audio/Makefile.objs b/audio/Makefile.objs
@@ -118,10 +118,10 @@ index 7013d3041f..8dd48ce14e 100644
      case AUDIODEV_DRIVER_PA:
 diff --git a/audio/jackaudio.c b/audio/jackaudio.c
 new file mode 100644
-index 0000000000..34563f5a13
+index 0000000000..722ddb1dfe
 --- /dev/null
 +++ b/audio/jackaudio.c
-@@ -0,0 +1,677 @@
+@@ -0,0 +1,667 @@
 +/*
 + * QEMU JACK Audio Connection Kit Client
 + *
@@ -148,14 +148,13 @@ index 0000000000..34563f5a13
 +
 +#include "qemu/osdep.h"
 +#include "qemu/module.h"
-+#include "qemu/fifo8.h"
++#include "qemu/atomic.h"
 +#include "qemu-common.h"
 +#include "audio.h"
 +
 +#define AUDIO_CAP "jack"
 +#include "audio_int.h"
 +
-+#include <stdatomic.h>
 +#include <jack/jack.h>
 +#include <jack/thread.h>
 +
@@ -172,7 +171,7 @@ index 0000000000..34563f5a13
 +typedef struct QJackBuffer {
 +    int          channels;
 +    int          frames;
-+    _Atomic(int) used;
++    uint32_t     used;
 +    int          rptr, wptr;
 +    float      **data;
 +}
@@ -230,7 +229,7 @@ index 0000000000..34563f5a13
 +static void qjack_buffer_clear(QJackBuffer *buffer)
 +{
 +    assert(buffer->data);
-+    atomic_store_explicit(&buffer->used, 0, memory_order_relaxed);
++    atomic_store_release(&buffer->used, 0);
 +    buffer->rptr = 0;
 +    buffer->wptr = 0;
 +}
@@ -249,20 +248,13 @@ index 0000000000..34563f5a13
 +    buffer->data = NULL;
 +}
 +
-+static inline int qjack_buffer_used(QJackBuffer *buffer)
-+{
-+    assert(buffer->data);
-+    return atomic_load_explicit(&buffer->used, memory_order_relaxed);
-+}
-+
 +/* write PCM interleaved */
 +static int qjack_buffer_write(QJackBuffer *buffer, float *data, int size)
 +{
 +    assert(buffer->data);
 +    const int samples = size / sizeof(float);
 +    int frames        = samples / buffer->channels;
-+    const int avail   = buffer->frames -
-+        atomic_load_explicit(&buffer->used, memory_order_acquire);
++    const int avail   = buffer->frames - atomic_load_acquire(&buffer->used);
 +
 +    if (frames > avail) {
 +        frames = avail;
@@ -286,7 +278,7 @@ index 0000000000..34563f5a13
 +
 +    buffer->wptr = wptr;
 +
-+    atomic_fetch_add_explicit(&buffer->used, frames, memory_order_release);
++    atomic_add(&buffer->used, frames);
 +    return frames * buffer->channels * sizeof(float);
 +};
 +
@@ -294,8 +286,7 @@ index 0000000000..34563f5a13
 +static int qjack_buffer_write_l(QJackBuffer *buffer, float **dest, int frames)
 +{
 +    assert(buffer->data);
-+    const int avail   = buffer->frames -
-+        atomic_load_explicit(&buffer->used, memory_order_acquire);
++    const int avail   = buffer->frames - atomic_load_acquire(&buffer->used);
 +    int wptr = buffer->wptr;
 +
 +    if (frames > avail) {
@@ -319,7 +310,7 @@ index 0000000000..34563f5a13
 +    }
 +    buffer->wptr = wptr;
 +
-+    atomic_fetch_add_explicit(&buffer->used, frames, memory_order_release);
++    atomic_add(&buffer->used, frames);
 +    return frames;
 +}
 +
@@ -329,8 +320,7 @@ index 0000000000..34563f5a13
 +    assert(buffer->data);
 +    const int samples = size / sizeof(float);
 +    int frames        = samples / buffer->channels;
-+    const int avail   =
-+        atomic_load_explicit(&buffer->used, memory_order_acquire);
++    const int avail   = atomic_load_acquire(&buffer->used);
 +
 +    if (frames > avail) {
 +        frames = avail;
@@ -354,7 +344,7 @@ index 0000000000..34563f5a13
 +
 +    buffer->rptr = rptr;
 +
-+    atomic_fetch_sub_explicit(&buffer->used, frames, memory_order_release);
++    atomic_sub(&buffer->used, frames);
 +    return frames * buffer->channels * sizeof(float);
 +}
 +
@@ -363,7 +353,7 @@ index 0000000000..34563f5a13
 +{
 +    assert(buffer->data);
 +    int copy       = frames;
-+    const int used = atomic_load_explicit(&buffer->used, memory_order_acquire);
++    const int used = atomic_load_acquire(&buffer->used);
 +    int rptr       = buffer->rptr;
 +
 +    if (copy > used) {
@@ -387,7 +377,7 @@ index 0000000000..34563f5a13
 +    }
 +    buffer->rptr = rptr;
 +
-+    atomic_fetch_sub_explicit(&buffer->used, copy, memory_order_release);
++    atomic_sub(&buffer->used, copy);
 +    return copy;
 +}
 +
@@ -800,7 +790,7 @@ index 0000000000..34563f5a13
 +}
 +type_init(register_audio_jack);
 diff --git a/configure b/configure
-index 23b5e93752..004502c775 100755
+index 0d69c360c0..b95a1dae42 100755
 --- a/configure
 +++ b/configure
 @@ -3629,6 +3629,22 @@ for drv in $audio_drv_list; do
@@ -835,7 +825,7 @@ index 23b5e93752..004502c775 100755
    echo "CONFIG_AUDIO_WIN_INT=y" >> $config_host_mak
  fi
 diff --git a/qapi/audio.json b/qapi/audio.json
-index c31251f45b..bdb0552d15 100644
+index c31251f45b..f62bd0d7f6 100644
 --- a/qapi/audio.json
 +++ b/qapi/audio.json
 @@ -152,6 +152,55 @@
@@ -848,21 +838,21 @@ index c31251f45b..bdb0552d15 100644
 +# Options of the JACK backend that are used for both playback and
 +# recording.
 +#
-+# @server-name: select from among several possible concurrent server instances.
-+# If unspecified, use "default" unless $JACK_DEFAULT_SERVER is defined in the
-+# process environment.
++# @server-name: select from among several possible concurrent server instances
++# (default: environment variable $JACK_DEFAULT_SERVER if set, else "default")
 +#
 +# @client-name: the client name to use. The server will modify this name to
-+# create a unique variant, if needed unless @exact_name is true.
++# create a unique variant, if needed unless @exact-name is true (default: the
++# guest's name)
 +#
-+# @connect-ports: if set, a regular expression of port name(s) to match to auto
-+# connect to at startup.
++# @connect-ports: if set, a regular expression of JACK client port name(s) to
++# monitor for and automatically connect to
 +#
-+# @start-server: set to true to start a jack server instance if one is not
-+# present.
++# @start-server: start a jack server process if one is not already present
++# (default: false)
 +#
 +# @exact-name: use the exact name requested otherwise JACK automatically
-+# generates a unique one, if needed.
++# generates a unique one, if needed (default: false)
 +#
 +# Since: 5.1
 +##
