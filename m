@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053651BE674
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:43:23 +0200 (CEST)
-Received: from localhost ([::1]:46144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CB21BE68B
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:46:59 +0200 (CEST)
+Received: from localhost ([::1]:55188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTrg2-00014e-02
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37444)
+	id 1jTrjW-0005ah-0h
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:46:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
- id 1jTraD-0008OA-Ez
+ id 1jTraE-0008RB-JK
  for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
  (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
- id 1jTraB-0003Uy-3X
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:21 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:2049)
+ id 1jTraB-0003V4-CW
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:37:22 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:2041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=381fbd49e=alistair.francis@wdc.com>)
- id 1jTra5-0003Ps-8D; Wed, 29 Apr 2020 14:37:13 -0400
+ id 1jTra5-0003PZ-AX; Wed, 29 Apr 2020 14:37:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1588185434; x=1619721434;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=H3Rf0GK2uIFQ8+W/s2BSGxfdGYDmRN5HO2AJN6YT9+s=;
- b=gLvfl+mUoF6QViAfi0TQRNW9BxVhhhwwSqTPVcl7QXNxoZNkT+Ds6MFO
- AHon52DbrAeS9OURcv+oHsZXBheX6BSGut2JHMZ3ocIPgSg/Cji/nlkrI
- V079Z/iKZ2LshAIuawMD2TGAbeVwIowSRDpx2WLWjjDvnypAK7Z0yYYpB
- JCtbpW46mAJv6jepSj9ycaIodfeRHWnpZJdUEJyOWX5LA2k/6oojHmhN2
- lTrA23zJDsydjKcPatVZNGZiY/7ZsWTFQ3v5u0gYazizCqYLacdbKRPWq
- b2MQUMrdBRJue6QRQt4m4M1mgozIJLDrhie6xp7HKwKUUBguQGzZO/Kvb Q==;
-IronPort-SDR: Odtz9RtK4yukYFjLkl7PPCBAXAcQYRKgeiGfVWnvO4Btfsl+ZeIhicSJ3OrJfEwkFTWUtijMAP
- gXXY2OWGcEmrWRBN/CZbZJd8Ma0ZEekr8y4MRaCbWP99Y/QKhqaBFQolPoKetc3fpv3S5wJ+bB
- 8Cf2iUjk5EjRW+5OB6YGzE9IAu8fhAF8lsM9nRZd8+1Bsqqb6817T0ZgnvQVA265We2uaF20B+
- tVObTrLV9m5MhAqVee5Rbjl5qYmL4FraOYxz2KsbBnuDyfpBKqOXmfOXWz6dYtUsKulyUATwJ9
- qZ8=
-X-IronPort-AV: E=Sophos;i="5.73,332,1583164800"; d="scan'208";a="137935142"
+ bh=O7jL6iWlSIEmOeLlTVLecE6kMsdHolcxkpW6c3HjIWE=;
+ b=APeewc8SLinXzReE31C3ZVzUmdbDlZ/WSVbV/Ub/ctjt515duKD5o+PB
+ L7AW0iZuiw3vWcE2UIBoNUIIHJ+gD81HMG7lVzl6WJYP1MVVEeUjb4drD
+ i5JihxrG6OA2NeNzPhYp7cOId4b6O/b4fwdbRdi/h6z5C93gzpb1dxO7N
+ Mb9r7lAX33iC62SuKLTIP/6crOlLX6vIM0iivsSNUc1W2IJGlcJov250W
+ KSX6Wry5Eo2MEzK3HPGOLvq5wY5fMnKSIGfR/mbMi2CIn8N3rrm73uhPT
+ Fa/5ogfnXgvtW4oAgq3RW81IY4cVSltyrhC4Exgkw1AqnXPpbZ2CDYPxN Q==;
+IronPort-SDR: LOCm9Not8pjUFJhyBPd+z89woasG4fV87YetsjEVZ98CSClOLamz8nbnBQSLicC7/fktn0Td1e
+ TTSOMUcRZnyxBlRP4sZP+ttZ1Ly+g+MfqgWu8Sm3vxnM4yNfoPkgxNef2K5UrYxNLbXc5kFWTE
+ D/oL6Oo35M7KP2GbBtKndGMtSaAypB2lZeVY3HfnR17/SAByRJyc+Xi7+XJWwFWSay9/GiiTVK
+ 0/OdvV03tqFgXL/OAmtRyiPdD6S4r3TU+JLwbGaOIbP6t5cF8/923bFK1EHJvIhJV4KW+2YLDJ
+ lfY=
+X-IronPort-AV: E=Sophos;i="5.73,332,1583164800"; d="scan'208";a="137935144"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 30 Apr 2020 02:37:06 +0800
-IronPort-SDR: UXb1/ASlPfPPHstv3Tk3GT+kdTbkLEcq10ZQkC4eQsFmPBN1sntJkXq0PNg9UNJ33lzVeF9Pm4
- wR0F6HqOKrP4pRLB4oEJffI/oUOY96uSw=
+IronPort-SDR: 79Gem3mkFByogtgz/CvaPvjnpmN3c6MBM7Yi61e5YUcQ6N+Hb3JVGRxunVa7ZNAdYAAop5Iyi9
+ 1wfE3aRsWh4QzISv4kw3MxCbn9eCLndZs=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Apr 2020 11:27:10 -0700
-IronPort-SDR: oacbIocZ4C1rRt/d5AjOi+jHqCXiVXYBwKJrxI1Y2JpdI9i3/LTVFOhvRzjRQM8jQQvhX+Kbke
- MNy5oH+WvOiA==
+IronPort-SDR: v8gHI1QJExYs2uLQ0iBbeX557HXKLtOlZnxdDaJjhApS1nqkNXXPQfFwZB+NcqbFvcj4o+Odg7
+ S0XcFGsyZKqQ==
 WDCIronportException: Internal
 Received: from cnf007834.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.55.253])
  by uls-op-cesaip01.wdc.com with ESMTP; 29 Apr 2020 11:37:04 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/14] riscv: Fix Stage2 SV32 page table walk
-Date: Wed, 29 Apr 2020 11:28:48 -0700
-Message-Id: <20200429182856.2588202-7-alistair.francis@wdc.com>
+Subject: [PULL 07/14] hw/riscv: Generate correct "mmu-type" for 32-bit machines
+Date: Wed, 29 Apr 2020 11:28:49 -0700
+Message-Id: <20200429182856.2588202-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200429182856.2588202-1-alistair.francis@wdc.com>
 References: <20200429182856.2588202-1-alistair.francis@wdc.com>
@@ -82,58 +82,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Anup Patel <anup.patel@wdc.com>, palmerdabbelt@google.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>, palmerdabbelt@google.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anup Patel <anup.patel@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-As-per RISC-V H-Extension v0.5 draft, the Stage2 SV32 page table has
-12bits of VPN[1] and 10bits of VPN[0]. The additional 2bits in VPN[1]
-is required to handle the 34bit intermediate physical address coming
-from Stage1 SV32 page table. The 12bits of VPN[1] implies that Stage2
-SV32 level-0 page table will be 16KB in size with total 4096 enteries
-where each entry maps 4MB of memory (same as Stage1 SV32 page table).
+32-bit machine should have its CPU's "mmu-type" set to "riscv,sv32".
 
-The get_physical_address() function is broken for Stage2 SV32 level-0
-page table because it incorrectly computes output physical address for
-Stage2 SV32 level-0 page table entry.
-
-The root cause of the issue is that get_physical_address() uses the
-"widened" variable to compute level-0 physical address mapping which
-changes level-0 mapping size (instead of 4MB). We should use the
-"widened" variable only for computing index of Stage2 SV32 level-0
-page table.
-
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20200330082724.120444-1-anup.patel@wdc.com
-Message-Id: <20200330082724.120444-1-anup.patel@wdc.com>
+Message-id: 1583585319-26603-1-git-send-email-bmeng.cn@gmail.com
+Message-Id: <1583585319-26603-1-git-send-email-bmeng.cn@gmail.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ hw/riscv/sifive_u.c | 4 ++++
+ hw/riscv/spike.c    | 4 ++++
+ hw/riscv/virt.c     | 4 ++++
+ 3 files changed, 12 insertions(+)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 50e13a064f..bc80aa87cf 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -559,12 +559,7 @@ restart:
-             /* for superpage mappings, make a fake leaf PTE for the TLB's
-                benefit. */
-             target_ulong vpn = addr >> PGSHIFT;
--            if (i == 0) {
--                *physical = (ppn | (vpn & ((1L << (ptshift + widened)) - 1))) <<
--                             PGSHIFT;
--            } else {
--                *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
--            }
-+            *physical = (ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT;
- 
-             /* set permissions on the TLB entry */
-             if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index eb0abcae89..0dd0efaa68 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -160,7 +160,11 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+         qemu_fdt_add_subnode(fdt, nodename);
+         /* cpu 0 is the management hart that does not have mmu */
+         if (cpu != 0) {
++#if defined(TARGET_RISCV32)
++            qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv32");
++#else
+             qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
++#endif
+             isa = riscv_isa_string(&s->soc.u_cpus.harts[cpu - 1]);
+         } else {
+             isa = riscv_isa_string(&s->soc.e_cpus.harts[0]);
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 5053fe4590..98697a244e 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -102,7 +102,11 @@ static void create_fdt(SpikeState *s, const struct MemmapEntry *memmap,
+         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
+         char *isa = riscv_isa_string(&s->soc.harts[cpu]);
+         qemu_fdt_add_subnode(fdt, nodename);
++#if defined(TARGET_RISCV32)
++        qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv32");
++#else
+         qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
++#endif
+         qemu_fdt_setprop_string(fdt, nodename, "riscv,isa", isa);
+         qemu_fdt_setprop_string(fdt, nodename, "compatible", "riscv");
+         qemu_fdt_setprop_string(fdt, nodename, "status", "okay");
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 85ec9e22aa..c621a970aa 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -229,7 +229,11 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
+         char *isa = riscv_isa_string(&s->soc.harts[cpu]);
+         qemu_fdt_add_subnode(fdt, nodename);
++#if defined(TARGET_RISCV32)
++        qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv32");
++#else
+         qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
++#endif
+         qemu_fdt_setprop_string(fdt, nodename, "riscv,isa", isa);
+         qemu_fdt_setprop_string(fdt, nodename, "compatible", "riscv");
+         qemu_fdt_setprop_string(fdt, nodename, "status", "okay");
 -- 
 2.26.2
 
