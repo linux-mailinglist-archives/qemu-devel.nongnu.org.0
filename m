@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05CE1BD690
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:51:23 +0200 (CEST)
-Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05D71BD6DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:09:41 +0200 (CEST)
+Received: from localhost ([::1]:56068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThV4-0001uH-Ma
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48108)
+	id 1jThmm-000726-VU
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jThJs-0004ja-Rn
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:50 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jThKA-0005Su-Hz
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:40:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jThJr-0005Ea-Jk
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:48 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55626
+ (envelope-from <mreitz@redhat.com>) id 1jThK9-0005Gt-T0
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:40:06 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34709
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jThJr-0005EH-4Z
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:39:47 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jThK9-0005Gb-E4
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:40:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588145986;
+ s=mimecast20190719; t=1588146004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=j8rSc3GxOznaNlzTU3yZnFsa1fJOX3HQTZ2C/iBYQFw=;
- b=Ju2iB54J/2KvAoaZmo8jC1FejwTTHtPEm/LFrJdeTSAW2ArmWdwQ2biAgYfwqqzwwP1+DX
- 374tVP7OUQQIoL/EhMtb9+G22KWw7oCnrDiVvHFSpWw8r8sgwLn+WulMxKXvs5wTQ2VQ5U
- z/JByaEClaFqUGM42tn8qUi5tWPwy0o=
+ bh=YZ8FxVQVSl8F88J2XJzVow3pfa6GEkGlomKrB0SiCqE=;
+ b=BGyeaJrFvWjITbFiD68wWeea/LovComPeGV6rgyzMJU4hmfXeZgRdTXsCs+tla++vKiS4z
+ iu5gcdTNJWdlFaWQM2NPDAG2SaoKhg7SLJci7RJBRdlNicSqnyKNuinbwxqiPMRQiGAqk+
+ ZYb8RKIKIiZav/nc6+qv2eUQQdt0zrU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38--DmRtkI2Nbu9kAG0n9I-vg-1; Wed, 29 Apr 2020 03:39:43 -0400
-X-MC-Unique: -DmRtkI2Nbu9kAG0n9I-vg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-421-HxcaW993OAqIkR9irSQnig-1; Wed, 29 Apr 2020 03:40:02 -0400
+X-MC-Unique: HxcaW993OAqIkR9irSQnig-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1A398014D9;
- Wed, 29 Apr 2020 07:39:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93733107ACF5;
+ Wed, 29 Apr 2020 07:40:01 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-19.ams2.redhat.com
  [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEF195D9E5;
- Wed, 29 Apr 2020 07:39:41 +0000 (UTC)
-Subject: Re: [PATCH 1/4] block: Add bdrv_make_empty()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C74E1002397;
+ Wed, 29 Apr 2020 07:40:00 +0000 (UTC)
+Subject: Re: [PATCH 3/4] block: Add blk_make_empty()
 To: Kevin Wolf <kwolf@redhat.com>
 References: <20200428132629.796753-1-mreitz@redhat.com>
- <20200428132629.796753-2-mreitz@redhat.com>
- <20200428142104.GI5789@linux.fritz.box>
+ <20200428132629.796753-4-mreitz@redhat.com>
+ <20200428144706.GJ5789@linux.fritz.box>
 From: Max Reitz <mreitz@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -74,23 +74,23 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <a638f036-dd2e-cda2-11b4-c3b15ea8eff0@redhat.com>
-Date: Wed, 29 Apr 2020 09:39:39 +0200
+Message-ID: <af3006f0-a01f-e866-a9f4-91db823d5348@redhat.com>
+Date: Wed, 29 Apr 2020 09:39:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200428142104.GI5789@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200428144706.GJ5789@linux.fritz.box>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="JELVLaOGRUFLtAwhRmeBpjGTYFhvsltma"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ boundary="kqt85QI73IH3PrOUJXzfLGdGldnpGRnig"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:28:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,90 +107,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JELVLaOGRUFLtAwhRmeBpjGTYFhvsltma
-Content-Type: multipart/mixed; boundary="KuoTs7hNC8rCu5jabmJajhuoq1Qemz58b"
+--kqt85QI73IH3PrOUJXzfLGdGldnpGRnig
+Content-Type: multipart/mixed; boundary="lZsCFyW4sn7Gh4T6FBYXqst00VBAGMCJI"
 
---KuoTs7hNC8rCu5jabmJajhuoq1Qemz58b
+--lZsCFyW4sn7Gh4T6FBYXqst00VBAGMCJI
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 28.04.20 16:21, Kevin Wolf wrote:
+On 28.04.20 16:47, Kevin Wolf wrote:
 > Am 28.04.2020 um 15:26 hat Max Reitz geschrieben:
->> Right now, all users of bdrv_make_empty() call the BlockDriver method
->> directly.  That is not only bad style, it is also wrong, unless the
->> caller has a BdrvChild with a WRITE permission.
->>
->> Introduce bdrv_make_empty() that verifies that it does.
+>> Two callers of BlockDriver.bdrv_make_empty() remain that should not call
+>> this method directly.  Both do not have access to a BdrvChild, but they
+>> can use a BlockBackend, so we add this function that lets them use it.
 >>
 >> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >> ---
->>  include/block/block.h |  1 +
->>  block.c               | 23 +++++++++++++++++++++++
->>  2 files changed, 24 insertions(+)
+>>  include/sysemu/block-backend.h | 2 ++
+>>  block/block-backend.c          | 5 +++++
+>>  2 files changed, 7 insertions(+)
 >>
->> diff --git a/include/block/block.h b/include/block/block.h
->> index b05995fe9c..d947fb4080 100644
->> --- a/include/block/block.h
->> +++ b/include/block/block.h
->> @@ -351,6 +351,7 @@ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, Qem=
-uOpts *opts,
->>  void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
->>  void bdrv_refresh_limits(BlockDriverState *bs, Error **errp);
->>  int bdrv_commit(BlockDriverState *bs);
->> +int bdrv_make_empty(BdrvChild *c, Error **errp);
->>  int bdrv_change_backing_file(BlockDriverState *bs,
->>      const char *backing_file, const char *backing_fmt);
->>  void bdrv_register(BlockDriver *bdrv);
->> diff --git a/block.c b/block.c
->> index 2e3905c99e..b0d5b98617 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -6791,3 +6791,26 @@ void bdrv_del_child(BlockDriverState *parent_bs, =
-BdrvChild *child, Error **errp)
+>> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backe=
+nd.h
+>> index d37c1244dd..14338b76dc 100644
+>> --- a/include/sysemu/block-backend.h
+>> +++ b/include/sysemu/block-backend.h
+>> @@ -266,4 +266,6 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk=
+_in, int64_t off_in,
 >> =20
->>      parent_bs->drv->bdrv_del_child(parent_bs, child, errp);
+>>  const BdrvChild *blk_root(BlockBackend *blk);
+>> =20
+>> +int blk_make_empty(BlockBackend *blk, Error **errp);
+>> +
+>>  #endif
+>> diff --git a/block/block-backend.c b/block/block-backend.c
+>> index 3592066b42..5d36efd32f 100644
+>> --- a/block/block-backend.c
+>> +++ b/block/block-backend.c
+>> @@ -2402,3 +2402,8 @@ const BdrvChild *blk_root(BlockBackend *blk)
+>>  {
+>>      return blk->root;
 >>  }
 >> +
->> +int bdrv_make_empty(BdrvChild *c, Error **errp)
+>> +int blk_make_empty(BlockBackend *blk, Error **errp)
 >> +{
->> +    BlockDriver *drv =3D c->bs->drv;
->> +    int ret;
->> +
->> +    assert(c->perm & BLK_PERM_WRITE);
+>> +    return bdrv_make_empty(blk->root, errp);
+>> +}
 >=20
-> If I understand correctly, bdrv_make_empty() is called to drop an
-> overlay whose content is identical to what it would read from its
-> backing file (in particular after a commit operation). This means that
-> the caller promises that the visible content doesn't change.
->=20
-> So should we check BLK_PERM_WRITE_UNCHANGED instead?
+> Should we check that blk->root !=3D NULL? Most other functions do that
+> through blk_is_available().
 
-Ah, right.  Yes, that would be better.  (Or to check both, whether any
-of them has been taken.)
+Why not.
 
 Max
 
 
---KuoTs7hNC8rCu5jabmJajhuoq1Qemz58b--
+--lZsCFyW4sn7Gh4T6FBYXqst00VBAGMCJI--
 
---JELVLaOGRUFLtAwhRmeBpjGTYFhvsltma
+--kqt85QI73IH3PrOUJXzfLGdGldnpGRnig
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6pLzsACgkQ9AfbAGHV
-z0D/bAf7BceJHRlYifeCSsI/PoUyGXfv5/gXVSIf4TjHaef5dnxNtxrBz56ZjOOc
-0pMGOQkAbfHn9CKejuZaQYIJG9OxbH8EuIPO1gq6yhzqQSNsxu1Q9H6WgVLTZZ8b
-drxjaAoo2YtxxN1BifzIL7O7mz7uLBgpaN6lxXXw3+ANvlYt5b3zqIGbeodKS7cG
-0GkOjJBKtA02HPbUmtLdbeKxhEtbdNIBE/3DS/fad02qoQA8wxjkRiMdv48R+TrE
-VW5IuAqwV9tJ2lzdaacgB8OlH5w8V1l2tWFUY6Ro3p0WvO4gb3XxaTvOGcSVu2cT
-rVORXdvNNdDpQjKgq9Yft3hxrP2VWw==
-=G1I7
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6pL08ACgkQ9AfbAGHV
+z0AtNwgArtaMzKI7/5AkWRqWST4Z5hISU/YRUpRMN3au+t3Btj9jzS0hvkSYl1zb
+7H/I9DcGCAaI7uR6Eni8k91RtciHN8QKjwLfXq5MAcA45fhQoROKBZoFF6d62Hdw
+uJhNo2FECZurxohDU/rV6pp6J3FDno60mtDXjvZ1nDIt6/cJTUFacX/Q00SCBlTF
+5ALR5QRCEWoGdY9cuHPGhFSlSCCe/Hd6mRWDnOKPq9klnZzWM3jeFLH7y9Ogvznd
+i2SiBjdqZ6tSKPjp0zh0ZFoRKDCY41uT1tiG73AJ4WsxQaScp95lnCyiMWt16CLz
+VLWN5KHqhpmZFOSNebmildosMvVoUw==
+=AXPL
 -----END PGP SIGNATURE-----
 
---JELVLaOGRUFLtAwhRmeBpjGTYFhvsltma--
+--kqt85QI73IH3PrOUJXzfLGdGldnpGRnig--
 
 
