@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFDA81BE02D
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:07:21 +0200 (CEST)
-Received: from localhost ([::1]:50026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DC901BE041
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:08:54 +0200 (CEST)
+Received: from localhost ([::1]:55704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTnMu-0003OB-Ll
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
+	id 1jTnOP-0006Q3-56
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42506)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jTnGe-0002GK-AR
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:01:08 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jTnGm-0002Lh-BS
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:01:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kraxel@redhat.com>) id 1jTnGB-0003s6-0x
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57245
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <kraxel@redhat.com>) id 1jTnGH-0003zT-0S
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:01:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55388
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTnGA-0003qL-Ge
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:22 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jTnGG-0003yf-K8
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:00:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588168821;
+ s=mimecast20190719; t=1588168827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ns10TmOrrDyIyxSx6sKY7GiFbnXZHstnlbWiBISKw4g=;
- b=RW9gdY45FENHQx4Uhf151Fa9tiye7MhrQGnfSoGC6OloABYi+jZXyQ5oZg/4w562HNcnGQ
- FczR3SRzceg/On2cPBZtx4k3iPjOLjxe7ZtSNIsXUAREfB2siAUbsaom/bQVp68mlA1tCp
- GILcgECNn6jhOPTVB5bE9kqHlmOwekE=
+ bh=wVia+kqi56m7fobc/F24sqeB+1njvSGFY4Ow1Djzbvw=;
+ b=NcFwWb5GLxu1VPy8tGzws7NblZk6Ca9bqLFFrDck9RMjOH+KABmrBBbDRI9cuOEey0z6id
+ uj22AXfyfs770MGZO/P6QoimFpfsQPpi4BpXFjEWSIffV+hZ+PfMP3XV6+FCqV2Qy5FFlG
+ GKbQu8QvGDkVIi88YJKu2Wr3gwu53rI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-vLy9JsC-PXmXvgt9G2oSIA-1; Wed, 29 Apr 2020 10:00:20 -0400
-X-MC-Unique: vLy9JsC-PXmXvgt9G2oSIA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-176-oQ03J7uhMVqDnkHldktIHA-1; Wed, 29 Apr 2020 10:00:26 -0400
+X-MC-Unique: oQ03J7uhMVqDnkHldktIHA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF38091165;
- Wed, 29 Apr 2020 14:00:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA698100A633;
+ Wed, 29 Apr 2020 14:00:24 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C706648D2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82EF2605FB;
  Wed, 29 Apr 2020 14:00:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4FAA99D9E; Wed, 29 Apr 2020 16:00:03 +0200 (CEST)
+ id 59C0A9D9F; Wed, 29 Apr 2020 16:00:03 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/15] acpi: add ISADeviceClass->build_aml()
-Date: Wed, 29 Apr 2020 15:59:53 +0200
-Message-Id: <20200429140003.7336-6-kraxel@redhat.com>
+Subject: [PATCH v3 06/15] rtc: add RTC_ISA_BASE
+Date: Wed, 29 Apr 2020 15:59:54 +0200
+Message-Id: <20200429140003.7336-7-kraxel@redhat.com>
 In-Reply-To: <20200429140003.7336-1-kraxel@redhat.com>
 References: <20200429140003.7336-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 00:53:13
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,76 +86,59 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also add isa_aml_build() function which walks all isa devices.
-This allows to move aml builder code to isa devices.
+Add and use RTC_ISA_BASE define instead of hardcoding 0x70.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/hw/isa/isa.h |  2 ++
- hw/i386/acpi-build.c |  1 +
- hw/isa/isa-bus.c     | 15 +++++++++++++++
- 3 files changed, 18 insertions(+)
+ include/hw/rtc/mc146818rtc.h | 1 +
+ hw/rtc/mc146818rtc.c         | 5 ++---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 59a4d4b50a6d..02c235027484 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -69,6 +69,7 @@ typedef struct IsaDmaClass {
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index 10c93a096a1d..3713181b56fe 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -47,6 +47,7 @@ typedef struct RTCState {
+ } RTCState;
 =20
- typedef struct ISADeviceClass {
-     DeviceClass parent_class;
-+    void (*build_aml)(ISADevice *dev, Aml *scope);
- } ISADeviceClass;
+ #define RTC_ISA_IRQ 8
++#define RTC_ISA_BASE 0x70
 =20
- struct ISABus {
-@@ -107,6 +108,7 @@ ISADevice *isa_try_create(ISABus *bus, const char *name=
-);
- ISADevice *isa_create_simple(ISABus *bus, const char *name);
-=20
- ISADevice *isa_vga_init(ISABus *bus);
-+void isa_build_aml(ISABus *bus, Aml *scope);
-=20
- /**
-  * isa_register_ioport: Install an I/O port region on the ISA bus.
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 3a046b03e4cd..97f3c75cd995 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1288,6 +1288,7 @@ static void build_isa_devices_aml(Aml *table)
-         error_report("No ISA bus, unable to define IPMI ACPI data");
-     } else {
-         build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
-+        isa_build_aml(ISA_BUS(obj), scope);
-     }
-=20
-     aml_append(table, scope);
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 798dd9194e8f..1f2189f4d5db 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -207,6 +207,21 @@ ISADevice *isa_vga_init(ISABus *bus)
-     }
- }
-=20
-+void isa_build_aml(ISABus *bus, Aml *scope)
-+{
-+    BusChild *kid;
-+    ISADevice *dev;
-+    ISADeviceClass *dc;
-+
-+    QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
-+        dev =3D ISA_DEVICE(kid->child);
-+        dc =3D ISA_DEVICE_GET_CLASS(dev);
-+        if (dc->build_aml) {
-+            dc->build_aml(dev, scope);
-+        }
-+    }
-+}
-+
- static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+                              qemu_irq intercept_irq);
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index dc4269cc55cb..d18c09911be2 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -908,7 +908,6 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
+p)
  {
-     ISADevice *d =3D ISA_DEVICE(dev);
+     ISADevice *isadev =3D ISA_DEVICE(dev);
+     RTCState *s =3D MC146818_RTC(dev);
+-    int base =3D 0x70;
+=20
+     s->cmos_data[RTC_REG_A] =3D 0x26;
+     s->cmos_data[RTC_REG_B] =3D 0x02;
+@@ -951,7 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
+p)
+     qemu_register_suspend_notifier(&s->suspend_notifier);
+=20
+     memory_region_init_io(&s->io, OBJECT(s), &cmos_ops, s, "rtc", 2);
+-    isa_register_ioport(isadev, &s->io, base);
++    isa_register_ioport(isadev, &s->io, RTC_ISA_BASE);
+=20
+     /* register rtc 0x70 port for coalesced_pio */
+     memory_region_set_flush_coalesced(&s->io);
+@@ -960,7 +959,7 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
+p)
+     memory_region_add_subregion(&s->io, 0, &s->coalesced_io);
+     memory_region_add_coalescing(&s->coalesced_io, 0, 1);
+=20
+-    qdev_set_legacy_instance_id(dev, base, 3);
++    qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
+     qemu_register_reset(rtc_reset, s);
+=20
+     object_property_add_tm(OBJECT(s), "date", rtc_get_date, NULL);
 --=20
 2.18.2
 
