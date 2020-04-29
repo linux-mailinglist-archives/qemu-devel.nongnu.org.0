@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AD1B1BD6DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:11:16 +0200 (CEST)
-Received: from localhost ([::1]:32886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1851BD69C
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:53:41 +0200 (CEST)
+Received: from localhost ([::1]:43812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThoJ-0000rf-2K
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49002)
+	id 1jThXI-0005e9-CI
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jThR3-0006O4-Am
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:51:36 -0400
+ (envelope-from <armbru@redhat.com>) id 1jThRu-0006zo-PT
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:52:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <clg@kaod.org>) id 1jThPc-0008HP-01
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:47:13 -0400
-Received: from 6.mo2.mail-out.ovh.net ([87.98.165.38]:38027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jThPb-000873-Fg
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:45:43 -0400
-Received: from player688.ha.ovh.net (unknown [10.108.54.133])
- by mo2.mail-out.ovh.net (Postfix) with ESMTP id 821721D4F87
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 09:45:32 +0200 (CEST)
-Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
- (Authenticated sender: clg@kaod.org)
- by player688.ha.ovh.net (Postfix) with ESMTPSA id A2A2E11C61FC4;
- Wed, 29 Apr 2020 07:45:24 +0000 (UTC)
-Subject: Re: [RFC PATCH] qom: Implement qom-get HMP command
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200407114449.482532-1-clg@kaod.org>
- <20200427191908.GO2923@work-vm>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <15d2025e-2950-4a91-2926-830b3006c4c0@kaod.org>
-Date: Wed, 29 Apr 2020 09:45:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <armbru@redhat.com>) id 1jThQH-0008T2-J9
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:48:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32150
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jThQH-0008Sm-6S
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:46:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588146384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dVNsNEcw8TGjgHwfI+qgun3dMWws0fEf5O1ZWqWd+rI=;
+ b=fxmxHg9BPV3etlqbfzASYv8DTLwLiB3Gsju8RwP4+o60CTQq7niaent3+jJiNG7LfAJJPB
+ JW1jgz1e/dUiCPV3lj9bCAyCXF9OUS7TMsfRREJYYhuUsLoC7oKz34TerAQjnrk9zE1k8w
+ mplHd8vH/7QKvFUI/KQdYTmqIacxKxE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-QxAwJvJaNWKnuQiyYvV3yQ-1; Wed, 29 Apr 2020 03:46:22 -0400
+X-MC-Unique: QxAwJvJaNWKnuQiyYvV3yQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF0CE2D5A;
+ Wed, 29 Apr 2020 07:46:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 906EA5D71E;
+ Wed, 29 Apr 2020 07:46:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1780F11358BC; Wed, 29 Apr 2020 09:46:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH for-5.1 0/5] qobject: Minor spring cleaning
+References: <20200415083048.14339-1-armbru@redhat.com>
+Date: Wed, 29 Apr 2020 09:46:20 +0200
+In-Reply-To: <20200415083048.14339-1-armbru@redhat.com> (Markus Armbruster's
+ message of "Wed, 15 Apr 2020 10:30:43 +0200")
+Message-ID: <87a72urayb.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200427191908.GO2923@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 3502674610242489105
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedriedvgdduvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheikeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=87.98.165.38; envelope-from=clg@kaod.org;
- helo=6.mo2.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 03:45:32
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 87.98.165.38
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,29 +77,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- armbru@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/20 9:19 PM, Dr. David Alan Gilbert wrote:
-> * Cédric Le Goater (clg@kaod.org) wrote:
->> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>
->> Reimplement it based on qmp_qom_get() to avoid converting QObjects back
->> to strings.
-> 
-> <blows dust off patch>
-> I'd love to see this or something similar in;  what does it's output
-> look like for structures - I think that was the main problem people
-> complained about last time, although IMHO even a version that couldn't
-> do structures nicely would be better than nothing.
-
-Should we merge this patch then ? 
-
-C. 
+Queued.
 
 
