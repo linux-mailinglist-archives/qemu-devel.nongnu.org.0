@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39001BD5ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:23:37 +0200 (CEST)
-Received: from localhost ([::1]:51548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319D81BD5F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:25:14 +0200 (CEST)
+Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTh4C-0001Qv-JS
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46146)
+	id 1jTh5l-0004sM-6T
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46152)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1t-0007ta-Kr
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:12 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTh1u-0007tc-7t
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1c-0003uA-DR
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:13 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41392
+ (envelope-from <armbru@redhat.com>) id 1jTh1g-0003w5-8V
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:14 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26558
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1b-0003qV-Vn
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:20:56 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1f-0003uE-Oo
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:20:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588144854;
+ s=mimecast20190719; t=1588144856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WFwTmY5izH7vt1PFzmbOpOPKretwC0f3JKTKzMM1H/Y=;
- b=MUt1L/rKGkcWmajys6VCZRuDnc6KHk+RB5MU1qo0QACmFkg/0BV9gQalf8jd4sFz12BXAD
- FtMm+B1ASp+3M1TSyxAXKSsxU8fuKy56ssVae/GkvVAlGkGFGLPR0g4E5T+tVRSXobLzXo
- MfImfLN1CIatsBnHGKOn5ewRhWqLaGU=
+ bh=B+HhnvMEuvaOsq1YhwdQ7CSRL41BxavMcvoSsGvfs2k=;
+ b=Di+wzTtipDW83KPt50PuFSDCMCMIHgLCNTawj+PdmyDXqynpnJSSf5g3UKCo5ZeYF5DtSQ
+ cVmCA4Ou1KLYHAih3d0MtovOe2Q7eA2BpNd3RSZkY+BOxO64P8DayhyfV29i6fQB4N9EH7
+ 5bpgn8gl23OlVptzQEYlbU0Nojv0Lac=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-zpFDKbq9PCyPSXJHuJBrhg-1; Wed, 29 Apr 2020 03:20:52 -0400
-X-MC-Unique: zpFDKbq9PCyPSXJHuJBrhg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-408-4jAWjpLrPN2LsWXgFFhgMg-1; Wed, 29 Apr 2020 03:20:54 -0400
+X-MC-Unique: 4jAWjpLrPN2LsWXgFFhgMg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 265A3BFC3
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B657BFC1
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E9EC9648C8;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7E34282CA;
  Wed, 29 Apr 2020 07:20:51 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D984B11358C3; Wed, 29 Apr 2020 09:20:48 +0200 (CEST)
+ id DE41311358C4; Wed, 29 Apr 2020 09:20:48 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/32] qemu-option: Avoid has_help_option() in
- qemu_opts_parse_noisily()
-Date: Wed, 29 Apr 2020 09:20:23 +0200
-Message-Id: <20200429072048.29963-8-armbru@redhat.com>
+Subject: [PULL 08/32] qemu-img: Factor out accumulate_options() helper
+Date: Wed, 29 Apr 2020 09:20:24 +0200
+Message-Id: <20200429072048.29963-9-armbru@redhat.com>
 In-Reply-To: <20200429072048.29963-1-armbru@redhat.com>
 References: <20200429072048.29963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -76,107 +75,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When opts_parse() sets @invalidp to true, qemu_opts_parse_noisily()
-uses has_help_option() to decide whether to print help.  This parses
-the input string a second time.
-
-Easy to avoid: replace @invalidp by @help_wanted.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200415074927.19897-7-armbru@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200415074927.19897-8-armbru@redhat.com>
 ---
- util/qemu-option.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ qemu-img.c | 59 +++++++++++++++++++++---------------------------------
+ 1 file changed, 23 insertions(+), 36 deletions(-)
 
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 0abf26b61f..2d0d24ee27 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -519,7 +519,7 @@ int qemu_opt_unset(QemuOpts *opts, const char *name)
+diff --git a/qemu-img.c b/qemu-img.c
+index 821cbf610e..d36b21b758 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -223,6 +223,25 @@ static bool qemu_img_object_print_help(const char *typ=
+e, QemuOpts *opts)
+     return true;
  }
 =20
- static void opt_set(QemuOpts *opts, const char *name, char *value,
--                    bool prepend, bool *invalidp, Error **errp)
-+                    bool prepend, bool *help_wanted, Error **errp)
- {
-     QemuOpt *opt;
-     const QemuOptDesc *desc;
-@@ -529,8 +529,8 @@ static void opt_set(QemuOpts *opts, const char *name, c=
-har *value,
-     if (!desc && !opts_accepts_any(opts)) {
-         g_free(value);
-         error_setg(errp, QERR_INVALID_PARAMETER, name);
--        if (invalidp) {
--            *invalidp =3D true;
-+        if (help_wanted && is_help_option(name)) {
-+            *help_wanted =3D true;
-         }
-         return;
-     }
-@@ -827,7 +827,7 @@ static const char *get_opt_name_value(const char *param=
-s,
-=20
- static void opts_do_parse(QemuOpts *opts, const char *params,
-                           const char *firstname, bool prepend,
--                          bool *invalidp, Error **errp)
-+                          bool *help_wanted, Error **errp)
- {
-     Error *local_err =3D NULL;
-     char *option, *value;
-@@ -843,7 +843,7 @@ static void opts_do_parse(QemuOpts *opts, const char *p=
-arams,
-             continue;
-         }
-=20
--        opt_set(opts, option, value, prepend, invalidp, &local_err);
-+        opt_set(opts, option, value, prepend, help_wanted, &local_err);
-         g_free(option);
-         if (local_err) {
-             error_propagate(errp, local_err);
-@@ -903,7 +903,7 @@ void qemu_opts_do_parse(QemuOpts *opts, const char *par=
-ams,
-=20
- static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
-                             bool permit_abbrev, bool defaults,
--                            bool *invalidp, Error **errp)
-+                            bool *help_wanted, Error **errp)
- {
-     const char *firstname;
-     char *id =3D opts_parse_id(params);
-@@ -928,7 +928,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const c=
-har *params,
-         return NULL;
-     }
-=20
--    opts_do_parse(opts, params, firstname, defaults, invalidp, &local_err)=
-;
-+    opts_do_parse(opts, params, firstname, defaults, help_wanted, &local_e=
-rr);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         qemu_opts_del(opts);
-@@ -964,11 +964,11 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list,=
- const char *params,
- {
-     Error *err =3D NULL;
-     QemuOpts *opts;
--    bool invalidp =3D false;
-+    bool help_wanted =3D false;
-=20
--    opts =3D opts_parse(list, params, permit_abbrev, false, &invalidp, &er=
-r);
-+    opts =3D opts_parse(list, params, permit_abbrev, false, &help_wanted, =
-&err);
-     if (err) {
--        if (invalidp && has_help_option(params)) {
-+        if (help_wanted) {
-             qemu_opts_print_help(list, true);
-             error_free(err);
-         } else {
++static int accumulate_options(char **options, char *optarg)
++{
++    char *new_options;
++
++    if (!is_valid_option_list(optarg)) {
++        error_report("Invalid option list: %s", optarg);
++        return -1;
++    }
++
++    if (!*options) {
++        *options =3D g_strdup(optarg);
++    } else {
++        new_options =3D g_strdup_printf("%s,%s", *options, optarg);
++        g_free(*options);
++        *options =3D new_options;
++    }
++    return 0;
++}
++
+ static QemuOptsList qemu_source_opts =3D {
+     .name =3D "source",
+     .implied_opt_name =3D "file",
+@@ -482,17 +501,9 @@ static int img_create(int argc, char **argv)
+             fmt =3D optarg;
+             break;
+         case 'o':
+-            if (!is_valid_option_list(optarg)) {
+-                error_report("Invalid option list: %s", optarg);
++            if (accumulate_options(&options, optarg) < 0) {
+                 goto fail;
+             }
+-            if (!options) {
+-                options =3D g_strdup(optarg);
+-            } else {
+-                char *old_options =3D options;
+-                options =3D g_strdup_printf("%s,%s", options, optarg);
+-                g_free(old_options);
+-            }
+             break;
+         case 'q':
+             quiet =3D true;
+@@ -2127,17 +2138,9 @@ static int img_convert(int argc, char **argv)
+             s.compressed =3D true;
+             break;
+         case 'o':
+-            if (!is_valid_option_list(optarg)) {
+-                error_report("Invalid option list: %s", optarg);
++            if (accumulate_options(&options, optarg) < 0) {
+                 goto fail_getopt;
+             }
+-            if (!options) {
+-                options =3D g_strdup(optarg);
+-            } else {
+-                char *old_options =3D options;
+-                options =3D g_strdup_printf("%s,%s", options, optarg);
+-                g_free(old_options);
+-            }
+             break;
+         case 'l':
+             if (strstart(optarg, SNAPSHOT_OPT_BASE, NULL)) {
+@@ -3953,18 +3956,10 @@ static int img_amend(int argc, char **argv)
+             help();
+             break;
+         case 'o':
+-            if (!is_valid_option_list(optarg)) {
+-                error_report("Invalid option list: %s", optarg);
++            if (accumulate_options(&options, optarg) < 0) {
+                 ret =3D -1;
+                 goto out_no_progress;
+             }
+-            if (!options) {
+-                options =3D g_strdup(optarg);
+-            } else {
+-                char *old_options =3D options;
+-                options =3D g_strdup_printf("%s,%s", options, optarg);
+-                g_free(old_options);
+-            }
+             break;
+         case 'f':
+             fmt =3D optarg;
+@@ -4855,17 +4850,9 @@ static int img_measure(int argc, char **argv)
+             out_fmt =3D optarg;
+             break;
+         case 'o':
+-            if (!is_valid_option_list(optarg)) {
+-                error_report("Invalid option list: %s", optarg);
++            if (accumulate_options(&options, optarg) < 0) {
+                 goto out;
+             }
+-            if (!options) {
+-                options =3D g_strdup(optarg);
+-            } else {
+-                char *old_options =3D options;
+-                options =3D g_strdup_printf("%s,%s", options, optarg);
+-                g_free(old_options);
+-            }
+             break;
+         case 'l':
+             if (strstart(optarg, SNAPSHOT_OPT_BASE, NULL)) {
 --=20
 2.21.1
 
