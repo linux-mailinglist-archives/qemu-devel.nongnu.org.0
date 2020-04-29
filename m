@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4FD1BD81E
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:23:33 +0200 (CEST)
-Received: from localhost ([::1]:45514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8891BD80E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:18:54 +0200 (CEST)
+Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTiwG-0003Ow-4F
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33148)
+	id 1jTirl-00073v-3j
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:18:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jTivO-0002YF-Mc
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:22:39 -0400
+ (envelope-from <chenhuacai@gmail.com>) id 1jTiqW-0006IW-T1
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:17:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jTivN-0006zn-HB
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:22:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52222
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jTivN-0006qI-0a
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:22:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588152154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k0buYRTYTi0d2vF01agownmWEJuC/4qGmXxXl9LWQmQ=;
- b=bFpcTf2B4lLofGl9naet4aTvWVfrsPAkAp0srqTKK1hRxnBoG01JMZBFOUAwIIXKSMbi4D
- iVheHOd6JlRTJ51k61cGAf6k+cGBwFhUAm7FvbO0KXZQumYGjc/Dkq8C3Y8NkU5h7jCP43
- smgNih49iRtmFhfZt0VCn7HPH9l/WUU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-7qvN90lMMx67HLrSrZa07g-1; Wed, 29 Apr 2020 05:22:31 -0400
-X-MC-Unique: 7qvN90lMMx67HLrSrZa07g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 431A6464
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 09:22:30 +0000 (UTC)
-Received: from localhost (ovpn-114-2.ams2.redhat.com [10.36.114.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCDA499D6;
- Wed, 29 Apr 2020 09:22:29 +0000 (UTC)
-Date: Wed, 29 Apr 2020 10:22:28 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PULL 12/32] block/file-posix: Fix check_cache_dropped() error
- handling
-Message-ID: <20200429092228.GC122432@stefanha-x1.localdomain>
-References: <20200429072048.29963-1-armbru@redhat.com>
- <20200429072048.29963-13-armbru@redhat.com>
+ (envelope-from <chenhuacai@gmail.com>) id 1jTiqT-0003hb-Ig
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:17:36 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:45010)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
+ id 1jTiqT-0003hC-4h
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:17:33 -0400
+Received: by mail-il1-x144.google.com with SMTP id s10so1692320iln.11
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 02:17:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=JQv0s1MBmIMYp06KxABP2Ziek6OxnbYJCcwA8mcJiKM=;
+ b=ZN3Gu3o78mEs9ESVVoALTfY5Azer7Ctk+luQnzPI2JsgKgWFuIhAwmGf8HJNW0U1i9
+ yGvXTH7y/T+1MXIpvycA8FQzQQydyrbdSa/hHwCJaEDXe9eiOziH+dTkKQP0gJSJTQUL
+ ab5udWN5bjXVtMUK0Tdg15ED8jIBP5TPGgMbEqCVz4GYgHTUFhb/Pu9EYrh8X5TYVavZ
+ DxiFmEGXOUPllOtDnDH173qvieNCkogYiAeKgK4jpe/hohInW+mgWI+9NifA5ocHrUB+
+ jdYvN1bDiXTmIbTP+xgkgz4DUIpv/B9Jx7o4S5Q0JrfcFyozn5Zd07qJcq/+O61NpSql
+ Sy5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=JQv0s1MBmIMYp06KxABP2Ziek6OxnbYJCcwA8mcJiKM=;
+ b=FpnTySFbACGr7/+sLkcL+SgwcPxq+yPhpbLzbft9gxkmK/U7ocVMobtMUhrcCI0tds
+ GqmNQqcf+5oqGGdk0H2hJCnZIgtXwEdfO4B6bdop/jRB5dIDpB8/3Otu93Yq+k1gOfSy
+ xuAjmewDfkVoNDXNNoBbW1XY+SR+nTvjDgKZombZZq9DqRu+uC3cPum/j5sn71ZpuwMH
+ iBpoP76By9yMjCkF2X9b/+ZfI0Av6UcDR4ciWA4eLclrxeg+FDqsHEJrUgQfc1AsItgw
+ DiMCbcYpUpWIaWxuxSXX8lfOAliYuJAAk29JYECBqKxGigmvPUj5TQ8PmHE9j9Xg7LkF
+ 3wzQ==
+X-Gm-Message-State: AGi0Pua/tndqpFYRoVpgDQY8Rq14B8Ukugld9HKdPzcVDAilefyHyC1Z
+ 25Op/m7Kjha99DiFkqOfaQQCTU8t8Eo0/cjwbOo=
+X-Google-Smtp-Source: APiQypKOzC914zTCsF7zXs3DLCYqg013LaYOIfFp7GhzZXP3AOBW8BTk2SWRgZDgIvBs3GMckW+vYSQ5U6snmUuq5Vk=
+X-Received: by 2002:a92:cece:: with SMTP id z14mr29324172ilq.147.1588151851854; 
+ Wed, 29 Apr 2020 02:17:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200429072048.29963-13-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+References: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
+ <1587979995-17717-4-git-send-email-chenhc@lemote.com>
+ <c1a3aec6-dc45-3484-3a70-c06449bee609@amsat.org>
+ <CABDp7Vq-YX0LWU3iM=oygpcKzoS8cmXG6mvTQ5Gm_PbQsQMAgw@mail.gmail.com>
+ <CAHiYmc6zFjBtgXRv=8+dqnbDtZqKqiwSDwEi0wKqJmJnys_y0g@mail.gmail.com>
+ <CAAhV-H6NFV7hbaOp8BwPck3FWm5ZHBpuoA9FDmN6tby5LcoTeg@mail.gmail.com>
+ <a791f90b-a2a5-6665-59b5-212f98c7afc8@amsat.org>
+ <CAAhV-H7NS_KCTuYQYvZeseNEZh56FBFz97kEj4KK-NsBDMJotQ@mail.gmail.com>
+ <a1b333c6-e9a0-aabc-9ec2-b9bcb2007211@amsat.org>
+In-Reply-To: <a1b333c6-e9a0-aabc-9ec2-b9bcb2007211@amsat.org>
+From: Huacai Chen <chenhuacai@gmail.com>
+Date: Wed, 29 Apr 2020 17:25:01 +0800
+Message-ID: <CAAhV-H5_0Nn-omF+_+6T1mbtnFC-3VHTOgvAPfbc44Fnv0px_Q@mail.gmail.com>
+Subject: Re: [PATCH for-5.1 4/7] target/mips: Add Loongson-3 CPU definition
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
+ envelope-from=chenhuacai@gmail.com; helo=mail-il1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,56 +84,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: chen huacai <zltjiangshi@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-level <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---69pVuxX8awAiJ7fD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi, Philippe,
 
-On Wed, Apr 29, 2020 at 09:20:28AM +0200, Markus Armbruster wrote:
-> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
-> pointer to a variable containing NULL.  Passing an argument of the
-> latter kind twice without clearing it in between is wrong: if the
-> first call sets an error, it no longer points to NULL for the second
-> call.
->=20
-> check_cache_dropped() calls error_setg() in a loop.  It fails to break
-> the loop in one instance.  If a subsequent iteration error_setg()s
-> again, it trips error_setv()'s assertion.
->=20
-> Fix it to break the loop.
->=20
-> Fixes: 31be8a2a97ecba7d31a82932286489cac318e9e9
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Message-Id: <20200422130719.28225-3-armbru@redhat.com>
-> ---
->  block/file-posix.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+I think that this CPU definition is for Guest, not for Host (Maybe I'm wron=
+g?).
 
-Thanks for fixing this bug!
+On Wed, Apr 29, 2020 at 4:58 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 4/29/20 10:27 AM, Huacai Chen wrote:
+> > Hi, Philippe,
+> >
+> > The major differences of R3 and R4 are:
+> > 1, R4 has complete MIPS VZ ASE (while R3 is incomplete), so very
+> > usable for KVM host;
+>
+> So you need to set CP0C3_VZ.
+If the definition is for Guest, I think CP0C3_VZ should not be set in
+CP0_Config3, because only the Host can see VZ ASE.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>
+> > 2, R4 has MSA ASE while R3 hasn't;
+>
+> So you need to set CP0C5_MSAEn.
+I have already set CP0C5_MSAEn CP0_Config5_rw_bitmask, but I don't
+think it should be set in CP0_Config5 because MSA is disabled by
+default.
 
---69pVuxX8awAiJ7fD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6pR1QACgkQnKSrs4Gr
-c8hu3wgAqsYhHhT2HgdYJzMPmNfuO0Az4CqiI3nmCFHjMBagVbnaeNklHNqWIrsn
-T8Zib/js6kT++DFPjq8/tYK0FlId3RBDeCUanI0zThOl7r90sxgTVzu3IZhvUwBK
-Mrl1t6FPvRbL8fOjNM7y2SmKlllMt8FZy8DtmoZ7jNjgDvByd4bWapiD9j1aDfH6
-h6zdGlUwdZNcNB9Y9zKUSj+b3FJXhELUy1cF69B0XHaPNOxCNLTgWNlLod9AxOSJ
-F90qdhUZH3bGl+gUR9dojLGQt8fZB6vP/Hvi4owmcWBcShw7tEYTNoE/fJTy3a1k
-jMRJAdp87ntFv+hyGQiKKvOG93OatA==
-=5C6z
------END PGP SIGNATURE-----
-
---69pVuxX8awAiJ7fD--
-
+>
+> > 3, R4 has cpucfg, rdcsr and wrcsr instructions (similar to cpuid,
+> > rdmsr and wrmsr in X86).
+>
+> OK, these are not implemented.
+>
+> [...]
+>
+> >>>>>>> diff --git a/target/mips/translate_init.inc.c b/target/mips/trans=
+late_init.inc.c
+> >>>>>>> index 6d145a9..a32412d 100644
+> >>>>>>> --- a/target/mips/translate_init.inc.c
+> >>>>>>> +++ b/target/mips/translate_init.inc.c
+> >>>>>>> @@ -802,6 +802,57 @@ const mips_def_t mips_defs[] =3D
+> >>>>>>>            .mmu_type =3D MMU_TYPE_R4000,
+> >>>>>>>        },
+> >>>>>>>        {
+> >>>>>>> +        .name =3D "Loongson-3A",
+> >>>>>>> +        .CP0_PRid =3D 0x14C000,
+> >>>>>>> +        /* 64KB I-cache and d-cache. 4 way with 32 bit cache lin=
+e size.  */
+> >>>>>>> +        .CP0_Config0 =3D MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2=
+ << CP0C0_AT) |
+> >>>>>>> +                       (MMU_TYPE_R4000 << CP0C0_MT),
+> >>>>>>> +        .CP0_Config1 =3D MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 <<=
+ CP0C1_MMU) |
+> >>>>>>> +                       (2 << CP0C1_IS) | (4 << CP0C1_IL) | (3 <<=
+ CP0C1_IA) |
+> >>>>>>> +                       (2 << CP0C1_DS) | (4 << CP0C1_DL) | (3 <<=
+ CP0C1_DA) |
+> >>>>>>> +                       (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 <<=
+ CP0C1_EP),
+> >>>>>>> +        .CP0_Config2 =3D MIPS_CONFIG2,
+> >>>>>>> +        .CP0_Config3 =3D MIPS_CONFIG3 | (1U << CP0C3_M) | (1 << =
+CP0C3_MSAP) |
+> >>>>>>> +                       (1 << CP0C3_BP) | (1 << CP0C3_BI) | (1 <<=
+ CP0C3_ULRI) |
+> >>>>>>> +                       (1 << CP0C3_RXI) | (1 << CP0C3_LPA) | (1 =
+<< CP0C3_VInt),
+> >>>>>>> +        .CP0_Config4 =3D MIPS_CONFIG4 | (1U << CP0C4_M) | (2 << =
+CP0C4_IE) |
+> >>>>>>> +                       (1 << CP0C4_AE) | (0x1c << CP0C4_KScrExis=
+t),
+> >>>>>>> +        .CP0_Config4_rw_bitmask =3D 0,
+> >>>>>>> +        .CP0_Config5 =3D MIPS_CONFIG5 | (1 << CP0C5_NFExists) | =
+(1 << 18),
+> >>>>>>> +        .CP0_Config5_rw_bitmask =3D (1 << CP0C5_K) | (1 << CP0C5=
+_CV) |
+> >>>>>>> +                                  (1 << CP0C5_MSAEn) | (1 << CP0=
+C5_UFE) |
+> >>>>>>> +                                  (1 << CP0C5_FRE) | (1 << CP0C5=
+_SBRI),
+> >>>>>>> +        .CP0_Config6 =3D (1 << CP0C6_VCLRU) | (1 << CP0C6_DCLRU)=
+ | (1 << CP0C6_SFBEN) |
+> >>>>>>> +                       (1 << CP0C6_FLTINT) | (1 << CP0C6_INSTPRE=
+F) | (1 << CP0C6_DATAPREF),
+> >>>>>>> +        .CP0_Config6_rw_bitmask =3D (1 << CP0C6_BPPASS) | (0x3f =
+<< CP0C6_KPOS) |
+> >>>>>>> +                                  (1 << CP0C6_KE) | (1 << CP0C6_=
+VTLBONLY) | (1 << CP0C6_LASX) |
+> >>>>>>> +                                  (1 << CP0C6_SSEN) | (1 << CP0C=
+6_DISDRTIME) |
+> >>>>>>> +                                  (1 << CP0C6_PIXNUEN) | (1 << C=
+P0C6_SCRAND) |
+> >>>>>>> +                                  (1 << CP0C6_LLEXCEN) | (1 << C=
+P0C6_DISVC) |
+> >>>>>>> +                                  (1 << CP0C6_VCLRU) | (1 << CP0=
+C6_DCLRU) |
+> >>>>>>> +                                  (1 << CP0C6_PIXUEN) | (1 << CP=
+0C6_DISBLKLYEN) |
+> >>>>>>> +                                  (1 << CP0C6_UMEMUALEN) | (1 <<=
+ CP0C6_SFBEN) |
+> >>>>>>> +                                  (1 << CP0C6_FLTINT) | (1 << CP=
+0C6_VLTINT) |
+> >>>>>>> +                                  (1 << CP0C6_DISBTB) | (3 << CP=
+0C6_STPREFCTL) |
+> >>>>>>> +                                  (1 << CP0C6_INSTPREF) | (1 << =
+CP0C6_DATAPREF),
+> >>>>>>> +        .CP0_Config7 =3D 0,
+> >>>>>>> +        .CP0_Config7_rw_bitmask =3D (1 << CP0C7_NAPCGEN) | (1 <<=
+ CP0C7_UNIMUEN) | \
+> >>>>>>> +                                  (1 << CP0C7_VFPUCGEN),
+> >>>>>>> +        .CP0_LLAddr_rw_bitmask =3D 1,
+> >>>>>>> +        .SYNCI_Step =3D 16,
+> >>>>>>> +        .CCRes =3D 2,
+> >>>>>>> +        .CP0_Status_rw_bitmask =3D 0x7DDBFFFF,
+> >>>>>>> +        .CP0_PageGrain_rw_bitmask =3D (1U << CP0PG_RIE) | (1 << =
+CP0PG_XIE) |
+> >>>>>>> +                    (1 << CP0PG_ELPA) | (1 << CP0PG_IEC),
+> >>>>>>> +        .CP1_fcr0 =3D (0x5 << FCR0_PRID) | (0x1 << FCR0_REV) | (=
+0x1 << FCR0_F64),
+> >>>>>>> +        .CP1_fcr31 =3D 0,
+> >>>>>>> +        .CP1_fcr31_rw_bitmask =3D 0xFF83FFFF,
+> >>>>>>> +        .SEGBITS =3D 48,
+> >>>>>>> +        .PABITS =3D 48,
+> >>>>>>> +        .insn_flags =3D CPU_LOONGSON3A,
+> >>>>>>> +        .mmu_type =3D MMU_TYPE_R4000,
+> >>>>>>> +    },
+> >>>>>>> +    {
+> >>>>>>>            /* A generic CPU providing MIPS64 DSP R2 ASE features.
+> >>>>>>>               FIXME: Eventually this should be replaced by a real=
+ CPU model. */
+> >>>>>>>            .name =3D "mips64dspr2",
+> >>>>>>>
+> >>>>>
+> >>>>>
+> >>>>>
+> >>>>> --
+> >>>>> Huacai Chen
+> >>>
+> >
 
