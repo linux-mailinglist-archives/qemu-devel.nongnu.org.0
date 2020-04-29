@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A631BD478
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:13:57 +0200 (CEST)
-Received: from localhost ([::1]:55754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A28C1BD47A
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 08:14:29 +0200 (CEST)
+Received: from localhost ([::1]:57788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTfyn-0001ZP-0q
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:13:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39316)
+	id 1jTfzI-0002Og-6T
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 02:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTfw8-0005ar-4u
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:12 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTfw9-0005eL-VP
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTfw7-00026e-FH
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:11 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTfw9-00027q-E7
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 02:11:13 -0400
 Received: from mail-vi1eur05on2121.outbound.protection.outlook.com
  ([40.107.21.121]:61758 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jTfw5-000240-Iq; Wed, 29 Apr 2020 02:11:09 -0400
+ id 1jTfw6-000240-IU; Wed, 29 Apr 2020 02:11:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F06Wi9s12zUudKkKhNKdlW4DtO+fhvNDLN3N00R9pzZyTYQuNSTeq188YLx7clrE6dwyQI1QkYdTIV+Nq9ACFpkFDUYnEjLqZJIz8V1kAkPp8eEbggXY1056EZUzZg4I6v/o1aA/2+89jEbAmCh8zqj522OY5Ffatzj1PVL0lDQu3xHmHvDYA65qUPlv/7Aejdi+VGU2/OdF4sGwPkHTfSIjTe6Pbr34L8lQlO8LbbU6WHCWpG7gdAsfxexHRW6n298c2D4SPtk2G1wDzSsiASuIK+YfecJu5iQQsfLoVoTYEIv1qYYVj4VL46s4hOfUX8kKjTp6ASKOCLhsAEuY/A==
+ b=ACYW/Qa4yxHrINmUCpiqQaI62oaYcMuR/xPu9Cu0Wci/PD+LQpd/9QZ2rsWdJYwrmkGomKIjHaofEQhKtHkZ3mPnR1a1LhePTp3MLO4+VVVVR/t91rHUr3599oJZcq19NcsyH3zP1AExQmTGScVHHLryyNyY/FUbDlgRhE4khNzmOhN7AxcZ2n0yTT+NWUDO+BvV7/nwYn8twcyf1ReJbrpLqHJ4FI+wiY9JmUWZq7XX5MB2Tn3vJ2+QdrXwonC78vf8+Lv7IoRjt7vcaqIOtS340uCD2fccPloLrnOh9JO72AfWUeA2cDy9qC59NdHj8eXxLTBSrejeehSjkC9E6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FseS9y9dE4GNUMXB/bqW54x6DCElqlOU+2wOmVvQJdc=;
- b=UenBraikBtLqRUiHcIrtrm5JS89edWpifU5QlvdODxO0eTUWhLph2D0vSaMDKj97OX1eWlcS+24jdLN/1wnxy7LvkI3Ogf9m4Qg7jEsGZsxps60or3yPCISP9trJuUw1jyqSK+Myb/qCVBHtO4titsiPA0qICVjgcFduODV3iMoXXp2ttV8YUa/R+pzBWDppGNWw7SQnhPRbgaTOt2tgcIxb6aesJb93Vq2LNUglm6pz2sQexeIcCVpMquVMc9hG3MDHNYoxBnTodVxI9j+f3Dq38GrbtjEMyFzr1mKtB8roCdFUD7huAVNxzv8oAjqWwtM56Y02wU89dMYSt8B/sw==
+ bh=EbDSSgyfAn2eQ3B78rvdS9sD+o3H2ESB4pBZdgcChJU=;
+ b=AopZMzq2/MDgD4qLaNRzpua6X9hmq9OTfcGW8sesJNZZLk5Quni3Rh5+tninoQL747+0Fb1pdb1q0POny/EbdTAqvWiQbL2fberhRXpgMFdiPuarP3yMp7oUVKpf7gs0lVPhqJ3Keidxo6iIs6wZdPTcTk1vMVOAdF10gVVDsSo9OaOz1iP8cbarzRrK/bj+2ER8pww4hft3oZ22KlUjDlrnHPFsRpS5v1frOWSOoQIIT9nZpf94CYMHaX+ShR9QOe5QhxpBCZ62ZhK7GB40krO9xOt1S4t4+zRotBr0Uy1mkh2RrhPnoQN1GpKP6tjbBGR4SuTf7B8mX92usvvJXw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FseS9y9dE4GNUMXB/bqW54x6DCElqlOU+2wOmVvQJdc=;
- b=AFCKLEESG0SqL24jNJeAyiGuDV4RZZ3/xGMtqvVpQWBBYDJS0J9iJXVBBuCNuuhsB3GUJJXIWyH/q6vsr2JE/qmQV/hP456zXiZWzy+DH/YDSaivDczVDQ+IlFzemonvmWkYqLKOz2+DXzgGbrOnmYILlh9WYKnAHgfknRUCy18=
+ bh=EbDSSgyfAn2eQ3B78rvdS9sD+o3H2ESB4pBZdgcChJU=;
+ b=BfXCTPtWYTkcORo6byFbY3J+fzQiI20Lr0fhvRnPvl6tH08oMnCsosYnsbUrhufuQVAwLRjYEzPUyxWdla1AxL2kOTeUqmYTYNil2eIy/jkPoFI+0cj0PvyNbq1T6uHDTPFAwQZ2gbjcuwBBauPPhM+O0VHA3ug9rvvf+UGloQA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5301.eurprd08.prod.outlook.com (2603:10a6:20b:dd::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Wed, 29 Apr
- 2020 06:11:06 +0000
+ 2020 06:11:07 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Wed, 29 Apr 2020
  06:11:06 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 2/5] block/block-copy: alloc task on each iteration
-Date: Wed, 29 Apr 2020 09:10:36 +0300
-Message-Id: <20200429061039.12687-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 3/5] block/block-copy: add state pointer to BlockCopyTask
+Date: Wed, 29 Apr 2020 09:10:37 +0300
+Message-Id: <20200429061039.12687-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200429061039.12687-1-vsementsov@virtuozzo.com>
 References: <20200429061039.12687-1-vsementsov@virtuozzo.com>
@@ -65,32 +65,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.184) by
  FR2P281CA0023.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.13 via Frontend Transport; Wed, 29 Apr 2020 06:11:05 +0000
+ 15.20.2937.13 via Frontend Transport; Wed, 29 Apr 2020 06:11:06 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.184]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75678ebe-e4a1-41be-4a7f-08d7ec041a3a
+X-MS-Office365-Filtering-Correlation-Id: 0acb8996-5843-4c6d-2719-08d7ec041a9a
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5301:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5301AC1796BBCB05D9518517C1AD0@AM7PR08MB5301.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:69;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB53018509056283335E07C331C1AD0@AM7PR08MB5301.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:206;
 X-Forefront-PRVS: 03883BD916
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7gMvTvGWsLP9NH758jncDsou1xDcOZvNOp1DDalFD4FU+FE/5VJMt3pFysvf4fgUKWFjFDai5PQdRJ2i5lpu/hOcekhzHUMvcGIuit+RwrqnUK+S1tQUWU4JS/l0MFToJr2U+YjC4PlPABFujzaqtP9vxsIAeJ4eGnvSkfaTXfzA4N80LC/SgDQlNrZv87EvGBt3lqjp4nXXaLLhnifAXbwllsw+YDle2d04JicZZJpWYDgBHJS00n7zg3IcvoQJ3UoMKbfe3oItB3p9wGkVpo4O7LFF50bTI2Gxv6ff8yUk8yZq96sDM8oYd+IkqCGfKzVWaD+4N01EwEz8xYok0W0fhuih5u5/NWtcyzt+xkZz0S8QRC60lGjRMKUWSOGsIP1Igxs1irqm/V2JK/3l1YrzYP9YUK9xmqyQvP5omI97zOpm6CrHDypinvigrwXy1QVmOBaegsS6xbhcqPAgj6mOxCHhTUjf6AwdX++pOGFDm+ZzjUognSZD/94nU1cr
+X-Microsoft-Antispam-Message-Info: 3YNAiDFudxtMTUCBxvbVttwYlZyskga7j8E0n0WSu9JajlFc3ywRl+HT+2zfXDL0DjE53+Em6gGiTzAH9IKImum6fznHvWMXHk3Vu23fKoDiGb9v01W6dO0tx5X83kSjffWWTOmpB2A3icQ6zUcREwNRM64pudREOkTOe9outcL7bnEjI3LjcJ191iPZQP6eWtnz7jT5bsy2TEQQ6pHQOw0of0QSMQXELAlgL/udzyPLVbU+beeiCh3zKMOob0/CCIosAxPmcI5Xt86xZ/dMEwhtyDbH+6CfVGk8g0sXxMYwpzJ6Gtd9zsszbTa1WC4JPH7Z/bUwgOlr8BmQQojRxfa0zScA8DR5GxOou8JaE+mqV2TzKQsIHkOEViZVlbgjKG8RMWama6foTtd71mqiqjCHj4hOLRSx6yOcilztN4TLuSSWiFKmuyklFhAxuepSDbGTvMwWumr1bnZQ18ARsZrmr0Al7dxeGeEHeoc5GUJI7q9g0ooBRW8vtDDA67O8
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(346002)(39830400003)(136003)(376002)(396003)(366004)(2906002)(1076003)(86362001)(36756003)(186003)(16526019)(26005)(956004)(4326008)(52116002)(5660300002)(6506007)(69590400007)(107886003)(6512007)(6486002)(2616005)(6666004)(478600001)(316002)(6916009)(8676002)(66556008)(66476007)(8936002)(66946007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 4nikeuNCKbu8/Fz+XD7fKMhF2BFg3Q4pFW4MBPoHz1++ixfp5Mpoazx9UG735uY87tx+V4dua1O4XH/cy/K3OEI/4wiqffksqXCXP1VdmQvdb0a5KPi0RRvA6G7HE0jpuuMmRUulS4bpnD/SJq0pyr6ntKTz6jKgQiq2iHw6bGcKyPuSqBA20k983dBPsDcohd+WAC0elM8Bp9Rm2tMWiSWY1PXXK4J6kcXPrT+L3wLcjpHZu66NAaeen5dChdzHkMOnWfl0IcIcOGBIsfsEU3K3wmvpJ6cpM6bHH+1fe9np3qorvpxd1zj/GLzcVphqX6OlD3BsXfwT2+fGRp0aNEt3po+MdpxExE3f5fVUweFoIPqUid9//rsf3o75j0f5kWZetfyTG/4Y3FioeQ2LLyOEucI/vEuHnh0gx39j1TOkqQwp7dFDjTO/K5Prf3E7VwH5cwwADtKGuJ7/bV/E3G8JNyZTTUFfonMMGsC0lxuH97bmeeLRpymmYXt1G97cRJ4S4UUseYnXUlvA6i5u0jnWmoWJ/ClAyyiaq0Czq2GV2WWm9CaFmvhSQRYBqa+BrKhC+dtNO62TTBB0an9TMfKPQtAGViqAau8e3fjHlgPg8Vw3XT8T1M1l742f4wKJGwSzSrDsJ+0bA2TZn6gewVLbBGMN/rLyBXxE8VgIJ5hs1UHkkNk4HyStk1zkgnIyoSL9S4B8y1uePfg1x69kUXFv331k/n6nr4GeP/gZ3q7wII3OElMGGIjERgzaNNWTjD/c1zXMQUYdG26XE5JwKiOlHPuXZLWlQD6Z+R/7zBA=
+X-MS-Exchange-AntiSpam-MessageData: SPGVjCdZ4rLmlWk3OZvOYGg0er8w6B6rwCwRcOEYVaizD2Zivscmesxqsc6RtCz5EwGdK61/rBZH5E/OwimrnYxH+GkEAJjivj3CV7AuwM4wF8kzQAk+Q99WBetYs1HcyWvPdz0oSJaXWLKV+QKeALT6bQbwzZaDB2EgN7jAyQSnn7r4JPymhG4rrP+6PDkkeoQFeHaIkI6MEEd1n6fCQXGyzMK2Ma+uOybMHjzKy09hcXU7+CXF/flKYmobzzavEMVIMtukK5h7ZLtLFU2+wnjfrtJKdx7l3IdkdGpef+XIhLuvQjFDDvvkIF1II3TDaScR6OJl5jGhptEQ7re3GEaJs0TC8ibk1/TYv3i0Hg2k3aCvT0qBTNb3dzHpCxIQapfRzW3aF9kR7xxq3XyrCWBWJzuhAESpBLcKHjTuXBNmTVL1rgkUzCYDZ4pc/zkii09EslF49cL8pS/7VawdJ89ExZVb4s9sVZVL5FMSfNfJCSo5pIZcskrvmIqw7EwRmDatT+LFU9ahiIGrPnfOuDuw/1YuzSIJ0amJTaYF+GnmRGfvqKlPyIrIW1+Kja2ztKE6a43mmkVdEaNzaH/vv3DgCmxPhw7gFXvaUfetTgT54hyCTcoCiFU4NscYbSxVyKm60KKYKhaXnj8nNBqeL0bGY0Dgmfc0Y4IQsaY4AmvW8YHHTriNQvAxSJpUX7ndJH4cCWQevVkb1T1cNa/lw0dACjIGpk2oKX4kJn+bSdo5+6mAyLhYFytziQYYFuxlEXQWQpcA3LtitbRfd9DcMDvCgPCbNFuPFdpjHEZ02GQ=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75678ebe-e4a1-41be-4a7f-08d7ec041a3a
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 06:11:06.1600 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0acb8996-5843-4c6d-2719-08d7ec041a9a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 06:11:06.9008 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uLrqu8YI6x0VoT+OQs/vXXSVUfP831sB+lRxBz17PQWuUwdKNtyA87XI1DQ8isxV2S2Wovda61OGNboekM02QKUGM9tLGQPzj8or60OKd0I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: rApIw2+7ts60Kb0wINO1MeP8h4lwYMrKU+LHNUMxZJeHY+dwN9csLEkEsRC22bYPjqHqQGzAOeRmhR+iptlL+7VIJPRR2saYA9+zc513Rj4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5301
 Received-SPF: pass client-ip=40.107.21.121;
  envelope-from=vsementsov@virtuozzo.com;
@@ -114,76 +114,95 @@ Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to use aio-task-pool API, so tasks will be handled in
-parallel. We need therefore separate allocated task on each iteration.
-Introduce this logic now.
+We are going to use aio-task-pool API, so we'll need state pointer in
+BlockCopyTask anyway. Add it now and use where possible.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/block-copy.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ block/block-copy.c | 28 +++++++++++++++-------------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index bbb29366dc..8d1b9ab9f0 100644
+index 8d1b9ab9f0..35ff9cc3ef 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -106,9 +106,11 @@ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
- }
+@@ -25,6 +25,7 @@
+ #define BLOCK_COPY_MAX_MEM (128 * MiB)
  
- /* Called only on full-dirty region */
--static void block_copy_task_begin(BlockCopyState *s, BlockCopyTask *task,
--                                  int64_t offset, int64_t bytes)
-+static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
-+                                             int64_t offset, int64_t bytes)
- {
-+    BlockCopyTask *task = g_new(BlockCopyTask, 1);
-+
-     assert(!find_conflicting_task(s, offset, bytes));
- 
+ typedef struct BlockCopyTask {
++    BlockCopyState *s;
+     int64_t offset;
+     int64_t bytes;
+     QLIST_ENTRY(BlockCopyTask) list;
+@@ -116,8 +117,11 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
      bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
-@@ -118,6 +120,8 @@ static void block_copy_task_begin(BlockCopyState *s, BlockCopyTask *task,
-     task->bytes = bytes;
+     s->in_flight_bytes += bytes;
+ 
+-    task->offset = offset;
+-    task->bytes = bytes;
++    *task = (BlockCopyTask) {
++        .s = s,
++        .offset = offset,
++        .bytes = bytes,
++    };
      qemu_co_queue_init(&task->wait_queue);
      QLIST_INSERT_HEAD(&s->tasks, task, list);
-+
-+    return task;
+ 
+@@ -131,8 +135,7 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
+  * wake up all tasks waiting for us (may be some of them are not intersecting
+  * with shrunk task)
+  */
+-static void coroutine_fn block_copy_task_shrink(BlockCopyState *s,
+-                                                BlockCopyTask *task,
++static void coroutine_fn block_copy_task_shrink(BlockCopyTask *task,
+                                                 int64_t new_bytes)
+ {
+     if (new_bytes == task->bytes) {
+@@ -141,20 +144,19 @@ static void coroutine_fn block_copy_task_shrink(BlockCopyState *s,
+ 
+     assert(new_bytes > 0 && new_bytes < task->bytes);
+ 
+-    s->in_flight_bytes -= task->bytes - new_bytes;
+-    bdrv_set_dirty_bitmap(s->copy_bitmap,
++    task->s->in_flight_bytes -= task->bytes - new_bytes;
++    bdrv_set_dirty_bitmap(task->s->copy_bitmap,
+                           task->offset + new_bytes, task->bytes - new_bytes);
+ 
+     task->bytes = new_bytes;
+     qemu_co_queue_restart_all(&task->wait_queue);
  }
  
- /*
-@@ -472,7 +476,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
- 
-     while (bytes) {
--        BlockCopyTask task;
-+        g_autofree BlockCopyTask *task = NULL;
-         int64_t next_zero, cur_bytes, status_bytes;
- 
-         if (!bdrv_dirty_bitmap_get(s->copy_bitmap, offset)) {
-@@ -493,14 +497,14 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-             assert(next_zero < offset + cur_bytes); /* no need to do MIN() */
-             cur_bytes = next_zero - offset;
-         }
--        block_copy_task_begin(s, &task, offset, cur_bytes);
-+        task = block_copy_task_create(s, offset, cur_bytes);
- 
+-static void coroutine_fn block_copy_task_end(BlockCopyState *s,
+-                                             BlockCopyTask *task, int ret)
++static void coroutine_fn block_copy_task_end(BlockCopyTask *task, int ret)
+ {
+-    s->in_flight_bytes -= task->bytes;
++    task->s->in_flight_bytes -= task->bytes;
+     if (ret < 0) {
+-        bdrv_set_dirty_bitmap(s->copy_bitmap, task->offset, task->bytes);
++        bdrv_set_dirty_bitmap(task->s->copy_bitmap, task->offset, task->bytes);
+     }
+     QLIST_REMOVE(task, list);
+     qemu_co_queue_restart_all(&task->wait_queue);
+@@ -502,9 +504,9 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
          ret = block_copy_block_status(s, offset, cur_bytes, &status_bytes);
          assert(ret >= 0); /* never fail */
          cur_bytes = MIN(cur_bytes, status_bytes);
--        block_copy_task_shrink(s, &task, cur_bytes);
-+        block_copy_task_shrink(s, task, cur_bytes);
+-        block_copy_task_shrink(s, task, cur_bytes);
++        block_copy_task_shrink(task, cur_bytes);
          if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
--            block_copy_task_end(s, &task, 0);
-+            block_copy_task_end(s, task, 0);
+-            block_copy_task_end(s, task, 0);
++            block_copy_task_end(task, 0);
              progress_set_remaining(s->progress,
                                     bdrv_get_dirty_count(s->copy_bitmap) +
                                     s->in_flight_bytes);
-@@ -516,7 +520,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+@@ -520,7 +522,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
          ret = block_copy_do_copy(s, offset, cur_bytes, ret & BDRV_BLOCK_ZERO,
                                   error_is_read);
          co_put_to_shres(s->mem, cur_bytes);
--        block_copy_task_end(s, &task, ret);
-+        block_copy_task_end(s, task, ret);
+-        block_copy_task_end(s, task, ret);
++        block_copy_task_end(task, ret);
          if (ret < 0) {
              return ret;
          }
