@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920891BD7C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:00:20 +0200 (CEST)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE16E1BD7CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:01:57 +0200 (CEST)
+Received: from localhost ([::1]:33580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTiZn-0007EC-Jk
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57800)
+	id 1jTibM-0000mQ-UQ
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jingqi.liu@intel.com>) id 1jTiVb-0000r9-JN
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:56:04 -0400
+ (envelope-from <jingqi.liu@intel.com>) id 1jTiVc-0000sL-NO
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:56:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jingqi.liu@intel.com>) id 1jTiV8-0001BP-Pm
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:55:59 -0400
+ (envelope-from <jingqi.liu@intel.com>) id 1jTiVA-0001Be-4m
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:56:00 -0400
 Received: from mga05.intel.com ([192.55.52.43]:25911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
- id 1jTiV8-0000gc-7H
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:55:30 -0400
-IronPort-SDR: 2oMX5TntifhWqVnbEk9VVzVb7Aa5gG8P8WCx66ek340dhL71mbMFI7o36u+4o/LV1msX8XLchp
- yunIbaSzIONw==
+ id 1jTiV9-0000gc-Hr
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:55:31 -0400
+IronPort-SDR: 1wlIdXL8mJxtI3qyfzb1NlYw/aQ9NbprN8kb/cR4BomJ4Y9hTDjM2Lip5cTlLq7RLfzjDVSXJL
+ 0Ztay3OAc/Mw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2020 01:55:29 -0700
-IronPort-SDR: ZFkaqk8cmi/LHsjtNeoKiMdBv9VSor/511H/4OSWoscttJ4kJFRBDMEjSxgIgOfKr4PLoeNdHV
- YWpATLIDYJ8g==
+ 29 Apr 2020 01:55:31 -0700
+IronPort-SDR: 6ooFJFD+nHmoB6ZMPhTg1hg9JHZMijx7fn1eAh+opWKS7WjN8vhmgaI+nlL+CwA1UnZe1OAfpj
+ G2DhKIq10iNA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,331,1583222400"; d="scan'208";a="459114644"
+X-IronPort-AV: E=Sophos;i="5.73,331,1583222400"; d="scan'208";a="459114658"
 Received: from dazhang1-mobile.sh.intel.com ([10.239.48.70])
- by fmsmga005.fm.intel.com with ESMTP; 29 Apr 2020 01:55:26 -0700
+ by fmsmga005.fm.intel.com with ESMTP; 29 Apr 2020 01:55:29 -0700
 From: Jingqi Liu <jingqi.liu@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
  Joao Martins <joao.m.martins@oracle.com>,
  Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
  Dan Williams <dan.j.williams@intel.com>
-Subject: [PATCH v3 2/3] docs/nvdimm: add description of alignment requirement
- of device dax
-Date: Wed, 29 Apr 2020 16:50:10 +0800
-Message-Id: <20200429085011.63752-3-jingqi.liu@intel.com>
+Subject: [PATCH v3 3/3] configure: add libdaxctl support
+Date: Wed, 29 Apr 2020 16:50:11 +0800
+Message-Id: <20200429085011.63752-4-jingqi.liu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200429085011.63752-1-jingqi.liu@intel.com>
 References: <20200429085011.63752-1-jingqi.liu@intel.com>
@@ -66,37 +65,107 @@ Cc: Jingqi Liu <jingqi.liu@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For device dax (e.g., /dev/dax0.0), the NUM of 'align=NUM' option
-needs to match the alignment requirement of the device dax.
-It must be larger than or equal to the 'align' of device dax.
+Add a pair of configure options --{enable,disable}-libdaxctl to control
+whether QEMU is compiled with libdaxctl [1]. Libdaxctl is a utility
+library for managing the device dax subsystem.
+
+QEMU uses mmap(2) to maps vNVDIMM backends and aligns the mapping
+address to the page size (getpagesize(2)) by default. However, some
+types of backends may require an alignment different than the page
+size. The 'align' option is provided to memory-backend-file to allow
+users to specify the proper alignment.
+
+For device dax (e.g., /dev/dax0.0), the 'align' option needs to match
+the alignment requirement of the device dax, which can be fetched
+through the APIs of libdaxctl version 57 or up.
+
+[1] Libdaxctl is a part of ndctl project.
+The project's repository is: https://github.com/pmem/ndctl
+
+For more information about libdaxctl APIs, you can refer to the
+comments in source code of: pmem/ndctl/daxctl/lib/libdaxctl.c.
 
 Reviewed-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
 ---
- docs/nvdimm.txt | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ configure | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-index 362e99109e..c2c6e441b3 100644
---- a/docs/nvdimm.txt
-+++ b/docs/nvdimm.txt
-@@ -132,6 +132,16 @@ address to the page size (getpagesize(2)) by default. However, some
- types of backends may require an alignment different than the page
- size. In that case, QEMU v2.12.0 and later provide 'align' option to
- memory-backend-file to allow users to specify the proper alignment.
-+For device dax (e.g., /dev/dax0.0), this alignment needs to match the
-+alignment requirement of the device dax. The NUM of 'align=NUM' option
-+must be larger than or equal to the 'align' of device dax.
-+We can use one of the following commands to show the 'align' of device dax.
-+
-+    ndctl list -X
-+    daxctl list -R
-+
-+In order to get the proper 'align' of device dax, you need to install
-+the library 'libdaxctl'.
+diff --git a/configure b/configure
+index e225a1e3ff..d2418084c1 100755
+--- a/configure
++++ b/configure
+@@ -509,6 +509,7 @@ libpmem=""
+ default_devices="yes"
+ plugins="no"
+ fuzzing="no"
++libdaxctl=""
  
- For example, device dax require the 2 MB alignment, so we can use
- following QEMU command line options to use it (/dev/dax0.0) as the
+ supported_cpu="no"
+ supported_os="no"
+@@ -1601,6 +1602,10 @@ for opt do
+   ;;
+   --gdb=*) gdb_bin="$optarg"
+   ;;
++  --enable-libdaxctl) libdaxctl=yes
++  ;;
++  --disable-libdaxctl) libdaxctl=no
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1894,6 +1899,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   debug-mutex     mutex debugging support
+   libpmem         libpmem support
+   xkbcommon       xkbcommon support
++  libdaxctl       libdaxctl support
+ 
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+@@ -6190,6 +6196,24 @@ if test "$libpmem" != "no"; then
+ 	fi
+ fi
+ 
++##########################################
++# check for libdaxctl
++
++if test "$libdaxctl" != "no"; then
++	if $pkg_config --atleast-version=57 "libdaxctl"; then
++		libdaxctl="yes"
++		libdaxctl_libs=$($pkg_config --libs libdaxctl)
++		libdaxctl_cflags=$($pkg_config --cflags libdaxctl)
++		libs_softmmu="$libs_softmmu $libdaxctl_libs"
++		QEMU_CFLAGS="$QEMU_CFLAGS $libdaxctl_cflags"
++	else
++		if test "$libdaxctl" = "yes" ; then
++			feature_not_found "libdaxctl" "Install libdaxctl"
++		fi
++		libdaxctl="no"
++	fi
++fi
++
+ ##########################################
+ # check for slirp
+ 
+@@ -6767,6 +6791,7 @@ echo "parallels support $parallels"
+ echo "sheepdog support  $sheepdog"
+ echo "capstone          $capstone"
+ echo "libpmem support   $libpmem"
++echo "libdaxctl support $libdaxctl"
+ echo "libudev           $libudev"
+ echo "default devices   $default_devices"
+ echo "plugin support    $plugins"
+@@ -7590,6 +7615,10 @@ if test "$libpmem" = "yes" ; then
+   echo "CONFIG_LIBPMEM=y" >> $config_host_mak
+ fi
+ 
++if test "$libdaxctl" = "yes" ; then
++  echo "CONFIG_LIBDAXCTL=y" >> $config_host_mak
++fi
++
+ if test "$bochs" = "yes" ; then
+   echo "CONFIG_BOCHS=y" >> $config_host_mak
+ fi
 -- 
 2.17.1
 
