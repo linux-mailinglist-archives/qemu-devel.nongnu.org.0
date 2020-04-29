@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C668C1BD605
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:29:04 +0200 (CEST)
-Received: from localhost ([::1]:48914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCF51BD631
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 09:37:25 +0200 (CEST)
+Received: from localhost ([::1]:50802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTh9T-0003qV-Ml
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
+	id 1jThHY-0008F1-7p
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 03:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1w-0007tk-Fh
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:14 -0400
+ (envelope-from <armbru@redhat.com>) id 1jTh24-0007u8-0Q
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:22:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jTh1g-0003wb-Kw
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:16 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38121
+ (envelope-from <armbru@redhat.com>) id 1jTh1i-0003ym-M9
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28506
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1f-0003uO-QS
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:20:59 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jTh1h-0003vh-IG
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 03:21:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588144856;
+ s=mimecast20190719; t=1588144859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dveDF7i19YrBFtpGujUfYTE4uhIXGRPm1+3EZMRFKqo=;
- b=EFGQuzTIyWns3hl3ZcKuQI9DbYdkHxbB3l1d6A7YLsieI70kv3OxdJ8vY39rYalsZq5CT9
- oMcmeZMMRQ/4NVibxkCZrXQUh0QvTZcjkUbCnnrfPD1tTv/dcbqICJ6o1TWdxY6P5vC7mF
- E1wo/HGwNGu6SkHONEE5rMziPtjMryQ=
+ bh=I0CwfPL0bHAmIgroIO9vlkMhNJh/UfpvjW50OODwJ/U=;
+ b=acr/hxcOHKYI0yrWnytTpc5dlzCa6L/2cpc3VhOBRc6jr+vD9/Eos7UiQH8nMK/7rUTrb7
+ zfXGojYa+ThE2ITPyZu9+ZP7cZOv9cnZEbZqZfdbuDgxlgRFfHBgfncP37KyiQyuoUhoUZ
+ Zysm2UtvSAN0t6YqaDhtBXBFYIEzFI4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-SRw8G0QAObC_u2r8A5UiVw-1; Wed, 29 Apr 2020 03:20:54 -0400
-X-MC-Unique: SRw8G0QAObC_u2r8A5UiVw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-174-T2-mIlrQP5229-5Zlmi-CQ-1; Wed, 29 Apr 2020 03:20:57 -0400
+X-MC-Unique: T2-mIlrQP5229-5Zlmi-CQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DF6EBFC2
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55FC68015CB
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 07:20:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C75F5D771;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FC02282D8;
  Wed, 29 Apr 2020 07:20:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2878011358CD; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
+ id 2F41911358CE; Wed, 29 Apr 2020 09:20:49 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/32] fdc: Fix fallback=auto error handling
-Date: Wed, 29 Apr 2020 09:20:32 +0200
-Message-Id: <20200429072048.29963-17-armbru@redhat.com>
+Subject: [PULL 17/32] bochs-display: Fix vgamem=SIZE error handling
+Date: Wed, 29 Apr 2020 09:20:33 +0200
+Message-Id: <20200429072048.29963-18-armbru@redhat.com>
 In-Reply-To: <20200429072048.29963-1-armbru@redhat.com>
 References: <20200429072048.29963-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -76,46 +76,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fdctrl_realize_common() rejects fallback=3Dauto.  Used by devices
-"isa-fdc", "sysbus-fdc", "SUNW,fdtwo".  The error handling is broken:
+bochs_display_realize() rejects out-of-range vgamem.  The error
+handling is broken:
 
-    $ qemu-system-x86_64 -nodefaults -device isa-fdc,fallback=3Dauto,driveA=
-=3Dfd0 -drive if=3Dnone,id=3Dfd0
-    **
-    ERROR:/work/armbru/qemu/hw/block/fdc.c:434:pick_drive_type: assertion f=
-ailed: (drv->drive !=3D FLOPPY_DRIVE_TYPE_AUTO)
+    $ qemu-system-x86_64 -S -display none -monitor stdio
+    QEMU 4.2.93 monitor - type 'help' for more information
+    (qemu) device_add bochs-display,vgamem=3D1
+    Error: bochs-display: video memory too small
+    (qemu) device_add bochs-display,vgamem=3D1
+    RAMBlock "0000:00:04.0/bochs-display-vram" already registered, abort!
     Aborted (core dumped)
 
-Cause: fdctrl_realize_common() neglects to bail out after setting the
+Cause: bochs_display_realize() neglects to bail out after setting the
 error.  Fix that.
 
-Fixes: a73275dd6fc3bfda33165bebc28e0c33c20cb0a0
-Cc: John Snow <jsnow@redhat.com>
+Fixes: 765c94290863eef1fc4a67819d452cc13b7854a1
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20200422130719.28225-7-armbru@redhat.com>
+Message-Id: <20200422130719.28225-8-armbru@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/block/fdc.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/display/bochs-display.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 33bc9e2f92..9628cc171e 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -2615,6 +2615,7 @@ static void fdctrl_realize_common(DeviceState *dev, F=
-DCtrl *fdctrl,
+diff --git a/hw/display/bochs-display.c b/hw/display/bochs-display.c
+index 70eb619ef4..e763a0a72d 100644
+--- a/hw/display/bochs-display.c
++++ b/hw/display/bochs-display.c
+@@ -267,16 +267,18 @@ static void bochs_display_realize(PCIDevice *dev, Err=
+or **errp)
+     Object *obj =3D OBJECT(dev);
+     int ret;
 =20
-     if (fdctrl->fallback =3D=3D FLOPPY_DRIVE_TYPE_AUTO) {
-         error_setg(errp, "Cannot choose a fallback FDrive type of 'auto'")=
-;
+-    s->con =3D graphic_console_init(DEVICE(dev), 0, &bochs_display_gfx_ops=
+, s);
+-
+     if (s->vgamem < 4 * MiB) {
+         error_setg(errp, "bochs-display: video memory too small");
 +        return;
      }
+     if (s->vgamem > 256 * MiB) {
+         error_setg(errp, "bochs-display: video memory too big");
++        return;
+     }
+     s->vgamem =3D pow2ceil(s->vgamem);
 =20
-     /* Fill 'command_to_handler' lookup table */
++    s->con =3D graphic_console_init(DEVICE(dev), 0, &bochs_display_gfx_ops=
+, s);
++
+     memory_region_init_ram(&s->vram, obj, "bochs-display-vram", s->vgamem,
+                            &error_fatal);
+     memory_region_init_io(&s->vbe, obj, &bochs_display_vbe_ops, s,
 --=20
 2.21.1
 
