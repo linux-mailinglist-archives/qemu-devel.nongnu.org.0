@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370BA1BE7C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 21:51:26 +0200 (CEST)
-Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818171BE7F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 22:00:21 +0200 (CEST)
+Received: from localhost ([::1]:44294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTsjt-00031h-6C
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 15:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48194)
+	id 1jTssW-00023o-5K
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 16:00:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50222)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsfu-0006p6-4P
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:26 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jTsrb-0001T5-EZ
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:59:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dbuono@linux.vnet.ibm.com>) id 1jTsdk-0000nT-K8
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:47:17 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jTsdk-0000nG-3c
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:45:04 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03TJWrkG137413
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:45:03 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mh9q556s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:45:02 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 03TJYYTB001160
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 15:45:02 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mh9q5564-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 15:45:02 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03TJUWUl004204;
- Wed, 29 Apr 2020 19:45:01 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04dal.us.ibm.com with ESMTP id 30mcu718wh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 19:45:01 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 03TJix1N24903948
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Apr 2020 19:44:59 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AD3326A04D;
- Wed, 29 Apr 2020 19:44:59 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EE38F6A047;
- Wed, 29 Apr 2020 19:44:58 +0000 (GMT)
-Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.84.167])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 29 Apr 2020 19:44:58 +0000 (GMT)
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] check-block: Enable iotests with SafeStack
-Date: Wed, 29 Apr 2020 15:44:20 -0400
-Message-Id: <20200429194420.21147-5-dbuono@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
-References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jTsra-0003zH-IL
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:59:23 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:37343)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jTsrZ-0003z0-VO
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 15:59:22 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id z17so2834253oto.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 12:59:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=It8ZsE6PKzdACaONdbqfZznzyn2SV9pXTINa9v5tSbw=;
+ b=Aj2FopJBRBDk185pnHPzPwssfc3731DZf/FANFW1qpg2keQUIwSSzSavcJbOdLRZbL
+ Swhpdy8SO8toKgxGnftv/eAKALO8WQCve29Az7OnWfGIQT7wCrktr22SQ8LvgJX9dSb/
+ BiT56FbP1yR2k+0QlgXGRvRDJ1w6frEvRUJ2W50IFxsC9ZN6U5Fadn+gVFhZ65lJUSAQ
+ 1Rc8hlHnwQrV2fW1oXnl9AX50xRigSOYfuD4BEvfgAAK49b4vNZJqBwK4ENmfHTblBft
+ VA5Oz4519FmJs4Ze16qEDMR3kc5iaR1K8+1EgGgNEM4d50476qTyBysB/6HMB2hnnhWQ
+ TuHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=It8ZsE6PKzdACaONdbqfZznzyn2SV9pXTINa9v5tSbw=;
+ b=NwCoIcxjxN6kIlgLbA1Kb/7GKUfTLifEFVSEtlkkEqi+PBoWU3B1vu1WWnoaNTD925
+ EO3kKjOBR0hyzSTO0P5qM2nnBkCicoGspXjx1x3d7P/6DrHfqjz0hs4yDF1Tg0ys0a2w
+ 8Zh8ui7DcWQ6pXLxBppATh23usAN5SM8rUbo6kVmA5tGg2uUMCgha0V9OXPQog5eG6/1
+ EKJjWVmrlPWcSa5e2NuVFdYGf+fB63ZbhajsV2xZkwJA7KJdERYJWORwxZfrttyT5haA
+ kbhXu/uC/1Z+FirzoxRUAAt8BBGAGIYe/xv/Q7gdUt5S3qc24Ydd7NlDFB6HLmeNP5+K
+ QUAQ==
+X-Gm-Message-State: AGi0PuYV3o6FIRjWby6KBp+lnYhQAHQ0IpnYh/8ldxWSsY+1gKbv47ri
+ Mcfr4zF4wvx8PYzXuk3vDQBRTi1Up0d+yHiCBOlBuQ==
+X-Google-Smtp-Source: APiQypKL+0r9Nn27LznQq1oGVBnRjdmSWi+r4d9Hzry652PFIs3JkRsQ3/ME7cEThW2qOatLOvdnPutUPGzeR5W1f34=
+X-Received: by 2002:a9d:2c08:: with SMTP id f8mr28441163otb.135.1588190360064; 
+ Wed, 29 Apr 2020 12:59:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-29_10:2020-04-29,
- 2020-04-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0
- spamscore=0 malwarescore=0 adultscore=0 suspectscore=1 mlxlogscore=897
- impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004290145
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 15:44:54
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+References: <20200429072048.29963-1-armbru@redhat.com>
+In-Reply-To: <20200429072048.29963-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 29 Apr 2020 20:59:09 +0100
+Message-ID: <CAFEAcA8SduCWU4Js8jQRJDJE0m=TCazMbrOUALQdX7vwvfA1iA@mail.gmail.com>
+Subject: Re: [PULL 00/32] Miscellaneous patches for 2020-04-29
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32e.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::32e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,50 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Tobin Feldman-Fitzthum <tobin@ibm.com>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SafeStack is a stack protection technique implemented in llvm. It is
-enabled with a -fsanitize flag.
-iotests are currently disabled when any -fsanitize option is used.
-Since SafeStack is useful on production environments, and its
-implementation may break the binary, filter it out when the check is
-performed, so that if SafeStack was the only -fsanitize option, iotests
-are still performed.
+On Wed, 29 Apr 2020 at 08:23, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit fdd76fecdde1ad444ff4deb7f1c4f7e4a1ef97d6:
+>
+>   Update version for v5.0.0 release (2020-04-28 17:46:57 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2020-04-29
+>
+> for you to fetch changes up to 8ef3a4be27efccd791d05e74b7b17d918f511a76:
+>
+>   qemu-option: pass NULL rather than 0 to the id of qemu_opts_set() (2020-04-29 08:01:52 +0200)
+>
+> ----------------------------------------------------------------
+> Miscellaneous patches for 2020-04-29
+>
+> * Fix CLI option parsing corner cases
+> * Fix bugs on (unlikely) error paths
+> * Fix undefined behavior for silly option arguments
+> * Tidy up bamboo and sam460ex reporting of funny memory sizes
+> * Clean up error API violations
+> * A bit of refactoring here and there
 
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
----
- tests/check-block.sh | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index ad320c21ba..8e29c868e5 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -21,7 +21,17 @@ if grep -q "CONFIG_GPROF=y" config-host.mak 2>/dev/null ; then
-     exit 0
- fi
- 
--if grep -q "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null ; then
-+# Disable tests with any sanitizer except for SafeStack
-+CFLAGS=$( grep "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null )
-+SANITIZE_FLAGS=""
-+#Remove all occurrencies of -fsanitize=safe-stack
-+for i in ${CFLAGS}; do
-+        if [ "${i}" != "-fsanitize=safe-stack" ]; then
-+                SANITIZE_FLAGS="${SANITIZE_FLAGS} ${i}"
-+        fi
-+done
-+if echo ${SANITIZE_FLAGS} | grep -q "\-fsanitize" 2>/dev/null; then
-+    # Have a sanitize flag that is not allowed, stop
-     echo "Sanitizers are enabled ==> Not running the qemu-iotests."
-     exit 0
- fi
--- 
-2.26.2
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
