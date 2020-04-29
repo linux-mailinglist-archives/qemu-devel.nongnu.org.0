@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08101BD7D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:03:50 +0200 (CEST)
-Received: from localhost ([::1]:38788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FB21BD7EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 11:07:46 +0200 (CEST)
+Received: from localhost ([::1]:50980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTidB-00034A-LJ
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:03:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58470)
+	id 1jTigz-0008RA-NZ
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 05:07:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58652)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTiae-0000gh-AI
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:01:42 -0400
+ (envelope-from <rjones@redhat.com>) id 1jTibB-0001Kd-M2
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:01:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTiYO-00040p-G2
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:01:12 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jTiYN-00040Q-VH
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:58:52 -0400
-Received: by mail-wm1-x343.google.com with SMTP id h4so1115684wmb.4
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 01:58:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+JJiHga6enBSPy4Z0jIURbXqsKuRNYMHVVnsrcs642Q=;
- b=OQNyB6B+C/iOOUJe2OjzLjgrAuGUvoTRHhJApqSvQl1yNT4p+ZxnkEhUohhyXwDNcA
- rrt+LWrBwPQK4mLpWy+dp/zU6487kDXGdvK6zIYhmhTupWL13bbH0MbSmTvvDmRWQanr
- NmRgdPW9FnVRQdEN7Q/3TZsmrzNmxKuRgi5MBFHB5xhex17tacNGrb7oCOWuKdA3vMf3
- 3WEbBQAs2v+U+R6zK23XVO4Z9AIu3+UE5ApHfo+geOmB48lFCXTN01RtGdEcRhkAnKfb
- 0IPr6apYXlue/4qh3GixlbqEqXpZjfrunOz0npAFo/PIPgrS38nS9xINhwgSKFNwgg1l
- D5ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+JJiHga6enBSPy4Z0jIURbXqsKuRNYMHVVnsrcs642Q=;
- b=VbQiSRdu2g9/8At3m/lJU2x03LzbeqpBxTnOqP/wP5c2lk14AcN9Jy12z/niqI1DKN
- UXtH/4v7H7ly6e2S1xjKO6oTw3j5aBOPuMeNadpKLV9rre7rRVetZeu1sQ+0SijsFTAN
- OJaho8NwIkp8E8VAjqiPvfoNxK13IEyL04REkJww8noCkQhsTVOJAOaDLKa6IVMkgBug
- AFXVWjHCLSrkLr+WA/8Vya4BL7rlWsdq2o1k7jj+MRMdRoHpIkJi1AkurNODe79yYl7y
- oMRd0BVmz4B3yHUkb26MitMFncvCA5GIZ/N+Mluu8riinNvVk20avIroZCysLONdkU2F
- tQ4g==
-X-Gm-Message-State: AGi0PuaiZt2ghy3BlJwwmnEr1V9DJ9+22VgUxTe7LRuwJHBFFUMDNEWH
- ixMekWgJ+w9FH8zTuXUh9ok=
-X-Google-Smtp-Source: APiQypIKKSbOg7JpBNEWZYlCXXOfh42aFvWzm9gDy+SxuxjY5Ybj2stFEHXCDiuIaHnG0QeDdeyEkg==
-X-Received: by 2002:a7b:c944:: with SMTP id i4mr2203244wml.144.1588150730350; 
- Wed, 29 Apr 2020 01:58:50 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id s18sm30898169wra.94.2020.04.29.01.58.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Apr 2020 01:58:49 -0700 (PDT)
-Subject: Re: [PATCH for-5.1 4/7] target/mips: Add Loongson-3 CPU definition
-To: Huacai Chen <chenhuacai@gmail.com>
-References: <1587979995-17717-1-git-send-email-chenhc@lemote.com>
- <1587979995-17717-4-git-send-email-chenhc@lemote.com>
- <c1a3aec6-dc45-3484-3a70-c06449bee609@amsat.org>
- <CABDp7Vq-YX0LWU3iM=oygpcKzoS8cmXG6mvTQ5Gm_PbQsQMAgw@mail.gmail.com>
- <CAHiYmc6zFjBtgXRv=8+dqnbDtZqKqiwSDwEi0wKqJmJnys_y0g@mail.gmail.com>
- <CAAhV-H6NFV7hbaOp8BwPck3FWm5ZHBpuoA9FDmN6tby5LcoTeg@mail.gmail.com>
- <a791f90b-a2a5-6665-59b5-212f98c7afc8@amsat.org>
- <CAAhV-H7NS_KCTuYQYvZeseNEZh56FBFz97kEj4KK-NsBDMJotQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a1b333c6-e9a0-aabc-9ec2-b9bcb2007211@amsat.org>
-Date: Wed, 29 Apr 2020 10:58:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (envelope-from <rjones@redhat.com>) id 1jTiap-0002Zw-Ap
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:01:45 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:34661
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1jTiao-0002Q4-QF
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 05:01:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588150881;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WGV1onOfjI+5skUtn2kngiT8PAxVHslHeJ0ELlbc0sk=;
+ b=CRM5B/e3PJayl1VRqAu0FqDmgxYCAF8cDgPvTiFdL3I+Lsfv2yrkj9Hpbyri0Qkyy2saob
+ xztwa4pdHaKQD3xfSIJhSqHxT0hQeh35J4mOiFK9cb1kIddf5w2m9tOiITKHScOI56j4KS
+ V0VTS9adG3vNtr14T+t9mRxswmCXqQE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-VzTelW5EPhaprbGU9l6jHQ-1; Wed, 29 Apr 2020 05:01:17 -0400
+X-MC-Unique: VzTelW5EPhaprbGU9l6jHQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E7371800D4A;
+ Wed, 29 Apr 2020 09:01:14 +0000 (UTC)
+Received: from localhost (ovpn-112-30.ams2.redhat.com [10.36.112.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D31A910013BD;
+ Wed, 29 Apr 2020 09:01:13 +0000 (UTC)
+Date: Wed, 29 Apr 2020 10:01:12 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 6/9] ssh: Support BDRV_REQ_ZERO_WRITE for truncate
+Message-ID: <20200429090112.GQ3888@redhat.com>
+References: <20200428202905.770727-1-eblake@redhat.com>
+ <20200428202905.770727-7-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H7NS_KCTuYQYvZeseNEZh56FBFz97kEj4KK-NsBDMJotQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::343
+In-Reply-To: <20200428202905.770727-7-eblake@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=rjones@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,100 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chen huacai <zltjiangshi@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-level <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/20 10:27 AM, Huacai Chen wrote:
-> Hi, Philippe,
-> 
-> The major differences of R3 and R4 are:
-> 1, R4 has complete MIPS VZ ASE (while R3 is incomplete), so very
-> usable for KVM host;
+On Tue, Apr 28, 2020 at 03:29:02PM -0500, Eric Blake wrote:
+> Our .bdrv_has_zero_init_truncate can detect when the remote side
+> always zero fills; we can reuse that same knowledge to implement
+> BDRV_REQ_ZERO_WRITE by ignoring it when the server gives it to us for
+> free.
+>=20
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block/ssh.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/block/ssh.c b/block/ssh.c
+> index 9eb33df8598c..f9e08a490069 100644
+> --- a/block/ssh.c
+> +++ b/block/ssh.c
+> @@ -883,6 +883,10 @@ static int ssh_file_open(BlockDriverState *bs, QDict=
+ *options, int bdrv_flags,
+>      /* Go non-blocking. */
+>      ssh_set_blocking(s->session, 0);
+>=20
+> +    if (s->attrs->type =3D=3D SSH_FILEXFER_TYPE_REGULAR) {
+> +        bs->supported_truncate_flags =3D BDRV_REQ_ZERO_WRITE;
+> +    }
+> +
 
-So you need to set CP0C3_VZ.
+As the libssh sftp API is written this is all fine, so ACK:
 
-> 2, R4 has MSA ASE while R3 hasn't;
+Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
 
-So you need to set CP0C5_MSAEn.
+On the other hand the actual openssh / libssh code is a bit hairy.
+Openssh simply copies the st_mode field onto the wire (with
+byte-swapping).  Libssh assumes that S_IFREG =3D=3D 0100000 and translates
+this bit to SSH_FILEXFER_TYPE_REGULAR.  This happens to be true on
+Linux and *BSD but as far as I can tell isn't defined in POSIX.
+Anyway I guess it'll work in all places that we care about.
 
-> 3, R4 has cpucfg, rdcsr and wrcsr instructions (similar to cpuid,
-> rdmsr and wrmsr in X86).
+Rich.
 
-OK, these are not implemented.
+--=20
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjon=
+es
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-top is 'top' for virtual machines.  Tiny program with many
+powerful monitoring features, net stats, disk stats, logging, etc.
+http://people.redhat.com/~rjones/virt-top
 
-[...]
-
->>>>>>> diff --git a/target/mips/translate_init.inc.c b/target/mips/translate_init.inc.c
->>>>>>> index 6d145a9..a32412d 100644
->>>>>>> --- a/target/mips/translate_init.inc.c
->>>>>>> +++ b/target/mips/translate_init.inc.c
->>>>>>> @@ -802,6 +802,57 @@ const mips_def_t mips_defs[] =
->>>>>>>            .mmu_type = MMU_TYPE_R4000,
->>>>>>>        },
->>>>>>>        {
->>>>>>> +        .name = "Loongson-3A",
->>>>>>> +        .CP0_PRid = 0x14C000,
->>>>>>> +        /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size.  */
->>>>>>> +        .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 << CP0C0_AT) |
->>>>>>> +                       (MMU_TYPE_R4000 << CP0C0_MT),
->>>>>>> +        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
->>>>>>> +                       (2 << CP0C1_IS) | (4 << CP0C1_IL) | (3 << CP0C1_IA) |
->>>>>>> +                       (2 << CP0C1_DS) | (4 << CP0C1_DL) | (3 << CP0C1_DA) |
->>>>>>> +                       (1 << CP0C1_PC) | (1 << CP0C1_WR) | (1 << CP0C1_EP),
->>>>>>> +        .CP0_Config2 = MIPS_CONFIG2,
->>>>>>> +        .CP0_Config3 = MIPS_CONFIG3 | (1U << CP0C3_M) | (1 << CP0C3_MSAP) |
->>>>>>> +                       (1 << CP0C3_BP) | (1 << CP0C3_BI) | (1 << CP0C3_ULRI) |
->>>>>>> +                       (1 << CP0C3_RXI) | (1 << CP0C3_LPA) | (1 << CP0C3_VInt),
->>>>>>> +        .CP0_Config4 = MIPS_CONFIG4 | (1U << CP0C4_M) | (2 << CP0C4_IE) |
->>>>>>> +                       (1 << CP0C4_AE) | (0x1c << CP0C4_KScrExist),
->>>>>>> +        .CP0_Config4_rw_bitmask = 0,
->>>>>>> +        .CP0_Config5 = MIPS_CONFIG5 | (1 << CP0C5_NFExists) | (1 << 18),
->>>>>>> +        .CP0_Config5_rw_bitmask = (1 << CP0C5_K) | (1 << CP0C5_CV) |
->>>>>>> +                                  (1 << CP0C5_MSAEn) | (1 << CP0C5_UFE) |
->>>>>>> +                                  (1 << CP0C5_FRE) | (1 << CP0C5_SBRI),
->>>>>>> +        .CP0_Config6 = (1 << CP0C6_VCLRU) | (1 << CP0C6_DCLRU) | (1 << CP0C6_SFBEN) |
->>>>>>> +                       (1 << CP0C6_FLTINT) | (1 << CP0C6_INSTPREF) | (1 << CP0C6_DATAPREF),
->>>>>>> +        .CP0_Config6_rw_bitmask = (1 << CP0C6_BPPASS) | (0x3f << CP0C6_KPOS) |
->>>>>>> +                                  (1 << CP0C6_KE) | (1 << CP0C6_VTLBONLY) | (1 << CP0C6_LASX) |
->>>>>>> +                                  (1 << CP0C6_SSEN) | (1 << CP0C6_DISDRTIME) |
->>>>>>> +                                  (1 << CP0C6_PIXNUEN) | (1 << CP0C6_SCRAND) |
->>>>>>> +                                  (1 << CP0C6_LLEXCEN) | (1 << CP0C6_DISVC) |
->>>>>>> +                                  (1 << CP0C6_VCLRU) | (1 << CP0C6_DCLRU) |
->>>>>>> +                                  (1 << CP0C6_PIXUEN) | (1 << CP0C6_DISBLKLYEN) |
->>>>>>> +                                  (1 << CP0C6_UMEMUALEN) | (1 << CP0C6_SFBEN) |
->>>>>>> +                                  (1 << CP0C6_FLTINT) | (1 << CP0C6_VLTINT) |
->>>>>>> +                                  (1 << CP0C6_DISBTB) | (3 << CP0C6_STPREFCTL) |
->>>>>>> +                                  (1 << CP0C6_INSTPREF) | (1 << CP0C6_DATAPREF),
->>>>>>> +        .CP0_Config7 = 0,
->>>>>>> +        .CP0_Config7_rw_bitmask = (1 << CP0C7_NAPCGEN) | (1 << CP0C7_UNIMUEN) | \
->>>>>>> +                                  (1 << CP0C7_VFPUCGEN),
->>>>>>> +        .CP0_LLAddr_rw_bitmask = 1,
->>>>>>> +        .SYNCI_Step = 16,
->>>>>>> +        .CCRes = 2,
->>>>>>> +        .CP0_Status_rw_bitmask = 0x7DDBFFFF,
->>>>>>> +        .CP0_PageGrain_rw_bitmask = (1U << CP0PG_RIE) | (1 << CP0PG_XIE) |
->>>>>>> +                    (1 << CP0PG_ELPA) | (1 << CP0PG_IEC),
->>>>>>> +        .CP1_fcr0 = (0x5 << FCR0_PRID) | (0x1 << FCR0_REV) | (0x1 << FCR0_F64),
->>>>>>> +        .CP1_fcr31 = 0,
->>>>>>> +        .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
->>>>>>> +        .SEGBITS = 48,
->>>>>>> +        .PABITS = 48,
->>>>>>> +        .insn_flags = CPU_LOONGSON3A,
->>>>>>> +        .mmu_type = MMU_TYPE_R4000,
->>>>>>> +    },
->>>>>>> +    {
->>>>>>>            /* A generic CPU providing MIPS64 DSP R2 ASE features.
->>>>>>>               FIXME: Eventually this should be replaced by a real CPU model. */
->>>>>>>            .name = "mips64dspr2",
->>>>>>>
->>>>>
->>>>>
->>>>>
->>>>> --
->>>>> Huacai Chen
->>>
-> 
 
