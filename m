@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66B41BE6A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:53:40 +0200 (CEST)
-Received: from localhost ([::1]:46588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36991BE6A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 20:50:42 +0200 (CEST)
+Received: from localhost ([::1]:38320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTrpz-0006ZO-IR
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:53:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38170)
+	id 1jTrn7-0002cA-T4
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 14:50:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38564)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vr_qemu@t-online.de>) id 1jTreF-0007eF-No
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:41:32 -0400
+ (envelope-from <volker.ruemelin@t-online.de>) id 1jTrh3-0003xz-0t
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:44:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vr_qemu@t-online.de>) id 1jTreD-0008Sk-KP
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:41:31 -0400
-Received: from mailout02.t-online.de ([194.25.134.17]:57388)
+ (envelope-from <volker.ruemelin@t-online.de>) id 1jTrfc-0006FG-KF
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:44:24 -0400
+Received: from mailout10.t-online.de ([194.25.134.21]:55218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1jTreC-0007zr-VE
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:41:29 -0400
-Received: from fwd36.aul.t-online.de (fwd36.aul.t-online.de [172.20.26.137])
- by mailout02.t-online.de (Postfix) with SMTP id 598CF41CC422;
- Wed, 29 Apr 2020 20:41:24 +0200 (CEST)
-Received: from [192.168.211.200]
- (ZBm+Y6ZD8hq+-X-XA-uSvMvAjSFYdZAPgFhMtwuDZxlncs2oaQUASOPr54LsZfHZs9@[46.86.59.135])
- by fwd36.t-online.de
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1jTrfc-0005w6-3b
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 14:42:56 -0400
+Received: from fwd13.aul.t-online.de (fwd13.aul.t-online.de [172.20.27.62])
+ by mailout10.t-online.de (Postfix) with SMTP id C1CBF4174D14;
+ Wed, 29 Apr 2020 20:42:52 +0200 (CEST)
+Received: from linpower.localnet
+ (ZehMggZdohLM7dz8Vr0OOfXCHX+zQkxCJHC7gO019PofqGWqOIQmoUb30gNdJImZMB@[46.86.59.135])
+ by fwd13.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jTre6-1PVOwS0; Wed, 29 Apr 2020 20:41:22 +0200
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH 0/1] Patch for keycodemapdb
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Message-ID: <1862f332-a40e-2416-5ab4-37d885f87337@t-online.de>
-Date: Wed, 29 Apr 2020 20:41:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ esmtp id 1jTrfW-4QM8MS0; Wed, 29 Apr 2020 20:42:50 +0200
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 72218200F41; Wed, 29 Apr 2020 20:42:50 +0200 (CEST)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+To: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 1/1] Fix win32 keycode for VK_OEM_102
+Date: Wed, 29 Apr 2020 20:42:50 +0200
+Message-Id: <20200429184250.8238-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <1862f332-a40e-2416-5ab4-37d885f87337@t-online.de>
+References: <1862f332-a40e-2416-5ab4-37d885f87337@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ID: ZBm+Y6ZD8hq+-X-XA-uSvMvAjSFYdZAPgFhMtwuDZxlncs2oaQUASOPr54LsZfHZs9
-X-TOI-MSGID: ed0fd5c3-5de6-466b-b00d-fc8c118afc5e
-Received-SPF: none client-ip=194.25.134.17; envelope-from=vr_qemu@t-online.de;
- helo=mailout02.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 14:41:24
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ID: ZehMggZdohLM7dz8Vr0OOfXCHX+zQkxCJHC7gO019PofqGWqOIQmoUb30gNdJImZMB
+X-TOI-MSGID: 9373f70b-6e07-404a-ba0b-155f282ea0cc
+Received-SPF: none client-ip=194.25.134.21;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout10.t-online.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 14:42:52
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 194.25.134.17
+X-Received-From: 194.25.134.21
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,10 +64,28 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Daniel,
+The win32 keycode for VK_OEM_102 is 0xe2. The Microsoft docu-
+mentation for virtual-key codes agrees with mingw32/winuser.h.
 
-here is a patch for keycodemapdb. With this patch I have a working '<' key (the key right of the left shift key on my german keyboard) in my qemu -display gtk guests on Windows.
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ data/keymaps.csv | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-With best regards,
-Volker
+diff --git a/data/keymaps.csv b/data/keymaps.csv
+index bc2376c..8111047 100644
+--- a/data/keymaps.csv
++++ b/data/keymaps.csv
+@@ -145,7 +145,7 @@ KEY_KPDOT,83,ANSI_KeypadDecimal,0x41,0x53,0x71,0x71,99,VK_DECIMAL,0x6e,83,83,XK_
+ KEY_KPDOT,83,ANSI_KeypadDecimal,0x41,0x53,0x71,0x71,99,VK_DECIMAL,0x6e,83,83,XK_KP_Decimal,0xffae,NumpadDecimal,KPDC,kp_decimal,0x32,0x41
+ ,84,,,0x54,,,,,,,,,,,,,,
+ KEY_ZENKAKUHANKAKU,85,,,0x76,0x5f,,148,,,,,,,Lang5,HZTG,,,
+-KEY_102ND,86,,,0x56,0x61,0x13,100,VK_OEM_102,0xe1,86,86,,,IntlBackslash,LSGT,less,0x7c,
++KEY_102ND,86,,,0x56,0x61,0x13,100,VK_OEM_102,0xe2,86,86,,,IntlBackslash,LSGT,less,0x7c,
+ KEY_F11,87,F11,0x67,0x57,0x78,0x56,68,VK_F11,0x7a,87,87,XK_F11,0xffc8,F11,FK11,f11,0x09,0x67
+ KEY_F12,88,F12,0x6f,0x58,0x07,0x5e,69,VK_F12,0x7b,88,88,XK_F12,0xffc9,F12,FK12,f12,0x0b,0x6f
+ KEY_RO,89,,,0x73,0x51,,135,,,,,,,IntlRo,AB11,ro,,
+-- 
+2.16.4
+
 
