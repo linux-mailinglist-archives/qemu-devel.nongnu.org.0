@@ -2,83 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440AE1BDB36
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:58:20 +0200 (CEST)
-Received: from localhost ([::1]:36012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 543901BDB59
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 14:04:41 +0200 (CEST)
+Received: from localhost ([::1]:45660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTlM3-0006sX-8m
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51558)
+	id 1jTlSC-0003GP-2A
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 08:04:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jTlL5-0005ud-Nc
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:57:20 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTlPl-0002QK-SG
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 08:03:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jTlL3-0004IC-MA
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:57:19 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jTlL3-0004HU-2O
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:57:17 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id x25so1720683wmc.0
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 04:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ABaujoye9FH8Kn3mODUHNZENQ/20wQwwCcjRa8QRCmk=;
- b=BKVH2GTbCGcWnDuh4+dfUOUJhFhFw6WrNDzqPW//pJbKz6SaGqKwrGqQXwBweMfm6Q
- 6B6OGs/yUGUc/e9mCxIl2XBUxzp1jVJOHPMimjoPM749eD3qdGXg63Aj8mWVHRq0eEmm
- KV/jX5osat5eK4DJFa2cK1kTAHXVCtowF5aBrDZMYeKNNwJDTeYqJqDkVKcU9cc7XIZg
- KLY1WZFqxxYEssJwGoJkIK5CqlnAFIhThpOj0zxKqtBnquQ8hRoD+rPV9hBCZc0HytJ5
- Kded8p+OG+xSb5uve5gLUQ3MFGh/NzRlnaNEt3Js6VGvFwXTuDIAdLC/xwA6WSl1++nH
- TfRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=ABaujoye9FH8Kn3mODUHNZENQ/20wQwwCcjRa8QRCmk=;
- b=GmuXXT8sVeDlxZ9rxp7YqV6GHm6bOz4G2bZgU9XiP5k/z0grJKoqiswu2H5X7GD/Y3
- IFs2b9Ln6tH3Herf+Lc/fSaB6ZA83LSKFjBDZSKGYajB5jw52Np0aiSzjJKQduD9YmHg
- Suo/Hbjx4JLNLyJKDnYJ+r9o7AsBzoAqbQ9l+UB7ZGvAEVNl3kbZv08B7wVlJLWQJJ0m
- 3G7Xwj4P/1rS9UN6DaikrrwQNXtdDCtsPHGqHXYkJ6ES82CVxbDoAI1C1XZu+qPa7DDv
- g2WdG1r15fwdMzc0/gFgCviiHlUKKj9jsGthzensD7yA0cY/hnq9MJr7/bkJyKwJ1oTb
- bzbw==
-X-Gm-Message-State: AGi0PuYJBDfTH31rngaWyqVfcrInETtkAmaCwsYVsvR0Z/qpyTcxwCVU
- B2axsoWJF5LYipXMo7VD7VzmtA==
-X-Google-Smtp-Source: APiQypK78rWjgS6o9Zs5vjeHk5j0LHjv1JAPWRgvH/a/BGf2BQc687QXXGiNpKUoqrzktWC2oCX4MQ==
-X-Received: by 2002:a1c:2383:: with SMTP id j125mr2865314wmj.6.1588161435162; 
- Wed, 29 Apr 2020 04:57:15 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s18sm31702703wra.94.2020.04.29.04.57.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Apr 2020 04:57:13 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 322811FF7E;
- Wed, 29 Apr 2020 12:57:12 +0100 (BST)
-References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
- <87lfmhl0xa.fsf@linaro.org>
- <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
- <87imhlkwun.fsf@linaro.org>
- <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
- <87ftcoknvu.fsf@linaro.org>
- <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
-User-agent: mu4e 1.4.1; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Dino Papararo <skizzato73@msn.com>
-Subject: Re: R: About hardfloat in ppc
-In-reply-to: <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
-Date: Wed, 29 Apr 2020 12:57:12 +0100
-Message-ID: <871ro6ld2f.fsf@linaro.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTlO2-0007QH-37
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 08:02:08 -0400
+Received: from mail-eopbgr10094.outbound.protection.outlook.com
+ ([40.107.1.94]:25438 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jTlO1-0007JO-Cx; Wed, 29 Apr 2020 08:00:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ot7SbZn4IN2ibJ16YuNvVBO4FXk+MViJ4q3z5TZ//8XfecKEbXfsKq+/qDSskUfwqOPc8qXPukRpw/tfEL4/IjaxAEwcDXerQMS9+PlnqpFWFw6wsYctWZXz8Vif46/u+9rUCkiVP45kN5LQdy/mVQ01+5VLrrxlBDfVsd53awJ1GKm8grJ1CskHiGex2KdWNn14Un4PMJkc42JVZhVDzQPvYXfBs0Gf7ZvndPi6GiC22rv+9Dqly3UuS5wUogepiZ9sn+qIUwmDGaq5rkl/aLOoXZguEmXhB2KOY+qD9GCfQbcLalinr7HRkns+Qqxp4KBmleHdEedhcx9G1Vu7tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AHQVWOsnnEm/jtDqFr33y8nJaMcPT1GWj/o+6wg4cdw=;
+ b=VX9SEYZ7TFeKQlubqgrQRMC3Ly2foMDyp2JNfl90n3iCBSJn5TzbWVITeM6hQi+aYZePSmm11l6ITQjxaRnp1lL0XG+uHjw0cDwB8yX9I2q+QJmyo0z0ulPa5bJfxLLBs3g/0MgGtj9yn7ozLDVJu+fpUD6O/qF8LKzHEk9T6V6E4h33TU1eYzs72oarjaYuQqQKVvqLoo6spqJtWay/t8Yze5/gcgH2p6azKYUDWWgW8RFPC70CdiKyuPh1pg5JpruFa6A+/uPiyL+Rcupe6buix9rlGbss5mznylcIlNt76Y/LomzNnt3iJ1Ju0BrvcqweevgF3D1wuRhyzPIsmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AHQVWOsnnEm/jtDqFr33y8nJaMcPT1GWj/o+6wg4cdw=;
+ b=Y7Iqo7c6vGj8hltdrGOR6BAN4G+6o7PrUCeYUEK5d/7S5MUSgvUmpn0ahhUzlveh2d9Otcg44mLy19e7v4oyl0GHNTTohqj+jid73WiJHFJgyUoyu8bbMxJjM12GkR5jDR+N01zE0iyzOAUnsh/diRWBeUJTxkZD8xtJ+7xBzxU=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5528.eurprd08.prod.outlook.com (2603:10a6:20b:dd::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Wed, 29 Apr
+ 2020 12:00:17 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2937.023; Wed, 29 Apr 2020
+ 12:00:17 +0000
+Subject: Re: [PATCH 2/3] backup: Make sure that source and target size match
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200429111539.42103-1-kwolf@redhat.com>
+ <20200429111539.42103-3-kwolf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200429150015953
+Message-ID: <7991aeee-59bf-0f36-c90e-1dd9adeee51a@virtuozzo.com>
+Date: Wed, 29 Apr 2020 15:00:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200429111539.42103-3-kwolf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FRYP281CA0013.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::23)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::32a
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.184) by
+ FRYP281CA0013.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2958.19 via Frontend Transport; Wed, 29 Apr 2020 12:00:17 +0000
+X-Tagtoolbar-Keys: D20200429150015953
+X-Originating-IP: [185.215.60.184]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 799964fd-8c9d-4b3f-1fd7-08d7ec34e268
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5528:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB55283ED594B906C561CEDC37C1AD0@AM7PR08MB5528.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 03883BD916
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(39840400004)(376002)(346002)(396003)(366004)(52116002)(31696002)(86362001)(186003)(16526019)(4326008)(2616005)(31686004)(956004)(36756003)(26005)(6486002)(66476007)(16576012)(66946007)(66556008)(8676002)(8936002)(2906002)(5660300002)(316002)(478600001)(966005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7VfobNCf+X3aGB+X9Rm/7C7ViacgpcTY9i5oSdkwSqzqtmjt0Cs4kEmL76rWb1xxwfS5kv55FGjBF2NJajQpxgt+4ui6X5J/KwdFNLpZGgswpmnXssKYh+ELxuRrbB5G8cHYjBXLSfDpOX1K/TL3yGAJVVWYKsHLHiWQ/AGCx6+whk/9uEj0+T3ozW86CELKoTBnmkltxigG2vXFqSUBdnK9P6zPn12LgQxNLqVEa0WG4rnOOqrHuiqNN+t/jI3lePfEueYm01aokNUL14Zppdau4apFJlITW0qIIMBhOnZ7luoDrqVvbeYgT8KH34b86I+GN3lRfSp9ppyWz1vMntJfIbbKPRBKzO3WdeGk+s70M7E8Y8xbxOlmL7NOfFesQ9bXpLEnCP5Ay2S1jd2vCKQE551a8+ahI89Xey9DNbBK7OhdAvINhAp4HMyILk/bW0ThJ5F4pif9U6LDiKADVuR8XeO6HyNXKQWLE74BLCGotKQz2fx65BRrUlhLnDGcZ1ZCmhrSjUj/HkccfyWg/A==
+X-MS-Exchange-AntiSpam-MessageData: ugmgvy9Ad6p787yd8R7FxkCOg2A0oKsbMddJsOP9bZ9ieRZtluYtoF2xFvnVyoeqenVXwfuxH5oeYW8DV3bK3url44AJaVzTe+JdoLxsCxt4nLbqvPmwr7UtCPZr2dBg8qcHYNoqTW67uTPaERpWhiJQUKqtI+fWk2RB+J42QSFBFhSseeocfSY8IB5yNY+Csxpo30OY3JZzmmD3bREDVACCwne8sSffo2lSs+v0dhs9tsl4DQQbTKcZRXrGXyrDqf6p5u7RW5eAjj2Bz0GYR/sKFy3JW+SVQ4rv5WEhsUYiE0GIB+xZ0fwltkA/119AfEs8GOtrCtv5zBCPYdld3dTPzH5QYKuU12yJiraFq0O1IxMQW8AOUXivyaasiSh1qt0NvhwAB10Y/+ItMed9d4xBduXNB14yG0UJtkeOwW/4f+ADALNf+ZzfhrGcGjXekNOBFekbioCykRlm6jbZY3rFmP/h4I843ARDxlXv8yb7kPZqywvBUD9v/VdZVjB2miorzgyAGNt1jlbc4550E/FNFdKC9UmOcsnepX1SEjZ04BuygBpGFH62Ypb6j3Pfg95ZL4bbnFR/l232g6CWJ+iJ5jhZ2UjZOfYkZJmQWYtuB+kni6Kk9gm8sb6QkrSwVtzTleJsGoB/gBJJM0yqDPa4Eo+Ap43KgZSdfBH7uBxBHK7suAdLB8z4CCp2/GGpFCF1vVJ9BTf6eIkUGEs7UrICyhwJWlA9CbcQL0Ie86hNVTuyQ4UmvlBkV8q9BuMrx/Cav8FtHIx/j0wf3o8IvfH5SIJB3oD07KtR0dzY0Pc=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 799964fd-8c9d-4b3f-1fd7-08d7ec34e268
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 12:00:17.8298 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6pBkzM49dXLHlmnGp3TuubyHGqeaIsFxxdKwzEJa0J43OdD3S6GLNFhDoouoHGLZ9cZl2XYbL4czKRbzSHhjjvxlcFMJotjPX87cBlF2Cv4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5528
+Received-SPF: pass client-ip=40.107.1.94;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 08:00:18
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.1.94
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,253 +112,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Programmingkid <programmingkidx@gmail.com>,
- "luoyonggang@gmail.com" <luoyonggang@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+29.04.2020 14:15, Kevin Wolf wrote:
+> Since the introduction of a backup filter node, the backup block job
+> crashes when the target image is smaller than the source image because
+> it will try to write after the end of the target node without having
+> BLK_PERM_RESIZE. (Previously, the BlockBackend layer would have caught
+> this and errored out gracefully.)
+> 
+> We can fix this and even do better than the old behaviour: Check that
+> source and target have the same image size at the start of the block job
+> and unshare BLK_PERM_RESIZE. This will immediately error out when
+> starting the job instead of only when writing to a block that doesn't
+> exist in the target.
+> 
+> Longer target than source would technically work because we would never
+> write to blocks that don't exist, but semantically these are invalid,
+> too, because a backup is supposed to create a copy, not just an image
+> that starts with a copy.
+> 
+> The bugs were introduced in commits 2c8074c45 (BLK_PERM_RESIZE is shared
 
-Dino Papararo <skizzato73@msn.com> writes:
+no, it was unshared by blks in block-copy
 
-> Hello,
-> about handling of PPC fpu exceptions and Hard Floats support we could con=
-sider a different approach for different instructions.
-> i.e. not all fpu instructions take care about inexact or exceptions bits:=
- if I take a simple fadd f0,f1,f2 I'll copy value derived from adding f1+f2=
- into f1 register and no one will check about inexact or exception bits rai=
-sed into FPSCR register.
-> Instead if I'll take fadd. f0,f1,f2 the dot following the add instruction=
-s means I want take inexact or exceptions bits into account.
-> So I could use hard floats for first case and softfloats for second case.
-> Could this be a fast solution to start implement hard floats for PPC??
+> since this commit) and 00e30f05d (BdrvChild instead of BlockBackend
+> turns I/O errors into assertion failures).
 
-While it may be true that normal software practice is not to read the
-exception registers for every operation we can't base our emulation on
-that. We must always be able to re-create the state of the exception
-registers whenever they may be read by the program. There are 3 cases
-this may happen:
+and here becomes shared.
 
-  - a direct read of the inexact register
-  - checking the sigcontext of a synchronous exception (e.g. fault)
-  - checking the sigcontext of an asynchronous exception (e.g. timer/IPI)
+So, seems only 00e30f05d is broken and introduces both problems
 
-Given the way the translator works we can simplify the asynchronous case
-because we know they are only ever delivered at the start of translated
-blocks. We must have a fully rectified system state at the end of every
-block. So lets consider some cases:
+> 
+> Fixes: 2c8074c453ff13a94bd08ec26061917670ec03be
+> Fixes: 00e30f05de1d19586345ec373970ef4c192c6270
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1778593
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   block/backup-top.c | 12 ++++++++----
+>   block/backup.c     | 14 +++++++++++++-
+>   2 files changed, 21 insertions(+), 5 deletions(-)
+> 
+> diff --git a/block/backup-top.c b/block/backup-top.c
+> index 3b50c06e2c..0e515a7705 100644
+> --- a/block/backup-top.c
+> +++ b/block/backup-top.c
+> @@ -148,8 +148,10 @@ static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
+>            *
+>            * Share write to target (child_file), to not interfere
+>            * with guest writes to its disk which may be in target backing chain.
+> +         * Can't resize during a backup block job because we check the size
+> +         * only upfront.
+>            */
+> -        *nshared = BLK_PERM_ALL;
+> +        *nshared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
+>           *nperm = BLK_PERM_WRITE;
+>       } else {
+>           /* Source child */
+> @@ -192,11 +194,13 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
+>   {
+>       Error *local_err = NULL;
+>       BDRVBackupTopState *state;
+> -    BlockDriverState *top = bdrv_new_open_driver(&bdrv_backup_top_filter,
+> -                                                 filter_node_name,
+> -                                                 BDRV_O_RDWR, errp);
+> +    BlockDriverState *top;
+>       bool appended = false;
+>   
+> +    assert(source->total_sectors == target->total_sectors);
 
-  fpOpA
-  clear flags
-  fpOpB
-  clear flags
-  fpOpC
-  read flags
+Is it correct to use directly total_sectors and not bdrv_getlenght()?
+Anyway, using bdrv_getlength() seems safer, and will help us if we move
+to byte-accurate block-layer at some moment in future.
 
-Assuming we know the fpOps can't generate exceptions we can know that
-only fpOpC will ever generate a user visible floating point flags so we
-can indeed use hardfloat for fpOpA and fpOpB. However if we see the
-pattern:
-
-  fpOpA
-  ld/st
-  clear flags
-  fpOpB
-  read flags
-
-we must have the fully rectified version of the flags because the ld/st
-may fault. However it's not guaranteed it will fault so we could defer
-the flag calculation for fpOpA until such time as we need it. The
-easiest way would be to save the values going into the operation and
-then re-run it in softfloat when required (hopefully never ;-).
-
-A lot will depend on the behaviour of the architecture. For example:
-
-  fpOpA
-  fpOpB
-  read flags
-
-whether or not we need to be able to calculate the flags for fpOpA will
-depend on if fpOpB completely resets the flags visible or if the result
-is additive.
-
-So in short I think there may be scope for using hardfloat but it will
-require knowledge of front-end knowing if it is safe to skip flag
-calculation in particular cases. We might even need support within TCG
-for saving (and marking) temporaries over potentially faulting
-boundaries so these lazy evaluations can be done. We can certainly add a
-fp-status less set of primitives to softfloat which can use the
-hardfloat path when we know we are using normal numbers.
-
->
-> A little of documentation here: http://mirror.informatimago.com/next/deve=
-loper.apple.com/documentation/mac/PPCNumerics/PPCNumerics-154.html
->
-> Regards,
-> Dino Papararo
->
-> -----Messaggio originale-----
-> Da: Qemu-devel <qemu-devel-bounces+skizzato73=3Dmsn.com@nongnu.org> Per c=
-onto di Alex Benn=C3=A9e
-> Inviato: marted=C3=AC 28 aprile 2020 10:37
-> A: luoyonggang@gmail.com
-> Cc: qemu-ppc@nongnu.org; qemu-devel@nongnu.org
-> Oggetto: Re: About hardfloat in ppc
->
->
-> =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
->
->> I am confusing why only  inexact  are set then we can use hard-float.
->
-> The inexact behaviour of the host hardware may be different from the gues=
-t architecture we are trying to emulate and the host hardware may not be co=
-nfigurable to emulate the guest mode.
->
-> Have a look in softfloat.c and see all the places where float_flag_inexac=
-t is set. Can you convince yourself that the host hardware will do the same?
->
->> And PPC always clearing inexact  flag before calling to soft-float=20
->> funcitons. so we can not optimize it with hard-float.
->> I need some resouces about ineact flag and why always clearing inexcat=20
->> in PPC FP simualtion.
->
-> Because that is the behaviour of the PPC floating point unit. The inexact=
- flag will represent the last operation done.
->
->> I am looking for two possible solution:
->> 1. do not clear inexact flag in PPC simulation 2. even the inexact are=20
->> cleared, we can still use alternative hard-float.
->>
->> But now I am the beginner, Have no clue about all the things.
->
-> Well you'll need to learn about floating point because these are rather f=
-undamental aspects of it's behaviour. In the old days QEMU used to use the =
-host floating point processor with it's template based translation.
-> However this led to lots of weird bugs because the floating point answers=
- under qemu where different from the target it was trying to emulate. It wa=
-s for this reason softfloat was introduced. The hardfloat optimisation can =
-only be done when we are confident that we will get the exact same answer o=
-f the target we are trying to emulate - a "faster but incorrect" mode is ju=
-st going to cause confusion as discussed in the previous thread. Have you r=
-ead that yet?
->
->>
->> On Mon, Apr 27, 2020 at 7:10 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
->>
->>>
->>> BALATON Zoltan <balaton@eik.bme.hu> writes:
->>>
->>> > On Mon, 27 Apr 2020, Alex Benn=C3=A9e wrote:
->>> >> =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> wr=
-ites:
->>> >>> Because ppc fpu-helper are always clearing float_flag_inexact, So=20
->>> >>> is that possible to optimize the performance when
->>> float_flag_inexact
->>> >>> are cleared?
->>> >>
->>> >> There was some discussion about this in the last thread about=20
->>> >> enabling hardfloat for PPC. See the thread:
->>> >>
->>> >>  Subject: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
->>> >>  Date: Tue, 18 Feb 2020 18:10:16 +0100
->>> >>  Message-Id: <20200218171702.979F074637D@zero.eik.bme.hu>
->>> >
->>> > I've answered this already with link to that thread here:
->>> >
->>> > On Fri, 10 Apr 2020, BALATON Zoltan wrote:
->>> > : Date: Fri, 10 Apr 2020 20:04:53 +0200 (CEST)
->>> > : From: BALATON Zoltan <balaton@eik.bme.hu>
->>> > : To: "=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo)" <luoyonggang@gmail.=
-com>
->>> > : Cc: qemu-devel@nongnu.org, Mark Cave-Ayland, John Arbuckle,
->>> qemu-ppc@nongnu.org, Paul Clarke, Howard Spoelstra, David Gibson
->>> > : Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
->>> > :
->>> > : On Fri, 10 Apr 2020, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrot=
-e:
->>> > :> Are this stable now? I'd like to see hard float to be landed:)
->>> > :
->>> > : If you want to see hardfloat for PPC then you should read the=20
->>> > replies to : this patch which can be found here:
->>> > :
->>> > : http://patchwork.ozlabs.org/patch/1240235/
->>> > :
->>> > : to understand what's needed then try to implement the solution=20
->>> > with FP : exceptions cached in a global that maybe could work. I=20
->>> > won't be able to : do that as said here:
->>> > :
->>> > :=20
->>> > https://lists.nongnu.org/archive/html/qemu-ppc/2020-03/msg00006.htm
->>> > l
->>> > :
->>> > : because I don't have time to learn all the details needed. I think :
->>> > others are in the same situation so unless somebody puts in the :
->>> > necessary effort this won't change.
->>> >
->>> > Which also had a proposed solution to the problem that you could=20
->>> > try to implement, in particular see this message:
->>> >
->>> >
->>> http://patchwork.ozlabs.org/project/qemu-devel/patch/20200218171702.9
->>> 79F074637D@zero.eik.bme.hu/#2375124
->>> >
->>> > amd Richard's reply immediately below that. In short to optimise=20
->>> > FPU emulation we would either find a way to compute inexact flag=20
->>> > quickly without reading the FPU status (this may not be possible)=20
->>> > or somehow get status from the FPU but the obvious way of claring=20
->>> > the flag and reading them after each operation is too slow. So=20
->>> > maybe using exceptions and only clearing when actually there's a=20
->>> > change could be faster.
->>> >
->>> > As to how to use exceptions see this message in above thread:
->>> >
->>> > https://lists.nongnu.org/archive/html/qemu-ppc/2020-03/msg00005.htm
->>> > l
->>> >
->>> > But that's only to show how to hook in an exception handler what it=20
->>> > does needs to be implemented. Then tested and benchmarked.
->>> >
->>> > I still don't know where are the extensive PPC floating point tests=20
->>> > to use for checking results though as that was never answered.
->>>
->>> Specifically for PPC we don't have them. We use the softfloat test=20
->>> cases to exercise our softfloat/hardfloat code as part of "make=20
->>> check-softfloat". You can also re-build fp-bench for each guest=20
->>> target to measure raw throughput.
->>>
->>> >> However in short the problem is if the float_flag_inexact is clear=20
->>> >> you must use softfloat so you can properly calculate the inexact=20
->>> >> status. We can't take advantage of the inexact stickiness without=20
->>> >> loosing the fidelity of the calculation.
->>> >
->>> > I still don't get why can't we use hardware via exception handler=20
->>> > to detect flags for us and why do we only use hardfloat in some=20
->>> > corner cases. If reading the status is too costly then we could=20
->>> > mirror it in a global which is set by an FP exception handler.=20
->>> > Shouldn't that be faster? Is there a reason that can't work?
->>>
->>> It would work but it would be slow. Almost every FP operation sets=20
->>> the inexact flag so it would generate an exception and exceptions=20
->>> take time to process.
->>>
->>> For the guests where we use hardfloat operations with inexact already=20
->>> latched is not a corner case - it is the common case which is why it=20
->>> helps.
->>>
->>> >
->>> > Regards,
->>> > BALATON Zoltan
->>>
->>>
->>> --
->>> Alex Benn=C3=A9e
->>>
+Hmm but total_sectors used directly anyway in this function, so OK
 
 
---=20
-Alex Benn=C3=A9e
+> +
+> +    top = bdrv_new_open_driver(&bdrv_backup_top_filter, filter_node_name,
+> +                              BDRV_O_RDWR, errp);
+
+alignment broken. With it fixed:
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+>       if (!top) {
+>           return NULL;
+>       }
+> diff --git a/block/backup.c b/block/backup.c
+> index c4c3b8cd46..4f13bb20a5 100644
+> --- a/block/backup.c
+> +++ b/block/backup.c
+> @@ -340,7 +340,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+>                     BlockCompletionFunc *cb, void *opaque,
+>                     JobTxn *txn, Error **errp)
+>   {
+> -    int64_t len;
+> +    int64_t len, target_len;
+>       BackupBlockJob *job = NULL;
+>       int64_t cluster_size;
+>       BdrvRequestFlags write_flags;
+> @@ -405,6 +405,18 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+>           goto error;
+>       }
+>   
+> +    target_len = bdrv_getlength(target);
+> +    if (target_len < 0) {
+> +        error_setg_errno(errp, -target_len, "Unable to get length for '%s'",
+> +                         bdrv_get_device_or_node_name(bs));
+> +        goto error;
+> +    }
+> +
+> +    if (target_len != len) {
+> +        error_setg(errp, "Source and target image have different sizes");
+> +        goto error;
+> +    }
+> +
+>       cluster_size = backup_calculate_cluster_size(target, errp);
+>       if (cluster_size < 0) {
+>           goto error;
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
