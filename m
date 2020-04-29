@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8881BDD3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 15:13:37 +0200 (CEST)
-Received: from localhost ([::1]:50454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70991BDD3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 15:13:47 +0200 (CEST)
+Received: from localhost ([::1]:51484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTmWt-0001gX-SE
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 09:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34740)
+	id 1jTmX4-0002HJ-Qh
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 09:13:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTmV6-0007uC-NW
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 09:11:51 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTmV7-0007wi-U4
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 09:11:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jTmUz-00084k-0i
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 09:11:44 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jTmUz-000856-Nm
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 09:11:45 -0400
 Received: from mail-eopbgr80118.outbound.protection.outlook.com
  ([40.107.8.118]:18917 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jTmSj-0007bZ-NR; Wed, 29 Apr 2020 09:09:18 -0400
+ id 1jTmSl-0007bZ-5z; Wed, 29 Apr 2020 09:09:19 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k7b1PQpLVDVNxDvupAHPS5NcBocpBDGVunJU+lhSZ/RUGmn/EC3p9Bo2XFEG66l1sfIhlaCkQASW09VxzWEUjbGOHycJmx5AYw5NlGSKUUeM/+ZHwkh95KS0Krn0iBDYjZ6kF2tsHpNlf80ELTa86hFUAHVOvu7oSFIK807QEQFaFBmVWChL2RYqL01cGjww+aT5+Wp/QRbkns86fHd8BWtMi2KWhm7pA7KZDuIO+GSj6lZpzU5TvHjscfGZascI/UMtjUEed+r9yb19XE08DL7UUUG6AElEpldv2Ig6e+wSFt9/pPUxz2kkKUHDRqYLrLuAYQrU9T50LWQ04rW5dg==
+ b=Sg/RfQQGADZFpnrUdCQ76VDlmjxpmS54qYgTky5fCLVTdQlstlVCPui15227zRqMuaxgsa7Yya+bkQb5isjefPMqhDt68U/l6/ThBUDTsSMkz7J1Yqwer3o7VrTxVA0DZ809PqdgVrCS1BtaoshHZ7Yfs7jbuRmWsLhwKn53xuM9W07K9NByFIkYKSSJOjmhBAaxiUCeYnUq6ayS3dCuMxL9w1n28DQ+YOTVolVoZTa/gwXlPf9PZOV9Yv040i41gS0cgiMddRzDqT3/oU8kK58DjuuuBlvduqvZzSGpG8S41JhxeDAI7/2rP1f6PFz9cNDEMyKQWl1GkLzMLl5xGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qdIOkltzmHITcP6ikgzz6PbLppZ+M7n7jTnh6uSYsU4=;
- b=b4PJTOU0YO789qWnkF95jm48qKje2MkeuQKPYKX6HUzcwbw046v3HofR/NyT/tKU0ouIRpNE1u+IcID9pe1aFpLj+1wL8UVhSMq0W5Dh6/6N8y8QM293pSxqprOnu6wBf6AzYn7YfePfjZG9jxGxyPJKVO6UL2fvkVKyMwd+NwbmSyNCsVwhlQhxgnF2tN6zIN+heMU6llmtAMO/aBbYYqZPNO62RVYSfQFzt5qCfWbdtXIiDGwfK3+Ga04caiIcL6jv/AvYXPU+MgY4ZRaLvDF8CBqxR+l+/oUQamQJ0iU2K2Va2TDETk7Tg1a2CnldzmPZLUer+xOTVLm1TZhvrQ==
+ bh=Ln4J+gXgYopBJjdwMRlDdnwd0zyUvPHCA7EC1VSZv4A=;
+ b=AZ1bW8khu5js54fwEw1Pmj7kq4rezTmvtvDCh9//tKmNBqvOGsotATb2Fm9oXQMqlLykQBSNfSaNwJ/xzD/auWf/iWr0v8AFSaM7xBG7448Mptnw5qUIe+inHE2VqRENN7yc/bw0eC+qJhIuDXyC/A+RPEOWcnZ4+4ZPYdXYK1l/2l70QxzFIUvBBM9j0tz0kM4tjjIxkQ4dCLzSSYMC5WS4ZyAzzROLyGhz3+zyTH9t67hT1UsJcORwTnNSP0wcpxSfaZlv9FZ9l15FLfIMy0rrP4/lxVWYlFs1K6iRD0uEF7eM7jFndyS2nV2RQXf4eq5wR9sYHK2bfggGGNM6/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qdIOkltzmHITcP6ikgzz6PbLppZ+M7n7jTnh6uSYsU4=;
- b=eaigalh2p+lSaJrD5P8vWy9KPoQIO8h7V7q7Iuo4ZrU4Y2V7mbZ0Fkjs5jjGV71kCa+43JXutkl9675WnD/I+bM9bJYiE6IKYBkWPx9wmQLBS3xe5v7iEDXQPk4+14vFfcgBhhLseQ0ZA/n4gSG6drCNgvXGKlPTouWd85mSmBw=
+ bh=Ln4J+gXgYopBJjdwMRlDdnwd0zyUvPHCA7EC1VSZv4A=;
+ b=qPSQWEgKxrUByXvo1DgJM41BUw0YYPTFtQ49a5Kxg5B9oAKbzts1Y+f4WdvLaQmIlnngTmkjpjuEpL14HnNon5Qsz3iqJy/z49KJFjFs3U3w9DA0Y+07dcWhysbHOALLWxleSmJabl/e7UKhGVNKyfk0UyT6IQk+Hcp7denKmyo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -49,10 +49,12 @@ Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  13:09:14 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 0/5] block-copy: use aio-task-pool
-Date: Wed, 29 Apr 2020 16:08:42 +0300
-Message-Id: <20200429130847.28124-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 1/5] block/block-copy: rename in-flight requests to tasks
+Date: Wed, 29 Apr 2020 16:08:43 +0300
+Message-Id: <20200429130847.28124-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200429130847.28124-1-vsementsov@virtuozzo.com>
+References: <20200429130847.28124-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: AM0PR04CA0031.eurprd04.prod.outlook.com
@@ -64,32 +66,32 @@ Received: from localhost.localdomain (185.215.60.184) by
  AM0PR04CA0031.eurprd04.prod.outlook.com (2603:10a6:208:122::44) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20 via Frontend
- Transport; Wed, 29 Apr 2020 13:09:13 +0000
+ Transport; Wed, 29 Apr 2020 13:09:14 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.184]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 85ddf3fa-98ef-49dd-9e9a-08d7ec3e83c8
+X-MS-Office365-Filtering-Correlation-Id: 1a86e1e9-bda0-47cb-f04b-08d7ec3e8434
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5446:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5446E8296E437A1AF173C515C1AD0@AM7PR08MB5446.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5446B015C4D1F22D6CBFCFB0C1AD0@AM7PR08MB5446.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:345;
 X-Forefront-PRVS: 03883BD916
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(376002)(346002)(39840400004)(366004)(396003)(8936002)(16526019)(2616005)(107886003)(6512007)(66946007)(66556008)(66476007)(316002)(36756003)(6486002)(52116002)(5660300002)(186003)(6506007)(26005)(4326008)(956004)(1076003)(69590400007)(478600001)(4744005)(6666004)(86362001)(2906002)(6916009)(8676002);
+ SFS:(4636009)(136003)(376002)(346002)(39840400004)(366004)(396003)(8936002)(16526019)(2616005)(107886003)(6512007)(66946007)(66556008)(66476007)(316002)(36756003)(6486002)(52116002)(5660300002)(186003)(6506007)(26005)(4326008)(956004)(1076003)(69590400007)(478600001)(6666004)(86362001)(2906002)(6916009)(8676002)(334744003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I9MjOaNx9HJul7c2N/rfEXHbiciT/5q+dlj5/mCeoucAGcW964IExzIJ+1Y9/5ANDBdF4ixnFWA3YeaTe+MQZaX+zcjrs+xxHDRryvjDPPr1va6LqjA7rP2gk8zZvsPLEvpltj19NtzEoVVDJRVPdJfxwCWiCXG8JqDSmffH3Nq6q8lrPBdLr1ghIwtc5BWak8S3U/tYTHx0RZfuhWKif5l5x6nSZ6vcdX2FRssp+vYTmGd0FjRPTDkOnX/qymAjBKkz7W0QJAUSRKCPi8VrvwjvSWUU8ndYju7qshbhI730xtnU8t9ojySZf0XebOcSCfB1G/yHFefc9C2RVr1rTCf26UWTT99PtZ51W3xGAHCqMa/r/YXtHTWGffX39MQez7QdpG9VMPWB2Ha8b52Ja66e9+J1Kjn0DZZolylTmQzaZyExI33WO9foXqAkCqcSdVoXT11UAqoegxjq9AJTB6/3jpnZnJCs44Adjad5JtQeb6J6W+RYkifZyTSOJfvk
-X-MS-Exchange-AntiSpam-MessageData: ZPk6UZwSsk6/5LmTEPLGEvs/PyRpmghfYRgyxFB4n+BXUTZBC7T3AI1JIncnwG2QTI+RMkFr226ckWlAAG2JkxzwGwxvMd/eSxK/p7VAWkS0TYOOI7Rjk+6A6S5keambh6kNubby4duiQkyM3+KkXkWck+MWacsUuTcS2X3ipaW5kHb7N0sbRtQ34k88UWaVvQJjHu/aduo+77VsnTY/SYVfLsdq1f3TFh0qwiclAeqhfrJRzhy89K4Iev7KWWAN45eznzixKRQnfPTXWsIpjcuC9BLeXspF71bqfoNHhVOJIirA3d14h/ppL0M38PD7R62sJmMNeyKbFEd6EyzPp3PTrSGGRsqY6A4nl3RbJHeh9blcK80FibkjXxaXQmezUA5eAKuPSCXmTiv53S+OmH2KjgFsHPwuZQsRbaim+Rh8CMNetu659r+0fp+Qz8/+JtdppdmvrLF2dmHt/ffUaT4DtUJ/K/TZri5V/WYdF/MrUMC5kZ8m/ET8QwwQ+l8YUs3J1XmJAJTFazLHIuca8R7N1fFjggzJIzqRAnkrofRP/5y+ZJg6moTlik2sRHXB2/wl4qFKLK0aA+WSwdCp2AR0FCJMq/zNJx/yvFNqBM8u18UPMUQ845HEY7pfGi74iVCbp79S0GQGHh0PMQjKYnChLBoA0N9c8b1sDGBQBW8cizQZzyV165VoTnYuAT6d0Ylt2LdXGTx40EPmqtNJ4o7zM1tkFeritCcs955b3Fs1wE5Pa/EjNJh4UqrA+G3i79kJtN244S93hQbWFFdPf4pXpwI5osurKEgUgVGKflM=
+X-Microsoft-Antispam-Message-Info: fJv9zj73vA8sBV0w2lTuOJFaozCoTrSiKiEOVOvoe3aDkOYFoEo/2ZtPlrgvSDA2PiD1pM+hHyMT+AAIUMew8+1K9FxuQ/V3aIJ+kPcwwxyMSxR+dfw6Q4u56gPYPrgGHgJWeiibSuvSE+avWP+TYuVemF+/eyEKWmm1Pvn/sJXmdH/VUuFnVX5lbvdMcNK1QGF0C+xwqCc8pEE6pNjVg9WROL2xiIzgvpOoFl0PKNchk3ppBZCC+cewPPosjNIKStkBLFnJe4j150dtBSfftQ0sTRmDPodghylzw5OAZW13YP7jjPMfYky+e7EhSugiKQ7e8DI/XnX7UEO4ez1qlCSj5nHvo+OO1myv1dwgGo9PPgCnZDaRIbVBLWBn09pPJb/YAP1f1VpVbofkBu/dwPehgXchmVMvDINS0YiIAYe1spUKUUu1Jzoq5f3qmAgNtKrA3DcncKF2be2SzA73/JE1PxhKD9pxx654GqYu8T0GLC6SiU5QWt80aeJwnl9YhCq1JO6IkhRZT4jKRib8IA==
+X-MS-Exchange-AntiSpam-MessageData: +OgWoYx522ExxDaJCvLVldO0xBA8urvKJ+2smOWA5XoPyN/Lt7cw3EcQk63H8X6S63+Zqp85LYnNIPHtui/3gqUMHV6Y+vC0jEp5arS9E36iSTtyVTHrJI3UrthCkAw+eHBNZ8OhG1C/t22cQPX5at7lt7NmCQS9Ile1EIbD3VrTWlqOTowEFn1zURbThtGYbTHLwmnXLJpTenEBycuLTIuN3m27IOAFf8Kl3dv1IxMimhJFKvYCKMfoSfHNUE4ow5Uxxl+MQOhWaAIfzBEG5x703FNO7rkezjYEzkbjWh5pmmuL1FwbrqSR3lCG5OW/yWLKzSzAF3jLjmUe1eBuGQUZJOf+ErMSDtyjF6UH/U9VPqSv1z4wZ+GlJxkVIB/vlvph74SE3rcJ3DNWpiwYKLSuCh8WOvGPoUUC+AAjPRD6KI8PFNth4sjkBIZpH9tgox+2MZRcBzB0MOr4fgjXC23U5NobW9H6bTysMcJpLH5SxKnGtjfFcYfElsEcOvS/yz54wVipiK2x7NwAsKjmIrVBAAK042jF94UUdXv3sJ7KonLbFNQhjKZZX5QWQZXim1u7AVHqPrp7JU7UE+OW3ecPPal5Ho1Jx9l7ng8FT2yuISIU7wv+note5To7s8gyp/pPrza/fYQpWhTz5wW1H8eiGP9KREpvHqltS1N38Ct+Y8JzmLic+gUFNmorxKeZVTVqMYEKAOLT95nBKJVn8K9g3gYN+XE+Q0xskD6aO0i/XDukpp67Id74GUdc9YXgnz952O5G93b4VAPN0EwGrscS80k+aWBxktBbl5MHpDk=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85ddf3fa-98ef-49dd-9e9a-08d7ec3e83c8
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 13:09:14.1156 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a86e1e9-bda0-47cb-f04b-08d7ec3e8434
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2020 13:09:14.8235 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xIKTQRf448LL38BK79aC8RqDlw37qpEMLuHJUcVEXn1Bx0Jfd5YcaP2OAmoQGMV7HAX3a8r9NY4wKoF+AMXMuG6EMe+7B1mOB4DHKSOr65A=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8UXx2O8bKsTrCKiPznLailH0HERgI0+rQlDExTXyez9fX7oIilJR7xHWFW6upOm5J+3k/k8FRxqO/QPy5i7PFTJP9KE/co/RL3c8v/Joc7A=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5446
 Received-SPF: pass client-ip=40.107.8.118;
  envelope-from=vsementsov@virtuozzo.com;
@@ -113,33 +115,217 @@ Cc: kwolf@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+We are going to use aio-task-pool API and extend in-flight request
+structure to be a successor of AioTask, so rename things appropriately.
 
-v4
-01: add Max's r-b
-04: move variable definition to the top of the block, add Max's r-b
-05: - change error-codes in block_copy_task_run(), document them
-      and be more accurate about error code in block_copy_dirty_clusters().
-    - s/g_free(aio)/aio_task_pool_free(aio)/
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ block/block-copy.c | 98 +++++++++++++++++++++++-----------------------
+ 1 file changed, 48 insertions(+), 50 deletions(-)
 
-==
-
-This is the next step of improving block-copy: use aio task pool.
-
-Async copying loop has better performance than linear, which is shown
-in original series (was
-"[RFC 00/24] backup performance: block_status + async".
-
-Vladimir Sementsov-Ogievskiy (5):
-  block/block-copy: rename in-flight requests to tasks
-  block/block-copy: alloc task on each iteration
-  block/block-copy: add state pointer to BlockCopyTask
-  block/block-copy: refactor task creation
-  block/block-copy: use aio-task-pool API
-
- block/block-copy.c | 279 +++++++++++++++++++++++++++++++--------------
- 1 file changed, 194 insertions(+), 85 deletions(-)
-
+diff --git a/block/block-copy.c b/block/block-copy.c
+index 05227e18bf..bbb29366dc 100644
+--- a/block/block-copy.c
++++ b/block/block-copy.c
+@@ -24,12 +24,12 @@
+ #define BLOCK_COPY_MAX_BUFFER (1 * MiB)
+ #define BLOCK_COPY_MAX_MEM (128 * MiB)
+ 
+-typedef struct BlockCopyInFlightReq {
++typedef struct BlockCopyTask {
+     int64_t offset;
+     int64_t bytes;
+-    QLIST_ENTRY(BlockCopyInFlightReq) list;
+-    CoQueue wait_queue; /* coroutines blocked on this request */
+-} BlockCopyInFlightReq;
++    QLIST_ENTRY(BlockCopyTask) list;
++    CoQueue wait_queue; /* coroutines blocked on this task */
++} BlockCopyTask;
+ 
+ typedef struct BlockCopyState {
+     /*
+@@ -45,7 +45,7 @@ typedef struct BlockCopyState {
+     bool use_copy_range;
+     int64_t copy_size;
+     uint64_t len;
+-    QLIST_HEAD(, BlockCopyInFlightReq) inflight_reqs;
++    QLIST_HEAD(, BlockCopyTask) tasks;
+ 
+     BdrvRequestFlags write_flags;
+ 
+@@ -73,15 +73,14 @@ typedef struct BlockCopyState {
+     SharedResource *mem;
+ } BlockCopyState;
+ 
+-static BlockCopyInFlightReq *find_conflicting_inflight_req(BlockCopyState *s,
+-                                                           int64_t offset,
+-                                                           int64_t bytes)
++static BlockCopyTask *find_conflicting_task(BlockCopyState *s,
++                                            int64_t offset, int64_t bytes)
+ {
+-    BlockCopyInFlightReq *req;
++    BlockCopyTask *t;
+ 
+-    QLIST_FOREACH(req, &s->inflight_reqs, list) {
+-        if (offset + bytes > req->offset && offset < req->offset + req->bytes) {
+-            return req;
++    QLIST_FOREACH(t, &s->tasks, list) {
++        if (offset + bytes > t->offset && offset < t->offset + t->bytes) {
++            return t;
+         }
+     }
+ 
+@@ -89,73 +88,72 @@ static BlockCopyInFlightReq *find_conflicting_inflight_req(BlockCopyState *s,
+ }
+ 
+ /*
+- * If there are no intersecting requests return false. Otherwise, wait for the
+- * first found intersecting request to finish and return true.
++ * If there are no intersecting tasks return false. Otherwise, wait for the
++ * first found intersecting tasks to finish and return true.
+  */
+ static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
+                                              int64_t bytes)
+ {
+-    BlockCopyInFlightReq *req = find_conflicting_inflight_req(s, offset, bytes);
++    BlockCopyTask *task = find_conflicting_task(s, offset, bytes);
+ 
+-    if (!req) {
++    if (!task) {
+         return false;
+     }
+ 
+-    qemu_co_queue_wait(&req->wait_queue, NULL);
++    qemu_co_queue_wait(&task->wait_queue, NULL);
+ 
+     return true;
+ }
+ 
+ /* Called only on full-dirty region */
+-static void block_copy_inflight_req_begin(BlockCopyState *s,
+-                                          BlockCopyInFlightReq *req,
+-                                          int64_t offset, int64_t bytes)
++static void block_copy_task_begin(BlockCopyState *s, BlockCopyTask *task,
++                                  int64_t offset, int64_t bytes)
+ {
+-    assert(!find_conflicting_inflight_req(s, offset, bytes));
++    assert(!find_conflicting_task(s, offset, bytes));
+ 
+     bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
+     s->in_flight_bytes += bytes;
+ 
+-    req->offset = offset;
+-    req->bytes = bytes;
+-    qemu_co_queue_init(&req->wait_queue);
+-    QLIST_INSERT_HEAD(&s->inflight_reqs, req, list);
++    task->offset = offset;
++    task->bytes = bytes;
++    qemu_co_queue_init(&task->wait_queue);
++    QLIST_INSERT_HEAD(&s->tasks, task, list);
+ }
+ 
+ /*
+- * block_copy_inflight_req_shrink
++ * block_copy_task_shrink
+  *
+- * Drop the tail of the request to be handled later. Set dirty bits back and
+- * wake up all requests waiting for us (may be some of them are not intersecting
+- * with shrunk request)
++ * Drop the tail of the task to be handled later. Set dirty bits back and
++ * wake up all tasks waiting for us (may be some of them are not intersecting
++ * with shrunk task)
+  */
+-static void coroutine_fn block_copy_inflight_req_shrink(BlockCopyState *s,
+-        BlockCopyInFlightReq *req, int64_t new_bytes)
++static void coroutine_fn block_copy_task_shrink(BlockCopyState *s,
++                                                BlockCopyTask *task,
++                                                int64_t new_bytes)
+ {
+-    if (new_bytes == req->bytes) {
++    if (new_bytes == task->bytes) {
+         return;
+     }
+ 
+-    assert(new_bytes > 0 && new_bytes < req->bytes);
++    assert(new_bytes > 0 && new_bytes < task->bytes);
+ 
+-    s->in_flight_bytes -= req->bytes - new_bytes;
++    s->in_flight_bytes -= task->bytes - new_bytes;
+     bdrv_set_dirty_bitmap(s->copy_bitmap,
+-                          req->offset + new_bytes, req->bytes - new_bytes);
++                          task->offset + new_bytes, task->bytes - new_bytes);
+ 
+-    req->bytes = new_bytes;
+-    qemu_co_queue_restart_all(&req->wait_queue);
++    task->bytes = new_bytes;
++    qemu_co_queue_restart_all(&task->wait_queue);
+ }
+ 
+-static void coroutine_fn block_copy_inflight_req_end(BlockCopyState *s,
+-                                                     BlockCopyInFlightReq *req,
+-                                                     int ret)
++static void coroutine_fn block_copy_task_end(BlockCopyState *s,
++                                             BlockCopyTask *task, int ret)
+ {
+-    s->in_flight_bytes -= req->bytes;
++    s->in_flight_bytes -= task->bytes;
+     if (ret < 0) {
+-        bdrv_set_dirty_bitmap(s->copy_bitmap, req->offset, req->bytes);
++        bdrv_set_dirty_bitmap(s->copy_bitmap, task->offset, task->bytes);
+     }
+-    QLIST_REMOVE(req, list);
+-    qemu_co_queue_restart_all(&req->wait_queue);
++    QLIST_REMOVE(task, list);
++    qemu_co_queue_restart_all(&task->wait_queue);
+ }
+ 
+ void block_copy_state_free(BlockCopyState *s)
+@@ -223,7 +221,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+         s->copy_size = MAX(s->cluster_size, BLOCK_COPY_MAX_BUFFER);
+     }
+ 
+-    QLIST_INIT(&s->inflight_reqs);
++    QLIST_INIT(&s->tasks);
+ 
+     return s;
+ }
+@@ -474,7 +472,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+     assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+ 
+     while (bytes) {
+-        BlockCopyInFlightReq req;
++        BlockCopyTask task;
+         int64_t next_zero, cur_bytes, status_bytes;
+ 
+         if (!bdrv_dirty_bitmap_get(s->copy_bitmap, offset)) {
+@@ -495,14 +493,14 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+             assert(next_zero < offset + cur_bytes); /* no need to do MIN() */
+             cur_bytes = next_zero - offset;
+         }
+-        block_copy_inflight_req_begin(s, &req, offset, cur_bytes);
++        block_copy_task_begin(s, &task, offset, cur_bytes);
+ 
+         ret = block_copy_block_status(s, offset, cur_bytes, &status_bytes);
+         assert(ret >= 0); /* never fail */
+         cur_bytes = MIN(cur_bytes, status_bytes);
+-        block_copy_inflight_req_shrink(s, &req, cur_bytes);
++        block_copy_task_shrink(s, &task, cur_bytes);
+         if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
+-            block_copy_inflight_req_end(s, &req, 0);
++            block_copy_task_end(s, &task, 0);
+             progress_set_remaining(s->progress,
+                                    bdrv_get_dirty_count(s->copy_bitmap) +
+                                    s->in_flight_bytes);
+@@ -518,7 +516,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+         ret = block_copy_do_copy(s, offset, cur_bytes, ret & BDRV_BLOCK_ZERO,
+                                  error_is_read);
+         co_put_to_shres(s->mem, cur_bytes);
+-        block_copy_inflight_req_end(s, &req, ret);
++        block_copy_task_end(s, &task, ret);
+         if (ret < 0) {
+             return ret;
+         }
 -- 
 2.21.0
 
