@@ -2,128 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A791BD702
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:19:46 +0200 (CEST)
-Received: from localhost ([::1]:59814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428D41BD737
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 10:24:52 +0200 (CEST)
+Received: from localhost ([::1]:41262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jThwX-000498-Qr
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:19:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53028)
+	id 1jTi1T-00006m-9j
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 04:24:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53654)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <ani.sinha@nutanix.com>) id 1jThrh-0006XC-Lg
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:14:48 -0400
+ (envelope-from <xadimgnik@gmail.com>) id 1jThzc-0006Kv-OP
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:23:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <ani.sinha@nutanix.com>) id 1jThrN-0005PV-1K
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:14:45 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:7376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani.sinha@nutanix.com>)
- id 1jThrM-0005Eh-8T
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:14:24 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03T8EB5q000532; Wed, 29 Apr 2020 01:14:12 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=Vm9DrqwiQOFGouzqnyC1R1qYnZCGoMFMBs5ecJtbHcs=;
- b=qkBx4L/35syp5DJx3JX/sYtyNa8Km0DQZl1AU3ws/gE6iFOGD0COy/YbBKziK5GNanro
- rO3pim0QLX3NlZvgFpliFFISUovpUdL28Eqxpx4p1ePvulLzAyLOcRs3zHa7+lnT+TFs
- krYxTWZgIr/C9NGSFhMgVqbU3Dyx4Jllw03a0azrQUYPctt1BUZIoaxEok8G9vZ1P6E1
- Ee08Het/Iv6bWh/u1Hn8rV/PjYPPyzovzCAMU1Zozz9yXIzSkGPHXWCLTybZMlbGLnVE
- pLybzOiJCm2QNJ0GFl+osyGEy17PcYcp5PWuVbopCN11Plsiie9lUDcRPEvoBNFt3Zg8 Ag== 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2103.outbound.protection.outlook.com [104.47.55.103])
- by mx0b-002c1b01.pphosted.com with ESMTP id 30mmr3898d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Apr 2020 01:14:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TJAZNXlj135chxfUXPiiZE0/FLdW3qF5lhP+c4tf3JdvomIasMHQvo6kQXl4VU2jHY0Qjvs9nHWTpWh0eE2c4PAzlNXr5e4JZDGJiy5C4VqMAeiOlSyHQOnyEbpsBqy9lgjo037U2dcVwZwgxaQxFzneX9CFcEIq7YihEBeXmkNpUCxTZutZaKRt6y2ziqswtMsULntEDM9VQac4n0HyUqnsLm0GsUC5spQWmuxJwq1WA9ZZspsnRBOc3lJeKCh8ulqsrLVsbQDMzQ66g4IOOKQZESU6BpGOg8lQc3dgxUEycpbdAJX91kGq0iCKvjjbon2GumCOhfLNYR8+ZnkXyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vm9DrqwiQOFGouzqnyC1R1qYnZCGoMFMBs5ecJtbHcs=;
- b=HS20/mytjdd+i7LIStLVjzoDeRRMVMlKhbV5/z36SjOf282LastzyuoPuw/H3uwNjV3pH6JFVXDZ/F8VwRDTiNVh60bb2kFHl7P9c+KfLWlRc67ihuOKdswwkeXNHn1nv5U5nzu2EzlsUAtVY54nUgz87jGkPVxgVhXUoKrflOrk+7EoL0thqSnKWDvcrPyLm2WYgW67VKVtGYE7oyp32QwoP4Hst315ECzQSZbWO4gC0Xu6PtlnEiVUu7yKXxy9/XxOvWZzan3CIuYCM1euax8aw7BiEZmqLxJdXsZp89LLDbIkP1k7KrIdxDQRpAr11FnhWouji9ZFLhdhvT0ihQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from MN2PR02MB5742.namprd02.prod.outlook.com (2603:10b6:208:10d::27)
- by MN2PR02MB6784.namprd02.prod.outlook.com (2603:10b6:208:15f::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Wed, 29 Apr
- 2020 08:14:02 +0000
-Received: from MN2PR02MB5742.namprd02.prod.outlook.com
- ([fe80::200c:b06c:d8c6:42a]) by MN2PR02MB5742.namprd02.prod.outlook.com
- ([fe80::200c:b06c:d8c6:42a%7]) with mapi id 15.20.2937.028; Wed, 29 Apr 2020
- 08:14:02 +0000
-From: Ani Sinha <ani.sinha@nutanix.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH V2] Add a new PIIX option to control PCI hot unplugging of
- devices on non-root buses
-Thread-Topic: [PATCH V2] Add a new PIIX option to control PCI hot unplugging
- of devices on non-root buses
-Thread-Index: AQHWHUYvMyDNYIpa20C9378Nh0w8t6iOszWAgAAA+QCAAANNgIAABV8AgABEbYCAAEbYAIAASz+AgAAMEQCAAAuhAIAAAIgAgAAAq4CAAAGWAIAACeGAgAABVgCAAAdzAIAAATOA
-Date: Wed, 29 Apr 2020 08:14:01 +0000
-Message-ID: <2F2DCEBC-C0B5-4653-B741-245A9FF38BDE@nutanix.com>
-References: <20200428164428-mutt-send-email-mst@kernel.org>
- <CAARzgwznhCPhGmwOxUBf_6bnFX7-Za7TxFMd999CARM+hDm8bA@mail.gmail.com>
- <20200429011228-mutt-send-email-mst@kernel.org>
- <544B4749-9A1C-44BB-BD89-C37A7E8D86F4@nutanix.com>
- <20200429025200-mutt-send-email-mst@kernel.org>
- <A69272ED-DDFF-4CC7-B12C-2994B004C013@nutanix.com>
- <20200429025535-mutt-send-email-mst@kernel.org>
- <B5DF1405-B261-4CE4-8484-F3738BE83E14@nutanix.com>
- <20200429033657-mutt-send-email-mst@kernel.org>
- <D4141715-B662-407A-8B4D-0EB64B41F6A1@nutanix.com>
- <20200429035457-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200429035457-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-x-originating-ip: [192.146.154.3]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3754ef19-66d7-4904-cc48-08d7ec1546a9
-x-ms-traffictypediagnostic: MN2PR02MB6784:
-x-microsoft-antispam-prvs: <MN2PR02MB67841F35E87216DC379B8D9CF1AD0@MN2PR02MB6784.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:1332;
-x-forefront-prvs: 03883BD916
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR02MB5742.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(376002)(346002)(366004)(136003)(396003)(39860400002)(4326008)(8936002)(86362001)(6512007)(966005)(26005)(6506007)(6916009)(8676002)(71200400001)(478600001)(54906003)(53546011)(316002)(7416002)(2906002)(6486002)(186003)(66556008)(66446008)(44832011)(5660300002)(91956017)(2616005)(76116006)(66946007)(64756008)(36756003)(66476007)(33656002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5M/wRKlrUmM2mQBrADIGJuh4JPXBCK2hJpvg/EyJef0eQP5IxCrC7aIIlntVEac7j+fftBLqOdDfJZW9IfLhpz1R69OLeal74CM+Uaqo/fmPQ6YQAESn601/ztA0xj+JMmvsMcK3J0xnhmVKn9oXPlMiWNJPwN0ogRNpnT5VjVRoELFWFUcIGLBgO2zloYy1L/2aMUNZRAXNWKDargQr9y+WBibpCNUKturvwPMS1F3z/C4ISLWhkqGpIf+DYUPj/KrrqHYvYSGj/fTqmE6Tb/wVO/nYofRiUgZQo5ABKTk75wKONegfvGoe0PP3cfSxyXER1BzfWxKlsjvZF+l60TFb6papGGdFNGklHD01y4753e1Yhv3V3qDa0cmkV5JJGvfg6TeczOAeQXMMwjpSHYrmsuSXSyBdf81nmzb+JdMsuFM7MY+JQWMPxwdbjIyjgbabvgz/kgzs0bwDGxPg181hZkcqE8LQhbeqH5PF9qr0P6Zqd96wYsT4ydAfn0A73f3aHdxDfglP9hetiy5eAQ==
-x-ms-exchange-antispam-messagedata: bpVyvW5z3RLHCyX93UjKOJJOxYL0f4Lok2MGjQPOpkNxgkniVLG4+5h899kBD5naLmJ03o8VVIVNWwcrRlwUYaK6noWz/Jb2hF9OXZtOvW1GN1vvh8WZqxZ17TVTclZC+XkcEJscAbkkUE5WLnd6FfalFnV1KImfhtv/DIYtPqqBWAADlIjgrhU8h3M2pTm/uFHZfwjXUfbwPIhJzOEt0kKtkAmtKIdbfe4RciEHgKuY/0C2drnU352aeeSC9xqrFcS8TdcVqzRB5CuQvfeTQzuX9G5KCx20JyRHnheTNplfb6hDQ9wmVmT8sdJylti7w0UkBfnozPLNrAgSRbJcafdkwALfKNhV3IvK1M7tIra09bKQgDKex1gUsOZNjlyGw+bF8YXTTBteuVk6GNRRGPyrBdv/vMm25PDxXkQszVetUlyRRxd3SA0zE8bVO3ulxR0727qN9SnNpNHmmOYnYIo/qwDdZV0M9/rYNrIAmdnnLJlvY8D2k1+375e0I+8Eak0T69hKhd5z5QzIZ6Sne3158dydsd8EZVJKvfbRVFBupT/RB99ysaKB41fCkdQDMSg7cPMCSunbUScyk1hqyQEJ04+uDxNbdPTzoqxDDGWjrKC9uMd6QkxlzENF5+GhYA3BqW2BSGUyaw5e5FMATWnzM1JJ2byU5+sG8V8Yx2hflTq4QlUSmcoJV+ws85i+WN2gkFqUp++YM2L29hopDw0wrvIvcQJiE4+e5FYXAjXSsGb27kJITmAxw5Iz4cTbNPzMKC2I9CzDX1/A0Ln5G3c/3AY2Ic/la90McQR3rbs=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <32E163985581B54C82FA29F51EBFAFC6@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <xadimgnik@gmail.com>) id 1jThxp-0006ko-CA
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:22:56 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1jThxo-0006kJ-4G
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 04:21:04 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x18so1399941wrq.2
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 01:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:content-transfer-encoding:thread-index
+ :content-language;
+ bh=bYaqg9ydbwBt0js6txP6ki/prPNP0trtCyBSqQbrobQ=;
+ b=X/ifDRcsX//oWfrKOCF95UTlM8nTjbfEN2YNN8a3lxS7/WXdwJIVECtAdjJMtF6dnl
+ 9rKyYKthAh8vSUTJq/7CwI8XjEKKjH0tImI32k7XRHe/9ygtRgrOD8FwtbVCKB2pDgR1
+ w9AwHePJ19NNJ3vz6Hgu1fGmjs8D/PP+R0nQOycHVYgIobXh02Z7Ey74T7Eue9qJWSW6
+ ozgwk+VYqqDqjXVCw7Utot5okJA9LYrZs9SOb5PKO8DE70sY6pMdQL+Cjw2BhERZnzAg
+ qQXjCHzVgi3oY7+Lxgev+Bb/e24I90hkUId50P5i4nOUY0TD0km9L2Vz7HAbA3AB0IaL
+ 5Z9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
+ :subject:date:message-id:mime-version:content-transfer-encoding
+ :thread-index:content-language;
+ bh=bYaqg9ydbwBt0js6txP6ki/prPNP0trtCyBSqQbrobQ=;
+ b=a/0xfgsomQoNlvU48HSR34XRtE8P48IzEKqGHoEIoRlqHLtm2GvQ2nJ1XtOStt0lNj
+ fXDoQdcyb4ncAR/kcZEBqVzqFJsi/1wFS3XjEzUCIDKbujXkXwQW0p/Du+FE6/qg43Yo
+ hykHJe+N363AQu+FV4Idlw3rKBkBbYgpOGPaVxPrVskL6FUqMxcaKespeJlmWYaRAr2d
+ /ZIqqzoa1nuBULhW6mDqvl1Orw4yynu2w0hfBVhuZMjkJsnMnzy/MNlBB/jlSMl9o7Wq
+ +4BYp9v9LlRxAc7RPZjOd5FGe6vskxIO2wsNfxCgr41ahvaYoVkO3rxBFhQrHbIFD6C/
+ T9JA==
+X-Gm-Message-State: AGi0PubONmjU9mm6t7di4YhScF+h/nmFtcKM7Uahhn80OLJ22XFyKf8+
+ SBxYHOqW+Cy37x7WbOi3aZ0=
+X-Google-Smtp-Source: APiQypIdTB9pj3s5+HsG0ipZxTuN6qEj6czRhMIH2sYciiFQV+4evNyC5gWUJUJvyUxzDBEnb/V7wA==
+X-Received: by 2002:a5d:4b43:: with SMTP id w3mr38262885wrs.208.1588148460211; 
+ Wed, 29 Apr 2020 01:21:00 -0700 (PDT)
+Received: from CBGR90WXYV0 ([54.239.6.186])
+ by smtp.gmail.com with ESMTPSA id i25sm6530739wml.43.2020.04.29.01.20.58
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 29 Apr 2020 01:20:59 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: "Paul Durrant" <paul@xen.org>
+To: "'Grzegorz Uriasz'" <gorbak25@gmail.com>,
+	<qemu-devel@nongnu.org>
+References: <20200429030409.9406-1-gorbak25@gmail.com>
+ <20200429030409.9406-3-gorbak25@gmail.com>
+In-Reply-To: <20200429030409.9406-3-gorbak25@gmail.com>
+Subject: RE: [PATCH v2 2/2] Improve legacy vbios handling
+Date: Wed, 29 Apr 2020 09:20:58 +0100
+Message-ID: <000101d61dff$1d0f5b60$572e1220$@xen.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3754ef19-66d7-4904-cc48-08d7ec1546a9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2020 08:14:01.8536 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cS2AyPpJ+1lDnZgcQyaJ24T6Qh6nb98VpgEAiHVr/RNlCBlbT7LfSwg20RGQKBHoFStaLJg/SUxjSG4aZmG3uQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6784
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-29_02:2020-04-28,
- 2020-04-29 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=ani.sinha@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 02:11:36
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Received-From: 148.163.155.12
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQFtlR//ELGf2l/FYLvu2IzrckebEAI2wQ0TqU8dnlA=
+Content-Language: en-gb
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -135,86 +89,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Reply-To: paul@xen.org
+Cc: artur@puzio.waw.pl, 'Stefano Stabellini' <sstabellini@kernel.org>,
+ jakub@bartmin.ski, marmarek@invisiblethingslab.com,
+ 'Anthony Perard' <anthony.perard@citrix.com>, j.nowak26@student.uw.edu.pl,
+ xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gT24gQXByIDI5LCAyMDIwLCBhdCAxOjM5IFBNLCBNaWNoYWVsIFMuIFRzaXJraW4gPG1z
-dEByZWRoYXQuY29tPiB3cm90ZToNCj4gDQo+IE9uIFdlZCwgQXByIDI5LCAyMDIwIGF0IDA3OjQz
-OjA0QU0gKzAwMDAsIEFuaSBTaW5oYSB3cm90ZToNCj4+IA0KPj4gDQo+Pj4gT24gQXByIDI5LCAy
-MDIwLCBhdCAxOjA4IFBNLCBNaWNoYWVsIFMuIFRzaXJraW4gPG1zdEByZWRoYXQuY29tPiB3cm90
-ZToNCj4+PiANCj4+PiBPbiBXZWQsIEFwciAyOSwgMjAyMCBhdCAwNzowMjo1NkFNICswMDAwLCBB
-bmkgU2luaGEgd3JvdGU6DQo+Pj4+IA0KPj4+PiANCj4+Pj4+IE9uIEFwciAyOSwgMjAyMCwgYXQg
-MTI6MjcgUE0sIE1pY2hhZWwgUy4gVHNpcmtpbiA8bXN0QHJlZGhhdC5jb20+IHdyb3RlOg0KPj4+
-Pj4gDQo+Pj4+PiBPbiBXZWQsIEFwciAyOSwgMjAyMCBhdCAwNjo1NDo1MkFNICswMDAwLCBBbmkg
-U2luaGEgd3JvdGU6DQo+Pj4+Pj4gDQo+Pj4+Pj4gDQo+Pj4+Pj4+IE9uIEFwciAyOSwgMjAyMCwg
-YXQgMTI6MjIgUE0sIE1pY2hhZWwgUy4gVHNpcmtpbiA8bXN0QHJlZGhhdC5jb20+IHdyb3RlOg0K
-Pj4+Pj4+PiANCj4+Pj4+Pj4gT24gV2VkLCBBcHIgMjksIDIwMjAgYXQgMDY6MTE6MjBBTSArMDAw
-MCwgQW5pIFNpbmhhIHdyb3RlOg0KPj4+Pj4+Pj4gDQo+Pj4+Pj4+PiANCj4+Pj4+Pj4+PiBPbiBB
-cHIgMjksIDIwMjAsIGF0IDEwOjU4IEFNLCBNaWNoYWVsIFMuIFRzaXJraW4gPG1zdEByZWRoYXQu
-Y29tPiB3cm90ZToNCj4+Pj4+Pj4+PiANCj4+Pj4+Pj4+PiBvIGlmIHRoZXJlJ3MgYSBuZWVkIHRv
-IGRpc2FibGUNCj4+Pj4+Pj4+PiBqdXN0IG9uZSBvZiB0aGVzZSwgY29tbWl0IGxvZyBuZWVkcyB0
-byBkbyBhIGJldHRlciBqb2IgZG9jdW1lbnRpbmcgdGhlDQo+Pj4+Pj4+Pj4gdXNlY2FzZS4NCj4+
-Pj4+Pj4+IA0KPj4+Pj4+Pj4gVGhlIHVzZSBjYXNlIGlzIHNpbXBsZS4gV2l0aCB0aGlzIGZlYXR1
-cmUgYWRtaW5zIHdpbGwgYmUgYWJsZSB0byBkbyB3aGF0IHRoZXkgd2VyZSBmb3JjZWQgdG8gZG8g
-ZnJvbSBXaW5kb3dzIGRyaXZlciBsZXZlbCBidXQgbm93IGF0IHRoZSBidXMgbGV2ZWwuIEhlbmNl
-LCANCj4+Pj4+Pj4+IChhKSBUaGV5IG5lZWQgbm90IGhhdmUgYWNjZXNzIHRvIHRoZSBndWVzdCBW
-TSB0byBjaGFuZ2Ugb3IgdXBkYXRlIHdpbmRvd3MgZHJpdmVyIHJlZ2lzdHJ5IHNldHRpbmdzLiBU
-aGV5IGNhbiBlbmFibGUgdGhlIHNhbWUgc2V0dGluZyBmcm9tIGFkbWluIG1hbmFnZW1lbnQgY29u
-c29sZSB3aXRob3V0IGFueSBhY2Nlc3MgdG8gVk0uDQo+Pj4+Pj4+PiAoYikgSXQgaXMgbW9yZSBy
-b2J1c3QuIE5vIG5lZWQgdG8gbWVzcyB3aXRoIGRyaXZlciBzZXR0aW5ncy4gSW5jb3JyZWN0IHNl
-dHRpbmdzIGNhbiBicmljayBndWVzdCBPUy4gQWxzbyBubyBndWVzdCBzcGVjaWZpYyBrbm93aG93
-IHJlcXVpcmVkLg0KPj4+Pj4+Pj4gKGMpIEl0IGlzIG1vcmUgc2NhbGFibGUgc2luY2UgYSBzaW5n
-bGUgY2x1c3RlciB3aWRlIHNldHRpbmcgY2FuIGJlIHVzZWQgZm9yIGFsbCBWTSBwb3dlciBvbnMg
-YW5kIHRoZSBtYW5hZ2VtZW50IHBsYW5lIGNhbiB0YWtlIGNhcmUgb2YgdGhlIHJlc3QgYXV0b21h
-dGljYWxseS4gTm8gbmVlZCB0byBhY2Nlc3MgaW5kaXZpZHVhbCBWTXMgdG8gZW5mb3JjZSB0aGlz
-Lg0KPj4+Pj4+Pj4gKGQpIEkgYW0gdG9sZCB0aGF0IHRoZSBkcml2ZXIgbGV2ZWwgc29sdXRpb24g
-ZG9lcyBub3QgcGVyc2lzdCBhY3Jvc3MgYSByZWJvb3QuIA0KPj4+Pj4+Pj4gDQo+Pj4+Pj4+PiBB
-bmkNCj4+Pj4+Pj4gDQo+Pj4+Pj4+IExvb2tzIGxpa2UgZGlzYWJsaW5nIGJvdGggcGx1ZyBhbmQg
-dW5wbHVnIHdvdWxkIGFsc28gYWRkcmVzcyB0aGVzZSBuZWVkcy4NCj4+Pj4+PiANCj4+Pj4+PiBO
-byB0aGUgZHJpdmVyIGxldmVsIHNvbHV0aW9uIGRvZXMgbm90IHByZXZlbnQgaG90IHBsdWdnaW5n
-IG9mIGRldmljZXMgYnV0IGJsb2NrcyBqdXN0IGhvdCB1bnBsdWdnaW5nLiBUaGUgc29sdXRpb24g
-SSBhbSBwcm9wb3NpbmcgdHJpZXMgdG8gZG8gdGhlIHNhbWUgYnV0IGZyb20gdGhlIGJ1cy9oeXBl
-cnZpc29yIGxldmVsLg0KPj4+Pj4gDQo+Pj4+PiBXaHkgZG9lcyB0aGUgZHJpdmVyIGxldmVsIHNv
-bHV0aW9uIG5lZWQgdG8gcHJldmVudCBqdXN0IGhvdCB1bnBsdWdnaW5nPw0KPj4+PiANCj4+Pj4g
-QmVjYXVzZSBpdCBub3QgZmFpciB0byBwcmV2ZW50IGVuZCB1c2VycyBmcm9tIGhvdCBwbHVnZ2lu
-ZyBuZXcgZGV2aWNlcyB3aGVuIGl0IGlzIHRoZSAoYWNjaWRlbnRhbD8pIGhvdCB1bnBsdWdnaW5n
-IG9mIGV4aXN0aW5nIGRldmljZXMgd2hpY2ggY2F1c2VzIGlzc3Vlcy4NCj4+PiANCj4+PiBBY2Np
-ZGVudGFsPyBTbyBtYXliZSB3aGF0IHlvdSBuZWVkIGlzIGFjdHVhbGx5IHNvbWV0aGluZyBlbHNl
-IHRoZW4gLQ0KPj4+IGF2b2lkICpyZW1vdmluZyogdGhlIGRldmljZSB3aGVuIGl0J3MgcG93ZXJl
-ZCBkb3duLg0KPj4gDQo+PiBZb3UgZG9u4oCZdCBnZXQgaXQuIEl0IGlzIG5vdCBoeXBlcnZpc29y
-IGFkbWlucyB3aG8gYXJlIHVucGx1Z2dpbmcgaXQuIEl0IGlzIHRoZSBlbmQgdXNlcnMuIEV2ZW4g
-UmVkSGF0IGN1c3RvbWVycyB3YW50IHRoaXMgZmVhdHVyZS4gU2VlIGZvbGxvd2luZyByZXNvdXJj
-ZXM6IA0KPj4gaHR0cHM6Ly91cmxkZWZlbnNlLnByb29mcG9pbnQuY29tL3YyL3VybD91PWh0dHBz
-LTNBX193d3cucmVkaGF0LmNvbV9hcmNoaXZlc19saWJ2aXItMkRsaXN0XzIwMjAtMkRGZWJydWFy
-eV9tc2cwMDExMC5odG1sJmQ9RHdJRmFRJmM9czg4M0dwVUNPQ2hLT0hpb2NZdEdjZyZyPUlJVXhJ
-eVJ3RzRSR3k1N3kybnZNTlljRGtxVy1OSG96WjJSMzhWWWNnNVUmbT1NZjcwX3lVOUxVYlJGWk95
-NHJZTTVONDNCX01EYk83U3hFTVNTSktWYUpZJnM9S2dSMS1LbHpMLWJHcjUxdVkxdnVwT0lnVHBU
-ak5BZWNidU9VSXBjdU1VcyZlPSANCj4+IGh0dHBzOi8vdXJsZGVmZW5zZS5wcm9vZnBvaW50LmNv
-bS92Mi91cmw/dT1odHRwcy0zQV9fYnVnemlsbGEucmVkaGF0LmNvbV9zaG93LTVGYnVnLmNnaS0z
-RmlkLTNEMTgwMjU5MiZkPUR3SUZhUSZjPXM4ODNHcFVDT0NoS09IaW9jWXRHY2cmcj1JSVV4SXlS
-d0c0Ukd5NTd5Mm52TU5ZY0RrcVctTkhveloyUjM4VlljZzVVJm09TWY3MF95VTlMVWJSRlpPeTRy
-WU01TjQzQl9NRGJPN1N4RU1TU0pLVmFKWSZzPUtWaXM5Z3pWZUE3bm5HYXVacFhXbV9zRW5sX1Vw
-c0l6U2xnZ3diNjBGZzgmZT0gDQo+PiBodHRwczovL3VybGRlZmVuc2UucHJvb2Zwb2ludC5jb20v
-djIvdXJsP3U9aHR0cHMtM0FfX2J1Z3ppbGxhLnJlZGhhdC5jb21fc2hvdy01RmJ1Zy5jZ2ktM0Zp
-ZC0zRDE3OTA4OTkmZD1Ed0lGYVEmYz1zODgzR3BVQ09DaEtPSGlvY1l0R2NnJnI9SUlVeEl5UndH
-NFJHeTU3eTJudk1OWWNEa3FXLU5Ib3paMlIzOFZZY2c1VSZtPU1mNzBfeVU5TFViUkZaT3k0cllN
-NU40M0JfTURiTzdTeEVNU1NKS1ZhSlkmcz1ZMEs4dGl5cXBtS2VYVTI0NXBuaFRUQXIyZTNZU3V4
-eHc0QmtpRHhHd0I4JmU9IA0KPiANCj4gVGhhdCBkb2Vzbid0IHNlZW0gdG8gcmVxdWlyZSB0aGF0
-IGhvdHBsdWcga2VlcHMgd29ya2luZy4NCg0KTGlrZSBJIHNhaWQsIHRoYXQgaXMgYmVjYXVzZSBQ
-Q0lFIGxpbWl0cyB0aGlzIGF0IHRoaXMgbW9tZW50LiBXZSBjYW4gZG8gYmV0dGVyIHRoYW4gdGhp
-cyBzb2x1dGlvbiBvbiBpNDQwZnguIFdlIGNhbiBiZSBuYXJyb3dlciBpbiBsaW1pdGluZyBqdXN0
-IGhvdCB1bnBsdWcgbGVhdmluZyBob3QgcGx1Z2dpbmcgYXMgaXMuIFdoeSBzaG91bGQgd2UgYWx3
-YXlzIGdvIHdpdGggdGhlIGxlYXN0IGNvbW1vbiBkZW5vbWluYXRvciBmb3IgYWxsIHRoZSBmZWF0
-dXJlcz8gV2h5IGRvIHdlIGhhdmUgdG8gYmUgbGltaXRlZCB3aGVuIHdlIGNhbiBkbyBiZXR0ZXI/
-DQoNCg0KPiANCj4+IE15IGFwcHJvYWNoIGlzIG11Y2ggbW9yZSBmaW5lIGdyYWluZWQgdGhhbiBq
-dXN0IGRpc2FibGUgZXZlcnl0aGluZyBhcHByb2FjaCB0aGF0IHdlIGhhdmUgZm9yIHEzNS4gRm9y
-IGk0NDBmeCB3ZSBjYW4gZG8gYmV0dGVyIHRoYW4gdGhhdC4NCj4+IA0KPj4gDQo+Pj4gDQo+Pj4+
-PiANCj4+Pj4+IA0KPj4+Pj4+IA0KPj4+Pj4+PiAtLSANCj4+Pj4+Pj4gTVNUDQoNCg==
+> -----Original Message-----
+> From: Grzegorz Uriasz <gorbak25@gmail.com>
+> Sent: 29 April 2020 04:04
+> To: qemu-devel@nongnu.org
+> Cc: Grzegorz Uriasz <gorbak25@gmail.com>; marmarek@invisiblethingslab.com; artur@puzio.waw.pl;
+> jakub@bartmin.ski; j.nowak26@student.uw.edu.pl; Stefano Stabellini <sstabellini@kernel.org>; Anthony
+> Perard <anthony.perard@citrix.com>; Paul Durrant <paul@xen.org>; xen-devel@lists.xenproject.org
+> Subject: [PATCH v2 2/2] Improve legacy vbios handling
+> 
+> The current method of getting the vbios is broken - it just isn't working on any device I've tested -
+> the reason
+> for this is explained in the previous patch. The vbios is polymorphic and getting a proper unmodified
+> copy is
+> often not possible without reverse engineering the firmware. We don't need an unmodified copy for most
+> purposes -
+> an unmodified copy is only needed for initializing the bios framebuffer and providing the bios with a
+> corrupted
+> copy of the rom won't do any damage as the bios will just ignore the rom.
+> 
+> After the i915 driver takes over the vbios is only needed for reading some metadata/configuration
+> stuff etc...
+> I've tested that not having any kind of vbios in the guest actually works fine but on older
+> generations of IGD
+> there are some slight hiccups. To maximize compatibility the best approach is to just copy the results
+> of the vbios
+> execution directly to the guest. It turns out the vbios is always present on an hardcoded memory range
+> in a reserved
+> memory range from real mode - all we need to do is to memcpy it into the guest.
+> 
+> The following patch does 2 things:
+> 1) When pci_assign_dev_load_option_rom fails to read the vbios from sysfs(this works only when the igd
+> is not the
+> boot gpu - this is unlikely to happen) it falls back to using /dev/mem to copy the vbios directly to
+> the guest.
+
+Why bother with sysfs if it is unlikely to work?
+
+> Using /dev/mem should be fine as there is more xen specific pci code which also relies on /dev/mem.
+> 2) When dealing with IGD in the more generic code we skip the allocation of the rom resource - the
+> reason for this is to prevent
+> a malicious guest from modifying the vbios in the host -> this is needed as someone might try to pwn
+> the i915 driver in the host by doing so
+> (attach igd to guest, guest modifies vbios, the guest is terminated and the idg is reattached to the
+> host, i915 driver in the host uses data from the modified vbios).
+> This is also needed to not overwrite the proper shadow copy made before.
+> 
+> I've tested this patch and it works fine - the guest isn't complaining about the missing vbios tables
+> and the pci config
+> space in the guest looks fine.
+> 
+> Signed-off-by: Grzegorz Uriasz <gorbak25@gmail.com>
+> ---
+>  hw/xen/xen_pt.c          |  8 +++++--
+>  hw/xen/xen_pt_graphics.c | 48 +++++++++++++++++++++++++++++++++++++---
+>  hw/xen/xen_pt_load_rom.c |  2 +-
+>  3 files changed, 52 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
+> index b91082cb8b..ffc3559dd4 100644
+> --- a/hw/xen/xen_pt.c
+> +++ b/hw/xen/xen_pt.c
+> @@ -483,8 +483,12 @@ static int xen_pt_register_regions(XenPCIPassthroughState *s, uint16_t *cmd)
+>                     i, r->size, r->base_addr, type);
+>      }
+> 
+> -    /* Register expansion ROM address */
+> -    if (d->rom.base_addr && d->rom.size) {
+> +    /*
+> +     * Register expansion ROM address. If we are dealing with a ROM
+> +     * shadow copy for legacy vga devices then don't bother to map it
+> +     * as previous code creates a proper shadow copy
+> +     */
+> +    if (d->rom.base_addr && d->rom.size && !(is_igd_vga_passthrough(d))) {
+
+You don't need brackets around the function call.
+
+  Paul
+
+>          uint32_t bar_data = 0;
+> 
+>          /* Re-set BAR reported by OS, otherwise ROM can't be read. */
+> diff --git a/hw/xen/xen_pt_graphics.c b/hw/xen/xen_pt_graphics.c
+> index a3bc7e3921..fe0ef2685c 100644
+> --- a/hw/xen/xen_pt_graphics.c
+> +++ b/hw/xen/xen_pt_graphics.c
+> @@ -129,7 +129,7 @@ int xen_pt_unregister_vga_regions(XenHostPCIDevice *dev)
+>      return 0;
+>  }
+> 
+> -static void *get_vgabios(XenPCIPassthroughState *s, int *size,
+> +static void *get_sysfs_vgabios(XenPCIPassthroughState *s, int *size,
+>                         XenHostPCIDevice *dev)
+>  {
+>      return pci_assign_dev_load_option_rom(&s->dev, size,
+> @@ -137,6 +137,45 @@ static void *get_vgabios(XenPCIPassthroughState *s, int *size,
+>                                            dev->dev, dev->func);
+>  }
+> 
+> +static void xen_pt_direct_vbios_copy(XenPCIPassthroughState *s, Error **errp)
+> +{
+> +    int fd = -1;
+> +    void *guest_bios = NULL;
+> +    void *host_vbios = NULL;
+> +    /* This is always 32 pages in the real mode reserved region */
+> +    int bios_size = 32 << XC_PAGE_SHIFT;
+> +    int vbios_addr = 0xc0000;
+> +
+> +    fd = open("/dev/mem", O_RDONLY);
+> +    if (fd == -1) {
+> +        error_setg(errp, "Can't open /dev/mem: %s", strerror(errno));
+> +        return;
+> +    }
+> +    host_vbios = mmap(NULL, bios_size,
+> +            PROT_READ, MAP_ANONYMOUS | MAP_PRIVATE, fd, vbios_addr);
+> +    close(fd);
+> +
+> +    if (host_vbios == MAP_FAILED) {
+> +        error_setg(errp, "Failed to mmap host vbios: %s", strerror(errno));
+> +        return;
+> +    }
+> +
+> +    memory_region_init_ram(&s->dev.rom, OBJECT(&s->dev),
+> +            "legacy_vbios.rom", bios_size, &error_abort);
+> +    guest_bios = memory_region_get_ram_ptr(&s->dev.rom);
+> +    memcpy(guest_bios, host_vbios, bios_size);
+> +
+> +    if (munmap(host_vbios, bios_size) == -1) {
+> +        XEN_PT_LOG(&s->dev, "Failed to unmap host vbios: %s\n", strerror(errno));
+> +    }
+> +
+> +    cpu_physical_memory_write(vbios_addr, guest_bios, bios_size);
+> +    memory_region_set_address(&s->dev.rom, vbios_addr);
+> +    pci_register_bar(&s->dev, PCI_ROM_SLOT, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->dev.rom);
+> +    s->dev.has_rom = true;
+> +    XEN_PT_LOG(&s->dev, "Legacy VBIOS registered\n");
+> +}
+> +
+>  /* Refer to Seabios. */
+>  struct rom_header {
+>      uint16_t signature;
+> @@ -179,9 +218,11 @@ void xen_pt_setup_vga(XenPCIPassthroughState *s, XenHostPCIDevice *dev,
+>          return;
+>      }
+> 
+> -    bios = get_vgabios(s, &bios_size, dev);
+> +    bios = get_sysfs_vgabios(s, &bios_size, dev);
+>      if (!bios) {
+> -        error_setg(errp, "VGA: Can't get VBIOS");
+> +        XEN_PT_LOG(&s->dev, "Unable to get host VBIOS from sysfs - "
+> +                            "falling back to a direct copy of memory ranges\n");
+> +        xen_pt_direct_vbios_copy(s, errp);
+>          return;
+>      }
+> 
+> @@ -223,6 +264,7 @@ void xen_pt_setup_vga(XenPCIPassthroughState *s, XenHostPCIDevice *dev,
+> 
+>      /* Currently we fixed this address as a primary for legacy BIOS. */
+>      cpu_physical_memory_write(0xc0000, bios, bios_size);
+> +    XEN_PT_LOG(&s->dev, "Legacy VBIOS registered\n");
+>  }
+> 
+>  uint32_t igd_read_opregion(XenPCIPassthroughState *s)
+> diff --git a/hw/xen/xen_pt_load_rom.c b/hw/xen/xen_pt_load_rom.c
+> index 9f100dc159..8cd9aa84dc 100644
+> --- a/hw/xen/xen_pt_load_rom.c
+> +++ b/hw/xen/xen_pt_load_rom.c
+> @@ -65,7 +65,7 @@ void *pci_assign_dev_load_option_rom(PCIDevice *dev,
+>          goto close_rom;
+>      }
+> 
+> -    pci_register_bar(dev, PCI_ROM_SLOT, 0, &dev->rom);
+> +    pci_register_bar(dev, PCI_ROM_SLOT, PCI_BASE_ADDRESS_SPACE_MEMORY, &dev->rom);
+>      dev->has_rom = true;
+>      *size = st.st_size;
+>  close_rom:
+> --
+> 2.26.1
+
+
 
