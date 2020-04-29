@@ -2,97 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A641BDB43
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 14:00:48 +0200 (CEST)
-Received: from localhost ([::1]:42394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440AE1BDB36
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 13:58:20 +0200 (CEST)
+Received: from localhost ([::1]:36012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTlOR-00015t-Ja
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 08:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51480)
+	id 1jTlM3-0006sX-8m
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 07:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51558)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTlKh-0005HB-CQ
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:56:55 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jTlL5-0005ud-Nc
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:57:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jTlKg-0004FK-NB
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:56:55 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33451
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jTlKg-0004FD-9E
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:56:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588161413;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=il7bRSL0ZmjCLl39OJc1FAVf8D8/TFCXIYTbJI3H3HU=;
- b=NXq/7ZIDLDp+TNpqG9GEHeO8FZyWbQwhSnMfEdJiJCZnaahj6Xee2uj3C2YUblEQCKCgkz
- PThXpLvh8AT/NpZBujqE71a1LFg/C3ZkdGbVcT1YFq8l6zrjLvVnYUAm3YRE+BCpa6kmqI
- Sdx4xlWN49tUoY/lMZmT9DH8pMt3djE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-LS8Z3fboPOGq65eAu1ZrAA-1; Wed, 29 Apr 2020 07:56:51 -0400
-X-MC-Unique: LS8Z3fboPOGq65eAu1ZrAA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15FDC18957EA;
- Wed, 29 Apr 2020 11:56:50 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-19.ams2.redhat.com
- [10.36.113.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEA3F5D9C9;
- Wed, 29 Apr 2020 11:56:48 +0000 (UTC)
-Subject: Re: [PATCH v3 4/5] block/block-copy: refactor task creation
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200429061039.12687-1-vsementsov@virtuozzo.com>
- <20200429061039.12687-5-vsementsov@virtuozzo.com>
- <affc8770-2b70-c3e4-af1b-ca620119c2d5@redhat.com>
- <92dd552d-b181-5b39-c796-e228c4d33379@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <0f14b02d-884a-9581-f1c7-7133e6d36557@redhat.com>
-Date: Wed, 29 Apr 2020 13:56:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <alex.bennee@linaro.org>) id 1jTlL3-0004IC-MA
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:57:19 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jTlL3-0004HU-2O
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 07:57:17 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id x25so1720683wmc.0
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 04:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ABaujoye9FH8Kn3mODUHNZENQ/20wQwwCcjRa8QRCmk=;
+ b=BKVH2GTbCGcWnDuh4+dfUOUJhFhFw6WrNDzqPW//pJbKz6SaGqKwrGqQXwBweMfm6Q
+ 6B6OGs/yUGUc/e9mCxIl2XBUxzp1jVJOHPMimjoPM749eD3qdGXg63Aj8mWVHRq0eEmm
+ KV/jX5osat5eK4DJFa2cK1kTAHXVCtowF5aBrDZMYeKNNwJDTeYqJqDkVKcU9cc7XIZg
+ KLY1WZFqxxYEssJwGoJkIK5CqlnAFIhThpOj0zxKqtBnquQ8hRoD+rPV9hBCZc0HytJ5
+ Kded8p+OG+xSb5uve5gLUQ3MFGh/NzRlnaNEt3Js6VGvFwXTuDIAdLC/xwA6WSl1++nH
+ TfRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=ABaujoye9FH8Kn3mODUHNZENQ/20wQwwCcjRa8QRCmk=;
+ b=GmuXXT8sVeDlxZ9rxp7YqV6GHm6bOz4G2bZgU9XiP5k/z0grJKoqiswu2H5X7GD/Y3
+ IFs2b9Ln6tH3Herf+Lc/fSaB6ZA83LSKFjBDZSKGYajB5jw52Np0aiSzjJKQduD9YmHg
+ Suo/Hbjx4JLNLyJKDnYJ+r9o7AsBzoAqbQ9l+UB7ZGvAEVNl3kbZv08B7wVlJLWQJJ0m
+ 3G7Xwj4P/1rS9UN6DaikrrwQNXtdDCtsPHGqHXYkJ6ES82CVxbDoAI1C1XZu+qPa7DDv
+ g2WdG1r15fwdMzc0/gFgCviiHlUKKj9jsGthzensD7yA0cY/hnq9MJr7/bkJyKwJ1oTb
+ bzbw==
+X-Gm-Message-State: AGi0PuYJBDfTH31rngaWyqVfcrInETtkAmaCwsYVsvR0Z/qpyTcxwCVU
+ B2axsoWJF5LYipXMo7VD7VzmtA==
+X-Google-Smtp-Source: APiQypK78rWjgS6o9Zs5vjeHk5j0LHjv1JAPWRgvH/a/BGf2BQc687QXXGiNpKUoqrzktWC2oCX4MQ==
+X-Received: by 2002:a1c:2383:: with SMTP id j125mr2865314wmj.6.1588161435162; 
+ Wed, 29 Apr 2020 04:57:15 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s18sm31702703wra.94.2020.04.29.04.57.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Apr 2020 04:57:13 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 322811FF7E;
+ Wed, 29 Apr 2020 12:57:12 +0100 (BST)
+References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
+ <87lfmhl0xa.fsf@linaro.org>
+ <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
+ <87imhlkwun.fsf@linaro.org>
+ <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
+ <87ftcoknvu.fsf@linaro.org>
+ <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+User-agent: mu4e 1.4.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Dino Papararo <skizzato73@msn.com>
+Subject: Re: R: About hardfloat in ppc
+In-reply-to: <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+Date: Wed, 29 Apr 2020 12:57:12 +0100
+Message-ID: <871ro6ld2f.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <92dd552d-b181-5b39-c796-e228c4d33379@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ppfvitIFueypwC7zjHFrG9q2WiSCMP3Az"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:28:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::32a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,128 +90,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Programmingkid <programmingkidx@gmail.com>,
+ "luoyonggang@gmail.com" <luoyonggang@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ppfvitIFueypwC7zjHFrG9q2WiSCMP3Az
-Content-Type: multipart/mixed; boundary="lmiUEGV7HGegee5zpI1GHaB4U3ZOs4ErJ"
 
---lmiUEGV7HGegee5zpI1GHaB4U3ZOs4ErJ
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Dino Papararo <skizzato73@msn.com> writes:
 
-On 29.04.20 13:54, Vladimir Sementsov-Ogievskiy wrote:
-> 29.04.2020 14:38, Max Reitz wrote:
->> On 29.04.20 08:10, Vladimir Sementsov-Ogievskiy wrote:
->>> Instead of just relying on the comment "Called only on full-dirty
->>> region" in block_copy_task_create() let's move initial dirty area
->>> search directly to block_copy_task_create(). Let's also use effective
->>> bdrv_dirty_bitmap_next_dirty_area instead of looping through all
->>> non-dirty clusters.
+> Hello,
+> about handling of PPC fpu exceptions and Hard Floats support we could con=
+sider a different approach for different instructions.
+> i.e. not all fpu instructions take care about inexact or exceptions bits:=
+ if I take a simple fadd f0,f1,f2 I'll copy value derived from adding f1+f2=
+ into f1 register and no one will check about inexact or exception bits rai=
+sed into FPSCR register.
+> Instead if I'll take fadd. f0,f1,f2 the dot following the add instruction=
+s means I want take inexact or exceptions bits into account.
+> So I could use hard floats for first case and softfloats for second case.
+> Could this be a fast solution to start implement hard floats for PPC??
+
+While it may be true that normal software practice is not to read the
+exception registers for every operation we can't base our emulation on
+that. We must always be able to re-create the state of the exception
+registers whenever they may be read by the program. There are 3 cases
+this may happen:
+
+  - a direct read of the inexact register
+  - checking the sigcontext of a synchronous exception (e.g. fault)
+  - checking the sigcontext of an asynchronous exception (e.g. timer/IPI)
+
+Given the way the translator works we can simplify the asynchronous case
+because we know they are only ever delivered at the start of translated
+blocks. We must have a fully rectified system state at the end of every
+block. So lets consider some cases:
+
+  fpOpA
+  clear flags
+  fpOpB
+  clear flags
+  fpOpC
+  read flags
+
+Assuming we know the fpOps can't generate exceptions we can know that
+only fpOpC will ever generate a user visible floating point flags so we
+can indeed use hardfloat for fpOpA and fpOpB. However if we see the
+pattern:
+
+  fpOpA
+  ld/st
+  clear flags
+  fpOpB
+  read flags
+
+we must have the fully rectified version of the flags because the ld/st
+may fault. However it's not guaranteed it will fault so we could defer
+the flag calculation for fpOpA until such time as we need it. The
+easiest way would be to save the values going into the operation and
+then re-run it in softfloat when required (hopefully never ;-).
+
+A lot will depend on the behaviour of the architecture. For example:
+
+  fpOpA
+  fpOpB
+  read flags
+
+whether or not we need to be able to calculate the flags for fpOpA will
+depend on if fpOpB completely resets the flags visible or if the result
+is additive.
+
+So in short I think there may be scope for using hardfloat but it will
+require knowledge of front-end knowing if it is safe to skip flag
+calculation in particular cases. We might even need support within TCG
+for saving (and marking) temporaries over potentially faulting
+boundaries so these lazy evaluations can be done. We can certainly add a
+fp-status less set of primitives to softfloat which can use the
+hardfloat path when we know we are using normal numbers.
+
+>
+> A little of documentation here: http://mirror.informatimago.com/next/deve=
+loper.apple.com/documentation/mac/PPCNumerics/PPCNumerics-154.html
+>
+> Regards,
+> Dino Papararo
+>
+> -----Messaggio originale-----
+> Da: Qemu-devel <qemu-devel-bounces+skizzato73=3Dmsn.com@nongnu.org> Per c=
+onto di Alex Benn=C3=A9e
+> Inviato: marted=C3=AC 28 aprile 2020 10:37
+> A: luoyonggang@gmail.com
+> Cc: qemu-ppc@nongnu.org; qemu-devel@nongnu.org
+> Oggetto: Re: About hardfloat in ppc
+>
+>
+> =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
+>
+>> I am confusing why only  inexact  are set then we can use hard-float.
+>
+> The inexact behaviour of the host hardware may be different from the gues=
+t architecture we are trying to emulate and the host hardware may not be co=
+nfigurable to emulate the guest mode.
+>
+> Have a look in softfloat.c and see all the places where float_flag_inexac=
+t is set. Can you convince yourself that the host hardware will do the same?
+>
+>> And PPC always clearing inexact  flag before calling to soft-float=20
+>> funcitons. so we can not optimize it with hard-float.
+>> I need some resouces about ineact flag and why always clearing inexcat=20
+>> in PPC FP simualtion.
+>
+> Because that is the behaviour of the PPC floating point unit. The inexact=
+ flag will represent the last operation done.
+>
+>> I am looking for two possible solution:
+>> 1. do not clear inexact flag in PPC simulation 2. even the inexact are=20
+>> cleared, we can still use alternative hard-float.
+>>
+>> But now I am the beginner, Have no clue about all the things.
+>
+> Well you'll need to learn about floating point because these are rather f=
+undamental aspects of it's behaviour. In the old days QEMU used to use the =
+host floating point processor with it's template based translation.
+> However this led to lots of weird bugs because the floating point answers=
+ under qemu where different from the target it was trying to emulate. It wa=
+s for this reason softfloat was introduced. The hardfloat optimisation can =
+only be done when we are confident that we will get the exact same answer o=
+f the target we are trying to emulate - a "faster but incorrect" mode is ju=
+st going to cause confusion as discussed in the previous thread. Have you r=
+ead that yet?
+>
+>>
+>> On Mon, Apr 27, 2020 at 7:10 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+>>
 >>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
->>> =A0 block/block-copy.c | 78 ++++++++++++++++++++++++++-----------------=
----
->>> =A0 1 file changed, 44 insertions(+), 34 deletions(-)
+>>> BALATON Zoltan <balaton@eik.bme.hu> writes:
 >>>
->>> diff --git a/block/block-copy.c b/block/block-copy.c
->>> index 35ff9cc3ef..5cf032c4d8 100644
->>> --- a/block/block-copy.c
->>> +++ b/block/block-copy.c
->>
->> [...]
->>
->>> @@ -106,17 +111,27 @@ static bool coroutine_fn
->>> block_copy_wait_one(BlockCopyState *s, int64_t offset,
->>> =A0=A0=A0=A0=A0 return true;
->>> =A0 }
->>> =A0 -/* Called only on full-dirty region */
->>> +/*
->>> + * Search for the first dirty area in offset/bytes range and create
->>> task at
->>> + * the beginning of it.
->>
->> Oh, that=92s even better.
->>
->>> + */
->>> =A0 static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
->>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 int64=
-_t offset,
->>> int64_t bytes)
->>> =A0 {
->>> -=A0=A0=A0 BlockCopyTask *task =3D g_new(BlockCopyTask, 1);
->>> +=A0=A0=A0 if (!bdrv_dirty_bitmap_next_dirty_area(s->copy_bitmap,
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 offset, offset + =
-bytes,
->>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 s->copy_size, &of=
-fset,
->>> &bytes))
->>> +=A0=A0=A0 {
->>> +=A0=A0=A0=A0=A0=A0=A0 return NULL;
->>> +=A0=A0=A0 }
->>> =A0 +=A0=A0=A0 /* region is dirty, so no existent tasks possible in it =
-*/
->>> =A0=A0=A0=A0=A0 assert(!find_conflicting_task(s, offset, bytes));
->>> =A0 =A0=A0=A0=A0=A0 bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, byt=
-es);
->>> =A0=A0=A0=A0=A0 s->in_flight_bytes +=3D bytes;
->>> =A0 +=A0=A0=A0 BlockCopyTask *task =3D g_new(BlockCopyTask, 1);
->>
->> This should be declared at the top of the function.
->>
->=20
-> I just thought, why not to try another style? Are you against?
-> Requirement to declare variables at start of block is obsolete, isn't it?
+>>> > On Mon, 27 Apr 2020, Alex Benn=C3=A9e wrote:
+>>> >> =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> wr=
+ites:
+>>> >>> Because ppc fpu-helper are always clearing float_flag_inexact, So=20
+>>> >>> is that possible to optimize the performance when
+>>> float_flag_inexact
+>>> >>> are cleared?
+>>> >>
+>>> >> There was some discussion about this in the last thread about=20
+>>> >> enabling hardfloat for PPC. See the thread:
+>>> >>
+>>> >>  Subject: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
+>>> >>  Date: Tue, 18 Feb 2020 18:10:16 +0100
+>>> >>  Message-Id: <20200218171702.979F074637D@zero.eik.bme.hu>
+>>> >
+>>> > I've answered this already with link to that thread here:
+>>> >
+>>> > On Fri, 10 Apr 2020, BALATON Zoltan wrote:
+>>> > : Date: Fri, 10 Apr 2020 20:04:53 +0200 (CEST)
+>>> > : From: BALATON Zoltan <balaton@eik.bme.hu>
+>>> > : To: "=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo)" <luoyonggang@gmail.=
+com>
+>>> > : Cc: qemu-devel@nongnu.org, Mark Cave-Ayland, John Arbuckle,
+>>> qemu-ppc@nongnu.org, Paul Clarke, Howard Spoelstra, David Gibson
+>>> > : Subject: Re: [RFC PATCH v2] target/ppc: Enable hardfloat for PPC
+>>> > :
+>>> > : On Fri, 10 Apr 2020, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrot=
+e:
+>>> > :> Are this stable now? I'd like to see hard float to be landed:)
+>>> > :
+>>> > : If you want to see hardfloat for PPC then you should read the=20
+>>> > replies to : this patch which can be found here:
+>>> > :
+>>> > : http://patchwork.ozlabs.org/patch/1240235/
+>>> > :
+>>> > : to understand what's needed then try to implement the solution=20
+>>> > with FP : exceptions cached in a global that maybe could work. I=20
+>>> > won't be able to : do that as said here:
+>>> > :
+>>> > :=20
+>>> > https://lists.nongnu.org/archive/html/qemu-ppc/2020-03/msg00006.htm
+>>> > l
+>>> > :
+>>> > : because I don't have time to learn all the details needed. I think :
+>>> > others are in the same situation so unless somebody puts in the :
+>>> > necessary effort this won't change.
+>>> >
+>>> > Which also had a proposed solution to the problem that you could=20
+>>> > try to implement, in particular see this message:
+>>> >
+>>> >
+>>> http://patchwork.ozlabs.org/project/qemu-devel/patch/20200218171702.9
+>>> 79F074637D@zero.eik.bme.hu/#2375124
+>>> >
+>>> > amd Richard's reply immediately below that. In short to optimise=20
+>>> > FPU emulation we would either find a way to compute inexact flag=20
+>>> > quickly without reading the FPU status (this may not be possible)=20
+>>> > or somehow get status from the FPU but the obvious way of claring=20
+>>> > the flag and reading them after each operation is too slow. So=20
+>>> > maybe using exceptions and only clearing when actually there's a=20
+>>> > change could be faster.
+>>> >
+>>> > As to how to use exceptions see this message in above thread:
+>>> >
+>>> > https://lists.nongnu.org/archive/html/qemu-ppc/2020-03/msg00005.htm
+>>> > l
+>>> >
+>>> > But that's only to show how to hook in an exception handler what it=20
+>>> > does needs to be implemented. Then tested and benchmarked.
+>>> >
+>>> > I still don't know where are the extensive PPC floating point tests=20
+>>> > to use for checking results though as that was never answered.
+>>>
+>>> Specifically for PPC we don't have them. We use the softfloat test=20
+>>> cases to exercise our softfloat/hardfloat code as part of "make=20
+>>> check-softfloat". You can also re-build fp-bench for each guest=20
+>>> target to measure raw throughput.
+>>>
+>>> >> However in short the problem is if the float_flag_inexact is clear=20
+>>> >> you must use softfloat so you can properly calculate the inexact=20
+>>> >> status. We can't take advantage of the inexact stickiness without=20
+>>> >> loosing the fidelity of the calculation.
+>>> >
+>>> > I still don't get why can't we use hardware via exception handler=20
+>>> > to detect flags for us and why do we only use hardfloat in some=20
+>>> > corner cases. If reading the status is too costly then we could=20
+>>> > mirror it in a global which is set by an FP exception handler.=20
+>>> > Shouldn't that be faster? Is there a reason that can't work?
+>>>
+>>> It would work but it would be slow. Almost every FP operation sets=20
+>>> the inexact flag so it would generate an exception and exceptions=20
+>>> take time to process.
+>>>
+>>> For the guests where we use hardfloat operations with inexact already=20
+>>> latched is not a corner case - it is the common case which is why it=20
+>>> helps.
+>>>
+>>> >
+>>> > Regards,
+>>> > BALATON Zoltan
+>>>
+>>>
+>>> --
+>>> Alex Benn=C3=A9e
+>>>
 
-Oh, it absolutely is and personally I=92m absolutely not against it, but
-CODING_STYLE says:
 
-> Mixed declarations (interleaving statements and declarations within
-> blocks) are generally not allowed; declarations should be at the beginnin=
-g                                                                          =
-                                                                           =
-             =20
-> of blocks.
-
-Max
-
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->>
->>> =A0=A0=A0=A0=A0 *task =3D (BlockCopyTask) {
->>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .s =3D s,
->>> =A0=A0=A0=A0=A0=A0=A0=A0=A0 .offset =3D offset,
->>
->=20
->=20
-
-
-
---lmiUEGV7HGegee5zpI1GHaB4U3ZOs4ErJ--
-
---ppfvitIFueypwC7zjHFrG9q2WiSCMP3Az
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6pa38ACgkQ9AfbAGHV
-z0BSaAf+LeR893RGiZRPy1fJ6kKDf1jMHnZLwfqfWUtrcWAt7DULq7li4XzC2f7q
-chEVcR+QglrF3ra3UwDufIIb5I/5LfWsownK2qYwxwd1FPhsO/Ngm210QoX4HBEX
-gE3UK3KtbpLv2+NdXnUXXRZ/m5OyYIF/zTYO5JD/PSgBuD2mtLNipvy1Ev93WtBM
-aj4A7eAgJFCygdESrUSKFrPdWfSl+cpPlkb2C65KFrz8TBGWvUIemsIyNDB4Hx3h
-dHsOwCRomA0DepmBgxoFR+2I9wgKZRC4/iZpr5L5zvvhSadaSXsHmQicxmsIFaJj
-KewvABE9km+xJb3rgj2q1omkETVhZw==
-=RwEF
------END PGP SIGNATURE-----
-
---ppfvitIFueypwC7zjHFrG9q2WiSCMP3Az--
-
+--=20
+Alex Benn=C3=A9e
 
