@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE061BE1BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:53:27 +0200 (CEST)
-Received: from localhost ([::1]:57476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB4C1BE1C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Apr 2020 16:54:25 +0200 (CEST)
+Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTo5W-0008HV-5d
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51484)
+	id 1jTo6S-0002j8-IA
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 10:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTo3t-0006YA-Pz
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:51:46 -0400
+ (envelope-from <eblake@redhat.com>) id 1jTo4S-000727-DW
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:52:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jTo3t-0004Pw-9Q
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:51:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29121
+ (envelope-from <eblake@redhat.com>) id 1jTo4R-0004c4-37
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:52:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40838
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTo3s-0004Pg-QS
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:51:44 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jTo4Q-0004br-Mq
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 10:52:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588171903;
+ s=mimecast20190719; t=1588171938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wodWAGD6WGAUCYF3RDzIA+/6y76z8W08pN26qZ27+VE=;
- b=eB5xMltB32+N6Cc5aEa8yix4lfJ+fsmYHNjc5byHE3lR/54ua/aZB0Om0bDGFpG57Zral4
- KH3Uce5nzKXbSUNQtfMMPnQZsK4sjJtJHJZ+TaIhQeLibYSiA0OYFemA3g3sqhsEIFvcbl
- BsgkppPsF92MDfzdTEDZBxkkaHfUPYQ=
+ bh=UFTxqrHdb3Fxmn+49gxrBLqSvLSZ7TXc9O+OWjQyAGM=;
+ b=IOdp4AbyMVy2vdpGGsYaKy1/sDWtBSytW2XNB1PQBa9RedvFItGu7h4FgIASQu5RpH3N3s
+ Axglo07rMi05DXGaLgb2vOom4rmS5r/V2XnZQ6hjocTZgY4n9wxExMazLPQ+uszkRBYQvI
+ DriJ5DWwLgkmdZzMyEQ354kHXg9kVBE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-kyRkLoiQNeeIk9W1VUUTbg-1; Wed, 29 Apr 2020 10:51:39 -0400
-X-MC-Unique: kyRkLoiQNeeIk9W1VUUTbg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-407-_AHK4wJDOcauLIaDV2FIHg-1; Wed, 29 Apr 2020 10:52:16 -0400
+X-MC-Unique: _AHK4wJDOcauLIaDV2FIHg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAC601B18BC1;
- Wed, 29 Apr 2020 14:51:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EF1783DD59;
+ Wed, 29 Apr 2020 14:52:15 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D7A6360BF4;
- Wed, 29 Apr 2020 14:51:37 +0000 (UTC)
-Subject: Re: [PATCH v2 1/4] block: Add bdrv_make_empty()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F27A65C296;
+ Wed, 29 Apr 2020 14:52:13 +0000 (UTC)
+Subject: Re: [PATCH v2 3/4] block: Add blk_make_empty()
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200429141126.85159-1-mreitz@redhat.com>
- <20200429141126.85159-2-mreitz@redhat.com>
+ <20200429141126.85159-4-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <138748c4-3316-ec43-00dd-22b02dac5d7c@redhat.com>
-Date: Wed, 29 Apr 2020 09:51:36 -0500
+Message-ID: <334b4045-0321-697f-b93e-a0cf78018c07@redhat.com>
+Date: Wed, 29 Apr 2020 09:52:12 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200429141126.85159-2-mreitz@redhat.com>
+In-Reply-To: <20200429141126.85159-4-mreitz@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:42:37
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 01:18:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,19 +83,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/29/20 9:11 AM, Max Reitz wrote:
-> Right now, all users of bdrv_make_empty() call the BlockDriver method
-> directly.  That is not only bad style, it is also wrong, unless the
-> caller has a BdrvChild with a WRITE or WRITE_UNCHANGED permission.
-> (WRITE_UNCHANGED suffices, because callers generally use this function
-> to clear a node with a backing file after a commit operation.)
-> 
-> Introduce bdrv_make_empty() that verifies that it does.
+> Two callers of BlockDriver.bdrv_make_empty() remain that should not call
+> this method directly.  Both do not have access to a BdrvChild, but they
+> can use a BlockBackend, so we add this function that lets them use it.
 > 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->   include/block/block.h |  1 +
->   block.c               | 23 +++++++++++++++++++++++
->   2 files changed, 24 insertions(+)
+>   include/sysemu/block-backend.h |  2 ++
+>   block/block-backend.c          | 10 ++++++++++
+>   2 files changed, 12 insertions(+)
 > 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
