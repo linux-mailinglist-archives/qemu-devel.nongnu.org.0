@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794021C02B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:37:30 +0200 (CEST)
-Received: from localhost ([::1]:51942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C496A1C02AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:36:42 +0200 (CEST)
+Received: from localhost ([::1]:47486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUCBl-0005Iw-Do
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49288)
+	id 1jUCAz-0003Ks-Nu
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49292)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUC2u-0001VL-N4
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:22 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUC2v-0001Vh-98
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUC2t-0006Ll-02
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:20 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:39140)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUC2u-0006M1-Dc
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:21 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41677)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUC2s-0006LS-K6
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:18 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id e6so906728pjt.4
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 09:28:18 -0700 (PDT)
+ id 1jUC2u-0006Lj-10
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:20 -0400
+Received: by mail-pl1-x643.google.com with SMTP id d24so2419335pll.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 09:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=60NHpUUrot7w8V6Qsa37kh//ITveCZoOpAk4TR6uozc=;
- b=WGRsa/jb4slKUiLxKpF6qoZYYNfNvBuoETV4tG9wSE13m/jUvjchzXgxa1rSfXRT13
- /CgcsPHr5LCUILO9VY7BX6SJ0SKYsIcXP/+LJp+Wnm0J7TR61kaqy9QLdomzo+4TmcbS
- 8NaP9oQ7Sj/L/sgx5tLQoQA9VUziIuJ/QE3IFF6TPF2hhYxagvojGDS0wLwBA4Dw6R94
- AI1HRxQ5a0GgFG0uYtwZUkbSXyonU60+rLJCwmAOePsqnvCichA8WvF2yFaX5OZa8CXd
- Vm3AiDeIgL29yTuSip76/6rIkEF6nj5BQmDXHNGZBxDUqpeXht7GY/re6SoEQG9VkGPL
- cq6w==
+ bh=NN/QLBosnfSE6MOjBuSmBLZSNupnPgsxwETGi0A5VuM=;
+ b=WCIbL0bHsTglQoIoaV8dyoQZjDmKocpOyvRdoC8SvDDaqqiyH3LxUHNSqbZihRxZuC
+ q0JK8p3wVhQJPrVsX5Pefqmom8aFFecProtRAdi2QBmdB2sZP7ynniCEtXAw26pshi3C
+ TBW8Z01g73qysRU9zW3Wo1rPUirGki9f8KtM2fCHeywQFdrku07uUENIuNPlAEBNmEdO
+ 9VSXNkRaGYD7pxS7y8K2MUrHWcfr2zvB1xH3TmdNl2utAqy76LINo1eqp/nyYsdMg0y+
+ 2AsgpL6aMkVjfnVRFNf75IMDr7y6wihY4yQL2bfK6SaXyF/l7oaOsiay+uPhHa6qSS0W
+ eisA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=60NHpUUrot7w8V6Qsa37kh//ITveCZoOpAk4TR6uozc=;
- b=U2sTDm8bu4TxoTM1mTlhQk2pzKjCLA7YVvOHOMeUPp+FP2RjHO8OMcncXwHKiLEb4N
- VdptbqmgcfRxPVZZ+9RmdoOdg0aK/16lzr88Wl/YvrqX9TJqBVXjcf7bVnsawMKoxb01
- W/QjMM05PBIT2FLnEraqSmBrSAyTxmv2VVl3e1zYr55RTWwdq2yZLyf2R6IpeoIj3xfm
- pUHpZA99xqnIQlkX91uRnLCeHkyl8MVk0C9jUnCI3wpZVPjSE49luEA/YD286oF4uKmG
- 4DV4mgfOk0M0c22kmUpneOUEfVb4RLEWC9AqMPnaL7sMY+qf493/JcxdBv3aVJhsEmd/
- +MAA==
-X-Gm-Message-State: AGi0PuYtS+wNALYl01ARIvlHWO0ORGOU4Vu2SNtEo/cjAWayrh3PwRBm
- qKXiksg00ZP0Q9MtIESlJWXVm1fgfVM=
-X-Google-Smtp-Source: APiQypLRep7am6BYi3UWF0K0/qL9z+NQ/MzqfEVLPSGG2uEcEuDFNSVloqUi2msTAFcB50uO3YGOEw==
-X-Received: by 2002:a17:90a:276a:: with SMTP id
- o97mr3964206pje.194.1588264096700; 
- Thu, 30 Apr 2020 09:28:16 -0700 (PDT)
+ bh=NN/QLBosnfSE6MOjBuSmBLZSNupnPgsxwETGi0A5VuM=;
+ b=XUgCryIH27SnXh0Rdijo/lW8EFQRLvqw4TCg5OCSAhb/wy42BJ4OEYqh+J8gmniARi
+ +OMkEosDwQaFuWpUslp6TAEBV2jEEZKqLtB90/PUBI3tDOYOJoI6OE/5Igbv9zX1J5Uz
+ YiFs9WS4zrNYbimUydJNEWPj5EzHQNDYCQ5qIWGscZq1xvunKxqpvBgnfv/NwTLb79Xl
+ 6Q0DM6XXW/Kf2IZiERaASBIp9zUIblUBj6mDM8e1yisInJo8mWqZ+8lES5XV6tLuoMPu
+ x4bsJ4plmnK1MaIQFwxCGVNnPBi3MajMpVUdEAFVv2n6xweSqkHkJ93iGmQ67pPVaKcW
+ 14tw==
+X-Gm-Message-State: AGi0PubvG3us572knfY3Nk2U3VNtA96WPer4qXsAQfQMuBeB0Zkv1ZDG
+ 0TWPqXraggZtdwwpSAsX6JEpzEwpLqE=
+X-Google-Smtp-Source: APiQypKxTlpcwir3lVQyzL3kUuPn3bbW4QxX3SQFCoNPWkTXBJneR0D8mhIelE2MlQzEpjmEG7WHUA==
+X-Received: by 2002:a17:90a:de8d:: with SMTP id
+ n13mr3686027pjv.173.1588264098026; 
+ Thu, 30 Apr 2020 09:28:18 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id j5sm243514pfh.58.2020.04.30.09.28.15
+ by smtp.gmail.com with ESMTPSA id j5sm243514pfh.58.2020.04.30.09.28.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 09:28:16 -0700 (PDT)
+ Thu, 30 Apr 2020 09:28:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/18] exec: Add block comments for watchpoint routines
-Date: Thu, 30 Apr 2020 09:27:56 -0700
-Message-Id: <20200430162813.17671-2-richard.henderson@linaro.org>
+Subject: [PATCH v4 02/18] exec: Fix cpu_watchpoint_address_matches address
+ length
+Date: Thu, 30 Apr 2020 09:27:57 -0700
+Message-Id: <20200430162813.17671-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430162813.17671-1-richard.henderson@linaro.org>
 References: <20200430162813.17671-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::1041
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,48 +87,28 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The only caller of cpu_watchpoint_address_matches passes
+TARGET_PAGE_SIZE, so the bug is not currently visible.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 5bf94d28cf..07f7698155 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -1100,8 +1100,31 @@ int cpu_watchpoint_remove(CPUState *cpu, vaddr addr,
-                           vaddr len, int flags);
- void cpu_watchpoint_remove_by_ref(CPUState *cpu, CPUWatchpoint *watchpoint);
- void cpu_watchpoint_remove_all(CPUState *cpu, int mask);
-+
-+/**
-+ * cpu_check_watchpoint:
-+ * @cpu: cpu context
-+ * @addr: guest virtual address
-+ * @len: access length
-+ * @attrs: memory access attributes
-+ * @flags: watchpoint access type
-+ * @ra: unwind return address
-+ *
-+ * Check for a watchpoint hit in [addr, addr+len) of the type
-+ * specified by @flags.  Exit via exception with a hit.
-+ */
- void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                           MemTxAttrs attrs, int flags, uintptr_t ra);
-+
-+/**
-+ * cpu_watchpoint_address_matches:
-+ * @cpu: cpu context
-+ * @addr: guest virtual address
-+ * @len: access length
-+ *
-+ * Return the watchpoint flags that apply to [addr, addr+len).
-+ * If no watchpoint is registered for the range, the result is 0.
-+ */
- int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len);
- #endif
+diff --git a/exec.c b/exec.c
+index 2874bb5088..5162f0d12f 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1127,7 +1127,7 @@ int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
+     int ret = 0;
  
+     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+-        if (watchpoint_address_matches(wp, addr, TARGET_PAGE_SIZE)) {
++        if (watchpoint_address_matches(wp, addr, len)) {
+             ret |= wp->flags;
+         }
+     }
 -- 
 2.20.1
 
