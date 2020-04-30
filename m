@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430E11BF9E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:48:30 +0200 (CEST)
-Received: from localhost ([::1]:39034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034311BF9BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:40:25 +0200 (CEST)
+Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU9YD-0006o6-6U
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:48:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48612)
+	id 1jU9QL-0002xw-SP
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:40:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47696)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9OS-0001mE-MB
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:40:00 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jU9KQ-0007xB-LW
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:37:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9Lm-0007OX-Uo
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:38:24 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60206)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jU9Lm-0007NQ-GJ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:35:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jU9Lj-0005Bv-Tk
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:35:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DF3242E8107
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:35:35 +0000 (UTC)
+ (envelope-from <kwolf@redhat.com>) id 1jU9Gf-0003zo-Ka
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:34:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44292
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jU9Ge-0003w6-T2
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:30:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588253419;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nO+EmsvP2uNZFX8yiB87NgL2rmnR5sL9kPGCcHzAwbc=;
+ b=VXDo02I9Ns8hk+1kUIAGkits4yWA/Cav6uTvaumCNOWUw8muruyzBHX2Dy5tNKBdwzDztJ
+ 95+GcuSSPGtAh5Dq7M3kzchc16ek7yoTG7/yYsm9iq9Kx2FrikZhPwnRYfIkW3CWMmsJGs
+ Ix9Ab9HNjUvV/7Fwjc9E31hG9vdSW8A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-KiW_9laAOZCQFJz5N20Nvg-1; Thu, 30 Apr 2020 09:30:17 -0400
+X-MC-Unique: KiW_9laAOZCQFJz5N20Nvg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3B6C872FE4;
+ Thu, 30 Apr 2020 13:30:16 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-60.ams2.redhat.com [10.36.114.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2F2466071;
+ Thu, 30 Apr 2020 13:30:15 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/6] vmdk: Fix zero cluster handling
+Date: Thu, 30 Apr 2020 15:30:01 +0200
+Message-Id: <20200430133007.170335-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Apr 2020 13:29:37 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jfreche laurent-vivier rth
-X-Launchpad-Bug-Reporter: Julien Freche (jfreche)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <158198492915.29307.8701397558481624318.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158825337840.14318.12325608455470088043.launchpad@gac.canonical.com>
-Subject: [Bug 1863685] Re: ARM: HCR.TSW traps are not implemented
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 74743b6a72a026b07a38513f28fe8f59c5d8e433
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:35:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 91.189.90.7
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,38 +70,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863685 <1863685@bugs.launchpad.net>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+What I was really investigating is why 055 was so slow. I couldn't solve
+that, but instead I found out that our VMDK code for zero clusters and
+write_zeroes was completely broken. Apart from segfaults when zero
+clusters were actually enabled, this caused a compressed backup target
+to result in a bigger file than uncompressed with VMDK.
 
--- =
+This series tries to fix it (with one bonus performance patch).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863685
+Kevin Wolf (6):
+  vmdk: Rename VmdkMetaData.valid to new_allocation
+  vmdk: Fix zero cluster allocation
+  vmdk: Fix partial overwrite of zero cluster
+  vmdk: Don't update L2 table for zero write on zero cluster
+  vmdk: Flush only once in vmdk_L2update()
+  iotests: vmdk: Enable zeroed_grained=3Don by default
 
-Title:
-  ARM: HCR.TSW traps are not implemented
+ block/vmdk.c             | 47 +++++++++++++++++++++++++---------------
+ tests/qemu-iotests/059   |  6 ++---
+ tests/qemu-iotests/check |  3 +++
+ 3 files changed, 35 insertions(+), 21 deletions(-)
 
-Status in QEMU:
-  Fix Released
+--=20
+2.25.3
 
-Bug description:
-  On 32-bit and 64-bit ARM platforms, setting HCR.TSW is supposed to
-  "Trap data or unified cache maintenance instructions that operate by
-  Set/Way." Quoting the ARM manual:
-
-  If EL1 is using AArch64 state, accesses to DC ISW, DC CSW, DC CISW are tr=
-apped to EL2, reported using EC syndrome value 0x18.
-  If EL1 is using AArch32 state, accesses to DCISW, DCCSW, DCCISW are trapp=
-ed to EL2, reported using EC syndrome value 0x03.
-
-  However, QEMU does not trap those instructions/registers. This was
-  tested on the branch master of the git repo.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863685/+subscriptions
 
