@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93D31BF701
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:41:46 +0200 (CEST)
-Received: from localhost ([::1]:38268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7961BF704
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:43:17 +0200 (CEST)
+Received: from localhost ([::1]:43678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7ZZ-0000ED-Ma
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:41:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
+	id 1jU7b2-0002Oq-9d
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:43:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60582)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <jcmvbkbc@gmail.com>) id 1jU7YN-0007P9-Fl
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:40:33 -0400
+ (envelope-from <berrange@redhat.com>) id 1jU7Z0-0008Rz-6O
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:41:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <jcmvbkbc@gmail.com>) id 1jU7XY-0007fH-ES
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:40:31 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41205)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jcmvbkbc@gmail.com>)
- id 1jU7XY-0007ex-0H; Thu, 30 Apr 2020 07:39:40 -0400
-Received: by mail-pl1-x642.google.com with SMTP id d24so2144560pll.8;
- Thu, 30 Apr 2020 04:39:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8DXEi3YX32S2HP+Om4VmIl6UeOwrxPzxC3D+Nx/dkrw=;
- b=X3wvticTXNuMrfJVSGu7v8BB3Ux8GVOoVg6rDo0YE3D89+tCMS3gN26LSJQWJfGuPS
- 2hhnUatlkMh+Ec+PooGWHD//m98NDXECqNHuo3k9AJPljzM+9B2UR2V7f/Y3CC2dxCEc
- C8Ey/uIX5SCgjNzHmFhsU5NUAYqzsof+ahX6Ig4XXolB9RbWf0ZUNElPcI1r/yyxClu7
- PYS57DRXdUj+TVq1yPxZncWQYd6sHTpUjOY7RoeOmGr3SJuruu7I+hZgBLApMuQabv3U
- HWK1T7uaWbICy+qBWVYdMCrloN04M2cKIA9D3xpbmC+kms16KCxp1wfuvpgRHBC1wQwV
- P8Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8DXEi3YX32S2HP+Om4VmIl6UeOwrxPzxC3D+Nx/dkrw=;
- b=ji0h0uAQZ5Fka82Snp8XG2ZKzKva4D+JmXC1wV8k8OcRIbz/mWAZXRUhndK0JrX9Vd
- SXtMCiBV99Jxad4DGY8WayO3LjoMKWV3GQK0FRAPKMnfaN8ESjWjZ7BZKJfJ/zbbnd/4
- 5g8BCfoMV27sIF4l9AXSrSawc1eVtZYQyUt7ZazBMord9fOkQ78O1DluJJjWvIctA/ED
- s1BnTZelGmtsz6fW/VIxW/s+CybywPBZpkt87YGGTilP6uk1YJnBjW/FquY3ne6lIWbg
- oVa5+aA2mRuG4iWHzTOBezwP1crMNKIik4w4TRLPA8nYsPMdvNE2830obFXAVpyQGSuJ
- +Bcg==
-X-Gm-Message-State: AGi0PuaITryVUqr81N9TyErNlbAC7eGDXldWnXukuiN7HOJrJOQAdk81
- d54BOMRje+K8+BzzfhuuzhU8XFCs
-X-Google-Smtp-Source: APiQypJMjLTQa8LnWejvE9PXgij1KGKdwCrI4jhr35zKCc99bC/4GkzmXDiZ/Mc//ajjocwiNx8FIA==
-X-Received: by 2002:a17:90a:71c2:: with SMTP id
- m2mr2505072pjs.21.1588246777587; 
- Thu, 30 Apr 2020 04:39:37 -0700 (PDT)
-Received: from octofox.hsd1.ca.comcast.net
- ([2601:641:400:63f0:6080:6302:8919:92eb])
- by smtp.gmail.com with ESMTPSA id m3sm3068252pgt.27.2020.04.30.04.39.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:39:37 -0700 (PDT)
-From: Max Filippov <jcmvbkbc@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/xtensa: work around missing SR definitions
-Date: Thu, 30 Apr 2020 04:39:15 -0700
-Message-Id: <20200430113915.19550-1-jcmvbkbc@gmail.com>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <berrange@redhat.com>) id 1jU7Yz-0008SS-6N
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:41:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27636
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jU7Yy-0008SJ-KB
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:41:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588246867;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=i+ma8bu7QFZ8wvYWj/WDoAmkKQs+EpON/u4pTMOVcmg=;
+ b=Thkp0r+QRY4q6fR1LUWEOyCRoU7ZzUwZ+oXemFoECw3ukYaGgE52ek/ppGn8kB4Qe0RRvY
+ /3hOyfQLC90gvZAKcoRpbTRX5uNRNc0I4eb5URS7WDMY3nIIRq4KElznH3kDqPPz+ocloQ
+ n+iEusXcBuyiUNz3rUEBJ1OGR7yaAlA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-sYIIhYuKMx6pAtLsQKqbYQ-1; Thu, 30 Apr 2020 07:41:03 -0400
+X-MC-Unique: sYIIhYuKMx6pAtLsQKqbYQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACF16800D24;
+ Thu, 30 Apr 2020 11:40:59 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F27A67641;
+ Thu, 30 Apr 2020 11:40:45 +0000 (UTC)
+Date: Thu, 30 Apr 2020 12:40:41 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thanos Makatos <thanos.makatos@nutanix.com>
+Subject: Re: RFC: use VFIO over a UNIX domain socket to implement device
+ offloading
+Message-ID: <20200430114041.GN2084570@redhat.com>
+References: <MN2PR02MB62052E54C752229C115EAD898BCF0@MN2PR02MB6205.namprd02.prod.outlook.com>
+ <20200401091712.GA221892@stefanha-x1.localdomain>
+ <MW2PR02MB372349E25A0842DE045B95F58BD40@MW2PR02MB3723.namprd02.prod.outlook.com>
+ <20200422152930.GC47385@stefanha-x1.localdomain>
+ <MW2PR02MB372340D8EF74A43D64E67B728BAF0@MW2PR02MB3723.namprd02.prod.outlook.com>
+ <MW2PR02MB372319618A59DA06851BBFB48BAA0@MW2PR02MB3723.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=jcmvbkbc@gmail.com; helo=mail-pl1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::642
+In-Reply-To: <MW2PR02MB372319618A59DA06851BBFB48BAA0@MW2PR02MB3723.namprd02.prod.outlook.com>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,117 +83,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>, qemu-stable@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "Walker, Benjamin" <benjamin.walker@intel.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
+ "Harris, James R" <james.r.harris@intel.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
+ Kanth Ghatraju <Kanth.Ghatraju@oracle.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, "Zhang,
+ Tina" <tina.zhang@intel.com>, "Liu, Changpeng" <changpeng.liu@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Xtensa configuration overlays for recent releases may have special
-registers for which [rwx]sr opcodes are defined, but they are not listed
-as SR in xtensa_sysreg_name and associated functions. As a result
-generic translate_[rwx]sr* functions generate access to uninitialized
-cpu_SR causing segfault at runtime.
-Don't try to access cpu_SR for such registers, ignore writes and return
-0 for reads.
+On Thu, Apr 30, 2020 at 11:23:34AM +0000, Thanos Makatos wrote:
+> > > > I've just shared with you the Google doc we've working on with John
+> > > where we've
+> > > > been drafting the protocol specification, we think it's time for so=
+me first
+> > > > comments. Please feel free to comment/edit and suggest more people
+> > to
+> > > be on the
+> > > > reviewers list.
+> > > >
+> > > > You can also find the Google doc here:
+> > > >
+> > > >
+> > > https://urldefense.proofpoint.com/v2/url?u=3Dhttps-
+> > 3A__docs.google.com_document_d_1FspkL0hVEnZqHbdoqGLUpyC38rSk-
+> > 5F&d=3DDwIFAw&c=3Ds883GpUCOChKOHiocYtGcg&r=3DXTpYsh5Ps2zJvtw6ogtti46a
+> > tk736SI4vgsJiUKIyDE&m=3DlJC7YeMMsAaVsr99tmTYncQdjEfOXiJQkRkJW7NMg
+> > Rg&s=3DRyyhgVrLX2bBTqpXZnBmllqkCg_wyalxwZKkfcYt50c&e=3D
+> > > 7HhY471TsVwyK8/edit?usp=3Dsharing
+> > > >
+> > > > If a Google doc doesn't work for you we're open to suggestions.
+> > >
+> > > I can't add comments to the document so I've inlined them here:
+> > >
+> > > The spec assumes the reader is already familiar with VFIO and does no=
+t
+> > > explain concepts like the device lifecycle, regions, interrupts, etc.
+> > > We don't need to duplicate detailed VFIO information, but I think the
+> > > device model should be explained so that anyone can start from the
+> > > VFIO-user spec and begin working on an implementation.  Right now I
+> > > think they would have to do some serious investigation of VFIO first =
+in
+> > > order to be able to write code.
+> >=20
+> > I've added a high-level overview of how VFIO is used in this context.
+> >=20
+> > > "only the source header files are used"
+> > > I notice the current <linux/vfio.h> header is licensed "GPL-2.0 WITH
+> > > Linux-syscall-note".  I'm not a lawyer but I guess this means there a=
+re
+> > > some restrictions on using this header file.  The <linux/virtio*.h>
+> > > header files were explicitly licensed under the BSD license to make i=
+t
+> > > easy to use the non __KERNEL__ parts.
+> >=20
+> > My impression is that this note actually relaxes the licensing requirem=
+ents, so
+> > that proprietary software can use the system call headers and run on Li=
+nux
+> > without being considered derived work. In any case I'll double check wi=
+th our
+> > legal team.
+> >=20
+> > > VFIO-user Command Types: please indicate for each request type whethe=
+r
+> > > it is client->server, server->client, or both.  Also is it a "command=
+"
+> > > or "request"?
+> >=20
+> > Will do. It's a command.
+> >=20
+> >=20
+> > > vfio_user_req_type <-- is this an extension on top of <linux/vfio.h>?
+> > > Please make it clear what is part of the base <linux/vfio.h> protocol
+> > > and what is specific to vfio-user.
+> >=20
+> > Correct, it's an extension over <linux/vfio.h>. I've clarified the two =
+symbol
+> > namespaces.
+> >=20
+> >=20
+> > > VFIO_USER_READ/WRITE serve completely different purposes depending
+> > on
+> > > whether they are sent client->server or server->client.  I suggest
+> > > defining separate request type constants instead of overloading them.
+> >=20
+> > Fixed.
+> >=20
+> > > What is the difference between VFIO_USER_MAP_DMA and
+> > > VFIO_USER_REG_MEM?
+> > > They both seem to be client->server messages for setting up memory bu=
+t
+> > > I'm not sure why two request types are needed.
+> >=20
+> > John will provide more information on this.
+> >=20
+> > > struct vfio_user_req->data.  Is this really a union so that every
+> > > message has the same size, regardless of how many parameters are
+> > passed
+> > > in the data field?
+> >=20
+> > Correct, it's a union so that every message has the same length.
+> >=20
+> > > "a framebuffer where the guest does multiple stores to the virtual
+> > > device."  Do you mean in SMP guests?  Or even in a single CPU guest?
+> >=20
+> > @John
+> >=20
+> > > Also, is there any concurrency requirement on the client and server
+> > > side?  Can I implement a client/server that processes requests
+> > > sequentially and completes them before moving on to the next request =
+or
+> > > would that deadlock for certain message types?
+> >=20
+> > I believe that this might also depend on the device semantics, will nee=
+d to
+> > think about it in greater detail.
+>=20
+> I've looked at this but can't provide a definitive answer yet. I believe =
+the
+> safest thing to do is for the server to process requests in order.
+>=20
+> > More importantly, considering:
+> > a) Marc-Andr=C3=A9's comments about data alignment etc., and
+> > b) the possibility to run the server on another guest or host,
+> > we won't be able to use native VFIO types. If we do want to support tha=
+t
+> > then
+> > we'll have to redefine all data formats, similar to
+> > https://urldefense.proofpoint.com/v2/url?u=3Dhttps-
+> > 3A__github.com_qemu_qemu_blob_master_docs_interop_vhost-
+> > 2Duser.rst&d=3DDwIFAw&c=3Ds883GpUCOChKOHiocYtGcg&r=3DXTpYsh5Ps2zJvtw6
+> > ogtti46atk736SI4vgsJiUKIyDE&m=3DlJC7YeMMsAaVsr99tmTYncQdjEfOXiJQkRkJ
+> > W7NMgRg&s=3D1d_kB7VWQ-8d4t6Ikga5KSVwws4vwiVMvTyWVaS6PRU&e=3D .
+> >=20
+> > So the protocol will be more like an enhanced version of the Vhost-user
+> > protocol
+> > than VFIO. I'm fine with either direction (VFIO vs. enhanced Vhost-user=
+),
+> > so we need to decide before proceeding as the request format is
+> > substantially
+> > different.
+>=20
+> Regarding the ability to use the protocol on non-AF_UNIX sockets, we can=
+=20
+> support this future use case without unnecessarily complicating the proto=
+col by
+> defining the C structs and stating that data alignment and endianness for=
+ the=20
+> non AF_UNIX case must be the one used by GCC on a x86_64 bit machine, or =
+can=20
+> be overridden as required.
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
----
- target/xtensa/translate.c | 48 +++++++++++++++++++++++++++------------
- 1 file changed, 34 insertions(+), 14 deletions(-)
+Defining it to be x86_64 semantics is effectively saying "we're not going
+to do anything and it is up to other arch maintainers to fix the inevitable
+portability problems that arise".
 
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index e0beaf7abbbd..546d2fa2facf 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -2191,7 +2191,11 @@ static void translate_rsil(DisasContext *dc, const OpcodeArg arg[],
- static void translate_rsr(DisasContext *dc, const OpcodeArg arg[],
-                           const uint32_t par[])
- {
--    tcg_gen_mov_i32(arg[0].out, cpu_SR[par[0]]);
-+    if (sr_name[par[0]]) {
-+        tcg_gen_mov_i32(arg[0].out, cpu_SR[par[0]]);
-+    } else {
-+        tcg_gen_movi_i32(arg[0].out, 0);
-+    }
- }
- 
- static void translate_rsr_ccount(DisasContext *dc, const OpcodeArg arg[],
-@@ -2563,13 +2567,17 @@ static void translate_wrmsk_expstate(DisasContext *dc, const OpcodeArg arg[],
- static void translate_wsr(DisasContext *dc, const OpcodeArg arg[],
-                           const uint32_t par[])
- {
--    tcg_gen_mov_i32(cpu_SR[par[0]], arg[0].in);
-+    if (sr_name[par[0]]) {
-+        tcg_gen_mov_i32(cpu_SR[par[0]], arg[0].in);
-+    }
- }
- 
- static void translate_wsr_mask(DisasContext *dc, const OpcodeArg arg[],
-                                const uint32_t par[])
- {
--    tcg_gen_andi_i32(cpu_SR[par[0]], arg[0].in, par[2]);
-+    if (sr_name[par[0]]) {
-+        tcg_gen_andi_i32(cpu_SR[par[0]], arg[0].in, par[2]);
-+    }
- }
- 
- static void translate_wsr_acchi(DisasContext *dc, const OpcodeArg arg[],
-@@ -2775,23 +2783,31 @@ static void translate_xor(DisasContext *dc, const OpcodeArg arg[],
- static void translate_xsr(DisasContext *dc, const OpcodeArg arg[],
-                           const uint32_t par[])
- {
--    TCGv_i32 tmp = tcg_temp_new_i32();
-+    if (sr_name[par[0]]) {
-+        TCGv_i32 tmp = tcg_temp_new_i32();
- 
--    tcg_gen_mov_i32(tmp, arg[0].in);
--    tcg_gen_mov_i32(arg[0].out, cpu_SR[par[0]]);
--    tcg_gen_mov_i32(cpu_SR[par[0]], tmp);
--    tcg_temp_free(tmp);
-+        tcg_gen_mov_i32(tmp, arg[0].in);
-+        tcg_gen_mov_i32(arg[0].out, cpu_SR[par[0]]);
-+        tcg_gen_mov_i32(cpu_SR[par[0]], tmp);
-+        tcg_temp_free(tmp);
-+    } else {
-+        tcg_gen_movi_i32(arg[0].out, 0);
-+    }
- }
- 
- static void translate_xsr_mask(DisasContext *dc, const OpcodeArg arg[],
-                                const uint32_t par[])
- {
--    TCGv_i32 tmp = tcg_temp_new_i32();
-+    if (sr_name[par[0]]) {
-+        TCGv_i32 tmp = tcg_temp_new_i32();
- 
--    tcg_gen_mov_i32(tmp, arg[0].in);
--    tcg_gen_mov_i32(arg[0].out, cpu_SR[par[0]]);
--    tcg_gen_andi_i32(cpu_SR[par[0]], tmp, par[2]);
--    tcg_temp_free(tmp);
-+        tcg_gen_mov_i32(tmp, arg[0].in);
-+        tcg_gen_mov_i32(arg[0].out, cpu_SR[par[0]]);
-+        tcg_gen_andi_i32(cpu_SR[par[0]], tmp, par[2]);
-+        tcg_temp_free(tmp);
-+    } else {
-+        tcg_gen_movi_i32(arg[0].out, 0);
-+    }
- }
- 
- static void translate_xsr_ccount(DisasContext *dc, const OpcodeArg arg[],
-@@ -2819,7 +2835,11 @@ static void translate_xsr_ccount(DisasContext *dc, const OpcodeArg arg[],
- { \
-     TCGv_i32 tmp = tcg_temp_new_i32(); \
-  \
--    tcg_gen_mov_i32(tmp, cpu_SR[par[0]]); \
-+    if (sr_name[par[0]]) { \
-+        tcg_gen_mov_i32(tmp, cpu_SR[par[0]]); \
-+    } else { \
-+        tcg_gen_movi_i32(tmp, 0); \
-+    } \
-     translate_wsr_##name(dc, arg, par); \
-     tcg_gen_mov_i32(arg[0].out, tmp); \
-     tcg_temp_free(tmp); \
--- 
-2.20.1
+Since this is a new protocol should we take the opportunity to model it
+explicitly in some common standard RPC protocol language. This would have
+the benefit of allowing implementors to use off the shelf APIs for their
+wire protocol marshalling, and eliminate questions about endianness and
+alignment across architectures.
+
+
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
