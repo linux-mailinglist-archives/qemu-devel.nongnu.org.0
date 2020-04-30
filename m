@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FBC1BF5B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:39:56 +0200 (CEST)
-Received: from localhost ([::1]:43818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E6E1BF5C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:41:19 +0200 (CEST)
+Received: from localhost ([::1]:48086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU6bj-00021I-Df
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:39:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
+	id 1jU6cx-0004dV-G7
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53608)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jU6RZ-0005vE-OG
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:27 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1jU6Rm-0006MI-2B
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jU6RY-0004c2-Jb
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:25 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58442
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jU6RY-0004bi-6q
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:24 -0400
-Received: from host86-140-11-65.range86-140.btcentralplus.com ([86.140.11.65]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jU6RR-0007mZ-KT; Thu, 30 Apr 2020 11:29:21 +0100
-To: Markus Armbruster <armbru@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <87mu6uia5i.fsf@dusky.pond.sub.org>
- <20200429155719.GL1495129@redhat.com> <87k11xh2kq.fsf@dusky.pond.sub.org>
- <CAFEAcA9-oxkMD-kJ1z12d4K1S_Jaz7Wj6_38Ah7ChSaBfQNkkA@mail.gmail.com>
- <87tv11e1en.fsf_-_@dusky.pond.sub.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <51a4e9ea-eca3-6c1d-a753-86c5810ac094@ilande.co.uk>
-Date: Thu, 30 Apr 2020 11:29:05 +0100
+ (envelope-from <pbonzini@redhat.com>) id 1jU6Rk-0004e9-OK
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30619
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jU6Rk-0004dx-8x
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588242574;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=arCIrhCYDvqzr/v6WXqZyE25XRcvC10QNtbGOdudylQ=;
+ b=UsnySsYfMoFlfYruzArWZlOK2PXQrAcZd9qogbMndO+JTb9x8CuMH5BG0B8ebrrxA59CPr
+ V7BTrKHKYM7EEioezoMIPSFY8jymJoN8w8vVrZcbIvQ0UXle10wM5Jn0s6u1K9LX7YvtPQ
+ +fw7Xhp9C0VrM7X74sejQTyQIpl17Vw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-Q_A9lU7HM3WxVsBpjEJYbQ-1; Thu, 30 Apr 2020 06:29:31 -0400
+X-MC-Unique: Q_A9lU7HM3WxVsBpjEJYbQ-1
+Received: by mail-wr1-f71.google.com with SMTP id p16so3637539wro.16
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 03:29:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cjs3pWbD1k2uTehUtz3PCVLtt1L1phobiR8XBGlCO8w=;
+ b=LZG9UwSpRQwvCqUHsBSv7yj6Q+GVS84MMecGeE4jsjQ6XI6kCAE2py2PHr/Hqr75lU
+ sx4L855uv6VnheYIAVMpmWRrPvdmRqFS5lGaktiOHJnCl8FLnor2i9V05Z/nAP2ai+F9
+ XlrfLuYKZfaBgfCq+9KcROGCYWOkE2ljTix3pBwky06vshaz1ZUvMYA+/wGm3kkdr8sb
+ M8y+poXZLMX8j9X6+UeEshFD8fPQFPeoBSWwIpFf5By1A9JgpwMPghcfIbM/2c7yy5r/
+ pPSq43d0XupkSwK1kALM4Z2MgcE4a477WRtWntqXbeNFtYrhb1AVFYMBgxz+XpAFFCny
+ fMlw==
+X-Gm-Message-State: AGi0Pub9nQTmtMNZVQ7mmyu8KW/7AMjs6j8WfhTXsHYkhob5bXbCrhOb
+ eXoo3N3H7OZNVueRCu4uEPWywMtTS6Bcue3LtyPSvjZD/7KSmW50kxp/X7/QakkrdJRkosgl4AE
+ LN0doE6hFluuDoeA=
+X-Received: by 2002:a1c:9e51:: with SMTP id h78mr2350060wme.177.1588242570023; 
+ Thu, 30 Apr 2020 03:29:30 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKR1F4w/CLKLyrfd9HYQIV3Glu9SZxbSW+/TPt4tZXt0SrquSEZv01O3KJsU6xXdz4aQ4oqAw==
+X-Received: by 2002:a1c:9e51:: with SMTP id h78mr2350048wme.177.1588242569801; 
+ Thu, 30 Apr 2020 03:29:29 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:ac19:d1fb:3f5f:d54f?
+ ([2001:b07:6468:f312:ac19:d1fb:3f5f:d54f])
+ by smtp.gmail.com with ESMTPSA id a1sm3285104wrn.80.2020.04.30.03.29.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Apr 2020 03:29:29 -0700 (PDT)
+Subject: Re: [PATCH] tests: add a "check-flake8" test for validating python
+ code style
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200429153621.1694266-1-berrange@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9f000680-d32a-5e43-d45b-58391063b7fc@redhat.com>
+Date: Thu, 30 Apr 2020 12:29:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <87tv11e1en.fsf_-_@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200429153621.1694266-1-berrange@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.140.11.65
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: Configuring onboard devices (was: Failing property setters +
- hardwired devices + -global = a bad day)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2001:41c9:1:41f::167
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,69 +96,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/04/2020 11:03, Markus Armbruster wrote:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> 
->> On Thu, 30 Apr 2020 at 08:09, Markus Armbruster <armbru@redhat.com> wrote:
->>> Our means to configure onboard devices are weak.  We sidestepped this
->>> for isa-fdc by taking it off the board, and thus make -device work.
->>
->> This seems to be a general dynamic: the x86 pc machine works
->> via -device options (or is changed so it can work that way);
->> and then people propose dropping/deprecating/etc the config
->> options that work with onboard devices, without providing
->> clear solutions/instructions on how the command line needs
->> to change/etc for the mass of boards which are not the x86
->> pc machine and which do have a lot of onboard devices which
->> can't be handled via -device.
->>
->> So my gut reaction to the "we should deprecate -global"
->> suggestions in this thread was a bit "here we go again"...
->> What works for x86 or even "what is sufficient for libvirt"
->> doesn't necessarily cover all the cases.
-> 
-> Such shortsighted proposals have been made, but don't think it's what
-> we're doing here.
-> 
-> You're 100% right in that we do need to configure onboard devices.
-> -global is a terrible way to do it, though: it applies to *all* devices
-> of a kind.  What if the board has more than one?  What if the can add
-> more?
-> 
-> Taking onboard devices off the board can occasionally sidestep the
-> issue.  For isa-fdc, we genuinely *wanted* to take the damn thing off,
-> because all it did for most users was provide them with VENOM.  Not
-> needing -global for it anymore was just a nice bonus.
-> 
-> Taking onboard devices off just to reduce the device configuration
-> problem to a solved one, namely -device, may be tempting (it was to me),
-> but it's too intrusive to be practical at scale.
-> 
-> Adding machine properties that alias onboard device properties is less
-> intrusive.  The ones I added were still a lot of work.
-> 
-> Configuring onboard devices via machine properties restricts property
-> access to the ones we added to the machine.  This differs from pluggable
-> devices, where users can access all properties.
-> 
-> Any better ideas for letting users configure onboard devices?
+On 29/04/20 17:36, Daniel P. Berrang=C3=A9 wrote:
+> The flake8 program is a standard tool used by Python projects for
+> validating many commonly recommended style rules. It would be desirable
+> for QEMU to come into alignment with normal Python coding style best
+> practices.
+>=20
+> QEMU currently violates a huge number of the style rules, so we can't
+> blindly turn it on. Instead this patch introduces use of flake8 with
+> a huge ignore list to turn off everything that is currently violated.
+>=20
+> The following descriptions are mostly taken from:
+>=20
+>   https://www.flake8rules.com/
 
-Is it possible to let machine owners add alias properties to the machine object
-referencing in-built devices? I could then instantiate my on-board nic in the machine
-init() function, and then use object_property_add_alias() to add a "nic0" alias on
-the machine that can be used to wire it up to a netdev using the command line.
+I suggest instead using "black" and just reformat everything in a huge
+patch; that's what we're using for Patchew.
 
+It's not perfect, and especially one needs to get used to the double
+quotes instead of single quotes for strings.  However overall it is
+pretty good, and I've never seen it do something clearly "wrong".
 
-ATB,
+> On its own this patch doesn't really do much of use except try to stop th=
+e
+> situation getting worse. To be valuable some motivated contributor(s)
+> would need to go through fixing the code, and re-enabling each excluded
+> warning category one at a time.
+>=20
+> I'm mostly proposing this patch as a starting point for discussion, to
+> see if anyone is indeed motivated to take on the code cleanup challenge,
+> and feed the fixes in through the various maintainers trees.
 
-Mark.
+If we go with "black" I suggest just doing a big patch for everything,
+since it's easy for maintainers to rebase by running black at each step.
+ Overall our usage of Python is small enough that it should not be a big
+deal.
+
+Paolo
+
 
