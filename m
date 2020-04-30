@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB85B1BEFE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:40:53 +0200 (CEST)
-Received: from localhost ([::1]:47546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F4F1BEFD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:39:39 +0200 (CEST)
+Received: from localhost ([::1]:43028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU1wK-0005EW-LK
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53408)
+	id 1jU1v8-0002ip-4U
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:39:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53376)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jU1n7-00057Z-GA
+ (envelope-from <armbru@redhat.com>) id 1jU1n4-00051n-Fv
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jU1n0-0002fN-Jr
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:21 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:60928
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jU1n0-0002eO-D0
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40838
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jU1mz-0002cB-Q4
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jU1my-0002ce-VR
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588224670;
+ s=mimecast20190719; t=1588224671;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZacRsiQHzcgpcc27GbgCU4ripqPFecDF160ILu2GBvA=;
- b=Hb6sSnHNgCMFFfmuDZPEODO6ZkP+Upe6HoFG0iXgqeAFAoxTs89imDoJHl+Gf4zUwKyVsI
- MNNvper4625DPB1SwjS7oO50fj+j4gh9ttbFpAEkXC91g+4/hS6l/M1VptKkG2xaHjNA2q
- OpkuzwtO0ADfwgrvRB68Qo6PLIuOLcc=
+ bh=ocjDn+u5WMI4/nd99OixpijD3tTIFIO6ARnxARf7t0c=;
+ b=X/O9mEY6Ak6qs8MGVp4PKaqn3V0M4HkVtrsqiQ6YGcGH6rZ5blTjrf0I0BByh2Oh/yJLdp
+ pWVjR3bwTAEN0aHNF5MJ0hcwXbQtjjdVayF+6CgMBN4r5bpT+ftGOL433vmPmoTV/TOd7p
+ FmsxFvzmmJqMiAuqjZ/Aig0s+9Ymv8c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-Iv548PfVPxeMLbteEMMCfA-1; Thu, 30 Apr 2020 01:31:08 -0400
-X-MC-Unique: Iv548PfVPxeMLbteEMMCfA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-271-hMB5F5LvPpC3RHzKqQ7dCw-1; Thu, 30 Apr 2020 01:31:09 -0400
+X-MC-Unique: hMB5F5LvPpC3RHzKqQ7dCw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFBA0800D24
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 05:31:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02929107ACF2
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 05:31:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C0D1A60638;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C648C10023A6;
  Thu, 30 Apr 2020 05:31:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E3B0911358C2; Thu, 30 Apr 2020 07:31:04 +0200 (CEST)
+ id E6F8711358C3; Thu, 30 Apr 2020 07:31:04 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/20] qapi: Belatedly update visitor.h's big comment for QAPI
- modules
-Date: Thu, 30 Apr 2020 07:30:50 +0200
-Message-Id: <20200430053104.32204-7-armbru@redhat.com>
+Subject: [PULL 07/20] qapi: Fix the virtual walk example in visitor.h's big
+ comment
+Date: Thu, 30 Apr 2020 07:30:51 +0200
+Message-Id: <20200430053104.32204-8-armbru@redhat.com>
 In-Reply-To: <20200430053104.32204-1-armbru@redhat.com>
 References: <20200430053104.32204-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,47 +79,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Call visit_check_list().  Missed in commit a4a1c70dc7 "qapi: Make
+input visitors detect unvisited list tails".
+
+Drop an irrelevant error_propagate() while there.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200424084338.26803-2-armbru@redhat.com>
+Message-Id: <20200424084338.26803-3-armbru@redhat.com>
 ---
- include/qapi/visitor.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ include/qapi/visitor.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-index c5b23851a1..f8a0fc1ea9 100644
+index f8a0fc1ea9..7f63e4c381 100644
 --- a/include/qapi/visitor.h
 +++ b/include/qapi/visitor.h
-@@ -58,7 +58,7 @@
-  *
-  * where T is FOO for scalar types, and FOO * otherwise.  The scalar
-  * visitors are declared here; the remaining visitors are generated in
-- * qapi-visit.h.
-+ * qapi-visit-MODULE.h.
-  *
-  * The @name parameter of visit_type_FOO() describes the relation
-  * between this QAPI value and its parent container.  When visiting
-@@ -86,16 +86,16 @@
-  * by manual construction.
-  *
-  * For the QAPI object types (structs, unions, and alternates), there
-- * is an additional generated function in qapi-visit.h compatible
-- * with:
-+ * is an additional generated function in qapi-visit-MODULE.h
-+ * compatible with:
-  *
-  * void visit_type_FOO_members(Visitor *v, FOO *obj, Error **errp);
-  *
-  * for visiting the members of a type without also allocating the QAPI
-  * struct.
-  *
-- * Additionally, in qapi-types.h, all QAPI pointer types (structs,
-- * unions, alternates, and lists) have a generated function compatible
-+ * Additionally, QAPI pointer types (structs, unions, alternates, and
-+ * lists) have a generated function in qapi-types-MODULE.h compatible
-  * with:
-  *
-  * void qapi_free_FOO(FOO *obj);
+@@ -215,6 +215,9 @@
+  *      goto outlist;
+  *  }
+  * outlist:
++ *  if (!err) {
++ *      visit_check_list(v, &err);
++ *  }
+  *  visit_end_list(v, NULL);
+  *  if (!err) {
+  *      visit_check_struct(v, &err);
+@@ -222,7 +225,6 @@
+  * outobj:
+  *  visit_end_struct(v, NULL);
+  * out:
+- *  error_propagate(errp, err);
+  *  visit_free(v);
+  * </example>
+  */
 --=20
 2.21.1
 
