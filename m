@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C651BF7C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:01:58 +0200 (CEST)
-Received: from localhost ([::1]:45322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71EF81BF7CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:04:07 +0200 (CEST)
+Received: from localhost ([::1]:53882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7t7-0004cM-QB
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:01:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
+	id 1jU7vC-0000SK-Dt
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33936)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jm-0003Sa-3p
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:20 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jn-0003VM-A6
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jj-0000SE-HF
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:17 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46379)
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jk-0000Sf-J5
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:19 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jU7jj-0000Rj-2X
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:15 -0400
-Received: by mail-wr1-x436.google.com with SMTP id f13so6474952wrm.13
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:14 -0700 (PDT)
+ id 1jU7jk-0000S8-5f
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:16 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id x25so1516707wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=RCca2W4lwjdzEpAu/gQsnddTCCmaj3klMrOHk+9dWSk=;
- b=aeEeQAr8VBAx9n24ThCp5ebWUh4vi2a5sCZlQwsvRzgpleLR9stUw1UuMFxKT/CBRl
- 7+gTnn3P50N+v2zzi9BQAAQprNSFOaH42XF1K7YeqIoKcvC0GTXFbFxKnDNNk4K/MPX6
- seiYTp8qmqtsGiF1pHgPWhU+gCrWkXAAPqLDDAOdNBLkOH5M70AKPRF3Mwy6qO9rVthB
- 2iTawhlHanvS5U1PlnGRuLfuAD+tGiGXxR2ubxCbAqDVbbGWseZhCuyNDikeqpwM6463
- 0RVjnDERzK5G0htZHxH2U+tin9j00VfRhUtbyohuR3IPFMCy05xpK61fcGyfIxf34ry4
- iRGg==
+ bh=wt7yqTcgLmF8JzV1SCxT47djUoUbTeewI0QoooN4y4U=;
+ b=t629mrB1Igtt1yuc0y8PjYGlnrtr4RJ9rbE2WScZ/U+cxmHplriamrEgxvhfG7WfTr
+ NyqCdhR2oIHlm57iyNVTr/akpfpP85P4vAw+Vas02I0UyfS2Dg+Ul47ZO6IgRr19hKMW
+ SOBk8tbRJal+IaZRieGrVvLZwD5hgNLQ4K2DFSm3lwCiuGCJNHxCtNHnCNrdWntrU+4B
+ HfnGgcvml8dAKNlzNuR9hWuRCoSd0lm5wWzmOGG7MgOExC7X2vfPM7hRqpNmyJA1NcS2
+ uLVNCvHpDsoxAcqghWlF3CAc0FQnhKNA6LtYQWGzdoL7I19+FpyvSdBGJT/ndW3bKbGP
+ 1Dbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RCca2W4lwjdzEpAu/gQsnddTCCmaj3klMrOHk+9dWSk=;
- b=otnpwP7I1Q/uVXomafBQaEk4aLWiIXmOC89Z3AdaZZmtcI7GzF5lU2wgnduv1W3yhi
- nHkzqy7upJxLiMsHKOBDiDnIDgd4UDBBxEUuDnYFPYWLQQI9ELfgpPVa8CAyZYRy+LCo
- wZZBKkDwJeARw9IoImrDoIQoA0knLXJyYkPcFpQGFBMk/3eV3a4FIMBR18XQjc8mmhYO
- JLaLRytj1IHqwnTd10onNa6RXi38d1jvFHNdrOn9Dx8QXa1/Y/0k3GHdR0P2ftw1eJtk
- 7dYKuYMd/sFj2CgkFC0S7cGCMFnugKDP1KVn7JtY/hvQshLBtXuWxoVRtjtsuCVWvPes
- eCPg==
-X-Gm-Message-State: AGi0PubeDwOCeMh3sp5lOQskaF0WYb8vpXkP5R+QyebrMDxS6fdCz5xg
- VBzZ3vSuTNIkHs183/gGhRvKhdyplvIO5g==
-X-Google-Smtp-Source: APiQypJZbKGjMN5I0Qx70Gbvr2IR3EDbOQI3dTRk09lPpxdTzEYKpD+Bb2vRKx81y9ZHi4fEV5AwnA==
-X-Received: by 2002:adf:f0ca:: with SMTP id x10mr2258511wro.112.1588247533476; 
- Thu, 30 Apr 2020 04:52:13 -0700 (PDT)
+ bh=wt7yqTcgLmF8JzV1SCxT47djUoUbTeewI0QoooN4y4U=;
+ b=NNZGl0dBafph7qygJuuP3apslt1BSNTMQWOeP60x00erRj7fHBjOIbyXGcfyzEM5eA
+ hKNT3Qcv2s1POSrrGX/AmGo1k6CiB7k7f7MMX6f49FNHP0a8oKUHRF4CYFUy37FFOkwz
+ ZhmqxVsLLBqMHDfRcsQZy6jiBeKaOS998leEf9A2wI/Ffwf7zxfFJLIK0xscYbw69/RV
+ bxTviMgS9wxVAu8B6o5iZunqxEJh562AS80avWlEQ5sUvCRybyqAELmpwWuB6u4JP3mX
+ 3ZYP570fSBvn4LyGcpoNPUlkZLdtn8RW+W3DlQjrfENWxVcqOAse5NdvAMfFbjVR7JPP
+ S4iw==
+X-Gm-Message-State: AGi0PuZFXuMX2CfHHcW2XeXAlPaEHHKBDxZjRzmuszpPkY0M8GCPqNtJ
+ +GABN42Qau59SzijbfyOvA2CY+zdCsXghg==
+X-Google-Smtp-Source: APiQypJZiMd7WesfSIN4WOwclYf2u2Zczw5Whe5qzKlk/C9r/OmQW2AfeqfZ44bgGRjjkHYYNSKSSA==
+X-Received: by 2002:a1c:4304:: with SMTP id q4mr2757248wma.152.1588247534493; 
+ Thu, 30 Apr 2020 04:52:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.12
+ by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:52:12 -0700 (PDT)
+ Thu, 30 Apr 2020 04:52:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/31] target/arm/cpu: Use ARRAY_SIZE() to iterate over
- ARMCPUInfo[]
-Date: Thu, 30 Apr 2020 12:51:37 +0100
-Message-Id: <20200430115142.13430-27-peter.maydell@linaro.org>
+Subject: [PULL 27/31] target/arm/cpu: Update coding style to make
+ checkpatch.pl happy
+Date: Thu, 30 Apr 2020 12:51:38 +0100
+Message-Id: <20200430115142.13430-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430115142.13430-1-peter.maydell@linaro.org>
 References: <20200430115142.13430-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::436
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,75 +88,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+We will move this code in the next commit. Clean it up
+first to avoid checkpatch.pl errors.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200423073358.27155-4-philmd@redhat.com
+Message-id: 20200423073358.27155-5-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.c   | 8 +++-----
- target/arm/cpu64.c | 8 +++-----
- 2 files changed, 6 insertions(+), 10 deletions(-)
+ target/arm/cpu.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 47e35400da2..30e961f7754 100644
+index 30e961f7754..a1e38b38ba1 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -2745,7 +2745,6 @@ static const ARMCPUInfo arm_cpus[] = {
-     { .name = "any",         .initfn = arm_max_initfn },
- #endif
- #endif
--    { .name = NULL }
- };
+@@ -582,7 +582,8 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     CPUARMState *env = &cpu->env;
+     bool ret = false;
  
- static Property arm_cpu_properties[] = {
-@@ -2893,14 +2892,13 @@ static const TypeInfo idau_interface_type_info = {
- 
- static void arm_cpu_register_types(void)
+-    /* ARMv7-M interrupt masking works differently than -A or -R.
++    /*
++     * ARMv7-M interrupt masking works differently than -A or -R.
+      * There is no FIQ/IRQ distinction. Instead of I and F bits
+      * masking FIQ and IRQ interrupts, an exception is taken only
+      * if it is higher priority than the current execution priority
+@@ -1912,7 +1913,8 @@ static void arm1026_initfn(Object *obj)
+ static void arm1136_r2_initfn(Object *obj)
  {
--    const ARMCPUInfo *info = arm_cpus;
-+    size_t i;
- 
-     type_register_static(&arm_cpu_type_info);
-     type_register_static(&idau_interface_type_info);
- 
--    while (info->name) {
--        arm_cpu_register(info);
--        info++;
-+    for (i = 0; i < ARRAY_SIZE(arm_cpus); ++i) {
-+        arm_cpu_register(&arm_cpus[i]);
-     }
- 
- #ifdef CONFIG_KVM
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 74afc28d537..b8177f59f5a 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -742,7 +742,6 @@ static const ARMCPUInfo aarch64_cpus[] = {
-     { .name = "cortex-a53",         .initfn = aarch64_a53_initfn },
-     { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
-     { .name = "max",                .initfn = aarch64_max_initfn },
--    { .name = NULL }
- };
- 
- static bool aarch64_cpu_get_aarch64(Object *obj, Error **errp)
-@@ -848,13 +847,12 @@ static const TypeInfo aarch64_cpu_type_info = {
- 
- static void aarch64_cpu_register_types(void)
- {
--    const ARMCPUInfo *info = aarch64_cpus;
-+    size_t i;
- 
-     type_register_static(&aarch64_cpu_type_info);
- 
--    while (info->name) {
--        aarch64_cpu_register(info);
--        info++;
-+    for (i = 0; i < ARRAY_SIZE(aarch64_cpus); ++i) {
-+        aarch64_cpu_register(&aarch64_cpus[i]);
-     }
- }
- 
+     ARMCPU *cpu = ARM_CPU(obj);
+-    /* What qemu calls "arm1136_r2" is actually the 1136 r0p2, ie an
++    /*
++     * What qemu calls "arm1136_r2" is actually the 1136 r0p2, ie an
+      * older core than plain "arm1136". In particular this does not
+      * have the v6K features.
+      * These ID register values are correct for 1136 but may be wrong
+@@ -2698,7 +2700,8 @@ static const ARMCPUInfo arm_cpus[] = {
+     { .name = "arm926",      .initfn = arm926_initfn },
+     { .name = "arm946",      .initfn = arm946_initfn },
+     { .name = "arm1026",     .initfn = arm1026_initfn },
+-    /* What QEMU calls "arm1136-r2" is actually the 1136 r0p2, i.e. an
++    /*
++     * What QEMU calls "arm1136-r2" is actually the 1136 r0p2, i.e. an
+      * older core than plain "arm1136". In particular this does not
+      * have the v6K features.
+      */
 -- 
 2.20.1
 
