@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9AE1BF7EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:09:58 +0200 (CEST)
-Received: from localhost ([::1]:47200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26A31BF83F
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:31:42 +0200 (CEST)
+Received: from localhost ([::1]:38066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU80r-0002Ki-Cc
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:09:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34904)
+	id 1jU8Lt-0007aO-Rr
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:31:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37980)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jU7sZ-0004yN-3L
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:01:34 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jU8Hu-0001W6-8l
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:27:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jU7rz-0007T6-Ig
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:01:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27199
+ (envelope-from <imammedo@redhat.com>) id 1jU7xf-0006H0-QR
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:11:15 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:58564
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jU7rz-0007Pg-2f
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:00:47 -0400
+ id 1jU7xf-0006DZ-8Q
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:06:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588248044;
+ s=mimecast20190719; t=1588248398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rmi4mrxC2kjMximJG37kVyYsvSASF6Fbw0o5LGCNJAw=;
- b=H+H/fDMF6FHTZvFkZCw8FIhj7Hn1X941Q2msQn1sNlauNkn/oMy+lw6wfuBpZsXRwqqe9q
- 3CbTO3lbnf5ksZdN3zGAWnjqB9/Gh5Vmfh3wX41q+g7+dBJqtWXxRQmq4Z3WBZDQ8vKouw
- pm1TL//mEHhVmvVK6vEOK7xAOnXPC7g=
+ bh=Gn0iF02KaEsiCGiYMyDPpqDuCTW4BR3liH4QJply92o=;
+ b=LjqsWHybZpSb42bYQ0E2TDu5Rd0OlCc8RDSvDPTFR3J25p5aHZBjRwp9CTLc+oxS0rJNiL
+ IMe0ZwThFWFDN9QoDPU4B3MOcRSx+x5IAgS27lv5jHVXgE4tV+vfHK+6+J3pfq1Q+wHglq
+ ZPwjGBOJUg7Sbmc5SsSiNGrvbMaqfTQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-OxUvUlMMOUKVMeXULKMzAA-1; Thu, 30 Apr 2020 08:00:35 -0400
-X-MC-Unique: OxUvUlMMOUKVMeXULKMzAA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-68-pJ8Uj4wMMweWKE-k6-OdKw-1; Thu, 30 Apr 2020 08:06:36 -0400
+X-MC-Unique: pJ8Uj4wMMweWKE-k6-OdKw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FCAAEC1A3;
- Thu, 30 Apr 2020 12:00:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90B90462;
+ Thu, 30 Apr 2020 12:06:35 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EDE5610AF;
- Thu, 30 Apr 2020 12:00:17 +0000 (UTC)
-Date: Thu, 30 Apr 2020 14:00:16 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04846605CB;
+ Thu, 30 Apr 2020 12:06:20 +0000 (UTC)
+Date: Thu, 30 Apr 2020 14:06:19 +0200
 From: Igor Mammedov <imammedo@redhat.com>
-To: gengdongjiu <gengdongjiu@huawei.com>
-Subject: Re: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
-Message-ID: <20200430140016.0799afd7@redhat.com>
-In-Reply-To: <9906359a-cc13-fd7f-1cd3-c80c0ee90d09@huawei.com>
-References: <20200410114639.32844-1-gengdongjiu@huawei.com>
- <CAFEAcA9oNuDf=bdSSE8mZWrB23+FegD5NeSAmu8dGWhB=adBQg@mail.gmail.com>
- <9906359a-cc13-fd7f-1cd3-c80c0ee90d09@huawei.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 06/15] rtc: add RTC_ISA_BASE
+Message-ID: <20200430140619.565376bb@redhat.com>
+In-Reply-To: <20200429140003.7336-7-kraxel@redhat.com>
+References: <20200429140003.7336-1-kraxel@redhat.com>
+ <20200429140003.7336-7-kraxel@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,55 +75,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng Xiang <zhengxiang9@huawei.com>,
- qemu-arm <qemu-arm@nongnu.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Apr 2020 11:56:24 +0800
-gengdongjiu <gengdongjiu@huawei.com> wrote:
+On Wed, 29 Apr 2020 15:59:54 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> On 2020/4/17 21:32, Peter Maydell wrote:
-> > On Fri, 10 Apr 2020 at 12:46, Dongjiu Geng <gengdongjiu@huawei.com> wrote:  
-> >>
-> >> In the ARMv8 platform, the CPU error types includes synchronous external abort(SEA)
-> >> and SError Interrupt (SEI). If exception happens in guest, host does not know the detailed
-> >> information of guest, so it is expected that guest can do the recovery. For example, if an
-> >> exception happens in a guest user-space application, host does not know which application
-> >> encounters errors, only guest knows it.
-> >>
-> >> For the ARMv8 SEA/SEI, KVM or host kernel delivers SIGBUS to notify userspace.
-> >> After user space gets the notification, it will record the CPER into guest GHES
-> >> buffer and inject an exception or IRQ to guest.
-> >>
-> >> In the current implementation, if the type of SIGBUS is BUS_MCEERR_AR, we will
-> >> treat it as a synchronous exception, and notify guest with ARMv8 SEA
-> >> notification type after recording CPER into guest.  
-> > 
-> > Hi. I left a comment on patch 1. The other 3 patches unreviewed
-> > are 5, 6 and 8, which are all ACPI core code, so that's for
-> > MST, Igor or Shannon to review.  
+> Add and use RTC_ISA_BASE define instead of hardcoding 0x70.
 > 
-> Ping MST, Igor and Shannon, sorry for the noise.
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-I put it on my review queue 
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
+> ---
+>  include/hw/rtc/mc146818rtc.h | 1 +
+>  hw/rtc/mc146818rtc.c         | 5 ++---
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> > 
-> > Once those have been reviewed, please ping me if you want this
-> > to go via target-arm.next.
-> > 
-> > thanks
-> > -- PMM
-> > 
-> > .
-> >   
-> 
+> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+> index 10c93a096a1d..3713181b56fe 100644
+> --- a/include/hw/rtc/mc146818rtc.h
+> +++ b/include/hw/rtc/mc146818rtc.h
+> @@ -47,6 +47,7 @@ typedef struct RTCState {
+>  } RTCState;
+>  
+>  #define RTC_ISA_IRQ 8
+> +#define RTC_ISA_BASE 0x70
+>  
+>  ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+>                               qemu_irq intercept_irq);
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index dc4269cc55cb..d18c09911be2 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -908,7 +908,6 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+>  {
+>      ISADevice *isadev = ISA_DEVICE(dev);
+>      RTCState *s = MC146818_RTC(dev);
+> -    int base = 0x70;
+>  
+>      s->cmos_data[RTC_REG_A] = 0x26;
+>      s->cmos_data[RTC_REG_B] = 0x02;
+> @@ -951,7 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+>      qemu_register_suspend_notifier(&s->suspend_notifier);
+>  
+>      memory_region_init_io(&s->io, OBJECT(s), &cmos_ops, s, "rtc", 2);
+> -    isa_register_ioport(isadev, &s->io, base);
+> +    isa_register_ioport(isadev, &s->io, RTC_ISA_BASE);
+>  
+>      /* register rtc 0x70 port for coalesced_pio */
+>      memory_region_set_flush_coalesced(&s->io);
+> @@ -960,7 +959,7 @@ static void rtc_realizefn(DeviceState *dev, Error **errp)
+>      memory_region_add_subregion(&s->io, 0, &s->coalesced_io);
+>      memory_region_add_coalescing(&s->coalesced_io, 0, 1);
+>  
+> -    qdev_set_legacy_instance_id(dev, base, 3);
+> +    qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
+>      qemu_register_reset(rtc_reset, s);
+>  
+>      object_property_add_tm(OBJECT(s), "date", rtc_get_date, NULL);
 
 
