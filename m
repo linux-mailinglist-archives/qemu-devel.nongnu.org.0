@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9CE91BF703
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:42:53 +0200 (CEST)
-Received: from localhost ([::1]:42644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE91A1BF707
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:43:56 +0200 (CEST)
+Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7ae-0001zi-Vv
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60646)
+	id 1jU7bf-0003qM-VJ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:43:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60724)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jU7Zc-00010W-Vc
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:41:49 -0400
+ (envelope-from <groug@kaod.org>) id 1jU7ad-0002a2-7A
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:42:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jU7Zc-00005S-9K
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:41:48 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46654
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jU7Zb-00005E-Ps
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:41:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588246906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xtah996KwPNEKNspzBsMiDGO49CMAIeJdfusJLjjEPw=;
- b=iMN3sW6GjiuYW9HkyQcsd7+4XLdbo/0g1WGFnM6IlGy70w/6ZsSHdwRMJnRwCeNg0kDPYt
- uWKuM7ZokQtp7yJoPYZnIN4BRzHGWPX/Q63EEjdq2Rytw4OvXRjf7+O48AfMh0ClBzneHP
- NWdRLLS7PWSLt0oNFt5+YNH6ZrZiR10=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-UF86YpppNwCHQYTxT7kqYA-1; Thu, 30 Apr 2020 07:41:45 -0400
-X-MC-Unique: UF86YpppNwCHQYTxT7kqYA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4F75107ACCA;
- Thu, 30 Apr 2020 11:41:43 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-60.ams2.redhat.com [10.36.114.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 956A3396;
- Thu, 30 Apr 2020 11:41:42 +0000 (UTC)
-Date: Thu, 30 Apr 2020 13:41:41 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 3/3] iotests: Backup with different source/target size
-Message-ID: <20200430114141.GB6578@linux.fritz.box>
-References: <20200429111539.42103-1-kwolf@redhat.com>
- <20200429111539.42103-4-kwolf@redhat.com>
- <c43b4e88-848c-4ffa-151d-beecbe2863a8@virtuozzo.com>
+ (envelope-from <groug@kaod.org>) id 1jU7ab-0000AO-U3
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:42:50 -0400
+Received: from 3.mo3.mail-out.ovh.net ([46.105.44.175]:56158)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jU7ab-0000AD-8h
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:42:49 -0400
+Received: from player738.ha.ovh.net (unknown [10.110.103.211])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 746DC24E76D
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:42:39 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player738.ha.ovh.net (Postfix) with ESMTPSA id CDAAB12056123;
+ Thu, 30 Apr 2020 11:42:37 +0000 (UTC)
+Date: Thu, 30 Apr 2020 13:42:35 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v6 3/5] 9pfs: add new function v9fs_co_readdir_many()
+Message-ID: <20200430134235.524df46e@bahia.lan>
+In-Reply-To: <fdb0e29a86d1df6005021a08078d7e69ed0de1a2.1587309014.git.qemu_oss@crudebyte.com>
+References: <cover.1587309014.git.qemu_oss@crudebyte.com>
+ <fdb0e29a86d1df6005021a08078d7e69ed0de1a2.1587309014.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <c43b4e88-848c-4ffa-151d-beecbe2863a8@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 13379913020402211136
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrieehgdegfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.44.175; envelope-from=groug@kaod.org;
+ helo=3.mo3.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 07:42:39
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 46.105.44.175
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,120 +59,314 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 29.04.2020 um 14:28 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 29.04.2020 14:15, Kevin Wolf wrote:
-> > This tests that the backup jobs catches situations where the target nod=
-e
-> > has a different size than the source node. It must also forbid resize
-> > operations when the job is already running.
-> >=20
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >   tests/qemu-iotests/055     | 60 ++++++++++++++++++++++++++++++++++++-=
--
-> >   tests/qemu-iotests/055.out |  4 +--
+On Sun, 19 Apr 2020 17:02:27 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-One general remark and question that came up while I was running 055 a
-lot and really got annonyed by the long time it takes:
+> The newly added function v9fs_co_readdir_many() retrieves multiple
+> directory entries with a single fs driver request. It is intended to
+> replace uses of v9fs_co_readdir(), the latter only retrives a single
+> directory entry per fs driver request instead.
+> 
+> The reason for this planned replacement is that for every fs driver
+> request the coroutine is dispatched from main I/O thread to a
+> background I/O thread and eventually dispatched back to main I/O
+> thread. Hopping between threads adds latency. So if a 9pfs Treaddir
+> request reads a large amount of directory entries, this currently
+> sums up to huge latencies of several hundred ms or even more. So
+> using v9fs_co_readdir_many() instead of v9fs_co_readdir() will
+> provide significant performance improvements.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/9p.h    |  22 ++++++
+>  hw/9pfs/codir.c | 181 +++++++++++++++++++++++++++++++++++++++++++++---
+>  hw/9pfs/coth.h  |   3 +
+>  3 files changed, 195 insertions(+), 11 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 9553700dbb..116977939b 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -215,6 +215,28 @@ static inline void v9fs_readdir_init(V9fsDir *dir)
+>      qemu_mutex_init(&dir->readdir_mutex);
+>  }
+>  
+> +/**
+> + * Type for 9p fs drivers' (a.k.a. 9p backends) result of readdir requests,
+> + * which is a chained list of directory entries.
+> + */
+> +typedef struct V9fsDirEnt {
+> +    /* mandatory (must not be NULL) information for all readdir requests */
+> +    struct dirent *dent;
+> +    /*
+> +     * optional (may be NULL): A full stat of each directory entry is just
+> +     * done if explicitly told to fs driver.
+> +     */
+> +    struct stat *st;
+> +    /*
+> +     * instead of an array, directory entries are always returned as
+> +     * chained list, that's because the amount of entries retrieved by fs
+> +     * drivers is dependent on the individual entries' name (since response
+> +     * messages are size limited), so the final amount cannot be estimated
+> +     * before hand
+> +     */
+> +    struct V9fsDirEnt *next;
+> +} V9fsDirEnt;
+> +
+>  /*
+>   * Filled by fs driver on open and other
+>   * calls.
+> diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+> index 73f9a751e1..45c65a8f5b 100644
+> --- a/hw/9pfs/codir.c
+> +++ b/hw/9pfs/codir.c
+> @@ -18,28 +18,187 @@
+>  #include "qemu/main-loop.h"
+>  #include "coth.h"
+>  
+> +/*
+> + * This is solely executed on a background IO thread.
+> + */
+> +static int do_readdir(V9fsPDU *pdu, V9fsFidState *fidp, struct dirent **dent)
+> +{
+> +    int err = 0;
+> +    V9fsState *s = pdu->s;
+> +    struct dirent *entry;
+> +
+> +    errno = 0;
+> +    entry = s->ops->readdir(&s->ctx, &fidp->fs);
+> +    if (!entry && errno) {
+> +        *dent = NULL;
+> +        err = -errno;
+> +    } else {
+> +        *dent = entry;
+> +    }
+> +    return err;
+> +}
+> +
+> +/*
+> + * TODO: This will be removed for performance reasons.
+> + * Use v9fs_co_readdir_many() instead.
+> + */
+>  int coroutine_fn v9fs_co_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
+>                                   struct dirent **dent)
+>  {
+>      int err;
+> -    V9fsState *s = pdu->s;
+>  
+>      if (v9fs_request_cancelled(pdu)) {
+>          return -EINTR;
+>      }
+> -    v9fs_co_run_in_worker(
+> -        {
+> -            struct dirent *entry;
+> +    v9fs_co_run_in_worker({
+> +        err = do_readdir(pdu, fidp, dent);
+> +    });
+> +    return err;
+> +}
+> +
+> +/*
+> + * This is solely executed on a background IO thread.
+> + *
+> + * See v9fs_co_readdir_many() (as its only user) below for details.
+> + */
+> +static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+> +                             struct V9fsDirEnt **entries,
+> +                             int32_t maxsize, bool dostat)
+> +{
+> +    V9fsState *s = pdu->s;
+> +    V9fsString name;
+> +    int len, err = 0;
+> +    int32_t size = 0;
+> +    off_t saved_dir_pos;
+> +    struct dirent *dent;
+> +    struct V9fsDirEnt *e = NULL;
+> +    V9fsPath path;
+> +    struct stat stbuf;
+>  
+> -            errno = 0;
+> -            entry = s->ops->readdir(&s->ctx, &fidp->fs);
+> -            if (!entry && errno) {
+> +    *entries = NULL;
+> +    v9fs_path_init(&path);
+> +
+> +    /*
+> +     * TODO: Here should be a warn_report_once() if lock failed.
+> +     *
+> +     * With a good 9p client we should not get into concurrency here,
+> +     * because a good client would not use the same fid for concurrent
+> +     * requests. We do the lock here for safety reasons though. However
+> +     * the client would then suffer performance issues, so better log that
+> +     * issue here.
+> +     */
+> +    v9fs_readdir_lock(&fidp->fs.dir);
 
-TestDriveCompression is quite unconventional in that 055 is raw/qcow2
-only per se, but some of the test cases always test qcow2 and vmdk. The
-slow one is vmdk.
+I agree that a client that issues concurrent readdir requests on the
+same fid is probably asking for troubles, but this permitted by the
+spec. Whether we should detect such conditions and warn or even fail
+is discussion for another thread.
 
-I found out that zero writes in vmdk are completely broken (I'll send
-patches), but even after fixing this, it's still slow. I think this is
-the combination of VMDK not having writeback metadata caching and
-backup serving lots of tiny 64k zero writes.
+The locking is only needed to avoid concurrent accesses to the dirent
+structure returned by readdir(), otherwise we could return partially
+overwritten file names to the client. It must be done for each individual
+call to readdir(), but certainly not for multiple calls.
 
-Has anyone ever looked into making backup use more reasonable request
-sizes for the background copy like mirror does?
+As discussed privately, I'm working on a patch to better address the
+locking and I'd really prefer to merge this before your series. Sorry
+for the delay again. I'll try to post ASAP.
 
-> >   2 files changed, 60 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/tests/qemu-iotests/055 b/tests/qemu-iotests/055
-> > index 82b9f5f47d..243d66a62e 100755
-> > --- a/tests/qemu-iotests/055
-> > +++ b/tests/qemu-iotests/055
-> > @@ -48,8 +48,10 @@ class TestSingleDrive(iotests.QMPTestCase):
-> >       def setUp(self):
-> >           qemu_img('create', '-f', iotests.imgfmt, blockdev_target_img,=
- str(image_len))
-> > -        self.vm =3D iotests.VM().add_drive('blkdebug::' + test_img)
-> > -        self.vm.add_drive(blockdev_target_img, interface=3D"none")
-> > +        self.vm =3D iotests.VM()
-> > +        self.vm.add_drive('blkdebug::' + test_img, 'node-name=3Dsource=
-')
-> > +        self.vm.add_drive(blockdev_target_img, 'node-name=3Dtarget',
-> > +                          interface=3D"none")
-> >           if iotests.qemu_default_machine =3D=3D 'pc':
-> >               self.vm.add_drive(None, 'media=3Dcdrom', 'ide')
-> >           self.vm.launch()
-> > @@ -112,6 +114,60 @@ class TestSingleDrive(iotests.QMPTestCase):
-> >       def test_pause_blockdev_backup(self):
-> >           self.do_test_pause('blockdev-backup', 'drive1', blockdev_targ=
-et_img)
-> > +    def test_source_resize_blockdev_backup(self):
-> > +        self.assert_no_active_block_jobs()
->=20
-> this will never fire, as vm is created a moment before, I'd drop it.
+Anyway, I have some more remarks.
 
-This pattern exists all over the place in 055, but you're right, it's
-kind of pointless.
+> +
+> +    /* save the directory position */
+> +    saved_dir_pos = s->ops->telldir(&s->ctx, &fidp->fs);
+> +    if (saved_dir_pos < 0) {
+> +        err = saved_dir_pos;
+> +        goto out;
+> +    }
+> +
+> +    while (true) {
+> +        /* get directory entry from fs driver */
+> +        err = do_readdir(pdu, fidp, &dent);
+> +        if (err || !dent) {
+> +            break;
+> +        }
+> +
+> +        /*
+> +         * stop this loop as soon as it would exceed the allowed maximum
+> +         * response message size for the directory entries collected so far,
+> +         * because anything beyond that size would need to be discarded by
+> +         * 9p controller (main thread / top half) anyway
+> +         */
+> +        v9fs_string_init(&name);
+> +        v9fs_string_sprintf(&name, "%s", dent->d_name);
+> +        len = v9fs_readdir_response_size(&name);
+> +        v9fs_string_free(&name);
+> +        if (size + len > maxsize) {
+> +            /* this is not an error case actually */
+> +            break;
+> +        }
+> +
+> +        /* append next node to result chain */
+> +        if (!e) {
+> +            *entries = e = g_malloc0(sizeof(V9fsDirEnt));
+> +        } else {
+> +            e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+> +        }
+> +        e->dent = g_malloc0(sizeof(struct dirent));
 
-> > +
-> > +        def pre_finalize():
-> > +            result =3D self.vm.qmp('block_resize', device=3D'drive0', =
-size=3D65536)
-> > +            self.assert_qmp(result, 'error/class', 'GenericError')
-> > +
-> > +            result =3D self.vm.qmp('block_resize', node_name=3D'source=
-', size=3D65536)
-> > +            self.assert_qmp(result, 'error/class', 'GenericError')
-> > +
-> > +        result =3D self.vm.qmp('blockdev-backup', job_id=3D'job0', dev=
-ice=3D'drive0',
-> > +                             target=3D'drive1', sync=3D'full', auto_fi=
-nalize=3DFalse,
-> > +                             auto_dismiss=3DFalse)
-> > +        self.assert_qmp(result, 'return', {})
-> > +
-> > +        self.vm.run_job('job0', auto_finalize=3DFalse, pre_finalize=3D=
-pre_finalize,
-> > +                        use_log=3DFalse)
-> > +
-> > +    def test_target_resize_blockdev_backup(self):
-> > +        self.assert_no_active_block_jobs()
-> > +
-> > +        def pre_finalize():
-> > +            result =3D self.vm.qmp('block_resize', device=3D'drive1', =
-size=3D65536)
-> > +            self.assert_qmp(result, 'error/class', 'GenericError')
-> > +
-> > +            result =3D self.vm.qmp('block_resize', node_name=3D'target=
-', size=3D65536)
-> > +            self.assert_qmp(result, 'error/class', 'GenericError')
-> > +
-> > +        result =3D self.vm.qmp('blockdev-backup', job_id=3D'job0', dev=
-ice=3D'drive0',
-> > +                             target=3D'drive1', sync=3D'full', auto_fi=
-nalize=3DFalse,
-> > +                             auto_dismiss=3DFalse)
-> > +        self.assert_qmp(result, 'return', {})
-> > +
-> > +        self.vm.run_job('job0', auto_finalize=3DFalse, pre_finalize=3D=
-pre_finalize,
-> > +                        use_log=3DFalse)
->=20
-> these two functions are almost identical.. worth refactoring to be use co=
-mmon helper?
+So we're allocating a bunch of stuff here...
 
-Ok, I'll see what I can do.
+> +        memcpy(e->dent, dent, sizeof(struct dirent));
+> +
+> +        /* perform a full stat() for directory entry if requested by caller */
+> +        if (dostat) {
+> +            err = s->ops->name_to_path(
+> +                &s->ctx, &fidp->path, dent->d_name, &path
+> +            );
+> +            if (err < 0) {
+>                  err = -errno;
+> -            } else {
+> -                *dent = entry;
+> -                err = 0;
+> +                break;
 
-Kevin
+... but we're erroring out there and it seems that we're leaking
+all the entries that have been allocated so far.
+
+Also I have the impression that all the if (dostat) { } block could
+be done before chaining a new entry.
+
+So, I think I'll just rebase your series to accommodate the locking
+fix I've mentioned earlier, re-post the whole thing and let you
+add the missing rollback. Sounds like a plan ?
+
+>              }
+> -        });
+> +
+> +            err = s->ops->lstat(&s->ctx, &path, &stbuf);
+> +            if (err < 0) {
+> +                err = -errno;
+> +                break;
+> +            }
+> +
+> +            e->st = g_malloc0(sizeof(struct stat));
+> +            memcpy(e->st, &stbuf, sizeof(struct stat));
+> +        }
+> +
+> +        size += len;
+> +        saved_dir_pos = dent->d_off;
+> +    }
+> +
+> +    /* restore (last) saved position */
+> +    s->ops->seekdir(&s->ctx, &fidp->fs, saved_dir_pos);
+> +
+> +out:
+> +    v9fs_readdir_unlock(&fidp->fs.dir);
+> +    v9fs_path_free(&path);
+> +    if (err < 0) {
+> +        return err;
+> +    }
+> +    return size;
+> +}
+> +
+> +/**
+> + * @brief Reads multiple directory entries in one rush.
+> + *
+> + * Retrieves the requested (max. amount of) directory entries from the fs
+> + * driver. This function must only be called by the main IO thread (top half).
+> + * Internally this function call will be dispatched to a background IO thread
+> + * (bottom half) where it is eventually executed by the fs driver.
+> + *
+> + * Acquiring multiple directory entries in one rush from the fs driver,
+> + * instead of retrieving each directory entry individually, is very beneficial
+> + * from performance point of view. Because for every fs driver request latency
+> + * is added, which in practice could lead to overall latencies of several
+> + * hundred ms for reading all entries (of just a single directory) if every
+> + * directory entry was individually requested from driver.
+> + *
+> + * @param pdu - the causing 9p (T_readdir) client request
+> + * @param fidp - already opened directory where readdir shall be performed on
+> + * @param entries - output for directory entries (must not be NULL)
+> + * @param maxsize - maximum result message body size (in bytes)
+> + * @param dostat - whether a stat() should be performed and returned for
+> + *                 each directory entry
+> + * @returns resulting response message body size (in bytes) on success,
+> + *          negative error code otherwise
+> + */
+> +int coroutine_fn v9fs_co_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+> +                                      struct V9fsDirEnt **entries,
+> +                                      int32_t maxsize, bool dostat)
+> +{
+> +    int err = 0;
+> +
+> +    if (v9fs_request_cancelled(pdu)) {
+> +        return -EINTR;
+> +    }
+> +    v9fs_co_run_in_worker({
+> +        err = do_readdir_many(pdu, fidp, entries, maxsize, dostat);
+> +    });
+>      return err;
+>  }
+>  
+> diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
+> index c2cdc7a9ea..a6851822d5 100644
+> --- a/hw/9pfs/coth.h
+> +++ b/hw/9pfs/coth.h
+> @@ -49,6 +49,9 @@
+>  void co_run_in_worker_bh(void *);
+>  int coroutine_fn v9fs_co_readlink(V9fsPDU *, V9fsPath *, V9fsString *);
+>  int coroutine_fn v9fs_co_readdir(V9fsPDU *, V9fsFidState *, struct dirent **);
+> +int coroutine_fn v9fs_co_readdir_many(V9fsPDU *, V9fsFidState *,
+> +                                      struct V9fsDirEnt **,
+> +                                      int32_t, bool);
+>  off_t coroutine_fn v9fs_co_telldir(V9fsPDU *, V9fsFidState *);
+>  void coroutine_fn v9fs_co_seekdir(V9fsPDU *, V9fsFidState *, off_t);
+>  void coroutine_fn v9fs_co_rewinddir(V9fsPDU *, V9fsFidState *);
 
 
