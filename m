@@ -2,95 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF0A1BF88A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:54:03 +0200 (CEST)
-Received: from localhost ([::1]:56210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322531BF8D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:03:45 +0200 (CEST)
+Received: from localhost ([::1]:35400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU8hW-0007PM-II
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41106)
+	id 1jU8qt-00047S-PN
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jU8gE-0005hx-Mj
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:52:47 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jU8o5-00031I-Qa
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:02:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jU8ez-000738-QQ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:52:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21312
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jU8ez-00072h-6A
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:51:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588251083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=KTmNVA2on6joSnRL1I8+NKkigaNbjEC1ARnddiXjKMM=;
- b=VlT/9WDO1lz6hQGBTgbUq0YiLBE7hOKDLylhR7tMZd0lOJHqXCPud9e4tpUVhZwjrZSupe
- eiVGyp32MNuTEB/5Zks+SbiNe5+zz7/v8CnfS+GmDxameGn58qOymeVZeDrGZte5OMScli
- fhSBDSm8bkDkuI08IE+7cVJmnX7qF4A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-2ZXwpuPvN5mpQikqe8-vJQ-1; Thu, 30 Apr 2020 08:51:21 -0400
-X-MC-Unique: 2ZXwpuPvN5mpQikqe8-vJQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E34D89052B;
- Thu, 30 Apr 2020 12:51:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-177.ams2.redhat.com
- [10.36.112.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3932D1053B1C;
- Thu, 30 Apr 2020 12:50:51 +0000 (UTC)
-Subject: Re: [PATCH v2 1/6] docs: Sort sections on qemu-img subcommand
- parameters
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200421212019.170707-1-eblake@redhat.com>
- <20200421212019.170707-2-eblake@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <ba22a63a-1573-20cb-f4d9-eb49033037c9@redhat.com>
-Date: Thu, 30 Apr 2020 14:50:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <peter.maydell@linaro.org>) id 1jU8ng-0008AI-K6
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:00:49 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:40323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jU8ng-00087Q-1O
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:00:24 -0400
+Received: by mail-oi1-x232.google.com with SMTP id t199so5118774oif.7
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 06:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GAQpBHnSdfuHsWdp9pq+gZ9nRzw75HOaXMW+xo/DyFQ=;
+ b=Dm9hOo6iq4M8sI06wXCVOzyXPIuJoyqOtteE5n/RMgHUYfpE4UxL+JX1hqAhMPs9gs
+ FlirTxpasfq0nFCtxjE5ndOJzCl2DdMVCIYGWx6hfckx/QO1aSCYkcW1r28or9AL8XBs
+ AoikxGWC8YGC4kdeBUrCoFkj3XCC1sn4fGntsRhDTqWTVbu53jUdkHxr0yQHtvIRXp2W
+ /uBJ/BBZ0P0Sa5OHb+Vsq2fku5xul8bjr0ncNzK1JRbWxnp1OD8jUQq/DSmeY/ayaoyg
+ bAjYCca9Mc1Jn6nYVvFbDv2Sbml3k6v0DVuSGbKmdeFgwZTT4mKneNfSXIGMejGtq/9/
+ +OIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GAQpBHnSdfuHsWdp9pq+gZ9nRzw75HOaXMW+xo/DyFQ=;
+ b=bOlOpwx5T+4pbBgZVN0hofBO07wqU8JYAWlmirYZBkIHLWe29yzp0UamMxXz50SlIV
+ rpaehUw8Ry3bnOdEBXud1MeTHbH8xzzrK3s3QdvPHyTzsADDRgYGv3halIYBEyNEznx+
+ vYOlnuao1fMHU27W8y4QtRKX1S2vAqJViS1Ksi418A0FhgZw+BjNL3pcK+vslLGhA4Ur
+ fCz1lfci/6JAGLvrJgSigA6jzCu5D6/aXbunoCpHI+mlFKlP+/FIxx+DdP5VymeyPWY6
+ 5lEC0yFP/GUMF7jUQ6eueRKJCZ9cyFPDERuvoU4fMqbEyJ4m0HAEsSdtRREgJOVx9xAv
+ VFBA==
+X-Gm-Message-State: AGi0Pub0QeA4bDoV5nHI4QTHwG4+u/e2LyQBN1jX5giIAs+FIxgtg47p
+ on3Cx7+ZkjBSwzRISLmDSYTRWpsvFKmBviDwFaAx1Q==
+X-Google-Smtp-Source: APiQypJd7DghqTkFpLrNDkRrrDhByYOpChsgBFeDHHpnVHmKreVlFrlRKeU7gNlPIjUTyxwjQpkXxR8AhW2bi6hL/Zo=
+X-Received: by 2002:aca:4a45:: with SMTP id x66mr1515256oia.48.1588251622588; 
+ Thu, 30 Apr 2020 06:00:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200421212019.170707-2-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="8hUcTxDBdzUzfqlL2KmzcWCfXdchpXdu4"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+References: <20200430053104.32204-1-armbru@redhat.com>
+In-Reply-To: <20200430053104.32204-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 Apr 2020 14:00:11 +0100
+Message-ID: <CAFEAcA9nQ4CRDHndV3qd7L5P9yzKDzmh4Kc17u_=bVRxHgmiUA@mail.gmail.com>
+Subject: Re: [PULL 00/20] QAPI patches for 2020-04-30
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x232.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::232
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,52 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---8hUcTxDBdzUzfqlL2KmzcWCfXdchpXdu4
-Content-Type: multipart/mixed; boundary="eB6LaE5dqaYp9kEJ5oJytLAd5oRiPlrUs"
-
---eB6LaE5dqaYp9kEJ5oJytLAd5oRiPlrUs
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 21.04.20 23:20, Eric Blake wrote:
-> We already list the subcommand summaries alphabetically, we should do
-> the same for the documentation related to subcommand-specific
-> parameters.
->=20
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  docs/tools/qemu-img.rst | 48 ++++++++++++++++++++---------------------
->  1 file changed, 24 insertions(+), 24 deletions(-)
-
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+On Thu, 30 Apr 2020 at 06:32, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit 648db19685b7030aa558a4ddbd3a8e53d8c9a062:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2020-04-29' into staging (2020-04-29 15:07:33 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-04-30
+>
+> for you to fetch changes up to 89bf68f933393a1bc0de4d07b59ffa8920da130f:
+>
+>   qapi: Generate simpler marshalling code when no arguments (2020-04-30 07:26:41 +0200)
+>
+> ----------------------------------------------------------------
+> QAPI patches for 2020-04-30
+>
 
 
---eB6LaE5dqaYp9kEJ5oJytLAd5oRiPlrUs--
+Applied, thanks.
 
---8hUcTxDBdzUzfqlL2KmzcWCfXdchpXdu4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6qyakACgkQ9AfbAGHV
-z0CUUwgAsAKAz+JIqF1XbsR2mUp+V4gaYOngD/M23OKozOAanROKZhFHN++tusEZ
-lA+DnjSGObEnz6/l6NUIOZgOxQsP7bfOz+Os1fWzQA79V8p+G4f5STBbOHo5hrPb
-Y57MzOWTvRECr0gq7axA0/ZOlYejZJnVzpgV8QA/1YUYdKGUVvZs24+IZWmJtCvg
-nfuhidgOkrev2g8/Fm3Md3Q54n29hWYxPTbEoRHTr/t8k2hdvAA68HyQmE04Py2G
-to9EPlPPegtfSXll1bqYQ3a7GoOPPbDc+9t963aq7h0XFi2H6BzgYYHy/hCFeWeV
-bclLXe0qC8i43dut0D94rpZBLJlYBA==
-=mb7S
------END PGP SIGNATURE-----
-
---8hUcTxDBdzUzfqlL2KmzcWCfXdchpXdu4--
-
+-- PMM
 
