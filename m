@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCB61BF4BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:00:38 +0200 (CEST)
-Received: from localhost ([::1]:60346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF271BF497
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:55:26 +0200 (CEST)
+Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU5zh-0006Wg-DO
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:00:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49038)
+	id 1jU5uf-0006Ad-S9
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:55:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49056)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5lm-0007vo-D4
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:14 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jU5lq-00087z-Nq
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5lk-0004wm-SD
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:14 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29064
+ (envelope-from <cohuck@redhat.com>) id 1jU5lq-0005Dm-3K
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:18 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44077
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lk-0004wQ-Cq
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:12 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lp-0005AO-L9
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588239971;
+ s=mimecast20190719; t=1588239976;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fkHcsJJDlzusy6gB61FxjZ/EXO5XoJeYd/a8T99x3TY=;
- b=fXPlms33GLK0KqsdWDlZhXFHMBFkR0+OGInDIo2e+yUheL5PtDHE/562hR66JGD8HTCu97
- szkDV0jzo0opVmHawHWuqRiLYrDM8M6Z5B0dctKsQnfbmww9yumZlQxTVp1u+/EYMK4FDk
- zvCYjv6GJKaZtFJkNCURNhD8Fy837II=
+ bh=LZl6URw3h6tzQ89tCii3vezD6ykmNkX8KL5LXW85Mqk=;
+ b=fEm4+I31EObPBkKrwgMpMVwveEF5zbi6alt5Zt4/m7bz06U1UPKyDbMtbIUGp9w4pWvJwS
+ /4aFxPTgAdN9v5a/UHa8mk8uizxQkVdCje5AmvM+XXznDqT+MaaxEQe3xPC9FtI8YNBj9t
+ wR7sp9/J/fCbl/o/toa5amqBxXUG6JI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-YBIGzMTnN0WjiVyDhNYjcw-1; Thu, 30 Apr 2020 05:46:09 -0400
-X-MC-Unique: YBIGzMTnN0WjiVyDhNYjcw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-165-3bDZaxOAOlCm_u-t-N6Czg-1; Thu, 30 Apr 2020 05:46:14 -0400
+X-MC-Unique: 3bDZaxOAOlCm_u-t-N6Czg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1156E10082EA;
- Thu, 30 Apr 2020 09:46:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EE6813F7;
+ Thu, 30 Apr 2020 09:46:13 +0000 (UTC)
 Received: from localhost (ovpn-112-226.ams2.redhat.com [10.36.112.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09769196AE;
- Thu, 30 Apr 2020 09:46:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E12C75D9C5;
+ Thu, 30 Apr 2020 09:46:09 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 17/20] s390x: Add unpack facility feature to GA1
-Date: Thu, 30 Apr 2020 11:44:42 +0200
-Message-Id: <20200430094445.25943-18-cohuck@redhat.com>
+Subject: [PULL 18/20] s390x: protvirt: Fix stray error_report_err in
+ s390_machine_protect
+Date: Thu, 30 Apr 2020 11:44:43 +0200
+Message-Id: <20200430094445.25943-19-cohuck@redhat.com>
 In-Reply-To: <20200430094445.25943-1-cohuck@redhat.com>
 References: <20200430094445.25943-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,70 +76,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+ qemu-s390x@nongnu.org, Marc Hartmayer <mhartmay@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Borntraeger <borntraeger@de.ibm.com>
+From: Janosch Frank <frankja@linux.ibm.com>
 
-The unpack facility is an indication that diagnose 308 subcodes 8-10
-are available to the guest. That means, that the guest can put itself
-into protected mode.
+In case the protection of the machine fails at s390_pv_vm_enable(),
+we'll currently report the local_error variable. Problem is that
+there's no migration blocker error that we can report at this point so
+the pointer is always NULL which leads to a SEGFAULT.
 
-Once it is in protected mode, the hardware stops any attempt of VM
-introspection by the hypervisor.
+Let's remove the error report.
 
-Some features are currently not supported in protected mode:
-     * vfio devices
-     * Migration
-     * Huge page backings
-
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+Fixes: 0141e1b47707 ("s390x: protvirt: Add migration blocker")
+Message-Id: <20200326140505.2432-1-frankja@linux.ibm.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200319131921.2367-17-frankja@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/gen-features.c | 1 +
- target/s390x/kvm.c          | 8 ++++++++
- 2 files changed, 9 insertions(+)
+ hw/s390x/s390-virtio-ccw.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 6278845b12b8..8ddeebc54419 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -562,6 +562,7 @@ static uint16_t full_GEN15_GA1[] =3D {
-     S390_FEAT_GROUP_MSA_EXT_9,
-     S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
-     S390_FEAT_ETOKEN,
-+    S390_FEAT_UNPACK,
- };
-=20
- /* Default features (in order of release)
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 870dd1b52b6e..69881a0da0b3 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -2425,6 +2425,14 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model=
-, Error **errp)
-         clear_bit(S390_FEAT_BPB, model->features);
-     }
-=20
-+    /*
-+     * If we have support for protected virtualization, indicate
-+     * the protected virtualization IPL unpack facility.
-+     */
-+    if (cap_protected) {
-+        set_bit(S390_FEAT_UNPACK, model->features);
-+    }
-+
-     /* We emulate a zPCI bus and AEN, therefore we don't need HW support *=
-/
-     set_bit(S390_FEAT_ZPCI, model->features);
-     set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index db45249320ab..b2689073953e 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -359,7 +359,6 @@ static int s390_machine_protect(S390CcwMachineState *ms=
+)
+     rc =3D s390_pv_vm_enable();
+     if (rc) {
+         qemu_balloon_inhibit(false);
+-        error_report_err(local_err);
+         migrate_del_blocker(pv_mig_blocker);
+         error_free_or_abort(&pv_mig_blocker);
+         return rc;
 --=20
 2.21.1
 
