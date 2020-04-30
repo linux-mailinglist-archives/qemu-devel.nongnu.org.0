@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807971BF66C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:19:36 +0200 (CEST)
-Received: from localhost ([::1]:58988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA961BF652
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:16:32 +0200 (CEST)
+Received: from localhost ([::1]:50168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7E7-0005JN-Ek
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57780)
+	id 1jU7B9-000160-KQ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57794)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU78Y-00077X-9J
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jU78e-0007A1-5h
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:14:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU772-0005HB-MF
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:13:50 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jU775-0005Hi-G6
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:13:55 -0400
 Received: from mail-eopbgr80117.outbound.protection.outlook.com
  ([40.107.8.117]:39403 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jU75x-0003Yq-AS; Thu, 30 Apr 2020 07:11:09 -0400
+ id 1jU75y-0003Yq-B6; Thu, 30 Apr 2020 07:11:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T01TacMPMMQWLlZRLfeA21Y0fHa3qJGOemLzOtXOYm65LI3rkiEJKxiS/5nSZN0kZbataJiXw7UBB3oY0xPbo8cuXaPNBjg6BdA5m6OaJ/G5koRBxiwvPb/oO3szMFTGTnPuP+FbP6CcOGoOGTBLdLH4cJgVZeMiKmPmyjyLDWBtJl6qY96fVeYcDOtzxT/8xJLbXuJxYQ2vKhqFEe4r9roW42joVMPLKNgn9gvEwiAAQiAgAGGFaE958ukR2a6sak+QkB33244S/U0IZ0OTlMzIOZUuM0ZvkUFteGM10C5gmAs73vScKxLZ+YpNMNiVrSr1ahUuGUPn3GvSxMuNKw==
+ b=Xquaj7um6ut7fNliv91odYE7P2XF6AvuM7n3VIX5s7jaFYqN6FCIf2YqNuM0SjPfLaXmEwRmp29iwypFR4AL2eu3IiRUMEck2hKtbDiWxmdH+47QqswL9gK297t8iia03VttgpqdqREHPolegtJSbS1EWuq5WLD/rg7Si9eDloT2OZMc/Fser5Uy4TcyBk6kuKT0VneC4D0emEcnkVaCusfPibEhl0rmK4RnYB+cutYT2HqRlDe98+xQEJInKa13283S61/sESU0qtlaI0W5LRBHj82LEmqDdc8U4fF0Ur+KOgmI24x42jWoJBnY3MyrOudlmq8tTrqSPdyFYRycLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p96Q8f6SVdBp4AN38/xYSuB/77eP/QtXR1B0Z8I3bD0=;
- b=PnbaKBnMtsTO8RL23j3506V1eEGhq6Uywl9cFnc1yYhoAJ3h3lPD0yQYtGwCD/5QFi/g1A4lMDE4isfDGmRVsl8gxQZq6uX5h8rhCnnYv0/Z0LPJIFrIQqlH1XkGBwevVSUGaPOnANHFujtkhs2V/eIDnARZwaCJLW+OT7DHTn88JOQXnMm9ttIRV60+WK90o1g7W037SlczDKbBP5SoA/tqRVfa6ohH1hxamS/xtvsMyk50t9Lk8cwR7GXGw7OoQP3rup3hzcOj1F0QZxT1cMWoHXUcnWnmZKA/JMy5xTENCHkU27fCwJTgZPxAJat57t8FE49ByGP48VRGfahjrQ==
+ bh=IQVZEUmlJUyIxRKWgtZ4QqTL9rUQ5Ko92pUVd+FmBiI=;
+ b=Z02WL5IvtaEFnYpp0HHFfiHmKS1g2D0RuWnQZmK3DEEXqi+DYZQl9+xRjkDvcjFXHqGVVYOpcPiKpG3Fa4lm34ijw4rwZYPW0hD31bmQHR0UGw7Et2dDuQbH7iu3T9FJ9eg5z9tiQWl4DIp1iXRvmZgNMghJQr6quTBsmGMwD3lg5JWh/oUZrkMD5Dn1UIpF5CWfC6Wf3LfXDt34MGqX3bT3H1yqPxI8x7Rmtk9BpaB6c5eDGZazk8/dcF8rIYfOWrkBZBM692vuy2ffhMtzVnNPwOQTWLioEwv3zwjlzC7cyWxL2LYwyhiPShWw5RXdJXCbDDnq7DJudnIbkdv8Xw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p96Q8f6SVdBp4AN38/xYSuB/77eP/QtXR1B0Z8I3bD0=;
- b=ugbMWO6sNOLBEdeGo89ZkwEEO/ldvMYwjPV/sLVheya17cHJlciVhZGnUwOQXyS1XtFWscvT7oOiK8mK0bukkC9L5am+pYnYB20W2Q6yLlUE9yr3Qs/V/2Y5cWYllxzhFf8MGsUWqfFJ0Kmg50Uhmm6N9O+PFiZsRvRTJ10pRQU=
+ bh=IQVZEUmlJUyIxRKWgtZ4QqTL9rUQ5Ko92pUVd+FmBiI=;
+ b=HF7+P5I808eWowbODT9AVICGxYzmhLivoHcSxsSbqv653prPXXfPdEkI2lg7HneiS9khJ3LAj2r9iWotWWq3HjmbRuK80eRZmaegv0zui4GpbF9t/SPJ7l6Ydxi6hVhGi5W+mboPjmslVmK/cM/nM0suQYoR7LPRMt00SojlEF8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5447.eurprd08.prod.outlook.com (2603:10a6:20b:10b::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Thu, 30 Apr
- 2020 11:11:06 +0000
+ 2020 11:11:07 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
- 11:11:06 +0000
+ 11:11:07 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 12/17] block/block-backend: convert blk io path to use
- int64_t parameters
-Date: Thu, 30 Apr 2020 14:10:28 +0300
-Message-Id: <20200430111033.29980-13-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 13/17] block: use int64_t instead of uint64_t in driver
+ read handlers
+Date: Thu, 30 Apr 2020 14:10:29 +0300
+Message-Id: <20200430111033.29980-14-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200430111033.29980-1-vsementsov@virtuozzo.com>
 References: <20200430111033.29980-1-vsementsov@virtuozzo.com>
@@ -66,15 +66,15 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.138) by
  AM0P190CA0021.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.19 via Frontend Transport; Thu, 30 Apr 2020 11:11:04 +0000
+ 15.20.2958.19 via Frontend Transport; Thu, 30 Apr 2020 11:11:06 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.138]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0c2773d0-d9d3-46ce-37f6-08d7ecf72d4c
+X-MS-Office365-Filtering-Correlation-Id: 9798f3e6-f560-4ffa-d192-08d7ecf72e58
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5447:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54477A4D69526358A570297AC1AA0@AM7PR08MB5447.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:390;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB544742D63DA8168C55CA96CBC1AA0@AM7PR08MB5447.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:151;
 X-Forefront-PRVS: 0389EDA07F
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
@@ -83,15 +83,15 @@ X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kN+LSLZnZM07AKs4sOCVx+o8JFJQ6+WApPRcAAPHfvnUQeuAxCKi9KoHL71mrJJ3G3VKKH0LMfNoeUOejQ0PkoV4lj+gnigTab3oodaBWqAe4n0CKlenn5SHacpUhclvvJ+TGYdMGIwR6hT1iQ56ZvCJeyF6ztsXVdnt3jZZiGpjsp98bmFI4OjW6LB+P0e5/MEdrpL5qtsEq0b+H6MC3hCjWrfsef/AD6UpunHF8Zvgoev4tX2g5Hi/+VWh0B/t9wpuIrWv4rr/TeJsSI/Tf4YtP3VlA8TspAIIZKCEJaRAYuuKgkA/2Vi4einhK7qWjKbU9cGaYdPtRvLYSByHatLBuPQUL5rQ/Sr34icVJNDIZXJdhA8mhti+r6DcscNjhqheE+UxMNgWDCAU++5dJGkBXpQnM2JhokB/jsoYPhGj6wmQl1IrHd5di6nIjbfa
-X-MS-Exchange-AntiSpam-MessageData: 9/zR1fMrB9hUDFXJwbmjwSU3KoA83beId+lvhrbfQ31It2eMvGhfiS7l1oERsRe8YVy97Hcyx7CCxVN8hwdJrpxWsktgRCnDrlOWUXiZpoPXf6VdgG2yy65P5S+VIjdb20YBd09QIpuDZHiiQ84uOvm+exQkny8kCbaTJA3Tvd3WOVSuNTkLzLGYp6O+5waTpE6tiAGfJgJS25MrLdOS2YaKbxhnIOBKCzvMMLsbJKUur7eawBAXXuf3d/S/I8FJf79P0paKAy9uSJK4z1rZQ3A8+xUbQnVvjglTba1jFSh1PvnmSygGKFPEt4ySo2XlliajYug/1Ior0aypvIQ6D+/1MQgyFoLNucW7N1TEECaIHrk5ySpozpgudpdNH+39fY7KnJ3LnwWMTWTFf5dTwIJkoa8GxR/IDfr0gnQXyE1ylLJjqFXrGQbk+PzCOH8oe5umxiE1eF3iXIShoI4vo+4U6lcreIZ4Dy57CXYFXvVahOo28ZphBUdF0cAfhJ0ya9We9o7+9OCloJBOk6PzR+y6Ru3/cPN8au1D476aA8gNCS8QjXzfu5q+1odXm3jme6A6ADUzWx85HtXAOqfDo9Zsd7U+E5a2Zvwgbn84KM0jm+qSz+klmhV8NY6NLCKIgqX6yG4f6Q4NrU11gOe3e5OaxORVk4RGqd0fSeXgnEqvmuJseIZvDsqd9FYarE4DgR2cVj2UqaOrL29NvjOv7IZm7AG73JWbRyvleMMLzNfCK0/+3zcOJAVqsNB1yw9OH0R4xQk89ed7Tm7AV+5m/PHjoKfaDcfsoFDhDlbfyGM=
+X-Microsoft-Antispam-Message-Info: LZCh/6ZQkpTFzFEI2HWG7P7syLisFuUrfwJMSXZrQ+kSVnoOqdHZgkGqbjezVGQARWCj79QNqNcI26fumTP+mgTfoYa4VW4Ws8DqKFyoypNWIqRqMoKeycJA3HEDaqHzQq35FsFmWJu6l7UCEedG1htF8X26lVnE6kfVFVxChiX0Zh5EUws5LR58+ouljacCP5OpuzClgawDlulibTK34hr9Fk642EtjpQ2xHZoBHF3ov6GAAaIeOab7zHeU+eZ8AzMxwzRpmJ84Ig2W6PhzMzSHaOVztsxu1L+kqiODyI6uIXtvRE6oY3RIxKXZfyWknQXN4W79TlmQTnZ4u2A1f8PZMzIg5WkbCrT4eTDRUbXREprLAMedh0zHPVlRRwnL8K8C8nc4IgX2FgYhg0gp8RYdU9hAZZfbk6juK6D89YWmhxHrzwVJnWYQIEyMooUA
+X-MS-Exchange-AntiSpam-MessageData: 3uXGGUJdtY7NE4xt+2RDrWciJoa2WBWLZgn3idPmT+ToF7BLAkYHNE62gcPiV/4gWXNX/+UN5P33ZA9nCCRzAQcLG8uYSU8z5Q5jNCUe0taSXXDE6SMlhZdeutvV4V2dw4uN6gLQmYIUzF2SVYz53SabalGUkcioteMq46IhFP8aq2Kd8uhcqTXrss9+Jk71zp9bzv1Cyd/4Dhri/ochRrKfJh+L66V2WWz2HbuPWU8oA8zUvH4s85XslRyPzjEkYvLm6ncrpQ0MLXIUD6WIN/ymEFtTjKVWlFbP6alcgCSM1Mnbu/YAod/KQIVtX2xiTcJ2FhcJOsgsGN4pKZZPaqjw7sh8SGs0bA0zcF6FiWSBOvY3Aq7Oaoa1EvkEKmMyGdHB8RQJikth+r4AZSMIN+rEzZ8sk0lS2hIVkaGu1ScqlKDsUjGkbI7eslsYOrKmfZQG3J+3CSpVk+zu/kwp4jPiry2uRp4DiupKTUADM9q8TFAusn57Db3X8shq+w2Z3zuwb6GipWZ/Ff/donnYkp2f/uvy2jrpI8tLJnFcQaKo0JNEGJXfXwLFDaRfC4YjuGqo/8kL8dBJ1blsAze4hikQUkUEVwB8dYCZdcpo0h1Fq27/zFAhwpQsnvvKVX4LgcR2ZLJUyCygft3Q7ua0PNq3r4ZSWHj8aqHFgzlgZCh8UTK/AExYqePGueJ25Y/E+nfvp/vtgcutzfxZd7xhgDd6IM/oPaCQawm6lWT1dLJvgSZLfJcMtz2J6Mgce/ts9Yq4z3CB4d3DGOzcdGwsrfe2vg6UvmUeTCGFqA4ZGAs=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c2773d0-d9d3-46ce-37f6-08d7ecf72d4c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 11:11:06.2010 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9798f3e6-f560-4ffa-d192-08d7ecf72e58
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 11:11:07.7791 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wn93SmIyBeMoZxN7ya30FiHzGx/jSM9NJJqnIxQiQgEzycO7JyS9vvNi1g7NJyM+xkYKPs74dlSof4rMLZK1782v8AkqyLs/tbXBmn0zZpI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: sX2PC6j/XjeLSGFxX958mLDV39rbP5jlSWSrUdgG2VFrAiVBW2lvhJpiRLXD8rOyrQ+DaMTWsErlfj0aHzNyCy8JPzmH4oiGY1idvgy1zCM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5447
 Received-SPF: pass client-ip=40.107.8.117;
  envelope-from=vsementsov@virtuozzo.com;
@@ -129,312 +129,702 @@ We chose signed type, to be consistent with off_t (which is signed) and
 with possibility for signed return type (where negative value means
 error).
 
-Now bdrv layer is converted, convert blk layer too.
+So, convert driver read handlers parameters which are already 64bit to
+signed type.
+
+While being here, convert also flags parameter to be BdrvRequestFlags.
 
 Series: 64bit-block-status
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/sysemu/block-backend.h | 26 +++++++--------
- block/block-backend.c          | 60 ++++++++++++++++++----------------
- 2 files changed, 44 insertions(+), 42 deletions(-)
+ include/block/block_int.h   | 11 ++++++-----
+ block/backup-top.c          |  4 ++--
+ block/blkdebug.c            |  4 ++--
+ block/blklogwrites.c        |  4 ++--
+ block/blkreplay.c           |  2 +-
+ block/blkverify.c           |  4 ++--
+ block/bochs.c               |  4 ++--
+ block/cloop.c               |  4 ++--
+ block/commit.c              |  2 +-
+ block/copy-on-read.c        |  5 +++--
+ block/crypto.c              |  4 ++--
+ block/curl.c                |  3 ++-
+ block/dmg.c                 |  4 ++--
+ block/file-posix.c          |  6 +++---
+ block/file-win32.c          |  4 ++--
+ block/filter-compress.c     |  4 ++--
+ block/mirror.c              |  2 +-
+ block/nbd.c                 |  5 +++--
+ block/nfs.c                 |  6 +++---
+ block/null.c                |  9 +++++----
+ block/nvme.c                |  5 +++--
+ block/qcow.c                |  6 +++---
+ block/qcow2.c               |  5 +++--
+ block/quorum.c              |  4 ++--
+ block/raw-format.c          | 20 ++++++++++----------
+ block/rbd.c                 |  5 +++--
+ block/throttle.c            |  5 +++--
+ block/vdi.c                 |  4 ++--
+ block/vmdk.c                |  4 ++--
+ block/vpc.c                 |  4 ++--
+ block/vvfat.c               |  4 ++--
+ block/vxhs.c                |  4 ++--
+ tests/test-bdrv-drain.c     | 16 +++++++++-------
+ tests/test-block-iothread.c | 19 ++++++++++++++-----
+ 34 files changed, 108 insertions(+), 88 deletions(-)
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index 9bbdbd63d7..0c1eee1778 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -119,14 +119,14 @@ BlockBackend *blk_by_dev(void *dev);
- BlockBackend *blk_by_qdev_id(const char *id, Error **errp);
- void blk_set_dev_ops(BlockBackend *blk, const BlockDevOps *ops, void *opaque);
- int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
--                               unsigned int bytes, QEMUIOVector *qiov,
-+                               int64_t bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags);
- int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
--                                     unsigned int bytes,
-+                                     int64_t bytes,
-                                      QEMUIOVector *qiov, size_t qiov_offset,
-                                      BdrvRequestFlags flags);
- int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
--                               unsigned int bytes, QEMUIOVector *qiov,
-+                               int64_t bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags);
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 28aea2bcfd..7b5f936269 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -180,8 +180,8 @@ struct BlockDriver {
  
- static inline int coroutine_fn blk_co_pread(BlockBackend *blk, int64_t offset,
-@@ -148,13 +148,13 @@ static inline int coroutine_fn blk_co_pwrite(BlockBackend *blk, int64_t offset,
- }
+     /* aio */
+     BlockAIOCB *(*bdrv_aio_preadv)(BlockDriverState *bs,
+-        uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags,
+-        BlockCompletionFunc *cb, void *opaque);
++        int64_t offset, int64_t bytes, QEMUIOVector *qiov,
++        BdrvRequestFlags flags, BlockCompletionFunc *cb, void *opaque);
+     BlockAIOCB *(*bdrv_aio_pwritev)(BlockDriverState *bs,
+         uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags,
+         BlockCompletionFunc *cb, void *opaque);
+@@ -210,10 +210,11 @@ struct BlockDriver {
+      * The buffer in @qiov may point directly to guest memory.
+      */
+     int coroutine_fn (*bdrv_co_preadv)(BlockDriverState *bs,
+-        uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags);
++        int64_t offset, int64_t bytes, QEMUIOVector *qiov,
++        BdrvRequestFlags flags);
+     int coroutine_fn (*bdrv_co_preadv_part)(BlockDriverState *bs,
+-        uint64_t offset, uint64_t bytes,
+-        QEMUIOVector *qiov, size_t qiov_offset, int flags);
++        int64_t offset, int64_t bytes,
++        QEMUIOVector *qiov, size_t qiov_offset, BdrvRequestFlags flags);
+     int coroutine_fn (*bdrv_co_writev)(BlockDriverState *bs,
+         int64_t sector_num, int nb_sectors, QEMUIOVector *qiov, int flags);
+     /**
+diff --git a/block/backup-top.c b/block/backup-top.c
+index 3b50c06e2c..289fee5a92 100644
+--- a/block/backup-top.c
++++ b/block/backup-top.c
+@@ -42,8 +42,8 @@ typedef struct BDRVBackupTopState {
+ } BDRVBackupTopState;
  
- int blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                      int bytes, BdrvRequestFlags flags);
-+                      int64_t bytes, BdrvRequestFlags flags);
- BlockAIOCB *blk_aio_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                                  int bytes, BdrvRequestFlags flags,
-+                                  int64_t bytes, BdrvRequestFlags flags,
-                                   BlockCompletionFunc *cb, void *opaque);
- int blk_make_zero(BlockBackend *blk, BdrvRequestFlags flags);
--int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int bytes);
--int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int bytes,
-+int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int64_t bytes);
-+int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int64_t bytes,
-                BdrvRequestFlags flags);
- int64_t blk_getlength(BlockBackend *blk);
- void blk_get_geometry(BlockBackend *blk, uint64_t *nb_sectors_ptr);
-@@ -167,14 +167,14 @@ BlockAIOCB *blk_aio_pwritev(BlockBackend *blk, int64_t offset,
-                             BlockCompletionFunc *cb, void *opaque);
- BlockAIOCB *blk_aio_flush(BlockBackend *blk,
-                           BlockCompletionFunc *cb, void *opaque);
--BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk, int64_t offset, int bytes,
-+BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes,
-                              BlockCompletionFunc *cb, void *opaque);
- void blk_aio_cancel(BlockAIOCB *acb);
- void blk_aio_cancel_async(BlockAIOCB *acb);
- int blk_ioctl(BlockBackend *blk, unsigned long int req, void *buf);
- BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned long int req, void *buf,
-                           BlockCompletionFunc *cb, void *opaque);
--int blk_co_pdiscard(BlockBackend *blk, int64_t offset, int bytes);
-+int blk_co_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes);
- int blk_co_flush(BlockBackend *blk);
- int blk_flush(BlockBackend *blk);
- int blk_commit_all(void);
-@@ -233,12 +233,12 @@ int blk_get_open_flags_from_root_state(BlockBackend *blk);
- void *blk_aio_get(const AIOCBInfo *aiocb_info, BlockBackend *blk,
-                   BlockCompletionFunc *cb, void *opaque);
- int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                                      int bytes, BdrvRequestFlags flags);
-+                                      int64_t bytes, BdrvRequestFlags flags);
- int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, const void *buf,
--                          int bytes);
-+                          int64_t bytes);
- int blk_truncate(BlockBackend *blk, int64_t offset, bool exact,
-                  PreallocMode prealloc, Error **errp);
--int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes);
-+int blk_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes);
- int blk_save_vmstate(BlockBackend *blk, const uint8_t *buf,
-                      int64_t pos, int size);
- int blk_load_vmstate(BlockBackend *blk, uint8_t *buf, int64_t pos, int size);
-@@ -259,7 +259,7 @@ void blk_unregister_buf(BlockBackend *blk, void *host);
- 
- int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-                                    BlockBackend *blk_out, int64_t off_out,
--                                   int bytes, BdrvRequestFlags read_flags,
-+                                   int64_t bytes, BdrvRequestFlags read_flags,
-                                    BdrvRequestFlags write_flags);
- 
- const BdrvChild *blk_root(BlockBackend *blk);
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 38ae413826..b3f6edfc70 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1110,11 +1110,11 @@ void blk_set_disable_request_queuing(BlockBackend *blk, bool disable)
- }
- 
- static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
--                                  size_t size)
-+                                  int64_t bytes)
+ static coroutine_fn int backup_top_co_preadv(
+-        BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-        QEMUIOVector *qiov, int flags)
++        BlockDriverState *bs, int64_t offset, int64_t bytes,
++        QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
-     int64_t len;
+     return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
+ }
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index af44aa973f..7e02156c63 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -619,8 +619,8 @@ static int rule_check(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+ }
  
--    if (size > INT_MAX) {
-+    if (bytes > INT_MAX) {
-         return -EIO;
-     }
- 
-@@ -1122,7 +1122,7 @@ static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
-         return -ENOMEDIUM;
-     }
- 
--    if (offset < 0) {
-+    if (offset < 0 || bytes < 0) {
-         return -EIO;
-     }
- 
-@@ -1132,7 +1132,7 @@ static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
-             return len;
-         }
- 
--        if (offset > len || len - offset < size) {
-+        if (offset > len || len - offset < bytes) {
-             return -EIO;
-         }
-     }
-@@ -1154,7 +1154,7 @@ static void coroutine_fn blk_wait_while_drained(BlockBackend *blk)
- 
- /* To be called between exactly one pair of blk_inc/dec_in_flight() */
  static int coroutine_fn
--blk_do_preadv(BlockBackend *blk, int64_t offset, unsigned int bytes,
-+blk_do_preadv(BlockBackend *blk, int64_t offset, int64_t bytes,
-               QEMUIOVector *qiov, BdrvRequestFlags flags)
+-blkdebug_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-                   QEMUIOVector *qiov, int flags)
++blkdebug_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                   QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
-     int ret;
-@@ -1185,7 +1185,7 @@ blk_do_preadv(BlockBackend *blk, int64_t offset, unsigned int bytes,
+     int err;
+ 
+diff --git a/block/blklogwrites.c b/block/blklogwrites.c
+index 04d8b33607..db60b396bc 100644
+--- a/block/blklogwrites.c
++++ b/block/blklogwrites.c
+@@ -307,8 +307,8 @@ static void blk_log_writes_refresh_limits(BlockDriverState *bs, Error **errp)
  }
  
- int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
--                               unsigned int bytes, QEMUIOVector *qiov,
-+                               int64_t bytes, QEMUIOVector *qiov,
-                                BdrvRequestFlags flags)
- {
-     int ret;
-@@ -1199,7 +1199,7 @@ int coroutine_fn blk_co_preadv(BlockBackend *blk, int64_t offset,
- 
- /* To be called between exactly one pair of blk_inc/dec_in_flight() */
  static int coroutine_fn
--blk_do_pwritev_part(BlockBackend *blk, int64_t offset, unsigned int bytes,
-+blk_do_pwritev_part(BlockBackend *blk, int64_t offset, int64_t bytes,
-                     QEMUIOVector *qiov, size_t qiov_offset,
-                     BdrvRequestFlags flags)
+-blk_log_writes_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-                         QEMUIOVector *qiov, int flags)
++blk_log_writes_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                         QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
-@@ -1235,7 +1235,7 @@ blk_do_pwritev_part(BlockBackend *blk, int64_t offset, unsigned int bytes,
+     return bdrv_co_preadv(bs->file, offset, bytes, qiov, flags);
+ }
+diff --git a/block/blkreplay.c b/block/blkreplay.c
+index c96ac8f4bc..c8dd17bfff 100644
+--- a/block/blkreplay.c
++++ b/block/blkreplay.c
+@@ -73,7 +73,7 @@ static void block_request_create(uint64_t reqid, BlockDriverState *bs,
  }
  
- int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
--                                     unsigned int bytes,
-+                                     int64_t bytes,
-                                      QEMUIOVector *qiov, size_t qiov_offset,
-                                      BdrvRequestFlags flags)
+ static int coroutine_fn blkreplay_co_preadv(BlockDriverState *bs,
+-    uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags)
++    int64_t offset, int64_t bytes, QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
-@@ -1249,7 +1249,7 @@ int coroutine_fn blk_co_pwritev_part(BlockBackend *blk, int64_t offset,
+     uint64_t reqid = blkreplay_next_id();
+     int ret = bdrv_co_preadv(bs->file, offset, bytes, qiov, flags);
+diff --git a/block/blkverify.c b/block/blkverify.c
+index 667e60d832..6bc2982a95 100644
+--- a/block/blkverify.c
++++ b/block/blkverify.c
+@@ -224,8 +224,8 @@ blkverify_co_prwv(BlockDriverState *bs, BlkverifyRequest *r, uint64_t offset,
  }
  
- int coroutine_fn blk_co_pwritev(BlockBackend *blk, int64_t offset,
--                                unsigned int bytes, QEMUIOVector *qiov,
-+                                int64_t bytes, QEMUIOVector *qiov,
-                                 BdrvRequestFlags flags)
+ static int coroutine_fn
+-blkverify_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-                    QEMUIOVector *qiov, int flags)
++blkverify_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                    QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
-     return blk_co_pwritev_part(blk, offset, bytes, qiov, 0, flags);
-@@ -1311,7 +1311,7 @@ static int blk_prw(BlockBackend *blk, int64_t offset, uint8_t *buf,
+     BlkverifyRequest r;
+     QEMUIOVector raw_qiov;
+diff --git a/block/bochs.c b/block/bochs.c
+index 32bb83b268..7c8c181705 100644
+--- a/block/bochs.c
++++ b/block/bochs.c
+@@ -238,8 +238,8 @@ static int64_t seek_to_sector(BlockDriverState *bs, int64_t sector_num)
  }
  
- int blk_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                      int bytes, BdrvRequestFlags flags)
-+                      int64_t bytes, BdrvRequestFlags flags)
+ static int coroutine_fn
+-bochs_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-                QEMUIOVector *qiov, int flags)
++bochs_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
-     return blk_prw(blk, offset, NULL, bytes, blk_write_entry,
-                    flags | BDRV_REQ_ZERO_WRITE);
-@@ -1361,7 +1361,7 @@ BlockAIOCB *blk_abort_aio_request(BlockBackend *blk,
- typedef struct BlkAioEmAIOCB {
-     BlockAIOCB common;
-     BlkRwCo rwco;
--    int bytes;
-+    int64_t bytes;
-     bool has_returned;
- } BlkAioEmAIOCB;
- 
-@@ -1385,7 +1385,8 @@ static void blk_aio_complete_bh(void *opaque)
-     blk_aio_complete(acb);
+     BDRVBochsState *s = bs->opaque;
+     uint64_t sector_num = offset >> BDRV_SECTOR_BITS;
+diff --git a/block/cloop.c b/block/cloop.c
+index 4de94876d4..5322f720db 100644
+--- a/block/cloop.c
++++ b/block/cloop.c
+@@ -245,8 +245,8 @@ static inline int cloop_read_block(BlockDriverState *bs, int block_num)
  }
  
--static BlockAIOCB *blk_aio_prwv(BlockBackend *blk, int64_t offset, int bytes,
-+static BlockAIOCB *blk_aio_prwv(BlockBackend *blk,
-+                                int64_t offset, int64_t bytes,
-                                 void *iobuf, CoroutineEntry co_entry,
-                                 BdrvRequestFlags flags,
-                                 BlockCompletionFunc *cb, void *opaque)
-@@ -1442,31 +1443,31 @@ static void blk_aio_write_entry(void *opaque)
+ static int coroutine_fn
+-cloop_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-                QEMUIOVector *qiov, int flags)
++cloop_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     BDRVCloopState *s = bs->opaque;
+     uint64_t sector_num = offset >> BDRV_SECTOR_BITS;
+diff --git a/block/commit.c b/block/commit.c
+index 8e672799af..517f9aa7a0 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -211,7 +211,7 @@ static const BlockJobDriver commit_job_driver = {
+ };
+ 
+ static int coroutine_fn bdrv_commit_top_preadv(BlockDriverState *bs,
+-    uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags)
++    int64_t offset, int64_t bytes, QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
+ }
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 242d3ff055..c2a0916b66 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -74,8 +74,9 @@ static int64_t cor_getlength(BlockDriverState *bs)
+ 
+ 
+ static int coroutine_fn cor_co_preadv(BlockDriverState *bs,
+-                                      uint64_t offset, uint64_t bytes,
+-                                      QEMUIOVector *qiov, int flags)
++                                      int64_t offset, int64_t bytes,
++                                      QEMUIOVector *qiov,
++                                      BdrvRequestFlags flags)
+ {
+     return bdrv_co_preadv(bs->file, offset, bytes, qiov,
+                           flags | BDRV_REQ_COPY_ON_READ);
+diff --git a/block/crypto.c b/block/crypto.c
+index d577f89659..4df71b25f1 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -335,8 +335,8 @@ static int block_crypto_reopen_prepare(BDRVReopenState *state,
+ #define BLOCK_CRYPTO_MAX_IO_SIZE (1024 * 1024)
+ 
+ static coroutine_fn int
+-block_crypto_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-                       QEMUIOVector *qiov, int flags)
++block_crypto_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                       QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     BlockCrypto *crypto = bs->opaque;
+     uint64_t cur_bytes; /* number of bytes in current iteration */
+diff --git a/block/curl.c b/block/curl.c
+index 6e325901dc..39086e83c3 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -922,7 +922,8 @@ out:
  }
  
- BlockAIOCB *blk_aio_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                                  int count, BdrvRequestFlags flags,
-+                                  int64_t bytes, BdrvRequestFlags flags,
+ static int coroutine_fn curl_co_preadv(BlockDriverState *bs,
+-        uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags)
++        int64_t offset, int64_t bytes, QEMUIOVector *qiov,
++        BdrvRequestFlags flags)
+ {
+     CURLAIOCB acb = {
+         .co = qemu_coroutine_self(),
+diff --git a/block/dmg.c b/block/dmg.c
+index 4a045f2b3e..0e3ac05371 100644
+--- a/block/dmg.c
++++ b/block/dmg.c
+@@ -689,8 +689,8 @@ static inline int dmg_read_chunk(BlockDriverState *bs, uint64_t sector_num)
+ }
+ 
+ static int coroutine_fn
+-dmg_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-              QEMUIOVector *qiov, int flags)
++dmg_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++              QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     BDRVDMGState *s = bs->opaque;
+     uint64_t sector_num = offset >> BDRV_SECTOR_BITS;
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 7e19bbff5f..1026e6040b 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1941,9 +1941,9 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
+     return raw_thread_pool_submit(bs, handle_aiocb_rw, &acb);
+ }
+ 
+-static int coroutine_fn raw_co_preadv(BlockDriverState *bs, uint64_t offset,
+-                                      uint64_t bytes, QEMUIOVector *qiov,
+-                                      int flags)
++static int coroutine_fn raw_co_preadv(BlockDriverState *bs, int64_t offset,
++                                      int64_t bytes, QEMUIOVector *qiov,
++                                      BdrvRequestFlags flags)
+ {
+     return raw_co_prw(bs, offset, bytes, qiov, QEMU_AIO_READ);
+ }
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 15859839a1..8a163837ab 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -415,8 +415,8 @@ fail:
+ }
+ 
+ static BlockAIOCB *raw_aio_preadv(BlockDriverState *bs,
+-                                  uint64_t offset, uint64_t bytes,
+-                                  QEMUIOVector *qiov, int flags,
++                                  int64_t offset, int64_t bytes,
++                                  QEMUIOVector *qiov, BdrvRequestFlags flags,
                                    BlockCompletionFunc *cb, void *opaque)
  {
--    return blk_aio_prwv(blk, offset, count, NULL, blk_aio_write_entry,
-+    return blk_aio_prwv(blk, offset, bytes, NULL, blk_aio_write_entry,
-                         flags | BDRV_REQ_ZERO_WRITE, cb, opaque);
+     BDRVRawState *s = bs->opaque;
+diff --git a/block/filter-compress.c b/block/filter-compress.c
+index 82c315b298..e61de56b96 100644
+--- a/block/filter-compress.c
++++ b/block/filter-compress.c
+@@ -62,10 +62,10 @@ static int64_t compress_getlength(BlockDriverState *bs)
+ 
+ 
+ static int coroutine_fn compress_co_preadv_part(BlockDriverState *bs,
+-                                                uint64_t offset, uint64_t bytes,
++                                                int64_t offset, int64_t bytes,
+                                                 QEMUIOVector *qiov,
+                                                 size_t qiov_offset,
+-                                                int flags)
++                                                BdrvRequestFlags flags)
+ {
+     return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
+                                flags);
+diff --git a/block/mirror.c b/block/mirror.c
+index c26fd9260d..7cd720ac32 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1365,7 +1365,7 @@ static void coroutine_fn active_write_settle(MirrorOp *op)
  }
  
--int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int count)
-+int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int64_t bytes)
+ static int coroutine_fn bdrv_mirror_top_preadv(BlockDriverState *bs,
+-    uint64_t offset, uint64_t bytes, QEMUIOVector *qiov, int flags)
++    int64_t offset, int64_t bytes, QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
--    int ret = blk_prw(blk, offset, buf, count, blk_read_entry, 0);
-+    int ret = blk_prw(blk, offset, buf, bytes, blk_read_entry, 0);
-     if (ret < 0) {
+     return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
+ }
+diff --git a/block/nbd.c b/block/nbd.c
+index 2160859f64..fedad8843f 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -1160,8 +1160,9 @@ static int nbd_co_request(BlockDriverState *bs, NBDRequest *request,
+     return ret ? ret : request_ret;
+ }
+ 
+-static int nbd_client_co_preadv(BlockDriverState *bs, uint64_t offset,
+-                                uint64_t bytes, QEMUIOVector *qiov, int flags)
++static int nbd_client_co_preadv(BlockDriverState *bs, int64_t offset,
++                                int64_t bytes, QEMUIOVector *qiov,
++                                BdrvRequestFlags flags)
+ {
+     int ret, request_ret;
+     Error *local_err = NULL;
+diff --git a/block/nfs.c b/block/nfs.c
+index cc2413d5ab..647250e4d8 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -263,9 +263,9 @@ nfs_co_generic_cb(int ret, struct nfs_context *nfs, void *data,
+                                      nfs_co_generic_bh_cb, task);
+ }
+ 
+-static int coroutine_fn nfs_co_preadv(BlockDriverState *bs, uint64_t offset,
+-                                      uint64_t bytes, QEMUIOVector *iov,
+-                                      int flags)
++static int coroutine_fn nfs_co_preadv(BlockDriverState *bs, int64_t offset,
++                                      int64_t bytes, QEMUIOVector *iov,
++                                      BdrvRequestFlags flags)
+ {
+     NFSClient *client = bs->opaque;
+     NFSRPC task;
+diff --git a/block/null.c b/block/null.c
+index 15e1d56746..e2a59caf46 100644
+--- a/block/null.c
++++ b/block/null.c
+@@ -116,8 +116,9 @@ static coroutine_fn int null_co_common(BlockDriverState *bs)
+ }
+ 
+ static coroutine_fn int null_co_preadv(BlockDriverState *bs,
+-                                       uint64_t offset, uint64_t bytes,
+-                                       QEMUIOVector *qiov, int flags)
++                                       int64_t offset, int64_t bytes,
++                                       QEMUIOVector *qiov,
++                                       BdrvRequestFlags flags)
+ {
+     BDRVNullState *s = bs->opaque;
+ 
+@@ -187,8 +188,8 @@ static inline BlockAIOCB *null_aio_common(BlockDriverState *bs,
+ }
+ 
+ static BlockAIOCB *null_aio_preadv(BlockDriverState *bs,
+-                                   uint64_t offset, uint64_t bytes,
+-                                   QEMUIOVector *qiov, int flags,
++                                   int64_t offset, int64_t bytes,
++                                   QEMUIOVector *qiov, BdrvRequestFlags flags,
+                                    BlockCompletionFunc *cb,
+                                    void *opaque)
+ {
+diff --git a/block/nvme.c b/block/nvme.c
+index 7b7c0cc5d6..c79e398bff 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -1062,8 +1062,9 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+ }
+ 
+ static coroutine_fn int nvme_co_preadv(BlockDriverState *bs,
+-                                       uint64_t offset, uint64_t bytes,
+-                                       QEMUIOVector *qiov, int flags)
++                                       int64_t offset, int64_t bytes,
++                                       QEMUIOVector *qiov,
++                                       BdrvRequestFlags flags)
+ {
+     return nvme_co_prw(bs, offset, bytes, qiov, false, flags);
+ }
+diff --git a/block/qcow.c b/block/qcow.c
+index 8973e4e565..40fc5b96a4 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -628,9 +628,9 @@ static void qcow_refresh_limits(BlockDriverState *bs, Error **errp)
+     bs->bl.request_alignment = BDRV_SECTOR_SIZE;
+ }
+ 
+-static coroutine_fn int qcow_co_preadv(BlockDriverState *bs, uint64_t offset,
+-                                       uint64_t bytes, QEMUIOVector *qiov,
+-                                       int flags)
++static coroutine_fn int qcow_co_preadv(BlockDriverState *bs, int64_t offset,
++                                       int64_t bytes, QEMUIOVector *qiov,
++                                       BdrvRequestFlags flags)
+ {
+     BDRVQcowState *s = bs->opaque;
+     int offset_in_cluster;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index b524b0c53f..817b0bfd2b 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2202,9 +2202,10 @@ static coroutine_fn int qcow2_co_preadv_task_entry(AioTask *task)
+ }
+ 
+ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
+-                                             uint64_t offset, uint64_t bytes,
++                                             int64_t offset, int64_t bytes,
+                                              QEMUIOVector *qiov,
+-                                             size_t qiov_offset, int flags)
++                                             size_t qiov_offset,
++                                             BdrvRequestFlags flags)
+ {
+     BDRVQcow2State *s = bs->opaque;
+     int ret = 0;
+diff --git a/block/quorum.c b/block/quorum.c
+index 6d7a56bd93..3c65c05d17 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -660,8 +660,8 @@ static int read_fifo_child(QuorumAIOCB *acb)
+     return ret;
+ }
+ 
+-static int quorum_co_preadv(BlockDriverState *bs, uint64_t offset,
+-                            uint64_t bytes, QEMUIOVector *qiov, int flags)
++static int quorum_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                            QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     BDRVQuorumState *s = bs->opaque;
+     QuorumAIOCB *acb = quorum_aio_get(bs, qiov, offset, bytes, flags);
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 93b25e1b6b..709b8aecdb 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -171,8 +171,8 @@ static void raw_reopen_abort(BDRVReopenState *state)
+ }
+ 
+ /* Check and adjust the offset, against 'offset' and 'size' options. */
+-static inline int raw_adjust_offset(BlockDriverState *bs, uint64_t *offset,
+-                                    uint64_t bytes, bool is_write)
++static inline int raw_adjust_offset(BlockDriverState *bs, int64_t *offset,
++                                    int64_t bytes, bool is_write)
+ {
+     BDRVRawState *s = bs->opaque;
+ 
+@@ -191,9 +191,9 @@ static inline int raw_adjust_offset(BlockDriverState *bs, uint64_t *offset,
+     return 0;
+ }
+ 
+-static int coroutine_fn raw_co_preadv(BlockDriverState *bs, uint64_t offset,
+-                                      uint64_t bytes, QEMUIOVector *qiov,
+-                                      int flags)
++static int coroutine_fn raw_co_preadv(BlockDriverState *bs, int64_t offset,
++                                      int64_t bytes, QEMUIOVector *qiov,
++                                      BdrvRequestFlags flags)
+ {
+     int ret;
+ 
+@@ -249,7 +249,7 @@ static int coroutine_fn raw_co_pwritev(BlockDriverState *bs, uint64_t offset,
+         qiov = &local_qiov;
+     }
+ 
+-    ret = raw_adjust_offset(bs, &offset, bytes, true);
++    ret = raw_adjust_offset(bs, (int64_t *)&offset, bytes, true);
+     if (ret) {
+         goto fail;
+     }
+@@ -284,7 +284,7 @@ static int coroutine_fn raw_co_pwrite_zeroes(BlockDriverState *bs,
+ {
+     int ret;
+ 
+-    ret = raw_adjust_offset(bs, (uint64_t *)&offset, bytes, true);
++    ret = raw_adjust_offset(bs, (int64_t *)&offset, bytes, true);
+     if (ret) {
          return ret;
      }
--    return count;
-+    return bytes;
- }
- 
--int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int count,
--               BdrvRequestFlags flags)
-+int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf,
-+               int64_t bytes, BdrvRequestFlags flags)
+@@ -296,7 +296,7 @@ static int coroutine_fn raw_co_pdiscard(BlockDriverState *bs,
  {
--    int ret = blk_prw(blk, offset, (void *) buf, count, blk_write_entry,
-+    int ret = blk_prw(blk, offset, (void *) buf, bytes, blk_write_entry,
-                       flags);
-     if (ret < 0) {
+     int ret;
+ 
+-    ret = raw_adjust_offset(bs, (uint64_t *)&offset, bytes, true);
++    ret = raw_adjust_offset(bs, &offset, bytes, true);
+     if (ret) {
          return ret;
      }
--    return count;
-+    return bytes;
+@@ -516,7 +516,7 @@ static int coroutine_fn raw_co_copy_range_from(BlockDriverState *bs,
+ {
+     int ret;
+ 
+-    ret = raw_adjust_offset(bs, &src_offset, bytes, false);
++    ret = raw_adjust_offset(bs, (int64_t *)&src_offset, bytes, false);
+     if (ret) {
+         return ret;
+     }
+@@ -535,7 +535,7 @@ static int coroutine_fn raw_co_copy_range_to(BlockDriverState *bs,
+ {
+     int ret;
+ 
+-    ret = raw_adjust_offset(bs, &dst_offset, bytes, true);
++    ret = raw_adjust_offset(bs, (int64_t *)&dst_offset, bytes, true);
+     if (ret) {
+         return ret;
+     }
+diff --git a/block/rbd.c b/block/rbd.c
+index e637639a07..b7edd685f6 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -1034,8 +1034,9 @@ failed:
  }
  
- int64_t blk_getlength(BlockBackend *blk)
-@@ -1567,7 +1568,7 @@ BlockAIOCB *blk_aio_ioctl(BlockBackend *blk, unsigned long int req, void *buf,
+ static BlockAIOCB *qemu_rbd_aio_preadv(BlockDriverState *bs,
+-                                       uint64_t offset, uint64_t bytes,
+-                                       QEMUIOVector *qiov, int flags,
++                                       int64_t offset, int64_t bytes,
++                                       QEMUIOVector *qiov,
++                                       BdrvRequestFlags flags,
+                                        BlockCompletionFunc *cb,
+                                        void *opaque)
+ {
+diff --git a/block/throttle.c b/block/throttle.c
+index 71f4bb0ad1..63d1956074 100644
+--- a/block/throttle.c
++++ b/block/throttle.c
+@@ -114,8 +114,9 @@ static int64_t throttle_getlength(BlockDriverState *bs)
+ }
  
- /* To be called between exactly one pair of blk_inc/dec_in_flight() */
+ static int coroutine_fn throttle_co_preadv(BlockDriverState *bs,
+-                                           uint64_t offset, uint64_t bytes,
+-                                           QEMUIOVector *qiov, int flags)
++                                           int64_t offset, int64_t bytes,
++                                           QEMUIOVector *qiov,
++                                           BdrvRequestFlags flags)
+ {
+ 
+     ThrottleGroupMember *tgm = bs->opaque;
+diff --git a/block/vdi.c b/block/vdi.c
+index e1a11f2aa0..1b5365f34c 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -547,8 +547,8 @@ static int coroutine_fn vdi_co_block_status(BlockDriverState *bs,
+ }
+ 
  static int coroutine_fn
--blk_do_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
-+blk_do_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes)
+-vdi_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-              QEMUIOVector *qiov, int flags)
++vdi_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++              QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     BDRVVdiState *s = bs->opaque;
+     QEMUIOVector local_qiov;
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 218d9c9800..a1a0a77fe9 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -1868,8 +1868,8 @@ static int vmdk_read_extent(VmdkExtent *extent, int64_t cluster_offset,
+ }
+ 
+ static int coroutine_fn
+-vmdk_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-               QEMUIOVector *qiov, int flags)
++vmdk_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++               QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     BDRVVmdkState *s = bs->opaque;
+     int ret;
+diff --git a/block/vpc.c b/block/vpc.c
+index d8141b52da..45c254c3f7 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -611,8 +611,8 @@ static int vpc_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+ }
+ 
+ static int coroutine_fn
+-vpc_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-              QEMUIOVector *qiov, int flags)
++vpc_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++              QEMUIOVector *qiov, BdrvRequestFlags flags)
+ {
+     BDRVVPCState *s = bs->opaque;
+     int ret;
+diff --git a/block/vvfat.c b/block/vvfat.c
+index ab800c4887..80d488f556 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -1538,8 +1538,8 @@ static int vvfat_read(BlockDriverState *bs, int64_t sector_num,
+ }
+ 
+ static int coroutine_fn
+-vvfat_co_preadv(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+-                QEMUIOVector *qiov, int flags)
++vvfat_co_preadv(BlockDriverState *bs, int64_t offset, int64_t bytes,
++                QEMUIOVector *qiov, BdrvRequestFlags flags)
  {
      int ret;
- 
-@@ -1591,14 +1592,15 @@ static void blk_aio_pdiscard_entry(void *opaque)
+     BDRVVVFATState *s = bs->opaque;
+diff --git a/block/vxhs.c b/block/vxhs.c
+index d79fc97df6..a1e437b2cb 100644
+--- a/block/vxhs.c
++++ b/block/vxhs.c
+@@ -480,8 +480,8 @@ errout:
  }
  
- BlockAIOCB *blk_aio_pdiscard(BlockBackend *blk,
--                             int64_t offset, int bytes,
-+                             int64_t offset, int64_t bytes,
-                              BlockCompletionFunc *cb, void *opaque)
+ static BlockAIOCB *vxhs_aio_preadv(BlockDriverState *bs,
+-                                   uint64_t offset, uint64_t bytes,
+-                                   QEMUIOVector *qiov, int flags,
++                                   int64_t offset, int64_t bytes,
++                                   QEMUIOVector *qiov, BdrvRequestFlags flags,
+                                    BlockCompletionFunc *cb, void *opaque)
  {
-     return blk_aio_prwv(blk, offset, bytes, NULL, blk_aio_pdiscard_entry, 0,
-                         cb, opaque);
+     return vxhs_aio_rw(bs, offset, qiov, bytes, cb, opaque, VDISK_AIO_READ);
+diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
+index fa0e6a648b..f384e0eb32 100644
+--- a/tests/test-bdrv-drain.c
++++ b/tests/test-bdrv-drain.c
+@@ -65,8 +65,9 @@ static void co_reenter_bh(void *opaque)
  }
  
--int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
-+int coroutine_fn blk_co_pdiscard(BlockBackend *blk, int64_t offset,
-+                                 int64_t bytes)
+ static int coroutine_fn bdrv_test_co_preadv(BlockDriverState *bs,
+-                                            uint64_t offset, uint64_t bytes,
+-                                            QEMUIOVector *qiov, int flags)
++                                            int64_t offset, int64_t bytes,
++                                            QEMUIOVector *qiov,
++                                            BdrvRequestFlags flags)
  {
-     int ret;
+     BDRVTestState *s = bs->opaque;
  
-@@ -1618,7 +1620,7 @@ static void blk_pdiscard_entry(void *opaque)
-     aio_wait_kick();
+@@ -1120,8 +1121,9 @@ static void bdrv_test_top_close(BlockDriverState *bs)
  }
  
--int blk_pdiscard(BlockBackend *blk, int64_t offset, int bytes)
-+int blk_pdiscard(BlockBackend *blk, int64_t offset, int64_t bytes)
+ static int coroutine_fn bdrv_test_top_co_preadv(BlockDriverState *bs,
+-                                                uint64_t offset, uint64_t bytes,
+-                                                QEMUIOVector *qiov, int flags)
++                                                int64_t offset, int64_t bytes,
++                                                QEMUIOVector *qiov,
++                                                BdrvRequestFlags flags)
  {
-     return blk_prw(blk, offset, NULL, bytes, blk_pdiscard_entry, 0);
- }
-@@ -2123,16 +2125,16 @@ void *blk_aio_get(const AIOCBInfo *aiocb_info, BlockBackend *blk,
- }
- 
- int coroutine_fn blk_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
--                                      int bytes, BdrvRequestFlags flags)
-+                                      int64_t bytes, BdrvRequestFlags flags)
+     BDRVTestTopState *tts = bs->opaque;
+     return bdrv_co_preadv(tts->wait_child, offset, bytes, qiov, flags);
+@@ -1862,10 +1864,10 @@ static void bdrv_replace_test_close(BlockDriverState *bs)
+  *   Set .has_read to true and return success.
+  */
+ static int coroutine_fn bdrv_replace_test_co_preadv(BlockDriverState *bs,
+-                                                    uint64_t offset,
+-                                                    uint64_t bytes,
++                                                    int64_t offset,
++                                                    int64_t bytes,
+                                                     QEMUIOVector *qiov,
+-                                                    int flags)
++                                                    BdrvRequestFlags flags)
  {
-     return blk_co_pwritev(blk, offset, bytes, NULL,
-                           flags | BDRV_REQ_ZERO_WRITE);
- }
+     BDRVReplaceTestState *s = bs->opaque;
  
- int blk_pwrite_compressed(BlockBackend *blk, int64_t offset, const void *buf,
--                          int count)
-+                          int64_t bytes)
+diff --git a/tests/test-block-iothread.c b/tests/test-block-iothread.c
+index 0c861809f0..9567617c50 100644
+--- a/tests/test-block-iothread.c
++++ b/tests/test-block-iothread.c
+@@ -31,9 +31,18 @@
+ #include "qemu/main-loop.h"
+ #include "iothread.h"
+ 
+-static int coroutine_fn bdrv_test_co_prwv(BlockDriverState *bs,
+-                                          uint64_t offset, uint64_t bytes,
+-                                          QEMUIOVector *qiov, int flags)
++static int coroutine_fn bdrv_test_co_preadv(BlockDriverState *bs,
++                                            int64_t offset, int64_t bytes,
++                                            QEMUIOVector *qiov,
++                                            BdrvRequestFlags flags)
++{
++    return 0;
++}
++
++static int coroutine_fn bdrv_test_co_pwritev(BlockDriverState *bs,
++                                             uint64_t offset, uint64_t bytes,
++                                             QEMUIOVector *qiov,
++                                             BdrvRequestFlags flags)
  {
--    return blk_prw(blk, offset, (void *) buf, count, blk_write_entry,
-+    return blk_prw(blk, offset, (void *) buf, bytes, blk_write_entry,
-                    BDRV_REQ_WRITE_COMPRESSED);
+     return 0;
  }
+@@ -65,8 +74,8 @@ static BlockDriver bdrv_test = {
+     .format_name            = "test",
+     .instance_size          = 1,
  
-@@ -2358,7 +2360,7 @@ void blk_unregister_buf(BlockBackend *blk, void *host)
- 
- int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-                                    BlockBackend *blk_out, int64_t off_out,
--                                   int bytes, BdrvRequestFlags read_flags,
-+                                   int64_t bytes, BdrvRequestFlags read_flags,
-                                    BdrvRequestFlags write_flags)
- {
-     int r;
+-    .bdrv_co_preadv         = bdrv_test_co_prwv,
+-    .bdrv_co_pwritev        = bdrv_test_co_prwv,
++    .bdrv_co_preadv         = bdrv_test_co_preadv,
++    .bdrv_co_pwritev        = bdrv_test_co_pwritev,
+     .bdrv_co_pdiscard       = bdrv_test_co_pdiscard,
+     .bdrv_co_truncate       = bdrv_test_co_truncate,
+     .bdrv_co_block_status   = bdrv_test_co_block_status,
 -- 
 2.21.0
 
