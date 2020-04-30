@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB9F1BF87E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:51:21 +0200 (CEST)
-Received: from localhost ([::1]:44734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00641BF873
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:49:13 +0200 (CEST)
+Received: from localhost ([::1]:36148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU8eu-0001qn-4i
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40578)
+	id 1jU8cq-0006hc-CL
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40548)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU8bL-0004M2-6v
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:47:39 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU8bI-0005lQ-W2
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jU8bJ-0004Jw-Ee
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:47:38 -0400
-Received: from mail-eopbgr70117.outbound.protection.outlook.com
- ([40.107.7.117]:65454 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jU8bI-0005l9-L3
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:47:37 -0400
+Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
+ ([40.107.21.137]:53184 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jU8bF-0005iB-5H; Thu, 30 Apr 2020 08:47:33 -0400
+ id 1jU8bF-0005iG-3s; Thu, 30 Apr 2020 08:47:33 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RodcuL3f1Q8gcNQ8UfS95eSBpPIhRYGRJlsc965YVDvtn7N+6ediBz715z4ZUjigxPI6PpXU1WdAKPSeCf6mDBWWEyij9C6ddEdXpINL9DJTphfnoBcFA/pQSoWaFvKE3882iLgTt/u2zWQxn+rcSPO1nrE7SjjGH6iPjHgoLYJVnjUX7qztJwNnaEtCmRAA/F0VGF1R9UmoZzyAh42i0b6nE+LvC2ZH2w5iuekVhcSHdOn1jxEdgECp20kwG+o6rz/WfIRB92tSP/yvSstzUxhK+fthiyEDTVWr/tgT7NPK+zOzQll6G36kFaVjtJE0VjB99DN0l4AjNGwkMhZQhw==
+ b=YhB3xoUU7k50Q3TpvslAuwScg5SEEqS4K8gIoS5m3kNlQm6W4sbNuZUt0gq1RiIPJAL+qmRfeHTGQncoum5XvduxGSZlF7Xp0hhenBi3RGShBnYiU041wr+eNATVIToP690X0q81VIMNpIc1Pfj3weXa/1j0roOlZZLOnLzDeVYiYCqHYEad1tbrchBjF6EkRjntT3GuQQBrTdld0jaWJd3L/1FY3Cu1ovBP5CAZ35MxbHkbrWhHaIOy8vGtp+JMtMUTp6wAKJSm/wu/xKcMSPN7D8NNdeOowrEXa3H0G/iIo5vtjBR2cOcujIn/LDen2SVeTFZeVc7QsWuinUyq/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IL5eP93RdeHAZIU5R6fyFOw4LwegxRo1jhvKPPme9oU=;
- b=mam6ivGieyv/FZdM9CpCkO4URxOlBNjhU6Tmz3jU+oq91VK+g4NKe2moDoYuYH8Er1UMYa/RxolGvc5KVNwEk9uu4TZRtADkDrZLxPsZy30PjsQ9tjgo99iNdfX8UMK8WmgDNX0/6PKXZ0LXWe05L16ZWpVaCsTqhbaS8z3sUp9cc66s6g2ciLL4eoYLTQ/CW/Guc3bQSadcG8Afek5dEaKEDk54Efc1GkRr9cklufxJFcfJwBfrICPtPqqznNfJJek9Ge2OBfZr9jkTTvs4H6C48B6kRDXtAUBPiYLOscfl/ER9RLRRC74XcuzpgcHs3HSPfIH0JcRXKCet7lkDVg==
+ bh=fq5k6KF9RNWSU/z7aHKA2s7PK26HUt/ITdRWWjDLyFw=;
+ b=k4rmgqlNg/FZc8WUfAaTU69GnhCJ5VrvNV/zqjlV/ebpOkgUNKQBC+77j0VwxEiq2KspEkO18DXnMt9Whyg1TxBn8Vf4j05r1/X7EO5T6N0640tzTq1ohMD1PEAikCW65TxisCzFJcz/tR1bdLG1UskObgBV9fd2oBn4A5/mBTs9y2ls4iBvymkzhvO40v7zHJcBwcWqiRwaQPNyztrYniB5jSVHFCVYAPnYE31fTqH+dgKY+eJOAR1Ka4uJ6lpVjuKeB4IZoIf8Aug2kSy89PYUPDbzKI0peWyKWq5prsGGWYrBMknM1oSrEV0Ct4kpTBbbXHQ2IPRRMAKlGLwSMg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IL5eP93RdeHAZIU5R6fyFOw4LwegxRo1jhvKPPme9oU=;
- b=WdJJAzc5yuK9gdKBQT0/3R6f18VXiXV+P7P1/KLdCgoOvIGN0JGlgMtUh1luImO9HMAVhIMaXR1WiVZ+xv5M7CEaTXQpEnw4rig7HDRcU+YDizeQIYyT23zICOsZh9uGOU5F+VbUQcbEhu8QYR9jAG+5lfbLjahH6NyoSwSHRKw=
+ bh=fq5k6KF9RNWSU/z7aHKA2s7PK26HUt/ITdRWWjDLyFw=;
+ b=tM11EG+Sp9IMUnowm8eJHYz+NwpSi+fgti0EF86/FQyKel4KJ4iiLPASjb+5cgM6te8Dregp9rvinGFK08+3vc4w7dlrxsCpKG8mnlHT/yt1pUzFM3bX/F1NkBJ8fPMgL01OQQTlFaXkKE8gGxUik2p0JsUHlk76/gQwDqj0+kU=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5448.eurprd08.prod.outlook.com (2603:10a6:20b:106::10)
+ by AM7PR08MB5478.eurprd08.prod.outlook.com (2603:10a6:20b:107::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Thu, 30 Apr
- 2020 12:47:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Thu, 30 Apr
+ 2020 12:47:30 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
- 12:47:29 +0000
+ 12:47:30 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/8] iotests skipping
-Date: Thu, 30 Apr 2020 15:47:05 +0300
-Message-Id: <20200430124713.3067-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/8] iotests: handle tmpfs
+Date: Thu, 30 Apr 2020 15:47:06 +0300
+Message-Id: <20200430124713.3067-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20200430124713.3067-1-vsementsov@virtuozzo.com>
+References: <20200430124713.3067-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: FRYP281CA0001.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::11)
@@ -63,39 +65,39 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.138) by
  FRYP281CA0001.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.20 via Frontend Transport; Thu, 30 Apr 2020 12:47:28 +0000
+ 15.20.2958.20 via Frontend Transport; Thu, 30 Apr 2020 12:47:29 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.138]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7990a760-e1d3-4c48-8a25-08d7ed04a486
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5448:
+X-MS-Office365-Filtering-Correlation-Id: 9385cdef-6473-4df4-4053-08d7ed04a4f2
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5478:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB544829CCC892C444B32C6BBBC1AA0@AM7PR08MB5448.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54786624C38D3177C97AA1BBC1AA0@AM7PR08MB5478.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
 X-Forefront-PRVS: 0389EDA07F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8PtvTuljorru6impBByT3JWka1UNxWpG8c0z/lPQLPUx1nqH1/FnkwZXsBpz5px0u1e2EzhTUpaA9Z6jpCzOdfXTRcOgM4YOwIi5IkqHuUMpoR/jrgWZSmRkqeDkgngMXWWUNQUxmQiZZB34ooDBEF6WrTFm/viMfhWUiggGfXnpklHLf+VbtjQfihklXjiX3/aZJ1Dd3OzR3ovlKFnRs/BYsnU7TCXUliHKFJOcH/A7RaIgZuPyFGC3R4U/xyTlvkbPGTDHkMlS7ijpmk7V+Y7Q/KnRv1UQDQV31XaiHHK6JazXxdgn+2oGAlqj3LuLo4o68muRw2Qvoyt/cxTrcImH3sSXUNRGgQiitdNlaWJkDOE2yvc/YHENgZT9kTpOTGYllJSCBEHrVzhPEZIJA9hMhCyDLU4foYXfyRDNklIXHP4ji/CF7BiONtCHXhpHSQf5RvlMFHzo9gDi1PYSoD3sfHAnVZ7aBPUgui20PGH0+/g75FHa42wWHzIt3O0q
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(136003)(366004)(39850400004)(376002)(346002)(396003)(6512007)(36756003)(4326008)(186003)(478600001)(8936002)(52116002)(6486002)(86362001)(26005)(1076003)(107886003)(16526019)(6666004)(316002)(6506007)(2906002)(8676002)(6916009)(956004)(5660300002)(66556008)(2616005)(66476007)(66946007);
+ SFS:(4636009)(396003)(39850400004)(376002)(366004)(136003)(346002)(316002)(2616005)(6666004)(956004)(2906002)(478600001)(107886003)(4326008)(6486002)(66476007)(66556008)(66946007)(86362001)(36756003)(6512007)(16526019)(186003)(26005)(8936002)(52116002)(8676002)(6506007)(1076003)(6916009)(5660300002)(17423001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d+SMZPUxDd6wEFMAhvVaRUfntvSr3lSIn2XKg9MxtmtFEk/RKy8LXx4YVVOww1PZznQQnOxu9Gw/3sCit346fOs5SRdtzj9lFMt8zxLyao/coQE3sYzkcfdwsHf0rif/cr7IcsKDwi31KhvNn9UzXwJ1RElP0yFpgxJkmmIB8Dh6gvEut93wy7fSFGcK3N4Dbge5WPubxVOtKYAoYbAmwbCMu0uVu88nrSt4udes3toSpN3rIlJx4Sn+8V2FFCLqeq6Sf3rzLBSlgRnAGPzjLGQ2+ZqS0mfBggTdiMetM/ETCCT/CPKbi8cROXbN8F6lI6ONR1lM+lVyMwOhbU0u0//EdmwrgK7F+Qvs15bo7LbLOKBrIOYlx2AgIp8EYyen8aC+M1MpF8fApS2wROgVZL8ayXt4Vvnd2dnQ3Z6VtMIUtbePW5QxI+drim7GYi/a
-X-MS-Exchange-AntiSpam-MessageData: PZ0QY8bIxgqIYhp1F7jgakAYwMIYN8iV+fbKZbIHZMDWYWH62ryJnINByHLayNBQFUN28esoT0UGZNnbeaqApZ2HbnodHFx9Brq/9ygTiXBD467dgHO4wf7ja/WWEeS+wVo4+OKZ0FYL7rk3otyDg5wYy1vkMISPowN2mXgoOHkILgRATVIPcgNUVML4ojRMq3Qv3+RAs7GurCnCVUG0WCKOgPCm/soqz1s9iwsfsGQcY5MFv2ghgDFhGFdTuk7YY3SucLWnEnBvQQ4qc1I3J01hTE5CRp7Pd6caSsk4pvXttuT22/7ZkM2xEwDivvI5AMcRR1VHNeaSED478QskfwVVuDQLXwogIEeDN1e8vdqgAriuZmgUUD5xeW8c5wMichFZlQc8flS7N3qvzV6HwdoImCP4PX9cQe4xFpSscL93avfkqsJPn2d6gJbpmowXm6a9cnXbqk/Q02xXcVTsp6AQrCiz5QabgzF4rODQCZkw/plmUOGAe1njA65Cs9zAuWEcbUOTp3Y0RkVNnLpSUpzsSZT6mCrP2ln7iCWGIK2Zisbrjpnq3uxbnZBLWrmT2RjEUivaBhnzxcVYE3WnQ61MOsfJVkMeL6T6b4Rdl6tkOmVHekbIi57mhCusxQsfie+92WjiVsJpe49El3yQTfYOg2CWDreiiPglwEWddmrOaGPXSWenJNqW9Joio+xQ0XeZaEZDA9oYLO2rXj25nuUiYWMOAE8ayZ6FuiYHr2D3gXK7f1MfGVUIYvVeQ1xNbjDX+UdB9FEDscpDYY/5ON3JGakOv86ezb/TcHOuWr4=
+X-MS-Exchange-AntiSpam-MessageData: xCdVKJ50kIbrqY9QQ1bw7bzeFit2kIpiOjc+QjEY8CwqZRqixvBrYo15hnJPBVNobs/+lNp0ANjsnYk/1nxEDd3CGKrIT1F6+2XwVP3GbZYKk0iDi5t7/FHrhSLYI33nuO2HZ9pWPxzJvTGPNFhIjYomaJbp12Np4z/YmxEJTtIRnonkgWyjGH22QLPqwajquCA5VE34jdC52G6baVpSFRf8blajn9fAfR7jwKn3ae+hyEQw7R4YkzR3L7unc9U9RCDQ+srriQy5m2KDEP+SlK8QvEJWyqEpnKOgGz3yVSBBlaFjsGuJ9C46joIfwitKi1OViiHzJXh2qbuUIcxbFNY064FCbqW5cpT4GZfT/ddD3A+61jNwKkWnX83rCCx/VpT27riXcbpItphAXAURPgzN2O6DujaC2SgP6I0GE3mmd/P83ZF/zrF2u+dQJL6PT8n8QQ/P4O2Y/9csIkX7c0p3wlyM9WMgaQOdt6AarqwEQ5JY7M1akCTENDiD/v1dv0ey7UNvjJ0h6n7ccYqzYxmRqbHv5Gdr4ykBK45TIFkYg3bMImo4+2iXcqJYJFrWmRZix4+Mhh9iuSOnbMdzeWK1UnNxTt1pCsGbysffBufdFqpsyHV0702oaHM3EH5pdz9Lh2VzoNH5UuUFjATP5Hp0yqhBpsbWp2xr/2uc3Ks+ZIP6QAfeHs3oikTibIzpMPHpn3E6fwmtSv95aUqKUym46Ly1Hv/JXuZXJui6Ahy28bS7eQ/ByIWPELshCuAnznhXax0jL47qkx+6KN9zxZo+vqvW3xsIDCopaAUNWOU=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7990a760-e1d3-4c48-8a25-08d7ed04a486
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 12:47:29.3879 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9385cdef-6473-4df4-4053-08d7ed04a4f2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 12:47:30.1297 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xew7gR6xkBb77Gx9iJlSHpjc8sH6QRPEXSoLS6IFzwd4BtiA1sJIutX8lfXJi7uX+etgRogC8AZbkh3eqquB8lVBEVtv/8P3QjhW9LSU7q0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5448
-Received-SPF: pass client-ip=40.107.7.117;
+X-MS-Exchange-CrossTenant-UserPrincipalName: gYgj7LaVXOVigp9FUnbbfGyGeyzur97/IoEcTTm43s7kT3vjSDNiR17feGHC7MLwqixpXG+SWkkBGVeyVT3sBZNtyv4/yNjfU4Owc0Y5RgM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5478
+Received-SPF: pass client-ip=40.107.21.137;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 08:47:30
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.7.117
+X-Received-From: 40.107.21.137
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,35 +114,86 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Some tests requires O_DIRECT, or want it by default. Introduce smarter
+O_DIRECT handling:
 
-This series adds a bit more support for iotests skipping due to format
-whitelisting. Not pretend to be something complete. It just lay in its
-folder I don't know how much time, I forgot to send it.
+- Check O_DIRECT in common.rc, if it is requested by selected
+cache-mode.
 
-Still, now I've rebased it on master, let's take them, they are useful.
+- Support second fall-through argument in _default_cache_mode
 
-Vladimir Sementsov-Ogievskiy (8):
-  iotests: handle tmpfs
-  iotests/082: require bochs
-  iotests/148: use skip_if_unsupported
-  iotests/041: drop self.assert_no_active_block_jobs()
-  iotests/055: refactor compressed backup to vmdk
-  iotests/055: skip vmdk target tests if vmdk is not whitelisted
-  iotests/109: mark required formats as required to support whitelisting
-  iotests/113: mark bochs as required to support whitelisting
-
- tests/qemu-iotests/041       |  8 ----
- tests/qemu-iotests/055       | 74 ++++++++++++++++++++----------------
- tests/qemu-iotests/055.out   |  4 +-
- tests/qemu-iotests/082       |  1 +
+Inspired-by: Max's 23e1d054112cec1e
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
  tests/qemu-iotests/091       |  2 +-
- tests/qemu-iotests/109       |  1 +
- tests/qemu-iotests/113       |  4 +-
- tests/qemu-iotests/148       |  1 +
- tests/qemu-iotests/common.rc | 37 +++++++++++++++++-
- 9 files changed, 84 insertions(+), 48 deletions(-)
+ tests/qemu-iotests/common.rc | 37 ++++++++++++++++++++++++++++++++++--
+ 2 files changed, 36 insertions(+), 3 deletions(-)
 
+diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
+index d2a2aca347..68fbfd777b 100755
+--- a/tests/qemu-iotests/091
++++ b/tests/qemu-iotests/091
+@@ -46,8 +46,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
+-_default_cache_mode none
+ _supported_cache_modes writethrough none writeback
++_default_cache_mode none writeback
+ 
+ size=1G
+ 
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index bf3b9fdea0..ba912555ca 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -673,11 +673,44 @@ _supported_cache_modes()
+     _notrun "not suitable for cache mode: $CACHEMODE"
+ }
+ 
++# Check whether the filesystem supports O_DIRECT
++_check_o_direct()
++{
++    $QEMU_IMG create -f raw "$TEST_IMG".test_o_direct 1M > /dev/null
++    out=$($QEMU_IO -f raw -t none -c quit "$TEST_IMG".test_o_direct 2>&1)
++    rm -f "$TEST_IMG".test_o_direct
++
++    [[ "$out" != *"O_DIRECT"* ]]
++}
++
++_require_o_direct()
++{
++    if ! _check_o_direct; then
++        _notrun "file system on $TEST_DIR does not support O_DIRECT"
++    fi
++}
++
++_check_cache_mode()
++{
++    if [ $CACHEMODE == "none" ] || [ $CACHEMODE == "directsync" ]; then
++        _require_o_direct
++    fi
++}
++
++_check_cache_mode
++
++# $1 - cache mode to use by default
++# $2 - (optional) cache mode to use by default if O_DIRECT is not supported
+ _default_cache_mode()
+ {
+     if $CACHEMODE_IS_DEFAULT; then
+-        CACHEMODE="$1"
+-        QEMU_IO="$QEMU_IO --cache $1"
++        if [ -z "$2" ] || _check_o_direct; then
++            CACHEMODE="$1"
++        else
++            CACHEMODE="$2"
++        fi
++        QEMU_IO="$QEMU_IO --cache $CACHEMODE"
++        _check_cache_mode
+         return
+     fi
+ }
 -- 
 2.21.0
 
