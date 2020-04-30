@@ -2,109 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAFD1BEFBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:32:47 +0200 (CEST)
-Received: from localhost ([::1]:41780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E58EC1BEFC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:33:14 +0200 (CEST)
+Received: from localhost ([::1]:44360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU1oU-0006Et-7G
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:32:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53270)
+	id 1jU1ov-0007HO-Tq
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:33:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53354)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU1mh-0004i1-3u
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:30:55 -0400
+ (envelope-from <armbru@redhat.com>) id 1jU1n3-00050W-Jt
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU1mg-0002ad-Kq
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:30:54 -0400
-Received: from mail-vi1eur05on2132.outbound.protection.outlook.com
- ([40.107.21.132]:2945 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jU1me-0002aH-RM; Thu, 30 Apr 2020 01:30:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R5O2g52Gwrww5jpOTzXYPqg9pDhlFSR6N7qvrXcEgwJOryrnEf9FQHWlyWN5LVI1GHqifIjx71UUvfIpBPOBiOTE1mNjYPAYiFek5gFN+mRR+s/PQ2Q1K9KtkCHOhlFfSnaYUK2pMKAVC3WJLGGhAANtnFpsC7EyifS0vgL44za8qGsb6VIcuruE3ecrRLDaWZscxazB0Hiy1PparutiO8ccNf5xGyG96xVMGU9W9AS7xaC19Z/LJoeIcVRbr8tAqJezJEi2btwV80NR0NXqH822MGzK0XUu/vcTfXfLw3F/2tjIk3RyLZ23smEKpQTBNZwPu0oNFrBigybVOdcl6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wo7rqsBMpQoB3qYC1jd02PqSc04LX3TsboIuhxPsRHY=;
- b=Z+Ke82gm9Wpxppni8/sfDFkZ2Uebb2RILnFRXd9zFXku4G2ht14wA2Mu22s6KRqlK8wi1Vsadjrgesx5dX3drLMQojsO+XCJY/fnrxaeLvq7SAAUn1anArjTMyz2Ei+HZHTonREtEh97liNPvM7tY6hyavVxqtUjJtb6dPvbzvd+B2qA6GMMq8a+Qnr2azKJevwaTycgtX0Bdowy6l2bOA/eq2tQfLFFP6KKjH6XswQh7zDYmmQuXhoAknzZrZt0S87bdSoUJUuczxsGRUguuGRjx6kYkNk+UP8GQLUGOwons3dYs6v1ZUgFf/caPLb6Sk9qTxDFq4LN2pi6anRiOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wo7rqsBMpQoB3qYC1jd02PqSc04LX3TsboIuhxPsRHY=;
- b=n5LbKAzh7ZoLjaReeHZ7Le3/gUr2Jjx5Dcw6mKM21DDxTFr5Rfqcg20tVnhLVncVUgzcqYYzSlgLmQPW5fQ+KDJHPB2FZTmzZWtTgz8ZlH3pTBK+8kaOpYzxdEIhUoxBgNJDQQKIRFS4vdZw1TBEjRtWfezOBAUdkenHCz80t5c=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5464.eurprd08.prod.outlook.com (2603:10a6:20b:10a::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Thu, 30 Apr
- 2020 05:30:49 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
- 05:30:49 +0000
-Subject: Re: [PATCH v2 06/17] block/io: support int64_t bytes in
- bdrv_aligned_pwritev()
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20200427082325.10414-1-vsementsov@virtuozzo.com>
- <20200427082325.10414-7-vsementsov@virtuozzo.com>
- <f45f380b-8e7b-1483-d685-4e7d4729562a@redhat.com>
- <7d64fb96-87b3-f0d8-144b-68e3775ed9d0@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200430083047145
-Message-ID: <3b8fd6f0-21bf-0a52-1168-36970afd3d02@virtuozzo.com>
-Date: Thu, 30 Apr 2020 08:30:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <7d64fb96-87b3-f0d8-144b-68e3775ed9d0@virtuozzo.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM3PR07CA0060.eurprd07.prod.outlook.com
- (2603:10a6:207:4::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <armbru@redhat.com>) id 1jU1mx-0002cm-Lc
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:17 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:47093
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jU1mx-0002bt-0B
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588224669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y/35xWzxmt1cUZjI51sDzY9QMpHGvhHN5woTSriHJT4=;
+ b=PrEhXaQJxEBxEAcodS58nVD6ZsODtu6u5oEI7GtBPtjAR6ilBY86ZuHtPV/j+cR3eQH+0/
+ pYqRHuURPGfwuMOHRFmuQhaX42l2r+H0gPuQ0Y8hv03wJpAnhUYg+LB4xVHyLP9CgCs6pI
+ QEChC1kVoqkF45tIgHfiCvq27hczubo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-moKPJpwNOcSiK89mpb9rbA-1; Thu, 30 Apr 2020 01:31:07 -0400
+X-MC-Unique: moKPJpwNOcSiK89mpb9rbA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B92C3107B265
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 05:31:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 625B2165F6;
+ Thu, 30 Apr 2020 05:31:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D940711358BF; Thu, 30 Apr 2020 07:31:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 03/20] qobject: Eliminate qlist_iter(),
+ use QLIST_FOREACH_ENTRY() instead
+Date: Thu, 30 Apr 2020 07:30:47 +0200
+Message-Id: <20200430053104.32204-4-armbru@redhat.com>
+In-Reply-To: <20200430053104.32204-1-armbru@redhat.com>
+References: <20200430053104.32204-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.138) by
- AM3PR07CA0060.eurprd07.prod.outlook.com (2603:10a6:207:4::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.14 via Frontend Transport; Thu, 30 Apr 2020 05:30:48 +0000
-X-Tagtoolbar-Keys: D20200430083047145
-X-Originating-IP: [185.215.60.138]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c1e57d18-6d7a-4043-5321-08d7ecc7a422
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5464:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5464B6B84291535C3E01AA64C1AA0@AM7PR08MB5464.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 0389EDA07F
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(366004)(52116002)(16526019)(2906002)(498600001)(31686004)(16576012)(966005)(53546011)(8676002)(2616005)(956004)(26005)(86362001)(66556008)(66476007)(31696002)(8936002)(186003)(4326008)(36756003)(66946007)(5660300002)(6486002)(107886003)(7416002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GVfhKNUa6UI3jYcdmRjI08Ig2RMgw4z0qLB1rQ1raRM/drZ05taEO0WutnBtklGMd6tgZzRZLci7IT/YQ2iJMyd52EjMQVz9+qKrdAOoavLYoHmLNgdzYxiZs8lg3WY6lr4+o+G4uYDWhK/xUaJcq+zmBhNw4L4ScY2HOEayzgS64zyLPak/g3wqXixI8dWikfRysGQ1haR9/jlmEKBEox4YHZZTfkyivk95Xi6Y21HCwlsRaKLaY1NexduVBEaPjHlYrxSKuJ7so1TYFXIjKYc6s4n96Gn/gsNk8Ppd+JJ1gUdX2I3jg34GRp2X1S3kYrslitppnVReXhYgQodBpULNar6kht7CgREwskaT+M5uJpRUwZpGbcsVKqsThuUKI3Aa4mYxcpCCzcDbM4IShjpwzWc1mf2ts0KyOB34qkuG5S5Vz4oKcjx2rNA3iHsWcOmhnQdk0nvDtMETAGAj/5cD6rwAPuFR/Lc3IpVeTI4NMcs8B+gfsKD5gA83+BWqN+r6g8/ZB9VYmaVT7KzUVw==
-X-MS-Exchange-AntiSpam-MessageData: BjiSR4/1aC+SkMl9o5dqPK5NSXzyhHVvdMBmNI1CjRv26nvPn8BvuX7PcQIoffS+XFlwRoHiKsDp4SNtikPJeT7tv0Q6475Y7QEksaKeOJK5I02CJ5BCHp8jhB3JMEwGgjiem5j3oLNnXDTsfGN4XHHX9V2Ph+iWRMf7Q4CkjrJ329o1qi9Z8ZW1uzrSsc0qlMbFg6aONPev2A5xHjlj3iywB7eDcecy6FmXENtp5XZwJ/Cnh8rxeo+9hKzyTpPg+xBfo8wxZK22zUfin9zEkleWTbOYcjhquyKepbwRrLVv8ekGRykGApXXDThoEhOGwDII5+g6i+QW0+zKNVbkGQjT9U5BxbLIUnu1zrXTwf1otGkIiLOjiWrFIjjbi7ZKMXpBHx57yC64j+X0B6akEBjjE6UhXPpSrTwUU8fONRbyF4cJHoN5FiAdz2TTpmKPL/dfA8kpbOa6Ml249hYAn/JS0UVaykyY6sOK4q7YxbZpCZuRHGMMy5iBDBqyCImSynDTLEkLoRc50FzQwU/MSHW9CKribxaCRhhv6oJbLkcgiPLGyh21YirNqzB3vzmo1Jh17YjuUr4NNgouk1jDhxEQ63zg5XwGAOeG0n/cTYUgjedKgpcJor2VZvsko6n82sxWiwazWQ6Stl6h8iCRutn7sDJ63aqL7WgshznNi9pNxRPCWON8ZqbeTIYM/c5hJQovNkw1WqhUMA+W3HsQ97A1YRq6FlqLcjabSMOfSdpopp2+HhWOQBQnzz2iswaut+TPpKtFq4azuZRrJ982zjrIUh/RC7t/xD/FTizC/R4=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1e57d18-6d7a-4043-5321-08d7ecc7a422
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 05:30:49.3649 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b2qovEhB4M38PF6pIdbm/1Y96rVfReHeDsgz+fNJL6TYw4DvHeZq4Gt5evjOM3qJOj1835fiwO5nwuA6pE/5lCpH5JycsA7dJVakVFUMUg4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5464
-Received-SPF: pass client-ip=40.107.21.132;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:30:50
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.21.132
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,64 +76,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, integration@gluster.org, berto@igalia.com,
- pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org, dillaman@redhat.com,
- pl@kamp.de, ronniesahlberg@gmail.com, mreitz@redhat.com, den@openvz.org,
- sheepdog@lists.wpkg.org, stefanha@redhat.com, namei.unix@gmail.com,
- pbonzini@redhat.com, sw@weilnetz.de, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-30.04.2020 8:25, Vladimir Sementsov-Ogievskiy wrote:
-> 30.04.2020 1:04, Eric Blake wrote:
->> On 4/27/20 3:23 AM, Vladimir Sementsov-Ogievskiy wrote:
->>> We are generally moving to int64_t for both offset and bytes parameters
->>> on all io paths. Prepare bdrv_aligned_pwritev() now (and convert the
->>> dependencies: bdrv_co_write_req_prepare() and
->>> bdrv_co_write_req_finish() to signed type bytes)
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
->>>   block/io.c | 12 +++++++-----
->>>   1 file changed, 7 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/block/io.c b/block/io.c
->>> index c8c30e3699..fe19e09034 100644
->>> --- a/block/io.c
->>> +++ b/block/io.c
->>> @@ -1854,7 +1854,7 @@ fail:
->>>   }
->>>   static inline int coroutine_fn
->>> -bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
->>> +bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
->>>                             BdrvTrackedRequest *req, int flags)
->>>   {
->>
->> No change in size.  First, check usage within function:
->>      int64_t end_sector = DIV_ROUND_UP(offset + bytes, BDRV_SECTOR_SIZE);
->> Changes computation from uint64_t to int64_t.  This causes a borderline bug on images between INT64_MAX-511 and INT64_MAX (nbdkit can produce such images over NBD, although they are atypical on disk), where DIV_ROUND_UP() would give the right answer as uint64_t but a negative answer with int64_t.  As those images are not sector-aligned, maybe we don't need to care?
->> all other uses appear to be within asserts related to offset+bytes being positive, so that's what we should check for.
->>
->> Callers:
->> bdrv_aligned_pwritev() - changed in this patch to 'int64_t', analyzed below [1]
->> bdrv_co_pdiscard() - already passes 'int64_t', also checks for offset+bytes overflow - safe
->> bdrv_co_copy_range_internal() - 'uint64_t', but already analyzed for 3/17 how it was capped < 2M - safe
->> bdrv_co_truncate() - already passes 'int64_t', passes new_bytes computed by subtracting from a positive 'int64_t offset' - safe
->>
->>
->> [1] except I hit the end of my work day, so my analysis will have to continue tomorrow...
->>
-> 
-> Thanks for reviewing!
-> 
-> I'm very sorry, I just need to say once again: the series should be rebased on "[PATCH for-5.0? 0/9] block/io: safer inc/dec in_flight sections", as it is already mostly reviewed by Stefan. Seems, that your analysis will be still valid after it, although patches will change. I'll do it now to see, can I keep your r-b's.
-> 
+qlist_iter() has just three uses outside tests/.  Replace by
+QLIST_FOREACH_ENTRY() for more concise code and less type punning.
 
-I mean "[PATCH v2 0/9] block/io: safer inc/dec in_flight sections" of course
-https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg04559.html
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20200415083048.14339-4-armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ include/qapi/qmp/qlist.h |  2 --
+ qobject/qjson.c          | 31 ++++++++++------------------
+ qobject/qlist.c          | 44 +++++++++++-----------------------------
+ tests/check-qlist.c      | 37 +++++++++++++--------------------
+ 4 files changed, 37 insertions(+), 77 deletions(-)
 
+diff --git a/include/qapi/qmp/qlist.h b/include/qapi/qmp/qlist.h
+index 07ecae81e4..595b7943e1 100644
+--- a/include/qapi/qmp/qlist.h
++++ b/include/qapi/qmp/qlist.h
+@@ -47,8 +47,6 @@ static inline QObject *qlist_entry_obj(const QListEntry *=
+entry)
+ QList *qlist_new(void);
+ QList *qlist_copy(QList *src);
+ void qlist_append_obj(QList *qlist, QObject *obj);
+-void qlist_iter(const QList *qlist,
+-                void (*iter)(QObject *obj, void *opaque), void *opaque);
+ QObject *qlist_pop(QList *qlist);
+ QObject *qlist_peek(QList *qlist);
+ int qlist_empty(const QList *qlist);
+diff --git a/qobject/qjson.c b/qobject/qjson.c
+index 87422f600d..f0eebc5fda 100644
+--- a/qobject/qjson.c
++++ b/qobject/qjson.c
+@@ -191,20 +191,6 @@ static void to_json_dict_iter(const char *key, QObject=
+ *obj, void *opaque)
+     s->count++;
+ }
+=20
+-static void to_json_list_iter(QObject *obj, void *opaque)
+-{
+-    ToJsonIterState *s =3D opaque;
+-
+-    if (s->count) {
+-        qstring_append(s->str, s->pretty ? "," : ", ");
+-    }
+-
+-    json_pretty_newline(s->str, s->pretty, s->indent);
+-
+-    to_json(obj, s->str, s->pretty, s->indent);
+-    s->count++;
+-}
+-
+ static void to_json(const QObject *obj, QString *str, int pretty, int inde=
+nt)
+ {
+     switch (qobject_type(obj)) {
+@@ -289,15 +275,20 @@ static void to_json(const QObject *obj, QString *str,=
+ int pretty, int indent)
+         break;
+     }
+     case QTYPE_QLIST: {
+-        ToJsonIterState s;
+         QList *val =3D qobject_to(QList, obj);
++        const char *comma =3D pretty ? "," : ", ";
++        const char *sep =3D "";
++        QListEntry *entry;
+=20
+-        s.count =3D 0;
+-        s.str =3D str;
+-        s.indent =3D indent + 1;
+-        s.pretty =3D pretty;
+         qstring_append(str, "[");
+-        qlist_iter(val, (void *)to_json_list_iter, &s);
++
++        QLIST_FOREACH_ENTRY(val, entry) {
++            qstring_append(str, sep);
++            json_pretty_newline(str, pretty, indent + 1);
++            to_json(qlist_entry_obj(entry), str, pretty, indent + 1);
++            sep =3D comma;
++        }
++
+         json_pretty_newline(str, pretty, indent);
+         qstring_append(str, "]");
+         break;
+diff --git a/qobject/qlist.c b/qobject/qlist.c
+index b3274af88b..1be95367d1 100644
+--- a/qobject/qlist.c
++++ b/qobject/qlist.c
+@@ -34,20 +34,17 @@ QList *qlist_new(void)
+     return qlist;
+ }
+=20
+-static void qlist_copy_elem(QObject *obj, void *opaque)
+-{
+-    QList *dst =3D opaque;
+-
+-    qobject_ref(obj);
+-    qlist_append_obj(dst, obj);
+-}
+-
+ QList *qlist_copy(QList *src)
+ {
+     QList *dst =3D qlist_new();
++    QListEntry *entry;
++    QObject *elt;
+=20
+-    qlist_iter(src, qlist_copy_elem, dst);
+-
++    QLIST_FOREACH_ENTRY(src, entry) {
++        elt =3D qlist_entry_obj(entry);
++        qobject_ref(elt);
++        qlist_append_obj(dst, elt);
++    }
+     return dst;
+ }
+=20
+@@ -86,21 +83,6 @@ void qlist_append_null(QList *qlist)
+     qlist_append(qlist, qnull());
+ }
+=20
+-/**
+- * qlist_iter(): Iterate over all the list's stored values.
+- *
+- * This function allows the user to provide an iterator, which will be
+- * called for each stored value in the list.
+- */
+-void qlist_iter(const QList *qlist,
+-                void (*iter)(QObject *obj, void *opaque), void *opaque)
+-{
+-    QListEntry *entry;
+-
+-    QTAILQ_FOREACH(entry, &qlist->head, next)
+-        iter(entry->value, opaque);
+-}
+-
+ QObject *qlist_pop(QList *qlist)
+ {
+     QListEntry *entry;
+@@ -137,16 +119,14 @@ int qlist_empty(const QList *qlist)
+     return QTAILQ_EMPTY(&qlist->head);
+ }
+=20
+-static void qlist_size_iter(QObject *obj, void *opaque)
+-{
+-    size_t *count =3D opaque;
+-    (*count)++;
+-}
+-
+ size_t qlist_size(const QList *qlist)
+ {
+     size_t count =3D 0;
+-    qlist_iter(qlist, qlist_size_iter, &count);
++    QListEntry *entry;
++
++    QLIST_FOREACH_ENTRY(qlist, entry) {
++        count++;
++    }
+     return count;
+ }
+=20
+diff --git a/tests/check-qlist.c b/tests/check-qlist.c
+index ece83e293d..3cd0ccbf19 100644
+--- a/tests/check-qlist.c
++++ b/tests/check-qlist.c
+@@ -61,40 +61,31 @@ static void qobject_to_qlist_test(void)
+     qobject_unref(qlist);
+ }
+=20
+-static int iter_called;
+-static const int iter_max =3D 42;
+-
+-static void iter_func(QObject *obj, void *opaque)
+-{
+-    QNum *qi;
+-    int64_t val;
+-
+-    g_assert(opaque =3D=3D NULL);
+-
+-    qi =3D qobject_to(QNum, obj);
+-    g_assert(qi !=3D NULL);
+-
+-    g_assert(qnum_get_try_int(qi, &val));
+-    g_assert_cmpint(val, >=3D, 0);
+-    g_assert_cmpint(val, <=3D, iter_max);
+-
+-    iter_called++;
+-}
+-
+ static void qlist_iter_test(void)
+ {
++    const int iter_max =3D 42;
+     int i;
+     QList *qlist;
++    QListEntry *entry;
++    QNum *qi;
++    int64_t val;
+=20
+     qlist =3D qlist_new();
+=20
+     for (i =3D 0; i < iter_max; i++)
+         qlist_append_int(qlist, i);
+=20
+-    iter_called =3D 0;
+-    qlist_iter(qlist, iter_func, NULL);
++    i =3D 0;
++    QLIST_FOREACH_ENTRY(qlist, entry) {
++        qi =3D qobject_to(QNum, qlist_entry_obj(entry));
++        g_assert(qi !=3D NULL);
+=20
+-    g_assert(iter_called =3D=3D iter_max);
++        g_assert(qnum_get_try_int(qi, &val));
++        g_assert_cmpint(val, =3D=3D, i);
++        i++;
++    }
++
++    g_assert(i =3D=3D iter_max);
+=20
+     qobject_unref(qlist);
+ }
+--=20
+2.21.1
 
--- 
-Best regards,
-Vladimir
 
