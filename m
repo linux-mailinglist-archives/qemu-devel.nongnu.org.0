@@ -2,56 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CBB1BEFEA
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:47:17 +0200 (CEST)
-Received: from localhost ([::1]:38780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2351BEFA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:26:36 +0200 (CEST)
+Received: from localhost ([::1]:33336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU22W-0005FM-4Y
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:47:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53618)
+	id 1jU1iV-0001ra-DF
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jU1pa-0001LI-0J
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:33:54 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jU1hS-000129-PH
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:25:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jU1pZ-0004VS-Jc
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:33:53 -0400
-Received: from mga18.intel.com ([134.134.136.126]:48291)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jU1hS-0000zx-9Z
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:25:30 -0400
+Received: from mail-eopbgr70120.outbound.protection.outlook.com
+ ([40.107.7.120]:17998 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jU1pZ-0004Of-14
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:33:53 -0400
-IronPort-SDR: 5ME+KCo09MSl54loFRnToDEZFhmYE+SakJurR7Lpcfq0oHgZ+G4qc84MmzlabsIYA6qcjz3gUf
- ufsFiHllodoA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2020 22:33:51 -0700
-IronPort-SDR: dGqiuojrI12cRxDWZSNbArBBKW0qp3YGxrNao6KDkgH8m+C14xUOUfvU4RpsGiu7Dt7APNH1PI
- /fa90OfmMdPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,334,1583222400"; d="scan'208";a="249650098"
-Received: from joy-optiplex-7040.sh.intel.com ([10.239.13.16])
- by fmsmga008.fm.intel.com with ESMTP; 29 Apr 2020 22:33:49 -0700
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: pbonzini@redhat.com,
-	alex.williamson@redhat.com
-Subject: [PATCH v5 3/3] hw/vfio: let read-only flag take effect for mmap'd
- regions
-Date: Thu, 30 Apr 2020 01:24:04 -0400
-Message-Id: <20200430052404.29290-1-yan.y.zhao@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200430051558.28991-1-yan.y.zhao@intel.com>
-References: <20200430051558.28991-1-yan.y.zhao@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jU1hQ-0000xx-Bz; Thu, 30 Apr 2020 01:25:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SCnwjydqFfonbw6Zb5OelOyG9aa5dGwuZcpSOek0XAVt8lNebhlGrvxyaX5K5HGuUyXFVdWtLgy63lD5RSoaKwHr++yIYUuTTE0K48nzhpIJhZ0wjKSDM7BOPf8TUvc4OEWJeM2ueSb4xNQ4X2TqRDcwXeZhjwIHBCuWCzz1oqvPSilc4oTnYT3pK64jIt/tiZ6PNYW7S+Zsj+YmhbPh+CSVuLWZVXw2EDCONg62vGkP2T9+Mpo/zqKTZt0w8RLeLGix7+hrUSbSSsrRsIoCUrYPL7kc9o00pT0ozjs0yXt/QzwoIkSRV/UNUsX0pwPrmg9AkouFJfPt3Vpz2M15Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1CdC+XIqCdlrnEytMyvWyL3XqjxIKMyyiEcHeF2NMFE=;
+ b=f+77plMjao+gAiW1kjjVO8l9v+84z0OpHv47W33uaeZyPFtKcCA+BKeq3zJXe7/d7D1iSo0/UUQzgDCaKhIdr7Kk+xNhTzHuz1mqovE6JljoL2njTYTcWawOQPIb8+XVZd2dvkRQTUK/FzXLbAzfztJRprnnUltxNCC5w3MCwAo/7rLFdUderpROTduTYbz0ov4QaKNfTKHSNSX4EM6eEyL4WNg86iOVwZAb54o5QKrXrQU7NJnzzINIhha+mH6n1qNxMPRbygwxIqkFT3h7LfEmLykjpVuV4Sf49qDrY86Y8KENZrdScG+q3Ni+yq7oLnp2MC69X5V8qCHKxzs7+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1CdC+XIqCdlrnEytMyvWyL3XqjxIKMyyiEcHeF2NMFE=;
+ b=PpQ7gtD5gV80WAfDfKMLQ12gJ03Oc7Dt3CIFzR0/1cb1Z1TGV13dYdg2d6E8Mm+Yh0SLUEV2azTeCUpEkDs0SX2rGVb7RWNz04gCbvOZfZgJFg7pi9WBL7EahOCilIJAAVJw7+ExEaBgIubvDSIBgQR5p8EkbC/5iJvBWm44ULw=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5301.eurprd08.prod.outlook.com (2603:10a6:20b:dd::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Thu, 30 Apr
+ 2020 05:25:25 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
+ 05:25:24 +0000
+Subject: Re: [PATCH v2 06/17] block/io: support int64_t bytes in
+ bdrv_aligned_pwritev()
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20200427082325.10414-1-vsementsov@virtuozzo.com>
+ <20200427082325.10414-7-vsementsov@virtuozzo.com>
+ <f45f380b-8e7b-1483-d685-4e7d4729562a@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200430082522694
+Message-ID: <7d64fb96-87b3-f0d8-144b-68e3775ed9d0@virtuozzo.com>
+Date: Thu, 30 Apr 2020 08:25:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <f45f380b-8e7b-1483-d685-4e7d4729562a@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=yan.y.zhao@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:42:54
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 134.134.136.126
+X-ClientProxiedBy: AM3PR05CA0144.eurprd05.prod.outlook.com
+ (2603:10a6:207:3::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.138) by
+ AM3PR05CA0144.eurprd05.prod.outlook.com (2603:10a6:207:3::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2958.20 via Frontend Transport; Thu, 30 Apr 2020 05:25:23 +0000
+X-Tagtoolbar-Keys: D20200430082522694
+X-Originating-IP: [185.215.60.138]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: eca6f89a-044f-477a-75a4-08d7ecc6e2b0
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5301:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB530167FD52E65F88B0AD8A8FC1AA0@AM7PR08MB5301.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 0389EDA07F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 9gxKNkr1BzA1o7enJAd/Z3TuQuR1AXPrHMsIewUvNV9IM08l5PQAa1dmS5jdOkbY1bm8b+4KhD4ArRfZmWuYD8TfRVQbjydx16ziLPPdigI1wkwZRe9iKWDtMEnRO/vEiSarUvb8006+JyXNTUeMKz2pVhEL6OIkEsQL4xqBaGV11EOnkkdPYzx6ysycv1O5L5JIXotr3y5Ohmjw+cdLm+a084GTPjPSwLNV5DjMSK4gNivelqO62FkxjzYix424/mlz7dSIwRQ32VrG+mS9USSp29GS0RkEU/zHs6d0CEJqOp78Mm/SY5WxAmDU85YpxFjLY1jHqMk2DXPRCD+FLQKPFojxgu1Tvyc1Joi356LUo/8CKBf6ofdItJEJkm88VkFae+2LzYjUT2ZnVG4MyK5KWMy+JGUwyxPqR/EI6S0KkY+1U1YuWpu5pu4ElOC+
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39840400004)(346002)(376002)(366004)(136003)(396003)(2906002)(31686004)(36756003)(186003)(5660300002)(6486002)(26005)(53546011)(956004)(52116002)(2616005)(16526019)(4326008)(86362001)(107886003)(31696002)(316002)(16576012)(7416002)(478600001)(8676002)(66556008)(66946007)(8936002)(66476007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: rPut1iHhoj89xAJ+w06xHn5MqOYA186Zf1IBBPlE3W1H9dGTCuhNkrM4U1yUuL/O0eglUybdbdYUPQ5mn1IFZvwPiw5IygQrHoQFDzYTtDVwBKRfyrTflH5erpqnQd+NDxIB61a23zOIERVLYxYRAdliVR/sBDXAqQik5R9zh6/gbIQLd1B6wMcyinvx14PLDJK9cYPorpEpede6oJzL0rWpjFLORAdx/n08s+v//zgdYTpcPM9YF4cH6OOByD+3HBdrv81R+qLVlFpoVR+IjpdN77j5RYZMupA/C0xvUrTF3f/kgvdXDSFhHHxYQb2/tn0oEsqQsS4O5tVlmWlm+gy+YDOHSTSPLl99RXXMLVcA5wTEOAxqs5o3uZNTzlumdC3jjKSPNhvlPIYZ56orJ7urbXOPLrWyPBmELh74p9rSxqPjXl05p/sVeQMkfmmVd6gT+L5b8lvKgypUo6E8dUPp8MWow3WXELna1q8ZGucxIhPsiNCOVEs2qwBRZo19VdlLHaxAj6BDuNFR+ROFQd5mqkot2DNwE5eZMy+CB7zcalIh7xCPjC/RZkjtOgLnZ1uiLC4m0R+thazLUQzD+N/LxlBB22bFz/DQw612TQ4BIwuc1prvt2I9Pr9sjD5/h4Yt/vx8zF5uSOqRI3IA0pJe9Xj4vVLGP2GxjJyikiR7H+UKghmpjJys1ANTA4OhFodzdJfYaRV0x8gpEdhL/GS+obGs9STqgjuBPaePfrfV0t0Yx7uGP7tbzz+sY8NeX0CB12bYkCZtA1susZ9+O2/8iBpYi7F+aXA1oJK4zLM=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eca6f89a-044f-477a-75a4-08d7ecc6e2b0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 05:25:24.8473 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +LRwRB3dJ/AMLTBEr9Q2m3n2JPNrgTwb8BbU7vIFIAf52MN03M31rFwynJyy5ZRYHTT3UgWhBHnBpp8ORNb9+piuO+TgjK783No4UyIXZhQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5301
+Received-SPF: pass client-ip=40.107.7.120;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:25:26
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.7.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,39 +115,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Zhao <yan.y.zhao@intel.com>, xin.zeng@intel.com, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, integration@gluster.org, berto@igalia.com,
+ pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org, dillaman@redhat.com,
+ pl@kamp.de, ronniesahlberg@gmail.com, mreitz@redhat.com, den@openvz.org,
+ sheepdog@lists.wpkg.org, stefanha@redhat.com, namei.unix@gmail.com,
+ pbonzini@redhat.com, sw@weilnetz.de, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-along side setting host page table to be read-only, the memory regions
-are also required to be read-only, so that when guest writes to the
-read-only & mmap'd regions, vmexits would happen and region write handlers
-are called.
+30.04.2020 1:04, Eric Blake wrote:
+> On 4/27/20 3:23 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> We are generally moving to int64_t for both offset and bytes parameters
+>> on all io paths. Prepare bdrv_aligned_pwritev() now (and convert the
+>> dependencies: bdrv_co_write_req_prepare() and
+>> bdrv_co_write_req_finish() to signed type bytes)
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>> † block/io.c | 12 +++++++-----
+>> † 1 file changed, 7 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/block/io.c b/block/io.c
+>> index c8c30e3699..fe19e09034 100644
+>> --- a/block/io.c
+>> +++ b/block/io.c
+>> @@ -1854,7 +1854,7 @@ fail:
+>> † }
+>> † static inline int coroutine_fn
+>> -bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
+>> +bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
+>> ††††††††††††††††††††††††††† BdrvTrackedRequest *req, int flags)
+>> † {
+> 
+> No change in size.† First, check usage within function:
+>  ††† int64_t end_sector = DIV_ROUND_UP(offset + bytes, BDRV_SECTOR_SIZE);
+> Changes computation from uint64_t to int64_t.† This causes a borderline bug on images between INT64_MAX-511 and INT64_MAX (nbdkit can produce such images over NBD, although they are atypical on disk), where DIV_ROUND_UP() would give the right answer as uint64_t but a negative answer with int64_t.† As those images are not sector-aligned, maybe we don't need to care?
+> all other uses appear to be within asserts related to offset+bytes being positive, so that's what we should check for.
+> 
+> Callers:
+> bdrv_aligned_pwritev() - changed in this patch to 'int64_t', analyzed below [1]
+> bdrv_co_pdiscard() - already passes 'int64_t', also checks for offset+bytes overflow - safe
+> bdrv_co_copy_range_internal() - 'uint64_t', but already analyzed for 3/17 how it was capped < 2M - safe
+> bdrv_co_truncate() - already passes 'int64_t', passes new_bytes computed by subtracting from a positive 'int64_t offset' - safe
+> 
+> 
+> [1] except I hit the end of my work day, so my analysis will have to continue tomorrow...
+> 
 
-Reviewed-by: Philippe Mathieu-Daud√© <philmd@redhat.com>
-Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-Signed-off-by: Xin Zeng <xin.zeng@intel.com>
----
- hw/vfio/common.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Thanks for reviewing!
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 2a4fedfeaa..bf510e66c0 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -980,6 +980,10 @@ int vfio_region_mmap(VFIORegion *region)
-                                           name, region->mmaps[i].size,
-                                           region->mmaps[i].mmap);
-         g_free(name);
-+
-+        if (!(region->flags & VFIO_REGION_INFO_FLAG_WRITE)) {
-+            memory_region_set_readonly(&region->mmaps[i].mem, true);
-+        }
-         memory_region_add_subregion(region->mem, region->mmaps[i].offset,
-                                     &region->mmaps[i].mem);
- 
+I'm very sorry, I just need to say once again: the series should be rebased on "[PATCH for-5.0? 0/9] block/io: safer inc/dec in_flight sections", as it is already mostly reviewed by Stefan. Seems, that your analysis will be still valid after it, although patches will change. I'll do it now to see, can I keep your r-b's.
+
+
 -- 
-2.17.1
-
+Best regards,
+Vladimir
 
