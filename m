@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953AA1C04FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:40:38 +0200 (CEST)
-Received: from localhost ([::1]:46294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDF01C04E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:34:54 +0200 (CEST)
+Received: from localhost ([::1]:51340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUE6v-0007TE-Hq
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:40:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36486)
+	id 1jUE1N-0006IE-0b
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:34:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36490)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUDee-0002nq-HH
+ (envelope-from <peter.maydell@linaro.org>) id 1jUDef-0002rv-W0
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:11:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUDe5-0001Mf-5b
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:11:24 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35895)
+ (envelope-from <peter.maydell@linaro.org>) id 1jUDe8-0001Uo-Em
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:11:25 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jUDe4-0001LY-I2
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:10:48 -0400
-Received: by mail-wm1-x341.google.com with SMTP id u127so3087970wmg.1
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:10:47 -0700 (PDT)
+ id 1jUDe5-0001Lh-Bx
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:10:50 -0400
+Received: by mail-wr1-x443.google.com with SMTP id j2so8182729wrs.9
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:10:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uShlUsC/z76KQv14R09xTWGtsptGuGstuNKNs/FRUag=;
- b=AkXYyGcc4XtG7kMQpj76prB8TF6AaTxJUdTXib5uyB8euWOSGeVfj+RBNUO55zf25R
- 0cpbG1Xd/YLgdER3jCkM1m9jnVPSJAIhVPq/HV0Ng5pLnPokoSo4bhueYeSaZkwI//AG
- OWHyk45Cd6/dJ2onFerRB9taI8kroWrKMbXmwkM6Nt60C8QvI9fcRNNsBBTlQnbm2npr
- z46d7LEwlq72ytt/CAsXkrTdWsAXFzyHCD8eRiiQUPd5MQP/O8gdt6zfntDlENYRwBTH
- 7oUb6oaprUMBc/aSpvAoxaI/mPU2UiQL1awUz8tywtK63E7kPuo/8n/JW2H/ZNNL2g2M
- zwzw==
+ bh=+Fs4PAxS9dtCpCFLIxob1CFFrrH7DolbHDsxKsK9olg=;
+ b=vSmHwkAWmXhR/Z4EKoX+jfwJ8EfXjGQxAlrWZyCCTW+pkjVuwgfU+Uwc3OH+rTnJeY
+ 7JFvf9YwH7q5pbvY5fmc0H6OcnSGu3e2Z4HLspRfqvTkv21h0aQfGb27rHaaFqmwuSBT
+ CrPsvHhBywEwW6QBOI3xJLP9yqNhKmhiWmZAjXOZTGWlWWcr3WZvhNYkoH11oky7muXl
+ 5IbDcbV7j1lpbNphUuBQyYBVkjAWvjq7VTtvAFfreyS4MYAqMUDLNyzosMAfIoxxk8AM
+ BCXSBgvUfH1wwYZ5uMbxeJjd6DRq8z+GCPpAWglD0Vjkt9xxyceLahTMbm2pdNbZvOGG
+ /rTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uShlUsC/z76KQv14R09xTWGtsptGuGstuNKNs/FRUag=;
- b=uhG1dXuvVjJScJcJNlxdWLbaOwbVPFgWizUN5naM5cSr8sKW2cMcUKdK/AyM8DStvw
- tSfdalhytQZSQX6DFUit9KbnR/0MD4uXjkoidQrEPTnxWTaAm4J9X4EP4QFYKVvcipW+
- tGvZIvHFUuB5cmluhWdmhEr8997HFxjmq2pGrgY/VibF5zl48THA1T+hupdbqugxlT0a
- et+cf66FE/NXmE/Mrxe63SJ7P1V6PXTnEGmL0lSNkQfkI7ZO2WR1Gx1/50zJuXDxqxbf
- fa/zMuKNVRAqdrr1HJRAZ9n/c8Z4NvQ53uzqGwGLudlXl/vDNdokLjk4S0ZTw2PbHQpd
- vN+A==
-X-Gm-Message-State: AGi0PuYLXj5CsUrJDgSIcvphjKCzdQfqRFQ+avC54IiKMWAsM3/jBGLY
- 5Dxb7gitlZZrr4JdVWQmqodakw==
-X-Google-Smtp-Source: APiQypJtUeojsNRR+wDNgC54ImLPCTUXXwsIGJsi1MSkHMUvKvv9D2Yit55pM7FSNi8BX8kkP15b5Q==
-X-Received: by 2002:a1c:3884:: with SMTP id f126mr4494231wma.91.1588270246167; 
- Thu, 30 Apr 2020 11:10:46 -0700 (PDT)
+ bh=+Fs4PAxS9dtCpCFLIxob1CFFrrH7DolbHDsxKsK9olg=;
+ b=fUlNiks7jNyPpQ/zCHZwR5rJUn9OJqWZydVJB9H37uxiAnGTwshZIz/d98XFMxknUb
+ z+cfMVr0tFE4Nsm50cyS51xVezDzfscM2NAYuj8crPZ5qM8sYR0N7q+6yiEJuKmpS6tZ
+ hoRQmkJUaWgu3l5PysLpibqhyGUbWlSVH7qp7eL94ASKBnYg9g0WliJv5rQkj3zp3GWN
+ NleRKHlXIqwcp5w+X/Iq1VRe6oMmiWxyO9j9lBmZSdDz6WkTpmk20//E4+wwsoGIGB0R
+ TgnwdJvAazTdLTzUJ5intR6LDUXgN8iH3JBNe1KZiHbDBmB1uIdiIXaYPU8w8sydcajT
+ QAuA==
+X-Gm-Message-State: AGi0PuaXZBi2OINaPSpPfXMPX41Q8qS8B44VOVTDuaMWZZ1HFk4kNpp1
+ 0FFThVo+XGOooVRP5OOzrALDoAa4WuIPgg==
+X-Google-Smtp-Source: APiQypKb7LGDoxXWCOOQPQy5VL+ZGQF531zGJRHLoStmgChtkSvIr5y2/eyNzFTufbw8YWiPjh+gcg==
+X-Received: by 2002:a5d:6946:: with SMTP id r6mr4938260wrw.291.1588270247892; 
+ Thu, 30 Apr 2020 11:10:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t8sm652421wrq.88.2020.04.30.11.10.45
+ by smtp.gmail.com with ESMTPSA id t8sm652421wrq.88.2020.04.30.11.10.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 11:10:45 -0700 (PDT)
+ Thu, 30 Apr 2020 11:10:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 32/36] target/arm: Convert Neon VPMIN/VPMAX/VPADD float
- 3-reg-same insns to decodetree
-Date: Thu, 30 Apr 2020 19:09:59 +0100
-Message-Id: <20200430181003.21682-33-peter.maydell@linaro.org>
+Subject: [PATCH 33/36] target/arm: Convert Neon fp VMUL, VMLA,
+ VMLS 3-reg-same insns to decodetree
+Date: Thu, 30 Apr 2020 19:10:00 +0100
+Message-Id: <20200430181003.21682-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430181003.21682-1-peter.maydell@linaro.org>
 References: <20200430181003.21682-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,219 +86,166 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon float VPMIN, VPMAX and VPADD 3-reg-same insns to
-decodetree. These are the only remaining 'pairwise' operations,
-so we can delete the pairwise-specific bits of the old decoder's
-for-each-element loop now.
+Convert the Neon integer VMUL, VMLA, and VMLS 3-reg-same inssn to
+decodetree.
+
+Since VMLA and VMLS accumulate into the destination register, we add
+a reads_vd parameter to do_3same_fp() which tells it to load the
+old value into vd before calling the callback function, in the same
+way that the translate-vfp.inc.c do_vfp_3op_sp() and do_vfp_3op_dp()
+functions work.
+
+This conversion fixes in passing an underdecoding for VMUL
+(originally reported by Fredrik Strupe <fredrik@strupe.net>): bit 1
+of the 'size' field must be 0.  The old decoder didn't enforce this,
+but the decodetree pattern does.
+
+The gen_VMLA_fp_reg() function performs the addition operation
+with the operands in the opposite order to the old decoder:
+since Neon sets 'default NaN mode' float32_add operations are
+commutative so there is no behaviour difference, but putting
+them this way around matches the Arm ARM pseudocode and the
+required operation order for the subtraction in gen_VMLS_fp_reg().
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-neon.inc.c | 63 +++++++++++++++++++++++++++++++++
- target/arm/translate.c          | 63 +++++----------------------------
- target/arm/neon-dp.decode       |  5 +++
- 3 files changed, 76 insertions(+), 55 deletions(-)
+ target/arm/translate-neon.inc.c | 49 +++++++++++++++++++++++++++------
+ target/arm/translate.c          | 17 +-----------
+ target/arm/neon-dp.decode       |  3 ++
+ 3 files changed, 44 insertions(+), 25 deletions(-)
 
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 6a27b7673c2..30832309924 100644
+index 30832309924..47879bbb6c9 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -1375,3 +1375,66 @@ static bool do_3same_fp(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
- DO_3S_FP(VADD, gen_helper_vfp_adds)
- DO_3S_FP(VSUB, gen_helper_vfp_subs)
- DO_3S_FP(VABD, gen_helper_neon_abd_f32)
-+
-+static bool do_3same_fp_pair(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
-+{
-+    /* FP operations handled pairwise 32 bits at a time */
-+    TCGv_i32 tmp, tmp2, tmp3;
-+    TCGv_ptr fpstatus;
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-+        return false;
-+    }
-+
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vn | a->vm) & 0x10)) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    assert(a->q == 0); /* enforced by decode patterns */
-+
+@@ -1322,9 +1322,15 @@ static bool trans_VQRDMULH_3s(DisasContext *s, arg_3same *a)
+     return do_3same_32(s, a, fns[a->size - 1]);
+ }
+ 
+-static bool do_3same_fp(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
++static bool do_3same_fp(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn,
++                        bool reads_vd)
+ {
+-    /* FP operations handled elementwise 32 bits at a time */
 +    /*
-+     * Note that we have to be careful not to clobber the source operands
-+     * in the "vm == vd" case by storing the result of the first pass too
-+     * early. Since Q is 0 there are always just two passes, so instead
-+     * of a complicated loop over each pass we just unroll.
++     * FP operations handled elementwise 32 bits at a time.
++     * If reads_vd is true then the old value of Vd will be
++     * loaded before calling the callback function. This is
++     * used for multiply-accumulate type operations.
 +     */
-+    fpstatus = get_fpstatus_ptr(1);
-+    tmp = neon_load_reg(a->vn, 0);
-+    tmp2 = neon_load_reg(a->vn, 1);
-+    fn(tmp, tmp, tmp2, fpstatus);
-+    tcg_temp_free_i32(tmp2);
+     TCGv_i32 tmp, tmp2;
+     int pass;
+ 
+@@ -1350,9 +1356,16 @@ static bool do_3same_fp(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
+     for (pass = 0; pass < (a->q ? 4 : 2); pass++) {
+         tmp = neon_load_reg(a->vn, pass);
+         tmp2 = neon_load_reg(a->vm, pass);
+-        fn(tmp, tmp, tmp2, fpstatus);
++        if (reads_vd) {
++            TCGv_i32 tmp_rd = neon_load_reg(a->vd, pass);
++            fn(tmp_rd, tmp, tmp2, fpstatus);
++            neon_store_reg(a->vd, pass, tmp_rd);
++            tcg_temp_free_i32(tmp);
++        } else {
++            fn(tmp, tmp, tmp2, fpstatus);
++            neon_store_reg(a->vd, pass, tmp);
++        }
+         tcg_temp_free_i32(tmp2);
+-        neon_store_reg(a->vd, pass, tmp);
+     }
+     tcg_temp_free_ptr(fpstatus);
+     return true;
+@@ -1362,19 +1375,37 @@ static bool do_3same_fp(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
+  * For all the functions using this macro, size == 1 means fp16,
+  * which is an architecture extension we don't implement yet.
+  */
+-#define DO_3S_FP(INSN,FUNC)                                         \
++#define DO_3S_FP(INSN,FUNC,READS_VD)                                \
+     static bool trans_##INSN##_fp_3s(DisasContext *s, arg_3same *a) \
+     {                                                               \
+         if (a->size != 0) {                                         \
+             /* TODO fp16 support */                                 \
+             return false;                                           \
+         }                                                           \
+-        return do_3same_fp(s, a, FUNC);                             \
++        return do_3same_fp(s, a, FUNC, READS_VD);                   \
+     }
+ 
+-DO_3S_FP(VADD, gen_helper_vfp_adds)
+-DO_3S_FP(VSUB, gen_helper_vfp_subs)
+-DO_3S_FP(VABD, gen_helper_neon_abd_f32)
++DO_3S_FP(VADD, gen_helper_vfp_adds, false)
++DO_3S_FP(VSUB, gen_helper_vfp_subs, false)
++DO_3S_FP(VABD, gen_helper_neon_abd_f32, false)
++DO_3S_FP(VMUL, gen_helper_vfp_muls, false)
 +
-+    tmp3 = neon_load_reg(a->vm, 0);
-+    tmp2 = neon_load_reg(a->vm, 1);
-+    fn(tmp3, tmp3, tmp2, fpstatus);
-+    tcg_temp_free_i32(tmp2);
-+    tcg_temp_free_ptr(fpstatus);
-+
-+    neon_store_reg(a->vd, 0, tmp);
-+    neon_store_reg(a->vd, 1, tmp3);
-+    return true;
++static void gen_VMLA_fp_3s(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm,
++                            TCGv_ptr fpstatus)
++{
++    gen_helper_vfp_muls(vn, vn, vm, fpstatus);
++    gen_helper_vfp_adds(vd, vd, vn, fpstatus);
 +}
 +
-+/*
-+ * For all the functions using this macro, size == 1 means fp16,
-+ * which is an architecture extension we don't implement yet.
-+ */
-+#define DO_3S_FP_PAIR(INSN,FUNC)                                    \
-+    static bool trans_##INSN##_fp_3s(DisasContext *s, arg_3same *a) \
-+    {                                                               \
-+        if (a->size != 0) {                                         \
-+            /* TODO fp16 support */                                 \
-+            return false;                                           \
-+        }                                                           \
-+        return do_3same_fp_pair(s, a, FUNC);                        \
-+    }
++static void gen_VMLS_fp_3s(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm,
++                            TCGv_ptr fpstatus)
++{
++    gen_helper_vfp_muls(vn, vn, vm, fpstatus);
++    gen_helper_vfp_subs(vd, vd, vn, fpstatus);
++}
 +
-+DO_3S_FP_PAIR(VPADD, gen_helper_vfp_adds)
-+DO_3S_FP_PAIR(VPMAX, gen_helper_vfp_maxs)
-+DO_3S_FP_PAIR(VPMIN, gen_helper_vfp_mins)
++DO_3S_FP(VMLA, gen_VMLA_fp_3s, true)
++DO_3S_FP(VMLS, gen_VMLS_fp_3s, true)
+ 
+ static bool do_3same_fp_pair(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
+ {
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c944cbf20af..5ae982ee253 100644
+index 5ae982ee253..57343daa10a 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -4700,7 +4700,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-     int shift;
-     int pass;
-     int count;
--    int pairwise;
-     int u;
-     int vec_size;
-     uint32_t imm;
-@@ -4785,6 +4784,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-         case NEON_3R_VPMIN:
+@@ -4785,6 +4785,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
          case NEON_3R_VPADD_VQRDMLAH:
          case NEON_3R_VQDMULH_VQRDMULH:
-+        case NEON_3R_FLOAT_ARITH:
+         case NEON_3R_FLOAT_ARITH:
++        case NEON_3R_FLOAT_MULTIPLY:
              /* Already handled by decodetree */
              return 1;
          }
-@@ -4793,16 +4793,11 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-             /* 64-bit element instructions: handled by decodetree */
-             return 1;
-         }
--        pairwise = 0;
+@@ -4831,22 +4832,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+         tmp = neon_load_reg(rn, pass);
+         tmp2 = neon_load_reg(rm, pass);
          switch (op) {
--        case NEON_3R_FLOAT_ARITH:
--            pairwise = (u && size < 2); /* if VPADD (float) */
--            if (!pairwise) {
--                return 1; /* handled by decodetree */
--            }
--            break;
-         case NEON_3R_FLOAT_MINMAX:
--            pairwise = u; /* if VPMIN/VPMAX (float) */
-+            if (u) {
-+                return 1; /* VPMIN/VPMAX handled by decodetree */
-+            }
-             break;
-         case NEON_3R_FLOAT_CMP:
-             if (!u && size) {
-@@ -4830,41 +4825,12 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-             break;
-         }
- 
--        if (pairwise && q) {
--            /* All the pairwise insns UNDEF if Q is set */
--            return 1;
--        }
--
-         for (pass = 0; pass < (q ? 4 : 2); pass++) {
- 
--        if (pairwise) {
--            /* Pairwise.  */
--            if (pass < 1) {
--                tmp = neon_load_reg(rn, 0);
--                tmp2 = neon_load_reg(rn, 1);
--            } else {
--                tmp = neon_load_reg(rm, 0);
--                tmp2 = neon_load_reg(rm, 1);
--            }
--        } else {
--            /* Elementwise.  */
--            tmp = neon_load_reg(rn, pass);
--            tmp2 = neon_load_reg(rm, pass);
--        }
-+        /* Elementwise.  */
-+        tmp = neon_load_reg(rn, pass);
-+        tmp2 = neon_load_reg(rm, pass);
-         switch (op) {
--        case NEON_3R_FLOAT_ARITH: /* Floating point arithmetic. */
+-        case NEON_3R_FLOAT_MULTIPLY:
 -        {
 -            TCGv_ptr fpstatus = get_fpstatus_ptr(1);
--            switch ((u << 2) | size) {
--            case 4: /* VPADD */
--                gen_helper_vfp_adds(tmp, tmp, tmp2, fpstatus);
--                break;
--            default:
--                abort();
+-            gen_helper_vfp_muls(tmp, tmp, tmp2, fpstatus);
+-            if (!u) {
+-                tcg_temp_free_i32(tmp2);
+-                tmp2 = neon_load_reg(rd, pass);
+-                if (size == 0) {
+-                    gen_helper_vfp_adds(tmp, tmp, tmp2, fpstatus);
+-                } else {
+-                    gen_helper_vfp_subs(tmp, tmp2, tmp, fpstatus);
+-                }
 -            }
 -            tcg_temp_free_ptr(fpstatus);
 -            break;
 -        }
-         case NEON_3R_FLOAT_MULTIPLY:
+         case NEON_3R_FLOAT_CMP:
          {
              TCGv_ptr fpstatus = get_fpstatus_ptr(1);
-@@ -4955,22 +4921,9 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-         }
-         tcg_temp_free_i32(tmp2);
- 
--        /* Save the result.  For elementwise operations we can put it
--           straight into the destination register.  For pairwise operations
--           we have to be careful to avoid clobbering the source operands.  */
--        if (pairwise && rd == rm) {
--            neon_store_scratch(pass, tmp);
--        } else {
--            neon_store_reg(rd, pass, tmp);
--        }
-+        neon_store_reg(rd, pass, tmp);
- 
-         } /* for pass */
--        if (pairwise && rd == rm) {
--            for (pass = 0; pass < (q ? 4 : 2); pass++) {
--                tmp = neon_load_scratch(pass);
--                neon_store_reg(rd, pass, tmp);
--            }
--        }
-         /* End of 3 register same size operations.  */
-     } else if (insn & (1 << 4)) {
-         if ((insn & 0x00380080) != 0) {
 diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index 9d6a17d6f04..378c2dd5105 100644
+index 378c2dd5105..96866c03db4 100644
 --- a/target/arm/neon-dp.decode
 +++ b/target/arm/neon-dp.decode
-@@ -48,6 +48,8 @@
- # For FP insns the high bit of 'size' is used as part of opcode decode
- @3same_fp        .... ... . . . . size:1 .... .... .... . q:1 . . .... \
-                  &3same vm=%vm_dp vn=%vn_dp vd=%vd_dp
-+@3same_fp_q0     .... ... . . . . size:1 .... .... .... . 0 . . .... \
-+                 &3same vm=%vm_dp vn=%vn_dp vd=%vd_dp q=0
- 
- VHADD_S_3s       1111 001 0 0 . .. .... .... 0000 . . . 0 .... @3same
- VHADD_U_3s       1111 001 1 0 . .. .... .... 0000 . . . 0 .... @3same
-@@ -161,4 +163,7 @@ VQRDMLSH_3s      1111 001 1 0 . .. .... .... 1100 ... 1 .... @3same
- 
- VADD_fp_3s       1111 001 0 0 . 0 . .... .... 1101 ... 0 .... @3same_fp
+@@ -165,5 +165,8 @@ VADD_fp_3s       1111 001 0 0 . 0 . .... .... 1101 ... 0 .... @3same_fp
  VSUB_fp_3s       1111 001 0 0 . 1 . .... .... 1101 ... 0 .... @3same_fp
-+VPADD_fp_3s      1111 001 1 0 . 0 . .... .... 1101 ... 0 .... @3same_fp_q0
+ VPADD_fp_3s      1111 001 1 0 . 0 . .... .... 1101 ... 0 .... @3same_fp_q0
  VABD_fp_3s       1111 001 1 0 . 1 . .... .... 1101 ... 0 .... @3same_fp
-+VPMAX_fp_3s      1111 001 1 0 . 0 . .... .... 1111 ... 0 .... @3same_fp_q0
-+VPMIN_fp_3s      1111 001 1 0 . 1 . .... .... 1111 ... 0 .... @3same_fp_q0
++VMLA_fp_3s       1111 001 0 0 . 0 . .... .... 1101 ... 1 .... @3same_fp
++VMLS_fp_3s       1111 001 0 0 . 1 . .... .... 1101 ... 1 .... @3same_fp
++VMUL_fp_3s       1111 001 1 0 . 0 . .... .... 1101 ... 1 .... @3same_fp
+ VPMAX_fp_3s      1111 001 1 0 . 0 . .... .... 1111 ... 0 .... @3same_fp_q0
+ VPMIN_fp_3s      1111 001 1 0 . 1 . .... .... 1111 ... 0 .... @3same_fp_q0
 -- 
 2.20.1
 
