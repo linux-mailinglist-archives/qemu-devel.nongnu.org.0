@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BB61C0138
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:05:17 +0200 (CEST)
-Received: from localhost ([::1]:59834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA9981C01DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:14:22 +0200 (CEST)
+Received: from localhost ([::1]:39802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUBga-00032h-Gh
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:05:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44824)
+	id 1jUBpN-0004KO-UA
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jUBX6-0007q8-De
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:58:53 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jUBdD-00008m-R9
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:03:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jUBVS-0005Os-Ki
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:55:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42390)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jUBVS-0005Ob-2o
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:53:46 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 03UFX4oR108730; Thu, 30 Apr 2020 11:53:40 -0400
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30mhqb0m9c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Apr 2020 11:53:39 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 03UFoXYE030153;
- Thu, 30 Apr 2020 15:53:37 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma05fra.de.ibm.com with ESMTP id 30mcu52svk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 30 Apr 2020 15:53:37 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 03UFrZAe50856132
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 30 Apr 2020 15:53:35 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1743311C052;
- Thu, 30 Apr 2020 15:53:35 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D9BC611C050;
- Thu, 30 Apr 2020 15:53:34 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.160.63])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 30 Apr 2020 15:53:34 +0000 (GMT)
-Subject: [PATCH] 9pfs: Fix potential deadlock of QEMU mainloop
-From: Greg Kurz <groug@kaod.org>
+ (envelope-from <robert.foley@linaro.org>) id 1jUBZv-000358-9L
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:01:47 -0400
+Received: from mail-qv1-xf41.google.com ([2607:f8b0:4864:20::f41]:36017)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
+ id 1jUBZu-00034r-0u
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:58:22 -0400
+Received: by mail-qv1-xf41.google.com with SMTP id w18so3258270qvs.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 08:58:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M/HVPJJsarEjIjVx4H78Iqo7kCS5rt82H++LHRaHDJU=;
+ b=TLFacWtWa1DrBh1fkALLRqkqNoJAYQa45Wt4IZLzxN9fpv/T3BdPfsvsPJvkV72H9l
+ JqxdCWv1/Iqloa1QBEty/kkTJ+N6z/6CdkwVxrTboATRfEgiBAsm1NJPy6BaTSU5eRwv
+ YskAxAbuf+UFapSW0PO3cLhrOGG0i3GX3mc/V4qIr6IHIq0PwNn8TCsVnhYubkWltDhn
+ KRrSMbaRWyaTOcTzDHserKk+M/tlxq03pwu1V5PBzWdPpPyWJOIuE3ol28LYfsBdmZrr
+ Wl7n9ZZ5qlmHeKW9tFAiGHhk1XJrRBZ84umnjUxCb5073DeyUIeXyvZdrCgXI+GvwdGE
+ NwJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M/HVPJJsarEjIjVx4H78Iqo7kCS5rt82H++LHRaHDJU=;
+ b=CViV1FULxQZYy2de/c/xeeNomGVCx2LliUYTsRRblp9E12VyArRBKBlVtyw0AAGRwG
+ iZKPbDbfoZq/IIPBncpxBf/wSFJHVsJIa12MBCB3j+naXQnBY8qALnPCxOWplGRXa4SA
+ l4Js14V9ucR3f1j4OS0LkLPTsTGlyx6eOxpZ69xJhBi+LFugSd8/Cchodj4XGhmJLAWK
+ D36dUIjExxUybNCEPOmT1eLiCKzd31X0gDLn2NlBZy2f3qrdQFNN9AEu3i8fzkzDguZZ
+ ICq2npqj8/ENjAzBVnbQi40kwZS8/cPQ3JWvzUe4RqI457+E4DahoVEGnTIhAHSgBqfl
+ t8IQ==
+X-Gm-Message-State: AGi0PuYVxX6sPa/FUuFl0IqHb+eyeYmRr8JrJD2aYrQh+2eNnWFPqT1W
+ /sS4lgNvNjo7nWw1ZvJTp9gLvyH6j1T8YA==
+X-Google-Smtp-Source: APiQypJrScLC4ti9F1XL/xs9u8X+zVO11U1xzxM5ASC2IWCmQdVsJVsRFpVxabskQq4cGN3KKGDnSg==
+X-Received: by 2002:a0c:da87:: with SMTP id z7mr3635295qvj.141.1588262300075; 
+ Thu, 30 Apr 2020 08:58:20 -0700 (PDT)
+Received: from Rfoley-MA01.hsd1.ma.comcast.net
+ ([2601:199:4480:60c0:7489:3328:3806:7c3])
+ by smtp.gmail.com with ESMTPSA id v16sm305254qkf.80.2020.04.30.08.58.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Apr 2020 08:58:19 -0700 (PDT)
+From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 30 Apr 2020 17:53:34 +0200
-Message-ID: <158826201391.1344781.9403916162733181811.stgit@bahia.lan>
-User-Agent: StGit/unknown-version
+Subject: [PATCH v5 0/9] tests/vm: Add support for aarch64 VMs
+Date: Thu, 30 Apr 2020 11:57:09 -0400
+Message-Id: <20200430155718.212-1-robert.foley@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-04-30_10:2020-04-30,
- 2020-04-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 phishscore=0 clxscore=1034 adultscore=0 suspectscore=3
- spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004300125
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=groug@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 11:53:43
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Received-From: 148.163.156.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f41;
+ envelope-from=robert.foley@linaro.org; helo=mail-qv1-xf41.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::f41
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,320 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
+ peter.puhov@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Locking was introduced to address the deprecation of readdir_r(3)
-in glibc 2.24. It turns out that the frontend code is the worst
-place to handle a critical section with a pthread mutex: the code
-runs in a coroutine on behalf of the QEMU mainloop and then yields
-control, waiting for the fsdev backend to process the request in a
-worker thread. If the client resends another readdir request for the
-same fid before the previous one finally unlocked the mutex, we're
-deadlocked. This never bit us because the linux client serializes
-readdir requests for the same fid, but the small qtest in this patch
-demonstrates how easy it would be for a guest to hang QEMU.
+This is version 5 of the patch series to 
+add support for aarch64 VMs in the vm-build infrastructure.
+ - Ubuntu 20.04 aarch64 VM
+ - CentOS 8 aarch64 VM
 
-A solution could be to use CoMutex instead of QemuMutex, but it seems
-better to narrow the critical section to the worker thread code and to
-return a copy of the dirent to the frontend.
+v4: https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg03558.html
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/9pfs/9p-synth.c           |   12 +++++++++++
- hw/9pfs/9p-synth.h           |    2 ++
- hw/9pfs/9p.c                 |   45 +++++++++++++-----------------------------
- hw/9pfs/codir.c              |   11 ++++++++--
- hw/9pfs/coth.h               |    3 ++-
- tests/qtest/virtio-9p-test.c |   33 +++++++++++++++++++++++++++++++
- 6 files changed, 72 insertions(+), 34 deletions(-)
+Changes in v5
+- Updated the Ubuntu aarch64 VM from 18.04 to 20.04.
+- Changed the creation of the flash drives to be silent to stdout.
+- Changed handling of qemu_args from yaml file to preserve quoted strings.  
+  This allows us to put something like this in the yaml as part of the 
+  qemu_args, and preserve the quotes: -append "root=/dev/vda1 console=ttyAMA0"
+- Fix issue in CentOS aarch64 VM where python was not set up.
 
-diff --git a/hw/9pfs/9p-synth.c b/hw/9pfs/9p-synth.c
-index 7eb210ffa89b..fb0741569bcd 100644
---- a/hw/9pfs/9p-synth.c
-+++ b/hw/9pfs/9p-synth.c
-@@ -256,6 +256,13 @@ static struct dirent *synth_readdir(FsContext *ctx, V9fsFidOpenState *fs)
-     if (entry) {
-         synth_open->offset++;
-     }
-+
-+    if (!strcmp(node->name, QTEST_V9FS_SYNTH_READDIR_DEADLOCK_DIR)) {
-+        while (synth_open->offset != QTEST_V9FS_SYNTH_READDIR_DEADLOCK_OFFSET) {
-+            sched_yield();
-+        }
-+    }
-+
-     return entry;
- }
- 
-@@ -596,6 +603,11 @@ static int synth_init(FsContext *ctx, Error **errp)
-                 assert(!ret);
-                 g_free(name);
-             }
-+
-+            ret = qemu_v9fs_synth_mkdir(
-+                NULL, 0700, QTEST_V9FS_SYNTH_READDIR_DEADLOCK_DIR, &dir
-+            );
-+            assert(!ret);
-         }
-     }
- 
-diff --git a/hw/9pfs/9p-synth.h b/hw/9pfs/9p-synth.h
-index 036d7e4a5b1c..c9a65b61ed45 100644
---- a/hw/9pfs/9p-synth.h
-+++ b/hw/9pfs/9p-synth.h
-@@ -59,6 +59,8 @@ int qemu_v9fs_synth_add_file(V9fsSynthNode *parent, int mode,
- #define QTEST_V9FS_SYNTH_READDIR_DIR "ReadDirDir"
- #define QTEST_V9FS_SYNTH_READDIR_FILE "ReadDirFile%d"
- #define QTEST_V9FS_SYNTH_READDIR_NFILES 100
-+#define QTEST_V9FS_SYNTH_READDIR_DEADLOCK_DIR "ReadDirDeadLock"
-+#define QTEST_V9FS_SYNTH_READDIR_DEADLOCK_OFFSET 3
- 
- /* Any write to the "FLUSH" file is handled one byte at a time by the
-  * backend. If the byte is zero, the backend returns success (ie, 1),
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 9e046f7acb51..ac84ae804496 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -2170,7 +2170,7 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
-     int32_t count = 0;
-     struct stat stbuf;
-     off_t saved_dir_pos;
--    struct dirent *dent;
-+    struct dirent dent;
- 
-     /* save the directory position */
-     saved_dir_pos = v9fs_co_telldir(pdu, fidp);
-@@ -2181,13 +2181,11 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
-     while (1) {
-         v9fs_path_init(&path);
- 
--        v9fs_readdir_lock(&fidp->fs.dir);
--
-         err = v9fs_co_readdir(pdu, fidp, &dent);
--        if (err || !dent) {
-+        if (err <= 0) {
-             break;
-         }
--        err = v9fs_co_name_to_path(pdu, &fidp->path, dent->d_name, &path);
-+        err = v9fs_co_name_to_path(pdu, &fidp->path, dent.d_name, &path);
-         if (err < 0) {
-             break;
-         }
-@@ -2195,13 +2193,11 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
-         if (err < 0) {
-             break;
-         }
--        err = stat_to_v9stat(pdu, &path, dent->d_name, &stbuf, &v9stat);
-+        err = stat_to_v9stat(pdu, &path, dent.d_name, &stbuf, &v9stat);
-         if (err < 0) {
-             break;
-         }
-         if ((count + v9stat.size + 2) > max_count) {
--            v9fs_readdir_unlock(&fidp->fs.dir);
--
-             /* Ran out of buffer. Set dir back to old position and return */
-             v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
-             v9fs_stat_free(&v9stat);
-@@ -2212,8 +2208,6 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
-         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
-         len = pdu_marshal(pdu, 11 + count, "S", &v9stat);
- 
--        v9fs_readdir_unlock(&fidp->fs.dir);
--
-         if (len < 0) {
-             v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
-             v9fs_stat_free(&v9stat);
-@@ -2223,11 +2217,9 @@ static int coroutine_fn v9fs_do_readdir_with_stat(V9fsPDU *pdu,
-         count += len;
-         v9fs_stat_free(&v9stat);
-         v9fs_path_free(&path);
--        saved_dir_pos = dent->d_off;
-+        saved_dir_pos = dent.d_off;
-     }
- 
--    v9fs_readdir_unlock(&fidp->fs.dir);
--
-     v9fs_path_free(&path);
-     if (err < 0) {
-         return err;
-@@ -2340,7 +2332,7 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-     int len, err = 0;
-     int32_t count = 0;
-     off_t saved_dir_pos;
--    struct dirent *dent;
-+    struct dirent dent;
- 
-     /* save the directory position */
-     saved_dir_pos = v9fs_co_telldir(pdu, fidp);
-@@ -2349,17 +2341,13 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-     }
- 
-     while (1) {
--        v9fs_readdir_lock(&fidp->fs.dir);
--
-         err = v9fs_co_readdir(pdu, fidp, &dent);
--        if (err || !dent) {
-+        if (err <= 0) {
-             break;
-         }
-         v9fs_string_init(&name);
--        v9fs_string_sprintf(&name, "%s", dent->d_name);
-+        v9fs_string_sprintf(&name, "%s", dent.d_name);
-         if ((count + v9fs_readdir_data_size(&name)) > max_count) {
--            v9fs_readdir_unlock(&fidp->fs.dir);
--
-             /* Ran out of buffer. Set dir back to old position and return */
-             v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
-             v9fs_string_free(&name);
-@@ -2374,9 +2362,8 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-              * different entries; we cannot make any assumption to avoid
-              * that here.
-              */
--            err = dirent_to_qid(pdu, fidp, dent, &qid);
-+            err = dirent_to_qid(pdu, fidp, &dent, &qid);
-             if (err < 0) {
--                v9fs_readdir_unlock(&fidp->fs.dir);
-                 v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
-                 v9fs_string_free(&name);
-                 return err;
-@@ -2392,8 +2379,8 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-              * user would get that error anyway when accessing those
-              * files/dirs through other ways.
-              */
--            size = MIN(sizeof(dent->d_ino), sizeof(qid.path));
--            memcpy(&qid.path, &dent->d_ino, size);
-+            size = MIN(sizeof(dent.d_ino), sizeof(qid.path));
-+            memcpy(&qid.path, &dent.d_ino, size);
-             /* Fill the other fields with dummy values */
-             qid.type = 0;
-             qid.version = 0;
-@@ -2401,10 +2388,8 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
- 
-         /* 11 = 7 + 4 (7 = start offset, 4 = space for storing count) */
-         len = pdu_marshal(pdu, 11 + count, "Qqbs",
--                          &qid, dent->d_off,
--                          dent->d_type, &name);
--
--        v9fs_readdir_unlock(&fidp->fs.dir);
-+                          &qid, dent.d_off,
-+                          dent.d_type, &name);
- 
-         if (len < 0) {
-             v9fs_co_seekdir(pdu, fidp, saved_dir_pos);
-@@ -2413,11 +2398,9 @@ static int coroutine_fn v9fs_do_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-         }
-         count += len;
-         v9fs_string_free(&name);
--        saved_dir_pos = dent->d_off;
-+        saved_dir_pos = dent.d_off;
-     }
- 
--    v9fs_readdir_unlock(&fidp->fs.dir);
--
-     if (err < 0) {
-         return err;
-     }
-diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-index 73f9a751e178..90356dc60140 100644
---- a/hw/9pfs/codir.c
-+++ b/hw/9pfs/codir.c
-@@ -19,7 +19,7 @@
- #include "coth.h"
- 
- int coroutine_fn v9fs_co_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
--                                 struct dirent **dent)
-+                                 struct dirent *dent)
- {
-     int err;
-     V9fsState *s = pdu->s;
-@@ -32,13 +32,20 @@ int coroutine_fn v9fs_co_readdir(V9fsPDU *pdu, V9fsFidState *fidp,
-             struct dirent *entry;
- 
-             errno = 0;
-+
-+            v9fs_readdir_lock(&fidp->fs.dir);
-+
-             entry = s->ops->readdir(&s->ctx, &fidp->fs);
-             if (!entry && errno) {
-                 err = -errno;
-+            } else if (entry) {
-+                memcpy(dent, entry, sizeof(*dent));
-+                err = 1;
-             } else {
--                *dent = entry;
-                 err = 0;
-             }
-+
-+            v9fs_readdir_unlock(&fidp->fs.dir);
-         });
-     return err;
- }
-diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-index c2cdc7a9eaac..696c90111261 100644
---- a/hw/9pfs/coth.h
-+++ b/hw/9pfs/coth.h
-@@ -48,7 +48,8 @@
- 
- void co_run_in_worker_bh(void *);
- int coroutine_fn v9fs_co_readlink(V9fsPDU *, V9fsPath *, V9fsString *);
--int coroutine_fn v9fs_co_readdir(V9fsPDU *, V9fsFidState *, struct dirent **);
-+/* Returns < 0 on error, 1 on success and 0 on end of directory */
-+int coroutine_fn v9fs_co_readdir(V9fsPDU *, V9fsFidState *, struct dirent *);
- off_t coroutine_fn v9fs_co_telldir(V9fsPDU *, V9fsFidState *);
- void coroutine_fn v9fs_co_seekdir(V9fsPDU *, V9fsFidState *, off_t);
- void coroutine_fn v9fs_co_rewinddir(V9fsPDU *, V9fsFidState *);
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 2167322985ec..f46ad888daa6 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -793,6 +793,38 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(wnames[0]);
- }
- 
-+static void fs_readdir_deadlock(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DEADLOCK_DIR) };
-+    P9Req *req, *req2;
-+
-+    fs_attach(v9p, NULL, t_alloc);
-+    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rwalk(req, NULL, NULL);
-+
-+    req = v9fs_tlopen(v9p, 1, O_WRONLY, 0);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_rlopen(req, NULL, NULL);
-+
-+    /*
-+     * The first request will remain pending in the backend until
-+     * a request with the magic offset is received. This deadlocks
-+     * the mainloop of an older QEMU that still handles the critical
-+     * section around readdir() in the frontend code.
-+     */
-+    req = v9fs_treaddir(v9p, 1, 0, 128, 0);
-+    req2 = v9fs_treaddir(v9p, 1, QTEST_V9FS_SYNTH_READDIR_DEADLOCK_OFFSET, 128,
-+                         1);
-+    v9fs_req_wait_for_reply(req, NULL);
-+    v9fs_req_free(req);
-+    v9fs_req_free(req2);
-+
-+    g_free(wnames[0]);
-+}
-+
- static void register_virtio_9p_test(void)
- {
-     qos_add_test("config", "virtio-9p", pci_config, NULL);
-@@ -810,6 +842,7 @@ static void register_virtio_9p_test(void)
-     qos_add_test("fs/flush/ignored", "virtio-9p", fs_flush_ignored,
-                  NULL);
-     qos_add_test("fs/readdir/basic", "virtio-9p", fs_readdir, NULL);
-+    qos_add_test("fs/readdir/deadlock", "virtio-9p", fs_readdir_deadlock, NULL);
- }
- 
- libqos_init(register_virtio_9p_test);
+Robert Foley (9):
+  tests/vm: Add configuration to basevm.py
+  tests/vm: Added configuration file support
+  tests/vm: add --boot-console switch
+  tests/vm: Add ability to select QEMU from current build.
+  tests/vm: allow wait_ssh() to specify command
+  tests/vm: Added a new script for ubuntu.aarch64.
+  tests/vm: Added a new script for centos.aarch64.
+  tests/vm: change scripts to use self._config
+  tests/vm: Add workaround to consume console
+
+ configure                         |  25 +++
+ python/qemu/console_socket.py     | 162 +++++++++++++++++
+ python/qemu/machine.py            |  23 ++-
+ tests/vm/Makefile.include         |  27 +++
+ tests/vm/aarch64vm.py             | 105 +++++++++++
+ tests/vm/basevm.py                | 282 ++++++++++++++++++++++++------
+ tests/vm/centos-8-aarch64.ks      |  51 ++++++
+ tests/vm/centos.aarch64           | 227 ++++++++++++++++++++++++
+ tests/vm/conf_example_aarch64.yml |  51 ++++++
+ tests/vm/conf_example_x86.yml     |  50 ++++++
+ tests/vm/fedora                   |  17 +-
+ tests/vm/freebsd                  |  16 +-
+ tests/vm/netbsd                   |  19 +-
+ tests/vm/openbsd                  |  17 +-
+ tests/vm/ubuntu.aarch64           | 117 +++++++++++++
+ 15 files changed, 1098 insertions(+), 91 deletions(-)
+ create mode 100644 python/qemu/console_socket.py
+ create mode 100644 tests/vm/aarch64vm.py
+ create mode 100644 tests/vm/centos-8-aarch64.ks
+ create mode 100755 tests/vm/centos.aarch64
+ create mode 100644 tests/vm/conf_example_aarch64.yml
+ create mode 100644 tests/vm/conf_example_x86.yml
+ create mode 100755 tests/vm/ubuntu.aarch64
+
+-- 
+2.17.1
 
 
