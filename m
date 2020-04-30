@@ -2,112 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1236D1C02BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:40:48 +0200 (CEST)
-Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F10DF1C0310
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:49:53 +0200 (CEST)
+Received: from localhost ([::1]:36730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUCEw-0001ci-WC
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:40:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
+	id 1jUCNk-0003nq-Ul
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51752)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <skizzato73@msn.com>) id 1jUCAy-0004kq-Sl
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:38:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1jUCLQ-0001jo-SA
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:48:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <skizzato73@msn.com>) id 1jUC9M-00030a-PC
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:36:40 -0400
-Received: from mail-vi1eur05olkn2043.outbound.protection.outlook.com
- ([40.92.90.43]:6497 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <skizzato73@msn.com>)
- id 1jUC9M-0002zW-8J; Thu, 30 Apr 2020 12:35:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V0LKN0H6uUYEhFybWvR7o4Poa9vAumL1f+Hi4AH2zkVKOwbH5y55lgP2Ho644Fwr2gkl6k5WIiV1zWCmjY9qTFekt+W3GxiqBqUhnW7u1OxgTGJu20LI84vKeiv0/2t2vxIfGT0lW+14WdcepgR8H2nWxCAbxUAmfRlmFThio/RczNnmg64ZuzhW3Gju7v94mFUjYbkeNsXTMHY2XkM6TFLVZC9RUnK4gdfsCTZ4pu8/8I4vWAvNjOXPTz/gSKtD+ve8taC8qhGT154iYtfHp0xUyHp1vW7qExboTdhqVZxeEN9CaZRD1MVQ7w2+YXM0jnzSzNf060ioWWSXs6k7Zw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q0aYuuHWmUeOw6JoSmV6Tm98QwqeAIp46q1HS6tOWdU=;
- b=IuODv2J98Ueuz81k0AQBhFpyyr2SKkV1PzqAbydYUUv2nx8eeQerp911vjP/dtMGwRYYjVVwvSTbL2omUDmuoajohXVODQA1g9GWi4UQAMzV648pmoIQkXy20RZbKdnfYwdj0MAxjRpqRtSkAKwpU/C5EPag31Jg7Myf3Av4+URFSAj2Ze0h+Q2+ic++Oi44Xm1oBzsvozRA86q6kxX1uMIpCkTSRKTtQBFhhHOaju8grc8T2EqS5oR76Ulqi7VYQRjPqeBQ+wfjmJsFszHU5BHLY1+H3QIBgsUt51T2uTUezpi9B+api6kgOdilUU8U84LooZtsJdtiA7nLzUk9zA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=msn.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q0aYuuHWmUeOw6JoSmV6Tm98QwqeAIp46q1HS6tOWdU=;
- b=aTBHLSUiMN8dg4Ah8E7Ig6oenw+2iLiuqRjRn1KEE+3ZyLO4HDGmcYC1w5024QD24Vtb9Q+xf0T8WEYKKiN9FPWip87kNAd5M1QaXNcgG+tJndOPF72nvrVKrtAZNm8dvM+xAUlpxj542eH3CEpOLf57iQIwoGxzi8j6luYTVj3R2QyeWRV0MFVGWFq5G0OezZbY2spyxwY7P6LMNYRA+KPc32gcvUync4+4N7TYTKZ1qTnOrQ4CktWZmnLSdqrWIDgaO5h7PFMDKjAHTBeuGaCa/CbTUqXCD0umIjmKm7bKw/aysQJaiarufGwMSSYtncKnfpy2XaDMgE32V+MWHA==
-Received: from VI1EUR05FT029.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc12::47) by
- VI1EUR05HT066.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc12::206)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.15; Thu, 30 Apr
- 2020 16:34:55 +0000
-Received: from AM4PR07MB3506.eurprd07.prod.outlook.com
- (2a01:111:e400:fc12::51) by VI1EUR05FT029.mail.protection.outlook.com
- (2a01:111:e400:fc12::382) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.24 via Frontend
- Transport; Thu, 30 Apr 2020 16:34:55 +0000
-Received: from AM4PR07MB3506.eurprd07.prod.outlook.com
- ([fe80::718e:de40:dfe9:9319]) by AM4PR07MB3506.eurprd07.prod.outlook.com
- ([fe80::718e:de40:dfe9:9319%5]) with mapi id 15.20.2937.028; Thu, 30 Apr 2020
- 16:34:55 +0000
-From: Dino Papararo <skizzato73@msn.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>,
- =?utf-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Subject: R: R: R: About hardfloat in ppc
-Thread-Topic: R: R: About hardfloat in ppc
-Thread-Index: AQHWHF7rwxop5oOlnUWWPH3hEGvks6iMt6WAgAAOeACAAAodAIAAqceAgAC9g4CAAau9MIAAHqMAgAApAWCAAEN9AIAAY0iAgAAg+QCAAGMZgIAAe5mAgAANuNA=
-Date: Thu, 30 Apr 2020 16:34:55 +0000
-Message-ID: <AM4PR07MB3506C091776962655FCE11E9CAAA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
-References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
- <87lfmhl0xa.fsf@linaro.org>
- <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
- <87imhlkwun.fsf@linaro.org>
- <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
- <87ftcoknvu.fsf@linaro.org>
- <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <871ro6ld2f.fsf@linaro.org>
- <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <87sggmjgit.fsf@linaro.org>
- <CAE2XoE8wFK1nOq3YXhB=iqTvqSDQk7Zzd35Tjzdd==v8ouMijA@mail.gmail.com>
- <43ac337c-752a-7151-1e88-de01949571de@linaro.org>
- <CAE2XoE-f_rkcnpQO1cHPUgdaWNAOvBRyUX1aj27UePd0Hkr=KQ@mail.gmail.com>
- <alpine.BSF.2.22.395.2004301721420.29315@zero.eik.bme.hu>
-In-Reply-To: <alpine.BSF.2.22.395.2004301721420.29315@zero.eik.bme.hu>
-Accept-Language: it-IT, en-US
-Content-Language: it-IT
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-incomingtopheadermarker: OriginalChecksum:EF2543F715208A4956F99FAA337978BCB1757D24CE5803A27DE10F9C44424B51;
- UpperCasedChecksum:2D3619CCDD451D98D4F2856DF2239F9F40C5EB648D8509606AF58316CCA6CCF5;
- SizeAsReceived:7966; Count:45
-x-tmn: [WcpTGwDqrRF9mOJwy9ObW5vXEChASOhY]
-x-ms-publictraffictype: Email
-x-incomingheadercount: 45
-x-eopattributedmessage: 0
-x-ms-office365-filtering-correlation-id: c20c4261-1c87-4981-c314-08d7ed246a4a
-x-ms-traffictypediagnostic: VI1EUR05HT066:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: c3oCcZfu+0ovYC8GwzCPOtHwRRZyBnHV8AloXUbykM+MQIoyh5gBak7eRIU5JtY6yqzwgEii0Vp+dptCs/ahzsc1VRiYH0ofm48UClRRE0H3MykVdpK07j8YOwcB1gHVH5w9dKDogbe5zouuG7hbxRtxnNXT+makngMoTNoDOYVO/fjFG6fonIEll5FfnDuCWJ/qDkG6T4nBp9UyQLYM/P+HDxieXwz9W8IDmps4coHATA/weJs/njwv7dWIh4ti
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:0; SRV:;
- IPV:NLI; SFV:NSPM; H:AM4PR07MB3506.eurprd07.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:; SFS:; DIR:OUT; SFP:1901; 
-x-ms-exchange-antispam-messagedata: Qi14MO4oW4q388aQWZRHSvG4UYpMjdmcm4ZXHsHKBlBZIjuWq/SKhsekktAb53+r4Hq5JvbIxv6piSAQR6R7CTkNPIg6pEiBer4HGd/ow5vr+ewWP9ITh1VVtOW/m9ku7smFoiemt4XThPwiPLh1EQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <philmd@redhat.com>) id 1jUCGz-0001ks-5W
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:47:28 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36778
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jUCGy-0001kY-LS
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:42:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588264971;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R8pARsuQWI0hkAQIIMWALw3vCO1ynJO0lnPUoDsWy8A=;
+ b=TOFl6HQlwJMT6JJkhBJLQqGyOH9cvejfz6nNInIERWqSgx7LxBC30ut7vFJmtafBme/bQ6
+ xuAWgKkJy4aka0daKj+bdJOYWRL0cyS4+TQjFSu7ArCMOx7w2bab8hbU3irU3BSjPPbNQf
+ WapAm6gvGcRmLnOLkfzmHxjTpx2abOY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-u4lfwVyANTOEpRqjR5Hm0g-1; Thu, 30 Apr 2020 12:42:49 -0400
+X-MC-Unique: u4lfwVyANTOEpRqjR5Hm0g-1
+Received: by mail-wr1-f70.google.com with SMTP id j16so4146816wrw.20
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 09:42:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=R8pARsuQWI0hkAQIIMWALw3vCO1ynJO0lnPUoDsWy8A=;
+ b=Hs0lAFLTP0gIvgq7OTitCJYUvVWXd0M9NpqwNj+fxbdxALjXp+/qYbO2gx9WyXYv+k
+ dl4IJPGIU9VSiCl7QpQreEdD89x1ZsGRdI3DIPoMXAmDXEmAqG18Xw7S+ccSUEj+UP1o
+ ThAIGSvrEOjntR36izi0zrwhyBADD7CzOvyth8L3+8xlBUG0rHT+TmIu0RFhqKs7nrqC
+ r4IDFKizJMSVfh4mgk0HxK3QxEcUg62pBjDfrTpMCChua72QBwVTAdmtO3ALWwtnRGha
+ IRGaxYVqE2w4QQqVz5BfGOoNoQJzvHLefNgzEVbGdAUDwSUL5BGHLdFJfPK0yF6ofeEo
+ 3DXQ==
+X-Gm-Message-State: AGi0PuZbaOuyLjZlNYcc4iDxtjDfsSSWDqXmu46mROIwydbPYw667WvM
+ w0SAio2pMT+IwDb6by6k+r77MH4JyhjS1sdU1Z+n/lf903DmzpdKmI4ahfjHDO1aYA0Utq6kRwO
+ xOY3+03/rlwQdhdk=
+X-Received: by 2002:a5d:4092:: with SMTP id o18mr4858814wrp.227.1588264968106; 
+ Thu, 30 Apr 2020 09:42:48 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKI8/RxFe2M+VcJOQQrJl6e1Q8qNm9Qf+C6aFDTRlJ0ePgWUgD3BgupX/8cUsKh23FOFfKBpA==
+X-Received: by 2002:a5d:4092:: with SMTP id o18mr4858776wrp.227.1588264967742; 
+ Thu, 30 Apr 2020 09:42:47 -0700 (PDT)
+Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.137])
+ by smtp.gmail.com with ESMTPSA id l4sm359838wrv.60.2020.04.30.09.42.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Apr 2020 09:42:47 -0700 (PDT)
+Subject: Re: [PATCH] hostmem: don't use mbind() if host-nodes is epmty
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20200430154606.6421-1-imammedo@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <949872a1-1d5c-0e44-cab8-02d2e30202a7@redhat.com>
+Date: Thu, 30 Apr 2020 18:42:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: c20c4261-1c87-4981-c314-08d7ed246a4a
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2020 16:34:55.3365 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR05HT066
-Received-SPF: pass client-ip=40.92.90.43; envelope-from=skizzato73@msn.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 12:34:56
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.92.90.43
+In-Reply-To: <20200430154606.6421-1-imammedo@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -119,71 +93,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Programmingkid <programmingkidx@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>,
- =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: pbonzini@redhat.com, mhohmann@physnet.uni-hamburg.de, berrange@redhat.com,
+ ehabkost@redhat.com, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TWF5YmUgdGhlIGZhc3Rlc3Qgd2F5IHRvIGltcGxlbWVudCBoYXJkZmxvYXRzIGZvciBwcGMgY291
-bGQgYmUgcnVuIHRoZW0gYnkgZGVmYXVsdCBhbmQgdW50aWwgc29tZSBmcHUgaW5zdHJ1Y3Rpb24g
-cmVxdWVzdCBmb3IgRlBTQ1IgcmVnaXN0ZXIuDQpBdCB0aGlzIHRpbWUgcHJvYmFibHkgd2Ugd2Fu
-dCB0byBjaGVjayBmb3Igc29tZSBleGNlcHRpb24uLiBzbyBRRU1VIGNvdWxkIGNvbWUgYmFjayB0
-byBsYXN0IGZwdSBpbnN0cnVjdGlvbiBleGVjdXRlZCBhbmQgcmUtZXhlY3V0ZSBpdCBpbiBzb2Z0
-ZmxvYXQgdGFraW5nIGNhcmUgdGhpcyB0aW1lIG9mIEZQU0NSIGZsYWdzLCB0aGVuIGNvbnRpbnVl
-IGluIGhhcmRmbG9hdHMgdW5pdGwgYW5vdGhlciBpbnN0cnVjdGlvbiBsb29raW5nIGZvciBGUFND
-UiByZWdpc3RlciBhbmQgc28gb24uLg0KDQpEaW5vDQoNCi0tLS0tTWVzc2FnZ2lvIG9yaWdpbmFs
-ZS0tLS0tDQpEYTogQkFMQVRPTiBab2x0YW4gPGJhbGF0b25AZWlrLmJtZS5odT4gDQpJbnZpYXRv
-OiBnaW92ZWTDrCAzMCBhcHJpbGUgMjAyMCAxNzozNg0KQTog572X5YuH5YiaKFlvbmdnYW5nIEx1
-bykgPGx1b3lvbmdnYW5nQGdtYWlsLmNvbT4NCkNjOiBSaWNoYXJkIEhlbmRlcnNvbiA8cmljaGFy
-ZC5oZW5kZXJzb25AbGluYXJvLm9yZz47IERpbm8gUGFwYXJhcm8gPHNraXp6YXRvNzNAbXNuLmNv
-bT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgUHJvZ3JhbW1pbmdraWQgPHByb2dyYW1taW5na2lk
-eEBnbWFpbC5jb20+OyBxZW11LXBwY0Bub25nbnUub3JnOyBIb3dhcmQgU3BvZWxzdHJhIDxoc3Au
-Y2F0N0BnbWFpbC5jb20+OyBBbGV4IEJlbm7DqWUgPGFsZXguYmVubmVlQGxpbmFyby5vcmc+DQpP
-Z2dldHRvOiBSZTogUjogUjogQWJvdXQgaGFyZGZsb2F0IGluIHBwYw0KDQpPbiBUaHUsIDMwIEFw
-ciAyMDIwLCDnvZfli4fliJooWW9uZ2dhbmcgTHVvKSB3cm90ZToNCj4gSSBwcm9wb3NlIGEgbmV3
-IHdheSB0byBjb21wdXRpbmcgdGhlIGZsb2F0IGZsYWdzLCBXZSBwcmVzZXJ2ZSBhICBmbG9hdCAN
-Cj4gY29tcHV0aW5nIGNhc2ggdHlwZWRlZiBzdHJ1Y3QgRnBSZWNvcmQgeyAgdWludDhfdCBvcDsN
-Cj4gIGZsb2F0MzIgQTsNCj4gIGZsb2F0MzIgQjsNCj4gfSAgRnBSZWNvcmQ7DQo+IEZwUmVjb3Jk
-IGZwX2NhY2hlWzEwMjRdOw0KPiBpbnQgZnBfY2FjaGVfbGVuZ3RoOw0KPiB1aW50MzJfdCBmcF9l
-eGNlcHRpb25zOw0KPg0KPiAxLiBGb3IgZWFjaCBuZXcgZnAgb3BlcmF0aW9uIHdlIHB1c2ggaXQg
-dG8gdGhlICBmcF9jYWNoZSwgMi4gT25jZSB3ZSANCj4gcmVhZCB0aGUgZnBfZXhjZXB0aW9ucyAs
-IHRoZW4gd2UgcmUtY29tcHV0ZSB0aGUgZnBfZXhjZXB0aW9ucyBieSANCj4gcmUtcnVubmluZyB0
-aGUgZnAgRnBSZWNvcmQgc2VxdWVuY2UuDQo+IGFuZCBjbGVhciAgZnBfY2FjaGVfbGVuZ3RoLg0K
-PiAzLiBJZiB3ZSBjbGVhciB0aGUgZnBfZXhjZXB0aW9ucyAsIHRoZW4gd2Ugc2V0IGZwX2NhY2hl
-X2xlbmd0aCB0byAwIA0KPiBhbmQgY2xlYXIgIGZwX2V4Y2VwdGlvbnMuDQo+IDQuIElmIHRoZSAg
-ZnBfY2FjaGUgYXJlIGZ1bGwsIHRoZW4gd2UgcmUtY29tcHV0ZSB0aGUgZnBfZXhjZXB0aW9ucyBi
-eSANCj4gcmUtcnVubmluZyB0aGUgZnAgRnBSZWNvcmQgc2VxdWVuY2UuDQo+DQo+IFdvdWxkIHRo
-aXMgYmUgYSBnZW5lcmFsIG1ldGhvZCB0byB1c2UgaGFyZC1mbG9hdD8NCj4gVGhlIGNvbnN1ZWQg
-dGltZSBzaG91bGQgYmUgIDIqaGFyZF9mbG9hdC4NCj4gQ29uc2lkZXJhdGluZyByZWFkIGZwX2V4
-Y2VwdGlvbnMgYXJlIHJhcmUsIHRoZW4gdGhlIGFtb3J0aXplZCB0aW1lIA0KPiBjb21wbGV4aXR5
-IHdvdWxkIGJlIDEgKiBoYXJkX2Zsb2F0Lg0KDQpJdCdzIGhhcmQgdG8gZ3Vlc3Mgd2hhdCB0aGUg
-aGl0IHJhdGUgb2Ygc3VjaCBjYWNoZSB3b3VsZCBiZSBhbmQgaWYgaXQncyBsb3cgdGhlbiBtYW5h
-Z2luZyB0aGUgY2FjaGUgaXMgcHJvYmFibHkgbW9yZSBleHBlbnNpdmUgdGhhbiBydW5uaW5nIHdp
-dGggc29mdGZsb2F0LiBTbyB0byBldmFsdWF0ZSBhbnkgcHJvcG9zZWQgcGF0Y2ggd2UgYWxzbyBu
-ZWVkIHNvbWUgYmVuY2htYXJrcyB3aGljaCB3ZSBjYW4gZXhwZXJpbWVudCB3aXRoIHRvIHRlbGwg
-aWYgdGhlIHJlc3VsdHMgYXJlIGdvb2Qgb3Igbm90IG90aGVyd2lzZSB3ZSdyZSBqdXN0IGd1ZXNz
-aW5nLiBBcmUgdGhlcmUgc29tZSBleGlzdGluZyB0ZXN0cyBhbmQgYmVuY2htYXJrcyB0aGF0IHdl
-IGNhbiB1c2U/IEFsZXggbWVudGlvbmVkIGZwLWJlbmNoIEkgdGhpbmsgYW5kIHRvIGV2YWx1YXRl
-IHRoZSBjb3JyZWN0bmVzcyBvZiB0aGUgRlAgaW1wbGVtZW50YXRpb24gSSd2ZSBzZWVuIHRoaXMg
-b3RoZXINCmNvbnZlcnNhdGlvbjoNCg0KaHR0cHM6Ly9saXN0cy5ub25nbnUub3JnL2FyY2hpdmUv
-aHRtbC9xZW11LWRldmVsLzIwMjAtMDQvbXNnMDUxMDcuaHRtbA0KaHR0cHM6Ly9saXN0cy5ub25n
-bnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjAtMDQvbXNnMDUxMjYuaHRtbA0KDQpJ
-cyB0aGF0IHNvbWV0aGluZyB3ZSBjYW4gdXNlIGZvciBQUEMgYXMgd2VsbCB0byBjaGVjayB0aGUg
-Y29ycmVjdG5lc3M/DQoNClNvIEkgdGhpbmsgYmVmb3JlIGltcGxlbWVudGluZyBhbnkgcG90ZW50
-aWFsIHNvbHV0aW9uIHRoYXQgY2FtZSB1cCBpbiB0aGlzIGJyYWluc3Rvcm1pbmcgdGhlIGZpcnN0
-IHN0ZXAgd291bGQgYmUgdG8gZ2V0IGFuZCBjb21waWxlIChvciB3cml0ZSBpZiBub3QNCmF2YWls
-YWJsZSkgc29tZSB0ZXN0cyBhbmQgYmVuY2htYXJrczoNCg0KMS4gdGVzdGluZyBob3N0IGJlaGF2
-aW91ciBmb3IgaW5leGFjdCBhbmQgY29tcGFyZSB0aGF0IGZvciBkaWZmZXJlbnQgYXJjaHMgMi4g
-c29tZSBGUCB0ZXN0cyB0aGF0IGNhbiBiZSB1c2VkIHRvIGNvbXBhcmUgcmVzdWx0cyB3aXRoIFFF
-TVUgYW5kIHJlYWwgQ1BVIHRvIGNoZWNrIGNvcnJlY3RuZXNzIG9mIGVtdWxhdGlvbiAoaWYgdGhl
-c2UgY2hlY2sgZm9yIGluZXhhY3QgZGlmZmVyZW5jZXMgdGhlbiBjb3VsZCBiZSB1c2VkIGluc3Rl
-YWQgb2YgMS4pIDMuIHNvbWUgYmVuY2htYXJrcyB0byBldmFsdWF0ZSBRRU1VIHBlcmZvcm1hbmNl
-ICh0aGVzZSBjb3VsZCBiZSBzYW1lIGFzIEZQIHRlc3RzIG9yIHNvbWUgcmVhbCB3b3JsZCBGUCBo
-ZWF2eSBhcHBsaWNhdGlvbnMpLg0KDQpUaGVuIHdlIGNhbiBzZWUgaWYgdGhlIHByb3Bvc2VkIHNv
-bHV0aW9uIGlzIGZhc3RlciBhbmQgc3RpbGwgY29ycmVjdC4NCg0KUmVnYXJkcywNCkJBTEFUT04g
-Wm9sdGFuDQo=
+Typo "empty" in patch subject.
+
+On 4/30/20 5:46 PM, Igor Mammedov wrote:
+> Since 5.0 QEMU uses hostmem backend for allocating main guest RAM.
+> The backend however calls mbind() which is typically NOP
+> in case of default policy/absent host-nodes bitmap.
+> However when runing in container with black-listed mbind()
+> syscall, QEMU fails to start with error
+>   "cannot bind memory to host NUMA nodes: Operation not permitted"
+> even when user hasn't provided host-nodes to pin to explictly
+> (which is the case with -m option)
+> 
+> To fix issue, call mbind() only in case when user has provided
+> host-nodes explicitly (i.e. host_nodes bitmap is not empty).
+> That should allow to run QEMU in containers with black-listed
+> mbind() without memory pinning. If QEMU provided memory-pinning
+> is required user still has to white-list mbind() in container
+> configuration.
+> 
+> Reported-by: Manuel Hohmann <mhohmann@physnet.uni-hamburg.de>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> CC: berrange@redhat.com
+> CC: ehabkost@redhat.com
+> CC: pbonzini@redhat.com
+> CC: mhohmann@physnet.uni-hamburg.de
+> CC: qemu-stable@nongnu.org
+> ---
+>   backends/hostmem.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/backends/hostmem.c b/backends/hostmem.c
+> index 327f9eebc3..0efd7b7bd6 100644
+> --- a/backends/hostmem.c
+> +++ b/backends/hostmem.c
+> @@ -383,8 +383,10 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+>           assert(sizeof(backend->host_nodes) >=
+>                  BITS_TO_LONGS(MAX_NODES + 1) * sizeof(unsigned long));
+>           assert(maxnode <= MAX_NODES);
+> -        if (mbind(ptr, sz, backend->policy,
+> -                  maxnode ? backend->host_nodes : NULL, maxnode + 1, flags)) {
+> +
+> +        if (maxnode &&
+> +            mbind(ptr, sz, backend->policy, backend->host_nodes, maxnode + 1,
+> +                  flags)) {
+>               if (backend->policy != MPOL_DEFAULT || errno != ENOSYS) {
+>                   error_setg_errno(errp, errno,
+>                                    "cannot bind memory to host NUMA nodes");
+> 
+
 
