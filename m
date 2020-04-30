@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 252DC1BF14B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 09:25:00 +0200 (CEST)
-Received: from localhost ([::1]:52002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE501BF150
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 09:26:48 +0200 (CEST)
+Received: from localhost ([::1]:60562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU3Z4-0006QX-Lq
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 03:24:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34248)
+	id 1jU3ap-0001Vi-AV
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 03:26:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jU3XW-0004Y0-1L
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:23:39 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jU3XX-0004ay-Nv
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:23:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jU3W6-0006Xr-SS
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:23:21 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:42976)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jU3W7-0006YI-Ff
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:23:23 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:46784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jU3W6-0006Wj-6F; Thu, 30 Apr 2020 03:21:54 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436369|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_regular_dialog|0.17134-0.00013087-0.828529;
- FP=0|0|0|0|0|-1|-1|-1; HT=e01a16378; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
- RN=10; RT=10; SR=0; TI=SMTPD_---.HQfovas_1588231302; 
+ id 1jU3W6-0006Wb-OX; Thu, 30 Apr 2020 03:21:55 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1275953|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_alarm|0.0499706-0.00109699-0.948932; FP=0|0|0|0|0|-1|-1|-1;
+ HT=e02c03299; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=10; RT=10; SR=0;
+ TI=SMTPD_---.HQfovas_1588231302; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.HQfovas_1588231302) by smtp.aliyun-inc.com(10.147.40.7);
- Thu, 30 Apr 2020 15:21:45 +0800
+ Thu, 30 Apr 2020 15:21:46 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: peter.maydell@linaro.org
-Subject: [RFC PATCH 5/8] riscv: Add standard test case
-Date: Thu, 30 Apr 2020 15:21:36 +0800
-Message-Id: <20200430072139.4602-6-zhiwei_liu@c-sky.com>
+Subject: [RFC PATCH 6/8] riscv: Add configure script
+Date: Thu, 30 Apr 2020 15:21:37 +0800
+Message-Id: <20200430072139.4602-7-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
 References: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
@@ -61,103 +60,35 @@ Cc: qemu-riscv@nongnu.org, richard.henderson@linaro.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For RV64 risu, make CFLAGS="-march=rv64g"
+
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- test_riscv64.s | 85 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
- create mode 100644 test_riscv64.s
+ configure | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/test_riscv64.s b/test_riscv64.s
-new file mode 100644
-index 0000000..5a8279f
---- /dev/null
-+++ b/test_riscv64.s
-@@ -0,0 +1,85 @@
-+/*****************************************************************************
-+ * Copyright (c) 2020 PingTouGe Semiconductor
-+ * All rights reserved. This program and the accompanying materials
-+ * are made available under the terms of the Eclipse Public License v1.0
-+ * which accompanies this distribution, and is available at
-+ * http://www.eclipse.org/legal/epl-v10.html
-+ *
-+ * Contributors:
-+ *     LIU Zhiwei (PingTouGe) - initial implementation
-+ *     based on test_arm.s by Peter Maydell
-+ *****************************************************************************/
-+
-+/* Initialise the gp regs */
-+li x1, 1
-+#li x2, 2  # stack pointer
-+#li x3, 3  # global pointer
-+#li x4, 4  # thread pointer
-+li x5, 5
-+li x6, 6
-+li x7, 7
-+li x8, 8
-+li x9, 9
-+li x10, 10
-+li x11, 11
-+li x12, 12
-+li x13, 13
-+li x14, 14
-+li x15, 15
-+li x16, 16
-+li x17, 17
-+li x18, 18
-+li x19, 19
-+li x20, 20
-+li x21, 21
-+li x22, 22
-+li x23, 23
-+li x24, 24
-+li x25, 25
-+li x26, 26
-+li x27, 27
-+li x28, 28
-+li x29, 29
-+li x30, 30
-+li x31, 30
-+
-+/* Initialise the fp regs */
-+fcvt.d.lu f0, x0
-+fcvt.d.lu f1, x1
-+#fcvt.d.lu f2, x2
-+fcvt.d.lu f3, x3
-+fcvt.d.lu f4, x4
-+fcvt.d.lu f5, x5
-+fcvt.d.lu f6, x6
-+fcvt.d.lu f7, x7
-+fcvt.d.lu f8, x8
-+fcvt.d.lu f9, x9
-+fcvt.d.lu f10, x10
-+fcvt.d.lu f11, x11
-+fcvt.d.lu f12, x12
-+fcvt.d.lu f13, x13
-+fcvt.d.lu f14, x14
-+fcvt.d.lu f15, x15
-+fcvt.d.lu f16, x16
-+fcvt.d.lu f17, x17
-+fcvt.d.lu f18, x18
-+fcvt.d.lu f19, x19
-+fcvt.d.lu f20, x20
-+fcvt.d.lu f21, x21
-+fcvt.d.lu f22, x22
-+fcvt.d.lu f23, x23
-+fcvt.d.lu f24, x24
-+fcvt.d.lu f25, x25
-+fcvt.d.lu f26, x26
-+fcvt.d.lu f27, x27
-+fcvt.d.lu f28, x28
-+fcvt.d.lu f29, x29
-+fcvt.d.lu f30, x30
-+fcvt.d.lu f31, x31
-+
-+/* do compare.
-+ * The manual says instr with bits (6:0) == 1 1 0 1 0 1 1 are UNALLOCATED
-+ */
-+.int 0x0000006b
-+/* exit test */
-+.int 0x0000016b
+diff --git a/configure b/configure
+index ca2d7db..5c9e967 100755
+--- a/configure
++++ b/configure
+@@ -58,6 +58,8 @@ guess_arch() {
+         ARCH="m68k"
+     elif check_define __powerpc64__ ; then
+         ARCH="ppc64"
++    elif check_define __riscv ; then
++        ARCH="riscv64"
+     else
+         echo "This cpu is not supported by risu. Try -h. " >&2
+         exit 1
+@@ -139,7 +141,7 @@ Some influential environment variables:
+                prefixed with the given string.
+ 
+   ARCH         force target architecture instead of trying to detect it.
+-               Valid values=[arm|aarch64|ppc64|ppc64le|m68k]
++               Valid values=[arm|aarch64|ppc64|ppc64le|m68k|riscv64]
+ 
+   CC           C compiler command
+   CFLAGS       C compiler flags
 -- 
 2.23.0
 
