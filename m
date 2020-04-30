@@ -2,59 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208171BED83
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 03:22:17 +0200 (CEST)
-Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3E81BEE05
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 04:06:41 +0200 (CEST)
+Received: from localhost ([::1]:49792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTxu3-0006z5-Lf
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 21:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53662)
+	id 1jTyb2-0000JE-BM
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 22:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37300)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jTxt0-0006N6-0u
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 21:21:15 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jTyYt-0006yJ-DH
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 22:04:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <no-reply@patchew.org>) id 1jTxsI-0004NI-S8
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 21:21:09 -0400
-Resent-Date: Wed, 29 Apr 2020 21:21:09 -0400
-Resent-Message-Id: <E1jTxsI-0004NI-S8@eggs.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jTxsH-0004Mv-74
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 21:20:25 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1588209616; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=l/Ur5fBfVrqBQCWeZK/IKSdVrM+73sTZIJf7x8pzhw4cgSdXOPkr8zZk7ZgLrJlmR9RpBHbrVJCXGIYCKtMVQh25ckmU6dcvX/6MI4ao1LFm4rmSWLqss8PA5u1SIRSftRl0dbrxsVMxM535ozV1xGnwB+gnuBnaOx1MNzz9VUc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1588209616;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=W4Uy3oaCMWF2v8azlax1xPKx7ooocpdy+/tpwVdkhWU=; 
- b=OC0ZbR0v6/zrYp+4w4AlaxOVoFN/0B0DaxknSNmxxUUD1YDn3Nw1+2atFRpUsykIf9WH+qtXMPzKpjVyMx3g4h1lMJRIRkGJXi1xou2Ii6B/BiLux8ROVzjUUdokDz0m3VJuTkLnmy9wve8r7JB+wkyJ1a2o0C8yA/+7v78iCV0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 158820961535676.81794784228498;
- Wed, 29 Apr 2020 18:20:15 -0700 (PDT)
-Message-ID: <158820961411.4471.18166306848973407826@45ef0f9c86ae>
-In-Reply-To: <20200429200754.18327-1-alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH v2] plugins: new lockstep plugin for debugging TCG
- changes
+ (envelope-from <richard.henderson@linaro.org>) id 1jTyXc-0004j3-Pr
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 22:04:27 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:54183)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jTyXc-0004io-8n
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 22:03:08 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id hi11so58504pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 19:03:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YBh1WI1a1TP6+dKybZ3Tp11UoKtEzApwzqoS5j2+O2k=;
+ b=OUmd3//9MC9DA8Jh4G0OIkUwjTLaPqpx+QnUmGOu52jnebDvr0Wa3SDzK0t5SPehqe
+ KXT4ltCSVXx7PT99xmxyMQdfluIbmYOZgJYxSEJS+c8e9pOdTmXRdCafVsquPC4C75J1
+ p0F2/tmj2tJu9oJHfnGLMV8nazg6RNLrrDHu7DZ2CCVMUp6zHnFU3Mw2oVqiK/EDuC67
+ oFube606YTzgprGPPsbU2jOJtK7QTQaWWRu8FJsvZzcsGEpfmcZzgEInER9lxn3wx3RP
+ wG2Z0g07Ouq0bKM8DD0xEZL8PnUYiqe1i9ppU45CxQmiCWR/Lcxd9l9m7iaS3KcgECZ5
+ xlRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YBh1WI1a1TP6+dKybZ3Tp11UoKtEzApwzqoS5j2+O2k=;
+ b=pTwHR8AaRieH0EezCJ5vyHBi9iBBKKlGqhVEx1r9++rkgA+/w8z2h7DW/NMtGUOygG
+ RmYVjWUGSwsxKGx+dB3yRacYBVZUEV60fQ7Y2Qn4+4GnrfO7sGik8a0rMN/eX5S0tvbz
+ MEbivZHdQVQK8OBso6t9F+jxqtaANPyHAGp+YV3tzgUdGnmZgeS+wiqMStHzULrLZaew
+ UJYjF/mmae3LkopcxehgQ/sHEmsekDKisyDw7kOCldUYBDe+UMMdGQuiGUpYxNOFRdug
+ wvknfQTV9dSvQLj/a0v/w6hqq10gtFOyNdo1rvto7pOoZ/nVZMFoSYLkU+O1ukdjtLOq
+ 1mrQ==
+X-Gm-Message-State: AGi0PuYdv/MkeTIpNpt5R5rdEBmU4dJgYbSDKZ5Us85DEDnkg4Asq9bi
+ iuK5QBSMa16iKMO8TcFlJU46XF8qv84=
+X-Google-Smtp-Source: APiQypIz5Kf3RkBIstoXEz/TyE7rqBomUxs77aPp/PC/A79AQxBSanhoJyBMNZWQ+wHYknawAvop6w==
+X-Received: by 2002:a17:902:a405:: with SMTP id
+ p5mr1437161plq.36.1588212185207; 
+ Wed, 29 Apr 2020 19:03:05 -0700 (PDT)
+Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
+ [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id y3sm409284pjb.41.2020.04.29.19.03.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Apr 2020 19:03:04 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/9] target/arm: Implement SVE2 Crypto Extensions
+Date: Wed, 29 Apr 2020 19:02:54 -0700
+Message-Id: <20200430020303.20264-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Wed, 29 Apr 2020 18:20:15 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 19:37:55
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Received-From: 136.143.188.57
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::1035
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,43 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
- alex.bennee@linaro.org, qemu-devel@nongnu.org, philmd@redhat.com
+Cc: steplong@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyOTIwMDc1NC4xODMy
-Ny0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAwNDI5MjAwNzU0LjE4MzI3LTEtYWxleC5i
-ZW5uZWVAbGluYXJvLm9yZwpTdWJqZWN0OiBbUkZDIFBBVENIIHYyXSBwbHVnaW5zOiBuZXcgbG9j
-a3N0ZXAgcGx1Z2luIGZvciBkZWJ1Z2dpbmcgVENHIGNoYW5nZXMKVHlwZTogc2VyaWVzCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
-ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
-aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
-ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
-IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNo
-ICd0ZXN0JwowZjk4ZWYyIHBsdWdpbnM6IG5ldyBsb2Nrc3RlcCBwbHVnaW4gZm9yIGRlYnVnZ2lu
-ZyBUQ0cgY2hhbmdlcwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KV0FSTklORzogYWRkZWQsIG1vdmVk
-IG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTQ6
-IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMK
-IzE3NTogRklMRTogdGVzdHMvcGx1Z2luL2xvY2tzdGVwLmM6MTE3OgorICAgIGdfc3RyaW5nX2Fw
-cGVuZF9wcmludGYob3V0LCAiV2UgYXJlICBAICUjMDE2bHggdnMgJSMwMTZseFxuIiwgdXMtPnBj
-LCB0aGVtLT5wYyk7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTc5OiBGSUxF
-OiB0ZXN0cy9wbHVnaW4vbG9ja3N0ZXAuYzoxMjE6CisgICAgICAgIGdfc3RyaW5nX2FwcGVuZF9w
-cmludGYob3V0LCAiICBwcmV2aW91c2x5IEAgJSMwMTZseC8lbGQgKCVsZCBpbnNuLCAlbGQgYmxv
-Y2tzKVxuIiwKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojMjU5OiBGSUxFOiB0
-ZXN0cy9wbHVnaW4vbG9ja3N0ZXAuYzoyMDE6CisgICAgLy8gc2F2ZSBhIHJlZmVyZW5jZSBzbyB3
-ZSBjYW4gZnJlZSBsYXRlcgoKdG90YWw6IDEgZXJyb3JzLCAzIHdhcm5pbmdzLCAzMjIgbGluZXMg
-Y2hlY2tlZAoKQ29tbWl0IDBmOThlZjJiNWNlMiAocGx1Z2luczogbmV3IGxvY2tzdGVwIHBsdWdp
-biBmb3IgZGVidWdnaW5nIFRDRyBjaGFuZ2VzKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9
-PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhl
-IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMDQy
-OTIwMDc1NC4xODMyNy0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvdGVzdGluZy5jaGVja3BhdGNo
-Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
-aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
-cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+Stephen, what I was looking for when I talked about modifying
+the existing helpers is patch 1, which simplifies the final 3
+patches for the new SVE2 insns.
+
+In the process I found that the existing implementation of the
+AdvSIMD insns is buggy wrt SVE.  We need to clear the bits in
+the Zreg destination beyond the first 128.
+
+I could have done this via clear_vec_high in translate-a64.c,
+but since we already have a function call, we're better off
+doing the clearing out of line.  This means adding a desc
+parameter so that we know the total vector length.
+
+
+r~
+
+
+Based-on: https://github.com/rth7680/qemu/commit/8c3a91e4e487ef840193a489e5457165530666fc
+
+Richard Henderson (9):
+  target/arm: Convert aes and sm4 to gvec helpers
+  target/arm: Convert rax1 to gvec helpers
+  target/arm: Convert sha512 and sm3 to gvec helpers
+  target/arm: Convert sha1 and sha256 to gvec helpers
+  target/arm: Split helper_crypto_sha1_3reg
+  target/arm: Split helper_crypto_sm3tt
+  target/arm: Implement SVE2 crypto unary operations
+  target/arm: Implement SVE2 crypto destructive binary operations
+  target/arm: Implement SVE2 crypto constructive binary operations
+
+ target/arm/cpu.h           |  10 ++
+ target/arm/helper.h        |  45 ++++---
+ target/arm/translate-a64.h |   2 +
+ target/arm/vec_internal.h  |  10 ++
+ target/arm/sve.decode      |  17 +++
+ target/arm/crypto_helper.c | 267 ++++++++++++++++++++++++++-----------
+ target/arm/translate-a64.c | 211 +++++++++++++----------------
+ target/arm/translate-sve.c |  79 +++++++++++
+ target/arm/translate.c     | 125 +++++++++--------
+ target/arm/vec_helper.c    |  10 --
+ 10 files changed, 491 insertions(+), 285 deletions(-)
+
+-- 
+2.20.1
+
 
