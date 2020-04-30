@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578121C0136
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:05:07 +0200 (CEST)
-Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BF41C0148
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:05:35 +0200 (CEST)
+Received: from localhost ([::1]:32932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUBgQ-0002px-4A
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44704)
+	id 1jUBgs-0003aj-LG
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:05:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44720)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jUBWo-0007pR-8d
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:56:23 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jUBWp-0007pW-AR
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:56:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jUBUo-0003UG-52
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:55:10 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51947
+ (envelope-from <kwolf@redhat.com>) id 1jUBUq-0003Y6-Jz
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:55:11 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27521
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jUBUn-0003T2-M7
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:53:05 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jUBUq-0003Xy-6u
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:53:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588261985;
+ s=mimecast20190719; t=1588261987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xXNnshdKbGUO0D3O9iDh9E78tDzNO/uFU6kR1rh1Phc=;
- b=Zw80ocsQDvXTAtunK4v/7A0iDRx/JqOngQLw4pyZMvaLvnRJomGHvC7nSVfwgeLqGQ9CIh
- igJ3qmlje0HFdIOrTaIekhgupXtH5l592wjO7FBOm7M/7jWtoitoZLNL5ZBvSuLDq1khFk
- fUv/rVujLxdc+yL7dM5d9DHso2ZlUMw=
+ bh=r6umnFzwUIqC3c4qAdzB9jocRPTOotV4+n9m2I+NwsA=;
+ b=AMyZ3Winw9s4C3THZfNSR5ejomGW5oSAeBXP7xmObAiMj8kSyIOtaWKQPm5KmYnJqOY1F2
+ NPHbovDkekgYggg20Yu8YdZUf6iSzdN72R6/7hly+riImRlVduyteJOTw4BuKmMKhndE26
+ YBEqUWT1DWAnO6WPIEowh8R7rt/O4i8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-VV-d7FBBPVG_0BwQRbgcOw-1; Thu, 30 Apr 2020 11:53:01 -0400
-X-MC-Unique: VV-d7FBBPVG_0BwQRbgcOw-1
+ us-mta-471-jZS_JlLDMpCXfLGjsfAHVA-1; Thu, 30 Apr 2020 11:53:05 -0400
+X-MC-Unique: jZS_JlLDMpCXfLGjsfAHVA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FF96108BD0E;
- Thu, 30 Apr 2020 15:53:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26434BFC2;
+ Thu, 30 Apr 2020 15:53:04 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-60.ams2.redhat.com [10.36.114.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C59E61983;
- Thu, 30 Apr 2020 15:52:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90C43610AF;
+ Thu, 30 Apr 2020 15:53:00 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 07/15] raw-format: Support BDRV_REQ_ZERO_WRITE for truncate
-Date: Thu, 30 Apr 2020 17:52:23 +0200
-Message-Id: <20200430155231.473156-8-kwolf@redhat.com>
+Subject: [PULL 08/15] file-posix: Support BDRV_REQ_ZERO_WRITE for truncate
+Date: Thu, 30 Apr 2020 17:52:24 +0200
+Message-Id: <20200430155231.473156-9-kwolf@redhat.com>
 In-Reply-To: <20200430155231.473156-1-kwolf@redhat.com>
 References: <20200430155231.473156-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -77,45 +77,36 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The raw format driver can simply forward the flag and let its bs->file
-child take care of actually providing the zeros.
+For regular files, we always get BDRV_REQ_ZERO_WRITE behaviour from the
+OS, so we can advertise the flag and just ignore it.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200424125448.63318-6-kwolf@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200424125448.63318-7-kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/raw-format.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block/file-posix.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 3465c9a865..351f2d91c6 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -387,7 +387,7 @@ static int coroutine_fn raw_co_truncate(BlockDriverStat=
-e *bs, int64_t offset,
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 58326a0a60..bf09ad8bc0 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -702,6 +702,10 @@ static int raw_open_common(BlockDriverState *bs, QDict=
+ *options,
+ #endif
 =20
-     s->size =3D offset;
-     offset +=3D s->offset;
--    return bdrv_co_truncate(bs->file, offset, exact, prealloc, 0, errp);
-+    return bdrv_co_truncate(bs->file, offset, exact, prealloc, flags, errp=
-);
- }
-=20
- static void raw_eject(BlockDriverState *bs, bool eject_flag)
-@@ -445,6 +445,8 @@ static int raw_open(BlockDriverState *bs, QDict *option=
-s, int flags,
-     bs->supported_zero_flags =3D BDRV_REQ_WRITE_UNCHANGED |
-         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-             bs->file->bs->supported_zero_flags);
-+    bs->supported_truncate_flags =3D bs->file->bs->supported_truncate_flag=
-s &
-+                                   BDRV_REQ_ZERO_WRITE;
-=20
-     if (bs->probed && !bdrv_is_read_only(bs)) {
-         bdrv_refresh_filename(bs->file->bs);
+     bs->supported_zero_flags =3D BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK=
+;
++    if (S_ISREG(st.st_mode)) {
++        /* When extending regular files, we get zeros from the OS */
++        bs->supported_truncate_flags =3D BDRV_REQ_ZERO_WRITE;
++    }
+     ret =3D 0;
+ fail:
+     if (filename && (bdrv_flags & BDRV_O_TEMPORARY)) {
 --=20
 2.25.3
 
