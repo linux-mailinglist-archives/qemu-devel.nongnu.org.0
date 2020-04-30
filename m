@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0814F1BF7DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:07:47 +0200 (CEST)
-Received: from localhost ([::1]:39404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1AE81BF7F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:11:04 +0200 (CEST)
+Received: from localhost ([::1]:50458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7yj-0006rs-V7
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:07:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33964)
+	id 1jU81v-0003tN-MR
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:11:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34032)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jq-0003de-KD
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:23 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7kF-0004Yb-Bk
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jo-0000U5-UZ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:22 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51181)
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7kE-0000Xq-69
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:47 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:37486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jU7jo-0000Tk-FJ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:20 -0400
-Received: by mail-wm1-x342.google.com with SMTP id x25so1516912wmc.0
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:20 -0700 (PDT)
+ id 1jU7kD-0000XM-Nr
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:45 -0400
+Received: by mail-ot1-x336.google.com with SMTP id z17so4639440oto.4
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=VZsHlwetQydlsAkMRlAw7EDxgaTnzCyVqrqpBTTMf/c=;
- b=JtVAIYRtFhqDdwotVAXgWuqjjVQWXK3S7kHnqDR9nNUI6oOBPSaWl17TG1FYklyeo/
- BC0zpEKuS2H4GlutoLkbBP/be4g0db1+f6amIL3jeqng/fSm1R20siIVQqYTZaH7GZ8N
- cYFIn+mDOHjygCyzPa/C2Tb9rtJHi1MQJwAtHA4r5R0Jsohs0wWatfp1kIZ4R1eom2kB
- XULSySDN/D4PhE2IyXfLUp8VQXzHipOsQtTcCIqV+ZaMwjUDe5qURU85ZgZICO83onif
- jjHcgnUUHHDJIdqE43aRjaVaMx1b5DOUgHGm6Hm0ARDNGzzdBv2VUOpU7eHZmO1mVzBk
- DT/Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Izs21Dp5htQo5BsetrxdKdZNkodJ6x5Fwd/PALoe3gM=;
+ b=XOWsX2j7wxxmuQmkQxrDgpGmfQj6kh38hlLsjBBf4fI0P7YAVRq/fsWxbJDfiFrncs
+ l5stKnrYzWnDAxfLJkfBBC1uJ00EtrIWIqpivonBWFwXxtBHzT61O6i9FaxIED0PAG/j
+ AJjGxbaknYjo/TWaWyKMH5AJw9U/5VxO74ucEHO3eemTfQI9HUn3R2P4TUrF2LiBkhsu
+ b/ri799XcePxH6hh0h1DslkH1Kk8Cj7vCinOhauIf6s1ms6NPkVWaUoiEVtNyri/Y2ck
+ RHsR3Um5+ZjPYZWrParD0m0l1gvYqlWvPSRW9NlqaylSGXFLOFCvkDmE8f66wk+L77e0
+ JIPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VZsHlwetQydlsAkMRlAw7EDxgaTnzCyVqrqpBTTMf/c=;
- b=i5v0vqOM7zYHiBmObEtKlXGo+ZPVS0ubU6gUP3IXfEvlaMukxU+RUM5vAFxSFNf7BT
- OsKPCarQVwQfWIX1A2iUqMikiRa5luHYhaZTUl7j+rnii+Gch0fiLfSUlbtxJT0YSUeu
- ob0fGs1zh0THY6LkgHBNy5AEbXzdR/gK0aclV/0aEtqdgFZfiNErSRF12SmmtgezLT7U
- K4ZeP50bOnd64PaecowcSBsE2BJKk1ZDBQnIuKBIktumDk9A78ZlFZLNJcfdzQ7yAmm7
- evrRTWELqak0QROBLGW6MYLZ3wkDpa/ky3paDlWjR1P1COKuya2SIw2zXMXgIq/a/H5x
- jqAw==
-X-Gm-Message-State: AGi0PuZRxlUbWi6acaMIfbF7dK3padmF4JbQTMEwHyvq/DyBcdCDiI+2
- WZTUrF3TKOFGw3JwewsFmSLKWX8RCe/TsQ==
-X-Google-Smtp-Source: APiQypJIn/2iluGTKXSAEhXjRZA47Wid20MRNxvPsEa9SI/yrqdPjO1s6MjS9c2o6MSY6YmND2VA5g==
-X-Received: by 2002:a7b:c0d5:: with SMTP id s21mr2569473wmh.107.1588247538758; 
- Thu, 30 Apr 2020 04:52:18 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.17
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:52:18 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 31/31] hw/arm: xlnx-zcu102: Disable unsupported FDT firmware
- nodes
-Date: Thu, 30 Apr 2020 12:51:42 +0100
-Message-Id: <20200430115142.13430-32-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200430115142.13430-1-peter.maydell@linaro.org>
-References: <20200430115142.13430-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Izs21Dp5htQo5BsetrxdKdZNkodJ6x5Fwd/PALoe3gM=;
+ b=W8xEIi4urUJM1RNgU27N5srKr657+DtyFZRHa9Y7isX0e+mnrtmBQj2of0lN9eP+Xo
+ 7VJy2P+MWvP0PGp/P/vm5THDEgMv8lS+K4yeNnGfOd/6jVFR6nD2cE30MPcpVlLnT4uZ
+ t2wnxkl8jItKRyTbXyR0ANoLYMlCbXgGlw7aDISY/emet9UEtX5bESqTXO49z5VI0IGa
+ yu6Y/3Db74BRSVogko1KBHlKhari6/H+aRFBhTi/AkjyWblfTiznCBF4huvuU9RzhaGO
+ wuHbo3NBZ2phjWPaWl9nuEd2tXxCk6eIfhVSwzqMLunkIUiHJ/PnSDT3ub8N7DOzx4yq
+ sVPg==
+X-Gm-Message-State: AGi0PuZ3l+3fdP47ksUiO91Lrmc5Xs5YyE7B6wzOLD/PJ5edSVHombE/
+ oSde9q31lsLorFskFnfUN5OpqDff9152osFbElc0OQ==
+X-Google-Smtp-Source: APiQypKGHjUIVl9cqGW7cp6iw8qHumIRHIR5IoLraX7rhyYg4L0rCSoOyEojsmoPmiTx85+tgEEu+ohZc2x5mwpxDDw=
+X-Received: by 2002:a9d:2c08:: with SMTP id f8mr2195218otb.135.1588247564326; 
+ Thu, 30 Apr 2020 04:52:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+References: <20200429202006.775322-1-alistair.francis@wdc.com>
+In-Reply-To: <20200429202006.775322-1-alistair.francis@wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 Apr 2020 12:52:33 +0100
+Message-ID: <CAFEAcA8d5y1d0hsNfPakVxoTqdPJ7NSUr6d5PQcwRDUtX9pq4A@mail.gmail.com>
+Subject: Re: [PULL v2 00/14] RISC-V Patch Queue for 5.1
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2607:f8b0:4864:20::336
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,79 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+On Wed, 29 Apr 2020 at 21:28, Alistair Francis <alistair.francis@wdc.com> wrote:
+>
+> The following changes since commit 648db19685b7030aa558a4ddbd3a8e53d8c9a062:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2020-04-29' into staging (2020-04-29 15:07:33 +0100)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20200429-2
+>
+> for you to fetch changes up to 31e6d70485b1a719ca27e9a2d21f2a61ac497cdf:
+>
+>   hw/riscv/spike: Allow more than one CPUs (2020-04-29 13:16:38 -0700)
+>
+> ----------------------------------------------------------------
+> RISC-V pull request for 5.1
+>
+> This is the first pull request for the 5.1 development period. It
+> contains all of the patches that were sent during the 5.0 timeframe.
+>
+> This is an assortment of fixes for RISC-V, including fixes for the
+> Hypervisor extension, the Spike machine and an update to OpenSBI.
+>
 
-Disable unsupported FDT firmware nodes if a user passes us
-a DTB with nodes enabled that the machine cannot support
-due to lack of EL3 or EL2 support.
+Applied, thanks.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20200423121114.4274-5-edgar.iglesias@gmail.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/xlnx-zcu102.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.0
+for any user-visible changes.
 
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index 4eb117c755a..a798e228b79 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -23,6 +23,7 @@
- #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "sysemu/qtest.h"
-+#include "sysemu/device_tree.h"
- 
- typedef struct XlnxZCU102 {
-     MachineState parent_obj;
-@@ -68,6 +69,34 @@ static void zcu102_set_virt(Object *obj, bool value, Error **errp)
-     s->virt = value;
- }
- 
-+static void zcu102_modify_dtb(const struct arm_boot_info *binfo, void *fdt)
-+{
-+    XlnxZCU102 *s = container_of(binfo, XlnxZCU102, binfo);
-+    bool method_is_hvc;
-+    char **node_path;
-+    const char *r;
-+    int prop_len;
-+    int i;
-+
-+    /* If EL3 is enabled, we keep all firmware nodes active.  */
-+    if (!s->secure) {
-+        node_path = qemu_fdt_node_path(fdt, NULL, "xlnx,zynqmp-firmware",
-+                                       &error_fatal);
-+
-+        for (i = 0; node_path && node_path[i]; i++) {
-+            r = qemu_fdt_getprop(fdt, node_path[i], "method", &prop_len, NULL);
-+            method_is_hvc = r && !strcmp("hvc", r);
-+
-+            /* Allow HVC based firmware if EL2 is enabled.  */
-+            if (method_is_hvc && s->virt) {
-+                continue;
-+            }
-+            qemu_fdt_setprop_string(fdt, node_path[i], "status", "disabled");
-+        }
-+        g_strfreev(node_path);
-+    }
-+}
-+
- static void xlnx_zcu102_init(MachineState *machine)
- {
-     XlnxZCU102 *s = ZCU102_MACHINE(machine);
-@@ -169,6 +198,7 @@ static void xlnx_zcu102_init(MachineState *machine)
- 
-     s->binfo.ram_size = ram_size;
-     s->binfo.loader_start = 0;
-+    s->binfo.modify_dtb = zcu102_modify_dtb;
-     arm_load_kernel(s->soc.boot_cpu_ptr, machine, &s->binfo);
- }
- 
--- 
-2.20.1
-
+-- PMM
 
