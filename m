@@ -2,108 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2351BEFA4
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:26:36 +0200 (CEST)
-Received: from localhost ([::1]:33336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96F81BEFBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:33:10 +0200 (CEST)
+Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU1iV-0001ra-DF
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:26:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
+	id 1jU1or-0007A9-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:33:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53340)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU1hS-000129-PH
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:25:31 -0400
+ (envelope-from <armbru@redhat.com>) id 1jU1n2-0004z0-PJ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU1hS-0000zx-9Z
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:25:30 -0400
-Received: from mail-eopbgr70120.outbound.protection.outlook.com
- ([40.107.7.120]:17998 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jU1hQ-0000xx-Bz; Thu, 30 Apr 2020 01:25:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SCnwjydqFfonbw6Zb5OelOyG9aa5dGwuZcpSOek0XAVt8lNebhlGrvxyaX5K5HGuUyXFVdWtLgy63lD5RSoaKwHr++yIYUuTTE0K48nzhpIJhZ0wjKSDM7BOPf8TUvc4OEWJeM2ueSb4xNQ4X2TqRDcwXeZhjwIHBCuWCzz1oqvPSilc4oTnYT3pK64jIt/tiZ6PNYW7S+Zsj+YmhbPh+CSVuLWZVXw2EDCONg62vGkP2T9+Mpo/zqKTZt0w8RLeLGix7+hrUSbSSsrRsIoCUrYPL7kc9o00pT0ozjs0yXt/QzwoIkSRV/UNUsX0pwPrmg9AkouFJfPt3Vpz2M15Og==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1CdC+XIqCdlrnEytMyvWyL3XqjxIKMyyiEcHeF2NMFE=;
- b=f+77plMjao+gAiW1kjjVO8l9v+84z0OpHv47W33uaeZyPFtKcCA+BKeq3zJXe7/d7D1iSo0/UUQzgDCaKhIdr7Kk+xNhTzHuz1mqovE6JljoL2njTYTcWawOQPIb8+XVZd2dvkRQTUK/FzXLbAzfztJRprnnUltxNCC5w3MCwAo/7rLFdUderpROTduTYbz0ov4QaKNfTKHSNSX4EM6eEyL4WNg86iOVwZAb54o5QKrXrQU7NJnzzINIhha+mH6n1qNxMPRbygwxIqkFT3h7LfEmLykjpVuV4Sf49qDrY86Y8KENZrdScG+q3Ni+yq7oLnp2MC69X5V8qCHKxzs7+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1CdC+XIqCdlrnEytMyvWyL3XqjxIKMyyiEcHeF2NMFE=;
- b=PpQ7gtD5gV80WAfDfKMLQ12gJ03Oc7Dt3CIFzR0/1cb1Z1TGV13dYdg2d6E8Mm+Yh0SLUEV2azTeCUpEkDs0SX2rGVb7RWNz04gCbvOZfZgJFg7pi9WBL7EahOCilIJAAVJw7+ExEaBgIubvDSIBgQR5p8EkbC/5iJvBWm44ULw=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5301.eurprd08.prod.outlook.com (2603:10a6:20b:dd::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Thu, 30 Apr
- 2020 05:25:25 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
- 05:25:24 +0000
-Subject: Re: [PATCH v2 06/17] block/io: support int64_t bytes in
- bdrv_aligned_pwritev()
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20200427082325.10414-1-vsementsov@virtuozzo.com>
- <20200427082325.10414-7-vsementsov@virtuozzo.com>
- <f45f380b-8e7b-1483-d685-4e7d4729562a@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200430082522694
-Message-ID: <7d64fb96-87b3-f0d8-144b-68e3775ed9d0@virtuozzo.com>
-Date: Thu, 30 Apr 2020 08:25:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <f45f380b-8e7b-1483-d685-4e7d4729562a@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM3PR05CA0144.eurprd05.prod.outlook.com
- (2603:10a6:207:3::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <armbru@redhat.com>) id 1jU1mx-0002ch-J3
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33507
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jU1mw-0002bs-NC
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588224669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EpPO/XObalilBIj2HmWfeweD7quZryiKR5Rc5DZWYtw=;
+ b=e9RLMFBn+JvSZvz0Wz4jsKm7bqEvO43sWnmb6C6lrnhpXe57OdTfsz12hIoPyQXKVWdd1z
+ y4HFR2c/Pb9PawZqqUxbBab8sRHYoapJfcXxcS2sYAVQxPw3B6qE6CS2weh7/x/Q338NXS
+ TJVe1qX0rMJ0692hw32IYlocMtAQCCw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-F68cgaRmNdGXMTvz6qjSOg-1; Thu, 30 Apr 2020 01:31:07 -0400
+X-MC-Unique: F68cgaRmNdGXMTvz6qjSOg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9319F1800D4A
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 05:31:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62A551001920
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 05:31:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D08F811358BC; Thu, 30 Apr 2020 07:31:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] QAPI patches for 2020-04-30
+Date: Thu, 30 Apr 2020 07:30:44 +0200
+Message-Id: <20200430053104.32204-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.138) by
- AM3PR05CA0144.eurprd05.prod.outlook.com (2603:10a6:207:3::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.20 via Frontend Transport; Thu, 30 Apr 2020 05:25:23 +0000
-X-Tagtoolbar-Keys: D20200430082522694
-X-Originating-IP: [185.215.60.138]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eca6f89a-044f-477a-75a4-08d7ecc6e2b0
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5301:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB530167FD52E65F88B0AD8A8FC1AA0@AM7PR08MB5301.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 0389EDA07F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 9gxKNkr1BzA1o7enJAd/Z3TuQuR1AXPrHMsIewUvNV9IM08l5PQAa1dmS5jdOkbY1bm8b+4KhD4ArRfZmWuYD8TfRVQbjydx16ziLPPdigI1wkwZRe9iKWDtMEnRO/vEiSarUvb8006+JyXNTUeMKz2pVhEL6OIkEsQL4xqBaGV11EOnkkdPYzx6ysycv1O5L5JIXotr3y5Ohmjw+cdLm+a084GTPjPSwLNV5DjMSK4gNivelqO62FkxjzYix424/mlz7dSIwRQ32VrG+mS9USSp29GS0RkEU/zHs6d0CEJqOp78Mm/SY5WxAmDU85YpxFjLY1jHqMk2DXPRCD+FLQKPFojxgu1Tvyc1Joi356LUo/8CKBf6ofdItJEJkm88VkFae+2LzYjUT2ZnVG4MyK5KWMy+JGUwyxPqR/EI6S0KkY+1U1YuWpu5pu4ElOC+
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39840400004)(346002)(376002)(366004)(136003)(396003)(2906002)(31686004)(36756003)(186003)(5660300002)(6486002)(26005)(53546011)(956004)(52116002)(2616005)(16526019)(4326008)(86362001)(107886003)(31696002)(316002)(16576012)(7416002)(478600001)(8676002)(66556008)(66946007)(8936002)(66476007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: rPut1iHhoj89xAJ+w06xHn5MqOYA186Zf1IBBPlE3W1H9dGTCuhNkrM4U1yUuL/O0eglUybdbdYUPQ5mn1IFZvwPiw5IygQrHoQFDzYTtDVwBKRfyrTflH5erpqnQd+NDxIB61a23zOIERVLYxYRAdliVR/sBDXAqQik5R9zh6/gbIQLd1B6wMcyinvx14PLDJK9cYPorpEpede6oJzL0rWpjFLORAdx/n08s+v//zgdYTpcPM9YF4cH6OOByD+3HBdrv81R+qLVlFpoVR+IjpdN77j5RYZMupA/C0xvUrTF3f/kgvdXDSFhHHxYQb2/tn0oEsqQsS4O5tVlmWlm+gy+YDOHSTSPLl99RXXMLVcA5wTEOAxqs5o3uZNTzlumdC3jjKSPNhvlPIYZ56orJ7urbXOPLrWyPBmELh74p9rSxqPjXl05p/sVeQMkfmmVd6gT+L5b8lvKgypUo6E8dUPp8MWow3WXELna1q8ZGucxIhPsiNCOVEs2qwBRZo19VdlLHaxAj6BDuNFR+ROFQd5mqkot2DNwE5eZMy+CB7zcalIh7xCPjC/RZkjtOgLnZ1uiLC4m0R+thazLUQzD+N/LxlBB22bFz/DQw612TQ4BIwuc1prvt2I9Pr9sjD5/h4Yt/vx8zF5uSOqRI3IA0pJe9Xj4vVLGP2GxjJyikiR7H+UKghmpjJys1ANTA4OhFodzdJfYaRV0x8gpEdhL/GS+obGs9STqgjuBPaePfrfV0t0Yx7uGP7tbzz+sY8NeX0CB12bYkCZtA1susZ9+O2/8iBpYi7F+aXA1oJK4zLM=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eca6f89a-044f-477a-75a4-08d7ecc6e2b0
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 05:25:24.8473 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +LRwRB3dJ/AMLTBEr9Q2m3n2JPNrgTwb8BbU7vIFIAf52MN03M31rFwynJyy5ZRYHTT3UgWhBHnBpp8ORNb9+piuO+TgjK783No4UyIXZhQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5301
-Received-SPF: pass client-ip=40.107.7.120;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:25:26
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.7.120
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,59 +72,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, integration@gluster.org, berto@igalia.com,
- pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org, dillaman@redhat.com,
- pl@kamp.de, ronniesahlberg@gmail.com, mreitz@redhat.com, den@openvz.org,
- sheepdog@lists.wpkg.org, stefanha@redhat.com, namei.unix@gmail.com,
- pbonzini@redhat.com, sw@weilnetz.de, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-30.04.2020 1:04, Eric Blake wrote:
-> On 4/27/20 3:23 AM, Vladimir Sementsov-Ogievskiy wrote:
->> We are generally moving to int64_t for both offset and bytes parameters
->> on all io paths. Prepare bdrv_aligned_pwritev() now (and convert the
->> dependencies: bdrv_co_write_req_prepare() and
->> bdrv_co_write_req_finish() to signed type bytes)
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block/io.c | 12 +++++++-----
->>   1 file changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/block/io.c b/block/io.c
->> index c8c30e3699..fe19e09034 100644
->> --- a/block/io.c
->> +++ b/block/io.c
->> @@ -1854,7 +1854,7 @@ fail:
->>   }
->>   static inline int coroutine_fn
->> -bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, uint64_t bytes,
->> +bdrv_co_write_req_prepare(BdrvChild *child, int64_t offset, int64_t bytes,
->>                             BdrvTrackedRequest *req, int flags)
->>   {
-> 
-> No change in size.  First, check usage within function:
->      int64_t end_sector = DIV_ROUND_UP(offset + bytes, BDRV_SECTOR_SIZE);
-> Changes computation from uint64_t to int64_t.  This causes a borderline bug on images between INT64_MAX-511 and INT64_MAX (nbdkit can produce such images over NBD, although they are atypical on disk), where DIV_ROUND_UP() would give the right answer as uint64_t but a negative answer with int64_t.  As those images are not sector-aligned, maybe we don't need to care?
-> all other uses appear to be within asserts related to offset+bytes being positive, so that's what we should check for.
-> 
-> Callers:
-> bdrv_aligned_pwritev() - changed in this patch to 'int64_t', analyzed below [1]
-> bdrv_co_pdiscard() - already passes 'int64_t', also checks for offset+bytes overflow - safe
-> bdrv_co_copy_range_internal() - 'uint64_t', but already analyzed for 3/17 how it was capped < 2M - safe
-> bdrv_co_truncate() - already passes 'int64_t', passes new_bytes computed by subtracting from a positive 'int64_t offset' - safe
-> 
-> 
-> [1] except I hit the end of my work day, so my analysis will have to continue tomorrow...
-> 
+The following changes since commit 648db19685b7030aa558a4ddbd3a8e53d8c9a062=
+:
 
-Thanks for reviewing!
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2020-04-29' i=
+nto staging (2020-04-29 15:07:33 +0100)
 
-I'm very sorry, I just need to say once again: the series should be rebased on "[PATCH for-5.0? 0/9] block/io: safer inc/dec in_flight sections", as it is already mostly reviewed by Stefan. Seems, that your analysis will be still valid after it, although patches will change. I'll do it now to see, can I keep your r-b's.
+are available in the Git repository at:
 
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2020-04-30
 
--- 
-Best regards,
-Vladimir
+for you to fetch changes up to 89bf68f933393a1bc0de4d07b59ffa8920da130f:
+
+  qapi: Generate simpler marshalling code when no arguments (2020-04-30 07:=
+26:41 +0200)
+
+----------------------------------------------------------------
+QAPI patches for 2020-04-30
+
+----------------------------------------------------------------
+Markus Armbruster (20):
+      qobject: Clean up QLIST_FOREACH_ENTRY()
+      qobject: Factor out helper json_pretty_newline()
+      qobject: Eliminate qlist_iter(), use QLIST_FOREACH_ENTRY() instead
+      qobject: Eliminate qdict_iter(), use qdict_first(), qdict_next()
+      qemu-option: Clean up after the previous commit
+      qapi: Belatedly update visitor.h's big comment for QAPI modules
+      qapi: Fix the virtual walk example in visitor.h's big comment
+      qapi: Fix typo in visit_start_list()'s contract
+      qapi: Document @errp usage more thoroughly in visitor.h
+      qapi: Polish prose in visitor.h
+      qapi: Assert incomplete object occurs only in dealloc visitor
+      qapi: Fix Visitor contract for start_alternate()
+      qapi: Assert output visitors see only valid enum values
+      qapi: Assert non-input visitors see only valid narrow integers
+      qapi: Clean up visitor's recovery from input with invalid type
+      qapi: Assert non-input visitors see only valid alternate tags
+      qapi: Only input visitors can actually fail
+      qom: Simplify object_property_get_enum()
+      qapi: Disallow qmp_marshal_FOO(NULL, ...)
+      qapi: Generate simpler marshalling code when no arguments
+
+ docs/devel/qapi-code-gen.txt        |   4 +-
+ include/qapi/qmp/qdict.h            |   3 -
+ include/qapi/qmp/qlist.h            |  10 +-
+ include/qapi/visitor-impl.h         |   9 +-
+ include/qapi/visitor.h              | 192 +++++++++++++++++++++-----------=
+----
+ block.c                             |   9 +-
+ block/sheepdog.c                    |   9 +-
+ blockdev.c                          |  16 +--
+ hw/core/machine-hmp-cmds.c          |   2 +-
+ monitor/hmp-cmds.c                  |   3 +-
+ monitor/qmp.c                       |   5 +-
+ qapi/qapi-dealloc-visitor.c         |   7 --
+ qapi/qapi-visit-core.c              |  20 ++--
+ qapi/qobject-input-visitor.c        |  21 ++--
+ qobject/qdict.c                     |  19 ----
+ qobject/qjson.c                     | 107 +++++++-------------
+ qobject/qlist.c                     |  44 +++------
+ qom/object.c                        |   4 +-
+ tests/check-qlist.c                 |  37 +++----
+ tests/test-qobject-output-visitor.c |  39 --------
+ tests/test-string-output-visitor.c  |  19 ----
+ util/qemu-option.c                  |  43 ++++----
+ scripts/qapi/commands.py            |  62 +++++-------
+ scripts/qapi/visit.py               |   8 ++
+ 24 files changed, 272 insertions(+), 420 deletions(-)
+
+--=20
+2.21.1
+
 
