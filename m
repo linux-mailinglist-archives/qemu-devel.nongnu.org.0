@@ -2,111 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0987C1BF4BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:00:20 +0200 (CEST)
-Received: from localhost ([::1]:59832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F7A1BF4A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:58:48 +0200 (CEST)
+Received: from localhost ([::1]:54272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU5zP-0006IW-1I
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49360)
+	id 1jU5xv-0003zT-Dc
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50164)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jU5oU-0005XW-Nw
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:49:03 -0400
+ (envelope-from <philmd@redhat.com>) id 1jU5wO-0002Yu-28
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:57:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1jU5oT-0003dG-Of
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:49:02 -0400
-Received: from mail-eopbgr10099.outbound.protection.outlook.com
- ([40.107.1.99]:61837 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jU5oQ-0003cj-Ag; Thu, 30 Apr 2020 05:48:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fD1qQDn43Jj1UqBLk6RUX/VySFOsLb3WuXef94QHoxKd1csi2qM/XeDUkJ/eees0iJw3tLUcbBaqhq7jUN5/dRXWKxSIZ+ZAGs78NplK4yoq0DOhpaw5xzTHk7PEIXAO9sDUdFld1FvD20immYbJ+FtqRCjSMmbyyUPWLCMmhXUM09R1fMs6YY57iLE6r0R6s70PSKwJ4dFiT9qmKWs3CbPqZoLG2ASx8hHWDNHOMBH0vvMbaKJE8XoVpJA/YSd01JhraXwupEvWRmBSaYHLeGh7nXnkadvNoiRA5iK7LCdRj8xOBPjYpZcdKqhfH9KauSds3iOgJubYMMjuRpIRXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FtfgPXGmIqnV6BkiJuWWLgLHSS2OQA3E8Uzjnndsxqc=;
- b=iNk27Q02zLUaYPp4C9EEPpoRKim4EN5reBJ9pftYfIeo+2WFpPPXNp7M1FTVkpKeLH1fDd8n2F1Z6HjTSWiQObXpcVnI9J1l6b0KfpsIZwI1RnvdvqmlyJXfdPkNTQ0dd789dYDPpkfPzJSIDtPYE79JwImUm4ICTfsgacyV21Z7KH2cpBoC7K3tFCDA9ISOws1t+vS7zIiSs7+/xcyKjgxReGaRPMuJlIfNWNx3A5Gr5Q/x6DZ/nSDXph2zTk1nw7uJo0qpiMheFnt6iezfyJChIAINbJglFB8PW8pKMsnaXssaidGurv5iXTvT5RPFF6V6HdpXGAQ45bdRV5ar8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FtfgPXGmIqnV6BkiJuWWLgLHSS2OQA3E8Uzjnndsxqc=;
- b=Ejzz7J7CeVVxv+xYVHLsLX+wzj8YpVwHya7wg6+u1LU16rTyK2Z5ClRjgcaqDJZvHm/Vew3Kfdy3BzMtKOSWvLgQJzmv1kA3T+TawY4HF5ds8LS7qQso58h5AK0jHAepdXMEk9U/Za2gK5D206LU2WYy2N7DkJi+OTqjy2NlJP4=
-Authentication-Results: igalia.com; dkim=none (message not signed)
- header.d=none;igalia.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (2603:10a6:208:ff::27)
- by AM0PR08MB5442.eurprd08.prod.outlook.com (2603:10a6:208:182::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Thu, 30 Apr
- 2020 09:48:54 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::95e6:1da8:1244:d16f]) by AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::95e6:1da8:1244:d16f%4]) with mapi id 15.20.2958.019; Thu, 30 Apr 2020
- 09:48:54 +0000
-Subject: Re: [PATCH v22 3/4] qcow2: add zstd cluster compression
-To: Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20200428200013.24474-1-dplotnikov@virtuozzo.com>
- <20200428200013.24474-4-dplotnikov@virtuozzo.com>
- <daf5a573-56a3-62b0-4387-1db73978463e@redhat.com>
- <feeec7a1-6987-18a1-1352-1512dc42824e@virtuozzo.com>
- <be6f57c0-23d9-6a6c-3a39-3a7132f23a42@redhat.com>
- <23f0a79a-6e8d-3702-3d82-9db54a442a5f@virtuozzo.com>
- <73ebc101-7148-2b38-492f-538d4bf8c8a4@redhat.com>
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-ID: <477e76fd-ff73-ac34-c636-c8d9ae6be30d@virtuozzo.com>
-Date: Thu, 30 Apr 2020 12:48:49 +0300
+ (envelope-from <philmd@redhat.com>) id 1jU5wM-0000P3-Sm
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:57:11 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35623
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jU5wM-0000Og-Cy
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:57:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588240629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JzcSsfnexUFTzoraAD3Ptl9+Fpl+PrNPg4VP1cSPNt8=;
+ b=AopCW09FHd3oTmQH/nTwozf0BgPrI3vKIqWMPNWSXCiUYrVNgnNPq/Lb4KY5XEnN1ODk30
+ IeF05fwPOqkxSqBWlIyQLCmWCd8nmTHz2MoH9aLdiWGL71TQ7KWJNrxEZl6g38tfYkYmmp
+ /p79y02Au60hIzS4qqgmEic2UNVVzWw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-daB_7qIlPeWBHNPJLhNwIg-1; Thu, 30 Apr 2020 05:57:00 -0400
+X-MC-Unique: daB_7qIlPeWBHNPJLhNwIg-1
+Received: by mail-wr1-f72.google.com with SMTP id r11so3601436wrx.21
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 02:57:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=anp6LyRrklLQqXlwhfW3YHLnEF9eDMwb06UEYS6BFLA=;
+ b=LO3e28qdKlEkqd/CfOQLdteDmOfqWTwzOw0JCbAyIkkHpemUSbIHHZBxzE/s3MWbwe
+ cCtwrGRFLBJDqoFAtZn/zY4SWEsXcp5lTpoCDmCsgOLKWkSnvjgVc1CkgB+0U5PcwDtW
+ 7KrjAkgFNc8TYPdPjdiX8+EYs2Cme+xvEddMvl0jkenkgAQqs5xiZLke6Rgya/pYQ4kv
+ 6V6WeHGbTVn7ccZ23/KCY+7qzZaycg+Y0MQeW98B+w7frILNrsNXvP5ND39upRxHLaGJ
+ ZypZsFRo+jaT27k53P2F+m/B8fh0kqVYMI/0RINOMwmM9LZytxgJyoGViKzkbxZ/ADpl
+ 8J9g==
+X-Gm-Message-State: AGi0PuYl09vvWjEWfZDenU5WuZngiuWdNggXXmwjDM7Til2I9Sz2CPGP
+ ze9Ji96L86V6JKT0GckEgbiSkrr+QbKTXucb3vpXgVDObei295FKmPevIxcDCScVrxCM9F7RdNI
+ tHDUwyPr0WkpxM5Q=
+X-Received: by 2002:a1c:2e91:: with SMTP id u139mr2053990wmu.18.1588240619669; 
+ Thu, 30 Apr 2020 02:56:59 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKkdRo5V7Hj3PiqpceA6JrG5m7anMvJUaMuRnJQUPiDHj+7E8kTipI1mtKFNMTppJUeqOQNGA==
+X-Received: by 2002:a1c:2e91:: with SMTP id u139mr2053960wmu.18.1588240619359; 
+ Thu, 30 Apr 2020 02:56:59 -0700 (PDT)
+Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.137])
+ by smtp.gmail.com with ESMTPSA id k6sm12108182wma.19.2020.04.30.02.56.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Apr 2020 02:56:58 -0700 (PDT)
+Subject: Re: [PATCH v3] block: make BlockConf.*_size properties 32-bit
+To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin\"" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>
+References: <20200429091813.1469510-1-rvkagan@yandex-team.ru>
+ <f80b44cf-5fe3-8e10-b928-b61f7940d3cf@redhat.com>
+ <20200429121915.GA31415@rvkaganb>
+ <caedf222-3fef-ad92-3b03-f28d8019b7f0@redhat.com>
+ <20200430092528.GC31415@rvkaganb>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <fba03746-9eb0-ef64-d6f7-5caee9870a8b@redhat.com>
+Date: Thu, 30 Apr 2020 11:56:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-In-Reply-To: <73ebc101-7148-2b38-492f-538d4bf8c8a4@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: ZR0P278CA0036.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::23) To AM0PR08MB3745.eurprd08.prod.outlook.com
- (2603:10a6:208:ff::27)
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (178.34.151.204) by
- ZR0P278CA0036.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:1c::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.19 via Frontend Transport; Thu, 30 Apr 2020 09:48:52 +0000
-X-Originating-IP: [178.34.151.204]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5acf64af-4804-412d-c84d-08d7ecebb18d
-X-MS-TrafficTypeDiagnostic: AM0PR08MB5442:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB544272A4FF8DEC78893E0627CFAA0@AM0PR08MB5442.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0389EDA07F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nSNIWT7cyWy6rMmg8dOxVHd51t9WSwIaYP7U7ZG8EtpordSZB98TDwS6xw5q+kQkz4fkqePK8wnahmQ9UfC0W31JnkoNNDG8aztjUXherXpfR9beg9t85Lmsyr1Yy0r/LXQQ1TFbOXHKx77K5MqWIDrtF3Wm7n2gv4HiSYiDAemX9Bfy/GZdGxPWHy6NUYw7F6h/r3ty0pTPwrVNArmu9RtcVnF+xXeexsot+yV6MKDr3728bCsPtLthI35TwE5YxlRhOXaXoptoiuFt9gVEHS99Js/41vfueMBcx2oqjOK3vLuWb2FFwYKcfgLCtDA3wsG1/WlljEgqw9UIh08BW8lHhGC1hWLMyZgWcGtEZHpETcOefiYh1+1rPQKecAfyoht7IBIm+v9DcrCab/laYPHBWwvR9TCxlC191iNM4Whv8J63ka87Y7M7aW+FoRJE
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3745.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(346002)(396003)(136003)(366004)(39840400004)(376002)(5660300002)(6666004)(316002)(31696002)(8936002)(86362001)(16576012)(52116002)(66556008)(66476007)(110136005)(8676002)(66946007)(53546011)(186003)(66574012)(36756003)(6486002)(478600001)(956004)(4326008)(16526019)(26005)(31686004)(2616005)(2906002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: /CRNgyJr/mXweVgEporubi3aZzubg+9xfkRj92+iwfoKFoP2pTHxDBf2y6KG+LDstF2zVlm2+EtD8AJYbar7ac/yXDPHbd1RIh77rQ8CT0/pzNPg0kXAphqEeCL1HK/9Ebo4VsAT1h+ACjwWEkrbhdc8kuK7wYT4wXJjSLNbbGNTzkDMyzKFgDMhMDp4FeNlobqnLqGqAgoOvTK1tYnFEu4VlkAozrlm6b8b04UTEhJiKoFr5m+rLzrHqYY896s5wTfHVvmNTtG/fpmOryT/+wqOQlrRwrWk4iYXcK6Wou055oA6SOog8m53QPPeCe2OzVNlqzl2ywGSRvzkHizAdNAkaco0gTgCLrnEORkkcnj4nww82J8Un0GhHitHfDh/wFiWpf9uRmta+K+Bq1SPSg643qA6GoWr9uM82+RBxRJ++UgRVMqQVck0rnmg/jjP+42TESlWgXyW+/ZfiBddblXAQrGhRfGu2V36uyJOROY04QcZe9kTfUtH3ZnzOcG23490AOrZUdzA3DKeqsdBvejWVAyupn+jTXbjUr/HTMU6J5DdqgQYtoZU3AiRu1aMM78L6+XBY8meiRwuTubuUa7h+QSjbexNQiyFPdV+WHjVE3/cmVycZghYgP3owusLF5GjfDBuzwGjB+tYPZkamoZMqaSlJZx6BA1IehMt/HnWQi41/q8SOcODN5VEI/bcLF9hFlCO0GUTBYzw6sIxhk0rOwg6db90ePBhtzFqVFK5WsjODXU2OKDScqXs3PA6soRqv/XBW/OS1IHTb0/gfuy/Kd2aLI14yv4rh+lHWwM=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5acf64af-4804-412d-c84d-08d7ecebb18d
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 09:48:53.9371 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uifjRAGSg1oe9IXxH2Vxbcgt2e+mWvxoCOLOaO19wtpxk6vmYK2OUq9iUI5x4DfWBmcfDoYOtOzBZMFX+ffVQmWwrheTJWF7bPQ1ieyRo1c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5442
-Received-SPF: pass client-ip=40.107.1.99;
- envelope-from=dplotnikov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 05:48:54
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.1.99
+In-Reply-To: <20200430092528.GC31415@rvkaganb>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -118,134 +102,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, qemu-block@nongnu.org,
- armbru@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 30.04.2020 11:26, Max Reitz wrote:
-> On 29.04.20 15:02, Vladimir Sementsov-Ogievskiy wrote:
->> 29.04.2020 15:17, Max Reitz wrote:
->>> On 29.04.20 12:37, Vladimir Sementsov-Ogievskiy wrote:
->>>> 29.04.2020 13:24, Max Reitz wrote:
->>>>> On 28.04.20 22:00, Denis Plotnikov wrote:
->>>>>> zstd significantly reduces cluster compression time.
->>>>>> It provides better compression performance maintaining
->>>>>> the same level of the compression ratio in comparison with
->>>>>> zlib, which, at the moment, is the only compression
->>>>>> method available.
->>>>>>
->>>>>> The performance test results:
->>>>>> Test compresses and decompresses qemu qcow2 image with just
->>>>>> installed rhel-7.6 guest.
->>>>>> Image cluster size: 64K. Image on disk size: 2.2G
->>>>>>
->>>>>> The test was conducted with brd disk to reduce the influence
->>>>>> of disk subsystem to the test results.
->>>>>> The results is given in seconds.
->>>>>>
->>>>>> compress cmd:
->>>>>>      time ./qemu-img convert -O qcow2 -c -o
->>>>>> compression_type=[zlib|zstd]
->>>>>>                      src.img [zlib|zstd]_compressed.img
->>>>>> decompress cmd
->>>>>>      time ./qemu-img convert -O qcow2
->>>>>>                      [zlib|zstd]_compressed.img uncompressed.img
->>>>>>
->>>>>>               compression               decompression
->>>>>>             zlib       zstd           zlib         zstd
->>>>>> ------------------------------------------------------------
->>>>>> real     65.5       16.3 (-75 %)    1.9          1.6 (-16 %)
->>>>>> user     65.0       15.8            5.3          2.5
->>>>>> sys       3.3        0.2            2.0          2.0
->>>>>>
->>>>>> Both ZLIB and ZSTD gave the same compression ratio: 1.57
->>>>>> compressed image size in both cases: 1.4G
->>>>>>
->>>>>> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
->>>>>> QAPI part:
->>>>>> Acked-by: Markus Armbruster <armbru@redhat.com>
->>>>>> ---
->>>>>>     docs/interop/qcow2.txt |   1 +
->>>>>>     configure              |   2 +-
->>>>>>     qapi/block-core.json   |   3 +-
->>>>>>     block/qcow2-threads.c  | 169
->>>>>> +++++++++++++++++++++++++++++++++++++++++
->>>>>>     block/qcow2.c          |   7 ++
->>>>>>     slirp                  |   2 +-
->>>>>>     6 files changed, 181 insertions(+), 3 deletions(-)
->>>>> [...]
+On 4/30/20 11:25 AM, Roman Kagan wrote:
+> On Wed, Apr 29, 2020 at 02:59:31PM +0200, Philippe Mathieu-Daud=E9 wrote:
+>> On 4/29/20 2:19 PM, Roman Kagan wrote:
+>>> On Wed, Apr 29, 2020 at 11:41:04AM +0200, Philippe Mathieu-Daud=E9 wrot=
+e:
+>>>> Cc'ing virtio-blk and scsi maintainers.
+>>>>
+>>>> On 4/29/20 11:18 AM, Roman Kagan wrote:
+>>>>> Devices (virtio-blk, scsi, etc.) and the block layer are happy to use
+>>>>> 32-bit for logical_block_size, physical_block_size, and min_io_size.
+>>>>> However, the properties in BlockConf are defined as uint16_t limiting
+>>>>> the values to 32768.
 >>>>>
->>>>>> diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
->>>>>> index 7dbaf53489..a0b12e1b15 100644
->>>>>> --- a/block/qcow2-threads.c
->>>>>> +++ b/block/qcow2-threads.c
->>>>> [...]
+>>>>> This appears unnecessary tight, and we've seen bigger block sizes han=
+dy
+>>>>> at times.
 >>>>>
->>>>>> +static ssize_t qcow2_zstd_decompress(void *dest, size_t dest_size,
->>>>>> +                                     const void *src, size_t
->>>>>> src_size)
->>>>>> +{
->>>>> [...]
+>>>>> Make them 32 bit instead and lift the limitation up to 2 MiB which
+>>>>> appears to be good enough for everybody, and matches the qcow2 cluste=
+r
+>>>>> size limit.
 >>>>>
->>>>>> +    /*
->>>>>> +     * The compressed stream from the input buffer may consist of
->>>>>> more
->>>>>> +     * than one zstd frame.
->>>>> Can it?
->>>> If not, we must require it in the specification.
->>> Actually, now that you mention it, it would make sense anyway to add
->>> some note to the specification on what exactly compressed with zstd
->>> means.
+>>>>> As the values can now be fairly big and awkward to type, make the
+>>>>> property setter accept common size suffixes (k, m).
+>>>>>
+>>>>> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+>>>>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>>>>> ---
+>>>>> v2 -> v3:
+>>>>> - mention qcow2 cluster size limit in the log and comment [Eric]
+>>>>>
+>>>>> v1 -> v2:
+>>>>> - cap the property at 2 MiB [Eric]
+>>>>> - accept size suffixes
+>>>>>
+>>>>>     include/hw/block/block.h     |  8 ++++----
+>>>>>     include/hw/qdev-properties.h |  2 +-
+>>>>>     hw/core/qdev-properties.c    | 34 ++++++++++++++++++++++++-------=
+---
+>>>>>     3 files changed, 29 insertions(+), 15 deletions(-)
+>>>>>
+>>>>> diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+>>>>> index d7246f3862..9dd6bba56a 100644
+>>>>> --- a/include/hw/block/block.h
+>>>>> +++ b/include/hw/block/block.h
+>>>>> @@ -18,9 +18,9 @@
+>>>>>     typedef struct BlockConf {
+>>>>>         BlockBackend *blk;
+>>>>> -    uint16_t physical_block_size;
+>>>>> -    uint16_t logical_block_size;
+>>>>> -    uint16_t min_io_size;
+>>>>> +    uint32_t physical_block_size;
+>>>>> +    uint32_t logical_block_size;
+>>>>> +    uint32_t min_io_size;
+>>>>>         uint32_t opt_io_size;
+>>>>>         int32_t bootindex;
+>>>>>         uint32_t discard_granularity;
+>>>>> @@ -51,7 +51,7 @@ static inline unsigned int get_physical_block_exp(B=
+lockConf *conf)
+>>>>>                               _conf.logical_block_size),             =
+       \
+>>>>>         DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,         =
+       \
+>>>>>                               _conf.physical_block_size),            =
+       \
+>>>>> -    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),=
+    \
+>>>>> +    DEFINE_PROP_UINT32("min_io_size", _state, _conf.min_io_size, 0),=
+    \
+>>>>>         DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, =
+0),    \
+>>>>>         DEFINE_PROP_UINT32("discard_granularity", _state,            =
+       \
+>>>>>                            _conf.discard_granularity, -1),           =
+       \
+>>>>> diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-propertie=
+s.h
+>>>>> index f161604fb6..f9e0f8c041 100644
+>>>>> --- a/include/hw/qdev-properties.h
+>>>>> +++ b/include/hw/qdev-properties.h
+>>>>> @@ -197,7 +197,7 @@ extern const PropertyInfo qdev_prop_pcie_link_wid=
+th;
+>>>>>     #define DEFINE_PROP_BIOS_CHS_TRANS(_n, _s, _f, _d) \
+>>>>>         DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_bios_chs_trans, =
+int)
+>>>>>     #define DEFINE_PROP_BLOCKSIZE(_n, _s, _f) \
+>>>>> -    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint16_=
+t)
+>>>>> +    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint32_=
+t)
+>>>>>     #define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
+>>>>>         DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDe=
+viceAddress)
+>>>>>     #define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
+>>>>> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+>>>>> index 2047114fca..e673f3c43f 100644
+>>>>> --- a/hw/core/qdev-properties.c
+>>>>> +++ b/hw/core/qdev-properties.c
+>>>>> @@ -14,6 +14,7 @@
+>>>>>     #include "qapi/visitor.h"
+>>>>>     #include "chardev/char.h"
+>>>>>     #include "qemu/uuid.h"
+>>>>> +#include "qemu/units.h"
+>>>>>     void qdev_prop_set_after_realize(DeviceState *dev, const char *na=
+me,
+>>>>>                                       Error **errp)
+>>>>> @@ -729,30 +730,42 @@ const PropertyInfo qdev_prop_pci_devfn =3D {
+>>>>>     /* --- blocksize --- */
+>>>>> +/* lower limit is sector size */
+>>>>> +#define MIN_BLOCK_SIZE          512
+>>>>> +#define MIN_BLOCK_SIZE_STR      "512 B"
+>>>>> +/*
+>>>>> + * upper limit is arbitrary, 2 MiB looks sufficient for all sensible=
+ uses, and
+>>>>> + * matches qcow2 cluster size limit
+>>>>> + */
+>>>>> +#define MAX_BLOCK_SIZE          (2 * MiB)
+>>>>> +#define MAX_BLOCK_SIZE_STR      "2 MiB"
+>>>>> +
+>>>>>     static void set_blocksize(Object *obj, Visitor *v, const char *na=
+me,
+>>>>>                               void *opaque, Error **errp)
+>>>>>     {
+>>>>>         DeviceState *dev =3D DEVICE(obj);
+>>>>>         Property *prop =3D opaque;
+>>>>> -    uint16_t value, *ptr =3D qdev_get_prop_ptr(dev, prop);
+>>>>> +    uint32_t *ptr =3D qdev_get_prop_ptr(dev, prop);
+>>>>> +    uint64_t value;
+>>>>>         Error *local_err =3D NULL;
+>>>>> -    const int64_t min =3D 512;
+>>>>> -    const int64_t max =3D 32768;
+>>>>>         if (dev->realized) {
+>>>>>             qdev_prop_set_after_realize(dev, name, errp);
+>>>>>             return;
+>>>>>         }
+>>>>> -    visit_type_uint16(v, name, &value, &local_err);
+>>>>> +    visit_type_size(v, name, &value, &local_err);
+>>>>>         if (local_err) {
+>>>>>             error_propagate(errp, local_err);
+>>>>>             return;
+>>>>>         }
+>>>>>         /* value of 0 means "unset" */
+>>>>> -    if (value && (value < min || value > max)) {
+>>>>> -        error_setg(errp, QERR_PROPERTY_VALUE_OUT_OF_RANGE,
+>>>>> -                   dev->id ? : "", name, (int64_t)value, min, max);
+>>>>> +    if (value && (value < MIN_BLOCK_SIZE || value > MAX_BLOCK_SIZE))=
+ {
+>>>>> +        error_setg(errp,
+>>>>> +                   "Property %s.%s doesn't take value %" PRIu64
+>>>>> +                   " (minimum: " MIN_BLOCK_SIZE_STR
+>>>>> +                   ", maximum: " MAX_BLOCK_SIZE_STR ")",
+>>>>> +                   dev->id ? : "", name, value);
+>>>>>             return;
+>>>>>         }
+>>>>> @@ -768,9 +781,10 @@ static void set_blocksize(Object *obj, Visitor *=
+v, const char *name,
+>>>>>     }
+>>>>>     const PropertyInfo qdev_prop_blocksize =3D {
+>>>>> -    .name  =3D "uint16",
+>>>>> -    .description =3D "A power of two between 512 and 32768",
+>>>>> -    .get   =3D get_uint16,
+>>>>> +    .name  =3D "size",
+>>>>> +    .description =3D "A power of two between " MIN_BLOCK_SIZE_STR
+>>>>> +                   " and " MAX_BLOCK_SIZE_STR,
+>>>>> +    .get   =3D get_uint32,
+>>>>>         .set   =3D set_blocksize,
+>>>>>         .set_default_value =3D set_default_value_uint,
+>>>>>     };
+>>>>>
+>>>>
+>>>> 1/ Don't you need to update SCSIBlockLimits too?
 >>>
->>>> Hmm. If at some point
->>>> we'll want multi-threaded compression of one big (2M) cluster.. Could
->>>> this be implemented with zstd lib, if multiple frames are allowed, will
->>>> allowing multiple frames help? I don't know actually, but I think better
->>>> not to forbid it. On the other hand, I don't see any benefit in large
->>>> compressed clusters. At least, in our scenarios (for compressed backups)
->>>> we use 64k compressed clusters, for good granularity of incremental
->>>> backups (when for running vm we use 1M clusters).
->>> Is it really that important?  Naïvely, it sounds rather complicated to
->>> introduce multithreading into block drivers.
->> It is already here: compression and encryption already multithreaded.
->> But of course, one cluster is handled in one thread.
-> Ah, good.  I forgot.
->
->>> (Also, as for compression, it can only be used in backup scenarios
->>> anyway, where you write many clusters at once.  So parallelism on the
->>> cluster level should sufficient to get high usage, and it would benefit
->>> all compression types and cluster sizes.)
+>>> I guess you mean SCSIBlockLimits.min_io_size which is the only uint16_t
+>>> field there, do you?
+>>
+>> Yes.
+>>
 >>>
->> Yes it works in this way already :)
-> Well, OK then.
->
->> So, we don't know do we want one frame restriction or not. Do you have a
->> preference?
-> *shrug*
->
-> Seems like it would be preferential to allow multiple frames still.  A
-> note in the spec would be nice (i.e., streaming format, multiple frames
-> per cluster possible).
+>>>> 2/ It seems hw/block/virtio-blk.c can get underflow now.
+>>>
+>>> Both SCSIBlockLimits.min_io_size and virtio_blk_config.min_io_size are
+>>> expressed in logical blocks so there appears to be no problem here.
+>>>
+>>>> Maybe you miss this change:
+>>>>
+>>>> -- >8 --
+>>>> diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+>>>> --- a/hw/block/virtio-blk.c
+>>>> +++ b/hw/block/virtio-blk.c
+>>>> @@ -917,7 +917,7 @@ static void virtio_blk_update_config(VirtIODevice =
+*vdev,
+>>>> uint8_t *config)
+>>>>                     s->conf.seg_max_adjust ? s->conf.queue_size - 2 : =
+128 -
+>>>> 2);
+>>>>        virtio_stw_p(vdev, &blkcfg.geometry.cylinders, conf->cyls);
+>>>>        virtio_stl_p(vdev, &blkcfg.blk_size, blk_size);
+>>>> -    virtio_stw_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_s=
+ize);
+>>>> +    virtio_stl_p(vdev, &blkcfg.min_io_size, conf->min_io_size / blk_s=
+ize);
+>>>
+>>> The width of this field in the device's config space is defined in the
+>>> spec and can't be changed.
+>>>
+>>> Nor is there any need due to this patch.
+>>
+>> OK, thanks :)
+>=20
+> May I count this as an r-b? :)
 
-We don't mention anything about zlib compressing details in the spec.
+Unfortunately no, because my comments proved I don't know this code=20
+enough :/
 
-If we mention anything about ZSTD compressing details we'll have to do 
-it for
-zlib as well. So, I think we have two possibilities for the spec:
-1. mention for both
-2. don't mention at all
-
-I think the 2nd is better. It gives more degree of freedom for the 
-future improvements.
-and we've already covered both cases (one frame, may frames) in the code.
-I'm note sure I'm right. Any other opinions?
-
-Denis
->
-> Max
->
+>=20
+> Thanks,
+> Roman.
+>=20
 
 
