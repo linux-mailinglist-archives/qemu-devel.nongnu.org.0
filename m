@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B9B1C073B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 22:01:36 +0200 (CEST)
-Received: from localhost ([::1]:55616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D46D11C0716
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 21:55:24 +0200 (CEST)
+Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUFNG-0004fZ-W6
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 16:01:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42874)
+	id 1jUFHH-0005kz-RY
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 15:55:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59986)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jUFK0-0001ZG-J5
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:58:59 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUFCd-0002mM-Rh
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:53:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alistair23@gmail.com>) id 1jUFI1-0001XC-I9
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:58:12 -0400
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:35595)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUFAe-0000Ic-SG
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:50:35 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:36551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jUFGI-0006y1-Dc; Thu, 30 Apr 2020 15:54:22 -0400
-Received: by mail-il1-x141.google.com with SMTP id b18so2577107ilf.2;
- Thu, 30 Apr 2020 12:54:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0rW6ZHBwhJGM7oUVbxpCTn1jvQK5R6MzduYksnD23GY=;
- b=kbIwaOX+Vs3yIDfGlj3k9ZPqbWUIQRykyaVd2jxq0jG/c0pvnZmOsVId+uB35Ekr40
- UrkEJe4kfxucKV1967A2nQZxlikEGNS1GNet1bHP2hLH8/nr6nrUG2VUnDTsF31qAtgi
- sVH7sJ80MfaekBcj7kYsKSnZHysztDrhefj2OvW+jdd/B8HCrmfY7HzNzF8fKQS2Hg10
- ryBtMM2iPypVYWBkerccG9g9Ex21LFcMicMZzHhRwc8nsdfnugnCLEEzw2roW2ABw+W+
- GfQIA7W/i5s+ZJtDx7E1XXrXy1aWuc6MjyClJ1ZcZ1hF7rvLlC1duUwoB2YVVsyrqrQt
- wKZA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUFAe-0000DK-4Z
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:48:32 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id a31so1322437pje.1
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 12:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=UpQjuFQGlXCBka9FDciY5sQW5t2fBEgI7GjM+bWcVwk=;
+ b=IaLBbrMInSjLsiNZ+EPTZHxC2WMzgaGrt03xz9Wrty/y9DMxYlG/UJsrFsfyA9z+Fp
+ vj6gUZ4Bfp9GkrNn+1isPuTF3YYv7jW2A0mDXzmsSSoZ06dExUPswsbX4XFbEJUFcbm+
+ epu/fqS8PX8FTaccGAh9GE0MQ7oh6sm/WRkdyx0wwwVJcL3n0MYwsFGBmF4sdWjie9bV
+ CwmpS1G08gNO4Uz7SK1atqVTBF50wb/utNO3TRnP/5ONfS0Ka1wyPKFu7hyd7f6dVPwN
+ GmrljZkK7EJ33aifnhPluWSdIxQftilW8nK+z5u/zGLeQJAQvfdZpjCULoQmgTKWg2vP
+ TryQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0rW6ZHBwhJGM7oUVbxpCTn1jvQK5R6MzduYksnD23GY=;
- b=USAgGozRcDtPZLpfpu4kUX9JzCgYmh2bCKHsAGD2vaec0YhDAg1eFnlsJq0OA7q2vj
- mvPcIHZSNH9VJQ1xy8aGhVw98nFxufl+4StVIlHfdrmaBSmgtIFbVq1qHK+/vLtbWpP9
- jKm6SInX0S3PK6fhXn8BQhTV+T1b0qBadZLzR5Sosx1OhPtj8WbddEcpLUkwey5j/tPO
- rC87Syo0pduhNiSlOvbOucgSJzd4r5TVmBKWgYFmnJ9RzLA7PYY3EWV+QNDWZNMJuAn7
- 4EhCZWwvzJgAOqQKkue21pV9NzpAB55/SlxedmiNSKWmgXOjxDLcDhz2GgL4/vH/fFdi
- PLmg==
-X-Gm-Message-State: AGi0PuYv3UwQpMb6XQ3INkZPomlv8S2y9Rx+p4Vb22RlNL8WJRYCIEqT
- KoiRoJXtLozTURxtGYY9luP9qOEjOg2IlUphdGc=
-X-Google-Smtp-Source: APiQypIvQVnoK5n1ojlg8TYH9fo7k6hkVT3pMgebeacyWC8YjkadFdjsO+Yfj1HlumTbgG6aQykAqZiKU6y2Gl/ZlAc=
-X-Received: by 2002:a92:9a5c:: with SMTP id t89mr3809778ili.267.1588276459326; 
- Thu, 30 Apr 2020 12:54:19 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UpQjuFQGlXCBka9FDciY5sQW5t2fBEgI7GjM+bWcVwk=;
+ b=HCNxB3aIGSrh/CtGD6xWf4oIVI2RbG18374hNKrsQYV0AqJ0agZ4SMlpaTso5aWnai
+ UK12flK/JZxz+Vm7vAZYOGi0dw5cmWIGI0gfWnpNV+pBPM2mAfWhgzUbj8R7nUbfdKL0
+ gFOvtpo7J+T6qIkpy2jxASKBSolulBTGIK+jlE2aP573zoe1AhWEDidRLlkq1C94VkU0
+ jt/fFuEHXH5T6wJK7trJHKk5Ee/RQzxqbWgDzIzIDi+YLSHEG605E+NrYFL1cTcuaqKP
+ sRxqsAYK1feI/biJZByvtujVzqg0ykzWIvKDpSXdakPElK7HSaT5GnDW7JeAQAg/3r7H
+ camg==
+X-Gm-Message-State: AGi0PuY6ucMuc1DBNqfLOgDpS46DYYKIuxcWkM0UMdWIqGuAKmgTJGv3
+ Cjmal3q3EapKs9RXb4yeHQItKJUp9dE=
+X-Google-Smtp-Source: APiQypL/mfqeoQmE2M0Fo01TocfmR0qlDtAFw4PvLKPd5KwOAFIkPPReLvUDcgExDD3ibd8Jtqz9xA==
+X-Received: by 2002:a17:902:c38b:: with SMTP id
+ g11mr603256plg.295.1588276109989; 
+ Thu, 30 Apr 2020 12:48:29 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id b24sm493496pfd.175.2020.04.30.12.48.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Apr 2020 12:48:28 -0700 (PDT)
+Subject: Re: [PATCH 17/36] target/arm: Convert Neon 3-reg-same comparisons to
+ decodetree
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200430181003.21682-1-peter.maydell@linaro.org>
+ <20200430181003.21682-18-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ea229f74-243e-ea54-3af9-0b9382af6c20@linaro.org>
+Date: Thu, 30 Apr 2020 12:48:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <CAC41xo2LfTQZnor5haAgBg=h34qv50xf8Bs1bgSeGESfr-E2ng@mail.gmail.com>
-In-Reply-To: <CAC41xo2LfTQZnor5haAgBg=h34qv50xf8Bs1bgSeGESfr-E2ng@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 30 Apr 2020 12:45:45 -0700
-Message-ID: <CAKmqyKNMiD6VJ1D-ty-q_HMyiZ7oj7F0XraKTaYy78-xjhAN4A@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: fix check of guest pa top bits
-To: Jose Martins <josemartins90@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+In-Reply-To: <20200430181003.21682-18-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::141
+X-Received-From: 2607:f8b0:4864:20::1041
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,77 +88,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 24, 2020 at 8:10 AM Jose Martins <josemartins90@gmail.com> wrote:
->
-> The spec states that on sv39x4 guest physical  "address bits 63:41
-> must all be zeros, or else a guest-page-fault exception occurs.".
-> However, the check performed for these top bits of the virtual address
-> on the second stage is the same as the one performed for virtual
-> addresses on the first stage except with the 2-bit extension,
-> effectively creating the same kind of "hole" in the guest's physical
-> address space. I believe the following patch fixes this issue:
->
-> Signed-off-by: Jose Martins <josemartins90@gmail.com>
-
-Thanks for the patch.
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
+On 4/30/20 11:09 AM, Peter Maydell wrote:
+> Convert the Neon comparison ops in the 3-reg-same grouping
+> to decodetree.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/riscv/cpu_helper.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index d3ba9efb02..da879f5656 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -421,15 +421,21 @@ static int get_physical_address(CPURISCVState
-> *env, hwaddr *physical,
+>  target/arm/translate-neon.inc.c | 22 ++++++++++++++++++++++
+>  target/arm/translate.c          | 23 +++--------------------
+>  target/arm/neon-dp.decode       |  8 ++++++++
+>  3 files changed, 33 insertions(+), 20 deletions(-)
 
-There seems to be a strange wrapping here, that corrupts the patch.
-For future patches can you please check your git send-email setup?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Applied to the RISC-V tree with the above line fixed up.
-
-Alistair
-
->      int va_bits = PGSHIFT + levels * ptidxbits + widened;
->      target_ulong mask, masked_msbs;
->
-> -    if (TARGET_LONG_BITS > (va_bits - 1)) {
-> -        mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
-> +    if(!first_stage){
-> +        if ((addr >> va_bits) != 0) {
-> +            return TRANSLATE_FAIL;
-> +        }
->      } else {
-> -        mask = 0;
-> -    }
-> -    masked_msbs = (addr >> (va_bits - 1)) & mask;
-> +        if (TARGET_LONG_BITS > (va_bits - 1)) {
-> +            mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
-> +        } else {
-> +            mask = 0;
-> +        }
-> +        masked_msbs = (addr >> (va_bits - 1)) & mask;
->
-> -    if (masked_msbs != 0 && masked_msbs != mask) {
-> -        return TRANSLATE_FAIL;
-> +        if (masked_msbs != 0 && masked_msbs != mask) {
-> +            return TRANSLATE_FAIL;
-> +        }
->      }
->
->      int ptshift = (levels - 1) * ptidxbits;
-> --
-> 2.17.1
->
-> Jose
->
+r~
 
