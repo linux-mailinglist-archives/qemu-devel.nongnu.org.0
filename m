@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559791BF590
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:33:52 +0200 (CEST)
-Received: from localhost ([::1]:58934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FBC1BF5B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:39:56 +0200 (CEST)
+Received: from localhost ([::1]:43818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU6Vr-0004Kn-CF
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53250)
+	id 1jU6bj-00021I-Df
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zltjiangshi@gmail.com>) id 1jU6Oz-0002H3-Ja
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:26:45 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jU6RZ-0005vE-OG
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <zltjiangshi@gmail.com>) id 1jU6Oy-0008D4-0W
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:26:45 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jU6Ox-0008Cs-H3
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:26:43 -0400
-Received: by mail-pg1-x542.google.com with SMTP id q124so2539233pgq.13
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 03:26:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=HgsgnhcknBEThCxoBAkUHZODhxnE0lcuSM5I7iabbM0=;
- b=Gae+n53xxZXyy44d0dnLPs0NdZDUvaWEHxRk0kkHMDd9mDNX4qRbU41mRBr7idH3PO
- FG5qoot9R0ZYIxCY1ctNbrZ56RB3Go0YcN5q5SPfhsCAAWrQpe3AQ9EmZ6qChXY3oFds
- WHuq49ko0RdiUdIEhHRoaNSk5v0vwBb2BcH4gD0g+uJ2e1RYC2PdZ+DINUqChUFVhy+h
- kKrTq8hzJwp4knapJah4w7mvKmYDn69mUSx2/p1hXBslAPtvJhnNrw/boGmj+qp/TylK
- 7TYDwgCFc78VykMcUH6NSh8jsboZ6VxVAbAx8+OWpWKyvv/MvrGVgZTsddhmPhHU5I8+
- GsFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=HgsgnhcknBEThCxoBAkUHZODhxnE0lcuSM5I7iabbM0=;
- b=J42EewRJhNhonzp9IWWSY559g9B+2dBoNUDKe8Mzb1+eXk6QNctnwHLYcU8RKVT6Wk
- ftNKk4BbXkUkvTkyxc+FiLjR06i7RXwjkz6vP/CF8GnTkZEw6ZXTqWdVvjcQoj2HxJVW
- 1AAYsu9IspXXi0tSVm/5uaDCwYdTsidcuSR+HVcBo652a7oerE+s7ZsIM5ixfIFwQqwP
- Kv/c6hlG9atPrwuRFkCCQH5DUTsWrB8iBf8FyzOtD5kypXDzlWjk3OOQR7oQ6DZxW5R2
- 9jsgZQHbf84e78ZIx8MI/FudCI53eGN5z7IecSkLMqGinlOcira+gsaaNg9JJfgSEDiF
- 7n8g==
-X-Gm-Message-State: AGi0PuaozdhHXfnugk0QNPEDEZvaHRGr+jrRZraPUStgXJ+fgVEbqY6D
- 5yqdKd9BxSpJfD04bz0zGeY=
-X-Google-Smtp-Source: APiQypJoYh7XUxsqca6zkLK2twHS2GO8Vv9gQ2nk38elVzSJw1GLjW/DZeDJcLFE13aBOEFuIVZwMw==
-X-Received: by 2002:aa7:8f26:: with SMTP id y6mr2960506pfr.36.1588242402054;
- Thu, 30 Apr 2020 03:26:42 -0700 (PDT)
-Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
- [34.92.144.28])
- by smtp.gmail.com with ESMTPSA id a15sm1397872pju.3.2020.04.30.03.26.39
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 30 Apr 2020 03:26:41 -0700 (PDT)
-From: Huacai Chen <zltjiangshi@gmail.com>
-X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH for-5.1 V2 7/7] MAINTAINERS: Add myself as Loongson-3
- maintainer
-Date: Thu, 30 Apr 2020 18:22:35 +0800
-Message-Id: <1588242155-23924-8-git-send-email-chenhc@lemote.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1588242155-23924-1-git-send-email-chenhc@lemote.com>
-References: <1588242155-23924-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pg1-x542.google.com
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jU6RY-0004c2-Jb
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:25 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58442
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jU6RY-0004bi-6q
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:24 -0400
+Received: from host86-140-11-65.range86-140.btcentralplus.com ([86.140.11.65]
+ helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1jU6RR-0007mZ-KT; Thu, 30 Apr 2020 11:29:21 +0100
+To: Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <87mu6uia5i.fsf@dusky.pond.sub.org>
+ <20200429155719.GL1495129@redhat.com> <87k11xh2kq.fsf@dusky.pond.sub.org>
+ <CAFEAcA9-oxkMD-kJ1z12d4K1S_Jaz7Wj6_38Ah7ChSaBfQNkkA@mail.gmail.com>
+ <87tv11e1en.fsf_-_@dusky.pond.sub.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <51a4e9ea-eca3-6c1d-a753-86c5810ac094@ilande.co.uk>
+Date: Thu, 30 Apr 2020 11:29:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <87tv11e1en.fsf_-_@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.140.11.65
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: Configuring onboard devices (was: Failing property setters +
+ hardwired devices + -global = a bad day)
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::542
+X-Received-From: 2001:41c9:1:41f::167
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,35 +91,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
-Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- MAINTAINERS | 5 +++++
- 1 file changed, 5 insertions(+)
+On 30/04/2020 11:03, Markus Armbruster wrote:
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> 
+>> On Thu, 30 Apr 2020 at 08:09, Markus Armbruster <armbru@redhat.com> wrote:
+>>> Our means to configure onboard devices are weak.  We sidestepped this
+>>> for isa-fdc by taking it off the board, and thus make -device work.
+>>
+>> This seems to be a general dynamic: the x86 pc machine works
+>> via -device options (or is changed so it can work that way);
+>> and then people propose dropping/deprecating/etc the config
+>> options that work with onboard devices, without providing
+>> clear solutions/instructions on how the command line needs
+>> to change/etc for the mass of boards which are not the x86
+>> pc machine and which do have a lot of onboard devices which
+>> can't be handled via -device.
+>>
+>> So my gut reaction to the "we should deprecate -global"
+>> suggestions in this thread was a bit "here we go again"...
+>> What works for x86 or even "what is sufficient for libvirt"
+>> doesn't necessarily cover all the cases.
+> 
+> Such shortsighted proposals have been made, but don't think it's what
+> we're doing here.
+> 
+> You're 100% right in that we do need to configure onboard devices.
+> -global is a terrible way to do it, though: it applies to *all* devices
+> of a kind.  What if the board has more than one?  What if the can add
+> more?
+> 
+> Taking onboard devices off the board can occasionally sidestep the
+> issue.  For isa-fdc, we genuinely *wanted* to take the damn thing off,
+> because all it did for most users was provide them with VENOM.  Not
+> needing -global for it anymore was just a nice bonus.
+> 
+> Taking onboard devices off just to reduce the device configuration
+> problem to a solved one, namely -device, may be tempting (it was to me),
+> but it's too intrusive to be practical at scale.
+> 
+> Adding machine properties that alias onboard device properties is less
+> intrusive.  The ones I added were still a lot of work.
+> 
+> Configuring onboard devices via machine properties restricts property
+> access to the ones we added to the machine.  This differs from pluggable
+> devices, where users can access all properties.
+> 
+> Any better ideas for letting users configure onboard devices?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aa9a057..66c5a41 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1080,6 +1080,11 @@ F: hw/isa/vt82c686.c
- F: hw/pci-host/bonito.c
- F: include/hw/isa/vt82c686.h
- 
-+Loongson-3
-+M: Huacai Chen <chenhc@lemote.com>
-+S: Maintained
-+F: hw/mips/mips_loongson3.c
-+
- Boston
- M: Paul Burton <pburton@wavecomp.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
--- 
-2.7.0
+Is it possible to let machine owners add alias properties to the machine object
+referencing in-built devices? I could then instantiate my on-board nic in the machine
+init() function, and then use object_property_add_alias() to add a "nic0" alias on
+the machine that can be used to wire it up to a netdev using the command line.
 
+
+ATB,
+
+Mark.
 
