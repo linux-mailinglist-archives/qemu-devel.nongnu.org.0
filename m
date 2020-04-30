@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A361BF0AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 09:00:47 +0200 (CEST)
-Received: from localhost ([::1]:54830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6641BF0E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 09:11:54 +0200 (CEST)
+Received: from localhost ([::1]:40012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU3Be-0007V1-9x
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 03:00:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60204)
+	id 1jU3MP-0007HV-QO
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 03:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33162)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jU38i-0004EU-8z
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 02:57:47 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jU3LU-0006FJ-VX
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:10:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jU38V-0001m6-34
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 02:57:44 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34106)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jU38U-0001k9-Lg; Thu, 30 Apr 2020 02:57:30 -0400
-Received: by mail-wm1-x332.google.com with SMTP id v4so6653953wme.1;
- Wed, 29 Apr 2020 23:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=82vLU5evSF7NmXT+3naoFvGA6BX+2PhVNg2wfXOfVEM=;
- b=g3t+tEUuqcdVJcpICZSQaD6BQgDacXI6kWCYC22atk3Dbq9pf9aqfc6zDN8+/7JJ/Q
- +oY7/XLSIO9L3TAHr5kaq/NFChKjrf4IEkefdk7l02DLOi+GB/DK79qq21S+Iw1IDZVZ
- IcW6BkY9QvydcSTYBBrA2bSewDQmHaBE6zvxe7+HvExbqjHqQ2nAoDCEQObwGKi3yozD
- xsg1EKgDxcx0vRg7bN+0yADdMb3ShQEVkpCKQ/M5f6GLIbcQrPoz/a4YBUDiFEeosOm9
- U7fusOSIcvOIeSazrr0+jhlixneNYPVcifupEsQos3+k2oUvjsKzf64OuM5Cyb62ti4y
- g1Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=82vLU5evSF7NmXT+3naoFvGA6BX+2PhVNg2wfXOfVEM=;
- b=MsIs4QLFLW2D1CLD9YCeMtcUcI2ys3WEwZ9+AvVK1lnlbYILiHI+1P+iozerh/0Srb
- aG7wwloSZAD30asAGgJLsMEMLsWEJsVJ96K99f1GhKrMulYH2plLffPLQf9rQPjeEhVj
- Jr2zbgt71V3U9QQZoa42wMXbU+290tFjaIZloia90fl8wsUU72VvNX2n/Q+YdWJnWV5J
- PFggVsiuNZ8u+9yDcYhFpgD2QgLf+e5UAvralX3UQYiGKA5DNWNkcN0uftbm/5EuUVwp
- 5dZvIhepuDnpxt9gHsW9bQVaol4lAcndZZan0aOJw3MhULv3D6uh0cJH3C97gysqOt2P
- Dk8w==
-X-Gm-Message-State: AGi0PuZaDgYI1KG+yODSeJyoaBhiyax0fDlNurcS3eddnqN7fILDzfp+
- P9lBzO5NEocuWnPFasGC307rI628drQ=
-X-Google-Smtp-Source: APiQypLbjodV1D6V7zHN6/TeHW7m2JzSuGSoYc9hBOpI2s4I4rxQGff+Erp6BXTonrML/BZAuGI4fQ==
-X-Received: by 2002:a7b:c4c7:: with SMTP id g7mr1224612wmk.97.1588229848801;
- Wed, 29 Apr 2020 23:57:28 -0700 (PDT)
-Received: from localhost.localdomain (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id k184sm11139730wmf.9.2020.04.29.23.57.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Apr 2020 23:57:28 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] scripts/qmp: Use Python 3 interpreter
-Date: Thu, 30 Apr 2020 08:57:20 +0200
-Message-Id: <20200430065720.10763-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200430065720.10763-1-f4bug@amsat.org>
-References: <20200430065720.10763-1-f4bug@amsat.org>
+ (envelope-from <yan.y.zhao@intel.com>) id 1jU3LT-0000fT-5Z
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:10:56 -0400
+Received: from mga14.intel.com ([192.55.52.115]:5923)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jU3LS-0000ej-K9
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:10:54 -0400
+IronPort-SDR: IEoyXF9GVn1v5hRJFKlsO0N1iPQ7KdGgQOTJVunlnwG5l0wJ/NUjDgwBGFp1RbTeTHty6YyEac
+ B6rKJUcEerSw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2020 00:10:52 -0700
+IronPort-SDR: h+KiIGiez+A3lYlmCd6DAqHPmnXb9m1NIMq2Ae0y+k3WNqYrHv/nVmUs9+AqAWW8t3dw1KfInw
+ gDR4c53JyG5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,334,1583222400"; d="scan'208";a="459466673"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by fmsmga005.fm.intel.com with ESMTP; 30 Apr 2020 00:10:50 -0700
+Date: Thu, 30 Apr 2020 03:01:07 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v5 2/3] hw/vfio: drop guest writes to ro regions
+Message-ID: <20200430070106.GP12879@joy-OptiPlex-7040>
+References: <20200430051558.28991-1-yan.y.zhao@intel.com>
+ <20200430052307.29235-1-yan.y.zhao@intel.com>
+ <d78ed9ed-f78d-4aa5-efcc-77cb33fb1c76@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::332
+In-Reply-To: <d78ed9ed-f78d-4aa5-efcc-77cb33fb1c76@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=yan.y.zhao@intel.com;
+ helo=mga14.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 03:10:52
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 192.55.52.115
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,68 +65,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Zeng,
+ Xin" <xin.zeng@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
----
-v2: Use /usr/bin/env (jsnow)
----
- scripts/qmp/qom-get  | 2 +-
- scripts/qmp/qom-list | 2 +-
- scripts/qmp/qom-set  | 2 +-
- scripts/qmp/qom-tree | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+On Thu, Apr 30, 2020 at 03:02:36PM +0800, Philippe Mathieu-Daudé wrote:
+> On 4/30/20 7:23 AM, Yan Zhao wrote:
+> > for vfio regions that are without write permission,
+> > drop guest writes to those regions.
+> > 
+> > Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.co>
+> 
+> The full domain name is redhat.com.
+>
+oops. really sorry....
 
-diff --git a/scripts/qmp/qom-get b/scripts/qmp/qom-get
-index 007b4cd442..7c5ede91bb 100755
---- a/scripts/qmp/qom-get
-+++ b/scripts/qmp/qom-get
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- ##
- # QEMU Object Model test tools
- #
-diff --git a/scripts/qmp/qom-list b/scripts/qmp/qom-list
-index 03bda3446b..bb68fd65d4 100755
---- a/scripts/qmp/qom-list
-+++ b/scripts/qmp/qom-list
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- ##
- # QEMU Object Model test tools
- #
-diff --git a/scripts/qmp/qom-set b/scripts/qmp/qom-set
-index c37fe78b00..19881d85e9 100755
---- a/scripts/qmp/qom-set
-+++ b/scripts/qmp/qom-set
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- ##
- # QEMU Object Model test tools
- #
-diff --git a/scripts/qmp/qom-tree b/scripts/qmp/qom-tree
-index 1c8acf61e7..fa91147a03 100755
---- a/scripts/qmp/qom-tree
-+++ b/scripts/qmp/qom-tree
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/env python3
- ##
- # QEMU Object Model test tools
- #
--- 
-2.21.1
-
+> > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> > Signed-off-by: Xin Zeng <xin.zeng@intel.com>
+> > ---
+> >   hw/vfio/common.c | 13 +++++++++++--
+> >   1 file changed, 11 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> > index 0b3593b3c0..2a4fedfeaa 100644
+> > --- a/hw/vfio/common.c
+> > +++ b/hw/vfio/common.c
+> > @@ -38,6 +38,7 @@
+> >   #include "sysemu/reset.h"
+> >   #include "trace.h"
+> >   #include "qapi/error.h"
+> > +#include "qemu/log.h"
+> >   
+> >   VFIOGroupList vfio_group_list =
+> >       QLIST_HEAD_INITIALIZER(vfio_group_list);
+> > @@ -190,6 +191,16 @@ void vfio_region_write(void *opaque, hwaddr addr,
+> >           uint64_t qword;
+> >       } buf;
+> >   
+> > +    trace_vfio_region_write(vbasedev->name, region->nr, addr, data, size);
+> > +    if (!(region->flags & VFIO_REGION_INFO_FLAG_WRITE)) {
+> > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > +                      "Invalid write to read only vfio region (%s:region%d"
+> > +                      "+0x%"HWADDR_PRIx" size %d)\n", vbasedev->name,
+> > +                      region->nr, addr, size);
+> > +
+> > +        return;
+> > +    }
+> > +
+> >       switch (size) {
+> >       case 1:
+> >           buf.byte = data;
+> > @@ -215,8 +226,6 @@ void vfio_region_write(void *opaque, hwaddr addr,
+> >                        addr, data, size);
+> >       }
+> >   
+> > -    trace_vfio_region_write(vbasedev->name, region->nr, addr, data, size);
+> > -
+> >       /*
+> >        * A read or write to a BAR always signals an INTx EOI.  This will
+> >        * do nothing if not pending (including not in INTx mode).  We assume
+> > 
+> 
 
