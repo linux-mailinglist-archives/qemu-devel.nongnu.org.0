@@ -2,94 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61171BF229
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 10:07:42 +0200 (CEST)
-Received: from localhost ([::1]:52364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301CD1BF281
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 10:19:15 +0200 (CEST)
+Received: from localhost ([::1]:34648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU4EP-0005TD-GK
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 04:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39028)
+	id 1jU4Pa-0004ML-7x
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 04:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jU4De-00051E-Ag
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:06:54 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jU4On-0003w0-Gm
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:18:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mreitz@redhat.com>) id 1jU4Dd-0006Hd-J1
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:06:53 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54109
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jU4Dd-0006D7-5f
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:06:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588234012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WUmLNF3vK+9uqLMDaRyNbho20z9QXZHXrS5C0tf0+8s=;
- b=PYM5h0PIpvUzCcJM3r/2f7qHeHTzH6ayEztF64WROuYa5SGt/b3sOHRES2WKBq3S+0K2kA
- vop0MWUTw6bsPH4JQEXrbTxfKtjNnNu3lorzoMdSvl3bsoYYGZFlgNKrHR+pgpk4jSWv/v
- 1Aa9m35KbQ3vKtDe1pM3ejdWgpRAelQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-jmMTd2MRMcSLAs7AZnxc6Q-1; Thu, 30 Apr 2020 04:06:49 -0400
-X-MC-Unique: jmMTd2MRMcSLAs7AZnxc6Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A95EA19200C0
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 08:06:48 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-177.ams2.redhat.com
- [10.36.112.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 07F39165F6;
- Thu, 30 Apr 2020 08:06:41 +0000 (UTC)
-Subject: Re: [PATCH] virtiofsd: Show submounts
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, vgoyal@redhat.com
-References: <20200424133516.73077-1-mreitz@redhat.com>
- <20200427175902.GM2923@work-vm> <20200429145720.GA2835@work-vm>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <8c73f374-fcc8-1684-b581-84a9ab501aa9@redhat.com>
-Date: Thu, 30 Apr 2020 10:06:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <yan.y.zhao@intel.com>) id 1jU4Om-0006jf-02
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:18:24 -0400
+Received: from mga17.intel.com ([192.55.52.151]:2409)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jU4Ol-0006iA-FD
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:18:23 -0400
+IronPort-SDR: ENyHBCnp0cooRykrS/vYeV2r8AaZa73jdP35+WDcgtrzOliktiGOu6zek6sAhTSBF+OZEP57vT
+ Wwb56QTj/JlA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Apr 2020 01:18:14 -0700
+IronPort-SDR: mj4d2BIA84W1EU+ae7H3AOaj4+crsPJ/xHEVaxNb0fJ62+dt9d/jduBltQL5Cibr9GgIBaNAsx
+ AW2s5Hzbuxqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,334,1583222400"; d="scan'208";a="432876687"
+Received: from joy-optiplex-7040.sh.intel.com ([10.239.13.16])
+ by orsmga005.jf.intel.com with ESMTP; 30 Apr 2020 01:18:10 -0700
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: pbonzini@redhat.com,
+	alex.williamson@redhat.com
+Subject: [PATCH v6 0/3] drop writes to read-only ram device & vfio regions
+Date: Thu, 30 Apr 2020 04:07:44 -0400
+Message-Id: <20200430080744.31232-1-yan.y.zhao@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200429145720.GA2835@work-vm>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="VfMXd0A9lsKHTdtmnEIgup0HHc6Fg85BM"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=yan.y.zhao@intel.com;
+ helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 04:18:13
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,91 +60,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Yan Zhao <yan.y.zhao@intel.com>, xin.zeng@intel.com, philmd@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VfMXd0A9lsKHTdtmnEIgup0HHc6Fg85BM
-Content-Type: multipart/mixed; boundary="O6YdhWTZKzSi3jxH66oRrf9TqiXKGl3wy"
+guest writes to read-only memory regions need to be dropped.
 
---O6YdhWTZKzSi3jxH66oRrf9TqiXKGl3wy
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+patch 1 modifies handler of ram device memory regions to drop guest writes
+to read-only ram device memory regions
 
-On 29.04.20 16:57, Dr. David Alan Gilbert wrote:
-> * Dr. David Alan Gilbert (dgilbert@redhat.com) wrote:
->> * Max Reitz (mreitz@redhat.com) wrote:
->>> Currently, setup_mounts() bind-mounts the shared directory without
->>> MS_REC.  This makes all submounts disappear.
->>>
->>> Pass MS_REC so that the guest can see submounts again.
->>
->> Thanks!
->>
->>> Fixes: 3ca8a2b1c83eb185c232a4e87abbb65495263756
->>
->> Should this actually be 5baa3b8e95064c2434bd9e2f312edd5e9ae275dc ?
->>
->>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>> ---
->>>  tools/virtiofsd/passthrough_ll.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
-ough_ll.c
->>> index 4c35c95b25..9d7f863e66 100644
->>> --- a/tools/virtiofsd/passthrough_ll.c
->>> +++ b/tools/virtiofsd/passthrough_ll.c
->>> @@ -2643,7 +2643,7 @@ static void setup_mounts(const char *source)
->>>      int oldroot;
->>>      int newroot;
->>> =20
->>> -    if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
->>> +    if (mount(source, source, NULL, MS_BIND | MS_REC, NULL) < 0) {
->>>          fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source,=
- source);
->>>          exit(1);
->>>      }
->>
->> Do we want MS_SLAVE to pick up future mounts that might happenf rom the
->> host?
->> What's the interaction between this and the MS_REC|MS_SLAVE that we have
->> a few lines above for / ?
->=20
-> Just to confirm something from vgoyal, and what had confused me about
-> why we hadn't spotted this earlier.
->=20
-> Even without this patch, the SLAVE stuff worked so if you start the
-> daemon and *then* mount under the shared directory, the guest sees it
-> with or without this patch.
+patch 2 modifies handler of non-mmap'd read-only vfio regions to drop guest
+writes to those regions 
 
-Hm, I don=E2=80=99t.  Do you really?
+patch 3 set read-only flag to mmap'd read-only vfio regions, so that guest
+writes to those regions would be trapped.
+without patch 1, host qemu would then crash on guest write to those
+read-only regions.
+with patch 1, host qemu would drop the writes.
 
-Max
+Changelog:
+v6:
+-fixed two style alignment problems in patch 1. (Philippe)
+
+v5:
+-changed write handler of ram device memory region from .write to
+.write_with_attrs in patch 1 (Paolo)
+(for vfio region in patch 2, I still keep the operations as .read & .write.
+the reasons are:
+1. vfio_region_ops are for mmio/pio regions. the top level read/write
+dispatcher in kvm just ignores their return values. (the return value of
+address_space_rw() is just ignored)
+2. there are a lot of callers to vfio_region_read() and
+vfio_region_write(), who actually do not care about the return values
+)
+-minor changes on text format in error logs.
+
+v4:
+-instead of modifying tracing log, added qemu_log_mask(LOG_GUEST_ERROR...)
+to log guest writes to read-only regions (Philippe)
+
+for
+v3:
+-refreshed and Cc Stefan for reviewing of tracing part
+
+v2:
+-split one big patches into smaller ones (Philippe)
+-modify existing trace to record guest writes to read-only memory (Alex)
+-modify vfio_region_write() to drop guest writes to non-mmap'd read-only
+ region (Alex)
 
 
---O6YdhWTZKzSi3jxH66oRrf9TqiXKGl3wy--
 
---VfMXd0A9lsKHTdtmnEIgup0HHc6Fg85BM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Yan Zhao (3):
+  memory: drop guest writes to read-only ram device regions
+  hw/vfio: drop guest writes to ro regions
+  hw/vfio: let read-only flag take effect for mmap'd regions
 
------BEGIN PGP SIGNATURE-----
+ hw/vfio/common.c | 17 +++++++++++++++--
+ memory.c         | 15 ++++++++++++---
+ 2 files changed, 27 insertions(+), 5 deletions(-)
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6qhw4ACgkQ9AfbAGHV
-z0D4FQgApig8MgU761qQRHR9UZjX6LlUXBHFihv6ncKrjUojgtA6xJIs/jZSfX/W
-JVs/+tEqr5Pa60/u5kW5Cl05/rzPuwJNa7O/fvuZCemoMMM1U/iMAqO365qOcBBv
-xyJTufrX01PYh7u7w9LTpcg/hkoXC2xIue6z5jVNa/QqvOSI9Z5EUoSO/lDnVIKx
-IfJqNfyhQ5bDxXNYiiGHwX19RRtoMNsPid3b+0ZHr++Fc17KrTOvXlm3wwdu0qEd
-XGoldjorvPsVTTT/6iYCvE1JiGPqWcFpSvQunGQmzqfml1F33KjFtrNLLW13ZS6V
-p3wDvg3E00UeXf9s8Q5XZz9KqmGe+Q==
-=9HSK
------END PGP SIGNATURE-----
-
---VfMXd0A9lsKHTdtmnEIgup0HHc6Fg85BM--
+-- 
+2.17.1
 
 
