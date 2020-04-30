@@ -2,56 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440821BF288
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 10:20:39 +0200 (CEST)
-Received: from localhost ([::1]:36810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6185F1BF258
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 10:12:45 +0200 (CEST)
+Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU4Qw-00061E-AH
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 04:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40674)
+	id 1jU4JH-0000pB-Ty
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 04:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39698)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jU4Q6-0005U5-Ed
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:19:46 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jU4IQ-0000Gq-Tn
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:11:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jU4Q5-00084r-PU
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:19:46 -0400
-Received: from mga09.intel.com ([134.134.136.24]:45612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jU4Q5-00084e-5e
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:19:45 -0400
-IronPort-SDR: zYhjvBPICBSTIGqljfwibIk5BTPI+yRhc4XRDfBg/qcQQpN384VBHuhB7jvKTM5B4o7Whzj3VF
- aKMc7Jowb2Bw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2020 01:19:43 -0700
-IronPort-SDR: bKjx2f66f+JQDqh3/rW47byhRPVNoaCmzmkWoN83/ib6j4zoBJl/bMk6q0isdJXx/F6X3Knb+t
- cvTh/+BwZicw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,334,1583222400"; d="scan'208";a="282783941"
-Received: from joy-optiplex-7040.sh.intel.com ([10.239.13.16])
- by fmsmga004.fm.intel.com with ESMTP; 30 Apr 2020 01:19:41 -0700
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: pbonzini@redhat.com,
-	alex.williamson@redhat.com
-Subject: [PATCH v6 1/3] memory: drop guest writes to read-only ram device
- regions
-Date: Thu, 30 Apr 2020 04:09:46 -0400
-Message-Id: <20200430080946.31286-1-yan.y.zhao@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200430080744.31232-1-yan.y.zhao@intel.com>
-References: <20200430080744.31232-1-yan.y.zhao@intel.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1jU4IP-0002sk-Qj
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:11:50 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:50855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jU4IP-0002rx-5X
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:11:49 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id x25so800462wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 01:11:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RDxNiPlBsS20nSfiC3XgBEgxNQ3U5ugDvHJh3p9ybAo=;
+ b=GqCdbrfIVRhgSLMFUe7TlGbxdoV2iaGvBbpnv27T98BTEvlPcuvCx9P0rMNOXLswzN
+ ljxP1gq6BuY4BfFrwvk/ZpMVWhCuV7SVl88MUej8Pe1xAUFLMPWg6uWovkBHit57VCJe
+ 1WyLFGNFwR9foGqzi4/csCu0oI/G8YpwzLOKZ2++TAQRepeamthchDPpf98XkpVNd3w4
+ DN6c6ue0l3r1XakzLlfGoXcFC+4CkqcmtBVpLsth2ia9qHjBJcsJXN8zY/Ukvrkqtd7j
+ 8JCWT8gSbYw+1vd4iKYV0rusxOB1kzkusexNHLNhE1ieRf+4UYK73p3PUrFW2ma82RMe
+ I/fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=RDxNiPlBsS20nSfiC3XgBEgxNQ3U5ugDvHJh3p9ybAo=;
+ b=sgdYTBfhjMuznqKPngOy7vR5q65ZlC76hqZRxs8abK4nc+KD7MDtKg6tJ2yTdYPsi4
+ XdTrawgMMsXBM3sF5j8MmDoUNSvGiSISdPMP+fvobjmq8IEWbvUfsO26dg3NamZ7NbXd
+ 0QWeh4vUAXeHNnO2QPYKORMkqU14ra9UMX8Cc3sjtim3LC1w/yEts0GApfgK18RSCeLz
+ JnJZ4a6fFUu6Vnfo/Av5BttM7J7/brmUF4URwl7LXG/NB/ozwfmPc0JpgqdR9fe/Rp63
+ NqBYdwmbS+FrSfJt12oMWgjJN9tOkxOU71cncxRxQIrDjY3WzKREIo5u2K9WWOOo8CW0
+ 43UQ==
+X-Gm-Message-State: AGi0PuaTt53Yf7kd2c+QGuqMhYFnTDV3KQJ8lFDl27ZQTaDt1l+sPv8r
+ xQlpzgRlo1spK4giEq+nzqujsQ==
+X-Google-Smtp-Source: APiQypKN3y5319yH5HczQT73bYPZ+I9+hfacK1jGYI/uBjuL5MDa/wH4ClkYgGj2VwDI9y/rbgLm/g==
+X-Received: by 2002:a7b:cc0e:: with SMTP id f14mr1606436wmh.39.1588234307328; 
+ Thu, 30 Apr 2020 01:11:47 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c20sm11776738wmd.36.2020.04.30.01.11.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Apr 2020 01:11:46 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 51D8C1FF7E;
+ Thu, 30 Apr 2020 09:11:45 +0100 (BST)
+References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
+ <87lfmhl0xa.fsf@linaro.org>
+ <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
+ <87imhlkwun.fsf@linaro.org>
+ <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
+ <87ftcoknvu.fsf@linaro.org>
+ <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <871ro6ld2f.fsf@linaro.org>
+ <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <87sggmjgit.fsf@linaro.org>
+ <CAE2XoE8wFK1nOq3YXhB=iqTvqSDQk7Zzd35Tjzdd==v8ouMijA@mail.gmail.com>
+ <43ac337c-752a-7151-1e88-de01949571de@linaro.org>
+ <CAE2XoE-MM6AR8fmExnst7o9wL4Q_nZkw=gyemMJmZSdPd_ydmg@mail.gmail.com>
+User-agent: mu4e 1.4.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: luoyonggang@gmail.com
+Subject: Re: R: R: About hardfloat in ppc
+In-reply-to: <CAE2XoE-MM6AR8fmExnst7o9wL4Q_nZkw=gyemMJmZSdPd_ydmg@mail.gmail.com>
+Date: Thu, 30 Apr 2020 09:11:45 +0100
+Message-ID: <87lfmdjsu6.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=yan.y.zhao@intel.com;
- helo=mga09.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 04:19:43
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 134.134.136.24
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::32c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,70 +96,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Zhao <yan.y.zhao@intel.com>, xin.zeng@intel.com, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Programmingkid <programmingkidx@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, Dino Papararo <skizzato73@msn.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-for ram device regions, drop guest writes if the region is read-only.
 
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-Signed-off-by: Xin Zeng <xin.zeng@intel.com>
----
- memory.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
 
-diff --git a/memory.c b/memory.c
-index 601b749906..a1bba985b9 100644
---- a/memory.c
-+++ b/memory.c
-@@ -34,6 +34,7 @@
- #include "sysemu/accel.h"
- #include "hw/boards.h"
- #include "migration/vmstate.h"
-+#include "qemu/log.h"
- 
- //#define DEBUG_UNASSIGNED
- 
-@@ -1307,12 +1308,19 @@ static uint64_t memory_region_ram_device_read(void *opaque,
-     return data;
- }
- 
--static void memory_region_ram_device_write(void *opaque, hwaddr addr,
--                                           uint64_t data, unsigned size)
-+static MemTxResult memory_region_ram_device_write(void *opaque, hwaddr addr,
-+                                                  uint64_t data, unsigned size,
-+                                                  MemTxAttrs attrs)
- {
-     MemoryRegion *mr = opaque;
- 
-     trace_memory_region_ram_device_write(get_cpu_index(), mr, addr, data, size);
-+    if (mr->readonly) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "Invalid write to read-only ram device region addr 0x%"
-+                      HWADDR_PRIx" size %u\n", addr, size);
-+        return MEMTX_ERROR;
-+    }
- 
-     switch (size) {
-     case 1:
-@@ -1328,11 +1336,12 @@ static void memory_region_ram_device_write(void *opaque, hwaddr addr,
-         *(uint64_t *)(mr->ram_block->host + addr) = data;
-         break;
-     }
-+    return MEMTX_OK;
- }
- 
- static const MemoryRegionOps ram_device_mem_ops = {
-     .read = memory_region_ram_device_read,
--    .write = memory_region_ram_device_write,
-+    .write_with_attrs = memory_region_ram_device_write,
-     .endianness = DEVICE_HOST_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
--- 
-2.17.1
+> On Thu, Apr 30, 2020 at 10:18 AM Richard Henderson <
+> richard.henderson@linaro.org> wrote:
+>
+>> On 4/29/20 5:20 PM, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
+>> > Question, in hard-float, if we don't want to read the fp register.
+>> > for example: If we wanna compute c =3D a + b in fp32
+>> > if c =3D a + b In hard float
+>> > and if b1 =3D c - a in hard float
+>> > if b1 !=3D b at bitwise level, the we se the inexat to 1, otherwsie
+>> > we set inexat bit to 0? are this valid?
+>> >
+>> > we can also do it for a * b, a - b, a / b.
+>> >
+>>
+>> That does seem plausible, for all of the normal values for which we would
+>> apply
+>> the hard-float optimization anyway.  But we already check for the
+>> exceptional
+>> cases:
+>>
+>>     if (unlikely(f32_is_inf(ur))) {
+>>         s->float_exception_flags |=3D float_flag_overflow;
+>>     } else if (unlikely(fabsf(ur.h) <=3D FLT_MIN)) {
+>>         if (post =3D=3D NULL || post(ua, ub)) {
+>>             goto soft;
+>>         }
+>>     }
+>>
+> I means remove of all thse exceptional cases, and detecting float
+> exception by hard float operation.
 
+When this was originally done it was found to be faster testing for the
+float conditions in software (which are basically bitops) than reading
+the FP exception register which can be a high latency operation.
+
+--=20
+Alex Benn=C3=A9e
 
