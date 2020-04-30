@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3576D1BF4A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:59:00 +0200 (CEST)
-Received: from localhost ([::1]:55264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCB61BF4BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:00:38 +0200 (CEST)
+Received: from localhost ([::1]:60346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU5y7-0004OE-5P
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:58:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49022)
+	id 1jU5zh-0006Wg-DO
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49038)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5li-0007ju-Ih
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:11 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jU5lm-0007vo-D4
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5lh-0004wE-W9
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:34800
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1jU5lk-0004wm-SD
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:14 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:29064
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lh-0004w4-JX
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:09 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lk-0004wQ-Cq
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588239968;
+ s=mimecast20190719; t=1588239971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kpm/vwpRUHoqvmijjl3SeEzENCzlNTQO2Sv4APnpUQU=;
- b=Ljn/+XPZORb5EfhyBOA+ml4B624RshEPeyCNLmWdKDuMBNO3Qccvvk6M6WrcKVXDKgPfQ/
- qcRmqZOUXdAbAXzz1isjhnjPGt0/0NfSADOCUe5/7RRFB31HVA7Noc66uWR8N2TRxlg4Sc
- gDzLqoyar/RycwSke51mtdQkG1uczms=
+ bh=fkHcsJJDlzusy6gB61FxjZ/EXO5XoJeYd/a8T99x3TY=;
+ b=fXPlms33GLK0KqsdWDlZhXFHMBFkR0+OGInDIo2e+yUheL5PtDHE/562hR66JGD8HTCu97
+ szkDV0jzo0opVmHawHWuqRiLYrDM8M6Z5B0dctKsQnfbmww9yumZlQxTVp1u+/EYMK4FDk
+ zvCYjv6GJKaZtFJkNCURNhD8Fy837II=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-FW_GfyccPcmE4Uo8phA_9Q-1; Thu, 30 Apr 2020 05:46:04 -0400
-X-MC-Unique: FW_GfyccPcmE4Uo8phA_9Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-118-YBIGzMTnN0WjiVyDhNYjcw-1; Thu, 30 Apr 2020 05:46:09 -0400
+X-MC-Unique: YBIGzMTnN0WjiVyDhNYjcw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3313D45F;
- Thu, 30 Apr 2020 09:46:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1156E10082EA;
+ Thu, 30 Apr 2020 09:46:08 +0000 (UTC)
 Received: from localhost (ovpn-112-226.ams2.redhat.com [10.36.112.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B5A3960BF4;
- Thu, 30 Apr 2020 09:45:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09769196AE;
+ Thu, 30 Apr 2020 09:46:04 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 16/20] docs: system: Add protvirt docs
-Date: Thu, 30 Apr 2020 11:44:41 +0200
-Message-Id: <20200430094445.25943-17-cohuck@redhat.com>
+Subject: [PULL 17/20] s390x: Add unpack facility feature to GA1
+Date: Thu, 30 Apr 2020 11:44:42 +0200
+Message-Id: <20200430094445.25943-18-cohuck@redhat.com>
 In-Reply-To: <20200430094445.25943-1-cohuck@redhat.com>
 References: <20200430094445.25943-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,104 +80,65 @@ Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Janosch Frank <frankja@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
 
-Let's add some documentation for the Protected VM functionality.
+The unpack facility is an indication that diagnose 308 subcodes 8-10
+are available to the guest. That means, that the guest can put itself
+into protected mode.
 
+Once it is in protected mode, the hardware stops any attempt of VM
+introspection by the hypervisor.
+
+Some features are currently not supported in protected mode:
+     * vfio devices
+     * Migration
+     * Huge page backings
+
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Acked-by: David Hildenbrand <david@redhat.com>
-Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-Id: <20200319131921.2367-16-frankja@linux.ibm.com>
+Message-Id: <20200319131921.2367-17-frankja@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- docs/system/s390x/protvirt.rst | 60 ++++++++++++++++++++++++++++++++++
- docs/system/target-s390x.rst   |  5 +++
- 2 files changed, 65 insertions(+)
- create mode 100644 docs/system/s390x/protvirt.rst
+ target/s390x/gen-features.c | 1 +
+ target/s390x/kvm.c          | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rs=
-t
-new file mode 100644
-index 000000000000..712974ad87b9
---- /dev/null
-+++ b/docs/system/s390x/protvirt.rst
-@@ -0,0 +1,60 @@
-+Protected Virtualization on s390x
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+The memory and most of the registers of Protected Virtual Machines
-+(PVMs) are encrypted or inaccessible to the hypervisor, effectively
-+prohibiting VM introspection when the VM is running. At rest, PVMs are
-+encrypted and can only be decrypted by the firmware, represented by an
-+entity called Ultravisor, of specific IBM Z machines.
-+
-+
-+Prerequisites
-+-------------
-+
-+To run PVMs, a machine with the Protected Virtualization feature, as
-+indicated by the Ultravisor Call facility (stfle bit 158), is
-+required. The Ultravisor needs to be initialized at boot by setting
-+`prot_virt=3D1` on the host's kernel command line.
-+
-+Running PVMs requires using the KVM hypervisor.
-+
-+If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
-+will indicate that KVM can support PVMs on that LPAR.
-+
-+
-+QEMU Settings
-+-------------
-+
-+To indicate to the VM that it can transition into protected mode, the
-+`Unpack facility` (stfle bit 161 represented by the feature
-+`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
-+the VM.
-+
-+All I/O devices need to use the IOMMU.
-+Passthrough (vfio) devices are currently not supported.
-+
-+Host huge page backings are not supported. However guests can use huge
-+pages as indicated by its facilities.
-+
-+
-+Boot Process
-+------------
-+
-+A secure guest image can either be loaded from disk or supplied on the
-+QEMU command line. Booting from disk is done by the unmodified
-+s390-ccw BIOS. I.e., the bootmap is interpreted, multiple components
-+are read into memory and control is transferred to one of the
-+components (zipl stage3). Stage3 does some fixups and then transfers
-+control to some program residing in guest memory, which is normally
-+the OS kernel. The secure image has another component prepended
-+(stage3a) that uses the new diag308 subcodes 8 and 10 to trigger the
-+transition into secure mode.
-+
-+Booting from the image supplied on the QEMU command line requires that
-+the file passed via -kernel has the same memory layout as would result
-+from the disk boot. This memory layout includes the encrypted
-+components (kernel, initrd, cmdline), the stage3a loader and
-+metadata. In case this boot method is used, the command line
-+options -initrd and -cmdline are ineffective. The preparation of a PVM
-+image is done via the `genprotimg` tool from the s390-tools
-+collection.
-diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
-index 4c8b7cdd6615..7d76ae97b401 100644
---- a/docs/system/target-s390x.rst
-+++ b/docs/system/target-s390x.rst
-@@ -24,3 +24,8 @@ or vfio-ap is also available.
- .. toctree::
-    s390x/vfio-ap
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index 6278845b12b8..8ddeebc54419 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -562,6 +562,7 @@ static uint16_t full_GEN15_GA1[] =3D {
+     S390_FEAT_GROUP_MSA_EXT_9,
+     S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
+     S390_FEAT_ETOKEN,
++    S390_FEAT_UNPACK,
+ };
 =20
-+Architectural features
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ /* Default features (in order of release)
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index 870dd1b52b6e..69881a0da0b3 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -2425,6 +2425,14 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model=
+, Error **errp)
+         clear_bit(S390_FEAT_BPB, model->features);
+     }
+=20
++    /*
++     * If we have support for protected virtualization, indicate
++     * the protected virtualization IPL unpack facility.
++     */
++    if (cap_protected) {
++        set_bit(S390_FEAT_UNPACK, model->features);
++    }
 +
-+.. toctree::
-+   s390x/protvirt
+     /* We emulate a zPCI bus and AEN, therefore we don't need HW support *=
+/
+     set_bit(S390_FEAT_ZPCI, model->features);
+     set_bit(S390_FEAT_ADAPTER_EVENT_NOTIFICATION, model->features);
 --=20
 2.21.1
 
