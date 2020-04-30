@@ -2,65 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DF681BED43
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 02:58:50 +0200 (CEST)
-Received: from localhost ([::1]:47156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6E31BEDE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 03:54:40 +0200 (CEST)
+Received: from localhost ([::1]:43562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jTxXL-0006y8-LE
-	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 20:58:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51756)
+	id 1jTyPP-0004f5-9l
+	for lists+qemu-devel@lfdr.de; Wed, 29 Apr 2020 21:54:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35622)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jTxWG-0006Uy-VK
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 20:57:46 -0400
+ (envelope-from <wei.w.wang@intel.com>) id 1jTyOg-0004GS-C9
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 21:53:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jTxUC-0001yD-FK
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 20:57:40 -0400
-Received: from mga02.intel.com ([134.134.136.20]:43036)
+ (envelope-from <wei.w.wang@intel.com>) id 1jTyOe-0007Ex-M3
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 21:53:53 -0400
+Received: from mga17.intel.com ([192.55.52.151]:46011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jTxUB-0001dM-CJ
- for qemu-devel@nongnu.org; Wed, 29 Apr 2020 20:55:32 -0400
-IronPort-SDR: efd8MDCNsYyFMv0M0/j2vXQBoR7OMKmI67uAlEXJZI+r5jd+fyBoHbh29PuaLyJkt1JuyCVLhY
- TkTTFetdPnCw==
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1jTyOe-0007Ec-4g
+ for qemu-devel@nongnu.org; Wed, 29 Apr 2020 21:53:52 -0400
+IronPort-SDR: a5XSvhW8BczX0FwkNDACqBT9Tu/wp7o6aw5lcfsqogy/3Y8oAsjC4+/QyObkK85Z+3kdoOMpXi
+ uNGmVpS83RAQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2020 17:55:28 -0700
-IronPort-SDR: +gRX2R/WV/4QXJPPo6djRHcjf8PsJ1DwkfropLFEC/MLZ7TCqHkGV7ms5qWKqZXcpf0RzixPXC
- dDGi/gCLRJ5A==
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2020 18:53:43 -0700
+IronPort-SDR: E0nw1rKUWXwuIfqqP5uib1vp6j7gsMEBTaq1rbIoYmoa0chLAx1t3KGHsROmqKutQCFsxu5jwB
+ JuFfLRE9goVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,333,1583222400"; d="scan'208";a="249600406"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga008.fm.intel.com with ESMTP; 29 Apr 2020 17:55:21 -0700
-Date: Wed, 29 Apr 2020 20:45:38 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v5 0/4] introduction of migration_version attribute for
- VFIO live migration
-Message-ID: <20200430004537.GO12879@joy-OptiPlex-7040>
-References: <20200422073628.GA12879@joy-OptiPlex-7040>
- <20200424191049.GU3106@work-vm>
- <20200426013628.GC12879@joy-OptiPlex-7040>
- <20200427153743.GK2923@work-vm>
- <20200428005429.GJ12879@joy-OptiPlex-7040>
- <20200428141437.GG2794@work-vm>
- <20200429072616.GL12879@joy-OptiPlex-7040>
- <20200429082201.GA2834@work-vm>
- <20200429093555.GM12879@joy-OptiPlex-7040>
- <94cd58d2-0580-53cd-6ca2-2c33146e0f2c@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <94cd58d2-0580-53cd-6ca2-2c33146e0f2c@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=yan.y.zhao@intel.com;
- helo=mga02.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 20:55:28
+X-IronPort-AV: E=Sophos;i="5.73,333,1583222400"; d="scan'208";a="459397216"
+Received: from devel-ww.sh.intel.com ([10.239.48.118])
+ by fmsmga005.fm.intel.com with ESMTP; 29 Apr 2020 18:53:41 -0700
+From: Wei Wang <wei.w.wang@intel.com>
+To: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ peterx@redhat.com
+Subject: [PATCH v3] migration/xbzrle: add encoding rate
+Date: Thu, 30 Apr 2020 08:59:35 +0800
+Message-Id: <1588208375-19556-1-git-send-email-wei.w.wang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=wei.w.wang@intel.com;
+ helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 21:53:44
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 134.134.136.20
+X-Received-From: 192.55.52.151
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,60 +57,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Cornelia Huck <cohuck@redhat.com>, "cjia@nvidia.com" <cjia@nvidia.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- "Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
- "eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "Yang, Ziye" <ziye.yang@intel.com>,
- "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "felipe@nutanix.com" <felipe@nutanix.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
- "Tian, Kevin" <kevin.tian@intel.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- "Liu, Changpeng" <changpeng.liu@intel.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
- "He, Shaopeng" <shaopeng.he@intel.com>
+Cc: gloryxiao@tencent.com, kevin.tian@intel.com, wei.w.wang@intel.com,
+ yi.y.sun@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 29, 2020 at 10:13:01PM +0800, Eric Blake wrote:
-> [meta-comment]
-> 
-> On 4/29/20 4:35 AM, Yan Zhao wrote:
-> > On Wed, Apr 29, 2020 at 04:22:01PM +0800, Dr. David Alan Gilbert wrote:
-> [...]
-> >>>>>>>>>>>>>>>>> This patchset introduces a migration_version attribute under sysfs
-> >>>>>>>>>>> of VFIO
-> >>>>>>>>>>>>>>>>> Mediated devices.
-> 
-> Hmm, several pages with up to 16 levels of quoting, with editors making 
-> the lines ragged, all before I get to the real meat of the email. 
-> Remember, it's okay to trim content,...
-> 
-> >> So why don't we split the difference; lets say that it should start with
-> >> the hex PCI Vendor ID.
-> >>
-> > The problem is for mdev devices, if the parent devices are not PCI devices,
-> > they don't have PCI vendor IDs.
-> 
-> ...to just what you are replying to.
->
-sorry for that. next time I'll try to make a better balance between
-keeping conversation background and leaving the real meat of the email.
+Users may need to check the xbzrle encoding rate to know if the guest
+memory is xbzrle encoding-friendly, and dynamically turn off the
+encoding if the encoding rate is low.
 
-Thanks for reminding.
-Yan
+Signed-off-by: Yi Sun <yi.y.sun@intel.com>
+Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+---
+ migration/migration.c |  1 +
+ migration/ram.c       | 39 +++++++++++++++++++++++++++++++++++++--
+ monitor/hmp-cmds.c    |  2 ++
+ qapi/migration.json   |  5 ++++-
+ 4 files changed, 44 insertions(+), 3 deletions(-)
+
+diff --git a/migration/migration.c b/migration/migration.c
+index 187ac0410c..e40421353c 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -930,6 +930,7 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
+         info->xbzrle_cache->pages = xbzrle_counters.pages;
+         info->xbzrle_cache->cache_miss = xbzrle_counters.cache_miss;
+         info->xbzrle_cache->cache_miss_rate = xbzrle_counters.cache_miss_rate;
++        info->xbzrle_cache->encoding_rate = xbzrle_counters.encoding_rate;
+         info->xbzrle_cache->overflow = xbzrle_counters.overflow;
+     }
+ 
+diff --git a/migration/ram.c b/migration/ram.c
+index 04f13feb2e..41b75a0a0f 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -327,6 +327,10 @@ struct RAMState {
+     uint64_t num_dirty_pages_period;
+     /* xbzrle misses since the beginning of the period */
+     uint64_t xbzrle_cache_miss_prev;
++    /* Amount of xbzrle pages since the beginning of the period */
++    uint64_t xbzrle_pages_prev;
++    /* Amount of xbzrle encoded bytes since the beginning of the period */
++    uint64_t xbzrle_bytes_prev;
+ 
+     /* compression statistics since the beginning of the period */
+     /* amount of count that no free thread to compress data */
+@@ -696,6 +700,18 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
+         return -1;
+     }
+ 
++    /*
++     * Reaching here means the page has hit the xbzrle cache, no matter what
++     * encoding result it is (normal encoding, overflow or skipping the page),
++     * count the page as encoded. This is used to caculate the encoding rate.
++     *
++     * Example: 2 pages (8KB) being encoded, first page encoding generates 2KB,
++     * 2nd page turns out to be skipped (i.e. no new bytes written to the
++     * page), the overall encoding rate will be 8KB / 2KB = 4, which has the
++     * skipped page included. In this way, the encoding rate can tell if the
++     * guest page is good for xbzrle encoding.
++     */
++    xbzrle_counters.pages++;
+     prev_cached_page = get_cached_data(XBZRLE.cache, current_addr);
+ 
+     /* save current buffer into memory */
+@@ -726,6 +742,7 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
+     } else if (encoded_len == -1) {
+         trace_save_xbzrle_page_overflow();
+         xbzrle_counters.overflow++;
++        xbzrle_counters.bytes += TARGET_PAGE_SIZE;
+         return -1;
+     }
+ 
+@@ -736,8 +753,12 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
+     qemu_put_be16(rs->f, encoded_len);
+     qemu_put_buffer(rs->f, XBZRLE.encoded_buf, encoded_len);
+     bytes_xbzrle += encoded_len + 1 + 2;
+-    xbzrle_counters.pages++;
+-    xbzrle_counters.bytes += bytes_xbzrle;
++    /*
++     * Like compressed_size (please see update_compress_thread_counts),
++     * the xbzrle encoded bytes don't count the 8 byte header with
++     * RAM_SAVE_FLAG_CONTINUE.
++     */
++    xbzrle_counters.bytes += bytes_xbzrle - 8;
+     ram_counters.transferred += bytes_xbzrle;
+ 
+     return 1;
+@@ -870,9 +891,23 @@ static void migration_update_rates(RAMState *rs, int64_t end_time)
+     }
+ 
+     if (migrate_use_xbzrle()) {
++        double encoded_size, unencoded_size;
++
+         xbzrle_counters.cache_miss_rate = (double)(xbzrle_counters.cache_miss -
+             rs->xbzrle_cache_miss_prev) / page_count;
+         rs->xbzrle_cache_miss_prev = xbzrle_counters.cache_miss;
++        unencoded_size = (xbzrle_counters.pages - rs->xbzrle_pages_prev) *
++                         TARGET_PAGE_SIZE;
++        encoded_size = xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
++        if (xbzrle_counters.pages == rs->xbzrle_pages_prev) {
++            xbzrle_counters.encoding_rate = 0;
++        } else if (!encoded_size) {
++            xbzrle_counters.encoding_rate = UINT64_MAX;
++        } else {
++            xbzrle_counters.encoding_rate = unencoded_size / encoded_size;
++        }
++        rs->xbzrle_pages_prev = xbzrle_counters.pages;
++        rs->xbzrle_bytes_prev = xbzrle_counters.bytes;
+     }
+ 
+     if (migrate_use_compression()) {
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 9b94e67879..c2a3a667ae 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -303,6 +303,8 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+                        info->xbzrle_cache->cache_miss);
+         monitor_printf(mon, "xbzrle cache miss rate: %0.2f\n",
+                        info->xbzrle_cache->cache_miss_rate);
++        monitor_printf(mon, "xbzrle encoding rate: %0.2f\n",
++                       info->xbzrle_cache->encoding_rate);
+         monitor_printf(mon, "xbzrle overflow: %" PRIu64 "\n",
+                        info->xbzrle_cache->overflow);
+     }
+diff --git a/qapi/migration.json b/qapi/migration.json
+index eca2981d0a..358e40226d 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -70,6 +70,8 @@
+ #
+ # @cache-miss-rate: rate of cache miss (since 2.1)
+ #
++# @encoding-rate: rate of encoded bytes (since 5.1)
++#
+ # @overflow: number of overflows
+ #
+ # Since: 1.2
+@@ -77,7 +79,7 @@
+ { 'struct': 'XBZRLECacheStats',
+   'data': {'cache-size': 'int', 'bytes': 'int', 'pages': 'int',
+            'cache-miss': 'int', 'cache-miss-rate': 'number',
+-           'overflow': 'int' } }
++           'encoding-rate': 'number', 'overflow': 'int' } }
+ 
+ ##
+ # @CompressionStats:
+@@ -337,6 +339,7 @@
+ #             "pages":2444343,
+ #             "cache-miss":2244,
+ #             "cache-miss-rate":0.123,
++#             "encoding-rate":80.1,
+ #             "overflow":34434
+ #          }
+ #       }
+-- 
+2.20.1
+
 
