@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 196201BEFAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:30:14 +0200 (CEST)
-Received: from localhost ([::1]:37780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BCF1BEFE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:46:14 +0200 (CEST)
+Received: from localhost ([::1]:36176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU1m1-0003yW-2b
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:30:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53216)
+	id 1jU21V-000484-IJ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:46:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53538)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jU1lH-0003Ti-OD
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:29:28 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1jU1ok-00086h-Q8
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:33:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jU1lH-00028I-9u
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:29:27 -0400
-Received: from mga18.intel.com ([134.134.136.126]:48100)
+ (envelope-from <yan.y.zhao@intel.com>) id 1jU1ok-0003c3-2F
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:33:02 -0400
+Received: from mga04.intel.com ([192.55.52.120]:42671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jU1lG-00028B-PT
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:29:26 -0400
-IronPort-SDR: hcZrCMAzQxXz8+EcMmr0ME/9uKYeKGoRAh/uVbwLT4EokG63aN2YXWcq8cMqyLQ22s4MTxmY3y
- RL1w79+q+ZIA==
+ id 1jU1oj-0003bw-HR
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:33:01 -0400
+IronPort-SDR: UgYwG7ZcdHIGyEDap1MpQbMJTOC/nXGcnBcOewiYDQLAjKlKnR5ADeYGHizUDusCm3YEI6aLyW
+ IGN1j2rFQbfg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Apr 2020 22:29:25 -0700
-IronPort-SDR: Xv52D3rETX74P8CJw1CHMA0xPGqIKq4I/9uPlXTE/k97zSSoAykr/vkXWGiytgLtjGLJdz7qi9
- xlW0sg2AAo8w==
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Apr 2020 22:32:59 -0700
+IronPort-SDR: nb9C0yGBHDvCLaMyT++JRXL0lnif0TfxdQpjrcWRkX7ydQ9lWIvtkMBzThSbRGtfQvHp9kFkIP
+ mALsbJLFcjcw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,334,1583222400"; d="scan'208";a="249649344"
+X-IronPort-AV: E=Sophos;i="5.73,334,1583222400"; d="scan'208";a="249649990"
 Received: from joy-optiplex-7040.sh.intel.com ([10.239.13.16])
- by fmsmga008.fm.intel.com with ESMTP; 29 Apr 2020 22:29:23 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 29 Apr 2020 22:32:57 -0700
 From: Yan Zhao <yan.y.zhao@intel.com>
 To: pbonzini@redhat.com,
 	alex.williamson@redhat.com
-Subject: [PATCH v5 1/3] memory: drop guest writes to read-only ram device
- regions
-Date: Thu, 30 Apr 2020 01:19:23 -0400
-Message-Id: <20200430051923.29159-1-yan.y.zhao@intel.com>
+Subject: [PATCH v5 2/3] hw/vfio: drop guest writes to ro regions
+Date: Thu, 30 Apr 2020 01:23:07 -0400
+Message-Id: <20200430052307.29235-1-yan.y.zhao@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200430051558.28991-1-yan.y.zhao@intel.com>
 References: <20200430051558.28991-1-yan.y.zhao@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=yan.y.zhao@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:42:54
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=yan.y.zhao@intel.com;
+ helo=mga04.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:32:59
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 134.134.136.126
+X-Received-From: 192.55.52.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,63 +67,55 @@ Cc: Yan Zhao <yan.y.zhao@intel.com>, xin.zeng@intel.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-for ram device regions, drop guest writes if the regions is read-only.
+for vfio regions that are without write permission,
+drop guest writes to those regions.
 
 Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.co>
 Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
 Signed-off-by: Xin Zeng <xin.zeng@intel.com>
 ---
- memory.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ hw/vfio/common.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/memory.c b/memory.c
-index 601b749906..90a748912f 100644
---- a/memory.c
-+++ b/memory.c
-@@ -34,6 +34,7 @@
- #include "sysemu/accel.h"
- #include "hw/boards.h"
- #include "migration/vmstate.h"
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 0b3593b3c0..2a4fedfeaa 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -38,6 +38,7 @@
+ #include "sysemu/reset.h"
+ #include "trace.h"
+ #include "qapi/error.h"
 +#include "qemu/log.h"
  
- //#define DEBUG_UNASSIGNED
+ VFIOGroupList vfio_group_list =
+     QLIST_HEAD_INITIALIZER(vfio_group_list);
+@@ -190,6 +191,16 @@ void vfio_region_write(void *opaque, hwaddr addr,
+         uint64_t qword;
+     } buf;
  
-@@ -1307,12 +1308,19 @@ static uint64_t memory_region_ram_device_read(void *opaque,
-     return data;
- }
- 
--static void memory_region_ram_device_write(void *opaque, hwaddr addr,
--                                           uint64_t data, unsigned size)
-+static MemTxResult memory_region_ram_device_write(void *opaque, hwaddr addr,
-+                                           uint64_t data, unsigned size,
-+                                           MemTxAttrs attrs)
- {
-     MemoryRegion *mr = opaque;
- 
-     trace_memory_region_ram_device_write(get_cpu_index(), mr, addr, data, size);
-+    if (mr->readonly) {
++    trace_vfio_region_write(vbasedev->name, region->nr, addr, data, size);
++    if (!(region->flags & VFIO_REGION_INFO_FLAG_WRITE)) {
 +        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "Invalid write to read only ram device region addr 0x%"
-+                       HWADDR_PRIx" size %u\n", addr, size);
-+        return MEMTX_ERROR;
++                      "Invalid write to read only vfio region (%s:region%d"
++                      "+0x%"HWADDR_PRIx" size %d)\n", vbasedev->name,
++                      region->nr, addr, size);
++
++        return;
 +    }
- 
++
      switch (size) {
      case 1:
-@@ -1328,11 +1336,12 @@ static void memory_region_ram_device_write(void *opaque, hwaddr addr,
-         *(uint64_t *)(mr->ram_block->host + addr) = data;
-         break;
+         buf.byte = data;
+@@ -215,8 +226,6 @@ void vfio_region_write(void *opaque, hwaddr addr,
+                      addr, data, size);
      }
-+    return MEMTX_OK;
- }
  
- static const MemoryRegionOps ram_device_mem_ops = {
-     .read = memory_region_ram_device_read,
--    .write = memory_region_ram_device_write,
-+    .write_with_attrs = memory_region_ram_device_write,
-     .endianness = DEVICE_HOST_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
+-    trace_vfio_region_write(vbasedev->name, region->nr, addr, data, size);
+-
+     /*
+      * A read or write to a BAR always signals an INTx EOI.  This will
+      * do nothing if not pending (including not in INTx mode).  We assume
 -- 
 2.17.1
 
