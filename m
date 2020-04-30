@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B761BFAF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:56:58 +0200 (CEST)
-Received: from localhost ([::1]:41170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446B61BFA2B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:52:07 +0200 (CEST)
+Received: from localhost ([::1]:48698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU9gP-0006Po-9C
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:56:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
+	id 1jU9bi-0003be-8S
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:52:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <dimastep@yandex-team.ru>) id 1jU9TM-0001BU-Qb
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:45:21 -0400
+ (envelope-from <dimastep@yandex-team.ru>) id 1jU9TN-0001DL-Cl
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:45:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dimastep@yandex-team.ru>) id 1jU9Qd-0008Fi-E8
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:43:28 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:60108)
+ (envelope-from <dimastep@yandex-team.ru>) id 1jU9Qe-0008Hn-De
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:43:29 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:47496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
- id 1jU9NM-0001jK-CA; Thu, 30 Apr 2020 09:37:16 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
- [IPv6:2a02:6b8:0:1619::119])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 45D5D2E151A;
- Thu, 30 Apr 2020 16:37:12 +0300 (MSK)
+ id 1jU9NP-0001td-No; Thu, 30 Apr 2020 09:37:21 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 9E9442E14E4;
+ Thu, 30 Apr 2020 16:37:16 +0300 (MSK)
 Received: from myt4-18a966dbd9be.qloud-c.yandex.net
  (myt4-18a966dbd9be.qloud-c.yandex.net [2a02:6b8:c00:12ad:0:640:18a9:66db])
- by mxbackcorp2j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
- SUWv4Mec3s-b7X4UTL4; Thu, 30 Apr 2020 16:37:12 +0300
+ by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ GX0Aiw5eLv-bDWC24Y5; Thu, 30 Apr 2020 16:37:16 +0300
 Precedence: bulk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1588253832; bh=kUkFhpkmkerAUcEO23m978mFXGVV+mbiJpdw3pimI38=;
+ t=1588253836; bh=5FKUZYsWXSmWGJbzPGJ+rs4aPqD/ORGDojQy3boMTtI=;
  h=In-Reply-To:In-Reply-To:Message-Id:References:References:Date:
  Subject:To:From:Cc;
- b=Qi+NXMT6Ijxlj0zDe0PAUGxzXOWda3qxv7gQmA+ZoORjIW3HqEiIYEnUoqlD4tBPI
- gHfE4/nmIUufy+22SeuwA1PkVA7JXHZZcphUSW4Zh+95uWDEMjSLvNNi219uV8mOCv
- ADGOrjjqNJk6TK2hZvdvNiJoh6loNHp9n0nL/yoQ=
-Authentication-Results: mxbackcorp2j.mail.yandex.net;
+ b=p0fxPmCdL9FwkOg0YTayXa1Va0q3FxG8Y16hf0JDiXp9Hd41Ga21u+uS3i6qQU2GK
+ qb6GWYHYANeAz80Mlgg4x9tDLZzjTA/H3ZzyOGsXhxq0Ni1sq8UgZIjqzC96vdr7cK
+ glGQ17a8sEtQhQO7bML6D2VBoATooMcuIxZu7AZE=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b080:7108::1:9])
  by myt4-18a966dbd9be.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- tZ29y7t6r8-b7WKL4mb; Thu, 30 Apr 2020 16:37:07 +0300
+ tZ29y7t6r8-bDWKtTr9; Thu, 30 Apr 2020 16:37:13 +0300
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (Client certificate not present)
 From: Dima Stepanov <dimastep@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] vhost-user-blk: add mechanism to track the guest
- notifiers init state
-Date: Thu, 30 Apr 2020 16:36:18 +0300
-Message-Id: <d20d6de600837aebbf644666be064f761f764832.1588252862.git.dimastep@yandex-team.ru>
+Subject: [PATCH v2 4/5] vhost: check vring address before calling unmap
+Date: Thu, 30 Apr 2020 16:36:19 +0300
+Message-Id: <2d4952df2cc246f7421b4b9023a581b22210fc41.1588252862.git.dimastep@yandex-team.ru>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1588252861.git.dimastep@yandex-team.ru>
 References: <cover.1588252861.git.dimastep@yandex-team.ru>
 In-Reply-To: <cover.1588252861.git.dimastep@yandex-team.ru>
 References: <cover.1588252861.git.dimastep@yandex-team.ru>
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:37:12
-X-ACL-Warn: Detected OS   = ???
-X-Received-From: 2a02:6b8:0:1472:2741:0:8b6:217
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:37:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 95.108.205.193
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -80,108 +78,62 @@ Cc: fam@euphon.net, kwolf@redhat.com, yc-core@yandex-team.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In case of the vhost-user devices the daemon can be killed at any
-moment. Since QEMU supports the reconnet functionality the guest
-notifiers should be reset and disabled after "disconnect" event. The
-most issues were found if the "disconnect" event happened during vhost
-device initialization step.
-The disconnect event leads to the call of the vhost_dev_cleanup()
-routine. Which memset to 0 a vhost device structure. Because of this, if
-device was not started (dev.started == false) and the connection is
-broken, then the set_guest_notifier method will produce assertion error.
-Also connection can be broken after the dev.started field is set to
-true.
-A new notifiers_set field is added to the vhost_dev structure to track
-the state of the guest notifiers during the initialization process.
+Since disconnect can happen at any time during initialization not all
+vring buffers (for instance used vring) can be intialized successfully.
+If the buffer was not initialized then vhost_memory_unmap call will lead
+to SIGSEGV. Add checks for the vring address value before calling unmap.
+Also add assert() in the vhost_memory_unmap() routine.
 
 Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
 ---
- hw/block/vhost-user-blk.c |  8 ++++----
- hw/virtio/vhost.c         | 11 +++++++++++
- include/hw/virtio/vhost.h |  1 +
- 3 files changed, 16 insertions(+), 4 deletions(-)
+ hw/virtio/vhost.c | 27 +++++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 70d7842..5a3de0f 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -175,7 +175,9 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
-         return;
-     }
- 
--    vhost_dev_stop(&s->dev, vdev);
-+    if (s->dev.started) {
-+        vhost_dev_stop(&s->dev, vdev);
-+    }
- 
-     ret = vhost_dev_drop_guest_notifiers(&s->dev, vdev, s->dev.nvqs);
-     if (ret < 0) {
-@@ -337,9 +339,7 @@ static void vhost_user_blk_disconnect(DeviceState *dev)
-     }
-     s->connected = false;
- 
--    if (s->dev.started) {
--        vhost_user_blk_stop(vdev);
--    }
-+    vhost_user_blk_stop(vdev);
- 
-     vhost_dev_cleanup(&s->dev);
- }
 diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index fa3da9c..ddbdc53 100644
+index ddbdc53..3ee50c4 100644
 --- a/hw/virtio/vhost.c
 +++ b/hw/virtio/vhost.c
-@@ -1380,6 +1380,7 @@ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
-             goto fail_vq;
-         }
+@@ -314,6 +314,8 @@ static void vhost_memory_unmap(struct vhost_dev *dev, void *buffer,
+                                hwaddr len, int is_write,
+                                hwaddr access_len)
+ {
++    assert(buffer);
++
+     if (!vhost_dev_has_iommu(dev)) {
+         cpu_physical_memory_unmap(buffer, len, is_write, access_len);
      }
-+    hdev->notifiers_set = true;
+@@ -1132,12 +1134,25 @@ static void vhost_virtqueue_stop(struct vhost_dev *dev,
+                                                 vhost_vq_index);
+     }
  
-     return 0;
- fail_vq:
-@@ -1407,6 +1408,10 @@ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-     int i, r;
- 
-+    if (!hdev->notifiers_set) {
-+        return;
+-    vhost_memory_unmap(dev, vq->used, virtio_queue_get_used_size(vdev, idx),
+-                       1, virtio_queue_get_used_size(vdev, idx));
+-    vhost_memory_unmap(dev, vq->avail, virtio_queue_get_avail_size(vdev, idx),
+-                       0, virtio_queue_get_avail_size(vdev, idx));
+-    vhost_memory_unmap(dev, vq->desc, virtio_queue_get_desc_size(vdev, idx),
+-                       0, virtio_queue_get_desc_size(vdev, idx));
++    /*
++     * Since the vhost-user disconnect can happen during initialization
++     * check if vring was initialized, before making unmap.
++     */
++    if (vq->used) {
++        vhost_memory_unmap(dev, vq->used,
++                           virtio_queue_get_used_size(vdev, idx),
++                           1, virtio_queue_get_used_size(vdev, idx));
 +    }
-+
-     for (i = 0; i < hdev->nvqs; ++i) {
-         r = virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i,
-                                          false);
-@@ -1417,6 +1422,8 @@ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev)
-         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), hdev->vq_index + i);
-     }
-     virtio_device_release_ioeventfd(vdev);
-+
-+    hdev->notifiers_set = false;
++    if (vq->avail) {
++        vhost_memory_unmap(dev, vq->avail,
++                           virtio_queue_get_avail_size(vdev, idx),
++                           0, virtio_queue_get_avail_size(vdev, idx));
++    }
++    if (vq->desc) {
++        vhost_memory_unmap(dev, vq->desc,
++                           virtio_queue_get_desc_size(vdev, idx),
++                           0, virtio_queue_get_desc_size(vdev, idx));
++    }
  }
  
- /*
-@@ -1449,6 +1456,10 @@ int vhost_dev_drop_guest_notifiers(struct vhost_dev *hdev,
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
-     int ret;
- 
-+    if (!hdev->notifiers_set) {
-+        return 0;
-+    }
-+
-     ret = k->set_guest_notifiers(qbus->parent, nvqs, false);
-     if (ret < 0) {
-         error_report("Error reset guest notifier: %d", -ret);
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 4d0d2e2..e3711a7 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -90,6 +90,7 @@ struct vhost_dev {
-     QLIST_HEAD(, vhost_iommu) iommu_list;
-     IOMMUNotifier n;
-     const VhostDevConfigOps *config_ops;
-+    bool notifiers_set;
- };
- 
- int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+ static void vhost_eventfd_add(MemoryListener *listener,
 -- 
 2.7.4
 
