@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE181C00FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 17:58:27 +0200 (CEST)
-Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F101C0177
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:07:25 +0200 (CEST)
+Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUBZy-0002aw-It
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 11:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44618)
+	id 1jUBie-0000Lu-69
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44710)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUBWc-0007dF-4J
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:56:07 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jUBWo-0007pT-ME
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:56:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUBUH-00032f-Ld
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:54:57 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44986)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jUBUH-000325-3U
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:52:33 -0400
-Received: by mail-ot1-x342.google.com with SMTP id j4so5284107otr.11
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 08:52:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OqJGNyVDz211UW5Fz6r9VsMwrvbPs0yJjE+VVXfRzaY=;
- b=NgU1xVL5dlm6s/vd508ky3LILETIShXJR9DvsuTXIu5wNU14jxv6LBeelmlVsqo37m
- c2QNxwyA/zH6z8Lqphum/NUhatGuN6BJoSdiYBcpFn97mCkPfLmGuieq440TQ9mn+nuW
- zRjsWCLdCgIAOV6GM+b3n/oMIcnIqba0AzXs70I/IscDhUJhogpLitXw65PaAqlo26S6
- TXy5KJ68AgZp8X++SD580wRKofYxCsok3P1UEVhFufdvSQgPbkE9NP2zfJlv8fHqsZeF
- WRx049Yai0N6D/FaxPdHv+fPwa18tg9AEuTToU4VUoOV9Xd4/CWChKimAhPzc9QHgzHg
- 8eTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OqJGNyVDz211UW5Fz6r9VsMwrvbPs0yJjE+VVXfRzaY=;
- b=BGFsTUpygIWVevnpcN09oUWSLl5j2oMRnR3Q5ugGwxkT8wIF43+HERJ0wFvQs7pK5j
- d9PZHGE+zlsm3ziznv31gzyWSh61KGXpgWUcfg40iitbVxGbyEzSGmwTVOsaGK/9hPW9
- d4BR0+8fSu9zMG4SWEFUPhWwcvJz93CKb6f95r7tQS4O7ibx1xAq81g/oMRSeRAFloX6
- vhBHSPNIW7HmSOCDb/1e/EYmck/KNmlyjcT3GD+xD5Roc/quIU8pHH56zlb5mAQ1IcgF
- FvLNpLOlAfsbw23sQuKa+jZ9TUxsGMKkI8eBU7jdKKWcVXtFtcpCmHlWgT6cWPEC+3Yu
- wFMg==
-X-Gm-Message-State: AGi0PuYhTzl5buaiTe+w4Um5NzW0sd2t3AsXCq0RNNzfry8B6tn6MOtK
- 2UTrheGO75lSzNi7KiMJRn0m9hF/Wx+WwQGHTxsLVQ==
-X-Google-Smtp-Source: APiQypKwzEHA9CQrVuq2torBs0zfWrQDfXi7K37xxkMF51uz0u5so8s1eR9NSMClyelz1K3Qsbw2lqjkl0oxr/kMA/Q=
-X-Received: by 2002:a05:6830:22dc:: with SMTP id
- q28mr2937146otc.221.1588261951836; 
- Thu, 30 Apr 2020 08:52:31 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1jUBUl-0003OS-B2
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:55:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49272
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jUBUk-0003OA-SR
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:53:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588261982;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AbZF22i6dBX88TQIycZD5gVM88/TPJPcQrNB8HIRnRA=;
+ b=FLO8LJFRhO7rKaM6nFoSiiU5woOCO57plkCTtTReKCxZ42TMrSyA91pcdad/CoUn8yluTz
+ nIGL1GU/DyJSfGa7N+c0vOfK5pdDRKOxTl6oHu0WPLHU8Zl2dlmPVECWq5CuxURYnHRpyf
+ 5xfpAcwYpLklLoHQmgT/Fhw+LOuz1mU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-247-QMGQVT7uNPGSj7qr5nsuog-1; Thu, 30 Apr 2020 11:53:00 -0400
+X-MC-Unique: QMGQVT7uNPGSj7qr5nsuog-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1528804055;
+ Thu, 30 Apr 2020 15:52:58 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-60.ams2.redhat.com [10.36.114.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DDDB619F8;
+ Thu, 30 Apr 2020 15:52:55 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 06/15] qcow2: Support BDRV_REQ_ZERO_WRITE for truncate
+Date: Thu, 30 Apr 2020 17:52:22 +0200
+Message-Id: <20200430155231.473156-7-kwolf@redhat.com>
+In-Reply-To: <20200430155231.473156-1-kwolf@redhat.com>
+References: <20200430155231.473156-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20200428154650.21991-1-f4bug@amsat.org>
-In-Reply-To: <20200428154650.21991-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 30 Apr 2020 16:52:21 +0100
-Message-ID: <CAFEAcA-1FmK0x3+X2Gzd_e20oz4OaRWV=CSVHA7EOLjc3EvJGw@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/mps2-tz: Use TYPE_IOTKIT instead of hardcoded
- string
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::342
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,26 +73,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Apr 2020 at 16:46, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> By using the TYPE_* definitions for devices, we can:
->  - quickly find where devices are used with 'git-grep'
->  - easily rename a device (one-line change).
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/arm/mps2-tz.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+If BDRV_REQ_ZERO_WRITE is set and we're extending the image, calling
+qcow2_cluster_zeroize() with flags=3D0 does the right thing: It doesn't
+undo any previous preallocation, but just adds the zero flag to all
+relevant L2 entries. If an external data file is in use, a write_zeroes
+request to the data file is made instead.
 
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20200424125448.63318-5-kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/qcow2-cluster.c |  2 +-
+ block/qcow2.c         | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
 
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 17f1363279..4b5fc8c4a7 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -1795,7 +1795,7 @@ int qcow2_cluster_zeroize(BlockDriverState *bs, uint6=
+4_t offset,
+     /* Caller must pass aligned values, except at image end */
+     assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+     assert(QEMU_IS_ALIGNED(end_offset, s->cluster_size) ||
+-           end_offset =3D=3D bs->total_sectors << BDRV_SECTOR_BITS);
++           end_offset >=3D bs->total_sectors << BDRV_SECTOR_BITS);
+=20
+     /* The zero flag is only supported by version 3 and newer */
+     if (s->qcow_version < 3) {
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 9cfbdfc939..98065d7808 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1726,6 +1726,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverStat=
+e *bs, QDict *options,
+=20
+     bs->supported_zero_flags =3D header.version >=3D 3 ?
+                                BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK :=
+ 0;
++    bs->supported_truncate_flags =3D BDRV_REQ_ZERO_WRITE;
+=20
+     /* Repair image if dirty */
+     if (!(flags & (BDRV_O_CHECK | BDRV_O_INACTIVE)) && !bs->read_only &&
+@@ -4214,6 +4215,39 @@ static int coroutine_fn qcow2_co_truncate(BlockDrive=
+rState *bs, int64_t offset,
+         g_assert_not_reached();
+     }
+=20
++    if ((flags & BDRV_REQ_ZERO_WRITE) && offset > old_length) {
++        uint64_t zero_start =3D QEMU_ALIGN_UP(old_length, s->cluster_size)=
+;
++
++        /*
++         * Use zero clusters as much as we can. qcow2_cluster_zeroize()
++         * requires a cluster-aligned start. The end may be unaligned if i=
+t is
++         * at the end of the image (which it is here).
++         */
++        ret =3D qcow2_cluster_zeroize(bs, zero_start, offset - zero_start,=
+ 0);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "Failed to zero out new clusters"=
+);
++            goto fail;
++        }
++
++        /* Write explicit zeros for the unaligned head */
++        if (zero_start > old_length) {
++            uint64_t len =3D zero_start - old_length;
++            uint8_t *buf =3D qemu_blockalign0(bs, len);
++            QEMUIOVector qiov;
++            qemu_iovec_init_buf(&qiov, buf, len);
++
++            qemu_co_mutex_unlock(&s->lock);
++            ret =3D qcow2_co_pwritev_part(bs, old_length, len, &qiov, 0, 0=
+);
++            qemu_co_mutex_lock(&s->lock);
++
++            qemu_vfree(buf);
++            if (ret < 0) {
++                error_setg_errno(errp, -ret, "Failed to zero out the new a=
+rea");
++                goto fail;
++            }
++        }
++    }
++
+     if (prealloc !=3D PREALLOC_MODE_OFF) {
+         /* Flush metadata before actually changing the image size */
+         ret =3D qcow2_write_caches(bs);
+--=20
+2.25.3
 
-Applied to target-arm.next, thanks.
-
--- PMM
 
