@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8101C0328
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:52:36 +0200 (CEST)
-Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4155D1C02DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:43:29 +0200 (CEST)
+Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUCQO-0008W6-0J
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:52:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49458)
+	id 1jUCHY-0007Eq-4Z
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:43:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49436)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUC3P-00023P-Vq
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:56 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jUC3K-0001wu-Ei
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUC3G-0006v8-4T
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:51 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:52035)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUC3F-0006qr-N4
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:41 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id mq3so909870pjb.1
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 09:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=H4Z2I014pBK6BpW2g3z5ROXLQbDXVrrB931WRgoDLnc=;
- b=chhd+rOxagPotU6qSMFkEH7xpp7DjttF2OnWsBs/ahR90xqoHNn1LRbRvEXz0fcHLa
- Nw/SfqTqp/3SVFK0MqsS+qyE44TEjLocC9RYBPlq/yCTGtITKjcmnmIFBUh1mojSCbIV
- mCaC5bPbwHHhftCYAE7XeKItba408eTIjojyUr1798T3sCx5xp/EDzuzL8bLkSEtNDww
- klFF5Irj7VJ7A+mrwPIUoOi1B49icsLIXI7QdVJpv2x3AIeNFgEHvZr2dOXNQUP7ZYwF
- FbRB9nuKaremc6wZXnIINzzYMo3z87T2DJJQpPyylO0yoa8LOUCgOkFcb6Hg74wE0W/v
- n+2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=H4Z2I014pBK6BpW2g3z5ROXLQbDXVrrB931WRgoDLnc=;
- b=E7Z6IwhW6P0ELk3nXqjjbrZgwfRMsoiuAu+yzeJ3Zp7WH3s+pv/YsLkGs32BuBJshe
- QM/QcCY+MkTtw766IoZJBkF2A5imjXJ9XTedRRAdOnvU9PGV2Ymbpwvb684CNqAuyMEg
- npAE7HPJGKr7+KJXeT7qgwiUX2bEiKKDecDzTZsrNbSu7blSgT/kkP1xq5NyBdZWH+sC
- kvVHttaYIFuHbhVJpTXEk3SkvuNv1COVwe+71cABpL8ISwa/2sTkAdq7UfE8LCsYfr/H
- P/dBFFRA6ylh1aGlSDqV6NPu4DdvLrfEZY9bYziaWBNvn1ZHBXgn+w0mlSIJ4Z9scFV9
- ePlw==
-X-Gm-Message-State: AGi0PuZn8BW1l/8QMD0VMnqwPbCkQGU52leEzqKteRuLGrbcUZYMbbqU
- aqMhs/Gffjj5nM/LKiYAfDhrb6yfLzM=
-X-Google-Smtp-Source: APiQypJ0QtOF6u1xcTwCwB6bwoJGJ0I5AJ/PbgHlUEm+W6fo7johcPK2uHaB7SqHcaa/MzUNRV0cFw==
-X-Received: by 2002:a17:902:bb97:: with SMTP id
- m23mr3966150pls.253.1588264119985; 
- Thu, 30 Apr 2020 09:28:39 -0700 (PDT)
-Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
- [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id j5sm243514pfh.58.2020.04.30.09.28.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 09:28:39 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/18] target/arm: Remove sve_memopidx
-Date: Thu, 30 Apr 2020 09:28:13 -0700
-Message-Id: <20200430162813.17671-19-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200430162813.17671-1-richard.henderson@linaro.org>
-References: <20200430162813.17671-1-richard.henderson@linaro.org>
+ (envelope-from <imammedo@redhat.com>) id 1jUC3B-0006h9-OX
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:44 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:42617
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jUC3B-0006g4-0N
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588264115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kq4pZnthQXOZnj0KLnnnXqqWshOnHvqSA8HHuHukXe0=;
+ b=YFI6wud+Fd4LvtQ52BClriOKyTTfAXwT3cdyKiln0Ld9OrO3fQO0mFuvTUbyPKPKilh9SB
+ OmXsHPmnMvIOrnMWlXjNM1P5Ag1VksGUr2zPMyvxnf6p+lMKJ/4MnQ0cBA8D5BXr08shuX
+ hZRug543y4hr2ZiEyAgA4uVtouLjejM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-d6Fj5FDNPRq_0EtRQRI4Cw-1; Thu, 30 Apr 2020 12:28:32 -0400
+X-MC-Unique: d6Fj5FDNPRq_0EtRQRI4Cw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F83645F;
+ Thu, 30 Apr 2020 16:28:30 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C68B38A;
+ Thu, 30 Apr 2020 16:28:18 +0000 (UTC)
+Date: Thu, 30 Apr 2020 18:28:17 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 13/15] acpi: move aml builder code for i8042
+ (kbd+mouse) device
+Message-ID: <20200430182817.7b8ba8f1@redhat.com>
+In-Reply-To: <20200429140003.7336-14-kraxel@redhat.com>
+References: <20200429140003.7336-1-kraxel@redhat.com>
+ <20200429140003.7336-14-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::1042
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,153 +76,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-None of the sve helpers use TCGMemOpIdx any longer, so we can
-stop passing it.
+On Wed, 29 Apr 2020 16:00:01 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/internals.h     |  5 -----
- target/arm/sve_helper.c    | 14 +++++++-------
- target/arm/translate-sve.c | 17 +++--------------
- 3 files changed, 10 insertions(+), 26 deletions(-)
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index e633aff36e..a833e3941d 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -979,11 +979,6 @@ static inline int arm_num_ctx_cmps(ARMCPU *cpu)
-     }
- }
- 
--/* Note make_memop_idx reserves 4 bits for mmu_idx, and MO_BSWAP is bit 3.
-- * Thus a TCGMemOpIdx, without any MO_ALIGN bits, fits in 8 bits.
-- */
--#define MEMOPIDX_SHIFT  8
--
- /**
-  * v7m_using_psp: Return true if using process stack pointer
-  * Return true if the CPU is currently using the process stack
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index f1870aabc2..116d535fa5 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -4440,7 +4440,7 @@ void sve_ldN_r(CPUARMState *env, uint64_t *vg, const target_ulong addr,
-                sve_ldst1_host_fn *host_fn,
-                sve_ldst1_tlb_fn *tlb_fn)
- {
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-+    const unsigned rd = simd_data(desc);
-     const intptr_t reg_max = simd_oprsz(desc);
-     intptr_t reg_off, reg_last, mem_off;
-     SVEContLdSt info;
-@@ -4696,7 +4696,7 @@ void sve_ldnfff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                    sve_ldst1_host_fn *host_fn,
-                    sve_ldst1_tlb_fn *tlb_fn)
- {
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-+    const unsigned rd = simd_data(desc);
-     void *vd = &env->vfp.zregs[rd];
-     const intptr_t reg_max = simd_oprsz(desc);
-     intptr_t reg_off, mem_off, reg_last;
-@@ -4925,7 +4925,7 @@ void sve_stN_r(CPUARMState *env, uint64_t *vg, target_ulong addr, uint32_t desc,
-                sve_ldst1_host_fn *host_fn,
-                sve_ldst1_tlb_fn *tlb_fn)
- {
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-+    const unsigned rd = simd_data(desc);
-     const intptr_t reg_max = simd_oprsz(desc);
-     intptr_t reg_off, reg_last, mem_off;
-     SVEContLdSt info;
-@@ -5131,9 +5131,9 @@ void sve_ld1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                sve_ldst1_host_fn *host_fn,
-                sve_ldst1_tlb_fn *tlb_fn)
- {
--    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
-     const int mmu_idx = cpu_mmu_index(env, false);
-     const intptr_t reg_max = simd_oprsz(desc);
-+    const int scale = simd_data(desc);
-     ARMVectorReg scratch;
-     intptr_t reg_off;
-     SVEHostPage info, info2;
-@@ -5276,10 +5276,10 @@ void sve_ldff1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                  sve_ldst1_tlb_fn *tlb_fn)
- {
-     const int mmu_idx = cpu_mmu_index(env, false);
--    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
-+    const intptr_t reg_max = simd_oprsz(desc);
-+    const int scale = simd_data(desc);
-     const int esize = 1 << esz;
-     const int msize = 1 << msz;
--    const intptr_t reg_max = simd_oprsz(desc);
-     intptr_t reg_off;
-     SVEHostPage info;
-     target_ulong addr, in_page;
-@@ -5430,9 +5430,9 @@ void sve_st1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                sve_ldst1_host_fn *host_fn,
-                sve_ldst1_tlb_fn *tlb_fn)
- {
--    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
-     const int mmu_idx = cpu_mmu_index(env, false);
-     const intptr_t reg_max = simd_oprsz(desc);
-+    const int scale = simd_data(desc);
-     void *host[ARM_MAX_VQ * 4];
-     intptr_t reg_off, i;
-     SVEHostPage info, info2;
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index b35bad245e..7bd7de80e6 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -4584,11 +4584,6 @@ static const uint8_t dtype_esz[16] = {
-     3, 2, 1, 3
- };
- 
--static TCGMemOpIdx sve_memopidx(DisasContext *s, int dtype)
--{
--    return make_memop_idx(s->be_data | dtype_mop[dtype], get_mem_index(s));
--}
--
- static void do_mem_zpa(DisasContext *s, int zt, int pg, TCGv_i64 addr,
-                        int dtype, gen_helper_gvec_mem *fn)
- {
-@@ -4601,9 +4596,7 @@ static void do_mem_zpa(DisasContext *s, int zt, int pg, TCGv_i64 addr,
-      * registers as pointers, so encode the regno into the data field.
-      * For consistency, do this even for LD1.
-      */
--    desc = sve_memopidx(s, dtype);
--    desc |= zt << MEMOPIDX_SHIFT;
--    desc = simd_desc(vsz, vsz, desc);
-+    desc = simd_desc(vsz, vsz, zt);
-     t_desc = tcg_const_i32(desc);
-     t_pg = tcg_temp_new_ptr();
- 
-@@ -4835,9 +4828,7 @@ static void do_ldrq(DisasContext *s, int zt, int pg, TCGv_i64 addr, int msz)
-     int desc, poff;
- 
-     /* Load the first quadword using the normal predicated load helpers.  */
--    desc = sve_memopidx(s, msz_dtype(s, msz));
--    desc |= zt << MEMOPIDX_SHIFT;
--    desc = simd_desc(16, 16, desc);
-+    desc = simd_desc(16, 16, zt);
-     t_desc = tcg_const_i32(desc);
- 
-     poff = pred_full_reg_offset(s, pg);
-@@ -5066,9 +5057,7 @@ static void do_mem_zpz(DisasContext *s, int zt, int pg, int zm,
-     TCGv_i32 t_desc;
-     int desc;
- 
--    desc = sve_memopidx(s, msz_dtype(s, msz));
--    desc |= scale << MEMOPIDX_SHIFT;
--    desc = simd_desc(vsz, vsz, desc);
-+    desc = simd_desc(vsz, vsz, scale);
-     t_desc = tcg_const_i32(desc);
- 
-     tcg_gen_addi_ptr(t_pg, cpu_env, pred_full_reg_offset(s, pg));
--- 
-2.20.1
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  hw/i386/acpi-build.c | 39 ---------------------------------------
+>  hw/input/pckbd.c     | 31 +++++++++++++++++++++++++++++++
+>  2 files changed, 31 insertions(+), 39 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 7415bd5fdce0..643e875c05a5 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1052,42 +1052,6 @@ static void build_hpet_aml(Aml *table)
+>      aml_append(table, scope);
+>  }
+>  
+> -static Aml *build_kbd_device_aml(void)
+> -{
+> -    Aml *dev;
+> -    Aml *crs;
+> -
+> -    dev = aml_device("KBD");
+> -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0303")));
+> -
+> -    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+> -
+> -    crs = aml_resource_template();
+> -    aml_append(crs, aml_io(AML_DECODE16, 0x0060, 0x0060, 0x01, 0x01));
+> -    aml_append(crs, aml_io(AML_DECODE16, 0x0064, 0x0064, 0x01, 0x01));
+> -    aml_append(crs, aml_irq_no_flags(1));
+> -    aml_append(dev, aml_name_decl("_CRS", crs));
+> -
+> -    return dev;
+> -}
+> -
+> -static Aml *build_mouse_device_aml(void)
+> -{
+> -    Aml *dev;
+> -    Aml *crs;
+> -
+> -    dev = aml_device("MOU");
+> -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0F13")));
+> -
+> -    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+> -
+> -    crs = aml_resource_template();
+> -    aml_append(crs, aml_irq_no_flags(12));
+> -    aml_append(dev, aml_name_decl("_CRS", crs));
+> -
+> -    return dev;
+> -}
+> -
+>  static void build_isa_devices_aml(Aml *table)
+>  {
+>      bool ambiguous;
+> @@ -1095,9 +1059,6 @@ static void build_isa_devices_aml(Aml *table)
+>      Aml *scope = aml_scope("_SB.PCI0.ISA");
+>      Object *obj = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
+>  
+> -    aml_append(scope, build_kbd_device_aml());
+> -    aml_append(scope, build_mouse_device_aml());
+> -
+>      if (ambiguous) {
+>          error_report("Multiple ISA busses, unable to define IPMI ACPI data");
+>      } else if (!obj) {
+> diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
+> index 60a41303203a..29d633ca9478 100644
+> --- a/hw/input/pckbd.c
+> +++ b/hw/input/pckbd.c
+> @@ -26,6 +26,7 @@
+>  #include "qemu/log.h"
+>  #include "hw/isa/isa.h"
+>  #include "migration/vmstate.h"
+> +#include "hw/acpi/aml-build.h"
+>  #include "hw/input/ps2.h"
+>  #include "hw/irq.h"
+>  #include "hw/input/i8042.h"
+> @@ -561,12 +562,42 @@ static void i8042_realizefn(DeviceState *dev, Error **errp)
+>      qemu_register_reset(kbd_reset, s);
+>  }
+>  
+> +static void i8042_build_aml(ISADevice *isadev, Aml *scope)
+> +{
+> +    Aml *kbd;
+> +    Aml *mou;
+> +    Aml *crs;
+> +
+> +    crs = aml_resource_template();
+> +    aml_append(crs, aml_io(AML_DECODE16, 0x0060, 0x0060, 0x01, 0x01));
+> +    aml_append(crs, aml_io(AML_DECODE16, 0x0064, 0x0064, 0x01, 0x01));
+> +    aml_append(crs, aml_irq_no_flags(1));
+> +
+> +    kbd = aml_device("KBD");
+> +    aml_append(kbd, aml_name_decl("_HID", aml_eisaid("PNP0303")));
+> +    aml_append(kbd, aml_name_decl("_STA", aml_int(0xf)));
+> +    aml_append(kbd, aml_name_decl("_CRS", crs));
+> +
+> +    crs = aml_resource_template();
+> +    aml_append(crs, aml_irq_no_flags(12));
+> +
+> +    mou = aml_device("MOU");
+> +    aml_append(mou, aml_name_decl("_HID", aml_eisaid("PNP0F13")));
+> +    aml_append(mou, aml_name_decl("_STA", aml_int(0xf)));
+> +    aml_append(mou, aml_name_decl("_CRS", crs));
+> +
+> +    aml_append(scope, kbd);
+> +    aml_append(scope, mou);
+> +}
+> +
+>  static void i8042_class_initfn(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> +    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
+>  
+>      dc->realize = i8042_realizefn;
+>      dc->vmsd = &vmstate_kbd_isa;
+> +    isa->build_aml = i8042_build_aml;
+>      set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+>  }
+>  
 
 
