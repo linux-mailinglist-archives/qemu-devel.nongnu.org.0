@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5851C013E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:05:21 +0200 (CEST)
-Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83EB1C0184
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:08:00 +0200 (CEST)
+Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUBge-00038l-5b
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44726)
+	id 1jUBjD-0001ae-Kc
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:07:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44760)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jUBWp-0007pX-Tu
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:56:27 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jUBWu-0007pi-JX
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:56:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <kwolf@redhat.com>) id 1jUBUt-0003dJ-Si
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:55:11 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35926
+ (envelope-from <kwolf@redhat.com>) id 1jUBUv-0003ik-A2
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:55:16 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:37929
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jUBUt-0003Zo-FU
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:53:11 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jUBUu-0003de-RP
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:53:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588261990;
+ s=mimecast20190719; t=1588261991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XjFbpH5XoCsyRr4jBb4kAbV/bR30DBphLXoHdax9XJ0=;
- b=KPXJgvah93aeMhgiOMDs/JziV4pLahNuJlUfJiPyRg0iSOQGL6b55ogbMCQi6YPaO7OJ0z
- Znu2YxTPJNs9X9/wVal8S9cA4YiTBB+5IDB35WvovmtNHua9W2kqyqfUNCABH5YvRapUl6
- llQcPnYyFAgWCOrMUsZICcle4o8nAm0=
+ bh=D/MnDYIfBECLV1XlZ0PWU5pHSgkSH8Syl74idUAwCQc=;
+ b=BGtpRf9ZqvkQ18Wqrok2dGUTNsJdsbNF8VkTN3zcITTAaMYUhRd9qmZ0F337Eelw3TQ7ni
+ NMoa473YsnlaWCc/UQJaI8vUv6T2+YtC+qZNea7ji6pgbAS6ZT7NR/I+qkuQVAiVqgtlc9
+ 3XAMhR/4XNk+cVOeKRQRRoL3pxlvahQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-gAx5E93YN-qSux5NgQgiiQ-1; Thu, 30 Apr 2020 11:53:08 -0400
-X-MC-Unique: gAx5E93YN-qSux5NgQgiiQ-1
+ us-mta-266-XquEFkv0NXWyB2pluXyO6w-1; Thu, 30 Apr 2020 11:53:09 -0400
+X-MC-Unique: XquEFkv0NXWyB2pluXyO6w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25071107B7C4;
- Thu, 30 Apr 2020 15:53:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94ADD107ACCD;
+ Thu, 30 Apr 2020 15:53:08 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-60.ams2.redhat.com [10.36.114.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E7DD60C84;
- Thu, 30 Apr 2020 15:53:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E4C560C84;
+ Thu, 30 Apr 2020 15:53:07 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/15] block: truncate: Don't make backing file data visible
-Date: Thu, 30 Apr 2020 17:52:25 +0200
-Message-Id: <20200430155231.473156-10-kwolf@redhat.com>
+Subject: [PULL 10/15] iotests: Filter testfiles out in filter_img_info()
+Date: Thu, 30 Apr 2020 17:52:26 +0200
+Message-Id: <20200430155231.473156-11-kwolf@redhat.com>
 In-Reply-To: <20200430155231.473156-1-kwolf@redhat.com>
 References: <20200430155231.473156-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +57,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,87 +77,39 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When extending the size of an image that has a backing file larger than
-its old size, make sure that the backing file data doesn't become
-visible in the guest, but the added area is properly zeroed out.
+We want to keep TEST_IMG for the full path of the main test image, but
+filter_testfiles() must be called for other test images before replacing
+other things like the image format because the test directory path could
+contain the format as a substring.
 
-Consider the following scenario where the overlay is shorter than its
-backing file:
-
-    base.qcow2:     AAAAAAAA
-    overlay.qcow2:  BBBB
-
-When resizing (extending) overlay.qcow2, the new blocks should not stay
-unallocated and make the additional As from base.qcow2 visible like
-before this patch, but zeros should be read.
-
-A similar case happens with the various variants of a commit job when an
-intermediate file is short (- for unallocated):
-
-    base.qcow2:     A-A-AAAA
-    mid.qcow2:      BB-B
-    top.qcow2:      C--C--C-
-
-After commit top.qcow2 to mid.qcow2, the following happens:
-
-    mid.qcow2:      CB-C00C0 (correct result)
-    mid.qcow2:      CB-C--C- (before this fix)
-
-Without the fix, blocks that previously read as zeros on top.qcow2
-suddenly turn into A.
+Insert a filter_testfiles() call between both.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200424125448.63318-8-kwolf@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20200424125448.63318-9-kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/io.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ tests/qemu-iotests/iotests.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index 795075954e..a4f9714230 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3394,6 +3394,31 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, =
-int64_t offset, bool exact,
-         goto out;
-     }
-=20
-+    /*
-+     * If the image has a backing file that is large enough that it would
-+     * provide data for the new area, we cannot leave it unallocated becau=
-se
-+     * then the backing file content would become visible. Instead, zero-f=
-ill
-+     * the new area.
-+     *
-+     * Note that if the image has a backing file, but was opened without t=
-he
-+     * backing file, taking care of keeping things consistent with that ba=
-cking
-+     * file is the user's responsibility.
-+     */
-+    if (new_bytes && bs->backing) {
-+        int64_t backing_len;
-+
-+        backing_len =3D bdrv_getlength(backing_bs(bs));
-+        if (backing_len < 0) {
-+            ret =3D backing_len;
-+            error_setg_errno(errp, -ret, "Could not get backing file size"=
-);
-+            goto out;
-+        }
-+
-+        if (backing_len > old_size) {
-+            flags |=3D BDRV_REQ_ZERO_WRITE;
-+        }
-+    }
-+
-     if (drv->bdrv_co_truncate) {
-         if (flags & ~bs->supported_truncate_flags) {
-             error_setg(errp, "Block driver does not support requested flag=
-s");
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 7bc4934cd2..5f8c263d59 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -338,8 +338,9 @@ def filter_img_info(output, filename):
+     for line in output.split('\n'):
+         if 'disk size' in line or 'actual-size' in line:
+             continue
+-        line =3D line.replace(filename, 'TEST_IMG') \
+-                   .replace(imgfmt, 'IMGFMT')
++        line =3D line.replace(filename, 'TEST_IMG')
++        line =3D filter_testfiles(line)
++        line =3D line.replace(imgfmt, 'IMGFMT')
+         line =3D re.sub('iters: [0-9]+', 'iters: XXX', line)
+         line =3D re.sub('uuid: [-a-f0-9]+', 'uuid: XXXXXXXX-XXXX-XXXX-XXXX=
+-XXXXXXXXXXXX', line)
+         line =3D re.sub('cid: [0-9]+', 'cid: XXXXXXXXXX', line)
 --=20
 2.25.3
 
