@@ -2,54 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AB71C001B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 17:24:55 +0200 (CEST)
-Received: from localhost ([::1]:51378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F541C0038
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 17:27:21 +0200 (CEST)
+Received: from localhost ([::1]:54696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUB3V-0006gw-4w
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 11:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
+	id 1jUB5s-0001HF-9w
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 11:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40574)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jUAyu-0005JC-G9
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:23:51 -0400
+ (envelope-from <armbru@redhat.com>) id 1jUB2f-00069E-PZ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:26:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jUAvV-0004uf-Pk
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:20:07 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:17637)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jUAvV-0004ry-AF; Thu, 30 Apr 2020 11:16:37 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BA11E746351;
- Thu, 30 Apr 2020 17:16:23 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 96589746344; Thu, 30 Apr 2020 17:16:23 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 94DC474633F;
- Thu, 30 Apr 2020 17:16:23 +0200 (CEST)
-Date: Thu, 30 Apr 2020 17:16:23 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: About hardfloat in ppc
-In-Reply-To: <87ftcoknvu.fsf@linaro.org>
-Message-ID: <alpine.BSF.2.22.395.2004301648440.29315@zero.eik.bme.hu>
-References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
- <87lfmhl0xa.fsf@linaro.org>
- <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
- <87imhlkwun.fsf@linaro.org>
- <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
- <87ftcoknvu.fsf@linaro.org>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (envelope-from <armbru@redhat.com>) id 1jUAzI-00079v-51
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:24:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49108
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jUAzH-00075f-Ik
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:20:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588260030;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DGTCzf8W1nJGIJ2uBeK3E1bPOEIARTXkjExvDTW58kQ=;
+ b=emuyDsvEwcec8e4nGoNruUZwMw2+Llc5ZOBHoB1o+bXHkGAzXCJHF2b5CVNmBFjYpZFfyC
+ kIT69hZa2Bkwd7qV039baHL83zmHks5Zrjyz8/X/RQw+Yi7xLEIvzEIpMXEqr+f7iC48ES
+ CeMfU/lcf2AAALZIDySCIjY6H0osyxE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-cTDrBbqXMRuJJ_MLGFhT1w-1; Thu, 30 Apr 2020 11:20:28 -0400
+X-MC-Unique: cTDrBbqXMRuJJ_MLGFhT1w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F838107ACF2;
+ Thu, 30 Apr 2020 15:20:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 83F9D60CD0;
+ Thu, 30 Apr 2020 15:20:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B6B3911358BC; Thu, 30 Apr 2020 17:20:05 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: Configuring onboard devices
+References: <87mu6uia5i.fsf@dusky.pond.sub.org>
+ <20200429155719.GL1495129@redhat.com>
+ <87k11xh2kq.fsf@dusky.pond.sub.org>
+ <CAFEAcA9-oxkMD-kJ1z12d4K1S_Jaz7Wj6_38Ah7ChSaBfQNkkA@mail.gmail.com>
+ <87tv11e1en.fsf_-_@dusky.pond.sub.org>
+ <51a4e9ea-eca3-6c1d-a753-86c5810ac094@ilande.co.uk>
+ <874kt1dpw7.fsf@dusky.pond.sub.org>
+ <c1fa0770-a07f-e5bc-9db8-6af0576c365f@ilande.co.uk>
+Date: Thu, 30 Apr 2020 17:20:05 +0200
+In-Reply-To: <c1fa0770-a07f-e5bc-9db8-6af0576c365f@ilande.co.uk> (Mark
+ Cave-Ayland's message of "Thu, 30 Apr 2020 15:32:31 +0100")
+Message-ID: <877dxxc862.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1425488018-1588259783=:29315"
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2001:738:2001:2001::2001
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,66 +84,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: luoyonggang@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
 
---3866299591-1425488018-1588259783=:29315
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Tue, 28 Apr 2020, Alex Bennée wrote:
-> 罗勇刚(Yonggang Luo) <luoyonggang@gmail.com> writes:
->> I am confusing why only  inexact  are set then we can use hard-float.
+> On 30/04/2020 15:11, Markus Armbruster wrote:
 >
-> The inexact behaviour of the host hardware may be different from the
-> guest architecture we are trying to emulate and the host hardware may
-> not be configurable to emulate the guest mode.
+>> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+>>=20
+>>> On 30/04/2020 11:03, Markus Armbruster wrote:
+>>>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>>>
+>>>>> On Thu, 30 Apr 2020 at 08:09, Markus Armbruster <armbru@redhat.com> w=
+rote:
+>>>>>> Our means to configure onboard devices are weak.  We sidestepped thi=
+s
+>>>>>> for isa-fdc by taking it off the board, and thus make -device work.
+>>>>>
+>>>>> This seems to be a general dynamic: the x86 pc machine works
+>>>>> via -device options (or is changed so it can work that way);
+>>>>> and then people propose dropping/deprecating/etc the config
+>>>>> options that work with onboard devices, without providing
+>>>>> clear solutions/instructions on how the command line needs
+>>>>> to change/etc for the mass of boards which are not the x86
+>>>>> pc machine and which do have a lot of onboard devices which
+>>>>> can't be handled via -device.
+>>>>>
+>>>>> So my gut reaction to the "we should deprecate -global"
+>>>>> suggestions in this thread was a bit "here we go again"...
+>>>>> What works for x86 or even "what is sufficient for libvirt"
+>>>>> doesn't necessarily cover all the cases.
+>>>>
+>>>> Such shortsighted proposals have been made, but don't think it's what
+>>>> we're doing here.
+>>>>
+>>>> You're 100% right in that we do need to configure onboard devices.
+>>>> -global is a terrible way to do it, though: it applies to *all* device=
+s
+>>>> of a kind.  What if the board has more than one?  What if the can add
+>>>> more?
+>>>>
+>>>> Taking onboard devices off the board can occasionally sidestep the
+>>>> issue.  For isa-fdc, we genuinely *wanted* to take the damn thing off,
+>>>> because all it did for most users was provide them with VENOM.  Not
+>>>> needing -global for it anymore was just a nice bonus.
+>>>>
+>>>> Taking onboard devices off just to reduce the device configuration
+>>>> problem to a solved one, namely -device, may be tempting (it was to me=
+),
+>>>> but it's too intrusive to be practical at scale.
+>>>>
+>>>> Adding machine properties that alias onboard device properties is less
+>>>> intrusive.  The ones I added were still a lot of work.
+>>>>
+>>>> Configuring onboard devices via machine properties restricts property
+>>>> access to the ones we added to the machine.  This differs from pluggab=
+le
+>>>> devices, where users can access all properties.
+>>>>
+>>>> Any better ideas for letting users configure onboard devices?
+>>>
+>>> Is it possible to let machine owners add alias properties to the machin=
+e object
+>>> referencing in-built devices? I could then instantiate my on-board nic =
+in the machine
+>>> init() function, and then use object_property_add_alias() to add a "nic=
+0" alias on
+>>> the machine that can be used to wire it up to a netdev using the comman=
+d line.
+>>=20
+>> Have a look at hw/arm/virt.c's virt_flash_create(), from commit
+>> e0561e60f1 "hw/arm/virt: Support firmware configuration with -blockdev".
+>> It adds machine properties "pflash0" and "pflash1" as aliases for the
+>> onboard flash memory devices' property "drive".
+>>=20
+>> Does this answer your question?
 >
-> Have a look in softfloat.c and see all the places where
-> float_flag_inexact is set. Can you convince yourself that the host
-> hardware will do the same?
-
-Can you convince me that it won't? This all seems to be guessing without 
-evidence so I think what we need first is some tests to prove it either 
-way. Such tests could then also be used at runtime to decide if the host 
-and guest FPU are compatible enough to enable hardfloat. Are such tests 
-available somewhere or what would need to be done to implement them?
-
-This may not solve the problem with PPC target with non-cumulative status 
-bits but could improve hardfloat performance at least for some host-guest 
-combinations. To see if it worth the effort we should run such test on 
-common combinations (say x86_64. ARM and PPC hosts with at least these 
-guests).
-
->> And PPC always clearing inexact  flag before calling to soft-float
->> funcitons. so we can not
->> optimize it with hard-float.
->> I need some resouces about ineact flag and why always clearing inexcat in
->> PPC FP simualtion.
+> Ah I see now, these aliases are for individual properties rather than obj=
+ects. What I
+> was trying to ask was if it were possible to have something like this:
 >
-> Because that is the behaviour of the PPC floating point unit. The
-> inexact flag will represent the last operation done.
+> /machine (SS-5-machine)
+>   /builtin
+>     /nic0 -> link to "lance" device
+>
+> Here nic0 is an alias "published" by the maintainer of the SS-5 machine w=
+hich is
+> configured in the machine init() function using object_property_add_link(=
+) or a
+> suitable wrapper. Users can then configure these builtin devices from the=
+ command
+> line using your -machine nic0.netdev=3Dmy-netdev-id syntax or similar.
 
-More precisely additional to the usual cumulative (or sticky) bits there 
-are two non-sticky bits for inexact and rounded (latter of which is not 
-emulated) that currently need clearing FP status before every FP op. I 
-wonder if we can know when the guest reads these and rerun the last FP op 
-in softfloat to compute them only if these are read, then it's enough to 
-remember the last FP op. This could be relatively simple and may be used 
-even if we don't detect accessing the bits within FPSCR just accessing the 
-FPSCR as likely most guest code does not check that and any cross-platform 
-code won't check PPC specific non-sticky bits so I'd exepect most guest 
-code to be fine with hardfloat. Although what about FP exceptions? We also 
-need to revert to softfloat it FP exceptions are enabled so maybe using 
-host FP exception for managing status bits could be the way to go to let 
-hardware manage this and we don't need to implement everything in 
-software.
+Got it now, thanks!
 
-Regards,
-BALATON Zoltan
---3866299591-1425488018-1588259783=:29315--
+> Having the default devices under /builtin or other known QOM path would e=
+nable
+> builtin devices to be easily enumerated programatically and/or from the c=
+ommand line
+> as required.
+
+There are three standard containers under /machine/:
+
+* /machine/peripheral/
+
+  Devices with a user-specified ID go here, as /machine/peripheral/ID.
+  User-specified means -device or device_add.
+
+  /machine/peripheral/ID is effectively a stable interface.  It's just
+  underdocumented (undocumented?).
+
+  To be useful, the stuff below ID/ needed to be stable and documented,
+  too.
+
+* /machine/peripheral-anon/
+
+  Same, but user elected not to give an ID.
+  /machine/peripheral-anon/device[N], where N counts up from zero in
+  creation order.
+
+  N is obviously not stable, but this is a problem of the user's making.
+  If you want to refer to a device, give it an ID.
+
+* /machine/unattached/
+
+  The orphanage.  When a device has no parent when its realized, it gets
+  put here, as /machine/unattached/device[N], where N counts up from
+  zero in realization order.
+
+  N is obviously not stable, and this time we can't blame the
+  victim^Wuser.  You can search for devices of a certain type.
+  Sometimes that's good enough.
+
+  All the onboard devices are here, and much more.  We've fathered a lot
+  of unloved red-headed children, it seems...
+
+  Some of the "much more" is due to sloppy modelling, i.e. neglecting to
+  set the proper parent.
+
+  I figure we could put onboard devices in a nicer place, with nicer
+  names.  Need a convention for the place and the names, then make board
+  code conform to it.
+
 
