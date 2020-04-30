@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A411BFBDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:02:40 +0200 (CEST)
-Received: from localhost ([::1]:60254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E545A1BFC7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:06:24 +0200 (CEST)
+Received: from localhost ([::1]:43884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU9lv-0006BN-A5
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:02:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
+	id 1jU9pX-0002u2-Se
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:06:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51662)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9ak-0003Nh-6G
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:08 -0400
+ (envelope-from <bounces@canonical.com>) id 1jU9af-0003Kx-T9
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9ai-0000Qu-22
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36108)
+ (envelope-from <bounces@canonical.com>) id 1jU9af-0000Ps-74
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jU9ah-0000QM-IS
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:03 -0400
+ id 1jU9ae-0000Pi-Oh
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:00 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jU9af-0007TN-TF
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:51:01 +0000
+ id 1jU9ad-0007Vb-FY
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:50:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AEB382E8113
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:51:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6342B2E8104
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:50:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Apr 2020 13:43:23 -0000
+Date: Thu, 30 Apr 2020 13:43:56 -0000
 From: Laurent Vivier <Laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=alex.bennee@linaro.org; 
-X-Launchpad-Bug-Tags: mttcg tcg
+ assignee=rth@twiddle.net; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee laurent-vivier yifanlu
-X-Launchpad-Bug-Reporter: Yifan (yifanlu)
+X-Launchpad-Bug-Commenters: laurent-vivier pcc-goog rth
+X-Launchpad-Bug-Reporter: Peter Collingbourne (pcc-goog)
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <158154486735.14935.3370403781300872079.malonedeb@soybean.canonical.com>
-Message-Id: <158825420544.4759.7014151579421884736.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1863025] Re: Use-after-free after flush in TCG accelerator
+References: <158397461074.11691.9165479040998830806.malonedeb@soybean.canonical.com>
+Message-Id: <158825423694.11824.15388430528403491901.malone@wampee.canonical.com>
+Subject: [Bug 1867072] Re: ARM: tag bits cleared in FAR_EL1
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 3ad48901aefa64e2bdb5348293ed3ca9bd347408
+X-Launchpad-Hash: 008532c6094508aa03752e5d889678244bda6726
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:35:36
@@ -69,9 +68,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1863025 <1863025@bugs.launchpad.net>
+Reply-To: Bug 1867072 <1867072@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+Fixed here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D38d931687fa1
+
 
 ** Changed in: qemu
        Status: Fix Committed =3D> Fix Released
@@ -80,61 +83,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1863025
+https://bugs.launchpad.net/bugs/1867072
 
 Title:
-  Use-after-free after flush in TCG accelerator
+  ARM: tag bits cleared in FAR_EL1
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  I believe I found a UAF in TCG that can lead to a guest VM escape. The
-  security list informed me "This can not be treated as a security
-  issue." and to post it here. I am looking at the 4.2.0 source code.
-  The issue requires a race and I will try to describe it in terms of
-  three concurrent threads.
+  The ARM Architecture Reference Manual provides the following for
+  FAR_EL1:
 
-  Thread A:
+  "For a Data Abort or Watchpoint exception, if address tagging is
+  enabled for the address accessed by the data access that caused the
+  exception, then this field includes the tag."
 
-  A1. qemu_tcg_cpu_thread_fn runs work loop
-  A2. qemu_wait_io_event =3D> qemu_wait_io_event_common =3D> process_queued=
-_cpu_work
-  A3. start_exclusive critical section entered
-  A4. do_tb_flush is called, TB memory freed/re-allocated
-  A5. end_exclusive exits critical section
+  However, I have found that the tag bits in FAR_EL1 are always clear,
+  even if the tag bits were set in the original access.
 
-  Thread B:
-
-  B1. qemu_tcg_cpu_thread_fn runs work loop
-  B2. tcg_cpu_exec =3D> cpu_exec =3D> tb_find =3D> tb_gen_code
-  B3. tcg_tb_alloc obtains a new TB
-
-  Thread C:
-
-  C1. qemu_tcg_cpu_thread_fn runs work loop
-  C2. cpu_exec_step_atomic executes
-  C3. TB obtained with tb_lookup__cpu_state or tb_gen_code
-  C4. start_exclusive critical section entered
-  C5. cpu_tb_exec executes the TB code
-  C6. end_exclusive exits critical section
-
-  Consider the following sequence of events:
-  =C2=A0=C2=A0B2 =3D> B3 =3D> C3 (same TB as B2) =3D> A3 =3D> A4 (TB freed)=
- =3D> A5 =3D> B2 =3D>
-  =C2=A0=C2=A0B3 (re-allocates TB from B2) =3D> C4 =3D> C5 (freed/reused TB=
- now executing) =3D> C6
-
-  In short, because thread C uses the TB in the critical section, there
-  is no guarantee that the pointer has not been "freed" (rather the
-  memory is marked as re-usable) and therefore a use-after-free occurs.
-
-  Since the TCG generated code can be in the same memory as the TB data
-  structure, it is possible for an attacker to overwrite the UAF pointer
-  with code generated from TCG. This can overwrite key pointer values
-  and could lead to code execution on the host outside of the TCG
-  sandbox.
+  I can reproduce the problem on both 4.1.1 and master
+  (6e8a73e911f066527e775e04b98f31ebd19db600).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1863025/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1867072/+subscriptions
 
