@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0741C054B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:51:48 +0200 (CEST)
-Received: from localhost ([::1]:52720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156851C0523
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:49:46 +0200 (CEST)
+Received: from localhost ([::1]:46572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUEHj-0007x9-9n
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:51:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38292)
+	id 1jUEFk-0004T4-TB
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:49:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38780)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUDtl-0000kW-K0
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:29:38 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUDwo-000713-IQ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:30:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUDsV-0001hB-NP
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:27:01 -0400
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:44320)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUDwm-00051j-QD
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:30:10 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:55924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jUDsV-0001h4-AB
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:25:43 -0400
-Received: by mail-ot1-x32c.google.com with SMTP id j4so337682otr.11
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:25:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUDwm-0004wl-Bd
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:30:08 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id a32so1088295pje.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/orQlfssKbQ1ui7bKofJaXpsj1uwPA8Cvv2XMAcBwhg=;
- b=C0XHBv6pHNJm3sS9OYzIBlAFRJ2KPJ/2pjuWVtjw3fz7AIvpgaG+prObXgEkn8gA6a
- a6ksU/WsFymP61WAB92m7joC/Yvmq9X0RwZWDaHzpDZShxFdpx7V2VMBQvqX8r+QQcmb
- P9udan1HiOVv6o+vpYw3XOydMFobi8KefTERPYt9YuuIaUWuR6Uv76YX7vzIIJsWeLSg
- UK3a2nnJS6lGVwj39hnCJmzfg+m/JaD3/DIigDQf35QbAB39N06niTN2/xheLWLuSOPH
- EMLeJY1loFwlbuM3P2pzepxhe/XH5YX+gRpcGT9X6sz/n91VtjmXmiu2QXepjyGXmv+O
- +Akw==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=L5jdqP3nOkRKrOSceDd/G4FGfjto9mJjy8zkhK2QHSU=;
+ b=W1rnXekcKUNYSDzepkfU4jYUx9+6kzFG7m4B6WVYq6FHCCMx9MI/yTao9GcBpMFYoV
+ 2yxNetacs9RZsa8dI0Tb9KA7O2EYzeJLauLqA/N8QPILHz271BIicatvtopdO8W4cDYf
+ Kn+gndwXjdmjQijlCQiLW81qzJyW0npz4PqIB1ZbZUjKJehrt9ASYkL8W/KzKzvhk8OK
+ t1r3KqGVvhcsgU3putfj4ZrFO3n/ZPcJpq8M2GgtVqtUXTsn1y9U9+5V1L+pozyeXfkF
+ n+mgt6u1Aw1iA+pcbAtJvSxCzRO6ENf1+cUyjeB0rBw8CoiBEGCMGoAhWFWB5jeEMmXy
+ 86aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/orQlfssKbQ1ui7bKofJaXpsj1uwPA8Cvv2XMAcBwhg=;
- b=JdyB1jS7O4xZtUz/heZ3PzxV3T1jsIu/qfV2ECeGf68qvRdVNwvDmWpc+z1mvv51Zh
- kr1O9JJOYxrhzAOnDbGTNzWbd2YPu5ORTX/TnoEsTG9yjEBs2UMMBrHiA08fzGGlumLF
- UHd7Y2Vo5DemE0m04GQvyHn9eKqwWJekPdRCEWpMMshsl3Q9LvOJWnhXNqConbkMeqEv
- WIvTsvsSGH2mPz6ErZ8y7Ailri1jopzuGBQqh1GkBjPk6HiHvt4bKvxRO3yej1z3WKaC
- H2sCuMvELkx0LZi9xM207gLxdVbY9zg/P7If8+IgB4I13Vn6mHk8SdgqQ3yNw+KHXJHD
- ZQMA==
-X-Gm-Message-State: AGi0PuaecMg0Lq/pZFeqRhKTdy1VmJhHJrfYryuUNjY6GO1UE9Pwe3DQ
- mMuzSkBlEISLXcfhatWcJlE7c3Bj3u2SWs2QqTBJssAm
-X-Google-Smtp-Source: APiQypK4G7MM5hFhs88cm6xC7FZpTFpekY5CUzWjfhqReiev4YKNdwW7kzuHU2pHHtoODw/bsdBxNbERsUa5aZA1550=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id
- e14mr341117otj.91.1588271140496; 
- Thu, 30 Apr 2020 11:25:40 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=L5jdqP3nOkRKrOSceDd/G4FGfjto9mJjy8zkhK2QHSU=;
+ b=Q/HwCNKltSakFXkYvxI4U1JFSFubdGXL/eFwwXLO9in3B+hfkyU+a/+MHpkpoiabBq
+ V/2BPmeQ+E8wAsxSmIRDUSTteeTi0Wc8RTGaXaAqeq+QqFUGMOf678r8nTdNnPUp3Rqk
+ 64hTCJk1Lph0BKgcMAW4mTJGBPg6oiK9hAc68eu3d+deqcgNKnsO8EnpFCgzzuVQQ77i
+ j3Rrl27Iagl0v3b5q5ZZ5fq5WDRWjM7OUMpmfcdIoG/XqjNaBhyzcn9VG90QstA8DhML
+ AvQXYNm/zskMgf4Wc4RppskUQlsg3/v0oYx3I4PYyd+00L/Sck5AhwjVOOaYG6HFrWt+
+ FCug==
+X-Gm-Message-State: AGi0PuYZizlPwj8BvumVbZGIbFHVgqXmGhDq+KBOkaLkkvW//xRAU3rh
+ 5dsp1SMBFPkTkTJ9DFZ0mhYLm7wnU/c=
+X-Google-Smtp-Source: APiQypLZeSo20UTzo0HMgRKfY+/kkQs3KzP5jQ+t/Ol8GGLaSYVgrs1Vl3b+ovBAYgwucc5VGkN0Iw==
+X-Received: by 2002:a17:90a:1b4c:: with SMTP id q70mr90801pjq.55.1588271406456; 
+ Thu, 30 Apr 2020 11:30:06 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id d203sm419462pfd.79.2020.04.30.11.30.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Apr 2020 11:30:05 -0700 (PDT)
+Subject: Re: [PATCH 03/36] target/arm: Add stubs for AArch32 Neon decodetree
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20200430181003.21682-1-peter.maydell@linaro.org>
+ <20200430181003.21682-4-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9fc66f0b-d818-c4e3-db06-5776f97184e6@linaro.org>
+Date: Thu, 30 Apr 2020 11:30:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200430101949.7754-1-edgar.iglesias@gmail.com>
-In-Reply-To: <20200430101949.7754-1-edgar.iglesias@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 30 Apr 2020 19:25:29 +0100
-Message-ID: <CAFEAcA9K80sEp+T4tZY4sY_bky7UyHON9g78NUPrpBB3MnF5Kw@mail.gmail.com>
-Subject: Re: [PULL v1 0/6] Xilinx queue 2020-04-30
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x32c.google.com
+In-Reply-To: <20200430181003.21682-4-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::32c
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,45 +86,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Apr 2020 at 11:19, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
->
-> The following changes since commit 648db19685b7030aa558a4ddbd3a8e53d8c9a062:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2020-04-29' into staging (2020-04-29 15:07:33 +0100)
->
-> are available in the Git repository at:
->
->   git@github.com:edgarigl/qemu.git tags/edgar/xilinx-next-2020-04-30.for-upstream
->
-> for you to fetch changes up to 3ed43b5031ed2d7ef501bb81b87caed960218461:
->
->   target/microblaze: Add the pvr-user2 property (2020-04-30 12:11:03 +0200)
->
-> ----------------------------------------------------------------
-> For upstream
->
-> ----------------------------------------------------------------
-> Edgar E. Iglesias (6):
->       target/microblaze: Add the opcode-0x0-illegal CPU property
->       target/microblaze: Add the ill-opcode-exception property
->       target/microblaze: Add the div-zero-exception property
->       target/microblaze: Add the unaligned-exceptions property
->       target/microblaze: Add the pvr-user1 property
->       target/microblaze: Add the pvr-user2 property
+On 4/30/20 11:09 AM, Peter Maydell wrote:
+> Add the infrastructure for building and invoking a decodetree decoder
+> for the AArch32 Neon encodings.  At the moment the new decoder covers
+> nothing, so we always fall back to the existing hand-written decode.
+> 
+> We follow the same pattern we did for the VFP decodetree conversion
+> (commit 78e138bc1f672c145ef6ace74617d and following): code that deals
+> with Neon will be moving gradually out to translate-neon.vfp.inc,
+> which we #include into translate.c.
+> 
+> In order to share the decode files between A32 and T32, we
+> split Neon into 3 parts:
+>  * data-processing
+>  * load-store
+>  * 'shared' encodings
+> 
+> The first two groups of instructions have similar but not identical
+> A32 and T32 encodings, so we need to manually transform the T32
+> encoding into the A32 one before calling the decoder; the third group
+> covers the Neon instructions which are identical in A32 and T32.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/Makefile.objs        | 18 +++++++++++++++++
+>  target/arm/translate-neon.inc.c | 32 +++++++++++++++++++++++++++++
+>  target/arm/translate.c          | 36 +++++++++++++++++++++++++++++++--
+>  target/arm/neon-dp.decode       | 29 ++++++++++++++++++++++++++
+>  target/arm/neon-ls.decode       | 29 ++++++++++++++++++++++++++
+>  target/arm/neon-shared.decode   | 27 +++++++++++++++++++++++++
+>  6 files changed, 169 insertions(+), 2 deletions(-)
+>  create mode 100644 target/arm/translate-neon.inc.c
+>  create mode 100644 target/arm/neon-dp.decode
+>  create mode 100644 target/arm/neon-ls.decode
+>  create mode 100644 target/arm/neon-shared.decode
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
-
--- PMM
+r~
 
