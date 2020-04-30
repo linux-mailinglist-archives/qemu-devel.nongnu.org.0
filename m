@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 829251BF15E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 09:29:40 +0200 (CEST)
-Received: from localhost ([::1]:45278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0EC1BF1B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 09:42:31 +0200 (CEST)
+Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU3db-0006tX-Fo
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 03:29:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
+	id 1jU3q1-0007px-T7
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 03:42:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36224)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luoyonggang@gmail.com>) id 1jU3aV-0001vR-Tz
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:26:28 -0400
+ (envelope-from <kraxel@redhat.com>) id 1jU3p9-0006wE-1E
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:41:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <luoyonggang@gmail.com>) id 1jU3aU-0003cF-N2
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:26:27 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:35806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1jU3aU-0003bd-7d; Thu, 30 Apr 2020 03:26:26 -0400
-Received: by mail-lj1-x235.google.com with SMTP id g4so5379677ljl.2;
- Thu, 30 Apr 2020 00:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=Blh+bXYzCm61tiI/O9Zciaud0yS5iEonxC4HBJB49kE=;
- b=UtLxSEa/W1kQ7XfiMiJuXGEmgV+KuwoDENH0SiqG/xBOn1fluhJxak0TVBAD/U/Vth
- +chnO8mG22gxerzn52lxH5eJybFvzgclu7lWrvUlWwWiYut8/TE7WvNK4ElSAEaotbNE
- GoXZHL9zdmBmyu1b4rMIx34kQBGeg5Vj1LRYSToD3cAvKgqKzSUjfY+oRkceO4siXn6f
- md7jAt7H4LblVd83mkjs5R9MNwjt1hz3WWv+dC0SMePlxRa4JMutejQAR7DOU5qL0wm5
- oYmrpC1yi6MWTKnPFhOY0csGgvfnEQRAxwnevk7wZRRhIhRPC3kkhO/rAdoz0xmtb5mc
- gWNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=Blh+bXYzCm61tiI/O9Zciaud0yS5iEonxC4HBJB49kE=;
- b=BMTORN7/avW0ZeMMwRX5K+j7duViZvuMBTFZihbcfZl36L9d0mV4g3aE0EryHNj16k
- 7bMSximo9Mye+3I0dNTcYgx+Ryc/TZ9RoVPdC8gUPj36vxPaveVrEI7upEDS5iinrkDp
- wDi3MTd3sYIIPMtku2fCXh1waLslqn2jM8pc2cjMhx7nxGZTMa93VORPuIw1u+sEr86v
- wYaFeAacfbstdfFMMSoFyHssLy+K61Fd62TPgduJBq9wajKGOI9jBfUjOczoq2ltfj3y
- 4AzkdZqHWlsoPF8QY5hGJRV00i8pJQ7p1i8kxCacgJzEKSWPALJF+bDtjwf7wRLy9M0j
- sqCA==
-X-Gm-Message-State: AGi0Pua3hhtp4lvtna4Fp3tq8ngT103maUnQQSh2OCMSpLQCQ+0yyg5v
- Oxj2nWxw7l/uTpe2rXcF2AICTeDWxyRBulupInA=
-X-Google-Smtp-Source: APiQypI5bjsy9CG+9krEu+yPM53Fh6bAT5A7WvMJnz//U8TFTb1f/g2jXrAlM0PrmR0Jq2z8Wq9e5tFHYfSoql1DU9w=
-X-Received: by 2002:a2e:a0cf:: with SMTP id f15mr1225753ljm.165.1588231583877; 
- Thu, 30 Apr 2020 00:26:23 -0700 (PDT)
+ (envelope-from <kraxel@redhat.com>) id 1jU3op-0002Dw-1T
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:41:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41771
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jU3oo-0002De-Hi
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:41:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588232473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zC1dkD2Ku3U/rQ3vGbEgN/L7ampgCzHPn3S2CXa55GI=;
+ b=GSzTQPuFViMzOXnBiHdbKVlYIqhRBXv/gSDgNoUH4OJasML/lC0di08F7xqrxPvDiy3XOK
+ kUt6j6iRSOvsUF9ap1v740INFgYtpf21FO4pufkNwqpN3NijkjJd4fNq8iLj8kH9ul5RMr
+ yu52WTAjv+YDyj4vM1jyaWCv1LxomcA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-132--w9woaBQMUKuImHcfvC5kQ-1; Thu, 30 Apr 2020 03:41:11 -0400
+X-MC-Unique: -w9woaBQMUKuImHcfvC5kQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E3CF107AD9B
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 07:41:10 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
+ [10.36.113.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B53DA196AE;
+ Thu, 30 Apr 2020 07:41:09 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id ADF5F9D98; Thu, 30 Apr 2020 09:41:08 +0200 (CEST)
+Date: Thu, 30 Apr 2020 09:41:08 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 00/12] audio: deprecate -soundhw
+Message-ID: <20200430074108.pxgbu3uyvk77vivd@sirius.home.kraxel.org>
+References: <20200429110214.29037-1-kraxel@redhat.com>
+ <f2d7187a-953c-2b53-07fb-0a3e5f32193d@redhat.com>
 MIME-Version: 1.0
-References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
- <87lfmhl0xa.fsf@linaro.org>
- <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
- <87imhlkwun.fsf@linaro.org>
- <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
- <87ftcoknvu.fsf@linaro.org>
- <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <871ro6ld2f.fsf@linaro.org>
- <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <87sggmjgit.fsf@linaro.org>
- <CAE2XoE8wFK1nOq3YXhB=iqTvqSDQk7Zzd35Tjzdd==v8ouMijA@mail.gmail.com>
- <43ac337c-752a-7151-1e88-de01949571de@linaro.org>
-In-Reply-To: <43ac337c-752a-7151-1e88-de01949571de@linaro.org>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Thu, 30 Apr 2020 15:26:11 +0800
-Message-ID: <CAE2XoE-MM6AR8fmExnst7o9wL4Q_nZkw=gyemMJmZSdPd_ydmg@mail.gmail.com>
-Subject: Re: R: R: About hardfloat in ppc
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000060cf7e05a47cfb68"
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x235.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::235
+In-Reply-To: <f2d7187a-953c-2b53-07fb-0a3e5f32193d@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,112 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Dino Papararo <skizzato73@msn.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Programmingkid <programmingkidx@gmail.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000060cf7e05a47cfb68
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 29, 2020 at 06:54:08PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Hi Gerd,
+>=20
+> On 4/29/20 1:02 PM, Gerd Hoffmann wrote:
+> >=20
+> >=20
+> > Gerd Hoffmann (12):
+> >    stubs: add isa_create_simple
+> >    stubs: add pci_create_simple
+> >    audio: add deprecated_register_soundhw
+> >    audio: deprecate -soundhw ac97
+> >    audio: deprecate -soundhw es1370
+> >    audio: deprecate -soundhw adlib
+> >    audio: deprecate -soundhw cs4231a
+> >    audio: deprecate -soundhw gus
+> >    audio: deprecate -soundhw sb16
+> >    audio: deprecate -soundhw hda
+> >    audio: deprecate -soundhw pcspk
+> >    [RFC] audio: try use onboard audiodev for pcspk
+>=20
+> I don't understand what you are trying to fix with this series.
 
-On Thu, Apr 30, 2020 at 10:18 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Almost nothing.  I'm just deprecating -soundhw, and I don't feel like
+putting too much effort into code which I want remove anyway.
 
-> On 4/29/20 5:20 PM, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:
-> > Question, in hard-float, if we don't want to read the fp register.
-> > for example: If we wanna compute c =3D a + b in fp32
-> > if c =3D a + b In hard float
-> > and if b1 =3D c - a in hard float
-> > if b1 !=3D b at bitwise level, the we se the inexat to 1, otherwsie
-> > we set inexat bit to 0? are this valid?
-> >
-> > we can also do it for a * b, a - b, a / b.
-> >
->
-> That does seem plausible, for all of the normal values for which we would
-> apply
-> the hard-float optimization anyway.  But we already check for the
-> exceptional
-> cases:
->
->     if (unlikely(f32_is_inf(ur))) {
->         s->float_exception_flags |=3D float_flag_overflow;
->     } else if (unlikely(fabsf(ur.h) <=3D FLT_MIN)) {
->         if (post =3D=3D NULL || post(ua, ub)) {
->             goto soft;
->         }
->     }
->
-> I means remove of all thse  exceptional cases, and detecting float
-exception by hard float operation.
+The new deprecated_register_soundhw() is there to allow removing the
+init callback for most hardware and have common code handle the simple
+cases.  Alternatively I could leave things as-is and just copy&paste the
+deprecation warning into each init callback.
 
->
-> r~
->
+The only functional change (beside the added deprecation warnings) is
+that the pcspk realize function initializes audio in case audiodev is
+set, so "-global isa-pcspk.audiodev=3D<something>" is enough to activate
+the speaker.  The need to also have "-soundhw pcspk" on the command line
+is gone.
 
+> I suppose there is a problem with the pcspk, as I had a problem when I tr=
+ied
+> to make the soundhw more QOM-friendly.
 
---=20
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+I see your patch adds a deprecation warning for -soundhw too.  I'm
+wondering why you want convert this to QOM now just to throw away the
+code in a few months?
 
---00000000000060cf7e05a47cfb68
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+cheers,
+  Gerd
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 30, 2020 at 10:18 AM Rich=
-ard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.h=
-enderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On 4/29/20 5:20 PM, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang=
- Luo) wrote:<br>
-&gt; Question, in hard-float, if we don&#39;t want to read the fp register.=
-<br>
-&gt; for example: If we wanna compute c =3D a=C2=A0+ b in fp32<br>
-&gt; if c =3D a=C2=A0+ b In hard float<br>
-&gt; and if b1 =3D c - a in hard float<br>
-&gt; if b1 !=3D b at bitwise level, the we se the=C2=A0inexat=C2=A0to 1, ot=
-herwsie=C2=A0<br>
-&gt; we set inexat=C2=A0bit to 0? are this valid?<br>
-&gt; <br>
-&gt; we can also do it for a * b, a - b, a / b.=C2=A0<br>
-&gt; <br>
-<br>
-That does seem plausible, for all of the normal values for which we would a=
-pply<br>
-the hard-float optimization anyway.=C2=A0 But we already check for the exce=
-ptional<br>
-cases:<br>
-<br>
-=C2=A0 =C2=A0 if (unlikely(f32_is_inf(ur))) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;float_exception_flags |=3D float_flag_ove=
-rflow;<br>
-=C2=A0 =C2=A0 } else if (unlikely(fabsf(ur.h) &lt;=3D FLT_MIN)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (post =3D=3D NULL || post(ua, ub)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto soft;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 }<br>
-<br></blockquote><div>I means remove of all thse=C2=A0 exceptional cases, a=
-nd detecting float exception by hard float operation.=C2=A0=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-r~<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div></div>
-
---00000000000060cf7e05a47cfb68--
 
