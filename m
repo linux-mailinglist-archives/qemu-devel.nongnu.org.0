@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01DD51BF476
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:47:42 +0200 (CEST)
-Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E3F1BF49E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:57:10 +0200 (CEST)
+Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU5nA-0000OF-Pt
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48958)
+	id 1jU5wL-0001gh-Jb
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48984)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5lP-0006vA-9l
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:51 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jU5lX-0007D8-E2
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5lO-0004t1-Iw
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37300
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1jU5lV-0004u3-JB
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:59 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28942
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lO-0004sp-5N
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:50 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lV-0004tW-3c
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588239949;
+ s=mimecast20190719; t=1588239956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BS1OTMj3cM/dQU9uL1hNwAoaKVh1h7yVeS/oW2+J0wk=;
- b=hhC+qGuDJAkuuGnLiV470UDTS0YngPi8RjEgOD4DEQAq24E5zoH2etx+pIsjfYlm5Zo5JR
- Rer1XDk6vEnYazgGKAKS1EosX07W2WgRfc4oKaBcLVJc8z6SCPwL+pe3aaTNlKir8HbNVs
- vRfU1UgL2hXM/r5oAFCJl89rVAUwQCg=
+ bh=Xx4GnwwIMEZJpXo95gX5MFEhzflTgauEL/OXE4r4toA=;
+ b=E1RwPpwlGGwFYECfvbchJssKoMfU3bNYi4Fpv3+Ywo87RqV+TPFu9tVoOIfbp1A54ZRPfJ
+ Z7R1zUYrTvYjpRaogQSXY1dwEbFKrQQ/AZdAxmvappWZIUMQVICL0U2cXSt+udiD9ugXhf
+ 5nTB+qJU8l2wjBoLE75iv0/3P7hjuCM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-13skX_mTMBKHuzUy8mjv-A-1; Thu, 30 Apr 2020 05:45:47 -0400
-X-MC-Unique: 13skX_mTMBKHuzUy8mjv-A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-236-KZlcrWHhPz63v_1j0cQ0qA-1; Thu, 30 Apr 2020 05:45:52 -0400
+X-MC-Unique: KZlcrWHhPz63v_1j0cQ0qA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35654835B41;
- Thu, 30 Apr 2020 09:45:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D803A7BB3;
+ Thu, 30 Apr 2020 09:45:50 +0000 (UTC)
 Received: from localhost (ovpn-112-226.ams2.redhat.com [10.36.112.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 052C026552;
- Thu, 30 Apr 2020 09:45:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8BBE5117E;
+ Thu, 30 Apr 2020 09:45:47 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/20] s390x: protvirt: Move diag 308 data over SIDA
-Date: Thu, 30 Apr 2020 11:44:37 +0200
-Message-Id: <20200430094445.25943-13-cohuck@redhat.com>
+Subject: [PULL 13/20] s390x: protvirt: Disable address checks for PV guest IO
+ emulation
+Date: Thu, 30 Apr 2020 11:44:38 +0200
+Message-Id: <20200430094445.25943-14-cohuck@redhat.com>
 In-Reply-To: <20200430094445.25943-1-cohuck@redhat.com>
 References: <20200430094445.25943-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,90 +74,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-For protected guests the IPIB is written/read to/from the SIDA, so we
-need those accesses to go through s390_cpu_pv_mem_read/write().
+IO instruction data is routed through SIDAD for protected guests, so
+adresses do not need to be checked, as this is kernel memory which is
+always available.
+
+Also the instruction data always starts at offset 0 of the SIDAD.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200319131921.2367-12-frankja@linux.ibm.com>
+Message-Id: <20200319131921.2367-13-frankja@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/diag.c | 25 ++++++++++++++++++++-----
- 1 file changed, 20 insertions(+), 5 deletions(-)
+ target/s390x/ioinst.c | 35 ++++++++++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 7 deletions(-)
 
-diff --git a/target/s390x/diag.c b/target/s390x/diag.c
-index b2cbefb8cfe4..1a4842956402 100644
---- a/target/s390x/diag.c
-+++ b/target/s390x/diag.c
-@@ -75,6 +75,7 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1, uin=
-t64_t r3, uintptr_t ra)
- {
-     bool valid;
-     CPUState *cs =3D env_cpu(env);
-+    S390CPU *cpu =3D S390_CPU(cs);
-     uint64_t addr =3D  env->regs[r1];
-     uint64_t subcode =3D env->regs[r3];
-     IplParameterBlock *iplb;
-@@ -111,13 +112,22 @@ void handle_diag_308(CPUS390XState *env, uint64_t r1,=
- uint64_t r3, uintptr_t ra)
-             return;
-         }
-         iplb =3D g_new0(IplParameterBlock, 1);
--        cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
-+        if (!s390_is_pv()) {
-+            cpu_physical_memory_read(addr, iplb, sizeof(iplb->len));
-+        } else {
-+            s390_cpu_pv_mem_read(cpu, 0, iplb, sizeof(iplb->len));
-+        }
+diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
+index 0e840cc5792a..8828482eec30 100644
+--- a/target/s390x/ioinst.c
++++ b/target/s390x/ioinst.c
+@@ -16,6 +16,25 @@
+ #include "hw/s390x/ioinst.h"
+ #include "trace.h"
+ #include "hw/s390x/s390-pci-bus.h"
++#include "hw/s390x/pv.h"
 +
-         if (!iplb_valid_len(iplb)) {
-             env->regs[r1 + 1] =3D DIAG_308_RC_INVALID;
-             goto out;
-         }
++/* All I/O instructions but chsc use the s format */
++static uint64_t get_address_from_regs(CPUS390XState *env, uint32_t ipb,
++                                      uint8_t *ar)
++{
++    /*
++     * Addresses for protected guests are all offsets into the
++     * satellite block which holds the IO control structures. Those
++     * control structures are always starting at offset 0 and are
++     * always aligned and accessible. So we can return 0 here which
++     * will pass the following address checks.
++     */
++    if (s390_is_pv()) {
++        *ar =3D 0;
++        return 0;
++    }
++    return decode_basedisp_s(env, ipb, ar);
++}
 =20
--        cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-+        if (!s390_is_pv()) {
-+            cpu_physical_memory_read(addr, iplb, be32_to_cpu(iplb->len));
-+        } else {
-+            s390_cpu_pv_mem_read(cpu, 0, iplb, be32_to_cpu(iplb->len));
-+        }
+ int ioinst_disassemble_sch_ident(uint32_t value, int *m, int *cssid, int *=
+ssid,
+                                  int *schid)
+@@ -114,7 +133,7 @@ void ioinst_handle_msch(S390CPU *cpu, uint64_t reg1, ui=
+nt32_t ipb, uintptr_t ra)
+     CPUS390XState *env =3D &cpu->env;
+     uint8_t ar;
 =20
-         valid =3D subcode =3D=3D DIAG308_PV_SET ? iplb_valid_pv(iplb) : ip=
-lb_valid(iplb);
-         if (!valid) {
-@@ -140,12 +150,17 @@ out:
-         } else {
-             iplb =3D s390_ipl_get_iplb();
-         }
--        if (iplb) {
-+        if (!iplb) {
-+            env->regs[r1 + 1] =3D DIAG_308_RC_NO_CONF;
-+            return;
-+        }
-+
-+        if (!s390_is_pv()) {
-             cpu_physical_memory_write(addr, iplb, be32_to_cpu(iplb->len));
--            env->regs[r1 + 1] =3D DIAG_308_RC_OK;
-         } else {
--            env->regs[r1 + 1] =3D DIAG_308_RC_NO_CONF;
-+            s390_cpu_pv_mem_write(cpu, 0, iplb, be32_to_cpu(iplb->len));
-         }
-+        env->regs[r1 + 1] =3D DIAG_308_RC_OK;
+-    addr =3D decode_basedisp_s(env, ipb, &ar);
++    addr =3D get_address_from_regs(env, ipb, &ar);
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
          return;
-     case DIAG308_PV_START:
-         iplb =3D s390_ipl_get_iplb_pv();
+@@ -171,7 +190,7 @@ void ioinst_handle_ssch(S390CPU *cpu, uint64_t reg1, ui=
+nt32_t ipb, uintptr_t ra)
+     CPUS390XState *env =3D &cpu->env;
+     uint8_t ar;
+=20
+-    addr =3D decode_basedisp_s(env, ipb, &ar);
++    addr =3D get_address_from_regs(env, ipb, &ar);
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+@@ -203,7 +222,7 @@ void ioinst_handle_stcrw(S390CPU *cpu, uint32_t ipb, ui=
+ntptr_t ra)
+     CPUS390XState *env =3D &cpu->env;
+     uint8_t ar;
+=20
+-    addr =3D decode_basedisp_s(env, ipb, &ar);
++    addr =3D get_address_from_regs(env, ipb, &ar);
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+@@ -234,7 +253,7 @@ void ioinst_handle_stsch(S390CPU *cpu, uint64_t reg1, u=
+int32_t ipb,
+     CPUS390XState *env =3D &cpu->env;
+     uint8_t ar;
+=20
+-    addr =3D decode_basedisp_s(env, ipb, &ar);
++    addr =3D get_address_from_regs(env, ipb, &ar);
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return;
+@@ -303,7 +322,7 @@ int ioinst_handle_tsch(S390CPU *cpu, uint64_t reg1, uin=
+t32_t ipb, uintptr_t ra)
+         return -EIO;
+     }
+     trace_ioinst_sch_id("tsch", cssid, ssid, schid);
+-    addr =3D decode_basedisp_s(env, ipb, &ar);
++    addr =3D get_address_from_regs(env, ipb, &ar);
+     if (addr & 3) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+         return -EIO;
+@@ -601,7 +620,7 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb, uin=
+tptr_t ra)
+ {
+     ChscReq *req;
+     ChscResp *res;
+-    uint64_t addr;
++    uint64_t addr =3D 0;
+     int reg;
+     uint16_t len;
+     uint16_t command;
+@@ -610,7 +629,9 @@ void ioinst_handle_chsc(S390CPU *cpu, uint32_t ipb, uin=
+tptr_t ra)
+=20
+     trace_ioinst("chsc");
+     reg =3D (ipb >> 20) & 0x00f;
+-    addr =3D env->regs[reg];
++    if (!s390_is_pv()) {
++        addr =3D env->regs[reg];
++    }
+     /* Page boundary? */
+     if (addr & 0xfff) {
+         s390_program_interrupt(env, PGM_SPECIFICATION, ra);
 --=20
 2.21.1
 
