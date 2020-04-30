@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9D91BF739
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:56:36 +0200 (CEST)
-Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BDD1BF7C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:01:44 +0200 (CEST)
+Received: from localhost ([::1]:44140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7nv-0003Cc-54
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33798)
+	id 1jU7st-00046l-Ic
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:01:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33804)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jZ-0002wm-Gw
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:08 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jZ-0002xY-Se
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jX-0000NR-9V
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jX-0000Nr-Tb
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:05 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35183)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jU7jV-0000Mn-HY
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:01 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id r26so1551868wmh.0
+ id 1jU7jX-0000My-BF
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:03 -0400
+Received: by mail-wm1-x344.google.com with SMTP id z6so1552879wml.2
  for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5Ha2gvJ6Lz6JIzIjwUnkZaNBrlTY50iNH7waG0Y7ui0=;
- b=AV0bNcnSQUIdCextyCxxZ+F1WDwAtrr6ibftu4FNBZ/1X+TQIqHjasasc1yNxNUQo7
- P2Zn3c39a8T0yBYzgWYoMpTguYTARnB4t7uR8UlDjcxjEqJPxTgCv6cwy4DKShjx1ASC
- n0SEolLmVfnYw2QP8Dzm8scTujRyC/u+rWnu73Wnp29NGXRHPnx/Ms/wF04jDRsLeqcE
- htB1aBMtpZeF/Jw3hm+4uNu/a86L7SUe6Qm2AT2ZRRo+YUCNmlKMMRuIU8YrQz0Ts2e1
- 2gsxXlApCnLXVB666yZb4df9moKLR/HVTkfnVZe5sDPj2biMWSProxLVh65xQBWMDbfi
- 5/YQ==
+ bh=AJXfL2jqd2Dghtxu48PtxiUOw3gg5pYzLqvjsbDeTtM=;
+ b=bR2Guo3cmsKHeNGDvjTWtUudMl7Zwk+ALqx4uYrj8z0TM591a8TkX6wTnJfqeW3rLQ
+ tS9MvX3rAAFbjo7+Zs3//YHvwr9OfPaSu3x7wZpzIVG0+DNapDdqMWIyA5v6POaJQbGB
+ vttOXgIRb0mIqFVV883mAX4gzxmXvOI44suJtBKCbn8hsZEjF5vBAMpeiSh8sUbpVWVL
+ xL5fP3Y5QqZuWRjRbjOfeuwS1qTj5og5XOsh7oiQhExWg/OlS62CAK+te0b1cnEh7NxT
+ ARs0waWPKHXYuUa3TKqUwUiV2aCo4NN8cCnf+Em8l5bBv58grX2H4AP3hGSxmTsg22j8
+ ZoBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5Ha2gvJ6Lz6JIzIjwUnkZaNBrlTY50iNH7waG0Y7ui0=;
- b=BSZnQZDOvhuvyAh+xGPrvzHoOm0IrI0j6Tuxhko4B32HBr/EAHju4qGot+yd0cxdba
- ZbxcpZiQeHLHMToLXVHfsYMxS4K1x801XXzWhBfxZYsmaQg/9yqa5Pm5KARNfpm+mYQs
- 8T665Rc2qpQbjUOyIuCqZY+f/N23YA01eR/Qjz+ft9X5v/8LFTNU8rCzL0O//9zf34Ks
- IYNJVj5hf/ty1XOaHbAxu4gn0F0BRDE5cOZmhXFOhiZR7gvOfJ6hXZ3Mwy1P7ScYPzWN
- TT10VaDsUxrpKL1fipb3k/mgNbN4MhDLQcvisFgUjp8KBOAHhY/BwyhyP97jSeHlFUvr
- O76A==
-X-Gm-Message-State: AGi0PuaWdyDrqxUXfPgcPiQ1LbU5cWbmnnUSb7tbQbuM2OfqpH/WhUXU
- 5E+isNyz7BbeSf5ruo3Y1QjdwP1DqfIXMw==
-X-Google-Smtp-Source: APiQypKNRZryjwLt+4+p3S6iVIfAnBlL5ns7HH7yhp51SeDuzDjNgH2BDORl7Q4Qk7Eb70b9eEHR/w==
-X-Received: by 2002:a7b:c250:: with SMTP id b16mr2684033wmj.100.1588247519169; 
- Thu, 30 Apr 2020 04:51:59 -0700 (PDT)
+ bh=AJXfL2jqd2Dghtxu48PtxiUOw3gg5pYzLqvjsbDeTtM=;
+ b=ZlZ+QaNzJJ7kNzLpK/X4KWZdV5HMXLWnGKxJ9cbraU/rCTO3GS9VqUz6l2Ss3x0Ees
+ dEdGIPVL+xGygRaWZORjnG5/i6QVopeeRh2K16a7Ngd1fLoUhch5NcugUEW5DF/RZAFa
+ BmfjcAdIuYg8tnA32XlCuNT+TBmRaUkzpxCqEWnMyNFHrlYIbTEHOndOMmZQEU5SWcRb
+ 2Nmb5YNW9sFHZ/uJhXSlwyplHfNOzJZRzesZ/HduHoekG1WlziPJJZYYlGlTh+QOzdnT
+ OKNOB6HyONOjPe/iLeOVWfm5+Q2H1okKsvSZmVmMd6OJ2PFNedWoV9/WVuxEyQPmsgop
+ UMAQ==
+X-Gm-Message-State: AGi0PuaR6rlJkD3EJpJV5S3QhRvfoX2YKYnmdKYds8gc6xobN0GZrsk1
+ rZMnSAdaG7wZ/Vi4xCGXGY1j9gZa5ZGTLA==
+X-Google-Smtp-Source: APiQypIG1roLGNJ8l8EAirmy+i/A2hW9SaJQVr7TLsaM0uh9SNNoEQ4/xsCNVtpgrjJUxUfj9SeynQ==
+X-Received: by 2002:a05:600c:21ca:: with SMTP id
+ x10mr2459835wmj.113.1588247520173; 
+ Thu, 30 Apr 2020 04:52:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.51.57
+ by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.51.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:51:58 -0700 (PDT)
+ Thu, 30 Apr 2020 04:51:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/31] docs/clocks: add device's clock documentation
-Date: Thu, 30 Apr 2020 12:51:24 +0100
-Message-Id: <20200430115142.13430-14-peter.maydell@linaro.org>
+Subject: [PULL 14/31] hw/misc/zynq_slcr: add clock generation for uarts
+Date: Thu, 30 Apr 2020 12:51:25 +0100
+Message-Id: <20200430115142.13430-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430115142.13430-1-peter.maydell@linaro.org>
 References: <20200430115142.13430-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::32b
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,430 +85,278 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the documentation about the clock inputs and outputs in devices.
+From: Damien Hedde <damien.hedde@greensocs.com>
 
-This is based on the original work of Frederic Konrad.
+Add some clocks to zynq_slcr
++ the main input clock (ps_clk)
++ the reference clock outputs for each uart (uart0 & 1)
+
+This commit also transitional the slcr to multi-phase reset as it is
+required to initialize the clocks correctly.
+
+The clock frequencies are computed using the internal pll & uart configuration
+registers and the input ps_clk frequency.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20200406135251.157596-6-damien.hedde@greensocs.com
-[PMM: Editing pass for minor grammar, style and Sphinx
- formatting fixes]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20200406135251.157596-7-damien.hedde@greensocs.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/devel/clocks.rst | 391 ++++++++++++++++++++++++++++++++++++++++++
- docs/devel/index.rst  |   1 +
- 2 files changed, 392 insertions(+)
- create mode 100644 docs/devel/clocks.rst
+ hw/misc/zynq_slcr.c | 172 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 168 insertions(+), 4 deletions(-)
 
-diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-new file mode 100644
-index 00000000000..e5da28e2111
---- /dev/null
-+++ b/docs/devel/clocks.rst
-@@ -0,0 +1,391 @@
-+Modelling a clock tree in QEMU
-+==============================
+diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
+index b9a38272d96..f7472d1f3c0 100644
+--- a/hw/misc/zynq_slcr.c
++++ b/hw/misc/zynq_slcr.c
+@@ -22,6 +22,7 @@
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "hw/registerfields.h"
++#include "hw/qdev-clock.h"
+ 
+ #ifndef ZYNQ_SLCR_ERR_DEBUG
+ #define ZYNQ_SLCR_ERR_DEBUG 0
+@@ -45,6 +46,12 @@ REG32(LOCKSTA, 0x00c)
+ REG32(ARM_PLL_CTRL, 0x100)
+ REG32(DDR_PLL_CTRL, 0x104)
+ REG32(IO_PLL_CTRL, 0x108)
++/* fields for [ARM|DDR|IO]_PLL_CTRL registers */
++    FIELD(xxx_PLL_CTRL, PLL_RESET, 0, 1)
++    FIELD(xxx_PLL_CTRL, PLL_PWRDWN, 1, 1)
++    FIELD(xxx_PLL_CTRL, PLL_BYPASS_QUAL, 3, 1)
++    FIELD(xxx_PLL_CTRL, PLL_BYPASS_FORCE, 4, 1)
++    FIELD(xxx_PLL_CTRL, PLL_FPDIV, 12, 7)
+ REG32(PLL_STATUS, 0x10c)
+ REG32(ARM_PLL_CFG, 0x110)
+ REG32(DDR_PLL_CFG, 0x114)
+@@ -64,6 +71,10 @@ REG32(SMC_CLK_CTRL, 0x148)
+ REG32(LQSPI_CLK_CTRL, 0x14c)
+ REG32(SDIO_CLK_CTRL, 0x150)
+ REG32(UART_CLK_CTRL, 0x154)
++    FIELD(UART_CLK_CTRL, CLKACT0, 0, 1)
++    FIELD(UART_CLK_CTRL, CLKACT1, 1, 1)
++    FIELD(UART_CLK_CTRL, SRCSEL,  4, 2)
++    FIELD(UART_CLK_CTRL, DIVISOR, 8, 6)
+ REG32(SPI_CLK_CTRL, 0x158)
+ REG32(CAN_CLK_CTRL, 0x15c)
+ REG32(CAN_MIOCLK_CTRL, 0x160)
+@@ -179,11 +190,127 @@ typedef struct ZynqSLCRState {
+     MemoryRegion iomem;
+ 
+     uint32_t regs[ZYNQ_SLCR_NUM_REGS];
 +
-+What are clocks?
-+----------------
++    Clock *ps_clk;
++    Clock *uart0_ref_clk;
++    Clock *uart1_ref_clk;
+ } ZynqSLCRState;
+ 
+-static void zynq_slcr_reset(DeviceState *d)
++/*
++ * return the output frequency of ARM/DDR/IO pll
++ * using input frequency and PLL_CTRL register
++ */
++static uint64_t zynq_slcr_compute_pll(uint64_t input, uint32_t ctrl_reg)
+ {
+-    ZynqSLCRState *s = ZYNQ_SLCR(d);
++    uint32_t mult = ((ctrl_reg & R_xxx_PLL_CTRL_PLL_FPDIV_MASK) >>
++            R_xxx_PLL_CTRL_PLL_FPDIV_SHIFT);
 +
-+Clocks are QOM objects developed for the purpose of modelling the
-+distribution of clocks in QEMU.
++    /* first, check if pll is bypassed */
++    if (ctrl_reg & R_xxx_PLL_CTRL_PLL_BYPASS_FORCE_MASK) {
++        return input;
++    }
 +
-+They allow us to model the clock distribution of a platform and detect
-+configuration errors in the clock tree such as badly configured PLL, clock
-+source selection or disabled clock.
++    /* is pll disabled ? */
++    if (ctrl_reg & (R_xxx_PLL_CTRL_PLL_RESET_MASK |
++                    R_xxx_PLL_CTRL_PLL_PWRDWN_MASK)) {
++        return 0;
++    }
 +
-+The object is *Clock* and its QOM name is ``clock`` (in C code, the macro
-+``TYPE_CLOCK``).
++    /* frequency multiplier -> period division */
++    return input / mult;
++}
 +
-+Clocks are typically used with devices where they are used to model inputs
-+and outputs. They are created in a similar way to GPIOs. Inputs and outputs
-+of different devices can be connected together.
++/*
++ * return the output period of a clock given:
++ * + the periods in an array corresponding to input mux selector
++ * + the register xxx_CLK_CTRL value
++ * + enable bit index in ctrl register
++ *
++ * This function makes the assumption that the ctrl_reg value is organized as
++ * follows:
++ * + bits[13:8]  clock frequency divisor
++ * + bits[5:4]   clock mux selector (index in array)
++ * + bits[index] clock enable
++ */
++static uint64_t zynq_slcr_compute_clock(const uint64_t periods[],
++                                        uint32_t ctrl_reg,
++                                        unsigned index)
++{
++    uint32_t srcsel = extract32(ctrl_reg, 4, 2); /* bits [5:4] */
++    uint32_t divisor = extract32(ctrl_reg, 8, 6); /* bits [13:8] */
 +
-+In these cases a Clock object is a child of a Device object, but this
-+is not a requirement. Clocks can be independent of devices. For
-+example it is possible to create a clock outside of any device to
-+model the main clock source of a machine.
-+
-+Here is an example of clocks::
-+
-+    +---------+      +----------------------+   +--------------+
-+    | Clock 1 |      |       Device B       |   |   Device C   |
-+    |         |      | +-------+  +-------+ |   | +-------+    |
-+    |         |>>-+-->>|Clock 2|  |Clock 3|>>--->>|Clock 6|    |
-+    +---------+   |  | | (in)  |  | (out) | |   | | (in)  |    |
-+                  |  | +-------+  +-------+ |   | +-------+    |
-+                  |  |            +-------+ |   +--------------+
-+                  |  |            |Clock 4|>>
-+                  |  |            | (out) | |   +--------------+
-+                  |  |            +-------+ |   |   Device D   |
-+                  |  |            +-------+ |   | +-------+    |
-+                  |  |            |Clock 5|>>--->>|Clock 7|    |
-+                  |  |            | (out) | |   | | (in)  |    |
-+                  |  |            +-------+ |   | +-------+    |
-+                  |  +----------------------+   |              |
-+                  |                             | +-------+    |
-+                  +----------------------------->>|Clock 8|    |
-+                                                | | (in)  |    |
-+                                                | +-------+    |
-+                                                +--------------+
-+
-+Clocks are defined in the ``include/hw/clock.h`` header and device
-+related functions are defined in the ``include/hw/qdev-clock.h``
-+header.
-+
-+The clock state
-+---------------
-+
-+The state of a clock is its period; it is stored as an integer
-+representing it in units of 2 :sup:`-32` ns. The special value of 0 is used to
-+represent the clock being inactive or gated. The clocks do not model
-+the signal itself (pin toggling) or other properties such as the duty
-+cycle.
-+
-+All clocks contain this state: outputs as well as inputs. This allows
-+the current period of a clock to be fetched at any time. When a clock
-+is updated, the value is immediately propagated to all connected
-+clocks in the tree.
-+
-+To ease interaction with clocks, helpers with a unit suffix are defined for
-+every clock state setter or getter. The suffixes are:
-+
-+- ``_ns`` for handling periods in nanoseconds
-+- ``_hz`` for handling frequencies in hertz
-+
-+The 0 period value is converted to 0 in hertz and vice versa. 0 always means
-+that the clock is disabled.
-+
-+Adding a new clock
-+------------------
-+
-+Adding clocks to a device must be done during the init method of the Device
-+instance.
-+
-+To add an input clock to a device, the function ``qdev_init_clock_in()``
-+must be used.  It takes the name, a callback and an opaque parameter
-+for the callback (this will be explained in a following section).
-+Output is simpler; only the name is required. Typically::
-+
-+    qdev_init_clock_in(DEVICE(dev), "clk_in", clk_in_callback, dev);
-+    qdev_init_clock_out(DEVICE(dev), "clk_out");
-+
-+Both functions return the created Clock pointer, which should be saved in the
-+device's state structure for further use.
-+
-+These objects will be automatically deleted by the QOM reference mechanism.
-+
-+Note that it is possible to create a static array describing clock inputs and
-+outputs. The function ``qdev_init_clocks()`` must be called with the array as
-+parameter to initialize the clocks: it has the same behaviour as calling the
-+``qdev_init_clock_in/out()`` for each clock in the array. To ease the array
-+construction, some macros are defined in ``include/hw/qdev-clock.h``.
-+As an example, the following creates 2 clocks to a device: one input and one
-+output.
-+
-+.. code-block:: c
-+
-+    /* device structure containing pointers to the clock objects */
-+    typedef struct MyDeviceState {
-+        DeviceState parent_obj;
-+        Clock *clk_in;
-+        Clock *clk_out;
-+    } MyDeviceState;
++    /* first, check if clock is disabled */
++    if (((ctrl_reg >> index) & 1u) == 0) {
++        return 0;
++    }
 +
 +    /*
-+     * callback for the input clock (see "Callback on input clock
-+     * change" section below for more information).
++     * according to the Zynq technical ref. manual UG585 v1.12.2 in
++     * Clocks chapter, section 25.10.1 page 705:
++     * "The 6-bit divider provides a divide range of 1 to 63"
++     * We follow here what is implemented in linux kernel and consider
++     * the 0 value as a bypass (no division).
 +     */
-+    static void clk_in_callback(void *opaque);
++    /* frequency divisor -> period multiplication */
++    return periods[srcsel] * (divisor ? divisor : 1u);
++}
 +
-+    /*
-+     * static array describing clocks:
-+     * + a clock input named "clk_in", whose pointer is stored in
-+     *   the clk_in field of a MyDeviceState structure with callback
-+     *   clk_in_callback.
-+     * + a clock output named "clk_out" whose pointer is stored in
-+     *   the clk_out field of a MyDeviceState structure.
-+     */
-+    static const ClockPortInitArray mydev_clocks = {
-+        QDEV_CLOCK_IN(MyDeviceState, clk_in, clk_in_callback),
-+        QDEV_CLOCK_OUT(MyDeviceState, clk_out),
-+        QDEV_CLOCK_END
-+    };
++/*
++ * macro helper around zynq_slcr_compute_clock to avoid repeating
++ * the register name.
++ */
++#define ZYNQ_COMPUTE_CLK(state, plls, reg, enable_field) \
++    zynq_slcr_compute_clock((plls), (state)->regs[reg], \
++                            reg ## _ ## enable_field ## _SHIFT)
 +
-+    /* device initialization function */
-+    static void mydev_init(Object *obj)
-+    {
-+        /* cast to MyDeviceState */
-+        MyDeviceState *mydev = MYDEVICE(obj);
-+        /* create and fill the pointer fields in the MyDeviceState */
-+        qdev_init_clocks(mydev, mydev_clocks);
-+        [...]
++/**
++ * Compute and set the ouputs clocks periods.
++ * But do not propagate them further. Connected clocks
++ * will not receive any updates (See zynq_slcr_compute_clocks())
++ */
++static void zynq_slcr_compute_clocks(ZynqSLCRState *s)
++{
++    uint64_t ps_clk = clock_get(s->ps_clk);
++
++    /* consider outputs clocks are disabled while in reset */
++    if (device_is_in_reset(DEVICE(s))) {
++        ps_clk = 0;
 +    }
 +
-+An alternative way to create a clock is to simply call
-+``object_new(TYPE_CLOCK)``. In that case the clock will neither be an
-+input nor an output of a device. After the whole QOM hierarchy of the
-+clock has been set ``clock_setup_canonical_path()`` should be called.
++    uint64_t io_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_IO_PLL_CTRL]);
++    uint64_t arm_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_ARM_PLL_CTRL]);
++    uint64_t ddr_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_DDR_PLL_CTRL]);
 +
-+At creation, the period of the clock is 0: the clock is disabled. You can
-+change it using ``clock_set_ns()`` or ``clock_set_hz()``.
++    uint64_t uart_mux[4] = {io_pll, io_pll, arm_pll, ddr_pll};
 +
-+Note that if you are creating a clock with a fixed period which will never
-+change (for example the main clock source of a board), then you'll have
-+nothing else to do. This value will be propagated to other clocks when
-+connecting the clocks together and devices will fetch the right value during
-+the first reset.
++    /* compute uartX reference clocks */
++    clock_set(s->uart0_ref_clk,
++              ZYNQ_COMPUTE_CLK(s, uart_mux, R_UART_CLK_CTRL, CLKACT0));
++    clock_set(s->uart1_ref_clk,
++              ZYNQ_COMPUTE_CLK(s, uart_mux, R_UART_CLK_CTRL, CLKACT1));
++}
 +
-+Retrieving clocks from a device
-+-------------------------------
++/**
++ * Propagate the outputs clocks.
++ * zynq_slcr_compute_clocks() should have been called before
++ * to configure them.
++ */
++static void zynq_slcr_propagate_clocks(ZynqSLCRState *s)
++{
++    clock_propagate(s->uart0_ref_clk);
++    clock_propagate(s->uart1_ref_clk);
++}
 +
-+``qdev_get_clock_in()`` and ``dev_get_clock_out()`` are available to
-+get the clock inputs or outputs of a device. For example:
++static void zynq_slcr_ps_clk_callback(void *opaque)
++{
++    ZynqSLCRState *s = (ZynqSLCRState *) opaque;
++    zynq_slcr_compute_clocks(s);
++    zynq_slcr_propagate_clocks(s);
++}
 +
-+.. code-block:: c
++static void zynq_slcr_reset_init(Object *obj, ResetType type)
++{
++    ZynqSLCRState *s = ZYNQ_SLCR(obj);
+     int i;
+ 
+     DB_PRINT("RESET\n");
+@@ -277,6 +404,23 @@ static void zynq_slcr_reset(DeviceState *d)
+     s->regs[R_DDRIOB + 12] = 0x00000021;
+ }
+ 
++static void zynq_slcr_reset_hold(Object *obj)
++{
++    ZynqSLCRState *s = ZYNQ_SLCR(obj);
 +
-+   Clock *clk = qdev_get_clock_in(DEVICE(mydev), "clk_in");
++    /* will disable all output clocks */
++    zynq_slcr_compute_clocks(s);
++    zynq_slcr_propagate_clocks(s);
++}
 +
-+or:
++static void zynq_slcr_reset_exit(Object *obj)
++{
++    ZynqSLCRState *s = ZYNQ_SLCR(obj);
 +
-+.. code-block:: c
++    /* will compute output clocks according to ps_clk and registers */
++    zynq_slcr_compute_clocks(s);
++    zynq_slcr_propagate_clocks(s);
++}
+ 
+ static bool zynq_slcr_check_offset(hwaddr offset, bool rnw)
+ {
+@@ -409,6 +553,13 @@ static void zynq_slcr_write(void *opaque, hwaddr offset,
+             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+         }
+         break;
++    case R_IO_PLL_CTRL:
++    case R_ARM_PLL_CTRL:
++    case R_DDR_PLL_CTRL:
++    case R_UART_CLK_CTRL:
++        zynq_slcr_compute_clocks(s);
++        zynq_slcr_propagate_clocks(s);
++        break;
+     }
+ }
+ 
+@@ -418,6 +569,13 @@ static const MemoryRegionOps slcr_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
++static const ClockPortInitArray zynq_slcr_clocks = {
++    QDEV_CLOCK_IN(ZynqSLCRState, ps_clk, zynq_slcr_ps_clk_callback),
++    QDEV_CLOCK_OUT(ZynqSLCRState, uart0_ref_clk),
++    QDEV_CLOCK_OUT(ZynqSLCRState, uart1_ref_clk),
++    QDEV_CLOCK_END
++};
 +
-+   Clock *clk = qdev_get_clock_out(DEVICE(mydev), "clk_out");
+ static void zynq_slcr_init(Object *obj)
+ {
+     ZynqSLCRState *s = ZYNQ_SLCR(obj);
+@@ -425,14 +583,17 @@ static void zynq_slcr_init(Object *obj)
+     memory_region_init_io(&s->iomem, obj, &slcr_ops, s, "slcr",
+                           ZYNQ_SLCR_MMIO_SIZE);
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
 +
-+Connecting two clocks together
-+------------------------------
-+
-+To connect two clocks together, use the ``clock_set_source()`` function.
-+Given two clocks ``clk1``, and ``clk2``, ``clock_set_source(clk2, clk1);``
-+configures ``clk2`` to follow the ``clk1`` period changes. Every time ``clk1``
-+is updated, ``clk2`` will be updated too.
-+
-+When connecting clock between devices, prefer using the
-+``qdev_connect_clock_in()`` function to set the source of an input
-+device clock.  For example, to connect the input clock ``clk2`` of
-+``devB`` to the output clock ``clk1`` of ``devA``, do:
-+
-+.. code-block:: c
-+
-+    qdev_connect_clock_in(devB, "clk2", qdev_get_clock_out(devA, "clk1"))
-+
-+We used ``qdev_get_clock_out()`` above, but any clock can drive an
-+input clock, even another input clock. The following diagram shows
-+some examples of connections. Note also that a clock can drive several
-+other clocks.
-+
-+::
-+
-+  +------------+  +--------------------------------------------------+
-+  |  Device A  |  |                   Device B                       |
-+  |            |  |               +---------------------+            |
-+  |            |  |               |       Device C      |            |
-+  |  +-------+ |  | +-------+     | +-------+ +-------+ |  +-------+ |
-+  |  |Clock 1|>>-->>|Clock 2|>>+-->>|Clock 3| |Clock 5|>>>>|Clock 6|>>
-+  |  | (out) | |  | | (in)  |  |  | | (in)  | | (out) | |  | (out) | |
-+  |  +-------+ |  | +-------+  |  | +-------+ +-------+ |  +-------+ |
-+  +------------+  |            |  +---------------------+            |
-+                  |            |                                     |
-+                  |            |  +--------------+                   |
-+                  |            |  |   Device D   |                   |
-+                  |            |  | +-------+    |                   |
-+                  |            +-->>|Clock 4|    |                   |
-+                  |               | | (in)  |    |                   |
-+                  |               | +-------+    |                   |
-+                  |               +--------------+                   |
-+                  +--------------------------------------------------+
-+
-+In the above example, when *Clock 1* is updated by *Device A*, three
-+clocks get the new clock period value: *Clock 2*, *Clock 3* and *Clock 4*.
-+
-+It is not possible to disconnect a clock or to change the clock connection
-+after it is connected.
-+
-+Unconnected input clocks
-+------------------------
-+
-+A newly created input clock is disabled (period of 0). This means the
-+clock will be considered as disabled until the period is updated. If
-+the clock remains unconnected it will always keep its initial value
-+of 0. If this is not the desired behaviour, ``clock_set()``,
-+``clock_set_ns()`` or ``clock_set_hz()`` should be called on the Clock
-+object during device instance init. For example:
-+
-+.. code-block:: c
-+
-+    clk = qdev_init_clock_in(DEVICE(dev), "clk-in", clk_in_callback,
-+                             dev);
-+    /* set initial value to 10ns / 100MHz */
-+    clock_set_ns(clk, 10);
-+
-+Fetching clock frequency/period
-+-------------------------------
-+
-+To get the current state of a clock, use the functions ``clock_get()``,
-+``clock_get_ns()`` or ``clock_get_hz()``.
-+
-+It is also possible to register a callback on clock frequency changes.
-+Here is an example:
-+
-+.. code-block:: c
-+
-+    void clock_callback(void *opaque) {
-+        MyDeviceState *s = (MyDeviceState *) opaque;
-+        /*
-+         * 'opaque' is the argument passed to qdev_init_clock_in();
-+         * usually this will be the device state pointer.
-+         */
-+
-+        /* do something with the new period */
-+        fprintf(stdout, "device new period is %" PRIu64 "ns\n",
-+                        clock_get_ns(dev->my_clk_input));
-+    }
-+
-+Changing a clock period
-+-----------------------
-+
-+A device can change its outputs using the ``clock_update()``,
-+``clock_update_ns()`` or ``clock_update_hz()`` function. It will trigger
-+updates on every connected input.
-+
-+For example, let's say that we have an output clock *clkout* and we
-+have a pointer to it in the device state because we did the following
-+in init phase:
-+
-+.. code-block:: c
-+
-+   dev->clkout = qdev_init_clock_out(DEVICE(dev), "clkout");
-+
-+Then at any time (apart from the cases listed below), it is possible to
-+change the clock value by doing:
-+
-+.. code-block:: c
-+
-+   clock_update_hz(dev->clkout, 1000 * 1000 * 1000); /* 1GHz */
-+
-+Because updating a clock may trigger any side effects through
-+connected clocks and their callbacks, this operation must be done
-+while holding the qemu io lock.
-+
-+For the same reason, one can update clocks only when it is allowed to have
-+side effects on other objects. In consequence, it is forbidden:
-+
-+* during migration,
-+* and in the enter phase of reset.
-+
-+Note that calling ``clock_update[_ns|_hz]()`` is equivalent to calling
-+``clock_set[_ns|_hz]()`` (with the same arguments) then
-+``clock_propagate()`` on the clock. Thus, setting the clock value can
-+be separated from triggering the side-effects. This is often required
-+to factorize code to handle reset and migration in devices.
-+
-+Aliasing clocks
-+---------------
-+
-+Sometimes, one needs to forward, or inherit, a clock from another
-+device.  Typically, when doing device composition, a device might
-+expose a sub-device's clock without interfering with it.  The function
-+``qdev_alias_clock()`` can be used to achieve this behaviour. Note
-+that it is possible to expose the clock under a different name.
-+``qdev_alias_clock()`` works for both input and output clocks.
-+
-+For example, if device B is a child of device A,
-+``device_a_instance_init()`` may do something like this:
-+
-+.. code-block:: c
-+
-+    void device_a_instance_init(Object *obj)
-+    {
-+        AState *A = DEVICE_A(obj);
-+        BState *B;
-+        /* create object B as child of A */
-+        [...]
-+        qdev_alias_clock(B, "clk", A, "b_clk");
-+        /*
-+         * Now A has a clock "b_clk" which is an alias to
-+         * the clock "clk" of its child B.
-+         */
-+    }
-+
-+This function does not return any clock object. The new clock has the
-+same direction (input or output) as the original one. This function
-+only adds a link to the existing clock. In the above example, object B
-+remains the only object allowed to use the clock and device A must not
-+try to change the clock period or set a callback to the clock. This
-+diagram describes the example with an input clock::
-+
-+    +--------------------------+
-+    |        Device A          |
-+    |         +--------------+ |
-+    |         |   Device B   | |
-+    |         | +-------+    | |
-+    >>"b_clk">>>| "clk" |    | |
-+    |  (in)   | |  (in) |    | |
-+    |         | +-------+    | |
-+    |         +--------------+ |
-+    +--------------------------+
-+
-+Migration
-+---------
-+
-+Clock state is not migrated automatically. Every device must handle its
-+clock migration. Alias clocks must not be migrated.
-+
-+To ensure clock states are restored correctly during migration, there
-+are two solutions.
-+
-+Clock states can be migrated by adding an entry into the device
-+vmstate description. You should use the ``VMSTATE_CLOCK`` macro for this.
-+This is typically used to migrate an input clock state. For example:
-+
-+.. code-block:: c
-+
-+    MyDeviceState {
-+        DeviceState parent_obj;
-+        [...] /* some fields */
-+        Clock *clk;
-+    };
-+
-+    VMStateDescription my_device_vmstate = {
-+        .name = "my_device",
-+        .fields = (VMStateField[]) {
-+            [...], /* other migrated fields */
-+            VMSTATE_CLOCK(clk, MyDeviceState),
-+            VMSTATE_END_OF_LIST()
-+        }
-+    };
-+
-+The second solution is to restore the clock state using information already
-+at our disposal. This can be used to restore output clock states using the
-+device state. The functions ``clock_set[_ns|_hz]()`` can be used during the
-+``post_load()`` migration callback.
-+
-+When adding clock support to an existing device, if you care about
-+migration compatibility you will need to be careful, as simply adding
-+a ``VMSTATE_CLOCK()`` line will break compatibility. Instead, you can
-+put the ``VMSTATE_CLOCK()`` line into a vmstate subsection with a
-+suitable ``needed`` function, and use ``clock_set()`` in a
-+``pre_load()`` function to set the default value that will be used if
-+the source virtual machine in the migration does not send the clock
-+state.
-+
-+Care should be taken not to use ``clock_update[_ns|_hz]()`` or
-+``clock_propagate()`` during the whole migration procedure because it
-+will trigger side effects to other devices in an unknown state.
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index a9e1200dff3..bb8238c5d6d 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -27,3 +27,4 @@ Contents:
-    bitops
-    reset
-    s390-dasd-ipl
-+   clocks
++    qdev_init_clocks(DEVICE(obj), zynq_slcr_clocks);
+ }
+ 
+ static const VMStateDescription vmstate_zynq_slcr = {
+     .name = "zynq_slcr",
+-    .version_id = 2,
++    .version_id = 3,
+     .minimum_version_id = 2,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT32_ARRAY(regs, ZynqSLCRState, ZYNQ_SLCR_NUM_REGS),
++        VMSTATE_CLOCK_V(ps_clk, ZynqSLCRState, 3),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+@@ -440,9 +601,12 @@ static const VMStateDescription vmstate_zynq_slcr = {
+ static void zynq_slcr_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
+ 
+     dc->vmsd = &vmstate_zynq_slcr;
+-    dc->reset = zynq_slcr_reset;
++    rc->phases.enter = zynq_slcr_reset_init;
++    rc->phases.hold  = zynq_slcr_reset_hold;
++    rc->phases.exit  = zynq_slcr_reset_exit;
+ }
+ 
+ static const TypeInfo zynq_slcr_info = {
 -- 
 2.20.1
 
