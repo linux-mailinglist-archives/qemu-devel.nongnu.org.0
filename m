@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E4B1BF489
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:52:02 +0200 (CEST)
-Received: from localhost ([::1]:60634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FEBD1BF48C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:53:30 +0200 (CEST)
+Received: from localhost ([::1]:37234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU5rN-0001MO-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:52:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48886)
+	id 1jU5sn-0003bf-Ex
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5lA-0006Ow-GJ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:38 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jU5lD-0006W2-Qg
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5l7-000419-28
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45622
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <cohuck@redhat.com>) id 1jU5lC-0004JR-4S
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:46488
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5l6-0003xN-Fa
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:32 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lB-0004Fr-Kv
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:45:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588239931;
+ s=mimecast20190719; t=1588239936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MMtvEfv/VUNukcBqRRVBLf0Lsy4fzGg4LYyCZY1jfkU=;
- b=OA/vFlIaEdkkq+YgYBJDBS7Jfxh8ayVsnFubS4okskkSdh5mGQMTCjEhX4boar1jpwfGbq
- GvFBxUv6xiENc71EjE5TJhV3NQqi94D9YhFLKQuofXGF9HQzMeSZfQNwipVz/EKuHxwcLs
- quPciZNr2XBEmk1HuvRekrozRf/Gryo=
+ bh=apNWU87hjHVa2GIW98twXqWvFvTWdJCln2F4EMeiPdg=;
+ b=XjIpHhw13kNyVfUrxw+3xPUNrS1ye8ub3vQsTwQjnoWFCgvbiEpiXq9G98KgMXks0/OKr9
+ 4hykQlV39hPkRNMtFlIqHxpqM7+R4bWQ5r+PdbDoHXWcQMXKmtgtnXGpMcRKKAq24Tv3as
+ AJUFEOnLuuOBjb58XBSxvePWDNWR/oA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-G_BeuEz7NOyU0GZ8Dl18zg-1; Thu, 30 Apr 2020 05:45:27 -0400
-X-MC-Unique: G_BeuEz7NOyU0GZ8Dl18zg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-486-wDdpvzChNm2mXfkHDpK00g-1; Thu, 30 Apr 2020 05:45:32 -0400
+X-MC-Unique: wDdpvzChNm2mXfkHDpK00g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD705107ACCD;
- Thu, 30 Apr 2020 09:45:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B08F8005B7;
+ Thu, 30 Apr 2020 09:45:31 +0000 (UTC)
 Received: from localhost (ovpn-112-226.ams2.redhat.com [10.36.112.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 77A805117E;
- Thu, 30 Apr 2020 09:45:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B965060FC2;
+ Thu, 30 Apr 2020 09:45:27 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/20] s390x: Add SIDA memory ops
-Date: Thu, 30 Apr 2020 11:44:33 +0200
-Message-Id: <20200430094445.25943-9-cohuck@redhat.com>
+Subject: [PULL 09/20] s390x: protvirt: Move STSI data over SIDAD
+Date: Thu, 30 Apr 2020 11:44:34 +0200
+Message-Id: <20200430094445.25943-10-cohuck@redhat.com>
 In-Reply-To: <20200430094445.25943-1-cohuck@redhat.com>
 References: <20200430094445.25943-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,147 +75,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Imbrenda <imbrenda@linux.ibm.com>
+ qemu-s390x@nongnu.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-Protected guests save the instruction control blocks in the SIDA
-instead of QEMU/KVM directly accessing the guest's memory.
-
-Let's introduce new functions to access the SIDA.
-
-The memops for doing so are available with KVM_CAP_S390_PROTECTED, so
-let's check for that.
+For protected guests, we need to put the STSI emulation results into
+the SIDA, so SIE will write them into the guest at the next entry.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Reviewed-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20200319131921.2367-8-frankja@linux.ibm.com>
+Message-Id: <20200319131921.2367-9-frankja@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/cpu.h        |  7 ++++++-
- target/s390x/kvm.c        | 26 ++++++++++++++++++++++++++
- target/s390x/kvm_s390x.h  |  2 ++
- target/s390x/mmu_helper.c | 14 ++++++++++++++
- 4 files changed, 48 insertions(+), 1 deletion(-)
+ target/s390x/kvm.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index 1d17709d6e10..035427521cec 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -823,7 +823,12 @@ int s390_cpu_virt_mem_rw(S390CPU *cpu, vaddr laddr, ui=
-nt8_t ar, void *hostbuf,
- #define s390_cpu_virt_mem_check_write(cpu, laddr, ar, len)   \
-         s390_cpu_virt_mem_rw(cpu, laddr, ar, NULL, len, true)
- void s390_cpu_virt_mem_handle_exc(S390CPU *cpu, uintptr_t ra);
--
-+int s390_cpu_pv_mem_rw(S390CPU *cpu, unsigned int offset, void *hostbuf,
-+                       int len, bool is_write);
-+#define s390_cpu_pv_mem_read(cpu, offset, dest, len)    \
-+        s390_cpu_pv_mem_rw(cpu, offset, dest, len, false)
-+#define s390_cpu_pv_mem_write(cpu, offset, dest, len)       \
-+        s390_cpu_pv_mem_rw(cpu, offset, dest, len, true)
-=20
- /* sigp.c */
- int s390_cpu_restart(S390CPU *cpu);
 diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 1988809ec2e7..0e93778ed15d 100644
+index 0e93778ed15d..e0b61680ab08 100644
 --- a/target/s390x/kvm.c
 +++ b/target/s390x/kvm.c
-@@ -154,6 +154,7 @@ static int cap_ri;
- static int cap_gs;
- static int cap_hpage_1m;
- static int cap_vcpu_resets;
-+static int cap_protected;
+@@ -50,6 +50,7 @@
+ #include "exec/memattrs.h"
+ #include "hw/s390x/s390-virtio-ccw.h"
+ #include "hw/s390x/s390-virtio-hcall.h"
++#include "hw/s390x/pv.h"
 =20
- static int active_cmma;
+ #ifndef DEBUG_KVM
+ #define DEBUG_KVM  0
+@@ -1808,7 +1809,9 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 add=
+r, uint8_t ar)
+     SysIB_322 sysib;
+     int del, i;
 =20
-@@ -351,6 +352,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     cap_mem_op =3D kvm_check_extension(s, KVM_CAP_S390_MEM_OP);
-     cap_s390_irq =3D kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
-     cap_vcpu_resets =3D kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
-+    cap_protected =3D kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
+-    if (s390_cpu_virt_mem_read(cpu, addr, ar, &sysib, sizeof(sysib))) {
++    if (s390_is_pv()) {
++        s390_cpu_pv_mem_read(cpu, 0, &sysib, sizeof(sysib));
++    } else if (s390_cpu_virt_mem_read(cpu, addr, ar, &sysib, sizeof(sysib)=
+)) {
+         return;
+     }
+     /* Shift the stack of Extended Names to prepare for our own data */
+@@ -1861,7 +1864,11 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 ad=
+dr, uint8_t ar)
+     /* Insert UUID */
+     memcpy(sysib.vm[0].uuid, &qemu_uuid, sizeof(sysib.vm[0].uuid));
 =20
-     if (!kvm_check_extension(s, KVM_CAP_S390_GMAP)
-         || !kvm_check_extension(s, KVM_CAP_S390_COW)) {
-@@ -851,6 +853,30 @@ int kvm_s390_mem_op(S390CPU *cpu, vaddr addr, uint8_t =
-ar, void *hostbuf,
-     return ret;
- }
-=20
-+int kvm_s390_mem_op_pv(S390CPU *cpu, uint64_t offset, void *hostbuf,
-+                       int len, bool is_write)
-+{
-+    struct kvm_s390_mem_op mem_op =3D {
-+        .sida_offset =3D offset,
-+        .size =3D len,
-+        .op =3D is_write ? KVM_S390_MEMOP_SIDA_WRITE
-+                       : KVM_S390_MEMOP_SIDA_READ,
-+        .buf =3D (uint64_t)hostbuf,
-+    };
-+    int ret;
-+
-+    if (!cap_mem_op || !cap_protected) {
-+        return -ENOSYS;
-+    }
-+
-+    ret =3D kvm_vcpu_ioctl(CPU(cpu), KVM_S390_MEM_OP, &mem_op);
-+    if (ret < 0) {
-+        error_report("KVM_S390_MEM_OP failed: %s", strerror(-ret));
-+        abort();
-+    }
-+    return ret;
-+}
-+
- /*
-  * Legacy layout for s390:
-  * Older S390 KVM requires the topmost vma of the RAM to be
-diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
-index dea813f45015..6ab17c81b73a 100644
---- a/target/s390x/kvm_s390x.h
-+++ b/target/s390x/kvm_s390x.h
-@@ -19,6 +19,8 @@ void kvm_s390_vcpu_interrupt(S390CPU *cpu, struct kvm_s39=
-0_irq *irq);
- void kvm_s390_access_exception(S390CPU *cpu, uint16_t code, uint64_t te_co=
-de);
- int kvm_s390_mem_op(S390CPU *cpu, vaddr addr, uint8_t ar, void *hostbuf,
-                     int len, bool is_write);
-+int kvm_s390_mem_op_pv(S390CPU *cpu, vaddr addr, void *hostbuf, int len,
-+                       bool is_write);
- void kvm_s390_program_interrupt(S390CPU *cpu, uint16_t code);
- int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state);
- void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu);
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 0be2f300bbe4..7d9f3059cd50 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -474,6 +474,20 @@ static int translate_pages(S390CPU *cpu, vaddr addr, i=
-nt nr_pages,
-     return 0;
- }
-=20
-+int s390_cpu_pv_mem_rw(S390CPU *cpu, unsigned int offset, void *hostbuf,
-+                       int len, bool is_write)
-+{
-+    int ret;
-+
-+    if (kvm_enabled()) {
-+        ret =3D kvm_s390_mem_op_pv(cpu, offset, hostbuf, len, is_write);
+-    s390_cpu_virt_mem_write(cpu, addr, ar, &sysib, sizeof(sysib));
++    if (s390_is_pv()) {
++        s390_cpu_pv_mem_write(cpu, 0, &sysib, sizeof(sysib));
 +    } else {
-+        /* Protected Virtualization is a KVM/Hardware only feature */
-+        g_assert_not_reached();
++        s390_cpu_virt_mem_write(cpu, addr, ar, &sysib, sizeof(sysib));
 +    }
-+    return ret;
-+}
-+
- /**
-  * s390_cpu_virt_mem_rw:
-  * @laddr:     the logical start address
+ }
+=20
+ static int handle_stsi(S390CPU *cpu)
 --=20
 2.21.1
 
