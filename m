@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D181C0557
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:55:56 +0200 (CEST)
-Received: from localhost ([::1]:38378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7FB1C054C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:52:27 +0200 (CEST)
+Received: from localhost ([::1]:55526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUELj-0007wS-Px
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39580)
+	id 1jUEIM-0002Aq-PT
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40560)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUE3U-0002Xe-F8
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:37:04 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUEBi-0007Ru-6J
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:45:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUE3T-0006Cy-Vc
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:37:04 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43355)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUEAE-0002FF-19
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:45:33 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:40826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUE3T-0006CV-9u
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:37:03 -0400
-Received: by mail-pl1-x642.google.com with SMTP id z6so2578656plk.10
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:37:02 -0700 (PDT)
+ id 1jUEAD-0002Ez-Ib
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:44:01 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id fu13so1123639pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=HwR4zFUPFxcQy/cikLbpB1FXbScJZkDFf6i8QlBWwGQ=;
- b=OJcXAR60glMlU8ieSBlmaGQCru+CyC5oiI187WTDqV5BkGjMf5Yn1SEDGpLEuNlBbm
- BkhrvTVUjxe/Aa2k8Yw9xGlgRDvfanboFtwiSlByvNfZY4iPM1UC3QuVCC7qKtQ4Bd5B
- uPBvrgFqHU2/03SbwQT7g7sqgkN7mRjJ+8UjiNzK8WtN1Xm2Qk3KKZN4Dat9aXV/+nuT
- czt1VtwvkIIPXyGcKJkSbj5zQTTLSf4XLdikPSCRw3XR6lQ+UWz+IP99XWKfcmqxMmZ6
- rqifdb2ZVKZzci2SA8NFl0C9ldWvVtgAgFYFppv95bW44CdTD8AytaOyz9ou7ToHqHM3
- 17kQ==
+ bh=6OOFLUi1SxWtdgBWXWd1AWCvifhTD5to69ewq6+eyP8=;
+ b=uyaEiF0JsnWBmkL5w182qFAbEyJemoI0YjZ/TNjSksiGeqQNp9BQUVgYphRgTq01GZ
+ mn1JsFeNiwqhFdfcIuNObmZ5VfieHM7d/tAXHDuvR195sq1PSoqY76H4DFSmlnPPsYKO
+ iZ63tnnnxOVUsH8nEHh62rmaHSXtt3GphiQC2cD7X1QF3io8nn9CoNTK0eNrcXpkhh/g
+ MQ8jZSvuZwlBlWZvTcy0xTYLRL9U+q2kluSYcYWD0oaIuXTWF223H1ZkjbLj/rQY1Ujp
+ ARIaoMK2vAPPsdk5fqXWCrW2WYIxGUCiyk4L5inrHY6WhLHde1Ql9MnQQioA7GHMnv1D
+ DC0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HwR4zFUPFxcQy/cikLbpB1FXbScJZkDFf6i8QlBWwGQ=;
- b=WjY1695ICFsE7C0rH31jfCKfT5I/x6U1j3rUdt9APUG0EQ5XlIe5i+xVrCiA0aVZjY
- 3pPDuVNALEtt4mkNLnX+khcoojkXGNv9jp3o5gb/3Olz4O8qJbnd1/UCotGjiMX4pAsP
- sr20BiBXnuqjx/LRWuXDcVAOTRco0b053A7BO/F6UczcDX5nR45U2tzLAEZL8hmf9+A9
- 4avzRu7G7w1u+plj8+BpO0pHSyWzDFBKR/klrgUrquQe86PE6Puvq0Xqe9pHZmap8cmW
- LgwzvNlYtkYkfLAzF5YuwzqDdNoHL8eXTyDdNA9m5frEJOoZcmi7aZl8tylTjPebcxnx
- hR3A==
-X-Gm-Message-State: AGi0PubIqfBxMXkDOqrOrSOPpOLtoPCHqfpx+tFoPrQr04za7L5SAhgK
- Y0VY3VGe9XkQmFn5uheJyuw0iKv+zh4=
-X-Google-Smtp-Source: APiQypJDkeRp3d5XbZ6pb+gqvE4AxwusB507edzrjaQy2d7f20ggdhEHvbWJ1WkZq5gA5N0m3oNGiA==
-X-Received: by 2002:a17:902:403:: with SMTP id 3mr364269ple.102.1588271821232; 
- Thu, 30 Apr 2020 11:37:01 -0700 (PDT)
+ bh=6OOFLUi1SxWtdgBWXWd1AWCvifhTD5to69ewq6+eyP8=;
+ b=PB/+9L1B+iZcgguAjVLwBO0ATDKrlCjhJqZD8V0mm+8JtYKNI/yiBOqUcjoHVum0d7
+ Q1XuFc7stbdNW7w1OEZueqXTK8+j4qT8XkfY3Ao+uZd4MsiCVYYRsNUfz216ax45FjnD
+ UkWSDE21TDX4Vmx+P1eB8L/0Z9pVog6/gH1CkZIdlYnoGARPHMPttmj6i/eKAV4q1Nuc
+ f65GaZx+ctnBcN+KMf77VHbo4Zy4lzUpgNI9x/3lI96pt88UvWXITYCqBTyiUwV0qqet
+ DQX1WaZxmsC+8K+vCWry5/JlqySp+3o8WYKgJrCuEjdf2r1wPSZoHKIY25FkdoaksA9k
+ dqCQ==
+X-Gm-Message-State: AGi0PuayUnU/GvLLTQUISnK4JSX7UYfONxPqcB7XQ9vqcd2QMag75bho
+ TuRkE+2+BqeS1hKgmdx5dUr8+47F0tk=
+X-Google-Smtp-Source: APiQypJb9H9Rj1KqYYduz8+WDWD1Fpx9UbiZtqyfNN6RmKvZwR2R69AGecMPJf8hXil7wKBflVXxmg==
+X-Received: by 2002:a17:902:d34a:: with SMTP id
+ l10mr379388plk.234.1588272239314; 
+ Thu, 30 Apr 2020 11:43:59 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id p64sm442082pjp.7.2020.04.30.11.37.00
+ by smtp.gmail.com with ESMTPSA id 184sm422206pfy.144.2020.04.30.11.43.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Apr 2020 11:37:00 -0700 (PDT)
-Subject: Re: [PATCH 06/36] target/arm: Convert V[US]DOT (vector) to decodetree
+ Thu, 30 Apr 2020 11:43:58 -0700 (PDT)
+Subject: Re: [PATCH 07/36] target/arm: Convert VFM[AS]L (vector) to decodetree
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200430181003.21682-1-peter.maydell@linaro.org>
- <20200430181003.21682-7-peter.maydell@linaro.org>
+ <20200430181003.21682-8-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <475c43c3-f1da-e203-0faf-d321743fc396@linaro.org>
-Date: Thu, 30 Apr 2020 11:36:58 -0700
+Message-ID: <82a9f876-e965-c33e-4f80-1e0f94a0d6f2@linaro.org>
+Date: Thu, 30 Apr 2020 11:43:56 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200430181003.21682-7-peter.maydell@linaro.org>
+In-Reply-To: <20200430181003.21682-8-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::642
+X-Received-From: 2607:f8b0:4864:20::1043
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,14 +91,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/30/20 11:09 AM, Peter Maydell wrote:
-> Convert the V[US]DOT (vector) insns to decodetree.
+> Convert the VFM[AS]L (vector) insns to decodetree.  This is the last
+> insn in the legacy decoder for the 3same_ext group, so we can
+> delete the legacy decoder function for the group entirely.
+> 
+> Note that in disas_thumb2_insn() the parts of this encoding space
+> where the decodetree decoder returns false will correctly be directed
+> to illegal_op by the "(insn & (1 << 28))" check so they won't fall
+> into disas_coproc_insn() by mistake.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/translate-neon.inc.c | 32 ++++++++++++++++++++++++++++++++
->  target/arm/translate.c          |  9 +--------
->  target/arm/neon-shared.decode   |  4 ++++
->  3 files changed, 37 insertions(+), 8 deletions(-)
+>  target/arm/translate-neon.inc.c | 31 +++++++++++
+>  target/arm/translate.c          | 92 +--------------------------------
+>  target/arm/neon-shared.decode   |  6 +++
+>  3 files changed, 38 insertions(+), 91 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
