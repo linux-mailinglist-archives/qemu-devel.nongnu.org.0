@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFE51BF7DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:08:04 +0200 (CEST)
-Received: from localhost ([::1]:41090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C651BF7C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:01:58 +0200 (CEST)
+Received: from localhost ([::1]:45322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7z1-0007dD-Nz
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33912)
+	id 1jU7t7-0004cM-QB
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:01:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jk-0003Ow-Nu
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jm-0003Sa-3p
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7ji-0000Rt-Ie
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:16 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44998)
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jj-0000SE-HF
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:17 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jU7ji-0000RY-0l
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:14 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d17so6484964wrg.11
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:13 -0700 (PDT)
+ id 1jU7jj-0000Rj-2X
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:15 -0400
+Received: by mail-wr1-x436.google.com with SMTP id f13so6474952wrm.13
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pPIQv9n40IDAcbCAwAaYgpIvcVu9gJFTvPCQZjCwLHE=;
- b=kMO4+tRCX2FfHRngSazbYawNYtRKNqa3v3pg8RwZyda2QpkQB97DAmelmA36n8fokw
- FC29oQbcrEkda2i/lu1jUrz5MAqxK0UpppwXK5T/a6mliZw06wPLYBp2L0k9Mv30lf0C
- 0qTYVIT1E3jns/xHOHOj4HPZGMqi2MaKYg/4mBfKQzk1956pzL2MkB+I++jCPqKKXKnz
- arzw6mQKQoC4z7UjxoxBIScqhLyY8XlfTANT+ZkLprO+PO0a45UVd83UH02sK9YNkJcc
- Rro21S7dXcl7qMOe6c1i7ZWkWSYJSlPRoli1EtA9K8CPLGE3fM1tQpLwZpiRxsXbCRfv
- ig7Q==
+ bh=RCca2W4lwjdzEpAu/gQsnddTCCmaj3klMrOHk+9dWSk=;
+ b=aeEeQAr8VBAx9n24ThCp5ebWUh4vi2a5sCZlQwsvRzgpleLR9stUw1UuMFxKT/CBRl
+ 7+gTnn3P50N+v2zzi9BQAAQprNSFOaH42XF1K7YeqIoKcvC0GTXFbFxKnDNNk4K/MPX6
+ seiYTp8qmqtsGiF1pHgPWhU+gCrWkXAAPqLDDAOdNBLkOH5M70AKPRF3Mwy6qO9rVthB
+ 2iTawhlHanvS5U1PlnGRuLfuAD+tGiGXxR2ubxCbAqDVbbGWseZhCuyNDikeqpwM6463
+ 0RVjnDERzK5G0htZHxH2U+tin9j00VfRhUtbyohuR3IPFMCy05xpK61fcGyfIxf34ry4
+ iRGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pPIQv9n40IDAcbCAwAaYgpIvcVu9gJFTvPCQZjCwLHE=;
- b=Zr6X7286Q/rTp9hlJXGn2WnqFQBVuZbPKe7M8uEByq0PsHe9C3OhqL0Zs5yhaCNc57
- X+A0R2xuSwCOZ3dB/9qp8LELF2P+9RHRh9QWz7eWrXiuAiwlSg3ioHksfFNd2Sij48+B
- /WCDtM62hCvbsF9QKiZFd3R33UbgUxVk77WsaEs9PWdkBy5mE860xgpReS/FWUvSkRM4
- haIeHzIQjwHqihbBBkfzIWAp5VF5Fh1KPv6ZxhyuIRoYBwNkp9Ss836cfseuGUYSNa3W
- ywDDDrizrBUhenH4U/xW0vjYwCYEtJ/wt5jDpWD4QgVRiU2KqS6v1NICYT1aSI1i+hVQ
- GMRw==
-X-Gm-Message-State: AGi0PuZh9ol3szb+itWwQQZfQsSuDdc6/kYzHkv61SwiBOUf01tuKzGG
- cTUKFcBTPt4LqDoaZQyHYCiRR8XDvlKLGQ==
-X-Google-Smtp-Source: APiQypKd4cJlafn55Qk+POaK96pQ5lyCcmUTTjbYTXx/HrrOkOn314wGFgL4YIyg13Qz0Jv3wjadKw==
-X-Received: by 2002:a5d:5147:: with SMTP id u7mr3392889wrt.290.1588247532356; 
- Thu, 30 Apr 2020 04:52:12 -0700 (PDT)
+ bh=RCca2W4lwjdzEpAu/gQsnddTCCmaj3klMrOHk+9dWSk=;
+ b=otnpwP7I1Q/uVXomafBQaEk4aLWiIXmOC89Z3AdaZZmtcI7GzF5lU2wgnduv1W3yhi
+ nHkzqy7upJxLiMsHKOBDiDnIDgd4UDBBxEUuDnYFPYWLQQI9ELfgpPVa8CAyZYRy+LCo
+ wZZBKkDwJeARw9IoImrDoIQoA0knLXJyYkPcFpQGFBMk/3eV3a4FIMBR18XQjc8mmhYO
+ JLaLRytj1IHqwnTd10onNa6RXi38d1jvFHNdrOn9Dx8QXa1/Y/0k3GHdR0P2ftw1eJtk
+ 7dYKuYMd/sFj2CgkFC0S7cGCMFnugKDP1KVn7JtY/hvQshLBtXuWxoVRtjtsuCVWvPes
+ eCPg==
+X-Gm-Message-State: AGi0PubeDwOCeMh3sp5lOQskaF0WYb8vpXkP5R+QyebrMDxS6fdCz5xg
+ VBzZ3vSuTNIkHs183/gGhRvKhdyplvIO5g==
+X-Google-Smtp-Source: APiQypJZbKGjMN5I0Qx70Gbvr2IR3EDbOQI3dTRk09lPpxdTzEYKpD+Bb2vRKx81y9ZHi4fEV5AwnA==
+X-Received: by 2002:adf:f0ca:: with SMTP id x10mr2258511wro.112.1588247533476; 
+ Thu, 30 Apr 2020 04:52:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.11
+ by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:52:11 -0700 (PDT)
+ Thu, 30 Apr 2020 04:52:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/31] target/arm: Make cpu_register() available for other files
-Date: Thu, 30 Apr 2020 12:51:36 +0100
-Message-Id: <20200430115142.13430-26-peter.maydell@linaro.org>
+Subject: [PULL 26/31] target/arm/cpu: Use ARRAY_SIZE() to iterate over
+ ARMCPUInfo[]
+Date: Thu, 30 Apr 2020 12:51:37 +0100
+Message-Id: <20200430115142.13430-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430115142.13430-1-peter.maydell@linaro.org>
 References: <20200430115142.13430-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::435
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,108 +86,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Make cpu_register() (renamed to arm_cpu_register()) available
-from internals.h so we can register CPUs also from other files
-in the future.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200423073358.27155-3-philmd@redhat.com
-Message-ID: <20190921150420.30743-2-thuth@redhat.com>
-[PMD: Only take cpu_register() from Thomas's patch]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200423073358.27155-4-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu-qom.h |  9 ++++++++-
- target/arm/cpu.c     | 10 ++--------
- target/arm/cpu64.c   |  8 +-------
- 3 files changed, 11 insertions(+), 16 deletions(-)
+ target/arm/cpu.c   | 8 +++-----
+ target/arm/cpu64.c | 8 +++-----
+ 2 files changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/cpu-qom.h b/target/arm/cpu-qom.h
-index d95568bf052..56395b87f62 100644
---- a/target/arm/cpu-qom.h
-+++ b/target/arm/cpu-qom.h
-@@ -35,7 +35,14 @@ struct arm_boot_info;
- 
- #define TYPE_ARM_MAX_CPU "max-" TYPE_ARM_CPU
- 
--typedef struct ARMCPUInfo ARMCPUInfo;
-+typedef struct ARMCPUInfo {
-+    const char *name;
-+    void (*initfn)(Object *obj);
-+    void (*class_init)(ObjectClass *oc, void *data);
-+} ARMCPUInfo;
-+
-+void arm_cpu_register(const ARMCPUInfo *info);
-+void aarch64_cpu_register(const ARMCPUInfo *info);
- 
- /**
-  * ARMCPUClass:
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index a79f233b170..47e35400da2 100644
+index 47e35400da2..30e961f7754 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -2693,12 +2693,6 @@ static void arm_max_initfn(Object *obj)
+@@ -2745,7 +2745,6 @@ static const ARMCPUInfo arm_cpus[] = {
+     { .name = "any",         .initfn = arm_max_initfn },
+ #endif
+ #endif
+-    { .name = NULL }
+ };
  
- #endif /* !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64) */
+ static Property arm_cpu_properties[] = {
+@@ -2893,14 +2892,13 @@ static const TypeInfo idau_interface_type_info = {
  
--struct ARMCPUInfo {
--    const char *name;
--    void (*initfn)(Object *obj);
--    void (*class_init)(ObjectClass *oc, void *data);
--};
--
- static const ARMCPUInfo arm_cpus[] = {
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-     { .name = "arm926",      .initfn = arm926_initfn },
-@@ -2864,7 +2858,7 @@ static void cpu_register_class_init(ObjectClass *oc, void *data)
-     acc->info = data;
- }
- 
--static void cpu_register(const ARMCPUInfo *info)
-+void arm_cpu_register(const ARMCPUInfo *info)
+ static void arm_cpu_register_types(void)
  {
-     TypeInfo type_info = {
-         .parent = TYPE_ARM_CPU,
-@@ -2905,7 +2899,7 @@ static void arm_cpu_register_types(void)
+-    const ARMCPUInfo *info = arm_cpus;
++    size_t i;
+ 
+     type_register_static(&arm_cpu_type_info);
      type_register_static(&idau_interface_type_info);
  
-     while (info->name) {
--        cpu_register(info);
-+        arm_cpu_register(info);
-         info++;
+-    while (info->name) {
+-        arm_cpu_register(info);
+-        info++;
++    for (i = 0; i < ARRAY_SIZE(arm_cpus); ++i) {
++        arm_cpu_register(&arm_cpus[i]);
      }
  
+ #ifdef CONFIG_KVM
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 95d0c8c101a..74afc28d537 100644
+index 74afc28d537..b8177f59f5a 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -737,12 +737,6 @@ static void aarch64_max_initfn(Object *obj)
-                         cpu_max_set_sve_max_vq, NULL, NULL, &error_fatal);
- }
- 
--struct ARMCPUInfo {
--    const char *name;
--    void (*initfn)(Object *obj);
--    void (*class_init)(ObjectClass *oc, void *data);
--};
--
- static const ARMCPUInfo aarch64_cpus[] = {
-     { .name = "cortex-a57",         .initfn = aarch64_a57_initfn },
+@@ -742,7 +742,6 @@ static const ARMCPUInfo aarch64_cpus[] = {
      { .name = "cortex-a53",         .initfn = aarch64_a53_initfn },
-@@ -825,7 +819,7 @@ static void cpu_register_class_init(ObjectClass *oc, void *data)
-     acc->info = data;
+     { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
+     { .name = "max",                .initfn = aarch64_max_initfn },
+-    { .name = NULL }
+ };
+ 
+ static bool aarch64_cpu_get_aarch64(Object *obj, Error **errp)
+@@ -848,13 +847,12 @@ static const TypeInfo aarch64_cpu_type_info = {
+ 
+ static void aarch64_cpu_register_types(void)
+ {
+-    const ARMCPUInfo *info = aarch64_cpus;
++    size_t i;
+ 
+     type_register_static(&aarch64_cpu_type_info);
+ 
+-    while (info->name) {
+-        aarch64_cpu_register(info);
+-        info++;
++    for (i = 0; i < ARRAY_SIZE(aarch64_cpus); ++i) {
++        aarch64_cpu_register(&aarch64_cpus[i]);
+     }
  }
  
--static void aarch64_cpu_register(const ARMCPUInfo *info)
-+void aarch64_cpu_register(const ARMCPUInfo *info)
- {
-     TypeInfo type_info = {
-         .parent = TYPE_AARCH64_CPU,
 -- 
 2.20.1
 
