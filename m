@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8823B1BF54B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:24:11 +0200 (CEST)
-Received: from localhost ([::1]:56962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1354F1BF557
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:26:37 +0200 (CEST)
+Received: from localhost ([::1]:37228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU6MU-0005WZ-G4
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52450)
+	id 1jU6Op-0000kz-1f
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52454)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jU6IX-0008DL-Tz
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jU6IY-0008Dd-97
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jU6IR-00017t-If
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:05 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:41706)
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jU6IT-00018b-2u
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:06 -0400
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:44836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jU6IR-00017d-5I
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:19:59 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id u10so744954lfo.8
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 03:19:58 -0700 (PDT)
+ id 1jU6IS-00017x-JZ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:00 -0400
+Received: by mail-lf1-x12c.google.com with SMTP id d25so738744lfi.11
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 03:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OIrWCjv3YCoAXpqwetGuNZL8wxZClcfAMwDABAcwnXE=;
- b=Mosi9aoXyMkPX51GSWdICQ1lgWyATJgquOiR9QCOFFdVCLZttAnkaxHhGLNxuk10fY
- eqvccS6DX1gOCJ3dNSZceIqIvA2D7bGL+Fa0A7fsNFA5/WcLsRZAhEozFVxf7BZl+pEU
- R8neYkfFHwHHZJ6N24zhsFKjskqLKbpU40sHtRZwp9xbqSria9JJ7te/eDk8PI1e6/SE
- fWnl5BGshDA5W2bCqeGvgZT96MQAuW7YQ/cx6hdVmIunjdPwRd3eV7OvJpq00KjKQBjw
- RHvJ1H+bMLtLlm5IksebAst5SZ9bqa50aMisieZ4cCPAEwWmWr5CMTyL/yXbGoAfF8aL
- RO0g==
+ bh=H+LlnR11EGsPQDlPMcEJH7+ri0Xqw8l/GkcrB28PjIQ=;
+ b=LgsUcN3Pi1rFmJAQC4KL0ptX0ErKAdH11Bor9CRVFBxjvIFz+DYtmRxtRyiXF6RN/4
+ fCl7MoQtn/HfPEejf3P8RdaIN6T2xinhW5/yAkvtG0kcyexLJY2ShCE/W5SsTeQLwzHf
+ mYaM5F+I3plF/j4Ejggb0IL48qR33ZXGzDBRYJdZ+wEUGq2nApa2Y4uT2PxaWBxw8M0h
+ VkBJFzq2wzsMuCOYyQc+Rm15sTq0MsGJOPRHOwdnIF9TTvaXkhH1htP2ShcbQsW7a6wo
+ 0fXC9I0Qy77+exJmqcXK8PvMWh7jR2j9LkYAp+LEVM4sVNRBDnbebuDbZ/SL6+WO1SiW
+ H+WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OIrWCjv3YCoAXpqwetGuNZL8wxZClcfAMwDABAcwnXE=;
- b=Y3WWUekcwaHYL/SSGl8h96hgbge/ayCbHxlrmL7iUi/zbt3Iqf2B06KT7a8yMURTnH
- vF806puVxt2D3abAHETRytNJjKW7FduUtue7NeeRpfYuOn6SyyIVBxAh/9XQoTW1uIld
- py7ej2/21lZ91UV8Yxn6pqmQRSX29F1fKSPT5v0XF/YCqsh2OfQ4iv6Ko/lHFgjyLxI/
- Fx+Hex1j4qOzQSX3R73rMevUR/QiAE2LztoULcxqmZYEMdx8DYyVyugre4Cks3JVqWId
- dlJ/tPGNB6o3lcDiV8x67q+j97uhp0MPKBR59/eRCw5i0DLqHTlrlzjexqG3ncQ9trt4
- SQ7Q==
-X-Gm-Message-State: AGi0PuZOATaE7l1t7RXPSl69e2zgHRA/njHkofpLlZg5SwOWhZ0MWT4Q
- 8LBpY3YEHiE4PZCIwnr/Z7hVsEZPgSI=
-X-Google-Smtp-Source: APiQypKsgRxyPfcYyGS8fWoR0MkCLIIdYYFrNL6DnvoUehWu6+Ks6XfWdktOAVA7kEaQsMSY/cwZxQ==
-X-Received: by 2002:a19:d84:: with SMTP id 126mr1696739lfn.35.1588241997205;
- Thu, 30 Apr 2020 03:19:57 -0700 (PDT)
+ bh=H+LlnR11EGsPQDlPMcEJH7+ri0Xqw8l/GkcrB28PjIQ=;
+ b=kgsdiRK/awGY9LDMGcnG+HWYrln3OjKwYEahtqFaGBi62zeg4SN8HscZXmw+BlnyxV
+ TDhptRV6xv899gq0uvDuphteOrcjNH1NdzGPUA4lew9bp9JQ9nV/JbVwQVF48pzbIf7w
+ FCjJiW2+SXiNPeH0s/j8tSdvdO7mSfWJtwIc42y0xCY8sZLoG5FhWthsZ12VCttQ+KIV
+ 6m7Gv/pR2Cda3CRWn2/XDk6iXL6X98pEyqdJU616cNcMb8qZtg2NwRz3R2y6x/GbdNQc
+ VrSE/cTi7nvwPbyWcLEAFjXpK+2CArCObNT6Yci7TcWKXHigr2cVE0WHfdGYjS7mTkQK
+ EJpQ==
+X-Gm-Message-State: AGi0PuZUx4Sk2ZUiPlCOo87nhgnR9kvLX8ztM7J8sUm1zaUY8puYnbH/
+ amoHjw6mWw1spfNDSlp7+iBf/vCdJ/s=
+X-Google-Smtp-Source: APiQypJhksrB0uY3QYRfNoPf1R3vis4aUiKeL2odqkf8KGjlsuyp8mzo7wKpUpzXA5rDwXTYJ2Fq8w==
+X-Received: by 2002:a05:6512:1109:: with SMTP id
+ l9mr1731682lfg.12.1588241998767; 
+ Thu, 30 Apr 2020 03:19:58 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id 24sm4205632ljv.3.2020.04.30.03.19.56
+ by smtp.gmail.com with ESMTPSA id s8sm4534166lfd.61.2020.04.30.03.19.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 03:19:56 -0700 (PDT)
+ Thu, 30 Apr 2020 03:19:57 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 4/6] target/microblaze: Add the unaligned-exceptions property
-Date: Thu, 30 Apr 2020 12:19:47 +0200
-Message-Id: <20200430101949.7754-5-edgar.iglesias@gmail.com>
+Subject: [PULL v1 5/6] target/microblaze: Add the pvr-user1 property
+Date: Thu, 30 Apr 2020 12:19:48 +0200
+Message-Id: <20200430101949.7754-6-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430101949.7754-1-edgar.iglesias@gmail.com>
 References: <20200430101949.7754-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12c.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::12b
+X-Received-From: 2a00:1450:4864:20::12c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,74 +87,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Add the unaligned-exceptions property to control if the core
-traps unaligned memory accesses.
+Add the pvr-user1 property to control the user-defined
+PVR0 User1 field.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/cpu.h       | 1 +
- target/microblaze/cpu.c       | 4 ++++
- target/microblaze/translate.c | 4 ++--
- 3 files changed, 7 insertions(+), 2 deletions(-)
+ target/microblaze/cpu.h | 1 +
+ target/microblaze/cpu.c | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 3c07f9b3f7..ef9081db40 100644
+index ef9081db40..7bb5a3d6c6 100644
 --- a/target/microblaze/cpu.h
 +++ b/target/microblaze/cpu.h
-@@ -306,6 +306,7 @@ struct MicroBlazeCPU {
-         bool illegal_opcode_exception;
+@@ -307,6 +307,7 @@ struct MicroBlazeCPU {
          bool opcode_0_illegal;
          bool div_zero_exception;
-+        bool unaligned_exceptions;
+         bool unaligned_exceptions;
++        uint8_t pvr_user1;
          char *version;
          uint8_t pvr;
      } cfg;
 diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 4211f50c11..585e60e817 100644
+index 585e60e817..df5ee21dd6 100644
 --- a/target/microblaze/cpu.c
 +++ b/target/microblaze/cpu.c
-@@ -211,6 +211,8 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
-                                                  PVR2_DIV_ZERO_EXC_MASK : 0) |
-                         (cpu->cfg.illegal_opcode_exception ?
-                                                 PVR2_ILL_OPCODE_EXC_MASK : 0) |
-+                        (cpu->cfg.unaligned_exceptions ?
-+                                                PVR2_UNALIGNED_EXC_MASK : 0) |
-                         (cpu->cfg.opcode_0_illegal ?
-                                                  PVR2_OPCODE_0x0_ILL_MASK : 0);
+@@ -193,7 +193,8 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+                         (cpu->cfg.use_mmu ? PVR0_USE_MMU_MASK : 0) |
+                         (cpu->cfg.endi ? PVR0_ENDI_MASK : 0) |
+                         (version_code << PVR0_VERSION_SHIFT) |
+-                        (cpu->cfg.pvr == C_PVR_FULL ? PVR0_PVR_FULL_MASK : 0);
++                        (cpu->cfg.pvr == C_PVR_FULL ? PVR0_PVR_FULL_MASK : 0) |
++                        cpu->cfg.pvr_user1;
  
-@@ -284,6 +286,8 @@ static Property mb_properties[] = {
-                      cfg.illegal_opcode_exception, false),
-     DEFINE_PROP_BOOL("div-zero-exception", MicroBlazeCPU,
-                      cfg.div_zero_exception, false),
-+    DEFINE_PROP_BOOL("unaligned-exceptions", MicroBlazeCPU,
-+                     cfg.unaligned_exceptions, false),
-     DEFINE_PROP_BOOL("opcode-0x0-illegal", MicroBlazeCPU,
+     env->pvr.regs[2] |= (cpu->cfg.use_fpu ? PVR2_USE_FPU_MASK : 0) |
+                         (cpu->cfg.use_fpu > 1 ? PVR2_USE_FPU2_MASK : 0) |
+@@ -292,6 +293,7 @@ static Property mb_properties[] = {
                       cfg.opcode_0_illegal, false),
      DEFINE_PROP_STRING("version", MicroBlazeCPU, cfg.version),
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index b4a78551ef..20b7427811 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -995,7 +995,7 @@ static void dec_load(DisasContext *dc)
-     v = tcg_temp_new_i32();
-     tcg_gen_qemu_ld_i32(v, addr, mem_index, mop);
+     DEFINE_PROP_UINT8("pvr", MicroBlazeCPU, cfg.pvr, C_PVR_FULL),
++    DEFINE_PROP_UINT8("pvr-user1", MicroBlazeCPU, cfg.pvr_user1, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
--    if ((dc->cpu->env.pvr.regs[2] & PVR2_UNALIGNED_EXC_MASK) && size > 1) {
-+    if (dc->cpu->cfg.unaligned_exceptions && size > 1) {
-         TCGv_i32 t0 = tcg_const_i32(0);
-         TCGv_i32 treg = tcg_const_i32(dc->rd);
-         TCGv_i32 tsize = tcg_const_i32(size - 1);
-@@ -1110,7 +1110,7 @@ static void dec_store(DisasContext *dc)
-     tcg_gen_qemu_st_i32(cpu_R[dc->rd], addr, mem_index, mop);
- 
-     /* Verify alignment if needed.  */
--    if ((dc->cpu->env.pvr.regs[2] & PVR2_UNALIGNED_EXC_MASK) && size > 1) {
-+    if (dc->cpu->cfg.unaligned_exceptions && size > 1) {
-         TCGv_i32 t1 = tcg_const_i32(1);
-         TCGv_i32 treg = tcg_const_i32(dc->rd);
-         TCGv_i32 tsize = tcg_const_i32(size - 1);
 -- 
 2.20.1
 
