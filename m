@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 158211BFE0E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:25:52 +0200 (CEST)
-Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EEA1BFE28
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:27:15 +0200 (CEST)
+Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUA8N-0002Nn-2g
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:25:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59356)
+	id 1jUA9i-0004xC-3g
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:27:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59466)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jUA2v-0002GR-NE
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:20:18 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1jUA39-0002j9-Cn
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:20:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jUA2K-0002lv-65
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:20:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54340
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1jUA38-00045w-OA
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:20:27 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24903
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jUA2I-0002V1-1r
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:19:34 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jUA38-00044v-6r
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:20:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588256372;
+ s=mimecast20190719; t=1588256425;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mOAUzi4cdeUeJ01NItJPKmNfKfE7QxzUQyl3HBfoY7M=;
- b=GIQpSBob/yFWcmZ82EWN/yljwa7DqaBmW/mT51ecPr026MYNfB4AMVGjmi7J9H9Rs4GwUQ
- 4RH2NWVTk6vniHxdDZO3XcKp/8VmOMYDAjgmrzZP+GmuygQTcS803G36d2iD83QORYKXCz
- CmEGR+34fGHosZGjmL4bZiDRJIHcSRo=
+ bh=hENF0FGoJUbOvLJ36rJah8rTBFASrjou5y4CgJUkXzY=;
+ b=LKPlTCBT7ttSCmOw9bDukU4esYg+nQI0MXM0B6ggBwQGMahCXhFlfU+gNzJS40IntZ2CDB
+ d+aJQUXCusaKFAPm9Sh0LOst4bXOnwo51LgC+qnC7+esjGfhdZzroNzCutRYYe2URoVvTi
+ h1rVGkCyRFbEcfwuAo/pYNmJffYzVh0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-t7Z5ecghMoi0TepDntmFQg-1; Thu, 30 Apr 2020 10:19:29 -0400
-X-MC-Unique: t7Z5ecghMoi0TepDntmFQg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-27-WsPyCr9AM2GPCvJGXcsktA-1; Thu, 30 Apr 2020 10:20:23 -0400
+X-MC-Unique: WsPyCr9AM2GPCvJGXcsktA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA4391B18BC0;
- Thu, 30 Apr 2020 14:19:28 +0000 (UTC)
-Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E905638A;
- Thu, 30 Apr 2020 14:19:27 +0000 (UTC)
-Subject: Re: [PATCH 2/6] vmdk: Fix zero cluster allocation
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200430133007.170335-1-kwolf@redhat.com>
- <20200430133007.170335-3-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <80e85c9e-8f3a-7e65-252d-da625a7e077f@redhat.com>
-Date: Thu, 30 Apr 2020 09:19:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C83C100CCCE
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 14:20:22 +0000 (UTC)
+Received: from work-vm (ovpn-114-228.ams2.redhat.com [10.36.114.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8103C5D9C5;
+ Thu, 30 Apr 2020 14:20:16 +0000 (UTC)
+Date: Thu, 30 Apr 2020 15:20:13 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH] virtiofsd: Show submounts
+Message-ID: <20200430142013.GI2874@work-vm>
+References: <20200424133516.73077-1-mreitz@redhat.com>
+ <20200427175902.GM2923@work-vm> <20200429145720.GA2835@work-vm>
+ <8c73f374-fcc8-1684-b581-84a9ab501aa9@redhat.com>
+ <20200430085812.GC2874@work-vm>
+ <20200430135639.GA260081@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200430133007.170335-3-kwolf@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200430135639.GA260081@redhat.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,30 +80,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/20 8:30 AM, Kevin Wolf wrote:
-> m_data must be contain valid data even for zero clusters when no cluster
-> was allocated in the image file. Without this, zero writes segfault with
-> images that have zeroed_grain=on.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Thu, Apr 30, 2020 at 09:58:12AM +0100, Dr. David Alan Gilbert wrote:
+> [..]
+> > > > Even without this patch, the SLAVE stuff worked so if you start the
+> > > > daemon and *then* mount under the shared directory, the guest sees =
+it
+> > > > with or without this patch.
+> > >=20
+> > > Hm, I don=E2=80=99t.  Do you really?
+> >=20
+> > Yes! With your patch reverted:
+> >=20
+> > Start virtiofsd, mount in the guest:
+> >=20
+> > host:
+> > # ./virtiofsd --socket-path=3D/tmp/vhostqemu -o source=3D/home/dgilbert=
+/virtio-fs/fs  -o log_level=3Dwarn -o no_writeback
+> >=20
+> > guest:
+> > # mount -t virtiofs myfs /sysroot
+> >=20
+> > host:
+> > # findmnt -o +PROPAGATION -N 6100
+> > TARGET SOURCE                                                          =
+    FSTYPE OPTIONS                                                      PRO=
+PAGATION
+> > /      /dev/mapper/fedora_dgilbert--t580-root[/home/dgilbert/virtio-fs/=
+fs] xfs    rw,relatime,seclabel,attr2,inode64,logbufs=3D8,logbsize=3D32k,no=
+ private,slave
+> > # mount -t tmpfs /dev/null /home/dgilbert/virtio-fs/fs/tmp
+> > # findmnt -o +PROPAGATION -N 6100
+> > TARGET SOURCE                                                          =
+    FSTYPE OPTIONS                                                      PRO=
+PAGATION
+> > /      /dev/mapper/fedora_dgilbert--t580-root[/home/dgilbert/virtio-fs/=
+fs] xfs    rw,relatime,seclabel,attr2,inode64,logbufs=3D8,logbsize=3D32k,no=
+ private,slave
+> > =E2=94=94=E2=94=80/tmp /dev/null                                       =
+                    tmpfs  rw,relatime,seclabel                            =
+             private,slave
+>=20
+> Why is it showing a mount point at "/tmp". If mount point propagated, the=
+n
+> inside guest we should see a mount point at /sysroot/tmp?
 
-zero_grained=on ?
+That findmnt is on the host.
 
-> 
-> For zero writes, we don't want to allocate a cluster in the image file
-> even in compressed files.
-> 
-> Fixes: 524089bce43fd1cd3daaca979872451efa2cf7c6
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/vmdk.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
+> So there are two things.
+>=20
+> A. Propagation of mount from host to virtiofsd.
+> B. Visibility of that mount inside guest over fuse protocol (submount
+>   functionality).
+>=20
+> I think A works for me without any patches. But don't think B is working
+> for me. I don't see the submount inside guest.=20
+>=20
+> > # touch /home/dgilbert/virtio-fs/fs/tmp/hello
+> >=20
+> > guest:
+> > # ls -l /sysroot/tmp
+> > total 0
+> > -rw-r--r-- 1 root root 0 Apr 30 08:50 hello
+>=20
+> Do a "findmnt /sysroot/tmp" inside guest and see what do you see.
+>=20
+> You will be able to see "hello" as long as virtiofsd sees the new
+> mount point, I think. And guest does not have to see that mount point
+> for this simple test to work.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Right, the guest just sees:
+
+`-/sysroot                            myfs       virtiof rw,relatime
+
+Dave
+
+> Vivek
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
