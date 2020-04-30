@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DAA1BF73D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:56:52 +0200 (CEST)
-Received: from localhost ([::1]:53366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4941BF7C7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:03:46 +0200 (CEST)
+Received: from localhost ([::1]:52284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7oB-0003gb-13
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33834)
+	id 1jU7ur-00088a-Ms
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:03:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33846)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jc-00034Z-St
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jd-00036n-Pc
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jY-0000OS-Qu
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:08 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52906)
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jZ-0000Op-Nc
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:09 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jU7jY-0000NW-Ay
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:04 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id 188so1511830wmc.2
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:03 -0700 (PDT)
+ id 1jU7jZ-0000OH-AU
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:05 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id 188so1511891wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/JOpwnlKiYDdU9XInaBUbtyuT88O8qiGy04kfKAS7w8=;
- b=E0vWChsepRLNXmVk+DI/u6XpCvkKqovYV3OzIm04wE700TTJn2ztqeSv9JBEIWVN7n
- 1bEj9o8JMToKLF0CFB6h00H+rLhZ31INM78IPf7ajMc6A7zU4XAkxirpUDJLuLNH76IJ
- zIkVpNYwSI46VtLramFuk0WDpMwsO9MLZsPGayAue3jQPkDf4lWBYeEWKWlEHXnVJL9u
- yjM+xMP2fapHkuiqcKwOPZpi3Ev5tNTTc/yrfaMHRfkbteXPLkj0Wf0aSgzjkCFcSIci
- z82dEyau9ODMoWUFHhua+Bu9sqFY6AQBK/y4FSlhWZ29eBVhe9KFcmx2gW7OoFAqwwiZ
- Q2iw==
+ bh=O3w8HyaAfJtw7bxuseWGtHyrXHMdqtOWwjxtX6t+QRI=;
+ b=LJPm61l1x/msDMFCY74yUWnCfFx/MNcl3PkFuj5s+zascAqHwqTp8OD7chQhSzmnjM
+ 3RDvMPOncTranY/LSuYGXfleOu57oSfY9wKll/C5PS1aU8SefBrR1rkArTkGZs5VamAh
+ zoV05IDns1Ysq0HN6XhlLuGZwFhRvV88kvogRzpHO+9K3hy9yUV/Ndfze8yVAbMUDlKD
+ 2anrl+AtVEwNxWAOTaEQ+blRNbb++fvcDj1jG2BDibsHvTe1Oe9BxQsz2DjdOeDwoUwg
+ tE3bx1FF8JtKeWvo/fsq0cXmtodEELgIQdphYEdf4CKmQArgpBJ3gjfAsw9tzRG1DOO8
+ Tf0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/JOpwnlKiYDdU9XInaBUbtyuT88O8qiGy04kfKAS7w8=;
- b=iRelBI2jDhbFpjQJcdcRoiBzIg18zuTNpzEaDNzpybHVnlaFA5P9UzoTo5J2XwjoQz
- 93boUkFfOCFLLQkg2oWmjcmb/MWsp0poBTB7gZOpzxrzNRKEtZnTDIWSe1YyNxO+R5MH
- tPpAEuULuDyXju/IeDexA1ptsNKRr3OgLHZZBVyOXQXiX9URgUQqPDsj9AAR30L46lR2
- Y6+f6/p6KZobszEAY7cZAphbyk4KXTaJ4n3S4UPo79k7YHyp9pc8jP28MbUxkRG6o7nq
- ufKjgURGtRDYZWjNLuaxxa6GeqNs7nnT7cevf/cd1Vw/wxhq+oeeJ8vBA0oczeFGkdSa
- Hosg==
-X-Gm-Message-State: AGi0PuYIXmwdhY7DTvcoF+iPLAZYYAx2dbr15/C3vOVSufHsE6tVr5tK
- 6fIDszc0TiNCDUTCjW6PdeZdnEy/U/vZWA==
-X-Google-Smtp-Source: APiQypJh0KmWp1c2rciu3V86ynqIC8zfkZ5VZ/av87IXFvOoT8EhW8RGcKKMr47CKn0XyGYRfpDaFQ==
-X-Received: by 2002:a1c:2d02:: with SMTP id t2mr2597783wmt.98.1588247522584;
- Thu, 30 Apr 2020 04:52:02 -0700 (PDT)
+ bh=O3w8HyaAfJtw7bxuseWGtHyrXHMdqtOWwjxtX6t+QRI=;
+ b=qmSMsNjI4gBVkbHX3CzJIsCopSaigl8MQhdmOxJOqRxbAQYLYLDnoygxW2mPcBgN6C
+ QMGE3PZmWaTDs0UC7LEPxP+rg2dphFfQnHY4b+var1/uVb9VZXXYncOOTZEQC21UxP2M
+ hD0Rw8Y+RAY7LVr7m2h9YU2qmz/qnUQmfO9jhqmoNl95o6AEI04GCjSx179MwPDUmEWy
+ a0qSIS3kesiifa1TY7kbF+1ZQzoYp9psvJNEgNcJTf+OyP6a679QmdonVP6h23JV9heP
+ wFQaQKgclCathuLt3x4lojyOQjgjyFYMHQhkBj51howMYtEvD5I515GG4g5E9WWyW4NS
+ uGbQ==
+X-Gm-Message-State: AGi0PuZimHIYyga58u9WGCgHziyrsh5vcTTJGCpd0mDq77lu83ZePM/e
+ QP2qTq50QpM0DmyoIiJvFjcKkn6w1N0jJw==
+X-Google-Smtp-Source: APiQypIIWj4n1YbzQSWfzwy94G17VcnmwYrO607JxjjtndZEsv1Ws6LhnCWxnTphPz/MYtlxW4auqQ==
+X-Received: by 2002:a7b:c104:: with SMTP id w4mr2606415wmi.8.1588247523570;
+ Thu, 30 Apr 2020 04:52:03 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.01
+ by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:52:01 -0700 (PDT)
+ Thu, 30 Apr 2020 04:52:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/31] hw/arm/xilinx_zynq: connect uart clocks to slcr
-Date: Thu, 30 Apr 2020 12:51:27 +0100
-Message-Id: <20200430115142.13430-17-peter.maydell@linaro.org>
+Subject: [PULL 17/31] qdev-monitor: print the device's clock with info qtree
+Date: Thu, 30 Apr 2020 12:51:28 +0100
+Message-Id: <20200430115142.13430-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430115142.13430-1-peter.maydell@linaro.org>
 References: <20200430115142.13430-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::32c
+X-Received-From: 2a00:1450:4864:20::32d
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,132 +87,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Damien Hedde <damien.hedde@greensocs.com>
 
-Add the connection between the slcr's output clocks and the uarts inputs.
+This prints the clocks attached to a DeviceState when using
+"info qtree" monitor command. For every clock, it displays the
+direction, the name and if the clock is forwarded. For input clock,
+it displays also the frequency.
 
-Also add the main board clock 'ps_clk', which is hard-coded to 33.33MHz
-(the default frequency). This clock is used to feed the slcr's input
-clock.
+This is based on the original work of Frederic Konrad.
+
+Here follows a sample of `info qtree` output on xilinx_zynq machine
+after linux boot with only one uart clocked:
+> bus: main-system-bus
+>  type System
+>  [...]
+>  dev: cadence_uart, id ""
+>    gpio-out "sysbus-irq" 1
+>    clock-in "refclk" freq_hz=0.000000e+00
+>    chardev = ""
+>    mmio 00000000e0001000/0000000000001000
+>  dev: cadence_uart, id ""
+>    gpio-out "sysbus-irq" 1
+>    clock-in "refclk" freq_hz=1.375661e+07
+>    chardev = "serial0"
+>    mmio 00000000e0000000/0000000000001000
+>  [...]
+>  dev: xilinx,zynq_slcr, id ""
+>    clock-out "uart1_ref_clk" freq_hz=0.000000e+00
+>    clock-out "uart0_ref_clk" freq_hz=1.375661e+07
+>    clock-in "ps_clk" freq_hz=3.333333e+07
+>    mmio 00000000f8000000/0000000000001000
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20200406135251.157596-9-damien.hedde@greensocs.com
+Message-id: 20200406135251.157596-10-damien.hedde@greensocs.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/xilinx_zynq.c | 57 +++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 49 insertions(+), 8 deletions(-)
+ qdev-monitor.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index 571cdcd599e..91b498dd5d3 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -35,6 +35,15 @@
- #include "hw/char/cadence_uart.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/cpu/a9mpcore.h"
-+#include "hw/qdev-clock.h"
-+#include "sysemu/reset.h"
-+
-+#define TYPE_ZYNQ_MACHINE MACHINE_TYPE_NAME("xilinx-zynq-a9")
-+#define ZYNQ_MACHINE(obj) \
-+    OBJECT_CHECK(ZynqMachineState, (obj), TYPE_ZYNQ_MACHINE)
-+
-+/* board base frequency: 33.333333 MHz */
-+#define PS_CLK_FREQUENCY (100 * 1000 * 1000 / 3)
+diff --git a/qdev-monitor.c b/qdev-monitor.c
+index 9833b335496..56cee1483fa 100644
+--- a/qdev-monitor.c
++++ b/qdev-monitor.c
+@@ -38,6 +38,7 @@
+ #include "migration/misc.h"
+ #include "migration/migration.h"
+ #include "qemu/cutils.h"
++#include "hw/clock.h"
  
- #define NUM_SPI_FLASHES 4
- #define NUM_QSPI_FLASHES 2
-@@ -75,6 +84,11 @@ static const int dma_irqs[8] = {
-     0xe3401000 + ARMV7_IMM16(extract32((val), 16, 16)), /* movt r1 ... */ \
-     0xe5801000 + (addr)
+ /*
+  * Aliases were a bad idea from the start.  Let's keep them
+@@ -737,6 +738,7 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
+     ObjectClass *class;
+     BusState *child;
+     NamedGPIOList *ngl;
++    NamedClockList *ncl;
  
-+typedef struct ZynqMachineState {
-+    MachineState parent;
-+    Clock *ps_clk;
-+} ZynqMachineState;
-+
- static void zynq_write_board_setup(ARMCPU *cpu,
-                                    const struct arm_boot_info *info)
- {
-@@ -159,10 +173,11 @@ static inline void zynq_init_spi_flashes(uint32_t base_addr, qemu_irq irq,
- 
- static void zynq_init(MachineState *machine)
- {
-+    ZynqMachineState *zynq_machine = ZYNQ_MACHINE(machine);
-     ARMCPU *cpu;
-     MemoryRegion *address_space_mem = get_system_memory();
-     MemoryRegion *ocm_ram = g_new(MemoryRegion, 1);
--    DeviceState *dev;
-+    DeviceState *dev, *slcr;
-     SysBusDevice *busdev;
-     qemu_irq pic[64];
-     int n;
-@@ -206,9 +221,18 @@ static void zynq_init(MachineState *machine)
-                           1, 0x0066, 0x0022, 0x0000, 0x0000, 0x0555, 0x2aa,
-                           0);
- 
--    dev = qdev_create(NULL, "xilinx,zynq_slcr");
--    qdev_init_nofail(dev);
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xF8000000);
-+    /* Create slcr, keep a pointer to connect clocks */
-+    slcr = qdev_create(NULL, "xilinx,zynq_slcr");
-+    qdev_init_nofail(slcr);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(slcr), 0, 0xF8000000);
-+
-+    /* Create the main clock source, and feed slcr with it */
-+    zynq_machine->ps_clk = CLOCK(object_new(TYPE_CLOCK));
-+    object_property_add_child(OBJECT(zynq_machine), "ps_clk",
-+                              OBJECT(zynq_machine->ps_clk), &error_abort);
-+    object_unref(OBJECT(zynq_machine->ps_clk));
-+    clock_set_hz(zynq_machine->ps_clk, PS_CLK_FREQUENCY);
-+    qdev_connect_clock_in(slcr, "ps_clk", zynq_machine->ps_clk);
- 
-     dev = qdev_create(NULL, TYPE_A9MPCORE_PRIV);
-     qdev_prop_set_uint32(dev, "num-cpu", 1);
-@@ -229,8 +253,12 @@ static void zynq_init(MachineState *machine)
-     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0002000, pic[53 - IRQ_OFFSET]);
-     sysbus_create_simple(TYPE_CHIPIDEA, 0xE0003000, pic[76 - IRQ_OFFSET]);
- 
--    cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial_hd(0));
--    cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial_hd(1));
-+    dev = cadence_uart_create(0xE0000000, pic[59 - IRQ_OFFSET], serial_hd(0));
-+    qdev_connect_clock_in(dev, "refclk",
-+                          qdev_get_clock_out(slcr, "uart0_ref_clk"));
-+    dev = cadence_uart_create(0xE0001000, pic[82 - IRQ_OFFSET], serial_hd(1));
-+    qdev_connect_clock_in(dev, "refclk",
-+                          qdev_get_clock_out(slcr, "uart1_ref_clk"));
- 
-     sysbus_create_varargs("cadence_ttc", 0xF8001000,
-             pic[42-IRQ_OFFSET], pic[43-IRQ_OFFSET], pic[44-IRQ_OFFSET], NULL);
-@@ -308,8 +336,9 @@ static void zynq_init(MachineState *machine)
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &zynq_binfo);
- }
- 
--static void zynq_machine_init(MachineClass *mc)
-+static void zynq_machine_class_init(ObjectClass *oc, void *data)
- {
-+    MachineClass *mc = MACHINE_CLASS(oc);
-     mc->desc = "Xilinx Zynq Platform Baseboard for Cortex-A9";
-     mc->init = zynq_init;
-     mc->max_cpus = 1;
-@@ -319,4 +348,16 @@ static void zynq_machine_init(MachineClass *mc)
-     mc->default_ram_id = "zynq.ext_ram";
- }
- 
--DEFINE_MACHINE("xilinx-zynq-a9", zynq_machine_init)
-+static const TypeInfo zynq_machine_type = {
-+    .name = TYPE_ZYNQ_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .class_init = zynq_machine_class_init,
-+    .instance_size = sizeof(ZynqMachineState),
-+};
-+
-+static void zynq_machine_register_types(void)
-+{
-+    type_register_static(&zynq_machine_type);
-+}
-+
-+type_init(zynq_machine_register_types)
+     qdev_printf("dev: %s, id \"%s\"\n", object_get_typename(OBJECT(dev)),
+                 dev->id ? dev->id : "");
+@@ -751,6 +753,13 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
+                         ngl->num_out);
+         }
+     }
++    QLIST_FOREACH(ncl, &dev->clocks, node) {
++        qdev_printf("clock-%s%s \"%s\" freq_hz=%e\n",
++                    ncl->output ? "out" : "in",
++                    ncl->alias ? " (alias)" : "",
++                    ncl->name,
++                    CLOCK_PERIOD_TO_HZ(1.0 * clock_get(ncl->clock)));
++    }
+     class = object_get_class(OBJECT(dev));
+     do {
+         qdev_print_props(mon, dev, DEVICE_CLASS(class)->props_, indent);
 -- 
 2.20.1
 
