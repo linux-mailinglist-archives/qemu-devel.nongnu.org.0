@@ -2,114 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C81E01C0089
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 17:38:51 +0200 (CEST)
-Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2659C1C00AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 17:44:16 +0200 (CEST)
+Received: from localhost ([::1]:54696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUBH0-0004lS-Q7
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 11:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42506)
+	id 1jUBMF-0000ly-6H
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 11:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43176)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jUBFa-0003WE-1p
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:37:22 -0400
+ (envelope-from <vgoyal@redhat.com>) id 1jUBKw-00084w-3D
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:43:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <david@redhat.com>) id 1jUBFY-0000UC-L8
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:37:21 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42807
+ (envelope-from <vgoyal@redhat.com>) id 1jUBJS-0005m9-5R
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:42:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27077
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jUBFY-0000Ty-70
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:37:20 -0400
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1jUBJR-0005m2-Ng
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:41:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588261039;
+ s=mimecast20190719; t=1588261280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gjrq0ct9QjjG1EZAG51mMsZEz1yxNtaDtU9NZgg5j0c=;
- b=f3N0ed9glEoVrX3zffE+0mWNQUhyfm6kAdDeSLcMSbrAzBbu3sZEahz8/Hk+OUOktcaIpF
- pzyaWixNH/rzax1a65U6yyMRHaUUR/l9GJaYdJT1zkhqDvSTb3jnCPNEpvbqQLHwfbKQpX
- S52WdGi6Ajc5mQRm+d9N+pds3sB7DEE=
+ in-reply-to:in-reply-to:references:references;
+ bh=WISaus3baP4Zrt/Oh57RNx8CavHVOv3Qte68zDNz+Kk=;
+ b=JvT42MsujA1QTWBgdEGuLgDDmcXXeGuCmUK1HYHCjHyNc81T/50eM9veTcRm+hI8mVA6zk
+ Lu6R8kKbHG2rip73IW5eV3A8HKoeq+2D5mXS4OabZg7Gq2nVM3WU5xH1ejHwDfSNT9/BOA
+ cubeJ0H4SMOavrbgnaslZbL8wiMyru4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-pnlPD05YP_-HaQcpIw1OJw-1; Thu, 30 Apr 2020 11:37:14 -0400
-X-MC-Unique: pnlPD05YP_-HaQcpIw1OJw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-142-HuaSpBEbPZykGepF3R4dIQ-1; Thu, 30 Apr 2020 11:41:17 -0400
+X-MC-Unique: HuaSpBEbPZykGepF3R4dIQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 209AC107ACF5;
- Thu, 30 Apr 2020 15:37:13 +0000 (UTC)
-Received: from [10.36.113.172] (ovpn-113-172.ams2.redhat.com [10.36.113.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E616E5D777;
- Thu, 30 Apr 2020 15:37:11 +0000 (UTC)
-Subject: Re: [PATCH 8/8] pc-bios: s390x: Make u32 ptr check explicit
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20200324150847.10476-1-frankja@linux.ibm.com>
- <20200324150847.10476-9-frankja@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABtCREYXZpZCBIaWxk
- ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT6JAlgEEwEIAEICGwMFCQlmAYAGCwkIBwMCBhUI
- AgkKCwQWAgMBAh4BAheAFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl3pImkCGQEACgkQTd4Q
- 9wD/g1o+VA//SFvIHUAvul05u6wKv/pIR6aICPdpF9EIgEU448g+7FfDgQwcEny1pbEzAmiw
- zAXIQ9H0NZh96lcq+yDLtONnXk/bEYWHHUA014A1wqcYNRY8RvY1+eVHb0uu0KYQoXkzvu+s
- Dncuguk470XPnscL27hs8PgOP6QjG4jt75K2LfZ0eAqTOUCZTJxA8A7E9+XTYuU0hs7QVrWJ
- jQdFxQbRMrYz7uP8KmTK9/Cnvqehgl4EzyRaZppshruKMeyheBgvgJd5On1wWq4ZUV5PFM4x
- II3QbD3EJfWbaJMR55jI9dMFa+vK7MFz3rhWOkEx/QR959lfdRSTXdxs8V3zDvChcmRVGN8U
- Vo93d1YNtWnA9w6oCW1dnDZ4kgQZZSBIjp6iHcA08apzh7DPi08jL7M9UQByeYGr8KuR4i6e
- RZI6xhlZerUScVzn35ONwOC91VdYiQgjemiVLq1WDDZ3B7DIzUZ4RQTOaIWdtXBWb8zWakt/
- ztGhsx0e39Gvt3391O1PgcA7ilhvqrBPemJrlb9xSPPRbaNAW39P8ws/UJnzSJqnHMVxbRZC
- Am4add/SM+OCP0w3xYss1jy9T+XdZa0lhUvJfLy7tNcjVG/sxkBXOaSC24MFPuwnoC9WvCVQ
- ZBxouph3kqc4Dt5X1EeXVLeba+466P1fe1rC8MbcwDkoUo65Ag0EVcufkQEQAOfX3n0g0fZz
- Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
- T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
- 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
- CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
- NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
- 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
- 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
- lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
- AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
- N7eop7uh+6bezi+rugUI+w6DABEBAAGJAiUEGAECAA8FAlXLn5ECGwwFCQlmAYAACgkQTd4Q
- 9wD/g1qA6w/+M+ggFv+JdVsz5+ZIc6MSyGUozASX+bmIuPeIecc9UsFRatc91LuJCKMkD9Uv
- GOcWSeFpLrSGRQ1Z7EMzFVU//qVs6uzhsNk0RYMyS0B6oloW3FpyQ+zOVylFWQCzoyyf227y
- GW8HnXunJSC+4PtlL2AY4yZjAVAPLK2l6mhgClVXTQ/S7cBoTQKP+jvVJOoYkpnFxWE9pn4t
- H5QIFk7Ip8TKr5k3fXVWk4lnUi9MTF/5L/mWqdyIO1s7cjharQCstfWCzWrVeVctpVoDfJWp
- 4LwTuQ5yEM2KcPeElLg5fR7WB2zH97oI6/Ko2DlovmfQqXh9xWozQt0iGy5tWzh6I0JrlcxJ
- ileZWLccC4XKD1037Hy2FLAjzfoWgwBLA6ULu0exOOdIa58H4PsXtkFPrUF980EEibUp0zFz
- GotRVekFAceUaRvAj7dh76cToeZkfsjAvBVb4COXuhgX6N4pofgNkW2AtgYu1nUsPAo+NftU
- CxrhjHtLn4QEBpkbErnXQyMjHpIatlYGutVMS91XTQXYydCh5crMPs7hYVsvnmGHIaB9ZMfB
- njnuI31KBiLUks+paRkHQlFcgS2N3gkRBzH7xSZ+t7Re3jvXdXEzKBbQ+dC3lpJB0wPnyMcX
- FOTT3aZT7IgePkt5iC/BKBk3hqKteTnJFeVIT7EC+a6YUFg=
-Organization: Red Hat GmbH
-Message-ID: <6965e2e6-6882-5a56-f080-a3aad44a5f28@redhat.com>
-Date: Thu, 30 Apr 2020 17:37:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7441846269
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 15:41:16 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-229.rdu2.redhat.com [10.10.115.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DB4F6116F;
+ Thu, 30 Apr 2020 15:41:06 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id C3B83223620; Thu, 30 Apr 2020 11:41:05 -0400 (EDT)
+Date: Thu, 30 Apr 2020 11:41:05 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] virtiofsd: Show submounts
+Message-ID: <20200430154105.GE260081@redhat.com>
+References: <20200424133516.73077-1-mreitz@redhat.com>
+ <20200427175902.GM2923@work-vm> <20200429145720.GA2835@work-vm>
+ <8c73f374-fcc8-1684-b581-84a9ab501aa9@redhat.com>
+ <20200430085812.GC2874@work-vm>
+ <20200430135639.GA260081@redhat.com>
+ <20200430142013.GI2874@work-vm>
+ <20200430143425.GD2184629@redhat.com>
+ <20200430144116.GD260081@redhat.com>
+ <20200430144704.GG2184629@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200324150847.10476-9-frankja@linux.ibm.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20200430144704.GG2184629@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -121,44 +84,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
+Cc: virtio-fs@redhat.com, Max Reitz <mreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.03.20 16:08, Janosch Frank wrote:
-> Let's make it a bit more clear that we check the full 64 bits to fit
-> into the 32 we return.
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> Suggested-by: David Hildenbrand <david@redhat.com>
-> ---
->  pc-bios/s390-ccw/helper.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
-> index 78d5bc74421b4173..b4e83a7e5deaa9dc 100644
-> --- a/pc-bios/s390-ccw/helper.h
-> +++ b/pc-bios/s390-ccw/helper.h
-> @@ -18,7 +18,7 @@
->  /* Avoids compiler warnings when casting a pointer to a u32 */
->  static inline uint32_t ptr2u32(void *ptr)
->  {
-> -    IPL_assert((uint64_t)ptr <= 0xffffffff, "ptr2u32: ptr too large");
-> +    IPL_assert((uint64_t)ptr <= 0xfffffffful, "ptr2u32: ptr too large");
+On Thu, Apr 30, 2020 at 03:47:04PM +0100, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Apr 30, 2020 at 10:41:16AM -0400, Vivek Goyal wrote:
+> > On Thu, Apr 30, 2020 at 03:34:25PM +0100, Daniel P. Berrang=C3=A9 wrote=
+:
+> > > On Thu, Apr 30, 2020 at 03:20:13PM +0100, Dr. David Alan Gilbert wrot=
+e:
+> > > > * Vivek Goyal (vgoyal@redhat.com) wrote:
+> > > > > On Thu, Apr 30, 2020 at 09:58:12AM +0100, Dr. David Alan Gilbert =
+wrote:
+> > > > > [..]
+> > > > > > > > Even without this patch, the SLAVE stuff worked so if you s=
+tart the
+> > > > > > > > daemon and *then* mount under the shared directory, the gue=
+st sees it
+> > > > > > > > with or without this patch.
+> > > > > > >=20
+> > > > > > > Hm, I don=E2=80=99t.  Do you really?
+> > > > > >=20
+> > > > > > Yes! With your patch reverted:
+> > > > > >=20
+> > > > > > Start virtiofsd, mount in the guest:
+> > > > > >=20
+> > > > > > host:
+> > > > > > # ./virtiofsd --socket-path=3D/tmp/vhostqemu -o source=3D/home/=
+dgilbert/virtio-fs/fs  -o log_level=3Dwarn -o no_writeback
+> > > > > >=20
+> > > > > > guest:
+> > > > > > # mount -t virtiofs myfs /sysroot
+> > > > > >=20
+> > > > > > host:
+> > > > > > # findmnt -o +PROPAGATION -N 6100
+> > > > > > TARGET SOURCE                                                  =
+            FSTYPE OPTIONS                                                 =
+     PROPAGATION
+> > > > > > /      /dev/mapper/fedora_dgilbert--t580-root[/home/dgilbert/vi=
+rtio-fs/fs] xfs    rw,relatime,seclabel,attr2,inode64,logbufs=3D8,logbsize=
+=3D32k,no private,slave
+> > > > > > # mount -t tmpfs /dev/null /home/dgilbert/virtio-fs/fs/tmp
+> > > > > > # findmnt -o +PROPAGATION -N 6100
+> > > > > > TARGET SOURCE                                                  =
+            FSTYPE OPTIONS                                                 =
+     PROPAGATION
+> > > > > > /      /dev/mapper/fedora_dgilbert--t580-root[/home/dgilbert/vi=
+rtio-fs/fs] xfs    rw,relatime,seclabel,attr2,inode64,logbufs=3D8,logbsize=
+=3D32k,no private,slave
+> > > > > > =E2=94=94=E2=94=80/tmp /dev/null                               =
+                            tmpfs  rw,relatime,seclabel                    =
+                     private,slave
+> > > > >=20
+> > > > > Why is it showing a mount point at "/tmp". If mount point propaga=
+ted, then
+> > > > > inside guest we should see a mount point at /sysroot/tmp?
+> > > >=20
+> > > > That findmnt is on the host.
+> > > >=20
+> > > > > So there are two things.
+> > > > >=20
+> > > > > A. Propagation of mount from host to virtiofsd.
+> > > > > B. Visibility of that mount inside guest over fuse protocol (subm=
+ount
+> > > > >   functionality).
+> > > > >=20
+> > > > > I think A works for me without any patches. But don't think B is =
+working
+> > > > > for me. I don't see the submount inside guest.=20
+> > > > >=20
+> > > > > > # touch /home/dgilbert/virtio-fs/fs/tmp/hello
+> > > > > >=20
+> > > > > > guest:
+> > > > > > # ls -l /sysroot/tmp
+> > > > > > total 0
+> > > > > > -rw-r--r-- 1 root root 0 Apr 30 08:50 hello
+> > > > >=20
+> > > > > Do a "findmnt /sysroot/tmp" inside guest and see what do you see.
+> > > > >=20
+> > > > > You will be able to see "hello" as long as virtiofsd sees the new
+> > > > > mount point, I think. And guest does not have to see that mount p=
+oint
+> > > > > for this simple test to work.
+> > > >=20
+> > > > Right, the guest just sees:
+> > > >=20
+> > > > `-/sysroot                            myfs       virtiof rw,relatim=
+e
+> > >=20
+> > > That is a good thing surely ? If I'm exporting "/sysroot" from the ho=
+st,
+> > > I want the content in "/sysroot/some/sub/mount" to be visible to the
+> > > guest, but I don't want the guest to see "/sysroot/some/sub/mount"
+> > > as an actual mount point. That would be leaking information about the
+> > > host storage setup into the guest. The host admin should be free to
+> > > re-arrange submounts in the host OS, to bring more storage space onli=
+ne,
+> > > and have this be transparent to the guest OS.
+> >=20
+> > If we don't see mount inside guest, we run into the possibility of inod=
+e
+> > number collision. On host two files in shared dir can have same inode
+> > number (if they are on two different filesystem with different device
+> > numbers). But inside guest, we will show device number of virtiofs,
+> > and it will look as if two files in this filesystem have same inode
+> > number, breaking some workloads.
+> >=20
+> > By propagating mounts (submounts), we can assign a unique device number
+> > to these submounts and hence <dev,inode> number pair will become unique=
+.
+>=20
+> Ah, yes, that's true.  In 9pfs there was recent changes precisely
+> because of this clash possibility:
+>=20
+> commit 1a6ed33cc56997479bbe5b48337ff8da44585bd4
+> Author: Antonios Motakis <antonios.motakis@huawei.com>
+> Date:   Thu Oct 10 11:36:05 2019 +0200
+>=20
+>     9p: Added virtfs option 'multidevs=3Dremap|forbid|warn'
+>    =20
+>     'warn' (default): Only log an error message (once) on host if more th=
+an one
+>     device is shared by same export, except of that just ignore this conf=
+ig
+>     error though. This is the default behaviour for not breaking existing
+>     installations implying that they really know what they are doing.
+>    =20
+>     'forbid': Like 'warn', but except of just logging an error this
+>     also denies access of guest to additional devices.
+>    =20
+>     'remap': Allows to share more than one device per export by remapping
+>     inodes from host to guest appropriately. To support multiple devices =
+on the
+>     9p share, and avoid qid path collisions we take the device id as inpu=
+t to
+>     generate a unique QID path. The lowest 48 bits of the path will be se=
+t
+>     equal to the file inode, and the top bits will be uniquely assigned b=
+ased
+>     on the top 16 bits of the inode and the device id.
+>=20
+>=20
+> Perhaps we should try to support the same options in virtio-fs. At least
+> the "forbid" and "remap" options make sense I think. "warn" was only
+> really there for backcompat.  If we can expose it to the guest, then a
+> further "expose" option would be viable.
 
-wonder if we should even do ull.
+Providing options in virtiofsd daemon so that use can tweak these settings
+makes sense.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Given we are already allowing accessing multiple device inside guest, we
+also probably need a mode to continue to allow that so that not to break
+existing setups.
 
->      return (uint32_t)(uint64_t)ptr;
->  }
->  
-> 
+"forbid", "remap" make sense. And I like the option "expose" too.
 
+"remap" will require little thought that how do we do that. We briefly
+discussed encoding device number in higher inode bits and Miklos was
+not too keen on it. What if filesystem is using all 64bits of inode. We
+also need to do encoding in such a way so that inode number is persistent.
 
--- 
-Thanks,
-
-David / dhildenb
+Thanks
+Vivek
 
 
