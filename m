@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9671BFB28
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:58:25 +0200 (CEST)
-Received: from localhost ([::1]:47622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF431BFBA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:01:07 +0200 (CEST)
+Received: from localhost ([::1]:55210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU9ho-0000bB-Fz
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:58:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51750)
+	id 1jU9kQ-0003rj-GP
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:01:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51746)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9ay-0003WO-DU
+ (envelope-from <bounces@canonical.com>) id 1jU9aw-0003SY-9M
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9ap-0000nt-7I
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36388)
+ (envelope-from <bounces@canonical.com>) id 1jU9an-0000ir-8k
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:17 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jU9ao-0000ij-NU
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:10 -0400
+ id 1jU9am-0000et-PQ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:08 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jU9am-0007kE-O4
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:51:08 +0000
+ id 1jU9al-0007ih-8M
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:51:07 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B08AD2E802D
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:51:08 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3BF842E8104
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:51:07 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Apr 2020 13:40:59 -0000
+Date: Thu, 30 Apr 2020 13:41:49 -0000
 From: Laurent Vivier <Laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: gdb
+X-Launchpad-Bug-Tags: audio dos games gus sb16 timed timer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier mkdolata
-X-Launchpad-Bug-Reporter: Marek Dolata (mkdolata)
+X-Launchpad-Bug-Commenters: laurent-vivier zezuspam
+X-Launchpad-Bug-Reporter: David Miller (zezuspam)
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <157740016424.15105.4522605454597916967.malonedeb@wampee.canonical.com>
-Message-Id: <158825406038.4508.17705569912212790954.launchpad@soybean.canonical.com>
-Subject: [Bug 1857640] Re: qemu-system-i386 registers clobbered after gdb set
- due to k_gs_base bug in gdbstub
+References: <157833854539.28173.10729724748625497755.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158825411029.11959.14691651805460123144.launchpad@wampee.canonical.com>
+Subject: [Bug 1858488] Re: qemu git && 4.2:  timed audio issues with sb16,
+ gus not working?
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: e7bbeb3a2e7b99dea75f78172da4ceaf1a0e489e
+X-Launchpad-Hash: e9de73d8695247f3acadd64dbeecc1161736b03d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:35:36
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1857640 <1857640@bugs.launchpad.net>
+Reply-To: Bug 1858488 <1858488@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,156 +81,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1857640
+https://bugs.launchpad.net/bugs/1858488
 
 Title:
-  qemu-system-i386 registers clobbered after gdb set due to k_gs_base
-  bug in gdbstub
+  qemu git && 4.2:  timed audio issues with sb16,  gus not working?
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Due to a bug in /target/i386/gdbstub.c, setting registers in gdb
-  causes the ones following k_gs_base to get clobbered.
-
-  I'm using qemu version 4.2.50 on an msys64 and start qemu's i386 with
-  a gdb server.
-
-  $ qemu-system-i386 -version
-  QEMU emulator version 4.2.50 (v4.2.0-363-gdd5b0f9549-dirty)
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-
-  $ qemu-system-i386 -gdb tcp::29096 -S
-  C:\msys64\usr\local\qemu-system-i386.exe: invalid accelerator kvm
-  C:\msys64\usr\local\qemu-system-i386.exe: falling back to tcg
-
   =
 
-  I start a gdb client, connect to the server, display the register state, =
-set k_gs_base, display the register state again, and notice an issue. (Sett=
-ing other registers also clobbers the ones after k_gs_base).
+  I have built [both] current git, and 4.2.0, there are issues with audio/s=
+oundhw for both.
 
-  $ gdb -q
-  (gdb) target remote :29096
-  ...
-  (gdb) info regs
-  ...
-  gs_base        0x0      0
-  k_gs_base      0x0      0
-  cr0            0x60000010       [ CD NW ET ]
-  cr2            0x0      0
-  ...
-  (gdb) set $k_gs_base =3D 0x41414141
-  (gdb) info regs
-  ...
-  gs_base        0x0      0
-  k_gs_base      0x0      0
-  cr0            0x41414151       [ CD WP ET PE ]
-  cr2            0x60000010       1610612752
-  ...
+  Specifics:
 
-  =
+  Linux nullrig 5.3.0-24-generic #26-Ubuntu SMP Thu Nov 14 01:33:18 UTC
+  2019 x86_64 x86_64 x86_64 GNU/Linux
 
-  In the gdbstub code, I notice that the read and write functions are not s=
-ymmetric for IDX_SEG_REGS + 8, which corresponds to k_gs_base.
+  Out of source build, successful for both:
 
-  $ cat /usr/local/src/qemu-4.2.0/target/i386/gdbstub.c
-  ...
-  int x86_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
-  {
-  ...
-          case IDX_SEG_REGS + 8:
-  #ifdef TARGET_X86_64
-              if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
-                  return gdb_get_reg64(mem_buf, env->kernelgsbase);
-              }
-              return gdb_get_reg32(mem_buf, env->kernelgsbase);
-  #else
-              return gdb_get_reg32(mem_buf, 0);
-  #endif
-  ...
-  }
-  ...
-  int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-  {
-  ...
-  #ifdef TARGET_X86_64
-          case IDX_SEG_REGS + 8:
-              if (env->hflags & HF_CS64_MASK) {
-                  env->kernelgsbase =3D ldq_p(mem_buf);
-                  return 8;
-              }
-              env->kernelgsbase =3D ldl_p(mem_buf);
-              return 4;
-  #endif
-  ...
-  }
-  ...
+  ../configure --prefix=3D/opt/qemu --target-list=3Di386-softmmu,mips64el-
+  softmmu ---enable-sdl --enable-sdl-image --enable-lzo --enable-bzip2
+  --enable-avx2 --enable-kvm --enable-membarrier --enable-plugin
 
-  =
+  Call:
 
-  I change the write function, rebuild, and verify that the issue is resolv=
-ed.
+  ./qemu -machine pc,accel=3Dkvm,usb=3Doff -cpu pentium -m 64 -rtc
+  base=3Dlocaltime -parallel none -soundhw sb16,adlib,pcspk -device
+  cirrus-vga,bus=3Dpci.0 -drive
+  id=3Ddisk1,file=3Ddoom.cow,format=3Dqcow2,if=3Dvirtio -audiodev pa,id=3Dpa
 
-  $ cat /usr/local/src/qemu-4.2.0/target/i386/gdbstub.c
-  int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-  {
-  ...
-          case IDX_SEG_REGS + 8:
-  #ifdef TARGET_X86_64
-              if (env->hflags & HF_CS64_MASK) {
-                  env->kernelgsbase =3D ldq_p(mem_buf);
-                  return 8;
-              }
-              env->kernelgsbase =3D ldl_p(mem_buf);
-              return 4;
-  #else
-              return 4;
-  #endif
-  ...
-  }
-  ...
+  Audio for sb16 sounds ok,  however if i switch to a timer based audio:
+  -audiodev wav
 
-  $ make
-  ...
-  $ make install
-  ...
+  The output is wrong..  I had assumed it was all timer based audio,
+  however it seems to be limited to sb16.
 
-  $ qemu-system-i386 -gdb tcp::29096 -S
+  So I then tried the next popular/compatible audio device for dos
+  games:  gravis ultrasound [gus].
 
-  $ gdb -q
-  (gdb) target remote :29096
-  ...
-  (gdb) info regs
-  ...
-  gs_base        0x0      0
-  k_gs_base      0x0      0
-  cr0            0x60000010       [ CD NW ET ]
-  cr2            0x0      0
-  ...
-  (gdb) set $k_gs_base =3D 0x41414141
-  (gdb) info regs
-  ...
-  gs_base        0x0      0
-  k_gs_base      0x0      0
-  cr0            0x60000010       [ CD NW ET ]
-  cr2            0x0      0
-  ...
+  I get no output at all for it.
+  I have tried more than one piece of software,  DOOM shareware is any easy=
+ example.
 
-  =
+  I realize there are better solutions for playing DOS games, however I
+  am interested in snapshot support which many of them lack.
 
-  I'll submit the patch below.
-
-  $ diff gdbstub.c gdbstub.c.bkp
-  353d352
-  <         case IDX_SEG_REGS + 8:
-  354a354
-  >         case IDX_SEG_REGS + 8:
-  362,363d361
-  < #else
-  <             return 4;
+  I am willing to put the work into fixing it myself if need be,
+  however i'm not very familiar with the audio backend.   Specifically,
+  it is already mixed into a single buffer,  if 'adlib' driver is
+  already working: (audio_pcm_ops.write() output is correct on timer
+  based output) I failed to see how it affects emulation of the sound
+  blaster.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1857640/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1858488/+subscriptions
 
