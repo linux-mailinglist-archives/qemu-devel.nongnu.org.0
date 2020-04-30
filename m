@@ -2,109 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6089F1C05FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 21:14:50 +0200 (CEST)
-Received: from localhost ([::1]:32952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 420681C0600
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 21:16:14 +0200 (CEST)
+Received: from localhost ([::1]:37078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUEe0-00012r-RS
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 15:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44992)
+	id 1jUEfN-00031I-84
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 15:16:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jUEc9-000068-Kh
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:12:54 -0400
+ (envelope-from <steplong@quicinc.com>) id 1jUEdk-0001Pb-Eu
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:14:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jUEc7-0004Qy-FG
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:12:52 -0400
-Received: from mail-db8eur05on2132.outbound.protection.outlook.com
- ([40.107.20.132]:24673 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jUEc6-0004Qe-LF; Thu, 30 Apr 2020 15:12:51 -0400
+ (envelope-from <steplong@quicinc.com>) id 1jUEdh-0005Wc-Qx
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:14:30 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:6008)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
+ id 1jUEdh-0005WD-1h; Thu, 30 Apr 2020 15:14:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1588274069; x=1619810069;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=NTrZL/sf/gnFsnLVZV0+PK11AIHEDUTk4seZyG3JnrE=;
+ b=bp0wvXUspGMEVmyI13z+O4Vj+1Nc1WlV18LeStbxSKUxwMwAJZA/4BLp
+ fEI/9PS3X+GJNzf2LeH8fCaVugaGzUR7k/dK12GORqJCC6MKT5tb2YclL
+ H6qfGEJVUTo47Fx6Z3XivviG12FTT6+K5elZWWql/kB+ldCiXtgOncrmw g=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 30 Apr 2020 12:14:26 -0700
+Received: from nasanexm03h.na.qualcomm.com ([10.85.0.50])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 30 Apr 2020 12:14:26 -0700
+Received: from APSANEXR01E.ap.qualcomm.com (10.85.0.38) by
+ nasanexm03h.na.qualcomm.com (10.85.0.50) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 30 Apr 2020 12:14:26 -0700
+Received: from NASANEXM01D.na.qualcomm.com (10.85.0.84) by
+ APSANEXR01E.ap.qualcomm.com (10.85.0.38) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 30 Apr 2020 12:14:22 -0700
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com (199.106.107.6)
+ by NASANEXM01D.na.qualcomm.com (10.85.0.84) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Thu, 30 Apr 2020 12:14:22 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z7EmHOWiqCDyX+Fzt6bBCuW9xQPZL8XLsHqQKqEjYxlVUkMB1yh/3UN8vHHSfcLf9ITfiLdX1vEIL2FZCb3QMHj6oJLMUHaYURSjceH/f6H8WgaC4k2MmUWRYqyfs5VB0WUhLDn6SgAnU7lJLGOU/PMMPDCpjUfvKp2I8L50Ql7uZlcQ9p/IMBcDByfiHGbQ6bI6Ydm7N18HsSh09TuX53yB+nICLWMR4psdRt8sAR0NfumbqvLeR7ziRfb3jpBKIOrywPy2wkxtg1+EvfMKOCCnerAEhCnAr/EuHhhJtz03s1yM2E1tzkNsgSWI1up8I365mXWdz2pKYIZ0wtgpnA==
+ b=GsbvuU5bf8vSa/5cR6DiADgHq9vmFfBZziCrU+yygwBiNE9orNEP2MFh857Uch+y5SeMXDHKjc/Kkvzc9ak6Xi8j3R3Y7zzYW0g7jNcz9LodMx3cq9p5mkxizUSIbhdhBY0mT7rIUVlSvERyiP0ZFMFsBSvaBSPAXORcfkyB8sOOUSd8aJk8wuRE3SWLY+FLX44GJbNBDz7MR+TjsxlF4sK6F/fAqDwrIwaJXIBaPPj6AQ+FQxVuiT2ej6px2HSf+dHprI6oPOU43NyZLC3FaG9E5+4Svx+i4LAZCqrFj3QG+FXB938blqcvWoYDr92krKYx129PbjyZQv37xyZKvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1ShPctZPHA84YFCqMjZqXemrrJFwyl+dLzH6iaMzCVU=;
- b=NKe4JxKTfYa7SdhWZv1NL7Sxhgyg+iYm17F0q8Ck256xybddp2M82tpXM/hd4jMyC18PoFh0f/9cijXvxMXN0rwWcrVllZkzY1Dnciz1/mi7az241GfyWx1kfWtcpiRxT+0AiWUWr1WUvepV+gmOovtwFrN3OuaSpYipFcjZZl/N05uGC0eVj0W7v0Iq8eomYrWxcHu20efzodHNEe5/m46PyyEhj0v7ifbIPCdII+jeXpR5JaJY1enN1NrR506cX/cx+ZoRSTA4VAUWaeVV0G7ofXIxY6reSdIag4zjthOfa6lnwbG+2NB22wLbG3ZSuswRQaklPG04xorcluuaAg==
+ bh=iLYp9GaN/BBZNlk3OJ4l6ySJU2524/XgZRnyVxYPXVg=;
+ b=gwGMBLeD574V1SGxQzDQ8dfFckLbv+NuIXUK+a/n63h/eaB8JVQ+w5ZyxKp3TC7I+ZgXjQ733WBubjDj0kbwanOUaPoUVSvbSoePX2j2lc2yu66nNOUeCebuTSYvhPNCjGrMDrGILAsFbJUqhhfFrxvVyKvtHFv/LjNqT+aCtQBXo49l0M2l+pY8dakzR5Ydt7E/dqnDKbXIgvV8Ls71+Vb6hsxW+wYCJ8IWrViUayHFIjf0zaeB14kZuORmFtT93nb3Xo7edPb6dLgGehv4bddm59hfL2k+dbTIWNlRRiWM9+GNWL+cY0CKE/AeX1rzzDELWx1nVEKEFJWLUxO0PA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1ShPctZPHA84YFCqMjZqXemrrJFwyl+dLzH6iaMzCVU=;
- b=R6VwgeVy+8wYWU58FWN/3srlPJ9k6Uh1dH/KyqYmByksehE184esX1H27bFZKBA+R/CHGhzxlXbI41u9JKJQWRG/SVd1CMHIa/EFbJ39OhvIoq9KcdoEruYSE1Pbd1A1Po0yWi1+QhjKI1aRhf7ES00cIi13x+TbDfquQpeF34s=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5447.eurprd08.prod.outlook.com (2603:10a6:20b:10b::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.22; Thu, 30 Apr
- 2020 19:12:48 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
- 19:12:48 +0000
-Subject: Re: backing chain & block status & filters
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, qemu block <qemu-block@nongnu.org>
-References: <a1c1b734-34dc-f8d3-b6a0-43b136e237e2@virtuozzo.com>
- <20e6c43f-c1a7-57db-58b9-3cb70f0e637f@redhat.com>
- <c00f089e-44f6-32ee-97ea-0414b552bdae@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200430221246406
-Message-ID: <f1220430-1d37-3cc4-0484-3e26fb7e4b84@virtuozzo.com>
-Date: Thu, 30 Apr 2020 22:12:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <c00f089e-44f6-32ee-97ea-0414b552bdae@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR10CA0053.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::33) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ bh=iLYp9GaN/BBZNlk3OJ4l6ySJU2524/XgZRnyVxYPXVg=;
+ b=cndo9WPOCPQype7eGl3K0RvLs4JFQWdK45tVUyHFFBYCLUbZfbrpsyIs4iw4/B9YWb5cEzvbrelg2vaOuBbzOsUKzl1qt2CLMqeyerxzU9nbbaRDH8/6+ZuaC/eJyxrNkT4c1QN8s2rPQkoO2nHK+0HRTUI53kynCT12CxLekf8=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=quicinc.com;
+Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
+ (2603:10b6:301:7b::24) by MWHPR0201MB3497.namprd02.prod.outlook.com
+ (2603:10b6:301:7e::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Thu, 30 Apr
+ 2020 19:14:18 +0000
+Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
+ ([fe80::10ad:5df5:d575:1f37]) by MWHPR0201MB3547.namprd02.prod.outlook.com
+ ([fe80::10ad:5df5:d575:1f37%3]) with mapi id 15.20.2937.028; Thu, 30 Apr 2020
+ 19:14:18 +0000
+From: Stephen Long <steplong@quicinc.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH RFC v2] target/arm: Implement SVE2 FLOGB
+Date: Thu, 30 Apr 2020 12:14:05 -0700
+Message-ID: <20200430191405.21641-1-steplong@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: BL0PR05CA0013.namprd05.prod.outlook.com
+ (2603:10b6:208:91::23) To MWHPR0201MB3547.namprd02.prod.outlook.com
+ (2603:10b6:301:7b::24)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.138) by
- AM0PR10CA0053.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20 via Frontend
- Transport; Thu, 30 Apr 2020 19:12:47 +0000
-X-Tagtoolbar-Keys: D20200430221246406
-X-Originating-IP: [185.215.60.138]
+Received: from STEPLONG.qualcomm.com (108.176.222.2) by
+ BL0PR05CA0013.namprd05.prod.outlook.com (2603:10b6:208:91::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2979.14 via Frontend Transport; Thu, 30 Apr 2020 19:14:17 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [108.176.222.2]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2e5d01c6-d95c-4b49-eef5-08d7ed3a7858
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5447:
+X-MS-Office365-Filtering-Correlation-Id: 6d92ae5f-273b-4aa2-a68d-08d7ed3aae58
+X-MS-TrafficTypeDiagnostic: MWHPR0201MB3497:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB544758C2E0771A8D5684B77EC1AA0@AM7PR08MB5447.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <MWHPR0201MB349725FEE037F61A8844E4DFC7AA0@MWHPR0201MB3497.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:576;
 X-Forefront-PRVS: 0389EDA07F
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39850400004)(396003)(136003)(346002)(376002)(366004)(6486002)(26005)(54906003)(316002)(107886003)(16576012)(52116002)(110136005)(186003)(478600001)(31686004)(53546011)(956004)(2616005)(16526019)(66476007)(2906002)(31696002)(66946007)(66556008)(5660300002)(86362001)(36756003)(8936002)(4326008)(8676002);
- DIR:OUT; SFP:1102; 
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r5ZQru+ZsX2lVRAkQYaLzqguOjDdpR1tRjCymFt8XfOK3bBCbmlx3MOn3oU3OXHgzBTG9RPWV0r2JzoP4RrBK+CVP6ZSjsu0NgoZoJgBV+ool394YJmRnIrsy1ZWT8ciG8WmzTuwZKs8vnCWU2TNxezfo2OSqnF2oARLHZCTVU4y+sktC6+PPfzMImFJjKktnKj+pQeBkUmR6juyQ1dTmsDjNjhK6nX9GKU8D3JjHS64CwdJwaqhiurqQuqPVo8q8QvuFNdzItryv+SUvVPNT4y0OXE1BELA3i/k+700HvoHQneTHXFKUIDFVCk+s0fGxSa0xoFJ49IOfulOjFslKu2x80MHi1sxogy2IKn8/NNDJ9jCrnBIbjNUnixINy54UmM9pG8rl5f4fXsSGDYkPMqZ/q+Xdvg+0Y9CCyl+whUjWh+NwZ07+2tACLpjtmEn
-X-MS-Exchange-AntiSpam-MessageData: JlfW+GFN5Yxr8bb6lCaUgXS6cCPgFAjpYPm+8JCmoWbDRV0hKbPpESIYCstnw+GMficBBtzHwouuMfYQ4NR7Onjzms879rH/C6aU5U3ApQk0U/nP3ry5Bxuhx//eqxOhPcZCxiwPfos3fbHJJGl93ewIFvVz4tpfHOAmynaRrFPw5aDWNQqY9BWx5zjbHDyTkhPF3Elu9o5AvGf+JNcUudhuhH9UcpqyPDOgrtUk0Hs6DizoqCFpYUdytoeHTQABejqD5nXzj9euqU+pvghCvTpUbklInsphvJhX+351LhrXqOqg43Vj+ZT4ls9urLrFZsvWaKlcjxEGtzlhu0tRP+UNhdTXskTFYZZ4QHTrlgaTfmfFV6kW/Kk05pDsCyGazQ0btDnLs4jpdpsAmOSrHih9NgvLB7HqqFVsXUvxOabzxZF5NSPkz3vScKx1so3aiYH36w/ha1E7BToTQfNJ804rH0Ig90gadU7k1CnoZVmXe/NyjYehDj0KWa+mgh5amHqL0m/OubLkFPsL7GAfGqeEdKEJW7EzpHNdM4NyDpK4RERtiyye9w7RjVsCgdWDOumK/pSdK7zPZ9fYhcGVXfVZFaH0SPwsdpRc8iBf5CgsFNPYVU8wnYTDtvIBW7OHLzbvwtTbTAaiu9KkwNj+g+HXQjeyYVHG0PGdAuMycjmdf0vrDqsLsVbMKRWjuULbLkQQ90Xn5FdrluuowZnxD3cnmaQYX8pdUrl6QvX7+dG1hUkbHGhFw+SqGSmBgA4Y4twakZZYySCV/EwfKW6vCxonYee4MhBaQIWGFJ/UUQA=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e5d01c6-d95c-4b49-eef5-08d7ed3a7858
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 19:12:48.1056 (UTC)
+X-Microsoft-Antispam-Message-Info: +3Hd6vkMu/yKdOUfcKS4yphDwzBgDDb4REmz2Oav/hu4EDfljl8acEuUBDMAvVhZN3a8Mue/w2o3DxrNUqLqhoHA6ovcr5YymP/x3qQ47uduOGp7b4cZmNrWbXT+7sD/TRvYFCNg/Jmdnlgr9oqSz5jk99CJ20cWuEBcguoSi1Kf6pa2E1igG0vkdLR+V0Sn+tqulTGEbh52/rZI2rtda3tP2i9uIK5nM1WkGmizr/4T7wAd7vDftkPFzC3MkEag5UROWByrstVwkY6mgshHwsXHTIZ8KgnbKVlWNx5Bh5kH1q2TKcgRJgQJLehqojXpJwXAw9Hm4SHLZlhmbBfZYbOCEUBJ4PyzJIlvg8WQ/b+HtwBDL6jvLGzw4f8uZVxLssb1UaKWgLe3wcpnAHiLXuJ7mggPQjil0gcDgboCwPExsOfMjQ9lBd6x7EEOhGVd
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(366004)(396003)(376002)(39860400002)(346002)(316002)(6916009)(1076003)(478600001)(6666004)(66476007)(66946007)(8936002)(8676002)(66556008)(2906002)(107886003)(6506007)(5660300002)(26005)(6486002)(4326008)(956004)(2616005)(186003)(36756003)(52116002)(86362001)(6512007)(16526019);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: of8wS3T0SDn4LsLToKnvXqKI1xucdbLTwcFLC6RE7CXqpVY7I5gn3kT7mxeXNXY5PgYWFakQR1xPiIaIpYqg0BoltMKSXs65lLikxqBOpI4X2RNfomF3BJtocENzHOlraLrrx+aIZ42bA8HkbJSDAm2Hx3c/idEkokuG00UOG4iA5wLIppr05JXq1mqbv8qBGhxovOEgMMN+gTqsBiQdSHIi/a26x75XC2UzpVidebi0Co6H3kvGJjoBG7qtKnXwTy05gD9uVfRzzQzvhOcI1O2hRsY4nb/59r3YxtJoTmMlvocADJ57JD1MbHZPka3zXX6QpfOm8AZV7nw2HksIMlsaOhCrP8Xfvm8+8weJbcYbOL5LF6Nra7cMcUsi9uOJVJbP6apNFlSHx0TD0k5qzRkHcOEJ3FUuHsUDv8WswGsqLp29yyPIcV/KYdMKw0cC4jYuYPPMfRtVXZ/Zt00XWbTT1QBIcbgLjqUvzuLiM2LA+MT6lUAnPAmDT6RUOUlbstAsvXKe013yskh/VPLQkvF1uYMKS93eapF54y50LAChxMAGEdz8IqO2p3D4jQJvGiMZ1LlD9tzkC6i40SjALAu/etM1pHjWSWZCmpsyPMOJgmECHlaSsi13QS4iUUc4EvyU8IlG5shYMi2cS5suF3nKi7Vjk7swb98qxhpJlTCHXOMqOZm84C6pOkCB04Jkb2Ml1xrpJZJ3PT8WlMGjTjyLapKCmxdyTQYIbbDlV4olLCOJmxvc+BtbdBOjstvVAKIpiMaRB1L96K6OsI2lSUufAktuZmpY96bCnvxgWv4=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d92ae5f-273b-4aa2-a68d-08d7ed3aae58
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 19:14:18.6934 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5Zut6yMALKgjl1VOGZjJ+Z6b2JFZnxHpHLdZgaqQpbmFqWWHCf5jAi+oSQPrQwD7Ug/az6zjPSVgZHRRybTS+KUTLHXWsfOoF6y06zF2eXc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5447
-Received-SPF: pass client-ip=40.107.20.132;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 15:12:48
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.20.132
+X-MS-Exchange-CrossTenant-UserPrincipalName: dC4vFTBUWahEi2olC5r6phjkBznQBIUtKO/cVQK++75bJqr27PAdDDHidwFdPvSPhjj55zbxjCdjpKg6+dtjlA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0201MB3497
+X-OriginatorOrg: quicinc.com
+Received-SPF: pass client-ip=199.106.114.38; envelope-from=steplong@quicinc.com;
+ helo=alexa-out-sd-01.qualcomm.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 12:28:45
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Received-From: 199.106.114.38
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,159 +126,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-arm@nongnu.org, richard.henderson@linaro.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-28.04.2020 17:51, Vladimir Sementsov-Ogievskiy wrote:
-> 28.04.2020 14:08, Max Reitz wrote:
->> On 28.04.20 10:55, Vladimir Sementsov-Ogievskiy wrote:
->>> Hi!
->>>
->>> I wanted to resend my "[PATCH 0/4] fix & merge block_status_above and
->>> is_allocated_above", and returned to all the inconsistencies about
->>> block-status. I keep in mind Max's series about child-access functions,
->>> and Andrey's work about using COR filter in block-stream, which depends
->>> on Max's series (because, without them COR fitler with file child breaks
->>> backing chains).. And, it seems that it's better to discuss some
->>> questions before resending.
->>>
->>> First, problems about block-status:
->>>
->>> 1. We consider ALLOCATED = ZERO | DATA, and documented as follows:
->>>
->>>     * BDRV_BLOCK_DATA: allocation for data at offset is tied to this layer
->>>     * BDRV_BLOCK_ZERO: offset reads as zero
->>>     * BDRV_BLOCK_OFFSET_VALID: an associated offset exists for accessing
->>> raw data
->>>     * BDRV_BLOCK_ALLOCATED: the content of the block is determined by this
->>>     *                       layer rather than any backing, set by block
->>> layer
->>>
->>> This actually means, that we should always have BDRV_BLOCK_ALLOCATED for
->>> formats which doesn't support backing. So, all such format drivers must
->>> return ZERO or DATA (or both?), yes?. Seems file-posix does so, but, for
->>> example, iscsi - doesn't.
->>
->> Hm.  I could imagine that there are formats that have non-zero holes
->> (e.g. 0xff or just garbage).  It would be a bit wrong for them to return
->> ZERO or DATA then.
->>
->> But OTOH we don’t care about such cases, do we?  We need to know whether
->> ranges are zero, data, or unallocated.  If they aren’t zero, we only
->> care about whether reading from it will return data from this layer or not.
->>
->> So I suppose that anything that doesn’t support backing files (or
->> filtered children) should always return ZERO and/or DATA.
->>
->>> 2. ZERO. The meaning differs a bit for generic block_status and for
->>> drivers.. I think, we at least should document it like this:
->>>
->>> BDRV_BLOCK_DATA: allocation for data at offset is tied to this layer
->>> BDRV_BLOCK_ZERO: if driver return ZERO, than the region is allocated at
->>> this layer and read as ZERO. If generic block_status returns ZERO, it
->>> only mean that it reads as zero, but the region may be allocated on
->>> underlying level.
->>
->> Hm.  What does that mean?
->>
->> One of the problems is that “allocated” has two meanings:
->> (1) reading data returns data defined at this backing layer,
->> (2) actually allocated, i.e. takes up space on the file represented by
->> this BDS.
->>
->> As far as I understand, we actually don’t care about (2) in the context
->> of block_status, but just about (1).
->>
->> So if a layer returns ZERO, it is by definition (1)-allocated.  (It
->> isn’t necessarily (2)-allocated.)
->>
->>> 3. bdi.unallocated_blocks_are_zero
->>>
->>> I think it's very bad, that we have formats, that supports backing, but
->>> doesn't report bdi.unallocated_blocks_are_zero as true. It means that
->>> UNALLOCATED region reads as zero if we have short backing file, and not
->>> as zero if we remove this short backing file.
->>
->> What do you mean by “remove this short backing file”?  Because generally
->> one can’t just drop a backing file.
->>
->> So maybe a case like block-stream?  Wouldn’t that be a bug in
->> block-stream them, i.e. shouldn’t it stream zeros after the end of the
->> backing file?
->>
->>> I can live with it but
->>> this is weird logic. These bad drivers are qcow (not qcow2), parallels
->>> and vmdk. I hope, they actually just forget to set
->>> unallocated_blocks_are_zero to true.
->>
->> qcow definitely sounds like it.
->>
->>> Next. But what about drivers which doesn't support backing? As we
->>> considered above, they should always return ZERO or DATA, as everything
->>> is allocated in this backing-chain level (last level, of course).. So
->>> again unallocated_blocks_are_zero is meaningless. So, I think, that
->>> driver which doesn't support backings, should be fixed to return always
->>> ZERO or DATA, than we don't need this unallocated_blocks_are_zero at all.
->>
->> Agreed.
->>
->>> 3.
->>
->> The second 3.? :)
->>
->>> Short backing files in allocated_above: we must consider space after
->>> EOF as ALLOCATED, if short backing file is inside requested
->>> backing-chain part, as it produced exactly because of this short file
->>> (and we never go to backing).
->>
->> Sounds correct.
->>
->>> (current realization of allocated_above is
->>> buggy, see my outdated series "[PATCH 0/4] fix & merge
->>> block_status_above and is_allocated_above")
->>>
->>> 4. Long ago we've discussed problems about BDRV_BLOCK_RAW, when we have
->>> a backing chain of non-backing child.. I just remember that we didn't
->>> reach the consensus.
->>
->> Possible? :)
->>
->>> 5. Filters.. OK we have two functions for them:
->>> bdrv_co_block_status_from_file and bdrv_co_block_status_from_backing. I
->>> think both are wrong:
->>>
->>> bdrv_co_block_status_from_file leads to problem [4], when we can report
->>> UNALLOCATED, which refers not to the current backing chain, but to sub
->>> backing chain of file child, which is inconsistent with
->>> block_status_above and is_allocated_above iteration.
->>>
->>> bdrv_co_block_status_from_backing is also is not consistent with
->>> block_status_above iteration.. At least at leads to querying the same
->>> node twice.
->>
->> Well, yes.
->>
->>> So, about filters and backing chains. Keeping (OK, just, trying to keep)
->>> all these things in mind, I think that it's better to keep backing
->>> chains exactly *backing* chains, so that "backing" child is the only
->>> "not own" child of the node. So, its close to current behavior and we
->>> don't need child-access functions. Then how filters should work:
->>>
->>> Filter with backing child, should always return UNALLOCATED (i.e. no
->>> DATA, no ZERO), it is honest: everything is on the other level of
->>> backing chain.
->>
->> I disagree, because filters with or without backing children should work
->> exactly the same way and just not appear in the backing chain.
-> 
-> They work the same way in my variant too. The only difference is that if you use file-child-based filters, you can't do stream/commit around them. I just think, that binding the concept to the "backing" link of the node is simpler and more generic. In blockdev era, when all nodes will be named and libvirt will take care of all nodes including filters, we will not need any filter-skipping magic, libvirt will directly point to exact nodes it means. And we can deprecate "file" children of existing filters, to finally reach simple architecture with simple backing chain of nodes (any nodes). And after deprecating old filename-based interfaces, we'll drop all filter-skipping magic..
+Signed-off-by: Stephen Long <steplong@quicinc.com>
+---
 
-What do you think?
+I made the changes Richard requested. I took out the status field for
+the helper function.
 
+ include/fpu/softfloat.h    |  5 +++
+ target/arm/helper-sve.h    |  4 +++
+ target/arm/sve.decode      |  4 +++
+ target/arm/sve_helper.c    | 63 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-sve.c |  9 ++++++
+ 5 files changed, 85 insertions(+)
+
+diff --git a/include/fpu/softfloat.h b/include/fpu/softfloat.h
+index ecb8ba0114..275d138145 100644
+--- a/include/fpu/softfloat.h
++++ b/include/fpu/softfloat.h
+@@ -260,6 +260,11 @@ static inline int float16_is_zero_or_denormal(float16 a)
+     return (float16_val(a) & 0x7c00) == 0;
+ }
+ 
++static inline bool float16_is_normal(float16 a)
++{
++    return (((float16_val(a) >> 10) + 1) & 0x1f) >= 2;
++}
++
+ static inline float16 float16_abs(float16 a)
+ {
+     /* Note that abs does *not* handle NaN specially, nor does
+diff --git a/target/arm/helper-sve.h b/target/arm/helper-sve.h
+index 0a62eef94e..4a7b322f15 100644
+--- a/target/arm/helper-sve.h
++++ b/target/arm/helper-sve.h
+@@ -2731,3 +2731,7 @@ DEF_HELPER_FLAGS_5(sve2_sqrdcmlah_idx_h, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_5(sve2_sqrdcmlah_idx_s, TCG_CALL_NO_RWG,
+                    void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_4(flogb_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(flogb_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(flogb_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index 3cf824bac5..dcb095bb5d 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -1568,3 +1568,7 @@ SM4E            01000101 00 10001 1 11100 0 ..... .....  @rdn_rm_e0
+ # SVE2 crypto constructive binary operations
+ SM4EKEY         01000101 00 1 ..... 11110 0 ..... .....  @rd_rn_rm_e0
+ RAX1            01000101 00 1 ..... 11110 1 ..... .....  @rd_rn_rm_e0
++
++### SVE2 floating-point convert to integer
++
++FLOGB           01100101 00 011 esz:2 0101 pg:3 rn:5 rd:5  &rpr_esz
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index aa94df302a..33fea27cb7 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -7622,3 +7622,66 @@ void HELPER(fmmla_d)(void *vd, void *va, void *vn, void *vm,
+         d[3] = float64_add(a[3], float64_add(p0, p1, status), status);
+     }
+ }
++
++#define DO_ZPZW_UNOP(NAME, TYPE, TYPEW, H, OP)                      \
++void HELPER(NAME)(void *vd, void *vn, void *vg, uint32_t desc)      \
++{                                                                   \
++    intptr_t i = simd_oprsz(desc);                                  \
++    uint64_t *g = vg;                                               \
++    do {                                                            \
++        uint64_t pg = g[(i - 1) >> 6];                              \
++        do {                                                        \
++            i -= sizeof(TYPE);                                      \
++            if (likely((pg >> (i & 63)) & 1)) {                     \
++                TYPE nn = *(TYPE *)(vn + H(i));                     \
++                *(TYPEW *)(vd + H(i)) = OP(nn);                     \
++            }                                                       \
++        } while (i & 63);                                           \
++    } while (i != 0);                                               \
++}
++
++static int16_t do_float16_logb_as_int(float16 a)
++{
++    if (float16_is_normal(a)) {
++        return extract16(a, 10, 5) - 15;
++    } else if (float16_is_infinity(a)) {
++        return INT16_MAX;
++    } else if (float16_is_any_nan(a) || float16_is_zero(a)) {
++        return INT16_MIN;
++    }
++    // denormal
++    int shift = 6 - clz32(extract16(a, 0, 10)) - 16;
++    return -15 - shift + 1;
++}
++
++static int32_t do_float32_logb_as_int(float32 a)
++{
++    if (float32_is_normal(a)) {
++        return extract32(a, 23, 8) - 127;
++    } else if (float32_is_infinity(a)) {
++        return INT32_MAX;
++    } else if (float32_is_any_nan(a) || float32_is_zero(a)) {
++        return INT32_MIN;
++    }
++    // denormal
++    int shift = 9 - clz32(extract32(a, 0, 23));
++    return -127 - shift + 1;
++}
++
++static int64_t do_float64_logb_as_int(float64 a)
++{
++    if (float64_is_normal(a)) {
++        return extract64(a, 52, 11) - 1023;
++    } else if (float64_is_infinity(a)) {
++        return INT64_MAX;
++    } else if (float64_is_any_nan(a) || float64_is_zero(a)) {
++        return INT64_MIN;
++    }
++    // denormal
++    int shift = 12 - clz64(extract64(a, 0, 52));
++    return -1023 - shift + 1;
++}
++
++DO_ZPZW_UNOP(flogb_h, float16, int16_t, H1_2, do_float16_logb_as_int)
++DO_ZPZW_UNOP(flogb_s, float32, int32_t, H1_4, do_float32_logb_as_int)
++DO_ZPZW_UNOP(flogb_d, float64, int64_t,     , do_float64_logb_as_int)
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index a8e57ea5f4..68157b892b 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -8253,3 +8253,12 @@ static bool trans_RAX1(DisasContext *s, arg_rrr_esz *a)
+     }
+     return true;
+ }
++
++static bool trans_FLOGB(DisasContext *s, arg_rpr_esz *a)
++{
++    static gen_helper_gvec_3 * const fns[] = {
++        NULL,               gen_helper_flogb_h,
++        gen_helper_flogb_s, gen_helper_flogb_d
++    };
++    return do_sve2_zpz_ool(s, a, fns[a->esz - 1]);
++}
 -- 
-Best regards,
-Vladimir
+2.17.1
+
 
