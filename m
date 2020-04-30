@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CFD1BFDD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:21:10 +0200 (CEST)
-Received: from localhost ([::1]:58708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D31BFDE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:23:46 +0200 (CEST)
+Received: from localhost ([::1]:39190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUA3p-0001sH-By
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:21:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58648)
+	id 1jUA6L-0006Dh-4m
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:23:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58890)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jUA0D-0007Ce-Vd
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:17:26 -0400
+ (envelope-from <eblake@redhat.com>) id 1jUA1T-0000VH-OK
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:18:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <eblake@redhat.com>) id 1jUA0D-0007pV-8a
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:17:25 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37749
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <eblake@redhat.com>) id 1jUA1S-0000sQ-69
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:18:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30736
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jUA0C-0007pD-QZ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:17:24 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jUA1R-0000mR-O6
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:18:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588256244;
+ s=mimecast20190719; t=1588256321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L3k2wVdWqN62Aj6Yj443VnOZvvdYywcqp16Z1MpFeMQ=;
- b=ZKE81TPrn6ERtXXvwv53qMXFA0rYDxNpBcOBek158XIUvlElQzs+3xzpf04PKrGUDhbOxH
- Z0ANv/7PFsIasbC0Yb/X50GbKFp96QMUFsT2zJfDlhfw1gISXux7EedsZXnLkh/Us3TPUl
- 1HjzD56AGjBzy1MTOp6USeT7IQw11xY=
+ bh=+Z1bnnSEYLtcwpR42A1RtF6kCDrzCdSSabVg25DE3M4=;
+ b=XONTHIr7qKr45+kMFINGhQOC/YOKbeyMjWMGW1e4Vl+L24gXM7TQgu/15/jtZul4b+rKSN
+ bHddb20CyfH1LvdmxnVXdQDcL/iDLLjTooua8NO5K0NvjOjt90RB/JTUiKNtImEkQSnZm3
+ KCOmS7m1NX6xZUZ2CSg4b7RUfoDjgz0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-yW3Cg5iQOgq4o4aYOuNE9Q-1; Thu, 30 Apr 2020 10:17:21 -0400
-X-MC-Unique: yW3Cg5iQOgq4o4aYOuNE9Q-1
+ us-mta-255-J5AF9y7TP7KwLy8-LFRpGQ-1; Thu, 30 Apr 2020 10:18:38 -0400
+X-MC-Unique: J5AF9y7TP7KwLy8-LFRpGQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BEC7804042;
- Thu, 30 Apr 2020 14:17:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D36C0835B49;
+ Thu, 30 Apr 2020 14:18:37 +0000 (UTC)
 Received: from [10.10.116.80] (ovpn-116-80.rdu2.redhat.com [10.10.116.80])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C33CE60C87;
- Thu, 30 Apr 2020 14:17:19 +0000 (UTC)
-Subject: Re: [PATCH 4/6] vmdk: Don't update L2 table for zero write on zero
- cluster
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 779FB60C87;
+ Thu, 30 Apr 2020 14:18:32 +0000 (UTC)
+Subject: Re: [PATCH 5/6] vmdk: Flush only once in vmdk_L2update()
 To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 References: <20200430133007.170335-1-kwolf@redhat.com>
- <20200430133007.170335-5-kwolf@redhat.com>
+ <20200430133007.170335-6-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <2c88e019-19ac-bcaf-906f-f9b2ff80f768@redhat.com>
-Date: Thu, 30 Apr 2020 09:17:18 -0500
+Message-ID: <aa7db1b1-8376-eeae-dbe7-29768fbc30fc@redhat.com>
+Date: Thu, 30 Apr 2020 09:18:29 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200430133007.170335-5-kwolf@redhat.com>
+In-Reply-To: <20200430133007.170335-6-kwolf@redhat.com>
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,31 +83,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/30/20 8:30 AM, Kevin Wolf wrote:
-> If a cluster is already zeroed, we don't have to call vmdk_L2update(),
-> which is rather slow because it flushes the image file.
+> If we have a backup L2 table, we currently flush once after writing to
+> the active L2 table and again after writing to the backup table. A
+> single flush is enough and makes things a little less slow.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->   block/vmdk.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   block/vmdk.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
 > diff --git a/block/vmdk.c b/block/vmdk.c
-> index da25b8992e..dcd30f1419 100644
+> index dcd30f1419..d3eb9a5cdc 100644
 > --- a/block/vmdk.c
 > +++ b/block/vmdk.c
-> @@ -2013,7 +2013,7 @@ static int vmdk_pwritev(BlockDriverState *bs, uint64_t offset,
->                       offset_in_cluster == 0 &&
->                       n_bytes >= extent->cluster_sectors * BDRV_SECTOR_SIZE) {
->                   n_bytes = extent->cluster_sectors * BDRV_SECTOR_SIZE;
-> -                if (!zero_dry_run) {
-> +                if (!zero_dry_run && ret != VMDK_ZEROED) {
->                       /* update L2 tables */
->                       if (vmdk_L2update(extent, &m_data, VMDK_GTE_ZEROED)
->                               != VMDK_OK) {
-> 
+> @@ -1435,7 +1435,7 @@ static int vmdk_L2update(VmdkExtent *extent, VmdkMetaData *m_data,
+>       offset = cpu_to_le32(offset);
+>       /* update L2 table */
+>       BLKDBG_EVENT(extent->file, BLKDBG_L2_UPDATE);
+> -    if (bdrv_pwrite_sync(extent->file,
+> +    if (bdrv_pwrite(extent->file,
+>                   ((int64_t)m_data->l2_offset * 512)
+>                       + (m_data->l2_index * sizeof(offset)),
+>                   &offset, sizeof(offset)) < 0) {
+
+Worth reindenting ther est of the function call?
+
+> @@ -1444,13 +1444,16 @@ static int vmdk_L2update(VmdkExtent *extent, VmdkMetaData *m_data,
+>       /* update backup L2 table */
+>       if (extent->l1_backup_table_offset != 0) {
+>           m_data->l2_offset = extent->l1_backup_table[m_data->l1_index];
+> -        if (bdrv_pwrite_sync(extent->file,
+> +        if (bdrv_pwrite(extent->file,
+>                       ((int64_t)m_data->l2_offset * 512)
+>                           + (m_data->l2_index * sizeof(offset)),
+>                       &offset, sizeof(offset)) < 0) {
+>               return VMDK_ERROR;
+>           }
+>       }
+> +    if (bdrv_flush(extent->file->bs) < 0) {
+> +        return VMDK_ERROR;
+> +    }
+
+But indentation doesn't affect correctness.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 -- 
 Eric Blake, Principal Software Engineer
