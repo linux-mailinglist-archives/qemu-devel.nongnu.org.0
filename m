@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAEF1BEFCF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:36:36 +0200 (CEST)
-Received: from localhost ([::1]:60142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D181BEFD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 07:38:20 +0200 (CEST)
+Received: from localhost ([::1]:39830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU1sB-0006FI-NE
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:36:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
+	id 1jU1tr-0001Pu-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 01:38:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53396)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jU1n5-00053l-DA
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:26 -0400
+ (envelope-from <armbru@redhat.com>) id 1jU1n6-000569-Os
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <armbru@redhat.com>) id 1jU1n0-0002f3-Gf
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:19 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36789
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <armbru@redhat.com>) id 1jU1n0-0002f8-HL
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58243
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jU1mz-0002dS-3E
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:13 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jU1mz-0002e2-VE
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 01:31:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588224672;
+ s=mimecast20190719; t=1588224673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pEboA0/Cn7d98yrBpOcOPMIjzJRGcFzi6FcV7k3zbHY=;
- b=ayonZ5AxBgtYWMpP4wsijiGRbDCtR/QypNSL82HTeToKvSa5zmuudph+HzB2tmOepw9wH5
- fKaSfM1niuKz+TKxDw7kHlIEpVSnESR22UFy5JD0wkFSlhFX0K2G/r9PnCMFeMFt1NO4t3
- 8gx3lojkC5FPUoWu9fEv5yejAmoe7ts=
+ bh=QhFDFCVlXf2fynHvudzXt99A5jd5y61ssmROnXO7FA0=;
+ b=XuqWranxCJGSg36QfjEY9nr5NNFIl8v70g+ed1qI2/6J44vVjCBIYcVm4PoxbcqQebuy7M
+ stn2dsByVDhurZV2q8QUzJ67Tp4O9y1EAduuqV7f3m247hcJEAqWDkCMSrNf6Atdp2edZG
+ 9z3Rgh4EPfbvE2eOoBGKSjg4zmwISdg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-R_Q7ShX4OOWQ4myrO9ZWZQ-1; Thu, 30 Apr 2020 01:31:09 -0400
-X-MC-Unique: R_Q7ShX4OOWQ4myrO9ZWZQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-141-l1WyHnspNV-bAODqC4Xj9A-1; Thu, 30 Apr 2020 01:31:10 -0400
+X-MC-Unique: l1WyHnspNV-bAODqC4Xj9A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37009835B44
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 05:31:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 699E61005510
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 05:31:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08653165F6;
- Thu, 30 Apr 2020 05:31:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3710E5D787;
+ Thu, 30 Apr 2020 05:31:09 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0952F11358CB; Thu, 30 Apr 2020 07:31:05 +0200 (CEST)
+ id 0C88311358CC; Thu, 30 Apr 2020 07:31:05 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/20] qapi: Assert non-input visitors see only valid narrow
- integers
-Date: Thu, 30 Apr 2020 07:30:58 +0200
-Message-Id: <20200430053104.32204-15-armbru@redhat.com>
+Subject: [PULL 15/20] qapi: Clean up visitor's recovery from input with
+ invalid type
+Date: Thu, 30 Apr 2020 07:30:59 +0200
+Message-Id: <20200430053104.32204-16-armbru@redhat.com>
 In-Reply-To: <20200430053104.32204-1-armbru@redhat.com>
 References: <20200430053104.32204-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,57 +79,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-visit_type_intN() and visit_type_uintN() fail when the value is out of
-bounds.
+An alternate type's visit_type_FOO() fails when it runs into an
+invalid ->type.  If it's an input visit, we then need to free the the
+object we got from visit_start_alternate().  We do that with
+qapi_free_FOO(), which uses the dealloc visitor.
 
-This is appropriate with an input visitor: the value comes from input,
-and input may be bad.
+Trouble is that object is in a bad state: its ->type is invalid.  So
+the dealloc visitor will run into the same error again, and the error
+recovery skips deallocating the alternate's (invalid) alternative.
+Works, because qapi_free_FOO() ignores the error.
 
-It should never happen with the other visitors: the value comes from
-the caller, and callers must keep it within bounds.  Assert that.
+Avoid it instead: free the messed up object with by g_free().
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20200424084338.26803-11-armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200424084338.26803-10-armbru@redhat.com>
 ---
- qapi/qapi-visit-core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ scripts/qapi/visit.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index 80ca83bcb9..74aa9c04bd 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -160,10 +160,13 @@ static void visit_type_uintN(Visitor *v, uint64_t *ob=
-j, const char *name,
-     Error *err =3D NULL;
-     uint64_t value =3D *obj;
-=20
-+    assert(v->type =3D=3D VISITOR_INPUT || value <=3D max);
-+
-     v->type_uint64(v, name, &value, &err);
-     if (err) {
-         error_propagate(errp, err);
-     } else if (value > max) {
-+        assert(v->type =3D=3D VISITOR_INPUT);
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                    name ? name : "null", type);
-     } else {
-@@ -219,10 +222,13 @@ static void visit_type_intN(Visitor *v, int64_t *obj,=
- const char *name,
-     Error *err =3D NULL;
-     int64_t value =3D *obj;
-=20
-+    assert(v->type =3D=3D VISITOR_INPUT || (value >=3D min && value <=3D m=
-ax));
-+
-     v->type_int64(v, name, &value, &err);
-     if (err) {
-         error_propagate(errp, err);
-     } else if (value < min || value > max) {
-+        assert(v->type =3D=3D VISITOR_INPUT);
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                    name ? name : "null", type);
-     } else {
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index e3467b770b..678109dfb5 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -234,6 +234,9 @@ void visit_type_%(c_name)s(Visitor *v, const char *name=
+, %(c_name)s **obj, Error
+     default:
+         error_setg(&err, QERR_INVALID_PARAMETER_TYPE, name ? name : "null"=
+,
+                    "%(name)s");
++        /* Avoid passing invalid *obj to qapi_free_%(c_name)s() */
++        g_free(*obj);
++        *obj =3D NULL;
+     }
+ out_obj:
+     visit_end_alternate(v, (void **)obj);
 --=20
 2.21.1
 
