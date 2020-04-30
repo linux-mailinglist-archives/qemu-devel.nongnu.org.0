@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77671BF066
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 08:40:43 +0200 (CEST)
-Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7181BF06C
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 08:42:48 +0200 (CEST)
+Received: from localhost ([::1]:34860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU2sE-00016k-Ne
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 02:40:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
+	id 1jU2uF-0003U8-DA
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 02:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57982)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jU2pO-0006YP-V9
+ (envelope-from <philmd@redhat.com>) id 1jU2pP-0006YT-54
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 02:37:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jU2mz-0005QA-Qd
+ (envelope-from <philmd@redhat.com>) id 1jU2nY-0005pn-Uu
  for qemu-devel@nongnu.org; Thu, 30 Apr 2020 02:37:46 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57058
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54026
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jU2mz-0005Pz-EN
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 02:35:17 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jU2nY-0005pE-HO
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 02:35:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588228516;
+ s=mimecast20190719; t=1588228551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=x1kBZ+4CB2+KvTYlUmWVD6VdvSbzBCuOtcOQIMEkuxI=;
- b=ByCYwZ3qLcriaF57ZRY13AwrSzSRQ1pLho+3sO93HlkwVclZdYSe6gdtSIlh2RQdo7HYWh
- 4Vczm8ESaXthKkii0U8Dry1b0v0wX61bze0GjAsugjl7tVvVOXGnPby70bupzm907ykvP5
- PXp1Qa57supymgzuBWeA8VmiSusTy7A=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-D4mEuq_SPJeJMr_WqoONcQ-1; Thu, 30 Apr 2020 02:35:14 -0400
-X-MC-Unique: D4mEuq_SPJeJMr_WqoONcQ-1
-Received: by mail-wm1-f69.google.com with SMTP id h6so361675wmi.7
- for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 23:35:14 -0700 (PDT)
+ bh=0nMjE+aLRUSJNSYFb39TIbTyyPb6/y9CzNaOGWiHnMU=;
+ b=c29OW/tIKxaQ/uq0A88YLMVTQh+oBGUq77ajXWszU4xZ1gI0WUGuk9iZsOQpmgtG33te+t
+ SM/x/oQMtY/sETDeTbpAaWYkFoAoHBgCSTUSj0ngeKH/qdd0DAJSTuKl6hlQTz/4iBvihJ
+ EyvTvGhlWVJvFEjxbWEwsqXy0b9sa6U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-jVERA8jkNXGW0jw4l_Q9cA-1; Thu, 30 Apr 2020 02:35:49 -0400
+X-MC-Unique: jVERA8jkNXGW0jw4l_Q9cA-1
+Received: by mail-wm1-f72.google.com with SMTP id j5so363077wmi.4
+ for <qemu-devel@nongnu.org>; Wed, 29 Apr 2020 23:35:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uGqQCxmzgfDpRku5zdKb4R/U/vK3xj80GElxItF9Ogs=;
- b=DaWFwfaoYllIbU7gy4Xw9Zb/eJIEIoXNPDZiNBZ8vVpmgqYW89dFB4iLOuZyrr/8R8
- LUIyZcTBYor/0xxVVzC0fBTBjW431GyLHB5gG5QDj1Jp0oTJPjuKRN12h0eEx8ahF7i0
- 7kFORGt7d+GjcLJbOe/RiYM4pHWRsJf2JGrwlZUhhTg4IlpcL17V0UNgYYqFvFQ7+1kp
- GpL9ZMq3aJCBuHiIHDeKDqSOf6toSVmy3EZacbbd06nRlOeal0QMi6W005vyZ93FLHlc
- 0JdwQyjR/9vuW/RA1gJhptcWWHnoDoaESbKls/8VDLifQTSChdpr1C6OKHgSBvwYftIN
- MGfA==
-X-Gm-Message-State: AGi0PuYDyEDcAkTi+AYBDBtArBUkjlMd6HGEskloHBReAnUZCmwjrIC0
- w0vP+/WagmW3wbqBXSy5p8WVfhBoLU/HpLrS0KQ2rJPnvflcsMQ19VAH/my9XYyRPmetSM+ykAu
- TQdBBbBC75OacWzw=
-X-Received: by 2002:a1c:6a08:: with SMTP id f8mr1142326wmc.132.1588228513091; 
- Wed, 29 Apr 2020 23:35:13 -0700 (PDT)
-X-Google-Smtp-Source: APiQypI3vYKa7fNBAAHC53JtCkOk7FWduBMo/cOdkmuUUfIb69HwgmMXZvBw52IosAbPhfOzVMeQmQ==
-X-Received: by 2002:a1c:6a08:: with SMTP id f8mr1142303wmc.132.1588228512841; 
- Wed, 29 Apr 2020 23:35:12 -0700 (PDT)
+ bh=pFTQMUW1kZq+dqLHK5AsXBKY8F6IG36S0DL6z98+eZA=;
+ b=CIQJDRRg9HBM8Als25gtn+/liMFkIzAlKYoRfX2gNAkyR4dVMNNZUE7M3WY0vCsB1m
+ mR2fej5a/Ob6wVaAyFDF28OBkBUAc1JAAy3bgYlM/X4UyIYjxjg3a+ejxMwK+wX9vT9h
+ TLbtpln0r8CEEWZ/95EB7LoMWzXsX4XfpMN0Mf4MlRaEvDhJOX5Q2QrmaQQyxtxIa7dE
+ G4oCBQ6jQR0YHR0hbrs8+kVqW8cXfIMLNlAxphpe38y1jSOFUeat2rFi21TxvOFfwnE7
+ muxZx4fRZL8xov0xZey5Gani6O/UjwU/1Oyc49WHEsYJPSeUk5vafVlD+MhDOKE3+Mhj
+ fi1g==
+X-Gm-Message-State: AGi0PuZekVrT/36yMFNLBYeOj7q4puBIxhpcLzkuHmKkq2uJc/VLPUI/
+ Yvub4LpsfW5bKFVZu8gzUwBLl5HJ+DOpwP9PKJouL44qdh51WhgWmqhOng5tuChO9xROVXWg64d
+ vCbgHHmMthIega9I=
+X-Received: by 2002:a7b:c10d:: with SMTP id w13mr1183409wmi.78.1588228548465; 
+ Wed, 29 Apr 2020 23:35:48 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLo7Z4CAFMwInmwsbjCtUwvUCtrexMLvEgOvDE4/BUqDH+opwS4ZMZJWibMju8r3dyumyoh3A==
+X-Received: by 2002:a7b:c10d:: with SMTP id w13mr1183391wmi.78.1588228548269; 
+ Wed, 29 Apr 2020 23:35:48 -0700 (PDT)
 Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id t8sm2339022wrq.88.2020.04.29.23.35.11
+ by smtp.gmail.com with ESMTPSA id x18sm2479606wrv.12.2020.04.29.23.35.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Apr 2020 23:35:12 -0700 (PDT)
-Subject: Re: [PATCH v3 01/15] move 'typedef Aml' to qemu/types.h
+ Wed, 29 Apr 2020 23:35:47 -0700 (PDT)
+Subject: Re: [PATCH v3 06/15] rtc: add RTC_ISA_BASE
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20200429140003.7336-1-kraxel@redhat.com>
- <20200429140003.7336-2-kraxel@redhat.com>
+ <20200429140003.7336-7-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c8bd7fd5-d1f8-8242-f1b1-f573c1495670@redhat.com>
-Date: Thu, 30 Apr 2020 08:35:10 +0200
+Message-ID: <51047ae4-55ef-8a93-723d-d5a03f83b649@redhat.com>
+Date: Thu, 30 Apr 2020 08:35:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200429140003.7336-2-kraxel@redhat.com>
+In-Reply-To: <20200429140003.7336-7-kraxel@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,40 +105,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/29/20 3:59 PM, Gerd Hoffmann wrote:
+> Add and use RTC_ISA_BASE define instead of hardcoding 0x70.
+>=20
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+>   include/hw/rtc/mc146818rtc.h | 1 +
+>   hw/rtc/mc146818rtc.c         | 5 ++---
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+> index 10c93a096a1d..3713181b56fe 100644
+> --- a/include/hw/rtc/mc146818rtc.h
+> +++ b/include/hw/rtc/mc146818rtc.h
+> @@ -47,6 +47,7 @@ typedef struct RTCState {
+>   } RTCState;
+>  =20
+>   #define RTC_ISA_IRQ 8
+> +#define RTC_ISA_BASE 0x70
 
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> ---
->   include/hw/acpi/aml-build.h | 1 -
->   include/qemu/typedefs.h     | 1 +
->   2 files changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-> index 0f4ed53d7fbf..1539fe066714 100644
-> --- a/include/hw/acpi/aml-build.h
-> +++ b/include/hw/acpi/aml-build.h
-> @@ -33,7 +33,6 @@ struct Aml {
->       uint8_t op;
->       AmlBlockFlags block_flags;
->   };
-> -typedef struct Aml Aml;
 >  =20
->   typedef enum {
->       AML_COMPATIBILITY =3D 0,
-> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-> index 375770a80f06..ecf3cde26c3c 100644
-> --- a/include/qemu/typedefs.h
-> +++ b/include/qemu/typedefs.h
-> @@ -24,6 +24,7 @@
->   typedef struct AdapterInfo AdapterInfo;
->   typedef struct AddressSpace AddressSpace;
->   typedef struct AioContext AioContext;
-> +typedef struct Aml Aml;
->   typedef struct AnnounceTimer AnnounceTimer;
->   typedef struct BdrvDirtyBitmap BdrvDirtyBitmap;
->   typedef struct BdrvDirtyBitmapIter BdrvDirtyBitmapIter;
+>   ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+>                                qemu_irq intercept_irq);
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index dc4269cc55cb..d18c09911be2 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -908,7 +908,6 @@ static void rtc_realizefn(DeviceState *dev, Error **e=
+rrp)
+>   {
+>       ISADevice *isadev =3D ISA_DEVICE(dev);
+>       RTCState *s =3D MC146818_RTC(dev);
+> -    int base =3D 0x70;
+>  =20
+>       s->cmos_data[RTC_REG_A] =3D 0x26;
+>       s->cmos_data[RTC_REG_B] =3D 0x02;
+> @@ -951,7 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error **e=
+rrp)
+>       qemu_register_suspend_notifier(&s->suspend_notifier);
+>  =20
+>       memory_region_init_io(&s->io, OBJECT(s), &cmos_ops, s, "rtc", 2);
+> -    isa_register_ioport(isadev, &s->io, base);
+> +    isa_register_ioport(isadev, &s->io, RTC_ISA_BASE);
+>  =20
+>       /* register rtc 0x70 port for coalesced_pio */
+>       memory_region_set_flush_coalesced(&s->io);
+> @@ -960,7 +959,7 @@ static void rtc_realizefn(DeviceState *dev, Error **e=
+rrp)
+>       memory_region_add_subregion(&s->io, 0, &s->coalesced_io);
+>       memory_region_add_coalescing(&s->coalesced_io, 0, 1);
+>  =20
+> -    qdev_set_legacy_instance_id(dev, base, 3);
+> +    qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
+>       qemu_register_reset(rtc_reset, s);
+>  =20
+>       object_property_add_tm(OBJECT(s), "date", rtc_get_date, NULL);
 >=20
 
 
