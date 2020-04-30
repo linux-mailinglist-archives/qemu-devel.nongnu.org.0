@@ -2,109 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E621BF299
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 10:22:35 +0200 (CEST)
-Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C951BF2C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 10:28:13 +0200 (CEST)
+Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU4So-00078I-St
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 04:22:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40894)
+	id 1jU4YG-0002hf-GE
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 04:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41370)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU4S2-0006dc-2j
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:21:46 -0400
+ (envelope-from <mreitz@redhat.com>) id 1jU4X0-00012L-6f
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:27:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU4S1-0000eL-Gw
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:21:45 -0400
-Received: from mail-vi1eur05on2100.outbound.protection.outlook.com
- ([40.107.21.100]:22112 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jU4Rx-0000cy-7v; Thu, 30 Apr 2020 04:21:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TiUAB7jAItRe+ouYPijuwCcnQwspNe3ymqF3rvUxylXdm8T6eYU7LlHnu1Rc9as5K6/WYp2A62LQZ04I8U6Q4oYtaTUulUbTT2ZAQjeBKuQoPNBpx2NcJ2VP8eNgopEuHsNNAeMAHF0GaanbDgi3nJ2sQ1VsWfBnmAc998gAiEr8Xis+bkP6cdBeIrPsnOVgcMY+Gk7kRX8VG5Jqc0eULRxvtKhCVHCpdTKX5hdbCCIEqDsi//w3QGJu5Rr+sYWg9boEQKPSmhsEsuJM7wFxK8Y0ssTFEJqeTGVGKfJD0CX1euCJ/PgVSpMNWj4mYFWzpyDKp6Xl9enPVOk57Aa59g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vm/O8NEhGVuURPxZyB7qwvd7Lr7Z66EcX4ci/mgtSHU=;
- b=iUi6jge9hboRVw2DQR688+w+SSZzNL9gktlwzigSouc6w5k3a1txKGQBk8fj9o37d0qdp7UYm3Gq4wvCgGfQTBmOpUrrXAr7B6HabVoawX+gqTwPIAXFMQrYj/qquBk96VBqUjAVmmIh1MESwLnoLPWPcVs/JprZI5boW8+V7nB570hkwAR0jJEiWB8Rys2FPlPG/IXObgKJiEgGSzF3ZmfsRazNIgwtnaJysCD8eErWjv82Gdi/+dlhwPbkQo1MgWXTd9M6qq2Cz0nO0gOD6yFVU2wlsYWzatGCs10v/QxB060j5r6FUxSCyyteOmqq0TnajggEmCRZYNTohE3eng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vm/O8NEhGVuURPxZyB7qwvd7Lr7Z66EcX4ci/mgtSHU=;
- b=kDaP5Y/mlDeCAMAl45anskr14ixvvAfV2xdDRa/DiVcyg9S5/InRlwv3AYPgLw/kx2sezaAmFtbGZ9JARp2q+jOxIu0jVSyiitO5wn6vdieLKUy+uGrh1fmtdtZFhjK7eU+HcODx7M3QEbnatK6R/SwEgqfmoCeT6K/sOeyvyPM=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5509.eurprd08.prod.outlook.com (2603:10a6:20b:10c::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Thu, 30 Apr
- 2020 08:21:38 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
- 08:21:37 +0000
-Subject: Re: [PATCH v2 02/17] block: use int64_t as bytes type in tracked
- requests
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20200427082325.10414-1-vsementsov@virtuozzo.com>
- <20200427082325.10414-3-vsementsov@virtuozzo.com>
- <5450c309-feec-753d-6eb6-4411e913dfae@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200430112135749
-Message-ID: <f012cda3-097e-00fa-df4e-5a291eac14e9@virtuozzo.com>
-Date: Thu, 30 Apr 2020 11:21:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <5450c309-feec-753d-6eb6-4411e913dfae@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM0PR10CA0057.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:150::37) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (envelope-from <mreitz@redhat.com>) id 1jU4WQ-0005kJ-TS
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:26:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23385
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jU4WQ-0005ey-EN
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 04:26:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588235177;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/QhOG++09dCXAroQEUcIPty5/OejOTRu5uDqcUPmavc=;
+ b=FU49Txrq7L0m4vp8w59vRGAu1rW2U0zyfvMFPNJp2PgFOAQKhDT1v5jTJDCll7U4llhS6G
+ HjcIcBsqkXmgr65GSj52VfLFJdpT0kCV1hZ0CHrShvT00Lc+qADw6EwD350dkhTZcqZteb
+ K40qLqw0tM6DFsltIxCSNWRJpMcMWtE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-Hd2KO_76Mo6BPPBtprl2xA-1; Thu, 30 Apr 2020 04:26:12 -0400
+X-MC-Unique: Hd2KO_76Mo6BPPBtprl2xA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A6268014D6;
+ Thu, 30 Apr 2020 08:26:11 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-177.ams2.redhat.com
+ [10.36.112.177])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04B102855B;
+ Thu, 30 Apr 2020 08:26:06 +0000 (UTC)
+Subject: Re: [PATCH v22 3/4] qcow2: add zstd cluster compression
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20200428200013.24474-1-dplotnikov@virtuozzo.com>
+ <20200428200013.24474-4-dplotnikov@virtuozzo.com>
+ <daf5a573-56a3-62b0-4387-1db73978463e@redhat.com>
+ <feeec7a1-6987-18a1-1352-1512dc42824e@virtuozzo.com>
+ <be6f57c0-23d9-6a6c-3a39-3a7132f23a42@redhat.com>
+ <23f0a79a-6e8d-3702-3d82-9db54a442a5f@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <73ebc101-7148-2b38-492f-538d4bf8c8a4@redhat.com>
+Date: Thu, 30 Apr 2020 10:26:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.138) by
- AM0PR10CA0057.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::37) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19 via Frontend
- Transport; Thu, 30 Apr 2020 08:21:36 +0000
-X-Tagtoolbar-Keys: D20200430112135749
-X-Originating-IP: [185.215.60.138]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 27496d96-ba28-4e43-ba5a-08d7ecdf80a1
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5509:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB55098C952971F58A8D7DDD0BC1AA0@AM7PR08MB5509.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-Forefront-PRVS: 0389EDA07F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Bp5PLthwOMSsD74wM02OR86WtXaz+df3gLtYm8Rm3mS+e/vqfCFqCx2vmmQp4Hff8zUD/3mJfk8B126SgYLHPSeddNKgEQl7fFlcUmSksnWezcOccl5SqodKtsFchRWzk8xe2/DgmqVxFMDBWQBczD/ni/F3RNYt0n+lIfobTOPYj2pIfQoKr67N3geEuBIhtQKyRE7cSOrrdiRoRcjJ/cuIWywrhXCnb73zlGMjvrGTaWct+FDgYGQ9fQU3Xk0BCr/M9ZkDoGH+iuC/QXvOf6njzFwmroFlo7txtbWOJ3mbMtKb08XLG8nPiPSJHIBx/nAbaO53/x4QFiZLEOYwLwJS6EsHfhzegsYPiCoSEwK7Y63Lz47hy8kccXIyFIaci1IMgvly6JLlYEFXvLYeaxBzfvqNCm/yp/Tj9OnUILdXHtug3pVkkmGAecDbE/hW
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(366004)(136003)(376002)(39840400004)(346002)(316002)(6486002)(16526019)(53546011)(26005)(8936002)(52116002)(5660300002)(4326008)(31686004)(107886003)(956004)(2906002)(36756003)(186003)(2616005)(86362001)(66476007)(66556008)(8676002)(66946007)(31696002)(7416002)(16576012)(478600001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: FEId6SeD3T9y1funxLyDQV0+LzvhBKiVR2r8kFa2Bbg2bEuZjlZcbJV9LleejyEm8soRpt8KYEhG0cBpT/Y4BHx5jyqmGgY8tX5/AjI2oS1xa1NtJfRpGHXQPw+hZaZzsP/a5yr6RBciSdvm9zDINpfgCVLjw1tGcYXsALzqs6JzbkiMgJGLTv4yo3WqrqYGcHLqwMTgPKH95dYTojDIYy6lIgBnwJG0gT6L43/dWTfliCgOuwr74LMdnI3fkSYo4zhcM9GUE/nFCXzzYu68qD4O4pOY2ktdyNGI3COjLL6NBhzD+jnVXySFchIBE5/MWXk801r8UArZEryiiW9PnXrvPWdDLpA2LR8OvK1Q8p0iF25Mts0SOh2QIcn7nU7VR6jakV244OiE6tCRIHu6ccS9y6W3azmqaNMuLa2gtHI4f5Swg0WvED/eZYleTQiIl1WutKGJTusgHU699BiErORrFvUiWKBKmbxQrIvAKDZ6yOB+NSqWEsc3LPkBwK+n2U2HRxM9Vp2A42CU9clF5m/IsE3ubjFKmWJrrNqUmmLJBjxHjE1Oh2KWCj+yxJDPnvhc2HZSpbdbfbW0t8JMn+yVvgMp3ZwyVuyF5hftPO9JutTEz2WD/RXlzgwDRyGHA461mQeoC53zppsZrqWvRnw4ToNXN4R1TlNOMrL1euJFreQYr80R75BtthZROQKixd3GoZqkmJKQjpnrCCqOe/QKUYZV0IXC8kgYklA26RmhtUFsBUTQBjDET3WufeAEZggt+Jxzo40CVmrlIpF1OmByNmjicitbg8k9Gt1HUHE=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27496d96-ba28-4e43-ba5a-08d7ecdf80a1
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 08:21:37.8588 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dgWOXHuNhCv0lu5m6TJYnZMvVTMBYALErQV++YER2vdmDefQQm83mvdCrSTY/Q1HsyS/d091QBtw31NJTTgjZc1V38OwCck2zGY4tTM0KBI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5509
-Received-SPF: pass client-ip=40.107.21.100;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 04:21:38
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.21.100
+In-Reply-To: <23f0a79a-6e8d-3702-3d82-9db54a442a5f@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="3mBCjFW98SzB9s1vI1oQyTwIaL9mtpy0L"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,117 +106,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, integration@gluster.org, berto@igalia.com,
- pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org, dillaman@redhat.com,
- pl@kamp.de, ronniesahlberg@gmail.com, mreitz@redhat.com, den@openvz.org,
- sheepdog@lists.wpkg.org, stefanha@redhat.com, namei.unix@gmail.com,
- pbonzini@redhat.com, sw@weilnetz.de, jsnow@redhat.com, ari@tuxera.com
+Cc: kwolf@redhat.com, berto@igalia.com, qemu-block@nongnu.org,
+ armbru@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-29.04.2020 18:50, Eric Blake wrote:
-> On 4/27/20 3:23 AM, Vladimir Sementsov-Ogievskiy wrote:
->> We are generally moving to int64_t for both offset and bytes parameters
->> on all io paths. Convert tracked requests now.
-> 
-> As mentioned elsewhere in the thread, this states 'what' but not 'why'; adding a bit more of the 'why' can be useful when revisiting this commit in the future.
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--3mBCjFW98SzB9s1vI1oQyTwIaL9mtpy0L
+Content-Type: multipart/mixed; boundary="UYQb2UJGxeTWCYce0x1MiEOhfzXvWOO1h"
+
+--UYQb2UJGxeTWCYce0x1MiEOhfzXvWOO1h
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 29.04.20 15:02, Vladimir Sementsov-Ogievskiy wrote:
+> 29.04.2020 15:17, Max Reitz wrote:
+>> On 29.04.20 12:37, Vladimir Sementsov-Ogievskiy wrote:
+>>> 29.04.2020 13:24, Max Reitz wrote:
+>>>> On 28.04.20 22:00, Denis Plotnikov wrote:
+>>>>> zstd significantly reduces cluster compression time.
+>>>>> It provides better compression performance maintaining
+>>>>> the same level of the compression ratio in comparison with
+>>>>> zlib, which, at the moment, is the only compression
+>>>>> method available.
+>>>>>
+>>>>> The performance test results:
+>>>>> Test compresses and decompresses qemu qcow2 image with just
+>>>>> installed rhel-7.6 guest.
+>>>>> Image cluster size: 64K. Image on disk size: 2.2G
+>>>>>
+>>>>> The test was conducted with brd disk to reduce the influence
+>>>>> of disk subsystem to the test results.
+>>>>> The results is given in seconds.
+>>>>>
+>>>>> compress cmd:
+>>>>> =A0=A0=A0 time ./qemu-img convert -O qcow2 -c -o
+>>>>> compression_type=3D[zlib|zstd]
+>>>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 src.img [zl=
+ib|zstd]_compressed.img
+>>>>> decompress cmd
+>>>>> =A0=A0=A0 time ./qemu-img convert -O qcow2
+>>>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 [zlib|zstd]=
+_compressed.img uncompressed.img
+>>>>>
+>>>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 compression=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 decompression
+>>>>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 zlib=A0=A0=A0=A0=A0=A0 zstd=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0 zlib=A0=A0=A0=A0=A0=A0=A0=A0 zstd
+>>>>> ------------------------------------------------------------
+>>>>> real=A0=A0=A0=A0 65.5=A0=A0=A0=A0=A0=A0 16.3 (-75 %)=A0=A0=A0 1.9=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 1.6 (-16 %)
+>>>>> user=A0=A0=A0=A0 65.0=A0=A0=A0=A0=A0=A0 15.8=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0 5.3=A0=A0=A0=A0=A0=A0=A0=A0=A0 2.5
+>>>>> sys=A0=A0=A0=A0=A0=A0 3.3=A0=A0=A0=A0=A0=A0=A0 0.2=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0 2.0=A0=A0=A0=A0=A0=A0=A0=A0=A0 2.0
+>>>>>
+>>>>> Both ZLIB and ZSTD gave the same compression ratio: 1.57
+>>>>> compressed image size in both cases: 1.4G
+>>>>>
+>>>>> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+>>>>> QAPI part:
+>>>>> Acked-by: Markus Armbruster <armbru@redhat.com>
+>>>>> ---
+>>>>> =A0=A0 docs/interop/qcow2.txt |=A0=A0 1 +
+>>>>> =A0=A0 configure=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0 2 +-
+>>>>> =A0=A0 qapi/block-core.json=A0=A0 |=A0=A0 3 +-
+>>>>> =A0=A0 block/qcow2-threads.c=A0 | 169
+>>>>> +++++++++++++++++++++++++++++++++++++++++
+>>>>> =A0=A0 block/qcow2.c=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=A0 7 ++
+>>>>> =A0=A0 slirp=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0=
+=A0 2 +-
+>>>>> =A0=A0 6 files changed, 181 insertions(+), 3 deletions(-)
+>>>>
+>>>> [...]
+>>>>
+>>>>> diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+>>>>> index 7dbaf53489..a0b12e1b15 100644
+>>>>> --- a/block/qcow2-threads.c
+>>>>> +++ b/block/qcow2-threads.c
+>>>>
+>>>> [...]
+>>>>
+>>>>> +static ssize_t qcow2_zstd_decompress(void *dest, size_t dest_size,
+>>>>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 const void *src, size_t
+>>>>> src_size)
+>>>>> +{
+>>>>
+>>>> [...]
+>>>>
+>>>>> +=A0=A0=A0 /*
+>>>>> +=A0=A0=A0=A0 * The compressed stream from the input buffer may consi=
+st of
+>>>>> more
+>>>>> +=A0=A0=A0=A0 * than one zstd frame.
+>>>>
+>>>> Can it?
+>>>
+>>> If not, we must require it in the specification.
 >>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->> ---
->>   include/block/block_int.h |  4 ++--
->>   block/io.c                | 11 ++++++-----
->>   2 files changed, 8 insertions(+), 7 deletions(-)
+>> Actually, now that you mention it, it would make sense anyway to add
+>> some note to the specification on what exactly compressed with zstd
+>> means.
 >>
->> diff --git a/include/block/block_int.h b/include/block/block_int.h
->> index 4c3587ea19..c8daba608b 100644
->> --- a/include/block/block_int.h
->> +++ b/include/block/block_int.h
->> @@ -70,12 +70,12 @@ enum BdrvTrackedRequestType {
->>   typedef struct BdrvTrackedRequest {
->>       BlockDriverState *bs;
->>       int64_t offset;
->> -    uint64_t bytes;
->> +    int64_t bytes;
->>       enum BdrvTrackedRequestType type;
->>       bool serialising;
->>       int64_t overlap_offset;
->> -    uint64_t overlap_bytes;
->> +    int64_t overlap_bytes;
-> 
-> unsigned values have defined wraparound semantics, signed values have a lower maximum and require careful handling to avoid undefined overflow. So we have to check all clients for any surprises.
-> 
-> block/file-posix.c:raw_do_pwrite_zeroes() -
->          assert(req->offset + req->bytes >= offset + bytes);
-> pre-patch: assert(int64_t + uint64_t >= int64_t + int)
->             assert(uint64_t >= int64_t) - unsigned compare
-> post-patch: assert(int64_t >= int64_t) - signed compare
-> Risky if adding req->bytes could ever overflow 63 bits but still fit in 64 bits, but I couldn't find any way to trigger that.  I think we're safe because the block layer never calls a driver's .pwrite_zeroes with a bytes that would overflow 63 bits.
-> 
-> block/write-threshold.c:bdrv_write_threshold_exceeded() -
->          if ((req->offset + req->bytes) > bs->write_threshold_offset) {
-> pre-patch: ((int64_t + uint64_t) > uint64_t) - unsigned compare
-> post-patch: (int64_t > uint64_t) - still unsigned compare
-> 
-> Perhaps that function should be changed to return int64_t, but probably as a different patch in the series (I didn't read ahead yet to see if you already did).
-> 
->>       QLIST_ENTRY(BdrvTrackedRequest) list;
->>       Coroutine *co; /* owner, used for deadlock detection */
->> diff --git a/block/io.c b/block/io.c
->> index aba67f66b9..7cbb80bd24 100644
->> --- a/block/io.c
->> +++ b/block/io.c
->> @@ -692,10 +692,11 @@ static void tracked_request_end(BdrvTrackedRequest *req)
->>   static void tracked_request_begin(BdrvTrackedRequest *req,
->>                                     BlockDriverState *bs,
->>                                     int64_t offset,
->> -                                  uint64_t bytes,
->> +                                  int64_t bytes,
->>                                     enum BdrvTrackedRequestType type)
->>   {
->> -    assert(bytes <= INT64_MAX && offset <= INT64_MAX - bytes);
->> +    assert(offset >= 0 && bytes >= 0 &&
->> +           bytes <= INT64_MAX && offset <= INT64_MAX - bytes);
-> 
-> This part is nice - it makes it very easy to prove all other uses of BdrvTrackedRequest.bytes were already in range (both pre- and post-patch).
-> 
->>       *req = (BdrvTrackedRequest){
->>           .bs = bs,
->> @@ -716,7 +717,7 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
->>   }
->>   static bool tracked_request_overlaps(BdrvTrackedRequest *req,
->> -                                     int64_t offset, uint64_t bytes)
->> +                                     int64_t offset, int64_t bytes)
->>   {
->>       /*        aaaa   bbbb */
->>       if (offset >= req->overlap_offset + req->overlap_bytes) {
->> @@ -773,8 +774,8 @@ bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
->>   {
->>       BlockDriverState *bs = req->bs;
->>       int64_t overlap_offset = req->offset & ~(align - 1);
-> 
-> While here, should we use QEMU_ALIGN_DOWN instead of open-coding?
-
-But then, also s/ROUND_UP/QEMU_ALIGN_UP/ for consistency? But ROUND_UP is faster. Still, we tend to generally use QEMU_ALIGN_UP everywhere.. So, may be better to refactor these thing alltogether in some good way. Maybe, add ROUND_DOWN macro for symmetry?
-
-> 
->> -    uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
->> -                               - overlap_offset;
->> +    int64_t overlap_bytes =
->> +            ROUND_UP(req->offset + req->bytes, align) - overlap_offset;
->>       bool waited;
->>       qemu_co_mutex_lock(&bs->reqs_lock);
+>>> Hmm. If at some point
+>>> we'll want multi-threaded compression of one big (2M) cluster.. Could
+>>> this be implemented with zstd lib, if multiple frames are allowed, will
+>>> allowing multiple frames help? I don't know actually, but I think bette=
+r
+>>> not to forbid it. On the other hand, I don't see any benefit in large
+>>> compressed clusters. At least, in our scenarios (for compressed backups=
+)
+>>> we use 64k compressed clusters, for good granularity of incremental
+>>> backups (when for running vm we use 1M clusters).
 >>
-> 
-> Looking through uses of BdrvTrackedRequest in io.c, I couldn't find any other surprises (it seems everything starts with tracked_request_begin, and while you did switch between unsigned and signed, you did not switch width, so it's easier to reason about once we know things don't overflow).
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> 
-> 
+>> Is it really that important?=A0 Na=EFvely, it sounds rather complicated =
+to
+>> introduce multithreading into block drivers.
+>=20
+> It is already here: compression and encryption already multithreaded.
+> But of course, one cluster is handled in one thread.
+
+Ah, good.  I forgot.
+
+>> (Also, as for compression, it can only be used in backup scenarios
+>> anyway, where you write many clusters at once.=A0 So parallelism on the
+>> cluster level should sufficient to get high usage, and it would benefit
+>> all compression types and cluster sizes.)
+>>
+>=20
+> Yes it works in this way already :)
+
+Well, OK then.
+
+> So, we don't know do we want one frame restriction or not. Do you have a
+> preference?
+
+*shrug*
+
+Seems like it would be preferential to allow multiple frames still.  A
+note in the spec would be nice (i.e., streaming format, multiple frames
+per cluster possible).
+
+Max
 
 
--- 
-Best regards,
-Vladimir
+--UYQb2UJGxeTWCYce0x1MiEOhfzXvWOO1h--
+
+--3mBCjFW98SzB9s1vI1oQyTwIaL9mtpy0L
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6qi50ACgkQ9AfbAGHV
+z0DKVwf/QHywNtCkds5M7i7YOwtlhCjglcmdhSoacC70NCD7P3+zj18VzkI7zet6
+ruPqBC8+eTFybHztxJe9m4gorquqR24ixYxXPLhm48ISyVX8rc9jZpwxQ6nCXIsi
+3Iu47FJfgbvhBjb9UuzHsGtwRU98WNjXs8PIOFs73teEMjEbGAvV9txtTxMEXQHX
+/T0bJt+cIwi5kWilmXklxpwpgYUiEaur3Q4RkDJwXI+yZbAdLDOiY84F6cuaIIbw
+DeK1WpkElYsWib1osRz8uuau06ecC7W2Pakv2Pl/oFl/ymQrSUXDlENEGbDhL5sK
+uq2yBHlKO1aypNM6/YlNhpcbbhq1eA==
+=x5lX
+-----END PGP SIGNATURE-----
+
+--3mBCjFW98SzB9s1vI1oQyTwIaL9mtpy0L--
+
 
