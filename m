@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1CD1BFE6A
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:34:25 +0200 (CEST)
-Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C421BFE73
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:37:18 +0200 (CEST)
+Received: from localhost ([::1]:54770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUAGe-0005we-8P
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33256)
+	id 1jUAJS-00022F-0k
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33304)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jUAF0-0004aM-PQ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:32:43 -0400
+ (envelope-from <kwolf@redhat.com>) id 1jUAFF-0004pP-72
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:32:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1jUAEz-0005fm-Ja
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:32:42 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58894
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jUAEz-0005bx-65
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:32:41 -0400
-Received: from host86-140-11-65.range86-140.btcentralplus.com ([86.140.11.65]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1jUAEt-0000l1-2g; Thu, 30 Apr 2020 15:32:41 +0100
-To: Markus Armbruster <armbru@redhat.com>
-References: <87mu6uia5i.fsf@dusky.pond.sub.org>
- <20200429155719.GL1495129@redhat.com> <87k11xh2kq.fsf@dusky.pond.sub.org>
- <CAFEAcA9-oxkMD-kJ1z12d4K1S_Jaz7Wj6_38Ah7ChSaBfQNkkA@mail.gmail.com>
- <87tv11e1en.fsf_-_@dusky.pond.sub.org>
- <51a4e9ea-eca3-6c1d-a753-86c5810ac094@ilande.co.uk>
- <874kt1dpw7.fsf@dusky.pond.sub.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <c1fa0770-a07f-e5bc-9db8-6af0576c365f@ilande.co.uk>
-Date: Thu, 30 Apr 2020 15:32:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <kwolf@redhat.com>) id 1jUAFE-0005i7-3b
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:32:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31708
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jUAFD-0005hk-N6
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:32:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588257174;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I5TkZOqHbTzzm/QsUOjbLvPPxG0Sfhg1x9WzxeFTqY0=;
+ b=cWIb9oDRo8c5Z6FRRvyWF5oI3fCbKtvHIkXM5mrq4U+ewE54K9PCCWYuMWwDHwYQ/WVL3v
+ wQzRl6GpLg6bf/6dBiYX76IzeTxTmUEokDvy9gOdbSer1D63XZmwYPYe0MQfcPIZuMc92H
+ f0LD98sQQOwMw2OEu+fCG56oz9mo5Z4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-4omgGzAOOTqY2GONuM6_qg-1; Thu, 30 Apr 2020 10:32:53 -0400
+X-MC-Unique: 4omgGzAOOTqY2GONuM6_qg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A74B9107B265;
+ Thu, 30 Apr 2020 14:32:49 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-60.ams2.redhat.com [10.36.114.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C29F10013BD;
+ Thu, 30 Apr 2020 14:32:48 +0000 (UTC)
+Date: Thu, 30 Apr 2020 16:32:46 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 2/6] vmdk: Fix zero cluster allocation
+Message-ID: <20200430143246.GC6578@linux.fritz.box>
+References: <20200430133007.170335-1-kwolf@redhat.com>
+ <20200430133007.170335-3-kwolf@redhat.com>
+ <80e85c9e-8f3a-7e65-252d-da625a7e077f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <874kt1dpw7.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.140.11.65
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: Configuring onboard devices
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2001:41c9:1:41f::167
+In-Reply-To: <80e85c9e-8f3a-7e65-252d-da625a7e077f@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/29 23:34:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,96 +76,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/04/2020 15:11, Markus Armbruster wrote:
+Am 30.04.2020 um 16:19 hat Eric Blake geschrieben:
+> On 4/30/20 8:30 AM, Kevin Wolf wrote:
+> > m_data must be contain valid data even for zero clusters when no cluste=
+r
+> > was allocated in the image file. Without this, zero writes segfault wit=
+h
+> > images that have zeroed_grain=3Don.
+>=20
+> zero_grained=3Don ?
 
-> Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
-> 
->> On 30/04/2020 11:03, Markus Armbruster wrote:
->>> Peter Maydell <peter.maydell@linaro.org> writes:
->>>
->>>> On Thu, 30 Apr 2020 at 08:09, Markus Armbruster <armbru@redhat.com> wrote:
->>>>> Our means to configure onboard devices are weak.  We sidestepped this
->>>>> for isa-fdc by taking it off the board, and thus make -device work.
->>>>
->>>> This seems to be a general dynamic: the x86 pc machine works
->>>> via -device options (or is changed so it can work that way);
->>>> and then people propose dropping/deprecating/etc the config
->>>> options that work with onboard devices, without providing
->>>> clear solutions/instructions on how the command line needs
->>>> to change/etc for the mass of boards which are not the x86
->>>> pc machine and which do have a lot of onboard devices which
->>>> can't be handled via -device.
->>>>
->>>> So my gut reaction to the "we should deprecate -global"
->>>> suggestions in this thread was a bit "here we go again"...
->>>> What works for x86 or even "what is sufficient for libvirt"
->>>> doesn't necessarily cover all the cases.
->>>
->>> Such shortsighted proposals have been made, but don't think it's what
->>> we're doing here.
->>>
->>> You're 100% right in that we do need to configure onboard devices.
->>> -global is a terrible way to do it, though: it applies to *all* devices
->>> of a kind.  What if the board has more than one?  What if the can add
->>> more?
->>>
->>> Taking onboard devices off the board can occasionally sidestep the
->>> issue.  For isa-fdc, we genuinely *wanted* to take the damn thing off,
->>> because all it did for most users was provide them with VENOM.  Not
->>> needing -global for it anymore was just a nice bonus.
->>>
->>> Taking onboard devices off just to reduce the device configuration
->>> problem to a solved one, namely -device, may be tempting (it was to me),
->>> but it's too intrusive to be practical at scale.
->>>
->>> Adding machine properties that alias onboard device properties is less
->>> intrusive.  The ones I added were still a lot of work.
->>>
->>> Configuring onboard devices via machine properties restricts property
->>> access to the ones we added to the machine.  This differs from pluggable
->>> devices, where users can access all properties.
->>>
->>> Any better ideas for letting users configure onboard devices?
->>
->> Is it possible to let machine owners add alias properties to the machine object
->> referencing in-built devices? I could then instantiate my on-board nic in the machine
->> init() function, and then use object_property_add_alias() to add a "nic0" alias on
->> the machine that can be used to wire it up to a netdev using the command line.
-> 
-> Have a look at hw/arm/virt.c's virt_flash_create(), from commit
-> e0561e60f1 "hw/arm/virt: Support firmware configuration with -blockdev".
-> It adds machine properties "pflash0" and "pflash1" as aliases for the
-> onboard flash memory devices' property "drive".
-> 
-> Does this answer your question?
+No, zeroed_grain is the actual name of the option.
 
-Ah I see now, these aliases are for individual properties rather than objects. What I
-was trying to ask was if it were possible to have something like this:
+I don't really know what a grain is in VMDK terminology, but about the
+only thing that felt healthy about the code I touched was that it has
+whole-grain buffers. :-)
 
-/machine (SS-5-machine)
-  /builtin
-    /nic0 -> link to "lance" device
+Kevin
 
-Here nic0 is an alias "published" by the maintainer of the SS-5 machine which is
-configured in the machine init() function using object_property_add_link() or a
-suitable wrapper. Users can then configure these builtin devices from the command
-line using your -machine nic0.netdev=my-netdev-id syntax or similar.
-
-Having the default devices under /builtin or other known QOM path would enable
-builtin devices to be easily enumerated programatically and/or from the command line
-as required.
-
-
-ATB,
-
-Mark.
 
