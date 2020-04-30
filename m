@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407901C05B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 21:09:05 +0200 (CEST)
-Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01A61C058E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 21:03:30 +0200 (CEST)
+Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUEY8-0001JW-26
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 15:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43136)
+	id 1jUET3-0007y4-N4
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 15:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43288)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUEQS-0005XN-Vi
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:00:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jUERA-0006CD-MI
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUEQS-0002pt-D9
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:00:48 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38556)
+ (envelope-from <alex.bennee@linaro.org>) id 1jUER8-000382-42
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:32 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUEQR-0002oq-KT
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:00:47 -0400
-Received: by mail-pg1-x541.google.com with SMTP id l25so914176pgc.5
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 12:00:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jUER7-00037Q-Je
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:29 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g13so8403374wrb.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 12:01:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=oqn7TtR/TYqwfVJ6q6iqVey21vFfB9UmMm0+Nyk9+N8=;
- b=Cm0J8cvYGtjFHqnYtl27MIUrudtcHM2IC6BfHDrDs0jRxuhMTql/8/AqaXFhFd6Pw7
- yMIPT4pt0BLf4FzX1I6dczLvzCIeTGUYlgb0lqQOyFhxjTHUK1gCJZPOOgGnXFB0cwRj
- cOuAulXqu1lLkO0cxHVTewVPW8XjzxtbrcAUfs2vgNUSwW5+YiFoH42G6NlI1yVwQ0uD
- yBOjKULeb2vqVcHMmjHduvO51ndmVt4ViNXYG+3BCZ5ebIgSnwATmQKvBA3DnS8Go+Ps
- 9N7Kei3a1OkOhxvQMSkSMCTy8Qf8hUWYE7t/fUR5yIl4DmPAmHxUM7cYKiymHKLDX5zL
- UVxw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uiH2PQhIhTnBYX3ciLkOdb5ad8e/gr1fJnqziw/sEeQ=;
+ b=qXZL+GjM9Ia4oX3cosakYAN+qPzFj58/AMfWnV47y4luzvbskL1QYmL3UHl+tDVKXM
+ j925ofaIjK9q1cqGPfxZ1Iao1TglBt4aWLLwef8T3wAYZvXquRRz4CT2Ioc0HSKu6dBl
+ S7WaSuuxjlgksJzMUlzGK8CI4b7SSdj/JibR4orCcFvEEZlnRd043u/XonnpYEkjl0k8
+ +MmZBm3ZM4xvRSYLrMoCt4Uue5KMgYf56OkVJ7huG7aKwGy7Abjfthtd0Hqh4A7CvWF8
+ M+r85aJG3oCjn8x4Wsf3HLfZ9HWw5WTdD8u/ffLpdc2uHIYtO0edZJ6VwtyIwrPd+czS
+ Diuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=oqn7TtR/TYqwfVJ6q6iqVey21vFfB9UmMm0+Nyk9+N8=;
- b=tzkzFdyDitwTFm2OGl2xCceGwXhyP66GH7mkCXxEa5tpM+SDjPljzuRyA8dlYdjn3P
- L4xt1A4HFASHk1iGU/oNA49hKTsLvNPkpAK3CbSvf6dig09SaCX4rQVdVsTDUPeIm2xH
- hudZzwIYNWlJPUNfkgABRJ2W+byjv0brgOK70tw4CrW2KBjBZHU0YXGAyZQVCHZYx88j
- 9O4b9YNZjbKDQRy8QdbwddMIWaF6HBDLntnSXbK74ryq1FofXNBm4IVBTq+rk0i1sEXi
- orFAAxYhs2WnSUXjc5SXeYDaNaj2vTWLRNVeesz7yYZU4wUH05YgqnIVAPgPE3MfPbR9
- 9vUw==
-X-Gm-Message-State: AGi0PuaKAu+M0FARrM2ue+SC36QDmSMBnOBqGxQFc32lpXDCVs9vniLW
- CGcrbmH6CilwBMnvmlF/3+qeGZIUjkk=
-X-Google-Smtp-Source: APiQypKf+je42jwSnHXjSDOcaN6WSgJkhUOqjiS7mRsg3UAkwucgGrTJMceRrYg/h4Qd3lJ5/akCfw==
-X-Received: by 2002:a63:e050:: with SMTP id n16mr374362pgj.93.1588273245392;
- Thu, 30 Apr 2020 12:00:45 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id r17sm433871pgn.35.2020.04.30.12.00.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Apr 2020 12:00:44 -0700 (PDT)
-Subject: Re: [PATCH 08/36] target/arm: Convert VCMLA (scalar) to decodetree
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200430181003.21682-1-peter.maydell@linaro.org>
- <20200430181003.21682-9-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1b85806b-0fad-a2b8-2e89-18124bc34dff@linaro.org>
-Date: Thu, 30 Apr 2020 12:00:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ bh=uiH2PQhIhTnBYX3ciLkOdb5ad8e/gr1fJnqziw/sEeQ=;
+ b=FUxy38fCCHC3PULtbvEZ31G1QL0HI2hXnZkdZzmXNVfGc+luAu/4kYK/liokRsGw9D
+ w7wN3E1viozPZscWcqh1AgpKVnxUty0UmMLiefmGfxfm0iIO+/JTj+8tItHfCJ260FdE
+ jqr+erslswFcgHi41RT4DrNHYO29V6rdrAvjmPBhqN1sKPu5em4crDGfNTGMKwC5+l7C
+ TojoR9bt77XmYiEbLOliGna7cAC1YiwZtbzaIFcxTrf18OGZeNoEzbeNSIRh0RphV3V9
+ 0L4LFdqG4DGzUVPPRIsHjwHY/HMJAYXNT7kHUJX3iaaFwW81wy87XaLuGeb1T3hcy7O3
+ 4/ig==
+X-Gm-Message-State: AGi0PuY8IMIGg4RmgckZX5cdbZ4Xb7nuUYoEaE870A6UuixCcu3jGpjA
+ 2QcPvARVkyD42dHOp4yDXn/PB7BjDQc=
+X-Google-Smtp-Source: APiQypIVEDYsSdkQ+KwLyPU+beDa+xJvuHvzkZ2MErHCndaVi5l5BtQgntj5lp3k4dvSTjbGLoefBA==
+X-Received: by 2002:a05:6000:1001:: with SMTP id
+ a1mr5763137wrx.9.1588273287892; 
+ Thu, 30 Apr 2020 12:01:27 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k9sm984229wrd.17.2020.04.30.12.01.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Apr 2020 12:01:23 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9A2781FF7E;
+ Thu, 30 Apr 2020 20:01:22 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v1 0/9] gdbstub/next
+Date: Thu, 30 Apr 2020 20:01:13 +0100
+Message-Id: <20200430190122.4592-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200430181003.21682-9-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,20 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/20 11:09 AM, Peter Maydell wrote:
-> Convert VCMLA (scalar) in the 2reg-scalar-ext group to decodetree.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/translate-neon.inc.c | 40 +++++++++++++++++++++++++++++++++
->  target/arm/translate.c          | 26 +--------------------
->  target/arm/neon-shared.decode   |  5 +++++
->  3 files changed, 46 insertions(+), 25 deletions(-)
+Hi,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+As another release is cut from the tree we start again the collection
+of patches fixes and enhancements that weren't yet ready to be
+released on an unsuspecting world.
 
-r~
+Some of these patches have been seen before in my random collection
+series but these are all gdbstub related, This includes more testing,
+a new unix socket mode for linux-user to support the testing and a few
+other bits and pieces.
+
+The following patches need review:
+
+ - tests/tcg: add a multiarch linux-user gdb test
+ - tests/guest-debug: use the unix socket for linux-user tests
+ - gdbstub/linux-user: support debugging over a unix socket
+ - gdbstub: eliminate gdbserver_fd global
+ - tests/tcg: drop inferior.was_attached() test
+ - tests/tcg: better trap gdb failures
+ - configure: favour gdb-multiarch if we have it
+
+Alex Bennée (7):
+  configure: favour gdb-multiarch if we have it
+  tests/tcg: better trap gdb failures
+  tests/tcg: drop inferior.was_attached() test
+  gdbstub: eliminate gdbserver_fd global
+  gdbstub/linux-user: support debugging over a unix socket
+  tests/guest-debug: use the unix socket for linux-user tests
+  tests/tcg: add a multiarch linux-user gdb test
+
+KONRAD Frederic (1):
+  target/m68k: fix gdb for m68xxx
+
+Philippe Mathieu-Daudé (1):
+  gdbstub: Introduce gdb_get_float64() to get 64-bit float registers
+
+ configure                                   |   4 +-
+ include/exec/gdbstub.h                      |  25 +++-
+ bsd-user/main.c                             |   8 +-
+ gdbstub.c                                   | 119 ++++++++++++++++----
+ linux-user/main.c                           |  12 +-
+ target/m68k/cpu.c                           |  52 ++++++---
+ target/m68k/helper.c                        |   3 +-
+ target/ppc/gdbstub.c                        |   4 +-
+ target/ppc/translate_init.inc.c             |   2 +-
+ gdb-xml/m68k-core.xml                       |  29 +++++
+ tests/guest-debug/run-test.py               |  30 ++++-
+ tests/tcg/aarch64/Makefile.target           |   5 +-
+ tests/tcg/aarch64/gdbstub/test-sve-ioctl.py |   4 -
+ tests/tcg/aarch64/gdbstub/test-sve.py       |   4 -
+ tests/tcg/cris/Makefile.target              |   1 +
+ tests/tcg/multiarch/Makefile.target         |  14 +++
+ tests/tcg/multiarch/gdbstub/sha1.py         |  81 +++++++++++++
+ 17 files changed, 323 insertions(+), 74 deletions(-)
+ create mode 100644 gdb-xml/m68k-core.xml
+ create mode 100644 tests/tcg/multiarch/gdbstub/sha1.py
+
+-- 
+2.20.1
+
 
