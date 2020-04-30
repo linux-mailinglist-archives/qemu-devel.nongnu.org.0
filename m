@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF4941BF7C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:03:46 +0200 (CEST)
-Received: from localhost ([::1]:52284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D51891BF79B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:00:38 +0200 (CEST)
+Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7ur-00088a-Ms
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33846)
+	id 1jU7rp-0002uc-PR
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33858)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jd-00036n-Pc
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jf-0003AA-1a
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jZ-0000Op-Nc
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:09 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52907)
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jb-0000PQ-1I
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:10 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jU7jZ-0000OH-AU
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:05 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id 188so1511891wmc.2
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:04 -0700 (PDT)
+ id 1jU7ja-0000Oi-HO
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:06 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f13so6474361wrm.13
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=O3w8HyaAfJtw7bxuseWGtHyrXHMdqtOWwjxtX6t+QRI=;
- b=LJPm61l1x/msDMFCY74yUWnCfFx/MNcl3PkFuj5s+zascAqHwqTp8OD7chQhSzmnjM
- 3RDvMPOncTranY/LSuYGXfleOu57oSfY9wKll/C5PS1aU8SefBrR1rkArTkGZs5VamAh
- zoV05IDns1Ysq0HN6XhlLuGZwFhRvV88kvogRzpHO+9K3hy9yUV/Ndfze8yVAbMUDlKD
- 2anrl+AtVEwNxWAOTaEQ+blRNbb++fvcDj1jG2BDibsHvTe1Oe9BxQsz2DjdOeDwoUwg
- tE3bx1FF8JtKeWvo/fsq0cXmtodEELgIQdphYEdf4CKmQArgpBJ3gjfAsw9tzRG1DOO8
- Tf0g==
+ bh=uf9EjZlK3PWSZbbcBZG8iV17wJ+d4IMJ5+LdrfTNYaM=;
+ b=g4eFKGwKXdg6+ROOZwqokisERdUzIHLGcXlN+jRPv3Iy0hlBGih4whSamA3bAexaH2
+ 7rc3OU3cIfURER3RDB29k3HTf5pRF2tywlcCoW6oq2EeNDdIORjFMmN2UMv0Bg8ogdJC
+ wv5aRuEh1hIt6bM+cdGQ3YYqT3YWpRgD8I/KDEzgvxLwsW96Dfvd4fSBNWQ/9u59gPLB
+ x4rrJh1NQxri9koZgWzaMOksUAflc8SyWcnYOuDxlhOvB2U1c+TWW+5R1H6eFmT8GC/4
+ cP6a4/8eko6EJ9wzIBoAZ/fJZfcMckk492uf6VEa5PLNpBAVxg9RU3ETKHOodekFXS9u
+ msdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O3w8HyaAfJtw7bxuseWGtHyrXHMdqtOWwjxtX6t+QRI=;
- b=qmSMsNjI4gBVkbHX3CzJIsCopSaigl8MQhdmOxJOqRxbAQYLYLDnoygxW2mPcBgN6C
- QMGE3PZmWaTDs0UC7LEPxP+rg2dphFfQnHY4b+var1/uVb9VZXXYncOOTZEQC21UxP2M
- hD0Rw8Y+RAY7LVr7m2h9YU2qmz/qnUQmfO9jhqmoNl95o6AEI04GCjSx179MwPDUmEWy
- a0qSIS3kesiifa1TY7kbF+1ZQzoYp9psvJNEgNcJTf+OyP6a679QmdonVP6h23JV9heP
- wFQaQKgclCathuLt3x4lojyOQjgjyFYMHQhkBj51howMYtEvD5I515GG4g5E9WWyW4NS
- uGbQ==
-X-Gm-Message-State: AGi0PuZimHIYyga58u9WGCgHziyrsh5vcTTJGCpd0mDq77lu83ZePM/e
- QP2qTq50QpM0DmyoIiJvFjcKkn6w1N0jJw==
-X-Google-Smtp-Source: APiQypIIWj4n1YbzQSWfzwy94G17VcnmwYrO607JxjjtndZEsv1Ws6LhnCWxnTphPz/MYtlxW4auqQ==
-X-Received: by 2002:a7b:c104:: with SMTP id w4mr2606415wmi.8.1588247523570;
- Thu, 30 Apr 2020 04:52:03 -0700 (PDT)
+ bh=uf9EjZlK3PWSZbbcBZG8iV17wJ+d4IMJ5+LdrfTNYaM=;
+ b=OK2jU0I25e69vvf01asuFAR5bVqW9eblM/hG3B09QsKAV+wxTW01nT1Eji9rIM7RAb
+ +iX6xavdz6xZPMsaz0Gq7nQ2OX0XCuVPUTsPwxE5J1Q3HEjJnQkraJgPMbTIcwqa/fen
+ acTAaHQI+1pewaLDOzMGlrbOtyIo3wVmg6E+8vBoKTmPH4ULMG/xiTmsLjDbUdqCQDnN
+ ib/hGsUTaVMl7oQpAujE6JjaeThRJFYkeg7JXy9yCffmJx3vA87H7ycXw7nxQk+Abt3N
+ hsTbussdoLXNNJDoj5eZi2RGvri8mIwZ9Pu2jZd0j+4Ik0V3ir+i34gDfG4/s34YyUR1
+ an1A==
+X-Gm-Message-State: AGi0PuZNWTrHNftUy4e+GZENGj/xr1hmPCKlbeJdeHbx8mn99mMmrzQ1
+ Rlk/e9XmtHNPa8CY9JjwLT5xdRqQWZqngw==
+X-Google-Smtp-Source: APiQypIP7DpDpu9KoX6vbk1eIvexpZCWundeZn90FMynVKI+cWM9YYvhi0TO0zVYofjKfDjlkmX0xw==
+X-Received: by 2002:adf:aa92:: with SMTP id h18mr3648312wrc.20.1588247524653; 
+ Thu, 30 Apr 2020 04:52:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.02
+ by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.03
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:52:02 -0700 (PDT)
+ Thu, 30 Apr 2020 04:52:04 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/31] qdev-monitor: print the device's clock with info qtree
-Date: Thu, 30 Apr 2020 12:51:28 +0100
-Message-Id: <20200430115142.13430-18-peter.maydell@linaro.org>
+Subject: [PULL 18/31] hw/arm: versal: Setup the ADMA with 128bit bus-width
+Date: Thu, 30 Apr 2020 12:51:29 +0100
+Message-Id: <20200430115142.13430-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430115142.13430-1-peter.maydell@linaro.org>
 References: <20200430115142.13430-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::32d
+X-Received-From: 2a00:1450:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,82 +84,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Damien Hedde <damien.hedde@greensocs.com>
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-This prints the clocks attached to a DeviceState when using
-"info qtree" monitor command. For every clock, it displays the
-direction, the name and if the clock is forwarded. For input clock,
-it displays also the frequency.
+Setup the ADMA with 128bit bus-width. This matters when
+FIXED BURST mode is used.
 
-This is based on the original work of Frederic Konrad.
-
-Here follows a sample of `info qtree` output on xilinx_zynq machine
-after linux boot with only one uart clocked:
-> bus: main-system-bus
->  type System
->  [...]
->  dev: cadence_uart, id ""
->    gpio-out "sysbus-irq" 1
->    clock-in "refclk" freq_hz=0.000000e+00
->    chardev = ""
->    mmio 00000000e0001000/0000000000001000
->  dev: cadence_uart, id ""
->    gpio-out "sysbus-irq" 1
->    clock-in "refclk" freq_hz=1.375661e+07
->    chardev = "serial0"
->    mmio 00000000e0000000/0000000000001000
->  [...]
->  dev: xilinx,zynq_slcr, id ""
->    clock-out "uart1_ref_clk" freq_hz=0.000000e+00
->    clock-out "uart0_ref_clk" freq_hz=1.375661e+07
->    clock-in "ps_clk" freq_hz=3.333333e+07
->    mmio 00000000f8000000/0000000000001000
-
-Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20200406135251.157596-10-damien.hedde@greensocs.com
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Message-id: 20200417153800.27399-2-edgar.iglesias@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qdev-monitor.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/arm/xlnx-versal.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 9833b335496..56cee1483fa 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -38,6 +38,7 @@
- #include "migration/misc.h"
- #include "migration/migration.h"
- #include "qemu/cutils.h"
-+#include "hw/clock.h"
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index cb0122a3a68..94460f2343b 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -205,6 +205,8 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
  
- /*
-  * Aliases were a bad idea from the start.  Let's keep them
-@@ -737,6 +738,7 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
-     ObjectClass *class;
-     BusState *child;
-     NamedGPIOList *ngl;
-+    NamedClockList *ncl;
+         dev = qdev_create(NULL, "xlnx.zdma");
+         s->lpd.iou.adma[i] = SYS_BUS_DEVICE(dev);
++        object_property_set_int(OBJECT(s->lpd.iou.adma[i]), 128, "bus-width",
++                                &error_abort);
+         object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_fatal);
+         qdev_init_nofail(dev);
  
-     qdev_printf("dev: %s, id \"%s\"\n", object_get_typename(OBJECT(dev)),
-                 dev->id ? dev->id : "");
-@@ -751,6 +753,13 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
-                         ngl->num_out);
-         }
-     }
-+    QLIST_FOREACH(ncl, &dev->clocks, node) {
-+        qdev_printf("clock-%s%s \"%s\" freq_hz=%e\n",
-+                    ncl->output ? "out" : "in",
-+                    ncl->alias ? " (alias)" : "",
-+                    ncl->name,
-+                    CLOCK_PERIOD_TO_HZ(1.0 * clock_get(ncl->clock)));
-+    }
-     class = object_get_class(OBJECT(dev));
-     do {
-         qdev_print_props(mon, dev, DEVICE_CLASS(class)->props_, indent);
 -- 
 2.20.1
 
