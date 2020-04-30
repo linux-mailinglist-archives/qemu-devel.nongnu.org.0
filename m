@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86E51BF55F
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:29:03 +0200 (CEST)
-Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF081BF54E
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:24:44 +0200 (CEST)
+Received: from localhost ([::1]:60098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU6RC-0004Av-Sx
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:29:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52460)
+	id 1jU6N1-0006yR-C1
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jU6IZ-0008Ef-AZ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:15 -0400
+ (envelope-from <zltjiangshi@gmail.com>) id 1jU6L6-0004QT-5O
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:22:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <edgar.iglesias@gmail.com>) id 1jU6IU-0001BQ-BC
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:07 -0400
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:46742)
+ (envelope-from <zltjiangshi@gmail.com>) id 1jU6L4-0004Se-D7
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:22:43 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jU6IT-00018M-S0
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:01 -0400
-Received: by mail-lf1-x131.google.com with SMTP id g10so734304lfj.13
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 03:20:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1jU6L3-0004KA-Vd
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:22:42 -0400
+Received: by mail-pg1-x542.google.com with SMTP id x26so2538029pgc.10
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 03:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JgBptNqOPoZTQggyi+6DOXOV2a/1fkdOa8Q/I6vP82s=;
- b=bjbGefJgBdONjOv7DYHErPqlXJeqD4tOyygcruRGTSH8GLO3f7LgpYeF797qHGDwDs
- 6AMoL9Kz+3gbQ0arSRRpkl6wuLICZY1CqklEm0mnR5a50jHOQiSww1LnHueZk9BAE5I3
- PLoycvXfkJiUfn/t57BeCb2gmzqKUmJM+iTpe2SLPsaZuV8tdVH/Fy29I9E+8FaMMNZa
- 8LkNvTEjV0WU0RzdwX138GkLwNnDn8YnpD7iDZ0g4jngmLkDu53ndTYJUByAltYZjY/E
- +o7gjF49zjn3uMHNx1Vqrol8tPwGcObfa3uH1xXPDZZy7Yb58FQvQrd2nmn3llRCXORD
- p5XQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=ycV03Qb2e/TJ4HXNBuZlVu4R7xxQNf7srsAUMZ0wHq8=;
+ b=XpIXhx4mPxU5+1qJMS/MVh0/f/M4jKEk4LZRQ3JG3xNDraH+HqnwGiR1hwtv3EnpZw
+ 4zjZs544+0QWx/O3UHd9JVmNAs0Db/bq5TToGlW+cLlcnepj1uJw/e7nmhvmpB/z2SvC
+ NyYqqzPkIeqO36Pv7mOIZdeKyCqYDVsGGWD67/7F5xtOdLann+Z7QzxSWDGxUTAYX/Dq
+ 0GoiAFPJOw+rmdd4VC4kA2juAuRF25PwMS2q6sCIuPbf9ges+ACp2Hm9cJwKE9R3zDYC
+ JnYhbxW7bOLsm4lYilm3Yq8LY/Mo+nWwVP+HrdV4YY/rX6SchHVbYQ3//nUhmEh0KYeB
+ ClkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JgBptNqOPoZTQggyi+6DOXOV2a/1fkdOa8Q/I6vP82s=;
- b=Cc3QgD8gJMFDpsT6R4jcWpXXW1zYuD7hyp57fzQ7IjWLUOptxTGP5TR/1GJrQQ32iP
- eVQa9N3A1fe4pRcKFtL0fLkgPNuUVQzQ58350Jg6xahLj4M7Ohn4owBKe6Pe46OSgOgj
- WOlseBv2eASfKgAQo3KRo5OSDNF5DnekZeZkuc7Fw0UFvAaJZ+d+TYCiCvcRLGE4JFTi
- aYrTrs6AqgF192TNOahEcxoc6YMItVn/skIisRFpnLBpDlwUCHOI3OT3nTrindj7uWw+
- eapC2Nz+suAKru1brNGN7+Em9j2x9UfWV81pVxqSre/AxAk1AF4Gu9/FJcaLln3SrTi8
- te2g==
-X-Gm-Message-State: AGi0Pua3xSeQKZFEnDloPKRpi+ntaScdECoMVdZLf4BjhkKPtWP8iZPN
- FUgymc50j0NZZ5QG/PiKSmuHVqK0fVI=
-X-Google-Smtp-Source: APiQypLY1vpWuQk8MZdfmSUuE7FxCiSX56T4rvCpoA+d1ogxiOCVB9gVtIe5X+Hp8inH/nZ5t//6kg==
-X-Received: by 2002:a19:6448:: with SMTP id b8mr1654720lfj.18.1588241999997;
- Thu, 30 Apr 2020 03:19:59 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id m22sm4039034lji.75.2020.04.30.03.19.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 03:19:59 -0700 (PDT)
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v1 6/6] target/microblaze: Add the pvr-user2 property
-Date: Thu, 30 Apr 2020 12:19:49 +0200
-Message-Id: <20200430101949.7754-7-edgar.iglesias@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200430101949.7754-1-edgar.iglesias@gmail.com>
-References: <20200430101949.7754-1-edgar.iglesias@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x131.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=ycV03Qb2e/TJ4HXNBuZlVu4R7xxQNf7srsAUMZ0wHq8=;
+ b=KIQ5w2kdOpb9zNoHkDlrTJH9/Ef/KA19rkTuHh3oolXlae1H4WQAnSscaYz5ESABig
+ J8jQu4KiihgNzgv0AGaCwraypIWzPYBrM5akjfJY0pNBIe2AIq+/LeXG3cvgRYViLsLn
+ F+NBZq+E9cVVk7gd2Djk5VQ/Sd9RvrTK7uyZ2f79ElN8a0raPeiNJDXQL6v4BYDjLkfl
+ 5O8YXr11tn3a9esSFQ6xEZ5dO33tj8z4Z71Yh3n227wa9V6/mc4cqoH8fOSEkwiiPp6A
+ lmgZMRWmkPGlzdry5m62POopgtJ34AQ0QbtozXAMLcstg2wiaL4rQc3OkLVfgsWlBaOL
+ BPvQ==
+X-Gm-Message-State: AGi0PubY8rOC1Pn2VxpfihqQ0+oZ1CU/qZAd92+ExGFNHErJJMv1vbsa
+ CLNLBEaM7qR/anYWo73rnQg=
+X-Google-Smtp-Source: APiQypIbIawzw27CxRXIxX9jCHF/aaOIs7jZeeJ8/SaHQRFV4fA7JZHcNC9M6fw4dO2zh1N4r4T4NA==
+X-Received: by 2002:a63:af51:: with SMTP id s17mr2743031pgo.305.1588242159646; 
+ Thu, 30 Apr 2020 03:22:39 -0700 (PDT)
+Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
+ [34.92.144.28])
+ by smtp.gmail.com with ESMTPSA id a15sm1397872pju.3.2020.04.30.03.22.37
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 30 Apr 2020 03:22:38 -0700 (PDT)
+From: Huacai Chen <zltjiangshi@gmail.com>
+X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH for-5.1 V2 0/7] mips: Add Loongson-3 machine support (with KVM)
+Date: Thu, 30 Apr 2020 18:22:28 +0800
+Message-Id: <1588242155-23924-1-git-send-email-chenhc@lemote.com>
+X-Mailer: git-send-email 2.7.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::131
+X-Received-From: 2607:f8b0:4864:20::542
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,56 +77,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org
+Cc: Huacai Chen <chenhuacai@gmail.com>, Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
+R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
+Loongson-3A R4 is the newest and its ISA is almost the superset of all
+others. To reduce complexity, in QEMU we just define two CPU types:
 
-Add the pvr-user2 property to control the user-defined
-PVR1 User2 register.
+1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It is
+   suitable for TCG because Loongson-3A R1 has fewest ASE.
+2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It is
+   suitable for KVM because Loongson-3A R4 has the VZ ASE.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Loongson-3 lacks English documents. I've tried to translated them with
+translate.google.com, and the machine translated documents (together
+with their original Chinese versions) are available here.
+
+Loongson-3A R1 (Loongson-3A1000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A1000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A1000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_manual_P2.pdf (Chinese Version)
+
+Loongson-3A R2 (Loongson-3A2000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A2000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A2000_user1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A2000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A2000_user2.pdf (Chinese Version)
+
+Loongson-3A R3 (Loongson-3A3000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A3000_p1.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual1.pdf (Chinese Version)
+User Manual Part 2:
+http://ftp.godson.ac.cn/lemote/3A3000_p2.pdf
+http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual2.pdf (Chinese Version)
+
+Loongson-3A R4 (Loongson-3A4000)
+User Manual Part 1:
+http://ftp.godson.ac.cn/lemote/3A4000_p1.pdf
+http://ftp.godson.ac.cn/lemote/3A4000user.pdf (Chinese Version)
+User Manual Part 2:
+I'm sorry that it is unavailable now.
+
+We are preparing to add QEMU's Loongson-3 support. MIPS VZ extension is
+fully supported in Loongson-3A R4+, so we at first add QEMU/KVM support
+in this series. And the next series will add QEMU/TCG support (it will
+emulate Loongson-3A R1).
+
+We already have a full functional Linux kernel (based on Linux-5.4.x LTS
+but not upstream yet) here:
+
+https://github.com/chenhuacai/linux
+
+How to use QEMU/Loongson-3?
+1, Download kernel source from the above URL;
+2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}config;
+3, Boot a Loongson-3A4000 host with this kernel;
+4, Build QEMU-5.0.0 with this patchset;
+5, modprobe kvm;
+6, Use QEMU with TCG (available in future):
+       qemu-system-mips64el -M loongson3,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ... 
+   Use QEMU with KVM (available at present): 
+       qemu-system-mips64el -M loongson3,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ... 
+
+   The "-cpu" parameter can be omitted here and QEMU will use the correct type for TCG/KVM automatically.
+
+Huacai Chen(7):
+ configure: Add KVM target support for MIPS64
+ hw/mips: Implement the kvm_type() hook in MachineClass
+ hw/mips: Add CPU IRQ3 delivery for KVM
+ target/mips: Add Loongson-3 CPU definition
+ target/mips: Add more CP0 register for save/restor
+ hw/mips: Add Loongson-3 machine support (with KVM)
+ MAINTAINERS: Add myself as Loongson-3 maintainer
+
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
 ---
- target/microblaze/cpu.h | 1 +
- target/microblaze/cpu.c | 2 ++
- 2 files changed, 3 insertions(+)
-
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 7bb5a3d6c6..a31134b65c 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -308,6 +308,7 @@ struct MicroBlazeCPU {
-         bool div_zero_exception;
-         bool unaligned_exceptions;
-         uint8_t pvr_user1;
-+        uint32_t pvr_user2;
-         char *version;
-         uint8_t pvr;
-     } cfg;
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index df5ee21dd6..aa9983069a 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -196,6 +196,7 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
-                         (cpu->cfg.pvr == C_PVR_FULL ? PVR0_PVR_FULL_MASK : 0) |
-                         cpu->cfg.pvr_user1;
- 
-+    env->pvr.regs[1] = cpu->cfg.pvr_user2;
-     env->pvr.regs[2] |= (cpu->cfg.use_fpu ? PVR2_USE_FPU_MASK : 0) |
-                         (cpu->cfg.use_fpu > 1 ? PVR2_USE_FPU2_MASK : 0) |
-                         (cpu->cfg.use_hw_mul ? PVR2_USE_HW_MUL_MASK : 0) |
-@@ -294,6 +295,7 @@ static Property mb_properties[] = {
-     DEFINE_PROP_STRING("version", MicroBlazeCPU, cfg.version),
-     DEFINE_PROP_UINT8("pvr", MicroBlazeCPU, cfg.pvr, C_PVR_FULL),
-     DEFINE_PROP_UINT8("pvr-user1", MicroBlazeCPU, cfg.pvr_user1, 0),
-+    DEFINE_PROP_UINT32("pvr-user2", MicroBlazeCPU, cfg.pvr_user2, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--- 
-2.20.1
-
+ MAINTAINERS                          |   5 +
+ configure                            |   2 +-
+ default-configs/mips64el-softmmu.mak |   1 +
+ hw/core/Makefile.objs                |   2 +-
+ hw/core/null-machine.c               |   4 +
+ hw/mips/Kconfig                      |  10 +
+ hw/mips/Makefile.objs                |   3 +-
+ hw/mips/common.c                     |  29 ++
+ hw/mips/mips_int.c                   |   6 +-
+ hw/mips/mips_loongson3.c             | 886 +++++++++++++++++++++++++++++++++++
+ include/hw/mips/mips.h               |   3 +
+ target/mips/cpu.h                    |  28 ++
+ target/mips/internal.h               |   2 +
+ target/mips/kvm.c                    | 212 +++++++++
+ target/mips/machine.c                |   6 +-
+ target/mips/mips-defs.h              |   7 +-
+ target/mips/translate.c              |   2 +
+ target/mips/translate_init.inc.c     |  84 ++++
+ 18 files changed, 1281 insertions(+), 11 deletions(-)
+ create mode 100644 hw/mips/common.c
+ create mode 100644 hw/mips/mips_loongson3.c
+--
+2.7.0
 
