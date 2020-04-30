@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93CB1BFE74
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:37:27 +0200 (CEST)
-Received: from localhost ([::1]:55198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E6B41BFE98
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:40:27 +0200 (CEST)
+Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUAJa-0002DC-Ko
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:37:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33674)
+	id 1jUAMU-0005uo-Lt
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:40:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34250)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUAHd-0008Os-9P
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:35:25 -0400
+ (envelope-from <armbru@redhat.com>) id 1jUAKR-0004Ht-VL
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:38:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUAHc-0006dL-5m
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:35:25 -0400
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:36121)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jUAHb-0006cp-N3
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:35:23 -0400
-Received: by mail-oi1-x22d.google.com with SMTP id s202so5396996oih.3
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 07:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=RYchbCsHS5ydDK77jC/7+dOs+dp/ANIHTH+FLGCQ8FM=;
- b=XL6HB12ACXkVTUF2P1Wrvc8kuoV8JZFXmRNfnypcPWeGRRx70BJXJsAE1cZ4diGkmw
- 1Eer6D8qSxNibggyw2Ae9306blWUZE60e5arXImecsen3g/OWutF2rDVKo2IPK4AroO9
- S6CiyMvvvTIZe6/iOObhrVAcfZCrqpvkBC2tZQv1HE1OgZjeJbk5ucxUbppxyQP+Lu4z
- 684g5KSOkMsJwCJRbZvUIpi9lXt+UeWPsN8ZdWrwjeFRwPUIbS4cgUsNsXYtVnFnCIJg
- yNDV+7TJC24xugr5PcelvQxp/B2ahkcFfH7UIHWagAqJxJ1ksrU1r6cKZ7MwaVB4s7T9
- pJHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=RYchbCsHS5ydDK77jC/7+dOs+dp/ANIHTH+FLGCQ8FM=;
- b=g6U1t5rvfvtQhxh3/PMQqMqcpVJ850MFjJ+L94AVi9yisSnIwVx0L7AQOGpE52L0Eb
- rjdm3alxlMzPSTON2f0RH2bVkWUE7z1j1OcTXcXXYqlqMPIJk+xCDoGSNA/OrA1ERlgO
- uH2e3Vhmjxil5PcQNqumcqdQ0u8xC9vy/bEz9J3FKp074K5ZAvIjPbyZe3IyIXYsVJye
- xGDwtxLQ0QNXpscM/iKLcT1MbC7FV7gDDRVJOz5Q3a0R4P6i052PFSATdNftJHNgIMLD
- N8eZGMyGGiG3BP2KJp+bW4f0/F553amRXPwrSWK19OUvGq7cJUCqIp3GWj/IBvnC6EAt
- PsOQ==
-X-Gm-Message-State: AGi0PubvQd6fHMTSV7sCpV46XvAvCz7sRN5QG4XyLZUTWfx8TyaKyA4y
- qD/6qvSWVCGjbcRBePdktucQMmWg3ZpWHUhU+6ubxTTHAZM=
-X-Google-Smtp-Source: APiQypK1ca5pUBWzUYszNGf6LV1YhJex0dd36jycx4Fh4yLfx1cqyI67SSIlTrnRwcYuGf1Ju36TiJuK/X7+Xjy74fc=
-X-Received: by 2002:aca:4a45:: with SMTP id x66mr1858657oia.48.1588257321611; 
- Thu, 30 Apr 2020 07:35:21 -0700 (PDT)
+ (envelope-from <armbru@redhat.com>) id 1jUAKR-0001F7-0q
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:38:19 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26060
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jUAKQ-0001Bc-HD
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 10:38:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588257496;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bv5LpNXXaaI5E8o8sw1ehE6hr9HchQRYqEQBv0ZWjrI=;
+ b=NvEu6wj7fQRNKzZ1ImaR4X1kIAyeMiuexQF2nMuxvKv6/WX6TMeN2dZ9qxDhZY7xUpJyk8
+ jxebJ2BDo6Fckk3QsbmpXLbxNza2Tl8xZMMrXaoGFSYKEe4DGzQFPb5C9+gTtGAy6QkV70
+ IuL9l0IdnUECrVzCa1zJGJx1iyDUW0U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-153-s4QtjkqkMkKwgNiHdluDcg-1; Thu, 30 Apr 2020 10:38:15 -0400
+X-MC-Unique: s4QtjkqkMkKwgNiHdluDcg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECB591009600;
+ Thu, 30 Apr 2020 14:38:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D26AF38A;
+ Thu, 30 Apr 2020 14:38:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5FBF811358BC; Thu, 30 Apr 2020 16:38:09 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: Configuring onboard devices
+References: <87mu6uia5i.fsf@dusky.pond.sub.org>
+ <20200429155719.GL1495129@redhat.com>
+ <87k11xh2kq.fsf@dusky.pond.sub.org>
+ <CAFEAcA9-oxkMD-kJ1z12d4K1S_Jaz7Wj6_38Ah7ChSaBfQNkkA@mail.gmail.com>
+ <87tv11e1en.fsf_-_@dusky.pond.sub.org>
+ <20200430103437.GI2084570@redhat.com>
+ <CAFEAcA_1BB6qCpP+yAOKBeryxCZk5aC-YAw+KbGLFm2zCVL2oQ@mail.gmail.com>
+ <20200430105303.GK2084570@redhat.com>
+Date: Thu, 30 Apr 2020 16:38:09 +0200
+In-Reply-To: <20200430105303.GK2084570@redhat.com> ("Daniel P. =?utf-8?Q?B?=
+ =?utf-8?Q?errang=C3=A9=22's?=
+ message of "Thu, 30 Apr 2020 11:53:03 +0100")
+Message-ID: <87o8r9ca3y.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200430115142.13430-1-peter.maydell@linaro.org>
- <20200430115142.13430-10-peter.maydell@linaro.org>
-In-Reply-To: <20200430115142.13430-10-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 30 Apr 2020 15:35:10 +0100
-Message-ID: <CAFEAcA-VqU3Z3+cK-AGYQ-xT4vUcQyWUPYGKPpHq69XLwD5KRg@mail.gmail.com>
-Subject: Re: [PULL 09/31] hw/core/clock: introduce clock object
-To: QEMU Developers <qemu-devel@nongnu.org>,
- Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22d.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::22d
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,55 +85,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Apr 2020 at 12:51, Peter Maydell <peter.maydell@linaro.org> wrote:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+
+> On Thu, Apr 30, 2020 at 11:45:40AM +0100, Peter Maydell wrote:
+>> On Thu, 30 Apr 2020 at 11:34, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
+>> > We "merely" need a new query language targetted to QEMU's qtree
+>> > structure, which we can expose in the CLI that gives unique access
+>> > to every possible property.
+>>=20
+>> Past resistance to this has been grounded in not wanting to
+>> expose the exact arrangement of the qtree as a user-facing
+>> thing that needs to be maintained for back-compat reasons.
 >
-> This object may be used to represent a clock inside a clock tree.
+> I could be missing a key difference, but I thought we already exposed
+> the qtree in QMP  via qom-list, qom-get, qom-set ?  Libvirt uses
+> these commands for reading various properties.  I guess 'qom-set' is
+> really defining the kind of query string language I was illustrating
+> already. So mapping qom-set to the CLI as-is would not be worse than
+> what we already support in QMP
+
+We like to pretend QOM introspection is not a stable interface.  Except
+for the parts that have to be, because they're the only way to probe for
+certain things.  We're not telling you which parts, because we have no
+idea ourselves.
+
+>> Eg in your example the i440fx-pcihost sits directly on the
+>> 'system bus', but this is an odd artefact of the old qbus/qdev
+>> system and doesn't really reflect the way the system is built
+>> up in terms of QOM components; we might one day want to
+>> restructure things there, which would AIUI break a
+>> command line like
+
+If we replace qdev paths by QOM paths, the "doesn't really reflect the
+way the system is built up in terms of QOM components" goes away.
+
+However, the "we might one day want to restructure things" argument also
+applies to QOM.
+
+At some point we need to decide which part of the cake to feed to users,
+and which part to keep for developers to mess with.
+
+>> > To uniquely identify this we can have a string:
+>> >
+>> >  /dev[1]/bus[pci/0]/dev[id=3Dballoon0]/bus[virtio-bus]/dev[0]/deflate-=
+on-oom=3Dtrue
 >
-> A clock may be connected to another clock so that it receives update,
-> through a callback, whenever the source/parent clock is updated.
->
-> Although only the root clock of a clock tree controls the values
-> (represented as periods) of all clocks in tree, each clock holds
-> a local state containing the current value so that it can be fetched
-> independently. It will allows us to fullfill migration requirements
-> by migrating each clock independently of others.
+> Regards,
+> Daniel
 
-> +#define CLOCK_SECOND (1000000000llu << 32)
-
-It turns out that FreeBSD's time.h defines a CLOCK_SECOND
-macro, which means this doesn't compile on that platform.
-I'm going to rename it CLOCK_PERIOD_1SEC; it's only used
-in include/hw/clock.h so not a big change:
-
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index f3e44e9460c..f822a942209 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -32,15 +32,15 @@ typedef void ClockCallback(void *opaque);
-  * + at 1Ghz,   resolution is ~0.2Hz
-  * + at 10Ghz,  resolution is ~20Hz
-  */
--#define CLOCK_SECOND (1000000000llu << 32)
-+#define CLOCK_PERIOD_1SEC (1000000000llu << 32)
-
- /*
-  * macro helpers to convert to hertz / nanosecond
-  */
--#define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_SECOND / 1000000000llu))
--#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_SECOND / 1000000000llu))
--#define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_SECOND / (hz) : 0u)
--#define CLOCK_PERIOD_TO_HZ(per) (((per) != 0) ? CLOCK_SECOND / (per) : 0u)
-+#define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_PERIOD_1SEC / 1000000000llu))
-+#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_PERIOD_1SEC / 1000000000llu))
-+#define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_PERIOD_1SEC / (hz) : 0u)
-+#define CLOCK_PERIOD_TO_HZ(per) (((per) != 0) ? CLOCK_PERIOD_1SEC / (per) : 0u)
-
- /**
-  * Clock:
-
-thanks
--- PMM
 
