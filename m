@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D51891BF79B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:00:38 +0200 (CEST)
-Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF99A1BF7D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:06:22 +0200 (CEST)
+Received: from localhost ([::1]:60884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7rp-0002uc-PR
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:00:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33858)
+	id 1jU7xN-00043Q-S5
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33866)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jf-0003AA-1a
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:13 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jf-0003CA-R7
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jb-0000PQ-1I
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:10 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46955)
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jb-0000Po-UE
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:11 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jU7ja-0000Oi-HO
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:06 -0400
-Received: by mail-wr1-x441.google.com with SMTP id f13so6474361wrm.13
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:06 -0700 (PDT)
+ id 1jU7jb-0000PG-FJ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:07 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f13so6474430wrm.13
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uf9EjZlK3PWSZbbcBZG8iV17wJ+d4IMJ5+LdrfTNYaM=;
- b=g4eFKGwKXdg6+ROOZwqokisERdUzIHLGcXlN+jRPv3Iy0hlBGih4whSamA3bAexaH2
- 7rc3OU3cIfURER3RDB29k3HTf5pRF2tywlcCoW6oq2EeNDdIORjFMmN2UMv0Bg8ogdJC
- wv5aRuEh1hIt6bM+cdGQ3YYqT3YWpRgD8I/KDEzgvxLwsW96Dfvd4fSBNWQ/9u59gPLB
- x4rrJh1NQxri9koZgWzaMOksUAflc8SyWcnYOuDxlhOvB2U1c+TWW+5R1H6eFmT8GC/4
- cP6a4/8eko6EJ9wzIBoAZ/fJZfcMckk492uf6VEa5PLNpBAVxg9RU3ETKHOodekFXS9u
- msdg==
+ bh=JuJOerU6YgiBx+PFXtHPe81yp45kyRPlfXNEXqsYBhk=;
+ b=Hw4Aih1j0qnxIB51sU7fnDk4V/KbrlKtHcRFTtudDX439l+jEPN6E1Um6ek/6eFs61
+ OlcS/PgBt0RHZrwZ1A+15JpLSeKtj/Ukqm3m2nrj6SZDMlY4f4GmwLeBZScqas3TA7xr
+ w/g3J97/xj0IcueFMJeYKKMPfECADnSUvfio0kZnraofXwwNC3brZEVHUy9BQjBi7DQn
+ 1zWvBiTPxqhAzfjmiItGp0rxycHY1VzwLXz3fKWIsJ18lHur1odud9pXGnBDFIqU1CuW
+ XztyMUXLGiQTqPrCLZ7Aivb5LQLPOUeO/ezIZL09sLEiCUKpz9T3bVT2veTPX1imJF5p
+ uHkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uf9EjZlK3PWSZbbcBZG8iV17wJ+d4IMJ5+LdrfTNYaM=;
- b=OK2jU0I25e69vvf01asuFAR5bVqW9eblM/hG3B09QsKAV+wxTW01nT1Eji9rIM7RAb
- +iX6xavdz6xZPMsaz0Gq7nQ2OX0XCuVPUTsPwxE5J1Q3HEjJnQkraJgPMbTIcwqa/fen
- acTAaHQI+1pewaLDOzMGlrbOtyIo3wVmg6E+8vBoKTmPH4ULMG/xiTmsLjDbUdqCQDnN
- ib/hGsUTaVMl7oQpAujE6JjaeThRJFYkeg7JXy9yCffmJx3vA87H7ycXw7nxQk+Abt3N
- hsTbussdoLXNNJDoj5eZi2RGvri8mIwZ9Pu2jZd0j+4Ik0V3ir+i34gDfG4/s34YyUR1
- an1A==
-X-Gm-Message-State: AGi0PuZNWTrHNftUy4e+GZENGj/xr1hmPCKlbeJdeHbx8mn99mMmrzQ1
- Rlk/e9XmtHNPa8CY9JjwLT5xdRqQWZqngw==
-X-Google-Smtp-Source: APiQypIP7DpDpu9KoX6vbk1eIvexpZCWundeZn90FMynVKI+cWM9YYvhi0TO0zVYofjKfDjlkmX0xw==
-X-Received: by 2002:adf:aa92:: with SMTP id h18mr3648312wrc.20.1588247524653; 
- Thu, 30 Apr 2020 04:52:04 -0700 (PDT)
+ bh=JuJOerU6YgiBx+PFXtHPe81yp45kyRPlfXNEXqsYBhk=;
+ b=Lec0OAMR9DrqCI+m9aQxpg5HNkKZ6K7brDhflndWB1mPLsZow64TI4vhR6HWZc9sNg
+ K2OGbujX9B4gIBuUH4JnOaf8g5tbYGvTHpLGUEYk4MBbl+gKVWFKE8BQdaIgTVZicoBA
+ /0/qbO2DOTXPlDz/NWKrIRDVKX6LnjewsSapPygQ6vgSNTDBeRad7Xzsu/uILptap+Zq
+ UG4UaEgPlbTN9EXzloImuiF/w7Krdjr2uMkFIHQ9VSTJwB4FCU2Z3wZWdxCxO6f8IsYD
+ YOkXMie9GKsHFuRWAROwXSKJEgzoKGfjizU11pp1TbpaTICFtczRN/rnNo54GuLEv5p7
+ Pzig==
+X-Gm-Message-State: AGi0Pubuk8hYAORtWDIqsXoSWB4IOZhdPZ17UVF86Hl6K5y6J5RlGwBT
+ h/Y08ggRhPzEY6uZO3ITgzhru+qW89kNeQ==
+X-Google-Smtp-Source: APiQypIM0vR3lLpnWodUOE/KgXc41B1eP1VD/zr7MePdbGMIkwo1h47EPmZ8Hl1W6jek4hXSPLWwdg==
+X-Received: by 2002:a05:6000:1089:: with SMTP id
+ y9mr1497285wrw.306.1588247525837; 
+ Thu, 30 Apr 2020 04:52:05 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.03
+ by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:52:04 -0700 (PDT)
+ Thu, 30 Apr 2020 04:52:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/31] hw/arm: versal: Setup the ADMA with 128bit bus-width
-Date: Thu, 30 Apr 2020 12:51:29 +0100
-Message-Id: <20200430115142.13430-19-peter.maydell@linaro.org>
+Subject: [PULL 19/31] Cadence: gem: fix wraparound in 64bit descriptors
+Date: Thu, 30 Apr 2020 12:51:30 +0100
+Message-Id: <20200430115142.13430-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430115142.13430-1-peter.maydell@linaro.org>
 References: <20200430115142.13430-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::441
+X-Received-From: 2a00:1450:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,33 +85,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+From: Ramon Fried <rfried.dev@gmail.com>
 
-Setup the ADMA with 128bit bus-width. This matters when
-FIXED BURST mode is used.
+Wraparound of TX descriptor cyclic buffer only updated
+the low 32 bits of the descriptor.
+Fix that by checking if we're working with 64bit descriptors.
 
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-id: 20200417153800.27399-2-edgar.iglesias@gmail.com
+Signed-off-by: Ramon Fried <rfried.dev@gmail.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 20200417171736.441607-1-rfried.dev@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/xlnx-versal.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/net/cadence_gem.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index cb0122a3a68..94460f2343b 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -205,6 +205,8 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
- 
-         dev = qdev_create(NULL, "xlnx.zdma");
-         s->lpd.iou.adma[i] = SYS_BUS_DEVICE(dev);
-+        object_property_set_int(OBJECT(s->lpd.iou.adma[i]), 128, "bus-width",
-+                                &error_abort);
-         object_property_add_child(OBJECT(s), name, OBJECT(dev), &error_fatal);
-         qdev_init_nofail(dev);
- 
+diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+index 51ec5a072d0..b7b7985bf26 100644
+--- a/hw/net/cadence_gem.c
++++ b/hw/net/cadence_gem.c
+@@ -1238,7 +1238,14 @@ static void gem_transmit(CadenceGEMState *s)
+             /* read next descriptor */
+             if (tx_desc_get_wrap(desc)) {
+                 tx_desc_set_last(desc);
+-                packet_desc_addr = s->regs[GEM_TXQBASE];
++
++                if (s->regs[GEM_DMACFG] & GEM_DMACFG_ADDR_64B) {
++                    packet_desc_addr = s->regs[GEM_TBQPH];
++                    packet_desc_addr <<= 32;
++                } else {
++                    packet_desc_addr = 0;
++                }
++                packet_desc_addr |= s->regs[GEM_TXQBASE];
+             } else {
+                 packet_desc_addr += 4 * gem_get_desc_len(s, false);
+             }
 -- 
 2.20.1
 
