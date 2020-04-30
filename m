@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414031C0512
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:46:28 +0200 (CEST)
-Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5349B1C04F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:39:13 +0200 (CEST)
+Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUECZ-0007S0-5d
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37748)
+	id 1jUE5Y-0004vU-85
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:39:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38008)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUDoU-0000pw-Cn
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:21:35 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUDr7-0004kc-OM
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:24:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUDoT-0002ma-I4
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:21:34 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:47002)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUDpG-0003ce-QS
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:24:17 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUDoT-0002fv-1R
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:21:33 -0400
-Received: by mail-pg1-x543.google.com with SMTP id q124so3151546pgq.13
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:21:32 -0700 (PDT)
+ id 1jUDpG-0003cN-CZ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:22:22 -0400
+Received: by mail-pf1-x443.google.com with SMTP id y25so209686pfn.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=zWIIrt8aiUHc320gKFzuO0QrYqzyBKWJBFr0fG5q2Q0=;
- b=gIZu7cvz4COEaemPOK/BFoeGSI5clOSL2C4omleJgA9HNHRopK2tAf8d5j+ulohenU
- 9NONpdp62mSkD+l76djYo78spKs0/fbZRXFlX8oIRkaCrWOMTMkm/XkDicDae6RqL7c6
- 5eStriPu5FHlZ18F6fEXxC//tUtanGuUBiyZMNfy/TOGAOz7KUs8ljpWLXCspuiy8BCW
- BzsQnnB7CpXnXpSAK5qQJfY1K1MUWhvOFp25CL7vrY+DupuACcUSAuH5TwaGPJYdKFCf
- yg2x8ONmS2MmB/GnUxSEXmEVZHa/7lKk6zWpHRUUyQ4H8URi1+0V+XmQMip/IIUAELhg
- QRNw==
+ bh=Ygfm9oxNwSOADn+CgHwQbeVcclNfDyIrqVXEZYdB6ec=;
+ b=r7KcguY8Yo3/HWB88rGM/t0SicTRGTB3u2w4m09OP3Q1fPhD4o95Kopm7P4oZQcf9n
+ bLnnZ/wlH+NI5zBO2yFUIXXgWgConfvLqMxnfnIKfcjur0YSKIMiQmDUti/bF8ikotmW
+ Ukrp0x5+6DJ59g9+5KihAerFokw4eS6AVrbUCzfFcwDqdItT7/NiwiTfqbSVDc5TeId5
+ LZX157GpWp63k8HUb/rMGrnxmNG2qgdBr3SlPL8fDlFDSZXo01hxUP6Gwll3BIvjKNgf
+ kGA1izpuRX6tK0HBx+uWtzrb1Qo3OTwdLCtsx2c169NhQ6SN8YQU2kXfuWL9iFZVScCE
+ GazA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zWIIrt8aiUHc320gKFzuO0QrYqzyBKWJBFr0fG5q2Q0=;
- b=d1T3WyX8barvbi2JtaKwcUAL3kKhITzxtQbe2EffP/NaxpasneqCBz9EvdUw/BPbPG
- A9oFjH3OUpAfKUnlnln1weEYBarqcpgvcubNi8Lu9dUlZmo2qf9iB32iLO8u2/jw2OhS
- 5mMzVXmOL39kgRTMLWHWPKY0gs/cs/0TSxs86zHbIyaeeZF3g6QiI8aDVlSc34RCHytb
- pnxw8uTEvjNe27OfJRQo0saJ3xT3nXgtZ09N8qWeU/VfkOjpLgW+jUW3W5dGKRFZ43FA
- DG4lTTM6Ju5nrT9BOeuKTJFV1Xam2NXnLDFiIX4osMxgoC2uKlAyi7kgZsilZAPhFW4b
- vb+Q==
-X-Gm-Message-State: AGi0PubNutv3F/+DE17z4aVFSFeg045oMBSLemsli0MvxDn5n7ytgW5x
- UOJHjDt4Kbb4Qv6U/bCn2B2FzRZuZuE=
-X-Google-Smtp-Source: APiQypInjYpHZEtRQWwpUwtLtQ/+8WlFA/NUkgaqlWf7atfNYGS30wnmjvppoaDH+/PkQzSrEWhw/A==
-X-Received: by 2002:a05:6a00:d:: with SMTP id h13mr24531pfk.254.1588270890890; 
- Thu, 30 Apr 2020 11:21:30 -0700 (PDT)
+ bh=Ygfm9oxNwSOADn+CgHwQbeVcclNfDyIrqVXEZYdB6ec=;
+ b=XF47PE4IWEabf4B4yuqXj8mmMhvicKwveaoutZUt55JPuVMIBsQZEZtPeheO9hGANl
+ t9SK6s4XcQYwq6OV0G5i/qXWxk6z1uhFe5WJJegA6XZ1HuUlVeu8JztVZwuVv7JfJ8L7
+ LglHKOIgonlmChnQv0/J6gg1VAZfAHVVH5vJnqSj2OKFurJMXtiy8XxFp94seHwDdY0l
+ aqD8BaCabl8CQpchwBgBBXy7sbUJLfBtqWzajCSFmn/dNcW5ZPgawskskUtbuciW96v6
+ pIDfvp4aqi3TlL/E9wsQpFMqTWLeq68hpC6Kq/o+cWqeZ9fQ9OPoIwJKUa93ObuoCsoS
+ 8HMA==
+X-Gm-Message-State: AGi0PuZCH7Dz9DaW2KIpEcpcX0EpEYkzTGxL/GA4tfp0ad0CbFyXLErk
+ dHneG7LCPkhyeS2Jo4QA6yTTehu3Vh8=
+X-Google-Smtp-Source: APiQypJXn5FWBPi/Kwq/ByYmK8IQcRhsVbePknBeH/YiiEdN8hINdsUiWV/5zJIBxFgec1a55Ix4kA==
+X-Received: by 2002:a63:8843:: with SMTP id l64mr167363pgd.443.1588270940530; 
+ Thu, 30 Apr 2020 11:22:20 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id k24sm378820pfk.164.2020.04.30.11.21.29
+ by smtp.gmail.com with ESMTPSA id s145sm379716pgs.57.2020.04.30.11.22.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Apr 2020 11:21:30 -0700 (PDT)
-Subject: Re: [PATCH 01/36] target/arm/translate-vfp.inc.c: Remove duplicate
- simd_r32 check
+ Thu, 30 Apr 2020 11:22:19 -0700 (PDT)
+Subject: Re: [PATCH 02/36] target/arm: Don't allow Thumb Neon insns without
+ FEATURE_NEON
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200430181003.21682-1-peter.maydell@linaro.org>
- <20200430181003.21682-2-peter.maydell@linaro.org>
+ <20200430181003.21682-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ef477a17-97af-3883-5295-937068d81d03@linaro.org>
-Date: Thu, 30 Apr 2020 11:21:28 -0700
+Message-ID: <a6f92d8c-fd91-420b-2db9-1202b4dd5edb@linaro.org>
+Date: Thu, 30 Apr 2020 11:22:17 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200430181003.21682-2-peter.maydell@linaro.org>
+In-Reply-To: <20200430181003.21682-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::543
+X-Received-From: 2607:f8b0:4864:20::443
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,16 +91,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/30/20 11:09 AM, Peter Maydell wrote:
-> Somewhere along theline we accidentally added a duplicate
-> "using D16-D31 when they don't exist" check to do_vfm_dp()
-> (probably an artifact of a patchseries rebase). Remove it.
+> We were accidentally permitting decode of Thumb Neon insns even if
+> the CPU didn't have the FEATURE_NEON bit set, because the feature
+> check was being done before the call to disas_neon_data_insn() and
+> disas_neon_ls_insn() in the Arm decoder but was omitted from the
+> Thumb decoder.  Push the feature bit check down into the called
+> functions so it is done for both Arm and Thumb encodings.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/translate-vfp.inc.c | 6 ------
->  1 file changed, 6 deletions(-)
-
-My fault.
+>  target/arm/translate.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
