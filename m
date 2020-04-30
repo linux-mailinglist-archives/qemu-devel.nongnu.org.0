@@ -2,67 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CCF1C031C
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:50:41 +0200 (CEST)
-Received: from localhost ([::1]:40276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1236D1C02BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:40:48 +0200 (CEST)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUCOW-0005FC-2B
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:50:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49956)
+	id 1jUCEw-0001ci-WC
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:40:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jUC7V-0007dR-2J
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:33:54 -0400
+ (envelope-from <skizzato73@msn.com>) id 1jUCAy-0004kq-Sl
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:38:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jUC6W-0001KG-5U
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:33:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55287)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jUC6V-0001Hl-Mu
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:32:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588264322;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lm01oWShkBDXnGbfwV19JsB1g2JkYLJo9A3Gm8eb74c=;
- b=bo61YCHpQDBMkbnpt8y/s+YxntvBEIvUiTvxSiq3y+zXaBTsuHN+k6RrfLiLxuGq1TjYGg
- IGPFzBaLbqSG/jXEXfU8HskjkaEGBTy7bXmOaamobC4sAqTkcxVxYHIFFTup615lt6jBZb
- b/Qh+PyG215SRo7jvkdGZQTMVvennxg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-qR8B3hT-OJ-jSDdr5EaSIg-1; Thu, 30 Apr 2020 12:31:58 -0400
-X-MC-Unique: qR8B3hT-OJ-jSDdr5EaSIg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D64C61030983;
- Thu, 30 Apr 2020 16:31:56 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B2E3F512E4;
- Thu, 30 Apr 2020 16:31:45 +0000 (UTC)
-Date: Thu, 30 Apr 2020 18:31:44 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 14/15] acpi: factor out fw_cfg_add_acpi_dsdt()
-Message-ID: <20200430183144.1eca20ea@redhat.com>
-In-Reply-To: <20200429140003.7336-15-kraxel@redhat.com>
-References: <20200429140003.7336-1-kraxel@redhat.com>
- <20200429140003.7336-15-kraxel@redhat.com>
+ (envelope-from <skizzato73@msn.com>) id 1jUC9M-00030a-PC
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:36:40 -0400
+Received: from mail-vi1eur05olkn2043.outbound.protection.outlook.com
+ ([40.92.90.43]:6497 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <skizzato73@msn.com>)
+ id 1jUC9M-0002zW-8J; Thu, 30 Apr 2020 12:35:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V0LKN0H6uUYEhFybWvR7o4Poa9vAumL1f+Hi4AH2zkVKOwbH5y55lgP2Ho644Fwr2gkl6k5WIiV1zWCmjY9qTFekt+W3GxiqBqUhnW7u1OxgTGJu20LI84vKeiv0/2t2vxIfGT0lW+14WdcepgR8H2nWxCAbxUAmfRlmFThio/RczNnmg64ZuzhW3Gju7v94mFUjYbkeNsXTMHY2XkM6TFLVZC9RUnK4gdfsCTZ4pu8/8I4vWAvNjOXPTz/gSKtD+ve8taC8qhGT154iYtfHp0xUyHp1vW7qExboTdhqVZxeEN9CaZRD1MVQ7w2+YXM0jnzSzNf060ioWWSXs6k7Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q0aYuuHWmUeOw6JoSmV6Tm98QwqeAIp46q1HS6tOWdU=;
+ b=IuODv2J98Ueuz81k0AQBhFpyyr2SKkV1PzqAbydYUUv2nx8eeQerp911vjP/dtMGwRYYjVVwvSTbL2omUDmuoajohXVODQA1g9GWi4UQAMzV648pmoIQkXy20RZbKdnfYwdj0MAxjRpqRtSkAKwpU/C5EPag31Jg7Myf3Av4+URFSAj2Ze0h+Q2+ic++Oi44Xm1oBzsvozRA86q6kxX1uMIpCkTSRKTtQBFhhHOaju8grc8T2EqS5oR76Ulqi7VYQRjPqeBQ+wfjmJsFszHU5BHLY1+H3QIBgsUt51T2uTUezpi9B+api6kgOdilUU8U84LooZtsJdtiA7nLzUk9zA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=msn.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q0aYuuHWmUeOw6JoSmV6Tm98QwqeAIp46q1HS6tOWdU=;
+ b=aTBHLSUiMN8dg4Ah8E7Ig6oenw+2iLiuqRjRn1KEE+3ZyLO4HDGmcYC1w5024QD24Vtb9Q+xf0T8WEYKKiN9FPWip87kNAd5M1QaXNcgG+tJndOPF72nvrVKrtAZNm8dvM+xAUlpxj542eH3CEpOLf57iQIwoGxzi8j6luYTVj3R2QyeWRV0MFVGWFq5G0OezZbY2spyxwY7P6LMNYRA+KPc32gcvUync4+4N7TYTKZ1qTnOrQ4CktWZmnLSdqrWIDgaO5h7PFMDKjAHTBeuGaCa/CbTUqXCD0umIjmKm7bKw/aysQJaiarufGwMSSYtncKnfpy2XaDMgE32V+MWHA==
+Received: from VI1EUR05FT029.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc12::47) by
+ VI1EUR05HT066.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc12::206)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.15; Thu, 30 Apr
+ 2020 16:34:55 +0000
+Received: from AM4PR07MB3506.eurprd07.prod.outlook.com
+ (2a01:111:e400:fc12::51) by VI1EUR05FT029.mail.protection.outlook.com
+ (2a01:111:e400:fc12::382) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.24 via Frontend
+ Transport; Thu, 30 Apr 2020 16:34:55 +0000
+Received: from AM4PR07MB3506.eurprd07.prod.outlook.com
+ ([fe80::718e:de40:dfe9:9319]) by AM4PR07MB3506.eurprd07.prod.outlook.com
+ ([fe80::718e:de40:dfe9:9319%5]) with mapi id 15.20.2937.028; Thu, 30 Apr 2020
+ 16:34:55 +0000
+From: Dino Papararo <skizzato73@msn.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ =?utf-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Subject: R: R: R: About hardfloat in ppc
+Thread-Topic: R: R: About hardfloat in ppc
+Thread-Index: AQHWHF7rwxop5oOlnUWWPH3hEGvks6iMt6WAgAAOeACAAAodAIAAqceAgAC9g4CAAau9MIAAHqMAgAApAWCAAEN9AIAAY0iAgAAg+QCAAGMZgIAAe5mAgAANuNA=
+Date: Thu, 30 Apr 2020 16:34:55 +0000
+Message-ID: <AM4PR07MB3506C091776962655FCE11E9CAAA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
+ <87lfmhl0xa.fsf@linaro.org>
+ <alpine.BSF.2.22.395.2004271212520.94232@zero.eik.bme.hu>
+ <87imhlkwun.fsf@linaro.org>
+ <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
+ <87ftcoknvu.fsf@linaro.org>
+ <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <871ro6ld2f.fsf@linaro.org>
+ <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <87sggmjgit.fsf@linaro.org>
+ <CAE2XoE8wFK1nOq3YXhB=iqTvqSDQk7Zzd35Tjzdd==v8ouMijA@mail.gmail.com>
+ <43ac337c-752a-7151-1e88-de01949571de@linaro.org>
+ <CAE2XoE-f_rkcnpQO1cHPUgdaWNAOvBRyUX1aj27UePd0Hkr=KQ@mail.gmail.com>
+ <alpine.BSF.2.22.395.2004301721420.29315@zero.eik.bme.hu>
+In-Reply-To: <alpine.BSF.2.22.395.2004301721420.29315@zero.eik.bme.hu>
+Accept-Language: it-IT, en-US
+Content-Language: it-IT
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-incomingtopheadermarker: OriginalChecksum:EF2543F715208A4956F99FAA337978BCB1757D24CE5803A27DE10F9C44424B51;
+ UpperCasedChecksum:2D3619CCDD451D98D4F2856DF2239F9F40C5EB648D8509606AF58316CCA6CCF5;
+ SizeAsReceived:7966; Count:45
+x-tmn: [WcpTGwDqrRF9mOJwy9ObW5vXEChASOhY]
+x-ms-publictraffictype: Email
+x-incomingheadercount: 45
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: c20c4261-1c87-4981-c314-08d7ed246a4a
+x-ms-traffictypediagnostic: VI1EUR05HT066:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: c3oCcZfu+0ovYC8GwzCPOtHwRRZyBnHV8AloXUbykM+MQIoyh5gBak7eRIU5JtY6yqzwgEii0Vp+dptCs/ahzsc1VRiYH0ofm48UClRRE0H3MykVdpK07j8YOwcB1gHVH5w9dKDogbe5zouuG7hbxRtxnNXT+makngMoTNoDOYVO/fjFG6fonIEll5FfnDuCWJ/qDkG6T4nBp9UyQLYM/P+HDxieXwz9W8IDmps4coHATA/weJs/njwv7dWIh4ti
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:0; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM4PR07MB3506.eurprd07.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:; SFS:; DIR:OUT; SFP:1901; 
+x-ms-exchange-antispam-messagedata: Qi14MO4oW4q388aQWZRHSvG4UYpMjdmcm4ZXHsHKBlBZIjuWq/SKhsekktAb53+r4Hq5JvbIxv6piSAQR6R7CTkNPIg6pEiBer4HGd/ow5vr+ewWP9ITh1VVtOW/m9ku7smFoiemt4XThPwiPLh1EQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: c20c4261-1c87-4981-c314-08d7ed246a4a
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2020 16:34:55.3365 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR05HT066
+Received-SPF: pass client-ip=40.92.90.43; envelope-from=skizzato73@msn.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 12:34:56
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.92.90.43
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,133 +119,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Programmingkid <programmingkidx@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>,
+ =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Apr 2020 16:00:02 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
-
-> Add helper function to add fw_cfg device,
-> also move code to hw/i386/fw_cfg.c.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  hw/i386/fw_cfg.h     |  1 +
->  hw/i386/acpi-build.c | 24 +-----------------------
->  hw/i386/fw_cfg.c     | 28 ++++++++++++++++++++++++++++
->  3 files changed, 30 insertions(+), 23 deletions(-)
->=20
-> diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
-> index 9e742787792b..275f15c1c5e8 100644
-> --- a/hw/i386/fw_cfg.h
-> +++ b/hw/i386/fw_cfg.h
-> @@ -25,5 +25,6 @@ FWCfgState *fw_cfg_arch_create(MachineState *ms,
->                                 uint16_t apic_id_limit);
->  void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
->  void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
-> +void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg);
-> =20
->  #endif
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 643e875c05a5..a8b790021974 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1874,30 +1874,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> =20
->      /* create fw_cfg node, unconditionally */
->      {
-> -        /* when using port i/o, the 8-bit data register *always* overlap=
-s
-> -         * with half of the 16-bit control register. Hence, the total si=
-ze
-> -         * of the i/o region used is FW_CFG_CTL_SIZE; when using DMA, th=
-e
-> -         * DMA control register is located at FW_CFG_DMA_IO_BASE + 4 */
-> -        uint8_t io_size =3D object_property_get_bool(OBJECT(x86ms->fw_cf=
-g),
-> -                                                   "dma_enabled", NULL) =
-?
-> -                          ROUND_UP(FW_CFG_CTL_SIZE, 4) + sizeof(dma_addr=
-_t) :
-> -                          FW_CFG_CTL_SIZE;
-> -
->          scope =3D aml_scope("\\_SB.PCI0");
-> -        dev =3D aml_device("FWCF");
-> -
-> -        aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0002")));
-> -
-> -        /* device present, functioning, decoding, not shown in UI */
-> -        aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
-> -
-> -        crs =3D aml_resource_template();
-> -        aml_append(crs,
-> -            aml_io(AML_DECODE16, FW_CFG_IO_BASE, FW_CFG_IO_BASE, 0x01, i=
-o_size)
-> -        );
-> -        aml_append(dev, aml_name_decl("_CRS", crs));
-> -
-> -        aml_append(scope, dev);
-> +        fw_cfg_add_acpi_dsdt(scope, x86ms->fw_cfg);
->          aml_append(dsdt, scope);
->      }
-> =20
-> diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-> index da60ada59462..c55abfb01abb 100644
-> --- a/hw/i386/fw_cfg.c
-> +++ b/hw/i386/fw_cfg.c
-> @@ -15,6 +15,7 @@
->  #include "qemu/osdep.h"
->  #include "sysemu/numa.h"
->  #include "hw/acpi/acpi.h"
-> +#include "hw/acpi/aml-build.h"
->  #include "hw/firmware/smbios.h"
->  #include "hw/i386/fw_cfg.h"
->  #include "hw/timer/hpet.h"
-> @@ -179,3 +180,30 @@ void fw_cfg_build_feature_control(MachineState *ms, =
-FWCfgState *fw_cfg)
->      *val =3D cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
->      fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val)=
-);
->  }
-> +
-> +void fw_cfg_add_acpi_dsdt(Aml *scope, FWCfgState *fw_cfg)
-> +{
-> +    /*
-> +     * when using port i/o, the 8-bit data register *always* overlaps
-> +     * with half of the 16-bit control register. Hence, the total size
-> +     * of the i/o region used is FW_CFG_CTL_SIZE; when using DMA, the
-> +     * DMA control register is located at FW_CFG_DMA_IO_BASE + 4
-> +     */
-> +    Object *obj =3D OBJECT(fw_cfg);
-> +    uint8_t io_size =3D object_property_get_bool(obj, "dma_enabled", NUL=
-L) ?
-> +        ROUND_UP(FW_CFG_CTL_SIZE, 4) + sizeof(dma_addr_t) :
-> +        FW_CFG_CTL_SIZE;
-> +    Aml *dev =3D aml_device("FWCF");
-> +    Aml *crs =3D aml_resource_template();
-> +
-> +    aml_append(dev, aml_name_decl("_HID", aml_string("QEMU0002")));
-> +
-> +    /* device present, functioning, decoding, not shown in UI */
-> +    aml_append(dev, aml_name_decl("_STA", aml_int(0xB)));
-> +
-> +    aml_append(crs,
-> +        aml_io(AML_DECODE16, FW_CFG_IO_BASE, FW_CFG_IO_BASE, 0x01, io_si=
-ze));
-> +
-> +    aml_append(dev, aml_name_decl("_CRS", crs));
-> +    aml_append(scope, dev);
-> +}
-
+TWF5YmUgdGhlIGZhc3Rlc3Qgd2F5IHRvIGltcGxlbWVudCBoYXJkZmxvYXRzIGZvciBwcGMgY291
+bGQgYmUgcnVuIHRoZW0gYnkgZGVmYXVsdCBhbmQgdW50aWwgc29tZSBmcHUgaW5zdHJ1Y3Rpb24g
+cmVxdWVzdCBmb3IgRlBTQ1IgcmVnaXN0ZXIuDQpBdCB0aGlzIHRpbWUgcHJvYmFibHkgd2Ugd2Fu
+dCB0byBjaGVjayBmb3Igc29tZSBleGNlcHRpb24uLiBzbyBRRU1VIGNvdWxkIGNvbWUgYmFjayB0
+byBsYXN0IGZwdSBpbnN0cnVjdGlvbiBleGVjdXRlZCBhbmQgcmUtZXhlY3V0ZSBpdCBpbiBzb2Z0
+ZmxvYXQgdGFraW5nIGNhcmUgdGhpcyB0aW1lIG9mIEZQU0NSIGZsYWdzLCB0aGVuIGNvbnRpbnVl
+IGluIGhhcmRmbG9hdHMgdW5pdGwgYW5vdGhlciBpbnN0cnVjdGlvbiBsb29raW5nIGZvciBGUFND
+UiByZWdpc3RlciBhbmQgc28gb24uLg0KDQpEaW5vDQoNCi0tLS0tTWVzc2FnZ2lvIG9yaWdpbmFs
+ZS0tLS0tDQpEYTogQkFMQVRPTiBab2x0YW4gPGJhbGF0b25AZWlrLmJtZS5odT4gDQpJbnZpYXRv
+OiBnaW92ZWTDrCAzMCBhcHJpbGUgMjAyMCAxNzozNg0KQTog572X5YuH5YiaKFlvbmdnYW5nIEx1
+bykgPGx1b3lvbmdnYW5nQGdtYWlsLmNvbT4NCkNjOiBSaWNoYXJkIEhlbmRlcnNvbiA8cmljaGFy
+ZC5oZW5kZXJzb25AbGluYXJvLm9yZz47IERpbm8gUGFwYXJhcm8gPHNraXp6YXRvNzNAbXNuLmNv
+bT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgUHJvZ3JhbW1pbmdraWQgPHByb2dyYW1taW5na2lk
+eEBnbWFpbC5jb20+OyBxZW11LXBwY0Bub25nbnUub3JnOyBIb3dhcmQgU3BvZWxzdHJhIDxoc3Au
+Y2F0N0BnbWFpbC5jb20+OyBBbGV4IEJlbm7DqWUgPGFsZXguYmVubmVlQGxpbmFyby5vcmc+DQpP
+Z2dldHRvOiBSZTogUjogUjogQWJvdXQgaGFyZGZsb2F0IGluIHBwYw0KDQpPbiBUaHUsIDMwIEFw
+ciAyMDIwLCDnvZfli4fliJooWW9uZ2dhbmcgTHVvKSB3cm90ZToNCj4gSSBwcm9wb3NlIGEgbmV3
+IHdheSB0byBjb21wdXRpbmcgdGhlIGZsb2F0IGZsYWdzLCBXZSBwcmVzZXJ2ZSBhICBmbG9hdCAN
+Cj4gY29tcHV0aW5nIGNhc2ggdHlwZWRlZiBzdHJ1Y3QgRnBSZWNvcmQgeyAgdWludDhfdCBvcDsN
+Cj4gIGZsb2F0MzIgQTsNCj4gIGZsb2F0MzIgQjsNCj4gfSAgRnBSZWNvcmQ7DQo+IEZwUmVjb3Jk
+IGZwX2NhY2hlWzEwMjRdOw0KPiBpbnQgZnBfY2FjaGVfbGVuZ3RoOw0KPiB1aW50MzJfdCBmcF9l
+eGNlcHRpb25zOw0KPg0KPiAxLiBGb3IgZWFjaCBuZXcgZnAgb3BlcmF0aW9uIHdlIHB1c2ggaXQg
+dG8gdGhlICBmcF9jYWNoZSwgMi4gT25jZSB3ZSANCj4gcmVhZCB0aGUgZnBfZXhjZXB0aW9ucyAs
+IHRoZW4gd2UgcmUtY29tcHV0ZSB0aGUgZnBfZXhjZXB0aW9ucyBieSANCj4gcmUtcnVubmluZyB0
+aGUgZnAgRnBSZWNvcmQgc2VxdWVuY2UuDQo+IGFuZCBjbGVhciAgZnBfY2FjaGVfbGVuZ3RoLg0K
+PiAzLiBJZiB3ZSBjbGVhciB0aGUgZnBfZXhjZXB0aW9ucyAsIHRoZW4gd2Ugc2V0IGZwX2NhY2hl
+X2xlbmd0aCB0byAwIA0KPiBhbmQgY2xlYXIgIGZwX2V4Y2VwdGlvbnMuDQo+IDQuIElmIHRoZSAg
+ZnBfY2FjaGUgYXJlIGZ1bGwsIHRoZW4gd2UgcmUtY29tcHV0ZSB0aGUgZnBfZXhjZXB0aW9ucyBi
+eSANCj4gcmUtcnVubmluZyB0aGUgZnAgRnBSZWNvcmQgc2VxdWVuY2UuDQo+DQo+IFdvdWxkIHRo
+aXMgYmUgYSBnZW5lcmFsIG1ldGhvZCB0byB1c2UgaGFyZC1mbG9hdD8NCj4gVGhlIGNvbnN1ZWQg
+dGltZSBzaG91bGQgYmUgIDIqaGFyZF9mbG9hdC4NCj4gQ29uc2lkZXJhdGluZyByZWFkIGZwX2V4
+Y2VwdGlvbnMgYXJlIHJhcmUsIHRoZW4gdGhlIGFtb3J0aXplZCB0aW1lIA0KPiBjb21wbGV4aXR5
+IHdvdWxkIGJlIDEgKiBoYXJkX2Zsb2F0Lg0KDQpJdCdzIGhhcmQgdG8gZ3Vlc3Mgd2hhdCB0aGUg
+aGl0IHJhdGUgb2Ygc3VjaCBjYWNoZSB3b3VsZCBiZSBhbmQgaWYgaXQncyBsb3cgdGhlbiBtYW5h
+Z2luZyB0aGUgY2FjaGUgaXMgcHJvYmFibHkgbW9yZSBleHBlbnNpdmUgdGhhbiBydW5uaW5nIHdp
+dGggc29mdGZsb2F0LiBTbyB0byBldmFsdWF0ZSBhbnkgcHJvcG9zZWQgcGF0Y2ggd2UgYWxzbyBu
+ZWVkIHNvbWUgYmVuY2htYXJrcyB3aGljaCB3ZSBjYW4gZXhwZXJpbWVudCB3aXRoIHRvIHRlbGwg
+aWYgdGhlIHJlc3VsdHMgYXJlIGdvb2Qgb3Igbm90IG90aGVyd2lzZSB3ZSdyZSBqdXN0IGd1ZXNz
+aW5nLiBBcmUgdGhlcmUgc29tZSBleGlzdGluZyB0ZXN0cyBhbmQgYmVuY2htYXJrcyB0aGF0IHdl
+IGNhbiB1c2U/IEFsZXggbWVudGlvbmVkIGZwLWJlbmNoIEkgdGhpbmsgYW5kIHRvIGV2YWx1YXRl
+IHRoZSBjb3JyZWN0bmVzcyBvZiB0aGUgRlAgaW1wbGVtZW50YXRpb24gSSd2ZSBzZWVuIHRoaXMg
+b3RoZXINCmNvbnZlcnNhdGlvbjoNCg0KaHR0cHM6Ly9saXN0cy5ub25nbnUub3JnL2FyY2hpdmUv
+aHRtbC9xZW11LWRldmVsLzIwMjAtMDQvbXNnMDUxMDcuaHRtbA0KaHR0cHM6Ly9saXN0cy5ub25n
+bnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjAtMDQvbXNnMDUxMjYuaHRtbA0KDQpJ
+cyB0aGF0IHNvbWV0aGluZyB3ZSBjYW4gdXNlIGZvciBQUEMgYXMgd2VsbCB0byBjaGVjayB0aGUg
+Y29ycmVjdG5lc3M/DQoNClNvIEkgdGhpbmsgYmVmb3JlIGltcGxlbWVudGluZyBhbnkgcG90ZW50
+aWFsIHNvbHV0aW9uIHRoYXQgY2FtZSB1cCBpbiB0aGlzIGJyYWluc3Rvcm1pbmcgdGhlIGZpcnN0
+IHN0ZXAgd291bGQgYmUgdG8gZ2V0IGFuZCBjb21waWxlIChvciB3cml0ZSBpZiBub3QNCmF2YWls
+YWJsZSkgc29tZSB0ZXN0cyBhbmQgYmVuY2htYXJrczoNCg0KMS4gdGVzdGluZyBob3N0IGJlaGF2
+aW91ciBmb3IgaW5leGFjdCBhbmQgY29tcGFyZSB0aGF0IGZvciBkaWZmZXJlbnQgYXJjaHMgMi4g
+c29tZSBGUCB0ZXN0cyB0aGF0IGNhbiBiZSB1c2VkIHRvIGNvbXBhcmUgcmVzdWx0cyB3aXRoIFFF
+TVUgYW5kIHJlYWwgQ1BVIHRvIGNoZWNrIGNvcnJlY3RuZXNzIG9mIGVtdWxhdGlvbiAoaWYgdGhl
+c2UgY2hlY2sgZm9yIGluZXhhY3QgZGlmZmVyZW5jZXMgdGhlbiBjb3VsZCBiZSB1c2VkIGluc3Rl
+YWQgb2YgMS4pIDMuIHNvbWUgYmVuY2htYXJrcyB0byBldmFsdWF0ZSBRRU1VIHBlcmZvcm1hbmNl
+ICh0aGVzZSBjb3VsZCBiZSBzYW1lIGFzIEZQIHRlc3RzIG9yIHNvbWUgcmVhbCB3b3JsZCBGUCBo
+ZWF2eSBhcHBsaWNhdGlvbnMpLg0KDQpUaGVuIHdlIGNhbiBzZWUgaWYgdGhlIHByb3Bvc2VkIHNv
+bHV0aW9uIGlzIGZhc3RlciBhbmQgc3RpbGwgY29ycmVjdC4NCg0KUmVnYXJkcywNCkJBTEFUT04g
+Wm9sdGFuDQo=
 
