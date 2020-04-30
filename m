@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF271BF497
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:55:26 +0200 (CEST)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CFB1BF49D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 11:57:05 +0200 (CEST)
+Received: from localhost ([::1]:48862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU5uf-0006Ad-S9
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49056)
+	id 1jU5wG-0001RI-5E
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 05:57:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49090)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5lq-00087z-Nq
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:19 -0400
+ (envelope-from <cohuck@redhat.com>) id 1jU5lv-0008Iw-Ej
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <cohuck@redhat.com>) id 1jU5lq-0005Dm-3K
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:18 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:44077
+ (envelope-from <cohuck@redhat.com>) id 1jU5lu-0005OO-59
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:23 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41765
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lp-0005AO-L9
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:17 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jU5lt-0005Lt-KN
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 05:46:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588239976;
+ s=mimecast20190719; t=1588239980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LZl6URw3h6tzQ89tCii3vezD6ykmNkX8KL5LXW85Mqk=;
- b=fEm4+I31EObPBkKrwgMpMVwveEF5zbi6alt5Zt4/m7bz06U1UPKyDbMtbIUGp9w4pWvJwS
- /4aFxPTgAdN9v5a/UHa8mk8uizxQkVdCje5AmvM+XXznDqT+MaaxEQe3xPC9FtI8YNBj9t
- wR7sp9/J/fCbl/o/toa5amqBxXUG6JI=
+ bh=SnonKEFsZXsqPJO9OoSlUnCquChhMgvd7BwtyGpC6YI=;
+ b=E3HabDdvQ/rXhgTQBAV6jnSmBLkCdxYcgR+J3HeoVOpN/1WN+Qc6kAVRhSr0Rr+f0n7l4k
+ 1foQysQiccp2zQi7ftcfDJdhcvP/4hLQOo8cgOoE7DHsrjKuuEvEUpqS1+B18EryhYDTex
+ IAJcS1EmbCLIt8xzfYIS5bizO4VtYWs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-3bDZaxOAOlCm_u-t-N6Czg-1; Thu, 30 Apr 2020 05:46:14 -0400
-X-MC-Unique: 3bDZaxOAOlCm_u-t-N6Czg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-404-T8ehZxabNDWfqZt7LUV7Ag-1; Thu, 30 Apr 2020 05:46:16 -0400
+X-MC-Unique: T8ehZxabNDWfqZt7LUV7Ag-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EE6813F7;
- Thu, 30 Apr 2020 09:46:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A1C5835B40;
+ Thu, 30 Apr 2020 09:46:15 +0000 (UTC)
 Received: from localhost (ovpn-112-226.ams2.redhat.com [10.36.112.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E12C75D9C5;
- Thu, 30 Apr 2020 09:46:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09BEC1C950;
+ Thu, 30 Apr 2020 09:46:14 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 18/20] s390x: protvirt: Fix stray error_report_err in
- s390_machine_protect
-Date: Thu, 30 Apr 2020 11:44:43 +0200
-Message-Id: <20200430094445.25943-19-cohuck@redhat.com>
+Subject: [PULL 19/20] s390x/pv: Retry ioctls on -EINTR
+Date: Thu, 30 Apr 2020 11:44:44 +0200
+Message-Id: <20200430094445.25943-20-cohuck@redhat.com>
 In-Reply-To: <20200430094445.25943-1-cohuck@redhat.com>
 References: <20200430094445.25943-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,44 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+Cc: Janosch Frank <frankja@linux.vnet.ibm.com>,
  Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, Marc Hartmayer <mhartmay@linux.ibm.com>
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Marc Hartmayer <mhartmay@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Janosch Frank <frankja@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
 
-In case the protection of the machine fails at s390_pv_vm_enable(),
-we'll currently report the local_error variable. Problem is that
-there's no migration blocker error that we can report at this point so
-the pointer is always NULL which leads to a SEGFAULT.
+PV_ENABLE (and maybe others) might return -EINTR when a signal is
+pending. See the Linux kernel patch "s390/gmap: return proper error code
+on ksm unsharing" for details. Let us retry the ioctl in that case.
 
-Let's remove the error report.
-
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Fixes: c3347ed0d2ee ("s390x: protvirt: Support unpack facility")
 Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-Fixes: 0141e1b47707 ("s390x: protvirt: Add migration blocker")
-Message-Id: <20200326140505.2432-1-frankja@linux.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Acked-by: Janosch Frank <frankja@linux.vnet.ibm.com>
+Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-Id: <20200327124616.34866-1-borntraeger@de.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/s390x/pv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index db45249320ab..b2689073953e 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -359,7 +359,6 @@ static int s390_machine_protect(S390CcwMachineState *ms=
-)
-     rc =3D s390_pv_vm_enable();
+diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+index a40a8448060c..cb0dce4a4f06 100644
+--- a/hw/s390x/pv.c
++++ b/hw/s390x/pv.c
+@@ -23,7 +23,11 @@ static int __s390_pv_cmd(uint32_t cmd, const char *cmdna=
+me, void *data)
+         .cmd =3D cmd,
+         .data =3D (uint64_t)data,
+     };
+-    int rc =3D kvm_vm_ioctl(kvm_state, KVM_S390_PV_COMMAND, &pv_cmd);
++    int rc;
++
++    do {
++        rc =3D kvm_vm_ioctl(kvm_state, KVM_S390_PV_COMMAND, &pv_cmd);
++    } while (rc =3D=3D -EINTR);
+=20
      if (rc) {
-         qemu_balloon_inhibit(false);
--        error_report_err(local_err);
-         migrate_del_blocker(pv_mig_blocker);
-         error_free_or_abort(&pv_mig_blocker);
-         return rc;
+         error_report("KVM PV command %d (%s) failed: header rc %x rrc %x "
 --=20
 2.21.1
 
