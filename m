@@ -2,103 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778B61BF878
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:49:57 +0200 (CEST)
-Received: from localhost ([::1]:38954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9841BF88B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:54:08 +0200 (CEST)
+Received: from localhost ([::1]:56934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU8dY-0007sj-E9
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40622)
+	id 1jU8hb-0007gt-5w
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41082)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU8bO-0004UX-M3
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:47:43 -0400
+ (envelope-from <qemu_oss@crudebyte.com>) id 1jU8gC-0005fy-GJ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:52:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU8bO-0005o5-8Q
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:47:42 -0400
-Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
- ([40.107.21.137]:53184 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (envelope-from <qemu_oss@crudebyte.com>) id 1jU8eO-00070P-7H
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:52:40 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:49489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jU8bM-0005iG-8P; Thu, 30 Apr 2020 08:47:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gmA+xbXhEbppPbPT8ectIydWhhPcLuEFD8GbHqM+1EuhLPQu86zImqD+NIL3NkG8fGFgL3y/h+yYYH8G3rPEdfK7V6rVcTTFG8kQu/5++5N8kAKkdn3xvW9PlCzATIKwgqYUer1/ayZhThBDRjH4v+4S35YkLhRa0edfBMLwRAz/DLq+zMRPaPGr03610vy+Ad6XCJ6d/1ILNQNy3xXZMQsQbLiuHeXmqpQfmq+S7lGppWjwqHj1IWFvNXUkwDScEJtdQkn/hR8krKd6CD4WuFgf0rltWlVO6G4IhZlAfGtHb1A87Ud+kC/IEytNubYynrA24kxlatnbc1eLafhoGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yEiKDKucFr1NBXKG0lS89iyrgw8lFuYupSiAxz81FbY=;
- b=eHdVTGQo0YCHvrEAo2wCdju9+YTTt/pdmGg9BkYvR7PqaKmnT2yiEB7FKuto+Jv+Y+OIqBXVYq0kDNT4w54SS87Lxz6Ie3AeljWEz3nHsf+d+YBQ7f79+05t2Pl1RFmbKh+Jr3z9+35SIPQK4FR8ZWSW2YWwTMRrxCzIj5xmtFZe/QNR/503aazxFzal7NT7a4hhH62pgWCh/CrEpXAxPRadE5TFUVVaWOHY2njz3M6rSQiLUHEVqAmU2pIgq/jfooPlHFcUDrSxBqerw857Dek0sW6jG2L1KVt2rnETPIGPLCaM/VLNjQMFVf4E+3Tc0UF+BbYfGRBDEysCQktCOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yEiKDKucFr1NBXKG0lS89iyrgw8lFuYupSiAxz81FbY=;
- b=F0IeWhKdtY8kBKgCAPKDVb1vFQTxazGOckxnO+AnGcgVUABcwirE0qp+xE+7gAAk+sUay0yEbtZk985uLNEvKMzrk0Nty8d6komY7eDODHP7FZfQgr5mnKwwEuqduQXAAIO6xPTsuSTWawVVfT9mD/IaiNhlzoFMPGZ1b6z8WJA=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5478.eurprd08.prod.outlook.com (2603:10a6:20b:107::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Thu, 30 Apr
- 2020 12:47:35 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
- 12:47:35 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 8/8] iotests/113: mark bochs as required to support
- whitelisting
-Date: Thu, 30 Apr 2020 15:47:13 +0300
-Message-Id: <20200430124713.3067-9-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200430124713.3067-1-vsementsov@virtuozzo.com>
-References: <20200430124713.3067-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FRYP281CA0001.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::11)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jU8eN-0006yi-0v
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:50:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=ds1lrRqmSx903DpdqZMJVhfBBA+/t3UoZ/Qn/oYL7cM=; b=tjM4II46SuAzRBxTgRjaiEiUS7
+ 2ya04B2EHtETAunCdGAC8LfK1vDld++a+0JJ3fTXlbQYvLq19EbATwvtv6SbVUIQVmhyzmZTylbUR
+ pAdOEM/r2P4X6pTgXYAFWl6KraePSHbtI0RoFY88pXxqIUgzaPQFRecYtYxCJ0ygON/purkd/EZXp
+ czg6FQfrg3xhTJ5KWMs4xP1TTMcukXXhMP1L6CI1//PkPqlod/I0KI8iCNCR1Xl9nvx+wUNL26hcS
+ UEHZsyg//pIpym197e7vu72slKk9FgJ7XbONBw4tEFPOGhcTQ9vF94YghFf6URz3hcdpF4UO60z2/
+ 4vDyQqQXkt72jMxmqJBL7OoPeOV5bP5voSJ92/J+HvMSSxSMO7uj75MqxkCK5ejh9sog9NmB/Kti0
+ B3l4Vrnh1XmwI88O+cFQO5K+TNmpLeHnJA7WvtE8BB8OIntSedOmzC5h7QNd1/TQNlmYldDL+lhB0
+ l5bumT7PTfNliuGvNGkzTbxPEA/kcmy3pvUNrHT55m+NsnSl53AIvg6CSoUgdFpJ6I+KkAJO9R/Y6
+ gnRSUjJQzN4xMMHV+mCmUopKucUyMQ4qGjt7yYDtRlix+S6JY9yNwZg/GZjUlr/MfRfRPh9PWDFRW
+ oABKYJWMkdc2IIi8BZ7PD+DW6XBbYT/11resSBPz4=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v6 3/5] 9pfs: add new function v9fs_co_readdir_many()
+Date: Thu, 30 Apr 2020 14:50:31 +0200
+Message-ID: <5059845.6LZZmIoT5M@silver>
+In-Reply-To: <20200430134235.524df46e@bahia.lan>
+References: <cover.1587309014.git.qemu_oss@crudebyte.com>
+ <fdb0e29a86d1df6005021a08078d7e69ed0de1a2.1587309014.git.qemu_oss@crudebyte.com>
+ <20200430134235.524df46e@bahia.lan>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.138) by
- FRYP281CA0001.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.20 via Frontend Transport; Thu, 30 Apr 2020 12:47:34 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.138]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 89b4cef5-455d-4cff-fb3a-08d7ed04a7f7
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5478:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5478D4F8B2427B7C5C8E21F8C1AA0@AM7PR08MB5478.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:311;
-X-Forefront-PRVS: 0389EDA07F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FQ5AlUKrVEHWSjM7jT/rWsfd3EicqtZPZ4LoiZ17qFDbvQ8PvWeAh8nUccoNZX0XyV3bgHWCRNr1+mcDx0s2LVkHQ+6F26g+u/wbevEGWvHn0ccPZ3fPhNQDHZZS1fgDV4sFmgNWVscK5JW6+pbZ4gyJnB13lWkjHK6nDKn7emnZ7ddLXQEtJPvJOwErZ7fzKiJN6A2SetALyTkpdQFJDlAQpo38DoFu5j3l+r3ivVQpSxVWqnBcOKl7CB3S3siB7FA7LkkCCEPmaYjsHv/7WxeQale8hh72pwe4rUIHILFdUGOzquk5qGhSEHP1OGwVkLuIADI96QmAG3b7oJOPefyPaKhIi9FuoFsVyIO17ZADIIMlqrqnHz4ZJhwmqrqEcJdr5tStNVcBhbO6NVgbLEYtlwjkdGFdXJDRXvCH3KHzHtVYIK+psW6FirgYbHRs
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(39850400004)(376002)(366004)(136003)(346002)(316002)(2616005)(6666004)(956004)(2906002)(478600001)(107886003)(4326008)(6486002)(66476007)(66556008)(66946007)(86362001)(36756003)(6512007)(16526019)(186003)(26005)(8936002)(52116002)(8676002)(6506007)(1076003)(4744005)(6916009)(5660300002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 10pcYS6I1mCfgJ2k0HOf0O8TXhxkpQ7GQDVoUiG9C4HI7iByXeYDCzt3zXgY7sQEvZLncLTBAil8oob6egILc9j5pT/t8ZFSjPVbwAPmIFKAk5RR81fCz/KeVHAg+fTki7WZ8zy0KOtDi75aNgboyJf5MYn5YlXqUeb6cMtLh7fyF19hZ2bTUSs/v9Eb6nuAISdsJfaWhLlUHPABxiT5b1OR1XWYMFjjjicpLjvm19RmISwrrIRCrl9aNasJEXrKurDh4xcK+C0IV3KU6q8dHP8M0BxvRs+LtPa0O+HCCoPKSyocBpVHn3/wcik61+uaOEJWDYRdIpx9EimXxtGFHNqYYR1zc1QSTwQbvU32gDbP4qvHrrOa+H96wsvboB06U85d7pNjbmfqIt7U1fLls6J2VLIRcAHUp1TWEXoEDqqQLIPIgZACc6FPmTJY5U/ri1yrAYk2H14F/OFHG9b8US0RQ9qZErKrE66C5DCUb7luduEjedJPo6cKXPVLrPhFWlNUIYuDAcxB9AqaE1TioPR6D828vT8y7U5Z26oM2XdeBDXZQiFAujnsa1uApguS1u9QVw5Gnyo6EH566OX9QUwLDUN/1KAGQquGZtS4bcuCrAgVf/G0M5u/XxzeC/sbsPZlNf+H+KGC+QympaLZVQ938Ze54eE19OjAUQpP/TqZnRhJKethgnuyWAS5GAE3dKBPJQYzUCd+D7HzPj9JSpLE75mYYaOOAl5dgN1c4WqMC749k8J02B6UarR8pe7Uf9vp/F5KVLA+4K8Z4BrTK1bVqMpZAxwv9vzoDeeFclA=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89b4cef5-455d-4cff-fb3a-08d7ed04a7f7
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 12:47:35.1416 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7VPU10lo8V1/wpjzkObguZAGKPN1RMujcH5xp1kWx/vhk6HtbPQcapMUIjC2pJDfvgZqLTBVsLUDvhPu2zs5SxAdgMn2g/kW3kaxwZ31l0c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5478
-Received-SPF: pass client-ip=40.107.21.137;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 08:47:30
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Received-From: 40.107.21.137
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 08:50:42
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 5.189.157.229
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,32 +64,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/113 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Donnerstag, 30. April 2020 13:42:35 CEST Greg Kurz wrote:
+> > +/*
+> > + * This is solely executed on a background IO thread.
+> > + *
+> > + * See v9fs_co_readdir_many() (as its only user) below for details.
+> > + */
+> > +static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
+> > +                             struct V9fsDirEnt **entries,
+> > +                             int32_t maxsize, bool dostat)
+> > +{
+> > +    V9fsState *s = pdu->s;
+> > +    V9fsString name;
+> > +    int len, err = 0;
+> > +    int32_t size = 0;
+> > +    off_t saved_dir_pos;
+> > +    struct dirent *dent;
+> > +    struct V9fsDirEnt *e = NULL;
+> > +    V9fsPath path;
+> > +    struct stat stbuf;
+> > 
+> > -            errno = 0;
+> > -            entry = s->ops->readdir(&s->ctx, &fidp->fs);
+> > -            if (!entry && errno) {
+> > +    *entries = NULL;
+> > +    v9fs_path_init(&path);
+> > +
+> > +    /*
+> > +     * TODO: Here should be a warn_report_once() if lock failed.
+> > +     *
+> > +     * With a good 9p client we should not get into concurrency here,
+> > +     * because a good client would not use the same fid for concurrent
+> > +     * requests. We do the lock here for safety reasons though. However
+> > +     * the client would then suffer performance issues, so better log
+> > that
+> > +     * issue here.
+> > +     */
+> > +    v9fs_readdir_lock(&fidp->fs.dir);
+> 
+> I agree that a client that issues concurrent readdir requests on the
+> same fid is probably asking for troubles, but this permitted by the
+> spec. Whether we should detect such conditions and warn or even fail
+> is discussion for another thread.
+> 
+> The locking is only needed to avoid concurrent accesses to the dirent
+> structure returned by readdir(), otherwise we could return partially
+> overwritten file names to the client. It must be done for each individual
+> call to readdir(), but certainly not for multiple calls.
 
-diff --git a/tests/qemu-iotests/113 b/tests/qemu-iotests/113
-index f2703a2c50..71a65de2e7 100755
---- a/tests/qemu-iotests/113
-+++ b/tests/qemu-iotests/113
-@@ -37,8 +37,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- . ./common.rc
- . ./common.filter
- 
--# Some of these test cases use bochs, but others do use raw, so this
--# is only half a lie.
-+# Some of these test cases use bochs, but others do use raw
-+_require_drivers bochs
- _supported_fmt raw
- _supported_proto file
- _supported_os Linux
--- 
-2.21.0
+Yeah, that would resolve this issue more appropriately for 9p2000.L, since 
+Treaddir specifies an offset, but for 9p2000.u the result of a concurrent read 
+on a directory (9p2000.u) would still be undefined.
+
+> As discussed privately, I'm working on a patch to better address the
+> locking and I'd really prefer to merge this before your series. Sorry
+> for the delay again. I'll try to post ASAP.
+> 
+> Anyway, I have some more remarks.
+> 
+> > +
+> > +    /* save the directory position */
+> > +    saved_dir_pos = s->ops->telldir(&s->ctx, &fidp->fs);
+> > +    if (saved_dir_pos < 0) {
+> > +        err = saved_dir_pos;
+> > +        goto out;
+> > +    }
+> > +
+> > +    while (true) {
+> > +        /* get directory entry from fs driver */
+> > +        err = do_readdir(pdu, fidp, &dent);
+> > +        if (err || !dent) {
+> > +            break;
+> > +        }
+> > +
+> > +        /*
+> > +         * stop this loop as soon as it would exceed the allowed maximum
+> > +         * response message size for the directory entries collected so
+> > far, +         * because anything beyond that size would need to be
+> > discarded by +         * 9p controller (main thread / top half) anyway
+> > +         */
+> > +        v9fs_string_init(&name);
+> > +        v9fs_string_sprintf(&name, "%s", dent->d_name);
+> > +        len = v9fs_readdir_response_size(&name);
+> > +        v9fs_string_free(&name);
+> > +        if (size + len > maxsize) {
+> > +            /* this is not an error case actually */
+> > +            break;
+> > +        }
+> > +
+> > +        /* append next node to result chain */
+> > +        if (!e) {
+> > +            *entries = e = g_malloc0(sizeof(V9fsDirEnt));
+> > +        } else {
+> > +            e = e->next = g_malloc0(sizeof(V9fsDirEnt));
+> > +        }
+> > +        e->dent = g_malloc0(sizeof(struct dirent));
+> 
+> So we're allocating a bunch of stuff here...
+> 
+> > +        memcpy(e->dent, dent, sizeof(struct dirent));
+> > +
+> > +        /* perform a full stat() for directory entry if requested by
+> > caller */ +        if (dostat) {
+> > +            err = s->ops->name_to_path(
+> > +                &s->ctx, &fidp->path, dent->d_name, &path
+> > +            );
+> > +            if (err < 0) {
+> > 
+> >                  err = -errno;
+> > 
+> > -            } else {
+> > -                *dent = entry;
+> > -                err = 0;
+> > +                break;
+> 
+> ... but we're erroring out there and it seems that we're leaking
+> all the entries that have been allocated so far.
+
+No, they are not leaking actually.
+
+You are right that they are not deallocated in do_readdir_many(), but that's 
+intentional: in the new implementation of v9fs_do_readdir() you see that 
+v9fs_free_dirents(entries) is *always* called at the very end of the function, 
+no matter if success or any error. That's one of the measures to simplify 
+overall code as much as possible.
+
+As you might have noticed, the previous/current v9fs_do_readdir() 
+implementation had quite a bunch of individual error pathes, which is quite 
+error prone or at least makes it difficult to maintain. So I think it makes 
+sense to strip unnecessary branches as much as possible.
+
+> Also I have the impression that all the if (dostat) { } block could
+> be done before chaining a new entry.
+
+Yes, you could move it forward, but what would you buy from that?
+
+I think you mean the case when there's an error inside the if (dostat) {} 
+block: The comments on struct V9fsDirEnt already suggest that the "st" member 
+is optional and may be NULL. So if there's an error inside if (dostat) {}
+then caller still has a valid "dent" field at least and it's up to caller 
+whether or not it's a problem for its purpose that "st" is empty. For that 
+reason I would not move the block forward.
+
+Best regards,
+Christian Schoenebeck
+
 
 
