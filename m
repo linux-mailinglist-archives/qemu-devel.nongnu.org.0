@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 365941BF5BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:40:41 +0200 (CEST)
-Received: from localhost ([::1]:45872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F5F1BF5D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:48:16 +0200 (CEST)
+Received: from localhost ([::1]:54430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU6cS-0003Tr-8v
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:40:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
+	id 1jU6jn-0000U9-4p
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55134)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jU6b4-0001zH-A4
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:39:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jU6iP-0008F3-3l
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:46:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <berrange@redhat.com>) id 1jU6b3-0000F2-K7
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:39:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32523
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jU6b3-0000Em-69
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:39:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588243152;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZzpLrFaNmL5zrjqJB+7Xjul4O10puM0LVQTANcH2BH8=;
- b=FSjN1/fG794eiTFh+kEHE15ptvIXEx4jgoF/zD/52472JDvlq0Sm5svZHTRucUg4qDD1sT
- 7yeUoOeUxGD3NR1ch4GyWj/FdcF1uXrV92aIRfanB/SdIGtI0dQSLICVZc7t4Tp6rQ5ndD
- UFhyhFQ4UWi6+FL7yVusjnnHeFTvvFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-s1z0VKOkMaSNsEd3mj0g1g-1; Thu, 30 Apr 2020 06:39:11 -0400
-X-MC-Unique: s1z0VKOkMaSNsEd3mj0g1g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1243800D24;
- Thu, 30 Apr 2020 10:39:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA989196AE;
- Thu, 30 Apr 2020 10:39:08 +0000 (UTC)
-Date: Thu, 30 Apr 2020 11:39:05 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] tests: add a "check-flake8" test for validating python
- code style
-Message-ID: <20200430103905.GJ2084570@redhat.com>
-References: <20200429153621.1694266-1-berrange@redhat.com>
- <9f000680-d32a-5e43-d45b-58391063b7fc@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1jU6hW-00042V-0y
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:46:48 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:38519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jU6hV-00042N-Ht
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:45:53 -0400
+Received: by mail-oi1-x233.google.com with SMTP id r66so4811941oie.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 03:45:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=b1TPa9fcJfC7W3DlJG5DDNliiB12sN+PH0UvCPsH9Sk=;
+ b=MeFBAX/pejWHuAwWbD5xRQnN9l+F00orrgj6p4zNr9bftZw5FPKPxD+mXY+bdiNmy1
+ YQYXdyb5DSL/PxVHZVvjBJ857PjXYht9hHWzfqGv7zpys/VN/f5K8RKHdycXmQDEunE0
+ atHA32sOydM9SH0B8GdWNJe90Kt2k8VePcNhJhE9sm1WaS5EXUJax1sdVOh4q+cxTigz
+ 5t0BEJpTozcx75ua2uurmgtu0Y7E1gTevBoXWXCXH3Z6TFlgsQ8MDmdWDC4g7CqEmxgC
+ 3IXSzu88jjg/i5H9ZFYs5EzhH6lClgiWSSdytHzJr2rOLbvyLqGtNvK5bxzDPe49q8yI
+ pPbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=b1TPa9fcJfC7W3DlJG5DDNliiB12sN+PH0UvCPsH9Sk=;
+ b=jcTerf+EycPo+8QRxE4S3PVTWrUGUndAfInAZ5bxWfZ+9eEwzLSrgQxUx+lAv6nhj5
+ 8OMwEy3k25f7uJjx5GLHD0oi/5lDcgFuIRgSZqSDhdmRoSgOV0Bl6QVEEG3E6FKpUrVM
+ ZOOx4BEPk8v7ZkzyDpkvSQG842pEmGM7EgmcZvT8e8N+eg+Mv0wBIrT25z4mTyHHpb4B
+ z0vcbJtSmL6pAFSJslsDPG8Nez20RAJbJovJ9c3HEX4GrRSef2mhuQ8TKeaWl4OjQYzL
+ MegTf3pdNNWF1A1R/FJOPTL70UTdHVVZhMdMC88PoJoVIAaBpMz4kDqtel/7sjz6mE4A
+ U29Q==
+X-Gm-Message-State: AGi0PuZwf0To4cU/Bn26LcEjMDDc3WMCCOF+9avnqNkWIbkeAgxsIPc6
+ htg5WXNkGo1xMr+z7K3CoCwELpo8Ob7SK9CVUtDdpA==
+X-Google-Smtp-Source: APiQypJnLKmgQ7n3E/z4XttwQAsahmDSWQHPXM6s3L2nvQNJsRLo7WR9xnh7Ty4u8MX1bKeFTV1+w14mVJohUwL02qI=
+X-Received: by 2002:aca:895:: with SMTP id 143mr542335oii.163.1588243551954;
+ Thu, 30 Apr 2020 03:45:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9f000680-d32a-5e43-d45b-58391063b7fc@redhat.com>
-User-Agent: Mutt/1.13.3 (2020-01-12)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+References: <87mu6uia5i.fsf@dusky.pond.sub.org>
+ <20200429155719.GL1495129@redhat.com>
+ <87k11xh2kq.fsf@dusky.pond.sub.org>
+ <CAFEAcA9-oxkMD-kJ1z12d4K1S_Jaz7Wj6_38Ah7ChSaBfQNkkA@mail.gmail.com>
+ <87tv11e1en.fsf_-_@dusky.pond.sub.org> <20200430103437.GI2084570@redhat.com>
+In-Reply-To: <20200430103437.GI2084570@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 30 Apr 2020 11:45:40 +0100
+Message-ID: <CAFEAcA_1BB6qCpP+yAOKBeryxCZk5aC-YAw+KbGLFm2zCVL2oQ@mail.gmail.com>
+Subject: Re: Configuring onboard devices (was: Failing property setters +
+ hardwired devices + -global = a bad day)
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Received-From: 207.211.31.81
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x233.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::233
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,69 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 30, 2020 at 12:29:28PM +0200, Paolo Bonzini wrote:
-> On 29/04/20 17:36, Daniel P. Berrang=C3=A9 wrote:
-> > The flake8 program is a standard tool used by Python projects for
-> > validating many commonly recommended style rules. It would be desirable
-> > for QEMU to come into alignment with normal Python coding style best
-> > practices.
-> >=20
-> > QEMU currently violates a huge number of the style rules, so we can't
-> > blindly turn it on. Instead this patch introduces use of flake8 with
-> > a huge ignore list to turn off everything that is currently violated.
-> >=20
-> > The following descriptions are mostly taken from:
-> >=20
-> >   https://www.flake8rules.com/
->=20
-> I suggest instead using "black" and just reformat everything in a huge
-> patch; that's what we're using for Patchew.
+On Thu, 30 Apr 2020 at 11:34, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+> We "merely" need a new query language targetted to QEMU's qtree
+> structure, which we can expose in the CLI that gives unique access
+> to every possible property.
 
-Personally I'm a fan of automated code formatters that can enforce a
-specific style, so no objection from me.
+Past resistance to this has been grounded in not wanting to
+expose the exact arrangement of the qtree as a user-facing
+thing that needs to be maintained for back-compat reasons.
 
-> It's not perfect, and especially one needs to get used to the double
-> quotes instead of single quotes for strings.  However overall it is
-> pretty good, and I've never seen it do something clearly "wrong".
+Eg in your example the i440fx-pcihost sits directly on the
+'system bus', but this is an odd artefact of the old qbus/qdev
+system and doesn't really reflect the way the system is built
+up in terms of QOM components; we might one day want to
+restructure things there, which would AIUI break a
+command line like
 
-I've not looked at black in any detail, but if its focused on code
-style, then there might be a few bits from flake8 that are still
-useful, such as checking for unused imports, or unresolved variable
-names. Then again, perhaps Jon's pylint stuff will already catch
-that.
+> To uniquely identify this we can have a string:
+>
+>  /dev[1]/bus[pci/0]/dev[id=3Dballoon0]/bus[virtio-bus]/dev[0]/deflate-on-=
+oom=3Dtrue
 
-> > On its own this patch doesn't really do much of use except try to stop =
-the
-> > situation getting worse. To be valuable some motivated contributor(s)
-> > would need to go through fixing the code, and re-enabling each excluded
-> > warning category one at a time.
-> >=20
-> > I'm mostly proposing this patch as a starting point for discussion, to
-> > see if anyone is indeed motivated to take on the code cleanup challenge=
-,
-> > and feed the fixes in through the various maintainers trees.
->=20
-> If we go with "black" I suggest just doing a big patch for everything,
-> since it's easy for maintainers to rebase by running black at each step.
->  Overall our usage of Python is small enough that it should not be a big
-> deal.
-
-
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
-
+thanks
+-- PMM
 
