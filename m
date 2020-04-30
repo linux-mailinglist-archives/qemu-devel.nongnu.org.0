@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AB21BFA35
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:52:55 +0200 (CEST)
-Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D5C1BFA8D
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:54:43 +0200 (CEST)
+Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU9cU-0005Q2-LU
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49930)
+	id 1jU9eE-0001iM-K1
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:54:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49996)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9TX-0001hv-3e
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:45:30 -0400
+ (envelope-from <bounces@canonical.com>) id 1jU9Tb-0001w8-RX
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:45:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9R1-0000Oc-DP
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:43:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33388)
+ (envelope-from <bounces@canonical.com>) id 1jU9R7-0000S4-Lp
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:43:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jU9R0-0000No-Op
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:41:02 -0400
+ id 1jU9R7-0000RS-4l
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:41:09 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jU9Qz-0005tF-1v
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:41:01 +0000
+ id 1jU9R5-0006D1-VL
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:41:07 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 02BE72E810D
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:41:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E12092E8105
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:41:07 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Apr 2020 13:32:05 -0000
+Date: Thu, 30 Apr 2020 13:33:07 -0000
 From: Laurent Vivier <Laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -40,20 +40,19 @@ X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kwolf-redhat laurent-vivier twitek
-X-Launchpad-Bug-Reporter: Tobias Witek (twitek)
+X-Launchpad-Bug-Commenters: ccstevens laurent-vivier
+X-Launchpad-Bug-Reporter: Chris Stevens (ccstevens)
 X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <158573492237.25129.5161164490189934653.malonedeb@soybean.canonical.com>
-Message-Id: <158825352507.5900.17681780920821938079.malone@soybean.canonical.com>
-Subject: [Bug 1870098] Re: [block/vpc] dynamic disk header: off-by-one error
- for "num_bat_entries"
+References: <149809152821.28527.1538400923657139906.malonedeb@wampee.canonical.com>
+Message-Id: <158825358718.4400.16769945910892749637.malone@chaenomeles.canonical.com>
+Subject: [Bug 1699628] Re: Direct Sound Audio does not stop
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1e7b9e9279967025aaead996c89914e2f0afeeae
+X-Launchpad-Hash: 893f47f17616c731e169ae3a12c3d652e778cb4a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:35:36
@@ -69,12 +68,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1870098 <1870098@bugs.launchpad.net>
+Reply-To: Bug 1699628 <1699628@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Fixed here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D3f6de653b946
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D4ba664cb0aab
 
 
 ** Changed in: qemu
@@ -84,35 +83,46 @@ https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D3f6de653b946
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1870098
+https://bugs.launchpad.net/bugs/1699628
 
 Title:
-  [block/vpc] dynamic disk header: off-by-one error for
-  "num_bat_entries"
+  Direct Sound Audio does not stop
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  In current qemu versions (observed in 5.0.0-rc1 as well as
-  2833ad487cfff7dc33703e4731b75facde1c561e), disk headers for dynamic
-  VPCs are written with an incorrect "block allocation table entries"
-  value.
+  The Bug:
+  DirectSound Audio does not stop because dsound_ctl_out does not end up ca=
+lling IDirectSoundBuffer_Stop. This is due to a bug in dsound_get_status_ou=
+t where the status flags returned from IDirectSoundBuffer_GetStatus are com=
+pared with DSERR_BUFFERLOST (an error code) rather than DSBSTATUS_BUFFERLOS=
+T (a status flag). The status is actually (DSBSTATUS_LOOPING | DSBSTATUS_PL=
+AYING) and one of those flags happens to be set in the DSERR_BUFFERLOST val=
+ue. As a result, dsound_get_status_out returns -1 and dsound_ctl_out exits =
+before calling IDirectSoundBuffer_Stop.
 
-  https://www.microsoft.com/en-us/download/details.aspx?id=3D23850 (the
-  corresponding spec) states that:
+  The Fix:
+  A simple replacement of DSERR_BUFFERLOST with DSBSTATUS_BUFFERLOST in dso=
+und_get_status_out. =
 
-  "Max Table Entries
-  This field holds the maximum entries present in the BAT. This should be e=
-qual to the number of blocks in the disk (that is, the disk size divided by=
- the block size)."
+  Should be: "if (*statusp & DSBSTATUS_BUFFERLOST) {"
 
-  Inside the qemu code, the value is "disk size divided by the block
-  size *plus one*".
+  Version Information:
+  I was able to produce this bug in Qemu 2.9.0 and with the latest source p=
+ulled from git://git.qemu-project.org/qemu.git (commit 8dfaf23ae1). I was a=
+ble to verify my suggested fix with the latest source.
 
-  Calculating "num_bat_entries" as "total_sectors/(block_size / 512)"
-  *should* fix the issue.
+  Guest OS:
+  Discovered running Minoca OS v0.4 (www.github.com/minoca/os). Images at h=
+ttps://www.minocacorp.com/download/nightlies/latest-x86. The Qemu test imag=
+es I tried (http://wiki.qemu.org/Testing/System_Images) didn't have an easy=
+ sound setup (was looking for 'aplay' or similar).
+
+  Qemu Command Line:
+  ./qemu-system-x86_64.exe -m 512 -hda pc.img -smp 4 -usbdevice keyboard -d=
+evice intel-hda -device hda-duplex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1870098/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1699628/+subscriptions
 
