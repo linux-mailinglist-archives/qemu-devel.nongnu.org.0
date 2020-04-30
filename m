@@ -2,59 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C2E1BF59E
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:36:01 +0200 (CEST)
-Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054CC1BF587
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:31:04 +0200 (CEST)
+Received: from localhost ([::1]:51134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU6Xw-000667-M6
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:36:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52582)
+	id 1jU6T8-0000JC-Pk
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52476)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jU6JO-0001Ii-MP
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:59 -0400
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jU6Ic-0008HY-0m
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <yan.y.zhao@intel.com>) id 1jU6JN-00034E-7U
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:57 -0400
-Received: from mga17.intel.com ([192.55.52.151]:9548)
+ (envelope-from <dplotnikov@virtuozzo.com>) id 1jU6IV-0001GY-Oh
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:08 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jU6JM-00033n-Ll
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:20:56 -0400
-IronPort-SDR: GBCzgmAWUhkcRP+RVo38UxCHK0z+jjygNpzv4VjVmiOvaQcWZTT1sj8vpI40tNuLKk2BasdHz/
- KvfYeeYTHV0A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Apr 2020 03:20:54 -0700
-IronPort-SDR: zJusH0GJhBdNXadHmGH5cgeAI09T5lIOzQ0XCm/MlicRs7d8+ukVSmlGav1AVBUk5jKhUTNqm0
- GRsaAXhoaksw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,334,1583222400"; d="scan'208";a="282814909"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga004.fm.intel.com with ESMTP; 30 Apr 2020 03:20:52 -0700
-Date: Thu, 30 Apr 2020 06:11:09 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v6 1/3] memory: drop guest writes to read-only ram device
- regions
-Message-ID: <20200430101108.GR12879@joy-OptiPlex-7040>
-References: <20200430080744.31232-1-yan.y.zhao@intel.com>
- <20200430080946.31286-1-yan.y.zhao@intel.com>
- <CAFEAcA-8NH_4ZV0J9urBZdQWmqOe-Nyy4y2gLAjTJ08MpfFY0g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA-8NH_4ZV0J9urBZdQWmqOe-Nyy4y2gLAjTJ08MpfFY0g@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=yan.y.zhao@intel.com;
- helo=mga17.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 06:20:54
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 192.55.52.151
+ (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jU6IV-00018E-8H; Thu, 30 Apr 2020 06:20:03 -0400
+Received: from dptest2.qa.sw.ru ([10.94.4.71])
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <dplotnikov@virtuozzo.com>)
+ id 1jU6IH-0003TP-Tp; Thu, 30 Apr 2020 13:19:50 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v23 0/4]  implement zstd cluster compression method
+Date: Thu, 30 Apr 2020 13:19:14 +0300
+Message-Id: <20200430101918.30351-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=dplotnikov@virtuozzo.com; helo=relay.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 06:20:00
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Received-From: 185.231.240.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,104 +46,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, "Zeng, Xin" <xin.zeng@intel.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 30, 2020 at 05:40:25PM +0800, Peter Maydell wrote:
-> On Thu, 30 Apr 2020 at 09:20, Yan Zhao <yan.y.zhao@intel.com> wrote:
-> >
-> > for ram device regions, drop guest writes if the region is read-only.
-> >
-> > Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> > Signed-off-by: Xin Zeng <xin.zeng@intel.com>
-> > ---
-> >  memory.c | 15 ++++++++++++---
-> >  1 file changed, 12 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/memory.c b/memory.c
-> > index 601b749906..a1bba985b9 100644
-> > --- a/memory.c
-> > +++ b/memory.c
-> > @@ -34,6 +34,7 @@
-> >  #include "sysemu/accel.h"
-> >  #include "hw/boards.h"
-> >  #include "migration/vmstate.h"
-> > +#include "qemu/log.h"
-> >
-> >  //#define DEBUG_UNASSIGNED
-> >
-> > @@ -1307,12 +1308,19 @@ static uint64_t memory_region_ram_device_read(void *opaque,
-> >      return data;
-> >  }
-> >
-> > -static void memory_region_ram_device_write(void *opaque, hwaddr addr,
-> > -                                           uint64_t data, unsigned size)
-> > +static MemTxResult memory_region_ram_device_write(void *opaque, hwaddr addr,
-> > +                                                  uint64_t data, unsigned size,
-> > +                                                  MemTxAttrs attrs)
-> >  {
-> >      MemoryRegion *mr = opaque;
-> >
-> >      trace_memory_region_ram_device_write(get_cpu_index(), mr, addr, data, size);
-> > +    if (mr->readonly) {
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "Invalid write to read-only ram device region addr 0x%"
-> > +                      HWADDR_PRIx" size %u\n", addr, size);
-> > +        return MEMTX_ERROR;
-> > +    }
-> 
-> This does not "drop" a write to a r/o region -- it causes it to generate
-> whatever the guest architecture's equivalent of a bus error is (eg data
-> abort on Arm).
->
-hmm, I'm not sure. so your expectation is silently dropping guest writes
-without any bus error, right?
+v23:
+   Undecided: whether to add zstd(zlib) compression
+              details to the qcow2 spec
+   03: tighten assertion on zstd decompression [Eric]
+   04: use _rm_test_img appropriately [Max]
 
-> More generally, this change seems a bit odd: currently we do not
-> check the mr->readonly flag here, but in general guests don't get
-> to write to ROM areas. Where is that check currently done, and
-it's not a ROM, but a ram region backed by a device. we wish this region
-to be read-only sometimes, in order to implement some useful features.
-It can be a virtual BAR region in a virtual mdev device.
+v22:
+   03: remove assignemnt in if condition
 
-> should the vfio case you're trying to fix do its check in whatever
-> the equivalent of that place is? Alternatively, if we want to make
-> memory_region_ram_device_write() do the check, does that mean we
-> now have unnecessary checks elsewhere.
-currently, vfio implements the BAR regions in two types:
-1. non-mmap'd,  meaning this region will not be added into kvm memory
-slots, and whenever guest accesses it, it will be trapped into a host
-handler. we do the read-only check in patch 2 of this series.
-2. mmap'd, meaning this region will be added into kvm memory slots, and
-guest could access it without any hypervisor intervening.
-so without patch 3 in the series, there's no write protection to guest
-writes.
-after setting this mmap'd region to read-only in patch 3, the
-corresponding memory slot in kvm is set to read-only, so only guest
-writes would be trapped into host, i.e. into the
-memory_region_ram_device_write(). guest reads is still within the guest
-without hypervisor intervening.
+v21:
+   03:
+       * remove the loop on compression [Max]
+       * use designated initializers [Max]
+   04:
+       * don't erase user's options [Max]
+       * use _rm_test_img [Max]
+       * add unsupported qcow2 options [Max]
 
+v20:
+   04: fix a number of flaws [Vladimir]
+       * don't use $RAND_FILE passing to qemu-io,
+         so check $TEST_DIR is redundant
+       * re-arrage $RAND_FILE writing
+       * fix a typo
 
-> 
-> My guess is that memory_region_ram_device_write() isn't the
-> right place to check for read-only-ness, because it only applies
-> to RAM-backed MRs, not to any other kind of MR which might equally
-> be readonly.
->
-there might be other MRs that require checking of read-only-ness.
-but their handlers have the right to be called to know it has happened,
-and they might want to do some special handling of it. That's why I did
-not put the check in general dispatcher.
+v19:
+   04: fix a number of flaws [Eric]
+       * remove rudundant test case descriptions
+       * fix stdout redirect
+       * don't use (())
+       * use peek_file_be instead of od
+       * check $TEST_DIR for spaces and other before using
+       * use $RAND_FILE safer
 
-Thanks
-Yan
+v18:
+   * 04: add quotes to all file name variables [Vladimir] 
+   * 04: add Vladimir's comment according to "qemu-io write -s"
+         option issue.
+
+v17:
+   * 03: remove incorrect comment in zstd decompress [Vladimir]
+   * 03: remove "paraniod" and rewrite the comment on decompress [Vladimir]
+   * 03: fix dead assignment [Vladimir]
+   * 04: add and remove quotes [Vladimir]
+   * 04: replace long offset form with the short one [Vladimir]
+
+v16:
+   * 03: ssize_t for ret, size_t for zstd_ret [Vladimir]
+   * 04: small fixes according to the comments [Vladimir] 
+
+v15:
+   * 01: aiming qemu 5.1 [Eric]
+   * 03: change zstd_res definition place [Vladimir]
+   * 04: add two new test cases [Eric]
+         1. test adjacent cluster compression with zstd
+         2. test incompressible cluster processing
+   * 03, 04: many rewording and gramma fixing [Eric]
+
+v14:
+   * fix bug on compression - looping until compress == 0 [Me]
+   * apply reworked Vladimir's suggestions:
+      1. not mixing ssize_t with size_t
+      2. safe check for ENOMEM in compression part - avoid overflow
+      3. tolerate sanity check allow zstd to make progress only
+         on one of the buffers
+v13:
+   * 03: add progress sanity check to decompression loop [Vladimir]
+     03: add successful decompression check [Me]
+
+v12:
+   * 03: again, rework compression and decompression loops
+         to make them more correct [Vladimir]
+     03: move assert in compression to more appropriate place
+             [Vladimir]
+v11:
+   * 03: the loops don't need "do{}while" form anymore and
+         the they were buggy (missed "do" in the beginning)
+         replace them with usual "while(){}" loops [Vladimir]
+v10:
+   * 03: fix zstd (de)compressed loops for multi-frame
+         cases [Vladimir]
+v9:
+   * 01: fix error checking and reporting in qcow2_amend compression type part [Vladimir]
+   * 03: replace asserts with -EIO in qcow2_zstd_decompression [Vladimir, Alberto]
+   * 03: reword/amend/add comments, fix typos [Vladimir]
+
+v8:
+   * 03: switch zstd API from simple to stream [Eric]
+         No need to state a special cluster layout for zstd
+         compressed clusters.
+v7:
+   * use qapi_enum_parse instead of the open-coding [Eric]
+   * fix wording, typos and spelling [Eric]
+
+v6:
+   * "block/qcow2-threads: fix qcow2_decompress" is removed from the series
+      since it has been accepted by Max already
+   * add compile time checking for Qcow2Header to be a multiple of 8 [Max, Alberto]
+   * report error on qcow2 amending when the compression type is actually chnged [Max]
+   * remove the extra space and the extra new line [Max]
+   * re-arrange acks and signed-off-s [Vladimir]
+
+v5:
+   * replace -ENOTSUP with abort in qcow2_co_decompress [Vladimir]
+   * set cluster size for all test cases in the beginning of the 287 test
+
+v4:
+   * the series is rebased on top of 01 "block/qcow2-threads: fix qcow2_decompress"
+   * 01 is just a no-change resend to avoid extra dependencies. Still, it may be merged in separate
+
+v3:
+   * remove redundant max compression type value check [Vladimir, Eric]
+     (the switch below checks everything)
+   * prevent compression type changing on "qemu-img amend" [Vladimir]
+   * remove zstd config setting, since it has been added already by
+     "migration" patches [Vladimir]
+   * change the compression type error message [Vladimir] 
+   * fix alignment and 80-chars exceeding [Vladimir]
+
+v2:
+   * rework compression type setting [Vladimir]
+   * squash iotest changes to the compression type introduction patch [Vladimir, Eric]
+   * fix zstd availability checking in zstd iotest [Vladimir]
+   * remove unnecessry casting [Eric]
+   * remove rudundant checks [Eric]
+   * fix compressed cluster layout in qcow2 spec [Vladimir]
+   * fix wording [Eric, Vladimir]
+   * fix compression type filtering in iotests [Eric]
+
+v1:
+   the initial series
+
+Denis Plotnikov (4):
+  qcow2: introduce compression type feature
+  qcow2: rework the cluster compression routine
+  qcow2: add zstd cluster compression
+  iotests: 287: add qcow2 compression type test
+
+ docs/interop/qcow2.txt           |   1 +
+ configure                        |   2 +-
+ qapi/block-core.json             |  23 ++-
+ block/qcow2.h                    |  20 ++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-threads.c            | 240 +++++++++++++++++++++++++++++--
+ block/qcow2.c                    | 120 ++++++++++++++++
+ tests/qemu-iotests/031.out       |  14 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++++++-------
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061.out       |  34 +++--
+ tests/qemu-iotests/065           |  28 ++--
+ tests/qemu-iotests/080           |   2 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/287           | 152 ++++++++++++++++++++
+ tests/qemu-iotests/287.out       |  67 +++++++++
+ tests/qemu-iotests/common.filter |   3 +-
+ tests/qemu-iotests/group         |   1 +
+ 22 files changed, 726 insertions(+), 108 deletions(-)
+ create mode 100755 tests/qemu-iotests/287
+ create mode 100644 tests/qemu-iotests/287.out
+
+-- 
+2.17.0
 
 
