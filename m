@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6C91C02BF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:40:55 +0200 (CEST)
-Received: from localhost ([::1]:35724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C879E1C02E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:44:29 +0200 (CEST)
+Received: from localhost ([::1]:49670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUCF4-0001ns-8u
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:40:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49370)
+	id 1jUCIW-0000x3-Nz
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:44:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49388)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUC3A-0001pl-2r
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:40 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUC3B-0001qT-KR
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUC34-0006Xj-Bn
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:35 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38207)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUC35-0006dr-KS
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:37 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUC33-0006TW-TS
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:29 -0400
-Received: by mail-pg1-x541.google.com with SMTP id l25so645641pgc.5
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 09:28:29 -0700 (PDT)
+ id 1jUC35-0006YI-4q
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:28:31 -0400
+Received: by mail-pl1-x643.google.com with SMTP id d24so2419494pll.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 09:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=suwrl9RFQOuVoDr4Q1KFh+iDEpTs3nZzUnaA8dPRNoc=;
- b=JLix+IVuTMnjIs/ulxnD9IEp6TfTl7q2sFcBbtsQ6EI4sTOScilDE5oiA/PfGnXBZl
- 0OYCW9aBvlRPS2EZV3hYYSIotA6VdchjVUtdMOSvDi1Lz0t1QFZy2azsBx/2EORt4Btq
- CVBXKhjlnxHqiuGMvNQf5lDlq+P+qo8e6ZQKuDIpD8qCpZPARvXRk3noaBZ80Fp/T346
- wvHo2QGf7peF9AqKZ2AgNM2Fbc2O9B+r1zsBQRhXWsF/ZtkQbswe7R77sWiKWY0QtS6j
- RGMKKG7zMORZbt14FYthbfFrCym97Oqqqis2Yg8cT6jPnxZOFU3jvu2sUuk2n1Oz8E6t
- VdjA==
+ bh=7ZJAf0ODZypJUEx/2hOu0Olpz0sJ7Rm6b/UcyBKBG+Y=;
+ b=ZereAmgQO3hlSgIReZWndX/4U5wg9gmXv0KJO6OjOedqGmhrWYnB3STted5JkysLvH
+ Nks+dwZxXd/g5sy1cRBnGLf47o4WQQLJU7KdMeWBFxfWO0o7I8yLUK+tVY/W5E1D7N+a
+ P6ETwlMTyEPXZGyPR8O3EJWCrF0O/8DsdzmRE67PaKInPd3WDnPu7BfRWV0lLVOXp50Q
+ Hl31S322UraBlxcWt3uYcBBrjpPn/+gLa4TO89skuAt/71MT5YsrpB/yhCmACkgKTMqY
+ Wt2CPd27i4P/hXKsbxf1jNvn9O/qB8T015jbK8oJOQWLgWiIR7WINPhkc1LmBtILKvaL
+ X5SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=suwrl9RFQOuVoDr4Q1KFh+iDEpTs3nZzUnaA8dPRNoc=;
- b=a71DDDcg7KRO6vqlFtQgiFLOH4Bf+FPJYOmw3eyTIhEjKKEa+YTVjDik9XfaoHB3PZ
- 7LI/bgmEZnIIuEhn7JwzRfehw0F63mi2CHRxLC5CAA/Jqdp7C2Im9dKmHy7kz/Pf1fxQ
- Z5u0SelVnSh63MRTreeHONpidJ+G1N/x3IoUcys7pSNdYK256d0hsTG6pSpiaV9aGIP0
- jUNxhkRk5Lm9A5B3dm0WWEqC2S1KS6+SCph1vn/KOKJmnY6/vhMlNa7moZX5iT9h4GMi
- VYFqprg/apUWeIAZrWlkdXOCMAYHZsOVncTSdP3soDhuROLpS7VdIc0klzbydyXwAuOH
- LIfw==
-X-Gm-Message-State: AGi0PuaN8bsHFudFkTqF/SLBP/gSwe2P2O08vJf2aWg/w6EKEu+nrs9z
- Nxc8IrebzjLk2ZcNtZz1jllNgEar1RU=
-X-Google-Smtp-Source: APiQypI1fybAuARIEMORrUQpBtSDe4fxXSFf1LArZ2qxE4+Yx6isEnzCRhtfOVq5JiWifxItYLjXuQ==
-X-Received: by 2002:a63:4665:: with SMTP id v37mr3780795pgk.297.1588264107940; 
- Thu, 30 Apr 2020 09:28:27 -0700 (PDT)
+ bh=7ZJAf0ODZypJUEx/2hOu0Olpz0sJ7Rm6b/UcyBKBG+Y=;
+ b=GyK/u1KgKKRCzUr86NwvQjiTpi+P/uk+mpbYk3zK5BKLs10TG5o0AuHZzrT8an/kUe
+ fy4QUTFSeLTYFeUqcUd4YddzxJ4u8hjKLyvKRzjl5eJ/pSRtBuedcbxa1HlgzdIuvg6Y
+ w0gqs4YI3Acz0X6wT16JvGwF93j73K8seGEc2usyhrfqMWFIp6xP8Wt7jnyAjP6pOBcb
+ Eazuj9NkuriB6O1qT4lorhbl0D/9RZnOC5Vu66txztQRCBWt2pd47TN2M34LaQaS69Vn
+ fTgV/lVxmZycrRX+AcY2HpW8iZ9ySmQJFQ0cAsJMjuSy3MFNC0+tLYx4g+J9crTidADE
+ A2fw==
+X-Gm-Message-State: AGi0PuYmnasLrtm+nhmvY114+uNRJbDVhbc/E/W+R5gS8J5imVCbWUsD
+ bBzxLargQKBBy2MGlu8LKpgZiw59lpo=
+X-Google-Smtp-Source: APiQypKUsBLg6bcqc1vDh0FR6yHeza7MjeYLH8+q/wJlQrjbpVPEAh4Hhd8cyT5xFoqugW13ollYbw==
+X-Received: by 2002:a17:902:9882:: with SMTP id
+ s2mr4409551plp.184.1588264109355; 
+ Thu, 30 Apr 2020 09:28:29 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id j5sm243514pfh.58.2020.04.30.09.28.27
+ by smtp.gmail.com with ESMTPSA id j5sm243514pfh.58.2020.04.30.09.28.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 09:28:27 -0700 (PDT)
+ Thu, 30 Apr 2020 09:28:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/18] target/arm: Adjust interface of sve_ld1_host_fn
-Date: Thu, 30 Apr 2020 09:28:04 -0700
-Message-Id: <20200430162813.17671-10-richard.henderson@linaro.org>
+Subject: [PATCH v4 10/18] target/arm: Use SVEContLdSt in sve_ld1_r
+Date: Thu, 30 Apr 2020 09:28:05 -0700
+Message-Id: <20200430162813.17671-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430162813.17671-1-richard.henderson@linaro.org>
 References: <20200430162813.17671-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::541
+X-Received-From: 2607:f8b0:4864:20::643
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,254 +86,249 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current interface includes a loop; change it to load a
-single element.  We will then be able to use the function
-for ld{2,3,4} where individual vector elements are not adjacent.
-
-Replace each call with the simplest possible loop over active
-elements.
+First use of the new helper functions, so we can remove the
+unused markup.  No longer need a scratch for user-only, as
+we completely probe the page set before reading; system mode
+still requires a scratch for MMIO.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve_helper.c | 124 ++++++++++++++++++++--------------------
- 1 file changed, 63 insertions(+), 61 deletions(-)
+ target/arm/sve_helper.c | 188 +++++++++++++++++++++-------------------
+ 1 file changed, 97 insertions(+), 91 deletions(-)
 
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 2f053a9152..d007137735 100644
+index d007137735..6bae342a17 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -3972,20 +3972,10 @@ void HELPER(sve_fcmla_zpzzz_d)(CPUARMState *env, void *vg, uint32_t desc)
+@@ -4221,9 +4221,9 @@ typedef struct {
+  * final element on each page.  Identify any single element that spans
+  * the page boundary.  Return true if there are any active elements.
   */
- 
+-static bool __attribute__((unused))
+-sve_cont_ldst_elements(SVEContLdSt *info, target_ulong addr, uint64_t *vg,
+-                       intptr_t reg_max, int esz, int msize)
++static bool sve_cont_ldst_elements(SVEContLdSt *info, target_ulong addr,
++                                   uint64_t *vg, intptr_t reg_max,
++                                   int esz, int msize)
+ {
+     const int esize = 1 << esz;
+     const uint64_t pg_mask = pred_esz_masks[esz];
+@@ -4313,10 +4313,9 @@ sve_cont_ldst_elements(SVEContLdSt *info, target_ulong addr, uint64_t *vg,
+  * Control the generation of page faults with @fault.  Return false if
+  * there is no work to do, which can only happen with @fault == FAULT_NO.
+  */
+-static bool __attribute__((unused))
+-sve_cont_ldst_pages(SVEContLdSt *info, SVEContFault fault, CPUARMState *env,
+-                    target_ulong addr, MMUAccessType access_type,
+-                    uintptr_t retaddr)
++static bool sve_cont_ldst_pages(SVEContLdSt *info, SVEContFault fault,
++                                CPUARMState *env, target_ulong addr,
++                                MMUAccessType access_type, uintptr_t retaddr)
+ {
+     int mmu_idx = cpu_mmu_index(env, false);
+     int mem_off = info->mem_off_first[0];
+@@ -4388,109 +4387,116 @@ static inline bool test_host_page(void *host)
  /*
-- * Load elements into @vd, controlled by @vg, from @host + @mem_ofs.
-- * Memory is valid through @host + @mem_max.  The register element
-- * indices are inferred from @mem_ofs, as modified by the types for
-- * which the helper is built.  Return the @mem_ofs of the first element
-- * not loaded (which is @mem_max if they are all loaded).
-- *
-- * For softmmu, we have fully validated the guest page.  For user-only,
-- * we cannot fully validate without taking the mmap lock, but since we
-- * know the access is within one host page, if any access is valid they
-- * all must be valid.  However, when @vg is all false, it may be that
-- * no access is valid.
-+ * Load one element into @vd + @reg_off from @host.
-+ * The controlling predicate is known to be true.
+  * Common helper for all contiguous one-register predicated loads.
   */
--typedef intptr_t sve_ld1_host_fn(void *vd, void *vg, void *host,
--                                 intptr_t mem_ofs, intptr_t mem_max);
-+typedef void sve_ldst1_host_fn(void *vd, intptr_t reg_off, void *host);
- 
- /*
-  * Load one element into @vd + @reg_off from (@env, @vaddr, @ra).
-@@ -3999,20 +3989,10 @@ typedef void sve_ldst1_tlb_fn(CPUARMState *env, void *vd, intptr_t reg_off,
-  */
- 
- #define DO_LD_HOST(NAME, H, TYPEE, TYPEM, HOST) \
--static intptr_t sve_##NAME##_host(void *vd, void *vg, void *host,           \
--                                  intptr_t mem_off, const intptr_t mem_max) \
--{                                                                           \
--    intptr_t reg_off = mem_off * (sizeof(TYPEE) / sizeof(TYPEM));           \
--    uint64_t *pg = vg;                                                      \
--    while (mem_off + sizeof(TYPEM) <= mem_max) {                            \
--        TYPEM val = 0;                                                      \
--        if (likely((pg[reg_off >> 6] >> (reg_off & 63)) & 1)) {             \
--            val = HOST(host + mem_off);                                     \
--        }                                                                   \
--        *(TYPEE *)(vd + H(reg_off)) = val;                                  \
--        mem_off += sizeof(TYPEM), reg_off += sizeof(TYPEE);                 \
--    }                                                                       \
--    return mem_off;                                                         \
-+static void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host)  \
-+{                                                                      \
-+    TYPEM val = HOST(host);                                            \
-+    *(TYPEE *)(vd + H(reg_off)) = val;                                 \
- }
- 
- #define DO_LD_TLB(NAME, H, TYPEE, TYPEM, TLB) \
-@@ -4411,7 +4391,7 @@ static inline bool test_host_page(void *host)
- static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                       uint32_t desc, const uintptr_t retaddr,
-                       const int esz, const int msz,
--                      sve_ld1_host_fn *host_fn,
-+                      sve_ldst1_host_fn *host_fn,
-                       sve_ldst1_tlb_fn *tlb_fn)
+-static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
+-                      uint32_t desc, const uintptr_t retaddr,
+-                      const int esz, const int msz,
+-                      sve_ldst1_host_fn *host_fn,
+-                      sve_ldst1_tlb_fn *tlb_fn)
++static inline QEMU_ALWAYS_INLINE
++void sve_ld1_r(CPUARMState *env, uint64_t *vg, const target_ulong addr,
++               uint32_t desc, const uintptr_t retaddr,
++               const int esz, const int msz,
++               sve_ldst1_host_fn *host_fn,
++               sve_ldst1_tlb_fn *tlb_fn)
  {
-     const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-@@ -4445,8 +4425,12 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     if (likely(split == mem_max)) {
-         host = tlb_vaddr_to_host(env, addr + mem_off, MMU_DATA_LOAD, mmu_idx);
-         if (test_host_page(host)) {
--            mem_off = host_fn(vd, vg, host - mem_off, mem_off, mem_max);
--            tcg_debug_assert(mem_off == mem_max);
-+            intptr_t i = reg_off;
-+            host -= mem_off;
-+            do {
-+                host_fn(vd, i, host + (i >> diffsz));
-+                i = find_next_active(vg, i + (1 << esz), reg_max, esz);
-+            } while (i < reg_max);
-             /* After having taken any fault, zero leading inactive elements. */
-             swap_memzero(vd, reg_off);
-             return;
-@@ -4459,7 +4443,12 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-      */
- #ifdef CONFIG_USER_ONLY
-     swap_memzero(&scratch, reg_off);
--    host_fn(&scratch, vg, g2h(addr), mem_off, mem_max);
-+    host = g2h(addr);
-+    do {
-+        host_fn(&scratch, reg_off, host + (reg_off >> diffsz));
-+        reg_off += 1 << esz;
-+        reg_off = find_next_active(vg, reg_off, reg_max, esz);
-+    } while (reg_off < reg_max);
- #else
-     memset(&scratch, 0, reg_max);
-     goto start;
-@@ -4477,9 +4466,13 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-             host = tlb_vaddr_to_host(env, addr + mem_off,
-                                      MMU_DATA_LOAD, mmu_idx);
-             if (host) {
--                mem_off = host_fn(&scratch, vg, host - mem_off,
--                                  mem_off, split);
--                reg_off = mem_off << diffsz;
-+                host -= mem_off;
-+                do {
-+                    host_fn(&scratch, reg_off, host + mem_off);
-+                    reg_off += 1 << esz;
-+                    reg_off = find_next_active(vg, reg_off, reg_max, esz);
-+                    mem_off = reg_off >> diffsz;
-+                } while (split - mem_off >= (1 << msz));
-                 continue;
-             }
-         }
-@@ -4706,7 +4699,7 @@ static void record_fault(CPUARMState *env, uintptr_t i, uintptr_t oprsz)
- static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                         uint32_t desc, const uintptr_t retaddr,
-                         const int esz, const int msz,
--                        sve_ld1_host_fn *host_fn,
-+                        sve_ldst1_host_fn *host_fn,
-                         sve_ldst1_tlb_fn *tlb_fn)
- {
-     const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-@@ -4716,7 +4709,7 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     const int diffsz = esz - msz;
-     const intptr_t reg_max = simd_oprsz(desc);
-     const intptr_t mem_max = reg_max >> diffsz;
--    intptr_t split, reg_off, mem_off;
-+    intptr_t split, reg_off, mem_off, i;
-     void *host;
- 
-     /* Skip to the first active element.  */
-@@ -4739,28 +4732,18 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     if (likely(split == mem_max)) {
-         host = tlb_vaddr_to_host(env, addr + mem_off, MMU_DATA_LOAD, mmu_idx);
-         if (test_host_page(host)) {
--            mem_off = host_fn(vd, vg, host - mem_off, mem_off, mem_max);
--            tcg_debug_assert(mem_off == mem_max);
-+            i = reg_off;
-+            host -= mem_off;
-+            do {
-+                host_fn(vd, i, host + (i >> diffsz));
-+                i = find_next_active(vg, i + (1 << esz), reg_max, esz);
-+            } while (i < reg_max);
-             /* After any fault, zero any leading inactive elements.  */
-             swap_memzero(vd, reg_off);
-             return;
-         }
-     }
- 
--#ifdef CONFIG_USER_ONLY
--    /*
--     * The page(s) containing this first element at ADDR+MEM_OFF must
--     * be valid.  Considering that this first element may be misaligned
--     * and cross a page boundary itself, take the rest of the page from
--     * the last byte of the element.
--     */
--    split = max_for_page(addr, mem_off + (1 << msz) - 1, mem_max);
--    mem_off = host_fn(vd, vg, g2h(addr), mem_off, split);
--
--    /* After any fault, zero any leading inactive elements.  */
--    swap_memzero(vd, reg_off);
--    reg_off = mem_off << diffsz;
--#else
-     /*
-      * Perform one normal read, which will fault or not.
-      * But it is likely to bring the page into the tlb.
-@@ -4777,11 +4760,15 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     if (split >= (1 << msz)) {
-         host = tlb_vaddr_to_host(env, addr + mem_off, MMU_DATA_LOAD, mmu_idx);
-         if (host) {
--            mem_off = host_fn(vd, vg, host - mem_off, mem_off, split);
--            reg_off = mem_off << diffsz;
-+            host -= mem_off;
-+            do {
-+                host_fn(vd, reg_off, host + mem_off);
-+                reg_off += 1 << esz;
-+                reg_off = find_next_active(vg, reg_off, reg_max, esz);
-+                mem_off = reg_off >> diffsz;
-+            } while (split - mem_off >= (1 << msz));
-         }
-     }
--#endif
- 
-     record_fault(env, reg_off, reg_max);
- }
-@@ -4791,7 +4778,7 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-  */
- static void sve_ldnf1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                         uint32_t desc, const int esz, const int msz,
--                        sve_ld1_host_fn *host_fn)
-+                        sve_ldst1_host_fn *host_fn)
- {
+-    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
+-    const int mmu_idx = get_mmuidx(oi);
      const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
      void *vd = &env->vfp.zregs[rd];
-@@ -4806,7 +4793,13 @@ static void sve_ldnf1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     host = tlb_vaddr_to_host(env, addr, MMU_DATA_LOAD, mmu_idx);
-     if (likely(page_check_range(addr, mem_max, PAGE_READ) == 0)) {
-         /* The entire operation is valid and will not fault.  */
--        host_fn(vd, vg, host, 0, mem_max);
-+        reg_off = 0;
-+        do {
-+            mem_off = reg_off >> diffsz;
-+            host_fn(vd, reg_off, host + mem_off);
-+            reg_off += 1 << esz;
-+            reg_off = find_next_active(vg, reg_off, reg_max, esz);
-+        } while (reg_off < reg_max);
+-    const int diffsz = esz - msz;
+     const intptr_t reg_max = simd_oprsz(desc);
+-    const intptr_t mem_max = reg_max >> diffsz;
+-    ARMVectorReg scratch;
++    intptr_t reg_off, reg_last, mem_off;
++    SVEContLdSt info;
+     void *host;
+-    intptr_t split, reg_off, mem_off;
++    int flags;
+ 
+-    /* Find the first active element.  */
+-    reg_off = find_next_active(vg, 0, reg_max, esz);
+-    if (unlikely(reg_off == reg_max)) {
++    /* Find the active elements.  */
++    if (!sve_cont_ldst_elements(&info, addr, vg, reg_max, esz, 1 << msz)) {
+         /* The entire predicate was false; no load occurs.  */
+         memset(vd, 0, reg_max);
          return;
      }
- #endif
-@@ -4826,8 +4819,12 @@ static void sve_ldnf1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     if (page_check_range(addr + mem_off, 1 << msz, PAGE_READ) == 0) {
-         /* At least one load is valid; take the rest of the page.  */
-         split = max_for_page(addr, mem_off + (1 << msz) - 1, mem_max);
--        mem_off = host_fn(vd, vg, host, mem_off, split);
--        reg_off = mem_off << diffsz;
-+        do {
-+            host_fn(vd, reg_off, host + mem_off);
-+            reg_off += 1 << esz;
-+            reg_off = find_next_active(vg, reg_off, reg_max, esz);
-+            mem_off = reg_off >> diffsz;
-+        } while (split - mem_off >= (1 << msz));
-     }
- #else
-     /*
-@@ -4848,8 +4845,13 @@ static void sve_ldnf1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     host = tlb_vaddr_to_host(env, addr + mem_off, MMU_DATA_LOAD, mmu_idx);
-     split = max_for_page(addr, mem_off, mem_max);
-     if (host && split >= (1 << msz)) {
--        mem_off = host_fn(vd, vg, host - mem_off, mem_off, split);
--        reg_off = mem_off << diffsz;
-+        host -= mem_off;
-+        do {
-+            host_fn(vd, reg_off, host + mem_off);
-+            reg_off += 1 << esz;
-+            reg_off = find_next_active(vg, reg_off, reg_max, esz);
-+            mem_off = reg_off >> diffsz;
-+        } while (split - mem_off >= (1 << msz));
-     }
- #endif
+-    mem_off = reg_off >> diffsz;
  
+-    /*
+-     * If the (remaining) load is entirely within a single page, then:
+-     * For softmmu, and the tlb hits, then no faults will occur;
+-     * For user-only, either the first load will fault or none will.
+-     * We can thus perform the load directly to the destination and
+-     * Vd will be unmodified on any exception path.
+-     */
+-    split = max_for_page(addr, mem_off, mem_max);
+-    if (likely(split == mem_max)) {
+-        host = tlb_vaddr_to_host(env, addr + mem_off, MMU_DATA_LOAD, mmu_idx);
+-        if (test_host_page(host)) {
+-            intptr_t i = reg_off;
+-            host -= mem_off;
+-            do {
+-                host_fn(vd, i, host + (i >> diffsz));
+-                i = find_next_active(vg, i + (1 << esz), reg_max, esz);
+-            } while (i < reg_max);
+-            /* After having taken any fault, zero leading inactive elements. */
+-            swap_memzero(vd, reg_off);
+-            return;
+-        }
+-    }
++    /* Probe the page(s).  Exit with exception for any invalid page. */
++    sve_cont_ldst_pages(&info, FAULT_ALL, env, addr, MMU_DATA_LOAD, retaddr);
+ 
+-    /*
+-     * Perform the predicated read into a temporary, thus ensuring
+-     * if the load of the last element faults, Vd is not modified.
+-     */
++    flags = info.page[0].flags | info.page[1].flags;
++    if (unlikely(flags != 0)) {
+ #ifdef CONFIG_USER_ONLY
+-    swap_memzero(&scratch, reg_off);
+-    host = g2h(addr);
+-    do {
+-        host_fn(&scratch, reg_off, host + (reg_off >> diffsz));
+-        reg_off += 1 << esz;
+-        reg_off = find_next_active(vg, reg_off, reg_max, esz);
+-    } while (reg_off < reg_max);
++        g_assert_not_reached();
+ #else
+-    memset(&scratch, 0, reg_max);
+-    goto start;
+-    while (1) {
+-        reg_off = find_next_active(vg, reg_off, reg_max, esz);
+-        if (reg_off >= reg_max) {
+-            break;
+-        }
+-        mem_off = reg_off >> diffsz;
+-        split = max_for_page(addr, mem_off, mem_max);
++        /*
++         * At least one page includes MMIO (or watchpoints).
++         * Any bus operation can fail with cpu_transaction_failed,
++         * which for ARM will raise SyncExternal.  Perform the load
++         * into scratch memory to preserve register state until the end.
++         */
++        ARMVectorReg scratch;
+ 
+-    start:
+-        if (split - mem_off >= (1 << msz)) {
+-            /* At least one whole element on this page.  */
+-            host = tlb_vaddr_to_host(env, addr + mem_off,
+-                                     MMU_DATA_LOAD, mmu_idx);
+-            if (host) {
+-                host -= mem_off;
+-                do {
+-                    host_fn(&scratch, reg_off, host + mem_off);
+-                    reg_off += 1 << esz;
+-                    reg_off = find_next_active(vg, reg_off, reg_max, esz);
+-                    mem_off = reg_off >> diffsz;
+-                } while (split - mem_off >= (1 << msz));
+-                continue;
++        memset(&scratch, 0, reg_max);
++        mem_off = info.mem_off_first[0];
++        reg_off = info.reg_off_first[0];
++        reg_last = info.reg_off_last[1];
++        if (reg_last < 0) {
++            reg_last = info.reg_off_split;
++            if (reg_last < 0) {
++                reg_last = info.reg_off_last[0];
+             }
+         }
+ 
+-        /*
+-         * Perform one normal read.  This may fault, longjmping out to the
+-         * main loop in order to raise an exception.  It may succeed, and
+-         * as a side-effect load the TLB entry for the next round.  Finally,
+-         * in the extremely unlikely case we're performing this operation
+-         * on I/O memory, it may succeed but not bring in the TLB entry.
+-         * But even then we have still made forward progress.
+-         */
+-        tlb_fn(env, &scratch, reg_off, addr + mem_off, retaddr);
+-        reg_off += 1 << esz;
+-    }
+-#endif
++        do {
++            uint64_t pg = vg[reg_off >> 6];
++            do {
++                if ((pg >> (reg_off & 63)) & 1) {
++                    tlb_fn(env, &scratch, reg_off, addr + mem_off, retaddr);
++                }
++                reg_off += 1 << esz;
++                mem_off += 1 << msz;
++            } while (reg_off & 63);
++        } while (reg_off <= reg_last);
+ 
+-    memcpy(vd, &scratch, reg_max);
++        memcpy(vd, &scratch, reg_max);
++        return;
++#endif
++    }
++
++    /* The entire operation is in RAM, on valid pages. */
++
++    memset(vd, 0, reg_max);
++    mem_off = info.mem_off_first[0];
++    reg_off = info.reg_off_first[0];
++    reg_last = info.reg_off_last[0];
++    host = info.page[0].host;
++
++    while (reg_off <= reg_last) {
++        uint64_t pg = vg[reg_off >> 6];
++        do {
++            if ((pg >> (reg_off & 63)) & 1) {
++                host_fn(vd, reg_off, host + mem_off);
++            }
++            reg_off += 1 << esz;
++            mem_off += 1 << msz;
++        } while (reg_off <= reg_last && (reg_off & 63));
++    }
++
++    /*
++     * Use the slow path to manage the cross-page misalignment.
++     * But we know this is RAM and cannot trap.
++     */
++    mem_off = info.mem_off_split;
++    if (unlikely(mem_off >= 0)) {
++        tlb_fn(env, vd, info.reg_off_split, addr + mem_off, retaddr);
++    }
++
++    mem_off = info.mem_off_first[1];
++    if (unlikely(mem_off >= 0)) {
++        reg_off = info.reg_off_first[1];
++        reg_last = info.reg_off_last[1];
++        host = info.page[1].host;
++
++        do {
++            uint64_t pg = vg[reg_off >> 6];
++            do {
++                if ((pg >> (reg_off & 63)) & 1) {
++                    host_fn(vd, reg_off, host + mem_off);
++                }
++                reg_off += 1 << esz;
++                mem_off += 1 << msz;
++            } while (reg_off & 63);
++        } while (reg_off <= reg_last);
++    }
+ }
+ 
+ #define DO_LD1_1(NAME, ESZ) \
 -- 
 2.20.1
 
