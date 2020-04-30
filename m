@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47301BF669
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:19:24 +0200 (CEST)
-Received: from localhost ([::1]:57932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A751BF650
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:16:26 +0200 (CEST)
+Received: from localhost ([::1]:49726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7Dv-0004tF-NS
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:19:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57716)
+	id 1jU7B3-0000rq-8X
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:16:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57720)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU78P-0006tb-W9
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:14:04 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jU78Q-0006uk-Hi
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:14:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <vsementsov@virtuozzo.com>) id 1jU76u-0005Eu-Fx
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:13:41 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1jU76v-0005F1-4v
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:13:42 -0400
 Received: from mail-eopbgr70099.outbound.protection.outlook.com
  ([40.107.7.99]:12710 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jU75k-0003SE-3N; Thu, 30 Apr 2020 07:10:56 -0400
+ id 1jU75l-0003SE-4k; Thu, 30 Apr 2020 07:10:57 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jLDaxp/uVMrJhSh5e3DyroqJKEyFVgNVsvIaRwYs50v95u6SoIfwpuH/fQSTcrUtDVy+Ao2pKyYp6wNMzjKO2Nf8grqEOWCWQpdKeFw2oxu2p0NGA2MF5hMAOW4MMLgVyvWAmIK73ff6Vrr4BES9B8BZDTDan8lvpbx3Ap4q1sETwvl6wu1pofntQhnrrCs6XVgvDkWssLdjM8Thh0pE1EmaVDrBWs4cmKPAVw2B5mBp30XRA7PP9i+wGDJJFo0r8oARnlhQwNkUJGxL91h4s1bKt994U7KLW7NUHbzcFKK2gCQ35BEJD29ngo85IKGqmK+PDV+1/omxup+xW2TpCw==
+ b=EhM3xYOs1IzWL5EpG8dhPX715NkfScXXYqo2VM+oap3xzFx4ywzQZp5T7rwO2PrD/IW1PIrsoDC5kXI0F8f97GP4P9mMOHYy6ZeC+iI/SbHkOXWFGSe4ktdIBW2gobMEqQxNQWY8KtxaEgxo1cRQ4wW7ruMzUsYSbs8CmUMxRF7exPlutWSjvdg9bbquW0t6+n8Dz5AWUGdJhaQzZIFUoLtCJTkaBuxIefqE5anpqpPVu+/JfyU7BOZClKL0GkvZrClGGKfSenWgzrsjwLzzq8n+n18waf+0OddwdeYVmvxwojGmnheFmvguWrADR4H0pHDEpx3EyeBEJvbj07YAMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qp/+IHrL9SLyfDyjEw0pgqE9JJ2GgJtgzNE8110+KHA=;
- b=kYZBiamoEZ4XtDpyFe8PDlpo7d+xNjeoy7H/w5NwPBX59l2l+r6UX0zoR51I/ao1jq8BaMSMkzfh/L0nTd6MvbAf4EEwQI5B7u843Yol9rd/a02SuCDdH043hzJwl/q9pgXxXnEzNlzfIMobSIRq4S4mdy12qSfV1v6KWsH8j8qWBJUh7tW8B8RETB4n3w16j11e2r6YZbY+awa2yJU2TAkPEVo0X5Uqmt6R+UtGZQncJozQ0MRjHJl/QNe3Y+hqsbbPojtRw7onjFpUlckYQ7qMN7ZKFaDcVzPdF+Y2RHXDi928rA3LlmLpjbv3XZ6wuYByRAfLeh+sMtWX7+YtHg==
+ bh=m/X8z63edrEOxxhzoG1B/7J3UygWJU5Ku2Fj98P+Nq0=;
+ b=Z9FRr0ngtu6q3nhqOvn/kT7qO0i1u4rl9hIl3HaLBumNkNvLXx90sxQW7LkGXikTZYb7XC7jeKyFv668H7JLb82UeANuottaLQgs9DYAgUId8djHFBDRZPT4fdD8wKzsXUcMkagX0jX0JCFOkuT5yn2oytUZidEWrb5lLawrLCofQSnyDaOSQ2Q3UCBsolzeRbeXR/FzxG/+HMDdA+HORPk2iIUeGBjV6JkQ/2bzNSfVdRdmaCpn53qRILoRRH9jKfEBwB0MdDphL5beDfpQ3UyABon060+ArSPpQyJxCwfGJSdf3cy/FaXPRuJ4Hp7JAi/HODlgTVPSEDze2KT8ow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qp/+IHrL9SLyfDyjEw0pgqE9JJ2GgJtgzNE8110+KHA=;
- b=deXbGbifIdW5oKnWXZPt3t9IUDQQAD4JIAbtB4srMJn21v6TrIj8A+GYzsTUbyUkc+j/74PEl/PPvi2UYrI+sD+dTYekp+7l5F3Xbf4PMA5rvyRE1x7h7IZlO/tNi2+rVBj17D9v1qpgWEze2K9eQBYf8mK9rKRS7BCVPQbD3ig=
+ bh=m/X8z63edrEOxxhzoG1B/7J3UygWJU5Ku2Fj98P+Nq0=;
+ b=ivrDDutFaQGlYDF3J4kk85S+MIPIfrr6Pbx5BP0rt9v6vcexWVlAdyMMMJPyJ4qZBRu+xS3xE7K2zeyrra0+pOFuArWkF2lJ7EmSKGlRAInMZLit2nKs3K+46sGo9Fvc14KGsSCrAmE0gjj57jp5y2/jUJvo3IP7l/t5mzAttKI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5399.eurprd08.prod.outlook.com (2603:10a6:20b:104::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Thu, 30 Apr
- 2020 11:10:52 +0000
+ 2020 11:10:53 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.020; Thu, 30 Apr 2020
- 11:10:52 +0000
+ 11:10:53 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 03/17] block/io: use int64_t bytes parameter in
- bdrv_check_byte_request()
-Date: Thu, 30 Apr 2020 14:10:19 +0300
-Message-Id: <20200430111033.29980-4-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 04/17] block/io: use int64_t bytes in driver wrappers
+Date: Thu, 30 Apr 2020 14:10:20 +0300
+Message-Id: <20200430111033.29980-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200430111033.29980-1-vsementsov@virtuozzo.com>
 References: <20200430111033.29980-1-vsementsov@virtuozzo.com>
@@ -66,32 +65,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.138) by
  AM0P190CA0021.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.19 via Frontend Transport; Thu, 30 Apr 2020 11:10:51 +0000
+ 15.20.2958.19 via Frontend Transport; Thu, 30 Apr 2020 11:10:52 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.138]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 61618f09-7f52-4731-e916-08d7ecf72539
+X-MS-Office365-Filtering-Correlation-Id: 5659ffc7-e5df-4479-7485-08d7ecf72626
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5399:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5399FC6E6210F4515D8C8570C1AA0@AM7PR08MB5399.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5399235852912B9965D8F167C1AA0@AM7PR08MB5399.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-Forefront-PRVS: 0389EDA07F
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DTqOAL4V1LZg+8gMp/mq/2nYaVLm4CZBCCMm0aPdyiJ5xxnTjBFGT0o+dZj5EsL/M6nlGQzFHHD9X0AGLFlIdZFgS7dnYBv4Cwh+IKdjBZ0L5YW5vVovXbMUP3vOPH64BVbvoEJ4Hnc9GZx2qH/nLKB6fz/MydsBYPatZZjNSzWIAdSrBUEZS+CM8wAF3zJsG+OK0QDnfEDRRN1id82C8JcE8OBZsyb32Ub7++gSPrCOljdAXnVdvW2ox7wqsiSU7GIf90TQFrQvJF00Rg9tbRAb9EEzeSB6ySrQB74rkGHRq4o2VL+3tW3NU60nY2U1NqB/Tk3F4w3kHY4Nc2HmX+v1P+mylvzx8UyftvXuhrUpv8rI7Shl5NdSnElbDmUJW6fW7fFDzpclqKU9MHaWvB0NNz437o30Ie2VorAg+xQpcgXW1DSY03yKdMQoh0kn
+X-Microsoft-Antispam-Message-Info: x+q+cuLlhqgVr/Jy2quVvDq1v5uP+vAO53VGBwskyecX14+EymWa6f3tADI6ZD3twElHwOGnBuESeKDQAmWBn32MBXepcyv0B1ybh5o1z8wiRmMoFLcUucex5NyI12FHYbdI9fU5CqPtuRWCfxDpXj6adzoz2dv+wceK3a9xR5xG7PLaEsp/2vfxeTJwzCygCSvHgl3N+TMHQII9kLdjOxv2crxJekbiiaoKrV/fr9Efav3/VjipZY/QmG0k2mcqwQ2k6SWvByCH3qmxlQbu2mNoJQgldud4YdneLnRWh8AqZKf8PLhgRw/+/GKUVGoE4EfFERP4Gc/CSmmsSf9nRuWgjYcK4ZAxSmgRpqBDxcyKzjVx2beX0ikobuGCY0PDpAk1oyQ+WOZAtNzwdQaFic5YnWeiTW/KM7LI5yOWWhatOybHCtmO5f0vHTWOQ5PF
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(396003)(366004)(39840400004)(346002)(136003)(376002)(1076003)(36756003)(478600001)(8936002)(26005)(6512007)(7416002)(5660300002)(107886003)(6486002)(66476007)(66556008)(86362001)(6916009)(6506007)(6666004)(8676002)(316002)(2906002)(186003)(66946007)(16526019)(2616005)(956004)(4326008)(52116002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: NEO79wH/Ic4haz7MxOgTHIqRwC6DknjlVJIP6YABlsaC0v19krHzH6G0rzhtvX7MCJtUuS0ol5//8+2Xt7tpDOGaRpiCac8KwyORPwjPKAGMDYmrvPNKyG2Bj0fQwYrJP3px8rItYqkKWjL0azZHgpf4Hx9x+oyt/AeoUH3Mcrtf4k91ESAi0TnKYgIP1xREEsBDJsgTaksOKH0GTwC1Ec+kH00edkyPAWlxjCA8GlJjhfxGMCOHo07NlOzB6e+Pno/OT3wW4E7P5pwh9xztiYPQBPnHZ6AQQJi0RuhVU2L5EAqtiNiu4Ttr2J6rQ9B7lvdHcJhM11Yuk/31SJRwZbTA6oHmmiTTdIVO8hqZfzMEypeFY0P09peatDBxfSELT1SegRMNZosCeLJ/+Op65XOQs4kCV1sKhsFsccR6WxechLASlKfpnh2NDLygF3egwxw2tKbkuTdUeS0oAqIegDpq1Blg7zRNKja5wjmpyHgInHOhWxNc+EIoDTz76tV6igWoPmqBD7eZKIw8Wx/2vh2xRsrQQXC6JH7e2BdFBD2XaUJiZTAZKxuXzgWyEPUZfZMtrbsfnBZW9LD9TGrXQFMvbulcxCp2d1yisk8a8Ho8NM4c/sVLnAyepeRCNrXbvg1mSuCompbLj3NG1htvjMjuK/6rRJhfB4eQrs+Wlcium7p5NS1URLVEhqIXz1du7FuoUmE0GIHSNtIi92NbCYTWrtuFUF5kQUczuG/VSlA/NYuG3ueyM4moAxrMdDzDugF9mXudRPxU9cKX6ZD+NUWl8az2jQrtYw5U03pwZp0=
+X-MS-Exchange-AntiSpam-MessageData: E+uAGRMVDCiPqeMgPfFcb4pbhSTqeqGbTwpILswnksqC7YaoPPeMEWj8zs692Xk4gipmIr9xntcgYDc+aCB9Bt5BB5YJ20fjBI4t9V5nAkFkaYPcsdNXl9Sdn2NN0IR+nXNLxhLyZwEto33TzOyGnPZyewDt3q+/3K5DMxYdwwe1zdzZ5tt4LqfxQJWKqgtgv5ZlePFCAOC/WOcu14+nwtJehhmRyp30ZFy9JPJjfWyQ0mvcyIaIpfrg7Fc4bVGAT0HRD7E+HsqCEnNnW2zLx3eMM0RCfGSu1+x5oQOVF5yYr0kVnSplcmvylIHEHVX/yogOCUTEXXFQC+MKZWErh6/Hiv/Br4n1GtwlFE9IyCkayufy76ZRmEA04vWvINS1PYopAFyhVA5RoiQG+zv07jyes06DAQYcuXcsdoKDAKbe8hLuPUeiC/xQrqn2iqMYgBlmD9sH7yMMv9zUWvElTN+JGfifTiMthq1cKnhYHZByCoeiE7VN6PoWJQvrIfvlaCxc2Tweo52QXrlWfbEJKnUoNWvj+HCU9qHfmYTYuWFP0eqP9HiAsbu3PYxBJzrxRv0Va2M9omtO2MSMWPtkOfydF4t1GBmWc2I7/oLF53Z8/cu6Qv1uybGg/NvKJcu/I1blnsC/vQstgB2YJtWWbCBKuIF60Tx5sdYCrxFmFa/kcnpZXJD5FMafo0WSk9EmxVjMgSsxx0D5ZOwLqqR8lrberzGaKhcliQjF85IvUu+9rVCD23oL7YWfMBySz4BysgCD5lBfmhd5T+fERgxsc2KoJEI2ydnTY6tBN3eBbNY=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61618f09-7f52-4731-e916-08d7ecf72539
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 11:10:52.4233 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5659ffc7-e5df-4479-7485-08d7ecf72626
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2020 11:10:53.9158 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WDe7QdQej1ocX5e9O3bpZMWGnQvZeBsh8/W1y670CY8eJWlTBW9HVjADv7iZ/AjExm855HBy+/c+aYfAffCGIkUYcYLn30bwGIBXmquX9EQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: xdwIrKAfKepTtkOJQvwUhbU7ybxKO5YkUu32GvV8tr0H7XY9v3zJEl96akfj3ePRPSae1sd9lA40KM53iZasaXmyeghMtQTwKAOKaKWNOcU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5399
 Received-SPF: pass client-ip=40.107.7.99;
  envelope-from=vsementsov@virtuozzo.com;
@@ -129,61 +128,114 @@ We chose signed type, to be consistent with off_t (which is signed) and
 with possibility for signed return type (where negative value means
 error).
 
-So, convert bdrv_check_byte_request() now.
+So, convert driver wrappers parameters which are already 64bit to
+signed type.
 
 Patch-correctness audit by Eric Blake:
 
-  This changes an unsigned to signed value on 64-bit machines, and
-  additionally widens the parameter on 32-bit machines.  Existing
-  callers:
+  bdrv_driver_preadv
 
-  bdrv_co_preadv_part() with 'unsigned int' - no impact
-  bdrv_co_pwritev_part() with 'unsigned int' - no impact
-  bdrv_co_copy_range_internal() with 'uint64_t' -
-      potentially fixes a latent bug on 32-bit machines. Requires a
-      larger audit to see how bdrv_co_copy_range() and friends are
-      used:
+    Remains 64 bits, the question is whether any caller could pass in
+    something larger than 63 bits.  Callers are:
 
-  block/block-backend.c:blk_co_copy_range() - passes 'int', thus < 2G
-  block/block-copy.c:block_copy_do_copy() -
-      passes 'int64_t', but only after assert(nbytes < INT_MAX); also
-      it has a BLOCK_COPY_MAX_COPY_RANGE set to 16M that factors into
-      its calculations on how much to do per iteration
+    bdrv_co_do_copy_on_readv() - passes 'int64_t pnum', but sets pnum
+      in a fragmenting loop, MAX_BOUNCE_BUFFER when copy-on-read is
+      needed, or max_transfer bounded by BDRV_REQUEST_MAX_BYTES
+      otherwise
+    bdrv_aligned_preadv() - passes 'unsigned int bytes' further limited
+      by fragmenting loop on max_transfer <= INT_MAX
 
-  So it looks like at present we are safe.
+    Input is bounded to < 2G, internal use of 'bytes' is:
+
+    drv->bdrv_co_preadv_part(uint64_t) - safe
+    qemu_iovec_init_slice(size_t) - potential truncation on 32-bit
+      platform [*]
+    drv->bdrv_co_preadv(uint64_t) - safe
+    drv->bdrv_aio_preadv(uint64_t) - safe
+    drv->bdrv_co_readv(int) after assertion of <2G - safe
+
+  bdrv_driver_pwritev
+
+    Remains 64 bits, the question is whether any caller could pass in
+    something larger than 63.  Callers are:
+
+    bdrv_co_do_copy_on_readv() - passes 'int64_t pnum', but set in a
+      fragmenting loop bounded by MAX_BOUNCE_BUFFER
+    bdrv_co_do_pwrite_zeroes() - passes 'int num'
+    bdrv_aligned_pwritev() - passes 'unsigned int bytes' further
+      limited by fragmenting loop on max_transfer <= INT_MAX
+
+    Input is bounded to < 2G, internal use of 'bytes' is:
+
+    drv->bdrv_co_pwritev_part(uint64_t) - safe
+    qemu_iovec_init_slice(size_t) - potential truncation on 32-bit
+      platform [*]
+    drv->bdrv_co_pwritev(uint64_t) - safe
+    drv->bdrv_aio_pwritev(uint64_t) - safe
+    drv->bdrv_co_writev(int) after assertion of <2G - safe
+
+  bdrv_driver_pwritev_compressed
+
+    bdrv_aligned_pwritev() - passes 'unsigned int bytes'
+
+    Input is bounded to < 4G, internal use of 'bytes' is:
+
+    drv->bdrv_co_pwritev_compressed_part(uint64_t) - safe
+    drv->bdrv_co_pwritev_compressed(uint64_t) - safe
+    qemu_iovec_init_slice(size_t) - potential truncation on 32-bit
+      platform [*]
+
+[*]: QEMUIOVector is in-RAM data, so size_t seems a valid type for
+it's operation. To avoid truncations we should require max_transfer to
+be not greater than SIZE_MAX, limiting RAM-occupying operations and
+QEMUIOVector usage. Still, 64bit discard and write_zeroes (which
+doesn't use QEMUIOVector) should work even on 32bit machines, not being
+limited by max_transfer.
+
+For now, we safe anyway, as all input goes through
+bdrv_aligned_pwritev() and bdrv_aligned_preadv(), which are limiting
+max_transfer to INT_MAX.
 
 Series: 64bit-block-status
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/io.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ block/io.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/block/io.c b/block/io.c
-index 20ebf3c536..7a7d4e578d 100644
+index 7a7d4e578d..eeba3b828c 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -875,9 +875,9 @@ static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self
+@@ -906,7 +906,7 @@ static void bdrv_co_io_em_complete(void *opaque, int ret)
  }
  
- static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
--                                   size_t size)
-+                                   int64_t bytes)
+ static int coroutine_fn bdrv_driver_preadv(BlockDriverState *bs,
+-                                           uint64_t offset, uint64_t bytes,
++                                           int64_t offset, int64_t bytes,
+                                            QEMUIOVector *qiov,
+                                            size_t qiov_offset, int flags)
  {
--    if (size > BDRV_REQUEST_MAX_BYTES) {
-+    if (bytes > BDRV_REQUEST_MAX_BYTES) {
-         return -EIO;
-     }
+@@ -975,7 +975,7 @@ out:
+ }
  
-@@ -885,7 +885,7 @@ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
-         return -ENOMEDIUM;
-     }
+ static int coroutine_fn bdrv_driver_pwritev(BlockDriverState *bs,
+-                                            uint64_t offset, uint64_t bytes,
++                                            int64_t offset, int64_t bytes,
+                                             QEMUIOVector *qiov,
+                                             size_t qiov_offset, int flags)
+ {
+@@ -1055,8 +1055,8 @@ emulate_flags:
+ }
  
--    if (offset < 0) {
-+    if (offset < 0 || bytes < 0) {
-         return -EIO;
-     }
- 
+ static int coroutine_fn
+-bdrv_driver_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
+-                               uint64_t bytes, QEMUIOVector *qiov,
++bdrv_driver_pwritev_compressed(BlockDriverState *bs, int64_t offset,
++                               int64_t bytes, QEMUIOVector *qiov,
+                                size_t qiov_offset)
+ {
+     BlockDriver *drv = bs->drv;
 -- 
 2.21.0
 
