@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1891A1C01E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:16:02 +0200 (CEST)
-Received: from localhost ([::1]:44994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904661C0268
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:26:12 +0200 (CEST)
+Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUBqz-0006VE-2x
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45456)
+	id 1jUC0p-0005GE-IU
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:26:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45464)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jUBdb-0000e9-KC
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:03:16 -0400
+ (envelope-from <robert.foley@linaro.org>) id 1jUBdg-0000fY-Qe
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:03:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <robert.foley@linaro.org>) id 1jUBaI-0003ai-Ng
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:02:11 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:35322)
+ (envelope-from <robert.foley@linaro.org>) id 1jUBaJ-0003e4-KC
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:02:16 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:41977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jUBaI-0003YU-9N
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:58:46 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id c63so6224368qke.2
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 08:58:45 -0700 (PDT)
+ id 1jUBaJ-0003Zj-4Q
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 11:58:47 -0400
+Received: by mail-qk1-x741.google.com with SMTP id n143so6202441qkn.8
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 08:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ui+UwFWcWGxKqirrTxQJ7A+TJRx59oMmHjjMlbzkfRE=;
- b=KuR7vqFMO3Ao3eXdKhywR54iWt+ES7GgEj/z0p9Z5cnamawzA1fH/6AVG//7bXYGmJ
- 28Z2yJUZNJHnsyw4L2HOVyQ9s4Vx3SIdKITdwKETjFCbZYqhC4/A/KRJTl6nuOMM0Jr2
- DAi4S5VgSbb6k3vzLgpGyj5RaVUZj9khaF/kgNWphuTduDykCtjcedk60jViUTqcwjWm
- 8vk5y9Nb40yh4IMglNp+ylr9vfaub4ca2TDpqFpA7naYgsDy6orPkmIXIh7T9+1q55Or
- vVuuIKAdz+J3p4be+hiYDw+kokDG9UHVym5zv46N96+SE54ejEWNgmEurDbOKArXFs2g
- CYkA==
+ bh=semgx67YJQ/DRrCJe76N29NtkhEf2cXk846eTkDv8ro=;
+ b=co00Qa2HiBfBiaGGAmnwQNucIdza0PydCHJLSBb4wt890/zaEpmml/WiUgwXVt6wyN
+ 2e1mg80rHRhPCEQIl7QFMA+46HddRrrurHExqcaHFodERVxzOIOTSxmITxBjbVudSSLf
+ BSNtSqtAU1tcZAB7+AJMpD7J1sEYkmnMc+FL8PqjK54B7ydMt0CRgifkruHLbON8lAZl
+ 9JY6IUFH3YyQnI9FQjZZUfPLXkuTmk0Qy8GT+QojE4xwO43QAU/5eROrTwtztQBmBCST
+ IHk0eUpbELZSZv2M18A2akuJCpqMhtIkS/aQsDJm48ccORpn9NZwMXfI9/pcRW2D0dcN
+ w6tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ui+UwFWcWGxKqirrTxQJ7A+TJRx59oMmHjjMlbzkfRE=;
- b=SioOZgGsMBadeM4o+uoBHswP0VnzS8Mj1tn7BysZ/VHIa42MYdVORpQXieOkoZORtf
- j5Ng0EomfLn8OGqlG5IUK+pzWJ+dgnbBi9bGNQox5fj8Ww2BeJ+Vk75wB/l9pW2kf4bT
- B03Lhu2AADVZ77RE0yg2e65aNW3aRK9SL4ciQShXQs0LbCZmtTPQr9ALBKmHMeaSM4ED
- JpJ/HGrr9Iac56jl/zgfVsCPIAUyGfiSQRjo2mYNqrNVP+8xT+J+5ckLqtRBIfG2X7EM
- n9oX+oAiBjmFoRVzp51+Prd6m4uQFzTn7I5GVM/Z3nk8H6eLR3EyzcTH0TvhDXUX39J6
- wT8Q==
-X-Gm-Message-State: AGi0PubkftXxZYD9bog0qs1HbzxNEO1ZcXfY7YU8DOTbmCCznYlrLBzm
- 1Ep0r8VWvqb32bASzzpfRXSlim9VzM2SOA==
-X-Google-Smtp-Source: APiQypL4pUOKU5Fg+Hh0oigaEt2YroPUap8+j0XL+RUOMi7KyaK35D5TeUwr2foUNO98WqHWtcZvyw==
-X-Received: by 2002:a37:4fd8:: with SMTP id d207mr3849683qkb.345.1588262324460; 
- Thu, 30 Apr 2020 08:58:44 -0700 (PDT)
+ bh=semgx67YJQ/DRrCJe76N29NtkhEf2cXk846eTkDv8ro=;
+ b=sOhACmVwrV8RhxYIn/OebTZq6JE2igEmoYnOc43EoMTnJRjazBN30hERmYigU1Uiz9
+ LTmVbl9InIcXM1vXI0jRm7ldg5xpDo4BTvnSO400nMZ7uCwkjQF2KIUt2/Dcj2emqahM
+ XMG/T5oXpcXpD4qP5DpQr4gU6gtNnxv3LU1Zd/FanHmukha77qJR/+BCjf1z1GgXKJ+A
+ 4S1ABD9zP5RVpMpxQxeoyQz4M3RBT8PY+HewDOuyqvy7mEFp2MMR8UItEn0/mGFuiZzR
+ iskGVs6U4gmIW9tr69f3fEdD2hcaAwDPLp8Td3+u4j5QYP5P37xsOslzcOO3h0kK79n0
+ epQA==
+X-Gm-Message-State: AGi0Puak9z9bcihIvsmSFZg/Eon4SAfmsZODLOprbrgUhA+x3jA7bFJS
+ lMcOPJdKahIn/El4JcANd5xSFISXoWXHTg==
+X-Google-Smtp-Source: APiQypKnw2H3LPgM3isGT8xgwQIcCoHa+kkQqFWcCFZVTCd0mgh8PAFOGS4mkBjbRDSHVskpOOengg==
+X-Received: by 2002:a37:7ac2:: with SMTP id v185mr4042557qkc.386.1588262325656; 
+ Thu, 30 Apr 2020 08:58:45 -0700 (PDT)
 Received: from Rfoley-MA01.hsd1.ma.comcast.net
  ([2601:199:4480:60c0:7489:3328:3806:7c3])
- by smtp.gmail.com with ESMTPSA id v16sm305254qkf.80.2020.04.30.08.58.43
+ by smtp.gmail.com with ESMTPSA id v16sm305254qkf.80.2020.04.30.08.58.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 08:58:43 -0700 (PDT)
+ Thu, 30 Apr 2020 08:58:45 -0700 (PDT)
 From: Robert Foley <robert.foley@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 7/9] tests/vm: Added a new script for centos.aarch64.
-Date: Thu, 30 Apr 2020 11:57:16 -0400
-Message-Id: <20200430155718.212-8-robert.foley@linaro.org>
+Subject: [PATCH v5 8/9] tests/vm: change scripts to use self._config
+Date: Thu, 30 Apr 2020 11:57:17 -0400
+Message-Id: <20200430155718.212-9-robert.foley@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200430155718.212-1-robert.foley@linaro.org>
 References: <20200430155718.212-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x72e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
+ envelope-from=robert.foley@linaro.org; helo=mail-qk1-x741.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::72e
+X-Received-From: 2607:f8b0:4864:20::741
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,330 +83,268 @@ Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-centos.aarch64 creates a CentOS 8 image.
-Also added a new kickstart script used to build the centos.aarch64 image.
+This change converts existing scripts to using for example self.ROOT_PASS,
+to self._config['root_pass'].
+We made similar changes for GUEST_USER, and GUEST_PASS.
+This allows us also to remove the change in basevm.py,
+which adds __getattr__ for backwards compatibility.
 
 Signed-off-by: Robert Foley <robert.foley@linaro.org>
 Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
 ---
- tests/vm/Makefile.include    |   3 +-
- tests/vm/centos-8-aarch64.ks |  51 ++++++++
- tests/vm/centos.aarch64      | 227 +++++++++++++++++++++++++++++++++++
- 3 files changed, 280 insertions(+), 1 deletion(-)
- create mode 100644 tests/vm/centos-8-aarch64.ks
- create mode 100755 tests/vm/centos.aarch64
+ tests/vm/basevm.py | 11 ++---------
+ tests/vm/fedora    | 17 +++++++++--------
+ tests/vm/freebsd   | 16 ++++++++--------
+ tests/vm/netbsd    | 19 ++++++++++---------
+ tests/vm/openbsd   | 17 +++++++++--------
+ 5 files changed, 38 insertions(+), 42 deletions(-)
 
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index 9934008bfa..419e0f8613 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -6,7 +6,7 @@ IMAGES := freebsd netbsd openbsd centos fedora
- ifneq ($(GENISOIMAGE),)
- IMAGES += ubuntu.i386 centos
- ifneq ($(QEMU_EFI_AARCH64),)
--IMAGES += ubuntu.aarch64
-+IMAGES += ubuntu.aarch64 centos.aarch64
- endif
- endif
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index dddd4711ff..5dcae07b7f 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -181,13 +181,6 @@ class BaseVM(object):
+         self.console_init(timeout=timeout)
+         self.console_wait(wait_string)
  
-@@ -28,6 +28,7 @@ ifneq ($(GENISOIMAGE),)
- 	@echo "  vm-build-ubuntu.i386            - Build QEMU in ubuntu i386 VM"
- ifneq ($(QEMU_EFI_AARCH64),)
- 	@echo "  vm-build-ubuntu.aarch64         - Build QEMU in ubuntu aarch64 VM"
-+	@echo "  vm-build-centos.aarch64         - Build QEMU in CentOS aarch64 VM"
- else
- 	@echo "  (install qemu-efi-aarch64 to build centos/ubuntu aarch64 images.)"
- endif
-diff --git a/tests/vm/centos-8-aarch64.ks b/tests/vm/centos-8-aarch64.ks
-new file mode 100644
-index 0000000000..fd6ebe4d49
---- /dev/null
-+++ b/tests/vm/centos-8-aarch64.ks
-@@ -0,0 +1,51 @@
-+# CentOS aarch64 image kickstart file.
-+# This file is used by the CentOS installer to
-+# script the generation of the image.
-+#
-+# Copyright 2020 Linaro
-+#
-+ignoredisk --only-use=vda
-+# System bootloader configuration
-+bootloader --append=" crashkernel=auto" --location=mbr --boot-drive=vda
-+autopart --type=plain
-+# Partition clearing information
-+clearpart --linux --initlabel --drives=vda
-+# Use text mode install
-+text
-+repo --name="AppStream" --baseurl=file:///run/install/repo/AppStream
-+# Use CDROM installation media
-+cdrom
-+# Keyboard layouts
-+keyboard --vckeymap=us --xlayouts=''
-+# System language
-+lang en_US.UTF-8
-+
-+# Network information
-+network  --bootproto=dhcp --device=enp0s1 --onboot=off --ipv6=auto --no-activate
-+network  --hostname=localhost.localdomain
-+# Run the Setup Agent on first boot
-+firstboot --enable
-+# Do not configure the X Window System
-+skipx
-+# System services
-+services --enabled="chronyd"
-+# System timezone
-+timezone America/New_York --isUtc
-+
-+# Shutdown after installation is complete.
-+shutdown
-+
-+%packages
-+@^server-product-environment
-+kexec-tools
-+
-+%end
-+
-+%addon com_redhat_kdump --enable --reserve-mb='auto'
-+
-+%end
-+%anaconda
-+pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
-+pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
-+pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
-+%end
-diff --git a/tests/vm/centos.aarch64 b/tests/vm/centos.aarch64
-new file mode 100755
-index 0000000000..db61fbbce1
---- /dev/null
-+++ b/tests/vm/centos.aarch64
-@@ -0,0 +1,227 @@
-+#!/usr/bin/env python3
-+#
-+# Centos aarch64 image
-+#
-+# Copyright 2020 Linaro
-+#
-+# Authors:
-+#  Robert Foley <robert.foley@linaro.org>
-+#  Originally based on ubuntu.aarch64
-+#
-+# This code is licensed under the GPL version 2 or later.  See
-+# the COPYING file in the top-level directory.
-+#
-+
-+import os
-+import sys
-+import subprocess
-+import basevm
-+import time
-+import traceback
-+import aarch64vm
-+
-+DEFAULT_CONFIG = {
-+    'cpu'          : "max",
-+    'machine'      : "virt,gic-version=max",
-+    'install_cmds' : "yum install -y make git python3 gcc gcc-c++ flex bison, "\
-+        "yum install -y glib2-devel pixman-devel zlib-devel, "\
-+        "yum install -y perl-Test-Harness, "\
-+        "alternatives --set python /usr/bin/python3, "\
-+        "sudo dnf config-manager "\
-+        "--add-repo=https://download.docker.com/linux/centos/docker-ce.repo,"\
-+        "sudo dnf install --nobest -y docker-ce.aarch64,"\
-+        "systemctl enable docker",
-+    # We increase beyond the default time since during boot
-+    # it can take some time (many seconds) to log into the VM.
-+    'ssh_timeout'  : 60,
-+}
-+
-+class CentosAarch64VM(basevm.BaseVM):
-+    name = "centos.aarch64"
-+    arch = "aarch64"
-+    login_prompt = "localhost login:"
-+    prompt = '[root@localhost ~]#'
-+    image_name = "CentOS-8-aarch64-1905-dvd1.iso"
-+    image_link = "http://mirrors.usc.edu/pub/linux/distributions/centos/8.0.1905/isos/aarch64/"
-+    image_link += image_name
-+    BUILD_SCRIPT = """
-+        set -e;
-+        cd $(mktemp -d);
-+        sudo chmod a+r /dev/vdb;
-+        tar --checkpoint=.10 -xf /dev/vdb;
-+        ./configure {configure_opts};
-+        make --output-sync {target} -j{jobs} {verbose};
-+    """
-+    def set_key_perm(self):
-+        """Set permissions properly on certain files to allow
-+           ssh access."""
-+        self.console_wait_send(self.prompt,
-+                               "/usr/sbin/restorecon -R -v /root/.ssh\n")
-+        self.console_wait_send(self.prompt,
-+                "/usr/sbin/restorecon -R -v "\
-+                "/home/{}/.ssh\n".format(self._config["guest_user"]))
-+
-+    def create_kickstart(self):
-+        """Generate the kickstart file used to generate the centos image."""
-+        # Start with the template for the kickstart.
-+        ks_file = "../tests/vm/centos-8-aarch64.ks"
-+        subprocess.check_call("cp {} ./ks.cfg".format(ks_file), shell=True)
-+        # Append the ssh keys to the kickstart file
-+        # as the post processing phase of installation.
-+        with open("ks.cfg", "a") as f:
-+            # Add in the root pw and guest user.
-+            rootpw = "rootpw --plaintext {}\n"
-+            f.write(rootpw.format(self._config["root_pass"]))
-+            add_user = "user --groups=wheel --name={} "\
-+                       "--password={} --plaintext\n"
-+            f.write(add_user.format(self._config["guest_user"],
-+                                    self._config["guest_pass"]))
-+            # Add the ssh keys.
-+            f.write("%post --log=/root/ks-post.log\n")
-+            f.write("mkdir -p /root/.ssh\n")
-+            addkey = 'echo "{}" >> /root/.ssh/authorized_keys\n'
-+            addkey_cmd = addkey.format(self._config["ssh_pub_key"])
-+            f.write(addkey_cmd)
-+            f.write('mkdir -p /home/{}/.ssh\n'.format(self._config["guest_user"]))
-+            addkey = 'echo "{}" >> /home/{}/.ssh/authorized_keys\n'
-+            addkey_cmd = addkey.format(self._config["ssh_pub_key"],
-+                                       self._config["guest_user"])
-+            f.write(addkey_cmd)
-+            f.write("%end\n")
-+        # Take our kickstart file and create an .iso from it.
-+        # The .iso will be provided to qemu as we boot
-+        # from the install dvd.
-+        # Anaconda will recognize the label "OEMDRV" and will
-+        # start the automated installation.
-+        gen_iso_img = 'genisoimage -output ks.iso -volid "OEMDRV" ks.cfg'
-+        subprocess.check_call(gen_iso_img, shell=True)
-+
-+    def wait_for_shutdown(self):
-+        """We wait for qemu to shutdown the VM and exit.
-+           While this happens we display the console view
-+           for easier debugging."""
-+        # The image creation is essentially done,
-+        # so whether or not the wait is successful we want to
-+        # wait for qemu to exit (the self.wait()) before we return.
-+        try:
-+            self.console_wait("reboot: Power down")
-+        except Exception as e:
-+            sys.stderr.write("Exception hit\n")
-+            if isinstance(e, SystemExit) and e.code == 0:
-+                return 0
-+            traceback.print_exc()
-+        finally:
-+            self.wait()
-+
-+    def build_base_image(self, dest_img):
-+        """Run through the centos installer to create
-+           a base image with name dest_img."""
-+        # We create the temp image, and only rename
-+        # to destination when we are done.
-+        img = dest_img + ".tmp"
-+        # Create an empty image.
-+        # We will provide this as the install destination.
-+        qemu_img_create = "qemu-img create {} 50G".format(img)
-+        subprocess.check_call(qemu_img_create, shell=True)
-+
-+        # Create our kickstart file to be fed to the installer.
-+        self.create_kickstart()
-+        # Boot the install dvd with the params as our ks.iso
-+        os_img = self._download_with_cache(self.image_link)
-+        dvd_iso = "centos-8-dvd.iso"
-+        subprocess.check_call(["cp", "-f", os_img, dvd_iso])
-+        extra_args = "-cdrom ks.iso"
-+        extra_args += " -drive file={},if=none,id=drive1,cache=writeback"
-+        extra_args += " -device virtio-blk,drive=drive1,bootindex=1"
-+        extra_args = extra_args.format(dvd_iso).split(" ")
-+        self.boot(img, extra_args=extra_args)
-+        self.console_wait_send("change the selection", "\n")
-+        # We seem to need to hit esc (chr(27)) twice to abort the
-+        # media check, which takes a long time.
-+        # Waiting a bit seems to be more reliable before hitting esc.
-+        self.console_wait("Checking")
-+        time.sleep(5)
-+        self.console_wait_send("Checking", chr(27))
-+        time.sleep(5)
-+        self.console_wait_send("Checking", chr(27))
-+        print("Found Checking")
-+        # Give sufficient time for the installer to create the image.
-+        self.console_init(timeout=7200)
-+        self.wait_for_shutdown()
-+        os.rename(img, dest_img)
-+        print("Done with base image build: {}".format(dest_img))
-+
-+    def check_create_base_img(self, img_base, img_dest):
-+        """Create a base image using the installer.
-+           We will use the base image if it exists.
-+           This helps cut down on install time in case we
-+           need to restart image creation,
-+           since the base image creation can take a long time."""
-+        if not os.path.exists(img_base):
-+            print("Generate new base image: {}".format(img_base))
-+            self.build_base_image(img_base);
-+        else:
-+            print("Use existing base image: {}".format(img_base))
-+        # Save a copy of the base image and copy it to dest.
-+        # which we will use going forward.
-+        subprocess.check_call(["cp", img_base, img_dest])
-+
-+    def boot(self, img, extra_args=None):
-+        aarch64vm.create_flash_images(self._tmpdir)
-+        default_args = aarch64vm.get_pflash_args(self._tmpdir)
-+        if extra_args:
-+            extra_args.extend(default_args)
-+        else:
-+            extra_args = default_args
-+        # We always add these performance tweaks
-+        # because without them, we boot so slowly that we
-+        # can time out finding the boot efi device.
-+        if '-smp' not in extra_args and \
-+           '-smp' not in self._config['extra_args'] and \
-+           '-smp' not in self._args:
-+            # Only add if not already there to give caller option to change it.
-+            extra_args.extend(["-smp", "8"])
-+        # We have overridden boot() since aarch64 has additional parameters.
-+        # Call down to the base class method.
-+        super(CentosAarch64VM, self).boot(img, extra_args=extra_args)
-+
-+    def build_image(self, img):
-+        img_tmp = img + ".tmp"
-+        self.check_create_base_img(img + ".base", img_tmp)
-+
-+        # Boot the new image for the first time to finish installation.
-+        self.boot(img_tmp)
-+        self.console_init()
-+        self.console_wait_send(self.login_prompt, "root\n")
-+        self.console_wait_send("Password:",
-+                               "{}\n".format(self._config["root_pass"]))
-+
-+        self.set_key_perm()
-+        self.console_wait_send(self.prompt, "rpm -q centos-release\n")
-+        enable_adapter = "sed -i 's/ONBOOT=no/ONBOOT=yes/g'" \
-+                         " /etc/sysconfig/network-scripts/ifcfg-enp0s1\n"
-+        self.console_wait_send(self.prompt, enable_adapter)
-+        self.console_wait_send(self.prompt, "ifup enp0s1\n")
-+        self.console_wait_send(self.prompt,
-+                               'echo "qemu  ALL=(ALL) NOPASSWD:ALL" | '\
-+                               'sudo tee /etc/sudoers.d/qemu\n')
-+        self.console_wait(self.prompt)
-+
-+        # Rest of the commands we issue through ssh.
-+        self.wait_ssh(wait_root=True)
-+
-+        # If the user chooses *not* to do the second phase,
-+        # then we will jump right to the graceful shutdown
-+        if self._config['install_cmds'] != "":
-+            install_cmds = self._config['install_cmds'].split(',')
-+            for cmd in install_cmds:
-+                self.ssh_root(cmd)
-+        self.ssh_root("poweroff")
-+        self.wait_for_shutdown()
-+        os.rename(img_tmp, img)
-+        print("image creation complete: {}".format(img))
-+        return 0
-+
-+if __name__ == "__main__":
-+    defaults = aarch64vm.get_config_defaults(CentosAarch64VM, DEFAULT_CONFIG)
-+    sys.exit(basevm.main(CentosAarch64VM, defaults))
+-    def __getattr__(self, name):
+-        # Support direct access to config by key.
+-        # for example, access self._config['cpu'] by self.cpu
+-        if name.lower() in self._config.keys():
+-            return self._config[name.lower()]
+-        return object.__getattribute__(self, name)
+-
+     def _download_with_cache(self, url, sha256sum=None, sha512sum=None):
+         def check_sha256sum(fname):
+             if not sha256sum:
+@@ -237,13 +230,13 @@ class BaseVM(object):
+         return r
+ 
+     def ssh(self, *cmd):
+-        return self._ssh_do(self.GUEST_USER, cmd, False)
++        return self._ssh_do(self._config["guest_user"], cmd, False)
+ 
+     def ssh_root(self, *cmd):
+         return self._ssh_do("root", cmd, False)
+ 
+     def ssh_check(self, *cmd):
+-        self._ssh_do(self.GUEST_USER, cmd, True)
++        self._ssh_do(self._config["guest_user"], cmd, True)
+ 
+     def ssh_root_check(self, *cmd):
+         self._ssh_do("root", cmd, True)
+diff --git a/tests/vm/fedora b/tests/vm/fedora
+index bd9c6cf295..f536a92678 100755
+--- a/tests/vm/fedora
++++ b/tests/vm/fedora
+@@ -109,20 +109,20 @@ class FedoraVM(basevm.BaseVM):
+ 
+         self.console_wait_send("7) [!] Root password",     "7\n")
+         self.console_wait("Password:")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+         self.console_wait("Password (confirm):")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+ 
+         self.console_wait_send("8) [ ] User creation",     "8\n")
+         self.console_wait_send("1) [ ] Create user",       "1\n")
+         self.console_wait_send("3) User name",             "3\n")
+-        self.console_wait_send("ENTER:", "%s\n" % self.GUEST_USER)
++        self.console_wait_send("ENTER:", "%s\n" % self._config["guest_user"])
+         self.console_wait_send("4) [ ] Use password",      "4\n")
+         self.console_wait_send("5) Password",              "5\n")
+         self.console_wait("Password:")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+         self.console_wait("Password (confirm):")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+         self.console_wait_send("7) Groups",                "c\n")
+ 
+         while True:
+@@ -140,7 +140,7 @@ class FedoraVM(basevm.BaseVM):
+             if good:
+                 break
+             time.sleep(10)
+-            self.console_send("r\n" % self.GUEST_PASS)
++            self.console_send("r\n" % self._config["guest_pass"])
+ 
+         self.console_wait_send("'b' to begin install",     "b\n")
+ 
+@@ -151,12 +151,13 @@ class FedoraVM(basevm.BaseVM):
+ 
+         # setup qemu user
+         prompt = " ~]$"
+-        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
++        self.console_ssh_init(prompt, self._config["guest_user"],
++                                      self._config["guest_pass"])
+         self.console_wait_send(prompt, "exit\n")
+ 
+         # setup root user
+         prompt = " ~]#"
+-        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
++        self.console_ssh_init(prompt, "root", self._config["root_pass"])
+         self.console_sshd_config(prompt)
+ 
+         # setup virtio-blk #1 (tarfile)
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 298967fe9c..898393b58d 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -114,9 +114,9 @@ class FreeBSDVM(basevm.BaseVM):
+ 
+         # post-install configuration
+         self.console_wait("New Password:")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+         self.console_wait("Retype New Password:")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+ 
+         self.console_wait_send("Network Configuration", "\n")
+         self.console_wait_send("IPv4",                  "y")
+@@ -135,9 +135,9 @@ class FreeBSDVM(basevm.BaseVM):
+         # qemu user
+         self.console_wait_send("Add User Accounts", "y")
+         self.console_wait("Username")
+-        self.console_send("%s\n" % self.GUEST_USER)
++        self.console_send("%s\n" % self._config["guest_user"])
+         self.console_wait("Full name")
+-        self.console_send("%s\n" % self.GUEST_USER)
++        self.console_send("%s\n" % self._config["guest_user"])
+         self.console_wait_send("Uid",                   "\n")
+         self.console_wait_send("Login group",           "\n")
+         self.console_wait_send("Login group",           "\n")
+@@ -149,9 +149,9 @@ class FreeBSDVM(basevm.BaseVM):
+         self.console_wait_send("Use an empty password", "\n")
+         self.console_wait_send("Use a random password", "\n")
+         self.console_wait("Enter password:")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+         self.console_wait("Enter password again:")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+         self.console_wait_send("Lock out",              "\n")
+         self.console_wait_send("OK",                    "yes\n")
+         self.console_wait_send("Add another user",      "no\n")
+@@ -165,12 +165,12 @@ class FreeBSDVM(basevm.BaseVM):
+ 
+         # setup qemu user
+         prompt = "$"
+-        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
++        self.console_ssh_init(prompt, self._config["guest_user"], self._config["guest_pass"])
+         self.console_wait_send(prompt, "exit\n")
+ 
+         # setup root user
+         prompt = "root@freebsd:~ #"
+-        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
++        self.console_ssh_init(prompt, "root", self._config["root_pass"])
+         self.console_sshd_config(prompt)
+ 
+         # setup serial console
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index b10c9d429d..7e54fe8322 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -121,24 +121,24 @@ class NetBSDVM(basevm.BaseVM):
+         self.console_wait_send("d: Change root password",  "d\n")
+         self.console_wait_send("a: Yes",                   "a\n")
+         self.console_wait("New password:")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+         self.console_wait("New password:")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+         self.console_wait("Retype new password:")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+ 
+         self.console_wait_send("o: Add a user",            "o\n")
+         self.console_wait("username")
+-        self.console_send("%s\n" % self.GUEST_USER)
++        self.console_send("%s\n" % self._config["guest_pass"])
+         self.console_wait("to group wheel")
+         self.console_wait_send("a: Yes",                   "a\n")
+         self.console_wait_send("a: /bin/sh",               "a\n")
+         self.console_wait("New password:")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+         self.console_wait("New password:")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+         self.console_wait("Retype new password:")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+ 
+         self.console_wait_send("a: Configure network",     "a\n")
+         self.console_wait_send("a: vioif0",                "a\n")
+@@ -171,12 +171,13 @@ class NetBSDVM(basevm.BaseVM):
+ 
+         # setup qemu user
+         prompt = "localhost$"
+-        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
++        self.console_ssh_init(prompt, self._config["guest_user"],
++                                      self._config["guest_pass"])
+         self.console_wait_send(prompt, "exit\n")
+ 
+         # setup root user
+         prompt = "localhost#"
+-        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
++        self.console_ssh_init(prompt, "root", self._config["root_pass"])
+         self.console_sshd_config(prompt)
+ 
+         # setup virtio-blk #1 (tarfile)
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 0b705f4945..04a532c763 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -99,9 +99,9 @@ class OpenBSDVM(basevm.BaseVM):
+         self.console_wait_send("Which network interface", "done\n")
+         self.console_wait_send("DNS domain name",         "localnet\n")
+         self.console_wait("Password for root account")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+         self.console_wait("Password for root account")
+-        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_send("%s\n" % self._config["root_pass"])
+         self.console_wait_send("Start sshd(8)",           "yes\n")
+         self.console_wait_send("X Window System",         "\n")
+         self.console_wait_send("xenodm",                  "\n")
+@@ -109,13 +109,13 @@ class OpenBSDVM(basevm.BaseVM):
+         self.console_wait_send("Which speed",             "\n")
+ 
+         self.console_wait("Setup a user")
+-        self.console_send("%s\n" % self.GUEST_USER)
++        self.console_send("%s\n" % self._config["guest_user"])
+         self.console_wait("Full name")
+-        self.console_send("%s\n" % self.GUEST_USER)
++        self.console_send("%s\n" % self._config["guest_user"])
+         self.console_wait("Password")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+         self.console_wait("Password")
+-        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_send("%s\n" % self._config["guest_pass"])
+ 
+         self.console_wait_send("Allow root ssh login",    "yes\n")
+         self.console_wait_send("timezone",                "UTC\n")
+@@ -136,12 +136,13 @@ class OpenBSDVM(basevm.BaseVM):
+ 
+         # setup qemu user
+         prompt = "$"
+-        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
++        self.console_ssh_init(prompt, self._config["guest_user"],
++                                      self._config["guest_pass"])
+         self.console_wait_send(prompt, "exit\n")
+ 
+         # setup root user
+         prompt = "openbsd#"
+-        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
++        self.console_ssh_init(prompt, "root", self._config["root_pass"])
+         self.console_sshd_config(prompt)
+ 
+         # setup virtio-blk #1 (tarfile)
 -- 
 2.17.1
 
