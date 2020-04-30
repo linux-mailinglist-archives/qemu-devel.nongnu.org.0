@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE211C059D
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 21:06:26 +0200 (CEST)
-Received: from localhost ([::1]:60410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E1F1C05AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 21:08:29 +0200 (CEST)
+Received: from localhost ([::1]:39764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUEVt-0003wi-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 15:06:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43318)
+	id 1jUEXe-0000Cn-Uh
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 15:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43344)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jUERD-0006Ew-EV
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:37 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1jUERF-0006GA-CG
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alex.bennee@linaro.org>) id 1jUERB-0003A7-4P
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:35 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55646)
+ (envelope-from <alex.bennee@linaro.org>) id 1jUERD-0003BJ-OI
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:37 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jUERA-00038k-GG
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:32 -0400
-Received: by mail-wm1-x330.google.com with SMTP id e26so3173719wmk.5
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 12:01:32 -0700 (PDT)
+ id 1jUERC-0003AQ-Vh
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 15:01:35 -0400
+Received: by mail-wm1-x344.google.com with SMTP id r26so3320129wmh.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 12:01:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CdlDA7BMPwodMgRCX0xuQP7nMRxxWJAZKYksxv5dmZ0=;
- b=c0ZD8xZPVJXIbdPhdjP7tGfgN/G0Njx+lxCbCWAUwkaYitwRBEuIfC2Vu+7acYZgrK
- E+m7HHEDENt7iHTIr+eP/T8J+f5VBM0l1du8gxfmUK1ETA+nflmXpF8nK4LsmuNHnrLY
- JHkmMEmN75fGsAnzfi0ReXZLs4jCaRss1qYWvOOkyHgdDqavZe5bI+qtbBSFrsBFM37f
- gClgH2BHME4cqJkyVW/Q9738JEeX3CZ3PxVwym2xHoXx5uOXzai9yE3CVLUooJqtBuGx
- en96fLiu3JcSk5qpquojxGkCz3+iPF+vrz279DV76yKMAykLM3e/S4LiQesDe7fCGdFF
- 7jgA==
+ bh=toymzPlUD26kqcownJZwCybn3HKvGbNcV/Ovby7lKh0=;
+ b=UA3TKq51jiN8jju3lt/e2s4Tw6+F2WwjGMiFtuhMO0RTiJjAZnbem6Me68cwyCTqfh
+ HniZx9+hmOMreg+MXn39JhnjrRurMli32Gy/BENikv8J5ivR8jz3JfjyerdjcUOgHiiL
+ B30lv3QW+iN47NgwxUVYI7EJm+aTEducPqkcwSPzJDLO82Fd5N77XWGwkTOCDf0ttNe1
+ 856KpTmj/beLKNl1/RrxkR5tOTVsW1x7x4rEhcRSLBRPuITTwRdE/q01QlC3bfQXv32E
+ Zfcqf0OWxASg/Knl5SFcBXUPrN4Ah2cckAI+IEZ7GIv1BlUIgYq4TlVX2sPb5nPfJ4Br
+ xQXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CdlDA7BMPwodMgRCX0xuQP7nMRxxWJAZKYksxv5dmZ0=;
- b=eR0f9cyHR0qQq9JQyFVY5OFIUWbBwzVp8+mK5C8NrNKNEA44hDMHr7TJxPEgpaBeWl
- sVDQtj2Mxj0LUIcDLP8PvlSmBq4knItGEgmkKZkjOOaSDZPS7aG+00f5u+NrK+kdLceG
- miK9V2K9JFrZud1xpytIJbgtolYXfj34/pf9i1E7BAneX0nwlXFdVdYxse8TgJUH6GSA
- 6ydc4Pu2Mhtg1fX80n7YhewUMnjrNnXi1v+Lfji5zJkwcWN/aZY8UCL7dYo9Lf6D88U9
- PhPks0diu5H3o1aZnKUdAa+8WKZzV1vHhkPf74s+sLUkJYIPF/mfgRHQ378JKj8F4dak
- 228w==
-X-Gm-Message-State: AGi0PubMDf9XGGfo22IvEHWzd6acr8ZKaqKJPpTWnmj9CQcCWCtYvECK
- h+U14VJ5D3B8xHVX3Vd6Cyw0hNvvdFk=
-X-Google-Smtp-Source: APiQypI7MaSZfHR50xdmKecIoqjfpJ8P58pS7zduAy9ZoGf+t2rVJ2nC2i5Z3MtzBmGlAo3ncMsDQg==
-X-Received: by 2002:a1c:e187:: with SMTP id y129mr4827715wmg.133.1588273291007; 
- Thu, 30 Apr 2020 12:01:31 -0700 (PDT)
+ bh=toymzPlUD26kqcownJZwCybn3HKvGbNcV/Ovby7lKh0=;
+ b=lUMUGSGB01kGoK0kq2LNkrYBek1ilGa4nqGoIKVFoQj84K89F7vbp8NcIgsa1s9jU1
+ XPLojL2SDv1V3ZypbMqzsO5jMPG5o6LorR8jbecD2DAG/v4IWG8v4r9Dj+3mmbKr7HxL
+ 5iEv+NF9FutSnqcza/38yfnW+eTRJtuUK+osWsnRWr0fshMhRwCLDYY3lbvJrZrgIBWm
+ raqbv+MTZOlPWDppvlnTMIOpBL+AfmZLm28xirwbS2VDda6rMGwSe4O9MB+bV/MI/N1z
+ FmA4ZF6IrSCyJKsHOCV7cGrYX5SXOHPtDuBMr81ME55xRvP3UyQ0+1YdKyWaOKwfe8z9
+ x76g==
+X-Gm-Message-State: AGi0PuZ3lIiNiegNdG5fC7E1dqFji+h+foUeFLJl3kqvs9pygdlBNLFF
+ u94xI1kS/nhGye3CtV1FKWUXA5dXwtU=
+X-Google-Smtp-Source: APiQypLkQQz+FwwblWsH56zRPfNoGuTj1IwjpHCtmhXYfzw55xGvfgGlXOb8ZaNMMHXJ71Uaq1qUsg==
+X-Received: by 2002:a1c:44b:: with SMTP id 72mr54303wme.58.1588273293116;
+ Thu, 30 Apr 2020 12:01:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r20sm687752wmh.26.2020.04.30.12.01.23
+ by smtp.gmail.com with ESMTPSA id l4sm852710wrv.60.2020.04.30.12.01.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 30 Apr 2020 12:01:27 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 01A9B1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 15D011FF91;
  Thu, 30 Apr 2020 20:01:23 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 4/9] tests/tcg: drop inferior.was_attached() test
-Date: Thu, 30 Apr 2020 20:01:17 +0100
-Message-Id: <20200430190122.4592-5-alex.bennee@linaro.org>
+Subject: [PATCH  v1 5/9] gdbstub: eliminate gdbserver_fd global
+Date: Thu, 30 Apr 2020 20:01:18 +0100
+Message-Id: <20200430190122.4592-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430190122.4592-1-alex.bennee@linaro.org>
 References: <20200430190122.4592-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::330
+X-Received-From: 2a00:1450:4864:20::344
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,51 +84,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test seems flaky and reports attachment even when we failed to
-negotiate the architecture. However the fetching of the guest
-architecture will fail tripping up the gdb AttributeError which will
-trigger our early no error status exit from the test
+We don't really need to track this fd beyond the initial creation of
+the socket. We already know if the system has been initialised by
+virtue of the gdbserver_state so lets remove it. This makes the later
+re-factoring easier.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/aarch64/gdbstub/test-sve-ioctl.py | 3 ---
- tests/tcg/aarch64/gdbstub/test-sve.py       | 3 ---
- 2 files changed, 6 deletions(-)
 
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-index 387b2fc20a..972cf73c31 100644
---- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-+++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-@@ -58,9 +58,6 @@ def run_test():
- #
- try:
-     inferior = gdb.selected_inferior()
--    if inferior.was_attached == False:
--        print("SKIPPING (failed to attach)", file=sys.stderr)
--        exit(0)
-     arch = inferior.architecture()
-     report(arch.name() == "aarch64", "connected to aarch64")
- except (gdb.error, AttributeError):
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve.py b/tests/tcg/aarch64/gdbstub/test-sve.py
-index 5995689625..b96bdbb99a 100644
---- a/tests/tcg/aarch64/gdbstub/test-sve.py
-+++ b/tests/tcg/aarch64/gdbstub/test-sve.py
-@@ -59,9 +59,6 @@ def run_test():
- #
- try:
-     inferior = gdb.selected_inferior()
--    if inferior.was_attached == False:
--        print("SKIPPING (failed to attach)", file=sys.stderr)
--        exit(0)
-     arch = inferior.architecture()
-     report(arch.name() == "aarch64", "connected to aarch64")
- except (gdb.error, AttributeError):
+---
+v1
+  - fix coding style issue
+---
+ gdbstub.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
+
+diff --git a/gdbstub.c b/gdbstub.c
+index 171e150950..b5381aa520 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -398,8 +398,6 @@ static void reset_gdbserver_state(void)
+ bool gdb_has_xml;
+ 
+ #ifdef CONFIG_USER_ONLY
+-/* XXX: This is not thread safe.  Do we care?  */
+-static int gdbserver_fd = -1;
+ 
+ static int get_char(void)
+ {
+@@ -2964,7 +2962,7 @@ void gdb_exit(CPUArchState *env, int code)
+       return;
+   }
+ #ifdef CONFIG_USER_ONLY
+-  if (gdbserver_fd < 0 || gdbserver_state.fd < 0) {
++  if (gdbserver_state.fd < 0) {
+       return;
+   }
+ #endif
+@@ -3011,7 +3009,7 @@ gdb_handlesig(CPUState *cpu, int sig)
+     char buf[256];
+     int n;
+ 
+-    if (gdbserver_fd < 0 || gdbserver_state.fd < 0) {
++    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
+         return sig;
+     }
+ 
+@@ -3060,7 +3058,7 @@ void gdb_signalled(CPUArchState *env, int sig)
+ {
+     char buf[4];
+ 
+-    if (gdbserver_fd < 0 || gdbserver_state.fd < 0) {
++    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
+         return;
+     }
+ 
+@@ -3068,7 +3066,7 @@ void gdb_signalled(CPUArchState *env, int sig)
+     put_packet(buf);
+ }
+ 
+-static bool gdb_accept(void)
++static bool gdb_accept(int gdb_fd)
+ {
+     struct sockaddr_in sockaddr;
+     socklen_t len;
+@@ -3076,7 +3074,7 @@ static bool gdb_accept(void)
+ 
+     for(;;) {
+         len = sizeof(sockaddr);
+-        fd = accept(gdbserver_fd, (struct sockaddr *)&sockaddr, &len);
++        fd = accept(gdb_fd, (struct sockaddr *)&sockaddr, &len);
+         if (fd < 0 && errno != EINTR) {
+             perror("accept");
+             return false;
+@@ -3137,13 +3135,13 @@ static int gdbserver_open(int port)
+ 
+ int gdbserver_start(int port)
+ {
+-    gdbserver_fd = gdbserver_open(port);
+-    if (gdbserver_fd < 0)
++    int gdb_fd = gdbserver_open(port);
++    if (gdb_fd < 0) {
+         return -1;
++    }
+     /* accept connections */
+-    if (!gdb_accept()) {
+-        close(gdbserver_fd);
+-        gdbserver_fd = -1;
++    if (!gdb_accept(gdb_fd)) {
++        close(gdb_fd);
+         return -1;
+     }
+     return 0;
+@@ -3152,7 +3150,7 @@ int gdbserver_start(int port)
+ /* Disable gdb stub for child processes.  */
+ void gdbserver_fork(CPUState *cpu)
+ {
+-    if (gdbserver_fd < 0 || gdbserver_state.fd < 0) {
++    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
+         return;
+     }
+     close(gdbserver_state.fd);
 -- 
 2.20.1
 
