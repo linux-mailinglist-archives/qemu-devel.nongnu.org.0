@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298881BF834
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:28:20 +0200 (CEST)
-Received: from localhost ([::1]:54816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2459B1BF840
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:32:08 +0200 (CEST)
+Received: from localhost ([::1]:39114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU8Ic-00029Z-IN
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:28:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37408)
+	id 1jU8MJ-0008BO-4V
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:32:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38236)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <basil@daynix.com>) id 1jU8Ck-0007A0-Rc
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:27:03 -0400
+ (envelope-from <imammedo@redhat.com>) id 1jU8IS-00039I-8x
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:28:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <basil@daynix.com>) id 1jU82d-0001xk-Rb
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:16:36 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <basil@daynix.com>) id 1jU82d-0001rM-5V
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:11:47 -0400
-Received: by mail-wm1-x344.google.com with SMTP id e26so1579886wmk.5
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 05:11:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=Ik47jTmigL0m9Na6qQAQ4RyVryDW75g+58Npmtu17e0=;
- b=0CbDo1ibcCwEiuiY9yvu/BMOEGG1iqTP55KD6AUHuD9CXffgBREQpi9MtKrwkuZngT
- 4pKa0goRua3fjzI9Zx6uoI6Q76Svtxygb9wort5CVjpeX7lXbUTmAUeBuCsy+waJNSJT
- xZk3aoUkpTQj4S8qWvEMJ4ptePY2XtJrhvhQd/ITLIs8bjoOu2DKynQOrh7Yd2RA1vCJ
- WubnvkHMkY6TmCoBqOj+hQjHr+eL7kpwvNtmjTyjj6MrNWnFnJG42qt1ULrlyZuRSxSA
- zcce1hO8lj5A+6Kak/uwTR+hXJjTkIce2w55DF1xEN16/EaiZbOwI6/dCL9Mv77SQZt1
- zeGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Ik47jTmigL0m9Na6qQAQ4RyVryDW75g+58Npmtu17e0=;
- b=hEdiR2F7ZAVeNL3OCSleMZghXKTJ/3etgEqrSdw65QdNzaW2QbGI9Nvw5MkLLn5THG
- X0do2AFHzG0YO0CKMc3eEHZ7X8cPgrkTROyUATsu04zh7PjY1CkfTF0e/Fxv6+9HSFCK
- Bks5CGwneU72Ykzv5t7uIy7WdVLQcoQKv5Yokp+eNBB7AQ3eTLkLVnEBLAsauemkQOw8
- hdDQaAP3L/MWKnoIdOkMBk+QDNZ3zio6LeSVMxFnxoC6XhDwy+gnjsribnu+dtHSSlM6
- 2TjLIL11Aee3G8yn2ISX04o3oSGz/wV3LPO7jV+KjEXkP3DU7BlAQH1VYevsY5JKrXhu
- t/jg==
-X-Gm-Message-State: AGi0PuaC2gKRWQTElC6cIBxSwuc8/ZiPqp5gTVd7l1RiqEbO8nL3JDFo
- jik7n/K9+5L1tn9bRnVyhz4RIlYNu74=
-X-Google-Smtp-Source: APiQypL2N0PbWn4X7KhTD90qXWt/O0qGNIhn5YRxRQyHNrkFXjfcXsvHnYrMazPO6FYEgVVyk8iehA==
-X-Received: by 2002:a7b:cb0c:: with SMTP id u12mr2842603wmj.137.1588248704510; 
- Thu, 30 Apr 2020 05:11:44 -0700 (PDT)
-Received: from howl.redhat.com (bzq-84-110-34-91.static-ip.bezeqint.net.
- [84.110.34.91])
- by smtp.gmail.com with ESMTPSA id 1sm12280006wmi.0.2020.04.30.05.11.43
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 30 Apr 2020 05:11:43 -0700 (PDT)
-From: Basil Salman <basil@daynix.com>
-To: qemu-devel@nongnu.org,
-	Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: [PATCH 1/1] qga-win: fix "guest-get-fsinfo" wrong filesystem type
-Date: Thu, 30 Apr 2020 15:11:40 +0300
-Message-Id: <1588248700-2715-1-git-send-email-basil@daynix.com>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=2a00:1450:4864:20::344;
- envelope-from=basil@daynix.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::344
+ (envelope-from <imammedo@redhat.com>) id 1jU8IK-0003MG-FI
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:28:08 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46847
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jU84H-0004uW-Ku
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 08:13:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588248808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Chv0AwMhW1AuJ//bqHTRQBqJgT5HopfC9QzLPQZxhzM=;
+ b=SoScivrIwaMtcHziEIFhydg9ra1lFgOaPW8oQqIOdQHYyLdQm+rQU1a8GuDmuVkaqFrOYm
+ q5kLJEGFM+UeCNudzBdoQ9hUqzQ62q5up+Cghd8m3WsrjwibpbTaC0XjCvi9FefAYmh5/M
+ GN183Me5mQlB835pA0qJeek2/Xs+lTw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-v-y76MmAOveWNBE26M7rvw-1; Thu, 30 Apr 2020 08:13:26 -0400
+X-MC-Unique: v-y76MmAOveWNBE26M7rvw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCE1245F;
+ Thu, 30 Apr 2020 12:13:25 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EA795D9C5;
+ Thu, 30 Apr 2020 12:13:11 +0000 (UTC)
+Date: Thu, 30 Apr 2020 14:13:09 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 07/15] acpi: move aml builder code for rtc device
+Message-ID: <20200430141309.79df6726@redhat.com>
+In-Reply-To: <20200429140003.7336-8-kraxel@redhat.com>
+References: <20200429140003.7336-1-kraxel@redhat.com>
+ <20200429140003.7336-8-kraxel@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,90 +75,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Basil Salman <bsalman@redhat.com>
+On Wed, 29 Apr 2020 15:59:55 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-This patch handles the case where unmounted volumes exist,
-where in that case GetVolumePathNamesForVolumeName returns
-empty path, GetVolumeInformation will use the current working
-directory instead.
-This patch fixes the issue by opening a handle to the volumes,
-and using GetVolumeInformationByHandleW instead.
+> Also use a single io range instead of two,
+> following what real hardware does.
+I'd make a separate patch for this comment.
+Also qemu maps only the first range (0x70) if I'm not mistaken,
+so we perhaps should drop the second (0x72) instead of merging it into the first
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1746667
+[...]
 
-Signed-off-by: Basil Salman <bsalman@redhat.com>
-Signed-off-by: Basil Salman <basil@daynix.com>
----
- qga/commands-win32.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+> -static Aml *build_rtc_device_aml(void)
+> -{
+> -    Aml *dev;
+> -    Aml *crs;
+> -
+> -    dev = aml_device("RTC");
+> -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
+> -    crs = aml_resource_template();
+> -    aml_append(crs, aml_io(AML_DECODE16, 0x0070, 0x0070, 0x10, 0x02));
+> -    aml_append(crs, aml_irq_no_flags(8));
+> -    aml_append(crs, aml_io(AML_DECODE16, 0x0072, 0x0072, 0x02, 0x06));
+[...]
+> +static void rtc_build_aml(ISADevice *isadev, Aml *scope)
+> +{
+> +    Aml *dev;
+> +    Aml *crs;
+> +
+> +    crs = aml_resource_template();
+> +    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
+> +                           0x10, 0x08));
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 82cf053..be07712 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -1021,11 +1021,13 @@ static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
- {
-     DWORD info_size;
-     char mnt, *mnt_point;
-+    wchar_t wfs_name[32];
-     char fs_name[32];
--    char vol_info[MAX_PATH+1];
-+    wchar_t vol_info[MAX_PATH + 1];
-     size_t len;
-     uint64_t i64FreeBytesToCaller, i64TotalBytes, i64FreeBytes;
-     GuestFilesystemInfo *fs = NULL;
-+    HANDLE hLocalDiskHandle = NULL;
- 
-     GetVolumePathNamesForVolumeName(guid, (LPCH)&mnt, 0, &info_size);
-     if (GetLastError() != ERROR_MORE_DATA) {
-@@ -1040,18 +1042,27 @@ static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
-         goto free;
-     }
- 
-+    hLocalDiskHandle = CreateFile(guid, 0 , 0, NULL, OPEN_EXISTING,
-+                                  FILE_ATTRIBUTE_NORMAL |
-+                                  FILE_FLAG_BACKUP_SEMANTICS, NULL);
-+    if (INVALID_HANDLE_VALUE == hLocalDiskHandle) {
-+        error_setg_win32(errp, GetLastError(), "failed to get volume name");
-+        goto free;
-+    }
-+
-     len = strlen(mnt_point);
-     mnt_point[len] = '\\';
-     mnt_point[len+1] = 0;
--    if (!GetVolumeInformation(mnt_point, vol_info, sizeof(vol_info), NULL, NULL,
--                              NULL, (LPSTR)&fs_name, sizeof(fs_name))) {
-+
-+    if (!GetVolumeInformationByHandleW(hLocalDiskHandle, vol_info,
-+                                       sizeof(vol_info), NULL, NULL, NULL,
-+                                       (LPWSTR) & wfs_name, sizeof(wfs_name))) {
-         if (GetLastError() != ERROR_NOT_READY) {
-             error_setg_win32(errp, GetLastError(), "failed to get volume info");
-         }
-         goto free;
-     }
- 
--    fs_name[sizeof(fs_name) - 1] = 0;
-     fs = g_malloc(sizeof(*fs));
-     fs->name = g_strdup(guid);
-     fs->has_total_bytes = false;
-@@ -1070,9 +1081,11 @@ static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
-             fs->has_used_bytes = true;
-         }
-     }
-+    wcstombs(fs_name, wfs_name, sizeof(wfs_name));
-     fs->type = g_strdup(fs_name);
-     fs->disk = build_guest_disk_info(guid, errp);
- free:
-+    CloseHandle(hLocalDiskHandle);
-     g_free(mnt_point);
-     return fs;
- }
--- 
-1.8.3.1
+[...]
 
 
