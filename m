@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5349B1C04F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:39:13 +0200 (CEST)
-Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F81A1C0506
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 20:43:35 +0200 (CEST)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUE5Y-0004vU-85
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38008)
+	id 1jUE9m-0002sN-C3
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 14:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUDr7-0004kc-OM
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:24:59 -0400
+ (envelope-from <armbru@redhat.com>) id 1jUDrB-0004n0-Jg
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:25:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUDpG-0003ce-QS
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:24:17 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38313)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUDpG-0003cN-CZ
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:22:22 -0400
-Received: by mail-pf1-x443.google.com with SMTP id y25so209686pfn.5
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 11:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=Ygfm9oxNwSOADn+CgHwQbeVcclNfDyIrqVXEZYdB6ec=;
- b=r7KcguY8Yo3/HWB88rGM/t0SicTRGTB3u2w4m09OP3Q1fPhD4o95Kopm7P4oZQcf9n
- bLnnZ/wlH+NI5zBO2yFUIXXgWgConfvLqMxnfnIKfcjur0YSKIMiQmDUti/bF8ikotmW
- Ukrp0x5+6DJ59g9+5KihAerFokw4eS6AVrbUCzfFcwDqdItT7/NiwiTfqbSVDc5TeId5
- LZX157GpWp63k8HUb/rMGrnxmNG2qgdBr3SlPL8fDlFDSZXo01hxUP6Gwll3BIvjKNgf
- kGA1izpuRX6tK0HBx+uWtzrb1Qo3OTwdLCtsx2c169NhQ6SN8YQU2kXfuWL9iFZVScCE
- GazA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ygfm9oxNwSOADn+CgHwQbeVcclNfDyIrqVXEZYdB6ec=;
- b=XF47PE4IWEabf4B4yuqXj8mmMhvicKwveaoutZUt55JPuVMIBsQZEZtPeheO9hGANl
- t9SK6s4XcQYwq6OV0G5i/qXWxk6z1uhFe5WJJegA6XZ1HuUlVeu8JztVZwuVv7JfJ8L7
- LglHKOIgonlmChnQv0/J6gg1VAZfAHVVH5vJnqSj2OKFurJMXtiy8XxFp94seHwDdY0l
- aqD8BaCabl8CQpchwBgBBXy7sbUJLfBtqWzajCSFmn/dNcW5ZPgawskskUtbuciW96v6
- pIDfvp4aqi3TlL/E9wsQpFMqTWLeq68hpC6Kq/o+cWqeZ9fQ9OPoIwJKUa93ObuoCsoS
- 8HMA==
-X-Gm-Message-State: AGi0PuZCH7Dz9DaW2KIpEcpcX0EpEYkzTGxL/GA4tfp0ad0CbFyXLErk
- dHneG7LCPkhyeS2Jo4QA6yTTehu3Vh8=
-X-Google-Smtp-Source: APiQypJXn5FWBPi/Kwq/ByYmK8IQcRhsVbePknBeH/YiiEdN8hINdsUiWV/5zJIBxFgec1a55Ix4kA==
-X-Received: by 2002:a63:8843:: with SMTP id l64mr167363pgd.443.1588270940530; 
- Thu, 30 Apr 2020 11:22:20 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id s145sm379716pgs.57.2020.04.30.11.22.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Apr 2020 11:22:19 -0700 (PDT)
-Subject: Re: [PATCH 02/36] target/arm: Don't allow Thumb Neon insns without
- FEATURE_NEON
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200430181003.21682-1-peter.maydell@linaro.org>
- <20200430181003.21682-3-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a6f92d8c-fd91-420b-2db9-1202b4dd5edb@linaro.org>
-Date: Thu, 30 Apr 2020 11:22:17 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (envelope-from <armbru@redhat.com>) id 1jUDpY-0003gJ-29
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:24:20 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27462
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jUDpX-0003fK-HQ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 14:22:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588270957;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AJvbLC2CDDW+2Wy/wjYtMdZbtgj8uY5u5+tlCI4RfXY=;
+ b=Ifym/Gvg5wCOsWxrQZRA0Tzn0WcDRpBHW7Dn6voELnfidysKhcCoVNMQu+afyzohA7kTfG
+ J8ZadhcBe0lAyJED1pwVX6VApmcA7Q9B9u5Q/vzlq4wssphOop4ea4KYceDcbfgBImdkxq
+ 5MAYzI2pSkDKmwkZpbdMQBg6S5zgmLw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-C82eWpLxPI-4ar1Efztxyw-1; Thu, 30 Apr 2020 14:22:36 -0400
+X-MC-Unique: C82eWpLxPI-4ar1Efztxyw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E35D219067E0;
+ Thu, 30 Apr 2020 18:22:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A217579B6;
+ Thu, 30 Apr 2020 18:22:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1A6E611358BC; Thu, 30 Apr 2020 20:22:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 08/17] s390x/cpumodel: Fix UI to CPU features
+ pcc-cmac-{aes, eaes}-256
+References: <20200428163419.4483-1-armbru@redhat.com>
+ <20200428163419.4483-9-armbru@redhat.com>
+ <7ed42e2f-e437-3d06-e46b-5416e4d2a6d3@redhat.com>
+Date: Thu, 30 Apr 2020 20:22:23 +0200
+In-Reply-To: <7ed42e2f-e437-3d06-e46b-5416e4d2a6d3@redhat.com> (David
+ Hildenbrand's message of "Tue, 28 Apr 2020 19:13:22 +0200")
+Message-ID: <874kt0bzq8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20200430181003.21682-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::443
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.61
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,23 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: berrange@redhat.com, ehabkost@redhat.com, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/20 11:09 AM, Peter Maydell wrote:
-> We were accidentally permitting decode of Thumb Neon insns even if
-> the CPU didn't have the FEATURE_NEON bit set, because the feature
-> check was being done before the call to disas_neon_data_insn() and
-> disas_neon_ls_insn() in the Arm decoder but was omitted from the
-> Thumb decoder.  Push the feature bit check down into the called
-> functions so it is done for both Arm and Thumb encodings.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/translate.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+David Hildenbrand <david@redhat.com> writes:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> On 28.04.20 18:34, Markus Armbruster wrote:
+>> Both s390_features[S390_FEAT_PCC_CMAC_AES_256].name and
+>> s390_features[S390_FEAT_PCC_CMAC_EAES_256].name is
+>> "pcc-cmac-eaes-256".  The former is obviously a pasto.
+>>=20
+>> Impact:
+>>=20
+>> * s390_feat_bitmap_to_ascii() misidentifies S390_FEAT_PCC_CMAC_AES_256
+>>   as "pcc-cmac-eaes-256".  Affects QMP commands query-cpu-definitions,
+>>   query-cpu-model-expansion, query-cpu-model-baseline,
+>>   query-cpu-model-comparison, and the error message when
+>>   s390_realize_cpu_model() fails in check_compatibility().
+>>=20
+>> * s390_realize_cpu_model() misidentifies it in check_consistency()
+>>   warnings.
+>>=20
+>> * s390_cpu_list() likewise.  Affects -cpu help.
+>>=20
+>> * s390_cpu_model_register_props() creates CPU property
+>>   "pcc-cmac-eaes-256" twice.  The second one fails, but the error is
+>>   ignored (a later commit will change that).  Results in a single
+>>   property "pcc-cmac-eaes-256" with the description for
+>>   S390_FEAT_PCC_CMAC_AES_256, and no property for
+>>   S390_FEAT_PCC_CMAC_EAES_256.  CPU properties are visible in CLI -cpu
+>>   and -device, QMP & HMP device_add, QMP device-list-properties, and
+>>   QOM introspection.
+>>=20
+>> Fix by deleting the wayward 'e'.
+>
+> Very nice catch - thanks!
 
-r~
+:)
+
+> While this sounds very bad, it's luckily not that bad in practice
+> (currently).
+>
+> The feature (or rather, both features) is part of the feature group
+> "msa4". As long as we have all sub-features part of that group (which is
+> usually the case), we will always indicate "msa4" to the user, instead
+> of all the separate sub-features. So, expansion, baseline, comparison
+> will usually only work with "msa4".
+>
+> (in addition, current KVM is not capable of actually masking off these
+> sub-features, so it will still, always see the feature, even if not
+> explicitly specified via "-cpu X,pcc-cmac-aes-256=3Don)
+
+Would you like to propose an commit message improvements?
+
+> I think we should do stable backports.
+>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+
+Thanks!
+
 
