@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C18F81BF9E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:47:01 +0200 (CEST)
-Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9F41BFAC7
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:56:06 +0200 (CEST)
+Received: from localhost ([::1]:37968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU9Wm-0004lL-Lf
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:47:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47808)
+	id 1jU9fZ-0004Xi-NB
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49956)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jU9Kn-000861-5X
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:38:04 -0400
+ (envelope-from <bounces@canonical.com>) id 1jU9TZ-0001oX-63
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:45:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <groug@kaod.org>) id 1jU9HE-0004lh-AN
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:34:36 -0400
-Received: from 10.mo68.mail-out.ovh.net ([46.105.79.203]:45947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jU9HD-0004kp-Q9
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:30:55 -0400
-Received: from player758.ha.ovh.net (unknown [10.110.171.131])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id 9DA901653C8
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 15:30:52 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player758.ha.ovh.net (Postfix) with ESMTPSA id F2BDB11F18A11;
- Thu, 30 Apr 2020 13:30:50 +0000 (UTC)
-Date: Thu, 30 Apr 2020 15:30:49 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v6 3/5] 9pfs: add new function v9fs_co_readdir_many()
-Message-ID: <20200430153049.12488a1d@bahia.lan>
-In-Reply-To: <5059845.6LZZmIoT5M@silver>
-References: <cover.1587309014.git.qemu_oss@crudebyte.com>
- <fdb0e29a86d1df6005021a08078d7e69ed0de1a2.1587309014.git.qemu_oss@crudebyte.com>
- <20200430134235.524df46e@bahia.lan> <5059845.6LZZmIoT5M@silver>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <bounces@canonical.com>) id 1jU9R2-0000Ph-NU
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:43:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jU9R2-0000P1-6j
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:41:04 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jU9R1-00063o-1q
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:41:03 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0BDE92E80E7
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:41:03 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 15207530042828626240
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrieehgdeihecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejheekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.79.203; envelope-from=groug@kaod.org;
- helo=10.mo68.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:30:52
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 30 Apr 2020 13:31:22 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: helmutsch laurent-vivier rth
+X-Launchpad-Bug-Reporter: Helmut (helmutsch)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <158188126194.31124.5348536044519461550.malonedeb@wampee.canonical.com>
+Message-Id: <158825348211.3631.1019948753267804369.malone@chaenomeles.canonical.com>
+Subject: [Bug 1863508] Re: qemu-system-arm stops with SIGSEGV in
+ helper_gvec_eq16
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5ed851a02cce2f423948ee73a5601f222acdf356
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:35:36
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 46.105.79.203
+X-Received-From: 91.189.90.7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,191 +69,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1863508 <1863508@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 Apr 2020 14:50:31 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Fixed here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D43d1ccd2a02f
 
-> On Donnerstag, 30. April 2020 13:42:35 CEST Greg Kurz wrote:
-> > > +/*
-> > > + * This is solely executed on a background IO thread.
-> > > + *
-> > > + * See v9fs_co_readdir_many() (as its only user) below for details.
-> > > + */
-> > > +static int do_readdir_many(V9fsPDU *pdu, V9fsFidState *fidp,
-> > > +                             struct V9fsDirEnt **entries,
-> > > +                             int32_t maxsize, bool dostat)
-> > > +{
-> > > +    V9fsState *s = pdu->s;
-> > > +    V9fsString name;
-> > > +    int len, err = 0;
-> > > +    int32_t size = 0;
-> > > +    off_t saved_dir_pos;
-> > > +    struct dirent *dent;
-> > > +    struct V9fsDirEnt *e = NULL;
-> > > +    V9fsPath path;
-> > > +    struct stat stbuf;
-> > > 
-> > > -            errno = 0;
-> > > -            entry = s->ops->readdir(&s->ctx, &fidp->fs);
-> > > -            if (!entry && errno) {
-> > > +    *entries = NULL;
-> > > +    v9fs_path_init(&path);
-> > > +
-> > > +    /*
-> > > +     * TODO: Here should be a warn_report_once() if lock failed.
-> > > +     *
-> > > +     * With a good 9p client we should not get into concurrency here,
-> > > +     * because a good client would not use the same fid for concurrent
-> > > +     * requests. We do the lock here for safety reasons though. However
-> > > +     * the client would then suffer performance issues, so better log
-> > > that
-> > > +     * issue here.
-> > > +     */
-> > > +    v9fs_readdir_lock(&fidp->fs.dir);
-> > 
-> > I agree that a client that issues concurrent readdir requests on the
-> > same fid is probably asking for troubles, but this permitted by the
-> > spec. Whether we should detect such conditions and warn or even fail
-> > is discussion for another thread.
-> > 
-> > The locking is only needed to avoid concurrent accesses to the dirent
-> > structure returned by readdir(), otherwise we could return partially
-> > overwritten file names to the client. It must be done for each individual
-> > call to readdir(), but certainly not for multiple calls.
-> 
-> Yeah, that would resolve this issue more appropriately for 9p2000.L, since 
-> Treaddir specifies an offset, but for 9p2000.u the result of a concurrent read 
-> on a directory (9p2000.u) would still be undefined.
-> 
 
-The bad client behavior you want to tackle has nothing to do with
-the locking itself. Since all the code in 9p.c runs serialized in
-the context of the QEMU main loop, concurrent readdir requests could
-easily be detected up-front with a simple flag in the fid structure.
+** Changed in: qemu
+       Status: In Progress =3D> Fix Released
 
-> > As discussed privately, I'm working on a patch to better address the
-> > locking and I'd really prefer to merge this before your series. Sorry
-> > for the delay again. I'll try to post ASAP.
-> > 
-> > Anyway, I have some more remarks.
-> > 
-> > > +
-> > > +    /* save the directory position */
-> > > +    saved_dir_pos = s->ops->telldir(&s->ctx, &fidp->fs);
-> > > +    if (saved_dir_pos < 0) {
-> > > +        err = saved_dir_pos;
-> > > +        goto out;
-> > > +    }
-> > > +
-> > > +    while (true) {
-> > > +        /* get directory entry from fs driver */
-> > > +        err = do_readdir(pdu, fidp, &dent);
-> > > +        if (err || !dent) {
-> > > +            break;
-> > > +        }
-> > > +
-> > > +        /*
-> > > +         * stop this loop as soon as it would exceed the allowed maximum
-> > > +         * response message size for the directory entries collected so
-> > > far, +         * because anything beyond that size would need to be
-> > > discarded by +         * 9p controller (main thread / top half) anyway
-> > > +         */
-> > > +        v9fs_string_init(&name);
-> > > +        v9fs_string_sprintf(&name, "%s", dent->d_name);
-> > > +        len = v9fs_readdir_response_size(&name);
-> > > +        v9fs_string_free(&name);
-> > > +        if (size + len > maxsize) {
-> > > +            /* this is not an error case actually */
-> > > +            break;
-> > > +        }
-> > > +
-> > > +        /* append next node to result chain */
-> > > +        if (!e) {
-> > > +            *entries = e = g_malloc0(sizeof(V9fsDirEnt));
-> > > +        } else {
-> > > +            e = e->next = g_malloc0(sizeof(V9fsDirEnt));
-> > > +        }
-> > > +        e->dent = g_malloc0(sizeof(struct dirent));
-> > 
-> > So we're allocating a bunch of stuff here...
-> > 
-> > > +        memcpy(e->dent, dent, sizeof(struct dirent));
-> > > +
-> > > +        /* perform a full stat() for directory entry if requested by
-> > > caller */ +        if (dostat) {
-> > > +            err = s->ops->name_to_path(
-> > > +                &s->ctx, &fidp->path, dent->d_name, &path
-> > > +            );
-> > > +            if (err < 0) {
-> > > 
-> > >                  err = -errno;
-> > > 
-> > > -            } else {
-> > > -                *dent = entry;
-> > > -                err = 0;
-> > > +                break;
-> > 
-> > ... but we're erroring out there and it seems that we're leaking
-> > all the entries that have been allocated so far.
-> 
-> No, they are not leaking actually.
-> 
-> You are right that they are not deallocated in do_readdir_many(), but that's 
-> intentional: in the new implementation of v9fs_do_readdir() you see that 
-> v9fs_free_dirents(entries) is *always* called at the very end of the function, 
-> no matter if success or any error. That's one of the measures to simplify 
-> overall code as much as possible.
-> 
+-- =
 
-Hmm... I still don't quite like the idea of having an erroring function
-asking for extra cleanup. I suggest you come up with an idem-potent version
-of v9fs_free_dirents(), move it to codir.c (I also prefer locality of calls
-to g_malloc and g_free in the same unit), make it extern and call it
-both on the error path of v9fs_co_readdir_many() and in v9fs_do_readdir().
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1863508
 
-> As you might have noticed, the previous/current v9fs_do_readdir() 
-> implementation had quite a bunch of individual error pathes, which is quite 
-> error prone or at least makes it difficult to maintain. So I think it makes 
-> sense to strip unnecessary branches as much as possible.
-> 
-> > Also I have the impression that all the if (dostat) { } block could
-> > be done before chaining a new entry.
-> 
-> Yes, you could move it forward, but what would you buy from that?
-> 
+Title:
+  qemu-system-arm stops with SIGSEGV in helper_gvec_eq16
 
-It just seems a better practice to do the things that can fail up front.
+Status in QEMU:
+  Fix Released
 
-> I think you mean the case when there's an error inside the if (dostat) {} 
-> block: The comments on struct V9fsDirEnt already suggest that the "st" member 
-> is optional and may be NULL. So if there's an error inside if (dostat) {}
-> then caller still has a valid "dent" field at least and it's up to caller 
-> whether or not it's a problem for its purpose that "st" is empty. For that 
-> reason I would not move the block forward.
-> 
+Bug description:
+  Segmentation fault when trying to start FreeBSD-arm system with qemu-
+  system-arm (version 4.1.1 on Fedora 31)
 
-Hrm... the comment is:
+  Commandline:
+  gdb -q --args /bin/qemu-system-arm \
+   -name FreeBSD12,debug-threads=3Don \
+   -m 1536 -machine virt -smp 2 \
+   -M virt,highmem=3Doff -serial mon:stdio -monitor telnet::45452,server,no=
+wait \
+   -machine virt,accel=3Dtcg,usb=3Doff,dump-guest-core=3Doff,gic-version=3D=
+2 \
+   -overcommit mem-lock=3Doff -no-reboot -device virtio-rng-device \
+   -bios u-boot-qemu.bin \
+   -drive file=3DFreeBSD-12.1-RELEASE-arm-armv7-CUBIEBOARD2.img,if=3Dnone,i=
+d=3Ddrive0,format=3Draw \
+   -device ich9-ahci,id=3Dahci -device ide-drive,drive=3Ddrive0,bus=3Dahci.=
+0 =
 
-    /*
-     * optional (may be NULL): A full stat of each directory entry is just
-     * done if explicitly told to fs driver.
-     */
 
-I don't read that it is optional for the fs driver to populate "st"
-if this was required by the caller. Also, looking at the next patch
-I see that the condition for calling stat() is V9FS_REMAP_INODES and
-the code explicitly requires "st" to be available in this case.
+  Results:
+  ....
+  Mounting local filesystems:.
 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
+  Thread 4 "CPU 1/TCG" received signal SIGSEGV, Segmentation fault.
+  [Switching to Thread 0x7fffcedfe700 (LWP 53608)]
+  0x00005555558d9332 in helper_gvec_eq16 (d=3D0x5555566748d8, a=3D0x5555566=
+748e0, b=3D0x5555566748d0, desc=3D0) at /usr/src/debug/qemu-4.1.1-1.fc31.x8=
+6_64/accel/tcg/tcg-runtime-gvec.c:948
+  948     DO_CMP2(16)
 
-Cheers,
+  Tested different versions of qemu. qemu-3.0.1 worked, but qemu-3.1.1
+  failed with the same error.
 
---
-Greg
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1863508/+subscriptions
 
