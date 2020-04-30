@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B796E1C0253
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:22:31 +0200 (CEST)
-Received: from localhost ([::1]:60614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72711C0273
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 18:27:46 +0200 (CEST)
+Received: from localhost ([::1]:46238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUBxG-0008JG-7M
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:22:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47878)
+	id 1jUC2L-0007LR-UO
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 12:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48570)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jUBuk-0006Mx-HX
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:19:55 -0400
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jUC00-0004tb-2i
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:25:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <imammedo@redhat.com>) id 1jUBui-0005kA-UB
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:19:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54774
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jUBui-0005cT-CM
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:19:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588263590;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2YJzj8uUbM7k8AvEzlFKC80PIGU9BafiShnrKc9zkNc=;
- b=M7IyprrHYMbPxeXwyBFEyhYRNK9N2fL+wrw0VuwW5GtYuLENOdqM284oNMBhYLjg4/mwgh
- 0VltkcWoluA3Mumr9jyPWz2LAkei00RJQcmmuYekZmmnqSKW5ZaHybCMGbbGWSSYDRAbiv
- PfWjzru4p3RDb0DP92NQt1qt0/9R3v4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-LHzJe68gMDWrn5a3G0KcDA-1; Thu, 30 Apr 2020 12:19:48 -0400
-X-MC-Unique: LHzJe68gMDWrn5a3G0KcDA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B8EF100A61D;
- Thu, 30 Apr 2020 16:19:47 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4371E60C84;
- Thu, 30 Apr 2020 16:19:30 +0000 (UTC)
-Date: Thu, 30 Apr 2020 18:19:27 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 12/15] acpi: move aml builder code for floppy device
-Message-ID: <20200430181927.641ba2c7@redhat.com>
-In-Reply-To: <20200429140003.7336-13-kraxel@redhat.com>
-References: <20200429140003.7336-1-kraxel@redhat.com>
- <20200429140003.7336-13-kraxel@redhat.com>
+ (envelope-from <edgar.iglesias@gmail.com>) id 1jUBzP-0002Gb-RQ
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 12:25:19 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:43002)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jUBzP-0002Bh-EL; Thu, 30 Apr 2020 12:24:43 -0400
+Received: by mail-lj1-x242.google.com with SMTP id a21so7127547ljb.9;
+ Thu, 30 Apr 2020 09:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AjpYghyNqmUax0+ufzqkeCRlXZXVmlpA7XromECBQGI=;
+ b=mGbak7jqnfbHDXFv5lgjGr85HKqA2Vr4yi4NIMvsin3yyprfFiY90YNbCP85gtxdv5
+ klkXw9jOlJGa0okJ7FZdOSdFDt6XjxO0Z8u5j6korc6B/tZ+1EHskjUyotcKHMtjfFi3
+ t3oBewqEvLFSVUcr26RR8vE6RM+m/aamB7HcQBclGzTiYTwgxFQCbLdcwdep4bkzBbN0
+ TDOvhtavHJjccHGke0PTR/990nXUN7Xzn5UdHRKFyJyUobDdVAQwK3lI5znLJ/+CJ5Q9
+ ruw4NMcNajwkjR5ggP7TqnWKsQrH4O7EtkjkGqYqffqcYpUG0pF5WmWUBUvwy7xx5UF1
+ KDIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=AjpYghyNqmUax0+ufzqkeCRlXZXVmlpA7XromECBQGI=;
+ b=IWtVEB0ipxiQzSrFvSlBnY/rWlbZ4829L+MQZoY+lIvnIJUvwKcpi/PQJmAc13ZdFX
+ MY+Jrqr2T5/+GFV7coFlEHAGK/0iIZjuuEOrPvEj+Blqlt52Eho4XlHmeorL5uFSKLWs
+ 3NcAcEJXLLnfdwptkTPDO4UICIcSm7hQeGqCUI8J9coSmMOAG9sCrgaJLEAhH8er2QpY
+ XRR0MCkz04nUSGEEYHuIp579jBNmglPe/0E53PhS5ySAQJaoRgdjwzwD2Ji5MwayB9HB
+ OszwWp3z63oTuYuiCmy04sMiB0gX3GqIZPJx2FiFBsfbSJglgSeYklLXeBRHgsztlytC
+ 3n+Q==
+X-Gm-Message-State: AGi0PuYCbzPI+y4/676bkxKl2Ov8gpgRnPfXYMeg3d+V55/QLp0P3ivt
+ o+V41zO6QKFP6U8kMoUwIkkC5Wq1XYw=
+X-Google-Smtp-Source: APiQypJGvlx2RF4Qxo2E7DEjGSszwwM504lyJX5M7fuSMa1+oONRLCtuek0UtHIs+2mMpId6e7mzRg==
+X-Received: by 2002:a2e:6c08:: with SMTP id h8mr83830ljc.48.1588263880943;
+ Thu, 30 Apr 2020 09:24:40 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id g3sm160825ljj.13.2020.04.30.09.24.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Apr 2020 09:24:40 -0700 (PDT)
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/9] hw/core: stream: Add end-of-packet flag
+Date: Thu, 30 Apr 2020 18:24:30 +0200
+Message-Id: <20200430162439.2659-1-edgar.iglesias@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:04:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::242
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,281 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: damien.hedde@greensocs.com, peter.maydell@linaro.org,
+ sstabellini@kernel.org, edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, jasowang@redhat.com, alistair@alistair23.me,
+ frederic.konrad@adacore.com, qemu-arm@nongnu.org, philmd@redhat.com,
+ luc.michel@greensocs.com, figlesia@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Apr 2020 16:00:00 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Hi,
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+When modeling pipelines of processing nodes that communicate
+through streaming interfaces (e.g AXI-Stream), some of these
+nodes send packets while others may just stream unpacketized data.
 
-see small nit below
+The purpose of this series is to add an end-of-packet flag, e.g
+what AXI-Stream calls tlast. This is in preparation for modeling
+future nodes that may use huge packets that we wouldn't be able
+to buffer and also to handle nodes that don't use packets.
 
-> ---
->  hw/block/fdc.c       | 83 ++++++++++++++++++++++++++++++++++++++++++++
->  hw/i386/acpi-build.c | 83 --------------------------------------------
->  stubs/cmos.c         |  7 ++++
->  stubs/Makefile.objs  |  1 +
->  4 files changed, 91 insertions(+), 83 deletions(-)
->  create mode 100644 stubs/cmos.c
-> 
-> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-> index 33bc9e2f9249..56ddc26c7065 100644
-> --- a/hw/block/fdc.c
-> +++ b/hw/block/fdc.c
-> @@ -32,6 +32,8 @@
->  #include "qapi/error.h"
->  #include "qemu/error-report.h"
->  #include "qemu/timer.h"
-> +#include "hw/i386/pc.h"
-> +#include "hw/acpi/aml-build.h"
->  #include "hw/irq.h"
->  #include "hw/isa/isa.h"
->  #include "hw/qdev-properties.h"
-> @@ -2764,6 +2766,85 @@ void isa_fdc_get_drive_max_chs(FloppyDriveType type,
->      (*maxc)--;
->  }
->  
-> +static Aml *build_fdinfo_aml(int idx, FloppyDriveType type)
-> +{
-> +    Aml *dev, *fdi;
-> +    uint8_t maxc, maxh, maxs;
-> +
-> +    isa_fdc_get_drive_max_chs(type, &maxc, &maxh, &maxs);
-       ^^^ can be made static now
+Along the way I fixed a few things in the petalinux-ml605 eth setup.
 
+Cheers,
+Edgar
 
-> +
-> +    dev = aml_device("FLP%c", 'A' + idx);
-> +
-> +    aml_append(dev, aml_name_decl("_ADR", aml_int(idx)));
-> +
-> +    fdi = aml_package(16);
-> +    aml_append(fdi, aml_int(idx));  /* Drive Number */
-> +    aml_append(fdi,
-> +        aml_int(cmos_get_fd_drive_type(type)));  /* Device Type */
-> +    /*
-> +     * the values below are the limits of the drive, and are thus independent
-> +     * of the inserted media
-> +     */
-> +    aml_append(fdi, aml_int(maxc));  /* Maximum Cylinder Number */
-> +    aml_append(fdi, aml_int(maxs));  /* Maximum Sector Number */
-> +    aml_append(fdi, aml_int(maxh));  /* Maximum Head Number */
-> +    /*
-> +     * SeaBIOS returns the below values for int 0x13 func 0x08 regardless of
-> +     * the drive type, so shall we
-> +     */
-> +    aml_append(fdi, aml_int(0xAF));  /* disk_specify_1 */
-> +    aml_append(fdi, aml_int(0x02));  /* disk_specify_2 */
-> +    aml_append(fdi, aml_int(0x25));  /* disk_motor_wait */
-> +    aml_append(fdi, aml_int(0x02));  /* disk_sector_siz */
-> +    aml_append(fdi, aml_int(0x12));  /* disk_eot */
-> +    aml_append(fdi, aml_int(0x1B));  /* disk_rw_gap */
-> +    aml_append(fdi, aml_int(0xFF));  /* disk_dtl */
-> +    aml_append(fdi, aml_int(0x6C));  /* disk_formt_gap */
-> +    aml_append(fdi, aml_int(0xF6));  /* disk_fill */
-> +    aml_append(fdi, aml_int(0x0F));  /* disk_head_sttl */
-> +    aml_append(fdi, aml_int(0x08));  /* disk_motor_strt */
-> +
-> +    aml_append(dev, aml_name_decl("_FDI", fdi));
-> +    return dev;
-> +}
-> +
-> +static void fdc_isa_build_aml(ISADevice *isadev, Aml *scope)
-> +{
-> +    Aml *dev;
-> +    Aml *crs;
-> +    int i;
-> +
-> +#define ACPI_FDE_MAX_FD 4
-> +    uint32_t fde_buf[5] = {
-> +        0, 0, 0, 0,     /* presence of floppy drives #0 - #3 */
-> +        cpu_to_le32(2)  /* tape presence (2 == never present) */
-> +    };
-> +
-> +    crs = aml_resource_template();
-> +    aml_append(crs, aml_io(AML_DECODE16, 0x03F2, 0x03F2, 0x00, 0x04));
-> +    aml_append(crs, aml_io(AML_DECODE16, 0x03F7, 0x03F7, 0x00, 0x01));
-> +    aml_append(crs, aml_irq_no_flags(6));
-> +    aml_append(crs,
-> +        aml_dma(AML_COMPATIBILITY, AML_NOTBUSMASTER, AML_TRANSFER8, 2));
-> +
-> +    dev = aml_device("FDC0");
-> +    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0700")));
-> +    aml_append(dev, aml_name_decl("_CRS", crs));
-> +
-> +    for (i = 0; i < MIN(MAX_FD, ACPI_FDE_MAX_FD); i++) {
-> +        FloppyDriveType type = isa_fdc_get_drive_type(isadev, i);
-> +
-> +        if (type < FLOPPY_DRIVE_TYPE_NONE) {
-> +            fde_buf[i] = cpu_to_le32(1);  /* drive present */
-> +            aml_append(dev, build_fdinfo_aml(i, type));
-> +        }
-> +    }
-> +    aml_append(dev, aml_name_decl("_FDE",
-> +               aml_buffer(sizeof(fde_buf), (uint8_t *)fde_buf)));
-> +
-> +    aml_append(scope, dev);
-> +}
-> +
->  static const VMStateDescription vmstate_isa_fdc ={
->      .name = "fdc",
->      .version_id = 2,
-> @@ -2797,11 +2878,13 @@ static Property isa_fdc_properties[] = {
->  static void isabus_fdc_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> +    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
->  
->      dc->realize = isabus_fdc_realize;
->      dc->fw_name = "fdc";
->      dc->reset = fdctrl_external_reset_isa;
->      dc->vmsd = &vmstate_isa_fdc;
-> +    isa->build_aml = fdc_isa_build_aml;
->      device_class_set_props(dc, isa_fdc_properties);
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->  }
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 12a017e1f45b..7415bd5fdce0 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1052,85 +1052,6 @@ static void build_hpet_aml(Aml *table)
->      aml_append(table, scope);
->  }
->  
-> -static Aml *build_fdinfo_aml(int idx, FloppyDriveType type)
-> -{
-> -    Aml *dev, *fdi;
-> -    uint8_t maxc, maxh, maxs;
-> -
-> -    isa_fdc_get_drive_max_chs(type, &maxc, &maxh, &maxs);
-> -
-> -    dev = aml_device("FLP%c", 'A' + idx);
-> -
-> -    aml_append(dev, aml_name_decl("_ADR", aml_int(idx)));
-> -
-> -    fdi = aml_package(16);
-> -    aml_append(fdi, aml_int(idx));  /* Drive Number */
-> -    aml_append(fdi,
-> -        aml_int(cmos_get_fd_drive_type(type)));  /* Device Type */
-> -    /*
-> -     * the values below are the limits of the drive, and are thus independent
-> -     * of the inserted media
-> -     */
-> -    aml_append(fdi, aml_int(maxc));  /* Maximum Cylinder Number */
-> -    aml_append(fdi, aml_int(maxs));  /* Maximum Sector Number */
-> -    aml_append(fdi, aml_int(maxh));  /* Maximum Head Number */
-> -    /*
-> -     * SeaBIOS returns the below values for int 0x13 func 0x08 regardless of
-> -     * the drive type, so shall we
-> -     */
-> -    aml_append(fdi, aml_int(0xAF));  /* disk_specify_1 */
-> -    aml_append(fdi, aml_int(0x02));  /* disk_specify_2 */
-> -    aml_append(fdi, aml_int(0x25));  /* disk_motor_wait */
-> -    aml_append(fdi, aml_int(0x02));  /* disk_sector_siz */
-> -    aml_append(fdi, aml_int(0x12));  /* disk_eot */
-> -    aml_append(fdi, aml_int(0x1B));  /* disk_rw_gap */
-> -    aml_append(fdi, aml_int(0xFF));  /* disk_dtl */
-> -    aml_append(fdi, aml_int(0x6C));  /* disk_formt_gap */
-> -    aml_append(fdi, aml_int(0xF6));  /* disk_fill */
-> -    aml_append(fdi, aml_int(0x0F));  /* disk_head_sttl */
-> -    aml_append(fdi, aml_int(0x08));  /* disk_motor_strt */
-> -
-> -    aml_append(dev, aml_name_decl("_FDI", fdi));
-> -    return dev;
-> -}
-> -
-> -static Aml *build_fdc_device_aml(ISADevice *fdc)
-> -{
-> -    int i;
-> -    Aml *dev;
-> -    Aml *crs;
-> -
-> -#define ACPI_FDE_MAX_FD 4
-> -    uint32_t fde_buf[5] = {
-> -        0, 0, 0, 0,     /* presence of floppy drives #0 - #3 */
-> -        cpu_to_le32(2)  /* tape presence (2 == never present) */
-> -    };
-> -
-> -    dev = aml_device("FDC0");
-> -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0700")));
-> -
-> -    crs = aml_resource_template();
-> -    aml_append(crs, aml_io(AML_DECODE16, 0x03F2, 0x03F2, 0x00, 0x04));
-> -    aml_append(crs, aml_io(AML_DECODE16, 0x03F7, 0x03F7, 0x00, 0x01));
-> -    aml_append(crs, aml_irq_no_flags(6));
-> -    aml_append(crs,
-> -        aml_dma(AML_COMPATIBILITY, AML_NOTBUSMASTER, AML_TRANSFER8, 2));
-> -    aml_append(dev, aml_name_decl("_CRS", crs));
-> -
-> -    for (i = 0; i < MIN(MAX_FD, ACPI_FDE_MAX_FD); i++) {
-> -        FloppyDriveType type = isa_fdc_get_drive_type(fdc, i);
-> -
-> -        if (type < FLOPPY_DRIVE_TYPE_NONE) {
-> -            fde_buf[i] = cpu_to_le32(1);  /* drive present */
-> -            aml_append(dev, build_fdinfo_aml(i, type));
-> -        }
-> -    }
-> -    aml_append(dev, aml_name_decl("_FDE",
-> -               aml_buffer(sizeof(fde_buf), (uint8_t *)fde_buf)));
-> -
-> -    return dev;
-> -}
-> -
->  static Aml *build_kbd_device_aml(void)
->  {
->      Aml *dev;
-> @@ -1169,7 +1090,6 @@ static Aml *build_mouse_device_aml(void)
->  
->  static void build_isa_devices_aml(Aml *table)
->  {
-> -    ISADevice *fdc = pc_find_fdc0();
->      bool ambiguous;
->  
->      Aml *scope = aml_scope("_SB.PCI0.ISA");
-> @@ -1177,9 +1097,6 @@ static void build_isa_devices_aml(Aml *table)
->  
->      aml_append(scope, build_kbd_device_aml());
->      aml_append(scope, build_mouse_device_aml());
-> -    if (fdc) {
-> -        aml_append(scope, build_fdc_device_aml(fdc));
-> -    }
->  
->      if (ambiguous) {
->          error_report("Multiple ISA busses, unable to define IPMI ACPI data");
-> diff --git a/stubs/cmos.c b/stubs/cmos.c
-> new file mode 100644
-> index 000000000000..416cbe4055ff
-> --- /dev/null
-> +++ b/stubs/cmos.c
-> @@ -0,0 +1,7 @@
-> +#include "qemu/osdep.h"
-> +#include "hw/i386/pc.h"
-> +
-> +int cmos_get_fd_drive_type(FloppyDriveType fd0)
-> +{
-> +    return 0;
-> +}
-> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-> index 45be5dc0ed78..3cbe472d1c6c 100644
-> --- a/stubs/Makefile.objs
-> +++ b/stubs/Makefile.objs
-> @@ -3,6 +3,7 @@ stub-obj-y += bdrv-next-monitor-owned.o
->  stub-obj-y += blk-commit-all.o
->  stub-obj-y += blockdev-close-all-bdrv-states.o
->  stub-obj-y += clock-warp.o
-> +stub-obj-y += cmos.o
->  stub-obj-y += cpu-get-clock.o
->  stub-obj-y += cpu-get-icount.o
->  stub-obj-y += dump.o
+Edgar E. Iglesias (9):
+  hw/net/xilinx_axienet: Auto-clear PHY Autoneg
+  hw/net/xilinx_axienet: Cleanup stream->push assignment
+  hw/net/xilinx_axienet: Remove unncessary cast
+  hw/dma/xilinx_axidma: Add DMA memory-region property
+  hw/core: stream: Add an end-of-packet flag
+  hw/net/xilinx_axienet: Handle fragmented packets from DMA
+  hw/dma/xilinx_axidma: mm2s: Stream descriptor by descriptor
+  hw/dma/xilinx_axidma: s2mm: Support stream fragments
+  MAINTAINERS: Add myself as streams maintainer
+
+ include/hw/stream.h     |  5 +--
+ hw/core/stream.c        |  4 +--
+ hw/dma/xilinx_axidma.c  | 75 ++++++++++++++++++++++++++---------------
+ hw/net/xilinx_axienet.c | 63 ++++++++++++++++++++++++----------
+ hw/ssi/xilinx_spips.c   |  2 +-
+ MAINTAINERS             |  6 ++++
+ 6 files changed, 106 insertions(+), 49 deletions(-)
+
+-- 
+2.20.1
 
 
