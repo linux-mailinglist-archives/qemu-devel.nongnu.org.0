@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E6E1BF5C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:41:19 +0200 (CEST)
-Received: from localhost ([::1]:48086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5162F1BF5A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 12:36:46 +0200 (CEST)
+Received: from localhost ([::1]:36372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU6cx-0004dV-G7
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53608)
+	id 1jU6Yf-0006yy-Bu
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 06:36:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54120)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jU6Rm-0006MI-2B
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:38 -0400
+ (envelope-from <berrange@redhat.com>) id 1jU6Wv-0005nO-O2
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:34:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <pbonzini@redhat.com>) id 1jU6Rk-0004e9-OK
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:30619
- helo=us-smtp-1.mimecast.com)
+ (envelope-from <berrange@redhat.com>) id 1jU6Wu-0005br-1K
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:34:57 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20868
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jU6Rk-0004dx-8x
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:29:36 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jU6Wt-0005bk-Iw
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 06:34:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588242574;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1588242894;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=arCIrhCYDvqzr/v6WXqZyE25XRcvC10QNtbGOdudylQ=;
- b=UsnySsYfMoFlfYruzArWZlOK2PXQrAcZd9qogbMndO+JTb9x8CuMH5BG0B8ebrrxA59CPr
- V7BTrKHKYM7EEioezoMIPSFY8jymJoN8w8vVrZcbIvQ0UXle10wM5Jn0s6u1K9LX7YvtPQ
- +fw7Xhp9C0VrM7X74sejQTyQIpl17Vw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-Q_A9lU7HM3WxVsBpjEJYbQ-1; Thu, 30 Apr 2020 06:29:31 -0400
-X-MC-Unique: Q_A9lU7HM3WxVsBpjEJYbQ-1
-Received: by mail-wr1-f71.google.com with SMTP id p16so3637539wro.16
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 03:29:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cjs3pWbD1k2uTehUtz3PCVLtt1L1phobiR8XBGlCO8w=;
- b=LZG9UwSpRQwvCqUHsBSv7yj6Q+GVS84MMecGeE4jsjQ6XI6kCAE2py2PHr/Hqr75lU
- sx4L855uv6VnheYIAVMpmWRrPvdmRqFS5lGaktiOHJnCl8FLnor2i9V05Z/nAP2ai+F9
- XlrfLuYKZfaBgfCq+9KcROGCYWOkE2ljTix3pBwky06vshaz1ZUvMYA+/wGm3kkdr8sb
- M8y+poXZLMX8j9X6+UeEshFD8fPQFPeoBSWwIpFf5By1A9JgpwMPghcfIbM/2c7yy5r/
- pPSq43d0XupkSwK1kALM4Z2MgcE4a477WRtWntqXbeNFtYrhb1AVFYMBgxz+XpAFFCny
- fMlw==
-X-Gm-Message-State: AGi0Pub9nQTmtMNZVQ7mmyu8KW/7AMjs6j8WfhTXsHYkhob5bXbCrhOb
- eXoo3N3H7OZNVueRCu4uEPWywMtTS6Bcue3LtyPSvjZD/7KSmW50kxp/X7/QakkrdJRkosgl4AE
- LN0doE6hFluuDoeA=
-X-Received: by 2002:a1c:9e51:: with SMTP id h78mr2350060wme.177.1588242570023; 
- Thu, 30 Apr 2020 03:29:30 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKR1F4w/CLKLyrfd9HYQIV3Glu9SZxbSW+/TPt4tZXt0SrquSEZv01O3KJsU6xXdz4aQ4oqAw==
-X-Received: by 2002:a1c:9e51:: with SMTP id h78mr2350048wme.177.1588242569801; 
- Thu, 30 Apr 2020 03:29:29 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ac19:d1fb:3f5f:d54f?
- ([2001:b07:6468:f312:ac19:d1fb:3f5f:d54f])
- by smtp.gmail.com with ESMTPSA id a1sm3285104wrn.80.2020.04.30.03.29.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Apr 2020 03:29:29 -0700 (PDT)
-Subject: Re: [PATCH] tests: add a "check-flake8" test for validating python
- code style
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200429153621.1694266-1-berrange@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9f000680-d32a-5e43-d45b-58391063b7fc@redhat.com>
-Date: Thu, 30 Apr 2020 12:29:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=aezKVauiUB33eCn1QG7NpnGTzrOUwf3IA3Rp0Jxx93Q=;
+ b=BggxQBNP67F8xl7SA7YURNjD0PeMDWot0NnVwkhjIFR9hUDBoxw3jot/4hjibs6fJ5YJPI
+ TiXn5CZCapq7jlsjor+Ny0ugQMlyV1dnVkPw0KeJCHFbxwMLa6rQh1kpcXqC2MFFVfy+4a
+ v6/um/vwWiS3SIxvxKlb9+z5QAObK7E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-w7JcFPQ8OZ6XLgvEC2K5Hw-1; Thu, 30 Apr 2020 06:34:47 -0400
+X-MC-Unique: w7JcFPQ8OZ6XLgvEC2K5Hw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D9931005510;
+ Thu, 30 Apr 2020 10:34:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E2D0D60BF4;
+ Thu, 30 Apr 2020 10:34:40 +0000 (UTC)
+Date: Thu, 30 Apr 2020 11:34:37 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Configuring onboard devices (was: Failing property setters +
+ hardwired devices + -global = a bad day)
+Message-ID: <20200430103437.GI2084570@redhat.com>
+References: <87mu6uia5i.fsf@dusky.pond.sub.org>
+ <20200429155719.GL1495129@redhat.com>
+ <87k11xh2kq.fsf@dusky.pond.sub.org>
+ <CAFEAcA9-oxkMD-kJ1z12d4K1S_Jaz7Wj6_38Ah7ChSaBfQNkkA@mail.gmail.com>
+ <87tv11e1en.fsf_-_@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20200429153621.1694266-1-berrange@redhat.com>
-Content-Language: en-US
+In-Reply-To: <87tv11e1en.fsf_-_@dusky.pond.sub.org>
+User-Agent: Mutt/1.13.3 (2020-01-12)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:24:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 01:31:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,47 +82,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/04/20 17:36, Daniel P. Berrang=C3=A9 wrote:
-> The flake8 program is a standard tool used by Python projects for
-> validating many commonly recommended style rules. It would be desirable
-> for QEMU to come into alignment with normal Python coding style best
-> practices.
+On Thu, Apr 30, 2020 at 12:03:12PM +0200, Markus Armbruster wrote:
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >=20
-> QEMU currently violates a huge number of the style rules, so we can't
-> blindly turn it on. Instead this patch introduces use of flake8 with
-> a huge ignore list to turn off everything that is currently violated.
+> > On Thu, 30 Apr 2020 at 08:09, Markus Armbruster <armbru@redhat.com> wro=
+te:
+> >> Our means to configure onboard devices are weak.  We sidestepped this
+> >> for isa-fdc by taking it off the board, and thus make -device work.
+> >
+> > This seems to be a general dynamic: the x86 pc machine works
+> > via -device options (or is changed so it can work that way);
+> > and then people propose dropping/deprecating/etc the config
+> > options that work with onboard devices, without providing
+> > clear solutions/instructions on how the command line needs
+> > to change/etc for the mass of boards which are not the x86
+> > pc machine and which do have a lot of onboard devices which
+> > can't be handled via -device.
+> >
+> > So my gut reaction to the "we should deprecate -global"
+> > suggestions in this thread was a bit "here we go again"...
+> > What works for x86 or even "what is sufficient for libvirt"
+> > doesn't necessarily cover all the cases.
 >=20
-> The following descriptions are mostly taken from:
+> Such shortsighted proposals have been made, but don't think it's what
+> we're doing here.
 >=20
->   https://www.flake8rules.com/
+> You're 100% right in that we do need to configure onboard devices.
+> -global is a terrible way to do it, though: it applies to *all* devices
+> of a kind.  What if the board has more than one?  What if the can add
+> more?
 
-I suggest instead using "black" and just reformat everything in a huge
-patch; that's what we're using for Patchew.
 
-It's not perfect, and especially one needs to get used to the double
-quotes instead of single quotes for strings.  However overall it is
-pretty good, and I've never seen it do something clearly "wrong".
+> Any better ideas for letting users configure onboard devices?
 
-> On its own this patch doesn't really do much of use except try to stop th=
-e
-> situation getting worse. To be valuable some motivated contributor(s)
-> would need to go through fixing the code, and re-enabling each excluded
-> warning category one at a time.
->=20
-> I'm mostly proposing this patch as a starting point for discussion, to
-> see if anyone is indeed motivated to take on the code cleanup challenge,
-> and feed the fixes in through the various maintainers trees.
+All the devices in QEMU form a tree, as reported by "info qtree".
+So, IIUC, the challenge is to provide a way to uniquely identify
+any node in the tree.
 
-If we go with "black" I suggest just doing a big patch for everything,
-since it's easy for maintainers to rebase by running black at each step.
- Overall our usage of Python is small enough that it should not be a big
-deal.
+Devices configured by the user/mgmt app will have an "id" property
+but most built-in devices will not have any "id". In addition even
+user configured devices may create multiple sub-nodes in the tree
+without "id" parameters.
 
-Paolo
+Uniquely referencing nodes in a tee is a solved problem though,
+even without "id" parameters. The XPath query languages shows
+this for XML.
+
+-global defines a query language based on the object type, and
+property name which is insufficiently flexible
+
+-set defines a query language based on the object type and ID
+value and property name(s) which is again insufficiently flexible.
+
+
+We "merely" need a new query language targetted to QEMU's qtree
+structure, which we can expose in the CLI that gives unique access
+to every possible property.
+
+Here is the truncated 'info qtree' for a running guest of mine:
+
+bus: main-system-bus
+  type System
+  dev: kvm-ioapic, id ""
+    gpio-in "" 24
+    gsi_base =3D 0 (0x0)
+    mmio 00000000fec00000/0000000000001000
+  dev: i440FX-pcihost, id ""
+    pci-hole64-size =3D 2147483648 (2 GiB)
+    short_root_bus =3D 0 (0x0)
+    x-pci-hole64-fix =3D false
+    bus: pci.0
+      type PCI
+      dev: virtio-balloon-pci, id "balloon0"
+        disable-legacy =3D "off"
+        disable-modern =3D true
+        class =3D 255 (0xff)
+        virtio-pci-bus-master-bug-migration =3D false
+        migrate-extra =3D false
+        modern-pio-notify =3D false
+        x-disable-pcie =3D true
+        page-per-vq =3D true
+        x-ignore-backend-features =3D true
+        ats =3D false
+        x-pcie-deverr-init =3D false
+        x-pcie-lnkctl-init =3D false
+        x-pcie-pm-init =3D false
+        addr =3D 08.0
+        romfile =3D ""
+        rombar =3D 1 (0x1)
+        multifunction =3D false
+        command_serr_enable =3D true
+        x-pcie-lnksta-dllla =3D true
+        x-pcie-extcap-init =3D false
+        class Class 00ff, addr 00:08.0, pci id 1af4:1002 (sub 1af4:0005)
+        bar 0: i/o at 0xc100 [0xc11f]
+        bus: virtio-bus
+          type virtio-pci-bus
+          dev: virtio-balloon-device, id ""
+            deflate-on-oom =3D false
+            free-page-hint =3D false
+            qemu-4-0-config-size =3D false
+            iothread =3D ""
+            indirect_desc =3D true
+            event_idx =3D true
+            notify_on_empty =3D true
+            any_layout =3D true
+            iommu_platform =3D false
+            use-started =3D false
+
+
+Consider the problem is to set the "deflate-on-oom" property on
+the balloon device.
+
+To uniquely identify this we can have a string:
+
+ /dev[1]/bus[pci/0]/dev[id=3Dballoon0]/bus[virtio-bus]/dev[0]/deflate-on-oo=
+m=3Dtrue
+
+If we consider that "id" values are unique, we can allow a simplication
+by omitting everything before that part of the match - "//" could indicate
+an omitted part like XPath allows, so we'd get
+
+ //dev[id=3Dballoon0]/bus[virtio-bus]/dev[0]/deflate-on-oom=3Dtrue
+
+There's only one bus, and one dev on that bus, so knowing this we can
+simplify a bit more and still be a unique query, to get this:
+
+ //dev[id=3Dballoon0]/bus/dev/deflate-on-oom=3Dtrue
+
+Or even allow use of "//" in the middle too:
+
+ //dev[id=3Dballoon0]//deflate-on-oom=3Dtrue
+
+Which conceptually says
+
+   "find the device with id balloon0 and set the property 'deflate-on-oom'
+   on the first child node in the qtree that hsa such a property name"
+
+I didn't say this would be pretty, and of course no one would seriously
+use this syntax for the virtio-balloon device, as you'd just set the
+property with -device. It should work for the many built-in devices
+though.
+
+Now just provide a new CLI arg
+
+ $QEMU -qtree //dev[id=3Dballoon0]//deflate-on-oom=3Dtrue
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
