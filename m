@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43F01BFC7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 16:06:28 +0200 (CEST)
-Received: from localhost ([::1]:44190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9661BF9E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 15:48:47 +0200 (CEST)
+Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU9pb-000363-NW
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 10:06:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
+	id 1jU9YO-0007GJ-NY
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 09:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49426)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9b8-00040k-BX
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:30 -0400
+ (envelope-from <dimastep@yandex-team.ru>) id 1jU9R8-0006Id-6G
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:43:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <bounces@canonical.com>) id 1jU9b6-0001l5-NO
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jU9b6-000163-3V
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:51:28 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jU9at-0007rK-A5
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:51:15 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 483532E802D
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 13:51:15 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 30 Apr 2020 13:36:05 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=Laurent@vivier.eu; 
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fritz-the-cat laurent-vivier m-luescher pmaydell
- sharpie tobijk zebul666
-X-Launchpad-Bug-Reporter: =?utf-8?q?Matthias_L=C3=BCscher_=28m-luescher=29?=
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <155475569461.20468.17957138207618410360.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158825376581.12757.6317159222253950337.malone@wampee.canonical.com>
-Subject: [Bug 1823790] Re: QEMU mishandling of SO_PEERSEC forces systemd into
- tight loop
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
+ (envelope-from <dimastep@yandex-team.ru>) id 1jU9Qb-0008ET-5Z
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 09:41:09 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:57906)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1jU9N4-0001DM-PJ; Thu, 30 Apr 2020 09:36:59 -0400
+Received: from mxbackcorp1o.mail.yandex.net (mxbackcorp1o.mail.yandex.net
+ [IPv6:2a02:6b8:0:1a2d::301])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 6A2312E151A;
+ Thu, 30 Apr 2020 16:36:50 +0300 (MSK)
+Received: from myt4-18a966dbd9be.qloud-c.yandex.net
+ (myt4-18a966dbd9be.qloud-c.yandex.net [2a02:6b8:c00:12ad:0:640:18a9:66db])
+ by mxbackcorp1o.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ jykYvKPdUn-akbu44Eq; Thu, 30 Apr 2020 16:36:50 +0300
 Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b884ea4f4888e578e7bb7f081b043a9cd033fa4c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:35:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 91.189.90.7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1588253810; bh=inPO6os+e9vX7M3fH2q01EN7eUk39AKi07Ywo3fdZ/M=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=yAxcDIuZWgZ8bGete6J2gTUGb995x3RFSDVh5nl/Yk0G85eHUmnL3XQiuGvhm/9T5
+ 1epbJCTgQfRYd9Nzcq88HSO/cTiludSxOllVtZUrLc5wIICU27Fha+Ilmwlqv0LUaz
+ 7tBLH0a3sTERf4izVD4BSrx2QyWXOJHJPuag3LOw=
+Authentication-Results: mxbackcorp1o.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b080:7108::1:9])
+ by myt4-18a966dbd9be.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ tZ29y7t6r8-akWKcOOw; Thu, 30 Apr 2020 16:36:46 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (Client certificate not present)
+From: Dima Stepanov <dimastep@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] vhost-user reconnect issues during vhost initialization
+Date: Thu, 30 Apr 2020 16:36:15 +0300
+Message-Id: <cover.1588252861.git.dimastep@yandex-team.ru>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/04/30 09:36:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 77.88.29.217
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 List-Id: <qemu-devel.nongnu.org>
@@ -71,54 +65,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1823790 <1823790@bugs.launchpad.net>
+Cc: fam@euphon.net, kwolf@redhat.com, yc-core@yandex-team.ru,
+ qemu-block@nongnu.org, mst@redhat.com, jasowang@redhat.com,
+ dgilbert@redhat.com, mreitz@redhat.com, arei.gonglei@huawei.com,
+ fengli@smartx.com, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D6d485a55d0cd
+Changes in v2:
+- Add to CC list: Li Feng <fengli@smartx.com>, since it looks like that we
+are working on pretty similar issues
+- Remove [RFC PATCH v1 1/7] contrib/vhost-user-blk: add option to simulate
+disconnect on init. Going to send this functionality in the separate
+patch, with the LIBVHOST_USER_DEBUG rework. Need to think how to reuse
+this option and silence the messages first.
+- Remove [RFC PATCH v1 3/7] char-socket: initialize reconnect timer only if
+close is emitted. This will be handled in the separate patchset:
+[PATCH 3/4] char-socket: avoid double call tcp_chr_free_connection by Li
+Feng
 
+v1:
 
-** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+During vhost-user reconnect functionality we hit several issues, if
+vhost-user-blk daemon is "crashed" or made disconnect during vhost
+initialization. The general scenario is as follows:
+  - vhost start routine is called
+  - vhost write failed due to SIGPIPE
+  - this call the disconnect routine and vhost_dev_cleanup routine
+    which set to 0 all the field of the vhost_dev structure
+  - return back to vhost start routine with the error
+  - on the fail path vhost start routine tries to rollback the changes
+    by using vhost_dev struct fields which were already reset
+  - sometimes this leads to SIGSEGV, sometimes to SIGABRT
+Before revising the vhost-user initialization code, we suggest adding
+the sanity checks to be aware of the possible disconnect event and that
+the vhost_dev structure can be in "uninitialized" state.
 
--- =
+The vhost-user-blk daemon is updated with the additional
+"--simulate-disconnect-stage=CASENUM" argument to simulate disconnect during
+VHOST device initialization. For instance:
+  1. $ ./vhost-user-blk -s ./vhost.sock -b test-img.raw --simulate-disconnect-stage=1
+     This command will simulate disconnect in the SET_VRING_CALL handler.
+     In this case the vhost device in QEMU is not set the started field to
+     true.
+  2. $ ./vhost-user-blk -s ./vhost.sock -b test-img.raw --simulate-disconnect-stage=2
+     This command will simulate disconnect in the SET_VRING_NUM handler.
+     In this case the started field is set to true.
+These two cases test different QEMU parts. Also to trigger different code paths
+disconnect should be simulated in two ways:
+  - before any successful initialization
+  - make successful initialization once and try to simulate disconnects
+Also we catch SIGABRT on the migration start if vhost-user daemon disconnected
+during vhost-user set log commands communication.
+*** BLURB HERE ***
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1823790
+Dima Stepanov (5):
+  char-socket: return -1 in case of disconnect during tcp_chr_write
+  vhost: introduce wrappers to set guest notifiers for virtio device
+  vhost-user-blk: add mechanism to track the guest notifiers init state
+  vhost: check vring address before calling unmap
+  vhost: add device started check in migration set log
 
-Title:
-  QEMU mishandling of SO_PEERSEC forces systemd into tight loop
+ backends/cryptodev-vhost.c  |  26 +++++-----
+ backends/vhost-user.c       |  16 ++----
+ chardev/char-socket.c       |   8 +--
+ hw/block/vhost-user-blk.c   |  23 ++++-----
+ hw/net/vhost_net.c          |  30 +++++++-----
+ hw/scsi/vhost-scsi-common.c |  15 ++----
+ hw/virtio/vhost-user-fs.c   |  17 +++----
+ hw/virtio/vhost-vsock.c     |  18 +++----
+ hw/virtio/vhost.c           | 115 ++++++++++++++++++++++++++++++++++++++++----
+ hw/virtio/virtio.c          |  13 +++++
+ include/hw/virtio/vhost.h   |   5 ++
+ include/hw/virtio/virtio.h  |   1 +
+ 12 files changed, 195 insertions(+), 92 deletions(-)
 
-Status in QEMU:
-  Fix Released
+-- 
+2.7.4
 
-Bug description:
-  While building Debian images for embedded ARM target systems I
-  detected that QEMU seems to force newer systemd daemons into a tight
-  loop.
-
-  My setup is the following:
-
-  Host machine: Ubuntu 18.04, amd64
-  LXD container: Debian Buster, arm64, systemd 241
-  QEMU: qemu-aarch64-static, 4.0.0-rc2 (custom build) and 3.1.0 (Debian 1:3=
-.1+dfsg-7)
-
-  To easily reproduce the issue I have created the following repository:
-  https://github.com/lueschem/edi-qemu
-
-  The call where systemd gets looping is the following:
-  2837 getsockopt(3,1,31,274891889456,274887218756,274888927920) =3D -1 err=
-no=3D34 (Numerical result out of range)
-
-  Furthermore I also verified that the issue is not related to LXD.
-  The same behavior can be reproduced using systemd-nspawn.
-
-  This issue reported against systemd seems to be related:
-  https://github.com/systemd/systemd/issues/11557
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1823790/+subscriptions
 
