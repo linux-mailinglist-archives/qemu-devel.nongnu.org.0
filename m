@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A701BF765
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 13:58:56 +0200 (CEST)
-Received: from localhost ([::1]:33764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183201BF7E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 14:08:14 +0200 (CEST)
+Received: from localhost ([::1]:41484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU7qB-0007sm-T3
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 07:58:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
+	id 1jU7z9-0007pA-09
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 08:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33916)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jk-0003NV-21
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:18 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jl-0003Pk-2b
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jU7jg-0000RL-Ex
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:15 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40088)
+ (envelope-from <peter.maydell@linaro.org>) id 1jU7jh-0000Rc-F9
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:16 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jU7jf-0000Qk-Vh
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:12 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id u16so1542589wmc.5
- for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:11 -0700 (PDT)
+ id 1jU7jg-0000RF-Vu
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 07:52:13 -0400
+Received: by mail-wr1-x436.google.com with SMTP id x18so6530523wrq.2
+ for <qemu-devel@nongnu.org>; Thu, 30 Apr 2020 04:52:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DnVZE8yCIv33a+1icgwUYG6BXiHGdO/aR7fwaOKWJV4=;
- b=gNsxh2GjbHn4Fk4CkuG/Pays6Bud3qziAXhVj+RnFuuRxKUtHcerToyd4GwwQTekpU
- rF7FLE5M+thgXhPaLxjCuvQ0P6aOzcKg4L8MXY7fF32spJcsRR996+Qdftrapzw7IEiU
- 9fdZYQpURHm+LEq50p1OaMBiLOFDAOUxPv5O4aPHgickPJ8yW7Kf6UbVCw0aNQv6QK+z
- FcvJDfSeql9b0Ia58VelJ9GtLVcSWg0uGTXgjhnmVJpnwKRvdZaxu0GBfE3eUUafAiXz
- OEkIeZ7nBa9vJbvta9hYSZqFHmG4VnI84muyFN2hm0vM/mxF3mn3w680+pnOjOINx2td
- qndQ==
+ bh=6V9ucxOOBLKRqrUEKQVPivd5c5ZGx+aM8Gyykmmx1TE=;
+ b=dNlLLcRP/mtF7S5cyXVnI4YAf0kKkiuNP0G/aSll3+bs5npRAHE1yJMjyH5EAVZo2k
+ ezED8ODNbIpnQ+NCvyZFI1NRc0mMMnbfwO/yCKYOJfNX3UA7NJ0KwEbygqXAd3iltH52
+ YeqZf72SOJ5OBtBYKLDHpdnZkay2XLFkIrkJeQAlQuJlSbnOipIPweYQUmP6nTQ1Y7tA
+ pLv/Uc4LFsPiHZUQm8b2ITTrsBOaz0wVxvyKzRZqqleR2aH75kRxIFJXtx5PqgbgGpjY
+ m1yCAp3VWdQkETPFf9e9Miutm+N/laoOSDYmKTQemT6Jn/zLDse69cuh70dxEGle0W3z
+ 5fOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DnVZE8yCIv33a+1icgwUYG6BXiHGdO/aR7fwaOKWJV4=;
- b=g8INtj4F4XMJ1l1Ia/Gz0Bnd4ufnkd06mLZnZ2HnMrLBZcRjC19O9Ktgc91IIugJlk
- Wzm267VOmBV+3OPtThxTsNy06UcYFJNcLYnTLaXe/Hpme6DPc7funesY+K2iCeBhng5l
- nG7n+Mf56LTGvkRNvZYFfuzfzVfZ7BkUr0bNSuLjpbGjpzS3AK2Oe+RAtVpAT7CFspPm
- DqJldTrkXajj7LDbKN+ov64Z+JWKvc89yIAQ7+vGKbTsooJmeNJo/9Ta/UVMlPpWutfI
- wuKMd93ZU7qW8COwywyr9RKei5xyqHHCE/xU6gOeasgFxIvUmq1o+idtHS4hlRuorCwC
- jNLQ==
-X-Gm-Message-State: AGi0PuaXY9JoDf4R9dk6OfGOB1P0KMbGnPIh40iBBg/04zJcHKBE70v+
- /cd5wd6nT4pcx++NHKEV8Zb1w/GKBzf13A==
-X-Google-Smtp-Source: APiQypKke2OcmTsrW5cDqbXyBo9mUH7a/KTfYn7FuBdMpOw5gn5uQs7Ij4n5WVXQLSugSSN4fzmt/g==
-X-Received: by 2002:a1c:2dc7:: with SMTP id t190mr2450037wmt.129.1588247530299; 
- Thu, 30 Apr 2020 04:52:10 -0700 (PDT)
+ bh=6V9ucxOOBLKRqrUEKQVPivd5c5ZGx+aM8Gyykmmx1TE=;
+ b=KKWtCubp6vG7dkJo2p+GKGyWkqvOdC4JWjLflO7sPSa4z+RixkTFA1OfT+Fb/whrpW
+ PjjyhpjEuA/1bYKNtlPpTlOFA+hXRfLLEcqzoqvCMG/FHzLtRkGGNZwdQVyhcQa9wW1g
+ D0KBpSThjTFS214wIIm1gUOebot3PRVJMohyH4vTuFLmvVV9jX87tMqv4KyeeYr8nTXh
+ mRaCcUPz1BWLKxIINalP15GFyylWuGGmfkRlcMYlR6vpPUoNZ/gQFi00ZUPyNqCn1kA5
+ MFkr1JbgYPBP1vh6osZLpEW8m8WuDTtZCZVUz8z8MXGMKbaY4TuEhpbgTwD6qWxMUOPc
+ T5ng==
+X-Gm-Message-State: AGi0PuZ58ScI6zS4hYkTzrPIL6TvtF+0X/1UxTwV2Y4cgeFPaKOTEq/A
+ lY7ie4cJefSPj4u8xxkNUT0c+c5f8VEduA==
+X-Google-Smtp-Source: APiQypLIB2A3x7BGl3ZHmFwQ2a7NcQozUBcTEJg1JMDNsO0gtuOqFBZ5JnZl857PZ10DE6sWyFhDRA==
+X-Received: by 2002:adf:d088:: with SMTP id y8mr580739wrh.23.1588247531305;
+ Thu, 30 Apr 2020 04:52:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.09
+ by smtp.gmail.com with ESMTPSA id j22sm491518wre.84.2020.04.30.04.52.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Apr 2020 04:52:09 -0700 (PDT)
+ Thu, 30 Apr 2020 04:52:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/31] hw/arm/virt: dt: add kaslr-seed property
-Date: Thu, 30 Apr 2020 12:51:34 +0100
-Message-Id: <20200430115142.13430-24-peter.maydell@linaro.org>
+Subject: [PULL 24/31] target/arm: Restrict the Address Translate write
+ operation to TCG accel
+Date: Thu, 30 Apr 2020 12:51:35 +0100
+Message-Id: <20200430115142.13430-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200430115142.13430-1-peter.maydell@linaro.org>
 References: <20200430115142.13430-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::32e
+X-Received-From: 2a00:1450:4864:20::436
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,67 +86,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jerome Forissier <jerome@forissier.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Generate random seeds to be used by the non-secure and/or secure OSes
-for ASLR. The seeds are 64-bit random values exported via the DT
-properties /chosen/kaslr-seed [1] and /secure-chosen/kaslr-seed, the
-latter being used by OP-TEE [2].
+Under KVM these registers are written by the hardware.
+Restrict the writefn handlers to TCG to avoid when building
+without TCG:
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e5bc0c37c97e1
-[2] https://github.com/OP-TEE/optee_os/commit/ef262691fe0e
+      LINK    aarch64-softmmu/qemu-system-aarch64
+    target/arm/helper.o: In function `do_ats_write':
+    target/arm/helper.c:3524: undefined reference to `raise_exception'
 
-Signed-off-by: Jerome Forissier <jerome@forissier.org>
-Message-id: 20200420121807.8204-3-jerome@forissier.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200423073358.27155-2-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ target/arm/helper.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 0d92674f32b..626822554d5 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -77,6 +77,7 @@
- #include "hw/acpi/generic_event_device.h"
- #include "hw/virtio/virtio-iommu.h"
- #include "hw/char/pl011.h"
-+#include "qemu/guest-random.h"
- 
- #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-     static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
-@@ -213,6 +214,18 @@ static bool cpu_type_valid(const char *cpu)
-     return false;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 7e9ea5d20fa..dfefb9b3d9b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3442,6 +3442,7 @@ static CPAccessResult ats_access(CPUARMState *env, const ARMCPRegInfo *ri,
+     return CP_ACCESS_OK;
  }
  
-+static void create_kaslr_seed(VirtMachineState *vms, const char *node)
-+{
-+    Error *err = NULL;
-+    uint64_t seed;
-+
-+    if (qemu_guest_getrandom(&seed, sizeof(seed), &err)) {
-+        error_free(err);
-+        return;
-+    }
-+    qemu_fdt_setprop_u64(vms->fdt, node, "kaslr-seed", seed);
-+}
-+
- static void create_fdt(VirtMachineState *vms)
++#ifdef CONFIG_TCG
+ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+                              MMUAccessType access_type, ARMMMUIdx mmu_idx)
  {
-     MachineState *ms = MACHINE(vms);
-@@ -233,9 +246,11 @@ static void create_fdt(VirtMachineState *vms)
+@@ -3602,9 +3603,11 @@ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+     }
+     return par64;
+ }
++#endif /* CONFIG_TCG */
  
-     /* /chosen must exist for load_dtb to fill in necessary properties later */
-     qemu_fdt_add_subnode(fdt, "/chosen");
-+    create_kaslr_seed(vms, "/chosen");
+ static void ats_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+ {
++#ifdef CONFIG_TCG
+     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
+     uint64_t par64;
+     ARMMMUIdx mmu_idx;
+@@ -3664,17 +3667,26 @@ static void ats_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     par64 = do_ats_write(env, value, access_type, mmu_idx);
  
-     if (vms->secure) {
-         qemu_fdt_add_subnode(fdt, "/secure-chosen");
-+        create_kaslr_seed(vms, "/secure-chosen");
+     A32_BANKED_CURRENT_REG_SET(env, par, par64);
++#else
++    /* Handled by hardware accelerator. */
++    g_assert_not_reached();
++#endif /* CONFIG_TCG */
+ }
+ 
+ static void ats1h_write(CPUARMState *env, const ARMCPRegInfo *ri,
+                         uint64_t value)
+ {
++#ifdef CONFIG_TCG
+     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
+     uint64_t par64;
+ 
+     par64 = do_ats_write(env, value, access_type, ARMMMUIdx_E2);
+ 
+     A32_BANKED_CURRENT_REG_SET(env, par, par64);
++#else
++    /* Handled by hardware accelerator. */
++    g_assert_not_reached();
++#endif /* CONFIG_TCG */
+ }
+ 
+ static CPAccessResult at_s1e2_access(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -3689,6 +3701,7 @@ static CPAccessResult at_s1e2_access(CPUARMState *env, const ARMCPRegInfo *ri,
+ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
+                         uint64_t value)
+ {
++#ifdef CONFIG_TCG
+     MMUAccessType access_type = ri->opc2 & 1 ? MMU_DATA_STORE : MMU_DATA_LOAD;
+     ARMMMUIdx mmu_idx;
+     int secure = arm_is_secure_below_el3(env);
+@@ -3728,6 +3741,10 @@ static void ats_write64(CPUARMState *env, const ARMCPRegInfo *ri,
      }
  
-     /* Clock node, for the benefit of the UART. The kernel device tree
+     env->cp15.par_el[1] = do_ats_write(env, value, access_type, mmu_idx);
++#else
++    /* Handled by hardware accelerator. */
++    g_assert_not_reached();
++#endif /* CONFIG_TCG */
+ }
+ #endif
+ 
 -- 
 2.20.1
 
