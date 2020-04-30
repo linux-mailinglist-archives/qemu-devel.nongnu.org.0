@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9882F1BF151
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 09:26:56 +0200 (CEST)
-Received: from localhost ([::1]:33288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 252DC1BF14B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Apr 2020 09:25:00 +0200 (CEST)
+Received: from localhost ([::1]:52002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jU3ax-0001tE-It
-	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 03:26:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34278)
+	id 1jU3Z4-0006QX-Lq
+	for lists+qemu-devel@lfdr.de; Thu, 30 Apr 2020 03:24:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34248)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jU3XZ-0004ct-QN
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:23:49 -0400
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jU3XW-0004Y0-1L
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:23:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <zhiwei_liu@c-sky.com>) id 1jU3W7-0006Yg-T2
- for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:23:25 -0400
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:42105)
+ (envelope-from <zhiwei_liu@c-sky.com>) id 1jU3W6-0006Xr-SS
+ for qemu-devel@nongnu.org; Thu, 30 Apr 2020 03:23:21 -0400
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:42976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1jU3W6-0006WV-Tx; Thu, 30 Apr 2020 03:21:55 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436398|-1; CH=green;
+ id 1jU3W6-0006Wj-6F; Thu, 30 Apr 2020 03:21:54 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436369|-1; CH=green;
  DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.0951211-0.00075412-0.904125;
- FP=0|0|0|0|0|-1|-1|-1; HT=e02c03295; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
+ DS=CONTINUE|ham_regular_dialog|0.17134-0.00013087-0.828529;
+ FP=0|0|0|0|0|-1|-1|-1; HT=e01a16378; MF=zhiwei_liu@c-sky.com; NM=1; PH=DS;
  RN=10; RT=10; SR=0; TI=SMTPD_---.HQfovas_1588231302; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.HQfovas_1588231302) by smtp.aliyun-inc.com(10.147.40.7);
  Thu, 30 Apr 2020 15:21:45 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: peter.maydell@linaro.org
-Subject: [RFC PATCH 4/8] riscv: Implement payload load interfaces
-Date: Thu, 30 Apr 2020 15:21:35 +0800
-Message-Id: <20200430072139.4602-5-zhiwei_liu@c-sky.com>
+Subject: [RFC PATCH 5/8] riscv: Add standard test case
+Date: Thu, 30 Apr 2020 15:21:36 +0800
+Message-Id: <20200430072139.4602-6-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
 References: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
@@ -63,19 +63,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 ---
- risu_reginfo_riscv64.c | 134 +++++++++++++++++++++++++++++++++++++++++
- risu_riscv64.c         |  47 +++++++++++++++
- 2 files changed, 181 insertions(+)
- create mode 100644 risu_reginfo_riscv64.c
- create mode 100644 risu_riscv64.c
+ test_riscv64.s | 85 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
+ create mode 100644 test_riscv64.s
 
-diff --git a/risu_reginfo_riscv64.c b/risu_reginfo_riscv64.c
+diff --git a/test_riscv64.s b/test_riscv64.s
 new file mode 100644
-index 0000000..cfa9889
+index 0000000..5a8279f
 --- /dev/null
-+++ b/risu_reginfo_riscv64.c
-@@ -0,0 +1,134 @@
-+/******************************************************************************
++++ b/test_riscv64.s
+@@ -0,0 +1,85 @@
++/*****************************************************************************
 + * Copyright (c) 2020 PingTouGe Semiconductor
 + * All rights reserved. This program and the accompanying materials
 + * are made available under the terms of the Eclipse Public License v1.0
@@ -84,184 +82,82 @@ index 0000000..cfa9889
 + *
 + * Contributors:
 + *     LIU Zhiwei (PingTouGe) - initial implementation
-+ *     based on Peter Maydell's risu_arm.c
++ *     based on test_arm.s by Peter Maydell
 + *****************************************************************************/
 +
-+#include <stdio.h>
-+#include <ucontext.h>
-+#include <string.h>
-+#include <signal.h> /* for FPSIMD_MAGIC */
-+#include <stdlib.h>
-+#include <stddef.h>
-+#include <stdbool.h>
-+#include <inttypes.h>
-+#include <assert.h>
-+#include <sys/prctl.h>
++/* Initialise the gp regs */
++li x1, 1
++#li x2, 2  # stack pointer
++#li x3, 3  # global pointer
++#li x4, 4  # thread pointer
++li x5, 5
++li x6, 6
++li x7, 7
++li x8, 8
++li x9, 9
++li x10, 10
++li x11, 11
++li x12, 12
++li x13, 13
++li x14, 14
++li x15, 15
++li x16, 16
++li x17, 17
++li x18, 18
++li x19, 19
++li x20, 20
++li x21, 21
++li x22, 22
++li x23, 23
++li x24, 24
++li x25, 25
++li x26, 26
++li x27, 27
++li x28, 28
++li x29, 29
++li x30, 30
++li x31, 30
 +
-+#include "risu.h"
-+#include "risu_reginfo_riscv64.h"
++/* Initialise the fp regs */
++fcvt.d.lu f0, x0
++fcvt.d.lu f1, x1
++#fcvt.d.lu f2, x2
++fcvt.d.lu f3, x3
++fcvt.d.lu f4, x4
++fcvt.d.lu f5, x5
++fcvt.d.lu f6, x6
++fcvt.d.lu f7, x7
++fcvt.d.lu f8, x8
++fcvt.d.lu f9, x9
++fcvt.d.lu f10, x10
++fcvt.d.lu f11, x11
++fcvt.d.lu f12, x12
++fcvt.d.lu f13, x13
++fcvt.d.lu f14, x14
++fcvt.d.lu f15, x15
++fcvt.d.lu f16, x16
++fcvt.d.lu f17, x17
++fcvt.d.lu f18, x18
++fcvt.d.lu f19, x19
++fcvt.d.lu f20, x20
++fcvt.d.lu f21, x21
++fcvt.d.lu f22, x22
++fcvt.d.lu f23, x23
++fcvt.d.lu f24, x24
++fcvt.d.lu f25, x25
++fcvt.d.lu f26, x26
++fcvt.d.lu f27, x27
++fcvt.d.lu f28, x28
++fcvt.d.lu f29, x29
++fcvt.d.lu f30, x30
++fcvt.d.lu f31, x31
 +
-+const struct option * const arch_long_opts;
-+const char * const arch_extra_help;
-+
-+void process_arch_opt(int opt, const char *arg)
-+{
-+    abort();
-+}
-+
-+const int reginfo_size(void)
-+{
-+    return sizeof(struct reginfo);
-+}
-+
-+/* reginfo_init: initialize with a ucontext */
-+void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-+{
-+    int i;
-+    union __riscv_mc_fp_state *fp;
-+    /* necessary to be able to compare with memcmp later */
-+    memset(ri, 0, sizeof(*ri));
-+
-+    for (i = 0; i < 32; i++) {
-+        ri->regs[i] = uc->uc_mcontext.__gregs[i];
-+    }
-+
-+    ri->sp = 0xdeadbeefdeadbeef;
-+    ri->regs[2] = 0xdeadbeefdeadbeef;
-+    ri->regs[3] = 0xdeadbeefdeadbeef;
-+    ri->regs[4] = 0xdeadbeefdeadbeef;
-+    ri->pc = uc->uc_mcontext.__gregs[0] - image_start_address;
-+    ri->faulting_insn = *((uint32_t *) uc->uc_mcontext.__gregs[0]);
-+    fp = &uc->uc_mcontext.__fpregs;
-+    ri->fcsr = fp->__d.__fcsr;
-+
-+    for (i = 0; i < 32; i++) {
-+        ri->fregs[i] = fp->__d.__f[i];
-+    }
-+}
-+
-+/* reginfo_is_eq: compare the reginfo structs, returns nonzero if equal */
-+int reginfo_is_eq(struct reginfo *r1, struct reginfo *r2)
-+{
-+    return memcmp(r1, r2, reginfo_size()) == 0;
-+}
-+
-+/* reginfo_dump: print state to a stream, returns nonzero on success */
-+int reginfo_dump(struct reginfo *ri, FILE * f)
-+{
-+    int i;
-+    fprintf(f, "  faulting insn %08x\n", ri->faulting_insn);
-+
-+    for (i = 1; i < 32; i++) {
-+        fprintf(f, "  X%-2d    : %016" PRIx64 "\n", i, ri->regs[i]);
-+    }
-+
-+    fprintf(f, "  sp     : %016" PRIx64 "\n", ri->sp);
-+    fprintf(f, "  pc     : %016" PRIx64 "\n", ri->pc);
-+    fprintf(f, "  fcsr   : %08x\n", ri->fcsr);
-+
-+    for (i = 0; i < 32; i++) {
-+        fprintf(f, "  F%-2d    : %016" PRIx64 "\n", i, ri->fregs[i]);
-+    }
-+
-+    return !ferror(f);
-+}
-+
-+/* reginfo_dump_mismatch: print mismatch details to a stream, ret nonzero=ok */
-+int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE * f)
-+{
-+    int i;
-+    fprintf(f, "mismatch detail (master : apprentice):\n");
-+    if (m->faulting_insn != a->faulting_insn) {
-+        fprintf(f, "  faulting insn mismatch %08x vs %08x\n",
-+                m->faulting_insn, a->faulting_insn);
-+    }
-+    for (i = 1; i < 32; i++) {
-+        if (m->regs[i] != a->regs[i]) {
-+            fprintf(f, "  X%-2d    : %016" PRIx64 " vs %016" PRIx64 "\n",
-+                    i, m->regs[i], a->regs[i]);
-+        }
-+    }
-+
-+    if (m->sp != a->sp) {
-+        fprintf(f, "  sp     : %016" PRIx64 " vs %016" PRIx64 "\n",
-+                m->sp, a->sp);
-+    }
-+
-+    if (m->pc != a->pc) {
-+        fprintf(f, "  pc     : %016" PRIx64 " vs %016" PRIx64 "\n",
-+                m->pc, a->pc);
-+    }
-+
-+    if (m->fcsr != a->fcsr) {
-+        fprintf(f, "  fcsr   : %08x vs %08x\n", m->fcsr, a->fcsr);
-+    }
-+
-+    for (i = 0; i < 32; i++) {
-+        if (m->fregs[i] != a->fregs[i]) {
-+            fprintf(f, "  F%-2d    : "
-+                    "%016" PRIx64 " vs "
-+                    "%016" PRIx64 "\n", i,
-+                    (uint64_t) m->fregs[i],
-+                    (uint64_t) a->fregs[i]);
-+        }
-+    }
-+
-+    return !ferror(f);
-+}
-diff --git a/risu_riscv64.c b/risu_riscv64.c
-new file mode 100644
-index 0000000..f742a40
---- /dev/null
-+++ b/risu_riscv64.c
-@@ -0,0 +1,47 @@
-+/******************************************************************************
-+ * Copyright (c) 2020 PingTouGe Semiconductor
-+ * All rights reserved. This program and the accompanying materials
-+ * are made available under the terms of the Eclipse Public License v1.0
-+ * which accompanies this distribution, and is available at
-+ * http://www.eclipse.org/legal/epl-v10.html
-+ *
-+ * Contributors:
-+ *     LIU Zhiwei(Linaro) - initial implementation
-+ *     based on Peter Maydell's risu_arm.c
-+ *****************************************************************************/
-+
-+#include "risu.h"
-+
-+void advance_pc(void *vuc)
-+{
-+    ucontext_t *uc = vuc;
-+    uc->uc_mcontext.__gregs[0] += 4;
-+}
-+
-+void set_ucontext_paramreg(void *vuc, uint64_t value)
-+{
-+    ucontext_t *uc = vuc;
-+    uc->uc_mcontext.__gregs[10] = value;
-+}
-+
-+uint64_t get_reginfo_paramreg(struct reginfo *ri)
-+{
-+    return ri->regs[10];
-+}
-+
-+int get_risuop(struct reginfo *ri)
-+{
-+    /* Return the risuop we have been asked to do
-+     * (or -1 if this was a SIGILL for a non-risuop insn)
-+     */
-+    uint32_t insn = ri->faulting_insn;
-+    uint32_t op = (insn & 0xf00) >> 8;
-+    uint32_t key = insn & ~0xf00;
-+    uint32_t risukey = 0x0000006b;
-+    return (key != risukey) ? -1 : op;
-+}
-+
-+uintptr_t get_pc(struct reginfo *ri)
-+{
-+   return ri->pc;
-+}
++/* do compare.
++ * The manual says instr with bits (6:0) == 1 1 0 1 0 1 1 are UNALLOCATED
++ */
++.int 0x0000006b
++/* exit test */
++.int 0x0000016b
 -- 
 2.23.0
 
