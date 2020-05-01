@@ -2,47 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC291C17E5
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 16:38:49 +0200 (CEST)
-Received: from localhost ([::1]:55920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99931C181D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 16:45:51 +0200 (CEST)
+Received: from localhost ([::1]:35352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUWoS-0002Tv-2w
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 10:38:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49170)
+	id 1jUWvG-0001Vn-Qd
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 10:45:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1jUWnd-0001ed-8T
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:37:57 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUWso-0006ha-47
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:43:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <alxndr@bu.edu>) id 1jUWnc-0004fD-9D
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:37:56 -0400
-Received: from relay64.bu.edu ([128.197.228.104]:59987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jUWnb-0004dI-T2
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:37:55 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 041EauTL029030
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 1 May 2020 10:36:59 -0400
-Date: Fri, 1 May 2020 10:36:56 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] fuzz: select fuzz target using executable name
-Message-ID: <20200501143656.ejasikkkxopmrcxo@mozz.bu.edu>
-References: <20200501135612.32249-1-alxndr@bu.edu>
+ (envelope-from <richard.henderson@linaro.org>) id 1jUWsb-00064Z-SM
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:43:17 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUWsb-000644-Bc
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:43:05 -0400
+Received: by mail-pg1-x544.google.com with SMTP id n11so4627957pgl.9
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 07:43:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8rjS/7TqCratD9XtbaLpFhAD42igKLbEmz+etE/cdlA=;
+ b=oaOjkM36MGo4/L/AdnwFn/qc8sbTOaNEChyMZLAlq1QvPIOQM6APqn3cBwTP1KCQ+h
+ Dv0nKM8sbDZ/mD9lBVxSlIJ12qMjU6pEHooxulZ2IZadBEYJsWWxwm55iEcwNt9LNVno
+ JjbfpSgBNJeUmK+WKqIofEjINhXxsMAHxPFYghRFxL+pZ8ViCgm/kGZYnK0wV9p/cImy
+ lFDcfFR/80qGfZGM6795Nx0rGzH46xRRUmKYo2cuy+ZQCR0t8J49YjdhjvFXT0byUaKe
+ j6VWnaGbhBPLRek8rG7ox2f8tMh26e9yP0qLEP43tUeSKtUrLwjsN115JFRfhirgKvX1
+ Gstg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8rjS/7TqCratD9XtbaLpFhAD42igKLbEmz+etE/cdlA=;
+ b=IaihIa/URQuIXc0z2hBb5eNyqlkcBEFXLGHPdKPlcSBc26a193GKlJuFd4f3p3Li+m
+ NeCJqQgb4ngnhpIv8LHPWob0m3RhfXwYnfBMlb+iHUIQPu4NAfUh0o0r2tELp65DGGWW
+ 9EUgb00UDQSHHCKbmAi5xz7QcoELb0SquQpeElAOfrMko2mE0tV2mOH9LoJQ6mOpLI0R
+ WjEjDIM8K7+HQBIj3ZKjtRZWgBamblydq8K/B1UKfpzLVd5hthw3sJbDN/92sRIH8kxV
+ 9iuFZm3k8FB5JFQhK935F5xFlDzs12GaHqlCSWDMCrxMyuhkk+gcX1hyUJCKhnRFHRGH
+ D7lw==
+X-Gm-Message-State: AGi0PuZRpQnLY91JEnR5d9uZN/tGUl+dklG2Cu/a48Q5Bk+QSbPDt2q3
+ ShSIQiWsmFhQSXpC5ZtL6GcMaQ==
+X-Google-Smtp-Source: APiQypI28e7uSv2XCnHThADNVgoS+YXYscwYVJc8DyGvm/En3RgLcXVVFnKKyp5qWfxa2+GsdW/3Iw==
+X-Received: by 2002:a62:3784:: with SMTP id e126mr4423256pfa.303.1588344183744; 
+ Fri, 01 May 2020 07:43:03 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id d12sm2289472pjx.1.2020.05.01.07.43.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 May 2020 07:43:03 -0700 (PDT)
+Subject: Re: [PATCH v1 6/9] gdbstub/linux-user: support debugging over a unix
+ socket
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200430190122.4592-1-alex.bennee@linaro.org>
+ <20200430190122.4592-7-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <765cad43-990b-c4e8-d786-6adbf28dbca6@linaro.org>
+Date: Fri, 1 May 2020 07:43:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200501135612.32249-1-alxndr@bu.edu>
-User-Agent: NeoMutt/20180716
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 10:37:54
-X-ACL-Warn: Detected OS   = Linux 2.6.x
-X-Received-From: 128.197.228.104
+In-Reply-To: <20200430190122.4592-7-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,74 +87,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, peter.maydell@linaro.org,
- Thomas Huth <thuth@redhat.com>, Bandan Das <bsd@redhat.com>,
- stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please ignore. I think I misunderstood the issue with the pull-request.
-Additionally, this patch still has incorrect spacing and is missing
-review tags.
+On 4/30/20 12:01 PM, Alex Bennée wrote:
+> @@ -814,7 +814,7 @@ int main(int argc, char **argv)
+>                  exit(1);
+>              }
+>          } else if (!strcmp(r, "g")) {
+> -            gdbstub_port = atoi(argv[optind++]);
+> +            gdbstub = g_strdup(argv[optind++]);
 
-On 200501 0956, Alexander Bulekov wrote:
-> The fuzzers are built into a binary (e.g. qemu-fuzz-i386). To select the
-> device to fuzz/fuzz target, we usually use the --fuzz-target= argument.
-> This commit allows the fuzz-target to be specified using the name of the
-> executable. If the executable name ends with -target-FUZZ_TARGET, then
-> we select the fuzz target based on this name, rather than the
-> --fuzz-target argument. This is useful for systems such as oss-fuzz
-> where we don't have control of the arguments passed to the fuzzer.
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->  tests/qtest/fuzz/fuzz.c | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
-> 
-> This patch should be free of any changes to the slirp submodule.
-> 
-> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-> index 0d78ac8d36..c6932cec4a 100644
-> --- a/tests/qtest/fuzz/fuzz.c
-> +++ b/tests/qtest/fuzz/fuzz.c
-> @@ -91,6 +91,7 @@ static void usage(char *path)
->          printf(" * %s  : %s\n", tmp->target->name,
->                  tmp->target->description);
->      }
-> +    printf("Alternatively, add -target-FUZZ_TARGET to the executable name\n");
->      exit(0);
->  }
->  
-> @@ -143,18 +144,20 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->      module_call_init(MODULE_INIT_QOM);
->      module_call_init(MODULE_INIT_LIBQOS);
->  
-> -    if (*argc <= 1) {
-> +    target_name = strstr(**argv, "-target-");
-> +    if (target_name) {        /* The binary name specifies the target */
-> +                target_name += strlen("-target-");
-> +    } else if (*argc > 1) {  /* The target is specified as an argument */
-> +        target_name = (*argv)[1];
-> +        if (!strstr(target_name, "--fuzz-target=")) {
-> +            usage(**argv);
-> +        }
-> +        target_name += strlen("--fuzz-target=");
-> +    } else {
->          usage(**argv);
->      }
->  
->      /* Identify the fuzz target */
-> -    target_name = (*argv)[1];
-> -    if (!strstr(target_name, "--fuzz-target=")) {
-> -        usage(**argv);
-> -    }
-> -
-> -    target_name += strlen("--fuzz-target=");
-> -
->      fuzz_target = fuzz_get_target(target_name);
->      if (!fuzz_target) {
->          usage(**argv);
-> -- 
-> 2.26.2
-> 
+You've got one too many strdup.
+
+The one here in bsd-user main, and a similar one in linux-user handle_arg_gdb,
+are redundant with...
+
+> +        gdbserver_state.socket_path = g_strdup(port_or_path);
+
+... this one, in gdbserver_start.
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
