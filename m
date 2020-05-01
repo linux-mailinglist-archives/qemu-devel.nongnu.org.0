@@ -2,82 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75331C193E
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 17:17:55 +0200 (CEST)
-Received: from localhost ([::1]:34938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527E81C1996
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 17:33:38 +0200 (CEST)
+Received: from localhost ([::1]:52958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUXQI-0002ZO-3u
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 11:17:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43192)
- by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jUXNN-0007xS-Nn
- for qemu-devel@nongnu.org; Fri, 01 May 2020 11:15:51 -0400
+	id 1jUXfV-0008KZ-9M
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 11:33:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
+ by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jUXdl-0005wy-EB
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 11:31:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jUXFU-0001lo-8Z
- for qemu-devel@nongnu.org; Fri, 01 May 2020 11:09:53 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39997)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jUXFT-0001gA-QF
- for qemu-devel@nongnu.org; Fri, 01 May 2020 11:06:43 -0400
-Received: by mail-wr1-x442.google.com with SMTP id e16so6710537wra.7
- for <qemu-devel@nongnu.org>; Fri, 01 May 2020 08:06:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iAIqMU9LmID+cSHS0iUuzYTqB9gHpn79/fvbxh9e0dA=;
- b=RQbGWN+f8xELUQ1mastSVuakh8lBg3lgAAFaGT2XZeVC2l/JYzdhNaeQ2cnM/Rucq6
- 7qVnQR6t/C3P9Dz0QqH61+2r8SKxHaKpEe+MyKhzh/RsSeStYm/kN6lRiM/PZPQs21kZ
- VPw3sOONJK3kmQTNxTeMUyqonk7/GdgpcBhz1adkqMWT3TuDD+/cIou2ZYvT+TBzJ15j
- QqX25ABD4/OF7YREhMrxL0QJtd05+Jo8ftdZugbBIlQAFOcR4m7919mW8aAvrCSRiqK6
- FNdOy/f1RqK8W7RJeUeCV2mNI976CrTI+eXLk6ePE+YiYpKD774WAJhzPCm5Czw6Yw7i
- AMcw==
+ (envelope-from <philmd@redhat.com>) id 1jUXdW-0002l0-7w
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 11:31:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48208
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jUXHY-0005Gs-7C
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 11:08:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588345730;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=toESbShGTF2QzgIWxAm+x076zKSUGpl/RHTr0NruCSI=;
+ b=AfHp6TRel8kdg3tK+SR3L40Gv4uskcIv/h7kjgiXo5ccvxYpHzt2C4iENgZLLpeBR+JuHI
+ JdN5Y+b8pLR3a6MWvDHOEFXzeKpL4s/VzzSWGwQs55ck0kisuxs/gNX/aONN1ZnFKjRJfi
+ 8Gfox/DR+W8tqwAERdfgQTFiFOuPDe4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-TW5Mx5cNOemjgzSZ4ricVA-1; Fri, 01 May 2020 11:08:49 -0400
+X-MC-Unique: TW5Mx5cNOemjgzSZ4ricVA-1
+Received: by mail-wr1-f72.google.com with SMTP id s11so5806697wru.6
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 08:08:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=iAIqMU9LmID+cSHS0iUuzYTqB9gHpn79/fvbxh9e0dA=;
- b=DroBcwgTJt/g0L+1kcDNAMFy1G/FXJtZJQVNxhZNIl26aXVUlX7Tj0aS1rOoWb8fBS
- Jh90LeS80CqWIvGjAcRmRWS67CKEIRymhgypZGN2/l0maG5cEA1hNX1t3qRRV9PsDbzZ
- uv8S1QHiLA/UKggfu6OgvzikxI9LMQ904DRkXJsoBld1S4RD59apTFn5LyNBXYa57Cl9
- t4UXNOZAB0uni8ZWJlnhJTK3X1mJGZGPadWa7SrKa42J2pl3cb4KJcURDxjKF0HmstKK
- uYqvabyQ9C/40XSsj7YRT5WA05rPI4pbMzPPpyjGYifE/vFxW80UvoZkchcxIje9CDvi
- hfgA==
-X-Gm-Message-State: AGi0PuZb6N2aQLUQ8yX1qGxYC30xPgOks431mk9BCB77Be7YOssrarGx
- sR9IMnlSrzmH+fjvPo2r4Ik=
-X-Google-Smtp-Source: APiQypInwwzdTKf0928oaI5fBUEvT5cQjqF8bCmp/pdlEL0Tusl6TKns8BGimrQfARZ1w3zLXwusmA==
-X-Received: by 2002:adf:f5ce:: with SMTP id k14mr4975974wrp.39.1588345602033; 
- Fri, 01 May 2020 08:06:42 -0700 (PDT)
+ bh=EKeNvEYPKiQqOEXseo+ZU6MuLnDHJM1wGN/uvBwrDyk=;
+ b=l0EZq5yhA0mIyIPgeEpSudj5PtApm7oxq91kZuZfO2c8r4fL3xfGqAmyUFoeImdA97
+ ziiKuOoaMgo1QXVqiVr2Ls24AXg265VYy1ohjHXrnZ6TPT84Qczhg6emFWn95T0HF8iN
+ ldjQJxb4wMHwHDgS+6PO1teoJTGE1BZkOjvuLRAAkILtRagNH4xLVgPcXW70s+SKTsa7
+ aCR7cE4g+jpGw3Vwh0+4WGrMbO2YjaLQO5GjiTr4/nzQAg2dXV6Ln45ODFE3XrnJkf7L
+ e5TaHK8vvcC5QHr8B6CbclGxg3ubwxpzvljeih6lYxcAScQXNo7YkPkcZpKalag05Ltd
+ xtIw==
+X-Gm-Message-State: AGi0PuZdEhlOrf4rmy7dgQ5Uyfl/HyFsiJLjjtAh/6HrKKzZGO3fjBkC
+ PezQltmxTm8Rxz0RgoRzH5253ABeOK/tjZ7ueIJSf8ysHlG2TwHBElDDfDPI8E07H04uW8UjJiF
+ DP7yKmaVBvwpeUCc=
+X-Received: by 2002:a1c:6a08:: with SMTP id f8mr28100wmc.132.1588345725010;
+ Fri, 01 May 2020 08:08:45 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIU82+PALJuIWrUxFXuW6EHfZaxKcqY2ZKu+w4lHmzCJOadfm7jVHp6MJ0vUyws4kXMUfBVkQ==
+X-Received: by 2002:a1c:6a08:: with SMTP id f8mr28077wmc.132.1588345724691;
+ Fri, 01 May 2020 08:08:44 -0700 (PDT)
 Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id r17sm4749078wrn.43.2020.05.01.08.06.40
+ by smtp.gmail.com with ESMTPSA id g6sm4939911wrw.34.2020.05.01.08.08.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 May 2020 08:06:41 -0700 (PDT)
-Subject: Re: [PATCH] linux-user/strace.list: fix epoll_create{,1} -strace
- output
-To: Sergei Trofimovich <slyfox@gentoo.org>, qemu-devel@nongnu.org
-References: <20200416175957.1274882-1-slyfox@gentoo.org>
- <20200430235934.210904e7@sf>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <073e188a-8911-6c32-d0a3-d3f4f78c2208@amsat.org>
-Date: Fri, 1 May 2020 17:06:39 +0200
+ Fri, 01 May 2020 08:08:44 -0700 (PDT)
+Subject: Re: [PATCH v1 5/7] disas: include an optional note for the start of
+ disassembly
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200501145713.19822-1-alex.bennee@linaro.org>
+ <20200501145713.19822-6-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <bd5c3bde-81b4-6d77-7c66-f2839904ccac@redhat.com>
+Date: Fri, 1 May 2020 17:08:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200430235934.210904e7@sf>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20200501145713.19822-6-alex.bennee@linaro.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::442
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 08:22:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,80 +96,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>,
- Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, riku.voipio@iki.fi,
+ richard.henderson@linaro.org, laurent@vivier.eu,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+ Helge & Aleksandar.
+On 5/1/20 4:57 PM, Alex Benn=C3=A9e wrote:
+> This will become useful shortly for providing more information about
+> output assembly inline. While there fix up the indenting and code
+> formatting in disas().
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-On 5/1/20 12:59 AM, Sergei Trofimovich wrote:
-> On Thu, 16 Apr 2020 18:59:57 +0100
-> Sergei Trofimovich <slyfox@gentoo.org> wrote:
-> 
->> Fix syscall name and parameters priinter.
->>
->> Before the change:
->>
->> ```
->> $ alpha-linux-user/qemu-alpha -strace -L /usr/alpha-unknown-linux-gnu/ /tmp/a
->> ...
->> 1274697 %s(%d)(2097152,274903156744,274903156760,274905840712,274877908880,274903235616) = 3
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Oops...
+> ---
+>   include/disas/disas.h     |  2 +-
+>   include/exec/log.h        |  4 ++--
+>   accel/tcg/translate-all.c |  4 ++--
+>   disas.c                   | 15 +++++++++++----
+>   tcg/tcg.c                 |  4 ++--
+>   5 files changed, 18 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/include/disas/disas.h b/include/disas/disas.h
+> index 36c33f6f19..1b6e035e32 100644
+> --- a/include/disas/disas.h
+> +++ b/include/disas/disas.h
+> @@ -7,7 +7,7 @@
+>   #include "cpu.h"
+>  =20
+>   /* Disassemble this for me please... (debugging). */
+> -void disas(FILE *out, void *code, unsigned long size);
+> +void disas(FILE *out, void *code, unsigned long size, const char *note);
+>   void target_disas(FILE *out, CPUState *cpu, target_ulong code,
+>                     target_ulong size);
+>  =20
+> diff --git a/include/exec/log.h b/include/exec/log.h
+> index fcc7b9e00b..3ed797c1c8 100644
+> --- a/include/exec/log.h
+> +++ b/include/exec/log.h
+> @@ -56,13 +56,13 @@ static inline void log_target_disas(CPUState *cpu, ta=
+rget_ulong start,
+>       rcu_read_unlock();
+>   }
+>  =20
+> -static inline void log_disas(void *code, unsigned long size)
+> +static inline void log_disas(void *code, unsigned long size, const char =
+*note)
+>   {
+>       QemuLogFile *logfile;
+>       rcu_read_lock();
+>       logfile =3D atomic_rcu_read(&qemu_logfile);
+>       if (logfile) {
+> -        disas(logfile->fd, code, size);
+> +        disas(logfile->fd, code, size, note);
+>       }
+>       rcu_read_unlock();
+>   }
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index e4f703a7e6..cdf58bb420 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1800,7 +1800,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>               size_t data_size =3D gen_code_size - code_size;
+>               size_t i;
+>  =20
+> -            log_disas(tb->tc.ptr, code_size);
+> +            log_disas(tb->tc.ptr, code_size, NULL);
+>  =20
+>               for (i =3D 0; i < data_size; i +=3D sizeof(tcg_target_ulong=
+)) {
+>                   if (sizeof(tcg_target_ulong) =3D=3D 8) {
+> @@ -1814,7 +1814,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>                   }
+>               }
+>           } else {
+> -            log_disas(tb->tc.ptr, gen_code_size);
+> +            log_disas(tb->tc.ptr, gen_code_size, NULL);
+>           }
+>           qemu_log("\n");
+>           qemu_log_flush();
+> diff --git a/disas.c b/disas.c
+> index 3937da6157..bb74650633 100644
+> --- a/disas.c
+> +++ b/disas.c
+> @@ -586,7 +586,7 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size=
+_t size)
+>   }
+>  =20
+>   /* Disassemble this for me please... (debugging). */
+> -void disas(FILE *out, void *code, unsigned long size)
+> +void disas(FILE *out, void *code, unsigned long size, const char *note)
+>   {
+>       uintptr_t pc;
+>       int count;
+> @@ -674,10 +674,17 @@ void disas(FILE *out, void *code, unsigned long siz=
+e)
+>       for (pc =3D (uintptr_t)code; size > 0; pc +=3D count, size -=3D cou=
+nt) {
+>           fprintf(out, "0x%08" PRIxPTR ":  ", pc);
+>           count =3D print_insn(pc, &s.info);
+> -=09fprintf(out, "\n");
+> -=09if (count < 0)
+> -=09    break;
+> +        if (note) {
+> +            fprintf(out, "\t\t%s\n", note);
+> +            note =3D NULL;
+> +        } else {
+> +            fprintf(out, "\n");
+> +        }
+> +        if (count < 0) {
+> +            break;
+> +        }
+>       }
+> +
+>   }
+>  =20
+>   /* Look up symbol for debugging purpose.  Returns "" if unknown. */
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index dd4b3d7684..a2268d9db0 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -1092,7 +1092,7 @@ void tcg_prologue_init(TCGContext *s)
+>               size_t data_size =3D prologue_size - code_size;
+>               size_t i;
+>  =20
+> -            log_disas(buf0, code_size);
+> +            log_disas(buf0, code_size, NULL);
+>  =20
+>               for (i =3D 0; i < data_size; i +=3D sizeof(tcg_target_ulong=
+)) {
+>                   if (sizeof(tcg_target_ulong) =3D=3D 8) {
+> @@ -1106,7 +1106,7 @@ void tcg_prologue_init(TCGContext *s)
+>                   }
+>               }
+>           } else {
+> -            log_disas(buf0, prologue_size);
+> +            log_disas(buf0, prologue_size, NULL);
+>           }
+>           qemu_log("\n");
+>           qemu_log_flush();
+>=20
 
->> 1274697 exit_group(0)
->> ```
->>
->> After the change:
->>
->> ```
->> $ alpha-linux-user/qemu-alpha -strace -L /usr/alpha-unknown-linux-gnu/ /tmp/a
->> ...
->> 1273719 epoll_create1(2097152) = 3
->> 1273719 exit_group(0)
->> ```
->>
-
-Cc: qemu-stable@nongnu.org
-Fixes: 9cbc0578cb6 ("Improve output of various syscalls")
-
->> Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
->> CC: Riku Voipio <riku.voipio@iki.fi>
->> CC: Laurent Vivier <laurent@vivier.eu>
->> ---
->>   linux-user/strace.list | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/linux-user/strace.list b/linux-user/strace.list
->> index d49a1e92a8..9281c0a758 100644
->> --- a/linux-user/strace.list
->> +++ b/linux-user/strace.list
->> @@ -125,10 +125,10 @@
->>   { TARGET_NR_dup3, "dup3" , "%s(%d,%d,%d)", NULL, NULL },
->>   #endif
->>   #ifdef TARGET_NR_epoll_create
->> -{ TARGET_NR_epoll_create, "%s(%d)", NULL, NULL, NULL },
->> +{ TARGET_NR_epoll_create, "epoll_create", "%s(%d)", NULL, NULL },
->>   #endif
->>   #ifdef TARGET_NR_epoll_create1
->> -{ TARGET_NR_epoll_create1, "%s(%d)", NULL, NULL, NULL },
->> +{ TARGET_NR_epoll_create1, "epoll_create1", "%s(%d)", NULL, NULL },
->>   #endif
->>   #ifdef TARGET_NR_epoll_ctl
->>   { TARGET_NR_epoll_ctl, "epoll_ctl" , NULL, NULL, NULL },
->> -- 
->> 2.26.1
->>
-> 
-> Should it be handled differently?
-
-No, you are correct, we missed this when reviewing commit 9cbc0578cb6.
-
-Thanks for your patch!
-
-Too bad it missed the 5.0 release :/
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
