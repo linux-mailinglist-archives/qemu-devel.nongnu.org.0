@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8347E1C1B06
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 18:59:31 +0200 (CEST)
-Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3C81C1B07
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 18:59:51 +0200 (CEST)
+Received: from localhost ([::1]:37446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUZ0c-0002xp-Ge
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 12:59:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57372)
+	id 1jUZ0w-0003NV-RX
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 12:59:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jUYyv-0001fg-M4
- for qemu-devel@nongnu.org; Fri, 01 May 2020 12:58:08 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUYz7-0001fs-MB
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:58:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jUYxt-0006UM-6L
- for qemu-devel@nongnu.org; Fri, 01 May 2020 12:57:45 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54536)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUYyK-0007Ux-U8
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:57:57 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jUYxs-0006QP-PU; Fri, 01 May 2020 12:56:40 -0400
-Received: by mail-wm1-x341.google.com with SMTP id h4so298382wmb.4;
- Fri, 01 May 2020 09:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUYyK-0007OH-Ch
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:57:08 -0400
+Received: by mail-pf1-x444.google.com with SMTP id x77so1823230pfc.0
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 09:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AERUYqi+ho3RVgMTEsAXXKJQB7G9nCVFcF4XCc9qPH8=;
- b=RHNPadbSAlb9N0+Lsc7N2rIB7jKlkGP+HML2bonjQJjG1T4jWeaXvtk4Oojl6SsrU/
- ADu9JQBcZgAXIcOymEXzn6W+i4BJNZdtf7R510mO75frv40Jv6VvNJs1nzE2uPd54gdd
- rxU+0WqFj5eyvlqsnguWDODggulDPfcTcFEKM+JAD98HXP/mQXoaBWOIbmtjuWTo1W8f
- Co44vf7r6nE4VcrSEv9XyUf5WdiqKGdQcpJS+TwDYbkZCe/AzFnGviVxMyaq1ALGpRTc
- /04l4+aMQ1auUH6+PCchHQWbM2x7mR82IeHoMW0+x9EjJYTLwSn3BIIUKE/tGUZ3ncdR
- V6lg==
+ bh=klP/n18H051c0hraLpoCl9JE9cUEAOVEjZtg8W34xxs=;
+ b=V5HC1zFAnSv6uWeKzZ4tiFplYDow50N1syvgUy+0JLHAgkmZ/+O56Tw6D8ixHmhykE
+ Aujqe1HbyVC//aZ+S/jp1q7Z6hNvM692smz675xds1Iewb01o56EMxI3ed7NEfXB2B6F
+ pIx+j9dJ8O6QdD6fGN2sJzsHOCpWiGhox98J25oE7R9nLUlhcAcS6dx8/sdez5JuhsN2
+ 5eJI7zS1x9g+YGfyg4LsA/LzE94ZuSt5wyak0S8mg7AzJPzvvlFxAP3IiIKv5aqnkacG
+ nPqYLf2BuTRol4hzMnvb2+SUjzslIDPHbT+OqkdFxUSnMadbIXkbfK1ns6VZ7AHQScBn
+ B8Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AERUYqi+ho3RVgMTEsAXXKJQB7G9nCVFcF4XCc9qPH8=;
- b=H14USWF4QyudZ+T2vFs/p8gRa75yK7INhb+FjWgmJFIC0f6H8bJN2MMHbFaYhJIQLk
- 4q77JiTyy09JZUUKEUszKqIimtq1+rZuWi5YcahHhu6tWDJVf6YIVm3FTbqPOcfKg8zH
- n56eC3BDhwu/qn5uP2jgxvVTW1to6KDQMQO4gunqNj+iINWPGvXTmPKkMY8/G18k5Rhk
- Gbe/kArW5LIbBOlA0AXZYVYx6JKNWQxnFN3O/dW2E9QuLQsjrKXbFmY3d54ZMXcN823g
- 1GruF68VWeAaA17L4zah6nXm12XeOUX+5127GwfqqHaUuf8a0pLrFb6F5ZlRHNOrFIWh
- sZMQ==
-X-Gm-Message-State: AGi0Puad1c3Gjqra4OW/moN3thCjPaFqIJ5cEhZswfHv4z7OFXRXLvvB
- LAdtXrVhtq/XpF8sQiqKYfvFU2L4Oaw=
-X-Google-Smtp-Source: APiQypLjEeTfyDjYdTfp9RP2GKDYS4FEFuxbv9tYSihgVk1NKI1m0Oq3NRcqOsb18qjfkbLJcmG9cw==
-X-Received: by 2002:a1c:3c08:: with SMTP id j8mr457745wma.30.1588352198848;
- Fri, 01 May 2020 09:56:38 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id r3sm5337316wrx.72.2020.05.01.09.56.37
+ bh=klP/n18H051c0hraLpoCl9JE9cUEAOVEjZtg8W34xxs=;
+ b=ktUk2G9vdqDtaPWtMdZVQ46W2QgjulnjOztjpwZM3TVNhAtmzzW30hKuWBnfksAdre
+ ClKyrjo0BHaQkFEomG+RBHdSSeZIgrP1LGMsAGXfbdWxEYyLDSZ/YyP23A3k1Diq19cC
+ TuqkBMPsz2ONKRjTsYhZSmGQ3uFWDfOuQOsu0kd6dcl01CPyGs2jqsxNbYx4n0gnJDH/
+ YO1+72Ip/YC44jYQ8orUxgPsO1fkEoCR1UIgZYDB4MbTbVaulYqx0rLxpFaei29OQKmq
+ raNKMKzGleRMeGB4CLMyzCNFJq7P+Dzro/x0lErOrm4LeJwLFKw/pLRLT6/riokcHf48
+ s/9A==
+X-Gm-Message-State: AGi0PuZsm2hXsC8XypNVpo/Nj3PTMUJOnH/C2JM2xLX3luM8UpQg2W2W
+ PJPRvIqjJ7YM3/Y4JvGDNDkjjDF5Adk=
+X-Google-Smtp-Source: APiQypJFeINnrHpPpFyPwMY1PKQXy0wWzxvpJFaLgwBDAgR6AqgTLN8vBWw2JtHrorwGUXnlF7qfCA==
+X-Received: by 2002:a62:528e:: with SMTP id g136mr5235199pfb.165.1588352224982; 
+ Fri, 01 May 2020 09:57:04 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id 14sm2759455pfj.90.2020.05.01.09.57.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 May 2020 09:56:38 -0700 (PDT)
-Subject: Re: [PATCH 02/36] target/arm: Don't allow Thumb Neon insns without
- FEATURE_NEON
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20200430181003.21682-1-peter.maydell@linaro.org>
- <20200430181003.21682-3-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a297b20b-718e-6c34-85b4-09b0520f023f@amsat.org>
-Date: Fri, 1 May 2020 18:56:37 +0200
+ Fri, 01 May 2020 09:57:04 -0700 (PDT)
+Subject: Re: [PATCH 1/4] softfloat: silence sNaN for conversions to/from
+ floatx80
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Joseph Myers <joseph@codesourcery.com>
+References: <alpine.DEB.2.21.2005010036120.30535@digraph.polyomino.org.uk>
+ <87k11viq9h.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <31b170d0-a879-6de5-a1d5-326711e23b8c@linaro.org>
+Date: Fri, 1 May 2020 09:57:02 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200430181003.21682-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <87k11viq9h.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::341
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,72 +88,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/20 8:09 PM, Peter Maydell wrote:
-> We were accidentally permitting decode of Thumb Neon insns even if
-> the CPU didn't have the FEATURE_NEON bit set, because the feature
-> check was being done before the call to disas_neon_data_insn() and
-> disas_neon_ls_insn() in the Arm decoder but was omitted from the
-> Thumb decoder.  Push the feature bit check down into the called
-> functions so it is done for both Arm and Thumb encodings.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   target/arm/translate.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/target/arm/translate.c b/target/arm/translate.c
-> index d4ad2028f12..ab5324a5aaa 100644
-> --- a/target/arm/translate.c
-> +++ b/target/arm/translate.c
-> @@ -3258,6 +3258,10 @@ static int disas_neon_ls_insn(DisasContext *s, uint32_t insn)
->       TCGv_i32 tmp2;
->       TCGv_i64 tmp64;
->   
-> +    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-> +        return 1;
-> +    }
-> +
->       /* FIXME: this access check should not take precedence over UNDEF
->        * for invalid encodings; we will generate incorrect syndrome information
->        * for attempts to execute invalid vfp/neon encodings with FP disabled.
-> @@ -5002,6 +5006,10 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
->       TCGv_ptr ptr1, ptr2, ptr3;
->       TCGv_i64 tmp64;
->   
-> +    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-> +        return 1;
-> +    }
-> +
->       /* FIXME: this access check should not take precedence over UNDEF
->        * for invalid encodings; we will generate incorrect syndrome information
->        * for attempts to execute invalid vfp/neon encodings with FP disabled.
-> @@ -10948,10 +10956,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
->   
->           if (((insn >> 25) & 7) == 1) {
->               /* NEON Data processing.  */
-> -            if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-> -                goto illegal_op;
-> -            }
-> -
->               if (disas_neon_data_insn(s, insn)) {
->                   goto illegal_op;
->               }
-> @@ -10959,10 +10963,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
->           }
->           if ((insn & 0x0f100000) == 0x04000000) {
->               /* NEON load/store.  */
-> -            if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-> -                goto illegal_op;
-> -            }
-> -
->               if (disas_neon_ls_insn(s, insn)) {
->                   goto illegal_op;
->               }
-> 
+On 5/1/20 9:17 AM, Alex Bennée wrote:
+> Ideally we want to
+> convert the extF80 and f128 code to use the newer FloatParts code which
+> is pretty robustly tested now. However the trick would be finding a way
+> to do that that doesn't involve break or regressing the performance for
+> the f16/32/64 cases. Just using a union causes all sorts of problems.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Yep.  Doing this conversion is the only way we'll ever fix the issue that
+Joseph points out for the difference between m68k and i686 fp format.
+
+> Anyway I'd settle for fixing the old style code and enabling the tests
+> we can.
+
+Yep.
+
+
+r~
 
