@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C16CC1C1DE2
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 21:30:03 +0200 (CEST)
-Received: from localhost ([::1]:52098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAEA51C1DE8
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 21:32:35 +0200 (CEST)
+Received: from localhost ([::1]:54288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUbMI-0002f7-AV
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 15:30:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36580)
+	id 1jUbOk-0004gj-NA
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 15:32:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jUbLG-0001q1-7o
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:28:58 -0400
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jUbNh-0003ms-Aa
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:31:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jUbLF-0003u5-1V
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:28:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39474
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jUbLE-0003qm-IK
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:28:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588361334;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LAT7NKnVZIEU9bYz1mNrCAWi1/kppmkvpU4S/a2ZqYE=;
- b=YpSCwl4GuNWpbO/vqYKn9CYriBdwL4nB12N8+1kaCTHH6nRdEnIke6tRBVoubVJyzBEsP2
- kgCAZixo7iqOVMhk5HWPAmgrufOlfsnqBUP0rPc87v6frMx0uSRgR+3OXVD6oCOON13nM+
- lsBENEwRaukngEqjYBR71s2tWHedjMA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-QkHj_DnWPjGVYA2n9alQPA-1; Fri, 01 May 2020 15:28:52 -0400
-X-MC-Unique: QkHj_DnWPjGVYA2n9alQPA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B35328014D6;
- Fri,  1 May 2020 19:28:51 +0000 (UTC)
-Received: from work-vm (ovpn-112-191.ams2.redhat.com [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C961361527;
- Fri,  1 May 2020 19:28:47 +0000 (UTC)
-Date: Fri, 1 May 2020 20:28:45 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: qemu-stable@nongnu.org, qemu-devel@nongnu.org, stefanha@redhat.com,
- yavrahami@paloaltonetworks.com, mszeredi@redhat.com, mreitz@redhat.com
-Subject: Re: [PULL 0/6] virtiofs queue
-Message-ID: <20200501192845.GB3374@work-vm>
-References: <20200501191500.126432-1-dgilbert@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1jUbNf-0005n2-Ga
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:31:28 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jUbNe-0005hF-Ac
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:31:27 -0400
+Received: by mail-wr1-x442.google.com with SMTP id g13so12619966wrb.8
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 12:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=GVigOjc7WbcFaD6+3bkBGFuI8NHRRREkHfYH7x4RLm4=;
+ b=TqqqZFq+8fhBkW9LXJCkS6o3RlvqlYyRQl8w7KiHbgo6ZBCUA1YZvHvDV7kDyB+wk8
+ iPhJmirzx4PSBG2moREolDTmTPOF84uP5+dxuaRZoeEMZYJ+viU2m0nzRn3dCZHKrpYg
+ PP9kk4EHU5BGgSVITSV5dsyD0j049m0ZagRoCU5sm8DmDNbhP3788JB0fTsR/jbrR3Rk
+ Q7UUcYXg1mMAlTVeZT7GqWPnb0BoNScya+tNddlFcmUSacp8bEVlyjzKAGARFM2dK5FQ
+ 16OMemdsUykeT2jzSp/jkoDJ81frD7jdbDp6/t9fQKNmvnw0GQc3wUwNYVaRr/TN0JV7
+ xSuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=GVigOjc7WbcFaD6+3bkBGFuI8NHRRREkHfYH7x4RLm4=;
+ b=WKuTixJEPWqlKjHqe7fhO0H+k1eZkaqvqf1HIlBTRMFi1gv6GP0REpw5YsN8rHMHKl
+ 33BKJiHK0T4jQ8Yd+GvDj1irKDkh6Kt2vRkjzRK27oRiWetpiQljRsmKt0ds1fsq8wzM
+ uLNwBG+RjCat6iGFtDSwlOx0jFq3i1UmXIkKnDES0Hn/71c0QMZieIJoO0pJu0LiRfJu
+ T9fUj+fVOV8j/3W0DsdLKp8JIDclISdNip1njLcgONCT+haxWD643gK2rve8nq8uxtIG
+ FjGtKf7mv28V604Nx3EtDqSfMKFfY9Y7njEdBIqq2ofIuEejUUz+JbqJrb4NddyReal7
+ lKeg==
+X-Gm-Message-State: AGi0PuZTUOymqeTfM1KLydVm66OGnEz0Z7NZmaDNAragcxgWeZcN5g8e
+ wdc0u6QgC7N0PSozggNMbqUa+5Waxdw=
+X-Google-Smtp-Source: APiQypIm7Ikugn87SAA1LV0fMn+TnJwDFhFku5oubXZ6hMBptFaJ7rPpWEyyl6zzKy+rP86ZJJA+jw==
+X-Received: by 2002:a5d:4711:: with SMTP id y17mr3284223wrq.49.1588361484340; 
+ Fri, 01 May 2020 12:31:24 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d133sm823018wmc.27.2020.05.01.12.31.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 May 2020 12:31:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7166A1FF7E;
+ Fri,  1 May 2020 20:31:22 +0100 (BST)
+References: <alpine.DEB.2.21.2005010038260.30535@digraph.polyomino.org.uk>
+ <87d07niidw.fsf@linaro.org>
+ <alpine.DEB.2.21.2005011911420.26026@digraph.polyomino.org.uk>
+User-agent: mu4e 1.4.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Joseph Myers <joseph@codesourcery.com>
+Subject: Re: [PATCH 3/4] softfloat: fix floatx80 pseudo-denormal comparisons
+In-reply-to: <alpine.DEB.2.21.2005011911420.26026@digraph.polyomino.org.uk>
+Date: Fri, 01 May 2020 20:31:22 +0100
+Message-ID: <87a72rih9x.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20200501191500.126432-1-dgilbert@redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 12:40:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::442
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,89 +87,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear Stable,
-  From this series, the fixes:
 
-       virtiofsd: add --rlimit-nofile=3DNUM option
-       virtiofsd: stay below fs.file-max sysctl value (CVE-2020-10717)
+Joseph Myers <joseph@codesourcery.com> writes:
 
-and
-       virtiofsd: Show submounts
+> On Fri, 1 May 2020, Alex Benn=C3=A9e wrote:
+>
+>>=20
+>> Joseph Myers <joseph@codesourcery.com> writes:
+>>=20
+>> > The softfloat floatx80 comparisons fail to allow for pseudo-denormals,
+>> > which should compare equal to corresponding values with biased
+>> > exponent 1 rather than 0.  Add an adjustment for that case when
+>> > comparing numbers with the same sign.
+>> >
+>> > Note that this fix only changes floatx80_compare_internal, not the
+>> > other more specific comparison operations.  That is the only
+>> > comparison function for floatx80 used in the i386 port, which is the
+>> > only supported port with these pseudo-denormal semantics.
+>>=20
+>> Again I can't see anything that triggers this although I noticed
+>> le_quiet has been fixed in the meantime. lt_quiet still fails with:
+>
+> It looks like this test is only testing the separate comparison functions=
+,=20
+> which aren't used in the i386 port and which I didn't change, not anythin=
+g=20
+> that uses floatx80_compare_internal.  (That's apart from probably not=20
+> covering pseudo-denormals either.)
 
-should probably be backported.
+OK - so these only turn up in i386?
 
-Dave
+I think then the things we need for v2 are:
 
-* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> The following changes since commit 1c47613588ccff44422d4bdeea0dc36a0a308e=
-c7:
->=20
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into sta=
-ging (2020-04-30 19:25:41 +0100)
->=20
-> are available in the Git repository at:
->=20
->   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20200501
->=20
-> for you to fetch changes up to 66502bbca37ca7a3bfa57e82cfc03b89a7a11eae:
->=20
->   virtiofsd: drop all capabilities in the wait parent process (2020-05-01=
- 20:05:37 +0100)
->=20
-> ----------------------------------------------------------------
-> virtiofsd: Pull 2020-05-01 (includes CVE fix)
->=20
-> This set includes a security fix, other fixes and improvements.
->=20
-> Security fix:
-> The security fix is for CVE-2020-10717 where, on low RAM hosts,
-> the guest can potentially exceed the maximum fd limit.
-> This fix adds some more configuration so that the user
-> can explicitly set the limit.
-> Thank you to Yuval Avrahami for reporting this.
->=20
-> Fixes:
->=20
-> Recursive mounting of the exported directory is now used in
-> the sandbox, such that if there was a mount underneath present at
-> the time the virtiofsd was started, that mount is also
-> visible to the guest; in the existing code, only mounts that
-> happened after startup were visible.
->=20
-> Security improvements:
->=20
-> The jailing for /proc/self/fd is improved - but it's something
-> that shouldn't be accessible anyway.
->=20
-> Most capabilities are now dropped at startup; again this shouldn't
-> change any behaviour but is extra protection.
->=20
-> ----------------------------------------------------------------
-> Max Reitz (1):
->       virtiofsd: Show submounts
->=20
-> Miklos Szeredi (1):
->       virtiofsd: jail lo->proc_self_fd
->=20
-> Stefan Hajnoczi (4):
->       virtiofsd: add --rlimit-nofile=3DNUM option
->       virtiofsd: stay below fs.file-max sysctl value (CVE-2020-10717)
->       virtiofsd: only retain file system capabilities
->       virtiofsd: drop all capabilities in the wait parent process
->=20
->  tools/virtiofsd/fuse_lowlevel.h  |   1 +
->  tools/virtiofsd/helper.c         |  47 ++++++++++++++++++
->  tools/virtiofsd/passthrough_ll.c | 102 ++++++++++++++++++++++++++++++++-=
-------
->  3 files changed, 133 insertions(+), 17 deletions(-)
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+ a) ensure we don't break the existing working TestFloat tests
+ b) try an enable the previously broken tests for areas touched
+ c) introduce some i386 specific tests to guard the pseudo-denormal
+ behaviour
 
+We have two tests currently (float_convs and float_madds) which
+currently exercise the various combinations of limits and NaN types
+using some common float_helpers.c support. Maybe extend it for have a
+table of the various ext80 types and write a i386 only test case to
+exercise the functions you fixed?
+
+--=20
+Alex Benn=C3=A9e
 
