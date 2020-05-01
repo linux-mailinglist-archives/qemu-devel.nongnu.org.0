@@ -2,62 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11E681C13FC
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 15:40:07 +0200 (CEST)
-Received: from localhost ([::1]:46804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3521C1764
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 16:12:43 +0200 (CEST)
+Received: from localhost ([::1]:52794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUVtd-0003ts-Nk
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 09:40:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54638)
+	id 1jUWPC-00007t-3N
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 10:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38850)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jUVsr-0003N4-EC
- for qemu-devel@nongnu.org; Fri, 01 May 2020 09:39:17 -0400
+ (envelope-from <alxndr@bu.edu>) id 1jUWO8-0007tA-TJ
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:11:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <balaton@eik.bme.hu>) id 1jUVsp-0007Dt-G6
- for qemu-devel@nongnu.org; Fri, 01 May 2020 09:39:16 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:51079)
+ (envelope-from <alxndr@bu.edu>) id 1jUWO3-0003AR-0F
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:11:36 -0400
+Received: from mail-mw2nam10on2103.outbound.protection.outlook.com
+ ([40.107.94.103]:2177 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jUVsk-0006am-Ir; Fri, 01 May 2020 09:39:15 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8926C746351;
- Fri,  1 May 2020 15:39:06 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4A489746344; Fri,  1 May 2020 15:39:06 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4841A74632C;
- Fri,  1 May 2020 15:39:06 +0200 (CEST)
-Date: Fri, 1 May 2020 15:39:06 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: About hardfloat in ppc
-In-Reply-To: <874kszkdhm.fsf@linaro.org>
-Message-ID: <alpine.BSF.2.22.395.2005011517360.62443@zero.eik.bme.hu>
-References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
- <87ftcoknvu.fsf@linaro.org>
- <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <871ro6ld2f.fsf@linaro.org>
- <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <87sggmjgit.fsf@linaro.org>
- <CAE2XoE8wFK1nOq3YXhB=iqTvqSDQk7Zzd35Tjzdd==v8ouMijA@mail.gmail.com>
- <43ac337c-752a-7151-1e88-de01949571de@linaro.org>
- <CAE2XoE-f_rkcnpQO1cHPUgdaWNAOvBRyUX1aj27UePd0Hkr=KQ@mail.gmail.com>
- <alpine.BSF.2.22.395.2004301721420.29315@zero.eik.bme.hu>
- <AM4PR07MB3506C091776962655FCE11E9CAAA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
- <FEA0FBA9-F5B7-4995-A2F3-5D8053637379@gmail.com>
- <CAE2XoE_N_oWJwwGVfh+9mOh3dYR6JXk5XJKzv8fr2A4iE9h1OA@mail.gmail.com>
- <alpine.BSF.2.22.395.2005011347390.29385@zero.eik.bme.hu>
- <CAE2XoE-0=SgjeXddZXDOYPeUC1xsD5V=A5xBoa1yHS8gL2=MQg@mail.gmail.com>
- <874kszkdhm.fsf@linaro.org>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jUWO2-00033u-Fo
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:11:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X55IpdSgdL+g55misuC3/EX5YFsvhpKdLqaTbmVOcdpo9HJsO80hwW2FhTmjhMUiOe1TkaBtQln2JEQFyI+UpriZ0rDIOoztoYFczm4y2ihOEBcV8b9yx+gKqziUFonfdJ2Qm2sexOwTNt25N8rJHMOrCxAGjax/hsNr7SEe/ZeQE2lWa6MfIB6C2A6UuSDEJT15O7PbKQUBKijT7/oCrnY4PLdbme3H+dkm0p2XnBCV/oaoKfFuWEMzvUOQFxg7SORABn/cQiycaa2Yfle/jvYIORLiO6yocLmuzUyynihGO1ZC/ZpFZFGgsc9ZHJGrceXEBfTtQKzqCUZi6jVppw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hXLyKHp/EhiDt+ZJtK+kzqrKg4nIB7VoH5CFXpI3p14=;
+ b=lIC7ff+QoyBSHGiajmRJ0XTyfqgvSH6546dFhklDSmFDQGx/tQ7VOYgErbL06Tl/+bfuJs07FUoRtI6/vfagv21QKkH/8OYteKFw8K6XGqMjRrJf8vJvRUWaIa+r4gkvN/EuSKEpalktZlHd3W7ecMC3gIZNF5LVioK95f81qHWKZg7gZDM1djscSXs/G/+1r2uh4NpglCXweo/alWyOvlcS9r8l1Lhzix97nxjwAqPtypRa8ihlUrZ00RqkyFNzItk/eQtAz9Jm8NYUVza9wblBVuGtrMV2yS9M8o4UXMa9/N+6bMEk2xHCODyjECxAAsg/GloLhUw/9pKY9QJMiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hXLyKHp/EhiDt+ZJtK+kzqrKg4nIB7VoH5CFXpI3p14=;
+ b=MvXHv5AOtrI+ZjvbXdy8LSORy4l1EVhk464IqTU+Q/CpLa2HaJt3f5uWBtYuqiLjdy1mALSl3QA9bfuJtNRMrXnglujktyv+3d5w6A49nOu/ebHEPvjXQ6nFQ4uh2kzO4qFnnRHQhpF46rMIn7JRp0g9Rq9Nb9sHEfzR35uDgH4=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB4157.namprd03.prod.outlook.com (2603:10b6:805:b9::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Fri, 1 May
+ 2020 13:56:23 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::640a:1123:37c1:42db]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::640a:1123:37c1:42db%3]) with mapi id 15.20.2958.020; Fri, 1 May 2020
+ 13:56:23 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] fuzz: select fuzz target using executable name
+Date: Fri,  1 May 2020 09:56:12 -0400
+Message-Id: <20200501135612.32249-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.26.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL0PR0102CA0022.prod.exchangelabs.com
+ (2603:10b6:207:18::35) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-28137181-1588340346=:62443"
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 07:58:18
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 152.66.115.2
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ BL0PR0102CA0022.prod.exchangelabs.com (2603:10b6:207:18::35) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2958.20 via Frontend Transport; Fri, 1 May 2020 13:56:22 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [128.197.127.33]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4b85dc2c-aece-4845-a388-08d7edd76ef4
+X-MS-TrafficTypeDiagnostic: SN6PR03MB4157:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB4157ACFF28A91202FCCCCAA0BAAB0@SN6PR03MB4157.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:175;
+X-Forefront-PRVS: 0390DB4BDA
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nzli2R1ASBtPbDmWDAFBgVc9zI6LttKjpk9ik4SDYxEu3CHelQldpMGe4uk4eVGraxtBHUlrvZallDGvim80WRwtzda5KQpU8Z9ximjw45HbTWWAAaw2cBKUNMaJDKia6Ns909WLUyZSqkJPB3zmu+mNDWwL47pp4V4qctqPAkXfPgBKcS8ZTz7WzrtvoNekUkKG/xZQq8QNp/2KSEsl4DOL7gQ6TBAkcpVsLRJtWCgMXMOwcmvp/x6mBWr9laXE+rAcvZMkxehgYMopiEv/Pzqt1KIMfD1KM+3KhVfD5tsh2JCZS3w+fBrhfEr8ZWNbxEHaBH2StMeMFuI2oK9rfqv0B6BB74Ic+is4kIrownWGf3CNVye++H2xgAHVaRCoWkn8SjUORohsxeSBq8+0iX3Xitskqme3w4J9hJHnDVSInVHs8hpU4zGnSfoGpxig
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(39860400002)(366004)(376002)(136003)(396003)(54906003)(66946007)(786003)(8676002)(316002)(8936002)(6666004)(4326008)(6916009)(36756003)(75432002)(66556008)(66476007)(52116002)(7696005)(2616005)(956004)(86362001)(1076003)(5660300002)(2906002)(186003)(16526019)(26005)(478600001)(6486002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: l/a3Jpw8olRnc/0edKZiA/De1DN/6+WCwaPUGQKeM/i5Q17e6W5R2UGROyVIjahh7+g2LgF+MnN3nrorjMSX8GhDXLPbHH7/mSSAO/sKKl7ABen1ScJaUn6tZqzPiOubfx3y5KFyECN8jUnV/obtvHT+aCxGc8P4Sv7Aj6Oaqhv/qs5CNmP5/tDiS8+97pBO05smLxTgzq+PYzs/1N4rTbgPpG6DnXABbsEncJWyp3W+1xW9rNr9rFSXERX8m2Yv/F2YIiKoVEisSV9KEzquh9M6iX/P3H/B8uSJBHWTRvJJT1KHVzGoLo/E2hkQEWljftiuVsWzjdcdKEmy8NGbtqGgBt9V5Syq+VXgrstviJU7cUWI0eMkrl7URgZF84ARvcCcmm7TmvlGs6P6v+Ww6bVIKqHSamoTc0jRcPrZk2GtSds+joq16eVFWOc/vLniKr4brQmuWBERyX28MAc3g36//1H7SmM6++oTg5o5PJhvVL7ZYDN6RFoTEYpAWMtzssfnt3YOK5QQXTuFBXvJ1vBRXeclg1vtbeGSpWjO9l26hiuHkw1b5uWzlx11X0fCfWd8xgNt8hkhn3JdlGSUgunOdcJ19ET/fXAwUlstVT5hhndd3OO+l3g0zTsWmvkX8bOwStOVOaCoAaWc90K6+Nk+mSJGBADBCCkSs2CiDumkJEz9Ibp6W0xK2YirHguBkR7GDglQ5JSWFvxWpvSXIojaK8ik/7ryoM6P3b+X4br0srGKaJdou5gHjP+Yfh9DwrWOsrNxvSASIZD8Lajgo0zBHBehYZDKFDpCN0+LNKo=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b85dc2c-aece-4845-a388-08d7edd76ef4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2020 13:56:23.4510 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NUhGvzC2I03jtC38GkfeuUPCpL9mbIFYaPQ0bivdoUEXW3nOVTe2WCYR/XkmfyID
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4157
+Received-SPF: pass client-ip=40.107.94.103; envelope-from=alxndr@bu.edu;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 10:11:27
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.94.103
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,127 +106,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Programmingkid <programmingkidx@gmail.com>, luoyonggang@gmail.com,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>, Dino Papararo <skizzato73@msn.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, peter.maydell@linaro.org,
+ Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The fuzzers are built into a binary (e.g. qemu-fuzz-i386). To select the
+device to fuzz/fuzz target, we usually use the --fuzz-target= argument.
+This commit allows the fuzz-target to be specified using the name of the
+executable. If the executable name ends with -target-FUZZ_TARGET, then
+we select the fuzz target based on this name, rather than the
+--fuzz-target argument. This is useful for systems such as oss-fuzz
+where we don't have control of the arguments passed to the fuzzer.
 
---3866299591-28137181-1588340346=:62443
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ tests/qtest/fuzz/fuzz.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-On Fri, 1 May 2020, Alex Bennée wrote:
-> 罗勇刚(Yonggang Luo) <luoyonggang@gmail.com> writes:
->> On Fri, May 1, 2020 at 7:58 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>> On Fri, 1 May 2020, 罗勇刚(Yonggang Luo) wrote:
->>>> That's what I suggested,
->>>> We preserve a  float computing cache
->>>> typedef struct FpRecord {
->>>>  uint8_t op;
->>>>  float32 A;
->>>>  float32 B;
->>>> }  FpRecord;
->>>> FpRecord fp_cache[1024];
->>>> int fp_cache_length;
->>>> uint32_t fp_exceptions;
->>>>
->>>> 1. For each new fp operation we push it to the  fp_cache,
->>>> 2. Once we read the fp_exceptions , then we re-compute
->>>> the fp_exceptions by re-running the fp FpRecord sequence.
->>>> and clear  fp_cache_length.
->>>
->>> Why do you need to store more than the last fp op? The cumulative bits can
->>> be tracked like it's done for other targets by not clearing fp_status then
->>> you can read it from there. Only the non-sticky FI bit needs to be
->>> computed but that's only determined by the last op so it's enough to
->>> remember that and run that with softfloat (or even hardfloat after
->>> clearing status but softfloat may be faster for this) to get the bits for
->>> last op when status is read.
->>>
->> Yeap, store only the last fp op is also an option. Do you means that store
->> the last fp op,
->> and calculate it when necessary?  I am thinking about a general fp
->> optmize method that suite
->> for all target.
->
-> I think that's getting a little ahead of yourself. Let's prove the
-> technique is valuable for PPC (given it has the most to gain). We can
-> always generalise later if it's worthwhile.
->
-> Rather than creating a new structure I would suggest creating 3 new tcg
-> globals (op, inA, inB) and re-factor the front-end code so each FP op
-> loaded the TCG globals.
+This patch should be free of any changes to the slirp submodule.
 
-So that's basically wherever you see helper_reset_fpstatus() in target/ppc 
-we would need to replace it with saving op and args to globals? Or just 
-repurpose this helper to do that. This is called before every fp op but 
-not before sub ops within vector ops. Is that correct? Probably it is, as 
-vector ops are a single op but how do we detect changes in flags by sub 
-ops for those? These might have some existing bugs I think.
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 0d78ac8d36..c6932cec4a 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -91,6 +91,7 @@ static void usage(char *path)
+         printf(" * %s  : %s\n", tmp->target->name,
+                 tmp->target->description);
+     }
++    printf("Alternatively, add -target-FUZZ_TARGET to the executable name\n");
+     exit(0);
+ }
+ 
+@@ -143,18 +144,20 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+     module_call_init(MODULE_INIT_QOM);
+     module_call_init(MODULE_INIT_LIBQOS);
+ 
+-    if (*argc <= 1) {
++    target_name = strstr(**argv, "-target-");
++    if (target_name) {        /* The binary name specifies the target */
++                target_name += strlen("-target-");
++    } else if (*argc > 1) {  /* The target is specified as an argument */
++        target_name = (*argv)[1];
++        if (!strstr(target_name, "--fuzz-target=")) {
++            usage(**argv);
++        }
++        target_name += strlen("--fuzz-target=");
++    } else {
+         usage(**argv);
+     }
+ 
+     /* Identify the fuzz target */
+-    target_name = (*argv)[1];
+-    if (!strstr(target_name, "--fuzz-target=")) {
+-        usage(**argv);
+-    }
+-
+-    target_name += strlen("--fuzz-target=");
+-
+     fuzz_target = fuzz_get_target(target_name);
+     if (!fuzz_target) {
+         usage(**argv);
+-- 
+2.26.2
 
-> The TCG optimizer should pick up aliased loads
-> and automatically eliminate the dead ones. We might need some new
-> machinery for the TCG to avoid spilling the values over potentially
-> faulting loads/stores but that is likely a phase 2 problem.
-
-I have no idea how to do this or even where to look. Some more detailed 
-explanation may be needed here.
-
-> Next you will want to find places that care about the per-op bits of
-> cpu_fpscr and call a helper with the new globals to re-run the
-> computation and feed the values in.
-
-So the code that cares about these bits are in guest thus we would need to 
-compute it if we detect the guest accessing these. Detecting when the 
-individual bits are accessed might be difficult so at first we could go 
-for checking if the fpscr is read and recompute FI bit then before 
-returning value. You previously said these might be when fpscr is read or 
-when generating exceptions but not sure where exactly are these done for 
-ppc. (I'd expect to have mffpscr but there seem to be different other ops 
-instead accessing parts of fpscr which are found in 
-target/ppc/fp-impl.inc.c:567 so this would need studying the PPC docs to 
-understand how the guest can access the FI bit of fpscr reg.)
-
-> That would give you a reasonable working prototype to start doing some
-> measurements of overhead and if it makes a difference.
->
->>
->>>
->>>> 3. If we clear the fp_exceptions , then we set fp_cache_length to 0 and
->>>> clear  fp_exceptions.
->>>> 4. If the  fp_cache are full, then we re-compute
->>>> the fp_exceptions by re-running the fp FpRecord sequence.
->>>
->>> All this cache management and more than one element seems unnecessary to
->>> me although I may be missing something.
->>>
->>>> Now the keypoint is how to tracking the read and write of FPSCR register,
->>>> The current code are
->>>>    cpu_fpscr = tcg_global_mem_new(cpu_env,
->>>>                                   offsetof(CPUPPCState, fpscr), "fpscr");
->>>
->>> Maybe you could search where the value is read which should be the places
->>> where we need to handle it but changes may be needed to make a clear API
->>> for this between target/ppc, TCG and softfloat which likely does not
->>> exist yet.
->
-> Once the per-op calculation is fixed in the PPC front-end I thing the
-> only change needed is to remove the #if defined(TARGET_PPC) in
-> softfloat.c - it's only really there because it avoids the overhead of
-> checking flags which we always know to be clear in it's case.
-
-That's the theory but I've found that removing that define currently makes 
-general fp ops slower but vector ops faster so I think there may be some 
-bugs that would need to be found and fixed. So testing with some proper 
-test suite might be needed.
-
-Regards,
-BALATON Zoltan
---3866299591-28137181-1588340346=:62443--
 
