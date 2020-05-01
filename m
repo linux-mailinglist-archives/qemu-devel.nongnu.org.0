@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9F61C1A77
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 18:18:27 +0200 (CEST)
-Received: from localhost ([::1]:60660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC051C1A84
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 18:23:41 +0200 (CEST)
+Received: from localhost ([::1]:38426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUYMr-0007NH-Vb
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 12:18:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
+	id 1jUYRw-0002cy-6M
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 12:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUYIp-0005eb-OT
- for qemu-devel@nongnu.org; Fri, 01 May 2020 12:17:06 -0400
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jUYN9-0008W5-IL
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:22:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jUYIR-0002xJ-FE
- for qemu-devel@nongnu.org; Fri, 01 May 2020 12:14:15 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36084)
+ (envelope-from <alex.bennee@linaro.org>) id 1jUYLm-0006Ph-Pz
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:18:43 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jUYIR-0002wr-1u
- for qemu-devel@nongnu.org; Fri, 01 May 2020 12:13:51 -0400
-Received: by mail-pf1-x443.google.com with SMTP id z1so1773872pfn.3
- for <qemu-devel@nongnu.org>; Fri, 01 May 2020 09:13:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jUYLm-0006Nw-91
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:17:18 -0400
+Received: by mail-wm1-x343.google.com with SMTP id g12so210510wmh.3
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 09:17:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JKXpnMhRsWCU37mbd0saCRVgrFFSwsREtPGyAIcikVA=;
- b=xIieqKW+DvUSAvOuxraO/Wsl3NsKijGSSB0Mp6fGTq+4C1Ma56o78POfEn8m0v4jsk
- bl3NbMgRdYd80AIiobCNQQT+LgK83oS7LBzpZDNIjFMuatY//WUfzJS0/9c58TzTAuLf
- sRu9vTEfYn5/ac8/4bPBk+TYZJ+6NvWLym0iM8Kt+EwzbtbqaZe7kV3n5+SdN2OId1hN
- hBuJY8FNK3GzFTlNGFyGhay8S2bsFkRqD5MVWCVkE5V5o/x3+YRZERVKjbCp1JwKtWYH
- r0D8C4kOgb5EAiEwQS4p1ToXSi67tdrTB2Uotn235IpbFB+Gc2jxLuvmfhAcKFvRhyqd
- wbTQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=JZ75jGE1ZDNpxRDu+TiQcZDghhE9MZ4WnRaTK4tyyVU=;
+ b=BwynSQ5nY/DdblaY8gxNvMzPdNGUHKIDnbRcXzGWYN0gnYAB9vmgLW7MK3gnsI9YWU
+ 27Mno2rSdlsQzv8X2mfTkczzq4dZOk3F5bT3QBfunx5rawT7siX6FJhlsLRsP4kMwea9
+ ai4K9Vu/hEBKxeXO0MJnutcH4himEf1+Rqey2w5QzjlufRbec6Q/oa0cE3QiNaLxpws0
+ q17ZhceCa0EPOumsmSvFmtYJIKq3NWFnLvbclt64xKGhtHf+daGyqpY44gl04yoTuarj
+ tMegC3knTfu5O0TCC2/TOAQZTXTEkLQpd3nvGymxt88BDQEl0IlLV15MbXbYL8G16U2G
+ 4Ehg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JKXpnMhRsWCU37mbd0saCRVgrFFSwsREtPGyAIcikVA=;
- b=Xr/y8dz+hez5b/EqE+4q95374IPQmHfebbeRnK89R+3bdAV3VKn7fppvZTEBL3ikba
- rK19DqHC0kEyAyHagWEIWZEgsF4ug1WIRAB7hrOtLTnthIWfYkxKfIUx0HqCNnLBd1R1
- n+M9zZNQUS4J0EbNLcwvL9SjABFCKCVoRiAXscDrJgj9z0BVee5uC56Q4lHE5EXOC6/3
- uIkATPcO64j42sQ7UAoICvryVNH0CMEBlzMT6qzFNeS7y4c4mf7bK0fvH78Vyh4wYR0H
- yGHNZNiSLTdB68bYV+F37xE9/Bv9n1Bu0Hm0fWvM5TmQ44vKA/v6sqVeeJrDjpAnUhae
- EdBg==
-X-Gm-Message-State: AGi0PuYDTV4ZXl8FfOdf/L9NN7p1ugZgPLdzTpgDbPn8FxplUUtHqdU6
- ZQtgJ0KtG/W3Y5AL05ILhdK7E0NcHec=
-X-Google-Smtp-Source: APiQypKIp7n0Nten2hE35YNoKNIPNaEELn0baOoW+fNYHEO2lH9LlhXb+LyVcGIWLgkfZRIFLleNMA==
-X-Received: by 2002:a63:1f57:: with SMTP id q23mr1924492pgm.324.1588349629241; 
- Fri, 01 May 2020 09:13:49 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id y2sm2645633pfq.16.2020.05.01.09.13.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 May 2020 09:13:48 -0700 (PDT)
-Subject: Re: [PATCH 23/36] target/arm: Convert Neon 64-bit element 3-reg-same
- insns
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200430181003.21682-1-peter.maydell@linaro.org>
- <20200430181003.21682-24-peter.maydell@linaro.org>
- <366a2e79-d963-bfdc-fcc6-2a63026fa1db@linaro.org>
- <CAFEAcA9kb2fpMcd-eLvdTD8dVjk=Ed9nKv2iHr_u_tpbBCa5HA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9b4cfbec-2fd3-3674-4622-1f0caccb43ed@linaro.org>
-Date: Fri, 1 May 2020 09:13:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=JZ75jGE1ZDNpxRDu+TiQcZDghhE9MZ4WnRaTK4tyyVU=;
+ b=FYdWng5aY7BVUiD7tAeiowA7lQMs7tMNxgAW+KNVwWOOTDwJd+eCY7OJrtSxi5T2rt
+ 0T7boTRbpc5qyaWLEfCbb211q6LbII+qCk+lOpLsidxDcGOTyoM+4AHbaHIgDh/uM9ww
+ 6/2yaGgU+Lj3WxZpe9BSkvaf3wCjbm5QHi/xPl/Msc8gq26/9LpD28BAVNCX8mpJVezh
+ Ec+gWpa4qRmFYGb64zxTecSZ+dYYuaqrwyh4mQkLhMwAnUyKxTSNsYIAjYM37Ej+DvDX
+ cH9Ytvy/muYU/q8SQesOuE2tUqw0LCJnBKMI4KjQbopio5VaczI9NfSP5TT3SbsvHuHg
+ 8mVg==
+X-Gm-Message-State: AGi0PuaqREASd8gjH5EuqyUrAvhwVnRs7e0X5Xjktm3+44FlXSWbgiuj
+ EOY2TUWSIhiszcJsyfUjz5snXHLreVc=
+X-Google-Smtp-Source: APiQypIwqFJbEJIOZlEwQjX+uOe2bYxqz6ciGhdkYg2RDN9QZbQ8U3Nmr4qc/FTlxK6xAO75T73/RQ==
+X-Received: by 2002:a05:600c:2255:: with SMTP id
+ a21mr295428wmm.150.1588349836458; 
+ Fri, 01 May 2020 09:17:16 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i25sm93893wml.43.2020.05.01.09.17.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 May 2020 09:17:15 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 86BD21FF7E;
+ Fri,  1 May 2020 17:17:14 +0100 (BST)
+References: <alpine.DEB.2.21.2005010036120.30535@digraph.polyomino.org.uk>
+User-agent: mu4e 1.4.1; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Joseph Myers <joseph@codesourcery.com>
+Subject: Re: [PATCH 1/4] softfloat: silence sNaN for conversions to/from
+ floatx80
+In-reply-to: <alpine.DEB.2.21.2005010036120.30535@digraph.polyomino.org.uk>
+Date: Fri, 01 May 2020 17:17:14 +0100
+Message-ID: <87k11viq9h.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9kb2fpMcd-eLvdTD8dVjk=Ed9nKv2iHr_u_tpbBCa5HA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::443
+X-Received-From: 2a00:1450:4864:20::343
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,68 +87,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/1/20 8:54 AM, Peter Maydell wrote:
-> On Thu, 30 Apr 2020 at 21:54, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 4/30/20 11:09 AM, Peter Maydell wrote:
->>> +
->>> +    rn = tcg_temp_new_i64();
->>> +    rm = tcg_temp_new_i64();
->>> +    rd = tcg_temp_new_i64();
->>> +
->>> +    for (pass = 0; pass < (a->q ? 2 : 1); pass++) {
->>> +        neon_load_reg64(rn, a->vn + pass);
->>> +        neon_load_reg64(rm, a->vm + pass);
->>> +        fn(rd, rm, rn);
->>> +        neon_store_reg64(rd, a->vd + pass);
->>> +    }
->>> +
->>> +    tcg_temp_free_i64(rn);
->>> +    tcg_temp_free_i64(rm);
->>> +    tcg_temp_free_i64(rd);
->>> +
->>> +    return true;
->>> +}
->>> +
->>> +#define DO_3SAME_64(INSN, FUNC)                                         \
->>> +    static bool trans_##INSN##_3s(DisasContext *s, arg_3same *a)        \
->>> +    {                                                                   \
->>> +        return do_3same_64(s, a, FUNC);                                 \
->>> +    }
->>
->> You can morph this into the gvec interface like so:
->>
->> #define DO_3SAME_64(INSN, FUNC) \
->>     static void gen_##INSN##_3s(unsigned vece, uint32_t rd_ofs,
->>                                 uint32_t rn_ofs, uint32_t rm_ofs,
->>                                 uint32_t oprsz, uint32_t maxsz)
->>     {
->>         static const GVecGen3 op = { .fni8 = FUNC };
->>         tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs,
->>                        oprsz, maxsz, &op);
->>     }
->>     DO_3SAME(INSN, gen_##INSN##_3s)
->>
->> The .fni8 function tells gvec that we have a helper that processes the
->> operation in 8 byte chunks.  It will handle the pass loop for you.
-> 
-> This doesn't quite work, because these are shift ops and
-> so the operands are passed to the helper in the order
-> rd, rm, rn. Reshuffling the order of arguments to
-> tcg_gen_gvec_3() fixes this, though.
-> 
-> I guess I should call the macro DO_3SAME_SHIFT64, I hadn't
-> noticed it was shift specific because the only thing we do
-> with it is shifts.
 
-See my reply to patch 26.  I think we should swap these operands during decode.
+Joseph Myers <joseph@codesourcery.com> writes:
+
+> Conversions between IEEE floating-point formats should convert
+> signaling NaNs to quiet NaNs.  Most of those in QEMU's softfloat code
+> do so, but those for floatx80 fail to.  Fix those conversions to
+> silence signaling NaNs as well.
+
+I realised we hadn't enabled float-to-float tests for check-softfloat so
+with this applied:
+
+--8<---------------cut here---------------start------------->8---
+tests/tcg: add check-softfloat-conv-f2f
+
+Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+1 file changed, 17 insertions(+), 1 deletion(-)
+tests/Makefile.include | 18 +++++++++++++++++-
+
+modified   tests/Makefile.include
+@@ -687,7 +687,23 @@ test-softfloat =3D $(call quiet-command, \
+ 			(cat $2.out && exit 1;), \
+ 			"FLOAT TEST", $2)
+=20
+-# Conversion Routines:
++# Conversion Routines: Float to Float
++# FIXME: f32_to_f128 (broken)
++check-softfloat-conv-f2f: $(FP_TEST_BIN)
++	$(call test-softfloat, \
++		f16_to_f32 f16_to_f64 \
++		f16_to_extF80 f16_to_f128 \
++		f32_to_f16 f32_to_f64 \
++		f32_to_extF80 \
++		f64_to_f16 f64_to_f32 \
++		f64_to_extF80 f64_to_f128 \
++		extF80_to_f16 extF80_to_f32 \
++		extF80_to_f64 extF80_to_f128 \
++		f128_to_f16 f128_to_f32 \
++		f128_to_f64 f128_to_extF80, \
++		float-to-float)
++
++# Conversion Routines: Float to Float
+ # FIXME: i32_to_extF80 (broken), i64_to_extF80 (broken)
+ #        ui32_to_f128 (not implemented), extF80_roundToInt (broken)
+ #
+--8<---------------cut here---------------end--------------->8---
+
+I still see some failures for:
+
+  f64_to_extF80
+  f128_to_extF80
+
+(as well as other conversions you've not touched). Ideally we want to
+convert the extF80 and f128 code to use the newer FloatParts code which
+is pretty robustly tested now. However the trick would be finding a way
+to do that that doesn't involve break or regressing the performance for
+the f16/32/64 cases. Just using a union causes all sorts of problems.
+
+Anyway I'd settle for fixing the old style code and enabling the tests
+we can.
+
+>
+> Signed-off-by: Joseph Myers <joseph@codesourcery.com>
+> ---
+>  fpu/softfloat.c | 24 ++++++++++++++++++------
+>  1 file changed, 18 insertions(+), 6 deletions(-)
+>
+> diff --git a/fpu/softfloat.c b/fpu/softfloat.c
+> index ae6ba71854..ac116c70b8 100644
+> --- a/fpu/softfloat.c
+> +++ b/fpu/softfloat.c
+> @@ -4498,7 +4498,9 @@ floatx80 float32_to_floatx80(float32 a, float_statu=
+s *status)
+>      aSign =3D extractFloat32Sign( a );
+>      if ( aExp =3D=3D 0xFF ) {
+>          if (aSig) {
+> -            return commonNaNToFloatx80(float32ToCommonNaN(a, status), st=
+atus);
+> +            floatx80 res =3D commonNaNToFloatx80(float32ToCommonNaN(a, s=
+tatus),
+> +                                               status);
+> +            return floatx80_silence_nan(res, status);
+>          }
+>          return packFloatx80(aSign,
+>                              floatx80_infinity_high,
+> @@ -5016,7 +5018,9 @@ floatx80 float64_to_floatx80(float64 a, float_statu=
+s *status)
+>      aSign =3D extractFloat64Sign( a );
+>      if ( aExp =3D=3D 0x7FF ) {
+>          if (aSig) {
+> -            return commonNaNToFloatx80(float64ToCommonNaN(a, status), st=
+atus);
+> +            floatx80 res =3D commonNaNToFloatx80(float64ToCommonNaN(a, s=
+tatus),
+> +                                               status);
+> +            return floatx80_silence_nan(res, status);
+>          }
+>          return packFloatx80(aSign,
+>                              floatx80_infinity_high,
+> @@ -5618,7 +5622,9 @@ float32 floatx80_to_float32(floatx80 a, float_statu=
+s *status)
+>      aSign =3D extractFloatx80Sign( a );
+>      if ( aExp =3D=3D 0x7FFF ) {
+>          if ( (uint64_t) ( aSig<<1 ) ) {
+> -            return commonNaNToFloat32(floatx80ToCommonNaN(a, status), st=
+atus);
+> +            float32 res =3D commonNaNToFloat32(floatx80ToCommonNaN(a, st=
+atus),
+> +                                             status);
+> +            return float32_silence_nan(res, status);
+>          }
+>          return packFloat32( aSign, 0xFF, 0 );
+>      }
+> @@ -5650,7 +5656,9 @@ float64 floatx80_to_float64(floatx80 a, float_statu=
+s *status)
+>      aSign =3D extractFloatx80Sign( a );
+>      if ( aExp =3D=3D 0x7FFF ) {
+>          if ( (uint64_t) ( aSig<<1 ) ) {
+> -            return commonNaNToFloat64(floatx80ToCommonNaN(a, status), st=
+atus);
+> +            float64 res =3D commonNaNToFloat64(floatx80ToCommonNaN(a, st=
+atus),
+> +                                             status);
+> +            return float64_silence_nan(res, status);
+>          }
+>          return packFloat64( aSign, 0x7FF, 0 );
+>      }
+> @@ -5681,7 +5689,9 @@ float128 floatx80_to_float128(floatx80 a, float_sta=
+tus *status)
+>      aExp =3D extractFloatx80Exp( a );
+>      aSign =3D extractFloatx80Sign( a );
+>      if ( ( aExp =3D=3D 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) {
+> -        return commonNaNToFloat128(floatx80ToCommonNaN(a, status), statu=
+s);
+> +        float128 res =3D commonNaNToFloat128(floatx80ToCommonNaN(a, stat=
+us),
+> +                                           status);
+> +        return float128_silence_nan(res, status);
+>      }
+>      shift128Right( aSig<<1, 0, 16, &zSig0, &zSig1 );
+>      return packFloat128( aSign, aExp, zSig0, zSig1 );
+> @@ -6959,7 +6969,9 @@ floatx80 float128_to_floatx80(float128 a, float_sta=
+tus *status)
+>      aSign =3D extractFloat128Sign( a );
+>      if ( aExp =3D=3D 0x7FFF ) {
+>          if ( aSig0 | aSig1 ) {
+> -            return commonNaNToFloatx80(float128ToCommonNaN(a, status), s=
+tatus);
+> +            floatx80 res =3D commonNaNToFloatx80(float128ToCommonNaN(a, =
+status),
+> +                                               status);
+> +            return floatx80_silence_nan(res, status);
+>          }
+>          return packFloatx80(aSign, floatx80_infinity_high,
+>                                     floatx80_infinity_low);
+> --=20
+> 2.17.1
 
 
-r~
-
+--=20
+Alex Benn=C3=A9e
 
