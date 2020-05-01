@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E521C1DAF
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 21:13:50 +0200 (CEST)
-Received: from localhost ([::1]:58802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305191C1DB5
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 21:17:19 +0200 (CEST)
+Received: from localhost ([::1]:35708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUb6b-0005ZE-Jz
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 15:13:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
+	id 1jUb9y-0008Bh-2l
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 15:17:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jUb5s-0005AA-Gl
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:13:05 -0400
+ (Exim 4.90_1) (envelope-from <fintelia@gmail.com>)
+ id 1jUb82-0006Vh-9n
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <joseph_myers@mentor.com>) id 1jUb5q-0002s3-Vn
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:13:03 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:8817)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jUb5q-0002qJ-8u
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:13:02 -0400
-IronPort-SDR: sr9/IG8ywSgODUufu2Gc708j9cEVNLHJYe6XuSN63rIgnhhlgmBE99f1fAyXPdcs0NWmBnWCKC
- 7EYoCmRtq+pWHiokwdBF08VzWa2MRhryi19nZs9YJ6aUg8nvw7qEfPGbmtPuJtX1BSXKNFQ7ft
- Nga3KbhTcmwwmGcGlE4YtiY4oPd8b61LXH0JuBd961IXeoo7eiJel69JOhAVfcGCY4Pi/cMLU6
- ulDroz/f/rV1DYefeBJgKzod0YoKzfR8m8yUHSH52SvM4a5TVqKl9OjGFCwXxDyAreEwmcZgcN
- Jyo=
-X-IronPort-AV: E=Sophos;i="5.73,340,1583222400"; d="scan'208";a="50449388"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
- by esa1.mentor.iphmx.com with ESMTP; 01 May 2020 11:12:59 -0800
-IronPort-SDR: 21+knrnRgo8thPF6yP42sQkvctBLX4pMnhZV+I7IDcgRisFNHq8H8C5YDRDql9CT18NDKXBQjg
- rH3v95cj93utGHkQiBNuR7SbEWv+X29W6Qk7WYEdA9aB8emZ3PE3YwlcEtmX2P3rvIEMk/cCMT
- TZXkN6hvs8bGZRwTziLsuj4G1nTBZqjIQh4vWFEicZ0CVWrhZLjiVep3e1zGKo15pehu1n6N4I
- AjgPmS0z5buaRF0StSxbqdYJ+2l/MNU9Bv2MV8duNUXjTW7HBt2V+VvB7uUYK3Iz/Y7AALy3jd
- t5c=
-Date: Fri, 1 May 2020 19:12:54 +0000
-From: Joseph Myers <joseph@codesourcery.com>
-X-X-Sender: jsm28@digraph.polyomino.org.uk
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 3/4] softfloat: fix floatx80 pseudo-denormal
- comparisons
-In-Reply-To: <87d07niidw.fsf@linaro.org>
-Message-ID: <alpine.DEB.2.21.2005011911420.26026@digraph.polyomino.org.uk>
-References: <alpine.DEB.2.21.2005010038260.30535@digraph.polyomino.org.uk>
- <87d07niidw.fsf@linaro.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (envelope-from <fintelia@gmail.com>) id 1jUb81-0008U3-KQ
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:18 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:43233)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <fintelia@gmail.com>)
+ id 1jUb7z-0008NQ-68; Fri, 01 May 2020 15:15:15 -0400
+Received: by mail-lf1-x144.google.com with SMTP id 188so4608415lfa.10;
+ Fri, 01 May 2020 12:15:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LYYG92cKXWRRdl6FS0Vnbmu0dttY95JWQ9/RSNjFx8Y=;
+ b=csXjXs89ng6BkbHUq4BHcAxs2eqGYs5t70ze8/Rsi67YHSXTiq5vCJe1ZLAdrW45Ti
+ eUXIIYyCCwJq7dRjlhbAGYLttTNAyFKcpc09/sZyODZgWNhrHOMD14AwAWzmXC+rWEQA
+ luv2KM0FUX3FOJXeiGMp6rfOsobuIVpZD6D02PHXyu1xgSEVQg4oJnnQYbst5JsAkbFj
+ HjAOF8YXM1KzmRELfXWe6amC77hsR68H8d2cZhvKnC5KH57HzYRzRinKAjt9oGaCeObn
+ wQMdllXQKaKTV1N8GDG8oyzeLDDRDQEUNP70fb4B189mknXLKTdNGS4A07/aZ0Y4FkQU
+ VarA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LYYG92cKXWRRdl6FS0Vnbmu0dttY95JWQ9/RSNjFx8Y=;
+ b=JYg4WthtskbViMa4WzB/D2UVh1ufo7VTRAOIa08MGNEGHTbfslhqRE9BogyrRfiwuS
+ RzNuD4aTllmy/XmFT6MoEXTC3eaPPRdyBpm14BT5RiBPtrvrgHaxwj07Bs4OrsT7hnL5
+ 7OBnXvqh6HdB6XO3OvZjIG94/QDAzGYxi3U/CNKHLp4NRjMoGL9sWHoXZjUK5IQ9Chow
+ JF40uTHtbFiAtJn+82WMPMpWnxoqp0t03/biQEeeyNSMDj4dLy6oliHe4wUTCsm3eyt7
+ oxxZBFRLBJE6hm/nWFN3ovvyy8PXYWfce+q1m02C1JGO25H/Ds8uM4BYR8o/Hpejr1MN
+ gHdw==
+X-Gm-Message-State: AGi0PubtEc0P4+nXjiNlbYilT5mkH4H5VgJL/+v9Su+hwCml9KwVlhYc
+ 899/1zEJ1agdeuT6cKLElas7u/j3aQU5qPxrVVI=
+X-Google-Smtp-Source: APiQypIwG5GQMbIbiF2QyoH0SocC4oZGXOOGPu2uH3OndI0/KwM1pjQGxpKnRHmr/abbpQywwHtO5CAOBbsDLAI/l8k=
+X-Received: by 2002:a19:84b:: with SMTP id 72mr2938984lfi.133.1588360512407;
+ Fri, 01 May 2020 12:15:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="-1152306461-1072893692-1588360374=:26026"
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
-Received-SPF: pass client-ip=68.232.129.153;
- envelope-from=joseph_myers@mentor.com; helo=esa1.mentor.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 15:12:59
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 68.232.129.153
+References: <CAC41xo2LfTQZnor5haAgBg=h34qv50xf8Bs1bgSeGESfr-E2ng@mail.gmail.com>
+ <CAKmqyKNMiD6VJ1D-ty-q_HMyiZ7oj7F0XraKTaYy78-xjhAN4A@mail.gmail.com>
+ <CAKmqyKO=edmrotcVa_tMO-VcTpdWEq7=0=EYiQquVhqwkS2F=g@mail.gmail.com>
+ <CAC41xo1uOy4XVtZqfjAohNHJUfNfDcMKaxGv7dD5uDediQjxiw@mail.gmail.com>
+In-Reply-To: <CAC41xo1uOy4XVtZqfjAohNHJUfNfDcMKaxGv7dD5uDediQjxiw@mail.gmail.com>
+From: Jonathan Behrens <fintelia@gmail.com>
+Date: Fri, 1 May 2020 15:14:46 -0400
+Message-ID: <CANnJOVFOpnP5j79G39ku+0sUng1VdqqvfWF=uDn2+BtfdVWAnw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: fix check of guest pa top bits
+To: Jose Martins <josemartins90@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000001e0c0105a49b00c4"
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=fintelia@gmail.com; helo=mail-lf1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2a00:1450:4864:20::144
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,39 +77,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----1152306461-1072893692-1588360374=:26026
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+--0000000000001e0c0105a49b00c4
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 1 May 2020, Alex Bennée wrote:
+Yeah, I've run into the same issue. Even if you ask Gmail to treat the
+email as plain text it still takes the liberty of hard wrapping lines
+without asking you. It really is a shame that there isn't a good way to
+submit patches via a web UI, the art of git send-email + manual SMTP isn't
+as widespread as it once was.
 
-> 
-> Joseph Myers <joseph@codesourcery.com> writes:
-> 
-> > The softfloat floatx80 comparisons fail to allow for pseudo-denormals,
-> > which should compare equal to corresponding values with biased
-> > exponent 1 rather than 0.  Add an adjustment for that case when
-> > comparing numbers with the same sign.
+Jonathan
+
+On Fri, May 1, 2020 at 2:54 PM Jose Martins <josemartins90@gmail.com> wrote:
+
+> Just resubmitted version 2. Sorry. Not really used to this. I actually
+> wasn't using git send-email. I was copying the patch to my email
+> client which was causing the weird wrapping. I think I also fixed the
+> issues raised by checkpatch. Hope everything is correct now.
+>
+> Jose
+>
+> On Thu, 30 Apr 2020 at 22:36, Alistair Francis <alistair23@gmail.com>
+> wrote:
 > >
-> > Note that this fix only changes floatx80_compare_internal, not the
-> > other more specific comparison operations.  That is the only
-> > comparison function for floatx80 used in the i386 port, which is the
-> > only supported port with these pseudo-denormal semantics.
-> 
-> Again I can't see anything that triggers this although I noticed
-> le_quiet has been fixed in the meantime. lt_quiet still fails with:
+> > On Thu, Apr 30, 2020 at 12:45 PM Alistair Francis <alistair23@gmail.com>
+> wrote:
+> > >
+> > > On Fri, Apr 24, 2020 at 8:10 AM Jose Martins <josemartins90@gmail.com>
+> wrote:
+> > > >
+> > > > The spec states that on sv39x4 guest physical  "address bits 63:41
+> > > > must all be zeros, or else a guest-page-fault exception occurs.".
+> > > > However, the check performed for these top bits of the virtual
+> address
+> > > > on the second stage is the same as the one performed for virtual
+> > > > addresses on the first stage except with the 2-bit extension,
+> > > > effectively creating the same kind of "hole" in the guest's physical
+> > > > address space. I believe the following patch fixes this issue:
+> > > >
+> > > > Signed-off-by: Jose Martins <josemartins90@gmail.com>
+> > >
+> > > Thanks for the patch.
+> > >
+> > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > >
+> > > > ---
+> > > >  target/riscv/cpu_helper.c | 20 +++++++++++++-------
+> > > >  1 file changed, 13 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > > > index d3ba9efb02..da879f5656 100644
+> > > > --- a/target/riscv/cpu_helper.c
+> > > > +++ b/target/riscv/cpu_helper.c
+> > > > @@ -421,15 +421,21 @@ static int get_physical_address(CPURISCVState
+> > > > *env, hwaddr *physical,
+> > >
+> > > There seems to be a strange wrapping here, that corrupts the patch.
+> > > For future patches can you please check your git send-email setup?
+> > >
+> > > Applied to the RISC-V tree with the above line fixed up.
+> >
+> > This patch also fails checkpatch.
+> >
+> > Do you mind resending a v2 with the check patch issues fixed?
+> >
+> > Alistair
+> >
+> > >
+> > > Alistair
+> > >
+> > > >      int va_bits = PGSHIFT + levels * ptidxbits + widened;
+> > > >      target_ulong mask, masked_msbs;
+> > > >
+> > > > -    if (TARGET_LONG_BITS > (va_bits - 1)) {
+> > > > -        mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
+> > > > +    if(!first_stage){
+> > > > +        if ((addr >> va_bits) != 0) {
+> > > > +            return TRANSLATE_FAIL;
+> > > > +        }
+> > > >      } else {
+> > > > -        mask = 0;
+> > > > -    }
+> > > > -    masked_msbs = (addr >> (va_bits - 1)) & mask;
+> > > > +        if (TARGET_LONG_BITS > (va_bits - 1)) {
+> > > > +            mask = (1L << (TARGET_LONG_BITS - (va_bits - 1))) - 1;
+> > > > +        } else {
+> > > > +            mask = 0;
+> > > > +        }
+> > > > +        masked_msbs = (addr >> (va_bits - 1)) & mask;
+> > > >
+> > > > -    if (masked_msbs != 0 && masked_msbs != mask) {
+> > > > -        return TRANSLATE_FAIL;
+> > > > +        if (masked_msbs != 0 && masked_msbs != mask) {
+> > > > +            return TRANSLATE_FAIL;
+> > > > +        }
+> > > >      }
+> > > >
+> > > >      int ptshift = (levels - 1) * ptidxbits;
+> > > > --
+> > > > 2.17.1
+> > > >
+> > > > Jose
+> > > >
+>
+>
 
-It looks like this test is only testing the separate comparison functions, 
-which aren't used in the i386 port and which I didn't change, not anything 
-that uses floatx80_compare_internal.  (That's apart from probably not 
-covering pseudo-denormals either.)
+--0000000000001e0c0105a49b00c4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Joseph S. Myers
-joseph@codesourcery.com
----1152306461-1072893692-1588360374=:26026--
+<div dir=3D"ltr"><div>Yeah, I&#39;ve run into the same issue. Even if you a=
+sk Gmail to treat the email as plain text it still takes the liberty of har=
+d wrapping lines without asking you. It really is a shame that there isn&#3=
+9;t a good way to submit patches via a web UI, the art of git send-email + =
+manual SMTP isn&#39;t as widespread as it once was.</div><div><br></div><di=
+v>Jonathan<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Fri, May 1, 2020 at 2:54 PM Jose Martins &lt;<a href=
+=3D"mailto:josemartins90@gmail.com">josemartins90@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">Just resubmitted=
+ version 2. Sorry. Not really used to this. I actually<br>
+wasn&#39;t using git send-email. I was copying the patch to my email<br>
+client which was causing the weird wrapping. I think I also fixed the<br>
+issues raised by checkpatch. Hope everything is correct now.<br>
+<br>
+Jose<br>
+<br>
+On Thu, 30 Apr 2020 at 22:36, Alistair Francis &lt;<a href=3D"mailto:alista=
+ir23@gmail.com" target=3D"_blank">alistair23@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Thu, Apr 30, 2020 at 12:45 PM Alistair Francis &lt;<a href=3D"mailt=
+o:alistair23@gmail.com" target=3D"_blank">alistair23@gmail.com</a>&gt; wrot=
+e:<br>
+&gt; &gt;<br>
+&gt; &gt; On Fri, Apr 24, 2020 at 8:10 AM Jose Martins &lt;<a href=3D"mailt=
+o:josemartins90@gmail.com" target=3D"_blank">josemartins90@gmail.com</a>&gt=
+; wrote:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; The spec states that on sv39x4 guest physical=C2=A0 &quot;ad=
+dress bits 63:41<br>
+&gt; &gt; &gt; must all be zeros, or else a guest-page-fault exception occu=
+rs.&quot;.<br>
+&gt; &gt; &gt; However, the check performed for these top bits of the virtu=
+al address<br>
+&gt; &gt; &gt; on the second stage is the same as the one performed for vir=
+tual<br>
+&gt; &gt; &gt; addresses on the first stage except with the 2-bit extension=
+,<br>
+&gt; &gt; &gt; effectively creating the same kind of &quot;hole&quot; in th=
+e guest&#39;s physical<br>
+&gt; &gt; &gt; address space. I believe the following patch fixes this issu=
+e:<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Jose Martins &lt;<a href=3D"mailto:josemartin=
+s90@gmail.com" target=3D"_blank">josemartins90@gmail.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Thanks for the patch.<br>
+&gt; &gt;<br>
+&gt; &gt; Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.fran=
+cis@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 target/riscv/cpu_helper.c | 20 +++++++++++++-------<br=
+>
+&gt; &gt; &gt;=C2=A0 1 file changed, 13 insertions(+), 7 deletions(-)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_he=
+lper.c<br>
+&gt; &gt; &gt; index d3ba9efb02..da879f5656 100644<br>
+&gt; &gt; &gt; --- a/target/riscv/cpu_helper.c<br>
+&gt; &gt; &gt; +++ b/target/riscv/cpu_helper.c<br>
+&gt; &gt; &gt; @@ -421,15 +421,21 @@ static int get_physical_address(CPURIS=
+CVState<br>
+&gt; &gt; &gt; *env, hwaddr *physical,<br>
+&gt; &gt;<br>
+&gt; &gt; There seems to be a strange wrapping here, that corrupts the patc=
+h.<br>
+&gt; &gt; For future patches can you please check your git send-email setup=
+?<br>
+&gt; &gt;<br>
+&gt; &gt; Applied to the RISC-V tree with the above line fixed up.<br>
+&gt;<br>
+&gt; This patch also fails checkpatch.<br>
+&gt;<br>
+&gt; Do you mind resending a v2 with the check patch issues fixed?<br>
+&gt;<br>
+&gt; Alistair<br>
+&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Alistair<br>
+&gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 int va_bits =3D PGSHIFT + levels * ptidx=
+bits + widened;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 target_ulong mask, masked_msbs;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 if (TARGET_LONG_BITS &gt; (va_bits - 1)) {<br=
+>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 mask =3D (1L &lt;&lt; (TARGET_L=
+ONG_BITS - (va_bits - 1))) - 1;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 if(!first_stage){<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((addr &gt;&gt; va_bits) !=
+=3D 0) {<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return TRANSLATE_=
+FAIL;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 mask =3D 0;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 masked_msbs =3D (addr &gt;&gt; (va_bits - 1))=
+ &amp; mask;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (TARGET_LONG_BITS &gt; (va_b=
+its - 1)) {<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mask =3D (1L &lt;=
+&lt; (TARGET_LONG_BITS - (va_bits - 1))) - 1;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mask =3D 0;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 masked_msbs =3D (addr &gt;&gt; =
+(va_bits - 1)) &amp; mask;<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 if (masked_msbs !=3D 0 &amp;&amp; masked_msbs=
+ !=3D mask) {<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 return TRANSLATE_FAIL;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (masked_msbs !=3D 0 &amp;&am=
+p; masked_msbs !=3D mask) {<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return TRANSLATE_=
+FAIL;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 int ptshift =3D (levels - 1) * ptidxbits=
+;<br>
+&gt; &gt; &gt; --<br>
+&gt; &gt; &gt; 2.17.1<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Jose<br>
+&gt; &gt; &gt;<br>
+<br>
+</blockquote></div>
+
+--0000000000001e0c0105a49b00c4--
 
