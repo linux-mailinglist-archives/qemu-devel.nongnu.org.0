@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527E81C1996
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 17:33:38 +0200 (CEST)
-Received: from localhost ([::1]:52958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0791C1977
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 17:27:55 +0200 (CEST)
+Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUXfV-0008KZ-9M
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 11:33:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
+	id 1jUXZx-0001p1-Hb
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 11:27:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jUXdl-0005wy-EB
- for qemu-devel@nongnu.org; Fri, 01 May 2020 11:31:51 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jUXYc-0000OD-06
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 11:26:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jUXdW-0002l0-7w
- for qemu-devel@nongnu.org; Fri, 01 May 2020 11:31:49 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48208
+ (envelope-from <stefanha@redhat.com>) id 1jUXWZ-00009e-6Z
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 11:26:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27668
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jUXHY-0005Gs-7C
- for qemu-devel@nongnu.org; Fri, 01 May 2020 11:08:52 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jUXWY-0008WR-LW
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 11:24:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588345730;
+ s=mimecast20190719; t=1588346660;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=toESbShGTF2QzgIWxAm+x076zKSUGpl/RHTr0NruCSI=;
- b=AfHp6TRel8kdg3tK+SR3L40Gv4uskcIv/h7kjgiXo5ccvxYpHzt2C4iENgZLLpeBR+JuHI
- JdN5Y+b8pLR3a6MWvDHOEFXzeKpL4s/VzzSWGwQs55ck0kisuxs/gNX/aONN1ZnFKjRJfi
- 8Gfox/DR+W8tqwAERdfgQTFiFOuPDe4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-TW5Mx5cNOemjgzSZ4ricVA-1; Fri, 01 May 2020 11:08:49 -0400
-X-MC-Unique: TW5Mx5cNOemjgzSZ4ricVA-1
-Received: by mail-wr1-f72.google.com with SMTP id s11so5806697wru.6
- for <qemu-devel@nongnu.org>; Fri, 01 May 2020 08:08:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EKeNvEYPKiQqOEXseo+ZU6MuLnDHJM1wGN/uvBwrDyk=;
- b=l0EZq5yhA0mIyIPgeEpSudj5PtApm7oxq91kZuZfO2c8r4fL3xfGqAmyUFoeImdA97
- ziiKuOoaMgo1QXVqiVr2Ls24AXg265VYy1ohjHXrnZ6TPT84Qczhg6emFWn95T0HF8iN
- ldjQJxb4wMHwHDgS+6PO1teoJTGE1BZkOjvuLRAAkILtRagNH4xLVgPcXW70s+SKTsa7
- aCR7cE4g+jpGw3Vwh0+4WGrMbO2YjaLQO5GjiTr4/nzQAg2dXV6Ln45ODFE3XrnJkf7L
- e5TaHK8vvcC5QHr8B6CbclGxg3ubwxpzvljeih6lYxcAScQXNo7YkPkcZpKalag05Ltd
- xtIw==
-X-Gm-Message-State: AGi0PuZdEhlOrf4rmy7dgQ5Uyfl/HyFsiJLjjtAh/6HrKKzZGO3fjBkC
- PezQltmxTm8Rxz0RgoRzH5253ABeOK/tjZ7ueIJSf8ysHlG2TwHBElDDfDPI8E07H04uW8UjJiF
- DP7yKmaVBvwpeUCc=
-X-Received: by 2002:a1c:6a08:: with SMTP id f8mr28100wmc.132.1588345725010;
- Fri, 01 May 2020 08:08:45 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIU82+PALJuIWrUxFXuW6EHfZaxKcqY2ZKu+w4lHmzCJOadfm7jVHp6MJ0vUyws4kXMUfBVkQ==
-X-Received: by 2002:a1c:6a08:: with SMTP id f8mr28077wmc.132.1588345724691;
- Fri, 01 May 2020 08:08:44 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id g6sm4939911wrw.34.2020.05.01.08.08.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 May 2020 08:08:44 -0700 (PDT)
-Subject: Re: [PATCH v1 5/7] disas: include an optional note for the start of
- disassembly
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200501145713.19822-1-alex.bennee@linaro.org>
- <20200501145713.19822-6-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bd5c3bde-81b4-6d77-7c66-f2839904ccac@redhat.com>
-Date: Fri, 1 May 2020 17:08:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=RWhnE6mzYV1+Cdmb5gjnoKOOuuJr41RbuVLQah/yROg=;
+ b=WQ7bDIvX7WNygVpu9JKg/BEjzP5q1R749V0XTFlGdioLKjm13jgzLJCDs7Vk5B45N9zCQ3
+ rjBmTeEm2Qm/MN8mlV8V2m6JMcbTQUidxoA0Bl9oXtWZPxx08BsGUrwpM52nw3oa7e32BG
+ XPmywrJ02BfphoO0ciYsJhmXDttHqIE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-t3NcmVaYOpOFQJAowaD51A-1; Fri, 01 May 2020 11:24:08 -0400
+X-MC-Unique: t3NcmVaYOpOFQJAowaD51A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 995291800D42;
+ Fri,  1 May 2020 15:24:06 +0000 (UTC)
+Received: from localhost (ovpn-112-36.ams2.redhat.com [10.36.112.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD7A6196AE;
+ Fri,  1 May 2020 15:23:57 +0000 (UTC)
+Date: Fri, 1 May 2020 16:23:56 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/4] Block patches
+Message-ID: <20200501152356.GC221440@stefanha-x1.localdomain>
+References: <20200501082806.205696-1-stefanha@redhat.com>
+ <CAFEAcA_VnBL8P4-UUgN9jGSTUCqvWpG2uaEYejjtJrEaFerRzw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200501145713.19822-6-alex.bennee@linaro.org>
-Content-Language: en-US
+In-Reply-To: <CAFEAcA_VnBL8P4-UUgN9jGSTUCqvWpG2uaEYejjtJrEaFerRzw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="f+W+jCU1fRNres8c"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 08:22:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 07:23:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,147 +76,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, riku.voipio@iki.fi,
- richard.henderson@linaro.org, laurent@vivier.eu,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Lieven <pl@kamp.de>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/1/20 4:57 PM, Alex Benn=C3=A9e wrote:
-> This will become useful shortly for providing more information about
-> output assembly inline. While there fix up the indenting and code
-> formatting in disas().
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+--f+W+jCU1fRNres8c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Fri, May 01, 2020 at 10:32:02AM +0100, Peter Maydell wrote:
+> On Fri, 1 May 2020 at 09:28, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > The following changes since commit 27c94566379069fb8930bb1433dcffbf7df3=
+203d:
+> >
+> >   Merge remote-tracking branch 'remotes/edgar/tags/edgar/xilinx-next-20=
+20-04-30.for-upstream' into staging (2020-04-30 16:47:23 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://github.com/stefanha/qemu.git tags/block-pull-request
+> >
+> > for you to fetch changes up to cc1adc4488059ac16d4d2772a7aa7cd1323deeca=
+:
+> >
+> >   lockable: Replace locks with lock guard macros (2020-05-01 09:19:25 +=
+0100)
+> >
+> > ----------------------------------------------------------------
+> > Pull request
+> >
+> > Fix the QEMU_LOCK_GUARD() macros, use them more widely, and allow the f=
+uzzer
+> > target to be selected from argv[0].
+> >
+> > ----------------------------------------------------------------
+>=20
+> Hi; this pullreq seems to include a stray change to the slirp
+> submodule in the "fuzz: select fuzz target using executable name"
+> commit. Could you fix that and resend, please?
+>=20
+> (You might like to include a molly-guard in your pullreq
+> creation scripts; on my end I catch this sort of thing
+> when applying with a test like
+> if git diff master..staging | grep -q 'Subproject commit'; then
+>     # complain and exit unless I used an explicit command
+>     # line option to say I intended to include a submodule update
+> fi
+>=20
+> though I haven't yet put the same test in the script I use
+> to send pullreqs, for some reason. I guess my workflow now
+> means I don't tend to accidentally commit submodule changes.)
 
-> ---
->   include/disas/disas.h     |  2 +-
->   include/exec/log.h        |  4 ++--
->   accel/tcg/translate-all.c |  4 ++--
->   disas.c                   | 15 +++++++++++----
->   tcg/tcg.c                 |  4 ++--
->   5 files changed, 18 insertions(+), 11 deletions(-)
->=20
-> diff --git a/include/disas/disas.h b/include/disas/disas.h
-> index 36c33f6f19..1b6e035e32 100644
-> --- a/include/disas/disas.h
-> +++ b/include/disas/disas.h
-> @@ -7,7 +7,7 @@
->   #include "cpu.h"
->  =20
->   /* Disassemble this for me please... (debugging). */
-> -void disas(FILE *out, void *code, unsigned long size);
-> +void disas(FILE *out, void *code, unsigned long size, const char *note);
->   void target_disas(FILE *out, CPUState *cpu, target_ulong code,
->                     target_ulong size);
->  =20
-> diff --git a/include/exec/log.h b/include/exec/log.h
-> index fcc7b9e00b..3ed797c1c8 100644
-> --- a/include/exec/log.h
-> +++ b/include/exec/log.h
-> @@ -56,13 +56,13 @@ static inline void log_target_disas(CPUState *cpu, ta=
-rget_ulong start,
->       rcu_read_unlock();
->   }
->  =20
-> -static inline void log_disas(void *code, unsigned long size)
-> +static inline void log_disas(void *code, unsigned long size, const char =
-*note)
->   {
->       QemuLogFile *logfile;
->       rcu_read_lock();
->       logfile =3D atomic_rcu_read(&qemu_logfile);
->       if (logfile) {
-> -        disas(logfile->fd, code, size);
-> +        disas(logfile->fd, code, size, note);
->       }
->       rcu_read_unlock();
->   }
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index e4f703a7e6..cdf58bb420 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -1800,7 +1800,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->               size_t data_size =3D gen_code_size - code_size;
->               size_t i;
->  =20
-> -            log_disas(tb->tc.ptr, code_size);
-> +            log_disas(tb->tc.ptr, code_size, NULL);
->  =20
->               for (i =3D 0; i < data_size; i +=3D sizeof(tcg_target_ulong=
-)) {
->                   if (sizeof(tcg_target_ulong) =3D=3D 8) {
-> @@ -1814,7 +1814,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->                   }
->               }
->           } else {
-> -            log_disas(tb->tc.ptr, gen_code_size);
-> +            log_disas(tb->tc.ptr, gen_code_size, NULL);
->           }
->           qemu_log("\n");
->           qemu_log_flush();
-> diff --git a/disas.c b/disas.c
-> index 3937da6157..bb74650633 100644
-> --- a/disas.c
-> +++ b/disas.c
-> @@ -586,7 +586,7 @@ char *plugin_disas(CPUState *cpu, uint64_t addr, size=
-_t size)
->   }
->  =20
->   /* Disassemble this for me please... (debugging). */
-> -void disas(FILE *out, void *code, unsigned long size)
-> +void disas(FILE *out, void *code, unsigned long size, const char *note)
->   {
->       uintptr_t pc;
->       int count;
-> @@ -674,10 +674,17 @@ void disas(FILE *out, void *code, unsigned long siz=
-e)
->       for (pc =3D (uintptr_t)code; size > 0; pc +=3D count, size -=3D cou=
-nt) {
->           fprintf(out, "0x%08" PRIxPTR ":  ", pc);
->           count =3D print_insn(pc, &s.info);
-> -=09fprintf(out, "\n");
-> -=09if (count < 0)
-> -=09    break;
-> +        if (note) {
-> +            fprintf(out, "\t\t%s\n", note);
-> +            note =3D NULL;
-> +        } else {
-> +            fprintf(out, "\n");
-> +        }
-> +        if (count < 0) {
-> +            break;
-> +        }
->       }
-> +
->   }
->  =20
->   /* Look up symbol for debugging purpose.  Returns "" if unknown. */
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index dd4b3d7684..a2268d9db0 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -1092,7 +1092,7 @@ void tcg_prologue_init(TCGContext *s)
->               size_t data_size =3D prologue_size - code_size;
->               size_t i;
->  =20
-> -            log_disas(buf0, code_size);
-> +            log_disas(buf0, code_size, NULL);
->  =20
->               for (i =3D 0; i < data_size; i +=3D sizeof(tcg_target_ulong=
-)) {
->                   if (sizeof(tcg_target_ulong) =3D=3D 8) {
-> @@ -1106,7 +1106,7 @@ void tcg_prologue_init(TCGContext *s)
->                   }
->               }
->           } else {
-> -            log_disas(buf0, prologue_size);
-> +            log_disas(buf0, prologue_size, NULL);
->           }
->           qemu_log("\n");
->           qemu_log_flush();
->=20
+Sorry for the spurious change.  Will send a v2!
+
+Stefan
+
+--f+W+jCU1fRNres8c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6sPwwACgkQnKSrs4Gr
+c8jOLwgAhCQsrwmTzZxP2oezs9wZv/Cw4Gq879xQEiJcPslJQdOGZTTNrz84znAn
+lfSjybB9NMl8Un7ee9PkWP1nH/8ZAfHrf/oI5UmXG7hjSV1fRyHRbx/l/sGMdo13
+bcoPUozlicQeto0mcHxcZ2Kw++/3TfWKeFjL/0/bYHGwohyF54h7Bs+5AvI7++gt
+wET4cDaEkKP5myUhpqAgVouehExu2YZ6DdI0bP6zL9e6dixCdmtsp7bhMskkG/LW
+OPyFFZyivHwGCsH062hVWqXCQ6vZT1UgPwjnqt6cSYIvhXb31NOcLsNwfwuf9JDm
+4rlrFvFzJAV6Xs5TcBqJDYSO2/dAGQ==
+=lr5q
+-----END PGP SIGNATURE-----
+
+--f+W+jCU1fRNres8c--
 
 
