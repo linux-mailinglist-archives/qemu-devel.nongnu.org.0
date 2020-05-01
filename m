@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF231C1A52
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 18:08:14 +0200 (CEST)
-Received: from localhost ([::1]:55258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6140E1C1A78
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 18:18:33 +0200 (CEST)
+Received: from localhost ([::1]:60976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUYCz-0002pX-8U
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 12:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34712)
+	id 1jUYMy-0007WN-CG
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 12:18:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jUY4i-00012L-7m
- for qemu-devel@nongnu.org; Fri, 01 May 2020 12:03:02 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUYIi-0005cu-6S
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:17:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <peter.maydell@linaro.org>) id 1jUY3I-0005lG-67
- for qemu-devel@nongnu.org; Fri, 01 May 2020 11:59:39 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35632)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUYHO-0002ZZ-KJ
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:14:07 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:33307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jUY3H-0005hs-Ls
- for qemu-devel@nongnu.org; Fri, 01 May 2020 11:58:11 -0400
-Received: by mail-oi1-x242.google.com with SMTP id o7so150788oif.2
- for <qemu-devel@nongnu.org>; Fri, 01 May 2020 08:58:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUYHO-0002XY-4F
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 12:12:46 -0400
+Received: by mail-pg1-x544.google.com with SMTP id d17so4750983pgo.0
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 09:12:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0II5KOiKx3aLfM51C/N4C/613U0yDAvzHZjXkCsSyDI=;
- b=cnMjRken/U1cDu9x0E04fWyMUf8piztv7hzx25Atyz9DFyiz7c1oZZBFhxdE5mkl+A
- bo62Wk8PGYSs2Lb+nkg0wdrfcGQ83IHuquRQ3/9p7icI1JEJSNxShiZ5NKVwlf15HPEX
- fe6n8LkBCHf8+DhsiUKtU1UMpYqQOY8HfGjUnklT8D69/YagiE5L3YXjtd83kNljhdIK
- XlvB7dN4wvkw+fM9dNdpNaVsafBebTWQEx8/qeliRuXQoLPJjG3D+JWj1qFuRXEGmlrb
- RZJFh/GeLiVk3o+CooRy5WM2soUmDl2yeC4F7+86N4sWwYN0dUWbGlYETf9xYGP9X4xG
- uqFw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+TooijH//DtWBgQpHCa9Tmeejeo0VI0gowBLeZ0TCyM=;
+ b=TQ1KxrsOG7UCm+dfz63hm4npVoJVTcSJ4rP34uihMcm9OGsuiDezBco7KKoIQVzPhW
+ PcFymsfJqVQqFVv6BzJDCfX707WTV7baV4Ef1lESbWcI74ZrADHk8q2GCcCPmVWDCjyo
+ m/4Vf1uVSAdb9MH31LeLXq5W6BYjNTI69w0hOJj9NWPdGUGbbWfLs62qd1dcNdFkKBvG
+ Fjjz3wBhzA2+e+2cpT3HqcrIaz4b0AVjBrFbYxNpeyWlBszIYDL5QWx64980MLG4IhR/
+ F5xAFPBdJQKQYle9ftvCPw2FfW8Jx8ARC5ehpPGdc4srwKepQ6aWtvlOylW4VfaTgqkz
+ 9qWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0II5KOiKx3aLfM51C/N4C/613U0yDAvzHZjXkCsSyDI=;
- b=f5AYDgqdTv//leTl+ThktGJiEnDaWbQJVXNnmg+qtemGp57MEqAgorUwYfCxODS46w
- 6FDqmzb21TqfVlqGfih8/f3ryhOruUUqR/VhkYJwSxs0bsnkgWxtnwaEC6yQWDkCdpNP
- HsjTgrBTxdl7Sn7gSKCO8Ccm9gOvDVqBIGD4gq1tcN7KSb0cjDnTXqsbFEDw3EU7hVyU
- mqNlMgn3t3dlt5g86ylTCUrNSOrmlNU343SKocVkDVmafc7wY1P+VTq4ch4iFEa+YYHc
- MIJSbossPBGrmPZ98aWQn4rtZ5SK/ImaIk8PcCLMmAfvDs2SnCq/qV4S+qTyNvgRYxuG
- JCXw==
-X-Gm-Message-State: AGi0PuZuecrAUxA6wLEUtkkm8BmqGpxCoNZROMNgLwQQxfo6XBZlHRtF
- h0ikmPyxF6KYzgisK8zkGnky5byKi/KhBkfZjl8C4g==
-X-Google-Smtp-Source: APiQypJhhIFXd4oRWQybqv1n+HowJQs80i2cJa9lVp5efDeqaqZ2m9Bkadexp8CR5REebd20oK6tOjVEBax03OlGSDE=
-X-Received: by 2002:aca:3441:: with SMTP id b62mr186843oia.146.1588348690170; 
- Fri, 01 May 2020 08:58:10 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+TooijH//DtWBgQpHCa9Tmeejeo0VI0gowBLeZ0TCyM=;
+ b=UtqqtuRoRF6Qb32vsptna4F5EggXHxyZ0puNzXM8TtyV/93OAZpEa/050dcNFi4abw
+ RObmEvZwifsXWd3G8vVgEyr+RP2c12B9lmW+Qsobrgk1kHPcoJ5KQ2u0reIej8gTChFF
+ yVLT82UTeX/wUTWSeRlePsYHCMXRO5Y+xyNrPpmW8+tpbed0nrlCnCBeTxg6z9khO0Ca
+ LfWxH9Ahamr+zbZy3hvJRhYihgfd57YCTo8JcSSHdTD6ji8Ufyo6knEP2IiB+JRnHFGf
+ NLlB1eBLvuBe9OUEiWV1Y1eFqCxoSvlZJziBkjHScrGhmsovxGidS0RbtuEK19DtecZt
+ tzsg==
+X-Gm-Message-State: AGi0PuZnBFy45dD9mqvQap6df0RgR+/N6gZsB4g6WJ4Jnt2ZIAJ++S97
+ DLrdAHKhFwtj0eknn+ngE13BkWGNpFw=
+X-Google-Smtp-Source: APiQypIviZYsX6D66mfnY5yKzHL80IuYqzS8B3WNhrGimusreS0ERwOGaVSUze8/dGijLjpMRjdpUA==
+X-Received: by 2002:a63:1d11:: with SMTP id d17mr4865641pgd.437.1588349564343; 
+ Fri, 01 May 2020 09:12:44 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id 138sm2609402pfz.31.2020.05.01.09.12.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 May 2020 09:12:43 -0700 (PDT)
+Subject: Re: [PATCH 23/36] target/arm: Convert Neon 64-bit element 3-reg-same
+ insns
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20200430181003.21682-1-peter.maydell@linaro.org>
  <20200430181003.21682-24-peter.maydell@linaro.org>
  <366a2e79-d963-bfdc-fcc6-2a63026fa1db@linaro.org>
  <CAFEAcA8M6M7CYg0AsTVbmfX88jzW9MZvRFihQ9cGDJNHhXV+Pw@mail.gmail.com>
  <2050ff9f-1338-2b6e-230f-e07c72ece3e5@linaro.org>
-In-Reply-To: <2050ff9f-1338-2b6e-230f-e07c72ece3e5@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 May 2020 16:57:59 +0100
-Message-ID: <CAFEAcA8u=0LED6BQdkDCa-i3ySk986oSnMQzZj4KaBaBQ5tDuw@mail.gmail.com>
-Subject: Re: [PATCH 23/36] target/arm: Convert Neon 64-bit element 3-reg-same
- insns
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+ <CAFEAcA8u=0LED6BQdkDCa-i3ySk986oSnMQzZj4KaBaBQ5tDuw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <40a41c49-3636-d7fd-6b62-689686d83c3c@linaro.org>
+Date: Fri, 1 May 2020 09:12:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8u=0LED6BQdkDCa-i3ySk986oSnMQzZj4KaBaBQ5tDuw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::242
+X-Received-From: 2607:f8b0:4864:20::544
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,16 +95,20 @@ Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 1 May 2020 at 16:50, Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> The original intention of the hook is to expand some inline tcg ops.  That it
-> can be used to call a helper is a happy accident.  For a helper that needs env,
-> ideally we would use tcg_gen_gvec_ptr and handle the vector with one call.
+On 5/1/20 8:57 AM, Peter Maydell wrote:
+> On Fri, 1 May 2020 at 16:50, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>> The original intention of the hook is to expand some inline tcg ops.  That it
+>> can be used to call a helper is a happy accident.  For a helper that needs env,
+>> ideally we would use tcg_gen_gvec_ptr and handle the vector with one call.
+> 
+> The inconsistency where half the helpers nede to be passed cpu_env
+> and the other half don't is really irritating for writing code
+> that calls them. Lots of ought-to-be-common code ends up needing
+> two versions :-(
 
-The inconsistency where half the helpers nede to be passed cpu_env
-and the other half don't is really irritating for writing code
-that calls them. Lots of ought-to-be-common code ends up needing
-two versions :-(
+Yep.  Lots of room for additional cleanup here.
 
--- PMM
+
+r~
 
