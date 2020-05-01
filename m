@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBC31C1F37
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 23:03:44 +0200 (CEST)
-Received: from localhost ([::1]:39684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621421C1F6B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 23:15:07 +0200 (CEST)
+Received: from localhost ([::1]:51972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUcow-00011j-If
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 17:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35724)
+	id 1jUczx-0000vQ-Ql
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 17:15:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jUcn6-0000B3-LN
- for qemu-devel@nongnu.org; Fri, 01 May 2020 17:01:49 -0400
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUcyk-00087f-Q1
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 17:13:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <joseph_myers@mentor.com>) id 1jUcn5-00083c-5K
- for qemu-devel@nongnu.org; Fri, 01 May 2020 17:01:47 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:30978)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jUcn4-00080j-CZ
- for qemu-devel@nongnu.org; Fri, 01 May 2020 17:01:46 -0400
-IronPort-SDR: 04s/GsWxUiZvJ3CrA6iy18EQPiZmuDQx2Nb8o/FnstpmaHzL+hPpnRNgbok20P7fz2zS6YtRtp
- LXpGmVzhVu8lfhS293FSHZw4hssKJRxCrDdfHWubbCJGBp199GlSSkTSbHiGWJadAbIXh2XlSM
- K50YMnBZOxTkSWHz/zL7CGHZO0DBE+SaPDUwT7wDKvIj9kLr3ZhTRQIu6Q9BhAO3T/C7mryWtr
- ZMrglX5u0F+nXPNAIhvK1F9jv5/jpkMAWifqFpytrJYIp9u+5Y/NkCfy9xpCsMVbHG7rUrC5Kr
- yO4=
-X-IronPort-AV: E=Sophos;i="5.73,341,1583222400"; d="scan'208";a="50452113"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa1.mentor.iphmx.com with ESMTP; 01 May 2020 13:01:43 -0800
-IronPort-SDR: 97nCcGhWd+6LdvBBN+e5F5t7tbE4XzmEzbGtN6J/uWCUJuGyAeaF47v1OeIt3hN2GGHkA96HS9
- KE0Cv4NFaqBPcTI/R7y5Jo0lJ/l5uQi4ux6CB1dnKCoc4IcWMZb0W69fGVUBD3TF0T2io3MFNt
- 6yxsUhF5pZNh0MSpC0Fn7xU+6V2imPLXxJ8IRHydIq5i/39R6uQR9LATlfZgyKF72NDeaIGDdm
- x1CrE8tCtBu4tWPX4rRxhQp4ZnWqNGnNeqz8N1CsWtUCPHquIJtc9D4OKaoohKcEHm5mehU8Il
- s+E=
-Date: Fri, 1 May 2020 21:01:37 +0000
-From: Joseph Myers <joseph@codesourcery.com>
-X-X-Sender: jsm28@digraph.polyomino.org.uk
-To: =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 3/4] softfloat: fix floatx80 pseudo-denormal
- comparisons
-In-Reply-To: <87a72rih9x.fsf@linaro.org>
-Message-ID: <alpine.DEB.2.21.2005012046280.26026@digraph.polyomino.org.uk>
-References: <alpine.DEB.2.21.2005010038260.30535@digraph.polyomino.org.uk>
- <87d07niidw.fsf@linaro.org>
- <alpine.DEB.2.21.2005011911420.26026@digraph.polyomino.org.uk>
- <87a72rih9x.fsf@linaro.org>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUcyj-0005Lm-Lt
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 17:13:50 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:38590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUcyj-0005DR-9D
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 17:13:49 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id t40so396910pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 14:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+7aO59CuVkObP6ThafNRJqYigrwtPnCK3YSB5MRD++Q=;
+ b=cMxb3nmY/PRrJU5AfOTMhNaReRkF7XPHuepRPppTVoDMU95gsfy9BWyJzCNrfYHlHM
+ 8aDD8GsCo8rwBfusakfpJEE0MRJVI4VA33alNAn8kgntu7I2UAZRf++rMJdIuBLYSCbi
+ OvVuif/xhUxBtPdkYiPZAIJHB8dKgiBOdyeUMFg00bjfJQkRcTHMiS/ZL/umrL6SbSGw
+ fCOLcH6UyoepnsN0K6S00saPZmw+DmlzhvYwEnd5v1Q5/PgOak0IN92XKuUY3DmK4rNP
+ mWNiywB15bv+D/j1ounn6fsjN9V6NyIko08yvFX8YccXjwXED9wQTALtvzouvJ0/W6ly
+ JD3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+7aO59CuVkObP6ThafNRJqYigrwtPnCK3YSB5MRD++Q=;
+ b=QMb2zpXl/z72mM7jETRaoV1scrlBqeXZyfB2PFAAaxIVVLsLai+fbUtjBetnqL4kEq
+ ZJo5ZuaRA6DW7u7vv+G5r77ML/bVPNN3KP/BhUw5PX+5TNAEHFTRjcmdLah7Tjj0rCnK
+ 6nHS5d/AfCpO4h0D3WFDDbfcOA+UTcztJm6Zu2sayXt+zs1IgXVVSpQbLjx8c7c0DquS
+ kN3CP/Iuy2pjTHSPXw9tgkQvYWYmpWFqx4U0XRUaJZU0tvD5QtrzQJ4PwjiDhVtv2fZ5
+ reR1goe0Z2qh4Hg01fSQQNlGx2Jw/CINOmAyAr+tRGrbL8RSrslkXmFyPbUWNNLCILxt
+ YIQg==
+X-Gm-Message-State: AGi0PuZNCFSxBw7XQgpfjg3KEcBKWOHoarPk12KHQe2aKnCDfyLhp6XF
+ UvV7EjfCI2KJHyKmulYO69ee0huJWjc=
+X-Google-Smtp-Source: APiQypJtS0rFUo3y+jXGds+2SW5UiDNkmEkZCclIpO/fRpciPZ+wnju5u9ezjTZjCDmib3SMExVI3g==
+X-Received: by 2002:a17:90a:db83:: with SMTP id
+ h3mr1740507pjv.87.1588367627266; 
+ Fri, 01 May 2020 14:13:47 -0700 (PDT)
+Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
+ [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id g22sm514552pju.21.2020.05.01.14.13.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 May 2020 14:13:46 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] target/arm: partial vector cleanup
+Date: Fri,  1 May 2020 14:13:39 -0700
+Message-Id: <20200501211345.30410-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="-1152306461-208732417-1588366897=:26026"
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
-Received-SPF: pass client-ip=68.232.129.153;
- envelope-from=joseph_myers@mentor.com; helo=esa1.mentor.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 15:12:59
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Received-From: 68.232.129.153
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::102f
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,57 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----1152306461-208732417-1588366897=:26026
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+This is not complete, but shows the direction I'd like to go.
 
-On Fri, 1 May 2020, Alex Bennée wrote:
+It may well help what Peter is doing with the neon decodetree
+conversion.  It may be helpful to apply before the conversion
+in order to reduce the number of special cases.  As may
+continuing with the cleanup; I'll probably work on that more
+next week.
 
-> OK - so these only turn up in i386?
 
-Patch 1, silencing sNaN, is about generic semantics of IEEE floating-point 
-conversions (which are implemented correctly in various other cases in 
-QEMU), and would be equally applicable to m68k (I believe, without having 
-m68k hardware to test).
+r~
 
-Patches 2 and 3 are i386-specific (just like everything in the existing 
-softfloat code relating to floatx80 subnormals), because m68k interprets 
-biased exponent zero differently.
 
-Patch 4 would apply equally to m68k, because all that matters there is 
-that a certain representation is a small nonzero value, not exactly what 
-value it is.
+Richard Henderson (6):
+  target/arm: Create gen_gvec_[us]sra
+  target/arm: Create gen_gvec_{u,s}{rshr,rsra}
+  target/arm: Create gen_gvec_{sri,sli}
+  target/arm: Remove unnecessary range check for VSHL
+  target/arm: Tidy handle_vec_simd_shri
+  target/arm: Wrap vector compare zero GVecGen2 in GVecGen2Fn
 
-None of these apply to any other architectures supported by QEMU.
-
-> We have two tests currently (float_convs and float_madds) which
-> currently exercise the various combinations of limits and NaN types
-> using some common float_helpers.c support. Maybe extend it for have a
-> table of the various ext80 types and write a i386 only test case to
-> exercise the functions you fixed?
-
-It seems to me that appropriate tests would be entirely i386-specific (in 
-tests/tcg/i386?).  How are such tests supposed to signal success or 
-failure, since all the tests currently there seem to exit with status 0 
-unconditionally?
-
-I do have a test I'm using to check these fixes (in C code for convenience 
-of implementation, with only a little inline asm), but it's not suitable 
-for inclusion as-is, since it includes many tests that currently fail 
-(e.g. for exceptions generated, since the i386 floating-point support in 
-QEMU currently discards exceptions from the softfloat code; one of the 
-things I intend to fix but haven't yet).  It also doesn't yet cover all 
-the problems I think I've found so far in the floating-point support in 
-the i386 port (at least ten such bugs beyond the ones fixed in the present 
-patch series).  And it might well depend on details of compiler code 
-generation to test some of the bugs effectively.
+ target/arm/helper.h        |   40 ++
+ target/arm/translate.h     |   39 +-
+ target/arm/translate-a64.c |  102 +---
+ target/arm/translate.c     | 1074 +++++++++++++++++++++++-------------
+ target/arm/vec_helper.c    |  113 ++++
+ 5 files changed, 903 insertions(+), 465 deletions(-)
 
 -- 
-Joseph S. Myers
-joseph@codesourcery.com
----1152306461-208732417-1588366897=:26026--
+2.20.1
+
 
