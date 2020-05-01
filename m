@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7121C1DC1
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 21:19:07 +0200 (CEST)
-Received: from localhost ([::1]:43116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A45FB1C1DB7
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 21:17:22 +0200 (CEST)
+Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUbBi-0002yT-Oa
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 15:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33400)
+	id 1jUbA1-0008KZ-JZ
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 15:17:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jUb87-0006eB-MU
+ id 1jUb88-0006fS-94
  for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jUb85-00007b-Ol
+ (envelope-from <dgilbert@redhat.com>) id 1jUb86-00008D-NI
  for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:23 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:27216
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48871
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jUb85-000052-9h
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:21 -0400
+ id 1jUb86-00006s-7s
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588360519;
+ s=mimecast20190719; t=1588360521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zteTfA7zZtn3nnO6RlPjKvIiRXQcvA5/CVIFdyzVXno=;
- b=caXAjSV9x6NYWN7ALD4iwU8hsqmvmX8KCYth+sJi/34VEB+M0dH9pSM8xMQ2Kb23k/56RO
- pvSLXtyosQB8/vksyAJUrruzVtKUXouz+D2IApns1hVRc6xt/8Y/GqXgCjFM/SgbcaMMpE
- sfzsAvFDx0DzksMR8Yh3YaiGWJkpSYc=
+ bh=hsgnZnnZTeW/j8EemRxHfSaBhcpBiLBvUyYJvSada90=;
+ b=JKKyeUojtc1HzXHP0KRKpC1oGxJ2yPUbB+0DQFT9F+mNiKaUBPXH50fVKgPnFGAmIcoeoX
+ gKWOuu4LSVvzpy7LKCAnkENKgD2fGE19Jj50gMy0rf5s78PL4YWwdHkLQ40Zy9oCwMoaSA
+ +WCVblZi07lLbc605QQJtnqLOMsvtfc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-u0gqWlE6N6yBmIxjBT_JoA-1; Fri, 01 May 2020 15:15:17 -0400
-X-MC-Unique: u0gqWlE6N6yBmIxjBT_JoA-1
+ us-mta-261-TXZwOopCOoO7Yen85PxxwA-1; Fri, 01 May 2020 15:15:19 -0400
+X-MC-Unique: TXZwOopCOoO7Yen85PxxwA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81A5D18FE870;
- Fri,  1 May 2020 19:15:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07AFE46B;
+ Fri,  1 May 2020 19:15:18 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-191.ams2.redhat.com
  [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 486E31001B2C;
- Fri,  1 May 2020 19:15:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C7DAD1002396;
+ Fri,  1 May 2020 19:15:16 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, yavrahami@paloaltonetworks.com,
  mszeredi@redhat.com, mreitz@redhat.com
-Subject: [PULL 3/6] virtiofsd: jail lo->proc_self_fd
-Date: Fri,  1 May 2020 20:14:57 +0100
-Message-Id: <20200501191500.126432-4-dgilbert@redhat.com>
+Subject: [PULL 4/6] virtiofsd: Show submounts
+Date: Fri,  1 May 2020 20:14:58 +0100
+Message-Id: <20200501191500.126432-5-dgilbert@redhat.com>
 In-Reply-To: <20200501191500.126432-1-dgilbert@redhat.com>
 References: <20200501191500.126432-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -61,11 +61,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 12:40:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 13:42:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Received-From: 207.211.31.81
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,74 +80,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Miklos Szeredi <mszeredi@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 
-While it's not possible to escape the proc filesystem through
-lo->proc_self_fd, it is possible to escape to the root of the proc
-filesystem itself through "../..".
+Currently, setup_mounts() bind-mounts the shared directory without
+MS_REC.  This makes all submounts disappear.
 
-Use a temporary mount for opening lo->proc_self_fd, that has it's root at
-/proc/self/fd/, preventing access to the ancestor directories.
+Pass MS_REC so that the guest can see submounts again.
 
-Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-Message-Id: <20200429124733.22488-1-mszeredi@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Fixes: 5baa3b8e95064c2434bd9e2f312edd5e9ae275dc
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200424133516.73077-1-mreitz@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  Changed Fixes to point to the commit with the problem rather than
+          the commit that turned it on
 ---
- tools/virtiofsd/passthrough_ll.c | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
 _ll.c
-index f7b9c1d20c..d7a6474b6e 100644
+index d7a6474b6e..7873692168 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2536,6 +2536,8 @@ static void print_capabilities(void)
- static void setup_namespaces(struct lo_data *lo, struct fuse_session *se)
- {
-     pid_t child;
-+    char template[] =3D "virtiofsd-XXXXXX";
-+    char *tmpdir;
+@@ -2666,7 +2666,7 @@ static void setup_mounts(const char *source)
+     int oldroot;
+     int newroot;
 =20
-     /*
-      * Create a new pid namespace for *child* processes.  We'll have to
-@@ -2597,12 +2599,33 @@ static void setup_namespaces(struct lo_data *lo, st=
-ruct fuse_session *se)
+-    if (mount(source, source, NULL, MS_BIND, NULL) < 0) {
++    if (mount(source, source, NULL, MS_BIND | MS_REC, NULL) < 0) {
+         fuse_log(FUSE_LOG_ERR, "mount(%s, %s, MS_BIND): %m\n", source, sou=
+rce);
          exit(1);
      }
-=20
-+    tmpdir =3D mkdtemp(template);
-+    if (!tmpdir) {
-+        fuse_log(FUSE_LOG_ERR, "tmpdir(%s): %m\n", template);
-+        exit(1);
-+    }
-+
-+    if (mount("/proc/self/fd", tmpdir, NULL, MS_BIND, NULL) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "mount(/proc/self/fd, %s, MS_BIND): %m\n",
-+                 tmpdir);
-+        exit(1);
-+    }
-+
-     /* Now we can get our /proc/self/fd directory file descriptor */
--    lo->proc_self_fd =3D open("/proc/self/fd", O_PATH);
-+    lo->proc_self_fd =3D open(tmpdir, O_PATH);
-     if (lo->proc_self_fd =3D=3D -1) {
--        fuse_log(FUSE_LOG_ERR, "open(/proc/self/fd, O_PATH): %m\n");
-+        fuse_log(FUSE_LOG_ERR, "open(%s, O_PATH): %m\n", tmpdir);
-         exit(1);
-     }
-+
-+    if (umount2(tmpdir, MNT_DETACH) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "umount2(%s, MNT_DETACH): %m\n", tmpdir);
-+        exit(1);
-+    }
-+
-+    if (rmdir(tmpdir) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "rmdir(%s): %m\n", tmpdir);
-+    }
- }
-=20
- /*
 --=20
 2.26.2
 
