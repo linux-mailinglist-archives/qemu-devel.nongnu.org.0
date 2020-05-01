@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E351C1DB4
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 21:17:17 +0200 (CEST)
-Received: from localhost ([::1]:35718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EE01C1DC2
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 21:19:07 +0200 (CEST)
+Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUb9w-0008Bn-Gw
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 15:17:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33372)
+	id 1jUbBi-0002yB-TF
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 15:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jUb84-0006Ya-1e
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:20 -0400
+ id 1jUb87-0006eZ-T5
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <dgilbert@redhat.com>) id 1jUb82-0008Ud-4c
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:19 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:60408
- helo=us-smtp-delivery-1.mimecast.com)
+ (envelope-from <dgilbert@redhat.com>) id 1jUb86-00007s-3T
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44819
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jUb81-0008TD-Kd
- for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:17 -0400
+ id 1jUb85-00005h-LZ
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 15:15:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588360516;
+ s=mimecast20190719; t=1588360520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=odmGtRxQk+EqM/HcvrxgC41O+CKxykuhqQN21kGWGz8=;
- b=ilcbAjIa3zCmHD6rexnlZqweKYrPECqdB/6+HWi/mUysVI2fbR3bl3pUhXT8r96HfvVPrW
- m0Zsm1M0xofP3YLJDR4CFzYO1dE035LOMIwM3yoJGVcuLb+UarJ9tF9ZpjHT+ktbF7oE6c
- iYpX/5FgcHmu9nC8EuikLdAtOYZpZaw=
+ bh=a7tlgW/RV4oirjcdS6rirP8fOn1hpnptskhP1fFJ9kE=;
+ b=XXMrURoRGSKNJwXcx+zg1qEPQVwsXD2lDMC/8NMuwHp2f42eai3EiHpfRCVhFk4t58Trdd
+ Bz33EirmjXXivNaNq+5mFH/Uhn/Lfb0sHBO67x+DNW9PnJy9ZsqUW+KXqFloIOQjGSugVT
+ h7rdegeUYiAfKMA1SCLNNCoQCkSbSgo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-ZvCHB37WONKomZ4pC32vUg-1; Fri, 01 May 2020 15:15:14 -0400
-X-MC-Unique: ZvCHB37WONKomZ4pC32vUg-1
+ us-mta-460-7GzpNJYTNVys9wAnzSwwLA-1; Fri, 01 May 2020 15:15:15 -0400
+X-MC-Unique: 7GzpNJYTNVys9wAnzSwwLA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 743CD45F;
- Fri,  1 May 2020 19:15:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3BBBA0C06;
+ Fri,  1 May 2020 19:15:14 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-191.ams2.redhat.com
  [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FEB310013BD;
- Fri,  1 May 2020 19:15:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE2641002382;
+ Fri,  1 May 2020 19:15:13 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, yavrahami@paloaltonetworks.com,
  mszeredi@redhat.com, mreitz@redhat.com
-Subject: [PULL 1/6] virtiofsd: add --rlimit-nofile=NUM option
-Date: Fri,  1 May 2020 20:14:55 +0100
-Message-Id: <20200501191500.126432-2-dgilbert@redhat.com>
+Subject: [PULL 2/6] virtiofsd: stay below fs.file-max sysctl value
+ (CVE-2020-10717)
+Date: Fri,  1 May 2020 20:14:56 +0100
+Message-Id: <20200501191500.126432-3-dgilbert@redhat.com>
 In-Reply-To: <20200501191500.126432-1-dgilbert@redhat.com>
 References: <20200501191500.126432-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -61,11 +62,11 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 12:40:15
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 08:22:51
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,153 +83,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Make it possible to specify the RLIMIT_NOFILE on the command-line.
-Users running multiple virtiofsd processes should allocate a certain
-number to each process so that the system-wide limit can never be
-exhausted.
+The system-wide fs.file-max sysctl value determines how many files can
+be open.  It defaults to a value calculated based on the machine's RAM
+size.  Previously virtiofsd would try to set RLIMIT_NOFILE to 1,000,000
+and this allowed the FUSE client to exhaust the number of open files
+system-wide on Linux hosts with less than 10 GB of RAM!
 
-When this option is set to 0 the rlimit is left at its current value.
-This is useful when a management tool wants to configure the rlimit
-itself.
+Take fs.file-max into account when choosing the default RLIMIT_NOFILE
+value.
 
-The default behavior remains unchanged: try to set the limit to
-1,000,000 file descriptors if the current rlimit is lower.
-
+Fixes: CVE-2020-10717
+Reported-by: Yuval Avrahami <yavrahami@paloaltonetworks.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20200501140644.220940-2-stefanha@redhat.com>
+Message-Id: <20200501140644.220940-3-stefanha@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.h  |  1 +
- tools/virtiofsd/helper.c         | 23 +++++++++++++++++++++++
- tools/virtiofsd/passthrough_ll.c | 22 ++++++++--------------
- 3 files changed, 32 insertions(+), 14 deletions(-)
+ tools/virtiofsd/helper.c | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowleve=
-l.h
-index 8f6d705b5c..562fd5241e 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -1777,6 +1777,7 @@ struct fuse_cmdline_opts {
-     int syslog;
-     int log_level;
-     unsigned int max_idle_threads;
-+    unsigned long rlimit_nofile;
- };
-=20
- /**
 diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 819c2bc13c..dc59f38af0 100644
+index dc59f38af0..00a1ef666a 100644
 --- a/tools/virtiofsd/helper.c
 +++ b/tools/virtiofsd/helper.c
-@@ -23,6 +23,8 @@
- #include <stdlib.h>
- #include <string.h>
- #include <sys/param.h>
-+#include <sys/time.h>
-+#include <sys/resource.h>
- #include <unistd.h>
-=20
- #define FUSE_HELPER_OPT(t, p)                       \
-@@ -53,6 +55,7 @@ static const struct fuse_opt fuse_helper_opts[] =3D {
-     FUSE_HELPER_OPT("subtype=3D", nodefault_subtype),
-     FUSE_OPT_KEY("subtype=3D", FUSE_OPT_KEY_KEEP),
-     FUSE_HELPER_OPT("max_idle_threads=3D%u", max_idle_threads),
-+    FUSE_HELPER_OPT("--rlimit-nofile=3D%lu", rlimit_nofile),
-     FUSE_HELPER_OPT("--syslog", syslog),
-     FUSE_HELPER_OPT_VALUE("log_level=3Ddebug", log_level, FUSE_LOG_DEBUG),
-     FUSE_HELPER_OPT_VALUE("log_level=3Dinfo", log_level, FUSE_LOG_INFO),
-@@ -171,6 +174,9 @@ void fuse_cmdline_help(void)
-            "                               default: no_writeback\n"
-            "    -o xattr|no_xattr          enable/disable xattr\n"
+@@ -176,7 +176,8 @@ void fuse_cmdline_help(void)
             "                               default: no_xattr\n"
-+           "    --rlimit-nofile=3D<num>      set maximum number of file de=
+            "    --rlimit-nofile=3D<num>      set maximum number of file de=
 scriptors\n"
-+           "                               (0 leaves rlimit unchanged)\n"
-+           "                               default: 1,000,000 if the curre=
+            "                               (0 leaves rlimit unchanged)\n"
+-           "                               default: 1,000,000 if the curre=
 nt rlimit is lower\n"
++           "                               default: min(1000000, fs.file-m=
+ax - 16384)\n"
++           "                                        if the current rlimit =
+is lower\n"
             );
  }
 =20
-@@ -191,11 +197,28 @@ static int fuse_helper_opt_proc(void *data, const cha=
-r *arg, int key,
-     }
- }
+@@ -199,9 +200,32 @@ static int fuse_helper_opt_proc(void *data, const char=
+ *arg, int key,
 =20
-+static unsigned long get_default_rlimit_nofile(void)
-+{
-+    rlim_t max_fds =3D 1000000; /* our default RLIMIT_NOFILE target */
-+    struct rlimit rlim;
-+
-+    if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
-+        fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
+ static unsigned long get_default_rlimit_nofile(void)
+ {
++    g_autofree gchar *file_max_str =3D NULL;
++    const rlim_t reserved_fds =3D 16384; /* leave at least this many fds f=
+ree */
+     rlim_t max_fds =3D 1000000; /* our default RLIMIT_NOFILE target */
++    rlim_t file_max;
+     struct rlimit rlim;
+=20
++    /*
++     * Reduce max_fds below the system-wide maximum, if necessary.  This
++     * ensures there are fds available for other processes so we don't
++     * cause resource exhaustion.
++     */
++    if (!g_file_get_contents("/proc/sys/fs/file-max", &file_max_str,
++                             NULL, NULL)) {
++        fuse_log(FUSE_LOG_ERR, "can't read /proc/sys/fs/file-max\n");
 +        exit(1);
 +    }
-+
-+    if (rlim.rlim_cur >=3D max_fds) {
-+        return 0; /* we have more fds available than required! */
++    file_max =3D g_ascii_strtoull(file_max_str, NULL, 10);
++    if (file_max < 2 * reserved_fds) {
++        fuse_log(FUSE_LOG_ERR,
++                 "The fs.file-max sysctl is too low (%lu) to allow a "
++                 "reasonable number of open files.\n",
++                 (unsigned long)file_max);
++        exit(1);
 +    }
-+    return max_fds;
-+}
++    max_fds =3D MIN(file_max - reserved_fds, max_fds);
 +
- int fuse_parse_cmdline(struct fuse_args *args, struct fuse_cmdline_opts *o=
-pts)
- {
-     memset(opts, 0, sizeof(struct fuse_cmdline_opts));
-=20
-     opts->max_idle_threads =3D 10;
-+    opts->rlimit_nofile =3D get_default_rlimit_nofile();
-     opts->foreground =3D 1;
-=20
-     if (fuse_opt_parse(args, opts, fuse_helper_opts, fuse_helper_opt_proc)=
- =3D=3D
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough=
-_ll.c
-index 4c35c95b25..f7b9c1d20c 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2707,24 +2707,18 @@ static void setup_sandbox(struct lo_data *lo, struc=
-t fuse_session *se,
-     setup_seccomp(enable_syslog);
- }
-=20
--/* Raise the maximum number of open file descriptors */
--static void setup_nofile_rlimit(void)
-+/* Set the maximum number of open file descriptors */
-+static void setup_nofile_rlimit(unsigned long rlimit_nofile)
- {
--    const rlim_t max_fds =3D 1000000;
--    struct rlimit rlim;
--
--    if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
--        fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
--        exit(1);
--    }
-+    struct rlimit rlim =3D {
-+        .rlim_cur =3D rlimit_nofile,
-+        .rlim_max =3D rlimit_nofile,
-+    };
-=20
--    if (rlim.rlim_cur >=3D max_fds) {
-+    if (rlimit_nofile =3D=3D 0) {
-         return; /* nothing to do */
-     }
-=20
--    rlim.rlim_cur =3D max_fds;
--    rlim.rlim_max =3D max_fds;
--
-     if (setrlimit(RLIMIT_NOFILE, &rlim) < 0) {
-         /* Ignore SELinux denials */
-         if (errno =3D=3D EPERM) {
-@@ -2977,7 +2971,7 @@ int main(int argc, char *argv[])
-=20
-     fuse_daemonize(opts.foreground);
-=20
--    setup_nofile_rlimit();
-+    setup_nofile_rlimit(opts.rlimit_nofile);
-=20
-     /* Must be before sandbox since it wants /proc */
-     setup_capng();
+     if (getrlimit(RLIMIT_NOFILE, &rlim) < 0) {
+         fuse_log(FUSE_LOG_ERR, "getrlimit(RLIMIT_NOFILE): %m\n");
+         exit(1);
 --=20
 2.26.2
 
