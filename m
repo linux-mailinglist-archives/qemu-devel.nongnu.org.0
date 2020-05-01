@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DCA1C1645
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 16:08:30 +0200 (CEST)
-Received: from localhost ([::1]:47248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AC41C17A0
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 16:23:22 +0200 (CEST)
+Received: from localhost ([::1]:59186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUWL7-00041I-1H
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 10:08:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37290)
+	id 1jUWZV-00018j-8z
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 10:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41460)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jUWK6-0002hj-6i
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:07:28 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUWYA-00086P-11
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:22:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <stefanha@redhat.com>) id 1jUWK4-0006Iw-5l
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:07:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56530
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jUWK3-0006FY-L1
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:07:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588342042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rkvF79RrRX5S1GUW/qd4mrdcGIbSvsNKlW8sbMYtD+k=;
- b=Z1M+fThtkel0fCn249tWQh32GlYLhIyolPynoVZO/JYTZjumR0wNdvlAzpuU2iZK+9AGJw
- WlO66XUu8a3P0cIdU+zJrMNnogCbkfRHGWoNOXzxShj0lZ7U9fgnpowugoN0KpsTqL8sIu
- KCXdSlCy/Fbpk4C6ZALl6hpaY/e4K3c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-SzHfc6M1NuuzTT3pXhi7Jw-1; Fri, 01 May 2020 10:07:20 -0400
-X-MC-Unique: SzHfc6M1NuuzTT3pXhi7Jw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 865628015D1;
- Fri,  1 May 2020 14:07:19 +0000 (UTC)
-Received: from localhost (ovpn-112-36.ams2.redhat.com [10.36.112.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32E7E5D9CC;
- Fri,  1 May 2020 14:07:11 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 2/2] virtiofsd: stay below fs.file-max sysctl value
- (CVE-2020-10717)
-Date: Fri,  1 May 2020 15:06:44 +0100
-Message-Id: <20200501140644.220940-3-stefanha@redhat.com>
-In-Reply-To: <20200501140644.220940-1-stefanha@redhat.com>
-References: <20200501140644.220940-1-stefanha@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1jUWV5-0002I3-AA
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:21:57 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:40728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUWV4-0002Hg-TY
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:18:46 -0400
+Received: by mail-pg1-x530.google.com with SMTP id n16so4612728pgb.7
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 07:18:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ejEHBn71IHHor/hnSMxhGvJvic5y+N+sgCgrlPnIcXE=;
+ b=EYnibef9GRYeq+AHA7rFH11trUjUSxtUscR6gAxPkGRkYYNqp9CCjdgzr9bOhxWn3x
+ DCT2Ai9zN7XS26VZphnW7f8tT0oeP5vm3peXqiEpbOZ6LSYTu0sticNGPtyNeUGRrvg+
+ E/ZnuC7RI0y4sAGfgftlSNojFf5OD0ECnbrziKj5SXmRY/vysWWecvRFjVmanw7Gw0Jg
+ xzc4R/SxIuHYl7MmwlDq/XVvgl5lykIP2fGzrowdVMNmBy1fPsSb5EDEAlS8KR8d6jUB
+ K9ABvVb9NxxiJa4eeVg+dIAj5KB8xkzRfVNluAl7sY/BSKLpgrAhbDAZEYAa8fN5WZ8Y
+ RFag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ejEHBn71IHHor/hnSMxhGvJvic5y+N+sgCgrlPnIcXE=;
+ b=UdHi7lBp6vHio2FeqMrPGcMAFOgz5gcNpJbvIilwoyjapIlrwTr8+I/nCaxyM4mk0j
+ BB5gqOuG9HbXQclMrO41cMXIJO9UMcdlv3Lfc/11dmSSKxczkf4sVEpWqsP41hu2ex8y
+ +QO/0PNDyUPAct1741eNNwFALsOYVDrownvrLg3YD4nRPMTHITv1gd4DgmU9t3AqGktu
+ +2yXLMy0Hwgmh7VkQ2HaZyDDrRjUWCu5qnbXmRbi/qQ8RLiU3TyrAaXD8Ua8elOBJRLM
+ TjE0Z8ywXzcugbVi6tZroEWp9mGENE8/JRJRRlxFGYgmDlllMckIQITg816UzRrHVTfy
+ aD6g==
+X-Gm-Message-State: AGi0PuaIiA/i3o7cYQHAy4wfAAiA4YYa2wjgTo6SvxwbXsIVtb+nklBW
+ 2yIOYRfbrXxQVuJ1iXIyo9WnEw==
+X-Google-Smtp-Source: APiQypKk+O8qYzk9wuEyPh8FKAE8I6Eh2c0rge/7TX5kbLJ4uOrrFKacPZ+lLLu4Lecn4r0HURlHyQ==
+X-Received: by 2002:a63:1210:: with SMTP id h16mr4267881pgl.328.1588342724953; 
+ Fri, 01 May 2020 07:18:44 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id h14sm2460771pfq.46.2020.05.01.07.18.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 May 2020 07:18:44 -0700 (PDT)
+Subject: Re: About hardfloat in ppc
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ luoyonggang@gmail.com
+References: <CAE2XoE-ZSgtceSe5wYDm3cXf8+hTvJhD5PqZSrrFW5625LcSWg@mail.gmail.com>
+ <CAE2XoE9hiw-ri66_xp3qNa5_Wx8ZfsQB9mqJdYR8VRm-KW830g@mail.gmail.com>
+ <87ftcoknvu.fsf@linaro.org>
+ <AM4PR07MB350653D5961DFCE441646131CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <871ro6ld2f.fsf@linaro.org>
+ <AM4PR07MB350673696C7DE2CA16C9C685CAAD0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <87sggmjgit.fsf@linaro.org>
+ <CAE2XoE8wFK1nOq3YXhB=iqTvqSDQk7Zzd35Tjzdd==v8ouMijA@mail.gmail.com>
+ <43ac337c-752a-7151-1e88-de01949571de@linaro.org>
+ <CAE2XoE-f_rkcnpQO1cHPUgdaWNAOvBRyUX1aj27UePd0Hkr=KQ@mail.gmail.com>
+ <alpine.BSF.2.22.395.2004301721420.29315@zero.eik.bme.hu>
+ <AM4PR07MB3506C091776962655FCE11E9CAAA0@AM4PR07MB3506.eurprd07.prod.outlook.com>
+ <FEA0FBA9-F5B7-4995-A2F3-5D8053637379@gmail.com>
+ <CAE2XoE_N_oWJwwGVfh+9mOh3dYR6JXk5XJKzv8fr2A4iE9h1OA@mail.gmail.com>
+ <alpine.BSF.2.22.395.2005011347390.29385@zero.eik.bme.hu>
+ <CAE2XoE-0=SgjeXddZXDOYPeUC1xsD5V=A5xBoa1yHS8gL2=MQg@mail.gmail.com>
+ <874kszkdhm.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d84e50f5-493e-7c8a-bf39-c94c18875171@linaro.org>
+Date: Fri, 1 May 2020 07:18:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 08:22:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+In-Reply-To: <874kszkdhm.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::530
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,61 +101,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Yuval Avrahami <yavrahami@paloaltonetworks.com>, pjp@redhat.com,
- vgoyal@redhat.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Programmingkid <programmingkidx@gmail.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, Dino Papararo <skizzato73@msn.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIHN5c3RlbS13aWRlIGZzLmZpbGUtbWF4IHN5c2N0bCB2YWx1ZSBkZXRlcm1pbmVzIGhvdyBt
-YW55IGZpbGVzIGNhbgpiZSBvcGVuLiAgSXQgZGVmYXVsdHMgdG8gYSB2YWx1ZSBjYWxjdWxhdGVk
-IGJhc2VkIG9uIHRoZSBtYWNoaW5lJ3MgUkFNCnNpemUuICBQcmV2aW91c2x5IHZpcnRpb2ZzZCB3
-b3VsZCB0cnkgdG8gc2V0IFJMSU1JVF9OT0ZJTEUgdG8gMSwwMDAsMDAwCmFuZCB0aGlzIGFsbG93
-ZWQgdGhlIEZVU0UgY2xpZW50IHRvIGV4aGF1c3QgdGhlIG51bWJlciBvZiBvcGVuIGZpbGVzCnN5
-c3RlbS13aWRlIG9uIExpbnV4IGhvc3RzIHdpdGggbGVzcyB0aGFuIDEwIEdCIG9mIFJBTSEKClRh
-a2UgZnMuZmlsZS1tYXggaW50byBhY2NvdW50IHdoZW4gY2hvb3NpbmcgdGhlIGRlZmF1bHQgUkxJ
-TUlUX05PRklMRQp2YWx1ZS4KCkZpeGVzOiBDVkUtMjAyMC0xMDcxNwpSZXBvcnRlZC1ieTogWXV2
-YWwgQXZyYWhhbWkgPHlhdnJhaGFtaUBwYWxvYWx0b25ldHdvcmtzLmNvbT4KU2lnbmVkLW9mZi1i
-eTogU3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPgpSZXZpZXdlZC1ieTogRHIu
-IERhdmlkIEFsYW4gR2lsYmVydCA8ZGdpbGJlcnRAcmVkaGF0LmNvbT4KLS0tCiB0b29scy92aXJ0
-aW9mc2QvaGVscGVyLmMgfCAyNiArKysrKysrKysrKysrKysrKysrKysrKysrLQogMSBmaWxlIGNo
-YW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS90b29s
-cy92aXJ0aW9mc2QvaGVscGVyLmMgYi90b29scy92aXJ0aW9mc2QvaGVscGVyLmMKaW5kZXggZGM1
-OWYzOGFmMC4uMDBhMWVmNjY2YSAxMDA2NDQKLS0tIGEvdG9vbHMvdmlydGlvZnNkL2hlbHBlci5j
-CisrKyBiL3Rvb2xzL3ZpcnRpb2ZzZC9oZWxwZXIuYwpAQCAtMTc2LDcgKzE3Niw4IEBAIHZvaWQg
-ZnVzZV9jbWRsaW5lX2hlbHAodm9pZCkKICAgICAgICAgICAgIiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBkZWZhdWx0OiBub194YXR0clxuIgogICAgICAgICAgICAiICAgIC0tcmxpbWl0
-LW5vZmlsZT08bnVtPiAgICAgIHNldCBtYXhpbXVtIG51bWJlciBvZiBmaWxlIGRlc2NyaXB0b3Jz
-XG4iCiAgICAgICAgICAgICIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKDAgbGVhdmVz
-IHJsaW1pdCB1bmNoYW5nZWQpXG4iCi0gICAgICAgICAgICIgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgZGVmYXVsdDogMSwwMDAsMDAwIGlmIHRoZSBjdXJyZW50IHJsaW1pdCBpcyBsb3dl
-clxuIgorICAgICAgICAgICAiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlZmF1bHQ6
-IG1pbigxMDAwMDAwLCBmcy5maWxlLW1heCAtIDE2Mzg0KVxuIgorICAgICAgICAgICAiICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIHRoZSBjdXJyZW50IHJsaW1pdCBp
-cyBsb3dlclxuIgogICAgICAgICAgICApOwogfQogCkBAIC0xOTksOSArMjAwLDMyIEBAIHN0YXRp
-YyBpbnQgZnVzZV9oZWxwZXJfb3B0X3Byb2Modm9pZCAqZGF0YSwgY29uc3QgY2hhciAqYXJnLCBp
-bnQga2V5LAogCiBzdGF0aWMgdW5zaWduZWQgbG9uZyBnZXRfZGVmYXVsdF9ybGltaXRfbm9maWxl
-KHZvaWQpCiB7CisgICAgZ19hdXRvZnJlZSBnY2hhciAqZmlsZV9tYXhfc3RyID0gTlVMTDsKKyAg
-ICBjb25zdCBybGltX3QgcmVzZXJ2ZWRfZmRzID0gMTYzODQ7IC8qIGxlYXZlIGF0IGxlYXN0IHRo
-aXMgbWFueSBmZHMgZnJlZSAqLwogICAgIHJsaW1fdCBtYXhfZmRzID0gMTAwMDAwMDsgLyogb3Vy
-IGRlZmF1bHQgUkxJTUlUX05PRklMRSB0YXJnZXQgKi8KKyAgICBybGltX3QgZmlsZV9tYXg7CiAg
-ICAgc3RydWN0IHJsaW1pdCBybGltOwogCisgICAgLyoKKyAgICAgKiBSZWR1Y2UgbWF4X2ZkcyBi
-ZWxvdyB0aGUgc3lzdGVtLXdpZGUgbWF4aW11bSwgaWYgbmVjZXNzYXJ5LiAgVGhpcworICAgICAq
-IGVuc3VyZXMgdGhlcmUgYXJlIGZkcyBhdmFpbGFibGUgZm9yIG90aGVyIHByb2Nlc3NlcyBzbyB3
-ZSBkb24ndAorICAgICAqIGNhdXNlIHJlc291cmNlIGV4aGF1c3Rpb24uCisgICAgICovCisgICAg
-aWYgKCFnX2ZpbGVfZ2V0X2NvbnRlbnRzKCIvcHJvYy9zeXMvZnMvZmlsZS1tYXgiLCAmZmlsZV9t
-YXhfc3RyLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxMLCBOVUxMKSkgeworICAg
-ICAgICBmdXNlX2xvZyhGVVNFX0xPR19FUlIsICJjYW4ndCByZWFkIC9wcm9jL3N5cy9mcy9maWxl
-LW1heFxuIik7CisgICAgICAgIGV4aXQoMSk7CisgICAgfQorICAgIGZpbGVfbWF4ID0gZ19hc2Np
-aV9zdHJ0b3VsbChmaWxlX21heF9zdHIsIE5VTEwsIDEwKTsKKyAgICBpZiAoZmlsZV9tYXggPCAy
-ICogcmVzZXJ2ZWRfZmRzKSB7CisgICAgICAgIGZ1c2VfbG9nKEZVU0VfTE9HX0VSUiwKKyAgICAg
-ICAgICAgICAgICAgIlRoZSBmcy5maWxlLW1heCBzeXNjdGwgaXMgdG9vIGxvdyAoJWx1KSB0byBh
-bGxvdyBhICIKKyAgICAgICAgICAgICAgICAgInJlYXNvbmFibGUgbnVtYmVyIG9mIG9wZW4gZmls
-ZXMuXG4iLAorICAgICAgICAgICAgICAgICAodW5zaWduZWQgbG9uZylmaWxlX21heCk7CisgICAg
-ICAgIGV4aXQoMSk7CisgICAgfQorICAgIG1heF9mZHMgPSBNSU4oZmlsZV9tYXggLSByZXNlcnZl
-ZF9mZHMsIG1heF9mZHMpOworCiAgICAgaWYgKGdldHJsaW1pdChSTElNSVRfTk9GSUxFLCAmcmxp
-bSkgPCAwKSB7CiAgICAgICAgIGZ1c2VfbG9nKEZVU0VfTE9HX0VSUiwgImdldHJsaW1pdChSTElN
-SVRfTk9GSUxFKTogJW1cbiIpOwogICAgICAgICBleGl0KDEpOwotLSAKMi4yNS4zCgo=
+On 5/1/20 6:10 AM, Alex Bennée wrote:
+> 
+> 罗勇刚(Yonggang Luo) <luoyonggang@gmail.com> writes:
+> 
+>> On Fri, May 1, 2020 at 7:58 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>
+>>> On Fri, 1 May 2020, 罗勇刚(Yonggang Luo) wrote:
+>>>> That's what I suggested,
+>>>> We preserve a  float computing cache
+>>>> typedef struct FpRecord {
+>>>>  uint8_t op;
+>>>>  float32 A;
+>>>>  float32 B;
+>>>> }  FpRecord;
+>>>> FpRecord fp_cache[1024];
+>>>> int fp_cache_length;
+>>>> uint32_t fp_exceptions;
+>>>>
+>>>> 1. For each new fp operation we push it to the  fp_cache,
+>>>> 2. Once we read the fp_exceptions , then we re-compute
+>>>> the fp_exceptions by re-running the fp FpRecord sequence.
+>>>> and clear  fp_cache_length.
+>>>
+>>> Why do you need to store more than the last fp op? The cumulative bits can
+>>> be tracked like it's done for other targets by not clearing fp_status then
+>>> you can read it from there. Only the non-sticky FI bit needs to be
+>>> computed but that's only determined by the last op so it's enough to
+>>> remember that and run that with softfloat (or even hardfloat after
+>>> clearing status but softfloat may be faster for this) to get the bits for
+>>> last op when status is read.
+>>>
+>> Yeap, store only the last fp op is also an option. Do you means that store
+>> the last fp op,
+>> and calculate it when necessary?  I am thinking about a general fp
+>> optmize method that suite
+>> for all target.
+> 
+> I think that's getting a little ahead of yourself. Let's prove the
+> technique is valuable for PPC (given it has the most to gain). We can
+> always generalise later if it's worthwhile.
 
+Indeed.
+
+> Rather than creating a new structure I would suggest creating 3 new tcg
+> globals (op, inA, inB) and re-factor the front-end code so each FP op
+> loaded the TCG globals. The TCG optimizer should pick up aliased loads
+> and automatically eliminate the dead ones. We might need some new
+> machinery for the TCG to avoid spilling the values over potentially
+> faulting loads/stores but that is likely a phase 2 problem. 
+
+There's no point in new tcg globals.
+
+Every fp operation can raise an exception, and therefore every fp operation
+will flush tcg globals to memory.  Therefore there is no optimization to be
+done at the tcg opcode level.
+
+However, every fp operation calls a helper function, and the quickest thing to
+do is store the inputs to env->(op, inA, inB, inC) in the helper before
+performing the operation.
+
+
+> Next you will want to find places that care about the per-op bits of
+> cpu_fpscr and call a helper with the new globals to re-run the
+> computation and feed the values in.
+
+Before we even get to this deferred fp operation thing, there are several giant
+improvements to ppc emulation that can be made:
+
+Step 1 is to rearrange the fp helpers to eliminate helper_reset_fpstatus().
+I've mentioned this before, that it's possible to leave the steady-state of
+env->fp_status.exception_flags == 0, so there's no need for a separate function
+call.  I suspect this is worth a decent speedup by itself.
+
+Step 2 is to notice when all fp exceptions are masked, so that no exception can
+be raised, and set a tb_flags bit.  This is the default fp environment that
+libc enables and therefore extremely common.
+
+Currently, ppc has 3 helpers called per fp operation.  If step 1 is handled
+correctly, then we're down to 2 fp helpers per fp operation.  If no exceptions
+need raising, then we can perform the entire operation with a single function call.
+
+We would require a parallel set of fp helpers that (1) performs the operation
+and (2) does any post-processing of the exception bits straight away, but (3)
+without raising any exceptions.  Sort of like helper_fadd +
+do_float_check_status, but less.  IIRC the only real extra work is categorizing
+invalid exceptions.  We could even plausibly extend softfloat to do that while
+it is recording the invalid exception.
+
+Step 3 is to improve softfloat.c with Yonggang Luo's idea to compute inexact
+from the inverse hardfloat operation.  This would let us relax the restriction
+of only using hardfloat when we have already have an accrued inexact exception.
+
+Only after all of these are done is it worth experimenting with caching the
+last fp operation.
+
+
+r~
 
