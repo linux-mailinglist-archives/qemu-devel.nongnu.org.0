@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39291C11FF
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 14:19:55 +0200 (CEST)
-Received: from localhost ([::1]:40710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D021C121B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 14:21:55 +0200 (CEST)
+Received: from localhost ([::1]:45212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUUe2-0003nh-FK
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 08:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55376)
+	id 1jUUfy-0005l0-PJ
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 08:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56318)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jUUd5-0003Bk-Ff
- for qemu-devel@nongnu.org; Fri, 01 May 2020 08:18:55 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1jUUeU-0004XX-4I
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 08:20:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <philmd@redhat.com>) id 1jUUd3-0001Cp-Vw
- for qemu-devel@nongnu.org; Fri, 01 May 2020 08:18:54 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:35023
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jUUd3-00017X-FS
- for qemu-devel@nongnu.org; Fri, 01 May 2020 08:18:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588335531;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E+mZ9AqPrrVunWNOjxXjmV0VoqxHBUxkv1IUrcPz8Bw=;
- b=H3plIFcSZVsYsJg1BqcM/ik0DI90hL27LYIMF0u7XzlH3kT3K+RsPUHIXi3U3QN6gPVrvG
- A0aWrJvvC8FXd7Ic/agxmKFQ+MOTpvA84oHXecYxRepxP0ZPp4XEbGfzX6vAZfmHSUGTKp
- 5o2nODtIItNCc86q6aDTQa5L83fWzpw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-Is_CC28EMTWwOV7BzCTUUA-1; Fri, 01 May 2020 08:18:47 -0400
-X-MC-Unique: Is_CC28EMTWwOV7BzCTUUA-1
-Received: by mail-wm1-f71.google.com with SMTP id j5so2598495wmi.4
- for <qemu-devel@nongnu.org>; Fri, 01 May 2020 05:18:47 -0700 (PDT)
+ (envelope-from <bmeng.cn@gmail.com>) id 1jUUeT-0005dq-99
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 08:20:21 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:43048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1jUUeS-0005Uj-RF; Fri, 01 May 2020 08:20:20 -0400
+Received: by mail-pf1-x441.google.com with SMTP id v63so1518192pfb.10;
+ Fri, 01 May 2020 05:20:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=SmQffLB8/33ss0YiOCv7YSMbnw292P10yBb4MnsFb7c=;
+ b=FcYA/4jBj4Q24UUuZ3Zo+eN00s5grtlPNnQf9O9qmmG9a9sm5Af2EnrG0YxNPO9Bhd
+ 89/7YchHWmK0+X8RxmmNKiy6UBmCgdWa9OpouiErxYPOad0KnvjRUzjMGceCc4ZGtkZW
+ kDHeSYdbDVEoGHpBixj//lmFTkf/F8vvkdmqxs3qbB7s46E/9A1Uv60P085h1i0dvACb
+ KsjJdUYEH429/A5vAd8dfF+ehKRmfL7pzzVSlh6lQlrHO/MzyPZjKd5kWs40kZIOzoVC
+ oHL9UHm6zPMeYH/b773Ozp54534qEMU1lkVPMM+u/1S+m/Dv93ESbMF4S1k8TBYN1+ZT
+ Fgig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=amdxJJPHoEm7JjAVfwGFyTz//iiZ8LXBERaohBiRMaU=;
- b=Rx6B5I9lLgYHlnxMgxcey190No6fcoJBRTyM6OgRZyXNDrUu61omkN28+joPUB5urm
- KW1vkXwpdxaUoy431batTTIypiNtcgchkQV1grJezMyIiuLcc+WqCQnXB1NDTkx7Iqt9
- zx9XNH073G4MYHgIAiZWNT6/2Ng4AjxM7+9jqcq8dBfsecH5AuSO0/Pefg89OLzBmCgl
- AbGtM9bOMDCxw+HmNS/ir5I5P6sYbizkXr5BLrl6KoNW0SVQhlTrviBv5+j2d3dUqrL0
- acCX5BqVY4vXsR8NJngJLaq4oSJCU/m2qXTCVr8hG4o7Ht5qzxZOROc/I5+7oqIZRaKE
- icKA==
-X-Gm-Message-State: AGi0PubUzNUT9HOcwF3sVRAjAuZvXnKucC4RUfaolFAo2O0i7ZnHqbzg
- UNd5SjgAZWmRAsN/FFnC9vRYVyY1fZ3Mj3/UwwrWeesv7lzFAozxpgK5hO9/ePGj5DRNf3eTGUF
- yLLsNDobcrXP6Yq4=
-X-Received: by 2002:a1c:f312:: with SMTP id q18mr3716271wmq.175.1588335526295; 
- Fri, 01 May 2020 05:18:46 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIc8gZRnEcUXSfePAasG4fkZOYI6AltclwmB+RH2X5i0aJtgCH0wB39E/iKloCnKZMQ4gQ+Ew==
-X-Received: by 2002:a1c:f312:: with SMTP id q18mr3716253wmq.175.1588335526056; 
- Fri, 01 May 2020 05:18:46 -0700 (PDT)
-Received: from [192.168.1.39] (137.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.137])
- by smtp.gmail.com with ESMTPSA id n2sm3987345wrt.33.2020.05.01.05.18.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 May 2020 05:18:45 -0700 (PDT)
-Subject: Re: [PATCH v1 1/4] .travis.yml: show free disk space at end of run
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200501111505.4225-1-alex.bennee@linaro.org>
- <20200501111505.4225-2-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <690326b3-552e-af65-fbad-ff6ad52fef73@redhat.com>
-Date: Fri, 1 May 2020 14:18:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200501111505.4225-2-alex.bennee@linaro.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 08:18:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.61
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=SmQffLB8/33ss0YiOCv7YSMbnw292P10yBb4MnsFb7c=;
+ b=LqtRzZesEDY3OHt8WGvQ+biPFvCrYciW/+ylrss+UqHyaFVtZyLKHnB9i76D7pb3t0
+ W2aZmtOFJRMV5mlidnXCyfO+eklNi+726Y4qBKnOIdYc8O11O/0E3ILUDtfMOnxprykA
+ kCocqDlCjFef4u/JnLXnv7Inh4rZIfDX5uBPkuF7zVAFfMRmSjikyOqpFCi/AKmFh/Ym
+ osu0gl5ERnJGPq1nYndYAwCH3eubwWzZZ31SlrUMuPQc7QEnorrIz2uYsNemCTyc7IQM
+ HtO+JI+cNUygY0/g7qB0uq3s4eK/ySaHYOHBfxSBYJsQOhWNS8ZbpZXnd+YJ56MFwnlz
+ Kk7g==
+X-Gm-Message-State: AGi0PubT0eLUOS563sRNIwVn+0w+uBIMw8lSsTyKXEwyxztJKJxVYTs9
+ 4dnbnuoXDYjJss1UPqoJwzQ=
+X-Google-Smtp-Source: APiQypIwTIkOCZxBP69yBfsXEThpZSa6rroh6Tyf1ofHcPapy+XsbXKRPRLX5RjDp8m78DYFJZ4+FA==
+X-Received: by 2002:a62:e70b:: with SMTP id s11mr3865616pfh.32.1588335617787; 
+ Fri, 01 May 2020 05:20:17 -0700 (PDT)
+Received: from localhost.localdomain (unknown-224-80.windriver.com.
+ [147.11.224.80])
+ by smtp.gmail.com with ESMTPSA id v1sm1993479pjs.36.2020.05.01.05.20.16
+ (version=TLS1 cipher=AES128-SHA bits=128/128);
+ Fri, 01 May 2020 05:20:17 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH] riscv: Change the default behavior if no -bios option is
+ specified
+Date: Fri,  1 May 2020 05:19:05 -0700
+Message-Id: <1588335545-649-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 1.7.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::441
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,34 +79,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/1/20 1:15 PM, Alex Benn=C3=A9e wrote:
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->   .travis.yml | 1 +
->   1 file changed, 1 insertion(+)
->=20
-> diff --git a/.travis.yml b/.travis.yml
-> index 2fd63eceaa..a4c3c6c805 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -113,6 +113,7 @@ script:
->           $(exit $BUILD_RC);
->       fi
->   after_script:
-> +  - df -h
->     - if command -v ccache ; then ccache --show-stats ; fi
->  =20
->  =20
->=20
+From: Bin Meng <bin.meng@windriver.com>
 
-Already reviewed:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg697747.html
+Per QEMU deprecated doc, QEMU 4.1 introduced support for the -bios
+option in QEMU for RISC-V for the virt machine and sifive_u machine.
+The default behavior has been that QEMU does not automatically load
+any firmware if no -bios option is included.
 
-Again:
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Now 2 releases passed, it's time to change the default behavior to
+load the default OpenSBI firmware automatically. The firmware is
+included with the QEMU release and no user interaction is required.
+All a user needs to do is specify the kernel they want to boot with
+the -kernel option.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
+
+ hw/riscv/boot.c | 31 ++++---------------------------
+ 1 file changed, 4 insertions(+), 27 deletions(-)
+
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 726300a..b76b2f3 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -41,34 +41,11 @@ void riscv_find_and_load_firmware(MachineState *machine,
+ {
+     char *firmware_filename = NULL;
+ 
+-    if (!machine->firmware) {
++    if ((!machine->firmware) || (!strcmp(machine->firmware, "default"))) {
+         /*
+-         * The user didn't specify -bios.
+-         * At the moment we default to loading nothing when this hapens.
+-         * In the future this defaul will change to loading the prebuilt
+-         * OpenSBI firmware. Let's warn the user and then continue.
+-        */
+-        if (!qtest_enabled()) {
+-            warn_report("No -bios option specified. Not loading a firmware.");
+-            warn_report("This default will change in a future QEMU release. " \
+-                        "Please use the -bios option to avoid breakages when "\
+-                        "this happens.");
+-            warn_report("See QEMU's deprecation documentation for details.");
+-        }
+-        return;
+-    }
+-
+-    if (!strcmp(machine->firmware, "default")) {
+-        /*
+-         * The user has specified "-bios default". That means we are going to
+-         * load the OpenSBI binary included in the QEMU source.
+-         *
+-         * We can't load the binary by default as it will break existing users
+-         * as users are already loading their own firmware.
+-         *
+-         * Let's try to get everyone to specify the -bios option at all times,
+-         * so then in the future we can make "-bios default" the default option
+-         * if no -bios option is set without breaking anything.
++         * The user didn't specify -bios, or has specified "-bios default".
++         * That means we are going to load the OpenSBI binary included in
++         * the QEMU source.
+          */
+         firmware_filename = riscv_find_firmware(default_machine_firmware);
+     } else if (strcmp(machine->firmware, "none")) {
+-- 
+2.7.4
 
 
