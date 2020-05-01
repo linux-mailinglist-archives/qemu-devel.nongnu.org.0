@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095BA1C181B
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 16:45:22 +0200 (CEST)
-Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19D91C187B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 May 2020 16:53:07 +0200 (CEST)
+Received: from localhost ([::1]:41650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUWum-00015E-Jj
-	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 10:45:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52356)
+	id 1jUX2I-0006IY-Bf
+	for lists+qemu-devel@lfdr.de; Fri, 01 May 2020 10:53:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55700)
  by lists.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jUWth-0000BO-Fz
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:44:14 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1jUWxb-00037V-Ou
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:51:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <mst@redhat.com>) id 1jUWtg-0007Ft-0D
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:44:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49800
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jUWtf-0007En-Ao
- for qemu-devel@nongnu.org; Fri, 01 May 2020 10:44:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588344249;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NL4zyHznFsj3tkoH2FRG/PQbe2d5i1qZDJTTUd7bbyg=;
- b=et+mQPr2JKe7sygYMCB+apTuAiXguvQZwFHQSv+stRt/QzfvwivIM3yTqdfll1P7M9EVQW
- 3rETv7ZxlpjEsK4E0G/IIU3nYcpVQk2gyTVNhESpeiUNUXL0ADBEMLKFXsOvSnbgGPoP3T
- x5vtkvsmCG15QrPBUbInIhA1+b8x+7w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-I5drAE7JMvSR9SqFydXI-g-1; Fri, 01 May 2020 10:44:07 -0400
-X-MC-Unique: I5drAE7JMvSR9SqFydXI-g-1
-Received: by mail-wr1-f71.google.com with SMTP id m5so5754387wru.15
- for <qemu-devel@nongnu.org>; Fri, 01 May 2020 07:44:07 -0700 (PDT)
+ (envelope-from <richard.henderson@linaro.org>) id 1jUWvC-00012x-OF
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:48:15 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jUWvC-0000yU-A0
+ for qemu-devel@nongnu.org; Fri, 01 May 2020 10:45:46 -0400
+Received: by mail-pg1-x543.google.com with SMTP id n16so4640643pgb.7
+ for <qemu-devel@nongnu.org>; Fri, 01 May 2020 07:45:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=s/OCfhEHOgJHe55FoOL458vwUhXNcaz87gRjsmL71DE=;
+ b=SF/lH0AHal3+EA6TZNTmKpo6q5KeP4NY8FRst336JeqgSDIJ9xBGdciUdfJ8+CKLGq
+ 5wAHwgKtgPLpIBNzUSOqL6w0yP9u1ROukQBQRtdWrsymLArQCmU21N8w3Szf2keucH/J
+ 1hu4OoLY0Vt9xre2yED8dxuX1l5jz7qqnAj9DxHg9ffpu9UsSIbit2nd9ycBwQf3PlYv
+ Br0VMdbWNARySK80h2PIUK6icHX1ujpFs7+algSGY69z7gxz5tkHAPg/ax4raVW5H5vR
+ NL8g0fcqNSEyRdvuj8Xdw54ZUzTE/iMYC/xK/VLxxom0CAWcIkrvYs6uIJ+0dh3Kyyr8
+ Sr7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Y7pL+sFX0YB9q72AIOt6ZlYNtq1DFBrUvYwn9R5J190=;
- b=DYNfDGr+KGn/XdL2QmUjC7RhNNXG4AA7jxGA2J/vQbmqUl0182Jhq39XlkfYdgQL2A
- CCV+t1dFUFuHZuKMe37lnR2X/y3yHug1MH9NRivxNo//fwS6OXQJbjXbIDQCPxmI/eHr
- a8LbK1dK9zqg+BfE29A4CFBaueFt7EpE31xoYEG5AEGiTlezbYOdpYfbQV4K1p0Tbp2r
- 1O8mkPhfFDIkDHw9zMxa7CF8vQ+AaWLGFBBIx0DgdbptJZjn3vwC6F5F/ujalDnWlL4v
- MsV6jguT/9NLanO44js3LtfUOANRiCFTN+znrw0Ptcxk8UqQDraheQH+mqDTLz928+Bu
- 1spA==
-X-Gm-Message-State: AGi0PuZIHFIeFaacO0JmCzCtjolBPtTCIol7ChD9Rry/qJlNYbvMNit1
- KQAigt0PpHMYDUFAYdUAZof3fptLZ9YWIEaKtS10zVYBrIDXpO8v5D2UfBRaDpjBwLKx70ORE7X
- r+IwgmnQllZAHzFs=
-X-Received: by 2002:adf:a1d3:: with SMTP id v19mr4411824wrv.253.1588344246328; 
- Fri, 01 May 2020 07:44:06 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ2yxFSUe9iedH1cSEb16fIN5h5IEJjMzQLUhaXfz/puaT7U4gTBiPAn6umQLpjusavthErew==
-X-Received: by 2002:adf:a1d3:: with SMTP id v19mr4411804wrv.253.1588344246103; 
- Fri, 01 May 2020 07:44:06 -0700 (PDT)
-Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
- by smtp.gmail.com with ESMTPSA id
- s14sm4471416wme.33.2020.05.01.07.44.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 May 2020 07:44:05 -0700 (PDT)
-Date: Fri, 1 May 2020 10:44:02 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH v7 0/7] reference implementation of RSS and hash report
-Message-ID: <20200501104325-mutt-send-email-mst@kernel.org>
-References: <20200329150953.23812-1-yuri.benditovich@daynix.com>
- <20200331102004-mutt-send-email-mst@kernel.org>
- <CAOEp5OeOcTZM_b254LxX5=jRiiAkGSoLsbMeiMjPs2OoF1MxNA@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=s/OCfhEHOgJHe55FoOL458vwUhXNcaz87gRjsmL71DE=;
+ b=RHwJO7os/kGWw2L8hf6shYGhw72DcUaF21NKb9Thob55rWeShARhQ3GyZcwzU2ybbw
+ Qi56h5W9tkpW0qHhBc9c7dtq0xF/SI99G+laeTEbXEXaIqOVj8Rp1V67R4Bq+5s8ypqj
+ Tst5dPHVDHOn1/fwSX/m64jYtAx4dlVS+4n2Wmwr2sJ8Igx+va7vvSMRz9qgf/Mjyfu3
+ Z3a1/cuAdukoHj0q/jXBNMNGkbXudbBbZn5LQobxsbwd/dI4Et7G52njhuGEDLwymOyH
+ NGdeGwiMgZUXxx3Ch7NvgAiBgkW32yiHMwR/1n5ocdy41YpuaNwXi1DLi8bG5BFJmBeP
+ He2A==
+X-Gm-Message-State: AGi0PubtD3kx55amchgeOHQkUwSF4IvRs5Mmlgf7i+w6JdZ9+ODOQMeG
+ htcFDDndG9c1H3vlrA2rkrKaog==
+X-Google-Smtp-Source: APiQypJ5kUguJtF1MuY6L63PBmsya8U7bVWtHGI07vmsD2FRf9K+1L3eySnIMdrHTClxskBGvbgirQ==
+X-Received: by 2002:a62:1bd0:: with SMTP id b199mr4401618pfb.283.1588344343238; 
+ Fri, 01 May 2020 07:45:43 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id d126sm2544063pfc.81.2020.05.01.07.45.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 May 2020 07:45:42 -0700 (PDT)
+Subject: Re: [PATCH v1 9/9] target/m68k: fix gdb for m68xxx
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200430190122.4592-1-alex.bennee@linaro.org>
+ <20200430190122.4592-10-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <995a0ac8-0b13-498c-d535-18a07dd098a4@linaro.org>
+Date: Fri, 1 May 2020 07:45:40 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5OeOcTZM_b254LxX5=jRiiAkGSoLsbMeiMjPs2OoF1MxNA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/01 08:22:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Received-From: 205.139.110.120
+In-Reply-To: <20200430190122.4592-10-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
+ Malformed IPv6 address (bad octet value).
+ Location : parse_addr6(), p0f-client.c:67
+X-Received-From: 2607:f8b0:4864:20::543
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,74 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are in freeze so nothing's applied right now.
-v8 which has all the bits will be a good step so we
-are ready for after freeze.
+On 4/30/20 12:01 PM, Alex Bennée wrote:
+> From: KONRAD Frederic <frederic.konrad@adacore.com>
+> 
+> Currently "cf-core.xml" is sent to GDB when using any m68k flavor.  Thing is
+> it uses the "org.gnu.gdb.coldfire.core" feature name and gdb 8.3 then expects
+> a coldfire FPU instead of the default m68881 FPU.
+> 
+> This is not OK because the m68881 floats registers are 96 bits wide so it
+> crashes GDB with the following error message:
+> 
+> (gdb) target remote localhost:7960
+> Remote debugging using localhost:7960
+> warning: Register "fp0" has an unsupported size (96 bits)
+> warning: Register "fp1" has an unsupported size (96 bits)
+> ...
+> Remote 'g' packet reply is too long (expected 148 bytes, got 180 bytes):    \
+>   00000000000[...]0000
+> 
+> With this patch: qemu-system-m68k -M none -cpu m68020 -s -S
+> 
+> (gdb) tar rem :1234
+> Remote debugging using :1234
+> warning: No executable has been specified and target does not support
+> determining executable automatically.  Try using the "file" command.
+> 0x00000000 in ?? ()
+> (gdb) p $fp0
+> $1 = nan(0xffffffffffffffff)
+> 
+> Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <1588094279-17913-3-git-send-email-frederic.konrad@adacore.com>
+> ---
 
-On Fri, May 01, 2020 at 07:01:58AM +0300, Yuri Benditovich wrote:
-> Michael/Jason,
->=20
-> As Linux headers was updated in qemu and now include RSC/RSS/Hash definit=
-ions,
-> please let me know what you prefer:
-> 1. You apply this series as is, then I submit clean-up series that will r=
-emove
-> all the redundant defines from virtio-net.c
-> 2. I post v8 of this series with cleanup of all the redundant defines and=
- also
-> RSC ones
-> 3. Something other
->=20
-> Thanks,
-> Yuri Benditovich
->=20
-> On Tue, Mar 31, 2020 at 5:26 PM Michael S. Tsirkin <mst@redhat.com> wrote=
-:
->=20
->     On Sun, Mar 29, 2020 at 06:09:46PM +0300, Yuri Benditovich wrote:
->     > Support for VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT
->     > features in QEMU for reference purpose.
->     > Implements Toeplitz hash calculation for incoming
->     > packets according to configuration provided by driver.
->     > Uses calculated hash for decision on receive virtqueue
->     > and/or reports the hash in the virtio header
->=20
->=20
->     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->=20
->     Probably post 5.0 material.
->=20
->     > Changes from v6:
->     > Fixed a bug in patch 5 "reference implementation of hash report"
->     > that caused the ASAN test to fail
->     > was: n->rss_data.populate_hash =3D true;
->     > fixed: n->rss_data.populate_hash =3D !!hash_report;
->     >
->     > Yuri Benditovich (7):
->     >=A0 =A0virtio-net: introduce RSS and hash report features
->     >=A0 =A0virtio-net: implement RSS configuration command
->     >=A0 =A0virtio-net: implement RX RSS processing
->     >=A0 =A0tap: allow extended virtio header with hash info
->     >=A0 =A0virtio-net: reference implementation of hash report
->     >=A0 =A0vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
->     >=A0 =A0virtio-net: add migration support for RSS and hash report
->     >
->     >=A0 hw/net/trace-events=A0 =A0 =A0 =A0 =A0 =A0 |=A0 =A03 +
->     >=A0 hw/net/virtio-net.c=A0 =A0 =A0 =A0 =A0 =A0 | 448 +++++++++++++++=
-++++++++++++++++--
->     >=A0 include/hw/virtio/virtio-net.h |=A0 16 ++
->     >=A0 include/migration/vmstate.h=A0 =A0 |=A0 10 +
->     >=A0 net/tap.c=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 |=A0 11 +-
->     >=A0 5 files changed, 460 insertions(+), 28 deletions(-)
->     >
->     > --
->     > 2.17.1
->=20
->=20
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
 
