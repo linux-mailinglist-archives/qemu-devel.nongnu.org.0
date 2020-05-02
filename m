@@ -2,74 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6FC31C27FD
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 May 2020 21:20:39 +0200 (CEST)
-Received: from localhost ([::1]:60944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D26E1C2816
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 May 2020 21:48:09 +0200 (CEST)
+Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUxgk-00074k-7Z
-	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 15:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40624)
+	id 1jUy7M-0005dQ-73
+	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 15:48:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1jUxf0-0005NI-Ie
- for qemu-devel@nongnu.org; Sat, 02 May 2020 15:18:51 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jUy6H-0005AE-Cb
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 15:47:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1jUxez-00075n-OQ
- for qemu-devel@nongnu.org; Sat, 02 May 2020 15:18:50 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:50764)
+ (envelope-from <laurent@vivier.eu>) id 1jUy6G-0006ZD-NY
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 15:47:01 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:39607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1jUxez-00074W-C0
- for qemu-devel@nongnu.org; Sat, 02 May 2020 15:18:49 -0400
-Received: by mail-wm1-x336.google.com with SMTP id x25so3796131wmc.0
- for <qemu-devel@nongnu.org>; Sat, 02 May 2020 12:18:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=7NBvj3io5bIDUt11G/p8i3F8zoH+A/C8brb6miv4isc=;
- b=qMPzcQo/8jJCxfSj5qn1crXUJF3MnvFavWAT6dWQyQp4Xjqs4xsElFQPQOnSZEV49V
- wBIy0AwWTobba8RXZoG1bxvKpaBcgIxQeK2lvGCosxGOLnoqiZkycY5m+gwi/CKvIf0r
- qY+WxJLAuahTzrozVdUqpNvGwie97EekpZdrzFOgQRc/qPpGb6GD58VSEWgAX22SZ/rt
- +3EMMY2BatjN/7KXjIMEwqfsPtobnxuQJd9aAEcu5tnEx8B7pbJdg4CjcHuBQFxPcftG
- E7cVQUHdlNRAw022BhTRgbbAUF+N2rYp6GfvtGl21uQvWIeFWNZWW5KsxSfCam54WoYA
- j+1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=7NBvj3io5bIDUt11G/p8i3F8zoH+A/C8brb6miv4isc=;
- b=H/LW0Mips/FTYc9RwwTdjxmsJEsU9MeFLBKd6V0FGd0qhGka2TePf6tgyyt6QHRuQm
- XIyIdemD+GU+i3grNaRHt1HPCXJpmfeiNCy5L/th/pmvPI/GFR6OtYJSCDwBmTqbPVvJ
- xFU3rvAvm+XfrbjpZeko5L7pqqcO7gs2mqfcKm9AoKQgQOI27FpF71E937JP+982Sdau
- d0UAsxt/PkXqaf+AbX1jpZgP4NJ7T3yLUAyn+IeCAxQvm608fsW+S+cwlCjjapyp7jKK
- 2zKXZRVu8GTmgiYLn8F9APr7Y7SkujaRVv3fp6eCMsbqxnABPxgI9nBXLEfHDRzvl6gC
- A8cw==
-X-Gm-Message-State: AGi0PuaAPi5XRmpH5qxHbKU0vMZAKZbuIn0ol4hAogzcCQ0TOiTuFTFe
- 2EwQ8+8VpGHW0qKbTUxHk5xQO4QesXM=
-X-Google-Smtp-Source: APiQypJPD+Wf5YXZ8Fu3h3TX+4TjOfiBThYwGT4SPC7QbnBTlSIiHNA8t6+WVSKPwaI0J3x+GgBciw==
-X-Received: by 2002:a05:600c:2941:: with SMTP id
- n1mr6037221wmd.25.1588447127151; 
- Sat, 02 May 2020 12:18:47 -0700 (PDT)
-Received: from localhost.localdomain ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id k23sm5378441wmi.46.2020.05.02.12.18.45
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 02 May 2020 12:18:46 -0700 (PDT)
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [Qemu-devel] [PULL 1/1] hw/rdma: Destroy list mutex when list is
- destroyed
-Date: Sat,  2 May 2020 22:18:42 +0300
-Message-Id: <20200502191842.27250-2-marcel.apfelbaum@gmail.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20200502191842.27250-1-marcel.apfelbaum@gmail.com>
-References: <20200502191842.27250-1-marcel.apfelbaum@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-wm1-x336.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::336
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jUy6G-0006Yn-2Q
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 15:47:00 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MOiYD-1jnsQj3BLr-00Q9b8; Sat, 02 May 2020 21:46:46 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user, alpha: fix oldumount syscall
+Date: Sat,  2 May 2020 21:46:42 +0200
+Message-Id: <20200502194642.32823-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:kM4Dnn/42aBkwf8laoK2Sls1BBvzfHO7+ow+oVAVPYToiRviT9o
+ 7CCteD4rJ0SSix3R1fQh6f/9SRgnTfEHb5p8jx6nYqmeAChamlkwCBl5IEVG5WckZRET3A2
+ Cxiadyow5G+iFiG5ZXJ3CbTHlQbw1XxKnOt3fqoSL4B4ItWPvVWyeq7cOu26420oPvJCEqL
+ gl+ZQn/g7N5OLkPz6DAlg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u397iiZ2WEM=:kezUHaLhPY417HT5gJGzEz
+ 9v5TDiPJw9I+o4Ki20E41xGNmCOLkrG9/8cQ3/pIPzFdKhQe/O91C3PgR2ns475lOgbXp93EQ
+ oAXEcLF9BwDafGGLmSzcmTwZN5PLzcEDwf1UF6LaSHMd2S7ux0yFe/aZZu+FVntuSS5745W3e
+ Y7LE5lIWxz6RWqEiwTYKY6rIafTvHufbQLCQoCxGSEa4c83ZtHX19bmVwFLapRSKoZFP66MkC
+ 2wgD1XpLYYVFD5OIVvuY3xU3ZvfKdZ3/ciAhLvnv20XFEAAuEFkqsHo/vRccZkCav6uLA9Zgq
+ 1rRC1tgQchVO2SBl0kyohqz3JALC2C7+i7uzcB33dfqe/26bU7oaaSVAivclpPztxZmNkSQ2u
+ ZdGEbt4/TAH616oCYpraTV824EgOd+8IFIyY28nk3bsNB5KswZKs6CPpiJ7MXVK+wnfBqBziD
+ iLc2AskKQWwfzRXwtdw2TScRLd3Z6WWaQHprmOBPrqT9r4a81hbZt7/Otqu2R6InrwfN6Rc6M
+ 62mtQ/w3uW4gggEqHa4nCRaZIk/ESx3m5zPLkPsgECMQb9ydPOR0h/RR7tD/0Ivy0nenrCTIt
+ 8H2Scx07f2CIbI6dMksRsBcpx84bVjPXGlZXSZnX803kEVaiLNlyi+79Orpd20oUbMtHQqJ3p
+ czxBR1nd7PbULQc4VmtI6zfnx0Dfyk1EDWPL4nGEQiOCbU4qTD4H2o1emADwS//U4iDS3D+MF
+ 7mSJZL+XRf+y+n6eWFTRqZLWl/PplVuLbHHqi6QvSl+6fYxw+i7Ob7nHpY9DCnIH/56+MpJ3y
+ kqqEPK7HWEeUS679zMHshQzAsWRDfz8WUqfAWxkG89wl/YOLmDvz2rSbygQYrbGBngMzOD3
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/02 15:46:58
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Received-From: 217.72.192.75
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,36 +64,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yuval.shaia.ml@gmail.com
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
+When we try to bootstrap debian/lenny for alpha, it fails because
+it cannot umount /.root directory:
 
-List mutex should be destroyed when gs list gets destroyed.
+  ...
+  Setting up initscripts (2.86.ds1-61) ...
+  umount: /.root: Function not implemented
+  dpkg: error processing initscripts (--configure):
+   subprocess post-installation script returned error exit status 1
+  dpkg: sysvinit: dependency problems, but configuring anyway as you request:
+   sysvinit depends on initscripts; however:
+    Package initscripts is not configured yet.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Message-Id: <20200413085738.11145-1-yuval.shaia.ml@gmail.com>
-Reviewed-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
-Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+This is because, when we switched from syscall_nr.h to syscall.tbl,
+the syscall #321 has been renamed from umount to oldumount and
+syscall.c has not been updated to manage the new name.
+
+oldumount has been introduced in linux 2.1.116pre1 by:
+  7d32756b2 ("Import 2.1.116pre1")
+...
+ * We now support a flag for forced unmount like the other 'big iron'
+ * unixes. Our API is identical to OSF/1 to avoid making a mess of AMD
+...
+
+Fixes: 6116aea994 ("linux-user, alpha: add syscall table generation support")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/rdma/rdma_utils.c | 1 +
- 1 file changed, 1 insertion(+)
+ linux-user/syscall.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
-index 73f279104c..698ed4716c 100644
---- a/hw/rdma/rdma_utils.c
-+++ b/hw/rdma/rdma_utils.c
-@@ -100,6 +100,7 @@ void rdma_protected_gslist_destroy(RdmaProtectedGSList *list)
- {
-     if (list->list) {
-         g_slist_free(list->list);
-+        qemu_mutex_destroy(&list->lock);
-         list->list = NULL;
-     }
- }
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 05f03919ff07..e89b815ce983 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8028,8 +8028,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             }
+         }
+         return ret;
+-#ifdef TARGET_NR_umount
++#if defined(TARGET_NR_umount) || defined(TARGET_NR_oldumount)
++#if defined(TARGET_NR_umount)
+     case TARGET_NR_umount:
++#endif
++#if defined(TARGET_NR_oldumount)
++    case TARGET_NR_oldumount:
++#endif
+         if (!(p = lock_user_string(arg1)))
+             return -TARGET_EFAULT;
+         ret = get_errno(umount(p));
 -- 
-2.17.2
+2.26.2
 
 
