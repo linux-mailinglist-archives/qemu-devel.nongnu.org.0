@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987A01C28AB
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 00:49:57 +0200 (CEST)
-Received: from localhost ([::1]:45832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F141C28B0
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 00:51:50 +0200 (CEST)
+Received: from localhost ([::1]:53552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jV0xI-0002Zh-KI
-	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 18:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51608)
+	id 1jV0z7-0006cv-0x
+	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 18:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jV0sp-0003FO-8o
- for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:21 -0400
+ id 1jV0sr-0003Fc-2f
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jV0so-0004j7-6z
- for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:18 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:44524)
+ (envelope-from <richard.henderson@linaro.org>) id 1jV0sq-0004js-0D
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:20 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jV0sn-0004iJ-OG
- for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:17 -0400
-Received: by mail-pl1-x644.google.com with SMTP id h11so5176625plr.11
- for <qemu-devel@nongnu.org>; Sat, 02 May 2020 15:45:17 -0700 (PDT)
+ id 1jV0sp-0004jH-AH
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:19 -0400
+Received: by mail-pf1-x444.google.com with SMTP id y25so3540961pfn.5
+ for <qemu-devel@nongnu.org>; Sat, 02 May 2020 15:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NFh/cV4KerzqWvcCyd3UKrXMuXUL/sOfyhSZ6x7PVt0=;
- b=Usfqed0MHgVVZ2KmBv9T5DH20+FAL3bIVPO4RjQCR7KdUfvXEXRZQKnTPnRQtR/YEU
- 2WpWxb2kbgpHA0P1dsLS+vAmJP7SbhnzDzrGElMmTzGpdsqLp6Qr+V5qvrQF0LrCWsZH
- iT1I+mzYjdVIVc0pPckGGicPuFlvSPRNX16rXm923Scwx8BRfTKGvOrs/VCnwFrp7CK5
- oX4wHquDCVA2b7HGckWJN3/yRewCVsqpLZRSD+ej88zUIOuDmW/OuMwDq3TIhq5TirKt
- VRttz71fZWtuBJ3t5HGFo1Tf4viVN1igi0fIYnDBko5Ppj5gghGdS23hf+OxAM8t9BoZ
- a41Q==
+ bh=ZBw+W06UBx//+69mT18KkEAMZiojtZ4qaweFEtT8bk0=;
+ b=Mn/6U0XZZzZqcEGEn/rCmyTimrOSl/2+e2rUjftQENEpapE4Euqn7Y5lR6oQPXzIsQ
+ yIDJcIA7LJveMhTzAsFOgidxj4eTRfqfXMpGN75NFzPoCfe2Myp/4PhO+OIn4jxsVYj4
+ 5V+oa/bXEkJYiiRHgXWlT1qRgJBZvT0gMKuvuXoXfhuAKzyL8bzDx2CPDgPqeoylj+M4
+ K3ouVQ0HQux1lDSfft9MTBzx0u/36p0NM453A74UDhbgKrHDuyb7rJg3gfr4zM53bWOe
+ qikfJZSoD73j+zcLvlFx2gAbMoHCLvPKv0kz5VpBHekerk/C2NvKOA2lkax1hWEu7KWh
+ bvMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NFh/cV4KerzqWvcCyd3UKrXMuXUL/sOfyhSZ6x7PVt0=;
- b=KyENjHMydEvlRxXP6v+dh3pL8AvBpwq8fhgq91JtrO+tO4JVcdRsN9Se8XY11PUzkf
- pmC+p79WYoXVWAO+c8/tGCybS+ylUd5TfVEsyR/nLoEdd0xYW/YqWIb3sNWjhnaJQ0Gr
- XRnNAwzcIWB+LItyUHogY3yJdy5Ru8+GqucvlKY2saImDRKZYwSaNyLdY5cmiURasAbf
- h+DJtiJuxAZJtWoBNz8Gw3J/q/LK0m/kgb+MX5C216QtVT9ECHQ1EY9VdiTP4CsrWapT
- tdC4XhrtdG81UWK1P08CKa3aEndupXYGxoY5+GfjlIc9FqzyO0kpElxBwZRtr/alF7Gf
- NL/A==
-X-Gm-Message-State: AGi0PuZ7UFNFeK/v+bdXretdbZ7YJg9ca/sKXOUxALTzIMde7VvTD8qT
- Ry73XlN4CuAzNICd35picPpEe4eWFyM=
-X-Google-Smtp-Source: APiQypJH7MdIqXq8XDAd0bCY5vn/aiYyIl5/Cf5FzSxpMiWluRPEnyJyD+dGerlyIwKb//YBQU6EDg==
-X-Received: by 2002:a17:902:8ec1:: with SMTP id
- x1mr6157461plo.325.1588459515899; 
- Sat, 02 May 2020 15:45:15 -0700 (PDT)
+ bh=ZBw+W06UBx//+69mT18KkEAMZiojtZ4qaweFEtT8bk0=;
+ b=Uk6x8eMBJo1CHCutO/MIkgElSny3WyaYwqGOlY4x4I3jUFp8Srw5/6Uojc73wtdz43
+ H22R8Hg9s8yYY1xPuIgwvgA0Q85y7+7uTVaUQjtdsJ9zO9MqCZFhldpdUjiUHR3qQtwM
+ G4DIy96EG6U8TOhKuU55DbPKICIgcMU8Ju0FeedugTZol8a+zOoiAL0hsg8g9EWkbF1U
+ vz92kRp1TXRwDI+lDOOXgxOSRvnlrkZIBZYLkwZURNrI2oaS8hltYNEHrp9tl4doh0Cy
+ N2f691N+PKqocKaQt1IIvleqZqEOdOFliqNOLm0jPANKWcbkxoYHZQ7Xoij9EASuf8Lc
+ RK5Q==
+X-Gm-Message-State: AGi0Pub8wQl1k71Z7HUvkQcP8mDiaDNnXgBzPvuTX1rcGjxjWdeJoLSH
+ EIej09QG9IsQIoJLYunoVukhf2Df/8E=
+X-Google-Smtp-Source: APiQypLqg+s16Rcv2kEYr6h0MiJ2tGagyjQ3dAzvpNAkQWGmsPQ0Ca1w09Fk1MkZxqk+ENPj0SLf3Q==
+X-Received: by 2002:a05:6a00:2b4:: with SMTP id
+ q20mr10609612pfs.104.1588459517133; 
+ Sat, 02 May 2020 15:45:17 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id h5sm2956182pjv.4.2020.05.02.15.45.14
+ by smtp.gmail.com with ESMTPSA id h5sm2956182pjv.4.2020.05.02.15.45.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 May 2020 15:45:15 -0700 (PDT)
+ Sat, 02 May 2020 15:45:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/15] target/arm: Wrap vector cmtst/ushl/sshl GVecGen3 in
- GVecGen3Fn
-Date: Sat,  2 May 2020 15:44:56 -0700
-Message-Id: <20200502224503.2282-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 09/15] target/arm: Wrap vector uqadd/sqadd/uqsub/sqsub
+ GVecGen4 in GVecGen3Fn
+Date: Sat,  2 May 2020 15:44:57 -0700
+Message-Id: <20200502224503.2282-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200502224503.2282-1-richard.henderson@linaro.org>
 References: <20200502224503.2282-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::644
+X-Received-From: 2607:f8b0:4864:20::444
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,273 +94,366 @@ we provide for other operations.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.h     |  10 ++-
- target/arm/translate-a64.c |  18 ++---
- target/arm/translate.c     | 159 ++++++++++++++++++++-----------------
- 3 files changed, 101 insertions(+), 86 deletions(-)
+ target/arm/translate.h     |  13 +-
+ target/arm/translate-a64.c |  22 ++--
+ target/arm/translate.c     | 248 +++++++++++++++++++++----------------
+ 3 files changed, 157 insertions(+), 126 deletions(-)
 
 diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 4fbcdf1294..b3e47e7a7f 100644
+index b3e47e7a7f..ada84d411d 100644
 --- a/target/arm/translate.h
 +++ b/target/arm/translate.h
-@@ -291,9 +291,13 @@ void gen_gvec_mla(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
- void gen_gvec_mls(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
+@@ -298,16 +298,21 @@ void gen_gvec_sshl(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
+ void gen_gvec_ushl(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
+                    uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
  
--extern const GVecGen3 cmtst_op[4];
--extern const GVecGen3 sshl_op[4];
--extern const GVecGen3 ushl_op[4];
-+void gen_gvec_cmtst(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                    uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
-+void gen_gvec_sshl(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
-+void gen_gvec_ushl(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
+-extern const GVecGen4 uqadd_op[4];
+-extern const GVecGen4 sqadd_op[4];
+-extern const GVecGen4 uqsub_op[4];
+-extern const GVecGen4 sqsub_op[4];
+ void gen_cmtst_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+ void gen_ushl_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
+ void gen_sshl_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b);
+ void gen_ushl_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+ void gen_sshl_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
+ 
++void gen_gvec_uqadd_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                       uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
++void gen_gvec_sqadd_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                       uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
++void gen_gvec_uqsub_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                       uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
++void gen_gvec_sqsub_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                       uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
 +
- extern const GVecGen4 uqadd_op[4];
- extern const GVecGen4 sqadd_op[4];
- extern const GVecGen4 uqsub_op[4];
+ void gen_gvec_ssra(unsigned vece, uint32_t rd_ofs, uint32_t rm_ofs,
+                    int64_t shift, uint32_t opr_sz, uint32_t max_sz);
+ void gen_gvec_usra(unsigned vece, uint32_t rd_ofs, uint32_t rm_ofs,
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 2b5ae4d43a..2be6ab541e 100644
+index 2be6ab541e..eeaa92b9f1 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -594,15 +594,6 @@ static void gen_gvec_fn4(DisasContext *s, bool is_q, int rd, int rn, int rm,
-             is_q ? 16 : 8, vec_full_reg_size(s));
- }
+@@ -11185,20 +11185,18 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
  
--/* Expand a 3-operand AdvSIMD vector operation using an op descriptor.  */
--static void gen_gvec_op3(DisasContext *s, bool is_q, int rd,
--                         int rn, int rm, const GVecGen3 *gvec_op)
--{
--    tcg_gen_gvec_3(vec_full_reg_offset(s, rd), vec_full_reg_offset(s, rn),
--                   vec_full_reg_offset(s, rm), is_q ? 16 : 8,
--                   vec_full_reg_size(s), gvec_op);
--}
--
- /* Expand a 3-operand operation using an out-of-line helper.  */
- static void gen_gvec_op3_ool(DisasContext *s, bool is_q, int rd,
-                              int rn, int rm, int data, gen_helper_gvec_3 *fn)
-@@ -11210,8 +11201,11 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
-                        (u ? uqsub_op : sqsub_op) + size);
-         return;
-     case 0x08: /* SSHL, USHL */
--        gen_gvec_op3(s, is_q, rd, rn, rm,
--                     u ? &ushl_op[size] : &sshl_op[size]);
+     switch (opcode) {
+     case 0x01: /* SQADD, UQADD */
+-        tcg_gen_gvec_4(vec_full_reg_offset(s, rd),
+-                       offsetof(CPUARMState, vfp.qc),
+-                       vec_full_reg_offset(s, rn),
+-                       vec_full_reg_offset(s, rm),
+-                       is_q ? 16 : 8, vec_full_reg_size(s),
+-                       (u ? uqadd_op : sqadd_op) + size);
 +        if (u) {
-+            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_ushl, size);
++            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_uqadd_qc, size);
 +        } else {
-+            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_sshl, size);
++            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_sqadd_qc, size);
 +        }
          return;
-     case 0x0c: /* SMAX, UMAX */
-         if (u) {
-@@ -11250,7 +11244,7 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
+     case 0x05: /* SQSUB, UQSUB */
+-        tcg_gen_gvec_4(vec_full_reg_offset(s, rd),
+-                       offsetof(CPUARMState, vfp.qc),
+-                       vec_full_reg_offset(s, rn),
+-                       vec_full_reg_offset(s, rm),
+-                       is_q ? 16 : 8, vec_full_reg_size(s),
+-                       (u ? uqsub_op : sqsub_op) + size);
++        if (u) {
++            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_uqsub_qc, size);
++        } else {
++            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_sqsub_qc, size);
++        }
          return;
-     case 0x11:
-         if (!u) { /* CMTST */
--            gen_gvec_op3(s, is_q, rd, rn, rm, &cmtst_op[size]);
-+            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_cmtst, size);
-             return;
-         }
-         /* else CMEQ */
+     case 0x08: /* SSHL, USHL */
+         if (u) {
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index da807242ff..e5aa78c88a 100644
+index e5aa78c88a..8e6c6f7b00 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -4878,27 +4878,31 @@ static void gen_cmtst_vec(unsigned vece, TCGv_vec d, TCGv_vec a, TCGv_vec b)
-     tcg_gen_cmp_vec(TCG_COND_NE, vece, d, d, a);
+@@ -5197,32 +5197,37 @@ static void gen_uqadd_vec(unsigned vece, TCGv_vec t, TCGv_vec sat,
+     tcg_temp_free_vec(x);
  }
  
--static const TCGOpcode vecop_list_cmtst[] = { INDEX_op_cmp_vec, 0 };
--
--const GVecGen3 cmtst_op[4] = {
--    { .fni4 = gen_helper_neon_tst_u8,
--      .fniv = gen_cmtst_vec,
--      .opt_opc = vecop_list_cmtst,
--      .vece = MO_8 },
--    { .fni4 = gen_helper_neon_tst_u16,
--      .fniv = gen_cmtst_vec,
--      .opt_opc = vecop_list_cmtst,
--      .vece = MO_16 },
--    { .fni4 = gen_cmtst_i32,
--      .fniv = gen_cmtst_vec,
--      .opt_opc = vecop_list_cmtst,
--      .vece = MO_32 },
--    { .fni8 = gen_cmtst_i64,
--      .fniv = gen_cmtst_vec,
--      .prefer_i64 = TCG_TARGET_REG_BITS == 64,
--      .opt_opc = vecop_list_cmtst,
--      .vece = MO_64 },
--};
-+void gen_gvec_cmtst(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                    uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
-+{
-+    static const TCGOpcode vecop_list[] = { INDEX_op_cmp_vec, 0 };
-+    static const GVecGen3 ops[4] = {
-+        { .fni4 = gen_helper_neon_tst_u8,
-+          .fniv = gen_cmtst_vec,
-+          .opt_opc = vecop_list,
-+          .vece = MO_8 },
-+        { .fni4 = gen_helper_neon_tst_u16,
-+          .fniv = gen_cmtst_vec,
-+          .opt_opc = vecop_list,
-+          .vece = MO_16 },
-+        { .fni4 = gen_cmtst_i32,
-+          .fniv = gen_cmtst_vec,
-+          .opt_opc = vecop_list,
-+          .vece = MO_32 },
-+        { .fni8 = gen_cmtst_i64,
-+          .fniv = gen_cmtst_vec,
-+          .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-+          .opt_opc = vecop_list,
-+          .vece = MO_64 },
-+    };
-+    tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
-+}
- 
- void gen_ushl_i32(TCGv_i32 dst, TCGv_i32 src, TCGv_i32 shift)
- {
-@@ -5016,29 +5020,33 @@ static void gen_ushl_vec(unsigned vece, TCGv_vec dst,
-     tcg_temp_free_vec(rsh);
- }
- 
--static const TCGOpcode ushl_list[] = {
--    INDEX_op_neg_vec, INDEX_op_shlv_vec,
--    INDEX_op_shrv_vec, INDEX_op_cmp_vec, 0
+-static const TCGOpcode vecop_list_uqadd[] = {
+-    INDEX_op_usadd_vec, INDEX_op_cmp_vec, INDEX_op_add_vec, 0
 -};
 -
--const GVecGen3 ushl_op[4] = {
--    { .fniv = gen_ushl_vec,
--      .fno = gen_helper_gvec_ushl_b,
--      .opt_opc = ushl_list,
+-const GVecGen4 uqadd_op[4] = {
+-    { .fniv = gen_uqadd_vec,
+-      .fno = gen_helper_gvec_uqadd_b,
+-      .write_aofs = true,
+-      .opt_opc = vecop_list_uqadd,
 -      .vece = MO_8 },
--    { .fniv = gen_ushl_vec,
--      .fno = gen_helper_gvec_ushl_h,
--      .opt_opc = ushl_list,
+-    { .fniv = gen_uqadd_vec,
+-      .fno = gen_helper_gvec_uqadd_h,
+-      .write_aofs = true,
+-      .opt_opc = vecop_list_uqadd,
 -      .vece = MO_16 },
--    { .fni4 = gen_ushl_i32,
--      .fniv = gen_ushl_vec,
--      .opt_opc = ushl_list,
+-    { .fniv = gen_uqadd_vec,
+-      .fno = gen_helper_gvec_uqadd_s,
+-      .write_aofs = true,
+-      .opt_opc = vecop_list_uqadd,
 -      .vece = MO_32 },
--    { .fni8 = gen_ushl_i64,
--      .fniv = gen_ushl_vec,
--      .opt_opc = ushl_list,
+-    { .fniv = gen_uqadd_vec,
+-      .fno = gen_helper_gvec_uqadd_d,
+-      .write_aofs = true,
+-      .opt_opc = vecop_list_uqadd,
 -      .vece = MO_64 },
 -};
-+void gen_gvec_ushl(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
++void gen_gvec_uqadd_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                       uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
 +{
 +    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_neg_vec, INDEX_op_shlv_vec,
-+        INDEX_op_shrv_vec, INDEX_op_cmp_vec, 0
++        INDEX_op_usadd_vec, INDEX_op_cmp_vec, INDEX_op_add_vec, 0
 +    };
-+    static const GVecGen3 ops[4] = {
-+        { .fniv = gen_ushl_vec,
-+          .fno = gen_helper_gvec_ushl_b,
++    static const GVecGen4 ops[4] = {
++        { .fniv = gen_uqadd_vec,
++          .fno = gen_helper_gvec_uqadd_b,
++          .write_aofs = true,
 +          .opt_opc = vecop_list,
 +          .vece = MO_8 },
-+        { .fniv = gen_ushl_vec,
-+          .fno = gen_helper_gvec_ushl_h,
++        { .fniv = gen_uqadd_vec,
++          .fno = gen_helper_gvec_uqadd_h,
++          .write_aofs = true,
 +          .opt_opc = vecop_list,
 +          .vece = MO_16 },
-+        { .fni4 = gen_ushl_i32,
-+          .fniv = gen_ushl_vec,
++        { .fniv = gen_uqadd_vec,
++          .fno = gen_helper_gvec_uqadd_s,
++          .write_aofs = true,
 +          .opt_opc = vecop_list,
 +          .vece = MO_32 },
-+        { .fni8 = gen_ushl_i64,
-+          .fniv = gen_ushl_vec,
++        { .fniv = gen_uqadd_vec,
++          .fno = gen_helper_gvec_uqadd_d,
++          .write_aofs = true,
 +          .opt_opc = vecop_list,
 +          .vece = MO_64 },
 +    };
-+    tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
++    tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
++                   rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
 +}
  
- void gen_sshl_i32(TCGv_i32 dst, TCGv_i32 src, TCGv_i32 shift)
- {
-@@ -5150,29 +5158,33 @@ static void gen_sshl_vec(unsigned vece, TCGv_vec dst,
-     tcg_temp_free_vec(tmp);
- }
- 
--static const TCGOpcode sshl_list[] = {
--    INDEX_op_neg_vec, INDEX_op_umin_vec, INDEX_op_shlv_vec,
--    INDEX_op_sarv_vec, INDEX_op_cmp_vec, INDEX_op_cmpsel_vec, 0
--};
--
--const GVecGen3 sshl_op[4] = {
--    { .fniv = gen_sshl_vec,
--      .fno = gen_helper_gvec_sshl_b,
--      .opt_opc = sshl_list,
--      .vece = MO_8 },
--    { .fniv = gen_sshl_vec,
--      .fno = gen_helper_gvec_sshl_h,
--      .opt_opc = sshl_list,
--      .vece = MO_16 },
--    { .fni4 = gen_sshl_i32,
--      .fniv = gen_sshl_vec,
--      .opt_opc = sshl_list,
--      .vece = MO_32 },
--    { .fni8 = gen_sshl_i64,
--      .fniv = gen_sshl_vec,
--      .opt_opc = sshl_list,
--      .vece = MO_64 },
--};
-+void gen_gvec_sshl(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
-+{
-+    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_neg_vec, INDEX_op_umin_vec, INDEX_op_shlv_vec,
-+        INDEX_op_sarv_vec, INDEX_op_cmp_vec, INDEX_op_cmpsel_vec, 0
-+    };
-+    static const GVecGen3 ops[4] = {
-+        { .fniv = gen_sshl_vec,
-+          .fno = gen_helper_gvec_sshl_b,
-+          .opt_opc = vecop_list,
-+          .vece = MO_8 },
-+        { .fniv = gen_sshl_vec,
-+          .fno = gen_helper_gvec_sshl_h,
-+          .opt_opc = vecop_list,
-+          .vece = MO_16 },
-+        { .fni4 = gen_sshl_i32,
-+          .fniv = gen_sshl_vec,
-+          .opt_opc = vecop_list,
-+          .vece = MO_32 },
-+        { .fni8 = gen_sshl_i64,
-+          .fniv = gen_sshl_vec,
-+          .opt_opc = vecop_list,
-+          .vece = MO_64 },
-+    };
-+    tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
-+}
- 
- static void gen_uqadd_vec(unsigned vece, TCGv_vec t, TCGv_vec sat,
+ static void gen_sqadd_vec(unsigned vece, TCGv_vec t, TCGv_vec sat,
                            TCGv_vec a, TCGv_vec b)
-@@ -5548,8 +5560,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                 tcg_gen_gvec_cmp(TCG_COND_EQ, size, rd_ofs, rn_ofs, rm_ofs,
-                                  vec_size, vec_size);
-             } else { /* VTST */
--                tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs,
--                               vec_size, vec_size, &cmtst_op[size]);
-+                gen_gvec_cmtst(size, rd_ofs, rn_ofs, rm_ofs,
-+                               vec_size, vec_size);
-             }
+@@ -5235,32 +5240,37 @@ static void gen_sqadd_vec(unsigned vece, TCGv_vec t, TCGv_vec sat,
+     tcg_temp_free_vec(x);
+ }
+ 
+-static const TCGOpcode vecop_list_sqadd[] = {
+-    INDEX_op_ssadd_vec, INDEX_op_cmp_vec, INDEX_op_add_vec, 0
+-};
+-
+-const GVecGen4 sqadd_op[4] = {
+-    { .fniv = gen_sqadd_vec,
+-      .fno = gen_helper_gvec_sqadd_b,
+-      .opt_opc = vecop_list_sqadd,
+-      .write_aofs = true,
+-      .vece = MO_8 },
+-    { .fniv = gen_sqadd_vec,
+-      .fno = gen_helper_gvec_sqadd_h,
+-      .opt_opc = vecop_list_sqadd,
+-      .write_aofs = true,
+-      .vece = MO_16 },
+-    { .fniv = gen_sqadd_vec,
+-      .fno = gen_helper_gvec_sqadd_s,
+-      .opt_opc = vecop_list_sqadd,
+-      .write_aofs = true,
+-      .vece = MO_32 },
+-    { .fniv = gen_sqadd_vec,
+-      .fno = gen_helper_gvec_sqadd_d,
+-      .opt_opc = vecop_list_sqadd,
+-      .write_aofs = true,
+-      .vece = MO_64 },
+-};
++void gen_gvec_sqadd_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                       uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
++{
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_ssadd_vec, INDEX_op_cmp_vec, INDEX_op_add_vec, 0
++    };
++    static const GVecGen4 ops[4] = {
++        { .fniv = gen_sqadd_vec,
++          .fno = gen_helper_gvec_sqadd_b,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_8 },
++        { .fniv = gen_sqadd_vec,
++          .fno = gen_helper_gvec_sqadd_h,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_16 },
++        { .fniv = gen_sqadd_vec,
++          .fno = gen_helper_gvec_sqadd_s,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_32 },
++        { .fniv = gen_sqadd_vec,
++          .fno = gen_helper_gvec_sqadd_d,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_64 },
++    };
++    tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
++                   rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
++}
+ 
+ static void gen_uqsub_vec(unsigned vece, TCGv_vec t, TCGv_vec sat,
+                           TCGv_vec a, TCGv_vec b)
+@@ -5273,32 +5283,37 @@ static void gen_uqsub_vec(unsigned vece, TCGv_vec t, TCGv_vec sat,
+     tcg_temp_free_vec(x);
+ }
+ 
+-static const TCGOpcode vecop_list_uqsub[] = {
+-    INDEX_op_ussub_vec, INDEX_op_cmp_vec, INDEX_op_sub_vec, 0
+-};
+-
+-const GVecGen4 uqsub_op[4] = {
+-    { .fniv = gen_uqsub_vec,
+-      .fno = gen_helper_gvec_uqsub_b,
+-      .opt_opc = vecop_list_uqsub,
+-      .write_aofs = true,
+-      .vece = MO_8 },
+-    { .fniv = gen_uqsub_vec,
+-      .fno = gen_helper_gvec_uqsub_h,
+-      .opt_opc = vecop_list_uqsub,
+-      .write_aofs = true,
+-      .vece = MO_16 },
+-    { .fniv = gen_uqsub_vec,
+-      .fno = gen_helper_gvec_uqsub_s,
+-      .opt_opc = vecop_list_uqsub,
+-      .write_aofs = true,
+-      .vece = MO_32 },
+-    { .fniv = gen_uqsub_vec,
+-      .fno = gen_helper_gvec_uqsub_d,
+-      .opt_opc = vecop_list_uqsub,
+-      .write_aofs = true,
+-      .vece = MO_64 },
+-};
++void gen_gvec_uqsub_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                       uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
++{
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_ussub_vec, INDEX_op_cmp_vec, INDEX_op_sub_vec, 0
++    };
++    static const GVecGen4 ops[4] = {
++        { .fniv = gen_uqsub_vec,
++          .fno = gen_helper_gvec_uqsub_b,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_8 },
++        { .fniv = gen_uqsub_vec,
++          .fno = gen_helper_gvec_uqsub_h,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_16 },
++        { .fniv = gen_uqsub_vec,
++          .fno = gen_helper_gvec_uqsub_s,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_32 },
++        { .fniv = gen_uqsub_vec,
++          .fno = gen_helper_gvec_uqsub_d,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_64 },
++    };
++    tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
++                   rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
++}
+ 
+ static void gen_sqsub_vec(unsigned vece, TCGv_vec t, TCGv_vec sat,
+                           TCGv_vec a, TCGv_vec b)
+@@ -5311,32 +5326,37 @@ static void gen_sqsub_vec(unsigned vece, TCGv_vec t, TCGv_vec sat,
+     tcg_temp_free_vec(x);
+ }
+ 
+-static const TCGOpcode vecop_list_sqsub[] = {
+-    INDEX_op_sssub_vec, INDEX_op_cmp_vec, INDEX_op_sub_vec, 0
+-};
+-
+-const GVecGen4 sqsub_op[4] = {
+-    { .fniv = gen_sqsub_vec,
+-      .fno = gen_helper_gvec_sqsub_b,
+-      .opt_opc = vecop_list_sqsub,
+-      .write_aofs = true,
+-      .vece = MO_8 },
+-    { .fniv = gen_sqsub_vec,
+-      .fno = gen_helper_gvec_sqsub_h,
+-      .opt_opc = vecop_list_sqsub,
+-      .write_aofs = true,
+-      .vece = MO_16 },
+-    { .fniv = gen_sqsub_vec,
+-      .fno = gen_helper_gvec_sqsub_s,
+-      .opt_opc = vecop_list_sqsub,
+-      .write_aofs = true,
+-      .vece = MO_32 },
+-    { .fniv = gen_sqsub_vec,
+-      .fno = gen_helper_gvec_sqsub_d,
+-      .opt_opc = vecop_list_sqsub,
+-      .write_aofs = true,
+-      .vece = MO_64 },
+-};
++void gen_gvec_sqsub_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                       uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
++{
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_sssub_vec, INDEX_op_cmp_vec, INDEX_op_sub_vec, 0
++    };
++    static const GVecGen4 ops[4] = {
++        { .fniv = gen_sqsub_vec,
++          .fno = gen_helper_gvec_sqsub_b,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_8 },
++        { .fniv = gen_sqsub_vec,
++          .fno = gen_helper_gvec_sqsub_h,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_16 },
++        { .fniv = gen_sqsub_vec,
++          .fno = gen_helper_gvec_sqsub_s,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_32 },
++        { .fniv = gen_sqsub_vec,
++          .fno = gen_helper_gvec_sqsub_d,
++          .opt_opc = vecop_list,
++          .write_aofs = true,
++          .vece = MO_64 },
++    };
++    tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
++                   rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
++}
+ 
+ /* Translate a NEON data processing instruction.  Return nonzero if the
+    instruction is invalid.
+@@ -5522,15 +5542,23 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
              return 0;
  
-@@ -5584,8 +5596,13 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
- 
-         case NEON_3R_VSHL:
-             /* Note the operation is vshl vd,vm,vn */
--            tcg_gen_gvec_3(rd_ofs, rm_ofs, rn_ofs, vec_size, vec_size,
--                           u ? &ushl_op[size] : &sshl_op[size]);
+         case NEON_3R_VQADD:
+-            tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
+-                           rn_ofs, rm_ofs, vec_size, vec_size,
+-                           (u ? uqadd_op : sqadd_op) + size);
 +            if (u) {
-+                gen_gvec_ushl(size, rd_ofs, rm_ofs, rn_ofs,
-+                              vec_size, vec_size);
++                gen_gvec_uqadd_qc(size, rd_ofs, rn_ofs, rm_ofs,
++                                  vec_size, vec_size);
 +            } else {
-+                gen_gvec_sshl(size, rd_ofs, rm_ofs, rn_ofs,
-+                              vec_size, vec_size);
++                gen_gvec_sqadd_qc(size, rd_ofs, rn_ofs, rm_ofs,
++                                  vec_size, vec_size);
 +            }
              return 0;
-         }
  
+         case NEON_3R_VQSUB:
+-            tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
+-                           rn_ofs, rm_ofs, vec_size, vec_size,
+-                           (u ? uqsub_op : sqsub_op) + size);
++            if (u) {
++                gen_gvec_uqsub_qc(size, rd_ofs, rn_ofs, rm_ofs,
++                                  vec_size, vec_size);
++            } else {
++                gen_gvec_sqsub_qc(size, rd_ofs, rn_ofs, rm_ofs,
++                                  vec_size, vec_size);
++            }
+             return 0;
+ 
+         case NEON_3R_VMUL: /* VMUL */
 -- 
 2.20.1
 
