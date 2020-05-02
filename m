@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D26E1C2816
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 May 2020 21:48:09 +0200 (CEST)
-Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615351C2842
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 May 2020 22:37:54 +0200 (CEST)
+Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUy7M-0005dQ-73
-	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 15:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
+	id 1jUytU-0003PX-T0
+	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 16:37:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jUy6H-0005AE-Cb
- for qemu-devel@nongnu.org; Sat, 02 May 2020 15:47:01 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jUyrl-0002Al-GY
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 16:36:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1jUy6G-0006ZD-NY
- for qemu-devel@nongnu.org; Sat, 02 May 2020 15:47:01 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:39607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jUy6G-0006Yn-2Q
- for qemu-devel@nongnu.org; Sat, 02 May 2020 15:47:00 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MOiYD-1jnsQj3BLr-00Q9b8; Sat, 02 May 2020 21:46:46 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user, alpha: fix oldumount syscall
-Date: Sat,  2 May 2020 21:46:42 +0200
-Message-Id: <20200502194642.32823-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
+ (envelope-from <eric.auger@redhat.com>) id 1jUyrj-0003OT-9N
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 16:36:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53700
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jUyri-0003M8-OV
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 16:36:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588451761;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/ZkwrtF/bP/f6NIy006ewNhyBujezKdvG5zAeAtfZTk=;
+ b=MEpXcpvAVQQaIkyRHGo+U8k/gPvAcKXCBmnTVWz7uH7XKHKwCnwmBMU26/ZAg0N0IFXuUJ
+ jBIuETaClYXzbuMKldxyvFsd1RzHKJ74sRkZBWboZqV/GSVdO9klQXwtq2jGvNc6IyjPty
+ jX8CyUHmxQrth4qKUOQMpqdA+5RnEdA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-PP02HeioPu-F5zFUpQgXBw-1; Sat, 02 May 2020 16:35:56 -0400
+X-MC-Unique: PP02HeioPu-F5zFUpQgXBw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4180D80183C;
+ Sat,  2 May 2020 20:35:55 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-112-58.ams2.redhat.com [10.36.112.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E2EF1001B2C;
+ Sat,  2 May 2020 20:35:41 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, stefanb@linux.ibm.com,
+ peter.maydell@linaro.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ imammedo@redhat.com, shannon.zhaosl@gmail.com, mst@redhat.com
+Subject: [PATCH 0/2] vTPM/aarch64 ACPI support
+Date: Sat,  2 May 2020 22:35:34 +0200
+Message-Id: <20200502203536.15011-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kM4Dnn/42aBkwf8laoK2Sls1BBvzfHO7+ow+oVAVPYToiRviT9o
- 7CCteD4rJ0SSix3R1fQh6f/9SRgnTfEHb5p8jx6nYqmeAChamlkwCBl5IEVG5WckZRET3A2
- Cxiadyow5G+iFiG5ZXJ3CbTHlQbw1XxKnOt3fqoSL4B4ItWPvVWyeq7cOu26420oPvJCEqL
- gl+ZQn/g7N5OLkPz6DAlg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:u397iiZ2WEM=:kezUHaLhPY417HT5gJGzEz
- 9v5TDiPJw9I+o4Ki20E41xGNmCOLkrG9/8cQ3/pIPzFdKhQe/O91C3PgR2ns475lOgbXp93EQ
- oAXEcLF9BwDafGGLmSzcmTwZN5PLzcEDwf1UF6LaSHMd2S7ux0yFe/aZZu+FVntuSS5745W3e
- Y7LE5lIWxz6RWqEiwTYKY6rIafTvHufbQLCQoCxGSEa4c83ZtHX19bmVwFLapRSKoZFP66MkC
- 2wgD1XpLYYVFD5OIVvuY3xU3ZvfKdZ3/ciAhLvnv20XFEAAuEFkqsHo/vRccZkCav6uLA9Zgq
- 1rRC1tgQchVO2SBl0kyohqz3JALC2C7+i7uzcB33dfqe/26bU7oaaSVAivclpPztxZmNkSQ2u
- ZdGEbt4/TAH616oCYpraTV824EgOd+8IFIyY28nk3bsNB5KswZKs6CPpiJ7MXVK+wnfBqBziD
- iLc2AskKQWwfzRXwtdw2TScRLd3Z6WWaQHprmOBPrqT9r4a81hbZt7/Otqu2R6InrwfN6Rc6M
- 62mtQ/w3uW4gggEqHa4nCRaZIk/ESx3m5zPLkPsgECMQb9ydPOR0h/RR7tD/0Ivy0nenrCTIt
- 8H2Scx07f2CIbI6dMksRsBcpx84bVjPXGlZXSZnX803kEVaiLNlyi+79Orpd20oUbMtHQqJ3p
- czxBR1nd7PbULQc4VmtI6zfnx0Dfyk1EDWPL4nGEQiOCbU4qTD4H2o1emADwS//U4iDS3D+MF
- 7mSJZL+XRf+y+n6eWFTRqZLWl/PplVuLbHHqi6QvSl+6fYxw+i7Ob7nHpY9DCnIH/56+MpJ3y
- kqqEPK7HWEeUS679zMHshQzAsWRDfz8WUqfAWxkG89wl/YOLmDvz2rSbygQYrbGBngMzOD3
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/02 15:46:58
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Received-From: 217.72.192.75
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/02 16:36:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Received-From: 205.139.110.120
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,59 +74,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: marcandre.lureau@redhat.com, drjones@redhat.com, gshan@redhat.com,
+ lersek@redhat.com, ardb@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we try to bootstrap debian/lenny for alpha, it fails because
-it cannot umount /.root directory:
+Those 2 patches bring MMIO TPM TIS ACPI support in machvirt.  =20
+The TPM2.0 table is added and the TPM2 device object is described
+in the DSDT.
 
-  ...
-  Setting up initscripts (2.86.ds1-61) ...
-  umount: /.root: Function not implemented
-  dpkg: error processing initscripts (--configure):
-   subprocess post-installation script returned error exit status 1
-  dpkg: sysvinit: dependency problems, but configuring anyway as you request:
-   sysvinit depends on initscripts; however:
-    Package initscripts is not configured yet.
+Many thanks to Ard for his support.
 
-This is because, when we switched from syscall_nr.h to syscall.tbl,
-the syscall #321 has been renamed from umount to oldumount and
-syscall.c has not been updated to manage the new name.
+Tested with LUKS partition automatic decryption.
 
-oldumount has been introduced in linux 2.1.116pre1 by:
-  7d32756b2 ("Import 2.1.116pre1")
-...
- * We now support a flag for forced unmount like the other 'big iron'
- * unixes. Our API is identical to OSF/1 to avoid making a mess of AMD
-...
+Best Regards
 
-Fixes: 6116aea994 ("linux-user, alpha: add syscall table generation support")
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/syscall.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Eric
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 05f03919ff07..e89b815ce983 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8028,8 +8028,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             }
-         }
-         return ret;
--#ifdef TARGET_NR_umount
-+#if defined(TARGET_NR_umount) || defined(TARGET_NR_oldumount)
-+#if defined(TARGET_NR_umount)
-     case TARGET_NR_umount:
-+#endif
-+#if defined(TARGET_NR_oldumount)
-+    case TARGET_NR_oldumount:
-+#endif
-         if (!(p = lock_user_string(arg1)))
-             return -TARGET_EFAULT;
-         ret = get_errno(umount(p));
--- 
-2.26.2
+This series can be found at:
+https://github.com/eauger/qemu/tree/v5.0-tpm-acpi-v1
+
+Eric Auger (2):
+  arm/acpi: TPM2 ACPI table support
+  arm/acpi: Add the TPM2.0 device under the DSDT
+
+ include/sysemu/tpm.h     |  2 ++
+ hw/arm/virt-acpi-build.c | 70 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+)
+
+--=20
+2.20.1
 
 
