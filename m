@@ -2,69 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0544D1C2714
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 May 2020 18:53:46 +0200 (CEST)
-Received: from localhost ([::1]:57272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A921C2779
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 May 2020 20:08:27 +0200 (CEST)
+Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jUvOa-0008A2-Hg
-	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 12:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43468)
+	id 1jUwYs-0004QE-Q4
+	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 14:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <johnnymarler@gmail.com>)
- id 1jUuls-0007Dl-VU
- for qemu-devel@nongnu.org; Sat, 02 May 2020 12:13:45 -0400
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jUwSX-0000nb-MT
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 14:01:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <johnnymarler@gmail.com>) id 1jUuls-0000QZ-Dc
- for qemu-devel@nongnu.org; Sat, 02 May 2020 12:13:44 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:39780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <johnnymarler@gmail.com>)
- id 1jUulp-0000PS-JK; Sat, 02 May 2020 12:13:41 -0400
-Received: by mail-lf1-x141.google.com with SMTP id h26so3168975lfg.6;
- Sat, 02 May 2020 09:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QI6dDMD60TcAVgWF0v5LoxJFHaYci7038PFh0Hlgf7c=;
- b=s+b8/mIcq7wiNrvxItcAt/G/55wRld9lz4OvJhEy2GbCrx4uARf25Wz6qZZZNiT4QQ
- i1MvYZ5aUN5Vx1AkIUbBgZpV8RlnpqiZrNpbKG4CZv+5auVnGgvtn2U+jOj8DK0oMyZC
- 7SXIUtNaHkCRBRKLpWabr3ajDNEVsGcDPIWh2PAg67cr+Z36hSiGxsAwQBbW5XUw2dHm
- bLwXjyQ4DxwKk3Oq/idkiu2uRSc9iZh3w7AP6VkP1XrUZdTcj88sLnvXmXDZmM0AIMiy
- 8A4Pynxpum2zdMeRm/Y4uSfpo0gx9EIA0to5gz2F6Kct0leznSZ+XZl8WeVmu6BxRalB
- ZOrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QI6dDMD60TcAVgWF0v5LoxJFHaYci7038PFh0Hlgf7c=;
- b=AjF6qBua9mBUF0RDMUf6OuewA9CEwBDCpaz6+U5fHV0GpJeOEnFeVd17HaBHFXQIXr
- e1w03QBBep7Ay6ARO0t03kwEb4xU5eaiSzLIizLC7vpRv1eoIjC2QeIkCFskgJDzucEb
- tz2iA5gDVkUm1BHq6/pHGXoE2p5dax+rtZWbqRrJ1/fqwfmctSNACDap3aJhd96MJHYG
- dtleO2VxJtOOe4FxhwVjCrq4UcY/MXf61Gsf0pbbqvA032p23CQIKcnoVALQtchgPhzr
- 9U5NH3DvwIn7oS0TUBRuaVAQXVJbTZ8ZE8jtoG/WtIZrQswiUhQ3L7PkMlGrl0pGksc/
- /wVA==
-X-Gm-Message-State: AGi0Puag3M+pdsiMq0IKIM1Z7XGzgXVu7j5/w9cLu04j2vyYtIFStgQF
- cUKWCoLLVVyhyJFGvPtN5yTMVPDifD94cyx0fxeZONkOXJwwtw==
-X-Google-Smtp-Source: APiQypIXPPkQ8+ECle3XDMN0VzxBnbMuBgByH4tCg7SN5ZwZIbSeGrD68tqnw1g2xyx9qHIYFu9XWXTlESEQRH+lGJk=
-X-Received: by 2002:ac2:5395:: with SMTP id g21mr5983408lfh.61.1588436019543; 
- Sat, 02 May 2020 09:13:39 -0700 (PDT)
+ (envelope-from <saipava@xilinx.com>) id 1jUwS4-0000UX-NL
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 14:01:53 -0400
+Received: from mail-co1nam11on2056.outbound.protection.outlook.com
+ ([40.107.220.56]:6102 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jUwS4-0000Pr-A2; Sat, 02 May 2020 14:01:24 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JTC7hA+zzQ3pKgGmUiWqzNnwgMX0I3B8WWYYgUfPFxWe70BGL6deeeaU1fLCxWXaeUWnAQ8ph8McnvICzmUm3MPzKYZskUjE7bkj5a0OokyhvU9a5RXjU8t6WcVBN29Z4vulmxb6h/AUTLZs8emCXZACcVP2hjS/0y6OdDdkClxBFaoH8djf8mpkY5nUxqwJ50q/Lgd6jSttdhQEITITc7upV+Vs0t4Xwj7AzBPqKfVZ+rbEdxR+NmUNaNcbSRMMnrMCAkZC/3CqCk2+n9MMVnIxLwFHG9iiqOPN/CUDpxtVU27w69oa7x2Msa1HFroY/s7ZUpiTMQZH0VLcZFFWcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=chtkZFEMaHarleOSO5dX4gyZTFuVxLl7HhtQUnmjOso=;
+ b=NgJ8LfApstFuSnENtlSGeMwAMSje7Ridyf2OMua56NjVq0+y3oZGG9ThUovLqkGKysiJdjaAi2+oMFcdoZNGzxUer0PrVlHVEStITMrOjccpDGbNC80rvlUetnC5XvKW9naz/R3TV0n9cNAnr7LRRkEMt29VqEjYLEM1/dkruJAfvk8X+5P+6ddwWzcOVaut3p1k5d7dh6Qsp9RFUipV5II1EYrbSlrk8xr80r08K0v977Bn588IlnY8fsLm3aSreBqmbI5bB63OJkDB26vznDjJlqtSOkDsWHXDICODiJuST4XlwTeiU9nZ0KGQNy+WuEZKR/doErPD1cFRFizRyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=chtkZFEMaHarleOSO5dX4gyZTFuVxLl7HhtQUnmjOso=;
+ b=XpBlyara82duN+/ia38OLDHT8QgPWx8OBd+0PB2IevyLhJEplu5e9TXz2ym0JFg7p3lYgn1r8mx9HDi25Ln7AiHiH+JB/1BIBleimJ+B87vUICd8YHsveNX/tskebIK7iJR6/OZNg7T21VgVtyLTAkSAZNzdE+DHp5BDHGmR3Y4=
+Received: from SN1PR12CA0045.namprd12.prod.outlook.com (2603:10b6:802:20::16)
+ by BN7PR02MB3954.namprd02.prod.outlook.com (2603:10b6:406:f3::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Sat, 2 May
+ 2020 18:01:18 +0000
+Received: from SN1NAM02FT022.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:802:20:cafe::9e) by SN1PR12CA0045.outlook.office365.com
+ (2603:10b6:802:20::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19 via Frontend
+ Transport; Sat, 2 May 2020 18:01:18 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT022.mail.protection.outlook.com (10.152.72.148) with Microsoft SMTP
+ Server id 15.20.2958.27 via Frontend Transport; Sat, 2 May 2020 18:01:17
+ +0000
+Received: from [149.199.38.66] (port=60232 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jUwRt-0004nM-Tr; Sat, 02 May 2020 11:01:13 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jUwRx-0006w9-59; Sat, 02 May 2020 11:01:17 -0700
+Received: from xsj-pvapsmtp01 (smtp2.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 042I1GTJ011692; 
+ Sat, 2 May 2020 11:01:16 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1jUwRv-0006us-RP; Sat, 02 May 2020 11:01:16 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id 9AF7413C1AFC; Sat,  2 May 2020 23:23:39 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Tong Ho <tong.ho@xilinx.com>, Ramon Fried <rfried.dev@gmail.com>
+Subject: [PATCH 00/10] Cadence GEM Fixes
+Date: Sat,  2 May 2020 23:23:04 +0530
+Message-Id: <1588441994-21447-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(39860400002)(346002)(396003)(376002)(136003)(46966005)(336012)(8676002)(4744005)(4326008)(6266002)(8936002)(6666004)(82740400003)(70206006)(70586007)(2906002)(426003)(36756003)(5660300002)(316002)(110136005)(47076004)(42186006)(26005)(478600001)(81166007)(356005)(186003)(82310400002)(2616005);
+ DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
-References: <20200502074901.30784-1-johnnymarler@gmail.com>
- <fb7daa98-f403-6388-0958-c0d821efe835@vivier.eu>
-In-Reply-To: <fb7daa98-f403-6388-0958-c0d821efe835@vivier.eu>
-From: Jonathan Marler <johnnymarler@gmail.com>
-Date: Sat, 2 May 2020 10:13:29 -0600
-Message-ID: <CACKT+Ao=5ZqmEz8evVJFzgUoRHYo+wqyetVVaX7Qv6EJzrFMrw@mail.gmail.com>
-Subject: Re: [PATCH] linux-user/mmap.c: fix integer underflow in target_mremap
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="000000000000b19d7305a4ac9400"
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=johnnymarler@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
- Malformed IPv6 address (bad octet value).
- Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2a00:1450:4864:20::141
-X-Mailman-Approved-At: Sat, 02 May 2020 12:52:16 -0400
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b3295950-d229-4a2a-49f8-08d7eec2cfe5
+X-MS-TrafficTypeDiagnostic: BN7PR02MB3954:
+X-Microsoft-Antispam-PRVS: <BN7PR02MB3954263EC22B81A69DBBEEB1CAA80@BN7PR02MB3954.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Forefront-PRVS: 039178EF4A
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jcQU5vuErY7fq6oG5EvDFrRsuLBKPmqiJKz5wY2d7KtjZpZgIuT55Q2nyM100aeJCJ0QIttrc2jtKs4c6Gnupj8YUZLE831D/0TWfdV0XG6tul7d8ST71dIVllRu/INnZEnkXj8KTXnMCORVsMSPmJwS/2Ts5X0Gd5/3GZSOGAYcGCaWzMHuPNcddomUiTjCpKNYNE/Oc8bq+OFP1mrEX2yS5vIrsBvGIILIO/upjFZAXj/IJTbGuxSoOhg9ggjCdLp3J1BNysKVJX/L/vVjPKzjID/2dyhlwIkMKfrIN5HOE8SRsJuKiG1MXo/IaxouwqYWHVPGCLXZim+Y4ocCQZ6ik50Vb/ido3dmIb8r81HHyZP5KNA4puqrnZJmU3Yw1KON/t5z0izceKNBlmcma69YaScxmqG3DqIBnc3TEDS+4AlDSpHNQSoAUA6dZ/jc4BRjsUE+5NL5wbWgrzz1CgoIESzP8a5GnJes7Sg8+gkJ2UwzEuVLlZuEuetaLjzVoofq9USq6Se314oStbf8uA==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2020 18:01:17.5041 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3295950-d229-4a2a-49f8-08d7eec2cfe5
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB3954
+Received-SPF: pass client-ip=40.107.220.56; envelope-from=saipava@xilinx.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/02 14:01:22
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Received-From: 40.107.220.56
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,125 +133,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b19d7305a4ac9400
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Yes the first patch was incorrect.  The second patch should be the correct
-one.
+Following patch series fixes issues with priority queues,
+Adds JUMBO Frame support,
+Makes Debug statements compilable &
+Fixes related to multicast frames.
 
-Thanks for the guidance.  I have created a new patch with a "Fixes: ..."
-and a description of the fix, and have sent that patch to
-qemu-devel@nongnu.org
+Sai Pavan Boddu (9):
+  net: cadence_gem: Fix debug statements
+  net: cadence_gem: Fix the queue address update during wrap around
+  net: cadence_gem: Fix irq update w.r.t queue
+  net: cadence_gem: Define access permission for interrupt registers
+  net: cadence_gem: Set ISR according to queue in use
+  net: cadence_gem: Add support for jumbo frames
+  net: cadnece_gem: Update irq_read_clear field of designcfg_debug1 reg
+  net: cadence_gem: Update the reset value for interrupt mask register
+  net: cadence_gem: TX_LAST bit should be set by guest
 
-On Sat, May 2, 2020 at 2:38 AM Laurent Vivier <laurent@vivier.eu> wrote:
+Tong Ho (1):
+  net: cadence_gem: Fix RX address filtering
 
-> Hi,
->
-> does this patch replace your previous one?
->
-> Please add more details in the description, as you did in the launchpad
-> bug.
->
-> You can also add:
-> Fixes: https://bugs.launchpad.net/bugs/1876373
->
-> You must also send the patch to qemu-devel@nongnu.org
->
-> Thanks,
-> Laurent
->
-> Le 02/05/2020 =C3=A0 09:49, Jonathan Marler a =C3=A9crit :
-> > Signed-off-by: Jonathan Marler <johnnymarler@gmail.com>
-> > ---
-> >  linux-user/mmap.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-> > index e378033797..caab62909e 100644
-> > --- a/linux-user/mmap.c
-> > +++ b/linux-user/mmap.c
-> > @@ -708,7 +708,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulon=
-g
-> old_size,
-> >          if (prot =3D=3D 0) {
-> >              host_addr =3D mremap(g2h(old_addr), old_size, new_size,
-> flags);
-> >              if (host_addr !=3D MAP_FAILED && reserved_va && old_size >
-> new_size) {
-> > -                mmap_reserve(old_addr + old_size, new_size - old_size)=
-;
-> > +                mmap_reserve(old_addr + old_size, old_size - new_size)=
-;
-> >              }
-> >          } else {
-> >              errno =3D ENOMEM;
-> >
->
->
+ hw/net/cadence_gem.c | 164 +++++++++++++++++++++++++++++----------------------
+ 1 file changed, 92 insertions(+), 72 deletions(-)
 
---000000000000b19d7305a4ac9400
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.7.4
 
-<div dir=3D"ltr">Yes the first patch was incorrect.=C2=A0 The second patch =
-should be the correct one.<div><br></div><div>Thanks for the guidance.=C2=
-=A0 I have created a new patch with a &quot;Fixes: ...&quot; and a descript=
-ion of the fix, and have sent that patch to <a href=3D"mailto:qemu-devel@no=
-ngnu.org">qemu-devel@nongnu.org</a></div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, May 2, 2020 at 2:38 AM Lau=
-rent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laurent@vivier.eu</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi,<b=
-r>
-<br>
-does this patch replace your previous one?<br>
-<br>
-Please add more details in the description, as you did in the launchpad bug=
-.<br>
-<br>
-You can also add:<br>
-Fixes: <a href=3D"https://bugs.launchpad.net/bugs/1876373" rel=3D"noreferre=
-r" target=3D"_blank">https://bugs.launchpad.net/bugs/1876373</a><br>
-<br>
-You must also send the patch to <a href=3D"mailto:qemu-devel@nongnu.org" ta=
-rget=3D"_blank">qemu-devel@nongnu.org</a><br>
-<br>
-Thanks,<br>
-Laurent<br>
-<br>
-Le 02/05/2020 =C3=A0 09:49, Jonathan Marler a =C3=A9crit=C2=A0:<br>
-&gt; Signed-off-by: Jonathan Marler &lt;<a href=3D"mailto:johnnymarler@gmai=
-l.com" target=3D"_blank">johnnymarler@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 linux-user/mmap.c | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/linux-user/mmap.c b/linux-user/mmap.c<br>
-&gt; index e378033797..caab62909e 100644<br>
-&gt; --- a/linux-user/mmap.c<br>
-&gt; +++ b/linux-user/mmap.c<br>
-&gt; @@ -708,7 +708,7 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulo=
-ng old_size,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (prot =3D=3D 0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 host_addr =3D mremap(g=
-2h(old_addr), old_size, new_size, flags);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (host_addr !=3D MAP=
-_FAILED &amp;&amp; reserved_va &amp;&amp; old_size &gt; new_size) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mmap_reserve(=
-old_addr + old_size, new_size - old_size);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mmap_reserve(=
-old_addr + old_size, old_size - new_size);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D ENOMEM;<br>
-&gt; <br>
-<br>
-</blockquote></div>
-
---000000000000b19d7305a4ac9400--
 
