@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF6C1C28AA
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 00:49:24 +0200 (CEST)
-Received: from localhost ([::1]:43604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422AC1C28B5
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 00:54:42 +0200 (CEST)
+Received: from localhost ([::1]:37794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jV0wl-0001fv-14
-	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 18:49:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51662)
+	id 1jV11t-0004cP-A6
+	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 18:54:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jV0sw-0003JY-85
- for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:27 -0400
+ id 1jV0sx-0003LC-5d
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jV0sv-0004pb-1Y
- for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:25 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:40880)
+ (envelope-from <richard.henderson@linaro.org>) id 1jV0sw-0004qV-He
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:26 -0400
+Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jV0su-0004nV-IE
- for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:24 -0400
-Received: by mail-pf1-x435.google.com with SMTP id x2so3536771pfx.7
- for <qemu-devel@nongnu.org>; Sat, 02 May 2020 15:45:24 -0700 (PDT)
+ id 1jV0sw-0004pl-2k
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:26 -0400
+Received: by mail-pj1-x1042.google.com with SMTP id e6so1858710pjt.4
+ for <qemu-devel@nongnu.org>; Sat, 02 May 2020 15:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BpJ/0KBzNlbhkzKG7jY9E7XmyCHGStePvg0lY46/qCo=;
- b=RsutYu0H7r2yNq8Hitn8c9N9qvOAfTPquE3qILNGOQ5VNYEi9d5L7eiZqJc/2aGPu7
- h98w1YRhtWzSkZU5mS9lA2UPfKD8crY/HN57tRLb/DoJ2iH25zFIn9cxHw1l5ZSr2gYd
- Z4eY2ZS+HY6G+LkiCwM+dqplUOG/rdGjT3Rf0G5F7c8hgMFq2JoYNXmCrVy2S8EBI/Cq
- ya1NVb6xBETiTs51+Vu8FvMdxPOzj62H5maPR1AH+mOHQstuYNK68dCzODQZVBbiTP3j
- S18zfW2Un2nkX2/g/MoFwIBnIS7MqfL89Myl5f8md3msa70RbwsiUqsRGjWTmmmXNwzJ
- rtkQ==
+ bh=Satlmvku/pHGor6xmZAkPC5FD5Q8goGXCeVbGvbx+tw=;
+ b=nPHy5yfgpXDeN1+IM6iWDH2PgfvnaDOJFAbwk0MFJFhcUueKwuPRKjUQT5W1cYzR3d
+ 0lUaiCKwbxW2ExeOF/9qs+rjALx6OC7xcCAl78N5Hau9wkC6PjjKTg3FuV62iRsUmMeJ
+ BWHEJo85iVCEakK7zngz70NX/YzDtX+PQiu1SzxId6zIpofao814ePS+RIC/5LMvrczT
+ QkugSengw/EOT/9LF3kRvXWN2epJ7+EcSQi26ZzOOHqHJaFTy8x+GHYFvb/LTQQxsNLZ
+ EtM2RZG/uDksS+SqTk+P7A0blWkrva9mkfUoSqdtomzNI4DFUF1DBKMF/Um5baj3h+cJ
+ nSkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BpJ/0KBzNlbhkzKG7jY9E7XmyCHGStePvg0lY46/qCo=;
- b=XDXE8MaFbKXv6Te+3OpCfrXjSLNfJON+0hnqTC/QBwSRmsENxIyn8TBMTLyAdQU/zK
- z5DOVH8CrLlhFP72Ph9pARPQO9MDEwpvHo11hTskXKsS0tzCjIbNd3B2Sar8+qYg8yaC
- ACbZ483vci4smJj/z3PQwqFeZvaVSOfILQAAd0a4xhxuwNUo4tbBgr9rB3AF85DkxfBS
- CKxruShsH1iqeB4tLbrLhxlXSuIp496YvBfUsB+P0b94HIwNc/QSRCnjrRRekFS8NCI2
- 8gVFvqnmSYapOH0l3sdyx0W9cevveRPUNvYviOjwHWAh90MwOYc/9hS05MVzxAGxh6PP
- VgyQ==
-X-Gm-Message-State: AGi0Pua+t3IZrcOIyCvDWRc2SQ3Gl3IBmpH60eKgryfg0mNbAxSfLY1J
- GOZ3YFCVOo3P1xdkDh1MhartLWQYaII=
-X-Google-Smtp-Source: APiQypIcf63tblJP1/ufITbuBwyBHQ3aPuNguREk5IDrqjiGqVXVmYXwHanL2gHb0dK6uZEj9MF2TQ==
-X-Received: by 2002:a63:7745:: with SMTP id s66mr10589413pgc.340.1588459522477; 
- Sat, 02 May 2020 15:45:22 -0700 (PDT)
+ bh=Satlmvku/pHGor6xmZAkPC5FD5Q8goGXCeVbGvbx+tw=;
+ b=qOar6Rfl0VH2bCDqyOutkz2/HrmpzrU6Q/VDstX5tOGOKDtScf7pTqvwxE3krZFv6R
+ CJGNdHcyxAzkFagkwxMtKHnRBG2dfNzV2VyFtsrsXdcQ4hrRdEhl7IYKl877Wd/J7TvH
+ Dl07+Ffu+DJ/ztsv8hi/9o8k23iYIw9Q0Pr3nfYWbReKkBzS8U2HMcr+UabQMR096mYw
+ TotZpjiOKqkCZ0NdbWNu4KdhjEBULtKrNJln92AJkKg3XddTwO/dXItK2WYgNMogSFL4
+ IOFJjVeVQGEvKhkbNUcfljV1UyE5H9HX33ytqUn63rE55rVIfDrG6WqLWi4ZuuC2NFO9
+ JUlg==
+X-Gm-Message-State: AGi0PuYMoI6ZssjcoftPbAYq1Bo503SQCF0NiqbqBJR3hqmS7dP+E8GX
+ McVsah0SBW2t+ccpp1PJEoMIU1xlwsc=
+X-Google-Smtp-Source: APiQypIi+98gQRVvIkuF6JT+zSAkPcsYmzLMBAz9/4lUrcI9NQrr2ITkfJm/RQygpkqKvArDLsl8fw==
+X-Received: by 2002:a17:902:8608:: with SMTP id
+ f8mr11222779plo.110.1588459524389; 
+ Sat, 02 May 2020 15:45:24 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id h5sm2956182pjv.4.2020.05.02.15.45.21
+ by smtp.gmail.com with ESMTPSA id h5sm2956182pjv.4.2020.05.02.15.45.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 May 2020 15:45:21 -0700 (PDT)
+ Sat, 02 May 2020 15:45:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/15] target/arm: Pass pointer to qc to qrdmla/qrdmls
-Date: Sat,  2 May 2020 15:45:00 -0700
-Message-Id: <20200502224503.2282-13-richard.henderson@linaro.org>
+Subject: [PATCH v2 13/15] target/arm: Clear tail in gvec_fmul_idx_*,
+ gvec_fmla_idx_*
+Date: Sat,  2 May 2020 15:45:01 -0700
+Message-Id: <20200502224503.2282-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200502224503.2282-1-richard.henderson@linaro.org>
 References: <20200502224503.2282-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
 X-detected-operating-system: by eggs.gnu.org: Error: [-] PROGRAM ABORT :
  Malformed IPv6 address (bad octet value).
  Location : parse_addr6(), p0f-client.c:67
-X-Received-From: 2607:f8b0:4864:20::435
+X-Received-From: 2607:f8b0:4864:20::1042
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,254 +88,34 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pass a pointer directly to env->vfp.qc[0], rather than env.
-This will allow SVE2, which does not modify QC, to pass a
-pointer to dummy storage.
+Must clear the tail for AdvSIMD when SVE is enabled.
 
+Fixes: ca40a6e6e39
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c  | 18 ++++++++---
- target/arm/vec_helper.c | 70 +++++++++++++++++++++++------------------
- 2 files changed, 54 insertions(+), 34 deletions(-)
+ target/arm/vec_helper.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 8d20726dcf..532768d65f 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -3901,6 +3901,18 @@ static const uint8_t neon_2rm_sizes[] = {
-     [NEON_2RM_VCVT_UF] = 0x4,
- };
- 
-+static void gen_gvec_fn3_qc(uint32_t rd_ofs, uint32_t rn_ofs, uint32_t rm_ofs,
-+                            uint32_t opr_sz, uint32_t max_sz,
-+                            gen_helper_gvec_3_ptr *fn)
-+{
-+    TCGv_ptr qc_ptr = tcg_temp_new_ptr();
-+
-+    tcg_gen_addi_ptr(qc_ptr, cpu_env, offsetof(CPUARMState, vfp.qc));
-+    tcg_gen_gvec_3_ptr(rd_ofs, rn_ofs, rm_ofs, qc_ptr,
-+                       opr_sz, max_sz, 0, fn);
-+    tcg_temp_free_ptr(qc_ptr);
-+}
-+
- void gen_gvec_sqrdmlah_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-                           uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
- {
-@@ -3908,8 +3920,7 @@ void gen_gvec_sqrdmlah_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-         gen_helper_gvec_qrdmlah_s16, gen_helper_gvec_qrdmlah_s32
-     };
-     tcg_debug_assert(vece >= 1 && vece <= 2);
--    tcg_gen_gvec_3_ptr(rd_ofs, rn_ofs, rm_ofs, cpu_env,
--                       opr_sz, max_sz, 0, fns[vece - 1]);
-+    gen_gvec_fn3_qc(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, fns[vece - 1]);
- }
- 
- void gen_gvec_sqrdmlsh_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-@@ -3919,8 +3930,7 @@ void gen_gvec_sqrdmlsh_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-         gen_helper_gvec_qrdmlsh_s16, gen_helper_gvec_qrdmlsh_s32
-     };
-     tcg_debug_assert(vece >= 1 && vece <= 2);
--    tcg_gen_gvec_3_ptr(rd_ofs, rn_ofs, rm_ofs, cpu_env,
--                       opr_sz, max_sz, 0, fns[vece - 1]);
-+    gen_gvec_fn3_qc(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, fns[vece - 1]);
- }
- 
- #define GEN_CMP0(NAME, COND)                                            \
 diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 096fea67ef..6aa2ca0827 100644
+index 6aa2ca0827..a483841add 100644
 --- a/target/arm/vec_helper.c
 +++ b/target/arm/vec_helper.c
-@@ -36,8 +36,6 @@
- #define H4(x)  (x)
- #endif
- 
--#define SET_QC() env->vfp.qc[0] = 1
--
- static void clear_tail(void *vd, uintptr_t opr_sz, uintptr_t max_sz)
- {
-     uint64_t *d = vd + opr_sz;
-@@ -49,8 +47,8 @@ static void clear_tail(void *vd, uintptr_t opr_sz, uintptr_t max_sz)
+@@ -747,6 +747,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
+             d[i + j] = TYPE##_mul(n[i + j], mm, stat);                     \
+         }                                                                  \
+     }                                                                      \
++    clear_tail(d, oprsz, simd_maxsz(desc));                                \
  }
  
- /* Signed saturating rounding doubling multiply-accumulate high half, 16-bit */
--static uint16_t inl_qrdmlah_s16(CPUARMState *env, int16_t src1,
--                                int16_t src2, int16_t src3)
-+static int16_t inl_qrdmlah_s16(int16_t src1, int16_t src2,
-+                               int16_t src3, uint32_t *sat)
- {
-     /* Simplify:
-      * = ((a3 << 16) + ((e1 * e2) << 1) + (1 << 15)) >> 16
-@@ -60,7 +58,7 @@ static uint16_t inl_qrdmlah_s16(CPUARMState *env, int16_t src1,
-     ret = ((int32_t)src3 << 15) + ret + (1 << 14);
-     ret >>= 15;
-     if (ret != (int16_t)ret) {
--        SET_QC();
-+        *sat = 1;
-         ret = (ret < 0 ? -0x8000 : 0x7fff);
-     }
-     return ret;
-@@ -69,30 +67,30 @@ static uint16_t inl_qrdmlah_s16(CPUARMState *env, int16_t src1,
- uint32_t HELPER(neon_qrdmlah_s16)(CPUARMState *env, uint32_t src1,
-                                   uint32_t src2, uint32_t src3)
- {
--    uint16_t e1 = inl_qrdmlah_s16(env, src1, src2, src3);
--    uint16_t e2 = inl_qrdmlah_s16(env, src1 >> 16, src2 >> 16, src3 >> 16);
-+    uint32_t *sat = &env->vfp.qc[0];
-+    uint16_t e1 = inl_qrdmlah_s16(src1, src2, src3, sat);
-+    uint16_t e2 = inl_qrdmlah_s16(src1 >> 16, src2 >> 16, src3 >> 16, sat);
-     return deposit32(e1, 16, 16, e2);
+ DO_MUL_IDX(gvec_fmul_idx_h, float16, H2)
+@@ -771,6 +772,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va,                  \
+                                      mm, a[i + j], 0, stat);               \
+         }                                                                  \
+     }                                                                      \
++    clear_tail(d, oprsz, simd_maxsz(desc));                                \
  }
  
- void HELPER(gvec_qrdmlah_s16)(void *vd, void *vn, void *vm,
--                              void *ve, uint32_t desc)
-+                              void *vq, uint32_t desc)
- {
-     uintptr_t opr_sz = simd_oprsz(desc);
-     int16_t *d = vd;
-     int16_t *n = vn;
-     int16_t *m = vm;
--    CPUARMState *env = ve;
-     uintptr_t i;
- 
-     for (i = 0; i < opr_sz / 2; ++i) {
--        d[i] = inl_qrdmlah_s16(env, n[i], m[i], d[i]);
-+        d[i] = inl_qrdmlah_s16(n[i], m[i], d[i], vq);
-     }
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
- 
- /* Signed saturating rounding doubling multiply-subtract high half, 16-bit */
--static uint16_t inl_qrdmlsh_s16(CPUARMState *env, int16_t src1,
--                                int16_t src2, int16_t src3)
-+static int16_t inl_qrdmlsh_s16(int16_t src1, int16_t src2,
-+                               int16_t src3, uint32_t *sat)
- {
-     /* Similarly, using subtraction:
-      * = ((a3 << 16) - ((e1 * e2) << 1) + (1 << 15)) >> 16
-@@ -102,7 +100,7 @@ static uint16_t inl_qrdmlsh_s16(CPUARMState *env, int16_t src1,
-     ret = ((int32_t)src3 << 15) - ret + (1 << 14);
-     ret >>= 15;
-     if (ret != (int16_t)ret) {
--        SET_QC();
-+        *sat = 1;
-         ret = (ret < 0 ? -0x8000 : 0x7fff);
-     }
-     return ret;
-@@ -111,85 +109,97 @@ static uint16_t inl_qrdmlsh_s16(CPUARMState *env, int16_t src1,
- uint32_t HELPER(neon_qrdmlsh_s16)(CPUARMState *env, uint32_t src1,
-                                   uint32_t src2, uint32_t src3)
- {
--    uint16_t e1 = inl_qrdmlsh_s16(env, src1, src2, src3);
--    uint16_t e2 = inl_qrdmlsh_s16(env, src1 >> 16, src2 >> 16, src3 >> 16);
-+    uint32_t *sat = &env->vfp.qc[0];
-+    uint16_t e1 = inl_qrdmlsh_s16(src1, src2, src3, sat);
-+    uint16_t e2 = inl_qrdmlsh_s16(src1 >> 16, src2 >> 16, src3 >> 16, sat);
-     return deposit32(e1, 16, 16, e2);
- }
- 
- void HELPER(gvec_qrdmlsh_s16)(void *vd, void *vn, void *vm,
--                              void *ve, uint32_t desc)
-+                              void *vq, uint32_t desc)
- {
-     uintptr_t opr_sz = simd_oprsz(desc);
-     int16_t *d = vd;
-     int16_t *n = vn;
-     int16_t *m = vm;
--    CPUARMState *env = ve;
-     uintptr_t i;
- 
-     for (i = 0; i < opr_sz / 2; ++i) {
--        d[i] = inl_qrdmlsh_s16(env, n[i], m[i], d[i]);
-+        d[i] = inl_qrdmlsh_s16(n[i], m[i], d[i], vq);
-     }
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
- 
- /* Signed saturating rounding doubling multiply-accumulate high half, 32-bit */
--uint32_t HELPER(neon_qrdmlah_s32)(CPUARMState *env, int32_t src1,
--                                  int32_t src2, int32_t src3)
-+static int32_t inl_qrdmlah_s32(int32_t src1, int32_t src2,
-+                               int32_t src3, uint32_t *sat)
- {
-     /* Simplify similarly to int_qrdmlah_s16 above.  */
-     int64_t ret = (int64_t)src1 * src2;
-     ret = ((int64_t)src3 << 31) + ret + (1 << 30);
-     ret >>= 31;
-     if (ret != (int32_t)ret) {
--        SET_QC();
-+        *sat = 1;
-         ret = (ret < 0 ? INT32_MIN : INT32_MAX);
-     }
-     return ret;
- }
- 
-+uint32_t HELPER(neon_qrdmlah_s32)(CPUARMState *env, int32_t src1,
-+                                  int32_t src2, int32_t src3)
-+{
-+    uint32_t *sat = &env->vfp.qc[0];
-+    return inl_qrdmlah_s32(src1, src2, src3, sat);
-+}
-+
- void HELPER(gvec_qrdmlah_s32)(void *vd, void *vn, void *vm,
--                              void *ve, uint32_t desc)
-+                              void *vq, uint32_t desc)
- {
-     uintptr_t opr_sz = simd_oprsz(desc);
-     int32_t *d = vd;
-     int32_t *n = vn;
-     int32_t *m = vm;
--    CPUARMState *env = ve;
-     uintptr_t i;
- 
-     for (i = 0; i < opr_sz / 4; ++i) {
--        d[i] = helper_neon_qrdmlah_s32(env, n[i], m[i], d[i]);
-+        d[i] = inl_qrdmlah_s32(n[i], m[i], d[i], vq);
-     }
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
- 
- /* Signed saturating rounding doubling multiply-subtract high half, 32-bit */
--uint32_t HELPER(neon_qrdmlsh_s32)(CPUARMState *env, int32_t src1,
--                                  int32_t src2, int32_t src3)
-+static int32_t inl_qrdmlsh_s32(int32_t src1, int32_t src2,
-+                               int32_t src3, uint32_t *sat)
- {
-     /* Simplify similarly to int_qrdmlsh_s16 above.  */
-     int64_t ret = (int64_t)src1 * src2;
-     ret = ((int64_t)src3 << 31) - ret + (1 << 30);
-     ret >>= 31;
-     if (ret != (int32_t)ret) {
--        SET_QC();
-+        *sat = 1;
-         ret = (ret < 0 ? INT32_MIN : INT32_MAX);
-     }
-     return ret;
- }
- 
-+uint32_t HELPER(neon_qrdmlsh_s32)(CPUARMState *env, int32_t src1,
-+                                  int32_t src2, int32_t src3)
-+{
-+    uint32_t *sat = &env->vfp.qc[0];
-+    return inl_qrdmlsh_s32(src1, src2, src3, sat);
-+}
-+
- void HELPER(gvec_qrdmlsh_s32)(void *vd, void *vn, void *vm,
--                              void *ve, uint32_t desc)
-+                              void *vq, uint32_t desc)
- {
-     uintptr_t opr_sz = simd_oprsz(desc);
-     int32_t *d = vd;
-     int32_t *n = vn;
-     int32_t *m = vm;
--    CPUARMState *env = ve;
-     uintptr_t i;
- 
-     for (i = 0; i < opr_sz / 4; ++i) {
--        d[i] = helper_neon_qrdmlsh_s32(env, n[i], m[i], d[i]);
-+        d[i] = inl_qrdmlsh_s32(n[i], m[i], d[i], vq);
-     }
-     clear_tail(d, opr_sz, simd_maxsz(desc));
- }
+ DO_FMLA_IDX(gvec_fmla_idx_h, float16, H2)
 -- 
 2.20.1
 
