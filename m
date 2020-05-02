@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC08C1C28A7
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 00:48:06 +0200 (CEST)
-Received: from localhost ([::1]:38056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C091C28B4
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 00:53:46 +0200 (CEST)
+Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jV0vV-0007Fw-PW
-	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 18:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51582)
+	id 1jV10z-0002HD-8I
+	for lists+qemu-devel@lfdr.de; Sat, 02 May 2020 18:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jV0sm-0003Cr-CP
+ id 1jV0sl-0003BH-9a
  for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.90_1)
- (envelope-from <richard.henderson@linaro.org>) id 1jV0si-0004Z9-Uu
- for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:16 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41010)
+ (envelope-from <richard.henderson@linaro.org>) id 1jV0sk-0004c0-7a
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:14 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:44523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jV0si-0004Wb-FK
- for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:12 -0400
-Received: by mail-pl1-x643.google.com with SMTP id x6so498029plv.8
- for <qemu-devel@nongnu.org>; Sat, 02 May 2020 15:45:12 -0700 (PDT)
+ id 1jV0sj-0004ZK-OV
+ for qemu-devel@nongnu.org; Sat, 02 May 2020 18:45:13 -0400
+Received: by mail-pl1-x643.google.com with SMTP id h11so5176587plr.11
+ for <qemu-devel@nongnu.org>; Sat, 02 May 2020 15:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T6CcolLGmewGB263Dq5JcXqXdOTfepA8BlCHSWd+1xw=;
- b=h74GJ9/MpsCpfBTQpBDLff4tMognUlFC4b0ivMZSZTwssgq6FJEWdd+KzUwU4N4mVC
- t39XPNtINTGIs922woQCgZk/FXyqgy2u3ktjD1Jzzof7FQ1SvdQvcJtTjAdqYtEFpXpd
- ZlP85XdQw+Bi0Q0DVVVURyEFeWCcisgG0X2KsWddu8mer5xrh8xjzYWWtBcJGLOsJ/Hy
- yg1raanr09QUWTMZsiYdsglVKlOvBSqJ1FoySUjzmCdMWckDJDXaj1fqwqQ0/ZtYuKV0
- okJAw6NjWUUUYz0RrDMnu+sI3TPh1UjOXXIXIO/HZ417C203gHO6YCB9pMB/hC62lNFl
- Exvg==
+ bh=3UIiAqWxRQSzQef8dIuVVnVIZspSlNbG4WcR7Cqf/AI=;
+ b=C188vxqXhvrX8VRnIDVlQkbXfft2SY0Pny/vL0K80OzUbMAU2BYM9Xe2aBXu3gI9Ju
+ Gm2HOupePMmO7WOok8NpgPt13J89fcTcA8F6XCKBbQPWVMRNKr9YTa8MTjPPggFzYnVU
+ 0a7wz9AYIchnqbEQhlwRTYbBqAL98nqpve2uHQX2bGovjz5lHSnZ8TiEtdnL5xdDRqi1
+ 05Q1PjQVumWFI+NvR/skhdWPW6cJBtzfLDOzD6UDLAjlu96Mssydl1Peu06mqgwN2NaR
+ xx+APlX65kDfVN/RVNgsshnn8FtNrArwjIDGHmU/InlznsHexzebApK7kq2Me2Uicp61
+ +MkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T6CcolLGmewGB263Dq5JcXqXdOTfepA8BlCHSWd+1xw=;
- b=ZgbCBqowg91zGjqHjN2X450hTs5+VyzmQ6UnrcMSMBwBlG/dipp0POv/bTbZpOlkEv
- MwBM5aKb8o2o9mSnmybiAs+L7AWezQjrBVDQWbLN2hcVaRNSdkg+kyrhDvLeuSNdtGGH
- rVQdkqqoELVIt7bPEk/5aDMKLoRBGpJWyZJ5Fh2EjrAQGbWfvCLdYpV6qBKIPl5yKtjb
- KG+BVZjFuq5j06838wvNFRkCvXrwJsZTk8nxR/KKNxKEccJFhiWdO212+n3ufWXZ1XNi
- YtFJyUhFRsKQqjK6saNbDXiIiU6H293v+lhGKpurp5ng/HC/ZcXypcmN73pFLcbpTpp5
- CaeA==
-X-Gm-Message-State: AGi0PuYeVtoar0K34WjunTk2XcF86SsF9fG7qbNnFbQ9Oxefg0CnXtxb
- nbNwt5pDjP7flCz+Mv9MorxjyCzM00k=
-X-Google-Smtp-Source: APiQypLb/7L9/peXvklDJW6dkHDasXgL//FhJvxK4RBiroPfRttrpOCSc/5gF7+w4QahbgjzdST0ig==
-X-Received: by 2002:a17:90a:80c2:: with SMTP id k2mr8262344pjw.6.1588459510888; 
- Sat, 02 May 2020 15:45:10 -0700 (PDT)
+ bh=3UIiAqWxRQSzQef8dIuVVnVIZspSlNbG4WcR7Cqf/AI=;
+ b=dKNhFeYbX9htPYcnvEC+KwXZHMy6tjqE0QI2FlrzLOYmQFLdmt9Nv+J5tqw8bPoBN3
+ Q5hOjOReXB/PEw9hJrOa3v/PGk8cg7sdZOVWzzez4A2BhxpfFeIsNleX1vdgRVvxWgnh
+ PfKFndLAhGl+cvNxtzM11kapuNybslSRlknS9SjQH9hWLcLsZ7Hqo5ov+o4ZbA+Q72Q7
+ epDUp3mtZoTLUil7w41EJZ7T7kIhaHoMedb3QtPRNkI3N90JiTr4NAoJ50E8MKJSt/S/
+ 10aUPgkBOFviz871ZD2/KYzHc/8n8Ab7KN+NJ1CsKHecozXyWzpo++eVbcTpMG4HRZ6b
+ rmXQ==
+X-Gm-Message-State: AGi0PubzC+H2/vfRwSJkhed0pUkZudCBLzrAMwNApGYks78LK63BCCHj
+ y49qNPqhjKVCTTufFONUlwjsRld/qUM=
+X-Google-Smtp-Source: APiQypKyav7GngGIm187OkUh+YHL7uiV9zoUDkje7QZGnltkMHEIsIMWj2bYy5ng+vzu5Jscu8JeKA==
+X-Received: by 2002:a17:902:7042:: with SMTP id
+ h2mr3730319plt.204.1588459512053; 
+ Sat, 02 May 2020 15:45:12 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id h5sm2956182pjv.4.2020.05.02.15.45.09
+ by smtp.gmail.com with ESMTPSA id h5sm2956182pjv.4.2020.05.02.15.45.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 May 2020 15:45:09 -0700 (PDT)
+ Sat, 02 May 2020 15:45:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/15] target/arm: Remove unnecessary range check for VSHL
-Date: Sat,  2 May 2020 15:44:52 -0700
-Message-Id: <20200502224503.2282-5-richard.henderson@linaro.org>
+Subject: [PATCH v2 05/15] target/arm: Tidy handle_vec_simd_shri
+Date: Sat,  2 May 2020 15:44:53 -0700
+Message-Id: <20200502224503.2282-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200502224503.2282-1-richard.henderson@linaro.org>
 References: <20200502224503.2282-1-richard.henderson@linaro.org>
@@ -86,38 +87,116 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 1dc8425e551, while converting to gvec, I added an extra range check
-against the shift count.  This was unnecessary because the encoding of
-the shift count produces 0 to the element size - 1.
+Now that we've converted all cases to gvec, there is quite a bit
+of dead code at the end of the function.  Remove it.
+
+Sink the call to gen_gvec_fn2i to the end, loading a function
+pointer within the switch statement.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ target/arm/translate-a64.c | 56 ++++++++++----------------------------
+ 1 file changed, 14 insertions(+), 42 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index f730eb5b75..f082384117 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -6126,16 +6126,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                         gen_gvec_sli(size, rd_ofs, rm_ofs, shift,
-                                      vec_size, vec_size);
-                     } else { /* VSHL */
--                        /* Shifts larger than the element size are
--                         * architecturally valid and results in zero.
--                         */
--                        if (shift >= 8 << size) {
--                            tcg_gen_gvec_dup_imm(size, rd_ofs,
--                                                 vec_size, vec_size, 0);
--                        } else {
--                            tcg_gen_gvec_shli(size, rd_ofs, rm_ofs, shift,
--                                              vec_size, vec_size);
--                        }
-+                        tcg_gen_gvec_shli(size, rd_ofs, rm_ofs, shift,
-+                                          vec_size, vec_size);
-                     }
-                     return 0;
-                 }
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index bc326dadda..5937069992 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -10172,16 +10172,7 @@ static void handle_vec_simd_shri(DisasContext *s, bool is_q, bool is_u,
+     int size = 32 - clz32(immh) - 1;
+     int immhb = immh << 3 | immb;
+     int shift = 2 * (8 << size) - immhb;
+-    bool accumulate = false;
+-    int dsize = is_q ? 128 : 64;
+-    int esize = 8 << size;
+-    int elements = dsize/esize;
+-    MemOp memop = size | (is_u ? 0 : MO_SIGN);
+-    TCGv_i64 tcg_rn = new_tmp_a64(s);
+-    TCGv_i64 tcg_rd = new_tmp_a64(s);
+-    TCGv_i64 tcg_round;
+-    uint64_t round_const;
+-    int i;
++    GVecGen2iFn *gvec_fn;
+ 
+     if (extract32(immh, 3, 1) && !is_q) {
+         unallocated_encoding(s);
+@@ -10195,13 +10186,12 @@ static void handle_vec_simd_shri(DisasContext *s, bool is_q, bool is_u,
+ 
+     switch (opcode) {
+     case 0x02: /* SSRA / USRA (accumulate) */
+-        gen_gvec_fn2i(s, is_q, rd, rn, shift,
+-                      is_u ? gen_gvec_usra : gen_gvec_ssra, size);
+-        return;
++        gvec_fn = is_u ? gen_gvec_usra : gen_gvec_ssra;
++        break;
+ 
+     case 0x08: /* SRI */
+-        gen_gvec_fn2i(s, is_q, rd, rn, shift, gen_gvec_sri, size);
+-        return;
++        gvec_fn = gen_gvec_sri;
++        break;
+ 
+     case 0x00: /* SSHR / USHR */
+         if (is_u) {
+@@ -10209,49 +10199,31 @@ static void handle_vec_simd_shri(DisasContext *s, bool is_q, bool is_u,
+                 /* Shift count the same size as element size produces zero.  */
+                 tcg_gen_gvec_dup_imm(size, vec_full_reg_offset(s, rd),
+                                      is_q ? 16 : 8, vec_full_reg_size(s), 0);
+-            } else {
+-                gen_gvec_fn2i(s, is_q, rd, rn, shift, tcg_gen_gvec_shri, size);
++                return;
+             }
++            gvec_fn = tcg_gen_gvec_shri;
+         } else {
+             /* Shift count the same size as element size produces all sign.  */
+             if (shift == 8 << size) {
+                 shift -= 1;
+             }
+-            gen_gvec_fn2i(s, is_q, rd, rn, shift, tcg_gen_gvec_sari, size);
++            gvec_fn = tcg_gen_gvec_sari;
+         }
+-        return;
++        break;
+ 
+     case 0x04: /* SRSHR / URSHR (rounding) */
+-        gen_gvec_fn2i(s, is_q, rd, rn, shift,
+-                      is_u ? gen_gvec_urshr : gen_gvec_srshr, size);
+-        return;
++        gvec_fn = is_u ? gen_gvec_urshr : gen_gvec_srshr;
++        break;
+ 
+     case 0x06: /* SRSRA / URSRA (accum + rounding) */
+-        gen_gvec_fn2i(s, is_q, rd, rn, shift,
+-                      is_u ? gen_gvec_ursra : gen_gvec_srsra, size);
+-        return;
++        gvec_fn = is_u ? gen_gvec_ursra : gen_gvec_srsra;
++        break;
+ 
+     default:
+         g_assert_not_reached();
+     }
+ 
+-    round_const = 1ULL << (shift - 1);
+-    tcg_round = tcg_const_i64(round_const);
+-
+-    for (i = 0; i < elements; i++) {
+-        read_vec_element(s, tcg_rn, rn, i, memop);
+-        if (accumulate) {
+-            read_vec_element(s, tcg_rd, rd, i, memop);
+-        }
+-
+-        handle_shri_with_rndacc(tcg_rd, tcg_rn, tcg_round,
+-                                accumulate, is_u, size, shift);
+-
+-        write_vec_element(s, tcg_rd, rd, i, size);
+-    }
+-    tcg_temp_free_i64(tcg_round);
+-
+-    clear_vec_high(s, is_q, rd);
++    gen_gvec_fn2i(s, is_q, rd, rn, shift, gvec_fn, size);
+ }
+ 
+ /* SHL/SLI - Vector shift left */
 -- 
 2.20.1
 
