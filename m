@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2FC1C2B1E
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 12:08:04 +0200 (CEST)
-Received: from localhost ([::1]:60014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D651C2B22
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 12:09:12 +0200 (CEST)
+Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVBXW-0003AZ-Ie
-	for lists+qemu-devel@lfdr.de; Sun, 03 May 2020 06:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56102)
+	id 1jVBYd-0005eP-8b
+	for lists+qemu-devel@lfdr.de; Sun, 03 May 2020 06:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jVBW4-0002DJ-0g
- for qemu-devel@nongnu.org; Sun, 03 May 2020 06:06:32 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:33718)
+ id 1jVBWQ-0002oy-Bt
+ for qemu-devel@nongnu.org; Sun, 03 May 2020 06:06:54 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:36852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jVBW2-0004Wc-Fg
- for qemu-devel@nongnu.org; Sun, 03 May 2020 06:06:31 -0400
-Received: by mail-pl1-x642.google.com with SMTP id t7so5606764plr.0
- for <qemu-devel@nongnu.org>; Sun, 03 May 2020 03:06:29 -0700 (PDT)
+ id 1jVBWO-0005LW-DX
+ for qemu-devel@nongnu.org; Sun, 03 May 2020 06:06:54 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id a31so2338915pje.1
+ for <qemu-devel@nongnu.org>; Sun, 03 May 2020 03:06:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id;
- bh=GG77QEUcAKOuddgrTCmvbeiQ9mXShRtLvZIFeUnKkR8=;
- b=etLE6us1LaTvyWcqblyepo0Hb2dPgI7jiUbd37dVDde3kJbiGMz1oS4h/9BXmImvul
- SgVc/LOW+YEwbpykDmjSneI8VmLmuIoLcecqZqsJDSBUVoxxV8e7PtBTdQqxqv4iOfbA
- 9JGjFummyUbPCD3zboGydvR9Mscjm10Ri7qRROjSWt7a5GW9u9+6QNSIFlsW0J3ktyEQ
- CogzeGlfl/8ZiYwz0Me4ISTPXnYAeH99HnDIKdyok80LM6kXgfAbk8DkShY93esFm/0h
- ZBlkf4cdr7Pj3XGi55KLqX8bqdtTrIL74yfDyaAXY8c2icLFX/TbJMgLtREfY/1IZwqD
- l4QQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=PbRSEAf2iP4s0AdgPIwTBI8UU6TRpGo2RmWTv12T7ho=;
+ b=VTYiLf8K3ZXQ03QVxYhF/9uO0E/tOu+kPQwoAc93b3BEAgcVSLQpBRqF2Tf/oUnNLT
+ 5MfOCVNkyIxmfW6rqRAG/KDOGfJ90qSCOYkyLVyp0kCgfho/WbXvhYjmWOk0cHJ5XATU
+ DT0r+nBcu/TmiBtudt7o8B42SrS5xlGZch/1pUGsPFXcIVqwxqDNtPmHwMfsxvoFXZ1A
+ 7UIBtWfNo9LYAGZPY0CkpTT/Cb9i6S0Nln245se2dLDSKKL+IHXw45JcsEkqVcmoO5VM
+ mVffHeh9xVjeJYazs9MkBbMnBRM3I7qierSyZc936jKsNujp4nP3aLs9jchzfKN8CZ1c
+ LRVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
- bh=GG77QEUcAKOuddgrTCmvbeiQ9mXShRtLvZIFeUnKkR8=;
- b=PxAI799FahCHnckV//bamEoveTnU5FK9gybBoz8+3lKG3IJZFJRLPc0oAcfHbDbbaV
- 5iRRDBbw5Gs2m5pj+oOQME8DDXK6bGXaTpmLW2PFX+WrobBVLXOZxbeVSWgxSCqD+ns4
- bBb64EIlvo3p1J8U8ct9m9/48rysAfsenahAj/pm9/oeQleDnlUCbUt6dYUrarOG57jL
- SlC500LADtRv2VbyDGl9IJdTCm70tejF2IzY5ZGgWMNaqkZAKgNMmwxsfCusZ2keKwpe
- o2XcRsQqBB9qB/y97ffFKo1sGUvb1u1HKg4zASsEokp3oHxry/1rZvcGR7MNkJpbN2fR
- FRYQ==
-X-Gm-Message-State: AGi0Pua9YZhnLq90TIQ3Sn/jN9JLaLoMEGJLfCbbZoz4gmw8BUfPiSoo
- nBNABdN9LT1eSytUJ86JTwE=
-X-Google-Smtp-Source: APiQypLmG2265s7wcaePya8wVSkVaYxIxY7EeuWRRrty8pwUbY+Mh81FyfzxjBTakL8PcUEaCN0VpQ==
-X-Received: by 2002:a17:90a:a893:: with SMTP id
- h19mr10497440pjq.138.1588500388378; 
- Sun, 03 May 2020 03:06:28 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=PbRSEAf2iP4s0AdgPIwTBI8UU6TRpGo2RmWTv12T7ho=;
+ b=sD+fOWakkAgXlN6H+C9G8Nu0OTSNpzD9UTECkBpYTDAN+15qDVMl4owd7qTuKSpx2y
+ dJ2r5kIGmDDst3g/eQbWTEx8FXy7si766IhcWnC6wvdl9rl/MgWJ9R3ljL5Uw5aht5t8
+ JpPOhEmRzJK1oYbbjO2mdmIleMSYWICBXIRx4WveAaFFrEkdauwLLvFiiPUvLo/oozGW
+ LALQeNpCRs8KGFah/SI07etZ/KSCH3Ael21lrK+eUfNKipCvNdfLnTor63UYOoiyEYFl
+ okD+PkUNM2tJRhIU5DZir6r9Gu7I/H0uCUwGbDe8M/CzgiF1F1mY26yL/QykrFN/6Y5H
+ JofA==
+X-Gm-Message-State: AGi0PuZH9AAu+KA5ZLBCN3zeUVf6GO/agqPZ2t4+Inoy0GEC9N3611eR
+ u97M3SoFnsMZtm+LyLL86K0=
+X-Google-Smtp-Source: APiQypIMzb4fvmZ2zpKo8dEGVhfSuz5hlvqkKdlygX14KjFPoy1s9T1BV1mrn7vMVcueySXbmeQTHw==
+X-Received: by 2002:a17:902:7045:: with SMTP id
+ h5mr212211plt.108.1588500411150; 
+ Sun, 03 May 2020 03:06:51 -0700 (PDT)
 Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
  [34.92.144.28])
- by smtp.gmail.com with ESMTPSA id r26sm6329902pfq.75.2020.05.03.03.06.25
+ by smtp.gmail.com with ESMTPSA id r26sm6329902pfq.75.2020.05.03.03.06.47
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 03 May 2020 03:06:27 -0700 (PDT)
+ Sun, 03 May 2020 03:06:50 -0700 (PDT)
 From: Huacai Chen <chenhc@lemote.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [PATCH V3 00/14] KVM: MIPS: Add Loongson-3 support (Host Side)
-Date: Sun,  3 May 2020 18:05:53 +0800
-Message-Id: <1588500367-1056-1-git-send-email-chenhc@lemote.com>
+Subject: [PATCH V3 01/14] KVM: MIPS: Define KVM_ENTRYHI_ASID to
+ cpu_asid_mask(&boot_cpu_data)
+Date: Sun,  3 May 2020 18:05:54 +0800
+Message-Id: <1588500367-1056-2-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
- envelope-from=chenhuacai@gmail.com; helo=mail-pl1-x642.google.com
+In-Reply-To: <1588500367-1056-1-git-send-email-chenhc@lemote.com>
+References: <1588500367-1056-1-git-send-email-chenhc@lemote.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=chenhuacai@gmail.com; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,77 +89,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: kvm@vger.kernel.org, Huacai Chen <chenhuacai@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, stable@vger.kernel.org,
  Fuxin Zhang <zhangfx@lemote.com>, Huacai Chen <chenhc@lemote.com>,
- linux-mips@vger.kernel.org
+ linux-mips@vger.kernel.org, Xing Li <lixing@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are preparing to add KVM support for Loongson-3. VZ extension is
-fully supported in Loongson-3A R4+, and we will not care about old CPUs
-(at least now). We already have a full functional Linux kernel (based
-on Linux-5.4.x LTS) and QEMU (based on 5.0.0-rc2) and their git
-repositories are here:
+From: Xing Li <lixing@loongson.cn>
 
-QEMU: https://github.com/chenhuacai/qemu
-Kernel: https://github.com/chenhuacai/linux
+The code in decode_config4() of arch/mips/kernel/cpu-probe.c
 
-Of course these two repositories need to be rework and not suitable for
-upstream (especially the commits need to be splitted). We show them here
-is just to tell others what we have done, and how KVM/Loongson will look
-like.
+        asid_mask = MIPS_ENTRYHI_ASID;
+        if (config4 & MIPS_CONF4_AE)
+                asid_mask |= MIPS_ENTRYHI_ASIDX;
+        set_cpu_asid_mask(c, asid_mask);
 
-Our plan is make the KVM host side be upstream first, and after that,
-we will make the KVM guest side and QEMU emulator be upstream.
+set asid_mask to cpuinfo->asid_mask.
 
-V1 -> V2:
-1, Remove "mips: define pud_index() regardless of page table folding"
-   because it has been applied.
-2, Make Loongson-specific code be guarded by CONFIG_CPU_LOONGSON64.
+So in order to support variable ASID_MASK, KVM_ENTRYHI_ASID should also
+be changed to cpu_asid_mask(&boot_cpu_data).
 
-V2 -> V3:
-1, Emulate a reduced feature list of CPUCFG.
-2, Fix all possible checkpatch.pl errors and warnings.
-
-Xing Li(2):
- KVM: MIPS: Define KVM_ENTRYHI_ASID to cpu_asid_mask(&boot_cpu_data)
- KVM: MIPS: Fix VPN2_MASK definition for variable cpu_vmbits
-
-Huacai Chen(12):
- KVM: MIPS: Increase KVM_MAX_VCPUS and KVM_USER_MEM_SLOTS to 16
- KVM: MIPS: Add EVENTFD support which is needed by VHOST
- KVM: MIPS: Use lddir/ldpte instructions to lookup gpa_mm.pgd
- KVM: MIPS: Introduce and use cpu_guest_has_ldpte
- KVM: MIPS: Use root tlb to control guest's CCA for Loongson-3
- KVM: MIPS: Let indexed cacheops cause guest exit on Loongson-3
- KVM: MIPS: Add more types of virtual interrupts
- KVM: MIPS: Add Loongson-3 Virtual IPI interrupt support
- KVM: MIPS: Add CPUCFG emulation for Loongson-3
- KVM: MIPS: Add CONFIG6 and DIAG registers emulation
- KVM: MIPS: Add more MMIO load/store instructions emulation
- KVM: MIPS: Enable KVM support for Loongson-3
-
+Cc: stable@vger.kernel.org
+Signed-off-by: Xing Li <lixing@loongson.cn>
+[Huacai: Change current_cpu_data to boot_cpu_data for optimization]
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 ---
- arch/mips/Kconfig                    |   1 +
- arch/mips/include/asm/cpu-features.h |   3 +
- arch/mips/include/asm/kvm_host.h     |  52 +++-
- arch/mips/include/asm/mipsregs.h     |   7 +
- arch/mips/include/uapi/asm/inst.h    |  11 +
- arch/mips/kernel/cpu-probe.c         |   2 +
- arch/mips/kvm/Kconfig                |   1 +
- arch/mips/kvm/Makefile               |   5 +-
- arch/mips/kvm/emulate.c              | 503 ++++++++++++++++++++++++++++++++++-
- arch/mips/kvm/entry.c                |  19 +-
- arch/mips/kvm/interrupt.c            |  93 +------
- arch/mips/kvm/interrupt.h            |  14 +-
- arch/mips/kvm/loongson_ipi.c         | 214 +++++++++++++++
- arch/mips/kvm/mips.c                 |  49 +++-
- arch/mips/kvm/tlb.c                  |  41 +++
- arch/mips/kvm/trap_emul.c            |   3 +
- arch/mips/kvm/vz.c                   | 235 +++++++++++-----
- 17 files changed, 1087 insertions(+), 166 deletions(-)
- create mode 100644 arch/mips/kvm/loongson_ipi.c
---
+ arch/mips/include/asm/kvm_host.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/mips/include/asm/kvm_host.h b/arch/mips/include/asm/kvm_host.h
+index 2c343c3..a01cee9 100644
+--- a/arch/mips/include/asm/kvm_host.h
++++ b/arch/mips/include/asm/kvm_host.h
+@@ -275,7 +275,7 @@ enum emulation_result {
+ #define MIPS3_PG_FRAME		0x3fffffc0
+ 
+ #define VPN2_MASK		0xffffe000
+-#define KVM_ENTRYHI_ASID	MIPS_ENTRYHI_ASID
++#define KVM_ENTRYHI_ASID	cpu_asid_mask(&boot_cpu_data)
+ #define TLB_IS_GLOBAL(x)	((x).tlb_lo[0] & (x).tlb_lo[1] & ENTRYLO_G)
+ #define TLB_VPN2(x)		((x).tlb_hi & VPN2_MASK)
+ #define TLB_ASID(x)		((x).tlb_hi & KVM_ENTRYHI_ASID)
+-- 
 2.7.0
+
 
