@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 917EA1C2E8B
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 20:42:05 +0200 (CEST)
-Received: from localhost ([::1]:54010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038BC1C2EA4
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 May 2020 20:55:27 +0200 (CEST)
+Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVJYy-0002Rb-3U
-	for lists+qemu-devel@lfdr.de; Sun, 03 May 2020 14:42:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59396)
+	id 1jVJlu-0003Iy-22
+	for lists+qemu-devel@lfdr.de; Sun, 03 May 2020 14:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jVJY1-0001kl-Qc
- for qemu-devel@nongnu.org; Sun, 03 May 2020 14:41:05 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54496)
+ id 1jVJhJ-0006pN-RF
+ for qemu-devel@nongnu.org; Sun, 03 May 2020 14:50:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jVJY0-00088Z-K7
- for qemu-devel@nongnu.org; Sun, 03 May 2020 14:41:05 -0400
+ id 1jVJhI-0005g4-Le
+ for qemu-devel@nongnu.org; Sun, 03 May 2020 14:50:41 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jVJXy-0002i9-6B
- for <qemu-devel@nongnu.org>; Sun, 03 May 2020 18:41:02 +0000
+ id 1jVJhG-0003IW-Ol
+ for <qemu-devel@nongnu.org>; Sun, 03 May 2020 18:50:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E4D242E810C
- for <qemu-devel@nongnu.org>; Sun,  3 May 2020 18:41:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B971D2E810A
+ for <qemu-devel@nongnu.org>; Sun,  3 May 2020 18:50:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 03 May 2020 18:32:19 -0000
+Date: Sun, 03 May 2020 18:38:37 -0000
 From: Heiko Sieger <1856335@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger
 X-Launchpad-Bug-Reporter: Damir (djdatte)
 X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
 References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Message-Id: <158853073981.4932.1299728933981092236.malone@soybean.canonical.com>
+Message-Id: <158853111753.13722.1662239803306917069.malone@gac.canonical.com>
 Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 10cb95f287c130c88f7fb534ac527bf9e1556e2f
+X-Launchpad-Hash: f0d831165253011348473468f6a34d697532a985
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/03 14:10:50
@@ -76,9 +76,35 @@ Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finally installed QEMU 5.0.0.154 - still the same. QEMU doesn't
-recognize the L3 caches and still lists 3 L3 caches instead of 4 with 3
-cores/6 threads.
+Here the vm.log with the qemu command line (shortened):
+
+2020-05-03 18:23:38.674+0000: starting up libvirt version: 5.10.0, qemu
+version: 5.0.50v5.0.0-154-g2ef486e76d-dirty, kernel: 5.4.36-1-MANJARO
+
+-machine pc-q35-4.2,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-core=3Dof=
+f,kernel_irqchip=3Don,pflash0=3Dlibvirt-pflash0-format,pflash1=3Dlibvirt-pf=
+lash1-format \
+-cpu host,invtsc=3Don,hypervisor=3Don,topoext=3Don,hv-time,hv-relaxed,hv-va=
+pic,hv-spinlocks=3D0x1fff,hv-vpindex,hv-synic,hv-stimer,hv-vendor-id=3DAuth=
+enticAMD,hv-frequencies,hv-crash,kvm=3Doff,host-cache-info=3Don,l3-cache=3D=
+off \
+-m 49152 \
+-mem-prealloc \
+-mem-path /dev/hugepages/libvirt/qemu/1-win10 \
+-overcommit mem-lock=3Doff \
+-smp 24,sockets=3D1,cores=3D12,threads=3D2 \
+-display none \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=3Dcharmonitor,fd=3D34,server,nowait \
+-mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
+-rtc base=3Dlocaltime,driftfix=3Dslew \
+-global kvm-pit.lost_tick_policy=3Ddelay \
+-no-hpet \
+-no-shutdown \
+-global ICH9-LPC.disable_s3=3D1 \
+-global ICH9-LPC.disable_s4=3D1 \
+-boot menu=3Doff,strict=3Don \
 
 -- =
 
