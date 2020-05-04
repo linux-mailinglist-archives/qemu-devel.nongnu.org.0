@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C4A1C3F4B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:03:29 +0200 (CEST)
-Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B471C3F69
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:08:19 +0200 (CEST)
+Received: from localhost ([::1]:51936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdZ2-0004WT-3T
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:03:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38018)
+	id 1jVddh-0005z6-RG
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdVt-0001JK-QA; Mon, 04 May 2020 12:00:14 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:57839)
+ id 1jVdVx-0001Nc-Hk; Mon, 04 May 2020 12:00:17 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:54491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdVr-0005kl-9y; Mon, 04 May 2020 12:00:13 -0400
+ id 1jVdVu-0005mC-KA; Mon, 04 May 2020 12:00:17 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MT9zD-1jiaRc24h5-00UWYS; Mon, 04 May 2020 17:59:59 +0200
+ id 1MYvoW-1ja3O40YzY-00UpXT; Mon, 04 May 2020 18:00:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/19] scsi/esp-pci: add g_assert() for fix clang analyzer
- warning in esp_pci_io_write()
-Date: Mon,  4 May 2020 17:59:38 +0200
-Message-Id: <20200504155956.380695-2-laurent@vivier.eu>
+Subject: [PULL v2 02/19] display/blizzard: use extract16() for fix clang
+ analyzer warning in blizzard_draw_line16_32()
+Date: Mon,  4 May 2020 17:59:39 +0200
+Message-Id: <20200504155956.380695-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504155956.380695-1-laurent@vivier.eu>
 References: <20200504155956.380695-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hlY/jz48hSKyGJeykHcVLtxPX1ei8qGh18vdGZtCqwgAEJ2Pi/m
- LHSYGUh+QXbyIWCt1lmMWS16QL2SaDyCyh3gllwlndkJct+A7Wxc8jgdrlXoqp5k2iGRAzB
- jNm39927q9U/u/EGg/p/VKm0PlMmFuLHflkhnnWaXSPaSRizkO2bmDcM/T1aL9pMXSd8g0U
- FpMytWLT/anA8Js5niAMQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DToFnN6RxIs=:V6FXeoRq2XH7OH/k9Pg3Mu
- zNvT1XFJGyp7YtVDbGhzFx+FnJFGCFwAF6EG6APfhbcZnvNqfVfLbk0OPTXaEuzBvb14wrrRx
- F+XAjNwZQtvgJN2sPURooMFLwvsL9DNaB+fDVVLfrYLu1RlEENP1Gx/exhFBJyCCaxM6Udz76
- F3AzU1xGHnjmwgmrO/yJzS2dHz93wEDFXl6uAB0HmPpR18EUZ6Hkv+9DGUG/DznVbbMjaA6Qw
- aDEr/9fXQS1oxVzy7JbaqKVWFBDJCd5JWMRvUKeEL/eGCy0jbWEkhuryNXdyMvvGftsP1vy4Q
- O9814yQPbd2t3ZZsP19iX3PxYhyZzJFMfsPcwS2caq3HdHDJF9LwEoPqrzNRDbN/dEtHJeD4F
- lFaTihFCzldivtGstN8bJyE/0DiFRTbvnwAOqW/aD1eUpdk8v41vJqUW/+QZ/+J3jadp84/Ri
- osglQAd+KoAI9J8hZHuZV8w9VNXMnhXNevFlrDj/76Ce/QnYSKV8h2UEhSKZokF/NCMp/f8S2
- /AwGrFrp+A1Cyp1oU73cfcEHSqJ4l3mP1aF3GM6skadRAHrMmC1IVxXRFXSUjjT68TcoRAhtb
- LRu6L+3oobHR+M35N9fDnmTAC+Z6ZLP/yEWsdUDb808CIVIER4PB42TOEb4uRvN+il2YZ/11q
- B0gPc32aTuCT/k1kdlAEea3YU+6mf9QBlfLMopEiu5klZx5brRfC9mngoep4FOnWVTejwQVOO
- 6Vgwg24JEOj1Bxdiw63n2oBaUdTn8IfC45IIIx0bjjSS9W++dDGNU6nE76caDRFZGzNyJ79xF
- HpodzSlMRzYYUZqLEsKbB1qKGeR2ibMgBNdSzzKkkpofEf29m+2wSX0uFzcv8NO/N2vvRms
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:C4Bu8a/krPIoq9y/FOF4tSxvMpaOkr1nID8+jsE3cCLyOe7/GfS
+ 8bL9BvXbqA2/YdCniElhEUEYlZgvpyMOEhgGwusD1bal7OQZJGSJODms3PdsI/6BPwTqA3V
+ mUzA+E1a98aiSWFEQipW7cHrC4r1eb3+jobVQXXBJp82sGfIKwZskg/KJHXNO/HDkYp76J6
+ IilYDiBWUs9eH4Hgpu0YA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:06UROSzpzgI=:MtR1W0RDxQy0GEUzp10D4X
+ 09yGpidYwYTnMWOJdKpUtC3Dq8RVwxIVGovF/0MZPVOSjx9jeI3ZmxoQitEkFCswY9hbOnhQL
+ ThGrzqJxC/avlGSOHF+b8JobZ9fBkuoLymeWEgNCupG8ofT/xP/pH5YFVM3IMH2rRFmueNYft
+ kAlOH9B5c3GaSRE3DSIVsKbUg2qEiLrFTxnXNRm3XLWzuORENoUwMeBit5+OqBHGrPAYm4Y6D
+ +e1Vjby/RLp0bV/zV2+GOTgHwvxLBwhHL1KXeaDHtWfE5jgvvAwrfbMlYcA+HB7XK/5b1wksY
+ 2ZTGp2YdZNJf396oxZ8zHkpMT6b9+gz/W4B7jXcBjHdA7TfK4gTxfC3PJtueZOch/pptOg8nA
+ aAg7EfQMkmZccktkG9DcaOocpHmPz8CiUC3jmKIS7yBl+K/s2yzX7xi+PLrvxD9oOnynKhxnL
+ 3EGE2NaD8YYlNILaGr6vNlpgdvi7RlheoLq9xZDTnlR1LOyxC/oJqEz1N+BnOVGxCXcX2kNci
+ SqBDJOvnOZbUAMUA0r/XtPbmMgn4B/JYR9c3mB3rnlhMIdj+DAMiYfFIDtV7KU6K09s0+Nhw/
+ wW/KRf5dHLMmhzYQBmpVEbybuxfra5mkBl8wu17dgMdqntn6t7iN4oiOpDBMkfSfKPzhVLXDP
+ GtDpS8QJtOXb6LeNyuGta+5lMkJTDQA/cOO/wgjBxTyZ9K82mpKJrQXNgKhzA2TPHEvpDP3S6
+ 9BM5mT5P8MiW4EPlio4DbNgTqwmKHkz1Dcg0mcsqc+uoSPWazEMldjWczp87n12yXe8pEl7f1
+ bt9CFzIsvqA3v1gp9ziRs0SqJIUXSRxVisnChq433u4wPe6npo3YZOKRECWYOgp5UlAzTJ7
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 12:00:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 11:59:59
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -78,31 +78,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-  hw/scsi/esp-pci.c:198:9: warning: Value stored to 'size' is never read
-        size = 4;
-        ^      ~
-
+  hw/display/blizzard.c:940:9: warning: Value stored to 'data' is never read
+        data >>= 5;
+        ^        ~
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200325025919.21316-2-kuhn.chenqun@huawei.com>
+Message-Id: <20200325025919.21316-3-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/scsi/esp-pci.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/display/blizzard.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
-index d5a1f9e01748..497a8d590190 100644
---- a/hw/scsi/esp-pci.c
-+++ b/hw/scsi/esp-pci.c
-@@ -197,6 +197,7 @@ static void esp_pci_io_write(void *opaque, hwaddr addr,
-         addr &= ~3;
-         size = 4;
-     }
-+    g_assert(size >= 4);
+diff --git a/hw/display/blizzard.c b/hw/display/blizzard.c
+index 359e399c2a0b..105241577de1 100644
+--- a/hw/display/blizzard.c
++++ b/hw/display/blizzard.c
+@@ -19,6 +19,7 @@
+  */
  
-     if (addr < 0x40) {
-         /* SCSI core reg */
+ #include "qemu/osdep.h"
++#include "qemu/bitops.h"
+ #include "ui/console.h"
+ #include "hw/display/blizzard.h"
+ #include "ui/pixel_ops.h"
+@@ -932,12 +933,9 @@ static void blizzard_draw_line16_32(uint32_t *dest,
+     const uint16_t *end = (const void *) src + width;
+     while (src < end) {
+         data = *src ++;
+-        b = (data & 0x1f) << 3;
+-        data >>= 5;
+-        g = (data & 0x3f) << 2;
+-        data >>= 6;
+-        r = (data & 0x1f) << 3;
+-        data >>= 5;
++        b = extract16(data, 0, 5) << 3;
++        g = extract16(data, 5, 6) << 2;
++        r = extract16(data, 11, 5) << 3;
+         *dest++ = rgb_to_pixel32(r, g, b);
+     }
+ }
 -- 
 2.26.2
 
