@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5B31C3624
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 11:51:31 +0200 (CEST)
-Received: from localhost ([::1]:48044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1081C3632
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 11:53:27 +0200 (CEST)
+Received: from localhost ([::1]:56764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVXl4-0002bw-25
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 05:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57666)
+	id 1jVXmw-00068U-4B
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 05:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVXgv-0005I0-1V
- for qemu-devel@nongnu.org; Mon, 04 May 2020 05:47:13 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40619
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVXgy-0005Ql-Ke
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 05:47:16 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54043
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVXgu-0004I0-6B
- for qemu-devel@nongnu.org; Mon, 04 May 2020 05:47:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVXgx-0004QJ-PS
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 05:47:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588585631;
+ s=mimecast20190719; t=1588585635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/BjE+qPatMIH8JRaVlHLK+nrshlFKwJmEw5HEwgChSI=;
- b=TxnpYM5h8PkaBF6Q2aNL1bRfwsLRi/gKOakM16p/49ivchG4mKxR8/Je/Fx0o5pzsFQEtp
- 298nEHaz8piTWZbHoq8Wa4tm/wVSXkCLuL/LTeR8Qq62MLhnX+UQMDzUsaRqULPleYNK4h
- lOlpisbotH68NCPDHrjlE6oN6ZwEX4E=
+ bh=TjRnLX9M7bUl75vfzRMtWTmWeSyX9kHOv2IRdhv8Iws=;
+ b=QjxGzc3SXeVLTtFSs8Zki5vKFJoGA/ZmeJxWAOUIn6OTaxQ3F8vzpMA2OeWyYiBpsNMzeZ
+ srJOvZVl5Au+D3/BreSnwWPGYg+FmrXuNLsqGvw2dPyuQ4NR94/FDulWkzhMgvY3PlgyeJ
+ tSN6h66ZRuUaO2xq9cVuUUuM1xZk3Zk=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-2qJW49hpNzahHZASnQJy5g-1; Mon, 04 May 2020 05:47:08 -0400
-X-MC-Unique: 2qJW49hpNzahHZASnQJy5g-1
-Received: by mail-wm1-f72.google.com with SMTP id j5so4579299wmi.4
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 02:47:08 -0700 (PDT)
+ us-mta-505-gJSRrdtFNXCWb5EESIl58g-1; Mon, 04 May 2020 05:47:13 -0400
+X-MC-Unique: gJSRrdtFNXCWb5EESIl58g-1
+Received: by mail-wm1-f72.google.com with SMTP id f128so4584505wmf.8
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 02:47:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+xH2/obfEES+FKWIXC5ZKjL0sJeWRGwNhoW0/uWIJ1w=;
- b=gibpyiOJjOn7f+RobOPa0JWqu0R/3KTK6isaWL4M7xSZipaTbWEBhbMJoNeGdQ8vXp
- aJHf7KvM0xESGmI+MDJl7/LhOneNZrdEkEJkC4/3nh1KPZNqv0vYRc/PgymEd6DLh33F
- DerNsT+0DklQjVk4z6dolv0KtQLP57p8NnLkWNpeQfyGlFbjRpv5VWnuBO4UKjPmhgGg
- 3PdIBJLExgybiREyGHMpftXJR2A/90gd9eIB74CkdhDTPMnO4t3UJ+Uu77UYf7THkgpO
- UU/9IlGxscSYfEmkek7imqetgHgZw0m4Y00BLIluGqeAcQDMQ5RKg2Hi9cxZq3LOOjrz
- y1zQ==
-X-Gm-Message-State: AGi0Pua+qWzuO6Q8W7bmEf5moM7EFZeMDBw144//eKZ/bi/WcMUpSHhJ
- rSZz+fSdWCP4hfFIFR6cl/KRgUCQ18At1FTeSHBVYkaDVZYOYqf+JWi+lBV2MAZKH/5BakXQITO
- 4L5ACtAw8js6uUhA=
-X-Received: by 2002:a1c:e187:: with SMTP id
- y129mr14733609wmg.133.1588585627097; 
- Mon, 04 May 2020 02:47:07 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKduCzSN8JET1vXC5kL0rPakq69kLfHpWqFMvifkhX1yvkqSymuByrgkGqnBdcDs4YhcdavnQ==
-X-Received: by 2002:a1c:e187:: with SMTP id
- y129mr14733587wmg.133.1588585626925; 
- Mon, 04 May 2020 02:47:06 -0700 (PDT)
+ bh=/2PMb8bKNoIe3zdK975EoqjSZA5Q1oobp2Wmj1tp7JI=;
+ b=ZC+QRtuR9HqN2W7bHv9aBEpZedTwhZm2cFFi2LVSDcuDd45kM7dLXdK2Kn2o5UbBsI
+ biYj/8MjXv8nlgy3d+zKS+9qPuNAjVth849Xfl5BB1RlDh4UUSc6LDn7gp9xPSLiO1pE
+ jcJfCLChCey1AfS9n439lleXQk0QW3TuZe4ymzv2EjZL5/OgK/8jP/Ryv44Y4AgWz74W
+ WmuVHd+JCY4f1QY7MNcFrl8egeZMh+ueaEQVnVcRVvTdHz64RTYRIEUgxrPuxMSv6d0C
+ hU29+jX2BVh0kefKEbyE4wu39vnHlhQngZAHF9SFn4RJy5bU4n/watsZD/Vp14nHrXHx
+ ujHg==
+X-Gm-Message-State: AGi0Pua8XAlQzFfwWSa7hEQPysDGAyEGQI/c5fyJ1Kv74tomQAt+XYBy
+ 2Q3GpwCnR9knJbfJhBgOtB/wzxqDdOmisxeAcNjnHvotjHve0U1LITiBCRJoC0N49V4VKMEPLOn
+ bDiFn6r4yHH9afxg=
+X-Received: by 2002:a5d:6851:: with SMTP id o17mr17705309wrw.267.1588585632041; 
+ Mon, 04 May 2020 02:47:12 -0700 (PDT)
+X-Google-Smtp-Source: APiQypI+2oU2RG7lr6h2JSNsnUiHUj64/fYdRmk23Z5JZlApNNlOXer7RKtCYAwL9x6Ruy1ebZS7QQ==
+X-Received: by 2002:a5d:6851:: with SMTP id o17mr17705294wrw.267.1588585631878; 
+ Mon, 04 May 2020 02:47:11 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id r20sm12184725wmh.26.2020.05.04.02.47.05
+ by smtp.gmail.com with ESMTPSA id t16sm18099065wrm.26.2020.05.04.02.47.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 02:47:06 -0700 (PDT)
+ Mon, 04 May 2020 02:47:11 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] block/nvme: Align block pages queue to host page size
-Date: Mon,  4 May 2020 11:46:40 +0200
-Message-Id: <20200504094641.4963-6-philmd@redhat.com>
+Subject: [RFC PATCH 6/6] hw/block/nvme: Make device target agnostic
+Date: Mon,  4 May 2020 11:46:41 +0200
+Message-Id: <20200504094641.4963-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200504094641.4963-1-philmd@redhat.com>
 References: <20200504094641.4963-1-philmd@redhat.com>
@@ -74,16 +72,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:14:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,57 +96,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
+ Beata Michalska <beata.michalska@linaro.org>, qemu-block@nongnu.org,
  Maxim Levitsky <mlevitsk@redhat.com>, Keith Busch <keith.busch@intel.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In nvme_create_queue_pair() we create a page list using
-qemu_blockalign(), then map it with qemu_vfio_dma_map():
-
-  q->prp_list_pages =3D qemu_blockalign0(bs, s->page_size * NVME_QUEUE_SIZE=
-);
-  r =3D qemu_vfio_dma_map(s->vfio, q->prp_list_pages,
-                        s->page_size * NVME_QUEUE_SIZE, ...);
-
-With:
-
-  s->page_size =3D MAX(4096, 1 << (12 + ((cap >> 48) & 0xF)));
-
-The qemu_vfio_dma_map() documentation says "The caller need
-to make sure the area is aligned to page size". While we use
-multiple s->page_size as alignment, it might be not sufficient
-on some hosts. Use the qemu_real_host_page_size value to be
-sure the host alignment is respected.
+The NVMe device should not use target specific API.
+Use memory_region_do_writeback() (which was introduced
+in commit 61c490e25e0, after the NVMe emulated device
+was added) to replace qemu_ram_writeback().
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-Cc: C=C3=A9dric Le Goater <clg@kaod.org>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: Laurent Vivier <lvivier@redhat.com>
----
- block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+RFC because I have no clue how dirty_log_mask works.
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 7b7c0cc5d6..bde0d28b39 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -627,7 +627,7 @@ static int nvme_init(BlockDriverState *bs, const char *=
-device, int namespace,
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Beata Michalska <beata.michalska@linaro.org>
+---
+ hw/block/nvme.c        | 4 +---
+ hw/block/Makefile.objs | 2 +-
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 9b453423cf..9b0ac0ea2a 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -46,7 +46,6 @@
+ #include "qapi/visitor.h"
+ #include "sysemu/hostmem.h"
+ #include "sysemu/block-backend.h"
+-#include "exec/ram_addr.h"
 =20
-     s->page_size =3D MAX(4096, 1 << (12 + ((cap >> 48) & 0xF)));
-     s->doorbell_scale =3D (4 << (((cap >> 32) & 0xF))) / sizeof(uint32_t);
--    bs->bl.opt_mem_alignment =3D s->page_size;
-+    bs->bl.opt_mem_alignment =3D MAX(qemu_real_host_page_size, s->page_siz=
-e);
-     timeout_ms =3D MIN(500 * ((cap >> 24) & 0xFF), 30000);
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+@@ -1207,8 +1206,7 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr a=
+ddr, unsigned size)
+          */
+         if (addr =3D=3D 0xE08 &&
+             (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02)) {
+-            qemu_ram_writeback(n->pmrdev->mr.ram_block,
+-                               0, n->pmrdev->size);
++            memory_region_do_writeback(&n->pmrdev->mr, 0, n->pmrdev->size)=
+;
+         }
+         memcpy(&val, ptr + addr, size);
+     } else {
+diff --git a/hw/block/Makefile.objs b/hw/block/Makefile.objs
+index 47960b5f0d..8855c22656 100644
+--- a/hw/block/Makefile.objs
++++ b/hw/block/Makefile.objs
+@@ -13,6 +13,6 @@ common-obj-$(CONFIG_SH4) +=3D tc58128.o
 =20
-     /* Reset device to get a clean state. */
+ obj-$(CONFIG_VIRTIO_BLK) +=3D virtio-blk.o
+ obj-$(CONFIG_VHOST_USER_BLK) +=3D vhost-user-blk.o
+-obj-$(CONFIG_NVME_PCI) +=3D nvme.o
++common-obj-$(CONFIG_NVME_PCI) +=3D nvme.o
+=20
+ obj-y +=3D dataplane/
 --=20
 2.21.3
 
