@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CE21C3E85
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:31:52 +0200 (CEST)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E69C1C3E93
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:33:55 +0200 (CEST)
+Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVd4R-00068u-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:31:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60138)
+	id 1jVd6P-0001jR-Uv
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2J-00044h-Q0
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:29:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56989
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2N-0004C1-4J
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:29:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33458
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2J-0003tb-5L
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:29:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2M-0003uQ-85
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:29:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588606178;
+ s=mimecast20190719; t=1588606181;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ei7SOVVuE+0viBbYO1EoWop8dzPwWo/vHebFwwQKvZQ=;
- b=CRq2NoKUNfEwf4JbFOdz+kvYHRVmAsl+FmVTeUcJqK/vZrXRYbqn0cUugcKyKrsFU5Lz4D
- P9DCURS+dPbiBZZip0Ar7iRDp9Miawpmuabe9u9Mx945hZb9E4wDdBHhnMYjdRIHjwNfbU
- vmz5C3IUKiATHojugGi2+LDek4jdO6U=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-fj2m4o4AMIaD_yYA8HekNQ-1; Mon, 04 May 2020 11:29:35 -0400
-X-MC-Unique: fj2m4o4AMIaD_yYA8HekNQ-1
-Received: by mail-wr1-f72.google.com with SMTP id o8so10911240wrm.11
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 08:29:35 -0700 (PDT)
+ bh=pUXDmy3WOcwXjDaWqS3e5JUM21KIVuuEif55NSKeGcA=;
+ b=ddAaqXMrGcRfju9epoZRLCreP3jtXQqLh6ww5gOX3R2OKMIaU6uG5IXHgsIzhZO7EqGQrn
+ 90N/49+MZYrXFgyYFYN7c7zK+RPCmfdcGG7iKkzBKN0tZYS4NEgFBl6nVvsBkEtGMTKDMD
+ WettZAdhO50h2OgiF0N2CZ12ZSAExvg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-124-sC5DhmL8P1imd1h8dKxPQQ-1; Mon, 04 May 2020 11:29:40 -0400
+X-MC-Unique: sC5DhmL8P1imd1h8dKxPQQ-1
+Received: by mail-wm1-f69.google.com with SMTP id o26so3707741wmh.1
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 08:29:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vZCuoZiD4IRNnZTiI2MM/hCx+AjU6u4qhG4CWjbwLPo=;
- b=XKWZuK0n/CEYZ49JOQeplvkqbp+PJz4uvPh+qeA59q4IkSH3zL6WQPgMAJqjiVbIUL
- +7PizaV0B6Spq38Cehb8WEYeE35fVROiVu6cJfLmUtuhNfFTuDcK8C2CMumYaqT09ykT
- 5Xh5XMmh8fNzfmDKbCi+UHB/IE3AmGS8RBOSy2ozjRDiOSri+ns3/ttoJgwm9r9BxSdl
- aHcC6Upk0czbIQjMxx4QdcWjZXgv5hiYOzl9kPj3KlIKifiAdYdNHg2ypCV98tv8Rt03
- E4yuq8p4ydUxY+wT7vDTm7Zaqc+U44AUi3XlNRgX+O43UBecV2w5rB7tOTU0BjLqhQnr
- d5zg==
-X-Gm-Message-State: AGi0PubxfqQlFCQ5hnmPZx6Qa+0r84ydryEKGHaSE8/L1U3pxGyL3lue
- VNx1hC3PCobbvvsAMzVOPIqTwhiU5gOa48B7QPWEYK8JFzmDyGaPLmkPYxUk8HXqXIKEKPchGpi
- VueQVGlP4rfnGNWE=
-X-Received: by 2002:adf:c508:: with SMTP id q8mr2250074wrf.4.1588606173995;
- Mon, 04 May 2020 08:29:33 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLaNr/8MxdS7YNFnI5jOm0Afaw6PoxYBhkkpOR8c3/79C9lMVjKU9C7uf6saK9m0gIDn8/psQ==
-X-Received: by 2002:adf:c508:: with SMTP id q8mr2250050wrf.4.1588606173846;
- Mon, 04 May 2020 08:29:33 -0700 (PDT)
+ bh=onx2YOkWfTdSzAWYbgwOOryDziIctG2Yv+O4LWjV+pg=;
+ b=m72PithexWEVV1NwwHypd9FYkTGmQYz3wiTHQMlew01rEYNH3vquv/sEwjsNDU2eaD
+ 62heJARjWkAA8cYjD/sEe+4vFGzE83mTu7bkKjx1jkOps5JzXjzWqLPafKCSNBwcak4L
+ qS9ILDTDyDaFV6lDv+scidBGjPVIQzJxJ4y/Yg/gH27yhKcY20k1oiOXL9FOJA+W7Xfi
+ 4yDI9Ql/+RmxGi3anY1h9W3fkz6iQAchrHRDLj4OF23i7R7FIHAKHaWLPrR3Kq4qgflH
+ zMpm3leYcRGMRG/UDzb3pPcEOY+HZ6lAzI2K6qyPyfOsa29C3r5adaBpGTVXdFrzhoL/
+ A6Zg==
+X-Gm-Message-State: AGi0PuYfHRuePlFZsykqpW2owEnR7az3Mn6q1k6KbuyGUlBYkQYfH4Wf
+ tPcA+wGQmFJw8Asr8VgPA8D7g/H2T/Oz0RxYrUezZ7lnM384VdHDnSvjJwRFcxU5ahK+AG5dGF7
+ 7CIC/sZK8O3LRU/U=
+X-Received: by 2002:a1c:f211:: with SMTP id s17mr9758530wmc.168.1588606178911; 
+ Mon, 04 May 2020 08:29:38 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKiswUwQV6B4+74gAR9WPeC2k5Wg363PSUWRXIigZfvOEP6BnDuYZzURmulxZ+75CGXlIyQkQ==
+X-Received: by 2002:a1c:f211:: with SMTP id s17mr9758498wmc.168.1588606178777; 
+ Mon, 04 May 2020 08:29:38 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id a187sm14023946wmh.40.2020.05.04.08.29.32
+ by smtp.gmail.com with ESMTPSA id q17sm13685124wmj.45.2020.05.04.08.29.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 08:29:33 -0700 (PDT)
+ Mon, 04 May 2020 08:29:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/12] configure: Avoid building TCG when not needed
-Date: Mon,  4 May 2020 17:29:12 +0200
-Message-Id: <20200504152922.21365-3-philmd@redhat.com>
+Subject: [PATCH v3 03/12] tests/Makefile: Only display TCG-related tests when
+ TCG is available
+Date: Mon,  4 May 2020 17:29:13 +0200
+Message-Id: <20200504152922.21365-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200504152922.21365-1-philmd@redhat.com>
 References: <20200504152922.21365-1-philmd@redhat.com>
@@ -72,10 +73,10 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,7 +96,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
  Eduardo Habkost <ehabkost@redhat.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>,
  David Hildenbrand <david@redhat.com>,
@@ -108,35 +109,30 @@ Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid building TCG when building only tools:
-
-  ./configure --enable-tools --disable-system --disable-user
-
-This saves us from running the soft-float tests enabled since
-commit 76170102508.
-
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- configure | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/Makefile.include | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/configure b/configure
-index 23b5e93752..e3b4afbb60 100755
---- a/configure
-+++ b/configure
-@@ -1663,6 +1663,10 @@ if [ "$ARCH" =3D "unknown" ]; then
-   linux_user=3D"no"
- fi
-=20
-+if [ "$bsd_user" =3D "no" -a "$linux_user" =3D "no" -a "$softmmu" =3D "no"=
- ] ; then
-+  tcg=3D"no"
-+fi
-+
- default_target_list=3D""
-=20
- mak_wilds=3D""
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 03a74b60f6..6bc3d1096b 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -12,8 +12,10 @@ check-help:
+ =09@echo " $(MAKE) check-speed          Run qobject speed tests"
+ =09@echo " $(MAKE) check-qapi-schema    Run QAPI schema tests"
+ =09@echo " $(MAKE) check-block          Run block tests"
++ifeq ($(CONFIG_TCG),y)
+ =09@echo " $(MAKE) check-tcg            Run TCG tests"
+ =09@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
++endif
+ =09@echo " $(MAKE) check-acceptance     Run all acceptance (functional) te=
+sts"
+ =09@echo
+ =09@echo " $(MAKE) check-report.tap     Generates an aggregated TAP test r=
+eport"
 --=20
 2.21.3
 
