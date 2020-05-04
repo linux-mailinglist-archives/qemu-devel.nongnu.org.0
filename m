@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643E01C3D14
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:33:02 +0200 (CEST)
-Received: from localhost ([::1]:34224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F351C3D11
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:31:33 +0200 (CEST)
+Received: from localhost ([::1]:56548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVc9V-0001pe-CA
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47340)
+	id 1jVc84-0007nD-Ap
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:31:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6G-0005F2-1M
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42749
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6H-0005Is-Jj
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:41 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55677
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6E-0005wg-GK
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:39 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6G-0005yF-P1
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602577;
+ s=mimecast20190719; t=1588602580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5qBFLHcdRaQMUsQlFXqV2eHnPlF70mfC9NFWokqhExU=;
- b=hFmjOFc3Bx5XuC5zeofTmcVFr43ViI2jTaUBFQ7gEyVyzGILyMBpNw4gCY6dEyIpLKYUPW
- KMszKqLWJrKhYuvsHU6LaeF6nU8G3s8dXqR2XgKI2CpXzR7JVop8Xrt9t+CP5cDhmAC6it
- WsCDnhNbeQCnIKTwuEdp5uRUQHgMujw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-9TCcWZ9SPXuXRrJG9mm7WA-1; Mon, 04 May 2020 10:29:35 -0400
-X-MC-Unique: 9TCcWZ9SPXuXRrJG9mm7WA-1
-Received: by mail-wr1-f72.google.com with SMTP id j16so10828298wrw.20
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:35 -0700 (PDT)
+ bh=UFJCcfUPniOf5vXc8rH2NS/WfUBDG9stKmVsBSpYF/c=;
+ b=On/eKKlodm7KxY0g5F/G3MZMsmO5lOChyCeFFxg5s7Q89PR2/uA1oTYzpBGTlGzSnJYw3F
+ V4gcLvXAkBgP1nR72OxhyYB4sfO2GsL0/2maRSo1HWjXBdyOck5TvAKldqvM9cDgNLmy9z
+ 99t12sWo6nMCs1EjoUXPqIlBYK7mqhs=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-wODYEhw2OIO1Db5pCjfO2Q-1; Mon, 04 May 2020 10:29:37 -0400
+X-MC-Unique: wODYEhw2OIO1Db5pCjfO2Q-1
+Received: by mail-wr1-f70.google.com with SMTP id x8so2089466wrl.16
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=feEST3pElJnPhKM8FHSB9qNteiPsUjugC8IYA15rGhw=;
- b=AkmNuNgeY7NgSyTayyQuTL79b/lkql4Pr/Tf1y8NTt6yOLwwpldDpc4A9FOOZXKi82
- ASSDj+stWIOe8ASVfY4IlFecPYH7V/Ve4fCtXOSK3FZTW0qeW1iN3Z0bFUf2AB1BzOuY
- o2cmUmTMBsDywPpYTYOGF1OdeHZawtiEjYlPYcjaGPdWRh8AumOTE6LpABAZqXS+iLru
- kUwWtlHljKsudY6VnRb84wttF78onuLYvl+2uGdFElTLALj/lKe7IUbGl1OJ5Hflimor
- m4wjLFmCW03aqFQvyFaaFDl50Zk3drU8n4GJqZGAacp47EvaEHu0DQtv12obismq/vTF
- pGug==
-X-Gm-Message-State: AGi0PuaVURiQ7LdnldjRt36wythnbZyJST6lnd1ur2jph/qGN4ks+LEe
- Kv83grHXied0uPZXlO4wGyqCJBNa4AUYUKYA9zlAY49PACx4T1AQMPpoOAEPpde+dTR5AA2PLH0
- xQh2PKzGKjp7Ukek=
-X-Received: by 2002:adf:dcca:: with SMTP id x10mr19222681wrm.212.1588602574569; 
- Mon, 04 May 2020 07:29:34 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLz+U3uacPzJanbbi8OHGeShEmUSgGA/AFr8iP38JVRfxbvGX4nCouwU5+hKxuBdvp1MA/sYQ==
-X-Received: by 2002:adf:dcca:: with SMTP id x10mr19222666wrm.212.1588602574359; 
- Mon, 04 May 2020 07:29:34 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=UfPNDPekMMkFXNne2POD4HoHEu9FovxK5J/ip16ICoI=;
+ b=WJxmIGBAWddESjdCkDct5aWziwnhTO1RIdC5BzCapguoec1dUuiJSr0a9tGlf4Wc7S
+ kb0XCczSwHiJI0QwZT6N6QwGW9IDShfLMZ0B/mp/i/zHnbmiWAELXYocHfsmPFLLd5eh
+ Qq9Y7154OX2+4HN/KXVcxQMZ7F0xl4IEPchIn3LSj+bfGTN98JUhEjBsaE4kx/KVR4RT
+ n7NQo5oJ7IHN16wk6y5G8JpULksum6JAx3LrRB4UnsWZ7oB1ipTvyYJai7f2dDMFiJZP
+ P2D2Ut2TVy87AOo/D7CrMAnbvSwpoojXNPAc32gRJdvl0U/MA770piD1BWfQLO/1OXET
+ oedA==
+X-Gm-Message-State: AGi0PuatNz8F4NBFsUuf6FBU3lm0XjvGqHWoyxr2KDDPP1UisvChvelC
+ fvVE8UeOlT5LwtQt+SArJckpGhzGIAXwAvz5ZD1tSYqk0e2+pAvKKs5VJw2r148G5CYFeUColpy
+ 7Jarm0YzOc3Dmziw=
+X-Received: by 2002:a5d:6a4e:: with SMTP id t14mr6074215wrw.353.1588602576824; 
+ Mon, 04 May 2020 07:29:36 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJ+3366N0mncyHWvmlxX0rEN7w6W0GC5GYKheErz47G9Ct4pHQMtWO6c+mtJka0uLx2lNmdTg==
+X-Received: by 2002:a5d:6a4e:: with SMTP id t14mr6074199wrw.353.1588602576658; 
+ Mon, 04 May 2020 07:29:36 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- u127sm14472815wme.8.2020.05.04.07.29.33
+ v2sm6099951wrn.21.2020.05.04.07.29.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:29:33 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:32 -0400
+ Mon, 04 May 2020 07:29:36 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/29] rtc: add RTC_ISA_BASE
-Message-ID: <20200504142814.157589-9-mst@redhat.com>
+Subject: [PULL 09/29] virtio-vga: fix virtio-vga bar ordering
+Message-ID: <20200504142814.157589-10-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -71,7 +70,7 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
 Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
@@ -97,73 +96,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+From: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
 
-Add and use RTC_ISA_BASE define instead of hardcoding 0x70.
+With virtio-vga, pci bar are reordered. Bar #2 is used for compatibility
+with stdvga. By default, bar #2 is used by virtio modern io bar.
+This bar is the last one introduce in the virtio pci bar layout and it's
+crushed by the virtio-vga reordering. So virtio-vga and
+modern-pio-notify are incompatible because virtio-vga failed to
+initialize with this option.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20200429140003.7336-7-kraxel@redhat.com>
+This fix sets the modern io bar to the bar #5 to avoid conflict.
+
+Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
+Message-Id: <20200422215455.10244-1-anthoine.bourgeois@gmail.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/hw/rtc/mc146818rtc.h | 1 +
- hw/rtc/mc146818rtc.c         | 5 ++---
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ hw/display/virtio-vga.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
-index 10c93a096a..3713181b56 100644
---- a/include/hw/rtc/mc146818rtc.h
-+++ b/include/hw/rtc/mc146818rtc.h
-@@ -47,6 +47,7 @@ typedef struct RTCState {
- } RTCState;
+diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
+index 2b4c2aa126..95757a6619 100644
+--- a/hw/display/virtio-vga.c
++++ b/hw/display/virtio-vga.c
+@@ -114,6 +114,7 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpc=
+i_dev, Error **errp)
+      */
+     vpci_dev->modern_mem_bar_idx =3D 2;
+     vpci_dev->msix_bar_idx =3D 4;
++    vpci_dev->modern_io_bar_idx =3D 5;
 =20
- #define RTC_ISA_IRQ 8
-+#define RTC_ISA_BASE 0x70
-=20
- ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
-                              qemu_irq intercept_irq);
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index dc4269cc55..d18c09911b 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -908,7 +908,6 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
-p)
- {
-     ISADevice *isadev =3D ISA_DEVICE(dev);
-     RTCState *s =3D MC146818_RTC(dev);
--    int base =3D 0x70;
-=20
-     s->cmos_data[RTC_REG_A] =3D 0x26;
-     s->cmos_data[RTC_REG_B] =3D 0x02;
-@@ -951,7 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
-p)
-     qemu_register_suspend_notifier(&s->suspend_notifier);
-=20
-     memory_region_init_io(&s->io, OBJECT(s), &cmos_ops, s, "rtc", 2);
--    isa_register_ioport(isadev, &s->io, base);
-+    isa_register_ioport(isadev, &s->io, RTC_ISA_BASE);
-=20
-     /* register rtc 0x70 port for coalesced_pio */
-     memory_region_set_flush_coalesced(&s->io);
-@@ -960,7 +959,7 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
-p)
-     memory_region_add_subregion(&s->io, 0, &s->coalesced_io);
-     memory_region_add_coalescing(&s->coalesced_io, 0, 1);
-=20
--    qdev_set_legacy_instance_id(dev, base, 3);
-+    qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
-     qemu_register_reset(rtc_reset, s);
-=20
-     object_property_add_tm(OBJECT(s), "date", rtc_get_date, NULL);
+     if (!(vpci_dev->flags & VIRTIO_PCI_FLAG_PAGE_PER_VQ)) {
+         /*
 --=20
 MST
 
