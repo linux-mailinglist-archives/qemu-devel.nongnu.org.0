@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB821C3D7C
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:49:03 +0200 (CEST)
-Received: from localhost ([::1]:43128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A8E1C3D70
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:45:25 +0200 (CEST)
+Received: from localhost ([::1]:56796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcP0-0004yo-DE
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47604)
+	id 1jVcLT-0007E3-T7
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:45:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc72-0006z0-4L
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:28 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50346
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc76-000782-NV
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:32 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:42516
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc71-0006st-1Y
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:27 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc75-0006tb-KF
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602626;
+ s=mimecast20190719; t=1588602630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NCBO1aLd2aLs6F2iVluN8cNPCS4OZGD2p7feJr3pvrU=;
- b=CdNmfnvZC/UNK2tOpIEgunLFKHgOW4FFHZkoE0hl+qbo5WlsLqkPc52jFuuBNBcWuetnh2
- 4gaRNzScYAEl0gezsJdy7RGBJip77YWMgbftc1akeil+jjlR1TMjcEcyjEkEYtpm+pVAIv
- SeScyqGDkV560/d7TRo1XUJbgThCDDQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-_sACLOrHMk-rrsyc7xwwVw-1; Mon, 04 May 2020 10:30:24 -0400
-X-MC-Unique: _sACLOrHMk-rrsyc7xwwVw-1
-Received: by mail-wr1-f70.google.com with SMTP id z8so3697870wrp.7
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:30:24 -0700 (PDT)
+ bh=L2IEAQ+0EQH/fG7yIDUY2FKAPmMX0mmGOTISpiAaTt4=;
+ b=dWgnCDlhVly8YuRhod17Qy9k6swlr4Pb6F2AJo2LfgC0ld/lD0nFUvhG2Jq2Z0pHSVAaed
+ 9qHjOJahisuN0OSHI5jC8C5gb9GvkVUDMbMNtvya/0G+i9NfTcRtyC9YrnBNHnzOC/e/h+
+ HZVFVpXp8gq2J01T+jl/YJEEOOC4GUY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-505-mRp4laPVOMuBC-OXVdpCXA-1; Mon, 04 May 2020 10:30:27 -0400
+X-MC-Unique: mRp4laPVOMuBC-OXVdpCXA-1
+Received: by mail-wr1-f71.google.com with SMTP id y4so5804854wrt.4
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:30:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=KDH+uIa1iy/4EI4LPUlxUORLJ/6b+eATnz4vYJlDr4s=;
- b=n15osL4YCnvndoWjqekgw0NQ08hOp8ii5hQOw7v7sTwvGa8rAB2b7mUT3jfM+VmLqe
- wqC0Qv0IIm1VA0scEnSA2ljikctu1/hccsfD2sp58lF0T3h96jbc5gV7pan/nSpB70N6
- c/qbE5kQbDbzrv86MiCAtNeKgOxJL7Vfo+eYNKvItdN/59YHOkMnvjkILVUJhdtetPll
- Z2gZYOLhd87CP8NKQ8LYUaV4brlWwzGRA+I2kSiDT3rKSxLB661Yr3D057VJDhAvHxIz
- yZbYBMQPZgmd6zw/yP8YCBZn1KsUbWLq9W1OugTkABgu1S27v8KvChBGKkPkJwDxqoS3
- F42w==
-X-Gm-Message-State: AGi0PuYZRMB5Z0jGp60PVlajVjrinTWUeI9SPyNWMcw1qYrHOdGBksQV
- nI+o9ca4MDh82ScBRv4fTbAv4LG7n6j2iR51dzh/9vMEJs/Uieu9TfgyqroLajqk0islpEa4K/W
- UQZRhgXBOM7ygiqo=
-X-Received: by 2002:a1c:6a08:: with SMTP id f8mr14270267wmc.132.1588602623238; 
- Mon, 04 May 2020 07:30:23 -0700 (PDT)
-X-Google-Smtp-Source: APiQypK9NsyZYkCQwKRNVucEGY8Aq6HzBCO2IB4uDZLxAbTqwUlrroiq4IOYmuM07Mm5Lc/dJz60xQ==
-X-Received: by 2002:a1c:6a08:: with SMTP id f8mr14270248wmc.132.1588602623043; 
- Mon, 04 May 2020 07:30:23 -0700 (PDT)
+ bh=iRZZD2N2OQSu+hWDfRiZjbT+riutHWRlj7teaB4WBBY=;
+ b=hgcyPfIdDVfSdJpqVuBOpLbssRCGYyCESv6EwtSYngkIFDzTBhZFoJNcFuyK/d67SS
+ EeZWjKAK0qPzDLPAyP8NDLgyyz4N3rYvSb1zBBDeSgHadoecrhsgvYiYQEhoN4bHKw6Y
+ 6jSu4tPqKqK8+MsSINcqGeDoUeszO+HcAyqyg/CP0bNLjhCiXzSN5z0HswYyDuqTQpgk
+ 59any2lfnanTIQ6RRhcU4y4sLkXbAYk3tD2ElRRcvASc2fZsPpGn3nXxjgV8PaVICF/w
+ vTFGbl1tjmjU5mxMQRXPOvBMkdyUX3YXxkIA8mn7v+vLhr3bFXUVeLRXR/bII0joENS1
+ cq8Q==
+X-Gm-Message-State: AGi0PuZOvkdvVjC8QRF0OoFerHAsjYtCNsfg7/VezOIycOd5HuX828oQ
+ jDYWs3qHhVHudMNdhRq7ek4imWfRWb6zK2rC3vi1FOuAfGwDDE6Bb3XpCsUWdVCFUbdZDdQGNGZ
+ V9+tYlsjjF7IHtGk=
+X-Received: by 2002:adf:dfcf:: with SMTP id q15mr5633238wrn.137.1588602625708; 
+ Mon, 04 May 2020 07:30:25 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKjJ/b1Q+SZbPlR95AFFlbRwkHssNVaYtt23eKWoX73RyqQVc/dJEkkQxmn2V+hTwQJZ4wbaQ==
+X-Received: by 2002:adf:dfcf:: with SMTP id q15mr5633195wrn.137.1588602625294; 
+ Mon, 04 May 2020 07:30:25 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- h1sm14166869wme.42.2020.05.04.07.30.21
+ q17sm13422759wmj.45.2020.05.04.07.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:30:22 -0700 (PDT)
-Date: Mon, 4 May 2020 10:30:20 -0400
+ Mon, 04 May 2020 07:30:24 -0700 (PDT)
+Date: Mon, 4 May 2020 10:30:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/29] hw/i386: Add 'vmport.h' local header
-Message-ID: <20200504142814.157589-29-mst@redhat.com>
+Subject: [PULL 29/29] hw/i386: Make vmmouse helpers static
+Message-ID: <20200504142814.157589-30-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -74,9 +74,9 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,123 +106,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Move 'vmport' related declarations in a target-specific header.
+The vmmouse helpers are only used in hw/i386/vmmouse.c,
+make them static.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Message-Id: <20200504083342.24273-4-f4bug@amsat.org>
+Message-Id: <20200504083342.24273-5-f4bug@amsat.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/vmport.h     | 34 ++++++++++++++++++++++++++++++++++
- include/hw/i386/pc.h |  3 ---
- hw/i386/pc.c         |  1 +
- hw/i386/vmmouse.c    |  1 +
- hw/i386/vmport.c     |  1 +
- 5 files changed, 37 insertions(+), 3 deletions(-)
- create mode 100644 hw/i386/vmport.h
+ include/hw/i386/pc.h |  4 ----
+ hw/i386/vmmouse.c    | 22 +++++++++++++++++++++-
+ hw/i386/vmport.c     | 23 +----------------------
+ 3 files changed, 22 insertions(+), 27 deletions(-)
 
-diff --git a/hw/i386/vmport.h b/hw/i386/vmport.h
-new file mode 100644
-index 0000000000..47eda7a22b
---- /dev/null
-+++ b/hw/i386/vmport.h
-@@ -0,0 +1,34 @@
-+/*
-+ * QEMU VMPort emulation
-+ *
-+ * Copyright (C) 2007 Herv=C3=A9 Poussineau
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a=
- copy
-+ * of this software and associated documentation files (the "Software"), t=
-o deal
-+ * in the Software without restriction, including without limitation the r=
-ights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
-ll
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included=
- in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
- OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
-,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
-HER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
- FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
-IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef HW_I386_VMPORT_H
-+#define HW_I386_VMPORT_H
-+
-+#define TYPE_VMPORT "vmport"
-+
-+typedef uint32_t (VMPortReadFunc)(void *opaque, uint32_t address);
-+
-+void vmport_register(unsigned char command, VMPortReadFunc *func, void *op=
-aque);
-+
-+#endif
 diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 26e2a3d92b..de49a57506 100644
+index de49a57506..05e19455bb 100644
 --- a/include/hw/i386/pc.h
 +++ b/include/hw/i386/pc.h
-@@ -130,9 +130,6 @@ typedef struct PCMachineClass {
+@@ -129,10 +129,6 @@ typedef struct PCMachineClass {
+=20
  GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
 =20
- /* vmport.c */
--#define TYPE_VMPORT "vmport"
--typedef uint32_t (VMPortReadFunc)(void *opaque, uint32_t address);
--void vmport_register(unsigned char command, VMPortReadFunc *func, void *op=
-aque);
- void vmmouse_get_data(uint32_t *data);
- void vmmouse_set_data(const uint32_t *data);
-=20
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 84669ddc84..f6b8431c8b 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -91,6 +91,7 @@
- #include "qapi/qmp/qerror.h"
- #include "config-devices.h"
- #include "e820_memory_layout.h"
-+#include "vmport.h"
- #include "fw_cfg.h"
- #include "trace.h"
+-/* vmport.c */
+-void vmmouse_get_data(uint32_t *data);
+-void vmmouse_set_data(const uint32_t *data);
+-
+ /* pc.c */
+ extern int fd_bootchk;
 =20
 diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
-index e8e62bd96b..78b36f6f5d 100644
+index 78b36f6f5d..b3aef41327 100644
 --- a/hw/i386/vmmouse.c
 +++ b/hw/i386/vmmouse.c
-@@ -29,6 +29,7 @@
+@@ -25,11 +25,11 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "ui/console.h"
+-#include "hw/i386/pc.h"
  #include "hw/input/i8042.h"
  #include "hw/qdev-properties.h"
  #include "migration/vmstate.h"
-+#include "vmport.h"
+ #include "vmport.h"
++#include "cpu.h"
 =20
  /* debug only vmmouse */
  //#define DEBUG_VMMOUSE
+@@ -71,6 +71,26 @@ typedef struct VMMouseState
+     ISAKBDState *i8042;
+ } VMMouseState;
+=20
++static void vmmouse_get_data(uint32_t *data)
++{
++    X86CPU *cpu =3D X86_CPU(current_cpu);
++    CPUX86State *env =3D &cpu->env;
++
++    data[0] =3D env->regs[R_EAX]; data[1] =3D env->regs[R_EBX];
++    data[2] =3D env->regs[R_ECX]; data[3] =3D env->regs[R_EDX];
++    data[4] =3D env->regs[R_ESI]; data[5] =3D env->regs[R_EDI];
++}
++
++static void vmmouse_set_data(const uint32_t *data)
++{
++    X86CPU *cpu =3D X86_CPU(current_cpu);
++    CPUX86State *env =3D &cpu->env;
++
++    env->regs[R_EAX] =3D data[0]; env->regs[R_EBX] =3D data[1];
++    env->regs[R_ECX] =3D data[2]; env->regs[R_EDX] =3D data[3];
++    env->regs[R_ESI] =3D data[4]; env->regs[R_EDI] =3D data[5];
++}
++
+ static uint32_t vmmouse_get_status(VMMouseState *s)
+ {
+     DPRINTF("vmmouse_get_status()\n");
 diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index 114141c6f3..00d47e0c4c 100644
+index 00d47e0c4c..1aaaab691a 100644
 --- a/hw/i386/vmport.c
 +++ b/hw/i386/vmport.c
-@@ -26,6 +26,7 @@
- #include "hw/i386/pc.h"
+@@ -23,10 +23,10 @@
+  */
+ #include "qemu/osdep.h"
+ #include "hw/isa/isa.h"
+-#include "hw/i386/pc.h"
  #include "sysemu/hw_accel.h"
  #include "qemu/log.h"
-+#include "vmport.h"
+ #include "vmport.h"
++#include "cpu.h"
  #include "trace.h"
 =20
  #define VMPORT_CMD_GETVERSION 0x0a
+@@ -109,27 +109,6 @@ static uint32_t vmport_cmd_ram_size(void *opaque, uint=
+32_t addr)
+     return ram_size;
+ }
+=20
+-/* vmmouse helpers */
+-void vmmouse_get_data(uint32_t *data)
+-{
+-    X86CPU *cpu =3D X86_CPU(current_cpu);
+-    CPUX86State *env =3D &cpu->env;
+-
+-    data[0] =3D env->regs[R_EAX]; data[1] =3D env->regs[R_EBX];
+-    data[2] =3D env->regs[R_ECX]; data[3] =3D env->regs[R_EDX];
+-    data[4] =3D env->regs[R_ESI]; data[5] =3D env->regs[R_EDI];
+-}
+-
+-void vmmouse_set_data(const uint32_t *data)
+-{
+-    X86CPU *cpu =3D X86_CPU(current_cpu);
+-    CPUX86State *env =3D &cpu->env;
+-
+-    env->regs[R_EAX] =3D data[0]; env->regs[R_EBX] =3D data[1];
+-    env->regs[R_ECX] =3D data[2]; env->regs[R_EDX] =3D data[3];
+-    env->regs[R_ESI] =3D data[4]; env->regs[R_EDI] =3D data[5];
+-}
+-
+ static const MemoryRegionOps vmport_ops =3D {
+     .read =3D vmport_ioport_read,
+     .write =3D vmport_ioport_write,
 --=20
 MST
 
