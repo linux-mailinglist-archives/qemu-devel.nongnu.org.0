@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30DE31C3D48
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:39:29 +0200 (CEST)
-Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E184F1C3D75
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:47:50 +0200 (CEST)
+Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcFj-0005rw-VB
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:39:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47550)
+	id 1jVcNp-0002UD-Mn
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:47:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6q-0006e3-Lc
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:22283
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc7M-0007cH-Q2
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52501
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6o-0006di-Le
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:16 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc7L-0007BT-42
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602613;
+ s=mimecast20190719; t=1588602646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UID8CLohk74zjOVDUEVQis/G1qp2PmqbcHjIyNMq0d4=;
- b=S+9b4AEIhh085Y0o5Zbnj9LB5zrPNz9JqfLyKRqRUOFJQVLD6JTOppLfQyum6CRffGOl4v
- 8TxxrzWIWK7OB+eAPYIaYwVxCC6sL5b1HG1coJHXKxl+8JCcJeA/+1Ndo4k+Idjen9yDgd
- C82dnFxATzMISnfhNUFKHuKlMg7SauY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-zP_pqI23PrC_Fz0LW8A4sg-1; Mon, 04 May 2020 10:30:12 -0400
-X-MC-Unique: zP_pqI23PrC_Fz0LW8A4sg-1
-Received: by mail-wr1-f71.google.com with SMTP id s11so10857018wru.6
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:30:11 -0700 (PDT)
+ bh=K14BES+WMFIbn9g8gN8psPne12nk195ussOGSNV/KSs=;
+ b=BLmeD/hhazn0h1daFvgH7NrBVdTpq/6zYgxpYFPgY2n+wT9KDVVzXMfkU0CRg5eM3E+1D7
+ 8FP3EaCA3iFfkXWKjw/AdA6vAEcDiID42FxEeGJ5JUTydzkFTQUEIhdfFbSjSpUA3bxE56
+ m/pcEmfDfqHH1m+uAI7+WM6ma3qR1Ho=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-6rNV01IwNXmtjoii3MQVgQ-1; Mon, 04 May 2020 10:30:14 -0400
+X-MC-Unique: 6rNV01IwNXmtjoii3MQVgQ-1
+Received: by mail-wr1-f69.google.com with SMTP id 30so365194wrp.22
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:30:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=PIecKvn+pW1NWjGz2AOTukLgcDwueyrP0dqTTa10Ozk=;
- b=r8NuG6YQtv0UPbF/xl3+nNlXH+bi4Lo0tITdCFY6vgdu223SGS/9ar0QSsIEPAjdUU
- D0I8cHTUJ5CW6gCQfGUIUEvFSF4azgvcmrQ9jxFSVushI4OVDRpX7d2T+MwM1NzShlag
- mNtYP2RVSdrcyT7ndleDeaTgM8ud3xl0s1C+NFpcmmtkGP5GRVNKcVmo16Esl+6w4uKg
- /tRNM8DWtBuREpcVytE3O4DRnyDdRJ5SNAUA+Pukf6yqKQJpiOX53lD+s2JxBHPIqJDp
- 6DhuudL181azZq2TZNmx17K70AqvmXRQcTCadpbBOA96Pt9dcA54rn1AUIrh9uOYeOdY
- keOw==
-X-Gm-Message-State: AGi0PuYIi0jaugzPI7l4muJQKXrvjwKYwlDUh3w+ekIhdjnDda4oCbPA
- Gmuyg4FSpxuKz+vMgqXjgppLElyoymwWytaiNXjvfyhGsicXwvYeh5i4t3bYYCu0t8DX9yTB74D
- OO9NTna9MhfI3vOE=
-X-Received: by 2002:adf:f981:: with SMTP id f1mr1559142wrr.244.1588602610655; 
- Mon, 04 May 2020 07:30:10 -0700 (PDT)
-X-Google-Smtp-Source: APiQypK0L8Q1A1DOlwpMbsQmynBirbqCK+R+s7bEyY229DpqoXVmSWjT7sbkY/6/6B5RUJBvnEaS4A==
-X-Received: by 2002:adf:f981:: with SMTP id f1mr1559127wrr.244.1588602610499; 
- Mon, 04 May 2020 07:30:10 -0700 (PDT)
+ bh=SvK/mML0hz5y1ob99KnJXcmnCwrQAmI3Al2Kedz9fuQ=;
+ b=RcLBIEabmJ1qDjSGmMSqFFeTRAk/an2Sjz/h5jvPM9bL8q1qsdvARV7XF/yRRjJLON
+ AwdqJ2Rktl5JJdxolp93Fx9Sbl69YMhveuljNRdNm4ETrxHnn4w+zJc3XcvhqZNaTeoA
+ 9kWFdAxLfh3V0TcU749Vu54g4vzhOKgBMMVgiHMIGQHMfEhQBqxn8L/wMzWi0VRg47aU
+ ggKTeklZo9kH/5daLFBcVoqPJBoWdx7tHMPkYp/BQhpSxa6OQgkMxcXlCh6NXxpisFoM
+ hNVbHbz2TW0E7EoSStnCEYgJnOHTX8Svwp4005nds78zoEFe8JEfJTDZwZuafEk9FLTl
+ pxgw==
+X-Gm-Message-State: AGi0PuaX+gIJT2wmR65hB3N5JEx+QkQ/6/uwxYiWQOzUyRYHqV6fHDHR
+ V8PtCI9LDKKTm+qePZWTe+95m+w6QgDuxXKKbOxbwYKLHmH2ZGtutfR6pETeUsp95JaXGhrUmTF
+ tUzW8C9+OrdI9NKE=
+X-Received: by 2002:a1c:1b0b:: with SMTP id b11mr15741597wmb.182.1588602613290; 
+ Mon, 04 May 2020 07:30:13 -0700 (PDT)
+X-Google-Smtp-Source: APiQypL5/gC6OcLO6h+1lQ7Gh9SSFJ70lKElmnKKcHPTPeKmjofiV0X6uJ/caoKIyA2OF6b8tFrvRg==
+X-Received: by 2002:a1c:1b0b:: with SMTP id b11mr15741564wmb.182.1588602613044; 
+ Mon, 04 May 2020 07:30:13 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- u12sm14364098wmu.25.2020.05.04.07.30.09
+ x16sm12527456wrn.76.2020.05.04.07.30.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:30:10 -0700 (PDT)
-Date: Mon, 4 May 2020 10:30:08 -0400
+ Mon, 04 May 2020 07:30:12 -0700 (PDT)
+Date: Mon, 4 May 2020 10:30:10 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/29] acpi: unit-test: Ignore diff in WAET ACPI table
-Message-ID: <20200504142814.157589-24-mst@redhat.com>
+Subject: [PULL 24/29] acpi: Add Windows ACPI Emulated Device Table (WAET)
+Message-ID: <20200504142814.157589-25-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -96,47 +96,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Liran Alon <liran.alon@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Liran Alon <liran.alon@oracle.com>,
+ Igor Mammedov <imammedo@redhat.com>, Elad Gabay <elad.gabay@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liran Alon <liran.alon@oracle.com>
 
-This is done as a preparation for the following patch to expose WAET
-ACPI table to guest.
+Microsoft introduced this ACPI table to avoid Windows guests performing
+various workarounds for device erratas. As the virtual device emulated
+by VMM may not have the errata.
 
-This patch performs steps 1-3 as describes in
-tests/qtest/bios-tables-test.c.
+Currently, WAET allows hypervisor to inform guest about two
+specific behaviors: One for RTC and the other for ACPI PM timer.
 
+Support for WAET have been introduced since Windows Vista. This ACPI
+table is also exposed by other common hypervisors by default, including:
+VMware, GCP and AWS.
+
+This patch adds WAET ACPI Table to QEMU.
+
+We set "ACPI PM timer good" bit in "Emualted Device Flags" field to
+indicate that the ACPI PM timer has been enhanced to not require
+multiple reads to obtain a reliable value.
+This results in improving the performance of Windows guests that use
+ACPI PM timer by avoiding unnecessary VMExits caused by these multiple
+reads.
+
+Co-developed-by: Elad Gabay <elad.gabay@oracle.com>
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
-Message-Id: <20200313145009.144820-2-liran.alon@oracle.com>
+Message-Id: <20200313145009.144820-3-liran.alon@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- tests/data/acpi/pc/WAET                     | 0
- tests/data/acpi/q35/WAET                    | 0
- 3 files changed, 2 insertions(+)
- create mode 100644 tests/data/acpi/pc/WAET
- create mode 100644 tests/data/acpi/q35/WAET
+ hw/i386/acpi-build.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios=
--tables-test-allowed-diff.h
-index dfb8523c8b..b269a1e3e5 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/WAET",
-+"tests/data/acpi/q35/WAET",
-diff --git a/tests/data/acpi/pc/WAET b/tests/data/acpi/pc/WAET
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/WAET b/tests/data/acpi/q35/WAET
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 7d880bec4a..2e15f6848e 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2512,6 +2512,34 @@ build_dmar_q35(GArray *table_data, BIOSLinker *linke=
+r)
+     build_header(linker, table_data, (void *)(table_data->data + dmar_star=
+t),
+                  "DMAR", table_data->len - dmar_start, 1, NULL, NULL);
+ }
++
++/*
++ * Windows ACPI Emulated Devices Table
++ * (Version 1.0 - April 6, 2009)
++ * Spec: http://download.microsoft.com/download/7/E/7/7E7662CF-CBEA-470B-A=
+97E-CE7CE0D98DC2/WAET.docx
++ *
++ * Helpful to speedup Windows guests and ignored by others.
++ */
++static void
++build_waet(GArray *table_data, BIOSLinker *linker)
++{
++    int waet_start =3D table_data->len;
++
++    /* WAET header */
++    acpi_data_push(table_data, sizeof(AcpiTableHeader));
++    /*
++     * Set "ACPI PM timer good" flag.
++     *
++     * Tells Windows guests that our ACPI PM timer is reliable in the
++     * sense that guest can read it only once to obtain a reliable value.
++     * Which avoids costly VMExits caused by guest re-reading it unnecessa=
+rily.
++     */
++    build_append_int_noprefix(table_data, 1 << 1 /* ACPI PM timer good */,=
+ 4);
++
++    build_header(linker, table_data, (void *)(table_data->data + waet_star=
+t),
++                 "WAET", table_data->len - waet_start, 1, NULL, NULL);
++}
++
+ /*
+  *   IVRS table as specified in AMD IOMMU Specification v2.62, Section 5.2
+  *   accessible here http://support.amd.com/TechDocs/48882_IOMMU.pdf
+@@ -2859,6 +2887,9 @@ void acpi_build(AcpiBuildTables *tables, MachineState=
+ *machine)
+                           machine->nvdimms_state, machine->ram_slots);
+     }
+=20
++    acpi_add_table(table_offsets, tables_blob);
++    build_waet(tables_blob, tables->linker);
++
+     /* Add tables supplied by user (if any) */
+     for (u =3D acpi_table_first(); u; u =3D acpi_table_next(u)) {
+         unsigned len =3D acpi_table_len(u);
 --=20
 MST
 
