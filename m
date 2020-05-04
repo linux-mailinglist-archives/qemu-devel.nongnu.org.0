@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1541C3D46
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:39:02 +0200 (CEST)
-Received: from localhost ([::1]:60142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E49921C3D29
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:35:17 +0200 (CEST)
+Received: from localhost ([::1]:42916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcFJ-0004tQ-6j
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47382)
+	id 1jVcBg-0005bf-Rx
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6O-0005aK-OZ
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:48 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55053
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6R-0005g8-0f
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:51 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27914
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6N-0006CL-Qu
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6Q-0006Hu-5h
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602586;
+ s=mimecast20190719; t=1588602589;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZbQJE8U0g9/taY1UGB+Es2fg0Z+KJRLr1l0iTS5yKYw=;
- b=MCXTeMozrscsRpo6MpLofvvSSHF2WLCuBXkeuFeMpqVW6NPNw+Y3Bkgnmno0EnQcukwlMs
- UKETtYXAT0uAznVeXQP2n+sBjmXJm6uPhfqKAiYwCW2igIZxrq0zR8xDVD1tzvF8AoLDeL
- Wj7B0IFYjYuQwIN+OtY8lfv1s4ptkE0=
+ bh=fvBdJ5beAcx5ETaxyqLjGGsvHSXEGwdO8SCWGzPboug=;
+ b=JsejLQdFFWBuUIwffX5jqbP+muc4gUs5Ra2QRUlcUptWbpWI2bDxW31uFxnaC4jvKIZB/W
+ a8r+3PZs7bbQ3+TyGc60UVpNdmUnai56SS3TECdb2WpxXe0myH4pCZGa+GWAw1g9jaFeEu
+ xqtPi8nk4S4v+xxjMyDqYrYEI21ea4A=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-vWrqXNiVMN6IwB7M45jcqg-1; Mon, 04 May 2020 10:29:45 -0400
-X-MC-Unique: vWrqXNiVMN6IwB7M45jcqg-1
-Received: by mail-wm1-f70.google.com with SMTP id d134so89698wmd.0
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:45 -0700 (PDT)
+ us-mta-222-KhquzkfbMQytusml3nYqsA-1; Mon, 04 May 2020 10:29:48 -0400
+X-MC-Unique: KhquzkfbMQytusml3nYqsA-1
+Received: by mail-wm1-f70.google.com with SMTP id 71so3584318wmb.8
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=bcYO/D8ZBtkupiZf8L7h1wjpZYqhLskCmEjZ4tplteM=;
- b=lUjrXjsL9tghZRFXlIOX4fE04HTLMUw1RgnU1qcx5oKZ7U8z2OV9vKjkHqKL4nJ+Rq
- NdLH5VQZSfVOY8YeFVevUcP7JjIXzTRjvJuZs7JEa63a3P6rjjw2w6org4Yt+RQOrnWQ
- CbEQIINEDINR3b9LXJEzIbZrvI9CbKI5dgrTKs6tfC1tQbBkieOi7EmGyU7ljtfgmEwT
- I02j6p7jTZaUPd4wcehLOaTQwrElLubBv6mTGt01Uq293WlRds4A8/E9UxWbzb3QbH+9
- 06tPiWsdon+1hY8y86USFbF+SHn7agugCUTMby2m2qyNY67a5lUee2zS42/ijr4Z/UJ4
- toEQ==
-X-Gm-Message-State: AGi0PuZM6D0UAqiVjK+ZlMzW+UOu9Yk54MFdzkVPXc+JMhrbRLmQgdga
- 0nPpPH84qMzZDvBa6KYAv1hNrrxmcB5o5wDIWNKFgd/qRLFX+ZAUx5O+0nzeDLnVkcql0GgIRD7
- C9tBesfYc6uU6Oag=
-X-Received: by 2002:a5d:494a:: with SMTP id r10mr18396919wrs.136.1588602584177; 
- Mon, 04 May 2020 07:29:44 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLMVZTX9H1M4Eo+2/PqOXrl37se+gPoorHIkLZYidnheaCnONpaBfkmPXUPmlmQOLyrvzHfvA==
-X-Received: by 2002:a5d:494a:: with SMTP id r10mr18396904wrs.136.1588602583998; 
- Mon, 04 May 2020 07:29:43 -0700 (PDT)
+ bh=JtHWGy8MS63RnTw62YE9/Nri9iozspFrFIvB4vm6Ufs=;
+ b=Fl2bYaAcH/D9oBBMlPquI1GWW1wMr9ooKnT0Z52yVTOW/k7hWCgKyPCfF/ndYMzcVl
+ mlxQftG6/bmidwmAWjusGRgYjZF4UQo/LbJnaTyZZX1R7wAlrqHRRYk2eyCl2fbyZuPZ
+ uDUX+EO/iXohxb1QbdP/NuD7B3kdDMFlAehFQOxxDfBTvMrwMO7/CEGux6Iikzcb5tLS
+ Nm2S+0wMTL/nB7w1YHib5nU9oDLhrJUIYuPq5IbjAitlBzxEg7LM/jtRMH0zR0VqwVAe
+ Nt7t1CcAY0fxkMSqzls5VIL3mfX0F50qeUh581tRHiEbWLBXsYBa/uj8eFs2UEzJuTP+
+ rXmg==
+X-Gm-Message-State: AGi0PuY/pg45XfivW7oFLI6lr8V3PZV157+k8+BqI6fsgckkMe2N6Nrz
+ 6nNAm3ChJ27VJpXwwZWgCn8mBE7O9Q96Krs608LVGcjSvEiL6TfiNRmVymKjGHnqOoZCiVvoDjb
+ WjoydpYAl422WiEg=
+X-Received: by 2002:a1c:2d02:: with SMTP id t2mr14915846wmt.98.1588602586629; 
+ Mon, 04 May 2020 07:29:46 -0700 (PDT)
+X-Google-Smtp-Source: APiQypL5sKwavcakxQbGvb9qxGQ6DHp601FwURtWt/44KzPdJGYk6p0W6MXPtmzbRVz62eQQ2RoLxA==
+X-Received: by 2002:a1c:2d02:: with SMTP id t2mr14915822wmt.98.1588602586400; 
+ Mon, 04 May 2020 07:29:46 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- x5sm1965587wro.12.2020.05.04.07.29.42
+ a24sm13411437wmb.24.2020.05.04.07.29.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:29:43 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:41 -0400
+ Mon, 04 May 2020 07:29:46 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:44 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/29] checkpatch: fix acpi check with multiple file name
-Message-ID: <20200504142814.157589-13-mst@redhat.com>
+Subject: [PULL 13/29] checkpatch: ignore allowed diff list
+Message-ID: <20200504142814.157589-14-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -96,93 +96,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using global expected/nonexpected values causes
-false positives when testing multiple patches in one
-checkpatch run: one patch can change expected,
-another one non-expected.
+Allow changing allowed diff list at any point:
+- when changing code under test
+- when adding expected files
 
-Use local variables within process() to fix that.
+It's just a list of files so easy to review and merge anyway.
 
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- scripts/checkpatch.pl | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ scripts/checkpatch.pl | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index e658e6546f..c3d08aa99f 100755
+index c3d08aa99f..0ba213e9f2 100755
 --- a/scripts/checkpatch.pl
 +++ b/scripts/checkpatch.pl
-@@ -35,8 +35,6 @@ my $summary_file =3D 0;
- my $root;
- my %debug;
- my $help =3D 0;
--my $acpi_testexpected;
--my $acpi_nontestexpected;
-=20
- sub help {
- =09my ($exitcode) =3D @_;
-@@ -1261,21 +1259,22 @@ sub WARN {
- # According to tests/qtest/bios-tables-test.c: do not
- # change expected file in the same commit with adding test
+@@ -1261,12 +1261,13 @@ sub WARN {
  sub checkfilename {
--=09my ($name) =3D @_;
-+=09my ($name, $acpi_testexpected, $acpi_nontestexpected) =3D @_;
-+
- =09if ($name =3D~ m#^tests/data/acpi/# and
- =09=09# make exception for a shell script that rebuilds the files
- =09=09not $name =3D~ m#^\.sh$# or
- =09=09$name =3D~ m#^tests/qtest/bios-tables-test-allowed-diff.h$#) {
--=09=09$acpi_testexpected =3D $name;
-+=09=09$$acpi_testexpected =3D $name;
- =09} else {
--=09=09$acpi_nontestexpected =3D $name;
-+=09=09$$acpi_nontestexpected =3D $name;
+ =09my ($name, $acpi_testexpected, $acpi_nontestexpected) =3D @_;
+=20
+-=09if ($name =3D~ m#^tests/data/acpi/# and
+-=09=09# make exception for a shell script that rebuilds the files
+-=09=09not $name =3D~ m#^\.sh$# or
+-=09=09$name =3D~ m#^tests/qtest/bios-tables-test-allowed-diff.h$#) {
++        # Note: shell script that rebuilds the expected files is in the sa=
+me
++        # directory as files themselves.
++        # Note: allowed diff list can be changed both when changing expect=
+ed
++        # files and when changing tests.
++=09if ($name =3D~ m#^tests/data/acpi/# and not $name =3D~ m#^\.sh$#) {
+ =09=09$$acpi_testexpected =3D $name;
+-=09} else {
++=09} elsif ($name =3D~ m#^tests/qtest/bios-tables-test-allowed-diff.h$#) {
+ =09=09$$acpi_nontestexpected =3D $name;
  =09}
--=09if (defined $acpi_testexpected and defined $acpi_nontestexpected) {
-+=09if (defined $$acpi_testexpected and defined $$acpi_nontestexpected) {
- =09=09ERROR("Do not add expected files together with tests, " .
- =09=09      "follow instructions in " .
- =09=09      "tests/qtest/bios-tables-test.c: both " .
--=09=09      $acpi_testexpected . " and " .
--=09=09      $acpi_nontestexpected . " found\n");
-+=09=09      $$acpi_testexpected . " and " .
-+=09=09      $$acpi_nontestexpected . " found\n");
- =09}
- }
-=20
-@@ -1325,6 +1324,9 @@ sub process {
- =09my %suppress_whiletrailers;
- =09my %suppress_export;
-=20
-+        my $acpi_testexpected;
-+        my $acpi_nontestexpected;
-+
- =09# Pre-scan the patch sanitizing the lines.
-=20
- =09sanitise_line_reset();
-@@ -1454,11 +1456,11 @@ sub process {
- =09=09if ($line =3D~ /^diff --git.*?(\S+)$/) {
- =09=09=09$realfile =3D $1;
- =09=09=09$realfile =3D~ s@^([^/]*)/@@ if (!$file);
--=09                checkfilename($realfile);
-+=09                checkfilename($realfile, \$acpi_testexpected, \$acpi_no=
-ntestexpected);
- =09=09} elsif ($line =3D~ /^\+\+\+\s+(\S+)/) {
- =09=09=09$realfile =3D $1;
- =09=09=09$realfile =3D~ s@^([^/]*)/@@ if (!$file);
--=09                checkfilename($realfile);
-+=09                checkfilename($realfile, \$acpi_testexpected, \$acpi_no=
-ntestexpected);
-=20
- =09=09=09$p1_prefix =3D $1;
- =09=09=09if (!$file && $tree && $p1_prefix ne '' &&
+ =09if (defined $$acpi_testexpected and defined $$acpi_nontestexpected) {
 --=20
 MST
 
