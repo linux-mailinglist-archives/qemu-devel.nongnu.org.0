@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C961C3981
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:38:18 +0200 (CEST)
-Received: from localhost ([::1]:53302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5809E1C3978
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:36:37 +0200 (CEST)
+Received: from localhost ([::1]:44728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaMT-0000MG-LC
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:38:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56416)
+	id 1jVaKq-0005DP-B1
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:36:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHj-0008LM-Gw
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:23 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37752)
+ id 1jVaHl-0008Qa-A3
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:25 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHi-0000oy-GW
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:23 -0400
-Received: by mail-wm1-x332.google.com with SMTP id z6so8835234wml.2
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:22 -0700 (PDT)
+ id 1jVaHj-0000q0-PX
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:24 -0400
+Received: by mail-wm1-x333.google.com with SMTP id y24so8844640wma.4
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=M3vgvadFWkC90M8EmTrfIPMjpAv4cjLc8OSWbkOS2EQ=;
- b=BHaU1xmjxgoHhGCCPnt4qs4vycVBT1mZw3Fi3H2a+LvSATdoJkoETgm9cgL/mm/MfC
- /wKAa26QxgIEKsg9HNPnMmYfnVOntzVa1pVa/r1XA+/fjo4WK+9vI0tClvTnq1RvjD8u
- kN6xnOIanMxw959jJ5q0tj2JMLGZV10+WOg/1sfb458Lg4RE0faoMjyHY5rTuMbmkPLc
- jSDZlOdxwBG7uvNT2OaLegD6PgKWmWay3N+qJq6sp+J0BRpQVbwDouuHYk0JMydoftxY
- XK2fN45AsBmOUnVa0lC8RsB7PiYJEw8Mdgl3KQ+O9Cm4eS+jmY/TuCeSP7Bw4B/UJ+DV
- c/dw==
+ bh=vtjkPyhN5yeFIjnyBTjjTJF6AHtmNmTLOfT5l6GiTkY=;
+ b=bBVV5K/em7BHYx02L3js/CXFO1B2Fi/1g1iPyGRqyKhnuaCUVuf7+Glxdx61Pqhl5a
+ ztsf14x4AvH1E8fvr4LkLWy5GGNseZ80Mrhn22yfj+ShNEk3sV5XIJ58EPllooToo+LC
+ E+uijbRwoi5eK/xk3VkabGu4iixQ2xGE3lDS+VJ+YPVGdQ+OgzI3Mk01xVpr1n0Pprio
+ /JHz3Gj3aZBD6fW7lh6Uh9tYbBs0Fx4uBIQPTxWcGMGDZSdJcZsb8RKGlAifn9bbn5/W
+ pKtFyPvCueeQoAgK0RNpBn6S9Iorxznkil4kBOOjmGgOsYAaIf+JlnoeOEhbjIc83aSN
+ 6FdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M3vgvadFWkC90M8EmTrfIPMjpAv4cjLc8OSWbkOS2EQ=;
- b=n3D+BRbbdnsaL+0JHUy9dBlMDEnI3hvA96ZspGJT5cMWW7x0EgkhaQFLqpIQYIqUlP
- QyeHRf4dcQCZBHEb7OBW7f2GNiE3Oktt6pKVh75kjPfEDv+BNPPWKGkf67wgXEKFop/M
- Xz5c6CaHc2vCNtCNSQxlPhKE0hGTBaOMqcT5bp+Q9Do6aCpRtmI9IuqSp0NUno0I2sg1
- ZG63W3ME+zArjE26QuyIRUeYIO4dyAW32Wjt4mvez2AnZevPOhEMROh9AoXD7gbNE74t
- e5OULAy376GJeqnyRoNr7gyI7QFEYrvGlbcHDt3XMD+76HY4Lw/KcVk+H3hbUykEF6Py
- dPjQ==
-X-Gm-Message-State: AGi0PuajT3ivW5uBpCueUReB7+X/0dqabv5/WMfSOLjHAgdljYvGypS5
- LudlfR1KZQFwRmTo+Is6lo4iXY/u0o2wxw==
-X-Google-Smtp-Source: APiQypJ6+QxeDUmEmEc+H/HLcujcTmAIyWS+fO3UmiPnh/J7oeqtautJwkHPU+RCmsMjkOVCh4PkfA==
-X-Received: by 2002:a7b:cf23:: with SMTP id m3mr14050982wmg.36.1588595601027; 
- Mon, 04 May 2020 05:33:21 -0700 (PDT)
+ bh=vtjkPyhN5yeFIjnyBTjjTJF6AHtmNmTLOfT5l6GiTkY=;
+ b=NmkD1mL+4kKV3rKJQlS8bzVxAsZpewaxkBa0HzS7DBXB46mrY+WJ0CU7y87DT486cI
+ ufIe5mU5tlT3Xd08mLcK2Qa8fElPhHDKttlL4zHHvywpvdCHGmmPEbzcEqnPCfdnvI5H
+ GIcNqhyOJWnZm3dhlhdARNA5eXAhCgWxnyekyRUYR4J6YMHdcCTClhCX6Teo9yRd+kOf
+ yI5Hw0f8bQ0Ht7asy5pHN3Z4nspUotdm4GmWn/jfNT0ryf1UKkV5Ltnlv3kJ2JGx0NnN
+ OqXZYB4GLeDNtNGssxYlOGmWMwCB9Ghuzxwjjuv60Nivz7bK7Wm2evuleWFg/sf9iwMk
+ S5YA==
+X-Gm-Message-State: AGi0PuZAMrhpIsCidBSCI0XG8PB3kXE3u4IqW5aKyQrhpo80EJ/cy3L9
+ oTxFKMJQfECUuU7brEe06th1kydFfRLLJQ==
+X-Google-Smtp-Source: APiQypLxXaERK8ZstkZz2OcNGy1QtbAwcYaBpQGEqqlB3cSYTJkDrbMnRonAYRKZXX0e9cv1XgPzTw==
+X-Received: by 2002:a1c:a58b:: with SMTP id o133mr14107234wme.5.1588595602137; 
+ Mon, 04 May 2020 05:33:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.19
+ by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 05:33:20 -0700 (PDT)
+ Mon, 04 May 2020 05:33:21 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/39] target/arm: Use uint64_t for midr field in CPU state
- struct
-Date: Mon,  4 May 2020 13:32:38 +0100
-Message-Id: <20200504123309.3808-9-peter.maydell@linaro.org>
+Subject: [PULL 09/39] hw/arm: versal: Remove inclusion of arm_gicv3_common.h
+Date: Mon,  4 May 2020 13:32:39 +0100
+Message-Id: <20200504123309.3808-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200504123309.3808-1-peter.maydell@linaro.org>
 References: <20200504123309.3808-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,62 +88,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-MIDR_EL1 is a 64-bit system register with the top 32-bit being RES0.
-Represent it in QEMU's ARMCPU struct with a uint64_t, not a
-uint32_t.
+Remove inclusion of arm_gicv3_common.h, this already gets
+included via xlnx-versal.h.
 
-This fixes an error when compiling with -Werror=conversion
-because we were manipulating the register value using a
-local uint64_t variable:
-
-  target/arm/cpu64.c: In function ‘aarch64_max_initfn’:
-  target/arm/cpu64.c:628:21: error: conversion from ‘uint64_t’ {aka ‘long unsigned int’} to ‘uint32_t’ {aka ‘unsigned int’} may change value [-Werror=conversion]
-    628 |         cpu->midr = t;
-        |                     ^
-
-and future-proofs us against a possible future architecture
-change using some of the top 32 bits.
-
-Suggested-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Message-id: 20200428172634.29707-1-f4bug@amsat.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Message-id: 20200427181649.26851-2-edgar.iglesias@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 2 +-
- target/arm/cpu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/xlnx-versal.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 9aae324d0f6..8608da6b6fc 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -894,7 +894,7 @@ struct ARMCPU {
-         uint64_t id_aa64dfr0;
-         uint64_t id_aa64dfr1;
-     } isar;
--    uint32_t midr;
-+    uint64_t midr;
-     uint32_t revidr;
-     uint32_t reset_fpsid;
-     uint32_t ctr;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index f588344df83..5d64adfe76e 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2755,7 +2755,7 @@ static const ARMCPUInfo arm_cpus[] = {
- static Property arm_cpu_properties[] = {
-     DEFINE_PROP_BOOL("start-powered-off", ARMCPU, start_powered_off, false),
-     DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
--    DEFINE_PROP_UINT32("midr", ARMCPU, midr, 0),
-+    DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
-     DEFINE_PROP_UINT64("mp-affinity", ARMCPU,
-                         mp_affinity, ARM64_AFFINITY_INVALID),
-     DEFINE_PROP_INT32("node-id", ARMCPU, node_id, CPU_UNSET_NUMA_NODE_ID),
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index 94460f2343b..c73b2fe7555 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -20,7 +20,6 @@
+ #include "hw/arm/boot.h"
+ #include "kvm_arm.h"
+ #include "hw/misc/unimp.h"
+-#include "hw/intc/arm_gicv3_common.h"
+ #include "hw/arm/xlnx-versal.h"
+ #include "hw/char/pl011.h"
+ 
 -- 
 2.20.1
 
