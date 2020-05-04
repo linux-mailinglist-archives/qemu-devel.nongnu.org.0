@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D821C3D18
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:34:02 +0200 (CEST)
-Received: from localhost ([::1]:37136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1541C3D46
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:39:02 +0200 (CEST)
+Received: from localhost ([::1]:60142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcAT-00036e-1N
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1jVcFJ-0004tQ-6j
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:39:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6N-0005YG-Uh
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:47 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21962
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6O-0005aK-OZ
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55053
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6L-00067L-N9
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:47 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6N-0006CL-Qu
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602585;
+ s=mimecast20190719; t=1588602586;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3q2PV09NbvebXNW9HBjqH4Zi18jqVNRNbd0N7P7VPtU=;
- b=AhZ5GvvHexLEU9wy7pvbF16h1QvFOYs+HS2BjX9BMeMueTpuQtnkvw0WLV3UuuuXkdlq4M
- DlXPVYf2eR+21rmLQ7dTfvRwXJsKy38oiuheUqOL96VbFF1UTXyWZFzoyUq13hpNtywT/7
- HL2CVPZ7/G9laF8kRAQsnrZLSrl2iU8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-Vk68ID71MmSzWNlEYwWGmg-1; Mon, 04 May 2020 10:29:42 -0400
-X-MC-Unique: Vk68ID71MmSzWNlEYwWGmg-1
-Received: by mail-wr1-f69.google.com with SMTP id f2so10886032wrm.9
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:42 -0700 (PDT)
+ bh=ZbQJE8U0g9/taY1UGB+Es2fg0Z+KJRLr1l0iTS5yKYw=;
+ b=MCXTeMozrscsRpo6MpLofvvSSHF2WLCuBXkeuFeMpqVW6NPNw+Y3Bkgnmno0EnQcukwlMs
+ UKETtYXAT0uAznVeXQP2n+sBjmXJm6uPhfqKAiYwCW2igIZxrq0zR8xDVD1tzvF8AoLDeL
+ Wj7B0IFYjYuQwIN+OtY8lfv1s4ptkE0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-vWrqXNiVMN6IwB7M45jcqg-1; Mon, 04 May 2020 10:29:45 -0400
+X-MC-Unique: vWrqXNiVMN6IwB7M45jcqg-1
+Received: by mail-wm1-f70.google.com with SMTP id d134so89698wmd.0
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=rU763mQvG3h2UpJIPCYuJYZp3kdhMWRTa5wGYsAN1vY=;
- b=aivJPQrUrGwz6SwVVHlK5ZnYfhEKChjjm6ydO9S89gatbfaSn3AJ23W3Pv4zfOU0UW
- WeDkK/ohFlnYc8oe38/iwpFxLVAdy7Htg2X8zba4PXjjltwWRpqfQCUHNHKA2ExsJirw
- c8J8X/BGzx6WWzy/2ftYJKz6x/aF6Xn3SMomfN/hiuSOkry+jdd1YA1v5y0k7SA7ye4I
- VJFi4scFTH8gapEIKZR2acbyOwDFNjXMBvJDKJCZjt7L9K/vvJIqE0GXmG7zMGC2V+8z
- FgBHwjHQKIa0Yr0Y7XbyZb3+Hj1c2SIMa0iivVoq+vsuQLQrLMWnm8lJ+Y+CLx7ABAKT
- OsOQ==
-X-Gm-Message-State: AGi0PubgCaMJRqS095TP8NJI5fdyPhZChRmmwZLehNBD+LMiVV/9/1hB
- zV6q1BGzkfjdPzBe3Kp5iiE4BxobPl9FN8KdkXoEFOYoGeZ9xF0vUgr48r99EaP+T2llABtRJsA
- uw4vIAtIosRERbFk=
-X-Received: by 2002:adf:fccc:: with SMTP id f12mr1094069wrs.267.1588602581322; 
- Mon, 04 May 2020 07:29:41 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKEX14lmYHjOf+7NYs/f3sK1v7cf+CYP3Zbu6NsY/7DI923/S8Kvv4QqZJ8B4BJ3BF+yHC5LQ==
-X-Received: by 2002:adf:fccc:: with SMTP id f12mr1094044wrs.267.1588602581024; 
- Mon, 04 May 2020 07:29:41 -0700 (PDT)
+ bh=bcYO/D8ZBtkupiZf8L7h1wjpZYqhLskCmEjZ4tplteM=;
+ b=lUjrXjsL9tghZRFXlIOX4fE04HTLMUw1RgnU1qcx5oKZ7U8z2OV9vKjkHqKL4nJ+Rq
+ NdLH5VQZSfVOY8YeFVevUcP7JjIXzTRjvJuZs7JEa63a3P6rjjw2w6org4Yt+RQOrnWQ
+ CbEQIINEDINR3b9LXJEzIbZrvI9CbKI5dgrTKs6tfC1tQbBkieOi7EmGyU7ljtfgmEwT
+ I02j6p7jTZaUPd4wcehLOaTQwrElLubBv6mTGt01Uq293WlRds4A8/E9UxWbzb3QbH+9
+ 06tPiWsdon+1hY8y86USFbF+SHn7agugCUTMby2m2qyNY67a5lUee2zS42/ijr4Z/UJ4
+ toEQ==
+X-Gm-Message-State: AGi0PuZM6D0UAqiVjK+ZlMzW+UOu9Yk54MFdzkVPXc+JMhrbRLmQgdga
+ 0nPpPH84qMzZDvBa6KYAv1hNrrxmcB5o5wDIWNKFgd/qRLFX+ZAUx5O+0nzeDLnVkcql0GgIRD7
+ C9tBesfYc6uU6Oag=
+X-Received: by 2002:a5d:494a:: with SMTP id r10mr18396919wrs.136.1588602584177; 
+ Mon, 04 May 2020 07:29:44 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLMVZTX9H1M4Eo+2/PqOXrl37se+gPoorHIkLZYidnheaCnONpaBfkmPXUPmlmQOLyrvzHfvA==
+X-Received: by 2002:a5d:494a:: with SMTP id r10mr18396904wrs.136.1588602583998; 
+ Mon, 04 May 2020 07:29:43 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- t16sm19385536wrm.26.2020.05.04.07.29.39
+ x5sm1965587wro.12.2020.05.04.07.29.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:29:40 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:39 -0400
+ Mon, 04 May 2020 07:29:43 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:41 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/29] vhost-user-blk: fix invalid memory access
-Message-ID: <20200504142814.157589-12-mst@redhat.com>
+Subject: [PULL 12/29] checkpatch: fix acpi check with multiple file name
+Message-ID: <20200504142814.157589-13-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -73,10 +73,10 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,149 +96,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Li Feng <fengli@smartx.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Feng <fengli@smartx.com>
+Using global expected/nonexpected values causes
+false positives when testing multiple patches in one
+checkpatch run: one patch can change expected,
+another one non-expected.
 
-when s->inflight is freed, vhost_dev_free_inflight may try to access
-s->inflight->addr, it will retrigger the following issue.
+Use local variables within process() to fix that.
 
-=3D=3D7309=3D=3DERROR: AddressSanitizer: heap-use-after-free on address 0x6=
-04001020d18 at pc 0x555555ce948a bp 0x7fffffffb170 sp 0x7fffffffb160
-READ of size 8 at 0x604001020d18 thread T0
-    #0 0x555555ce9489 in vhost_dev_free_inflight /root/smartx/qemu-el7/qemu=
--test/hw/virtio/vhost.c:1473
-    #1 0x555555cd86eb in virtio_reset /root/smartx/qemu-el7/qemu-test/hw/vi=
-rtio/virtio.c:1214
-    #2 0x5555560d3eff in virtio_pci_reset hw/virtio/virtio-pci.c:1859
-    #3 0x555555f2ac53 in device_set_realized hw/core/qdev.c:893
-    #4 0x5555561d572c in property_set_bool qom/object.c:1925
-    #5 0x5555561de8de in object_property_set_qobject qom/qom-qobject.c:27
-    #6 0x5555561d99f4 in object_property_set_bool qom/object.c:1188
-    #7 0x555555e50ae7 in qdev_device_add /root/smartx/qemu-el7/qemu-test/qd=
-ev-monitor.c:626
-    #8 0x555555e51213 in qmp_device_add /root/smartx/qemu-el7/qemu-test/qde=
-v-monitor.c:806
-    #9 0x555555e8ff40 in hmp_device_add /root/smartx/qemu-el7/qemu-test/hmp=
-.c:1951
-    #10 0x555555be889a in handle_hmp_command /root/smartx/qemu-el7/qemu-tes=
-t/monitor.c:3404
-    #11 0x555555beac8b in monitor_command_cb /root/smartx/qemu-el7/qemu-tes=
-t/monitor.c:4296
-    #12 0x555556433eb7 in readline_handle_byte util/readline.c:393
-    #13 0x555555be89ec in monitor_read /root/smartx/qemu-el7/qemu-test/moni=
-tor.c:4279
-    #14 0x5555563285cc in tcp_chr_read chardev/char-socket.c:470
-    #15 0x7ffff670b968 in g_main_context_dispatch (/lib64/libglib-2.0.so.0+=
-0x4a968)
-    #16 0x55555640727c in glib_pollfds_poll util/main-loop.c:215
-    #17 0x55555640727c in os_host_main_loop_wait util/main-loop.c:238
-    #18 0x55555640727c in main_loop_wait util/main-loop.c:497
-    #19 0x555555b2d0bf in main_loop /root/smartx/qemu-el7/qemu-test/vl.c:20=
-13
-    #20 0x555555b2d0bf in main /root/smartx/qemu-el7/qemu-test/vl.c:4776
-    #21 0x7fffdd2eb444 in __libc_start_main (/lib64/libc.so.6+0x22444)
-    #22 0x555555b3767a  (/root/smartx/qemu-el7/qemu-test/x86_64-softmmu/qem=
-u-system-x86_64+0x5e367a)
-
-0x604001020d18 is located 8 bytes inside of 40-byte region [0x604001020d10,=
-0x604001020d38)
-freed by thread T0 here:
-    #0 0x7ffff6f00508 in __interceptor_free (/lib64/libasan.so.4+0xde508)
-    #1 0x7ffff671107d in g_free (/lib64/libglib-2.0.so.0+0x5007d)
-
-previously allocated by thread T0 here:
-    #0 0x7ffff6f00a88 in __interceptor_calloc (/lib64/libasan.so.4+0xdea88)
-    #1 0x7ffff6710fc5 in g_malloc0 (/lib64/libglib-2.0.so.0+0x4ffc5)
-
-SUMMARY: AddressSanitizer: heap-use-after-free /root/smartx/qemu-el7/qemu-t=
-est/hw/virtio/vhost.c:1473 in vhost_dev_free_inflight
-Shadow bytes around the buggy address:
-  0x0c08801fc150: fa fa 00 00 00 00 04 fa fa fa fd fd fd fd fd fa
-  0x0c08801fc160: fa fa fd fd fd fd fd fd fa fa 00 00 00 00 04 fa
-  0x0c08801fc170: fa fa 00 00 00 00 00 01 fa fa 00 00 00 00 04 fa
-  0x0c08801fc180: fa fa 00 00 00 00 00 01 fa fa 00 00 00 00 00 01
-  0x0c08801fc190: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 04 fa
-=3D>0x0c08801fc1a0: fa fa fd[fd]fd fd fd fa fa fa fd fd fd fd fd fa
-  0x0c08801fc1b0: fa fa fd fd fd fd fd fa fa fa fd fd fd fd fd fa
-  0x0c08801fc1c0: fa fa 00 00 00 00 00 fa fa fa fd fd fd fd fd fd
-  0x0c08801fc1d0: fa fa 00 00 00 00 00 01 fa fa fd fd fd fd fd fa
-  0x0c08801fc1e0: fa fa fd fd fd fd fd fa fa fa fd fd fd fd fd fd
-  0x0c08801fc1f0: fa fa 00 00 00 00 00 01 fa fa fd fd fd fd fd fa
-Shadow byte legend (one shadow byte represents 8 application bytes):
-  Addressable:           00
-  Partially addressable: 01 02 03 04 05 06 07
-  Heap left redzone:       fa
-  Freed heap region:       fd
-  Stack left redzone:      f1
-  Stack mid redzone:       f2
-  Stack right redzone:     f3
-  Stack after return:      f5
-  Stack use after scope:   f8
-  Global redzone:          f9
-  Global init order:       f6
-  Poisoned by user:        f7
-  Container overflow:      fc
-  Array cookie:            ac
-  Intra object redzone:    bb
-  ASan internal:           fe
-  Left alloca redzone:     ca
-  Right alloca redzone:    cb
-=3D=3D7309=3D=3DABORTING
-
-Signed-off-by: Li Feng <fengli@smartx.com>
-Message-Id: <20200417101707.14467-1-fengli@smartx.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- hw/block/vhost-user-blk.c | 4 ++++
- hw/virtio/vhost.c         | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ scripts/checkpatch.pl | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 17df5338e7..6c485d1c9e 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -441,7 +441,9 @@ reconnect:
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e658e6546f..c3d08aa99f 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -35,8 +35,6 @@ my $summary_file =3D 0;
+ my $root;
+ my %debug;
+ my $help =3D 0;
+-my $acpi_testexpected;
+-my $acpi_nontestexpected;
 =20
- virtio_err:
-     g_free(s->vhost_vqs);
-+    s->vhost_vqs =3D NULL;
-     g_free(s->inflight);
-+    s->inflight =3D NULL;
-     for (i =3D 0; i < s->num_queues; i++) {
-         virtio_delete_queue(s->virtqs[i]);
-     }
-@@ -462,7 +464,9 @@ static void vhost_user_blk_device_unrealize(DeviceState=
- *dev, Error **errp)
-     vhost_dev_cleanup(&s->dev);
-     vhost_dev_free_inflight(s->inflight);
-     g_free(s->vhost_vqs);
-+    s->vhost_vqs =3D NULL;
-     g_free(s->inflight);
-+    s->inflight =3D NULL;
+ sub help {
+ =09my ($exitcode) =3D @_;
+@@ -1261,21 +1259,22 @@ sub WARN {
+ # According to tests/qtest/bios-tables-test.c: do not
+ # change expected file in the same commit with adding test
+ sub checkfilename {
+-=09my ($name) =3D @_;
++=09my ($name, $acpi_testexpected, $acpi_nontestexpected) =3D @_;
++
+ =09if ($name =3D~ m#^tests/data/acpi/# and
+ =09=09# make exception for a shell script that rebuilds the files
+ =09=09not $name =3D~ m#^\.sh$# or
+ =09=09$name =3D~ m#^tests/qtest/bios-tables-test-allowed-diff.h$#) {
+-=09=09$acpi_testexpected =3D $name;
++=09=09$$acpi_testexpected =3D $name;
+ =09} else {
+-=09=09$acpi_nontestexpected =3D $name;
++=09=09$$acpi_nontestexpected =3D $name;
+ =09}
+-=09if (defined $acpi_testexpected and defined $acpi_nontestexpected) {
++=09if (defined $$acpi_testexpected and defined $$acpi_nontestexpected) {
+ =09=09ERROR("Do not add expected files together with tests, " .
+ =09=09      "follow instructions in " .
+ =09=09      "tests/qtest/bios-tables-test.c: both " .
+-=09=09      $acpi_testexpected . " and " .
+-=09=09      $acpi_nontestexpected . " found\n");
++=09=09      $$acpi_testexpected . " and " .
++=09=09      $$acpi_nontestexpected . " found\n");
+ =09}
+ }
 =20
-     for (i =3D 0; i < s->num_queues; i++) {
-         virtio_delete_queue(s->virtqs[i]);
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 01ebe12f28..aff98a0ede 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1514,7 +1514,7 @@ void vhost_dev_set_config_notifier(struct vhost_dev *=
-hdev,
+@@ -1325,6 +1324,9 @@ sub process {
+ =09my %suppress_whiletrailers;
+ =09my %suppress_export;
 =20
- void vhost_dev_free_inflight(struct vhost_inflight *inflight)
- {
--    if (inflight->addr) {
-+    if (inflight && inflight->addr) {
-         qemu_memfd_free(inflight->addr, inflight->size, inflight->fd);
-         inflight->addr =3D NULL;
-         inflight->fd =3D -1;
++        my $acpi_testexpected;
++        my $acpi_nontestexpected;
++
+ =09# Pre-scan the patch sanitizing the lines.
+=20
+ =09sanitise_line_reset();
+@@ -1454,11 +1456,11 @@ sub process {
+ =09=09if ($line =3D~ /^diff --git.*?(\S+)$/) {
+ =09=09=09$realfile =3D $1;
+ =09=09=09$realfile =3D~ s@^([^/]*)/@@ if (!$file);
+-=09                checkfilename($realfile);
++=09                checkfilename($realfile, \$acpi_testexpected, \$acpi_no=
+ntestexpected);
+ =09=09} elsif ($line =3D~ /^\+\+\+\s+(\S+)/) {
+ =09=09=09$realfile =3D $1;
+ =09=09=09$realfile =3D~ s@^([^/]*)/@@ if (!$file);
+-=09                checkfilename($realfile);
++=09                checkfilename($realfile, \$acpi_testexpected, \$acpi_no=
+ntestexpected);
+=20
+ =09=09=09$p1_prefix =3D $1;
+ =09=09=09if (!$file && $tree && $p1_prefix ne '' &&
 --=20
 MST
 
