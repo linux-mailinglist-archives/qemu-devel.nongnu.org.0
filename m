@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4F11C3FFE
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:35:07 +0200 (CEST)
-Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0E81C4073
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:50:58 +0200 (CEST)
+Received: from localhost ([::1]:35776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVe3e-0002Q9-Dq
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46676)
+	id 1jVeIz-0003Zc-8T
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:50:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVe2C-00018Q-Pw
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:33:39 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:46779)
+ id 1jVeHs-0002xu-3a
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:49:48 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:40615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVe27-0007TD-O7
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:33:32 -0400
-Received: by mail-pf1-x441.google.com with SMTP id 145so5732015pfw.13
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 09:33:30 -0700 (PDT)
+ id 1jVeHn-0000Lh-6D
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:49:44 -0400
+Received: by mail-pg1-x529.google.com with SMTP id j21so731978pgb.7
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 09:49:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Qzl7Xz9Nr1ACa3t3aRFh72lgGoWAE9Z+asQafjUbDlY=;
- b=BVtI+uSI3ojFqJGMxTSnW7H1fTk9UHjxZ9ElggpziacbPy7nuV9g3L6yLtUCrgWYH+
- VlO7JxiACqkD5T8ZCG3UKINNIlkLb9rboykTYHhRE6cLR2kyRibj0ICo/DWv+jSkd0Dy
- T65EXsjy1qckjG+5fDJUXDmjqkU/CjBnLz4QHhG32RikfTA9hI0OYgg32mXUytR9DkJd
- KB4OrE9EhxrV6VrZL1CgHiHzaIh3Nl3B9ujZCWxytdTNQ97LdUlGnZZD+oQz8VjYjBIX
- kcaGooMA8qYEND2Pk/XC+YrzWzScQAdw+SRFhLqdl1d624yu77QVWuorNUWOtZlFg19P
- 0NPg==
+ bh=TgBcXjHmfVhw9jMss0cD1aMd51iRW9OjOtY38S0j19M=;
+ b=zddWt1OVO1veH1rn7M+f4jgmXxDSAycB7O4kCDNnwjwxsrPcg4E9dmfKcZOr393CRn
+ oQkY69WNWn5m6Zk99orn1DTyHB7pbKeNloQokXwFJtgUX/fORe3L3rWdvNegtRF8eL0z
+ GcKgPC4/uEzMi10IQ6HFKGxXZSk5bParXTw42Q/FEmodXP/VZPwIjT8235I0vIdxof8b
+ n/4bbfIRfGDcwATyGKuxOvc4xdmwdFmBK/NV0aFBCqCHEkp22y2jhE+dh9o2fqopIATX
+ PLT3CFHWWGgwPOW1Tifvd4dRKGi4Eb3saQZfS3sonFhX+bk6foYT9VjTv1sUgwyPrHHB
+ Jq5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Qzl7Xz9Nr1ACa3t3aRFh72lgGoWAE9Z+asQafjUbDlY=;
- b=knHQieKxyyOJgaq2Q7N/C6GSnKS+y2WFB++5fMGorIeAMetqnGrdhST9A8TxGyjXqC
- Jcr5gYhiusjevigYGhbB8vewKjDXAL8aM6/I0abA9lpP7qk/zUQ7w1iiwIBHEMS5Twaf
- wIDWMjxMb8m+OERxuHlvau1/iIGhaFqlTdMES/Sk0TnnNyPLtSXGHJWhr5BagACyeC+n
- 5VH77JDhVZjZofeEMLGv2+7DsjcpcguP9hNLwshMVTPBzVofRXjB5iYElg/8HFqSlpMX
- MVuh21EjsvEWlRmRZko4zLyaV5kohVpdO9yrlE6x44CxdIjV9l3WKwroc4tKrepvg/A1
- U+3Q==
-X-Gm-Message-State: AGi0PuZJ5Miy2bSZ3R2ubHL2RQ/NuPlz4YCfJi/v6qya2tbcvKhwjV5G
- hHnakoTPp7BjnBOX0RlJRxtFMg==
-X-Google-Smtp-Source: APiQypKiOHvE1i3VJoRLoxZT71FsEvU5kddRXDo8uO/0T0ziUXxcRmeHik653FfC83Na7WH2WtgLAQ==
-X-Received: by 2002:a63:ef04:: with SMTP id u4mr17509122pgh.280.1588610009737; 
- Mon, 04 May 2020 09:33:29 -0700 (PDT)
+ bh=TgBcXjHmfVhw9jMss0cD1aMd51iRW9OjOtY38S0j19M=;
+ b=ivxPz/cM4kYLqLKOR39LLXw+Zb/ZwTV4m3ZpLwohIKdc1vR7DK7xq31tSETgGyA36m
+ JBrGdBRFFQMOCSRPmW4XBHCmGmfBXRFD1OjHUNodGmSyvsr9WD15ZBvrg2EdsZ6mv6Xr
+ GcopGeeeEn7eG2nA0IQ5ns14YlBES2Z8bS5yQd6GK3UgiDM3yral2nJw3DnOEgmUTJKV
+ zrJuL/kb+ceK/1T9WM/t2fhYMe4pqYbOi+C8tIiqhphz0TrREvsuh7Y0TjhizfLqImuU
+ xuab2XCmCWY5IycHvKc6NL2Dw3gTQeyS4svAnbfAY0S4MRILlM9POIjwhdDD4Eq+J0AU
+ 7cbA==
+X-Gm-Message-State: AGi0PuZvyLo2CIsTbavZ1FmU5luCe7I/6USnkZAFxLUmzI4Rlv9VZdIX
+ es+STRpZ/jNvTgytMFebZFGgag4KP6g=
+X-Google-Smtp-Source: APiQypL2wzoA4AlUmRNUVdymzFR45Sh4IV2Bg4GIDJoqkmxqgfUrUVdp2SHIEfOcqHXaeA2Hcj8UhA==
+X-Received: by 2002:a63:34c:: with SMTP id 73mr7900776pgd.108.1588610981342;
+ Mon, 04 May 2020 09:49:41 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id b29sm240462pgn.15.2020.05.04.09.33.28
+ by smtp.gmail.com with ESMTPSA id h9sm9152175pfo.129.2020.05.04.09.49.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 09:33:29 -0700 (PDT)
-Subject: Re: [PATCH RFC] target/arm: Implement SVE2 fp multiply-add long
-To: Stephen Long <steplong@quicinc.com>, qemu-devel@nongnu.org
-References: <20200504154303.5230-1-steplong@quicinc.com>
+ Mon, 04 May 2020 09:49:40 -0700 (PDT)
+Subject: Re: An first try to improve PPC float simulation, not even compiled.
+ Just ask question.
+To: luoyonggang@gmail.com, BALATON Zoltan <balaton@eik.bme.hu>
+References: <CAE2XoE-XFG8r85yPOhuNS2YUMqhp70q1RXCy+KLT79doW8qHMg@mail.gmail.com>
+ <87605674-1cd8-2074-6730-355e20fbf7d0@linaro.org>
+ <CAE2XoE8LO-4Ordhxf1-eNZK1taSGnaU4zxQ944-XLvwzmd9rJg@mail.gmail.com>
+ <alpine.BSF.2.22.395.2005040128330.7227@zero.eik.bme.hu>
+ <CAE2XoE93HqZVvFkZzfuC1VsF-Vw88ggSYMU2t7QjPUPWSU-4-Q@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9120944e-86a0-82b6-5d04-d679518616b7@linaro.org>
-Date: Mon, 4 May 2020 09:33:27 -0700
+Message-ID: <e93bda1e-ae5f-00f9-0655-f4bb72597ab5@linaro.org>
+Date: Mon, 4 May 2020 09:49:38 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200504154303.5230-1-steplong@quicinc.com>
+In-Reply-To: <CAE2XoE93HqZVvFkZzfuC1VsF-Vw88ggSYMU2t7QjPUPWSU-4-Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,17 +93,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, apazos@quicinc.com
+Cc: qemu-ppc@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 8:43 AM, Stephen Long wrote:
-> +    for (i = 0; i < opr_sz; i += sizeof(float32)) {
-> +        float32 nn = *(float16 *)(vn + H1_2(i + sel1));
-> +        float32 mm = *(float16 *)(vm + H1_2(i + sel1));
+On 5/3/20 5:41 PM, 罗勇刚(Yonggang Luo) wrote:
+> 
+> 
+> On Mon, May 4, 2020 at 7:40 AM BALATON Zoltan <balaton@eik.bme.hu
+> <mailto:balaton@eik.bme.hu>> wrote:
+> 
+>     Hello,
+> 
+>     On Mon, 4 May 2020, 罗勇刚(Yonggang Luo) wrote:
+>     > Hello Richard, Can you have a look at the following patch, and was that are
+>     > the right direction?
+> 
+>     Formatting of the patch is broken by your mailer, try sending it with
+>     something that does not change it otherwise it's a bit hard to read.
+> 
+>     Richard suggested to add an assert to check the fp_status is correctly
+>     cleared in place of helper_reset_fpstatus first for debugging so you could
+>     change the helper accordingly before deleting it and run a few tests to
+>     verify it still works. You'll need get some tests and benchmarks working
+>     to be able to verify your changes that's why I've said that would be step
+>     0. If you checked that it still produces the same results and the assert
+>     does not trigger then you can remove the helper.
+> 
+> That's what I need help,
+> 1. How to write a assert to replace helper_reset_fpstatus .
+>   just directly assert? or something else
 
-For integers we could rely on C types for the extension.
-For floating point, you need to call float16_to_float32 here.
+You can't place the assert where helper_reset_fpstatus was.  You need to place
+it in each of the helpers, like helper_fadd, that previously has a call to
+helper_reset_fpstatus preceeding it.
+
+The assert should be placed before the first floatN_op call that uses
+env->fp_status.  E.g.
+
+float64 helper_fadd(CPUPPCState *env, float64 arg1, float64 arg2)
+{
+    float64 ret;
+    int status;
+
+    status = get_float_exception_flags(&env->fp_status);
+    assert(status == 0);
+    ret = float64_add(arg1, arg2, &env->fp_status);
+    status = get_float_exception_flags(&env->fp_status);
+
+    if (unlikely(status & float_flag_invalid)) {
+        float_invalid_op_addsub(env, 1, GETPC(),
+                                float64_classify(arg1) |
+                                float64_classify(arg2));
+    }
+
+    return ret;
+}
 
 
 r~
