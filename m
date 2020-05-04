@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85AA51C4A8D
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:46:44 +0200 (CEST)
-Received: from localhost ([::1]:46054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2761C4A7A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:42:12 +0200 (CEST)
+Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVknL-0002eN-5B
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:46:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35524)
+	id 1jVkix-0006R7-Ps
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:42:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jVkey-0002oU-8r
- for qemu-devel@nongnu.org; Mon, 04 May 2020 19:38:04 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:10519)
+ id 1jVkfv-0003lm-IC
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:39:03 -0400
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:20501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jVkew-00024f-PW
- for qemu-devel@nongnu.org; Mon, 04 May 2020 19:38:03 -0400
-IronPort-SDR: nAh6sP4TPIm9nS5MKcwbMOafW913chdfPbrGtzBhznTnOzliNd0fQGJglExnHmNF7rjbOqmDB5
- SGWJAJoeJlKlO3DQ3i1ffcO0eU+ZJbo6wozgPcny4HUkPSBolhTC4KUU2c6cyNrqqdKn+WkM/g
- i9ydgmLEIn3b1rBuvslBSf+V3YqCjAevq+Ys9tbmSgRJj5i8vMqvJAaq/K8cJl4UCtLpQCL9Nl
- jfJzhU9xTj+ZOy9R/2VTJII8LVWtKZ/1G/g7L0TyC4P+01DiNQfCobwVacxBevxf1gnb2U1SUv
- IW4=
-X-IronPort-AV: E=Sophos;i="5.73,353,1583222400"; d="scan'208";a="48579956"
+ id 1jVkfn-000324-BC
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:39:03 -0400
+IronPort-SDR: sU5Xav6K+YF3Ftch3aBOSo6n8UJFKcJ0uadN9LiwqlfG4Tnw5KDYTW+qwbvHFTSLPULjEYCHn+
+ 9bYvhvBkkBbMPTp3EreGopwhuiMT9qqyvns2mHDnWd3a2zEWzw2W6RHNIEH/QH0/IF6QztTEPW
+ SNFhwC3cLCw0MHRnZg/HPysj7q7m4s2+tJ+FdqViMlPDEJSsJiDpIrPztAibITu4STQU3xhdnd
+ bciXTrRNF/FAjEy2UYG9bBighCGitSf7w760wRevbhqUq8NxFuGaByGdVHc1l9MS0tayVc2p9o
+ 8v4=
+X-IronPort-AV: E=Sophos;i="5.73,353,1583222400"; d="scan'208";a="50530968"
 Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa4.mentor.iphmx.com with ESMTP; 04 May 2020 15:38:01 -0800
-IronPort-SDR: 7pEs3fV6ef80FDW+xwh4O5yI1+IQvk+TKlpMZQBxFZL5lqQILaX7QouL3JnDgCI1v/WpziYkYC
- 5yvaJ2WuvS/E+zR+eD+3o8ek/6lHNnwSJFqBDsLjFMZiBIkL2I2NurN1immjwVb4HdjmQpDlqH
- LSya+4fgadhOr/7ajwusavMzXXvp0eySdw5GpsjYIlR4a9fZB96FDsWBFeprz4vcktuwYf9A6u
- +sHPNUbjiAv61/S4K+KNx5DDiIrFakK07dlCML90zHVbj3CB682cCGxr6dFtv+Knutw1EZPiNY
- KPQ=
-Date: Mon, 4 May 2020 23:37:54 +0000
+ by esa1.mentor.iphmx.com with ESMTP; 04 May 2020 15:38:50 -0800
+IronPort-SDR: r736D0AQBFRcBlWteS2D8ILqvW3m1g6/1TovYKeOEz914osYYhnptdI3hyS+qGpVbqxEeCLVyX
+ dL3r/9CcHFhjqip9ZGikRritSx4vxDEvBqY0KKe2a8hH9b5TYR74/B+E8nxUGzii+vKuP81tWm
+ HV/2MOXU46d6UVCv7qsQgAhjrbU4yKeot3d+SiaQONW7svcrgPtlBHSwMpiza7CBE1uPEOl+Hp
+ BOdz3OFL/ewp5ZP01g+/IujqO1zqiIRBbhNFRpNxdbpRtE7ykBXx1Epud4nOzlmYAqwe+fs/CN
+ 94k=
+Date: Mon, 4 May 2020 23:38:44 +0000
 From: Joseph Myers <joseph@codesourcery.com>
 X-X-Sender: jsm28@digraph.polyomino.org.uk
 To: <qemu-devel@nongnu.org>, <aurelien@aurel32.net>,
  <peter.maydell@linaro.org>, <alex.bennee@linaro.org>, <pbonzini@redhat.com>,
  <rth@twiddle.net>, <ehabkost@redhat.com>
-Subject: [PATCH v2 1/4] softfloat: silence sNaN for conversions to/from
- floatx80
+Subject: [PATCH v2 2/4] softfloat: fix floatx80 pseudo-denormal addition /
+ subtraction
 In-Reply-To: <alpine.DEB.2.21.2005042332380.22972@digraph.polyomino.org.uk>
-Message-ID: <alpine.DEB.2.21.2005042336170.22972@digraph.polyomino.org.uk>
+Message-ID: <alpine.DEB.2.21.2005042337570.22972@digraph.polyomino.org.uk>
 References: <alpine.DEB.2.21.2005042332380.22972@digraph.polyomino.org.uk>
 User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-08.mgc.mentorg.com (139.181.222.8) To
+X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
  svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
-Received-SPF: pass client-ip=68.232.137.252;
- envelope-from=joseph_myers@mentor.com; helo=esa4.mentor.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:36:19
+Received-SPF: pass client-ip=68.232.129.153;
+ envelope-from=joseph_myers@mentor.com; helo=esa1.mentor.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:38:51
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -39
 X-Spam_score: -4.0
@@ -74,153 +74,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Conversions between IEEE floating-point formats should convert
-signaling NaNs to quiet NaNs.  Most of those in QEMU's softfloat code
-do so, but those for floatx80 fail to.  Fix those conversions to
-silence signaling NaNs as well.
+The softfloat function addFloatx80Sigs, used for addition of values
+with the same sign and subtraction of values with opposite sign, fails
+to handle the case where the two values both have biased exponent zero
+and there is a carry resulting from adding the significands, which can
+occur if one or both values are pseudo-denormals (biased exponent
+zero, explicit integer bit 1).  Add a check for that case, so making
+the results match those seen on x86 hardware for pseudo-denormals.
 
 Signed-off-by: Joseph Myers <joseph@codesourcery.com>
 ---
- fpu/softfloat.c                         | 24 +++++++---
- tests/tcg/i386/test-i386-snan-convert.c | 63 +++++++++++++++++++++++++
- 2 files changed, 81 insertions(+), 6 deletions(-)
- create mode 100644 tests/tcg/i386/test-i386-snan-convert.c
+ fpu/softfloat.c                            |  6 ++++++
+ tests/tcg/i386/test-i386-pseudo-denormal.c | 24 ++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 tests/tcg/i386/test-i386-pseudo-denormal.c
 
 diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-index ae6ba71854..ac116c70b8 100644
+index ac116c70b8..6094d267b5 100644
 --- a/fpu/softfloat.c
 +++ b/fpu/softfloat.c
-@@ -4498,7 +4498,9 @@ floatx80 float32_to_floatx80(float32 a, float_status *status)
-     aSign = extractFloat32Sign( a );
-     if ( aExp == 0xFF ) {
-         if (aSig) {
--            return commonNaNToFloatx80(float32ToCommonNaN(a, status), status);
-+            floatx80 res = commonNaNToFloatx80(float32ToCommonNaN(a, status),
-+                                               status);
-+            return floatx80_silence_nan(res, status);
-         }
-         return packFloatx80(aSign,
-                             floatx80_infinity_high,
-@@ -5016,7 +5018,9 @@ floatx80 float64_to_floatx80(float64 a, float_status *status)
-     aSign = extractFloat64Sign( a );
-     if ( aExp == 0x7FF ) {
-         if (aSig) {
--            return commonNaNToFloatx80(float64ToCommonNaN(a, status), status);
-+            floatx80 res = commonNaNToFloatx80(float64ToCommonNaN(a, status),
-+                                               status);
-+            return floatx80_silence_nan(res, status);
-         }
-         return packFloatx80(aSign,
-                             floatx80_infinity_high,
-@@ -5618,7 +5622,9 @@ float32 floatx80_to_float32(floatx80 a, float_status *status)
-     aSign = extractFloatx80Sign( a );
-     if ( aExp == 0x7FFF ) {
-         if ( (uint64_t) ( aSig<<1 ) ) {
--            return commonNaNToFloat32(floatx80ToCommonNaN(a, status), status);
-+            float32 res = commonNaNToFloat32(floatx80ToCommonNaN(a, status),
-+                                             status);
-+            return float32_silence_nan(res, status);
-         }
-         return packFloat32( aSign, 0xFF, 0 );
-     }
-@@ -5650,7 +5656,9 @@ float64 floatx80_to_float64(floatx80 a, float_status *status)
-     aSign = extractFloatx80Sign( a );
-     if ( aExp == 0x7FFF ) {
-         if ( (uint64_t) ( aSig<<1 ) ) {
--            return commonNaNToFloat64(floatx80ToCommonNaN(a, status), status);
-+            float64 res = commonNaNToFloat64(floatx80ToCommonNaN(a, status),
-+                                             status);
-+            return float64_silence_nan(res, status);
-         }
-         return packFloat64( aSign, 0x7FF, 0 );
-     }
-@@ -5681,7 +5689,9 @@ float128 floatx80_to_float128(floatx80 a, float_status *status)
-     aExp = extractFloatx80Exp( a );
-     aSign = extractFloatx80Sign( a );
-     if ( ( aExp == 0x7FFF ) && (uint64_t) ( aSig<<1 ) ) {
--        return commonNaNToFloat128(floatx80ToCommonNaN(a, status), status);
-+        float128 res = commonNaNToFloat128(floatx80ToCommonNaN(a, status),
-+                                           status);
-+        return float128_silence_nan(res, status);
-     }
-     shift128Right( aSig<<1, 0, 16, &zSig0, &zSig1 );
-     return packFloat128( aSign, aExp, zSig0, zSig1 );
-@@ -6959,7 +6969,9 @@ floatx80 float128_to_floatx80(float128 a, float_status *status)
-     aSign = extractFloat128Sign( a );
-     if ( aExp == 0x7FFF ) {
-         if ( aSig0 | aSig1 ) {
--            return commonNaNToFloatx80(float128ToCommonNaN(a, status), status);
-+            floatx80 res = commonNaNToFloatx80(float128ToCommonNaN(a, status),
-+                                               status);
-+            return floatx80_silence_nan(res, status);
-         }
-         return packFloatx80(aSign, floatx80_infinity_high,
-                                    floatx80_infinity_low);
-diff --git a/tests/tcg/i386/test-i386-snan-convert.c b/tests/tcg/i386/test-i386-snan-convert.c
+@@ -5866,6 +5866,12 @@ static floatx80 addFloatx80Sigs(floatx80 a, floatx80 b, flag zSign,
+         zSig1 = 0;
+         zSig0 = aSig + bSig;
+         if ( aExp == 0 ) {
++            if ((aSig | bSig) & UINT64_C(0x8000000000000000) && zSig0 < aSig) {
++                /* At least one of the values is a pseudo-denormal,
++                 * and there is a carry out of the result.  */
++                zExp = 1;
++                goto shiftRight1;
++            }
+             if (zSig0 == 0) {
+                 return packFloatx80(zSign, 0, 0);
+             }
+diff --git a/tests/tcg/i386/test-i386-pseudo-denormal.c b/tests/tcg/i386/test-i386-pseudo-denormal.c
 new file mode 100644
-index 0000000000..ed6d535ce2
+index 0000000000..cfa2a500b0
 --- /dev/null
-+++ b/tests/tcg/i386/test-i386-snan-convert.c
-@@ -0,0 +1,63 @@
-+/* Test conversions of signaling NaNs to and from long double.  */
++++ b/tests/tcg/i386/test-i386-pseudo-denormal.c
+@@ -0,0 +1,24 @@
++/* Test pseudo-denormal operations.  */
 +
 +#include <stdint.h>
 +#include <stdio.h>
 +
-+volatile float f_res;
-+volatile double d_res;
++union u {
++    struct { uint64_t sig; uint16_t sign_exp; } s;
++    long double ld;
++};
++
++volatile union u ld_pseudo_m16382 = { .s = { UINT64_C(1) << 63, 0 } };
++
 +volatile long double ld_res;
-+
-+volatile float f_snan = __builtin_nansf("");
-+volatile double d_snan = __builtin_nans("");
-+volatile long double ld_snan = __builtin_nansl("");
-+
-+int issignaling_f(float x)
-+{
-+    union { float f; uint32_t u; } u = { .f = x };
-+    return (u.u & 0x7fffffff) > 0x7f800000 && (u.u & 0x400000) == 0;
-+}
-+
-+int issignaling_d(double x)
-+{
-+    union { double d; uint64_t u; } u = { .d = x };
-+    return (((u.u & UINT64_C(0x7fffffffffffffff)) >
-+            UINT64_C(0x7ff0000000000000)) &&
-+            (u.u & UINT64_C(0x8000000000000)) == 0);
-+}
-+
-+int issignaling_ld(long double x)
-+{
-+    union {
-+        long double ld;
-+        struct { uint64_t sig; uint16_t sign_exp; } s;
-+    } u = { .ld = x };
-+    return ((u.s.sign_exp & 0x7fff) == 0x7fff &&
-+            (u.s.sig >> 63) != 0 &&
-+            (u.s.sig & UINT64_C(0x4000000000000000)) == 0);
-+}
 +
 +int main(void)
 +{
 +    int ret = 0;
-+    ld_res = f_snan;
-+    if (issignaling_ld(ld_res)) {
-+        printf("FAIL: float -> long double\n");
-+        ret = 1;
-+    }
-+    ld_res = d_snan;
-+    if (issignaling_ld(ld_res)) {
-+        printf("FAIL: double -> long double\n");
-+        ret = 1;
-+    }
-+    f_res = ld_snan;
-+    if (issignaling_d(f_res)) {
-+        printf("FAIL: long double -> float\n");
-+        ret = 1;
-+    }
-+    d_res = ld_snan;
-+    if (issignaling_d(d_res)) {
-+        printf("FAIL: long double -> double\n");
++    ld_res = ld_pseudo_m16382.ld + ld_pseudo_m16382.ld;
++    if (ld_res != 0x1p-16381L) {
++        printf("FAIL: pseudo-denormal add\n");
 +        ret = 1;
 +    }
 +    return ret;
