@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F0C1C390B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:13:54 +0200 (CEST)
-Received: from localhost ([::1]:48444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D85C1C38F8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:12:37 +0200 (CEST)
+Received: from localhost ([::1]:45028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZyr-0006sD-Em
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
+	id 1jVZxc-0005CA-Hq
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZju-0003Dy-Sb; Mon, 04 May 2020 07:58:26 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:49795)
+ id 1jVZjt-0003AL-Hx; Mon, 04 May 2020 07:58:25 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:44793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjt-0002Kb-TK; Mon, 04 May 2020 07:58:26 -0400
+ id 1jVZjs-0002JF-0h; Mon, 04 May 2020 07:58:25 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mw8cU-1jFHsE3x3s-00s2Wc; Mon, 04 May 2020 13:58:19 +0200
+ id 1MXpM2-1jdPLr2KgG-00YAEA; Mon, 04 May 2020 13:58:19 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/20] hw/isa/i82378: Remove dead assignment
-Date: Mon,  4 May 2020 13:57:55 +0200
-Message-Id: <20200504115758.283914-18-laurent@vivier.eu>
+Subject: [PULL 18/20] hw/gpio/aspeed_gpio: Remove dead assignment
+Date: Mon,  4 May 2020 13:57:56 +0200
+Message-Id: <20200504115758.283914-19-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1189xm37UdNK1k0GFY7Kwh9INa2C9dyqIqZiJ5nteJeW9dspCI6
- Ug7k66AL0LbDoAPNB6xnInFIcmqEDpBgA/UC7IPzNn/bYYmMk9y3LosMRt0BqLIXj5853wI
- oqZARO+O+YgaSlAOJx2QNEAQJeysHN/JvTo9v6NJwZSOswaIeqhLPuyofZ3MKdvGGQjnBg9
- bkzn49cZCgScE55dOp6BQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zao/5C13Mrw=:Blt4HTwKetOwahNbNu+5JW
- T73tXpk52G/jNRHQ4l2zcd5YyEersTe+ifNss8wVOJuHDdK+0mugrjvoQTdS63x0/0rtiAiFf
- 3fdbiDZHhKtiiDedqcw53DSc2zeU7UNl2jw2Ri6dyCaVe+2xSWzjO/sxB4j7Gb/BLR2eEXbBm
- fTU6n/rEj1Q90JJukEOJMTE1+yda8Bo99w7wuWAVqpCESo7D1amuZsyg0CnKElRSaxw1ArrK2
- RSG3BWkctGcwi+A+a4vMJUUAfRSRMZR+RFcYz5X966eXPArNd+GCuEBZYyQfPpff5g2j36jEd
- TAENBZXVJfH4kmU0e70gZiL/l6TXzyXCRP6jTdfs3dyzlwR7OPXEGlayaBZPxgvjbbSMpzMvM
- oZE4qyuAYM72X7nPFdIaz/zN6PdGVzvB3zXlmwA6QUVTS4KSSpWzHU0rVgWc9WnRAR+W5nyGU
- PLaWnrCkbfBkvjQBlQrjBSY6o1pIe4YG+qiOwczG7HctTGdP5Egnk8ZHbh4vxZ1c0Lbf6adys
- 79gIK4qzeaaH7bYpPsAqxSKdph4fYPSJ+Wq+HUDJpny+6mMqPNBVfjfPi9hgN7Sj915QOlx/G
- DMVmbKBAMIF1iPKREKivdrEb8AUc1rHWtcTSnZOH2XynYXmi14zTbBS3KsjJgSw8QmNDlrgG9
- CO6a/eYB0zqmcoIS0nw/mX23yz3SuI9gBaPHCOm2LTFniS/6WhhIyrGEjSnrpy8/ZfCY3Erp7
- qrS8GUkCNNQ6zZNAufVS0yp/oel2HhO23eEOCDsj7W91LIOOyEhdIe/5s6qA9WEpacKXuK/d3
- 6zHTqA8aN3jS53lFIVFMDqmTbR/ohuyBNiOsjgXjRP8rAkiC0zTe6xxd1StO12IRifq8/mY
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Epmdrbj84mM4+CNaeDulwlmvqtjjjQC/X1eHvYAmsWRk8j3Fn2h
+ QijUH4N79c1Jg6lWt19bDhVMvk/Fj3FTs9poJ1QXh3aMQ5r0b8lJIHp3QSTozpdbUciXm25
+ VVPTRMxVD1zVS5dEB+qkxiSoTk1022LNoMuTcce8wtvCp2lK6lglv/R0gGm/hwnzHlhWFh3
+ CtfAXsijfUc58kuHBdKAA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jrJy+udALk0=:xw/Jpa4PCL6qHBVS5+PejC
+ ndl36lGw0tPEOdos0jaqJC5FVvwaZXiPbauA+5GOOdTK4DP2DPF4aCcuLhP+SrEiJsQorTTru
+ BPCODmZharzbKU/M39ybMnqXQYKDHdOpUNUGhSVV6YROR2pd/Br96I7i3mmCapAfZfVjiaqdQ
+ JRqLLUKZhXdyxVnfebn5TiowuUqNmLs45YZJbUt1b6v/JTnsqhhR0dJWx8VGkfpvBeUch8CiL
+ w7Ngjt4qKnqN+qIpxhqdftoMSwjOhNf5NaPKoGFSinHY4HcT7yJpH5QuCDMZW1q8VcYhHmzbq
+ IIwwMYI081LcnoQUa01yJJusRXpKLnz1H0ng5Azof/+VFXDVckc7zq5G8nC/FaYJRWjjMAAS6
+ UN+GLv/k8Oc+rhgH/nk4FxR1SobQXkfhxTTfHKHaChYpW2tCL4OtXnwi4dnzS6oBvOVRUmfp7
+ EnYietJzuUPxV/MAyx18YE5DQ/FfNdmvpl8rCZl5ZlOKKe/v92xAzW+F8m+bQ8MXIY4pFV1b/
+ t4ooIu4UNCJRq9O/bYS3tC/PbffaJnZELZ1/HsGIPS4Uj/OLl1Bf8reX3O6RS7UUtxjjD5bni
+ MBo2Zc8EqACo7VESU3mnfNMUHedisofGZ4JlKjQAgQyAn5zU1VlWGBY2W8JRradDZWde2rnIY
+ Ly/qsgQBJpnd/+wn7xHh6gtXgziCmuDlUtcBUocEbZ9ZXFqqYCjJWFfLl5ZY9L/D/Yt5P0pcH
+ EjavFRteaS5LJNW/anMoSIvBJMXm2vaLa4MIWAZaP3CV2BtyexkpmWqUZsfiNihemWN5RF089
+ n9EzzrTncQwheMoOLr2sDrQnxsDPgWFXev6IolOoSwbTdU+WOa5rewlYNjiNzhkVAPigFR+
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:13
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,61 +72,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Rename the unique variable assigned as 'pit' which better
-represents what it holds, to fix a warning reported by the
-Clang static code analyzer:
+Fix warning reported by Clang static code analyzer:
 
-    CC      hw/isa/i82378.o
-  hw/isa/i82378.c:108:5: warning: Value stored to 'isa' is never read
-      isa = isa_create_simple(isabus, "i82374");
-      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  hw/gpio/aspeed_gpio.c:717:18: warning: Value stored to 'g_idx' during its initialization is never read
+      int set_idx, g_idx = *group_idx;
+                   ^~~~~   ~~~~~~~~~~
 
 Reported-by: Clang Static Analyzer
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200422133152.16770-7-philmd@redhat.com>
+Message-Id: <20200422133152.16770-8-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/isa/i82378.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/gpio/aspeed_gpio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index dcb6b479ea0d..d9e6c7fa0096 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -67,7 +67,7 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
-     I82378State *s = I82378(dev);
-     uint8_t *pci_conf;
-     ISABus *isabus;
--    ISADevice *isa;
-+    ISADevice *pit;
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index e52fcfd9a030..4c75b5c80cc9 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -712,7 +712,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+ static int get_set_idx(AspeedGPIOState *s, const char *group, int *group_idx)
+ {
+     AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
+-    int set_idx, g_idx = *group_idx;
++    int set_idx, g_idx;
  
-     pci_conf = pci->config;
-     pci_set_word(pci_conf + PCI_COMMAND,
-@@ -99,13 +99,13 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
-     isa_bus_irqs(isabus, s->i8259);
- 
-     /* 1 82C54 (pit) */
--    isa = i8254_pit_init(isabus, 0x40, 0, NULL);
-+    pit = i8254_pit_init(isabus, 0x40, 0, NULL);
- 
-     /* speaker */
--    pcspk_init(isabus, isa);
-+    pcspk_init(isabus, pit);
- 
-     /* 2 82C37 (dma) */
--    isa = isa_create_simple(isabus, "i82374");
-+    isa_create_simple(isabus, "i82374");
- }
- 
- static void i82378_init(Object *obj)
+     for (set_idx = 0; set_idx < agc->nr_gpio_sets; set_idx++) {
+         const GPIOSetProperties *set_props = &agc->props[set_idx];
 -- 
 2.26.2
 
