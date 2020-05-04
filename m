@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFCAB1C3D76
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:47:53 +0200 (CEST)
-Received: from localhost ([::1]:37390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6B81C3E19
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:07:36 +0200 (CEST)
+Received: from localhost ([::1]:53342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcNs-0002aV-Tk
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49638)
+	id 1jVcgw-0001a2-PV
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVcJr-0005S6-1z; Mon, 04 May 2020 10:43:43 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:35400)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVcJn-0006rw-Jd; Mon, 04 May 2020 10:43:41 -0400
-Received: by mail-lj1-x242.google.com with SMTP id g4so9940008ljl.2;
- Mon, 04 May 2020 07:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=OfKvkccqu1FZg1raEspi36fatxXhkuXGlT7Uesj0f10=;
- b=fMa0qpfappe7P5ER0d5byeF0JkfoGvmgtcaHZXsvvHVBjGESnmvI3fyiVFQbvd+5SU
- AsuMojNIws33PhExnkPDocWy5V2011hcMEuWhBOfImZA2FsWkckBMPF+NvswYY/2Vq/F
- xhAECbArZm4N8MWYcsihWIWeFkgRsSKbE0zNkU5yTaH4Nk84mwImAUYFIRscig6H63lY
- VocoNWry4UnrePezv8HRYVKx6A38Y/1SjHj1e97w21fr2fH6WSmpdv0XvjnNq5s9dvq6
- dvKLrxMxyfHNMJLwv2itNIwry2levx2se9cix9BMwHo2wemUmMK3oC9TqHNhIMg+y1i7
- ymSQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcKG-00061E-3j
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:44:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52773
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcKF-0007CE-5r
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:44:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588603446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pSthITE56L2hFIEmST/HRha2R7OdLTFLBd7KQqBM514=;
+ b=abOtoXNtBk9NIy9anhajpNkaX0Vk77xQ2jbA5zgB9Gglva8r3cwl1MUALdhRI7f3P4SopX
+ SYQKUe3/YUpHEgi6XVZNkFPzlgJFQX1SOXmR/AQG7GG8i4lg8h4AnIIjoxYUyZ3i/ylgM8
+ b34i9xBej+ZKTNP11Xuwz1I3YhmMmh8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-K2G4jJL7Nn-vbrt9gDWc6w-1; Mon, 04 May 2020 10:43:55 -0400
+X-MC-Unique: K2G4jJL7Nn-vbrt9gDWc6w-1
+Received: by mail-wm1-f70.google.com with SMTP id 71so3610987wmb.8
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:43:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=OfKvkccqu1FZg1raEspi36fatxXhkuXGlT7Uesj0f10=;
- b=iFPREr0GakYKtvYgi+GtBvVYvyvYb/A0nckSQ/KVcCOrwOZdx6EsiqVazzn2sggtYd
- tAQp3AG6HX4JiDuk7d7Lq84hobBk+l+QrGojJ3UZUen3D6ZrbhvOoSxNk9Cx8TUAzOLf
- TT3jpdzrVZwQJC2A5R/XuA+iJcTzJJF97VAPuPEtYy+a+7nVyJY78DIqHx+QyhJ248oF
- bTcjFAZrBVYrfVMrFRG5JwWs5sDUsiikZdvATOHtCr2awcKBi2wggEqk7jxn+utp294R
- pWjozEhtCtTtYMMbiFm3Ep1rZEdfZkFZqjdvUGrr5x32MUUxhYsKb8adwMB1m7aT+ql9
- cDHg==
-X-Gm-Message-State: AGi0PuZYqyUGTWqLXzWTZwmlcryZ9zEC8Ja0v5V8da7V0Z8bHQ8BxjYu
- s7X3qjixipkl2X5PSweH81M=
-X-Google-Smtp-Source: APiQypIAFExYSaIFGwQaycYJ3k3RUxTQauyAVerT4m9uD0Yrn2hB+C8VKnE65u1uFEmSnfSZc3YKzA==
-X-Received: by 2002:a2e:7815:: with SMTP id t21mr10691773ljc.146.1588603417346; 
- Mon, 04 May 2020 07:43:37 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id l25sm9927746lfh.71.2020.05.04.07.43.36
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YlpSmQbS4jAahWSUxB8SJZeDNR28kAXnUGMyBMki4DA=;
+ b=eNp/HKJ7Tgv9TIsShPEgUnjRg4WRmaC+bwbpWJY4gJHEPoxnYeKyw6lBT2GGcYyd8T
+ FQ6OFmqHgQ0MrURatz6OaaDSTcBXBmemZLLjxq3dfEjYGaNUSCjhkOcoam3B0YhLFd+M
+ F0JNy986RU//eIhL3O/of6bVg13A61HcthKdpWsRukHYN8WLhs3oFYWVsnXCLHzjCZ0f
+ islxK9mF1d+uyYrEOIakPV7mqq2rcUUYp2ulgqyWbSqo0nL1UK+So8ouPi6O6za5rSAk
+ 7sYjFin0zOrPhqc9YSjXe3nk5KtMqLMejFIDU+sjadUBulNY7wCSdF+vCTsWWm5P5KBY
+ 2wRA==
+X-Gm-Message-State: AGi0PuahyIYkvHZQk9Aw7Oz25hAH68OfIMdqeUB/434enj2T+X9q+8yf
+ W3R4f0pkyL/j1DQ7o+BEfAmhIJsYo2JwP6SOKQ3QTEBc5uJfjDnfs6Ad0FWizV21SWVn+kRYWn5
+ yKTUl875mLHOajcw=
+X-Received: by 2002:adf:8483:: with SMTP id 3mr8129930wrg.206.1588603434238;
+ Mon, 04 May 2020 07:43:54 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJGT6ncZPumsRLgD8w1vAfm+/WuyBFnwXfcPvfpaDjedIpziZNicGcjuwM4OKR0KihcKpmwCA==
+X-Received: by 2002:adf:8483:: with SMTP id 3mr8129913wrg.206.1588603434075;
+ Mon, 04 May 2020 07:43:54 -0700 (PDT)
+Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id k9sm19790478wrd.17.2020.05.04.07.43.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:43:36 -0700 (PDT)
-Date: Mon, 4 May 2020 16:43:35 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v2 02/10] net: cadence_gem: Fix the queue address update
- during wrap around
-Message-ID: <20200504144335.GC5519@toto>
-References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1588601168-27576-3-git-send-email-sai.pavan.boddu@xilinx.com>
+ Mon, 04 May 2020 07:43:53 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] tests/qht-bench: Fix Clang 'implicit-int-float-conversion'
+ warning
+Date: Mon,  4 May 2020 16:43:52 +0200
+Message-Id: <20200504144352.23021-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1588601168-27576-3-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,115 +93,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Ramon Fried <rfried.dev@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 04, 2020 at 07:36:00PM +0530, Sai Pavan Boddu wrote:
-> During wrap around and reset, queues are pointing to initial base
-> address of queue 0, irrespective of what queue we are dealing with.
-> Fix it by assigning proper base address every time.
+When building with Clang 10 on Fedora 32, we get:
 
-Might want to add wrappers e.g:
-static inline uint32_t gem_get_rx_queue_base_addr(CadenceGEMState *s, int q) {
-    gem_get_queue_base_addr(s, false, q); 
-}
+  tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned long'=
+ to 'double' changes value from 18446744073709551615 to 1844674407370955161=
+6 [-Werror,-Wimplicit-int-float-conversion]
+          *threshold =3D rate * UINT64_MAX;
+                            ~ ^~~~~~~~~~
+  /usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
+  # define UINT64_MAX             (__UINT64_C(18446744073709551615))
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /usr/include/stdint.h:107:25: note: expanded from macro '__UINT64_C'
+  #  define __UINT64_C(c) c ## UL
+                          ^~~~~~~
+  <scratch space>:14:1: note: expanded from here
+  18446744073709551615UL
+  ^~~~~~~~~~~~~~~~~~~~~~
 
-static inline uint32_t gem_get_tx_queue_base_addr(CadenceGEMState *s, int q) {
-    gem_get_queue_base_addr(s, true, q); 
-}
+Fix by using nextafter() from <math.h>:
 
-It makes the packet processing logic a little easier to read, e.g:
+  double nextafter( double from, double to );
 
-s->rx_desc_addr[q] = gem_get_rx_queue_base_addr(s, q);
-vs
-s->rx_desc_addr[q] = gem_get_queue_base_addr(s, false, q);
+      Returns the next representable value of 'from'
+      in the direction of 'to'.
 
-Anyway, this looks good to me:
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+Supersedes: <20200504144125.22435-1-philmd@redhat.com>
 
+Since v2: corrected patch subject
+Since v1: nextafterf() -> nextafter()
 
+Cc: Emilio G. Cota <cota@braap.org>
+Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>
+---
+ tests/qht-bench.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  hw/net/cadence_gem.c | 29 +++++++++++++++++++++++++----
->  1 file changed, 25 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index 2f244eb..6cb2f64 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -845,6 +845,25 @@ static int get_queue_from_screen(CadenceGEMState *s, uint8_t *rxbuf_ptr,
->      return 0;
->  }
->  
-> +static uint32_t gem_get_queue_base_addr(CadenceGEMState *s, bool tx, int q)
-> +{
-> +    uint32_t base_addr = 0;
-> +
-> +    switch (q) {
-> +    case 0:
-> +        base_addr = s->regs[tx ? GEM_TXQBASE : GEM_RXQBASE];
-> +        break;
-> +    case 1 ... (MAX_PRIORITY_QUEUES - 1):
-> +        base_addr = s->regs[(tx ? GEM_TRANSMIT_Q1_PTR :
-> +                                 GEM_RECEIVE_Q1_PTR) + q - 1];
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    };
-> +
-> +    return base_addr;
-> +}
-> +
->  static hwaddr gem_get_desc_addr(CadenceGEMState *s, bool tx, int q)
->  {
->      hwaddr desc_addr = 0;
-> @@ -1044,7 +1063,7 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
->          /* Next descriptor */
->          if (rx_desc_get_wrap(s->rx_desc[q])) {
->              DB_PRINT("wrapping RX descriptor list\n");
-> -            s->rx_desc_addr[q] = s->regs[GEM_RXQBASE];
-> +            s->rx_desc_addr[q] = gem_get_queue_base_addr(s, false, q);
->          } else {
->              DB_PRINT("incrementing RX descriptor list\n");
->              s->rx_desc_addr[q] += 4 * gem_get_desc_len(s, true);
-> @@ -1200,7 +1219,8 @@ static void gem_transmit(CadenceGEMState *s)
->                                      sizeof(desc_first));
->                  /* Advance the hardware current descriptor past this packet */
->                  if (tx_desc_get_wrap(desc)) {
-> -                    s->tx_desc_addr[q] = s->regs[GEM_TXQBASE];
-> +                    s->tx_desc_addr[q] = gem_get_queue_base_addr(s,
-> +                                         true, q);
->                  } else {
->                      s->tx_desc_addr[q] = packet_desc_addr +
->                                           4 * gem_get_desc_len(s, false);
-> @@ -1252,7 +1272,8 @@ static void gem_transmit(CadenceGEMState *s)
->                  } else {
->                      packet_desc_addr = 0;
->                  }
-> -                packet_desc_addr |= s->regs[GEM_TXQBASE];
-> +                packet_desc_addr |= gem_get_queue_base_addr(s,
-> +                                    true, q);
->              } else {
->                  packet_desc_addr += 4 * gem_get_desc_len(s, false);
->              }
-> @@ -1458,7 +1479,7 @@ static void gem_write(void *opaque, hwaddr offset, uint64_t val,
->          if (!(val & GEM_NWCTRL_TXENA)) {
->              /* Reset to start of Q when transmit disabled. */
->              for (i = 0; i < s->num_priority_queues; i++) {
-> -                s->tx_desc_addr[i] = s->regs[GEM_TXQBASE];
-> +                s->tx_desc_addr[i] = gem_get_queue_base_addr(s, true, i);
->              }
->          }
->          if (gem_can_receive(qemu_get_queue(s->nic))) {
-> -- 
-> 2.7.4
-> 
+diff --git a/tests/qht-bench.c b/tests/qht-bench.c
+index e3b512f26f..54ce1e8188 100644
+--- a/tests/qht-bench.c
++++ b/tests/qht-bench.c
+@@ -10,6 +10,7 @@
+ #include "qemu/qht.h"
+ #include "qemu/rcu.h"
+ #include "qemu/xxhash.h"
++#include <math.h>
+=20
+ struct thread_stats {
+     size_t rd;
+@@ -284,7 +285,7 @@ static void do_threshold(double rate, uint64_t *thresho=
+ld)
+     if (rate =3D=3D 1.0) {
+         *threshold =3D UINT64_MAX;
+     } else {
+-        *threshold =3D rate * UINT64_MAX;
++        *threshold =3D rate * nextafter(0x1p64, 0.0);
+     }
+ }
+=20
+--=20
+2.21.3
+
 
