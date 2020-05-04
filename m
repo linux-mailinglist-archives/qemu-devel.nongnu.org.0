@@ -2,86 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A001C3C4C
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:05:24 +0200 (CEST)
-Received: from localhost ([::1]:43288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963B31C3CBA
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:18:29 +0200 (CEST)
+Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVbil-00026S-1a
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:05:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43574)
+	id 1jVbvQ-0004Gj-I9
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:18:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVbh6-0000eu-S9
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:03:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:25204
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVbh5-0006fa-PG
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:03:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588601018;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b07kBqn65IFgXikBqRmbtRU7fYg1q3hiw3ti+bkfZPA=;
- b=CalK1gRKqiobcvVgiggDMT4XFr/aeeG9eyx8L4tGIdgJSzyhR8YO1rTytkkxGA/9Z/o0pW
- VqQGJjA0341qENNnTQGfDHQTNHTDliRpI2aF3nCy7Oz1+vkN6tHQctwF8Bs6aeREW32CbZ
- CjNMbwWuN0g7qAWgPpWoOkTNFMc6cos=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-IgNFd9_VP9edAtBoZJWTjg-1; Mon, 04 May 2020 10:03:37 -0400
-X-MC-Unique: IgNFd9_VP9edAtBoZJWTjg-1
-Received: by mail-wm1-f71.google.com with SMTP id w2so4942773wmc.3
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:03:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1ngUXtI4hGh3c4dAqDF6Rg89JFHqGpuVo8IeLr5r4Cw=;
- b=SdWn9vDlnp6I0DNbExN444weLNX1wPg2qB+72XnXHMW64MaqyuXNzFKW+ycZ7nnBiA
- 0NbtzrH31jwXFxxxdf5/SctxJgwAR3OMKGZO94fX6HVkQFLAchqt8uz17p38ixayypTe
- xQpFtNcXV8b2p2/1uuun2X+Nr9AD3nPip1RUUVAb1sCykIuMNgBSuINv56DKGgr66GRM
- SFDAWL27uts89RSt7+ytB4Ez1Y6Pi4c5+dZA8tXZPrrGbpVxDlAJHpbGulibAopTb+Ey
- hazOfdaX4dV+yTbdiXqpTKYpBS2KzdZJh1UHuQFbqVcBz+PaO1WZCkrqlJ6Ep9tCOEop
- srsQ==
-X-Gm-Message-State: AGi0PuZyNKiCIx2K5b4nBvy6mxKHndq/HIblAVibBmGQExXy8llAXvSN
- 6zWuMaB7ChZtQROan5jIAwNO6BHNslxpiHnDwL9K3e7s1mYmV942iC+XJnrReVlDqgGxbxk69dK
- 19Ci/hPYgrS7UCyk=
-X-Received: by 2002:a1c:1f09:: with SMTP id f9mr15745871wmf.31.1588601013141; 
- Mon, 04 May 2020 07:03:33 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJYWNa9VJWHtrOUiDfBu4O+gpp+6JkTUyNCSWe77KSg1REaVkNEONyeY1LraRRiA6iLbg4Rwg==
-X-Received: by 2002:a1c:1f09:: with SMTP id f9mr15745848wmf.31.1588601012933; 
- Mon, 04 May 2020 07:03:32 -0700 (PDT)
-Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
- by smtp.gmail.com with ESMTPSA id
- e21sm20013578wrc.1.2020.05.04.07.03.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:03:32 -0700 (PDT)
-Date: Mon, 4 May 2020 10:03:29 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Yubo Miao <miaoyubo@huawei.com>
-Subject: Re: [PATCH v6 5/8] acpi: Align the size to 128k
-Message-ID: <20200504100317-mutt-send-email-mst@kernel.org>
-References: <20200408125816.955-1-miaoyubo@huawei.com>
- <20200408125816.955-6-miaoyubo@huawei.com>
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jVbrL-00070N-Ro; Mon, 04 May 2020 10:14:15 -0400
+Received: from mail-eopbgr690073.outbound.protection.outlook.com
+ ([40.107.69.73]:55182 helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jVbrI-0005U8-Vt; Mon, 04 May 2020 10:14:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Mw1PtOA0lAqrS6LQFPm1qfwAzk5bwQCcpXqc9nO/D8oTfIRdS+x8DtZ8r+8E9zhfEXjrbmOzrdTzDWShx9fUYFwbnx1Fz26N4z9HrduMCAo+Z6gWHQ4dWFJvL+m0gpnDANnCV9XJB2y3oooBe/a98OLuUlHmlh4UEEg0i23jT+yFDlKvijtOWDdI68A5s5JCNpM0feLQncHpbMVcq648cJJ9Z40Em3OB3l0dEb5d11O7f3tWmPm61Pxtz4o+PgyWeM3XgWtHcMbLWGPgtm5mMN0TGjtHPztKBgTQDPvz2HE46PxkK/rLI7aV2yRiW1DskJbmpXqOtkltdRx5Lho4CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CYBD0GY0s6dCHGtc7Rl++atku8A18ubsif2qHKvkozQ=;
+ b=A/IeNUQqonh72atNK0YUC4QYcvr3hiBotV85vK9r5V9ABKIAlnBpg+bvCOxoPr7+g33KQicP3NceFbTq8J2y3O0jR5ad9JE0aMw9iTdQHmQcI3Z66pKv6w7KFfF8MVx0sPTp2IO1OOPMzqaFVoVAKhXiPbQ77moXDAM4uvKAlv2ssxPMEGL8uytGg5OTQOW80C5ClLCkzDhHoyGKYMy9bi2mfnrUKpNbWrNe8IC7CZv9xt/tI4h4k+nHl5VsQSY+CUsvPfF70C3FyCutgkCqgu3uFH62DP6EopBoEKZjkB/iLFJHtWGMo3tXGGLHLiswz3bPI6AWopOC8bc2bbqXIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CYBD0GY0s6dCHGtc7Rl++atku8A18ubsif2qHKvkozQ=;
+ b=BQdVsj31AZA5NG2+0xGOtqJG/TmEgix61GDDSsmO8Tl13JqVhgw3/f6yhd7rhSZgrwU8DPSi0qwXuqupSZoIhq5cAULboeQOwJthDGnahfVS/tRXNce/eMN4yygD2ppAkWvIdX/fHwOZpI7dqrIEzazQtJLvUl+HEf65PXyeVyQ=
+Received: from CY4PR13CA0018.namprd13.prod.outlook.com (2603:10b6:903:32::28)
+ by DM6PR02MB6858.namprd02.prod.outlook.com (2603:10b6:5:223::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Mon, 4 May
+ 2020 14:14:07 +0000
+Received: from CY1NAM02FT015.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:32:cafe::c5) by CY4PR13CA0018.outlook.office365.com
+ (2603:10b6:903:32::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.11 via Frontend
+ Transport; Mon, 4 May 2020 14:14:07 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT015.mail.protection.outlook.com (10.152.75.146) with Microsoft SMTP
+ Server id 15.20.2958.27 via Frontend Transport; Mon, 4 May 2020 14:14:07
+ +0000
+Received: from [149.199.38.66] (port=42862 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jVbr7-0000GG-5W; Mon, 04 May 2020 07:14:01 -0700
+Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jVbrC-0000ub-QL; Mon, 04 May 2020 07:14:06 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1jVbrB-0000uJ-O8; Mon, 04 May 2020 07:14:05 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id 70CDD13C2E73; Mon,  4 May 2020 19:36:24 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Tong Ho <tong.ho@xilinx.com>, Ramon Fried <rfried.dev@gmail.com>
+Subject: [PATCH v2 00/10] Cadence GEM Fixes
+Date: Mon,  4 May 2020 19:35:58 +0530
+Message-Id: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(396003)(136003)(376002)(346002)(39860400002)(46966005)(4744005)(6266002)(26005)(2616005)(47076004)(356005)(81166007)(82740400003)(82310400002)(2906002)(6666004)(4326008)(5660300002)(426003)(478600001)(336012)(70586007)(70206006)(36756003)(8676002)(186003)(316002)(110136005)(8936002)(42186006);
+ DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
-In-Reply-To: <20200408125816.955-6-miaoyubo@huawei.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 38335a08-6279-462a-574b-08d7f0356865
+X-MS-TrafficTypeDiagnostic: DM6PR02MB6858:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB685840BF0A9609D240255EFBCAA60@DM6PR02MB6858.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 03932714EB
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zg4fuGTvbvfKPfpQNeS2UzifGAUyaweBhK24C3JGgWlGFokXifmxFC38PKhbbU3z/P3zdZ3PfozFQNkgmfC3cHNxNWiWps3MmUac51TPhd5fMSmYsnemJV8x1mmCKn7wrwlSENfji6ONGHz2DPTT9/X82KestMk298qHEqE7ua4jD+RL+zDIaepCgtiSrFT0Al4GzAv7cNrUSN7rV8tClMccHlarGRbrXdqYUEYwoperjfx3x0NS/sThtu8LPxCMhiCYziMajs/OjfycstY92quuM2fThj5313FTV9qXVyPr96RIFGfo5eQpUsDFnEngAT+yjsgPQEUQJLVNc7R705TpfjxEcxB9Fuk0Jde8Z+F3r2qWz7HUzDgSB3NIOeFZzF279hmD5pzEApQOgGlAeoUkikUxULcQwf/jyYIRHpSQLEHwQUKHCl8GdVtsTPUmY+SFg24awB/iyIq4QKUi6fQ9OQPisx4mzK4yKOYiTCFmUVBRA5S4InDXF7blRGo/cAmHerETz8W7nxkf2ScU3Q==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2020 14:14:07.1464 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38335a08-6279-462a-574b-08d7f0356865
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6858
+Received-SPF: pass client-ip=40.107.69.73; envelope-from=saipava@xilinx.com;
+ helo=NAM04-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 10:14:09
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,83 +132,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, shannon.zhaosl@gmail.com, imammedo@redhat.com,
- lersek@redhat.com
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 08, 2020 at 08:58:13PM +0800, Yubo Miao wrote:
-> From: miaoyubo <miaoyubo@huawei.com>
->=20
-> If table size is changed between virt_acpi_build and
-> virt_acpi_build_update, the table size would not be updated to
-> UEFI, therefore, just align the size to 128kb, which is enough
-> and same with x86. It would warn if 64k is not enough and the
-> align size should be updated.
->=20
-> Signed-off-by: miaoyubo <miaoyubo@huawei.com>
+Hi,
 
-does this affect migration in any way?
+Following patch series fixes issues with priority queues,
+Adds JUMBO Frame support,
+Makes Debug statements compilable &
+Fixes related to multicast frames.
 
-> ---
->  hw/arm/virt-acpi-build.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->=20
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 7bcd04dfb7..89bb768b0c 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -54,6 +54,8 @@
->  #include "hw/pci/pci_bridge.h"
->  #define ARM_SPI_BASE 32
-> =20
-> +#define ACPI_BUILD_TABLE_SIZE             0x20000
-> +
->  static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
->  {
->      uint16_t i;
-> @@ -883,6 +885,15 @@ struct AcpiBuildState {
->      bool patched;
->  } AcpiBuildState;
-> =20
-> +static void acpi_align_size(GArray *blob, unsigned align)
-> +{
-> +    /*
-> +     * Align size to multiple of given size. This reduces the chance
-> +     * we need to change size in the future (breaking cross version migr=
-ation).
-> +     */
-> +    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
-> +}
-> +
->  static
->  void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->  {
-> @@ -953,6 +964,20 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuil=
-dTables *tables)
->          build_rsdp(tables->rsdp, tables->linker, &rsdp_data);
->      }
-> =20
-> +    /*
-> +     * The align size is 128, warn if 64k is not enough therefore
-> +     * the align size could be resized.
-> +     */
-> +    if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
-> +        warn_report("ACPI table size %u exceeds %d bytes,"
-> +                    " migration may not work",
-> +                    tables_blob->len, ACPI_BUILD_TABLE_SIZE / 2);
-> +        error_printf("Try removing CPUs, NUMA nodes, memory slots"
-> +                     " or PCI bridges.");
-> +    }
-> +    acpi_align_size(tables_blob, ACPI_BUILD_TABLE_SIZE);
-> +
-> +
->      /* Cleanup memory that's no longer used. */
->      g_array_free(table_offsets, true);
->  }
-> --=20
-> 2.19.1
->=20
+Changes for V2:
+	Fixed build failure on fedora docker machine
+	Fix buggy debug print to use sized integer casting
+
+Sai Pavan Boddu (9):
+  net: cadence_gem: Fix debug statements
+  net: cadence_gem: Fix the queue address update during wrap around
+  net: cadence_gem: Fix irq update w.r.t queue
+  net: cadence_gem: Define access permission for interrupt registers
+  net: cadence_gem: Set ISR according to queue in use
+  net: cadence_gem: Add support for jumbo frames
+  net: cadnece_gem: Update irq_read_clear field of designcfg_debug1 reg
+  net: cadence_gem: Update the reset value for interrupt mask register
+  net: cadence_gem: TX_LAST bit should be set by guest
+
+Tong Ho (1):
+  net: cadence_gem: Fix RX address filtering
+
+ hw/net/cadence_gem.c | 167 +++++++++++++++++++++++++++++----------------------
+ 1 file changed, 94 insertions(+), 73 deletions(-)
+
+-- 
+2.7.4
 
 
