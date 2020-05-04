@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35031C3D8E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:51:10 +0200 (CEST)
-Received: from localhost ([::1]:51936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 255561C3D78
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:47:56 +0200 (CEST)
+Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcR3-0000M2-Jl
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47928)
+	id 1jVcNv-0002iw-29
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc8h-00020t-7H
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:32:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48907
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc9a-0003Lp-8L
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:33:06 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:46109
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc8f-0008DD-Eb
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:32:10 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc9X-0008OT-8q
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:33:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602728;
+ s=mimecast20190719; t=1588602782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kyofElCtLr0NGuMPjOyHWPcjCxNtZ4I/3Dffj/xN218=;
- b=A1VLfRidjlZ7tTB40G18t81L11nTTaft9AHyzawWXzA7QmoQCV2Y0JWebpOZrgLXz6oxBX
- mxNDaYR9SfmQs/KGqUn8WKTfSeTrl/mcNYc5xX5HPbN/iFJegYNkiwqTXAZrNqNhrv5gHd
- T01XkW7BYmleYg9JSWVtFxTVzcoUYPo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-v--rp5gjP7aGEsTflSk8yA-1; Mon, 04 May 2020 10:29:58 -0400
-X-MC-Unique: v--rp5gjP7aGEsTflSk8yA-1
-Received: by mail-wr1-f71.google.com with SMTP id r11so10843145wrx.21
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:57 -0700 (PDT)
+ bh=AOdWrTDlgPPkMHeJucHbghgUuY8aAHcAGANlC4mF4bs=;
+ b=J7fn/ih1nH9/dkPQwBkvaDlrUpIyfh13Q1nfiIf40dMagpHQYJHVpqkoE+4NDtEp0dmMbM
+ B+XfK4hJ+Th1OnI/RHdnPwqQtUbEIoDAfvySRjL4q9UtyegKpBDIWr+K7jIukCiDwVuthM
+ Yf7aTqzBBnZw7VyZSwVLGkiDWou/JmM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-OXYJzj6EOOSr5f1GXvIZoQ-1; Mon, 04 May 2020 10:29:59 -0400
+X-MC-Unique: OXYJzj6EOOSr5f1GXvIZoQ-1
+Received: by mail-wm1-f70.google.com with SMTP id u11so3585431wmc.7
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=aaE2UTNnjw9bskNnUaoM6ia/J5Yf/idoEwzallZh50c=;
- b=HlVshVFaZd/9hlmZ8Z2QivKkMRXQZKcw4zrKlFNySdIHBEQWkaCBZTMmnr8lRLDwVQ
- m/WZLgpUwm7fW42P8vW948Re7xrgvxmoHHf/06eo0ljNV/z/auUKTsKmSYLcAhP4Suvv
- lx0lg3WHaQDOLw6B//DWECtj2nps1zTegbp2dNXu18WbvcHsFnSUB8ogJutj4P4Dtdhi
- 630Ymkd1KIV+lVb0CHVh8zoCqoVqOl/1Cdu6mCo74SZol9WaHjTHtQESeh0b3ILnDMan
- MJAQElaBzRu+3DkBzSVeHs6vNvcGB1jj6m1p5ChQ/KQCUuoyZkgJuSwMzToyEPNKp1VV
- UF9g==
-X-Gm-Message-State: AGi0PubqLjhQok6DcABq5YMb5RTP5s1gmHfZovPVkVx7ZG2gXWFz2Bu9
- BM5sJuko9myGIYSkBejpVnDeyU3A/lD5vNjN23Jppo8Bmjtk2BfiGH4yH62sWnJaPxTsd1F/bxt
- boFHn9X5sjXQQ8AU=
-X-Received: by 2002:a5d:68c7:: with SMTP id p7mr3980267wrw.29.1588602596389;
- Mon, 04 May 2020 07:29:56 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLKle9XSLgHXV6pyTwHwzBBzsE2cGWidLqcaLEW6t5ZRQIIfmS/KbS6ZtqQX3GvkUAdU4+76A==
-X-Received: by 2002:a5d:68c7:: with SMTP id p7mr3980238wrw.29.1588602596135;
- Mon, 04 May 2020 07:29:56 -0700 (PDT)
+ bh=vk5zcT78ttafQi3FbOHb+B7bkLDdTDjQjWP7o7Og/l0=;
+ b=aR+sFK+H2HIqb7LwHn6q4W5MjYT/S/ICmJc7iqlKqRMEDzV4su9oIBY62sAL/BoiaS
+ x5XdxDaAdQYtATDjmwL+kyE1+ZPJhnGXaa/df9OgfQdPlOruZtzznzu+gI7sAHSsIZPs
+ GQA76M05/wnD4jBFwE08ePbulVZ05uqkIW9aqaRdIhRM3aO85gPANNV+D0u/ngf8Hl1h
+ D4VKvdOZXd5O+I/yIDBA+FRq2ZT7D7m6gZ9ogG1K93vUz6bq5COPBTGb4Yo7H+tN8kSN
+ LhDav5J3yogIHsUxkmU7oyMEWbYq8eUy3pcwepumfUjHW/IBq8zZwlVuZef8cx8Nzd8x
+ Yj9A==
+X-Gm-Message-State: AGi0PuakEDlVdvwM34L4adFNzEMxb9lFQk+ggeY4gvS3x7bkY3iTaj5S
+ X+rQqDWnQZ8wmRmmer9Jg48/Z9oMe1Rh8UhHfIq/VwlgOsDxXBMTv1LsB26/A/6WTKkxTxES2sT
+ /7/NH8fPDZuh4kn0=
+X-Received: by 2002:a1c:9a81:: with SMTP id
+ c123mr14208675wme.115.1588602598667; 
+ Mon, 04 May 2020 07:29:58 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLuIEh7/IC/hxiyMfl3Y5UBTEdFqY0OIhqmJFZYRfabUp9B5YmiSAjoskGkNPsgsJ93k8MbDA==
+X-Received: by 2002:a1c:9a81:: with SMTP id
+ c123mr14208656wme.115.1588602598453; 
+ Mon, 04 May 2020 07:29:58 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
- by smtp.gmail.com with ESMTPSA id v7sm270738wmg.3.2020.05.04.07.29.54
+ by smtp.gmail.com with ESMTPSA id
+ w4sm19316679wro.28.2020.05.04.07.29.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:29:55 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:54 -0400
+ Mon, 04 May 2020 07:29:58 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:56 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/29] hw/arm/virt: Add nvdimm hot-plug infrastructure
-Message-ID: <20200504142814.157589-18-mst@redhat.com>
+Subject: [PULL 18/29] hw/arm/virt: Add nvdimm hotplug support
+Message-ID: <20200504142814.157589-19-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -72,10 +75,10 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,149 +98,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  Eric Auger <eric.auger@redhat.com>,
  Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Kwangwoo Lee <kwangwoo.lee@sk.com>
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kwangwoo Lee <kwangwoo.lee@sk.com>
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 
-This adds support to init nvdimm acpi state and build nvdimm acpi tables.
-Please note nvdimm_support is not yet enabled.
+This adds support for nvdimm hotplug events through GED
+and enables nvdimm for the arm/virt. Now Guests with ACPI
+can have both cold and hot plug of nvdimms.
 
-Signed-off-by: Kwangwoo Lee <kwangwoo.lee@sk.com>
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Hot removal functionality is not yet supported.
+
 Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200421125934.14952-4-shameerali.kolothum.thodi@huawei.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-Id: <20200421125934.14952-5-shameerali.kolothum.thodi@huawei.com>
 Acked-by: Peter Maydell <peter.maydell@linaro.org>
 Tested-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/arm/virt.h    |  1 +
- hw/arm/virt-acpi-build.c |  6 ++++++
- hw/arm/virt.c            | 19 +++++++++++++++++++
- hw/arm/Kconfig           |  1 +
- hw/mem/Kconfig           |  2 +-
- 5 files changed, 28 insertions(+), 1 deletion(-)
+ include/hw/acpi/generic_event_device.h |  1 +
+ hw/acpi/generic_event_device.c         | 15 ++++++++++++++-
+ hw/arm/virt.c                          | 16 +++++++++++-----
+ docs/specs/acpi_hw_reduced_hotplug.rst |  3 ++-
+ 4 files changed, 28 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 60b2f521eb..6d67ace76e 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -79,6 +79,7 @@ enum {
-     VIRT_SECURE_MEM,
-     VIRT_PCDIMM_ACPI,
-     VIRT_ACPI_GED,
-+    VIRT_NVDIMM_ACPI,
-     VIRT_LOWMEMMAP_LAST,
+diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/gener=
+ic_event_device.h
+index d157eac088..9eb86ca4fd 100644
+--- a/include/hw/acpi/generic_event_device.h
++++ b/include/hw/acpi/generic_event_device.h
+@@ -82,6 +82,7 @@
+  */
+ #define ACPI_GED_MEM_HOTPLUG_EVT   0x1
+ #define ACPI_GED_PWR_DOWN_EVT      0x2
++#define ACPI_GED_NVDIMM_HOTPLUG_EVT 0x4
+=20
+ typedef struct GEDState {
+     MemoryRegion io;
+diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.=
+c
+index 021ed2bf23..5d17f78a1e 100644
+--- a/hw/acpi/generic_event_device.c
++++ b/hw/acpi/generic_event_device.c
+@@ -16,6 +16,7 @@
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/irq.h"
+ #include "hw/mem/pc-dimm.h"
++#include "hw/mem/nvdimm.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qemu/error-report.h"
+@@ -23,6 +24,7 @@
+ static const uint32_t ged_supported_events[] =3D {
+     ACPI_GED_MEM_HOTPLUG_EVT,
+     ACPI_GED_PWR_DOWN_EVT,
++    ACPI_GED_NVDIMM_HOTPLUG_EVT,
  };
 =20
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 81d41a3990..f22b1e6097 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -44,6 +44,7 @@
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci.h"
- #include "hw/arm/virt.h"
-+#include "hw/mem/nvdimm.h"
- #include "sysemu/numa.h"
- #include "sysemu/reset.h"
- #include "kvm_arm.h"
-@@ -826,6 +827,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildT=
-ables *tables)
-         }
+ /*
+@@ -110,6 +112,11 @@ void build_ged_aml(Aml *table, const char *name, Hotpl=
+ugHandler *hotplug_dev,
+                            aml_notify(aml_name(ACPI_POWER_BUTTON_DEVICE),
+                                       aml_int(0x80)));
+                 break;
++            case ACPI_GED_NVDIMM_HOTPLUG_EVT:
++                aml_append(if_ctx,
++                           aml_notify(aml_name("\\_SB.NVDR"),
++                                      aml_int(0x80)));
++                break;
+             default:
+                 /*
+                  * Please make sure all the events in ged_supported_events=
+[]
+@@ -175,7 +182,11 @@ static void acpi_ged_device_plug_cb(HotplugHandler *ho=
+tplug_dev,
+     AcpiGedState *s =3D ACPI_GED(hotplug_dev);
+=20
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+-        acpi_memory_plug_cb(hotplug_dev, &s->memhp_state, dev, errp);
++        if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
++            nvdimm_acpi_plug_cb(hotplug_dev, dev);
++        } else {
++            acpi_memory_plug_cb(hotplug_dev, &s->memhp_state, dev, errp);
++        }
+     } else {
+         error_setg(errp, "virt: device plug request for unsupported device=
+"
+                    " type: %s", object_get_typename(OBJECT(dev)));
+@@ -192,6 +203,8 @@ static void acpi_ged_send_event(AcpiDeviceIf *adev, Acp=
+iEventStatusBits ev)
+         sel =3D ACPI_GED_MEM_HOTPLUG_EVT;
+     } else if (ev & ACPI_POWER_DOWN_STATUS) {
+         sel =3D ACPI_GED_PWR_DOWN_EVT;
++    } else if (ev & ACPI_NVDIMM_HOTPLUG_STATUS) {
++        sel =3D ACPI_GED_NVDIMM_HOTPLUG_EVT;
+     } else {
+         /* Unknown event. Return without generating interrupt. */
+         warn_report("GED: Unsupported event %d. No irq injected", ev);
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 87f29953c4..171e6908ec 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -568,6 +568,10 @@ static inline DeviceState *create_acpi_ged(VirtMachine=
+State *vms)
+         event |=3D ACPI_GED_MEM_HOTPLUG_EVT;
      }
 =20
 +    if (ms->nvdimms_state->is_enabled) {
-+        nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
-+                          ms->nvdimms_state, ms->ram_slots);
++        event |=3D ACPI_GED_NVDIMM_HOTPLUG_EVT;
 +    }
 +
-     if (its_class_name() && !vmc->no_its) {
-         acpi_add_table(table_offsets, tables_blob);
-         build_iort(tables_blob, tables->linker, vms);
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 626822554d..87f29953c4 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -150,6 +150,7 @@ static const MemMapEntry base_memmap[] =3D {
-     [VIRT_SMMU] =3D               { 0x09050000, 0x00020000 },
-     [VIRT_PCDIMM_ACPI] =3D        { 0x09070000, MEMORY_HOTPLUG_IO_LEN },
-     [VIRT_ACPI_GED] =3D           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
-+    [VIRT_NVDIMM_ACPI] =3D        { 0x09090000, NVDIMM_ACPI_IO_LEN},
-     [VIRT_MMIO] =3D               { 0x0a000000, 0x00000200 },
-     /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that siz=
-e */
-     [VIRT_PLATFORM_BUS] =3D       { 0x0c000000, 0x02000000 },
-@@ -1884,6 +1885,18 @@ static void machvirt_init(MachineState *machine)
+     dev =3D qdev_create(NULL, TYPE_ACPI_GED);
+     qdev_prop_set_uint32(dev, "ged-event", event);
 =20
-     create_platform_bus(vms);
-=20
-+    if (machine->nvdimms_state->is_enabled) {
-+        const struct AcpiGenericAddress arm_virt_nvdimm_acpi_dsmio =3D {
-+            .space_id =3D AML_AS_SYSTEM_MEMORY,
-+            .address =3D vms->memmap[VIRT_NVDIMM_ACPI].base,
-+            .bit_width =3D NVDIMM_ACPI_IO_LEN << 3
-+        };
-+
-+        nvdimm_init_acpi_state(machine->nvdimms_state, sysmem,
-+                               arm_virt_nvdimm_acpi_dsmio,
-+                               vms->fw_cfg, OBJECT(vms));
-+    }
-+
-     vms->bootinfo.ram_size =3D machine->ram_size;
-     vms->bootinfo.nb_cpus =3D smp_cpus;
-     vms->bootinfo.board_id =3D -1;
-@@ -2095,6 +2108,8 @@ static void virt_memory_plug(HotplugHandler *hotplug_=
-dev,
-                              DeviceState *dev, Error **errp)
+@@ -2088,19 +2092,20 @@ static void virt_memory_pre_plug(HotplugHandler *ho=
+tplug_dev, DeviceState *dev,
+                                  Error **errp)
  {
      VirtMachineState *vms =3D VIRT_MACHINE(hotplug_dev);
-+    MachineState *ms =3D MACHINE(hotplug_dev);
-+    bool is_nvdimm =3D object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
-     Error *local_err =3D NULL;
++    const MachineState *ms =3D MACHINE(hotplug_dev);
+     const bool is_nvdimm =3D object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)=
+;
 =20
-     pc_dimm_plug(PC_DIMM(dev), MACHINE(vms), &local_err);
-@@ -2102,6 +2117,10 @@ static void virt_memory_plug(HotplugHandler *hotplug=
-_dev,
-         goto out;
+-    if (is_nvdimm) {
+-        error_setg(errp, "nvdimm is not yet supported");
+-        return;
+-    }
+-
+     if (!vms->acpi_dev) {
+         error_setg(errp,
+                    "memory hotplug is not enabled: missing acpi-ged device=
+");
+         return;
      }
 =20
-+    if (is_nvdimm) {
-+        nvdimm_plug(ms->nvdimms_state);
++    if (is_nvdimm && !ms->nvdimms_state->is_enabled) {
++        error_setg(errp, "nvdimm is not enabled: add 'nvdimm=3Don' to '-M'=
+");
++        return;
 +    }
 +
-     hotplug_handler_plug(HOTPLUG_HANDLER(vms->acpi_dev),
-                          dev, &error_abort);
+     pc_dimm_pre_plug(PC_DIMM(dev), MACHINE(hotplug_dev), NULL, errp);
+ }
 =20
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 188419dc1e..5364172537 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -25,6 +25,7 @@ config ARM_VIRT
-     select DIMM
-     select ACPI_MEMORY_HOTPLUG
-     select ACPI_HW_REDUCED
-+    select ACPI_NVDIMM
+@@ -2245,6 +2250,7 @@ static void virt_machine_class_init(ObjectClass *oc, =
+void *data)
+     hc->plug =3D virt_machine_device_plug_cb;
+     hc->unplug_request =3D virt_machine_device_unplug_request_cb;
+     mc->numa_mem_supported =3D true;
++    mc->nvdimm_supported =3D true;
+     mc->auto_enable_numa_with_memhp =3D true;
+     mc->default_ram_id =3D "mach-virt.ram";
 =20
- config CHEETAH
-     bool
-diff --git a/hw/mem/Kconfig b/hw/mem/Kconfig
-index 2ad052a536..c27844900d 100644
---- a/hw/mem/Kconfig
-+++ b/hw/mem/Kconfig
-@@ -8,4 +8,4 @@ config MEM_DEVICE
- config NVDIMM
-     bool
-     default y
--    depends on (PC || PSERIES)
-+    depends on (PC || PSERIES || ARM_VIRT)
+diff --git a/docs/specs/acpi_hw_reduced_hotplug.rst b/docs/specs/acpi_hw_re=
+duced_hotplug.rst
+index 911a98255b..0bd3f9399f 100644
+--- a/docs/specs/acpi_hw_reduced_hotplug.rst
++++ b/docs/specs/acpi_hw_reduced_hotplug.rst
+@@ -63,7 +63,8 @@ GED IO interface (4 byte access)
+     bits:
+        0: Memory hotplug event
+        1: System power down event
+-    2-31: Reserved
++       2: NVDIMM hotplug event
++    3-31: Reserved
+=20
+ **write_access:**
+=20
 --=20
 MST
 
