@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727211C3FFD
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:34:52 +0200 (CEST)
-Received: from localhost ([::1]:51552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB741C3FD3
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:29:12 +0200 (CEST)
+Received: from localhost ([::1]:37104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVe3P-0001xs-9k
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:34:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42502)
+	id 1jVdxv-0002pA-8A
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:29:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVdqw-0004q7-PI
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:21:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51386
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVdx0-0002Dd-0f
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:28:14 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23223
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVdqr-0002Ir-8j
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:21:57 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVdwy-00051Z-7Z
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:28:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588609311;
+ s=mimecast20190719; t=1588609690;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ofivu/rWjmknTFuw8Nli670UpcYUwi1z7tVuD6CxAFQ=;
- b=eKhk69E+TLjIVMUXp7pPcjSfm/TKHP5+UDFlVsI3A68Sw3/ycXLWN37R6UW1wZ3TCB0Qzy
- 0eOzMvnQM428di11eGYHDnQ0/8ENRNB96notOcSt1V61JTze4sN1cGT7joRpELewJgJgN5
- tJt4tL05JeKTtmPgoPXmo/1UWSmmjKo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-9gFuU33PNdmxehLC5MdiIg-1; Mon, 04 May 2020 12:21:49 -0400
-X-MC-Unique: 9gFuU33PNdmxehLC5MdiIg-1
-Received: by mail-wr1-f71.google.com with SMTP id m5so11028380wru.15
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 09:21:49 -0700 (PDT)
+ bh=rQg95Xb8HRfUR/0S1jrh8PBCStCCg6pkceXCSP7bfcI=;
+ b=FxOWAti6CaX3Lgy7QdLSsJwGS0Lxi/7CErkvTQSXQbUfiSd/9HaZXSm+XXo7sWdd0tYQuD
+ ocRbQ4NLhhfAWA5AY716OzU1fFuTU2FdKKjxGxfm3v+VcruJ1kmwGc+BMJPe7Q92zdeisM
+ qbKLOH9/1SvOF2xjEUqztRM6yydUxNo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-wH1Bz6S0POuSYf6DHMD1sg-1; Mon, 04 May 2020 12:28:09 -0400
+X-MC-Unique: wH1Bz6S0POuSYf6DHMD1sg-1
+Received: by mail-wm1-f72.google.com with SMTP id 72so229037wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 09:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=pUXPgn1Sb0MkD1TzeIdrOKynPChb8LBhEDyhbAJWCyM=;
- b=nsNYCONk3hriZqenNzaF9SNPlsyWWZrfUmoZuNsYpTFibGRGpEMXuu6X72yH6DVBzx
- VIvrUOPBJ510XRBmC078iIVnSLVopgd1GRWnRt9jWic26RTlvB2WKARuVzlhLfKMExWU
- Rpvn+4BuvnKJFTJVY4B5IF89Uqy5Zk4MXMYKrZ50lUSRCsuq2vVxlI1zedjoevyjO26+
- KMQkcp2dQ1kLurQhrKW3PrN5B4K4Lyk4zHgrK60SGRK9M3AGDuKoeGZoTCSHd3gu/N6j
- sWj207hvqM+WaRUI+qvku482GxkaviaNrKJy4Ug0VPk0RsPiLmoDMaAL8ojkxJawmRHG
- 2vFw==
-X-Gm-Message-State: AGi0PuZZ1u8c6QUMxZ2Z60XWtlEQjyFPtf9joKBW+h6eBJsFghBshUmX
- qHQBo0O9NE/YzHMEOklt+kHqmvKKLxS++mmmO2AMh5QndUvKKwjUAhVYltLL/6cdCJkwdMvszjU
- RwcYZc+uW0BIQkMk=
-X-Received: by 2002:a1c:5403:: with SMTP id i3mr16643078wmb.10.1588609308318; 
- Mon, 04 May 2020 09:21:48 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKB8Bzkkr24p67YfTFMkre8NbsMfChLwxhCJFfLpUXWUPt/z79t8wDSOHk1k0+suSzd5v4uqA==
-X-Received: by 2002:a1c:5403:: with SMTP id i3mr16643058wmb.10.1588609308062; 
- Mon, 04 May 2020 09:21:48 -0700 (PDT)
+ bh=u1NUL82EPz99lTpfYev3U8JxUh+sTrGeoGPzRGrO3Rg=;
+ b=DP2r5wg43XRixFh8N13ccb94PnuoHZsv9rcMpMydfakweAbOb5445aVlXHFwRrL6iY
+ hXOg840CyvaXpV8SVPYyDiWSHfqmAARCVTBMU3nnsGWakmOhsT2BhWz0nQNIAw1XN6QD
+ 2wEnsL5QQDuSJjKzCrgWpqqSrvN+Nth7gSc+mF5/8lHs1V7HAkNpABhJ4xb0IQcHV82l
+ 4WRVjpcgYIN4Q2332w/lGB755bU+WtnO6n/HV2QfgBUZJLI/IRpaj9iTBSc2nRa43rVJ
+ L3roQ7YbU8HNyde9lKcmN04Q2dM8KPWN77PtCkpHRkPRhMH52rQO7AWV99OfUefs+QGT
+ xkHQ==
+X-Gm-Message-State: AGi0PuaxMetqNvTCKLjjvm/BgjDtUREIkVvGRWv94YVoTVpFgy+gYjUT
+ C+ien3u+HnB9OEcQe60KiBSFh0fUjXVzOGbr1FF34MiOYWgjNJSMe/okDeSOowdv6m14x7W//+b
+ DeyaNsmU1LxV4tFE=
+X-Received: by 2002:adf:e2c2:: with SMTP id d2mr101891wrj.55.1588609687985;
+ Mon, 04 May 2020 09:28:07 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKDvcjMuuooaA4Az7vIsuzwHepEXZ3mJiurS3XCun1XAdyYDb22UQKbFvL6eXRcTY6qDGqFjQ==
+X-Received: by 2002:adf:e2c2:: with SMTP id d2mr101861wrj.55.1588609687647;
+ Mon, 04 May 2020 09:28:07 -0700 (PDT)
 Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id n18sm10934847wrw.90.2020.05.04.09.21.47
+ by smtp.gmail.com with ESMTPSA id q8sm21016946wrp.58.2020.05.04.09.28.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 09:21:47 -0700 (PDT)
-Subject: Re: [PATCH 09/17] hw/isa/superio: Make the components QOM children
+ Mon, 04 May 2020 09:28:07 -0700 (PDT)
+Subject: Re: [PATCH 15/17] qdev: Unrealize must not fail
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20200428163419.4483-1-armbru@redhat.com>
- <20200428163419.4483-10-armbru@redhat.com>
+ <20200428163419.4483-16-armbru@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <82086712-2652-30e8-7818-1ee26fd36822@redhat.com>
-Date: Mon, 4 May 2020 18:21:46 +0200
+Message-ID: <19959f15-8f2a-7e23-4123-5dee9102250d@redhat.com>
+Date: Mon, 4 May 2020 18:28:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200428163419.4483-10-armbru@redhat.com>
+In-Reply-To: <20200428163419.4483-16-armbru@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,135 +98,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/28/20 6:34 PM, Markus Armbruster wrote:
-> isa_superio_realize() attempts to make isa-parallel and isa-serial QOM
-> children, but this does not work, because it calls
-> object_property_add_child() after realizing with qdev_init_nofail().
-> Realizing a device without a parent gives it one: it gets put into the
-> "/machine/unattached/" orphanage.  The extra
-> object_property_add_child() fails, and isa_superio_realize() ignores
-> the error.
+> Devices may have component devices and buses.
 >=20
-> Move the object_property_add_child() before qdev_init_nofail(), and
-> pass &error_abort.
+> Device realization may fail.  Realization is recursive: a device's
+> realize() method realizes its components, and device_set_realized()
+> realizes its buses (which should in turn realize the devices on that
+> bus, except bus_set_realized() doesn't implement that, yet).
 >=20
-> For the other components, isa_superio_realize() doesn't even try.  Add
-> object_property_add_child() there.
+> When realization of a component or bus fails, we need to roll back:
+> unrealize everything we realized so far.  If any of these unrealizes
+> failed, the device would be left in an inconsistent state.  Must not
+> happen.
 >=20
-> This affects machines 40p, clipper and fulong2e.
+> device_set_realized() lets it happen: it ignores errors in the roll
+> back code starting at label child_realize_fail.
 >=20
-> For instance, fulong2e has its vt82c686b-superio (which is an
-> isa-superio) at /machine/unattached/device[9].  Before the patch, its
-> components are at /machine/unattached/device[10] .. [14].  Afterwards,
-> they are at
-> /machine/unattached/device[9]/{parallel0,serial0,serial1,isa-fdc,i8042}.
+> Since realization is recursive, unrealization must be recursive, too.
+> But how could a partly failed unrealize be rolled back?  We'd have to
+> re-realize, which can fail.  This design is fundamentally broken.
 >=20
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> device_set_realized() does not roll back at all.  Instead, it keeps
+> unrealizing, ignoring further errors.
+>=20
+> It can screw up even for a device with no buses: if the lone
+> dc->unrealize() fails, it still unregisters vmstate, and calls
+> listeners' unrealize() callback.
+>=20
+> bus_set_realized() does not roll back either.  Instead, it stops
+> unrealizing.
+>=20
+> Fortunately, no unrealize method can fail, as we'll see below.
+>=20
+> To fix the design error, drop parameter @errp from all the unrealize
+> methods.
+>=20
+> Any unrealize method that uses @errp now needs an update.  This leads
+> us to unrealize() methods that can fail.  Merely passing it to another
+> unrealize method cannot cause failure, though.  Here are the ones that
+> do other things with @errp:
+>=20
+> * virtio_serial_device_unrealize()
+>=20
+>    Fails when qbus_set_hotplug_handler() fails, but still does all the
+>    other work.  On failure, the device would stay realized with its
+>    resources completely gone.  Oops.  Can't happen, because
+>    qbus_set_hotplug_handler() can't actually fail here.  Pass
+>    &error_abort to qbus_set_hotplug_handler() instead.
+>=20
+> * hw/ppc/spapr_drc.c's unrealize()
+>=20
+>    Fails when object_property_del() fails, but all the other work is
+>    already done.  On failure, the device would stay realized with its
+>    vmstate registration gone.  Oops.  Can't happen, because
+>    object_property_del() can't actually fail here.  Pass &error_abort
+>    to object_property_del() instead.
+>=20
+> * spapr_phb_unrealize()
+>=20
+>    Fails and bails out when remove_drcs() fails, but other work is
+>    already done.  On failure, the device would stay realized with some
+>    of its resources gone.  Oops.  remove_drcs() fails only when
+>    chassis_from_bus()'s object_property_get_uint() fails, and it can't
+>    here.  Pass &error_abort to remove_drcs() instead.
+>=20
+> Therefore, no unrealize method can fail before this patch.
+>=20
+> device_set_realized()'s recursive unrealization via bus uses
+> object_property_set_bool().  Can't drop @errp there, so pass
+> &error_abort.
+>=20
+> We similarly unrealize with object_property_set_bool() elsewhere,
+> always ignoring errors.  Pass &error_abort instead.
+>=20
+> Several unrealize methods no longer handle errors from other unrealize
+> methods: virtio_9p_device_unrealize(),
+> virtio_input_device_unrealize(), scsi_qdev_unrealize(), ...
+> Much of the deleted error handling looks wrong anyway.
+>=20
+> One unrealize methods no longer ignore such errors:
+> usb_ehci_pci_exit().
+>=20
+> Several realize methods no longer ignore errors when rolling back:
+> v9fs_device_realize_common(), pci_qdev_unrealize(),
+> spapr_phb_realize(), usb_qdev_realize(), vfio_ccw_realize(),
+> virtio_device_realize().
+>=20
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   hw/isa/isa-superio.c | 18 +++++++++++++-----
->   1 file changed, 13 insertions(+), 5 deletions(-)
->=20
-> diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
-> index 180a8b9625..0d9d848280 100644
-> --- a/hw/isa/isa-superio.c
-> +++ b/hw/isa/isa-superio.c
-> @@ -62,6 +62,8 @@ static void isa_superio_realize(DeviceState *dev, Error=
- **errp)
->                   qdev_prop_set_uint32(d, "irq", k->parallel.get_irq(sio,=
- i));
->               }
->               qdev_prop_set_chr(d, "chardev", chr);
-> +            object_property_add_child(OBJECT(sio), name, OBJECT(isa),
-> +                                      &error_abort);
+>   hw/9pfs/9p.h                    |  2 +-
+>   hw/s390x/virtio-ccw.h           |  2 +-
+>   hw/sd/sdhci-internal.h          |  2 +-
+>   hw/usb/ccid.h                   |  2 +-
+>   hw/usb/hcd-ehci.h               |  2 +-
+>   include/hw/qdev-core.h          |  4 ++--
+>   include/hw/s390x/s390-ccw.h     |  2 +-
+>   include/hw/scsi/scsi.h          |  2 +-
+>   include/hw/usb.h                |  2 +-
+>   include/hw/xen/xen-block.h      |  2 +-
+>   include/hw/xen/xen-bus.h        |  2 +-
+>   hw/9pfs/9p.c                    |  4 ++--
+>   hw/9pfs/virtio-9p-device.c      |  4 ++--
+>   hw/acpi/pcihp.c                 |  2 +-
+>   hw/audio/intel-hda.c            |  2 +-
+>   hw/block/pflash_cfi02.c         |  2 +-
+>   hw/block/vhost-user-blk.c       |  2 +-
+>   hw/block/virtio-blk.c           |  2 +-
+>   hw/block/xen-block.c            |  8 ++++----
+>   hw/char/serial-pci-multi.c      |  2 +-
+>   hw/char/serial-pci.c            |  2 +-
+>   hw/char/serial.c                |  2 +-
+>   hw/char/virtio-console.c        |  2 +-
+>   hw/char/virtio-serial-bus.c     |  8 ++++----
+>   hw/core/bus.c                   | 17 ++++-------------
+>   hw/core/cpu.c                   |  2 +-
+>   hw/core/generic-loader.c        |  2 +-
+>   hw/core/qdev.c                  | 17 ++++++-----------
+>   hw/display/virtio-gpu-base.c    |  2 +-
+>   hw/dma/rc4030.c                 |  2 +-
+>   hw/i386/kvm/apic.c              |  2 +-
+>   hw/i386/pc.c                    |  4 ++--
+>   hw/ide/qdev.c                   |  4 ++--
+>   hw/input/virtio-input-hid.c     |  2 +-
+>   hw/input/virtio-input-host.c    |  2 +-
+>   hw/input/virtio-input.c         |  9 ++-------
+>   hw/intc/apic.c                  |  2 +-
+>   hw/intc/apic_common.c           |  4 ++--
+>   hw/intc/ioapic.c                |  2 +-
+>   hw/intc/xics.c                  |  2 +-
+>   hw/ipack/ipack.c                |  6 ++----
+>   hw/mem/pc-dimm.c                |  2 +-
+>   hw/net/virtio-net.c             |  2 +-
+>   hw/nvram/mac_nvram.c            |  2 +-
+>   hw/pci/pci.c                    | 14 +++++++-------
+>   hw/pci/pcie.c                   |  2 +-
+>   hw/pci/shpc.c                   |  2 +-
+>   hw/ppc/pnv_core.c               |  2 +-
+>   hw/ppc/spapr.c                  |  8 ++++----
+>   hw/ppc/spapr_cpu_core.c         |  2 +-
+>   hw/ppc/spapr_drc.c              | 14 ++++----------
+>   hw/ppc/spapr_iommu.c            |  2 +-
+>   hw/ppc/spapr_pci.c              | 14 +++++---------
+>   hw/ppc/spapr_tpm_proxy.c        |  2 +-
+>   hw/s390x/css-bridge.c           |  2 +-
+>   hw/s390x/s390-ccw.c             |  2 +-
+>   hw/s390x/s390-pci-bus.c         |  4 ++--
+>   hw/s390x/virtio-ccw.c           |  8 ++++----
+>   hw/scsi/lsi53c895a.c            |  2 +-
+>   hw/scsi/scsi-bus.c              | 13 ++++---------
+>   hw/scsi/scsi-disk.c             |  2 +-
+>   hw/scsi/vhost-scsi.c            |  2 +-
+>   hw/scsi/vhost-user-scsi.c       |  2 +-
+>   hw/scsi/virtio-scsi.c           |  2 +-
+>   hw/sd/sdhci-pci.c               |  2 +-
+>   hw/sd/sdhci.c                   |  6 +++---
+>   hw/usb/bus.c                    | 12 ++++++------
+>   hw/usb/ccid-card-emulated.c     |  2 +-
+>   hw/usb/dev-audio.c              |  2 +-
+>   hw/usb/dev-hid.c                |  2 +-
+>   hw/usb/dev-hub.c                |  2 +-
+>   hw/usb/dev-network.c            |  2 +-
+>   hw/usb/dev-smartcard-reader.c   | 11 +++--------
+>   hw/usb/dev-uas.c                |  2 +-
+>   hw/usb/dev-wacom.c              |  2 +-
+>   hw/usb/hcd-ehci-pci.c           |  2 +-
+>   hw/usb/hcd-ehci.c               |  2 +-
+>   hw/usb/host-libusb.c            |  2 +-
+>   hw/usb/redirect.c               |  2 +-
+>   hw/vfio/ap.c                    |  2 +-
+>   hw/vfio/ccw.c                   |  6 +++---
+>   hw/virtio/vhost-user-fs.c       |  2 +-
+>   hw/virtio/vhost-vsock.c         |  2 +-
+>   hw/virtio/virtio-balloon.c      |  2 +-
+>   hw/virtio/virtio-crypto.c       |  2 +-
+>   hw/virtio/virtio-iommu.c        |  2 +-
+>   hw/virtio/virtio-pmem.c         |  2 +-
+>   hw/virtio/virtio-rng.c          |  2 +-
+>   hw/virtio/virtio.c              | 11 +++--------
+>   hw/watchdog/wdt_diag288.c       |  2 +-
+>   hw/xen/xen-bus.c                | 12 ++++++------
+>   target/i386/cpu.c               |  9 ++-------
+>   target/ppc/translate_init.inc.c |  9 ++-------
+>   93 files changed, 158 insertions(+), 214 deletions(-)
+[...]
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index b6c8ef5bc0..850fcce5e7 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -3622,7 +3622,7 @@ static void virtio_device_realize(DeviceState *dev,=
+ Error **errp)
+>       virtio_bus_device_plugged(vdev, &err);
+>       if (err !=3D NULL) {
+>           error_propagate(errp, err);
+> -        vdc->unrealize(dev, NULL);
+> +        vdc->unrealize(dev);
 
-I have a WiP series where I resolved that by adding an 'Object *parent'=20
-to isa_create*() (and pci equiv), but the conversion touch many things=20
-and not trivial to order for bisectability. I suppose rebasing won't be=20
-a problem, so meanwhile:
+Not related to this patch, but I'm surprise we are not checking for=20
+vdc->unrealize non-NULL here ...
+
+>           return;
+>       }
+>  =20
+> @@ -3630,20 +3630,15 @@ static void virtio_device_realize(DeviceState *de=
+v, Error **errp)
+>       memory_listener_register(&vdev->listener, vdev->dma_as);
+>   }
+>  =20
+> -static void virtio_device_unrealize(DeviceState *dev, Error **errp)
+> +static void virtio_device_unrealize(DeviceState *dev)
+>   {
+>       VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+>       VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_GET_CLASS(dev);
+> -    Error *err =3D NULL;
+>  =20
+>       virtio_bus_device_unplugged(vdev);
+>  =20
+>       if (vdc->unrealize !=3D NULL) {
+
+... while here we do.
+
+> -        vdc->unrealize(dev, &err);
+> -        if (err !=3D NULL) {
+> -            error_propagate(errp, err);
+> -            return;
+> -        }
+> +        vdc->unrealize(dev);
+>       }
+>  =20
+>       g_free(vdev->bus_name);
+[...]
+
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
->               qdev_init_nofail(d);
->               sio->parallel[i] =3D isa;
->               trace_superio_create_parallel(i,
-> @@ -69,8 +71,6 @@ static void isa_superio_realize(DeviceState *dev, Error=
- **errp)
->                                             k->parallel.get_iobase(sio, i=
-) : -1,
->                                             k->parallel.get_irq ?
->                                             k->parallel.get_irq(sio, i) :=
- -1);
-> -            object_property_add_child(OBJECT(dev), name,
-> -                                      OBJECT(sio->parallel[i]), NULL);
->               g_free(name);
->           }
->       }
-> @@ -102,6 +102,8 @@ static void isa_superio_realize(DeviceState *dev, Err=
-or **errp)
->                   qdev_prop_set_uint32(d, "irq", k->serial.get_irq(sio, i=
-));
->               }
->               qdev_prop_set_chr(d, "chardev", chr);
-> +            object_property_add_child(OBJECT(sio), name, OBJECT(isa),
-> +                                      &error_abort);
->               qdev_init_nofail(d);
->               sio->serial[i] =3D isa;
->               trace_superio_create_serial(i,
-> @@ -109,8 +111,6 @@ static void isa_superio_realize(DeviceState *dev, Err=
-or **errp)
->                                           k->serial.get_iobase(sio, i) : =
--1,
->                                           k->serial.get_irq ?
->                                           k->serial.get_irq(sio, i) : -1)=
-;
-> -            object_property_add_child(OBJECT(dev), name,
-> -                                      OBJECT(sio->serial[0]), NULL);
->               g_free(name);
->           }
->       }
-> @@ -137,6 +137,8 @@ static void isa_superio_realize(DeviceState *dev, Err=
-or **errp)
->               qdev_prop_set_drive(d, "driveB", blk_by_legacy_dinfo(drive)=
-,
->                                   &error_fatal);
->           }
-> +        object_property_add_child(OBJECT(sio), "isa-fdc", OBJECT(isa),
-> +                                  &error_abort);
->           qdev_init_nofail(d);
->           sio->floppy =3D isa;
->           trace_superio_create_floppy(0,
-> @@ -147,7 +149,11 @@ static void isa_superio_realize(DeviceState *dev, Er=
-ror **errp)
->       }
->  =20
->       /* Keyboard, mouse */
-> -    sio->kbc =3D isa_create_simple(bus, TYPE_I8042);
-> +    isa =3D isa_create(bus, TYPE_I8042);
-> +    object_property_add_child(OBJECT(sio), TYPE_I8042, OBJECT(isa),
-> +                              &error_abort);
-> +    qdev_init_nofail(DEVICE(isa));
-> +    sio->kbc =3D isa;
->  =20
->       /* IDE */
->       if (k->ide.count && (!k->ide.is_enabled || k->ide.is_enabled(sio, 0=
-))) {
-> @@ -163,6 +169,8 @@ static void isa_superio_realize(DeviceState *dev, Err=
-or **errp)
->               qdev_prop_set_uint32(d, "irq", k->ide.get_irq(sio, 0));
->           }
->           qdev_init_nofail(d);
-> +        object_property_add_child(OBJECT(sio), "isa-ide", OBJECT(isa),
-> +                                  &error_abort);
->           sio->ide =3D isa;
->           trace_superio_create_ide(0,
->                                    k->ide.get_iobase ?
->=20
 
 
