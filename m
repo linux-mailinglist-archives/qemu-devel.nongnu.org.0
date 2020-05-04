@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80861C3E57
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:18:52 +0200 (CEST)
-Received: from localhost ([::1]:56978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E54A1C3E6B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:25:14 +0200 (CEST)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcrr-0007TN-U9
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:18:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57658)
+	id 1jVcy1-0004ji-2W
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jVcp1-0003rs-Nd
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:15:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26562
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jVcp0-00086A-Lh
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:15:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588605354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X1KqxwuQINsvghZKvSRECqg3J3rn5MeI41Ww7TEYuMA=;
- b=AcOnWulXER1/4T3c734wmXJq7b0Vwusmnzy0QvOU73PTfFmPMM6FTAlN/TBlIOjrVkrxMU
- xm/6ZvMh+Ih7JMCXlKHyiWYeIxWZNw2fTHQ3DcvInQFMbuAbxRLwDG03LRVhd+FMu3DJCr
- gNO037nPPwVwHQIG5R4LHlhm+USKuWI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-FrEJzXU9PPG5tRgUgsUO2A-1; Mon, 04 May 2020 11:15:52 -0400
-X-MC-Unique: FrEJzXU9PPG5tRgUgsUO2A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97AC745F;
- Mon,  4 May 2020 15:15:50 +0000 (UTC)
-Received: from localhost (ovpn-113-75.ams2.redhat.com [10.36.113.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E2915D9D5;
- Mon,  4 May 2020 15:15:36 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 4/4] lockable: Replace locks with lock guard macros
-Date: Mon,  4 May 2020 16:14:38 +0100
-Message-Id: <20200504151438.362702-5-stefanha@redhat.com>
-In-Reply-To: <20200504151438.362702-1-stefanha@redhat.com>
-References: <20200504151438.362702-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jVcwO-0002m8-Nr; Mon, 04 May 2020 11:23:32 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:37341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jVcwN-0002Ha-Es; Mon, 04 May 2020 11:23:32 -0400
+Received: by mail-lf1-x141.google.com with SMTP id t11so10086728lfe.4;
+ Mon, 04 May 2020 08:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=t7umT61VFs5Cczfn6S4IzK+OH7rPLyL1w6s03PauFPw=;
+ b=r0D5DYzYrr91Owjd9SDsi8C78O38LsEvFXjh19jUMe8AMuzX5ZUdGZ2NdPhmErb9QZ
+ 5oQvPnYyGRe9zBNZ79hKIHy2oXja/XkGEn0PSaXHeIenFKR98JpU6IEFKeDhLHUZEtco
+ Z324rEzj+ar4TyWDVbaVkrPrFXhcdpZe5XOykj9+CUiNmvlFdipbpjWSxqwUI0Y13z/Q
+ 8FpIjRJoD1MiE8m1KYYHRBpvvZeTH3HeD4XjSqM1roLKAGxyZAfN9vc6iM3SNYBPw32/
+ 9Cm4CFpvYQ8Efrxj6wOnmGYSjsVd4hOs2NHevwdb95bLfc0q59QkgibMxrifKIaLrVNW
+ Cwmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=t7umT61VFs5Cczfn6S4IzK+OH7rPLyL1w6s03PauFPw=;
+ b=eG84VdN3mjQ6+UPsmwwbu2X4s9CQNIosGLXZA9xnFlc4GwMqm//iy+An4v9YegnTvC
+ 1m45a0vdj+jxs1zgdCk+WhgSMSIRTEKQpYdGXUsY7g4vEY2I+1FLlWs7oWIfY5awJH5N
+ gRbLc/zKtSVPJ5AZN82p+qZDsM/qnJUk3RpoOs8HbiWFltxSDY5Lfm6wNIXicO9XrT4l
+ qT+ccw85Vl+OalImXPU+qn4Uz7+11Uim8o+EPrCtTaZE4H09PRGkyocQQvzUpsAI49uX
+ pfLhoz7S+hQh/CrgWbbckh9qLk1w3n/ytguQVGDnE1y9vA5kB1YsxUYg3Cvd0gSuM64k
+ ULGg==
+X-Gm-Message-State: AGi0PuZ1D8hBvjHXMb7xJBrrPD7HmqHmeThO6gFqV/sdrpLcHWigJgLF
+ VytRgGTJlTHtL++GdDZBXxM=
+X-Google-Smtp-Source: APiQypJ3RtwOSp67961WxUp+IoSnHa5rFedrmiCllVbETf6PdkhGge5Urpj99DEXYy71IivgxD0pMA==
+X-Received: by 2002:ac2:57d4:: with SMTP id k20mr12075902lfo.84.1588605809100; 
+ Mon, 04 May 2020 08:23:29 -0700 (PDT)
+Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id e16sm11614042lfc.63.2020.05.04.08.23.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 08:23:29 -0700 (PDT)
+Date: Mon, 4 May 2020 17:23:20 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: Re: [PATCH v2 06/10] net: cadence_gem: Add support for jumbo frames
+Message-ID: <20200504152320.GF5519@toto>
+References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1588601168-27576-7-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1588601168-27576-7-git-send-email-sai.pavan.boddu@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,121 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Peter Lieven <pl@kamp.de>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Simran Singhal <singhalsimran0@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Ramon Fried <rfried.dev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogU2ltcmFuIFNpbmdoYWwgPHNpbmdoYWxzaW1yYW4wQGdtYWlsLmNvbT4KClJlcGxhY2Ug
-bWFudWFsIGxvY2soKS91bmxvY2soKSBjYWxscyB3aXRoIGxvY2sgZ3VhcmQgbWFjcm9zCihRRU1V
-X0xPQ0tfR1VBUkQvV0lUSF9RRU1VX0xPQ0tfR1VBUkQpLgoKU2lnbmVkLW9mZi1ieTogU2ltcmFu
-IFNpbmdoYWwgPHNpbmdoYWxzaW1yYW4wQGdtYWlsLmNvbT4KUmV2aWV3ZWQtYnk6IFl1dmFsIFNo
-YWlhIDx5dXZhbC5zaGFpYS5tbEBnbWFpbC5jb20+ClJldmlld2VkLWJ5OiBNYXJjZWwgQXBmZWxi
-YXVtPG1hcmNlbC5hcGZlbGJhdW1AZ21haWwuY29tPgpUZXN0ZWQtYnk6IFl1dmFsIFNoYWlhIDx5
-dXZhbC5zaGFpYS5tbEBnbWFpbC5jb20+Ck1lc3NhZ2UtaWQ6IDIwMjAwNDAyMDY1MDM1LkdBMTU0
-NzdAc2ltcmFuLUluc3Bpcm9uLTU1NTgKU2lnbmVkLW9mZi1ieTogU3RlZmFuIEhham5vY3ppIDxz
-dGVmYW5oYUByZWRoYXQuY29tPgotLS0KIGh3L2h5cGVydi9oeXBlcnYuYyAgICAgfCAxNSArKysr
-KystLS0tLS0tCiBody9yZG1hL3JkbWFfYmFja2VuZC5jIHwgNTAgKysrKysrKysrKysrKysrKysr
-KysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiBody9yZG1hL3JkbWFfcm0uYyAgICAgIHwgIDMgKy0t
-CiAzIGZpbGVzIGNoYW5nZWQsIDMzIGluc2VydGlvbnMoKyksIDM1IGRlbGV0aW9ucygtKQoKZGlm
-ZiAtLWdpdCBhL2h3L2h5cGVydi9oeXBlcnYuYyBiL2h3L2h5cGVydi9oeXBlcnYuYwppbmRleCA4
-Y2EzNzA2ZjViLi40ZGRhZmUxZGUxIDEwMDY0NAotLS0gYS9ody9oeXBlcnYvaHlwZXJ2LmMKKysr
-IGIvaHcvaHlwZXJ2L2h5cGVydi5jCkBAIC0xNSw2ICsxNSw3IEBACiAjaW5jbHVkZSAic3lzZW11
-L2t2bS5oIgogI2luY2x1ZGUgInFlbXUvYml0b3BzLmgiCiAjaW5jbHVkZSAicWVtdS9lcnJvci1y
-ZXBvcnQuaCIKKyNpbmNsdWRlICJxZW11L2xvY2thYmxlLmgiCiAjaW5jbHVkZSAicWVtdS9xdWV1
-ZS5oIgogI2luY2x1ZGUgInFlbXUvcmN1LmgiCiAjaW5jbHVkZSAicWVtdS9yY3VfcXVldWUuaCIK
-QEAgLTQ5MSw3ICs0OTIsNyBAQCBpbnQgaHlwZXJ2X3NldF9tc2dfaGFuZGxlcih1aW50MzJfdCBj
-b25uX2lkLCBIdk1zZ0hhbmRsZXIgaGFuZGxlciwgdm9pZCAqZGF0YSkKICAgICBpbnQgcmV0Owog
-ICAgIE1zZ0hhbmRsZXIgKm1oOwogCi0gICAgcWVtdV9tdXRleF9sb2NrKCZoYW5kbGVyc19tdXRl
-eCk7CisgICAgUUVNVV9MT0NLX0dVQVJEKCZoYW5kbGVyc19tdXRleCk7CiAgICAgUUxJU1RfRk9S
-RUFDSChtaCwgJm1zZ19oYW5kbGVycywgbGluaykgewogICAgICAgICBpZiAobWgtPmNvbm5faWQg
-PT0gY29ubl9pZCkgewogICAgICAgICAgICAgaWYgKGhhbmRsZXIpIHsKQEAgLTUwMSw3ICs1MDIs
-NyBAQCBpbnQgaHlwZXJ2X3NldF9tc2dfaGFuZGxlcih1aW50MzJfdCBjb25uX2lkLCBIdk1zZ0hh
-bmRsZXIgaGFuZGxlciwgdm9pZCAqZGF0YSkKICAgICAgICAgICAgICAgICBnX2ZyZWVfcmN1KG1o
-LCByY3UpOwogICAgICAgICAgICAgICAgIHJldCA9IDA7CiAgICAgICAgICAgICB9Ci0gICAgICAg
-ICAgICBnb3RvIHVubG9jazsKKyAgICAgICAgICAgIHJldHVybiByZXQ7CiAgICAgICAgIH0KICAg
-ICB9CiAKQEAgLTUxNSw4ICs1MTYsNyBAQCBpbnQgaHlwZXJ2X3NldF9tc2dfaGFuZGxlcih1aW50
-MzJfdCBjb25uX2lkLCBIdk1zZ0hhbmRsZXIgaGFuZGxlciwgdm9pZCAqZGF0YSkKICAgICB9IGVs
-c2UgewogICAgICAgICByZXQgPSAtRU5PRU5UOwogICAgIH0KLXVubG9jazoKLSAgICBxZW11X211
-dGV4X3VubG9jaygmaGFuZGxlcnNfbXV0ZXgpOworCiAgICAgcmV0dXJuIHJldDsKIH0KIApAQCAt
-NTY1LDcgKzU2NSw3IEBAIHN0YXRpYyBpbnQgc2V0X2V2ZW50X2ZsYWdfaGFuZGxlcih1aW50MzJf
-dCBjb25uX2lkLCBFdmVudE5vdGlmaWVyICpub3RpZmllcikKICAgICBpbnQgcmV0OwogICAgIEV2
-ZW50RmxhZ0hhbmRsZXIgKmhhbmRsZXI7CiAKLSAgICBxZW11X211dGV4X2xvY2soJmhhbmRsZXJz
-X211dGV4KTsKKyAgICBRRU1VX0xPQ0tfR1VBUkQoJmhhbmRsZXJzX211dGV4KTsKICAgICBRTElT
-VF9GT1JFQUNIKGhhbmRsZXIsICZldmVudF9mbGFnX2hhbmRsZXJzLCBsaW5rKSB7CiAgICAgICAg
-IGlmIChoYW5kbGVyLT5jb25uX2lkID09IGNvbm5faWQpIHsKICAgICAgICAgICAgIGlmIChub3Rp
-ZmllcikgewpAQCAtNTc1LDcgKzU3NSw3IEBAIHN0YXRpYyBpbnQgc2V0X2V2ZW50X2ZsYWdfaGFu
-ZGxlcih1aW50MzJfdCBjb25uX2lkLCBFdmVudE5vdGlmaWVyICpub3RpZmllcikKICAgICAgICAg
-ICAgICAgICBnX2ZyZWVfcmN1KGhhbmRsZXIsIHJjdSk7CiAgICAgICAgICAgICAgICAgcmV0ID0g
-MDsKICAgICAgICAgICAgIH0KLSAgICAgICAgICAgIGdvdG8gdW5sb2NrOworICAgICAgICAgICAg
-cmV0dXJuIHJldDsKICAgICAgICAgfQogICAgIH0KIApAQCAtNTg4LDggKzU4OCw3IEBAIHN0YXRp
-YyBpbnQgc2V0X2V2ZW50X2ZsYWdfaGFuZGxlcih1aW50MzJfdCBjb25uX2lkLCBFdmVudE5vdGlm
-aWVyICpub3RpZmllcikKICAgICB9IGVsc2UgewogICAgICAgICByZXQgPSAtRU5PRU5UOwogICAg
-IH0KLXVubG9jazoKLSAgICBxZW11X211dGV4X3VubG9jaygmaGFuZGxlcnNfbXV0ZXgpOworCiAg
-ICAgcmV0dXJuIHJldDsKIH0KIApkaWZmIC0tZ2l0IGEvaHcvcmRtYS9yZG1hX2JhY2tlbmQuYyBi
-L2h3L3JkbWEvcmRtYV9iYWNrZW5kLmMKaW5kZXggM2RkMzlmZTFhNy4uZGI3ZTVjOGJlNSAxMDA2
-NDQKLS0tIGEvaHcvcmRtYS9yZG1hX2JhY2tlbmQuYworKysgYi9ody9yZG1hL3JkbWFfYmFja2Vu
-ZC5jCkBAIC05NSwzNiArOTUsMzYgQEAgc3RhdGljIGludCByZG1hX3BvbGxfY3EoUmRtYURldmlj
-ZVJlc291cmNlcyAqcmRtYV9kZXZfcmVzLCBzdHJ1Y3QgaWJ2X2NxICppYmNxKQogICAgIHN0cnVj
-dCBpYnZfd2Mgd2NbMl07CiAgICAgUmRtYVByb3RlY3RlZEdTTGlzdCAqY3FlX2N0eF9saXN0Owog
-Ci0gICAgcWVtdV9tdXRleF9sb2NrKCZyZG1hX2Rldl9yZXMtPmxvY2spOwotICAgIGRvIHsKLSAg
-ICAgICAgbmUgPSBpYnZfcG9sbF9jcShpYmNxLCBBUlJBWV9TSVpFKHdjKSwgd2MpOworICAgIFdJ
-VEhfUUVNVV9MT0NLX0dVQVJEKCZyZG1hX2Rldl9yZXMtPmxvY2spIHsKKyAgICAgICAgZG8gewor
-ICAgICAgICAgICAgbmUgPSBpYnZfcG9sbF9jcShpYmNxLCBBUlJBWV9TSVpFKHdjKSwgd2MpOwog
-Ci0gICAgICAgIHRyYWNlX3JkbWFfcG9sbF9jcShuZSwgaWJjcSk7CisgICAgICAgICAgICB0cmFj
-ZV9yZG1hX3BvbGxfY3EobmUsIGliY3EpOwogCi0gICAgICAgIGZvciAoaSA9IDA7IGkgPCBuZTsg
-aSsrKSB7Ci0gICAgICAgICAgICBiY3R4ID0gcmRtYV9ybV9nZXRfY3FlX2N0eChyZG1hX2Rldl9y
-ZXMsIHdjW2ldLndyX2lkKTsKLSAgICAgICAgICAgIGlmICh1bmxpa2VseSghYmN0eCkpIHsKLSAg
-ICAgICAgICAgICAgICByZG1hX2Vycm9yX3JlcG9ydCgiTm8gbWF0Y2hpbmcgY3R4IGZvciByZXEg
-JSJQUklkNjQsCi0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgd2NbaV0ud3JfaWQp
-OwotICAgICAgICAgICAgICAgIGNvbnRpbnVlOwotICAgICAgICAgICAgfQorICAgICAgICAgICAg
-Zm9yIChpID0gMDsgaSA8IG5lOyBpKyspIHsKKyAgICAgICAgICAgICAgICBiY3R4ID0gcmRtYV9y
-bV9nZXRfY3FlX2N0eChyZG1hX2Rldl9yZXMsIHdjW2ldLndyX2lkKTsKKyAgICAgICAgICAgICAg
-ICBpZiAodW5saWtlbHkoIWJjdHgpKSB7CisgICAgICAgICAgICAgICAgICAgIHJkbWFfZXJyb3Jf
-cmVwb3J0KCJObyBtYXRjaGluZyBjdHggZm9yIHJlcSAlIlBSSWQ2NCwKKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgd2NbaV0ud3JfaWQpOworICAgICAgICAgICAgICAgICAg
-ICBjb250aW51ZTsKKyAgICAgICAgICAgICAgICB9CiAKLSAgICAgICAgICAgIGNvbXBfaGFuZGxl
-cihiY3R4LT51cF9jdHgsICZ3Y1tpXSk7CisgICAgICAgICAgICAgICAgY29tcF9oYW5kbGVyKGJj
-dHgtPnVwX2N0eCwgJndjW2ldKTsKIAotICAgICAgICAgICAgaWYgKGJjdHgtPmJhY2tlbmRfcXAp
-IHsKLSAgICAgICAgICAgICAgICBjcWVfY3R4X2xpc3QgPSAmYmN0eC0+YmFja2VuZF9xcC0+Y3Fl
-X2N0eF9saXN0OwotICAgICAgICAgICAgfSBlbHNlIHsKLSAgICAgICAgICAgICAgICBjcWVfY3R4
-X2xpc3QgPSAmYmN0eC0+YmFja2VuZF9zcnEtPmNxZV9jdHhfbGlzdDsKLSAgICAgICAgICAgIH0K
-KyAgICAgICAgICAgICAgICBpZiAoYmN0eC0+YmFja2VuZF9xcCkgeworICAgICAgICAgICAgICAg
-ICAgICBjcWVfY3R4X2xpc3QgPSAmYmN0eC0+YmFja2VuZF9xcC0+Y3FlX2N0eF9saXN0OworICAg
-ICAgICAgICAgICAgIH0gZWxzZSB7CisgICAgICAgICAgICAgICAgICAgIGNxZV9jdHhfbGlzdCA9
-ICZiY3R4LT5iYWNrZW5kX3NycS0+Y3FlX2N0eF9saXN0OworICAgICAgICAgICAgICAgIH0KIAot
-ICAgICAgICAgICAgcmRtYV9wcm90ZWN0ZWRfZ3NsaXN0X3JlbW92ZV9pbnQzMihjcWVfY3R4X2xp
-c3QsIHdjW2ldLndyX2lkKTsKLSAgICAgICAgICAgIHJkbWFfcm1fZGVhbGxvY19jcWVfY3R4KHJk
-bWFfZGV2X3Jlcywgd2NbaV0ud3JfaWQpOwotICAgICAgICAgICAgZ19mcmVlKGJjdHgpOwotICAg
-ICAgICB9Ci0gICAgICAgIHRvdGFsX25lICs9IG5lOwotICAgIH0gd2hpbGUgKG5lID4gMCk7Ci0g
-ICAgYXRvbWljX3N1YigmcmRtYV9kZXZfcmVzLT5zdGF0cy5taXNzaW5nX2NxZSwgdG90YWxfbmUp
-OwotICAgIHFlbXVfbXV0ZXhfdW5sb2NrKCZyZG1hX2Rldl9yZXMtPmxvY2spOworICAgICAgICAg
-ICAgICAgIHJkbWFfcHJvdGVjdGVkX2dzbGlzdF9yZW1vdmVfaW50MzIoY3FlX2N0eF9saXN0LCB3
-Y1tpXS53cl9pZCk7CisgICAgICAgICAgICAgICAgcmRtYV9ybV9kZWFsbG9jX2NxZV9jdHgocmRt
-YV9kZXZfcmVzLCB3Y1tpXS53cl9pZCk7CisgICAgICAgICAgICAgICAgZ19mcmVlKGJjdHgpOwor
-ICAgICAgICAgICAgfQorICAgICAgICAgICAgdG90YWxfbmUgKz0gbmU7CisgICAgICAgIH0gd2hp
-bGUgKG5lID4gMCk7CisgICAgICAgIGF0b21pY19zdWIoJnJkbWFfZGV2X3Jlcy0+c3RhdHMubWlz
-c2luZ19jcWUsIHRvdGFsX25lKTsKKyAgICB9CiAKICAgICBpZiAobmUgPCAwKSB7CiAgICAgICAg
-IHJkbWFfZXJyb3JfcmVwb3J0KCJpYnZfcG9sbF9jcSBmYWlsLCByYz0lZCwgZXJybm89JWQiLCBu
-ZSwgZXJybm8pOwpkaWZmIC0tZ2l0IGEvaHcvcmRtYS9yZG1hX3JtLmMgYi9ody9yZG1hL3JkbWFf
-cm0uYwppbmRleCA3ZTllYTI4M2M5Li42MDk1N2Y4OGRiIDEwMDY0NAotLS0gYS9ody9yZG1hL3Jk
-bWFfcm0uYworKysgYi9ody9yZG1hL3JkbWFfcm0uYwpAQCAtMTQ3LDE0ICsxNDcsMTMgQEAgc3Rh
-dGljIGlubGluZSB2b2lkIHJkbWFfcmVzX3RibF9kZWFsbG9jKFJkbWFSbVJlc1RibCAqdGJsLCB1
-aW50MzJfdCBoYW5kbGUpCiB7CiAgICAgdHJhY2VfcmRtYV9yZXNfdGJsX2RlYWxsb2ModGJsLT5u
-YW1lLCBoYW5kbGUpOwogCi0gICAgcWVtdV9tdXRleF9sb2NrKCZ0YmwtPmxvY2spOworICAgIFFF
-TVVfTE9DS19HVUFSRCgmdGJsLT5sb2NrKTsKIAogICAgIGlmIChoYW5kbGUgPCB0YmwtPnRibF9z
-eikgewogICAgICAgICBjbGVhcl9iaXQoaGFuZGxlLCB0YmwtPmJpdG1hcCk7CiAgICAgICAgIHRi
-bC0+dXNlZC0tOwogICAgIH0KIAotICAgIHFlbXVfbXV0ZXhfdW5sb2NrKCZ0YmwtPmxvY2spOwog
-fQogCiBpbnQgcmRtYV9ybV9hbGxvY19wZChSZG1hRGV2aWNlUmVzb3VyY2VzICpkZXZfcmVzLCBS
-ZG1hQmFja2VuZERldiAqYmFja2VuZF9kZXYsCi0tIAoyLjI1LjMKCg==
+On Mon, May 04, 2020 at 07:36:04PM +0530, Sai Pavan Boddu wrote:
+> Jumbo frames of size 10240 bytes is added.
 
+Hi Sai,
+
+I think we should make this a property since it's a design
+configuration option (10240 being the default).
+
+> 
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> ---
+>  hw/net/cadence_gem.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+> index beb38ec..848be3f 100644
+> --- a/hw/net/cadence_gem.c
+> +++ b/hw/net/cadence_gem.c
+> @@ -313,6 +313,7 @@
+>  #define DESC_1_RX_EOF 0x00008000
+>  
+>  #define GEM_MODID_VALUE 0x00020118
+> +#define MAX_TX_FRAME_SIZE 10240
+
+This applies to RX aswell, better to rename to MAX_FRAME_SIZE.
+
+>  
+>  static inline uint64_t tx_desc_get_buffer(CadenceGEMState *s, uint32_t *desc)
+>  {
+> @@ -1143,7 +1144,7 @@ static void gem_transmit(CadenceGEMState *s)
+>  {
+>      uint32_t desc[DESC_MAX_NUM_WORDS];
+>      hwaddr packet_desc_addr;
+> -    uint8_t     tx_packet[2048];
+> +    uint8_t     tx_packet[MAX_TX_FRAME_SIZE];
+
+rxbuf in gem_receive needs the same.
+We also may want to consider moving these buffers from the stack
+to CadenceGEMState *s.
+
+
+>      uint8_t     *p;
+>      unsigned    total_bytes;
+>      int q = 0;
+> @@ -1344,7 +1345,7 @@ static void gem_reset(DeviceState *d)
+>      s->regs[GEM_RXPARTIALSF] = 0x000003ff;
+>      s->regs[GEM_MODID] = s->revision;
+>      s->regs[GEM_DESCONF] = 0x02500111;
+> -    s->regs[GEM_DESCONF2] = 0x2ab13fff;
+> +    s->regs[GEM_DESCONF2] = 0x2ab12800;
+
+
+We need to add and populate the following register:
+#define GEM_JUMBO_MAX_LEN   (0x00000048/4) /* Maximum Jumbo Frame Size */
+
+
+>      s->regs[GEM_DESCONF5] = 0x002f2045;
+>      s->regs[GEM_DESCONF6] = GEM_DESCONF6_64B_MASK;
+>  
+> -- 
+> 2.7.4
+> 
 
