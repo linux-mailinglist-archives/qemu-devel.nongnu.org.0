@@ -2,87 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70471C391A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:17:03 +0200 (CEST)
-Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700651C3943
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:24:53 +0200 (CEST)
+Received: from localhost ([::1]:49314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVa1s-0001e5-PY
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:17:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52180)
+	id 1jVa9U-0002Wf-H1
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVZkZ-0004Jf-NU
- for qemu-devel@nongnu.org; Mon, 04 May 2020 07:59:07 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54449
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVZkY-0002vN-ND
- for qemu-devel@nongnu.org; Mon, 04 May 2020 07:59:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588593545;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fvBdJ5beAcx5ETaxyqLjGGsvHSXEGwdO8SCWGzPboug=;
- b=iNu31BtRYBfm0ygi8k9GLX16ZmXvq8BlBpH/7gHSepPcz29WibQZRQKZtQsw0tdLYlrIVL
- UgshCFOr8mO+R9Sv9kRsMSbNb6z0ZBs0njTw9tIACAh2QGgRM0QX/dpm+8eqszjqDAeelz
- FQFK0MIT77ZCaYMvTlmVWkxxVJrhHHg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-yry_MjBHPsuuOfh5M4D6sw-1; Mon, 04 May 2020 07:59:04 -0400
-X-MC-Unique: yry_MjBHPsuuOfh5M4D6sw-1
-Received: by mail-wr1-f72.google.com with SMTP id q13so1753827wrn.14
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 04:59:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jVZpy-0003PS-34
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:04:44 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jVZpq-0006l0-JQ
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:04:41 -0400
+Received: by mail-ot1-x344.google.com with SMTP id z17so8633084oto.4
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Mc2OiBAeuadvg7stvx74vegh5mSzJafd3UHWJqIoSzs=;
+ b=e187l9xjj6PQbjOyV6L1iupjQMquEJaN5Kx5SevW4lkyTNsjVub/ZWNAmvC+cN+Bps
+ RmsZiHnIFQPfzBz3at3f83ULzvZrorfcmccX3m5v0HQW1a7KLVs1miUwMP9VUKY2TjM9
+ YunpEK6alP4ptRlFVT+XooAV4HfiAnths7FzhHvfi6GAEVl0+pve6UvXJjLSvbae/6E3
+ lAa31YJK4LfPGxSWcJAfzpZN7l/GBJmFTeYly/nBr9H6bc3fcFIQ93/bJrbDLh370kTs
+ 8Umm/tBaMpRphiEBVkx4vgU+k430TI5+v19s3pZ1lf7e9Fn3hnW7PESlMnKw2mXrXhck
+ RQvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JtHWGy8MS63RnTw62YE9/Nri9iozspFrFIvB4vm6Ufs=;
- b=DAV5uxOjFXWOT5LZwPcqKyuI/PinLVF0kKX+FFGISLRYDNHEkgk37r8rT1yvu+kF6F
- dLZsqlAW9brFnNi/dROiZVUjuJ3A/2+zT1fnyI3XLo45s4q9XTogXYLHijrnP7GelF3k
- A2XDO92P2h59kLDHfY8gxVkbTs3R0MKegwgrabbxY4SM5ZjMVCFzMHHPZbeP6LtF8wMm
- KlTVidNJfnLylIJtgpOX9COKT7xdc/dR15m4xMMNKaZu/Xo9n0PjEIEaHYDzQbzfBQ1i
- wWJ+QYF3VFbJuvTLmZD6Uu1mlohlA4jbLqzX/V/TcfCio/L6J3um+06v4wx24oQlnqRK
- p4ig==
-X-Gm-Message-State: AGi0PuaC+Ap4ugYnLXAsTiFQhqBkvXTifDQPQetds5U0j0FsRCnFmHNN
- EwQfSLcels0pxRYvU68PhSKP7KfcKKLpcw7zvszLB1nNENkBbeqWpgFUMGZ4xzNdXkLAo2B+uc8
- cdRxln/MmtN2HsVY=
-X-Received: by 2002:a1c:8141:: with SMTP id c62mr14184560wmd.87.1588593542836; 
- Mon, 04 May 2020 04:59:02 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIoUoNKzHtakki1Y3rqsnGxwoG8otU9SeIdSkWIE4zIWiyR3cnL77EY4N8aqOWGLb8eBs/zZg==
-X-Received: by 2002:a1c:8141:: with SMTP id c62mr14184541wmd.87.1588593542671; 
- Mon, 04 May 2020 04:59:02 -0700 (PDT)
-Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
- by smtp.gmail.com with ESMTPSA id
- y9sm12523345wmm.26.2020.05.04.04.59.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 04:59:02 -0700 (PDT)
-Date: Mon, 4 May 2020 07:59:00 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] checkpatch: ignore allowed diff list
-Message-ID: <20200504115848.34410-3-mst@redhat.com>
-References: <20200504115848.34410-1-mst@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Mc2OiBAeuadvg7stvx74vegh5mSzJafd3UHWJqIoSzs=;
+ b=DguUP0POhJXauv9G7UQozzwWNoq6Bb9c1VTLWc15kPpwApWn0/YyAuOozVJcP5zopR
+ nfToIs9P3tjp2+CW2MOuEmV81OtNp4XFVDxWxjP183hQF1uQwFiwe2dmRYzjERp5eMJa
+ mZu/FdBxCg/yyL5orxndS97wPfagtAWvOfLr7fCycK3zSv9j3J34Zp+hDLjUnaZfeacV
+ unyCyu1r61eTulxB/hrowexPvGnSVY+jTx8bycNQ9iaueSaZD/AHvByd6yvGKR+pQGtr
+ S2fn2yyzN+gQuZXftxX6OhF/qRm1v26+8loy8MFlhlcbKEfNAiKz0Cip84DiO7obYvT6
+ EiTA==
+X-Gm-Message-State: AGi0PuZlKANgbH+XCcefShN1gbconcZFaIhSWpEcuATm5myjl8AXnFEf
+ 21ZLXWHMLIHRZOJnEL1du8imd1VQ6DmpFNCKUIsmzw==
+X-Google-Smtp-Source: APiQypI9O9d8WiKBkg9EHKqKVf2P1BVTfXQTxq9ux/UJHZWm5X5EkW0Y4Gfp5pry7CzQBdUgBhEkImU43nL8byEfdIk=
+X-Received: by 2002:a05:6830:1e4e:: with SMTP id
+ e14mr13706916otj.91.1588593873068; 
+ Mon, 04 May 2020 05:04:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200504115848.34410-1-mst@redhat.com>
-X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
-X-Mutt-Fcc: =sent
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+References: <20200430181003.21682-1-peter.maydell@linaro.org>
+In-Reply-To: <20200430181003.21682-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 May 2020 13:04:21 +0100
+Message-ID: <CAFEAcA_-yGrEqF5PEa+Lx0Cc1QuqSKkKHjZk4P-jJOxCWR1qsg@mail.gmail.com>
+Subject: Re: [PATCH 00/36] target/arm: Convert Neon to decodetree (part 1)
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,52 +79,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow changing allowed diff list at any point:
-- when changing code under test
-- when adding expected files
+On Thu, 30 Apr 2020 at 19:10, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> This patchseries starts in on the job of converting the Arm
+> Neon decoder to decodetree.
+>
+> Neon insns come in three major parts:
+>  * the 'v8.0-and-later' extensions
+>  * the 'loads and stores' group
+>  * the 'data processing' group
+>
+> This patchset converts all of the v8.0-and-later extensions
+> and the loads-and-stores, plus the "3-registers-same" subgroup
+> of the data-processing insns.
+>
+> I'm working on the rest of the dp insns, but this seems like
+> a pretty large chunk of conversion patches to start with.
 
-It's just a list of files so easy to review and merge anyway.
+I'm going to apply patches 1-19 and 22 (that's up to
+"3-reg-same VMUL, VMLA, VMLS, VSHL", plus the "move gen function
+typedefs" patch) to target-arm.next as they've been reviewed.
+That will leave the 3-reg-same in a partially converted state
+but it is not too confusingly so (or at least not much more
+so than having the rest of the neon-dp group unconverted) and
+I think that it will be easier to deal with this series and
+the rest of the conversion if we get the completed parts into
+the tree sooner rather than later.
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- scripts/checkpatch.pl | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index c3d08aa99f..0ba213e9f2 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1261,12 +1261,13 @@ sub WARN {
- sub checkfilename {
- =09my ($name, $acpi_testexpected, $acpi_nontestexpected) =3D @_;
-=20
--=09if ($name =3D~ m#^tests/data/acpi/# and
--=09=09# make exception for a shell script that rebuilds the files
--=09=09not $name =3D~ m#^\.sh$# or
--=09=09$name =3D~ m#^tests/qtest/bios-tables-test-allowed-diff.h$#) {
-+        # Note: shell script that rebuilds the expected files is in the sa=
-me
-+        # directory as files themselves.
-+        # Note: allowed diff list can be changed both when changing expect=
-ed
-+        # files and when changing tests.
-+=09if ($name =3D~ m#^tests/data/acpi/# and not $name =3D~ m#^\.sh$#) {
- =09=09$$acpi_testexpected =3D $name;
--=09} else {
-+=09} elsif ($name =3D~ m#^tests/qtest/bios-tables-test-allowed-diff.h$#) {
- =09=09$$acpi_nontestexpected =3D $name;
- =09}
- =09if (defined $$acpi_testexpected and defined $$acpi_nontestexpected) {
---=20
-MST
-
+thanks
+-- PMM
 
