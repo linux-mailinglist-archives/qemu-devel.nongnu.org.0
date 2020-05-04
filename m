@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14091C345A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:27:05 +0200 (CEST)
-Received: from localhost ([::1]:60848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E4D1C3C45
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:04:25 +0200 (CEST)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVWRM-0001rd-PF
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39176)
+	id 1jVbhn-0000Hm-Uv
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:04:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1jVWPM-0000Ff-F1
- for qemu-devel@nongnu.org; Mon, 04 May 2020 04:25:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42261
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1jVWPK-0007v1-V1
- for qemu-devel@nongnu.org; Mon, 04 May 2020 04:24:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588580697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qorGcxSAjOIgJk/59eG7n1rtibQF5qfTSUT7p+Fnl2o=;
- b=e8oKQMaUYCT841O4dW9hNciR6XXyZpz/lT5QkaMtG/aFvtTM+10fVipMG1QgEWny99uhX8
- keam9m6mT2ptaqIZiheynccGlGR19w45hD6Wru0kY9QvM7CCpad59F/rPsfYSnGi1OjIU/
- QchFEVvZs5hm28XG3lmpM4PFunw/h+A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-48Sa7pq_MU6EwgkEL84gbQ-1; Mon, 04 May 2020 04:24:56 -0400
-X-MC-Unique: 48Sa7pq_MU6EwgkEL84gbQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50E808014C0;
- Mon,  4 May 2020 08:24:55 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A0045C1BD;
- Mon,  4 May 2020 08:24:42 +0000 (UTC)
-Date: Mon, 4 May 2020 10:24:39 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v4 00/34] Configurable policy for handling deprecated
- interfaces
-Message-ID: <20200504082439.GC2102825@angien.pipo.sk>
-References: <20200317115459.31821-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jVbgB-0007BT-R8
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:02:43 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52673 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jVbgA-0006FU-5L
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:02:43 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49G4LP2B3Qz9sT1; Tue,  5 May 2020 00:02:36 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1588600957;
+ bh=VP5Ww3jNU/2Eh3MWgokM8Symu+c5/rWbfvmlaCqJujE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OajrX9WiJNt5iq8O3WL+J9pjgi3JMYKGX++dy00V8lsfDLUJQMRpk0vDt3SQKGCZw
+ oQdI25n6Zao/jpjn1vG9qzYounkv1bgdiXE5CU6I6VpvY7EjZGyCCJN1SKwoRVN85f
+ HfgHOq1nz7TZRNb2d7ygt5q1OYiDpMVWd1/YTew8=
+Date: Mon, 4 May 2020 18:24:40 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH RESEND v3 1/2] Makefile: libfdt: build only the strict
+ necessary
+Message-ID: <20200504082440.GC13695@umbus.fritz.box>
+References: <20200411093150.4741-1-cfontana@suse.de>
+ <20200411093150.4741-2-cfontana@suse.de>
+ <06e9c2cc-9fc9-693b-a342-22622cb1ff2e@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20200317115459.31821-1-armbru@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="UPT3ojh+0CqEDtpF"
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <06e9c2cc-9fc9-693b-a342-22622cb1ff2e@suse.de>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 10:02:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,77 +65,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- libvir-list@redhat.com, qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com,
- marcandre.lureau@gmail.com, libguestfs@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe Mathieu-Daude <philmd@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Alex Bennee <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 17, 2020 at 12:54:25 +0100, Markus Armbruster wrote:
-> This series extends QMP introspection to cover deprecation.
-> Additionally, new option -compat lets you configure what to do when
-> deprecated interfaces get used.  This is intended for testing users of
-> the management interfaces.  It is experimental.
->=20
-> -compat deprecated-input=3D<in-policy> configures what to do when
-> deprecated input is received.  Available policies:
->=20
-> * accept: Accept deprecated commands and arguments (default)
-> * reject: Reject them
-> * crash: Crash
 
-I've noticed that the 'crash' option doesn't manage to log the reason to
-stderr. Relevant section of libvirt's log file which agregates the
-stderr/out
+--UPT3ojh+0CqEDtpF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-2020-04-30 13:24:22.006+0000: 2072883: debug : virCommandHandshakeChild:418=
- : Handshake with parent is done
-char device redirected to /dev/pts/0 (label charserial0)
-2020-04-30 13:24:31.879+0000: Domain id=3D4 is tainted: custom-monitor
-2020-04-30 13:24:32.330+0000: shutting down, reason=3Dcrashed
+On Wed, Apr 29, 2020 at 01:47:47PM +0200, Claudio Fontana wrote:
+> just a gentle ping on this one, now that 5.0 is out, is proceeding
+> with this ok?
 
-'handshake' line is last of libvirt's messages pre-start of the qemu
-process. 'char device redirected' is reported by qemu. 'domain is
-tainted' is added by libvirt when I've issued the deprecated API via
-virsh qemu-monitor-command. 'reason=3Dcrashed' is added by libvirts VM
-shutdown hanlder.
+Yes, go for it.
 
->=20
-> -compat deprecated-output=3D<out-policy> configures what to do when
-> deprecated output is sent.  Available output policies:
->=20
-> * accept: Emit deprecated command results and events (default)
-> * hide: Suppress them
->=20
-> For now, -compat covers only deprecated syntactic aspects of QMP.  We
-> may want to extend it to cover semantic aspects, CLI, and experimental
-> features.
->=20
-> PATCH 01-04: Documentation fixes
-> PATCH 05-10: Test improvements
-> PATCH 11-24: Add feature flags to remaining user-defined types and to
->       =09     struct members
-> PATCH 25-26: New special feature 'deprecated', visible in
->       =09     introspection
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-These are cool. I've added support for verifying that any command
-excercised by the libvirt unit test suite is not deprecated, or we at
-least know that it is and have a replacement.
+--UPT3ojh+0CqEDtpF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-https://www.redhat.com/archives/libvir-list/2020-April/msg01444.html
+-----BEGIN PGP SIGNATURE-----
 
-> PATCH 27-34: New -compat to set policy for handling stuff marked with
->       =09     feature 'deprecated'
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6v0UYACgkQbDjKyiDZ
+s5LCpxAAwCREVGZAiBOFIigZoTJugB1z/LVcus5q6V+5gn0i52R18ytgKhGrNtcv
+8Ta5eP57/VZT3XuKGEpvzGYT5SXOHH7Rgf5IjYdwzc8HAVwZfoMIfctHlpYVLYdN
+LpxOcTTbreGv3Rs+qofByo9ov37ZTIhY2FPVbbGCPfCY5wuTlJtZX8MfJILon4tG
+qzhzQAam7sAbfqJdeo4Dm19ngTzCgTTlZWiH/UPw4HbRS8+z+bt2vMzezQlHEs/k
+gIVoIcw1Ue3bwIh36dlEg2vdjWG9Ox3qLXUWUrkwD+tQWi2Rrheu0PXSL0WFsk0w
+JbsTN2BjDbmhRVL/pfWD1VHrldFBYJvoTTdpEYZPwBeGrINLHCZ3lDFL6Lx3YC6q
+ZpwK+TEho5Ul6wMcd6P8HL3W2u+bN3qy7Y0UQH4KZYRMkfYkdF7996BjVOlj27zH
+l+sGHh9x1BGwy5lhO0XNj0ZLa7rFrXRaVvdRfagYR0gS4R+Y1dWpb9Hoo4gsOtoD
+lQB6tT0nm7Q0J01Bv/NcdxCGhCYNLMQMRhf2PkJ1JARQJRnqkKImakk+OCqtiOTb
+UmtG1VuP+WvtZhUIEIBczRXjA9HTxzf0KY+twtMoWnivafOjBYaEENwQ4c/LdPOT
+BzTDKR7nTLlUmTLuHkhQJIrZ8VKmy3YN3oB2nGuQGHcAwtOnDU0=
+=lrdB
+-----END PGP SIGNATURE-----
 
-While implementing support for this feature I noticed that it's
-impossible for libvirt to detect that it's available. The idea is to
-make a developer-centred setting in our config which will enable the
-compat setting if available and ignore it if not available to prevent us
-having to fiddle with the settings when testing various qemu versions.
-
-Thanks!
-
-Peter
-
+--UPT3ojh+0CqEDtpF--
 
