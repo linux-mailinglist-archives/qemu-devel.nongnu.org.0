@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0141C3979
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:36:39 +0200 (CEST)
-Received: from localhost ([::1]:45000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531551C398A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:40:33 +0200 (CEST)
+Received: from localhost ([::1]:33390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaKs-0005KD-OP
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:36:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56436)
+	id 1jVaOe-0003xA-8W
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:40:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHl-0008RF-HD
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:25 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:56267)
+ id 1jVaHm-0008U9-ES
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:26 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHk-0000qr-IK
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:25 -0400
-Received: by mail-wm1-x330.google.com with SMTP id e26so8234643wmk.5
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:24 -0700 (PDT)
+ id 1jVaHl-0000qx-JL
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:26 -0400
+Received: by mail-wm1-x332.google.com with SMTP id u16so8806042wmc.5
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zKel1GTMbLzQCp40bxcgD3q9PRQfcYG3Q8Qjvpr0CO8=;
- b=yZPhjKpRTnfQSnc+6sJtsANiuagLCEsyzCkM4jcTbKGa7ApWDWySyLOZg6UOs4PAN3
- QOSBtHkYB9q6nvKytbHlKMiOrTRlvt0oQUKkzWrytVN/57KUrkGXs3BfXFJhHEXw4CFa
- whCvT4KbQ6FNMfa74KGbZeYauSwTxK7W36L8eAIN97nOaNUjkm2D0qKmLKWQTof7ZDVQ
- bj0QxYv85ObndkNsA1uljDm8NI4AAOFu4xhjLrn9Z38JcIEKiEFH32AMq6lmby9DSC/k
- l03YJqzs+H8Tybu+2rzDVjQnrB1DchKJhZLA5QUhlDuNjeCjfrljxi4GN1mseQKU7qj8
- 9zIQ==
+ bh=zmzHGE57MukSIkxK2mquJ8on6NKtjOsBN0YXeedCzVs=;
+ b=RlUw0mvBNdW2pse5ZDT4I8BFCa/MUCC9crqP82770Toa3mu4csgSsfGPkB23Jn+ncF
+ Hu742pV4hIVmWaSemYcuOP9zsNgKF6IQHDWG50wOWLTSvvJBg5g0LmfQyxxJ1e+Vtftc
+ W4Rd1bfSOc/b81tRxWhEzWNckqjFvckg7MuBYe1Lw4BUmDCYbdPxg6btbyVfWgx/0yYN
+ su0WMPHLbma/jTjvQDkFm4U6J0ktlKIYb2FWx2XgXjIHr6XtX/O3D8/5QLGyMOMYcZq6
+ MJ78/VUZRHRursGKEfY167//b+MjlsWL12BRCUNo1nxeA8njUrgpXc/HqFc6JJh/2pHw
+ NpaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zKel1GTMbLzQCp40bxcgD3q9PRQfcYG3Q8Qjvpr0CO8=;
- b=ppApqpeMc36/sYfPGNnmbkP9Gd8FzXlOUTV6CpzN02FPDnurG+96Crpnn1h6l6Yigf
- YM18KSl6GhObaUJwWuUPbwM9r9jcl23UXNqhHMNMZmCFlaObMJZXccLRq71BKtnRn/vR
- Vuaj1zXFa+4kcVK0ajF76d3GecLeDW+9QSQy0PUZumpSZljDmZ3DVZTIvxaZqtqnXLl6
- JA1QRvfnbaMgRv/E2MqAl4fF7vOxVwGqRDJ8iO6F9dC8OByidx0FpaV5Is5Jooamb8UN
- y/Cp6tiHV1ve58mtkbpmZjVvjl+uoJ7rT/2otgYWHV1t1ygLBYY25YtA7gZDFhLeibm2
- 4gLg==
-X-Gm-Message-State: AGi0Pubnyr8iixptO0A2bBOAisoqyhpXusBTtEm9bn+N3cCORiySk9tx
- cIgBsu8+b8J4B3ey6RrxEvX9mM9FrXILaA==
-X-Google-Smtp-Source: APiQypKJOWuawp+OoFKfUGZ1o9gmMGw6dmPsY/epldrwp4Yc/YRxrbsKKpFSXiy7+UU3YNUoux18HQ==
-X-Received: by 2002:a1c:dfc2:: with SMTP id w185mr13829006wmg.1.1588595602986; 
- Mon, 04 May 2020 05:33:22 -0700 (PDT)
+ bh=zmzHGE57MukSIkxK2mquJ8on6NKtjOsBN0YXeedCzVs=;
+ b=XX/AjiehDvRZ1tFXbwS1VOW2Lm+zYepgBn701+iFHWbTLjtFGXh7dIn+rsc7KK3f1E
+ cJgHM0DUSkJUA7Crqe2Q7yuQnvM5bL123EmerN0bAedtpB5Fu0EdR+3L9jxaK3XX1Ddg
+ ne2JqOYNCxcdBB7lSFzwPdNiWYxYgEH9Um6sc7O7qSPqsC7nVLlIXi+M84NsO0gHRTcm
+ 8/RiLQtmsfT1S5W75cq2nlwwIDgKxrNmdqLMFMfz1icomsoLcELw4OfmFsux4adD6ikj
+ fpZxrW7VnOGq4bQGSg3p3QTtN6TmumkmftHFURp1LXg6UlDhVLq/SN2NyVhoiJADCjTR
+ FSFg==
+X-Gm-Message-State: AGi0Puai2jGvr2f8CzQkaT3mkBr1Wrc4203pbMK0X05aqUj1YtV8gtsK
+ CeLXeSPLd47uA/j1fDgKlAC9ehGYwe7ExA==
+X-Google-Smtp-Source: APiQypJpwDU1J5eCS1QDdhpT50YhqE/Idc5mFD1ZJRDPPzrNp1Qr7NGpMjdTZZPoiJr6wWf/SaTt+w==
+X-Received: by 2002:a05:600c:2218:: with SMTP id
+ z24mr14206276wml.82.1588595603974; 
+ Mon, 04 May 2020 05:33:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.22
+ by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 05:33:22 -0700 (PDT)
+ Mon, 04 May 2020 05:33:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/39] hw/arm: versal: Move misplaced comment
-Date: Mon,  4 May 2020 13:32:40 +0100
-Message-Id: <20200504123309.3808-11-peter.maydell@linaro.org>
+Subject: [PULL 11/39] hw/arm: versal-virt: Fix typo xlnx-ve -> xlnx-versal
+Date: Mon,  4 May 2020 13:32:41 +0100
+Message-Id: <20200504123309.3808-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200504123309.3808-1-peter.maydell@linaro.org>
 References: <20200504123309.3808-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,38 +92,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Move misplaced comment.
+Fix typo xlnx-ve -> xlnx-versal.
 
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-id: 20200427181649.26851-3-edgar.iglesias@gmail.com
+Message-id: 20200427181649.26851-4-edgar.iglesias@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/xlnx-versal.c | 2 +-
+ hw/arm/xlnx-versal-virt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index c73b2fe7555..cc696e44c06 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -36,7 +36,6 @@ static void versal_create_apu_cpus(Versal *s)
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 878a2751400..8a608074d15 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -440,7 +440,7 @@ static void versal_virt_init(MachineState *machine)
+         psci_conduit = QEMU_PSCI_CONDUIT_SMC;
+     }
  
-         obj = object_new(XLNX_VERSAL_ACPU_TYPE);
-         if (!obj) {
--            /* Secondary CPUs start in PSCI powered-down state */
-             error_report("Unable to create apu.cpu[%d] of type %s",
-                          i, XLNX_VERSAL_ACPU_TYPE);
-             exit(EXIT_FAILURE);
-@@ -49,6 +48,7 @@ static void versal_create_apu_cpus(Versal *s)
-         object_property_set_int(obj, s->cfg.psci_conduit,
-                                 "psci-conduit", &error_abort);
-         if (i) {
-+            /* Secondary CPUs start in PSCI powered-down state */
-             object_property_set_bool(obj, true,
-                                      "start-powered-off", &error_abort);
-         }
+-    sysbus_init_child_obj(OBJECT(machine), "xlnx-ve", &s->soc,
++    sysbus_init_child_obj(OBJECT(machine), "xlnx-versal", &s->soc,
+                           sizeof(s->soc), TYPE_XLNX_VERSAL);
+     object_property_set_link(OBJECT(&s->soc), OBJECT(machine->ram),
+                              "ddr", &error_abort);
 -- 
 2.20.1
 
