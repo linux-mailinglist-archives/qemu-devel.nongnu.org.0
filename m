@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193D21C3AA8
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:59:00 +0200 (CEST)
-Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013311C39CD
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:47:13 +0200 (CEST)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVagV-0001rZ-37
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:58:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56696)
+	id 1jVaV5-0000E4-Tx
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaIH-0001Ld-6y
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:57 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40062)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaIG-0001JB-8H
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:56 -0400
-Received: by mail-wr1-x433.google.com with SMTP id e16so15591510wra.7
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=0hy7GkOuTpkkXixImY0LEXOiXHSMsLSHNhjhUFJjdC8=;
- b=VSQMTWM/ZatTDfpIGSyaOGA6/BegPKWXr7tVqbkC8J+M6KYPIxqHyceJcSy5sz/8sj
- tzUlBajrQbSE07gf9QsntLuOth0F7P19NPHklKOA3nkJ0oNPA7WO/PL2IeO972+VOC7A
- tP0K6LyHZVqlbAZcGKFeBEKoHSZvLJD8XOe2o9LOBn6gbJ9T+tu9fccWcN/UGSUqJzHa
- mSDzDn0J8dm6CCdgMbWypghbrhyBVIGyZuYR4M3MOgHgup7cHuKKS5AUo3jre7IxmSHB
- R0/CVz3urKLUa0l4yLgmk/Un27yEjiRqEsNMUVg79RXLm5gRkall1Ik2A8IZ+1gYHaq2
- B59w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=0hy7GkOuTpkkXixImY0LEXOiXHSMsLSHNhjhUFJjdC8=;
- b=JuBvU7jluM0DNx4Mcs7ryNKquo/kF05Vy3JHRJ/KVWQ/JO6ZQwPUVD39UGTWn5kT7a
- Qbp0hRR8BqXVdkyQrcbQS9XQHvwcIQ/7Ari5QDFFA6Hqzx/IZ6bJ7JCE55Qj4rvs5hvN
- vXEC2fVAx5H8p5VN8fkQry1N0tJ82+dwisYblE2H9xM0Nu+oKap9CDWDT6Fns+rM09NX
- oQ7giu1pWcgih4sgWC72YYXq6go1XOYQuTztgbMPOqeeZyRlbWFeGorrj6Y7iijAOys+
- ULt5L3OPTLc9NfncSgUebh3BqcmBHgAdE9A6QVufNwDyNqf684uE5i2zsVXM+SShcR6i
- kewA==
-X-Gm-Message-State: AGi0PuYhoRQN3UrXoj1yXq4Xw1hrqvCg/SiK+5hnfxXn1Zf9pEJ2z6XL
- FIeR4gHtd5v9upw0GNsQ5nHjFESd3DI1Ug==
-X-Google-Smtp-Source: APiQypI89NZsywOKmIva/duRYRMVp5PQ5A/+97GKg2Cfv9SUMufdBl+AwSev4+l3AvO4eCt91ABvag==
-X-Received: by 2002:adf:f342:: with SMTP id e2mr17973282wrp.146.1588595634776; 
- Mon, 04 May 2020 05:33:54 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.53
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 05:33:54 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 39/39] target/arm: Move gen_ function typedefs to translate.h
-Date: Mon,  4 May 2020 13:33:09 +0100
-Message-Id: <20200504123309.3808-40-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200504123309.3808-1-peter.maydell@linaro.org>
-References: <20200504123309.3808-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jVaIl-0002fM-35
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:34:27 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55708
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jVaIk-0001Vf-4K
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:34:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588595664;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V2f+94WevF1xVUd8sbVDd41rMqJVjknOhhTXpotJzdo=;
+ b=b9n3zjWhB5AZuKef/lulv/pkaWIOt6KUMO+6TdQspb8V+WeguVBvi5Q0nZ72UoFCg6kniE
+ 97UQGo2s/+AOcWNMl+LIEq+H/nmP4MeTTs7V1KvZ1/oSIyTIAHebeJNsCFuWskdudQMt+K
+ fY2sSh8AmMuLfTlf3H3IUXP/ZU6Quxk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-56-8eHI874jMzaLLiPM5v2hog-1; Mon, 04 May 2020 08:34:20 -0400
+X-MC-Unique: 8eHI874jMzaLLiPM5v2hog-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82D7619200C3;
+ Mon,  4 May 2020 12:34:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CBA3F6B8E6;
+ Mon,  4 May 2020 12:34:13 +0000 (UTC)
+Date: Mon, 4 May 2020 13:34:10 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/20] Trivial branch for 5.1 patches
+Message-ID: <20200504123410.GJ115875@redhat.com>
+References: <20200504115758.283914-1-laurent@vivier.eu>
+ <CAFEAcA_FDt+1+ezAyRE-fwdd=VuG5YNThkKiHHTUOYqtRHLoyg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAFEAcA_FDt+1+ezAyRE-fwdd=VuG5YNThkKiHHTUOYqtRHLoyg@mail.gmail.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,77 +83,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're going to want at least some of the NeonGen* typedefs
-for the refactored 32-bit Neon decoder, so move them all
-to translate.h since it makes more sense to keep them in
-one group.
+On Mon, May 04, 2020 at 01:17:19PM +0100, Peter Maydell wrote:
+> On Mon, 4 May 2020 at 13:05, Laurent Vivier <laurent@vivier.eu> wrote:
+> >
+> > The following changes since commit 2ef486e76d64436be90f7359a3071fb2a56c=
+e835:
+> >
+> >   Merge remote-tracking branch 'remotes/marcel/tags/rdma-pull-request' =
+into s=3D
+> > taging (2020-05-03 14:12:56 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-req=
+uest
+> >
+> > for you to fetch changes up to 4341a0106781043a708c061b676312e5bb5d4488=
+:
+> >
+> >   hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warnin=
+g (202=3D
+> > 0-05-04 12:06:21 +0200)
+> >
+> > ----------------------------------------------------------------
+> > trivial patches (20200504)
+> >
+> > Silent static analyzer warning
+> > Remove dead assignments
+> > Support -chardev serial on macOS
+> > Update MAINTAINERS
+> > Some cosmetic changes
+>=20
+>=20
+> Compile failure, OSX:
+> /Users/pm215/src/qemu-for-merges/block/file-posix.c:1620:9: error:
+> unused variable 'ret' [-Werror,-Wunused-variable]
+>     int ret;
+>         ^
+>=20
+> Compile failure, aarch32 (but probably the result of whatever
+> crypto options/dependent libraries are on that setup):
+>=20
+> In file included from /home/peter.maydell/qemu/crypto/cipher.c:157:0:
+> /home/peter.maydell/qemu/crypto/cipher-builtin.c: In function
+> 'qcrypto_cipher_aes_xts_encrypt':
+> /home/peter.maydell/qemu/crypto/cipher-builtin.c:136:36: error:
+> passing argument 1 of 'qcrypto_cipher_aes_ecb_encrypt' discards
+> 'const' qualifier from pointer target type
+> [-Werror=3Ddiscarded-qualifiers]
+>      qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
+>                                     ^
+> /home/peter.maydell/qemu/crypto/cipher-builtin.c:77:13: note: expected
+> 'AES_KEY * {aka struct aes_key_st *}' but argument is of type 'const
+> AES_KEY * {aka const struct aes_key_st *}'
+>  static void qcrypto_cipher_aes_ecb_encrypt(AES_KEY *key,
+>              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> /home/peter.maydell/qemu/crypto/cipher-builtin.c: In function
+> 'qcrypto_cipher_aes_xts_decrypt':
+> /home/peter.maydell/qemu/crypto/cipher-builtin.c:147:36: error:
+> passing argument 1 of 'qcrypto_cipher_aes_ecb_decrypt' discards
+> 'const' qualifier from pointer target type
+> [-Werror=3Ddiscarded-qualifiers]
+>      qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
+>                                     ^
+> /home/peter.maydell/qemu/crypto/cipher-builtin.c:103:13: note:
+> expected 'AES_KEY * {aka struct aes_key_st *}' but argument is of type
+> 'const AES_KEY * {aka const struct aes_key_st *}'
+>  static void qcrypto_cipher_aes_ecb_decrypt(AES_KEY *key,
+>              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200430181003.21682-23-peter.maydell@linaro.org
----
- target/arm/translate.h     | 17 +++++++++++++++++
- target/arm/translate-a64.c | 17 -----------------
- 2 files changed, 17 insertions(+), 17 deletions(-)
+This failure shows that patch 4 is wrong. The cast is not redundant,
+it is explicitly required in order to discard 'const'. Please just
+drop patch 4.
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 95b43e7ab65..cb7925ea461 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -314,4 +314,21 @@ typedef void GVecGen3Fn(unsigned, uint32_t, uint32_t,
- typedef void GVecGen4Fn(unsigned, uint32_t, uint32_t, uint32_t,
-                         uint32_t, uint32_t, uint32_t);
- 
-+/* Function prototype for gen_ functions for calling Neon helpers */
-+typedef void NeonGenOneOpEnvFn(TCGv_i32, TCGv_ptr, TCGv_i32);
-+typedef void NeonGenTwoOpFn(TCGv_i32, TCGv_i32, TCGv_i32);
-+typedef void NeonGenTwoOpEnvFn(TCGv_i32, TCGv_ptr, TCGv_i32, TCGv_i32);
-+typedef void NeonGenTwo64OpFn(TCGv_i64, TCGv_i64, TCGv_i64);
-+typedef void NeonGenTwo64OpEnvFn(TCGv_i64, TCGv_ptr, TCGv_i64, TCGv_i64);
-+typedef void NeonGenNarrowFn(TCGv_i32, TCGv_i64);
-+typedef void NeonGenNarrowEnvFn(TCGv_i32, TCGv_ptr, TCGv_i64);
-+typedef void NeonGenWidenFn(TCGv_i64, TCGv_i32);
-+typedef void NeonGenTwoSingleOPFn(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_ptr);
-+typedef void NeonGenTwoDoubleOPFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_ptr);
-+typedef void NeonGenOneOpFn(TCGv_i64, TCGv_i64);
-+typedef void CryptoTwoOpFn(TCGv_ptr, TCGv_ptr);
-+typedef void CryptoThreeOpIntFn(TCGv_ptr, TCGv_ptr, TCGv_i32);
-+typedef void CryptoThreeOpFn(TCGv_ptr, TCGv_ptr, TCGv_ptr);
-+typedef void AtomicThreeOpFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGArg, MemOp);
-+
- #endif /* TARGET_ARM_TRANSLATE_H */
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index efb1c4adc4e..a896f9c4b83 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -70,23 +70,6 @@ typedef struct AArch64DecodeTable {
-     AArch64DecodeFn *disas_fn;
- } AArch64DecodeTable;
- 
--/* Function prototype for gen_ functions for calling Neon helpers */
--typedef void NeonGenOneOpEnvFn(TCGv_i32, TCGv_ptr, TCGv_i32);
--typedef void NeonGenTwoOpFn(TCGv_i32, TCGv_i32, TCGv_i32);
--typedef void NeonGenTwoOpEnvFn(TCGv_i32, TCGv_ptr, TCGv_i32, TCGv_i32);
--typedef void NeonGenTwo64OpFn(TCGv_i64, TCGv_i64, TCGv_i64);
--typedef void NeonGenTwo64OpEnvFn(TCGv_i64, TCGv_ptr, TCGv_i64, TCGv_i64);
--typedef void NeonGenNarrowFn(TCGv_i32, TCGv_i64);
--typedef void NeonGenNarrowEnvFn(TCGv_i32, TCGv_ptr, TCGv_i64);
--typedef void NeonGenWidenFn(TCGv_i64, TCGv_i32);
--typedef void NeonGenTwoSingleOPFn(TCGv_i32, TCGv_i32, TCGv_i32, TCGv_ptr);
--typedef void NeonGenTwoDoubleOPFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGv_ptr);
--typedef void NeonGenOneOpFn(TCGv_i64, TCGv_i64);
--typedef void CryptoTwoOpFn(TCGv_ptr, TCGv_ptr);
--typedef void CryptoThreeOpIntFn(TCGv_ptr, TCGv_ptr, TCGv_i32);
--typedef void CryptoThreeOpFn(TCGv_ptr, TCGv_ptr, TCGv_ptr);
--typedef void AtomicThreeOpFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGArg, MemOp);
--
- /* initialize TCG globals.  */
- void a64_translate_init(void)
- {
--- 
-2.20.1
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
