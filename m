@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FF41C38D0
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:03:30 +0200 (CEST)
-Received: from localhost ([::1]:41904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640251C38DD
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:06:22 +0200 (CEST)
+Received: from localhost ([::1]:51540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZon-0000Gs-80
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:03:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52020)
+	id 1jVZrZ-0004FU-BD
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjp-0002zg-Sf; Mon, 04 May 2020 07:58:21 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:42191)
+ id 1jVZjr-00032t-0j; Mon, 04 May 2020 07:58:23 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:51577)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjo-0001yg-Om; Mon, 04 May 2020 07:58:21 -0400
+ id 1jVZjo-000224-TI; Mon, 04 May 2020 07:58:22 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MOzfO-1jmAmM2VKO-00PKXW; Mon, 04 May 2020 13:58:10 +0200
+ id 1MVubb-1jfr8A0guj-00RoZr; Mon, 04 May 2020 13:58:11 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/20] hw/mem/pc-dimm: Print slot number on error at
- pc_dimm_pre_plug()
-Date: Mon,  4 May 2020 13:57:44 +0200
-Message-Id: <20200504115758.283914-7-laurent@vivier.eu>
+Subject: [PULL 07/20] hw/mem/pc-dimm: Fix line over 80 characters warning
+Date: Mon,  4 May 2020 13:57:45 +0200
+Message-Id: <20200504115758.283914-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nMIjpqcyfeagiB2tomuREloaNkW9VnRkFmvDSw6OsS7MG4ZWEii
- 4KXMpA6rphhNRiAmq5w26xpimy2x9RyUt1nWl1050+tx5soX9Y9ErNKzM3GkZEhwNJRD3NR
- /TuI4KSaaKe2wa5fhFrNcuB8TJ013OSrCQeKlQuECnzyvaeKK9j74xftsZc7ugV+9CH+9qk
- Vy1PKXICu3pjuZ/ADCYnA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mTVN/XyWfEY=:W16uyu/pJhNvkGvWiPgjvA
- 2FWi/MiH2OyqHoIKaAEFr02+vgsbblDvDWSVhkbwGHKBGdZCLG5P30o86Xir5E7FdC2FifVsR
- h4MQhI7bC4IfLArOSalR9WxYlEB2Y9/TVQ4Q9Q/4iun+O+f6sHYs23ZAUxqMQ6LV0UNuCLtpe
- 4Z3040p1xG0mvpUCfys22cVjxtsCR6e1JpQPgd8EYGcUJf/4s8G06rBG5+0xpd/4eGu3c4EKH
- bY0DnYZVJHzySeqRbKTGZ6Kiu5zNZpqFrij7ziboOX+po+ivuIcP93NKzQBzhvTIAyPaB8i6N
- Mz5TcRB3EXm5kNl9mPl/FiIvv/nCSUwkD1prNjI+b1494bJtaHa/HRLRadbEumg3m+6qHd33D
- imJa1PMWBnNHOql+9teP+kFBQJMtbaMTRaEz1k71l/uNMky/morF4jQfY7hulWSEBoK1oiFiG
- YslBiV6EkrPphmZ0MNQcuXdhaaN8lS5KgB+GLwZCPtYf6eLjGRxbBGwu9Fc35r49tZ3eu6aUO
- 5zDhpuBPFgjuxBK/j2IycSlxk5xQw2KJsDIKnxnmfJD9jHu2ex/sRVH/MjIfrAcJkL49bTz9k
- GrUtrclUpqc2+WXgO1WGMsEwMhFaoWHO2j9a6EIroO6HTKL8Zfma1AgvIfbNSxZK5wBG05Gs1
- 0ha1HlasfB3mgQRQUkI+wivgNE9rJYaBL8Kd1DvSe/mdn+MfgoXm/TkuSIIlkN19h7PCNYikH
- rAdYXRFw0ji90cBFO0ERL2tVcRdKDRi9sOOoP05U3xMgvdJUQuYwMjVA7VTJRztUsVJGZ9+jx
- vRzKidr6n/kn5EapysUJ+ZxZyjQtteYpQ+NrKqLtpeqkGn3w1rlz0UlQqLZoq0Ze8QsIusr
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:uoOCv6SWCIzT4rAEh7LAxYnD9eqhHUN9UdFbneX2A8S7JYa3EQt
+ nlWJ+zqUlSEhHLroSD3BCNjdwhg5KHsmShG/KornRceMx1B0k/I9k9iAvjZMKV6EZS3abth
+ 04lCc8AN0n1Aw8h+HTanmiXiEIU7sra5qNS6uNOt7e1zF8sKj7TRGL2l2ct/oIGyBC2k+pB
+ w65YW6NRLBz9755Lmfr0w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:C4xhP5OJBIY=:YID2BNSHBArahqvD0vXEcA
+ UecVbj8vK7q4VOn+xj4MJCrGCpCQz9qqF4tG4PZcPkislLyJBL0S2o4njAwNkicEhxuXd2HYs
+ KJFIWrsozEnRnMHzZznv4P1Ahcm/SKTRPymbML9pc/C/v6uavfiR8A4gig+rfttLa4asHIzsG
+ b74IrlnDC+g4q4WrnrPp1VZiLJuqPS6V1KODWIzWnCDI+DpvrSUBBsgUdUmqBSx9JDDci0e9g
+ ogqhleLGrppfxLvcGux3ht2Ff1xO6afR6cYYTEKGIKMFzl8H5yqqFPVZjqNxmHcs6q58UIzpa
+ LwVeoQ8q7rHY5QZaxgHYaSqPR+wCcuSdAObNHpt02LNIMH+JFIhTEixcN/2+s6kAT/NF6aHx9
+ CjFzSuR+zKoMpfA7wuk5XkDoa+ad5dkx0DJzmdNW9tvars8FtUk3IrAIA4yo819KZr9nwy35G
+ 1pcvPT5ichydgyuikg8hOpcQM26a/0R7FKCdj5HeTH8ItCV9BnCP75Qo+NAipqbEyqxOx2jFG
+ I66Sn7FFa5dvjYs64K0817NxFiZ10tAeMPsEh/YR1KfWqSP9wIEBGW1zcxtIOxtOLycCbaAXb
+ IRNhI2N29L7WD6LO8sqcYOQ7ZHROh+F23c6tc4ahii3auweQfH1EbpkEvdaESxvvhGR3BruKv
+ wxnJbMLwjhp1EW9mzlNwXLYDf2TAFxzTQUqZOIUeiDOlYNH7+dhcVCX5N2B5C1ahhSEbcTfRI
+ 7aVwKzIpF7saryP+89kzi+CT7v/QRP81GdUPBINFRcXcSwZZ7M9twGB/LIy7v6L0bpa4l/ZEX
+ 315QqLxBeEA/StubPGKiADwwv5nl9HSspHVxtXGpKfwrJ6dlxlYzEqVGgecJvXx7Gpd1wzu
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:08
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:14
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,31 +76,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-The error report in pc_dimm_pre_plug() now has the slot
-number printed.
-
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20200310180510.19489-2-wainersm@redhat.com>
+Message-Id: <20200310180510.19489-3-wainersm@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/mem/pc-dimm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/mem/pc-dimm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index 8f50b8afea3c..36edfcf46799 100644
+index 36edfcf46799..6d62588fea8c 100644
 --- a/hw/mem/pc-dimm.c
 +++ b/hw/mem/pc-dimm.c
-@@ -44,8 +44,8 @@ void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
-                                    &error_abort);
-     if ((slot < 0 || slot >= machine->ram_slots) &&
-          slot != PC_DIMM_UNASSIGNED_SLOT) {
--        error_setg(&local_err, "invalid slot number, valid range is [0-%"
--                   PRIu64 "]", machine->ram_slots - 1);
-+        error_setg(&local_err, "invalid slot number %d, valid range is [0-%"
-+                   PRIu64 "]", slot, machine->ram_slots - 1);
-         goto out;
-     }
+@@ -218,7 +218,8 @@ static MemoryRegion *pc_dimm_get_memory_region(PCDIMMDevice *dimm, Error **errp)
  
+ static uint64_t pc_dimm_md_get_addr(const MemoryDeviceState *md)
+ {
+-    return object_property_get_uint(OBJECT(md), PC_DIMM_ADDR_PROP, &error_abort);
++    return object_property_get_uint(OBJECT(md), PC_DIMM_ADDR_PROP,
++                                    &error_abort);
+ }
+ 
+ static void pc_dimm_md_set_addr(MemoryDeviceState *md, uint64_t addr,
 -- 
 2.26.2
 
