@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D6441C3CFA
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:28:06 +0200 (CEST)
-Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 256561C3D0B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:30:47 +0200 (CEST)
+Received: from localhost ([::1]:52866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVc4j-00025s-Ff
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46948)
+	id 1jVc7K-0006Br-1P
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:30:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVc3P-0000sV-Va
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:26:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33933
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc5w-0004Tv-GY
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35447
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVc3M-0005Ei-Es
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:26:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc5u-0005lR-0y
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602398;
+ s=mimecast20190719; t=1588602557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=6KssWYDWKmX2bACLCXDvYL5R7uQ9ktgUSddYGO3LWEc=;
- b=Y+qowDjs1g+uX24UWLWMrguxiTU7atOcGFLwsPRxcE4pC47l7YxTi3LJPCFq3GD3x30r1B
- +pHQ29wGFIaVasf9j6tKx3S/JcRpZVyFN3VTnl9GL4eP9CG8FU1gPDUD7KnK9H30EmOxbd
- oigt90dbyPY3ouYawuvUXafp+Yn+znE=
+ bh=kPPBIuLCXkXKwdxbJ9SWELJxTe/D10vY9gM/YUIe4dk=;
+ b=R/SD9wOs36f1YcdJV2MRNATNEtw+RpaE3svqyKhJzFmQII0vR45AtOKrlDRjYR8IK1fvJb
+ koUJzNGeF02YP3jnB6+XY2DYMMLiDTNIClms5ZHQ68kSk3rDalYLOGc6QVaF2YlNMRQU+1
+ skFIp4Wm9irn5Bk9MiYIHJHbP0lQ6m4=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-fTbOWmVPNkGaWeOGmNxZ1Q-1; Mon, 04 May 2020 10:26:34 -0400
-X-MC-Unique: fTbOWmVPNkGaWeOGmNxZ1Q-1
-Received: by mail-wr1-f72.google.com with SMTP id g10so2082822wrr.10
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:26:34 -0700 (PDT)
+ us-mta-317-vEkMhuufOgqfiYFmr3o1Lw-1; Mon, 04 May 2020 10:29:15 -0400
+X-MC-Unique: vEkMhuufOgqfiYFmr3o1Lw-1
+Received: by mail-wr1-f72.google.com with SMTP id o8so10801990wrm.11
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xuMjaNYxipgB8albhPc6Ph80ZynRbvJlRqsT2hfDicc=;
- b=a2WCnTEkr3qdV1WmZ93KO6oBD9CQC/gEYj1bOJis7UaMMT46kO2wX15w/WwIz6SRzC
- l4EEP4ZbJAkL1+BKJdZF8jv0gWojFjEnh1IswEyUqLS3ES03aMhdhL2KbE6zPTFfSlOM
- RSUGF6d+u392cEy7JkvpxiwTR1KRYlDzN5rW9zB8wXcgp+KSRin6rZTIjkLeAbgZqXhb
- x7dnkjIpfGGxkLzM3Zv7Z1MsvpAs5RFfyfW5ydHtmAGT81v3t37osbhXK3QNC+BQQViu
- 5UcO/T/wDr939wIKOuAbMp8JZdrg04mUDknzN+fUocM7PKLAqgxHnLH39HhTmoRExCtj
- rmFg==
-X-Gm-Message-State: AGi0PuYscR1v/H5BsBZH1E+Syq9ciVMfENyim28ERVvCBYXiGgB7aOfM
- ajZY7GkprPVYzPa63uCX00MOcYUdtqUn0EYajWFS+HwTNnXOqmeesVnD5Jg1fj2E1pZMCfvhssa
- d3KZrR9ncjad5dTw=
-X-Received: by 2002:a5d:650b:: with SMTP id x11mr19094441wru.405.1588602393117; 
- Mon, 04 May 2020 07:26:33 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJVO+8+jDCxGemtvWiUST40IreBT7h+uUr5YMU2tz1NUVpt2k0Ua08mhJG5n6zjqJbnEvUJKg==
-X-Received: by 2002:a5d:650b:: with SMTP id x11mr19094362wru.405.1588602392066; 
- Mon, 04 May 2020 07:26:32 -0700 (PDT)
-Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id s18sm20559545wra.94.2020.05.04.07.26.31
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=NaTSn1n2vggpZpDpRVHNAFyEltcOMKsFILvtJ+PZhp4=;
+ b=lrXmsFM2lS2J3U6eH3PV5xFx03aSzuJJynVYFYM4Xsj6yKfRilBi592Za4BrMkYn1p
+ g82ttXYHLugSUsZU97enKy4FORlb7PlFY2uRuxcwGeU7+wO7oMCfTSTjtrZC4sfdk+lT
+ x6ul3KBMDx38KqxdEgRzLDj1TtWcYuHEYyesyKa0EABb3W5EKE1LtVltJEuwAScJw1WN
+ wn+amofSFDA51p3Otb+bxDCic2C+hCJ/2s6tmVOC7PPkUEA6ENZhDB53WfAM1M0W9sIU
+ aydqPtBtVrxbWxR6BLu/E+RCaCtvcCxldu1PaybGts+i5yZmy8VJSHCm2zdrAeeEkyY5
+ cI/A==
+X-Gm-Message-State: AGi0PubNg1waXdw5AoncWSRYDSOziLoWsVWb3IYsp/4rBUCfE22qsJKM
+ sWoLVv5Sl7XqJkdbyiiDXuBIJT0KZG7iLxhLKDFSCVIT+pj6cqD3iIqnEKl4gRtqKkqe+oc+Jse
+ kvKzX+zC/DELtQdo=
+X-Received: by 2002:a1c:8141:: with SMTP id c62mr14886263wmd.87.1588602554237; 
+ Mon, 04 May 2020 07:29:14 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJJNTHqk6xVrSsLPnv2meubJQlZjs222ZTWYc0saKIw4mXDvWRnpp9AI8E3dEtB+YCQ+TkjyA==
+X-Received: by 2002:a1c:8141:: with SMTP id c62mr14886253wmd.87.1588602554015; 
+ Mon, 04 May 2020 07:29:14 -0700 (PDT)
+Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
+ by smtp.gmail.com with ESMTPSA id
+ i129sm14548786wmi.20.2020.05.04.07.29.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:26:31 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Mon, 04 May 2020 07:29:13 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:12 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/qht-bench: Fix Clang 'int-conversion' warning
-Date: Mon,  4 May 2020 16:26:30 +0200
-Message-Id: <20200504142630.12842-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+Subject: [PULL 00/29] virtio,acpi,pci,pc: backlog from pre-5.0
+Message-ID: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
+X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
+X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -92,71 +93,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Emilio G . Cota" <cota@braap.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building with Clang 10 on Fedora 32, we get:
+The following changes since commit 9af638cc1f665712522608c5d6b8c03d8fa67666=
+:
 
-  tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned long'=
- to 'double' changes value from 18446744073709551615 to 1844674407370955161=
-6 [-Werror,-Wimplicit-int-float-conversion]
-          *threshold =3D rate * UINT64_MAX;
-                            ~ ^~~~~~~~~~
-  /usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
-  # define UINT64_MAX             (__UINT64_C(18446744073709551615))
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /usr/include/stdint.h:107:25: note: expanded from macro '__UINT64_C'
-  #  define __UINT64_C(c) c ## UL
-                          ^~~~~~~
-  <scratch space>:14:1: note: expanded from here
-  18446744073709551615UL
-  ^~~~~~~~~~~~~~~~~~~~~~
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200=
+504' into staging (2020-05-04 13:37:17 +0100)
 
-Fix by using nextafter() from <math.h>:
+are available in the Git repository at:
 
-  float nextafterf( float from, float to );
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-      Returns the next representable value of 'from'
-      in the direction of 'to'.
+for you to fetch changes up to d8a05995bd64117bf5219d3ba7956277e608e3ca:
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Cc: Emilio G. Cota <cota@braap.org>
-Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qht-bench.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  hw/i386: Make vmmouse helpers static (2020-05-04 10:25:03 -0400)
 
-diff --git a/tests/qht-bench.c b/tests/qht-bench.c
-index e3b512f26f..f93f8e0fe2 100644
---- a/tests/qht-bench.c
-+++ b/tests/qht-bench.c
-@@ -10,6 +10,7 @@
- #include "qemu/qht.h"
- #include "qemu/rcu.h"
- #include "qemu/xxhash.h"
-+#include <math.h>
-=20
- struct thread_stats {
-     size_t rd;
-@@ -284,7 +285,7 @@ static void do_threshold(double rate, uint64_t *thresho=
-ld)
-     if (rate =3D=3D 1.0) {
-         *threshold =3D UINT64_MAX;
-     } else {
--        *threshold =3D rate * UINT64_MAX;
-+        *threshold =3D rate * nextafterf(0x1p64, 0.0);
-     }
- }
-=20
---=20
-2.21.3
+----------------------------------------------------------------
+virtio,acpi,pci,pc: backlog from pre-5.0
+
+Mostly fixes, cleanups, but also new features for arm/virt and pc acpi.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Anthoine Bourgeois (2):
+      virtio-vga: fix virtio-vga bar ordering
+      virtio-pci: update virtio pci bar layout documentation
+
+Gerd Hoffmann (6):
+      move 'typedef Aml' to qemu/types.h
+      acpi: add aml builder stubs
+      qtest: allow DSDT acpi table changes
+      acpi: drop pointless _STA method
+      acpi: add ISADeviceClass->build_aml()
+      rtc: add RTC_ISA_BASE
+
+Julia Suvorova (2):
+      hw/pci/pcie: Forbid hot-plug if it's disabled on the slot
+      hw/pci/pcie: Replace PCI_DEVICE() casts with existing variable
+
+Kwangwoo Lee (2):
+      nvdimm: Use configurable ACPI IO base and size
+      hw/arm/virt: Add nvdimm hot-plug infrastructure
+
+Li Feng (1):
+      vhost-user-blk: fix invalid memory access
+
+Liran Alon (3):
+      acpi: unit-test: Ignore diff in WAET ACPI table
+      acpi: Add Windows ACPI Emulated Device Table (WAET)
+      acpi: unit-test: Update WAET ACPI Table expected binaries
+
+Michael S. Tsirkin (3):
+      checkpatch: fix acpi check with multiple file name
+      checkpatch: ignore allowed diff list
+      acpi: DSDT without _STA
+
+Philippe Mathieu-Daud=C3=A9 (4):
+      hw/i386/pc: Create 'vmport' device in place
+      hw/i386/vmport: Remove unused 'hw/input/i8042.h' include
+      hw/i386: Add 'vmport.h' local header
+      hw/i386: Make vmmouse helpers static
+
+Raphael Norwitz (1):
+      Refactor vhost_user_set_mem_table functions
+
+Shameer Kolothum (5):
+      hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM output buffer length
+      hw/arm/virt: Add nvdimm hotplug support
+      tests: Update ACPI tables list for upcoming arm/virt test changes
+      bios-tables-test: test pc-dimm and nvdimm coldplug for arm/virt
+      tests/acpi: add expected tables for bios-tables-test
+
+ hw/i386/acpi-build.h                   |   3 +
+ hw/i386/vmport.h                       |  34 ++++++++
+ include/hw/acpi/aml-build.h            |   1 -
+ include/hw/acpi/generic_event_device.h |   1 +
+ include/hw/arm/virt.h                  |   1 +
+ include/hw/i386/pc.h                   |  13 ---
+ include/hw/isa/isa.h                   |   2 +
+ include/hw/mem/nvdimm.h                |   3 +
+ include/hw/rtc/mc146818rtc.h           |   1 +
+ include/qemu/typedefs.h                |   1 +
+ hw/acpi/aml-build-stub.c               |  79 ++++++++++++++++++
+ hw/acpi/generic_event_device.c         |  15 +++-
+ hw/acpi/nvdimm.c                       |  72 ++++++++++++++---
+ hw/arm/virt-acpi-build.c               |   6 ++
+ hw/arm/virt.c                          |  35 ++++++--
+ hw/block/vhost-user-blk.c              |   4 +
+ hw/display/virtio-vga.c                |   1 +
+ hw/i386/acpi-build.c                   |  52 +++++++++---
+ hw/i386/pc.c                           |   3 +-
+ hw/i386/pc_piix.c                      |   2 +
+ hw/i386/pc_q35.c                       |   2 +
+ hw/i386/vmmouse.c                      |  23 +++++-
+ hw/i386/vmport.c                       |  25 +-----
+ hw/isa/isa-bus.c                       |  15 ++++
+ hw/pci/pcie.c                          |  25 +++++-
+ hw/rtc/mc146818rtc.c                   |   5 +-
+ hw/virtio/vhost-user.c                 | 143 +++++++++++++++--------------=
+----
+ hw/virtio/vhost.c                      |   2 +-
+ hw/virtio/virtio-pci.c                 |   1 +
+ tests/qtest/bios-tables-test.c         |   9 ++-
+ docs/specs/acpi_hw_reduced_hotplug.rst |   3 +-
+ hw/acpi/Makefile.objs                  |   4 +-
+ hw/arm/Kconfig                         |   1 +
+ hw/mem/Kconfig                         |   2 +-
+ scripts/checkpatch.pl                  |  33 ++++----
+ tests/data/acpi/pc/DSDT                | Bin 5131 -> 5125 bytes
+ tests/data/acpi/pc/DSDT.acpihmat       | Bin 6455 -> 6449 bytes
+ tests/data/acpi/pc/DSDT.bridge         | Bin 6990 -> 6984 bytes
+ tests/data/acpi/pc/DSDT.cphp           | Bin 5594 -> 5588 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm        | Bin 6784 -> 6778 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs        | Bin 5203 -> 5197 bytes
+ tests/data/acpi/pc/DSDT.memhp          | Bin 6490 -> 6484 bytes
+ tests/data/acpi/pc/DSDT.numamem        | Bin 5137 -> 5131 bytes
+ tests/data/acpi/pc/SSDT.dimmpxm        | Bin 685 -> 734 bytes
+ tests/data/acpi/pc/WAET                | Bin 0 -> 40 bytes
+ tests/data/acpi/q35/DSDT               | Bin 7869 -> 7863 bytes
+ tests/data/acpi/q35/DSDT.acpihmat      | Bin 9193 -> 9187 bytes
+ tests/data/acpi/q35/DSDT.bridge        | Bin 7886 -> 7880 bytes
+ tests/data/acpi/q35/DSDT.cphp          | Bin 8332 -> 8326 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm       | Bin 9522 -> 9516 bytes
+ tests/data/acpi/q35/DSDT.ipmibt        | Bin 7944 -> 7938 bytes
+ tests/data/acpi/q35/DSDT.memhp         | Bin 9228 -> 9222 bytes
+ tests/data/acpi/q35/DSDT.mmio64        | Bin 8999 -> 8993 bytes
+ tests/data/acpi/q35/DSDT.numamem       | Bin 7875 -> 7869 bytes
+ tests/data/acpi/q35/SSDT.dimmpxm       | Bin 685 -> 734 bytes
+ tests/data/acpi/q35/WAET               | Bin 0 -> 40 bytes
+ tests/data/acpi/virt/DSDT.memhp        | Bin 6644 -> 6668 bytes
+ tests/data/acpi/virt/NFIT.memhp        | Bin 0 -> 224 bytes
+ tests/data/acpi/virt/SSDT.memhp        | Bin 0 -> 736 bytes
+ 59 files changed, 449 insertions(+), 173 deletions(-)
+ create mode 100644 hw/i386/vmport.h
+ create mode 100644 hw/acpi/aml-build-stub.c
+ create mode 100644 tests/data/acpi/pc/WAET
+ create mode 100644 tests/data/acpi/q35/WAET
+ create mode 100644 tests/data/acpi/virt/NFIT.memhp
+ create mode 100644 tests/data/acpi/virt/SSDT.memhp
 
 
