@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14671C3DA4
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:54:26 +0200 (CEST)
-Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85B411C3DB8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:57:02 +0200 (CEST)
+Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcUD-0006i3-LX
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50380)
+	id 1jVcWj-00046k-FG
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcNj-0003b1-Kd
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:47:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60342
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVcRa-0003AT-KV
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:51:42 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57716
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcNh-0001Al-SD
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:47:43 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVcRZ-0005WG-Rs
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:51:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588603660;
+ s=mimecast20190719; t=1588603901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+vJp68OTHJYENo+LA7XgYbb4SQC7afepcet0t4udFaM=;
- b=NsuT8CLr6P0pUx/o6qNSO0kRdNpOGTWVe4NELiBIb8DITLJ75uBn9cmsmPOKIvAEzr32Pb
- /+RtYWCVmHxcWGqjKviNVk1GbH/HuY/Etf3LEjcYTl5jsbcHEIqfkjEYmKdte2/jVhy9c+
- J658ASWupa/kInr+KaIby+TxfruYicc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-LbihXrm3OkimvyDfdsK7nw-1; Mon, 04 May 2020 10:47:39 -0400
-X-MC-Unique: LbihXrm3OkimvyDfdsK7nw-1
-Received: by mail-wr1-f70.google.com with SMTP id o6so3499605wrn.0
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:47:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=w3abu0QvtozAed0eJAORquhLm7dsvsmXXpioGTywpaQ=;
- b=dto6NXx1Jj/1Kea/6dn3DlQ0AKFeJOCwr5Qe3huIL2epSqKbsUpH7Csu8ChfMMjxia
- J4mb3hQmdG9jJjtaDGiMdH3hALDERINDI0O5P/tsGKvpSqAEb44VoZtp/5sMG09Zc2qW
- JOkMbjhHGCt3OC4mMVI321RGjVPa7gcmAqRHaODR0E740/jsJaucoIQC0V8PQ7RPu7mj
- mt4+liQqp9dCwJym67UqOmXHhwdeB6V+iJmoQOOv7vqaxPeeP2sa8+9DLcb6vOy3Rhlo
- 5i7V1zA1GPdRoCDjGUqbltlYv+h03HApj3QnaaQhdy7gTplCJHGQGI++mkawocNIb3ES
- a2Cw==
-X-Gm-Message-State: AGi0PubQdCe2mBNDsGCN0xniIaObk9GEnDx0YuB09IzyGq6ZNYkvMjQb
- NgtT3YtbUT5V3Zguolw0AuUqv3DtwPWFUJWAGFHUt+5YOLbgULmVyfIcevRqhAKgBUgNMPFcdsI
- urxeklEQKuluZKGA=
-X-Received: by 2002:adf:f1c6:: with SMTP id z6mr19677173wro.361.1588603657488; 
- Mon, 04 May 2020 07:47:37 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJv3K4I4BSvd+NAQvGiDaDp4zQD4omq7EDxr9b4+cZUe6tQ/7yKQ9y1wXzYhjuUJGqQzXNfWg==
-X-Received: by 2002:adf:f1c6:: with SMTP id z6mr19677137wro.361.1588603657234; 
- Mon, 04 May 2020 07:47:37 -0700 (PDT)
-Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id z18sm18659005wrw.41.2020.05.04.07.47.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 07:47:36 -0700 (PDT)
-Subject: Re: [PATCH v3 08/15] acpi: serial: don't use _STA method
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20200429140003.7336-1-kraxel@redhat.com>
- <20200429140003.7336-9-kraxel@redhat.com>
- <f79d7f70-7377-3740-69c9-687641565fce@redhat.com>
- <20200504131955.356mjjafk4aq43ko@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8f2d9f28-ed9c-f6ee-f900-d02f27bebd10@redhat.com>
-Date: Mon, 4 May 2020 16:47:35 +0200
+ bh=hrLrQr+R/T9s03X9urIw7MWei7yBJ0eNzyIVI1Vhb1g=;
+ b=AxLpYE1P3ml3VcYi5RUBFU0l1+6WHgSe6aOFlsVhG99g9WGkAzKoZO9u5rpLerr9uVqrB+
+ 0lL615Kx9VxYMatUEAAo0Ny/xwn3UBIUxavVqGS/guK7jA1uR1gJkD9KCxce10t49IZ12W
+ RgB/UoMyOmZPwjksDGEV01BBu423Td0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-YgQuK88BMIypfIXmRb35CA-1; Mon, 04 May 2020 10:51:34 -0400
+X-MC-Unique: YgQuK88BMIypfIXmRb35CA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A79761054F9B;
+ Mon,  4 May 2020 14:51:33 +0000 (UTC)
+Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EE1A1002389;
+ Mon,  4 May 2020 14:51:33 +0000 (UTC)
+Subject: Re: [PATCH] qcow2: Avoid integer wraparound in qcow2_co_truncate()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <20200501131525.6745-1-berto@igalia.com>
+ <5ba91898-9d3b-d55d-c360-83cca41d88f4@redhat.com>
+ <101fcf8e-0352-9151-f25a-c8a38aa079ed@redhat.com>
+ <w515zdbizgo.fsf@maestria.local.igalia.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <de009c42-b886-0e30-44da-cfbeb7ccc49b@redhat.com>
+Date: Mon, 4 May 2020 09:51:32 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200504131955.356mjjafk4aq43ko@sirius.home.kraxel.org>
+In-Reply-To: <w515zdbizgo.fsf@maestria.local.igalia.com>
 Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,61 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 3:19 PM, Gerd Hoffmann wrote:
->>> -static Aml *build_com_device_aml(uint8_t uid)
->>> +static void build_com_device_aml(Aml *scope, uint8_t uid)
->>>    {
->>>        Aml *dev;
->>>        Aml *crs;
->>> -    Aml *method;
->>> -    Aml *if_ctx;
->>> -    Aml *else_ctx;
->>> -    Aml *zero =3D aml_int(0);
->>> -    Aml *is_present =3D aml_local(0);
->>> -    const char *enabled_field =3D "CAEN";
->>>        uint8_t irq =3D 4;
->>>        uint16_t io_port =3D 0x03F8;
->>>        assert(uid =3D=3D 1 || uid =3D=3D 2);
->>>        if (uid =3D=3D 2) {
->>> -        enabled_field =3D "CBEN";
->>>            irq =3D 3;
->>>            io_port =3D 0x02F8;
->>>        }
->>> +    if (!memory_region_present(get_system_io(), io_port)) {
->>> +        return;
->>> +    }
+On 5/4/20 8:47 AM, Alberto Garcia wrote:
+
+>> Drop this hunk (leave zero_start unchanged), and instead...
 >>
->> The patch looks OK, but an you split this check into a separate (previou=
-s?)
->> patch please?
+>>>
+>>> So, using your numbers, pre-patch, we have zero_start =3D 0x90000 (0x82=
+000
+>>> rounded up to 0x10000 alignment).=C2=A0 post-patch, the new MIN() lower=
+s it
+>>> back to 0x8dc00 (the new size), which is unaligned.
+>>>
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Use ze=
+ro clusters as much as we can. qcow2_cluster_zeroize()
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * requir=
+es a cluster-aligned start. The end may be
+>>>> unaligned if it is
+>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * at the end of the =
+image (which it is here).
+>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D qcow2_cluster_zero=
+ize(bs, zero_start, offset -
+>>> zero_start, 0);
+>>
+>> ...patch _this_ call to compute 'QEMU_ALIGN_UP(offset, s->cluster_size)
+>> - zero_start' for the length.
 >=20
-> I don't think this belongs to a separate patch.  It is basically the
-> same check the lpc bridge is doing when filling the pci config space
-> (see hw/isa/lpc_ich9.c).  So this effectively maintains the existing
-> logic, only that we now check directly instead of letting the guest
-> check the pci config space bit via _STA method.
+> That would work, but then we would be writing zeroes beyond the end of
+> the image (but still within the last cluster).
 >=20
-> Also note this is only temporary for bisecting, the next patch in the
-> series moves the code to a device callback so this kind of "device
-> exists" check is not needed any more.
+> The other solution is to keep my hunk and call qcow2_cluster_zeroize()
+> only when offset > zero_start.
 
-Oh correct.
+Yes, that would work, and probably less complicated.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
->=20
-> take care,
->    Gerd
->=20
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
