@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1E21C3ECA
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:42:15 +0200 (CEST)
-Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E8A1C3ED3
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:44:00 +0200 (CEST)
+Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdEU-00008G-Uk
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60320)
+	id 1jVdGB-0003dj-If
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2m-0004tp-4N
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:30:08 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31505
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2r-00050Q-2i
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:30:14 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:50087
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2l-000453-A6
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:30:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2q-00047C-3w
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:30:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588606206;
+ s=mimecast20190719; t=1588606211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T1y68tSMd7GHh+zg/0ObvfZVux+/GWTFhhxzdBf7Eqg=;
- b=Lbpz57rMK36EdkQUQPGz9j/4IPevZAuMenbMHzS/bQ8Y60+w7PhySR2fO9uq7cdB9HnhC2
- chN3H+0bbdc/APq7sZMci1swBNQuUN8neKl85OEdewWLZKjKLpMlgOIoibMbmUWHM86MXa
- N2zVwQWF/75sflIwemayP/O+ZzuibWI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-VJ7LfwT5PmS_4qVXNWxrIw-1; Mon, 04 May 2020 11:30:05 -0400
-X-MC-Unique: VJ7LfwT5PmS_4qVXNWxrIw-1
-Received: by mail-wm1-f70.google.com with SMTP id n17so3701681wmi.3
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 08:30:04 -0700 (PDT)
+ bh=g8CkVk2pIsA5qUp0zix2BjSa/yukK7tJBsycJrJlL6k=;
+ b=GpkUxqkk1BEAj0ytg56Jxd2G7+m2/hUSSb+iT9NXUSZB4v7NebnWam87hObCLy60Cpf0ht
+ fBdJj4gxWDLv/hg1FMNSThwy7XGQkjBlJDm7DK33yEJotoeHPTrsJ5XzLAD40G6TdJT2cx
+ za4c+icKD9kxMVYBH/WowrKFmNqa1YE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-cYAe6a1KOROa2gD_fr1vtA-1; Mon, 04 May 2020 11:30:10 -0400
+X-MC-Unique: cYAe6a1KOROa2gD_fr1vtA-1
+Received: by mail-wr1-f70.google.com with SMTP id 30so474702wrp.22
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 08:30:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YNPGUt+XVjuWBOuW4Jb8vVwTVbsUuMXWCCmym4ZUFC0=;
- b=mGYJDWz/Vp1008hMA0hBmVkaiBdcTI3sY92FtJEmWRAGCyBP2A1z0LwiHMbLgyDfOo
- eSR3RTPLpgfNrIeOSQndw1VxHojEF7CuRdHB6Ye64F62a7YpDJWxNQhSPE0C7HYTHWwm
- HTZF3AwtzAdJvW6SxMwF92CS4rjtYKeUFpkbUAJE4RFmAbrGEUP98V4kjJD5wbeJ7j0f
- noatOJjQ/aCcLi5u2rTaY4/YofxWPykZ3hUMbjGou3sUo8/M9IcnhqBkTVZW6rJrSnVT
- fsqkWj3W04EwYiMvRunMLYMLZG0nINNf5JCBlrV4MLiaVGvmjeqrmgLM1+ZS/z1WG5fP
- x7rw==
-X-Gm-Message-State: AGi0PubxHSrYPFVkpPwMinvD6fHjR27kmAkhLIO7BKdrWqbN8AKSk6cJ
- lKHk6R3dqjDVuhM4X/n1DL3HUZUneHW3yPlktKC8E6wLlB2v/kPp/oYehJDKhqExfzrJfw2eLuF
- CyTZsNbA2iLp0808=
-X-Received: by 2002:a5d:4092:: with SMTP id o18mr19706357wrp.227.1588606203346; 
- Mon, 04 May 2020 08:30:03 -0700 (PDT)
-X-Google-Smtp-Source: APiQypInjUOxX2jKxirAze76WfFjfMC15k/Kv3N9pOHz2KJiR8nTXoBJrwU87jPMHlBSpO3bEcdHRw==
-X-Received: by 2002:a5d:4092:: with SMTP id o18mr19706340wrp.227.1588606203145; 
- Mon, 04 May 2020 08:30:03 -0700 (PDT)
+ bh=Loi2SqFjSui4Z2kBKxGGjw07sOKKiVmfF0icDHu39aI=;
+ b=Jeo35db6rLeu7N3Gz/wOUM8c2q2iR63NF/SYI3HYXNx9m75M/XfFQJRBYJ/2HCbihS
+ AoYzW7/RgqTO97i23BMs7owjsatLBhq89/UqkqkwXAtk5f2x3jYbH6VCMBpp7G3fFJLs
+ M12zgKFLMifX68UcF4hCZ5exK6rnNMNDAqorCO6s4NWcMvZLHr6EfDBL7ZC26q4PajQj
+ U6mY6gBgROV6mbbk4uCS2gEBhds+MAdME+6Iys2v/yca2f9zqUBXqFiLdDCaZq5QL05w
+ pfa8Uz4r9Bk+g1b0ByPy2VY6msHrRoUcdVD5RyH3dXhVZlGaJ9o+bWOL+2fB+SkbPf6J
+ S+1Q==
+X-Gm-Message-State: AGi0PuZlaL1Bdx3i8i6raOlUuwCANTVas/KeX6LIiGX6/ZgrGeS53AFm
+ 8d2mHqJ14DnIce49CVRfkoD9ClRe9/+BDDgB9CSeqKrgQFTa4nMYBKKJKb93nITHYsuq+SRF+HI
+ hrScv9ctSgnizu2o=
+X-Received: by 2002:adf:fac4:: with SMTP id a4mr15444356wrs.134.1588606208432; 
+ Mon, 04 May 2020 08:30:08 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJm0cfJlbqPAJwYrwFKRafzCoYVnnGzHPxQFg4t8os1gRI2OP5f3Fz//NjR/oYIdxM+SAh86g==
+X-Received: by 2002:adf:fac4:: with SMTP id a4mr15444325wrs.134.1588606208276; 
+ Mon, 04 May 2020 08:30:08 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id 32sm18198202wrg.19.2020.05.04.08.30.02
+ by smtp.gmail.com with ESMTPSA id b66sm15039450wmh.12.2020.05.04.08.30.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 08:30:02 -0700 (PDT)
+ Mon, 04 May 2020 08:30:07 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/12] exec: Assert CPU migration is not used on user-only
- build
-Date: Mon,  4 May 2020 17:29:18 +0200
-Message-Id: <20200504152922.21365-9-philmd@redhat.com>
+Subject: [PATCH v3 09/12] arch_init: Remove unused 'qapi-commands-misc.h'
+ include
+Date: Mon,  4 May 2020 17:29:19 +0200
+Message-Id: <20200504152922.21365-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200504152922.21365-1-philmd@redhat.com>
 References: <20200504152922.21365-1-philmd@redhat.com>
@@ -73,16 +73,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,7 +96,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
  Eduardo Habkost <ehabkost@redhat.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>,
  David Hildenbrand <david@redhat.com>,
@@ -109,27 +109,28 @@ Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit ffaee83bcb2 moved qmp_query_target but forgot to remove
+this include.
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- exec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch_init.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/exec.c b/exec.c
-index 2874bb5088..3a39ffb1eb 100644
---- a/exec.c
-+++ b/exec.c
-@@ -946,7 +946,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-=20
-     qemu_plugin_vcpu_init_hook(cpu);
-=20
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_USER_ONLY
-+    assert(cc->vmsd =3D=3D NULL);
-+#else /* !CONFIG_USER_ONLY */
-     if (qdev_get_vmsd(DEVICE(cpu)) =3D=3D NULL) {
-         vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
-     }
+diff --git a/arch_init.c b/arch_init.c
+index d9eb0ec1dd..8afea4748b 100644
+--- a/arch_init.c
++++ b/arch_init.c
+@@ -27,7 +27,6 @@
+ #include "sysemu/arch_init.h"
+ #include "hw/pci/pci.h"
+ #include "hw/audio/soundhw.h"
+-#include "qapi/qapi-commands-misc.h"
+ #include "qapi/error.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
 --=20
 2.21.3
 
