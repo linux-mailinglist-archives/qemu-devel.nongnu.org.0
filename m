@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1451C3438
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:18:40 +0200 (CEST)
-Received: from localhost ([::1]:35068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497331C3440
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:22:29 +0200 (CEST)
+Received: from localhost ([::1]:44390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVWJD-0007ao-7e
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37788)
+	id 1jVWMu-0003Bm-3h
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1jVWHp-0005Wv-V0
- for qemu-devel@nongnu.org; Mon, 04 May 2020 04:17:14 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55927)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1jVWJO-0000lC-GN; Mon, 04 May 2020 04:18:50 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1jVWHo-0001Lg-16
- for qemu-devel@nongnu.org; Mon, 04 May 2020 04:17:13 -0400
-Received: by mail-wm1-x343.google.com with SMTP id e26so7399654wmk.5
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 01:17:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1jVWJN-0003IQ-Go; Mon, 04 May 2020 04:18:50 -0400
+Received: by mail-ed1-x541.google.com with SMTP id g16so12774886eds.1;
+ Mon, 04 May 2020 01:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n0CV4M0fC3At38gNfQP9r3hs8pChcXMWBv3hvNFAMUk=;
- b=Er8v3Ldql/t9DPVnGG6KYYGpIYgd4iQCycubya1KZSm/Vx2T7ctouz9j3tlmLhyDiy
- 1Mta0l592PF+5fPcLixvV5se1JVTvrq6+1KN4x9eRd238ozNl4HVy0dOK0A97eWY+3H7
- 1jYNH7NbGVsFpI8q4I+Bkv27/bbczOKoROW1y2Xdu8+wLHaetXA+HBHw+uDEfIMBV63k
- pEVLM0BZQgmdDxV2hxOuHgK7Qy0DRynOvLKb0MXRf2Nuy2jHjQuDu9nJY0htYFxXvO7c
- aDlRPmSXOXSMPhN1SlwUQ8jp3w0EdI+JFsuQGdoqfl0SiL6HX612m+rHnngJkop5vVVQ
- sZUA==
+ :cc; bh=bLCUp/I0QrPUhwA9bNV0OC52nLmF//cN0+lWiY3eQsc=;
+ b=PQtXIKZ3fYBX+63MjabmtjR9XJaz8Q+RR78xFsplDTC9Bkpq3d3QokoE2sQudCMivN
+ 2T52ejGF48S/Bg6R/3t+qDm6b/hbobVePW7GvToCuEdiswDxSuxvZ/PX6lfBKbOMV+jy
+ d2vuUBmMsFh7qgGp3Fan7niRHSbViq7/YJGdA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=n0CV4M0fC3At38gNfQP9r3hs8pChcXMWBv3hvNFAMUk=;
- b=WUmCSiv2aDJe9/ImkgSq5Nz41PAuOBTSRh/xRFwLUazyIrKLc51tY7mP4YiFzVe9Ue
- H6fg9yjb4spH9AA3CT58+5DhqPHShbKXloJM33CZo746FDa3E97iKd52828pu1Ui0YJR
- IwcndnwiyfqevFNF/gMplvauR1NtxttuFKrxeZ8TUYm0F6JoxZ5ZBc7P5N7j0EHz7L5i
- SQbyBoAfhFcCR9hns9q/7oSN8rsvgaa7busLCdJUZ/+nrgYuPNwRUJoy6ihG8e2Th2wM
- 0II+Pt3ehMF9BUYPrRKzi/+cyAeA3CJIxqSy7epyN2kvf2Rh8O1/2sOlbkYw5ndjAXNT
- SWgQ==
-X-Gm-Message-State: AGi0PuaCfGKZL24G95E4TcKTp5KuA/P8nKZv+Mxee5RTzXjOPgy6Xe4W
- hEYI+X5ayrF+ieooqHGIXKfdZPFS2BmNv98v90JYcw==
-X-Google-Smtp-Source: APiQypLxyxyX8DUUcCln0bv4BJk8h9q8NDNst5LFgX1p1Av3vZw9Rejr/dHqQcPDBj9ZnEPSenV9fFoBuGwv6b19qqI=
-X-Received: by 2002:a1c:9d0d:: with SMTP id g13mr13884913wme.102.1588580230415; 
- Mon, 04 May 2020 01:17:10 -0700 (PDT)
+ bh=bLCUp/I0QrPUhwA9bNV0OC52nLmF//cN0+lWiY3eQsc=;
+ b=Qu/HeHNr3vzOlKoMiroQ6ev+WJKqunpeBsUc0paM35QEQjLW8HN1vALC+CTC9BHSdC
+ x4S2pdIbEWGgDh5aDgQ5UiZEBG7IXg0+eop/gaCp66ya5YD1/sMhpNGsXpuDAYa5n5Dd
+ WdX8T+h+sdwDxjq6VtF3PZxcI3sO68QiVF0GaymWKcrUuhSlvMu263A2TYC4GhBpOTO5
+ +3dEMz6306q/+6TFD0CzlCZe66ZXRD+BFkastXRPZNmgNTYin/YyxdAis/+RIvSWOjWa
+ TdDHdyy+V6ftfJHJdV5zawmWRGXBQfwSk6aOaIDbCcguBgj03BaIpvvkBs+ehakoetnz
+ RRTg==
+X-Gm-Message-State: AGi0PuZT/MmfTUQy/2NlVNkrdo47cpnlbOYozdhYdOfkTYjUGxbLOMNJ
+ JC9bp/KW3Zweis1SYuqVQ9ZkizPSF5DDRc92DcVBjA==
+X-Google-Smtp-Source: APiQypJPsNkuISyYdRGsdfQdtx0Q3u7IWv7V+v6gfzrpw2pALbyC+moySjcvLyth1SLL0Q8LnE2FXaxVvHbHIotdEbA=
+X-Received: by 2002:a05:6402:688:: with SMTP id
+ f8mr13477687edy.233.1588580327345; 
+ Mon, 04 May 2020 01:18:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <1588348254-7241-1-git-send-email-bmeng.cn@gmail.com>
- <1588348254-7241-2-git-send-email-bmeng.cn@gmail.com>
- <CAAhSdy06i1zb6_aedLn41rWDzrjyTcJ_T954DcwX7k2bM_VcVw@mail.gmail.com>
- <CAEUhbmXMcxZqk4RUjcWMG-5MCd-Z3wPn=ktQnHLA3Rvn01iq+g@mail.gmail.com>
- <CAAhSdy1kWxW6kyQiMd+-9ZkwMr9xFcZurU7HHoRTE0ST9rnq0Q@mail.gmail.com>
- <CAEUhbmUzPNxHXgNU=nM3C3AdyqwNh4sS9pq02F9vLwipRRWwDA@mail.gmail.com>
- <CAEUhbmWD_L_dJZ3hVZrw08ycCaLr3UDTRRA9JreJfqZHpPntmQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmWD_L_dJZ3hVZrw08ycCaLr3UDTRRA9JreJfqZHpPntmQ@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Mon, 4 May 2020 13:46:58 +0530
-Message-ID: <CAAhSdy3=uhOvwfDZTW-7GDMss1wNeuVVWs-1iw2xZ+Af1V=8Nw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] roms/opensbi: Update to support building bios images
- for generic platform
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <20200409063137.803522-1-joel@jms.id.au>
+ <CAFEAcA8M06TFD4d8jLe-w24PMUGDH_sRXhf8TV25JuTV1ig2jQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8M06TFD4d8jLe-w24PMUGDH_sRXhf8TV25JuTV1ig2jQ@mail.gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Mon, 4 May 2020 08:18:35 +0000
+Message-ID: <CACPK8XceOO9G=4eDjGz4n0VR3T25Kv15rAKdV+__okciCA-CNQ@mail.gmail.com>
+Subject: Re: [PATCH v2] aspeed: Add boot stub for smp booting
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::343;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=joel.stan@gmail.com; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,156 +76,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Anup Patel <Anup.Patel@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 4, 2020 at 1:35 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Thu, 16 Apr 2020 at 16:48, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Mon, May 4, 2020 at 4:00 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> On Thu, 9 Apr 2020 at 07:31, Joel Stanley <joel@jms.id.au> wrote:
 > >
-> > Hi Anup,
-> >
-> > On Mon, May 4, 2020 at 3:52 PM Anup Patel <anup@brainfault.org> wrote:
-> > >
-> > > On Mon, May 4, 2020 at 12:46 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > >
-> > > > Hi Anup,
-> > > >
-> > > > On Sun, May 3, 2020 at 12:38 PM Anup Patel <anup@brainfault.org> wrote:
-> > > > >
-> > > > > On Fri, May 1, 2020 at 9:26 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > >
-> > > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > > >
-> > > > > > The RISC-V generic platform is a flattened device tree (FDT) based
-> > > > > > platform where all platform specific functionality is provided based
-> > > > > > on FDT passed by previous booting stage. The support was added in
-> > > > > > upstream opensbi recently.
-> > > > > >
-> > > > > > Bring the QEMU roms/opensbi submodule to the upstream opensbi commit:
-> > > > > > commit 4f18c6e55049 ("platform: generic: Add Sifive FU540 TLB flush range limit override")
-> > > > > > with the following changes since v0.7 release:
-> > > > > >
-> > > > > >   1bb00ab lib: No need to provide default PMP region using platform callbacks
-> > > > > >   a9eac67 include: sbi_platform: Combine reboot and shutdown into one callback
-> > > > > >   6585fab lib: utils: Add SiFive test device
-> > > > > >   4781545 platform: Add Nuclei UX600 platform
-> > > > > >   3a326af scripts: adapt binary archive script for Nuclei UX600
-> > > > > >   5bdf022 firmware: fw_base: Remove CSR_MTVEC update check
-> > > > > >   e6c1345 lib: utils/serial: Skip baudrate config if input frequency is zero
-> > > > > >   01a8c8e lib: utils: Improve fdt_parse_uart8250() API
-> > > > > >   0a0093b lib: utils: Add fdt_parse_uart8250_node() function
-> > > > > >   243b0d0 lib: utils: Remove redundant clint_ipi_sync() declaration
-> > > > > >   e3ad7c1 lib: utils: Rename fdt_parse_clint() to fdt_parse_compat_addr()
-> > > > > >   a39cd6f lib: utils: Add FDT match table based node lookup
-> > > > > >   dd33b9e lib: utils: Make fdt_get_node_addr_size() public function
-> > > > > >   66185b3 lib: utils: Add fdt_parse_sifive_uart_node() function
-> > > > > >   19e966b lib: utils: Add fdt_parse_hart_id() function
-> > > > > >   44dd7be lib: utils: Add fdt_parse_max_hart_id() API
-> > > > > >   f0eb503 lib: utils: Add fdt_parse_plic_node() function
-> > > > > >   1ac794c include: Add array_size() macro
-> > > > > >   8ff2b94 lib: utils: Add simple FDT timer framework
-> > > > > >   76f0f81 lib: utils: Add simple FDT ipi framework
-> > > > > >   75322a6 lib: utils: Add simple FDT irqchip framework
-> > > > > >   76a8940 lib: utils: Add simple FDT serial framework
-> > > > > >   7cc6fa4 lib: utils: Add simple FDT reset framework
-> > > > > >   4d06353 firmware: fw_base: Introduce optional fw_platform_init()
-> > > > > >   f1aa9e5 platform: Add generic FDT based platform support
-> > > > > >   1f21b99 lib: sbi: Print platform hart count at boot time
-> > > > > >   2ba7087 scripts: Add generic platform to create-binary-archive.sh
-> > > > > >   4f18c6e platform: generic: Add Sifive FU540 TLB flush range limit override
-> > > > > >
-> > > > > > Update our Makefile to build the generic platform instead of building
-> > > > > > virt and sifive_u separately.
-> > > > > >
-> > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > > > ---
-> > > > > >
-> > > > > >  roms/Makefile | 30 ++++++++----------------------
-> > > > > >  roms/opensbi  |  2 +-
-> > > > > >  2 files changed, 9 insertions(+), 23 deletions(-)
-> > > > > >
-> > > > > > diff --git a/roms/Makefile b/roms/Makefile
-> > > > > > index f9acf39..cb00628 100644
-> > > > > > --- a/roms/Makefile
-> > > > > > +++ b/roms/Makefile
-> > > > > > @@ -64,10 +64,8 @@ default help:
-> > > > > >         @echo "  u-boot.e500        -- update u-boot.e500"
-> > > > > >         @echo "  u-boot.sam460      -- update u-boot.sam460"
-> > > > > >         @echo "  efi                -- update UEFI (edk2) platform firmware"
-> > > > > > -       @echo "  opensbi32-virt     -- update OpenSBI for 32-bit virt machine"
-> > > > > > -       @echo "  opensbi64-virt     -- update OpenSBI for 64-bit virt machine"
-> > > > > > -       @echo "  opensbi32-sifive_u -- update OpenSBI for 32-bit sifive_u machine"
-> > > > > > -       @echo "  opensbi64-sifive_u -- update OpenSBI for 64-bit sifive_u machine"
-> > > > > > +       @echo "  opensbi32-generic  -- update OpenSBI for 32-bit generic machine"
-> > > > > > +       @echo "  opensbi64-generic  -- update OpenSBI for 64-bit generic machine"
-> > > > > >         @echo "  bios-microvm       -- update bios-microvm.bin (qboot)"
-> > > > > >         @echo "  clean              -- delete the files generated by the previous" \
-> > > > > >                                       "build targets"
-> > > > > > @@ -170,29 +168,17 @@ skiboot:
-> > > > > >  efi: edk2-basetools
-> > > > > >         $(MAKE) -f Makefile.edk2
-> > > > > >
-> > > > > > -opensbi32-virt:
-> > > > > > +opensbi32-generic:
-> > > > > >         $(MAKE) -C opensbi \
-> > > > > >                 CROSS_COMPILE=$(riscv32_cross_prefix) \
-> > > > > > -               PLATFORM="qemu/virt"
-> > > > > > -       cp opensbi/build/platform/qemu/virt/firmware/fw_jump.bin ../pc-bios/opensbi-riscv32-virt-fw_jump.bin
-> > > > > > +               PLATFORM="generic"
-> > > > > > +       cp opensbi/build/platform/generic/firmware/fw_jump.bin ../pc-bios/opensbi-riscv32-generic-fw_jump.bin
-> > > > >
-> > > > > I think you should copy fw_jump.elf as well because QEMU Spike
-> > > > > platform needs it.
-> > > > >
-> > > >
-> > > > I believe we intended only to ship default bios images for virt and
-> > > > sifive_u. Spike bios image was not shipped in previous QEMU version
-> > > > too.
-> > >
-> > > Is there a specific reason for not shipping bios image for Spike machine ?
-> > >
-> >
-> > That's only my guess.  Based on what I see from git history, adding
-> > "-bios" support was added via:
-> >
-> > commit 5b8a986350a9 ("hw/riscv/spike: Allow loading firmware
-> > separately using -bios option")
-> >
-> > with bios image as opensbi-riscv{32,64}-spike-fw_jump.elf, but the
-> > images were not added to QEMU repo.
-> >
-> > > There were issues booting Linux on QEMU spike machine which are
-> > > now fixed and available in QEMU master. I think we should certainly
-> > > ship fw_jump.elf for Spike machine. This way we have OpenSBI generic
-> > > firmware available as a bios image for three QEMU machines(virt, sifive_u,
-> > > and spike).
-> > >
-> >
-> > If everyone thinks shipping the ELF image is OK, I can do that in v2.
+> > This is a boot stub that is similar to the code u-boot runs, allowing
+> > the kernel to boot the secondary CPU.
 >
-> One additional note, that's why patch 5 in this series for. Without
-> the default bios image being shipped in QEMU, QEMU testing will
-> complain.
+> > +static void aspeed_write_smpboot(ARMCPU *cpu,
+> > +                                 const struct arm_boot_info *info)
+> > +{
+> > +    static const uint32_t poll_mailbox_ready[] = {
+> > +        /*
+> > +         * r2 = per-cpu go sign value
+> > +         * r1 = AST_SMP_MBOX_FIELD_ENTRY
+> > +         * r0 = AST_SMP_MBOX_FIELD_GOSIGN
+> > +         */
+> > +        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
+> > +        0xe21000ff,  /* ands    r0, r0, #255          */
+> > +        0xe59f201c,  /* ldr     r2, [pc, #28]         */
+> > +        0xe1822000,  /* orr     r2, r2, r0            */
+> > +
+> > +        0xe59f1018,  /* ldr     r1, [pc, #24]         */
+> > +        0xe59f0018,  /* ldr     r0, [pc, #24]         */
+> > +
+> > +        0xe320f002,  /* wfe                           */
+> > +        0xe5904000,  /* ldr     r4, [r0]              */
+> > +        0xe1520004,  /* cmp     r2, r4                */
+> > +        0x1afffffb,  /* bne     <wfe>                 */
 >
-> So in the future, when we have more QEMU RISC-V machines added, if
-> they are not using the generic firmware, do we want to ship all of
-> these different firmware images in QEMU?
+> Note that unlike "wfi", QEMU's "wfe" implementation is merely
+> a 'yield', so a secondary-CPU boot loop that has wfe in it
+> will basically be a busy-loop of those vcpu threads.
+> (This is why the smpboot code in hw/arm/boot.c uses wfi.)
+>
+> I don't suppose the secondary boot protocol on these boards
+> is such that a wfi loop will work ? (Depends on what the
+> primary code in the kernel does to prod the secondary after
+> writing the magic value.)
 
-This would be a QEMU RISC-V policy decision which Palmer or Alistair
-can decide.
+Thanks for the review.
 
-IMHO, we can insist that newer QEMU RISC-V machines work fine with
-OpenSBI generic firmwares so that we don't increase the number of bios
-images shipped for QEMU RISC-V.
+I chose wfe as it's what aspeed's u-boot has. I don't have a strong
+understand of this area of ARM processors, nor do I have any insight
+into why that choice was made.
 
-Regards,
-Anup
+I did some testing and wfi in the qemu stub works fine with Linux so I
+will respin with that instead.
+
+Cheers,
+
+Joel
 
