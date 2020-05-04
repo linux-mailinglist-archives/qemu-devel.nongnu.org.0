@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15941C3CE1
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:24:04 +0200 (CEST)
-Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4801C3CFF
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:29:26 +0200 (CEST)
+Received: from localhost ([::1]:47466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVc0p-0005ls-VG
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:24:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
+	id 1jVc61-0003wh-Ii
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVbyO-0001hu-AE; Mon, 04 May 2020 10:21:32 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:37863)
+ id 1jVbyO-0001hv-DA; Mon, 04 May 2020 10:21:32 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:41972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVbyN-00039Y-JX; Mon, 04 May 2020 10:21:31 -0400
-Received: by mail-lf1-x144.google.com with SMTP id t11so9879677lfe.4;
+ id 1jVbyN-00039e-KO; Mon, 04 May 2020 10:21:32 -0400
+Received: by mail-lf1-x141.google.com with SMTP id a9so4499080lfb.8;
  Mon, 04 May 2020 07:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=75cONDOaQkbsVh6jRzCDmz9QdfFPLVRVK63225nho3c=;
- b=bW0I/tJi8uI7YFhQ4NrmvKV499My143g0sTDo6aNFAC6I3YwDD3vG1EYzH/DMhQD1I
- Fx5p26rpCS7NGHyYL4QHwjGm6QDebaSn/v/85bqaksSIjh+fcmGHpoZa0/1Nt4nEtdqe
- mF4cBjLC5M28GFRLuRwWhmdE5Tx1A5y+QUOy7gnLhgofyqeTewxg8bBu4ZgJi6IyaFbW
- Kt9qRGbD/NZ047PIyLFuY17eUj3ZbT8QqL6IW4BmEYJf4AHumgwWl/pmYT3iErfKdFgi
- HANkVtzog15EceqW8vGisYj76iNhYL3KCd5gzFx4c9vVG2wS8gjo6hZCqX2zxEudZZ9e
- PU1A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=D+s9RocNcIFxp3NrHvqCZUbCbQZq5W1Nleeta/NdFEs=;
+ b=O7R5+EzHI7/ZxweVNZcHBLLER6nbyukao6ZKvVm4yYCWJAjXMQsA8npcogXPSF7JXs
+ IqzdOSAFeNSlcb1oa2D40v17WahUapRWS0qnI1ZvrjfNZHZ3Ob3EFvwgrhy8PcWIu1s7
+ AkE8Ubw5ZTbSkAzsFq+SlPEccyoiltYM1SrdjdoNP35ExkxUkAai/uvzk9IwfbBR9uVP
+ qa/7/aX+sb0S30t5LRMmoF0RvopdvJMBFxOESZWi5tc6mMuL4hWX6DoGiez4nUYby4Kd
+ WGpHWZQoRanVypZbe+dWinI+u4jAy6lsKeMGZ7bWd/1+ZJ5WmMAtTEQl/xdpmpIywrhd
+ dWDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=75cONDOaQkbsVh6jRzCDmz9QdfFPLVRVK63225nho3c=;
- b=kgLjO/pry2APxktFOJTD4kvf7+Q/2UbTQM1zQPdKQc7l9hIgWqqPsRAV4fHH9b88qI
- eRfR0v9D1ngVx5euQpoQ3YQVTe+gcYBED7ON7pPrHvb+XrqcZZ7B5Mv5FL79E6FfE7S0
- VxKJY+suVTS8FsmLyFHBQF3kPeP2LPUti1TXbqJjKQ5OQNBKXLZJuEyCFFkCHIQRpREs
- JbnWJDW7sDluQqr/x4SP3k3k+z7DxubtBy9Eof/b2FBf0SkBotG9ABz0khEaBSbu35L3
- 2dbF2wnFeoDzWP+b/NGdzt+9UV65+QrURw+FDllfGr7CJpf7OufmW4yDdD5mn3pRD9Qd
- 9QbA==
-X-Gm-Message-State: AGi0PubjwPFAy7eYR0CfSmvjOOO/be0pTngqgI2P6Ww6OCxMiz1dn8q5
- hjOFQeQco49dz6fq9WM5uPg77GOol8I=
-X-Google-Smtp-Source: APiQypIJjUr2Fv5COIoxuqEIBxSrYrBfjZdfjV+xKJj8S7ZwbIPvJs841mW4NJV7Ua01XvB0ti3s3A==
-X-Received: by 2002:a19:ee19:: with SMTP id g25mr8072898lfb.124.1588602087897; 
- Mon, 04 May 2020 07:21:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=D+s9RocNcIFxp3NrHvqCZUbCbQZq5W1Nleeta/NdFEs=;
+ b=fR2IirK8VkDbj6htOkD0qdom0/WApUYW3sYYoSNGRyC333Ha4f6nUeIIOojyyiNtgI
+ ZmCuuvRBMt2+wsWDY88qNKo7CFVvcTLTV1TkTLyZajsGLf5UJ9nBWjVg0vdmBNnSmeGo
+ gTym1Yro+paYCuUJPwozqWLf9j4Xrd6fbl9nKwxMJ0xUIoY1CQ7+jJeythiNfdh2YBzF
+ MDLzSKBwTkWTKM4nW7OO/j89mlaOZVcTK1EOPi84nKZQ3CrQDFw0K9mIFXUJhqK3cFsQ
+ jovXFzuPfZ0+ctsj2VD8PeAEUYR/sKWndN+Lhw+l5PFJfQLC1l4b5Okojhz3/1dVURAF
+ OQZQ==
+X-Gm-Message-State: AGi0PuYoWnn2XYtTcmKe+3QVOYqjGMdGXgGCtxkB66NyGeay3P+5iWcE
+ BAM7rR6rf7ON4POpkCZ4p0LfV/ifXB4=
+X-Google-Smtp-Source: APiQypLhSuCqI8WhUNFl678Pe4PJiUgn9OCDpOyCUkK0kTOa1LG76ElKWc0CsrTO1k0e3pO38MkT5g==
+X-Received: by 2002:a19:ee19:: with SMTP id g25mr8072963lfb.124.1588602089242; 
+ Mon, 04 May 2020 07:21:29 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id p3sm6578241lfj.48.2020.05.04.07.21.26
+ by smtp.gmail.com with ESMTPSA id c10sm9726871lfc.7.2020.05.04.07.21.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:21:26 -0700 (PDT)
+ Mon, 04 May 2020 07:21:28 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] target/arm: Remove access_el3_aa32ns()
-Date: Mon,  4 May 2020 16:21:24 +0200
-Message-Id: <20200504142125.31180-1-edgar.iglesias@gmail.com>
+Subject: [PATCH v2 1/1] target/arm: Drop access_el3_aa32ns()
+Date: Mon,  4 May 2020 16:21:25 +0200
+Message-Id: <20200504142125.31180-2-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200504142125.31180-1-edgar.iglesias@gmail.com>
+References: <20200504142125.31180-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x144.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 13
@@ -87,34 +89,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Hi,
+Calling access_el3_aa32ns() works for AArch32 only cores
+but it does not handle 32-bit EL2 on top of 64-bit EL3
+for mixed 32/64-bit cores.
 
-Laurent reported hitting the assert in access_el3_aa32ns()
-when accessing 32-bit versions of some of the virtualization
-regs when EL3 is 64-bit.
+Merge access_el3_aa32ns_aa64any() into access_el3_aa32ns()
+and only use the latter.
 
-I think we got this wrong back then and it seems to me like
-we should remove direct usage of access_el3_aa32ns() and
-always call access_el3_aa32ns_aa64_any() to handle both
-the aa32-only cases and the mixed aa32/aa64.
-
-Cheers,
-Edgar
-
-ChangeLog:
-
-v1 -> v2:
-* Keep access_el3_aa32ns in favor of access_el3_aa32ns_aa64any
-* Simplify description of access_el3_aa32ns
-* Tweak secure aa32-el3 check in access_el3_aa32ns as suggested by Peter
-
-
-Edgar E. Iglesias (1):
-  target/arm: Drop access_el3_aa32ns()
-
+Fixes: 68e9c2fe65 ("target-arm: Add VTCR_EL2")
+Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+---
  target/arm/helper.c | 30 +++++++-----------------------
  1 file changed, 7 insertions(+), 23 deletions(-)
 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index dfefb9b3d9..7d21bf1cc7 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -502,35 +502,19 @@ void init_cpreg_list(ARMCPU *cpu)
+ }
+ 
+ /*
+- * Some registers are not accessible if EL3.NS=0 and EL3 is using AArch32 but
+- * they are accessible when EL3 is using AArch64 regardless of EL3.NS.
+- *
+- * access_el3_aa32ns: Used to check AArch32 register views.
+- * access_el3_aa32ns_aa64any: Used to check both AArch32/64 register views.
++ * Some registers are not accessible from AArch32 EL3 if SCR.NS == 0.
+  */
+ static CPAccessResult access_el3_aa32ns(CPUARMState *env,
+                                         const ARMCPRegInfo *ri,
+                                         bool isread)
+ {
+-    bool secure = arm_is_secure_below_el3(env);
+-
+-    assert(!arm_el_is_aa64(env, 3));
+-    if (secure) {
++    if (!is_a64(env) && arm_current_el(env) == 3 &&
++        arm_is_secure_below_el3(env)) {
+         return CP_ACCESS_TRAP_UNCATEGORIZED;
+     }
+     return CP_ACCESS_OK;
+ }
+ 
+-static CPAccessResult access_el3_aa32ns_aa64any(CPUARMState *env,
+-                                                const ARMCPRegInfo *ri,
+-                                                bool isread)
+-{
+-    if (!arm_el_is_aa64(env, 3)) {
+-        return access_el3_aa32ns(env, ri, isread);
+-    }
+-    return CP_ACCESS_OK;
+-}
+-
+ /* Some secure-only AArch32 registers trap to EL3 if used from
+  * Secure EL1 (but are just ordinary UNDEF in other non-EL3 contexts).
+  * Note that an access from Secure EL1 can only happen if EL3 is AArch64.
+@@ -5236,7 +5220,7 @@ static const ARMCPRegInfo el3_no_el2_cp_reginfo[] = {
+       .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "VTCR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
+-      .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
++      .access = PL2_RW, .accessfn = access_el3_aa32ns,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "VTTBR", .state = ARM_CP_STATE_AA32,
+       .cp = 15, .opc1 = 6, .crm = 2,
+@@ -5284,7 +5268,7 @@ static const ARMCPRegInfo el3_no_el2_cp_reginfo[] = {
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "HPFAR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 6, .crm = 0, .opc2 = 4,
+-      .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
++      .access = PL2_RW, .accessfn = access_el3_aa32ns,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "HSTR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 3,
+@@ -7626,12 +7610,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             ARMCPRegInfo vpidr_regs[] = {
+                 { .name = "VPIDR_EL2", .state = ARM_CP_STATE_BOTH,
+                   .opc0 = 3, .opc1 = 4, .crn = 0, .crm = 0, .opc2 = 0,
+-                  .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
++                  .access = PL2_RW, .accessfn = access_el3_aa32ns,
+                   .type = ARM_CP_CONST, .resetvalue = cpu->midr,
+                   .fieldoffset = offsetof(CPUARMState, cp15.vpidr_el2) },
+                 { .name = "VMPIDR_EL2", .state = ARM_CP_STATE_BOTH,
+                   .opc0 = 3, .opc1 = 4, .crn = 0, .crm = 0, .opc2 = 5,
+-                  .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
++                  .access = PL2_RW, .accessfn = access_el3_aa32ns,
+                   .type = ARM_CP_NO_RAW,
+                   .writefn = arm_cp_write_ignore, .readfn = mpidr_read },
+                 REGINFO_SENTINEL
 -- 
 2.20.1
 
