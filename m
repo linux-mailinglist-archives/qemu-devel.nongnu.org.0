@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7158D1C3918
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:16:44 +0200 (CEST)
-Received: from localhost ([::1]:55150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BAAF1C393F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:22:00 +0200 (CEST)
+Received: from localhost ([::1]:39798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVa1b-0001Ij-Af
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52156)
+	id 1jVa6h-0006w7-JO
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVZkW-0004Aa-K0
- for qemu-devel@nongnu.org; Mon, 04 May 2020 07:59:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51787
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVZkb-0004Mh-2Z
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 07:59:10 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48635
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVZkU-0002pe-TM
- for qemu-devel@nongnu.org; Mon, 04 May 2020 07:59:03 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVZka-0002ve-3T
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 07:59:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588593541;
+ s=mimecast20190719; t=1588593547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=sOkjDbv4ky4LriGGoQ+j5WzMVU5Emlrzl3ac24C31dk=;
- b=TCIvbcyrnTvZ3D2EhCHXy8fB+cfytXXFFPS/qgk0WLY6mAwrGr2xaKLVLhCCLZ04j+cOsp
- 1nxsD6BrMN2NtmFeEEVy8L4/0iyWHz8lVAAIadMPkkSuOrsYqtTXm1qO/3IU0II3lTA9Xk
- 2gePz3f5sFBgJW5THAPZqF51ydlnzcU=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-HXtpG7SePLySiQS2i_BUJA-1; Mon, 04 May 2020 07:58:59 -0400
-X-MC-Unique: HXtpG7SePLySiQS2i_BUJA-1
-Received: by mail-wr1-f69.google.com with SMTP id o6so3237107wrn.0
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 04:58:59 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZbQJE8U0g9/taY1UGB+Es2fg0Z+KJRLr1l0iTS5yKYw=;
+ b=UdJK3YUgQuS/cv9v6rWBfFSYCWcFO9c4MzhpLdWoIjyWX/z/KPlArocdEUJOygmL1v5dYe
+ IRwWJOG2gsOl0Srp2fyxfRD9HaT7RcinozYqXZj+Z3ie51mycuYGRV32gR900OYEeeH9Nu
+ 5MnUFe7U1HdrBJGbl045sEBcGobsDhw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-ZLF1LVB2Nmaaftc4W8qbXg-1; Mon, 04 May 2020 07:59:02 -0400
+X-MC-Unique: ZLF1LVB2Nmaaftc4W8qbXg-1
+Received: by mail-wm1-f71.google.com with SMTP id o26so3368551wmh.1
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 04:59:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=wbNj8FiSfG6wixKGichZVJdAjxv9IMp1nX8E329slKI=;
- b=EtQlB1ZpyoiepB2bEkTnVfShdRzMvtKRhhDcH99rkSke5b/Pdfy6ivBSp7Ir6jVSSX
- ol2L/M1wu6txsPefNL1jsob9cErQLqO5IjQZGVnFVC3ZYZLPt1CPua5txJK3AaH6fTE8
- r0fl9J13o/jOg0rjJo+Yge+KNG/bvEMhvFQsNo/7at/tCoWSFT/aFlRm6kfKy7m/umZh
- v6Rt/+eET4Pmn6D66F0siljbi6U3toX0TBCO6WAMR6ozIjZZRQUE9dk4cH3kbG+nTj12
- txLQbTKDUGE7S1Z4hd/IWALSIJB4qZkxcJ2NUYU5YqjXdgZo8Fby9XjDlBfL0oiWr+Ip
- swaA==
-X-Gm-Message-State: AGi0PuYOPH7zpOfFLPHMu16Yon4Qy9N2P/SkE8bT+4L24bYHL9fPl+Tk
- 0WfyeknzTNYzVG7FkStPu1VTa0bWdIcfFW7xV/fCHVR1OhhPQwn+473aFnw15NU8TsUopDKOvQq
- UI1MBjFGX/Ah2obA=
-X-Received: by 2002:a1c:ba09:: with SMTP id k9mr13917412wmf.176.1588593538353; 
- Mon, 04 May 2020 04:58:58 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ/PH2/WwpkxueTSP/jWAyEXA7RUhFcEtrLUJfhNpBtw4oUm88PIH/kKzYU838r3MKUjvTpUg==
-X-Received: by 2002:a1c:ba09:: with SMTP id k9mr13917399wmf.176.1588593538169; 
- Mon, 04 May 2020 04:58:58 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=bcYO/D8ZBtkupiZf8L7h1wjpZYqhLskCmEjZ4tplteM=;
+ b=XPt4/V4Su8rbpw0ydtSHj+T2nM7COd5n0OLYlGSjUlSWCCoqIiNtzGCCToswpyE9uy
+ OQ9zAFmBUNZFjKLVISC+zVIMGycYciyMR3ySWafOGPau1je01bRUs6HnuXFWhGd9V4mo
+ xzP5GTXiRjfvM4h9VAklvqCjA4RQmuMWsHg4hfqdtn+08SoerHXu9PumdTIX1Dm9DF7X
+ 75+Un3yx9pgaUs0sQTAaTBzK4fhagGkRb5LPreNwPwByNB2P3wD7TO3/hPwCcxGleiiV
+ CSOLBQ2ay9uO9boeO8T6l7yiNHvqmJFpRwIxm+RpJQ4ZgiW/wem+7qeqedFXv3r6SJOL
+ ODnA==
+X-Gm-Message-State: AGi0PuZvrfzamsYH2Hv+BtRBD2grl3PBQdLZxFhmWdIO8xicsTTPrvOV
+ MXUxhDZ1V+TcTExKpL7u97twGsUANuchiyC2xnDEULxv9ek/fvi16uWxdUiKl23Rc0xBd1xCfXJ
+ gday0pYSAQ/uXGYk=
+X-Received: by 2002:a5d:50ce:: with SMTP id f14mr9976376wrt.251.1588593540663; 
+ Mon, 04 May 2020 04:59:00 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLfmb/j5FeF1BME42FpVRXU3QSoDM69pe+udfIAq3W07au5Ij0q7LcAQPA6+c/uzqT1llQVyA==
+X-Received: by 2002:a5d:50ce:: with SMTP id f14mr9976352wrt.251.1588593540421; 
+ Mon, 04 May 2020 04:59:00 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- 60sm18185074wrr.7.2020.05.04.04.58.56
+ 32sm17110071wrg.19.2020.05.04.04.58.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 04:58:57 -0700 (PDT)
-Date: Mon, 4 May 2020 07:58:55 -0400
+ Mon, 04 May 2020 04:59:00 -0700 (PDT)
+Date: Mon, 4 May 2020 07:58:58 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] checkpatch: fix handling of acpi expected files
-Message-ID: <20200504115848.34410-1-mst@redhat.com>
+Subject: [PATCH 1/2] checkpatch: fix acpi check with multiple file name
+Message-ID: <20200504115848.34410-2-mst@redhat.com>
+References: <20200504115848.34410-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20200504115848.34410-1-mst@redhat.com>
 X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
@@ -94,20 +97,94 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>
+ Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a couple of bugs that surfaced.
+Using global expected/nonexpected values causes
+false positives when testing multiple patches in one
+checkpatch run: one patch can change expected,
+another one non-expected.
 
-Michael S. Tsirkin (2):
-  checkpatch: fix acpi check with multiple file name
-  checkpatch: ignore allowed diff list
+Use local variables within process() to fix that.
 
- scripts/checkpatch.pl | 33 ++++++++++++++++++---------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ scripts/checkpatch.pl | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e658e6546f..c3d08aa99f 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -35,8 +35,6 @@ my $summary_file =3D 0;
+ my $root;
+ my %debug;
+ my $help =3D 0;
+-my $acpi_testexpected;
+-my $acpi_nontestexpected;
+=20
+ sub help {
+ =09my ($exitcode) =3D @_;
+@@ -1261,21 +1259,22 @@ sub WARN {
+ # According to tests/qtest/bios-tables-test.c: do not
+ # change expected file in the same commit with adding test
+ sub checkfilename {
+-=09my ($name) =3D @_;
++=09my ($name, $acpi_testexpected, $acpi_nontestexpected) =3D @_;
++
+ =09if ($name =3D~ m#^tests/data/acpi/# and
+ =09=09# make exception for a shell script that rebuilds the files
+ =09=09not $name =3D~ m#^\.sh$# or
+ =09=09$name =3D~ m#^tests/qtest/bios-tables-test-allowed-diff.h$#) {
+-=09=09$acpi_testexpected =3D $name;
++=09=09$$acpi_testexpected =3D $name;
+ =09} else {
+-=09=09$acpi_nontestexpected =3D $name;
++=09=09$$acpi_nontestexpected =3D $name;
+ =09}
+-=09if (defined $acpi_testexpected and defined $acpi_nontestexpected) {
++=09if (defined $$acpi_testexpected and defined $$acpi_nontestexpected) {
+ =09=09ERROR("Do not add expected files together with tests, " .
+ =09=09      "follow instructions in " .
+ =09=09      "tests/qtest/bios-tables-test.c: both " .
+-=09=09      $acpi_testexpected . " and " .
+-=09=09      $acpi_nontestexpected . " found\n");
++=09=09      $$acpi_testexpected . " and " .
++=09=09      $$acpi_nontestexpected . " found\n");
+ =09}
+ }
+=20
+@@ -1325,6 +1324,9 @@ sub process {
+ =09my %suppress_whiletrailers;
+ =09my %suppress_export;
+=20
++        my $acpi_testexpected;
++        my $acpi_nontestexpected;
++
+ =09# Pre-scan the patch sanitizing the lines.
+=20
+ =09sanitise_line_reset();
+@@ -1454,11 +1456,11 @@ sub process {
+ =09=09if ($line =3D~ /^diff --git.*?(\S+)$/) {
+ =09=09=09$realfile =3D $1;
+ =09=09=09$realfile =3D~ s@^([^/]*)/@@ if (!$file);
+-=09                checkfilename($realfile);
++=09                checkfilename($realfile, \$acpi_testexpected, \$acpi_no=
+ntestexpected);
+ =09=09} elsif ($line =3D~ /^\+\+\+\s+(\S+)/) {
+ =09=09=09$realfile =3D $1;
+ =09=09=09$realfile =3D~ s@^([^/]*)/@@ if (!$file);
+-=09                checkfilename($realfile);
++=09                checkfilename($realfile, \$acpi_testexpected, \$acpi_no=
+ntestexpected);
+=20
+ =09=09=09$p1_prefix =3D $1;
+ =09=09=09if (!$file && $tree && $p1_prefix ne '' &&
 --=20
 MST
 
