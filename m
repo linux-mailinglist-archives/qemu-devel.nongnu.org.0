@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A923D1C39A9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:44:06 +0200 (CEST)
-Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21DE1C39C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:46:08 +0200 (CEST)
+Received: from localhost ([::1]:59082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaS5-0003C3-M9
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:44:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56536)
+	id 1jVaU3-0006u0-QK
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:46:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHz-0000bF-ND
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:39 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50440)
+ id 1jVaI2-0000jQ-VM
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:42 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHy-00017a-8G
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:39 -0400
-Received: by mail-wm1-x335.google.com with SMTP id x25so8240574wmc.0
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:37 -0700 (PDT)
+ id 1jVaHy-00017d-NP
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:42 -0400
+Received: by mail-wr1-x433.google.com with SMTP id k1so20717046wrx.4
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4YQ/rTjV1fP71MbbXsuZqGDm+GOeiBgK+8+e4T5Y2mw=;
- b=ItlmCKE6HuyxbLOBDQy63EFSNb6tPGbOWDfW1Ul28nRbl6iD0Dp8D6RT4IazuITu6j
- QY/8sEfbcCbwqmOPg6+WPYYDoBGUytZqhzanmNxQUZzzcxbxTZnmOhkQs8f9LU59LUdl
- 7XlJMo+ckHY/sq2TIt4YsdK/AMeZGiA9jkL6d7hNPlyxbc9wu2bpi+CJztXenOBjT3xb
- e8Us5JpOQKSbIqgVi3IqauOWhrSJxhj62M/rH2eqNizcrCvFWlmH7saX/OJ8JpppZy6Y
- krMw8DF9JFIHHnq95L+g6+u7GUHfgUQmYhasb+yUW2dSQ6vD1FTjbYar0FNaoORFMmPS
- 9hZA==
+ bh=U1VGbGb5OGUA76fGkqiO2EtBFxkWpDuv98F+IatFsmo=;
+ b=gL9bvqa5WgjKvzTXlIhaNvdgigpzz9fdXOM8TLp5pnwACgiax+N7X9h1D9ih3AByKC
+ ulSZRSs2PUAc1bdjMci2nnG6NFOpSri24ZLH8/aFpLHP4CSP7lBDXGeQzJmGZZLu32o8
+ JP7/2gsxcEGGBUw17Fs2oQke65S7eLm7RsWRZteUDfQrnZ3ocosFybZlXGZeFIKI6TOn
+ BD2njpwlezomoTzKW9gNWIpT/siYwnbVyooJw+V7OANZ21zB5Q6fI4+XbbqvjBouO3kh
+ Rc+RMzs3MhTBPf0HzyUYuWJIG13pc5DvF0dsP3Qv/iSBh5fiqr2Q3nlRIKdILkYmCjlJ
+ 0Dpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4YQ/rTjV1fP71MbbXsuZqGDm+GOeiBgK+8+e4T5Y2mw=;
- b=GokBD9XMfmuELmVpaOGXKnk8HDUmNKx699xHPF0oVRLWfAKVlJxdE0gkCxkmJiv8Dz
- wZNhkDU6ImjjwdnLWIu2hXW+PedViQOm6//Pcyc0PuCw3kXC5cuEvrUpcy2tBmkfh40d
- YiNrr6VhuyniocMjv1suURB0jj6k3N4IUcsbR7Dgm2YgNDUA2RniypUOnPolccyyuZ/x
- BVi4oT2QUDL5YMG8GvwjATQl+mGqc1iUbbOWfUHyYVkejf97YfrKOzWtIkDAZzd/BnoX
- vKIt2+bMt6SSJCflQgFlOV7Y0UR40rRk4EiAfFPQ3BtX6lEmhSe7yWwR7Y9Hi7AZLcdk
- Trfg==
-X-Gm-Message-State: AGi0PuYEJOq3hcQLK4gQp/3vo8FdXBLYTMdluHuH6mvIq5Zv2+U0Vp43
- 6Zmj13BGT2vNvOadG3SY8oS2weDWseIxfw==
-X-Google-Smtp-Source: APiQypKkG5FtAEWFJD1ga6WJsC/w/MHrK47oEBPX1JXfcubtu9Ry22CxcnbFRa0IdR1gAWyWIuobEg==
-X-Received: by 2002:a1c:3986:: with SMTP id g128mr14146102wma.8.1588595616178; 
- Mon, 04 May 2020 05:33:36 -0700 (PDT)
+ bh=U1VGbGb5OGUA76fGkqiO2EtBFxkWpDuv98F+IatFsmo=;
+ b=itc6navL+pMdWYZcjL3ZdpAcKBHQAMIbR4+hHaoFgt1IwEOm9XvAZ8fqncmDSS3UdF
+ 3Nt3i37C5fNT8B8R7RCiA4Gg+jJUETOBZKpMxvylXHJQJcskfOgpldIGGRTuiOcHhTyR
+ L9Ax4bJQfRcjtoIl6VbmS+kfgxWxO/oVG23vygWe43Mz7uekeQQSSkiJ/uqH0zc3iXP9
+ QSEX+40lGI2fpn9jkKcnCbA42282Uz6g35s3BpEPtxwKQmFFPrYktHrdnaUdzvO6mBhy
+ cyC/Gg7NvRvcE10dqRa4Y1h+tmq9x/e3GOvuf0GDAyFY/rToHAGV+NY4DvpjpIpc1ve9
+ sbUA==
+X-Gm-Message-State: AGi0PuZ+AlaFtY+BSprj2Lb49VMCDfYjZab6vOf+MYynxLRKKaRcCMjg
+ 6/yEZuYziiwxNdzeOkA06oBWQQzadaZB3w==
+X-Google-Smtp-Source: APiQypIXYcEB1za13LupqBvfwfxNgyo0lQHZ4fa9LRKpRpsyQ/U6vGdhgpNOgufUN3CTQ52TFgZ7VQ==
+X-Received: by 2002:adf:9482:: with SMTP id 2mr18029013wrr.328.1588595617079; 
+ Mon, 04 May 2020 05:33:37 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.35
+ by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 05:33:35 -0700 (PDT)
+ Mon, 04 May 2020 05:33:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/39] target/arm: Add stubs for AArch32 Neon decodetree
-Date: Mon,  4 May 2020 13:32:52 +0100
-Message-Id: <20200504123309.3808-23-peter.maydell@linaro.org>
+Subject: [PULL 23/39] target/arm: Convert VCMLA (vector) to decodetree
+Date: Mon,  4 May 2020 13:32:53 +0100
+Message-Id: <20200504123309.3808-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200504123309.3808-1-peter.maydell@linaro.org>
 References: <20200504123309.3808-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,288 +88,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the infrastructure for building and invoking a decodetree decoder
-for the AArch32 Neon encodings.  At the moment the new decoder covers
-nothing, so we always fall back to the existing hand-written decode.
-
-We follow the same pattern we did for the VFP decodetree conversion
-(commit 78e138bc1f672c145ef6ace74617d and following): code that deals
-with Neon will be moving gradually out to translate-neon.vfp.inc,
-which we #include into translate.c.
-
-In order to share the decode files between A32 and T32, we
-split Neon into 3 parts:
- * data-processing
- * load-store
- * 'shared' encodings
-
-The first two groups of instructions have similar but not identical
-A32 and T32 encodings, so we need to manually transform the T32
-encoding into the A32 one before calling the decoder; the third group
-covers the Neon instructions which are identical in A32 and T32.
+Convert the VCMLA (vector) insns in the 3same extension group to
+decodetree.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200430181003.21682-4-peter.maydell@linaro.org
+Message-id: 20200430181003.21682-5-peter.maydell@linaro.org
 ---
- target/arm/neon-dp.decode       | 29 ++++++++++++++++++++++++++
- target/arm/neon-ls.decode       | 29 ++++++++++++++++++++++++++
- target/arm/neon-shared.decode   | 27 +++++++++++++++++++++++++
- target/arm/translate-neon.inc.c | 32 +++++++++++++++++++++++++++++
- target/arm/translate.c          | 36 +++++++++++++++++++++++++++++++--
- target/arm/Makefile.objs        | 18 +++++++++++++++++
- 6 files changed, 169 insertions(+), 2 deletions(-)
- create mode 100644 target/arm/neon-dp.decode
- create mode 100644 target/arm/neon-ls.decode
- create mode 100644 target/arm/neon-shared.decode
- create mode 100644 target/arm/translate-neon.inc.c
+ target/arm/neon-shared.decode   | 11 ++++++++++
+ target/arm/translate-neon.inc.c | 37 +++++++++++++++++++++++++++++++++
+ target/arm/translate.c          | 11 +---------
+ 3 files changed, 49 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-new file mode 100644
-index 00000000000..c89a1a58591
---- /dev/null
-+++ b/target/arm/neon-dp.decode
-@@ -0,0 +1,29 @@
-+# AArch32 Neon data-processing instruction descriptions
-+#
-+#  Copyright (c) 2020 Linaro, Ltd
-+#
-+# This library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2 of the License, or (at your option) any later version.
-+#
-+# This library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+
-+#
-+# This file is processed by scripts/decodetree.py
-+#
-+
-+# Encodings for Neon data processing instructions where the T32 encoding
-+# is a simple transformation of the A32 encoding.
-+# More specifically, this file covers instructions where the A32 encoding is
-+#   0b1111_001p_qqqq_qqqq_qqqq_qqqq_qqqq_qqqq
-+# and the T32 encoding is
-+#   0b111p_1111_qqqq_qqqq_qqqq_qqqq_qqqq_qqqq
-+# This file works on the A32 encoding only; calling code for T32 has to
-+# transform the insn into the A32 version first.
-diff --git a/target/arm/neon-ls.decode b/target/arm/neon-ls.decode
-new file mode 100644
-index 00000000000..2b16c9256df
---- /dev/null
-+++ b/target/arm/neon-ls.decode
-@@ -0,0 +1,29 @@
-+# AArch32 Neon load/store instruction descriptions
-+#
-+#  Copyright (c) 2020 Linaro, Ltd
-+#
-+# This library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2 of the License, or (at your option) any later version.
-+#
-+# This library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+
-+#
-+# This file is processed by scripts/decodetree.py
-+#
-+
-+# Encodings for Neon load/store instructions where the T32 encoding
-+# is a simple transformation of the A32 encoding.
-+# More specifically, this file covers instructions where the A32 encoding is
-+#   0b1111_0100_xxx0_xxxx_xxxx_xxxx_xxxx_xxxx
-+# and the T32 encoding is
-+#   0b1111_1001_xxx0_xxxx_xxxx_xxxx_xxxx_xxxx
-+# This file works on the A32 encoding only; calling code for T32 has to
-+# transform the insn into the A32 version first.
 diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
-new file mode 100644
-index 00000000000..3aea7c5e188
---- /dev/null
+index 3aea7c5e188..d1d707a56d5 100644
+--- a/target/arm/neon-shared.decode
 +++ b/target/arm/neon-shared.decode
-@@ -0,0 +1,27 @@
-+# AArch32 Neon instruction descriptions
-+#
-+#  Copyright (c) 2020 Linaro, Ltd
-+#
-+# This library is free software; you can redistribute it and/or
-+# modify it under the terms of the GNU Lesser General Public
-+# License as published by the Free Software Foundation; either
-+# version 2 of the License, or (at your option) any later version.
-+#
-+# This library is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+# Lesser General Public License for more details.
-+#
-+# You should have received a copy of the GNU Lesser General Public
-+# License along with this library; if not, see <http://www.gnu.org/licenses/>.
+@@ -25,3 +25,14 @@
+ # More specifically, this covers:
+ # 2reg scalar ext: 0b1111_1110_xxxx_xxxx_xxxx_1x0x_xxxx_xxxx
+ # 3same ext:       0b1111_110x_xxxx_xxxx_xxxx_1x0x_xxxx_xxxx
 +
-+#
-+# This file is processed by scripts/decodetree.py
-+#
++# VFP/Neon register fields; same as vfp.decode
++%vm_dp  5:1 0:4
++%vm_sp  0:4 5:1
++%vn_dp  7:1 16:4
++%vn_sp  16:4 7:1
++%vd_dp  22:1 12:4
++%vd_sp  12:4 22:1
 +
-+# Encodings for Neon instructions whose encoding is the same for
-+# both A32 and T32.
-+
-+# More specifically, this covers:
-+# 2reg scalar ext: 0b1111_1110_xxxx_xxxx_xxxx_1x0x_xxxx_xxxx
-+# 3same ext:       0b1111_110x_xxxx_xxxx_xxxx_1x0x_xxxx_xxxx
++VCMLA          1111 110 rot:2 . 1 size:1 .... .... 1000 . q:1 . 0 .... \
++               vm=%vm_dp vn=%vn_dp vd=%vd_dp
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-new file mode 100644
-index 00000000000..a33e81ba3ab
---- /dev/null
+index a33e81ba3ab..0baae1338a3 100644
+--- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -0,0 +1,32 @@
-+/*
-+ *  ARM translation: AArch32 Neon instructions
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *  Copyright (c) 2005-2007 CodeSourcery
-+ *  Copyright (c) 2007 OpenedHand, Ltd.
-+ *  Copyright (c) 2020 Linaro, Ltd.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
+@@ -30,3 +30,40 @@
+ #include "decode-neon-dp.inc.c"
+ #include "decode-neon-ls.inc.c"
+ #include "decode-neon-shared.inc.c"
 +
-+/*
-+ * This file is intended to be included from translate.c; it uses
-+ * some macros and definitions provided by that file.
-+ * It might be possible to convert it to a standalone .c file eventually.
-+ */
++static bool trans_VCMLA(DisasContext *s, arg_VCMLA *a)
++{
++    int opr_sz;
++    TCGv_ptr fpst;
++    gen_helper_gvec_3_ptr *fn_gvec_ptr;
 +
-+/* Include the generated Neon decoder */
-+#include "decode-neon-dp.inc.c"
-+#include "decode-neon-ls.inc.c"
-+#include "decode-neon-shared.inc.c"
++    if (!dc_isar_feature(aa32_vcma, s)
++        || (!a->size && !dc_isar_feature(aa32_fp16_arith, s))) {
++        return false;
++    }
++
++    /* UNDEF accesses to D16-D31 if they don't exist. */
++    if (!dc_isar_feature(aa32_simd_r32, s) &&
++        ((a->vd | a->vn | a->vm) & 0x10)) {
++        return false;
++    }
++
++    if ((a->vn | a->vm | a->vd) & a->q) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    opr_sz = (1 + a->q) * 8;
++    fpst = get_fpstatus_ptr(1);
++    fn_gvec_ptr = a->size ? gen_helper_gvec_fcmlas : gen_helper_gvec_fcmlah;
++    tcg_gen_gvec_3_ptr(vfp_reg_offset(1, a->vd),
++                       vfp_reg_offset(1, a->vn),
++                       vfp_reg_offset(1, a->vm),
++                       fpst, opr_sz, opr_sz, a->rot,
++                       fn_gvec_ptr);
++    tcg_temp_free_ptr(fpst);
++    return true;
++}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 4cf5267be00..5a82a56e8ed 100644
+index 5a82a56e8ed..ae6799c6ae0 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1313,8 +1313,9 @@ static TCGv_ptr vfp_reg_ptr(bool dp, int reg)
+@@ -7048,16 +7048,7 @@ static int disas_neon_insn_3same_ext(DisasContext *s, uint32_t insn)
+     bool is_long = false, q = extract32(insn, 6, 1);
+     bool ptr_is_env = false;
  
- #define ARM_CP_RW_BIT   (1 << 20)
- 
--/* Include the VFP decoder */
-+/* Include the VFP and Neon decoders */
- #include "translate-vfp.inc.c"
-+#include "translate-neon.inc.c"
- 
- static inline void iwmmxt_load_reg(TCGv_i64 var, int reg)
- {
-@@ -10949,7 +10950,10 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-         /* Unconditional instructions.  */
-         /* TODO: Perhaps merge these into one decodetree output file.  */
-         if (disas_a32_uncond(s, insn) ||
--            disas_vfp_uncond(s, insn)) {
-+            disas_vfp_uncond(s, insn) ||
-+            disas_neon_dp(s, insn) ||
-+            disas_neon_ls(s, insn) ||
-+            disas_neon_shared(s, insn)) {
-             return;
-         }
-         /* fall back to legacy decoder */
-@@ -11102,6 +11106,33 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-         ARCH(6T2);
-     }
- 
-+    if ((insn & 0xef000000) == 0xef000000) {
-+        /*
-+         * T32 encodings 0b111p_1111_qqqq_qqqq_qqqq_qqqq_qqqq_qqqq
-+         * transform into
-+         * A32 encodings 0b1111_001p_qqqq_qqqq_qqqq_qqqq_qqqq_qqqq
-+         */
-+        uint32_t a32_insn = (insn & 0xe2ffffff) |
-+            ((insn & (1 << 28)) >> 4) | (1 << 28);
-+
-+        if (disas_neon_dp(s, a32_insn)) {
-+            return;
-+        }
-+    }
-+
-+    if ((insn & 0xff100000) == 0xf9000000) {
-+        /*
-+         * T32 encodings 0b1111_1001_ppp0_qqqq_qqqq_qqqq_qqqq_qqqq
-+         * transform into
-+         * A32 encodings 0b1111_0100_ppp0_qqqq_qqqq_qqqq_qqqq_qqqq
-+         */
-+        uint32_t a32_insn = (insn & 0x00ffffff) | 0xf4000000;
-+
-+        if (disas_neon_ls(s, a32_insn)) {
-+            return;
-+        }
-+    }
-+
-     /*
-      * TODO: Perhaps merge these into one decodetree output file.
-      * Note disas_vfp is written for a32 with cond field in the
-@@ -11109,6 +11140,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-      */
-     if (disas_t32(s, insn) ||
-         disas_vfp_uncond(s, insn) ||
-+        disas_neon_shared(s, insn) ||
-         ((insn >> 28) == 0xe && disas_vfp(s, insn))) {
-         return;
-     }
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index cf26c16f5f6..775b3e24f22 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -18,6 +18,21 @@ target/arm/decode-sve.inc.c: $(SRC_PATH)/target/arm/sve.decode $(DECODETREE)
- 	  $(PYTHON) $(DECODETREE) --decode disas_sve -o $@ $<,\
- 	  "GEN", $(TARGET_DIR)$@)
- 
-+target/arm/decode-neon-shared.inc.c: $(SRC_PATH)/target/arm/neon-shared.decode $(DECODETREE)
-+	$(call quiet-command,\
-+	  $(PYTHON) $(DECODETREE) --static-decode disas_neon_shared -o $@ $<,\
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/arm/decode-neon-dp.inc.c: $(SRC_PATH)/target/arm/neon-dp.decode $(DECODETREE)
-+	$(call quiet-command,\
-+	  $(PYTHON) $(DECODETREE) --static-decode disas_neon_dp -o $@ $<,\
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/arm/decode-neon-ls.inc.c: $(SRC_PATH)/target/arm/neon-ls.decode $(DECODETREE)
-+	$(call quiet-command,\
-+	  $(PYTHON) $(DECODETREE) --static-decode disas_neon_ls -o $@ $<,\
-+	  "GEN", $(TARGET_DIR)$@)
-+
- target/arm/decode-vfp.inc.c: $(SRC_PATH)/target/arm/vfp.decode $(DECODETREE)
- 	$(call quiet-command,\
- 	  $(PYTHON) $(DECODETREE) --static-decode disas_vfp -o $@ $<,\
-@@ -49,6 +64,9 @@ target/arm/decode-t16.inc.c: $(SRC_PATH)/target/arm/t16.decode $(DECODETREE)
- 	  "GEN", $(TARGET_DIR)$@)
- 
- target/arm/translate-sve.o: target/arm/decode-sve.inc.c
-+target/arm/translate.o: target/arm/decode-neon-shared.inc.c
-+target/arm/translate.o: target/arm/decode-neon-dp.inc.c
-+target/arm/translate.o: target/arm/decode-neon-ls.inc.c
- target/arm/translate.o: target/arm/decode-vfp.inc.c
- target/arm/translate.o: target/arm/decode-vfp-uncond.inc.c
- target/arm/translate.o: target/arm/decode-a32.inc.c
+-    if ((insn & 0xfe200f10) == 0xfc200800) {
+-        /* VCMLA -- 1111 110R R.1S .... .... 1000 ...0 .... */
+-        int size = extract32(insn, 20, 1);
+-        data = extract32(insn, 23, 2); /* rot */
+-        if (!dc_isar_feature(aa32_vcma, s)
+-            || (!size && !dc_isar_feature(aa32_fp16_arith, s))) {
+-            return 1;
+-        }
+-        fn_gvec_ptr = size ? gen_helper_gvec_fcmlas : gen_helper_gvec_fcmlah;
+-    } else if ((insn & 0xfea00f10) == 0xfc800800) {
++    if ((insn & 0xfea00f10) == 0xfc800800) {
+         /* VCADD -- 1111 110R 1.0S .... .... 1000 ...0 .... */
+         int size = extract32(insn, 20, 1);
+         data = extract32(insn, 24, 1); /* rot */
 -- 
 2.20.1
 
