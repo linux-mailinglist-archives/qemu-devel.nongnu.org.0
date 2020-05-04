@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32FC1C3D53
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:41:30 +0200 (CEST)
-Received: from localhost ([::1]:42232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972D41C3D73
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:47:06 +0200 (CEST)
+Received: from localhost ([::1]:34660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcHh-0001C9-LM
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47570)
+	id 1jVcN7-0001TS-0Z
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:47:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6u-0006lA-EK
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48719
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6w-0006pb-Iq
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:22 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30500
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6t-0006jX-DR
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:20 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6v-0006mw-Ki
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602618;
+ s=mimecast20190719; t=1588602620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2N91cBk7aeGymYBjy55YvlROyXKTbkYAlJPKLwnfG8w=;
- b=dk64Qy/ta2LX1drYv0VfA9JxyLf0DONPbsF4+h780/6mJYAp3xp9uZWyr+vxkUJi94bkS1
- ZuIG9ROgO9TuOWGFFiZMfAwphMDTX6oEJDcy5jHgVIeQ6TFubwSPS4Iqy7hvV6EKYMWS4I
- OaVs1eD0zzxVDgg3nCNlO00nP7nyWiY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-4-HxNC7mNiiQ8hlVYDJZmg-1; Mon, 04 May 2020 10:30:16 -0400
-X-MC-Unique: 4-HxNC7mNiiQ8hlVYDJZmg-1
-Received: by mail-wr1-f70.google.com with SMTP id y4so5804473wrt.4
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:30:16 -0700 (PDT)
+ bh=lAfJ5/3TbHF/8WjmWYvb2QAzYmCal5x9QNrXZKyAwD8=;
+ b=FTHTSQ7LRw3LKCJwFfBDgf+2uaTpe//f/4dqJf1sZ1aCEAdWPDx8SvSnau74sKEUHhIvVL
+ OboO1VLNyIYmuTotpvxCjQVdYLzGKShagdpJIYR1chV+KNfMQRuqGY6ZhtDDFwNy66qBCI
+ 5O9G9Hfa+3559ZM9GahxI+v+8cdWY5U=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-5krrOh1WMzmg3LZC7fOK0g-1; Mon, 04 May 2020 10:30:18 -0400
+X-MC-Unique: 5krrOh1WMzmg3LZC7fOK0g-1
+Received: by mail-wm1-f69.google.com with SMTP id h22so4991223wml.1
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:30:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KDde8SgK/ldUN87GHz4uiNYcfNlAns6jsj/DZnuAhTk=;
- b=NZx5WXZ8qtAyt22Ueyvz7eJ234iAtTgUYPPbqYWOQKwwvxi2nZPWdlEA1t87BoTF2W
- OHK0ILOScYSYiRvnpxO+Ky8zhsGNdoCa8vbOlVDIxJc6Mw8K4QMaxtF8kHoa8/7zzMWL
- vAYgG9YCZ2q00P92rumGxjYFbYE5/h5BWdLvJaSNNOxaB7RgQG9Ce4ninIRR45U0RlP5
- b3ODNhw3W8G1UrpDOVdUdI2irYJC5/uR+cX/DvajfAxMSo2mucqRORbWrstrY9zwY61N
- Vgiqf+Xw83HarSG49MNZYMwFiLdi2bccdxiTS8LsqEjgGB0DUASF+HusowZ2/Ebkt/bu
- fJoQ==
-X-Gm-Message-State: AGi0Pub5Zl/I1rMuE+PSPhAlF9xtFLyCdDQRC+2TIFfV+QNVvPaopwct
- ZXajqEtgEhuBf0t/v8tisPkQb86nPK3HiIDLxo5MglEuuXLilM+K6sd4Uf5sLp3FsxvBb34Kw7t
- g2S2/3eTa8IzClrQ=
-X-Received: by 2002:adf:82ac:: with SMTP id 41mr17130008wrc.110.1588602615388; 
- Mon, 04 May 2020 07:30:15 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJwPeQgmiX3K49346YelqjkIrD+bKwChmOK44nTHVuoqJI9rKf4p7R/Y2tAHDXO/SL8StM91A==
-X-Received: by 2002:adf:82ac:: with SMTP id 41mr17129986wrc.110.1588602615146; 
- Mon, 04 May 2020 07:30:15 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=9VtA+lfLhyvx9BGaosLru1/AAtx+gXAahmsNpkaZs5I=;
+ b=TuBiMuRPw4K7GYMTSCndf84Ko+wZuS23GJSm1mJKrng0LkkMz4GN5v6plOBy1NSeuy
+ 28Bm4poV9kUUrObQ3MZ9LLeJr78tG8MbnrtQs1X0NOygzVBXR2G1ZdLhkHWdrk0+MldZ
+ 5TWOXrcR2M2bO6BbwOE7sUbZt15O9KbaEg7EuLdpwlY6sxUSh4E4gYw73pSIei4eKu4E
+ C5720ECEe2w0mfuEzSqfJW5F3vAB7RTi+FTiq4cX+5CM+SYZWnmsEZPL/Iyz/6Zu6I5r
+ H0ZRmu1RbBnsG++vNMzeU3e7lqJL9vJFGb/LNlbnhcebbd1wcxcSPxmqxyYweGYc/eLy
+ +06g==
+X-Gm-Message-State: AGi0PuZIC+kScUmzf/bCQ0V+FjkDudpKyAFB898oXK1FWVmUaku1mDu8
+ /swE2FZdN6bzOLxUaJd5FRiQQVUAZov5js8tjmWgMYhWuMDT6aS5c30NHMMDjIXQ27+3t7vA5VY
+ d2zlx9XIOicNi+yM=
+X-Received: by 2002:adf:e582:: with SMTP id l2mr5949048wrm.392.1588602617587; 
+ Mon, 04 May 2020 07:30:17 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJt819Ha7ezsa30jzyl8gPBeY6EarOlgRO9Y52hho646cF735I+z+caggyygowvOgKUDGaLiQ==
+X-Received: by 2002:adf:e582:: with SMTP id l2mr5949032wrm.392.1588602617435; 
+ Mon, 04 May 2020 07:30:17 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- i129sm14553865wmi.20.2020.05.04.07.30.14
+ w12sm18914535wrk.56.2020.05.04.07.30.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:30:14 -0700 (PDT)
-Date: Mon, 4 May 2020 10:30:13 -0400
+ Mon, 04 May 2020 07:30:17 -0700 (PDT)
+Date: Mon, 4 May 2020 10:30:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/29] acpi: unit-test: Update WAET ACPI Table expected binaries
-Message-ID: <20200504142814.157589-26-mst@redhat.com>
+Subject: [PULL 26/29] hw/i386/pc: Create 'vmport' device in place
+Message-ID: <20200504142814.157589-27-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -70,13 +71,13 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,80 +97,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Liran Alon <liran.alon@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liran Alon <liran.alon@oracle.com>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-This is done according to step (6) in the process described at
-tests/qtest/bios-tables-test.c.
-
-Expected WAET.dsl:
-
-[000h 0000   4]                    Signature : "WAET"    [Windows ACPI Emul=
-ated Devices Table]
-[004h 0004   4]                 Table Length : 00000028
-[008h 0008   1]                     Revision : 01
-[009h 0009   1]                     Checksum : 88
-[00Ah 0010   6]                       Oem ID : "BOCHS "
-[010h 0016   8]                 Oem Table ID : "BXPCWAET"
-[018h 0024   4]                 Oem Revision : 00000001
-[01Ch 0028   4]              Asl Compiler ID : "BXPC"
-[020h 0032   4]        Asl Compiler Revision : 00000001
-
-[024h 0036   4]        Flags (decoded below) : 00000002
-                        RTC needs no INT ack : 0
-                     PM timer, one read only : 1
-
-Raw Table Data: Length 40 (0x28)
-
-  0000: 57 41 45 54 28 00 00 00 01 88 42 4F 43 48 53 20  // WAET(.....BOCHS
-  0010: 42 58 50 43 57 41 45 54 01 00 00 00 42 58 50 43  // BXPCWAET....BXP=
-C
-  0020: 01 00 00 00 02 00 00 00                          // ........
-
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
-Message-Id: <20200313145009.144820-4-liran.alon@oracle.com>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-Id: <20200504083342.24273-2-f4bug@amsat.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   2 --
- tests/data/acpi/pc/WAET                     | Bin 0 -> 40 bytes
- tests/data/acpi/q35/WAET                    | Bin 0 -> 40 bytes
- 3 files changed, 2 deletions(-)
+ include/hw/i386/pc.h | 6 ------
+ hw/i386/pc.c         | 2 +-
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios=
--tables-test-allowed-diff.h
-index b269a1e3e5..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/WAET",
--"tests/data/acpi/q35/WAET",
-diff --git a/tests/data/acpi/pc/WAET b/tests/data/acpi/pc/WAET
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..c2240f58dff6b2f765386b5a2e5=
-06fda4800be3e 100644
-GIT binary patch
-literal 40
-mcmWG{bPds9U|?YEaPoKd2v%^42yhMuiZKGkKx`1r1jGQWX$JuS
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/q35/WAET b/tests/data/acpi/q35/WAET
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..c2240f58dff6b2f765386b5a2e5=
-06fda4800be3e 100644
-GIT binary patch
-literal 40
-mcmWG{bPds9U|?YEaPoKd2v%^42yhMuiZKGkKx`1r1jGQWX$JuS
-
-literal 0
-HcmV?d00001
-
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 6ab6eda046..26e2a3d92b 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -132,12 +132,6 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enab=
+led);
+ /* vmport.c */
+ #define TYPE_VMPORT "vmport"
+ typedef uint32_t (VMPortReadFunc)(void *opaque, uint32_t address);
+-
+-static inline void vmport_init(ISABus *bus)
+-{
+-    isa_create_simple(bus, TYPE_VMPORT);
+-}
+-
+ void vmport_register(unsigned char command, VMPortReadFunc *func, void *op=
+aque);
+ void vmmouse_get_data(uint32_t *data);
+ void vmmouse_set_data(const uint32_t *data);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 5143c51653..84669ddc84 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1152,7 +1152,7 @@ static void pc_superio_init(ISABus *isa_bus, bool cre=
+ate_fdctrl, bool no_vmport)
+=20
+     i8042 =3D isa_create_simple(isa_bus, "i8042");
+     if (!no_vmport) {
+-        vmport_init(isa_bus);
++        isa_create_simple(isa_bus, TYPE_VMPORT);
+         vmmouse =3D isa_try_create(isa_bus, "vmmouse");
+     } else {
+         vmmouse =3D NULL;
 --=20
 MST
 
