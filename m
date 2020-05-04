@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57561C3F80
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:13:29 +0200 (CEST)
-Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A22881C3FAB
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:19:33 +0200 (CEST)
+Received: from localhost ([::1]:39928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdii-00073z-JV
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:13:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38362)
+	id 1jVdoa-0008Oh-2f
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:19:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVdXT-0003NE-Rl
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:01:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21591
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVdXS-0006NQ-Dx
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:01:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588608109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4oteUFkoRWwfr00JqJHBJcLJssbkYoJ+zNl29JlZMnk=;
- b=HZdvtpHRUbWIr8suSbvFIGs3WvrwlKvOW+FWpTllZ9GyNLAiyjGUkG7ocV+DrJ2NMvdAMJ
- nz6JEaypaLm/T3DGRb37cu9yny8kuBQ0isxx7c35ZKXPINR5hbzJFvjBlGeIpIxKbfleqU
- pr2hm4j1oP88XxgVfpGUE0o/srQhw98=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-do-C4LW4NFe5zV5UvNE1-g-1; Mon, 04 May 2020 12:01:24 -0400
-X-MC-Unique: do-C4LW4NFe5zV5UvNE1-g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 479068014D5;
- Mon,  4 May 2020 16:01:23 +0000 (UTC)
-Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD1EE6247E;
- Mon,  4 May 2020 16:01:22 +0000 (UTC)
-Subject: Re: [PATCH v3] qcow2: Avoid integer wraparound in qcow2_co_truncate()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>
-References: <20200504155217.10325-1-berto@igalia.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <6fefd4af-3687-7f38-3933-aa67f2f221e8@redhat.com>
-Date: Mon, 4 May 2020 11:01:19 -0500
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jVdZI-0006Sh-O7
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:03:45 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:33819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jVdZG-0006yZ-7y
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:03:44 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id h12so7861pjz.1
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 09:03:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=78Vi7wgYsGyA8edkgjgPdtQTWASlUQd0e886regsz+A=;
+ b=tfBd4rEc0Lp0DPuaiFs8IhuVBSQeIlzLB8Jz7KyAaHdNrfe3tMtYBwvfVf+zfv89v9
+ jUH0820J6TO1zuNXsggMxX15X5FOWqW61Ifb4eLnrBWg5dLdSTjfLxvnJU4p09JrsJ3X
+ ZNRL80W+rxykDm3MQ7OxUqWUeebn/aar2wfh+BWwiTzBDddZFuJdbZ/h8FyMNgLo5iZX
+ suGM9IpI8QZBJeeWDwKgg45kMRmDkEhG7J/KNa7lTNqefasaXQ0CF0v2qkvyLErxSUUs
+ Bh/o3gE4Lt7GNSXipzrJJ4DucY4yTjx2itA9g0Rt3cd8oBR55eoOROOu3OnBuKrykxTi
+ JZGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=78Vi7wgYsGyA8edkgjgPdtQTWASlUQd0e886regsz+A=;
+ b=KbbaAzYiBj12SEd+useiZijJbm3Jl79vkw3+xM+jjDyPB1KILzCTDAIkrSVYN8IbBr
+ R0RWzutAV8qfEnHT9M+708cGsiJoxluYo8bMnqrnY//giB5isQnUAUEwQAPbZPrGr785
+ MJksV3X/fSgEbTqpfJdcOoHl3pMf1RC0D0x2pZx1jaaBHYs1/6CeeeRK9KLGJ9dC+0vi
+ TZYh8iPKw1E7nt+Us4hufgnHo1PTCZPQgc5Mt28sjWSZ0Dr8U4Efzah7r4psdf3pwtrE
+ DauKC/yizZ3agvLhTk0GSpTYkoqz7fG9zYFbZT4OaZ4MJExDhnQphFTQeNsXqwQMIIUC
+ sUkw==
+X-Gm-Message-State: AGi0PubJXKY9Zo/KM/Z119y/bsNDoFEZFY09fqW70hO7cRyjEhBx/pCx
+ VNAA+NPTqs617yHCluTM+N3Ejw==
+X-Google-Smtp-Source: APiQypIlvjVoAhniqQIQMq+KsNbA15QttD5IWbELtt8asgtim9qlzVRy7HXHkwpnIeC8ZwS/36XDUg==
+X-Received: by 2002:a17:90a:cc9:: with SMTP id 9mr49241pjt.16.1588608220252;
+ Mon, 04 May 2020 09:03:40 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id w125sm8131993pgw.22.2020.05.04.09.03.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 09:03:39 -0700 (PDT)
+Subject: Re: [PATCH v4 00/18] target/arm: sve load/store improvements
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200430162813.17671-1-richard.henderson@linaro.org>
+ <CAFEAcA8m33s7e2T0GrZJxb4EyczcEmtW6-tRPoUsiVLO9g8dVw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20e6093b-edcb-c0e4-f4d5-b6ff4d51783c@linaro.org>
+Date: Mon, 4 May 2020 09:03:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200504155217.10325-1-berto@igalia.com>
+In-Reply-To: <CAFEAcA8m33s7e2T0GrZJxb4EyczcEmtW6-tRPoUsiVLO9g8dVw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,72 +89,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 10:52 AM, Alberto Garcia wrote:
-> After commit f01643fb8b47e8a70c04bbf45e0f12a9e5bc54de when an image is
-> extended and BDRV_REQ_ZERO_WRITE is set then the new clusters are
-> zeroized.
-> 
-> The code however does not detect correctly situations when the old and
-> the new end of the image are within the same cluster. The problem can
-> be reproduced with these steps:
-> 
->     qemu-img create -f qcow2 backing.qcow2 1M
->     qemu-img create -f qcow2 -F qcow2 -b backing.qcow2 top.qcow2
->     qemu-img resize --shrink top.qcow2 520k
->     qemu-img resize top.qcow2 567k
-> 
-> In the last step offset - zero_start causes an integer wraparound.
-> 
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
+On 5/4/20 2:43 AM, Peter Maydell wrote:
+> I've reviewed patch 13, but I still don't understand why you've
+> made the size-related changes in patch 4, so I've continued
+> our conversation in the thread on the v3 version of that patch.
 
-> +++ b/block/qcow2.c
-> @@ -4239,15 +4239,17 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
->            * requires a cluster-aligned start. The end may be unaligned if it is
->            * at the end of the image (which it is here).
->            */
-> -        ret = qcow2_cluster_zeroize(bs, zero_start, offset - zero_start, 0);
-> -        if (ret < 0) {
-> -            error_setg_errno(errp, -ret, "Failed to zero out new clusters");
-> -            goto fail;
-> +        if (offset > zero_start) {
-> +            ret = qcow2_cluster_zeroize(bs, zero_start, offset - zero_start, 0);
-> +            if (ret < 0) {
-> +                error_setg_errno(errp, -ret, "Failed to zero out new clusters");
-> +                goto fail;
-> +            }
->           }
->   
->           /* Write explicit zeros for the unaligned head */
->           if (zero_start > old_length) {
-> -            uint64_t len = zero_start - old_length;
-> +            uint64_t len = MIN(zero_start, offset) - old_length;
+I've changed that here in v4.  Please have another look at this one.
 
-Yes, that's better.
 
-> +++ b/tests/qemu-iotests/292
-> @@ -0,0 +1,73 @@
-
-> +_supported_fmt qcow2
-> +_supported_proto file
-
-Do we have to limit it to qcow2 and file?  Yes, it's testing a bugfix 
-for qcow2, but are there other formats that it doesn't hurt to have the 
-extra testing?  Also, I don't see anything preventing this from working 
-with non-file protocol.
-
-But whether we widen the test scope or not, we at least test that we 
-don't regress.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+r~
 
 
