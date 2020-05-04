@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFF21C3B5D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 15:36:26 +0200 (CEST)
-Received: from localhost ([::1]:50044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D05C1C3B78
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 15:42:35 +0200 (CEST)
+Received: from localhost ([::1]:56860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVbGj-0003hJ-L0
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 09:36:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37864)
+	id 1jVbMg-0007LU-E8
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 09:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jVbFc-0002a4-2T; Mon, 04 May 2020 09:35:16 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51844)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jVbL4-0006Hq-Rv
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 09:40:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jVbFa-0002fi-5C; Mon, 04 May 2020 09:35:15 -0400
-Received: by mail-wm1-x333.google.com with SMTP id x4so8489320wmj.1;
- Mon, 04 May 2020 06:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/LXWw1yFvQo2XzE1xEnrfGvQ/MfGI1uwGSadxtVUsMM=;
- b=iJ3gNfFbMMn25FRf1jWuv1MmsZ6N3Az5di6aNDRdQjqiKg6J1fK62yjIspF8rxUkmu
- JxWHZqbUg8Djrbob0vCwuV24zcKIjMFzk7OtNJ+vLHINDLo4pJr3CYbi6xVCGear1iub
- W22Oxn21zLWb5Ld4TExq+ncp3Zu6pVgepW0d3dJYb3WLoHqtyy+Vs0Aid0px/bBlm2f8
- T0DYl8ISuRNZlCeRyOSq65363XTPKqAmnjMqG83UflpjOXW0LIrFtqPtXpbYf0hEp2Vh
- FgscoZkioNTsY4r8brZXubPhyOM/Hlh9l3Rk597F2DRl3sfechs3lvRExi0dfYDBakIF
- clhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/LXWw1yFvQo2XzE1xEnrfGvQ/MfGI1uwGSadxtVUsMM=;
- b=jVTzKzxbEyrPk/vrVX308I08oywr+wf5m7Wkm0TxE7Jy7EJNkgS7L0ORQdYD8DoejB
- dLsabecIgjbdjnuSdhAf45PGEJi0WiVqh6njDSzcB74kQ8Df/3DMimUdSGVAGMgmO2gY
- D3NCE/4r9YsVxA2rZiw5SKwCJzIhGWh8YjnHTRPkhhbVhWFgVBBlNtNN2i173UUkv5Dz
- MmOF31VqLicDdpaqC6tczUkPUi4+izp5sR0SfD1shZrUoukmWzShaO40GRKe/d+l3N8h
- ONbzWVtrSNVjlWqziSrY5kn747hmMxNIOtvos+3Brr72drolqpJpRc0DNHkXCBBi1jlM
- 9cJQ==
-X-Gm-Message-State: AGi0PuY41UEZMy0Gu8xR8LlyzUggLVI+c4lozsPp3xb8uFb1TuCWVqgA
- LP8KM5PYHWFC8zHuLl3CSXU=
-X-Google-Smtp-Source: APiQypJmc6R9Lg8zpgqkoLrfWQ2Df9G1N7GQdKalao8ECQDTZbfxPO78jL+k867GvV2aLiSsS6KcCA==
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr14476578wmc.123.1588599312058; 
- Mon, 04 May 2020 06:35:12 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id d143sm13577381wmd.16.2020.05.04.06.35.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 06:35:11 -0700 (PDT)
-Date: Mon, 4 May 2020 14:35:02 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Bug 1875762 <1875762@bugs.launchpad.net>
-Subject: Re: [Bug 1875762] [NEW] Poor disk performance on sparse VMDKs
-Message-ID: <20200504133502.GG354891@stefanha-x1.localdomain>
-References: <158811390770.10067.14727390581808721252.malonedeb@soybean.canonical.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jVbL3-0006Le-ID
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 09:40:54 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jVbL0-00043r-2O
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 13:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 002FD2E8109
+ for <qemu-devel@nongnu.org>; Mon,  4 May 2020 13:40:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TmwHKJoIRFM7Mu/A"
-Content-Disposition: inline
-In-Reply-To: <158811390770.10067.14727390581808721252.malonedeb@soybean.canonical.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x333.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 04 May 2020 13:35:02 -0000
+From: Stefan Hajnoczi <1875762@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: stefanha vorteil-alan
+X-Launchpad-Bug-Reporter: Alan Murtagh (vorteil-alan)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <158811390770.10067.14727390581808721252.malonedeb@soybean.canonical.com>
+Message-Id: <20200504133502.GG354891@stefanha-x1.localdomain>
+Subject: Re: [Bug 1875762] [NEW] Poor disk performance on sparse VMDKs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3d03e4de513b8c3eb7e8b43a57f1c5be66d6015f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 09:40:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,14 +72,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Bug 1875762 <1875762@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-
---TmwHKJoIRFM7Mu/A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
 On Tue, Apr 28, 2020 at 10:45:07PM -0000, Alan Murtagh wrote:
 > QEMU appears to suffer from remarkably poor disk performance when
@@ -120,20 +105,47 @@ qcow2 or raw.
 
 Stefan
 
---TmwHKJoIRFM7Mu/A
-Content-Type: application/pgp-signature; name="signature.asc"
+-- =
 
------BEGIN PGP SIGNATURE-----
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1875762
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6wGgYACgkQnKSrs4Gr
-c8gbhwf+IzSQavaUeT6INrnroUEZOFG5CMBV+PnNW5tQhfqzABMGWeSn4C1WCeKP
-KprcTlaU7Ye4dL+QiNrh8gQbq2gKOv4fMYi/Hqz6v3PHy94Xn4GlC2JMLtrWn6Gl
-jRBkDjLu9g+YzT0EwPcTrrSb1h0EaTAmihLffUqOelttX13QYlKHJ4oNQXfxp9mb
-2hwgGrgxir9PE2por3+DbIZq2GQAT3+/g/dsZ90pyv6Ixlk6LA3Wy5dacS8vqpmF
-bIqqNodUALk5MtW21KD/fu7n0u0PIdOdultZ7HkkWMyzA4twWFRWS/aYsGwi54Uf
-DpLk51QxpdFbjNcYt+2TgyRN+bfgaA==
-=gs4n
------END PGP SIGNATURE-----
+Title:
+  Poor disk performance on sparse VMDKs
 
---TmwHKJoIRFM7Mu/A--
+Status in QEMU:
+  New
+
+Bug description:
+  Found in QEMU 4.1, and reproduced on master.
+
+  QEMU appears to suffer from remarkably poor disk performance when
+  writing to sparse-extent VMDKs. Of course it's to be expected that
+  allocation takes time and sparse VMDKs peform worse than allocated
+  VMDKs, but surely not on the orders of magnitude I'm observing. On my
+  system, the fully allocated write speeds are approximately 1.5GB/s,
+  while the fully sparse write speeds can be as low as 10MB/s. I've
+  noticed that adding "cache unsafe" reduces the issue dramatically,
+  bringing speeds up to around 750MB/s. I don't know if this is still
+  slow or if this perhaps reveals a problem with the default caching
+  method.
+
+  To reproduce the issue I've attached two 4GiB VMDKs. Both are
+  completely empty and both are technically sparse-extent VMDKs, but one
+  is 100% pre-allocated and the other is 100% unallocated. If you attach
+  these VMDKs as second and third disks to an Ubuntu VM running on QEMU
+  (with KVM) and measure their write performance (using dd to write to
+  /dev/sdb and /dev/sdc for example) the difference in write speeds is
+  clear.
+
+  For what it's worth, the flags I'm using that relate to the VMDK are
+  as follows:
+
+  `-drive if=3Dnone,file=3Dsparse.vmdk,id=3Dhd0,format=3Dvmdk -device virti=
+o-
+  scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd0`
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1875762/+subscriptions
 
