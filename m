@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268B81C48E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 23:20:01 +0200 (CEST)
-Received: from localhost ([::1]:35566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97311C48D8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 23:17:13 +0200 (CEST)
+Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jViVM-00084O-6J
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 17:20:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45888)
+	id 1jViSe-0005HR-0O
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 17:17:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jViQP-0003np-09
- for qemu-devel@nongnu.org; Mon, 04 May 2020 17:14:53 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38690
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jViQR-0003sX-S7
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 17:14:55 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31170
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jViQN-0000mA-NV
- for qemu-devel@nongnu.org; Mon, 04 May 2020 17:14:52 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jViQQ-0000nj-Sl
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 17:14:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588626890;
+ s=mimecast20190719; t=1588626893;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CS2yMyIdMIcYBk9KxJ4n/OXgIx22cYjoT4vg/NXgLDE=;
- b=KthiqCBRHegGl8IV8ReNUoCGqs/pkKE9AnFl7hl0xMk8b7tW8soY0PwULy7ymWooODzQP5
- fl0KHJNdxtB1eR66bs/oZYvt8x43GLqQ1+D1hILl4uOtPXh+avmueh49hT+wBScb8X0PUd
- 91VEID/YuDtNoSRXXJNnxfB0tH3yB9w=
+ bh=EreIJQ4hJ/hcapIcvpXQICfb5MIGrsU9rUtkQuqOyIc=;
+ b=Tb20N+whEQtuY+793W5mi8KConYRuD9RvIYa/4M2ubgmDzt7OHp9AQH1v90cJdTRkEmOf5
+ J2/VJSTJhWmruVISUWbkF4J6lfSXslBdJivtiNmwNxzLtm2Xk05brqDC5LVzxSZ5wMrLX3
+ 5yOu9XhntIOTLXK7KZsXkqIeE8rsqpM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-mt2liLIkN9a_BHVGUZwKpg-1; Mon, 04 May 2020 17:14:48 -0400
-X-MC-Unique: mt2liLIkN9a_BHVGUZwKpg-1
+ us-mta-342-_fKDn3UZMj6_6hFppjCE3Q-1; Mon, 04 May 2020 17:14:51 -0400
+X-MC-Unique: _fKDn3UZMj6_6hFppjCE3Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53B1A464;
- Mon,  4 May 2020 21:14:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4688464;
+ Mon,  4 May 2020 21:14:50 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08FE46FF1B;
- Mon,  4 May 2020 21:14:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8052A7052A;
+ Mon,  4 May 2020 21:14:47 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/4] tools: Fix use of fcntl(F_SETFD) during socket activation
-Date: Mon,  4 May 2020 16:14:35 -0500
-Message-Id: <20200504211438.195926-2-eblake@redhat.com>
+Subject: [PULL 2/4] iotests/041: Fix NBD socket path
+Date: Mon,  4 May 2020 16:14:36 -0500
+Message-Id: <20200504211438.195926-3-eblake@redhat.com>
 In-Reply-To: <20200504211438.195926-1-eblake@redhat.com>
 References: <20200504211438.195926-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -77,48 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Blindly setting FD_CLOEXEC without a read-modify-write will
-inadvertently clear any other intentionally-set bits, such as a
-proposed new bit for designating a fd that must behave in 32-bit mode.
-However, we cannot use our wrapper qemu_set_cloexec(), because that
-wrapper intentionally abort()s on failure, whereas the probe here
-intentionally tolerates failure to deal with incorrect socket
-activation gracefully.  Instead, fix the code to do the proper
-read-modify-write.
+From: Max Reitz <mreitz@redhat.com>
 
+We should put all UNIX socket files into the sock_dir, not test_dir.
+
+Reported-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200424134626.78945-1-mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Fixes: a1da1878607a
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200420175309.75894-3-eblake@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- util/systemd.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/041 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/systemd.c b/util/systemd.c
-index 1dd0367d9a84..5bcac9b40169 100644
---- a/util/systemd.c
-+++ b/util/systemd.c
-@@ -23,6 +23,7 @@ unsigned int check_socket_activation(void)
-     unsigned long nr_fds;
-     unsigned int i;
-     int fd;
-+    int f;
-     int err;
+diff --git a/tests/qemu-iotests/041 b/tests/qemu-iotests/041
+index 5d67bf14bfe8..46bf1f6c8164 100755
+--- a/tests/qemu-iotests/041
++++ b/tests/qemu-iotests/041
+@@ -35,7 +35,7 @@ quorum_img3 =3D os.path.join(iotests.test_dir, 'quorum3.i=
+mg')
+ quorum_repair_img =3D os.path.join(iotests.test_dir, 'quorum_repair.img')
+ quorum_snapshot_file =3D os.path.join(iotests.test_dir, 'quorum_snapshot.i=
+mg')
 
-     s =3D getenv("LISTEN_PID");
-@@ -54,7 +55,8 @@ unsigned int check_socket_activation(void)
-     /* So the file descriptors don't leak into child processes. */
-     for (i =3D 0; i < nr_fds; ++i) {
-         fd =3D FIRST_SOCKET_ACTIVATION_FD + i;
--        if (fcntl(fd, F_SETFD, FD_CLOEXEC) =3D=3D -1) {
-+        f =3D fcntl(fd, F_GETFD);
-+        if (f =3D=3D -1 || fcntl(fd, F_SETFD, f | FD_CLOEXEC) =3D=3D -1) {
-             /* If we cannot set FD_CLOEXEC then it probably means the file
-              * descriptor is invalid, so socket activation has gone wrong
-              * and we should exit.
+-nbd_sock_path =3D os.path.join(iotests.test_dir, 'nbd.sock')
++nbd_sock_path =3D os.path.join(iotests.sock_dir, 'nbd.sock')
+
+ class TestSingleDrive(iotests.QMPTestCase):
+     image_len =3D 1 * 1024 * 1024 # MB
 --=20
 2.26.2
 
