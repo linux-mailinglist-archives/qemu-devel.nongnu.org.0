@@ -2,77 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0C81C371D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:42:49 +0200 (CEST)
-Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 238DC1C3725
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:47:10 +0200 (CEST)
+Received: from localhost ([::1]:44478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVYYi-0007SK-N5
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
+	id 1jVYcv-0001Bb-5N
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:47:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jVYXF-0006A9-87
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:41:17 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jVYXE-0004xX-8Z
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:41:16 -0400
-Received: by mail-wr1-x444.google.com with SMTP id d15so20321363wrx.3
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 03:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=NGnT3NUWy8fgy8AhJnTXjj15j5ReSdGSgxmfl07V1HU=;
- b=MbLdek4hen9MfBxFeiwzgXeF7cvEJBHBS9csHaM3ffiCYmAHiFzX6AbjSJR+ZvTEBp
- uKTmJzZoN2oNl/zKxjBZnEvdQGfpM8IgBL11h5mfL3gKB10EqSotcerzbl3tsf5ObL5k
- CYtGMQqGTgObXV/ALWynKrgSgZD8nZdJPF0gO72c6rbKpqMYb4PQq+P43KAXeY2Rsggw
- bYjvxJsBquLcFaLBlfIBjjkwHHO9MNJHBc8zIeRWd1tFOO1AIualkrelkREna8Guom9J
- Q+ppKRbWG2X/KpMSKd+bH3WcyJbbKPNp3dQ3/L+OfllMQzFqGwCLruyoBdgiGQ/IEIzf
- 0kng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NGnT3NUWy8fgy8AhJnTXjj15j5ReSdGSgxmfl07V1HU=;
- b=jlbTOFiKP+BXP0CIuNpgLuy7gXneEZ0l/zdEbLbaGi7E76sns1H4m7c/scSM8HxOoy
- 2Y3ZDb603A64mXRbudfJF5sm00Dpxj1QSUIkEsCnI7vCOxTP3TXv3Y8/f+GNbLNaXc4o
- w4LGwWl4ThlhJvCsS6C4Dg3XNFW6rcj9Muj/c1rIDqcDAYa/W8lODoZQpKfGgtm8Wd34
- Fv4PRHvzWEZmcGidlXi9UEmFeMB+/7xCurrmZyBHkgGocEtaCdQ+H7+v8fSFOavr8pjn
- lzF9lCLfUEWyDeWV8Pl4oF6OL7y5KqU/6t5F5g2q5lcKpj6jLIs8QIwY9Gn23mP4lP/t
- jGvA==
-X-Gm-Message-State: AGi0PubjJtvrrliFAS13S4o+Tat3M/ArA06U2pghBJzNKiFfsB92wRB/
- xuN8JLgxrjXWNX9YqIgpEHg=
-X-Google-Smtp-Source: APiQypJFWLFRiyYOL2cRL4enM0H/nPyBu3Ub3fxpvy0/oOkwwn4RxutJej7KAbecRko81oa6E3g49w==
-X-Received: by 2002:a5d:65ce:: with SMTP id e14mr2392578wrw.314.1588588874527; 
- Mon, 04 May 2020 03:41:14 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id s12sm12250022wmc.7.2020.05.04.03.41.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 03:41:13 -0700 (PDT)
-Date: Mon, 4 May 2020 11:41:11 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH 2/4] device-core: use RCU for list of childs of a bus
-Message-ID: <20200504104111.GB354891@stefanha-x1.localdomain>
-References: <20200416203624.32366-1-mlevitsk@redhat.com>
- <20200416203624.32366-3-mlevitsk@redhat.com>
+ (Exim 4.90_1) (envelope-from <roger.pau@citrix.com>)
+ id 1jVYbH-0000Fc-Ei
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 06:45:27 -0400
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:51400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <roger.pau@citrix.com>)
+ id 1jVYbF-0007Gz-D0
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 06:45:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1588589125;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=tXO0ICCiT142bp9ixaiqrYulWlsUgTl6QaOusnFsu4U=;
+ b=ckXYTC2lI9O+nMZDl8xRFaGITfN1NzLp1mClaeYLEpE5E5J9RKCvNElL
+ VVWXq9hmRBsFgA/dqJFcFvrgdOwoTb29KGGgrA0QuLQCwHXfueYdnLFAr
+ D0YgDacqisHZap/GvG65pGM0QAcMPzj26dOSKrFlbOcdguFn4sSRJqDYt E=;
+Authentication-Results: esa4.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=roger.pau@citrix.com;
+ spf=Pass smtp.mailfrom=roger.pau@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ roger.pau@citrix.com) identity=pra; client-ip=162.221.158.21;
+ receiver=esa4.hc3370-68.iphmx.com;
+ envelope-from="roger.pau@citrix.com";
+ x-sender="roger.pau@citrix.com"; x-conformance=sidf_compatible
+Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
+ roger.pau@citrix.com designates 162.221.158.21 as permitted
+ sender) identity=mailfrom; client-ip=162.221.158.21;
+ receiver=esa4.hc3370-68.iphmx.com;
+ envelope-from="roger.pau@citrix.com";
+ x-sender="roger.pau@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83
+ ip4:168.245.78.127 ~all"
+Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
+ envelope-from="roger.pau@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: VA3TIEhLTXp19jB7KBHvDtiNb7ydxUl7/pqE0PN/ICWErY/2eqpU1iwd9W7mtFrxXdtFnLftqj
+ 0Kmkr+jP+e5W/4TSAaIZwVGklxWHvocqq8eQ64FOAj9FxBheeCKksSPw+q1C9OL+x58Db5JKA7
+ YOOT/DjeR/kDcJQU9cRw3AspnuU36z5KDTLLlx3Q58mlTEVWFqcTwnywwvbwASFSLpDGIpCAPu
+ V4GbVkYxG276mG1eZYPLKhcJ0Bh9wQ8sUWfXS9rXnO1l57OMkxUzoA/149rGJZhHprFTGQCd4u
+ bOM=
+X-SBRS: 2.7
+X-MesageID: 17353198
+X-Ironport-Server: esa4.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.73,351,1583211600"; d="scan'208";a="17353198"
+Date: Mon, 4 May 2020 12:45:12 +0200
+From: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] xen: fix build without pci passthrough
+Message-ID: <20200504104512.GA1353@Air-de-Roger>
+References: <20200504101443.3165-1-roger.pau@citrix.com>
+ <ccf11b67-4aaa-5fb2-e23f-674380b47a13@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="p4qYPpj5QlsIQJ0K"
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20200416203624.32366-3-mlevitsk@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=stefanha@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ccf11b67-4aaa-5fb2-e23f-674380b47a13@redhat.com>
+X-ClientProxiedBy: AMSPEX02CAS01.citrite.net (10.69.22.112) To
+ AMSPEX02CL02.citrite.net (10.69.22.126)
+Received-SPF: pass client-ip=216.71.155.144; envelope-from=roger.pau@citrix.com;
+ helo=esa4.hc3370-68.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 06:45:21
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_EXCESS_BASE64=0.979, KHOP_DYNAMIC=0.001, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,155 +105,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org,
+ Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, May 04, 2020 at 12:35:39PM +0200, Philippe Mathieu-Daudé wrote:
+> Hi Roger,
+> 
+> On 5/4/20 12:14 PM, Roger Pau Monne wrote:
+> > has_igd_gfx_passthru is only available when QEMU is built with
+> > CONFIG_XEN_PCI_PASSTHROUGH, and hence shouldn't be used in common
+> > code without checking if it's available.
+> > 
+> > Fixes: 46472d82322d0 ('xen: convert "-machine igd-passthru" to an accelerator property')
+> > Signed-off-by: Roger Pau Monné <roger.pau@citrix.com>
+> 
+> See Kconfig fix suggested here:
+> https://www.mail-archive.com/xen-devel@lists.xenproject.org/msg61844.html
 
---p4qYPpj5QlsIQJ0K
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Having it available on Kconfig is indeed fine, but this still needs
+some kind of configure checks AFAIK, as it's only available on Linux.
 
-On Thu, Apr 16, 2020 at 11:36:22PM +0300, Maxim Levitsky wrote:
-> @@ -90,9 +92,13 @@ static void bus_reset_child_foreach(Object *obj, Reset=
-tableChildCallback cb,
->      BusState *bus =3D BUS(obj);
->      BusChild *kid;
-> =20
-> -    QTAILQ_FOREACH(kid, &bus->children, sibling) {
-> +    rcu_read_lock();
-> +
-> +    QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
->          cb(OBJECT(kid->child), opaque, type);
->      }
-> +
-> +    rcu_read_unlock();
->  }
-> =20
->  static void qbus_realize(BusState *bus, DeviceState *parent, const char =
-*name)
-> @@ -138,10 +144,15 @@ static void bus_unparent(Object *obj)
->      /* Only the main system bus has no parent, and that bus is never fre=
-ed */
->      assert(bus->parent);
-> =20
-> -    while ((kid =3D QTAILQ_FIRST(&bus->children)) !=3D NULL) {
-> +    rcu_read_lock();
-> +
-> +    while ((kid =3D QTAILQ_FIRST_RCU(&bus->children)) !=3D NULL) {
->          DeviceState *dev =3D kid->child;
->          object_unparent(OBJECT(dev));
->      }
-> +
-> +    rcu_read_unlock();
+I'm certainly missing some context, but whether XEN_IGD_PASSTHROUGH
+gets defined on Kconfig or not shouldn't really matter for this patch,
+as we would still need to gate the code properly so it's not build
+when PCI passthrough (or whatever name the option has) is not enabled?
 
-rcu_read_lock() is called but this looks like a list write operation.
-If I understand correctly bus->children list writes can only be called
-with the QEMU global mutex and therefore rcu_read_lock() is not required
-here?
-
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 85f062def7..f0c87e582e 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -50,26 +50,37 @@ const VMStateDescription *qdev_get_vmsd(DeviceState *=
-dev)
->      return dc->vmsd;
->  }
-> =20
-> +static void bus_free_bus_child(BusChild *kid)
-> +{
-> +    object_unref(OBJECT(kid->child));
-
-Users like scsi_device_find() do not take a refcount on the child.  If
-the device is removed then bus_free_bus_child may call object_unref()
-while another thread is still accessing the child.
-
-Maybe I'm missing something that prevents this scenario?
-
-If not, then another patch is necessary first that introduces stricter
-refcount discipline across the codebase. This applies both to users who
-directly access bus->children as well as to those who call walk() and
-stash child pointers in their callback function.
-
-> +    g_free(kid);
-> +}
-> +
->  static void bus_remove_child(BusState *bus, DeviceState *child)
->  {
->      BusChild *kid;
-> =20
-> -    QTAILQ_FOREACH(kid, &bus->children, sibling) {
-> +    rcu_read_lock();
-
-List write under rcu_read_lock().
-
-> @@ -82,7 +93,9 @@ static void bus_add_child(BusState *bus, DeviceState *c=
-hild)
->      kid->child =3D child;
->      object_ref(OBJECT(kid->child));
-> =20
-> -    QTAILQ_INSERT_HEAD(&bus->children, kid, sibling);
-> +    rcu_read_lock();
-> +    QTAILQ_INSERT_HEAD_RCU(&bus->children, kid, sibling);
-> +    rcu_read_unlock();
-
-List write under rcu_read_lock().
-
-> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-> index 472bbd233b..b0f4a35f81 100644
-> --- a/hw/scsi/virtio-scsi.c
-> +++ b/hw/scsi/virtio-scsi.c
-> @@ -367,12 +367,16 @@ static int virtio_scsi_do_tmf(VirtIOSCSI *s, VirtIO=
-SCSIReq *req)
->      case VIRTIO_SCSI_T_TMF_I_T_NEXUS_RESET:
->          target =3D req->req.tmf.lun[1];
->          s->resetting++;
-> -        QTAILQ_FOREACH(kid, &s->bus.qbus.children, sibling) {
-> +
-> +        rcu_read_lock();
-> +        QTAILQ_FOREACH_RCU(kid, &s->bus.qbus.children, sibling) {
-
-We need a QTAILQ_FOREACH_WITH_RCU_READ_LOCK() macro that combines
-WITH_RCU_READ_LOCK() and QTAILQ_FOREACH_RCU(). :-)
-
-> diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bu=
-s.h
-> index 38c9399cd4..58733f28e2 100644
-> --- a/include/hw/virtio/virtio-bus.h
-> +++ b/include/hw/virtio/virtio-bus.h
-> @@ -128,8 +128,11 @@ void virtio_bus_set_vdev_config(VirtioBusState *bus,=
- uint8_t *config);
->  static inline VirtIODevice *virtio_bus_get_device(VirtioBusState *bus)
->  {
->      BusState *qbus =3D &bus->parent_obj;
-> -    BusChild *kid =3D QTAILQ_FIRST(&qbus->children);
-> -    DeviceState *qdev =3D kid ? kid->child : NULL;
-> +    BusChild *kid;
-> +    DeviceState *qdev;
-> +
-> +    kid =3D QTAILQ_FIRST(&qbus->children);
-
-QTAILQ_FIRST_RCU()
-
---p4qYPpj5QlsIQJ0K
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6v8UcACgkQnKSrs4Gr
-c8jAZAgAhINpLkvsHYvbt4UylQC19LpFX936/CALQ4CcOMzPxEaKn3Om0Wa10hAG
-jxeFyQBlhCmrjmXPngRJVVeIPn5vwsn4jwS0zoCV60olvZWmKuWU9XyJmZJ4H/tc
-HNHluZBqIf3zUYVip8n2PvYJYc+ecoaszIvVXE5VN0EuyPjYveLWqHYcG41H9AV9
-jzTf7muebFHVfqm2CERhwih2J/jM2ngfVg2tOhKlhGCrE7o/e5ut69yg39e5+qf7
-sZW3vRxoDaz6lh8MJ3emAzlN6Lne5nIOgsTtB6SpOdr2Jn+9Y07GjYpT/20W2/RJ
-ZBYfC8dY+C8LZYb7sA1aC7aOtjuzhA==
-=2pVu
------END PGP SIGNATURE-----
-
---p4qYPpj5QlsIQJ0K--
+Thanks, Roger.
 
