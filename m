@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640251C38DD
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:06:22 +0200 (CEST)
-Received: from localhost ([::1]:51540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6621C38F1
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:10:47 +0200 (CEST)
+Received: from localhost ([::1]:39380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZrZ-0004FU-BD
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:06:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52034)
+	id 1jVZvq-0002Xu-9v
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:10:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjr-00032t-0j; Mon, 04 May 2020 07:58:23 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:51577)
+ id 1jVZjt-000393-37; Mon, 04 May 2020 07:58:25 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:38807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjo-000224-TI; Mon, 04 May 2020 07:58:22 -0400
+ id 1jVZjp-00027i-02; Mon, 04 May 2020 07:58:24 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MVubb-1jfr8A0guj-00RoZr; Mon, 04 May 2020 13:58:11 +0200
+ id 1Mn1mb-1ipg1502hr-00kARR; Mon, 04 May 2020 13:58:12 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/20] hw/mem/pc-dimm: Fix line over 80 characters warning
-Date: Mon,  4 May 2020 13:57:45 +0200
-Message-Id: <20200504115758.283914-8-laurent@vivier.eu>
+Subject: [PULL 08/20] elf_ops: Don't try to g_mapped_file_unref(NULL)
+Date: Mon,  4 May 2020 13:57:46 +0200
+Message-Id: <20200504115758.283914-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uoOCv6SWCIzT4rAEh7LAxYnD9eqhHUN9UdFbneX2A8S7JYa3EQt
- nlWJ+zqUlSEhHLroSD3BCNjdwhg5KHsmShG/KornRceMx1B0k/I9k9iAvjZMKV6EZS3abth
- 04lCc8AN0n1Aw8h+HTanmiXiEIU7sra5qNS6uNOt7e1zF8sKj7TRGL2l2ct/oIGyBC2k+pB
- w65YW6NRLBz9755Lmfr0w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:C4xhP5OJBIY=:YID2BNSHBArahqvD0vXEcA
- UecVbj8vK7q4VOn+xj4MJCrGCpCQz9qqF4tG4PZcPkislLyJBL0S2o4njAwNkicEhxuXd2HYs
- KJFIWrsozEnRnMHzZznv4P1Ahcm/SKTRPymbML9pc/C/v6uavfiR8A4gig+rfttLa4asHIzsG
- b74IrlnDC+g4q4WrnrPp1VZiLJuqPS6V1KODWIzWnCDI+DpvrSUBBsgUdUmqBSx9JDDci0e9g
- ogqhleLGrppfxLvcGux3ht2Ff1xO6afR6cYYTEKGIKMFzl8H5yqqFPVZjqNxmHcs6q58UIzpa
- LwVeoQ8q7rHY5QZaxgHYaSqPR+wCcuSdAObNHpt02LNIMH+JFIhTEixcN/2+s6kAT/NF6aHx9
- CjFzSuR+zKoMpfA7wuk5XkDoa+ad5dkx0DJzmdNW9tvars8FtUk3IrAIA4yo819KZr9nwy35G
- 1pcvPT5ichydgyuikg8hOpcQM26a/0R7FKCdj5HeTH8ItCV9BnCP75Qo+NAipqbEyqxOx2jFG
- I66Sn7FFa5dvjYs64K0817NxFiZ10tAeMPsEh/YR1KfWqSP9wIEBGW1zcxtIOxtOLycCbaAXb
- IRNhI2N29L7WD6LO8sqcYOQ7ZHROh+F23c6tc4ahii3auweQfH1EbpkEvdaESxvvhGR3BruKv
- wxnJbMLwjhp1EW9mzlNwXLYDf2TAFxzTQUqZOIUeiDOlYNH7+dhcVCX5N2B5C1ahhSEbcTfRI
- 7aVwKzIpF7saryP+89kzi+CT7v/QRP81GdUPBINFRcXcSwZZ7M9twGB/LIy7v6L0bpa4l/ZEX
- 315QqLxBeEA/StubPGKiADwwv5nl9HSspHVxtXGpKfwrJ6dlxlYzEqVGgecJvXx7Gpd1wzu
+X-Provags-ID: V03:K1:BQ5r9yph8+G/Az6IX8fW6EIIjsM+kUd3mF51aPquBfwZdBe78HQ
+ eJny12BmQEzKP8RuUE9iCi84G9lQkzH84XG1tI0BSjC4quvIP1FWMvd5pHl8s1dMCMQcmMq
+ HQ/ZxSNvlyXyh1WBdViEbgdbjsSe4iTbQPZQC/nZ0qrsH/WQ5FI3bVxbct72uEReOO+FK2o
+ 8PG5uPIteltoGpTuG3VQQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XJXUFm27smw=:7Iahaa0JmqSlE5YatvC0bp
+ 6dutlD/QcvXKvsQesDZwrOqnOx2bgnQgs2kE2tjaUEt4pqrUr4hhvfv39aviY2DJIIe9CAJ4W
+ 4dLdNRocSko0IUkiOFLyNLZ+f7EmktNNPRAoAlaoMIQ4vXqRWpuY2bgyW7C0qIkffQvK8r4HF
+ Sz5f1OP1QfMbrnoiLprwcRt1bnbr4E+uTJMYxTKDkRMn0FFgLIaN5PQzMmYxfoLmZuvxEoX+L
+ vEhOHJiJMZOZ/rbzEMZN++Nz03/jO8Xvhre069TkTwfOCAPI3+YKpKiAitq0ict5J3+jYHqJE
+ YoH1O78NYE6fBnw98wvxqpDgmEJ2tRrqrMZCYeCueOw5CZu82fhPBZctFOb16ajAGfwqsHqq/
+ RXF5HOF9c8OuZuTbzeYZeZTBSsFPdzQFHe2roUdntS30VfNcRxEVfKBCFlH1/pAhtUNtRnR9/
+ JqSSzlEHhYYS3A/mKOXqibmtBvjWdvs72zdgVDClXvDizo5nCnZ3x8b37wTWUSGnfyyHXZKkt
+ 02mF77bMEosg/WCYQfxqB2P+VF3dSktHaWPNvo1qxqTICMevNLvo0wiuwS9yZhB7hDeDh1apY
+ Q9HY/6dKQZyAGC0kNRm4Qfh/H57BxpKXm97/0gPFLqhf0/ODnTxQiEv4uibzfd4WcZaszuPV4
+ AAFFoWLzyHdQlLrC6oheP5UU7AwyBWQYZHkhQOS3ZLnoHkV59Rf1/f3IFn6c1Cew+9sOuZOch
+ kLc9mRWuqphz92qXxtNVPe7uFKs4K16kkCjR+pOQojIVp1RqaZlAirT3gBMEJ9bXvijOxagSP
+ lBRiOWlL2GF4INTR0VwQJjJAA0JU0c+GxMxvJS/N+pLw4C45JMpac3WpyjunCJTPIuvCMUF
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:14
@@ -68,35 +69,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Randy Yates <yates@ieee.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20200310180510.19489-3-wainersm@redhat.com>
+Calling g_mapped_file_unref() on a NULL pointer is not valid, and
+glib will assert if you try it.
+
+$ qemu-system-arm -M virt -display none -device loader,file=/tmp/bad.elf
+qemu-system-arm: -device loader,file=/tmp/bad.elf: GLib: g_mapped_file_unref: assertion 'file != NULL' failed
+
+(One way to produce an ELF file that fails like this is to copy just
+the first 16 bytes of a valid ELF file; this is sufficient to fool
+the code in load_elf_ram_sym() into thinking it's an ELF file and
+calling load_elf32() or load_elf64().)
+
+The failure-exit path in load_elf can be reached from various points
+in execution, and for some of those we haven't yet called
+g_mapped_file_new_from_fd().  Add a condition to the unref call so we
+only call it if we successfully created the GMappedFile to start with.
+
+This will fix the assertion; for the specific case of the generic
+loader it will then fall back from "guess this is an ELF file" to
+"maybe it's a uImage or a hex file" and eventually to "just load as
+a raw data file".
+
+Reported-by: Randy Yates <yates@ieee.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20200423202011.32686-1-peter.maydell@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/mem/pc-dimm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/hw/elf_ops.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index 36edfcf46799..6d62588fea8c 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -218,7 +218,8 @@ static MemoryRegion *pc_dimm_get_memory_region(PCDIMMDevice *dimm, Error **errp)
- 
- static uint64_t pc_dimm_md_get_addr(const MemoryDeviceState *md)
- {
--    return object_property_get_uint(OBJECT(md), PC_DIMM_ADDR_PROP, &error_abort);
-+    return object_property_get_uint(OBJECT(md), PC_DIMM_ADDR_PROP,
-+                                    &error_abort);
+diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+index e0bb47bb678d..398a4a2c85bb 100644
+--- a/include/hw/elf_ops.h
++++ b/include/hw/elf_ops.h
+@@ -606,7 +606,9 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+         *highaddr = (uint64_t)(elf_sword)high;
+     ret = total_size;
+  fail:
+-    g_mapped_file_unref(mapped_file);
++    if (mapped_file) {
++        g_mapped_file_unref(mapped_file);
++    }
+     g_free(phdr);
+     return ret;
  }
- 
- static void pc_dimm_md_set_addr(MemoryDeviceState *md, uint64_t addr,
 -- 
 2.26.2
 
