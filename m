@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42331C3F73
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:11:36 +0200 (CEST)
-Received: from localhost ([::1]:37858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57561C3F80
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:13:29 +0200 (CEST)
+Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdgt-0003wq-UG
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:11:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38122)
+	id 1jVdii-00073z-JV
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdWE-0001aj-9d; Mon, 04 May 2020 12:00:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:52599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdWC-0005wC-9D; Mon, 04 May 2020 12:00:33 -0400
-Received: from localhost.localdomain ([82.252.135.106]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MXGak-1jdtPD37AE-00YfI9; Mon, 04 May 2020 18:00:17 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 19/19] hw/timer/pxa2xx_timer: Add assertion to silent static
- analyzer warning
-Date: Mon,  4 May 2020 17:59:56 +0200
-Message-Id: <20200504155956.380695-20-laurent@vivier.eu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200504155956.380695-1-laurent@vivier.eu>
-References: <20200504155956.380695-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVdXT-0003NE-Rl
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:01:52 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:21591
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVdXS-0006NQ-Dx
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:01:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588608109;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4oteUFkoRWwfr00JqJHBJcLJssbkYoJ+zNl29JlZMnk=;
+ b=HZdvtpHRUbWIr8suSbvFIGs3WvrwlKvOW+FWpTllZ9GyNLAiyjGUkG7ocV+DrJ2NMvdAMJ
+ nz6JEaypaLm/T3DGRb37cu9yny8kuBQ0isxx7c35ZKXPINR5hbzJFvjBlGeIpIxKbfleqU
+ pr2hm4j1oP88XxgVfpGUE0o/srQhw98=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-do-C4LW4NFe5zV5UvNE1-g-1; Mon, 04 May 2020 12:01:24 -0400
+X-MC-Unique: do-C4LW4NFe5zV5UvNE1-g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 479068014D5;
+ Mon,  4 May 2020 16:01:23 +0000 (UTC)
+Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD1EE6247E;
+ Mon,  4 May 2020 16:01:22 +0000 (UTC)
+Subject: Re: [PATCH v3] qcow2: Avoid integer wraparound in qcow2_co_truncate()
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20200504155217.10325-1-berto@igalia.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <6fefd4af-3687-7f38-3933-aa67f2f221e8@redhat.com>
+Date: Mon, 4 May 2020 11:01:19 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZR9NwCl1SFOgGjyeI8D8NNykyUUgcLLZMaS5wwwT9tGrGCiso3d
- jKesMyobdiAq/1V/HdBSo4zP+EyzbIeW+wKRGU70X+KuHce1J31ptF5wxj/Lwk3PevYgdiM
- GpDbDiyg3R+Ncj0NVpCh/XXJ3BNk3BoPO+BsEb1qjuEHGkzNiAQNerJCPT3rKJY1K9+qFLA
- 5di38YMSNBFPtps5uaHgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hTJ9bSQVtK8=:YSECT2GJKj6Au0QHE8bFYy
- 9gpQ6CBPyhA4xIZulZOklEk1mGc6OAjWlTJRnhHAGgI+OsrBStqsg5Cqdp2Kv/0PW729sHU+B
- /DCI9fa91rP/MDGF4lg0+c5TrHJuu9MXclpTtPAopMaU7ava0wHfuuL/p6U+t6jNyCjuSd/IA
- EQ9V5jI5hLtBLhcNhWSoA5Ws02qyOTNbyF83zyXQAQg9maGtIgQOJtKzoXJWQiuA+Nh2E8Nt1
- 00hVQ6e98laPdqmTCXKzA0KaGXsmLxs/ka++REhD3wl8ViqNWev8teY/MI8568TMosxpoRH+/
- 4HhXtZQMFVX894TtwUGf/qkLQFhh9081M7ZS3mhIDjM0jcdZy9gufzAyW3xZDGRpTaAd67ZNU
- smDzQLQXiOz9XngK7igdPaQpYQhClQWpaR0uFJcPKUsnI1AgLwFSDfdlaXvqpTP+wjGBKTLDw
- czUhJ2Rf95gbdVYHg446bFOZkZ/XVrjhcM5cv7iCWHtcuT6LQRoyNjZicz313i3Xjx4Qwlzf/
- aWW7XPZZYHHa6R1nXWD5o+Vy0yb3RPvC8A4TgkU+a6HWoagwT22ZTh+JnLUcnJiVFYoj1gUww
- j9VL4HWH4Gy1yZ9I10/a6IvHC6S2dnXdrA2n12doqrJE0ASAY83/QaYnMVFZQFQjNMbPNUObo
- FK07mAcEL7SGSw490N68M+2Ato9dOZ7AHzeTiQWmRXKOhLI32P6wBqlrTWkkgel038r1SuL+g
- vfjGc3HMgRHTfu2dtYJ4ZzHaRfLxegMHANDJ9oclgpTHHofi0ENrnZP52Hedf6VmLXFQfpetn
- QHco45Tftjvr/pbicdCwWjCylCPXC14ysAQ/OPd49y2TEa78pL1/S8v3LnzKSQZW1WNOtCS
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 11:59:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200504155217.10325-1-berto@igalia.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,68 +82,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 5/4/20 10:52 AM, Alberto Garcia wrote:
+> After commit f01643fb8b47e8a70c04bbf45e0f12a9e5bc54de when an image is
+> extended and BDRV_REQ_ZERO_WRITE is set then the new clusters are
+> zeroized.
+> 
+> The code however does not detect correctly situations when the old and
+> the new end of the image are within the same cluster. The problem can
+> be reproduced with these steps:
+> 
+>     qemu-img create -f qcow2 backing.qcow2 1M
+>     qemu-img create -f qcow2 -F qcow2 -b backing.qcow2 top.qcow2
+>     qemu-img resize --shrink top.qcow2 520k
+>     qemu-img resize top.qcow2 567k
+> 
+> In the last step offset - zero_start causes an integer wraparound.
+> 
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
 
-pxa2xx_timer_tick4() takes an opaque pointer, then calls
-pxa2xx_timer_update4(), so the static analyzer can not
-verify that the 'n < 8':
+> +++ b/block/qcow2.c
+> @@ -4239,15 +4239,17 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
+>            * requires a cluster-aligned start. The end may be unaligned if it is
+>            * at the end of the image (which it is here).
+>            */
+> -        ret = qcow2_cluster_zeroize(bs, zero_start, offset - zero_start, 0);
+> -        if (ret < 0) {
+> -            error_setg_errno(errp, -ret, "Failed to zero out new clusters");
+> -            goto fail;
+> +        if (offset > zero_start) {
+> +            ret = qcow2_cluster_zeroize(bs, zero_start, offset - zero_start, 0);
+> +            if (ret < 0) {
+> +                error_setg_errno(errp, -ret, "Failed to zero out new clusters");
+> +                goto fail;
+> +            }
+>           }
+>   
+>           /* Write explicit zeros for the unaligned head */
+>           if (zero_start > old_length) {
+> -            uint64_t len = zero_start - old_length;
+> +            uint64_t len = MIN(zero_start, offset) - old_length;
 
-  425 static void pxa2xx_timer_tick4(void *opaque)
-  426 {
-  427     PXA2xxTimer4 *t = (PXA2xxTimer4 *) opaque;
-  428     PXA2xxTimerInfo *i = (PXA2xxTimerInfo *) t->tm.info;
-  429
-  430     pxa2xx_timer_tick(&t->tm);
-  433     if (t->control & (1 << 6))
-  434         pxa2xx_timer_update4(i, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL), t->tm.num - 4);
+Yes, that's better.
 
-  135 static void pxa2xx_timer_update4(void *opaque, uint64_t now_qemu, int n)
-  136 {
-  137     PXA2xxTimerInfo *s = (PXA2xxTimerInfo *) opaque;
-  140     static const int counters[8] = { 0, 0, 0, 0, 4, 4, 6, 6 };
-  142
-  143     if (s->tm4[n].control & (1 << 7))
-  144         counter = n;
-  145     else
-  146         counter = counters[n];
+> +++ b/tests/qemu-iotests/292
+> @@ -0,0 +1,73 @@
 
-Add an assert() to give the static analyzer a hint, this fixes a
-warning reported by Clang static code analyzer:
+> +_supported_fmt qcow2
+> +_supported_proto file
 
-    CC      hw/timer/pxa2xx_timer.o
-  hw/timer/pxa2xx_timer.c:146:17: warning: Assigned value is garbage or undefined
-          counter = counters[n];
-                  ^ ~~~~~~~~~~~
+Do we have to limit it to qcow2 and file?  Yes, it's testing a bugfix 
+for qcow2, but are there other formats that it doesn't hurt to have the 
+extra testing?  Also, I don't see anything preventing this from working 
+with non-file protocol.
 
-Reported-by: Clang Static Analyzer
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200422133152.16770-10-philmd@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/timer/pxa2xx_timer.c | 1 +
- 1 file changed, 1 insertion(+)
+But whether we widen the test scope or not, we at least test that we 
+don't regress.
 
-diff --git a/hw/timer/pxa2xx_timer.c b/hw/timer/pxa2xx_timer.c
-index cd172cc1e960..944c16588926 100644
---- a/hw/timer/pxa2xx_timer.c
-+++ b/hw/timer/pxa2xx_timer.c
-@@ -140,6 +140,7 @@ static void pxa2xx_timer_update4(void *opaque, uint64_t now_qemu, int n)
-     static const int counters[8] = { 0, 0, 0, 0, 4, 4, 6, 6 };
-     int counter;
- 
-+    assert(n < ARRAY_SIZE(counters));
-     if (s->tm4[n].control & (1 << 7))
-         counter = n;
-     else
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.26.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
