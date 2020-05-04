@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F491C3489
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:35:10 +0200 (CEST)
-Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC04E1C348E
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:36:23 +0200 (CEST)
+Received: from localhost ([::1]:44428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVWZB-00053u-S2
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40246)
+	id 1jVWaM-0007sr-Pg
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:36:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVWXs-0003LP-GA
- for qemu-devel@nongnu.org; Mon, 04 May 2020 04:33:48 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52645)
+ id 1jVWXt-0003NQ-VU
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 04:33:50 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVWXr-0007Rz-RU
- for qemu-devel@nongnu.org; Mon, 04 May 2020 04:33:48 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 188so7449722wmc.2
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 01:33:47 -0700 (PDT)
+ id 1jVWXt-0007S9-8n
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 04:33:49 -0400
+Received: by mail-wr1-x442.google.com with SMTP id x18so19872183wrq.2
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 01:33:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xU5I2xlUHbp9bQFHtUli8mHPbgdjvZx4MCau2zAPM7A=;
- b=UdjlNowgafeJMhYBAaIFhSl36blvfWpB3C4x7GKqbkOFTY5gmLDaYDnSjIrXm7Wr57
- nipMyVGQHFh53aQNq9N4ptiMxynUzryx2QDwYT3jcVIjc5bQ6GILwbhV0eR3Di0wc09a
- uWTmZVD+0VtD4toqeUVf6TnyhekXwOsZb64KLjDp9zZ6MPxf0d095mZdT/tXFJ9C1FXx
- fMIwIxQ6FoQihbEN1lYU4G0CbBJ/J25KcvLtOe2pcEifr8O4qUUZfDHm4fEzrGVdwSkb
- hlM/5uRpPJJUzucLXccpPCXUje0ix51NRjPujj50JJQBO384YoJJ3jaj2xJp6lmm51jN
- fF2w==
+ bh=TyhBVROPRuzO0rWk+Br8uL9KdUxWrVxwNNY4fpfIogg=;
+ b=iMM7CErrzcQJI5kDg/k4pIk3TcjArB+JXv/OksqsXoEuBScblFzt0lwZHglDZ3o/LP
+ cAb31cXqwouMJWRm2vZJalE2RLtJdWXz++Xp4qoWiD9tG4zEcop78fp7vksKmOGKhxDo
+ UyE/Zp2gNVbo7kS+BwPeC68bgL9HMwv6l6rabJAnhpERFw2Qu5bY7wz7jleyskLlaVhg
+ EEaIlT4OZTumCRXBRmpCGsHFFCZ0/nTUpnk+vEp8vbe7fI5AJoJM0rDhPX2YUdCwBKBg
+ WCfqsP/ZJTaxtBuqzqlA3uSNcn8ARR/oDOhZMsNjb80o+7RuQCyleVvohnpJvtLPjXS7
+ 6TRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xU5I2xlUHbp9bQFHtUli8mHPbgdjvZx4MCau2zAPM7A=;
- b=KrOuuHhuCwh3jZGR7bN6yuWam1ryFCZk7ld20h5LzslwmrI5lJebisXYYjTUjoIQ0e
- 1jRQmOZ1xWzu0lFhpfgp1pPOo1Akvv2yYrptvv8a0te80JBVi8Z0MRKcG96V17v7RJ4O
- MkD5N1a7nImoxRPqnTsTjFQxuC/cQLkUSDVGuLlBUXOqDYsl4uplo5DTwRFr7HbHMVR7
- Ak1c57G5wK+vAkcmG5fX5tULRGwoavMOk7dMuPGG9E4KsbxaFJLsXQMqQ0otFQZbcUGF
- JYviQqZZfywP5kgfTMTqaYMJpxYWrG0mFuEN7E9LA7QDZmBLBPnHO/8HEIge4nuG0Tl6
- AddQ==
-X-Gm-Message-State: AGi0PuaIW+xbnrE5w77DcQkyZ2w1FYE3m+WpliajYn8apwfOI3fGIP4w
- VwOIcdNT/9vyN9S5WLz8HkgfQLyw
-X-Google-Smtp-Source: APiQypKw/oyntCrnijtY+ib4tyKRqtvjtgC/AK1uXkueovrrsp7Af+0gnbNaa/Ejev5yPMYZr6AH0g==
-X-Received: by 2002:a7b:c213:: with SMTP id x19mr12978382wmi.53.1588581226141; 
- Mon, 04 May 2020 01:33:46 -0700 (PDT)
+ bh=TyhBVROPRuzO0rWk+Br8uL9KdUxWrVxwNNY4fpfIogg=;
+ b=CplFUVseNnKeQRc7eSNPWkA96DxvVV3gTpp0jlEBTV1icD7iTyJREdlBj7Xfr+F6a5
+ s3qwDnwqqc6SBUr3yxQztSzPWLIu/kXZkm9kgh6zg/XoI6/7/QZlO3UggSrosW32EBqM
+ PeZzgdjCWxTZ1fKb3ghRTGJQYR9fPhDoli+RfqtciWUehRvSDdRaul3seGpdWT/4rqOd
+ +MOZvKHS4tu54yOU01yBqsQyvQ+AH3VOeNrWgxpmtnnv2H4DwhHMlfAfvHRTIhOe9EbP
+ FGqNcw0uyse60t0UN4oJcqnTuTqTebGkxvso3Xc8zpWf1Uz20mAgPIwVOV6vSXwvusZv
+ CusA==
+X-Gm-Message-State: AGi0PuZXQmPdmZoyLbcc4DNbKvrFhuBjSOo1KeOZqWkgF1gaqTYVL4ym
+ BpUjyqSlNHZTdUA4dCc1q+Y4I09U
+X-Google-Smtp-Source: APiQypI6vm72sLG7ql+eMbqbz7C8x7LYmJeBq0OGpDLjiFM736DJzczI7388DZgnekTHyoSrj2dtCg==
+X-Received: by 2002:adf:fac5:: with SMTP id a5mr14328474wrs.210.1588581227454; 
+ Mon, 04 May 2020 01:33:47 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id 2sm13048053wre.25.2020.05.04.01.33.45
+ by smtp.gmail.com with ESMTPSA id 2sm13048053wre.25.2020.05.04.01.33.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 01:33:45 -0700 (PDT)
+ Mon, 04 May 2020 01:33:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] hw/i386/vmport: Remove unused 'hw/input/i8042.h' include
-Date: Mon,  4 May 2020 10:33:40 +0200
-Message-Id: <20200504083342.24273-3-f4bug@amsat.org>
+Subject: [PATCH 3/4] hw/i386: Add 'vmport.h' local header
+Date: Mon,  4 May 2020 10:33:41 +0200
+Message-Id: <20200504083342.24273-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200504083342.24273-1-f4bug@amsat.org>
 References: <20200504083342.24273-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -95,25 +95,108 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove unused "hw/input/i8042.h" include.
+Move 'vmport' related declarations in a target-specific header.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/vmport.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/i386/vmport.h     | 34 ++++++++++++++++++++++++++++++++++
+ include/hw/i386/pc.h |  3 ---
+ hw/i386/pc.c         |  1 +
+ hw/i386/vmmouse.c    |  1 +
+ hw/i386/vmport.c     |  1 +
+ 5 files changed, 37 insertions(+), 3 deletions(-)
+ create mode 100644 hw/i386/vmport.h
 
+diff --git a/hw/i386/vmport.h b/hw/i386/vmport.h
+new file mode 100644
+index 0000000000..47eda7a22b
+--- /dev/null
++++ b/hw/i386/vmport.h
+@@ -0,0 +1,34 @@
++/*
++ * QEMU VMPort emulation
++ *
++ * Copyright (C) 2007 Hervé Poussineau
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef HW_I386_VMPORT_H
++#define HW_I386_VMPORT_H
++
++#define TYPE_VMPORT "vmport"
++
++typedef uint32_t (VMPortReadFunc)(void *opaque, uint32_t address);
++
++void vmport_register(unsigned char command, VMPortReadFunc *func, void *opaque);
++
++#endif
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 26e2a3d92b..de49a57506 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -130,9 +130,6 @@ typedef struct PCMachineClass {
+ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
+ 
+ /* vmport.c */
+-#define TYPE_VMPORT "vmport"
+-typedef uint32_t (VMPortReadFunc)(void *opaque, uint32_t address);
+-void vmport_register(unsigned char command, VMPortReadFunc *func, void *opaque);
+ void vmmouse_get_data(uint32_t *data);
+ void vmmouse_set_data(const uint32_t *data);
+ 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 84669ddc84..f6b8431c8b 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -91,6 +91,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "config-devices.h"
+ #include "e820_memory_layout.h"
++#include "vmport.h"
+ #include "fw_cfg.h"
+ #include "trace.h"
+ 
+diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
+index e8e62bd96b..78b36f6f5d 100644
+--- a/hw/i386/vmmouse.c
++++ b/hw/i386/vmmouse.c
+@@ -29,6 +29,7 @@
+ #include "hw/input/i8042.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
++#include "vmport.h"
+ 
+ /* debug only vmmouse */
+ //#define DEBUG_VMMOUSE
 diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
-index 1f31e27c8a..114141c6f3 100644
+index 114141c6f3..00d47e0c4c 100644
 --- a/hw/i386/vmport.c
 +++ b/hw/i386/vmport.c
-@@ -24,7 +24,6 @@
- #include "qemu/osdep.h"
- #include "hw/isa/isa.h"
+@@ -26,6 +26,7 @@
  #include "hw/i386/pc.h"
--#include "hw/input/i8042.h"
  #include "sysemu/hw_accel.h"
  #include "qemu/log.h"
++#include "vmport.h"
  #include "trace.h"
+ 
+ #define VMPORT_CMD_GETVERSION 0x0a
 -- 
 2.21.3
 
