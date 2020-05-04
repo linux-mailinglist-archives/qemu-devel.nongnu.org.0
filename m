@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE301C38C4
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:00:40 +0200 (CEST)
-Received: from localhost ([::1]:33390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C6A1C38E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:08:09 +0200 (CEST)
+Received: from localhost ([::1]:58784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZm3-00051o-Di
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:00:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51978)
+	id 1jVZtI-0007Jc-FD
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZje-0002oU-QJ; Mon, 04 May 2020 07:58:10 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:51679)
+ id 1jVZjr-00033m-9p; Mon, 04 May 2020 07:58:23 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:41055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjd-0001mg-Pa; Mon, 04 May 2020 07:58:10 -0400
+ id 1jVZjo-0001zK-VS; Mon, 04 May 2020 07:58:22 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MUog3-1jekfK0kJF-00Qi79; Mon, 04 May 2020 13:58:03 +0200
+ id 1MLyzP-1jnW5l0VaD-00HsQV; Mon, 04 May 2020 13:58:04 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/20] display/blizzard: use extract16() for fix clang analyzer
- warning in blizzard_draw_line16_32()
-Date: Mon,  4 May 2020 13:57:40 +0200
-Message-Id: <20200504115758.283914-3-laurent@vivier.eu>
+Subject: [PULL 03/20] timer/exynos4210_mct: Remove redundant statement in
+ exynos4210_mct_write()
+Date: Mon,  4 May 2020 13:57:41 +0200
+Message-Id: <20200504115758.283914-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:foyPSr7xsSevWh/8RpltGSGoNnpQUkoxfNoJfKzpLy2pDhFRZuw
- 9i6AvXlNwaFpIy1fjQxKlCdAVkUL26S6pnRB71Nk2rgbTGocd8DGvBKV7RkCEiE4ECIJIr4
- x4wiNs3C8Qom709dEcQIQzv9kgoVSfbAGAyddGEn4qI0XZq9Hos2fHqxAzwml1FyMiKa54g
- mX/4fC/PsP9hUovG9ACfg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IlICTlhBH4Y=:bw3P7mCJcpuQH/5fL1qitb
- gbDpr8+IgvYTMmc8TsQc6EFp04kmgnpCXb7DR1sMti7TNQETDgM6UtY8DhNZTVN04vF5goCjk
- 7+Yve4GOo45Q/JdoMvI9YRUBDX+8IFbYeDBuMZLlv9NeXkDUJa7nXundwO1EGt6VaPNVjOzlk
- bEVCIlLHGyoW+X9lrBnk/Q3CBqJJSGHk2mExGX49zrdHxuKd46z5bkJXWuTyLzFviFwrBhb8W
- mKn4wg+wbF06sppNavdLetoiNoMFUl30WxOTHQ93wEJvdqUxPcZsQvsD9i8nUrNN5CSGn2Yf/
- qg+3qt38Amm7KVyN20A1n5Vi5lmIQlJIvmt7qQIXyWEJqbNoMOWWRK2f5GYEgRGCe8IWBTT/g
- VZC7keXet0s/shpKNpwk1toe+SDEH2Rn3982PXxABBNiuKM4aCa8SNzb2yyEnenVXOv/1NlV7
- 0s6JCndZ1RsdOteKV+Q5dISgaO0bcU14B9qRwIBxeHSV4YZvCkqYdhmPuo3Nl+gxbif9oFmKl
- 3SC80hahz9LL4rr2HnDQfVCtw1YyPqMUa4LTrWI26/IbRYkWlIhc6oFPxtNfUskvANHLgMDED
- HeAyEWBbmUC76VtT2pTGvQ2+0pUMxvtYZqcq9o7KE3gR849WIys+NAcX9Ux/isGPx8A3rGxkW
- G+K6s/8/r0e7wMzT3bv4xOMrSK9O+DbQvbs0qlQCyhXaFvvkKOgimP7xSd1u7xX+M9fqcV6EP
- THPe30z4+g84vuBZZw5GCzwoN0FrLFVoKtc0mFceeFauIvFILApA6yvEF/zb5ck1Wjb0sk0vR
- TPFJL7Py31FxvlqB+pPq6Ya3ehpg2XP1JA24qUzCnXkOudEgU7AB2eeGT0w8c7gQPIP3IOi
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:rGPmTbt3LS78KZblEyLnOBFOGWdEOJIuW7LeCx9f7iNzdLmp2Lj
+ MzlPvWoRUqDr4hftXRpUfCkZ+eu/L8o1FwdUoZIscg4UsGuLngTWEI8luCNcA9ULd8RyMpI
+ ESycGUHZjkaBLlzuN0t6tG8TJKAdmFY0yhVhk/K4zwt6GCDOHxVNMdpiJD2JppGFgCN/1hC
+ jZjpWN1myU3sPr5drXerg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oIhUnmCaHA8=:i1Umx/M5mqCude2CXClJ6q
+ zhUjfRd7IHXVe4z3jLXwNQ1jk6UOfz/6jpQRFqr8ejnISHO3sODrX4ZQO8qlTrRMJ4hpOQqhw
+ KpeLbs4SORsLKtma75BuEt4yU+CXbaDY2UFeDyb+75IFKLobS6bP+PfmqnmlG3yfTCGA9pWXk
+ 5HTzy+zLin6r1klIhXL5u4XacdP8O/yhLl41lEIl/4SWsh2XefzTWJdjAb1oVIhWlxroSxF98
+ Qz34YvvF4qpvHXPnAYBcWqGt8umAT91rNwPxMvej+xcfgopk6mGzhA7IS8FNS/aUHZA4n8ohV
+ ViCVTT0u43oMiUXHdnRgBchq9JYtBRC0RgnL+y9swFACaTM1T7KdxNKMj6SJ3h6cGnG/hGwtH
+ 0OyHBSGRzcbRIv+HhgIBXmpdibogFJz5MfkCiXK/aOgWAkM50xBtssSZ9nBcCaO9Wa8jXTrWn
+ 7Eeq9ZtfTGPjKXiK1htdyuGt6+VOQ/kgK+09NGctibO6ZULGT5dCdNi4fD7d3y0wXAqA1hKv9
+ Sucaz4tDGof8Wd9a5x9OEYtUCq2OQpw6uJor8ogruV2ecoMeWOvbHK0wJeKKZxMYXZOeSSduj
+ lGbUYYjxAkuSdRArSZSJgyEOZjRjVRTXc0zmQgEdYaC7UrO3QreSTfh5onc/o6Xe55lLHp3OR
+ OlCJvV2uHtyphJGABHMlZwliok04mDBDMAnhD2D0YzXKGUfQHjDotIM1hmXwMZ221DwVCxzbx
+ Zt817jB+p/i09Uv2Rtx1hXn9JUJsarLsFItHghBqq+2pJ5ehERtG4F+9yynucmQnQvYLT4t6K
+ 7X3K7ayZ9xoI+k5v6B8T0zirQ8GBUi3qYQIErnLV3RS3sWAbNp091P4ZGvMf/VZdJwY9Y8j
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:08
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:12
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -70,55 +71,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Chen Qun <kuhn.chenqun@huawei.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Euler Robot <euler.robot@huawei.com>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 Clang static code analyzer show warning:
-  hw/display/blizzard.c:940:9: warning: Value stored to 'data' is never read
-        data >>= 5;
-        ^        ~
+hw/timer/exynos4210_mct.c:1370:9: warning: Value stored to 'index' is never read
+        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/timer/exynos4210_mct.c:1399:9: warning: Value stored to 'index' is never read
+        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/timer/exynos4210_mct.c:1441:9: warning: Value stored to 'index' is never read
+        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200325025919.21316-3-kuhn.chenqun@huawei.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200325025919.21316-4-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/blizzard.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/timer/exynos4210_mct.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/display/blizzard.c b/hw/display/blizzard.c
-index 359e399c2a0b..105241577de1 100644
---- a/hw/display/blizzard.c
-+++ b/hw/display/blizzard.c
-@@ -19,6 +19,7 @@
-  */
+diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
+index 944120aea59c..570cf7075bc5 100644
+--- a/hw/timer/exynos4210_mct.c
++++ b/hw/timer/exynos4210_mct.c
+@@ -1367,7 +1367,6 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
  
- #include "qemu/osdep.h"
-+#include "qemu/bitops.h"
- #include "ui/console.h"
- #include "hw/display/blizzard.h"
- #include "ui/pixel_ops.h"
-@@ -932,12 +933,9 @@ static void blizzard_draw_line16_32(uint32_t *dest,
-     const uint16_t *end = (const void *) src + width;
-     while (src < end) {
-         data = *src ++;
--        b = (data & 0x1f) << 3;
--        data >>= 5;
--        g = (data & 0x3f) << 2;
--        data >>= 6;
--        r = (data & 0x1f) << 3;
--        data >>= 5;
-+        b = extract16(data, 0, 5) << 3;
-+        g = extract16(data, 5, 6) << 2;
-+        r = extract16(data, 11, 5) << 3;
-         *dest++ = rgb_to_pixel32(r, g, b);
-     }
- }
+     case L0_TCNTB: case L1_TCNTB:
+         lt_i = GET_L_TIMER_IDX(offset);
+-        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+ 
+         /*
+          * TCNTB is updated to internal register only after CNT expired.
+@@ -1396,7 +1395,6 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
+ 
+     case L0_ICNTB: case L1_ICNTB:
+         lt_i = GET_L_TIMER_IDX(offset);
+-        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+ 
+         s->l_timer[lt_i].reg.wstat |= L_WSTAT_ICNTB_WRITE;
+         s->l_timer[lt_i].reg.cnt[L_REG_CNT_ICNTB] = value &
+@@ -1438,8 +1436,6 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
+ 
+     case L0_FRCNTB: case L1_FRCNTB:
+         lt_i = GET_L_TIMER_IDX(offset);
+-        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+-
+         DPRINTF("local timer[%d] FRCNTB write %llx\n", lt_i, value);
+ 
+         s->l_timer[lt_i].reg.wstat |= L_WSTAT_FRCCNTB_WRITE;
 -- 
 2.26.2
 
