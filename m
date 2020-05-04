@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33251C3912
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:15:17 +0200 (CEST)
-Received: from localhost ([::1]:52480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7741C38CD
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:02:37 +0200 (CEST)
+Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVa0C-00008A-Nm
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:15:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52070)
+	id 1jVZnw-0007qd-Az
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjt-0003BS-Vg; Mon, 04 May 2020 07:58:26 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:53973)
+ id 1jVZjq-00030D-3B; Mon, 04 May 2020 07:58:22 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:33173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjq-0002Ia-L3; Mon, 04 May 2020 07:58:25 -0400
+ id 1jVZjo-0002Cl-RB; Mon, 04 May 2020 07:58:21 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MsZif-1jHDHZ2zWd-00ty41; Mon, 04 May 2020 13:58:14 +0200
+ id 1MCJvA-1jNMH71Nv0-009S6y; Mon, 04 May 2020 13:58:15 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/20] block: Avoid dead assignment
-Date: Mon,  4 May 2020 13:57:50 +0200
-Message-Id: <20200504115758.283914-13-laurent@vivier.eu>
+Subject: [PULL 13/20] blockdev: Remove dead assignment
+Date: Mon,  4 May 2020 13:57:51 +0200
+Message-Id: <20200504115758.283914-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:03Ne1koK0HaDqr7XUYO5Az/zXyQGSOVXkNfUdTSsTFAQaOqrJ/C
- 0CQUOCkrCLo+5MUw1MsCdEGaPwJmxgVO1i4LZy9hgBkMSnNzCTC6XHEFhI6N3L22Xd7Z3Uc
- eavPtNqExSvODzxEqrcynmQyOtrQIZbl7jY3QFCxR8NWsaWVGyLYuHX3KkbDVyLPJ433jIk
- Us/qW/oi/4QQyyStn8zlw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OSJn6/64oNE=:7gJq+oN4AFSNitIRtBwkJm
- oFMAsPOA/DRbPjrdgqWVWw2cuc1T82ViK6wa+ZvYFgCWgn9DhHpD0IJ9WaWAyxiFI8wqEFJsM
- wjFccASv9E4KP/yHUpedREy2oKkHzQP5+YRV7nc1ErA0b81UOA2zRISyNwUNn1GFGhrGtZzEp
- Ob8EDptQSdLl1wlWyfq0AY/uC91lingK+4r/0xm2oIRCnhFvxOZyAYFlLQdVu1bq1INRzboWd
- pNySifc7V4Xsilc8pBJPbkaZ5jK5C5/rUDuABZODGsGfNbiEjbqMurMxT4C+ZLI5zKfY/4F2O
- +bScd0TZnHl/8q67SzNnHJYrDasqyW2XTzUbPtuEiub2JQVDObCgEjamc26leRC6tHnL6EYva
- pXRC6AMKs2Dxeb/Fg/EggvdvDDlpaukSdX+rxRTynYVXc++gcnXQe87zSZ2M5EGxEXrSz4YeK
- VVhIrLwbM+/82hu1akVvivibeJLqZCEUTv2r63ac5MtkymOoXgG0tSCkBhEjTsFKprj8Qdo4M
- wWXv4k4/RS/osJqTE+FTO5gpSr3e6v9a94ZZfcHs10ZensCwQzulWRm4eCrLbFyTs5EtUyTRn
- 0VVwvBW9ptNpVFBBBhENBDyXh6V5jVzp8dGW34+jvyI9KToapdMzUcxyHH+Rqk5rbgjoIe/0u
- F2vY8uc605aW/LwPBbwP/Nec71fKISzbAx7JjscvxbnSaHDqwee8NwIV8zm7fAQfzxD9QSM93
- xgvGWxYyD7uDbd5BnKAtyBiOroQLms9UbdEBJ6QZ/UQwA1OqyIsJvWt8MXe6otuaJs4rGUCu3
- o3/2/yKUDBRtbwLWZ6RRJlHsUQhI/roAjZ8gBgmNmI6SzMExa5SdDzHWMYtjv8QCLfx3Fk5
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:IrQCQUvJnCBMuzwPerB6rAw1jQmYN+bT1Cvx+93KqSD86XtX9sQ
+ O5tJv1kjfJE1EIvQLnqXJR4MeUnxKk7fuFM8qhXnZJ9I43ZqkMf70Wh2GI4ECjxtJxpI49H
+ VBCfemjnhy0G9v1VPjRA3b+yClFsawGAizCZXY10edquG5mJB0uYHxrWUuipNDPz3gdCJ1n
+ z3F9cUQh3S2RtXsMRAvGQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Y2mFQFLM/B0=:lwMeXtxT+sVjvIhZR3sI3D
+ 7dy3wEAM/yRCtRw3vAjQZldLC4OQ4Og4qiR7201APxQoPyfd50e5qPD3iyp81E9OxpRG2cdpx
+ I1fAGYBRQWU1aieUdWJBLrBeE6wEMe8D/CHJWPhhxEHWyA2ijyqrin20ZazdHbgH8youlignk
+ xP+G/s/3D82tE9EsNWH15oIgmHmYiivIISYzvNDe0cEWIs9SFhWrqKJAj5KYDA2CxXgaPHdoF
+ oHUFQYNQdUw56M5XSSkrb+h24qXZb7j3gYp9OIkcBQJ7N+U3Ky5TnNZ9fr3nYKw8IOoH9Wjs0
+ eVD+EQm6UdFsP6U7mY8DYHpp40JgOpb+a+sqxbGtk3XMXMRX0sjSGIbdnvhLtOd8zme8h8nuk
+ +ybK0sNdOvpXYvGTvP128vL8t2CXNLoMLFwzJnOaFTBLVG6Ry77MZjXlzbfpOAhkbvoOJu406
+ SAp7hMyTk4YwV9cxKXPCQxmYsEhm6nO9Czxith1U7vE2uXXrse4X8K3mmGxwPcN4B9kFpRGaq
+ OLSlFM4tQWP8pjX+nEc5DKOPeK7VTKJZLJ0K5jgcIqf/fryVIoNlg3U7AOg3Yk8YrBgSYg7oB
+ wBmL4+Bc3NvKFgHu1G0LhGr3xfZM0iesCG0rRyQseussc3GDIF/MrKC0QmXGd1Sr+TMdsvqob
+ 1dCoHCwmDZzi+rNwjD4ovhhUVSWEKCsuNlpe9npLWBKkOpVzyEn96E8qUN0alxjuOpBi9KtTA
+ oXmx2oCCkaym/dQNgocSTTr4jbCyLrOpF4teIUX8uUybUsdfPlEPsA5zCNUxBuSgMXFwffKxZ
+ O3S9BUWG/G+Kc8zStUgj3rIzGcuanmb18jbbGbAbu7mcPbVX0erLCedxreDSM+gVBLJPMEc
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 06:04:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:12
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,10 +70,10 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Markus Armbruster <armbru@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,35 +81,34 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Fix warning reported by Clang static code analyzer:
 
-  block.c:3167:5: warning: Value stored to 'ret' is never read
-      ret = bdrv_fill_options(&options, filename, &flags, &local_err);
-      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CC      blockdev.o
+  blockdev.c:2744:5: warning: Value stored to 'ret' is never read
+      ret = blk_truncate(blk, size, false, PREALLOC_MODE_OFF, errp);
+      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Fixes: 462f5bcf6
 Reported-by: Clang Static Analyzer
-Suggested-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200422133152.16770-2-philmd@redhat.com>
+Message-Id: <20200422133152.16770-3-philmd@redhat.com>
+[lv: fix conflict because of "Add flags to blk_truncate()"]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- block.c | 2 +-
+ blockdev.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block.c b/block.c
-index 301ec588bda2..cf5c19b1db49 100644
---- a/block.c
-+++ b/block.c
-@@ -3165,7 +3165,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+diff --git a/blockdev.c b/blockdev.c
+index dc1a0c7c2fd4..708d0c323fd2 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2741,7 +2741,7 @@ void qmp_block_resize(bool has_device, const char *device,
      }
  
-     ret = bdrv_fill_options(&options, filename, &flags, &local_err);
--    if (local_err) {
-+    if (ret < 0) {
-         goto fail;
-     }
+     bdrv_drained_begin(bs);
+-    ret = blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
++    blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
+     bdrv_drained_end(bs);
  
+ out:
 -- 
 2.26.2
 
