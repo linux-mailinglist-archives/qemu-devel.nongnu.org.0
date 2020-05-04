@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125031C38D9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:05:59 +0200 (CEST)
-Received: from localhost ([::1]:49906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3ED71C38E3
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:08:02 +0200 (CEST)
+Received: from localhost ([::1]:58374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZrC-0003YO-29
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51970)
+	id 1jVZtB-00079Z-G7
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjd-0002lb-LQ; Mon, 04 May 2020 07:58:09 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:56681)
+ id 1jVZjp-0002y5-BK; Mon, 04 May 2020 07:58:21 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:60137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjY-0001mN-Sg; Mon, 04 May 2020 07:58:09 -0400
+ id 1jVZjl-0001x0-Bu; Mon, 04 May 2020 07:58:20 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MbBQU-1iyix72864-00bc8I; Mon, 04 May 2020 13:58:01 +0200
+ id 1MKbwg-1jqYUg2RnI-00KuhC; Mon, 04 May 2020 13:58:02 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/20] Trivial branch for 5.1 patches
-Date: Mon,  4 May 2020 13:57:38 +0200
-Message-Id: <20200504115758.283914-1-laurent@vivier.eu>
+Subject: [PULL 01/20] scsi/esp-pci: add g_assert() for fix clang analyzer
+ warning in esp_pci_io_write()
+Date: Mon,  4 May 2020 13:57:39 +0200
+Message-Id: <20200504115758.283914-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
+References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tBJwOv8bE2eBF0fY88vmkqDjUtbtgnP3SpYz/dhSbso72ASJPkG
- ndE3/gGPxGCWHPUy1gsXcbd9CPcDVnLdfQc34oi/ROVkkcrXmBrC+OVxGwX/9OF/xXVBZmp
- swNSSYWag5NrXw7gxT/IXUFX/Ll6ZMgIx/zT0Ry9qOq/1Up4r4hnn9bACnHlUr8zfoqGdZX
- 37gro6HqzmOn9+z/q7ztg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:98VtgozjV6w=:hQeQlZYBUIJK1UMxNxwKyA
- Ykbh1rsPZ40BpSfIRGaF9iINdTlA2oC5fp9ssbv0ck1tuYH9brjqpRMdQLnwUzbRIvjiW4PEU
- CXmJL5FwdIQC1Yc0miRu+7aNsm2aVc77CUDagybL+yRRk7wNu5f795yoQxR9/wsXkHwCru/Jt
- jP+GtrgR9dBxUp0Euq1Yx7/wBZh32edipXooqXHaDK9EtzjcgZmPggbkxlYHp5J116QcLY6wV
- hwRPr8Ifln2mYpcQFzEptgtFS7+KeXe8JWXI/0Fao42kFZKQlKmRG61vxF6pUBCxLWBl3Pcef
- g5YcBnVNcVRoCAG3bBeG/wH3WsfdJ/EKG+x/16UbKzeQ6CVnYX2lEdkI77+Z7ASDF4qX5iRue
- ih7kceKyQ8LTq4WX46Ib6z3K9VdnJwp8qzty9NpfSM8ajUszHhQZ9ePl8pmmAvxtMryc8AkXJ
- 3LaFgdLUmyW9QPk4ut7Fj2XfQPiW9+Zmh3deLfDtaYkugXVXtr1ddyyxhFkAymQzh/6AIJ7qX
- Jz8Uyo0yZrpW7HxFSmQ7tAdWLqKgiYArRI0eXhhk3o440lzxJ6dBeo11ChUipvNF2xPaDOzdn
- TKzM5ElW64dQWpcQ1L8QSzhD8fEH0xc0E4/qnxlt/Oi8ypfY7coK8F59rZzKclfAqnl/sJIxf
- U3a9Nsn87/ntps/wJhT7NbggLfFRczkSG80szZRxLDPLjqTd848d69JPXqsavVcLWWcYr8Mmk
- kMJs+QR6ibR4QmRqM8RRpBl+nXp+59HhpQoM4VhavB3Mk4VCKmrlFv13A0cminpYW05uue1Ag
- OvJ10aNGmb3JjKDlA+uN87Jgkbi4Cs4wnvzOIlcSx9ZaGGiS7KHKhI18lva3loP9bOF7bpW
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:IAjXWeOvZowTWwwghDSTfo/cqLp7D2O1nyg8K9rIrOLAVnCLpvo
+ j2Sku7G5E6RbBln9ywr7h8BqE2eB/ynmo/HQwFOJ3gwyMFD2o2B28T38QjpeB4HRf3wFPoY
+ v2WZD366mLi+ymb8gvRFXjYwcKl5qNbD4Z1YZyfL2nue4EOEvRbd9YLRfjFGmPpgXBUmK11
+ k9IVzjxMfaQ3O0JN5iv4A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3MG0TqZ99jE=:f1bJ+HcIvfmH8ujY6XD+eD
+ D4aNqis9rNUNUt4Oy2X9JVMFSpUPlcj3gvymKH5EEL2HNRnRfONQioOpyXJSJ6u1jWDQkjzK0
+ oVTBKH3qjGtG7oF2/zn4xHanCvVrIkdQ5WEVUJYgekSOT6UsStF2YCfNm6eBWra/WtdqPVvV0
+ 57xlwPidxLeo1iL3h0XcYvXo7igQrI22vxAOTFBx22pmrtIsB0nhrYYK8Y64HHGozd52DucV7
+ xrfNvfeRUnI8W2Ednbd+MkydvNguMUfxb8m+Tp68ocKWmWlBU56YzLlzzhVT8Q4R6QXLILhV3
+ WpjW/+e8qinypO3UosYMGQmJO3mCOL+F6NS4CiUTPK1E9J7fcJQj6xpKFMp5Rm1Xyj8DmTfGK
+ K6M7GA4Yi0HoH1G5hTdvraOZ7OKXZxZyRUmz0uZBBW+9jkRaMADXL4u31MbPBcjexfs/v6oK4
+ ekTymBhzD5iRNugFNFWqi50HqjN3f/VAXxRGGrQpwYi9qRb7dp9TpLVAUlgexT7RhrbhAJgZo
+ t8/QlauZ5c/xZphvj8r1A4DikD/K5WrbIz4zzz9t+4pG5h2PPS1T9b5uRkEndEHCilpMeSzqB
+ 3JxMKwcDPv4Q2E0OZyCu33LGCZ7qWo0ngPB/L7BoOLkXJQvj0PMSKAbNnfGXZhcASYmCdxJ7f
+ GxjJQO7EzFelGAN5GPsz+3rI2YwrxmCT7m7PQkWRwCTD9s1AnyavMopZUs4URh3LCEwVKuSUJ
+ yJ1Zc/m512g4u+NTfTO3rOL3bMPvyCi6TYlmNT64dfrzwOSlDUq93HkYYPqVGfAM1YdgdYB5/
+ dznbKFzK1ic7RVn7ZAuzLPiKubQJYERG0UIvrQjL30MGwk5pvirFbEQcApupwq5cATzi1Rc
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:02
@@ -67,106 +69,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, Chen Qun <kuhn.chenqun@huawei.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2ef486e76d64436be90f7359a3071fb2a56ce835=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/marcel/tags/rdma-pull-request' into=
- s=3D=0D
-taging (2020-05-03 14:12:56 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-request=
-=0D
-=0D
-for you to fetch changes up to 4341a0106781043a708c061b676312e5bb5d4488:=0D
-=0D
-  hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warning (2=
-02=3D=0D
-0-05-04 12:06:21 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-trivial patches (20200504)=0D
-=0D
-Silent static analyzer warning=0D
-Remove dead assignments=0D
-Support -chardev serial on macOS=0D
-Update MAINTAINERS=0D
-Some cosmetic changes=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Chen Qun (4):=0D
-  scsi/esp-pci: add g_assert() for fix clang analyzer warning in=0D
-    esp_pci_io_write()=0D
-  display/blizzard: use extract16() for fix clang analyzer warning in=0D
-    blizzard_draw_line16_32()=0D
-  timer/exynos4210_mct: Remove redundant statement in=0D
-    exynos4210_mct_write()=0D
-  crypto: Redundant type conversion for AES_KEY pointer=0D
-=0D
-Mikhail Gusarov (1):=0D
-  chardev: Add macOS to list of OSes that support -chardev serial=0D
-=0D
-Peter Maydell (1):=0D
-  elf_ops: Don't try to g_mapped_file_unref(NULL)=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (11):=0D
-  MAINTAINERS: Mark the LatticeMico32 target as orphan=0D
-  MAINTAINERS: Update Keith Busch's email address=0D
-  block: Avoid dead assignment=0D
-  blockdev: Remove dead assignment=0D
-  hw/i2c/pm_smbus: Remove dead assignment=0D
-  hw/input/adb-kbd: Remove dead assignment=0D
-  hw/ide/sii3112: Remove dead assignment=0D
-  hw/isa/i82378: Remove dead assignment=0D
-  hw/gpio/aspeed_gpio: Remove dead assignment=0D
-  hw/timer/stm32f2xx_timer: Remove dead assignment=0D
-  hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warning=0D
-=0D
-Simran Singhal (1):=0D
-  Compress lines for immediate return=0D
-=0D
-Wainer dos Santos Moschetta (2):=0D
-  hw/mem/pc-dimm: Print slot number on error at pc_dimm_pre_plug()=0D
-  hw/mem/pc-dimm: Fix line over 80 characters warning=0D
-=0D
- MAINTAINERS                | 14 +++++++-------=0D
- block.c                    |  2 +-=0D
- block/file-posix.c         |  3 +--=0D
- block/nfs.c                |  3 +--=0D
- block/nvme.c               |  4 +---=0D
- block/vhdx.c               |  3 +--=0D
- blockdev.c                 |  2 +-=0D
- chardev/char-serial.c      |  2 +-=0D
- crypto/cipher-builtin.c    |  6 ++----=0D
- hw/audio/ac97.c            |  4 +---=0D
- hw/audio/adlib.c           |  5 +----=0D
- hw/display/blizzard.c      | 10 ++++------=0D
- hw/display/cirrus_vga.c    |  4 +---=0D
- hw/gpio/aspeed_gpio.c      |  2 +-=0D
- hw/i2c/pm_smbus.c          |  1 -=0D
- hw/ide/sii3112.c           |  5 +++--=0D
- hw/input/adb-kbd.c         |  6 +-----=0D
- hw/isa/i82378.c            |  8 ++++----=0D
- hw/mem/pc-dimm.c           |  7 ++++---=0D
- hw/scsi/esp-pci.c          |  1 +=0D
- hw/timer/exynos4210_mct.c  |  4 ----=0D
- hw/timer/pxa2xx_timer.c    |  1 +=0D
- hw/timer/stm32f2xx_timer.c |  1 -=0D
- include/hw/elf_ops.h       |  4 +++-=0D
- include/qemu/osdep.h       |  2 +-=0D
- migration/ram.c            |  4 +---=0D
- ui/gtk.c                   |  3 +--=0D
- util/qemu-sockets.c        |  5 +----=0D
- 28 files changed, 45 insertions(+), 71 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Chen Qun <kuhn.chenqun@huawei.com>
+
+Clang static code analyzer show warning:
+  hw/scsi/esp-pci.c:198:9: warning: Value stored to 'size' is never read
+        size = 4;
+        ^      ~
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200325025919.21316-2-kuhn.chenqun@huawei.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/scsi/esp-pci.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
+index d5a1f9e01748..497a8d590190 100644
+--- a/hw/scsi/esp-pci.c
++++ b/hw/scsi/esp-pci.c
+@@ -197,6 +197,7 @@ static void esp_pci_io_write(void *opaque, hwaddr addr,
+         addr &= ~3;
+         size = 4;
+     }
++    g_assert(size >= 4);
+ 
+     if (addr < 0x40) {
+         /* SCSI core reg */
+-- 
+2.26.2
+
 
