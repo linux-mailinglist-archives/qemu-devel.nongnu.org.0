@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1811C398B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:40:34 +0200 (CEST)
-Received: from localhost ([::1]:33472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 201F51C399C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:42:20 +0200 (CEST)
+Received: from localhost ([::1]:41856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaOf-0003zI-8G
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:40:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56550)
+	id 1jVaQN-0008Er-1n
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:42:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaI1-0000eM-1p
+ id 1jVaI1-0000gW-QS
  for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:41 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41095)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHz-00017q-Nz
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:40 -0400
-Received: by mail-wr1-x433.google.com with SMTP id g13so20679228wrb.8
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:39 -0700 (PDT)
+ id 1jVaI0-000189-Ra
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:41 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id x17so20700895wrt.5
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=r8WeYE67ChhiW5m6qJC3n2A7tJXvKOPChfTDBZgi+DQ=;
- b=LxziooeyW85YyUsmeNuNNaT5iy7PO2a6yQLQUNyfwvYSwEyJPc97n4kb+FPF0YJ0Ib
- CgNXhF7+WV/LY4/jN4P0R5uQf+Du1WVDSNovqXWN3nCC8Hkdutz+Vwxx2NABhow74GBt
- u3W4szqbwU0sau+aoYwly7/h2KgJLJWWZ3LN3rbufUDOiAJ9xf7BDiSGRcUfpR49l55I
- tR6P7rokAP/HYNMqA4hzL4s7vSfNzd+hxpyA9iw9lbDiDCuL5MeFlSTAnamNOCRAdear
- tEzYWDDHv8CqInrxURxi6VJqopYgOkMMZ37wbzMYXzaA3VsAcNoHxxJNW/ySX7AyYo/b
- FoNg==
+ bh=SQF8sbnZa9j7ur7kcOkwe5x6BFFSO3tvg6vbMZe5jYc=;
+ b=YTuJsAHVB2RhZWLpaheHetu4cai4cbgfiRxllfihAmDU0znorkgkVjOVOCLQKegVhl
+ TMZVFU/Bp9EdGc2hwLsG+0UUixeCwSXIeBA+fuPXnD4zC3+IPMAgd9uc/Ie9FV4p7G5+
+ XhEr1tQEaGMlBJKVjfX9KkGMzt2Pou9zO8PNwchyGkt/j4T0Mwf/tWzqCYNA+P78BhoL
+ a5rFjR13xHGXC27Sefwdjwq9iAbKWAtPVGTEJEBvj6uJXe2k8a3K7fNP+tTgPSM+v9XB
+ iJjbwyhVIbb9AE36MfEOEtB/nt9w+CgzMo1sH16sRvzz3991i/EqMGr7xNqEPKL8WZFH
+ azxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r8WeYE67ChhiW5m6qJC3n2A7tJXvKOPChfTDBZgi+DQ=;
- b=UK4og4BrIFc5ToDI5gJd64QUzvscWdsRKAwPiqyvih0CWw8kKWlXEiP89MWokY3qB6
- UUhybv6yofA9nROEyU7S8Z7KZoTbv0UAC4ZC+VydSfvJgpK/rmZ0jzdCH2AX1FDuGbGw
- 41g521b4lhZMHfUyHDYFaPU6OTpOCI6cBWwhUtq38bwsM82KDWcS83/dpZr8HaqYnpah
- v7f1b2mtINJ8yA+KvL/tESRrkuOCOx1vP1jA7sn4S6Ly32TxX4nWQrlNX+vVJc3V2FUc
- HBbf0O6hsziWgyfHmHngCXXovmvjBF/Mmh+pj6oOYxwjhzq6D/F5vBrDFjYSYxi+a7sZ
- IY2Q==
-X-Gm-Message-State: AGi0PuYZxh/JFLv1xQJFAmv1Ud5+/1TUEEFWLsz7LhFYWs/l7wiAn8lY
- zTf2dtgLnEScXmsgBTuOg4q1Zh2X93wRZw==
-X-Google-Smtp-Source: APiQypKmsZ5cX3jOxG1fBs0BScpoWOYv/3sjifNtjlkXECcxXzEyMZI6ErZsCvcXsVSiMuiKEkzafA==
-X-Received: by 2002:adf:ab18:: with SMTP id q24mr18585180wrc.214.1588595618087; 
- Mon, 04 May 2020 05:33:38 -0700 (PDT)
+ bh=SQF8sbnZa9j7ur7kcOkwe5x6BFFSO3tvg6vbMZe5jYc=;
+ b=JR6bs5dFQ3yWfxgzTVa6+NYHjh4OylIiviHS2Pw4xwSZc3DYtw52TXCkS/lirWU86+
+ mEDlOqzushhh3EGUFUSl/L1msar0RBIZqoTttNGJIdwwIB406FLp4T1vMp1kkmAxk+Br
+ kNb5QWYh0rYAjeuE39y1VmHASBBWAgHIF1TUd97wtCJOvcezU3veu3XWgYEUw/RoKo5/
+ +yVHQ2WrOfonPu/axjsDGubuRqtgONfO7tSZnteKtWoc3mhe3i1lzBmrlMD2+Tm9dAz6
+ DhH5NiQ4ZjGyodHym/BDWsuvlvhB3rp47LekNAFV1Z6ikAI3H4ZNgvyKyec7Wzux4G+p
+ sC5A==
+X-Gm-Message-State: AGi0PuYbLy4M1ih9zzhNMgmQL3hlHBftjtjw3hD2jqrsAjU//XjPvlzU
+ MmLoW7G5GViR33uFMhLx1P+6NKdvDPZzwA==
+X-Google-Smtp-Source: APiQypIQRDeJWwY5mDySASO8vNkX6plmdEhruklKsY16CTGcEV3RdkT9yllj9HzFry1ULrFd2qGzBA==
+X-Received: by 2002:a05:6000:110a:: with SMTP id
+ z10mr18812580wrw.389.1588595619082; 
+ Mon, 04 May 2020 05:33:39 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.37
+ by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 05:33:37 -0700 (PDT)
+ Mon, 04 May 2020 05:33:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/39] target/arm: Convert VCADD (vector) to decodetree
-Date: Mon,  4 May 2020 13:32:54 +0100
-Message-Id: <20200504123309.3808-25-peter.maydell@linaro.org>
+Subject: [PULL 25/39] target/arm: Convert V[US]DOT (vector) to decodetree
+Date: Mon,  4 May 2020 13:32:55 +0100
+Message-Id: <20200504123309.3808-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200504123309.3808-1-peter.maydell@linaro.org>
 References: <20200504123309.3808-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,45 +89,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the VCADD (vector) insns to decodetree.
+Convert the V[US]DOT (vector) insns to decodetree.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200430181003.21682-6-peter.maydell@linaro.org
+Message-id: 20200430181003.21682-7-peter.maydell@linaro.org
 ---
- target/arm/neon-shared.decode   |  3 +++
- target/arm/translate-neon.inc.c | 37 +++++++++++++++++++++++++++++++++
- target/arm/translate.c          | 11 +---------
- 3 files changed, 41 insertions(+), 10 deletions(-)
+ target/arm/neon-shared.decode   |  4 ++++
+ target/arm/translate-neon.inc.c | 32 ++++++++++++++++++++++++++++++++
+ target/arm/translate.c          |  9 +--------
+ 3 files changed, 37 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
-index d1d707a56d5..ed65dae1809 100644
+index ed65dae1809..c9c641905d3 100644
 --- a/target/arm/neon-shared.decode
 +++ b/target/arm/neon-shared.decode
-@@ -36,3 +36,6 @@
+@@ -39,3 +39,7 @@ VCMLA          1111 110 rot:2 . 1 size:1 .... .... 1000 . q:1 . 0 .... \
  
- VCMLA          1111 110 rot:2 . 1 size:1 .... .... 1000 . q:1 . 0 .... \
+ VCADD          1111 110 rot:1 1 . 0 size:1 .... .... 1000 . q:1 . 0 .... \
                 vm=%vm_dp vn=%vn_dp vd=%vd_dp
 +
-+VCADD          1111 110 rot:1 1 . 0 size:1 .... .... 1000 . q:1 . 0 .... \
++# VUDOT and VSDOT
++VDOT           1111 110 00 . 10 .... .... 1101 . q:1 . u:1 .... \
 +               vm=%vm_dp vn=%vn_dp vd=%vd_dp
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 0baae1338a3..28011e88d9e 100644
+index 28011e88d9e..6537506c5b6 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -67,3 +67,40 @@ static bool trans_VCMLA(DisasContext *s, arg_VCMLA *a)
+@@ -104,3 +104,35 @@ static bool trans_VCADD(DisasContext *s, arg_VCADD *a)
      tcg_temp_free_ptr(fpst);
      return true;
  }
 +
-+static bool trans_VCADD(DisasContext *s, arg_VCADD *a)
++static bool trans_VDOT(DisasContext *s, arg_VDOT *a)
 +{
 +    int opr_sz;
-+    TCGv_ptr fpst;
-+    gen_helper_gvec_3_ptr *fn_gvec_ptr;
++    gen_helper_gvec_3 *fn_gvec;
 +
-+    if (!dc_isar_feature(aa32_vcma, s)
-+        || (!a->size && !dc_isar_feature(aa32_fp16_arith, s))) {
++    if (!dc_isar_feature(aa32_dp, s)) {
 +        return false;
 +    }
 +
@@ -145,38 +145,33 @@ index 0baae1338a3..28011e88d9e 100644
 +    }
 +
 +    opr_sz = (1 + a->q) * 8;
-+    fpst = get_fpstatus_ptr(1);
-+    fn_gvec_ptr = a->size ? gen_helper_gvec_fcadds : gen_helper_gvec_fcaddh;
-+    tcg_gen_gvec_3_ptr(vfp_reg_offset(1, a->vd),
++    fn_gvec = a->u ? gen_helper_gvec_udot_b : gen_helper_gvec_sdot_b;
++    tcg_gen_gvec_3_ool(vfp_reg_offset(1, a->vd),
 +                       vfp_reg_offset(1, a->vn),
 +                       vfp_reg_offset(1, a->vm),
-+                       fpst, opr_sz, opr_sz, a->rot,
-+                       fn_gvec_ptr);
-+    tcg_temp_free_ptr(fpst);
++                       opr_sz, opr_sz, 0, fn_gvec);
 +    return true;
 +}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index ae6799c6ae0..993bead82ff 100644
+index 993bead82ff..7d3aea8c98a 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -7048,16 +7048,7 @@ static int disas_neon_insn_3same_ext(DisasContext *s, uint32_t insn)
+@@ -7048,14 +7048,7 @@ static int disas_neon_insn_3same_ext(DisasContext *s, uint32_t insn)
      bool is_long = false, q = extract32(insn, 6, 1);
      bool ptr_is_env = false;
  
--    if ((insn & 0xfea00f10) == 0xfc800800) {
--        /* VCADD -- 1111 110R 1.0S .... .... 1000 ...0 .... */
--        int size = extract32(insn, 20, 1);
--        data = extract32(insn, 24, 1); /* rot */
--        if (!dc_isar_feature(aa32_vcma, s)
--            || (!size && !dc_isar_feature(aa32_fp16_arith, s))) {
+-    if ((insn & 0xfeb00f00) == 0xfc200d00) {
+-        /* V[US]DOT -- 1111 1100 0.10 .... .... 1101 .Q.U .... */
+-        bool u = extract32(insn, 4, 1);
+-        if (!dc_isar_feature(aa32_dp, s)) {
 -            return 1;
 -        }
--        fn_gvec_ptr = size ? gen_helper_gvec_fcadds : gen_helper_gvec_fcaddh;
--    } else if ((insn & 0xfeb00f00) == 0xfc200d00) {
-+    if ((insn & 0xfeb00f00) == 0xfc200d00) {
-         /* V[US]DOT -- 1111 1100 0.10 .... .... 1101 .Q.U .... */
-         bool u = extract32(insn, 4, 1);
-         if (!dc_isar_feature(aa32_dp, s)) {
+-        fn_gvec = u ? gen_helper_gvec_udot_b : gen_helper_gvec_sdot_b;
+-    } else if ((insn & 0xff300f10) == 0xfc200810) {
++    if ((insn & 0xff300f10) == 0xfc200810) {
+         /* VFM[AS]L -- 1111 1100 S.10 .... .... 1000 .Q.1 .... */
+         int is_s = extract32(insn, 23, 1);
+         if (!dc_isar_feature(aa32_fhm, s)) {
 -- 
 2.20.1
 
