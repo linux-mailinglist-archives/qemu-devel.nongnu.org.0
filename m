@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D85C1C38F8
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:12:37 +0200 (CEST)
-Received: from localhost ([::1]:45028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4641C38DA
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:06:02 +0200 (CEST)
+Received: from localhost ([::1]:50218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZxc-0005CA-Hq
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52066)
+	id 1jVZrF-0003g8-1b
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjt-0003AL-Hx; Mon, 04 May 2020 07:58:25 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:44793)
+ id 1jVZjv-0003Fm-FQ; Mon, 04 May 2020 07:58:27 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:33607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjs-0002JF-0h; Mon, 04 May 2020 07:58:25 -0400
+ id 1jVZju-0002Kn-IN; Mon, 04 May 2020 07:58:27 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MXpM2-1jdPLr2KgG-00YAEA; Mon, 04 May 2020 13:58:19 +0200
+ id 1N0WLC-1jAu9Q0ko0-00wSMw; Mon, 04 May 2020 13:58:20 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/20] hw/gpio/aspeed_gpio: Remove dead assignment
-Date: Mon,  4 May 2020 13:57:56 +0200
-Message-Id: <20200504115758.283914-19-laurent@vivier.eu>
+Subject: [PULL 19/20] hw/timer/stm32f2xx_timer: Remove dead assignment
+Date: Mon,  4 May 2020 13:57:57 +0200
+Message-Id: <20200504115758.283914-20-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Epmdrbj84mM4+CNaeDulwlmvqtjjjQC/X1eHvYAmsWRk8j3Fn2h
- QijUH4N79c1Jg6lWt19bDhVMvk/Fj3FTs9poJ1QXh3aMQ5r0b8lJIHp3QSTozpdbUciXm25
- VVPTRMxVD1zVS5dEB+qkxiSoTk1022LNoMuTcce8wtvCp2lK6lglv/R0gGm/hwnzHlhWFh3
- CtfAXsijfUc58kuHBdKAA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jrJy+udALk0=:xw/Jpa4PCL6qHBVS5+PejC
- ndl36lGw0tPEOdos0jaqJC5FVvwaZXiPbauA+5GOOdTK4DP2DPF4aCcuLhP+SrEiJsQorTTru
- BPCODmZharzbKU/M39ybMnqXQYKDHdOpUNUGhSVV6YROR2pd/Br96I7i3mmCapAfZfVjiaqdQ
- JRqLLUKZhXdyxVnfebn5TiowuUqNmLs45YZJbUt1b6v/JTnsqhhR0dJWx8VGkfpvBeUch8CiL
- w7Ngjt4qKnqN+qIpxhqdftoMSwjOhNf5NaPKoGFSinHY4HcT7yJpH5QuCDMZW1q8VcYhHmzbq
- IIwwMYI081LcnoQUa01yJJusRXpKLnz1H0ng5Azof/+VFXDVckc7zq5G8nC/FaYJRWjjMAAS6
- UN+GLv/k8Oc+rhgH/nk4FxR1SobQXkfhxTTfHKHaChYpW2tCL4OtXnwi4dnzS6oBvOVRUmfp7
- EnYietJzuUPxV/MAyx18YE5DQ/FfNdmvpl8rCZl5ZlOKKe/v92xAzW+F8m+bQ8MXIY4pFV1b/
- t4ooIu4UNCJRq9O/bYS3tC/PbffaJnZELZ1/HsGIPS4Uj/OLl1Bf8reX3O6RS7UUtxjjD5bni
- MBo2Zc8EqACo7VESU3mnfNMUHedisofGZ4JlKjQAgQyAn5zU1VlWGBY2W8JRradDZWde2rnIY
- Ly/qsgQBJpnd/+wn7xHh6gtXgziCmuDlUtcBUocEbZ9ZXFqqYCjJWFfLl5ZY9L/D/Yt5P0pcH
- EjavFRteaS5LJNW/anMoSIvBJMXm2vaLa4MIWAZaP3CV2BtyexkpmWqUZsfiNihemWN5RF089
- n9EzzrTncQwheMoOLr2sDrQnxsDPgWFXev6IolOoSwbTdU+WOa5rewlYNjiNzhkVAPigFR+
+X-Provags-ID: V03:K1:B0v5PS5FzGkJUIZ/DZYt5bnNSFZBdjwZmywtjpJSSg6ugyLkh7H
+ ClGgtdLmYVBhtTW4LcjJr9kXc6bFnCw0S8lx+1qRKd5RlTet7TNzXwXccEWcpm8W0emO5uD
+ f4bYUU3NSQTtmjuLhdVp40W9WutMrbt75D5GvtjJJF4uVUO/pbz/vVQv+QhJ6bcDt0UeTwx
+ ht43JsoamDUTPs+upNTqw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Fk4BJp7nlOQ=:ctjjVVGutJ2OQZh20l2cYq
+ zlRqLqw89D6DS6+DTuEZqiEPaXCLyGi3ZGIXGyBTA9Ww7ap8BZEK8gzZZ9VwmBtZmDSl3YMTa
+ TPb9ggsgFNN35hGMhA5/lYQyzWquZA3CSB7R8v0nmkgKckxoF9vgaB82PEUCH14C1sW/Esvmp
+ 2amY/nJtzegRQNfwIloG6dk+laPTLnsaQFRJdNANh6W4ZRFIfUG5/edflW4XTnbS9dIQhNjxr
+ gCt2ij8LE4/f8963FdaZ4uXHcU2jJaz6t3zDN2sDeIIUI/j3nqsfGXXx0NxIiTTHKiEIBLIMp
+ 2427CI05uKXDBkJCsWITLonHTq/3OsMk7zgfBEduFi1IxrEABvzgrsswoy8inRWTyh/0lgkoV
+ m7LNtke75tMcE4u0MIZw/LXFF2RQ9RjI7MGrEYHIDHae3rluTz8L7X1ve0hZeEjIiBGx4Vp0F
+ Ao23xriicMcmil8ysV3l/QINBYVbzGh1TP6u0B8doC7EMwt93GmNVps8cDJeBqtsZ7SoQcrT0
+ FfUPtObz1g9a8VgI52q9Jt+0Lov52Th2uN4XqRmuVaJnWWX8H8cbZroMHUBhqkDke0jzK3i2z
+ ll6CWCiL2yuikG7nDJE1yEcldwGkhHUeWHdYMTsdGPPzKH2cYjvcs54LjGHflm9wHLNwcI9uY
+ Ds6sDZKS8UzAZM6hBTnktq9u7jG+dIZ2C7BTZ+VCud9Kp8VeC71qJ2l4/N3hRPRQB38h5TyxM
+ BKb56B0CFIfQ5lA+vvDStcnvbagSsFXWG1seJPwy2ZyOxaeKZUnNZFMxxe0QfdUNCyh9wKB3M
+ H7nMditOoJD2U738LpDq4ifW5Pr92ies7rDxEdL9+2zZuECoeo+WGOYK1rs7EU+yu1k6xv/
 Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:13
@@ -72,8 +72,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+ Alistair Francis <alistair.francis@wdc.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,32 +81,32 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Fix warning reported by Clang static code analyzer:
 
-  hw/gpio/aspeed_gpio.c:717:18: warning: Value stored to 'g_idx' during its initialization is never read
-      int set_idx, g_idx = *group_idx;
-                   ^~~~~   ~~~~~~~~~~
+    CC      hw/timer/stm32f2xx_timer.o
+  hw/timer/stm32f2xx_timer.c:225:9: warning: Value stored to 'value' is never read
+          value = timer_val;
+          ^       ~~~~~~~~~
 
 Reported-by: Clang Static Analyzer
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200422133152.16770-8-philmd@redhat.com>
+Message-Id: <20200422133152.16770-9-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/gpio/aspeed_gpio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/timer/stm32f2xx_timer.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index e52fcfd9a030..4c75b5c80cc9 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -712,7 +712,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
- static int get_set_idx(AspeedGPIOState *s, const char *group, int *group_idx)
- {
-     AspeedGPIOClass *agc = ASPEED_GPIO_GET_CLASS(s);
--    int set_idx, g_idx = *group_idx;
-+    int set_idx, g_idx;
- 
-     for (set_idx = 0; set_idx < agc->nr_gpio_sets; set_idx++) {
-         const GPIOSetProperties *set_props = &agc->props[set_idx];
+diff --git a/hw/timer/stm32f2xx_timer.c b/hw/timer/stm32f2xx_timer.c
+index 06ec8a02c250..ba8694dcd349 100644
+--- a/hw/timer/stm32f2xx_timer.c
++++ b/hw/timer/stm32f2xx_timer.c
+@@ -222,7 +222,6 @@ static void stm32f2xx_timer_write(void *opaque, hwaddr offset,
+     case TIM_PSC:
+         timer_val = stm32f2xx_ns_to_ticks(s, now) - s->tick_offset;
+         s->tim_psc = value & 0xFFFF;
+-        value = timer_val;
+         break;
+     case TIM_CNT:
+         timer_val = value;
 -- 
 2.26.2
 
