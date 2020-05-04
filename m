@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1731C4011
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:38:09 +0200 (CEST)
-Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4F11C3FFE
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:35:07 +0200 (CEST)
+Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVe6a-0005ow-1M
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:38:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46288)
+	id 1jVe3e-0002Q9-Dq
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jVe15-0008Ff-3J
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:32:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41601
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jVe14-0006yx-5P
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:32:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588609944;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yCC7d+g7VmicsAXH9Dqip6nMFStadQJbWjd4bCMPK8o=;
- b=N6zsR4SHh48K+NF/858PKEEzxkpaJ88idKzwWWM+iobaGVVv+OFa9F+9ILSpFwMUJxybdm
- k47oSQVB9VDr6c6z5mKi4ZY90aNmgFYMomx43ATGcLamtpf6PFvbg0znzJMgOyHZc/+9JJ
- ZXkpOIjatXdYWoPpcWb17YXUEs3lD58=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-QErMS-l4NXeMJgY_mmT1Rg-1; Mon, 04 May 2020 12:32:21 -0400
-X-MC-Unique: QErMS-l4NXeMJgY_mmT1Rg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAFE48015CE;
- Mon,  4 May 2020 16:32:17 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-56.ams2.redhat.com [10.36.114.56])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C1C6A5D9DA;
- Mon,  4 May 2020 16:32:16 +0000 (UTC)
-Date: Mon, 4 May 2020 18:32:15 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 0/8] iotests skipping
-Message-ID: <20200504163215.GG6129@linux.fritz.box>
-References: <20200430124713.3067-1-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jVe2C-00018Q-Pw
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:33:39 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:46779)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jVe27-0007TD-O7
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 12:33:32 -0400
+Received: by mail-pf1-x441.google.com with SMTP id 145so5732015pfw.13
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 09:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Qzl7Xz9Nr1ACa3t3aRFh72lgGoWAE9Z+asQafjUbDlY=;
+ b=BVtI+uSI3ojFqJGMxTSnW7H1fTk9UHjxZ9ElggpziacbPy7nuV9g3L6yLtUCrgWYH+
+ VlO7JxiACqkD5T8ZCG3UKINNIlkLb9rboykTYHhRE6cLR2kyRibj0ICo/DWv+jSkd0Dy
+ T65EXsjy1qckjG+5fDJUXDmjqkU/CjBnLz4QHhG32RikfTA9hI0OYgg32mXUytR9DkJd
+ KB4OrE9EhxrV6VrZL1CgHiHzaIh3Nl3B9ujZCWxytdTNQ97LdUlGnZZD+oQz8VjYjBIX
+ kcaGooMA8qYEND2Pk/XC+YrzWzScQAdw+SRFhLqdl1d624yu77QVWuorNUWOtZlFg19P
+ 0NPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Qzl7Xz9Nr1ACa3t3aRFh72lgGoWAE9Z+asQafjUbDlY=;
+ b=knHQieKxyyOJgaq2Q7N/C6GSnKS+y2WFB++5fMGorIeAMetqnGrdhST9A8TxGyjXqC
+ Jcr5gYhiusjevigYGhbB8vewKjDXAL8aM6/I0abA9lpP7qk/zUQ7w1iiwIBHEMS5Twaf
+ wIDWMjxMb8m+OERxuHlvau1/iIGhaFqlTdMES/Sk0TnnNyPLtSXGHJWhr5BagACyeC+n
+ 5VH77JDhVZjZofeEMLGv2+7DsjcpcguP9hNLwshMVTPBzVofRXjB5iYElg/8HFqSlpMX
+ MVuh21EjsvEWlRmRZko4zLyaV5kohVpdO9yrlE6x44CxdIjV9l3WKwroc4tKrepvg/A1
+ U+3Q==
+X-Gm-Message-State: AGi0PuZJ5Miy2bSZ3R2ubHL2RQ/NuPlz4YCfJi/v6qya2tbcvKhwjV5G
+ hHnakoTPp7BjnBOX0RlJRxtFMg==
+X-Google-Smtp-Source: APiQypKiOHvE1i3VJoRLoxZT71FsEvU5kddRXDo8uO/0T0ziUXxcRmeHik653FfC83Na7WH2WtgLAQ==
+X-Received: by 2002:a63:ef04:: with SMTP id u4mr17509122pgh.280.1588610009737; 
+ Mon, 04 May 2020 09:33:29 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id b29sm240462pgn.15.2020.05.04.09.33.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 09:33:29 -0700 (PDT)
+Subject: Re: [PATCH RFC] target/arm: Implement SVE2 fp multiply-add long
+To: Stephen Long <steplong@quicinc.com>, qemu-devel@nongnu.org
+References: <20200504154303.5230-1-steplong@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9120944e-86a0-82b6-5d04-d679518616b7@linaro.org>
+Date: Mon, 4 May 2020 09:33:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200430124713.3067-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+In-Reply-To: <20200504154303.5230-1-steplong@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,24 +88,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
+Cc: qemu-arm@nongnu.org, apazos@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30.04.2020 um 14:47 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Hi all!
->=20
-> This series adds a bit more support for iotests skipping due to format
-> whitelisting. Not pretend to be something complete. It just lay in its
-> folder I don't know how much time, I forgot to send it.
->=20
-> Still, now I've rebased it on master, let's take them, they are useful.
+On 5/4/20 8:43 AM, Stephen Long wrote:
+> +    for (i = 0; i < opr_sz; i += sizeof(float32)) {
+> +        float32 nn = *(float16 *)(vn + H1_2(i + sel1));
+> +        float32 mm = *(float16 *)(vm + H1_2(i + sel1));
 
-I agree. They are certainly not complete by any means, but let's just
-take what we already have.
+For integers we could rely on C types for the extension.
+For floating point, you need to call float16_to_float32 here.
 
-Thanks, applied to the block branch.
 
-Kevin
-
+r~
 
