@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340B61C373E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:54:00 +0200 (CEST)
-Received: from localhost ([::1]:55230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0C81C371D
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:42:49 +0200 (CEST)
+Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVYjX-0006RO-8s
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:53:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42270)
+	id 1jVYYi-0007SK-N5
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jVYT1-000404-U0
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:36:55 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:39366)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jVYXF-0006A9-87
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 06:41:17 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jVYT0-00023o-CI
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:36:55 -0400
-Received: by mail-io1-xd41.google.com with SMTP id w4so11712503ioc.6
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 03:36:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jVYXE-0004xX-8Z
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 06:41:16 -0400
+Received: by mail-wr1-x444.google.com with SMTP id d15so20321363wrx.3
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 03:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z7DhdbVuTWBeX+O4IPd0jTsuX2yd4sCb6clmYEE1/2Y=;
- b=nlgXE82f7j9kP+WX8XVKFvYdi+Bei6QtLD/bGWYqOs5xa2gOK2qYedOb4kwpYNNIWe
- UjDj+GHbPtqITCCjqm8/YBHYjrP1wksZ6GA3Uh9xNyaKVUWMRxC4gfMq1P5ja5YtOKFy
- oP9DpIlltRjra1LN6yaHicfgA5DA0HVDMwnpy8qUGoHTW5gWkVloupdNQWY6aTh5R3YD
- lZwrapJiwQQFv4wsMcY2GNByeymiyohY6ki6OJE/RZahpahMhdZiepk3j1YSb2x8XiQu
- 5vzehZR+PV6Lpwj/uVoxEAM6bDqRyJKUF7GAxWlOGqFCAAM3D6AxRCirX/4gK6/ZatvO
- wMEg==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=NGnT3NUWy8fgy8AhJnTXjj15j5ReSdGSgxmfl07V1HU=;
+ b=MbLdek4hen9MfBxFeiwzgXeF7cvEJBHBS9csHaM3ffiCYmAHiFzX6AbjSJR+ZvTEBp
+ uKTmJzZoN2oNl/zKxjBZnEvdQGfpM8IgBL11h5mfL3gKB10EqSotcerzbl3tsf5ObL5k
+ CYtGMQqGTgObXV/ALWynKrgSgZD8nZdJPF0gO72c6rbKpqMYb4PQq+P43KAXeY2Rsggw
+ bYjvxJsBquLcFaLBlfIBjjkwHHO9MNJHBc8zIeRWd1tFOO1AIualkrelkREna8Guom9J
+ Q+ppKRbWG2X/KpMSKd+bH3WcyJbbKPNp3dQ3/L+OfllMQzFqGwCLruyoBdgiGQ/IEIzf
+ 0kng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z7DhdbVuTWBeX+O4IPd0jTsuX2yd4sCb6clmYEE1/2Y=;
- b=a8hUJuuSp51VbkvPjlvBg6MRZ+wNEAJU0FoEPPpJPy9MsunvTTH6MAnfesS0g+xbL4
- yhD+eh4ZqTkJx94t6IBcgsFMEORENyVExVh6EUpfgis3Z/NNLmJt7FZQb5SjvwwcP18a
- 1Nx0yL/0RL2EEI20Vtc+tNPXfpetokz3GDKQAMtfitbFGd6Y021AXMoNHeofpckPxwYu
- K5hVBtX1+itaFq2i8MW40ugSK7R+CLFz5eSfjJgbh8c4pFBrnjWzTXawQeFIDbbnO/V0
- swc3zHjRvx5T0TthTNAFyLo+LG4Lx/OYvTvyml0BA/GDP2EZs7pZ8BQa29oIXiEG1d29
- nJ9Q==
-X-Gm-Message-State: AGi0PubfBFFpn4jHNEZJmM5LYybZY+Wn2VO6Pj1iABCU4dl9Cd8NdrF6
- bCB9oE+PeIJmxnPqG16kbFtrV7PBGkBzw0wiCdA=
-X-Google-Smtp-Source: APiQypI/2x+ooVsvfmTtWvfpWFQmLFmEX7KN3UuIFQbZR1+rjq/Nb+KNsXHA+PPOQK++HABjNmHkTp/zrsL9NPwFC9s=
-X-Received: by 2002:a5e:d918:: with SMTP id n24mr14699845iop.28.1588588612306; 
- Mon, 04 May 2020 03:36:52 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NGnT3NUWy8fgy8AhJnTXjj15j5ReSdGSgxmfl07V1HU=;
+ b=jlbTOFiKP+BXP0CIuNpgLuy7gXneEZ0l/zdEbLbaGi7E76sns1H4m7c/scSM8HxOoy
+ 2Y3ZDb603A64mXRbudfJF5sm00Dpxj1QSUIkEsCnI7vCOxTP3TXv3Y8/f+GNbLNaXc4o
+ w4LGwWl4ThlhJvCsS6C4Dg3XNFW6rcj9Muj/c1rIDqcDAYa/W8lODoZQpKfGgtm8Wd34
+ Fv4PRHvzWEZmcGidlXi9UEmFeMB+/7xCurrmZyBHkgGocEtaCdQ+H7+v8fSFOavr8pjn
+ lzF9lCLfUEWyDeWV8Pl4oF6OL7y5KqU/6t5F5g2q5lcKpj6jLIs8QIwY9Gn23mP4lP/t
+ jGvA==
+X-Gm-Message-State: AGi0PubjJtvrrliFAS13S4o+Tat3M/ArA06U2pghBJzNKiFfsB92wRB/
+ xuN8JLgxrjXWNX9YqIgpEHg=
+X-Google-Smtp-Source: APiQypJFWLFRiyYOL2cRL4enM0H/nPyBu3Ub3fxpvy0/oOkwwn4RxutJej7KAbecRko81oa6E3g49w==
+X-Received: by 2002:a5d:65ce:: with SMTP id e14mr2392578wrw.314.1588588874527; 
+ Mon, 04 May 2020 03:41:14 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id s12sm12250022wmc.7.2020.05.04.03.41.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 03:41:13 -0700 (PDT)
+Date: Mon, 4 May 2020 11:41:11 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 2/4] device-core: use RCU for list of childs of a bus
+Message-ID: <20200504104111.GB354891@stefanha-x1.localdomain>
+References: <20200416203624.32366-1-mlevitsk@redhat.com>
+ <20200416203624.32366-3-mlevitsk@redhat.com>
 MIME-Version: 1.0
-References: <20200429030409.9406-1-gorbak25@gmail.com>
- <20200429030409.9406-3-gorbak25@gmail.com>
-In-Reply-To: <20200429030409.9406-3-gorbak25@gmail.com>
-From: Paul Durrant <xadimgnik@gmail.com>
-Date: Mon, 4 May 2020 11:36:41 +0100
-Message-ID: <CAAgS=SmOQqJco70uK5Ept=ex5nf6WsB2YO0EAnC7S=3ocnJ=6Q@mail.gmail.com>
-Subject: RE: [PATCH v2 2/2] Improve legacy vbios handling
-To: Grzegorz Uriasz <gorbak25@gmail.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=xadimgnik@gmail.com; helo=mail-io1-xd41.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="p4qYPpj5QlsIQJ0K"
+Content-Disposition: inline
+In-Reply-To: <20200416203624.32366-3-mlevitsk@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -65,8 +72,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,222 +85,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Artur Puzio <artur@puzio.waw.pl>,
- Stefano Stabellini <sstabellini@kernel.org>, jakub@bartmin.ski,
- marmarek@invisiblethingslab.com, Anthony Perard <anthony.perard@citrix.com>,
- Jakub Nowak <j.nowak26@student.uw.edu.pl>,
- Xen-devel <xen-devel@lists.xenproject.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Grzegorz Uriasz <gorbak25@gmail.com>
-> Sent: 29 April 2020 04:04
-> To: qemu-devel@nongnu.org
-> Cc: Grzegorz Uriasz <gorbak25@gmail.com>;
-marmarek@invisiblethingslab.com; artur@puzio.waw.pl;
-> jakub@bartmin.ski; j.nowak26@student.uw.edu.pl; Stefano Stabellini
-<sstabellini@kernel.org>; Anthony
-> Perard <anthony.perard@citrix.com>; Paul Durrant <paul@xen.org>;
-xen-devel@lists.xenproject.org
-> Subject: [PATCH v2 2/2] Improve legacy vbios handling
->
-> The current method of getting the vbios is broken - it just isn't
-working on any device I've tested -
-> the reason
-> for this is explained in the previous patch. The vbios is polymorphic
-and getting a proper unmodified
-> copy is
-> often not possible without reverse engineering the firmware. We don't
-need an unmodified copy for most
-> purposes -
-> an unmodified copy is only needed for initializing the bios framebuffer
-and providing the bios with a
-> corrupted
-> copy of the rom won't do any damage as the bios will just ignore the
-rom.
->
-> After the i915 driver takes over the vbios is only needed for reading
-some metadata/configuration
-> stuff etc...
-> I've tested that not having any kind of vbios in the guest actually
-works fine but on older
-> generations of IGD
-> there are some slight hiccups. To maximize compatibility the best
-approach is to just copy the results
-> of the vbios
-> execution directly to the guest. It turns out the vbios is always
-present on an hardcoded memory range
-> in a reserved
-> memory range from real mode - all we need to do is to memcpy it into the
-guest.
->
-> The following patch does 2 things:
-> 1) When pci_assign_dev_load_option_rom fails to read the vbios from
-sysfs(this works only when the igd
-> is not the
-> boot gpu - this is unlikely to happen) it falls back to using /dev/mem
-to copy the vbios directly to
-> the guest.
-> Using /dev/mem should be fine as there is more xen specific pci code
-which also relies on /dev/mem.
 
-Why bother with sysfs at all if it is unlikely to work?
+--p4qYPpj5QlsIQJ0K
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 2) When dealing with IGD in the more generic code we skip the allocation
-of the rom resource - the
-> reason for this is to prevent
-> a malicious guest from modifying the vbios in the host -> this is needed
-as someone might try to pwn
-> the i915 driver in the host by doing so
-> (attach igd to guest, guest modifies vbios, the guest is terminated and
-the idg is reattached to the
-> host, i915 driver in the host uses data from the modified vbios).
-> This is also needed to not overwrite the proper shadow copy made before.
->
-> I've tested this patch and it works fine - the guest isn't complaining
-about the missing vbios tables
-> and the pci config
-> space in the guest looks fine.
->
-> Signed-off-by: Grzegorz Uriasz <gorbak25@gmail.com>
-> ---
->  hw/xen/xen_pt.c          |  8 +++++--
->  hw/xen/xen_pt_graphics.c | 48 +++++++++++++++++++++++++++++++++++++---
->  hw/xen/xen_pt_load_rom.c |  2 +-
->  3 files changed, 52 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-> index b91082cb8b..ffc3559dd4 100644
-> --- a/hw/xen/xen_pt.c
-> +++ b/hw/xen/xen_pt.c
-> @@ -483,8 +483,12 @@ static int
-xen_pt_register_regions(XenPCIPassthroughState *s, uint16_t *cmd)
->                     i, r->size, r->base_addr, type);
+On Thu, Apr 16, 2020 at 11:36:22PM +0300, Maxim Levitsky wrote:
+> @@ -90,9 +92,13 @@ static void bus_reset_child_foreach(Object *obj, Reset=
+tableChildCallback cb,
+>      BusState *bus =3D BUS(obj);
+>      BusChild *kid;
+> =20
+> -    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+> +    rcu_read_lock();
+> +
+> +    QTAILQ_FOREACH_RCU(kid, &bus->children, sibling) {
+>          cb(OBJECT(kid->child), opaque, type);
 >      }
->
-> -    /* Register expansion ROM address */
-> -    if (d->rom.base_addr && d->rom.size) {
-> +    /*
-> +     * Register expansion ROM address. If we are dealing with a ROM
-> +     * shadow copy for legacy vga devices then don't bother to map it
-> +     * as previous code creates a proper shadow copy
-> +     */
-> +    if (d->rom.base_addr && d->rom.size &&
-!(is_igd_vga_passthrough(d))) {
-
-You don't need the brackets around is_igd_vga_passthrough()
-
-  Paul
-
-
->          uint32_t bar_data = 0;
->
->          /* Re-set BAR reported by OS, otherwise ROM can't be read. */
-> diff --git a/hw/xen/xen_pt_graphics.c b/hw/xen/xen_pt_graphics.c
-> index a3bc7e3921..fe0ef2685c 100644
-> --- a/hw/xen/xen_pt_graphics.c
-> +++ b/hw/xen/xen_pt_graphics.c
-> @@ -129,7 +129,7 @@ int xen_pt_unregister_vga_regions(XenHostPCIDevice
-*dev)
->      return 0;
+> +
+> +    rcu_read_unlock();
 >  }
->
-> -static void *get_vgabios(XenPCIPassthroughState *s, int *size,
-> +static void *get_sysfs_vgabios(XenPCIPassthroughState *s, int *size,
->                         XenHostPCIDevice *dev)
->  {
->      return pci_assign_dev_load_option_rom(&s->dev, size,
-> @@ -137,6 +137,45 @@ static void *get_vgabios(XenPCIPassthroughState *s,
-int *size,
->                                            dev->dev, dev->func);
+> =20
+>  static void qbus_realize(BusState *bus, DeviceState *parent, const char =
+*name)
+> @@ -138,10 +144,15 @@ static void bus_unparent(Object *obj)
+>      /* Only the main system bus has no parent, and that bus is never fre=
+ed */
+>      assert(bus->parent);
+> =20
+> -    while ((kid =3D QTAILQ_FIRST(&bus->children)) !=3D NULL) {
+> +    rcu_read_lock();
+> +
+> +    while ((kid =3D QTAILQ_FIRST_RCU(&bus->children)) !=3D NULL) {
+>          DeviceState *dev =3D kid->child;
+>          object_unparent(OBJECT(dev));
+>      }
+> +
+> +    rcu_read_unlock();
+
+rcu_read_lock() is called but this looks like a list write operation.
+If I understand correctly bus->children list writes can only be called
+with the QEMU global mutex and therefore rcu_read_lock() is not required
+here?
+
+> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> index 85f062def7..f0c87e582e 100644
+> --- a/hw/core/qdev.c
+> +++ b/hw/core/qdev.c
+> @@ -50,26 +50,37 @@ const VMStateDescription *qdev_get_vmsd(DeviceState *=
+dev)
+>      return dc->vmsd;
 >  }
->
-> +static void xen_pt_direct_vbios_copy(XenPCIPassthroughState *s, Error
-**errp)
+> =20
+> +static void bus_free_bus_child(BusChild *kid)
 > +{
-> +    int fd = -1;
-> +    void *guest_bios = NULL;
-> +    void *host_vbios = NULL;
-> +    /* This is always 32 pages in the real mode reserved region */
-> +    int bios_size = 32 << XC_PAGE_SHIFT;
-> +    int vbios_addr = 0xc0000;
-> +
-> +    fd = open("/dev/mem", O_RDONLY);
-> +    if (fd == -1) {
-> +        error_setg(errp, "Can't open /dev/mem: %s", strerror(errno));
-> +        return;
-> +    }
-> +    host_vbios = mmap(NULL, bios_size,
-> +            PROT_READ, MAP_ANONYMOUS | MAP_PRIVATE, fd, vbios_addr);
-> +    close(fd);
-> +
-> +    if (host_vbios == MAP_FAILED) {
-> +        error_setg(errp, "Failed to mmap host vbios: %s",
-strerror(errno));
-> +        return;
-> +    }
-> +
-> +    memory_region_init_ram(&s->dev.rom, OBJECT(&s->dev),
-> +            "legacy_vbios.rom", bios_size, &error_abort);
-> +    guest_bios = memory_region_get_ram_ptr(&s->dev.rom);
-> +    memcpy(guest_bios, host_vbios, bios_size);
-> +
-> +    if (munmap(host_vbios, bios_size) == -1) {
-> +        XEN_PT_LOG(&s->dev, "Failed to unmap host vbios: %s\n",
-strerror(errno));
-> +    }
-> +
-> +    cpu_physical_memory_write(vbios_addr, guest_bios, bios_size);
-> +    memory_region_set_address(&s->dev.rom, vbios_addr);
-> +    pci_register_bar(&s->dev, PCI_ROM_SLOT,
-PCI_BASE_ADDRESS_SPACE_MEMORY, &s->dev.rom);
-> +    s->dev.has_rom = true;
-> +    XEN_PT_LOG(&s->dev, "Legacy VBIOS registered\n");
+> +    object_unref(OBJECT(kid->child));
+
+Users like scsi_device_find() do not take a refcount on the child.  If
+the device is removed then bus_free_bus_child may call object_unref()
+while another thread is still accessing the child.
+
+Maybe I'm missing something that prevents this scenario?
+
+If not, then another patch is necessary first that introduces stricter
+refcount discipline across the codebase. This applies both to users who
+directly access bus->children as well as to those who call walk() and
+stash child pointers in their callback function.
+
+> +    g_free(kid);
 > +}
 > +
->  /* Refer to Seabios. */
->  struct rom_header {
->      uint16_t signature;
-> @@ -179,9 +218,11 @@ void xen_pt_setup_vga(XenPCIPassthroughState *s,
-XenHostPCIDevice *dev,
->          return;
->      }
->
-> -    bios = get_vgabios(s, &bios_size, dev);
-> +    bios = get_sysfs_vgabios(s, &bios_size, dev);
->      if (!bios) {
-> -        error_setg(errp, "VGA: Can't get VBIOS");
-> +        XEN_PT_LOG(&s->dev, "Unable to get host VBIOS from sysfs - "
-> +                            "falling back to a direct copy of memory
-ranges\n");
-> +        xen_pt_direct_vbios_copy(s, errp);
->          return;
->      }
->
-> @@ -223,6 +264,7 @@ void xen_pt_setup_vga(XenPCIPassthroughState *s,
-XenHostPCIDevice *dev,
->
->      /* Currently we fixed this address as a primary for legacy BIOS. */
->      cpu_physical_memory_write(0xc0000, bios, bios_size);
-> +    XEN_PT_LOG(&s->dev, "Legacy VBIOS registered\n");
->  }
->
->  uint32_t igd_read_opregion(XenPCIPassthroughState *s)
-> diff --git a/hw/xen/xen_pt_load_rom.c b/hw/xen/xen_pt_load_rom.c
-> index 9f100dc159..8cd9aa84dc 100644
-> --- a/hw/xen/xen_pt_load_rom.c
-> +++ b/hw/xen/xen_pt_load_rom.c
-> @@ -65,7 +65,7 @@ void *pci_assign_dev_load_option_rom(PCIDevice *dev,
->          goto close_rom;
->      }
->
-> -    pci_register_bar(dev, PCI_ROM_SLOT, 0, &dev->rom);
-> +    pci_register_bar(dev, PCI_ROM_SLOT, PCI_BASE_ADDRESS_SPACE_MEMORY,
-&dev->rom);
->      dev->has_rom = true;
->      *size = st.st_size;
->  close_rom:
-> --
-> 2.26.1
+>  static void bus_remove_child(BusState *bus, DeviceState *child)
+>  {
+>      BusChild *kid;
+> =20
+> -    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+> +    rcu_read_lock();
+
+List write under rcu_read_lock().
+
+> @@ -82,7 +93,9 @@ static void bus_add_child(BusState *bus, DeviceState *c=
+hild)
+>      kid->child =3D child;
+>      object_ref(OBJECT(kid->child));
+> =20
+> -    QTAILQ_INSERT_HEAD(&bus->children, kid, sibling);
+> +    rcu_read_lock();
+> +    QTAILQ_INSERT_HEAD_RCU(&bus->children, kid, sibling);
+> +    rcu_read_unlock();
+
+List write under rcu_read_lock().
+
+> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+> index 472bbd233b..b0f4a35f81 100644
+> --- a/hw/scsi/virtio-scsi.c
+> +++ b/hw/scsi/virtio-scsi.c
+> @@ -367,12 +367,16 @@ static int virtio_scsi_do_tmf(VirtIOSCSI *s, VirtIO=
+SCSIReq *req)
+>      case VIRTIO_SCSI_T_TMF_I_T_NEXUS_RESET:
+>          target =3D req->req.tmf.lun[1];
+>          s->resetting++;
+> -        QTAILQ_FOREACH(kid, &s->bus.qbus.children, sibling) {
+> +
+> +        rcu_read_lock();
+> +        QTAILQ_FOREACH_RCU(kid, &s->bus.qbus.children, sibling) {
+
+We need a QTAILQ_FOREACH_WITH_RCU_READ_LOCK() macro that combines
+WITH_RCU_READ_LOCK() and QTAILQ_FOREACH_RCU(). :-)
+
+> diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bu=
+s.h
+> index 38c9399cd4..58733f28e2 100644
+> --- a/include/hw/virtio/virtio-bus.h
+> +++ b/include/hw/virtio/virtio-bus.h
+> @@ -128,8 +128,11 @@ void virtio_bus_set_vdev_config(VirtioBusState *bus,=
+ uint8_t *config);
+>  static inline VirtIODevice *virtio_bus_get_device(VirtioBusState *bus)
+>  {
+>      BusState *qbus =3D &bus->parent_obj;
+> -    BusChild *kid =3D QTAILQ_FIRST(&qbus->children);
+> -    DeviceState *qdev =3D kid ? kid->child : NULL;
+> +    BusChild *kid;
+> +    DeviceState *qdev;
+> +
+> +    kid =3D QTAILQ_FIRST(&qbus->children);
+
+QTAILQ_FIRST_RCU()
+
+--p4qYPpj5QlsIQJ0K
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6v8UcACgkQnKSrs4Gr
+c8jAZAgAhINpLkvsHYvbt4UylQC19LpFX936/CALQ4CcOMzPxEaKn3Om0Wa10hAG
+jxeFyQBlhCmrjmXPngRJVVeIPn5vwsn4jwS0zoCV60olvZWmKuWU9XyJmZJ4H/tc
+HNHluZBqIf3zUYVip8n2PvYJYc+ecoaszIvVXE5VN0EuyPjYveLWqHYcG41H9AV9
+jzTf7muebFHVfqm2CERhwih2J/jM2ngfVg2tOhKlhGCrE7o/e5ut69yg39e5+qf7
+sZW3vRxoDaz6lh8MJ3emAzlN6Lne5nIOgsTtB6SpOdr2Jn+9Y07GjYpT/20W2/RJ
+ZBYfC8dY+C8LZYb7sA1aC7aOtjuzhA==
+=2pVu
+-----END PGP SIGNATURE-----
+
+--p4qYPpj5QlsIQJ0K--
 
