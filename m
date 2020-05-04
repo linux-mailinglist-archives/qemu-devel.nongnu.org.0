@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013311C39CD
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:47:13 +0200 (CEST)
-Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCDDF1C3A9D
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:58:19 +0200 (CEST)
+Received: from localhost ([::1]:49596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaV5-0000E4-Tx
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
+	id 1jVafq-00016T-TK
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:58:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jVaIl-0002fM-35
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:34:27 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55708
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jVaIk-0001Vf-4K
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:34:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588595664;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V2f+94WevF1xVUd8sbVDd41rMqJVjknOhhTXpotJzdo=;
- b=b9n3zjWhB5AZuKef/lulv/pkaWIOt6KUMO+6TdQspb8V+WeguVBvi5Q0nZ72UoFCg6kniE
- 97UQGo2s/+AOcWNMl+LIEq+H/nmP4MeTTs7V1KvZ1/oSIyTIAHebeJNsCFuWskdudQMt+K
- fY2sSh8AmMuLfTlf3H3IUXP/ZU6Quxk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-8eHI874jMzaLLiPM5v2hog-1; Mon, 04 May 2020 08:34:20 -0400
-X-MC-Unique: 8eHI874jMzaLLiPM5v2hog-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82D7619200C3;
- Mon,  4 May 2020 12:34:18 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBA3F6B8E6;
- Mon,  4 May 2020 12:34:13 +0000 (UTC)
-Date: Mon, 4 May 2020 13:34:10 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/20] Trivial branch for 5.1 patches
-Message-ID: <20200504123410.GJ115875@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jVaJE-0003bH-E3
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:34:56 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:43971)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jVaJD-0001fZ-1r
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:34:56 -0400
+Received: by mail-oi1-x242.google.com with SMTP id j16so6414451oih.10
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=N5VZHewKhQppRcarv8cNfP1eJNWRWWRTgbVobzrECKM=;
+ b=cCEOL2B24QQ7jdP3TaOfVE2Jh070NfhWjXKLYi7owI2fU0VRoT4sJMAtcHUF72pvO0
+ EDaXnMFZOLM35e4h+o40COqnQQQd102COFi2RFWNMWPdVJ+2sv9XP8sFVfmlhjiVpe7m
+ JkLC28Y+ym7K+V3X+vLOtVvq4DP+Z801fCP0WD+9kXQKOzdw30XKXxgJgXjgggVX9e99
+ vA8cSsRvnbbXfrW+O0GC2uJ1tpJCDr28kCYStrPkmqMmenDaNhDTBlktOKjyfhXRxCm3
+ 2KIrzLUrEGqc2Il0X4S2fKOwoWV8y68c1mihYTlNPffJYaCpO2YRJmmZSkdFIRPOcthA
+ bqqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=N5VZHewKhQppRcarv8cNfP1eJNWRWWRTgbVobzrECKM=;
+ b=halXmX17bEVQnTP656o54UBBgBHbzGG6IYdsREXCtwNSaJwpWnuh69xJK/Gqh2TjDV
+ U72WpdEG8nr2xx2eD17lKrHShJnNAPyAxfaG7F/IFbgy4QHMU/VxKoYqEYX981RHLhO+
+ 4nPnX99HE5RuRYKRJcHV9Nq/EQH4lioxmIHoLSXNaTPtoA2UO9tW8J/4uRIGyj+C/MKX
+ 67OJrZxDAmaO0kDOSg/ZzeDsiLtXbfE1fA+L+Q18I7TojAOd96XXwpIL+WTSU0SQZyu1
+ N6oMWEH++hw6haF5Qq5/w5Vze+6Z+TNIG/zZh9ExHlI8K8uD9ZFy0d+36eLvjWVGhp46
+ b9Pg==
+X-Gm-Message-State: AGi0PuZrLSLuzxPq+wPh4Iqg1br7cXOXXlVYmpHFzW7k0rCHTNviKHYH
+ iiTClbLaElS3afTOSHgwnG1qHi5OFitco7D0AyftrCsPDA0=
+X-Google-Smtp-Source: APiQypL6uraSh/axNnt0mFx7rdBmhL62klhxvsP61G01yCoMv4KIRddxsma72tP0s0XMLq7Fk877P8iSCl6yNoWwO68=
+X-Received: by 2002:aca:895:: with SMTP id 143mr8641615oii.163.1588595693801; 
+ Mon, 04 May 2020 05:34:53 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200504115758.283914-1-laurent@vivier.eu>
  <CAFEAcA_FDt+1+ezAyRE-fwdd=VuG5YNThkKiHHTUOYqtRHLoyg@mail.gmail.com>
-MIME-Version: 1.0
 In-Reply-To: <CAFEAcA_FDt+1+ezAyRE-fwdd=VuG5YNThkKiHHTUOYqtRHLoyg@mail.gmail.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 May 2020 13:34:42 +0100
+Message-ID: <CAFEAcA-V=ZF8rLv82fmj=3NgHcUNvCs_Ddm5k9FnfssgDr8c_w@mail.gmail.com>
+Subject: Re: [PULL 00/20] Trivial branch for 5.1 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,32 +79,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 04, 2020 at 01:17:19PM +0100, Peter Maydell wrote:
+On Mon, 4 May 2020 at 13:17, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
 > On Mon, 4 May 2020 at 13:05, Laurent Vivier <laurent@vivier.eu> wrote:
 > >
-> > The following changes since commit 2ef486e76d64436be90f7359a3071fb2a56c=
-e835:
+> > The following changes since commit 2ef486e76d64436be90f7359a3071fb2a56ce835:
 > >
-> >   Merge remote-tracking branch 'remotes/marcel/tags/rdma-pull-request' =
-into s=3D
+> >   Merge remote-tracking branch 'remotes/marcel/tags/rdma-pull-request' into s=
 > > taging (2020-05-03 14:12:56 +0100)
 > >
 > > are available in the Git repository at:
 > >
-> >   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-req=
-uest
+> >   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-request
 > >
-> > for you to fetch changes up to 4341a0106781043a708c061b676312e5bb5d4488=
-:
+> > for you to fetch changes up to 4341a0106781043a708c061b676312e5bb5d4488:
 > >
-> >   hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warnin=
-g (202=3D
+> >   hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warning (202=
 > > 0-05-04 12:06:21 +0200)
 > >
 > > ----------------------------------------------------------------
@@ -119,57 +110,18 @@ g (202=3D
 > > Support -chardev serial on macOS
 > > Update MAINTAINERS
 > > Some cosmetic changes
->=20
->=20
+>
+>
 > Compile failure, OSX:
 > /Users/pm215/src/qemu-for-merges/block/file-posix.c:1620:9: error:
 > unused variable 'ret' [-Werror,-Wunused-variable]
 >     int ret;
 >         ^
->=20
-> Compile failure, aarch32 (but probably the result of whatever
-> crypto options/dependent libraries are on that setup):
->=20
-> In file included from /home/peter.maydell/qemu/crypto/cipher.c:157:0:
-> /home/peter.maydell/qemu/crypto/cipher-builtin.c: In function
-> 'qcrypto_cipher_aes_xts_encrypt':
-> /home/peter.maydell/qemu/crypto/cipher-builtin.c:136:36: error:
-> passing argument 1 of 'qcrypto_cipher_aes_ecb_encrypt' discards
-> 'const' qualifier from pointer target type
-> [-Werror=3Ddiscarded-qualifiers]
->      qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
->                                     ^
-> /home/peter.maydell/qemu/crypto/cipher-builtin.c:77:13: note: expected
-> 'AES_KEY * {aka struct aes_key_st *}' but argument is of type 'const
-> AES_KEY * {aka const struct aes_key_st *}'
->  static void qcrypto_cipher_aes_ecb_encrypt(AES_KEY *key,
->              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> /home/peter.maydell/qemu/crypto/cipher-builtin.c: In function
-> 'qcrypto_cipher_aes_xts_decrypt':
-> /home/peter.maydell/qemu/crypto/cipher-builtin.c:147:36: error:
-> passing argument 1 of 'qcrypto_cipher_aes_ecb_decrypt' discards
-> 'const' qualifier from pointer target type
-> [-Werror=3Ddiscarded-qualifiers]
->      qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
->                                     ^
-> /home/peter.maydell/qemu/crypto/cipher-builtin.c:103:13: note:
-> expected 'AES_KEY * {aka struct aes_key_st *}' but argument is of type
-> 'const AES_KEY * {aka const struct aes_key_st *}'
->  static void qcrypto_cipher_aes_ecb_decrypt(AES_KEY *key,
->              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
 
-This failure shows that patch 4 is wrong. The cast is not redundant,
-it is explicitly required in order to discard 'const'. Please just
-drop patch 4.
+This one also shows up on FreeBSD and OpenBSD (and maybe NetBSD, that
+result hasn't come back yet).
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
-
+thanks
+-- PMM
 
