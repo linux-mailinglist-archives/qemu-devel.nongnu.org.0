@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961B91C4A5F
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:34:45 +0200 (CEST)
-Received: from localhost ([::1]:40812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8E31C4A79
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:40:31 +0200 (CEST)
+Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVkbk-00051a-Bv
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37584)
+	id 1jVkhK-00045s-OL
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:40:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jVkON-00046f-Vd
- for qemu-devel@nongnu.org; Mon, 04 May 2020 19:20:56 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5613)
+ id 1jVkOQ-0004AV-3T
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:20:58 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jVkO5-0000iX-PB
- for qemu-devel@nongnu.org; Mon, 04 May 2020 19:20:55 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5eb0a3320000>; Mon, 04 May 2020 16:20:18 -0700
+ id 1jVkOM-0001TH-Ug
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:20:57 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5eb0a2d50001>; Mon, 04 May 2020 16:18:45 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Mon, 04 May 2020 16:20:31 -0700
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 04 May 2020 16:20:53 -0700
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Mon, 04 May 2020 16:20:31 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
- 2020 23:20:30 +0000
+ by hqpgpgate101.nvidia.com on Mon, 04 May 2020 16:20:53 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
+ 2020 23:20:53 +0000
 Received: from [10.40.101.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
  (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May 2020
- 23:20:22 +0000
-Subject: Re: [PATCH v16 QEMU 13/16] vfio: Add function to start and stop dirty
- pages tracking
-To: Alex Williamson <alex.williamson@redhat.com>
+ 23:20:44 +0000
+Subject: Re: [PATCH v16 QEMU 07/16] vfio: Add migration state change notifier
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-14-git-send-email-kwankhede@nvidia.com>
- <20200326131019.5bd29bbb@x1.home>
+ <1585084154-29461-8-git-send-email-kwankhede@nvidia.com>
+ <20200401112720.GB3258@work-vm>
 X-Nvconfidentiality: public
 From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <f9cae907-163b-5b88-1251-81a47ef6d480@nvidia.com>
-Date: Tue, 5 May 2020 04:50:18 +0530
+Message-ID: <42407b19-4e1a-5fc5-2066-8c4e1bee14aa@nvidia.com>
+Date: Tue, 5 May 2020 04:50:39 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200326131019.5bd29bbb@x1.home>
+In-Reply-To: <20200401112720.GB3258@work-vm>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
@@ -54,20 +53,20 @@ Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1588634418; bh=S0qJRp/Bcjcc5WhLVOkSVGWF3KJaq9DmC90vWc5Y8NI=;
+ t=1588634325; bh=kd/HAkfyJHnVQFgdHNJ8EUM8rOHU5ijlV+iZB5EU2SY=;
  h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
  Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
  X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
  Content-Transfer-Encoding;
- b=Z4VscN5xMWjiHzdOYDyLdlvWvejV+cZSgQjzg3s6qtwN7NT2Wo1TEAC4UeItylM8q
- 693m1g0Q4yudBivF+cVpkFMtzkq9dyRR9QEUAxtyDYtfKW1O/JSUqnDUWQFMHsDbnq
- eQWLFo4U7RbEb53Jw8mRZkHjra4IJjIWUfm1aXxcK5Qz4Wpmza2NcqEIHKTO8asIEf
- J47safoIs3kTG2OxyDOxdmZ7hw8SY29JS26zItevjl+ajU4hlWLOmTzDBcB5UmYnBP
- II7oO7RYeeMAurNSkRHxUCDJCFDzZjR0FYhzXYzWtBwigM5qQPlIOFRGx1Kw4Cl/ki
- FUMK+WxfMy5ug==
-Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate26.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:18:18
+ b=aAUYroSirUzXiQMkCuCY6CRpD6Ag3Pl38YyXSO2DBgVAKvknp8IHfT3pxJYYvd+HV
+ Rk2u21+qXNFDOLArswIXcDCDwoa6IKas+uclMnxL4NhNSjb292614BhGNPqmss+OEe
+ yNzBD+r1zan4LReZW/ShaCgWtk7qXQCopg8V9pq2nK+I+snsA+EWTMG10pTmRfLhUW
+ Qjth7hVWdM+5XEeHIKE9LXROaHJLMwmThhIDWRPvFsOOMFI69WNC93cNgG5rBuBTUo
+ PxAYFrQj8gDBEeu+68urTUwUlr63DkEYLutGbKF1XoZ3rxrRXp7UQXoW1LrQXSn0Be
+ 3+svrLeJYKunA==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:18:10
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -70
 X-Spam_score: -7.1
@@ -87,11 +86,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
  jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
  Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -99,124 +98,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 3/27/2020 12:40 AM, Alex Williamson wrote:
-> On Wed, 25 Mar 2020 02:39:11 +0530
-> Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> 
->> Call VFIO_IOMMU_DIRTY_PAGES ioctl to start and stop dirty pages tracking
->> for VFIO devices.
+On 4/1/2020 4:57 PM, Dr. David Alan Gilbert wrote:
+> * Kirti Wankhede (kwankhede@nvidia.com) wrote:
+>> Added migration state change notifier to get notification on migration state
+>> change. These states are translated to VFIO device state and conveyed to vendor
+>> driver.
 >>
 >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Neo Jia <cjia@nvidia.com>
 >> ---
->>   hw/vfio/migration.c | 36 ++++++++++++++++++++++++++++++++++++
->>   1 file changed, 36 insertions(+)
+>>   hw/vfio/migration.c           | 29 +++++++++++++++++++++++++++++
+>>   hw/vfio/trace-events          |  1 +
+>>   include/hw/vfio/vfio-common.h |  1 +
+>>   3 files changed, 31 insertions(+)
 >>
 >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
->> index ab295d25620e..1827b7cfb316 100644
+>> index af9443c275fb..22ded9d28cf3 100644
 >> --- a/hw/vfio/migration.c
 >> +++ b/hw/vfio/migration.c
->> @@ -9,6 +9,7 @@
->>   
->>   #include "qemu/osdep.h"
->>   #include "qemu/main-loop.h"
->> +#include <sys/ioctl.h>
->>   #include <linux/vfio.h>
->>   
->>   #include "sysemu/runstate.h"
->> @@ -296,6 +297,32 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
->>       return qemu_file_get_error(f);
+>> @@ -154,6 +154,27 @@ static void vfio_vmstate_change(void *opaque, int running, RunState state)
+>>       }
 >>   }
 >>   
->> +static int vfio_start_dirty_page_tracking(VFIODevice *vbasedev, bool start)
+>> +static void vfio_migration_state_notifier(Notifier *notifier, void *data)
 >> +{
+>> +    MigrationState *s = data;
+>> +    VFIODevice *vbasedev = container_of(notifier, VFIODevice, migration_state);
 >> +    int ret;
->> +    VFIOContainer *container = vbasedev->group->container;
->> +    struct vfio_iommu_type1_dirty_bitmap dirty = {
->> +        .argsz = sizeof(dirty),
->> +    };
 >> +
->> +    if (start) {
->> +        if (vbasedev->device_state & VFIO_DEVICE_STATE_SAVING) {
->> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
->> +        } else {
->> +            return 0;
+>> +    trace_vfio_migration_state_notifier(vbasedev->name, s->state);
+> 
+> You might want to use MigrationStatus_str(s->status) to make that
+> readable.
+> 
+
+Yes.
+
+>> +    switch (s->state) {
+>> +    case MIGRATION_STATUS_CANCELLING:
+>> +    case MIGRATION_STATUS_CANCELLED:
+>> +    case MIGRATION_STATUS_FAILED:
+>> +        ret = vfio_migration_set_state(vbasedev,
+>> +                      ~(VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING),
+>> +                      VFIO_DEVICE_STATE_RUNNING);
+>> +        if (ret) {
+>> +            error_report("%s: Failed to set state RUNNING", vbasedev->name);
 >> +        }
->> +    } else {
->> +            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
->> +    }
 > 
-> Dirty logging and device saving are logically separate, why do we link
-> them here?
+> In the migration code we check to see if the VM was running prior to the
+> start of the migration before we start the CPUs going again (see
+> migration_iteration_finish):
+>      case MIGRATION_STATUS_FAILED:
+>      case MIGRATION_STATUS_CANCELLED:
+>      case MIGRATION_STATUS_CANCELLING:
+>          if (s->vm_was_running) {
+>              vm_start();
+>          } else {
+>              if (runstate_check(RUN_STATE_FINISH_MIGRATE)) {
+>                  runstate_set(RUN_STATE_POSTMIGRATE);
+>              }
 > 
-
-Dirty logging is associated with migration state and in vfio case we get 
-to know that migration state for per device. We don't know which device 
-is first or last. So start dirty page logging .save_setup. But this 
-function can be called from other places also, so for sanity check start 
-dirty pages tracking only when VFIO_DEVICE_STATE_SAVING flag is set.
-
-> Why do we return success when we want to start logging if we haven't
-> started logging?
-> 
-
-It should be -EINVAL since dirty page tracking shouldn't start if 
-VFIO_DEVICE_STATE_SAVING flag is not set, i.e. devices are not in SAVING 
-state.
-
->> +
->> +    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
->> +    if (ret) {
->> +        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
->> +                     dirty.flags, errno);
->> +    }
->> +    return ret;
->> +}
->> +
->>   /* ---------------------------------------------------------------------- */
->>   
->>   static int vfio_save_setup(QEMUFile *f, void *opaque)
->> @@ -330,6 +357,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
->>        */
->>       qemu_put_be64(f, migration->region.size);
->>   
->> +    ret = vfio_start_dirty_page_tracking(vbasedev, true);
->> +    if (ret) {
->> +        return ret;
->> +    }
->> +
-> 
-> Haven't we corrupted the migration stream by exiting here?  Maybe this
-> implies the entire migration fails, therefore we don't need to add the
-> end marker?  Thanks,
+> so if the guest was paused before a migration we don't falsely restart
+> it.  Maybe you need something similar?
 > 
 
-If returned error here means migration fails.
+Guest paused means vCPUs are paused, but that doesn't pause device. Init 
+state of VFIO device is also RUNNING and device will not get any 
+instructions until vCPUs are running. So I think putting device in 
+RUNNING is still fine.
 
 Thanks,
 Kirti
 
-> Alex
+> Dave
 > 
->>       qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
->>   
->>       ret = qemu_file_get_error(f);
->> @@ -346,6 +378,8 @@ static void vfio_save_cleanup(void *opaque)
->>       VFIODevice *vbasedev = opaque;
->>       VFIOMigration *migration = vbasedev->migration;
->>   
->> +    vfio_start_dirty_page_tracking(vbasedev, false);
+>> +    }
+>> +}
 >> +
->>       if (migration->region.mmaps) {
->>           vfio_region_unmap(&migration->region);
->>       }
->> @@ -669,6 +703,8 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
->>           if (ret) {
->>               error_report("%s: Failed to set state RUNNING", vbasedev->name);
->>           }
+>>   static int vfio_migration_init(VFIODevice *vbasedev,
+>>                                  struct vfio_region_info *info)
+>>   {
+>> @@ -173,6 +194,9 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>>       vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+>>                                                             vbasedev);
+>>   
+>> +    vbasedev->migration_state.notify = vfio_migration_state_notifier;
+>> +    add_migration_state_change_notifier(&vbasedev->migration_state);
 >> +
->> +        vfio_start_dirty_page_tracking(vbasedev, false);
->>       }
+>>       return 0;
 >>   }
 >>   
+>> @@ -211,6 +235,11 @@ add_blocker:
+>>   
+>>   void vfio_migration_finalize(VFIODevice *vbasedev)
+>>   {
+>> +
+>> +    if (vbasedev->migration_state.notify) {
+>> +        remove_migration_state_change_notifier(&vbasedev->migration_state);
+>> +    }
+>> +
+>>       if (vbasedev->vm_state) {
+>>           qemu_del_vm_change_state_handler(vbasedev->vm_state);
+>>       }
+>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+>> index 3d15bacd031a..69503228f20e 100644
+>> --- a/hw/vfio/trace-events
+>> +++ b/hw/vfio/trace-events
+>> @@ -148,3 +148,4 @@ vfio_display_edid_write_error(void) ""
+>>   vfio_migration_probe(char *name, uint32_t index) " (%s) Region %d"
+>>   vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
+>>   vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
+>> +vfio_migration_state_notifier(char *name, int state) " (%s) state %d"
+>> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+>> index 3d18eb146b33..28f55f66d019 100644
+>> --- a/include/hw/vfio/vfio-common.h
+>> +++ b/include/hw/vfio/vfio-common.h
+>> @@ -123,6 +123,7 @@ typedef struct VFIODevice {
+>>       VMChangeStateEntry *vm_state;
+>>       uint32_t device_state;
+>>       int vm_running;
+>> +    Notifier migration_state;
+>>   } VFIODevice;
+>>   
+>>   struct VFIODeviceOps {
+>> -- 
+>> 2.7.0
+>>
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 > 
 
