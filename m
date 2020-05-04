@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E441C372E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:49:52 +0200 (CEST)
-Received: from localhost ([::1]:51092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F7F1C3756
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:56:28 +0200 (CEST)
+Received: from localhost ([::1]:59446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVYfW-0004N8-QY
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:49:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43372)
+	id 1jVYlv-0008GI-94
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jVYbW-0000Vr-Vw
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:45:43 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jVYbW-0007Zi-5l
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:45:42 -0400
-Received: by mail-wm1-x344.google.com with SMTP id r26so8494287wmh.0
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 03:45:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7ItO1q3xxMNwuqkCQvMpK8niR4rD7W0RUQydVApgkhE=;
- b=bavXu5SxfSFEOdDUIr3bIYr2pQtZ/yHpugQzQeyKwupCgfkJhO5DUjnppxb+EtWyuK
- GAdZsuVIeBE5U75UFTLZT28aVQj5gE60HbsN+j/x5SVivcxH1LWOH3mMoMW2sWMP9eLZ
- KGdDMZ6zRwZmq2DHSwH1vBWHfADPI+vieKSPOYf8ew9p0u2srpzLVF0kPUo6SaSowxmz
- r31Q4L2iwd8p0KQomTa7LgSk54H0gbWRSwYhOS1uQiidqVohz/3A6HYgaVvbyCByEIgo
- HYvMXsOt+yvNpju7ad1LRDprMxfmzGgb1x2mGeYTTeogrplHW+3mL2W7IyCStCbnCSQI
- +0GA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7ItO1q3xxMNwuqkCQvMpK8niR4rD7W0RUQydVApgkhE=;
- b=q5ANbTMponaw0jwZE6zIvrxB8gNVE7juepNVkQEgWe8kAZQcUiPm117eeEVe48cBMK
- MOitoAY7J6l0dzmjBkHnCkP8BzypisCq4GfD5fgQ//hB6bZCtWBJ5J23Nc1SeIIKoXfZ
- sSPaObFqNCN5TGpEAQfccitPA+ojoTe3AQSSVIf3wV8kfwcFzk/cFznrh6SwXziPGu1m
- rMQvMEfnpUXCfpn70LtmnbdCCX+Ptpaxy1BkV7aNOg66jbqOHxb1An6SFaXVPYd9KAAu
- eY1TgmUib1n0CMMy04DSjAGtAytFbNdDo09XwCIWp6m0mQaEn3j8huMmSTjQtcTCmeuD
- 7gUw==
-X-Gm-Message-State: AGi0PubdkZcMW66nFxMfm0oaK2honImX7iFt1zJZrzIp7fH76AmVjRTM
- oItPUFnKW6LqDqjRg8G43CE=
-X-Google-Smtp-Source: APiQypKiStuHlwuFMSEYpsLw7ue99PKSUQrgQbmXCHe2I2b+dDdrRISzV5czKGJlyKDphQUn9nY+Gw==
-X-Received: by 2002:a1c:6455:: with SMTP id y82mr13755251wmb.128.1588589140455; 
- Mon, 04 May 2020 03:45:40 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id w12sm17876280wrk.56.2020.05.04.03.45.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 03:45:39 -0700 (PDT)
-Date: Mon, 4 May 2020 11:45:38 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH 3/4] device-core: use atomic_set on .realized property
-Message-ID: <20200504104538.GC354891@stefanha-x1.localdomain>
-References: <20200416203624.32366-1-mlevitsk@redhat.com>
- <20200416203624.32366-4-mlevitsk@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="B4IIlcmfBL/1gGOG"
-Content-Disposition: inline
-In-Reply-To: <20200416203624.32366-4-mlevitsk@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1jVYh5-0005OW-PU; Mon, 04 May 2020 06:51:27 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:40699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1jVYh4-0002To-Ed; Mon, 04 May 2020 06:51:27 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id DB7D46B8;
+ Mon,  4 May 2020 06:51:22 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Mon, 04 May 2020 06:51:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm2; bh=DADLxHaieEJ+JCJUlhevE7XfuFfJugz
+ yd0bkM/NLtJo=; b=gysRD4V6xu2VsGGlWFL5j2Syl4RKh/g9klyznJZCsEwHkyZ
+ z5sCt/aD0NYRmVA0+MBW7vv3kf8Qv+iN3b4ad1N+OB1zg8qZqdDX5cbaFRDMDnhN
+ GRpx707/9Ee3hKAXzA1VsmE1/8Xl17qPv+/EgqzZOtEslvvUPWH3YSTji/Pk5TW8
+ sfQw1BjCqkGP/l3l7uQuJ+JNiFN71OVQcjvJdTJRjrUcW5KQVgyIRtu+qF4Fa8hM
+ xhG3claYtDfIwXYVoN3H54iZLK7HasU/UzgeXEP6Y950r8L/thHO1FM3LKblT4QZ
+ /MPLKYVbb1L6jyVuwenBt0RGlB1tZso2xi5aTrQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=DADLxH
+ aieEJ+JCJUlhevE7XfuFfJugzyd0bkM/NLtJo=; b=T/pavc9IW1VhQFO5F9H8Vm
+ a7YgKPzY3cwDBAk5MAufQbGyIHLd+UM8yQy6Y8W8CGG5PoAaZJIG9IDJLIg09o9Y
+ GXZ03myDRrJp10QXIDvMDHP4brw3vdVaWB1j6IicYY9w7pdLVi1PCglOI8mJIdKi
+ q6IKdgFKDk8L5ozWCHK9/6LZqvr0DlCsuS/dkCtC4SJFXs/yatK0P/Bjv9aKGjdG
+ JZSJABqFgqwypAOGj8Q+kQ8nupFs483ud5km8oAV9b+WKOQgG9mi4r5CGlMfmD+6
+ SnOtcQ36e8xcHj2kUxVbksFIg0gTcxS10agNsU9rGXn68sW1M4mDsE2YpV3zaChg
+ ==
+X-ME-Sender: <xms:qfOvXr7kbK7gFWjZ78LfIQR66HpYMbX_6-bI6kct50H9mc7HMzfn7g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrjeeggdeftdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+ vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+ htthgvrhhnpeehhfefkefgkeduveehffehieehudejfeejveejfedugfefuedtuedvhefh
+ veeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ grnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:qfOvXokvqa8s2iDpdzpQbHhqzmwOqb7mQkQyX049IVHxRidWw5K7Hw>
+ <xmx:qfOvXkpjuM4SStQG6d-CNwpFxGzFi5XQSfodbpPHY56VHWct468JDQ>
+ <xmx:qfOvXq1HmCqFKnbrvJMPqUGfKbyfJe66VB2HM5Jn9Ow-21O8U3xLqQ>
+ <xmx:qvOvXmwcbfRePxzuKKZ4CAmnlCCnUzlktztdCXknP4fCYQGKWrowOA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 350DAE00A9; Mon,  4 May 2020 06:51:21 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-dev0-351-g9981f4f-fmstable-20200421v1
+Mime-Version: 1.0
+Message-Id: <fbe6fc06-2aaf-4125-82ce-dd3acd9a1158@www.fastmail.com>
+In-Reply-To: <20200504093703.261135-1-joel@jms.id.au>
+References: <20200504093703.261135-1-joel@jms.id.au>
+Date: Mon, 04 May 2020 20:21:01 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "Peter Maydell" <peter.maydell@linaro.org>
+Subject: Re: [PATCH] aspeed: Support AST2600A1 silicon revision
+Content-Type: text/plain
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=andrew@aj.id.au;
+ helo=wout5-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 06:51:23
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,69 +93,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm@nongnu.org, Cameron Esfahani via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---B4IIlcmfBL/1gGOG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2020 at 11:36:23PM +0300, Maxim Levitsky wrote:
-> Some code might race with placement of new devices on a bus.
-> We currently first place a (unrealized) device on the bus
-> and then realize it.
->=20
-> As a workaround, users that scan the child device list, can
-> check the realized property to see if it is safe to access such a device.
-> Use an atomic write here too to aid with this.
->=20
-> A separate discussion is what to do with devices that are unrealized:
-> It looks like for this case we only call the hotplug handler's unplug
-> callback and its up to it to unrealize the device.
-> An atomic operation doesn't cause harm for this code path though.
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+On Mon, 4 May 2020, at 19:07, Joel Stanley wrote:
+> There are minimal differences from Qemu's point of view between the A0
+> and A1 silicon revisions.
+> 
+> As the A1 exercises different code paths in u-boot it is desirable to
+> emulate that instead.
+> 
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 > ---
->  hw/core/qdev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index f0c87e582e..bbb1ae3eb3 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -983,7 +983,7 @@ static void device_set_realized(Object *obj, bool val=
-ue, Error **errp)
->      }
-> =20
->      assert(local_err =3D=3D NULL);
-> -    dev->realized =3D value;
-> +    atomic_set(&dev->realized, value);
+>  hw/arm/aspeed.c              |  8 ++++----
+>  hw/arm/aspeed_ast2600.c      |  6 +++---
+>  hw/misc/aspeed_scu.c         | 11 +++++------
+>  include/hw/misc/aspeed_scu.h |  1 +
+>  4 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 99a0f3fcf36e..91301efab32d 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -93,7 +93,7 @@ struct AspeedBoardState {
+>  
+>  /* Tacoma hardware value */
+>  #define TACOMA_BMC_HW_STRAP1  0x00000000
+> -#define TACOMA_BMC_HW_STRAP2  0x00000000
+> +#define TACOMA_BMC_HW_STRAP2  0x00000040
+>  
+>  /*
+>   * The max ram region is for firmwares that scan the address space
+> @@ -585,7 +585,7 @@ static void 
+> aspeed_machine_ast2600_evb_class_init(ObjectClass *oc, void *data)
+>      AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+>  
+>      mc->desc       = "Aspeed AST2600 EVB (Cortex A7)";
+> -    amc->soc_name  = "ast2600-a0";
+> +    amc->soc_name  = "ast2600-a1";
+>      amc->hw_strap1 = AST2600_EVB_HW_STRAP1;
+>      amc->hw_strap2 = AST2600_EVB_HW_STRAP2;
+>      amc->fmc_model = "w25q512jv";
+> @@ -600,8 +600,8 @@ static void 
+> aspeed_machine_tacoma_class_init(ObjectClass *oc, void *data)
+>      MachineClass *mc = MACHINE_CLASS(oc);
+>      AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+>  
+> -    mc->desc       = "Aspeed AST2600 EVB (Cortex A7)";
+> -    amc->soc_name  = "ast2600-a0";
+> +    mc->desc       = "OpenPOWER Tacoma BMC (Cortex A7)";
 
-A memory barrier is probably needed so that the atomic_read() thread
-sees up-to-date dev fields.
+Lol, whoops.
 
-Stefan
-
---B4IIlcmfBL/1gGOG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6v8lIACgkQnKSrs4Gr
-c8jDqggAgDuaoRQ42tmkGLXkYsxgRGSdXQnlREZ7mRp2G0d6/vxjuuY3vpAVJDMH
-G5iU4+H3OgMtQQXsVtq2E3FPJJSOnvbnPrCC60EucRZQ0PhMGm7CPK531GSjBVeJ
-exgUo0wtMctA5b1dD8TgwnzGNuPpeGWeyMYc7msknQDgFj4wHrDmxg/gLqkYH2Pc
-BAI63O7O6eAYq+o4gPcXJNWBgtD52iDso1QIFb5q2KTunzgP74t6ekB71ZLbQwkR
-dNs3hsQtZ5VD08mtEqRQazM12/OJkaHQ6WH4HSD23zOSGmSiF06Ea8DEQnBFw6U2
-HQuw5U6+IFfHvdbqfVvUy8/60fIo1w==
-=z8Gf
------END PGP SIGNATURE-----
-
---B4IIlcmfBL/1gGOG--
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 
