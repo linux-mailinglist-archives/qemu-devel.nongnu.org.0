@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293E91C4060
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:44:59 +0200 (CEST)
-Received: from localhost ([::1]:57992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF3F1C3F47
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:02:49 +0200 (CEST)
+Received: from localhost ([::1]:56540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVeDC-0000Pp-75
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:44:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47572)
+	id 1jVdYO-0003CV-Cx
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:02:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jVe6a-0006wb-Dp
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:38:08 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jVe6Y-0000LE-Vb
- for qemu-devel@nongnu.org; Mon, 04 May 2020 12:38:08 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5eb0433e0001>; Mon, 04 May 2020 09:30:55 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Mon, 04 May 2020 09:33:02 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Mon, 04 May 2020 09:33:02 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
- 2020 16:33:02 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 4 May 2020 16:32:55 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH Kernel v18 7/7] vfio: Selective dirty page tracking if IOMMU
- backed device pins pages
-Date: Mon, 4 May 2020 21:28:59 +0530
-Message-ID: <1588607939-26441-8-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1588607939-26441-1-git-send-email-kwankhede@nvidia.com>
-References: <1588607939-26441-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1jVdVj-000166-1E; Mon, 04 May 2020 12:00:03 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:57541)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1jVdVh-0005h3-FB; Mon, 04 May 2020 12:00:02 -0400
+Received: from localhost.localdomain ([82.252.135.106]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MFsIZ-1jMVDV3hNP-00HPWS; Mon, 04 May 2020 17:59:59 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/19] Trivial branch for 5.1 patches
+Date: Mon,  4 May 2020 17:59:37 +0200
+Message-Id: <20200504155956.380695-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1588609855; bh=KC/FcNAkRG2CNOcjYiUiJNTzc+Sp3SqxF1XTeT9aFnU=;
- h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
- In-Reply-To:References:X-NVConfidentiality:MIME-Version:
- Content-Type;
- b=MZtSL212VMP8RcGc1qLjkuds+eGTbZ12GQuKGNruXP26TBnIxYUyidX+dUukvvHAZ
- 2KSA7PycE4z3JidJnjzo4FqT77dykMAVHcPseK1bOPi1ICTebYdF9dsU8X6weZoIeV
- KuCUzQAUe9/bM3VAVhO1qvGyvr0Hnz+IHerNJYi05xHHpFvYvhCtl2zxpnPAFiXUdO
- PD2vAF6xEdGKYbazCMsjrZTWnDWgOgW8AMMcMnsaOzQpZrODzqxutY35JuF2y3OfuO
- LKBrpftZh/g2Ilcyd49ZQreHkwHWLjMETSo+5dcqyPx6C+hHblRl6c2wSj+mGAqiwq
- JsEr5xaNnLL/Q==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 12:32:29
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8X93X9BA8SbCjdCaWf0GAFQQC6rxNOEKPMyjqxs1tRx6tejx0TX
+ k87NL/TrrnGM/KscyS5xoDqUpKUb5PCA21kR854svk9kVrC0UKSlPD/RUQzrORpLLxVa1nX
+ OoPw77pZq05nYaDzoIJqh7dRXx0rg/QTQJq9nCKSVhmVics8LFNAkLA+xTDRmyoO3+7fR/O
+ o4Qu+XsEd+BwNFOpVecZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IWrzMbkagxA=:1Ei0iSQw5lWbFFpSW1eKyt
+ acyucOKFxehtqB7y2Hy5UheidiF1zzOYanjZvR6jYWJTh5ZQsxRUN1fzxV+R61ApxNqCbqh23
+ xHZP/Zm7da237vJE8grmW3yy7NEJLvGw7VGbFAcn/T1OdF9QsO/r0bazr5MAw6bvqEzbIouWL
+ Wi628UxlU7ewewTkAQWQntT5Ll2NE8T/5/wPaJE18Z3E8CgvRnTISY8Z0xvD8oaT/Z/mb37KQ
+ IOtYNvkgskTmX+X0E0ExO0Jz7ms+4Gd0Zy7luMrSnn2vMoBKK/2oz7YQRNQKqvPYHvUOSrDSZ
+ udGZjQiZ0AhDeh7BW6XPFiQTBEly+d6I0u8OMidT2mZ/jf0Qu9UT0KY0z48Qy8sBTU+l2Rr7h
+ hFtMy99dOvVZKGcp4r4i3ect5V2vL6ps5YoWFwfCNS0GM1JEtUha1qhCewc6NyDj58CVMG+2r
+ F8cj49F7xvgxuM/XscAa0rwpR+lF5g4wMPwndtVdKJnXpo2TwCrO8bKW8hz2pTRZgAUCTZzl1
+ /IMJ+QxWP8TQ1ATAiZ5RTPSbK/6OgfFOA2HSLfKh89g5rVTLGKAkoqSm5WjpcWodrj364PH/t
+ eWQG5iYOEzCFpwZoRxs1r+gP2i8uccCxZyMGSIpHJ0Aki2osAmIjLv2yxKbViwxubJvQ7crak
+ j5gHUgsp/sDs5/0BxVl3mKkW3Bx8UjVOOHBs5uersOvIBgPGjSGyKxgzLbnu6FY0M1s7UkeY7
+ wBapvoWl2SQ3fIo+3AO3wWFSg4vKQWrN2OIAYdUy1HBMHUoyWizKLcsh3RvdRw9pY4rlCHEe5
+ BIePVMRR2FlC/Wn43zLwk++446E7y6xs7Fu6+SN71dXbMWeqk9Vy6tpGdsw0BjjMCLS9XQ9
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 11:59:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,304 +67,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
- ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
- shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
- mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added a check such that only singleton IOMMU groups can pin pages.
-From the point when vendor driver pins any pages, consider IOMMU group
-dirty page scope to be limited to pinned pages.
-
-To optimize to avoid walking list often, added flag
-pinned_page_dirty_scope to indicate if all of the vfio_groups for each
-vfio_domain in the domain_list dirty page scope is limited to pinned
-pages. This flag is updated on first pinned pages request for that IOMMU
-group and on attaching/detaching group.
-
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- drivers/vfio/vfio.c             | 13 ++++--
- drivers/vfio/vfio_iommu_type1.c | 94 +++++++++++++++++++++++++++++++++++++++--
- include/linux/vfio.h            |  4 +-
- 3 files changed, 104 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 765e0e5d83ed..580099afeaff 100644
---- a/drivers/vfio/vfio.c
-+++ b/drivers/vfio/vfio.c
-@@ -85,6 +85,7 @@ struct vfio_group {
- 	atomic_t			opened;
- 	wait_queue_head_t		container_q;
- 	bool				noiommu;
-+	unsigned int			dev_counter;
- 	struct kvm			*kvm;
- 	struct blocking_notifier_head	notifier;
- };
-@@ -555,6 +556,7 @@ struct vfio_device *vfio_group_create_device(struct vfio_group *group,
- 
- 	mutex_lock(&group->device_lock);
- 	list_add(&device->group_next, &group->device_list);
-+	group->dev_counter++;
- 	mutex_unlock(&group->device_lock);
- 
- 	return device;
-@@ -567,6 +569,7 @@ static void vfio_device_release(struct kref *kref)
- 	struct vfio_group *group = device->group;
- 
- 	list_del(&device->group_next);
-+	group->dev_counter--;
- 	mutex_unlock(&group->device_lock);
- 
- 	dev_set_drvdata(device->dev, NULL);
-@@ -1945,6 +1948,9 @@ int vfio_pin_pages(struct device *dev, unsigned long *user_pfn, int npage,
- 	if (!group)
- 		return -ENODEV;
- 
-+	if (group->dev_counter > 1)
-+		return -EINVAL;
-+
- 	ret = vfio_group_add_container_user(group);
- 	if (ret)
- 		goto err_pin_pages;
-@@ -1952,7 +1958,8 @@ int vfio_pin_pages(struct device *dev, unsigned long *user_pfn, int npage,
- 	container = group->container;
- 	driver = container->iommu_driver;
- 	if (likely(driver && driver->ops->pin_pages))
--		ret = driver->ops->pin_pages(container->iommu_data, user_pfn,
-+		ret = driver->ops->pin_pages(container->iommu_data,
-+					     group->iommu_group, user_pfn,
- 					     npage, prot, phys_pfn);
- 	else
- 		ret = -ENOTTY;
-@@ -2050,8 +2057,8 @@ int vfio_group_pin_pages(struct vfio_group *group,
- 	driver = container->iommu_driver;
- 	if (likely(driver && driver->ops->pin_pages))
- 		ret = driver->ops->pin_pages(container->iommu_data,
--					     user_iova_pfn, npage,
--					     prot, phys_pfn);
-+					     group->iommu_group, user_iova_pfn,
-+					     npage, prot, phys_pfn);
- 	else
- 		ret = -ENOTTY;
- 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index b38d278d7bff..f8b354681516 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -72,6 +72,7 @@ struct vfio_iommu {
- 	bool			v2;
- 	bool			nesting;
- 	bool			dirty_page_tracking;
-+	bool			pinned_page_dirty_scope;
- };
- 
- struct vfio_domain {
-@@ -99,6 +100,7 @@ struct vfio_group {
- 	struct iommu_group	*iommu_group;
- 	struct list_head	next;
- 	bool			mdev_group;	/* An mdev group */
-+	bool			pinned_page_dirty_scope;
- };
- 
- struct vfio_iova {
-@@ -143,6 +145,10 @@ struct vfio_regions {
- static int put_pfn(unsigned long pfn, int prot);
- static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu);
- 
-+static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
-+					       struct iommu_group *iommu_group);
-+
-+static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu);
- /*
-  * This code handles mapping and unmapping of user data buffers
-  * into DMA'ble space using the IOMMU
-@@ -589,11 +595,13 @@ static int vfio_unpin_page_external(struct vfio_dma *dma, dma_addr_t iova,
- }
- 
- static int vfio_iommu_type1_pin_pages(void *iommu_data,
-+				      struct iommu_group *iommu_group,
- 				      unsigned long *user_pfn,
- 				      int npage, int prot,
- 				      unsigned long *phys_pfn)
- {
- 	struct vfio_iommu *iommu = iommu_data;
-+	struct vfio_group *group;
- 	int i, j, ret;
- 	unsigned long remote_vaddr;
- 	struct vfio_dma *dma;
-@@ -667,8 +675,14 @@ static int vfio_iommu_type1_pin_pages(void *iommu_data,
- 				   (vpfn->iova - dma->iova) >> pgshift, 1);
- 		}
- 	}
--
- 	ret = i;
-+
-+	group = vfio_iommu_find_iommu_group(iommu, iommu_group);
-+	if (!group->pinned_page_dirty_scope) {
-+		group->pinned_page_dirty_scope = true;
-+		update_pinned_page_dirty_scope(iommu);
-+	}
-+
- 	goto pin_done;
- 
- pin_unwind:
-@@ -950,8 +964,11 @@ static int vfio_iova_dirty_bitmap(struct vfio_iommu *iommu, dma_addr_t iova,
- 	npages = dma->size >> pgshift;
- 	bitmap_size = DIRTY_BITMAP_BYTES(npages);
- 
--	/* mark all pages dirty if all pages are pinned and mapped. */
--	if (dma->iommu_mapped)
-+	/*
-+	 * mark all pages dirty if any IOMMU capable device is not able
-+	 * to report dirty pages and all pages are pinned and mapped.
-+	 */
-+	if (!iommu->pinned_page_dirty_scope && dma->iommu_mapped)
- 		bitmap_set(dma->bitmap, 0, npages);
- 
- 	if (copy_to_user((void __user *)bitmap, dma->bitmap, bitmap_size))
-@@ -1472,6 +1489,51 @@ static struct vfio_group *find_iommu_group(struct vfio_domain *domain,
- 	return NULL;
- }
- 
-+static struct vfio_group *vfio_iommu_find_iommu_group(struct vfio_iommu *iommu,
-+					       struct iommu_group *iommu_group)
-+{
-+	struct vfio_domain *domain;
-+	struct vfio_group *group = NULL;
-+
-+	list_for_each_entry(domain, &iommu->domain_list, next) {
-+		group = find_iommu_group(domain, iommu_group);
-+		if (group)
-+			return group;
-+	}
-+
-+	if (iommu->external_domain)
-+		group = find_iommu_group(iommu->external_domain, iommu_group);
-+
-+	return group;
-+}
-+
-+static void update_pinned_page_dirty_scope(struct vfio_iommu *iommu)
-+{
-+	struct vfio_domain *domain;
-+	struct vfio_group *group;
-+
-+	list_for_each_entry(domain, &iommu->domain_list, next) {
-+		list_for_each_entry(group, &domain->group_list, next) {
-+			if (!group->pinned_page_dirty_scope) {
-+				iommu->pinned_page_dirty_scope = false;
-+				return;
-+			}
-+		}
-+	}
-+
-+	if (iommu->external_domain) {
-+		domain = iommu->external_domain;
-+		list_for_each_entry(group, &domain->group_list, next) {
-+			if (!group->pinned_page_dirty_scope) {
-+				iommu->pinned_page_dirty_scope = false;
-+				return;
-+			}
-+		}
-+	}
-+
-+	iommu->pinned_page_dirty_scope = true;
-+}
-+
- static bool vfio_iommu_has_sw_msi(struct list_head *group_resv_regions,
- 				  phys_addr_t *base)
- {
-@@ -1878,6 +1940,16 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 
- 			list_add(&group->next,
- 				 &iommu->external_domain->group_list);
-+			/*
-+			 * Non-iommu backed group cannot dirty memory directly,
-+			 * it can only use interfaces that provide dirty
-+			 * tracking.
-+			 * The iommu scope can only be promoted with the
-+			 * addition of a dirty tracking group.
-+			 */
-+			group->pinned_page_dirty_scope = true;
-+			if (!iommu->pinned_page_dirty_scope)
-+				update_pinned_page_dirty_scope(iommu);
- 			mutex_unlock(&iommu->lock);
- 
- 			return 0;
-@@ -2000,6 +2072,13 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- done:
- 	/* Delete the old one and insert new iova list */
- 	vfio_iommu_iova_insert_copy(iommu, &iova_copy);
-+
-+	/*
-+	 * An iommu backed group can dirty memory directly and therefore
-+	 * demotes the iommu scope until it declares itself dirty tracking
-+	 * capable via the page pinning interface.
-+	 */
-+	iommu->pinned_page_dirty_scope = false;
- 	mutex_unlock(&iommu->lock);
- 	vfio_iommu_resv_free(&group_resv_regions);
- 
-@@ -2152,6 +2231,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	struct vfio_iommu *iommu = iommu_data;
- 	struct vfio_domain *domain;
- 	struct vfio_group *group;
-+	bool update_dirty_scope = false;
- 	LIST_HEAD(iova_copy);
- 
- 	mutex_lock(&iommu->lock);
-@@ -2159,6 +2239,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	if (iommu->external_domain) {
- 		group = find_iommu_group(iommu->external_domain, iommu_group);
- 		if (group) {
-+			update_dirty_scope = !group->pinned_page_dirty_scope;
- 			list_del(&group->next);
- 			kfree(group);
- 
-@@ -2188,6 +2269,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 			continue;
- 
- 		vfio_iommu_detach_group(domain, group);
-+		update_dirty_scope = !group->pinned_page_dirty_scope;
- 		list_del(&group->next);
- 		kfree(group);
- 		/*
-@@ -2218,6 +2300,12 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 		vfio_iommu_iova_free(&iova_copy);
- 
- detach_group_done:
-+	/*
-+	 * Removal of a group without dirty tracking may allow the iommu scope
-+	 * to be promoted.
-+	 */
-+	if (update_dirty_scope)
-+		update_pinned_page_dirty_scope(iommu);
- 	mutex_unlock(&iommu->lock);
- }
- 
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index 5d92ee15d098..38d3c6a8dc7e 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -76,7 +76,9 @@ struct vfio_iommu_driver_ops {
- 					struct iommu_group *group);
- 	void		(*detach_group)(void *iommu_data,
- 					struct iommu_group *group);
--	int		(*pin_pages)(void *iommu_data, unsigned long *user_pfn,
-+	int		(*pin_pages)(void *iommu_data,
-+				     struct iommu_group *group,
-+				     unsigned long *user_pfn,
- 				     int npage, int prot,
- 				     unsigned long *phys_pfn);
- 	int		(*unpin_pages)(void *iommu_data,
--- 
-2.7.0
-
+The following changes since commit 2ef486e76d64436be90f7359a3071fb2a56ce835=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/marcel/tags/rdma-pull-request' into=
+ s=3D=0D
+taging (2020-05-03 14:12:56 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-request=
+=0D
+=0D
+for you to fetch changes up to e702fba83108519618046a2a09235a62e3a81595:=0D
+=0D
+  hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warning (2=
+02=3D=0D
+0-05-04 14:43:24 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+trivial patches (20200504)=0D
+=0D
+Silent static analyzer warning=0D
+Remove dead assignments=0D
+Support -chardev serial on macOS=0D
+Update MAINTAINERS=0D
+Some cosmetic changes=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Chen Qun (3):=0D
+  scsi/esp-pci: add g_assert() for fix clang analyzer warning in=0D
+    esp_pci_io_write()=0D
+  display/blizzard: use extract16() for fix clang analyzer warning in=0D
+    blizzard_draw_line16_32()=0D
+  timer/exynos4210_mct: Remove redundant statement in=0D
+    exynos4210_mct_write()=0D
+=0D
+Mikhail Gusarov (1):=0D
+  chardev: Add macOS to list of OSes that support -chardev serial=0D
+=0D
+Peter Maydell (1):=0D
+  elf_ops: Don't try to g_mapped_file_unref(NULL)=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (11):=0D
+  MAINTAINERS: Mark the LatticeMico32 target as orphan=0D
+  MAINTAINERS: Update Keith Busch's email address=0D
+  block: Avoid dead assignment=0D
+  blockdev: Remove dead assignment=0D
+  hw/i2c/pm_smbus: Remove dead assignment=0D
+  hw/input/adb-kbd: Remove dead assignment=0D
+  hw/ide/sii3112: Remove dead assignment=0D
+  hw/isa/i82378: Remove dead assignment=0D
+  hw/gpio/aspeed_gpio: Remove dead assignment=0D
+  hw/timer/stm32f2xx_timer: Remove dead assignment=0D
+  hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warning=0D
+=0D
+Simran Singhal (1):=0D
+  Compress lines for immediate return=0D
+=0D
+Wainer dos Santos Moschetta (2):=0D
+  hw/mem/pc-dimm: Print slot number on error at pc_dimm_pre_plug()=0D
+  hw/mem/pc-dimm: Fix line over 80 characters warning=0D
+=0D
+ MAINTAINERS                | 14 +++++++-------=0D
+ block.c                    |  2 +-=0D
+ block/file-posix.c         |  8 +++-----=0D
+ block/nfs.c                |  3 +--=0D
+ block/nvme.c               |  4 +---=0D
+ block/vhdx.c               |  3 +--=0D
+ blockdev.c                 |  2 +-=0D
+ chardev/char-serial.c      |  2 +-=0D
+ hw/audio/ac97.c            |  4 +---=0D
+ hw/audio/adlib.c           |  5 +----=0D
+ hw/display/blizzard.c      | 10 ++++------=0D
+ hw/display/cirrus_vga.c    |  4 +---=0D
+ hw/gpio/aspeed_gpio.c      |  2 +-=0D
+ hw/i2c/pm_smbus.c          |  1 -=0D
+ hw/ide/sii3112.c           |  5 +++--=0D
+ hw/input/adb-kbd.c         |  6 +-----=0D
+ hw/isa/i82378.c            |  8 ++++----=0D
+ hw/mem/pc-dimm.c           |  7 ++++---=0D
+ hw/scsi/esp-pci.c          |  1 +=0D
+ hw/timer/exynos4210_mct.c  |  4 ----=0D
+ hw/timer/pxa2xx_timer.c    |  1 +=0D
+ hw/timer/stm32f2xx_timer.c |  1 -=0D
+ include/hw/elf_ops.h       |  4 +++-=0D
+ include/qemu/osdep.h       |  2 +-=0D
+ migration/ram.c            |  4 +---=0D
+ ui/gtk.c                   |  3 +--=0D
+ util/qemu-sockets.c        |  5 +----=0D
+ 27 files changed, 45 insertions(+), 70 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
