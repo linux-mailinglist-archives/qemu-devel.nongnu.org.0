@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5A91C3B23
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 15:22:43 +0200 (CEST)
-Received: from localhost ([::1]:58692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C011C3B2C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 15:25:22 +0200 (CEST)
+Received: from localhost ([::1]:36688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVb3S-0002do-Uz
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 09:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35658)
+	id 1jVb61-0005Y2-Fl
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 09:25:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVb2U-0001ec-G3
- for qemu-devel@nongnu.org; Mon, 04 May 2020 09:21:42 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46235
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVb2T-0004JD-QH
- for qemu-devel@nongnu.org; Mon, 04 May 2020 09:21:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588598501;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nqSD6qAyAkGCIfkp1Siu8GIotOazATRZazL1i1TDShI=;
- b=VYV8cl4JUmilIpu8EOf20Lyni4AOxYEI2PVmun5g2nZc0YNL/MRRzUB0Bc0PAuiRlvmmNV
- 091HEHgofi2hF264TGLZCJTmBOPWFzCvzcQ9T3ZxYpGz8hIiaeOofVt8NO8RFaQugsHkux
- iOXADul1xAdlaJ/v3915ASXMCc4kd4s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-8nwoLZUCOIynU7vTIHv0tA-1; Mon, 04 May 2020 09:21:39 -0400
-X-MC-Unique: 8nwoLZUCOIynU7vTIHv0tA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58A398018A2;
- Mon,  4 May 2020 13:21:38 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2864A58;
- Mon,  4 May 2020 13:21:30 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B2B4717477; Mon,  4 May 2020 15:21:28 +0200 (CEST)
-Date: Mon, 4 May 2020 15:21:28 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 10/15] acpi: parallel: don't use _STA method
-Message-ID: <20200504132128.m2u652gzfwfodyoh@sirius.home.kraxel.org>
-References: <20200429140003.7336-1-kraxel@redhat.com>
- <20200429140003.7336-11-kraxel@redhat.com>
- <8b586c32-611d-330c-5d3e-fa595c37eae5@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jVb51-0004YI-BA; Mon, 04 May 2020 09:24:19 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54075)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jVb50-00063G-4k; Mon, 04 May 2020 09:24:18 -0400
+Received: by mail-wm1-x343.google.com with SMTP id k12so8392519wmj.3;
+ Mon, 04 May 2020 06:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=P6mz5i5MjURQjd76DBHa/3fb9OF1Vg3Yy6baRWjyx7A=;
+ b=auGg78cT5GOY6cmXD7x/7xTsPgANoyyUerjFaG7vgaBcg7veJftCjDSttF9OhEOucD
+ 7oBrmEREAgfGzKsbHB1ajkWYDPsO7bEV/HYGMC5oF3XWpANvvUWL9oMMBnSOZad0xugr
+ 9JrqcRJcEQ9yODHKbHwFnNnv/z06eFpnYX/8ycxqTvHB8UyW0Vx9iMlR3q/RspI1y7lU
+ C+AxfUBfdkkowUnTmxVPHobbcT7Dq8/2XRcERyVLzTww+yTSEKi1Y77nclxce4R2tap5
+ UNGMj5e3pMf4kj/3ndijoySX09o8ejRaui80VkaPCa97Jx7XSrrkGwowCA4Z+J1/Nu5j
+ n5WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=P6mz5i5MjURQjd76DBHa/3fb9OF1Vg3Yy6baRWjyx7A=;
+ b=jSTlv5fEAyztqffa+R11YUVFQZt4lvEw8/mw3dfLvpNuLBZhNfSv7w3OY53ey7ycUL
+ eXenM2JSs+yfawbB7ZEnRhZAxsIWtCuywIUd34IL6toARaZmq3rFNrLwSp4VHLzmYch3
+ jS0wgo87hbs9iP7dGOO7R6SvOIuHEbIjTQbCu64NDFeVdvFx0/FJ/bgV4cbUL6Wkack8
+ lTRtUP9X+dy2is00x2dNyfYmlVLIxnGxEgNvnW9ribTINYbyU054zMnEVx0ORiPfW2K2
+ bx5BBDs7PW01LC/4ygIdyIUNJOjqcGneBtJ0K2KrGb5/vBSECZDbObQsas9AXbkqrlxG
+ HPnA==
+X-Gm-Message-State: AGi0Pubdao5DvpbkBU6FL4fyI5x0aiCO7wgamdM02iIOINkIPyVilQh5
+ +c1LFHg6elPTgfwUtlAxWfA=
+X-Google-Smtp-Source: APiQypIAcV9PuN2gQUytBlAtuuqmyLRY6CYmKxlauENAICA9PS4UhuxyKVAkvfqRaG3xtTTz0bpmGQ==
+X-Received: by 2002:a1c:4304:: with SMTP id q4mr15752880wma.152.1588598656261; 
+ Mon, 04 May 2020 06:24:16 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id w12sm18609055wrk.56.2020.05.04.06.24.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 06:24:15 -0700 (PDT)
+Date: Mon, 4 May 2020 14:24:14 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH] iotests/041: Fix NBD socket path
+Message-ID: <20200504132414.GF354891@stefanha-x1.localdomain>
+References: <20200424134626.78945-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <8b586c32-611d-330c-5d3e-fa595c37eae5@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="z+pzSjdB7cqptWpS"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <20200424134626.78945-1-mreitz@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=stefanha@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,24 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
 
-> Also, it may be worth a ISA_PARALLEL_IOBASE 0x378 definition cleanup like
-> you did with the RTC.
+--z+pzSjdB7cqptWpS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Next patch in series deals with that.
+On Fri, Apr 24, 2020 at 03:46:26PM +0200, Max Reitz wrote:
+> We should put all UNIX socket files into the sock_dir, not test_dir.
+>=20
+> Reported-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/041 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-take care,
-  Gerd
+Cool, thanks for fixing this!
 
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--z+pzSjdB7cqptWpS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6wF34ACgkQnKSrs4Gr
+c8iEBAf/b5I9xULCCdjKSHvIGDpCS6GcN2/GtrCo8KC81ECncNmXR1ywAG6wRKk9
+EdGXbZyBwIqig4Ae3up6aTDtbFYyEhkDbIPkg9AmyTGybyBn++HLKhG8cC4bVThb
+51E7ohCw9Z1tbnpoBdUnSJ7khV6ZfJnFIO6r1Kru/zAEV2A44+Pv9Cz59jwBp6vF
+qQNZLQpJzSQHBhDYSrhtTw0xwe+axbS5pScIZv6BEKVC4J6Rne9ruBUk8nCiQ3/r
+5UalI5UGoFYpps+7OEhqe+RrtUKyL44PwOgPWHRxUfHbrItgUB0pf9QWaLeAdlfb
+HpFqJQ70zCpXpRChiWgxqfPlVX6yGw==
+=ZKvG
+-----END PGP SIGNATURE-----
+
+--z+pzSjdB7cqptWpS--
 
