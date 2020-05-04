@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAB61C3EFA
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:52:05 +0200 (CEST)
-Received: from localhost ([::1]:34062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5701C3EDC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:46:34 +0200 (CEST)
+Received: from localhost ([::1]:41948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdO0-0001Cn-S8
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:52:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34846)
+	id 1jVdIf-00013h-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:46:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jVdGG-0005YA-TY
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:44:04 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1jVdGF-0008Dy-Uw
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:44:04 -0400
-Received: by mail-wr1-x441.google.com with SMTP id y3so2496633wrt.1
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 08:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RNVwCExpinKLbC+knXSl1dCu2kPKygsdfJNuCh7loes=;
- b=t/sKZ9NNlo4TLVl1PeuNO1VPBkyipetxgnebedlOc8B3bHy4Z+EalKsvAJhx6hLsYV
- 1bfiU8RS1udlov0lh1cR3AlaN6dv1ZvjoQrHiLZoS62flu4NDDAsPrkZVCgC8PMy4N+3
- 0x+ra4CB83CmOPFqCdSJ/x1hiiQhxKw7T/Q6xxxKe/OspoSseAjwj6d+KDhu26NazJC0
- ozs5okAn6jhIHIHgZ+YRNtHsuzYJFFFpFVOLd72OBgeDmJ7Y394rq5wU2oupDPlhX6Jn
- ecLXHa5dvnuhGbwdZHFphT2mwo8jIXyuCoIBJTcQY5Zi1k1uCY/Ic/Nxa9nHeMK67aBR
- Tr6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RNVwCExpinKLbC+knXSl1dCu2kPKygsdfJNuCh7loes=;
- b=qy/1FFCS95TvoobwKiipAiClagcKtmIfyMRSR37lN1s54gPncjaRMczKG50zX/376t
- wcKExuK39ckj7AF/03kXk2ePv3BRoEJ3VqwPaHGNHe3vMYU7sNn3xO1iTYQ0Ro8ePpXi
- HY46L9CRtrTJw7EXioc4Xyr69pDbiutXSuKPU8bf1CAHeyK/SlPUOnOkeWUW93h6tLgJ
- g1JxUtCLdJJqkWlUMUtDgkHjFne0HhhFO/GbNgUjrFnveFrKmh26bb6Qd0KT9n/sqhQp
- wpir+fnL6dDDABYMSVLNjTO7lpO8YbTjjKB6O7N+BOGYi6cBrmXdYj/JqIOGfn8yAF+e
- /qBQ==
-X-Gm-Message-State: AGi0PuasO0WKNmbvwrlvgfW2JTLfkICzDBAqgumzseg3eRMymSqQ+AyF
- 3AuiYovACQUtYx6cVqRlI7zpIywxehkIRjlQ6Pc=
-X-Google-Smtp-Source: APiQypKEiluGmgu7swTYFdx9cGouHCegW2DZpoI+oGf+q6ZQxlmbAE+Q/v5W+JHL9kYJcE+9VPF6K715FPjPn2ocpKQ=
-X-Received: by 2002:a5d:6609:: with SMTP id n9mr2955948wru.32.1588607042460;
- Mon, 04 May 2020 08:44:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jVdH8-0007km-3v
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:44:58 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40081
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1jVdH6-0008Lv-KK
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:44:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588607094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ks4ptpeKfPoz4LZEmpjuCiZs5YXStm1Qc7IxbkJ0+Hw=;
+ b=H+JsoJTOmDvGbD1X3RxvV4hrFe6WN5k1LKb8FzA3wMZOtVuugUeT9J6LNT5ilPY2/RztU2
+ 5+jqEZjs3wdk81lJj8s+mM4gyGK1PrC+xAaXJIt5iMkGHj6IaeFWwjGLRCmG8Lz6VVTnqR
+ jEgH8ERF7OYxRuodzAZEpDhew8uGrJE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-hN6nJ15vOo-hacErbv-NzQ-1; Mon, 04 May 2020 11:44:53 -0400
+X-MC-Unique: hN6nJ15vOo-hacErbv-NzQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2CD7835B51;
+ Mon,  4 May 2020 15:44:51 +0000 (UTC)
+Received: from localhost (ovpn-115-57.phx2.redhat.com [10.3.115.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D4525C1B2;
+ Mon,  4 May 2020 15:44:51 +0000 (UTC)
+Date: Mon, 4 May 2020 11:44:50 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH] hostmem: don't use mbind() if host-nodes is epmty
+Message-ID: <20200504154450.GM5244@habkost.net>
+References: <20200430154606.6421-1-imammedo@redhat.com>
 MIME-Version: 1.0
-References: <348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com>
- <CAJ+F1CJsBRp+9yf=kGZt18APXskO8NWyQ1YEqauLYhiNmcW39Q@mail.gmail.com>
- <47c7707a-b5c5-4d25-8d86-ced4741f6a27@www.fastmail.com>
-In-Reply-To: <47c7707a-b5c5-4d25-8d86-ced4741f6a27@www.fastmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 4 May 2020 17:43:51 +0200
-Message-ID: <CAJ+F1CK441uAWy9s78AytXvPxnCWjjBW2cMkiDGS8GhHpVzZXQ@mail.gmail.com>
-Subject: Re: [PATCH] virtiofsd: Use clone() and not unshare(), support non-root
-To: Colin Walters <walters@verbum.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200430154606.6421-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,55 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, mhohmann@physnet.uni-hamburg.de, berrange@redhat.com,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Thu, Apr 30, 2020 at 11:46:06AM -0400, Igor Mammedov wrote:
+> Since 5.0 QEMU uses hostmem backend for allocating main guest RAM.
+> The backend however calls mbind() which is typically NOP
+> in case of default policy/absent host-nodes bitmap.
+> However when runing in container with black-listed mbind()
+> syscall, QEMU fails to start with error
+>  "cannot bind memory to host NUMA nodes: Operation not permitted"
+> even when user hasn't provided host-nodes to pin to explictly
+> (which is the case with -m option)
+>=20
+> To fix issue, call mbind() only in case when user has provided
+> host-nodes explicitly (i.e. host_nodes bitmap is not empty).
+> That should allow to run QEMU in containers with black-listed
+> mbind() without memory pinning. If QEMU provided memory-pinning
+> is required user still has to white-list mbind() in container
+> configuration.
+>=20
+> Reported-by: Manuel Hohmann <mhohmann@physnet.uni-hamburg.de>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 
-On Mon, May 4, 2020 at 4:27 PM Colin Walters <walters@verbum.org> wrote:
->
->
->
-> On Mon, May 4, 2020, at 10:07 AM, Marc-Andr=C3=A9 Lureau wrote:
->
-> > Now that systemd-nspawn works without privileges, isn't that also a
-> > solution? One that would fit both system and session level
-> > permissions, and integration with other services?
->
-> This is a complex topic and one I should probably write up in the bubblew=
-rap README.md.  Today for example for CoreOS, our build and CI processes ru=
-n inside OpenShift (Kubernetes) - we aren't running systemd inside our cont=
-ainers.
-
-Actually, I mean systemd-run (oops!)
-
->
-> bubblewrap is a small self-contained C wrapper around the container syste=
-m calls basically.  In contrast, AFAICS right now, nspawn requires systemd =
-- which won't work for our use case.
->
-> Really the contention point here is systemd's dependency on cgroups for p=
-rocess tracking; in a "nested containerization" scenario you often just wan=
-t the cgroups from the "outer" container to apply.  But having nested mount=
-s/pid namespaces are still very useful.  (That said, cgroups v2 allows sane=
- nesting, but we aren't there yet)
->
-> Also related is https://github.com/kubernetes/enhancements/issues/127 - w=
-ithout that one requires privileged containers to do nesting.
->
-> Now honestly, probably an even easier fix is `virtiofsd --disable-sandbox=
-ing` because we fully trust the code running in these VMs.
->
-> Or to directly respond again to your proposal: systemd-nspawn as an optio=
-n may work for some cases but won't for mine (I don't want virtiofsd/qemu i=
-nstances to "escape" the build container or run separately).
->
-
-You can run within your parent slice, and even more conveniently with:
-https://github.com/systemd/systemd/pull/15362
-
+Queued on machine-next, thanks!
 
 --=20
-Marc-Andr=C3=A9 Lureau
+Eduardo
+
 
