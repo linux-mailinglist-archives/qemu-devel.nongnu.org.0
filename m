@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0777A1C4A63
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:36:35 +0200 (CEST)
-Received: from localhost ([::1]:47174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90C91C4A84
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:44:05 +0200 (CEST)
+Received: from localhost ([::1]:40410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVkdV-0007j3-Ud
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:36:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37916)
+	id 1jVkkm-00008H-Ko
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jVkOT-0004Gp-0v
- for qemu-devel@nongnu.org; Mon, 04 May 2020 19:21:01 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19493)
+ id 1jVkOm-0004ac-O3
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:21:20 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jVkOR-0001Zz-8s
- for qemu-devel@nongnu.org; Mon, 04 May 2020 19:21:00 -0400
+ id 1jVkOj-0001vi-Gk
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:21:19 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5eb0a3140000>; Mon, 04 May 2020 16:19:48 -0700
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5eb0a2e50001>; Mon, 04 May 2020 16:19:01 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Mon, 04 May 2020 16:20:57 -0700
+ Mon, 04 May 2020 16:21:09 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Mon, 04 May 2020 16:20:57 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
- 2020 23:20:57 +0000
+ by hqpgpgate101.nvidia.com on Mon, 04 May 2020 16:21:09 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
+ 2020 23:21:09 +0000
 Received: from [10.40.101.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
  (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May 2020
- 23:20:48 +0000
-Subject: Re: [PATCH v16 QEMU 08/16] vfio: Register SaveVMHandlers for VFIO
- device
+ 23:21:00 +0000
+Subject: Re: [PATCH v16 QEMU 10/16] vfio: Add load state functions to
+ SaveVMHandlers
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-9-git-send-email-kwankhede@nvidia.com>
- <20200401173640.GG52559@work-vm>
+ <1585084154-29461-11-git-send-email-kwankhede@nvidia.com>
+ <20200401185829.GH52559@work-vm>
 X-Nvconfidentiality: public
 From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <94a44095-afa9-13bc-4ba3-a5331457cbee@nvidia.com>
-Date: Tue, 5 May 2020 04:50:45 +0530
+Message-ID: <da0e2f3e-2057-288e-0fb6-28cf9aa6b8b5@nvidia.com>
+Date: Tue, 5 May 2020 04:50:57 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200401173640.GG52559@work-vm>
+In-Reply-To: <20200401185829.GH52559@work-vm>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
@@ -54,20 +54,20 @@ Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1588634388; bh=flCEHWouK22a06o/oJscqkYvzF6jc9eIcvGnU1z3NwM=;
+ t=1588634342; bh=yRFNlgfF3mtpdAYKvf574WP9alUWkIcta7tpdw3BnCE=;
  h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
  Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
  X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
  Content-Transfer-Encoding;
- b=APKQ+lF0yYc1alxKb05Ig4AO2u3KBYq5dTTVqKiSVihmxwp1P+i02PK1aaxkMoFpG
- +3XAyOoAxgIklWkC5enw+emMIMmJegJZ5XrxDyj/arjGdjnHy2x7Tjz1lTPT5tUiId
- wIZhfEyNTWA9PKQ8X+tPCZDNge4lHy3c6ik9YSUgRmPohV8tsW1X5HI38CTYm8s6uT
- SteanwUdkjhajVdB6RwNwOEdFj4KnxIN/kcMHFOx+pkGqJb1KKresObaIYuDMEXKK/
- veFtnAG+lOMvnA3x8n+r5aduKA7XQ490anXvMVSHjRplE2vsCCAgbdq/+6b6vuvUss
- i/QRj158RzpLw==
-Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate25.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:18:33
+ b=oH74gTReyCEKhcmcuoNJIrkV+YTPe8czVKm4HwCJAgNJzjXwA0p5do2sw4WDhB/bv
+ jZVvIHTRs8S+lJhsHz2f+sALhcX2DYQzCDi7uqe0XcCMHPbLdhDVUwV9y47FlroiR8
+ jf+BJrDrWKxX6aaCEtQ+XkanIZvLZ1ff1egrN3RfZks3Jfde7Shqyn/d/GisTjIRkp
+ Zn/Ib2HMLkU4fNjVG4wrglMGD238tikm1YFpJDGc7WS4arpRqJQ+aJNIFLkpNmsIoj
+ jH+bXC152dDpPsJ6arGIq2A1yMZUgr9128Ba3Ju1f/lP0yvIGKP2yRUc3ej+ybcTTZ
+ FBAxFyxDE9W3g==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:18:10
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -70
 X-Spam_score: -7.1
@@ -99,171 +99,266 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 4/1/2020 11:06 PM, Dr. David Alan Gilbert wrote:
+On 4/2/2020 12:28 AM, Dr. David Alan Gilbert wrote:
 > * Kirti Wankhede (kwankhede@nvidia.com) wrote:
->> Define flags to be used as delimeter in migration file stream.
->> Added .save_setup and .save_cleanup functions. Mapped & unmapped migration
->> region from these functions at source during saving or pre-copy phase.
->> Set VFIO device state depending on VM's state. During live migration, VM is
->> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
->> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
+>> Sequence  during _RESUMING device state:
+>> While data for this device is available, repeat below steps:
+>> a. read data_offset from where user application should write data.
+>> b. write data of data_size to migration region from data_offset.
+>> c. write data_size which indicates vendor driver that data is written in
+>>     staging buffer.
+>>
+>> For user, data is opaque. User should write data in the same order as
+>> received.
 >>
 >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 >> Reviewed-by: Neo Jia <cjia@nvidia.com>
 >> ---
->>   hw/vfio/migration.c  | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->>   hw/vfio/trace-events |  2 ++
->>   2 files changed, 78 insertions(+)
+>>   hw/vfio/migration.c  | 179 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>>   hw/vfio/trace-events |   3 +
+>>   2 files changed, 182 insertions(+)
 >>
 >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
->> index 22ded9d28cf3..033f76526e49 100644
+>> index ecbeed5182c2..ab295d25620e 100644
 >> --- a/hw/vfio/migration.c
 >> +++ b/hw/vfio/migration.c
->> @@ -8,6 +8,7 @@
->>    */
->>   
->>   #include "qemu/osdep.h"
->> +#include "qemu/main-loop.h"
->>   #include <linux/vfio.h>
->>   
->>   #include "sysemu/runstate.h"
->> @@ -24,6 +25,17 @@
->>   #include "pci.h"
->>   #include "trace.h"
->>   
->> +/*
->> + * Flags used as delimiter:
->> + * 0xffffffff => MSB 32-bit all 1s
->> + * 0xef10     => emulated (virtual) function IO
->> + * 0x0000     => 16-bits reserved for flags
->> + */
->> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
->> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
->> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
->> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
->> +
->>   static void vfio_migration_region_exit(VFIODevice *vbasedev)
->>   {
->>       VFIOMigration *migration = vbasedev->migration;
->> @@ -126,6 +138,69 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
->>       return 0;
+>> @@ -269,6 +269,33 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+>>       return qemu_file_get_error(f);
 >>   }
 >>   
->> +/* ---------------------------------------------------------------------- */
+>> +static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+>> +{
+>> +    VFIODevice *vbasedev = opaque;
+>> +    uint64_t data;
 >> +
->> +static int vfio_save_setup(QEMUFile *f, void *opaque)
+>> +    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
+>> +        int ret;
+>> +
+>> +        ret = vbasedev->ops->vfio_load_config(vbasedev, f);
+>> +        if (ret) {
+>> +            error_report("%s: Failed to load device config space",
+>> +                         vbasedev->name);
+>> +            return ret;
+>> +        }
+>> +    }
+>> +
+>> +    data = qemu_get_be64(f);
+>> +    if (data != VFIO_MIG_FLAG_END_OF_STATE) {
+>> +        error_report("%s: Failed loading device config space, "
+>> +                     "end flag incorrect 0x%"PRIx64, vbasedev->name, data);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    trace_vfio_load_device_config_state(vbasedev->name);
+>> +    return qemu_file_get_error(f);
+>> +}
+>> +
+>>   /* ---------------------------------------------------------------------- */
+>>   
+>>   static int vfio_save_setup(QEMUFile *f, void *opaque)
+>> @@ -434,12 +461,164 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>>       return ret;
+>>   }
+>>   
+>> +static int vfio_load_setup(QEMUFile *f, void *opaque)
 >> +{
 >> +    VFIODevice *vbasedev = opaque;
 >> +    VFIOMigration *migration = vbasedev->migration;
->> +    int ret;
->> +
->> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
+>> +    int ret = 0;
 >> +
 >> +    if (migration->region.mmaps) {
->> +        qemu_mutex_lock_iothread();
 >> +        ret = vfio_region_mmap(&migration->region);
->> +        qemu_mutex_unlock_iothread();
 >> +        if (ret) {
 >> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
->> +                         vbasedev->name, migration->region.index,
+>> +                         vbasedev->name, migration->region.nr,
 >> +                         strerror(-ret));
 >> +            return ret;
 >> +        }
 >> +    }
 >> +
->> +    ret = vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_SAVING);
+>> +    ret = vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_RESUMING);
 >> +    if (ret) {
->> +        error_report("%s: Failed to set state SAVING", vbasedev->name);
->> +        return ret;
+>> +        error_report("%s: Failed to set state RESUMING", vbasedev->name);
 >> +    }
+>> +    return ret;
+>> +}
 >> +
->> +    /*
->> +     * Save migration region size. This is used to verify migration region size
->> +     * is greater than or equal to migration region size at destination
->> +     */
->> +    qemu_put_be64(f, migration->region.size);
->> +
->> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> 
-> OK, good, so now we can change that to something else if you want to
-> migrate something extra in the future.
-> 
->> +    ret = qemu_file_get_error(f);
->> +    if (ret) {
->> +        return ret;
->> +    }
->> +
->> +    trace_vfio_save_setup(vbasedev->name);
-> 
-> I'd put that trace at the start of the function.
-> 
+>> +static int vfio_load_cleanup(void *opaque)
+>> +{
+>> +    vfio_save_cleanup(opaque);
 >> +    return 0;
 >> +}
 >> +
->> +static void vfio_save_cleanup(void *opaque)
+>> +static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
 >> +{
 >> +    VFIODevice *vbasedev = opaque;
 >> +    VFIOMigration *migration = vbasedev->migration;
+>> +    int ret = 0;
+>> +    uint64_t data, data_size;
 >> +
->> +    if (migration->region.mmaps) {
->> +        vfio_region_unmap(&migration->region);
->> +    }
->> +    trace_vfio_save_cleanup(vbasedev->name);
->> +}
+>> +    data = qemu_get_be64(f);
+>> +    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
 >> +
->> +static SaveVMHandlers savevm_vfio_handlers = {
->> +    .save_setup = vfio_save_setup,
->> +    .save_cleanup = vfio_save_cleanup,
->> +};
+>> +        trace_vfio_load_state(vbasedev->name, data);
 >> +
->> +/* ---------------------------------------------------------------------- */
+>> +        switch (data) {
+>> +        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
+>> +        {
+>> +            ret = vfio_load_device_config_state(f, opaque);
+>> +            if (ret) {
+>> +                return ret;
+>> +            }
+>> +            break;
+>> +        }
+>> +        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
+>> +        {
+>> +            uint64_t region_size = qemu_get_be64(f);
 >> +
->>   static void vfio_vmstate_change(void *opaque, int running, RunState state)
->>   {
->>       VFIODevice *vbasedev = opaque;
->> @@ -191,6 +266,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
->>           return ret;
->>       }
->>   
->> +    register_savevm_live("vfio", -1, 1, &savevm_vfio_handlers, vbasedev);
+>> +            if (migration->region.size < region_size) {
+>> +                error_report("%s: SETUP STATE: migration region too small, "
+>> +                             "0x%"PRIx64 " < 0x%"PRIx64, vbasedev->name,
+>> +                             migration->region.size, region_size);
+>> +                return -EINVAL;
+>> +            }
+>> +
+>> +            data = qemu_get_be64(f);
+>> +            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
 > 
-> That doesn't look right to me;  firstly the -1 should now be
-> VMSTATE_INSTANCE_ID_ANY - after the recent change in commit 1df2c9a
+> Can you explain why you're reading this here rather than letting it drop
+> through to the read at the end of the loop?
 > 
-> Have you tried this with two vfio devices?
 
-Yes. And it works with multiple vfio devices.
+To make sure sequence is followed, otherwise throw error.
+
+>> +                return ret;
+>> +            } else {
+>> +                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
+>> +                             vbasedev->name, data);
+>> +                return -EINVAL;
+>> +            }
+>> +            break;
+>> +        }
+>> +        case VFIO_MIG_FLAG_DEV_DATA_STATE:
+>> +        {
+>> +            VFIORegion *region = &migration->region;
+>> +            void *buf = NULL;
+>> +            bool buffer_mmaped = false;
+>> +            uint64_t data_offset = 0;
+>> +
+>> +            data_size = qemu_get_be64(f);
+>> +            if (data_size == 0) {
+>> +                break;
+>> +            }
+>> +
+>> +            ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
+>> +                        region->fd_offset +
+>> +                        offsetof(struct vfio_device_migration_info,
+>> +                        data_offset));
+>> +            if (ret != sizeof(data_offset)) {
+>> +                error_report("%s:Failed to get migration buffer data offset %d",
+>> +                             vbasedev->name, ret);
+>> +                return -EINVAL;
+>> +            }
+>> +
+>> +            if (region->mmaps) {
+>> +                buf = find_data_region(region, data_offset, data_size);
+>> +            }
+>> +
+>> +            buffer_mmaped = (buf != NULL) ? true : false;
+>> +
+>> +            if (!buffer_mmaped) {
+>> +                buf = g_try_malloc0(data_size);
+> 
+> data_size has been read off the wire at this point; can we sanity check
+> it?
+> 
+
+I do added a check above (data_size == 0), but here sanity check with what?
 
 Thanks,
 Kirti
 
-> This is quite rare - it's an iterative device that can have
-> multiple instances;  if you look at 'ram' for example, all the RAM
-> instances are handled inside the save_setup/save for the one instance of
-> 'ram'.  I think here you're trying to register an individual vfio
-> device, so if you had multiple devices you'd see this called twice.
+>> +                if (!buf) {
+>> +                    error_report("%s: Error allocating buffer ", __func__);
+>> +                    return -ENOMEM;
+>> +                }
+>> +            }
+>> +
+>> +            qemu_get_buffer(f, buf, data_size);
+>> +
+>> +            if (!buffer_mmaped) {
+>> +                ret = pwrite(vbasedev->fd, buf, data_size,
+>> +                             region->fd_offset + data_offset);
+>> +                g_free(buf);
+>> +
+>> +                if (ret != data_size) {
+>> +                    error_report("%s: Failed to set migration buffer %d",
+>> +                                 vbasedev->name, ret);
+>> +                    return -EINVAL;
+>> +                }
+>> +            }
+>> +
+>> +            ret = pwrite(vbasedev->fd, &data_size, sizeof(data_size),
+>> +                         region->fd_offset +
+>> +                       offsetof(struct vfio_device_migration_info, data_size));
+>> +            if (ret != sizeof(data_size)) {
+>> +                error_report("%s: Failed to set migration buffer data size %d",
+>> +                             vbasedev->name, ret);
+>> +                if (!buffer_mmaped) {
+>> +                    g_free(buf);
+>> +                }
+>> +                return -EINVAL;
+>> +            }
+>> +
+>> +            trace_vfio_load_state_device_data(vbasedev->name, data_offset,
+>> +                                              data_size);
+>> +            break;
+>> +        }
 > 
-> So either you need to make vfio_save_* do all of the devices in a loop -
-> which feels like a bad idea;  or replace "vfio" in that call by a unique
-> device name;  as long as your device has a bus path then you should be
-> able to use the same trick vmstate_register_with_alias_id does, and use
-> I think,  vmstate_if_get_id(VMSTAETE_IF(vbasedev)).
+> I'd add here a default:  that complains about an unknown tag.
 > 
-> but it might take some experimentation since this is an odd use.
+>> +        }
+>> +
+>> +        ret = qemu_file_get_error(f);
+>> +        if (ret) {
+>> +            return ret;
+>> +        }
+>> +        data = qemu_get_be64(f);
 > 
->>       vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
->>                                                             vbasedev);
+> I'd also check file_get_error again at this point; if you're unlucky you
+> get junk in 'data' and things get more confusing.
+> 
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>>   static SaveVMHandlers savevm_vfio_handlers = {
+>>       .save_setup = vfio_save_setup,
+>>       .save_cleanup = vfio_save_cleanup,
+>>       .save_live_pending = vfio_save_pending,
+>>       .save_live_iterate = vfio_save_iterate,
+>>       .save_live_complete_precopy = vfio_save_complete_precopy,
+>> +    .load_setup = vfio_load_setup,
+>> +    .load_cleanup = vfio_load_cleanup,
+>> +    .load_state = vfio_load_state,
+>>   };
 >>   
+>>   /* ---------------------------------------------------------------------- */
 >> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->> index 69503228f20e..4bb43f18f315 100644
+>> index bdf40ba368c7..ac065b559f4e 100644
 >> --- a/hw/vfio/trace-events
 >> +++ b/hw/vfio/trace-events
->> @@ -149,3 +149,5 @@ vfio_migration_probe(char *name, uint32_t index) " (%s) Region %d"
->>   vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
->>   vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_state) " (%s) running %d reason %s device state %d"
->>   vfio_migration_state_notifier(char *name, int state) " (%s) state %d"
->> +vfio_save_setup(char *name) " (%s)"
->> +vfio_save_cleanup(char *name) " (%s)"
+>> @@ -157,3 +157,6 @@ vfio_save_device_config_state(char *name) " (%s)"
+>>   vfio_save_pending(char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
+>>   vfio_save_iterate(char *name, int data_size) " (%s) data_size %d"
+>>   vfio_save_complete_precopy(char *name) " (%s)"
+>> +vfio_load_device_config_state(char *name) " (%s)"
+>> +vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
+> 
+> Please use const char*'s in traces.
+> 
+>> +vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
 >> -- 
 >> 2.7.0
 >>
