@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 201191C3EAA
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:37:13 +0200 (CEST)
-Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264261C3EE9
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:48:46 +0200 (CEST)
+Received: from localhost ([::1]:49004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVd9b-0006NJ-SN
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60722)
+	id 1jVdKn-0003wQ-50
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVd4Y-0007qx-5X; Mon, 04 May 2020 11:31:59 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:41096)
+ id 1jVd6D-0002XK-Dc; Mon, 04 May 2020 11:33:41 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:45132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVd4X-0007J1-9z; Mon, 04 May 2020 11:31:57 -0400
-Received: by mail-lj1-x243.google.com with SMTP id j3so10081911ljg.8;
- Mon, 04 May 2020 08:31:56 -0700 (PDT)
+ id 1jVd6C-0000NY-AT; Mon, 04 May 2020 11:33:41 -0400
+Received: by mail-lj1-x242.google.com with SMTP id h4so10093906ljg.12;
+ Mon, 04 May 2020 08:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=DAkGWiYCEBGONE/7ZtcTXQF56VZHlgRuV4N1X0KUVb0=;
- b=JxpyphBCvJkAZk4q20zhdvizJXoguO08FUgg52CgGNN82R9H97CW2ZQ8mBe9hp909N
- EIbtFCNFq2DWdW3ljcZpa20heXsw7Q31tV/nVA27wWo+8xY2roSz+No4mrG1mXIq9SDx
- GjpEwZpGODQ0Ufk7asu3W/k76kvwfnfzuNqyYplZZNykYdOrxwxtQ94DG6T6uG4XaiMv
- 8en/0lCN2P5zKhpxz2U0A2TNP9X0N1z29BPIcn9IWn1oEt4wbwlgoTrOi1BGfsGEyXoD
- WBYsh5doUIp0PN7A7PsS6Z3jwb0VaL5KO8YtqhCfIMldurtDuFjwy2IXADPrlhoYUhrE
- C3BQ==
+ bh=Mmsxnx3sLFnb7ifma6tJvRbX0iKMzwxA9neai4apcBM=;
+ b=HuVtTNzulah/SOU4QPIK5hJ+V0rvpzd/oBi3KlmJ7CgAM4cCFeOClla2AgdfDmM5Ry
+ jYFRIsPOSh4jgH14vYKqJLDG4PBK3UW5DnzYmqzkQetrs2uWZp70XgYndEqhwyyRwnic
+ pE6/WJeXpiE2ngGdjdYH4mCdf1WHVUfl6m/aHLa6Y5LLr0Gt2FV3K5T20OFqel3NEJiN
+ LCQi2PiPX07XP35V+RR4cwOLT+upOSu6cZHEQyBYHwZEqa9Emgrjb+0DP306qsEyezMz
+ 23pHx2YwYLwQ/XM2XF5YnLZkV7ZfE3JITQxvkwDLhJXHaKRGgPMkU9T/yB0+JK/dVUCv
+ JZ1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=DAkGWiYCEBGONE/7ZtcTXQF56VZHlgRuV4N1X0KUVb0=;
- b=gu9i2NpZwG9cciKmXHVH7Xra3XCnu/etitYY6mKJCPchCDXAvkPeU8rV7zjJ/u8vJ1
- hGyS4h84c+Lq6jDTjTyCuCNgvjcW/R6Ekx3EKYykHrK4aWUy2wMVHCAqGlHAJN8uvPLQ
- 8asCEw4KCN/f1EfCZu/R6twX7g8IhDzZ1j3lC43i+0GnEHcAYDEskNPmXgRIppIFWVa5
- IbYSsHTyQ7Lc6szieAERQRiFmCNMCpLUkzFEi6nW0Th8RGlNY1c/JfzDpTjL+MH3Aunn
- Br59gy9atv98/uR1tXznvUF8pv9KP24igsgHvhl974rQh7LU8w7SEdiQqiMB30FRpPTG
- Rcww==
-X-Gm-Message-State: AGi0PuZbHutSkwS/XoNMXH8VMHAdKQ4M8PVu8aNzK4DohSU8hlMjHJcX
- K9c6kqptpOfLxxgNltYOC60=
-X-Google-Smtp-Source: APiQypJ6aiYWtgpSreBSjaqLOxpgRjA4XTs31Gfm6t5FzHNl53jhNqVKHFFtx3v9EAVKkG9qW2IRfw==
-X-Received: by 2002:a2e:9455:: with SMTP id o21mr10825454ljh.245.1588606315161; 
- Mon, 04 May 2020 08:31:55 -0700 (PDT)
+ bh=Mmsxnx3sLFnb7ifma6tJvRbX0iKMzwxA9neai4apcBM=;
+ b=sDWNDuc0C8I0YERnbs3Oe3NVb6fpxHynyorrK+FmLDLHtn9zO66IdVzZI6R5T4UhRM
+ zgjpIJo3ZLq7i8aLxpKX0kg9nhouzr9YA3Mzq+R2FE5B3Lz5m+TWcifz5GfM7+Kol9mH
+ UWtovv7k/cDMTCeqime6tI+/6GGQyzC/+Cm++4iFINB4447F3Sawu5/svzop7rsO1exG
+ +NJqRgXb43U+8p8Gkb1S/sQTLvY51dZ0A5wByP8uPPmGIULkv2xlxc7IYNNq4ey2wEh9
+ utEiEUwBG88B1ui71hJr6s40MSQnWFx5rIfiXmaCo4l8Z5n0FYPMjgnzFRonrTKC3yDX
+ zkoA==
+X-Gm-Message-State: AGi0PuZEr96w43gFV0DvuBv36INPLXcCgoxcTEJOW+aDudQcoVefYZ84
+ 5A1BdmR+93scrPKpX7VsXKGqJVUR+sc=
+X-Google-Smtp-Source: APiQypJit61ZkB86QI/bRvGwV9WjqqVKHYmgKmDXb/nEjgPmAhnnxirOKmM3tHNRuI7uaqTYkeO6/Q==
+X-Received: by 2002:a05:651c:1104:: with SMTP id
+ d4mr10561276ljo.128.1588606416986; 
+ Mon, 04 May 2020 08:33:36 -0700 (PDT)
 Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id w29sm10045758lfq.35.2020.05.04.08.31.51
+ by smtp.gmail.com with ESMTPSA id q6sm8640679ljg.67.2020.05.04.08.33.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 08:31:52 -0700 (PDT)
-Date: Mon, 4 May 2020 17:31:51 +0200
+ Mon, 04 May 2020 08:33:35 -0700 (PDT)
+Date: Mon, 4 May 2020 17:33:34 +0200
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v2 09/10] net: cadence_gem: TX_LAST bit should be set by
- guest
-Message-ID: <20200504153151.GI5519@toto>
+Subject: Re: [PATCH v2 10/10] net: cadence_gem: Fix RX address filtering
+Message-ID: <20200504153334.GJ5519@toto>
 References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1588601168-27576-10-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1588601168-27576-11-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1588601168-27576-10-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1588601168-27576-11-git-send-email-sai.pavan.boddu@xilinx.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -94,44 +94,87 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 04, 2020 at 07:36:07PM +0530, Sai Pavan Boddu wrote:
-> TX_LAST bit should not be set by hardware, its set by guest to inform
-> the last bd of the frame.
+On Mon, May 04, 2020 at 07:36:08PM +0530, Sai Pavan Boddu wrote:
+> From: Tong Ho <tong.ho@xilinx.com>
+> 
+> Two defects are fixed:
+> 
+> 1/ Detection of multicast frames
+> 2/ Treating drop of mis-addressed frames as non-error
+
 
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
 
 > 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> Signed-off-by: Tong Ho <tong.ho@xilinx.com>
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 > ---
->  hw/net/cadence_gem.c | 6 ------
->  1 file changed, 6 deletions(-)
+>  hw/net/cadence_gem.c | 26 +++++++++++---------------
+>  1 file changed, 11 insertions(+), 15 deletions(-)
 > 
 > diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index ac3a553..f0bf2e7 100644
+> index f0bf2e7..112794a 100644
 > --- a/hw/net/cadence_gem.c
 > +++ b/hw/net/cadence_gem.c
-> @@ -345,11 +345,6 @@ static inline unsigned tx_desc_get_last(uint32_t *desc)
->      return (desc[1] & DESC_1_TX_LAST) ? 1 : 0;
->  }
+> @@ -34,6 +34,7 @@
+>  #include "qemu/module.h"
+>  #include "sysemu/dma.h"
+>  #include "net/checksum.h"
+> +#include "net/eth.h"
 >  
-> -static inline void tx_desc_set_last(uint32_t *desc)
-> -{
-> -    desc[1] |= DESC_1_TX_LAST;
-> -}
-> -
->  static inline unsigned tx_desc_get_length(uint32_t *desc)
+>  #define CADENCE_GEM_ERR_DEBUG 0
+>  #define DB_PRINT(...) do {\
+> @@ -669,7 +670,7 @@ static unsigned calc_mac_hash(const uint8_t *mac)
+>  static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
 >  {
->      return desc[1] & DESC_1_LENGTH;
-> @@ -1270,7 +1265,6 @@ static void gem_transmit(CadenceGEMState *s)
+>      uint8_t *gem_spaddr;
+> -    int i;
+> +    int i, is_mc;
 >  
->              /* read next descriptor */
->              if (tx_desc_get_wrap(desc)) {
-> -                tx_desc_set_last(desc);
+>      /* Promiscuous mode? */
+>      if (s->regs[GEM_NWCFG] & GEM_NWCFG_PROMISC) {
+> @@ -685,22 +686,17 @@ static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
+>      }
 >  
->                  if (s->regs[GEM_DMACFG] & GEM_DMACFG_ADDR_64B) {
->                      packet_desc_addr = s->regs[GEM_TBQPH];
+>      /* Accept packets -w- hash match? */
+> -    if ((packet[0] == 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
+> -        (packet[0] != 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
+> +    is_mc = is_multicast_ether_addr(packet);
+> +    if ((is_mc && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
+> +        (!is_mc && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
+> +        uint64_t buckets;
+>          unsigned hash_index;
+>  
+>          hash_index = calc_mac_hash(packet);
+> -        if (hash_index < 32) {
+> -            if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
+> -                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> -                                           GEM_RX_UNICAST_HASH_ACCEPT;
+> -            }
+> -        } else {
+> -            hash_index -= 32;
+> -            if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
+> -                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
+> -                                           GEM_RX_UNICAST_HASH_ACCEPT;
+> -            }
+> +        buckets = ((uint64_t)s->regs[GEM_HASHHI] << 32) | s->regs[GEM_HASHLO];
+> +        if ((buckets >> hash_index) & 1) {
+> +            return is_mc ? GEM_RX_MULTICAST_HASH_ACCEPT
+> +                         : GEM_RX_UNICAST_HASH_ACCEPT;
+>          }
+>      }
+>  
+> @@ -924,7 +920,7 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+>      /* Is this destination MAC address "for us" ? */
+>      maf = gem_mac_address_filter(s, buf);
+>      if (maf == GEM_RX_REJECT) {
+> -        return -1;
+> +        return size;  /* no, drop siliently b/c it's not an error */
+>      }
+>  
+>      /* Discard packets with receive length error enabled ? */
 > -- 
 > 2.7.4
 > 
