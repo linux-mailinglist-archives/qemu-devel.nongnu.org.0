@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0671C35D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 11:34:21 +0200 (CEST)
-Received: from localhost ([::1]:35798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF1E1C35D9
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 11:35:52 +0200 (CEST)
+Received: from localhost ([::1]:38138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVXUR-0001cf-5m
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 05:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52286)
+	id 1jVXVv-0002gi-QQ
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 05:35:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jVXTK-0001Ap-4h
- for qemu-devel@nongnu.org; Mon, 04 May 2020 05:33:10 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26348
+ id 1jVXUq-0002Dr-59
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 05:34:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48765
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jVXTI-0002hK-Q8
- for qemu-devel@nongnu.org; Mon, 04 May 2020 05:33:09 -0400
+ id 1jVXUo-0004MR-1k
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 05:34:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588584787;
+ s=mimecast20190719; t=1588584880;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G1hbQsc66mjmhIM3trK0GP+ZdLwFsOugD84qTDlbGT8=;
- b=iv9AiXgWShzm7eaNpRMGa3MAePOHqsBrBEnzpIPO3vCT1UXGuXOWu9GxvEC8BtWYCdP7xO
- w87IQa1FyVT6UXvoIYEtSAq1zREy10Nne5nIbxRDlSsSRdwU+Zap4LHI4esh0rx0pU3Mqr
- b9d0fZFZLKMRC3rD4wDOCaRig4GE9Pg=
+ bh=5X9y5YsW1suyts7cQATuTFCgwi7KxYxz6MYkCb2Bic8=;
+ b=XKCbkbCJBtV7IODeCv3o9JF/b331UqPQuUyRWpnu5vp05EIduF6WE7VchlwCJlrnPMmjC0
+ 2A6X0A2PPK5QWr1394vXbTdItZ3BiqJtgzOTfe5OEcC1oJTSZiFGyaUtvJFXJ8zgbPtsMs
+ gXPLsKPTpgn+UohAvkBjHOpdFaWdpGI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-Jbw370KAOlO8nXpv1ueAoQ-1; Mon, 04 May 2020 05:33:02 -0400
-X-MC-Unique: Jbw370KAOlO8nXpv1ueAoQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-212-ARbfmnf-OIG3Nqnc_6mBaA-1; Mon, 04 May 2020 05:34:36 -0400
+X-MC-Unique: ARbfmnf-OIG3Nqnc_6mBaA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FD7A19200C1
- for <qemu-devel@nongnu.org>; Mon,  4 May 2020 09:33:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A88A56C93;
+ Mon,  4 May 2020 09:34:35 +0000 (UTC)
 Received: from redhat.com (unknown [10.36.110.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D850B60300;
- Mon,  4 May 2020 09:32:59 +0000 (UTC)
-Date: Mon, 4 May 2020 10:32:56 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AAA172B6FB;
+ Mon,  4 May 2020 09:34:27 +0000 (UTC)
+Date: Mon, 4 May 2020 10:34:23 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 02/17] qom: Clean up inconsistent use of gchar * vs. char *
-Message-ID: <20200504093256.GE115875@redhat.com>
-References: <20200428163419.4483-1-armbru@redhat.com>
- <20200428163419.4483-3-armbru@redhat.com>
- <79e0bb4c-d524-994d-865e-3422702f44db@redhat.com>
- <87y2qb6i3l.fsf@dusky.pond.sub.org>
+To: Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH] chardev: enable distinct input for -chardev file
+Message-ID: <20200504093423.GF115875@redhat.com>
+References: <20200501172559.6470-1-alxndr@bu.edu>
 MIME-Version: 1.0
-In-Reply-To: <87y2qb6i3l.fsf@dusky.pond.sub.org>
+In-Reply-To: <20200501172559.6470-1-alxndr@bu.edu>
 User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=berrange@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -86,56 +83,102 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ stefanha@redhat.com,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 02, 2020 at 07:06:38AM +0200, Markus Armbruster wrote:
-> Eric Blake <eblake@redhat.com> writes:
+On Fri, May 01, 2020 at 01:25:59PM -0400, Alexander Bulekov wrote:
+> char-file already supports distinct paths for input/output but it was
+> only possible to specify a distinct input through QMP. With this change,
+> we can also specify a distinct input with the -chardev file argument:
+>     qemu -chardev file,id=3Dchar1,path=3D/out/file,in=3D/in/file
 >=20
-> > On 4/28/20 11:34 AM, Markus Armbruster wrote:
-> >> Uses of gchar * in qom/object.h:
-> >>
-> >
-> > Nice audit.  I don't know if we can blindly assume that 'gchar' is a
-> > (stupid) typedef to 'char', or if they can ever differ, but avoiding
-> > gchar where possible always makes sense to me.
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  chardev/char-file.c | 5 +++++
+>  chardev/char.c      | 3 +++
+>  qemu-options.hx     | 7 +++++--
+>  3 files changed, 13 insertions(+), 2 deletions(-)
 >=20
-> GLib's "basic types" are one of the most misguided aspects of its
-> interface.
-
-There is work to re-define them in terms of stdint.h
-
-   https://gitlab.gnome.org/GNOME/glib/issues/1484
-
-with long term possible plan to deprecate them
-
-> Quote https://developer.gnome.org/glib/stable/glib-Basic-Types.html
+> The naming here is awkward, with path=3D really turning into "out" when
+> in=3D is specified, though i'm not sure about what is a good solution.
 >=20
->     GLib defines a number of commonly used types, which can be divided
->     into several groups:
->=20
->         New types which are not part of standard C (but are defined in
->         various C standard library header files) =E2=80=94 gboolean, gssi=
-ze.
->=20
-> Stuck in the 90s.
+> diff --git a/chardev/char-file.c b/chardev/char-file.c
+> index 2fd80707e5..cc742cc234 100644
+> --- a/chardev/char-file.c
+> +++ b/chardev/char-file.c
+> @@ -100,6 +100,7 @@ static void qemu_chr_parse_file_out(QemuOpts *opts, C=
+hardevBackend *backend,
+>                                      Error **errp)
+>  {
+>      const char *path =3D qemu_opt_get(opts, "path");
+> +    const char *in =3D qemu_opt_get(opts, "in");
+>      ChardevFile *file;
+> =20
+>      backend->type =3D CHARDEV_BACKEND_KIND_FILE;
+> @@ -110,6 +111,10 @@ static void qemu_chr_parse_file_out(QemuOpts *opts, =
+ChardevBackend *backend,
+>      file =3D backend->u.file.data =3D g_new0(ChardevFile, 1);
+>      qemu_chr_parse_common(opts, qapi_ChardevFile_base(file));
+>      file->out =3D g_strdup(path);
+> +    if (in) {
+> +        file->has_in =3D true;
+> +        file->in =3D g_strdup(qemu_opt_get(opts, "in"));
+> +    }
+> =20
+>      file->has_append =3D true;
+>      file->append =3D qemu_opt_get_bool(opts, "append", false);
+> diff --git a/chardev/char.c b/chardev/char.c
+> index e77564060d..797574f205 100644
+> --- a/chardev/char.c
+> +++ b/chardev/char.c
+> @@ -849,6 +849,9 @@ QemuOptsList qemu_chardev_opts =3D {
+>          },{
+>              .name =3D "path",
+>              .type =3D QEMU_OPT_STRING,
+> +        },{
+> +            .name =3D "in",
+> +            .type =3D QEMU_OPT_STRING,
+>          },{
+>              .name =3D "host",
+>              .type =3D QEMU_OPT_STRING,
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 292d4e7c0c..bbb091872f 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2938,7 +2938,7 @@ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
+>      "-chardev vc,id=3Did[[,width=3Dwidth][,height=3Dheight]][[,cols=3Dco=
+ls][,rows=3Drows]]\n"
+>      "         [,mux=3Don|off][,logfile=3DPATH][,logappend=3Don|off]\n"
+>      "-chardev ringbuf,id=3Did[,size=3Dsize][,logfile=3DPATH][,logappend=
+=3Don|off]\n"
+> -    "-chardev file,id=3Did,path=3Dpath[,mux=3Don|off][,logfile=3DPATH][,=
+logappend=3Don|off]\n"
+> +    "-chardev file,id=3Did,path=3Dpath[,in=3DPATH][,mux=3Don|off][,logfi=
+le=3DPATH][,logappend=3Don|off]\n"
+>      "-chardev pipe,id=3Did,path=3Dpath[,mux=3Don|off][,logfile=3DPATH][,=
+logappend=3Don|off]\n"
+>  #ifdef _WIN32
+>      "-chardev console,id=3Did[,mux=3Don|off][,logfile=3DPATH][,logappend=
+=3Don|off]\n"
+> @@ -3137,13 +3137,16 @@ The available backends are:
+>      Create a ring buffer with fixed size ``size``. size must be a power
+>      of two and defaults to ``64K``.
+> =20
+> -``-chardev file,id=3Did,path=3Dpath``
+> +``-chardev file,id=3Did,path=3Dpath,in=3Din``
+>      Log all traffic received from the guest to a file.
+> =20
+>      ``path`` specifies the path of the file to be opened. This file will
+>      be created if it does not already exist, and overwritten if it does.
+>      ``path`` is required.
+> =20
+> +    ``in`` specifies a separate file as the input to the chardev. If
+> +    ``in`` is omitted, ``path`` is used for both input and output
 
-snip
-
-> Purge with fire.
-
-Note  gboolean is a trap door. Any code integrating with GLib APIs that
-use "gboolean" in their signature must keep using that. It is *NOT*
-interchangable with the "bool" from stdbool.h.
-
-  "gboolean" is a typedef for "gint"
-  "bool" is a "_Bool" which is just a single byte.
-
-Also note TRUE and true are not the same value.
-
-  'TRUE' is bitwise !FALSE
-  'true' is 1
+I'd suggest "pathin" rather than just "in"
 
 
 Regards,
