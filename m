@@ -2,31 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA631C39D5
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:49:57 +0200 (CEST)
-Received: from localhost ([::1]:44704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E06CD1C3AB1
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 15:00:49 +0200 (CEST)
+Received: from localhost ([::1]:55604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaXk-00049Z-OG
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57094)
+	id 1jVaiG-0003aQ-MR
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 09:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVaLO-0007nl-DE; Mon, 04 May 2020 08:37:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:53281)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ id 1jVaOj-0005kI-2p; Mon, 04 May 2020 08:40:37 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:48263)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVaLM-0003Bf-VJ; Mon, 04 May 2020 08:37:10 -0400
+ id 1jVaOh-0005pY-VE; Mon, 04 May 2020 08:40:36 -0400
 Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MPXpS-1jjQEd1Ymo-00MaeN; Mon, 04 May 2020 14:36:57 +0200
-Subject: Re: [PATCH 3/3] crypto: Redundant type conversion for AES_KEY pointer
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MoOIi-1ilZPt1tn6-00ooyX; Mon, 04 May 2020 14:40:33 +0200
+Subject: Re: [PULL 00/20] Trivial branch for 5.1 patches
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200504115758.283914-1-laurent@vivier.eu>
+ <CAFEAcA_FDt+1+ezAyRE-fwdd=VuG5YNThkKiHHTUOYqtRHLoyg@mail.gmail.com>
+ <CAFEAcA-V=ZF8rLv82fmj=3NgHcUNvCs_Ddm5k9FnfssgDr8c_w@mail.gmail.com>
 From: Laurent Vivier <laurent@vivier.eu>
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20200325092137.24020-1-kuhn.chenqun@huawei.com>
- <20200325092137.24020-4-kuhn.chenqun@huawei.com>
- <4b614cd4-ad35-94b1-a7b6-6950fa08617c@vivier.eu>
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
  WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
@@ -69,35 +68,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <adc56e1f-177f-7e57-8ffd-442d53a6f7ed@vivier.eu>
-Date: Mon, 4 May 2020 14:36:55 +0200
+Message-ID: <1db74c14-73d1-5bad-399d-dcf8b9b1465f@vivier.eu>
+Date: Mon, 4 May 2020 14:40:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <4b614cd4-ad35-94b1-a7b6-6950fa08617c@vivier.eu>
+In-Reply-To: <CAFEAcA-V=ZF8rLv82fmj=3NgHcUNvCs_Ddm5k9FnfssgDr8c_w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:toIhBEPPz1XjNnFVyu1m/FuY7EafMvd5NsePT3N6w7vly5gXbTu
- klhvauN9EwXoWayDqaOFWZJofGfSe+qRzboMo7gMvDTcJ14c4+z37qCY9kQL+o63XkvpXb5
- rqqs582oZsr/6R+Hnw8ieRW6kXc0i1d1sishYe01M5nVPVE3GXSmLY5NG+qdfOewav7udrv
- 3exg+Jt3aXY+7uPWj3XbA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:94MLTOuWtok=:aOJssfuDhZLm8gvYEG7idT
- 8Q3Gr0QJ2Q+EVBT4FM+chusSjTtaI6hEH/YsylMpGGSsldeXOLCMrvLqWaatjEvsAAuwpSm59
- uguVlntVXJgJWzgEtq+SRF7hU6/36XcbaB6ktQ7a5vZX26hHCKuf2aU0OqE0K8YMAu+bYIlJt
- eyTH5QnO51+/gOskTTIg+4G6jZjmX5AWfdkVALjZdmDqEVyItw00aMp+V7WWgS7clHq5QnwAD
- 249B6BO3ERVFL8vNj2Ti4ffQmyKpBTyx/Fy1VP/Ew5UHEtmvEi12aV9a2WYN9O7FtRa5Q8gWs
- JjNVU+m50c0aDu5zOct+CcNLh13+LFjgMDAoITA5OHvvN7RcSqy9lozdvhrSh58CjCubNaz83
- pyJ/BMvD73rn3GNf2AxdPjMJSSc2eONIuqajAOR/2aDzvDjjGIrIsf3wcxumejr/QPvad3Rv0
- c6NZP0+GXZe7BQywN58srafsI/5ZNeD8hVqq7k76TWGBXx0XUAfjnX8cCcllbJ4nKqm67KoRM
- MMLJQAgem/owYl9s96FrGr4CZs0Stl+0PVEE5M/eckPBfUem1uWv8JqcqN2DZnO1jau+kNaB5
- kYG8pP01MFgPkKFNwHbux/ZXvwQBCU+IaLzfPm/aGpKw4z8I1zYaZFkUHlnzhZjMGU9E8g0bu
- axMTnsBifiK7ETmbgJtC77vCIWhGg47abnTIWolbcCwDoCi7mTLqxg3qqbfpuZsiPwNTK8EPu
- NoNEyznazTqWve+LqdxQigRCArwCzs+7j4V+FLqFJZzctpPXxpvpzsCwJOQNnELzco7UkRWRX
- KBAb1ot5rby3F/4vh/L6obWw2ttTIbbudbLisSu1pV7KwhgsVGiQ/ZxCmPP/ryeSJWJkHmh
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:8SyDX1E/g6D/LDQcei/ciZqPR6djVTZBEfcBrTBGa55l64j2Er1
+ R4h+IFzHvBDhWXVnF1X17WDLqrXC9zYpAbHxI4fyh/MzqMxn8KcngZAfC52LMvYu+1bUJIc
+ aUR3CofvWccBrRY5YE/tPVfTbvFodzxYOdI9MWjQ37XroXijy80b0G3im3KQSJSmJXQcCOs
+ q1vmDwWK/ldlapU87CEwQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:h18ngT07mSA=:7gapVRHyzSSbM1fQLwgzQ7
+ VW9WIEr2w1TyhZwAogilEpBzOO5Fy99Ri7E6Md02WI4+3u1kdEIYjQJTsQ9XZV2exY+km/lUa
+ CEPG1HpuCEtiwF5/rpxS3LqNErXNBr30zGlunxTFvdi50uen++GGPIC3kjLxIFNrvjgoIF6xv
+ V/oF+p1mmtEuVsFYd/byamEOKkb0bX45r8Hy3n4FAo1wVSWh/UCnwzLFWiFNMeie27qCOm8pX
+ g6uoAukEXnPiX9Sy9nOKAX8UHgh2fR1sFPpAUBIaiTnUjmkVCN2gRO842F/ZrMBbrGkMT1eyp
+ wuVlSIlOOM0dCTsfmVA4Rclnw9SiSsI2TzO7WyJPgQ/7bSpgyHu4S3fNejdiJQESJuqMSFFim
+ kONOfxuyhRcbOeSwQuDr7pebPPdXG9b+aB6iHvTtAl1NbNZCeVb5KmIaLzALuGi7OtGDyS1s2
+ dNJorny0B1UOfDIFBMaXY6Z2ibC9UIHs5y+AJNBcHD0HGDac+nTsTO1XhNhrYco3vno4CB06Z
+ rFlDeWnPpaKhIqWVHkieST/T5RyhEF9OkODN69SxdwGwOM76vgAnyH/WU69+XPiXoTFBFMt3n
+ zD0jWib1gCs/JpJjUhfDZOB9oVxh91QAJ/Z6Z1RiKp/sFsoMISa30iwdpvvs3mlC5jJJVb/pR
+ +Dr8ijiEA+X2eeGY+mFFx+EhV91q1ogFEXoSKdWSyr7jKPKva51He6yZMZH+fg9U8cioQQSGU
+ d8bu6VXCxGCgEP7esPTNNF100ufQqGhl8hywHlQUuOPr24wZOOXdlnPE1Z1ZRRuLy9Eu47rj0
+ 94SiX59743Xsw9JJiqEgzZBKNHsRpN3zKLcxrHiHgJhawUZ7Oft/cdxad/s7k8VXy0g+5Y8
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:37:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:40:34
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -116,83 +115,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 03/04/2020 à 10:47, Laurent Vivier a écrit :
-> Le 25/03/2020 à 10:21, Chen Qun a écrit :
->> Fix: eaec903c5b8
+Le 04/05/2020 à 14:34, Peter Maydell a écrit :
+> On Mon, 4 May 2020 at 13:17, Peter Maydell <peter.maydell@linaro.org> wrote:
 >>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
->> ---
->> Cc: "Daniel P. Berrangé" <berrange@redhat.com>
->> ---
->>  crypto/cipher-builtin.c | 6 ++----
->>  1 file changed, 2 insertions(+), 4 deletions(-)
+>> On Mon, 4 May 2020 at 13:05, Laurent Vivier <laurent@vivier.eu> wrote:
+>>>
+>>> The following changes since commit 2ef486e76d64436be90f7359a3071fb2a56ce835:
+>>>
+>>>   Merge remote-tracking branch 'remotes/marcel/tags/rdma-pull-request' into s=
+>>> taging (2020-05-03 14:12:56 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   git://github.com/vivier/qemu.git tags/trivial-branch-for-5.1-pull-request
+>>>
+>>> for you to fetch changes up to 4341a0106781043a708c061b676312e5bb5d4488:
+>>>
+>>>   hw/timer/pxa2xx_timer: Add assertion to silent static analyzer warning (202=
+>>> 0-05-04 12:06:21 +0200)
+>>>
+>>> ----------------------------------------------------------------
+>>> trivial patches (20200504)
+>>>
+>>> Silent static analyzer warning
+>>> Remove dead assignments
+>>> Support -chardev serial on macOS
+>>> Update MAINTAINERS
+>>> Some cosmetic changes
 >>
->> diff --git a/crypto/cipher-builtin.c b/crypto/cipher-builtin.c
->> index bf8413e71a..99d6280a16 100644
->> --- a/crypto/cipher-builtin.c
->> +++ b/crypto/cipher-builtin.c
->> @@ -133,8 +133,7 @@ static void qcrypto_cipher_aes_xts_encrypt(const void *ctx,
->>  {
->>      const QCryptoCipherBuiltinAESContext *aesctx = ctx;
->>  
->> -    qcrypto_cipher_aes_ecb_encrypt((AES_KEY *)&aesctx->enc,
->> -                                   src, dst, length);
->> +    qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
->>  }
->>  
->>  
->> @@ -145,8 +144,7 @@ static void qcrypto_cipher_aes_xts_decrypt(const void *ctx,
->>  {
->>      const QCryptoCipherBuiltinAESContext *aesctx = ctx;
->>  
->> -    qcrypto_cipher_aes_ecb_decrypt((AES_KEY *)&aesctx->dec,
->> -                                   src, dst, length);
->> +    qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
->>  }
->>  
->>  
+>>
+>> Compile failure, OSX:
+>> /Users/pm215/src/qemu-for-merges/block/file-posix.c:1620:9: error:
+>> unused variable 'ret' [-Werror,-Wunused-variable]
+>>     int ret;
+>>         ^
 >>
 > 
-> Applied to my trivial-patches-for-5.1 branch.
+> This one also shows up on FreeBSD and OpenBSD (and maybe NetBSD, that
+> result hasn't come back yet).
 
-Removed from the queue because of build errors:
+I'm going to update  PATCH 11 to move the "int ret" inside the #ifdef.
 
-https://travis-ci.com/github/vivier/qemu/jobs/327261040
-
-In file included from /home/travis/build/vivier/qemu/crypto/cipher.c:157:0:
-1251/home/travis/build/vivier/qemu/crypto/cipher-builtin.c: In function
-‘qcrypto_cipher_aes_xts_encrypt’:
-1252/home/travis/build/vivier/qemu/crypto/cipher-builtin.c:136:36:
-error: passing argument 1 of ‘qcrypto_cipher_aes_ecb_encrypt’ discards
-‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
-1253     qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
-1254                                    ^
-1255/home/travis/build/vivier/qemu/crypto/cipher-builtin.c:77:13: note:
-expected ‘AES_KEY * {aka struct aes_key_st *}’ but argument is of type
-‘const AES_KEY * {aka const struct aes_key_st *}’
-1256 static void qcrypto_cipher_aes_ecb_encrypt(AES_KEY *key,
-1257             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1258/home/travis/build/vivier/qemu/crypto/cipher-builtin.c: In function
-‘qcrypto_cipher_aes_xts_decrypt’:
-1259/home/travis/build/vivier/qemu/crypto/cipher-builtin.c:147:36:
-error: passing argument 1 of ‘qcrypto_cipher_aes_ecb_decrypt’ discards
-‘const’ qualifier from pointer target type [-Werror=discarded-qualifiers]
-1260     qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
-1261                                    ^
-1262/home/travis/build/vivier/qemu/crypto/cipher-builtin.c:103:13: note:
-expected ‘AES_KEY * {aka struct aes_key_st *}’ but argument is of type
-‘const AES_KEY * {aka const struct aes_key_st *}’
-1263 static void qcrypto_cipher_aes_ecb_decrypt(AES_KEY *key,
-1264             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1265cc1: all warnings being treated as errors
-1266/home/travis/build/vivier/qemu/rules.mak:69: recipe for target
-'crypto/cipher.o' failed
-1267make: *** [crypto/cipher.o] Error 1
-1268make: *** Waiting for unfinished jobs....
+Thanks,
+Laurent
 
