@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D451C3F0F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:53:47 +0200 (CEST)
-Received: from localhost ([::1]:39370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A36F1C3F95
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:16:39 +0200 (CEST)
+Received: from localhost ([::1]:56102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdPe-0003UI-L7
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:53:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
+	id 1jVdlm-00035V-72
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:16:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jVdOc-0002Y2-FW; Mon, 04 May 2020 11:52:42 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:34722)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jVdY4-0003wg-Eh; Mon, 04 May 2020 12:02:28 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jVdOa-00038C-Df; Mon, 04 May 2020 11:52:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=xEbQg4tsuP8r89dvsQ+YpU1zIs7QVaXaDYSsN8k9tTw=; 
- b=ANZrKjhqq8cN2G3QYsTAwfblOU5vb9gvtEh9hXn2tJjZjhotD2i/ZPQ96ff5t/QU9TIzid3lvdZBKKUVrPEp4UHTwIMJSmRMKoyEpVeqmMmOLucKdN6J0mQ0j2yTKln+5wxIX6xqwpTLNcAz+4RpKCAUlOtJq4jTU48sSidLQ5XYCgn7TfVxYKQvkiUdHTkI6m0cpVRg7wOHbX1ZlNzxpsJwxEivzW31wGWx1L5k0N8PodHB0Aga8fFjgcq1yf5tPARJJrRL5p1iTWjqc0krxxyyyWbeFGxiPR0ccYRENZ9GxQIcWVW/qF7OoLPL/YGTpNFQuZ1flRORQaFgxngc1A==;
-Received: from [81.0.43.160] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jVdOU-00085H-C1; Mon, 04 May 2020 17:52:34 +0200
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1jVdOH-0002hM-Ci; Mon, 04 May 2020 17:52:21 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org,
-	Kevin Wolf <kwolf@redhat.com>
-Subject: [PATCH v3] qcow2: Avoid integer wraparound in qcow2_co_truncate()
-Date: Mon,  4 May 2020 17:52:17 +0200
-Message-Id: <20200504155217.10325-1-berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jVdY3-0006g1-Gn; Mon, 04 May 2020 12:02:28 -0400
+Received: by mail-io1-xd43.google.com with SMTP id e9so12829951iok.9;
+ Mon, 04 May 2020 09:02:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nGRYcfLoXvV9mm8UpZ3aW+48QhFD1kMWT/jo9NzgePk=;
+ b=g5b5WWL+15VEbUfQ5edTcEx5xH2rEaLduLrYZI5pEyS9bMwHXPY+ouJMrhScbqotTH
+ gmaZbkol5G18v82zir5bq/v7jtWBqY7svOkLKHMqv+Czrfu+XUHJkw+uaIP/zz9dovyT
+ TXJdaTgWCVp5QCPCaXoj4hcKQMj5D3KshG81TSJUDP1RTz5F/jZQq6YduIpzC6Rbq511
+ VoYGaSzhm5SlKupccHtKIK/vjyp6ICP+vCo7SINTCRhTIeqbu09Pwm4tdboxefFtcuUM
+ uV+6lI7r8hwvv0sbw87a2mSq5nxciXHzuUHFaqWCxccHvQBynkChk7L44amKLbsJyCGd
+ tdcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nGRYcfLoXvV9mm8UpZ3aW+48QhFD1kMWT/jo9NzgePk=;
+ b=KmGZLa+MECpv3JlnIXLjtdLpbxU0lO94fnwFMzsGHDVu0+8SW3b+Wk+J65ZdcWlNu+
+ vBjH/LxniVjFdt9cEOuuF6IMD6yfd/YuRTvMSZ8Bbhl8RjvLhLC02TCiJDs1vFN24Yfv
+ bOhg6o9hV0COWzXeufeCe91gbZIwy55ziKDJ3h0Mw3Z+YdZAZgeOsf1ZirHeQN+5aOgW
+ b7cFpcJhuSSVFCsET8KsaU6RByZUcQocnxXPHfVoCSItzzCYDoKSeG2Qa3hYsJ6IQmkt
+ uIf1xPFfw/DGfkKdrW4brrba6DbvnQRPHlYmx/0lQZ0Ymldg9EiQAS2Xs9XzIzA7/ZL/
+ Yzjg==
+X-Gm-Message-State: AGi0PubZqYqPXMlRC369qeRnd03LcXjIdYwNYF2mllO/YFJoNfR4XK/1
+ Y8396puMaCCrkYdRiCCtAs7tunAsc/QnPLrP0PU=
+X-Google-Smtp-Source: APiQypKvrJdisVgdczFKg77NmK/4AakWDP3QV286ld2c18gQxmhwM5mvToWcZgq1+tYxvL+uckS+Wnan3GaqUgLSU3w=
+X-Received: by 2002:a6b:bf83:: with SMTP id
+ p125mr16138357iof.118.1588608144098; 
+ Mon, 04 May 2020 09:02:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 09:47:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+References: <1588348254-7241-1-git-send-email-bmeng.cn@gmail.com>
+ <1588348254-7241-4-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1588348254-7241-4-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 4 May 2020 08:53:43 -0700
+Message-ID: <CAKmqyKMc+ALebg4wBJM8mv=x_XeS-E1bdo8YgbSzXdeiokYHXg@mail.gmail.com>
+Subject: Re: [PATCH 3/5] riscv: Use pre-built bios image of generic platform
+ for virt & sifive_u
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,189 +80,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Anup Patel <Anup.Patel@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After commit f01643fb8b47e8a70c04bbf45e0f12a9e5bc54de when an image is
-extended and BDRV_REQ_ZERO_WRITE is set then the new clusters are
-zeroized.
+On Fri, May 1, 2020 at 8:56 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Update virt and sifive_u machines to use the opensbi bios image
+> built for the generic FDT platform.
+>
+> Remove the out-of-date no longer used bios images.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-The code however does not detect correctly situations when the old and
-the new end of the image are within the same cluster. The problem can
-be reproduced with these steps:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-   qemu-img create -f qcow2 backing.qcow2 1M
-   qemu-img create -f qcow2 -F qcow2 -b backing.qcow2 top.qcow2
-   qemu-img resize --shrink top.qcow2 520k
-   qemu-img resize top.qcow2 567k
+Alistair
 
-In the last step offset - zero_start causes an integer wraparound.
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
-v3:
-- Add test case [Kevin]
-- Move MIN(zero_start, offset) to the block that writes zeroes [Kevin]
-
-v2:
-- Don't call qcow2_cluster_zeroize() if offset == zero_start
-
- block/qcow2.c              | 12 ++++---
- tests/qemu-iotests/292     | 73 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/292.out | 24 +++++++++++++
- tests/qemu-iotests/group   |  1 +
- 4 files changed, 105 insertions(+), 5 deletions(-)
- create mode 100755 tests/qemu-iotests/292
- create mode 100644 tests/qemu-iotests/292.out
-
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 2ba0b17c39..8c97b06783 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4239,15 +4239,17 @@ static int coroutine_fn qcow2_co_truncate(BlockDriverState *bs, int64_t offset,
-          * requires a cluster-aligned start. The end may be unaligned if it is
-          * at the end of the image (which it is here).
-          */
--        ret = qcow2_cluster_zeroize(bs, zero_start, offset - zero_start, 0);
--        if (ret < 0) {
--            error_setg_errno(errp, -ret, "Failed to zero out new clusters");
--            goto fail;
-+        if (offset > zero_start) {
-+            ret = qcow2_cluster_zeroize(bs, zero_start, offset - zero_start, 0);
-+            if (ret < 0) {
-+                error_setg_errno(errp, -ret, "Failed to zero out new clusters");
-+                goto fail;
-+            }
-         }
- 
-         /* Write explicit zeros for the unaligned head */
-         if (zero_start > old_length) {
--            uint64_t len = zero_start - old_length;
-+            uint64_t len = MIN(zero_start, offset) - old_length;
-             uint8_t *buf = qemu_blockalign0(bs, len);
-             QEMUIOVector qiov;
-             qemu_iovec_init_buf(&qiov, buf, len);
-diff --git a/tests/qemu-iotests/292 b/tests/qemu-iotests/292
-new file mode 100755
-index 0000000000..a2de27cca4
---- /dev/null
-+++ b/tests/qemu-iotests/292
-@@ -0,0 +1,73 @@
-+#!/usr/bin/env bash
-+#
-+# Test resizing a qcow2 image with a backing file
-+#
-+# Copyright (C) 2020 Igalia, S.L.
-+# Author: Alberto Garcia <berto@igalia.com>
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=berto@igalia.com
-+
-+seq=`basename $0`
-+echo "QA output created by $seq"
-+
-+status=1    # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+
-+echo '### Create the backing image'
-+BACKING_IMG="$TEST_IMG.base"
-+TEST_IMG="$BACKING_IMG" _make_test_img 1M
-+
-+echo '### Fill the backing image with data (0x11)'
-+$QEMU_IO -c 'write -P 0x11 0 1M' "$BACKING_IMG" | _filter_qemu_io
-+
-+echo '### Create the top image'
-+_make_test_img -F "$IMGFMT" -b "$BACKING_IMG"
-+
-+echo '### Fill the top image with data (0x22)'
-+$QEMU_IO -c 'write -P 0x22 0 1M' "$TEST_IMG" | _filter_qemu_io
-+
-+# Both offsets are part of the same cluster.
-+echo '### Shrink the image to 520k'
-+$QEMU_IMG resize --shrink "$TEST_IMG" 520k
-+echo '### Grow the image to 567k'
-+$QEMU_IMG resize "$TEST_IMG" 567k
-+
-+echo '### Check that the tail of the image reads as zeroes'
-+$QEMU_IO -c 'read -P 0x22    0 520k' "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c 'read -P 0x00 520k  47k' "$TEST_IMG" | _filter_qemu_io
-+
-+echo '### Show output of qemu-img map'
-+$QEMU_IMG map "$TEST_IMG" | _filter_testdir
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/292.out b/tests/qemu-iotests/292.out
-new file mode 100644
-index 0000000000..807e0530c3
---- /dev/null
-+++ b/tests/qemu-iotests/292.out
-@@ -0,0 +1,24 @@
-+QA output created by 292
-+### Create the backing image
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=1048576
-+### Fill the backing image with data (0x11)
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+### Create the top image
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+### Fill the top image with data (0x22)
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+### Shrink the image to 520k
-+Image resized.
-+### Grow the image to 567k
-+Image resized.
-+### Check that the tail of the image reads as zeroes
-+read 532480/532480 bytes at offset 0
-+520 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 48128/48128 bytes at offset 532480
-+47 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+### Show output of qemu-img map
-+Offset          Length          Mapped to       File
-+0               0x8dc00         0x50000         TEST_DIR/t.qcow2
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 1710470e70..fe649c5b73 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -298,3 +298,4 @@
- 288 quick
- 289 rw quick
- 290 rw auto quick
-+292 rw auto quick
--- 
-2.20.1
-
+> ---
+>
+>  hw/riscv/sifive_u.c                          |   4 ++--
+>  hw/riscv/virt.c                              |   4 ++--
+>  pc-bios/opensbi-riscv32-generic-fw_jump.bin  | Bin 0 -> 58032 bytes
+>  pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin | Bin 49520 -> 0 bytes
+>  pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin 49504 -> 0 bytes
+>  pc-bios/opensbi-riscv64-generic-fw_jump.bin  | Bin 0 -> 66680 bytes
+>  pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin 57936 -> 0 bytes
+>  pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin 57920 -> 0 bytes
+>  8 files changed, 4 insertions(+), 4 deletions(-)
+>  create mode 100644 pc-bios/opensbi-riscv32-generic-fw_jump.bin
+>  delete mode 100644 pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
+>  delete mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+>  create mode 100644 pc-bios/opensbi-riscv64-generic-fw_jump.bin
+>  delete mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+>  delete mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index bed10fc..cf015cc 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -58,9 +58,9 @@
+>  #include <libfdt.h>
+>
+>  #if defined(TARGET_RISCV32)
+> -# define BIOS_FILENAME "opensbi-riscv32-sifive_u-fw_jump.bin"
+> +# define BIOS_FILENAME "opensbi-riscv32-generic-fw_jump.bin"
+>  #else
+> -# define BIOS_FILENAME "opensbi-riscv64-sifive_u-fw_jump.bin"
+> +# define BIOS_FILENAME "opensbi-riscv64-generic-fw_jump.bin"
+>  #endif
+>
+>  static const struct MemmapEntry {
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index daae3eb..0c00d93 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -46,9 +46,9 @@
+>  #include <libfdt.h>
+>
+>  #if defined(TARGET_RISCV32)
+> -# define BIOS_FILENAME "opensbi-riscv32-virt-fw_jump.bin"
+> +# define BIOS_FILENAME "opensbi-riscv32-generic-fw_jump.bin"
+>  #else
+> -# define BIOS_FILENAME "opensbi-riscv64-virt-fw_jump.bin"
+> +# define BIOS_FILENAME "opensbi-riscv64-generic-fw_jump.bin"
+>  #endif
+>
+>  static const struct MemmapEntry {
+> diff --git a/pc-bios/opensbi-riscv32-generic-fw_jump.bin b/pc-bios/opensbi-riscv32-generic-fw_jump.bin
+> new file mode 100644
+> index 0000000..dc39398
+> Binary files /dev/null and b/pc-bios/opensbi-riscv32-generic-fw_jump.bin differ
+> diff --git a/pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin b/pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin
+> deleted file mode 100644
+> index 3e0da54..0000000
+> Binary files a/pc-bios/opensbi-riscv32-sifive_u-fw_jump.bin and /dev/null differ
+> diff --git a/pc-bios/opensbi-riscv32-virt-fw_jump.bin b/pc-bios/opensbi-riscv32-virt-fw_jump.bin
+> deleted file mode 100644
+> index bc56ed6..0000000
+> Binary files a/pc-bios/opensbi-riscv32-virt-fw_jump.bin and /dev/null differ
+> diff --git a/pc-bios/opensbi-riscv64-generic-fw_jump.bin b/pc-bios/opensbi-riscv64-generic-fw_jump.bin
+> new file mode 100644
+> index 0000000..c8f209a
+> Binary files /dev/null and b/pc-bios/opensbi-riscv64-generic-fw_jump.bin differ
+> diff --git a/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin b/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+> deleted file mode 100644
+> index 1acee86..0000000
+> Binary files a/pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin and /dev/null differ
+> diff --git a/pc-bios/opensbi-riscv64-virt-fw_jump.bin b/pc-bios/opensbi-riscv64-virt-fw_jump.bin
+> deleted file mode 100644
+> index c62f2b4..0000000
+> Binary files a/pc-bios/opensbi-riscv64-virt-fw_jump.bin and /dev/null differ
+> --
+> 2.7.4
+>
+>
 
