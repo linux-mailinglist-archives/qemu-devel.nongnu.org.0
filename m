@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340B71C3D94
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:51:57 +0200 (CEST)
-Received: from localhost ([::1]:55724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9A41C3DAA
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:55:52 +0200 (CEST)
+Received: from localhost ([::1]:44436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcRo-0002Fg-6h
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:51:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49030)
+	id 1jVcVb-0001Hj-Ao
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:55:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVcFi-00071F-Qc; Mon, 04 May 2020 10:39:26 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:40957)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVcFh-0003ab-Qu; Mon, 04 May 2020 10:39:26 -0400
-Received: by mail-lj1-x242.google.com with SMTP id y4so9888488ljn.7;
- Mon, 04 May 2020 07:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=rKeNqQ2d2ObLs/zCVsCYYGZ7H33qapCedtGJaSloaCA=;
- b=Q15pqy9NQFvF7fKPq5pgCvmbyxV8h7Af+MCej8OaNJuKmbGx9rEhRu62o1bygHcaBP
- tgOjLFznphtB/QkbHadwW+6ecYqfRs5d/j4E9ruiini8zTh8sy3XeluID7PmoXvyLno/
- YJHWsLeWJRknIovy0m5PyBWNgw2bOvu9zs4AUA1b7GYqKDv1YBG1AXZEzLnJZlOrr6Ap
- iev7Yp3o7u0gDDhaTxnwdJB553RW2841jb8e7NqHonWhytRmWcZXoAmLKpKlkWp9hcdU
- lfdwcsN0wWBb9zqiGR2ulR6tapjbJ7TH/OvKO+PQm9zL6KuAJhC/Bmp9xUL7FHITWFDN
- asEQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcHk-0002N4-GT
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:41:32 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:31585
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcHj-0005UA-ID
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:41:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588603290;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=eMQaVSWAT1Z7heoa1J42qdT0AGzGArzLWWwayMp9X7M=;
+ b=JNMdm/g833CE/cxUP69TZGZMwEH+nx3dH97LO8uOrmzylSiLV64S257pqQLxZJasFsJPR0
+ HsM3IrVTnbu4MqC/9f6GrH2nvzt1LzPNnlHWGGp2+BO79xDImAG8IR6yeDN2R8hzPNIz9v
+ NwhSgoyfeKL00VzfZjin3kUsji2+Nzc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-JNyCsY2QOcOE78lGtBaiAw-1; Mon, 04 May 2020 10:41:29 -0400
+X-MC-Unique: JNyCsY2QOcOE78lGtBaiAw-1
+Received: by mail-wr1-f70.google.com with SMTP id g10so2110848wrr.10
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:41:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=rKeNqQ2d2ObLs/zCVsCYYGZ7H33qapCedtGJaSloaCA=;
- b=W/RtWW/qk5yBuxyLSe31+gqnNhDJVclGXztNJ/0Ii1ePCFdPRop55DwomFyiUK45Kr
- oI8xED8+1fQojn6hQv+JkXVe2eR5BzorjfbJSDsqPRhhsobSNEZuCZQFw6VwUGjMg8v+
- wDSufWKP3wiMoJhnSvMe+hSBQOPVOuXv/Ted1hZI78gQ1FA5b4YGHRo3zg4+C+QhgHp5
- HbwhMiqEk8xQ1u2KJAxLMJ84V9zmRHE9rGN5/J+vTMu5o36jlEvCGanlOkfDyBJcYejj
- 2lhaiX/eHepP0EVFWEBC1xF/xZ7acw4wMF1TaR1ZfhCkLoPSoQsHn4SyoqvgghOMAc3G
- Px2Q==
-X-Gm-Message-State: AGi0PuZ/OcgBVpDhUXwBF8MuvVoY7fCj4+EvDSRdOuA5Vc4mqwqtfM3D
- jdeHXgoBxlLj21OCmpF+vdQ=
-X-Google-Smtp-Source: APiQypJLN8DS6CGjU753Woexe7ffKkjgGTfB6j5twIme7KTBsV6CE3jnXEw8Yk5OL1h3dvG8+mRrCQ==
-X-Received: by 2002:a05:651c:549:: with SMTP id
- q9mr10768660ljp.236.1588603163597; 
- Mon, 04 May 2020 07:39:23 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id j22sm8389941ljh.107.2020.05.04.07.39.22
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EYY2f/BzJCVcOkAQoY3IgSAArpjbmfPPcJyuS6qMDqk=;
+ b=eeEW/I3aCEm/Lo6RFJ32HuI/DtCcgju66ISy1dGQzWE5DktgNbUnc1pbdLXJD+zZdC
+ aZu6Axp2LwLbRtY5ejXbsYqH9LaxxFPR1GZ99ANqcSIB3TXLsTlLbi3h5tPqMGN6BOZp
+ P9ottSTxpTV1ZIkt+ew4CVhnQj83il4tHicpsPxvUMfp6TeKvYK9KpzbXHX8ZwiSjwRV
+ JMGvIp7mbyzpmIDLrzeT83XRsmKI+RKBDFO2E+pTRMKNNH/+6Iv+YyZk90/WBYV2PPB5
+ vBCm1NWJSU8DBvck9JCoODEiGNimTEfISdlwUKfGW7YA7qN4fSS+ggNpWjDpjJZk3iU7
+ quKw==
+X-Gm-Message-State: AGi0PubKxWnt5mJR2LkTRiciAZ+nol07mS5cZ5LQ5P3zaJ5T39Phtte9
+ vqpX8d0qLCU5V1rs0RUzepGsjo1wHwqr1NXL6wgciMxnemVYHAeukoKzTqk7HnT1zGMAr42wuP7
+ 5Alv/Bs/RFLXdTCE=
+X-Received: by 2002:a1c:678a:: with SMTP id
+ b132mr15501517wmc.107.1588603287549; 
+ Mon, 04 May 2020 07:41:27 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLKyq5yZC7ZIYhaakF/VCyQMIrDehwX1wjtXTqcZ4bOOyovHO82PyOIbOyM/gmDw6jLByyF2w==
+X-Received: by 2002:a1c:678a:: with SMTP id
+ b132mr15501490wmc.107.1588603287307; 
+ Mon, 04 May 2020 07:41:27 -0700 (PDT)
+Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id q8sm13194714wmg.22.2020.05.04.07.41.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:39:22 -0700 (PDT)
-Date: Mon, 4 May 2020 16:39:22 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v2 01/10] net: cadence_gem: Fix debug statements
-Message-ID: <20200504143922.GB5519@toto>
-References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1588601168-27576-2-git-send-email-sai.pavan.boddu@xilinx.com>
+ Mon, 04 May 2020 07:41:26 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] tests/qht-bench: Fix Clang 'int-conversion' warning
+Date: Mon,  4 May 2020 16:41:25 +0200
+Message-Id: <20200504144125.22435-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1588601168-27576-2-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,94 +94,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Ramon Fried <rfried.dev@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 04, 2020 at 07:35:59PM +0530, Sai Pavan Boddu wrote:
-> Enabling debug breaks the build, Fix them and make debug statements
-> always compilable. Fix few statements to use sized integer casting.
-> 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  hw/net/cadence_gem.c | 28 ++++++++++++++--------------
->  1 file changed, 14 insertions(+), 14 deletions(-)
-> 
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index 22a0b1b..2f244eb 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -35,14 +35,13 @@
->  #include "sysemu/dma.h"
->  #include "net/checksum.h"
->  
-> -#ifdef CADENCE_GEM_ERR_DEBUG
-> -#define DB_PRINT(...) do { \
-> -    fprintf(stderr,  ": %s: ", __func__); \
-> -    fprintf(stderr, ## __VA_ARGS__); \
-> -    } while (0)
-> -#else
-> -    #define DB_PRINT(...)
-> -#endif
-> +#define CADENCE_GEM_ERR_DEBUG 0
-> +#define DB_PRINT(...) do {\
-> +    if (CADENCE_GEM_ERR_DEBUG) {   \
-> +        qemu_log(": %s: ", __func__); \
-> +        qemu_log(__VA_ARGS__); \
-> +    } \
-> +} while (0)
->  
->  #define GEM_NWCTRL        (0x00000000/4) /* Network Control reg */
->  #define GEM_NWCFG         (0x00000004/4) /* Network Config reg */
-> @@ -979,7 +978,8 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
->          size += 4;
->      }
->  
-> -    DB_PRINT("config bufsize: %d packet size: %ld\n", rxbufsize, size);
-> +    DB_PRINT("config bufsize: %" PRIu64 " packet size: %" PRIu64 "\n",
-> +             (uint64_t) rxbufsize, (uint64_t) size);
+When building with Clang 10 on Fedora 32, we get:
 
-Shouldn't these be %u and %zd rather than casting to uint64_t?
+  tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned long'=
+ to 'double' changes value from 18446744073709551615 to 1844674407370955161=
+6 [-Werror,-Wimplicit-int-float-conversion]
+          *threshold =3D rate * UINT64_MAX;
+                            ~ ^~~~~~~~~~
+  /usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
+  # define UINT64_MAX             (__UINT64_C(18446744073709551615))
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  /usr/include/stdint.h:107:25: note: expanded from macro '__UINT64_C'
+  #  define __UINT64_C(c) c ## UL
+                          ^~~~~~~
+  <scratch space>:14:1: note: expanded from here
+  18446744073709551615UL
+  ^~~~~~~~~~~~~~~~~~~~~~
 
+Fix by using nextafter() from <math.h>:
 
->  
->      /* Find which queue we are targeting */
->      q = get_queue_from_screen(s, rxbuf_ptr, rxbufsize);
-> @@ -992,9 +992,9 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
->              return -1;
->          }
->  
-> -        DB_PRINT("copy %u bytes to 0x%" PRIx64 "\n",
-> -                 MIN(bytes_to_copy, rxbufsize),
-> -                 rx_desc_get_buffer(s, s->rx_desc[q]));
-> +        DB_PRINT("copy %" PRIu32 " bytes to 0x%" PRIx64 "\n",
-> +                MIN(bytes_to_copy, rxbufsize),
-> +                rx_desc_get_buffer(s, s->rx_desc[q] + rxbuf_offset));
+  double nextafter( double from, double to );
 
-Looks like this is changing what we print (+ rxbuf_offset), was
-that intentional? (it was not mentioned in the commit message)
+      Returns the next representable value of 'from'
+      in the direction of 'to'.
 
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+Since v1: nextafterf() -> nextafter()
 
->  
->          /* Copy packet data to emulated DMA buffer */
->          address_space_write(&s->dma_as, rx_desc_get_buffer(s, s->rx_desc[q]) +
-> @@ -1160,8 +1160,8 @@ static void gem_transmit(CadenceGEMState *s)
->               */
->              if ((tx_desc_get_buffer(s, desc) == 0) ||
->                  (tx_desc_get_length(desc) == 0)) {
-> -                DB_PRINT("Invalid TX descriptor @ 0x%x\n",
-> -                         (unsigned)packet_desc_addr);
-> +                DB_PRINT("Invalid TX descriptor @ 0x%" HWADDR_PRIx "\n",
-> +                         packet_desc_addr);
->                  break;
->              }
->  
-> -- 
-> 2.7.4
-> 
+Cc: Emilio G. Cota <cota@braap.org>
+Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>
+---
+ tests/qht-bench.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/tests/qht-bench.c b/tests/qht-bench.c
+index e3b512f26f..54ce1e8188 100644
+--- a/tests/qht-bench.c
++++ b/tests/qht-bench.c
+@@ -10,6 +10,7 @@
+ #include "qemu/qht.h"
+ #include "qemu/rcu.h"
+ #include "qemu/xxhash.h"
++#include <math.h>
+=20
+ struct thread_stats {
+     size_t rd;
+@@ -284,7 +285,7 @@ static void do_threshold(double rate, uint64_t *thresho=
+ld)
+     if (rate =3D=3D 1.0) {
+         *threshold =3D UINT64_MAX;
+     } else {
+-        *threshold =3D rate * UINT64_MAX;
++        *threshold =3D rate * nextafter(0x1p64, 0.0);
+     }
+ }
+=20
+--=20
+2.21.3
+
 
