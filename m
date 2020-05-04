@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AD41C431A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:42:09 +0200 (CEST)
-Received: from localhost ([::1]:33902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324361C4325
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:45:40 +0200 (CEST)
+Received: from localhost ([::1]:45008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVf6W-0006HR-Ji
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58900)
+	id 1jVf9v-0003gC-80
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:45:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVf59-0004yG-At
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:40:43 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37981)
+ id 1jVf7P-0008D7-LH
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:43:03 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:40270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVf58-0005Z2-FB
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:40:43 -0400
-Received: by mail-pg1-x542.google.com with SMTP id l25so98764pgc.5
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:40:40 -0700 (PDT)
+ id 1jVf7O-0007bp-LY
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:43:03 -0400
+Received: by mail-pg1-x543.google.com with SMTP id j21so93665pgb.7
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pIm66RInHb+qZxnnCyf3TXTDG9MbmDn+wmNd/nOa+bI=;
- b=JOYc0zXcBxawgrB/+nxfnanoYg2M5U6+/8n/gcn6aRe8AJE0Ih8qmgxoXW5FzMlAw7
- CZFDLfjC+zZTiIpkG+mf0OnWAKfTmzKCUYLRS5UC4e0PZpl7qkDhsSdM7XXu/5S1inMD
- c/Aeg2Ra0mJHJ/SDqjWfGWMahPeBSAPVA7vqO18+3ww/xiryQz12x/JY9rrbEtXCGYT0
- 4VmrMLov7NLA/7GZ1d2xYg3yTUMNorOGN+JQ1zVPUMb+r230K3uyVK1xhsGImMedPlAT
- QmBh2XEnKgyA3HecIRcSXVgIbyUsrnnfJTTrx/C3sRPB0ByYiLWGWC35wEDJwcaOSkmJ
- 85vw==
+ bh=2SzaOyDPCGENpZgk3z0k+7YxceN/laQe387Ybrd9snY=;
+ b=LrTMMW2E8fTShG3kD6zyyL4vmEI27hKKc0lqlhSd5T0+wP8GEBgE/8CmHBoHXvJtMb
+ W0Z21BZbe24AnDm8aqWrvsTtSxhzru+LxvG478uc+oqbSVV9nY5+LNaW6HB4AX9ew19f
+ EZ0IFDrPLdf3tRGasiHUvRKcez9w1MFzLO9wvMvZY5I8Ww846UyEA5t9MipDFIT8Mgmi
+ +yAmqNT97I2/QKMh4zhUs4LBK4JVUk/cliqvRR3YN/zneXcfvTRXmLO3L9N8YGTs3MQq
+ NYmZHSFglK0DFBHP9EjlmoqNkKB9Hi1kKzN/nNMZ6QHyXABY3eoF4xQH/1azSCMeMyt/
+ rm5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=pIm66RInHb+qZxnnCyf3TXTDG9MbmDn+wmNd/nOa+bI=;
- b=A7IWXin+4kldvcfRfOLCEJb4TOCt5Jp+GL/m+3M39nOKnitMCV6cc3+QaxBI8e98o1
- l1rCHd4EBI6EmLFhbmpMAX7vDJuBc7d81QZ8/jJIcpWTblfLKKUDRP86guAkPzgKL5Dq
- ezvjG/zFqBPiL41pp0YZR7KV1J85EaxZnmi579fKYlC99sEKfQ+7JUIbn3Ug5xX9ZSto
- cUGQObMOhZ6BmsYKznfDJy/4gjgesYK+qcxMDH0ta5Fl6vkvYKLP22eLZTSiTv51K5Jh
- iALgZKO3jS+Ey/UJFwtZoboFSfu8ZdksXKBqTYXHcqxLW0Ib55/p679WENO8D8YmYRER
- Jt4w==
-X-Gm-Message-State: AGi0PuYSIIyPa3e18NiPj1Dsooqy63orNhB+SCziiMBur4lnpZdx7RWt
- BhpHLTqa+ugcRAOipxKw2K2AmQ==
-X-Google-Smtp-Source: APiQypLSAWhC3Lz0WodJzRzAeX//re/UrzJPYMhhAG/morl7zPBHmuYRi/e+0mr7GCHRxzsph+OC/w==
-X-Received: by 2002:aa7:9ae5:: with SMTP id y5mr18366187pfp.294.1588614039027; 
- Mon, 04 May 2020 10:40:39 -0700 (PDT)
+ bh=2SzaOyDPCGENpZgk3z0k+7YxceN/laQe387Ybrd9snY=;
+ b=LROuRJwhs6FqotKTQvuYm/3rxIAdyWC1fhx9C6Zx3nZZL1Ehp3vv4SVcMrbQlRmjRt
+ 9xzzZROMhLrc4hhWuhMJSRsednh/PgkUo8DeCxqS5fH3euP4HPFCc2bB/qYl0IT0r4SD
+ xe8PCqP/DqN6vAZ7jWWXEhX+XXZKiMoPHExiOYE9+aJ93uObx9it9wo3OqPcGdeSdmYf
+ US1hH/M6n09VxnfH/kmz2WuwI6Cw5IMqjnbLju4eH4UC97SZpXu6nZx03mRYeUotI4gA
+ 4O09MibBhJEQSst5fHqSPhmJjve+DqUWaStRGPzlUKGzOzwcsycxsSSsHkwI3GrflA/S
+ G+Nw==
+X-Gm-Message-State: AGi0PubCgNOmk4k8VDrC2QSGVjsujQq0piwvLY/ziYx0uskpJDpejzPI
+ r/6WcVCpOapl8sqi6Dh+OzTFRA==
+X-Google-Smtp-Source: APiQypIWgaLX+awCXvsVRdewO8jmEiF9h4iuEuF8Xj9WFVE//tG7OTutaBIB3VyuU1hc5vM40x1aqw==
+X-Received: by 2002:a65:5b84:: with SMTP id i4mr70253pgr.263.1588614181180;
+ Mon, 04 May 2020 10:43:01 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id b73sm9379658pfb.52.2020.05.04.10.40.37
+ by smtp.gmail.com with ESMTPSA id e5sm9366592pfd.64.2020.05.04.10.43.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 10:40:38 -0700 (PDT)
-Subject: Re: [PATCH 1/3] qom/object: Move Object typedef to 'qemu/typedefs.h'
+ Mon, 04 May 2020 10:43:00 -0700 (PDT)
+Subject: Re: [PATCH 2/3] io/task: Move 'qom/object.h' header to source
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20200504084615.27642-1-f4bug@amsat.org>
- <20200504084615.27642-2-f4bug@amsat.org>
+ <20200504084615.27642-3-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a2da9461-b762-1757-3df3-e30a801b75bd@linaro.org>
-Date: Mon, 4 May 2020 10:40:36 -0700
+Message-ID: <799fe603-906c-c00b-07ce-0e7619c444f5@linaro.org>
+Date: Mon, 4 May 2020 10:42:58 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200504084615.27642-2-f4bug@amsat.org>
+In-Reply-To: <20200504084615.27642-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -98,18 +98,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/4/20 1:46 AM, Philippe Mathieu-Daudé wrote:
-> We use the Object type all over the place.
-> Forward declare it in "qemu/typedefs.h".
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  include/qemu/typedefs.h   | 1 +
->  include/qom/object.h      | 2 --
->  include/qom/qom-qobject.h | 2 --
->  include/sysemu/sysemu.h   | 1 -
->  4 files changed, 1 insertion(+), 5 deletions(-)
+> We need "qom/object.h" to call object_ref()/object_unref().
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This description doesn't seem to match
+
+> +++ b/include/io/task.h
+> @@ -21,8 +21,6 @@
+>  #ifndef QIO_TASK_H
+>  #define QIO_TASK_H
+>  
+> -#include "qom/object.h"
+> -
+>  typedef struct QIOTask QIOTask;
+>  
+>  typedef void (*QIOTaskFunc)(QIOTask *task,
+> diff --git a/io/task.c b/io/task.c
+> index 1ae7b86488..53c0bed686 100644
+> --- a/io/task.c
+> +++ b/io/task.c
+> @@ -22,6 +22,7 @@
+>  #include "io/task.h"
+>  #include "qapi/error.h"
+>  #include "qemu/thread.h"
+> +#include "qom/object.h"
+
+the change.  Since io/task.c includes io/tash.h, what are you actually doing?
 
 
 r~
