@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78851C3FA1
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:17:18 +0200 (CEST)
-Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE2E1C3F2F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:58:27 +0200 (CEST)
+Received: from localhost ([::1]:51156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdmP-0004ac-Jy
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:17:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38798)
+	id 1jVdUA-0000JS-Op
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jVdYb-00055c-5s; Mon, 04 May 2020 12:03:01 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:44032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jVdYa-0006sL-80; Mon, 04 May 2020 12:03:00 -0400
-Received: by mail-il1-x144.google.com with SMTP id s10so11717092iln.11;
- Mon, 04 May 2020 09:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9iW+ohN/8VaKTtFNKkF+ADG5q3Qu3gUEbTJUatSDWug=;
- b=aPYC3k3I7SSEr5lpgcPd1AmFeX9yzhDw+44rFWvUXxJSTMEIC2xkiCjuy0jZs3qXkt
- rJqRwOwiHYvdJT+QyX2mMazbzHkDRTLqCqZHLSeoBv3Pw0AC8mA8pRi/yu+EjILE+9Ol
- HFcMV1mUGkLQ3IdxZYeui/Zmjs+EuvjpHH+O7E4LJ+L27Sts2H5CxmqzauXR40L3KpDB
- A0LcYWWMTb/ve112YKi5KlSEZ70+mWO/4ES0L4RMK0jzK+RrhJPbUjoYLPISU4t+M+2+
- Nvrc4VO1qCONOW2ggibQobytdkivUZzccx2XLm1KLyic19DjjbG0sT3Vo9ygocWazK7D
- +JQA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jVdTG-0007zx-CP
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:57:30 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56473
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jVdTF-0005HG-7f
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:57:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588607847;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d1OJbH4UpV1OJFyLIFWajC85ubtEmf1EXcRqvU/IOCg=;
+ b=WoqQWaIJHJxdZh/iBb4cqQedfOKRQEfyBnOb4iGaxCu78tgPh5fPgcClCre50aIbVu3Ssc
+ IDyQNT5+BZkRSMq8cW5NfWA4q5tYNE8hbNv7K5NMCN8QhkwAhDn7erCXSF6Bl1+Bxz2bg7
+ YD5zI/ASOEtDV+jn3I1CXvnHuvKQ5no=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-Jhyfy6QyPQ2J9L8cEHR3Wg-1; Mon, 04 May 2020 11:57:24 -0400
+X-MC-Unique: Jhyfy6QyPQ2J9L8cEHR3Wg-1
+Received: by mail-wm1-f71.google.com with SMTP id 71so1505wmb.8
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 08:57:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9iW+ohN/8VaKTtFNKkF+ADG5q3Qu3gUEbTJUatSDWug=;
- b=eUHqf4j9p/0epyCbyjWAmgae8C391STEQIoAehHQYwAP7ey+nuUTmRsOZ3JYB3f2Qa
- XPG983eQiqdM3WF5fD1fNnvFspIuX7uWniZu4j815K2Z4mRzwKA2bFEAHSGxpm785Dor
- o8US3sBK+0Krf5CFkWk/Ib344ZwmCxjYQ4VN+dGXd4XNukyDduHkC2WAYq5tl4v80HLH
- xWGNAaS0/DIDMxc9Bu4HcuAUByfhiO6DCc7dqlZ+hoEzWtI/37pAENuDKNM9/ZJb9a89
- JMZxFYXxzn4o2+kwWjmGdUw50SFw1ct8GElIkc6I8BLMHWrnSpJRG+QvfOLDf9pxLkIO
- wI4A==
-X-Gm-Message-State: AGi0Puagwt0rLFUGzFL35XuxJjDinftSREiDYzJ4otFkgyA8WsXml2c0
- P4tAWpftGrsHUPGPW5dR+h6VbS2qcNVctk61eWU=
-X-Google-Smtp-Source: APiQypJCab4JzwbpRy1i8hdaPdLClJTkpUgMCA/sCJZ4eFYv6AibLO2434MRFZJPxBZeWfekSTZ/4iQrP5YN1HIZgQo=
-X-Received: by 2002:a92:d0c6:: with SMTP id y6mr17917960ila.227.1588608178965; 
- Mon, 04 May 2020 09:02:58 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d1OJbH4UpV1OJFyLIFWajC85ubtEmf1EXcRqvU/IOCg=;
+ b=EeYi7GvMHYfyi/VsBO6xcbcw3G17AGFiZg0yjWer1cdjW8hn/Obk2gjMM2SDFbiOMR
+ P5eQSReJHkPg31sxXahZft6ER01ZD1rzu/Eg0vrb1vXSoopgITc61EDpPrUyS3AwP+JX
+ wxvXKdATNFlP70/XAH8gHZnnwmEfvzDVpgvFEd/Zt+Bhqec8bHPnXPHNXWNBCacpWCHs
+ fHxA0HHRaUlgEayr1JMCtFq2a//p9+AIIaowAuwX1qWclcjRW8f5qRmySs6sGdPYAfgs
+ pH63ICYG8dNqm2cVbtHY5rF+0UWMdKn6mmPn8q+Pd0pJfoCqCJ0br0neO9rB20tSqBQm
+ TAow==
+X-Gm-Message-State: AGi0PuYw3D5aB/aym/3ZA6G8vdi0OFOpmnJUf+EPblGOcFd7p5/A8VQY
+ p5478ocj3zZLACpqkBzQf4olno3yj+63yI9B2K8c3FWFJQPR9BmMw1iqToMLEM9OqUUPUJs3B27
+ UOYrzF1gt0ZPXdyU=
+X-Received: by 2002:adf:f784:: with SMTP id q4mr19815023wrp.102.1588607842726; 
+ Mon, 04 May 2020 08:57:22 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJlFbydeyvgRQVtIl4L/FXYswtFGIgcSeRelCajS4lenTr0cx5p9WcMHwgksOrILCaBQhi+8Q==
+X-Received: by 2002:adf:f784:: with SMTP id q4mr19815004wrp.102.1588607842562; 
+ Mon, 04 May 2020 08:57:22 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.132.175])
+ by smtp.gmail.com with ESMTPSA id k9sm20120247wrd.17.2020.05.04.08.57.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 08:57:21 -0700 (PDT)
+Subject: Re: [PATCH 00/17] qom: Spring cleaning
+To: Markus Armbruster <armbru@redhat.com>
+References: <20200428163419.4483-1-armbru@redhat.com>
+ <80ff76e3-3e59-df8f-d943-9429d4cc1d57@redhat.com>
+ <87h7wvzpm0.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <265637b7-25c8-1af1-46b9-046d153df30a@redhat.com>
+Date: Mon, 4 May 2020 17:57:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <1588348254-7241-1-git-send-email-bmeng.cn@gmail.com>
- <1588348254-7241-5-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1588348254-7241-5-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 4 May 2020 08:54:18 -0700
-Message-ID: <CAKmqyKP-+ns6UC=QxaNJfisjjYq++CyW86h8pPwhJhaeH5Jc=w@mail.gmail.com>
-Subject: Re: [PATCH 4/5] riscv/spike: Change the default bios to use generic
- platform image
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <87h7wvzpm0.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,61 +100,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmerdabbelt@google.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Anup Patel <Anup.Patel@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 1, 2020 at 8:51 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> To keep sync with other RISC-V machines, change the default bios
-> to use generic platform image.
->
-> While we are here, add some comments to mention that keeping ELF
-> files here was intentional.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 04/05/20 17:28, Markus Armbruster wrote:
+>> I reviewed everything except patch 8 and it looks good.  Thanks very much!
+> May I add Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>?
+> 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+For those 16 yes.
 
-Alistair
+Paolo
 
-> ---
->
->  hw/riscv/spike.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index d0c4843..6f26fcf 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -45,10 +45,15 @@
->
->  #include <libfdt.h>
->
-> +/*
-> + * Not like other RISC-V machines that use plain binary bios images,
-> + * keeping ELF files here was intentional because BIN files don't work
-> + * for the Spike machine as HTIF emulation depends on ELF parsing.
-> + */
->  #if defined(TARGET_RISCV32)
-> -# define BIOS_FILENAME "opensbi-riscv32-spike-fw_jump.elf"
-> +# define BIOS_FILENAME "opensbi-riscv32-generic-fw_jump.elf"
->  #else
-> -# define BIOS_FILENAME "opensbi-riscv64-spike-fw_jump.elf"
-> +# define BIOS_FILENAME "opensbi-riscv64-generic-fw_jump.elf"
->  #endif
->
->  static const struct MemmapEntry {
-> --
-> 2.7.4
->
->
 
