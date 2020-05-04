@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAB2C1C3EC7
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:42:00 +0200 (CEST)
-Received: from localhost ([::1]:48488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 201191C3EAA
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:37:13 +0200 (CEST)
+Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdEF-0007wO-Si
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60482)
+	id 1jVd9b-0006NJ-SN
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:37:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1jVd3R-0005lL-JB; Mon, 04 May 2020 11:30:49 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:40562)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jVd4Y-0007qx-5X; Mon, 04 May 2020 11:31:59 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:41096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1jVd3Q-0004sp-Bp; Mon, 04 May 2020 11:30:49 -0400
-Received: by mail-lf1-x141.google.com with SMTP id b24so10131764lfp.7;
- Mon, 04 May 2020 08:30:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jVd4X-0007J1-9z; Mon, 04 May 2020 11:31:57 -0400
+Received: by mail-lj1-x243.google.com with SMTP id j3so10081911ljg.8;
+ Mon, 04 May 2020 08:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=v/tLV43XAkbPw06s/JzWD0xbSwDNJIVWjPBzJvNcTbs=;
- b=h6ZwUffm8NxuJQws8BxHmb1TazA+v8a403gbvb3VnkMVZLzYbSyk4SCfCNe4hBVn2y
- 8zh/sf1cy4o3oP2Y7PB5xAdeQB+RbHbluPsCcpS4xBEqJ+FnWL4ml7jWmEANw75Gd1ji
- ijM7aVt9r42PULVY8zoHdADHfv3/fR5L1I612ZIkXPRQ5zHxDKnr7Vvggd8BqWp+Cixn
- Y+TQ0bJ0ufzshDg5x2CCgmJyKkEjG971Iql/TIv6qn91Gyn0U8tBIp880Li9Vu2hbdlY
- 3+sDSWnxqgB+lNij6OAknI44kF2VncZvB3+8aM3yC7Xj6pTpKXm4r1PXYzanEr26ZJBh
- JRAQ==
+ bh=DAkGWiYCEBGONE/7ZtcTXQF56VZHlgRuV4N1X0KUVb0=;
+ b=JxpyphBCvJkAZk4q20zhdvizJXoguO08FUgg52CgGNN82R9H97CW2ZQ8mBe9hp909N
+ EIbtFCNFq2DWdW3ljcZpa20heXsw7Q31tV/nVA27wWo+8xY2roSz+No4mrG1mXIq9SDx
+ GjpEwZpGODQ0Ufk7asu3W/k76kvwfnfzuNqyYplZZNykYdOrxwxtQ94DG6T6uG4XaiMv
+ 8en/0lCN2P5zKhpxz2U0A2TNP9X0N1z29BPIcn9IWn1oEt4wbwlgoTrOi1BGfsGEyXoD
+ WBYsh5doUIp0PN7A7PsS6Z3jwb0VaL5KO8YtqhCfIMldurtDuFjwy2IXADPrlhoYUhrE
+ C3BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=v/tLV43XAkbPw06s/JzWD0xbSwDNJIVWjPBzJvNcTbs=;
- b=XjWIxMQ87wARE5W+HBfQFUkM8a0fmqVR86D80oJPSpAbyTGi+qy6RaFmef11mpBVqO
- HxWrgFkUANID39i4AWZfBm7r7r43tulRq1fKLoo5DuiDRZ+oYlEE6QLAa5bwhYupi1lu
- A8X2udu0yZSw2fgkwDaS6yiYQB5pEOBrMQFmQH+Yr4Zqe/ArDIsBl6FeB5hJsyWjQIZ/
- qcp2fy9kKCmU0n5OwyKvRjsRb6I1u9I9BMj7yIRj0mv1NLcTmtRQsmw/ln4HKD7TZ8/u
- h2xQo0x0WQt8RkyvTjGeXbJjCb03bNQr4p2zuaWvogDSwEoj+ZHrPOuB4g2q8Ac7KQ+A
- 5mrQ==
-X-Gm-Message-State: AGi0Pua/WQ1Ei0dHMosqggbG8EZ/l+sjs+ps+3IJrosOzhmSH9IxRHGH
- coubMv28OqHi77gTrJ6o9PM=
-X-Google-Smtp-Source: APiQypKzdKD2C3gzHjEh3yos+28ZYnhyeHbBN1f8W0AH2nT6EhQLnEqs5u3+JCUYohf9Zw+ur+TfPw==
-X-Received: by 2002:ac2:5ccf:: with SMTP id f15mr11939579lfq.216.1588606246020; 
- Mon, 04 May 2020 08:30:46 -0700 (PDT)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- 4sm8427778ljf.79.2020.05.04.08.30.44
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 04 May 2020 08:30:45 -0700 (PDT)
-Date: Mon, 4 May 2020 17:30:43 +0200
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Subject: Re: [PATCH v1 4/9] hw/dma/xilinx_axidma: Add DMA memory-region
- property
-Message-ID: <20200504153042.unp2o6lkybmku2oe@fralle-msi>
-References: <20200430162439.2659-1-edgar.iglesias@gmail.com>
- <20200430162439.2659-5-edgar.iglesias@gmail.com>
+ bh=DAkGWiYCEBGONE/7ZtcTXQF56VZHlgRuV4N1X0KUVb0=;
+ b=gu9i2NpZwG9cciKmXHVH7Xra3XCnu/etitYY6mKJCPchCDXAvkPeU8rV7zjJ/u8vJ1
+ hGyS4h84c+Lq6jDTjTyCuCNgvjcW/R6Ekx3EKYykHrK4aWUy2wMVHCAqGlHAJN8uvPLQ
+ 8asCEw4KCN/f1EfCZu/R6twX7g8IhDzZ1j3lC43i+0GnEHcAYDEskNPmXgRIppIFWVa5
+ IbYSsHTyQ7Lc6szieAERQRiFmCNMCpLUkzFEi6nW0Th8RGlNY1c/JfzDpTjL+MH3Aunn
+ Br59gy9atv98/uR1tXznvUF8pv9KP24igsgHvhl974rQh7LU8w7SEdiQqiMB30FRpPTG
+ Rcww==
+X-Gm-Message-State: AGi0PuZbHutSkwS/XoNMXH8VMHAdKQ4M8PVu8aNzK4DohSU8hlMjHJcX
+ K9c6kqptpOfLxxgNltYOC60=
+X-Google-Smtp-Source: APiQypJ6aiYWtgpSreBSjaqLOxpgRjA4XTs31Gfm6t5FzHNl53jhNqVKHFFtx3v9EAVKkG9qW2IRfw==
+X-Received: by 2002:a2e:9455:: with SMTP id o21mr10825454ljh.245.1588606315161; 
+ Mon, 04 May 2020 08:31:55 -0700 (PDT)
+Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id w29sm10045758lfq.35.2020.05.04.08.31.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 08:31:52 -0700 (PDT)
+Date: Mon, 4 May 2020 17:31:51 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: Re: [PATCH v2 09/10] net: cadence_gem: TX_LAST bit should be set by
+ guest
+Message-ID: <20200504153151.GI5519@toto>
+References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1588601168-27576-10-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200430162439.2659-5-edgar.iglesias@gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x141.google.com
+In-Reply-To: <1588601168-27576-10-git-send-email-sai.pavan.boddu@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
- USER_IN_WHITELIST=-100 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,142 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, peter.maydell@linaro.org,
- sstabellini@kernel.org, edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- jasowang@redhat.com, alistair@alistair23.me, qemu-devel@nongnu.org,
- frederic.konrad@adacore.com, qemu-arm@nongnu.org, philmd@redhat.com,
- luc.michel@greensocs.com, figlesia@xilinx.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Ramon Fried <rfried.dev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On [2020 Apr 30] Thu 18:24:34, Edgar E. Iglesias wrote:
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+On Mon, May 04, 2020 at 07:36:07PM +0530, Sai Pavan Boddu wrote:
+> TX_LAST bit should not be set by hardware, its set by guest to inform
+> the last bd of the frame.
+
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+
+
 > 
-> Add DMA memory-region property to externally control what
-> address-space this DMA operates on.
-> 
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-
 > ---
->  hw/dma/xilinx_axidma.c | 30 +++++++++++++++++++++++-------
->  1 file changed, 23 insertions(+), 7 deletions(-)
+>  hw/net/cadence_gem.c | 6 ------
+>  1 file changed, 6 deletions(-)
 > 
-> diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-> index 018f36991b..4540051448 100644
-> --- a/hw/dma/xilinx_axidma.c
-> +++ b/hw/dma/xilinx_axidma.c
-> @@ -33,6 +33,7 @@
->  #include "qemu/log.h"
->  #include "qemu/module.h"
->  
-> +#include "sysemu/dma.h"
->  #include "hw/stream.h"
->  
->  #define D(x)
-> @@ -103,6 +104,7 @@ enum {
->  };
->  
->  struct Stream {
-> +    struct XilinxAXIDMA *dma;
->      ptimer_state *ptimer;
->      qemu_irq irq;
->  
-> @@ -125,6 +127,9 @@ struct XilinxAXIDMAStreamSlave {
->  struct XilinxAXIDMA {
->      SysBusDevice busdev;
->      MemoryRegion iomem;
-> +    MemoryRegion *dma_mr;
-> +    AddressSpace as;
-> +
->      uint32_t freqhz;
->      StreamSlave *tx_data_dev;
->      StreamSlave *tx_control_dev;
-> @@ -186,7 +191,7 @@ static void stream_desc_load(struct Stream *s, hwaddr addr)
->  {
->      struct SDesc *d = &s->desc;
->  
-> -    cpu_physical_memory_read(addr, d, sizeof *d);
-> +    address_space_read(&s->dma->as, addr, MEMTXATTRS_UNSPECIFIED, d, sizeof *d);
->  
->      /* Convert from LE into host endianness.  */
->      d->buffer_address = le64_to_cpu(d->buffer_address);
-> @@ -204,7 +209,8 @@ static void stream_desc_store(struct Stream *s, hwaddr addr)
->      d->nxtdesc = cpu_to_le64(d->nxtdesc);
->      d->control = cpu_to_le32(d->control);
->      d->status = cpu_to_le32(d->status);
-> -    cpu_physical_memory_write(addr, d, sizeof *d);
-> +    address_space_write(&s->dma->as, addr, MEMTXATTRS_UNSPECIFIED,
-> +                        d, sizeof *d);
+> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+> index ac3a553..f0bf2e7 100644
+> --- a/hw/net/cadence_gem.c
+> +++ b/hw/net/cadence_gem.c
+> @@ -345,11 +345,6 @@ static inline unsigned tx_desc_get_last(uint32_t *desc)
+>      return (desc[1] & DESC_1_TX_LAST) ? 1 : 0;
 >  }
 >  
->  static void stream_update_irq(struct Stream *s)
-> @@ -286,8 +292,9 @@ static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
->                       txlen + s->pos);
->          }
->  
-> -        cpu_physical_memory_read(s->desc.buffer_address,
-> -                                 s->txbuf + s->pos, txlen);
-> +        address_space_read(&s->dma->as, s->desc.buffer_address,
-> +                           MEMTXATTRS_UNSPECIFIED,
-> +                           s->txbuf + s->pos, txlen);
->          s->pos += txlen;
->  
->          if (stream_desc_eof(&s->desc)) {
-> @@ -336,7 +343,8 @@ static size_t stream_process_s2mem(struct Stream *s, unsigned char *buf,
->              rxlen = len;
->          }
->  
-> -        cpu_physical_memory_write(s->desc.buffer_address, buf + pos, rxlen);
-> +        address_space_write(&s->dma->as, s->desc.buffer_address,
-> +                            MEMTXATTRS_UNSPECIFIED, buf + pos, rxlen);
->          len -= rxlen;
->          pos += rxlen;
->  
-> @@ -525,6 +533,7 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
->      XilinxAXIDMAStreamSlave *cs = XILINX_AXI_DMA_CONTROL_STREAM(
->                                                              &s->rx_control_dev);
->      Error *local_err = NULL;
-> +    int i;
->  
->      object_property_add_link(OBJECT(ds), "dma", TYPE_XILINX_AXI_DMA,
->                               (Object **)&ds->dma,
-> @@ -545,17 +554,19 @@ static void xilinx_axidma_realize(DeviceState *dev, Error **errp)
->          goto xilinx_axidma_realize_fail;
->      }
->  
-> -    int i;
+> -static inline void tx_desc_set_last(uint32_t *desc)
+> -{
+> -    desc[1] |= DESC_1_TX_LAST;
+> -}
 > -
->      for (i = 0; i < 2; i++) {
->          struct Stream *st = &s->streams[i];
+>  static inline unsigned tx_desc_get_length(uint32_t *desc)
+>  {
+>      return desc[1] & DESC_1_LENGTH;
+> @@ -1270,7 +1265,6 @@ static void gem_transmit(CadenceGEMState *s)
 >  
-> +        st->dma = s;
->          st->nr = i;
->          st->ptimer = ptimer_init(timer_hit, st, PTIMER_POLICY_DEFAULT);
->          ptimer_transaction_begin(st->ptimer);
->          ptimer_set_freq(st->ptimer, s->freqhz);
->          ptimer_transaction_commit(st->ptimer);
->      }
-> +
-> +    address_space_init(&s->as,
-> +                       s->dma_mr ? s->dma_mr : get_system_memory(), "dma");
->      return;
+>              /* read next descriptor */
+>              if (tx_desc_get_wrap(desc)) {
+> -                tx_desc_set_last(desc);
 >  
->  xilinx_axidma_realize_fail:
-> @@ -575,6 +586,11 @@ static void xilinx_axidma_init(Object *obj)
->                              &s->rx_control_dev, sizeof(s->rx_control_dev),
->                              TYPE_XILINX_AXI_DMA_CONTROL_STREAM, &error_abort,
->                              NULL);
-> +    object_property_add_link(obj, "dma", TYPE_MEMORY_REGION,
-> +                             (Object **)&s->dma_mr,
-> +                             qdev_prop_allow_set_link_before_realize,
-> +                             OBJ_PROP_LINK_STRONG,
-> +                             &error_abort);
->  
->      sysbus_init_irq(sbd, &s->streams[0].irq);
->      sysbus_init_irq(sbd, &s->streams[1].irq);
+>                  if (s->regs[GEM_DMACFG] & GEM_DMACFG_ADDR_64B) {
+>                      packet_desc_addr = s->regs[GEM_TBQPH];
 > -- 
-> 2.20.1
+> 2.7.4
 > 
 
