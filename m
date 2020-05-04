@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A491C3D31
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:36:15 +0200 (CEST)
-Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CEB1C3D52
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:40:59 +0200 (CEST)
+Received: from localhost ([::1]:39642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcCb-0007b7-UO
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
+	id 1jVcHC-0008FR-Kf
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:40:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc9Y-0003Gr-Br
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:33:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43674
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6i-0006Mm-Co
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:08 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:24436
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc9X-0008OQ-2i
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:33:03 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6h-0006Ws-5M
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:30:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602782;
+ s=mimecast20190719; t=1588602606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9JdaAj59qQX1+ssGIeuuDMOOR7pnCTri9GiJMN0eSeY=;
- b=NomrVr+myR515ZNDNoW6V9Bpd+NynkTlDQytQESCSM8JmBkPqucj4Y+b7HIDUUTGv2eU7S
- XumEEUnZ6g2Hiq9B+x5SJk2E9A1Dl2lqDY7WsVfrBJUPK8mXs2nV/8dlA+aR9lzGOKQ662
- YIimvWBrUP7Z8YTjbUqEEQ6O1rZZq+o=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-4C6Vm5fXMyay3WI-914uNQ-1; Mon, 04 May 2020 10:30:02 -0400
-X-MC-Unique: 4C6Vm5fXMyay3WI-914uNQ-1
-Received: by mail-wm1-f69.google.com with SMTP id u11so3585510wmc.7
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:30:01 -0700 (PDT)
+ bh=Bo79CUgFM2z6ABK0rxVoGCIfB5lUV00d4CJDYbtIRA8=;
+ b=UN8T5TB74ZENRqE4sCO3dl37OPXi6A/pEsfImV6nfN9vn00v/CDvbczMbDhTFAFgyhOXte
+ ycbj/ZAmtBzKIkdREVNeyRt9VYhjLf4liP8sHg8qGJlCZZbWHGkqrA1bi6ZzbKB46WAKDW
+ wr2R5SgfcfkLTDQDyCYtM1PxoehGXGE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273--G4p8jyWPRqaM4Kw39wxog-1; Mon, 04 May 2020 10:30:04 -0400
+X-MC-Unique: -G4p8jyWPRqaM4Kw39wxog-1
+Received: by mail-wr1-f72.google.com with SMTP id s11so10856757wru.6
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:30:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=7Dg2dAHDf47qVIx0QAoV4cInszMLMlbrh7i8c4DIwb8=;
- b=DSEsmpySegxxoqS8QIHXIzQoVtuReyGO5nF5HawkxMWgJabp34tWqgXqHnMd6caNdN
- 0XVKxILuvo8MNvjUrANRALflHri9BUdghFkYCIbdFwd2KpG+m5URkTCa1waMm9ncZBg3
- ME5MW47niieYMHTNDC4Uf+qJaORqBDtFsDYsJb3t6oGLxRBkItYHFcVLWiH0Zeq08A/+
- 2kdquRNgxVc84j6qsw7gWRCFXVVzPjHJBrl6fDcWE8nYfG4AOrcaF9GDG0mDtz3j+6b8
- 3GZz4ILNDAHj1g01BNz1B9RREXaWa82phGvTelhFWFLEIwg/tBRmJ3E/OQGl6IRJ3tDY
- uxjA==
-X-Gm-Message-State: AGi0PuaZwrAoqVjCKiCVsSbRDZC+jDyDG4SeXs+GR/vV2/YLlRFwem3K
- Sffgli2/7VjhB+hGDugfEbi6apuhj+m4BbxKQII18cZMh3O57gpVODHUMn2AYh7yPT3qSKYumSa
- ASvPK3IweUDsAt04=
-X-Received: by 2002:adf:9564:: with SMTP id 91mr20143111wrs.246.1588602600852; 
- Mon, 04 May 2020 07:30:00 -0700 (PDT)
-X-Google-Smtp-Source: APiQypK5tqxZNcqL40BxQYzitTUgOBWb8O0s5ODZW3d7j79LkLL4e8pGt6+e388DXi98XQFQue6rGg==
-X-Received: by 2002:adf:9564:: with SMTP id 91mr20143090wrs.246.1588602600693; 
- Mon, 04 May 2020 07:30:00 -0700 (PDT)
+ bh=HiyhWJdustdM3N2mnLTkt5fy7WWcO4+CQ1UxAjOBv98=;
+ b=Pg9iOuwVrYT51VKVZK7zoSAjtKNeNK6p0dIGYg93gZdsBE9ZtJ0hr90bN7zceztvyg
+ 2Gy/cCxfSMd56tYweFFD4t+Jih3lfBI9KeBZX7clNDwBUk/wz1elyuFBWaMvvGpomU6w
+ 1nS6ALa0RNr1qY6nGIqm08U0wRnSnwXPY7HVtDcYN0RkqTMEON4Yqw44Bq42R9x/lqYj
+ l4lMEFoME5q3RvfMAc7kCCANHDFumfco1iogOkRz/35RE3mKCI2Ee3yNyTmdKm0sc1YL
+ 5Utit3O9K3PPqrLJsecosLBww5FUt/j5kPy4u+28DWpe5uMA59BLxwQh+dLulJJaKUhO
+ CrBA==
+X-Gm-Message-State: AGi0Pubji8Y3HyO9qjBvs0fCaqrqheNjdIaNG1IQSE/+flmnPom+pjuX
+ jOIX1cAZfsOsCu3Lsg4+/9kW9qECHm1bcaYvL39l+MA5TNoOcjeB8NjQ1VM4z9HDA++9fMxq3DS
+ t2Z/mEWOqh3HvGVE=
+X-Received: by 2002:a1c:4144:: with SMTP id o65mr15910856wma.78.1588602603432; 
+ Mon, 04 May 2020 07:30:03 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLim1edNF80L0cZwXOI7K/OFPfqaN9QEVcjl1bYJN0DUOPfu02dwcmY59NoQ14JKrR1XqF0Gg==
+X-Received: by 2002:a1c:4144:: with SMTP id o65mr15910834wma.78.1588602603265; 
+ Mon, 04 May 2020 07:30:03 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- m15sm13593345wmc.35.2020.05.04.07.29.59
+ 138sm14799517wmb.14.2020.05.04.07.30.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:30:00 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:58 -0400
+ Mon, 04 May 2020 07:30:02 -0700 (PDT)
+Date: Mon, 4 May 2020 10:30:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/29] tests: Update ACPI tables list for upcoming arm/virt
- test changes
-Message-ID: <20200504142814.157589-20-mst@redhat.com>
+Subject: [PULL 20/29] bios-tables-test: test pc-dimm and nvdimm coldplug for
+ arm/virt
+Message-ID: <20200504142814.157589-21-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -74,10 +74,10 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,52 +100,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 
-This is in preparation to update test_acpi_virt_tcg_memhp()
-with pc-dimm and nvdimm. Update the bios-tables-test-allowed-diff.h
-with the affected ACPI tables so that "make check" doesn't fail.
-
-Also add empty files for new tables required for new test.
+Since we now have both pc-dimm and nvdimm support, update
+test_acpi_virt_tcg_memhp() to include those.
 
 Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Message-Id: <20200421125934.14952-6-shameerali.kolothum.thodi@huawei.com>
+Message-Id: <20200421125934.14952-7-shameerali.kolothum.thodi@huawei.com>
 Acked-by: Peter Maydell <peter.maydell@linaro.org>
 Tested-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 3 +++
- tests/data/acpi/virt/NFIT.memhp             | 0
- tests/data/acpi/virt/SSDT.memhp             | 0
- 3 files changed, 3 insertions(+)
- create mode 100644 tests/data/acpi/virt/NFIT.memhp
- create mode 100644 tests/data/acpi/virt/SSDT.memhp
+ tests/qtest/bios-tables-test.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios=
--tables-test-allowed-diff.h
-index eb8bae1407..862c49e675 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1,6 @@
- /* List of comma-separated changed AML files to ignore */
- "tests/data/acpi/pc/SSDT.dimmpxm",
- "tests/data/acpi/q35/SSDT.dimmpxm",
-+"tests/data/acpi/virt/DSDT.memhp",
-+"tests/data/acpi/virt/SSDT.memhp",
-+"tests/data/acpi/virt/NFIT.memhp",
-diff --git a/tests/data/acpi/virt/NFIT.memhp b/tests/data/acpi/virt/NFIT.me=
-mhp
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/SSDT.memhp b/tests/data/acpi/virt/SSDT.me=
-mhp
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.=
+c
+index 0a597bbacf..c9843829b3 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -927,12 +927,17 @@ static void test_acpi_virt_tcg_memhp(void)
+     };
+=20
+     data.variant =3D ".memhp";
+-    test_acpi_one(" -cpu cortex-a57"
++    test_acpi_one(" -machine nvdimm=3Don"
++                  " -cpu cortex-a57"
+                   " -m 256M,slots=3D3,maxmem=3D1G"
+                   " -object memory-backend-ram,id=3Dram0,size=3D128M"
+                   " -object memory-backend-ram,id=3Dram1,size=3D128M"
+                   " -numa node,memdev=3Dram0 -numa node,memdev=3Dram1"
+-                  " -numa dist,src=3D0,dst=3D1,val=3D21",
++                  " -numa dist,src=3D0,dst=3D1,val=3D21"
++                  " -object memory-backend-ram,id=3Dram2,size=3D128M"
++                  " -object memory-backend-ram,id=3Dnvm0,size=3D128M"
++                  " -device pc-dimm,id=3Ddimm0,memdev=3Dram2,node=3D0"
++                  " -device nvdimm,id=3Ddimm1,memdev=3Dnvm0,node=3D1",
+                   &data);
+=20
+     free_test_data(&data);
 --=20
 MST
 
