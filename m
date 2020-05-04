@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92FA31C4972
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 00:12:54 +0200 (CEST)
-Received: from localhost ([::1]:51888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7F11C4A18
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:19:53 +0200 (CEST)
+Received: from localhost ([::1]:50660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVjKX-00083o-3p
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 18:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39916)
+	id 1jVkNL-0001a6-HD
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVjI3-0006ck-Vp
- for qemu-devel@nongnu.org; Mon, 04 May 2020 18:10:20 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:50554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVjHz-0004PA-8K
- for qemu-devel@nongnu.org; Mon, 04 May 2020 18:10:19 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id t9so102403pjw.0
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 15:10:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=POfn3Xr7PiNAjzgxgJS6QntR719fdNsg4/1jeA6GuYE=;
- b=zMj9hCYc6P/MJ6LY7C+REDWOIm1S0Pi0Z1fc1ICQdsSQt1HNU0rP2hQ8HqoShnjWGs
- hCLoscGLvTGL6P/zxIXGdBuAFroYSO2fjkeYZuRh7awtvfiAVck0Jk02xW9ll/H7GT1i
- 9d1i0EUJGuYC28GDE74DgWg+wiur7U6p9U+YKgnPIyZ6rwBA30nkDiQ5M9PNLoVb76xz
- H/hn4kl4gHLH7X2JJRj7uNz8E6dtXP0qtv2bGsLAQe619vV4g0na0ZM5TiSye5cCv9RW
- 2BuB/+fhrW063TIIWVBUxuH47WyC8V2zvS49U2lYs/o5GVjAj6TtMAeCcWWxaBDhMSK5
- V3hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=POfn3Xr7PiNAjzgxgJS6QntR719fdNsg4/1jeA6GuYE=;
- b=S4C0ds7aU2ecxBTp1GUoaNTgds8e5z0DUFi+lefq4TrLFKj3Gd7+KrxrU1y/9awTfr
- QImSYVjYu6z4flk3XzKXWKt/Mu1xOBesZpHPrKOgzG0UEx9LWOnkSagIXjmALqYhHTG6
- +MIu2zOqbzrkcl09F72YGjjusYnMyljh9ZUB0OBoKRcUvLeIS98UVUs70mJSldZPFfui
- 93lLZerWFCg6Ok68rORLqp8P46mk+q9kMPsn4xrXkLNPz7s5ZByuDZsXpPS+3hCl0lJu
- sCJLLEgsuBMjAHO3zogHlOqnUUqbo3/4Cbxbcqr/NztN3Ke7KlkmmtgLGvjP5Fd1lxsj
- xKIA==
-X-Gm-Message-State: AGi0PuauVzY75Jzkvq8+fib/Moft4ToY2FbL3SxehKPVLWXPfGqIuQnn
- JrSmKyf6e9FtZt4/wJc9cpb3EQ==
-X-Google-Smtp-Source: APiQypLiLYWWed9gLsD8Sqq0rDFYkZ+p5SDrpYAD7arLflI9IqVREpv1m6YhoIIwDYODhZ+7y2yqzg==
-X-Received: by 2002:a17:90a:e013:: with SMTP id u19mr90549pjy.16.1588630210662; 
- Mon, 04 May 2020 15:10:10 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id t80sm88495pfc.23.2020.05.04.15.10.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 15:10:09 -0700 (PDT)
-Subject: Re: [PATCH] ppc: Use hard-float in ppc fp_hlper as early as
- possible...
-To: luoyonggang@gmail.com, qemu-devel@nongnu.org
-References: <20200504192954.1387-1-luoyonggang@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <81b2392a-d049-b8d3-30ad-6b9550c63126@linaro.org>
-Date: Mon, 4 May 2020 15:10:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1jVkLu-0000jG-5Z
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:18:22 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:4335)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1jVkLp-0005ht-89
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:18:20 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5eb0a2310000>; Mon, 04 May 2020 16:16:02 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate102.nvidia.com (PGP Universal service);
+ Mon, 04 May 2020 16:18:09 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate102.nvidia.com on Mon, 04 May 2020 16:18:09 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
+ 2020 23:18:09 +0000
+Received: from kwankhede-dev.nvidia.com (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via
+ Frontend Transport; Mon, 4 May 2020 23:18:01 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v18 QEMU 00/18] Add migration support for VFIO devices
+Date: Tue, 5 May 2020 04:14:35 +0530
+Message-ID: <1588632293-18932-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20200504192954.1387-1-luoyonggang@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1588634162; bh=QGEmwBr6KD7H/iql3lpgFtgE0bZi49AJYojd/QZu3k4=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=OXYvJueYoLZu8JL8EMQ/L3OmPySA6717Nr8t7OfImkZs8anNuCnxs3tixpgd22/gQ
+ /999/QlT4nudTkTOoTqSGpDYTaZkddDbBDw5KOMj75G9Njh81zoKiBFoRHELyHYRyu
+ p57ye47n9XLS1snxQB4iVa3b+m6EoChlrETXZ3BrP9UAx4Z46kH5ZXmd0nZDsK4XhD
+ XwwPteGNgsZIzrLED4L9HI0lqRa4sbI8iCqP2SLD79kFQx5KIR1WeYoahxwqX0VyMK
+ vO+STchAdTmX5DQI1/j/Lm+kZSmJGWgPDt0KI7j8BSepJXcK7v2swYkiPe/qCVvUHq
+ uKRzh/vlcBTKw==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:18:10
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,44 +74,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org
+Cc: cohuck@redhat.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, yi.l.liu@intel.com,
+ quintela@redhat.com, ziye.yang@intel.com, armbru@redhat.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, felipe@nutanix.com,
+ zhi.a.wang@intel.com, kevin.tian@intel.com, yan.y.zhao@intel.com,
+ dgilbert@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 12:29 PM, luoyonggang@gmail.com wrote:
+Hi,
 
-> Re: [PATCH] ppc: Use hard-float in ppc fp_hlper as early as possible. This would increase the performance better than enable hard-float it in soft-float.c; Just using fadd fsub fmul fdiv as a simple bench demo. With this patch, performance are increased 2x. and 1.3x than the one enable hard-float in soft-float.c Both version are not considerate inexact fp exception yet.
+This Patch set adds migration support for VFIO devices in QEMU.
 
-Use a return after the one sentence title to separate it from the body of the
-description.
+This Patch set include patches as below:
+Patch 1:
+- Define KABI for VFIO device for migration support for device state and newly
+  added ioctl definations to get dirty pages bitmap. This is a placeholder
+  patch.
+
+Patch 2-4:
+- Few code refactor
+- Added save and restore functions for PCI configuration space
+
+Patch 5-10:
+- Generic migration functionality for VFIO device.
+  * This patch set adds functionality only for PCI devices, but can be
+    extended to other VFIO devices.
+  * Added all the basic functions required for pre-copy, stop-and-copy and
+    resume phases of migration.
+  * Added state change notifier and from that notifier function, VFIO
+    device's state changed is conveyed to VFIO device driver.
+  * During save setup phase and resume/load setup phase, migration region
+    is queried and is used to read/write VFIO device data.
+  * .save_live_pending and .save_live_iterate are implemented to use QEMU's
+    functionality of iteration during pre-copy phase.
+  * In .save_live_complete_precopy, that is in stop-and-copy phase,
+    iteration to read data from VFIO device driver is implemented till pending
+    bytes returned by driver are not zero.
+
+Patch 11-12
+- Add helper function for migration with vIOMMU enabled to get address limit
+  IOMMU supports.
+- Set DIRTY_MEMORY_MIGRATION flag in dirty log mask for migration with vIOMMU
+  enabled.
+
+Patch 13-14:
+- Add function to start and stop dirty pages tracking.
+- Add vfio_listerner_log_sync to mark dirty pages. Dirty pages bitmap is queried
+  per container. All pages pinned by vendor driver through vfio_pin_pages
+  external API has to be marked as dirty during  migration.
+  When there are CPU writes, CPU dirty page tracking can identify dirtied
+  pages, but any page pinned by vendor driver can also be written by
+  device. As of now there is no device which has hardware support for
+  dirty page tracking. So all pages which are pinned by vendor driver
+  should be considered as dirty.
+  In Qemu, marking pages dirty is only done when device is in stop-and-copy
+  phase because if pages are marked dirty during pre-copy phase and content is
+  transfered from source to distination, there is no way to know newly dirtied
+  pages from the point they were copied earlier until device stops. To avoid
+  repeated copy of same content, pinned pages are marked dirty only during
+  stop-and-copy phase.
+
+Patch 15:
+- Get migration capability flags from kernel module.
+
+Patch 16:
+- With vIOMMU, IO virtual address range can get unmapped while in pre-copy
+  phase of migration. In that case, unmap ioctl should return pages pinned
+  in that range and QEMU should report corresponding guest physical pages
+  dirty.
+
+Patch 17:
+- Make VFIO PCI device migration capable. If migration region is not provided by
+  driver, migration is blocked.
+
+Patch 18:
+- Added VFIO device stats to MigrationInfo
+
+Yet TODO:
+Since there is no device which has hardware support for system memmory
+dirty bitmap tracking, right now there is no other API from vendor driver
+to VFIO IOMMU module to report dirty pages. In future, when such hardware
+support will be implemented, an API will be required in kernel such that
+vendor driver could report dirty pages to VFIO module during migration phases.
+
+Below is the flow of state change for live migration where states in brackets
+represent VM state, migration state and VFIO device state as:
+    (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
+
+Live migration save path:
+        QEMU normal running state
+        (RUNNING, _NONE, _RUNNING)
+                        |
+    migrate_init spawns migration_thread.
+    (RUNNING, _SETUP, _RUNNING|_SAVING)
+    Migration thread then calls each device's .save_setup()
+                        |
+    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+    If device is active, get pending bytes by .save_live_pending()
+    if pending bytes >= threshold_size,  call save_live_iterate()
+    Data of VFIO device for pre-copy phase is copied.
+    Iterate till pending bytes converge and are less than threshold
+                        |
+    On migration completion, vCPUs stops and calls .save_live_complete_precopy
+    for each active device. VFIO device is then transitioned in
+     _SAVING state.
+    (FINISH_MIGRATE, _DEVICE, _SAVING)
+    For VFIO device, iterate in  .save_live_complete_precopy  until
+    pending data is 0.
+    (FINISH_MIGRATE, _DEVICE, _STOPPED)
+                        |
+    (FINISH_MIGRATE, _COMPLETED, STOPPED)
+    Migraton thread schedule cleanup bottom half and exit
+
+Live migration resume path:
+    Incomming migration calls .load_setup for each device
+    (RESTORE_VM, _ACTIVE, STOPPED)
+                        |
+    For each device, .load_state is called for that device section data
+                        |
+    At the end, called .load_cleanup for each device and vCPUs are started.
+                        |
+        (RUNNING, _NONE, _RUNNING)
+
+Note that:
+- Migration post copy is not supported.
+
+v16 -> v18
+- Nit fixes
+- Get migration capability flags from container
+- Added VFIO stats to MigrationInfo
+- Fixed bug reported by Yan
+    https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg00004.html
+
+v9 -> v16
+- KABI almost finalised on kernel patches.
+- Added support for migration with vIOMMU enabled.
+
+v8 -> v9:
+- Split patch set in 2 sets, Kernel and QEMU sets.
+- Dirty pages bitmap is queried from IOMMU container rather than from
+  vendor driver for per device. Added 2 ioctls to achieve this.
+
+v7 -> v8:
+- Updated comments for KABI
+- Added BAR address validation check during PCI device's config space load as
+  suggested by Dr. David Alan Gilbert.
+- Changed vfio_migration_set_state() to set or clear device state flags.
+- Some nit fixes.
+
+v6 -> v7:
+- Fix build failures.
+
+v5 -> v6:
+- Fix build failure.
+
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of structure
+  vfio_device_migration_info to be followed based on Alex's suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
+
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration, that
+  is removed assumption that data will be till end of migration region.
+- If vendor driver supports mappable sparsed region, map those region during
+  setup state of save/load, similarly unmap those from cleanup routines.
+- Handles race condition that causes data corruption in migration region during
+  save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Splitted into multiple functional patches.
+
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2 bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined action
+  on read and write access on its members.
+
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with region
+  type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed at 0th
+  offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section of the
+  region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested pages
+  are copied.
+
+Thanks,
+Kirti
 
 
->  float64 helper_fadd(CPUPPCState *env, float64 arg1, float64 arg2)
->  {
-> +    CPU_DoubleU u1, u2;
-> +
-> +    u1.d = arg1;
-> +    u2.d = arg2;
-> +    CPU_DoubleU retDouble;
-> +    retDouble.nd = u1.nd + u2.nd;
-> +    if (likely(float64_is_zero_or_normal(retDouble.d)))
-> +    {
-> +        /* TODO: Handling inexact */
-> +        return retDouble.d;
-> +    }
+Kirti Wankhede (18):
+  vfio: KABI for migration interface - Kernel header placeholder
+  vfio: Add function to unmap VFIO region
+  vfio: Add vfio_get_object callback to VFIODeviceOps
+  vfio: Add save and load functions for VFIO PCI devices
+  vfio: Add migration region initialization and finalize function
+  vfio: Add VM state change handler to know state of VM
+  vfio: Add migration state change notifier
+  vfio: Register SaveVMHandlers for VFIO device
+  vfio: Add save state functions to SaveVMHandlers
+  vfio: Add load state functions to SaveVMHandlers
+  iommu: add callback to get address limit IOMMU supports
+  memory: Set DIRTY_MEMORY_MIGRATION when IOMMU is enabled
+  vfio: Add function to start and stop dirty pages tracking
+  vfio: Add vfio_listener_log_sync to mark dirty pages
+  vfio: Get migration capability flags for container
+  vfio: Add ioctl to get dirty pages bitmap during dma unmap.
+  vfio: Make vfio-pci device migration capable
+  qapi: Add VFIO devices migration stats in Migration stats
 
-First, you need to verify that the current rounding mode is
-float_round_nearest_even.  Otherwise you are actively computing wrong results
-for other rounding modes.
+ hw/i386/intel_iommu.c         |   9 +
+ hw/vfio/Makefile.objs         |   2 +-
+ hw/vfio/common.c              | 387 +++++++++++++++++++-
+ hw/vfio/migration.c           | 810 ++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/pci.c                 | 203 +++++++++--
+ hw/vfio/pci.h                 |   1 -
+ hw/vfio/trace-events          |  19 +
+ include/exec/memory.h         |  18 +
+ include/hw/vfio/vfio-common.h |  20 ++
+ include/qemu/vfio-helpers.h   |   3 +
+ linux-headers/linux/vfio.h    | 311 +++++++++++++++-
+ memory.c                      |  13 +-
+ migration/migration.c         |  12 +
+ monitor/hmp-cmds.c            |   6 +
+ qapi/migration.json           |  19 +-
+ 15 files changed, 1789 insertions(+), 44 deletions(-)
+ create mode 100644 hw/vfio/migration.c
 
-Second, including zero result in your acceptance test misses out on underflow
-exceptions.
+-- 
+2.7.0
 
-Third, what is your plan for inexact?  There's no point in continuing this
-thread unless you fill in the TODO a bit more.
-
-https://cafehayek.com/wp-content/uploads/2014/03/miracle_cartoon.jpg
-
-
-r~
 
