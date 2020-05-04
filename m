@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D411C3B6E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 15:41:30 +0200 (CEST)
-Received: from localhost ([::1]:54708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2151C3B8C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 15:45:58 +0200 (CEST)
+Received: from localhost ([::1]:32790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVbLc-0006Ok-Mu
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 09:41:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38772)
+	id 1jVbPx-00016S-3U
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 09:45:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jVbKc-0005tQ-RF
- for qemu-devel@nongnu.org; Mon, 04 May 2020 09:40:26 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jVbKb-00063x-Uv
- for qemu-devel@nongnu.org; Mon, 04 May 2020 09:40:26 -0400
-Received: by mail-wm1-x344.google.com with SMTP id g12so9069142wmh.3
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 06:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=cAbivncbEAo9S3xiviP7VEpg83f1JQxDekJn0sK5cks=;
- b=VT7dzljGuWz0/8OaJqFz8YY03bUOnG+eAqubcIm+7As4V3GSaBubBdG9X8+5GvmGpd
- /ftxRdHJXb/R2RM3mXbJRgagcO8CRXdL6pLek9pfLm3Pgs8TuiS3fQcBXwEL+9GDTjcG
- MUF9oLG8q/e25FcXLeNeFEA7lpy3Cg8+jVjhWi8dvke3AUlvHDc+11H/tSQ8205bZsWv
- 1TkEjd3I1e/BXewTHTO6Tr4jGvB4hEfG5ObmpQ1QB0pE4O6F4L1X0JDvArEtF0B3lWdZ
- 8IMJRIWBTpWzL33sUh3VjSHuLGUlvg40sn1AnCMJE7n9b/OM5vqzNdt/xy3uNuf6RYFn
- WY+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cAbivncbEAo9S3xiviP7VEpg83f1JQxDekJn0sK5cks=;
- b=UYx6FaqQPpcIyFZ5ptVEFdAl6A929qIe4GyU+BI52bS2UiWab/xmniqDMWe5Bk480Q
- SkbNxQWdrahB4q78bLW46gLUu+97eT+1TImfIQV+LGJVKxWku46DN7cnXBpiQWi5ScyP
- G9nvBSl0Q6GhPoA8iVfAHFQFSS6E6HYeSAY5LTwqpWd3tMOJJFsOsvP2HZfybJgcX/Da
- 8+fpol3nQIfV7rqlShkfdk1ZzzIoHl3GWNO6iGvrPOiA2bkZFyUp5cJRaqkqfJ9gvrZG
- pUXoSJLVZnO1swBWMjDa4p5Yiui2tCSy9F6Vo7Q760Lt4vBsnKuhJoNdeWhffF4xGs2b
- gmZA==
-X-Gm-Message-State: AGi0PubnJ8n9F3A6tbceBiVel3y2S6vNTwbnJ2dIoFIljMuUZYqXVDlq
- HUDZEnHo+bioF75cwT9/4dM=
-X-Google-Smtp-Source: APiQypLvjmkb3p5o8VgSyXJUzJCPS3VHXoC2/KQF0z5Nb3tM8F+r8Pd22ODVNf0QzCpz05wfenTvgw==
-X-Received: by 2002:a05:600c:2f17:: with SMTP id
- r23mr14047894wmn.81.1588599624521; 
- Mon, 04 May 2020 06:40:24 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id n9sm6541933wrv.43.2020.05.04.06.40.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 06:40:23 -0700 (PDT)
-Date: Mon, 4 May 2020 14:40:21 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [PATCH] chardev: enable distinct input for -chardev file
-Message-ID: <20200504134021.GH354891@stefanha-x1.localdomain>
-References: <20200501172559.6470-1-alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVbOd-0000Ru-8e
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 09:44:35 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39015
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVbOc-0007ox-91
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 09:44:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588599873;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a9NQnpcYkvkVbRU7brf5mdo6rVsXNH5B1d5Jbd/CtPk=;
+ b=JYyi8wxY2QcFqgYo0iLNINAvDEjPbWDoS/+3PdIDeaoHeq2tkYuwaq39zh8CmgDErTFjga
+ Jfzqb/N3Adqs+AZGMALhAOysOlVxXW4g620v0+nBkEW1OHizY04hZeukKnTy30jGVuGsUe
+ hyASqcsb3IgIg3Zecgl7iH0IJq7b7D4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-rOnuNOlhNESDXp9MbDgAJw-1; Mon, 04 May 2020 09:44:29 -0400
+X-MC-Unique: rOnuNOlhNESDXp9MbDgAJw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA50D835B41;
+ Mon,  4 May 2020 13:44:28 +0000 (UTC)
+Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 66EC562482;
+ Mon,  4 May 2020 13:44:28 +0000 (UTC)
+Subject: Re: [PATCH v2 4/6] qcow2: Expose bitmaps' size during measure
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20200421212019.170707-1-eblake@redhat.com>
+ <20200421212019.170707-5-eblake@redhat.com>
+ <969af6d7-a4e4-b01b-b93b-d0f983782cfc@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <c135074b-70f4-475f-439a-8fc97568e14a@redhat.com>
+Date: Mon, 4 May 2020 08:44:27 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1EKig6ypoSyM7jaD"
-Content-Disposition: inline
-In-Reply-To: <20200501172559.6470-1-alxndr@bu.edu>
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=stefanha@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <969af6d7-a4e4-b01b-b93b-d0f983782cfc@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,50 +83,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- stefanha@redhat.com,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: kwolf@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/4/20 6:36 AM, Max Reitz wrote:
+> On 21.04.20 23:20, Eric Blake wrote:
+>> It's useful to know how much space can be occupied by qcow2 persistent
+>> bitmaps, even though such metadata is unrelated to the guest-visible
+>> data.  Report this value as an additional field.  Update iotest 190 to
+>> cover it and a portion of the just-added qemu-img bitmap command.
+>>
+>> The addition of a new field demonstrates why we should always
+>> zero-initialize qapi C structs; while the qcow2 driver still fully
+>> populates all fields, the raw and crypto drivers had to be tweaked.
+>>
+>> See also: https://bugzilla.redhat.com/1779904
+>>
+>> Reported-by: Nir Soffer <nsoffer@redhat.com>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>> ---
 
---1EKig6ypoSyM7jaD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, May 01, 2020 at 01:25:59PM -0400, Alexander Bulekov wrote:
-> char-file already supports distinct paths for input/output but it was
-> only possible to specify a distinct input through QMP. With this change,
-> we can also specify a distinct input with the -chardev file argument:
->     qemu -chardev file,id=3Dchar1,path=3D/out/file,in=3D/in/file
+>>   # @fully-allocated: Image file size, in bytes, once data has been writ=
+ten
+>> -#                   to all sectors.
+>> +#                   to all sectors, when copying just guest-visible con=
+tents.
+>> +#
+>> +# @bitmaps: Additional size required for bitmap metadata not directly u=
+sed
+>> +#           for guest contents,
 >=20
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->  chardev/char-file.c | 5 +++++
->  chardev/char.c      | 3 +++
->  qemu-options.hx     | 7 +++++--
->  3 files changed, 13 insertions(+), 2 deletions(-)
+> Not sure how I feel about the =E2=80=9Cnot directly used for guest conten=
+ts=E2=80=9D,
+> because it feels a bit superfluous, and it sounds like there might be
+> bitmap data that is directly used for guest contents.
+
+Hmm. I was trying to make it obvious that bitmap size is separate from=20
+fully-allocated (and not double-counted), but you may have a point that=20
+just using "Additional size required for bitmap metadata, when that=20
+metadata can be copied in addition..." would work.
+
 >=20
-> The naming here is awkward, with path=3D really turning into "out" when
-> in=3D is specified, though i'm not sure about what is a good solution.
+>>                                   when that metadata can be copied in ad=
+dition
+>> +#           to guest contents. (since 5.1)
+>>   #
+>>   # Since: 2.10
+>>   ##
+>>   { 'struct': 'BlockMeasureInfo',
+>> -  'data': {'required': 'int', 'fully-allocated': 'int'} }
+>> +  'data': {'required': 'int', 'fully-allocated': 'int', '*bitmaps': 'in=
+t'} }
+>=20
+> Why is @bitmaps optional?  I.e., what does absence mean, besides =E2=80=
+=9Cnot
+> supported yet=E2=80=9D?
+>=20
+> Right now, absence means anything in =E2=80=9Cformat doesn=E2=80=99t supp=
+ort bitmaps, so
+> nothing can be copied=E2=80=9D, =E2=80=9Cno input image given, so there=
+=E2=80=99s no data on
+> bitmaps=E2=80=9D, to =E2=80=9C0 bytes to copy=E2=80=9D.
+>=20
+> I think in the latter case we should emit it as 0, maybe even in the
+> former case, because I think the fact that there won=E2=80=99t be any bit=
+map
+> data to copy might be interesting.  (And it=E2=80=99s also definitely 0, =
+not
+> just =E2=80=9Cdon=E2=80=99t know=E2=80=9D.)
+>=20
+> I suppose absence does make sense in case the user didn=E2=80=99t specify=
+ an
+> input image, because then we just really don=E2=80=99t know.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+The patch will require a tweak to report an explicit 0 (when there is=20
+nothing to be copied), but doing that makes sense (explicit 0 for v3=20
+qcow2 images, and maybe even for v2, but omitted for other formats that=20
+have no bitmap support).
 
---1EKig6ypoSyM7jaD
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+>> @@ -4739,6 +4742,28 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *=
+opts, BlockDriverState *in_bs,
+>>               goto err;
+>>           }
+>>
+>> +        FOR_EACH_DIRTY_BITMAP(in_bs, bm) {
+>> +            if (bdrv_dirty_bitmap_get_persistence(bm)) {
+>> +                const char *name =3D bdrv_dirty_bitmap_name(bm);
+>> +                uint32_t granularity =3D bdrv_dirty_bitmap_granularity(=
+bm);
+>> +                uint64_t bmbits =3D DIV_ROUND_UP(bdrv_dirty_bitmap_size=
+(bm),
+>> +                                               granularity);
+>> +                uint64_t bmclusters =3D DIV_ROUND_UP(DIV_ROUND_UP(bmbit=
+s,
+>> +                                                                CHAR_BI=
+T),
+>=20
+> I suppose if we allowed CHAR_BIT to be anything but 8, it would be wrong
+> to use it here.  So maybe just a plain 8 would be more correct; although
+> I suppose CHAR_BIT kind of describes what constant we want here.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6wG0UACgkQnKSrs4Gr
-c8gIGwf/YWyKGguPwOvWnUynz4X6w+62Gf7IsKmIJZ8mx4C/GBhnLInVqtV9oxXM
-GYv0AX66Ucu4dSAK+Nrmg+V7y0OHVC+Pcpmxvuem3sYiUMN3dsNX+ppgcO/kO0Gv
-Muuj+5ee7zcEIomRKz+z1aBakyoACjhXWbPzWPyRR8BaWusx54OYZS60SWiWDMss
-ScLulzY1FIkfsdGA48jf8j0ydx7OQjxUfRAQc/Rd2Fnfh5bHtGym6KaBFPYgcb/I
-vApsfqNOIDczZPi/rBGk9/HHXwHkWhZSuqQN9cV5FGg3z9CSDOviAl/pEX8ATLO0
-2f4MGyNSZOIwdFVU32/wdjgHcWKroA==
-=ElV+
------END PGP SIGNATURE-----
+POSIX requires CHAR_BIT to be 8.  (C99 allows some odd machines where=20
+CHAR_BIT is 9, 16, or even 32, but we don't ever try to port to such=20
+machines).
 
---1EKig6ypoSyM7jaD--
+>> +=3D=3D Huge file with bitmaps =3D=3D
+>> +
+>> +required size: 2199023255552
+>> +fully allocated size: 2199023255552
+>> +required size: 335806464
+>> +fully allocated size: 2199359062016
+>> +bitmaps size: 537198592
+>> +required size: 18874368
+>> +fully allocated size: 2199042129920
+>> +bitmaps size: 545259520
+>=20
+> Looks correct.
+>=20
+> (It might be nicer to calculate the reference value in the script,
+> because this way I had to verify it by hand, but, well, now I did verify
+> it, so...)
+
+Feels like duplicate work, which would require tweaking in two spots if=20
+we ever change our implementation or the qcow2 format is further=20
+enhanced, but it would also make it obvious that we are aware of the=20
+impact of such future changes. Okay, I'll see what I can add.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
