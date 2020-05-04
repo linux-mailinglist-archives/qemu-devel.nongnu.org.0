@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7ABC1C3E04
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:04:39 +0200 (CEST)
-Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48E4E1C3E50
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:16:57 +0200 (CEST)
+Received: from localhost ([::1]:49602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVce6-0007bO-Ap
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54470)
+	id 1jVcpz-0004Hu-Op
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:16:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVcc6-0005Zm-Kc; Mon, 04 May 2020 11:02:34 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:39453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVcc5-0007aU-5b; Mon, 04 May 2020 11:02:34 -0400
-Received: by mail-lf1-x144.google.com with SMTP id h26so7061582lfg.6;
- Mon, 04 May 2020 08:02:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=2btHZC5hE4h3+Cz9SRiw4pmBrok/u7kGKHTwNQ70g8M=;
- b=uoCPJnlv2laEJ0dugMq1IWQoj0NQF9vxs1UFDeH/9n8w6UaaYwhKMlLCYYhNJE3HbN
- RKpGKZcMR/TZHhCu0b8lS5+uNeanDloFuFF+CdHeonlV4y0J2+xocsZhWi8rwxQnR8uf
- fwss27pVZt/fjQ9ja9r76rwo9FwoW6bOCXFFtDkbutur7+f4CouOLY8mnUeHJFT1v3Rp
- bsBm+d151HRl7GS3VCsjCxRh1nV9SoMeO1NPHmG1UlkatHSO3S9nnbKntlWqA3ak1X2P
- UIDrFoP1EJKg+81xG1Ixr0sr+1CN9+KfVHvjjK2lQFIDwbkq5DfA9N3sIWLMkgybLhK1
- XB9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=2btHZC5hE4h3+Cz9SRiw4pmBrok/u7kGKHTwNQ70g8M=;
- b=PHCMGwpwSYVOZwsWpu/MsNnlrcVKJncvCnuwdcYEtoLrcOvaFXUG+QvV+oNM1x+qHL
- +qiKrDW3KoXpVX82Wmytwv1AoLF2JUJHUO615NDvnzRN0xK+hhWXDdUKPZsVnLB+KRjz
- t+g/28w9C7I6AEk3cFZP88nIVNp8nlB3fd0IcH6QKsToJR4+WZ/82bkOZI8qiqEbAh3q
- BkrfWyA06St7OVXeIOl5pZpq6zpOL/OMd7jAqwKHZOk8TsTW2vAgjQ0EtEonNBiHix9I
- WZlQIi/9cr7Ny8qB9H4HFpkJZWCUpSexYkchEhtIGdNhUpHrVMALtA4gCShz9XLrf/ZI
- T81g==
-X-Gm-Message-State: AGi0PuZR/E4bqp8ZhVMq5104dsge0LRGkH07PA2WWvStFnbQ7mI4/Z0h
- y8mGx8s3s8XSKG6WhtV9vv4=
-X-Google-Smtp-Source: APiQypL1ODT7wMBS+trqXv8w9t1O/9iFJeG/wrCV82kUZFlR/VWcr+GN9GHMLBpwUD31rIFYZ2xxPw==
-X-Received: by 2002:ac2:4187:: with SMTP id z7mr12003883lfh.113.1588604550791; 
- Mon, 04 May 2020 08:02:30 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id n7sm10752980ljj.72.2020.05.04.08.02.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 08:02:30 -0700 (PDT)
-Date: Mon, 4 May 2020 17:02:29 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v2 05/10] net: cadence_gem: Set ISR according to queue in
- use
-Message-ID: <20200504150229.GE5519@toto>
-References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1588601168-27576-6-git-send-email-sai.pavan.boddu@xilinx.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jVcoD-0002LK-IJ
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:15:05 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48422
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jVcoB-0007i8-QM
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:15:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588605300;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LaVVrsnJBkF3Tedbzkq4G3Ci+0DXqaMkQDubHHgJRew=;
+ b=eXW1liT/2AZAiF1r/WvDTUZQRBWXWnMk0MrCEaX7AdEEzNLYgV8Bs1Z3H6RNJ1nPV0ho4o
+ JeWsLrSxHiz44DiWnt9ef6ADgAqP2sA151vcYuA93TJW6iChpQdN97rlp5IFksT33ymTXD
+ 4yvU4ZVunA4t9dg6P5EVlfkNDubkGQ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-bhWaCEW8PVWduvuIUi_eGA-1; Mon, 04 May 2020 11:14:53 -0400
+X-MC-Unique: bhWaCEW8PVWduvuIUi_eGA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DB55835B41;
+ Mon,  4 May 2020 15:14:52 +0000 (UTC)
+Received: from localhost (ovpn-113-75.ams2.redhat.com [10.36.113.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2039B6247C;
+ Mon,  4 May 2020 15:14:39 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/4] Block patches
+Date: Mon,  4 May 2020 16:14:34 +0100
+Message-Id: <20200504151438.362702-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1588601168-27576-6-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,98 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Ramon Fried <rfried.dev@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ Peter Lieven <pl@kamp.de>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 04, 2020 at 07:36:03PM +0530, Sai Pavan Boddu wrote:
-> Set ISR according to queue in use, added interrupt support for
-> all queues.
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA5YWY2MzhjYzFmNjY1NzEyNTIyNjA4
+YzVkNmI4YzAzZDhmYTY3NjY2Og0KDQogIE1lcmdlIHJlbW90ZS10cmFja2luZyBicmFuY2ggJ3Jl
+bW90ZXMvcG1heWRlbGwvdGFncy9wdWxsLXRhcmdldC1hcm0tMjAyMDA1MDQnIGludG8gc3RhZ2lu
+ZyAoMjAyMC0wNS0wNCAxMzozNzoxNyArMDEwMCkNCg0KYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0
+IHJlcG9zaXRvcnkgYXQ6DQoNCiAgaHR0cHM6Ly9naXRodWIuY29tL3N0ZWZhbmhhL3FlbXUuZ2l0
+IHRhZ3MvYmxvY2stcHVsbC1yZXF1ZXN0DQoNCmZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0
+byAwOGI2ODlhYTZiNTIxOTY0YjgyNzVkZDdhMjU2NGFlZmE1ZDY4MTI5Og0KDQogIGxvY2thYmxl
+OiBSZXBsYWNlIGxvY2tzIHdpdGggbG9jayBndWFyZCBtYWNyb3MgKDIwMjAtMDUtMDQgMTY6MDc6
+NDMgKzAxMDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0NClB1bGwgcmVxdWVzdA0KDQp2MjoNCiAqIEZpeGVkIHN0cmF5
+IHNsaXJwIHN1Ym1vZHVsZSBjaGFuZ2UgW1BldGVyXQ0KDQpGaXhlcyBmb3IgdGhlIGxvY2sgZ3Vh
+cmQgbWFjcm9zLCBjb2RlIGNvbnZlcnNpb25zIHRvIHRoZSBsb2NrIGd1YXJkIG1hY3JvcywgYW5k
+DQpzdXBwb3J0IGZvciBzZWxlY3RpbmcgZnV6emVyIHRhcmdldHMgd2l0aCBhcmd2WzBdLg0KDQot
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tDQoNCkFsZXhhbmRlciBCdWxla292ICgxKToNCiAgZnV6ejogc2VsZWN0IGZ1enogdGFy
+Z2V0IHVzaW5nIGV4ZWN1dGFibGUgbmFtZQ0KDQpEYW5pZWwgQnJvZHNreSAoMik6DQogIGxvY2th
+YmxlOiBmaXggX19DT1VOVEVSX18gbWFjcm8gdG8gYmUgcmVmZXJlbmNlZCBwcm9wZXJseQ0KICBs
+b2NrYWJsZTogcmVwbGFjZWQgbG9ja3Mgd2l0aCBsb2NrIGd1YXJkIG1hY3JvcyB3aGVyZSBhcHBy
+b3ByaWF0ZQ0KDQpTaW1yYW4gU2luZ2hhbCAoMSk6DQogIGxvY2thYmxlOiBSZXBsYWNlIGxvY2tz
+IHdpdGggbG9jayBndWFyZCBtYWNyb3MNCg0KIGluY2x1ZGUvcWVtdS9sb2NrYWJsZS5oIHwgIDcg
+KysrLS0tDQogaW5jbHVkZS9xZW11L3JjdS5oICAgICAgfCAgMiArLQ0KIGJsb2NrL2lzY3NpLmMg
+ICAgICAgICAgIHwgIDcgKystLS0tDQogYmxvY2svbmZzLmMgICAgICAgICAgICAgfCA1MSArKysr
+KysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KIGNwdXMtY29tbW9uLmMgICAg
+ICAgICAgIHwgMTQgKysrKy0tLS0tLS0NCiBody9kaXNwbGF5L3F4bC5jICAgICAgICB8IDQzICsr
+KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0NCiBody9oeXBlcnYvaHlwZXJ2LmMgICAg
+ICB8IDE1ICsrKysrKy0tLS0tLQ0KIGh3L3JkbWEvcmRtYV9iYWNrZW5kLmMgIHwgNTAgKysrKysr
+KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tLQ0KIGh3L3JkbWEvcmRtYV9ybS5jICAg
+ICAgIHwgIDMgKy0tDQogaHcvdmZpby9wbGF0Zm9ybS5jICAgICAgfCAgNSArKy0tDQogbWlncmF0
+aW9uL21pZ3JhdGlvbi5jICAgfCAgMyArLS0NCiBtaWdyYXRpb24vbXVsdGlmZC5jICAgICB8ICA4
+ICsrKy0tLS0NCiBtaWdyYXRpb24vcmFtLmMgICAgICAgICB8ICAzICstLQ0KIG1vbml0b3IvbWlz
+Yy5jICAgICAgICAgIHwgIDQgKy0tLQ0KIHRlc3RzL3F0ZXN0L2Z1enovZnV6ei5jIHwgMTkgKysr
+KysrKystLS0tLS0tDQogdWkvc3BpY2UtZGlzcGxheS5jICAgICAgfCAxNCArKysrKy0tLS0tLQ0K
+IHV0aWwvbG9nLmMgICAgICAgICAgICAgIHwgIDQgKystLQ0KIHV0aWwvcWVtdS10aW1lci5jICAg
+ICAgIHwgMTcgKysrKysrKy0tLS0tLS0NCiB1dGlsL3JjdS5jICAgICAgICAgICAgICB8ICA4ICsr
+Ky0tLS0NCiB1dGlsL3RocmVhZC1wb29sLmMgICAgICB8ICAzICstLQ0KIHV0aWwvdmZpby1oZWxw
+ZXJzLmMgICAgIHwgIDUgKystLQ0KIDIxIGZpbGVzIGNoYW5nZWQsIDEzMiBpbnNlcnRpb25zKCsp
+LCAxNTMgZGVsZXRpb25zKC0pDQoNCi0tIA0KMi4yNS4zDQoNCg==
 
-Would it help to add a gem_set_isr(CadenceGEMState *s, int q, uint32_t flag) ?
-Instead of open coding these if (q == 0) else... all over the place...
-
-Anyway, the logic looks good to me:
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-
-
-> 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  hw/net/cadence_gem.c | 31 ++++++++++++++++++++++---------
->  1 file changed, 22 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index c532a14..beb38ec 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -896,7 +896,13 @@ static void gem_get_rx_desc(CadenceGEMState *s, int q)
->      if (rx_desc_get_ownership(s->rx_desc[q]) == 1) {
->          DB_PRINT("descriptor 0x%" HWADDR_PRIx " owned by sw.\n", desc_addr);
->          s->regs[GEM_RXSTATUS] |= GEM_RXSTATUS_NOBUF;
-> -        s->regs[GEM_ISR] |= GEM_INT_RXUSED & ~(s->regs[GEM_IMR]);
-> +        if (q == 0) {
-> +            s->regs[GEM_ISR] |= GEM_INT_RXUSED & ~(s->regs[GEM_IMR]);
-> +        } else {
-> +            s->regs[GEM_INT_Q1_STATUS + q - 1] |= GEM_INT_RXUSED &
-> +                                          ~(s->regs[GEM_INT_Q1_MASK + q - 1]);
-> +        }
-> +
->          /* Handle interrupt consequences */
->          gem_update_int_status(s);
->      }
-> @@ -1071,8 +1077,12 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
->      gem_receive_updatestats(s, buf, size);
->  
->      s->regs[GEM_RXSTATUS] |= GEM_RXSTATUS_FRMRCVD;
-> -    s->regs[GEM_ISR] |= GEM_INT_RXCMPL & ~(s->regs[GEM_IMR]);
-> -
-> +    if (q == 0) {
-> +        s->regs[GEM_ISR] |= GEM_INT_RXCMPL & ~(s->regs[GEM_IMR]);
-> +    } else {
-> +        s->regs[GEM_INT_Q1_STATUS + q - 1] |= GEM_INT_RXCMPL &
-> +                                      ~(s->regs[GEM_INT_Q1_MASK + q - 1]);
-> +    }
->      /* Handle interrupt consequences */
->      gem_update_int_status(s);
->  
-> @@ -1223,12 +1233,12 @@ static void gem_transmit(CadenceGEMState *s)
->                  DB_PRINT("TX descriptor next: 0x%08x\n", s->tx_desc_addr[q]);
->  
->                  s->regs[GEM_TXSTATUS] |= GEM_TXSTATUS_TXCMPL;
-> -                s->regs[GEM_ISR] |= GEM_INT_TXCMPL & ~(s->regs[GEM_IMR]);
-> -
-> +                if (q == 0) {
-> +                    s->regs[GEM_ISR] |= GEM_INT_TXCMPL & ~(s->regs[GEM_IMR]);
-> +                } else {
->                  /* Update queue interrupt status */
-> -                if (s->num_priority_queues > 1) {
-> -                    s->regs[GEM_INT_Q1_STATUS + q] |=
-> -                            GEM_INT_TXCMPL & ~(s->regs[GEM_INT_Q1_MASK + q]);
-> +                    s->regs[GEM_INT_Q1_STATUS + q - 1] |=
-> +                            GEM_INT_TXCMPL & ~s->regs[GEM_INT_Q1_MASK + q - 1];
->                  }
->  
->                  /* Handle interrupt consequences */
-> @@ -1280,7 +1290,10 @@ static void gem_transmit(CadenceGEMState *s)
->  
->          if (tx_desc_get_used(desc)) {
->              s->regs[GEM_TXSTATUS] |= GEM_TXSTATUS_USED;
-> -            s->regs[GEM_ISR] |= GEM_INT_TXUSED & ~(s->regs[GEM_IMR]);
-> +            /* IRQ TXUSED is defined only for queue 0 */
-> +            if (q == 0) {
-> +                s->regs[GEM_ISR] |= GEM_INT_TXUSED & ~(s->regs[GEM_IMR]);
-> +            }
->              gem_update_int_status(s);
->          }
->      }
-> -- 
-> 2.7.4
-> 
 
