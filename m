@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A331C343D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:21:28 +0200 (CEST)
-Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEA81C3442
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:23:54 +0200 (CEST)
+Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVWLv-0003FK-NR
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:21:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38384)
+	id 1jVWOH-0006HM-KR
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVWKg-0001vY-JP; Mon, 04 May 2020 04:20:10 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42318)
+ id 1jVWN9-000599-8d; Mon, 04 May 2020 04:22:43 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVWKf-0004B1-SJ; Mon, 04 May 2020 04:20:10 -0400
-Received: by mail-wr1-x444.google.com with SMTP id s8so9492532wrt.9;
- Mon, 04 May 2020 01:20:09 -0700 (PDT)
+ id 1jVWN8-0006wX-IL; Mon, 04 May 2020 04:22:42 -0400
+Received: by mail-wr1-x443.google.com with SMTP id s8so9502020wrt.9;
+ Mon, 04 May 2020 01:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PbbgXN7TpEdPnmNI8ovAiJVme5Qx6T/o+UVD9KpDWbk=;
- b=aeRG7598TJ2ra2fjS0qi+ETvM44DVEbgrXXbwV6OoFqpDw2gXy3Xu4FMzo/ue1aa7m
- SR/Wb4DRo69vnELWcua1fVAUTt35Q5GMdc6ayzzNj2CDInMuyR5pNdAFHJuKczqtPN4L
- jTlLxzChpsjp3vNuFJ2d7qOsp+rJHzlHXHb0r3yAHdrnxIdgkC2iXYWLrjNSbPUW54rQ
- M6z3thjfhIszZ+8RdaGaWzLJlpzsVXiC3LO0GTK3sjH/C1o7pHXE86ZxOXdnoPp+7rxb
- qjRvkAbeHQQQnsVUW72Pugw7zedciUkJ/QRXngRlCZ/S6dzu4pOoc4bA4+NGY+8hEepT
- hHfg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=gVwDMqU7IDBJFvdNOuVVuB4LeRx8gjOeYN0o0mGV2Qw=;
+ b=Bo1dZolLpAJb7IszJBw0u2h4zHCqI7s79sB6g6e+8ImLO7sS5vQ1M1SeFuj/raxw48
+ nq83UtV3qqFMkvBbP8sezzfxuvNGWvzqGN4UsY3jpfkooNON4q2n2FfIV7f+gBn/A/Q0
+ OPaiewQM8UC/kCpH6fCMWQafSzhgW5T/4Z6NOb/gMuQ/xJj5jkDGYk1R8uBC6qT1EE/6
+ VckYA0ZLtPrxdaoq/DOO+UFvv0RTcbxAHd/clTSw+hOkpX3kDRGCun52vRfJxZ/LGMh2
+ HvyBFRp0hYhswBMbUBP0IJEUXbbBHJzb25NxzHpwVi8ah0fblnpIxkV7RcYjzt1UaRTQ
+ LXzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PbbgXN7TpEdPnmNI8ovAiJVme5Qx6T/o+UVD9KpDWbk=;
- b=V7TnvtToh02n16YdfXHXmcLKfgeYKToBSVNjb+13cfSpsmUCCFXUb+vTBciGcYus1x
- oBAOxXgIoSjCwT0tz928vz+DYZ/xpmtkksnsTdG6x1EwM2nZQ+WeGduC3ZD9H9N9lvmW
- tDFcEgTFKO8ZhAyGaSPOSOubsvCdea4M/PkEea3jHG9JTGMsZJy0j+SHW00FVyuhjysP
- 7pripz7+8UrO1UWebaQxOqjLQpUOQvFUf58p550z0sOtTrP0y/DeRVS3U9Pa0UYCTVZS
- 4lw0pTnjaapiK0/ax2Y8+TyCFMVjokVuD18RmhYScUtt4otEBHpu28aaMCMlIuz7Q3jQ
- UiFw==
-X-Gm-Message-State: AGi0PuZOFmhGK8AtFmyNYxMK9Sxmz3aFxhaIvEmWlZHcxQbeGj1xJi3x
- saF2DLy3QOPqUD1p3m1/JoKTpHAH
-X-Google-Smtp-Source: APiQypKqHcFjRXDoNCtUXAF9e1hFG9jAiaG02ZNw/5YfoqfQc5ww4/p+E22vPZPN4uEJnBjl8EqXbg==
-X-Received: by 2002:adf:9482:: with SMTP id 2mr16925484wrr.328.1588580407967; 
- Mon, 04 May 2020 01:20:07 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=gVwDMqU7IDBJFvdNOuVVuB4LeRx8gjOeYN0o0mGV2Qw=;
+ b=mweS/D82ZS2m7C61gzdiFevld6HPdiKxwDjzjTzBQKpwbit+wPJqlMg/zHQBBFBmz8
+ KwE+VBwfQ/tSJc0mcTpjMt61NipEDvlPTSagH3mfWVWQlCyUA1H1XmRcaIrOqa9g9G34
+ YQyFyeslK9ZEKk7rKpSnp7lcw+Fh0G6J7/+6X32uDABB7usfeF4EJv2q7NhKbKy7lVL3
+ Hq4Wcyy3OX1C0yMBIP9vwg0oAOt1wK47cWEHvndwYs6NJkXxL5a/6q/FtB7Lf1YNxrqd
+ k5lLgVu3lr5c98eXPRqmiE+iZIuyRUo+gj8Cex38OEBhfa9+Ih7H21L+T33d0ZCiB1ob
+ HTXA==
+X-Gm-Message-State: AGi0Pua7eMtvskBIxyH7o25UDx9WTRQqC82T1nh1ri3FE+VF2pJCN7pJ
+ 8AmggE4uI9o0ZewIOkJsNS9+SGrg
+X-Google-Smtp-Source: APiQypJy3OfBaZK5dQxpWyDdbvySBklTV0VqAzt8csYksJOa0eN+2/+gA6WA+ZEV+cz0Mzk1t77lqQ==
+X-Received: by 2002:adf:d841:: with SMTP id k1mr10114465wrl.129.1588580560042; 
+ Mon, 04 May 2020 01:22:40 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id z18sm17018816wrw.41.2020.05.04.01.20.07
+ by smtp.gmail.com with ESMTPSA id b66sm13045738wmh.12.2020.05.04.01.22.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 01:20:07 -0700 (PDT)
+ Mon, 04 May 2020 01:22:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/display/edid: Add missing 'qdev-properties.h' header
-Date: Mon,  4 May 2020 10:20:03 +0200
-Message-Id: <20200504082003.16298-3-f4bug@amsat.org>
+Subject: [PATCH] hw/usb: Make "hcd-ehci.h" header public
+Date: Mon,  4 May 2020 10:22:37 +0200
+Message-Id: <20200504082238.16655-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200504082003.16298-1-f4bug@amsat.org>
-References: <20200504082003.16298-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -86,33 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>, Michael Tokarev <mjt@tls.msk.ru>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, qemu-trivial@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+ Andrew Jeffery <andrew@aj.id.au>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-trivial@nongnu.org,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To use the DEFINE_EDID_PROPERTIES() macro we need the
-definitions from "hw/qdev-properties.h".
+As target-specific code use this header, move it to the publicly
+accessible include/ folder.
+
+  $ git grep hw/usb/hcd-ehci.h
+  hw/arm/allwinner-h3.c:31:#include "hw/usb/hcd-ehci.h"
+  hw/arm/exynos4210.c:38:#include "hw/usb/hcd-ehci.h"
+  hw/ppc/sam460ex.c:38:#include "hw/usb/hcd-ehci.h"
+  include/hw/arm/allwinner-a10.h:13:#include "hw/usb/hcd-ehci.h"
+  include/hw/arm/aspeed_soc.h:29:#include "hw/usb/hcd-ehci.h"
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/display/edid.h | 1 +
- 1 file changed, 1 insertion(+)
+ {hw => include/hw}/usb/hcd-ehci.h | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename {hw => include/hw}/usb/hcd-ehci.h (100%)
 
-diff --git a/include/hw/display/edid.h b/include/hw/display/edid.h
-index ff99dc0a05..23371ee82c 100644
---- a/include/hw/display/edid.h
-+++ b/include/hw/display/edid.h
-@@ -2,6 +2,7 @@
- #define EDID_H
- 
- #include "qom/object.h"
-+#include "hw/qdev-properties.h"
- 
- typedef struct qemu_edid_info {
-     const char *vendor; /* http://www.uefi.org/pnp_id_list */
+diff --git a/hw/usb/hcd-ehci.h b/include/hw/usb/hcd-ehci.h
+similarity index 100%
+rename from hw/usb/hcd-ehci.h
+rename to include/hw/usb/hcd-ehci.h
 -- 
 2.21.3
 
