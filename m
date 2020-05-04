@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C873A1C3700
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:34:41 +0200 (CEST)
-Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64C31C371B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:41:49 +0200 (CEST)
+Received: from localhost ([::1]:37332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVYQq-0001zD-S4
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41902)
+	id 1jVYXk-0006MI-Nv
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:41:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jVYPJ-0001CF-24
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:33:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58950
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVYS5-0003at-8J
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 06:35:57 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38939
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jVYPI-0007px-FI
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:33:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVYRv-0001jD-Ci
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 06:35:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588588383;
+ s=mimecast20190719; t=1588588546;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hsWH7Upjjz5GTsavhxAWGK5TajoJM+nyOn3LkUIXWd0=;
- b=PcnNxiZ3KsU2uyeyzv6lhiZOrv9+Cbh7I7vvK8y4Lzf4JUjcY94XGjBs0M8dAVPMhFh0tn
- SgzkQvj4/q0IpbJhJ6oGvSobWVaGgSLa4Z6TmPA9bP67zmFLMhLcT6nf8dgMR0Lma2XksC
- ibYEibjhdS/U7y7EKYXUfXLL/it4F0g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-KkvIvlD4MUSdMvO-q-es7Q-1; Mon, 04 May 2020 06:32:59 -0400
-X-MC-Unique: KkvIvlD4MUSdMvO-q-es7Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3055E461;
- Mon,  4 May 2020 10:32:58 +0000 (UTC)
-Received: from gondolin (ovpn-112-215.ams2.redhat.com [10.36.112.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 42A851C92D;
- Mon,  4 May 2020 10:32:53 +0000 (UTC)
-Date: Mon, 4 May 2020 12:32:51 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PATCH v2] s390x/kvm: help valgrind in several places
-Message-ID: <20200504123251.1b5835e3.cohuck@redhat.com>
-In-Reply-To: <20200429074201.100924-1-borntraeger@de.ibm.com>
-References: <20200429074201.100924-1-borntraeger@de.ibm.com>
-Organization: Red Hat GmbH
+ bh=p7qjpECM+aCBLbyZzL1R9qYhC5J3RWAlBF99gihbx48=;
+ b=g2U/Wxw4UzsrUOmsJnyRlSQsXAP3E6eg4kJ2HDZbdrITbNpbQKmJbzGDr7WpXXRkgiyUAb
+ 1fY6I4/PB4pvVA7Xp5uLiI8eVET+r48hxBE2vdzaEXVeYWXCBxKhWe7IUUjMo2OZi0KYsB
+ oz3c7ot6x1GhskypYk1bER8F/a57keg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-168-re19EY4ANNynswR3cLLuig-1; Mon, 04 May 2020 06:35:42 -0400
+X-MC-Unique: re19EY4ANNynswR3cLLuig-1
+Received: by mail-wm1-f70.google.com with SMTP id v185so3285736wmg.0
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 03:35:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=65qtTvM5Bdj416dEt86Eaggl2O6nVd/jv4X1UlNrfBg=;
+ b=WR92ovZnTAAaA7TT7OkPeIW/e1ISLP1NtXtvGa3z3t7vI7tJdqi3EfcYm3dk/aLa4V
+ lRKPLRYhe4jXRieUjWP6xaLFnY7cD6KkCFFa8MIXdHyfwV6XNj015fQEJI7FY47pB9PA
+ zlYMQb5bypM0/g2jbFPQdp6NWrrvxG868VLPwbNOQpM74MEmFQMyWSYtpaM17MBvf22O
+ Vnch6y5kvpnHpX/jIDmRaKqkVHhY11Qw45ut+fsTaVJZ+jREIrOff0xwlcCPA77obVTx
+ OEdYYbeLKt/rQV1IkD3nA+PLav/M7SI9vxG+7knCvE4aN0CZY32jmeqfuptvOUowj3cJ
+ zg/Q==
+X-Gm-Message-State: AGi0PuZ748oJIbxHsbbzstaQuYKMsWOwwDJocJ68hHkNFbwGVBK3hum+
+ ntw+LVHBQ+JtLwsnhvJG6vR9JKyhrsyVPPbfFMai8uc+r+hWG0n8Y45HSj5xDB1TJwxaAhaXLJu
+ KO+4TZM0p5g7A5fY=
+X-Received: by 2002:a5d:66c5:: with SMTP id k5mr9244264wrw.17.1588588541485;
+ Mon, 04 May 2020 03:35:41 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKyJu1SMZNPQhE0tcEAXzN/rWndTUAqQVqX8t6qJaWFe5I/Z+N5VZ1io0MxIvHn6HTRdzqEog==
+X-Received: by 2002:a5d:66c5:: with SMTP id k5mr9244239wrw.17.1588588541200;
+ Mon, 04 May 2020 03:35:41 -0700 (PDT)
+Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id l19sm13335878wmj.14.2020.05.04.03.35.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 03:35:40 -0700 (PDT)
+Subject: Re: [PATCH] xen: fix build without pci passthrough
+To: Roger Pau Monne <roger.pau@citrix.com>, qemu-devel@nongnu.org
+References: <20200504101443.3165-1-roger.pau@citrix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ccf11b67-4aaa-5fb2-e23f-674380b47a13@redhat.com>
+Date: Mon, 4 May 2020 12:35:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200504101443.3165-1-roger.pau@citrix.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,27 +97,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Apr 2020 03:42:01 -0400
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+Hi Roger,
 
-> We need some little help in the code to reduce the valgrind noise.
-> This patch does this with some designated initializers for the cpu
-> model features and subfunctions.
+On 5/4/20 12:14 PM, Roger Pau Monne wrote:
+> has_igd_gfx_passthru is only available when QEMU is built with
+> CONFIG_XEN_PCI_PASSTHROUGH, and hence shouldn't be used in common
+> code without checking if it's available.
 >=20
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> ---
->  target/s390x/kvm.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Fixes: 46472d82322d0 ('xen: convert "-machine igd-passthru" to an acceler=
+ator property')
+> Signed-off-by: Roger Pau Monn=C3=A9 <roger.pau@citrix.com>
 
-Thanks, applied.
+See Kconfig fix suggested here:
+https://www.mail-archive.com/xen-devel@lists.xenproject.org/msg61844.html
+
+> ---
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> Cc: Paul Durrant <paul@xen.org>
+> Cc: xen-devel@lists.xenproject.org
+> ---
+>   hw/xen/xen-common.c | 4 ++++
+>   hw/xen/xen_pt.h     | 7 +++++++
+>   2 files changed, 11 insertions(+)
+>=20
+> diff --git a/hw/xen/xen-common.c b/hw/xen/xen-common.c
+> index a15070f7f6..c800862419 100644
+> --- a/hw/xen/xen-common.c
+> +++ b/hw/xen/xen-common.c
+> @@ -127,6 +127,7 @@ static void xen_change_state_handler(void *opaque, in=
+t running,
+>       }
+>   }
+>  =20
+> +#ifdef CONFIG_XEN_PCI_PASSTHROUGH
+>   static bool xen_get_igd_gfx_passthru(Object *obj, Error **errp)
+>   {
+>       return has_igd_gfx_passthru;
+> @@ -136,6 +137,7 @@ static void xen_set_igd_gfx_passthru(Object *obj, boo=
+l value, Error **errp)
+>   {
+>       has_igd_gfx_passthru =3D value;
+>   }
+> +#endif
+>  =20
+>   static void xen_setup_post(MachineState *ms, AccelState *accel)
+>   {
+> @@ -197,11 +199,13 @@ static void xen_accel_class_init(ObjectClass *oc, v=
+oid *data)
+>  =20
+>       compat_props_add(ac->compat_props, compat, G_N_ELEMENTS(compat));
+>  =20
+> +#ifdef CONFIG_XEN_PCI_PASSTHROUGH
+>       object_class_property_add_bool(oc, "igd-passthru",
+>           xen_get_igd_gfx_passthru, xen_set_igd_gfx_passthru,
+>           &error_abort);
+>       object_class_property_set_description(oc, "igd-passthru",
+>           "Set on/off to enable/disable igd passthrou", &error_abort);
+> +#endif
+>   }
+>  =20
+>   #define TYPE_XEN_ACCEL ACCEL_CLASS_NAME("xen")
+> diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+> index 179775db7b..660dd8a008 100644
+> --- a/hw/xen/xen_pt.h
+> +++ b/hw/xen/xen_pt.h
+> @@ -1,6 +1,7 @@
+>   #ifndef XEN_PT_H
+>   #define XEN_PT_H
+>  =20
+> +#include "qemu/osdep.h"
+>   #include "hw/xen/xen_common.h"
+>   #include "hw/pci/pci.h"
+>   #include "xen-host-pci-device.h"
+> @@ -322,7 +323,13 @@ extern void *pci_assign_dev_load_option_rom(PCIDevic=
+e *dev,
+>                                               unsigned int domain,
+>                                               unsigned int bus, unsigned =
+int slot,
+>                                               unsigned int function);
+> +
+> +#ifdef CONFIG_XEN_PCI_PASSTHROUGH
+>   extern bool has_igd_gfx_passthru;
+> +#else
+> +# define has_igd_gfx_passthru false
+> +#endif
+> +
+>   static inline bool is_igd_vga_passthrough(XenHostPCIDevice *dev)
+>   {
+>       return (has_igd_gfx_passthru
+>=20
 
 
