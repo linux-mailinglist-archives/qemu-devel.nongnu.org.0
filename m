@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6119E1C3F56
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:05:58 +0200 (CEST)
-Received: from localhost ([::1]:41586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB191C3F66
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:07:50 +0200 (CEST)
+Received: from localhost ([::1]:50016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdbQ-0000my-PX
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:05:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38016)
+	id 1jVddF-0004wx-Nl
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdVt-0001J4-F6; Mon, 04 May 2020 12:00:14 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:55581)
+ id 1jVdVq-0001Dj-1i; Mon, 04 May 2020 12:00:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:54233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdVq-0005kX-Nj; Mon, 04 May 2020 12:00:13 -0400
+ id 1jVdVp-0005kG-3H; Mon, 04 May 2020 12:00:09 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Ml6Vg-1ir1uS0yyq-00lVLH; Mon, 04 May 2020 18:00:04 +0200
+ id 1Mr8vG-1ikyR83KUw-00oHIX; Mon, 04 May 2020 18:00:05 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 04/19] MAINTAINERS: Mark the LatticeMico32 target as orphan
-Date: Mon,  4 May 2020 17:59:41 +0200
-Message-Id: <20200504155956.380695-5-laurent@vivier.eu>
+Subject: [PULL v2 05/19] hw/mem/pc-dimm: Print slot number on error at
+ pc_dimm_pre_plug()
+Date: Mon,  4 May 2020 17:59:42 +0200
+Message-Id: <20200504155956.380695-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504155956.380695-1-laurent@vivier.eu>
 References: <20200504155956.380695-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:uL5p/nsB0SL9v6+OlrXPk88iIW/lceEcRXqq1kPFLlsqck5NLVq
- qnFfxx8gneiX7DlS8ylUgCy2qulqQehChjELnmOQXYixnBG7nOp4AghGJOb/tAK1D06M6G/
- Z8pFWlTnTdcQ4gAX/7CZ2mnfgDf72ibAURP/yAMWP6yyK2x43ItDp4rh3C6N8g170jV8cdW
- jS+bAfM6/MaXgsxwv95uQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gJBEcdtFzpU=:TZ5Wxr+iLpdkhvFv8jb4ak
- +v+UkQmcrkGliVcfy/3JCiGWiKAn93usySCSvwP9e6Q9AqB4HpueODQKp+gIJiuFCQeGW6RGV
- jzcqLT8SvngEias602hhuQMRRU5nJLYOXDg4jUkvxvSszaCTjM7zD6TKSU/Ob7TNKNDh6apxv
- kUpVnXCeGtbj3JDNIKUu1zigaUxRE1si5f8JFnHc3YJZTN2uANIdapqYBZbw9BjlVVUb22h4m
- ffOsP1R++6UOqUtETM/9aX2x29QFZh6UdXiw7NaRW8s7YH7mGgRWPR5durE3kSRWOmFC4hAUl
- VesIAUVvAzCtT1N+i7I887ExLHA76PSsYzMdkeOVL5NPPFy22pInsxC1ZmVD8n+2BZnv4uyQo
- AMPd0dcLHGl98hybsVsU6AYQvuvfOBzF6+loGt6nB7sun6rZu07paSjg4p7Al9vJvUubV+gvp
- PQH2ATcg6JHwZY+KZ3gXlefO+1OnolW9Ouxa7OBvEMJYlNPRlEtuVDkrADM/d4nPn6lo9Io/I
- Nv9O3vJYk+l6lowYjMP00wKpbsgkxgNMI/v/F5ThYh3BmloAsEHVGJZcZoFiPCB9JTl/G0evW
- IBhUwghYj6wNjWFBKiHsJfTMhnhKzBvdSse5QMAUa/kNQHcgX/iSlUBPYrNHAgXm5U4VwPdV6
- d8M8P3cNznFNdKzSd1rcQdmD2sVbe/Cl+nmiZrzQ6S7MhHzMt8EumloGLzf+VlGYD22lcguBd
- vsheW8FU9FbryDuUq4GfzJAoHA6HKCjg2xCQDbpT21+W6swWk5xwnGi2ah7wkDKMGnjd+2wFx
- uAaG02ouXsLQbBwEseVmyvGt7rOvt5Y68fjxc24GIJZjv52p7q1ZpFMnUSsk3KJXLBGySep
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ENPdAA29+zp3lVMUvxu80YJ8Ojw2ObQTjp6eS5nqnTAZiXMr8PL
+ 8017I3ybDAr5rqXD5VSiGdieseTxwSupG/lzj8zYKp+E7PJvAv8Fgmgflh2zyk4SHU4j3S9
+ S4Ik8Ht5w+83x3jpxBb8B5FW1K6oZWU+vklaw+GjbLnIRct7mBjLKn5rIKV8DGlnZopxqgs
+ e0hPsIsce0IcKH0kEAKOA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LwBAzQSgGuw=:PIHfKXJj341vsl2wfh5GMs
+ 6IAoBvMhHUO1IQ6RWnj3hvFCtOsqSzgiBVrxww70CyRQy5auFBwsDcN5tbGpVk+Aow41ouRsz
+ fgzv0uLDDWILlpv/p1iIF4dDKCXCN4E+wPhTAI3XfWJ+9h8aE+pV1retfSVQSLR6zVf0pElIt
+ XhbBhWfxKt6yK4E3zesBpjfW9IqzTPx38WoPJw6ARvqcWtWSGJZclnRAjU33RQ6KioWbxoYQ4
+ HbQRwODYBc/6+jcM+iJLPkwZcpiIVhv/rok28+W1eiTuziZ50aH7DWHNP9cvQlP1qbSq1E/jx
+ 1WrmAPOGRTLHG1+DntFwFfAiW/7eTQBUbMYAwuA616/xUgEQhSSq8XIklVBA08i1b0XrKHfZ6
+ Vpnv2QZ6GOVIGV8Jn/8uR8rScyj5ll4LylCPPWwZWjGiFE/XAXSeHRYZ6LO70ax5TI8gUwvAr
+ uyA3EzlOIUH3+VQ2K+hyuyeWeMXoSNvUkALLZeHDnlZVVwLXip9znCBsp62bvoBf8V+UQAEhI
+ pk4Cd8DhR7tHVcMN5Q/S+didc/nVdQqL8sKQdtzVWd0vQWW6N3Zu/vrEamcF7+HJ+P9GsnoA3
+ sVhk3Q6n+mk1tnuRnRJtpBl95xWofT4G+M9u/mKiV/3WTZKkOTR4J8nT8JbTKZavyEzmYAv3b
+ VewdN5AhwHDPM96fYxT7k9Lccngf7p1PLfUCYG9FNOPSNv6wHZrXmSVz58qljNw9EWFkbBV2A
+ 7XAGr7UbDbGpOsvolemahh6mf+O/eFjh5OCDMytYz6mK1VHjgvBjIxa3o90dPgpVtGZ7aC3iw
+ awbS0y4vNMNXJUBZpD3mRzH5nAkxgULltVF+nCBF0kXY4KBIyDkmyJSYzYchguByLqxskkD
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 12:00:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 12:00:07
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,77 +70,38 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Michael Walle <michael@walle.cc>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Laurent Vivier <laurent@vivier.eu>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-Michael Walle expressed his desire to orphan the lm32 target [*]:
+The error report in pc_dimm_pre_plug() now has the slot
+number printed.
 
-  I guess it is time to pull the plug. Mainly, because I have
-  no time for this anymore. I've always worked on this on my
-  spare time and life changed. And secondly, I guess RISC-V is
-  taking over ;) It has a far better ecosystem. Also, to my
-  knowledge the only (public) user of LM32 is milkymist and this
-  project is dead for years now..
-
-  So time to say goodbye. It was fun and I've learned a lot -
-  technically and also how a huge open source project works.
-  Thank you everyone for that :)
-
-  Basically everything still works and there are even TCG test
-  cases which covers all instructions the processor has.
-
-Many thanks to Michael for his substantial contributions to QEMU,
-and for maintaining the LM32 target for various years!
-
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
-
-Acked-by: Michael Walle <michael@walle.cc>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200316142827.20867-1-philmd@redhat.com>
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20200310180510.19489-2-wainersm@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- MAINTAINERS | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/mem/pc-dimm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8aa8efaf1d7f..d6886be13159 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -184,8 +184,8 @@ F: hw/net/*i82596*
- F: include/hw/net/lasi_82596.h
+diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
+index 8f50b8afea3c..36edfcf46799 100644
+--- a/hw/mem/pc-dimm.c
++++ b/hw/mem/pc-dimm.c
+@@ -44,8 +44,8 @@ void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
+                                    &error_abort);
+     if ((slot < 0 || slot >= machine->ram_slots) &&
+          slot != PC_DIMM_UNASSIGNED_SLOT) {
+-        error_setg(&local_err, "invalid slot number, valid range is [0-%"
+-                   PRIu64 "]", machine->ram_slots - 1);
++        error_setg(&local_err, "invalid slot number %d, valid range is [0-%"
++                   PRIu64 "]", slot, machine->ram_slots - 1);
+         goto out;
+     }
  
- LM32 TCG CPUs
--M: Michael Walle <michael@walle.cc>
--S: Maintained
-+R: Michael Walle <michael@walle.cc>
-+S: Orphan
- F: target/lm32/
- F: disas/lm32.c
- F: hw/lm32/
-@@ -977,13 +977,13 @@ F: pc-bios/hppa-firmware.img
- LM32 Machines
- -------------
- EVR32 and uclinux BSP
--M: Michael Walle <michael@walle.cc>
--S: Maintained
-+R: Michael Walle <michael@walle.cc>
-+S: Orphan
- F: hw/lm32/lm32_boards.c
- 
- milkymist
--M: Michael Walle <michael@walle.cc>
--S: Maintained
-+R: Michael Walle <michael@walle.cc>
-+S: Orphan
- F: hw/lm32/milkymist.c
- 
- M68K Machines
 -- 
 2.26.2
 
