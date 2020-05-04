@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5A11C391D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:18:22 +0200 (CEST)
-Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F0C1C390B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:13:54 +0200 (CEST)
+Received: from localhost ([::1]:48444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVa3A-0003FI-Vt
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52076)
+	id 1jVZyr-0006sD-Em
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:13:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZju-0003DP-Lf; Mon, 04 May 2020 07:58:26 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:34947)
+ id 1jVZju-0003Dy-Sb; Mon, 04 May 2020 07:58:26 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:49795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjs-0002JU-Ii; Mon, 04 May 2020 07:58:26 -0400
+ id 1jVZjt-0002Kb-TK; Mon, 04 May 2020 07:58:26 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M894P-1jS0xl1PVr-005JNp; Mon, 04 May 2020 13:58:18 +0200
+ id 1Mw8cU-1jFHsE3x3s-00s2Wc; Mon, 04 May 2020 13:58:19 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/20] hw/ide/sii3112: Remove dead assignment
-Date: Mon,  4 May 2020 13:57:54 +0200
-Message-Id: <20200504115758.283914-17-laurent@vivier.eu>
+Subject: [PULL 17/20] hw/isa/i82378: Remove dead assignment
+Date: Mon,  4 May 2020 13:57:55 +0200
+Message-Id: <20200504115758.283914-18-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bMYhpdRoGq4TloRGXhT0RRzVkdA2HsVH38gxEEbUu2mBiqfL14C
- rte2EhtZ3DK3F+uI/Cvm/n41idenNNxJAQnBY5pTs5lpFeMOmG2Fx9D4F3SJCPDUzyV8HLu
- vcMgs1C9QyjCq/20MaJIBFWuHpnvNeutjXOm1CD4kgLCqIh64wySvIX/h2VmQpA7Yysa2jl
- BvgeAa7MVvTIllHzAUCOw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s6R3vZ250Cg=:cZEQ0lRSD/yu4gi2y6GAU4
- O2NPZy/PsS7BUcdfns+ith+XK5cceEgGhsPyqAQ7nV5xQ3KdoXYAOA6t4p9ikl6pJk0g0WJhW
- TU2ft8Z0fTgGwCDveJuSsKtWckF5Own9vSds2m+qSV85dg0tRG0GjiGfWqtxJuQN6Vp+cfj+J
- VKaz3ZzDd2r9Irlrg1PEdghPyEKo/XmlzERnKBrtSl1uo+G7L/a0Y3eabm2zviTs8bKEEWAfd
- 5EbbjDtUmtnyiOYQYhI+cxwXX/AN2V7EzJqUITiQrW5s6c77Y7RqPa1ivm7GeGSwEKUiYvgiO
- YD7DDfRxtNQ1zZCVk7+Q+F0RqKkji5PuzDUSdR7aG6+J8tTDuE2hmLusp3iEjgQUF6x9G02ez
- 3tuNLP8kmzLIsCVFdP/8JmNIzIF5rtfzoJ7md8jzwqbez3ZsnkysONSbI9Yxam//DjPQ+8gs/
- DlXsLl/INGbGm6OMfUyjL0EJNX53pLL39Mk0YB3OyvgPNbMyesqUCo2UQED15zmMSOIXixaNZ
- UFfqVnquYpsf0b99nKQF0AdH8LLOvy9lVYK0euZpvGUREmETKjCuW+58QN0CNDq+XSpQSoGad
- eFVKOtyEcm1qPxjenWhGY8nOUqlSdGgYJICXL/+xrSUNzD8YQAktCienIKO1oe7kp2Wqqnmvv
- J2RCZvhlZkB9a85iaWceUhJy+Xl0WpH0/0jNo4tMZxBzvY+fbIw6D9b4sMwUJFQwH/UGxEg2i
- jWP4s5JN52pqwBgt+ylOUTz8OTRBneMDNRVZor7Zuc5TQiS/pgkDTQE3al4tI4mGCgLw8zI+X
- rhV+zEdS3poc+zj2Unj8SXTJ/z3O8Rba18aZ57TV/igWJNqVpOSppa06dIYFx5gk+dVoHxA
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:1189xm37UdNK1k0GFY7Kwh9INa2C9dyqIqZiJ5nteJeW9dspCI6
+ Ug7k66AL0LbDoAPNB6xnInFIcmqEDpBgA/UC7IPzNn/bYYmMk9y3LosMRt0BqLIXj5853wI
+ oqZARO+O+YgaSlAOJx2QNEAQJeysHN/JvTo9v6NJwZSOswaIeqhLPuyofZ3MKdvGGQjnBg9
+ bkzn49cZCgScE55dOp6BQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zao/5C13Mrw=:Blt4HTwKetOwahNbNu+5JW
+ T73tXpk52G/jNRHQ4l2zcd5YyEersTe+ifNss8wVOJuHDdK+0mugrjvoQTdS63x0/0rtiAiFf
+ 3fdbiDZHhKtiiDedqcw53DSc2zeU7UNl2jw2Ri6dyCaVe+2xSWzjO/sxB4j7Gb/BLR2eEXbBm
+ fTU6n/rEj1Q90JJukEOJMTE1+yda8Bo99w7wuWAVqpCESo7D1amuZsyg0CnKElRSaxw1ArrK2
+ RSG3BWkctGcwi+A+a4vMJUUAfRSRMZR+RFcYz5X966eXPArNd+GCuEBZYyQfPpff5g2j36jEd
+ TAENBZXVJfH4kmU0e70gZiL/l6TXzyXCRP6jTdfs3dyzlwR7OPXEGlayaBZPxgvjbbSMpzMvM
+ oZE4qyuAYM72X7nPFdIaz/zN6PdGVzvB3zXlmwA6QUVTS4KSSpWzHU0rVgWc9WnRAR+W5nyGU
+ PLaWnrCkbfBkvjQBlQrjBSY6o1pIe4YG+qiOwczG7HctTGdP5Egnk8ZHbh4vxZ1c0Lbf6adys
+ 79gIK4qzeaaH7bYpPsAqxSKdph4fYPSJ+Wq+HUDJpny+6mMqPNBVfjfPi9hgN7Sj915QOlx/G
+ DMVmbKBAMIF1iPKREKivdrEb8AUc1rHWtcTSnZOH2XynYXmi14zTbBS3KsjJgSw8QmNDlrgG9
+ CO6a/eYB0zqmcoIS0nw/mX23yz3SuI9gBaPHCOm2LTFniS/6WhhIyrGEjSnrpy8/ZfCY3Erp7
+ qrS8GUkCNNQ6zZNAufVS0yp/oel2HhO23eEOCDsj7W91LIOOyEhdIe/5s6qA9WEpacKXuK/d3
+ 6zHTqA8aN3jS53lFIVFMDqmTbR/ohuyBNiOsjgXjRP8rAkiC0zTe6xxd1StO12IRifq8/mY
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 06:04:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:12
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,62 +70,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, John Snow <jsnow@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix warning reported by Clang static code analyzer:
+Rename the unique variable assigned as 'pit' which better
+represents what it holds, to fix a warning reported by the
+Clang static code analyzer:
 
-    CC      hw/ide/sii3112.o
-  hw/ide/sii3112.c:204:9: warning: Value stored to 'val' is never read
-          val = 0;
-          ^     ~
+    CC      hw/isa/i82378.o
+  hw/isa/i82378.c:108:5: warning: Value stored to 'isa' is never read
+      isa = isa_create_simple(isabus, "i82374");
+      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Fixes: a9dd6604
 Reported-by: Clang Static Analyzer
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-Acked-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200422133152.16770-6-philmd@redhat.com>
+Message-Id: <20200422133152.16770-7-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/ide/sii3112.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/isa/i82378.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
-index d69079c3d9b7..94d2b57f9535 100644
---- a/hw/ide/sii3112.c
-+++ b/hw/ide/sii3112.c
-@@ -42,7 +42,7 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
-                                 unsigned int size)
- {
-     SiI3112PCIState *d = opaque;
--    uint64_t val = 0;
-+    uint64_t val;
+diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
+index dcb6b479ea0d..d9e6c7fa0096 100644
+--- a/hw/isa/i82378.c
++++ b/hw/isa/i82378.c
+@@ -67,7 +67,7 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
+     I82378State *s = I82378(dev);
+     uint8_t *pci_conf;
+     ISABus *isabus;
+-    ISADevice *isa;
++    ISADevice *pit;
  
-     switch (addr) {
-     case 0x00:
-@@ -126,6 +126,7 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
-         break;
-     default:
-         val = 0;
-+        break;
-     }
-     trace_sii3112_read(size, addr, val);
-     return val;
-@@ -201,7 +202,7 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
-         d->regs[1].sien = (val >> 16) & 0x3eed;
-         break;
-     default:
--        val = 0;
-+        break;
-     }
+     pci_conf = pci->config;
+     pci_set_word(pci_conf + PCI_COMMAND,
+@@ -99,13 +99,13 @@ static void i82378_realize(PCIDevice *pci, Error **errp)
+     isa_bus_irqs(isabus, s->i8259);
+ 
+     /* 1 82C54 (pit) */
+-    isa = i8254_pit_init(isabus, 0x40, 0, NULL);
++    pit = i8254_pit_init(isabus, 0x40, 0, NULL);
+ 
+     /* speaker */
+-    pcspk_init(isabus, isa);
++    pcspk_init(isabus, pit);
+ 
+     /* 2 82C37 (dma) */
+-    isa = isa_create_simple(isabus, "i82374");
++    isa_create_simple(isabus, "i82374");
  }
  
+ static void i82378_init(Object *obj)
 -- 
 2.26.2
 
