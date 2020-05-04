@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC4541C42A5
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:25:16 +0200 (CEST)
-Received: from localhost ([::1]:42076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF6D81C42C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:29:16 +0200 (CEST)
+Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVeqB-0001K8-TV
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:25:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55314)
+	id 1jVeu4-00082w-0Q
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:29:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVeon-0008Py-Nv
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:23:49 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:35696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVeom-0004op-Vt
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:23:49 -0400
-Received: by mail-pg1-x544.google.com with SMTP id t11so81266pgg.2
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:23:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Wxqc2SAa5+CaPyLhJ554cWTqJmn6G7ojwYg+/JVjCDc=;
- b=DSRbHW8qbs7S0u/p5GieryAJMI6M/tYi5aSsB/U4rQRH91BN1+qGECGvK2X1ED4htQ
- zFYoqihm2x/vOkAOIHC819qdjJH1sxWtsOU8ovK6E7WrPkmuU6yObQ26lwDjwqbTA+L+
- 1cYbqyTN1URymkMChFxnMyL6CIlxGyAgr7SVir1MaPf5iLFT+/SHi74jWD5smqowmM3N
- 3bGk/+IP+0c6ps3JVbOyzbf3YQrYWYibEgxakPTv5yMFhjlxnekBsrybDkaW78SRvtG6
- +3luFdmZ2fsAxjB/53TWhToOGi8Xw1KlYIw9knwzgu3a+ec00/SOkYcfaZptxF3QXjZ2
- B4ZA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVepx-0001wr-Co
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:25:01 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:32494
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVepw-0005Gj-2b
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:25:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588613099;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iA8FqqMjH3exPTKpefZtcF5t6yrp6h6MGztNneH3c1g=;
+ b=BLnYA3jhsrIIyYWpbkEhDb0AMgMSRMj8J7T3TOGdtTw0+C4Bkmyv/waRYi1jNZiUAOBapH
+ WYwezVSKwZlY14c/Yc6Z5mYPbdpg0mKehuysJ5gLwgCXljGDQci8W4JmSd+AN0ONdvJRiq
+ xzJ1rghj/59PJ85Ua4oqQqOayUNMJps=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-pMM__hxpM0WrONQyXSNj9A-1; Mon, 04 May 2020 13:24:51 -0400
+X-MC-Unique: pMM__hxpM0WrONQyXSNj9A-1
+Received: by mail-wr1-f70.google.com with SMTP id h12so200687wrr.19
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:24:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Wxqc2SAa5+CaPyLhJ554cWTqJmn6G7ojwYg+/JVjCDc=;
- b=aOt+FKfFx/o03UIqi1HYoGDZWa0BnwoJwqminLGutyy3MlEPumzl27jWQzSGbD2aGc
- zpm3A1wLjuKfL+X7YjllJkKMjiOLpE8mJHR6L0pvP8aXaLw+hnZKiZ+QEOM/0AWjMSBR
- Qjm8Mdb/fWa5xJCZWVqJkwV13Qp/1Nk3LDILvJBK9iQ8FL/R8vpegvGRaBfscYARf4Tf
- ZCDSxPWZm84JM7FcsD8Eo6PmkmgFuR8mpqb+jNzE6I+vNtLyB/rnchZ8KxbSUUa8fUGc
- WnxFLoH6XIX9jb58nvyW9Ua5B5Sqxl6aSzU0ni8paG6Baz/T2PorDvncn8bvDUgAxSfx
- tmnQ==
-X-Gm-Message-State: AGi0Pubggbd2LXIp6hYSnn9kudsE3XFgLQ+UQOPHV91MRMmgF0Wy//eK
- 2BidtOZan0jD67rho5a++CarRg==
-X-Google-Smtp-Source: APiQypLZJJUTTAkcNcttHY8rOt5sc82ZsMBvbo+0qQwbZfpxbAwyqpwOFlhrHZzwlNZKJV5MQbWGhA==
-X-Received: by 2002:aa7:864e:: with SMTP id a14mr18728692pfo.67.1588613027731; 
- Mon, 04 May 2020 10:23:47 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id 6sm6414031pgw.47.2020.05.04.10.23.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 10:23:47 -0700 (PDT)
-Subject: Re: [PATCH 2/4] hw/i386/vmport: Remove unused 'hw/input/i8042.h'
- include
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200504083342.24273-1-f4bug@amsat.org>
- <20200504083342.24273-3-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ac758adf-33c0-dc70-05af-b1389ec997cc@linaro.org>
-Date: Mon, 4 May 2020 10:23:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ bh=D57NXlFkbN/fOUMJdqhRrNFq2S4cg5DUCwfIfYPqP+M=;
+ b=ulRukPWN9Lhu6AFzgH3VKDKkQ9FyMdYKpoPs40fk/PkbVl74ThvOPD72f22nTiXlH5
+ f8YI+EJWJU31W+AskewP1WHeB9q1JjsV6j9VF3vZcQl9MvzILYotzfntfn0zUjKm3jiN
+ Op5D8Wm0kFA+hhVadLGE4OIYUdIJd4Pkcwd9rvQaW90797pXcP+Efa4iM7FAuluK5hG2
+ Qb5+XrcvGoxwrWJFJVDNvLixhtmRKFW04NhLqHwcDNyir26/zblrbQ38Yat4nFI1Xfgz
+ blTCyMVqREGQg7aYluMMLeIVmu+L8GnByVX47sWwlkqlS2FpcSaY1W1VWOCSrOl+KF5h
+ XWeg==
+X-Gm-Message-State: AGi0Pua676PUmFXcu3IUSbtB7Gc0Rf5BNMA7buKkhnbMpAkb+xg4+5if
+ xT5sT4ZwI7lmJKDUq0v9wKBA3qfFAk5LqdlCO3hG8u2LzrdLTAhw1NGVAoXzE/k7VFXW8YH63jv
+ l07WhOzX5q92ZBpU=
+X-Received: by 2002:a05:6000:11cb:: with SMTP id
+ i11mr97444wrx.339.1588613089893; 
+ Mon, 04 May 2020 10:24:49 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKlMkuZVlpdhvOiUO/wJ9lpx6/7GL132j3ags+a+xtmueRGFMqRPnaCzL9cnThYF0yyKCtz5w==
+X-Received: by 2002:a05:6000:11cb:: with SMTP id
+ i11mr97414wrx.339.1588613089638; 
+ Mon, 04 May 2020 10:24:49 -0700 (PDT)
+Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id a8sm7329475wrg.85.2020.05.04.10.24.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 10:24:49 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/5] target/arm: Restrict TCG cpus to TCG accel
+Date: Mon,  4 May 2020 19:24:43 +0200
+Message-Id: <20200504172448.9402-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200504083342.24273-3-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,22 +94,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 1:33 AM, Philippe Mathieu-Daudé wrote:
-> Remove unused "hw/input/i8042.h" include.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/i386/vmport.c | 1 -
->  1 file changed, 1 deletion(-)
+These are the uncontroversial patches from "Support disabling
+TCG on ARM (part 2)"
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The other patches are blocked by the "accel: Allow targets to
+use Kconfig" series:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
 
+Patch #4 is new "Restrict v8M IDAU interface to Aarch32 CPUs".
 
-r~
+Since v2:
+- Fixed set_feature() clash trying to KISS
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg697523.html
+- Fixed aarch64-linux-user build failure reported by Peter:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg699319.html
+
+Since v1:
+- Dropped 'Make set_feature() available for other files' patch
+  which fails to build with KVM only, see:
+https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg03843.html
+
+Many thanks to Richard Henderson for his patience (again...)!
+
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daud=C3=A9 (4):
+  target/arm/kvm: Inline set_feature() calls
+  target/arm/cpu: Use ARRAY_SIZE() to iterate over ARMCPUInfo[]
+  target/arm/cpu: Restrict v8M IDAU interface to Aarch32 CPUs
+  target/arm: Restrict TCG cpus to TCG accel
+
+Thomas Huth (1):
+  target/arm: Make set_feature() available for other files
+
+ target/arm/cpu.h         |  10 +
+ target/arm/cpu.c         | 662 +-------------------------------------
+ target/arm/cpu64.c       |  18 +-
+ target/arm/cpu_tcg.c     | 664 +++++++++++++++++++++++++++++++++++++++
+ target/arm/kvm32.c       |  13 +-
+ target/arm/kvm64.c       |  22 +-
+ target/arm/Makefile.objs |   1 +
+ 7 files changed, 698 insertions(+), 692 deletions(-)
+ create mode 100644 target/arm/cpu_tcg.c
+
+--=20
+2.21.3
 
 
