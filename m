@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31341C4702
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 21:25:36 +0200 (CEST)
-Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39F51C4711
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 21:31:27 +0200 (CEST)
+Received: from localhost ([::1]:49642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVgid-00037F-SW
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 15:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46234)
+	id 1jVgoI-0006vf-Ez
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 15:31:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVggz-0001VN-Mk
- for qemu-devel@nongnu.org; Mon, 04 May 2020 15:23:54 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:37238)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1jVgn8-0006AD-Co; Mon, 04 May 2020 15:30:14 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVggy-0005yX-GN
- for qemu-devel@nongnu.org; Mon, 04 May 2020 15:23:53 -0400
-Received: by mail-pl1-x643.google.com with SMTP id x10so158681plr.4
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 12:23:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=c3OBmdqjWHi93YqiLmZoZH4s0E/AFDrL/k2Mh8jPufY=;
- b=q7W5FY2C0QYokknteHr8slty/pobMtz7m5eY2mf/XP/RzNOirkHn9tNLjRIAn4lNt7
- jYP8AS8+7OmOB1yQJLeC6lTL0RQDdNRu/gIBg+e1n4ONt7nL3pDXXmVqhBhQLDGn7UH6
- 8uKlfIZEPh2VW4jLevXD6SMheiJabk8XgTWM+lWGuKz/YGr13LgbmKlm0KoYPjUe9K+1
- ZT1HO9BUNQezmuWc+8+VwzFwOAN73OI6YqByL9zoQzZfT3ABLK49ON0XWk0U/dFPIK5a
- vlAAOFhjuq5D4kFd29TtTjL+ubBvO73BYZjWWU8ZApTOmkfE8j1sGnQ4S9X3py+RzJQG
- PSrQ==
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1jVgn7-0000wm-Fm; Mon, 04 May 2020 15:30:14 -0400
+Received: by mail-pf1-x441.google.com with SMTP id 18so6037203pfx.6;
+ Mon, 04 May 2020 12:30:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4MNjzkbAJCWvqiKh2DZRO4y4MY5dOBDH4eK8eltsp9I=;
+ b=nOdI6x7SUBh+voS9Yx6N1ersUOM/JIk2sokBKxfVTzONvTGZy2TJ7ZexT7K2giesrn
+ 3uA7ikOF1X2HFEg2W3txDmz3WQcfJddj4wWI+5N260vZN3KzlNZGjPQL4phy61ANzfQn
+ DI7scojw2UlNZdtNA77haBkJEtyHS3qwwpC52LAIP32PAEbIT4HioZv7awQuI02d9ycN
+ xf1We5eQvFUzX/3aEVKd9PzrXnwb6IhB0l15p/CEULKdMGUFmUXEHJJHZnEbJmfGNrKB
+ kFFahM/fQ71h7fGA53f94/wrSIYUVHobFY3Db42JERLJneoOsxwRSQKuk7yxGr2hTYbY
+ QoFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=c3OBmdqjWHi93YqiLmZoZH4s0E/AFDrL/k2Mh8jPufY=;
- b=SnUs+4snttP6VZbdqflXJYtI1gw9lrwOQPWLyweBZG71TVJIGyGmIgXGXiBn598gh/
- dxppnavKBX6xeEhjIrwa9e9iY24mkEJX3GLOLSDSeihY6z+vQEgil92a1LLBH5ryCRBi
- Et2LkWVZIixI0kTkCvW7BZTCBdBA7Ep5A3S7MG2ZrJHYD9SVuwlEnZ2utbxrnkW7bSw2
- i6fHcqDe7+IWZ+Qc+dkemDzWu3FbRvQMsnLu8W4F8Fh53X+r7PtVe3B+DtBJ0DfKz+hp
- ajzz7aBMvy8RjBvYt2uOJH+VtMnXIsas+weJnNM9Oz9H0y/uA0mRUs/8WWozYFl2ka8e
- ZHwg==
-X-Gm-Message-State: AGi0PubO6NKM0zQ2lIerhNNeaDSaEZM59kR/tMSXSbUFsz95a637dnxW
- Ul3JNfXcUd5FnLtjKaOnci3ggnnnq7I=
-X-Google-Smtp-Source: APiQypI0URcFGyTqybBj/pg/0B3CnTtdsk+GZLZpn0QO89FjQkCH1yYsaZ92T5YIm/rrspr1lUv9zQ==
-X-Received: by 2002:a17:90a:fd94:: with SMTP id
- cx20mr552247pjb.157.1588620229754; 
- Mon, 04 May 2020 12:23:49 -0700 (PDT)
-Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
- [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id b9sm9407364pfp.12.2020.05.04.12.23.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 12:23:48 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4MNjzkbAJCWvqiKh2DZRO4y4MY5dOBDH4eK8eltsp9I=;
+ b=IUyb4VQN2aNCESXH9CIo/rUMJ7ukUFY4w5J7BIpMOpyl9bI75+4GI1PcMbix7ElSWH
+ D/spGMW+CGMzMMN8KwXV8ihxH0ZQYiZIkAx4F6XDFzT/MK4lK8HdSzGBMIgfY8isbTSX
+ BOmj0WoQqyFZCj9G4xn7G1elw5xtqhIlobIQmrVI9jQnsVKYF0MdPBfo32p9eWIFjHrE
+ 0mzWTloe/gTCV4rsM/gFu6L3+2tQffr1jAzvnDEwhgT5mU/jvNmNJsn7610PjW3l/3A6
+ yCLnRSTeNG9UPpqSJzV+JGC2omRczM+a1W0MxKngluT7XeGniVeCb3am3PVTWkPy6r/a
+ +I9A==
+X-Gm-Message-State: AGi0PuaatVNbJIj27Zuzd9ZRYAyAM+3hznpRVxYX5VLfLVRZiXND7YzO
+ W8lCVMHS6LrNKS1f3nf3QdYa8jiCnlpGdQ==
+X-Google-Smtp-Source: APiQypKqmOjPNfsRcHkH0xiaq+6BL67uZ6FlcgZipnLT27eNdqU9hZqenaDDPu/bARrpQ/mpBXI5fg==
+X-Received: by 2002:a63:f30a:: with SMTP id l10mr499003pgh.372.1588620610121; 
+ Mon, 04 May 2020 12:30:10 -0700 (PDT)
+Received: from localhost.localdomain ([117.62.175.86])
+ by smtp.googlemail.com with ESMTPSA id y78sm9527842pfb.127.2020.05.04.12.30.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 04 May 2020 12:30:09 -0700 (PDT)
+From: luoyonggang@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] target/arm: Use clear_vec_high more effectively
-Date: Mon,  4 May 2020 12:23:44 -0700
-Message-Id: <20200504192344.13404-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200504192344.13404-1-richard.henderson@linaro.org>
-References: <20200504192344.13404-1-richard.henderson@linaro.org>
+Subject: [PATCH] ppc: Use hard-float in ppc fp_hlper as early as possible.
+ This would increase the performance better than enable hard-float it in
+ soft-float.c;
+ Just using fadd fsub fmul fdiv as a simple bench demo. With this patch,
+ performance are increased 2x. and 1.3x than the one enable hard-float in
+ soft-float.c Both version are not considerate inexact fp exception yet.
+Date: Tue,  5 May 2020 03:29:54 +0800
+Message-Id: <20200504192954.1387-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.23.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,166 +84,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: richard.henderson@linaro.org, Yonggang Luo <luoyonggang@gmail.com>,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not explicitly store zero to the NEON high part
-when we can pass !is_q to clear_vec_high.
+From: Yonggang Luo <luoyonggang@gmail.com>
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Just post as an idea to improve PPC fp performance.
+With this idea, we have no need to adjust the helper orders.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- target/arm/translate-a64.c | 59 +++++++++++++++++++++++---------------
- 1 file changed, 36 insertions(+), 23 deletions(-)
+ target/ppc/fpu_helper.c | 44 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 729e746e25..d1c9150c4f 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -939,11 +939,10 @@ static void do_fp_ld(DisasContext *s, int destidx, TCGv_i64 tcg_addr, int size)
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 2bd49a2cdf..79051e4540 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -926,6 +926,17 @@ static void float_invalid_op_addsub(CPUPPCState *env, bool set_fpcc,
+ /* fadd - fadd. */
+ float64 helper_fadd(CPUPPCState *env, float64 arg1, float64 arg2)
  {
-     /* This always zero-extends and writes to a full 128 bit wide vector */
-     TCGv_i64 tmplo = tcg_temp_new_i64();
--    TCGv_i64 tmphi;
-+    TCGv_i64 tmphi = NULL;
- 
-     if (size < 4) {
-         MemOp memop = s->be_data + size;
--        tmphi = tcg_const_i64(0);
-         tcg_gen_qemu_ld_i64(tmplo, tcg_addr, get_mem_index(s), memop);
-     } else {
-         bool be = s->be_data == MO_BE;
-@@ -961,12 +960,13 @@ static void do_fp_ld(DisasContext *s, int destidx, TCGv_i64 tcg_addr, int size)
-     }
- 
-     tcg_gen_st_i64(tmplo, cpu_env, fp_reg_offset(s, destidx, MO_64));
--    tcg_gen_st_i64(tmphi, cpu_env, fp_reg_hi_offset(s, destidx));
--
-     tcg_temp_free_i64(tmplo);
--    tcg_temp_free_i64(tmphi);
- 
--    clear_vec_high(s, true, destidx);
-+    if (tmphi) {
-+        tcg_gen_st_i64(tmphi, cpu_env, fp_reg_hi_offset(s, destidx));
-+        tcg_temp_free_i64(tmphi);
-+    }
-+    clear_vec_high(s, tmphi != NULL, destidx);
- }
- 
- /*
-@@ -6960,8 +6960,8 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
-         return;
-     }
- 
--    tcg_resh = tcg_temp_new_i64();
-     tcg_resl = tcg_temp_new_i64();
-+    tcg_resh = NULL;
- 
-     /* Vd gets bits starting at pos bits into Vm:Vn. This is
-      * either extracting 128 bits from a 128:128 concatenation, or
-@@ -6973,7 +6973,6 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
-             read_vec_element(s, tcg_resh, rm, 0, MO_64);
-             do_ext64(s, tcg_resh, tcg_resl, pos);
-         }
--        tcg_gen_movi_i64(tcg_resh, 0);
-     } else {
-         TCGv_i64 tcg_hh;
-         typedef struct {
-@@ -6988,6 +6987,7 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
-             pos -= 64;
-         }
- 
-+        tcg_resh = tcg_temp_new_i64();
-         read_vec_element(s, tcg_resl, elt->reg, elt->elt, MO_64);
-         elt++;
-         read_vec_element(s, tcg_resh, elt->reg, elt->elt, MO_64);
-@@ -7003,9 +7003,12 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
- 
-     write_vec_element(s, tcg_resl, rd, 0, MO_64);
-     tcg_temp_free_i64(tcg_resl);
--    write_vec_element(s, tcg_resh, rd, 1, MO_64);
--    tcg_temp_free_i64(tcg_resh);
--    clear_vec_high(s, true, rd);
++    CPU_DoubleU u1, u2;
 +
-+    if (is_q) {
-+        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-+        tcg_temp_free_i64(tcg_resh);
++    u1.d = arg1;
++    u2.d = arg2;
++    CPU_DoubleU retDouble;
++    retDouble.nd = u1.nd + u2.nd;
++    if (likely(float64_is_zero_or_normal(retDouble.d)))
++    {
++        /* TODO: Handling inexact */
++        return retDouble.d;
 +    }
-+    clear_vec_high(s, is_q, rd);
- }
+     float64 ret = float64_add(arg1, arg2, &env->fp_status);
+     int status = get_float_exception_flags(&env->fp_status);
  
- /* TBL/TBX
-@@ -7042,17 +7045,21 @@ static void disas_simd_tb(DisasContext *s, uint32_t insn)
-      * the input.
-      */
-     tcg_resl = tcg_temp_new_i64();
--    tcg_resh = tcg_temp_new_i64();
-+    tcg_resh = NULL;
- 
-     if (is_tblx) {
-         read_vec_element(s, tcg_resl, rd, 0, MO_64);
-     } else {
-         tcg_gen_movi_i64(tcg_resl, 0);
-     }
--    if (is_tblx && is_q) {
--        read_vec_element(s, tcg_resh, rd, 1, MO_64);
--    } else {
--        tcg_gen_movi_i64(tcg_resh, 0);
+@@ -941,6 +952,17 @@ float64 helper_fadd(CPUPPCState *env, float64 arg1, float64 arg2)
+ /* fsub - fsub. */
+ float64 helper_fsub(CPUPPCState *env, float64 arg1, float64 arg2)
+ {
++    CPU_DoubleU u1, u2;
 +
-+    if (is_q) {
-+        tcg_resh = tcg_temp_new_i64();
-+        if (is_tblx) {
-+            read_vec_element(s, tcg_resh, rd, 1, MO_64);
-+        } else {
-+            tcg_gen_movi_i64(tcg_resh, 0);
-+        }
-     }
- 
-     tcg_idx = tcg_temp_new_i64();
-@@ -7072,9 +7079,12 @@ static void disas_simd_tb(DisasContext *s, uint32_t insn)
- 
-     write_vec_element(s, tcg_resl, rd, 0, MO_64);
-     tcg_temp_free_i64(tcg_resl);
--    write_vec_element(s, tcg_resh, rd, 1, MO_64);
--    tcg_temp_free_i64(tcg_resh);
--    clear_vec_high(s, true, rd);
-+
-+    if (is_q) {
-+        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-+        tcg_temp_free_i64(tcg_resh);
++    u1.d = arg1;
++    u2.d = arg2;
++    CPU_DoubleU retDouble;
++    retDouble.nd = u1.nd - u2.nd;
++    if (likely(float64_is_zero_or_normal(retDouble.d)))
++    {
++        /* TODO: Handling inexact */
++        return retDouble.d;
 +    }
-+    clear_vec_high(s, is_q, rd);
- }
+     float64 ret = float64_sub(arg1, arg2, &env->fp_status);
+     int status = get_float_exception_flags(&env->fp_status);
  
- /* ZIP/UZP/TRN
-@@ -7111,7 +7121,7 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
-     }
- 
-     tcg_resl = tcg_const_i64(0);
--    tcg_resh = tcg_const_i64(0);
-+    tcg_resh = is_q ? tcg_const_i64(0) : NULL;
-     tcg_res = tcg_temp_new_i64();
- 
-     for (i = 0; i < elements; i++) {
-@@ -7162,9 +7172,12 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
- 
-     write_vec_element(s, tcg_resl, rd, 0, MO_64);
-     tcg_temp_free_i64(tcg_resl);
--    write_vec_element(s, tcg_resh, rd, 1, MO_64);
--    tcg_temp_free_i64(tcg_resh);
--    clear_vec_high(s, true, rd);
+@@ -967,6 +989,17 @@ static void float_invalid_op_mul(CPUPPCState *env, bool set_fprc,
+ /* fmul - fmul. */
+ float64 helper_fmul(CPUPPCState *env, float64 arg1, float64 arg2)
+ {
++    CPU_DoubleU u1, u2;
 +
-+    if (is_q) {
-+        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-+        tcg_temp_free_i64(tcg_resh);
++    u1.d = arg1;
++    u2.d = arg2;
++    CPU_DoubleU retDouble;
++    retDouble.nd = u1.nd * u2.nd;
++    if (likely(float64_is_zero_or_normal(retDouble.d)))
++    {
++        /* TODO: Handling inexact */
++        return retDouble.d;
 +    }
-+    clear_vec_high(s, is_q, rd);
- }
+     float64 ret = float64_mul(arg1, arg2, &env->fp_status);
+     int status = get_float_exception_flags(&env->fp_status);
  
- /*
+@@ -997,6 +1030,17 @@ static void float_invalid_op_div(CPUPPCState *env, bool set_fprc,
+ /* fdiv - fdiv. */
+ float64 helper_fdiv(CPUPPCState *env, float64 arg1, float64 arg2)
+ {
++    CPU_DoubleU u1, u2;
++
++    u1.d = arg1;
++    u2.d = arg2;
++    CPU_DoubleU retDouble;
++    retDouble.nd = u1.nd / u2.nd;
++    if (likely(float64_is_zero_or_normal(retDouble.d)))
++    {
++        /* TODO: Handling inexact */
++        return retDouble.d;
++    }
+     float64 ret = float64_div(arg1, arg2, &env->fp_status);
+     int status = get_float_exception_flags(&env->fp_status);
+ 
 -- 
-2.20.1
+2.23.0.windows.1
 
 
