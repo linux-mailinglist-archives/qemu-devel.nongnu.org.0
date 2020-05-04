@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082121C4A1A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:20:41 +0200 (CEST)
-Received: from localhost ([::1]:52340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5671C4A3C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 01:27:15 +0200 (CEST)
+Received: from localhost ([::1]:47848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVkO7-0002Hx-TA
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58544)
+	id 1jVkUU-0004O8-E7
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 19:27:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jVkMF-0000wS-QN
- for qemu-devel@nongnu.org; Mon, 04 May 2020 19:18:43 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5477)
+ id 1jVkMP-000151-AD
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:18:53 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jVkM1-00069X-NX
- for qemu-devel@nongnu.org; Mon, 04 May 2020 19:18:43 -0400
+ id 1jVkMN-0006k1-NI
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 19:18:52 -0400
 Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5eb0a2b60000>; Mon, 04 May 2020 16:18:15 -0700
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5eb0a2940000>; Mon, 04 May 2020 16:17:40 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate101.nvidia.com (PGP Universal service);
- Mon, 04 May 2020 16:18:27 -0700
+ Mon, 04 May 2020 16:18:50 -0700
 X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Mon, 04 May 2020 16:18:27 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
- 2020 23:18:27 +0000
+ by hqpgpgate101.nvidia.com on Mon, 04 May 2020 16:18:50 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
+ 2020 23:18:50 +0000
 Received: from [10.40.101.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
  (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May 2020
- 23:18:18 +0000
-Subject: Re: [PATCH v16 QEMU 09/16] vfio: Add save state functions to
- SaveVMHandlers
+ 23:18:41 +0000
+Subject: Re: [PATCH v16 QEMU 04/16] vfio: Add save and load functions for VFIO
+ PCI devices
 To: Alex Williamson <alex.williamson@redhat.com>
 References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-10-git-send-email-kwankhede@nvidia.com>
- <20200325160311.265ca037@w520.home>
+ <1585084154-29461-5-git-send-email-kwankhede@nvidia.com>
+ <20200325135638.32421bf9@w520.home>
 X-Nvconfidentiality: public
 From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <b57322be-a337-ccb8-19e3-6c6bc3343119@nvidia.com>
-Date: Tue, 5 May 2020 04:48:14 +0530
+Message-ID: <8504c8ad-9b0b-6079-3290-60caa447e708@nvidia.com>
+Date: Tue, 5 May 2020 04:48:37 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200325160311.265ca037@w520.home>
+In-Reply-To: <20200325135638.32421bf9@w520.home>
 X-Originating-IP: [10.124.1.5]
 X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
@@ -54,20 +54,20 @@ Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1588634295; bh=OHGPEiEzqEISXyC2FnlW3jikEX7GlXMFoq/TZOZB1NE=;
+ t=1588634260; bh=uqknwJmy6caK2x9eC8Ika3WlI8R0j16ex2U+Su+pknE=;
  h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
  Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
  X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
  Content-Transfer-Encoding;
- b=PEi7kqPhfFGzlE0vrLtIVW/6wlMBMY6KV/aCQymxPE++R2z3O8dP157UxB/dYnqBP
- D+3wajjI3sVU2819Z5nc02B1aRlaUFTK1G8U8G60mUAKTQ2Etiyw7RSEFXZboiiM4C
- dcwg6NzuZf5cPrhDbpkHFCFTj6zOlb9HziksRS9tdORutDltWzmNvd3yh25D9lAKkz
- zK+SJh8XiQ7BlcsxDdsSQQckXzvCweRQsnOMe6u9z4z/7pTLEERwwci/HhCrHpCDRz
- CtAXuC2Wb/nL8hS9pHVBwJv7upSLFBjthk/9r0HmAtfnzQheey1h1B7a3ucq2ztdX0
- u2mvOf21k+zSw==
-Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate26.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:18:18
+ b=K7OAZlzAX+IhCRzRXN0M5Xba7TP0wOmAn41uP/TzVpT5q8FWard7WJdjYo6K85s5c
+ cVzXEweu6elhyu5p2mB4iM0OesO+HDVH+w2lkXInQNsSFaWhUC3aCP13B8XJfwV25Q
+ OoZOrhCBbfa5A3+rvo0eUXzuHy5DKijfYSVtbID6nx1fgGgXtC9KQeQAhyWhTk2J70
+ mZw+MByeQh6hYC/EBDa+Dp0irLai0w4KZS9+ZbDp+BY8WtvX/Sdy9KA8AlWnwHeIuH
+ ki1AhDN27ZiZI5RRmrPkA/rx+3zEc/1h1/i0tnLFzwI9Lr2N7AyDxMotSkLN15bWLk
+ jPxrMsgM1y3qA==
+Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate25.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 19:18:33
 X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
 X-Spam_score_int: -70
 X-Spam_score: -7.1
@@ -99,403 +99,272 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 3/26/2020 3:33 AM, Alex Williamson wrote:
-> On Wed, 25 Mar 2020 02:39:07 +0530
+On 3/26/2020 1:26 AM, Alex Williamson wrote:
+> On Wed, 25 Mar 2020 02:39:02 +0530
 > Kirti Wankhede <kwankhede@nvidia.com> wrote:
 > 
->> Added .save_live_pending, .save_live_iterate and .save_live_complete_precopy
->> functions. These functions handles pre-copy and stop-and-copy phase.
->>
->> In _SAVING|_RUNNING device state or pre-copy phase:
->> - read pending_bytes. If pending_bytes > 0, go through below steps.
->> - read data_offset - indicates kernel driver to write data to staging
->>    buffer.
->> - read data_size - amount of data in bytes written by vendor driver in
->>    migration region.
->> - read data_size bytes of data from data_offset in the migration region.
->> - Write data packet to file stream as below:
->> {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data,
->> VFIO_MIG_FLAG_END_OF_STATE }
->>
->> In _SAVING device state or stop-and-copy phase
->> a. read config space of device and save to migration file stream. This
->>     doesn't need to be from vendor driver. Any other special config state
->>     from driver can be saved as data in following iteration.
->> b. read pending_bytes. If pending_bytes > 0, go through below steps.
->> c. read data_offset - indicates kernel driver to write data to staging
->>     buffer.
->> d. read data_size - amount of data in bytes written by vendor driver in
->>     migration region.
->> e. read data_size bytes of data from data_offset in the migration region.
->> f. Write data packet as below:
->>     {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data}
->> g. iterate through steps b to f while (pending_bytes > 0)
->> h. Write {VFIO_MIG_FLAG_END_OF_STATE}
->>
->> When data region is mapped, its user's responsibility to read data from
->> data_offset of data_size before moving to next steps.
+>> These functions save and restore PCI device specific data - config
+>> space of PCI device.
+>> Tested save and restore with MSI and MSIX type.
 >>
 >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 >> Reviewed-by: Neo Jia <cjia@nvidia.com>
 >> ---
->>   hw/vfio/migration.c           | 245 +++++++++++++++++++++++++++++++++++++++++-
->>   hw/vfio/trace-events          |   6 ++
->>   include/hw/vfio/vfio-common.h |   1 +
->>   3 files changed, 251 insertions(+), 1 deletion(-)
+>>   hw/vfio/pci.c                 | 163 ++++++++++++++++++++++++++++++++++++++++++
+>>   include/hw/vfio/vfio-common.h |   2 +
+>>   2 files changed, 165 insertions(+)
 >>
->> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
->> index 033f76526e49..ecbeed5182c2 100644
->> --- a/hw/vfio/migration.c
->> +++ b/hw/vfio/migration.c
->> @@ -138,6 +138,137 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
->>       return 0;
+>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>> index 6c77c12e44b9..8deb11e87ef7 100644
+>> --- a/hw/vfio/pci.c
+>> +++ b/hw/vfio/pci.c
+>> @@ -41,6 +41,7 @@
+>>   #include "trace.h"
+>>   #include "qapi/error.h"
+>>   #include "migration/blocker.h"
+>> +#include "migration/qemu-file.h"
+>>   
+>>   #define TYPE_VFIO_PCI "vfio-pci"
+>>   #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
+>> @@ -1632,6 +1633,50 @@ static void vfio_bars_prepare(VFIOPCIDevice *vdev)
+>>       }
 >>   }
 >>   
->> +static void *find_data_region(VFIORegion *region,
->> +                              uint64_t data_offset,
->> +                              uint64_t data_size)
+>> +static int vfio_bar_validate(VFIOPCIDevice *vdev, int nr)
 >> +{
->> +    void *ptr = NULL;
->> +    int i;
+>> +    PCIDevice *pdev = &vdev->pdev;
+>> +    VFIOBAR *bar = &vdev->bars[nr];
+>> +    uint64_t addr;
+>> +    uint32_t addr_lo, addr_hi = 0;
 >> +
->> +    for (i = 0; i < region->nr_mmaps; i++) {
->> +        if ((data_offset >= region->mmaps[i].offset) &&
->> +            (data_offset < region->mmaps[i].offset + region->mmaps[i].size) &&
->> +            (data_size <= region->mmaps[i].size)) {
-> 
-> (data_offset - region->mmaps[i].offset) can be non-zero, so this test
-> is invalid.  Additionally the uapi does not require that a give data
-> chunk fits exclusively within an mmap'd area, it may overlap one or
-> more mmap'd sections of the region, possibly with non-mmap'd areas
-> included.
-> 
-
-What's the advantage of having mmap and non-mmap overlapped regions?
-Isn't it better to have data section either mapped or trapped?
-
->> +            ptr = region->mmaps[i].mmap + (data_offset -
->> +                                           region->mmaps[i].offset);
->> +            break;
->> +        }
+>> +    /* Skip unimplemented BARs and the upper half of 64bit BARS. */
+>> +    if (!bar->size) {
+>> +        return 0;
 >> +    }
->> +    return ptr;
->> +}
 >> +
->> +static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
->> +{
->> +    VFIOMigration *migration = vbasedev->migration;
->> +    VFIORegion *region = &migration->region;
->> +    uint64_t data_offset = 0, data_size = 0;
->> +    int ret;
+>> +    addr_lo = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + nr * 4, 4);
 >> +
->> +    ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
->> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
->> +                                             data_offset));
->> +    if (ret != sizeof(data_offset)) {
->> +        error_report("%s: Failed to get migration buffer data offset %d",
->> +                     vbasedev->name, ret);
+>> +    addr_lo = addr_lo & (bar->ioport ? PCI_BASE_ADDRESS_IO_MASK :
+>> +                                       PCI_BASE_ADDRESS_MEM_MASK);
+> 
+> Nit, &= or combine with previous set.
+> 
+>> +    if (bar->type == PCI_BASE_ADDRESS_MEM_TYPE_64) {
+>> +        addr_hi = pci_default_read_config(pdev,
+>> +                                         PCI_BASE_ADDRESS_0 + (nr + 1) * 4, 4);
+>> +    }
+>> +
+>> +    addr = ((uint64_t)addr_hi << 32) | addr_lo;
+> 
+> Could we use a union?
+> 
+>> +
+>> +    if (!QEMU_IS_ALIGNED(addr, bar->size)) {
 >> +        return -EINVAL;
 >> +    }
->> +
->> +    ret = pread(vbasedev->fd, &data_size, sizeof(data_size),
->> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
->> +                                             data_size));
->> +    if (ret != sizeof(data_size)) {
->> +        error_report("%s: Failed to get migration buffer data size %d",
->> +                     vbasedev->name, ret);
->> +        return -EINVAL;
->> +    }
->> +
->> +    if (data_size > 0) {
->> +        void *buf = NULL;
->> +        bool buffer_mmaped;
->> +
->> +        if (region->mmaps) {
->> +            buf = find_data_region(region, data_offset, data_size);
->> +        }
->> +
->> +        buffer_mmaped = (buf != NULL) ? true : false;
 > 
-> The ternary is unnecessary, "? true : false" is redundant.
-> 
-
-Removing it.
-
->> +
->> +        if (!buffer_mmaped) {
->> +            buf = g_try_malloc0(data_size);
-> 
-> Why do we need zero'd memory?
-> 
-
-Zeroed memory not required, removing 0
-
->> +            if (!buf) {
->> +                error_report("%s: Error allocating buffer ", __func__);
->> +                return -ENOMEM;
->> +            }
->> +
->> +            ret = pread(vbasedev->fd, buf, data_size,
->> +                        region->fd_offset + data_offset);
->> +            if (ret != data_size) {
->> +                error_report("%s: Failed to get migration data %d",
->> +                             vbasedev->name, ret);
->> +                g_free(buf);
->> +                return -EINVAL;
->> +            }
->> +        }
->> +
->> +        qemu_put_be64(f, data_size);
->> +        qemu_put_buffer(f, buf, data_size);
-> 
-> This can segfault when mmap'd given the above assumptions about size
-> and layout.
+> What specifically are we validating here?  This should be true no
+> matter what we wrote to the BAR or else BAR emulation is broken.  The
+> bits that could make this unaligned are not implemented in the BAR.
 > 
 >> +
->> +        if (!buffer_mmaped) {
->> +            g_free(buf);
->> +        }
->> +    } else {
->> +        qemu_put_be64(f, data_size);
-> 
-> We insert a zero?  Couldn't we add the section header and end here and
-> skip it entirely?
-> 
-
-This is used during resuming, data_size 0 indicates end of data.
-
->> +    }
->> +
->> +    trace_vfio_save_buffer(vbasedev->name, data_offset, data_size,
->> +                           migration->pending_bytes);
->> +
->> +    ret = qemu_file_get_error(f);
->> +    if (ret) {
->> +        return ret;
->> +    }
->> +
->> +    return data_size;
->> +}
->> +
->> +static int vfio_update_pending(VFIODevice *vbasedev)
->> +{
->> +    VFIOMigration *migration = vbasedev->migration;
->> +    VFIORegion *region = &migration->region;
->> +    uint64_t pending_bytes = 0;
->> +    int ret;
->> +
->> +    ret = pread(vbasedev->fd, &pending_bytes, sizeof(pending_bytes),
->> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
->> +                                             pending_bytes));
->> +    if ((ret < 0) || (ret != sizeof(pending_bytes))) {
->> +        error_report("%s: Failed to get pending bytes %d",
->> +                     vbasedev->name, ret);
->> +        migration->pending_bytes = 0;
->> +        return (ret < 0) ? ret : -EINVAL;
->> +    }
->> +
->> +    migration->pending_bytes = pending_bytes;
->> +    trace_vfio_update_pending(vbasedev->name, pending_bytes);
 >> +    return 0;
 >> +}
 >> +
->> +static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+>> +static int vfio_bars_validate(VFIOPCIDevice *vdev)
 >> +{
->> +    VFIODevice *vbasedev = opaque;
+>> +    int i, ret;
 >> +
->> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_CONFIG_STATE);
->> +
->> +    if (vbasedev->ops && vbasedev->ops->vfio_save_config) {
->> +        vbasedev->ops->vfio_save_config(vbasedev, f);
+>> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
+>> +        ret = vfio_bar_validate(vdev, i);
+>> +        if (ret) {
+>> +            error_report("vfio: BAR address %d validation failed", i);
+>> +            return ret;
+>> +        }
 >> +    }
->> +
->> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
->> +
->> +    trace_vfio_save_device_config_state(vbasedev->name);
->> +
->> +    return qemu_file_get_error(f);
+>> +    return 0;
 >> +}
 >> +
->>   /* ---------------------------------------------------------------------- */
->>   
->>   static int vfio_save_setup(QEMUFile *f, void *opaque)
->> @@ -154,7 +285,7 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
->>           qemu_mutex_unlock_iothread();
->>           if (ret) {
->>               error_report("%s: Failed to mmap VFIO migration region %d: %s",
->> -                         vbasedev->name, migration->region.index,
->> +                         vbasedev->name, migration->region.nr,
->>                            strerror(-ret));
->>               return ret;
->>           }
->> @@ -194,9 +325,121 @@ static void vfio_save_cleanup(void *opaque)
->>       trace_vfio_save_cleanup(vbasedev->name);
+>>   static void vfio_bar_register(VFIOPCIDevice *vdev, int nr)
+>>   {
+>>       VFIOBAR *bar = &vdev->bars[nr];
+>> @@ -2414,11 +2459,129 @@ static Object *vfio_pci_get_object(VFIODevice *vbasedev)
+>>       return OBJECT(vdev);
 >>   }
 >>   
->> +static void vfio_save_pending(QEMUFile *f, void *opaque,
->> +                              uint64_t threshold_size,
->> +                              uint64_t *res_precopy_only,
->> +                              uint64_t *res_compatible,
->> +                              uint64_t *res_postcopy_only)
+>> +static void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
 >> +{
->> +    VFIODevice *vbasedev = opaque;
->> +    VFIOMigration *migration = vbasedev->migration;
->> +    int ret;
+>> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+>> +    PCIDevice *pdev = &vdev->pdev;
+>> +    uint16_t pci_cmd;
+>> +    int i;
 >> +
->> +    ret = vfio_update_pending(vbasedev);
->> +    if (ret) {
->> +        return;
+>> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
+>> +        uint32_t bar;
+>> +
+>> +        bar = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, 4);
+>> +        qemu_put_be32(f, bar);
 >> +    }
 >> +
->> +    *res_precopy_only += migration->pending_bytes;
+>> +    qemu_put_be32(f, vdev->interrupt);
+>> +    if (vdev->interrupt == VFIO_INT_MSI) {
+>> +        uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
+>> +        bool msi_64bit;
 >> +
->> +    trace_vfio_save_pending(vbasedev->name, *res_precopy_only,
->> +                            *res_postcopy_only, *res_compatible);
+>> +        msi_flags = pci_default_read_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+>> +                                            2);
+>> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
+>> +
+>> +        msi_addr_lo = pci_default_read_config(pdev,
+>> +                                         pdev->msi_cap + PCI_MSI_ADDRESS_LO, 4);
+>> +        qemu_put_be32(f, msi_addr_lo);
+>> +
+>> +        if (msi_64bit) {
+>> +            msi_addr_hi = pci_default_read_config(pdev,
+>> +                                             pdev->msi_cap + PCI_MSI_ADDRESS_HI,
+>> +                                             4);
+>> +        }
+>> +        qemu_put_be32(f, msi_addr_hi);
+>> +
+>> +        msi_data = pci_default_read_config(pdev,
+>> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
+>> +                2);
+>> +        qemu_put_be32(f, msi_data);
+> 
+> Isn't the data field only a u16?
+> 
+
+Yes, fixing it.
+
+>> +    } else if (vdev->interrupt == VFIO_INT_MSIX) {
+>> +        uint16_t offset;
+>> +
+>> +        /* save enable bit and maskall bit */
+>> +        offset = pci_default_read_config(pdev,
+>> +                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
+>> +        qemu_put_be16(f, offset);
+>> +        msix_save(pdev, f);
+>> +    }
+>> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
+>> +    qemu_put_be16(f, pci_cmd);
 >> +}
 >> +
->> +static int vfio_save_iterate(QEMUFile *f, void *opaque)
+>> +static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
 >> +{
->> +    VFIODevice *vbasedev = opaque;
->> +    int ret, data_size;
+>> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+>> +    PCIDevice *pdev = &vdev->pdev;
+>> +    uint32_t interrupt_type;
+>> +    uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
+>> +    uint16_t pci_cmd;
+>> +    bool msi_64bit;
+>> +    int i, ret;
 >> +
->> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
+>> +    /* retore pci bar configuration */
+>> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
+>> +    vfio_pci_write_config(pdev, PCI_COMMAND,
+>> +                        pci_cmd & (!(PCI_COMMAND_IO | PCI_COMMAND_MEMORY)), 2);
+>> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
+>> +        uint32_t bar = qemu_get_be32(f);
 >> +
->> +    data_size = vfio_save_buffer(f, vbasedev);
->> +
->> +    if (data_size < 0) {
->> +        error_report("%s: vfio_save_buffer failed %s", vbasedev->name,
->> +                     strerror(errno));
->> +        return data_size;
+>> +        vfio_pci_write_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, bar, 4);
 >> +    }
 >> +
->> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
->> +
->> +    ret = qemu_file_get_error(f);
+>> +    ret = vfio_bars_validate(vdev);
 >> +    if (ret) {
 >> +        return ret;
 >> +    }
 >> +
->> +    trace_vfio_save_iterate(vbasedev->name, data_size);
->> +    if (data_size == 0) {
->> +        /* indicates data finished, goto complete phase */
->> +        return 1;
+>> +    interrupt_type = qemu_get_be32(f);
+>> +
+>> +    if (interrupt_type == VFIO_INT_MSI) {
+>> +        /* restore msi configuration */
+>> +        msi_flags = pci_default_read_config(pdev,
+>> +                                            pdev->msi_cap + PCI_MSI_FLAGS, 2);
+>> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
+>> +
+>> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+>> +                              msi_flags & (!PCI_MSI_FLAGS_ENABLE), 2);
+>> +
+>> +        msi_addr_lo = qemu_get_be32(f);
+>> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_LO,
+>> +                              msi_addr_lo, 4);
+>> +
+>> +        msi_addr_hi = qemu_get_be32(f);
+>> +        if (msi_64bit) {
+>> +            vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_HI,
+>> +                                  msi_addr_hi, 4);
+>> +        }
+>> +        msi_data = qemu_get_be32(f);
+>> +        vfio_pci_write_config(pdev,
+>> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
+>> +                msi_data, 2);
+>> +
+>> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+>> +                              msi_flags | PCI_MSI_FLAGS_ENABLE, 2);
+>> +    } else if (interrupt_type == VFIO_INT_MSIX) {
+>> +        uint16_t offset = qemu_get_be16(f);
+>> +
+>> +        /* load enable bit and maskall bit */
+>> +        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
+>> +                              offset, 2);
+>> +        msix_load(pdev, f);
+>> +    }
+>> +    pci_cmd = qemu_get_be16(f);
+>> +    vfio_pci_write_config(pdev, PCI_COMMAND, pci_cmd, 2);
+>> +    return 0;
+>> +}
 > 
-> But it's pending_bytes not data_size that indicates we're done.  How do
-> we get away with ignoring pending_bytes for the save_live_iterate phase?
-> 
+> It always seems like there should be a lot more state than this, and I
+> probably sound like a broken record because I ask every time, but maybe
+> that's a good indication that we (or at least I) need a comment
+> explaining why we only care about these.  For example, what if we
+> migrate a device in the D3 power state, don't we need to account for
+> the state stored in the PM capability or does the device wake up into
+> D0 auto-magically after migration?  I think we could repeat that
+> question for every capability that can be modified.  Even for the MSI/X
+> cases, the interrupt may not be active, but there could be state in
+> virtual config space that would be different on the target.  For
+> example, if we migrate with a device in INTx mode where the guest had
+> written vector fields on the source, but only writes the enable bit on
+> the target, can we seamlessly figure out the rest?  For other
+> capabilities, that state may represent config space changes written
+> through to the physical device and represent a functional difference on
+> the target.  Thanks,
+>
 
-This is requirement mentioned above qemu_savevm_state_iterate() which 
-calls .save_live_iterate.
-
-/*	
-  * this function has three return values:
-  *   negative: there was one error, and we have -errno.
-  *   0 : We haven't finished, caller have to go again
-  *   1 : We have finished, we can go to complete phase
-  */
-int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
-
-This is to serialize savevm_state.handlers (or in other words devices).
+These are very basic set of registers from config state. Other are more 
+of vendor specific which vendor driver can save and restore in their own 
+data. I don't think we have to take care of all those vendor specific 
+fields here.
 
 Thanks,
 Kirti
 
->> +    }
+> Alex
+> 
 >> +
->> +    return 0;
->> +}
->> +
->> +static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
->> +{
->> +    VFIODevice *vbasedev = opaque;
->> +    VFIOMigration *migration = vbasedev->migration;
->> +    int ret;
->> +
->> +    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_RUNNING,
->> +                                   VFIO_DEVICE_STATE_SAVING);
->> +    if (ret) {
->> +        error_report("%s: Failed to set state STOP and SAVING",
->> +                     vbasedev->name);
->> +        return ret;
->> +    }
->> +
->> +    ret = vfio_save_device_config_state(f, opaque);
->> +    if (ret) {
->> +        return ret;
->> +    }
->> +
->> +    ret = vfio_update_pending(vbasedev);
->> +    if (ret) {
->> +        return ret;
->> +    }
->> +
->> +    while (migration->pending_bytes > 0) {
->> +        qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
->> +        ret = vfio_save_buffer(f, vbasedev);
->> +        if (ret < 0) {
->> +            error_report("%s: Failed to save buffer", vbasedev->name);
->> +            return ret;
->> +        } else if (ret == 0) {
->> +            break;
->> +        }
->> +
->> +        ret = vfio_update_pending(vbasedev);
->> +        if (ret) {
->> +            return ret;
->> +        }
->> +    }
->> +
->> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
->> +
->> +    ret = qemu_file_get_error(f);
->> +    if (ret) {
->> +        return ret;
->> +    }
->> +
->> +    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_SAVING, 0);
->> +    if (ret) {
->> +        error_report("%s: Failed to set state STOPPED", vbasedev->name);
->> +        return ret;
->> +    }
->> +
->> +    trace_vfio_save_complete_precopy(vbasedev->name);
->> +    return ret;
->> +}
->> +
->>   static SaveVMHandlers savevm_vfio_handlers = {
->>       .save_setup = vfio_save_setup,
->>       .save_cleanup = vfio_save_cleanup,
->> +    .save_live_pending = vfio_save_pending,
->> +    .save_live_iterate = vfio_save_iterate,
->> +    .save_live_complete_precopy = vfio_save_complete_precopy,
+>>   static VFIODeviceOps vfio_pci_ops = {
+>>       .vfio_compute_needs_reset = vfio_pci_compute_needs_reset,
+>>       .vfio_hot_reset_multi = vfio_pci_hot_reset_multi,
+>>       .vfio_eoi = vfio_intx_eoi,
+>>       .vfio_get_object = vfio_pci_get_object,
+>> +    .vfio_save_config = vfio_pci_save_config,
+>> +    .vfio_load_config = vfio_pci_load_config,
 >>   };
 >>   
->>   /* ---------------------------------------------------------------------- */
->> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
->> index 4bb43f18f315..bdf40ba368c7 100644
->> --- a/hw/vfio/trace-events
->> +++ b/hw/vfio/trace-events
->> @@ -151,3 +151,9 @@ vfio_vmstate_change(char *name, int running, const char *reason, uint32_t dev_st
->>   vfio_migration_state_notifier(char *name, int state) " (%s) state %d"
->>   vfio_save_setup(char *name) " (%s)"
->>   vfio_save_cleanup(char *name) " (%s)"
->> +vfio_save_buffer(char *name, uint64_t data_offset, uint64_t data_size, uint64_t pending) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64" pending 0x%"PRIx64
->> +vfio_update_pending(char *name, uint64_t pending) " (%s) pending 0x%"PRIx64
->> +vfio_save_device_config_state(char *name) " (%s)"
->> +vfio_save_pending(char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
->> +vfio_save_iterate(char *name, int data_size) " (%s) data_size %d"
->> +vfio_save_complete_precopy(char *name) " (%s)"
+>>   int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
 >> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
->> index 28f55f66d019..c78033e4149d 100644
+>> index 74261feaeac9..d69a7f3ae31e 100644
 >> --- a/include/hw/vfio/vfio-common.h
 >> +++ b/include/hw/vfio/vfio-common.h
->> @@ -60,6 +60,7 @@ typedef struct VFIORegion {
+>> @@ -120,6 +120,8 @@ struct VFIODeviceOps {
+>>       int (*vfio_hot_reset_multi)(VFIODevice *vdev);
+>>       void (*vfio_eoi)(VFIODevice *vdev);
+>>       Object *(*vfio_get_object)(VFIODevice *vdev);
+>> +    void (*vfio_save_config)(VFIODevice *vdev, QEMUFile *f);
+>> +    int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
+>>   };
 >>   
->>   typedef struct VFIOMigration {
->>       VFIORegion region;
->> +    uint64_t pending_bytes;
->>   } VFIOMigration;
->>   
->>   typedef struct VFIOAddressSpace {
+>>   typedef struct VFIOGroup {
 > 
 
