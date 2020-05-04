@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A76E1C39F5
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:54:14 +0200 (CEST)
-Received: from localhost ([::1]:37370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3691C3A47
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:55:40 +0200 (CEST)
+Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVabt-0004KA-Fu
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56652)
+	id 1jVadH-00065u-30
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaIB-00015k-9v
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:51 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53661)
+ id 1jVaIC-00018K-Cy
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:52 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaIA-0001ID-9a
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:51 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id k12so8191268wmj.3
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:49 -0700 (PDT)
+ id 1jVaIB-0001IQ-Cq
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:52 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id d15so20720456wrx.3
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=z4KT7v0mrw5vLzSt/Xa9ojHSKKH+88BzrTrmmEv3EwY=;
- b=N+D8ZMKAQmDUNsbWRfN3ryIEGxeFWv6eD1dUK98wG1vyvSNQ6gjayeHV80qQrCnqfS
- gocV8rJGMIw68yKR1B0SeE6Xd3k8+zQuQ21f+ZwrpZSfw03Bn6gA11CuPfg7bP5LfgXI
- MURDtnvpbPwOwoLj2qS3Xy/CiUO/s0CycPU8vy+ti2PUTUFpKDlkQhkI4NrWSskihVub
- R6hzx2fP+7GC5mX3HiSeuL/ObD0amjWZLr/EXHf9AuyB/qjw39FNGQnepYq3eei8TBOU
- WI9p9yeswj8wE/PfOWWbaf5bn+0GRpOBheEoj5HnyRLBnTUvY8jP9XYLtYOi0rXacS2V
- DNCQ==
+ bh=g++wUoq6vldDFh+xfURkEagD8VQSYf3z+WvonduPSWo=;
+ b=mUZJIg81EWm50IGDHJXiUzjNoN6dgMwJ++lXibgzsqbSUpFvSVNuK8/zRccKErjpjg
+ MTmUCvQCx0tZYDWFeABEYiWLq1D/DbEArE0ls+LKBgZsKl4q0tujWghKqePxleCSge4E
+ 0/eXXmJzAt++nUzR9jRvcek5dbqF5N5/pJZqy2budQuWPlvW01SxDRbDceT8RUmfbyll
+ HvATaEhWhfCIe/KtYDIxtpve2od14qmW0dan2uGGorrzg2Sz6rGe0kseFlCfRppShrBq
+ V51uzobZfVrPxYY/9MDs5nudHeRNhQFdLMk8HUN8dcWwQiqLJFP7wBaspX+2Z69MkSIt
+ Dk6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z4KT7v0mrw5vLzSt/Xa9ojHSKKH+88BzrTrmmEv3EwY=;
- b=BJxricWsMQtL1U5Od3LaNUuKmnavYyGI9FpXTefiPlHJLTw/3lB0e+zlon0CHI4nfM
- 3Gr8iwQNxdh3xVGY8UkRuhQqMl1JQ2F6af5J+zcOFLAGivSY9cJY31aAU5vop0ZB1fB/
- s7oUcrg4dK2gB6X4uxyTapgdkw9FwA9/tyr5p2dprUsbT/i2NSJIyBno6xgUe07GaA8y
- yDZhlKLPeoYBCzz3M/xD5GD0+WcgzSRo77WU86bxa3MyGtcGJzHrGasaNvPYkPW3HG6Z
- sId1OPoR2V0Lsx5+37EiiLkn7NmNpYoJs3WaJ2qnMxhCbICqhmjwisN5LDVO/2BW2DpP
- I4lg==
-X-Gm-Message-State: AGi0Pub8rmRZx6DEMSv7W3zH+HRPG7lB0JM+1d8zjFtz4BlZeV3ePSxe
- uBbA2apUOTtYpHZf8ThLPMqIu7I3pzSG7Q==
-X-Google-Smtp-Source: APiQypJN99if2yFeSsrQYcEJNAEbi7nduEDXF7EyWrR9joaczbx4pcjVROs/e6KJkw4NUZGo+5UpfA==
-X-Received: by 2002:a7b:c38b:: with SMTP id s11mr14366775wmj.55.1588595628431; 
- Mon, 04 May 2020 05:33:48 -0700 (PDT)
+ bh=g++wUoq6vldDFh+xfURkEagD8VQSYf3z+WvonduPSWo=;
+ b=g3c6+XqWPigHRaG3a9mSRkeco76MXB4UrVaBbeIPUo0i7NkhcdrfXy/kS7uDzmnZWh
+ JjWpvzvDImX6+ZvipPkB88N7cYI5/WIkQ/MnjYCxqJm/027ffb+Y7PgzTNUR2NaMCEhW
+ cjI7DZ9kXQXtzacT69zk5gjT2tEtn8cnAd03exXokbLK46yBH43Y8lB+IUWV259B0DFO
+ 3FGQPuWrWAE5WxLY2b1TCNZ/BrVKrAiLQuXEcIuclE09UHDzZlXESsOirWUg/iQyA39u
+ b24GIXNi0NRHwUR/8SuBpO+5r8ayELM0f0MnvfK60/yV12nv8Vyqr2VyGATVyTTUC00E
+ WPLQ==
+X-Gm-Message-State: AGi0PubEym07O7CPBXUNzUNgL7ofcakRvQYeaLjOWE+9mmu5j0dCjED5
+ gk5XrJ78gUe4Qo16V31Kg88zC1iAq2p0vg==
+X-Google-Smtp-Source: APiQypKZ0MvZJmpfCcZQfNWoDWKtJ7OACVxtWMNfuT80A87eLZXWhc0XXwnym0yiFxWlrOWxK9HFAQ==
+X-Received: by 2002:adf:e449:: with SMTP id t9mr7905653wrm.108.1588595629644; 
+ Mon, 04 May 2020 05:33:49 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.47
+ by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 05:33:47 -0700 (PDT)
+ Mon, 04 May 2020 05:33:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/39] target/arm: Convert Neon 3-reg-same VADD/VSUB to
+Subject: [PULL 34/39] target/arm: Convert Neon 3-reg-same logic ops to
  decodetree
-Date: Mon,  4 May 2020 13:33:03 +0100
-Message-Id: <20200504123309.3808-34-peter.maydell@linaro.org>
+Date: Mon,  4 May 2020 13:33:04 +0100
+Message-Id: <20200504123309.3808-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200504123309.3808-1-peter.maydell@linaro.org>
 References: <20200504123309.3808-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,173 +89,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon 3-reg-same VADD and VSUB insns to decodetree.
-
-Note that we don't need the neon_3r_sizes[op] check here because all
-size values are OK for VADD and VSUB; we'll add this when we convert
-the first insn that has size restrictions.
-
-For this we need one of the GVecGen*Fn typedefs currently in
-translate-a64.h; move them all to translate.h as a block so they
-are visible to the 32-bit decoder.
+Convert the Neon logic ops in the 3-reg-same grouping to decodetree.
+Note that for the logic ops the 'size' field forms part of their
+decode and the actual operations are always bitwise.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200430181003.21682-15-peter.maydell@linaro.org
+Message-id: 20200430181003.21682-16-peter.maydell@linaro.org
 ---
- target/arm/translate-a64.h      |  9 --------
- target/arm/translate.h          |  9 ++++++++
- target/arm/neon-dp.decode       | 17 +++++++++++++++
- target/arm/translate-neon.inc.c | 38 +++++++++++++++++++++++++++++++++
- target/arm/translate.c          | 14 ++++--------
- 5 files changed, 68 insertions(+), 19 deletions(-)
+ target/arm/neon-dp.decode       | 12 +++++++++++
+ target/arm/translate-neon.inc.c | 19 +++++++++++++++++
+ target/arm/translate.c          | 38 +--------------------------------
+ 3 files changed, 32 insertions(+), 37 deletions(-)
 
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index 4c2c91ae1b2..f02fbb63a4a 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -115,13 +115,4 @@ static inline int vec_full_reg_size(DisasContext *s)
- 
- bool disas_sve(DisasContext *, uint32_t);
- 
--/* Note that the gvec expanders operate on offsets + sizes.  */
--typedef void GVecGen2Fn(unsigned, uint32_t, uint32_t, uint32_t, uint32_t);
--typedef void GVecGen2iFn(unsigned, uint32_t, uint32_t, int64_t,
--                         uint32_t, uint32_t);
--typedef void GVecGen3Fn(unsigned, uint32_t, uint32_t,
--                        uint32_t, uint32_t, uint32_t);
--typedef void GVecGen4Fn(unsigned, uint32_t, uint32_t, uint32_t,
--                        uint32_t, uint32_t, uint32_t);
--
- #endif /* TARGET_ARM_TRANSLATE_A64_H */
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 98b319f3f69..95b43e7ab65 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -305,4 +305,13 @@ void gen_sshl_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b);
- #define dc_isar_feature(name, ctx) \
-     ({ DisasContext *ctx_ = (ctx); isar_feature_##name(ctx_->isar); })
- 
-+/* Note that the gvec expanders operate on offsets + sizes.  */
-+typedef void GVecGen2Fn(unsigned, uint32_t, uint32_t, uint32_t, uint32_t);
-+typedef void GVecGen2iFn(unsigned, uint32_t, uint32_t, int64_t,
-+                         uint32_t, uint32_t);
-+typedef void GVecGen3Fn(unsigned, uint32_t, uint32_t,
-+                        uint32_t, uint32_t, uint32_t);
-+typedef void GVecGen4Fn(unsigned, uint32_t, uint32_t, uint32_t,
-+                        uint32_t, uint32_t, uint32_t);
-+
- #endif /* TARGET_ARM_TRANSLATE_H */
 diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index c89a1a58591..a61b1e88476 100644
+index a61b1e88476..f62dbaa72d5 100644
 --- a/target/arm/neon-dp.decode
 +++ b/target/arm/neon-dp.decode
-@@ -18,6 +18,10 @@
- #
- # This file is processed by scripts/decodetree.py
- #
-+# VFP/Neon register fields; same as vfp.decode
-+%vm_dp  5:1 0:4
-+%vn_dp  7:1 16:4
-+%vd_dp  22:1 12:4
+@@ -42,5 +42,17 @@
+ @3same           .... ... . . . size:2 .... .... .... . q:1 . . .... \
+                  &3same vm=%vm_dp vn=%vn_dp vd=%vd_dp
  
- # Encodings for Neon data processing instructions where the T32 encoding
- # is a simple transformation of the A32 encoding.
-@@ -27,3 +31,16 @@
- #   0b111p_1111_qqqq_qqqq_qqqq_qqqq_qqqq_qqqq
- # This file works on the A32 encoding only; calling code for T32 has to
- # transform the insn into the A32 version first.
++@3same_logic     .... ... . . . .. .... .... .... . q:1 .. .... \
++                 &3same vm=%vm_dp vn=%vn_dp vd=%vd_dp size=0
 +
-+######################################################################
-+# 3-reg-same grouping:
-+# 1111 001 U 0 D sz:2 Vn:4 Vd:4 opc:4 N Q M op Vm:4
-+######################################################################
++VAND_3s          1111 001 0 0 . 00 .... .... 0001 ... 1 .... @3same_logic
++VBIC_3s          1111 001 0 0 . 01 .... .... 0001 ... 1 .... @3same_logic
++VORR_3s          1111 001 0 0 . 10 .... .... 0001 ... 1 .... @3same_logic
++VORN_3s          1111 001 0 0 . 11 .... .... 0001 ... 1 .... @3same_logic
++VEOR_3s          1111 001 1 0 . 00 .... .... 0001 ... 1 .... @3same_logic
++VBSL_3s          1111 001 1 0 . 01 .... .... 0001 ... 1 .... @3same_logic
++VBIT_3s          1111 001 1 0 . 10 .... .... 0001 ... 1 .... @3same_logic
++VBIF_3s          1111 001 1 0 . 11 .... .... 0001 ... 1 .... @3same_logic
 +
-+&3same vm vn vd q size
-+
-+@3same           .... ... . . . size:2 .... .... .... . q:1 . . .... \
-+                 &3same vm=%vm_dp vn=%vn_dp vd=%vd_dp
-+
-+VADD_3s          1111 001 0 0 . .. .... .... 1000 . . . 0 .... @3same
-+VSUB_3s          1111 001 1 0 . .. .... .... 1000 . . . 0 .... @3same
+ VADD_3s          1111 001 0 0 . .. .... .... 1000 . . . 0 .... @3same
+ VSUB_3s          1111 001 1 0 . .. .... .... 1000 . . . 0 .... @3same
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index c881d1cf607..bd9e697b3e2 100644
+index bd9e697b3e2..507f0abe801 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -560,3 +560,41 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
+@@ -598,3 +598,22 @@ static bool do_3same(DisasContext *s, arg_3same *a, GVecGen3Fn fn)
  
-     return true;
- }
+ DO_3SAME(VADD, tcg_gen_gvec_add)
+ DO_3SAME(VSUB, tcg_gen_gvec_sub)
++DO_3SAME(VAND, tcg_gen_gvec_and)
++DO_3SAME(VBIC, tcg_gen_gvec_andc)
++DO_3SAME(VORR, tcg_gen_gvec_or)
++DO_3SAME(VORN, tcg_gen_gvec_orc)
++DO_3SAME(VEOR, tcg_gen_gvec_xor)
 +
-+static bool do_3same(DisasContext *s, arg_3same *a, GVecGen3Fn fn)
-+{
-+    int vec_size = a->q ? 16 : 8;
-+    int rd_ofs = neon_reg_offset(a->vd, 0);
-+    int rn_ofs = neon_reg_offset(a->vn, 0);
-+    int rm_ofs = neon_reg_offset(a->vm, 0);
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-+        return false;
-+    }
-+
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vn | a->vm) & 0x10)) {
-+        return false;
-+    }
-+
-+    if ((a->vn | a->vm | a->vd) & a->q) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    fn(a->size, rd_ofs, rn_ofs, rm_ofs, vec_size, vec_size);
-+    return true;
-+}
-+
-+#define DO_3SAME(INSN, FUNC)                                            \
-+    static bool trans_##INSN##_3s(DisasContext *s, arg_3same *a)        \
++/* These insns are all gvec_bitsel but with the inputs in various orders. */
++#define DO_3SAME_BITSEL(INSN, O1, O2, O3)                               \
++    static void gen_##INSN##_3s(unsigned vece, uint32_t rd_ofs,         \
++                                uint32_t rn_ofs, uint32_t rm_ofs,       \
++                                uint32_t oprsz, uint32_t maxsz)         \
 +    {                                                                   \
-+        return do_3same(s, a, FUNC);                                    \
-+    }
++        tcg_gen_gvec_bitsel(vece, rd_ofs, O1, O2, O3, oprsz, maxsz);    \
++    }                                                                   \
++    DO_3SAME(INSN, gen_##INSN##_3s)
 +
-+DO_3SAME(VADD, tcg_gen_gvec_add)
-+DO_3SAME(VSUB, tcg_gen_gvec_sub)
++DO_3SAME_BITSEL(VBSL, rd_ofs, rn_ofs, rm_ofs)
++DO_3SAME_BITSEL(VBIT, rm_ofs, rn_ofs, rd_ofs)
++DO_3SAME_BITSEL(VBIF, rm_ofs, rd_ofs, rn_ofs)
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 613be39ef36..061bc7c31c9 100644
+index 061bc7c31c9..9affa92cbe7 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -4885,16 +4885,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+@@ -4848,43 +4848,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
              }
-             return 0;
+             return 1;
  
--        case NEON_3R_VADD_VSUB:
--            if (u) {
--                tcg_gen_gvec_sub(size, rd_ofs, rn_ofs, rm_ofs,
+-        case NEON_3R_LOGIC: /* Logic ops.  */
+-            switch ((u << 2) | size) {
+-            case 0: /* VAND */
+-                tcg_gen_gvec_and(0, rd_ofs, rn_ofs, rm_ofs,
 -                                 vec_size, vec_size);
--            } else {
--                tcg_gen_gvec_add(size, rd_ofs, rn_ofs, rm_ofs,
+-                break;
+-            case 1: /* VBIC */
+-                tcg_gen_gvec_andc(0, rd_ofs, rn_ofs, rm_ofs,
+-                                  vec_size, vec_size);
+-                break;
+-            case 2: /* VORR */
+-                tcg_gen_gvec_or(0, rd_ofs, rn_ofs, rm_ofs,
+-                                vec_size, vec_size);
+-                break;
+-            case 3: /* VORN */
+-                tcg_gen_gvec_orc(0, rd_ofs, rn_ofs, rm_ofs,
 -                                 vec_size, vec_size);
+-                break;
+-            case 4: /* VEOR */
+-                tcg_gen_gvec_xor(0, rd_ofs, rn_ofs, rm_ofs,
+-                                 vec_size, vec_size);
+-                break;
+-            case 5: /* VBSL */
+-                tcg_gen_gvec_bitsel(MO_8, rd_ofs, rd_ofs, rn_ofs, rm_ofs,
+-                                    vec_size, vec_size);
+-                break;
+-            case 6: /* VBIT */
+-                tcg_gen_gvec_bitsel(MO_8, rd_ofs, rm_ofs, rn_ofs, rd_ofs,
+-                                    vec_size, vec_size);
+-                break;
+-            case 7: /* VBIF */
+-                tcg_gen_gvec_bitsel(MO_8, rd_ofs, rm_ofs, rd_ofs, rn_ofs,
+-                                    vec_size, vec_size);
+-                break;
 -            }
 -            return 0;
 -
          case NEON_3R_VQADD:
              tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
                             rn_ofs, rm_ofs, vec_size, vec_size,
-@@ -4970,6 +4960,10 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-             tcg_gen_gvec_3(rd_ofs, rm_ofs, rn_ofs, vec_size, vec_size,
-                            u ? &ushl_op[size] : &sshl_op[size]);
+@@ -4962,6 +4925,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
              return 0;
-+
-+        case NEON_3R_VADD_VSUB:
-+            /* Already handled by decodetree */
-+            return 1;
-         }
  
-         if (size == 3) {
+         case NEON_3R_VADD_VSUB:
++        case NEON_3R_LOGIC:
+             /* Already handled by decodetree */
+             return 1;
+         }
 -- 
 2.20.1
 
