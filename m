@@ -2,59 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A941C36C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:23:25 +0200 (CEST)
-Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CC521C3689
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:13:50 +0200 (CEST)
+Received: from localhost ([::1]:55814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVYFw-00040e-Ck
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:23:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40466)
+	id 1jVY6f-000513-Az
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jVYFE-0003ZR-1H
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:22:40 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:34299)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jVYFC-000457-BB
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:22:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=1OSsI/S5Z0Bd9kcM7tLl4HLQAftxPPOps+hzLT6ZmnQ=; b=IapsD0gEqPshc/tvl8CPHH1ZiF
- mapSMBjbIXsdxMmoDKtD3+OEreT52HYyVzQ8wRblX2vKuB/YL+ZvFU89hmblJ3Fj4Xi3HmEAt8S6f
- tNO4Qo+O8E22s1o7Tyo8W+pDYFMGh31ZLXVSkfeDDD2nWQzdRnyqybTjvIN1iA/58oGr/8TGEIpl6
- fnjfNTAlj2C9MnhhNzR/zH6YsI87iikL/9ZMe3qveoY0GY9GqwAeqEwGoxkLua3OJ5XdxkmLSyxVy
- 3J5lCfTefsF/sHZ9FRsUyiAxLdb7kwUpwBy0C4g/hm0hQnKy8HHMKMMl2984D/nFniLaCutj3PtuG
- o8X3W9pWyrA/RDL2r0o29uIBGeWR5ycJX9v6miqTKlWeDMAi81B6nChM0RFyUA7f1TqjyqkYe9lYh
- 2ePq1CIn/k3iFq3iS88MjD8H3NzFystAXckEbOaxm+rNBdhgrlR7vQfQKZEJAn3rD8vGTjPWGMb5m
- 5MBODiIQOAjVSzHVBwEQ56u1REmetNTaW3xE9Ko+qmHHpUFJeDfJYmkFPKCSL1F4XH5+fswKHvBDM
- /1cmcP7Wa+oojiGLPteUg79FCTrNJ24fj0YitwpgbS/86b4En0qY+bNR4ccrvc+phDEv5lma+bGDK
- WpHtMx5kKNNTUZlVP/lt77uH+/0WoeSI3jGFZNvkw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v6 3/5] 9pfs: add new function v9fs_co_readdir_many()
-Date: Mon, 04 May 2020 12:08:07 +0200
-Message-ID: <8025053.zxIBI3vFlk@silver>
-In-Reply-To: <20200504111834.117c98d9@bahia.lan>
-References: <cover.1587309014.git.qemu_oss@crudebyte.com>
- <5819799.mbObChnQ2B@silver> <20200504111834.117c98d9@bahia.lan>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jVY5l-0004H0-PZ; Mon, 04 May 2020 06:12:53 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jVY5l-0004dP-5v; Mon, 04 May 2020 06:12:53 -0400
+Received: by mail-wr1-x442.google.com with SMTP id y3so1184236wrt.1;
+ Mon, 04 May 2020 03:12:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=c1RJHnLwGnOHA1qprnfYYlQHbL15pxYDC9M3A/Cja3c=;
+ b=Fh06wm2mHu3/IA+GJkS6TJs+DN93yySBsWpMaxhfITyeuhc8PdAJmsfjoBu/vUSgB+
+ DKdE7ULkSERxxaB9ifn/5wVRBznWcqF1BfjcmJ+Z1XgYg3qDcy/RJDb7D8zmNheBA7DO
+ zzF9MvoppzyCsZLnZZ2cPq06ZVy86K0mNtXcUIxPAOHS7HEUB3DA2qwfhAkuLLhNe+8X
+ DKAdku2+UnNF4N9A4hdBY2AB5TUY1ufwxd2N9sWfZLdyjcpgKkvEZeKs4KHAzpTp0xbU
+ PDNG2CHcKwwm1YJGofLjdfRkOwIVe8HeQwzIufvS16DcqyiHKFKq2X+sh0BeoN+5gYrG
+ hm7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=c1RJHnLwGnOHA1qprnfYYlQHbL15pxYDC9M3A/Cja3c=;
+ b=mgkDALnc0uvySvIYxtZUpZLnSoo6yjTx2t/GWJAkXTtMLoScy49TngfldjahbYi5GO
+ VCvDceibwQ7KJ5VX/y/DiD0jQVTcK9eUWjoxMkRz7WreDVQk1dXAB/+lJB6OhJAeFt5d
+ vS8r55GkcnZ3EFwOiIUbFxOROLRqf8ix32Gg7yGDFEAwTroEkvfx1k74+PI5CQYjq2/a
+ dOuhzEcMCzZ9WP23muZAz1VZ0waca+rt2m8L79wh4jnESLpvUdvsuI4Q/iEBwtNvketd
+ nuW/BOfeSp3s1MGAHPh/Y5nlKLwEvgGEco0RSdTuTo5R3KKj9WW9mqTBMyl1NfGD2Kqz
+ Tv5A==
+X-Gm-Message-State: AGi0PuYzWywjT1RTesnIeI4e6XFYMJNCE41iksTlHR7aFnnbI+UiqWmo
+ /lsZiMdCc+4Zl7cMkCEcQOY=
+X-Google-Smtp-Source: APiQypI/g48kjG3SpI4QJTNqKqDlbjvJoJsvr9wv4jvaiDIeZkUgzklwJarsKurqwygAVu7DGZ212g==
+X-Received: by 2002:adf:f004:: with SMTP id j4mr18026230wro.123.1588587170753; 
+ Mon, 04 May 2020 03:12:50 -0700 (PDT)
+Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id f12sm15785894wrg.77.2020.05.04.03.12.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 03:12:49 -0700 (PDT)
+Subject: Re: [PATCH] hw/usb: Make "hcd-ehci.h" header public
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20200504082238.16655-1-f4bug@amsat.org>
+ <alpine.BSF.2.22.395.2005041044550.59496@zero.eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0de65ed7-37b0-8916-2ccb-bbb524934351@amsat.org>
+Date: Mon, 4 May 2020 12:12:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 06:22:25
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <alpine.BSF.2.22.395.2005041044550.59496@zero.eik.bme.hu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,76 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-trivial@nongnu.org,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 4. Mai 2020 11:18:34 CEST Greg Kurz wrote:
-> > > > > > +        memcpy(e->dent, dent, sizeof(struct dirent));
-> > > > > > +
-> > > > > > +        /* perform a full stat() for directory entry if requested
-> > > > > > by
-> > > > > > caller */ +        if (dostat) {
-> > > > > > +            err = s->ops->name_to_path(
-> > > > > > +                &s->ctx, &fidp->path, dent->d_name, &path
-> > > > > > +            );
-> > > > > > +            if (err < 0) {
-> > > > > > 
-> > > > > >                  err = -errno;
-> > > > > > 
-> > > > > > -            } else {
-> > > > > > -                *dent = entry;
-> > > > > > -                err = 0;
-> > > > > > +                break;
-> > > > > 
-> > > > > ... but we're erroring out there and it seems that we're leaking
-> > > > > all the entries that have been allocated so far.
-> > > > 
-> > > > No, they are not leaking actually.
-> > > > 
-> > > > You are right that they are not deallocated in do_readdir_many(), but
-> > > > that's intentional: in the new implementation of v9fs_do_readdir() you
-> > > > see that v9fs_free_dirents(entries) is *always* called at the very end
-> > > > of
-> > > > the function, no matter if success or any error. That's one of the
-> > > > measures to simplify overall code as much as possible.
-> > > 
-> > > Hmm... I still don't quite like the idea of having an erroring function
-> > > asking for extra cleanup. I suggest you come up with an idem-potent
-> > > version
-> > > of v9fs_free_dirents(), move it to codir.c (I also prefer locality of
-> > > calls
-> > > to g_malloc and g_free in the same unit), make it extern and call it
-> > > both on the error path of v9fs_co_readdir_many() and in
-> > > v9fs_do_readdir().
-> > 
-> > I understand your position of course, but I still won't find that to be a
-> > good move.
-> > 
-> > My veto here has a reason: your requested change would prevent an
-> > application that I had in mind for future purpose actually: Allowing
-> > "greedy" fetching
-> Are you telling that this series has some kind of hidden agenda related to
-> a possible future change ?!?
+On 5/4/20 10:48 AM, BALATON Zoltan wrote:
+> On Mon, 4 May 2020, Philippe Mathieu-Daudé wrote:
+>> As target-specific code use this header, move it to the publicly
+>> accessible include/ folder.
+>>
+>>  $ git grep hw/usb/hcd-ehci.h
+>>  hw/arm/allwinner-h3.c:31:#include "hw/usb/hcd-ehci.h"
+>>  hw/arm/exynos4210.c:38:#include "hw/usb/hcd-ehci.h"
+>>  hw/ppc/sam460ex.c:38:#include "hw/usb/hcd-ehci.h"
+>>  include/hw/arm/allwinner-a10.h:13:#include "hw/usb/hcd-ehci.h"
+>>  include/hw/arm/aspeed_soc.h:29:#include "hw/usb/hcd-ehci.h"
+> 
+> All of these only need either the type #define or EHCISysBusState so 
+> splitting only those off to a public header should be enough and better 
+> than making public all of ehci's internal header.
 
-readdir_many() is written intended as general purpose directory retrieval 
-function, that is for other purposes in future in mind, yes.
+Ah you mean forward-declare EHCISysBusState in "qemu/typedefs.h", OK.
 
-What I don't do is adding code which is not explicitly needed right now of 
-course. That would not make sense and would make code unnecessarily bloated 
-and of course too complicated (e.g. readdir_many() is currently simply 
-directly calling v9fs_readdir_response_size() to decide whether to terminate 
-the loop instead of taking some complicated general-purpose loop end 
-"predicate" structure or callback as function argument).
-
-But when it comes to the structure of the code that I have to add NOW, then I 
-indeed take potential future changes into account, yes! And this applies 
-specifically to the two changes you requested here inside readdir_many(). 
-Because I already know, I would need to revert those 2 changes that you 
-requested later on. And I don't see any issue whatsover retaining the current 
-version concerning those 2.
-
-Best regards,
-Christian Schoenebeck
-
-
+> 
+> Regards,
+> BALATON Zoltan
 
