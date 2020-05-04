@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5431C348F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:36:24 +0200 (CEST)
-Received: from localhost ([::1]:44464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0F491C3489
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:35:10 +0200 (CEST)
+Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVWaN-0007tl-Rm
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:36:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40244)
+	id 1jVWZB-00053u-S2
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVWXs-0003Kp-2I
+ id 1jVWXs-0003LP-GA
  for qemu-devel@nongnu.org; Mon, 04 May 2020 04:33:48 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38160)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVWXq-0007Rn-Lm
- for qemu-devel@nongnu.org; Mon, 04 May 2020 04:33:47 -0400
-Received: by mail-wr1-x429.google.com with SMTP id x17so19850060wrt.5
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 01:33:46 -0700 (PDT)
+ id 1jVWXr-0007Rz-RU
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 04:33:48 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 188so7449722wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 01:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fHSKVhvgJ0/ZOfFaf+BP/P6hX2XQjwkZB5BoXLgjiYk=;
- b=hMxoSTjfJ80sQfPeIaXs98wQXEsQbyGvMOoag6M9eMCmfwFah4SbUvlGvFO9v9RSzk
- kfxrQscyzsG4RU81fIHbMfP9NAKhsMzJKz/Ve5fqsjlgUJL+1xYM9ysrENiZ5FdhxnYV
- L6qK8z7Xx28VZjOFawqtxWsY3myems5bXyBwXrbM8ao3nUCpwDcWU6EUUEVqKYPHgQCi
- 3dEbczUGignSEM458OHUZABs4pFdAUhbqzKGr0Radyn7on25LY9YnuQHvpgAuBkBezRV
- 5XYThjHzWRX3A3Q8hxc6DyFd/pFasJw+non4fU4Y5Og1ST51S0tXidn67fYgNNCfL21w
- jhsQ==
+ bh=xU5I2xlUHbp9bQFHtUli8mHPbgdjvZx4MCau2zAPM7A=;
+ b=UdjlNowgafeJMhYBAaIFhSl36blvfWpB3C4x7GKqbkOFTY5gmLDaYDnSjIrXm7Wr57
+ nipMyVGQHFh53aQNq9N4ptiMxynUzryx2QDwYT3jcVIjc5bQ6GILwbhV0eR3Di0wc09a
+ uWTmZVD+0VtD4toqeUVf6TnyhekXwOsZb64KLjDp9zZ6MPxf0d095mZdT/tXFJ9C1FXx
+ fMIwIxQ6FoQihbEN1lYU4G0CbBJ/J25KcvLtOe2pcEifr8O4qUUZfDHm4fEzrGVdwSkb
+ hlM/5uRpPJJUzucLXccpPCXUje0ix51NRjPujj50JJQBO384YoJJ3jaj2xJp6lmm51jN
+ fF2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fHSKVhvgJ0/ZOfFaf+BP/P6hX2XQjwkZB5BoXLgjiYk=;
- b=QOMIkMgkpiSUqs78vTCnl8yVB64jZCo5wUK2+lHM81lRzFOZfaeQrqm/wmiXWb/l0l
- Vhzg/k3G2edqKI+znL2wx3Kz6kt4mIa3C1D9BmIOr/cmasRkpss6ilSecNu8cR8NcLjE
- Of9yeZHvQr7sDUqhdcr434pDXZ9fVZKt5VcOl3ExZjT+J2FIoh9S5P4cpO08puymga9F
- oS6tN6BD2rFF6E+3YUQk7B+XL+esZbkO5V2TGhIMppxPY/tqIB1YEwgFy3zzJhqWgTuP
- krC7Qwax6epucYSojmCdjWNxVKWAIvYnw5rT5/sC35zf610XBH52+VhYjfBr28zdHjOo
- uA9A==
-X-Gm-Message-State: AGi0Pub5CDeGOP9Y7AWJEotBzPw8mAVrFm47IhDor16PbJH72cMe8Nqu
- ESz78ArWTsJ3WgHkLW2H6iLB7T/I
-X-Google-Smtp-Source: APiQypJd8ySdOwLgwomQkWryWn5gCaTMV526JzY+aSlDmQQbBEIz1vpjUCET/mExAr6C231y8aiA+Q==
-X-Received: by 2002:a5d:6a04:: with SMTP id m4mr19216874wru.326.1588581225080; 
- Mon, 04 May 2020 01:33:45 -0700 (PDT)
+ bh=xU5I2xlUHbp9bQFHtUli8mHPbgdjvZx4MCau2zAPM7A=;
+ b=KrOuuHhuCwh3jZGR7bN6yuWam1ryFCZk7ld20h5LzslwmrI5lJebisXYYjTUjoIQ0e
+ 1jRQmOZ1xWzu0lFhpfgp1pPOo1Akvv2yYrptvv8a0te80JBVi8Z0MRKcG96V17v7RJ4O
+ MkD5N1a7nImoxRPqnTsTjFQxuC/cQLkUSDVGuLlBUXOqDYsl4uplo5DTwRFr7HbHMVR7
+ Ak1c57G5wK+vAkcmG5fX5tULRGwoavMOk7dMuPGG9E4KsbxaFJLsXQMqQ0otFQZbcUGF
+ JYviQqZZfywP5kgfTMTqaYMJpxYWrG0mFuEN7E9LA7QDZmBLBPnHO/8HEIge4nuG0Tl6
+ AddQ==
+X-Gm-Message-State: AGi0PuaIW+xbnrE5w77DcQkyZ2w1FYE3m+WpliajYn8apwfOI3fGIP4w
+ VwOIcdNT/9vyN9S5WLz8HkgfQLyw
+X-Google-Smtp-Source: APiQypKw/oyntCrnijtY+ib4tyKRqtvjtgC/AK1uXkueovrrsp7Af+0gnbNaa/Ejev5yPMYZr6AH0g==
+X-Received: by 2002:a7b:c213:: with SMTP id x19mr12978382wmi.53.1588581226141; 
+ Mon, 04 May 2020 01:33:46 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id 2sm13048053wre.25.2020.05.04.01.33.44
+ by smtp.gmail.com with ESMTPSA id 2sm13048053wre.25.2020.05.04.01.33.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 01:33:44 -0700 (PDT)
+ Mon, 04 May 2020 01:33:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] hw/i386/pc: Create 'vmport' device in place
-Date: Mon,  4 May 2020 10:33:39 +0200
-Message-Id: <20200504083342.24273-2-f4bug@amsat.org>
+Subject: [PATCH 2/4] hw/i386/vmport: Remove unused 'hw/input/i8042.h' include
+Date: Mon,  4 May 2020 10:33:40 +0200
+Message-Id: <20200504083342.24273-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200504083342.24273-1-f4bug@amsat.org>
 References: <20200504083342.24273-1-f4bug@amsat.org>
@@ -64,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -95,42 +95,25 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Remove unused "hw/input/i8042.h" include.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/i386/pc.h | 6 ------
- hw/i386/pc.c         | 2 +-
- 2 files changed, 1 insertion(+), 7 deletions(-)
+ hw/i386/vmport.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 6ab6eda046..26e2a3d92b 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -132,12 +132,6 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled);
- /* vmport.c */
- #define TYPE_VMPORT "vmport"
- typedef uint32_t (VMPortReadFunc)(void *opaque, uint32_t address);
--
--static inline void vmport_init(ISABus *bus)
--{
--    isa_create_simple(bus, TYPE_VMPORT);
--}
--
- void vmport_register(unsigned char command, VMPortReadFunc *func, void *opaque);
- void vmmouse_get_data(uint32_t *data);
- void vmmouse_set_data(const uint32_t *data);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 5143c51653..84669ddc84 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1152,7 +1152,7 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
- 
-     i8042 = isa_create_simple(isa_bus, "i8042");
-     if (!no_vmport) {
--        vmport_init(isa_bus);
-+        isa_create_simple(isa_bus, TYPE_VMPORT);
-         vmmouse = isa_try_create(isa_bus, "vmmouse");
-     } else {
-         vmmouse = NULL;
+diff --git a/hw/i386/vmport.c b/hw/i386/vmport.c
+index 1f31e27c8a..114141c6f3 100644
+--- a/hw/i386/vmport.c
++++ b/hw/i386/vmport.c
+@@ -24,7 +24,6 @@
+ #include "qemu/osdep.h"
+ #include "hw/isa/isa.h"
+ #include "hw/i386/pc.h"
+-#include "hw/input/i8042.h"
+ #include "sysemu/hw_accel.h"
+ #include "qemu/log.h"
+ #include "trace.h"
 -- 
 2.21.3
 
