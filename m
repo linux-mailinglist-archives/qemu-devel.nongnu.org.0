@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B411C3DB8
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:57:02 +0200 (CEST)
-Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84B61C3E30
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:10:06 +0200 (CEST)
+Received: from localhost ([::1]:60560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcWj-00046k-FG
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:57:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51486)
+	id 1jVcjN-0004k7-6D
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVcRa-0003AT-KV
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:51:42 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57716
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcVj-0002vy-KP
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:55:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24885
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVcRZ-0005WG-Rs
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:51:42 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcVi-0001wN-5q
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:55:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588603901;
+ s=mimecast20190719; t=1588604156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hrLrQr+R/T9s03X9urIw7MWei7yBJ0eNzyIVI1Vhb1g=;
- b=AxLpYE1P3ml3VcYi5RUBFU0l1+6WHgSe6aOFlsVhG99g9WGkAzKoZO9u5rpLerr9uVqrB+
- 0lL615Kx9VxYMatUEAAo0Ny/xwn3UBIUxavVqGS/guK7jA1uR1gJkD9KCxce10t49IZ12W
- RgB/UoMyOmZPwjksDGEV01BBu423Td0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-YgQuK88BMIypfIXmRb35CA-1; Mon, 04 May 2020 10:51:34 -0400
-X-MC-Unique: YgQuK88BMIypfIXmRb35CA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A79761054F9B;
- Mon,  4 May 2020 14:51:33 +0000 (UTC)
-Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EE1A1002389;
- Mon,  4 May 2020 14:51:33 +0000 (UTC)
-Subject: Re: [PATCH] qcow2: Avoid integer wraparound in qcow2_co_truncate()
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <20200501131525.6745-1-berto@igalia.com>
- <5ba91898-9d3b-d55d-c360-83cca41d88f4@redhat.com>
- <101fcf8e-0352-9151-f25a-c8a38aa079ed@redhat.com>
- <w515zdbizgo.fsf@maestria.local.igalia.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <de009c42-b886-0e30-44da-cfbeb7ccc49b@redhat.com>
-Date: Mon, 4 May 2020 09:51:32 -0500
+ bh=ICwKnCoy4EK2GbBD518wf9IypmFknKsi6JyIzyky8gk=;
+ b=GaCaRft8OftA3CerB7uVq6Z6UoJX+VENWFFHn7FI/BjA4oqvPSEuhryyulIGH9g3J9/1V8
+ igUdiYHqqjvf42Yfs2x+7isADZNQZKYQerYB9e684LhUgtoi4uvkgBNewnJ/aD1vkeJp6Y
+ sLzf9Iw9INf+InsHUMejoyz3GU/QrWs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-SQVwhEPwNsebq_fm1mNdgA-1; Mon, 04 May 2020 10:55:51 -0400
+X-MC-Unique: SQVwhEPwNsebq_fm1mNdgA-1
+Received: by mail-wr1-f71.google.com with SMTP id o8so10851462wrm.11
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:55:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kd2smL6VkoY+rTNJp+yGYxUVgWUOpN5MDAYcmF3RhO0=;
+ b=EP324yTqMMcFOAlrQn3RNVZQ/7Z7WgFw6znabt6EOb7GnRyD5E/i0i5iZYOTYAmmD6
+ VvaFl2LYr4p5oC+7W7HtbXYq2AxMIz3Z3dUEAgZoF4YsIhhZHHoWoYpLkpiM2N6/53cb
+ Ggc/pViWA4x8YZYRurZ5oRlRZ1sdkvM6jcD/KcnUWEZIFfbTz1QnHu7wdMzFJcWHAzae
+ pn96lyunTFiPfYFm+GaTtuZW4zIv54Z/4yEqsy/qssbzmLvwRbQA0cmKbYVBBrvZkEeb
+ m+tzpsKKxjvRI9B0RZtp7x12JnNuVRAyQ4Hn0Lv4Z/cwVpd5AAR+qzPdiSm895V3fh/7
+ dYoQ==
+X-Gm-Message-State: AGi0Pub5PhotAy6QschH8c2zK5iHkKe3X69CKqofY6Vyw8kqqWJAwBdZ
+ BcOm5NYUXUsSSC3bxEk7YdfpuDuYTIv4yLMFx0w3s4S4s4NdyOtyLFpmqYkzoEW8Rz7sr8ACjrD
+ 0G4E3zttVTK+iO8k=
+X-Received: by 2002:a1c:492:: with SMTP id 140mr15966162wme.9.1588604149956;
+ Mon, 04 May 2020 07:55:49 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLNTNW/m5GrVDn4ITyfuICKNhpkv4vUR/7axRn+KlIi+BjJdsrnv6BbTu4QyZJpFPWtOkNoWg==
+X-Received: by 2002:a1c:492:: with SMTP id 140mr15966148wme.9.1588604149754;
+ Mon, 04 May 2020 07:55:49 -0700 (PDT)
+Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id v7sm394316wmg.3.2020.05.04.07.55.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 07:55:49 -0700 (PDT)
+Subject: Re: [PATCH 0/4] Add support for SafeStack
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>, qemu-devel@nongnu.org
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b7f933b9-6797-9186-0f06-44485f42febe@redhat.com>
+Date: Mon, 4 May 2020 16:55:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <w515zdbizgo.fsf@maestria.local.igalia.com>
+In-Reply-To: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,49 +97,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 8:47 AM, Alberto Garcia wrote:
-
->> Drop this hunk (leave zero_start unchanged), and instead...
->>
->>>
->>> So, using your numbers, pre-patch, we have zero_start =3D 0x90000 (0x82=
-000
->>> rounded up to 0x10000 alignment).=C2=A0 post-patch, the new MIN() lower=
-s it
->>> back to 0x8dc00 (the new size), which is unaligned.
->>>
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Use ze=
-ro clusters as much as we can. qcow2_cluster_zeroize()
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * requir=
-es a cluster-aligned start. The end may be
->>>> unaligned if it is
->>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * at the end of the =
-image (which it is here).
->>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>   =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D qcow2_cluster_zero=
-ize(bs, zero_start, offset -
->>> zero_start, 0);
->>
->> ...patch _this_ call to compute 'QEMU_ALIGN_UP(offset, s->cluster_size)
->> - zero_start' for the length.
+On 4/29/20 9:44 PM, Daniele Buono wrote:
+> LLVM supports SafeStack instrumentation to protect against stack buffer
+> overflows, since version 3.7
 >=20
-> That would work, but then we would be writing zeroes beyond the end of
-> the image (but still within the last cluster).
+>  From https://clang.llvm.org/docs/SafeStack.html:
+> "It works by separating the program stack into two distinct regions: the
+> safe stack and the unsafe stack. The safe stack stores return addresses,
+> register spills, and local variables that are always accessed in a safe
+> way, while the unsafe stack stores everything else. This separation
+> ensures that buffer overflows on the unsafe stack cannot be used to
+> overwrite anything on the safe stack."
 >=20
-> The other solution is to keep my hunk and call qcow2_cluster_zeroize()
-> only when offset > zero_start.
+> Unfortunately, the use of two stack regions does not cope well with
+> QEMU's coroutines. The second stack region is not properly set up with
+> both ucontext and sigaltstack, so multiple coroutines end up sharing the
+> same memory area for the unsafe stack, causing undefined behaviors at
+> runtime (and most iochecks to fail).
+>=20
+> This patch series fixes the implementation of the ucontext backend and
+> make sure that sigaltstack is never used if the compiler is applying
+> the SafeStack instrumentation. It also adds a configure flag to enable
+> SafeStack, and enables iotests when SafeStack is used.
+>=20
+> This is an RFC mainly because of the low-level use of the SafeStack
+> runtime.
+> When running swapcontext(), we have to manually set the unsafe stack
+> pointer to the new area allocated for the coroutine. LLVM does not allow
+> this by using builtin, so we have to use implementation details that may
+> change in the future.
+> This patch has been tested briefly ( make check on an x86 system ) with
+> clang v3.9, v4.0, v5.0, v6.0
+> Heavier testing, with make check-acceptance has been performed with
+> clang v7.0
 
-Yes, that would work, and probably less complicated.
+Clang10:
+Tested-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>=20
+> Daniele Buono (4):
+>    coroutine: support SafeStack in ucontext backend
+>    coroutine: Add check for SafeStack in sigalstack
+>    configure: add flag to enable SafeStack
+>    check-block: Enable iotests with SafeStack
+>=20
+>   configure                    | 29 +++++++++++++++++++++++++++++
+>   include/qemu/coroutine_int.h |  6 ++++++
+>   tests/check-block.sh         | 12 +++++++++++-
+>   util/coroutine-sigaltstack.c |  4 ++++
+>   util/coroutine-ucontext.c    | 25 +++++++++++++++++++++++++
+>   5 files changed, 75 insertions(+), 1 deletion(-)
+>=20
 
 
