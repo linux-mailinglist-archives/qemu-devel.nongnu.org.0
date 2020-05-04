@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5026E1C39D9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:50:41 +0200 (CEST)
-Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82611C399F
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:42:48 +0200 (CEST)
+Received: from localhost ([::1]:44638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaYS-0005Xz-8h
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:50:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
+	id 1jVaQp-0000x2-ME
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHw-0000SJ-BX
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:36 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41089)
+ id 1jVaI0-0000cm-ED
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:40 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHv-00016o-IR
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:36 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id g13so20678907wrb.8
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:35 -0700 (PDT)
+ id 1jVaHz-00017o-IY
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:40 -0400
+Received: by mail-wm1-x344.google.com with SMTP id x4so8238188wmj.1
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OQuyuhA5Gt5NXmOvC0CG9mRkAQzrDpARfPtObF83Cnw=;
- b=Z3kJ4k9bqgH9YtrIidRomrEhNiaf+Kw4S/jYqIxxcZdnFKqE7WBl/WatMcdTbP8fbd
- LhFjHka25R6y6Ivei1+TiUZLWOzRv3roPgKRHIoc08uDMLpSqdrVZld8fS+jKSpamMMu
- Rb3huL7l0jvHFKLW7Dt1CMITeisz++f3bbyuDrHkvYVYsu+jbTEw9+OGEFOarkx9QdxJ
- dN8fKGuKsvUmOQqwcl4pmN9NN0VWnqk0LXQ1NV71xifwIM9LaQwub3oVHp+TFn2lBE45
- oARMI6QSPuvdKj7mSs3bbpowPiHXK4wh0EEo2w8pTF4vgB//JoQP8MxDEZWi/yIFrVhU
- b0tw==
+ bh=8dAcnSfr5sUHRwiXoBAzSe47pKA2tc++F2fTPLGKuZc=;
+ b=KUAJ6LrQIc/3hRb7Q5ezT5UdYRXNEI6+mGwtE/D62DShNRH4cj2moHETCcNW/fiDcv
+ XG3LzMfOu+dhsWXCkoMQQRU7Se5tPK8M5q4XOM3mPnNOMYr798Vj50vnYc8nFtyUYQeQ
+ DEm+S9BkGIRvxuk6tHZluR7prfWewVqBe98UiHlIS2VbbdPpiCCeIoP8biN+m1xVd1wH
+ S1mYliiVDf49YUPw8I8jpUCyfzpC+2knouN18Z+Ejfdiq4He50R3bSXrlrHJG6BI0AM8
+ +Sy9mnwNFHabI1H2GtE/M/2BZaD4gyJMfQcQBIiQ9PQ2eshQ2ArPQjGX6Snh1+NMUfbO
+ LqpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OQuyuhA5Gt5NXmOvC0CG9mRkAQzrDpARfPtObF83Cnw=;
- b=dq2gLyVLJvhVJmriBsJQIYWWNerYoomEVxQQntApxir30vCReHWaa9X2mszhGjpK43
- 0W0MDPftXPP+3rexJBBp3P3d/2VupdLAswCPG+6pyRQjbp3on78Y5t6TnqYfcsTmp/tg
- 6ntddVqkx9b9Y86Xx7v2HbAv8CQPXTnV8YQ/uzidDBn56ME+yWuLOLE+2f8zXjiN3ECj
- dez7++C3Ixnt8FdQXMEtoziamg/K1tVfP5BjGGUigk3Z/MnJLoCBaVARdnSL6sVD7PlQ
- gncl2H7AuVVu3E5FtxEPJ6J0g0XkXWdldEUmb7Mmz0glbV5hZUloATVSkWIWE4xzQYzy
- Pr7Q==
-X-Gm-Message-State: AGi0PuYsQ447Uh3SKabeqbQaoV52XOYUfBile4ru0BIlQNl23fU55V96
- jJrLbj2SqBhOxdq9GLaDr1G9aoy1O3D8vg==
-X-Google-Smtp-Source: APiQypLhuMKYmUv9IGwaEAXidgi+rQyEk719z7ISVar9MNQ6566oATfc6+cTi02gG0KtI0Xt/JQUrw==
-X-Received: by 2002:a5d:6a8b:: with SMTP id s11mr18628611wru.258.1588595613924; 
- Mon, 04 May 2020 05:33:33 -0700 (PDT)
+ bh=8dAcnSfr5sUHRwiXoBAzSe47pKA2tc++F2fTPLGKuZc=;
+ b=iQRBkcOa77UNp1ZRwYQ9/tdaUUZ0AeuMv48XNuqetAdd7F4gZCvGyIbySoLUb7E3DF
+ g9HW26DkiVEAhS+46n2R4g+w6ddbajZoMakt6R4CfTZAJR4KzCkiAhz053V+lC/kQbal
+ XouacnXtOBZQPqYHga6I69m/VfEfqU6TSO3hoglwOgrKVvwGBma8+NRVvMF3bpHbnLkS
+ uobg3bEYJL2RcLEFU9tgl3f6u+WpZ9gIb1kI3slCC9bOGF8rggUQJPaLtWGn2/VdSCiY
+ oeqLiG8HD7Odu5uO9vfple6IIOddruK5SD9XSze19uCkd5dDRGIGbnEQxhugz8s3aYKa
+ zJSQ==
+X-Gm-Message-State: AGi0PuYzCDnoDelmaOya6igkGJwyZGKGsY46lYtOzna6U2VTEKO+mjBc
+ 28ZgsqE5PydTEsBZBmu7XCw2dUMTTeZ0Fg==
+X-Google-Smtp-Source: APiQypKG7wUF3wsbfOBigr5F2AFbZZiNTNUHPIjKLlaaWkvw7JQsrBzNrEYmnHrV/M9Gx4Y9WJU3BQ==
+X-Received: by 2002:a1c:a794:: with SMTP id q142mr14327206wme.4.1588595615024; 
+ Mon, 04 May 2020 05:33:35 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.33
+ by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 05:33:33 -0700 (PDT)
+ Mon, 04 May 2020 05:33:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/39] target/arm/translate-vfp.inc.c: Remove duplicate
- simd_r32 check
-Date: Mon,  4 May 2020 13:32:50 +0100
-Message-Id: <20200504123309.3808-21-peter.maydell@linaro.org>
+Subject: [PULL 21/39] target/arm: Don't allow Thumb Neon insns without
+ FEATURE_NEON
+Date: Mon,  4 May 2020 13:32:51 +0100
+Message-Id: <20200504123309.3808-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200504123309.3808-1-peter.maydell@linaro.org>
 References: <20200504123309.3808-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,35 +90,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Somewhere along theline we accidentally added a duplicate
-"using D16-D31 when they don't exist" check to do_vfm_dp()
-(probably an artifact of a patchseries rebase). Remove it.
+We were accidentally permitting decode of Thumb Neon insns even if
+the CPU didn't have the FEATURE_NEON bit set, because the feature
+check was being done before the call to disas_neon_data_insn() and
+disas_neon_ls_insn() in the Arm decoder but was omitted from the
+Thumb decoder.  Push the feature bit check down into the called
+functions so it is done for both Arm and Thumb encodings.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20200430181003.21682-2-peter.maydell@linaro.org
+Message-id: 20200430181003.21682-3-peter.maydell@linaro.org
 ---
- target/arm/translate-vfp.inc.c | 6 ------
- 1 file changed, 6 deletions(-)
+ target/arm/translate.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index b087bbd812e..e1a90175983 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -1872,12 +1872,6 @@ static bool do_vfm_dp(DisasContext *s, arg_VFMA_dp *a, bool neg_n, bool neg_d)
-         return false;
-     }
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index e3fc7924428..4cf5267be00 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -3258,6 +3258,10 @@ static int disas_neon_ls_insn(DisasContext *s, uint32_t insn)
+     TCGv_i32 tmp2;
+     TCGv_i64 tmp64;
  
--    /* UNDEF accesses to D16-D31 if they don't exist. */
--    if (!dc_isar_feature(aa32_simd_r32, s) &&
--        ((a->vd | a->vn | a->vm) & 0x10)) {
--        return false;
--    }
++    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return 1;
++    }
++
+     /* FIXME: this access check should not take precedence over UNDEF
+      * for invalid encodings; we will generate incorrect syndrome information
+      * for attempts to execute invalid vfp/neon encodings with FP disabled.
+@@ -5002,6 +5006,10 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+     TCGv_ptr ptr1, ptr2, ptr3;
+     TCGv_i64 tmp64;
+ 
++    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return 1;
++    }
++
+     /* FIXME: this access check should not take precedence over UNDEF
+      * for invalid encodings; we will generate incorrect syndrome information
+      * for attempts to execute invalid vfp/neon encodings with FP disabled.
+@@ -10948,10 +10956,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+ 
+         if (((insn >> 25) & 7) == 1) {
+             /* NEON Data processing.  */
+-            if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
+-                goto illegal_op;
+-            }
 -
-     if (!vfp_access_check(s)) {
-         return true;
-     }
+             if (disas_neon_data_insn(s, insn)) {
+                 goto illegal_op;
+             }
+@@ -10959,10 +10963,6 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+         }
+         if ((insn & 0x0f100000) == 0x04000000) {
+             /* NEON load/store.  */
+-            if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
+-                goto illegal_op;
+-            }
+-
+             if (disas_neon_ls_insn(s, insn)) {
+                 goto illegal_op;
+             }
 -- 
 2.20.1
 
