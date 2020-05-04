@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E961C3F7A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:12:13 +0200 (CEST)
-Received: from localhost ([::1]:41072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BBF1C3F5C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:06:14 +0200 (CEST)
+Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdhU-00055B-J8
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38072)
+	id 1jVdbh-0001Zw-RL
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:06:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdVz-0001RH-IJ; Mon, 04 May 2020 12:00:19 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:42691)
+ id 1jVdW0-0001Sd-NH; Mon, 04 May 2020 12:00:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:52241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdVx-0005qM-8V; Mon, 04 May 2020 12:00:19 -0400
+ id 1jVdVz-0005tc-O2; Mon, 04 May 2020 12:00:20 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MAOeB-1jPp1k3wt9-00Btk4; Mon, 04 May 2020 18:00:12 +0200
+ id 1MScHp-1jgwCr2R4L-00Ssf8; Mon, 04 May 2020 18:00:12 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 12/19] blockdev: Remove dead assignment
-Date: Mon,  4 May 2020 17:59:49 +0200
-Message-Id: <20200504155956.380695-13-laurent@vivier.eu>
+Subject: [PULL v2 13/19] hw/i2c/pm_smbus: Remove dead assignment
+Date: Mon,  4 May 2020 17:59:50 +0200
+Message-Id: <20200504155956.380695-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504155956.380695-1-laurent@vivier.eu>
 References: <20200504155956.380695-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:HYgsKFXXXn5jb8yMhowbBtiXs7B48AJ162XJfhs2pgSxwyfg618
- qSD5/LJEl1z1apY73pcyxemslYuJsJZ23b09qAQa6e06UHbu9FCp3LxMkN+a0HBpvVbT+/n
- RzejGdlY4/mdArEy6qtdXSp2BMaudJXaaEpu3rg2EieVhh4G/1uHdvaDDr2t2M+f8oI1uZ1
- d8EEqOrD+ZjkQjs41n0BQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:D98ZUZ4ikz0=:dN9XYPFem0J+MPhvCTRLR4
- qslSRBaaITbv2PAE69bUXZZciOluUJD/A8d8OHbwA2SvRyg4jpRSXmHJPznDaHls5viWkBmHW
- pfYJysZWOSOQGYDE5lX45DUYIJUT+yGWhaS2Jg0vVxdAWcyQGkgh6erUEsD9h3OmETRKeuOTS
- VqHA5jzT4PceXC878wJFDz1qo6cVFNss4YgDQpIxGMElgPQT6BH+c8VJ9VNEuby/Q+QYb769H
- PgzABVGLKx4hXnaRaFE/BKtka3eL2at2OSWpTW/U4VZLxt6UwwSs1rRuvS9tLr9u5rclwoBpJ
- ZJLmDeFCS8VFQ6rUHRuqc1SyNcFrI9dApBPcSz5L7NCjHieAvI+X7JXcAetP+w2VKtfpxfOIx
- /xbULrptFrMR5BDiMpS2CZ+NYsVmBnT95qJVMEvq9iaqoyug8xGhodNq4kfy/mNKMN2UNCCLc
- a4vkqjI8eQP1hJscKIQxrbvo2p88fXSMlfNLat2vuDLSGVtjJphLIgjQFo6dgy0tO4zyNwaSO
- lf/8HHcanAGbm0XOSmAj4qM/yFEyRzGOfbYiGTRzV3WK2S+ujNggzvigryzCf3ZxkFEj2Vl+r
- sIL+yYeaqb3ZL3IHHkb9NwafBRo+PI2zUYYJhocNo/JPPaa+uvMN+L2sRZ0ufm/or414GIGSY
- v95Sf/I2OmAix9NZ85JWTFriEOQnpY4fw4AqXocWjsC6zZ7gRHhC3/f8z5futGavMCIPgUCUK
- OddrUcnj0zEyNuNIeimvPt+luUwv0w7JBno4LeRRv1pQEIDbrv8ona63Os5P4927U9HiSZ4YU
- I9broP6297RbcBV6TekKfBZNDxAnVUgapx0JDB2TCl8XnQNcRqPybcwP9c4HQV+UBMncn5s
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:IcV9362VkIZBpTgL0+Mugc2QoGskXIha9mZ+/XOQjriZYJzKTZr
+ KXo0iV1TNpqa7CvEg1EEpjnJa1p7v+USa6SUuw/WH+ALG5Uywf3q8jSk3bOXHwi5Pc2XRAI
+ 7/kgREaBr2fE5loNgrBzU1d+6mHa57M57V4qu8GjJG+kQEPW0rHgxYi6mH9qfVS2ZpdeRYl
+ hN2UdSE4D/vaoayjBWjYg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pSVrhZIcdm4=:PiZDsZnNHMtOpHRBwhkzAB
+ vGXoKZ4OLsiAfHmWW+bB/oIFdQKpZMhtdmt/RV87hef3uDXv48ZYDlB0zDHru2PU2cdVYCqHJ
+ EQxk9wm1wtBzn+jJz3HFflDrqFnByFX5n4/mLBb7SvZxagFYUPhPaIVcc3nd+qU47uzK2OKGp
+ Aw7uwsG0EOqLitfICDiOvcWyzphA3L/hjqL1k/zu9KLDBPBoNWst1sXFrZutTP6j4lPxy2UDb
+ 7+VeNybb6QQ8I71B0hLIGPAJADZl2U4X10vEAxW4txZiNtxvFqvwd35suLK2+CZ3S5jCy+AKc
+ cib1aGb+gIMyfl/UHsrOXXQt1EOW8gRnNQrtMny6JZVIAkHX4CFe/YTYFfbFoeu21a2YltX+K
+ 8D7tPj4Lx5CmVk9ExD6LWtpVTi4nLTE8vHB/hMV1jXurezPmStwS82dOR0pcejEFARpR4uP0P
+ qFzWtcq8XyhKWsInX06lk1Ftk05bPp1NdbzP4mBGb9fmfjpozUoX3UeZcbt6pKetMhG90HPO5
+ CxcqvWqMdvApJ/iLWcMjTZeob4Qsdu+ZRHwg9V5oJX5P8eOn0objHkVI7f9OC0oG5/TM0/Jbm
+ xnnFb4WrSsre6rIoJM9sHxRzZddjGuW3yj/Kg3uMpdqYOTA4zYO+q9PPu1rVe6d+CkwLJOehS
+ k0ErdAuoOup6N7gLcIpJbR4psuNDfoEgkVohDahF2TeKISzLRkeqYMBZQnIM4ihiel9EimCeQ
+ T5MA3Dx7pjMNsVprVkfuylB51FeTnj2WgtAugSuXBxKlXVl3W/9c6jqZPBKws55INzl3+mKSx
+ 9KXXWFRO8xlhCkJccjKD10TIG78YWJrd1hviYa5+a0bDlVJDIi1hklY8codY1jliRH3rX0F
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 12:00:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 12:00:18
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,8 +71,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Max Reitz <mreitz@redhat.com>
+ Alistair Francis <alistair.francis@wdc.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,34 +80,32 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Fix warning reported by Clang static code analyzer:
 
-    CC      blockdev.o
-  blockdev.c:2744:5: warning: Value stored to 'ret' is never read
-      ret = blk_truncate(blk, size, false, PREALLOC_MODE_OFF, errp);
-      ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    CC      hw/i2c/pm_smbus.o
+  hw/i2c/pm_smbus.c:187:17: warning: Value stored to 'ret' is never read
+                  ret = 0;
+                  ^     ~
 
 Reported-by: Clang Static Analyzer
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200422133152.16770-3-philmd@redhat.com>
-[lv: fix conflict because of "Add flags to blk_truncate()"]
+Message-Id: <20200422133152.16770-4-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- blockdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i2c/pm_smbus.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/blockdev.c b/blockdev.c
-index dc1a0c7c2fd4..708d0c323fd2 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2741,7 +2741,7 @@ void qmp_block_resize(bool has_device, const char *device,
-     }
- 
-     bdrv_drained_begin(bs);
--    ret = blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
-+    blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
-     bdrv_drained_end(bs);
- 
- out:
+diff --git a/hw/i2c/pm_smbus.c b/hw/i2c/pm_smbus.c
+index 36994ff5857c..4728540c37e6 100644
+--- a/hw/i2c/pm_smbus.c
++++ b/hw/i2c/pm_smbus.c
+@@ -184,7 +184,6 @@ static void smb_transaction(PMSMBus *s)
+                 s->smb_stat |= STS_HOST_BUSY | STS_BYTE_DONE;
+                 s->smb_data[0] = s->smb_blkdata;
+                 s->smb_index = 0;
+-                ret = 0;
+             }
+             goto out;
+         }
 -- 
 2.26.2
 
