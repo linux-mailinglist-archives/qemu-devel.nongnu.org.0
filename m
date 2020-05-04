@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671991C34CF
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:48:10 +0200 (CEST)
-Received: from localhost ([::1]:55142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8EC21C34D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 10:49:47 +0200 (CEST)
+Received: from localhost ([::1]:59972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVWlk-0005C8-U7
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42632)
+	id 1jVWnK-0007JJ-3j
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 04:49:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVWk0-0003py-BB; Mon, 04 May 2020 04:46:20 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54639)
+ id 1jVWk2-0003sc-DP; Mon, 04 May 2020 04:46:22 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVWjz-000559-Gg; Mon, 04 May 2020 04:46:20 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id h4so7492099wmb.4;
- Mon, 04 May 2020 01:46:18 -0700 (PDT)
+ id 1jVWk0-00057F-W7; Mon, 04 May 2020 04:46:22 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id h9so9569838wrt.0;
+ Mon, 04 May 2020 01:46:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0RTS00HEifBctOofTSWRWi8RSs+cYienIFHInwck1Qg=;
- b=ZwqgvSSV3NGEsYocLS8E7fSOLGaXDliCWoZUCZHKs1pmh89DIofzmqpvg5ftTr99lO
- MW/tqi/cEz7poxAUkQuTNIULa9I2QxJpLShjjAORDmRkKfgdbZQT85hIPMFxyWJkEgLj
- B6VNbyvjU3Hs0p9TlfEXGbyhxnTToHQeW8OCEKVePtMJT/O81bIXMd2nWcKETwsa2Ngs
- ngwXCr4zJy8cwzwfig0yF1maOiWy/jXpNV1aAmtG2eMF36tREMoNbAVdTPwDloJtx5nG
- 6Unue9pfydWKkSMXZQ2GkxaBAXWn7AAjKCIeXPjNC4EdSJofO8xx3BpqpT81wF4eCltO
- wVcQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SkzVF0IAQenJ+vuaRxVd2feGaJRdUO/UKBkIdIBtTMo=;
+ b=c73G7AIf02xEPxib1pJs4u5FUlo9ab0wnzH783TUYR6omj+qer5h7DRzhPiS7xNIKw
+ Im7+DM3Zv9AJkXLvJjETkQuX4LCfj9uZmD2+T5q8w5Jsc3uUGZzxyp8vMmMkC0h/QroI
+ 6ew83yYKDYqYBh4O5rERY36jLAGiJlsIeXsKq6HgB0U2i2oZVDHPs88cLzaKICLXonv8
+ TY5dDIDavYUegz1i/IdWQ4uIXeglAfUUp4L9xu5llC+22n28sbuOdVxE2GI7GcVp6PYh
+ +khClOdo55ZtczhuV+McfSyZpVzm68eniJjXMHhJK+ei8bu1NYU3BWhYQgZGPRdNeG+p
+ OU/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=0RTS00HEifBctOofTSWRWi8RSs+cYienIFHInwck1Qg=;
- b=tmkvJHNSrCQfKoJEbt00Sv+NXDXb1K43Zj+skkjonsOo3QsBabJmkvYbHG+rZx1fRO
- /+EL+S/Rts+hOUrF9ZNhWe8UwyNA+IP3iG+4RVO4MXuM/Q3ILq0TRgmkEOUzd+OarlY+
- owm62LQkN1I9uUCnv8lms7v3tBSgkaSbx3u0M3B09prFQfbRc+ptOkp+O3XHyLZ5hW8W
- k80UA2Ri7ExtYiTY8irrLGbeOLhHM7K1tBkwYwDQ9wqm2XoIa1fktFd3qQ7mSvXOsKFd
- gdXMWQA5CfU7eWUv1g05UN9bfRvqpWb8Obi72h4/ZnYQoBcMoIERWTrVWubduPBY37sc
- xyIg==
-X-Gm-Message-State: AGi0PuZ+gNewOGT2nI+dF4bYqkRNaHAj5cKexFYXgsYq0vcF1ESW1XQ7
- 0SXdCF4UzWRatNyLM4AZck12V0WL
-X-Google-Smtp-Source: APiQypJIhRjHdK6vz6kAFba2LAZrZaIF0so8/HHKTvaeNklDnm6VRdnIeja/V4S9448KC7ppg35zZg==
-X-Received: by 2002:a1c:bc08:: with SMTP id m8mr13219144wmf.119.1588581977483; 
- Mon, 04 May 2020 01:46:17 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=SkzVF0IAQenJ+vuaRxVd2feGaJRdUO/UKBkIdIBtTMo=;
+ b=bgLMf4ijkKkvYb+OUMH0r01V5pmNh6o8fE9cCBT40udpkP4UbgRJ1akErsLOwoYgYI
+ Kj6mHCvMf4AAywai6ucFTQVi1/ZYMBWiKhUCdU9jc/LG/ZEczQDCgFAtG5Xc6rCugsom
+ QuMAzi3LfKHmEjOGzx/rWjW6b7gZHhn5sgi5srrfZzh3edQ2VzNO19eLqdK5lELW6Mt2
+ dL+7eBjYn63haSKDeBRx9upgbfnj+qLERRaNLsrLF1W3l5WCi7dhzqT10Jvusqms2ix3
+ 1PxxX/lKyKUgTWQhRGM8/wlXPjtxevKov++pgmPIYUEDvkz17XvV0oOsqpSR7aAwlvSh
+ iZDg==
+X-Gm-Message-State: AGi0PuayfukbrPDFIyURbdLC+1zye/VHZIHWZnuSZ0cK0Z21ev7r8fEu
+ ac3OwuBdRoF+gh4VYMQbOjF/oIJm
+X-Google-Smtp-Source: APiQypIw4ubh1VWVYRKjwYkeY5N3hwWTvpxXkD+d8A3wLzF3ve8Zuu4Dmn5P+pjEpzIBY/S572nCfg==
+X-Received: by 2002:adf:e7ca:: with SMTP id e10mr18432009wrn.18.1588581978772; 
+ Mon, 04 May 2020 01:46:18 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id w6sm10740621wrt.39.2020.05.04.01.46.16
+ by smtp.gmail.com with ESMTPSA id w6sm10740621wrt.39.2020.05.04.01.46.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 01:46:16 -0700 (PDT)
+ Mon, 04 May 2020 01:46:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] qom: Few trivial patches
-Date: Mon,  4 May 2020 10:46:12 +0200
-Message-Id: <20200504084615.27642-1-f4bug@amsat.org>
+Subject: [PATCH 1/3] qom/object: Move Object typedef to 'qemu/typedefs.h'
+Date: Mon,  4 May 2020 10:46:13 +0200
+Message-Id: <20200504084615.27642-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200504084615.27642-1-f4bug@amsat.org>
+References: <20200504084615.27642-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,22 +94,67 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some QOM patches worth salvaging while doing housekeeping.
+We use the Object type all over the place.
+Forward declare it in "qemu/typedefs.h".
 
-Philippe Mathieu-Daudé (3):
-  qom/object: Move Object typedef to 'qemu/typedefs.h'
-  io/task: Move 'qom/object.h' header to source
-  qom/object: Make reparenting error more verbose
-
- include/io/task.h         | 2 --
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
  include/qemu/typedefs.h   | 1 +
  include/qom/object.h      | 2 --
  include/qom/qom-qobject.h | 2 --
  include/sysemu/sysemu.h   | 1 -
- io/task.c                 | 1 +
- qom/object.c              | 7 ++++++-
- 7 files changed, 8 insertions(+), 8 deletions(-)
+ 4 files changed, 1 insertion(+), 5 deletions(-)
 
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 375770a80f..b03ec9f40a 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -75,6 +75,7 @@ typedef struct NetFilterState NetFilterState;
+ typedef struct NICInfo NICInfo;
+ typedef struct NodeInfo NodeInfo;
+ typedef struct NumaNodeMem NumaNodeMem;
++typedef struct Object Object;
+ typedef struct ObjectClass ObjectClass;
+ typedef struct PCIBridge PCIBridge;
+ typedef struct PCIBus PCIBus;
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 784c97c0e1..1edc12e64c 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -20,8 +20,6 @@
+ struct TypeImpl;
+ typedef struct TypeImpl *Type;
+ 
+-typedef struct Object Object;
+-
+ typedef struct TypeInfo TypeInfo;
+ 
+ typedef struct InterfaceClass InterfaceClass;
+diff --git a/include/qom/qom-qobject.h b/include/qom/qom-qobject.h
+index 77cd717e3f..82136e6e80 100644
+--- a/include/qom/qom-qobject.h
++++ b/include/qom/qom-qobject.h
+@@ -13,8 +13,6 @@
+ #ifndef QEMU_QOM_QOBJECT_H
+ #define QEMU_QOM_QOBJECT_H
+ 
+-#include "qom/object.h"
+-
+ /*
+  * object_property_get_qobject:
+  * @obj: the object
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index ef81302e1a..ca4458e451 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -5,7 +5,6 @@
+ #include "qemu/timer.h"
+ #include "qemu/notify.h"
+ #include "qemu/uuid.h"
+-#include "qom/object.h"
+ 
+ /* vl.c */
+ 
 -- 
 2.21.3
 
