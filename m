@@ -2,78 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F801C3DD1
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:59:06 +0200 (CEST)
-Received: from localhost ([::1]:60540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7511C3E34
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:11:25 +0200 (CEST)
+Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcYi-00080Z-Pd
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
+	id 1jVcke-00071n-Ln
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:11:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVcWx-0005l1-Sy; Mon, 04 May 2020 10:57:16 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:35506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVcWv-0002vp-Mj; Mon, 04 May 2020 10:57:14 -0400
-Received: by mail-lj1-x244.google.com with SMTP id g4so9989927ljl.2;
- Mon, 04 May 2020 07:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=ahp4fnyRnrL8Druo+hPCRIyKLsfKFpDywTu0QTqLkyw=;
- b=OX0s+Kmyf6gdeAuS0aGjr83oD8yNj6a5SKX7JmVq0Yx3VsL7lbQTuJm3CoLT/vd0GZ
- XodHmSeRP2qpjsXP0eyNnvFMZJgNnImtrr8zQ5kcWXoux9rG0uIZJrw3K7XkfykqT9EF
- zfAtZXfhw2cEqOMyIM3Wn+KD3NM6CXg72eVzjGVVjZ9iPa25EjnMkNvSxNNCj7R/khum
- WG6qQsnu2D3vorZxq1Y7FOLzG0yIF7M08N86FivZVJsEqHy9UceWSlyLbN4YoR93hIiK
- Yx5lnTqlCIoGC+oxH69jeecXpqQ59LC5xMEG2ojA3vOzXhNXNi6NqLeG6e5IRY/DqNhW
- wLyQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jVcYg-0000ny-2e
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:59:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25576
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jVcYe-0005GF-TB
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:59:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588604339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=afD5CDIuXr8nQJgoMOgjybbyyLq9lZ4Ok7wBpJono9o=;
+ b=OmzyqH4magGU4Y8K3/yRifThTkivfxaEX9NtDNc76ko48UqA7qm14Zo2dGXckrtPutMTSo
+ z3k++WSSIpb23ASWrrvhV7vmuyDHh01WPiksj4T+2ovM2Ksj2HaHpZs7UHjNPQHFD/DrgT
+ qPWEwgmcP4Vqz+1i+oSpcG6ibMewq+s=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-unlLrXSnOa-rM5557PRZ_A-1; Mon, 04 May 2020 10:58:57 -0400
+X-MC-Unique: unlLrXSnOa-rM5557PRZ_A-1
+Received: by mail-wm1-f69.google.com with SMTP id s12so5045372wmj.6
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:58:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ahp4fnyRnrL8Druo+hPCRIyKLsfKFpDywTu0QTqLkyw=;
- b=oO9I0JqUyPvOWuaLYqQuwuR4vxWYc/f62Y4XwTfKKeW9a+7rHbGDG84/zO1tpNw/em
- febf50CfJgoyoh41Is14IFo0AdRDgkJ2yNrIO9sEwKBK/eH+nd2DVyhhwR8jO8vFskIu
- AY0FI1X3iUp3rCnT8Z1PUIEq8N3YPaphXrei5+nFr6S7m2g7Yk2X2vOyQeW0Ei3fn4fE
- CWsKzLcta/CZBS5/7736P+XZ8AMGRmD+xKDDxtZAc9B7Z96cj0uXVeg2K7TmzAeyViFx
- HNdJfNxqg5lX5JE7aP3EGSgAu54vPZAkjOou8wY81kke0FR9cd03gn0fMXT3B6qhxySQ
- 2JHQ==
-X-Gm-Message-State: AGi0PubMOylDEvuSp67iMYB1BaMvlsQQQ0FYBl4oIs1l5l1Kjs2HS7TT
- 1w/bUwpFYPBAMrbe9x5VQv0=
-X-Google-Smtp-Source: APiQypJLlvoKlaPdv7ZvVoV710fMvXzN/8hiyi7iLJ545gf2QbHDmdyRzu4rseBkvMdHTAJMdpHUpg==
-X-Received: by 2002:a05:651c:403:: with SMTP id
- 3mr10214393lja.231.1588604231538; 
- Mon, 04 May 2020 07:57:11 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id y21sm8416959ljg.66.2020.05.04.07.57.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:57:10 -0700 (PDT)
-Date: Mon, 4 May 2020 16:57:10 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v2 04/10] net: cadence_gem: Define access permission for
- interrupt registers
-Message-ID: <20200504145710.GD5519@toto>
-References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1588601168-27576-5-git-send-email-sai.pavan.boddu@xilinx.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=afD5CDIuXr8nQJgoMOgjybbyyLq9lZ4Ok7wBpJono9o=;
+ b=sepvPLFFxeZHViy4CqgE20STp+lpEqONRlh8jJXa/McetnByl+kpFIVVnBIvHy3SVU
+ bMuPJqKWAiMWOS2KUKux7eQusHM86GHuKoDf1BIpaGDx2oRkgpd1P5iQiWBnyug6JCNz
+ CYG8QnNTiHOHaK22tdTbnEQr7rm1Or1aBdUPG4mBbZo6jKYfXuZniMHd+/sQVVdWDngj
+ yotgRHj2Td8NzwBmkFRoD7mwnTTyHb5Mfhvl3cM4H+hF+DJyR8YLODevvOiolAtTYtcN
+ Ku2nF+7DXIT+sws4g0wCDI2TWGygY1NgBKXyjSnkujqdKkS4MmpeOASmbq3gu9f4TURE
+ YZzQ==
+X-Gm-Message-State: AGi0PuY9eghuTlx3YkCnqDxZuuy3W9c1ygPGIIQe+S5/yirGV6AzddKw
+ pz/GFm3AMsdjBZ92BZu7bxj7EY7XHYsa8nB7K/CKjvDOqRvilrmv1+96KbUjP8gnZV1fPfqWWVR
+ YJrFHb4YPvKg7bK8=
+X-Received: by 2002:a1c:9d8c:: with SMTP id g134mr15642304wme.79.1588604336234; 
+ Mon, 04 May 2020 07:58:56 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJUIPra+P8ZwVE63ETHbOIdXdVcJUWEg2ai76iMmiXOHTxRCsY50vabYxEktxyzNVxQxq2NiA==
+X-Received: by 2002:a1c:9d8c:: with SMTP id g134mr15642283wme.79.1588604336002; 
+ Mon, 04 May 2020 07:58:56 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.132.175])
+ by smtp.gmail.com with ESMTPSA id y11sm18272252wrh.59.2020.05.04.07.58.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 07:58:55 -0700 (PDT)
+Subject: Re: Infinite loop in bus_unparent(), qdev bug or qdev misuse?
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <87tv0vzrwj.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6fc8633a-6d91-b83a-e6cd-5f714ccaf9ea@redhat.com>
+Date: Mon, 4 May 2020 16:58:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1588601168-27576-5-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <87tv0vzrwj.fsf@dusky.pond.sub.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,82 +98,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Ramon Fried <rfried.dev@gmail.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 04, 2020 at 07:36:02PM +0530, Sai Pavan Boddu wrote:
-> Q1 to Q7 ISR's are clear-on-read, IER/IDR registers
-> are write-only, mask reg are read-only.
+On 04/05/20 16:38, Markus Armbruster wrote:
+> makes no progreess because OBJECT(dev)->parent is still null, and
+> therefore object_unparent() does nothing.
 > 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  hw/net/cadence_gem.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> Possible culprit: qdev_try_create() calls qdev_set_parent_bus(), which
+> adds the device to the bus, but leaves ->parent null.  If this isn't
+> wrong outright, it's at least a dangerous state.
 > 
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index a930bf1..c532a14 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -458,6 +458,7 @@ static const uint8_t broadcast_addr[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
->   */
->  static void gem_init_register_masks(CadenceGEMState *s)
->  {
-> +    unsigned int i;
->      /* Mask of register bits which are read only */
->      memset(&s->regs_ro[0], 0, sizeof(s->regs_ro));
->      s->regs_ro[GEM_NWCTRL]   = 0xFFF80000;
-> @@ -470,10 +471,19 @@ static void gem_init_register_masks(CadenceGEMState *s)
->      s->regs_ro[GEM_ISR]      = 0xFFFFFFFF;
->      s->regs_ro[GEM_IMR]      = 0xFFFFFFFF;
->      s->regs_ro[GEM_MODID]    = 0xFFFFFFFF;
-> +    for (i = 0; i < s->num_priority_queues; i++) {
-> +        s->regs_ro[GEM_INT_Q1_STATUS + i] = 0xFFFFFFFF;
-> +        s->regs_ro[GEM_INT_Q1_ENABLE + i] = 0xFFFFE319;
-> +        s->regs_ro[GEM_INT_Q1_DISABLE + i] = 0xFFFFE319;
+> Work-around: call qdev_set_id(dev, NULL) right after qdev_create().
+> This sets ->parent.
 
-Shouldn't these be 0xfffff319?
-Perhaps I'm looking at old specs but mine says bits upper bits [31:12]
-are reserved and read-only.
+That's a good one, and especially a safe one, since it matches
+qdev_device_add.  It has the disadvantage of having to touch all
+qdev_create() calls.
 
+Even better however would be to move the bus argument (and thus
+qdev_set_parent_bus) to qdev_init, and likewise in qdev_device_add move
+qdev_set_id after qemu_opt_foreach.  I looked at the property setters
+and couldn't find anything suspicious (somewhat to my surprise), but I
+haven't honestly tried.
 
-With that fixed:
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Paolo
 
-
-
-
-
-> +        s->regs_ro[GEM_INT_Q1_MASK + i] = 0xFFFFFFFF;
-
-> +    }
->  
->      /* Mask of register bits which are clear on read */
->      memset(&s->regs_rtc[0], 0, sizeof(s->regs_rtc));
->      s->regs_rtc[GEM_ISR]      = 0xFFFFFFFF;
-> +    for (i = 0; i < s->num_priority_queues; i++) {
-> +        s->regs_rtc[GEM_INT_Q1_STATUS + i] = 0x00000CE6;
-> +    }
->  
->      /* Mask of register bits which are write 1 to clear */
->      memset(&s->regs_w1c[0], 0, sizeof(s->regs_w1c));
-> @@ -485,6 +495,10 @@ static void gem_init_register_masks(CadenceGEMState *s)
->      s->regs_wo[GEM_NWCTRL]   = 0x00073E60;
->      s->regs_wo[GEM_IER]      = 0x07FFFFFF;
->      s->regs_wo[GEM_IDR]      = 0x07FFFFFF;
-> +    for (i = 0; i < s->num_priority_queues; i++) {
-> +        s->regs_wo[GEM_INT_Q1_ENABLE + i] = 0x00000CE6;
-> +        s->regs_wo[GEM_INT_Q1_DISABLE + i] = 0x00000CE6;
-> +    }
->  }
->  
->  /*
-> -- 
-> 2.7.4
-> 
 
