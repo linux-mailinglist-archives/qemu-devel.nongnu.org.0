@@ -2,96 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A881C3854
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 13:38:03 +0200 (CEST)
-Received: from localhost ([::1]:37980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8291C3873
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 13:39:43 +0200 (CEST)
+Received: from localhost ([::1]:42796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZQA-0001Pk-B3
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 07:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49606)
+	id 1jVZRm-0003T2-Bj
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 07:39:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVZP1-0000Qd-Do
- for qemu-devel@nongnu.org; Mon, 04 May 2020 07:36:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21264
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jVZQR-0002Ql-9Y
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 07:38:20 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:27514
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVZOz-000550-2Z
- for qemu-devel@nongnu.org; Mon, 04 May 2020 07:36:51 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jVZQQ-00074S-GC
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 07:38:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588592208;
+ s=mimecast20190719; t=1588592297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=kPJ5A4FBQoFCGdz2+T9gyv/c2S1NL38Vsn8fJGylRm8=;
- b=eb6pVC38f4D9Ch1bOLT7LkLp5NF9V2ul90xNm5ZFlaqpUUCQMhnjSemHE0ZxwcCNTjs5Wh
- 1TbwnCd4MKLvzf3jA4xww1hb+ZCy9vmy5XWgRVU/VsCqGy77gWOYf2G88T/rkCllmlcgfm
- ZZZz8c2de4JRR4FJXE0iodETf5ImBxA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-JUE5zP0OM8G-wgLQ4zUq_g-1; Mon, 04 May 2020 07:36:46 -0400
-X-MC-Unique: JUE5zP0OM8G-wgLQ4zUq_g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51E24107ACF3;
- Mon,  4 May 2020 11:36:45 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-219.ams2.redhat.com
- [10.36.113.219])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 94F7E10013D9;
- Mon,  4 May 2020 11:36:43 +0000 (UTC)
-Subject: Re: [PATCH v2 4/6] qcow2: Expose bitmaps' size during measure
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200421212019.170707-1-eblake@redhat.com>
- <20200421212019.170707-5-eblake@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <969af6d7-a4e4-b01b-b93b-d0f983782cfc@redhat.com>
-Date: Mon, 4 May 2020 13:36:41 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=EGJ0U6EiPshaog/EIJUxrcwcS68yY9pnastgfSsfyAM=;
+ b=K1jlIcOx+rMxL7s0YgPOkW1QRIrvo8Zxs9lS1tUYT8bBLAGI4wBfRSEbo/cntivmSQ4rD+
+ AqSSdMTg0kSc2RXzwKITtyJ0c2NQF/V+vfG46LisFRrgiyeWZkaSVATSw7op2JRa9lSHW/
+ yfvNLZyrFiX9MsyddKPo4L2ulGKXwWk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-XqSaPcZAMKOSIjCqU3hHrw-1; Mon, 04 May 2020 07:38:15 -0400
+X-MC-Unique: XqSaPcZAMKOSIjCqU3hHrw-1
+Received: by mail-wr1-f70.google.com with SMTP id y4so5551588wrt.4
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 04:38:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to;
+ bh=IWYhX6G9isojKRwBypffrCH3NPzaiUCAZVggMhcLl98=;
+ b=SxgT1Qx6h7zq0qvkGYTNp4oXrvcn4gqEphUQeUXOaiv+A4tQsdnoHhPh6VcHk9GBb8
+ 27hTVw/KB4PRvkdcqf4Jv3ZghV/R/NxrbP6hQ4xcZi1GX/NYQu31Py7cCuCIKbOfYOSn
+ Vy7tRy3d0pe5Fqs1sSRDJ8WulioOkm7RviebrhNttK7CMNQvR/1nFZ81rX/L5aZV3E7j
+ j/3vAfgSH2jqC9cGzWIc0b38B5A1zWRL4D2wHPudIcIy7d+4UHk3l8J0yXHByjYCs1b3
+ L4L8o7HoIzVUEqewcQfCiOpJ8dNZAaFjuTjvXHEg+1KFXlsL0J4iOWlRNnDN8Wyr9J7Q
+ Sycg==
+X-Gm-Message-State: AGi0PuapM/bDL5nx9Q/XeSuK6bKcCVfsXpCDliqHSjcOQd/w2xkC2zgA
+ bLya7PbxmEhhSgrUa65NrPmG8TDnj/nJ6dEVQcmsP9Cxjyf2x2QwBsA3H8ndpUUQqQkx0d+syjG
+ TD71t3H+TIk5m2a4=
+X-Received: by 2002:adf:e943:: with SMTP id m3mr18153186wrn.248.1588592294476; 
+ Mon, 04 May 2020 04:38:14 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJcZv5d4PUBp64fJoEJZtNISg1vlkrOuq0ei2xoaBXNsScUG6C2wNTtaFiWiNQJjXibmzK9Kg==
+X-Received: by 2002:adf:e943:: with SMTP id m3mr18153161wrn.248.1588592294277; 
+ Mon, 04 May 2020 04:38:14 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.132.175])
+ by smtp.gmail.com with ESMTPSA id z1sm12483743wmf.15.2020.05.04.04.38.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 04:38:13 -0700 (PDT)
+Subject: Re: [PATCH 0/4] RFC/WIP: Fix scsi devices plug/unplug races w.r.t
+ virtio-scsi iothread
+To: Stefan Hajnoczi <stefanha@gmail.com>, Maxim Levitsky <mlevitsk@redhat.com>
+References: <20200416203624.32366-1-mlevitsk@redhat.com>
+ <20200504105949.GD354891@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8bb0f2e6-fae8-794b-7954-f9c4add34eee@redhat.com>
+Date: Mon, 4 May 2020 13:38:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200421212019.170707-5-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200504105949.GD354891@stefanha-x1.localdomain>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="fyTqjOKtvqRkM7YfF99os5ju0E01mEOAg"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+ boundary="dztgX3BXh7YSPBAaNsD88VLCYdQtvqqxs"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,224 +98,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Markus Armbruster <armbru@redhat.com>,
- qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---fyTqjOKtvqRkM7YfF99os5ju0E01mEOAg
-Content-Type: multipart/mixed; boundary="KEOfLAB1dVKxXAcjL3KCyRN4GGTro8SWr"
+--dztgX3BXh7YSPBAaNsD88VLCYdQtvqqxs
+Content-Type: multipart/mixed; boundary="nZGmD2b5I8JhOKb1l0TlxHNsnr4nqbNyv"
 
---KEOfLAB1dVKxXAcjL3KCyRN4GGTro8SWr
-Content-Type: text/plain; charset=utf-8
+--nZGmD2b5I8JhOKb1l0TlxHNsnr4nqbNyv
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 21.04.20 23:20, Eric Blake wrote:
-> It's useful to know how much space can be occupied by qcow2 persistent
-> bitmaps, even though such metadata is unrelated to the guest-visible
-> data.  Report this value as an additional field.  Update iotest 190 to
-> cover it and a portion of the just-added qemu-img bitmap command.
->=20
-> The addition of a new field demonstrates why we should always
-> zero-initialize qapi C structs; while the qcow2 driver still fully
-> populates all fields, the raw and crypto drivers had to be tweaked.
->=20
-> See also: https://bugzilla.redhat.com/1779904
->=20
-> Reported-by: Nir Soffer <nsoffer@redhat.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  qapi/block-core.json       | 15 ++++++++++-----
->  block/crypto.c             |  2 +-
->  block/qcow2.c              | 29 ++++++++++++++++++++++++++++-
->  block/raw-format.c         |  2 +-
->  qemu-img.c                 |  3 +++
->  tests/qemu-iotests/190     | 15 +++++++++++++--
->  tests/qemu-iotests/190.out | 13 ++++++++++++-
->  7 files changed, 68 insertions(+), 11 deletions(-)
->=20
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 943df1926a91..b47c6d69ba27 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -633,18 +633,23 @@
->  # efficiently so file size may be smaller than virtual disk size.
->  #
->  # The values are upper bounds that are guaranteed to fit the new image f=
-ile.
-> -# Subsequent modification, such as internal snapshot or bitmap creation,=
- may
-> -# require additional space and is not covered here.
-> +# Subsequent modification, such as internal snapshot or further bitmap
-> +# creation, may require additional space and is not covered here.
->  #
-> -# @required: Size required for a new image file, in bytes.
-> +# @required: Size required for a new image file, in bytes, when copying =
-just
-> +#            guest-visible contents.
->  #
->  # @fully-allocated: Image file size, in bytes, once data has been writte=
-n
-> -#                   to all sectors.
-> +#                   to all sectors, when copying just guest-visible cont=
-ents.
-> +#
-> +# @bitmaps: Additional size required for bitmap metadata not directly us=
-ed
-> +#           for guest contents,
+On 04/05/20 12:59, Stefan Hajnoczi wrote:
+> Regarding drive_del, I guess the issue here is that this HMP command's
+> semantics need to include not synchronize_rcu() but some kind of
+> drain_call_rcu() operation as well that ensures deletion has completed?
 
-Not sure how I feel about the =E2=80=9Cnot directly used for guest contents=
-=E2=80=9D,
-because it feels a bit superfluous, and it sounds like there might be
-bitmap data that is directly used for guest contents.
+Good idea, this would be Linux's rcu_barrier().
 
->                                  when that metadata can be copied in addi=
-tion
-> +#           to guest contents. (since 5.1)
->  #
->  # Since: 2.10
->  ##
->  { 'struct': 'BlockMeasureInfo',
-> -  'data': {'required': 'int', 'fully-allocated': 'int'} }
-> +  'data': {'required': 'int', 'fully-allocated': 'int', '*bitmaps': 'int=
-'} }
+It would be a pity though that we have to do this instead of just having
+the test rely on the DEVICE_DELETED event.
 
-Why is @bitmaps optional?  I.e., what does absence mean, besides =E2=80=9Cn=
-ot
-supported yet=E2=80=9D?
+> drain_call_rcu() can be implemented by invoking call_rcu(temp,
+> drain_call_rcu_cb, rcu) where drain_call_rcu_cb() sets a QemuEvent that
+> the caller is waiting on. This way the caller can be sure that all
+> previously queued call_rcu() callbacks have completed. call_rcu_thread()
+> needs to be tweaked to avoid g_usleep() and instead use a timed wait so
+> that drain_call_rcu() can immediately wake up the thread.
 
-Right now, absence means anything in =E2=80=9Cformat doesn=E2=80=99t suppor=
-t bitmaps, so
-nothing can be copied=E2=80=9D, =E2=80=9Cno input image given, so there=E2=
-=80=99s no data on
-bitmaps=E2=80=9D, to =E2=80=9C0 bytes to copy=E2=80=9D.
+This was actually intentional in order to let some RCU callbacks pile up
+(based on the observation, or the hope, that RCU data structures are
+written rarely).  But the overall delay would be 50 ms so I don't think
+it's a big deal to keep the unconditional sleep. The synchronize_rcu()
+call could be on the order of 50 ms if --enable-membarrier is in use.
 
-I think in the latter case we should emit it as 0, maybe even in the
-former case, because I think the fact that there won=E2=80=99t be any bitma=
-p
-data to copy might be interesting.  (And it=E2=80=99s also definitely 0, no=
-t
-just =E2=80=9Cdon=E2=80=99t know=E2=80=9D.)
+Another thing to care about is that call_rcu needs the iothread lock, so
+you need to release it around the qemu_event_wait() call.
 
-I suppose absence does make sense in case the user didn=E2=80=99t specify a=
-n
-input image, because then we just really don=E2=80=99t know.
-
-[...]
-
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index b524b0c53f84..9fd650928016 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-
-[...]
-
-> @@ -4739,6 +4742,28 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *o=
-pts, BlockDriverState *in_bs,
->              goto err;
->          }
->=20
-> +        FOR_EACH_DIRTY_BITMAP(in_bs, bm) {
-> +            if (bdrv_dirty_bitmap_get_persistence(bm)) {
-> +                const char *name =3D bdrv_dirty_bitmap_name(bm);
-> +                uint32_t granularity =3D bdrv_dirty_bitmap_granularity(b=
-m);
-> +                uint64_t bmbits =3D DIV_ROUND_UP(bdrv_dirty_bitmap_size(=
-bm),
-> +                                               granularity);
-> +                uint64_t bmclusters =3D DIV_ROUND_UP(DIV_ROUND_UP(bmbits=
-,
-> +                                                                CHAR_BIT=
-),
-
-I suppose if we allowed CHAR_BIT to be anything but 8, it would be wrong
-to use it here.  So maybe just a plain 8 would be more correct; although
-I suppose CHAR_BIT kind of describes what constant we want here.
-
-> +                                                   cluster_size);
-> +
-> +                /* Assume the entire bitmap is allocated */
-> +                bitmaps_size +=3D bmclusters * cluster_size;
-> +                /* Also reserve space for the bitmap table entries */
-> +                bitmaps_size +=3D ROUND_UP(bmclusters * sizeof(uint64_t)=
-,
-> +                                         cluster_size);
-> +                /* Guess at contribution to bitmap directory size */
-> +                bitmap_overhead +=3D ROUND_UP(strlen(name) + 24,
-> +                                            sizeof(uint64_t));
-
-Seems not just a guess to me, but actually correct.  Maybe
-bitmap_overhead should be called bitmap_directory_size (or
-bitmap_dir_size, or bmap_dir_size, or whatever (but probably not bds!
-:)), because that=E2=80=99s what it is.
-
-> +            }
-> +        }
-> +        bitmaps_size +=3D ROUND_UP(bitmap_overhead, cluster_size);
-> +
->          virtual_size =3D ROUND_UP(ssize, cluster_size);
->=20
->          if (has_backing_file) {
-
-[...]
-
-> diff --git a/tests/qemu-iotests/190.out b/tests/qemu-iotests/190.out
-> index d001942002db..11962f972429 100644
-> --- a/tests/qemu-iotests/190.out
-> +++ b/tests/qemu-iotests/190.out
-> @@ -1,5 +1,5 @@
->  QA output created by 190
-> -=3D=3D Huge file =3D=3D
-> +=3D=3D Huge file without bitmaps =3D=3D
->=20
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D2199023255552
->  required size: 2199023255552
-> @@ -8,4 +8,15 @@ required size: 335806464
->  fully allocated size: 2199359062016
->  required size: 18874368
->  fully allocated size: 2199042129920
-> +
-> +=3D=3D Huge file with bitmaps =3D=3D
-> +
-> +required size: 2199023255552
-> +fully allocated size: 2199023255552
-> +required size: 335806464
-> +fully allocated size: 2199359062016
-> +bitmaps size: 537198592
-> +required size: 18874368
-> +fully allocated size: 2199042129920
-> +bitmaps size: 545259520
-
-Looks correct.
-
-(It might be nicer to calculate the reference value in the script,
-because this way I had to verify it by hand, but, well, now I did verify
-it, so...)
-
-Max
+Paolo
 
 
---KEOfLAB1dVKxXAcjL3KCyRN4GGTro8SWr--
+--nZGmD2b5I8JhOKb1l0TlxHNsnr4nqbNyv--
 
---fyTqjOKtvqRkM7YfF99os5ju0E01mEOAg
+--dztgX3BXh7YSPBAaNsD88VLCYdQtvqqxs
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6v/kkACgkQ9AfbAGHV
-z0BDUAgAkUN0vpj6RsrP+yFavcQI0fw1C4pqx62gD34VG+OEsiR2DpCEGhspKKjz
-hG9dMUJkTxUehQWlnwmHeytqoflQsaoDssXwV9+9qEuDzhybGQ0i3PgVnYMThV2x
-MLfplR58apJ+ziYFvdOIjlF2G5I8l7D7FXidtrjKnmvmDtx8L76QLivWJ04T01rA
-pPhylkqhsGEFokm5WvJTL56veC6rfudsMbVjbeZOKaP8HwUTH5YmyKA1GvAQACDk
-EonlqulJBQc2nu1udo2Fzmb8M7Xy9/duQPklTOb6OVdD2gDRaBGqqcnlV6bUlFc0
-8nrL7m8/yzGIr5EVMeX1RPxPXjAdgw==
-=CmE6
+iQEzBAEBCAAdFiEE8TM4V0tmI4mGbHaCv/vSX3jHroMFAl6v/qQACgkQv/vSX3jH
+roMC/Qf8DlSug1g03bMD5HmaYx2GUEL2g7SG23EGMfccAI9pDMCRmsmJMVQER3JZ
+0gXQxASw+NVqlocNoVtCSZL5KKbuURT1g3qbekJbL2n0XFxrGOqI8HXdtcjxTLNu
+12M7iNZDUKzqeEmTK45SPCU2DU7FdGSRX6glkfnOxMkgUtQthGSnbUqe7wQjVjwu
+S+UEhogVYLONHggcMMaP0frgTBOlNaGsqECdno9CyxZuzYLOoMjOvgUHG8Q8fnZP
+Ls5ivmfF0gzOtaD5so1209eR7c2lMvoX8qCvPQ8THPypO9R5OfKoTqWq1XW3GPuK
+TvH6AdvPOCSSw0c2vUvThrk5vretfg==
+=BS/q
 -----END PGP SIGNATURE-----
 
---fyTqjOKtvqRkM7YfF99os5ju0E01mEOAg--
+--dztgX3BXh7YSPBAaNsD88VLCYdQtvqqxs--
 
 
