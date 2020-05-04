@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DDC1C4245
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:17:41 +0200 (CEST)
-Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE4A1C424E
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:19:35 +0200 (CEST)
+Received: from localhost ([::1]:56238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVeir-0000EI-1C
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53982)
+	id 1jVekg-0002bb-Kb
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:19:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVehA-0006zp-0i
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:15:56 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:38993)
+ id 1jVehZ-0007dX-F9
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:16:22 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:37084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVeh9-0002XL-4t
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:15:55 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id e6so136917pjt.4
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:15:54 -0700 (PDT)
+ id 1jVehX-0002eo-7z
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:16:21 -0400
+Received: by mail-pl1-x642.google.com with SMTP id x10so1355647plr.4
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:16:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sBLCI6nEW0dUNcKWczodpz/DiWKJZFV/uwknmjUsMqY=;
- b=esu2XEHmC9aZtS6iqfRY77bVexSUArPurl4OGpJWWCyljRcdodDr+ya/P4rtbDQC+g
- ewgwd2VNCPsEApX/X/g7Fr0COqkJaXKgJTKOKrzADOSDGCIg5/YncOUxgSUGtbRzLtvI
- YyRRvjDjhlLcnGiQImtm6hiq+EJwDpoASk/cyFbY0d1L+yxJDLMrAb1AgQiqjOiSVA80
- Z+mPlsXs0rpXtpDVb6DAQXj++SY164IFT4SU4kXU+yA8E0ooCHpol/i8CCjvh7ExA1S0
- WXym/6hEMIsIJsN8docs+VNsal/J6Dxu2iUKgmxGjBfmWEvrOZJWqqqlDOvY+rDnfWpD
- W/uw==
+ bh=ZAgT/N6VdVa2gcUEHlc67rQXtKYTDUFcbF1qLY4/QxY=;
+ b=I5z/4XsF7Xcb6+MFqLEvp9BfhJ2xKkrPkV8mUvHLei/aSMS2Y0ip5cfr4p8Mj7zRc9
+ zhhW3BEf21Kq9bA9WPGS+gowESI6cIOatbnOWjet2yVpUcY3bAcGnzab8e+iJMDL1iOv
+ FlMlG61aktw8Lg+ngkpTNLOjqa35aS0ukTQoZoV2VJGdZHgl9FLKore0wRRndyPWxO6N
+ 0ae5mPRMNAqI+B7Z+m0gQEhugM1hcEQOfmxLloWdw6uRd7ZCbz0zjakOw6ddWvcWlNbq
+ E3+mSGeWCytH4TrXAkdAI95HN3dV7+mQin+3w2loRExdSSYCDaxizLOxOsomv5gyPW52
+ RewA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sBLCI6nEW0dUNcKWczodpz/DiWKJZFV/uwknmjUsMqY=;
- b=PnwqqbT+0q9eihvDwPrcxvbOK4mBsOsvBqLYMDIQLOXBHmV8XgYOj7TLvZDE5Ld6bq
- VM3It8LE88w0Xcp/cmR2zwdMloHNU7ldS7gD+x/bl98yJ9UbyunRk+r5issettrSQ5IR
- epNIFFKIFu4olMrmcRD2SwdXMG/WYoeYYtNINzlAQsAPPjwDEdw/ad5QbfefjX4JpKUk
- 8c/bzWwfucZEcvbx8rhQkuytfQkqEVnTZj170pZKaOfs+V6hDpik0te6xFGDFpjanCqE
- dZiQsmPdMWu98U9P5eEP6n48mSC8Fh2aehi2O9sA+d7V3aJfPwmot95ysW5A7WMD5RW3
- Iyyw==
-X-Gm-Message-State: AGi0PubVotAIwX8H/l7EuoCTe7h0GnUaFDwUseOhhQX7GV1YS2VZqAHk
- Hy6kUqzDvqZkMyGdznzyO3P25A==
-X-Google-Smtp-Source: APiQypKZ2Wl9FLukF/eIoLG0Y6D/gUWVpR74aBWdlZtjHh0ZGQQHtLrvbAdoThWzvaBvPfvnmX62Gg==
-X-Received: by 2002:a17:90a:930c:: with SMTP id p12mr16306pjo.64.1588612553565; 
- Mon, 04 May 2020 10:15:53 -0700 (PDT)
+ bh=ZAgT/N6VdVa2gcUEHlc67rQXtKYTDUFcbF1qLY4/QxY=;
+ b=cQ+iS9yo2e1zPYFuqdi3x+N6/C2H6nyf2Uq7WALYd269S1PcHcwv1fpT7Xl+BV3rIC
+ F4YKn9jBh1SK8Uv/Ntk6uRYcOxXf/gEG0nK6j46NYvf8UpA8wz6vNxzED97kWSrfoXCO
+ A/bXoupZ3OBNdxejuXFQRJnIF87q5RIEwDeN8gOnF6Xy+vSLiZh6xDSd2w2r/Zx9YYgC
+ 2/sRgXTNzHrNXIQdQQKYOLAkUU2xgg7tCjAsdvlOqXG4PrQXfTYL4+Nxh0y1keVUoEwo
+ Lf0DnTvUkoiuC+a/IF4nL8ZC/bW189uvx7wu9cJF/WH7G4CoikiXpFTMxKlDXaFCUOgB
+ K+YQ==
+X-Gm-Message-State: AGi0PuZIpuTvGwZDR0PtrDnc8Nxhi6lHaKCC18ioQdPdwTAgB3Dx8q70
+ g+CJaiI/BYZp6UjAzdiqZduxkw==
+X-Google-Smtp-Source: APiQypJg3m2dY58QHJp2xl7Iu3TTOgHMqG8n+Pd3vfXVTp7nBXCkai1epY1+gzu1loKjaywzi/lI4Q==
+X-Received: by 2002:a17:902:b48f:: with SMTP id
+ y15mr232447plr.114.1588612577533; 
+ Mon, 04 May 2020 10:16:17 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id i15sm9233452pfo.195.2020.05.04.10.15.52
+ by smtp.gmail.com with ESMTPSA id i190sm9277842pfe.114.2020.05.04.10.16.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 10:15:52 -0700 (PDT)
-Subject: Re: [PATCH 3/4] hw/timer/nrf51_timer: Display timer ID in trace events
+ Mon, 04 May 2020 10:16:16 -0700 (PDT)
+Subject: Re: [PATCH 4/4] hw/timer/nrf51_timer: Add trace event of counter
+ value update
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20200504072822.18799-1-f4bug@amsat.org>
- <20200504072822.18799-4-f4bug@amsat.org>
+ <20200504072822.18799-5-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <26cda513-a17d-3c1d-e8c0-99c1f3b0583f@linaro.org>
-Date: Mon, 4 May 2020 10:15:51 -0700
+Message-ID: <d24fa27c-f311-080b-bf9d-7150b23cfa41@linaro.org>
+Date: Mon, 4 May 2020 10:16:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200504072822.18799-4-f4bug@amsat.org>
+In-Reply-To: <20200504072822.18799-5-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,17 +99,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/4/20 12:28 AM, Philippe Mathieu-Daudé wrote:
-> The NRF51 series SoC have 3 timer peripherals, each having
-> 4 counters. To help differentiate which peripheral is accessed,
-> display the timer ID in the trace events.
+> Add trace event to display timer's counter value updates.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  include/hw/timer/nrf51_timer.h |  1 +
->  hw/arm/nrf51_soc.c             |  5 +++++
->  hw/timer/nrf51_timer.c         | 11 +++++++++--
->  hw/timer/trace-events          |  4 ++--
->  4 files changed, 17 insertions(+), 4 deletions(-)
+>  hw/timer/nrf51_timer.c | 1 +
+>  hw/timer/trace-events  | 1 +
+>  2 files changed, 2 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
