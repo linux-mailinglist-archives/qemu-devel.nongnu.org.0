@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250AE1C38CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:02:44 +0200 (CEST)
-Received: from localhost ([::1]:40476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D981C38EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:09:32 +0200 (CEST)
+Received: from localhost ([::1]:36976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZo3-00087f-1l
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52028)
+	id 1jVZud-0001Yk-Gg
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjq-00031r-L2; Mon, 04 May 2020 07:58:22 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:60045)
+ id 1jVZjr-00034M-H8; Mon, 04 May 2020 07:58:23 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:57893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjo-0001yc-Rt; Mon, 04 May 2020 07:58:22 -0400
+ id 1jVZjo-0001ye-Mx; Mon, 04 May 2020 07:58:23 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mg6qO-1ivzfO3x3G-00hgP6; Mon, 04 May 2020 13:58:05 +0200
+ id 1MwPjf-1jFYr103BF-00sJdn; Mon, 04 May 2020 13:58:10 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/20] crypto: Redundant type conversion for AES_KEY pointer
-Date: Mon,  4 May 2020 13:57:42 +0200
-Message-Id: <20200504115758.283914-5-laurent@vivier.eu>
+Subject: [PULL 05/20] MAINTAINERS: Mark the LatticeMico32 target as orphan
+Date: Mon,  4 May 2020 13:57:43 +0200
+Message-Id: <20200504115758.283914-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ij71dasd6aUUvAuk8Gmh4BUmqjgTzMBaXMzWHHUi5ztnC+Py9+5
- BsP46QK/FpKMNIeA9KHKsKPJ/Wn3cZXiqgntgON/NaLqeR+XqSweKl8egrzQbHvPJ/ONnSH
- zyxoeiyVMxPuFEsMS6F8eXF5PMO7jU3ooAdMQ96HasjhJ9aOtx9XIr+p4zzfRKAW7BnYoGr
- ugXPmJfBmTOpIfWBCMazg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:z8Cj/S1lsNk=:OSal1EPwiLQ1ysdDI0m4Fy
- bdPOi134lpFET8LIMJ7Q4K/9tB5la0AfyEJLstH2F4w+0TW2Rq8OHzuA5Qoyp3W94/1QZH2T/
- RMrLaOsFurnVSFWawXtMY7o0j4H7FasP2ocOx5pZC4nCnoeQ+d0Jy4bXVN5IjWMSubuiFOSwb
- ZMB+ma4+0tVchG1/Hn6/O2RByqB8qy5sJLfxN851gASBV8dh7nVqgqBwy1+YmniIGc/kBvRVM
- FopFBauITjurxGXVTc3OzoKfrFo8WN3ehjy9aVK3C2z47+WRWIsxUFx7x4WqNBtbtKGaiTXBl
- YDbqIu0K81XKRTLkdVFgi4Mk2rCXa9Ry1ElhzW6Wm8lQ2sx+zAiN2kG6i6OxzPUn750vxy0+N
- MMPMWUcXEUOPrsurnV0v+w19AvEtQ+AxX8ziWOwwNrL9AFEywLYywEtygWpc2nrQWgBWvxNNe
- lyk6f2fJE60Zlf9UkNeWhcdsTwetj0F3eZxwTgYHITIdX8HeyTUWrdzoJ+lC30hJ0McYBlB88
- qdLQNL5ryIRl+B7ZSMdFFY0uDL1xMy8U9PBlpYracMzDcEz68Jw6fnZ+nFx+1Aon7FaoHE7LD
- oiD+iuE0DOzxOAPrOSNzfZEuaILSl1pF4EEJHf6kPQywBTDwYg7f5ds3PFHWXCr13M/giso+Z
- tjVjLla3mK34GbTLMJMaRS4Az+r7KE0QlktC+1HoInQzaP2YbWyCpdHaLxJAV9zErNI/DNLax
- t1kvxe+h+g7esON7H+GCHVFLQZ+HzsYP8Afa/DJhAlqIp7RGlT+frvoC5INmPz1q1PO5bBbA5
- ASJ7BvA0mCOcgbB81xmHBfHEfnpCp8+uStOImgK9YhgkItEdeB9jfjPDm0wcTsfSz6/5nji
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:hi4ZlP8k5hKSLyW93PzeAzjqJe7XRZDKE3QUbZJxRddbZ0QtWkK
+ bVT5faEL9/nfqe6W5s0oAEPHhkS7yQLTIWeqaeOpNp1Nabf4FtufvCxcnIFsGk2jczIYj3s
+ eGuH1PWZ6ATYKIss8VmC5lU0zquPKHNhIWMfqQ3XmMiK3ZZDxSPjkKvYXPAoSzFN70AjxKZ
+ 5D/GMNs6xYaoMV7eADNFQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xchtK2hLMPU=:mTpDgH15Fmum6Aeypk48KQ
+ cbP9u2PgvmOPCBawOU7I0CitFqGORSTF9fJautdXkhq0IMHXTApODc8h1v9rIpN/uXzHj2Pb1
+ D4SgxcwwNrLsv28aHYHmKgb8Xcf0qJPzgbLYyeSFj0hVEIm80vgnCrRDPxOVjxt4vHhRZvwVN
+ aTOIAWxB6MO2yQ+5wpOU3mQu7yV6vJMFUUgLj/66E7gSJzuU+uBV66AyyFzuXZ3oPS7rGR0FW
+ mICwAZ1w8DDhu/HyCVX5MByeRAhZ44yE7oxBMz55NOREKfJo2szXFNokg9/7xdAhjbyX7n7r0
+ war8ie8OZhojCgMDU42Eo1SUuN5gDXoo0s4/8wbqgD/a9EnOgrsDTylgOftCcdNg4LvS62zzM
+ Z9smX4/ii7XltmU2BqWALIL1xI0GD4dZI+bQM3AdHFN3jEaqoxRtmLTY4PzfQL02fyq+m5KYv
+ SNW7XEvQ3pMU4Oi+3ZVRsDXl+Hcykv728JgY/rlqTS/g8Xo2nrpWWSVzC45T+4+zNZUc13A+K
+ PvK7mgVuyCfbv6tvcT8My1mXJoCfLQKYRsLeF/t7zvEs7d1O3vGUbIYIaV2MPTWKJeq37aiUW
+ d9Ws/X0IzHotkdJ7sMQUsQLwZTbDmXLVNvlTCzTolxBVQzh+xmjA2Rejas+h/DppqPtT5XvEc
+ P3j8+VXX4IofbVqJQ87vgyw8OGf84mOlrE68qpEdk3YEhnzMw21McXfDVMfx/jZ9nEsXar7+a
+ DStnPN12FWw48aq1TTqDjOtRB2GdEh+grrwmgBm4w1u7rMfwoV8R7LS8kYRfq+hV/0y9/B3wd
+ jlnWWUhOh4sXbG+AmKld2q//rWZ2rNNhqIftUu2EfJFvM7rdD8UTK3WAkg3JH365NEf1YGd
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:12
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:13
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -70,51 +70,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Michael Walle <michael@walle.cc>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix: eaec903c5b8
+Michael Walle expressed his desire to orphan the lm32 target [*]:
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Acked-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200325092137.24020-4-kuhn.chenqun@huawei.com>
+  I guess it is time to pull the plug. Mainly, because I have
+  no time for this anymore. I've always worked on this on my
+  spare time and life changed. And secondly, I guess RISC-V is
+  taking over ;) It has a far better ecosystem. Also, to my
+  knowledge the only (public) user of LM32 is milkymist and this
+  project is dead for years now..
+
+  So time to say goodbye. It was fun and I've learned a lot -
+  technically and also how a huge open source project works.
+  Thank you everyone for that :)
+
+  Basically everything still works and there are even TCG test
+  cases which covers all instructions the processor has.
+
+Many thanks to Michael for his substantial contributions to QEMU,
+and for maintaining the LM32 target for various years!
+
+[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
+
+Acked-by: Michael Walle <michael@walle.cc>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200316142827.20867-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- crypto/cipher-builtin.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ MAINTAINERS | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/crypto/cipher-builtin.c b/crypto/cipher-builtin.c
-index bf8413e71a6e..99d6280a1669 100644
---- a/crypto/cipher-builtin.c
-+++ b/crypto/cipher-builtin.c
-@@ -133,8 +133,7 @@ static void qcrypto_cipher_aes_xts_encrypt(const void *ctx,
- {
-     const QCryptoCipherBuiltinAESContext *aesctx = ctx;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8aa8efaf1d7f..d6886be13159 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -184,8 +184,8 @@ F: hw/net/*i82596*
+ F: include/hw/net/lasi_82596.h
  
--    qcrypto_cipher_aes_ecb_encrypt((AES_KEY *)&aesctx->enc,
--                                   src, dst, length);
-+    qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
- }
+ LM32 TCG CPUs
+-M: Michael Walle <michael@walle.cc>
+-S: Maintained
++R: Michael Walle <michael@walle.cc>
++S: Orphan
+ F: target/lm32/
+ F: disas/lm32.c
+ F: hw/lm32/
+@@ -977,13 +977,13 @@ F: pc-bios/hppa-firmware.img
+ LM32 Machines
+ -------------
+ EVR32 and uclinux BSP
+-M: Michael Walle <michael@walle.cc>
+-S: Maintained
++R: Michael Walle <michael@walle.cc>
++S: Orphan
+ F: hw/lm32/lm32_boards.c
  
+ milkymist
+-M: Michael Walle <michael@walle.cc>
+-S: Maintained
++R: Michael Walle <michael@walle.cc>
++S: Orphan
+ F: hw/lm32/milkymist.c
  
-@@ -145,8 +144,7 @@ static void qcrypto_cipher_aes_xts_decrypt(const void *ctx,
- {
-     const QCryptoCipherBuiltinAESContext *aesctx = ctx;
- 
--    qcrypto_cipher_aes_ecb_decrypt((AES_KEY *)&aesctx->dec,
--                                   src, dst, length);
-+    qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
- }
- 
- 
+ M68K Machines
 -- 
 2.26.2
 
