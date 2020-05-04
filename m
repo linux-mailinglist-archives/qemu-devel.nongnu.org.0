@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A381C3D51
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:40:45 +0200 (CEST)
-Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73211C3DA1
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:54:06 +0200 (CEST)
+Received: from localhost ([::1]:35764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcGy-0007fh-J7
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
+	id 1jVcTt-00063K-Oh
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVcFH-0005x1-KP
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:38:59 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34490
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcFP-0006GL-HT
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:39:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54467
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVcFG-0003LH-3u
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:38:58 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcFO-0003Lp-GU
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:39:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588603136;
+ s=mimecast20190719; t=1588603145;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=H6YrDImHZnPxnhU2Gnx1G1rCpKwVZdPNBfoXlIT6i8g=;
- b=gv+JBYKHahHJfEYrBUnNAfZ6ss2AAc+0qGHDBBFhCHHnnwgpugLRIIRl8CRNr4uP/VlXpJ
- XQjC3KO9WdYcRkn7cs4zCbN+VSUxZ5NXCmrSE+3A3VXc7iZf/7bPJ49MRzAyLM+jPNlsWi
- M/xNKjp02UsMa+P4ruWhsREADMB7ogA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-Av9AdGBlOyqRk-eXXJ0kCA-1; Mon, 04 May 2020 10:38:55 -0400
-X-MC-Unique: Av9AdGBlOyqRk-eXXJ0kCA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2574A8014D5
- for <qemu-devel@nongnu.org>; Mon,  4 May 2020 14:38:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E76465D9D5;
- Mon,  4 May 2020 14:38:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7973E11358BC; Mon,  4 May 2020 16:38:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BH9wuXRD9/YVdHDb50afXa3I6EKLocibnO9GX03AXns=;
+ b=IuJRZlwqX+aGyy8kwlLDhr7DA3oSNTgG+JjqHkSCv/gtCoQuXHvdF8AW8ioaDxIrOZClW8
+ QojTRgQ5leBZVpoTuaRF1hZwtKsj35eLnBFvRkDKKBFbZywtFxe1Itm5Bp6oOcHTnlYe9+
+ cbOdic5g2FRizcejHvGpEDJ5g/mFEa8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-N5kUOg2INtO1VqMD6YvPhw-1; Mon, 04 May 2020 10:39:03 -0400
+X-MC-Unique: N5kUOg2INtO1VqMD6YvPhw-1
+Received: by mail-wm1-f72.google.com with SMTP id h6so5000242wmi.7
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:39:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+7azJu6Ikq7YS8ItSyZZASskOx2GXwB1jsgmxaCHmok=;
+ b=aOWppshKt4stve8LYDyltEvLNZKmO8agTYb8uuYlcn4rZXW/2CPuzPWimvqPsyAZvH
+ LE4tyXdjtB7CX3+Hdn8o88xRFdsHfYWXMxgM5ypr2ZLT5uAVEDnsSbDeX1AyepoogCei
+ tu2LyRiJW2muSyEHW0oa2EA2u/d1a7XHARNQ9K+wnt11RrlB0qPTdyk+aP24/OTMnN75
+ ADTZGpn9gnIfn7LfiqZybmhAWr6fxJaA09eyYegoMBF55cWxkv4+6JgS+sDfv9SE9HAN
+ FDCssBZxNiXz/eyk40qTb7rkKVSpvHRwRuOmnu7pXKHPDopQ10JdYViLVYAB5tczggkI
+ wpCw==
+X-Gm-Message-State: AGi0PubJn8XoggyfsBzGYgmlN/ePeiRTArX0UhmpWq56hv3iGulwrags
+ QEA84z9yLDkyLDhgCWVT2dgS3vQTvnRga2aZXkW/vlkN5a12KvoT3d4fWF+6XSLYor0Lbat2hPL
+ WFAXBxOOxiapYLwQ=
+X-Received: by 2002:adf:f3cc:: with SMTP id g12mr7978141wrp.427.1588603142596; 
+ Mon, 04 May 2020 07:39:02 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLj+2dR7XeK2DIR0C5kr2krU+h5MRhoxpPyMq2cZ6xLk138g+WofC/splQw0k/V55c/Ykt8aw==
+X-Received: by 2002:adf:f3cc:: with SMTP id g12mr7978118wrp.427.1588603142377; 
+ Mon, 04 May 2020 07:39:02 -0700 (PDT)
+Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id v131sm14885230wmb.19.2020.05.04.07.39.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 May 2020 07:39:01 -0700 (PDT)
+Subject: Re: [PATCH] tests/qht-bench: Fix Clang 'int-conversion' warning
 To: qemu-devel@nongnu.org
-Subject: Infinite loop in bus_unparent(), qdev bug or qdev misuse?
-Date: Mon, 04 May 2020 16:38:52 +0200
-Message-ID: <87tv0vzrwj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+References: <20200504142630.12842-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <202238cc-034f-d232-12b0-5017a24f96c8@redhat.com>
+Date: Mon, 4 May 2020 16:39:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200504142630.12842-1-philmd@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,131 +97,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I stumbled over this while working on a feature branch.  Instead of
-throwing the whole branch at you as a reproducer, I give you a mock up.
+On 5/4/20 4:26 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> When building with Clang 10 on Fedora 32, we get:
+>=20
+>    tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned lo=
+ng' to 'double' changes value from 18446744073709551615 to 1844674407370955=
+1616 [-Werror,-Wimplicit-int-float-conversion]
+>            *threshold =3D rate * UINT64_MAX;
+>                              ~ ^~~~~~~~~~
+>    /usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
+>    # define UINT64_MAX             (__UINT64_C(18446744073709551615))
+>                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    /usr/include/stdint.h:107:25: note: expanded from macro '__UINT64_C'
+>    #  define __UINT64_C(c) c ## UL
+>                            ^~~~~~~
+>    <scratch space>:14:1: note: expanded from here
+>    18446744073709551615UL
+>    ^~~~~~~~~~~~~~~~~~~~~~
+>=20
+> Fix by using nextafter() from <math.h>:
+>=20
+>    float nextafterf( float from, float to );
+>=20
+>        Returns the next representable value of 'from'
+>        in the direction of 'to'.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Cc: Emilio G. Cota <cota@braap.org>
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>   tests/qht-bench.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/tests/qht-bench.c b/tests/qht-bench.c
+> index e3b512f26f..f93f8e0fe2 100644
+> --- a/tests/qht-bench.c
+> +++ b/tests/qht-bench.c
+> @@ -10,6 +10,7 @@
+>   #include "qemu/qht.h"
+>   #include "qemu/rcu.h"
+>   #include "qemu/xxhash.h"
+> +#include <math.h>
+>  =20
+>   struct thread_stats {
+>       size_t rd;
+> @@ -284,7 +285,7 @@ static void do_threshold(double rate, uint64_t *thres=
+hold)
+>       if (rate =3D=3D 1.0) {
+>           *threshold =3D UINT64_MAX;
+>       } else {
+> -        *threshold =3D rate * UINT64_MAX;
+> +        *threshold =3D rate * nextafterf(0x1p64, 0.0);
 
-This is fdctrl_connect_drives():
+NAck since of double type. Will send v2.
 
-        dev =3D qdev_create(&fdctrl->bus.bus, "floppy");
-        qdev_prop_set_uint32(dev, "unit", i);
-        qdev_prop_set_enum(dev, "drive-type", fdctrl->qdev_for_drives[i].ty=
-pe);
-
-        blk_ref(blk);
-        blk_detach_dev(blk, fdc_dev);
-        fdctrl->qdev_for_drives[i].blk =3D NULL;
-        qdev_prop_set_drive(dev, "drive", blk, &local_err);
-        blk_unref(blk);
-
-        if (local_err) {
-            error_propagate(errp, local_err);
-            return;
-        }
-
-        object_property_set_bool(OBJECT(dev), true, "realized", &local_err)=
-;
-        if (local_err) {
-            error_propagate(errp, local_err);
-            return;
-        }
-
-What if qdev_prop_set_drive() fails?  I don't have a reproducer ready (I
-do on my feature branch), so let's mock it, and also instrument the
-place where things go wrong.  Patch appended.  To try it, run
-qemu-system-x86_64 without arguments.
-
-Turns out the failure bubbles up into device_set_realized() for the
-isa-fdc, where the cleanup code calls object_unparent().  This unparents
-children, and ends up in bus_unparent() for the isa-fdc's floppy-bus:
-
-    #4  0x0000555555abdb7f in bus_unparent (obj=3D0x55555675a9f0)
-        at /work/armbru/qemu/hw/core/bus.c:148
-    #5  0x0000555555d2aea6 in object_finalize_child_property
-        (obj=3D0x55555675a800, name=3D0x555557281230 "floppy-bus.0", opaque=
-=3D0x55555675a9f0) at /work/armbru/qemu/qom/object.c:1672
-    #6  0x0000555555d2872b in object_property_del_child
-        (obj=3D0x55555675a800, child=3D0x55555675a9f0, errp=3D0x0)
-        at /work/armbru/qemu/qom/object.c:628
-    #7  0x0000555555d2880b in object_unparent (obj=3D0x55555675a9f0)
-        at /work/armbru/qemu/qom/object.c:647
-    #8  0x0000555555ab9e10 in device_unparent (obj=3D0x55555675a800)
-        at /work/armbru/qemu/hw/core/qdev.c:1101
-
-This loop there
-
-    while ((kid =3D QTAILQ_FIRST(&bus->children)) !=3D NULL) {
-        DeviceState *dev =3D kid->child;
-        object_unparent(OBJECT(dev));
-    }
-
-makes no progreess because OBJECT(dev)->parent is still null, and
-therefore object_unparent() does nothing.
-
-Possible culprit: qdev_try_create() calls qdev_set_parent_bus(), which
-adds the device to the bus, but leaves ->parent null.  If this isn't
-wrong outright, it's at least a dangerous state.
-
-Work-around: call qdev_set_id(dev, NULL) right after qdev_create().
-This sets ->parent.
-
-
-From 2554db096866138a85482d683e57a38166bb425b Mon Sep 17 00:00:00 2001
-From: Markus Armbruster <armbru@redhat.com>
-Date: Mon, 4 May 2020 15:58:10 +0200
-Subject: [PATCH] qdev: Hack to reproduce infinite loop in bus_unparent()
-
----
- hw/block/fdc.c | 4 ++++
- hw/core/bus.c  | 5 +++++
- 2 files changed, 9 insertions(+)
-
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 9628cc171e..f57558eea4 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -2523,7 +2523,11 @@ static void fdctrl_connect_drives(FDCtrl *fdctrl, De=
-viceState *fdc_dev,
-         blk_ref(blk);
-         blk_detach_dev(blk, fdc_dev);
-         fdctrl->qdev_for_drives[i].blk =3D NULL;
-+#if 0
-         qdev_prop_set_drive(dev, "drive", blk, &local_err);
-+#else
-+        error_setg(&local_err, "hack");
-+#endif
-         blk_unref(blk);
-=20
-         if (local_err) {
-diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 3dc0a825f0..3620a7be54 100644
---- a/hw/core/bus.c
-+++ b/hw/core/bus.c
-@@ -135,12 +135,17 @@ static void bus_unparent(Object *obj)
-     BusState *bus =3D BUS(obj);
-     BusChild *kid;
-=20
-+    printf("### %s bus=3D%p %s\n",
-+           __func__, obj, object_get_typename(obj));
-     /* Only the main system bus has no parent, and that bus is never freed=
- */
-     assert(bus->parent);
-=20
-     while ((kid =3D QTAILQ_FIRST(&bus->children)) !=3D NULL) {
-         DeviceState *dev =3D kid->child;
-+        printf("### %s kid=3D%p %s\n",
-+               __func__, OBJECT(dev), object_get_typename(OBJECT(dev)));
-         object_unparent(OBJECT(dev));
-+        assert(kid !=3D QTAILQ_FIRST(&bus->children));
-     }
-     QLIST_REMOVE(bus, sibling);
-     bus->parent->num_child_bus--;
---=20
-2.21.1
+>       }
+>   }
+>  =20
+>=20
 
 
