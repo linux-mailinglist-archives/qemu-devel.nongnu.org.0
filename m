@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661EF1C3E8F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:33:21 +0200 (CEST)
-Received: from localhost ([::1]:38770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26201C3EA9
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:36:57 +0200 (CEST)
+Received: from localhost ([::1]:52110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVd5s-0000JF-Ag
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:33:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60198)
+	id 1jVd9M-00069t-R1
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:36:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jVd2W-0004Nm-BF
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:29:52 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:34742
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jVd2S-0003x2-IS
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:29:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588606187;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/H5UYLTRo9DhynH1mcRW1Piwc1wVgsu1NejML7yFThc=;
- b=U6HrLAPY3fiLmjmzpz8sHF7ZhjOrH5nTiBiNcLRdFKa30XHbaYrCxvi+Sr+eArMoKhq0KJ
- 1nG+OaSMTkxHiCs6nVlQaG9gdUjvrCQRZI9MfUd2c9bKN8EtTdWCo3VEuXn3KSCMYPDyE0
- V9mOydBTCPksyGq6UEW6XmkbT5xOQUc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-_b7LuIkcNpSnkZgHM29y0w-1; Mon, 04 May 2020 11:29:45 -0400
-X-MC-Unique: _b7LuIkcNpSnkZgHM29y0w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8719F45F
- for <qemu-devel@nongnu.org>; Mon,  4 May 2020 15:29:44 +0000 (UTC)
-Received: from gondolin (ovpn-112-215.ams2.redhat.com [10.36.112.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28BDC60C80;
- Mon,  4 May 2020 15:29:40 +0000 (UTC)
-Date: Mon, 4 May 2020 17:29:38 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 03/11] s390x/cpumodel: Fix harmless misuse of
- visit_check_struct()
-Message-ID: <20200504172938.00fba6de.cohuck@redhat.com>
-In-Reply-To: <87pnbjzpro.fsf@dusky.pond.sub.org>
-References: <20200424192027.11404-1-armbru@redhat.com>
- <20200424192027.11404-4-armbru@redhat.com>
- <57392357-7422-180f-d965-3f7bf3e657c2@redhat.com>
- <875zdix2k7.fsf@dusky.pond.sub.org>
- <20200504130957.517336fb.cohuck@redhat.com>
- <87pnbjzpro.fsf@dusky.pond.sub.org>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1jVd2X-0004Op-Bs; Mon, 04 May 2020 11:29:53 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:33244)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1jVd2V-0003xa-Li; Mon, 04 May 2020 11:29:53 -0400
+Received: by mail-lf1-x143.google.com with SMTP id z22so9962559lfd.0;
+ Mon, 04 May 2020 08:29:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ojavqBXblf7fKrXnNKcpDk7EqNGDDcbSQ1I4ORE7Rxg=;
+ b=YXP1yKmXJ9HAEGgOroaeAxKOFKg7E/aneQefvOwFkUqueylD2TmoDfuneZkkgr8NuK
+ fZGdAW1iSmYM0BAhKl1KULBPJ4+bZBya3fog8Zk0y3CFKOaeq1nPRsdK/V0KhFkkq6JZ
+ RcUncouh4snFNhlgdKZVEuhrw7bBwjoX/xmcxLO0rWHBPkoCRwf801USKPGcY/xw2yFf
+ qg0CWP9z5ej0TT/Xg2vxqrQX8TV6V0YeJhOOxakz1sBzWvu50orbDMtaR+49JCvuEPQl
+ fcMJAwk3b2Awz3Q2y0LVbQYneR9OrJIQZh8vQK0AS5lAJsALbaJM2WuYliL0Y/sj1yZO
+ 0JJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ojavqBXblf7fKrXnNKcpDk7EqNGDDcbSQ1I4ORE7Rxg=;
+ b=o5rr7miXVvG3pa/wrhWXXbylmLHsWG7KgVt9OC9aiU99HbkWER1EEOQXs6s8OoIuO0
+ aRkGZx4eHE1s/cFLVUPF4d/tE9YZOLqnBIeelcTrx5OM2f9w8DjNsaTBceqCFAr8X1x8
+ +rcMYDpeqd11CyIlniwdKsJ8DY9Au2djyHc4gFubK/MH+4UUppPvFvVpsiMedWv2vsER
+ pFz0VPeZuuNcU8VAgq4E199UsDMLYgP56MS/avPUcLYOPzQByER3z+KxVzqVJXlju0Bc
+ nrVEcYGDzmaIU6E2IFhJ4hmj4EpEli1mJrolN44bEtAr8VDRVBBeI2uxPLb8Bwjb8Y6t
+ PBqQ==
+X-Gm-Message-State: AGi0PuaQaPp4vCdO6gQo6C0+ACyRT+7ly5X93ZENdkfNE5W1B+T99sRu
+ 2ysUNG3IFtXwj5pTPANb0rE=
+X-Google-Smtp-Source: APiQypLBwVsuvMytZxXBDaFUtclJZT2NbeY2yJJjAwt2yOA/fKJZItieY95453HsPuhWpI+EGM5mvQ==
+X-Received: by 2002:a19:ad45:: with SMTP id s5mr12240629lfd.106.1588606188382; 
+ Mon, 04 May 2020 08:29:48 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ r1sm8421185ljg.50.2020.05.04.08.29.47
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 04 May 2020 08:29:47 -0700 (PDT)
+Date: Mon, 4 May 2020 17:29:45 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Subject: Re: [PATCH v1 2/9] hw/net/xilinx_axienet: Cleanup stream->push
+ assignment
+Message-ID: <20200504152944.55ytilywjtx3zg33@fralle-msi>
+References: <20200430162439.2659-1-edgar.iglesias@gmail.com>
+ <20200430162439.2659-3-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200430162439.2659-3-edgar.iglesias@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, URIBL_BLOCKED=0.001,
+ USER_IN_WHITELIST=-100 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,49 +86,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: damien.hedde@greensocs.com, peter.maydell@linaro.org,
+ sstabellini@kernel.org, edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ jasowang@redhat.com, alistair@alistair23.me, qemu-devel@nongnu.org,
+ frederic.konrad@adacore.com, qemu-arm@nongnu.org, philmd@redhat.com,
+ luc.michel@greensocs.com, figlesia@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 04 May 2020 17:24:59 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
-
-> Cornelia Huck <cohuck@redhat.com> writes:
+On [2020 Apr 30] Thu 18:24:32, Edgar E. Iglesias wrote:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 > 
-> > On Wed, 29 Apr 2020 07:51:04 +0200
-> > Markus Armbruster <armbru@redhat.com> wrote:
-> >  
-> >> David Hildenbrand <david@redhat.com> writes:
-> >>   
-> >> > On 24.04.20 21:20, Markus Armbruster wrote:    
-> >> >> Commit e47970f51d "s390x/cpumodel: Fix query-cpu-model-FOO error API
-> >> >> violations" neglected to change visit_end_struct()'s Error ** argument
-> >> >> along with the others.  If visit_end_struct() failed, we'd take the    
-> >> >
-> >> > s/visit_end_struct/visit_check_struct/ ?    
-> >> 
-> >> Will fix.
-> >>   
-> >> >> success path.  Fortunately, it can't fail here:
-> >> >> qobject_input_check_struct() checks we consumed the whole dictionary,
-> >> >> and to get here, we did.  Fix it anyway.    
-> >> >
-> >> > AFAIKs, if visit_check_struct() failed, we'd still do the memcopy, but
-> >> > also report the error. Not nice, not bad.
-> >> >
-> >> > Reviewed-by: David Hildenbrand <david@redhat.com>    
-> >> 
-> >> Thanks!  
-> >
-> > Will you queue this, or shall I queue it?  
+> Split the shared stream_class_init function to assign
+> stream->push with better type-safety.
 > 
-> Me taking the complete series through my tree would be easiest for me.
-> But I can cope with other maintainers picking up bits.
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-In that case, have my
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
-and feel free to pick up :)
-
+> ---
+>  hw/net/xilinx_axienet.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+> index 0f97510d8a..84073753d7 100644
+> --- a/hw/net/xilinx_axienet.c
+> +++ b/hw/net/xilinx_axienet.c
+> @@ -1029,11 +1029,19 @@ static void xilinx_enet_class_init(ObjectClass *klass, void *data)
+>      dc->reset = xilinx_axienet_reset;
+>  }
+>  
+> -static void xilinx_enet_stream_class_init(ObjectClass *klass, void *data)
+> +static void xilinx_enet_control_stream_class_init(ObjectClass *klass,
+> +                                                  void *data)
+>  {
+>      StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
+>  
+> -    ssc->push = data;
+> +    ssc->push = xilinx_axienet_control_stream_push;
+> +}
+> +
+> +static void xilinx_enet_data_stream_class_init(ObjectClass *klass, void *data)
+> +{
+> +    StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
+> +
+> +    ssc->push = xilinx_axienet_data_stream_push;
+>  }
+>  
+>  static const TypeInfo xilinx_enet_info = {
+> @@ -1048,8 +1056,7 @@ static const TypeInfo xilinx_enet_data_stream_info = {
+>      .name          = TYPE_XILINX_AXI_ENET_DATA_STREAM,
+>      .parent        = TYPE_OBJECT,
+>      .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+> -    .class_init    = xilinx_enet_stream_class_init,
+> -    .class_data    = xilinx_axienet_data_stream_push,
+> +    .class_init    = xilinx_enet_data_stream_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+>              { TYPE_STREAM_SLAVE },
+>              { }
+> @@ -1060,8 +1067,7 @@ static const TypeInfo xilinx_enet_control_stream_info = {
+>      .name          = TYPE_XILINX_AXI_ENET_CONTROL_STREAM,
+>      .parent        = TYPE_OBJECT,
+>      .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+> -    .class_init    = xilinx_enet_stream_class_init,
+> -    .class_data    = xilinx_axienet_control_stream_push,
+> +    .class_init    = xilinx_enet_control_stream_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+>              { TYPE_STREAM_SLAVE },
+>              { }
+> -- 
+> 2.20.1
+> 
 
