@@ -2,53 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E097E1C3944
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:25:51 +0200 (CEST)
-Received: from localhost ([::1]:51626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2011C3942
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:23:38 +0200 (CEST)
+Received: from localhost ([::1]:45510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaAQ-0003f9-Ta
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:25:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53662)
+	id 1jVa8H-0000vO-H6
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jVZy8-0006yt-7V; Mon, 04 May 2020 08:13:08 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:56632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1jVZy4-00048F-UI; Mon, 04 May 2020 08:13:07 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6771B746357;
- Mon,  4 May 2020 14:12:59 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 44248746324; Mon,  4 May 2020 14:12:59 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 420FE746354;
- Mon,  4 May 2020 14:12:59 +0200 (CEST)
-Date: Mon, 4 May 2020 14:12:59 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] hw/usb: Make "hcd-ehci.h" header public
-In-Reply-To: <0ffd398d-5585-e7f4-85f7-20e9c001428e@amsat.org>
-Message-ID: <alpine.BSF.2.22.395.2005041400320.22079@zero.eik.bme.hu>
-References: <20200504082238.16655-1-f4bug@amsat.org>
- <alpine.BSF.2.22.395.2005041044550.59496@zero.eik.bme.hu>
- <0de65ed7-37b0-8916-2ccb-bbb524934351@amsat.org>
- <0ffd398d-5585-e7f4-85f7-20e9c001428e@amsat.org>
-User-Agent: Alpine 2.22 (BSF 395 2020-01-19)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVZzt-0000pI-Hi
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:14:57 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:48721
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVZzr-0006u7-9F
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:14:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588594493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WH1VtulMFvUeJ00pE/WEtHY8strj9YZYCGrcXY5vFs8=;
+ b=bxTjtMl53hydtis8O2XBFAJ4uQaJn71VuEJoyvpGCt9UilIfS/xlI8CA6qLHKVYUizqLc5
+ NedWEoP5UmcAcsopmJ2KvL9irpFLcDDKCR2c1FA8JGTnwSSdu9/nraSjhW/ZpDSY7ysqhA
+ Loj6iLlG49yKOWuaD/M3BTeXTKXInv0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-3fGM9Fh1POSIRSW81OkAKw-1; Mon, 04 May 2020 08:14:51 -0400
+X-MC-Unique: 3fGM9Fh1POSIRSW81OkAKw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1F51107ACF3;
+ Mon,  4 May 2020 12:14:50 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-219.ams2.redhat.com
+ [10.36.113.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C4235C1BD;
+ Mon,  4 May 2020 12:14:49 +0000 (UTC)
+Subject: Re: [PATCH v2 5/6] qemu-img: Add convert --bitmaps option
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200421212019.170707-1-eblake@redhat.com>
+ <20200421212019.170707-6-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <43e201ca-48e5-e982-a7fb-1e00ca54e295@redhat.com>
+Date: Mon, 4 May 2020 14:14:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-470502501-1588594379=:22079"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200421212019.170707-6-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="EOPFpO5W74rbdM8vpG3Tl5W8lfzNt05iu"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,58 +104,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-devel@nongnu.org,
- Beniamino Galvani <b.galvani@gmail.com>, Andrew Jeffery <andrew@aj.id.au>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-trivial@nongnu.org,
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--EOPFpO5W74rbdM8vpG3Tl5W8lfzNt05iu
+Content-Type: multipart/mixed; boundary="h9w1jMtRh7xrOErZ6jeHwL2GGHyoUhK41"
 
---3866299591-470502501-1588594379=:22079
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+--h9w1jMtRh7xrOErZ6jeHwL2GGHyoUhK41
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 4 May 2020, Philippe Mathieu-Daudé wrote:
-> On 5/4/20 12:12 PM, Philippe Mathieu-Daudé wrote:
->> On 5/4/20 10:48 AM, BALATON Zoltan wrote:
->>> On Mon, 4 May 2020, Philippe Mathieu-Daudé wrote:
->>>> As target-specific code use this header, move it to the publicly
->>>> accessible include/ folder.
->>>> 
->>>>  $ git grep hw/usb/hcd-ehci.h
->>>>  hw/arm/allwinner-h3.c:31:#include "hw/usb/hcd-ehci.h"
->>>>  hw/arm/exynos4210.c:38:#include "hw/usb/hcd-ehci.h"
->>>>  hw/ppc/sam460ex.c:38:#include "hw/usb/hcd-ehci.h"
->>>>  include/hw/arm/allwinner-a10.h:13:#include "hw/usb/hcd-ehci.h"
->>>>  include/hw/arm/aspeed_soc.h:29:#include "hw/usb/hcd-ehci.h"
->>> 
->>> All of these only need either the type #define or EHCISysBusState so 
->>> splitting only those off to a public header should be enough and better 
->>> than making public all of ehci's internal header.
->> 
->> Ah you mean forward-declare EHCISysBusState in "qemu/typedefs.h", OK.
->
-> It won't work because AspeedSoCState and AwA10State use the full structure 
-> (not a pointer to it).
+On 21.04.20 23:20, Eric Blake wrote:
+> Make it easier to copy all the persistent bitmaps of a source image
+> along with the contents, by adding a boolean flag for use with
+> qemu-img convert.  This is basically shorthand, as the same effect
+> could be accomplished with a series of 'qemu-img bitmap --add' and
+> 'qemu-img bitmap --merge -b source' commands, or by QMP commands.
+>=20
+> See also https://bugzilla.redhat.com/show_bug.cgi?id=3D1779893
+>=20
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  docs/tools/qemu-img.rst |  6 +++-
+>  qemu-img.c              | 80 +++++++++++++++++++++++++++++++++++++++--
+>  qemu-img-cmds.hx        |  4 +--
+>  3 files changed, 84 insertions(+), 6 deletions(-)
 
-I've meant splitting the internal header into a public one only containing 
-the EHCISysBusState struct definition and TYPE_* #defines (or those could 
-be replaced with string value where used as done at several other places 
-to reduce dependence on this header). These are the only parts which used 
-outside hcd-ehci. All other internal stuff would remain in internal 
-header where they belong.
+[...]
 
-AwA10State also uses OHCISysBusState, why doesn't that have the same 
-problem? Why no other models need this? could this be really a problem 
-with these two models?
+> diff --git a/qemu-img.c b/qemu-img.c
+> index e1127273f21e..6cfc1f52ef98 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
 
-Regards,
-BALATON Zoltan
---3866299591-470502501-1588594379=:22079--
+[...]
+
+> @@ -2293,7 +2342,6 @@ static int img_convert(int argc, char **argv)
+>          goto fail_getopt;
+>      }
+>=20
+> -
+>      /* ret is still -EINVAL until here */
+>      ret =3D bdrv_parse_cache_mode(src_cache, &src_flags, &src_writethrou=
+gh);
+>      if (ret < 0) {
+
+[...]
+
+> @@ -2461,9 +2531,7 @@ static int img_convert(int argc, char **argv)
+>      if (!skip_create) {
+>          open_opts =3D qdict_new();
+>          qemu_opt_foreach(opts, img_add_key_secrets, open_opts, &error_ab=
+ort);
+> -    }
+>=20
+> -    if (!skip_create) {
+
+I mean, cleanups are always welcome, but I feel compelled[1] to complain
+that it=E2=80=99s done in this patch without mentioning it in the commit me=
+ssage.
+
+[1] By social norms, not by my personal opinion.
+
+I feel good about all changes, though, so:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--h9w1jMtRh7xrOErZ6jeHwL2GGHyoUhK41--
+
+--EOPFpO5W74rbdM8vpG3Tl5W8lfzNt05iu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6wBzcACgkQ9AfbAGHV
+z0C6awf/a1rFTGHhFUbZ4hiXap6ATAm0taopHcBFo2MWY0RDw2eaHjmSlgPQw4B7
+MGJBTvWohBPwmEVHsy2TvyvfCboGgI3Nkhg9UKRxQdilTy/tonKZTwGFG1pySBze
+nlkIiMxSTg4ZiBwMbGj7B4e4B92l6nIUHnCjfZ6Ot1+wZmkZQP8oJzqg1xh4SIq9
+k+dTyXTV03qXp7N44qLWsT0XH9jObsAnRAtB3ZQGn866DLwqYRahMKGkPS43iAoI
+DRilLkq16xHbDI3zPbpnv44VvWLFaL5IgntKwcNTxVfafozZxmeHcFbTkkWMii6K
+76AV/wG7PnsztTSO97QUn+l6VKZ2fw==
+=tJhB
+-----END PGP SIGNATURE-----
+
+--EOPFpO5W74rbdM8vpG3Tl5W8lfzNt05iu--
+
 
