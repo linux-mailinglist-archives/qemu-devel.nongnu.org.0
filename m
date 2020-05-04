@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333771C3D39
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:37:12 +0200 (CEST)
-Received: from localhost ([::1]:51616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE931C3D41
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:38:41 +0200 (CEST)
+Received: from localhost ([::1]:58380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcDW-00011E-W2
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47410)
+	id 1jVcEy-0003xS-Vc
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:38:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6U-0005qR-MW
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28022
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6Y-00060c-Lj
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28209
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6T-0006IW-Ae
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:54 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6X-0006JY-Cv
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602592;
+ s=mimecast20190719; t=1588602596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LtXVkBoCFIAVJ/jOrNLyyiGZyY5VnZEubRIet50fmJI=;
- b=RTK7i3tHQ7D/eBtc2zeKK78TGdOKKAQJvm4tJ9hJhVZPP3xOcVXK3ShHXYvtBRJ9F6qnLt
- NfB3cYWxcHWDGiRtnKoFP40gQWR2l+DYA4uqB8rJwS4Bywt1VcpiAmcocSehnPkrbCZNXI
- FNKkXm4KMyizyrhdXqlbp1RcOx/b1fw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-N5J-0rNbOjaCcTBFRKdJ_w-1; Mon, 04 May 2020 10:29:51 -0400
-X-MC-Unique: N5J-0rNbOjaCcTBFRKdJ_w-1
-Received: by mail-wm1-f72.google.com with SMTP id f128so4983967wmf.8
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:50 -0700 (PDT)
+ bh=eToXLQiELi/OqolKT7hKDbv8PBLrjpjtRA8gmXCmZKQ=;
+ b=Eba4/IOXUCfhF/49F6dlOKZr9bJP2vnoMQx4B0SfkU+onzqWEAc29+g/bk3eNCrUGkn/2b
+ dPqCxMYtpxuZzpppNDCJET2lImwsrzmNXqzdpVVOlg6jrccCcZA8Pl+xZywcg1T/nRmqYQ
+ lng8FfV6q3b9A+DNXFnF5AGofr6Zud4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-Dm-xTX_CPC-Gq2w4wp_P5Q-1; Mon, 04 May 2020 10:29:52 -0400
+X-MC-Unique: Dm-xTX_CPC-Gq2w4wp_P5Q-1
+Received: by mail-wr1-f72.google.com with SMTP id r11so10842992wrx.21
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=7nWALb+pJoUtPTist7vsOnCoCaxtfGeZaRiKPqBS0NQ=;
- b=qq4uZUnleckhcbFDQvmWvSlTLWoMVhrTPpLHu1NkLOfUGJ6KIYErFpM39anEeMAvJZ
- IRhTtrrWrJdLWMJNnCtJyk1EAuDhxCBCSuZUmnigqdmXfHJpc1boArvg/dIURSeW7Dx0
- R4Bz3unvS+0fdwArBEUP+F+T/I5SbFADQUeNB7hArbXd2FcNU0X2wX+HilHVhVMtRLaq
- uaeqbBZtc/huV7/OxlLThzl9Lh+mYral9o2CZsO2FCU905RKImewXQXgWARbb3GpPo0N
- rto66o7YUJMv0u6QiJQRlfwUmQlG18iPJB0H+QACvy0F/Lr/i/R76TbP1rlFAz8QndyI
- qDBQ==
-X-Gm-Message-State: AGi0PuYXeLvzg276h9o2b+ONebhYOzHi7ysfZxEhR6nG0CLdK6ZFS4WL
- bdAfTCO8UEDn7LY5FNrPILBVO4cOjqQaksY4qpBIsFw3ApU5G/lnUA8784zicfXKVBiM6uPwoAp
- wJ6/1OPzTg1niY6o=
-X-Received: by 2002:a7b:c306:: with SMTP id k6mr14454914wmj.40.1588602589216; 
- Mon, 04 May 2020 07:29:49 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLAxwLp6ehplwK9OFaGfUXobi8iQo/KNl/m+Nw8T3kdDPixK9zU7w/hdGJQvo8SBjgmr6KmCw==
-X-Received: by 2002:a7b:c306:: with SMTP id k6mr14454890wmj.40.1588602588907; 
- Mon, 04 May 2020 07:29:48 -0700 (PDT)
+ bh=DGleufk736LANkC6r/eufWZtid2misO75KfvqBBNzzY=;
+ b=Aky5itMvwSszfnzGbOUaXocF77kc7Keb7QhViEAmGC8MoYCtdCkgBKRHtUuX48ohWp
+ y3YsYmmgZ502rAPfXny9B6iMkDrbKXwbFLjeSv8vJpaZG3pDZ6gsc4uzvFdjsSNGRTzM
+ gx/jvf0QnM7JYzETLG7yV4gE+P/+slMJgRNBBwwq9QPiFaJAe7hAAU9VoZ8FhHYwrPRC
+ vIVe4yDWKOlKoNusebPeME45utjICNM06aCzNmWcuvfEuIQUg2ZgMn5i3hG+shmtfRG2
+ 6pwB8gTdF4UahwQJGAxencgns0U4EgDn7/HmKP7NnF4BOi0PAEaFS3d2LxgHE8eg59/L
+ B8+g==
+X-Gm-Message-State: AGi0PuYNGLK58+1L2sFv0x66sJRH87olF8CyuJ796rC0JdPshNaC4/b0
+ mwpMOy9jxuItfoAmm1msxv2eLrxt3IRWlxtv8X3IuK6P2OBlO83Ij0W5Uf5oCujGR7Dy0saXU8v
+ vk5pQ4GrN6UX0mcU=
+X-Received: by 2002:a05:6000:192:: with SMTP id
+ p18mr12476878wrx.126.1588602591511; 
+ Mon, 04 May 2020 07:29:51 -0700 (PDT)
+X-Google-Smtp-Source: APiQypI0T51o0KXqcaFSF/yiI1Gdpg6kzab/lIIn7u8MGd8prWsfQJVwydS+5TG5IbwCVV2JF4pqoQ==
+X-Received: by 2002:a05:6000:192:: with SMTP id
+ p18mr12476847wrx.126.1588602591193; 
+ Mon, 04 May 2020 07:29:51 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- k17sm13605519wmi.10.2020.05.04.07.29.47
+ f7sm17778746wrt.10.2020.05.04.07.29.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:29:48 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:46 -0400
+ Mon, 04 May 2020 07:29:50 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:49 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/29] acpi: DSDT without _STA
-Message-ID: <20200504142814.157589-15-mst@redhat.com>
+Subject: [PULL 15/29] hw/acpi/nvdimm: Fix for NVDIMM incorrect DSM output
+ buffer length
+Message-ID: <20200504142814.157589-16-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -82,8 +85,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,275 +101,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-commit f6595976e699 ("acpi: drop pointless _STA method") replaced
-_STA method with simple name object. Update DSDT accordingly.
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 
+As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if
+the Buffer Field <=3D to the size of an Integer (in bits), it will
+be treated as an integer. Moreover, the integer size depends on
+DSDT tables revision number. If revision number is < 2, integer
+size is 32 bits, otherwise it is 64 bits. Current NVDIMM common
+DSM aml code (NCAL) uses CreateField() for creating DSM output
+buffer. This creates an issue in arm/virt platform where DSDT
+revision number is 2 and results in DSM buffer with a wrong
+size(8 bytes) gets returned when actual length is < 8 bytes.
+This causes guest kernel to report,
+
+"nfit ACPI0012:00: found a zero length table '0' parsing nfit"
+
+In order to fix this, aml code is now modified such that it builds
+the DSM output buffer in a byte by byte fashion when length is
+smaller than Integer size.
+
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20200421125934.14952-2-shameerali.kolothum.thodi@huawei.com>
+Acked-by: Peter Maydell <peter.maydell@linaro.org>
+Tested-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |  17 -----------------
- tests/data/acpi/pc/DSDT                     | Bin 5131 -> 5125 bytes
- tests/data/acpi/pc/DSDT.acpihmat            | Bin 6455 -> 6449 bytes
- tests/data/acpi/pc/DSDT.bridge              | Bin 6990 -> 6984 bytes
- tests/data/acpi/pc/DSDT.cphp                | Bin 5594 -> 5588 bytes
- tests/data/acpi/pc/DSDT.dimmpxm             | Bin 6784 -> 6778 bytes
- tests/data/acpi/pc/DSDT.ipmikcs             | Bin 5203 -> 5197 bytes
- tests/data/acpi/pc/DSDT.memhp               | Bin 6490 -> 6484 bytes
- tests/data/acpi/pc/DSDT.numamem             | Bin 5137 -> 5131 bytes
- tests/data/acpi/q35/DSDT                    | Bin 7869 -> 7863 bytes
- tests/data/acpi/q35/DSDT.acpihmat           | Bin 9193 -> 9187 bytes
- tests/data/acpi/q35/DSDT.bridge             | Bin 7886 -> 7880 bytes
- tests/data/acpi/q35/DSDT.cphp               | Bin 8332 -> 8326 bytes
- tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9522 -> 9516 bytes
- tests/data/acpi/q35/DSDT.ipmibt             | Bin 7944 -> 7938 bytes
- tests/data/acpi/q35/DSDT.memhp              | Bin 9228 -> 9222 bytes
- tests/data/acpi/q35/DSDT.mmio64             | Bin 8999 -> 8993 bytes
- tests/data/acpi/q35/DSDT.numamem            | Bin 7875 -> 7869 bytes
- 18 files changed, 17 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |  2 ++
+ hw/acpi/nvdimm.c                            | 40 +++++++++++++++++++--
+ 2 files changed, 39 insertions(+), 3 deletions(-)
 
 diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios=
 -tables-test-allowed-diff.h
-index 6a052c5044..dfb8523c8b 100644
+index dfb8523c8b..eb8bae1407 100644
 --- a/tests/qtest/bios-tables-test-allowed-diff.h
 +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,18 +1 @@
+@@ -1 +1,3 @@
  /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/DSDT",
--"tests/data/acpi/pc/DSDT.acpihmat",
--"tests/data/acpi/pc/DSDT.bridge",
--"tests/data/acpi/pc/DSDT.cphp",
--"tests/data/acpi/pc/DSDT.dimmpxm",
--"tests/data/acpi/pc/DSDT.ipmikcs",
--"tests/data/acpi/pc/DSDT.memhp",
--"tests/data/acpi/pc/DSDT.numamem",
--"tests/data/acpi/q35/DSDT",
--"tests/data/acpi/q35/DSDT.acpihmat",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/DSDT.cphp",
--"tests/data/acpi/q35/DSDT.dimmpxm",
--"tests/data/acpi/q35/DSDT.ipmibt",
--"tests/data/acpi/q35/DSDT.memhp",
--"tests/data/acpi/q35/DSDT.mmio64",
--"tests/data/acpi/q35/DSDT.numamem",
-diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
-index c6adfe32d5ba6a5db2ca3e210766839547e122c8..ad4b2d46cc7865e8bafcca2e4e8=
-88a03cc5483b5 100644
-GIT binary patch
-delta 77
-zcmeCyXw~3y33dr#6=3D7gtRNKha%gE#_H+d$by@-jolS@2DyoaX?kK+YqW{&va5XZ^y
-W8I?p-eEmb=3D68yqoiOm{Jj|BnUDii7e
-
-delta 83
-zcmZqG=3D+@wJ33dtL7GYpu+_;gemyyX?e)3F4dvSAbCzp7Rcn?n(9>)vJ%p#oe!6A+e
-aOD4ZzR1#PB^$&&1@e9M`HY+hb76brx%@yYW
-
-diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acp=
-ihmat
-index ad890e09aab12dd280c3d2465540db82ca1b430b..eff7aadfabe431c3ac2d28e0c67=
-21eb6e322af66 100644
-GIT binary patch
-delta 77
-zcmdmPw9$ymCD<jzP?CXx@ykZ8UPdNgxydsb?L|zyom}EM;ypZFcpNV<GjqfThd54t
-X&!{A#;_Dv@m*5u$OKjF);ui-1J46(R
-
-delta 83
-zcmdmJwB3lyCD<jzT#|u-v3?_0FC&w){N$O8_TuK=3DPA>5r@gANoJdPKbnMF9`gF_q{
-amP~%bs3flL>mLf2;}?d>ZB}C97Y6{CS`~x<
-
-diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridg=
-e
-index f01fa3ad4ee6aed5262daef464a1ade41e06975d..92ae808e2e071e367f0b68b3553=
-239bd56b4b766 100644
-GIT binary patch
-delta 77
-zcmX?ScEXIyCD<jzLz;nsF@GahFC&w$+~k>z_97<UPA>5r@gANoJdPKbnK|NvLmVf+
-XXH*hV@%0adOYjSWB{pj?sYwC=3DF<TUB
-
-delta 83
-zcmX?McFv5;CD<jzPnv;&@z+MKUPdNo`N=3DaG?ZwT#om}EM;ypZFcpNV<GmCJ>2ZuN^
-aESda<QAu3g*FO|4$1e<%+pNT-CJ6x2Ef!}0
-
-diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
-index 3295d81c7f725472671632ac612a1c3ed81d7492..f3572358510f3fbb3d966047274=
-f7aa7835e7bef 100644
-GIT binary patch
-delta 77
-zcmcbmeMOtgCD<k8iYNmE<ARM`y^Ku0a+7B=3D+KZTYJGsPj#Cv$U@Hk#zX6A?w4so3P
-Xo>56e#n(R+F2OGhme{Ppv`H8MV#pP#
-
-delta 83
-zcmcbjeM_6mCD<k8mM8-QqxMFwUPdNo`N=3DaG?ZwT#om}EM;ypZFcpNV<GmCJ>2ZuN^
-aESda<QAu3g*FO|4$1e<%+pNU2Nf-da@D`>3
-
-diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimm=
-pxm
-index ad2800de672534dc87012f03e27b19671a330083..7fa09463c16c2f6b60114591785=
-918b9d96b4f17 100644
-GIT binary patch
-delta 77
-zcmZoL{bj=3DC66_LECB?wN*uIggmyyX=3DZt_e<dl3_FCzp7Rcn?n(9>)vJ%pCE-A&!&Z
-WGb)Lw`1*&!CHRHG5}P%cA|wDh`xM0h
-
-delta 83
-zcmexm(qPKv66_MvAjQDID72BQmyyX?e)3F4dvSAbCzp7Rcn?n(9>)vJ%p#oe!6A+e
-aOD4ZzR1#PB^$&&1@e9M`HY+hjNB{ts#}&c=3D
-
-diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmi=
-kcs
-index 2633a8cecf017bfce01ba8377428b8c5433e0be2..469d13e1f6b873bb9cfa0b3af32=
-d1a3bc58e8f77 100644
-GIT binary patch
-delta 76
-zcmcbtaaM!NCD<jzSA>Cqao0w!UPeaO$uk%oL`=3DM$T;e(6Jv?1_94|04bHoRSI8J`g
-Ws3fA|>mLf2;1>o<Y}R1X76Je-trU0w
-
-delta 82
-zcmX@Baan`QCD<h-ScHLr(QG4EFC(M(<Qa?(;^y8?F7X`k9-b~dju)7jML6SwLmU~F
-ZOn$?tB(Co39}1V_7lz4gR$|f?0sxEt6?Fgr
-
-diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
-index 9e75ac96e15730f245ff6730bd28127ad827119a..aee75bea272cc9983202cceb747=
-aecc297b5104e 100644
-GIT binary patch
-delta 77
-zcmca*bj66vCD<h-M3RAlQDP%kFC&w$+~k>z_97<UPA>5r@gANoJdPKbnK|NvLmVf+
-XXH*hV@%0adOYjSWB{pj?8Hob`BYG4!
-
-delta 83
-zcmca&bjyg#CD<h-N|J$raq&j3UPdNo`N=3DaG?ZwT#om}EM;ypZFcpNV<GmCJ>2ZuN^
-aESda<QAu3g*FO|4$1e<%+pNT7Bn|+=3D-WD_f
-
-diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numa=
-mem
-index 71a975b3e25f8b5cc4491f16d5575a3a35afc777..9a747f6f08f61c73b891d8f91db=
-01521e635f811 100644
-GIT binary patch
-delta 77
-zcmbQJ(XGMd66_MfEyBRScwr+~FC&w$+~k>z_97<UPA>5r@gANoJdPKbnK|NvLmVf+
-XXH*hV@%0adOYjSWB{pj?y%Yoh3_}#G
-
-delta 83
-zcmeCyn5e<!66_KpD8j(N7`>6JmyyX?e)3F4dvSAbCzp7Rcn?n(9>)vJ%p#oe!6A+e
-aOD4ZzR1#PB^$&&1@e9M`HY+i`6a)ZeKNYC}
-
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index 1f91888d7a485850cf27f152e247a90b208003dc..9fa4d5a405c2bcd9313b1389491=
-7622bf156013e 100644
-GIT binary patch
-delta 77
-zcmdmMyWN({CD<ioyBq@pW9ddN0VXCdvB@$__97<UPA>5r@gANoJdPKbnK|NvLmVd;
-XF)4|t`1*&!CHRHG5}Q{u3CREe1yK{h
-
-delta 83
-zcmdmPyVsV>CD<iouN(sdBf~~60VXB~@yRkw_TuK=3DPA>5r@gANoJdPKbnMF9`gF_q{
-amQ2oPQW979^$&&1@e9M`HZNrok^ul)^%TAU
-
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.a=
-cpihmat
-index 3586f6368a77d1497c35a7571c9f6c460221d9ab..2d834a854ccddc17afd0bc4b4a9=
-e0886feff8e65 100644
-GIT binary patch
-delta 77
-zcmaFq{@9(%CD<k8u`&Y#qw_{C0VXCdvB@$__97<UPA>5r@gANoJdPKbnK|NvLmVd;
-XF)4|t`1*&!CHRHG5}Q{u*(m}5CR-F;
-
-delta 83
-zcmaFt{?eVxCD<k8r7{Bp<GGDo0!&N};*({V?8VK!om}EM;ypZFcpNV<GmCJ>2ZuN^
-aESa3oq$IBH>mLf2;}?d>ZC=3DV`rw9PVffiZ-
-
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bri=
-dge
-index eae3a2a8657e9986d8ac592958503c0b516faaef..b75122b24a41b8fd58b9e707103=
-2298e0fc2284b 100644
-GIT binary patch
-delta 77
-zcmX?Sd%~8>CD<k8gd76{qv%F10VXCdvB@$__97<UPA>5r@gANoJdPKbnK|NvLmVd;
-XF)4|t`1*&!CHRHG5}Q{uDa!x=3D{9qHM
-
-delta 83
-zcmX?Md(M{2CD<k8oE!rK<ARM`0!&N};*({V?8VK!om}EM;ypZFcpNV<GmCJ>2ZuN^
-aESa3oq$IBH>mLf2;}?d>ZC=3DWxECT?S1r?$I
-
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index 53d735a4de25c4d8e23eed102fcd01376168c5b3..c59c19ff46b9bb4fa3e06e9ffbc=
-beba308a80cd0 100644
-GIT binary patch
-delta 77
-zcmeBiY;)vt33dr-Q($0Ve7BKHfQiXVY_bfKy@-jolS@2DyoaX?kK+YqW{&va5XZ?y
-WOiCguzW$+b34UR)#OBpZ4`l)UY7~J0
-
-delta 83
-zcmZp3>~Z9B33dtTQD9(TtlY>Yz{KPrK3RszUfkT<$t9j6-ow*{$MFI)vj}H=3DaEK$r
-ZlF9i@O5*Ci{-JO=3Deqos0=3DA}#zWdT#Y6@CB!
-
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.di=
-mmpxm
-index 02ccdd5f38d5b2356dcca89398c41dcf2595dfff..9edc104ee6b06dd9d909b65b83c=
-99494d03a137d 100644
-GIT binary patch
-delta 77
-zcmdnwwZ@CfCD<iIN0otrar;It0VXCdvB@$__97<UPA>5r@gANoJdPKbnK|NvLmVd;
-XF)4|t`1*&!CHRHG5}Q{uwJQMt^luaX
-
-delta 83
-zcmZ4EwaJUiCD<jzNR@$s(P<->027mg_+%L-dvSAbCzp7Rcn?n(9>)vJ%p#oe!6A+e
-aOD5+tDT%B5`iH{h_=3DRC|o0l@RD**sWt`z$K
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipm=
-ibt
-index 9e2d4f785c54629d233924a503cfe81199e22aa0..3910e9b767808962b46501da519=
-45229359e3d1d 100644
-GIT binary patch
-delta 76
-zcmeCMYqH~V33dr#l4oFGT(OZ$fQiv{vNV%}h>5q8OFT!sho=3DjV;{|4Bj`-jZ$H_%Z
-VN+K%0{-JOQeqpf0=3DG9EGG61;j69)hQ
-
-delta 82
-zcmZp&>#*Z;33dtLkY`|ERN2TSz{Kc1S(?c~+}zvAC7vVR!_$Sw@d7im2xok7h$F+2
-Y$@xr5;_ANsp>R2VVVK<JrA)Ch012QJ1ONa4
-
-diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memh=
-p
-index baefa611acadce4c6da5babdaafad533d19358e6..8461e984c965da916d828884f66=
-29422e83e429c 100644
-GIT binary patch
-delta 77
-zcmeD2X!GE533dr#Q(<6WOxwsMz{KPwHd%(rUc|)P$t9j6-ow*{$MFI)Ge>-Ih~wlU
-WCM6LSU;j|J1ivs?V)JUIL`49;91{-!
-
-delta 83
-zcmZqk=3D<(ok33dtLQDI<U{J4=3DzfQiXLe6kFay|}rzlS@2DyoaX?kK+YqW)aT#;1EZK
-ZC6n`+l*HA2{X^k${K7D~%}bdQ6#-ML6$}6X
-
-diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmi=
-o64
-index aae0ea2110a54b02f772d99e66df0730d74b43d9..fc0cc096baf8aedc0a526978ff7=
-96025d7380453 100644
-GIT binary patch
-delta 77
-zcmZ4Pw$P2sCD<iIQJH~(QE4NW027m!*kl<ddl3_FCzp7Rcn?n(9>)vJ%pCE-A&!%a
-Wn3P0ReEmb=3D68yqoiOs8-Y7_v&S`#q<
-
-delta 83
-zcmZ4Jw%m=3D&CD<iIU73M_aqUJf0VXB~@yRkw_TuK=3DPA>5r@gANoJdPKbnMF9`gF_q{
-amQ2oPQW979^$&&1@e9M`HZNtWQ2+p085J%7
-
-diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.nu=
-mamem
-index 859a2e08710ba37f56c9c32b0235ff90cedb1905..498c843be1695a0fe1d31d88873=
-b57206d17d758 100644
-GIT binary patch
-delta 77
-zcmX?XyVsV>CD<iouN(sdqx?oL0VXCdvB@$__97<UPA>5r@gANoJdPKbnK|NvLmVd;
-XF)4|t`1*&!CHRHG5}Q{uNyq>I^-L3k
-
-delta 83
-zcmdmMd)SuCCD<k8up9#e<Eo8Z0!&N};*({V?8VK!om}EM;ypZFcpNV<GmCJ>2ZuN^
-aESa3oq$IBH>mLf2;}?d>ZC=3DVGAp-!9XBB_|
-
++"tests/data/acpi/pc/SSDT.dimmpxm",
++"tests/data/acpi/q35/SSDT.dimmpxm",
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index eb6a37b14e..df0790719a 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -938,6 +938,7 @@ static void nvdimm_build_common_dsm(Aml *dev)
+     Aml *method, *ifctx, *function, *handle, *uuid, *dsm_mem, *elsectx2;
+     Aml *elsectx, *unsupport, *unpatched, *expected_uuid, *uuid_invalid;
+     Aml *pckg, *pckg_index, *pckg_buf, *field, *dsm_out_buf, *dsm_out_buf_=
+size;
++    Aml *whilectx, *offset;
+     uint8_t byte_list[1];
+=20
+     method =3D aml_method(NVDIMM_COMMON_DSM, 5, AML_SERIALIZED);
+@@ -1091,13 +1092,46 @@ static void nvdimm_build_common_dsm(Aml *dev)
+     /* RLEN is not included in the payload returned to guest. */
+     aml_append(method, aml_subtract(aml_name(NVDIMM_DSM_OUT_BUF_SIZE),
+                aml_int(4), dsm_out_buf_size));
++
++    /*
++     * As per ACPI spec 6.3, Table 19-419 Object Conversion Rules, if
++     * the Buffer Field <=3D to the size of an Integer (in bits), it will
++     * be treated as an integer. Moreover, the integer size depends on
++     * DSDT tables revision number. If revision number is < 2, integer
++     * size is 32 bits, otherwise it is 64 bits.
++     * Because of this CreateField() canot be used if RLEN < Integer Size.
++     *
++     * Also please note that APCI ASL operator SizeOf() doesn't support
++     * Integer and there isn't any other way to figure out the Integer
++     * size. Hence we assume 8 byte as Integer size and if RLEN < 8 bytes,
++     * build dsm_out_buf byte by byte.
++     */
++    ifctx =3D aml_if(aml_lless(dsm_out_buf_size, aml_int(8)));
++    offset =3D aml_local(2);
++    aml_append(ifctx, aml_store(aml_int(0), offset));
++    aml_append(ifctx, aml_name_decl("TBUF", aml_buffer(1, NULL)));
++    aml_append(ifctx, aml_store(aml_buffer(0, NULL), dsm_out_buf));
++
++    whilectx =3D aml_while(aml_lless(offset, dsm_out_buf_size));
++    /* Copy 1 byte at offset from ODAT to temporary buffer(TBUF). */
++    aml_append(whilectx, aml_store(aml_derefof(aml_index(
++                                   aml_name(NVDIMM_DSM_OUT_BUF), offset)),
++                                   aml_index(aml_name("TBUF"), aml_int(0))=
+));
++    aml_append(whilectx, aml_concatenate(dsm_out_buf, aml_name("TBUF"),
++                                         dsm_out_buf));
++    aml_append(whilectx, aml_increment(offset));
++    aml_append(ifctx, whilectx);
++
++    aml_append(ifctx, aml_return(dsm_out_buf));
++    aml_append(method, ifctx);
++
++    /* If RLEN >=3D Integer size, just use CreateField() operator */
+     aml_append(method, aml_store(aml_shiftleft(dsm_out_buf_size, aml_int(3=
+)),
+                                  dsm_out_buf_size));
+     aml_append(method, aml_create_field(aml_name(NVDIMM_DSM_OUT_BUF),
+                aml_int(0), dsm_out_buf_size, "OBUF"));
+-    aml_append(method, aml_concatenate(aml_buffer(0, NULL), aml_name("OBUF=
+"),
+-                                       dsm_out_buf));
+-    aml_append(method, aml_return(dsm_out_buf));
++    aml_append(method, aml_return(aml_name("OBUF")));
++
+     aml_append(dev, method);
+ }
+=20
 --=20
 MST
 
