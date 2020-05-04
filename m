@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B991C3D25
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:35:10 +0200 (CEST)
-Received: from localhost ([::1]:42244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6251C3D0C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:30:57 +0200 (CEST)
+Received: from localhost ([::1]:53740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcBZ-0005KB-5F
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47276)
+	id 1jVc7U-0006Zj-PX
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:30:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc61-0004dT-4l
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27640
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc64-0004le-MR
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:28 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:30559
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc60-0005rC-BC
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:24 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc63-0005uH-QY
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602563;
+ s=mimecast20190719; t=1588602566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EadBmenG36bb/hqwInBfhSfoAlf8ggiqJ0AKPIGwVHo=;
- b=AEIwx7EDb1YAr0fsXyG+lCLYyqkES6sF/g/nAH+xmMMfxHvSCyjyBO0DgKjoc0dLhqLR3v
- OXJFBmRY5pLiqMhyrx8OlUEyNDbCyg8nOJR4dO5ICyNQgAUxe+pBoWqbyKNDL4CoF/OSpI
- 2L2kxXcPSZayyKlGTjd32Onx4X+07J0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-92GkdTQoMb-kBULHCgrmiA-1; Mon, 04 May 2020 10:29:21 -0400
-X-MC-Unique: 92GkdTQoMb-kBULHCgrmiA-1
-Received: by mail-wr1-f72.google.com with SMTP id q13so1981110wrn.14
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:21 -0700 (PDT)
+ bh=RVNBXQ6gCt5bQDUAiEhYyrhSoB3/uLQxROx/EqMXEOY=;
+ b=WSPX1s9FyizLf/Lw1AEVG019Gy2DxMSczdDM7DHtFZ5U+pzAxPBC6968zrBTeiHLdlMyE7
+ AI7fy2lktinWWsjI06DpxICmH+42YW2hJp1LIIa9L/9zu42LNRcBAT1Yc7OPyvp2Kq/XE7
+ qLPgAcFh5Q3CNQonrkilCMVV5J4ZvdY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-SWzU5saQNFaUktpH_B9ZyA-1; Mon, 04 May 2020 10:29:23 -0400
+X-MC-Unique: SWzU5saQNFaUktpH_B9ZyA-1
+Received: by mail-wr1-f71.google.com with SMTP id f2so10885537wrm.9
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/am6Xn+onHCJUusiQFfDxyjcP5qPREb7gnWXW/2S1G4=;
- b=oWBE7g4ZSRgiimtKWpcGnnNTrP9954AcqvyLoBYXyQgW6iVrLOKI6TcuoREgWtBblW
- K3ml2UKKEPX4JDSaVC+XUxHF/isvc6TJfiF+HS/gZ9EcSz1FTkA9pWWiVGnDR09+mOjS
- YS1B7o0ul9QINFO8qkSED3V7wStIlNtIxyEayQhuvDVKs4z4e25R4clStIhIuQakc/Wk
- 8JW7FNnKns0isNJt53xTDAXUIgR0KpRx5FfcDZI13vFq6sssqFq1TohKMM/ObhPY4LSi
- rY9i6mTxur96JfN0+tH6CjGIr4pZj8IpuLYYmFP0AMEsf6sOsQNaHl/VPtepKiqWbwZp
- ZI4g==
-X-Gm-Message-State: AGi0PuY9Zr1/Dv1VXf7/klY/O+Q3du5zkAEALwsDGeyf2JY6fYAXTcNo
- bjdNrjkms3QgNVWfMT2f0gXIKTMc9xoIIZsMVpr8pUJ8k+/2FlpUU5uZSAO5UKLmYsqmEwCA+G9
- AJ+MOY1w3gdRviKg=
-X-Received: by 2002:a5d:4991:: with SMTP id r17mr11919287wrq.150.1588602560199; 
- Mon, 04 May 2020 07:29:20 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIxvIUENcOZRUmgu2yxY0Nt9R2lRufAL7KTTO6KdMPRw9MPi9uTlVyOh88R5Y7SGNITQstlSg==
-X-Received: by 2002:a5d:4991:: with SMTP id r17mr11919263wrq.150.1588602559976; 
- Mon, 04 May 2020 07:29:19 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=FdYlmucZgrrExS0b58B/UTT/h6F9NNUpPPWcF8bmd5g=;
+ b=SzFOZ6hFHTA7KrCs6sMNrdjpsR4ccQ3VwwGnmpy0D5pJ+KuScUm9qX9NNJ4wZPCmsu
+ DTQriDAiO+Ith1PDaEVjg8k2SvB0oLdcNI5RzyVSRF8cdCjt5ODzmBLvT+NFr6LRp830
+ GOR/nw73GlieLSbAlLJAXzkh/Mgh3zPAtdFv2z3gBccfVRY2uSs0Wuv1+N+qtsJ/P92B
+ pmbEWOnBQNd3Qlj7QxNsqMMhOBo+Mr1VhuTQMEkrHQIX2cbC3HQiqSAoKAMSkG1vC7CO
+ 3mpuIRmm7LuAsFEEbYGJ0n9s8vKHqr5HyjUR42R/3PD89BEq1E15kgCIVqlMA6JSHUU5
+ 0SMQ==
+X-Gm-Message-State: AGi0PubAnKmdpgCEyuiaV1Z6QJkuYzaiZz/9OummVaYkYopO9qaFTr52
+ u0DUGUlKZoEAsRMK/iRpHQ4A0MGEUfGauG7RWJNtjn0nLRC30kjdIb1XpllTTBHR93Yv727GgPD
+ iBhRAyhpkmJq/kHY=
+X-Received: by 2002:adf:de08:: with SMTP id b8mr6998272wrm.76.1588602562253;
+ Mon, 04 May 2020 07:29:22 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIlTRZu2f7D3ENRjnzjyZQ1+CGYfWiPg5OcES4XO/b8gNznMiN12K4gJuzWHAisO1NTaI/nUA==
+X-Received: by 2002:adf:de08:: with SMTP id b8mr6998259wrm.76.1588602562096;
+ Mon, 04 May 2020 07:29:22 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- l5sm13169870wmi.22.2020.05.04.07.29.18
+ l16sm18804044wrp.91.2020.05.04.07.29.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:29:19 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:17 -0400
+ Mon, 04 May 2020 07:29:21 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/29] hw/pci/pcie: Replace PCI_DEVICE() casts with existing
- variable
-Message-ID: <20200504142814.157589-3-mst@redhat.com>
+Subject: [PULL 03/29] move 'typedef Aml' to qemu/types.h
+Message-ID: <20200504142814.157589-4-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -71,13 +71,13 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,57 +98,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Julia Suvorova <jusual@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Julia Suvorova <jusual@redhat.com>
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-A little cleanup is possible because of hotplug_pdev introduction.
-
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
-Message-Id: <20200427182440.92433-3-jusual@redhat.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20200429140003.7336-2-kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/pci/pcie.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/hw/acpi/aml-build.h | 1 -
+ include/qemu/typedefs.h     | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 6b48d04d2c..abc99b6eff 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -449,7 +449,7 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev,=
- DeviceState *dev,
-             pci_word_test_and_set_mask(exp_cap + PCI_EXP_LNKSTA,
-                                        PCI_EXP_LNKSTA_DLLLA);
-         }
--        pcie_cap_slot_event(PCI_DEVICE(hotplug_dev),
-+        pcie_cap_slot_event(hotplug_pdev,
-                             PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
-     }
- }
-@@ -490,7 +490,7 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *ho=
-tplug_dev,
-         return;
-     }
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index 0f4ed53d7f..1539fe0667 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -33,7 +33,6 @@ struct Aml {
+     uint8_t op;
+     AmlBlockFlags block_flags;
+ };
+-typedef struct Aml Aml;
 =20
--    pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, &local_err);
-+    pcie_cap_slot_plug_common(hotplug_pdev, dev, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-@@ -509,7 +509,7 @@ void pcie_cap_slot_unplug_request_cb(HotplugHandler *ho=
-tplug_dev,
-         return;
-     }
-=20
--    pcie_cap_slot_push_attention_button(PCI_DEVICE(hotplug_dev));
-+    pcie_cap_slot_push_attention_button(hotplug_pdev);
- }
-=20
- /* pci express slot for pci express root/downstream port
+ typedef enum {
+     AML_COMPATIBILITY =3D 0,
+diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
+index 375770a80f..ecf3cde26c 100644
+--- a/include/qemu/typedefs.h
++++ b/include/qemu/typedefs.h
+@@ -24,6 +24,7 @@
+ typedef struct AdapterInfo AdapterInfo;
+ typedef struct AddressSpace AddressSpace;
+ typedef struct AioContext AioContext;
++typedef struct Aml Aml;
+ typedef struct AnnounceTimer AnnounceTimer;
+ typedef struct BdrvDirtyBitmap BdrvDirtyBitmap;
+ typedef struct BdrvDirtyBitmapIter BdrvDirtyBitmapIter;
 --=20
 MST
 
