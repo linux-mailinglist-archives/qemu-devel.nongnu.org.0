@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FF51C3D9D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:53:23 +0200 (CEST)
-Received: from localhost ([::1]:60602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A381C3D51
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:40:45 +0200 (CEST)
+Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcTC-0004R3-3t
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48020)
+	id 1jVcGy-0007fh-J7
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVc98-0002hf-IF; Mon, 04 May 2020 10:32:39 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:42856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jVc96-0008K3-9H; Mon, 04 May 2020 10:32:38 -0400
-Received: by mail-lj1-x243.google.com with SMTP id a21so9845294ljb.9;
- Mon, 04 May 2020 07:32:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=lgE9Ulxxtdf3kth7r5oCrNYZHgo7jqyXNAQuogxxTJ8=;
- b=oEug5XuW0C7yWbAyBqvFgEJFWiaPg8jLgEQHdolBnR1p3RvKd7JeTdjB4+acF+Viwu
- pghzziz5U9lY6b7rmJpvGSuKqWrWJS7jim5tFpDqvj84Af0WTDpF1LRtfQq+QUP8A7H7
- Jk5gztflFnV7C7i6bHg6rkaf12qZV7AsbgxEnVYA3lq2Uvfgtco1R9Vm89qrsPgHHL0K
- gg4ZLRIe3LcE121u+lYzAwBzpy07Inuvzqmg4oMzyTd9ne+2Kj3wUP1CQxff8cyy7SIS
- Zt3DlRH/pxIm/Lxw7d/yGW9II0AVV80mJITXf2ARlfj3ES7Ti3qBgkD9Yh9i30j3oq+I
- WIYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=lgE9Ulxxtdf3kth7r5oCrNYZHgo7jqyXNAQuogxxTJ8=;
- b=RH/pxGo4Bauiw3X/pJqbTowVmqgZ3Dqa4CQtF1IBUOlPgrle2ZSH7SY2tLT3AR15qi
- 93aBvXs4MARQ5/Ljx1R8D0jKz+GZ1EpYID8JMyr1NAgxu0aRCWx9TMco+ZTTm2Ynh4xH
- M4NvPUB7R1pdQ0xfa9JBlVvFfzTyBMdYGv/MLbSAHvMgRhdKBzipjLvFDhix0olK+TrI
- sNW8y7gThCyE5UK5GwsMqPcBNjd5bqNaKvma68J+/8SELT4qv2yYFrrvnJvUAvYM7Re2
- 8ETphlp9AD5v0Y0Rjoj5Ywk06X/nG8fbsiSNn5sbqt14EQ6YSurQhH7gTe0lShA7NvV0
- jNuw==
-X-Gm-Message-State: AGi0PuYMR6gJEmqWlgw0jK/ec5PJgbWGmDyIRuu+MENgQUWfOfGo1pS4
- jBJzd+4isaNpX1bg17QBQ5k=
-X-Google-Smtp-Source: APiQypIW5QuHFOnzXPjmNuubLusre6mX4yekPhrnCbupZ8GtR2RyXdHbujyLDj0FfEcCQBtfgWr2ZQ==
-X-Received: by 2002:a2e:9055:: with SMTP id n21mr10678833ljg.46.1588602753918; 
- Mon, 04 May 2020 07:32:33 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id h28sm9950916lfe.80.2020.05.04.07.32.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:32:33 -0700 (PDT)
-Date: Mon, 4 May 2020 16:32:32 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v2 03/10] net: cadence_gem: Fix irq update w.r.t queue
-Message-ID: <20200504143232.GA5519@toto>
-References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1588601168-27576-4-git-send-email-sai.pavan.boddu@xilinx.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVcFH-0005x1-KP
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:38:59 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34490
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVcFG-0003LH-3u
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:38:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588603136;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H6YrDImHZnPxnhU2Gnx1G1rCpKwVZdPNBfoXlIT6i8g=;
+ b=gv+JBYKHahHJfEYrBUnNAfZ6ss2AAc+0qGHDBBFhCHHnnwgpugLRIIRl8CRNr4uP/VlXpJ
+ XQjC3KO9WdYcRkn7cs4zCbN+VSUxZ5NXCmrSE+3A3VXc7iZf/7bPJ49MRzAyLM+jPNlsWi
+ M/xNKjp02UsMa+P4ruWhsREADMB7ogA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-Av9AdGBlOyqRk-eXXJ0kCA-1; Mon, 04 May 2020 10:38:55 -0400
+X-MC-Unique: Av9AdGBlOyqRk-eXXJ0kCA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2574A8014D5
+ for <qemu-devel@nongnu.org>; Mon,  4 May 2020 14:38:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E76465D9D5;
+ Mon,  4 May 2020 14:38:53 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7973E11358BC; Mon,  4 May 2020 16:38:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Infinite loop in bus_unparent(), qdev bug or qdev misuse?
+Date: Mon, 04 May 2020 16:38:52 +0200
+Message-ID: <87tv0vzrwj.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1588601168-27576-4-git-send-email-sai.pavan.boddu@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,68 +77,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Ramon Fried <rfried.dev@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 04, 2020 at 07:36:01PM +0530, Sai Pavan Boddu wrote:
-> Set irq's specific to a queue, present implementation is setting q1 irq
-> based on q0 status.
+I stumbled over this while working on a feature branch.  Instead of
+throwing the whole branch at you as a reproducer, I give you a mock up.
+
+This is fdctrl_connect_drives():
+
+        dev =3D qdev_create(&fdctrl->bus.bus, "floppy");
+        qdev_prop_set_uint32(dev, "unit", i);
+        qdev_prop_set_enum(dev, "drive-type", fdctrl->qdev_for_drives[i].ty=
+pe);
+
+        blk_ref(blk);
+        blk_detach_dev(blk, fdc_dev);
+        fdctrl->qdev_for_drives[i].blk =3D NULL;
+        qdev_prop_set_drive(dev, "drive", blk, &local_err);
+        blk_unref(blk);
+
+        if (local_err) {
+            error_propagate(errp, local_err);
+            return;
+        }
+
+        object_property_set_bool(OBJECT(dev), true, "realized", &local_err)=
+;
+        if (local_err) {
+            error_propagate(errp, local_err);
+            return;
+        }
+
+What if qdev_prop_set_drive() fails?  I don't have a reproducer ready (I
+do on my feature branch), so let's mock it, and also instrument the
+place where things go wrong.  Patch appended.  To try it, run
+qemu-system-x86_64 without arguments.
+
+Turns out the failure bubbles up into device_set_realized() for the
+isa-fdc, where the cleanup code calls object_unparent().  This unparents
+children, and ends up in bus_unparent() for the isa-fdc's floppy-bus:
+
+    #4  0x0000555555abdb7f in bus_unparent (obj=3D0x55555675a9f0)
+        at /work/armbru/qemu/hw/core/bus.c:148
+    #5  0x0000555555d2aea6 in object_finalize_child_property
+        (obj=3D0x55555675a800, name=3D0x555557281230 "floppy-bus.0", opaque=
+=3D0x55555675a9f0) at /work/armbru/qemu/qom/object.c:1672
+    #6  0x0000555555d2872b in object_property_del_child
+        (obj=3D0x55555675a800, child=3D0x55555675a9f0, errp=3D0x0)
+        at /work/armbru/qemu/qom/object.c:628
+    #7  0x0000555555d2880b in object_unparent (obj=3D0x55555675a9f0)
+        at /work/armbru/qemu/qom/object.c:647
+    #8  0x0000555555ab9e10 in device_unparent (obj=3D0x55555675a800)
+        at /work/armbru/qemu/hw/core/qdev.c:1101
+
+This loop there
+
+    while ((kid =3D QTAILQ_FIRST(&bus->children)) !=3D NULL) {
+        DeviceState *dev =3D kid->child;
+        object_unparent(OBJECT(dev));
+    }
+
+makes no progreess because OBJECT(dev)->parent is still null, and
+therefore object_unparent() does nothing.
+
+Possible culprit: qdev_try_create() calls qdev_set_parent_bus(), which
+adds the device to the bus, but leaves ->parent null.  If this isn't
+wrong outright, it's at least a dangerous state.
+
+Work-around: call qdev_set_id(dev, NULL) right after qdev_create().
+This sets ->parent.
 
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+From 2554db096866138a85482d683e57a38166bb425b Mon Sep 17 00:00:00 2001
+From: Markus Armbruster <armbru@redhat.com>
+Date: Mon, 4 May 2020 15:58:10 +0200
+Subject: [PATCH] qdev: Hack to reproduce infinite loop in bus_unparent()
 
+---
+ hw/block/fdc.c | 4 ++++
+ hw/core/bus.c  | 5 +++++
+ 2 files changed, 9 insertions(+)
 
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 9628cc171e..f57558eea4 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -2523,7 +2523,11 @@ static void fdctrl_connect_drives(FDCtrl *fdctrl, De=
+viceState *fdc_dev,
+         blk_ref(blk);
+         blk_detach_dev(blk, fdc_dev);
+         fdctrl->qdev_for_drives[i].blk =3D NULL;
++#if 0
+         qdev_prop_set_drive(dev, "drive", blk, &local_err);
++#else
++        error_setg(&local_err, "hack");
++#endif
+         blk_unref(blk);
+=20
+         if (local_err) {
+diff --git a/hw/core/bus.c b/hw/core/bus.c
+index 3dc0a825f0..3620a7be54 100644
+--- a/hw/core/bus.c
++++ b/hw/core/bus.c
+@@ -135,12 +135,17 @@ static void bus_unparent(Object *obj)
+     BusState *bus =3D BUS(obj);
+     BusChild *kid;
+=20
++    printf("### %s bus=3D%p %s\n",
++           __func__, obj, object_get_typename(obj));
+     /* Only the main system bus has no parent, and that bus is never freed=
+ */
+     assert(bus->parent);
+=20
+     while ((kid =3D QTAILQ_FIRST(&bus->children)) !=3D NULL) {
+         DeviceState *dev =3D kid->child;
++        printf("### %s kid=3D%p %s\n",
++               __func__, OBJECT(dev), object_get_typename(OBJECT(dev)));
+         object_unparent(OBJECT(dev));
++        assert(kid !=3D QTAILQ_FIRST(&bus->children));
+     }
+     QLIST_REMOVE(bus, sibling);
+     bus->parent->num_child_bus--;
+--=20
+2.21.1
 
-> 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  hw/net/cadence_gem.c | 25 +++----------------------
->  1 file changed, 3 insertions(+), 22 deletions(-)
-> 
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index 6cb2f64..a930bf1 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -554,29 +554,10 @@ static void gem_update_int_status(CadenceGEMState *s)
->  {
->      int i;
->  
-> -    if (!s->regs[GEM_ISR]) {
-> -        /* ISR isn't set, clear all the interrupts */
-> -        for (i = 0; i < s->num_priority_queues; ++i) {
-> -            qemu_set_irq(s->irq[i], 0);
-> -        }
-> -        return;
-> -    }
-> +    qemu_set_irq(s->irq[0], !!s->regs[GEM_ISR]);
->  
-> -    /* If we get here we know s->regs[GEM_ISR] is set, so we don't need to
-> -     * check it again.
-> -     */
-> -    if (s->num_priority_queues == 1) {
-> -        /* No priority queues, just trigger the interrupt */
-> -        DB_PRINT("asserting int.\n");
-> -        qemu_set_irq(s->irq[0], 1);
-> -        return;
-> -    }
-> -
-> -    for (i = 0; i < s->num_priority_queues; ++i) {
-> -        if (s->regs[GEM_INT_Q1_STATUS + i]) {
-> -            DB_PRINT("asserting int. (q=%d)\n", i);
-> -            qemu_set_irq(s->irq[i], 1);
-> -        }
-> +    for (i = 1; i < s->num_priority_queues; ++i) {
-> +        qemu_set_irq(s->irq[i], !!s->regs[GEM_INT_Q1_STATUS + i - 1]);
->      }
->  }
->  
-> -- 
-> 2.7.4
-> 
 
