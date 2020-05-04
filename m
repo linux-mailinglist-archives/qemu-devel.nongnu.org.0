@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C6A1C38E7
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:08:09 +0200 (CEST)
-Received: from localhost ([::1]:58784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250AE1C38CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:02:44 +0200 (CEST)
+Received: from localhost ([::1]:40476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZtI-0007Jc-FD
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52040)
+	id 1jVZo3-00087f-1l
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjr-00033m-9p; Mon, 04 May 2020 07:58:23 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:41055)
+ id 1jVZjq-00031r-L2; Mon, 04 May 2020 07:58:22 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:60045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjo-0001zK-VS; Mon, 04 May 2020 07:58:22 -0400
+ id 1jVZjo-0001yc-Rt; Mon, 04 May 2020 07:58:22 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MLyzP-1jnW5l0VaD-00HsQV; Mon, 04 May 2020 13:58:04 +0200
+ id 1Mg6qO-1ivzfO3x3G-00hgP6; Mon, 04 May 2020 13:58:05 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/20] timer/exynos4210_mct: Remove redundant statement in
- exynos4210_mct_write()
-Date: Mon,  4 May 2020 13:57:41 +0200
-Message-Id: <20200504115758.283914-4-laurent@vivier.eu>
+Subject: [PULL 04/20] crypto: Redundant type conversion for AES_KEY pointer
+Date: Mon,  4 May 2020 13:57:42 +0200
+Message-Id: <20200504115758.283914-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:rGPmTbt3LS78KZblEyLnOBFOGWdEOJIuW7LeCx9f7iNzdLmp2Lj
- MzlPvWoRUqDr4hftXRpUfCkZ+eu/L8o1FwdUoZIscg4UsGuLngTWEI8luCNcA9ULd8RyMpI
- ESycGUHZjkaBLlzuN0t6tG8TJKAdmFY0yhVhk/K4zwt6GCDOHxVNMdpiJD2JppGFgCN/1hC
- jZjpWN1myU3sPr5drXerg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oIhUnmCaHA8=:i1Umx/M5mqCude2CXClJ6q
- zhUjfRd7IHXVe4z3jLXwNQ1jk6UOfz/6jpQRFqr8ejnISHO3sODrX4ZQO8qlTrRMJ4hpOQqhw
- KpeLbs4SORsLKtma75BuEt4yU+CXbaDY2UFeDyb+75IFKLobS6bP+PfmqnmlG3yfTCGA9pWXk
- 5HTzy+zLin6r1klIhXL5u4XacdP8O/yhLl41lEIl/4SWsh2XefzTWJdjAb1oVIhWlxroSxF98
- Qz34YvvF4qpvHXPnAYBcWqGt8umAT91rNwPxMvej+xcfgopk6mGzhA7IS8FNS/aUHZA4n8ohV
- ViCVTT0u43oMiUXHdnRgBchq9JYtBRC0RgnL+y9swFACaTM1T7KdxNKMj6SJ3h6cGnG/hGwtH
- 0OyHBSGRzcbRIv+HhgIBXmpdibogFJz5MfkCiXK/aOgWAkM50xBtssSZ9nBcCaO9Wa8jXTrWn
- 7Eeq9ZtfTGPjKXiK1htdyuGt6+VOQ/kgK+09NGctibO6ZULGT5dCdNi4fD7d3y0wXAqA1hKv9
- Sucaz4tDGof8Wd9a5x9OEYtUCq2OQpw6uJor8ogruV2ecoMeWOvbHK0wJeKKZxMYXZOeSSduj
- lGbUYYjxAkuSdRArSZSJgyEOZjRjVRTXc0zmQgEdYaC7UrO3QreSTfh5onc/o6Xe55lLHp3OR
- OlCJvV2uHtyphJGABHMlZwliok04mDBDMAnhD2D0YzXKGUfQHjDotIM1hmXwMZ221DwVCxzbx
- Zt817jB+p/i09Uv2Rtx1hXn9JUJsarLsFItHghBqq+2pJ5ehERtG4F+9yynucmQnQvYLT4t6K
- 7X3K7ayZ9xoI+k5v6B8T0zirQ8GBUi3qYQIErnLV3RS3sWAbNp091P4ZGvMf/VZdJwY9Y8j
+X-Provags-ID: V03:K1:ij71dasd6aUUvAuk8Gmh4BUmqjgTzMBaXMzWHHUi5ztnC+Py9+5
+ BsP46QK/FpKMNIeA9KHKsKPJ/Wn3cZXiqgntgON/NaLqeR+XqSweKl8egrzQbHvPJ/ONnSH
+ zyxoeiyVMxPuFEsMS6F8eXF5PMO7jU3ooAdMQ96HasjhJ9aOtx9XIr+p4zzfRKAW7BnYoGr
+ ugXPmJfBmTOpIfWBCMazg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:z8Cj/S1lsNk=:OSal1EPwiLQ1ysdDI0m4Fy
+ bdPOi134lpFET8LIMJ7Q4K/9tB5la0AfyEJLstH2F4w+0TW2Rq8OHzuA5Qoyp3W94/1QZH2T/
+ RMrLaOsFurnVSFWawXtMY7o0j4H7FasP2ocOx5pZC4nCnoeQ+d0Jy4bXVN5IjWMSubuiFOSwb
+ ZMB+ma4+0tVchG1/Hn6/O2RByqB8qy5sJLfxN851gASBV8dh7nVqgqBwy1+YmniIGc/kBvRVM
+ FopFBauITjurxGXVTc3OzoKfrFo8WN3ehjy9aVK3C2z47+WRWIsxUFx7x4WqNBtbtKGaiTXBl
+ YDbqIu0K81XKRTLkdVFgi4Mk2rCXa9Ry1ElhzW6Wm8lQ2sx+zAiN2kG6i6OxzPUn750vxy0+N
+ MMPMWUcXEUOPrsurnV0v+w19AvEtQ+AxX8ziWOwwNrL9AFEywLYywEtygWpc2nrQWgBWvxNNe
+ lyk6f2fJE60Zlf9UkNeWhcdsTwetj0F3eZxwTgYHITIdX8HeyTUWrdzoJ+lC30hJ0McYBlB88
+ qdLQNL5ryIRl+B7ZSMdFFY0uDL1xMy8U9PBlpYracMzDcEz68Jw6fnZ+nFx+1Aon7FaoHE7LD
+ oiD+iuE0DOzxOAPrOSNzfZEuaILSl1pF4EEJHf6kPQywBTDwYg7f5ds3PFHWXCr13M/giso+Z
+ tjVjLla3mK34GbTLMJMaRS4Az+r7KE0QlktC+1HoInQzaP2YbWyCpdHaLxJAV9zErNI/DNLax
+ t1kvxe+h+g7esON7H+GCHVFLQZ+HzsYP8Afa/DJhAlqIp7RGlT+frvoC5INmPz1q1PO5bBbA5
+ ASJ7BvA0mCOcgbB81xmHBfHEfnpCp8+uStOImgK9YhgkItEdeB9jfjPDm0wcTsfSz6/5nji
 Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:12
@@ -71,67 +70,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
-Clang static code analyzer show warning:
-hw/timer/exynos4210_mct.c:1370:9: warning: Value stored to 'index' is never read
-        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
-        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-hw/timer/exynos4210_mct.c:1399:9: warning: Value stored to 'index' is never read
-        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
-        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-hw/timer/exynos4210_mct.c:1441:9: warning: Value stored to 'index' is never read
-        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
-        ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Fix: eaec903c5b8
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Acked-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200325025919.21316-4-kuhn.chenqun@huawei.com>
+Message-Id: <20200325092137.24020-4-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/timer/exynos4210_mct.c | 4 ----
- 1 file changed, 4 deletions(-)
+ crypto/cipher-builtin.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
-index 944120aea59c..570cf7075bc5 100644
---- a/hw/timer/exynos4210_mct.c
-+++ b/hw/timer/exynos4210_mct.c
-@@ -1367,7 +1367,6 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
+diff --git a/crypto/cipher-builtin.c b/crypto/cipher-builtin.c
+index bf8413e71a6e..99d6280a1669 100644
+--- a/crypto/cipher-builtin.c
++++ b/crypto/cipher-builtin.c
+@@ -133,8 +133,7 @@ static void qcrypto_cipher_aes_xts_encrypt(const void *ctx,
+ {
+     const QCryptoCipherBuiltinAESContext *aesctx = ctx;
  
-     case L0_TCNTB: case L1_TCNTB:
-         lt_i = GET_L_TIMER_IDX(offset);
--        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+-    qcrypto_cipher_aes_ecb_encrypt((AES_KEY *)&aesctx->enc,
+-                                   src, dst, length);
++    qcrypto_cipher_aes_ecb_encrypt(&aesctx->enc, src, dst, length);
+ }
  
-         /*
-          * TCNTB is updated to internal register only after CNT expired.
-@@ -1396,7 +1395,6 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
  
-     case L0_ICNTB: case L1_ICNTB:
-         lt_i = GET_L_TIMER_IDX(offset);
--        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
+@@ -145,8 +144,7 @@ static void qcrypto_cipher_aes_xts_decrypt(const void *ctx,
+ {
+     const QCryptoCipherBuiltinAESContext *aesctx = ctx;
  
-         s->l_timer[lt_i].reg.wstat |= L_WSTAT_ICNTB_WRITE;
-         s->l_timer[lt_i].reg.cnt[L_REG_CNT_ICNTB] = value &
-@@ -1438,8 +1436,6 @@ static void exynos4210_mct_write(void *opaque, hwaddr offset,
+-    qcrypto_cipher_aes_ecb_decrypt((AES_KEY *)&aesctx->dec,
+-                                   src, dst, length);
++    qcrypto_cipher_aes_ecb_decrypt(&aesctx->dec, src, dst, length);
+ }
  
-     case L0_FRCNTB: case L1_FRCNTB:
-         lt_i = GET_L_TIMER_IDX(offset);
--        index = GET_L_TIMER_CNT_REG_IDX(offset, lt_i);
--
-         DPRINTF("local timer[%d] FRCNTB write %llx\n", lt_i, value);
  
-         s->l_timer[lt_i].reg.wstat |= L_WSTAT_FRCCNTB_WRITE;
 -- 
 2.26.2
 
