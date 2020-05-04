@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F7F1C3F89
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:15:43 +0200 (CEST)
-Received: from localhost ([::1]:53666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953531C3F81
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 18:14:05 +0200 (CEST)
+Received: from localhost ([::1]:48564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdks-00020X-7R
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:15:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38110)
+	id 1jVdjI-0008Gh-Gd
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 12:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdWA-0001Z8-89; Mon, 04 May 2020 12:00:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:45347)
+ id 1jVdW2-0001Vc-KU; Mon, 04 May 2020 12:00:22 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:36561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVdW2-0005uo-4r; Mon, 04 May 2020 12:00:24 -0400
+ id 1jVdW1-0005ud-D3; Mon, 04 May 2020 12:00:22 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mzydy-1jBTXE2WIA-00x2jx; Mon, 04 May 2020 18:00:14 +0200
+ id 1Mum6l-1jF4ZA1Blz-00ro4i; Mon, 04 May 2020 18:00:15 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 14/19] hw/input/adb-kbd: Remove dead assignment
-Date: Mon,  4 May 2020 17:59:51 +0200
-Message-Id: <20200504155956.380695-15-laurent@vivier.eu>
+Subject: [PULL v2 15/19] hw/ide/sii3112: Remove dead assignment
+Date: Mon,  4 May 2020 17:59:52 +0200
+Message-Id: <20200504155956.380695-16-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504155956.380695-1-laurent@vivier.eu>
 References: <20200504155956.380695-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pP2iFbrOwoCpjoZYcWB3oBDpYLt6NWP4+aZCPwxjbAxZq1NP7vT
- cP4L6qVJLBhsmINheshkGRXS+F4MzzZBKKZc18YI+4Oq5i8AzUeDs7Pg0cQRcpHOmQ4V7A2
- Gy6KcE+H144TPF1CPuFhbGGvBm2je2fzRBYYjNE08VCFC5rvCmUbCbWryfBLbEukjFUkcXK
- BK13xnR7ESjMXkVwH0rEA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Uu7VC6fA5c4=:Kx4jAe/Bslcq3RWJoegR7A
- pkq1FlvFj1fMWyRFZJwvH1KCfybx+H6yA/Sf5sD6Uldoe8o0nv9AuNHqvYNox97PSaOvN3Ldm
- TXPO1ZY2yq9Ej2mcegb1y3nlJkxwZurSQF2+v8mgmvMam2o90mDPIdGinVkQQwP0WNb9J2Hp3
- TkzC1nf+JPOX0GyxSvTVQGyRKZoXlsGUH7Aj28dv0IX2CBr0AqHk7JFMoVqx9BJNcS+6RowGv
- bSDHerG2BVm2emdaAUZEQr2mVbteTzqqcTNd/39tRyHdjDn/II89366QW/bDl1IIrbuXhcZfi
- u1DNI1TJAgbZ7z5N898AUIgLsA6INqphZGkYMlX0nxo+MZ0SPO484gG/yvd+3YkAk8eRtnPvP
- CyeMyKDXsxE8taBRvpQcAcW04L9W8XsjkdaYtyawfWXqvYZxuhQZmHZp+00FpUDRI7viKMt/0
- AnWtXoOAMwHoUnjLClGBhXeo1ltBo5wfmJizxKpO0my4Oibsqh0fo4+AW1CmkhTpbrHxI2iM8
- +vWa3o0BQwrc1mqPJqIHDNN0UhiAk3OYMU5kUoYbmDMmDazAVvURmUZA9HTh1Pj5OnQftToOm
- R0NeUs4m2aI6kf6jivUhAyuUHG5HQf+nbRJ4wZOoKFQRe7qHA0Nan2YkDSQ5jTwtn9BnZnyis
- fwYmZmDlLNH71dwN+XC33vQMeQgUE0PqMRKRKTiEm+qelTvJdKSSRnYmjKIvH6JG9RmBzJW4o
- 6WY5wdYuezClJzeyBhGb/1D/Tho4rZx317ixn/4TUuMGsBkfwXTnFqMp5Dqb3ELpJ6ks8Fy28
- NiPaji83ueETH6nGulc5IC26XLmvIVLsZwRIv2in7tmKNQT9tZqTLE8UaCBOP4O5X93RFWw
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:lgVrMoml8bYCxI2Y+gJetK2X5PYyHDeGI0vM/BCBrUlgBU4vesB
+ pRo0wzORuvfwE6X1WN6sO4awT/cBaHaEpkBIzOrb29e5qRkF+DKKulCYWiTbiTZW36AZe2x
+ y/ETeVuZ8C2ddWYrFex1exTvGsxSi+yDXW4fSY5Dw8hwzWPiQpYfDZJnA9C5ZSBZKSb9ybR
+ IC6zji8W6X/W4oy8SENJg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MLrnwyS2kLE=:ZgXkqqoKPTBCTYfeCGH6gQ
+ XtapdkH+03aGfU9tO3cD5rcUDIUa7Kmv2JFRyUK4TuL4SJaaDLOZMZy31FopHZskQ1YjLKOuQ
+ pwnaQSqvtSuGa8ylCGgPJMItsKfB/HnG0QKaIg5n1opTetZYqofbzQbWlalX0wJa/NUdX6EXx
+ vdo4BocXO1gfXZBbuN5GqDxqZG6oJUMdowPRqx9dX/nPIliJZp1WkMLaL2YWXFFLfz1J/3w30
+ sbXJ53rm447U60SAwL0zcCU2IFrUCuJhA8SX1MI9MdPZQHmDUucF4UkiqdSJptpK+eXw3emtu
+ BvCucf1+d/T4MHD/LVeVMJenqogQduQYiC60LHfQoEO3PcdH/8qz033F4JqVl/YER6g8BbjI3
+ /lVJ4gBYYTpcSs6LeWB3Yy6HikW0pTkxU4Rz+EdYPqm4WPnfsbPPHa8gJtRicrta8oHgOb2dR
+ rvH2w1UCXSG1wiZLPk1USl7c8Z0CGYrtvStX6PZgijUBQ+C+F5F2zTig3gciXWq5/nzXDNqUs
+ lvKXxx9hWlUqxdJGoL4yofnTlFRUymiMCfKzCGTzPBaQqaMfEjwH7Y0QwGXZjwE0ULNE3CH1k
+ dDdLaSI0wGID0f+0GToBhZbUGnG1hl0Qx2xHtt3MNTnC7VA3RwiBMkhldBahT++eFhvwRKV4b
+ uO3trKmrqgiH9lDby5xB1VXBc6RVbl8qiJ8pRONk4dH45bCKPUb3M816Omb0cXp2Kj8MsjCpH
+ ZF7CUzODPyXCB4hm1twQ4LqYq9OX225rWoSMdSiixXSlDPAZu9LASjEI7kHEs7miGBBUVRMAp
+ NU7Pp+Fh4SQDOkjVWkaFXeMwsVjFnsZwklqbFVuYUJStHVQGwapKacITYiRmUEIwt0ibX2+
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 11:59:59
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 12:00:07
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,69 +69,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-trivial@nongnu.org, John Snow <jsnow@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Since commit 5a1f49718 the 'olen' variable is not really
-used. Remove it to fix a warning reported by Clang static
-code analyzer:
+Fix warning reported by Clang static code analyzer:
 
-    CC      hw/input/adb-kbd.o
-  hw/input/adb-kbd.c:200:5: warning: Value stored to 'olen' is never read
-      olen = 0;
-      ^      ~
+    CC      hw/ide/sii3112.o
+  hw/ide/sii3112.c:204:9: warning: Value stored to 'val' is never read
+          val = 0;
+          ^     ~
 
-Fixes: 5a1f49718 (adb: add support for QKeyCode)
+Fixes: a9dd6604
 Reported-by: Clang Static Analyzer
-Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
+Acked-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20200422133152.16770-5-philmd@redhat.com>
+Message-Id: <20200422133152.16770-6-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/input/adb-kbd.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ hw/ide/sii3112.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/input/adb-kbd.c b/hw/input/adb-kbd.c
-index 0ba82075897f..a6d5c9b7c9ac 100644
---- a/hw/input/adb-kbd.c
-+++ b/hw/input/adb-kbd.c
-@@ -195,9 +195,7 @@ static int adb_kbd_poll(ADBDevice *d, uint8_t *obuf)
+diff --git a/hw/ide/sii3112.c b/hw/ide/sii3112.c
+index d69079c3d9b7..94d2b57f9535 100644
+--- a/hw/ide/sii3112.c
++++ b/hw/ide/sii3112.c
+@@ -42,7 +42,7 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
+                                 unsigned int size)
  {
-     KBDState *s = ADB_KEYBOARD(d);
-     int keycode;
--    int olen;
+     SiI3112PCIState *d = opaque;
+-    uint64_t val = 0;
++    uint64_t val;
  
--    olen = 0;
-     if (s->count == 0) {
-         return 0;
+     switch (addr) {
+     case 0x00:
+@@ -126,6 +126,7 @@ static uint64_t sii3112_reg_read(void *opaque, hwaddr addr,
+         break;
+     default:
+         val = 0;
++        break;
      }
-@@ -216,7 +214,6 @@ static int adb_kbd_poll(ADBDevice *d, uint8_t *obuf)
-     if (keycode == 0x7f) {
-         obuf[0] = 0x7f;
-         obuf[1] = 0x7f;
--        olen = 2;
-     } else {
-         obuf[0] = keycode;
-         /* NOTE: the power key key-up is the two byte sequence 0xff 0xff;
-@@ -224,10 +221,9 @@ static int adb_kbd_poll(ADBDevice *d, uint8_t *obuf)
-          * byte, but choose not to bother.
-          */
-         obuf[1] = 0xff;
--        olen = 2;
+     trace_sii3112_read(size, addr, val);
+     return val;
+@@ -201,7 +202,7 @@ static void sii3112_reg_write(void *opaque, hwaddr addr,
+         d->regs[1].sien = (val >> 16) & 0x3eed;
+         break;
+     default:
+-        val = 0;
++        break;
      }
- 
--    return olen;
-+    return 2;
  }
  
- static int adb_kbd_request(ADBDevice *d, uint8_t *obuf,
 -- 
 2.26.2
 
