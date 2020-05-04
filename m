@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F4C1C36B6
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:22:21 +0200 (CEST)
-Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 384521C36E7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:27:49 +0200 (CEST)
+Received: from localhost ([::1]:47230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVYEu-000344-Vw
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:22:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40310)
+	id 1jVYKC-00060N-97
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:27:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVYE1-0002A7-Tt; Mon, 04 May 2020 06:21:25 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40813)
+ (Exim 4.90_1) (envelope-from <lwhsu.freebsd@gmail.com>)
+ id 1jVYIs-000556-TA
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 06:26:26 -0400
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:33644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVYE1-00039D-88; Mon, 04 May 2020 06:21:25 -0400
-Received: by mail-wm1-x341.google.com with SMTP id u16so8380979wmc.5;
- Mon, 04 May 2020 03:21:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bAay7sHF5UAuLC5K3PGUp3iLEXMVE/Vr87IM8AUWwC4=;
- b=P5PvWZoksifcRarY1/qYOt2Rte/DxXJYwem5h8yr/OEelyXIB+UN8plufsDUTj0yIk
- Hqrs5zMz2g1vZDJtwQjN9unM2ma5jlBiu4wyaLRzMTpJYfgehaDg3K7aX9qAvs7hVSUG
- ywJ7vyZkLrkGAIPicQmYtBmV1shqAV102pW30i7ox48WUcsNJrvqXRBvcQKsfmOCBfWO
- 7u9UYldlNPP35PZyVprWIswBOM1QlUbuTzWElTdX6Cw74skrcS4B5U3mJKBRaGjTlhjm
- cQJSyEQABM6PO3ivDSM9f5wXEW8Q9/DZxMJ11bjU/ph6DmQy9UK4FFai5Enx8Xp9USd7
- RYUQ==
+ (Exim 4.90_1) (envelope-from <lwhsu.freebsd@gmail.com>)
+ id 1jVYIr-000110-W3
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 06:26:26 -0400
+Received: by mail-yb1-f196.google.com with SMTP id b8so1150276ybn.0
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 03:26:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bAay7sHF5UAuLC5K3PGUp3iLEXMVE/Vr87IM8AUWwC4=;
- b=gFOvZLCH4ouq5GrhZze0M7ZkXO13AsHLRs1Ls8Y+idGJAB9lOX/AY+Fbs5ibuI0U+s
- 4/oxuo8y/qBmLct2i7oJfrJ3SIMapKZXJVV1ADMCPt9cgA/9oNBJvASfytp1ql0GSONi
- 1n3Fq8aiSQt1q9dScrA4KGvedIjBQYZSHTzpuhrpTQEJpDLClxAxKlQLDyYZsG/WXL4J
- 0PD2xd0104DI5eJinvaSsDN+mGyELHNH5/+j8eMoSZFCBlBlWDheNvBb38xDTd3ctiDg
- +kkjFqppLde/SUyHLyT+bP46B0KKbnKpWQEU2gOCbhKFQdttHDWQVHGGVcwUGhvr/zUD
- ovDA==
-X-Gm-Message-State: AGi0PuZpQEbyfGtfgfTV7FkkmOMczqPo35TSS8u0/28G+1BC8ytVi75d
- QrEFBXjX2d/kEBLTkwIJliI=
-X-Google-Smtp-Source: APiQypKwE29coJzDx/DvE2mi7+aO95YAF5ZlP6zWvsF42kGDWUpuMahBhlZC5l5WVQi+a0zjITQmvg==
-X-Received: by 2002:a1c:35c3:: with SMTP id c186mr14683203wma.66.1588587682879; 
- Mon, 04 May 2020 03:21:22 -0700 (PDT)
-Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id 17sm12247523wmo.2.2020.05.04.03.21.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 03:21:22 -0700 (PDT)
-Subject: Re: [PATCH] hw/usb: Make "hcd-ehci.h" header public
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20200504082238.16655-1-f4bug@amsat.org>
- <alpine.BSF.2.22.395.2005041044550.59496@zero.eik.bme.hu>
- <0de65ed7-37b0-8916-2ccb-bbb524934351@amsat.org>
-Message-ID: <0ffd398d-5585-e7f4-85f7-20e9c001428e@amsat.org>
-Date: Mon, 4 May 2020 12:21:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E17RNeAf4MBZIQQPpmt1wwqpLY6INEh+p/cWtWoJ7Xo=;
+ b=dDwYF02jJtOlmUdQs2QedSXVTl2Va9p5/5EUuBLaY8+CwK1PfiMCs9CIV1OEsqOscw
+ uZpqkGCNr6XjgUXoddSfLm/SMR70ZrIavEzSDfueaoLvSS1gy4SI6GGnrCAnoUzpZcGq
+ RvAEloZ8iudmLXP9xRXEojufwuqbK0rtQJDc8RJdSO7L8YpzFYKVrLIhbT1RRLFyk4Ss
+ pPP2YGVvd7wbxpKZIqFVg1kT75fn9MFwC4OyuR829cUym2e3MWHLEj4QDFIIlAMUWsOJ
+ 1TKKTzjuhRuIPBTmIepxxTmXKVFE8mp76nXMuOJzJrIHVL5SAa0f8/glAJBiwCokSl5P
+ 4cDA==
+X-Gm-Message-State: AGi0PuYJ8dUY4kurekbkOtXBIKHG4w4FkIaGj2uVMHeD6s6u2sRV6P+A
+ ZHynh1s2T3tqpDey96Xdr+Lep//Xu57jnaMHQ/w=
+X-Google-Smtp-Source: APiQypJWqPA2tr927tXxB8Un67O9ZZ3TNdhHWpWR3CP2V0UeE6nap8xFjj2wBON6uIlghT1j25JinKivO3i677vt/CQ=
+X-Received: by 2002:a25:d7c5:: with SMTP id
+ o188mr25001549ybg.241.1588587984490; 
+ Mon, 04 May 2020 03:26:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0de65ed7-37b0-8916-2ccb-bbb524934351@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+References: <20200501111505.4225-1-alex.bennee@linaro.org>
+ <20200501111505.4225-4-alex.bennee@linaro.org>
+In-Reply-To: <20200501111505.4225-4-alex.bennee@linaro.org>
+From: Li-Wen Hsu <lwhsu@freebsd.org>
+Date: Mon, 4 May 2020 18:26:13 +0800
+Message-ID: <CAKBkRUzicxphjjkkxdgzB3cDSv=AszD5V4X499jT2BjiAaazGw@mail.gmail.com>
+Subject: Re: [PATCH v1 3/4] .cirrus.yml: bump FreeBSD to the current stable
+ release
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.219.196;
+ envelope-from=lwhsu.freebsd@gmail.com; helo=mail-yb1-f196.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 06:26:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,40 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-devel@nongnu.org,
- Beniamino Galvani <b.galvani@gmail.com>, Andrew Jeffery <andrew@aj.id.au>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-trivial@nongnu.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: Ed Maste <emaste@freebsd.org>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 12:12 PM, Philippe Mathieu-Daudé wrote:
-> On 5/4/20 10:48 AM, BALATON Zoltan wrote:
->> On Mon, 4 May 2020, Philippe Mathieu-Daudé wrote:
->>> As target-specific code use this header, move it to the publicly
->>> accessible include/ folder.
->>>
->>>  $ git grep hw/usb/hcd-ehci.h
->>>  hw/arm/allwinner-h3.c:31:#include "hw/usb/hcd-ehci.h"
->>>  hw/arm/exynos4210.c:38:#include "hw/usb/hcd-ehci.h"
->>>  hw/ppc/sam460ex.c:38:#include "hw/usb/hcd-ehci.h"
->>>  include/hw/arm/allwinner-a10.h:13:#include "hw/usb/hcd-ehci.h"
->>>  include/hw/arm/aspeed_soc.h:29:#include "hw/usb/hcd-ehci.h"
->>
->> All of these only need either the type #define or EHCISysBusState so 
->> splitting only those off to a public header should be enough and 
->> better than making public all of ehci's internal header.
-> 
-> Ah you mean forward-declare EHCISysBusState in "qemu/typedefs.h", OK.
+On Fri, May 1, 2020 at 7:15 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>
+> Hopefully this will un-stick the test which has been broken for a long
+> time.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  .cirrus.yml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/.cirrus.yml b/.cirrus.yml
+> index 90645fede6..f06f5af2b9 100644
+> --- a/.cirrus.yml
+> +++ b/.cirrus.yml
+> @@ -3,7 +3,7 @@ env:
+>
+>  freebsd_12_task:
+>    freebsd_instance:
+> -    image: freebsd-12-0-release-amd64
+> +    image_family: freebsd-12-1
+>      cpu: 8
+>      memory: 8G
+>    install_script: pkg install -y
+> --
+> 2.20.1
+>
 
-It won't work because AspeedSoCState and AwA10State use the full 
-structure (not a pointer to it).
+Reviewed-by: Li-Wen Hsu <lwhsu@freebsd.org>
+Tested-by: Li-Wen Hsu <lwhsu@freebsd.org>
 
->>
->> Regards,
->> BALATON Zoltan
-> 
+I would be nice to also add this patch:
+https://github.com/lwhsu/qemu/commit/ac699f79b4d86d8195d76c3befada65ade449c=
+c0.patch
+To prevent problems in the future.
+
+The error was due to the pkg version got "fixed" when building image,
+and was too old when VM got provisioned, then it cannot be not
+compatible with the package repository. Ref:
+https://lists.freebsd.org/pipermail/freebsd-cloud/2020-April/000234.html
+
+Best,
+Li-Wen
 
