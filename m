@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C65E1C38DB
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:06:04 +0200 (CEST)
-Received: from localhost ([::1]:50346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB85A1C38F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:12:41 +0200 (CEST)
+Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVZrH-0003j9-Dv
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:06:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52030)
+	id 1jVZxg-0005L6-O6
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:12:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjq-00031y-Mu; Mon, 04 May 2020 07:58:22 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:60549)
+ id 1jVZjr-00035e-UQ; Mon, 04 May 2020 07:58:23 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:46785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1jVZjo-0002Cm-Qr; Mon, 04 May 2020 07:58:22 -0400
+ id 1jVZjo-00028z-TH; Mon, 04 May 2020 07:58:23 -0400
 Received: from localhost.localdomain ([82.252.135.106]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MVubb-1jfr841YKD-00RoZr; Mon, 04 May 2020 13:58:13 +0200
+ id 1N8XDT-1j1JFE44Kf-014Si3; Mon, 04 May 2020 13:58:14 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/20] chardev: Add macOS to list of OSes that support -chardev
- serial
-Date: Mon,  4 May 2020 13:57:48 +0200
-Message-Id: <20200504115758.283914-11-laurent@vivier.eu>
+Subject: [PULL 11/20] Compress lines for immediate return
+Date: Mon,  4 May 2020 13:57:49 +0200
+Message-Id: <20200504115758.283914-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504115758.283914-1-laurent@vivier.eu>
 References: <20200504115758.283914-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4ey3ye1NpyUXtC8bi3qhu9jeGu/krl8+monyixcJO2ry/Ndqd2E
- m4yRyCEDsPorj2bPBO6Xp5bTFUo59KbQtgykPkXYbfUPY8R7hDJw30A7mJC3uEgiG/3yelI
- 8RwkWjsWEKQDRVHghxFMMwdkMSY8u/DNadnmGxklTZArBDLnxbXNiWom7ImNyLnrFtX0H9W
- HutkynkGyp2ZzazcWEJyQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9LBGXjpzMRM=:GtTGsuEAuj+gKcq5BcaEC7
- ciiX7FV+ZUZhlwT0HBMxGmAuXG0IZgWbRXVmAODfVrkPwIKrLBZdWPcqgHiUb+5UkX2ouXn8H
- Ine8hbTfo+4y5VURJT3Bj/sXuGDsnp45iHZwSxf4uLyo0ANsxLmCLjaJS0fHROa0KD86+z1G2
- Vzh+KiztRNqvgA8FIjht4aFXt0bDxIafyHbKEtsiIdCe19cQXlwmxOApPf7OtGByYDyTj8Nrh
- ZcQx+jzK0SEQsd5ZTDzu8OQIJeYkcMakruidID3YQTaNrphnQC+F5/QfHWMiS47zfOOpQn5XX
- kIdidjxtMsYCEBOyee3moWoriUsA++deY21x9R76+OjSw+50B74/HtpFhSlLv5fbUuy80QzuO
- 71eErKyV8woJuvaqdmW9NlhVymOiGdrJmJ/grGDzt4gdtIhUeDemKlhd2DY6DdmTwKRLCgiT4
- ktpK2zElFapAZlUupzLv1D1p+CU+LTJ+/tOy3E5y229OEl1YUkCsdSjmRi9WF9zD73ORJftdY
- pQxp7liKsgf1KH6+aBRNqaXKUcvSRGVJXP/u4/cgdTGK4RbVaAv2793DJlf1AWxPqo9wPUX3K
- nNSv9ln1XFpzP0xzWI32ozXwmcpap/JF6V9XmWD1hpyNBhsQZw9M+6jyuB61SJEcmi+jIArVx
- Hex1eZlaHE/IQU5ep5pNiy9hUBHBh2Z5celIKUjs9LTL3wXhG1JROxPr9o8w21pN0sYJjcZPR
- WTvYPfZZoQk6Q+xREvgIQSc73seblIJYryLQyawOH/6eXHGKIChxdJlhsZMknXocuF4zflh4E
- bfAKUvjjOXlzpTtzwK62rGUJx0cDbawZz5LGUZSaLUqNX/xznpV47ATCGBGM7ixzup6Kopy
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:wYnk4vWOlgTtlHnIFo0rRCQ8QcF1UrGGnMVNrzZXwL2/Q4XJ14P
+ v3QnL+h1N9163JYXJdFWgin7dPF9X6BQYgkLRA8KQCNZIs3HkgQM8e1caBI2hs9pzbyHAAP
+ w17ghkS/+7oPHI1m2WnbwZAHccuUVMvXigMmgxnotFicqfdRQizJSeYh0JYfxgyA6xjOvX6
+ LY3Vs8WGWiIm5Hg0eZ6Dw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:t/7b+5QkGpg=:EDaEgGyQI8ThhafOVj5yiQ
+ pkzUWbPCVHIbIKXXReH8yH/YuxK2dGkAH6gKnk1rdITyHb/tSED++QIY9igYA4LGxS8PTn1JO
+ gvTePLgAhUlod+l7q/TT9I//y+pPf0PtTFvubQBY1O3IjgbSlW65/vSIvAB6GEG0WZqILuCRW
+ Ud/xIN+6smb1Q97Hqj2OlE3uA4nvTbdymxHPe5Lju8Gzc/dkyCmvtOfZKyAsN8eA80Oysmm8Z
+ IkPPFcFIaNhoAq4SdOE2X0aPh/2gpAB+jihhmTXSlIduWRE4NMnUMRrKoYqjNXVmAMSFIM6N5
+ r1PU/m89fbM3UnXgkexpj+Oo7ocPLfoAvf1s+bEVLUEHdDM0HSIgadGQ9YoAEqYUQ0qkScDgf
+ RSh7Q7oy8EJ6zWTYNetxElpvkqmFaLMX/ePsuBglDq6DqFn7CiBbVOsQDR77bKWCECBWsF3Ew
+ W+0cCail8Ai+Ils4kc2PkeJxXUTWelmP/7dBBG4iMwA70sieUaQf1ayexpjsN5cYT5+AUr1m7
+ x4A4H4mpjsiJd2c+PG9GH279XeRNZ1JVZxiZdjSEJwEONaBJgXrTHFxG2LtVJTM3NxjcNU3OB
+ EiiVmlRw7DsabczrXKs2unfzlvFclxl5CQvd8bCwCHmWR2fi4zRqe8MYXDZCCEZK344UqLbXJ
+ YMSlP8JzocE97vbTEgub+Rs0G4dI6Sn9y3jpiG+/OIzk+HRiqcs7EvRMC2Y5ry/5XxmsFOZ5C
+ ne96HEwdL4OCzxlA7fv61gguT2dsCjHSm3tJdczyVilTgQSUi2Y4y2DldwcnOrfI7cJ8n3m8h
+ ryXeLHikwcCyLCxuGSHPXi8Lu8vuD7G76vjU3sO6PofldkGSp4G18rPB4mdAZMfdDJuOUrV
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:13
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 07:58:08
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -71,52 +69,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Mikhail Gusarov <dottedmag@dottedmag.net>,
+Cc: qemu-trivial@nongnu.org, Simran Singhal <singhalsimran0@gmail.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mikhail Gusarov <dottedmag@dottedmag.net>
+From: Simran Singhal <singhalsimran0@gmail.com>
 
-macOS API for dealing with serial ports/ttys is identical to BSDs.
+Compress two lines into a single line if immediate return statement is found.
 
-Signed-off-by: Mikhail Gusarov <dottedmag@dottedmag.net>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200426210956.17324-1-dottedmag@dottedmag.net>
+It also remove variables progress, val, data, ret and sock
+as they are no longer needed.
+
+Remove space between function "mixer_load" and '(' to fix the
+checkpatch.pl error:-
+ERROR: space prohibited between function name and open parenthesis '('
+
+Done using following coccinelle script:
+@@
+local idexpression ret;
+expression e;
+@@
+
+-ret =
++return
+     e;
+-return ret;
+
+Signed-off-by: Simran Singhal <singhalsimran0@gmail.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200401165314.GA3213@simran-Inspiron-5558>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- chardev/char-serial.c | 2 +-
- include/qemu/osdep.h  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ block/file-posix.c      | 3 +--
+ block/nfs.c             | 3 +--
+ block/nvme.c            | 4 +---
+ block/vhdx.c            | 3 +--
+ hw/audio/ac97.c         | 4 +---
+ hw/audio/adlib.c        | 5 +----
+ hw/display/cirrus_vga.c | 4 +---
+ migration/ram.c         | 4 +---
+ ui/gtk.c                | 3 +--
+ util/qemu-sockets.c     | 5 +----
+ 10 files changed, 10 insertions(+), 28 deletions(-)
 
-diff --git a/chardev/char-serial.c b/chardev/char-serial.c
-index 5b833ea0773b..7c3d84ae243e 100644
---- a/chardev/char-serial.c
-+++ b/chardev/char-serial.c
-@@ -53,7 +53,7 @@ static void qmp_chardev_open_serial(Chardev *chr,
+diff --git a/block/file-posix.c b/block/file-posix.c
+index bf09ad8bc0d0..8fd8c27305cc 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1631,8 +1631,7 @@ static int handle_aiocb_write_zeroes_unmap(void *opaque)
  
- #elif defined(__linux__) || defined(__sun__) || defined(__FreeBSD__)      \
-     || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) \
--    || defined(__GLIBC__)
-+    || defined(__GLIBC__) || defined(__APPLE__)
+     /* If we couldn't manage to unmap while guaranteed that the area reads as
+      * all-zero afterwards, just write zeroes without unmapping */
+-    ret = handle_aiocb_write_zeroes(aiocb);
+-    return ret;
++    return handle_aiocb_write_zeroes(aiocb);
+ }
  
- static void tty_serial_init(int fd, int speed,
-                             int parity, int data_bits, int stop_bits)
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 20f5c5f197d0..ff7c17b85735 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -379,7 +379,7 @@ void qemu_anon_ram_free(void *ptr, size_t size);
- #define HAVE_CHARDEV_SERIAL 1
- #elif defined(__linux__) || defined(__sun__) || defined(__FreeBSD__)    \
-     || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) \
--    || defined(__GLIBC__)
-+    || defined(__GLIBC__) || defined(__APPLE__)
- #define HAVE_CHARDEV_SERIAL 1
- #endif
+ #ifndef HAVE_COPY_FILE_RANGE
+diff --git a/block/nfs.c b/block/nfs.c
+index 2393fbfe6bcc..18c0a7369454 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -623,8 +623,7 @@ static int nfs_file_open(BlockDriverState *bs, QDict *options, int flags,
+     }
  
+     bs->total_sectors = ret;
+-    ret = 0;
+-    return ret;
++    return 0;
+ }
+ 
+ static QemuOptsList nfs_create_opts = {
+diff --git a/block/nvme.c b/block/nvme.c
+index 7b7c0cc5d673..eb2f54dd9dc9 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -575,11 +575,9 @@ static bool nvme_poll_cb(void *opaque)
+ {
+     EventNotifier *e = opaque;
+     BDRVNVMeState *s = container_of(e, BDRVNVMeState, irq_notifier);
+-    bool progress = false;
+ 
+     trace_nvme_poll_cb(s);
+-    progress = nvme_poll_queues(s);
+-    return progress;
++    return nvme_poll_queues(s);
+ }
+ 
+ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 45be0a43218c..aedd78260455 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -411,8 +411,7 @@ int vhdx_update_headers(BlockDriverState *bs, BDRVVHDXState *s,
+     if (ret < 0) {
+         return ret;
+     }
+-    ret = vhdx_update_header(bs, s, generate_data_write_guid, log_guid);
+-    return ret;
++    return vhdx_update_header(bs, s, generate_data_write_guid, log_guid);
+ }
+ 
+ /* opens the specified header block from the VHDX file header section */
+diff --git a/hw/audio/ac97.c b/hw/audio/ac97.c
+index 1ec87feec0cb..8a9b9924c495 100644
+--- a/hw/audio/ac97.c
++++ b/hw/audio/ac97.c
+@@ -573,11 +573,9 @@ static uint32_t nam_readb (void *opaque, uint32_t addr)
+ static uint32_t nam_readw (void *opaque, uint32_t addr)
+ {
+     AC97LinkState *s = opaque;
+-    uint32_t val = ~0U;
+     uint32_t index = addr;
+     s->cas = 0;
+-    val = mixer_load (s, index);
+-    return val;
++    return mixer_load(s, index);
+ }
+ 
+ static uint32_t nam_readl (void *opaque, uint32_t addr)
+diff --git a/hw/audio/adlib.c b/hw/audio/adlib.c
+index d6c1fb0586c6..7c3b67dcfb8c 100644
+--- a/hw/audio/adlib.c
++++ b/hw/audio/adlib.c
+@@ -120,13 +120,10 @@ static void adlib_write(void *opaque, uint32_t nport, uint32_t val)
+ static uint32_t adlib_read(void *opaque, uint32_t nport)
+ {
+     AdlibState *s = opaque;
+-    uint8_t data;
+     int a = nport & 3;
+ 
+     adlib_kill_timers (s);
+-    data = OPLRead (s->opl, a);
+-
+-    return data;
++    return OPLRead (s->opl, a);
+ }
+ 
+ static void timer_handler (void *opaque, int c, double interval_Sec)
+diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+index 0d391e1300aa..1f29731ffe11 100644
+--- a/hw/display/cirrus_vga.c
++++ b/hw/display/cirrus_vga.c
+@@ -2411,12 +2411,10 @@ static uint64_t cirrus_linear_bitblt_read(void *opaque,
+                                           unsigned size)
+ {
+     CirrusVGAState *s = opaque;
+-    uint32_t ret;
+ 
+     /* XXX handle bitblt */
+     (void)s;
+-    ret = 0xff;
+-    return ret;
++    return 0xff;
+ }
+ 
+ static void cirrus_linear_bitblt_write(void *opaque,
+diff --git a/migration/ram.c b/migration/ram.c
+index 04f13feb2e77..06cba8863280 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2135,9 +2135,7 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+     }
+     trace_ram_postcopy_send_discard_bitmap();
+ 
+-    ret = postcopy_each_ram_send_discard(ms);
+-
+-    return ret;
++    return postcopy_each_ram_send_discard(ms);
+ }
+ 
+ /**
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 030b251c6109..83f2f5d49b2a 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -1650,8 +1650,7 @@ static GSList *gd_vc_menu_init(GtkDisplayState *s, VirtualConsole *vc,
+                      G_CALLBACK(gd_menu_switch_vc), s);
+     gtk_menu_shell_append(GTK_MENU_SHELL(view_menu), vc->menu_item);
+ 
+-    group = gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(vc->menu_item));
+-    return group;
++    return gtk_radio_menu_item_get_group(GTK_RADIO_MENU_ITEM(vc->menu_item));
+ }
+ 
+ #if defined(CONFIG_VTE)
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index bcc06d0e01c7..86c48b9fa5de 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -765,15 +765,12 @@ static int vsock_connect_addr(const struct sockaddr_vm *svm, Error **errp)
+ static int vsock_connect_saddr(VsockSocketAddress *vaddr, Error **errp)
+ {
+     struct sockaddr_vm svm;
+-    int sock = -1;
+ 
+     if (!vsock_parse_vaddr_to_sockaddr(vaddr, &svm, errp)) {
+         return -1;
+     }
+ 
+-    sock = vsock_connect_addr(&svm, errp);
+-
+-    return sock;
++    return vsock_connect_addr(&svm, errp);
+ }
+ 
+ static int vsock_listen_saddr(VsockSocketAddress *vaddr,
 -- 
 2.26.2
 
