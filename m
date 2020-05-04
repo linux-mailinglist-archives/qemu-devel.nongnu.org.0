@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6B81C3E19
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:07:36 +0200 (CEST)
-Received: from localhost ([::1]:53342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B721C3D83
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:49:54 +0200 (CEST)
+Received: from localhost ([::1]:46080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcgw-0001a2-PV
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49730)
+	id 1jVcPo-0006Dt-Vd
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcKG-00061E-3j
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:44:08 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52773
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jVcLa-0000Jw-1c
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:45:30 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26615
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVcKF-0007CE-5r
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:44:07 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jVcLY-0008Gr-2f
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:45:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588603446;
+ s=mimecast20190719; t=1588603526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pSthITE56L2hFIEmST/HRha2R7OdLTFLBd7KQqBM514=;
- b=abOtoXNtBk9NIy9anhajpNkaX0Vk77xQ2jbA5zgB9Gglva8r3cwl1MUALdhRI7f3P4SopX
- SYQKUe3/YUpHEgi6XVZNkFPzlgJFQX1SOXmR/AQG7GG8i4lg8h4AnIIjoxYUyZ3i/ylgM8
- b34i9xBej+ZKTNP11Xuwz1I3YhmMmh8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-K2G4jJL7Nn-vbrt9gDWc6w-1; Mon, 04 May 2020 10:43:55 -0400
-X-MC-Unique: K2G4jJL7Nn-vbrt9gDWc6w-1
-Received: by mail-wm1-f70.google.com with SMTP id 71so3610987wmb.8
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:43:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YlpSmQbS4jAahWSUxB8SJZeDNR28kAXnUGMyBMki4DA=;
- b=eNp/HKJ7Tgv9TIsShPEgUnjRg4WRmaC+bwbpWJY4gJHEPoxnYeKyw6lBT2GGcYyd8T
- FQ6OFmqHgQ0MrURatz6OaaDSTcBXBmemZLLjxq3dfEjYGaNUSCjhkOcoam3B0YhLFd+M
- F0JNy986RU//eIhL3O/of6bVg13A61HcthKdpWsRukHYN8WLhs3oFYWVsnXCLHzjCZ0f
- islxK9mF1d+uyYrEOIakPV7mqq2rcUUYp2ulgqyWbSqo0nL1UK+So8ouPi6O6za5rSAk
- 7sYjFin0zOrPhqc9YSjXe3nk5KtMqLMejFIDU+sjadUBulNY7wCSdF+vCTsWWm5P5KBY
- 2wRA==
-X-Gm-Message-State: AGi0PuahyIYkvHZQk9Aw7Oz25hAH68OfIMdqeUB/434enj2T+X9q+8yf
- W3R4f0pkyL/j1DQ7o+BEfAmhIJsYo2JwP6SOKQ3QTEBc5uJfjDnfs6Ad0FWizV21SWVn+kRYWn5
- yKTUl875mLHOajcw=
-X-Received: by 2002:adf:8483:: with SMTP id 3mr8129930wrg.206.1588603434238;
- Mon, 04 May 2020 07:43:54 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJGT6ncZPumsRLgD8w1vAfm+/WuyBFnwXfcPvfpaDjedIpziZNicGcjuwM4OKR0KihcKpmwCA==
-X-Received: by 2002:adf:8483:: with SMTP id 3mr8129913wrg.206.1588603434075;
- Mon, 04 May 2020 07:43:54 -0700 (PDT)
-Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id k9sm19790478wrd.17.2020.05.04.07.43.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:43:53 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] tests/qht-bench: Fix Clang 'implicit-int-float-conversion'
- warning
-Date: Mon,  4 May 2020 16:43:52 +0200
-Message-Id: <20200504144352.23021-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JpmhCMHGevMhcKBEo/HSirwf/Ddc7V/B1y41sLvuMM0=;
+ b=VV9u6wqHi/Cd9AzNh+SKtHsILTyTEthxcWzLa3tDjFuJxMkWsn+ujvmvoq1K6dVKwdRfrI
+ sspPebeCz272sGoL7VfU4Xq3SFPlV8Gsrl1IcK3FSM1IHXDdM2yZ5/Q5NDUnURiwbCczVI
+ gUr9BCiN9b2llqZ+X+I0T06fkCRu+VI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-FXSnFq2QMs2yGzbaALCGnA-1; Mon, 04 May 2020 10:45:24 -0400
+X-MC-Unique: FXSnFq2QMs2yGzbaALCGnA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20AF118FE860;
+ Mon,  4 May 2020 14:45:23 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-56.ams2.redhat.com [10.36.114.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EED065C1B2;
+ Mon,  4 May 2020 14:45:20 +0000 (UTC)
+Date: Mon, 4 May 2020 16:45:19 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Subject: Re: [PATCH v2] qcow2: Avoid integer wraparound in qcow2_co_truncate()
+Message-ID: <20200504144519.GC6129@linux.fritz.box>
+References: <20200504142308.10446-1-berto@igalia.com>
 MIME-Version: 1.0
+In-Reply-To: <20200504142308.10446-1-berto@igalia.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -93,76 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Emilio G . Cota" <cota@braap.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building with Clang 10 on Fedora 32, we get:
+Am 04.05.2020 um 16:23 hat Alberto Garcia geschrieben:
+> After commit f01643fb8b47e8a70c04bbf45e0f12a9e5bc54de when an image is
+> extended and BDRV_REQ_ZERO_WRITE is set then the new clusters are
+> zeroized.
+>=20
+> The code however does not detect correctly situations when the old and
+> the new end of the image are within the same cluster. The problem can
+> be reproduced with these steps:
+>=20
+>    qemu-img create -f qcow2 backing.qcow2 1M
+>    qemu-img create -f qcow2 -F qcow2 -b backing.qcow2 top.qcow2
+>    qemu-img resize --shrink top.qcow2 520k
+>    qemu-img resize top.qcow2 567k
+>=20
+> In the last step offset - zero_start causes an integer wraparound.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
 
-  tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned long'=
- to 'double' changes value from 18446744073709551615 to 1844674407370955161=
-6 [-Werror,-Wimplicit-int-float-conversion]
-          *threshold =3D rate * UINT64_MAX;
-                            ~ ^~~~~~~~~~
-  /usr/include/stdint.h:130:23: note: expanded from macro 'UINT64_MAX'
-  # define UINT64_MAX             (__UINT64_C(18446744073709551615))
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  /usr/include/stdint.h:107:25: note: expanded from macro '__UINT64_C'
-  #  define __UINT64_C(c) c ## UL
-                          ^~~~~~~
-  <scratch space>:14:1: note: expanded from here
-  18446744073709551615UL
-  ^~~~~~~~~~~~~~~~~~~~~~
+Can you add the reproducer to qemu-iotests?
 
-Fix by using nextafter() from <math.h>:
+>  block/qcow2.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+>=20
+> v2:
+> - Don't call qcow2_cluster_zeroize() if offset =3D=3D zero_start
+>=20
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 2ba0b17c39..7ca0327995 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -4234,15 +4234,20 @@ static int coroutine_fn qcow2_co_truncate(BlockDr=
+iverState *bs, int64_t offset,
+>      if ((flags & BDRV_REQ_ZERO_WRITE) && offset > old_length) {
+>          uint64_t zero_start =3D QEMU_ALIGN_UP(old_length, s->cluster_siz=
+e);
+> =20
+> +        /* zero_start should not be after the new end of the image */
+> +        zero_start =3D MIN(zero_start, offset);
 
-  double nextafter( double from, double to );
+I think this is a bit confusing because zero_start implies that this is
+the aligned offset where qcow2_cluster_zeroize() would start. At first I
+though this wasn't needed at all any more because you already check
+offset > zero_start below. So if MIN() makes a difference, the if block
+won't be executed anyway.
 
-      Returns the next representable value of 'from'
-      in the direction of 'to'.
+It would, however, make a difference for calculating the explicit zero
+write for the unaligned head:
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Supersedes: <20200504144125.22435-1-philmd@redhat.com>
+    uint64_t len =3D zero_start - old_length;
 
-Since v2: corrected patch subject
-Since v1: nextafterf() -> nextafter()
+Maybe it would be easier to understand if we changed only that line?
 
-Cc: Emilio G. Cota <cota@braap.org>
-Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qht-bench.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+    uint64_t len =3D MIN(zero_start, offset) - old_length;
 
-diff --git a/tests/qht-bench.c b/tests/qht-bench.c
-index e3b512f26f..54ce1e8188 100644
---- a/tests/qht-bench.c
-+++ b/tests/qht-bench.c
-@@ -10,6 +10,7 @@
- #include "qemu/qht.h"
- #include "qemu/rcu.h"
- #include "qemu/xxhash.h"
-+#include <math.h>
-=20
- struct thread_stats {
-     size_t rd;
-@@ -284,7 +285,7 @@ static void do_threshold(double rate, uint64_t *thresho=
-ld)
-     if (rate =3D=3D 1.0) {
-         *threshold =3D UINT64_MAX;
-     } else {
--        *threshold =3D rate * UINT64_MAX;
-+        *threshold =3D rate * nextafter(0x1p64, 0.0);
-     }
- }
-=20
---=20
-2.21.3
+Kevin
 
 
