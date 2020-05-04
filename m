@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20E21C3D3E
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:37:32 +0200 (CEST)
-Received: from localhost ([::1]:53726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBED1C3D2C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:35:32 +0200 (CEST)
+Received: from localhost ([::1]:44334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcDs-0001rw-19
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47308)
+	id 1jVcBv-0006EW-2a
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc67-0004tG-P4
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:31 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52319
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc69-0004yo-P4
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:33 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:40208
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc66-0005vZ-Tv
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc68-0005vm-Uo
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588602569;
+ s=mimecast20190719; t=1588602572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3iDOQuTM/GBdioleUH2RjG+5kuhxga2pExwroaaGOjs=;
- b=fEi6a0DHKQyL3UPHo7VCfJGCoX/zqeak8KSFECpgb2WMAovqK7bXTllvLZpFYjI7wC0F3Q
- zDYrx+Bg1AHXsHz3CLblaxsElKjXUB5QHoBdHwqJQZJriULVX/TaiwfpRLS1cajdMZ5EJk
- iHA6HYloy7ceEd9TtUREwCoX81HM1pU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-oDJVTEreMMCkXIoVXpfh2Q-1; Mon, 04 May 2020 10:29:28 -0400
-X-MC-Unique: oDJVTEreMMCkXIoVXpfh2Q-1
-Received: by mail-wm1-f72.google.com with SMTP id h22so4989525wml.1
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:27 -0700 (PDT)
+ bh=itmu7tz+8YX6LWqNTTBDZfH0oyb1cw8xwtWy0pZ6Qys=;
+ b=KZchg0Jhlbj8a9FDaKIqDNHIVH3e8HJVy2+scpU5NImg8TSbVQxRtzV6zFpXztKq3uQ+ZX
+ w1bAcITDe3gegwsTmwZ1ZKOwAgZM0V0MJO8DSWwXkKTo/Hgb+V570NoyS33jhyitlCw5vi
+ FyOdK0J9uQzRlYMh+bCqDXPfHBaIMQ8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-uRSSTouTPt-DQxzrKdADSw-1; Mon, 04 May 2020 10:29:30 -0400
+X-MC-Unique: uRSSTouTPt-DQxzrKdADSw-1
+Received: by mail-wr1-f72.google.com with SMTP id 30so363885wrp.22
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bmWb41iB+zUkq2ymfjwDCKrhB5rQBk8dgJEafa9xU5M=;
- b=OdNE+bXI1Wohx4gCs2eGrnkijFGcbAF+wUB/HKP3uQ77PCuGnUvGWtY39bS8HlStLx
- a+hVce6NB8RhfcDabDJh/3cCCXtfB4sF7HwVzHlXgg3bzl78D7md/BNJ04dn/3RGoomy
- BItOUxLGvWDFUMQJPXNFKzWJ4+IrZys53pHmtAq9U9rAxW46m50ZtdO+auIcaAURa5Nc
- UDsr2rGkpl9YdXql6vyQUv1sROxzuxEco23/rbaeGvBcmXPGTSohDnLfcAFYAjisB31V
- Zzr9y6UshPbI6xvGqP15dCxoGfXRNNezCcGNnq9EoUO7uHaaPyLLZALqeLnmvSwyObdy
- s9fw==
-X-Gm-Message-State: AGi0PuYECZpMLzIg0qCt7FYIXzpHNzXfiakEWHUH0heic3zfT4efrzzo
- GdWxi1PxlU7C+t1dqis8aNXwzMMnVYk2b5Dm9U2OnqWWLogWDVv11MXiR9cFCOSvHiZzv3blVfT
- iIDVO/cEJPALFm+w=
-X-Received: by 2002:a1c:770f:: with SMTP id t15mr14616329wmi.178.1588602566620; 
- Mon, 04 May 2020 07:29:26 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIi+sLSqRuGbAM7XQfwHGVVQ5B0DEcuadm0ZTFQ8ofpVfwAbUcyiTHaRFWX7ZXSCPCX/f674g==
-X-Received: by 2002:a1c:770f:: with SMTP id t15mr14616312wmi.178.1588602566470; 
- Mon, 04 May 2020 07:29:26 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=V7k4n5KKJ25ykZvHnBkd3lhwrbgQ3O6cOV8Obfh+XCs=;
+ b=Y9jT9BtpIDAihRfXO/7AoS2HAGGr0HQ1AL+c+vWobA5dJe0fbV/VvkUDxVPbWrk15Z
+ uxY5nEC0DijTiwJXW7z9Jvh5j4dVy5zeKJDQ0x9kXDYIgLGtOO3E37JQFf4avNBhKJli
+ aq5XnO6d2gvQl7SghSKS1zP5zoAHbLRQcQTbtn0bVejpnCHxrYnVdmSt305yVMw4WboF
+ cZ7JhoWNKPgYpM4QaewTkLDxp6qMBO9066AZA5uIMsmO/2PNAvwSOp9kyNoxZ6xXyovf
+ nsKZ09by0/qmwJyXdYiBIoaJtbrEOz2drkqJd7yh8nEnMZlitO75ArOVx4RY+1YVKVa2
+ 89AQ==
+X-Gm-Message-State: AGi0PuatawD+U0dFTRplY6S5lpsMBUsQfP2gvnl5Bsu1NmzU5ymKRk9S
+ F9wAFroRnLsVmQh8zPB3whAUPSD6VGj6Z3zeMNPQAaMO74I2EI2HMB7hfOCIMStajgtVWrKzgpx
+ cQU37vpBO0XgogTU=
+X-Received: by 2002:a05:6000:11cb:: with SMTP id
+ i11mr20093171wrx.339.1588602569205; 
+ Mon, 04 May 2020 07:29:29 -0700 (PDT)
+X-Google-Smtp-Source: APiQypImRRhiJVXe5c1VsKIMZFSVCbA1G6yPSA5w8T2/B+qd3JL+2VKLXyHyCiRybUN/HXD1FE0EYw==
+X-Received: by 2002:a05:6000:11cb:: with SMTP id
+ i11mr20093155wrx.339.1588602569000; 
+ Mon, 04 May 2020 07:29:29 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- h16sm21062892wrw.36.2020.05.04.07.29.25
+ w83sm14504279wmb.37.2020.05.04.07.29.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:29:26 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:24 -0400
+ Mon, 04 May 2020 07:29:28 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:26 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/29] qtest: allow DSDT acpi table changes
-Message-ID: <20200504142814.157589-6-mst@redhat.com>
+Subject: [PULL 06/29] acpi: drop pointless _STA method
+Message-ID: <20200504142814.157589-7-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -70,13 +73,13 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,46 +99,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
+When returning a constant there is no point in having a method
+in the first place, _STA can be a simple integer instead.
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20200429140003.7336-4-kraxel@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20200429140003.7336-5-kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ hw/i386/acpi-build.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios=
--tables-test-allowed-diff.h
-index dfb8523c8b..6a052c5044 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,18 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.numamem",
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 23c77eeb95..3a046b03e4 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1151,14 +1151,11 @@ static Aml *build_kbd_device_aml(void)
+ {
+     Aml *dev;
+     Aml *crs;
+-    Aml *method;
+=20
+     dev =3D aml_device("KBD");
+     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0303")));
+=20
+-    method =3D aml_method("_STA", 0, AML_NOTSERIALIZED);
+-    aml_append(method, aml_return(aml_int(0x0f)));
+-    aml_append(dev, method);
++    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+=20
+     crs =3D aml_resource_template();
+     aml_append(crs, aml_io(AML_DECODE16, 0x0060, 0x0060, 0x01, 0x01));
+@@ -1173,14 +1170,11 @@ static Aml *build_mouse_device_aml(void)
+ {
+     Aml *dev;
+     Aml *crs;
+-    Aml *method;
+=20
+     dev =3D aml_device("MOU");
+     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0F13")));
+=20
+-    method =3D aml_method("_STA", 0, AML_NOTSERIALIZED);
+-    aml_append(method, aml_return(aml_int(0x0f)));
+-    aml_append(dev, method);
++    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+=20
+     crs =3D aml_resource_template();
+     aml_append(crs, aml_irq_no_flags(12));
+@@ -2238,9 +2232,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+                                            TPM_CRB_ADDR_SIZE, AML_READ_WRI=
+TE));
+         aml_append(dev, aml_name_decl("_CRS", crs));
+=20
+-        method =3D aml_method("_STA", 0, AML_NOTSERIALIZED);
+-        aml_append(method, aml_return(aml_int(0x0f)));
+-        aml_append(dev, method);
++        aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+=20
+         tpm_build_ppi_acpi(tpm, dev);
+=20
 --=20
 MST
 
