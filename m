@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFDCD1C3669
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:07:50 +0200 (CEST)
-Received: from localhost ([::1]:35330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB071C367B
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 12:09:26 +0200 (CEST)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVY0r-0004ll-Pi
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
+	id 1jVY2P-0007kN-84
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 06:09:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVY05-000464-Gd
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:07:01 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40819)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jVY0j-0004zF-Ta; Mon, 04 May 2020 06:07:41 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVY04-0002dX-Iu
- for qemu-devel@nongnu.org; Mon, 04 May 2020 06:07:01 -0400
-Received: by mail-oi1-x244.google.com with SMTP id t199so6150170oif.7
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 03:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JIEX/w3bf0cjwHgdmYdRZ0vsBANcQ731ZClQImQnZFQ=;
- b=jmlMoNfEGDfF5YztKd5upH0jQSYcUCavmoNGSnX/gyfElzwAVi19iNonl57SSjdRB4
- rDsXttR/+vCWiDjev0vYbdb1pVfh0aemIC6qM72oRed6jkN18wQuuMbjvsrjKK3c3nsc
- +yDAKics1mgyzGPrHWqybc/TINy1H8mBFju14UXavz/U9ATe6OZkdPNXZTjZSJ59EtlG
- LYbdLAK/7kuacVoJ9JdoACMyg/yGBG00OAHWqv/okXpRpBlE1gTwkmJpyltcu9DROd9G
- wHgrt3ujCIR0jwbcIgR6Plzjz2kt8t6YxHshHWlbD+82zQDHDb7xVhtc+UPLACEJrut0
- ZTyg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jVY0j-0002jF-9p; Mon, 04 May 2020 06:07:41 -0400
+Received: by mail-wr1-x444.google.com with SMTP id k1so20215794wrx.4;
+ Mon, 04 May 2020 03:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/ZVZt1eZRouG8SfIcedxiaba1cChmaXwtwdN3BvQWTc=;
+ b=HcRGrtw9qZwIdAjOVDw2nBeZQtDcI35wjvWlHOGFRg+YHxIgcEOeEOIUXHFvYJWe1y
+ 0aEc8lF3QcOuHPeMJ45OuZQ1/+1Dnot2UsK7TlMShn1hmMCU98nR3HqSnBLrZu1ndQJM
+ w1kaQH2SKAmFC3AZAy7uhqrr/gwyVu0QHVGrrHfctlxK7lQakRs3aFMLtMqke8iQsdYT
+ PLVukoSv+TknjgwBfsv/LgVJCO02T7xkFe7qLDeEyKZT9f5P4xcYNT0INYTTlZ5cGDXi
+ WsE3CbUxGOSfFLN2WtsdFFKoJ5fyjZFpRUSS1D0HqN6DiszZ4ePD73Tu2IZ8D9II0tF4
+ AY8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JIEX/w3bf0cjwHgdmYdRZ0vsBANcQ731ZClQImQnZFQ=;
- b=DctWatAEETQ3QFUC0TlFgTd+POWGBLLjc7RvVTB1fUZ8uCLkc8u7WQ0x+yVqdZifVR
- PCrpvAlBr2WYWCbfGsK6q3snWQPzEGKJqz40t+gNIUUyULLToZavnvEFH9mQMN1Fszjo
- 20c4ERGiVaZXmriiwfo4pR7Ip7qwt5IAyiTqIhD2+nfknj1o16UGIIbRNg7uUcKNaGt2
- XL+Mh+m03itvnVY2ZJjqcbwK3peyh5H7TWDEb4LArnbWpDUtBPzw5qJ1kNrEQEQyRFgr
- Uxzi2KUCVddcOg3u22Q/d/1eAm5W2KeJOFPawUjdMntEQnMUXiUKk/TrDSsKdvEqpAgL
- yIyA==
-X-Gm-Message-State: AGi0PuZYnR3cTRIR6yi/RPkDayJvVAyV5SXCa49GBjw1yD3pjDMV3CNo
- 6mS6wMsVFIkkKmow1lEjTg2IU2OgBeN7Scu30fnwpg==
-X-Google-Smtp-Source: APiQypJ6JBMzBRMu/ZaiHqKWt3MJFE3cld1M3Ig95XMzUiwQvEHs0kVGkLACOvlpUFailztHbmTVyV336ivFVoYCEzw=
-X-Received: by 2002:aca:3441:: with SMTP id b62mr7934429oia.146.1588586819285; 
- Mon, 04 May 2020 03:06:59 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=/ZVZt1eZRouG8SfIcedxiaba1cChmaXwtwdN3BvQWTc=;
+ b=noOYK1XdjMNS9BGSWHCvbufOnuv+1fC3+DahnHUlJ+1wkstFbm0LKh8PdqqC58wAar
+ n7ZnJAWIzl3QnXHyuqePnD161JysjcC4UlIihkCczNiMHPwP8LvjNNlSXIPmF1gtWMxx
+ IcfgnH5JD+vHlNT0aITdgnVRqV5Uic/tDZnGvDDmnJ+LXqtwq/8VgaS8/2bMBORBje+B
+ lPel/n/QBRRwYwyk/eRie0zmxNPEz2j8nRu60uXkP2Khs3ryvHcX1OvZE53sszU8mSIh
+ FblDIR6S6lTuA+LLjKxYxH/wLaX6vgwJI81NAon73oFybzorQvZ0I/Q99hSLnVdq/B5B
+ 1iOg==
+X-Gm-Message-State: AGi0PuZwB0x2OYnSq9sdhbBBfFow9CY+2KUsGwzWapBtAsp74YhBkdsf
+ G0rxLgagO74fEM2AKOJ5QVheBXIZDIo=
+X-Google-Smtp-Source: APiQypI4CLhwM1s9qsXBHl1cozRkicm4SNedwT3p1NV3wnHda5P0CMNLiBvDg4MvOP8bkIL5h8q9ag==
+X-Received: by 2002:adf:a74b:: with SMTP id e11mr16878108wrd.99.1588586858230; 
+ Mon, 04 May 2020 03:07:38 -0700 (PDT)
+Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id k9sm18517778wrd.17.2020.05.04.03.07.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 03:07:37 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] various: Remove unnecessary casts
+Date: Mon,  4 May 2020 12:07:32 +0200
+Message-Id: <20200504100735.10269-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20200421125934.14952-1-shameerali.kolothum.thodi@huawei.com>
- <158748197516.25490.13137194821077838492@39012742ff91>
- <20200504055608-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200504055608-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 May 2020 11:06:48 +0100
-Message-ID: <CAFEAcA_VGtbjpVTb1VE1XCT43JODjkW8o1zSsVmzO3fg1+fr+w@mail.gmail.com>
-Subject: Re: [PATCH v4 0/7] ARM virt: Add NVDIMM support
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,39 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- Linuxarm <linuxarm@huawei.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Xu Wei <xuwei5@hisilicon.com>,
- prime.zeng@hisilicon.com, Igor Mammedov <imammedo@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Joel Stanley <joel@jms.id.au>, Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 May 2020 at 10:57, Michael S. Tsirkin <mst@redhat.com> wrote:
+Remove unnecessary casts using coccinelle scripts.
 
-> > ./scripts/checkpatch.pl --mailback base..
+The CPU()/OBJECT() patches don't introduce logical change,
+The DEVICE() one removes various OBJECT_CHECK() calls.
 
-> > 2/7 Checking commit 5554e78b18ea (nvdimm: Use configurable ACPI IO base and size)
-> > ERROR: Do not add expected files together with tests, follow instructions in tests/qtest/bios-tables-test.c: both tests/qtest/bios-tables-test-allowed-diff.h and hw/acpi/nvdimm.c found
->
-> This beats me. Where did we get
-> tests/qtest/bios-tables-test-allowed-diff.h from?
-> It's a different patch, isn't it?
+Since v2:
+- Add A-b/R-b tags
+- Reword description (Markus)
 
-Ah, this is a bug in the checkfilename() function -- it uses
-some globals $acpi_testexpected and $acpi_nontestexpected, but
-there is no code to reset these when checkpatch starts checking
-a new patch. So if you only check one patch in a checkpatch run
-(eg by just passing it a single patch file) then it will work, but if
-a single checkpatch execution is checking several commits
-(eg in the way patchew runs it to check the whole series of
-git commits at once, or if you pass it several patch files) then
-it will give wrong results for the second and later patches.
-I think the variables need to be reset at the top of 'sub process()'.
+Philippe Mathieu-Daudé (3):
+  target: Remove unnecessary CPU() cast
+  various: Remove unnecessary OBJECT() cast
+  hw: Remove unnecessary DEVICE() cast
 
-thanks
--- PMM
+ hw/core/bus.c                       | 2 +-
+ hw/display/artist.c                 | 2 +-
+ hw/display/cg3.c                    | 2 +-
+ hw/display/sm501.c                  | 2 +-
+ hw/display/tcx.c                    | 4 ++--
+ hw/display/vga-isa.c                | 2 +-
+ hw/i2c/imx_i2c.c                    | 2 +-
+ hw/i2c/mpc_i2c.c                    | 2 +-
+ hw/ide/ahci-allwinner.c             | 2 +-
+ hw/ide/piix.c                       | 2 +-
+ hw/ipmi/smbus_ipmi.c                | 2 +-
+ hw/microblaze/petalogix_ml605_mmu.c | 8 ++++----
+ hw/misc/macio/pmu.c                 | 2 +-
+ hw/net/ftgmac100.c                  | 3 +--
+ hw/net/imx_fec.c                    | 2 +-
+ hw/nubus/nubus-device.c             | 2 +-
+ hw/pci-host/bonito.c                | 2 +-
+ hw/ppc/spapr.c                      | 2 +-
+ hw/s390x/sclp.c                     | 2 +-
+ hw/sh4/sh_pci.c                     | 2 +-
+ hw/xen/xen-legacy-backend.c         | 2 +-
+ monitor/misc.c                      | 3 +--
+ qom/object.c                        | 4 ++--
+ target/ppc/mmu_helper.c             | 2 +-
+ 24 files changed, 29 insertions(+), 31 deletions(-)
+
+-- 
+2.21.3
+
 
