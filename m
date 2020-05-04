@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0F01C3E7C
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:29:59 +0200 (CEST)
-Received: from localhost ([::1]:55528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5F81C3E87
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:32:12 +0200 (CEST)
+Received: from localhost ([::1]:34264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVd2c-0003Lm-38
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59904)
+	id 1jVd4l-0006gK-As
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVd1D-0001zd-TS
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:28:31 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58000
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd2C-0003mB-0F
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:29:32 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37104
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVd1C-0003NY-LH
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:28:31 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVd29-0003rZ-E8
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:29:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588606109;
+ s=mimecast20190719; t=1588606168;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BsBpI2nuKkBmWaiul6rskrC9E7+x9fWsZr7KE6VdlTg=;
- b=DgHmQe74529AiKatA7JAWSsQF7Q/+mZAOanmxskkXjbwohE9b1XqRSw4Gx3Coqc7dNXh8i
- t+daa/iIpu1144WC3yLrUD/ZTFll0VrkHzqbuukhjlhWh9JuP6uFZ3ymvkxRD/Gsee+1Nw
- vnn775q5pcMNMI4QBhG1zAbfF/DZ6WA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-e0NkGi7MOzGabUwZV3zkJg-1; Mon, 04 May 2020 11:28:26 -0400
-X-MC-Unique: e0NkGi7MOzGabUwZV3zkJg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D42619200C1
- for <qemu-devel@nongnu.org>; Mon,  4 May 2020 15:28:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C6BE5D9DA;
- Mon,  4 May 2020 15:28:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D0C0311358BC; Mon,  4 May 2020 17:28:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 00/17] qom: Spring cleaning
-References: <20200428163419.4483-1-armbru@redhat.com>
- <80ff76e3-3e59-df8f-d943-9429d4cc1d57@redhat.com>
-Date: Mon, 04 May 2020 17:28:23 +0200
-In-Reply-To: <80ff76e3-3e59-df8f-d943-9429d4cc1d57@redhat.com> (Paolo
- Bonzini's message of "Mon, 4 May 2020 14:48:31 +0200")
-Message-ID: <87h7wvzpm0.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0dDwkE6p8SsMPnxAPkn333jCRizbTYLoA4qGzMJg5yE=;
+ b=NoXcMCtXsgWYcEWGC2DkT32qnSv28yVE73gRE/1h4e42AFTpIZDKcc0kR5oAzEMHHoo0Pm
+ XanNDJ0D0CMXWg9Om7wJFqO94MD+3HCV2sTCEcq2EMcBX0IGdPUgJ+Dr27sExGsNBuc8ZL
+ 9fPIha0gz1ur0LMa4jT/FDHzj4FUUic=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-UM_GtwHbP4KQ6mOj_oQ-yQ-1; Mon, 04 May 2020 11:29:26 -0400
+X-MC-Unique: UM_GtwHbP4KQ6mOj_oQ-yQ-1
+Received: by mail-wm1-f69.google.com with SMTP id s12so5103912wmj.6
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 08:29:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qUA+L4wC7Y/HEYRNDubgMlJGc6s5bp4bBZMbUfsNJrk=;
+ b=gIHa8e5laBIp4RDBq6sx5dl0zsZqmLzgMl6ozYg1TWngrsz6MkAKug0nFFwHF7uUBy
+ SHVW/OYAIm+PiRuUTr2UUyJ8R2LECHWCaw5LdEQFNOM/VziZSwIf9lKgCxW3uVUitsri
+ bLoKsf1GbD6Ft+ecufFkHI/W7ykZHUAbsNe+TczaueDijmhpI93YC+pAurEkYjoKykQ0
+ 9wlEkPit7kvaEVIlkC2UUh5EhA28vGgdoTKwkTuwsJfh4oMS9Z0omlxJsRPC0/mqva3c
+ 4bqiNp96ECLhXoUUZ+eB7GYFXZCXQKdYq4CPJjH8rFVrFdHh7zmJZ8FgLLdLA8cUpHXU
+ tGlg==
+X-Gm-Message-State: AGi0PuYfWJewWpnrdctRSvUp5aRD2lngC0gERCqCuUX1h6da5R4u/jRQ
+ Gu0n9hVvvyuaYxmzaYgiu6b58P35xldBcKwgIMfRHGsp0jzLT+gRDOh/h0PC2Z/X/lNE6+xIWzq
+ cpITTgzv7uqX8bD0=
+X-Received: by 2002:a7b:c0d5:: with SMTP id s21mr15170764wmh.107.1588606165067; 
+ Mon, 04 May 2020 08:29:25 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIq2QWQaCbGOj3Z7IwnTK7lXrQAhrMqXCntIn0TWYJZSO5HjLt49L/E9tbTZiIA8hEffVUcjw==
+X-Received: by 2002:a7b:c0d5:: with SMTP id s21mr15170665wmh.107.1588606163927; 
+ Mon, 04 May 2020 08:29:23 -0700 (PDT)
+Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id a13sm12076658wrv.67.2020.05.04.08.29.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 May 2020 08:29:23 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/12] user-mode: Prune build dependencies (part 1)
+Date: Mon,  4 May 2020 17:29:10 +0200
+Message-Id: <20200504152922.21365-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8;
+	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -81,18 +91,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+This is the first part of a series reducing user-mode
+dependencies. By stripping out unused code, the build
+and testing time is reduced (as is space used by objects).
 
-> On 28/04/20 18:34, Markus Armbruster wrote:
->> Includes one actual bug fix for s390x.
->
-> I reviewed everything except patch 8 and it looks good.  Thanks very much=
-!
+Part 1 (generic):
+- reduce user-mode object list
+- remove some migration code from user-mode
+- remove cpu_get_crash_info()
 
-May I add Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>?
+This series is fully reviewed.
+
+Since v2:
+- Rebased due to conflict when applying patch:
+  "util/Makefile: Reduce the user-mode object list"
+  because commit 01ef6b9e4e modified util/Makefile.objs:
+  "linux-user: factor out reading of /proc/self/maps"
+
+Since v1:
+- Addressed Laurent/Richard review comments
+- Removed 'exec: Drop redundant #ifdeffery'
+- Removed 'target: Restrict write_elfXX_note() handlers to system-mode'
+
+$ git backport-diff -u v1 -r v2
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+vely
+
+001/12:[----] [--] 'Makefile: Only build virtiofsd if system-mode is enable=
+d'
+002/12:[----] [--] 'configure: Avoid building TCG when not needed'
+003/12:[----] [--] 'tests/Makefile: Only display TCG-related tests when TCG=
+ is available'
+004/12:[----] [--] 'tests/Makefile: Restrict some softmmu-only tests'
+005/12:[----] [-C] 'util/Makefile: Reduce the user-mode object list'
+006/12:[----] [--] 'stubs/Makefile: Reduce the user-mode object list'
+007/12:[----] [--] 'target/riscv/cpu: Restrict CPU migration to system-mode=
+'
+008/12:[----] [--] 'exec: Assert CPU migration is not used on user-only bui=
+ld'
+009/12:[----] [--] 'arch_init: Remove unused 'qapi-commands-misc.h' include=
+'
+010/12:[----] [--] 'target/i386: Restrict CpuClass::get_crash_info() to sys=
+tem-mode'
+011/12:[----] [--] 'target/s390x: Restrict CpuClass::get_crash_info() to sy=
+stem-mode'
+012/12:[----] [--] 'hw/core: Restrict CpuClass::get_crash_info() to system-=
+mode'
+
+Philippe Mathieu-Daud=C3=A9 (12):
+  Makefile: Only build virtiofsd if system-mode is enabled
+  configure: Avoid building TCG when not needed
+  tests/Makefile: Only display TCG-related tests when TCG is available
+  tests/Makefile: Restrict some softmmu-only tests
+  util/Makefile: Reduce the user-mode object list
+  stubs/Makefile: Reduce the user-mode object list
+  target/riscv/cpu: Restrict CPU migration to system-mode
+  exec: Assert CPU migration is not used on user-only build
+  arch_init: Remove unused 'qapi-commands-misc.h' include
+  target/i386: Restrict CpuClass::get_crash_info() to system-mode
+  target/s390x: Restrict CpuClass::get_crash_info() to system-mode
+  hw/core: Restrict CpuClass::get_crash_info() to system-mode
+
+ configure              |  4 +++
+ Makefile               |  2 +-
+ include/hw/core/cpu.h  |  7 ++++-
+ arch_init.c            |  1 -
+ exec.c                 |  4 ++-
+ hw/core/cpu.c          |  2 ++
+ target/i386/cpu.c      |  6 ++++-
+ target/riscv/cpu.c     |  6 +++--
+ target/s390x/cpu.c     | 12 ++++-----
+ stubs/Makefile.objs    | 52 +++++++++++++++++++++----------------
+ tests/Makefile.include | 18 +++++++------
+ util/Makefile.objs     | 59 +++++++++++++++++++++++++++---------------
+ 12 files changed, 108 insertions(+), 65 deletions(-)
+
+--=20
+2.21.3
 
 
