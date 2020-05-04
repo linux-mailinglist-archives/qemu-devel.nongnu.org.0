@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A021C3636
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 11:53:53 +0200 (CEST)
-Received: from localhost ([::1]:59072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73871C363A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 11:55:21 +0200 (CEST)
+Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVXnM-00074S-N0
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 05:53:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58710)
+	id 1jVXom-00017y-Q9
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 05:55:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVXih-0008Be-Sn; Mon, 04 May 2020 05:49:03 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40572)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>)
+ id 1jVXk8-0002Ka-3F; Mon, 04 May 2020 05:50:32 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVXih-0006jW-6J; Mon, 04 May 2020 05:49:03 -0400
-Received: by mail-wm1-x342.google.com with SMTP id u16so8276772wmc.5;
- Mon, 04 May 2020 02:49:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+ssoRuPeDJk5YGl+5sziAPBq69sYcV4AG56/rZ9eqAM=;
- b=hHqtklSLvTb7cWng/YVVDar118wBwkqjnvfYBdjP8o0kHbR8M7qa4rAXYgIbgphwkJ
- DFMNja+XttmegpweGi16iq4S3kFeELKJAaQ2CfI9edh7hSimb8jye882MUYkp+Toekla
- hRHsDSmpckZIrpfIOOxeK4PCLD/Vv8p9yk2CY04o5LqUjOcYfOaiEMoxdlGJ0+yQCUbk
- aBiMFJZnzRUCFl8Casmy73FtUGruQao65mmxMNIgAgQi+9iGcOug9ljvxHCMWlJ6AsNt
- efihugwFjVp8/1x2uy+07jhcJOr2bW/wrshG9xpynaBPUX5I66buAYjA5izW1psuoJ2l
- 1G0g==
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>)
+ id 1jVXk6-0008GI-6B; Mon, 04 May 2020 05:50:31 -0400
+Received: by mail-wr1-f66.google.com with SMTP id g13so20120603wrb.8;
+ Mon, 04 May 2020 02:50:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=+ssoRuPeDJk5YGl+5sziAPBq69sYcV4AG56/rZ9eqAM=;
- b=Q78TmU6sa6s5VDZlBVnnlnp5/L5RjjEQSEvJz+7yw6Iu+pNYUlMHDquGjpZYcAYFM9
- 6NNteMJD6NSu5NUdF4ofgeg64CLdh14NE/YF4ApjyUeCqSSWCAr4tTSTH2bErtCJlr3w
- 1Ld7K4QpnUwZ8YnoLtCzQC/R33eDwY6rFZW08ZW4XJluJ3idBrbJjSoMuk/4txnfow12
- oqyUsEWyzDONlT4gMpC81E3f5Z4zLru7tuKJkyn1w9kTd4fWyZPSg2N7T0/LjIwXbCbF
- rPGmjkV6WzFZgzkG4vrPDg522jbKeM2VmnXjHC1Cawy3SYZXqW1b0yDLv8oZxHzPKPMl
- wnqQ==
-X-Gm-Message-State: AGi0PuYOXawoNzuNTpN3flzqjzdxSDhmG56JU+hoyQycjTlfY0g+Q9ow
- pfmvifFrAAn/Feht0ddMA9F++hJK
-X-Google-Smtp-Source: APiQypJPWwB52KD+faDiLP3Q1oLaq/Y9rNAvL2VaA6I/47vs0NVllON/f1RvlC5Ex0N19OoBKq3viQ==
-X-Received: by 2002:a7b:c456:: with SMTP id l22mr13384644wmi.148.1588585740135; 
- Mon, 04 May 2020 02:49:00 -0700 (PDT)
-Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id i25sm12167726wml.43.2020.05.04.02.48.59
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RuQGDzagBjIACSLqpibjj4H3rS4YbDKcJD3yqxtmVe8=;
+ b=GvmkBGNrvs3X4SrAOkVMpSz7cI8SXMAnbF/fRReV0srJv0E+xReDrdVFOLYHYU+NvD
+ JZhdX1IvkPcgROSQJQO+jjcSh33mPznE8B3brIKnq6EIRirJjATlpel9+uzkZu180EZm
+ EY7Vtel6JypSYwwkmEpt1HJpHAqcvo8tbd1orwEGDRX/LQCkEV2s3WQnovjnwosgBUyX
+ Ac2zlXH5ma4klrhqSff+iGbRrAUex3ESiXoY3Bzg8Kkf9ZR83O/VnsoxQJKkMH5ahnvf
+ PFb9Q7ZPuz+Dbagg7lyFr6Mj5rGYaGAu/7gO4GBG3m76PJqRoBFJpA63YdvSTffytQkM
+ IDBA==
+X-Gm-Message-State: AGi0Pua2e2cJ0Uwy8neRnuyqnWRlD0338jBQuesh/e/XaR5InTjUGRa8
+ spE5XLLoRcpWwDuKH8n8bwM=
+X-Google-Smtp-Source: APiQypJyTIvH3WWE4llkozK/zGDN1YfrYQsXxOdJGRrVA5BhfCvrLg+hWwIUzNB9HH1aumNcfPaGag==
+X-Received: by 2002:adf:f004:: with SMTP id j4mr17920800wro.123.1588585828092; 
+ Mon, 04 May 2020 02:50:28 -0700 (PDT)
+Received: from thl530.multi.box (pD9E8315D.dip0.t-ipconnect.de.
+ [217.232.49.93])
+ by smtp.gmail.com with ESMTPSA id k9sm18445205wrd.17.2020.05.04.02.50.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 02:48:59 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/ide/ahci: Log lost IRQs
-Date: Mon,  4 May 2020 11:48:58 +0200
-Message-Id: <20200504094858.5975-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
+ Mon, 04 May 2020 02:50:27 -0700 (PDT)
+Date: Mon, 4 May 2020 11:50:23 +0200
+From: Thomas Huth <huth@tuxfamily.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/2] hw/display: Include local 'framebuffer.h'
+Message-ID: <20200504115023.19e56c51@thl530.multi.box>
+In-Reply-To: <20200504082003.16298-2-f4bug@amsat.org>
+References: <20200504082003.16298-1-f4bug@amsat.org>
+ <20200504082003.16298-2-f4bug@amsat.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.221.66; envelope-from=th.huth@gmail.com;
+ helo=mail-wr1-f66.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:50:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,32 +76,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One might find interesting to look at AHCI IRQs.
+Am Mon,  4 May 2020 10:20:02 +0200
+schrieb Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/ide/ahci.c | 1 +
- 1 file changed, 1 insertion(+)
+> The "framebuffer.h" header is not an exported include.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/display/artist.c  | 2 +-
+>  hw/display/next-fb.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index 13d91e109a..fc82cbd5f1 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -1509,6 +1509,7 @@ static void ahci_cmd_done(IDEDMA *dma)
- 
- static void ahci_irq_set(void *opaque, int n, int level)
- {
-+    qemu_log_mask(LOG_UNIMP, "ahci: IRQ#%d level:%d\n", n, level);
- }
- 
- static const IDEDMAOps ahci_dma_ops = {
--- 
-2.21.3
-
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
 
