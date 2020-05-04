@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0311C42C9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:30:23 +0200 (CEST)
-Received: from localhost ([::1]:59832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B98E1C42AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:28:06 +0200 (CEST)
+Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVev8-0001Dw-Ss
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
+	id 1jVesv-0005dW-00
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVeq0-00024g-G1
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:25:04 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:46782
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVeqA-0002TU-Pw
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:25:14 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36837
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVepz-0005HA-BN
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:25:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVeq9-0005PC-SC
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:25:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588613102;
+ s=mimecast20190719; t=1588613113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8eR31adTdMPk4TFbTKxXjmfRO49TpZn7uiMipPa9bRA=;
- b=dxKhngb32EtjQnQ/14gUp9YRdrIVJUa1nmmOdQRumPmZoj6x4zVTj7r1XgJWeY5PimOyGw
- FBxq3GT8zeRB4lIWLhGf2UK8tiEmQqGqN5e7sYuwsbdnOGSFBf94b8F/HWN9P3NGyDiCEk
- HqeZnWgf+AqpGa6V+yTTTLQSTlh3k3s=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-ONMZYmmaM2GeuY7zTtdr8A-1; Mon, 04 May 2020 13:25:00 -0400
-X-MC-Unique: ONMZYmmaM2GeuY7zTtdr8A-1
-Received: by mail-wm1-f71.google.com with SMTP id u11so299280wmc.7
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:25:00 -0700 (PDT)
+ bh=Eji01/SBPkfeU3Z/BdrMTnTdR9yItWqYRqGxG9pfew4=;
+ b=Qm/DKl2lvNhNVm3DSzBuzmQkY5qtNu/YQsg75NAedaHjrI+/wjkFuZsXV5Hi8Duts/SK3J
+ cu8j/d3Eb3c9qZz7XLtOUSV/lZkM7vMLgkIpLFG7w7kve/X2eWSBhvw1+a5QZFQ4aYnEnL
+ De9qq5cOIiyE9TcD6R1bsihnQZvtc9o=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-pnn2eaeKNieCe_BPyUC4wQ-1; Mon, 04 May 2020 13:25:07 -0400
+X-MC-Unique: pnn2eaeKNieCe_BPyUC4wQ-1
+Received: by mail-wr1-f71.google.com with SMTP id y4so221515wrt.4
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:25:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mNLhxG+rF1DxUCrUPPEOBQrTLpnVUshkFFUK77pGukA=;
- b=d+btMXs0WaFElnp5bs2m6GcagcBK9GsNHBodd9HHViXVdg/2h1Fs7KJl5CwSllKEWQ
- YKbC9tgBJjAH4gnYX64uxDUMFjnMuKVikOKmmSRthT5nS2bQrxXHVVQuMIE/NjuuUs/n
- VZX1OLcdlANWMoV4Fk1rQC1YV0H4PKo8gRMKK0jIBJTOHa7r/iTH6nRrLcBERLkgyBRN
- ti3qPeqipt3+A1+qHcFZpwYC3w0ubQaQu6hHPivkdAw2K5O96nF3/UVm10BXIZVULlrK
- 3AzcaKxUMt0RSRQCAp0EbOjTS3cHsFVowlIlGeMj0jchpS1E7zgN1Abc/RF2WPOXJfL/
- /CIA==
-X-Gm-Message-State: AGi0PuaSR1/tCtqmntjYwKJ67y03qPp/N4jFvuY8VbtRiHWZMpOtHsMN
- 3DGNPhZtJShO4RN21xSk22gpWLwGqMydbOpTwBHNaXcroO5MobFww+KBaq+FAtCGbc7iGf8jDQR
- ofPbwHYfQZifJCzY=
-X-Received: by 2002:adf:e5ce:: with SMTP id a14mr388721wrn.82.1588613099356;
- Mon, 04 May 2020 10:24:59 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLZVvDcO44TACYDWQQAmaJS8qI3Q4z1yf+lQvTHetygcJ4NlHQCnA2+QHUvEuJUimV2gJ9y/g==
-X-Received: by 2002:adf:e5ce:: with SMTP id a14mr388704wrn.82.1588613099127;
- Mon, 04 May 2020 10:24:59 -0700 (PDT)
+ bh=Ns/oosgPvEQDCh0mvkSvxQ2e1s0FFrQb4T4+vlueLeQ=;
+ b=K7wzGTovf5IaU0ABc459ULTY6zu2lCw/Iws56MPQa5Q6vqh2X88Mjj83TUokINIYmY
+ nnuolMsJssBop9TDPnnJIWLe9BtxD7A6vyGVCVWmoRpYTVwYQLMXuiaLnI9ibVIbEdgY
+ mmClBUL6Qb/mz2dS2XTtHiezCPXPH05V0L+XYVrfLDnIVHRyyBB2K5RYcC9SekH7gp45
+ GaP/PpFA8Pwj6SKXAymrps66EDA+jZJA5u+4adRnye/aM++0BhgZ7294YcPF0TvEMoTQ
+ 2wXjeIE6Ff/xNtIGUOiZDxvMYL6LomANoS+JsmCuZNm7zFraYhJS+S0hGBk9eXTg7DIu
+ l84A==
+X-Gm-Message-State: AGi0PuY5vIq8WiQI+iWfv7z5r06kdgZf9+kgVtCP/rduXH/KRlU36nZ/
+ aipqiPBoEwemnpGDcIWMyT47wXsZVtK2e/8eD7RXsoUGiNjiTT1Y6/c21/dPKzp+L1JOteG3le1
+ 1H0Hpk8yxGwDsFtk=
+X-Received: by 2002:a1c:bc02:: with SMTP id m2mr15538324wmf.60.1588613103929; 
+ Mon, 04 May 2020 10:25:03 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKTqYOS5s3AcQ8q6h/AX9iBLHJQKHc+rSJ9aOh3VxyWLp00Ca5QccicV0Fdm+dFxXvKRybQ0w==
+X-Received: by 2002:a1c:bc02:: with SMTP id m2mr15538304wmf.60.1588613103651; 
+ Mon, 04 May 2020 10:25:03 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id f7sm18486704wrt.10.2020.05.04.10.24.58
+ by smtp.gmail.com with ESMTPSA id b66sm179291wmh.12.2020.05.04.10.25.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 10:24:58 -0700 (PDT)
+ Mon, 04 May 2020 10:25:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/5] target/arm: Make set_feature() available for other
- files
-Date: Mon,  4 May 2020 19:24:45 +0200
-Message-Id: <20200504172448.9402-3-philmd@redhat.com>
+Subject: [PATCH v3 3/5] target/arm/cpu: Use ARRAY_SIZE() to iterate over
+ ARMCPUInfo[]
+Date: Mon,  4 May 2020 19:24:46 +0200
+Message-Id: <20200504172448.9402-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200504172448.9402-1-philmd@redhat.com>
 References: <20200504172448.9402-1-philmd@redhat.com>
@@ -96,96 +96,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Use ARRAY_SIZE() to iterate over ARMCPUInfo[].
 
-Move the common set_feature() and unset_feature() functions
-from cpu.c and cpu64.c to cpu.h.
+Since on the aarch64-linux-user build, arm_cpus[] is empty, add
+the cpu_count variable and only iterate when it is non-zero.
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-ID: <20190921150420.30743-2-thuth@redhat.com>
-[PMD: Split Thomas's patch in two: set_feature, cpu_register]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/cpu.h   | 10 ++++++++++
- target/arm/cpu.c   | 10 ----------
- target/arm/cpu64.c | 10 ----------
- 3 files changed, 10 insertions(+), 20 deletions(-)
+Without using cpu_count we get:
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 8608da6b6f..676f216b67 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -696,6 +696,16 @@ typedef struct CPUARMState {
-     void *gicv3state;
- } CPUARMState;
-=20
-+static inline void set_feature(CPUARMState *env, int feature)
-+{
-+    env->features |=3D 1ULL << feature;
-+}
-+
-+static inline void unset_feature(CPUARMState *env, int feature)
-+{
-+    env->features &=3D ~(1ULL << feature);
-+}
-+
- /**
-  * ARMELChangeHookFn:
-  * type of a function which can be registered via arm_register_el_change_h=
-ook()
+target/arm/cpu.c:2904:19: error: comparison of unsigned expression < 0 is a=
+lways false [-Werror=3Dtype-limits]
+ 2904 |     for (i =3D 0; i < ARRAY_SIZE(arm_cpus); ++i) {
+      |                   ^
+cc1: all warnings being treated as errors
+---
+ target/arm/cpu.c   | 16 +++++++++-------
+ target/arm/cpu64.c |  8 +++-----
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5d64adfe76..13959cb643 100644
+index 13959cb643..b4d73dd47c 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -725,16 +725,6 @@ static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
-=20
+@@ -2739,7 +2739,6 @@ static const ARMCPUInfo arm_cpus[] =3D {
+     { .name =3D "any",         .initfn =3D arm_max_initfn },
  #endif
+ #endif
+-    { .name =3D NULL }
+ };
 =20
--static inline void set_feature(CPUARMState *env, int feature)
--{
--    env->features |=3D 1ULL << feature;
--}
--
--static inline void unset_feature(CPUARMState *env, int feature)
--{
--    env->features &=3D ~(1ULL << feature);
--}
--
- static int
- print_insn_thumb1(bfd_vma pc, disassemble_info *info)
+ static Property arm_cpu_properties[] =3D {
+@@ -2887,19 +2886,22 @@ static const TypeInfo idau_interface_type_info =3D =
+{
+=20
+ static void arm_cpu_register_types(void)
  {
+-    const ARMCPUInfo *info =3D arm_cpus;
++    const size_t cpu_count =3D ARRAY_SIZE(arm_cpus);
+=20
+     type_register_static(&arm_cpu_type_info);
+     type_register_static(&idau_interface_type_info);
+=20
+-    while (info->name) {
+-        arm_cpu_register(info);
+-        info++;
+-    }
+-
+ #ifdef CONFIG_KVM
+     type_register_static(&host_arm_cpu_type_info);
+ #endif
++
++    if (cpu_count) {
++        size_t i;
++
++        for (i =3D 0; i < cpu_count; ++i) {
++            arm_cpu_register(&arm_cpus[i]);
++        }
++    }
+ }
+=20
+ type_init(arm_cpu_register_types)
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 9bdf75b1ab..cbaa5ed228 100644
+index cbaa5ed228..f5c49ee32d 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -29,16 +29,6 @@
- #include "kvm_arm.h"
- #include "qapi/visitor.h"
+@@ -734,7 +734,6 @@ static const ARMCPUInfo aarch64_cpus[] =3D {
+     { .name =3D "cortex-a53",         .initfn =3D aarch64_a53_initfn },
+     { .name =3D "cortex-a72",         .initfn =3D aarch64_a72_initfn },
+     { .name =3D "max",                .initfn =3D aarch64_max_initfn },
+-    { .name =3D NULL }
+ };
 =20
--static inline void set_feature(CPUARMState *env, int feature)
--{
--    env->features |=3D 1ULL << feature;
--}
--
--static inline void unset_feature(CPUARMState *env, int feature)
--{
--    env->features &=3D ~(1ULL << feature);
--}
--
- #ifndef CONFIG_USER_ONLY
- static uint64_t a57_a53_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *=
-ri)
+ static bool aarch64_cpu_get_aarch64(Object *obj, Error **errp)
+@@ -840,13 +839,12 @@ static const TypeInfo aarch64_cpu_type_info =3D {
+=20
+ static void aarch64_cpu_register_types(void)
  {
+-    const ARMCPUInfo *info =3D aarch64_cpus;
++    size_t i;
+=20
+     type_register_static(&aarch64_cpu_type_info);
+=20
+-    while (info->name) {
+-        aarch64_cpu_register(info);
+-        info++;
++    for (i =3D 0; i < ARRAY_SIZE(aarch64_cpus); ++i) {
++        aarch64_cpu_register(&aarch64_cpus[i]);
+     }
+ }
+=20
 --=20
 2.21.3
 
