@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419341C3627
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 11:52:06 +0200 (CEST)
-Received: from localhost ([::1]:49864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD60D1C3625
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 11:51:31 +0200 (CEST)
+Received: from localhost ([::1]:48112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVXld-0003M6-8e
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 05:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57450)
+	id 1jVXl4-0002dX-M3
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 05:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVXgl-0004zk-Be
- for qemu-devel@nongnu.org; Mon, 04 May 2020 05:47:03 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56347
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVXgr-000581-AK
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 05:47:09 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55164
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVXgk-0004EJ-DB
- for qemu-devel@nongnu.org; Mon, 04 May 2020 05:47:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVXgq-0004GV-LG
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 05:47:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588585620;
+ s=mimecast20190719; t=1588585627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iOoRSFUD32uShqGqJeGiHJdxg36QvfSMrGROhUVpi4c=;
- b=AgCChtIZvXKH8Gjd9bILDXyiiBlShzXtr+axBojLPQdVDrWKGoTvMuX5/FiO+f2fMGuJTf
- /fQXypO/plNge+thD5QJFE/Em/H7cz+PkejH25y+u5/cUKyDq+eo3s+s3XGXrqF1xnSuCe
- 4zn80ArqLWe9KgJeQCeuE3zLrlkvO3U=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-ILmlFRz8OEC1lzIdiiSMQw-1; Mon, 04 May 2020 05:46:59 -0400
-X-MC-Unique: ILmlFRz8OEC1lzIdiiSMQw-1
-Received: by mail-wr1-f72.google.com with SMTP id g7so10433283wrw.18
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 02:46:59 -0700 (PDT)
+ bh=AvIOGdjqIkzytmiWyY1qnAlUnGlQqd6ywNbmnMw49Uo=;
+ b=Le9ii+5FqkeWhPlxgjxzGfhdbxKHVYTDdhOrStSx1NO7eSTff1vOxS2MyLeKgj15X+vafj
+ XwEOBfsJadCbGrA1RsS7ygTaSn9DVREQE7efd+DpKbo58f0m+2SKLs/KKhcy2TxHXCctvP
+ XpMEH7gxDbdK8skcJVMdhuJzlY2awBc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-guUDtxNfNXWAsaEhdgcH1A-1; Mon, 04 May 2020 05:47:03 -0400
+X-MC-Unique: guUDtxNfNXWAsaEhdgcH1A-1
+Received: by mail-wm1-f71.google.com with SMTP id o26so3224175wmh.1
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 02:47:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jqr2MbWG5qDVE72NJQlyIDzc23rCOzvleinSwfktvqM=;
- b=VYbcdPeGDqHEmzSszY51R1DfobfY6sydDG/gmRC7sP9m49bHEEKAxFCLm3+XQYXzr6
- 5pULtL/a1iouQ5CgfCNzxJdJFXLyxs4ctEk2KTtHCicyUnZjz4ef67xxOdZ+BpNRGHPQ
- gBObK6CkmyvTMAo1CcWhxAd1zkwJn8xsS88MeDIegTZWm04LJm965KfdgO6xRCEpst90
- yFMG4x4t+N+5eL9xBrCsC3nzrhrgPxDk8jnapPYAULa/Jy+h2LtoKJuMrY8tCMSC1/aD
- l1DBxu9vXUf7qDkXHLjPzWYTdylBsFm0OWFX8DIfFytVPFjerQowjVUDqI+S3qnAYJd/
- D3vw==
-X-Gm-Message-State: AGi0PuZpDUotRKEj0tIOCm2OOFuMlZ6tNH4Y3bKCTub7oRiF4HmIwkVW
- u7jXb+v0etfvLshkOt9mKOgh04574wB+lCgjLDsNtc2o2yc+KYOIePdvmGQ3dAdb/96HoGXTokB
- otmDZIr3y6wXFtYI=
-X-Received: by 2002:a5d:5703:: with SMTP id a3mr17393242wrv.53.1588585617718; 
- Mon, 04 May 2020 02:46:57 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKRlXQhcOWnVxbUEExVA4635H7zp8oLcYLgcINZAFRoGyP+yAZN0t2Ty8e+2GE6VLyEZwspmQ==
-X-Received: by 2002:a5d:5703:: with SMTP id a3mr17393220wrv.53.1588585617497; 
- Mon, 04 May 2020 02:46:57 -0700 (PDT)
+ bh=0cHqmvxZVKll/YDWdGdgBQsGWJ3nu/ONs4V6i1R5aFg=;
+ b=HGKBFL92evv6ME03PBPn0oWEtLVQIck93yqF+CUL38jhi8JqSvmdGV+DKWfI2hHuuY
+ +Z/kbpvPjc9UPDFJgSu6Au2RT1ieU4g2nubW4+p/9uzV6G+xNsvc0skRVAjmFuLjCcxC
+ 6+23HY+Ka+Y3xUX6exYNYQaoCXYbEIJed+E6Qw6LcisD/aB1hpctSjr9Oe57iRHroJAr
+ qVBp0qYvCJdrqW0cRzH2cIibqU7XUniwaqCOTNK4ci2HozWjiEXdvfHnA2YP/OZLvhGt
+ nOIVaHxLOfTEyJr8pck0w5s6AmNk9aZHk6QUFPRpSzBeL2u7R/mydJ8YIqTp4p4/f58Q
+ BBew==
+X-Gm-Message-State: AGi0PuYDD0BFj86tVNnay81bWR+hwZs4auZtsu4c0ywKtnltXYUEXCsp
+ OAKEjOmLhsaRWMJi+ld5D6xtwtWF6gD5spb+jDAIM4OJ8g8NLyHrXbH2Wd9N2kc6FtddXd/y1J+
+ E/l8sQX1TTN/fkSw=
+X-Received: by 2002:a5d:6850:: with SMTP id o16mr17620779wrw.309.1588585622338; 
+ Mon, 04 May 2020 02:47:02 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIDtNONPhZkTPwQdW6eLEOwCIYTz7AhsLlWKZ71vdMIAmvOq1vzhv8BNDUtr9Ma0tZ8UWbh8g==
+X-Received: by 2002:a5d:6850:: with SMTP id o16mr17620766wrw.309.1588585622200; 
+ Mon, 04 May 2020 02:47:02 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id k6sm12762713wma.19.2020.05.04.02.46.56
+ by smtp.gmail.com with ESMTPSA id g186sm12685573wme.7.2020.05.04.02.47.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 02:46:57 -0700 (PDT)
+ Mon, 04 May 2020 02:47:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] sysemu/block-backend: Document blk_read()/blk_pwrite()
-Date: Mon,  4 May 2020 11:46:38 +0200
-Message-Id: <20200504094641.4963-4-philmd@redhat.com>
+Subject: [PATCH 4/6] block/block: Document BlockSizes fields
+Date: Mon,  4 May 2020 11:46:39 +0200
+Message-Id: <20200504094641.4963-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200504094641.4963-1-philmd@redhat.com>
 References: <20200504094641.4963-1-philmd@redhat.com>
@@ -72,16 +72,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,56 +103,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The blk_read()/blk_pwrite() return value is not obvious,
-document it.
+As it is not obvious for a block neophyte what means
+the 'log' value, document it.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/sysemu/block-backend.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ include/block/block.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.=
-h
-index f2dcf63ae3..823b8e94a7 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -153,7 +153,31 @@ BlockAIOCB *blk_aio_pwrite_zeroes(BlockBackend *blk, i=
-nt64_t offset,
-                                   int bytes, BdrvRequestFlags flags,
-                                   BlockCompletionFunc *cb, void *opaque);
- int blk_make_zero(BlockBackend *blk, BdrvRequestFlags flags);
-+
-+/**
-+ * blk_pread:
-+ *
-+ * @blk - the block backend where the buffer content is going to be read f=
-rom
-+ * @offset: position in bytes to read at
-+ * @buf: the data buffer
-+ * @bytes: number of bytes to read
-+ *
-+ * Returns: the number of bytes read on success, or a negative errno other=
-wise.
-+ */
- int blk_pread(BlockBackend *blk, int64_t offset, void *buf, int bytes);
-+
-+/**
-+ * blk_pwrite:
-+ *
-+ * @blk - the block backend where the buffer content is going to be writte=
-n to
-+ * @offset: position in bytes to write at
-+ * @buf: the data buffer
-+ * @bytes: number of bytes of @buf to write
-+ * @flags: request flags
-+ *
-+ * Returns: the number of bytes consumed on success,
-+ *          or a negative errno otherwise.
-+ */
- int blk_pwrite(BlockBackend *blk, int64_t offset, const void *buf, int byt=
-es,
-                BdrvRequestFlags flags);
- int64_t blk_getlength(BlockBackend *blk);
+diff --git a/include/block/block.h b/include/block/block.h
+index c57fdecf9a..94517c92b6 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -86,8 +86,8 @@ typedef enum {
+ } BdrvRequestFlags;
+=20
+ typedef struct BlockSizes {
+-    uint32_t phys;
+-    uint32_t log;
++    uint32_t phys;  /* physical block size */
++    uint32_t log;   /* logical block size */
+ } BlockSizes;
+=20
+ typedef struct HDGeometry {
 --=20
 2.21.3
 
