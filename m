@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5701C3EDC
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:46:34 +0200 (CEST)
-Received: from localhost ([::1]:41948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85021C3F10
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 17:54:23 +0200 (CEST)
+Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVdIf-00013h-Qb
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34988)
+	id 1jVdQE-0004VY-Sl
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 11:54:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jVdH8-0007km-3v
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:44:58 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40081
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jVdM5-0007D5-T9
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:50:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53410
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jVdH6-0008Lv-KK
- for qemu-devel@nongnu.org; Mon, 04 May 2020 11:44:57 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jVdM4-0001wh-E4
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 11:50:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588607094;
+ s=mimecast20190719; t=1588607402;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ks4ptpeKfPoz4LZEmpjuCiZs5YXStm1Qc7IxbkJ0+Hw=;
- b=H+JsoJTOmDvGbD1X3RxvV4hrFe6WN5k1LKb8FzA3wMZOtVuugUeT9J6LNT5ilPY2/RztU2
- 5+jqEZjs3wdk81lJj8s+mM4gyGK1PrC+xAaXJIt5iMkGHj6IaeFWwjGLRCmG8Lz6VVTnqR
- jEgH8ERF7OYxRuodzAZEpDhew8uGrJE=
+ bh=Ye2lfou3BuwqL2jbnkJ0TJG/I2iRslPFg1PmjsAfgo0=;
+ b=I2sWcOqQUPD0c/e70JzQ7Xyrh58TmaWxz9nHiCxlvVG3LgJEDp19nJZzSyWRcagzzKjTcn
+ lu6Z9PbR/AIzewKvzfS3sRiFdX6lryXTNyZ8Peh4judRrrF0bLc52aAX/2zPqxIBIx1XIq
+ 3qMwaMP9jbVl8rAQXzGxWC3QD6cUgfE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-hN6nJ15vOo-hacErbv-NzQ-1; Mon, 04 May 2020 11:44:53 -0400
-X-MC-Unique: hN6nJ15vOo-hacErbv-NzQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-228-zGnsOp9aOm6ywPpmeFfCjw-1; Mon, 04 May 2020 11:49:58 -0400
+X-MC-Unique: zGnsOp9aOm6ywPpmeFfCjw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2CD7835B51;
- Mon,  4 May 2020 15:44:51 +0000 (UTC)
-Received: from localhost (ovpn-115-57.phx2.redhat.com [10.3.115.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D4525C1B2;
- Mon,  4 May 2020 15:44:51 +0000 (UTC)
-Date: Mon, 4 May 2020 11:44:50 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH] hostmem: don't use mbind() if host-nodes is epmty
-Message-ID: <20200504154450.GM5244@habkost.net>
-References: <20200430154606.6421-1-imammedo@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86348018A2;
+ Mon,  4 May 2020 15:49:57 +0000 (UTC)
+Received: from localhost (ovpn-113-75.ams2.redhat.com [10.36.113.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D06663F80;
+ Mon,  4 May 2020 15:49:56 +0000 (UTC)
+Date: Mon, 4 May 2020 16:49:55 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Coiby Xu <coiby.xu@gmail.com>
+Subject: Re: [PATCH v5 0/5] vhost-user block device backend implementation
+Message-ID: <20200504154955.GA363114@stefanha-x1.localdomain>
+References: <20200309100342.14921-1-coiby.xu@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200430154606.6421-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200309100342.14921-1-coiby.xu@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BXVAT5kNtrzKuDFl"
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 04:24:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,34 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, mhohmann@physnet.uni-hamburg.de, berrange@redhat.com,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: kwolf@redhat.com, bharatlkmlkvm@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 30, 2020 at 11:46:06AM -0400, Igor Mammedov wrote:
-> Since 5.0 QEMU uses hostmem backend for allocating main guest RAM.
-> The backend however calls mbind() which is typically NOP
-> in case of default policy/absent host-nodes bitmap.
-> However when runing in container with black-listed mbind()
-> syscall, QEMU fails to start with error
->  "cannot bind memory to host NUMA nodes: Operation not permitted"
-> even when user hasn't provided host-nodes to pin to explictly
-> (which is the case with -m option)
->=20
-> To fix issue, call mbind() only in case when user has provided
-> host-nodes explicitly (i.e. host_nodes bitmap is not empty).
-> That should allow to run QEMU in containers with black-listed
-> mbind() without memory pinning. If QEMU provided memory-pinning
-> is required user still has to white-list mbind() in container
-> configuration.
->=20
-> Reported-by: Manuel Hohmann <mhohmann@physnet.uni-hamburg.de>
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+--BXVAT5kNtrzKuDFl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Queued on machine-next, thanks!
+On Mon, Mar 09, 2020 at 06:03:37PM +0800, Coiby Xu wrote:
+> v5:
+>  * re-use vu_kick_cb in libvhost-user
+>  * keeping processing VhostUserMsg in the same coroutine until there is
+>    detachment/attachment of AIOContext
+>  * Spawn separate coroutine for each VuVirtqElement
+>  * Other changes including relocating vhost-user-blk-server.c, coding
+>    style etc.
 
---=20
-Eduardo
+Hi Coiby,
+Sorry I haven't fully reviewed this series yet. Do you have a new
+revision that I should review instead?
+
+Thanks,
+Stefan
+
+--BXVAT5kNtrzKuDFl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6wOaMACgkQnKSrs4Gr
+c8ioCggArDKQAK6LsDfqnx1Uzw1admD5/l7iylpNhh2Q21PmOtlKysF7WOZZv+9S
+7DHktsPTfTaI84NAvljjL1vGvekUdNbzsc5B+UYm1J6dKpzsn2473W1rauKjwVOC
+/nuA+jT7P8N7A91pIoNcaRijvQusbpLwBrG1S9ip0nQP+yKg1Au35cN6wLu29iw5
+3AGND4BiSa9pivEpfhZytBoicABGffwTeftcg1x+c4geomgffhJ2MDAQIwchJmCq
+Q8vA3sTVo1iu0/nnBiHfFuPOzRQDKq/bejtxGPz75mZHAiZYPSUB3Dz8H/ireLS+
+K0Qz3/hvx8DWrV+A+1VztdGANhmRpA==
+=6bvZ
+-----END PGP SIGNATURE-----
+
+--BXVAT5kNtrzKuDFl--
 
 
