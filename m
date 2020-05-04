@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D19A1C3D3D
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:37:24 +0200 (CEST)
-Received: from localhost ([::1]:52902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 643E01C3D14
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:33:02 +0200 (CEST)
+Received: from localhost ([::1]:34224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVcDj-0001X6-0X
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47336)
+	id 1jVc9V-0001pe-CA
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6F-0005Da-Da
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:39 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:29370
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6G-0005F2-1M
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42749
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6E-0005wQ-5T
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVc6E-0005wg-GK
  for qemu-devel@nongnu.org; Mon, 04 May 2020 10:29:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1588602577;
@@ -24,45 +24,46 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gJFzG582yZB4/rnNbmblCyq8Hpszv9jfR5i6UZ4ZYJQ=;
- b=KIZwd7zMSgfU8BWzH4/IgQS+VDvQPkSRLlGP+GFM6WTRbgfKgRjIrIEQifZ9dEv2a9ef27
- gYIAcC5I4/o2NexVpdZpHahU4772ojH+nSUFM/3pZjsFLzM3rTHlC4nDPEVuC7GQsdmwLI
- WS4p/i0Fa6p0MQSDNVOFuwsFjonF2fY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-wLhKfHTKMleu3L234A83Yw-1; Mon, 04 May 2020 10:29:33 -0400
-X-MC-Unique: wLhKfHTKMleu3L234A83Yw-1
-Received: by mail-wm1-f69.google.com with SMTP id q5so4978769wmc.9
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:33 -0700 (PDT)
+ bh=5qBFLHcdRaQMUsQlFXqV2eHnPlF70mfC9NFWokqhExU=;
+ b=hFmjOFc3Bx5XuC5zeofTmcVFr43ViI2jTaUBFQ7gEyVyzGILyMBpNw4gCY6dEyIpLKYUPW
+ KMszKqLWJrKhYuvsHU6LaeF6nU8G3s8dXqR2XgKI2CpXzR7JVop8Xrt9t+CP5cDhmAC6it
+ WsCDnhNbeQCnIKTwuEdp5uRUQHgMujw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-9TCcWZ9SPXuXRrJG9mm7WA-1; Mon, 04 May 2020 10:29:35 -0400
+X-MC-Unique: 9TCcWZ9SPXuXRrJG9mm7WA-1
+Received: by mail-wr1-f72.google.com with SMTP id j16so10828298wrw.20
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:29:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0MjHyyDWDqhYfXPWccymj7uxRKiJrrSPTEpq3PGIndE=;
- b=csWhx31ALJRbXibd3vYdl5JhpS0nX6hmvt00S8zQ08NgBBZ1UADbVLInDWhheDvGP5
- bxD7tlt+KrNlbbYKzpVZ//jnStqQgXy4A3NcY0CywQnzdqj0I35mH094hX0FcJ6kieab
- KMM/Pa3JZPLM22mUm9RLgOlDXyTyb2UtC3g1wXxWDiiZuZHyCWoVf0snvKclxx1pyVwa
- 04cvCyNGpOYkmV0jR/DP4vv+wrphZzOzYbtDtoTorij/wOTsf6GwPQMopMspcC/+p5OV
- +Dsx2qok+KyTSDNbTiKqKWb8jh9EZ60AjePSTO6ffz6maFl5fLftZjN7CvYyMRt5jrle
- F5Sg==
-X-Gm-Message-State: AGi0PuYZxRGqVjKgyBaGTw3zcbBRAK/uT62RD5WWnY/GUoA0doKITPdi
- 3RTGx6Azf3fVxUuTFDJbP4vCB2cw0ZzYO/OvywiDS8jxw/6xDIsO86S4pfw0z0c/XNIX0AhjXjQ
- iMpLVFrvYDWc8RMA=
-X-Received: by 2002:adf:e483:: with SMTP id i3mr18393645wrm.88.1588602572080; 
- Mon, 04 May 2020 07:29:32 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJcR9UMJO77NohzYNucfZbMyOc+lca8j9zIhjRf1w/+d8Q9RtsUxGU51kI7ggkAfekvbXgxIA==
-X-Received: by 2002:adf:e483:: with SMTP id i3mr18393627wrm.88.1588602571917; 
- Mon, 04 May 2020 07:29:31 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=feEST3pElJnPhKM8FHSB9qNteiPsUjugC8IYA15rGhw=;
+ b=AkmNuNgeY7NgSyTayyQuTL79b/lkql4Pr/Tf1y8NTt6yOLwwpldDpc4A9FOOZXKi82
+ ASSDj+stWIOe8ASVfY4IlFecPYH7V/Ve4fCtXOSK3FZTW0qeW1iN3Z0bFUf2AB1BzOuY
+ o2cmUmTMBsDywPpYTYOGF1OdeHZawtiEjYlPYcjaGPdWRh8AumOTE6LpABAZqXS+iLru
+ kUwWtlHljKsudY6VnRb84wttF78onuLYvl+2uGdFElTLALj/lKe7IUbGl1OJ5Hflimor
+ m4wjLFmCW03aqFQvyFaaFDl50Zk3drU8n4GJqZGAacp47EvaEHu0DQtv12obismq/vTF
+ pGug==
+X-Gm-Message-State: AGi0PuaVURiQ7LdnldjRt36wythnbZyJST6lnd1ur2jph/qGN4ks+LEe
+ Kv83grHXied0uPZXlO4wGyqCJBNa4AUYUKYA9zlAY49PACx4T1AQMPpoOAEPpde+dTR5AA2PLH0
+ xQh2PKzGKjp7Ukek=
+X-Received: by 2002:adf:dcca:: with SMTP id x10mr19222681wrm.212.1588602574569; 
+ Mon, 04 May 2020 07:29:34 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLz+U3uacPzJanbbi8OHGeShEmUSgGA/AFr8iP38JVRfxbvGX4nCouwU5+hKxuBdvp1MA/sYQ==
+X-Received: by 2002:adf:dcca:: with SMTP id x10mr19222666wrm.212.1588602574359; 
+ Mon, 04 May 2020 07:29:34 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- b191sm14778221wmd.39.2020.05.04.07.29.30
+ u127sm14472815wme.8.2020.05.04.07.29.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:29:31 -0700 (PDT)
-Date: Mon, 4 May 2020 10:29:29 -0400
+ Mon, 04 May 2020 07:29:33 -0700 (PDT)
+Date: Mon, 4 May 2020 10:29:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/29] acpi: add ISADeviceClass->build_aml()
-Message-ID: <20200504142814.157589-8-mst@redhat.com>
+Subject: [PULL 08/29] rtc: add RTC_ISA_BASE
+Message-ID: <20200504142814.157589-9-mst@redhat.com>
 References: <20200504142814.157589-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20200504142814.157589-1-mst@redhat.com>
@@ -70,13 +71,13 @@ X-Mailer: git-send-email 2.24.1.751.gd10ce2899c
 X-Mutt-Fcc: =sent
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 05:09:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,87 +98,72 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Also add isa_aml_build() function which walks all isa devices.
-This allows to move aml builder code to isa devices.
+Add and use RTC_ISA_BASE define instead of hardcoding 0x70.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20200429140003.7336-6-kraxel@redhat.com>
+Message-Id: <20200429140003.7336-7-kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- include/hw/isa/isa.h |  2 ++
- hw/i386/acpi-build.c |  1 +
- hw/isa/isa-bus.c     | 15 +++++++++++++++
- 3 files changed, 18 insertions(+)
+ include/hw/rtc/mc146818rtc.h | 1 +
+ hw/rtc/mc146818rtc.c         | 5 ++---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-index 59a4d4b50a..02c2350274 100644
---- a/include/hw/isa/isa.h
-+++ b/include/hw/isa/isa.h
-@@ -69,6 +69,7 @@ typedef struct IsaDmaClass {
+diff --git a/include/hw/rtc/mc146818rtc.h b/include/hw/rtc/mc146818rtc.h
+index 10c93a096a..3713181b56 100644
+--- a/include/hw/rtc/mc146818rtc.h
++++ b/include/hw/rtc/mc146818rtc.h
+@@ -47,6 +47,7 @@ typedef struct RTCState {
+ } RTCState;
 =20
- typedef struct ISADeviceClass {
-     DeviceClass parent_class;
-+    void (*build_aml)(ISADevice *dev, Aml *scope);
- } ISADeviceClass;
+ #define RTC_ISA_IRQ 8
++#define RTC_ISA_BASE 0x70
 =20
- struct ISABus {
-@@ -107,6 +108,7 @@ ISADevice *isa_try_create(ISABus *bus, const char *name=
-);
- ISADevice *isa_create_simple(ISABus *bus, const char *name);
-=20
- ISADevice *isa_vga_init(ISABus *bus);
-+void isa_build_aml(ISABus *bus, Aml *scope);
-=20
- /**
-  * isa_register_ioport: Install an I/O port region on the ISA bus.
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 3a046b03e4..97f3c75cd9 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1288,6 +1288,7 @@ static void build_isa_devices_aml(Aml *table)
-         error_report("No ISA bus, unable to define IPMI ACPI data");
-     } else {
-         build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
-+        isa_build_aml(ISA_BUS(obj), scope);
-     }
-=20
-     aml_append(table, scope);
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 798dd9194e..1f2189f4d5 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -207,6 +207,21 @@ ISADevice *isa_vga_init(ISABus *bus)
-     }
- }
-=20
-+void isa_build_aml(ISABus *bus, Aml *scope)
-+{
-+    BusChild *kid;
-+    ISADevice *dev;
-+    ISADeviceClass *dc;
-+
-+    QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
-+        dev =3D ISA_DEVICE(kid->child);
-+        dc =3D ISA_DEVICE_GET_CLASS(dev);
-+        if (dc->build_aml) {
-+            dc->build_aml(dev, scope);
-+        }
-+    }
-+}
-+
- static void isabus_dev_print(Monitor *mon, DeviceState *dev, int indent)
+ ISADevice *mc146818_rtc_init(ISABus *bus, int base_year,
+                              qemu_irq intercept_irq);
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index dc4269cc55..d18c09911b 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -908,7 +908,6 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
+p)
  {
-     ISADevice *d =3D ISA_DEVICE(dev);
+     ISADevice *isadev =3D ISA_DEVICE(dev);
+     RTCState *s =3D MC146818_RTC(dev);
+-    int base =3D 0x70;
+=20
+     s->cmos_data[RTC_REG_A] =3D 0x26;
+     s->cmos_data[RTC_REG_B] =3D 0x02;
+@@ -951,7 +950,7 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
+p)
+     qemu_register_suspend_notifier(&s->suspend_notifier);
+=20
+     memory_region_init_io(&s->io, OBJECT(s), &cmos_ops, s, "rtc", 2);
+-    isa_register_ioport(isadev, &s->io, base);
++    isa_register_ioport(isadev, &s->io, RTC_ISA_BASE);
+=20
+     /* register rtc 0x70 port for coalesced_pio */
+     memory_region_set_flush_coalesced(&s->io);
+@@ -960,7 +959,7 @@ static void rtc_realizefn(DeviceState *dev, Error **err=
+p)
+     memory_region_add_subregion(&s->io, 0, &s->coalesced_io);
+     memory_region_add_coalescing(&s->coalesced_io, 0, 1);
+=20
+-    qdev_set_legacy_instance_id(dev, base, 3);
++    qdev_set_legacy_instance_id(dev, RTC_ISA_BASE, 3);
+     qemu_register_reset(rtc_reset, s);
+=20
+     object_property_add_tm(OBJECT(s), "date", rtc_get_date, NULL);
 --=20
 MST
 
