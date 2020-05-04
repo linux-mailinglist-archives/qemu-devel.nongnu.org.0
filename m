@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31CF1C39D3
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:48:56 +0200 (CEST)
-Received: from localhost ([::1]:39706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5026E1C39D9
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 14:50:41 +0200 (CEST)
+Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVaWl-00024v-N8
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:48:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56508)
+	id 1jVaYS-0005Xz-8h
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 08:50:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHv-0000Pq-I0
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:35 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45997)
+ id 1jVaHw-0000SJ-BX
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:36 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVaHu-00013x-Jp
- for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:35 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id k1so1831667wro.12
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:34 -0700 (PDT)
+ id 1jVaHv-00016o-IR
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 08:33:36 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id g13so20678907wrb.8
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 05:33:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=w72aHgPZMgOA36un6Lhv4DDQAzkYim3so5bL3PT2h+I=;
- b=KAGJjtEbhGnOGh4/ouaIIP+RwQ2P5YDzKQGjyD8J2bQ/UE+su28WTSOt45D6w16e82
- 8CU7rI1IOPhTDlesP6GJ4pFwBgWRIJC+TpfFxQ0FRCUPb+Wp612VYbk/85p279sOjXOy
- M0oG2ooOX02leiFDiuoZPZZG2MzpYOStonR1XSuE7FXU4uUoRSwY9KbWaja905+BkCau
- 9yJG+BykhQrz9CC/sQ/IF8aQRL7xFgZi6NQMw+G00B5NlzAmtPV8jRfoJKckS3lehhAI
- b9V2ZIBvxXS3Na7GHfjWMOcp/2gUErBCw9XCuaUeYETuZMxK/rgxkrwPUGdgX1x8UbPn
- /eFA==
+ bh=OQuyuhA5Gt5NXmOvC0CG9mRkAQzrDpARfPtObF83Cnw=;
+ b=Z3kJ4k9bqgH9YtrIidRomrEhNiaf+Kw4S/jYqIxxcZdnFKqE7WBl/WatMcdTbP8fbd
+ LhFjHka25R6y6Ivei1+TiUZLWOzRv3roPgKRHIoc08uDMLpSqdrVZld8fS+jKSpamMMu
+ Rb3huL7l0jvHFKLW7Dt1CMITeisz++f3bbyuDrHkvYVYsu+jbTEw9+OGEFOarkx9QdxJ
+ dN8fKGuKsvUmOQqwcl4pmN9NN0VWnqk0LXQ1NV71xifwIM9LaQwub3oVHp+TFn2lBE45
+ oARMI6QSPuvdKj7mSs3bbpowPiHXK4wh0EEo2w8pTF4vgB//JoQP8MxDEZWi/yIFrVhU
+ b0tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w72aHgPZMgOA36un6Lhv4DDQAzkYim3so5bL3PT2h+I=;
- b=oVdi7aMpzmqHPdsagfwfnEqzCIAFQH/Eiaf1+yqmxq+nlplOVfCPLwb8KmGXyE1Xik
- kYjexOHXGjWIX0LGuqejltJrNLoGdKaAqF9fXxlVpbEEIAYeGPC3N4JDInD0+Sng0J4h
- DmKWAEy8kNUyDKAFwqx/uLJQaniv2EDw4R0RxA5wUZhDToN1Sej8um9PhLf9CV6WcOXS
- EJwBQO8wA+2yTlwkZMcFOXVqJyiytT5iEIj1Fb2KDLdxgk0iSoF8ONyzSmSYRytcY2nl
- y49rzpLh4zlLnlLEYiBNdAjgDv1O6eh54b2UbWisKv683ellha8XCwa+akSFvh6TBxQH
- 1uEA==
-X-Gm-Message-State: AGi0PuaMbqHzT7XjE4mu24LWb9UZmB8nhM/HALu+xjg5NbwoChEhsmjx
- UwIm6SSL+dw8qfqGizeoQ4G1Zw5OwLKGwA==
-X-Google-Smtp-Source: APiQypI15IHgOCbknECrxLT6GrMsn4/KGCCN00nV0ovak5Mn5DrfqwaMdqln5e1rqRmFUw3pQwz/dg==
-X-Received: by 2002:adf:ce02:: with SMTP id p2mr18844288wrn.173.1588595613001; 
+ bh=OQuyuhA5Gt5NXmOvC0CG9mRkAQzrDpARfPtObF83Cnw=;
+ b=dq2gLyVLJvhVJmriBsJQIYWWNerYoomEVxQQntApxir30vCReHWaa9X2mszhGjpK43
+ 0W0MDPftXPP+3rexJBBp3P3d/2VupdLAswCPG+6pyRQjbp3on78Y5t6TnqYfcsTmp/tg
+ 6ntddVqkx9b9Y86Xx7v2HbAv8CQPXTnV8YQ/uzidDBn56ME+yWuLOLE+2f8zXjiN3ECj
+ dez7++C3Ixnt8FdQXMEtoziamg/K1tVfP5BjGGUigk3Z/MnJLoCBaVARdnSL6sVD7PlQ
+ gncl2H7AuVVu3E5FtxEPJ6J0g0XkXWdldEUmb7Mmz0glbV5hZUloATVSkWIWE4xzQYzy
+ Pr7Q==
+X-Gm-Message-State: AGi0PuYsQ447Uh3SKabeqbQaoV52XOYUfBile4ru0BIlQNl23fU55V96
+ jJrLbj2SqBhOxdq9GLaDr1G9aoy1O3D8vg==
+X-Google-Smtp-Source: APiQypLhuMKYmUv9IGwaEAXidgi+rQyEk719z7ISVar9MNQ6566oATfc6+cTi02gG0KtI0Xt/JQUrw==
+X-Received: by 2002:a5d:6a8b:: with SMTP id s11mr18628611wru.258.1588595613924; 
  Mon, 04 May 2020 05:33:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.31
+ by smtp.gmail.com with ESMTPSA id q4sm12253608wrx.9.2020.05.04.05.33.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 05:33:32 -0700 (PDT)
+ Mon, 04 May 2020 05:33:33 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/39] hw/arm: versal-virt: Add support for the RTC
-Date: Mon,  4 May 2020 13:32:49 +0100
-Message-Id: <20200504123309.3808-20-peter.maydell@linaro.org>
+Subject: [PULL 20/39] target/arm/translate-vfp.inc.c: Remove duplicate
+ simd_r32 check
+Date: Mon,  4 May 2020 13:32:50 +0100
+Message-Id: <20200504123309.3808-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200504123309.3808-1-peter.maydell@linaro.org>
 References: <20200504123309.3808-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,59 +90,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Somewhere along theline we accidentally added a duplicate
+"using D16-D31 when they don't exist" check to do_vfm_dp()
+(probably an artifact of a patchseries rebase). Remove it.
 
-Add support for the RTC.
-
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-id: 20200427181649.26851-12-edgar.iglesias@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200430181003.21682-2-peter.maydell@linaro.org
 ---
- hw/arm/xlnx-versal-virt.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ target/arm/translate-vfp.inc.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index 0afee48672a..7e749e19267 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -283,6 +283,27 @@ static void fdt_add_sd_nodes(VersalVirt *s)
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index b087bbd812e..e1a90175983 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -1872,12 +1872,6 @@ static bool do_vfm_dp(DisasContext *s, arg_VFMA_dp *a, bool neg_n, bool neg_d)
+         return false;
      }
- }
  
-+static void fdt_add_rtc_node(VersalVirt *s)
-+{
-+    const char compat[] = "xlnx,zynqmp-rtc";
-+    const char interrupt_names[] = "alarm\0sec";
-+    char *name = g_strdup_printf("/rtc@%x", MM_PMC_RTC);
-+
-+    qemu_fdt_add_subnode(s->fdt, name);
-+
-+    qemu_fdt_setprop_cells(s->fdt, name, "interrupts",
-+                           GIC_FDT_IRQ_TYPE_SPI, VERSAL_RTC_ALARM_IRQ,
-+                           GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                           GIC_FDT_IRQ_TYPE_SPI, VERSAL_RTC_SECONDS_IRQ,
-+                           GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-+    qemu_fdt_setprop(s->fdt, name, "interrupt-names",
-+                     interrupt_names, sizeof(interrupt_names));
-+    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-+                                 2, MM_PMC_RTC, 2, MM_PMC_RTC_SIZE);
-+    qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
-+    g_free(name);
-+}
-+
- static void fdt_nop_memory_nodes(void *fdt, Error **errp)
- {
-     Error *err = NULL;
-@@ -496,6 +517,7 @@ static void versal_virt_init(MachineState *machine)
-     fdt_add_timer_nodes(s);
-     fdt_add_zdma_nodes(s);
-     fdt_add_sd_nodes(s);
-+    fdt_add_rtc_node(s);
-     fdt_add_cpu_nodes(s, psci_conduit);
-     fdt_add_clk_node(s, "/clk125", 125000000, s->phandle.clk_125Mhz);
-     fdt_add_clk_node(s, "/clk25", 25000000, s->phandle.clk_25Mhz);
+-    /* UNDEF accesses to D16-D31 if they don't exist. */
+-    if (!dc_isar_feature(aa32_simd_r32, s) &&
+-        ((a->vd | a->vn | a->vm) & 0x10)) {
+-        return false;
+-    }
+-
+     if (!vfp_access_check(s)) {
+         return true;
+     }
 -- 
 2.20.1
 
