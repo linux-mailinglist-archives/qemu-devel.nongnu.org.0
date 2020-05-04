@@ -2,125 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89D81C3CD1
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:21:17 +0200 (CEST)
-Received: from localhost ([::1]:48130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C121C3C63
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:08:32 +0200 (CEST)
+Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVby8-0000BT-Qk
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45138)
+	id 1jVbln-0004M5-Fw
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jVbrU-0007Hb-Cg; Mon, 04 May 2020 10:14:24 -0400
-Received: from mail-mw2nam12on2074.outbound.protection.outlook.com
- ([40.107.244.74]:6150 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jVbrT-0005gh-9t; Mon, 04 May 2020 10:14:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DDgYO9DNY9fa0GUkHJh9FYoG6ZZBgU7RCXsjaN+I2uggvMNXMaVYD0ipQlcGMfzm1bMgLlvwbFhnfdTAZC6QfB7Z8x6lnRct0zeIxQFk5GXc20Utw7x6tLowsXtOrmdEtI+QwVtU32TVSpXWProHBhDgbcIsh2opBYeLLLthi4TTsyH5Ra4YxysqZN6U/EO7hQ1IYPZ0nmHs14T836SO0GdiZ1WDEupW0gpsLgelOPT9aHeRth+PppEWim7p20rlvrEGpCjF7J69HPfVwE92xglZQ0vz1/K1RNAiFzPlnmlu+sm5HhGhJ3dNV6tFUM8al3GuUbbWzzTreV+ZGUMFhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hinxdvB+SmjEyX1WmnJdXgfcuwaXO0a8Auar+RLVvl4=;
- b=O/uyLpHU5K6rPdJnXN0KU8zQbngSt0ChGKfN7d+kMrj0woh3cwDR/gVWhr9MuWmbKbuarkLiRzJ2ErMH3EejYuFCB3S6py2Op2scXUwmQYd5xw7skvec2Ne/LPO4UASAfrbl0PaUoH+F8jt8MCZ3zW08yVZyYoaQHWjVC2wmaGeSb8uU+Xm0BaShM35ruPYiYvb9Zr5NDo1UapbA3qkNHwV+e4mPp1/mSTeVA5v2t4ahk3LXSqj18Fhs7rGRvhujXgDu9eMgAgXo4AISahz709uzFCxx9AZuOH22SU/+DzXO+cmA+65+h7ISOvayBPDJdAWmNdYOWoRpRXLvsR9N2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hinxdvB+SmjEyX1WmnJdXgfcuwaXO0a8Auar+RLVvl4=;
- b=enIe/pMWRVF9Ko81Y2zd9xgKo76vMRLHTUOJYKHpNOwKEyGHxF4um78KZBmoZI9vkCPKz8CYLobXuYGNgGnwupfDQ4r5uFYLnMkSwn7F0nfCEfx4DPEnd7+fPWImQMeQyNfyyVPsCWXDzF7jb/CBWyJs/VJNFwCsnLIZviCm3mU=
-Received: from DM6PR12CA0021.namprd12.prod.outlook.com (2603:10b6:5:1c0::34)
- by DM5PR02MB3653.namprd02.prod.outlook.com (2603:10b6:4:bb::39) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.29; Mon, 4 May
- 2020 14:14:20 +0000
-Received: from CY1NAM02FT039.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:1c0:cafe::7c) by DM6PR12CA0021.outlook.office365.com
- (2603:10b6:5:1c0::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20 via Frontend
- Transport; Mon, 4 May 2020 14:14:19 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT039.mail.protection.outlook.com (10.152.75.140) with Microsoft SMTP
- Server id 15.20.2958.27 via Frontend Transport; Mon, 4 May 2020 14:14:19
- +0000
-Received: from [149.199.38.66] (port=43115 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jVbrJ-0000H6-Fe; Mon, 04 May 2020 07:14:13 -0700
-Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jVbrP-0000xJ-3p; Mon, 04 May 2020 07:14:19 -0700
-Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1jVbrO-0000x5-EA; Mon, 04 May 2020 07:14:18 -0700
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 2A53B13C2E73; Mon,  4 May 2020 19:36:37 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Tong Ho <tong.ho@xilinx.com>, Ramon Fried <rfried.dev@gmail.com>
-Subject: [PATCH v2 10/10] net: cadence_gem: Fix RX address filtering
-Date: Mon,  4 May 2020 19:36:08 +0530
-Message-Id: <1588601168-27576-11-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
-References: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(46966005)(110136005)(6666004)(70206006)(26005)(42186006)(186003)(70586007)(5660300002)(336012)(8936002)(356005)(82310400002)(47076004)(8676002)(81166007)(36756003)(498600001)(6266002)(2906002)(426003)(2616005)(4326008);
- DIR:OUT; SFP:1101; 
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jVbkx-0003nk-Lf
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:07:39 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1jVbkw-00008B-LV
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:07:39 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f13so21056120wrm.13
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=kkVigSOyFNsaV1ZegAM2y/NGEHtYnnqvdavQS7+K9CM=;
+ b=hZGiBnVcVjVFhmIk9wUmxg+n4prFL9jAWF1zbgFM2P/nTb3XjLF2mJtfg46ztJWg3O
+ gkjXwwcafW5bMtPleQMk+4ekDBlCaIx3Pg3ibWNT7bP1INhfkJlVwBXprVlQGSsas1Oo
+ EQS/NTrFF2dMF0bA2Xi42oET9DOaiVNYL9n6bfGVsNfzCRoe+IMseO/bM4i3iGe6ZVqC
+ qLv4o0+3C57xDq09rplo04JB/XmZYVO2/WtFrq+zfy2AmzSE/UCjfMhxi5xD446bMbl3
+ dODSUPnjb/jrZhzrs2/w93jE7A47GEYejLAaFci1I7L0ndqIIHehV3PO2XqlcVHM2mMy
+ Kwvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kkVigSOyFNsaV1ZegAM2y/NGEHtYnnqvdavQS7+K9CM=;
+ b=qVxHRNIr3daTw8RQ39SDMnvWxMaHkmGv1I67SAXWMmmz6ucV+2d4ZDSzV7O4OeA4+b
+ w7w0LbstvEuR/upW5YwqeJjTDcDJfdBLNq8kZk+6wJFM6vMeE3JnS0IqrpgKz92g7ONT
+ gUGeNgsdtBfgIfenhRvUiCFatZXsWF65tMIVw0h3LluPQQAKEK0YejFNFVanvcXK+Ze9
+ fbni9ZvHiLvfSbdtLlTzFYpgdo/jQvuIH/s4sfK7AznRRqRFcGBCT1E1S/kWE9Ae6uES
+ nJlKieWx1HnnqQmcDg+syYuMKBWeCpQsb3nix6/opopek6SFjgAVh68Xhe8ljse5OH6m
+ GYlQ==
+X-Gm-Message-State: AGi0PuZDFNBOfLL6Dk/a/RHIh3ZjDVEfGrHj9Wz81pEI5qRewqJBGZGb
+ f/DJ8faq8DVwuAUIqUvk3vvF8J8tJAJQ6cLtw+U=
+X-Google-Smtp-Source: APiQypKl9Omap+fCExSxhFYqKFvQ6f1c9OsX9eaFt7j0+CXXdzYChe6K1qJRAjeto6ymIXbrB+mjhc/b8OvOJpEmcAc=
+X-Received: by 2002:adf:c7c3:: with SMTP id y3mr18050721wrg.196.1588601254303; 
+ Mon, 04 May 2020 07:07:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 80d4ec12-cf09-49ae-ec37-08d7f0356fb4
-X-MS-TrafficTypeDiagnostic: DM5PR02MB3653:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB3653D5E729045D9DCE80649BCAA60@DM5PR02MB3653.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:236;
-X-Forefront-PRVS: 03932714EB
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vh5E7o9mW2CfkRad6hNbqTfAzyJhgmUtwdnnKYzenzlhkf2lgTvvALGnY13hsjpP4bRV1/WE5CzurIyJEUzaiHHq6p/EVMHxqBEHjHZLnGniP+YdOkG9ZwHwCODzElLDT5m2IwHa3Z7i9DGf0S2ysqsThRNx7lMBq5M4vhyqgdR8Ydb/yVjk1yO7VC1LdU2tPKW6NHcgJrANhBpquKfWdKoX4DU437fcw+Yh1LgxqamJf5M0Sp6IYc3tWR/URdBtBRoEkGYssUAxe0Ma0fNYkJAuFGbotQwojqOzUycAoZyHA0p1rqXoc7Kyje9dLWs7TF26pWB4hjKGYNXcPWP5gF1oqFM7IfvEBkIQMggoxj3rSCPDxLaeJZVKJ+Iola5Ha4J0W+LRcxW5Lkn2kyZhN9XTD+PDG0izwgV27dEjX+CbICuKYsQ0RRZl8nertEFHDmkL8B/9Ukdv9jRlEyBq7bK4dMjftbu3STXTrAyXEjYNh/DjtQ4VcXQox8+zOgcuO8ZRmrvCg2n8yYiVpc08YQ==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2020 14:14:19.4145 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80d4ec12-cf09-49ae-ec37-08d7f0356fb4
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3653
-Received-SPF: pass client-ip=40.107.244.74; envelope-from=saipava@xilinx.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 10:14:21
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com>
+In-Reply-To: <348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 4 May 2020 16:07:22 +0200
+Message-ID: <CAJ+F1CJsBRp+9yf=kGZt18APXskO8NWyQ1YEqauLYhiNmcW39Q@mail.gmail.com>
+Subject: Re: [PATCH] virtiofsd: Use clone() and not unshare(), support non-root
+To: Colin Walters <walters@verbum.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x443.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -134,86 +80,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tong Ho <tong.ho@xilinx.com>
+Hi
 
-Two defects are fixed:
+On Fri, May 1, 2020 at 8:29 PM Colin Walters <walters@verbum.org> wrote:
+>
+> I'd like to make use of virtiofs as part of our tooling in
+> https://github.com/coreos/coreos-assembler
+> Most of the code runs as non-root today; qemu also runs as non-root.
+> We use 9p right now.
+>
+> virtiofsd's builtin sandboxing effectively assumes it runs as
+> root.
+>
+> First, change the code to use `clone()` and not `unshare()+fork()`.
+>
+> Next, automatically use `CLONE_NEWUSER` if we're running as non root.
+>
+> This is similar logic to that in https://github.com/containers/bubblewrap
+> (Which...BTW, it could make sense for virtiofs to depend on bubblewrap
+>  and re-exec itself rather than re-implementing the containerization
+>  itself)
+>
 
-1/ Detection of multicast frames
-2/ Treating drop of mis-addressed frames as non-error
+Now that systemd-nspawn works without privileges, isn't that also a
+solution? One that would fit both system and session level
+permissions, and integration with other services?
 
-Signed-off-by: Tong Ho <tong.ho@xilinx.com>
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
----
- hw/net/cadence_gem.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+> Signed-off-by: Colin Walters <walters@verbum.org>
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 26 +++++++++++++++++++++-----
+>  1 file changed, 21 insertions(+), 5 deletions(-)
+>
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
+gh_ll.c
+> index 4c35c95b25..468617f6d6 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -2530,6 +2530,21 @@ static void print_capabilities(void)
+>      printf("}\n");
+>  }
+>
+> +/* Copied from bubblewrap */
+> +static int
+> +raw_clone(unsigned long flags, void *child_stack)
+> +{
+> +#if defined(__s390__) || defined(__CRIS__)
+> +  /*
+> +   * On s390 and cris the order of the first and second arguments
+> +   * of the raw clone() system call is reversed.
+> +   */
+> +    return (int) syscall(__NR_clone, child_stack, flags);
+> +#else
+> +    return (int) syscall(__NR_clone, flags, child_stack);
+> +#endif
+> +}
+> +
+>  /*
+>   * Move to a new mount, net, and pid namespaces to isolate this process.
+>   */
+> @@ -2547,14 +2562,15 @@ static void setup_namespaces(struct lo_data *lo, =
+struct fuse_session *se)
+>       * an empty network namespace to prevent TCP/IP and other network
+>       * activity in case this process is compromised.
+>       */
+> -    if (unshare(CLONE_NEWPID | CLONE_NEWNS | CLONE_NEWNET) !=3D 0) {
+> -        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWPID | CLONE_NEWNS): %m\=
+n");
+> -        exit(1);
+> +    int clone_flags =3D SIGCHLD | CLONE_NEWPID | CLONE_NEWNS | CLONE_NEW=
+NET;
+> +    /* If we're non root, we need a new user namespace */
+> +    if (getuid() !=3D 0) {
+> +        clone_flags |=3D CLONE_NEWUSER;
+>      }
+>
+> -    child =3D fork();
+> +    child =3D raw_clone(clone_flags, NULL);
+>      if (child < 0) {
+> -        fuse_log(FUSE_LOG_ERR, "fork() failed: %m\n");
+> +        fuse_log(FUSE_LOG_ERR, "clone() failed: %m\n");
+>          exit(1);
+>      }
+>      if (child > 0) {
+> --
+> 2.24.1
+>
+>
 
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index f0bf2e7..112794a 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -34,6 +34,7 @@
- #include "qemu/module.h"
- #include "sysemu/dma.h"
- #include "net/checksum.h"
-+#include "net/eth.h"
- 
- #define CADENCE_GEM_ERR_DEBUG 0
- #define DB_PRINT(...) do {\
-@@ -669,7 +670,7 @@ static unsigned calc_mac_hash(const uint8_t *mac)
- static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
- {
-     uint8_t *gem_spaddr;
--    int i;
-+    int i, is_mc;
- 
-     /* Promiscuous mode? */
-     if (s->regs[GEM_NWCFG] & GEM_NWCFG_PROMISC) {
-@@ -685,22 +686,17 @@ static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
-     }
- 
-     /* Accept packets -w- hash match? */
--    if ((packet[0] == 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
--        (packet[0] != 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
-+    is_mc = is_multicast_ether_addr(packet);
-+    if ((is_mc && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
-+        (!is_mc && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
-+        uint64_t buckets;
-         unsigned hash_index;
- 
-         hash_index = calc_mac_hash(packet);
--        if (hash_index < 32) {
--            if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
--                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
--                                           GEM_RX_UNICAST_HASH_ACCEPT;
--            }
--        } else {
--            hash_index -= 32;
--            if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
--                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
--                                           GEM_RX_UNICAST_HASH_ACCEPT;
--            }
-+        buckets = ((uint64_t)s->regs[GEM_HASHHI] << 32) | s->regs[GEM_HASHLO];
-+        if ((buckets >> hash_index) & 1) {
-+            return is_mc ? GEM_RX_MULTICAST_HASH_ACCEPT
-+                         : GEM_RX_UNICAST_HASH_ACCEPT;
-         }
-     }
- 
-@@ -924,7 +920,7 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
-     /* Is this destination MAC address "for us" ? */
-     maf = gem_mac_address_filter(s, buf);
-     if (maf == GEM_RX_REJECT) {
--        return -1;
-+        return size;  /* no, drop siliently b/c it's not an error */
-     }
- 
-     /* Discard packets with receive length error enabled ? */
--- 
-2.7.4
 
+--=20
+Marc-Andr=C3=A9 Lureau
 
