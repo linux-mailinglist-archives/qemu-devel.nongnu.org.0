@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FA51C3C03
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:02:05 +0200 (CEST)
-Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9D21C3C49
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 16:04:57 +0200 (CEST)
+Received: from localhost ([::1]:41348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVbfY-0005sN-94
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:02:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43046)
+	id 1jVbiK-0001Kd-P4
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 10:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVbeG-0005GK-T0
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:00:44 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56495
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVbgH-0007Ny-Hy
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:02:49 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26904
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVbeF-0004wJ-Du
- for qemu-devel@nongnu.org; Mon, 04 May 2020 10:00:44 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVbgG-0006IN-Ke
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 10:02:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588600842;
+ s=mimecast20190719; t=1588600967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h2HOJt54iPNGB+w03xx6vxnNwUv2fgYi5kYmWLYJeyw=;
- b=XxJXz003JVkqp1mD1Kc84PT4lQ5z4EbzbHvY2W+QgH0ZTPUPJVvdSd2f8rb0JepJ+PxPfO
- pZ+1O9DrLKZvIaijfK3ggw0RwNZq919qmdekoH9r0CpsVniTYIk8BNq0hxW7Lu8aq2ORvl
- QjnpSr+nyMj20d30iaUAmcDOsYWUj7A=
+ bh=X2zvL/m0upHD3M3uIFvfVJE3iUisfia4c6lGbRcMKBI=;
+ b=N/mWTA8CbLbrbHUB+n57DmFfXDoTgrNjRS7kfjJEAvFeqqC6viLXz6W+wFUv0ArhNzW8Vy
+ GEeE7OejTu+0ieOG30L/2/RBlwmg+502ngCUc6hb8hjXqiX3iphYjgqiWRPx60fXob2AwE
+ AP2/6tBSbDOXc0GRZigohpZU40ztS5k=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-3GsmK9ieNYmN4FjvKlLvuQ-1; Mon, 04 May 2020 10:00:40 -0400
-X-MC-Unique: 3GsmK9ieNYmN4FjvKlLvuQ-1
-Received: by mail-wm1-f70.google.com with SMTP id b203so3531323wmd.6
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:00:40 -0700 (PDT)
+ us-mta-420-M37_rEWEPXG3CvAAfKF0NA-1; Mon, 04 May 2020 10:02:36 -0400
+X-MC-Unique: M37_rEWEPXG3CvAAfKF0NA-1
+Received: by mail-wm1-f70.google.com with SMTP id b203so3535180wmd.6
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 07:02:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zXehveZQGe2dyrEpJ7D99mPheniP2+gnAGD1WW+pxZc=;
- b=Bk0s50C3STQd+txv25Frsm+sGqcBk8Z7Z9DxB1Yr0C1tT3hrdPSaiAHX4b6D327jwL
- xitPLwgPzGF0RzO4Avbh9LsCs+PSHZDyorMLSV4Sv4tre51xxrO7y6vLxbrSObF3qtSu
- hUlpgpV7DvHLSvH4lOZgDQfFqNDgVivWM+SXA0gakxsfGWoRSo2ez6HrXES4FiMrPgh0
- zJ/N51e3bjW0cBwqwCj8XAfy+4+g5Vsxr29Y/uK+/+K9mNewxAUuAX9nt3Bb9NQInkoT
- lKtf0sMp/veUuZI08BzczGhuCR1taGehUFwbXpeN6zj4AwF/3rxyfx3hy6WMQKPGQ6sg
- 5Dhg==
-X-Gm-Message-State: AGi0PuacooU2dNfvWYru1uxx+8IFMK1UBI2xI/mc0KJ59zAcZtNGlWBD
- hWRHr5U/MSSzRKHdOzp+qPQCyz3hMIsBM6jtMf4kMEy+1tS3XyYCKQtXTXnfzjEm4Hr3YwgsNmV
- 3kSoNaKXVPcZv+DE=
-X-Received: by 2002:adf:df01:: with SMTP id y1mr19094762wrl.401.1588600839184; 
- Mon, 04 May 2020 07:00:39 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLQZr7edlAI1OQSDexWj/6SS1vftcS7SYoue8D6bWdYZBE8C4lI9vzl/MMLD+0AgDTtCQUgVg==
-X-Received: by 2002:adf:df01:: with SMTP id y1mr19094726wrl.401.1588600838707; 
- Mon, 04 May 2020 07:00:38 -0700 (PDT)
+ bh=1ud3LEA0R6Fmmcf+jn9FDHF/7TgcxqnsbsXbon6TAKw=;
+ b=HWVQd3CXnoIHWKLMSikw0tyoGo2TZe9MWHWE1cYUXQ+OUWBI8Rlcu0tcQWoDsDxhkE
+ +HIduaRkZBPLSTY8odmSQzyKchJAd4xv/GJifwD2xjjTAe5mKbLEF7U0PkwmBVUE6Ouw
+ YpGFOSybFl06er7VMU3f0FbftcOObXmgupMJTmuV3v4ct+wlqiTZeX3vSCFkHOfEOwV6
+ DzPQpgAmhC5tUNyAcJUnQKtAA/xTVldLQEPAdOv+7pagK85qZ8jSVT+I8bJMWJ/1LxJc
+ BTFrZFngFR95I7smdQhxyrMlXbix6BCObJP5nGjsnNgztPQmWWZXBRKFlFFjmXXaB0hV
+ ja0Q==
+X-Gm-Message-State: AGi0PuZS7EJcwuU73czQT7J/VMrfxTJLusiKdi1mPu6jWsu5cW8xDJjw
+ PbKaanV+7c8uUKXuT9s4vZKzGzsbPRRXfC/pd2j8HLbJmsqnXQXMFrv2ueV6LUf3DE6ndoJGjxr
+ vhHhbg8HTL2Ge51Q=
+X-Received: by 2002:a5d:494a:: with SMTP id r10mr18268367wrs.136.1588600955506; 
+ Mon, 04 May 2020 07:02:35 -0700 (PDT)
+X-Google-Smtp-Source: APiQypI++jIMyizyHqSkUFbrUwRzRkm5ha0thIMIpbBwx0s173sqjPFyN/heqsT7vnpTUthQlnPbmg==
+X-Received: by 2002:a5d:494a:: with SMTP id r10mr18268351wrs.136.1588600955333; 
+ Mon, 04 May 2020 07:02:35 -0700 (PDT)
 Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
  by smtp.gmail.com with ESMTPSA id
- u127sm14342390wme.8.2020.05.04.07.00.37
+ d7sm18795097wrn.78.2020.05.04.07.02.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 May 2020 07:00:38 -0700 (PDT)
-Date: Mon, 4 May 2020 10:00:35 -0400
+ Mon, 04 May 2020 07:02:34 -0700 (PDT)
+Date: Mon, 4 May 2020 10:02:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Yubo Miao <miaoyubo@huawei.com>
-Subject: Re: [PATCH v6 4/8] acpi: Refactor the source of host bridge and
- build tables for pxb
-Message-ID: <20200504095329-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v6 2/8] fw_cfg: Write the extra roots into the fw_cfg
+Message-ID: <20200504100057-mutt-send-email-mst@kernel.org>
 References: <20200408125816.955-1-miaoyubo@huawei.com>
- <20200408125816.955-5-miaoyubo@huawei.com>
+ <20200408125816.955-3-miaoyubo@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20200408125816.955-5-miaoyubo@huawei.com>
+In-Reply-To: <20200408125816.955-3-miaoyubo@huawei.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 08:14:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/04 01:21:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,285 +101,76 @@ Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Apr 08, 2020 at 08:58:12PM +0800, Yubo Miao wrote:
+On Wed, Apr 08, 2020 at 08:58:10PM +0800, Yubo Miao wrote:
 > From: miaoyubo <miaoyubo@huawei.com>
 >=20
-> The resources of pxbs and obtained by crs_build and the resources
-> used by pxbs would be moved form the resources defined for host-bridge.
->=20
-> The resources for pxb are composed of the bar space of the
-> pci-bridge/pcie-root-port behined it and the config space of devices
-> behind it.
+> Write the extra roots into the fw_cfg therefore the uefi could
+> get the extra roots. Only if the uefi know there are extra roots,
+> the config space of devices behind the root could be obtained.
 >=20
 > Signed-off-by: miaoyubo <miaoyubo@huawei.com>
-
-A bunch of spelling/syntax mistakes in the log, pls spellcheck.
-
-Pls use the format
- Yubo Miao <miaoyubo@huawei.com>
-
-
-
 > ---
->  hw/arm/virt-acpi-build.c | 131 +++++++++++++++++++++++++++++++++------
->  1 file changed, 111 insertions(+), 20 deletions(-)
+>  hw/arm/virt.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 >=20
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index e8ba09855c..7bcd04dfb7 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -49,6 +49,9 @@
->  #include "kvm_arm.h"
->  #include "migration/vmstate.h"
-> =20
-> +#include "hw/arm/virt.h"
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 7dc96abf72..0fdfe4129c 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -77,6 +77,7 @@
+>  #include "hw/acpi/generic_event_device.h"
+>  #include "hw/virtio/virtio-iommu.h"
+>  #include "hw/char/pl011.h"
 > +#include "hw/pci/pci_bus.h"
-> +#include "hw/pci/pci_bridge.h"
->  #define ARM_SPI_BASE 32
 > =20
->  static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
-> @@ -266,19 +269,81 @@ static void acpi_dsdt_add_pci_osc(Aml *dev, Aml *sc=
-ope)
->  }
-> =20
->  static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
-> -                              uint32_t irq, bool use_highmem, bool highm=
-em_ecam)
-> +                              uint32_t irq, bool use_highmem, bool highm=
-em_ecam,
-> +                              VirtMachineState *vms)
->  {
->      int ecam_id =3D VIRT_ECAM_ID(highmem_ecam);
-> -    Aml *method, *crs;
-> +    int i;
-> +    Aml *method, *crs, *dev;
->      hwaddr base_mmio =3D memmap[VIRT_PCIE_MMIO].base;
->      hwaddr size_mmio =3D memmap[VIRT_PCIE_MMIO].size;
->      hwaddr base_pio =3D memmap[VIRT_PCIE_PIO].base;
->      hwaddr size_pio =3D memmap[VIRT_PCIE_PIO].size;
->      hwaddr base_ecam =3D memmap[ecam_id].base;
->      hwaddr size_ecam =3D memmap[ecam_id].size;
-> +    CrsRangeEntry *entry;
-> +    CrsRangeSet crs_range_set;
-> +
-> +    crs_range_set_init(&crs_range_set);
->      int nr_pcie_buses =3D size_ecam / PCIE_MMCFG_SIZE_MIN;
+>  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+>      static void virt_##major##_##minor##_class_init(ObjectClass *oc, \
+> @@ -1435,6 +1436,12 @@ void virt_machine_done(Notifier *notifier, void *d=
+ata)
+>      ARMCPU *cpu =3D ARM_CPU(first_cpu);
+>      struct arm_boot_info *info =3D &vms->bootinfo;
+>      AddressSpace *as =3D arm_boot_address_space(cpu, info);
 > +    PCIHostState *s =3D OBJECT_CHECK(PCIHostState,
 > +                                   object_resolve_path_type("",
 > +                                   "pcie-host-bridge", NULL),
 > +                                   TYPE_PCI_HOST_BRIDGE);
-
-Not TYPE_PCIE_HOST_BRIDGE? And what if it's ambiguous?
-
-
 > +
 > +    PCIBus *bus =3D s->bus;
-> +    /* start to construct the tables for pxb*/
-
-
-coding style violation. weird that ehckpatch didn't notice it.
-
-> +    if (bus) {
-> +        QLIST_FOREACH(bus, &bus->child, sibling) {
-> +            uint8_t bus_num =3D pci_bus_num(bus);
-> +            uint8_t numa_node =3D pci_bus_numa_node(bus);
-> +
-> +            if (!pci_bus_is_root(bus)) {
-> +                continue;
-> +            }
-> +            /*
-> +             * Coded up the MIN of the busNr defined for pxb-pcie,
-> +             * the MIN - 1 would be the MAX bus number for the main
-> +             * host bridge.
-
-
-Couldn't figure out this comment. Pls rephrase in some way so it's
-understandable.
-
-> +             */
-> +            if (bus_num < nr_pcie_buses) {
-> +                nr_pcie_buses =3D bus_num;
-> +            }
-> +
-> +            dev =3D aml_device("PC%.02X", bus_num);
-> +            aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08"))=
-);
-> +            aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03"))=
-);
-> +            aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
-> +            aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
-> +            aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
-> +            aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
-> +            aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
-> +            aml_append(dev, aml_name_decl("_STR", aml_unicode("pxb Devic=
-e")));
-> +            if (numa_node !=3D NUMA_NODE_UNASSIGNED) {
-> +                method =3D aml_method("_PXM", 0, AML_NOTSERIALIZED);
-> +                aml_append(method, aml_return(aml_int(numa_node)));
-> +                aml_append(dev, method);
-> +            }
-> +
-> +            acpi_dsdt_add_pci_route_table(dev, scope, irq);
-> +
-> +            /*
-> +             * Resources deined for PXBs are composed by the folling par=
-ts:
-> +             * 1. The resources the pci-brige/pcie-root-port need.
-> +             * 2. The resources the devices behind pxb need.
-> +             */
-
-
-syntax/grammar errors here too.
-
-> +            crs =3D build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_ra=
-nge_set);
-> +            aml_append(dev, aml_name_decl("_CRS", crs));
-> +
-> +            acpi_dsdt_add_pci_osc(dev, scope);
-> +
-> +            aml_append(scope, dev);
-> +
-> +        }
-> +    }
 > =20
-> -    Aml *dev =3D aml_device("%s", "PCI0");
-> +    /* start to construct the tables for main host bridge */
-
-tables for the main.
+>      /*
+>       * If the user provided a dtb, we assume the dynamic sysbus nodes
 
 
+Seems duplicated all over the place. Add an API for that?
 
-> +    dev =3D aml_device("%s", "PCI0");
-
-
-Make dev above local in scope, then this can stay unchanged.
-
->      aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
->      aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
->      aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
-> @@ -299,25 +364,51 @@ static void acpi_dsdt_add_pci(Aml *scope, const Mem=
-MapEntry *memmap,
->          aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE=
-,
->                              0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
->                              nr_pcie_buses));
-> -    aml_append(rbuf,
-> -        aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
-> -                         AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000, base=
-_mmio,
-> -                         base_mmio + size_mmio - 1, 0x0000, size_mmio));
-> -    aml_append(rbuf,
-> -        aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
-> -                     AML_ENTIRE_RANGE, 0x0000, 0x0000, size_pio - 1, bas=
-e_pio,
-> -                     size_pio));
-> +
-> +    /*
-> +     * Remove the resources used by PXBs.
-> +     */
-> +    crs_replace_with_free_ranges(crs_range_set.mem_ranges,
-> +                                 base_mmio,
-> +                                 base_mmio + size_mmio - 1);
-> +    for (i =3D 0; i < crs_range_set.mem_ranges->len; i++) {
-> +        entry =3D g_ptr_array_index(crs_range_set.mem_ranges, i);
-> +        aml_append(rbuf,
-> +            aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXE=
-D,
-> +                             AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
-> +                             entry->base, entry->limit,
-> +                             0x0000, entry->limit - entry->base + 1));
-> +    }
-> +
-> +    crs_replace_with_free_ranges(crs_range_set.io_ranges,
-> +                                 0x0000,
-> +                                 size_pio - 1);
-> +    for (i =3D 0; i < crs_range_set.io_ranges->len; i++) {
-> +        entry =3D g_ptr_array_index(crs_range_set.io_ranges, i);
-> +        aml_append(rbuf,
-> +            aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
-> +                         AML_ENTIRE_RANGE, 0x0000, entry->base,
-> +                         entry->limit, base_pio,
-> +                         entry->limit - entry->base + 1));
-> +    }
-> +
-> =20
->      if (use_highmem) {
->          hwaddr base_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].base;
->          hwaddr size_mmio_high =3D memmap[VIRT_HIGH_PCIE_MMIO].size;
-> =20
-> -        aml_append(rbuf,
-> -            aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXE=
-D,
-> -                             AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
-> -                             base_mmio_high,
-> -                             base_mmio_high + size_mmio_high - 1, 0x0000=
-,
-> -                             size_mmio_high));
-> +        crs_replace_with_free_ranges(crs_range_set.mem_64bit_ranges,
-> +                                     base_mmio_high,
-> +                                     base_mmio_high + size_mmio_high - 1=
-);
-> +        for (i =3D 0; i < crs_range_set.mem_64bit_ranges->len; i++) {
-> +            entry =3D g_ptr_array_index(crs_range_set.mem_64bit_ranges, =
-i);
-> +            aml_append(rbuf,
-> +                aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_=
-FIXED,
-> +                                 AML_NON_CACHEABLE, AML_READ_WRITE, 0x00=
-00,
-> +                                 entry->base,
-> +                                 entry->limit, 0x0000,
-> +                                 entry->limit - entry->base + 1));
-> +        }
+> @@ -1453,6 +1460,22 @@ void virt_machine_done(Notifier *notifier, void *d=
+ata)
+>          exit(1);
 >      }
 > =20
->      aml_append(method, aml_return(rbuf));
-> @@ -335,6 +426,8 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMa=
-pEntry *memmap,
->      aml_append(dev_res0, aml_name_decl("_CRS", crs));
->      aml_append(dev, dev_res0);
->      aml_append(scope, dev);
+> +    if (bus) {
+> +        int extra_hosts =3D 0;
+> +        QLIST_FOREACH(bus, &bus->child, sibling) {
+> +            /* look for expander root buses */
+> +            if (pci_bus_is_root(bus)) {
+> +                extra_hosts++;
+> +            }
+> +        }
+> +        if (extra_hosts && vms->fw_cfg) {
+> +            uint64_t *val =3D g_malloc(sizeof(*val));
+> +            *val =3D cpu_to_le64(extra_hosts);
+> +            fw_cfg_add_file(vms->fw_cfg,
+> +                   "etc/extra-pci-roots", val, sizeof(*val));
+> +        }
+> +    }
 > +
-> +    crs_range_set_free(&crs_range_set);
+>      virt_acpi_setup(vms);
+>      virt_build_smbios(vms);
+
+
+Duplicated from pc. Pls refactor.
+
 >  }
-> =20
->  static void acpi_dsdt_add_gpio(Aml *scope, const MemMapEntry *gpio_memma=
-p,
-> @@ -746,7 +839,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, Vi=
-rtMachineState *vms)
->      acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
->                      (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANS=
-PORTS);
->      acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
-> -                      vms->highmem, vms->highmem_ecam);
-> +                      vms->highmem, vms->highmem_ecam, vms);
->      if (vms->acpi_dev) {
->          build_ged_aml(scope, "\\_SB."GED_DEVICE,
->                        HOTPLUG_HANDLER(vms->acpi_dev),
-> @@ -798,7 +891,6 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuild=
-Tables *tables)
->      unsigned dsdt, xsdt;
->      GArray *tables_blob =3D tables->table_data;
->      MachineState *ms =3D MACHINE(vms);
-> -
->      table_offsets =3D g_array_new(false, true /* clear */,
->                                          sizeof(uint32_t));
->
-
-this empty line didn't hurt
- =20
-> @@ -952,7 +1044,6 @@ void virt_acpi_setup(VirtMachineState *vms)
->      build_state->rsdp_mr =3D acpi_add_rom_blob(virt_acpi_build_update,
->                                               build_state, tables.rsdp,
->                                               ACPI_BUILD_RSDP_FILE, 0);
-> -
->      qemu_register_reset(virt_acpi_build_reset, build_state);
->      virt_acpi_build_reset(build_state);
->      vmstate_register(NULL, 0, &vmstate_virt_acpi_build, build_state);
-
-
-this line didn't hurt either.
-
 > --=20
 > 2.19.1
 >=20
