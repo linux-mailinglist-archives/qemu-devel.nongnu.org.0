@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9095D1C429B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:24:04 +0200 (CEST)
-Received: from localhost ([::1]:37958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792BF1C42A6
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 May 2020 19:25:49 +0200 (CEST)
+Received: from localhost ([::1]:43400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVep1-000811-Kd
-	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:24:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55126)
+	id 1jVeqi-0001yM-Hs
+	for lists+qemu-devel@lfdr.de; Mon, 04 May 2020 13:25:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVenc-0006ye-1a
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:22:36 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:56106)
+ id 1jVeof-0008CM-Ii
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:23:41 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVenX-0004Nw-ET
- for qemu-devel@nongnu.org; Mon, 04 May 2020 13:22:35 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id a32so143507pje.5
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:22:31 -0700 (PDT)
+ id 1jVeoe-0004mh-N9
+ for qemu-devel@nongnu.org; Mon, 04 May 2020 13:23:41 -0400
+Received: by mail-pf1-x442.google.com with SMTP id y25so5852574pfn.5
+ for <qemu-devel@nongnu.org>; Mon, 04 May 2020 10:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WeZ1aCjfwHCKDvWu06jXxZszAC2JaQ1CtXTjM1KYrAU=;
- b=FYNDB6xc3TKPrXLk2AAmzZH6Ga7kULLiSQ1m3O5Rq3hmyMx9c+4uXJ86ENMZ8qOJEf
- 8rkk3AXmztKXxaB2mW/4FOrtWwTxkWDg+qk/1orSlKEbSRZLvB58imVmzal3FB6nT7+y
- qggsqxAV/T248OXaOxTgU2Wymw+m9xG1QIOFEC0Qs6tCef6VkWTw1qr0r72n7x1dTJKd
- KmDOjh4M8pGAL1BY1mGDN4EnqS0Epaxr5iSTaccei3Py30SotTpdq+we3FXk1HT18NqA
- I7YDFOcfyh0fQiWfkH5h2nKhgkDhuzEWoxRfylaXVpMzrvESfd4/16ebWop51pC6nk6z
- aFRw==
+ bh=NGvAWxkqCIyyAwGZQ7SL2t/jWme3fwef6fP8pgEOidQ=;
+ b=U/c+YBk6klsDXgt2Js6oAdP10/9wxGV/0vrK/G6Z1UnnxZZAz85o6KsGJpzBIM9OmM
+ l/z5fbxIio3SxLEqAsUF6vCvIUEaUtCskRLiLU92AQf25zMeDHMw6+ZPTHM1JukRpsi5
+ BDRGdsMp5YsMaa3Kvc0RX1FTL3ZuPQURQevdXY/e5qahP/Twj0FLngLJ2KNjvsSoniBp
+ bXSU5oDgOYv+5QqWhDlDYfGBfYy6QzOrTr2xAVTS7IRIW6E3cICKHP10mhrLwx5Ez1hp
+ He2HYahT9yRX6IoBUbXBHZ+OjgLzyWibvANyxQMTa/4ztfBd9RA+XIkgLdNLbdObGjrF
+ 6gHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WeZ1aCjfwHCKDvWu06jXxZszAC2JaQ1CtXTjM1KYrAU=;
- b=Fe/V0uU/zZzyIYIQzoySqJWYT/KSI0WJJGepKF2dF/J8kBNvyIdrhAj0ZVqzLT6WNA
- ambk3koBpG5LGMsqng1dGIbLrVKjTuBSv2d9GvyBS0+rH2vJWKge/LGgPybiCkFoBXkg
- ABPyRsG65T0jB5GGOFtT0hXm/UwKBonKd7FBY+Tc1NpeLIa135fuq7bWEdFCPKCSY6sE
- ePklwnHk0RQda5s74k3gZihN/fIqNEQQ1zRFomZwU5vQw8Op5shgULisrlbW6WOr5+2z
- kMUVVf7uqMkXUUfAJvhBJEt4agiF0uTSl+STFmB3sX9a8ZUcnTaMAd/z4R+SkU0OciRX
- u4JA==
-X-Gm-Message-State: AGi0PuYBeGx0n3xfpC9B8mUO5pBGrpVaKhV07nr8q9Ezo1qiifThLsM4
- CeogBMq0vniMAnVDe0tHY4toJw==
-X-Google-Smtp-Source: APiQypLSbMfxUCaj63NATnz/UvVUISOwautoO5Nd9jyqQ4jFoGt6ZJYsU5clzdW/8OolReUVH2mWPg==
-X-Received: by 2002:a17:902:7444:: with SMTP id
- e4mr282402plt.130.1588612950244; 
- Mon, 04 May 2020 10:22:30 -0700 (PDT)
+ bh=NGvAWxkqCIyyAwGZQ7SL2t/jWme3fwef6fP8pgEOidQ=;
+ b=jsnTdZSvwxhlobIUqflPXZ+jJ60ZJcEgWmt29t2gLbTBrEFy52ITvJ6x4Ul9BdQB7Z
+ Nzpm7FNioRn243PTlF5ZzRP0TfJga+Ivsn0wAVPeSDL2M/WKLsoNG0x9Vg5G29SUhxHb
+ IDyAJMYW2o2hxtbhBh3vbbyHeTRSkj+EJ/IE2sOf5fz+3w4lq1wEJi5CgasDYrbyHh8Y
+ 7xMqC9JoaH8eIqxa5q3SZ5gkX6ycKDuN7dnw6X7zj0syJmNpx0dsdAp8NLK4rxJaroEg
+ iZqGrk9ruNYv2lYSzLd22nHyVl9ielYj55csyD2pdULkLHoNg3qH57VRJlB/xRp2kg8a
+ GAaQ==
+X-Gm-Message-State: AGi0PuagTWYMkDKYllQX6QKHTMk+6/h0/Dx7Hj9bwtbfnvILfmhzwIMD
+ 0pNtnHoa7aMdLalFkJG/nB2Ludi1Vyk=
+X-Google-Smtp-Source: APiQypLsPZFO+6xYCzOzMSsCw0iAA21vb3PufceTO5yfi/jpmfEJu2130mq8TeWw7JVHaBNDntGY1A==
+X-Received: by 2002:a65:5805:: with SMTP id g5mr45313pgr.110.1588613016914;
+ Mon, 04 May 2020 10:23:36 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id c1sm9223776pfc.94.2020.05.04.10.22.29
+ by smtp.gmail.com with ESMTPSA id f26sm9294985pfn.183.2020.05.04.10.23.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 10:22:29 -0700 (PDT)
-Subject: Re: [PATCH 3/3] hw/timer/sh_timer: Remove unused 'qemu/timer.h'
- include
+ Mon, 04 May 2020 10:23:35 -0700 (PDT)
+Subject: Re: [PATCH 1/4] hw/i386/pc: Create 'vmport' device in place
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20200504081653.14841-1-f4bug@amsat.org>
- <20200504081653.14841-4-f4bug@amsat.org>
+References: <20200504083342.24273-1-f4bug@amsat.org>
+ <20200504083342.24273-2-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <17e36520-b9d8-caa1-5695-ad361d58b5ba@linaro.org>
-Date: Mon, 4 May 2020 10:22:27 -0700
+Message-ID: <73ed450c-9a23-f05d-fd3b-1d163e1137c0@linaro.org>
+Date: Mon, 4 May 2020 10:23:33 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200504081653.14841-4-f4bug@amsat.org>
+In-Reply-To: <20200504083342.24273-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,19 +90,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Magnus Damm <magnus.damm@gmail.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 1:16 AM, Philippe Mathieu-Daudé wrote:
-> Remove unused "qemu/timer.h" include.
-> 
+On 5/4/20 1:33 AM, Philippe Mathieu-Daudé wrote:
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/timer/sh_timer.c | 1 -
->  1 file changed, 1 deletion(-)
+>  include/hw/i386/pc.h | 6 ------
+>  hw/i386/pc.c         | 2 +-
+>  2 files changed, 1 insertion(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
