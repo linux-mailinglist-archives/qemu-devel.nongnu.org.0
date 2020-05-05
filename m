@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E581C6050
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 20:41:25 +0200 (CEST)
-Received: from localhost ([::1]:33722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F65A1C603A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 20:40:06 +0200 (CEST)
+Received: from localhost ([::1]:58348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jW2VQ-0007l6-Ig
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 14:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55016)
+	id 1jW2U8-0006EN-RI
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 14:40:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jW2So-0005PT-Id; Tue, 05 May 2020 14:38:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28622)
+ id 1jW2Sn-0005PA-3P; Tue, 05 May 2020 14:38:41 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jW2Sl-00008g-3D; Tue, 05 May 2020 14:38:42 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ id 1jW2Sl-00008e-4i; Tue, 05 May 2020 14:38:40 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 045IXmdw048384; Tue, 5 May 2020 14:38:32 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30twhxdsdk-1
+ 045IX4si105623; Tue, 5 May 2020 14:38:35 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30s4gv80t4-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 14:38:32 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 045Ia4BO004912;
- Tue, 5 May 2020 18:38:31 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma05wdc.us.ibm.com with ESMTP id 30s0g6jxvp-1
+ Tue, 05 May 2020 14:38:34 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 045IbQVu013760;
+ Tue, 5 May 2020 18:38:33 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma01wdc.us.ibm.com with ESMTP id 30s0g6aw2c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 18:38:31 +0000
+ Tue, 05 May 2020 18:38:33 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 045IcT5q28377482
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 045IcW0w26542490
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 May 2020 18:38:29 GMT
+ Tue, 5 May 2020 18:38:32 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C73C6A051;
- Tue,  5 May 2020 18:38:30 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id D36F46A054;
+ Tue,  5 May 2020 18:38:32 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A25CE6A04F;
- Tue,  5 May 2020 18:38:29 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 40B7D6A047;
+ Tue,  5 May 2020 18:38:32 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.119.241])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  5 May 2020 18:38:29 +0000 (GMT)
+ Tue,  5 May 2020 18:38:32 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9
-Date: Tue,  5 May 2020 14:38:16 -0400
-Message-Id: <20200505183818.32688-1-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v2 1/1] target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9
+Date: Tue,  5 May 2020 14:38:17 -0400
+Message-Id: <20200505183818.32688-2-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200505183818.32688-1-dbuono@linux.vnet.ibm.com>
+References: <20200505183818.32688-1-dbuono@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-05-05_10:2020-05-04,
+ definitions=2020-05-05_09:2020-05-04,
  2020-05-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=447
- priorityscore=1501 lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0
- malwarescore=0 impostorscore=0 suspectscore=1 mlxscore=0 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005050140
+ adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0 mlxscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0 impostorscore=0
+ suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005050138
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 14:38:37
@@ -92,21 +94,91 @@ Cc: qemu-ppc@nongnu.org, Daniele Buono <dbuono@linux.vnet.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes a compilation error with Clang v9 and higher in
-target/ppc/translate.c, on a comparison that is always true in PPC32
-because of type sizes.
+Starting with Clang v9, -Wtype-limits is implemented and triggers a
+few "result of comparison is always true" errors when compiling PPC32
+targets.
 
-More information about the issue are in the first version of the patch.
+The comparisons seem to be necessary only on PPC64, since the
+else branch in PPC32 only has a "g_assert_not_reached();" in all cases.
 
-v2, changed to avoid the nested ifdef/conditional solution of v1, and
-keep a code structure more similar to the original.
+This patch restructures the code so that the actual if/else is done on a
+local flag variable, that is set accordingly for PPC64, and always
+true for PPC32.
 
-Daniele Buono (1):
-  target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9
-
+Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+---
  target/ppc/translate.c | 24 +++++++++++++++++++++---
  1 file changed, 21 insertions(+), 3 deletions(-)
 
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 807d14faaa..338529879f 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -1882,6 +1882,7 @@ static void gen_rlwimi(DisasContext *ctx)
+         tcg_gen_deposit_tl(t_ra, t_ra, t_rs, sh, me - mb + 1);
+     } else {
+         target_ulong mask;
++        bool mask_in_32b = true;
+         TCGv t1;
+ 
+ #if defined(TARGET_PPC64)
+@@ -1890,8 +1891,13 @@ static void gen_rlwimi(DisasContext *ctx)
+ #endif
+         mask = MASK(mb, me);
+ 
++#if defined(TARGET_PPC64)
++        if (mask > 0xffffffffu) {
++            mask_in_32b = false;
++        }
++#endif
+         t1 = tcg_temp_new();
+-        if (mask <= 0xffffffffu) {
++        if (mask_in_32b) {
+             TCGv_i32 t0 = tcg_temp_new_i32();
+             tcg_gen_trunc_tl_i32(t0, t_rs);
+             tcg_gen_rotli_i32(t0, t0, sh);
+@@ -1933,12 +1939,18 @@ static void gen_rlwinm(DisasContext *ctx)
+         tcg_gen_extract_tl(t_ra, t_rs, rsh, len);
+     } else {
+         target_ulong mask;
++        bool mask_in_32b = true;
+ #if defined(TARGET_PPC64)
+         mb += 32;
+         me += 32;
+ #endif
+         mask = MASK(mb, me);
+-        if (mask <= 0xffffffffu) {
++#if defined(TARGET_PPC64)
++        if (mask > 0xffffffffu) {
++            mask_in_32b = false;
++        }
++#endif
++        if (mask_in_32b) {
+             if (sh == 0) {
+                 tcg_gen_andi_tl(t_ra, t_rs, mask);
+             } else {
+@@ -1973,6 +1985,7 @@ static void gen_rlwnm(DisasContext *ctx)
+     uint32_t mb = MB(ctx->opcode);
+     uint32_t me = ME(ctx->opcode);
+     target_ulong mask;
++    bool mask_in_32b = true;
+ 
+ #if defined(TARGET_PPC64)
+     mb += 32;
+@@ -1980,7 +1993,12 @@ static void gen_rlwnm(DisasContext *ctx)
+ #endif
+     mask = MASK(mb, me);
+ 
+-    if (mask <= 0xffffffffu) {
++#if defined(TARGET_PPC64)
++    if (mask > 0xffffffffu) {
++        mask_in_32b = false;
++    }
++#endif
++    if (mask_in_32b) {
+         TCGv_i32 t0 = tcg_temp_new_i32();
+         TCGv_i32 t1 = tcg_temp_new_i32();
+         tcg_gen_trunc_tl_i32(t0, t_rb);
 -- 
 2.26.2
 
