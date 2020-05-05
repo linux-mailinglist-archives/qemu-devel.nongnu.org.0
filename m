@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FDB1C529A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:09:37 +0200 (CEST)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D32111C52D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:15:40 +0200 (CEST)
+Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVuW8-0004kU-B9
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56942)
+	id 1jVubz-0007uq-J6
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:15:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jVuVC-0003v4-FC
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:08:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48494
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jVuVB-0000em-SX
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:08:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588673316;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HMc/O8FmCNFMUjI9z0D4+9L3Ma6V4gil8ZAbz6LKSEw=;
- b=fH9KWOUyxoJXoxZSd+0yNHt5NnwxmbF1EYtWWVEyBEv2JPR/wjYFUS6dR6O2IkGzVo1sRo
- 1AyiE+ticHxkWd0i8mrHWWDnoQEfpwRnP+Ytjk7AVDCZrqq5A3PxoeI5NIn0gUXqUiIJRB
- 4Ct3eWW/RiDpFkYQ3E9izmh2LOELySE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348--pkG2PzgOcK902CzQLYE9g-1; Tue, 05 May 2020 06:08:35 -0400
-X-MC-Unique: -pkG2PzgOcK902CzQLYE9g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C81F80183C;
- Tue,  5 May 2020 10:08:34 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-112-11.ams2.redhat.com [10.36.112.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0C596249A;
- Tue,  5 May 2020 10:08:31 +0000 (UTC)
-Date: Tue, 5 May 2020 12:08:30 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: Re: [PATCH v2 0/4] backup: Make sure that source and target size match
-Message-ID: <20200505100827.GI5759@linux.fritz.box>
-References: <20200430142755.315494-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <jan.kiszka@web.de>)
+ id 1jVuW7-00057R-EN; Tue, 05 May 2020 06:09:35 -0400
+Received: from mout.web.de ([212.227.15.3]:42415)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jan.kiszka@web.de>)
+ id 1jVuW5-0001f6-A5; Tue, 05 May 2020 06:09:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1588673368;
+ bh=7tm2uiWWOBJDWwfvQsO5SvZX/DgVGHJc0wj85CCMSuo=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=EwZ2top9cGJJweP7LIfomRMMsIs0r+qLJiLGzye8pAL1jhZPVeDBOppH7xTk3aIvW
+ F2bO6+ugWXykf2K9IrrGcVd0+HOoHMDZ2MbLOB6Tdcxj1Fl9ZIFof+cAnsw7mpEJSG
+ 5quYIUAA4w6zBeFl37Lbst65T/156P0jNKKQgsbo=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [167.87.245.84] ([95.157.53.180]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MSJH1-1jhCuR0li7-00TTIG; Tue, 05
+ May 2020 12:09:28 +0200
+Subject: Re: [RFC PATCH] hw/arm/musicpal: Map the UART devices unconditionally
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200505095945.23146-1-f4bug@amsat.org>
+From: Jan Kiszka <jan.kiszka@web.de>
+Message-ID: <bc8d1213-5578-52f2-7a86-f45dfa8b33be@web.de>
+Date: Tue, 5 May 2020 12:09:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200430142755.315494-1-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20200505095945.23146-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Provags-ID: V03:K1:/0PbicFLYknB61oxXHaRRxsD+broSIQwq0iltFjDSI3QVq/orn5
+ 3vMgVJqwoIFMnNRk2ngSRFTufb9i6vtgTLvCHcuIglrbO1O0WScSgPf74eyOuOI3Z2xtud5
+ 7JhovJXN4fzfCxDyyoJvJYO5FTSEP6VujL1X81jtEXBMuFFQEu1UcwneLhUcGctRS9nofDz
+ ctimd01nny+FRM6k1b3BA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ookMrKmGhbU=:aEOY7hfQAy/3l4277ovEi9
+ WxATQWVWi3DZvt44OscOxTPU7DVLx/4UlZFicBiUANoMcENA3Fz/AyrohQEOfQfmaIuCsGPEs
+ QhMIYlTZ2a3MxAUeKzNritfwCwOtu+0WLTrjtwJV9DEzN932EOAYXntAj3MomYjcOiiofdmsB
+ oDCKV8QrKfytW9NTFkhIpjFA/H9vS1lvX8k0iEaH6wSx2i6Bp9AdxC0B4unq4cCxlrKXzWev4
+ lbYTop7v84/w9Yl5R+vlkudhA2FLdpdJ6u7cvbCd9D/4lnPx3eqxBtON6EGyam3tyS+9yTFuR
+ MB1UcqG4bvf/A0T3mV4k4i4Yohv0ELylnVrOZLlxu0KbmOLlTKCKilMgzdQ5eA1GceZA6bqhg
+ xt7YBG83L6MUXa9tbEhg0Fe5NtXYckP0VySpVWEPmf41UWe4GFoMN83KtvuVIGoVF2wRsRGhF
+ JBNgeGWB7D5fm+aMzD3Y7Rc9f+ydG8PyF1YE422KZyP0BdKP4xYaDec4yQV51j0w/C/WoFMkS
+ CEdYtUqAmdcWDJfZS8q7xMwSZ92TBsJbK+B65cPwrP/z2WYFEnH6R+khDXm1t/T03WCalA7q1
+ vQ2XGgp/4Jq2m0oCSctCoY5YcRmdn3TE90GZ+W4Tb4/xSOueHeCcYR9DPAKhZyx9zi8+ofHGU
+ rNwROkno+rBtSIOtB1XMprIy53exL9l2P5kz27wLU9cAuBe/qZ9uvvFjmX1NK8lyKCilMcbEt
+ nFdrym3fDF/Ac4mgpcpWLLm8VQIcmnFT93JMr+7khSn+TY8Jr+NFeBgW1wRn4RCUvsMS0DzIG
+ JZzI3iZZd0vDraRUaKAAtF/PXRlhkPASRfHoN/LcxOf7fhE8Mn5v9VRSnivw36yXK1gdBjoNw
+ zvpKSEzY3jgFrnDz2HvhhMQXipW+AnbcZYjnLPrtvd03Pz/cgLSbbRsMdXPSTQ0v60Q9fYDtP
+ B0lZ5OTEDHJo2bcZFv4KiRn7DGSabHk3YqkgWPaWh6LhxQnaDbQPPyL/sk1Vr91S8iXF9+FEw
+ zoJy11sTXy4WBIFMVab36gtPVuxs7nUVlXuQtqzD1Q0akYUX9JsfjW1lgiiXeggHdxMKPeD7v
+ xeg6BEVEP/uE9+BWYGs5Ip6jNZkmFqm9D4qPbmRvOknAvKM9iHHzaMP6VSKM3/jf/vzSIuh5V
+ HxABVdLyvaX4w795WkMG9OzN5e7MBZPu5pxhFAIFwl2bKCvdmQ/DsLC/cBJ4Db++Mz3F4coJT
+ vauRit2Oh/dZ8p2EM
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=jan.kiszka@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 06:09:29
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,20 +88,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30.04.2020 um 16:27 hat Kevin Wolf geschrieben:
-> v2:
-> - Fixed iotest 283
-> - Corrected commit message for patch 3 [Vladimir]
-> - Fixed permissions for the source node, too
-> - Refactored the test case to avoid some duplication [Vladimir]
+On 05.05.20 11:59, Philippe Mathieu-Daud=C3=A9 wrote:
+> I can't find proper documentation or datasheet, but it is likely
+> a MMIO mapped serial device mapped in the 0x80000000..0x8000ffff
+> range belongs to the SoC address space, thus is always mapped in
+> the memory bus.
+> Map the devices on the bus regardless a chardev is attached to it.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> from 2019... found while doing housekeeping
+> ---
+>   hw/arm/musicpal.c | 12 ++++--------
+>   1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+> index b2d0cfdac8..92f33ed87e 100644
+> --- a/hw/arm/musicpal.c
+> +++ b/hw/arm/musicpal.c
+> @@ -1619,14 +1619,10 @@ static void musicpal_init(MachineState *machine)
+>                             pic[MP_TIMER2_IRQ], pic[MP_TIMER3_IRQ],
+>                             pic[MP_TIMER4_IRQ], NULL);
+>
+> -    if (serial_hd(0)) {
+> -        serial_mm_init(address_space_mem, MP_UART1_BASE, 2, pic[MP_UART=
+1_IRQ],
+> -                       1825000, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+> -    }
+> -    if (serial_hd(1)) {
+> -        serial_mm_init(address_space_mem, MP_UART2_BASE, 2, pic[MP_UART=
+2_IRQ],
+> -                       1825000, serial_hd(1), DEVICE_NATIVE_ENDIAN);
+> -    }
+> +    serial_mm_init(address_space_mem, MP_UART1_BASE, 2, pic[MP_UART1_IR=
+Q],
+> +                   1825000, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+> +    serial_mm_init(address_space_mem, MP_UART2_BASE, 2, pic[MP_UART2_IR=
+Q],
+> +                   1825000, serial_hd(1), DEVICE_NATIVE_ENDIAN);
+>
+>       /* Register flash */
+>       dinfo =3D drive_get(IF_PFLASH, 0, 0);
+>
 
-Thanks for the review, applied to the block branch.
+I don't recall details anymore either (more than 10 year ago now...),
+but this looks reasonable.
 
-Kevin
+Reviewed-by: Jan Kiszka <jan.kiszka@web.de>
 
+Jan
 
