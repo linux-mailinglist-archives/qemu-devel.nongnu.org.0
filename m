@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963391C5F79
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 19:59:52 +0200 (CEST)
-Received: from localhost ([::1]:50800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF99E1C5F6F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 19:58:42 +0200 (CEST)
+Received: from localhost ([::1]:46140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jW1rD-0003xV-Kn
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 13:59:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44156)
+	id 1jW1q5-0001zp-Q7
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 13:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jW1Xq-00074U-7l; Tue, 05 May 2020 13:39:50 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:39069)
+ id 1jW1Xs-0007A3-Fu; Tue, 05 May 2020 13:39:52 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:39032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jW1Xd-0008Qz-Qq; Tue, 05 May 2020 13:39:49 -0400
+ id 1jW1Xf-0008Qm-0Z; Tue, 05 May 2020 13:39:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=N/MW54lIt4epyPdq77tlopwi36sv0CYbrnTThMU6lNA=; 
- b=K7bnncuXJeAEXc2lKDLZ5DMieTvD2sEGOKEsoZoLJYh3qIKmoddRrEJl+XAkEQKIbJz7J8HHAtF5Sh3mN9gvbvofHdj2OFBCKnBX6kWZDE2o8Fj4Z9Ozl5FjEUnEgmTGF+/KRzRUZtbyU7g3h1lowt0zTar8jwY08kd7SItqZk2N8qZtf7AR2fbbFiJ1bT8hp7X0PDPZJpsdGG7EssvSPum9xlDwr1xC3JRKEcxT4/nOY2ukQ3QTMNzkqA0LB5S+zcygK1/QJ+LfHNF/RQSu/25D6lNlshwR0f1ykwWtFoNWgNho4jfbf9ZiDV/aEovn6662WqJL1yT1jIQlrlr8Nw==;
+ bh=ZzAOJXtNfPQVIydXm/XO2/vgmIUYKbN7sEusHr1yy50=; 
+ b=jOwe4QggTSQ6lnDiTIn5t856DhuS5SkG4/OmzxsBYX+2gbNEkb53pS2Mq4sp7I1zRVN6NkQ6e4XyM8NzVHs4CW9w1XK1yNP3cO0l8zRlWfQtx8O9qli8adwj/X/LtDNPTtSjiyZAfE/5XiW3K2DnEHEc+mp998ffJ3lDT5aefpXMdO3Phoz7BGdE09BbrYgtpKV2ekYkmE4lHBm6b/G/W5bPOueAA3xtgZemWY0a4hAU6jrBYAQ/5XpeiMotkzkxZ9RVfnmBQfs8/N53GafDnKrP+MCxlvhHboljiyu7kAfsc64SEMxrT+evpX2V7xJaSYSFHym+WqCBNhZxCXh6mQ==;
 Received: from static.160.43.0.81.ibercom.com ([81.0.43.160]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jW1Ws-00025Y-FR; Tue, 05 May 2020 19:38:50 +0200
+ id 1jW1Ws-00025Z-G4; Tue, 05 May 2020 19:38:50 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jW1Wd-00044g-8B; Tue, 05 May 2020 19:38:35 +0200
+ id 1jW1Wd-00044i-92; Tue, 05 May 2020 19:38:35 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 25/31] qcow2: Clear the L2 bitmap when allocating a
- compressed cluster
-Date: Tue,  5 May 2020 19:38:25 +0200
-Message-Id: <688072bba0f7687063c8c7f7aaf5c958736cf255.1588699789.git.berto@igalia.com>
+Subject: [PATCH v5 26/31] qcow2: Add subcluster support to handle_alloc_space()
+Date: Tue,  5 May 2020 19:38:26 +0200
+Message-Id: <fd32af1254c619f8beef5009b1a06d3d94039507.1588699789.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1588699789.git.berto@igalia.com>
 References: <cover.1588699789.git.berto@igalia.com>
@@ -69,29 +68,56 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Compressed clusters always have the bitmap part of the extended L2
-entry set to 0.
+The bdrv_co_pwrite_zeroes() call here fills complete clusters with
+zeroes, but it can happen that some subclusters are not part of the
+write request or the copy-on-write. This patch makes sure that only
+the affected subclusters are overwritten.
+
+A potential improvement would be to also fill with zeroes the other
+subclusters if we can guarantee that we are not overwriting existing
+data. However this would waste more disk space, so we should first
+evaluate if it's really worth doing.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2-cluster.c | 3 +++
- 1 file changed, 3 insertions(+)
+ block/qcow2.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 4544a40aa0..0a295076a3 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -800,6 +800,9 @@ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
-     BLKDBG_EVENT(bs->file, BLKDBG_L2_UPDATE_COMPRESSED);
-     qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
-     set_l2_entry(s, l2_slice, l2_index, cluster_offset);
-+    if (has_subclusters(s)) {
-+        set_l2_bitmap(s, l2_slice, l2_index, 0);
-+    }
-     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 63e952b89a..cc5591fe8f 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2351,6 +2351,9 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
  
-     *host_offset = cluster_offset & s->cluster_offset_mask;
+     for (m = l2meta; m != NULL; m = m->next) {
+         int ret;
++        uint64_t start_offset = m->alloc_offset + m->cow_start.offset;
++        unsigned nb_bytes = m->cow_end.offset + m->cow_end.nb_bytes -
++            m->cow_start.offset;
+ 
+         if (!m->cow_start.nb_bytes && !m->cow_end.nb_bytes) {
+             continue;
+@@ -2365,16 +2368,14 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+          * efficiently zero out the whole clusters
+          */
+ 
+-        ret = qcow2_pre_write_overlap_check(bs, 0, m->alloc_offset,
+-                                            m->nb_clusters * s->cluster_size,
++        ret = qcow2_pre_write_overlap_check(bs, 0, start_offset, nb_bytes,
+                                             true);
+         if (ret < 0) {
+             return ret;
+         }
+ 
+         BLKDBG_EVENT(bs->file, BLKDBG_CLUSTER_ALLOC_SPACE);
+-        ret = bdrv_co_pwrite_zeroes(s->data_file, m->alloc_offset,
+-                                    m->nb_clusters * s->cluster_size,
++        ret = bdrv_co_pwrite_zeroes(s->data_file, start_offset, nb_bytes,
+                                     BDRV_REQ_NO_FALLBACK);
+         if (ret < 0) {
+             if (ret != -ENOTSUP && ret != -EAGAIN) {
 -- 
 2.20.1
 
