@@ -2,21 +2,21 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C261C5758
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:47:46 +0200 (CEST)
-Received: from localhost ([::1]:50130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756A91C5756
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:47:45 +0200 (CEST)
+Received: from localhost ([::1]:50030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxvF-0006Rh-0n
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:47:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49540)
+	id 1jVxvE-0006PE-DS
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:47:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVxr4-0000Nh-0q
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:43:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53737
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVxr3-0000N7-PG
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:43:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49865
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVxr1-0003T1-3q
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVxr2-0003Vn-QB
  for qemu-devel@nongnu.org; Tue, 05 May 2020 09:43:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1588686202;
@@ -24,35 +24,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AkzOmJ453aBGs+rRX72gsPbaw2iO6z3DgUXBGV9tl0M=;
- b=AJRT//PerhQCufEqzRbvx0hFvFjcptxOmlQCTeeqlXF9L+6lrw9I1vJLI5DNt1DGBOm7Mq
- KgA9k5OJ2nLiDtFPUkyQySfYi4vaA/uFVmJYdA0W0nWYi1hRYbv64famjzYbNZmhD+GrMU
- EvGLndBbFbvVAdYmN9GvQKA6tulaOdk=
+ bh=qXxalZZXQ2q+1+XiKHCDl61UcTAWRsLeGI8ZX/xQFVI=;
+ b=LyCP1XUTtqtQP+P5qz8TCL/w3mYiGaWQKDKfpnjdhgc3h55iAGPfB4IOTNZe46SpEFa89s
+ G+KxWX4C60ILI6iF8a+Wj7IzhdVdEE/F1GpsOmdqxGDoMSd8CMsrusv9ASv8C76+kejp4E
+ ip788UF4hj+BF1K8wLZHOz7r5DWwVto=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-ORMOH5CuOTW8CFN82yLycg-1; Tue, 05 May 2020 09:43:18 -0400
-X-MC-Unique: ORMOH5CuOTW8CFN82yLycg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-434-Nwr3RYIWMriveId7IHLwzg-1; Tue, 05 May 2020 09:43:19 -0400
+X-MC-Unique: Nwr3RYIWMriveId7IHLwzg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68241461;
- Tue,  5 May 2020 13:43:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BA3E8014C1;
+ Tue,  5 May 2020 13:43:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC9BA5D9D5;
- Tue,  5 May 2020 13:43:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E20A263F95;
+ Tue,  5 May 2020 13:43:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D9FF317532; Tue,  5 May 2020 15:43:05 +0200 (CEST)
+ id E5F1C1753B; Tue,  5 May 2020 15:43:05 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/13] acpi: madt: skip pci override on pci-less systems
- (microvm)
-Date: Tue,  5 May 2020 15:42:55 +0200
-Message-Id: <20200505134305.22666-4-kraxel@redhat.com>
+Subject: [PATCH v2 04/13] acpi: move acpi_build_facs to acpi-common.c
+Date: Tue,  5 May 2020 15:42:56 +0200
+Message-Id: <20200505134305.22666-5-kraxel@redhat.com>
 In-Reply-To: <20200505134305.22666-1-kraxel@redhat.com>
 References: <20200505134305.22666-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -89,89 +88,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/i386/acpi-common.h |  3 ++-
- hw/i386/acpi-build.c  |  2 +-
- hw/i386/acpi-common.c | 26 +++++++++++++++-----------
- 3 files changed, 18 insertions(+), 13 deletions(-)
+ hw/i386/acpi-common.h |  1 +
+ hw/i386/acpi-build.c  | 11 +----------
+ hw/i386/acpi-common.c |  7 +++++++
+ 3 files changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
-index c30e461f1854..9cac18dddf5b 100644
+index 9cac18dddf5b..583c320bbe7d 100644
 --- a/hw/i386/acpi-common.h
 +++ b/hw/i386/acpi-common.h
-@@ -9,6 +9,7 @@
- #define ACPI_BUILD_IOAPIC_ID 0x0
-=20
+@@ -11,5 +11,6 @@
  void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
--                     X86MachineState *x86ms, AcpiDeviceIf *adev);
-+                     X86MachineState *x86ms, AcpiDeviceIf *adev,
-+                     bool has_pci);
+                      X86MachineState *x86ms, AcpiDeviceIf *adev,
+                      bool has_pci);
++void acpi_build_facs(GArray *table_data);
 =20
  #endif
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index eb530e5cd56d..4cce2192eeb0 100644
+index 4cce2192eeb0..a69b85a266e7 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -2441,7 +2441,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState=
- *machine)
-=20
-     acpi_add_table(table_offsets, tables_blob);
-     acpi_build_madt(tables_blob, tables->linker, x86ms,
--                    ACPI_DEVICE_IF(pcms->acpi_dev));
-+                    ACPI_DEVICE_IF(pcms->acpi_dev), true);
-=20
-     vmgenid_dev =3D find_vmgenid_dev();
-     if (vmgenid_dev) {
-diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-index 5caca16a0b59..ab9b00581a15 100644
---- a/hw/i386/acpi-common.c
-+++ b/hw/i386/acpi-common.c
-@@ -72,7 +72,8 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+@@ -316,15 +316,6 @@ static void acpi_align_size(GArray *blob, unsigned ali=
+gn)
+     g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
  }
 =20
- void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
--                     X86MachineState *x86ms, AcpiDeviceIf *adev)
-+                     X86MachineState *x86ms, AcpiDeviceIf *adev,
-+                     bool has_pci)
+-/* FACS */
+-static void
+-build_facs(GArray *table_data)
+-{
+-    AcpiFacsDescriptorRev1 *facs =3D acpi_data_push(table_data, sizeof *fa=
+cs);
+-    memcpy(&facs->signature, "FACS", 4);
+-    facs->length =3D cpu_to_le32(sizeof(*facs));
+-}
+-
+ static void build_append_pcihp_notify_entry(Aml *method, int slot)
  {
-     MachineClass *mc =3D MACHINE_GET_CLASS(x86ms);
-     const CPUArchIdList *apic_ids =3D mc->possible_cpu_arch_ids(MACHINE(x8=
-6ms));
-@@ -111,18 +112,21 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *=
-linker,
-         intsrcovr->gsi    =3D cpu_to_le32(2);
-         intsrcovr->flags  =3D cpu_to_le16(0); /* conforms to bus specifica=
-tions */
-     }
--    for (i =3D 1; i < 16; i++) {
-+
-+    if (has_pci) {
-+        for (i =3D 1; i < 16; i++) {
- #define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
--        if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
--            /* No need for a INT source override structure. */
--            continue;
-+            if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
-+                /* No need for a INT source override structure. */
-+                continue;
-+            }
-+            intsrcovr =3D acpi_data_push(table_data, sizeof *intsrcovr);
-+            intsrcovr->type   =3D ACPI_APIC_XRUPT_OVERRIDE;
-+            intsrcovr->length =3D sizeof(*intsrcovr);
-+            intsrcovr->source =3D i;
-+            intsrcovr->gsi    =3D cpu_to_le32(i);
-+            intsrcovr->flags  =3D cpu_to_le16(0xd); /* active high, level =
-triggered */
-         }
--        intsrcovr =3D acpi_data_push(table_data, sizeof *intsrcovr);
--        intsrcovr->type   =3D ACPI_APIC_XRUPT_OVERRIDE;
--        intsrcovr->length =3D sizeof(*intsrcovr);
--        intsrcovr->source =3D i;
--        intsrcovr->gsi    =3D cpu_to_le32(i);
--        intsrcovr->flags  =3D cpu_to_le16(0xd); /* active high, level trig=
-gered */
-     }
+     Aml *if_ctx;
+@@ -2417,7 +2408,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState=
+ *machine)
+      * requirements.
+      */
+     facs =3D tables_blob->len;
+-    build_facs(tables_blob);
++    acpi_build_facs(tables_blob);
 =20
-     if (x2apic_mode) {
+     /* DSDT is pointed to by FADT */
+     dsdt =3D tables_blob->len;
+diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+index ab9b00581a15..5187653893a8 100644
+--- a/hw/i386/acpi-common.c
++++ b/hw/i386/acpi-common.c
+@@ -154,3 +154,10 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *l=
+inker,
+                  table_data->len - madt_start, 1, NULL, NULL);
+ }
+=20
++/* FACS */
++void acpi_build_facs(GArray *table_data)
++{
++    AcpiFacsDescriptorRev1 *facs =3D acpi_data_push(table_data, sizeof *fa=
+cs);
++    memcpy(&facs->signature, "FACS", 4);
++    facs->length =3D cpu_to_le32(sizeof(*facs));
++}
 --=20
 2.18.4
 
