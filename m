@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE04D1C52AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:11:30 +0200 (CEST)
-Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD8D1C52F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:19:17 +0200 (CEST)
+Received: from localhost ([::1]:56610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVuXx-0006JR-SP
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:11:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57272)
+	id 1jVufU-0002zk-Ky
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jVuX9-0005q9-GX
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:10:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30747
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jVuYE-0006rd-Ig
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:11:46 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:23309
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jVuX8-0001vE-E8
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:10:39 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jVuYD-0002Vu-LY
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:11:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588673437;
+ s=mimecast20190719; t=1588673504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dPfmZyFKAsiBDybdnzXwf2PCSi/x69ikq150mG0nDgU=;
- b=JtOIj8kG0pTCDF05wOmtHH3VGB4uZPm/fuFiiUSVGFVge+6VkJGj5yy+eYlRcV6hDOS69Y
- q4+79jw/JUdH863bPSreoSHIBlPGWsUChRn5L95GZOBNyHI1SYYhTQGam9OP6iFHuWgns4
- 2kM7T1cJ7XHGuZOy1oM2kezvfbHJqds=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-ptFzm4_SOJODxWfrPKk7Iw-1; Tue, 05 May 2020 06:10:35 -0400
-X-MC-Unique: ptFzm4_SOJODxWfrPKk7Iw-1
-Received: by mail-wr1-f70.google.com with SMTP id g10so976972wrr.10
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 03:10:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=klk+WPmzEH2Guopiw/wocH/h2D5fe1l++84CJnbrd14=;
- b=Ah3YzK9HXKwe6FzyKWK/Ijkw1E62ruoO0O0oS1L2xpggp2LdcNWjGppF3mKMQDw0Ju
- IolXhVCeHgL2Pfv5iAAAO0VxR6UhP5SVVkwzCKj+5i8X6r/4K9ejWSLF9WjGBSRw6h41
- mo9U6X0w0Jee7ZKfVMXUzAo4OqgQgMX2KORiEdB9R2qo9fr6uel88oCRgCFkwuR2jbj+
- vHCjYQkMEbzgIcI4M8BWpIZ9y0EiC70xGo8qJtBU92+C+/4eMGbh2d7Omqzd5xQ0nt3g
- vaskjk932LcZf2r8POek3ws4sjVReeT4gXT9uFjrS8zCa8uzj8UhWjAgPPZLbdMm5A+E
- VKvw==
-X-Gm-Message-State: AGi0Pub1cGTDaUmQVhpsr69/FXgyUT5QoFgNnOcNz/yQp56lxwO6amnX
- QYMGIvvxusT8oFwdEUkYxf52jM4GVZdgl0Tov7KCDIwvCh0lbjGTtpuVY0DqbmIVZBllPk98UbW
- 4i54Otc/l3itBlgA=
-X-Received: by 2002:a1c:35c3:: with SMTP id c186mr2656194wma.66.1588673434479; 
- Tue, 05 May 2020 03:10:34 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLViQN4o7cHcbqs4513AXldJMMqn8+Vd4nJqKrub7HrFmiZaKMq+0ZHPA626P2cQnmVkBXTNA==
-X-Received: by 2002:a1c:35c3:: with SMTP id c186mr2656179wma.66.1588673434308; 
- Tue, 05 May 2020 03:10:34 -0700 (PDT)
-Received: from [192.168.178.58] ([151.20.132.175])
- by smtp.gmail.com with ESMTPSA id h1sm3098045wme.42.2020.05.05.03.10.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 03:10:33 -0700 (PDT)
-Subject: Re: [PATCH] hw/audio/gus: Use AUDIO_HOST_ENDIANNESS definition from
- 'audio/audio.h'
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20200505100750.27332-1-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bc9f6295-9c1a-9617-ecd9-f38ea0ad5d79@redhat.com>
-Date: Tue, 5 May 2020 12:10:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=7qYP5hei+9dAbu2tuMU3HQ8iEsG+EM8TI+IlS3ed1D4=;
+ b=XyZ7lFjugHGNJaWsvlezFu5vrWw2lucUn/1xMcjbzyyxipQDUSEZdzUTVEgdyAjQN+tEMb
+ HxY4/DbgktkgLTafe9wXGGgTw54Kx6OQpivraiqvk/kKfpnS184qo6VuCD/tKyOAkLwAB1
+ fJ5Uw2nYQL1pfo8YqpTdmWzygjC7j8k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-frAgqNjsO9CPVTogwMk7Gg-1; Tue, 05 May 2020 06:11:41 -0400
+X-MC-Unique: frAgqNjsO9CPVTogwMk7Gg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E91C64AE8;
+ Tue,  5 May 2020 10:11:36 +0000 (UTC)
+Received: from gondolin (ovpn-112-219.ams2.redhat.com [10.36.112.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8CFA5D9D3;
+ Tue,  5 May 2020 10:11:04 +0000 (UTC)
+Date: Tue, 5 May 2020 12:11:02 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v18 QEMU 06/18] vfio: Add VM state change handler to
+ know state of VM
+Message-ID: <20200505120459.62bd0b16.cohuck@redhat.com>
+In-Reply-To: <1588632293-18932-7-git-send-email-kwankhede@nvidia.com>
+References: <1588632293-18932-1-git-send-email-kwankhede@nvidia.com>
+ <1588632293-18932-7-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200505100750.27332-1-f4bug@amsat.org>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,20 +80,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: cjia@nvidia.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, quintela@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, zhi.a.wang@intel.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/20 12:07, Philippe Mathieu-Daud=C3=A9 wrote:
-> Use the generic AUDIO_HOST_ENDIANNESS definition instead
-> of a custom one.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On Tue, 5 May 2020 04:14:41 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
+
+> VM state change handler gets called on change in VM's state. This is used to set
+> VFIO device state to _RUNNING.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
 > ---
-> Who/what machine is using this device anyway?
+>  hw/vfio/migration.c           | 87 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |  2 +
+>  include/hw/vfio/vfio-common.h |  4 ++
+>  3 files changed, 93 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index bf9384907ec0..e79b34003079 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -10,6 +10,7 @@
+>  #include "qemu/osdep.h"
+>  #include <linux/vfio.h>
+>  
+> +#include "sysemu/runstate.h"
+>  #include "hw/vfio/vfio-common.h"
+>  #include "cpu.h"
+>  #include "migration/migration.h"
+> @@ -74,6 +75,85 @@ err:
+>      return ret;
+>  }
+>  
+> +static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+> +                                    uint32_t value)
 
-PC, like all old ISA audio cards.
+I find 'mask' and 'value' a bit confusing. 'mask' seems to be all the
+bits you want to keep, and 'value' the bits you want to add?
 
-Paolo
+> +{
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    VFIORegion *region = &migration->region;
+> +    uint32_t device_state;
+> +    int ret;
+> +
+> +    ret = pread(vbasedev->fd, &device_state, sizeof(device_state),
+> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              device_state));
+> +    if (ret < 0) {
+> +        error_report("%s: Failed to read device state %d %s",
+> +                     vbasedev->name, ret, strerror(errno));
+> +        return ret;
+> +    }
+> +
+> +    device_state = (device_state & mask) | value;
+> +
+> +    if (!VFIO_DEVICE_STATE_VALID(device_state)) {
+> +        return -EINVAL;
+> +    }
+> +
+> +    ret = pwrite(vbasedev->fd, &device_state, sizeof(device_state),
+> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              device_state));
+> +    if (ret < 0) {
+> +        error_report("%s: Failed to set device state %d %s",
+> +                     vbasedev->name, ret, strerror(errno));
+> +
+> +        ret = pread(vbasedev->fd, &device_state, sizeof(device_state),
+> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                device_state));
+> +        if (ret < 0) {
+> +            error_report("%s: On failure, failed to read device state %d %s",
+> +                    vbasedev->name, ret, strerror(errno));
+> +            return ret;
+> +        }
+> +
+> +        if (VFIO_DEVICE_STATE_IS_ERROR(device_state)) {
+> +            error_report("%s: Device is in error state 0x%x",
+> +                         vbasedev->name, device_state);
+> +            return -EFAULT;
+
+Why -EFAULT?
+
+Also, if the device is in an error state, don't you want to propagate
+that state into the vbasedev as well? It does not look usable in that
+state, but that information is only available in the migration region.
+
+> +        }
+> +    }
+> +
+> +    vbasedev->device_state = device_state;
+> +    trace_vfio_migration_set_state(vbasedev->name, device_state);
+> +    return 0;
+> +}
+> +
+> +static void vfio_vmstate_change(void *opaque, int running, RunState state)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +
+> +    if ((vbasedev->vm_running != running)) {
+> +        int ret;
+> +        uint32_t value = 0, mask = 0;
+> +
+> +        if (running) {
+> +            value = VFIO_DEVICE_STATE_RUNNING;
+> +            if (vbasedev->device_state & VFIO_DEVICE_STATE_RESUMING) {
+> +                mask = ~VFIO_DEVICE_STATE_RESUMING;
+> +            }
+> +        } else {
+> +            mask = ~VFIO_DEVICE_STATE_RUNNING;
+> +        }
+
+I think the issue might be that you are starting to fiddle with the
+target state before you know what the actual device state is (you only
+know the state in the vbasedev, which might be out of sync.) But you do
+know what the transition is supposed to look like depending on the
+vmstate change, so what about the following:
+
+- read the state from the region
+- figure out the transition that is supposed to be happening
+- write the target state
+
+> +
+> +        ret = vfio_migration_set_state(vbasedev, mask, value);
+> +        if (ret) {
+> +            error_report("%s: Failed to set device state 0x%x",
+> +                         vbasedev->name, value & mask);
+
+If the transition failed, what does that mean? I assume that the device
+might actually be in an unusable state (like the error state referenced
+above)? Does it make sense to continue, or should the device rather be
+flagged broken in some way?
+
+> +        }
+> +        vbasedev->vm_running = running;
+> +        trace_vfio_vmstate_change(vbasedev->name, running, RunState_str(state),
+> +                                  value & mask);
+> +    }
+> +}
 
 
