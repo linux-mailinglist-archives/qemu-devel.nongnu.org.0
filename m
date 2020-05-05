@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5031C506B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 10:35:51 +0200 (CEST)
-Received: from localhost ([::1]:60254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5EA1C5075
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 10:37:09 +0200 (CEST)
+Received: from localhost ([::1]:37354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVt3O-0005rP-O1
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 04:35:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36304)
+	id 1jVt4e-0008Gv-MS
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 04:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jVszm-0002zT-GZ; Tue, 05 May 2020 04:32:06 -0400
-Resent-Date: Tue, 05 May 2020 04:32:06 -0400
-Resent-Message-Id: <E1jVszm-0002zT-GZ@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21376)
+ id 1jVt0z-0004NX-Ht; Tue, 05 May 2020 04:33:22 -0400
+Resent-Date: Tue, 05 May 2020 04:33:21 -0400
+Resent-Message-Id: <E1jVt0z-0004NX-Ht@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jVszl-0000fc-Cv; Tue, 05 May 2020 04:32:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1588667513; cv=none; 
+ id 1jVt0j-0001dQ-HQ; Tue, 05 May 2020 04:33:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1588667563; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=HyUPWPaYc/RQo/8o8FACXcyE9f8gG9hyxP5UemXF3L8kFInaXVzLYLXlC9uSSdOGeYLOzYIp5wdvrCG9BGRhaCnYC5fGlnuGyIoixfkjGVKEYNVpCuxxssteuKUMqzwnXaIEHKQN3nyKY6q0vqURAt8TVAyTSeEkwh1uUuEGH4E=
+ b=LGkKkTsKOsDNfoWDd0WnfC0FOBUzgX9MfAPBSnRe6t7IPnJ1SZ9t1BKAiIxQMFbTeZWRFjoiSXYivGVf2bMHZw1umeIcR1yT/W94N9uItaWtt733wUvutRds2KzxUORdZXV4ZnCowcnRxWeHmPr2Euw81Jdkm2eprXW6kDOO2dE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1588667513;
+ s=zohoarc; t=1588667563;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=JE1E6Ap7hOcgvUlTGRB/1/59EtLCvjSuyYFZT+wsxPY=; 
- b=a1Tkg/V3rBhn/ft2nclY3RTbNvFz4MPZ5V6pOermkt/K2MRDl4hVSD47z3F9MMkO+oFskxU6uEPWldWAKn1rXxlQGbAp4ZL0dPk29cqci1lLm06T7eiAR6YDnSZntIwV/3U/7I6P+LFP8cAKg6rZzJyNBucZePQG+e4AV8026K0=
+ bh=Hjvw6NJvYofYO6bZKLN4BKx545jpO693CGT3ySL/+zE=; 
+ b=N/IepVrn8sGGFxhLtRFWfDm1CreakPUW2adzf2DezOM2OZqanJZ5m2N0L90utSQjOw6/wj5ESEcCoTcjxj6V/aH81D1ANJRcZ0N/5q4/nf9tSvNWW08wMjda9hKgCykX5oCQ/3OxWB+0cCn7sX0CWF4jlA1Uslqed6M7darnkVg=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  spf=pass  smtp.mailfrom=no-reply@patchew.org;
  dmarc=pass header.from=<no-reply@patchew.org>
  header.from=<no-reply@patchew.org>
 Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1588667511309493.55612064867614;
- Tue, 5 May 2020 01:31:51 -0700 (PDT)
-Message-ID: <158866750954.24779.2101560508069499232@45ef0f9c86ae>
-In-Reply-To: <1588601168-27576-1-git-send-email-sai.pavan.boddu@xilinx.com>
-Subject: Re: [PATCH v2 00/10] Cadence GEM Fixes
+ mx.zohomail.com with SMTPS id 1588667562257715.0200390202127;
+ Tue, 5 May 2020 01:32:42 -0700 (PDT)
+Message-ID: <158866756022.24779.15250571115216532173@45ef0f9c86ae>
+In-Reply-To: <20200504152922.21365-1-philmd@redhat.com>
+Subject: Re: [PATCH v3 00/12] user-mode: Prune build dependencies (part 1)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Resent-From: 
 From: no-reply@patchew.org
-To: sai.pavan.boddu@xilinx.com
-Date: Tue, 5 May 2020 01:31:51 -0700 (PDT)
+To: philmd@redhat.com
+Date: Tue, 5 May 2020 01:32:42 -0700 (PDT)
 X-ZohoMailClient: External
 Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
  helo=sender4-of-o53.zoho.com
@@ -68,38 +68,24 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, jasowang@redhat.com, armbru@redhat.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, Alistair.Francis@wdc.com,
- edgar.iglesias@gmail.com, tong.ho@xilinx.com, philmd@redhat.com,
- rfried.dev@gmail.com
+Cc: qemu-riscv@nongnu.org, ehabkost@redhat.com, sagark@eecs.berkeley.edu,
+ david@redhat.com, kbastian@mail.uni-paderborn.de, cohuck@redhat.com,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org, Alistair.Francis@wdc.com,
+ pbonzini@redhat.com, palmer@dabbelt.com, philmd@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTg4NjAxMTY4LTI3NTc2LTEt
-Z2l0LXNlbmQtZW1haWwtc2FpLnBhdmFuLmJvZGR1QHhpbGlueC5jb20vCgoKCkhpLAoKVGhpcyBz
-ZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1
-dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDE1ODg2MDExNjgtMjc1
-NzYtMS1naXQtc2VuZC1lbWFpbC1zYWkucGF2YW4uYm9kZHVAeGlsaW54LmNvbQpTdWJqZWN0OiBb
-UEFUQ0ggdjIgMDAvMTBdIENhZGVuY2UgR0VNIEZpeGVzClR5cGU6IHNlcmllcwoKPT09IFRFU1Qg
-U0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251
-bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFs
-Z29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNl
-Li4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0
-ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKZmF0YWw6IHVuYWJsZSB0byB3cml0ZSBuZXcgaW5kZXggZmls
-ZQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6CiAgRmlsZSAicGF0Y2hldy10ZXN0
-ZXIvc3JjL3BhdGNoZXctY2xpIiwgbGluZSA1MjEsIGluIHRlc3Rfb25lCiAgICBnaXRfY2xvbmVf
-cmVwbyhjbG9uZSwgclsicmVwbyJdLCByWyJoZWFkIl0sIGxvZ2YsIFRydWUpCiAgRmlsZSAicGF0
-Y2hldy10ZXN0ZXIvc3JjL3BhdGNoZXctY2xpIiwgbGluZSA1NywgaW4gZ2l0X2Nsb25lX3JlcG8K
-ICAgIGN3ZD1jbG9uZSkKICBGaWxlICIvb3B0L3JoL3JoLXB5dGhvbjM2L3Jvb3QvdXNyL2xpYjY0
-L3B5dGhvbjMuNi9zdWJwcm9jZXNzLnB5IiwgbGluZSAyOTEsIGluIGNoZWNrX2NhbGwKICAgIHJh
-aXNlIENhbGxlZFByb2Nlc3NFcnJvcihyZXRjb2RlLCBjbWQpCnN1YnByb2Nlc3MuQ2FsbGVkUHJv
-Y2Vzc0Vycm9yOiBDb21tYW5kICdbJ2dpdCcsICdjaGVja291dCcsICdyZWZzL3RhZ3MvcGF0Y2hl
-dy8xNTg4NjAxMTY4LTI3NTc2LTEtZ2l0LXNlbmQtZW1haWwtc2FpLnBhdmFuLmJvZGR1QHhpbGlu
-eC5jb20nLCAnLWInLCAndGVzdCddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAxMjgu
-CgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
-MTU4ODYwMTE2OC0yNzU3Ni0xLWdpdC1zZW5kLWVtYWlsLXNhaS5wYXZhbi5ib2RkdUB4aWxpbngu
-Y29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
-IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
-c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUwNDE1MjkyMi4yMTM2
+NS0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgYXNh
+biBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIg
+b3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2Jh
+Ymx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
+aW4vYmFzaApleHBvcnQgQVJDSD14ODZfNjQKbWFrZSBkb2NrZXItaW1hZ2UtZmVkb3JhIFY9MSBO
+RVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBUQVJHRVRfTElTVD14
+ODZfNjQtc29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKCgoK
+VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIw
+MDUwNDE1MjkyMi4yMTM2NS0xLXBoaWxtZEByZWRoYXQuY29tL3Rlc3RpbmcuYXNhbi8/dHlwZT1t
+ZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0
+cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXct
+ZGV2ZWxAcmVkaGF0LmNvbQ==
 
