@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAB91C5608
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 14:58:22 +0200 (CEST)
-Received: from localhost ([::1]:50116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE361C5614
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 14:59:38 +0200 (CEST)
+Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVx9R-0007n2-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 08:58:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38388)
+	id 1jVxAf-0001Pg-8f
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 08:59:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jVx8V-0007Mm-GU
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:57:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22642
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jVx8U-0000Gs-PY
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:57:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588683442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=zQMuWS7zjD4d6JnwVgxUv5Po5zlQzm4gphgS9LFkmto=;
- b=Z5CN3KFKH7Ay8xZpjURehB9w0KOJHa4qs5MMz21NNuT5bXX+TKHF4X6E7Q/jtrsMwbyJXB
- AlO182qIL7Gd36skPSQfbDd77juM+Lvalk5iTbACYjSxdYhFAquVa3p1ndfytQTwzvJ0+6
- daisoEi3lGfENfTWZ3oaAtzB0+ZTeJg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-2gvkTlJ_P6uNquGUxuQscQ-1; Tue, 05 May 2020 08:57:20 -0400
-X-MC-Unique: 2gvkTlJ_P6uNquGUxuQscQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBFF7100CCC0
- for <qemu-devel@nongnu.org>; Tue,  5 May 2020 12:57:19 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.36.110.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 020BE5C1B2;
- Tue,  5 May 2020 12:57:17 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] ui: update keycodemapdb submodule commit
-Date: Tue,  5 May 2020 13:57:13 +0100
-Message-Id: <20200505125713.940953-1-berrange@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1jVx9H-00081n-2O; Tue, 05 May 2020 08:58:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3232
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1jVx9G-0000bk-2v; Tue, 05 May 2020 08:58:10 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 045CaFZw125447; Tue, 5 May 2020 08:58:04 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 30s1sww6ng-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 May 2020 08:58:03 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 045CaW9W126705;
+ Tue, 5 May 2020 08:58:02 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 30s1sww6mb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 May 2020 08:58:02 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 045CtsPk014080;
+ Tue, 5 May 2020 12:58:00 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 30s0g5q0r9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 May 2020 12:58:00 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 045CuleH52625732
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 5 May 2020 12:56:47 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 76B63A405B;
+ Tue,  5 May 2020 12:57:57 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 63965A404D;
+ Tue,  5 May 2020 12:57:57 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue,  5 May 2020 12:57:57 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+ id 14643E01C6; Tue,  5 May 2020 14:57:57 +0200 (CEST)
+From: Eric Farman <farman@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v4 0/6] s390x/vfio-ccw: Channel Path Handling [QEMU]
+Date: Tue,  5 May 2020 14:57:51 +0200
+Message-Id: <20200505125757.98209-1-farman@linux.ibm.com>
+X-Mailer: git-send-email 2.17.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
+ definitions=2020-05-05_07:2020-05-04,
+ 2020-05-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 phishscore=0 adultscore=0
+ impostorscore=0 mlxlogscore=936 bulkscore=0 clxscore=1015 suspectscore=0
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005050098
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 08:27:02
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,65 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Primarily this is to pull in a fix for Win32 keycodes. The other useful
-change is the removal of build timestamp from generated files which is
-desirable for reproducable builds.
+Here is a new pass at the channel-path handling code for vfio-ccw,
+to take advantage of the corresponding kernel patches posted here:
 
-The make rules need updating due to slightly changed CLI syntax - more
-args must now come after the command name.
+https://lore.kernel.org/kvm/20200505122745.53208-1-farman@linux.ibm.com/
 
-27acf0ef828bf719b2053ba398b195829413dbdd Fix win32 keycode for VK_OEM_102
-317d3eeb963a515e15a63fa356d8ebcda7041a51 Add support for generating RST for=
-matted docs pages
-7381b9bfadd31c4c9e9a10b5bb5032f9189d4352 Introduce separate args for title =
-& subtitle with docs generator
-6280c94f306df6a20bbc100ba15a5a81af0366e6 keymap-gen: Name sections in pod o=
-utput
-df4e56f8fab65ba714ec18f4e7338a966a1620ad Add an empty meson project
-16e5b0787687d8904dad2c026107409eb9bfcb95 remove buildtime from generated fi=
-les
-044f21dd0d4f62519aae9f1d53a026407a0b664f add header file generators
-7779876a6b06755e3bb2c94ee3ded50635bcb0fa c++: add extern declaration to the=
- generated file
-0e0a317889464397d6f1ae03aad0d2ca593aab04 move CLanguageGenerator closer to =
-CLanguageGenerator itself
+I have all the main comments from v3 addressed, though I have a
+couple of additional patches that do some further cleanups
+(like, a generic callback for stsch) that weren't baked enough
+to include here. They're working fine, but need some cleanups
+(e.g., fixups vs standalone patches) before they're ready for
+submission. Just wanted to have the basic QEMU code to go with
+the new KVM series.
 
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- Makefile        | 4 ++--
- ui/keycodemapdb | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Changes are listed in git notes for the individual patches.
 
-diff --git a/Makefile b/Makefile
-index 34275f57c9..5f2b63b1cd 100644
---- a/Makefile
-+++ b/Makefile
-@@ -310,10 +310,10 @@ ui/input-keymap-%.c: $(KEYCODEMAP_GEN) $(KEYCODEMAP_C=
-SV) $(SRC_PATH)/ui/Makefile
- =09$(call quiet-command,\
- =09    stem=3D$* && src=3D$${stem%-to-*} dst=3D$${stem#*-to-} && \
- =09    test -e $(KEYCODEMAP_GEN) && \
--=09    $(PYTHON) $(KEYCODEMAP_GEN) \
-+=09    $(PYTHON) $(KEYCODEMAP_GEN) code-map \
- =09          --lang glib2 \
- =09          --varname qemu_input_map_$${src}_to_$${dst} \
--=09          code-map $(KEYCODEMAP_CSV) $${src} $${dst} \
-+=09          $(KEYCODEMAP_CSV) $${src} $${dst} \
- =09        > $@ || rm -f $@, "GEN", "$@")
-=20
- $(KEYCODEMAP_GEN): .git-submodule-status
-diff --git a/ui/keycodemapdb b/ui/keycodemapdb
-index 6b3d716e2b..27acf0ef82 160000
---- a/ui/keycodemapdb
-+++ b/ui/keycodemapdb
-@@ -1 +1 @@
--Subproject commit 6b3d716e2b6472eb7189d3220552280ef3d832ce
-+Subproject commit 27acf0ef828bf719b2053ba398b195829413dbdd
---=20
-2.26.2
+v3: https://lore.kernel.org/qemu-devel/20200417023440.70514-1-farman@linux.ibm.com/
+v2: https://lore.kernel.org/qemu-devel/20200206214509.16434-1-farman@linux.ibm.com/
+v1: https://lore.kernel.org/qemu-devel/20191115033437.37926-1-farman@linux.ibm.com/
+
+Eric Farman (3):
+  vfio-ccw: Refactor cleanup of regions
+  vfio-ccw: Refactor ccw irq handler
+  s390x/css: Refactor the css_queue_crw() routine
+
+Farhan Ali (3):
+  linux-headers: update
+  vfio-ccw: Add support for the schib region
+  vfio-ccw: Add support for the CRW region and IRQ
+
+ hw/s390x/css.c                 |  57 ++++++---
+ hw/s390x/s390-ccw.c            |  21 ++++
+ hw/vfio/ccw.c                  | 208 +++++++++++++++++++++++++++++----
+ include/hw/s390x/css.h         |   4 +-
+ include/hw/s390x/s390-ccw.h    |   1 +
+ linux-headers/linux/vfio.h     |   3 +
+ linux-headers/linux/vfio_ccw.h |  18 +++
+ target/s390x/ioinst.c          |   3 +-
+ 8 files changed, 274 insertions(+), 41 deletions(-)
+
+-- 
+2.17.1
 
 
