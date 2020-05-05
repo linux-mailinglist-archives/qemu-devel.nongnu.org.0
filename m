@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAEB1C536C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:39:27 +0200 (CEST)
-Received: from localhost ([::1]:56718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4D41C536E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:40:58 +0200 (CEST)
+Received: from localhost ([::1]:32864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVuz0-0002u7-4e
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35960)
+	id 1jVv0T-0004z7-7x
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVuxu-0002M0-0d
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:38:18 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43885)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jVuzM-00041i-Si
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:39:48 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVuxs-0003XW-Sj
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:38:17 -0400
-Received: by mail-ot1-x344.google.com with SMTP id g14so1193675otg.10
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 03:38:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6Wf2JDkyu1epQNIJRFfISHKG+COWmGo22KN/bX6e+n8=;
- b=qENpLMHLa+WJNx7P5SrxGrb/HCYKWCHiTnSxOVUlRJepAkAZrjy4USZdpvElXsK011
- mSCKHALFvTJsmC21V0Dovb/zxNdO9IGw6dv2R+dI7RmIrx65AfYe/R2ZMrG6D0VYuBgn
- iTftdd4iRVevOhq1YP+e/G4ECrx4a1Lt/6KyQN8bL3UvcAGFhr147wuG8nJUxOygyfKy
- AVaSsdyqfneCNpxfq2duM0chtcgeKqLrB8DYXwHDa1dt7z56yL3nCfogNKStpTMQIffP
- sAYcp8L1pFagIFULWs5dtSX8Q9asClT8edNBY8onMT85lyTbvsGLu8PDrXRzok3yhAeG
- iKpw==
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jVuzK-0005Dv-Sp
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:39:48 -0400
+Received: by mail-wm1-x344.google.com with SMTP id u16so1751352wmc.5
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 03:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=iqtoAIU7xIpennD78jpi1MB9eSTq+8xcGcUiNwH/2IM=;
+ b=hW4kPXt91P85A/87pP+LGj+xrGPYnLkZN3BQXC57hiHIvNGNUsfxx5oUMzueDF6cog
+ Hy0KktPjnjT/RN1UTv15RsHM5jmigoY6aXK/Zvo/WlYqGo54yAQJEJCjm1qjQmsZooMJ
+ Ne+nLXVkGG/Nm+yjhxHTAgCT/r3nJVNbl74IE6Ivshw2Qe+Vc9fjccpfzLnIXiStys6H
+ DlQyQFun41MbLZ9ouTA8HbmhXrb3+N3IJN0/7zPXIS12Xe3kz9BtxzufIoabwyqtMRux
+ Z6Oe+UJ6SXuRHCpsMHKfh0J4XNbgbu1p/VuKUFHgl4vlJq6NjS34F8F5/ts7R7qa/r9v
+ xpxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6Wf2JDkyu1epQNIJRFfISHKG+COWmGo22KN/bX6e+n8=;
- b=tEOVTrkGjGb7p861LTRkM6K6fgGSdDFROF1lElC7YMzCaq8nerB+GfkMewOgYKaOeI
- wpKW3EBjWWbuUdWL96DKPY6LsiYfsozxITiCrQlS/T2ka55NqtDHA8lAMDNTKJ3QfDHj
- VsI67xJ9gp8Aycn1bUwzyV/LImgRhPc545AkMETdythRLj453hmbsbXMgkLvk2Xgg/5F
- MrgsVZ8dflDXwfYe+udAdhQTty4RiBIt1H488K+srlkQzugKg2lxQR9jLkSfsEr+OZzw
- 6eAOheEBe5hAzrrb4PaWSA6ZfY15H0ScP/x6V+HxGkHhoQavXrtlSgF+gnoneDihxcfD
- w9WQ==
-X-Gm-Message-State: AGi0PublR62bmhwN2a/H9hsgREPpUrUBnvgWiH102IMIzyjgqR0+Ek5A
- 4lM2L+Jwrd9On9S+4RmPkpJ2OQrtCduUsr1NCzxfNA==
-X-Google-Smtp-Source: APiQypLySE8IvXRCRE3SSeJ6uGDlOzEOj5Wa9G8vCpc3k61jWPBgCZm8uIOf6bxC9IbpV0moxRU+7pDwfv284PQ20ak=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id
- e14mr1611838otj.91.1588675094805; 
- Tue, 05 May 2020 03:38:14 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=iqtoAIU7xIpennD78jpi1MB9eSTq+8xcGcUiNwH/2IM=;
+ b=tsTUONnUm2r9UtAlo39Q6emaQcyJhnhyJ9DDUrmzVTDD+dH81tULpDFWjz883Miqtp
+ nbAodQrdQqnyvsJL7C3fot+mvXzKL5U+7UIe8X+TGwAsBV427hRMCJPX9VbIeLYhQWZz
+ N0v2JkonsC9oHiNO3Y2YvjXUewB89xrqtOXDhqrbUaVuhVaTC6QojH67yBJlfpEjjfYD
+ XN1BRaSDCsv2FU3Ru3n+LnK+L2VLHzOYHCcqRJ297iXI/RnWfBqbOD1vzmcc7H1JlMoV
+ YCv3mRAMm2DhSGb/wLS5n8OT874P5ukbspzfrCTqV2/sBj1amrn+k6/ZWt+D4psbSs6B
+ 5odQ==
+X-Gm-Message-State: AGi0PuZUlQNRnuQq7FU7UHLvJf9o3xzC6BE+vWNeJ42ZMK//owsKTzks
+ XuFemD/B1A9biC/yl39E2ilrpNF2naX71+RZNxY=
+X-Google-Smtp-Source: APiQypJ1gcsNATD8UtVyeyW3iaITo9WSYalAMT5IEzCRecJTrgbAqiR8DooHHIbwxA6hY0Mkxrr7pd1sOq5uEW4nqPc=
+X-Received: by 2002:a1c:9a13:: with SMTP id c19mr2652887wme.159.1588675185268; 
+ Tue, 05 May 2020 03:39:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200502224503.2282-1-richard.henderson@linaro.org>
-In-Reply-To: <20200502224503.2282-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 May 2020 11:38:03 +0100
-Message-ID: <CAFEAcA-fbQwjU3_UuorV3q-k9exr9f_uqO_YSP7aggsm=oP=wg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/15] target/arm: partial vector cleanup
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Received: by 2002:a1c:28c3:0:0:0:0:0 with HTTP;
+ Tue, 5 May 2020 03:39:44 -0700 (PDT)
+In-Reply-To: <20200505101908.6207-9-armbru@redhat.com>
+References: <20200505101908.6207-1-armbru@redhat.com>
+ <20200505101908.6207-9-armbru@redhat.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Tue, 5 May 2020 12:39:44 +0200
+Message-ID: <CAHiYmc70A63di9E_qv0NvW=fn_7kWUNGvKg+djDPJ-c8gsy+NQ@mail.gmail.com>
+Subject: Re: [PATCH v2 08/10] mips/boston: Plug memory leak in
+ boston_mach_init()
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000014dc3e05a4e4448e"
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,45 +82,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paul Burton <pburton@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 2 May 2020 at 23:45, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+--00000000000014dc3e05a4e4448e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+=D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 05. =D0=BC=D0=B0=D1=98 2020., Markus =
+Armbruster <armbru@redhat.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
+=D0=B0=D0=BE/=D0=BB=D0=B0:
+
+> Fixes: df1d8a1f29f567567b9d20be685a4241282e7005
+> Cc: Paul Burton <pburton@wavecomp.com>
+> Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  hw/mips/boston.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> This is not complete, but shows the direction I'd like to go.
 >
-> It may well help what Peter is doing with the neon decodetree
-> conversion.  It may be helpful to apply before the conversion
-> in order to reduce the number of special cases.  As may
-> continuing with the cleanup; I'll probably work on that more
-> next week.
+Thank you, Markus, for spotting this error.
+
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+
+I am fine with you selecting this and another mips-related patch in this
+series in your pull request, that will be result of this series.
+
+Truly yours,
+Aleksandar
+
+
+
+
+> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+> index 2832dfa6ae..a896056be1 100644
+> --- a/hw/mips/boston.c
+> +++ b/hw/mips/boston.c
+> @@ -426,7 +426,6 @@ static void boston_mach_init(MachineState *machine)
+>  {
+>      DeviceState *dev;
+>      BostonState *s;
+> -    Error *err =3D NULL;
+>      MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;
+>      MemoryRegion *sys_mem =3D get_system_memory();
+>      XilinxPCIEHost *pcie2;
+> @@ -467,7 +466,8 @@ static void boston_mach_init(MachineState *machine)
+>      sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
 >
-> Version 2 extracts more bits from my sve2 branch.  There's
-> still more to pull back, especially for crypto_helper.c, where
-> there are also tail clearing bugs to fix.
+>      flash =3D  g_new(MemoryRegion, 1);
+> -    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err)=
+;
+> +    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB,
+> +                           &error_fatal);
+>      memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
+>
+>      memory_region_add_subregion_overlap(sys_mem, 0x80000000,
+> machine->ram, 0);
+> --
+> 2.21.1
+>
+>
+>
 
-This doesn't apply on master any more as a result of the
-first lump of decodetree stuff going in. Also patch 2
-doesn't seem to compile:
+--00000000000014dc3e05a4e4448e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-/home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c: In
-function =E2=80=98gen_gvec_srshr=E2=80=99:
-/home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:4107:9:
-error: implicit declaration of function =E2=80=98tcg_gen_gvec_dup_imm=E2=80=
-=99; did
-you mean =E2=80=98tcg_gen_gvec_dup_i64=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-         tcg_gen_gvec_dup_imm(vece, rd_ofs, opr_sz, max_sz, 0);
-         ^~~~~~~~~~~~~~~~~~~~
-         tcg_gen_gvec_dup_i64
-/home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:4107:9:
-error: nested extern declaration of =E2=80=98tcg_gen_gvec_dup_imm=E2=80=99
-[-Werror=3Dnested-externs]
+<br><br>=D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 05. =D0=BC=D0=B0=D1=98 2020.,=
+ Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.c=
+om</a>&gt; =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=
+=D0=B0:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">Fixes: df1d8a1f29f567567b9d20be68=
+5a42<wbr>41282e7005<br>
+Cc: Paul Burton &lt;<a href=3D"mailto:pburton@wavecomp.com">pburton@wavecom=
+p.com</a>&gt;<br>
+Cc: Aleksandar Rikalo &lt;<a href=3D"mailto:aleksandar.rikalo@rt-rk.com">al=
+eksandar.rikalo@rt-rk.com</a>&gt;<br>
+Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">a=
+rmbru@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0hw/mips/boston.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br></blockquote><div><br></div><div>Thank you, Markus, for spotting this e=
+rror.</div><div><br></div><div><span style=3D"color:rgb(34,34,34);font-size=
+:14px;line-height:22.1200008392334px">Reviewed-by: Aleksandar Markovic &lt;=
+</span><a href=3D"mailto:aleksandar.qemu.devel@gmail.com" target=3D"_blank"=
+ style=3D"font-size:14px;line-height:22.1200008392334px">aleksandar.qemu.de=
+vel@gmail.<wbr>com</a><span style=3D"color:rgb(34,34,34);font-size:14px;lin=
+e-height:22.1200008392334px">&gt;</span><br></div><div><span style=3D"color=
+:rgb(34,34,34);font-size:14px;line-height:22.1200008392334px"><br></span></=
+div><div><span style=3D"color:rgb(34,34,34);font-size:14px;line-height:22.1=
+200008392334px">I am fine with you selecting this and another mips-related =
+patch in this series in your pull request, that will be result of this seri=
+es.</span></div><div><br></div><div>Truly yours,</div><div>Aleksandar</div>=
+<div><br></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c<br>
+index 2832dfa6ae..a896056be1 100644<br>
+--- a/hw/mips/boston.c<br>
++++ b/hw/mips/boston.c<br>
+@@ -426,7 +426,6 @@ static void boston_mach_init(MachineState *machine)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0DeviceState *dev;<br>
+=C2=A0 =C2=A0 =C2=A0BostonState *s;<br>
+-=C2=A0 =C2=A0 Error *err =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;<br=
+>
+=C2=A0 =C2=A0 =C2=A0MemoryRegion *sys_mem =3D get_system_memory();<br>
+=C2=A0 =C2=A0 =C2=A0XilinxPCIEHost *pcie2;<br>
+@@ -467,7 +466,8 @@ static void boston_mach_init(MachineState *machine)<br>
+=C2=A0 =C2=A0 =C2=A0sysbus_mmio_map_overlap(SYS_<wbr>BUS_DEVICE(&amp;s-&gt;=
+cps), 0, 0, 1);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0flash =3D=C2=A0 g_new(MemoryRegion, 1);<br>
+-=C2=A0 =C2=A0 memory_region_init_rom(flash, NULL, &quot;boston.flash&quot;=
+, 128 * MiB, &amp;err);<br>
++=C2=A0 =C2=A0 memory_region_init_rom(flash, NULL, &quot;boston.flash&quot;=
+, 128 * MiB,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0&amp;error_fatal);<br>
+=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion_<wbr>overlap(sys_mem, 0x180=
+00000, flash, 0);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0memory_region_add_subregion_<wbr>overlap(sys_mem, 0x800=
+00000, machine-&gt;ram, 0);<br>
+-- <br>
+2.21.1<br>
+<br>
+<br>
+</blockquote>
 
-Any chance you could do a rebase and resend?
-
-thanks
--- PMM
+--00000000000014dc3e05a4e4448e--
 
