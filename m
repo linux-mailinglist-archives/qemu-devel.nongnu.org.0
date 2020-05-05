@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CBD1C5779
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:53:18 +0200 (CEST)
-Received: from localhost ([::1]:46122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D9541C5748
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:45:20 +0200 (CEST)
+Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVy0b-0008ES-NF
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:53:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49568)
+	id 1jVxst-0002w4-BS
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:45:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVxr9-0000XK-61
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:43:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41333
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVxr1-0000Jq-BQ
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:43:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45192
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVxr6-0003ba-KM
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:43:30 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVxqz-0003Oq-B8
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:43:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588686208;
+ s=mimecast20190719; t=1588686200;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FEyXX/OHFY9JwII40MIftmAaH0v60jdCtx8gXuNTaOw=;
- b=iMCnz3OQtNvyBCcl+La3laQhDXRGqbBEL107SoId7LMwRT9to57xmPFKv9ZUKY+hbSCUxL
- 5QRqb/7goqM8SE2E2wyd2nhNDOzmdkf5BNg21us5vNjcfrmtZ0qtgXm3cqMFeOnSh9bVLk
- hNFXL3vYfM6POTNDRtr4Nh9dRIFCK44=
+ bh=MhJLb4bb5y/Q8c4ojwDUWv/i3yjOhzST/5y8LGeV778=;
+ b=HXf1zuqET+qiRQxM9pw1lECq8Xtg/+IpQ7D6iKNxughumw6+GccRTsxuZpNXhhnCm5kl7O
+ YeKiEBq8rFVhtAgOY27PBuEBSgJI7Q4id38etcxztcZpdE8TEGcsQd7sfbjI7Cl+kdnpqT
+ PKomNfChzCaix0ghVxga97KwYz7cTq4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-K4LcaknXNCuA4QRfLI0KiA-1; Tue, 05 May 2020 09:43:26 -0400
-X-MC-Unique: K4LcaknXNCuA4QRfLI0KiA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-473-Arx2Cj1XMo6SBSI8S5c6ng-1; Tue, 05 May 2020 09:43:19 -0400
+X-MC-Unique: Arx2Cj1XMo6SBSI8S5c6ng-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 735B8100A614;
- Tue,  5 May 2020 13:43:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC918107ACF2;
+ Tue,  5 May 2020 13:43:17 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FD5460628;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8753D62959;
  Tue,  5 May 2020 13:43:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F1F8AA1ED; Tue,  5 May 2020 15:43:05 +0200 (CEST)
+ id 08489A1EE; Tue,  5 May 2020 15:43:06 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/13] acpi: move acpi_init_common_fadt_data to
- acpi-common.c
-Date: Tue,  5 May 2020 15:42:57 +0200
-Message-Id: <20200505134305.22666-6-kraxel@redhat.com>
+Subject: [PATCH v2 06/13] acpi: move acpi_align_size to acpi-common.h
+Date: Tue,  5 May 2020 15:42:58 +0200
+Message-Id: <20200505134305.22666-7-kraxel@redhat.com>
 In-Reply-To: <20200505134305.22666-1-kraxel@redhat.com>
 References: <20200505134305.22666-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,175 +88,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/i386/acpi-common.h |  5 ++++-
- hw/i386/acpi-build.c  | 43 +------------------------------------------
- hw/i386/acpi-common.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 48 insertions(+), 43 deletions(-)
+ hw/i386/acpi-common.h | 19 +++++++++++++++++++
+ hw/i386/acpi-build.c  | 18 ------------------
+ 2 files changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
-index 583c320bbe7d..5788a13da9ca 100644
+index 5788a13da9ca..f837bb17163b 100644
 --- a/hw/i386/acpi-common.h
 +++ b/hw/i386/acpi-common.h
-@@ -1,7 +1,8 @@
- #ifndef HW_I386_ACPI_COMMON_H
- #define HW_I386_ACPI_COMMON_H
-+
-+#include "include/hw/acpi/acpi-defs.h"
+@@ -3,12 +3,31 @@
+=20
+ #include "include/hw/acpi/acpi-defs.h"
  #include "include/hw/acpi/acpi_dev_interface.h"
--
++#include "include/hw/acpi/aml-build.h"
  #include "include/hw/acpi/bios-linker-loader.h"
  #include "include/hw/i386/x86.h"
 =20
-@@ -12,5 +13,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *link=
-er,
++/* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
++ * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
++ * a little bit, there should be plenty of free space since the DSDT
++ * shrunk by ~1.5k between QEMU 2.0 and QEMU 2.1.
++ */
++#define ACPI_BUILD_LEGACY_CPU_AML_SIZE    97
++#define ACPI_BUILD_ALIGN_SIZE             0x1000
++
++#define ACPI_BUILD_TABLE_SIZE             0x20000
++
+ /* Default IOAPIC ID */
+ #define ACPI_BUILD_IOAPIC_ID 0x0
+=20
++static inline void acpi_align_size(GArray *blob, unsigned align)
++{
++    /* Align size to multiple of given size. This reduces the chance
++     * we need to change size in the future (breaking cross version migrat=
+ion).
++     */
++    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
++}
++
+ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
                       X86MachineState *x86ms, AcpiDeviceIf *adev,
                       bool has_pci);
- void acpi_build_facs(GArray *table_data);
-+void acpi_init_common_fadt_data(MachineState *ms, Object *o,
-+                                AcpiFadtData *data);
-=20
- #endif
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index a69b85a266e7..d1f14394734e 100644
+index d1f14394734e..dc3b62468439 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -132,47 +132,6 @@ const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio =
-=3D {
-     .bit_width =3D NVDIMM_ACPI_IO_LEN << 3
- };
+@@ -72,16 +72,6 @@
+ #include "hw/acpi/ipmi.h"
+ #include "hw/acpi/hmat.h"
 =20
--static void init_common_fadt_data(MachineState *ms, Object *o,
--                                  AcpiFadtData *data)
+-/* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+- * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+- * a little bit, there should be plenty of free space since the DSDT
+- * shrunk by ~1.5k between QEMU 2.0 and QEMU 2.1.
+- */
+-#define ACPI_BUILD_LEGACY_CPU_AML_SIZE    97
+-#define ACPI_BUILD_ALIGN_SIZE             0x1000
+-
+-#define ACPI_BUILD_TABLE_SIZE             0x20000
+-
+ /* #define DEBUG_ACPI_BUILD */
+ #ifdef DEBUG_ACPI_BUILD
+ #define ACPI_BUILD_DPRINTF(fmt, ...)        \
+@@ -267,14 +257,6 @@ static void acpi_get_pci_holes(Range *hole, Range *hol=
+e64)
+                                                NULL));
+ }
+=20
+-static void acpi_align_size(GArray *blob, unsigned align)
 -{
--    uint32_t io =3D object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, N=
-ULL);
--    AmlAddressSpace as =3D AML_AS_SYSTEM_IO;
--    AcpiFadtData fadt =3D {
--        .rev =3D 3,
--        .flags =3D
--            (1 << ACPI_FADT_F_WBINVD) |
--            (1 << ACPI_FADT_F_PROC_C1) |
--            (1 << ACPI_FADT_F_SLP_BUTTON) |
--            (1 << ACPI_FADT_F_RTC_S4) |
--            (1 << ACPI_FADT_F_USE_PLATFORM_CLOCK) |
--            /* APIC destination mode ("Flat Logical") has an upper limit o=
-f 8
--             * CPUs for more than 8 CPUs, "Clustered Logical" mode has to =
-be
--             * used
--             */
--            ((ms->smp.max_cpus > 8) ?
--                        (1 << ACPI_FADT_F_FORCE_APIC_CLUSTER_MODEL) : 0),
--        .int_model =3D 1 /* Multiple APIC */,
--        .rtc_century =3D RTC_CENTURY,
--        .plvl2_lat =3D 0xfff /* C2 state not supported */,
--        .plvl3_lat =3D 0xfff /* C3 state not supported */,
--        .smi_cmd =3D ACPI_PORT_SMI_CMD,
--        .sci_int =3D object_property_get_uint(o, ACPI_PM_PROP_SCI_INT, NUL=
-L),
--        .acpi_enable_cmd =3D
--            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL=
-),
--        .acpi_disable_cmd =3D
--            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NUL=
-L),
--        .pm1a_evt =3D { .space_id =3D as, .bit_width =3D 4 * 8, .address =
-=3D io },
--        .pm1a_cnt =3D { .space_id =3D as, .bit_width =3D 2 * 8,
--                      .address =3D io + 0x04 },
--        .pm_tmr =3D { .space_id =3D as, .bit_width =3D 4 * 8, .address =3D=
- io + 0x08 },
--        .gpe0_blk =3D { .space_id =3D as, .bit_width =3D
--            object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK_LEN, NULL) *=
- 8,
--            .address =3D object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK=
-, NULL)
--        },
--    };
--    *data =3D fadt;
+-    /* Align size to multiple of given size. This reduces the chance
+-     * we need to change size in the future (breaking cross version migrat=
+ion).
+-     */
+-    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
 -}
 -
- static Object *object_resolve_type_unambiguous(const char *typename)
+ static void build_append_pcihp_notify_entry(Aml *method, int slot)
  {
-     bool ambig;
-@@ -195,7 +154,7 @@ static void acpi_get_pm_info(MachineState *machine, Acp=
-iPmInfo *pm)
-     pm->pcihp_io_len =3D 0;
-=20
-     assert(obj);
--    init_common_fadt_data(machine, obj, &pm->fadt);
-+    acpi_init_common_fadt_data(machine, obj, &pm->fadt);
-     if (piix) {
-         /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
-         pm->fadt.rev =3D 1;
-diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
-index 5187653893a8..69dfbf0252f3 100644
---- a/hw/i386/acpi-common.c
-+++ b/hw/i386/acpi-common.c
-@@ -28,6 +28,8 @@
- #include "hw/acpi/aml-build.h"
- #include "hw/acpi/utils.h"
- #include "hw/i386/pc.h"
-+#include "hw/isa/apm.h"
-+#include "hw/rtc/mc146818rtc_regs.h"
- #include "target/i386/cpu.h"
-=20
- #include "acpi-build.h"
-@@ -161,3 +163,44 @@ void acpi_build_facs(GArray *table_data)
-     memcpy(&facs->signature, "FACS", 4);
-     facs->length =3D cpu_to_le32(sizeof(*facs));
- }
-+
-+void acpi_init_common_fadt_data(MachineState *ms, Object *o,
-+                                AcpiFadtData *data)
-+{
-+    uint32_t io =3D object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, N=
-ULL);
-+    AmlAddressSpace as =3D AML_AS_SYSTEM_IO;
-+    AcpiFadtData fadt =3D {
-+        .rev =3D 3,
-+        .flags =3D
-+            (1 << ACPI_FADT_F_WBINVD) |
-+            (1 << ACPI_FADT_F_PROC_C1) |
-+            (1 << ACPI_FADT_F_SLP_BUTTON) |
-+            (1 << ACPI_FADT_F_RTC_S4) |
-+            (1 << ACPI_FADT_F_USE_PLATFORM_CLOCK) |
-+            /* APIC destination mode ("Flat Logical") has an upper limit o=
-f 8
-+             * CPUs for more than 8 CPUs, "Clustered Logical" mode has to =
-be
-+             * used
-+             */
-+            ((ms->smp.max_cpus > 8) ?
-+                        (1 << ACPI_FADT_F_FORCE_APIC_CLUSTER_MODEL) : 0),
-+        .int_model =3D 1 /* Multiple APIC */,
-+        .rtc_century =3D RTC_CENTURY,
-+        .plvl2_lat =3D 0xfff /* C2 state not supported */,
-+        .plvl3_lat =3D 0xfff /* C3 state not supported */,
-+        .smi_cmd =3D ACPI_PORT_SMI_CMD,
-+        .sci_int =3D object_property_get_uint(o, ACPI_PM_PROP_SCI_INT, NUL=
-L),
-+        .acpi_enable_cmd =3D
-+            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL=
-),
-+        .acpi_disable_cmd =3D
-+            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NUL=
-L),
-+        .pm1a_evt =3D { .space_id =3D as, .bit_width =3D 4 * 8, .address =
-=3D io },
-+        .pm1a_cnt =3D { .space_id =3D as, .bit_width =3D 2 * 8,
-+                      .address =3D io + 0x04 },
-+        .pm_tmr =3D { .space_id =3D as, .bit_width =3D 4 * 8, .address =3D=
- io + 0x08 },
-+        .gpe0_blk =3D { .space_id =3D as, .bit_width =3D
-+            object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK_LEN, NULL) *=
- 8,
-+            .address =3D object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK=
-, NULL)
-+        },
-+    };
-+    *data =3D fadt;
-+}
+     Aml *if_ctx;
 --=20
 2.18.4
 
