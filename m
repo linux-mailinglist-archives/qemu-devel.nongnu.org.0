@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38261C567E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:14:20 +0200 (CEST)
-Received: from localhost ([::1]:34034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333B71C566E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:10:27 +0200 (CEST)
+Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxOt-00040a-S0
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38830)
+	id 1jVxL8-0003tC-6H
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:10:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxAG-0001v4-MP
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:12 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23699
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxAK-0001zY-3p
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:16 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57105
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxAE-0001Fo-Lf
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:12 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxAI-0001IP-UV
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588683550;
+ s=mimecast20190719; t=1588683553;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iBJc/5fhV3AkeEoXdifV7nDHIfYCiL4PhzT8qrtsjdQ=;
- b=Ffvheymo9gDtHnl15u8iAzc5VkKsI1yMs5gelXftZ+w51gWZsc/8tC7R0WMrJyGulYYcp5
- 3CnZdCpO7DBlul/rui3JZIuAaUb6p/q3UiYj5GKNW3MccvK4XYRdHjkXq/5oMVwjimOemn
- +kwqo6MM5GDom4gsPvPgF1K9YBSWrAc=
+ bh=YPVPkTBT7gtmChDFl5iKp++k8KNrrXiv+H5bePQX/1k=;
+ b=N4odJrJaeQTWNJYjiua5Uqh2YQQz25Liv3HMRguYE0kTLG39sJ7lEOa98xO3d1tnUolFqh
+ DkMRX2BImFksvaH1RviPqIbJT1Y/zIOmxYDhshretEBFAeRfg9TVYxXDoNllYs1YF9gdU+
+ IAWsnmei2vphcKWu51vcsejUSZFowas=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-byxQWoV6OGSpL3iLnDdU_A-1; Tue, 05 May 2020 08:59:07 -0400
-X-MC-Unique: byxQWoV6OGSpL3iLnDdU_A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-405--3Hf_VyIP9aVqi5HTSP8nQ-1; Tue, 05 May 2020 08:59:09 -0400
+X-MC-Unique: -3Hf_VyIP9aVqi5HTSP8nQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82654107ACF4;
- Tue,  5 May 2020 12:59:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5944835B43;
+ Tue,  5 May 2020 12:59:08 +0000 (UTC)
 Received: from localhost (ovpn-113-206.ams2.redhat.com [10.36.113.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 254662DE9C;
- Tue,  5 May 2020 12:59:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7667E1002387;
+ Tue,  5 May 2020 12:59:08 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 17/24] qcow2: Tweak comment about bitmaps vs. resize
-Date: Tue,  5 May 2020 14:58:19 +0200
-Message-Id: <20200505125826.1001451-18-mreitz@redhat.com>
+Subject: [PULL 18/24] block: Comment cleanups
+Date: Tue,  5 May 2020 14:58:20 +0200
+Message-Id: <20200505125826.1001451-19-mreitz@redhat.com>
 In-Reply-To: <20200505125826.1001451-1-mreitz@redhat.com>
 References: <20200505125826.1001451-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,32 +84,150 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Blake <eblake@redhat.com>
 
-Our comment did not actually match the code.  Rewrite the comment to
-be less sensitive to any future changes to qcow2-bitmap.c that might
-implement scenarios that we currently reject.
+It's been a while since we got rid of the sector-based bdrv_read and
+bdrv_write (commit 2e11d756); let's finish the job on a few remaining
+comments.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200428192648.749066-4-eblake@redhat.com>
+Message-Id: <20200428213807.776655-1-eblake@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/io.c             |  3 ++-
+ block/qcow2-refcount.c |  2 +-
+ block/vvfat.c          | 10 +++++-----
+ tests/qemu-iotests/001 |  2 +-
+ tests/qemu-iotests/052 |  2 +-
+ tests/qemu-iotests/134 |  2 +-
+ tests/qemu-iotests/188 |  2 +-
+ 7 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 3e8b3d022b..ad934109a8 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3999,7 +3999,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriver=
-State *bs, int64_t offset,
-         goto fail;
+diff --git a/block/io.c b/block/io.c
+index a4f9714230..7d30e61edc 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -960,7 +960,7 @@ int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset=
+,
+  * flags are passed through to bdrv_pwrite_zeroes (e.g. BDRV_REQ_MAY_UNMAP=
+,
+  * BDRV_REQ_FUA).
+  *
+- * Returns < 0 on error, 0 on success. For error codes see bdrv_write().
++ * Returns < 0 on error, 0 on success. For error codes see bdrv_pwrite().
+  */
+ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags)
+ {
+@@ -994,6 +994,7 @@ int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags f=
+lags)
+     }
+ }
+=20
++/* return < 0 if error. See bdrv_pwrite() for the return codes */
+ int bdrv_preadv(BdrvChild *child, int64_t offset, QEMUIOVector *qiov)
+ {
+     int ret;
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index d9650b9b6c..0457a6060d 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -2660,7 +2660,7 @@ fail:
+  * - 0 if writing to this offset will not affect the mentioned metadata
+  * - a positive QCow2MetadataOverlap value indicating one overlapping sect=
+ion
+  * - a negative value (-errno) indicating an error while performing a chec=
+k,
+- *   e.g. when bdrv_read failed on QCOW2_OL_INACTIVE_L2
++ *   e.g. when bdrv_pread failed on QCOW2_OL_INACTIVE_L2
+  */
+ int qcow2_check_metadata_overlap(BlockDriverState *bs, int ign, int64_t of=
+fset,
+                                  int64_t size)
+diff --git a/block/vvfat.c b/block/vvfat.c
+index ab800c4887..6d5c090dec 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -2148,7 +2148,7 @@ DLOG(checkpoint());
+      * - get modified FAT
+      * - compare the two FATs (TODO)
+      * - get buffer for marking used clusters
+-     * - recurse direntries from root (using bs->bdrv_read to make
++     * - recurse direntries from root (using bs->bdrv_pread to make
+      *    sure to get the new data)
+      *   - check that the FAT agrees with the size
+      *   - count the number of clusters occupied by this directory and
+@@ -2913,9 +2913,9 @@ static int handle_deletes(BDRVVVFATState* s)
+ /*
+  * synchronize mapping with new state:
+  *
+- * - copy FAT (with bdrv_read)
++ * - copy FAT (with bdrv_pread)
+  * - mark all filenames corresponding to mappings as deleted
+- * - recurse direntries from root (using bs->bdrv_read)
++ * - recurse direntries from root (using bs->bdrv_pread)
+  * - delete files corresponding to mappings marked as deleted
+  */
+ static int do_commit(BDRVVVFATState* s)
+@@ -2935,10 +2935,10 @@ static int do_commit(BDRVVVFATState* s)
+         return ret;
      }
 =20
--    /* cannot proceed if image has bitmaps */
-+    /* See qcow2-bitmap.c for which bitmap scenarios prevent a resize. */
-     if (qcow2_truncate_bitmaps_check(bs, errp)) {
-         ret =3D -ENOTSUP;
-         goto fail;
+-    /* copy FAT (with bdrv_read) */
++    /* copy FAT (with bdrv_pread) */
+     memcpy(s->fat.pointer, s->fat2, 0x200 * s->sectors_per_fat);
+=20
+-    /* recurse direntries from root (using bs->bdrv_read) */
++    /* recurse direntries from root (using bs->bdrv_pread) */
+     ret =3D commit_direntries(s, 0, -1);
+     if (ret) {
+         fprintf(stderr, "Fatal: error while committing (%d)\n", ret);
+diff --git a/tests/qemu-iotests/001 b/tests/qemu-iotests/001
+index d87a535c33..696726e45f 100755
+--- a/tests/qemu-iotests/001
++++ b/tests/qemu-iotests/001
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env bash
+ #
+-# Test simple read/write using plain bdrv_read/bdrv_write
++# Test simple read/write using plain bdrv_pread/bdrv_pwrite
+ #
+ # Copyright (C) 2009 Red Hat, Inc.
+ #
+diff --git a/tests/qemu-iotests/052 b/tests/qemu-iotests/052
+index 45a140910d..8d5c10601f 100755
+--- a/tests/qemu-iotests/052
++++ b/tests/qemu-iotests/052
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env bash
+ #
+-# Test bdrv_read/bdrv_write using BDRV_O_SNAPSHOT
++# Test bdrv_pread/bdrv_pwrite using BDRV_O_SNAPSHOT
+ #
+ # Copyright (C) 2013 Red Hat, Inc.
+ #
+diff --git a/tests/qemu-iotests/134 b/tests/qemu-iotests/134
+index 5f0fb86211..5162d21662 100755
+--- a/tests/qemu-iotests/134
++++ b/tests/qemu-iotests/134
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env bash
+ #
+-# Test encrypted read/write using plain bdrv_read/bdrv_write
++# Test encrypted read/write using plain bdrv_pread/bdrv_pwrite
+ #
+ # Copyright (C) 2015 Red Hat, Inc.
+ #
+diff --git a/tests/qemu-iotests/188 b/tests/qemu-iotests/188
+index afca44df54..09b9b6083a 100755
+--- a/tests/qemu-iotests/188
++++ b/tests/qemu-iotests/188
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env bash
+ #
+-# Test encrypted read/write using plain bdrv_read/bdrv_write
++# Test encrypted read/write using plain bdrv_pread/bdrv_pwrite
+ #
+ # Copyright (C) 2017 Red Hat, Inc.
+ #
 --=20
 2.26.2
 
