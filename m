@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719021C567B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:13:37 +0200 (CEST)
-Received: from localhost ([::1]:57796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BDD1C568F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:17:24 +0200 (CEST)
+Received: from localhost ([::1]:45082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxOC-00026R-FR
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:13:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
+	id 1jVxRr-0000NV-QD
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:17:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jVxHm-0006oL-H5
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:06:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37413
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVxQC-00071N-4n
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:15:43 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:21940
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jVxHl-0007Lr-3f
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:06:58 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVxQ9-0007sb-TZ
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:15:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588684016;
+ s=mimecast20190719; t=1588684536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ERPKtdOoduG++tNFYyETNxyJ1etzc0GvGsxVvXUNVhM=;
- b=OpqgBewBhSuyN3CBfyNq858rGsG/cDBc6j42gSzWXPStpqf0wkr6K0GQQzhNgVXseeVWJ6
- 5bJPdp+xTFoShRorlVk/FfZAR6+OZHCfNpdOESni78RCdd+DDGL2VFi2GLxvX2DMmn/e4b
- bCFAG1OMREzjyqVZHwAsQumdQeVom1o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-qAeEPJNpOIi4vG77sG81IA-1; Tue, 05 May 2020 09:06:48 -0400
-X-MC-Unique: qAeEPJNpOIi4vG77sG81IA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 884E980183C;
- Tue,  5 May 2020 13:06:46 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB4662E02D;
- Tue,  5 May 2020 13:06:39 +0000 (UTC)
-Date: Tue, 5 May 2020 15:06:37 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jon Doron <arilou@gmail.com>
-Subject: Re: [PATCH v4 5/6] i386: Hyper-V VMBus ACPI DSDT entry
-Message-ID: <20200505150637.7131e79b@redhat.com>
-In-Reply-To: <20200424123444.3481728-6-arilou@gmail.com>
-References: <20200424123444.3481728-1-arilou@gmail.com>
- <20200424123444.3481728-6-arilou@gmail.com>
+ bh=6A9oexD7VCkOrspxBLYBg9s842fKQg8U+kl1G6xA+zs=;
+ b=h0/y3czpu0qsLRZIKtYzgi7lAhzjawGIf3jD1fE+Y1hsLXMvF31w5PS+XlVr+NaoPbiT2r
+ fn/tYzAuuiIxW+QXVGqFCBQ5pG8QqC+KZ2gz828s10d71pnK8CZssEX6qsPNKpOE4JHmcL
+ Bycm9L89Oymw2JfB9NFy+YAcih9hoWA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-27Jk5iOHN7Wa8HL3K-5C1w-1; Tue, 05 May 2020 09:15:22 -0400
+X-MC-Unique: 27Jk5iOHN7Wa8HL3K-5C1w-1
+Received: by mail-wr1-f71.google.com with SMTP id s11so1181598wru.6
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:15:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6A9oexD7VCkOrspxBLYBg9s842fKQg8U+kl1G6xA+zs=;
+ b=m4nghE7dgglEpuIWF8BEC3TDIQGouQQj4vXVcwxM0pIaN3wmHPo4M+iY11w9b90AuM
+ b/djA5b2352CgGXvNN3lMwdOtw/3DA5L+WFCSnqZU1m3eFTFRIsle7f5ztx9rAI/0vTp
+ PMzAt7zCs3cUoPgW2PzrF0W0JOoQWbJlLqA/tlYVdGL3pnFSzQYQNkxpfVKF459Ljtme
+ bMIBmIp9awyOXaoDbnwqsbQYOCrDuIu2YZPAreAlttvLgWdUjBsyTBlbyTv9lRoB+nr8
+ CymXvoq7XWS1l9VVJk21627mQPVzjHUf9ridu/A+XDu+fxYVbFw4rNytvUoCMtnHKgAa
+ gtUw==
+X-Gm-Message-State: AGi0PubX5Uz83zlecnfamxvbXnMxBJPMpXNsBoioyxmIP3AbBYYWEd+/
+ TUE8yOELnqCneFyruslIa2KCN3w6dL9WFKdKDrL7lkVyQP8yfumRwUKQ55/J6JOlWzq8LM1r3r5
+ EKieJnwy2dd7T8g0=
+X-Received: by 2002:a05:600c:4112:: with SMTP id
+ j18mr3229004wmi.69.1588684520997; 
+ Tue, 05 May 2020 06:15:20 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLRUT7xEgdOK6a6FdbunAaYVsKo4mnoJ/L6dEhasNj5DSJ68nfKfLboDWC/9I2e/ytDOewX4Q==
+X-Received: by 2002:a05:600c:4112:: with SMTP id
+ j18mr3228966wmi.69.1588684520730; 
+ Tue, 05 May 2020 06:15:20 -0700 (PDT)
+Received: from [192.168.1.38] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id k6sm4047100wma.19.2020.05.05.06.15.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 May 2020 06:15:20 -0700 (PDT)
+Subject: Re: [PATCH 0/4] Add support for SafeStack
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>, qemu-devel@nongnu.org
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <51f28cf2-0f34-508f-96f8-02c02b3c8a85@redhat.com>
+Date: Tue, 5 May 2020 15:15:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,164 +99,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mail@maciej.szmigiero.name, eyakovlev@virtuozzo.com, ehabkost@redhat.com,
- rvkagan@gmail.com, qemu-devel@nongnu.org, liran.alon@oracle.com,
- Roman Kagan <rkagan@virtuozzo.com>, pbonzini@redhat.com, vkuznets@redhat.com,
- "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 24 Apr 2020 15:34:43 +0300
-Jon Doron <arilou@gmail.com> wrote:
++Alex & Daniel who keep track on CI stuff.
 
-> Guest OS uses ACPI to discover VMBus presence.  Add a corresponding
-> entry to DSDT in case VMBus has been enabled.
+On 4/29/20 9:44 PM, Daniele Buono wrote:
+> LLVM supports SafeStack instrumentation to protect against stack buffer
+> overflows, since version 3.7
 > 
-> Experimentally Windows guests were found to require this entry to
-> include two IRQ resources. They seem to never be used but they still
-> have to be there.
+>  From https://clang.llvm.org/docs/SafeStack.html:
+> "It works by separating the program stack into two distinct regions: the
+> safe stack and the unsafe stack. The safe stack stores return addresses,
+> register spills, and local variables that are always accessed in a safe
+> way, while the unsafe stack stores everything else. This separation
+> ensures that buffer overflows on the unsafe stack cannot be used to
+> overwrite anything on the safe stack."
 > 
-> Make IRQ numbers user-configurable via corresponding properties; use 7
-> and 13 by default.
-well, it seems that at least linux guest driver uses one IRQ,
-abeit not from ACPI descriptior
-
-perhaps it's what hyperv host puts into _CRS.
-Could you dump ACPI tables and check how hyperv describes vmbus in acpi?
-
-
-also what if vmbus irq collides with an irq that is already taken,
-it would be better to initialize and consume irqs it climes to use
-so in case if conflict one would get a error.
-
-> Signed-off-by: Evgeny Yakovlev <eyakovlev@virtuozzo.com>
-> Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-> Signed-off-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-> Signed-off-by: Jon Doron <arilou@gmail.com>
-> ---
->  hw/hyperv/vmbus.c                |  7 ++++++
->  hw/i386/acpi-build.c             | 43 ++++++++++++++++++++++++++++++++
->  include/hw/hyperv/vmbus-bridge.h |  3 +++
->  3 files changed, 53 insertions(+)
+> Unfortunately, the use of two stack regions does not cope well with
+> QEMU's coroutines. The second stack region is not properly set up with
+> both ucontext and sigaltstack, so multiple coroutines end up sharing the
+> same memory area for the unsafe stack, causing undefined behaviors at
+> runtime (and most iochecks to fail).
 > 
-> diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-> index 1f5873ab60..0df7afe0ca 100644
-> --- a/hw/hyperv/vmbus.c
-> +++ b/hw/hyperv/vmbus.c
-> @@ -2641,6 +2641,12 @@ static const VMStateDescription vmstate_vmbus_bridge = {
->      },
->  };
->  
-> +static Property vmbus_bridge_props[] = {
-> +    DEFINE_PROP_UINT8("irq0", VMBusBridge, irq0, 7),
-> +    DEFINE_PROP_UINT8("irq1", VMBusBridge, irq1, 13),
-> +    DEFINE_PROP_END_OF_LIST()
-> +};
-> +
->  static void vmbus_bridge_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *k = DEVICE_CLASS(klass);
-> @@ -2651,6 +2657,7 @@ static void vmbus_bridge_class_init(ObjectClass *klass, void *data)
->      sk->explicit_ofw_unit_address = vmbus_bridge_ofw_unit_address;
->      set_bit(DEVICE_CATEGORY_BRIDGE, k->categories);
->      k->vmsd = &vmstate_vmbus_bridge;
-> +    device_class_set_props(k, vmbus_bridge_props);
->      /* override SysBusDevice's default */
->      k->user_creatable = true;
->  }
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 2a7e55bae7..d235074fb8 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -50,6 +50,7 @@
->  #include "hw/mem/nvdimm.h"
->  #include "sysemu/numa.h"
->  #include "sysemu/reset.h"
-> +#include "hw/hyperv/vmbus-bridge.h"
->  
->  /* Supported chipsets: */
->  #include "hw/southbridge/piix.h"
-> @@ -1270,9 +1271,47 @@ static Aml *build_com_device_aml(uint8_t uid)
->      return dev;
->  }
->  
-> +static Aml *build_vmbus_device_aml(VMBusBridge *vmbus_bridge)
-> +{
-> +    Aml *dev;
-> +    Aml *method;
-> +    Aml *crs;
-> +
-> +    dev = aml_device("VMBS");
-> +    aml_append(dev, aml_name_decl("STA", aml_int(0xF)));
-> +    aml_append(dev, aml_name_decl("_HID", aml_string("VMBus")));
-> +    aml_append(dev, aml_name_decl("_UID", aml_int(0x0)));
-> +    aml_append(dev, aml_name_decl("_DDN", aml_string("VMBUS")));
-> +
-> +    method = aml_method("_DIS", 0, AML_NOTSERIALIZED);
-> +    aml_append(method, aml_store(aml_and(aml_name("STA"), aml_int(0xD), NULL),
-> +                                     aml_name("STA")));
-> +    aml_append(dev, method);
-> +
-> +    method = aml_method("_PS0", 0, AML_NOTSERIALIZED);
-> +    aml_append(method, aml_store(aml_or(aml_name("STA"), aml_int(0xF), NULL),
-> +                                     aml_name("STA")));
-> +    aml_append(dev, method);
-> +
-> +    method = aml_method("_STA", 0, AML_NOTSERIALIZED);
-> +    aml_append(method, aml_return(aml_name("STA")));
-> +    aml_append(dev, method);
+> This patch series fixes the implementation of the ucontext backend and
+> make sure that sigaltstack is never used if the compiler is applying
+> the SafeStack instrumentation. It also adds a configure flag to enable
+> SafeStack, and enables iotests when SafeStack is used.
+> 
+> This is an RFC mainly because of the low-level use of the SafeStack
+> runtime.
+> When running swapcontext(), we have to manually set the unsafe stack
+> pointer to the new area allocated for the coroutine. LLVM does not allow
+> this by using builtin, so we have to use implementation details that may
+> change in the future.
+> This patch has been tested briefly ( make check on an x86 system ) with
+> clang v3.9, v4.0, v5.0, v6.0
+> Heavier testing, with make check-acceptance has been performed with
+> clang v7.0
 
-do you reaaly need all that _STA/_DIS/_PS0,
-does it work without thouse methods?
+I noticed building using SafeStack is slower, and running with it is 
+even sloooower. It makes sense to have this integrated if we use it 
+regularly. Do you have plan for this? Using public CI doesn't seem 
+reasonable.
 
-> +
-> +    aml_append(dev, aml_name_decl("_PS3", aml_int(0x0)));
-should be method
-
-> +
-> +    crs = aml_resource_template();
-> +    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq0));
-> +    /* FIXME: newer HyperV gets by with only one IRQ */
-then why are you adding the second IRQ, does it work with 1 IRQ?
-
-> +    aml_append(crs, aml_irq_no_flags(vmbus_bridge->irq1));
-> +    aml_append(dev, aml_name_decl("_CRS", crs));
-> +
-> +    return dev;
-> +}
-> +
->  static void build_isa_devices_aml(Aml *table)
->  {
->      ISADevice *fdc = pc_find_fdc0();
-> +    VMBusBridge *vmbus_bridge = vmbus_bridge_find();
->      bool ambiguous;
->  
->      Aml *scope = aml_scope("_SB.PCI0.ISA");
-> @@ -1296,6 +1335,10 @@ static void build_isa_devices_aml(Aml *table)
->          build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
->      }
->  
-> +    if (vmbus_bridge) {
-> +        aml_append(scope, build_vmbus_device_aml(vmbus_bridge));
-> +    }
-it seems that bridge is sysbus device, why it's put under ISA bus?
-
->      aml_append(table, scope);
->  }
->  
-> diff --git a/include/hw/hyperv/vmbus-bridge.h b/include/hw/hyperv/vmbus-bridge.h
-> index 9cc8f780de..c0a06d832c 100644
-> --- a/include/hw/hyperv/vmbus-bridge.h
-> +++ b/include/hw/hyperv/vmbus-bridge.h
-> @@ -19,6 +19,9 @@ typedef struct VMBus VMBus;
->  typedef struct VMBusBridge {
->      SysBusDevice parent_obj;
->  
-> +    uint8_t irq0;
-> +    uint8_t irq1;
-> +
->      VMBus *bus;
->  } VMBusBridge;
->  
+> 
+> Daniele Buono (4):
+>    coroutine: support SafeStack in ucontext backend
+>    coroutine: Add check for SafeStack in sigalstack
+>    configure: add flag to enable SafeStack
+>    check-block: Enable iotests with SafeStack
+> 
+>   configure                    | 29 +++++++++++++++++++++++++++++
+>   include/qemu/coroutine_int.h |  6 ++++++
+>   tests/check-block.sh         | 12 +++++++++++-
+>   util/coroutine-sigaltstack.c |  4 ++++
+>   util/coroutine-ucontext.c    | 25 +++++++++++++++++++++++++
+>   5 files changed, 75 insertions(+), 1 deletion(-)
+> 
 
 
