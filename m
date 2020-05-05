@@ -2,70 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10F61C569E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:21:21 +0200 (CEST)
-Received: from localhost ([::1]:60934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E61301C5673
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:11:41 +0200 (CEST)
+Received: from localhost ([::1]:49472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxVg-0007Md-2e
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39536)
+	id 1jVxMK-0006fO-RG
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVxD9-00075k-73
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:02:12 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35488)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVxD7-0003qG-W1
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:02:10 -0400
-Received: by mail-oi1-x244.google.com with SMTP id o7so1854124oif.2
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nQkzQ5UhlJxsB/jDLaQrvHMImlRiNxKG0mTa0xROE/o=;
- b=e1YtUJcZdwnM+4DPRSqo9utI4Z/0N0Gwaq95cAADCTWklZ0/oWHeFL3tU6S5HV/KUY
- SACucR0y7d2kODYck9bRZ2w3n0tc5lPPW1pH3Yachwe/y9RT6aF4TrRT4YRNOpIiNn55
- NluL6Ye1iUJiobTb9eTEECK7sGUlWsvMyHllaW2JyOaAvTQhzqzU8y347mhbpqj2STS7
- 873CNEDf2tTim0HCPqJP1dTPoM0zMGi55vI66V8ZkL18wCX5taGaA2WzngIqlLVNlr+M
- Dho+Wqnu2l5I/WmKnHt3aF/3FYOnyr7upl/LR0KOerRvRJeDhWCBSJ7MaTWDgC5jyR4J
- P5mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nQkzQ5UhlJxsB/jDLaQrvHMImlRiNxKG0mTa0xROE/o=;
- b=LEZ92XWn+DZf033TWdwYFZ/1NB1ztd2MXO6bdKPpiaRtASSTif+UlNvudjq/gZjGSm
- re2oH2V4ExLS4W9CRwyDoQrElR4DFquK4w/ZyrCDzExXQ2AI5xUy6iI9/F2RIEksxyic
- uqmrjSiTnwg6DNnhcLx5+vJbwFBctXOFalCSlYP83xRzFiO5qO1wDwx6LqLNsbxrQLgr
- WmnmeYi7sntWMnejRnNV6dv4pm4sOz26u1tu6GBbzO1FNEkhiL9sOnD+YsGA5HeLvb3p
- u0ezE2q509PRmQmG2LK/ZE1NAGaH+8m++iwQFAkxsQCCOUWGvozpjNNICVb0uR0GQDYX
- M8yA==
-X-Gm-Message-State: AGi0Pub/9bjr4onhU1a4KBX5FXvozQFB/lC7GIddZZmAihTRE3ZndGzb
- gVvvKGOHUvmHN7a+fx/GPD85zKVF+6zYX/YNQjkNdw==
-X-Google-Smtp-Source: APiQypJMBBxK4v/IHO4VTx7Iezmk3+/2Lz+4rIakCrY1ZFsu2lc06c0GIRWkLh4+MtC8u0qQ/5kN7MFqtgJTNSktWzw=
-X-Received: by 2002:aca:4a45:: with SMTP id x66mr2154121oia.48.1588683728500; 
- Tue, 05 May 2020 06:02:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jVxDe-0007mo-En
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:02:42 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59473
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jVxDd-0004Vl-MG
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:02:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588683761;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=GpRN0dizxwK7izBL373H9uEyBrDcim4MnjQkg2bOO9g=;
+ b=PpilxJwx6eDf5zCIgGw5csi5FrsjfB52E8Jd9O0EeprcpPA+0THgCUH0vtwPep7/MSTGNr
+ bfTUJF/Or8ERTCPhHloKaNLTyp7WQ665H7ncJ/ayXqI7DEWzPngSciY2BK12vcWSMdBHc4
+ DDPB+79e/pp9JF/o8BemIr+rQrFjimM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-82-D4z-IDFxNOSjmYxAAvOZ5g-1; Tue, 05 May 2020 09:02:37 -0400
+X-MC-Unique: D4z-IDFxNOSjmYxAAvOZ5g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DDC18730EC;
+ Tue,  5 May 2020 13:02:36 +0000 (UTC)
+Received: from [10.36.114.14] (ovpn-114-14.ams2.redhat.com [10.36.114.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F3D162482;
+ Tue,  5 May 2020 13:02:32 +0000 (UTC)
+Subject: Re: [PATCH] s390x: pv: Fix KVM_PV_PREP_RESET command wrapper name
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20200505124159.24099-1-frankja@linux.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: Red Hat GmbH
+Message-ID: <07ae8741-1577-09ee-5f07-4473bfee3027@redhat.com>
+Date: Tue, 5 May 2020 15:02:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200504151438.362702-1-stefanha@redhat.com>
-In-Reply-To: <20200504151438.362702-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 May 2020 14:01:57 +0100
-Message-ID: <CAFEAcA_hFCiKNGGhBsRc4Gjd6awKb+MFKep6q9ue2iJgguX+_g@mail.gmail.com>
-Subject: Re: [PULL v2 0/4] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200505124159.24099-1-frankja@linux.ibm.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,48 +124,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Peter Lieven <pl@kamp.de>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 May 2020 at 16:15, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The following changes since commit 9af638cc1f665712522608c5d6b8c03d8fa67666:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20200504' into staging (2020-05-04 13:37:17 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stefanha/qemu.git tags/block-pull-request
->
-> for you to fetch changes up to 08b689aa6b521964b8275dd7a2564aefa5d68129:
->
->   lockable: Replace locks with lock guard macros (2020-05-04 16:07:43 +0100)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> v2:
->  * Fixed stray slirp submodule change [Peter]
->
-> Fixes for the lock guard macros, code conversions to the lock guard macros, and
-> support for selecting fuzzer targets with argv[0].
->
+On 05.05.20 14:41, Janosch Frank wrote:
+> s390_pv_perf_clear_reset() is not a very helpful name since that
+> function needs to be called for a normal and a clear reset via
+> diag308.
+> 
+> Let's instead name it s390_pv_prep_reset() which reflects the purpose
+> of the function a bit better.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  hw/s390x/pv.c              | 2 +-
+>  hw/s390x/s390-virtio-ccw.c | 2 +-
+>  include/hw/s390x/pv.h      | 4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
+> index f11868e865..ab3a2482aa 100644
+> --- a/hw/s390x/pv.c
+> +++ b/hw/s390x/pv.c
+> @@ -88,7 +88,7 @@ int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak)
+>      return s390_pv_cmd(KVM_PV_UNPACK, &args);
+>  }
+>  
+> -void s390_pv_perf_clear_reset(void)
+> +void s390_pv_prep_reset(void)
+>  {
+>      s390_pv_cmd_exit(KVM_PV_PREP_RESET, NULL);
+>  }
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 45292fb5a8..f2c0357aed 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -401,7 +401,7 @@ static void s390_pv_prepare_reset(S390CcwMachineState *ms)
+>          s390_cpu_set_state(S390_CPU_STATE_STOPPED, S390_CPU(cs));
+>      }
+>      s390_pv_unshare();
+> -    s390_pv_perf_clear_reset();
+> +    s390_pv_prep_reset();
+>  }
+>  
+>  static void s390_machine_reset(MachineState *machine)
+> diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
+> index 522ca6a04e..aee758bc2d 100644
+> --- a/include/hw/s390x/pv.h
+> +++ b/include/hw/s390x/pv.h
+> @@ -39,7 +39,7 @@ int s390_pv_vm_enable(void);
+>  void s390_pv_vm_disable(void);
+>  int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
+>  int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak);
+> -void s390_pv_perf_clear_reset(void);
+> +void s390_pv_prep_reset(void);
+>  int s390_pv_verify(void);
+>  void s390_pv_unshare(void);
+>  void s390_pv_inject_reset_error(CPUState *cs);
+> @@ -49,7 +49,7 @@ static inline int s390_pv_vm_enable(void) { return 0; }
+>  static inline void s390_pv_vm_disable(void) {}
+>  static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t length) { return 0; }
+>  static inline int s390_pv_unpack(uint64_t addr, uint64_t size, uint64_t tweak) { return 0; }
+> -static inline void s390_pv_perf_clear_reset(void) {}
+> +static inline void s390_pv_prep_reset(void) {}
+>  static inline int s390_pv_verify(void) { return 0; }
+>  static inline void s390_pv_unshare(void) {}
+>  static inline void s390_pv_inject_reset_error(CPUState *cs) {};
+> 
 
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-Applied, thanks.
+-- 
+Thanks,
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+David / dhildenb
 
--- PMM
 
