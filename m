@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5BC1C5F3C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 19:49:38 +0200 (CEST)
-Received: from localhost ([::1]:39200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6001C5F6E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 19:57:38 +0200 (CEST)
+Received: from localhost ([::1]:41788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jW1hI-0003xZ-0R
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 13:49:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44128)
+	id 1jW1p3-0000Cx-L7
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 13:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jW1Xg-0006yz-Uv; Tue, 05 May 2020 13:39:42 -0400
-Received: from fanzine.igalia.com ([178.60.130.6]:39077)
+ id 1jW1Xg-0006yM-GH; Tue, 05 May 2020 13:39:40 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:39072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1jW1Xd-0008R4-Qb; Tue, 05 May 2020 13:39:40 -0400
+ id 1jW1Xd-0008Qy-Nq; Tue, 05 May 2020 13:39:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
- bh=mXRRKtlDJDaiCh/vFhiNMUPmvJqfhZk4CUudHo/ocsQ=; 
- b=gBGMU0KwvWzSqvdSSr+jnXS9SjY286RRTBkITqokZj8AKBAXKjsx2NvdiRIry3AT4gOWPYg7/bDspvd5utk7Dlv3pxFGSTXDWlZ/Z23rHhr7FltSlG10Nib70rkIisUP0tp43SOrr12VHLeJM2za7V8OJS3FuDTXP+2LoydNnTzNQCbrwdQ194m4oqdeh0+hTVfKJaB1ridHL81GHKITLDO3mJJ4AWDULq5gi7TP6V+m53YfBngiKDn7N4Gbfb3XShT0NMEMXFPEYYTQMYxbnuFmZlgKk2x077kTxEqa1cqfd5+jnqd5eY84e9IfudwWH4QhMmyu5vWVGbWMxcrqEA==;
+ bh=PRDeW6USMha4hBFCk0g3l5K02gXeEE0rr9G5uzfKiSA=; 
+ b=Q5r6AqJUW4JnOaCZC6YSqKofhZ30Ra9fxxiMZATNI8iE5WakGSxPZtGwRVL6puyh8JnALzAMx5MURccwOb97L13KAsgD5pFZRDckazknpWwq5NVmW7u0rP4bjJ9RIW8xzZ8nt3+5HB40ik8i+K6QwLkCR60FCUGOBYnDevdpbMgzeSOivK/zgMne6JXiNURKK9UKlbJr5XYnPfbChPwg9u6bZ9UmGI4LUBp9ImXzfCPfS7rjkPHDwT5Bv3jrHM91iLToKqaQbscOmtUMD1UW7IW1TGEW36t458ovW9AEnF/nnue53H1KhPwQGNQcORKiBOv3mrEJcjZR+mSRcVfQOQ==;
 Received: from static.160.43.0.81.ibercom.com ([81.0.43.160]
  helo=perseus.local) by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1jW1Ws-00025c-Hj; Tue, 05 May 2020 19:38:50 +0200
+ id 1jW1Ws-00025d-HD; Tue, 05 May 2020 19:38:50 +0200
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1jW1Wd-00044s-DG; Tue, 05 May 2020 19:38:35 +0200
+ id 1jW1Wd-00044v-EK; Tue, 05 May 2020 19:38:35 +0200
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 29/31] qcow2: Assert that expand_zero_clusters_in_l1() does
- not support subclusters
-Date: Tue,  5 May 2020 19:38:29 +0200
-Message-Id: <7254228f69935c1802b2a16b2e77121fa6a46d5a.1588699789.git.berto@igalia.com>
+Subject: [PATCH v5 30/31] qcow2: Add subcluster support to qcow2_measure()
+Date: Tue,  5 May 2020 19:38:30 +0200
+Message-Id: <04394b984ec09146373ad6a23996423bcfffdb19.1588699789.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1588699789.git.berto@igalia.com>
 References: <cover.1588699789.git.berto@igalia.com>
@@ -69,84 +68,86 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function is only used by qcow2_expand_zero_clusters() to
-downgrade a qcow2 image to a previous version. It is however not
-possible to downgrade an image with extended L2 entries because older
-versions of qcow2 do not have this feature.
+Extended L2 entries are bigger than normal L2 entries so this has an
+impact on the amount of metadata needed for a qcow2 file.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-cluster.c      | 8 +++++++-
- tests/qemu-iotests/061     | 6 ++++++
- tests/qemu-iotests/061.out | 5 +++++
- 3 files changed, 18 insertions(+), 1 deletion(-)
+ block/qcow2.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index d0cf9d52e6..50da38800e 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -2113,6 +2113,9 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-     int ret;
-     int i, j;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 18c8e3f52a..31d72f1297 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3173,28 +3173,31 @@ int64_t qcow2_refcount_metadata_size(int64_t clusters, size_t cluster_size,
+  * @total_size: virtual disk size in bytes
+  * @cluster_size: cluster size in bytes
+  * @refcount_order: refcount bits power-of-2 exponent
++ * @extended_l2: true if the image has extended L2 entries
+  *
+  * Returns: Total number of bytes required for the fully allocated image
+  * (including metadata).
+  */
+ static int64_t qcow2_calc_prealloc_size(int64_t total_size,
+                                         size_t cluster_size,
+-                                        int refcount_order)
++                                        int refcount_order,
++                                        bool extended_l2)
+ {
+     int64_t meta_size = 0;
+     uint64_t nl1e, nl2e;
+     int64_t aligned_total_size = ROUND_UP(total_size, cluster_size);
++    size_t l2e_size = extended_l2 ? L2E_SIZE_EXTENDED : L2E_SIZE_NORMAL;
  
-+    /* qcow2_downgrade() is not allowed in images with subclusters */
-+    assert(!has_subclusters(s));
-+
-     slice_size2 = s->l2_slice_size * l2_entry_size(s);
-     n_slices = s->cluster_size / slice_size2;
+     /* header: 1 cluster */
+     meta_size += cluster_size;
  
-@@ -2181,7 +2184,8 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-                 if (cluster_type == QCOW2_CLUSTER_ZERO_PLAIN) {
-                     if (!bs->backing) {
-                         /* not backed; therefore we can simply deallocate the
--                         * cluster */
-+                         * cluster. No need to call set_l2_bitmap(), this
-+                         * function doesn't support images with subclusters. */
-                         set_l2_entry(s, l2_slice, j, 0);
-                         l2_dirty = true;
-                         continue;
-@@ -2252,6 +2256,8 @@ static int expand_zero_clusters_in_l1(BlockDriverState *bs, uint64_t *l1_table,
-                 } else {
-                     set_l2_entry(s, l2_slice, j, offset);
-                 }
-+                /* No need to call set_l2_bitmap() after set_l2_entry() because
-+                 * this function doesn't support images with subclusters. */
-                 l2_dirty = true;
-             }
+     /* total size of L2 tables */
+     nl2e = aligned_total_size / cluster_size;
+-    nl2e = ROUND_UP(nl2e, cluster_size / sizeof(uint64_t));
+-    meta_size += nl2e * sizeof(uint64_t);
++    nl2e = ROUND_UP(nl2e, cluster_size / l2e_size);
++    meta_size += nl2e * l2e_size;
  
-diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
-index ce285d3084..f746d7ece3 100755
---- a/tests/qemu-iotests/061
-+++ b/tests/qemu-iotests/061
-@@ -268,6 +268,12 @@ $QEMU_IMG amend -o "compat=0.10" "$TEST_IMG"
- _img_info --format-specific
- _check_test_img
+     /* total size of L1 tables */
+-    nl1e = nl2e * sizeof(uint64_t) / cluster_size;
++    nl1e = nl2e * l2e_size / cluster_size;
+     nl1e = ROUND_UP(nl1e, cluster_size / sizeof(uint64_t));
+     meta_size += nl1e * sizeof(uint64_t);
  
-+echo
-+echo "=== Testing version downgrade with extended L2 entries ==="
-+echo
-+_make_test_img -o "compat=1.1,extended_l2=on" 64M
-+$QEMU_IMG amend -o "compat=0.10" "$TEST_IMG"
-+
- echo
- echo "=== Try changing the external data file ==="
- echo
-diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
-index b7b2533e0a..4c87bb1a3f 100644
---- a/tests/qemu-iotests/061.out
-+++ b/tests/qemu-iotests/061.out
-@@ -499,6 +499,11 @@ Format specific information:
-     extended l2: false
- No errors were found on the image.
+@@ -4765,6 +4768,7 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
+     bool has_backing_file;
+     bool has_luks;
+     bool extended_l2;
++    size_t l2e_size;
  
-+=== Testing version downgrade with extended L2 entries ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+qemu-img: Cannot downgrade an image with incompatible features 0x10 set
-+
- === Try changing the external data file ===
+     /* Parse image creation options */
+     extended_l2 = qemu_opt_get_bool_del(opts, BLOCK_OPT_EXTL2, false);
+@@ -4833,8 +4837,9 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
+     virtual_size = ROUND_UP(virtual_size, cluster_size);
  
- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+     /* Check that virtual disk size is valid */
++    l2e_size = extended_l2 ? L2E_SIZE_EXTENDED : L2E_SIZE_NORMAL;
+     l2_tables = DIV_ROUND_UP(virtual_size / cluster_size,
+-                             cluster_size / sizeof(uint64_t));
++                             cluster_size / l2e_size);
+     if (l2_tables * sizeof(uint64_t) > QCOW_MAX_L1_SIZE) {
+         error_setg(&local_err, "The image size is too large "
+                                "(try using a larger cluster size)");
+@@ -4897,9 +4902,9 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *opts, BlockDriverState *in_bs,
+     }
+ 
+     info = g_new(BlockMeasureInfo, 1);
+-    info->fully_allocated =
++    info->fully_allocated = luks_payload_size +
+         qcow2_calc_prealloc_size(virtual_size, cluster_size,
+-                                 ctz32(refcount_bits)) + luks_payload_size;
++                                 ctz32(refcount_bits), extended_l2);
+ 
+     /* Remove data clusters that are not required.  This overestimates the
+      * required size because metadata needed for the fully allocated file is
 -- 
 2.20.1
 
