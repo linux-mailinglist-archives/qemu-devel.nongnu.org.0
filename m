@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211B81C54A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 13:44:39 +0200 (CEST)
-Received: from localhost ([::1]:42016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15D71C54B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 13:48:52 +0200 (CEST)
+Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVw06-0005Ir-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 07:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48158)
+	id 1jVw4B-0000N4-M0
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 07:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVvuz-0006DW-Gf
- for qemu-devel@nongnu.org; Tue, 05 May 2020 07:39:21 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:29585
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVvv1-0006HW-3k
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 07:39:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55679
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVvux-0003aT-Vn
- for qemu-devel@nongnu.org; Tue, 05 May 2020 07:39:21 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVvv0-0003ef-2d
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 07:39:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588678759;
+ s=mimecast20190719; t=1588678761;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gM9CYxAKvVg1hN4bItv68KBJKyF6SrKF+mESMvEQDn8=;
- b=ZJKBza6b7imYtyvPlu3WtpVI3oqB7LvyhDeBjluNTCi9PMFmq6Af76ei1KOxGMWbsRyKRi
- 0f5HC47Ezw2DxdgG/dV6Afk+eo++TGARLSbMM4eAZWuq8wI31Zw6rMlYPSHxuVaYDyUC+A
- y0tXTY0fGvdFa6bMckRVxtn7eywIJn4=
+ bh=mfBDKGERAI6jmPbQ+Tp2h3SR1VA3rZ4xdDzafq+niuk=;
+ b=iZ0zh6IW+cMDKosAerEZLsEusYvJ09g40lJm+SYJfVl0MHTrFqVlCySYviZUO1wjn5JLSv
+ +RKussMXyQO78expHLXIoGsTMpU0fQWvbDAe5maecS4PTd/bYxUe8u1U0P5ad9OynTdB9G
+ vtRISSZ42xDOO9Uhdv6NYDC/80MEScA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-ddYGmjF9Nu2MOoyU8Jwrmw-1; Tue, 05 May 2020 07:39:17 -0400
-X-MC-Unique: ddYGmjF9Nu2MOoyU8Jwrmw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-360-Q6NQ9a6-O66d3aos4-RyMQ-1; Tue, 05 May 2020 07:39:19 -0400
+X-MC-Unique: Q6NQ9a6-O66d3aos4-RyMQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78C87835B41;
- Tue,  5 May 2020 11:39:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353E4462;
+ Tue,  5 May 2020 11:39:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EA1863F97;
- Tue,  5 May 2020 11:39:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8FAF5D785;
+ Tue,  5 May 2020 11:39:17 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1ECFE9D57; Tue,  5 May 2020 13:38:44 +0200 (CEST)
+ id 28D029D58; Tue,  5 May 2020 13:38:44 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/13] acpi: drop serial/parallel enable bits from dsdt
-Date: Tue,  5 May 2020 13:38:42 +0200
-Message-Id: <20200505113843.22012-13-kraxel@redhat.com>
+Subject: [PATCH v4 13/13] floppy: make isa_fdc_get_drive_max_chs static
+Date: Tue,  5 May 2020 13:38:43 +0200
+Message-Id: <20200505113843.22012-14-kraxel@redhat.com>
 In-Reply-To: <20200505113843.22012-1-kraxel@redhat.com>
 References: <20200505113843.22012-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,63 +90,45 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The _STA methods for COM+LPT used to reference them,
-but that isn't the case any more.
+acpi aml generator needs this, but it is in floppy code now
+so we can make the function static.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/i386/acpi-build.c | 23 -----------------------
- 1 file changed, 23 deletions(-)
+ include/hw/block/fdc.h | 2 --
+ hw/block/fdc.c         | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 1922868f3401..765409a90eb6 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1437,15 +1437,6 @@ static void build_q35_isa_bridge(Aml *table)
-     aml_append(field, aml_named_field("LPTD", 2));
-     aml_append(dev, field);
+diff --git a/include/hw/block/fdc.h b/include/hw/block/fdc.h
+index c15ff4c62315..5d71cf972268 100644
+--- a/include/hw/block/fdc.h
++++ b/include/hw/block/fdc.h
+@@ -16,7 +16,5 @@ void sun4m_fdctrl_init(qemu_irq irq, hwaddr io_base,
+                        DriveInfo **fds, qemu_irq *fdc_tc);
 =20
--    aml_append(dev, aml_operation_region("LPCE", AML_PCI_CONFIG,
--                                         aml_int(0x82), 0x02));
--    /* enable bits */
--    field =3D aml_field("LPCE", AML_ANY_ACC, AML_NOLOCK, AML_PRESERVE);
--    aml_append(field, aml_named_field("CAEN", 1));
--    aml_append(field, aml_named_field("CBEN", 1));
--    aml_append(field, aml_named_field("LPEN", 1));
--    aml_append(dev, field);
--
-     aml_append(scope, dev);
-     aml_append(table, scope);
+ FloppyDriveType isa_fdc_get_drive_type(ISADevice *fdc, int i);
+-void isa_fdc_get_drive_max_chs(FloppyDriveType type,
+-                               uint8_t *maxc, uint8_t *maxh, uint8_t *maxs=
+);
+=20
+ #endif
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 40faa088b5f7..499a580b993c 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -2744,8 +2744,8 @@ FloppyDriveType isa_fdc_get_drive_type(ISADevice *fdc=
+, int i)
+     return isa->state.drives[i].drive;
  }
-@@ -1469,7 +1460,6 @@ static void build_piix4_isa_bridge(Aml *table)
+=20
+-void isa_fdc_get_drive_max_chs(FloppyDriveType type,
+-                               uint8_t *maxc, uint8_t *maxh, uint8_t *maxs=
+)
++static void isa_fdc_get_drive_max_chs(FloppyDriveType type, uint8_t *maxc,
++                                      uint8_t *maxh, uint8_t *maxs)
  {
-     Aml *dev;
-     Aml *scope;
--    Aml *field;
+     const FDFormat *fdf;
 =20
-     scope =3D  aml_scope("_SB.PCI0");
-     dev =3D aml_device("ISA");
-@@ -1478,19 +1468,6 @@ static void build_piix4_isa_bridge(Aml *table)
-     /* PIIX PCI to ISA irq remapping */
-     aml_append(dev, aml_operation_region("P40C", AML_PCI_CONFIG,
-                                          aml_int(0x60), 0x04));
--    /* enable bits */
--    field =3D aml_field("^PX13.P13C", AML_ANY_ACC, AML_NOLOCK, AML_PRESERV=
-E);
--    /* Offset(0x5f),, 7, */
--    aml_append(field, aml_reserved_field(0x2f8));
--    aml_append(field, aml_reserved_field(7));
--    aml_append(field, aml_named_field("LPEN", 1));
--    /* Offset(0x67),, 3, */
--    aml_append(field, aml_reserved_field(0x38));
--    aml_append(field, aml_reserved_field(3));
--    aml_append(field, aml_named_field("CAEN", 1));
--    aml_append(field, aml_reserved_field(3));
--    aml_append(field, aml_named_field("CBEN", 1));
--    aml_append(dev, field);
-=20
-     aml_append(scope, dev);
-     aml_append(table, scope);
 --=20
 2.18.4
 
