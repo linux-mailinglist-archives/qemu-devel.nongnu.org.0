@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102941C578E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:55:57 +0200 (CEST)
-Received: from localhost ([::1]:54478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1921C576D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:51:40 +0200 (CEST)
+Received: from localhost ([::1]:38584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVy3A-0003ft-1K
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:55:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50312)
+	id 1jVxz1-0004yL-RK
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:51:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVxuB-0006NX-Vr
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:46:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28264
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVxxJ-0003Rv-I0
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:49:53 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39178
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVxuB-0006Qd-4w
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:46:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVxxI-0001PY-G9
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:49:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588686398;
+ s=mimecast20190719; t=1588686591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NRdUDTUqrv/FakJyQyPpWnykUjnXB3VV5e1sK88fLjU=;
- b=hauF3g6eTC6ZIvqNirAwxpTvEpsJHPuiOgQVwPsDgihoJxXEhK1DB3i5QmFwyyhrrpT6nf
- x0KutOngcup/6vexWBjeV+iJxkgTtK12TpigqpXimoE9Tvjt+bim5a0Eqn2Ldssu9mZjZf
- VA9tQzRCSx6P7xFBjQzzfV1byM93XD4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-7oU-l9egMsKUTEEDzU5u0g-1; Tue, 05 May 2020 09:46:35 -0400
-X-MC-Unique: 7oU-l9egMsKUTEEDzU5u0g-1
-Received: by mail-wm1-f72.google.com with SMTP id h184so1064298wmf.5
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:46:35 -0700 (PDT)
+ bh=1TcJgozQS9VaKWjcm+I9P5JxgAHoMyCeu0LvRW6sgbo=;
+ b=RIkcjhbKQrtBKLr1Cd5xtX8K8JD2sbiQR5Vs/IZj921STcuzoasmU1Qj8/jwHgpujcERV5
+ ebpItpVCADxfZwTn+ul4+27zDrOWSmrdAcQ5E8Kc7ea2XhqgFuS1gIvqbAtlEsxHtPXjFR
+ HrLNx9uAYy+kEpkcrkz492X1pyJmtrc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-56-prUkdPkLPrqAaDRTmhCVMg-1; Tue, 05 May 2020 09:49:49 -0400
+X-MC-Unique: prUkdPkLPrqAaDRTmhCVMg-1
+Received: by mail-wr1-f70.google.com with SMTP id 30so209872wrq.15
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:49:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NRdUDTUqrv/FakJyQyPpWnykUjnXB3VV5e1sK88fLjU=;
- b=EwC5t7yC1T6Y2pBcSMzObX8ZWZu4Xk8GsRGcpoWiRa3PvcI3xEtiepgMEDw+/Z5uu2
- gt2sVeDIJ/GgUNFHnX2s3VUIDfX66kqHJNIgq18Agi82qs7QjLjztcwMCoYUBQ2kWt4U
- pEkB2jso7tEiD7iMUF24zAEEJqk2/JpflNjg4hwDHcws5Wqj8DHkh3vAqw7feIog9GQy
- mx0mzafOB2iGGrdHNxJaeBnFPMNwyzlXqe7U0gctKtibGfrd/AHkOod9fTdtgvLhJcOh
- 4DAjHEX+xMgYE9/Xp5MlQodZIE5tSrlVe/lD8U6ex2LyXCoXrgZ2L4GezUlWzfSUGsIT
- NXrA==
-X-Gm-Message-State: AGi0PubUHIT4Rm4KkmzdHYrf3e6GNtlOaknCuKfodDQ5HtKvtoRJIEB6
- MGUzBZvREAC29rerfHc4U7FxNYIVubKmV2WhzrUDey9ZVO7IrJHKhe9NdZKF6bfTmAdMW4H9GTx
- uIeAWJVr5U62R1as=
-X-Received: by 2002:a05:600c:258:: with SMTP id
- 24mr3375797wmj.73.1588686394404; 
- Tue, 05 May 2020 06:46:34 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKviItduxIXtx2oMmY+E6/mZ0owqXYoO2vOnuOtJGW0EqcsVlWSpbLcs60Rb4k1IqI4vqIs0w==
-X-Received: by 2002:a05:600c:258:: with SMTP id
- 24mr3375769wmj.73.1588686394177; 
- Tue, 05 May 2020 06:46:34 -0700 (PDT)
+ bh=+/bGB1RmLTcdGqhjZUkHv5EBcYBvR/brdQaAAsizQ6w=;
+ b=fcX0DZUIMTjBwwlMzt+oMNr6vTRC5fuUFe4TX2UeYTrWGHfP6Bq0zuWjRh8A5YL65Y
+ y/RbO4sMPc/YSTJvkT01KzjOCeubLhNyNYtFPbWbj4mGuFUu5jc8gznRRDj3oHxkM5d0
+ +twy7BImA+oJ1ifS8+0sDfUzp3mwvnhBdjCniL/RTB5Pl1l0Jes3ejgXOdnkE2rI6V+b
+ 7eU6/3YbzOuHi5TP/4Ga1LBm5XbTze2lpKqzkh7MN5cglixLWvOdToE3caJiWHSVicGv
+ vhMXP2k1E+ts8x5PSZr+soeYH7/CQfh6nJO3QjkIt3+nCopRWgYFL4WBXxc4zx7BAHhs
+ GqAw==
+X-Gm-Message-State: AGi0PuYeJjcYDlb/usXo4DPCc5eBnZ0r1KdIfoJIWKKHSj4xdPPpU3bD
+ ssvRgboR2eOLJruL3t6ZYDGVGrul49smt4ERRE8ZTraWacBV9H+2qY3YFuJE6e5E5F/cKqEmaXQ
+ WgdQ7W4TuwVvIsME=
+X-Received: by 2002:adf:a35c:: with SMTP id d28mr3675913wrb.37.1588686587693; 
+ Tue, 05 May 2020 06:49:47 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLwi8y+eJcQSzR4tdRpHLEEtU7NLWYor3RQOGC/4ZVXhhhdEa4Zbs5WruWzpOOY1bcvFXHVwQ==
+X-Received: by 2002:adf:a35c:: with SMTP id d28mr3675895wrb.37.1588686587478; 
+ Tue, 05 May 2020 06:49:47 -0700 (PDT)
 Received: from [192.168.1.38] (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id z11sm3339818wro.48.2020.05.05.06.46.32
+ by smtp.gmail.com with ESMTPSA id d133sm4354934wmc.27.2020.05.05.06.49.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 06:46:33 -0700 (PDT)
-Subject: Re: [PATCH v4 05/13] acpi: move aml builder code for serial device
+ Tue, 05 May 2020 06:49:46 -0700 (PDT)
+Subject: Re: [PATCH v2 04/13] acpi: move acpi_build_facs to acpi-common.c
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200505113843.22012-1-kraxel@redhat.com>
- <20200505113843.22012-6-kraxel@redhat.com>
+References: <20200505134305.22666-1-kraxel@redhat.com>
+ <20200505134305.22666-5-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0ce5e3f6-1560-9506-b51c-ca3bc038efb1@redhat.com>
-Date: Tue, 5 May 2020 15:46:32 +0200
+Message-ID: <bb20fc46-da9d-b424-81de-d60c0332d4aa@redhat.com>
+Date: Tue, 5 May 2020 15:49:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200505113843.22012-6-kraxel@redhat.com>
+In-Reply-To: <20200505134305.22666-5-kraxel@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -100,142 +98,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/20 1:38 PM, Gerd Hoffmann wrote:
-> The code uses the isa_serial_io array to figure what the device uid is.
-> Side effect is that acpi antries are not limited to port 1+2 any more,
-> we'll also get entries for ports 3+4.
-> 
+On 5/5/20 3:42 PM, Gerd Hoffmann wrote:
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
 > ---
->   hw/char/serial-isa.c | 32 ++++++++++++++++++++++++++++++++
->   hw/i386/acpi-build.c | 32 --------------------------------
->   2 files changed, 32 insertions(+), 32 deletions(-)
-> 
-> diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
-> index f9b6eed7833d..f7c19a398ced 100644
-> --- a/hw/char/serial-isa.c
-> +++ b/hw/char/serial-isa.c
-> @@ -27,6 +27,7 @@
->   #include "qapi/error.h"
->   #include "qemu/module.h"
->   #include "sysemu/sysemu.h"
-> +#include "hw/acpi/aml-build.h"
->   #include "hw/char/serial.h"
->   #include "hw/isa/isa.h"
->   #include "hw/qdev-properties.h"
-> @@ -81,6 +82,35 @@ static void serial_isa_realizefn(DeviceState *dev, Error **errp)
->       isa_register_ioport(isadev, &s->io, isa->iobase);
->   }
->   
-> +static void serial_isa_build_aml(ISADevice *isadev, Aml *scope)
-> +{
-> +    ISASerialState *isa = ISA_SERIAL(isadev);
-> +    int i, uid = 0;
-> +    Aml *dev;
-> +    Aml *crs;
-> +
-> +    for (i = 0; i < ARRAY_SIZE(isa_serial_io); i++) {
-> +        if (isa->iobase == isa_serial_io[i]) {
-> +            uid = i + 1;
-
-Similarly to the parallel device patch, I'd use "uid = isa->index + 1" 
-instead.
-
-> +        }
-> +    }
-> +    if (!uid) {
-> +        return;
-> +    }
-> +
-> +    crs = aml_resource_template();
-> +    aml_append(crs, aml_io(AML_DECODE16, isa->iobase, isa->iobase, 0x00, 0x08));
-> +    aml_append(crs, aml_irq_no_flags(isa->isairq));
-> +
-> +    dev = aml_device("COM%d", uid);
-> +    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0501")));
-> +    aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
-> +    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-> +    aml_append(dev, aml_name_decl("_CRS", crs));
-> +
-> +    aml_append(scope, dev);
-> +}
-> +
->   static const VMStateDescription vmstate_isa_serial = {
->       .name = "serial",
->       .version_id = 3,
-> @@ -103,9 +133,11 @@ static Property serial_isa_properties[] = {
->   static void serial_isa_class_initfn(ObjectClass *klass, void *data)
->   {
->       DeviceClass *dc = DEVICE_CLASS(klass);
-> +    ISADeviceClass *isa = ISA_DEVICE_CLASS(klass);
->   
->       dc->realize = serial_isa_realizefn;
->       dc->vmsd = &vmstate_isa_serial;
-> +    isa->build_aml = serial_isa_build_aml;
->       device_class_set_props(dc, serial_isa_properties);
->       set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
->   }
+>   hw/i386/acpi-common.h |  1 +
+>   hw/i386/acpi-build.c  | 11 +----------
+>   hw/i386/acpi-common.c |  7 +++++++
+>   3 files changed, 9 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
+> index 9cac18dddf5b..583c320bbe7d 100644
+> --- a/hw/i386/acpi-common.h
+> +++ b/hw/i386/acpi-common.h
+> @@ -11,5 +11,6 @@
+>   void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>                        X86MachineState *x86ms, AcpiDeviceIf *adev,
+>                        bool has_pci);
+> +void acpi_build_facs(GArray *table_data);
+>  =20
+>   #endif
 > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 3a82730a0d19..0e6a5151f4c3 100644
+> index 4cce2192eeb0..a69b85a266e7 100644
 > --- a/hw/i386/acpi-build.c
 > +++ b/hw/i386/acpi-build.c
-> @@ -1208,36 +1208,6 @@ static Aml *build_lpt_device_aml(void)
->       return dev;
+> @@ -316,15 +316,6 @@ static void acpi_align_size(GArray *blob, unsigned a=
+lign)
+>       g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
 >   }
->   
-> -static void build_com_device_aml(Aml *scope, uint8_t uid)
+>  =20
+> -/* FACS */
+> -static void
+> -build_facs(GArray *table_data)
 > -{
-> -    Aml *dev;
-> -    Aml *crs;
-> -    uint8_t irq = 4;
-> -    uint16_t io_port = 0x03F8;
-> -
-> -    assert(uid == 1 || uid == 2);
-> -    if (uid == 2) {
-> -        irq = 3;
-> -        io_port = 0x02F8;
-> -    }
-> -    if (!memory_region_present(get_system_io(), io_port)) {
-> -        return;
-> -    }
-> -
-> -    dev = aml_device("COM%d", uid);
-> -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0501")));
-> -    aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
-> -
-> -    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-> -
-> -    crs = aml_resource_template();
-> -    aml_append(crs, aml_io(AML_DECODE16, io_port, io_port, 0x00, 0x08));
-> -    aml_append(crs, aml_irq_no_flags(irq));
-> -    aml_append(dev, aml_name_decl("_CRS", crs));
-> -
-> -    aml_append(scope, dev);
+> -    AcpiFacsDescriptorRev1 *facs =3D acpi_data_push(table_data, sizeof *=
+facs);
+> -    memcpy(&facs->signature, "FACS", 4);
+> -    facs->length =3D cpu_to_le32(sizeof(*facs));
 > -}
 > -
->   static void build_isa_devices_aml(Aml *table)
+>   static void build_append_pcihp_notify_entry(Aml *method, int slot)
 >   {
->       ISADevice *fdc = pc_find_fdc0();
-> @@ -1252,8 +1222,6 @@ static void build_isa_devices_aml(Aml *table)
->           aml_append(scope, build_fdc_device_aml(fdc));
->       }
->       aml_append(scope, build_lpt_device_aml());
-> -    build_com_device_aml(scope, 1);
-> -    build_com_device_aml(scope, 2);
->   
->       if (ambiguous) {
->           error_report("Multiple ISA busses, unable to define IPMI ACPI data");
-> 
+>       Aml *if_ctx;
+> @@ -2417,7 +2408,7 @@ void acpi_build(AcpiBuildTables *tables, MachineSta=
+te *machine)
+>        * requirements.
+>        */
+>       facs =3D tables_blob->len;
+> -    build_facs(tables_blob);
+> +    acpi_build_facs(tables_blob);
+>  =20
+>       /* DSDT is pointed to by FADT */
+>       dsdt =3D tables_blob->len;
+> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> index ab9b00581a15..5187653893a8 100644
+> --- a/hw/i386/acpi-common.c
+> +++ b/hw/i386/acpi-common.c
+> @@ -154,3 +154,10 @@ void acpi_build_madt(GArray *table_data, BIOSLinker =
+*linker,
+>                    table_data->len - madt_start, 1, NULL, NULL);
+>   }
+>  =20
+> +/* FACS */
+> +void acpi_build_facs(GArray *table_data)
+> +{
+> +    AcpiFacsDescriptorRev1 *facs =3D acpi_data_push(table_data, sizeof *=
+facs);
+> +    memcpy(&facs->signature, "FACS", 4);
+> +    facs->length =3D cpu_to_le32(sizeof(*facs));
+> +}
+>=20
 
 
