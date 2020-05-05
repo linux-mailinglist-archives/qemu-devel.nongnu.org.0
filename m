@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95CC1C4DD7
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 07:52:57 +0200 (CEST)
-Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1831C4DC5
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 07:50:57 +0200 (CEST)
+Received: from localhost ([::1]:58040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVqVk-0005eg-WC
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 01:52:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53576)
+	id 1jVqTo-0000Lf-9j
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 01:50:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jVqS8-00076I-PG; Tue, 05 May 2020 01:49:12 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:56226)
+ id 1jVqS5-00072J-FX; Tue, 05 May 2020 01:49:09 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:56242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jVqS1-0005CB-VQ; Tue, 05 May 2020 01:49:12 -0400
+ id 1jVqS1-0005CH-Ue; Tue, 05 May 2020 01:49:07 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id B184EBF5DC;
- Tue,  5 May 2020 05:49:02 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 573E2BF7AF;
+ Tue,  5 May 2020 05:49:03 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 00/18] nvme: refactoring and cleanups
-Date: Tue,  5 May 2020 07:48:22 +0200
-Message-Id: <20200505054840.186586-1-its@irrelevant.dk>
+Subject: [PATCH v5 01/18] nvme: fix pci doorbell size calculation
+Date: Tue,  5 May 2020 07:48:23 +0200
+Message-Id: <20200505054840.186586-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200505054840.186586-1-its@irrelevant.dk>
+References: <20200505054840.186586-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,48 +64,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Changes since v5
-~~~~~~~~~~~~~~~~
-No functional changes, just updated Reviewed-by tags. Also, I screwed up
-the CC list when sending v4.
+The size of the BAR is 0x1000 (main registers) + 8 bytes for each
+queue. Currently, the size of the BAR is calculated like so:
 
-Philippe and Keith, please add a Reviewed-by to
+    n->reg_size = pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
 
-  * "nvme: factor out pmr setup" and
-  * "do cmb/pmr init as part of pci init"
+Since the 'num_queues' parameter already accounts for the admin queue,
+this should in any case not need to be incremented by one. Also, the
+size should be initialized to (0x1000).
 
-since the first one was added and the second one was changed in v4 when
-rebasing on Kevins block-next tree which had the PMR work that was not
-in master at the time.
+    n->reg_size = pow2ceil(0x1000 + 2 * n->num_queues * 4);
 
-With those in place, it should be ready for Kevin to merge.
+This, with the default value of num_queues (64), we will set aside room
+for 1 admin queue and 63 I/O queues (4 bytes per doorbell, 2 doorbells
+per queue).
 
-Klaus Jensen (18):
-  nvme: fix pci doorbell size calculation
-  nvme: rename trace events to pci_nvme
-  nvme: remove superfluous breaks
-  nvme: move device parameters to separate struct
-  nvme: use constants in identify
-  nvme: refactor nvme_addr_read
-  nvme: add max_ioqpairs device parameter
-  nvme: remove redundant cmbloc/cmbsz members
-  nvme: factor out property/constraint checks
-  nvme: factor out device state setup
-  nvme: factor out block backend setup
-  nvme: add namespace helpers
-  nvme: factor out namespace setup
-  nvme: factor out pci setup
-  nvme: factor out cmb setup
-  nvme: factor out pmr setup
-  nvme: do cmb/pmr init as part of pci init
-  nvme: factor out controller identify setup
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ hw/block/nvme.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
- hw/block/nvme.c       | 543 ++++++++++++++++++++++++------------------
- hw/block/nvme.h       |  31 ++-
- hw/block/trace-events | 180 +++++++-------
- include/block/nvme.h  |   8 +
- 4 files changed, 429 insertions(+), 333 deletions(-)
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 9b453423cf2c..1d7d7fb3c67a 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -54,6 +54,9 @@
+ #include "trace.h"
+ #include "nvme.h"
+ 
++#define NVME_REG_SIZE 0x1000
++#define NVME_DB_SIZE  4
++
+ #define NVME_GUEST_ERR(trace, fmt, ...) \
+     do { \
+         (trace_##trace)(__VA_ARGS__); \
+@@ -1403,7 +1406,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     pcie_endpoint_cap_init(pci_dev, 0x80);
+ 
+     n->num_namespaces = 1;
+-    n->reg_size = pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
++
++    /* num_queues is really number of pairs, so each has two doorbells */
++    n->reg_size = pow2ceil(NVME_REG_SIZE + 2 * n->num_queues * NVME_DB_SIZE);
+     n->ns_size = bs_size / (uint64_t)n->num_namespaces;
+ 
+     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
 -- 
 2.26.2
 
