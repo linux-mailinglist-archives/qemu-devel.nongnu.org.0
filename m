@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ADB21C57B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:01:22 +0200 (CEST)
-Received: from localhost ([::1]:40926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20BC91C5827
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:07:28 +0200 (CEST)
+Received: from localhost ([::1]:52622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVy8P-0001gR-6n
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:01:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54146)
+	id 1jVyEJ-00081R-4T
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jVy77-00016y-Oy
- for qemu-devel@nongnu.org; Tue, 05 May 2020 10:00:01 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:36811)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jVy87-0001uC-Ei
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:01:03 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:42855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jVy76-0007EQ-00
- for qemu-devel@nongnu.org; Tue, 05 May 2020 10:00:01 -0400
-Received: by mail-ed1-x532.google.com with SMTP id t12so1933844edw.3
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:59:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:thread-index
- :content-language;
- bh=O9OCBMkBxpYV7nwYvW253+iHNM16Xw+0gCVniK4rZ0A=;
- b=Quia9v/xRYgVnTDwV1BgYeICL+6UIoPhizH6hPPF4DkNcTtvHJl5Ty9UDZWF1Wj0AF
- FS3KgmAq6KlzYeXdYQ3OA++1Q4I0seBrL8agnF3UoSJLLSKmOeC9DQqvrhlT51K/e1v3
- xgF6OTVucZjrirHv5xQwRe0P3H9l5KoUo+hkDyXcUw1NGQ9dQeGxOR/N8raXLcTN0s5g
- wPBq8vTmzTMQayESPKqeEdcHb8eiqjxUByqyltjrifpPut7NUtSbThKGFcm/cKMcc+tQ
- RrGmgDnKGOp8PJc1PEzW2mY7Ht46+7iAqPL4RGQCqPpT46h6N8Zf18TpGw7OoG96GT/c
- phFA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jVy82-0002ci-UM
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:01:02 -0400
+Received: by mail-pl1-x644.google.com with SMTP id v2so850318plp.9
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 07:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=D2mBVlnpvVYcF4KObf8GAsSOgtsOhe3PMdTj4MtMF2I=;
+ b=vN17DgH7myYytRFcaLnzNj24WClrwW+RJrr+6Spq7JG5MMo6dVcYHORH2/Ux5eKC3F
+ Ul7/LbH/CPXA8sgWJs9WZ6wbVP+074T8m3sNsrvUkYhkESt3uNY30XT0PUDOJFeHRH7q
+ 8tt2/wnkXe8E+DOnD4lNhpwUP5jnSKDCNMkF8oie3tBQYHG8U/NYIQTlMlguVec7pdaE
+ blHI/7qJ51tekKaFffgFOrQ3ek0rmk2jKzA+8LThLnOpvBGiyY2IrlBHwxKRgvmOOwlh
+ TbgI3R7aBI9nU1tZzfB0ZttsQE6LCAqgGKHxQaJaO13D8sDu7OdmNv01iLWTIEbCkgjV
+ hHYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :thread-index:content-language;
- bh=O9OCBMkBxpYV7nwYvW253+iHNM16Xw+0gCVniK4rZ0A=;
- b=GRZKpOLVl4ZAdHi6hpaz6mzhmnU/s74cw+gU4cJpNPlEA6JCQQr0YYuxPeUxh7dHZQ
- iqBBs9ZsGmCdah2qbNr4aye40KVGePzIJTHzeZBWaEOTlHnoiVXDNRvb5HjUEfJ6bqoj
- ucEONLgNDALG4rUxDGq+tGB1PpRezlKsbmCyQF2gHenehMKdcY4r+5bYF/xN6w4unVKF
- MeKQ3BDVCiIQtJ/x2JMpei8GL8CCcdQLuXN2xz/PntNC5to/lEZxkfL27JoctvkTWinX
- rFB8K2Gsmdw1qJmQV13riCGeDRkIQZN1Z1jK9WRCIyKvf4KCn2MNG7LG691p2sTlGF5x
- Tl5w==
-X-Gm-Message-State: AGi0PuZnxl0hW7n/Xgr9dQNZeKeLCXAclGefPU6UZ7rT/lRi067Isibs
- 1nbod2gb1uec8viOnVf6ric=
-X-Google-Smtp-Source: APiQypKMaCbhuhWKhU6qOX1gyF4ylKwmgItCJ0Vgnfw2kOhlHOT2eRuqxGQbmSbMf9zCagFUVC55Eg==
-X-Received: by 2002:aa7:c0d2:: with SMTP id j18mr2756750edp.283.1588687198204; 
- Tue, 05 May 2020 06:59:58 -0700 (PDT)
-Received: from CBGR90WXYV0 ([54.239.6.187])
- by smtp.gmail.com with ESMTPSA id n7sm280474edt.69.2020.05.05.06.59.56
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 05 May 2020 06:59:57 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: "'Markus Armbruster'" <armbru@redhat.com>,
-	<qemu-devel@nongnu.org>
-References: <20200505101908.6207-1-armbru@redhat.com>
- <20200505101908.6207-3-armbru@redhat.com>
-In-Reply-To: <20200505101908.6207-3-armbru@redhat.com>
-Subject: RE: [PATCH v2 02/10] xen: Fix and improve handling of device_add
- usb-host errors
-Date: Tue, 5 May 2020 14:59:56 +0100
-Message-ID: <004001d622e5$75fd2d70$61f78850$@xen.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=D2mBVlnpvVYcF4KObf8GAsSOgtsOhe3PMdTj4MtMF2I=;
+ b=lONLggqn0MOkHiGfEdIsKR94SF3Ed/B0aAObdNGamzkFUTHDNJ9i1pg7hbyFtRyqLe
+ u/Pq/Eb9bC84qPiMEJB25C51ObXKdawYvTD+8GQvKwaGhMT5BztyXVv8ibc7H+hmDhKC
+ MBjhdR8z5b4H7jG4M/K7iNIWjjKnaCEgOL3PmvMICaRYhLsygIApWfn2ryNupuy8INQ6
+ yDHf2FEKenwewp8JBlzlFFqIe8OFe5r+VaHiDTVdZMIYZF3FJQWpLuoSYDiGOkmgFk4u
+ 5KuPL2MurESy8qpA7JlwdA4y6gFevs95lNA33Xpnqpr9j4txhYZ1jXYHMEnjVhzydIbK
+ YfdQ==
+X-Gm-Message-State: AGi0PuY+VQjud/U8gBOZibSnBec57KQJAABk1AU42K3HA57HuLVN8dr/
+ sI5UGngv1zBzzleYC4ZCnNIj2B2adPk=
+X-Google-Smtp-Source: APiQypJVGTXsDFH4aWjJxTruJak85U5iEnJ2mvEvSyeEvRBSURPvuPBE8HLPMzQecQQ7G0hgC6IrHQ==
+X-Received: by 2002:a17:90a:21ee:: with SMTP id
+ q101mr3338085pjc.24.1588687256592; 
+ Tue, 05 May 2020 07:00:56 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id nm22sm2123823pjb.38.2020.05.05.07.00.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 May 2020 07:00:55 -0700 (PDT)
+Subject: Re: [PATCH v2 00/15] target/arm: partial vector cleanup
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200502224503.2282-1-richard.henderson@linaro.org>
+ <CAFEAcA-fbQwjU3_UuorV3q-k9exr9f_uqO_YSP7aggsm=oP=wg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7825f17f-2306-7b07-b65c-60d87db48137@linaro.org>
+Date: Tue, 5 May 2020 07:00:53 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQD2kCtjJmTvNkmzRgy8FtMMvttLfQNDV1uLqj6PYxA=
-Content-Language: en-gb
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=xadimgnik@gmail.com; helo=mail-ed1-x532.google.com
+In-Reply-To: <CAFEAcA-fbQwjU3_UuorV3q-k9exr9f_uqO_YSP7aggsm=oP=wg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -94,35 +90,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: 'Anthony Perard' <anthony.perard@citrix.com>,
- xen-devel@lists.xenproject.org, 'Stefano Stabellini' <sstabellini@kernel.org>,
- 'Gerd Hoffmann' <kraxel@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Markus Armbruster <armbru@redhat.com>
-> Sent: 05 May 2020 11:19
-> To: qemu-devel@nongnu.org
-> Cc: Stefano Stabellini <sstabellini@kernel.org>; Anthony Perard <anthony.perard@citrix.com>; Paul
-> Durrant <paul@xen.org>; Gerd Hoffmann <kraxel@redhat.com>; xen-devel@lists.xenproject.org
-> Subject: [PATCH v2 02/10] xen: Fix and improve handling of device_add usb-host errors
+On 5/5/20 3:38 AM, Peter Maydell wrote:
+> This doesn't apply on master any more as a result of the
+> first lump of decodetree stuff going in. Also patch 2
+> doesn't seem to compile:
 > 
-> usbback_portid_add() leaks the error when qdev_device_add() fails.
-> Fix that.  While there, use the error to improve the error message.
+> /home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c: In
+> function ‘gen_gvec_srshr’:
+> /home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:4107:9:
+> error: implicit declaration of function ‘tcg_gen_gvec_dup_imm’; did
+> you mean ‘tcg_gen_gvec_dup_i64’?
+> [-Werror=implicit-function-declaration]
+>          tcg_gen_gvec_dup_imm(vece, rd_ofs, opr_sz, max_sz, 0);
+>          ^~~~~~~~~~~~~~~~~~~~
+>          tcg_gen_gvec_dup_i64
+> /home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:4107:9:
+> error: nested extern declaration of ‘tcg_gen_gvec_dup_imm’
+> [-Werror=nested-externs]
 > 
-> The qemu_opts_from_qdict() similarly leaks on failure.  But any
-> failure there is a programming error.  Pass &error_abort.
-> 
-> Fixes: 816ac92ef769f9ffc534e49a1bb6177bddce7aa2
-> Cc: Stefano Stabellini <sstabellini@kernel.org>
-> Cc: Anthony Perard <anthony.perard@citrix.com>
-> Cc: Paul Durrant <paul@xen.org>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: xen-devel@lists.xenproject.org
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Any chance you could do a rebase and resend?
 
-Acked-by: Paul Durrant <paul@xen.org>
 
+Ah yes, it seems built on top of tcg-next.  Time for a pull there too, lest
+this have to get changed yet again.
+
+
+r~
 
