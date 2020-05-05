@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFAB81C548C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 13:41:01 +0200 (CEST)
-Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C15D1C5498
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 13:42:40 +0200 (CEST)
+Received: from localhost ([::1]:36182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVvwV-0007FM-AR
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 07:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47980)
+	id 1jVvyB-0002tE-8b
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 07:42:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVvuf-0005VB-35
- for qemu-devel@nongnu.org; Tue, 05 May 2020 07:39:01 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23079
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVvui-0005cU-GO
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 07:39:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:57348
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVvuc-0002xA-Mk
- for qemu-devel@nongnu.org; Tue, 05 May 2020 07:39:00 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jVvuh-000303-Qg
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 07:39:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588678737;
+ s=mimecast20190719; t=1588678743;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xYQubRLaeBIkXfV3lDNiOMXW1hs8NbE+0dBEIHKrFOQ=;
- b=Q1pYda3wc/NYYdK0vp/lHXCPg3M7oVcFARVVwlBicTzUefQ/w3V+POSiaRu6NBPNZgLmBJ
- ha3N54/tvCjpQqoh+9A62B6sN+1+7Knsuf/OMAYLlw0wS42P7QFrCdlFwBX0TTvsjU0b0B
- eL3bsL7CZ9TLDIpTyYKqluqDjkPxSTs=
+ to:to:cc:cc:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jkt6DMP7Cu56UuKfuu6ojOeNGRo3I3g7NWXz+3XeDUs=;
+ b=UXTMa0MaCUT8IP1MMfZwoh/+1uje2drsRZEqdb2tRbpiYX1Vwd+T0TzePeFmEl2efqZ9kn
+ zjPTM7FsV7I7j3kNQg8qY3wvnaRtAIreOOQMz75X9BreweyTLjfyp1HgP+P5N7xsuh1AVb
+ bwwiw9CGUrQlJvBl7ooUx0A7yxwEc2w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-TFh-KY12N7eYNTtiSxNHJQ-1; Tue, 05 May 2020 07:38:56 -0400
-X-MC-Unique: TFh-KY12N7eYNTtiSxNHJQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-457-QdryxUodO1-d7A1J1YYRTQ-1; Tue, 05 May 2020 07:38:57 -0400
+X-MC-Unique: QdryxUodO1-d7A1J1YYRTQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1F5D1B18BC0;
- Tue,  5 May 2020 11:38:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E360462;
+ Tue,  5 May 2020 11:38:56 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
  [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B425F600F5;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 768C71002387;
  Tue,  5 May 2020 11:38:45 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 913FE17510; Tue,  5 May 2020 13:38:43 +0200 (CEST)
+ id 990A317511; Tue,  5 May 2020 13:38:43 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/13] acpi: i386 tweaks
-Date: Tue,  5 May 2020 13:38:30 +0200
-Message-Id: <20200505113843.22012-1-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Subject: [PATCH v4 01/13] qtest: allow DSDT acpi table changes
+Date: Tue,  5 May 2020 13:38:31 +0200
+Message-Id: <20200505113843.22012-2-kraxel@redhat.com>
+In-Reply-To: <20200505113843.22012-1-kraxel@redhat.com>
+References: <20200505113843.22012-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -88,59 +90,36 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First batch of microvm patches, some generic acpi stuff.
-Split the acpi-build.c monster, specifically split the
-pc and q35 and pci bits into a separate file which we
-can skip building at some point in the future.
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-v2 changes: leave acpi-build.c largely as-is, move useful
-bits to other places to allow them being reused, specifically:
-
- * move isa device generator functions to individual isa devices.
- * move fw_cfg generator function to fw_cfg.c
-
-v3 changes: fix rtc, support multiple lpt devices.
-
-v4 changes:
- * drop merged patches.
- * split rtc crs change to separata patch.
- * added two cleanup patches.
- * picked up ack & review tags.
-
-take care,
-  Gerd
-
-Gerd Hoffmann (13):
-  qtest: allow DSDT acpi table changes
-  acpi: move aml builder code for rtc device
-  acpi: rtc: use a single crs range
-  acpi: serial: don't use _STA method
-  acpi: move aml builder code for serial device
-  acpi: parallel: don't use _STA method
-  acpi: move aml builder code for parallel device
-  acpi: move aml builder code for floppy device
-  acpi: move aml builder code for i8042 (kbd+mouse) device
-  acpi: factor out fw_cfg_add_acpi_dsdt()
-  acpi: simplify build_isa_devices_aml()
-  acpi: drop serial/parallel enable bits from dsdt
-  floppy: make isa_fdc_get_drive_max_chs static
-
- hw/i386/fw_cfg.h                            |   1 +
- include/hw/block/fdc.h                      |   2 -
- tests/qtest/bios-tables-test-allowed-diff.h |  17 ++
- hw/block/fdc.c                              |  87 +++++-
- hw/char/parallel.c                          |  32 +++
- hw/char/serial-isa.c                        |  32 +++
- hw/i386/acpi-build.c                        | 285 +-------------------
- hw/i386/fw_cfg.c                            |  28 ++
- hw/input/pckbd.c                            |  31 +++
- hw/rtc/mc146818rtc.c                        |  20 ++
- stubs/cmos.c                                |   7 +
- stubs/Makefile.objs                         |   1 +
- 12 files changed, 260 insertions(+), 283 deletions(-)
- create mode 100644 stubs/cmos.c
-
--- 
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios=
+-tables-test-allowed-diff.h
+index dfb8523c8bf4..6a052c50447a 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,18 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/q35/DSDT",
++"tests/data/acpi/q35/DSDT.acpihmat",
++"tests/data/acpi/q35/DSDT.bridge",
++"tests/data/acpi/q35/DSDT.cphp",
++"tests/data/acpi/q35/DSDT.dimmpxm",
++"tests/data/acpi/q35/DSDT.ipmibt",
++"tests/data/acpi/q35/DSDT.memhp",
++"tests/data/acpi/q35/DSDT.mmio64",
++"tests/data/acpi/q35/DSDT.numamem",
+--=20
 2.18.4
 
 
