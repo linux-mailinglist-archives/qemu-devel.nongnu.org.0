@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1898E1C5639
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:05:48 +0200 (CEST)
-Received: from localhost ([::1]:49226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D631C567C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:14:05 +0200 (CEST)
+Received: from localhost ([::1]:60394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxGc-0002pd-PR
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:05:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38866)
+	id 1jVxOe-0003Eh-3F
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxAJ-0001yz-Pk
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:15 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:28912
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxAO-00023Y-63
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:20 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39101
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxAG-0001G3-OO
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:15 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxAL-0001Jw-Ki
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588683552;
+ s=mimecast20190719; t=1588683556;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pbXi/6hdtFIwWPOcv1q8IAUrdGfW8a8cRmcfOXUeG0A=;
- b=Arxz+Y9SiSQkJuzPgZg90V0ZbhB9O2pTusXeDPP8ml9EzHt+o1NWr3fBdj1MHl4U1tewiL
- nIwYsJfV0xoMhAz0SXwnwH4USS5jcB+6qYKdfqrmtydVcWm96w8Lrx75QlUFUd+RMS1SEK
- Vnx5y4BLStao5NYVxlXaQwGEOq1y2l8=
+ bh=CKQs8FyU5NuN+EAs4LH/Hi2t6c1XAyYoEebmGWSoEKY=;
+ b=EWH1UU7ZQnEJ1091dxx5EFS3MJVfsXDZpxjEgJBpvdsR0OyzSX42GUAJgHxmtD2Ybd5Ixg
+ tVnX+LxiBCZyMbHMml9loATV23+bGotKkpCqCcx++Prj9m+LQSXZA4g92nPjpTsZt6HN+r
+ CReYnLVNlo+Uk1pqC1ZqyffqfyBB4xk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-WVjr-pGnNmGBczsYJ2pl9g-1; Tue, 05 May 2020 08:59:00 -0400
-X-MC-Unique: WVjr-pGnNmGBczsYJ2pl9g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-286-kGqTsKFsM9mY4YjEfWgCZg-1; Tue, 05 May 2020 08:59:03 -0400
+X-MC-Unique: kGqTsKFsM9mY4YjEfWgCZg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6B81A0C01;
- Tue,  5 May 2020 12:58:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24172801504;
+ Tue,  5 May 2020 12:59:02 +0000 (UTC)
 Received: from localhost (ovpn-113-206.ams2.redhat.com [10.36.113.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B55060E3E;
- Tue,  5 May 2020 12:58:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 92AFA63F95;
+ Tue,  5 May 2020 12:59:01 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 14/24] iotests: use python logging for iotests.log()
-Date: Tue,  5 May 2020 14:58:16 +0200
-Message-Id: <20200505125826.1001451-15-mreitz@redhat.com>
+Subject: [PULL 15/24] block: Add blk_new_with_bs() helper
+Date: Tue,  5 May 2020 14:58:17 +0200
+Message-Id: <20200505125826.1001451-16-mreitz@redhat.com>
 In-Reply-To: <20200505125826.1001451-1-mreitz@redhat.com>
 References: <20200505125826.1001451-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
@@ -82,272 +82,380 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Eric Blake <eblake@redhat.com>
 
-We can turn logging on/off globally instead of per-function.
+There are several callers that need to create a new block backend from
+an existing BDS; make the task slightly easier with a common helper
+routine.
 
-Remove use_log from run_job, and use python logging to turn on
-diffable output when we run through a script entry point.
-
-iotest 245 changes output order due to buffering reasons.
-
-An extended note on python logging:
-
-A NullHandler is added to `qemu.iotests` to stop output from being
-generated if this code is used as a library without configuring logging.
-A NullHandler is only needed at the root, so a duplicate handler is not
-needed for `qemu.iotests.diff_io`.
-
-When logging is not configured, messages at the 'WARNING' levels or
-above are printed with default settings. The NullHandler stops this from
-occurring, which is considered good hygiene for code used as a library.
-
-See https://docs.python.org/3/howto/logging.html#library-config
-
-When logging is actually enabled (always at the behest of an explicit
-call by a client script), a root logger is implicitly created at the
-root, which allows messages to propagate upwards and be handled/emitted
-from the root logger with default settings.
-
-When we want iotest logging, we attach a handler to the
-qemu.iotests.diff_io logger and disable propagation to avoid possible
-double-printing.
-
-For more information on python logging infrastructure, I highly
-recommend downloading the pip package `logging_tree`, which provides
-convenient visualizations of the hierarchical logging configuration
-under different circumstances.
-
-See https://pypi.org/project/logging_tree/ for more information.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200331000014.11581-15-jsnow@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Suggested-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20200424190903.522087-2-eblake@redhat.com>
+[mreitz: Set @ret only in error paths, see
+ https://lists.nongnu.org/archive/html/qemu-block/2020-04/msg01216.html]
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200428192648.749066-2-eblake@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/030        |  4 +--
- tests/qemu-iotests/155        |  2 +-
- tests/qemu-iotests/245        |  1 +
- tests/qemu-iotests/245.out    | 10 +++----
- tests/qemu-iotests/iotests.py | 53 ++++++++++++++++++++---------------
- 5 files changed, 39 insertions(+), 31 deletions(-)
+ include/sysemu/block-backend.h |  2 ++
+ block/block-backend.c          | 23 +++++++++++++++++++++++
+ block/crypto.c                 |  9 ++++-----
+ block/parallels.c              |  8 ++++----
+ block/qcow.c                   |  8 ++++----
+ block/qcow2.c                  | 18 ++++++++----------
+ block/qed.c                    |  8 ++++----
+ block/sheepdog.c               | 10 +++++-----
+ block/vdi.c                    |  8 ++++----
+ block/vhdx.c                   |  8 ++++----
+ block/vmdk.c                   |  9 ++++-----
+ block/vpc.c                    |  8 ++++----
+ blockdev.c                     |  8 +++-----
+ blockjob.c                     |  7 ++-----
+ 14 files changed, 75 insertions(+), 59 deletions(-)
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index aa911d266a..104e3cee1b 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -411,8 +411,8 @@ class TestParallelOps(iotests.QMPTestCase):
-         result =3D self.vm.qmp('block-job-set-speed', device=3D'drive0', s=
-peed=3D0)
-         self.assert_qmp(result, 'return', {})
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.=
+h
+index 34de7faa81..0917663d89 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -77,6 +77,8 @@ typedef struct BlockBackendPublic {
+ } BlockBackendPublic;
 =20
--        self.vm.run_job(job=3D'drive0', auto_dismiss=3DTrue, use_log=3DFal=
-se)
--        self.vm.run_job(job=3D'node4', auto_dismiss=3DTrue, use_log=3DFals=
-e)
-+        self.vm.run_job(job=3D'drive0', auto_dismiss=3DTrue)
-+        self.vm.run_job(job=3D'node4', auto_dismiss=3DTrue)
-         self.assert_no_active_block_jobs()
+ BlockBackend *blk_new(AioContext *ctx, uint64_t perm, uint64_t shared_perm=
+);
++BlockBackend *blk_new_with_bs(BlockDriverState *bs, uint64_t perm,
++                              uint64_t shared_perm, Error **errp);
+ BlockBackend *blk_new_open(const char *filename, const char *reference,
+                            QDict *options, int flags, Error **errp);
+ int blk_get_refcnt(BlockBackend *blk);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 17ed6d8c5b..f4944861fa 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -355,6 +355,29 @@ BlockBackend *blk_new(AioContext *ctx, uint64_t perm, =
+uint64_t shared_perm)
+     return blk;
+ }
 =20
-     # Test a block-stream and a block-commit job in parallel
-diff --git a/tests/qemu-iotests/155 b/tests/qemu-iotests/155
-index 571bce9de4..cb371d4649 100755
---- a/tests/qemu-iotests/155
-+++ b/tests/qemu-iotests/155
-@@ -188,7 +188,7 @@ class MirrorBaseClass(BaseClass):
++/*
++ * Create a new BlockBackend connected to an existing BlockDriverState.
++ *
++ * @perm is a bitmasks of BLK_PERM_* constants which describes the
++ * permissions to request for @bs that is attached to this
++ * BlockBackend.  @shared_perm is a bitmask which describes which
++ * permissions may be granted to other users of the attached node.
++ * Both sets of permissions can be changed later using blk_set_perm().
++ *
++ * Return the new BlockBackend on success, null on failure.
++ */
++BlockBackend *blk_new_with_bs(BlockDriverState *bs, uint64_t perm,
++                              uint64_t shared_perm, Error **errp)
++{
++    BlockBackend *blk =3D blk_new(bdrv_get_aio_context(bs), perm, shared_p=
+erm);
++
++    if (blk_insert_bs(blk, bs, errp) < 0) {
++        blk_unref(blk);
++        return NULL;
++    }
++    return blk;
++}
++
+ /*
+  * Creates a new BlockBackend, opens a new BlockDriverState, and connects =
+both.
+  * The new BlockBackend is in the main AioContext.
+diff --git a/block/crypto.c b/block/crypto.c
+index e02f343590..ca44dae4f7 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -261,11 +261,10 @@ static int block_crypto_co_create_generic(BlockDriver=
+State *bs,
+     QCryptoBlock *crypto =3D NULL;
+     struct BlockCryptoCreateData data;
 =20
-         self.assert_qmp(result, 'return', {})
-=20
--        self.vm.run_job('mirror-job', use_log=3DFalse, auto_finalize=3DFal=
-se,
-+        self.vm.run_job('mirror-job', auto_finalize=3DFalse,
-                         pre_finalize=3Dself.openBacking, auto_dismiss=3DTr=
-ue)
-=20
-     def testFull(self):
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 1001275a44..4f5f0bb901 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -1027,5 +1027,6 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.run_test_iothreads(None, 'iothread0')
-=20
- if __name__ =3D=3D '__main__':
-+    iotests.activate_logging()
-     iotests.main(supported_fmts=3D["qcow2"],
-                  supported_protocols=3D["file"])
-diff --git a/tests/qemu-iotests/245.out b/tests/qemu-iotests/245.out
-index 682b93394d..4b33dcaf5c 100644
---- a/tests/qemu-iotests/245.out
-+++ b/tests/qemu-iotests/245.out
-@@ -1,8 +1,3 @@
--.....................
------------------------------------------------------------------------
--Ran 21 tests
+-    blk =3D blk_new(bdrv_get_aio_context(bs),
+-                  BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
 -
--OK
- {"execute": "job-finalize", "arguments": {"id": "commit0"}}
- {"return": {}}
- {"data": {"id": "commit0", "type": "commit"}, "event": "BLOCK_JOB_PENDING"=
-, "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-@@ -15,3 +10,8 @@ OK
- {"return": {}}
- {"data": {"id": "stream0", "type": "stream"}, "event": "BLOCK_JOB_PENDING"=
-, "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
- {"data": {"device": "stream0", "len": 3145728, "offset": 3145728, "speed":=
- 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"micro=
-seconds": "USECS", "seconds": "SECS"}}
-+.....................
-+----------------------------------------------------------------------
-+Ran 21 tests
-+
-+OK
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 35d8cae997..6c0e781af7 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -42,6 +42,14 @@ assert sys.version_info >=3D (3, 6)
- QMPResponse =3D Dict[str, Any]
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
++    blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM=
+_ALL,
++                          errp);
++    if (!blk) {
++        ret =3D -EPERM;
+         goto cleanup;
+     }
 =20
+diff --git a/block/parallels.c b/block/parallels.c
+index 2be92cf417..8db64a55e3 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -559,10 +559,10 @@ static int coroutine_fn parallels_co_create(BlockdevC=
+reateOptions* opts,
+         return -EIO;
+     }
 =20
-+# Use this logger for logging messages directly from the iotests module
-+logger =3D logging.getLogger('qemu.iotests')
-+logger.addHandler(logging.NullHandler())
-+
-+# Use this logger for messages that ought to be used for diff output.
-+test_logger =3D logging.getLogger('qemu.iotests.diff_io')
-+
-+
- faulthandler.enable()
+-    blk =3D blk_new(bdrv_get_aio_context(bs),
+-                  BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
++    blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM=
+_ALL,
++                          errp);
++    if (!blk) {
++        ret =3D -EPERM;
+         goto out;
+     }
+     blk_set_allow_write_beyond_eof(blk, true);
+diff --git a/block/qcow.c b/block/qcow.c
+index 6b5f2269f0..b0475b73a5 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -849,10 +849,10 @@ static int coroutine_fn qcow_co_create(BlockdevCreate=
+Options *opts,
+         return -EIO;
+     }
 =20
- # This will not work if arguments contain spaces but is necessary if we
-@@ -385,9 +393,9 @@ def log(msg: Msg,
-     if isinstance(msg, (dict, list)):
-         # Don't sort if it's already sorted
-         do_sort =3D not isinstance(msg, OrderedDict)
--        print(json.dumps(msg, sort_keys=3Ddo_sort, indent=3Dindent))
-+        test_logger.info(json.dumps(msg, sort_keys=3Ddo_sort, indent=3Dind=
-ent))
-     else:
--        print(msg)
-+        test_logger.info(msg)
+-    qcow_blk =3D blk_new(bdrv_get_aio_context(bs),
+-                       BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
+-    ret =3D blk_insert_bs(qcow_blk, bs, errp);
+-    if (ret < 0) {
++    qcow_blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE,
++                               BLK_PERM_ALL, errp);
++    if (!qcow_blk) {
++        ret =3D -EPERM;
+         goto exit;
+     }
+     blk_set_allow_write_beyond_eof(qcow_blk, true);
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 2ba0b17c39..0edc7f4643 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3405,10 +3405,10 @@ qcow2_co_create(BlockdevCreateOptions *create_optio=
+ns, Error **errp)
+     }
 =20
- class Timeout:
-     def __init__(self, seconds, errmsg=3D"Timeout"):
-@@ -609,7 +617,7 @@ class VM(qtest.QEMUQtestMachine):
+     /* Create BlockBackend to write to the image */
+-    blk =3D blk_new(bdrv_get_aio_context(bs),
+-                  BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
++    blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM=
+_ALL,
++                          errp);
++    if (!blk) {
++        ret =3D -EPERM;
+         goto out;
+     }
+     blk_set_allow_write_beyond_eof(blk, true);
+@@ -5412,12 +5412,10 @@ static int qcow2_amend_options(BlockDriverState *bs=
+, QemuOpts *opts,
+     }
 =20
-     # Returns None on success, and an error string on failure
-     def run_job(self, job, auto_finalize=3DTrue, auto_dismiss=3DFalse,
--                pre_finalize=3DNone, cancel=3DFalse, use_log=3DTrue, wait=
-=3D60.0):
-+                pre_finalize=3DNone, cancel=3DFalse, wait=3D60.0):
-         """
-         run_job moves a job from creation through to dismissal.
+     if (new_size) {
+-        BlockBackend *blk =3D blk_new(bdrv_get_aio_context(bs),
+-                                    BLK_PERM_RESIZE, BLK_PERM_ALL);
+-        ret =3D blk_insert_bs(blk, bs, errp);
+-        if (ret < 0) {
+-            blk_unref(blk);
+-            return ret;
++        BlockBackend *blk =3D blk_new_with_bs(bs, BLK_PERM_RESIZE, BLK_PER=
+M_ALL,
++                                            errp);
++        if (!blk) {
++            return -EPERM;
+         }
 =20
-@@ -622,7 +630,6 @@ class VM(qtest.QEMUQtestMachine):
-                              invoked prior to issuing job-finalize, if any=
-.
-         :param cancel: Bool. When true, cancels the job after the pre_fina=
-lize
-                        callback.
--        :param use_log: Bool. When false, does not log QMP messages.
-         :param wait: Float. Timeout value specifying how long to wait for =
-any
-                      event, in seconds. Defaults to 60.0.
-         """
-@@ -640,8 +647,7 @@ class VM(qtest.QEMUQtestMachine):
-         while True:
-             ev =3D filter_qmp_event(self.events_wait(events, timeout=3Dwai=
-t))
-             if ev['event'] !=3D 'JOB_STATUS_CHANGE':
--                if use_log:
--                    log(ev)
-+                log(ev)
-                 continue
-             status =3D ev['data']['status']
-             if status =3D=3D 'aborting':
-@@ -649,29 +655,18 @@ class VM(qtest.QEMUQtestMachine):
-                 for j in result['return']:
-                     if j['id'] =3D=3D job:
-                         error =3D j['error']
--                        if use_log:
--                            log('Job failed: %s' % (j['error']))
-+                        log('Job failed: %s' % (j['error']))
-             elif status =3D=3D 'ready':
--                if use_log:
--                    self.qmp_log('job-complete', id=3Djob)
--                else:
--                    self.qmp('job-complete', id=3Djob)
-+                self.qmp_log('job-complete', id=3Djob)
-             elif status =3D=3D 'pending' and not auto_finalize:
-                 if pre_finalize:
-                     pre_finalize()
--                if cancel and use_log:
-+                if cancel:
-                     self.qmp_log('job-cancel', id=3Djob)
--                elif cancel:
--                    self.qmp('job-cancel', id=3Djob)
--                elif use_log:
--                    self.qmp_log('job-finalize', id=3Djob)
-                 else:
--                    self.qmp('job-finalize', id=3Djob)
-+                    self.qmp_log('job-finalize', id=3Djob)
-             elif status =3D=3D 'concluded' and not auto_dismiss:
--                if use_log:
--                    self.qmp_log('job-dismiss', id=3Djob)
--                else:
--                    self.qmp('job-dismiss', id=3Djob)
-+                self.qmp_log('job-dismiss', id=3Djob)
-             elif status =3D=3D 'null':
-                 return error
+         /*
+diff --git a/block/qed.c b/block/qed.c
+index b0fdb8f565..fb609cfba1 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -651,10 +651,10 @@ static int coroutine_fn bdrv_qed_co_create(BlockdevCr=
+eateOptions *opts,
+         return -EIO;
+     }
 =20
-@@ -991,7 +986,7 @@ def notrun(reason):
-     seq =3D os.path.basename(sys.argv[0])
+-    blk =3D blk_new(bdrv_get_aio_context(bs),
+-                  BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
++    blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM=
+_ALL,
++                          errp);
++    if (!blk) {
++        ret =3D -EPERM;
+         goto out;
+     }
+     blk_set_allow_write_beyond_eof(blk, true);
+diff --git a/block/sheepdog.c b/block/sheepdog.c
+index 76729f40a4..2eb61938ff 100644
+--- a/block/sheepdog.c
++++ b/block/sheepdog.c
+@@ -1803,12 +1803,12 @@ static int sd_prealloc(BlockDriverState *bs, int64_=
+t old_size, int64_t new_size,
+     void *buf =3D NULL;
+     int ret;
 =20
-     open('%s/%s.notrun' % (output_dir, seq), 'w').write(reason + '\n')
--    print('%s not run: %s' % (seq, reason))
-+    logger.warning("%s not run: %s", seq, reason)
-     sys.exit(0)
+-    blk =3D blk_new(bdrv_get_aio_context(bs),
+-                  BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE | BLK_PERM_RES=
+IZE,
+-                  BLK_PERM_ALL);
++    blk =3D blk_new_with_bs(bs,
++                          BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE | BLK_=
+PERM_RESIZE,
++                          BLK_PERM_ALL, errp);
 =20
- def case_notrun(reason):
-@@ -1183,6 +1178,7 @@ def execute_setup_common(supported_fmts: Sequence[str=
-] =3D (),
-     if debug:
-         sys.argv.remove('-d')
-     logging.basicConfig(level=3D(logging.DEBUG if debug else logging.WARN)=
-)
-+    logger.debug("iotests debugging messages active")
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
++    if (!blk) {
++        ret =3D -EPERM;
+         goto out_with_err_set;
+     }
 =20
-     return debug
+diff --git a/block/vdi.c b/block/vdi.c
+index 0c7835ae70..2d28046615 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -804,10 +804,10 @@ static int coroutine_fn vdi_co_do_create(BlockdevCrea=
+teOptions *create_options,
+         goto exit;
+     }
 =20
-@@ -1195,14 +1191,25 @@ def execute_test(*args, test_function=3DNone, **kwa=
-rgs):
-     else:
-         test_function()
+-    blk =3D blk_new(bdrv_get_aio_context(bs_file),
+-                  BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
+-    ret =3D blk_insert_bs(blk, bs_file, errp);
+-    if (ret < 0) {
++    blk =3D blk_new_with_bs(bs_file, BLK_PERM_WRITE | BLK_PERM_RESIZE,
++                          BLK_PERM_ALL, errp);
++    if (!blk) {
++        ret =3D -EPERM;
+         goto exit;
+     }
 =20
-+def activate_logging():
-+    """Activate iotests.log() output to stdout for script-style tests."""
-+    handler =3D logging.StreamHandler(stream=3Dsys.stdout)
-+    formatter =3D logging.Formatter('%(message)s')
-+    handler.setFormatter(formatter)
-+    test_logger.addHandler(handler)
-+    test_logger.setLevel(logging.INFO)
-+    test_logger.propagate =3D False
-+
- # This is called from script-style iotests without a single point of entry
- def script_initialize(*args, **kwargs):
-     """Initialize script-style tests without running any tests."""
-+    activate_logging()
-     execute_setup_common(*args, **kwargs)
+diff --git a/block/vhdx.c b/block/vhdx.c
+index 45be0a4321..9d3951f4ee 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -1984,10 +1984,10 @@ static int coroutine_fn vhdx_co_create(BlockdevCrea=
+teOptions *opts,
+         return -EIO;
+     }
 =20
- # This is called from script-style iotests with a single point of entry
- def script_main(test_function, *args, **kwargs):
-     """Run script-style tests outside of the unittest framework"""
-+    activate_logging()
-     execute_test(*args, test_function=3Dtest_function, **kwargs)
+-    blk =3D blk_new(bdrv_get_aio_context(bs),
+-                  BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
++    blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM=
+_ALL,
++                          errp);
++    if (!blk) {
++        ret =3D -EPERM;
+         goto delete_and_exit;
+     }
+     blk_set_allow_write_beyond_eof(blk, true);
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 8ec18f35a5..b02fdd14b2 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2717,11 +2717,10 @@ static BlockBackend *vmdk_co_create_cb(int64_t size=
+, int idx,
+     if (!bs) {
+         return NULL;
+     }
+-    blk =3D blk_new(bdrv_get_aio_context(bs),
+-                  BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE | BLK_PERM_RES=
+IZE,
+-                  BLK_PERM_ALL);
+-    if (blk_insert_bs(blk, bs, errp)) {
+-        bdrv_unref(bs);
++    blk =3D blk_new_with_bs(bs,
++                          BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE | BLK_=
+PERM_RESIZE,
++                          BLK_PERM_ALL, errp);
++    if (!blk) {
+         return NULL;
+     }
+     blk_set_allow_write_beyond_eof(blk, true);
+diff --git a/block/vpc.c b/block/vpc.c
+index 2d1eade146..5e31dd1e47 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -1012,10 +1012,10 @@ static int coroutine_fn vpc_co_create(BlockdevCreat=
+eOptions *opts,
+         return -EIO;
+     }
 =20
- # This is called from unittest style iotests
+-    blk =3D blk_new(bdrv_get_aio_context(bs),
+-                  BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL);
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
++    blk =3D blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM=
+_ALL,
++                          errp);
++    if (!blk) {
++        ret =3D -EPERM;
+         goto out;
+     }
+     blk_set_allow_write_beyond_eof(blk, true);
+diff --git a/blockdev.c b/blockdev.c
+index dc1a0c7c2f..b3c840ec03 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2711,7 +2711,6 @@ void qmp_block_resize(bool has_device, const char *de=
+vice,
+     BlockBackend *blk =3D NULL;
+     BlockDriverState *bs;
+     AioContext *aio_context;
+-    int ret;
+=20
+     bs =3D bdrv_lookup_bs(has_device ? device : NULL,
+                         has_node_name ? node_name : NULL,
+@@ -2734,14 +2733,13 @@ void qmp_block_resize(bool has_device, const char *=
+device,
+         goto out;
+     }
+=20
+-    blk =3D blk_new(bdrv_get_aio_context(bs), BLK_PERM_RESIZE, BLK_PERM_AL=
+L);
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
++    blk =3D blk_new_with_bs(bs, BLK_PERM_RESIZE, BLK_PERM_ALL, errp);
++    if (!blk) {
+         goto out;
+     }
+=20
+     bdrv_drained_begin(bs);
+-    ret =3D blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
++    blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
+     bdrv_drained_end(bs);
+=20
+ out:
+diff --git a/blockjob.c b/blockjob.c
+index fc850312c1..2affa1844d 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -397,16 +397,13 @@ void *block_job_create(const char *job_id, const Bloc=
+kJobDriver *driver,
+ {
+     BlockBackend *blk;
+     BlockJob *job;
+-    int ret;
+=20
+     if (job_id =3D=3D NULL && !(flags & JOB_INTERNAL)) {
+         job_id =3D bdrv_get_device_name(bs);
+     }
+=20
+-    blk =3D blk_new(bdrv_get_aio_context(bs), perm, shared_perm);
+-    ret =3D blk_insert_bs(blk, bs, errp);
+-    if (ret < 0) {
+-        blk_unref(blk);
++    blk =3D blk_new_with_bs(bs, perm, shared_perm, errp);
++    if (!blk) {
+         return NULL;
+     }
+=20
 --=20
 2.26.2
 
