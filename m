@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C711C522A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 11:47:57 +0200 (CEST)
-Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E248A1C5232
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 11:50:33 +0200 (CEST)
+Received: from localhost ([::1]:53402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVuBA-00017m-HA
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 05:47:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52008)
+	id 1jVuDg-00045U-Ul
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 05:50:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bharatb.linux@gmail.com>)
- id 1jVuAD-0000XY-E9; Tue, 05 May 2020 05:46:57 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:43340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bharatb.linux@gmail.com>)
- id 1jVuAC-0002hI-2H; Tue, 05 May 2020 05:46:57 -0400
-Received: by mail-qk1-x742.google.com with SMTP id i14so1594590qka.10;
- Tue, 05 May 2020 02:46:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4kvZHaZS5hLNJwdorsy1zm/c4irnYS40G/Gsr1cqd9o=;
- b=WmUzMRD/Mp47jW+0srR/gHEqmKXS4nykIf4p7q+z/Cldpvd48QHf4q2cEGJIHn3/2+
- DqdHozdBSy/gSLR5VGYTPANNHd7wz2ZP7fa9dp3O/d0BUO1rMvJvsIq4ecrPLzLEnto2
- IVLeuaRcs+dvFK1Rh/skNquNgy/w3U3Gmxi4iAtz5TOfmY5ab6e13PSIpCe7jq2klHn0
- hr+mxgwU4euob8EtGorfq1L7P+7tfgGg5rpF1VBYJzM14tm7b46RH/jgHTYmeU+ARNtr
- ly2AhcQ7ggDFbITQgeHstnpNuQohxTRAU2SWRs9pKCgXwV60PRhf3Yxl9ooq/bE7KCwV
- DyJA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVuC5-0002Hj-8u
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 05:48:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41584
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVuC4-0003BN-IX
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 05:48:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588672131;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1njBCj7bWLRHj0Gq8Fp6g7b06LQ45UyFkjrdFZsXVNM=;
+ b=IZoSr0WEqbO916tC6zyh0FhE2nTaXGghmva8zJiqe8PTe3nQgvz5EPR9CdiRHQhDCKGJ89
+ 8kZq9Ys/K2v+lCf6CC+4jR3rhsDSQKoTWZHlhrQxo6BF0hpXjIOOrggFtUPm3oYlXOznh/
+ sb1+eAnYuW60OaBCeadFcUMt3Xx6MlM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-94kVAtqOPKaIDgM-sE0_-A-1; Tue, 05 May 2020 05:48:49 -0400
+X-MC-Unique: 94kVAtqOPKaIDgM-sE0_-A-1
+Received: by mail-wm1-f70.google.com with SMTP id q5so786914wmc.9
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 02:48:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4kvZHaZS5hLNJwdorsy1zm/c4irnYS40G/Gsr1cqd9o=;
- b=HzmjdgZZlOloUqWqtiiyvXt4Rf/8A/mzRbxZDb8sGG5rdihfDJd+vLx4yBwI1U9Ga4
- 2z3Iv7NKm9WKvBTZDsrRszm8DFAXp8k2KUNLH7Iu8dUGcWiAH8QX6hqBY+5WWuhz7d1e
- /fFZtaHC0vsczcYzYWAg7KnKsZ3XqDRSKzzu62fcCopPw75816PNNrSUVtwW+f0dxS+k
- P4uAdFKlX8kPkXVUzbcpa0XoRW1BXRVRLyzdHtSPXQEb0Wv+mqq8Khw09Xuevyf8jBeo
- vH/B8dBO2jiY62gL6Wc6j/Of0rjmnRorlw+LPzfY44rFoyFqBDYgoOG3fo9MXnRkgPm4
- Q/+w==
-X-Gm-Message-State: AGi0PuYGc/a+jc8kG+bOd6PjoSFZwe+La+7Y+zA910iQFJvp3aUm4T6W
- F6Ry7MS4nzVAJAhYlt8T6cKTkHfxwPLwQvsP1l4=
-X-Google-Smtp-Source: APiQypLSLXGTabuegutI17wn0P4xfw7iKKXtMWhcrK2cX6MgjTFlH7ZNhFf0wFSqt5yPxynEL/K38XM7be5L8P0gyKM=
-X-Received: by 2002:a05:620a:219a:: with SMTP id
- g26mr2561042qka.228.1588672014221; 
- Tue, 05 May 2020 02:46:54 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TtSUeTSb4ge+2IHb4/MidyAPkx4H6M2kRW/G/2DxTsY=;
+ b=CIzTU/6J+FP4g2dtt1Ym19ZuxSRep2pH5Zz54tzCA9OBHKuuYM8N0NxlacXj6AP3BB
+ ZHC4OJaje8Ed3xvVa2HkZ94HHU/0AXzeRMtMqMt1TdW4i+BePUbZKAy62etPKqSJrL1R
+ xcVK6fFKEg+yv9+wwuNAKALSGQfDVcidYI9AUsEBlATdK6p5lg4bdKDOC/nyhEPPsJi/
+ hs50EUlozBfVncKrujHqQA1a3ctT2cydFLRqPOAdDXrbLse43gTsLtrIk9WtJDYLqa5o
+ NgpFVX1HsssmJnX1M2Jn5pDKXXwlxZ/LHB7+vhKyyKfdx29r9E8QLqdyMUMPwcZ08wEC
+ bTtg==
+X-Gm-Message-State: AGi0PubEjKTRYQx9nvZq8PwvskLjFxev6ECaBX1elwN7AT5mseDkvmVu
+ fAwYxga/FmSoReTL+/uUtHMAY2X1vZgYJH2r0/CDYlL0hcPsl8Kgy99us26jz0Dt86/fNj3E6kP
+ JdtXmB4vD+pP6Ssk=
+X-Received: by 2002:adf:ffcd:: with SMTP id x13mr2693135wrs.11.1588672128529; 
+ Tue, 05 May 2020 02:48:48 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKIG8E+lEYfq+TtX7awxm9k510ikZ/FDPjb0UQVxYYiD1AbGvKX/643NtQAkbQDnCgACEvvcQ==
+X-Received: by 2002:adf:ffcd:: with SMTP id x13mr2693110wrs.11.1588672128283; 
+ Tue, 05 May 2020 02:48:48 -0700 (PDT)
+Received: from [192.168.1.38] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id u5sm2341970wrm.35.2020.05.05.02.48.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 May 2020 02:48:47 -0700 (PDT)
+Subject: Re: [PATCH 5/6] block/nvme: Align block pages queue to host page size
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20200504094641.4963-1-philmd@redhat.com>
+ <20200504094641.4963-6-philmd@redhat.com>
+ <5feeec39-e12f-b047-f5f3-bfac0d1af3f1@redhat.com>
+ <9db49e27-c417-a280-fd4e-08bb0ad57fb3@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1d4f6e95-cf51-e6a6-220e-4b1fb6fa4559@redhat.com>
+Date: Tue, 5 May 2020 11:48:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200323084617.1782-1-bbhushan2@marvell.com>
- <20200323084617.1782-2-bbhushan2@marvell.com>
- <20200323170835.5021f845@w520.home>
- <8ec6af3c-6bd7-a3dc-c531-16db6b2089c5@redhat.com>
- <20200326115318.094ab79a@x1.home>
- <MWHPR1801MB196612966851882A99A6D3F3E3C60@MWHPR1801MB1966.namprd18.prod.outlook.com>
- <72e3ea5c-c98c-3e02-26d1-b956ee81e30f@redhat.com>
- <CAAeCc_nnE2FBo2wW+NkJX-vOP3FF_wSvLg0KngND4HhFUAGf9Q@mail.gmail.com>
- <987c2781-ce4d-9c6a-eae6-ac53fdc581c0@redhat.com>
-In-Reply-To: <987c2781-ce4d-9c6a-eae6-ac53fdc581c0@redhat.com>
-From: Bharat Bhushan <bharatb.linux@gmail.com>
-Date: Tue, 5 May 2020 15:16:42 +0530
-Message-ID: <CAAeCc_m_+13YxByDQPU1VNFCNp2hhUWjMRc5LTC6CdvOm0q6Zw@mail.gmail.com>
-Subject: Re: [EXT] Re: [PATCH v9 1/9] hw/vfio/common: Remove error print on
- mmio region translation by viommu
-To: Auger Eric <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=bharatb.linux@gmail.com; helo=mail-qk1-x742.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <9db49e27-c417-a280-fd4e-08bb0ad57fb3@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,177 +100,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "yang.zhong@intel.com" <yang.zhong@intel.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "kevin.tian@intel.com" <kevin.tian@intel.com>,
- "Tomasz Nowicki \[C\]" <tnowicki@marvell.com>,
- "mst@redhat.com" <mst@redhat.com>, "drjones@redhat.com" <drjones@redhat.com>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- Bharat Bhushan <bbhushan2@marvell.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "linuc.decode@gmail.com" <linuc.decode@gmail.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hi Eric,
+On 5/5/20 10:23 AM, Laurent Vivier wrote:
+> On 05/05/2020 10:00, Laurent Vivier wrote:
+>> On 04/05/2020 11:46, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> In nvme_create_queue_pair() we create a page list using
+>>> qemu_blockalign(), then map it with qemu_vfio_dma_map():
+>>>
+>>>    q->prp_list_pages =3D qemu_blockalign0(bs, s->page_size * NVME_QUEUE=
+_SIZE);
+>>>    r =3D qemu_vfio_dma_map(s->vfio, q->prp_list_pages,
+>>>                          s->page_size * NVME_QUEUE_SIZE, ...);
+>>>
+>>> With:
+>>>
+>>>    s->page_size =3D MAX(4096, 1 << (12 + ((cap >> 48) & 0xF)));
+>>>
+>>> The qemu_vfio_dma_map() documentation says "The caller need
+>>> to make sure the area is aligned to page size". While we use
+>>> multiple s->page_size as alignment, it might be not sufficient
+>>> on some hosts. Use the qemu_real_host_page_size value to be
+>>> sure the host alignment is respected.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> ---
+>>> Cc: C=C3=A9dric Le Goater <clg@kaod.org>
+>>> Cc: David Gibson <david@gibson.dropbear.id.au>
+>>> Cc: Laurent Vivier <lvivier@redhat.com>
+>>> ---
+>>>   block/nvme.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/block/nvme.c b/block/nvme.c
+>>> index 7b7c0cc5d6..bde0d28b39 100644
+>>> --- a/block/nvme.c
+>>> +++ b/block/nvme.c
+>>> @@ -627,7 +627,7 @@ static int nvme_init(BlockDriverState *bs, const ch=
+ar *device, int namespace,
+>>>  =20
+>>>       s->page_size =3D MAX(4096, 1 << (12 + ((cap >> 48) & 0xF)));
+>>>       s->doorbell_scale =3D (4 << (((cap >> 32) & 0xF))) / sizeof(uint3=
+2_t);
+>>> -    bs->bl.opt_mem_alignment =3D s->page_size;
+>>> +    bs->bl.opt_mem_alignment =3D MAX(qemu_real_host_page_size, s->page=
+_size);
+>>
+>> Why don't you replace directly the "4096" in s->page_size by
+>> qemu_real_host_page_size?
+>>
+>> I think this was the purpose of MAX(4096, ...) to align to the host page
+>> size.
+>=20
+> oh, I see, page_size is used for a lot of things than can be broken, and
+> this is what is done in bdrv_opt_mem_align() for instance, 4096 is the
+> sector size not the host page size.
+>=20
+> BTW, you need the same change as in nvme_init() in
+> nvme_refresh_limits(), I think.
 
-On Tue, May 5, 2020 at 3:00 PM Auger Eric <eric.auger@redhat.com> wrote:
->
-> Hi Bharat,
->
-> On 5/5/20 11:25 AM, Bharat Bhushan wrote:
-> > Hi Eric,
-> >
-> > On Fri, Apr 24, 2020 at 7:47 PM Auger Eric <eric.auger@redhat.com> wrote:
-> >>
-> >> Hi Bharat,
-> >>
-> >> On 4/2/20 11:01 AM, Bharat Bhushan wrote:
-> >>> Hi Eric/Alex,
-> >>>
-> >>>> -----Original Message-----
-> >>>> From: Alex Williamson <alex.williamson@redhat.com>
-> >>>> Sent: Thursday, March 26, 2020 11:23 PM
-> >>>> To: Auger Eric <eric.auger@redhat.com>
-> >>>> Cc: Bharat Bhushan <bbhushan2@marvell.com>; peter.maydell@linaro.org;
-> >>>> peterx@redhat.com; eric.auger.pro@gmail.com; kevin.tian@intel.com;
-> >>>> mst@redhat.com; Tomasz Nowicki [C] <tnowicki@marvell.com>;
-> >>>> drjones@redhat.com; linuc.decode@gmail.com; qemu-devel@nongnu.org; qemu-
-> >>>> arm@nongnu.org; bharatb.linux@gmail.com; jean-philippe@linaro.org;
-> >>>> yang.zhong@intel.com; David Gibson <david@gibson.dropbear.id.au>
-> >>>> Subject: [EXT] Re: [PATCH v9 1/9] hw/vfio/common: Remove error print on mmio
-> >>>> region translation by viommu
-> >>>>
-> >>>> External Email
-> >>>>
-> >>>> ----------------------------------------------------------------------
-> >>>> On Thu, 26 Mar 2020 18:35:48 +0100
-> >>>> Auger Eric <eric.auger@redhat.com> wrote:
-> >>>>
-> >>>>> Hi Alex,
-> >>>>>
-> >>>>> On 3/24/20 12:08 AM, Alex Williamson wrote:
-> >>>>>> [Cc +dwg who originated this warning]
-> >>>>>>
-> >>>>>> On Mon, 23 Mar 2020 14:16:09 +0530
-> >>>>>> Bharat Bhushan <bbhushan2@marvell.com> wrote:
-> >>>>>>
-> >>>>>>> On ARM, the MSI doorbell is translated by the virtual IOMMU.
-> >>>>>>> As such address_space_translate() returns the MSI controller MMIO
-> >>>>>>> region and we get an "iommu map to non memory area"
-> >>>>>>> message. Let's remove this latter.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> >>>>>>> Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
-> >>>>>>> ---
-> >>>>>>>  hw/vfio/common.c | 2 --
-> >>>>>>>  1 file changed, 2 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c index
-> >>>>>>> 5ca11488d6..c586edf47a 100644
-> >>>>>>> --- a/hw/vfio/common.c
-> >>>>>>> +++ b/hw/vfio/common.c
-> >>>>>>> @@ -426,8 +426,6 @@ static bool vfio_get_vaddr(IOMMUTLBEntry *iotlb,
-> >>>> void **vaddr,
-> >>>>>>>                                   &xlat, &len, writable,
-> >>>>>>>                                   MEMTXATTRS_UNSPECIFIED);
-> >>>>>>>      if (!memory_region_is_ram(mr)) {
-> >>>>>>> -        error_report("iommu map to non memory area %"HWADDR_PRIx"",
-> >>>>>>> -                     xlat);
-> >>>>>>>          return false;
-> >>>>>>>      }
-> >>>>>>>
-> >>>>>>
-> >>>>>> I'm a bit confused here, I think we need more justification beyond
-> >>>>>> "we hit this warning and we don't want to because it's ok in this
-> >>>>>> one special case, therefore remove it".  I assume the special case
-> >>>>>> is that the device MSI address is managed via the SET_IRQS ioctl and
-> >>>>>> therefore we won't actually get DMAs to this range.
-> >>>>> Yes exactly. The guest creates a mapping between one giova and this
-> >>>>> gpa (corresponding to the MSI controller doorbell) because MSIs are
-> >>>>> mapped on ARM. But practically the physical device is programmed with
-> >>>>> an host chosen iova that maps onto the physical MSI controller's
-> >>>>> doorbell. so the device never performs DMA accesses to this range.
-> >>>>>
-> >>>>>   But I imagine the case that
-> >>>>>> was in mind when adding this warning was general peer-to-peer
-> >>>>>> between and assigned and emulated device.
-> >>>>> yes makes sense.
-> >>>>>
-> >>>>>   Maybe there's an argument to be made
-> >>>>>> that such a p2p mapping might also be used in a non-vIOMMU case.  We
-> >>>>>> skip creating those mappings and drivers continue to work, maybe
-> >>>>>> because nobody attempts to do p2p DMA with the types of devices we
-> >>>>>> emulate, maybe because p2p DMA is not absolutely reliable on bare
-> >>>>>> metal and drivers test it before using it.
-> >>>>> MSI doorbells are mapped using the IOMMU_MMIO flag (dma-iommu.c
-> >>>>> iommu_dma_get_msi_page).
-> >>>>> One idea could be to pass that flag through the IOMMU Notifier
-> >>>>> mechanism into the iotlb->perm. Eventually when we get this in
-> >>>>> vfio_get_vaddr() we would not print the warning. Could that make sense?
-> >>>>
-> >>>> Yeah, if we can identify a valid case that doesn't need a warning, that's fine by me.
-> >>>> Thanks,
-> >>>
-> >>> Let me know if I understood the proposal correctly:
-> >>>
-> >>> virtio-iommu driver in guest will make map (VIRTIO_IOMMU_T_MAP) with VIRTIO_IOMMU_MAP_F_MMIO flag for MSI mapping.
-> >>> In qemu, virtio-iommu device will set a new defined flag (say IOMMU_MMIO) in iotlb->perm in memory_region_notify_iommu(). vfio_get_vaddr() will check same flag and will not print the warning.>
-> >>> Is above correct?
-> >> Yes that's what I had in mind.
-> >
-> > In that case virtio-iommu driver in guest should not make map
-> > (VIRTIO_IOMMU_T_MAP) call as it known nothing to be mapped.
-> sorry I don't catch what you meant. Please can you elaborate?
+nvme_init() seems OK, but you are right, I missed=20
+nvme_refresh_limits()... Thanks!
 
-What I understood of the proposal is:
-Linux:
- 1) MSI doorbells are mapped using the IOMMU_MMIO flag (dma-iommu.c
-iommu_dma_get_msi_page)
- 2) virtio-iommu driver in guest will make map (VIRTIO_IOMMU_T_MAP)
-with VIRTIO_IOMMU_MAP_F_MMIO flag for MSI mapping.
+>=20
+> Thanks,
+> Laurent
+>=20
+>=20
 
-GEMU:
-3) virtio-iommu device - If VIRTIO_IOMMU_MAP_F_MMIO flag set then will
-set a new defined flag (say IOMMU_MMIO) in iotlb->perm in
-memory_region_notify_iommu()
-4. vfio_get_vaddr() will check same flag and will not print the
-warning. Also vfio_iommu_map_notify() will not do anything.
-
-So, rather than going down to step 3 and 4, can we avoid maling map()
-calling in step-2 itself?
-
-Thanks
--Bharat
-
->
-> Thanks
->
-> Eric
-> >
-> > Stay Safe
-> >
-> > Thanks
-> > -Bharat
-> >
-> >>
-> >> Thanks
-> >>
-> >> Eric
-> >>>
-> >>> Thanks
-> >>> -Bharat
-> >>>
-> >>>>
-> >>>> Alex
-> >>>
-> >>>
-> >>
-> >
->
 
