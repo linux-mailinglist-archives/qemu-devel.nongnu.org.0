@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F501C5231
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 11:50:13 +0200 (CEST)
-Received: from localhost ([::1]:52098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6C71C5261
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:00:50 +0200 (CEST)
+Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVuDM-0003ZJ-0e
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 05:50:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
+	id 1jVuNd-0007jX-C3
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:00:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVuCS-0002jB-JA
- for qemu-devel@nongnu.org; Tue, 05 May 2020 05:49:16 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42979)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jVuMh-00078N-0n; Tue, 05 May 2020 05:59:51 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVuCR-0003Dm-FQ
- for qemu-devel@nongnu.org; Tue, 05 May 2020 05:49:16 -0400
-Received: by mail-ot1-x344.google.com with SMTP id m18so1105479otq.9
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 02:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TAas8SXFXBR2hC3fv1RTopcHr9E/jIQ4oU05mf8HEF0=;
- b=lW7ps8RdV4eL/PgHPVLiYWxZ+soN28odC0X6M2rG9x4cyVE/g+YnJS7t3kcJcuZq+F
- WXJVCMeNDRhygnT2th7wkc/o6b1pXQ4UJrR1/xtR93AaUPZzsL1oemp9IhZU84FEwWd8
- e3/4C/1jccRzIzTevOqBe5Ot0I5jIJtJj3eQYVLiFw5lzOOzuhcDm+qgSKGEuSs+nYuG
- AmiLREL0VTrQD1MJwgVj/+SegksU2yFgiWc3pJCl236w/WVYCAWKwfCcSXVlh5E3VKHY
- Arnw8QNZqA1JQNBzhmLszYwrA1vuaDebrZ/Mf6tJBRllauVfGV8EYAfO8xsPiYLtYKlZ
- Mbcw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jVuMg-0004OJ-0s; Tue, 05 May 2020 05:59:50 -0400
+Received: by mail-wm1-x343.google.com with SMTP id v8so2083411wma.0;
+ Tue, 05 May 2020 02:59:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EkplecsBlPPnRuZXHE6e7jrbnG0gHvt4a5C9/IO/Jn4=;
+ b=qxeUGu7zd/oq5+AkjIqIIv4AbwIjrr2CS1GlsoHs/2IwErU9jL5p8nTg/rnrOi0+Hs
+ era/vVIFq2Fn0c+N/zEgg8RtcjI3rErFOkAiEBhcbRViM9pY9PQoKrr8JtFXnBrPxB8U
+ dYAAM/9nOBmwrEvFbBQyFoM4nLYG7/1VTx9juSHRWqUMdHdZ/gMA6KgZiDTjjg1tvx2t
+ XzKHmX9ffT/usEqxPNpKfM4MAWSch2o6dp0PgoTGgPQELt66edWS0/Qfzf2nxNiebBy1
+ Yjp7ogELJL5Z/wVnCRA6LGvBJPmzzqLHzEk65i4hoi/ziakFo1nSYTjN1ShlVhYApYUp
+ Ln9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TAas8SXFXBR2hC3fv1RTopcHr9E/jIQ4oU05mf8HEF0=;
- b=YHWVoCKrQxBjsOdmOg7KMeAQkkFS6GK2yLcrSBpwTUmMLrFWV7k6Ix3N7AAiHvYWqL
- CyvVKHv0ZQiZRX2O96zppJD50Pckn3IXEcAmgIUmnDUKVkzcyVhXxlAcVvnRc+qTs3ex
- +m33rplUKAeuBKxPE9dvB3zXYO2pN25vv6nc/Bv7pawXZHrb0Ob7Pt3E8XoIPBhvOU2z
- FhsjGPi2mJL8qnXICGfX3/AUONnv2dEhXlliWeEVq8/+UytlYQIflayEJJW5evRJwjV4
- 2AsRP6AaDyX3aRBXaUNNBAijan24hgm9THY6c0Cc9M6JtunMAskWRX65nMkMT567puTy
- rAng==
-X-Gm-Message-State: AGi0PuZqJB0WDap8M/z+7Yb3kRnLbmsyXRZzABOsfSRYYtNgytM8lB+I
- xDc3sIxo2hu3ff/s52qFUGrhqDxS6/R2VGDJBfY9Qw==
-X-Google-Smtp-Source: APiQypI308GBtLL1/5zxOqsITcPZNf1WgdHJ7aU40XfH1lQ+YkXEWpM5gh6oQ5kd9fDsOaHxX7TL+4UrRAA59uQt1z0=
-X-Received: by 2002:a9d:2c08:: with SMTP id f8mr1527787otb.135.1588672154302; 
- Tue, 05 May 2020 02:49:14 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=EkplecsBlPPnRuZXHE6e7jrbnG0gHvt4a5C9/IO/Jn4=;
+ b=MILe16i+DptK7/+FLWuEuzAURVc35F6mFWjonFBt9qoWDZywJx5erJt8HrsiPXdahF
+ b5FDpj23jNw4BYkjShFQA9/DPCUXqZbKMV51r+Ck6N2UCiaSLlA1UNUoP5iRHjAZ7Q2N
+ DjxmW4zid7nw6648fsAlatkiMc4tax7mEGTDQq4P5Q6wAkGFd7WJcIZRuOOKCsjmF/kF
+ UN/lw98uA43UK5vc6vqhNEYFc0ayPwn/k6TJ0YQxYTWmwIGt/cKBQIorkNK3sjDJk4JZ
+ 3tI3QgwR/mPBVhMDp4aoNWoFpBXuMaXKY27oSog3xBq38jNA0OONbZAb0zGlc4kciuRb
+ VK3A==
+X-Gm-Message-State: AGi0PubMkZcoPFcJUY2Pj3e5aB8jYlnCijV3gxBvXU+GyqY3I99c3WSE
+ CTWFKtc8Ch3aAZJSL9V/FzONryv9
+X-Google-Smtp-Source: APiQypKyFJ5xMsui8MoA133za5FCya/SqUJWChQoP18iHA4UA3DilmOORgWEXBb7+n5FKKU0PIWMQQ==
+X-Received: by 2002:a05:600c:1008:: with SMTP id
+ c8mr2340956wmc.14.1588672787793; 
+ Tue, 05 May 2020 02:59:47 -0700 (PDT)
+Received: from localhost.localdomain (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id s17sm2894725wmc.48.2020.05.05.02.59.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 May 2020 02:59:46 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] hw/arm/musicpal: Map the UART devices unconditionally
+Date: Tue,  5 May 2020 11:59:45 +0200
+Message-Id: <20200505095945.23146-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20200430162813.17671-1-richard.henderson@linaro.org>
- <CAFEAcA8m33s7e2T0GrZJxb4EyczcEmtW6-tRPoUsiVLO9g8dVw@mail.gmail.com>
- <20e6093b-edcb-c0e4-f4d5-b6ff4d51783c@linaro.org>
-In-Reply-To: <20e6093b-edcb-c0e4-f4d5-b6ff4d51783c@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 May 2020 10:49:03 +0100
-Message-ID: <CAFEAcA-uupuSni8yqs6evWbjZDZyToit6Hhn8nQ=oSWjRuJjgQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/18] target/arm: sve load/store improvements
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -80,24 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 May 2020 at 17:03, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/4/20 2:43 AM, Peter Maydell wrote:
-> > I've reviewed patch 13, but I still don't understand why you've
-> > made the size-related changes in patch 4, so I've continued
-> > our conversation in the thread on the v3 version of that patch.
->
-> I've changed that here in v4.  Please have another look at this one.
+I can't find proper documentation or datasheet, but it is likely
+a MMIO mapped serial device mapped in the 0x80000000..0x8000ffff
+range belongs to the SoC address space, thus is always mapped in
+the memory bus.
+Map the devices on the bus regardless a chardev is attached to it.
 
-The page_check_range() call still seems to be passing a fixed
-size of '1' ?
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+from 2019... found while doing housekeeping
+---
+ hw/arm/musicpal.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-thanks
--- PMM
+diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+index b2d0cfdac8..92f33ed87e 100644
+--- a/hw/arm/musicpal.c
++++ b/hw/arm/musicpal.c
+@@ -1619,14 +1619,10 @@ static void musicpal_init(MachineState *machine)
+                           pic[MP_TIMER2_IRQ], pic[MP_TIMER3_IRQ],
+                           pic[MP_TIMER4_IRQ], NULL);
+ 
+-    if (serial_hd(0)) {
+-        serial_mm_init(address_space_mem, MP_UART1_BASE, 2, pic[MP_UART1_IRQ],
+-                       1825000, serial_hd(0), DEVICE_NATIVE_ENDIAN);
+-    }
+-    if (serial_hd(1)) {
+-        serial_mm_init(address_space_mem, MP_UART2_BASE, 2, pic[MP_UART2_IRQ],
+-                       1825000, serial_hd(1), DEVICE_NATIVE_ENDIAN);
+-    }
++    serial_mm_init(address_space_mem, MP_UART1_BASE, 2, pic[MP_UART1_IRQ],
++                   1825000, serial_hd(0), DEVICE_NATIVE_ENDIAN);
++    serial_mm_init(address_space_mem, MP_UART2_BASE, 2, pic[MP_UART2_IRQ],
++                   1825000, serial_hd(1), DEVICE_NATIVE_ENDIAN);
+ 
+     /* Register flash */
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+-- 
+2.21.3
+
 
