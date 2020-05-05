@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A285D1C5666
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:08:46 +0200 (CEST)
-Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4C41C5671
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:11:01 +0200 (CEST)
+Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxJV-0000ST-LU
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38706)
+	id 1jVxLg-0004sE-7r
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:11:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVx9w-0001ND-C8
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:58:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24655
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxA6-0001oN-UB
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:02 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48896
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVx9v-0000mu-Kk
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:58:52 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxA5-000171-2x
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588683530;
+ s=mimecast20190719; t=1588683540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cQR0M9fWCh4ng08cJMMLE0yhSJzmSpgm/cT233yhunA=;
- b=Sqw5BT5OPuO5oVsGefNBKN7Fctc8+MoLOXmp3wHPnZkVvVlWPx/lzqgVk4IiGLVB7xbm1X
- cOzA2rbmm95mj9XkAL0SbQxOnO6+nU+lb2AZri+kvdYTcobJXSJgjJqcpde+JU7yMtY/EY
- 2V5XWNZIn26UD93h42464obUbeiGzDM=
+ bh=0gr15OrJS9tsXYgJJWW/K6LyEGhoZx2WchC4Ory6oOA=;
+ b=c/H1WK+xdeWIWh1RnsDS/oCW6mBUSzpcjpnP5KoZ9LwVnbgvYhyESedcnsyq+lcVRj+z13
+ 6etM0JaJ2w1leFq6wb9lcbn+hKfODbxZBPpDfbNFggnPzZFJKXQ69sQBi5fjA1uqQoWb9v
+ zcTr2kwoiittW1w3HjCIb8IoXhO38Y8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-voh5NsUNPQeQMHMLUaInxg-1; Tue, 05 May 2020 08:58:46 -0400
-X-MC-Unique: voh5NsUNPQeQMHMLUaInxg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-441-zab3n-jLN0KNVViENfGLkA-1; Tue, 05 May 2020 08:58:49 -0400
+X-MC-Unique: zab3n-jLN0KNVViENfGLkA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E11971005510;
- Tue,  5 May 2020 12:58:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31D2A1899526;
+ Tue,  5 May 2020 12:58:48 +0000 (UTC)
 Received: from localhost (ovpn-113-206.ams2.redhat.com [10.36.113.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81A375C1D3;
- Tue,  5 May 2020 12:58:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A09305D9DA;
+ Tue,  5 May 2020 12:58:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 08/24] iotests: touch up log function signature
-Date: Tue,  5 May 2020 14:58:10 +0200
-Message-Id: <20200505125826.1001451-9-mreitz@redhat.com>
+Subject: [PULL 09/24] iotests: limit line length to 79 chars
+Date: Tue,  5 May 2020 14:58:11 +0200
+Message-Id: <20200505125826.1001451-10-mreitz@redhat.com>
 In-Reply-To: <20200505125826.1001451-1-mreitz@redhat.com>
 References: <20200505125826.1001451-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,67 +84,229 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Representing nested, recursive data structures in mypy is notoriously
-difficult; the best we can reliably do right now is denote the leaf
-types as "Any" while describing the general shape of the data.
-
-Regardless, this fully annotates the log() function.
-
-Typing notes:
-
-TypeVar is a Type variable that can optionally be constrained by a
-sequence of possible types. This variable is bound to a specific type
-per-invocation, like a Generic.
-
-log() behaves as log<Msg>() now, where the incoming type informs the
-signature it expects for any filter arguments passed in. If Msg is a
-str, then filter should take and return a str.
+79 is the PEP8 recommendation. This recommendation works well for
+reading patch diffs in TUI email clients.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200331000014.11581-9-jsnow@redhat.com>
+Message-Id: <20200331000014.11581-10-jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/iotests.py | 64 +++++++++++++++++++++++------------
+ tests/qemu-iotests/pylintrc   |  6 +++-
+ 2 files changed, 47 insertions(+), 23 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 374a8f6077..69f24223d2 100644
+index 69f24223d2..9f5da32dae 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -28,6 +28,7 @@ import signal
- import struct
- import subprocess
- import sys
-+from typing import (Any, Callable, Dict, Iterable, List, Optional, TypeVar=
-)
- import unittest
+@@ -80,9 +80,11 @@ luks_default_key_secret_opt =3D 'key-secret=3Dkeysec0'
+ def qemu_img(*args):
+     '''Run qemu-img and return the exit code'''
+     devnull =3D open('/dev/null', 'r+')
+-    exitcode =3D subprocess.call(qemu_img_args + list(args), stdin=3Ddevnu=
+ll, stdout=3Ddevnull)
++    exitcode =3D subprocess.call(qemu_img_args + list(args),
++                               stdin=3Ddevnull, stdout=3Ddevnull)
+     if exitcode < 0:
+-        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcode,=
+ ' '.join(qemu_img_args + list(args))))
++        sys.stderr.write('qemu-img received signal %i: %s\n'
++                         % (-exitcode, ' '.join(qemu_img_args + list(args)=
+)))
+     return exitcode
 =20
- # pylint: disable=3Dimport-error, wrong-import-position
-@@ -354,9 +355,16 @@ def filter_qmp_imgfmt(qmsg):
-         return value
-     return filter_qmp(qmsg, _filter)
+ def ordered_qmp(qmsg, conv_keys=3DTrue):
+@@ -121,7 +123,8 @@ def qemu_img_verbose(*args):
+     '''Run qemu-img without suppressing its output and return the exit cod=
+e'''
+     exitcode =3D subprocess.call(qemu_img_args + list(args))
+     if exitcode < 0:
+-        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcode,=
+ ' '.join(qemu_img_args + list(args))))
++        sys.stderr.write('qemu-img received signal %i: %s\n'
++                         % (-exitcode, ' '.join(qemu_img_args + list(args)=
+)))
+     return exitcode
 =20
--def log(msg, filters=3D(), indent=3DNone):
--    '''Logs either a string message or a JSON serializable message (like Q=
-MP).
--    If indent is provided, JSON serializable messages are pretty-printed.'=
-''
-+
-+Msg =3D TypeVar('Msg', Dict[str, Any], List[Any], str)
-+
-+def log(msg: Msg,
-+        filters: Iterable[Callable[[Msg], Msg]] =3D (),
-+        indent: Optional[int] =3D None) -> None:
+ def qemu_img_pipe(*args):
+@@ -132,7 +135,8 @@ def qemu_img_pipe(*args):
+                             universal_newlines=3DTrue)
+     exitcode =3D subp.wait()
+     if exitcode < 0:
+-        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcode,=
+ ' '.join(qemu_img_args + list(args))))
++        sys.stderr.write('qemu-img received signal %i: %s\n'
++                         % (-exitcode, ' '.join(qemu_img_args + list(args)=
+)))
+     return subp.communicate()[0]
+=20
+ def qemu_img_log(*args):
+@@ -162,7 +166,8 @@ def qemu_io(*args):
+                             universal_newlines=3DTrue)
+     exitcode =3D subp.wait()
+     if exitcode < 0:
+-        sys.stderr.write('qemu-io received signal %i: %s\n' % (-exitcode, =
+' '.join(args)))
++        sys.stderr.write('qemu-io received signal %i: %s\n'
++                         % (-exitcode, ' '.join(args)))
+     return subp.communicate()[0]
+=20
+ def qemu_io_log(*args):
+@@ -284,10 +289,13 @@ win32_re =3D re.compile(r"\r")
+ def filter_win32(msg):
+     return win32_re.sub("", msg)
+=20
+-qemu_io_re =3D re.compile(r"[0-9]* ops; [0-9\/:. sec]* \([0-9\/.inf]* [EPT=
+GMKiBbytes]*\/sec and [0-9\/.inf]* ops\/sec\)")
++qemu_io_re =3D re.compile(r"[0-9]* ops; [0-9\/:. sec]* "
++                        r"\([0-9\/.inf]* [EPTGMKiBbytes]*\/sec "
++                        r"and [0-9\/.inf]* ops\/sec\)")
+ def filter_qemu_io(msg):
+     msg =3D filter_win32(msg)
+-    return qemu_io_re.sub("X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)=
+", msg)
++    return qemu_io_re.sub("X ops; XX:XX:XX.X "
++                          "(XXX YYY/sec and XXX ops/sec)", msg)
+=20
+ chown_re =3D re.compile(r"chown [0-9]+:[0-9]+")
+ def filter_chown(msg):
+@@ -340,7 +348,9 @@ def filter_img_info(output, filename):
+         line =3D filter_testfiles(line)
+         line =3D line.replace(imgfmt, 'IMGFMT')
+         line =3D re.sub('iters: [0-9]+', 'iters: XXX', line)
+-        line =3D re.sub('uuid: [-a-f0-9]+', 'uuid: XXXXXXXX-XXXX-XXXX-XXXX=
+-XXXXXXXXXXXX', line)
++        line =3D re.sub('uuid: [-a-f0-9]+',
++                      'uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
++                      line)
+         line =3D re.sub('cid: [0-9]+', 'cid: XXXXXXXXXX', line)
+         lines.append(line)
+     return '\n'.join(lines)
+@@ -538,11 +548,13 @@ class VM(qtest.QEMUQtestMachine):
+             self.pause_drive(drive, "write_aio")
+             return
+         self.qmp('human-monitor-command',
+-                 command_line=3D'qemu-io %s "break %s bp_%s"' % (drive, ev=
+ent, drive))
++                 command_line=3D'qemu-io %s "break %s bp_%s"'
++                 % (drive, event, drive))
+=20
+     def resume_drive(self, drive):
+         self.qmp('human-monitor-command',
+-                 command_line=3D'qemu-io %s "remove_break bp_%s"' % (drive=
+, drive))
++                 command_line=3D'qemu-io %s "remove_break bp_%s"'
++                 % (drive, drive))
+=20
+     def hmp_qemu_io(self, drive, cmd):
+         '''Write to a given drive using an HMP command'''
+@@ -802,16 +814,18 @@ class QMPTestCase(unittest.TestCase):
+                 idx =3D int(idx)
+=20
+             if not isinstance(d, dict) or component not in d:
+-                self.fail('failed path traversal for "%s" in "%s"' % (path=
+, str(d)))
++                self.fail(f'failed path traversal for "{path}" in "{d}"')
+             d =3D d[component]
+=20
+             if m:
+                 if not isinstance(d, list):
+-                    self.fail('path component "%s" in "%s" is not a list i=
+n "%s"' % (component, path, str(d)))
++                    self.fail(f'path component "{component}" in "{path}" '
++                              f'is not a list in "{d}"')
+                 try:
+                     d =3D d[idx]
+                 except IndexError:
+-                    self.fail('invalid index "%s" in path "%s" in "%s"' % =
+(idx, path, str(d)))
++                    self.fail(f'invalid index "{idx}" in path "{path}" '
++                              f'in "{d}"')
+         return d
+=20
+     def assert_qmp_absent(self, d, path):
+@@ -862,10 +876,13 @@ class QMPTestCase(unittest.TestCase):
+         '''Asserts that the given filename is a json: filename and that it=
+s
+            content is equal to the given reference object'''
+         self.assertEqual(json_filename[:5], 'json:')
+-        self.assertEqual(self.vm.flatten_qmp_object(json.loads(json_filena=
+me[5:])),
+-                         self.vm.flatten_qmp_object(reference))
++        self.assertEqual(
++            self.vm.flatten_qmp_object(json.loads(json_filename[5:])),
++            self.vm.flatten_qmp_object(reference)
++        )
+=20
+-    def cancel_and_wait(self, drive=3D'drive0', force=3DFalse, resume=3DFa=
+lse, wait=3D60.0):
++    def cancel_and_wait(self, drive=3D'drive0', force=3DFalse,
++                        resume=3DFalse, wait=3D60.0):
+         '''Cancel a block job and wait for it to finish, returning the eve=
+nt'''
+         result =3D self.vm.qmp('block-job-cancel', device=3Ddrive, force=
+=3Dforce)
+         self.assert_qmp(result, 'return', {})
+@@ -889,8 +906,8 @@ class QMPTestCase(unittest.TestCase):
+         self.assert_no_active_block_jobs()
+         return result
+=20
+-    def wait_until_completed(self, drive=3D'drive0', check_offset=3DTrue, =
+wait=3D60.0,
+-                             error=3DNone):
++    def wait_until_completed(self, drive=3D'drive0', check_offset=3DTrue,
++                             wait=3D60.0, error=3DNone):
+         '''Wait for a block job to finish, returning the event'''
+         while True:
+             for event in self.vm.get_qmp_events(wait=3Dwait):
+@@ -1029,8 +1046,11 @@ def verify_quorum():
+         notrun('quorum support missing')
+=20
+ def qemu_pipe(*args):
+-    '''Run qemu with an option to print something and exit (e.g. a help op=
+tion),
+-    and return its output'''
 +    """
-+    Logs either a string message or a JSON serializable message (like QMP)=
-.
-+    If indent is provided, JSON serializable messages are pretty-printed.
++    Run qemu with an option to print something and exit (e.g. a help optio=
+n).
++
++    :return: QEMU's stdout output.
 +    """
-     for flt in filters:
-         msg =3D flt(msg)
-     if isinstance(msg, (dict, list)):
+     args =3D [qemu_prog] + qemu_opts + list(args)
+     subp =3D subprocess.Popen(args, stdout=3Dsubprocess.PIPE,
+                             stderr=3Dsubprocess.STDOUT,
+@@ -1068,8 +1088,8 @@ def skip_if_unsupported(required_formats=3D(), read_o=
+nly=3DFalse):
+=20
+             usf_list =3D list(set(fmts) - set(supported_formats(read_only)=
+))
+             if usf_list:
+-                test_case.case_skip('{}: formats {} are not whitelisted'.f=
+ormat(
+-                    test_case, usf_list))
++                msg =3D f'{test_case}: formats {usf_list} are not whitelis=
+ted'
++                test_case.case_skip(msg)
+                 return None
+             else:
+                 return func(test_case, *args, **kwargs)
+diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
+index daec2c4942..5481afe528 100644
+--- a/tests/qemu-iotests/pylintrc
++++ b/tests/qemu-iotests/pylintrc
+@@ -18,5 +18,9 @@ disable=3Dinvalid-name,
+         too-many-locals,
+         too-many-public-methods,
+         # These are temporary, and should be removed:
+-        line-too-long,
+         missing-docstring,
++
++[FORMAT]
++
++# Maximum number of characters on a single line.
++max-line-length=3D79
 --=20
 2.26.2
 
