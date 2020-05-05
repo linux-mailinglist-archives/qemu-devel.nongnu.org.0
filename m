@@ -2,90 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72591C57A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:57:43 +0200 (CEST)
-Received: from localhost ([::1]:60038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ADB21C57B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:01:22 +0200 (CEST)
+Received: from localhost ([::1]:40926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVy4s-0006AL-Rp
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53024)
+	id 1jVy8P-0001gR-6n
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:01:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVy3N-0004uW-OM
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:56:09 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39896
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVy3M-00030O-Pl
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:56:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588686968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GqjJKj8vl5w2nF+/ZoGSPZtf7fkexGsWEfDvmSN8bf0=;
- b=Qldix5U+NQtbhry83Lxvc22NBsY5Vi5hSfV2C4Pwpm6mxM7lZzshlSOY9LfsdDWreZx160
- lfeKu4Z0wcbsls2Xpzlo+MpU+fKGePk/DO2iH8uo+mdvJzYEIuj0ItJUdshZGi6CJ0Uyi7
- 6gvq+Qtno7bi5bWJrv5482qfeXo73RM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-ZRl3PRPVMLeTDKH-J6VZgA-1; Tue, 05 May 2020 09:56:03 -0400
-X-MC-Unique: ZRl3PRPVMLeTDKH-J6VZgA-1
-Received: by mail-wr1-f72.google.com with SMTP id v17so1240001wrq.8
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:56:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1jVy77-00016y-Oy
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:00:01 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:36811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1jVy76-0007EQ-00
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:00:01 -0400
+Received: by mail-ed1-x532.google.com with SMTP id t12so1933844edw.3
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:content-transfer-encoding:thread-index
+ :content-language;
+ bh=O9OCBMkBxpYV7nwYvW253+iHNM16Xw+0gCVniK4rZ0A=;
+ b=Quia9v/xRYgVnTDwV1BgYeICL+6UIoPhizH6hPPF4DkNcTtvHJl5Ty9UDZWF1Wj0AF
+ FS3KgmAq6KlzYeXdYQ3OA++1Q4I0seBrL8agnF3UoSJLLSKmOeC9DQqvrhlT51K/e1v3
+ xgF6OTVucZjrirHv5xQwRe0P3H9l5KoUo+hkDyXcUw1NGQ9dQeGxOR/N8raXLcTN0s5g
+ wPBq8vTmzTMQayESPKqeEdcHb8eiqjxUByqyltjrifpPut7NUtSbThKGFcm/cKMcc+tQ
+ RrGmgDnKGOp8PJc1PEzW2mY7Ht46+7iAqPL4RGQCqPpT46h6N8Zf18TpGw7OoG96GT/c
+ phFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Odo0HaRODgXKYRiDbnYesTbfQvkc1Oe3VZx7d1vIliU=;
- b=U60NKubJSBjKT0EbAHz7Nx9K9nx2AtFCj+IIhGBkfiYx7+jGf1KvZNRUq1ONshB8oK
- xgmkC2j2BkBnG4KAqohH1QSH4O0hNfObs1ouHn3R5d0pSqfKYxCBvTZlLpleeH4ZMLx+
- HEdrjFDZOPm6NJZ1UmddXtN//NT1BBUmOngyS/y+tcxlKpY+vEdfcbIlF7BUYrXP33Vt
- mKRvKP56s+Q7AYaJ5u19nPr+X3wSrTygMPLiLQ6GViHWr1AMTaGP4CXQV5q+6hcpjVuq
- XDMmsDIreXruyWCELhb1DAApJ8Ftm/oHb25GszwSfz1IWHy9MrvbGotfn9ZA4+15HRSP
- 1oSQ==
-X-Gm-Message-State: AGi0Pubg04/URcU+bg9YnWaIqHsrsyCKgkRUuyWNMkHrNGEoYXXBmEm3
- 014hKZAEmyEFnMCYKkstERGA4tVlgtfGlVXEgFRDSnXtIn/eKBJUiqXTsrI75IT0pypQms2D731
- oP971zwgIdG765RA=
-X-Received: by 2002:a1c:5448:: with SMTP id p8mr3381228wmi.173.1588686962349; 
- Tue, 05 May 2020 06:56:02 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKPG2+9WRhWYvVyd6+cVVkzlJpqzM/DeMz9N0fQiTyhE729YudHI0TEuEeDZJrelmcOZzK1Dg==
-X-Received: by 2002:a1c:5448:: with SMTP id p8mr3381193wmi.173.1588686962125; 
- Tue, 05 May 2020 06:56:02 -0700 (PDT)
-Received: from [192.168.1.38] (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id f63sm3863626wma.47.2020.05.05.06.56.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 06:56:01 -0700 (PDT)
-Subject: Re: [PATCH 0/4] Add support for SafeStack
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
- <51f28cf2-0f34-508f-96f8-02c02b3c8a85@redhat.com>
- <20200505133111.GM764268@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c6ac2d0e-34bf-9927-f2fe-2ef0408dcbfb@redhat.com>
-Date: Tue, 5 May 2020 15:56:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
+ :subject:date:message-id:mime-version:content-transfer-encoding
+ :thread-index:content-language;
+ bh=O9OCBMkBxpYV7nwYvW253+iHNM16Xw+0gCVniK4rZ0A=;
+ b=GRZKpOLVl4ZAdHi6hpaz6mzhmnU/s74cw+gU4cJpNPlEA6JCQQr0YYuxPeUxh7dHZQ
+ iqBBs9ZsGmCdah2qbNr4aye40KVGePzIJTHzeZBWaEOTlHnoiVXDNRvb5HjUEfJ6bqoj
+ ucEONLgNDALG4rUxDGq+tGB1PpRezlKsbmCyQF2gHenehMKdcY4r+5bYF/xN6w4unVKF
+ MeKQ3BDVCiIQtJ/x2JMpei8GL8CCcdQLuXN2xz/PntNC5to/lEZxkfL27JoctvkTWinX
+ rFB8K2Gsmdw1qJmQV13riCGeDRkIQZN1Z1jK9WRCIyKvf4KCn2MNG7LG691p2sTlGF5x
+ Tl5w==
+X-Gm-Message-State: AGi0PuZnxl0hW7n/Xgr9dQNZeKeLCXAclGefPU6UZ7rT/lRi067Isibs
+ 1nbod2gb1uec8viOnVf6ric=
+X-Google-Smtp-Source: APiQypKMaCbhuhWKhU6qOX1gyF4ylKwmgItCJ0Vgnfw2kOhlHOT2eRuqxGQbmSbMf9zCagFUVC55Eg==
+X-Received: by 2002:aa7:c0d2:: with SMTP id j18mr2756750edp.283.1588687198204; 
+ Tue, 05 May 2020 06:59:58 -0700 (PDT)
+Received: from CBGR90WXYV0 ([54.239.6.187])
+ by smtp.gmail.com with ESMTPSA id n7sm280474edt.69.2020.05.05.06.59.56
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 05 May 2020 06:59:57 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: "Paul Durrant" <paul@xen.org>
+To: "'Markus Armbruster'" <armbru@redhat.com>,
+	<qemu-devel@nongnu.org>
+References: <20200505101908.6207-1-armbru@redhat.com>
+ <20200505101908.6207-3-armbru@redhat.com>
+In-Reply-To: <20200505101908.6207-3-armbru@redhat.com>
+Subject: RE: [PATCH v2 02/10] xen: Fix and improve handling of device_add
+ usb-host errors
+Date: Tue, 5 May 2020 14:59:56 +0100
+Message-ID: <004001d622e5$75fd2d70$61f78850$@xen.org>
 MIME-Version: 1.0
-In-Reply-To: <20200505133111.GM764268@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQD2kCtjJmTvNkmzRgy8FtMMvttLfQNDV1uLqj6PYxA=
+Content-Language: en-gb
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=xadimgnik@gmail.com; helo=mail-ed1-x532.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,82 +94,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>
+Reply-To: paul@xen.org
+Cc: 'Anthony Perard' <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, 'Stefano Stabellini' <sstabellini@kernel.org>,
+ 'Gerd Hoffmann' <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/20 3:31 PM, Daniel P. Berrang=C3=A9 wrote:
-> On Tue, May 05, 2020 at 03:15:18PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> +Alex & Daniel who keep track on CI stuff.
->>
->> On 4/29/20 9:44 PM, Daniele Buono wrote:
->>> LLVM supports SafeStack instrumentation to protect against stack buffer
->>> overflows, since version 3.7
->>>
->>>   From https://clang.llvm.org/docs/SafeStack.html:
->>> "It works by separating the program stack into two distinct regions: th=
-e
->>> safe stack and the unsafe stack. The safe stack stores return addresses=
-,
->>> register spills, and local variables that are always accessed in a safe
->>> way, while the unsafe stack stores everything else. This separation
->>> ensures that buffer overflows on the unsafe stack cannot be used to
->>> overwrite anything on the safe stack."
->>>
->>> Unfortunately, the use of two stack regions does not cope well with
->>> QEMU's coroutines. The second stack region is not properly set up with
->>> both ucontext and sigaltstack, so multiple coroutines end up sharing th=
-e
->>> same memory area for the unsafe stack, causing undefined behaviors at
->>> runtime (and most iochecks to fail).
->>>
->>> This patch series fixes the implementation of the ucontext backend and
->>> make sure that sigaltstack is never used if the compiler is applying
->>> the SafeStack instrumentation. It also adds a configure flag to enable
->>> SafeStack, and enables iotests when SafeStack is used.
->>>
->>> This is an RFC mainly because of the low-level use of the SafeStack
->>> runtime.
->>> When running swapcontext(), we have to manually set the unsafe stack
->>> pointer to the new area allocated for the coroutine. LLVM does not allo=
-w
->>> this by using builtin, so we have to use implementation details that ma=
-y
->>> change in the future.
->>> This patch has been tested briefly ( make check on an x86 system ) with
->>> clang v3.9, v4.0, v5.0, v6.0
->>> Heavier testing, with make check-acceptance has been performed with
->>> clang v7.0
->>
->> I noticed building using SafeStack is slower, and running with it is eve=
-n
->> sloooower. It makes sense to have this integrated if we use it regularly=
-. Do
->> you have plan for this? Using public CI doesn't seem reasonable.
->=20
-> The runtime behaviour is rather odd, given the docs they provide:
->=20
-> "The performance overhead of the SafeStack instrumentation is
->   less than 0.1% on average across a variety of benchmarks
->   This is mainly because most small functions do not have any
->   variables that require the unsafe stack and, hence, do not
->   need unsafe stack frames to be created. The cost of creating
->   unsafe stack frames for large functions is amortized by the
->   cost of executing the function.
->=20
->    In some cases, SafeStack actually improves the performance"
+> -----Original Message-----
+> From: Markus Armbruster <armbru@redhat.com>
+> Sent: 05 May 2020 11:19
+> To: qemu-devel@nongnu.org
+> Cc: Stefano Stabellini <sstabellini@kernel.org>; Anthony Perard <anthony.perard@citrix.com>; Paul
+> Durrant <paul@xen.org>; Gerd Hoffmann <kraxel@redhat.com>; xen-devel@lists.xenproject.org
+> Subject: [PATCH v2 02/10] xen: Fix and improve handling of device_add usb-host errors
+> 
+> usbback_portid_add() leaks the error when qdev_device_add() fails.
+> Fix that.  While there, use the error to improve the error message.
+> 
+> The qemu_opts_from_qdict() similarly leaks on failure.  But any
+> failure there is a programming error.  Pass &error_abort.
+> 
+> Fixes: 816ac92ef769f9ffc534e49a1bb6177bddce7aa2
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> Cc: Paul Durrant <paul@xen.org>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: xen-devel@lists.xenproject.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-I'm sorry I was testing this with a single core instead of all of=20
-them... Thanks for looking at the doc.
-
->=20
-> Regards,
-> Daniel
->=20
+Acked-by: Paul Durrant <paul@xen.org>
 
 
