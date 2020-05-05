@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD98F1C5305
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:21:00 +0200 (CEST)
-Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAC81C531E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:26:28 +0200 (CEST)
+Received: from localhost ([::1]:56884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVuh9-0005Sx-Ly
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:20:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59512)
+	id 1jVumR-0006tZ-N3
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufW-0003j8-0j
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21379
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufV-0003iL-Io
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31385
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufU-00081j-Po
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufU-00081r-PK
  for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588673955;
+ s=mimecast20190719; t=1588673956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=S0kmFUBAFWqWQce0XxOZhwDORIQQB5RK6jNgj6PUn5Q=;
- b=R30geswYX/QshwIp8rWSVbh3Txn3cl+KDffTX2smjRgb/njk/Tpo1zSuUJ6KmSLmls5axJ
- JuoYIsyJ1FUah/pzmlJ6GG4Ph6ehn3HlHR/M1Fy2spw6qOenSZgCL4HHrFLyqhVEz1GTI5
- ZBF6CMxf6UU97o4ShLgZ3Y64BUDb5sw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IiECJHG8o11LVFxA1H6ChVLhXqD1MUnm0fYZe+ffd2c=;
+ b=Jk8yISnl3f9kdXYFlEAxcOYKrALbEogSKiqGsQwGqQnGaZVkAMI1dIie6Q4YtqB7pL0vCA
+ cHEIkfcoukxl+gAFxLUl042Pn4g5abDxQhk86UJEgdKe34RoEAmpO8nEhofowOgT1CCbcD
+ w8lkwwgbSj9X9IdReic3eE0PKRaYKnk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-3TXMPgJVOnmqcYMfxxiYlA-1; Tue, 05 May 2020 06:19:13 -0400
-X-MC-Unique: 3TXMPgJVOnmqcYMfxxiYlA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-441-iLUC9RywM-WGHrJg_pqsRg-1; Tue, 05 May 2020 06:19:11 -0400
+X-MC-Unique: iLUC9RywM-WGHrJg_pqsRg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0454F1899521;
- Tue,  5 May 2020 10:19:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7069980183C;
+ Tue,  5 May 2020 10:19:10 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4163B5D9D3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 42A9D63F90;
  Tue,  5 May 2020 10:19:10 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C4A0911358BC; Tue,  5 May 2020 12:19:08 +0200 (CEST)
+ id C6D9D11358BD; Tue,  5 May 2020 12:19:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/10] More miscellaneous error handling fixes
-Date: Tue,  5 May 2020 12:18:58 +0200
-Message-Id: <20200505101908.6207-1-armbru@redhat.com>
+Subject: [PATCH v2 01/10] nvdimm: Plug memory leak in uuid property setter
+Date: Tue,  5 May 2020 12:18:59 +0200
+Message-Id: <20200505101908.6207-2-armbru@redhat.com>
+In-Reply-To: <20200505101908.6207-1-armbru@redhat.com>
+References: <20200505101908.6207-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,51 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Paul Durrant <xadimgnik@gmail.com>, David Hildenbrand <david@redhat.com>
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Shivaprasad G Bhat <sbhat@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-* PATCH 2: missing return [Paul]
-* PATCH 3: commit message typo [David]
-* PATCH 5: error message tidied up [Eric, Philippe]
-* PATCH 7: commit message pasto
-* Old PATCH 4 dropped [Matthew]
+nvdimm_set_uuid() leaks memory on qemu_uuid_parse() failure.  Fix
+that.
 
-Cc: Paul Durrant <xadimgnik@gmail.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Fixes: 6c5627bb24dcd68c997857a8b671617333b1289f
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Cc: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ hw/mem/nvdimm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Markus Armbruster (10):
-  nvdimm: Plug memory leak in uuid property setter
-  xen: Fix and improve handling of device_add usb-host errors
-  s390x/cpumodel: Fix harmless misuse of visit_check_struct()
-  tests/migration: Tighten error checking
-  error: Use error_reportf_err() where appropriate
-  mips/malta: Fix create_cps() error handling
-  mips/boston: Fix boston_mach_init() error handling
-  mips/boston: Plug memory leak in boston_mach_init()
-  arm/sabrelite: Consistently use &error_fatal in sabrelite_init()
-  i386: Fix x86_cpu_load_model() error API violation
-
- chardev/char-socket.c        |  5 +++--
- hw/arm/sabrelite.c           |  7 +------
- hw/mem/nvdimm.c              |  1 -
- hw/mips/boston.c             | 17 +++++++----------
- hw/mips/mips_malta.c         | 15 ++++++---------
- hw/sd/pxa2xx_mmci.c          |  4 ++--
- hw/sd/sd.c                   |  4 ++--
- hw/usb/dev-mtp.c             |  9 +++++----
- hw/usb/xen-usb.c             | 19 +++++++++----------
- qemu-nbd.c                   |  7 +++----
- scsi/qemu-pr-helper.c        |  4 ++--
- target/i386/cpu.c            | 25 ++++++++++++++++---------
- target/s390x/cpu_models.c    |  2 +-
- tests/qtest/migration-test.c |  4 ++--
- 14 files changed, 59 insertions(+), 64 deletions(-)
-
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index 8e426d24bb..d5752f7bf6 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -97,7 +97,6 @@ static void nvdimm_set_uuid(Object *obj, Visitor *v, cons=
+t char *name,
+     if (qemu_uuid_parse(value, &nvdimm->uuid) !=3D 0) {
+         error_setg(errp, "Property '%s.%s' has invalid value",
+                    object_get_typename(obj), name);
+-        goto out;
+     }
+     g_free(value);
+=20
 --=20
 2.21.1
 
