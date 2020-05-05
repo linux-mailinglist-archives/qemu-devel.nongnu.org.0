@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58C81C5816
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:05:49 +0200 (CEST)
-Received: from localhost ([::1]:47834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF241C5846
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:12:23 +0200 (CEST)
+Received: from localhost ([::1]:36082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVyCi-0005hS-Ni
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:05:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
+	id 1jVyJ4-0004kC-5P
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVyBg-0004ew-LR
- for qemu-devel@nongnu.org; Tue, 05 May 2020 10:04:44 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jVyBf-0002w4-Ej
- for qemu-devel@nongnu.org; Tue, 05 May 2020 10:04:44 -0400
-Received: by mail-pg1-x542.google.com with SMTP id s18so1052860pgl.12
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 07:04:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GhlkG4VMX/x4KVCtRCMgN/lvPiq6CAjJbiul2wsOASw=;
- b=zgtxTCrmtj/ww+IDlMdxQ7c5Uf+Dcw/GyxnaxeEQr/32bme9fzIIdGAf2x3yhwN5zf
- HXzacErVDvfT8pM7ejq+SCu7wxagWfXcI3PpRKH3vA3VtppNKbHrCPDmuzyR1M5/HTho
- Fc6etHGV9o9EkFCbH49s0XEtzOD4e7egTV1UzSYtrLQWnXItbHX3mNEtK+s1DeZc4IgX
- bEZIc9dW2jyuDWCERRUTcKp1yFQJDmejqWUt71+j1uFoCn9f/eyaqHXKCa941pq4q+M9
- a2gsev2xr8vzUreFoY2KYaCUTP0qn/yaicSD4Pw/12X/ABjv6JjKCPEPiZHRRsMztNAP
- mBtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GhlkG4VMX/x4KVCtRCMgN/lvPiq6CAjJbiul2wsOASw=;
- b=WcuRGINMk+PhbMU5Q5u25y3iHw1iKWcfqF4TuoYkj6NSli3uqPIH+pcn13Gz3Nqk0N
- D3UYaHSgnlezqXBlaoaOkd/7xYtF88qJseBBMbUfHIN/WrnQNCL2PbNhnlGBmjaNL4fc
- MQNjWC/iAU7aW4iU2LyOwKCkXYFF0XLTqxQl0q+TUQm0lLpY6GZ/Q6zwCM78z/QNVBgE
- pqtBJ3qmGvJIfebVsZ57VMn1KlFcNYbDFRLY0knOUlpjRgAlSXV5yz4GPxfvJ4We5PuH
- 2vZs/A3ZU3I+C9H0aHb5SurRFZUjOKqRdqAXjP0ftQCM+lCx50hDdbFAqonCqBZOWDjS
- 5MHg==
-X-Gm-Message-State: AGi0PubSYMgxnbWOpvUGgfZnme1mWIi18hUa9g+2JZiqFoITRcbA5SF9
- UOd7eQFpGtQHnbki+xxb0iVRfA==
-X-Google-Smtp-Source: APiQypJRgptyg0AqOJw+L89SWqN3r3omavTuKvzES2hYIFtkCoF7MrwltS6c2sGgVqhOgGcMDyUyLQ==
-X-Received: by 2002:aa7:9491:: with SMTP id z17mr3308647pfk.264.1588687481640; 
- Tue, 05 May 2020 07:04:41 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id a196sm2176116pfd.184.2020.05.05.07.04.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 07:04:40 -0700 (PDT)
-Subject: Re: [PATCH v4 00/18] target/arm: sve load/store improvements
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200430162813.17671-1-richard.henderson@linaro.org>
- <CAFEAcA8m33s7e2T0GrZJxb4EyczcEmtW6-tRPoUsiVLO9g8dVw@mail.gmail.com>
- <20e6093b-edcb-c0e4-f4d5-b6ff4d51783c@linaro.org>
- <CAFEAcA-uupuSni8yqs6evWbjZDZyToit6Hhn8nQ=oSWjRuJjgQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a55cb2a3-9018-2288-bfe9-2fa3c2bf0050@linaro.org>
-Date: Tue, 5 May 2020 07:04:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jVyHt-0003t7-Qi
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:11:09 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40540
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jVyHs-00006O-I3
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:11:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588687867;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=igkRKPkkd72l4sVaeCoFyUbvzHaBcOYxkSzVBeNoFmg=;
+ b=IFCtTeBqLvLK2UIy+2HRF26AqKDWOfJXY4iZG638j3Acv4GCzPTR0KQb9Ypq4kdFtdczYi
+ 1+wRZ0uBuL7arcxvnzE0t4Ua3LhMnZMxjQC1lSA+b2p7uTZYJ6IqtT8IKzzgLPQ12cl28m
+ XrxlEClOS2vbZC+0MICoj9USHyXeYMc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-OIqXLlHXPTKNIis_7vUaYw-1; Tue, 05 May 2020 10:11:03 -0400
+X-MC-Unique: OIqXLlHXPTKNIis_7vUaYw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44215835B41;
+ Tue,  5 May 2020 14:11:02 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B2ED19C4F;
+ Tue,  5 May 2020 14:10:51 +0000 (UTC)
+Date: Tue, 5 May 2020 16:10:50 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 03/13] acpi: madt: skip pci override on pci-less
+ systems (microvm)
+Message-ID: <20200505161050.54da27a0@redhat.com>
+In-Reply-To: <20200505134305.22666-4-kraxel@redhat.com>
+References: <20200505134305.22666-1-kraxel@redhat.com>
+ <20200505134305.22666-4-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-uupuSni8yqs6evWbjZDZyToit6Hhn8nQ=oSWjRuJjgQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,33 +81,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/20 2:49 AM, Peter Maydell wrote:
-> On Mon, 4 May 2020 at 17:03, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 5/4/20 2:43 AM, Peter Maydell wrote:
->>> I've reviewed patch 13, but I still don't understand why you've
->>> made the size-related changes in patch 4, so I've continued
->>> our conversation in the thread on the v3 version of that patch.
->>
->> I've changed that here in v4.  Please have another look at this one.
+On Tue,  5 May 2020 15:42:55 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  hw/i386/acpi-common.h |  3 ++-
+>  hw/i386/acpi-build.c  |  2 +-
+>  hw/i386/acpi-common.c | 26 +++++++++++++++-----------
+>  3 files changed, 18 insertions(+), 13 deletions(-)
 > 
-> The page_check_range() call still seems to be passing a fixed
-> size of '1' ?
+> diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
+> index c30e461f1854..9cac18dddf5b 100644
+> --- a/hw/i386/acpi-common.h
+> +++ b/hw/i386/acpi-common.h
+> @@ -9,6 +9,7 @@
+>  #define ACPI_BUILD_IOAPIC_ID 0x0
+>  
+>  void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+> -                     X86MachineState *x86ms, AcpiDeviceIf *adev);
+> +                     X86MachineState *x86ms, AcpiDeviceIf *adev,
+> +                     bool has_pci);
+>  
+>  #endif
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index eb530e5cd56d..4cce2192eeb0 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2441,7 +2441,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>  
+>      acpi_add_table(table_offsets, tables_blob);
+>      acpi_build_madt(tables_blob, tables->linker, x86ms,
+> -                    ACPI_DEVICE_IF(pcms->acpi_dev));
+> +                    ACPI_DEVICE_IF(pcms->acpi_dev), true);
+>  
+>      vmgenid_dev = find_vmgenid_dev();
+>      if (vmgenid_dev) {
+> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> index 5caca16a0b59..ab9b00581a15 100644
+> --- a/hw/i386/acpi-common.c
+> +++ b/hw/i386/acpi-common.c
+> @@ -72,7 +72,8 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>  }
+>  
+>  void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+> -                     X86MachineState *x86ms, AcpiDeviceIf *adev)
+> +                     X86MachineState *x86ms, AcpiDeviceIf *adev,
+> +                     bool has_pci)
+>  {
+>      MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+>      const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
+> @@ -111,18 +112,21 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>          intsrcovr->gsi    = cpu_to_le32(2);
+>          intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
+>      }
+> -    for (i = 1; i < 16; i++) {
+> +
+> +    if (has_pci) {
+> +        for (i = 1; i < 16; i++) {
+>  #define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+> -        if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
+> -            /* No need for a INT source override structure. */
+> -            continue;
+> +            if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
+> +                /* No need for a INT source override structure. */
+> +                continue;
+> +            }
+> +            intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+> +            intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+> +            intsrcovr->length = sizeof(*intsrcovr);
+> +            intsrcovr->source = i;
+> +            intsrcovr->gsi    = cpu_to_le32(i);
+> +            intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
+>          }
+> -        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+> -        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+> -        intsrcovr->length = sizeof(*intsrcovr);
+> -        intsrcovr->source = i;
+> -        intsrcovr->gsi    = cpu_to_le32(i);
+> -        intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
+>      }
+>  
+>      if (x2apic_mode) {
 
-We only need to validate one page, so validating one byte on the page is
-sufficient.  The size argument to page_check_range is so that it can validate
-multiple pages at a time.
-
-The target exception is raised by cc->tlb_fill, and there we pass either the
-actual access size (probe_access) or 0 to indicate unknown access size
-(probe_access_flags, or probe_access passed down from the caller).
-
-
-r~
 
