@@ -2,90 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1207C1C56EE
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:30:56 +0200 (CEST)
-Received: from localhost ([::1]:60172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 762981C56FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:32:37 +0200 (CEST)
+Received: from localhost ([::1]:37240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxex-0002lX-2m
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47048)
+	id 1jVxga-00051Z-Hv
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:32:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVxdV-0001rB-UM
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:29:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:40958
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jVxfQ-000499-JH
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:31:24 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28651
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVxdU-0001pE-6f
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:29:25 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jVxfO-0003pX-QS
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:31:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588685363;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1588685482;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9laci2qA5FX6MZ8FY/WWODnLACFBOM+yKXXUQQfglJo=;
- b=bQrVxO0TA+PrrxlAI7kTPrHIumWQ6X/beQV6SjTCRM27vygGFfhAkjtCqsyXjgpaw/0lOV
- 6ktq3KfzHMqmVnR3o34J6MFbARxW62sADb9vkQqGkeluuRoryBKvLzxyE7cRfAvZpXjgHr
- r82okZyA42sRRXBU7KKH7WZx0NW/m+M=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-ugbn_2N8MlKSiGs8asQy4A-1; Tue, 05 May 2020 09:29:21 -0400
-X-MC-Unique: ugbn_2N8MlKSiGs8asQy4A-1
-Received: by mail-wm1-f71.google.com with SMTP id 14so798360wmo.9
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:29:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LCvtt8uBGMZNsetFNRoACHc601uJciXIfc192FgnKnA=;
- b=JLjP+Fi9v22SAtUO33qu5/Vc+rRArtIGrLOjW0+3yDgLaMwdnB3pN25EkVI0FL9zkh
- qYuYbefCHcU9Y3p5CKUBhhZhSQMyUWULYwwwOymmNOybEWav1Jgrvk2c+Ya1+KC/96H9
- 28THFvZAroEFiO/cEKulF9RFksRKVFQslozEfhWKSBw5mm6E2/Q4WrzdI4ISAymltjtC
- 1NFbf9yp1cExLcnvdgRgEf9Esaw5dpkyBprfvVqGxZy2n9uQoxaN8Bqtk93IWElgGT3+
- WmtcECe76DUT85REs+MDOrbaX7aD6qRhTkMV/ISCXqgn6Dmv7ZaTF40TbqScEeYy470F
- e6HQ==
-X-Gm-Message-State: AGi0PuZ2UZS13fXDdrMc6W3qLP2Xa+qF+3m/UWjA2C5wXYEsaUgnGlos
- vhdrYLT+cNSMlnN95cfUt1Wsa0w5jT8YFDKBsIkUbXKVIzg8R3klMYCUfuf9O4Wu8bF/N1Anz8z
- DLLTcsqO/6pwFkC0=
-X-Received: by 2002:a1c:32c7:: with SMTP id y190mr3746207wmy.13.1588685360367; 
- Tue, 05 May 2020 06:29:20 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLDCF2M5NYRcbaMjdfwB8PMYOwDVjAYh/VDDF9Y3XO2sChKA/3XsW8bovlkYV9Jj3/2eUx1Aw==
-X-Received: by 2002:a1c:32c7:: with SMTP id y190mr3746188wmy.13.1588685360200; 
- Tue, 05 May 2020 06:29:20 -0700 (PDT)
-Received: from [192.168.1.38] (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id e21sm3270027wrc.1.2020.05.05.06.29.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 06:29:19 -0700 (PDT)
-Subject: Re: [PATCH v4 11/13] acpi: simplify build_isa_devices_aml()
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20200505113843.22012-1-kraxel@redhat.com>
- <20200505113843.22012-12-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a58af70b-fd7c-d402-39ea-120e17a6d06e@redhat.com>
-Date: Tue, 5 May 2020 15:29:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=axTnztTbw/NA/38fFaUgFTnxmrSTWZtbWdnftiUCGpQ=;
+ b=FkgmPgBekm5DBoadKzcIxFTNv7Wq4d/E/za5439vzYUvKRmCE2df539Xok486hMyLPVe5j
+ 2VrCF/2+5c8bASi61KTu7EvTCQQPbRQAtL0oqJap0sh1nQrWI4+MaA0w5RSkDGPC8URZqd
+ A91W2gV09AMeuuuCAPBZ2IpyzUsToyo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-bbugI3Y5PASywQ5uASxJxA-1; Tue, 05 May 2020 09:31:20 -0400
+X-MC-Unique: bbugI3Y5PASywQ5uASxJxA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AED38015CB;
+ Tue,  5 May 2020 13:31:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61FFB5C1D3;
+ Tue,  5 May 2020 13:31:13 +0000 (UTC)
+Date: Tue, 5 May 2020 14:31:11 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/4] Add support for SafeStack
+Message-ID: <20200505133111.GM764268@redhat.com>
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+ <51f28cf2-0f34-508f-96f8-02c02b3c8a85@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200505113843.22012-12-kraxel@redhat.com>
-Content-Language: en-US
+In-Reply-To: <51f28cf2-0f34-508f-96f8-02c02b3c8a85@redhat.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,58 +83,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/20 1:38 PM, Gerd Hoffmann wrote:
-> x86 machines can have a single ISA bus only.
+On Tue, May 05, 2020 at 03:15:18PM +0200, Philippe Mathieu-Daud=C3=A9 wrote=
+:
+> +Alex & Daniel who keep track on CI stuff.
+>=20
+> On 4/29/20 9:44 PM, Daniele Buono wrote:
+> > LLVM supports SafeStack instrumentation to protect against stack buffer
+> > overflows, since version 3.7
+> >=20
+> >  From https://clang.llvm.org/docs/SafeStack.html:
+> > "It works by separating the program stack into two distinct regions: th=
+e
+> > safe stack and the unsafe stack. The safe stack stores return addresses=
+,
+> > register spills, and local variables that are always accessed in a safe
+> > way, while the unsafe stack stores everything else. This separation
+> > ensures that buffer overflows on the unsafe stack cannot be used to
+> > overwrite anything on the safe stack."
+> >=20
+> > Unfortunately, the use of two stack regions does not cope well with
+> > QEMU's coroutines. The second stack region is not properly set up with
+> > both ucontext and sigaltstack, so multiple coroutines end up sharing th=
+e
+> > same memory area for the unsafe stack, causing undefined behaviors at
+> > runtime (and most iochecks to fail).
+> >=20
+> > This patch series fixes the implementation of the ucontext backend and
+> > make sure that sigaltstack is never used if the compiler is applying
+> > the SafeStack instrumentation. It also adds a configure flag to enable
+> > SafeStack, and enables iotests when SafeStack is used.
+> >=20
+> > This is an RFC mainly because of the low-level use of the SafeStack
+> > runtime.
+> > When running swapcontext(), we have to manually set the unsafe stack
+> > pointer to the new area allocated for the coroutine. LLVM does not allo=
+w
+> > this by using builtin, so we have to use implementation details that ma=
+y
+> > change in the future.
+> > This patch has been tested briefly ( make check on an x86 system ) with
+> > clang v3.9, v4.0, v5.0, v6.0
+> > Heavier testing, with make check-acceptance has been performed with
+> > clang v7.0
+>=20
+> I noticed building using SafeStack is slower, and running with it is even
+> sloooower. It makes sense to have this integrated if we use it regularly.=
+ Do
+> you have plan for this? Using public CI doesn't seem reasonable.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+The runtime behaviour is rather odd, given the docs they provide:
 
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->   hw/i386/acpi-build.c | 15 +++++----------
->   1 file changed, 5 insertions(+), 10 deletions(-)
->=20
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index cb3913d2ee76..1922868f3401 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1061,19 +1061,14 @@ static void build_hpet_aml(Aml *table)
->   static void build_isa_devices_aml(Aml *table)
->   {
->       bool ambiguous;
-> -
-> -    Aml *scope =3D aml_scope("_SB.PCI0.ISA");
->       Object *obj =3D object_resolve_path_type("", TYPE_ISA_BUS, &ambiguo=
-us);
-> +    Aml *scope;
->  =20
-> -    if (ambiguous) {
-> -        error_report("Multiple ISA busses, unable to define IPMI ACPI da=
-ta");
-> -    } else if (!obj) {
-> -        error_report("No ISA bus, unable to define IPMI ACPI data");
-> -    } else {
-> -        build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
-> -        isa_build_aml(ISA_BUS(obj), scope);
-> -    }
-> +    assert(obj && !ambiguous);
->  =20
-> +    scope =3D aml_scope("_SB.PCI0.ISA");
-> +    build_acpi_ipmi_devices(scope, BUS(obj), "\\_SB.PCI0.ISA");
-> +    isa_build_aml(ISA_BUS(obj), scope);
->       aml_append(table, scope);
->   }
->  =20
->=20
+"The performance overhead of the SafeStack instrumentation is
+ less than 0.1% on average across a variety of benchmarks=20
+ This is mainly because most small functions do not have any
+ variables that require the unsafe stack and, hence, do not=20
+ need unsafe stack frames to be created. The cost of creating=20
+ unsafe stack frames for large functions is amortized by the=20
+ cost of executing the function.
+
+  In some cases, SafeStack actually improves the performance"
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
