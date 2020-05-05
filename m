@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE8B1C5C12
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:44:23 +0200 (CEST)
-Received: from localhost ([::1]:56484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B851C5B3E
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:32:27 +0200 (CEST)
+Received: from localhost ([::1]:48102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVzk6-000475-4l
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46016)
+	id 1jVzYY-0005Cd-CQ
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVs-0003Ql-SJ
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:40 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35087
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVo-0003Jz-1B
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:36 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:53135
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVo-0007TE-AR
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:40 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVl-0007Qb-GL
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588692575;
+ s=mimecast20190719; t=1588692572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U8xOOlXSApfWeIfbfA93BiP5xHl4aV/joyRqnXcAhfM=;
- b=b/sOZKrVZZPL3eOofSzc367K2mQR1cJI4CxRqavrKeHcAHkF59hc8z1Tjzx6r5YO1xbKfS
- 2yWjMej1S/kxS0BlJVT0JVrI1X71D8Eek/JtD++uNgp63yRyvq8EMgPstbnHftPMU3ssZw
- DiPIYlpgsLTRrFEDbO+r2sOnwtRI4U8=
+ bh=qJSrLVvjDTVg1XFdetvzYSjvKRLzEDahkF7hmIqY9c4=;
+ b=RXGYMbFkA+28oIY9t0nNlHnpsme0zp0TzXsyPInWcRayBKge6uiDNNqMh59MOrpKqXl35D
+ 1Kt4XTLBZuZTvwUCE6T0w4ooFnp5HiaOgbD4uLUkLTcGrN7nJWKn+Nv8vkJ7Zs4Rgxnfg7
+ jjJB3B3ALAbq7Cv29wz9mjPrPz/b9mg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387--cD-XD60Nuer5eqMfb-Qyg-1; Tue, 05 May 2020 11:29:33 -0400
-X-MC-Unique: -cD-XD60Nuer5eqMfb-Qyg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-301-l0ODgHXROYWxO3W9vxyzOQ-1; Tue, 05 May 2020 11:29:30 -0400
+X-MC-Unique: l0ODgHXROYWxO3W9vxyzOQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3334B835B40
- for <qemu-devel@nongnu.org>; Tue,  5 May 2020 15:29:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C91018FE864
+ for <qemu-devel@nongnu.org>; Tue,  5 May 2020 15:29:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CF975C1B2;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 488C05D9D5;
  Tue,  5 May 2020 15:29:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4EF7711358C6; Tue,  5 May 2020 17:29:26 +0200 (CEST)
+ id 522AA11358C7; Tue,  5 May 2020 17:29:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/18] hw/isa/superio: Make the components QOM children
-Date: Tue,  5 May 2020 17:29:18 +0200
-Message-Id: <20200505152926.18877-11-armbru@redhat.com>
+Subject: [PATCH v2 11/18] e1000: Don't run e1000_instance_init() twice
+Date: Tue,  5 May 2020 17:29:19 +0200
+Message-Id: <20200505152926.18877-12-armbru@redhat.com>
 In-Reply-To: <20200505152926.18877-1-armbru@redhat.com>
 References: <20200505152926.18877-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
@@ -79,125 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>, philmd@redhat.com, pbonzini@redhat.com
+Cc: berrange@redhat.com, ehabkost@redhat.com, philmd@redhat.com,
+ Jason Wang <jasowang@redhat.com>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-isa_superio_realize() attempts to make isa-parallel and isa-serial QOM
-children, but this does not work, because it calls
-object_property_add_child() after realizing with qdev_init_nofail().
-Realizing a device without a parent gives it one: it gets put into the
-"/machine/unattached/" orphanage.  The extra
-object_property_add_child() fails, and isa_superio_realize() ignores
-the error.
+QOM object initialization runs .instance_init() for the type and all
+its supertypes; see object_init_with_type().
 
-Move the object_property_add_child() before qdev_init_nofail(), and
-pass &error_abort.
+Both TYPE_E1000_BASE and its concrete subtypes set .instance_init() to
+e1000_instance_init().  For the concrete subtypes, it duly gets run
+twice.  The second run fails, but the error gets ignored (a later
+commit will change that).
 
-For the other components, isa_superio_realize() doesn't even try.  Add
-object_property_add_child() there.
+Remove it from the subtypes.
 
-This affects machines 40p, clipper and fulong2e.
-
-For instance, fulong2e has its vt82c686b-superio (which is an
-isa-superio) at /machine/unattached/device[9].  Before the patch, its
-components are at /machine/unattached/device[10] .. [14].  Afterwards,
-they are at
-/machine/unattached/device[9]/{parallel0,serial0,serial1,isa-fdc,i8042}.
-
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/isa/isa-superio.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ hw/net/e1000.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/hw/isa/isa-superio.c b/hw/isa/isa-superio.c
-index 180a8b9625..0d9d848280 100644
---- a/hw/isa/isa-superio.c
-+++ b/hw/isa/isa-superio.c
-@@ -62,6 +62,8 @@ static void isa_superio_realize(DeviceState *dev, Error *=
-*errp)
-                 qdev_prop_set_uint32(d, "irq", k->parallel.get_irq(sio, i)=
-);
-             }
-             qdev_prop_set_chr(d, "chardev", chr);
-+            object_property_add_child(OBJECT(sio), name, OBJECT(isa),
-+                                      &error_abort);
-             qdev_init_nofail(d);
-             sio->parallel[i] =3D isa;
-             trace_superio_create_parallel(i,
-@@ -69,8 +71,6 @@ static void isa_superio_realize(DeviceState *dev, Error *=
-*errp)
-                                           k->parallel.get_iobase(sio, i) :=
- -1,
-                                           k->parallel.get_irq ?
-                                           k->parallel.get_irq(sio, i) : -1=
-);
--            object_property_add_child(OBJECT(dev), name,
--                                      OBJECT(sio->parallel[i]), NULL);
-             g_free(name);
-         }
-     }
-@@ -102,6 +102,8 @@ static void isa_superio_realize(DeviceState *dev, Error=
- **errp)
-                 qdev_prop_set_uint32(d, "irq", k->serial.get_irq(sio, i));
-             }
-             qdev_prop_set_chr(d, "chardev", chr);
-+            object_property_add_child(OBJECT(sio), name, OBJECT(isa),
-+                                      &error_abort);
-             qdev_init_nofail(d);
-             sio->serial[i] =3D isa;
-             trace_superio_create_serial(i,
-@@ -109,8 +111,6 @@ static void isa_superio_realize(DeviceState *dev, Error=
- **errp)
-                                         k->serial.get_iobase(sio, i) : -1,
-                                         k->serial.get_irq ?
-                                         k->serial.get_irq(sio, i) : -1);
--            object_property_add_child(OBJECT(dev), name,
--                                      OBJECT(sio->serial[0]), NULL);
-             g_free(name);
-         }
-     }
-@@ -137,6 +137,8 @@ static void isa_superio_realize(DeviceState *dev, Error=
- **errp)
-             qdev_prop_set_drive(d, "driveB", blk_by_legacy_dinfo(drive),
-                                 &error_fatal);
-         }
-+        object_property_add_child(OBJECT(sio), "isa-fdc", OBJECT(isa),
-+                                  &error_abort);
-         qdev_init_nofail(d);
-         sio->floppy =3D isa;
-         trace_superio_create_floppy(0,
-@@ -147,7 +149,11 @@ static void isa_superio_realize(DeviceState *dev, Erro=
-r **errp)
-     }
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index 2a69eee63f..0d2c2759e3 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -1824,7 +1824,6 @@ static void e1000_register_types(void)
+         type_info.parent =3D TYPE_E1000_BASE;
+         type_info.class_data =3D (void *)info;
+         type_info.class_init =3D e1000_class_init;
+-        type_info.instance_init =3D e1000_instance_init;
 =20
-     /* Keyboard, mouse */
--    sio->kbc =3D isa_create_simple(bus, TYPE_I8042);
-+    isa =3D isa_create(bus, TYPE_I8042);
-+    object_property_add_child(OBJECT(sio), TYPE_I8042, OBJECT(isa),
-+                              &error_abort);
-+    qdev_init_nofail(DEVICE(isa));
-+    sio->kbc =3D isa;
-=20
-     /* IDE */
-     if (k->ide.count && (!k->ide.is_enabled || k->ide.is_enabled(sio, 0)))=
- {
-@@ -163,6 +169,8 @@ static void isa_superio_realize(DeviceState *dev, Error=
- **errp)
-             qdev_prop_set_uint32(d, "irq", k->ide.get_irq(sio, 0));
-         }
-         qdev_init_nofail(d);
-+        object_property_add_child(OBJECT(sio), "isa-ide", OBJECT(isa),
-+                                  &error_abort);
-         sio->ide =3D isa;
-         trace_superio_create_ide(0,
-                                  k->ide.get_iobase ?
+         type_register(&type_info);
+     }
 --=20
 2.21.1
 
