@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DFE1C5D90
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 18:27:52 +0200 (CEST)
-Received: from localhost ([::1]:39418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57F0E1C5DBE
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 18:40:18 +0200 (CEST)
+Received: from localhost ([::1]:47830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jW0QB-0001cQ-UR
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 12:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58048)
+	id 1jW0cD-0006YD-Bp
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 12:40:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jW0PP-00018k-MA
- for qemu-devel@nongnu.org; Tue, 05 May 2020 12:27:03 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51531
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jW0PO-0005eF-HB
- for qemu-devel@nongnu.org; Tue, 05 May 2020 12:27:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588696021;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gdCRtmWpAAiz2dOC4pnI9Vd1pLrZMJBwW5XehUahrj0=;
- b=DAB++veQBfRHNN/8M4ISjT5IEzgQELcy45HBNej0hRAgnkL621qwVzGj1WUbwTt/1ZvM3R
- PVNuQLhwLa8stzZrpdHuKRxhopywA5NgYl+JbIAXYMZprOuiLpbDz7cwbEP/3SrNCjGlx7
- oLdY158LOSLXVgeNNJU9IZivaADMtJE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-GwyG0PrWMySvDtB-tiMTDg-1; Tue, 05 May 2020 12:27:00 -0400
-X-MC-Unique: GwyG0PrWMySvDtB-tiMTDg-1
-Received: by mail-wr1-f70.google.com with SMTP id p8so1476340wrj.5
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 09:27:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jW0b8-0005oz-Kg; Tue, 05 May 2020 12:39:10 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:39012)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jW0b5-00033B-V0; Tue, 05 May 2020 12:39:10 -0400
+Received: by mail-io1-xd42.google.com with SMTP id w4so2633270ioc.6;
+ Tue, 05 May 2020 09:39:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Lv4S3CuiIrBolDrocQDs3BbWijeM1TY9spl4Z9e+pPI=;
+ b=h3kHak5aY4ZhpjFhbgMv2yG01lKZE7LA1GdQjCjsZTaUkyAxR9ciZHVwgDby0vYk1b
+ 5Xx7sWDbGN+3/BazChDnx29psSFahWeFXiZXO+CQM13vLvxlWIYi0aDNKuXj3vj0qSfD
+ nr6eH0SKJ2ge25xvrzoscIgKnc6qCIOP8OCcLY+XyJHOP1G9/4Wsfu4mymHB5ySFrVlL
+ 9nAJrJMi2xphL2dxmdH53T5wFHwSxclVQ/EH78pJdEJG9FXFZ1ULM6jHvjaz58n/sfQ3
+ i0O2itUYfryqKGIWYeGpdxctEPUdWktdtahMkNBv9ilJLAkFy8yEA5umyd7KEN5E9IFV
+ Anog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gdCRtmWpAAiz2dOC4pnI9Vd1pLrZMJBwW5XehUahrj0=;
- b=aI8ErHyaCvznmjjvVpqPrvJnUQuqK0hU610ydUbMDVhwsalcgppENYJZo8KVFyqoGn
- HWfn32eABeuy2+ZvKkse6nAku5kKkpQtXLVo3k0mqD+gJvtM1BmSk8Kh518E3nsQf4+3
- p6Q0JRf4mmm/y4QHAKV3QpIAnIdpF85Fn7p3fHJvHwkbE/JTZxn8TMvY4o6uvr81VdeY
- z6QQH7sGIHPi5NZXeAh5LyefUxfIG1ODgQHXxqJdugDZ+nac0tNLAzmjzIwRsgXY4tcV
- cjtQc0V85SYtSODJHweL6lYonW4xt7MttWdd65TW7UAlWzlSg67B30L4lHHOQEiTXBDr
- 3HIg==
-X-Gm-Message-State: AGi0Pub/yF51xPqO9Mr/JoYdPgRXX2WDluLamB1BqbsbISwCOVt3rcbf
- ZA+zFXoUnwb4LG+CbcZICb3nb1CilegvvaX916fPh7FQOKkLcqPEUMM6y9pRHNdBel8YIxaWY8u
- ERUR7f3uINnKWljU=
-X-Received: by 2002:a1c:790e:: with SMTP id l14mr4246188wme.174.1588696019228; 
- Tue, 05 May 2020 09:26:59 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJbmWGQOH8XxwS3L8Y3QE0MV/xtoCqz+Xdk6dU+uxDtqm6XMp7lBNjV8AOai5vp2GT+xKFd8w==
-X-Received: by 2002:a1c:790e:: with SMTP id l14mr4246178wme.174.1588696019037; 
- Tue, 05 May 2020 09:26:59 -0700 (PDT)
-Received: from [192.168.178.58] ([151.20.132.175])
- by smtp.gmail.com with ESMTPSA id x13sm4822726wmc.5.2020.05.05.09.26.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 09:26:58 -0700 (PDT)
-Subject: Re: Infinite loop in bus_unparent(), qdev bug or qdev misuse?
-To: Markus Armbruster <armbru@redhat.com>
-References: <87tv0vzrwj.fsf@dusky.pond.sub.org>
- <6fc8633a-6d91-b83a-e6cd-5f714ccaf9ea@redhat.com>
- <875zda8j3m.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a4df3ba3-4759-56ac-68f8-f75eea93e27e@redhat.com>
-Date: Tue, 5 May 2020 18:26:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Lv4S3CuiIrBolDrocQDs3BbWijeM1TY9spl4Z9e+pPI=;
+ b=TGrlI3GqoL+hxH9tpLUuAkXMoIz1SGv/uR0JTZ/AEwQM+IPN9n5bP9hqeyuvvLSUig
+ +Ta+ZoT11uEQ7LPtJ1szPyZSn0ooDqrIkvGAe6UyKn6aIWT1VF3u8fthTUV+x74lXACE
+ GeYSZgg2E8oYcTx/kI8NnoOlg11eawfCeWW7Y4pTJWK75ZFUosLx7i//JO9vRtmWl5hM
+ bKBW2Kg54DXX7XuvMcZKHZWTdo72df4K5eNuU3LNdf23ln5TM5iGLIeVbett5JqWCQqs
+ Ut9yYFoBIUvdGZXQ45Xfv2o8MuS9MsVIzq2AnTscRzW/XmBelzRGq8BVI2eaL/kUmRQ6
+ ufLw==
+X-Gm-Message-State: AGi0PubAvzSLGBldfdL/O5UQVTTT97sHmCmV92kxBbLDkggyvkWCWGG6
+ Mba/0AVeT8gtGZh62AGKxwDH8OpTA2a8oNvSbuk=
+X-Google-Smtp-Source: APiQypJ96AtmpUZgDuWA1g8DYId/wzJoJga1tjB0NTHGkhHs/tksDgwpwQ1FT+Jd1+pIt1ZOg9BEMyUvMov/3bo/jRg=
+X-Received: by 2002:a02:1a01:: with SMTP id 1mr4507932jai.26.1588696745906;
+ Tue, 05 May 2020 09:39:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <875zda8j3m.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <20200430162439.2659-1-edgar.iglesias@gmail.com>
+ <20200430162439.2659-3-edgar.iglesias@gmail.com>
+In-Reply-To: <20200430162439.2659-3-edgar.iglesias@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 5 May 2020 09:30:24 -0700
+Message-ID: <CAKmqyKMN4gKvwkOz-RYO9dD6hqeN4G0-083j6ZM5nG=ee-yTfQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/9] hw/net/xilinx_axienet: Cleanup stream->push
+ assignment
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,46 +79,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>, figlesia@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/20 18:03, Markus Armbruster wrote:
->> That's a good one, and especially a safe one, since it matches
->> qdev_device_add.  It has the disadvantage of having to touch all
->> qdev_create() calls.
-> 
-> Also, it moves onboard devices from /machine/unattached/ to
-> /machine/peripheral-anon/.
+On Thu, Apr 30, 2020 at 9:26 AM Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> Split the shared stream_class_init function to assign
+> stream->push with better type-safety.
+>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-Uh indeed.  No that's too ugly.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
->> Even better however would be to move the bus argument (and thus
->> qdev_set_parent_bus) to qdev_init, and likewise in qdev_device_add move
->> qdev_set_id after qemu_opt_foreach.  I looked at the property setters
->> and couldn't find anything suspicious (somewhat to my surprise), but I
->> haven't honestly tried.
-> 
-> Thus, we satisfy bus_unparent()'s precondition "bus children have a QOM
-> parent"[*] by moving "add to parent bus" next to the place where we
-> ensure "has QOM parent" by putting orphans under /machine/unattached/.
-> Makes sense.
-> 
-> If we add to the bus first, the precondition ceases to hold until we
-> realize.  Ugly, but harmless unless we manage to actually call the
-> function then.
+Alistair
 
-Shouldn't be a big deal, since users should call either qdev_set_id or
-object_property_add_child before device_set_realized.
-
-> I suspect we can't realize first, because the realize method may want to
-> use the parent bus.
-
-Right.
-
-Moving the bus to qdev_init would be quite large but hopefully scriptable.
-
-Paolo
-
+> ---
+>  hw/net/xilinx_axienet.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+> index 0f97510d8a..84073753d7 100644
+> --- a/hw/net/xilinx_axienet.c
+> +++ b/hw/net/xilinx_axienet.c
+> @@ -1029,11 +1029,19 @@ static void xilinx_enet_class_init(ObjectClass *klass, void *data)
+>      dc->reset = xilinx_axienet_reset;
+>  }
+>
+> -static void xilinx_enet_stream_class_init(ObjectClass *klass, void *data)
+> +static void xilinx_enet_control_stream_class_init(ObjectClass *klass,
+> +                                                  void *data)
+>  {
+>      StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
+>
+> -    ssc->push = data;
+> +    ssc->push = xilinx_axienet_control_stream_push;
+> +}
+> +
+> +static void xilinx_enet_data_stream_class_init(ObjectClass *klass, void *data)
+> +{
+> +    StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
+> +
+> +    ssc->push = xilinx_axienet_data_stream_push;
+>  }
+>
+>  static const TypeInfo xilinx_enet_info = {
+> @@ -1048,8 +1056,7 @@ static const TypeInfo xilinx_enet_data_stream_info = {
+>      .name          = TYPE_XILINX_AXI_ENET_DATA_STREAM,
+>      .parent        = TYPE_OBJECT,
+>      .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+> -    .class_init    = xilinx_enet_stream_class_init,
+> -    .class_data    = xilinx_axienet_data_stream_push,
+> +    .class_init    = xilinx_enet_data_stream_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+>              { TYPE_STREAM_SLAVE },
+>              { }
+> @@ -1060,8 +1067,7 @@ static const TypeInfo xilinx_enet_control_stream_info = {
+>      .name          = TYPE_XILINX_AXI_ENET_CONTROL_STREAM,
+>      .parent        = TYPE_OBJECT,
+>      .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+> -    .class_init    = xilinx_enet_stream_class_init,
+> -    .class_data    = xilinx_axienet_control_stream_push,
+> +    .class_init    = xilinx_enet_control_stream_class_init,
+>      .interfaces = (InterfaceInfo[]) {
+>              { TYPE_STREAM_SLAVE },
+>              { }
+> --
+> 2.20.1
+>
+>
 
