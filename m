@@ -2,71 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B481C5344
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:27:52 +0200 (CEST)
-Received: from localhost ([::1]:33284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 295E31C5358
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:32:53 +0200 (CEST)
+Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVunn-0000NV-S1
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60580)
+	id 1jVuse-0005rI-4W
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:32:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jVulF-0005zm-35; Tue, 05 May 2020 06:25:13 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jVulE-0005Ut-6G; Tue, 05 May 2020 06:25:12 -0400
-Received: by mail-pf1-x444.google.com with SMTP id 18so677134pfv.8;
- Tue, 05 May 2020 03:25:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=rzgBdHYiEgbbna1Bn7sV8b2kbFSXeD26jWa2N8NX3KA=;
- b=F0GeX8xL2hM/5ut6WXsT+TZOg3F06WDbtn2QQDevaXeozsX5ikDWFTZ82COM4lBWHk
- ynoaxBZsYCC2dUUVYIntf3B/jwdzVPPlVfbP6Hj5LhmHQamIc4fSy6FMQkKl94AZSVwx
- fxnDZuD7/Dbm8YS0OKv5i8HIYFKYh5aITuC/3Rz78IT7WdAPrV1TeN4ZaGUymgXrg4qF
- 2vQ/Ye9uI9mKfeplGbr/KLJdISzf+ICRqArCfARcsQ3V0319onFgO6Wjo9tJCiEXanNb
- gcCZ5ti5IQ8du5syuAkcTNzb9shNrrp7XhmHH+35MPdo2JQUadNPEPd4u7AVeMlJqUS2
- ERFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=rzgBdHYiEgbbna1Bn7sV8b2kbFSXeD26jWa2N8NX3KA=;
- b=UsNK4JV89RvYDl0ADwYdQYPxpx4fYBcb/TYRVkAEsVb71bfuGDwd90oMp+yvRYLOtc
- GoDQQ/rNsPm9+azaUSMSIVPRWmAit3gWrHOx+WHkaubRm+sjU5V8mVWJXgapHJt4Xm17
- WBTDcgWEseZJ8X2cBnj63vIrufoJJzWNBhXO3Kad9A88aKJdrzJldj7hd0Nf9SokVFJg
- oLP3sIyxoLd14u8wMnbSflDUM9at+bzw1h5ceb7XcCMv/78J3i+umSyawKVm94vj9OMj
- O6h0VQjtXulh/xBHplLxMPpU8HzL2uWUvk9PcyG6dVhpSvMXxQlCENvaIiMCgTWvQWiB
- QPeQ==
-X-Gm-Message-State: AGi0PuaWSlf7a0eW4sHlgA3MLyBy6yOz3qm0Z5pod05lW3fbZq3tBudV
- EV1bj/XsyhoIx1ee5dkocU8=
-X-Google-Smtp-Source: APiQypJH9PLgjV9eO3IMUZiSsip9nam/BMy9d7qLfPsFlhNZuFKE27SHQ/TFDqq04S2LL0It4wbWIQ==
-X-Received: by 2002:a62:76c1:: with SMTP id r184mr2508237pfc.155.1588674310393; 
- Tue, 05 May 2020 03:25:10 -0700 (PDT)
-Received: from software.domain.org (28.144.92.34.bc.googleusercontent.com.
- [34.92.144.28])
- by smtp.gmail.com with ESMTPSA id v94sm1679937pjb.39.2020.05.05.03.25.06
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 05 May 2020 03:25:09 -0700 (PDT)
-From: Huacai Chen <zltjiangshi@gmail.com>
-X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Fam Zheng <fam@euphon.net>, Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH V2] tests/Makefile: Fix description of "make check"
-Date: Tue,  5 May 2020 18:24:51 +0800
-Message-Id: <1588674291-6486-1-git-send-email-chenhc@lemote.com>
-X-Mailer: git-send-email 2.7.0
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVumI-0007mv-CX
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:26:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35474
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVumH-0007Hh-DU
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:26:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588674376;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=N/BCvuYaeAaQzkbEqVCG2I2tKXvUJhsz/jAHirsOsWM=;
+ b=HYx+N9ca86u7jE8bBGgJnh9gDozMt+Gbs0w9YgD/ibYcZQGHEXjuMngO1WPmydWJ3Dg3Dq
+ vxRuTJCbXtVmiVLKMOy1FrnFooVYQB/KCGdmTcECaVruwq/muFBuqhnTOy4ARQSwxesCad
+ cRUOjzx5dUCuTjU7VGvOmbMmDpO5cUs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-53-JSNTu0b2OxKpNPebdecIxQ-1; Tue, 05 May 2020 06:26:08 -0400
+X-MC-Unique: JSNTu0b2OxKpNPebdecIxQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75F35107ACF3;
+ Tue,  5 May 2020 10:26:06 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-55.ams2.redhat.com
+ [10.36.114.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F087F10016DA;
+ Tue,  5 May 2020 10:26:03 +0000 (UTC)
+Subject: Re: [PATCH v23 0/4] implement zstd cluster compression method
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
+References: <20200430101918.30351-1-dplotnikov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <8f4de4c5-f88d-5693-2327-309ccfc325ff@redhat.com>
+Date: Tue, 5 May 2020 12:26:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200430101918.30351-1-dplotnikov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="8zVhZ3k5I9OzAX9vjZmplOlFhoAbiY7ZB"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,34 +104,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Huacai Chen <chenhuacai@gmail.com>,
- qemu-devel@nongnu.org, Huacai Chen <chenhc@lemote.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+ qemu-block@nongnu.org, armbru@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The description of "make check" is out-of-date, so fix it by adding
-block and softfloat.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--8zVhZ3k5I9OzAX9vjZmplOlFhoAbiY7ZB
+Content-Type: multipart/mixed; boundary="1u5uXl5NdhXE16zd5e5yExVMoeOpBKhCN"
 
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
----
- tests/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--1u5uXl5NdhXE16zd5e5yExVMoeOpBKhCN
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 03a74b6..5d32239 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -4,7 +4,7 @@
- check-help:
- 	@echo "Regression testing targets:"
- 	@echo
--	@echo " $(MAKE) check                Run unit, qapi-schema, qtest and decodetree"
-+	@echo " $(MAKE) check                Run block, qapi-schema, unit, softfloat, qtest and decodetree tests"
- 	@echo
- 	@echo " $(MAKE) check-qtest-TARGET   Run qtest tests for given target"
- 	@echo " $(MAKE) check-qtest          Run qtest tests"
--- 
-2.7.0
+On 30.04.20 12:19, Denis Plotnikov wrote:
+> v23:
+>    Undecided: whether to add zstd(zlib) compression
+>               details to the qcow2 spec
+>    03: tighten assertion on zstd decompression [Eric]
+>    04: use _rm_test_img appropriately [Max]
+
+Thanks, applied to my block branch:
+
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+
+Max
+
+
+--1u5uXl5NdhXE16zd5e5yExVMoeOpBKhCN--
+
+--8zVhZ3k5I9OzAX9vjZmplOlFhoAbiY7ZB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6xPzkACgkQ9AfbAGHV
+z0AVcQf/YkzWdCk8e5z36+Sz0LyvziKd1S9kxzplBLs2rwFshQUrF/uXrMvK5s51
+dDmPtbPnEQd9svDMLAmKpL7/Qyddws9d3C+Dn/dEElEAkh6m9buGx95fvFQSBCDy
+1Dj7U2Ma5yZCH6a3n0Yk1jMfXzIoBoDJLkd+XnJbNjE8tQQkUFsDXWXUBWKX19P5
+d3czyrFtbOCg6wzHEcNcA4mU/D06473DD11fcVq8t4eu0/Z8DdP34hzCIAZcPZwd
+F4PidHAC/npm8tmFdzwOk7icR+gNIiEJBqYwRb0Tu8ObW3fPNS1A83zEIO1gA96P
+P4gkpVxZZFxF+J6/By8M2MFMW6GDRw==
+=Tpju
+-----END PGP SIGNATURE-----
+
+--8zVhZ3k5I9OzAX9vjZmplOlFhoAbiY7ZB--
 
 
