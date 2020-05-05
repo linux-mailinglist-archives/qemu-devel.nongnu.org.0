@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080271C531B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:25:24 +0200 (CEST)
-Received: from localhost ([::1]:53120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723581C5312
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:23:13 +0200 (CEST)
+Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVulO-0005Em-TZ
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:25:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59522)
+	id 1jVujI-0001lY-Bj
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:23:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufW-0003kp-Tv
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:18 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54562
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufX-0003mg-Rb
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:19 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufV-00082E-UV
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufX-00082Z-1R
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588673956;
+ s=mimecast20190719; t=1588673958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nwTNpVAaHEDQZQFEB6FYVeiqChzthVQsInpfLBJiT48=;
- b=h8LR0IrMp3PMZBDOQExOtYEniNALDsLAtBxs8FALuRl38HcQt+F/r0zrCWFgGTIkhcpbaq
- rSUuovurOhYD4wbF1N/n7WLmT5GvQ9AuT/GfiNhvZHYpHnHBeHkXmzQMBYcW7U3PzThTmO
- 3omkC3mbObTgCbBuLUgSbr9/fsUAw8s=
+ bh=ikQSdDOUsESRiUIVbdW54A6+dfH/0XTZY4gzaI0ujN0=;
+ b=ibMkHpeq9HyiprDEdJrTw7rlDPYWoh7hx/5Y3TfxkU5fhT5mfBxI4LVkmnAxrSDyD6SOsL
+ nsEBaVaNckAJGBjKtx3JF0QO+xXiEzQGk/AW8WENpULAv21r8IrtTP214YxcxkXs34+u8G
+ rwASwuSy7vlGmzjXtvV5koIRlWw/1FM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-bE-wc0ndPXKrrSzLXDxIsA-1; Tue, 05 May 2020 06:19:13 -0400
-X-MC-Unique: bE-wc0ndPXKrrSzLXDxIsA-1
+ us-mta-17-XIUedVTNOtubTFLLJ7fEsA-1; Tue, 05 May 2020 06:19:14 -0400
+X-MC-Unique: XIUedVTNOtubTFLLJ7fEsA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D2211009441;
- Tue,  5 May 2020 10:19:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6A80107ACF2;
+ Tue,  5 May 2020 10:19:13 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B530E63F95;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B549263F96;
  Tue,  5 May 2020 10:19:11 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D716511358C2; Tue,  5 May 2020 12:19:08 +0200 (CEST)
+ id DA55111358C3; Tue,  5 May 2020 12:19:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/10] mips/malta: Fix create_cps() error handling
-Date: Tue,  5 May 2020 12:19:04 +0200
-Message-Id: <20200505101908.6207-7-armbru@redhat.com>
+Subject: [PATCH v2 07/10] mips/boston: Fix boston_mach_init() error handling
+Date: Tue,  5 May 2020 12:19:05 +0200
+Message-Id: <20200505101908.6207-8-armbru@redhat.com>
 In-Reply-To: <20200505101908.6207-1-armbru@redhat.com>
 References: <20200505101908.6207-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,10 +78,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paul Burton <pburton@wavecomp.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,47 +87,39 @@ The Error ** argument must be NULL, &error_abort, &error_fatal, or a
 pointer to a variable containing NULL.  Passing an argument of the
 latter kind twice without clearing it in between is wrong: if the
 first call sets an error, it no longer points to NULL for the second
+call.
 
-create_cps() is wrong that way.  The last calls treats an error as
-fatal.  Do that for the prior ones, too.
+boston_mach_init() is wrong that way.  The last calls treats an error
+as fatal.  Do that for the prior ones, too.
 
-Fixes: bff384a4fbd5d0e86939092e74e766ef0f5f592c
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
+Fixes: df1d8a1f29f567567b9d20be685a4241282e7005
+Cc: Paul Burton <pburton@wavecomp.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
- hw/mips/mips_malta.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ hw/mips/boston.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index e4c4de1b4e..17bf41616b 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -1185,17 +1185,14 @@ static void create_cpu_without_cps(MachineState *ms=
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index 98ecd25e8e..2832dfa6ae 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -458,14 +458,11 @@ static void boston_mach_init(MachineState *machine)
+     sysbus_init_child_obj(OBJECT(machine), "cps", OBJECT(&s->cps),
+                           sizeof(s->cps), TYPE_MIPS_CPS);
+     object_property_set_str(OBJECT(&s->cps), machine->cpu_type, "cpu-type"=
 ,
- static void create_cps(MachineState *ms, MaltaState *s,
-                        qemu_irq *cbus_irq, qemu_irq *i8259_irq)
- {
--    Error *err =3D NULL;
--
-     sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(s->cps=
-),
-                           TYPE_MIPS_CPS);
--    object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type", &er=
-r);
--    object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp", &err)=
-;
+-                            &err);
+-    object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp", =
+&err);
 -    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
+-
 -    if (err !=3D NULL) {
 -        error_report("%s", error_get_pretty(err));
 -        exit(1);
 -    }
-+    object_property_set_str(OBJECT(&s->cps), ms->cpu_type, "cpu-type",
 +                            &error_fatal);
-+    object_property_set_int(OBJECT(&s->cps), ms->smp.cpus, "num-vp",
++    object_property_set_int(OBJECT(&s->cps), machine->smp.cpus, "num-vp",
 +                            &error_fatal);
 +    object_property_set_bool(OBJECT(&s->cps), true, "realized",
 +                             &error_fatal);
