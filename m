@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84C21C5960
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:25:26 +0200 (CEST)
-Received: from localhost ([::1]:43478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05081C596C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:27:13 +0200 (CEST)
+Received: from localhost ([::1]:47350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVyVh-00030B-8q
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:25:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58902)
+	id 1jVyXQ-0004m2-NT
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVyUR-0001gc-9i
- for qemu-devel@nongnu.org; Tue, 05 May 2020 10:24:08 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:25864
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jVyWR-0004Hs-HR
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:26:11 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:32495
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVyUO-0001Wf-SN
- for qemu-devel@nongnu.org; Tue, 05 May 2020 10:24:06 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jVyWQ-0003LR-IR
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:26:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588688642;
+ s=mimecast20190719; t=1588688769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=swRalGKxU2lSdgcOHXUj6WaWa7nYBd6sW+blqU9Gjq8=;
- b=LeO9vigrtZuaX8AQz5hIURJOMdNOmeQjhKbsCcyC2kEADjgMSzeawkBxCt3ka8dvhTEX9w
- CJdzrVaQxJqLFD/6aksTYiER3nRgK0Sw/INluSNqac/RZYyUSJ4x6zIo/GaY/1Ms3jqik7
- DbhNWxWHsGFMH0Ipn9tvuEdgkHGBx8Y=
+ bh=XJaqp6t3CRqMVr4oSCWcPsvmAWzsy4f45i/wxN37IcM=;
+ b=XWpYo0VO8GFuNMAIwn34MPCIYqQk5vj+4WP2VFa1kgnNPVu9RVVwe1YU5U6kJaRDAsO1Br
+ wOjN2yVyaQplLF+raci+tMjnLEzMOIZwH+PvovjSldHm20GNuq1ywVtHn0kiqWI7S8WrQM
+ Ed5SsMXfQfgQ8HcTtUVM13qMLE76h1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-mJwoh1yxO5mkL8BXfGTRBg-1; Tue, 05 May 2020 10:24:01 -0400
-X-MC-Unique: mJwoh1yxO5mkL8BXfGTRBg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-381-92BYn3kJM0mLMe1i3g_Zfw-1; Tue, 05 May 2020 10:26:08 -0400
+X-MC-Unique: 92BYn3kJM0mLMe1i3g_Zfw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F2B4800687;
- Tue,  5 May 2020 14:23:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2540060629;
- Tue,  5 May 2020 14:23:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A95B311358BC; Tue,  5 May 2020 16:23:53 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH 08/17] s390x/cpumodel: Fix UI to CPU features
- pcc-cmac-{aes, eaes}-256
-References: <20200428163419.4483-1-armbru@redhat.com>
- <20200428163419.4483-9-armbru@redhat.com>
- <7ed42e2f-e437-3d06-e46b-5416e4d2a6d3@redhat.com>
- <874kt0bzq8.fsf@dusky.pond.sub.org>
- <83638290-f00e-7d50-225b-efee0179ff9c@redhat.com>
- <87368i6eed.fsf@dusky.pond.sub.org>
- <68f9c124-aeea-4369-52bf-3f4c7f579a64@redhat.com>
-Date: Tue, 05 May 2020 16:23:53 +0200
-In-Reply-To: <68f9c124-aeea-4369-52bf-3f4c7f579a64@redhat.com> (David
- Hildenbrand's message of "Sat, 2 May 2020 10:39:14 +0200")
-Message-ID: <87mu6ma29y.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16BB6107ACCD;
+ Tue,  5 May 2020 14:26:07 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A0C660BEC;
+ Tue,  5 May 2020 14:25:56 +0000 (UTC)
+Date: Tue, 5 May 2020 16:25:55 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 05/13] acpi: move acpi_init_common_fadt_data to
+ acpi-common.c
+Message-ID: <20200505162555.104fa99a@redhat.com>
+In-Reply-To: <20200505134305.22666-6-kraxel@redhat.com>
+References: <20200505134305.22666-1-kraxel@redhat.com>
+ <20200505134305.22666-6-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -88,219 +81,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- pbonzini@redhat.com, Richard Henderson <rth@twiddle.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David Hildenbrand <david@redhat.com> writes:
+On Tue,  5 May 2020 15:42:57 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> On 02.05.20 08:26, Markus Armbruster wrote:
->> David Hildenbrand <david@redhat.com> writes:
->>=20
->>> On 30.04.20 20:22, Markus Armbruster wrote:
->>>> David Hildenbrand <david@redhat.com> writes:
->>>>
->>>>> On 28.04.20 18:34, Markus Armbruster wrote:
->>>>>> Both s390_features[S390_FEAT_PCC_CMAC_AES_256].name and
->>>>>> s390_features[S390_FEAT_PCC_CMAC_EAES_256].name is
->>>>>> "pcc-cmac-eaes-256".  The former is obviously a pasto.
->>>>>>
->>>>>> Impact:
->>>>>>
->>>>>> * s390_feat_bitmap_to_ascii() misidentifies S390_FEAT_PCC_CMAC_AES_2=
-56
->>>>>>   as "pcc-cmac-eaes-256".  Affects QMP commands query-cpu-definition=
-s,
->>>>>>   query-cpu-model-expansion, query-cpu-model-baseline,
->>>>>>   query-cpu-model-comparison, and the error message when
->>>>>>   s390_realize_cpu_model() fails in check_compatibility().
->>>>>>
->>>>>> * s390_realize_cpu_model() misidentifies it in check_consistency()
->>>>>>   warnings.
+the same question like with FACS, why legacy data are needed for with reduced profile?
+it mostly initializes data for fixed-hw model.
 
-Actually not, because the feature isn't in check_consistency()'s dep[].
-I'll drop this item.
+I'd preffer if you drop FACS and use minimal FADT like build_fadt_rev5() does
+without pulling along a bunch of legacy junk (unless there is a good justification for it).
 
->>>>>> * s390_cpu_list() likewise.  Affects -cpu help.
->>>>>>
->>>>>> * s390_cpu_model_register_props() creates CPU property
->>>>>>   "pcc-cmac-eaes-256" twice.  The second one fails, but the error is
->>>>>>   ignored (a later commit will change that).  Results in a single
->>>>>>   property "pcc-cmac-eaes-256" with the description for
->>>>>>   S390_FEAT_PCC_CMAC_AES_256, and no property for
->>>>>>   S390_FEAT_PCC_CMAC_EAES_256.  CPU properties are visible in CLI -c=
-pu
->>>>>>   and -device, QMP & HMP device_add, QMP device-list-properties, and
->>>>>>   QOM introspection.
->>>>>>
->>>>>> Fix by deleting the wayward 'e'.
->>>>>
->>>>> Very nice catch - thanks!
->>>>
->>>> :)
->>>>
->>>>> While this sounds very bad, it's luckily not that bad in practice
->>>>> (currently).
->>>>>
->>>>> The feature (or rather, both features) is part of the feature group
->>>>> "msa4". As long as we have all sub-features part of that group (which=
- is
->>>>> usually the case), we will always indicate "msa4" to the user, instea=
-d
->>>>> of all the separate sub-features. So, expansion, baseline, comparison
->>>>> will usually only work with "msa4".
->>>>>
->>>>> (in addition, current KVM is not capable of actually masking off thes=
-e
->>>>> sub-features, so it will still, always see the feature, even if not
->>>>> explicitly specified via "-cpu X,pcc-cmac-aes-256=3Don)
->>>>
->>>> Would you like to propose an commit message improvements?
->>>
->>> Maybe something like
->>>
->>> "Both affected features are part of the feature group msa4. In current
->>> setups, we will always see the msa4 feature instead of the separate
->>> contained sub-features (because all sub-features are around). Therefore=
-,
->>> both features are currently never passed from/to the user explicitly
->>> (e.g., via cpu model expansion, comparison, baseline and '-cpu' setup).=
-"
->>>
->>> Thanks!
->>=20
->> I think I can guess how this could work for reporting features (I
->> haven't checked my guess against the code), which is what the
->> query-cpu-model-* do: suppress individual features when their group is
->> complete.
->
-> Yes. Expand the group to single features on user input, expand the
-> single features to the group on user output (if all features are enabled)=
-.
-
-Okay, let's play.
-
-Here's query-cpu-definitions:
-
-    $ echo -e '{"execute": "qmp_capabilities"}\n{"execute": "query-cpu-defi=
-nitions"}\n{"execute": "quit"}' | ../qemu/bld/s390x-softmmu/qemu-system-s39=
-0x -qmp-pretty stdio -S -display none | egrep 'msa4|pcc-cmac-e?aes-256'
-
-Before this patch:
-
-         28                 "pcc-cmac-eaes-256",
-
-After:
-
-         14                 "pcc-cmac-aes-256",
-         14                 "pcc-cmac-eaes-256",
-
-No msa4.
-
-Here's query-cpu-model-expansion for model "qemu" (arbitrarily chosen),
-type "static":
-
-    $ echo -e '{"execute": "qmp_capabilities"}\n{"execute": "query-cpu-mode=
-l-expansion", "arguments": {"type": "full", "model": {"name": "qemu"}}}\n{"=
-execute": "quit"}' | $i -qmp-pretty stdio -S -display none | egrep 'msa4|pc=
-c-cmac-e?aes-256' | sort | uniq -c
-
-Before and after:
-
-          1                 "msa4-base": true,
-
-Same with type "full":
-
-    $ echo -e '{"execute": "qmp_capabilities"}\n{"execute": "query-cpu-mode=
-l-expansion", "arguments": {"type": "full", "model": {"name": "qemu"}}}\n{"=
-execute": "quit"}' | $i -qmp-pretty stdio -S -display none | egrep 'msa4|pc=
-c-cmac-e?aes-256' | sort | uniq -c
-
-Before:
-
-          1                 "msa4-base": true,
-          1                 "pcc-cmac-eaes-256": false,
-
-After
-
-          1                 "msa4-base": true,
-          1                 "pcc-cmac-aes-256": false,
-          1                 "pcc-cmac-eaes-256": false,
-
-The grouping and masking you described appears to apply to
-query-cpu-model-expansion with type "static".  With type "full", I can
-see the grouping, but not the masking.  With query-cpu-definitions, I
-can't see either.
-
-I haven't played with query-cpu-model-comparison and
-query-cpu-model-baseline.
-
->> But "'-cpu' setup" doesn't seem to be about reporting features.  Am I
->> confused?
->>=20
->
-> Let me clarify. Any user input would be broken if the two sub-features
-> would be specified explicitly, instead of the whole "msa4" group. This
-> applies to any user input, also the user input for query-cpu-model-.
->
-> In the usual cases, libvirt will expand a cpu model (e.g., "host",
-> "z15") and start QEMU with that (-cpu ...). We will only have the
-> complete msa4 group here in practice.
->
-> Yes, if some user would pick and chose such features manually, it would
-> be broken - it's just not the common on s390x with the huge amount of
-> features. But that's why I thing stable backports still make sense.
-
-The commit message should be accurate and sufficiently precise.  The
-"sufficiently" gives me some wiggle room to avoid inaccuracy due to my
-ignorance.  Would the following be good enough?
-
-    Impact:
-   =20
-    * s390_feat_bitmap_to_ascii() misidentifies S390_FEAT_PCC_CMAC_AES_256
-      as "pcc-cmac-eaes-256".  Affects QMP commands query-cpu-definitions,
-      query-cpu-model-expansion, query-cpu-model-baseline,
-      query-cpu-model-comparison, and the error message when
-      s390_realize_cpu_model() fails in check_compatibility().
-   =20
-    * s390_cpu_list() also misidentifies it.  Affects -cpu help.
-   =20
-    * s390_cpu_model_register_props() creates CPU property
-      "pcc-cmac-eaes-256" twice.  The second one fails, but the error is
-      ignored (a later commit will change that).  Results in a single
-      property "pcc-cmac-eaes-256" with the description for
-      S390_FEAT_PCC_CMAC_AES_256, and no property for
-      S390_FEAT_PCC_CMAC_EAES_256.  CPU properties are visible in CLI -cpu
-      and -device, QMP & HMP device_add, QMP device-list-properties, and
-      QOM introspection.
-
-    The two features are almost always used via their group msa4.  Such
-    use is not affected by this bug.
-
->> While testing, I noticed that
->>=20
->>     $ s390x-softmmu/qemu-system-s390x
->>=20
->> flashes a window at me, then terminates successfully, without printing
->> anything.  With -S, it behaves like other targets.  Bug?
->>=20
->
-> Think this is expected.
->
-> t480s: ~  $ qemu-system-s390x --nographic
-> LOADPARM=3D[        ]
-> Could not find a suitable boot device (none specified)
->
-> The s390-ccw bios will come up, detect that there is nothing to boot and
-> quit. The bios can only print to the sclp console, not to a graphical
-> output.
->
-> What the others do (e.g., ppc64, x86_64) is boot the bios/firmware and
-> then halt there.
-
-Thanks!
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/i386/acpi-common.h |  5 ++++-
+>  hw/i386/acpi-build.c  | 43 +------------------------------------------
+>  hw/i386/acpi-common.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 48 insertions(+), 43 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
+> index 583c320bbe7d..5788a13da9ca 100644
+> --- a/hw/i386/acpi-common.h
+> +++ b/hw/i386/acpi-common.h
+> @@ -1,7 +1,8 @@
+>  #ifndef HW_I386_ACPI_COMMON_H
+>  #define HW_I386_ACPI_COMMON_H
+> +
+> +#include "include/hw/acpi/acpi-defs.h"
+>  #include "include/hw/acpi/acpi_dev_interface.h"
+> -
+>  #include "include/hw/acpi/bios-linker-loader.h"
+>  #include "include/hw/i386/x86.h"
+>  
+> @@ -12,5 +13,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>                       X86MachineState *x86ms, AcpiDeviceIf *adev,
+>                       bool has_pci);
+>  void acpi_build_facs(GArray *table_data);
+> +void acpi_init_common_fadt_data(MachineState *ms, Object *o,
+> +                                AcpiFadtData *data);
+>  
+>  #endif
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index a69b85a266e7..d1f14394734e 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -132,47 +132,6 @@ const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio = {
+>      .bit_width = NVDIMM_ACPI_IO_LEN << 3
+>  };
+>  
+> -static void init_common_fadt_data(MachineState *ms, Object *o,
+> -                                  AcpiFadtData *data)
+> -{
+> -    uint32_t io = object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, NULL);
+> -    AmlAddressSpace as = AML_AS_SYSTEM_IO;
+> -    AcpiFadtData fadt = {
+> -        .rev = 3,
+> -        .flags =
+> -            (1 << ACPI_FADT_F_WBINVD) |
+> -            (1 << ACPI_FADT_F_PROC_C1) |
+> -            (1 << ACPI_FADT_F_SLP_BUTTON) |
+> -            (1 << ACPI_FADT_F_RTC_S4) |
+> -            (1 << ACPI_FADT_F_USE_PLATFORM_CLOCK) |
+> -            /* APIC destination mode ("Flat Logical") has an upper limit of 8
+> -             * CPUs for more than 8 CPUs, "Clustered Logical" mode has to be
+> -             * used
+> -             */
+> -            ((ms->smp.max_cpus > 8) ?
+> -                        (1 << ACPI_FADT_F_FORCE_APIC_CLUSTER_MODEL) : 0),
+> -        .int_model = 1 /* Multiple APIC */,
+> -        .rtc_century = RTC_CENTURY,
+> -        .plvl2_lat = 0xfff /* C2 state not supported */,
+> -        .plvl3_lat = 0xfff /* C3 state not supported */,
+> -        .smi_cmd = ACPI_PORT_SMI_CMD,
+> -        .sci_int = object_property_get_uint(o, ACPI_PM_PROP_SCI_INT, NULL),
+> -        .acpi_enable_cmd =
+> -            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL),
+> -        .acpi_disable_cmd =
+> -            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NULL),
+> -        .pm1a_evt = { .space_id = as, .bit_width = 4 * 8, .address = io },
+> -        .pm1a_cnt = { .space_id = as, .bit_width = 2 * 8,
+> -                      .address = io + 0x04 },
+> -        .pm_tmr = { .space_id = as, .bit_width = 4 * 8, .address = io + 0x08 },
+> -        .gpe0_blk = { .space_id = as, .bit_width =
+> -            object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK_LEN, NULL) * 8,
+> -            .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+> -        },
+> -    };
+> -    *data = fadt;
+> -}
+> -
+>  static Object *object_resolve_type_unambiguous(const char *typename)
+>  {
+>      bool ambig;
+> @@ -195,7 +154,7 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+>      pm->pcihp_io_len = 0;
+>  
+>      assert(obj);
+> -    init_common_fadt_data(machine, obj, &pm->fadt);
+> +    acpi_init_common_fadt_data(machine, obj, &pm->fadt);
+>      if (piix) {
+>          /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
+>          pm->fadt.rev = 1;
+> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> index 5187653893a8..69dfbf0252f3 100644
+> --- a/hw/i386/acpi-common.c
+> +++ b/hw/i386/acpi-common.c
+> @@ -28,6 +28,8 @@
+>  #include "hw/acpi/aml-build.h"
+>  #include "hw/acpi/utils.h"
+>  #include "hw/i386/pc.h"
+> +#include "hw/isa/apm.h"
+> +#include "hw/rtc/mc146818rtc_regs.h"
+>  #include "target/i386/cpu.h"
+>  
+>  #include "acpi-build.h"
+> @@ -161,3 +163,44 @@ void acpi_build_facs(GArray *table_data)
+>      memcpy(&facs->signature, "FACS", 4);
+>      facs->length = cpu_to_le32(sizeof(*facs));
+>  }
+> +
+> +void acpi_init_common_fadt_data(MachineState *ms, Object *o,
+> +                                AcpiFadtData *data)
+> +{
+> +    uint32_t io = object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, NULL);
+> +    AmlAddressSpace as = AML_AS_SYSTEM_IO;
+> +    AcpiFadtData fadt = {
+> +        .rev = 3,
+> +        .flags =
+> +            (1 << ACPI_FADT_F_WBINVD) |
+> +            (1 << ACPI_FADT_F_PROC_C1) |
+> +            (1 << ACPI_FADT_F_SLP_BUTTON) |
+> +            (1 << ACPI_FADT_F_RTC_S4) |
+> +            (1 << ACPI_FADT_F_USE_PLATFORM_CLOCK) |
+> +            /* APIC destination mode ("Flat Logical") has an upper limit of 8
+> +             * CPUs for more than 8 CPUs, "Clustered Logical" mode has to be
+> +             * used
+> +             */
+> +            ((ms->smp.max_cpus > 8) ?
+> +                        (1 << ACPI_FADT_F_FORCE_APIC_CLUSTER_MODEL) : 0),
+> +        .int_model = 1 /* Multiple APIC */,
+> +        .rtc_century = RTC_CENTURY,
+> +        .plvl2_lat = 0xfff /* C2 state not supported */,
+> +        .plvl3_lat = 0xfff /* C3 state not supported */,
+> +        .smi_cmd = ACPI_PORT_SMI_CMD,
+> +        .sci_int = object_property_get_uint(o, ACPI_PM_PROP_SCI_INT, NULL),
+> +        .acpi_enable_cmd =
+> +            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL),
+> +        .acpi_disable_cmd =
+> +            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NULL),
+> +        .pm1a_evt = { .space_id = as, .bit_width = 4 * 8, .address = io },
+> +        .pm1a_cnt = { .space_id = as, .bit_width = 2 * 8,
+> +                      .address = io + 0x04 },
+> +        .pm_tmr = { .space_id = as, .bit_width = 4 * 8, .address = io + 0x08 },
+> +        .gpe0_blk = { .space_id = as, .bit_width =
+> +            object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK_LEN, NULL) * 8,
+> +            .address = object_property_get_uint(o, ACPI_PM_PROP_GPE0_BLK, NULL)
+> +        },
+> +    };
+> +    *data = fadt;
+> +}
 
 
