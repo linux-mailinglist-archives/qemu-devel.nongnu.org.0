@@ -2,85 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F65A1C603A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 20:40:06 +0200 (CEST)
-Received: from localhost ([::1]:58348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2E0B1C607C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 20:57:13 +0200 (CEST)
+Received: from localhost ([::1]:39796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jW2U8-0006EN-RI
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 14:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55012)
+	id 1jW2ki-0004GS-FY
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 14:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jW2Sn-0005PA-3P; Tue, 05 May 2020 14:38:41 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28614)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1jW2Sl-00008e-4i; Tue, 05 May 2020 14:38:40 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 045IX4si105623; Tue, 5 May 2020 14:38:35 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30s4gv80t4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 14:38:34 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 045IbQVu013760;
- Tue, 5 May 2020 18:38:33 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma01wdc.us.ibm.com with ESMTP id 30s0g6aw2c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 18:38:33 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 045IcW0w26542490
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 May 2020 18:38:32 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D36F46A054;
- Tue,  5 May 2020 18:38:32 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 40B7D6A047;
- Tue,  5 May 2020 18:38:32 +0000 (GMT)
-Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.119.241])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  5 May 2020 18:38:32 +0000 (GMT)
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9
-Date: Tue,  5 May 2020 14:38:17 -0400
-Message-Id: <20200505183818.32688-2-dbuono@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200505183818.32688-1-dbuono@linux.vnet.ibm.com>
-References: <20200505183818.32688-1-dbuono@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jW2je-0003Ln-Ni
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 14:56:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jW2jd-0004ve-DJ
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 14:56:06 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jW2ja-0001EA-DA
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 18:56:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6276F2E8109
+ for <qemu-devel@nongnu.org>; Tue,  5 May 2020 18:56:02 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-05-05_09:2020-05-04,
- 2020-05-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 bulkscore=0 mlxscore=0
- priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0 impostorscore=0
- suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005050138
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 14:38:37
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 05 May 2020 18:48:06 -0000
+From: Rafael David Tinoco <rafaeldtinoco@ubuntu.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=kunpeng920; status=Triaged; importance=Undecided;
+ assignee=ike.pan@canonical.com; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04; status=New;
+ importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04-hwe; status=New;
+ importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-19.10; status=New;
+ importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-20.04; status=New;
+ importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=kunpeng920; productseries=upstream-kernel;
+ status=Fix Committed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Medium; assignee=rafaeldtinoco@ubuntu.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=Incomplete; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+ component=main; status=Incomplete; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Incomplete; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Incomplete; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: ikeradar patch qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-cloke dannf ikepanhc iveskim jan-glauber-i
+ jnsnow kongzizaixian lizhengui rafaeldtinoco
+ ying-fang
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Rafael David Tinoco (rafaeldtinoco)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <158870448702.4932.5153031372521137430.malone@soybean.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 34e60eebe66212ad142ff90d11326a23a7259b96
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 14:56:03
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,97 +102,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Daniele Buono <dbuono@linux.vnet.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Starting with Clang v9, -Wtype-limits is implemented and triggers a
-few "result of comparison is always true" errors when compiling PPC32
-targets.
+Hello Ike,
 
-The comparisons seem to be necessary only on PPC64, since the
-else branch in PPC32 only has a "g_assert_not_reached();" in all cases.
+Please, let me know if you want me to go after the needed SRUs for this
+fix or if you will.
 
-This patch restructures the code so that the actual if/else is done on a
-local flag variable, that is set accordingly for PPC64, and always
-true for PPC32.
+I'll wait for the final feedback from tests with your PPA.
 
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
----
- target/ppc/translate.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+Cheers!
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 807d14faaa..338529879f 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -1882,6 +1882,7 @@ static void gen_rlwimi(DisasContext *ctx)
-         tcg_gen_deposit_tl(t_ra, t_ra, t_rs, sh, me - mb + 1);
-     } else {
-         target_ulong mask;
-+        bool mask_in_32b = true;
-         TCGv t1;
- 
- #if defined(TARGET_PPC64)
-@@ -1890,8 +1891,13 @@ static void gen_rlwimi(DisasContext *ctx)
- #endif
-         mask = MASK(mb, me);
- 
-+#if defined(TARGET_PPC64)
-+        if (mask > 0xffffffffu) {
-+            mask_in_32b = false;
-+        }
-+#endif
-         t1 = tcg_temp_new();
--        if (mask <= 0xffffffffu) {
-+        if (mask_in_32b) {
-             TCGv_i32 t0 = tcg_temp_new_i32();
-             tcg_gen_trunc_tl_i32(t0, t_rs);
-             tcg_gen_rotli_i32(t0, t0, sh);
-@@ -1933,12 +1939,18 @@ static void gen_rlwinm(DisasContext *ctx)
-         tcg_gen_extract_tl(t_ra, t_rs, rsh, len);
-     } else {
-         target_ulong mask;
-+        bool mask_in_32b = true;
- #if defined(TARGET_PPC64)
-         mb += 32;
-         me += 32;
- #endif
-         mask = MASK(mb, me);
--        if (mask <= 0xffffffffu) {
-+#if defined(TARGET_PPC64)
-+        if (mask > 0xffffffffu) {
-+            mask_in_32b = false;
-+        }
-+#endif
-+        if (mask_in_32b) {
-             if (sh == 0) {
-                 tcg_gen_andi_tl(t_ra, t_rs, mask);
-             } else {
-@@ -1973,6 +1985,7 @@ static void gen_rlwnm(DisasContext *ctx)
-     uint32_t mb = MB(ctx->opcode);
-     uint32_t me = ME(ctx->opcode);
-     target_ulong mask;
-+    bool mask_in_32b = true;
- 
- #if defined(TARGET_PPC64)
-     mb += 32;
-@@ -1980,7 +1993,12 @@ static void gen_rlwnm(DisasContext *ctx)
- #endif
-     mask = MASK(mb, me);
- 
--    if (mask <= 0xffffffffu) {
-+#if defined(TARGET_PPC64)
-+    if (mask > 0xffffffffu) {
-+        mask_in_32b = false;
-+    }
-+#endif
-+    if (mask_in_32b) {
-         TCGv_i32 t0 = tcg_temp_new_i32();
-         TCGv_i32 t1 = tcg_temp_new_i32();
-         tcg_gen_trunc_tl_i32(t0, t_rb);
--- 
-2.26.2
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
+
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
+
+Status in kunpeng920:
+  Triaged
+Status in kunpeng920 ubuntu-18.04 series:
+  New
+Status in kunpeng920 ubuntu-18.04-hwe series:
+  New
+Status in kunpeng920 ubuntu-19.10 series:
+  New
+Status in kunpeng920 ubuntu-20.04 series:
+  New
+Status in kunpeng920 upstream-kernel series:
+  Fix Committed
+Status in QEMU:
+  In Progress
+Status in qemu package in Ubuntu:
+  Incomplete
+Status in qemu source package in Bionic:
+  Incomplete
+Status in qemu source package in Disco:
+  Incomplete
+Status in qemu source package in Eoan:
+  Incomplete
+Status in qemu source package in Focal:
+  Incomplete
+
+Bug description:
+  Command:
+
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Hangs indefinitely approximately 30% of the runs.
+
+  ----
+
+  Workaround:
+
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
+
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
+
+  ----
+
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
+
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  [ Original Description ]
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
