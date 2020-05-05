@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FFE1C52EF
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:18:00 +0200 (CEST)
-Received: from localhost ([::1]:54206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE04D1C52AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:11:30 +0200 (CEST)
+Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVueF-0001yq-FC
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57298)
+	id 1jVuXx-0006JR-SP
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:11:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVuXG-0005w3-Th
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:10:47 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jVuXE-0001wa-OH
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:10:46 -0400
-Received: by mail-ot1-x344.google.com with SMTP id i27so1149608ota.7
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 03:10:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=k2E1BANozowIuRLwzQhWAkc5j3kkcoUCFJeH+kJb5Uc=;
- b=uh0mg/F57LfyLKGl4gKQ3i0zq5ozIDmsn8qKb11GOhDcpbjfHr6hB/rEzY3yh2CGKb
- +Md45jf9/FnbjvrtBj7/rM+nf2v0VpJlYDBqpaSJ9qo8tNTfiwQuLKmxTQ4XRzb7G/ZK
- 9iqO0kHqLIMJLVs1WW2HrWEqlkwYay64rQ7uxgN2q/Y0a98WvVmA99YdQc8EYYoHymic
- srIq5b5/XodbyjHh/f92tScv2wjQiO3QG+YKAx8REtKosdjTNoNcTAVJlxl1a+1mgfDF
- yfQx6aZvM+q4lWvHt8VrBOsGFHL8fLVh0CIVSTcBnbaTdpwvk7I81fbPbe1UMNWRRArK
- 1XHA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jVuX9-0005q9-GX
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:10:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30747
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jVuX8-0001vE-E8
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:10:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588673437;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dPfmZyFKAsiBDybdnzXwf2PCSi/x69ikq150mG0nDgU=;
+ b=JtOIj8kG0pTCDF05wOmtHH3VGB4uZPm/fuFiiUSVGFVge+6VkJGj5yy+eYlRcV6hDOS69Y
+ q4+79jw/JUdH863bPSreoSHIBlPGWsUChRn5L95GZOBNyHI1SYYhTQGam9OP6iFHuWgns4
+ 2kM7T1cJ7XHGuZOy1oM2kezvfbHJqds=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-ptFzm4_SOJODxWfrPKk7Iw-1; Tue, 05 May 2020 06:10:35 -0400
+X-MC-Unique: ptFzm4_SOJODxWfrPKk7Iw-1
+Received: by mail-wr1-f70.google.com with SMTP id g10so976972wrr.10
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 03:10:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=k2E1BANozowIuRLwzQhWAkc5j3kkcoUCFJeH+kJb5Uc=;
- b=MaizxJPxt6/TsMex29qd49rgUyX9I3a8cT9s957Xn97vtJCAVimUrOM633Hlk8fUGy
- ipuxDFn6n9jDKxwp8V61bWjixWjcHKIqNkGZqsymggPaP1mfkPYCZ65rVYbsk0wTnkUJ
- UmqvRgyV2gxLfAOYq+XSfrczv/eBn2YYqZw/zydnDRqWsEZxOwkUVoWMdwV5YwgNpOOJ
- K88uIPTrcvICm9LOsA79rRblLBhZYGrvMuogAgiuFR/uL93ISAWMh19q0509ls1ENI0J
- SHmovfwp9mz6gp9iYn+P3bm9roiHIlISnXY35/mMBC7XmuXbdjtEQbcI1ADre0l4sebe
- uwdQ==
-X-Gm-Message-State: AGi0Pub0Acp8QajbsQvTfGIT2JI4LAFPSrT0z385WiG3RBy6Bh5WP4GL
- DxFW9S+0NYOxOCrzZp0hsm/u9ktwPkiBGOW7a0ru/A==
-X-Google-Smtp-Source: APiQypKIz+/6r5BxIdWv5d82lj7PFK3reoqhsmCv0YU0m63wT+DpqE4O3aogEg86yuPuswJQAerbSq21v+PJ6qTwjRY=
-X-Received: by 2002:a9d:2c08:: with SMTP id f8mr1591546otb.135.1588673443251; 
- Tue, 05 May 2020 03:10:43 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=klk+WPmzEH2Guopiw/wocH/h2D5fe1l++84CJnbrd14=;
+ b=Ah3YzK9HXKwe6FzyKWK/Ijkw1E62ruoO0O0oS1L2xpggp2LdcNWjGppF3mKMQDw0Ju
+ IolXhVCeHgL2Pfv5iAAAO0VxR6UhP5SVVkwzCKj+5i8X6r/4K9ejWSLF9WjGBSRw6h41
+ mo9U6X0w0Jee7ZKfVMXUzAo4OqgQgMX2KORiEdB9R2qo9fr6uel88oCRgCFkwuR2jbj+
+ vHCjYQkMEbzgIcI4M8BWpIZ9y0EiC70xGo8qJtBU92+C+/4eMGbh2d7Omqzd5xQ0nt3g
+ vaskjk932LcZf2r8POek3ws4sjVReeT4gXT9uFjrS8zCa8uzj8UhWjAgPPZLbdMm5A+E
+ VKvw==
+X-Gm-Message-State: AGi0Pub1cGTDaUmQVhpsr69/FXgyUT5QoFgNnOcNz/yQp56lxwO6amnX
+ QYMGIvvxusT8oFwdEUkYxf52jM4GVZdgl0Tov7KCDIwvCh0lbjGTtpuVY0DqbmIVZBllPk98UbW
+ 4i54Otc/l3itBlgA=
+X-Received: by 2002:a1c:35c3:: with SMTP id c186mr2656194wma.66.1588673434479; 
+ Tue, 05 May 2020 03:10:34 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLViQN4o7cHcbqs4513AXldJMMqn8+Vd4nJqKrub7HrFmiZaKMq+0ZHPA626P2cQnmVkBXTNA==
+X-Received: by 2002:a1c:35c3:: with SMTP id c186mr2656179wma.66.1588673434308; 
+ Tue, 05 May 2020 03:10:34 -0700 (PDT)
+Received: from [192.168.178.58] ([151.20.132.175])
+ by smtp.gmail.com with ESMTPSA id h1sm3098045wme.42.2020.05.05.03.10.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 May 2020 03:10:33 -0700 (PDT)
+Subject: Re: [PATCH] hw/audio/gus: Use AUDIO_HOST_ENDIANNESS definition from
+ 'audio/audio.h'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200505100750.27332-1-f4bug@amsat.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <bc9f6295-9c1a-9617-ecd9-f38ea0ad5d79@redhat.com>
+Date: Tue, 5 May 2020 12:10:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20200505095945.23146-1-f4bug@amsat.org>
- <bc8d1213-5578-52f2-7a86-f45dfa8b33be@web.de>
-In-Reply-To: <bc8d1213-5578-52f2-7a86-f45dfa8b33be@web.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 May 2020 11:10:32 +0100
-Message-ID: <CAFEAcA_Ci7ymqWV2tvnJX-Me5D0QQhaKaBkJVaL7KxeixCZJ_Q@mail.gmail.com>
-Subject: Re: [RFC PATCH] hw/arm/musicpal: Map the UART devices unconditionally
-To: Jan Kiszka <jan.kiszka@web.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200505100750.27332-1-f4bug@amsat.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,22 +100,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 May 2020 at 11:09, Jan Kiszka <jan.kiszka@web.de> wrote:
->
-> On 05.05.20 11:59, Philippe Mathieu-Daud=C3=A9 wrote:
-> I don't recall details anymore either (more than 10 year ago now...),
-> but this looks reasonable.
+On 05/05/20 12:07, Philippe Mathieu-Daud=C3=A9 wrote:
+> Use the generic AUDIO_HOST_ENDIANNESS definition instead
+> of a custom one.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Who/what machine is using this device anyway?
 
-My guess is that it dates back to when the serial code would
-crash if passed a NULL pointer for the backend rather than
-treating it as "same as if connected to a /dev/null backend".
+PC, like all old ISA audio cards.
 
-thanks
--- PMM
+Paolo
+
 
