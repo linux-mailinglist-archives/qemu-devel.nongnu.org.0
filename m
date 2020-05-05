@@ -2,64 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D699A1C5AD8
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:17:42 +0200 (CEST)
-Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C72591C57A0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:57:43 +0200 (CEST)
+Received: from localhost ([::1]:60038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVzKH-0002gd-Er
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
+	id 1jVy4s-0006AL-Rp
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:57:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jVzIy-0002Ci-Me
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:16:20 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41375
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVy3N-0004uW-OM
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:56:09 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39896
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jVzIx-000108-2y
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:16:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVy3M-00030O-Pl
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:56:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588691776;
+ s=mimecast20190719; t=1588686968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T+vjJ5uUlIeycqA6uC1SXakUGZgDBDKS1O7W73EHIxQ=;
- b=EjbLpsfB6xLk01Lkf0pZKdMnU2xWHoX/RDVUEFvWFLGuF92OW3fJIzpF76vIs1sQkrQ62n
- FSewQ9gfHxOq9gi9qbxqVI7Uw+yYrRy94CXVYGkzr3+81r7aha/dJq/DeIXcG1gxkNpuBC
- 5nguasiY8XWjG0oh77ifuW05H03uWJk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-OJQFx_nJPW23UKs2mFcrqA-1; Tue, 05 May 2020 11:15:58 -0400
-X-MC-Unique: OJQFx_nJPW23UKs2mFcrqA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89C87872FF2;
- Tue,  5 May 2020 15:15:57 +0000 (UTC)
-Received: from localhost (ovpn-113-143.ams2.redhat.com [10.36.113.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E4FAA10021B3;
- Tue,  5 May 2020 15:15:55 +0000 (UTC)
-Date: Tue, 5 May 2020 14:55:07 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: Publishing Python Packages
-Message-ID: <20200505135507.GB381978@stefanha-x1.localdomain>
-References: <209027fc-7287-f21c-ee72-10574e7eed85@redhat.com>
+ bh=GqjJKj8vl5w2nF+/ZoGSPZtf7fkexGsWEfDvmSN8bf0=;
+ b=Qldix5U+NQtbhry83Lxvc22NBsY5Vi5hSfV2C4Pwpm6mxM7lZzshlSOY9LfsdDWreZx160
+ lfeKu4Z0wcbsls2Xpzlo+MpU+fKGePk/DO2iH8uo+mdvJzYEIuj0ItJUdshZGi6CJ0Uyi7
+ 6gvq+Qtno7bi5bWJrv5482qfeXo73RM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-ZRl3PRPVMLeTDKH-J6VZgA-1; Tue, 05 May 2020 09:56:03 -0400
+X-MC-Unique: ZRl3PRPVMLeTDKH-J6VZgA-1
+Received: by mail-wr1-f72.google.com with SMTP id v17so1240001wrq.8
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:56:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Odo0HaRODgXKYRiDbnYesTbfQvkc1Oe3VZx7d1vIliU=;
+ b=U60NKubJSBjKT0EbAHz7Nx9K9nx2AtFCj+IIhGBkfiYx7+jGf1KvZNRUq1ONshB8oK
+ xgmkC2j2BkBnG4KAqohH1QSH4O0hNfObs1ouHn3R5d0pSqfKYxCBvTZlLpleeH4ZMLx+
+ HEdrjFDZOPm6NJZ1UmddXtN//NT1BBUmOngyS/y+tcxlKpY+vEdfcbIlF7BUYrXP33Vt
+ mKRvKP56s+Q7AYaJ5u19nPr+X3wSrTygMPLiLQ6GViHWr1AMTaGP4CXQV5q+6hcpjVuq
+ XDMmsDIreXruyWCELhb1DAApJ8Ftm/oHb25GszwSfz1IWHy9MrvbGotfn9ZA4+15HRSP
+ 1oSQ==
+X-Gm-Message-State: AGi0Pubg04/URcU+bg9YnWaIqHsrsyCKgkRUuyWNMkHrNGEoYXXBmEm3
+ 014hKZAEmyEFnMCYKkstERGA4tVlgtfGlVXEgFRDSnXtIn/eKBJUiqXTsrI75IT0pypQms2D731
+ oP971zwgIdG765RA=
+X-Received: by 2002:a1c:5448:: with SMTP id p8mr3381228wmi.173.1588686962349; 
+ Tue, 05 May 2020 06:56:02 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKPG2+9WRhWYvVyd6+cVVkzlJpqzM/DeMz9N0fQiTyhE729YudHI0TEuEeDZJrelmcOZzK1Dg==
+X-Received: by 2002:a1c:5448:: with SMTP id p8mr3381193wmi.173.1588686962125; 
+ Tue, 05 May 2020 06:56:02 -0700 (PDT)
+Received: from [192.168.1.38] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id f63sm3863626wma.47.2020.05.05.06.56.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 May 2020 06:56:01 -0700 (PDT)
+Subject: Re: [PATCH 0/4] Add support for SafeStack
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+ <51f28cf2-0f34-508f-96f8-02c02b3c8a85@redhat.com>
+ <20200505133111.GM764268@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c6ac2d0e-34bf-9927-f2fe-2ef0408dcbfb@redhat.com>
+Date: Tue, 5 May 2020 15:56:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <209027fc-7287-f21c-ee72-10574e7eed85@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200505133111.GM764268@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JYK4vJDZwFMowpUq"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,82 +99,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---JYK4vJDZwFMowpUq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/5/20 3:31 PM, Daniel P. Berrang=C3=A9 wrote:
+> On Tue, May 05, 2020 at 03:15:18PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> +Alex & Daniel who keep track on CI stuff.
+>>
+>> On 4/29/20 9:44 PM, Daniele Buono wrote:
+>>> LLVM supports SafeStack instrumentation to protect against stack buffer
+>>> overflows, since version 3.7
+>>>
+>>>   From https://clang.llvm.org/docs/SafeStack.html:
+>>> "It works by separating the program stack into two distinct regions: th=
+e
+>>> safe stack and the unsafe stack. The safe stack stores return addresses=
+,
+>>> register spills, and local variables that are always accessed in a safe
+>>> way, while the unsafe stack stores everything else. This separation
+>>> ensures that buffer overflows on the unsafe stack cannot be used to
+>>> overwrite anything on the safe stack."
+>>>
+>>> Unfortunately, the use of two stack regions does not cope well with
+>>> QEMU's coroutines. The second stack region is not properly set up with
+>>> both ucontext and sigaltstack, so multiple coroutines end up sharing th=
+e
+>>> same memory area for the unsafe stack, causing undefined behaviors at
+>>> runtime (and most iochecks to fail).
+>>>
+>>> This patch series fixes the implementation of the ucontext backend and
+>>> make sure that sigaltstack is never used if the compiler is applying
+>>> the SafeStack instrumentation. It also adds a configure flag to enable
+>>> SafeStack, and enables iotests when SafeStack is used.
+>>>
+>>> This is an RFC mainly because of the low-level use of the SafeStack
+>>> runtime.
+>>> When running swapcontext(), we have to manually set the unsafe stack
+>>> pointer to the new area allocated for the coroutine. LLVM does not allo=
+w
+>>> this by using builtin, so we have to use implementation details that ma=
+y
+>>> change in the future.
+>>> This patch has been tested briefly ( make check on an x86 system ) with
+>>> clang v3.9, v4.0, v5.0, v6.0
+>>> Heavier testing, with make check-acceptance has been performed with
+>>> clang v7.0
+>>
+>> I noticed building using SafeStack is slower, and running with it is eve=
+n
+>> sloooower. It makes sense to have this integrated if we use it regularly=
+. Do
+>> you have plan for this? Using public CI doesn't seem reasonable.
+>=20
+> The runtime behaviour is rather odd, given the docs they provide:
+>=20
+> "The performance overhead of the SafeStack instrumentation is
+>   less than 0.1% on average across a variety of benchmarks
+>   This is mainly because most small functions do not have any
+>   variables that require the unsafe stack and, hence, do not
+>   need unsafe stack frames to be created. The cost of creating
+>   unsafe stack frames for large functions is amortized by the
+>   cost of executing the function.
+>=20
+>    In some cases, SafeStack actually improves the performance"
 
-On Mon, May 04, 2020 at 04:05:18PM -0400, John Snow wrote:
-> Hi!
->=20
-> It keeps coming up in review or in bugs that it would be nice to ship
-> certain python scripts or modules outside of QEMU for easy consumption
-> as dev tooling, light debugging SDKs, or other various tasks. We keep
-> avoiding the question as a diversion.
->=20
-> Let's investigate this seriously, but let's keep the scope small. Let's
-> look at shipping what's in python/qemu/ for starters, as a beta package
-> -- to explore the space and see what changes are necessary.
->=20
-> Let me start by saying that I have reserved the "qemu" package on
-> PyPI.org -- I have done so in good faith in order to have a public
-> discussion about the right way to factor this package -- and can
-> abdicate my ownership of this package at any point to Peter Maydell,
-> Eduardo Habkost, etc.
->=20
-> (There is also a conflict resolution process outlined by PEP 541, which
-> should ensure that I won't be able to maliciously withhold this package
-> space.)
->=20
-> Here's the package: https://pypi.org/project/qemu/
->=20
-> The only way to 'reserve' a package on pypi is to actually just create
-> one, so this is a blank package with nothing in it, versioned as low as
-> you can.
->=20
-> (This blank release can be deleted later, but we can never re-release a
-> v0.0.0a1 package.)
->=20
-> I'm working on a patchset to "demo" an installable version of what
-> exists in python/qemu/ right now, but a lot of project structure,
-> versioning, and layout will have to be debated with a careful list of
-> pros/cons.
->=20
-> So, for the moment, I am not committing to anything, but am looking
-> forward to some discussion on the forthcoming patches.
+I'm sorry I was testing this with a single core instead of all of=20
+them... Thanks for looking at the doc.
 
-Great, packaging the QEMUMachine and QMP classes would be a useful first
-step. These are probably the packages that most users want. It might
-even be useful to add libvirt support to the QMP class so that scripts
-can either use QEMU directly or libvirt.
-
-A little bit of cleanup may be required, I haven't checked the state of
-the code.
-
-Stefan
-
---JYK4vJDZwFMowpUq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl6xcDsACgkQnKSrs4Gr
-c8gfJQgAtPFRI6SCf4ZeRRm1xgAacFZfKoZPbPlNHXVPmdisR+/9kA+CeRouhYDn
-fYbQT0LD6JTPaJ45WFYKr7KTfFNYndcPz2stqAa4um/g4LYADB2ykrut3j9sIKS0
-4zFDK7xjuAdPiy/RnsM6gqwbbgTy3CpwnVE4wy/gi3tf/Ne4zab5cgxvaLkvd3g5
-PgoNz/naWOvAmyML2kdV6/tAHu+lOtxHvdVKChVrTzxujiWANnNcMlYIP9960yVF
-iT1YreNMiU5Kh1uYl/QbQVkDIAKumjjlY3hfY/Rj4Lv6O87iZX2qOa7AU+KYL0cd
-rJuUT6pj8hdM9IZe9DM4QKVV8veg6w==
-=Os96
------END PGP SIGNATURE-----
-
---JYK4vJDZwFMowpUq--
+>=20
+> Regards,
+> Daniel
+>=20
 
 
