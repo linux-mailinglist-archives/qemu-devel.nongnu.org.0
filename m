@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 686C41C570D
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:35:28 +0200 (CEST)
-Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED571C56CF
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:27:25 +0200 (CEST)
+Received: from localhost ([::1]:50186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxjL-0007IV-FT
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:35:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46284)
+	id 1jVxbY-00077E-4x
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:27:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVxaM-0005s9-0S
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:26:10 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35199)
+ id 1jVxaN-0005tj-D9
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:26:11 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVxaL-0001qD-Ch
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:26:09 -0400
-Received: by mail-wr1-x442.google.com with SMTP id j5so1957041wrq.2
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:26:09 -0700 (PDT)
+ id 1jVxaM-0001ui-MW
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:26:11 -0400
+Received: by mail-wm1-x330.google.com with SMTP id z6so2346454wml.2
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:26:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=K2W6c/wRHRvfgMBsEqNk4piQsgMLLq388yiEXTec9L4=;
- b=u5uWbaR4wpAsdeB0XIECEKbFFLmtzY8xfHTkhDhkuIeK05IqucZExyaPbUWoypJEBS
- dmTiCH4mADX5TdNO4oP7fv7xBl8SrwIaZPRPXoNVBtPgivHDHy4jirVtH9Zj4cZeymX3
- tc1hff0XJLgUh4aGLYD8Q05Y4Lv4AxXsoMHXSvAz2uLPL/D45Ssp3AItJSfexHB/7Ha2
- 8zQEzcTH7SU00LflQEnZRtWe2/o60X5mQ89l8C2xfSiZ7zsLc6aTc5ujHUvYvBUGaNki
- 9vmgmlDpOC0caYpkwGYSVLZItIP80Y6zB9bQOPxfKtGTrb9JNWEr9gVuM+ugQPzQIQOV
- zsqQ==
+ bh=rAEuZ8BlbOB2hvjhhWM7SZsUeKxbxuDnArENiMPJJhA=;
+ b=vJUYNhWcVOm7HfQJOjUP99kvxBwwUngDNSwCUsdU5UWdtue4++0j3OEUf2XyNyuYAU
+ uLEyUmN9eaPJO1i0AVqkTpo5rlgdVv43xMcwyL90gbi+xSbplw6f0UJyCnSUiE++Wy3A
+ BcuIhyAb9xouASIyFadGBkz3Q1fgBDPhU0O2DPLECk48BhV+OaCgzZyQs/v5kbzeAAEe
+ mOPfu7VUXl3T1pa0nG6xTsdoUrnnzSbBg0efojBm9Cdx2oyi1L77kkdzPio8FPGS3aTk
+ 5geHdjGnQemwUw535yXSZGhsNLbtXZ/sIyVTv0y05/utZ9BvRn9rlDpt0d71jewv8VJc
+ xX4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=K2W6c/wRHRvfgMBsEqNk4piQsgMLLq388yiEXTec9L4=;
- b=Qem3OvAf7LSfe5WUw5bYGbIYu0F/u037GmWdmx2WBbbSI20QKcBIMSzgLiGmr83KlJ
- 74gawibag3w7yKmp7la+9SsuJ2CFS5a0v6lm/+GmtWZcUQ7db4RHoGlEpjNfnCk3kf7O
- bLX9foAWTyahTkQg7x5+Ro604lraGvyK7tESlexVRXFs05azw1fprD81cf/VeHURoxKi
- uNAqQvYUuN8WU2XlpBR71KXmnY2Herv8ZVn8nQHl2bDiG3136ezq8IYUjjYrvTEcjros
- wogKmoSgz7QqSlBQTfe4CHryncbT0T3/SubkWwmOeGNBOfkcymDBbm5fUgkLBeJ5B/ok
- VJng==
-X-Gm-Message-State: AGi0PubYMvHvnEwFgVWEwH3/u+T4chxGWalGPfKeQnSPlmqXBZDLkzeu
- OqKRcOzkSp12X/xwBRl7LsEhW8/s
-X-Google-Smtp-Source: APiQypLjQmxVkF6euodeoI4gg/5gVp8B/GT1UPWYQKWP89yuPEza5C/Zb9DLQ7hgmjrNRKRQPC8wvQ==
-X-Received: by 2002:adf:ea4d:: with SMTP id j13mr3766872wrn.193.1588685168008; 
- Tue, 05 May 2020 06:26:08 -0700 (PDT)
+ bh=rAEuZ8BlbOB2hvjhhWM7SZsUeKxbxuDnArENiMPJJhA=;
+ b=dbFLdJ8iYZWK7lodnX2tAkRauQRGEYTdzzvctJJs6fzRYUdQGax6dT9Vg/ve2Gew7+
+ gO8d7pdL8rbFEQbAR8nHB+oCnCjt4vE9BrYo3heQYPh/eUHv+Bwg1ncbQtiu9RRqzk91
+ 9hp34DlwCZMuN3o3HUR+lsp+AdQajRRz59cshzJ73kK0H9OoZFChcTgFRVOFywfRTWq3
+ 0wfb7qMHwnKVcAm626s1DR0seJy/jsJlXDYT4MZHjNxqvEY5vtImSWsxpBpHRf6WgGVK
+ HKI52OGhT3TazK6OARu/xsAsP0VPeyHp20OgX3Q8jPlxYFPvqh2WWo+Us+Fu2kMRNdc2
+ ZxhQ==
+X-Gm-Message-State: AGi0Puabc5VUUJ7uBmDmdNvBwSSKG5Egpibamk0gZ3F/uUkxbmwtqsSp
+ zun7D0K/wg44gaSGp7+gKk2vR58Q
+X-Google-Smtp-Source: APiQypIYAmGSAIQskk2Pf3gAWM82WkkJrLyeYJxFeqacpmLQ+QxCK1ho1iPJ46HJ+qhFopjkymYBmQ==
+X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr3600149wmg.114.1588685169067; 
+ Tue, 05 May 2020 06:26:09 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id n6sm3427424wrs.81.2020.05.05.06.26.07
+ by smtp.gmail.com with ESMTPSA id n6sm3427424wrs.81.2020.05.05.06.26.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 May 2020 06:26:07 -0700 (PDT)
+ Tue, 05 May 2020 06:26:08 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] audio: Let capture_callback handler use const buffer
- argument
-Date: Tue,  5 May 2020 15:25:58 +0200
-Message-Id: <20200505132603.8575-3-f4bug@amsat.org>
+Subject: [PATCH 3/7] audio: Move advance() helper to 'audio_int.h'
+Date: Tue,  5 May 2020 15:25:59 +0200
+Message-Id: <20200505132603.8575-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200505132603.8575-1-f4bug@amsat.org>
 References: <20200505132603.8575-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -96,55 +95,49 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The buffer is the captured input to pass to backends.
-As we should not modify it, mark the argument const.
+The advance() helper is only used by the audio backends.
+Restrict its use by moving it to the "audio_int.h" header.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- audio/audio.h      | 2 +-
- audio/wavcapture.c | 2 +-
- ui/vnc.c           | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ audio/audio.h     | 6 ------
+ audio/audio_int.h | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/audio/audio.h b/audio/audio.h
-index f27a12298f..b883ebfb1f 100644
+index b883ebfb1f..9d759d644b 100644
 --- a/audio/audio.h
 +++ b/audio/audio.h
-@@ -60,7 +60,7 @@ typedef enum {
+@@ -151,12 +151,6 @@ int  AUD_is_active_in (SWVoiceIn *sw);
+ void     AUD_init_time_stamp_in (SWVoiceIn *sw, QEMUAudioTimeStamp *ts);
+ uint64_t AUD_get_elapsed_usec_in (SWVoiceIn *sw, QEMUAudioTimeStamp *ts);
  
- struct audio_capture_ops {
-     void (*notify) (void *opaque, audcnotification_e cmd);
--    void (*capture) (void *opaque, void *buf, int size);
-+    void (*capture) (void *opaque, const void *buf, int size);
-     void (*destroy) (void *opaque);
- };
+-static inline void *advance (void *p, int incr)
+-{
+-    uint8_t *d = p;
+-    return (d + incr);
+-}
+-
+ int wav_start_capture(AudioState *state, CaptureState *s, const char *path,
+                       int freq, int bits, int nchannels);
  
-diff --git a/audio/wavcapture.c b/audio/wavcapture.c
-index 8d7ce2eda1..17e87ed6f4 100644
---- a/audio/wavcapture.c
-+++ b/audio/wavcapture.c
-@@ -71,7 +71,7 @@ static void wav_destroy (void *opaque)
-     g_free (wav->path);
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index 4775857bf2..fb6947c435 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -255,6 +255,12 @@ static inline size_t audio_ring_dist(size_t dst, size_t src, size_t len)
+     return (dst >= src) ? (dst - src) : (len - src + dst);
  }
  
--static void wav_capture (void *opaque, void *buf, int size)
-+static void wav_capture(void *opaque, const void *buf, int size)
- {
-     WAVState *wav = opaque;
++static inline void *advance(void *p, int incr)
++{
++    uint8_t *d = p;
++    return d + incr;
++}
++
+ #define dolog(fmt, ...) AUD_log(AUDIO_CAP, fmt, ## __VA_ARGS__)
  
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 1d7138a3a0..12a12714e1 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -1177,7 +1177,7 @@ static void audio_capture_destroy(void *opaque)
- {
- }
- 
--static void audio_capture(void *opaque, void *buf, int size)
-+static void audio_capture(void *opaque, const void *buf, int size)
- {
-     VncState *vs = opaque;
- 
+ #ifdef DEBUG
 -- 
 2.21.3
 
