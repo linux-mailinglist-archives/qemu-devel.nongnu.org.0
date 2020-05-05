@@ -2,62 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012A01C5776
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:52:32 +0200 (CEST)
-Received: from localhost ([::1]:41674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188E31C5786
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:55:14 +0200 (CEST)
+Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxzr-0006Jf-1L
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
+	id 1jVy2T-0002fy-3G
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:55:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jVxy6-0004Tc-4j
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:50:42 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:25889
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVy18-0001Wt-TJ
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:53:50 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55075
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jVxy5-0003DI-7p
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:50:41 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVy17-0006P9-Sy
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:53:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588686640;
+ s=mimecast20190719; t=1588686829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/NTdEIxm9fOejVm3VhMcln3vTOUaqBblNOSSuKeS2mM=;
- b=PjitRmjUaRB9UjKZSebPkMgsa1cKvsA0XzXAubs1Ff65Lrsv6lOUKoxsJVT+W/RdzwUWkc
- i3TySLLZihvwEne2M5MR7W3jsY1Ol/9IPXSSYFdBv5YGTDCc5JKPvusS3obDgW0siFkQZW
- lVtkDdLnVrYkTkfleMBwgTdfHhWZIX0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-FtakOY2uOX6Jm0mt-79CVA-1; Tue, 05 May 2020 09:50:37 -0400
-X-MC-Unique: FtakOY2uOX6Jm0mt-79CVA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06EA08014C1;
- Tue,  5 May 2020 13:50:36 +0000 (UTC)
-Received: from localhost (ovpn-112-219.ams2.redhat.com [10.36.112.219])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9F9F31000232;
- Tue,  5 May 2020 13:50:35 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: qemu-s390x@nongnu.org
-Subject: [PATCH 3/3] docs/s390x: document vfio-ccw
-Date: Tue,  5 May 2020 15:50:25 +0200
-Message-Id: <20200505135025.14614-4-cohuck@redhat.com>
-In-Reply-To: <20200505135025.14614-1-cohuck@redhat.com>
-References: <20200505135025.14614-1-cohuck@redhat.com>
+ bh=oRKQNoymqyeMLRPHV9Rl9KLM6lbODu/nGz3zPL9H8pE=;
+ b=MZRqGkwWJgzfGoD25AMLI9rbDvBPZ+mY4Pu2xud7UZOjgTz8Csyn6rD37JsO0q0ODVlVNH
+ HFCi76vy1ncN7ra0Rw4GqSG8UV/CYMDC119L4rMV/IcdmdDuYseUxwrMzMIzDB3x4+Z8tq
+ 05U5GoXyU9/qrtg2HQ9MU0SZ0o41UdY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-BnoYPkupOoSj3vZyybHkvw-1; Tue, 05 May 2020 09:53:47 -0400
+X-MC-Unique: BnoYPkupOoSj3vZyybHkvw-1
+Received: by mail-wm1-f72.google.com with SMTP id t62so1098136wma.0
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:53:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oRKQNoymqyeMLRPHV9Rl9KLM6lbODu/nGz3zPL9H8pE=;
+ b=L3Ef3g4NeFBUKz0XqHfrXt5aXdGwikc7HvhDZdf8zJ27yWjoeEvoSY0YjEe7uMUkcB
+ cfwUKr0IugACz1ZT9vEUv1owC2PZr7i2jKZXwgTCO06/QaY5fNF3O7E8l8xzZbXyIAAZ
+ +NBjDVxIHm136YfWraQ7pDjkVorEMw7pv0bdQD8SDxwHYkwaMpp5Mqu8M1VX5P1LcXVw
+ +SZylwV7fNbuflfviaCzIDW/77ecsqTb+cJwUq/JoHn7ffdFNmLjw9QSzxX8BZNlCyt2
+ DXSr+DTSlDgCWss0lQxLMiItvlGp9ld9mHuDeY+M5ekHQ4BourtWVsiSeNXG/lzlHANw
+ FahA==
+X-Gm-Message-State: AGi0PubN83kD1ZnhwM7UdaFJzQ5KMmkRqkqPVOzRSYyPMGeZZTq31JZH
+ eLELbPSBaWoCBvbt8rFAHd9gkQCM5ljZkLDBsH5nnGf6oG7ebb79A4rXQDkHcBVDc4dMKa0k9sK
+ x7coWMDANzXmHXas=
+X-Received: by 2002:adf:f1ca:: with SMTP id z10mr3933260wro.121.1588686825715; 
+ Tue, 05 May 2020 06:53:45 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKAAdkTJOM6ioBnpu/ikTlhZKqagKuS+C+yKanrGEILBzpzvIY9ccgn5Vk8H6oCbQGbO/yNLQ==
+X-Received: by 2002:adf:f1ca:: with SMTP id z10mr3933230wro.121.1588686825461; 
+ Tue, 05 May 2020 06:53:45 -0700 (PDT)
+Received: from [192.168.1.38] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id w11sm3808499wmi.32.2020.05.05.06.53.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 May 2020 06:53:44 -0700 (PDT)
+Subject: Re: [PATCH v2 06/13] acpi: move acpi_align_size to acpi-common.h
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200505134305.22666-1-kraxel@redhat.com>
+ <20200505134305.22666-7-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <44e3f7e9-f82e-ee4c-49b9-8fa8349b7168@redhat.com>
+Date: Tue, 5 May 2020 15:53:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20200505134305.22666-7-kraxel@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,107 +98,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a basic example for passing a dasd via vfio-ccw.
+Hi Gerd,
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- docs/system/s390x/vfio-ccw.rst | 58 ++++++++++++++++++++++++++++++++++
- docs/system/target-s390x.rst   |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 docs/system/s390x/vfio-ccw.rst
+On 5/5/20 3:42 PM, Gerd Hoffmann wrote:
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>   hw/i386/acpi-common.h | 19 +++++++++++++++++++
+>   hw/i386/acpi-build.c  | 18 ------------------
+>   2 files changed, 19 insertions(+), 18 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
+> index 5788a13da9ca..f837bb17163b 100644
+> --- a/hw/i386/acpi-common.h
+> +++ b/hw/i386/acpi-common.h
+> @@ -3,12 +3,31 @@
+>   
+>   #include "include/hw/acpi/acpi-defs.h"
+>   #include "include/hw/acpi/acpi_dev_interface.h"
+> +#include "include/hw/acpi/aml-build.h"
+>   #include "include/hw/acpi/bios-linker-loader.h"
+>   #include "include/hw/i386/x86.h"
+>   
+> +/* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+> + * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+> + * a little bit, there should be plenty of free space since the DSDT
+> + * shrunk by ~1.5k between QEMU 2.0 and QEMU 2.1.
+> + */
+> +#define ACPI_BUILD_LEGACY_CPU_AML_SIZE    97
+> +#define ACPI_BUILD_ALIGN_SIZE             0x1000
+> +
+> +#define ACPI_BUILD_TABLE_SIZE             0x20000
+> +
+>   /* Default IOAPIC ID */
+>   #define ACPI_BUILD_IOAPIC_ID 0x0
+>   
+> +static inline void acpi_align_size(GArray *blob, unsigned align)
+> +{
+> +    /* Align size to multiple of given size. This reduces the chance
+> +     * we need to change size in the future (breaking cross version migration).
+> +     */
+> +    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
+> +}
+> +
+>   void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>                        X86MachineState *x86ms, AcpiDeviceIf *adev,
+>                        bool has_pci);
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index d1f14394734e..dc3b62468439 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -72,16 +72,6 @@
+>   #include "hw/acpi/ipmi.h"
+>   #include "hw/acpi/hmat.h"
+>   
+> -/* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
+> - * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
+> - * a little bit, there should be plenty of free space since the DSDT
+> - * shrunk by ~1.5k between QEMU 2.0 and QEMU 2.1.
+> - */
+> -#define ACPI_BUILD_LEGACY_CPU_AML_SIZE    97
 
-diff --git a/docs/system/s390x/vfio-ccw.rst b/docs/system/s390x/vfio-ccw.rs=
-t
-new file mode 100644
-index 000000000000..3b465578971f
---- /dev/null
-+++ b/docs/system/s390x/vfio-ccw.rst
-@@ -0,0 +1,58 @@
-+Subchannel passthrough via vfio-ccw
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+vfio-ccw (based upon the mediated vfio device infrastructure) allows to
-+make certain I/O subchannels and their devices available to a guest. The
-+host will not interact with those subchannels/devices any more.
-+
-+Note that while vfio-ccw should work with most non-QDIO devices, only ECKD
-+DASD have really been tested.
-+
-+Example configuration
-+---------------------
-+
-+Step 1: configure the host device
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Note: it is recommended to use the ``mdevctl`` tool for this step. If this
-+is not possible or wanted, follow the manual procedure below.
-+
-+* Locate the subchannel for the device (in this example, ``0.0.2b09``)::
-+
-+    [root@host ~]# lscss | grep 0.0.2b09 | awk '{print $2}'
-+    0.0.0313
-+
-+* Unbind the subchannel (in this example, ``0.0.0313``) from the standard
-+  I/O subchannel driver and bind it to the vfio-ccw driver::
-+
-+    [root@host ~]# echo 0.0.0313 > /sys/bus/css/devices/0.0.0313/driver/un=
-bind
-+    [root@host ~]# echo 0.0.0313 > /sys/bus/css/drivers/vfio_ccw/bind
-+
-+* Create the mediated device (identified by a uuid)::
-+
-+    [root@host ~]# uuidgen
-+    7e270a25-e163-4922-af60-757fc8ed48c6
-+    [root@host ~]# echo "7e270a25-e163-4922-af60-757fc8ed48c6" > /sys/bus/=
-css/devices/0.0.0313/mdev_supported_types/vfio_ccw-io/create
-+
-+Step 2: configure QEMU
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+* Reference the created mediated device and (optionally) pick a device id =
-to
-+  be presented in the guest (here, ``fe.0.1234``, which will end up visibl=
-e
-+  in the guest as ``0.0.1234``::
-+
-+    -device vfio-ccw,devno=3Dfe.0.1234,sysfsdev=3D/sys/bus/mdev/devices/7e=
-270a25-e163-4922-af60-757fc8ed48c6
-+
-+* Start the guest. The device (here, ``0.0.1234``) should now be usable::
-+
-+    [root@guest ~]# lscss -d 0.0.1234
-+    Device   Subchan.  DevType CU Type Use  PIM PAM POM  CHPIDs          =
-=20
-+    ----------------------------------------------------------------------
-+    0.0.1234 0.0.0007  3390/0e 3990/e9      f0  f0  ff   1a2a3a0a 00000000
-+    [root@guest ~]# chccwdev -e 0.0.1234
-+    Setting device 0.0.1234 online
-+    [  197.011652] dasd-eckd 0.0.1234: A channel path to the device has be=
-come operational
-+    [  197.014468] dasd-eckd 0.0.1234: New DASD 3390/0E (CU 3990/01) with =
-10017 cylinders, 15 heads, 224 sectors
-+    [  197.045606] dasd-eckd 0.0.1234: DASD with 4 KB/block, 7212240 KB to=
-tal size, 48 KB/track, compatible disk layout
-+    [  197.049034]  dasda:VOL1/  0X2B09: dasda1
-+    Done
-diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
-index 2592a05303ef..644e404ef9fd 100644
---- a/docs/system/target-s390x.rst
-+++ b/docs/system/target-s390x.rst
-@@ -25,6 +25,7 @@ or vfio-ap is also available.
-    s390x/vfio-ap
-    s390x/css
-    s390x/3270
-+   s390x/vfio-ccw
-=20
- Architectural features
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
---=20
-2.21.3
+Can we keep the ACPI_BUILD_LEGACY_CPU_AML_SIZE definition in this file?
+The rest of the patch is OK.
+
+> -#define ACPI_BUILD_ALIGN_SIZE             0x1000
+> -
+> -#define ACPI_BUILD_TABLE_SIZE             0x20000
+> -
+>   /* #define DEBUG_ACPI_BUILD */
+>   #ifdef DEBUG_ACPI_BUILD
+>   #define ACPI_BUILD_DPRINTF(fmt, ...)        \
+> @@ -267,14 +257,6 @@ static void acpi_get_pci_holes(Range *hole, Range *hole64)
+>                                                  NULL));
+>   }
+>   
+> -static void acpi_align_size(GArray *blob, unsigned align)
+> -{
+> -    /* Align size to multiple of given size. This reduces the chance
+> -     * we need to change size in the future (breaking cross version migration).
+> -     */
+> -    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
+> -}
+> -
+>   static void build_append_pcihp_notify_entry(Aml *method, int slot)
+>   {
+>       Aml *if_ctx;
+> 
 
 
