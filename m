@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 188E31C5786
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:55:14 +0200 (CEST)
-Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DF71C5798
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:56:31 +0200 (CEST)
+Received: from localhost ([::1]:55878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVy2T-0002fy-3G
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:55:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
+	id 1jVy3i-0004On-Q3
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVy18-0001Wt-TJ
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:53:50 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:55075
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jVy2D-00037j-Fz
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:54:57 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23999
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jVy17-0006P9-Sy
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:53:50 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jVy2C-0007pK-Ck
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:54:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588686829;
+ s=mimecast20190719; t=1588686895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oRKQNoymqyeMLRPHV9Rl9KLM6lbODu/nGz3zPL9H8pE=;
- b=MZRqGkwWJgzfGoD25AMLI9rbDvBPZ+mY4Pu2xud7UZOjgTz8Csyn6rD37JsO0q0ODVlVNH
- HFCi76vy1ncN7ra0Rw4GqSG8UV/CYMDC119L4rMV/IcdmdDuYseUxwrMzMIzDB3x4+Z8tq
- 05U5GoXyU9/qrtg2HQ9MU0SZ0o41UdY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-BnoYPkupOoSj3vZyybHkvw-1; Tue, 05 May 2020 09:53:47 -0400
-X-MC-Unique: BnoYPkupOoSj3vZyybHkvw-1
-Received: by mail-wm1-f72.google.com with SMTP id t62so1098136wma.0
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:53:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oRKQNoymqyeMLRPHV9Rl9KLM6lbODu/nGz3zPL9H8pE=;
- b=L3Ef3g4NeFBUKz0XqHfrXt5aXdGwikc7HvhDZdf8zJ27yWjoeEvoSY0YjEe7uMUkcB
- cfwUKr0IugACz1ZT9vEUv1owC2PZr7i2jKZXwgTCO06/QaY5fNF3O7E8l8xzZbXyIAAZ
- +NBjDVxIHm136YfWraQ7pDjkVorEMw7pv0bdQD8SDxwHYkwaMpp5Mqu8M1VX5P1LcXVw
- +SZylwV7fNbuflfviaCzIDW/77ecsqTb+cJwUq/JoHn7ffdFNmLjw9QSzxX8BZNlCyt2
- DXSr+DTSlDgCWss0lQxLMiItvlGp9ld9mHuDeY+M5ekHQ4BourtWVsiSeNXG/lzlHANw
- FahA==
-X-Gm-Message-State: AGi0PubN83kD1ZnhwM7UdaFJzQ5KMmkRqkqPVOzRSYyPMGeZZTq31JZH
- eLELbPSBaWoCBvbt8rFAHd9gkQCM5ljZkLDBsH5nnGf6oG7ebb79A4rXQDkHcBVDc4dMKa0k9sK
- x7coWMDANzXmHXas=
-X-Received: by 2002:adf:f1ca:: with SMTP id z10mr3933260wro.121.1588686825715; 
- Tue, 05 May 2020 06:53:45 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKAAdkTJOM6ioBnpu/ikTlhZKqagKuS+C+yKanrGEILBzpzvIY9ccgn5Vk8H6oCbQGbO/yNLQ==
-X-Received: by 2002:adf:f1ca:: with SMTP id z10mr3933230wro.121.1588686825461; 
- Tue, 05 May 2020 06:53:45 -0700 (PDT)
-Received: from [192.168.1.38] (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id w11sm3808499wmi.32.2020.05.05.06.53.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 06:53:44 -0700 (PDT)
-Subject: Re: [PATCH v2 06/13] acpi: move acpi_align_size to acpi-common.h
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+ bh=kKj0jdGlaivo2/mLp8xmiHLrPG6KTffbwB1bxZSBrco=;
+ b=RKHbFJDZnx+O9YlFUnynFR5yPiVkdLaLOLy4utm0DeLoGlY73GfnmZRqu8JC9Pqqb25btc
+ /++XtF2WoafjBlbdUPhAxuhsdoWKu8J5YmwxtSQrFQ9nfPO0kr567hzRmb+nTEWNTrQEYL
+ yv8SYTdo7xIQX+7wSdbQS2D49qNeZbY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-P027GwyWNu-Sk-WKp7KZ7Q-1; Tue, 05 May 2020 09:54:53 -0400
+X-MC-Unique: P027GwyWNu-Sk-WKp7KZ7Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF5128014C1;
+ Tue,  5 May 2020 13:54:51 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3352A10013D9;
+ Tue,  5 May 2020 13:54:41 +0000 (UTC)
+Date: Tue, 5 May 2020 15:54:39 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 01/13] acpi: make build_madt() more generic.
+Message-ID: <20200505155439.335d0c85@redhat.com>
+In-Reply-To: <20200505134305.22666-2-kraxel@redhat.com>
 References: <20200505134305.22666-1-kraxel@redhat.com>
- <20200505134305.22666-7-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <44e3f7e9-f82e-ee4c-49b9-8fa8349b7168@redhat.com>
-Date: Tue, 5 May 2020 15:53:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <20200505134305.22666-2-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200505134305.22666-7-kraxel@redhat.com>
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,96 +81,64 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+On Tue,  5 May 2020 15:42:53 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-On 5/5/20 3:42 PM, Gerd Hoffmann wrote:
+> Remove PCMachineState dependency from build_madt().
+> Pass AcpiDeviceIf as separate argument instead of
+> depending on PCMachineState->acpi_dev.
+>=20
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
 > ---
->   hw/i386/acpi-common.h | 19 +++++++++++++++++++
->   hw/i386/acpi-build.c  | 18 ------------------
->   2 files changed, 19 insertions(+), 18 deletions(-)
-> 
-> diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
-> index 5788a13da9ca..f837bb17163b 100644
-> --- a/hw/i386/acpi-common.h
-> +++ b/hw/i386/acpi-common.h
-> @@ -3,12 +3,31 @@
->   
->   #include "include/hw/acpi/acpi-defs.h"
->   #include "include/hw/acpi/acpi_dev_interface.h"
-> +#include "include/hw/acpi/aml-build.h"
->   #include "include/hw/acpi/bios-linker-loader.h"
->   #include "include/hw/i386/x86.h"
->   
-> +/* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
-> + * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-> + * a little bit, there should be plenty of free space since the DSDT
-> + * shrunk by ~1.5k between QEMU 2.0 and QEMU 2.1.
-> + */
-> +#define ACPI_BUILD_LEGACY_CPU_AML_SIZE    97
-> +#define ACPI_BUILD_ALIGN_SIZE             0x1000
-> +
-> +#define ACPI_BUILD_TABLE_SIZE             0x20000
-> +
->   /* Default IOAPIC ID */
->   #define ACPI_BUILD_IOAPIC_ID 0x0
->   
-> +static inline void acpi_align_size(GArray *blob, unsigned align)
-> +{
-> +    /* Align size to multiple of given size. This reduces the chance
-> +     * we need to change size in the future (breaking cross version migration).
-> +     */
-> +    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
-> +}
-> +
->   void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
->                        X86MachineState *x86ms, AcpiDeviceIf *adev,
->                        bool has_pci);
+>  hw/i386/acpi-build.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>=20
 > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index d1f14394734e..dc3b62468439 100644
+> index 765409a90eb6..fe60c10201ad 100644
 > --- a/hw/i386/acpi-build.c
 > +++ b/hw/i386/acpi-build.c
-> @@ -72,16 +72,6 @@
->   #include "hw/acpi/ipmi.h"
->   #include "hw/acpi/hmat.h"
->   
-> -/* These are used to size the ACPI tables for -M pc-i440fx-1.7 and
-> - * -M pc-i440fx-2.0.  Even if the actual amount of AML generated grows
-> - * a little bit, there should be plenty of free space since the DSDT
-> - * shrunk by ~1.5k between QEMU 2.0 and QEMU 2.1.
-> - */
-> -#define ACPI_BUILD_LEGACY_CPU_AML_SIZE    97
-
-Can we keep the ACPI_BUILD_LEGACY_CPU_AML_SIZE definition in this file?
-The rest of the patch is OK.
-
-> -#define ACPI_BUILD_ALIGN_SIZE             0x1000
-> -
-> -#define ACPI_BUILD_TABLE_SIZE             0x20000
-> -
->   /* #define DEBUG_ACPI_BUILD */
->   #ifdef DEBUG_ACPI_BUILD
->   #define ACPI_BUILD_DPRINTF(fmt, ...)        \
-> @@ -267,14 +257,6 @@ static void acpi_get_pci_holes(Range *hole, Range *hole64)
->                                                  NULL));
->   }
->   
-> -static void acpi_align_size(GArray *blob, unsigned align)
-> -{
-> -    /* Align size to multiple of given size. This reduces the chance
-> -     * we need to change size in the future (breaking cross version migration).
-> -     */
-> -    g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
-> -}
-> -
->   static void build_append_pcihp_notify_entry(Aml *method, int slot)
->   {
->       Aml *if_ctx;
-> 
+> @@ -366,14 +366,13 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>  }
+> =20
+>  static void
+> -build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms)
+> +build_madt(GArray *table_data, BIOSLinker *linker,
+> +           X86MachineState *x86ms, AcpiDeviceIf *adev)
+>  {
+> -    MachineClass *mc =3D MACHINE_GET_CLASS(pcms);
+> -    X86MachineState *x86ms =3D X86_MACHINE(pcms);
+> -    const CPUArchIdList *apic_ids =3D mc->possible_cpu_arch_ids(MACHINE(=
+pcms));
+> +    MachineClass *mc =3D MACHINE_GET_CLASS(x86ms);
+> +    const CPUArchIdList *apic_ids =3D mc->possible_cpu_arch_ids(MACHINE(=
+x86ms));
+>      int madt_start =3D table_data->len;
+> -    AcpiDeviceIfClass *adevc =3D ACPI_DEVICE_IF_GET_CLASS(pcms->acpi_dev=
+);
+> -    AcpiDeviceIf *adev =3D ACPI_DEVICE_IF(pcms->acpi_dev);
+> +    AcpiDeviceIfClass *adevc =3D ACPI_DEVICE_IF_GET_CLASS(adev);
+>      bool x2apic_mode =3D false;
+> =20
+>      AcpiMultipleApicTable *madt;
+> @@ -2561,7 +2560,8 @@ void acpi_build(AcpiBuildTables *tables, MachineSta=
+te *machine)
+>      aml_len +=3D tables_blob->len - fadt;
+> =20
+>      acpi_add_table(table_offsets, tables_blob);
+> -    build_madt(tables_blob, tables->linker, pcms);
+> +    build_madt(tables_blob, tables->linker, x86ms,
+> +               ACPI_DEVICE_IF(pcms->acpi_dev));
+> =20
+>      vmgenid_dev =3D find_vmgenid_dev();
+>      if (vmgenid_dev) {
 
 
