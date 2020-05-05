@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64251C618E
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 22:04:13 +0200 (CEST)
-Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B551C6197
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 22:07:22 +0200 (CEST)
+Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jW3nY-0005Vy-H0
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 16:04:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41116)
+	id 1jW3qb-0000eL-Or
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 16:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jW3mW-000511-KY; Tue, 05 May 2020 16:03:08 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:37548)
+ id 1jW3pP-0007xi-GO; Tue, 05 May 2020 16:06:07 -0400
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:36448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jW3mV-0004Hy-Rp; Tue, 05 May 2020 16:03:08 -0400
-Received: by mail-il1-x143.google.com with SMTP id n11so11293ilj.4;
- Tue, 05 May 2020 13:03:05 -0700 (PDT)
+ id 1jW3pM-00033F-82; Tue, 05 May 2020 16:06:07 -0400
+Received: by mail-il1-x143.google.com with SMTP id c16so26373ilr.3;
+ Tue, 05 May 2020 13:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mg6aRzAs1PiRXeP8N6F3+uzviD7Pj5yIv4OQsIs2Ds0=;
- b=GfaqKQfs/Hk+rJEa399uKn2PvjeDut1a/hA/Ez9VuN8VOY4fMlroE33HL+Ax1RPNaa
- AXKYWiws9Av4nzU866I1kGcjee9O8xcm1OAhY+Y7Lo16b7P8+Qc1x1HM5bB4Tg0k5pFA
- snSwIUvLugfMer6JyFYRNdr2FRVsSGwlg4e9eaG0rZTj/Vyg5VB3XB21xiXHhGc7WWJI
- buoa0jHPF0KAiky9XmRJwuGxUCFd3EV8GxFvdab4SEpU9Doh2J3J8hMhfca+dHnf8XMM
- kET8oDinJTNvMQPAlYo+v2FieXvjmX0B3IkaGutxaTpozox0TNknGPsoLfL29d3IBv0s
- 73Xw==
+ :cc; bh=dtj2we7KH3HvnMoW35RtDJPYL8qTvt82pQ++4qEa2tA=;
+ b=Z5sEqTB+UTWDlKdTVZJHCB0e3hIsmE5OgwBXJjuPPlENpNJUSmdMILv/fOAwIRzoMk
+ wqJ9j5ta7prQU+d82hKQjv0BvtaAkaCvuFUauVX4X4hJUx0Pa0k0LiC3amXJFKQJHybC
+ bvi3T5SdQ+yHGyU1jqXyEH4sFCUJSwtg/lVPH95yw85oi3fn04XQYvZFDleGknxHhZZ3
+ yaUpqYaY53AAez6oeZRZGl68vKlPq1SJXeirJZ0VxwquAW/EjcwgRzVBNYRq+S7LkBY6
+ Oei7iPUBkPWdYuoahIze5RefCWIRpwKWv3TLTi9bWQy7r8veKxkSvZC0//fmlre0YUCH
+ h2+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mg6aRzAs1PiRXeP8N6F3+uzviD7Pj5yIv4OQsIs2Ds0=;
- b=irz+sDiFgap6jujvxW1v+ZyvljdValeqQNNPTWu4Xq4IG3+39lXnbd5PK9EK7sM/2C
- AoIFyE2eDM3ifD8//ZsJ+yE9mLqpf2rog3lmQXajEXxCtCwkKzo0D2FEUhLWUzLvih6w
- KlySouk1s3mqS5Y4e+y+v7PuJvuZoCDmYNgr+Syb5FsTItkAJg7nuOtt1wuXyCJQNuDb
- NhCBzs9DTC6XZoegHwHad+bmXhi551hiFzM2eg70Qpyfj0rgx1hEXBQvyqnanAF2N1lh
- e+TSKu+F5V6YOi+vbSInaeVWVotDGx39HslLfGNCY+wUTFkJiPUtIwDZShEL68qRf0br
- v/Ug==
-X-Gm-Message-State: AGi0Puboz/J/JqWMagiA6lXKkrP1zF9Zru9i7ZkzXjavicrmF5fa4R2f
- A24KXbvD3OCq6BkNYGV2Y4WASU37WnLZItP9IqE=
-X-Google-Smtp-Source: APiQypLR1dOBTbGl2x7Yk8gv6q24isesGTq4oPgqkd8yorcJgItTUwE6HRSg9sOCNRUcm4z0bu9n6nrx0ZddNM/ULkg=
-X-Received: by 2002:a92:ad09:: with SMTP id w9mr5738083ilh.177.1588708985039; 
- Tue, 05 May 2020 13:03:05 -0700 (PDT)
+ bh=dtj2we7KH3HvnMoW35RtDJPYL8qTvt82pQ++4qEa2tA=;
+ b=jd1poCg5pWDYV7rLJYOs/VMw9vM6LSRemPJS/eoDA/zwA805PK7fVQ8//rmd5oW2GT
+ qaXId93FU0nEaRlDlbD/253UohYdeOFcFqDeHyDzu0pApH6Ol0IwosLs1qPOpF+7Bop9
+ X2HTQbwh7TrtCrENkVb4VKO2mG6DOufUEuanayh3YGzFVKGj80yKL75Pt4uAMXL3ph53
+ d/dTPxW6f3f0bNZVzvv5GM4GEHw9hN4KV+ALoOR0wshCtksYVTVMAtZwa9F9KSx0ElLC
+ az0W0wE4efW+1HuzZuAsT2736lwdFmH5rKfdVDE5UDEVzufaJqQHqH+9ZDBtkgLIaLZO
+ 3VjA==
+X-Gm-Message-State: AGi0Pub16dCjozLlMF+vO/d2Cus8Osq5RrbB6nvp2oKXzOXTz1EnanUp
+ WQlBZZzME10X0jbQWaPLnDUYvSbJjOlmrz8l9VI=
+X-Google-Smtp-Source: APiQypI3elxF25Kib+wiP7Kygge+HsvSIdiEzZN6twWZpSEsd1ZBMBt6yhDXUr9Bk/VT4w99xg1lAHuNhAIjtE2iLEI=
+X-Received: by 2002:a92:d0c6:: with SMTP id y6mr5841208ila.227.1588709162741; 
+ Tue, 05 May 2020 13:06:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAC41xo2O1k+cn7EO3Zu3U70qefFwGa5B1iNRNgRwLk7SGX=-Aw@mail.gmail.com>
- <CAKmqyKPDzusVqzCFwCJ+2gY0qchguhR57zHNkE-0MTeffKs_OA@mail.gmail.com>
- <CAC41xo3qeQZ+i8XoQq3j80_JDEoL2yMA__arpmE+GXyjX4c1sg@mail.gmail.com>
- <CAKmqyKPJ6QqUULrDj9NX_bLdnjsjzPOGcCBH5q23fG=ScT_NzA@mail.gmail.com>
- <CAC41xo32aWNZteKP-95AtFXQo3w_Ey-7MA0-dL_uJmEMScAuhg@mail.gmail.com>
- <CAKmqyKOnpJQUHVnzGVBjPkib-Z1vfdWqLx1HmfbGascFFG4DVQ@mail.gmail.com>
- <CAC41xo2-knUMRVALdftzu4cNz5u5UmBf1aK=mAt9YKzvOcCjpg@mail.gmail.com>
- <CAC41xo0BMA93jv_aqzmuaB553kxM8zCZms1M89uybxyhdjxiXg@mail.gmail.com>
-In-Reply-To: <CAC41xo0BMA93jv_aqzmuaB553kxM8zCZms1M89uybxyhdjxiXg@mail.gmail.com>
+References: <20200430162439.2659-1-edgar.iglesias@gmail.com>
+ <20200430162439.2659-8-edgar.iglesias@gmail.com>
+In-Reply-To: <20200430162439.2659-8-edgar.iglesias@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 5 May 2020 12:54:22 -0700
-Message-ID: <CAKmqyKO5nJwN_JyvZ4vMc4rcuJD3j3uPVkBZU+uB4dEyiYUDDw@mail.gmail.com>
-Subject: Re: [PATCH 1/1] target/riscv: fix VS interrupts forwarding to HS
-To: Jose Martins <josemartins90@gmail.com>
+Date: Tue, 5 May 2020 12:57:17 -0700
+Message-ID: <CAKmqyKPSUzqQxvKEvu3TYJao4sVhFXz62OyVkoW2cpNpt8jFFQ@mail.gmail.com>
+Subject: Re: [PATCH v1 7/9] hw/dma/xilinx_axidma: mm2s: Stream descriptor by
+ descriptor
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
  envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,42 +79,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>, figlesia@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 1, 2020 at 11:57 AM Jose Martins <josemartins90@gmail.com> wrote:
+On Thu, Apr 30, 2020 at 9:31 AM Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
 >
-> Reached out to Andrew Waterman. This was his response:
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 >
-> "I think the encoding of the privileged modes is a red herring.  HS is
-> inherently more privileged than VS, since it controls memory
-> protection and interrupt delegation for VS.
-> Certainly the intent is that HS-mode interrupts are always enabled
-> while executing in VS-mode.  Otherwise, badly behaved VS-mode software
-> could starve HS-mode of interrupts."
+> Stream descriptor by descriptor from memory instead of
+> buffering entire packets before pushing. This enables
+> non-packet streaming clients to work and also lifts the
+> limitation that our internal DMA buffer needs to be able
+> to hold entire packets.
+>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-Ok, so in which case the hs_sie variable should be removed.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
+> ---
+>  hw/dma/xilinx_axidma.c | 31 +++++++++++++++++--------------
+>  1 file changed, 17 insertions(+), 14 deletions(-)
 >
-> So my assumption was correct.
+> diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+> index a770e12c96..101d32a965 100644
+> --- a/hw/dma/xilinx_axidma.c
+> +++ b/hw/dma/xilinx_axidma.c
+> @@ -111,7 +111,6 @@ struct Stream {
+>      int nr;
 >
-> Jose
+>      struct SDesc desc;
+> -    int pos;
+>      unsigned int complete_cnt;
+>      uint32_t regs[R_MAX];
+>      uint8_t app[20];
+> @@ -267,7 +266,9 @@ static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
+>                                   StreamSlave *tx_control_dev)
+>  {
+>      uint32_t prev_d;
+> -    unsigned int txlen;
+> +    uint32_t txlen;
+> +    uint64_t addr;
+> +    bool eop;
 >
-> On Thu, 30 Apr 2020 at 22:47, Jose Martins <josemartins90@gmail.com> wrote:
-> >
-> > > I'm not sure HS is a higher privilege mode.
-> > >
-> > > HS is privilege encoding 1, which is the same as VS (VU is obviously lower).
-> >
-> > I just checked the spec and it doesn't actually, explicitly state that
-> > HS is a higher-privilege mode than VS. I thought this was something
-> > implicit, but you might be right. I'll try to reach out to the spec
-> > authors to clarify this.
-> >
-> > Jose
+>      if (!stream_running(s) || stream_idle(s)) {
+>          return;
+> @@ -282,24 +283,26 @@ static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
+>          }
+>
+>          if (stream_desc_sof(&s->desc)) {
+> -            s->pos = 0;
+>              stream_push(tx_control_dev, s->desc.app, sizeof(s->desc.app), true);
+>          }
+>
+>          txlen = s->desc.control & SDESC_CTRL_LEN_MASK;
+> -        if ((txlen + s->pos) > sizeof s->txbuf) {
+> -            hw_error("%s: too small internal txbuf! %d\n", __func__,
+> -                     txlen + s->pos);
+> -        }
+>
+> -        address_space_read(&s->dma->as, s->desc.buffer_address,
+> -                           MEMTXATTRS_UNSPECIFIED,
+> -                           s->txbuf + s->pos, txlen);
+> -        s->pos += txlen;
+> +        eop = stream_desc_eof(&s->desc);
+> +        addr = s->desc.buffer_address;
+> +        while (txlen) {
+> +            unsigned int len;
+> +
+> +            len = txlen > sizeof s->txbuf ? sizeof s->txbuf : txlen;
+> +            address_space_read(&s->dma->as, addr,
+> +                               MEMTXATTRS_UNSPECIFIED,
+> +                               s->txbuf, len);
+> +            stream_push(tx_data_dev, s->txbuf, len, eop && len == txlen);
+> +            txlen -= len;
+> +            addr += len;
+> +        }
+>
+> -        if (stream_desc_eof(&s->desc)) {
+> -            stream_push(tx_data_dev, s->txbuf, s->pos, true);
+> -            s->pos = 0;
+> +        if (eop) {
+>              stream_complete(s);
+>          }
+>
+> --
+> 2.20.1
+>
+>
 
