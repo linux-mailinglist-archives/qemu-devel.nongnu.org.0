@@ -2,75 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46551C4D56
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 06:39:02 +0200 (CEST)
-Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8521C4D9C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 07:13:12 +0200 (CEST)
+Received: from localhost ([::1]:40914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVpMD-0004L7-OJ
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 00:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58282)
+	id 1jVptH-0005gg-B0
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 01:13:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jVpKu-00035S-OP
- for qemu-devel@nongnu.org; Tue, 05 May 2020 00:37:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52950
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jVpKt-0006Zx-Ia
- for qemu-devel@nongnu.org; Tue, 05 May 2020 00:37:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588653458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hhBdV1zsBT5oDRLHOegURY05cmxnyTc+kmPWcxkvIPU=;
- b=LyKzjs6v7UBU81vNL03up+0SGyfV0fdih2Zn/aQq7etWxa0xIzSq3Uduk7rix1AY/nBZgW
- 9fM3L9Vjn01wUZB0C6ylmhWYJ2oYIy1maqY7FYVODpCTUyVP0oTjQBbarh/E2GXUA+JcXZ
- 5iFQnRVv4wetDZh47+NtJcwm+cUWNsk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-H78Uh3oJNXqMTmGhlZWxxQ-1; Tue, 05 May 2020 00:37:33 -0400
-X-MC-Unique: H78Uh3oJNXqMTmGhlZWxxQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E5CD107ACCA;
- Tue,  5 May 2020 04:37:31 +0000 (UTC)
-Received: from x1.home (ovpn-113-95.phx2.redhat.com [10.3.113.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 590051002387;
- Tue,  5 May 2020 04:37:29 +0000 (UTC)
-Date: Mon, 4 May 2020 22:37:26 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v16 QEMU 08/16] vfio: Register SaveVMHandlers for VFIO
- device
-Message-ID: <20200504223726.5d4bb9ce@x1.home>
-In-Reply-To: <a3a082a4-cc2f-b84b-60c6-a20f86528a6d@nvidia.com>
-References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-9-git-send-email-kwankhede@nvidia.com>
- <20200325150248.6661e1bd@w520.home>
- <a3a082a4-cc2f-b84b-60c6-a20f86528a6d@nvidia.com>
-Organization: Red Hat
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jVpsJ-0004sZ-QL; Tue, 05 May 2020 01:12:11 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:40535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jVpsI-00006h-R4; Tue, 05 May 2020 01:12:11 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49GSWr02MZz9sSx; Tue,  5 May 2020 15:12:07 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1588655528;
+ bh=bpcu/UaBP1874YDfTbIxYWP+lSYcLfSpI9NDgPFkrfE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mXITcgy4FUHshwRAP6eIOjJ0nsoRhUsdHu3vXsqmahKic3VUtjoxKs+gymoOtwmUs
+ 7XWfT3vCQ1DZUzj4uefQ8VehByEnFSXVVaD5r7vASp55BJ4kUdl60WieqyLs/1nDoO
+ mRwyFVHQ4fBqcym8CvgSySilCTL6TOGxsA/ud91Q=
+Date: Tue, 5 May 2020 15:08:15 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/1] target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9
+Message-ID: <20200505050815.GC218517@umbus.fritz.box>
+References: <20200501190913.25008-1-dbuono@linux.vnet.ibm.com>
+ <20200501190913.25008-2-dbuono@linux.vnet.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="oJ71EGRlYNjSvfq7"
+Content-Disposition: inline
+In-Reply-To: <20200501190913.25008-2-dbuono@linux.vnet.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,147 +61,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, dbuono@us.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 May 2020 04:49:10 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-> On 3/26/2020 2:32 AM, Alex Williamson wrote:
-> > On Wed, 25 Mar 2020 02:39:06 +0530
-> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >   
-> >> Define flags to be used as delimeter in migration file stream.
-> >> Added .save_setup and .save_cleanup functions. Mapped & unmapped migration
-> >> region from these functions at source during saving or pre-copy phase.
-> >> Set VFIO device state depending on VM's state. During live migration, VM is
-> >> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
-> >> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
-> >>
-> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> >> ---
-> >>   hw/vfio/migration.c  | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >>   hw/vfio/trace-events |  2 ++
-> >>   2 files changed, 78 insertions(+)
-> >>
-> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> >> index 22ded9d28cf3..033f76526e49 100644
-> >> --- a/hw/vfio/migration.c
-> >> +++ b/hw/vfio/migration.c
-> >> @@ -8,6 +8,7 @@
-> >>    */
-> >>   
-> >>   #include "qemu/osdep.h"
-> >> +#include "qemu/main-loop.h"
-> >>   #include <linux/vfio.h>
-> >>   
-> >>   #include "sysemu/runstate.h"
-> >> @@ -24,6 +25,17 @@
-> >>   #include "pci.h"
-> >>   #include "trace.h"
-> >>   
-> >> +/*
-> >> + * Flags used as delimiter:
-> >> + * 0xffffffff => MSB 32-bit all 1s
-> >> + * 0xef10     => emulated (virtual) function IO
-> >> + * 0x0000     => 16-bits reserved for flags
-> >> + */
-> >> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
-> >> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
-> >> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
-> >> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
-> >> +
-> >>   static void vfio_migration_region_exit(VFIODevice *vbasedev)
-> >>   {
-> >>       VFIOMigration *migration = vbasedev->migration;
-> >> @@ -126,6 +138,69 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
-> >>       return 0;
-> >>   }
-> >>   
-> >> +/* ---------------------------------------------------------------------- */
-> >> +
-> >> +static int vfio_save_setup(QEMUFile *f, void *opaque)
-> >> +{
-> >> +    VFIODevice *vbasedev = opaque;
-> >> +    VFIOMigration *migration = vbasedev->migration;
-> >> +    int ret;
-> >> +
-> >> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
-> >> +
-> >> +    if (migration->region.mmaps) {
-> >> +        qemu_mutex_lock_iothread();
-> >> +        ret = vfio_region_mmap(&migration->region);
-> >> +        qemu_mutex_unlock_iothread();
-> >> +        if (ret) {
-> >> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
-> >> +                         vbasedev->name, migration->region.index,
-> >> +                         strerror(-ret));
-> >> +            return ret;
-> >> +        }
-> >> +    }
-> >> +
-> >> +    ret = vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_SAVING);
-> >> +    if (ret) {
-> >> +        error_report("%s: Failed to set state SAVING", vbasedev->name);
-> >> +        return ret;
-> >> +    }
-> >> +
-> >> +    /*
-> >> +     * Save migration region size. This is used to verify migration region size
-> >> +     * is greater than or equal to migration region size at destination
-> >> +     */
-> >> +    qemu_put_be64(f, migration->region.size);  
-> > 
-> > Is this requirement supported by the uapi?    
-> 
-> Yes, on UAPI thread we discussed this:
-> 
->   * For the user application, data is opaque. The user application 
-> should write
->   * data in the same order as the data is received and the data should be of
->   * same transaction size at the source.
-> 
-> data should be same transaction size, so migration region size should be 
-> greater than or equal to the size at source when verifying at destination.
+--oJ71EGRlYNjSvfq7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We are that user application for which the data is opaque, therefore we
-should make no assumptions about how the vendor driver makes use of
-their region.  If we get a transaction that exceeds the end of the
-region, I agree, that would be an error.  But we have no business
-predicting that such a transaction might occur if the vendor driver
-indicates it can support the migration.
+On Fri, May 01, 2020 at 03:09:13PM -0400, Daniele Buono wrote:
+> Starting with Clang v9, -Wtype-limits is implemented and triggers a
+> few "result of comparison is always true" errors when compiling PPC32
+> targets.
+>=20
+> The comparisons seem to be necessary only on PPC64, since the
+> else branch in PPC32 only has a "g_assert_not_reached();" in all cases.
+>=20
+> This patch restructures the code so that PPC32 does not execute the
+> check, while PPC64 works like before
+>=20
+> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 
-> > The vendor driver operates
-> > within the migration region, but it has no requirement to use the full
-> > extent of the region.  Shouldn't we instead insert the version string
-> > from versioning API Yan proposed?  Is this were we might choose to use
-> > an interface via the vfio API rather than sysfs if we had one?
-> >  
-> 
-> VFIO API cannot be used by libvirt or management tool stack. We need 
-> sysfs as Yan proposed to be used by libvirt or management tool stack.
+Urgh.  #ifdefs intertangled with if statements gets pretty ugly.  But,
+then, it's already pretty ugly, so, applied.
 
-It's been a long time, but that doesn't seem like what I was asking.
-The sysfs version checking is used to select a target that is likely to
-succeed, but the migration stream is still generated by a user and the
-vendor driver is still ultimately responsible for validating that
-stream.  I would hope that a vendor migration stream therefore starts
-with information similar to that found in the sysfs interface, allowing
-the receiving vendor driver to validate the source device and vendor
-software version, such that we can fail an incoming migration that the
-vendor driver deems incompatible.  Ideally the vendor driver might also
-include consistency and sequence checking throughout the stream to
-prevent a malicious user from exploiting the internal operation of the
-vendor driver.  Thanks,
+> ---
+>  target/ppc/translate.c | 34 +++++++++++++++++++---------------
+>  1 file changed, 19 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 807d14faaa..9400fa2c7c 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -1882,6 +1882,7 @@ static void gen_rlwimi(DisasContext *ctx)
+>          tcg_gen_deposit_tl(t_ra, t_ra, t_rs, sh, me - mb + 1);
+>      } else {
+>          target_ulong mask;
+> +        TCGv_i32 t0;
+>          TCGv t1;
+> =20
+>  #if defined(TARGET_PPC64)
+> @@ -1891,20 +1892,20 @@ static void gen_rlwimi(DisasContext *ctx)
+>          mask =3D MASK(mb, me);
+> =20
+>          t1 =3D tcg_temp_new();
+> +#if defined(TARGET_PPC64)
+>          if (mask <=3D 0xffffffffu) {
+> -            TCGv_i32 t0 =3D tcg_temp_new_i32();
+> +#endif
+> +            t0 =3D tcg_temp_new_i32();
+>              tcg_gen_trunc_tl_i32(t0, t_rs);
+>              tcg_gen_rotli_i32(t0, t0, sh);
+>              tcg_gen_extu_i32_tl(t1, t0);
+>              tcg_temp_free_i32(t0);
+> -        } else {
+>  #if defined(TARGET_PPC64)
+> +        } else {
+>              tcg_gen_deposit_i64(t1, t_rs, t_rs, 32, 32);
+>              tcg_gen_rotli_i64(t1, t1, sh);
+> -#else
+> -            g_assert_not_reached();
+> -#endif
+>          }
+> +#endif
+> =20
+>          tcg_gen_andi_tl(t1, t1, mask);
+>          tcg_gen_andi_tl(t_ra, t_ra, ~mask);
+> @@ -1938,7 +1939,9 @@ static void gen_rlwinm(DisasContext *ctx)
+>          me +=3D 32;
+>  #endif
+>          mask =3D MASK(mb, me);
+> +#if defined(TARGET_PPC64)
+>          if (mask <=3D 0xffffffffu) {
+> +#endif
+>              if (sh =3D=3D 0) {
+>                  tcg_gen_andi_tl(t_ra, t_rs, mask);
+>              } else {
+> @@ -1949,15 +1952,13 @@ static void gen_rlwinm(DisasContext *ctx)
+>                  tcg_gen_extu_i32_tl(t_ra, t0);
+>                  tcg_temp_free_i32(t0);
+>              }
+> -        } else {
+>  #if defined(TARGET_PPC64)
+> +        } else {
+>              tcg_gen_deposit_i64(t_ra, t_rs, t_rs, 32, 32);
+>              tcg_gen_rotli_i64(t_ra, t_ra, sh);
+>              tcg_gen_andi_i64(t_ra, t_ra, mask);
+> -#else
+> -            g_assert_not_reached();
+> -#endif
+>          }
+> +#endif
+>      }
+>      if (unlikely(Rc(ctx->opcode) !=3D 0)) {
+>          gen_set_Rc0(ctx, t_ra);
+> @@ -1972,6 +1973,9 @@ static void gen_rlwnm(DisasContext *ctx)
+>      TCGv t_rb =3D cpu_gpr[rB(ctx->opcode)];
+>      uint32_t mb =3D MB(ctx->opcode);
+>      uint32_t me =3D ME(ctx->opcode);
+> +    TCGv_i32 t0;
+> +    TCGv_i32 t1;
+> +
+>      target_ulong mask;
+> =20
+>  #if defined(TARGET_PPC64)
+> @@ -1980,9 +1984,11 @@ static void gen_rlwnm(DisasContext *ctx)
+>  #endif
+>      mask =3D MASK(mb, me);
+> =20
+> +#if defined(TARGET_PPC64)
+>      if (mask <=3D 0xffffffffu) {
+> -        TCGv_i32 t0 =3D tcg_temp_new_i32();
+> -        TCGv_i32 t1 =3D tcg_temp_new_i32();
+> +#endif
+> +        t0 =3D tcg_temp_new_i32();
+> +        t1 =3D tcg_temp_new_i32();
+>          tcg_gen_trunc_tl_i32(t0, t_rb);
+>          tcg_gen_trunc_tl_i32(t1, t_rs);
+>          tcg_gen_andi_i32(t0, t0, 0x1f);
+> @@ -1990,17 +1996,15 @@ static void gen_rlwnm(DisasContext *ctx)
+>          tcg_gen_extu_i32_tl(t_ra, t1);
+>          tcg_temp_free_i32(t0);
+>          tcg_temp_free_i32(t1);
+> -    } else {
+>  #if defined(TARGET_PPC64)
+> +    } else {
+>          TCGv_i64 t0 =3D tcg_temp_new_i64();
+>          tcg_gen_andi_i64(t0, t_rb, 0x1f);
+>          tcg_gen_deposit_i64(t_ra, t_rs, t_rs, 32, 32);
+>          tcg_gen_rotl_i64(t_ra, t_ra, t0);
+>          tcg_temp_free_i64(t0);
+> -#else
+> -        g_assert_not_reached();
+> -#endif
+>      }
+> +#endif
+> =20
+>      tcg_gen_andi_tl(t_ra, t_ra, mask);
+> =20
 
-Alex
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--oJ71EGRlYNjSvfq7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl6w9L8ACgkQbDjKyiDZ
+s5I3GBAA23e87S796Ftqo/WG9QDDarmMvwHeqCWNHkM0ld7OLBMo9eF7cYb9A3FQ
+a0hSf8LhCfXOAD3dJAdsSD/dKk38yK7glWwy8mHBQnZs8Cj8O2eMF8tTW/LdJaXg
+g54fXkHiRfkSp3iD1tbAz8X22apikOyR0wHvTmWCaOUki4jp1RGig79svLJXINfC
+cUgOruMm3OqFHTItrYpJTvT0mnOdhFa2yJqBmGdoM5YsrZITQSXlZ6MiAUzu5yz2
+S02vOdpM4yVb+OkfgVDTeaLaCVBbr1X4q9jt8vbsfqvBVI0hD9+Vz2KyI4+Xa86q
+kzwp+sXt3E0KK11EuRrlmndapijHlJf+wiL6XcrGRPnIHacvjfHuhB1Z5RwOjsXL
+rhDoNW7pF0GYhT3Gu85mQeTNPacNi/XD5UVsFUZmPSWFPg9pXpRIRuX20sdid16E
+/mUfzUJclLVVzmpGd/iHi7KJljp5HIjb7nPgcQ4OW/aF6KYwFig92BPWRjEd6BPK
+vQLzv58uAuenWY5CQZ56PGO2C/mM/IfTTmIbpyKUPugeyM2Ti9aPVclT5Quh2xyf
+M8ogXqbTgibVDECisxg41NvxPcBDG0DzC7AKyFdMIGkNP2x2hWNISV00lnfEWlc+
+hePc8QV3FdExsdoGfD92khRyTBEx465pzJhuDHxagXGClRSVj18=
+=SSMv
+-----END PGP SIGNATURE-----
+
+--oJ71EGRlYNjSvfq7--
 
