@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B41E1C583F
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:10:51 +0200 (CEST)
-Received: from localhost ([::1]:60716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58C81C5816
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 16:05:49 +0200 (CEST)
+Received: from localhost ([::1]:47834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVyHa-00039p-8X
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:10:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54928)
+	id 1jVyCi-0005hS-Ni
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 10:05:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVyB9-0003xR-0M
- for qemu-devel@nongnu.org; Tue, 05 May 2020 10:04:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23748
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jVyB7-0002QC-KM
- for qemu-devel@nongnu.org; Tue, 05 May 2020 10:04:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588687448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Jhk6iRFTvk6LQEuTR+BiAJM2lfUBhL+R9Mg4WLbUY8w=;
- b=K1lK4tg4IJViG+cHW27zLZaaKzvtyfAj3PabAMkVoVhUF5o17X2Ce3CuUNDbSvukdxrXy/
- MmBMjvlbtVOk0KvuGIPFt2URGEZV5vl/GnzOqEaN7xhq1arveE9VL9gZP+NAb8Kmp0RUnD
- Khg8VoAzvMWS+nRMRSa3oCqFm59wSD4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-EVwMyu4YMWaz3eejX5mDdQ-1; Tue, 05 May 2020 10:04:06 -0400
-X-MC-Unique: EVwMyu4YMWaz3eejX5mDdQ-1
-Received: by mail-wr1-f72.google.com with SMTP id e5so1238481wrs.23
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 07:04:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jVyBg-0004ew-LR
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:04:44 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jVyBf-0002w4-Ej
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 10:04:44 -0400
+Received: by mail-pg1-x542.google.com with SMTP id s18so1052860pgl.12
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 07:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GhlkG4VMX/x4KVCtRCMgN/lvPiq6CAjJbiul2wsOASw=;
+ b=zgtxTCrmtj/ww+IDlMdxQ7c5Uf+Dcw/GyxnaxeEQr/32bme9fzIIdGAf2x3yhwN5zf
+ HXzacErVDvfT8pM7ejq+SCu7wxagWfXcI3PpRKH3vA3VtppNKbHrCPDmuzyR1M5/HTho
+ Fc6etHGV9o9EkFCbH49s0XEtzOD4e7egTV1UzSYtrLQWnXItbHX3mNEtK+s1DeZc4IgX
+ bEZIc9dW2jyuDWCERRUTcKp1yFQJDmejqWUt71+j1uFoCn9f/eyaqHXKCa941pq4q+M9
+ a2gsev2xr8vzUreFoY2KYaCUTP0qn/yaicSD4Pw/12X/ABjv6JjKCPEPiZHRRsMztNAP
+ mBtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HrG6smjGsFEVUqMZ3E+Z3Tp3PQnjfn3zh5YyVTA+Lm8=;
- b=lr6s243eCdrUsBgNRkbfD59toDnLkeOGhHc+4Q1Rtn0q8sziZoOo5/APhtx6FhUnPk
- vQbibkyEt+9O642DsMKDUtPYR2CIkqgQa0wfvxBmsexL3hPTx2xFw1Wdf1ONny+p3wsl
- jR5lvsaxapxbLncZG6bNsKxAF6Usj6GZmU15GGzFB0WiZr0I4UOvORQD3Q+gibsSHJCq
- SsYKNzXcQoBKds34LzPLYkFRL9hjTWMs5eJIzbcOqsstVXWdiM62zRWqReP2jzdpqRBW
- NFmzsGO1Cu7envedZviDKyzgCpWQf0zzilcFBoJXemKd0+hqlrU/IZMt46/oSpUe/thw
- QlRg==
-X-Gm-Message-State: AGi0PuZV6j0IfFfG9lgGpNSViacVhzJUvmc9ZiCEPqiBLzZD0rfVJjyN
- Em2Ww6GNCvsuMvZm/Itb/Fj/qbYjQ5C2dSRoUtUMkih6LeyXzKa1jWlE0TJp3XEbspfl3CZtWiC
- Jx9Tee0ojGu3v8A0=
-X-Received: by 2002:adf:ea05:: with SMTP id q5mr3695899wrm.87.1588687445497;
- Tue, 05 May 2020 07:04:05 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJlGUaosvrDWQ17zUfiVJ5Ij9fXM7+Vo7FgAAqdBHXSA7l+JElKhmMAEOWOcnceT7oyN+R+sA==
-X-Received: by 2002:adf:ea05:: with SMTP id q5mr3695864wrm.87.1588687445262;
- Tue, 05 May 2020 07:04:05 -0700 (PDT)
-Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
- by smtp.gmail.com with ESMTPSA id
- p7sm3598515wrf.31.2020.05.05.07.04.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 May 2020 07:04:04 -0700 (PDT)
-Date: Tue, 5 May 2020 10:04:02 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 00/13] microvm: add acpi support
-Message-ID: <20200505100010-mutt-send-email-mst@kernel.org>
-References: <20200505134305.22666-1-kraxel@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GhlkG4VMX/x4KVCtRCMgN/lvPiq6CAjJbiul2wsOASw=;
+ b=WcuRGINMk+PhbMU5Q5u25y3iHw1iKWcfqF4TuoYkj6NSli3uqPIH+pcn13Gz3Nqk0N
+ D3UYaHSgnlezqXBlaoaOkd/7xYtF88qJseBBMbUfHIN/WrnQNCL2PbNhnlGBmjaNL4fc
+ MQNjWC/iAU7aW4iU2LyOwKCkXYFF0XLTqxQl0q+TUQm0lLpY6GZ/Q6zwCM78z/QNVBgE
+ pqtBJ3qmGvJIfebVsZ57VMn1KlFcNYbDFRLY0knOUlpjRgAlSXV5yz4GPxfvJ4We5PuH
+ 2vZs/A3ZU3I+C9H0aHb5SurRFZUjOKqRdqAXjP0ftQCM+lCx50hDdbFAqonCqBZOWDjS
+ 5MHg==
+X-Gm-Message-State: AGi0PubSYMgxnbWOpvUGgfZnme1mWIi18hUa9g+2JZiqFoITRcbA5SF9
+ UOd7eQFpGtQHnbki+xxb0iVRfA==
+X-Google-Smtp-Source: APiQypJRgptyg0AqOJw+L89SWqN3r3omavTuKvzES2hYIFtkCoF7MrwltS6c2sGgVqhOgGcMDyUyLQ==
+X-Received: by 2002:aa7:9491:: with SMTP id z17mr3308647pfk.264.1588687481640; 
+ Tue, 05 May 2020 07:04:41 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id a196sm2176116pfd.184.2020.05.05.07.04.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 May 2020 07:04:40 -0700 (PDT)
+Subject: Re: [PATCH v4 00/18] target/arm: sve load/store improvements
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200430162813.17671-1-richard.henderson@linaro.org>
+ <CAFEAcA8m33s7e2T0GrZJxb4EyczcEmtW6-tRPoUsiVLO9g8dVw@mail.gmail.com>
+ <20e6093b-edcb-c0e4-f4d5-b6ff4d51783c@linaro.org>
+ <CAFEAcA-uupuSni8yqs6evWbjZDZyToit6Hhn8nQ=oSWjRuJjgQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a55cb2a3-9018-2288-bfe9-2fa3c2bf0050@linaro.org>
+Date: Tue, 5 May 2020 07:04:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200505134305.22666-1-kraxel@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mst@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <CAFEAcA-uupuSni8yqs6evWbjZDZyToit6Hhn8nQ=oSWjRuJjgQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,84 +91,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 05, 2020 at 03:42:52PM +0200, Gerd Hoffmann wrote:
-> I know that not supporting ACPI in microvm is intentional.  If you still
-> don't want ACPI this is perfectly fine, you can use the usual -no-acpi
-> switch to toggle ACPI support.
->=20
-> These are the advantages you are going to loose then:
->=20
->   (1) virtio-mmio device discovery without command line hacks (tweaking
->       the command line is a problem when not using direct kernel boot).
->   (2) Better IO-APIC support, we can use IRQ lines 16-23.
->   (3) ACPI power button (aka powerdown request) works.
->   (4) machine poweroff (aka S5 state) works.
+On 5/5/20 2:49 AM, Peter Maydell wrote:
+> On Mon, 4 May 2020 at 17:03, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 5/4/20 2:43 AM, Peter Maydell wrote:
+>>> I've reviewed patch 13, but I still don't understand why you've
+>>> made the size-related changes in patch 4, so I've continued
+>>> our conversation in the thread on the v3 version of that patch.
+>>
+>> I've changed that here in v4.  Please have another look at this one.
+> 
+> The page_check_range() call still seems to be passing a fixed
+> size of '1' ?
 
-Questions
+We only need to validate one page, so validating one byte on the page is
+sufficient.  The size argument to page_check_range is so that it can validate
+multiple pages at a time.
 
-- what's the tradeoff in startup time?
-- what should be the default?
+The target exception is raised by cc->tlb_fill, and there we pass either the
+actual access size (probe_access) or 0 to indicate unknown access size
+(probe_access_flags, or probe_access passed down from the caller).
 
-Based on above I'd be inclined to say default should stay no acpi and
-users should enable acpi with an option.
 
-> Together with seabios patches for virtio-mmio support this allows to
-> boot standard fedora images (cloud, coreos, workstation live) with the
-> microvm machine type.
->=20
-> git branch for testing (including updated seabios):
-> =09https://git.kraxel.org/cgit/qemu/log/?h=3Dsirius/microvm
->=20
-> changes in v2:
->   * some acpi cleanups are an separate patch series now.
->   * switched to hw reduced acpi & generic event device.
->   * misc fixes here and there.
->=20
-> cheers,
->   Gerd
->=20
-> Gerd Hoffmann (13):
->   acpi: make build_madt() more generic.
->   acpi: create acpi-common.c and move madt code
->   acpi: madt: skip pci override on pci-less systems (microvm)
->   acpi: move acpi_build_facs to acpi-common.c
->   acpi: move acpi_init_common_fadt_data to acpi-common.c
->   acpi: move acpi_align_size to acpi-common.h
->   acpi: fadt: add hw-reduced sleep register support
->   acpi: generic event device for x86
->   microvm: add minimal acpi support
->   microvm: disable virtio-mmio cmdline hack
->   microvm: add acpi_dsdt_add_virtio() for x86
->   microvm: make virtio irq base runtime configurable
->   microvm/acpi: use GSI 16-23 for virtio
->=20
->  hw/i386/acpi-common.h                  |  38 ++++
->  hw/i386/acpi-microvm.h                 |   6 +
->  include/hw/acpi/acpi-defs.h            |   2 +
->  include/hw/acpi/generic_event_device.h |  10 +
->  include/hw/i386/microvm.h              |  10 +-
->  hw/acpi/aml-build.c                    |   4 +-
->  hw/i386/acpi-build.c                   | 198 +-------------------
->  hw/i386/acpi-common.c                  | 206 ++++++++++++++++++++
->  hw/i386/acpi-microvm.c                 | 249 +++++++++++++++++++++++++
->  hw/i386/generic_event_device_x86.c     | 114 +++++++++++
->  hw/i386/microvm.c                      |  36 +++-
->  hw/i386/Kconfig                        |   1 +
->  hw/i386/Makefile.objs                  |   3 +
->  13 files changed, 676 insertions(+), 201 deletions(-)
->  create mode 100644 hw/i386/acpi-common.h
->  create mode 100644 hw/i386/acpi-microvm.h
->  create mode 100644 hw/i386/acpi-common.c
->  create mode 100644 hw/i386/acpi-microvm.c
->  create mode 100644 hw/i386/generic_event_device_x86.c
->=20
-> --=20
-> 2.18.4
-
+r~
 
