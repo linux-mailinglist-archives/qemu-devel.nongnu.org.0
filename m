@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C7F1C5B3C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:32:25 +0200 (CEST)
-Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6341C5B81
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:35:44 +0200 (CEST)
+Received: from localhost ([::1]:56788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVzYW-00059l-BD
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45934)
+	id 1jVzbj-0000pq-VU
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:35:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVm-0003Jd-Dk
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:34 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27276
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVo-0003KB-B5
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28722
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVk-0007QI-R0
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:33 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVl-0007Qe-DM
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588692570;
+ s=mimecast20190719; t=1588692572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4RikHMQLXtDbA/cd7k4epxb/irkWDQhbyQSCKt0u3s4=;
- b=FZ33xGNDFB2jN+JFH3lg7rGB+wbw3xxd0GspgEv7G7xD5uiKBXUJP2tmtkop+sfP61TDzX
- Fs+zniiEq6oebwrAKjkLaGWATI3Cp+ynw6hSBOrGlQnn5BCa+HS0TUXfrOvsku6LB7soO6
- cbvxSnPO3NybvdTBj+6/nuUF7YQ7tt8=
+ bh=McJcjHtSWnBjEEs2H2Yvzyf7jr3Q5e2gxUKSZdf2eOU=;
+ b=Av724U2P/pgFYcGLBhkdIpEnNSY2CFT68UNrmADU9MxRNyIAEyLfyjge5Z4smrwnCJpw1w
+ TzzP67jr3fqqMeO+49uXHOlYMS29f4hoqStUWP7Cg25V69EqZl/uFH4+UsqUEcid1lz6w0
+ MbW15z4iHnyqF1Cc3yECzSVIpjMAdZI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-QQEVX7dTMaCVCz-2VTwODg-1; Tue, 05 May 2020 11:29:28 -0400
-X-MC-Unique: QQEVX7dTMaCVCz-2VTwODg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-106-uXttmxrKOj6AwPAUrzFfJw-1; Tue, 05 May 2020 11:29:30 -0400
+X-MC-Unique: uXttmxrKOj6AwPAUrzFfJw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6C3680183C
- for <qemu-devel@nongnu.org>; Tue,  5 May 2020 15:29:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A29953
+ for <qemu-devel@nongnu.org>; Tue,  5 May 2020 15:29:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AEB141000232;
- Tue,  5 May 2020 15:29:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F0E12B141;
+ Tue,  5 May 2020 15:29:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3A4B111358C0; Tue,  5 May 2020 17:29:26 +0200 (CEST)
+ id 3D84311358C1; Tue,  5 May 2020 17:29:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/18] qom: Simplify object_property_get_enum()
-Date: Tue,  5 May 2020 17:29:12 +0200
-Message-Id: <20200505152926.18877-5-armbru@redhat.com>
+Subject: [PATCH v2 05/18] qom: Drop convenience method
+ object_property_get_uint16List()
+Date: Tue,  5 May 2020 17:29:13 +0200
+Message-Id: <20200505152926.18877-6-armbru@redhat.com>
 In-Reply-To: <20200505152926.18877-1-armbru@redhat.com>
 References: <20200505152926.18877-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,46 +85,138 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reuse object_property_get_str().  Switches from the string to the
-qobject visitor under the hood.
+qom/object.c provides object_property_get_TYPE() and
+object_property_set_TYPE() for a number of common types.  These are
+all convenience wrappers around object_property_get_qobject() and
+object_property_set_qobject().
+
+Except for object_property_get_uint16List(), which is unusual in two ways:
+
+* It bypasses object_property_get_qobject().  Fixable; the previous
+  commit did it for object_property_get_enum())
+
+* It stores the value through a parameter.  Its contract claims it
+  returns the value, like the other functions do.  Also fixable.
+
+Fixing is not worthwhile, though: object_property_get_uint16List() has
+seen exactly one user in six years.
+
+Convert the lone user to do its job with the generic
+object_property_get_qobject(), and drop object_property_get_qobject().
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qom/object.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ include/qom/object.h       | 14 --------------
+ hw/core/machine-qmp-cmds.c | 16 +++++++++++++---
+ qom/object.c               | 23 -----------------------
+ 3 files changed, 13 insertions(+), 40 deletions(-)
 
+diff --git a/include/qom/object.h b/include/qom/object.h
+index ccfa82e33d..4df9ecebad 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -1320,20 +1320,6 @@ uint64_t object_property_get_uint(Object *obj, const=
+ char *name,
+ int object_property_get_enum(Object *obj, const char *name,
+                              const char *typename, Error **errp);
+=20
+-/**
+- * object_property_get_uint16List:
+- * @obj: the object
+- * @name: the name of the property
+- * @list: the returned int list
+- * @errp: returns an error if this function fails
+- *
+- * Returns: the value of the property, converted to integers, or
+- * undefined if an error occurs (including when the property value is not
+- * an list of integers).
+- */
+-void object_property_get_uint16List(Object *obj, const char *name,
+-                                    uint16List **list, Error **errp);
+-
+ /**
+  * object_property_set:
+  * @obj: the object
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index eed5aeb2f7..2c5da8413d 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -11,9 +11,13 @@
+ #include "cpu.h"
+ #include "hw/boards.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-builtin-visit.h"
+ #include "qapi/qapi-commands-machine.h"
+ #include "qapi/qmp/qerror.h"
++#include "qapi/qmp/qobject.h"
++#include "qapi/qobject-input-visitor.h"
+ #include "qemu/main-loop.h"
++#include "qom/qom-qobject.h"
+ #include "sysemu/hostmem.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/numa.h"
+@@ -303,6 +307,8 @@ static int query_memdev(Object *obj, void *opaque)
+ {
+     MemdevList **list =3D opaque;
+     MemdevList *m =3D NULL;
++    QObject *host_nodes;
++    Visitor *v;
+=20
+     if (object_dynamic_cast(obj, TYPE_MEMORY_BACKEND)) {
+         m =3D g_malloc0(sizeof(*m));
+@@ -325,9 +331,13 @@ static int query_memdev(Object *obj, void *opaque)
+                                                     "policy",
+                                                     "HostMemPolicy",
+                                                     &error_abort);
+-        object_property_get_uint16List(obj, "host-nodes",
+-                                       &m->value->host_nodes,
+-                                       &error_abort);
++        host_nodes =3D object_property_get_qobject(obj,
++                                                 "host-nodes",
++                                                 &error_abort);
++        v =3D qobject_input_visitor_new(host_nodes);
++        visit_type_uint16List(v, NULL, &m->value->host_nodes, &error_abort=
+);
++        visit_free(v);
++        qobject_unref(host_nodes);
+=20
+         m->next =3D *list;
+         *list =3D m;
 diff --git a/qom/object.c b/qom/object.c
-index 3d65658059..b374af302c 100644
+index b374af302c..54a26ed16a 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -1521,8 +1521,6 @@ typedef struct EnumProperty {
- int object_property_get_enum(Object *obj, const char *name,
-                              const char *typename, Error **errp)
- {
+@@ -1550,29 +1550,6 @@ int object_property_get_enum(Object *obj, const char=
+ *name,
+     return ret;
+ }
+=20
+-void object_property_get_uint16List(Object *obj, const char *name,
+-                                    uint16List **list, Error **errp)
+-{
 -    Error *err =3D NULL;
 -    Visitor *v;
-     char *str;
-     int ret;
-     ObjectProperty *prop =3D object_property_find(obj, name, errp);
-@@ -1541,15 +1539,10 @@ int object_property_get_enum(Object *obj, const cha=
-r *name,
-=20
-     enumprop =3D prop->opaque;
-=20
+-    char *str;
+-
 -    v =3D string_output_visitor_new(false, &str);
 -    object_property_get(obj, v, name, &err);
 -    if (err) {
 -        error_propagate(errp, err);
--        visit_free(v);
-+    str =3D object_property_get_str(obj, name, errp);
-+    if (!str) {
-         return 0;
-     }
+-        goto out;
+-    }
 -    visit_complete(v, &str);
 -    visit_free(v);
-=20
-     ret =3D qapi_enum_parse(enumprop->lookup, str, -1, errp);
-     g_free(str);
+-    v =3D string_input_visitor_new(str);
+-    visit_type_uint16List(v, NULL, list, errp);
+-
+-    g_free(str);
+-out:
+-    visit_free(v);
+-}
+-
+ void object_property_parse(Object *obj, const char *string,
+                            const char *name, Error **errp)
+ {
 --=20
 2.21.1
 
