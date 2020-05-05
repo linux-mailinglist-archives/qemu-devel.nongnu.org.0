@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8861C5B9C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:39:00 +0200 (CEST)
-Received: from localhost ([::1]:36730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71001C5C49
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:46:09 +0200 (CEST)
+Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVzet-0004Iu-Bj
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:38:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46002)
+	id 1jVzlo-0006UC-Pm
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:46:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVr-0003OU-73
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:39 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:41519)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVzWx-0004qf-Qo
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:30:47 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41881
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVn-0007RR-A5
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:38 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jVzWw-0002RF-L4
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:30:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588692573;
+ s=mimecast20190719; t=1588692645;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kBtM3zIW9dthrt5vgz9AzzxJghrxgkviKsCOyjI5V38=;
- b=XEw8Ri4BSWu/O1xXenFITYaexg0YCJ15dNr9ycG34RvmAIAF/SnOgXMLFk0aO3Bcq7GfWo
- dRwz5HyiZHEUHGRoF6v1NkvIn/PlRYjsERnZw3Cb49pvrkSK7ID5c/rD1KMwElLpbjKNIn
- mJb6PTAM5dQMsqQjsL0crdkMcFaI51o=
+ bh=dQJsRkYGCTfpMsGb1q3vhZlyUvLyz5hR9o+Bv6uq1yA=;
+ b=ICNuhm8SZFyRu+edW33r2BTNGkt+Bh7Cl3xh/j7pK0KSKKRo7fO7hA4pPohXo8SHAFRH2c
+ gEkC3rfxjhKNrcsmf8ENFhf6nBEalkFwejoQoofLFWsGvlbFuaAhIkQXo/YQb4fnjzqcdt
+ qoO6Vf43gk0a/xM2I0dUEjSCr474WF0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-xP_tXZ4EPKiGpGrF9mtcVg-1; Tue, 05 May 2020 11:29:32 -0400
-X-MC-Unique: xP_tXZ4EPKiGpGrF9mtcVg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-271-enNGYDM8O1KeJfpZs3sVGg-1; Tue, 05 May 2020 11:30:34 -0400
+X-MC-Unique: enNGYDM8O1KeJfpZs3sVGg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ED33800D24
- for <qemu-devel@nongnu.org>; Tue,  5 May 2020 15:29:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C906E6061C;
- Tue,  5 May 2020 15:29:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6DAC111358CF; Tue,  5 May 2020 17:29:26 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/18] qom: Drop @errp parameter of object_property_del()
-Date: Tue,  5 May 2020 17:29:26 +0200
-Message-Id: <20200505152926.18877-19-armbru@redhat.com>
-In-Reply-To: <20200505152926.18877-1-armbru@redhat.com>
-References: <20200505152926.18877-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E189E107ACF4;
+ Tue,  5 May 2020 15:30:33 +0000 (UTC)
+Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 721F4649D0;
+ Tue,  5 May 2020 15:30:16 +0000 (UTC)
+Subject: Re: [PATCH v5 3/7] qcow: Tolerate backing_fmt=, but warn on
+ backing_fmt=raw
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200403175859.863248-1-eblake@redhat.com>
+ <20200403175859.863248-4-eblake@redhat.com>
+ <20200505073542.GA5759@linux.fritz.box>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <4b4f83fb-eb3d-6ae5-116a-da921ee2b403@redhat.com>
+Date: Tue, 5 May 2020 10:30:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200505073542.GA5759@linux.fritz.box>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,151 +84,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- philmd@redhat.com
+Cc: pkrempa@redhat.com, qemu-block@nongnu.org, kchamart@redhat.com,
+ libvir-list@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Same story as for object_property_add(): the only way
-object_property_del() can fail is when the property with this name
-does not exist.  Since our property names are all hardcoded, failure
-is a programming error, and the appropriate way to handle it is
-passing &error_abort.  Most callers do that, the commit before
-previous fixed one that didn't (and got the error handling wrong), and
-the two remaining exceptions ignore errors.
+On 5/5/20 2:35 AM, Kevin Wolf wrote:
+> Am 03.04.2020 um 19:58 hat Eric Blake geschrieben:
+>> qcow has no space in the metadata to store a backing format, and there
+>> are existing qcow images backed both by raw or by other formats
+>> (usually qcow) images, reliant on probing to tell the difference.
+>> While we don't recommend the creation of new qcow images (as qcow2 is
+>> hands-down better), we can at least insist that if the user does
+>> request a specific format without using -u, then it must be non-raw
+>> (as a raw backing file that gets inadvertently edited into some other
+>> format can form a security hole); if the user does not request a
+>> specific format or lies when using -u, then the status quo of probing
+>> for the backing format remains intact (although an upcoming patch will
+>> warn when omitting a format request).  Thus, when this series is
+>> complete, the only way to use a backing file for qcow without
+>> triggering a warning is when using -F if the backing file is non-raw
+>> to begin with.  Note that this is only for QemuOpts usage; there is no
+>> change to the QAPI to allow a format through -blockdev.
+>>
+>> Add a new iotest 290 just for qcow, to demonstrate the new warning.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> Somehow this feels backwards. Not specifying the backing file format at
+> all isn't any safer than explicitly specifying raw.
+> 
+> If there is a difference at all, I would say that explicitly specifying
+> raw means that the user is aware what they are doing. So we would have
+> more reason to warn against raw images if the backing format isn't
+> specified at all because then the user might not be aware that they are
+> using a backing file that probes as raw.
 
-Drop the @errp parameter.
+Prior to this patch, -F does not work with qcow.  And even with this 
+patch, we still cannot store the explicit value of -F in the qcow file. 
+Anything that does not use -F must continue to work for now (although it 
+may now warn, and in fact must warn if we deprecate it), while anything 
+explicit is free to fail (since it failed already), but could also be 
+made to work (if letting it work is nicer than making it fail, and where 
+"work" may still include a warning, although it's pointless to have 
+something brand new that works but is deprecated out of the box).  So 
+the following is my summary of the two options we can choose between:
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/qom/object.h       | 2 +-
- hw/core/qdev.c             | 2 +-
- hw/i386/pc_sysfw.c         | 2 +-
- hw/ppc/spapr_drc.c         | 4 ++--
- qom/object.c               | 7 +------
- qom/object_interfaces.c    | 3 +--
- tests/check-qom-proplist.c | 2 +-
- 7 files changed, 8 insertions(+), 14 deletions(-)
+Option 1, qcow backed by raw is more common than qcow backed by other, 
+so we want:
+raw <- qcow, no -F: work without warning (but if backing file is edited, 
+a future probe seeing non-raw would break image)
+raw <- qcow, with -F: work without warning (but if backing file is 
+edited, a future probe seeing non-raw would break image)
+other <- qcow, no -F: works but issues a warning (but backing file will 
+always probe correctly)
+other <- qcow, with -F: fails (we cannot honor the user's explicit 
+request, because we would still have to probe)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 990e28e408..fd453dc8d6 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1047,7 +1047,7 @@ ObjectProperty *object_property_add(Object *obj, cons=
-t char *name,
-                                     ObjectPropertyRelease *release,
-                                     void *opaque);
-=20
--void object_property_del(Object *obj, const char *name, Error **errp);
-+void object_property_del(Object *obj, const char *name);
-=20
- ObjectProperty *object_class_property_add(ObjectClass *klass, const char *=
-name,
-                                           const char *type,
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index b9c7a2f904..9e5538aeae 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -65,7 +65,7 @@ static void bus_remove_child(BusState *bus, DeviceState *=
-child)
-             bus->num_children--;
-=20
-             /* This gives back ownership of kid->child back to us.  */
--            object_property_del(OBJECT(bus), name, NULL);
-+            object_property_del(OBJECT(bus), name);
-             object_unref(OBJECT(kid->child));
-             g_free(kid);
-             return;
-diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
-index 002133a2d8..2abab3a27c 100644
---- a/hw/i386/pc_sysfw.c
-+++ b/hw/i386/pc_sysfw.c
-@@ -120,7 +120,7 @@ static void pc_system_flash_cleanup_unused(PCMachineSta=
-te *pcms)
-         dev_obj =3D OBJECT(pcms->flash[i]);
-         if (!object_property_get_bool(dev_obj, "realized", &error_abort)) =
-{
-             prop_name =3D g_strdup_printf("pflash%d", i);
--            object_property_del(OBJECT(pcms), prop_name, &error_abort);
-+            object_property_del(OBJECT(pcms), prop_name);
-             g_free(prop_name);
-             object_unparent(dev_obj);
-             pcms->flash[i] =3D NULL;
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 8b2171f698..b958f8acb5 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -405,7 +405,7 @@ static void spapr_drc_release(SpaprDrc *drc)
-     g_free(drc->fdt);
-     drc->fdt =3D NULL;
-     drc->fdt_start_offset =3D 0;
--    object_property_del(OBJECT(drc), "device", &error_abort);
-+    object_property_del(OBJECT(drc), "device");
-     drc->dev =3D NULL;
- }
-=20
-@@ -551,7 +551,7 @@ static void unrealize(DeviceState *d)
-     vmstate_unregister(VMSTATE_IF(drc), &vmstate_spapr_drc, drc);
-     root_container =3D container_get(object_get_root(), DRC_CONTAINER_PATH=
-);
-     name =3D g_strdup_printf("%x", spapr_drc_index(drc));
--    object_property_del(root_container, name, &error_abort);
-+    object_property_del(root_container, name);
-     g_free(name);
- }
-=20
-diff --git a/qom/object.c b/qom/object.c
-index 23f481ca46..e89ffbe3d1 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1280,15 +1280,10 @@ ObjectProperty *object_class_property_find(ObjectCl=
-ass *klass, const char *name,
-     return prop;
- }
-=20
--void object_property_del(Object *obj, const char *name, Error **errp)
-+void object_property_del(Object *obj, const char *name)
- {
-     ObjectProperty *prop =3D g_hash_table_lookup(obj->properties, name);
-=20
--    if (!prop) {
--        error_setg(errp, "Property '.%s' not found", name);
--        return;
--    }
--
-     if (prop->release) {
-         prop->release(obj, name, prop->opaque);
-     }
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 054e75043d..7e26f86fa6 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -89,8 +89,7 @@ Object *user_creatable_add_type(const char *type, const c=
-har *id,
-     user_creatable_complete(USER_CREATABLE(obj), &local_err);
-     if (local_err) {
-         if (id !=3D NULL) {
--            object_property_del(object_get_objects_root(),
--                                id, &error_abort);
-+            object_property_del(object_get_objects_root(), id);
-         }
-         goto out;
-     }
-diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
-index 84f48fe592..13a824cfae 100644
---- a/tests/check-qom-proplist.c
-+++ b/tests/check-qom-proplist.c
-@@ -280,7 +280,7 @@ static void dummy_bus_init(Object *obj)
- static void dummy_bus_unparent(Object *obj)
- {
-     DummyBus *bus =3D DUMMY_BUS(obj);
--    object_property_del(obj->parent, "backend", NULL);
-+    object_property_del(obj->parent, "backend");
-     object_unparent(OBJECT(bus->backend));
- }
-=20
---=20
-2.21.1
+Option 2, qcow backed by other is more common than qcow backed by raw, 
+so we want:
+raw <- qcow, no -F: works but issues a warning (using a raw backing file 
+without explicit buy-in is risky)
+raw <- qcow, with -F: works but issues a warning (explicit buy-in will 
+still require subsequent probing, and a backing file could change which 
+would break image)
+other <- qcow, no -F: works without warning
+other <- qcow, with -F: works without warning (later probing will still 
+see non-raw)
+
+It looks like you are leaning more towards option 1, while my patch 
+leaned more towards option 2.  Anyone else want to chime in with an 
+opinion on which is safer vs. easier?
+
+
+>> @@ -953,6 +954,13 @@ static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
+>>       };
+>>
+>>       /* Parse options and convert legacy syntax */
+>> +    backing_fmt = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FMT);
+>> +    if (backing_fmt && !strcmp(backing_fmt, "raw")) {
+>> +        error_setg(errp, "qcow cannot store backing format; an explicit "
+>> +                   "backing format of raw is unsafe");
+> 
+> Does this message tell that an implicit backing format of raw is safe?
+
+If we go with option 2, are we trying to deprecate ALL use of raw as a 
+backing file to qcow, regardless of whether the user was explicit about 
+it?  If we go with option 1, then we are instead deprecating any use of 
+non-raw as a backing file to qcow.
+
+At the end of the day, we are trying to discourage users from creating 
+new qcow files in the first place; qcow2 is much better.  We still have 
+to read existing qcow images with backing files, but maybe we want:
+
+Option 3:
+completely deprecate qcow images with backing files, as there is no safe 
+way to do things favoring either raw (option 1) or non-raw (option 2), 
+and therefore accept -F solely for convenience with the rest of the 
+series, but always issue a warning regardless of whether -F was present.
+
+> 
+>> +        ret = -EINVAL;
+>> +        goto fail;
+>> +    }
+> 
+> The commit message promises a warning. This is not a warning, but a hard
+> error.
+
+Once we decide which behavior we want, I'll make sure the commit message 
+matches the behavior.  Remember, for implicit images, we are starting a 
+deprecation clock; for explicit images, it previously failed, so 
+continuing to fail is still viable.
+
+
+>> +echo
+>> +echo "== qcow backed by raw =="
+>> +
+>> +rm "$TEST_IMG.base"
+>> +truncate --size=$size "$TEST_IMG.base"
+>> +_make_test_img -b "$TEST_IMG.base"
+>> +_img_info
+>> +_make_test_img -b "$TEST_IMG.base" -F raw
+>> +_img_info
+> 
+> This test doesn't tell the difference between a warning and an error. In
+> both cases, the image would look the same: Either because it was
+> successfully created or because the old version is still there.
+
+Indeed, I can make the test more robust.  But more importantly, we need 
+consensus on _what_ we want behavior to be, and write the test along 
+those lines.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
