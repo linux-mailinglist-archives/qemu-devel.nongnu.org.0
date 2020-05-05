@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6151C4E14
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 08:10:13 +0200 (CEST)
-Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A431C4ECE
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 09:09:31 +0200 (CEST)
+Received: from localhost ([::1]:46758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVqmS-0006Cc-6s
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 02:10:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59860)
+	id 1jVrhq-0005yk-CO
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 03:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVqlZ-0005mh-S8
- for qemu-devel@nongnu.org; Tue, 05 May 2020 02:09:19 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42123)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jVrgz-0005Z0-Nt
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 03:08:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVqlY-0005Ov-K6
- for qemu-devel@nongnu.org; Tue, 05 May 2020 02:09:17 -0400
-Received: by mail-wr1-x442.google.com with SMTP id s8so1168127wrt.9
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 23:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CDEp2z/v9D7LWMa0Jk3xE0IKu16qa/IJSWCiRZGLkkw=;
- b=EkwKj3qvwJyiHbbYoviODBOKnqlCxSZF3r2EpgmA061/dfutcKchlOJUHFnMU8+Xun
- T+R0gE2+ZiJ4+3pnCYqmjeyxJje0tYtn7wFTArysPUcJH+6kuVYNaNVBy7HnT2xRYqR/
- iEGB1/+iCxVXfDVn2QnzQ6hviEgWYBIQ8UHVfK8oWQOlyI/kgv2HSw8c0OxdxJDR/PkX
- MDzkBCWjs49mgjNrUauNXAtYtcGLTvYqRSxluVOxZ4yhmLr1YAmBx0QiZIzzowW9O67X
- 5sOUbbmN+7UPE7SL2NCTl/omSMoICMy7DL9bLEjvLR6aDzO88/wj0fJDOwmt4bnUeo5A
- qPMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CDEp2z/v9D7LWMa0Jk3xE0IKu16qa/IJSWCiRZGLkkw=;
- b=cooH97bfj5SsPuzROgxQhB+E72l0r/Gs9JUcKzCqjUaTr39GJCWo2KBB+MP/yrBlQ1
- gEklam9LdIqQLflgTID1dqYaBxOmbCVARyC8z6nmJb2TVO1v6y5x5r6Zxv9VAzjqOoyJ
- 0FYuil/kXk5/zefyFyCCmWabRLHAn19H+HfImJR95Pl0V6R24/f/x8n3iQ0LZujWyBzx
- ZGWAQaxj3En3mKdQV7un8lNKoWrY8G7n100RG1QJ1ZGxadyx2P/koLSS7kboNJ8ZcCp7
- vvo0xTMUEkjP77gC8oOjwMJfkrd/Y/V0PtTR/jHr1nxm8uFY43OAs1E5yJhelwrjQmFb
- lM/w==
-X-Gm-Message-State: AGi0PuYhtf1Mwj3nkT4NKZMCVQE4X+v5T29TmfzioC+Yls1JJuWXu0mg
- +G6mFo1WqzfHJhZBzuU5cK8=
-X-Google-Smtp-Source: APiQypLAth7HhIt/tyNhQCBxIRfx1x1xjYOCk/kSTrh+Yp/HWQ2wxfIZB/Ww1X4oS2y/jygqIi9KcQ==
-X-Received: by 2002:a5d:6cce:: with SMTP id c14mr1630736wrc.424.1588658954961; 
- Mon, 04 May 2020 23:09:14 -0700 (PDT)
-Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id j11sm1335258wrr.62.2020.05.04.23.09.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 23:09:13 -0700 (PDT)
-Subject: Re: [PATCH v3 3/3] target/arm: Use clear_vec_high more effectively
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200504192344.13404-1-richard.henderson@linaro.org>
- <20200504192344.13404-4-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <aaa3d497-3c54-9acf-7ef1-fc47bd9d699d@amsat.org>
-Date: Tue, 5 May 2020 08:09:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jVrgy-0001Qe-NI
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 03:08:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jVrgw-0006rL-7v
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 07:08:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3AE952E80BA
+ for <qemu-devel@nongnu.org>; Tue,  5 May 2020 07:08:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200504192344.13404-4-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 05 May 2020 06:15:37 -0000
+From: Ike Panhc <ike.pan@canonical.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=kunpeng920; status=Incomplete; importance=Undecided; 
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Medium; assignee=rafaeldtinoco@ubuntu.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+ component=main; status=Incomplete; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+ component=main; status=Incomplete; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+ component=main; status=Incomplete; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
+ component=main; status=Incomplete; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug-Tags: ikeradar patch qemu-img
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-cloke dannf ikepanhc iveskim jan-glauber-i
+ jnsnow kongzizaixian lizhengui rafaeldtinoco
+ ying-fang
+X-Launchpad-Bug-Reporter: dann frazier (dannf)
+X-Launchpad-Bug-Modifier: Ike Panhc (ikepanhc)
+References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
+Message-Id: <158865933778.4932.17603110086791854104.malone@soybean.canonical.com>
+Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
+ Aarch64 when converting images
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 492d9b2a0e054f342b11f8bd6c240032dae742af
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:02:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,196 +91,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 9:23 PM, Richard Henderson wrote:
-> Do not explicitly store zero to the NEON high part
-> when we can pass !is_q to clear_vec_high.
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+Thanks. I will test it.
 
-Patch easier to review with 'git-diff --function-context'.
+-- =
 
->   target/arm/translate-a64.c | 59 +++++++++++++++++++++++---------------
->   1 file changed, 36 insertions(+), 23 deletions(-)
-> 
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index 729e746e25..d1c9150c4f 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -939,11 +939,10 @@ static void do_fp_ld(DisasContext *s, int destidx, TCGv_i64 tcg_addr, int size)
->   {
->       /* This always zero-extends and writes to a full 128 bit wide vector */
->       TCGv_i64 tmplo = tcg_temp_new_i64();
-> -    TCGv_i64 tmphi;
-> +    TCGv_i64 tmphi = NULL;
->   
->       if (size < 4) {
->           MemOp memop = s->be_data + size;
-> -        tmphi = tcg_const_i64(0);
->           tcg_gen_qemu_ld_i64(tmplo, tcg_addr, get_mem_index(s), memop);
->       } else {
->           bool be = s->be_data == MO_BE;
-> @@ -961,12 +960,13 @@ static void do_fp_ld(DisasContext *s, int destidx, TCGv_i64 tcg_addr, int size)
->       }
->   
->       tcg_gen_st_i64(tmplo, cpu_env, fp_reg_offset(s, destidx, MO_64));
-> -    tcg_gen_st_i64(tmphi, cpu_env, fp_reg_hi_offset(s, destidx));
-> -
->       tcg_temp_free_i64(tmplo);
-> -    tcg_temp_free_i64(tmphi);
->   
-> -    clear_vec_high(s, true, destidx);
-> +    if (tmphi) {
-> +        tcg_gen_st_i64(tmphi, cpu_env, fp_reg_hi_offset(s, destidx));
-> +        tcg_temp_free_i64(tmphi);
-> +    }
-> +    clear_vec_high(s, tmphi != NULL, destidx);
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1805256
 
-OK.
+Title:
+  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
+  converting images
 
->   }
->   
->   /*
-> @@ -6960,8 +6960,8 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
->           return;
->       }
->   
-> -    tcg_resh = tcg_temp_new_i64();
->       tcg_resl = tcg_temp_new_i64();
-> +    tcg_resh = NULL;
->   
->       /* Vd gets bits starting at pos bits into Vm:Vn. This is
->        * either extracting 128 bits from a 128:128 concatenation, or
-> @@ -6973,7 +6973,6 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
->               read_vec_element(s, tcg_resh, rm, 0, MO_64);
+Status in kunpeng920:
+  Incomplete
+Status in QEMU:
+  In Progress
+Status in qemu package in Ubuntu:
+  Incomplete
+Status in qemu source package in Bionic:
+  Incomplete
+Status in qemu source package in Disco:
+  Incomplete
+Status in qemu source package in Eoan:
+  Incomplete
+Status in qemu source package in Focal:
+  Incomplete
 
-                            but then ^^^^^^^^ tcg_resh is NULL...
+Bug description:
+  Command:
 
->               do_ext64(s, tcg_resh, tcg_resl, pos);
->           }
-> -        tcg_gen_movi_i64(tcg_resh, 0);
->       } else {
->           TCGv_i64 tcg_hh;
->           typedef struct {
-> @@ -6988,6 +6987,7 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
->               pos -= 64;
->           }
->   
-> +        tcg_resh = tcg_temp_new_i64();
->           read_vec_element(s, tcg_resl, elt->reg, elt->elt, MO_64);
->           elt++;
->           read_vec_element(s, tcg_resh, elt->reg, elt->elt, MO_64);
-> @@ -7003,9 +7003,12 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
->   
->       write_vec_element(s, tcg_resl, rd, 0, MO_64);
->       tcg_temp_free_i64(tcg_resl);
-> -    write_vec_element(s, tcg_resh, rd, 1, MO_64);
-> -    tcg_temp_free_i64(tcg_resh);
-> -    clear_vec_high(s, true, rd);
-> +
-> +    if (is_q) {
-> +        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-> +        tcg_temp_free_i64(tcg_resh);
-> +    }
-> +    clear_vec_high(s, is_q, rd);
->   }
->   
->   /* TBL/TBX
-> @@ -7042,17 +7045,21 @@ static void disas_simd_tb(DisasContext *s, uint32_t insn)
->        * the input.
->        */
->       tcg_resl = tcg_temp_new_i64();
-> -    tcg_resh = tcg_temp_new_i64();
-> +    tcg_resh = NULL;
->   
->       if (is_tblx) {
->           read_vec_element(s, tcg_resl, rd, 0, MO_64);
->       } else {
->           tcg_gen_movi_i64(tcg_resl, 0);
->       }
-> -    if (is_tblx && is_q) {
-> -        read_vec_element(s, tcg_resh, rd, 1, MO_64);
-> -    } else {
-> -        tcg_gen_movi_i64(tcg_resh, 0);
-> +
-> +    if (is_q) {
-> +        tcg_resh = tcg_temp_new_i64();
-> +        if (is_tblx) {
-> +            read_vec_element(s, tcg_resh, rd, 1, MO_64);
-> +        } else {
-> +            tcg_gen_movi_i64(tcg_resh, 0);
-> +        }
->       }
->   
->       tcg_idx = tcg_temp_new_i64();
-> @@ -7072,9 +7079,12 @@ static void disas_simd_tb(DisasContext *s, uint32_t insn)
->   
->       write_vec_element(s, tcg_resl, rd, 0, MO_64);
->       tcg_temp_free_i64(tcg_resl);
-> -    write_vec_element(s, tcg_resh, rd, 1, MO_64);
-> -    tcg_temp_free_i64(tcg_resh);
-> -    clear_vec_high(s, true, rd);
-> +
-> +    if (is_q) {
-> +        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-> +        tcg_temp_free_i64(tcg_resh);
-> +    }
-> +    clear_vec_high(s, is_q, rd);
+  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
 
-OK.
+  Hangs indefinitely approximately 30% of the runs.
 
->   }
->   
->   /* ZIP/UZP/TRN
-> @@ -7111,7 +7121,7 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
->       }
->   
->       tcg_resl = tcg_const_i64(0);
-> -    tcg_resh = tcg_const_i64(0);
-> +    tcg_resh = is_q ? tcg_const_i64(0) : NULL;
->       tcg_res = tcg_temp_new_i64();
->   
->       for (i = 0; i < elements; i++) {
-> @@ -7162,9 +7172,12 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
+  ----
 
-More context:
+  Workaround:
 
-            ...
-            ofs = i * esize;
-            if (ofs < 64) {
-                tcg_gen_shli_i64(tcg_res, tcg_res, ofs);
-                tcg_gen_or_i64(tcg_resl, tcg_resl, tcg_res);
-            } else {
-                tcg_gen_shli_i64(tcg_res, tcg_res, ofs - 64);
-                tcg_gen_or_i64(tcg_resh, tcg_resh, tcg_res);
+  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
 
-                          here ^^^^^^^^ tcg_resh is NULL too.
+  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
 
-            }
-        }
+  ----
 
-        tcg_temp_free_i64(tcg_res);
+  (gdb) thread 1
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf1ad81c in __GI_ppoll
+  #1 0x0000aaaaaabcf73c in ppoll
+  #2 qemu_poll_ns
+  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
+  #4 main_loop_wait
+  ...
 
->   
->       write_vec_element(s, tcg_resl, rd, 0, MO_64);
->       tcg_temp_free_i64(tcg_resl);
-> -    write_vec_element(s, tcg_resh, rd, 1, MO_64);
-> -    tcg_temp_free_i64(tcg_resh);
-> -    clear_vec_high(s, true, rd);
-> +
-> +    if (is_q) {
-> +        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-> +        tcg_temp_free_i64(tcg_resh);
-> +    }
-> +    clear_vec_high(s, is_q, rd);
->   }
->   
->   /*
-> 
+  (gdb) thread 2
+  ...
+  (gdb) bt
+  #0 syscall ()
+  #1 0x0000aaaaaabd41cc in qemu_futex_wait
+  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
+  #3 0x0000aaaaaabed05c in call_rcu_thread
+  #4 0x0000aaaaaabd34c8 in qemu_thread_start
+  #5 0x0000ffffbf25c880 in start_thread
+  #6 0x0000ffffbf1b6b9c in thread_start ()
+
+  (gdb) thread 3
+  ...
+  (gdb) bt
+  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
+  #1 0x0000ffffbf2671b4 in __sigwait
+  #2 0x0000aaaaaabd1ddc in sigwait_compat
+  #3 0x0000aaaaaabd34c8 in qemu_thread_start
+  #4 0x0000ffffbf25c880 in start_thread
+  #5 0x0000ffffbf1b6b9c in thread_start
+
+  ----
+
+  (gdb) run
+  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
+  ./disk01.ext4.qcow2 ./output.qcow2
+
+  [New Thread 0xffffbec5ad90 (LWP 72839)]
+  [New Thread 0xffffbe459d90 (LWP 72840)]
+  [New Thread 0xffffbdb57d90 (LWP 72841)]
+  [New Thread 0xffffacac9d90 (LWP 72859)]
+  [New Thread 0xffffa7ffed90 (LWP 72860)]
+  [New Thread 0xffffa77fdd90 (LWP 72861)]
+  [New Thread 0xffffa6ffcd90 (LWP 72862)]
+  [New Thread 0xffffa67fbd90 (LWP 72863)]
+  [New Thread 0xffffa5ffad90 (LWP 72864)]
+
+  [Thread 0xffffa5ffad90 (LWP 72864) exited]
+  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
+  [Thread 0xffffa77fdd90 (LWP 72861) exited]
+  [Thread 0xffffbdb57d90 (LWP 72841) exited]
+  [Thread 0xffffa67fbd90 (LWP 72863) exited]
+  [Thread 0xffffacac9d90 (LWP 72859) exited]
+  [Thread 0xffffa7ffed90 (LWP 72860) exited]
+
+  <HUNG w/ 3 threads in the stack trace showed before>
+  """
+
+  All the tasks left are blocked in a system call, so no task left to call
+  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
+  thread #1 (doing poll() in a pipe with thread #2).
+
+  Those 7 threads exit before disk conversion is complete (sometimes in
+  the beginning, sometimes at the end).
+
+  ----
+
+  [ Original Description ]
+
+  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
+  frequently hangs (~50% of the time) with this command:
+
+  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
+
+  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
+  qcow2->qcow2 conversion happens to be something uvtool does every time
+  it fetches images.
+
+  Once hung, attaching gdb gives the following backtrace:
+
+  (gdb) bt
+  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
+274213760,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
+igmask=3D0xffffc123b950)
+  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
+  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
+ptimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
+linux-gnu/bits/poll2.h:77
+  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
+  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
+c:322
+  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
+  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
+  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
+  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
+g.c:1980
+  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
+img.c:2456
+  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
+-img.c:4975
+
+  Reproduced w/ latest QEMU git (@ 53744e0a182)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
 
