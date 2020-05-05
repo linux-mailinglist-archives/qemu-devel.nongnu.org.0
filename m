@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1011C56CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:27:21 +0200 (CEST)
-Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A601C570C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:34:25 +0200 (CEST)
+Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxbU-00072E-LU
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46274)
+	id 1jVxiK-0006K8-88
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:34:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVxaK-0005rp-JD
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:26:08 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34005)
+ id 1jVxaL-0005s1-Lt
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:26:09 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVxaJ-0001d0-R2
- for qemu-devel@nongnu.org; Tue, 05 May 2020 09:26:08 -0400
-Received: by mail-wr1-x442.google.com with SMTP id y3so2779594wrt.1
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:26:07 -0700 (PDT)
+ id 1jVxaK-0001l9-NP
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 09:26:09 -0400
+Received: by mail-wm1-x341.google.com with SMTP id k12so2288430wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 05 May 2020 06:26:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RhuigcuuuzfTeW4C8VTuUSwwtFMoBUgfBiSdaUwZ7yQ=;
- b=WpXkX2LEJ7wxUYSRQ4OJW/XYTJu1UZaGGWY11/CuRuI891phsxrmqi1kmb5whdZ8S/
- DkZI2/57JGs94O0ZjI3DJ3xixm9eeJfD24zExsbUMnS/isYolDPvjmWhS2DHnjElUa8P
- 1O6hfTJBnfjg76S9PTup74UquCKZh2Y7qwsTeTKwR9xg6SvpDWW8uHeMTjr6J/Oye6IR
- C0tStGrZta4XqHuWapn8vDgs5BEvgP381P8Hh8fgUDI26e/RydaKEQgRWvwEqjPExESY
- kEncaOpzypQqfVZLJaoSXR2BCacont6hOTcAj5cJOV+I9SltRjzsvf+Z1NsY/UFyMKP8
- erDg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oqvwShux9LDNmahM4qg2/vpiuCh8jcL3zHNsGjzvE7U=;
+ b=N6yIwQowLQUHtdJt/xYFpn9ccEoNmRmI8q6vcIqGCq1RteQJk+fXlXmVrSeFR54UZD
+ BJ9kTUbpk+YhCR06/SBp+smklA894p6XqOyGvp3JDrrLS9Gib9nb5lDsSaCpwYuQs2sk
+ yEUHaRdXdnKW5hxz7qETI+iIxjhSF9sKwpCWDThJbBSaFB7Acksk0dK8odHCn8tbOyVd
+ H1Ar3dby52L00NUwf4IOCi2AQo8veeASqxsz/GoVOVjJ8c8CMIa1sIVGp/CLVmayQK5Y
+ beQ2LmXzk/1s3mpjwwjo/ySb9opfQlEjbtTbeR1ndahqKVTttHcHluPZyM9Nuv+y84mH
+ yn8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=RhuigcuuuzfTeW4C8VTuUSwwtFMoBUgfBiSdaUwZ7yQ=;
- b=hi4UR67oZ/Zpuxey+Op5U2tH93whCa8FiHebmzWfYSH0gr0mi+N3o/Slr+DYuEDR74
- PqXkEDCGaFZG1tQQ2TKRq6tlawtLsnPNiiAci0E0C0JgQrrRlDDJRolj8zuWfvD0fAXT
- /NM5Ri/avMVg4RG0YzFmLHsfWFvFRYoEzphxTzQTf/tPF4dSeUM253YjBJLBsnoW0GRX
- XAw4s2PvlxL8CavvgqJSYLFxCVDXPmVCe2Y0zBa+PmpvvhEcZ+01aYuJUWD1NiBVoruj
- ERQOK5+I+AgNQiBMV3eRFHJQ0MoBd8WfONOBdTWXff3rYtqmVDa2Q+BE9UGwzZPClu7d
- idog==
-X-Gm-Message-State: AGi0PubDTiizn/9SZVR0pW3zRD17tW9M01kh1GxrG7DBwr/U/MSfXWcM
- E0FOZJroidoG6siDR76o9byGD12l
-X-Google-Smtp-Source: APiQypLIjHnZGPef5V3czX4sg0JOtFb+fQ5w4QCiCQh0OJBJAHyu45R97dq4N1eOuVroeTdiNs6SNQ==
-X-Received: by 2002:adf:9793:: with SMTP id s19mr3446251wrb.147.1588685165704; 
- Tue, 05 May 2020 06:26:05 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=oqvwShux9LDNmahM4qg2/vpiuCh8jcL3zHNsGjzvE7U=;
+ b=uhfC2lrqmsLfyyapkxvGL+niWLuePrVYD+PMH4Ngf8MDibcFVS3icMOSSi4sMt/xMx
+ izZtyu6QKM3nrM17GRLOxHlcbhvNQc08RYF3ISDSjYqo9wifjnF2VhjI1eCc8/JvRPCX
+ SPWne20e0IM9mDRddTMZVkhoV5unpuh2NIFKnS0wsR9Dq84nxzmW//SN523zhQXgbyoa
+ ocO1bbMYlhBMx9tsTUy3S/JFSGKBTYrLdQjJ15fTFK+Gl0b/4SWKwZo+hPcfNg1i2C3N
+ u9ujLd5slGU43rZZECVUoMhkN0754XJhzh9z5AQF2dNWc55t2X9EDYC9Ton65cgmy9Se
+ J8Ng==
+X-Gm-Message-State: AGi0PuauULJi92RKU9kbkBhTlFRzkUFLG3JjIxS+D94F4JBoZp9N8IHW
+ LR6qI23cjhEY+J5OsUXYVf81u+HG
+X-Google-Smtp-Source: APiQypJnNx2njHHEiZuDoGYrdLC8jwzQ8cx+QCP55qWw/MbJEND6BnjGhDc7w82/K48EFOZntt6YbA==
+X-Received: by 2002:a05:600c:2255:: with SMTP id
+ a21mr3548134wmm.150.1588685166817; 
+ Tue, 05 May 2020 06:26:06 -0700 (PDT)
 Received: from x1w.redhat.com (26.red-88-21-207.staticip.rima-tde.net.
  [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id n6sm3427424wrs.81.2020.05.05.06.26.04
+ by smtp.gmail.com with ESMTPSA id n6sm3427424wrs.81.2020.05.05.06.26.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 May 2020 06:26:04 -0700 (PDT)
+ Tue, 05 May 2020 06:26:06 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] audio: Spring cleaning
-Date: Tue,  5 May 2020 15:25:56 +0200
-Message-Id: <20200505132603.8575-1-f4bug@amsat.org>
+Subject: [PATCH 1/7] audio: Let audio_sample_to_uint64() use const samples
+ argument
+Date: Tue,  5 May 2020 15:25:57 +0200
+Message-Id: <20200505132603.8575-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200505132603.8575-1-f4bug@amsat.org>
+References: <20200505132603.8575-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,44 +97,45 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cleaning old branches, salvaging what seems worthwhile...
-This series is from the time I wanted cleaner buffer handling
-to avoid abuses, started with chardev/ but got lost with reviews.
-audio/ is smaller, so easier.
+The samples are the input to convert to u64. As we should
+not modify them, mark the argument const.
 
-- Convert various prototypes to use const buffers
-- Expose 'audio/audio.h' via public include directory.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ audio/audio.h  | 2 +-
+ audio/mixeng.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Philippe Mathieu-Daudé (7):
-  audio: Let audio_sample_to_uint64() use const samples argument
-  audio: Let capture_callback handler use const buffer argument
-  audio: Move advance() helper to 'audio_int.h'
-  audio: Split advance() helper as in() and out()
-  audio: Let HWVoice write() handlers take a const buffer
-  audio: Let AUD_write() use a const buffer argument
-  audio: Expose 'audio/audio.h' under the include/ directory
-
- audio/audio_int.h                | 25 +++++++++++++++++++------
- {audio => include/audio}/audio.h | 14 ++++----------
- audio/alsaaudio.c                |  8 ++++----
- audio/audio.c                    | 19 ++++++++++---------
- audio/audio_legacy.c             |  2 +-
- audio/audio_win_int.c            |  2 +-
- audio/coreaudio.c                |  7 ++++---
- audio/dsoundaudio.c              |  4 ++--
- audio/mixeng.c                   |  6 +++---
- audio/noaudio.c                  |  4 ++--
- audio/ossaudio.c                 | 10 +++++-----
- audio/paaudio.c                  |  6 +++---
- audio/sdlaudio.c                 |  8 +++++---
- audio/spiceaudio.c               |  4 ++--
- audio/wavaudio.c                 |  4 ++--
- audio/wavcapture.c               |  4 ++--
- ui/vnc.c                         |  2 +-
- MAINTAINERS                      |  1 +
- 18 files changed, 71 insertions(+), 59 deletions(-)
- rename {audio => include/audio}/audio.h (95%)
-
+diff --git a/audio/audio.h b/audio/audio.h
+index 0db3c7dd5e..f27a12298f 100644
+--- a/audio/audio.h
++++ b/audio/audio.h
+@@ -163,7 +163,7 @@ int wav_start_capture(AudioState *state, CaptureState *s, const char *path,
+ bool audio_is_cleaning_up(void);
+ void audio_cleanup(void);
+ 
+-void audio_sample_to_uint64(void *samples, int pos,
++void audio_sample_to_uint64(const void *samples, int pos,
+                             uint64_t *left, uint64_t *right);
+ void audio_sample_from_uint64(void *samples, int pos,
+                             uint64_t left, uint64_t right);
+diff --git a/audio/mixeng.c b/audio/mixeng.c
+index 739a500449..75f000e49f 100644
+--- a/audio/mixeng.c
++++ b/audio/mixeng.c
+@@ -338,10 +338,10 @@ f_sample *mixeng_clip_float[2] = {
+     clip_natural_float_from_stereo,
+ };
+ 
+-void audio_sample_to_uint64(void *samples, int pos,
++void audio_sample_to_uint64(const void *samples, int pos,
+                             uint64_t *left, uint64_t *right)
+ {
+-    struct st_sample *sample = samples;
++    const struct st_sample *sample = samples;
+     sample += pos;
+ #ifdef FLOAT_MIXENG
+     error_report(
 -- 
 2.21.3
 
