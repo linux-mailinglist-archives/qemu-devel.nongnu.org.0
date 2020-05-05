@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56781C5C40
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:45:55 +0200 (CEST)
-Received: from localhost ([::1]:60842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3F91C5B80
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:35:36 +0200 (CEST)
+Received: from localhost ([::1]:56500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVzla-0006B4-Ml
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46032)
+	id 1jVzbb-0000iI-01
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:35:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVu-0003Tp-NR
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:42 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60165
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVp-0003Lq-MF
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:37 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26883
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVp-0007VY-8s
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:41 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVl-0007Qk-Kq
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588692576;
+ s=mimecast20190719; t=1588692572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sZXFtlUJilR+Fg2pc8i1e5FuQYdjyR/PnHfZpdXP6U8=;
- b=T2QIO6OgXWJSFEQ97GvKHdPqXDtEhBSco+V83j5oUK0L+j01Caym1VX6zJTPx99y6rRGeU
- M/ceLcq9hF+xe6q5FmxKNhG59wF/MN7pjLht3LIkdDtU9FZGh7jJ8QA+a1/VtEHa8LEqQD
- NSmjMP1SDKmZdIHhsJRulO39PDMg1nA=
+ bh=/KTY1YJwO4io6kj73OhAeYOH0wTKz3YRUEyHY+Q3lGM=;
+ b=YTIevjcM8c5yHWF/93tnCiih4mygP069mqN02DVqrOMVM5fVWA6OhD3VBggr7FlYM2tbx0
+ HIjEVbAaonU0BR8o2/7q0q2hNw8bQZXVz5yASYErGOGOvSUHiey2UJ723emKwkjXkyoBhw
+ ZxQWuQGSEg0Mt1ztt873vLWzxkaOmYE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-BGqJFzFWOOOTBOJmzw8KZA-1; Tue, 05 May 2020 11:29:30 -0400
-X-MC-Unique: BGqJFzFWOOOTBOJmzw8KZA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-335-nXEETCDnO9mp4KZrMeNo6w-1; Tue, 05 May 2020 11:29:30 -0400
+X-MC-Unique: nXEETCDnO9mp4KZrMeNo6w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8983F800687;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E522107ACF4;
  Tue,  5 May 2020 15:29:29 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5158562482;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 68CB35C1BD;
  Tue,  5 May 2020 15:29:29 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5576611358C8; Tue,  5 May 2020 17:29:26 +0200 (CEST)
+ id 58C3D11358CA; Tue,  5 May 2020 17:29:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/18] hw/arm/bcm2835: Drop futile attempts at QOM-adopting
- memory
-Date: Tue,  5 May 2020 17:29:20 +0200
-Message-Id: <20200505152926.18877-13-armbru@redhat.com>
+Subject: [PATCH v2 13/18] qdev: Clean up qdev_connect_gpio_out_named()
+Date: Tue,  5 May 2020 17:29:21 +0200
+Message-Id: <20200505152926.18877-14-armbru@redhat.com>
 In-Reply-To: <20200505152926.18877-1-armbru@redhat.com>
 References: <20200505152926.18877-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
@@ -80,53 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, berrange@redhat.com,
- ehabkost@redhat.com, philmd@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
- pbonzini@redhat.com
+Cc: Peter Crosthwaite <peter.crosthwaite@xilinx.com>, berrange@redhat.com,
+ ehabkost@redhat.com, philmd@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "bcm2835-peripherals" device's .instance_init() method
-bcm2835_peripherals_init() attempts to make two memory regions QOM
-children of the device.  This is futile, because memory_region_init()
-already did.  The errors are ignored (a later commit will change
-that).  Drop the useless calls.
+Both qdev_connect_gpio_out_named() and device_set_realized() put
+objects without a parent into the "/machine/unattached/" orphanage.
 
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
-Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
-Cc: qemu-arm@nongnu.org
+qdev_connect_gpio_out_named() needs a lengthy comment to explain how
+it works.  It exploits that object_property_add_child() can fail only
+when we got a parent already, and ignoring that error does what we
+want.  True.  If it failed due to "duplicate property", we'd be in
+trouble, but that would be a programming error.
+
+device_set_realized() is cleaner: it checks whether we need a parent,
+then calls object_property_add_child(), aborting on failure.  No need
+for a comment, and programming errors get caught.
+
+Change qdev_connect_gpio_out_named() to match.
+
+Cc: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/arm/bcm2835_peripherals.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/core/qdev.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index edcaa4916d..8b399d67ff 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -43,12 +43,10 @@ static void bcm2835_peripherals_init(Object *obj)
-=20
-     /* Memory region for peripheral devices, which we export to our parent=
- */
-     memory_region_init(&s->peri_mr, obj,"bcm2835-peripherals", 0x1000000);
--    object_property_add_child(obj, "peripheral-io", OBJECT(&s->peri_mr), N=
-ULL);
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->peri_mr);
-=20
-     /* Internal memory region for peripheral bus addresses (not exported) =
-*/
-     memory_region_init(&s->gpu_bus_mr, obj, "bcm2835-gpu", (uint64_t)1 << =
-32);
--    object_property_add_child(obj, "gpu-bus", OBJECT(&s->gpu_bus_mr), NULL=
-);
-=20
-     /* Internal memory region for request/response communication with
-      * mailbox-addressable peripherals (not exported)
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index ea7118ab0e..2e6c29ba78 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -542,15 +542,12 @@ void qdev_connect_gpio_out_named(DeviceState *dev, co=
+nst char *name, int n,
+ {
+     char *propname =3D g_strdup_printf("%s[%d]",
+                                      name ? name : "unnamed-gpio-out", n);
+-    if (pin) {
+-        /* We need a name for object_property_set_link to work.  If the
+-         * object has a parent, object_property_add_child will come back
+-         * with an error without doing anything.  If it has none, it will
+-         * never fail.  So we can just call it with a NULL Error pointer.
+-         */
++    if (pin && !OBJECT(pin)->parent) {
++        /* We need a name for object_property_set_link to work */
+         object_property_add_child(container_get(qdev_get_machine(),
+                                                 "/unattached"),
+-                                  "non-qdev-gpio[*]", OBJECT(pin), NULL);
++                                  "non-qdev-gpio[*]", OBJECT(pin),
++                                  &error_abort);
+     }
+     object_property_set_link(OBJECT(dev), OBJECT(pin), propname, &error_ab=
+ort);
+     g_free(propname);
 --=20
 2.21.1
 
