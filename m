@@ -2,89 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F371C5630
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:04:42 +0200 (CEST)
-Received: from localhost ([::1]:43690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B0B1C5633
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:05:00 +0200 (CEST)
+Received: from localhost ([::1]:45274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxFZ-0000Tv-EK
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:04:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38562)
+	id 1jVxFr-00017N-2W
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:04:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1jVx9I-00084k-BC; Tue, 05 May 2020 08:58:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1jVx9H-0000ck-8n; Tue, 05 May 2020 08:58:12 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 045CYn2D098946; Tue, 5 May 2020 08:58:09 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30s28ga09x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 08:58:09 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 045CmGxF137619;
- Tue, 5 May 2020 08:58:08 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30s28ga05v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 08:58:08 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 045CttJx011482;
- Tue, 5 May 2020 12:58:00 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 30s0g5pya7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 May 2020 12:58:00 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 045CumTF63177132
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 May 2020 12:56:48 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CB7E1A4055;
- Tue,  5 May 2020 12:57:57 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B45CDA405B;
- Tue,  5 May 2020 12:57:57 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Tue,  5 May 2020 12:57:57 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
- id 2352DE092D; Tue,  5 May 2020 14:57:57 +0200 (CEST)
-From: Eric Farman <farman@linux.ibm.com>
-To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v4 6/6] vfio-ccw: Add support for the CRW region and IRQ
-Date: Tue,  5 May 2020 14:57:57 +0200
-Message-Id: <20200505125757.98209-7-farman@linux.ibm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200505125757.98209-1-farman@linux.ibm.com>
-References: <20200505125757.98209-1-farman@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
- definitions=2020-05-05_07:2020-05-04,
- 2020-05-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=2
- impostorscore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501
- mlxscore=0 malwarescore=0 bulkscore=0 adultscore=0 mlxlogscore=999
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005050098
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 08:42:20
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVx9r-00019H-7B
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:58:47 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47329
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVx9q-0000l3-54
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:58:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588683525;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gkvgUElP7UESnDi+s7292BJabMns1afDGA4Z3NlhtCk=;
+ b=CMtSFjBbO9JjNYEdoYxPsmZnBxejkTFBcMkvorD/Q+uUoApVDusaweGc0wJz76FV6TXTrP
+ lQhU5+rLWjjIaIuTg+jwR69OFYOSVeCX1yNW016BCtsYn9dmyC+OejITyylLvXtdxquXjJ
+ RhwgjH78pXU414zVbHpocDdAHf2vjog=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-lX3r4-_CMOqDPuHoemsS1A-1; Tue, 05 May 2020 08:58:29 -0400
+X-MC-Unique: lX3r4-_CMOqDPuHoemsS1A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 633C5107ACCA;
+ Tue,  5 May 2020 12:58:28 +0000 (UTC)
+Received: from localhost (ovpn-113-206.ams2.redhat.com [10.36.113.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0676B63F97;
+ Tue,  5 May 2020 12:58:27 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/24] Block patches
+Date: Tue,  5 May 2020 14:58:02 +0200
+Message-Id: <20200505125826.1001451-1-mreitz@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,191 +74,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Jared Rossi <jrossi@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Farhan Ali <alifm@linux.ibm.com>
+The following changes since commit 5375af3cd7b8adcc10c18d8083b7be63976c9645=
+:
 
-The crw region can be used to obtain information about
-Channel Report Words (CRW) from vfio-ccw driver.
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging=
+ (2020-05-04 15:51:09 +0100)
 
-Currently only channel-path related CRWs are passed to
-QEMU from vfio-ccw driver.
+are available in the Git repository at:
 
-Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
-Signed-off-by: Eric Farman <farman@linux.ibm.com>
----
+  https://github.com/XanClic/qemu.git tags/pull-block-2020-05-05
 
-Notes:
-    v3->v4:
-     - Merge region patch into IRQ patch [CH]
-     - Rework the testing/clearing notifier and reading region [CH]
-    
-    v2->v3:
-     - Remove "size==0" check in CRW notifier [CH]
-     - Remove intermediate rsc/erc variables, use css_queue_crw_cont() [CH]
-     - s/crw0/crw/ [CH]
-    
-    v1->v2:
-     - Add a loop to continually read region while data is
-       present, queueing CRWs as found [CH]
-    
-    v0->v1: [EF]
-     - Fixed copy/paste error in error message (s/schib/CRW)
-     - Check vcdev->crw_region before registering the irq,
-       in case host kernel does not have matching support
-     - Split the refactoring changes to an earlier (new) patch
-       (and don't remove the "num_irqs" check in the register
-       routine, but adjust it to the check the input variable)
-     - Don't revert the cool vfio_set_irq_signaling() stuff
-     - Unregister CRW IRQ before IO IRQ in unrealize
-     - s/crw1/crw0/
+for you to fetch changes up to 4ce5dd3e9b5ee0fac18625860eb3727399ee965e:
 
- hw/vfio/ccw.c | 73 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
+  block/block-copy: use aio-task-pool API (2020-05-05 14:03:28 +0200)
 
-diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-index 3ca2d83a30..5b620f97c3 100644
---- a/hw/vfio/ccw.c
-+++ b/hw/vfio/ccw.c
-@@ -44,7 +44,11 @@ struct VFIOCCWDevice {
-     uint64_t schib_region_size;
-     uint64_t schib_region_offset;
-     struct ccw_schib_region *schib_region;
-+    uint64_t crw_region_size;
-+    uint64_t crw_region_offset;
-+    struct ccw_crw_region *crw_region;
-     EventNotifier io_notifier;
-+    EventNotifier crw_notifier;
-     bool force_orb_pfch;
-     bool warned_orb_pfch;
- };
-@@ -261,6 +265,44 @@ static void vfio_ccw_reset(DeviceState *dev)
-     ioctl(vcdev->vdev.fd, VFIO_DEVICE_RESET);
- }
- 
-+static void vfio_ccw_crw_read(VFIOCCWDevice *vcdev)
-+{
-+    struct ccw_crw_region *region = vcdev->crw_region;
-+    CRW crw;
-+    int size;
-+
-+    /* Keep reading CRWs as long as data is returned */
-+    do {
-+        memset(region, 0, sizeof(*region));
-+        size = pread(vcdev->vdev.fd, region, vcdev->crw_region_size,
-+                     vcdev->crw_region_offset);
-+
-+        if (size == -1) {
-+            error_report("vfio-ccw: Read crw region failed with errno=%d",
-+                         errno);
-+            break;
-+        }
-+
-+        if (region->crw == 0) {
-+            /* No more CRWs to queue */
-+            break;
-+        }
-+
-+        memcpy(&crw, &region->crw, sizeof(CRW));
-+
-+        css_crw_add_to_queue(crw);
-+    } while (1);
-+}
-+
-+static void vfio_ccw_crw_notifier_handler(void *opaque)
-+{
-+    VFIOCCWDevice *vcdev = opaque;
-+
-+    while (event_notifier_test_and_clear(&vcdev->crw_notifier)) {
-+        vfio_ccw_crw_read(vcdev);
-+    }
-+}
-+
- static void vfio_ccw_io_notifier_handler(void *opaque)
- {
-     VFIOCCWDevice *vcdev = opaque;
-@@ -347,6 +389,10 @@ static void vfio_ccw_register_irq_notifier(VFIOCCWDevice *vcdev,
-         notifier = &vcdev->io_notifier;
-         fd_read = vfio_ccw_io_notifier_handler;
-         break;
-+    case VFIO_CCW_CRW_IRQ_INDEX:
-+        notifier = &vcdev->crw_notifier;
-+        fd_read = vfio_ccw_crw_notifier_handler;
-+        break;
-     default:
-         error_setg(errp, "vfio: Unsupported device irq(%d)", irq);
-         return;
-@@ -398,6 +444,9 @@ static void vfio_ccw_unregister_irq_notifier(VFIOCCWDevice *vcdev,
-     case VFIO_CCW_IO_IRQ_INDEX:
-         notifier = &vcdev->io_notifier;
-         break;
-+    case VFIO_CCW_CRW_IRQ_INDEX:
-+        notifier = &vcdev->crw_notifier;
-+        break;
-     default:
-         error_report("vfio: Unsupported device irq(%d)", irq);
-         return;
-@@ -475,10 +524,24 @@ static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
-         vcdev->schib_region = g_malloc(info->size);
-     }
- 
-+    ret = vfio_get_dev_region_info(vdev, VFIO_REGION_TYPE_CCW,
-+                                   VFIO_REGION_SUBTYPE_CCW_CRW, &info);
-+
-+    if (!ret) {
-+        vcdev->crw_region_size = info->size;
-+        if (sizeof(*vcdev->crw_region) != vcdev->crw_region_size) {
-+            error_setg(errp, "vfio: Unexpected size of the CRW region");
-+            goto out_err;
-+        }
-+        vcdev->crw_region_offset = info->offset;
-+        vcdev->crw_region = g_malloc(info->size);
-+    }
-+
-     g_free(info);
-     return;
- 
- out_err:
-+    g_free(vcdev->crw_region);
-     g_free(vcdev->schib_region);
-     g_free(vcdev->async_cmd_region);
-     g_free(vcdev->io_region);
-@@ -488,6 +551,7 @@ out_err:
- 
- static void vfio_ccw_put_region(VFIOCCWDevice *vcdev)
- {
-+    g_free(vcdev->crw_region);
-     g_free(vcdev->schib_region);
-     g_free(vcdev->async_cmd_region);
-     g_free(vcdev->io_region);
-@@ -603,6 +667,14 @@ static void vfio_ccw_realize(DeviceState *dev, Error **errp)
-         goto out_notifier_err;
-     }
- 
-+    if (vcdev->crw_region) {
-+        vfio_ccw_register_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX, &err);
-+        if (err) {
-+            vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
-+            goto out_notifier_err;
-+        }
-+    }
-+
-     return;
- 
- out_notifier_err:
-@@ -627,6 +699,7 @@ static void vfio_ccw_unrealize(DeviceState *dev, Error **errp)
-     S390CCWDeviceClass *cdc = S390_CCW_DEVICE_GET_CLASS(cdev);
-     VFIOGroup *group = vcdev->vdev.group;
- 
-+    vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_CRW_IRQ_INDEX);
-     vfio_ccw_unregister_irq_notifier(vcdev, VFIO_CCW_IO_IRQ_INDEX);
-     vfio_ccw_put_region(vcdev);
-     vfio_ccw_put_device(vcdev);
--- 
-2.17.1
+----------------------------------------------------------------
+Block patches:
+- Asynchronous copying for block-copy (i.e., the backup job)
+- Allow resizing of qcow2 images when they have internal snapshots
+- iotests: Logging improvements for Python tests
+- iotest 153 fix, and block comment cleanups
+
+----------------------------------------------------------------
+Eric Blake (4):
+  block: Add blk_new_with_bs() helper
+  qcow2: Allow resize of images with internal snapshots
+  qcow2: Tweak comment about bitmaps vs. resize
+  block: Comment cleanups
+
+John Snow (14):
+  iotests: do a light delinting
+  iotests: don't use 'format' for drive_add
+  iotests: ignore import warnings from pylint
+  iotests: replace mutable list default args
+  iotests: add pylintrc file
+  iotests: alphabetize standard imports
+  iotests: drop pre-Python 3.4 compatibility code
+  iotests: touch up log function signature
+  iotests: limit line length to 79 chars
+  iotests: add hmp helper with logging
+  iotests: add script_initialize
+  iotest 258: use script_main
+  iotests: Mark verify functions as private
+  iotests: use python logging for iotests.log()
+
+Maxim Levitsky (1):
+  Fix iotest 153
+
+Vladimir Sementsov-Ogievskiy (5):
+  block/block-copy: rename in-flight requests to tasks
+  block/block-copy: alloc task on each iteration
+  block/block-copy: add state pointer to BlockCopyTask
+  block/block-copy: refactor task creation
+  block/block-copy: use aio-task-pool API
+
+ include/sysemu/block-backend.h |   2 +
+ block/block-backend.c          |  23 +++
+ block/block-copy.c             | 279 +++++++++++++++++--------
+ block/crypto.c                 |   9 +-
+ block/io.c                     |   3 +-
+ block/parallels.c              |   8 +-
+ block/qcow.c                   |   8 +-
+ block/qcow2-refcount.c         |   2 +-
+ block/qcow2-snapshot.c         |  20 +-
+ block/qcow2.c                  |  45 ++--
+ block/qed.c                    |   8 +-
+ block/sheepdog.c               |  10 +-
+ block/vdi.c                    |   8 +-
+ block/vhdx.c                   |   8 +-
+ block/vmdk.c                   |   9 +-
+ block/vpc.c                    |   8 +-
+ block/vvfat.c                  |  10 +-
+ blockdev.c                     |   8 +-
+ blockjob.c                     |   7 +-
+ tests/qemu-iotests/001         |   2 +-
+ tests/qemu-iotests/030         |   4 +-
+ tests/qemu-iotests/052         |   2 +-
+ tests/qemu-iotests/055         |   3 +-
+ tests/qemu-iotests/061         |  35 ++++
+ tests/qemu-iotests/061.out     |  28 +++
+ tests/qemu-iotests/134         |   2 +-
+ tests/qemu-iotests/149         |   3 +-
+ tests/qemu-iotests/153         |   2 +-
+ tests/qemu-iotests/153.out     |  12 +-
+ tests/qemu-iotests/155         |   2 +-
+ tests/qemu-iotests/188         |   2 +-
+ tests/qemu-iotests/194         |   4 +-
+ tests/qemu-iotests/202         |   4 +-
+ tests/qemu-iotests/203         |   4 +-
+ tests/qemu-iotests/206         |   2 +-
+ tests/qemu-iotests/207         |   6 +-
+ tests/qemu-iotests/208         |   2 +-
+ tests/qemu-iotests/209         |   2 +-
+ tests/qemu-iotests/210         |   6 +-
+ tests/qemu-iotests/211         |   6 +-
+ tests/qemu-iotests/212         |   6 +-
+ tests/qemu-iotests/213         |   6 +-
+ tests/qemu-iotests/216         |   4 +-
+ tests/qemu-iotests/218         |   2 +-
+ tests/qemu-iotests/219         |   2 +-
+ tests/qemu-iotests/222         |   7 +-
+ tests/qemu-iotests/224         |   4 +-
+ tests/qemu-iotests/228         |   6 +-
+ tests/qemu-iotests/234         |   4 +-
+ tests/qemu-iotests/235         |   4 +-
+ tests/qemu-iotests/236         |   2 +-
+ tests/qemu-iotests/237         |   2 +-
+ tests/qemu-iotests/238         |   2 +
+ tests/qemu-iotests/242         |   2 +-
+ tests/qemu-iotests/245         |   1 +
+ tests/qemu-iotests/245.out     |  10 +-
+ tests/qemu-iotests/246         |   2 +-
+ tests/qemu-iotests/248         |   2 +-
+ tests/qemu-iotests/254         |   2 +-
+ tests/qemu-iotests/255         |   2 +-
+ tests/qemu-iotests/256         |   2 +-
+ tests/qemu-iotests/258         |  10 +-
+ tests/qemu-iotests/260         |   4 +-
+ tests/qemu-iotests/262         |   4 +-
+ tests/qemu-iotests/264         |   4 +-
+ tests/qemu-iotests/274         |   4 +-
+ tests/qemu-iotests/277         |   2 +
+ tests/qemu-iotests/280         |   8 +-
+ tests/qemu-iotests/283         |   4 +-
+ tests/qemu-iotests/iotests.py  | 366 ++++++++++++++++++++-------------
+ tests/qemu-iotests/pylintrc    |  26 +++
+ 71 files changed, 728 insertions(+), 386 deletions(-)
+ create mode 100644 tests/qemu-iotests/pylintrc
+
+--=20
+2.26.2
 
 
