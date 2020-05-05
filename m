@@ -2,92 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03031C5DC9
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 18:44:21 +0200 (CEST)
-Received: from localhost ([::1]:59938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764B31C5F6B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 19:56:56 +0200 (CEST)
+Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jW0g8-0003Ou-QD
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 12:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60666)
+	id 1jW1oN-0007mY-FO
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 13:56:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jW0eP-0001Is-Tn
- for qemu-devel@nongnu.org; Tue, 05 May 2020 12:42:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41746
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jW0eO-0005ia-6F
- for qemu-devel@nongnu.org; Tue, 05 May 2020 12:42:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588696951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HdxysmLt6RfsYE8cEc7Kqfo7Njgp1XaZ2ijVO7BPlVQ=;
- b=JWwKbhz4ZSzn1v426dqICEfujDlbREjYzaKwww8D2hXt5UdkFuc+R2Mvf6nSj1htkrnXTw
- 1OXLobIjPU7u6MScSv5p1hNOB3JrrutGAdxqMAAIGjiCfPUPLJfarHVAsgeODlpl4MOYAy
- 6/rIW+RnA4vNJSmdSU3uviWWL42gddA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-bP168u_CNtGZjqHdPVqsVg-1; Tue, 05 May 2020 12:42:26 -0400
-X-MC-Unique: bP168u_CNtGZjqHdPVqsVg-1
-Received: by mail-wr1-f69.google.com with SMTP id v17so1494584wrq.8
- for <qemu-devel@nongnu.org>; Tue, 05 May 2020 09:42:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HdxysmLt6RfsYE8cEc7Kqfo7Njgp1XaZ2ijVO7BPlVQ=;
- b=aJZtDWD+pqTAr33Q1SvyOh4c8N3EEoaLvrZdOOt9myzXE3rxwx5/Q5zT/cKJ/22c2Y
- tTAB+zBHw59udBYuxTfxWG1AA/xvUREMpItoHleQiWAmEhwIHtj0+BZIQrvoBUjIkllO
- ki+9eD1eQ2i/WwWc4/jQV5I08IUAKNOZV5pkNX3YA0Gg4//CviBwIgm0yU0cIHZpbnOy
- bI8CkM7wx9qIRqLv9FHjyOui7AXwvf8bFImqHdL+z2Qa3PlU3nn+LYOEzC5MocPpqOHd
- 1RuKQIeYzNhsL53Nj0UqCTtb9ujtvEB9vGnmjqnH7EL0bnfG9TI7NwN3juMQsByoNVnb
- 6uaQ==
-X-Gm-Message-State: AGi0Puar4z7PK60zN0rH3MGJv6vpAS37rNwGiPBX7oyCTS4PvZmqD9SQ
- qt09Hyq/QjBJ45kHyW8uBycX83XCUoYMhWCUpem8KLw1H/N0o5Dj+1ffb+JeY8ZRhp6yWD651Y5
- MjH3ObGovQlJn/lU=
-X-Received: by 2002:adf:ea06:: with SMTP id q6mr3180884wrm.143.1588696945626; 
- Tue, 05 May 2020 09:42:25 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKWizLhGWPUgBEW0btMGm/Fu+lcg4MpHRpcGrIe4VyNJlFSE6iq/AvBXhfRrnytmX23RxkS9A==
-X-Received: by 2002:adf:ea06:: with SMTP id q6mr3180871wrm.143.1588696945421; 
- Tue, 05 May 2020 09:42:25 -0700 (PDT)
-Received: from [192.168.178.58] ([151.20.132.175])
- by smtp.gmail.com with ESMTPSA id a187sm4769751wmh.40.2020.05.05.09.42.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 May 2020 09:42:24 -0700 (PDT)
-Subject: Re: [PATCH v2 05/18] qom: Drop convenience method
- object_property_get_uint16List()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200505152926.18877-1-armbru@redhat.com>
- <20200505152926.18877-6-armbru@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9e7d4512-db46-d6fa-327d-994c401d233f@redhat.com>
-Date: Tue, 5 May 2020 18:42:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jW1Xr-000767-0i; Tue, 05 May 2020 13:39:51 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:39073)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jW1Xe-0008Qu-Uq; Tue, 05 May 2020 13:39:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=hI7khqv+PAioy6SOMVq2SOT9cEJFi4V9qI3Bt69JXDU=; 
+ b=binznVaKrJZMBiY8MhkZOnHC4f4tMlC0HJdCymAFQRLyOJIp6WdFn6hHocsul53UO9c5+G4pcD1FKhir5Zsl1Y4wBf9SuOBirHwd9u5CyuATpChSINpPVym9J5yTDvGV/G9KpwyULOcz4FMasCin+Th+PAT2WHNlA4PM1ehEsHtOLoYrJkH/HZEpmqO+TjxMuvzmo/bY19dCW/L8Qc/xG098l6Qnc8HgfciUWj25EfCTTIbB0jDGks30tKo9ru8aOK9rMIg176HnlXGFHFlXblRhjY0M6wFxrNLxKjGROD8fyY7N+9/PC9oseOO9l5648ohhLXeYcdLLolRc6EBzQw==;
+Received: from static.160.43.0.81.ibercom.com ([81.0.43.160]
+ helo=perseus.local) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1jW1Ws-00025G-D4; Tue, 05 May 2020 19:38:50 +0200
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1jW1Wc-00043W-CX; Tue, 05 May 2020 19:38:34 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/31] Add subcluster allocation to qcow2
+Date: Tue,  5 May 2020 19:38:00 +0200
+Message-Id: <cover.1588699789.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200505152926.18877-6-armbru@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 13:38:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,36 +59,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/20 17:29, Markus Armbruster wrote:
-> qom/object.c provides object_property_get_TYPE() and
-> object_property_set_TYPE() for a number of common types.  These are
-> all convenience wrappers around object_property_get_qobject() and
-> object_property_set_qobject().
-> 
-> Except for object_property_get_uint16List(), which is unusual in two ways:
-> 
-> * It bypasses object_property_get_qobject().  Fixable; the previous
->   commit did it for object_property_get_enum())
-> 
-> * It stores the value through a parameter.  Its contract claims it
->   returns the value, like the other functions do.  Also fixable.
-> 
-> Fixing is not worthwhile, though: object_property_get_uint16List() has
-> seen exactly one user in six years.
-> 
-> Convert the lone user to do its job with the generic
-> object_property_get_qobject(), and drop object_property_get_qobject().
+Hi,
 
-Typo, otherwise
+here's the new version of the patches to add subcluster allocation
+support to qcow2.
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Please refer to the cover letter of the first version for a full
+description of the patches:
 
-Paolo
+   https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Important changes here:
+
+- I fixed hopefully all of the issues mentioned in the previous
+  review. Thanks to everyone who contributed.
+
+- There's now support for partial zeroing of clusters (i.e. at the
+  subcluster level).
+
+- Many more tests.
+
+- QCOW_OFLAG_ZERO is simply ignored now and not considered a sign of a
+  corrupt image anymore. I hesitated about this, but we could still
+  add that check later. I think there's a case for adding a new
+  QCOW2_CLUSTER_INVALID type and include this and other scenarios that
+  we already consider corrupt (for example: clusters with unaligned
+  offsets). We would need to see if for 'qemu-img check' adding
+  QCOW2_CLUSTER_INVALID complicates things or not. But I think that
+  all is material for its own series.
+
+And I think that's all. See below for the detailed list of changes,
+and thanks again for the feedback.
+
+Berto
+
+v5:
+- Patch 01: Fix indentation [Max], add trace event [Vladimir]
+- Patch 02: Add host_cluster_offset variable [Vladirmir]
+- Patch 05: Have separate l2_entry and cluster_offset variables [Vladimir]
+- Patch 06: Only context changes due to patch 05
+- Patch 11: New patch
+- Patch 13: Change documentation of get_l2_entry()
+- Patch 14: Add QCOW_OFLAG_SUB_{ALLOC,ZERO}_RANGE [Eric] and rewrite
+            the other macros.
+            Ignore QCOW_OFLAG_ZERO on images with subclusters
+            (i.e. don't treat them as corrupted).
+- Patch 15: New patch
+- Patch 19: Optimize cow by skipping all leading and trailing zero and
+            unallocated subclusters [Vladimir]
+            Return 0 on success [Vladimir]
+            Squash patch that updated handle_dependencies() [Vladirmir]
+- Patch 20: Call count_contiguous_subclusters() after the main switch
+            in qcow2_get_host_offset() [Vladimir]
+            Add assertion and remove goto statement [Vladimir]
+- Patch 21: Rewrite algorithm.
+- Patch 22: Rewrite algorithm.
+- Patch 24: Replace loop with the _RANGE macros from patch 14 [Eric]
+- Patch 27: New patch
+- Patch 28: Update version number and expected output from tests.
+- Patch 31: Add many more new tests
+
+v4: https://lists.gnu.org/archive/html/qemu-block/2020-03/msg00966.html
+v3: https://lists.gnu.org/archive/html/qemu-block/2019-12/msg00587.html
+v2: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg01642.html
+v1: https://lists.gnu.org/archive/html/qemu-block/2019-10/msg00983.html
+
+Output of git backport-diff against v4:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+
+001/31:[0005] [FC] 'qcow2: Make Qcow2AioTask store the full host offset'
+002/31:[0018] [FC] 'qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()'
+003/31:[----] [--] 'qcow2: Add calculate_l2_meta()'
+004/31:[----] [--] 'qcow2: Split cluster_needs_cow() out of count_cow_clusters()'
+005/31:[0038] [FC] 'qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()'
+006/31:[0004] [FC] 'qcow2: Add get_l2_entry() and set_l2_entry()'
+007/31:[----] [--] 'qcow2: Document the Extended L2 Entries feature'
+008/31:[----] [--] 'qcow2: Add dummy has_subclusters() function'
+009/31:[----] [--] 'qcow2: Add subcluster-related fields to BDRVQcow2State'
+010/31:[----] [--] 'qcow2: Add offset_to_sc_index()'
+011/31:[down] 'qcow2: Add offset_into_subcluster() and size_to_subclusters()'
+012/31:[----] [--] 'qcow2: Add l2_entry_size()'
+013/31:[0003] [FC] 'qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()'
+014/31:[0023] [FC] 'qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()'
+015/31:[down] 'qcow2: Add qcow2_cluster_is_allocated()'
+016/31:[----] [--] 'qcow2: Add cluster type parameter to qcow2_get_host_offset()'
+017/31:[----] [--] 'qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*'
+018/31:[----] [--] 'qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC'
+019/31:[0066] [FC] 'qcow2: Add subcluster support to calculate_l2_meta()'
+020/31:[0022] [FC] 'qcow2: Add subcluster support to qcow2_get_host_offset()'
+021/31:[0040] [FC] 'qcow2: Add subcluster support to zero_in_l2_slice()'
+022/31:[0061] [FC] 'qcow2: Add subcluster support to discard_in_l2_slice()'
+023/31:[----] [--] 'qcow2: Add subcluster support to check_refcounts_l2()'
+024/31:[0019] [FC] 'qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()'
+025/31:[----] [--] 'qcow2: Clear the L2 bitmap when allocating a compressed cluster'
+026/31:[----] [--] 'qcow2: Add subcluster support to handle_alloc_space()'
+027/31:[down] 'qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()'
+028/31:[0105] [FC] 'qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit'
+029/31:[----] [-C] 'qcow2: Assert that expand_zero_clusters_in_l1() does not support subclusters'
+030/31:[----] [--] 'qcow2: Add subcluster support to qcow2_measure()'
+031/31:[0694] [FC] 'iotests: Add tests for qcow2 images with extended L2 entries'
+
+Alberto Garcia (31):
+  qcow2: Make Qcow2AioTask store the full host offset
+  qcow2: Convert qcow2_get_cluster_offset() into qcow2_get_host_offset()
+  qcow2: Add calculate_l2_meta()
+  qcow2: Split cluster_needs_cow() out of count_cow_clusters()
+  qcow2: Process QCOW2_CLUSTER_ZERO_ALLOC clusters in handle_copied()
+  qcow2: Add get_l2_entry() and set_l2_entry()
+  qcow2: Document the Extended L2 Entries feature
+  qcow2: Add dummy has_subclusters() function
+  qcow2: Add subcluster-related fields to BDRVQcow2State
+  qcow2: Add offset_to_sc_index()
+  qcow2: Add offset_into_subcluster() and size_to_subclusters()
+  qcow2: Add l2_entry_size()
+  qcow2: Update get/set_l2_entry() and add get/set_l2_bitmap()
+  qcow2: Add QCow2SubclusterType and qcow2_get_subcluster_type()
+  qcow2: Add qcow2_cluster_is_allocated()
+  qcow2: Add cluster type parameter to qcow2_get_host_offset()
+  qcow2: Replace QCOW2_CLUSTER_* with QCOW2_SUBCLUSTER_*
+  qcow2: Handle QCOW2_SUBCLUSTER_UNALLOCATED_ALLOC
+  qcow2: Add subcluster support to calculate_l2_meta()
+  qcow2: Add subcluster support to qcow2_get_host_offset()
+  qcow2: Add subcluster support to zero_in_l2_slice()
+  qcow2: Add subcluster support to discard_in_l2_slice()
+  qcow2: Add subcluster support to check_refcounts_l2()
+  qcow2: Update L2 bitmap in qcow2_alloc_cluster_link_l2()
+  qcow2: Clear the L2 bitmap when allocating a compressed cluster
+  qcow2: Add subcluster support to handle_alloc_space()
+  qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()
+  qcow2: Add the 'extended_l2' option and the QCOW2_INCOMPAT_EXTL2 bit
+  qcow2: Assert that expand_zero_clusters_in_l1() does not support
+    subclusters
+  qcow2: Add subcluster support to qcow2_measure()
+  iotests: Add tests for qcow2 images with extended L2 entries
+
+ docs/interop/qcow2.txt           |  68 ++-
+ docs/qcow2-cache.txt             |  19 +-
+ qapi/block-core.json             |   7 +
+ block/qcow2.h                    | 204 ++++++-
+ include/block/block_int.h        |   1 +
+ block/qcow2-cluster.c            | 892 ++++++++++++++++++++-----------
+ block/qcow2-refcount.c           |  38 +-
+ block/qcow2.c                    | 283 ++++++----
+ block/trace-events               |   2 +-
+ tests/qemu-iotests/031.out       |   8 +-
+ tests/qemu-iotests/036.out       |   4 +-
+ tests/qemu-iotests/049.out       | 102 ++--
+ tests/qemu-iotests/060.out       |   1 +
+ tests/qemu-iotests/061           |   6 +
+ tests/qemu-iotests/061.out       |  25 +-
+ tests/qemu-iotests/065           |  18 +-
+ tests/qemu-iotests/082.out       |  48 +-
+ tests/qemu-iotests/085.out       |  38 +-
+ tests/qemu-iotests/144.out       |   4 +-
+ tests/qemu-iotests/182.out       |   2 +-
+ tests/qemu-iotests/185.out       |   8 +-
+ tests/qemu-iotests/198.out       |   2 +
+ tests/qemu-iotests/206.out       |   4 +
+ tests/qemu-iotests/242.out       |   5 +
+ tests/qemu-iotests/255.out       |   8 +-
+ tests/qemu-iotests/271           | 664 +++++++++++++++++++++++
+ tests/qemu-iotests/271.out       | 519 ++++++++++++++++++
+ tests/qemu-iotests/274.out       |  49 +-
+ tests/qemu-iotests/280.out       |   2 +-
+ tests/qemu-iotests/common.filter |   1 +
+ tests/qemu-iotests/group         |   1 +
+ 31 files changed, 2459 insertions(+), 574 deletions(-)
+ create mode 100755 tests/qemu-iotests/271
+ create mode 100644 tests/qemu-iotests/271.out
+
+-- 
+2.20.1
 
 
