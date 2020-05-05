@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4C41C5671
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:11:01 +0200 (CEST)
-Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4C91C5664
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 15:08:37 +0200 (CEST)
+Received: from localhost ([::1]:34592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVxLg-0004sE-7r
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:11:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38770)
+	id 1jVxJM-0008Uk-8F
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 09:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxA6-0001oN-UB
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:02 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48896
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxA0-0001Ww-3S
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:58:56 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:59404
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVxA5-000171-2x
- for qemu-devel@nongnu.org; Tue, 05 May 2020 08:59:02 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jVx9z-0000vH-7b
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 08:58:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588683540;
+ s=mimecast20190719; t=1588683534;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0gr15OrJS9tsXYgJJWW/K6LyEGhoZx2WchC4Ory6oOA=;
- b=c/H1WK+xdeWIWh1RnsDS/oCW6mBUSzpcjpnP5KoZ9LwVnbgvYhyESedcnsyq+lcVRj+z13
- 6etM0JaJ2w1leFq6wb9lcbn+hKfODbxZBPpDfbNFggnPzZFJKXQ69sQBi5fjA1uqQoWb9v
- zcTr2kwoiittW1w3HjCIb8IoXhO38Y8=
+ bh=mb9m9GfCxKbgsPWdefIelFbw1RfASfl7wVa2Lb2r6UI=;
+ b=iOZejpNzx9bJYW20f4EQ5pufQjGK8sN+UuQZrpWue8A0jj0Wpr9JuUVICOmqFBOwUhCK1H
+ VN01mI1gKy8f8h8iKHXCMVFQEfi/0ycziTlei2oxbgOb7c6rdXktXqbjCPK66+kZzXkM6H
+ eE2qoRhtbKrVQHbU8umrNxmXn9q7QgA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-zab3n-jLN0KNVViENfGLkA-1; Tue, 05 May 2020 08:58:49 -0400
-X-MC-Unique: zab3n-jLN0KNVViENfGLkA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-398-7D9XcggRMBaS-JaoKdoVgA-1; Tue, 05 May 2020 08:58:51 -0400
+X-MC-Unique: 7D9XcggRMBaS-JaoKdoVgA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31D2A1899526;
- Tue,  5 May 2020 12:58:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F2071899521;
+ Tue,  5 May 2020 12:58:50 +0000 (UTC)
 Received: from localhost (ovpn-113-206.ams2.redhat.com [10.36.113.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A09305D9DA;
- Tue,  5 May 2020 12:58:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E50345C1D3;
+ Tue,  5 May 2020 12:58:49 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/24] iotests: limit line length to 79 chars
-Date: Tue,  5 May 2020 14:58:11 +0200
-Message-Id: <20200505125826.1001451-10-mreitz@redhat.com>
+Subject: [PULL 10/24] iotests: add hmp helper with logging
+Date: Tue,  5 May 2020 14:58:12 +0200
+Message-Id: <20200505125826.1001451-11-mreitz@redhat.com>
 In-Reply-To: <20200505125826.1001451-1-mreitz@redhat.com>
 References: <20200505125826.1001451-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,229 +84,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-79 is the PEP8 recommendation. This recommendation works well for
-reading patch diffs in TUI email clients.
+Minor cleanup for HMP functions; helps with line length and consolidates
+HMP helpers through one implementation function.
+
+Although we are adding a universal toggle to turn QMP logging on or off,
+many existing callers to hmp functions don't expect that output to be
+logged, which causes quite a few changes in the test output.
+
+For now, offer a use_log parameter.
+
+Typing notes:
+
+QMPResponse is just an alias for Dict[str, Any]. It holds no special
+meanings and it is not a formal subtype of Dict[str, Any]. It is best
+thought of as a lexical synonym.
+
+We may well wish to add stricter subtypes in the future for certain
+shapes of data that are not formalized as Python objects, at which point
+we can simply retire the alias and allow mypy to more strictly check
+usages of the name.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Message-Id: <20200331000014.11581-11-jsnow@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200331000014.11581-10-jsnow@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 64 +++++++++++++++++++++++------------
- tests/qemu-iotests/pylintrc   |  6 +++-
- 2 files changed, 47 insertions(+), 23 deletions(-)
+ tests/qemu-iotests/iotests.py | 39 +++++++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 15 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 69f24223d2..9f5da32dae 100644
+index 9f5da32dae..cf10c428b5 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -80,9 +80,11 @@ luks_default_key_secret_opt =3D 'key-secret=3Dkeysec0'
- def qemu_img(*args):
-     '''Run qemu-img and return the exit code'''
-     devnull =3D open('/dev/null', 'r+')
--    exitcode =3D subprocess.call(qemu_img_args + list(args), stdin=3Ddevnu=
-ll, stdout=3Ddevnull)
-+    exitcode =3D subprocess.call(qemu_img_args + list(args),
-+                               stdin=3Ddevnull, stdout=3Ddevnull)
-     if exitcode < 0:
--        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcode,=
- ' '.join(qemu_img_args + list(args))))
-+        sys.stderr.write('qemu-img received signal %i: %s\n'
-+                         % (-exitcode, ' '.join(qemu_img_args + list(args)=
-)))
-     return exitcode
+@@ -37,6 +37,10 @@ from qemu import qtest
 =20
- def ordered_qmp(qmsg, conv_keys=3DTrue):
-@@ -121,7 +123,8 @@ def qemu_img_verbose(*args):
-     '''Run qemu-img without suppressing its output and return the exit cod=
-e'''
-     exitcode =3D subprocess.call(qemu_img_args + list(args))
-     if exitcode < 0:
--        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcode,=
- ' '.join(qemu_img_args + list(args))))
-+        sys.stderr.write('qemu-img received signal %i: %s\n'
-+                         % (-exitcode, ' '.join(qemu_img_args + list(args)=
-)))
-     return exitcode
+ assert sys.version_info >=3D (3, 6)
 =20
- def qemu_img_pipe(*args):
-@@ -132,7 +135,8 @@ def qemu_img_pipe(*args):
-                             universal_newlines=3DTrue)
-     exitcode =3D subp.wait()
-     if exitcode < 0:
--        sys.stderr.write('qemu-img received signal %i: %s\n' % (-exitcode,=
- ' '.join(qemu_img_args + list(args))))
-+        sys.stderr.write('qemu-img received signal %i: %s\n'
-+                         % (-exitcode, ' '.join(qemu_img_args + list(args)=
-)))
-     return subp.communicate()[0]
++# Type Aliases
++QMPResponse =3D Dict[str, Any]
++
++
+ faulthandler.enable()
 =20
- def qemu_img_log(*args):
-@@ -162,7 +166,8 @@ def qemu_io(*args):
-                             universal_newlines=3DTrue)
-     exitcode =3D subp.wait()
-     if exitcode < 0:
--        sys.stderr.write('qemu-io received signal %i: %s\n' % (-exitcode, =
-' '.join(args)))
-+        sys.stderr.write('qemu-io received signal %i: %s\n'
-+                         % (-exitcode, ' '.join(args)))
-     return subp.communicate()[0]
+ # This will not work if arguments contain spaces but is necessary if we
+@@ -541,25 +545,30 @@ class VM(qtest.QEMUQtestMachine):
+         self._args.append(addr)
+         return self
 =20
- def qemu_io_log(*args):
-@@ -284,10 +289,13 @@ win32_re =3D re.compile(r"\r")
- def filter_win32(msg):
-     return win32_re.sub("", msg)
-=20
--qemu_io_re =3D re.compile(r"[0-9]* ops; [0-9\/:. sec]* \([0-9\/.inf]* [EPT=
-GMKiBbytes]*\/sec and [0-9\/.inf]* ops\/sec\)")
-+qemu_io_re =3D re.compile(r"[0-9]* ops; [0-9\/:. sec]* "
-+                        r"\([0-9\/.inf]* [EPTGMKiBbytes]*\/sec "
-+                        r"and [0-9\/.inf]* ops\/sec\)")
- def filter_qemu_io(msg):
-     msg =3D filter_win32(msg)
--    return qemu_io_re.sub("X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)=
-", msg)
-+    return qemu_io_re.sub("X ops; XX:XX:XX.X "
-+                          "(XXX YYY/sec and XXX ops/sec)", msg)
-=20
- chown_re =3D re.compile(r"chown [0-9]+:[0-9]+")
- def filter_chown(msg):
-@@ -340,7 +348,9 @@ def filter_img_info(output, filename):
-         line =3D filter_testfiles(line)
-         line =3D line.replace(imgfmt, 'IMGFMT')
-         line =3D re.sub('iters: [0-9]+', 'iters: XXX', line)
--        line =3D re.sub('uuid: [-a-f0-9]+', 'uuid: XXXXXXXX-XXXX-XXXX-XXXX=
--XXXXXXXXXXXX', line)
-+        line =3D re.sub('uuid: [-a-f0-9]+',
-+                      'uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
-+                      line)
-         line =3D re.sub('cid: [0-9]+', 'cid: XXXXXXXXXX', line)
-         lines.append(line)
-     return '\n'.join(lines)
-@@ -538,11 +548,13 @@ class VM(qtest.QEMUQtestMachine):
+-    def pause_drive(self, drive, event=3DNone):
+-        '''Pause drive r/w operations'''
++    def hmp(self, command_line: str, use_log: bool =3D False) -> QMPRespon=
+se:
++        cmd =3D 'human-monitor-command'
++        kwargs =3D {'command-line': command_line}
++        if use_log:
++            return self.qmp_log(cmd, **kwargs)
++        else:
++            return self.qmp(cmd, **kwargs)
++
++    def pause_drive(self, drive: str, event: Optional[str] =3D None) -> No=
+ne:
++        """Pause drive r/w operations"""
+         if not event:
+             self.pause_drive(drive, "read_aio")
              self.pause_drive(drive, "write_aio")
              return
-         self.qmp('human-monitor-command',
--                 command_line=3D'qemu-io %s "break %s bp_%s"' % (drive, ev=
-ent, drive))
-+                 command_line=3D'qemu-io %s "break %s bp_%s"'
-+                 % (drive, event, drive))
-=20
-     def resume_drive(self, drive):
-         self.qmp('human-monitor-command',
--                 command_line=3D'qemu-io %s "remove_break bp_%s"' % (drive=
-, drive))
-+                 command_line=3D'qemu-io %s "remove_break bp_%s"'
-+                 % (drive, drive))
-=20
-     def hmp_qemu_io(self, drive, cmd):
-         '''Write to a given drive using an HMP command'''
-@@ -802,16 +814,18 @@ class QMPTestCase(unittest.TestCase):
-                 idx =3D int(idx)
-=20
-             if not isinstance(d, dict) or component not in d:
--                self.fail('failed path traversal for "%s" in "%s"' % (path=
-, str(d)))
-+                self.fail(f'failed path traversal for "{path}" in "{d}"')
-             d =3D d[component]
-=20
-             if m:
-                 if not isinstance(d, list):
--                    self.fail('path component "%s" in "%s" is not a list i=
-n "%s"' % (component, path, str(d)))
-+                    self.fail(f'path component "{component}" in "{path}" '
-+                              f'is not a list in "{d}"')
-                 try:
-                     d =3D d[idx]
-                 except IndexError:
--                    self.fail('invalid index "%s" in path "%s" in "%s"' % =
-(idx, path, str(d)))
-+                    self.fail(f'invalid index "{idx}" in path "{path}" '
-+                              f'in "{d}"')
-         return d
-=20
-     def assert_qmp_absent(self, d, path):
-@@ -862,10 +876,13 @@ class QMPTestCase(unittest.TestCase):
-         '''Asserts that the given filename is a json: filename and that it=
-s
-            content is equal to the given reference object'''
-         self.assertEqual(json_filename[:5], 'json:')
--        self.assertEqual(self.vm.flatten_qmp_object(json.loads(json_filena=
-me[5:])),
--                         self.vm.flatten_qmp_object(reference))
-+        self.assertEqual(
-+            self.vm.flatten_qmp_object(json.loads(json_filename[5:])),
-+            self.vm.flatten_qmp_object(reference)
-+        )
-=20
--    def cancel_and_wait(self, drive=3D'drive0', force=3DFalse, resume=3DFa=
-lse, wait=3D60.0):
-+    def cancel_and_wait(self, drive=3D'drive0', force=3DFalse,
-+                        resume=3DFalse, wait=3D60.0):
-         '''Cancel a block job and wait for it to finish, returning the eve=
-nt'''
-         result =3D self.vm.qmp('block-job-cancel', device=3Ddrive, force=
-=3Dforce)
-         self.assert_qmp(result, 'return', {})
-@@ -889,8 +906,8 @@ class QMPTestCase(unittest.TestCase):
-         self.assert_no_active_block_jobs()
-         return result
-=20
--    def wait_until_completed(self, drive=3D'drive0', check_offset=3DTrue, =
-wait=3D60.0,
--                             error=3DNone):
-+    def wait_until_completed(self, drive=3D'drive0', check_offset=3DTrue,
-+                             wait=3D60.0, error=3DNone):
-         '''Wait for a block job to finish, returning the event'''
-         while True:
-             for event in self.vm.get_qmp_events(wait=3Dwait):
-@@ -1029,8 +1046,11 @@ def verify_quorum():
-         notrun('quorum support missing')
-=20
- def qemu_pipe(*args):
--    '''Run qemu with an option to print something and exit (e.g. a help op=
-tion),
--    and return its output'''
-+    """
-+    Run qemu with an option to print something and exit (e.g. a help optio=
-n).
+-        self.qmp('human-monitor-command',
+-                 command_line=3D'qemu-io %s "break %s bp_%s"'
+-                 % (drive, event, drive))
+-
+-    def resume_drive(self, drive):
+-        self.qmp('human-monitor-command',
+-                 command_line=3D'qemu-io %s "remove_break bp_%s"'
+-                 % (drive, drive))
+-
+-    def hmp_qemu_io(self, drive, cmd):
+-        '''Write to a given drive using an HMP command'''
+-        return self.qmp('human-monitor-command',
+-                        command_line=3D'qemu-io %s "%s"' % (drive, cmd))
++        self.hmp(f'qemu-io {drive} "break {event} bp_{drive}"')
 +
-+    :return: QEMU's stdout output.
-+    """
-     args =3D [qemu_prog] + qemu_opts + list(args)
-     subp =3D subprocess.Popen(args, stdout=3Dsubprocess.PIPE,
-                             stderr=3Dsubprocess.STDOUT,
-@@ -1068,8 +1088,8 @@ def skip_if_unsupported(required_formats=3D(), read_o=
-nly=3DFalse):
++    def resume_drive(self, drive: str) -> None:
++        """Resume drive r/w operations"""
++        self.hmp(f'qemu-io {drive} "remove_break bp_{drive}"')
++
++    def hmp_qemu_io(self, drive: str, cmd: str,
++                    use_log: bool =3D False) -> QMPResponse:
++        """Write to a given drive using an HMP command"""
++        return self.hmp(f'qemu-io {drive} "{cmd}"', use_log=3Duse_log)
 =20
-             usf_list =3D list(set(fmts) - set(supported_formats(read_only)=
-))
-             if usf_list:
--                test_case.case_skip('{}: formats {} are not whitelisted'.f=
-ormat(
--                    test_case, usf_list))
-+                msg =3D f'{test_case}: formats {usf_list} are not whitelis=
-ted'
-+                test_case.case_skip(msg)
-                 return None
-             else:
-                 return func(test_case, *args, **kwargs)
-diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
-index daec2c4942..5481afe528 100644
---- a/tests/qemu-iotests/pylintrc
-+++ b/tests/qemu-iotests/pylintrc
-@@ -18,5 +18,9 @@ disable=3Dinvalid-name,
-         too-many-locals,
-         too-many-public-methods,
-         # These are temporary, and should be removed:
--        line-too-long,
-         missing-docstring,
-+
-+[FORMAT]
-+
-+# Maximum number of characters on a single line.
-+max-line-length=3D79
+     def flatten_qmp_object(self, obj, output=3DNone, basestr=3D''):
+         if output is None:
 --=20
 2.26.2
 
