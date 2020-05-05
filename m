@@ -2,83 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B83F61C4DB4
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 07:37:35 +0200 (CEST)
-Received: from localhost ([::1]:50342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E95CC1C4DD7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 07:52:57 +0200 (CEST)
+Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVqGs-00045t-B0
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 01:37:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48036)
+	id 1jVqVk-0005eg-WC
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 01:52:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVqG2-00037I-KO
- for qemu-devel@nongnu.org; Tue, 05 May 2020 01:36:42 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36151)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jVqG1-0000Pi-N0
- for qemu-devel@nongnu.org; Tue, 05 May 2020 01:36:42 -0400
-Received: by mail-wm1-x342.google.com with SMTP id u127so816001wmg.1
- for <qemu-devel@nongnu.org>; Mon, 04 May 2020 22:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EQlRqJvgXWWWJ6knTRuEkwjmJ3l974XtsswEaxhE2Ns=;
- b=hA0vNcoRaRjBSRj7GiwRJ5aI3OoIZIwEdJbTWRihj2IKZnUia/3TBuR/H1FpxM8rej
- ajRMrUP9l7BGgEQeBNVuJuSpJiTXKd1Q/WZAfZCa+Lpn4yRhxFqrq+qMJzonHHMUc9SW
- tT0LxZ6HRQJDlABGIkSpQgAOeCaEGaUesu7Z3Cq7YPKf7+XV7K+CNFkcZuWVlr8vWeYQ
- zMCjp5by9je+2tEbmyCSeirnKgmgiVuR5WS0rHbvkSyGqsc2H58V97g48KFjvbPHJoUF
- RMtIgfdaFZoDIzNn5DiKhLancAkHdXtmW9l6CeQUTd7kfzYpanwo38JQPCxdheShoUsW
- +1EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EQlRqJvgXWWWJ6knTRuEkwjmJ3l974XtsswEaxhE2Ns=;
- b=hn4bNa0w0VimRsd2J4Y4DXIRO93zKj3D1v7xfYoTRBc1sTJxs/GaTeCxfwmh2++WvK
- voBjfjNBnRFTQFTg/3kk3ROK5J7SvRaexLdLYCPu0jtLikKNpi74viM9TLy8EF/VRpw/
- Ey8eGHeIxOSAHW1xnc0gUS5Nu7xwY2C5M3JygqDvMo9rgPoJ5C9cI/aU81TqD3b7NSek
- JL8POW7+t7bCy7oT5OX2Wva7MJneJF2R3O7UPMHAfW8EyXE9MhAPBn1nZEnUTfYjspKa
- IZW7jgW7pe6TVRx4qDVsAoFEMYRAqQeGa+IA435YVpmEfy/fzYgP3TFIoQNYPXOJD0VO
- 4zSw==
-X-Gm-Message-State: AGi0Pub+n/6izSMmWZUR3LCCL8tgmXpjzCuJ16zOS2e2k7Cj/ANy8JAy
- mq9yOmRE3RFOfYhhCUC83kU=
-X-Google-Smtp-Source: APiQypIbFH/hJ3t3Kqj7AYNt3Lfjq05XNnn0Os/sXXRTsjdCJ7uhSG4eJa0rD4+icBBNLhUwB6gybg==
-X-Received: by 2002:a1c:6455:: with SMTP id y82mr1212702wmb.128.1588657000149; 
- Mon, 04 May 2020 22:36:40 -0700 (PDT)
-Received: from [192.168.1.39] (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id v16sm1932127wml.30.2020.05.04.22.36.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 May 2020 22:36:39 -0700 (PDT)
-Subject: Re: [PATCH 4/4] hw/i386: Make vmmouse helpers static
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20200504083342.24273-1-f4bug@amsat.org>
- <20200504083342.24273-5-f4bug@amsat.org>
- <f01f89f6-10e8-5173-c68d-0fb779f77d0e@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <09da6f09-d6a2-39f1-0f47-278334e272dc@amsat.org>
-Date: Tue, 5 May 2020 07:36:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jVqS8-00076I-PG; Tue, 05 May 2020 01:49:12 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:56226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jVqS1-0005CB-VQ; Tue, 05 May 2020 01:49:12 -0400
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id B184EBF5DC;
+ Tue,  5 May 2020 05:49:02 +0000 (UTC)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-block@nongnu.org
+Subject: [PATCH v5 00/18] nvme: refactoring and cleanups
+Date: Tue,  5 May 2020 07:48:22 +0200
+Message-Id: <20200505054840.186586-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <f01f89f6-10e8-5173-c68d-0fb779f77d0e@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:31:35
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,60 +51,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/4/20 7:29 PM, Richard Henderson wrote:
-> On 5/4/20 1:33 AM, Philippe Mathieu-Daudé wrote:
->> +++ b/hw/i386/vmport.c
->> @@ -23,10 +23,10 @@
->>    */
->>   #include "qemu/osdep.h"
->>   #include "hw/isa/isa.h"
->> -#include "hw/i386/pc.h"
->>   #include "sysemu/hw_accel.h"
->>   #include "qemu/log.h"
->>   #include "vmport.h"
->> +#include "cpu.h"
->>   #include "trace.h"
->>   
->>   #define VMPORT_CMD_GETVERSION 0x0a
->> @@ -109,27 +109,6 @@ static uint32_t vmport_cmd_ram_size(void *opaque, uint32_t addr)
->>       return ram_size;
->>   }
->>   
->> -/* vmmouse helpers */
->> -void vmmouse_get_data(uint32_t *data)
->> -{
->> -    X86CPU *cpu = X86_CPU(current_cpu);
->> -    CPUX86State *env = &cpu->env;
->> -
->> -    data[0] = env->regs[R_EAX]; data[1] = env->regs[R_EBX];
->> -    data[2] = env->regs[R_ECX]; data[3] = env->regs[R_EDX];
->> -    data[4] = env->regs[R_ESI]; data[5] = env->regs[R_EDI];
->> -}
-> 
-> Why are you adding "cpu.h" when removing code?
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Because this file still use the X86 register definitions:
+Changes since v5
+~~~~~~~~~~~~~~~~
+No functional changes, just updated Reviewed-by tags. Also, I screwed up
+the CC list when sending v4.
 
-   static uint32_t vmport_cmd_get_version(void *opaque, uint32_t addr)
-   {
-       X86CPU *cpu = X86_CPU(current_cpu);
+Philippe and Keith, please add a Reviewed-by to
 
-       cpu->env.regs[R_EBX] = VMPORT_MAGIC;
-       return 6;
-   }
+  * "nvme: factor out pmr setup" and
+  * "do cmb/pmr init as part of pci init"
 
-> Does that mean you don't need to add "cpu.h" to vmmouse.c?
+since the first one was added and the second one was changed in v4 when
+rebasing on Kevins block-next tree which had the PMR work that was not
+in master at the time.
 
-Now both files vmmouse/vmport uses the X86 register definitions, but 
-they don't use anything declared in "hw/i386/pc.h".
+With those in place, it should be ready for Kevin to merge.
 
-> 
-> 
-> r~
-> 
+Klaus Jensen (18):
+  nvme: fix pci doorbell size calculation
+  nvme: rename trace events to pci_nvme
+  nvme: remove superfluous breaks
+  nvme: move device parameters to separate struct
+  nvme: use constants in identify
+  nvme: refactor nvme_addr_read
+  nvme: add max_ioqpairs device parameter
+  nvme: remove redundant cmbloc/cmbsz members
+  nvme: factor out property/constraint checks
+  nvme: factor out device state setup
+  nvme: factor out block backend setup
+  nvme: add namespace helpers
+  nvme: factor out namespace setup
+  nvme: factor out pci setup
+  nvme: factor out cmb setup
+  nvme: factor out pmr setup
+  nvme: do cmb/pmr init as part of pci init
+  nvme: factor out controller identify setup
+
+ hw/block/nvme.c       | 543 ++++++++++++++++++++++++------------------
+ hw/block/nvme.h       |  31 ++-
+ hw/block/trace-events | 180 +++++++-------
+ include/block/nvme.h  |   8 +
+ 4 files changed, 429 insertions(+), 333 deletions(-)
+
+-- 
+2.26.2
+
 
