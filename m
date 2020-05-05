@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D281C5303
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:20:59 +0200 (CEST)
-Received: from localhost ([::1]:34192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D321C5313
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 12:23:30 +0200 (CEST)
+Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVuh8-0005Nm-AB
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:20:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
+	id 1jVujY-0002go-VP
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 06:23:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufV-0003ip-TR
- for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:39756
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufW-0003jZ-94
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35187
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufU-00081k-Cr
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVufV-000821-4a
  for qemu-devel@nongnu.org; Tue, 05 May 2020 06:19:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588673955;
+ s=mimecast20190719; t=1588673956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hUT/cU4Bd/vQ2eU3ozZI3eDINyvVVCGQcwfYZ9hnxlk=;
- b=T9PtQoyA09pjOQqdVl752umMH4fgMER5jANni6nBq5EFp/QNK5L0IPgHiGRFDEoWMcAEvj
- HtIu2xPwxlwuU/fJCgstXLrfIa0VVlkAeWl9dekeJFGH7AZOkBsRaIOP/JTkgUEltWbs4C
- 8wZW//K3EJ9PjD4MSksg+dVfmgq/vSc=
+ bh=cuIC9BoatWuQnizIBS6q/YEaV+1wvjtXE0f45fpPM1U=;
+ b=bjeTHXHSJrI+rkevbW/PxAr2Ks8GqDG+M83vFK6r1aEoPHpfZeAesnWjrF4a/c2gkPX+1Q
+ HST2Cnhh1FMpTPVn014wDK7hteh/XSHocdQ3KocFzuO6+zdfj5Xf5+NMUbhr+LkEUIRMWU
+ x0Yi9lDkn9CLCXNUKR+3X7tNWqAT114=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-ijE1Me-XPgiEV7YcwnoiLQ-1; Tue, 05 May 2020 06:19:14 -0400
-X-MC-Unique: ijE1Me-XPgiEV7YcwnoiLQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-157-lJGwR1QaNy-IydIhKkWfAg-1; Tue, 05 May 2020 06:19:14 -0400
+X-MC-Unique: lJGwR1QaNy-IydIhKkWfAg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B333F53;
- Tue,  5 May 2020 10:19:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7FB9835B44;
+ Tue,  5 May 2020 10:19:13 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBF125C1BD;
- Tue,  5 May 2020 10:19:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C0B463F95;
+ Tue,  5 May 2020 10:19:13 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DDCE511358C4; Tue,  5 May 2020 12:19:08 +0200 (CEST)
+ id E102911358C5; Tue,  5 May 2020 12:19:08 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/10] mips/boston: Plug memory leak in boston_mach_init()
-Date: Tue,  5 May 2020 12:19:06 +0200
-Message-Id: <20200505101908.6207-9-armbru@redhat.com>
+Subject: [PATCH v2 09/10] arm/sabrelite: Consistently use &error_fatal in
+ sabrelite_init()
+Date: Tue,  5 May 2020 12:19:07 +0200
+Message-Id: <20200505101908.6207-10-armbru@redhat.com>
 In-Reply-To: <20200505101908.6207-1-armbru@redhat.com>
 References: <20200505101908.6207-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 03:48:16
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,42 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: df1d8a1f29f567567b9d20be685a4241282e7005
-Cc: Paul Burton <pburton@wavecomp.com>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Jean-Christophe Dubois <jcd@tribudubois.net>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
- hw/mips/boston.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/sabrelite.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 2832dfa6ae..a896056be1 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -426,7 +426,6 @@ static void boston_mach_init(MachineState *machine)
+diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
+index e31694bb92..04f4b96591 100644
+--- a/hw/arm/sabrelite.c
++++ b/hw/arm/sabrelite.c
+@@ -41,7 +41,6 @@ static void sabrelite_reset_secondary(ARMCPU *cpu,
+ static void sabrelite_init(MachineState *machine)
  {
-     DeviceState *dev;
-     BostonState *s;
+     FslIMX6State *s;
 -    Error *err =3D NULL;
-     MemoryRegion *flash, *ddr_low_alias, *lcd, *platreg;
-     MemoryRegion *sys_mem =3D get_system_memory();
-     XilinxPCIEHost *pcie2;
-@@ -467,7 +466,8 @@ static void boston_mach_init(MachineState *machine)
-     sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
 =20
-     flash =3D  g_new(MemoryRegion, 1);
--    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err);
-+    memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB,
-+                           &error_fatal);
-     memory_region_add_subregion_overlap(sys_mem, 0x18000000, flash, 0);
+     /* Check the amount of memory is compatible with the SOC */
+     if (machine->ram_size > FSL_IMX6_MMDC_SIZE) {
+@@ -52,11 +51,7 @@ static void sabrelite_init(MachineState *machine)
 =20
-     memory_region_add_subregion_overlap(sys_mem, 0x80000000, machine->ram,=
- 0);
+     s =3D FSL_IMX6(object_new(TYPE_FSL_IMX6));
+     object_property_add_child(OBJECT(machine), "soc", OBJECT(s), &error_fa=
+tal);
+-    object_property_set_bool(OBJECT(s), true, "realized", &err);
+-    if (err !=3D NULL) {
+-        error_report("%s", error_get_pretty(err));
+-        exit(1);
+-    }
++    object_property_set_bool(OBJECT(s), true, "realized", &error_fatal);
+=20
+     memory_region_add_subregion(get_system_memory(), FSL_IMX6_MMDC_ADDR,
+                                 machine->ram);
 --=20
 2.21.1
 
