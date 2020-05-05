@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCD81C5BBA
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:41:19 +0200 (CEST)
-Received: from localhost ([::1]:44930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C7F1C5B3C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 May 2020 17:32:25 +0200 (CEST)
+Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jVzh8-0007ml-Ty
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:41:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
+	id 1jVzYW-00059l-BD
+	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 11:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVv-0003UM-Tj
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:43 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38228
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVm-0003Jd-Dk
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:34 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27276
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVo-0007TF-EE
- for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:42 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jVzVk-0007QI-R0
+ for qemu-devel@nongnu.org; Tue, 05 May 2020 11:29:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588692575;
+ s=mimecast20190719; t=1588692570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y+PHnR57qBTbd2B/WmRXaGvR865UwVJQqPHggRUV1/M=;
- b=dUecfpHILl7lxewxds0HJsIEd8zoaXXEyOoBxbvH5WP2f5mVZ/O6Xxu7Hq9xWJWfqF10de
- 4NjAhf3gVaDBhz1B4O1j8/ZKT9KNAzLbjQuG5waEJAd8x3Zp4QW8X7JtdQQiHBAxVaj0u2
- k5sgvR4CYVb1zu/i1KG2104Ii6IFhfM=
+ bh=4RikHMQLXtDbA/cd7k4epxb/irkWDQhbyQSCKt0u3s4=;
+ b=FZ33xGNDFB2jN+JFH3lg7rGB+wbw3xxd0GspgEv7G7xD5uiKBXUJP2tmtkop+sfP61TDzX
+ Fs+zniiEq6oebwrAKjkLaGWATI3Cp+ynw6hSBOrGlQnn5BCa+HS0TUXfrOvsku6LB7soO6
+ cbvxSnPO3NybvdTBj+6/nuUF7YQ7tt8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-nEPwQrdJO1GcS8UNhDApeQ-1; Tue, 05 May 2020 11:29:28 -0400
-X-MC-Unique: nEPwQrdJO1GcS8UNhDApeQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-303-QQEVX7dTMaCVCz-2VTwODg-1; Tue, 05 May 2020 11:29:28 -0400
+X-MC-Unique: QQEVX7dTMaCVCz-2VTwODg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3EFE800687
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6C3680183C
  for <qemu-devel@nongnu.org>; Tue,  5 May 2020 15:29:27 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB33C60BF4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AEB141000232;
  Tue,  5 May 2020 15:29:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3734A11358BF; Tue,  5 May 2020 17:29:26 +0200 (CEST)
+ id 3A4B111358C0; Tue,  5 May 2020 17:29:26 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/18] qom: Drop object_property_del_child()'s unused
- parameter @errp
-Date: Tue,  5 May 2020 17:29:11 +0200
-Message-Id: <20200505152926.18877-4-armbru@redhat.com>
+Subject: [PATCH v2 04/18] qom: Simplify object_property_get_enum()
+Date: Tue,  5 May 2020 17:29:12 +0200
+Message-Id: <20200505152926.18877-5-armbru@redhat.com>
 In-Reply-To: <20200505152926.18877-1-armbru@redhat.com>
 References: <20200505152926.18877-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 00:37:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,37 +84,46 @@ Cc: pbonzini@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Reuse object_property_get_str().  Switches from the string to the
+qobject visitor under the hood.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qom/object.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ qom/object.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/qom/object.c b/qom/object.c
-index 07762cc331..3d65658059 100644
+index 3d65658059..b374af302c 100644
 --- a/qom/object.c
 +++ b/qom/object.c
-@@ -614,7 +614,7 @@ static void object_property_del_all(Object *obj)
-     g_hash_table_unref(obj->properties);
- }
+@@ -1521,8 +1521,6 @@ typedef struct EnumProperty {
+ int object_property_get_enum(Object *obj, const char *name,
+                              const char *typename, Error **errp)
+ {
+-    Error *err =3D NULL;
+-    Visitor *v;
+     char *str;
+     int ret;
+     ObjectProperty *prop =3D object_property_find(obj, name, errp);
+@@ -1541,15 +1539,10 @@ int object_property_get_enum(Object *obj, const cha=
+r *name,
 =20
--static void object_property_del_child(Object *obj, Object *child, Error **=
-errp)
-+static void object_property_del_child(Object *obj, Object *child)
- {
-     ObjectProperty *prop;
-     GHashTableIter iter;
-@@ -644,7 +644,7 @@ static void object_property_del_child(Object *obj, Obje=
-ct *child, Error **errp)
- void object_unparent(Object *obj)
- {
-     if (obj->parent) {
--        object_property_del_child(obj->parent, obj, NULL);
-+        object_property_del_child(obj->parent, obj);
+     enumprop =3D prop->opaque;
+=20
+-    v =3D string_output_visitor_new(false, &str);
+-    object_property_get(obj, v, name, &err);
+-    if (err) {
+-        error_propagate(errp, err);
+-        visit_free(v);
++    str =3D object_property_get_str(obj, name, errp);
++    if (!str) {
+         return 0;
      }
- }
+-    visit_complete(v, &str);
+-    visit_free(v);
 =20
+     ret =3D qapi_enum_parse(enumprop->lookup, str, -1, errp);
+     g_free(str);
 --=20
 2.21.1
 
