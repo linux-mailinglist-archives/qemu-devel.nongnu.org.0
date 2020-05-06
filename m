@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E1F1C6DBA
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:55:29 +0200 (CEST)
-Received: from localhost ([::1]:40516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81781C6DC6
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:56:55 +0200 (CEST)
+Received: from localhost ([::1]:46950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWGm0-0005KF-C6
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:55:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54258)
+	id 1jWGnO-00083I-OK
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWGhM-00050a-Bs
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33366
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWGhR-00054k-Ve
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:46 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52348
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWGhL-0004Yf-Dp
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:40 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWGhQ-0004aj-73
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588758638;
+ s=mimecast20190719; t=1588758643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O10BhkYK4SLEDgxOR3AeYFqIdU21u3W3cDnwDc7jdOs=;
- b=Y0Xk9b8bYdPuxHX5GylAE2gwqu/ZFrIUGAQvqE/8d5XE6eBAuf+lUjCwf7xMsHKxW1CEtl
- E+VIYqKdi+GUBXbduaKaYHRdRwiob06g+Y+CYRC1jitnQGn0GmHU2/aiiwPh7Q6yL8Zkjo
- F0vW7ZHKMtR+WlDqz9sAvefNyZDc7ZU=
+ bh=HiYZK5Z/1tdBn0MeeAphcfReGNPxF8BUMmE6+8UMB8Y=;
+ b=OJ5WO+hXQOHrnk/CPhe48MGsd2B379we6FP1s6VDOasZVSBSt47aTI3qWD0kEP6v2ng9Ni
+ dpL+e0WlFRxqvvGDy9PSfSAv/EKkHmWKEtn/XdWynHCgIsszlcxWXEQghQmcgTrNMxOTAc
+ xNUuAzNg87mFs8JRQwkXzJx/CFzGzjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-EJvB0YQXPxi4wNhYZd1E4g-1; Wed, 06 May 2020 05:50:37 -0400
-X-MC-Unique: EJvB0YQXPxi4wNhYZd1E4g-1
+ us-mta-250-fjvezdvuOE2bJ1-EzJwocQ-1; Wed, 06 May 2020 05:50:39 -0400
+X-MC-Unique: fjvezdvuOE2bJ1-EzJwocQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01E92107ACF2;
- Wed,  6 May 2020 09:50:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C9211895A2B;
+ Wed,  6 May 2020 09:50:38 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-113-17.ams2.redhat.com [10.36.113.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F02245C1BD;
- Wed,  6 May 2020 09:50:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52AF15C1BD;
+ Wed,  6 May 2020 09:50:36 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 07/17] migration/rdma: Use ram_block_discard_set_broken()
-Date: Wed,  6 May 2020 11:49:38 +0200
-Message-Id: <20200506094948.76388-8-david@redhat.com>
+Subject: [PATCH v1 08/17] migration/colo: Use ram_block_discard_set_broken()
+Date: Wed,  6 May 2020 11:49:39 +0200
+Message-Id: <20200506094948.76388-9-david@redhat.com>
 In-Reply-To: <20200506094948.76388-1-david@redhat.com>
 References: <20200506094948.76388-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 23:48:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 05:50:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,72 +78,84 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
  "Michael S . Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>, qemu-s390x@nongnu.org,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RDMA will pin all guest memory (as documented in docs/rdma.txt). We want
-to mark RAM block discards to be broken - however, to keep it simple
-use ram_block_discard_is_required() instead of inhibiting.
+COLO will copy all memory in a RAM block, mark discarding of RAM broken.
 
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
 Cc: Juan Quintela <quintela@redhat.com>
 Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- migration/rdma.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ include/migration/colo.h |  2 +-
+ migration/migration.c    |  8 +++++++-
+ migration/savevm.c       | 11 +++++++++--
+ 3 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index f61587891b..029adbb950 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -29,6 +29,7 @@
- #include "qemu/sockets.h"
- #include "qemu/bitmap.h"
- #include "qemu/coroutine.h"
-+#include "exec/memory.h"
- #include <sys/socket.h>
- #include <netdb.h>
- #include <arpa/inet.h>
-@@ -4017,8 +4018,14 @@ void rdma_start_incoming_migration(const char *hos=
-t_port, Error **errp)
-     Error *local_err =3D NULL;
+diff --git a/include/migration/colo.h b/include/migration/colo.h
+index 1636e6f907..768e1f04c3 100644
+--- a/include/migration/colo.h
++++ b/include/migration/colo.h
+@@ -25,7 +25,7 @@ void migrate_start_colo_process(MigrationState *s);
+ bool migration_in_colo_state(void);
 =20
-     trace_rdma_start_incoming_migration();
--    rdma =3D qemu_rdma_data_init(host_port, &local_err);
+ /* loadvm */
+-void migration_incoming_enable_colo(void);
++int migration_incoming_enable_colo(void);
+ void migration_incoming_disable_colo(void);
+ bool migration_incoming_colo_enabled(void);
+ void *colo_process_incoming_thread(void *opaque);
+diff --git a/migration/migration.c b/migration/migration.c
+index 177cce9e95..f6830e4620 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -338,12 +338,18 @@ bool migration_incoming_colo_enabled(void)
 =20
-+    /* Avoid ram_block_discard_set_broken(), cannot change during migrat=
-ion. */
-+    if (ram_block_discard_is_required()) {
-+        error_setg(errp, "RDMA: cannot set discarding of RAM broken");
-+        return;
-+    }
-+
-+    rdma =3D qemu_rdma_data_init(host_port, &local_err);
-     if (rdma =3D=3D NULL) {
-         goto err;
-     }
-@@ -4064,10 +4071,17 @@ void rdma_start_outgoing_migration(void *opaque,
-                             const char *host_port, Error **errp)
+ void migration_incoming_disable_colo(void)
  {
-     MigrationState *s =3D opaque;
--    RDMAContext *rdma =3D qemu_rdma_data_init(host_port, errp);
-     RDMAContext *rdma_return_path =3D NULL;
-+    RDMAContext *rdma;
-     int ret =3D 0;
++    ram_block_discard_set_broken(false);
+     migration_colo_enabled =3D false;
+ }
 =20
-+    /* Avoid ram_block_discard_set_broken(), cannot change during migrat=
-ion. */
-+    if (ram_block_discard_is_required()) {
-+        error_setg(errp, "RDMA: cannot set discarding of RAM broken");
-+        return;
+-void migration_incoming_enable_colo(void)
++int migration_incoming_enable_colo(void)
+ {
++    if (ram_block_discard_set_broken(true)) {
++        error_report("COLO: cannot set discarding of RAM broken");
++        return -EBUSY;
 +    }
+     migration_colo_enabled =3D true;
++    return 0;
+ }
+=20
+ void migrate_add_address(SocketAddress *address)
+diff --git a/migration/savevm.c b/migration/savevm.c
+index c00a6807d9..19b4f9600d 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2111,8 +2111,15 @@ static int loadvm_handle_recv_bitmap(MigrationInco=
+mingState *mis,
+=20
+ static int loadvm_process_enable_colo(MigrationIncomingState *mis)
+ {
+-    migration_incoming_enable_colo();
+-    return colo_init_ram_cache();
++    int ret =3D migration_incoming_enable_colo();
 +
-+    rdma =3D qemu_rdma_data_init(host_port, errp);
-     if (rdma =3D=3D NULL) {
-         goto err;
-     }
++    if (!ret) {
++        ret =3D colo_init_ram_cache();
++        if (ret) {
++            migration_incoming_disable_colo();
++        }
++    }
++    return ret;
+ }
+=20
+ /*
 --=20
 2.25.3
 
