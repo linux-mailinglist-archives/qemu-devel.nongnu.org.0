@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF8B1C7979
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 20:34:26 +0200 (CEST)
-Received: from localhost ([::1]:58988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24811C798A
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 20:37:18 +0200 (CEST)
+Received: from localhost ([::1]:39412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWOsD-0000II-8P
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 14:34:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
+	id 1jWOuz-00044P-PE
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 14:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jWOo3-0004M5-G8
- for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:07 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44981)
+ id 1jWOo4-0004MQ-7y
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:08 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jWOo2-0002ml-7I
+ id 1jWOo2-0002my-W5
  for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:07 -0400
-Received: by mail-pl1-x631.google.com with SMTP id b8so716832plm.11
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 11:30:05 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id q124so1163096pgq.13
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 11:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0XxHIH+aU72cGC8v9gqVLYCoVm5TOqhICJXBWXKkOj0=;
- b=PTOA8PAnd08YdgbwfBuPUzBldh7XN/mytekkfLmPIP/dJdqkZMP+XW4BeGzYROae8T
- FViEcE65/0gcVkfnq6F88+d/31rDeDy/JqPfSUv7QFT+Jm7S9aInWmCgAHrpQAlDrPN6
- QjZVbS/BzZyFjiJ+caaZ77D+RV8qm21R0tHUtvZT42VebcXR2DSN7cS7UFvHp9ZsD2Ka
- stIkalhyc3gCEtd45f6wmhQm8prKKtnlGH5zS2DhPLkW6juR7zMNNlbqENpOsDzU/HXR
- aX0mtxU2bmjcRz+BzG55UCKhd+QeAvazffNhYosDOHy5EXJCIURJR9klnT7yaovqauZG
- CZQg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=BLcD9N9MlInNi6OgkZr1QrgaUSOVwaTdYcH5SM4Yl98=;
+ b=QdkekIITCGsJJcE+GYs0/vyd5osLMdYMd9NVK0DA6FTzwdxoU3nvx9LMkhOfsD6ADj
+ 50akld1Cq4Avv3AOQFQm7mZTga5MTpPLd/Bp5HW6vO8YqoyKBOoG4aLMerXUxA6zxgok
+ 9WIhPwVAmrrUdeeY/4w8dJipFhmJho3Yjpudrk007Vdi9Tp4F9HqYuoiJq0RcF5HnOsL
+ twREaol40FlWDrDTReTDgpWCRG358LxyvvhuHLETcF2hq6lXbJhcsrnGDUu1QDH4lix5
+ 8r+HpwNIZq8zmJwchIb6D3RdkWBotXMPqMA8HrJO6lipKF/pNUOYbCuKENAW5KF435N5
+ mDVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0XxHIH+aU72cGC8v9gqVLYCoVm5TOqhICJXBWXKkOj0=;
- b=SqaEtr9am8bzrDl4zSP+rw9QYdCxiKtmfTxgmuZ2LDEogSSxDDq1VO30ZbJkr98Ill
- d44hpbs8RGulIKG7raa8bC4g/q7e+gBYHbkuL/ujYVdQCH41c2IeeqdvVk0H6xfiCKAU
- UiC/as8xWLk3K8iCbXuU3aN5jBGDfAhFCvqoWKu0ftyRvBmWWzzg+Yn5kViEg4492Akf
- JipzhqOF7aTdqOt3ZUadB9g6acU3Cg/pupoaRzUZr96Dp/J5v6ZxIQHJaNkziPx58W3h
- cHwvxIv5uEv72hYGIUyQhDdX2o43kGr+oAuwsMl06qdQrjMBzh9ZCndYo8HjhCfmhS+L
- HLow==
-X-Gm-Message-State: AGi0PubvMch81uOc1rX3/eOqJcG0DNiI/HQRtMSMOa/0HecytBnlc66N
- K6vExcAzkKtFswfw6w/Z3WQMHU389bk=
-X-Google-Smtp-Source: APiQypIPMFOBKk1PvhZdOgKoAJrWmHEdAq7f+rwZ78M8eeQbTUW/PTmlNpiu0DiLM5ATwn3WHX+p5w==
-X-Received: by 2002:a17:90a:20ea:: with SMTP id
- f97mr10764274pjg.157.1588789803709; 
- Wed, 06 May 2020 11:30:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=BLcD9N9MlInNi6OgkZr1QrgaUSOVwaTdYcH5SM4Yl98=;
+ b=BcGMCF40Cl4ikB5MyQGx04FNWg1oFxVuBJKOqWabhHtlExre2YIGo9LiPUNTiHjBN8
+ YdwiphqwfGqVs4wbv9maoE1t9eFLw/3ebIXPbFr0wdlSMowx3FJX3kHK2VvE3+z0eTK8
+ wuf0Or9U9SHZeCjH8bbHgO2iu8ne5eWuhYYW2Rr4+dT/516kZHjtRHaD7RBB+WOfdjVI
+ D5cBi6bBDyx+7poWF4zyFK0hRcE4yG1RgsIiw1wk931CVmdiDuFpnKwjaXhJtdWAXLzO
+ eIHQyW58S6oh/P04GpGbg2xiiqBAiZ+m03mcF/FmItuUSrNW50SvmnWU91Qr4CYLThtk
+ FoOw==
+X-Gm-Message-State: AGi0Pubf6QU8qhv9xjYPtI+axya/E/Vs/9U71yshc+MX85tHG83tQ6gF
+ ginbOX9ISS/Sqerl25NNTnyhhjJw0Z4=
+X-Google-Smtp-Source: APiQypKXpDE0HQQ1E5qhl8kDuuL8xbwaSXblQwQ07VGPLno8IYVT6eRQGtstaDxw7ppYZQ0lhZvk/w==
+X-Received: by 2002:a62:1657:: with SMTP id 84mr9374082pfw.51.1588789805064;
+ Wed, 06 May 2020 11:30:05 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id w11sm2572589pfq.100.2020.05.06.11.30.02
+ by smtp.gmail.com with ESMTPSA id w11sm2572589pfq.100.2020.05.06.11.30.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 11:30:02 -0700 (PDT)
+ Wed, 06 May 2020 11:30:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/10] tcg patch queue
-Date: Wed,  6 May 2020 11:29:52 -0700
-Message-Id: <20200506183002.3192-1-richard.henderson@linaro.org>
+Subject: [PULL 01/10] tcg: Add tcg_gen_gvec_dup_imm
+Date: Wed,  6 May 2020 11:29:53 -0700
+Message-Id: <20200506183002.3192-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200506183002.3192-1-richard.henderson@linaro.org>
+References: <20200506183002.3192-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,48 +86,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ LIU Zhiwei <zhiwei_liu@c-sky.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a36d64f43325fa503075cc9408ddabb69b32f829:
+Add a version of tcg_gen_dup_* that takes both immediate and
+a vector element size operand.  This will replace the set of
+tcg_gen_gvec_dup{8,16,32,64}i functions that encode the element
+size within the function name.
 
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-gdbstub-060520-1' into staging (2020-05-06 14:06:00 +0100)
+Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/tcg/tcg-op-gvec.h | 2 ++
+ tcg/tcg-op-gvec.c         | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
-are available in the Git repository at:
+diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
+index 74534e2480..eb0d47a42b 100644
+--- a/include/tcg/tcg-op-gvec.h
++++ b/include/tcg/tcg-op-gvec.h
+@@ -313,6 +313,8 @@ void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, uint32_t aofs,
+ 
+ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+                           uint32_t s, uint32_t m);
++void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t s,
++                          uint32_t m, uint64_t imm);
+ void tcg_gen_gvec_dup_i32(unsigned vece, uint32_t dofs, uint32_t s,
+                           uint32_t m, TCGv_i32);
+ void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t s,
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 327d9588e0..593bb4542e 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -1569,6 +1569,13 @@ void tcg_gen_gvec_dup8i(uint32_t dofs, uint32_t oprsz,
+     do_dup(MO_8, dofs, oprsz, maxsz, NULL, NULL, x);
+ }
+ 
++void tcg_gen_gvec_dup_imm(unsigned vece, uint32_t dofs, uint32_t oprsz,
++                          uint32_t maxsz, uint64_t x)
++{
++    check_size_align(oprsz, maxsz, dofs);
++    do_dup(vece, dofs, oprsz, maxsz, NULL, NULL, x);
++}
++
+ void tcg_gen_gvec_not(unsigned vece, uint32_t dofs, uint32_t aofs,
+                       uint32_t oprsz, uint32_t maxsz)
+ {
+-- 
+2.20.1
 
-  https://github.com/rth7680/qemu.git tags/pull-tcg-20200506
-
-for you to fetch changes up to 07dada0336a83002dfa8673a9220a88e13d9a45c:
-
-  tcg: Fix integral argument type to tcg_gen_rot[rl]i_i{32,64} (2020-05-06 09:25:10 -0700)
-
-----------------------------------------------------------------
-Add tcg_gen_gvec_dup_imm
-Misc tcg patches
-
-----------------------------------------------------------------
-Richard Henderson (10):
-      tcg: Add tcg_gen_gvec_dup_imm
-      target/s390x: Use tcg_gen_gvec_dup_imm
-      target/ppc: Use tcg_gen_gvec_dup_imm
-      target/arm: Use tcg_gen_gvec_dup_imm
-      tcg: Use tcg_gen_gvec_dup_imm in logical simplifications
-      tcg: Remove tcg_gen_gvec_dup{8,16,32,64}i
-      tcg: Add tcg_gen_gvec_dup_tl
-      tcg: Improve vector tail clearing
-      tcg: Add load_dest parameter to GVecGen2
-      tcg: Fix integral argument type to tcg_gen_rot[rl]i_i{32,64}
-
- include/tcg/tcg-op-gvec.h           |  13 ++-
- include/tcg/tcg-op.h                |   8 +-
- target/arm/translate-a64.c          |  10 +--
- target/arm/translate-sve.c          |  12 ++-
- target/arm/translate.c              |   9 +-
- target/ppc/translate/vmx-impl.inc.c |  32 +++----
- target/ppc/translate/vsx-impl.inc.c |   2 +-
- target/s390x/translate_vx.inc.c     |  41 ++-------
- tcg/tcg-op-gvec.c                   | 162 +++++++++++++++++++++++-------------
- tcg/tcg-op.c                        |  16 ++--
- 10 files changed, 166 insertions(+), 139 deletions(-)
 
