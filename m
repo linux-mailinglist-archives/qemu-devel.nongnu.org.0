@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3291C73CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 17:15:22 +0200 (CEST)
-Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED261C748A
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 17:26:27 +0200 (CEST)
+Received: from localhost ([::1]:41392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWLlZ-0005JN-5Z
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 11:15:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40128)
+	id 1jWLwJ-0001GR-0g
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 11:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWLkV-0004oy-5M
- for qemu-devel@nongnu.org; Wed, 06 May 2020 11:14:15 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37584
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWLkT-0007gL-8J
- for qemu-devel@nongnu.org; Wed, 06 May 2020 11:14:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588778052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DYVMI1TiOkiUJmKaM89uxSRms9LLT1RCGqmG5RR7eME=;
- b=ix6snfsQa30Qcd8tibzo6kBgVV+82POxLPRt/eZnYFrX4JEYyFtrljaX/1ju3vtOF9qJ/Y
- 7XNPtUQA56mWZxJDL8h7npzZD8ICP3+0VqLTVMvskc+twmQsFihaMqgUneswsbXO/M4+8c
- NJ7poSmGp1GvoyX/gkhQU9pgC063viw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-hwqDaHH8P8SIWneq3I1XqQ-1; Wed, 06 May 2020 11:14:07 -0400
-X-MC-Unique: hwqDaHH8P8SIWneq3I1XqQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFC6D835B40;
- Wed,  6 May 2020 15:14:05 +0000 (UTC)
-Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C3965D9C5;
- Wed,  6 May 2020 15:14:02 +0000 (UTC)
-Subject: Re: [PATCH 8/8] block: drop unallocated_blocks_are_zero
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200506092513.20904-1-vsementsov@virtuozzo.com>
- <20200506092513.20904-9-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ad581d23-d79d-bf78-3cd5-848eb29a90f5@redhat.com>
-Date: Wed, 6 May 2020 10:14:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWLva-0000rD-BU
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 11:25:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWLvY-0002Yu-Tg
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 11:25:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jWLvW-0001uv-62
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 15:25:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 246112E8107
+ for <qemu-devel@nongnu.org>; Wed,  6 May 2020 15:25:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200506092513.20904-9-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 06 May 2020 15:14:02 -0000
+From: Matthew <1877136@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: matmal01
+X-Launchpad-Bug-Reporter: Matthew (matmal01)
+X-Launchpad-Bug-Modifier: Matthew (matmal01)
+Message-Id: <158877804267.5105.15160019007007013161.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1877136] [NEW] Qemu GDB Arm core registers XML description not
+ valid for M-profile
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 7d6518587c3ccb091cc493a9dcb10f11a2ea129e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 08:46:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,169 +73,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, ronniesahlberg@gmail.com,
- codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org
+Reply-To: Bug 1877136 <1877136@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/20 4:25 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Currently this field only set by qed and qcow2.
+Public bug reported:
 
-Well, only after patches 1-6 (prior to then, it was also set in protocol 
-drivers).  I think you might be able to hoist part of this patch earlier 
-in the series, to make the changes to the protocol drivers easier to 
-review, by rewording this sentence:
+When trying to debug an armv7-m binary running on Qemu, GDB makes some
+mistakes due to mistakenly believing the target is not M-profile.
 
-Currently, the only format drivers that set this field are qed and qcow2.
+One observable is that backtraces over signal handlers are not handled
+correctly -- since the special M-profile EXC_RETURN value is not
+recognised.  That happens because GDB doesn't think the target is
+M-profile.
 
-> But in fact, all
-> backing-supporting formats (parallels, qcow, qcow2, qed, vmdk) share
-> this semantics: on unallocated blocks, if there is no backing file they
+This happens because GDB sees a reported feature set from the Qemu
+remote connection that includes the feature `org.gnu.gdb.arm.core`.
 
-s/this/these/
+As described in the GDB online docs, for "M-profile targets (e.g. Cortex-M3=
+), the =E2=80=98org.gnu.gdb.arm.core=E2=80=99 feature is replaced by =E2=80=
+=98org.gnu.gdb.arm.m-profile=E2=80=99"
+https://sourceware.org/gdb/current/onlinedocs/gdb/ARM-Features.html
 
-> just memset the buffer with zeroes.
-> 
-> So, document this behavior for .supports_backing and drop
-> .unallocated_blocks_are_zero
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   include/block/block.h     |  6 ------
->   include/block/block_int.h | 13 ++++++++++++-
->   block.c                   | 15 ---------------
->   block/io.c                |  8 ++++----
->   block/qcow2.c             |  1 -
->   block/qed.c               |  1 -
->   6 files changed, 16 insertions(+), 28 deletions(-)
-> 
-> diff --git a/include/block/block.h b/include/block/block.h
-> index 8b62429aa4..db1cb503ec 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-> @@ -21,11 +21,6 @@ typedef struct BlockDriverInfo {
->       /* offset at which the VM state can be saved (0 if not possible) */
->       int64_t vm_state_offset;
->       bool is_dirty;
-> -    /*
-> -     * True if unallocated blocks read back as zeroes. This is equivalent
-> -     * to the LBPRZ flag in the SCSI logical block provisioning page.
-> -     */
-> -    bool unallocated_blocks_are_zero;
+>From a scan of the Qemu source code on commit
+ea1329bb3a8d5cd25b70e3dbf73e7ded4d5ad756 it seems that when emulating an
+arm core it uses `arm-core.xml` unconditionally for
+`CPUClass->gdb_core_xml_file`, and that means the only feature provided
+is `org.gnu.gdb.arm.core`.
 
-You can't delete this field until all protocol drivers are cleaned up, 
-so deferring this part of the change to the end of the series makes sense.
+Note that even though there is a command to set the architecture in GDB, se=
+tting the target architecture to an M-profile core is still not a valid wor=
+karound.
+This is because the target description overrides everything in setting the =
+`is_m` attribute within GDB.
 
->       /*
->        * True if this block driver only supports compressed writes
->        */
-> @@ -431,7 +426,6 @@ int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
->   int bdrv_has_zero_init_1(BlockDriverState *bs);
->   int bdrv_has_zero_init(BlockDriverState *bs);
->   int bdrv_has_zero_init_truncate(BlockDriverState *bs);
-> -bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs);
+Reproduction of the observable:
+Using the examples here https://git.linaro.org/people/peter.maydell/m-profi=
+le-tests.git/tree/ .
+Build the examples, and run =
 
-Doing this cleanup makes sense: there is only one caller of this 
-function pre-patch, and 0 callers post-patch - but whether the cleanup 
-should be at the same time as you fix the one caller, or deferred to 
-when you also clean up the field, is less important.
+```
+qemu-system-arm -s -S -no-reboot -M lm3s6965evb -m 16 -serial stdio -displa=
+y none -net nic -net user,restrict=3Don -d guest_errors,unimp -kernel test3=
+-kern.bin
+```
 
-If I were writing the series:
+Then in a GDB session
+```
+vshcmd: > arm-none-eabi-gdb -q                                             =
+                                                                           =
+                                            =
 
-1 - fix qemu-img.c to not use the field
-2 - fix block_status to not use the function
-3-n - fix protocol drivers that set the field to also return _ZERO
-  during block status (but not delete the field at that time)
-n+1 - delete unused function and field (from ALL drivers)
+(gdb)
+vshcmd: > file test3-kern.elf
+Reading symbols from test3-kern.elf...
+(gdb)
+vshcmd: > target remote localhost:1234
+Remote debugging using localhost:1234
+_start () at init-m.S:53
+53        mov r0, #0
+(gdb)
+vshcmd: > show architecture
+The target architecture is set automatically (currently armv7)
+(gdb)
+vshcmd: > break svc
+Breakpoint 1 at 0x6fc: svc. (2 locations)
+(gdb)
+vshcmd: > cont
+Continuing.
 
->   bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
->   int bdrv_block_status(BlockDriverState *bs, int64_t offset,
->                         int64_t bytes, int64_t *pnum, int64_t *map,
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index 92335f33c7..c156b22c6b 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -115,7 +115,18 @@ struct BlockDriver {
->        */
->       bool bdrv_needs_filename;
->   
-> -    /* Set if a driver can support backing files */
-> +    /*
-> +     * Set if a driver can support backing files. This also implies the
-> +     * following semantics:
-> +     *
-> +     *  - Return status 0 of .bdrv_co_block_status means that corresponding
-> +     *    blocks are not allocated in this layer of backing-chain
-> +     *  - For such (unallocated) blocks, read will:
-> +     *    - read from backing file if there is one and big enough
+Breakpoint 1, svc () at test3.c:16
+16          int test =3D SEQ();
+(gdb)
+vshcmd: > bt
+#0  svc () at test3.c:16
+#1  0xfffffff8 in ?? ()
+Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+(gdb)
+vshcmd: > print/x $lr
+$1 =3D 0xfffffff9
+(gdb)
+```
 
-s/and/and it is/
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-> +     *    - fill buffer with zeroes if there is no backing file
-> +     *    - space after EOF of the backing file considered as zero
-> +     *      (corresponding part of read-buffer must be zeroed by driver)
 
-Does the driver actually have to do the zeroing?  Looking at qcow2.c, I see:
-static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
-...
+** Tags: arm
 
-     case QCOW2_CLUSTER_UNALLOCATED:
-         assert(bs->backing); /* otherwise handled in 
-qcow2_co_preadv_part */
+-- =
 
-         BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
-         return bdrv_co_preadv_part(bs->backing, offset, bytes,
-                                    qiov, qiov_offset, 0);
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877136
 
-which just defers to the block layer to handle read-beyond-EOF, rather 
-than an explicit memset in the driver.
+Title:
+  Qemu GDB Arm core registers XML description not valid for M-profile
 
-So maybe you can simplify to:
-- For such (unallocated) blocks, read will:
-   - fill buffer with zeros if there is no backing file
-   - read from the backing file otherwise, where the block layer
-     takes care of reading zeros beyond EOF if backing file is short
+Status in QEMU:
+  New
 
-But the effect is the same.
+Bug description:
+  When trying to debug an armv7-m binary running on Qemu, GDB makes some
+  mistakes due to mistakenly believing the target is not M-profile.
 
-> +++ b/block/io.c
-> @@ -2385,16 +2385,16 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
->   
->       if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
->           ret |= BDRV_BLOCK_ALLOCATED;
-> -    } else if (want_zero) {
-> -        if (bdrv_unallocated_blocks_are_zero(bs)) {
-> -            ret |= BDRV_BLOCK_ZERO;
-> -        } else if (bs->backing) {
-> +    } else if (want_zero && bs->drv->supports_backing) {
-> +        if (bs->backing) {
->               BlockDriverState *bs2 = bs->backing->bs;
->               int64_t size2 = bdrv_getlength(bs2);
->   
->               if (size2 >= 0 && offset >= size2) {
->                   ret |= BDRV_BLOCK_ZERO;
->               }
-> +        } else {
-> +            ret |= BDRV_BLOCK_ZERO;
->           }
+  One observable is that backtraces over signal handlers are not handled
+  correctly -- since the special M-profile EXC_RETURN value is not
+  recognised.  That happens because GDB doesn't think the target is
+  M-profile.
 
-I like this part of the change.  But if it is done first in the series, 
-it _does_ have a semantic impact on protocol drivers (previously, 
-protocol drivers that return 0 but set the field 
-.unallocated_blocks_are_zero will be changed to report _ZERO; after this 
-patch, protocol drivers do not do that, because they don't support 
-backing files, and it is now only backing files that do the _ZERO 
-magic).  So doing _just_ this change, along with a better analysis of 
-how it changes the semantics of 'qemu-io -c map' on protocol drivers 
-while mentioning why that is okay, would make a better start to the 
-series, rather than here at the end.  Of course, if you defer it to the 
-end, then none of the protocol drivers set .unallocated_blocks_are_zero 
-anyway, but that cost more review work on each altered protocol driver.
+  This happens because GDB sees a reported feature set from the Qemu
+  remote connection that includes the feature `org.gnu.gdb.arm.core`.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+  As described in the GDB online docs, for "M-profile targets (e.g. Cortex-=
+M3), the =E2=80=98org.gnu.gdb.arm.core=E2=80=99 feature is replaced by =E2=
+=80=98org.gnu.gdb.arm.m-profile=E2=80=99"
+  https://sourceware.org/gdb/current/onlinedocs/gdb/ARM-Features.html
 
+  From a scan of the Qemu source code on commit
+  ea1329bb3a8d5cd25b70e3dbf73e7ded4d5ad756 it seems that when emulating
+  an arm core it uses `arm-core.xml` unconditionally for
+  `CPUClass->gdb_core_xml_file`, and that means the only feature
+  provided is `org.gnu.gdb.arm.core`.
+
+  Note that even though there is a command to set the architecture in GDB, =
+setting the target architecture to an M-profile core is still not a valid w=
+orkaround.
+  This is because the target description overrides everything in setting th=
+e `is_m` attribute within GDB.
+
+  Reproduction of the observable:
+  Using the examples here https://git.linaro.org/people/peter.maydell/m-pro=
+file-tests.git/tree/ .
+  Build the examples, and run =
+
+  ```
+  qemu-system-arm -s -S -no-reboot -M lm3s6965evb -m 16 -serial stdio -disp=
+lay none -net nic -net user,restrict=3Don -d guest_errors,unimp -kernel tes=
+t3-kern.bin
+  ```
+
+  Then in a GDB session
+  ```
+  vshcmd: > arm-none-eabi-gdb -q                                           =
+                                                                           =
+                                              =
+
+  (gdb)
+  vshcmd: > file test3-kern.elf
+  Reading symbols from test3-kern.elf...
+  (gdb)
+  vshcmd: > target remote localhost:1234
+  Remote debugging using localhost:1234
+  _start () at init-m.S:53
+  53        mov r0, #0
+  (gdb)
+  vshcmd: > show architecture
+  The target architecture is set automatically (currently armv7)
+  (gdb)
+  vshcmd: > break svc
+  Breakpoint 1 at 0x6fc: svc. (2 locations)
+  (gdb)
+  vshcmd: > cont
+  Continuing.
+
+  Breakpoint 1, svc () at test3.c:16
+  16          int test =3D SEQ();
+  (gdb)
+  vshcmd: > bt
+  #0  svc () at test3.c:16
+  #1  0xfffffff8 in ?? ()
+  Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+  (gdb)
+  vshcmd: > print/x $lr
+  $1 =3D 0xfffffff9
+  (gdb)
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877136/+subscriptions
 
