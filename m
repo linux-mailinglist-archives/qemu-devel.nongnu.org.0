@@ -2,70 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CC81C708E
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:43:52 +0200 (CEST)
-Received: from localhost ([::1]:51034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D1F91C7123
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:57:10 +0200 (CEST)
+Received: from localhost ([::1]:57294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWJOx-00067F-Ii
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:43:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34110)
+	id 1jWJbp-0001dv-CZ
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jWJNd-0004fS-O0; Wed, 06 May 2020 08:42:29 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:42559)
+ (Exim 4.90_1) (envelope-from <priyamvad.agnisys@gmail.com>)
+ id 1jWJb6-0001Dt-9w
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:56:24 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:46743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jWJNc-0008Ui-Fs; Wed, 06 May 2020 08:42:29 -0400
-Received: by mail-lj1-x242.google.com with SMTP id a21so2160593ljb.9;
- Wed, 06 May 2020 05:42:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <priyamvad.agnisys@gmail.com>)
+ id 1jWJb5-00019d-LR
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:56:24 -0400
+Received: by mail-lj1-x241.google.com with SMTP id f18so2196282lja.13
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=nOQSLGpGO3TwX+eyRCdr9lG1bDd+uzfPjZvAcBu5KYU=;
- b=CNnD6LMKxH/UHRdV/AtJzu7v6vhha/ireUVs6C9lbk6Uv1YCVk6Ed+wt5nw9PZ0MSB
- mfKvpczQnxyj8saG0EYxa4ah4bHqiMcLO5FUO6ZVESdpnaD43of7bxZmRpd9C1dB3VNO
- SdxNOHRIo9Rro+uRMjXyyeRozB6SBfap75Vksj82YCv0uvti6C54v+xLQqA4crGlwNYL
- zI5byQ1tjxR8xnhHfLx4Ag92++TlmOCB5sZQD84YpnAiOqwD7BayNuTFW6DKLRktevNJ
- Ty59TWDceKPMsnopVQXRafPKlierpdI4UzxtXhycGSYxHOELtWljAV6D1B7pF0/xUwSX
- Fjsw==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=X5jMTmvORI1mzcC0YGhr+6ixyJJe6wwu6bstylJsaO0=;
+ b=KNhLApxOR3wCEsM7ZXzZzU4YlPrpy8bfwPnE4oTvnBwnH+tW4dTa1FEkelLpLP3NTw
+ idN/5Pv3HGSRRaQrTk890WoC9LDNU4wRmBExUG3vIowHa/ScKfbMfFgGUFis7sz4Qfy2
+ TSGSPSDjVudZENwKOLuxTqMYdtAM+55pmJICBErSObq7T62lca+1z9Kt3vYimkofQNxo
+ +r6nF7Ijsws8lnwjM2StlabEdmEhjJZgTI+y06QWPS5D1MAnj1mGJVQ/Am+M21htd9I2
+ wQH1YTlX+h0yu3f70xMLZHmBcswZjjjnLRRfPRNrPskEY0USD7PQb3010E8GzQg9LT53
+ IHFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=nOQSLGpGO3TwX+eyRCdr9lG1bDd+uzfPjZvAcBu5KYU=;
- b=SNBms1hVFbIdAiDSb4bIGJgqq/TrS5EeHZ48ljZH7y7hjaGmvguIT5rQA1Ylo4E6iH
- +8urVQq+VlQS0wCz4x0f+J/owbaSDq/jNZXtwnkC4KS0HYn5+WSfuSZXIArfNRo43p5S
- AyNevfh2HV3VdjXPqlQZZDQQ6l8kzQvq7kioKsXGHREYIuEWWtCpV/obTigOaSmESTk1
- M4gz+fKR9/yOFpk3Sb67x9JfR/R8OLbkEbbVVgvbxhaLraoBhkNcXDZOIpqhTPYWHaPu
- 5mGptuVvCH3wrEl7+Z4iUepT3AYxFHuxn/eMWPy7VYVzym3unr+U6OP42ipUwmb5NzKH
- /TTA==
-X-Gm-Message-State: AGi0PuZGkkixL1I16UIiszQtivJGZi+/2G9LY7wIIiFRyvxY4plbPBAi
- NCfWA6549gBPIbeYb/gq2AQ=
-X-Google-Smtp-Source: APiQypL201vwMzSr2Cde+ZQPfPCKd2wn+pxD60z5YpPmVIeNiZDRI7yhTUTM+JU5C0tUIW4uazKO3A==
-X-Received: by 2002:a2e:740f:: with SMTP id p15mr4910495ljc.151.1588768946065; 
- Wed, 06 May 2020 05:42:26 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id s11sm1605438lfo.86.2020.05.06.05.42.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 05:42:25 -0700 (PDT)
-Date: Wed, 6 May 2020 14:42:09 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 5/9] hw/core: stream: Add an end-of-packet flag
-Message-ID: <20200506124209.GK5519@toto>
-References: <20200506082513.18751-1-edgar.iglesias@gmail.com>
- <20200506082513.18751-6-edgar.iglesias@gmail.com>
- <c7f6947d-7815-8df3-6835-3fe933ad4dbc@amsat.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=X5jMTmvORI1mzcC0YGhr+6ixyJJe6wwu6bstylJsaO0=;
+ b=ZE9zBdXg9gs/iJMYattOwonx8dsjNQf90FYk7B8ISI6Yj4OApp4owDwWwMTX/wwEMo
+ 0Rp5OO7qY+bCpDi3fPCaS/DhFa8fa3FhasVzu08OvBpSglDhiaJZKAAjmyO0NDKmrUfK
+ mW3sPoa29a8sY4gZvYgWPfo7vqSHp+ZJAU6DxEJ66gyQbw0kaSMlwmLSg3boxRr+yLtt
+ lcn2wE7Hl/EmJ+RS7yqhYWX83OjW9t7jtFBpMPzTuCANPl0Y+9D9WTlYo1bKuTsjymS0
+ BWOd56sEA0R0ppvSSmCIUb0vkcGnQDrTa0bSsQ9pxV5z7jD1/qSpOL5bMnFKtMraCh9Z
+ 9rDg==
+X-Gm-Message-State: AGi0PuaNBvU7NZPOdXVX5ciDUtJayPMrg7Foh4GurryooLk8i9PtYZjS
+ P8clLLhPv6qfuxiteApme1b7BgYg07T9i4lGXTZWq0HuPOY=
+X-Google-Smtp-Source: APiQypLa04U99kbpXY8pJ6/I5xHcIFR9wS8CfLwPrFZIwikiW7THTBj+wypFAfXZL39nO0viAQEqhqY19ASmAb6POxw=
+X-Received: by 2002:a2e:97d4:: with SMTP id m20mr4708436ljj.159.1588769780790; 
+ Wed, 06 May 2020 05:56:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c7f6947d-7815-8df3-6835-3fe933ad4dbc@amsat.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x242.google.com
+From: Priyamvad Acharya <priyamvad.agnisys@gmail.com>
+Date: Wed, 6 May 2020 18:26:08 +0530
+Message-ID: <CAPV47zdeH0+G85De2nOeD-dw91PKqPZh0U4SZuwuFmdqRyhXjQ@mail.gmail.com>
+Subject: Parameter 'driver' expects pluggable device type
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000069fd0305a4fa4af7"
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=priyamvad.agnisys@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,8 +61,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,93 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, peter.maydell@linaro.org,
- sstabellini@kernel.org, edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
- frasse.iglesias@gmail.com, jasowang@redhat.com, alistair@alistair23.me,
- qemu-devel@nongnu.org, frederic.konrad@adacore.com, qemu-arm@nongnu.org,
- figlesia@xilinx.com, luc.michel@greensocs.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 06, 2020 at 01:53:33PM +0200, Philippe Mathieu-Daudé wrote:
-> Hi Edgar,
+--00000000000069fd0305a4fa4af7
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Philippe,
+Hello developer community,
+I want to allow a *sysbus *type device to boot with kernel image(arm
+architecture) via Qemu command line .
 
+When I run qemu arm system executable with *-device *option via qemu
+command line,I get following error message
 
+> qemu-system-arm: -device pl061: Parameter 'driver' expects pluggable
+device type
 
-> 
-> On 5/6/20 10:25 AM, Edgar E. Iglesias wrote:
-> > From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-> > 
-> > Some stream clients stream an endless stream of data while
-> > other clients stream data in packets. Stream interfaces
-> > usually have a way to signal the end of a packet or the
-> > last beat of a transfer.
-> > 
-> > This adds an end-of-packet flag to the push interface.
-> > 
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
-> > Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> > ---
-> >   include/hw/stream.h     |  5 +++--
-> >   hw/core/stream.c        |  4 ++--
-> >   hw/dma/xilinx_axidma.c  | 10 ++++++----
-> >   hw/net/xilinx_axienet.c | 14 ++++++++++----
-> >   hw/ssi/xilinx_spips.c   |  2 +-
-> >   5 files changed, 22 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/include/hw/stream.h b/include/hw/stream.h
-> > index d02f62ca89..ed09e83683 100644
-> > --- a/include/hw/stream.h
-> > +++ b/include/hw/stream.h
-> > @@ -39,12 +39,13 @@ typedef struct StreamSlaveClass {
-> >        * @obj: Stream slave to push to
-> >        * @buf: Data to write
-> >        * @len: Maximum number of bytes to write
-> > +     * @eop: End of packet flag
-> >        */
-> > -    size_t (*push)(StreamSlave *obj, unsigned char *buf, size_t len);
-> > +    size_t (*push)(StreamSlave *obj, unsigned char *buf, size_t len, bool eop);
-> 
-> I'd split this patch, first add EOP in the push handler, keeping current
-> code working, then the following patches (implementing the feature in the
-> backend handlers), then ...
-> 
-> >   } StreamSlaveClass;
-> >   size_t
-> > -stream_push(StreamSlave *sink, uint8_t *buf, size_t len);
-> > +stream_push(StreamSlave *sink, uint8_t *buf, size_t len, bool eop);
-> 
-> ... this final patch, enable the feature and let the frontends use it.
-> 
-> >   bool
-> >   stream_can_push(StreamSlave *sink, StreamCanPushNotifyFn notify,
-> > diff --git a/hw/core/stream.c b/hw/core/stream.c
-> > index 39b1e595cd..a65ad1208d 100644
-> > --- a/hw/core/stream.c
-> > +++ b/hw/core/stream.c
-> > @@ -3,11 +3,11 @@
-> >   #include "qemu/module.h"
-> >   size_t
-> > -stream_push(StreamSlave *sink, uint8_t *buf, size_t len)
-> > +stream_push(StreamSlave *sink, uint8_t *buf, size_t len, bool eop)
-> >   {
-> >       StreamSlaveClass *k =  STREAM_SLAVE_GET_CLASS(sink);
-> > -    return k->push(sink, buf, len);
-> > +    return k->push(sink, buf, len, eop);
-> 
-> So in this first part patch I'd use 'false' here, and update by 'eop' in the
-> other part (last patch in series). Does it make sense?
+So, how to allow a sysbus device via command line?
+Is there any working patch?
 
-Current code implicitly assumes eop = true, so this patch keeps things
-working as before. It just makes the assumption explicit and guarding
-backends with asserts. The support for eop = false is then added
-(where relevant) in future patches, roughly the way you describe it.
+--00000000000069fd0305a4fa4af7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I can add something to the commit message to clarify that.
+<div dir=3D"ltr"><br><div>Hello developer community,</div><div>I want to al=
+low a <b>sysbus </b>type device to boot with kernel image(arm architecture)=
+ via Qemu command line .</div><div><br></div><div>When I run qemu arm syste=
+m executable with <b>-device </b>option via qemu command line,I get followi=
+ng error message</div><div><br></div><div style=3D"margin-left:40px">&gt; q=
+emu-system-arm: -device pl061: Parameter &#39;driver&#39; expects pluggable=
+ device type</div><div style=3D"margin-left:40px"><br></div><div>So, how to=
+ allow a sysbus device via command line?</div><div>Is there any working pat=
+ch?<br></div></div>
 
-Best regards,
-Edgar
+--00000000000069fd0305a4fa4af7--
 
