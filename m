@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027D01C6958
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 08:49:31 +0200 (CEST)
-Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3D71C691E
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 08:41:07 +0200 (CEST)
+Received: from localhost ([::1]:55904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWDs2-0005P5-3d
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 02:49:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
+	id 1jWDju-0002EQ-8T
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 02:41:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jWDrH-0004zx-A9
- for qemu-devel@nongnu.org; Wed, 06 May 2020 02:48:43 -0400
-Received: from mga06.intel.com ([134.134.136.31]:29749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jWDrE-0001SJ-Se
- for qemu-devel@nongnu.org; Wed, 06 May 2020 02:48:42 -0400
-IronPort-SDR: X5I5hY7z41UF3BShctbSHj2y2+1z7HpL6RdNILbV9tLY5NdXOBzeY+TuGwmhJ2lLgSxGOxbMLJ
- QHv5pEA2vcTQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2020 23:48:37 -0700
-IronPort-SDR: LU8Ib861IlGylrHNnFnzVKcXhonmXETVG/JMsJY+moFQ1+WNGk7EUzoZ5SxohsU/9VqF6iUJpT
- x2rk00xZcyGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,358,1583222400"; d="scan'208";a="263448737"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by orsmga006.jf.intel.com with ESMTP; 05 May 2020 23:48:32 -0700
-Date: Wed, 6 May 2020 02:38:46 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v16 QEMU 08/16] vfio: Register SaveVMHandlers for VFIO
- device
-Message-ID: <20200506063846.GB19334@joy-OptiPlex-7040>
-References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-9-git-send-email-kwankhede@nvidia.com>
- <20200325150248.6661e1bd@w520.home>
- <a3a082a4-cc2f-b84b-60c6-a20f86528a6d@nvidia.com>
- <20200504223726.5d4bb9ce@x1.home>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jWDib-0001VR-Dq
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 02:39:45 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44049
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jWDiY-0006tH-R5
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 02:39:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588747180;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uHEDi7QUzdfPppoODZMKZNkQcWEBzFTL5ac4jf/Q5iI=;
+ b=E5zoreIwyg/JVZzm+Yi6wMlBUjuu8QJk2D2Yf751c40X2uArMEUdTaFCLHDUUGHYbx/ab/
+ /A2vL0mWQvdDO+DbCvYf4SZuu023j3wbqxj2KymUNNxrBTmxfUtb11p4faM8S6nSzMqU+X
+ yp2oZf4anCG8YNRgerGeD26c6v6/vSY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-q7-Cs1zMPSuh4h5c3CMk_w-1; Wed, 06 May 2020 02:39:39 -0400
+X-MC-Unique: q7-Cs1zMPSuh4h5c3CMk_w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46CAE100CCC2
+ for <qemu-devel@nongnu.org>; Wed,  6 May 2020 06:39:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 134DB25277;
+ Wed,  6 May 2020 06:39:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 81C3E11358BC; Wed,  6 May 2020 08:39:36 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Infinite loop in bus_unparent(), qdev bug or qdev misuse?
+References: <87tv0vzrwj.fsf@dusky.pond.sub.org>
+ <6fc8633a-6d91-b83a-e6cd-5f714ccaf9ea@redhat.com>
+ <875zda8j3m.fsf@dusky.pond.sub.org>
+ <a4df3ba3-4759-56ac-68f8-f75eea93e27e@redhat.com>
+Date: Wed, 06 May 2020 08:39:36 +0200
+In-Reply-To: <a4df3ba3-4759-56ac-68f8-f75eea93e27e@redhat.com> (Paolo
+ Bonzini's message of "Tue, 5 May 2020 18:26:57 +0200")
+Message-ID: <87zhal4lef.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200504223726.5d4bb9ce@x1.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=yan.y.zhao@intel.com;
- helo=mga06.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:48:37
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,163 +84,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 05, 2020 at 12:37:26PM +0800, Alex Williamson wrote:
-> On Tue, 5 May 2020 04:49:10 +0530
-> Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> 
-> > On 3/26/2020 2:32 AM, Alex Williamson wrote:
-> > > On Wed, 25 Mar 2020 02:39:06 +0530
-> > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> > >   
-> > >> Define flags to be used as delimeter in migration file stream.
-> > >> Added .save_setup and .save_cleanup functions. Mapped & unmapped migration
-> > >> region from these functions at source during saving or pre-copy phase.
-> > >> Set VFIO device state depending on VM's state. During live migration, VM is
-> > >> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
-> > >> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
-> > >>
-> > >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> > >> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> > >> ---
-> > >>   hw/vfio/migration.c  | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >>   hw/vfio/trace-events |  2 ++
-> > >>   2 files changed, 78 insertions(+)
-> > >>
-> > >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> > >> index 22ded9d28cf3..033f76526e49 100644
-> > >> --- a/hw/vfio/migration.c
-> > >> +++ b/hw/vfio/migration.c
-> > >> @@ -8,6 +8,7 @@
-> > >>    */
-> > >>   
-> > >>   #include "qemu/osdep.h"
-> > >> +#include "qemu/main-loop.h"
-> > >>   #include <linux/vfio.h>
-> > >>   
-> > >>   #include "sysemu/runstate.h"
-> > >> @@ -24,6 +25,17 @@
-> > >>   #include "pci.h"
-> > >>   #include "trace.h"
-> > >>   
-> > >> +/*
-> > >> + * Flags used as delimiter:
-> > >> + * 0xffffffff => MSB 32-bit all 1s
-> > >> + * 0xef10     => emulated (virtual) function IO
-> > >> + * 0x0000     => 16-bits reserved for flags
-> > >> + */
-> > >> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
-> > >> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
-> > >> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
-> > >> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
-> > >> +
-> > >>   static void vfio_migration_region_exit(VFIODevice *vbasedev)
-> > >>   {
-> > >>       VFIOMigration *migration = vbasedev->migration;
-> > >> @@ -126,6 +138,69 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
-> > >>       return 0;
-> > >>   }
-> > >>   
-> > >> +/* ---------------------------------------------------------------------- */
-> > >> +
-> > >> +static int vfio_save_setup(QEMUFile *f, void *opaque)
-> > >> +{
-> > >> +    VFIODevice *vbasedev = opaque;
-> > >> +    VFIOMigration *migration = vbasedev->migration;
-> > >> +    int ret;
-> > >> +
-> > >> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
-> > >> +
-> > >> +    if (migration->region.mmaps) {
-> > >> +        qemu_mutex_lock_iothread();
-> > >> +        ret = vfio_region_mmap(&migration->region);
-> > >> +        qemu_mutex_unlock_iothread();
-> > >> +        if (ret) {
-> > >> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
-> > >> +                         vbasedev->name, migration->region.index,
-> > >> +                         strerror(-ret));
-> > >> +            return ret;
-> > >> +        }
-> > >> +    }
-> > >> +
-> > >> +    ret = vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_SAVING);
-> > >> +    if (ret) {
-> > >> +        error_report("%s: Failed to set state SAVING", vbasedev->name);
-> > >> +        return ret;
-> > >> +    }
-> > >> +
-> > >> +    /*
-> > >> +     * Save migration region size. This is used to verify migration region size
-> > >> +     * is greater than or equal to migration region size at destination
-> > >> +     */
-> > >> +    qemu_put_be64(f, migration->region.size);  
-> > > 
-> > > Is this requirement supported by the uapi?    
-> > 
-> > Yes, on UAPI thread we discussed this:
-> > 
-> >   * For the user application, data is opaque. The user application 
-> > should write
-> >   * data in the same order as the data is received and the data should be of
-> >   * same transaction size at the source.
-> > 
-> > data should be same transaction size, so migration region size should be 
-> > greater than or equal to the size at source when verifying at destination.
-> 
-> We are that user application for which the data is opaque, therefore we
-> should make no assumptions about how the vendor driver makes use of
-> their region.  If we get a transaction that exceeds the end of the
-> region, I agree, that would be an error.  But we have no business
-> predicting that such a transaction might occur if the vendor driver
-> indicates it can support the migration.
-> 
-> > > The vendor driver operates
-> > > within the migration region, but it has no requirement to use the full
-> > > extent of the region.  Shouldn't we instead insert the version string
-> > > from versioning API Yan proposed?  Is this were we might choose to use
-> > > an interface via the vfio API rather than sysfs if we had one?
-> > >  
-> > 
-> > VFIO API cannot be used by libvirt or management tool stack. We need 
-> > sysfs as Yan proposed to be used by libvirt or management tool stack.
-> 
-> It's been a long time, but that doesn't seem like what I was asking.
-> The sysfs version checking is used to select a target that is likely to
-> succeed, but the migration stream is still generated by a user and the
-> vendor driver is still ultimately responsible for validating that
-> stream.  I would hope that a vendor migration stream therefore starts
-> with information similar to that found in the sysfs interface, allowing
-> the receiving vendor driver to validate the source device and vendor
-> software version, such that we can fail an incoming migration that the
-> vendor driver deems incompatible.  Ideally the vendor driver might also
-> include consistency and sequence checking throughout the stream to
-> prevent a malicious user from exploiting the internal operation of the
-> vendor driver.  Thanks,
-> 
-maybe we can add a rw field migration_version in
-struct vfio_device_migration_info besides sysfs interface ?
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-when reading it in src, it gets the same string as that from sysfs;
-when writing it in target, it returns success or not to check
-compatibility and fails the migration early in setup phase.
+> On 05/05/20 18:03, Markus Armbruster wrote:
+>>> That's a good one, and especially a safe one, since it matches
+>>> qdev_device_add.  It has the disadvantage of having to touch all
+>>> qdev_create() calls.
+>>=20
+>> Also, it moves onboard devices from /machine/unattached/ to
+>> /machine/peripheral-anon/.
+>
+> Uh indeed.  No that's too ugly.
+>
+>>> Even better however would be to move the bus argument (and thus
+>>> qdev_set_parent_bus) to qdev_init, and likewise in qdev_device_add move
+>>> qdev_set_id after qemu_opt_foreach.  I looked at the property setters
+>>> and couldn't find anything suspicious (somewhat to my surprise), but I
+>>> haven't honestly tried.
+>>=20
+>> Thus, we satisfy bus_unparent()'s precondition "bus children have a QOM
+>> parent"[*] by moving "add to parent bus" next to the place where we
+>> ensure "has QOM parent" by putting orphans under /machine/unattached/.
+>> Makes sense.
+>>=20
+>> If we add to the bus first, the precondition ceases to hold until we
+>> realize.  Ugly, but harmless unless we manage to actually call the
+>> function then.
+>
+> Shouldn't be a big deal, since users should call either qdev_set_id or
+> object_property_add_child before device_set_realized.
 
-Thanks
-Yan.
+The issue isn't neglecting to set a QOM parent, it's destroying a device
+before its bus children get their QOM parent.
+
+Mostly harmless: by delaying "add to bus" until right before realize, we
+narrow the window where the trap is armed, and keep it completely within
+qdev_init_nofail(), qdev_device_add(), and possibly code that duplicates
+their work.  Ensuring qdev_init_nofail() and qdev_device_add() don't
+fail in this window should be easy enough (except for writing the
+comment explaining it).  The duplicates, though... I guess we need to
+double-check users of qdev_set_parent_bus().
+
+Ugly: yes, compared to the pretty invariant "bus children all have QOM
+parents".
+
+>> I suspect we can't realize first, because the realize method may want to
+>> use the parent bus.
+>
+> Right.
+>
+> Moving the bus to qdev_init would be quite large but hopefully scriptable=
+.
+
+Feels feasible.
+
+
+[*] We might want to look into deduplicating: the string "realized"
+occurs more than 450 times, and I figure almost always as property name.
+
 
