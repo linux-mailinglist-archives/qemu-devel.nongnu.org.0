@@ -2,84 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A041C6D85
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:47:57 +0200 (CEST)
-Received: from localhost ([::1]:45478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F101C6DA9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:53:29 +0200 (CEST)
+Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWGeh-0003tV-U5
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53358)
+	id 1jWGk4-00012X-Kt
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jWGdz-0003Nz-7c
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:47:11 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:20022
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWGgu-0004e8-PN
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43672
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jWGdy-0001Gq-B8
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:47:10 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWGgt-0003c5-VS
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588758429;
+ s=mimecast20190719; t=1588758610;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rZSmXkE5hbHUFGr4fqRhpF9EfEwVQeDRGEVGFjzUmlc=;
- b=KqXrRtm9FhWJmaaSRgPn7rqBdpPsONTs4PdtMpl5UDY5/iP3ayuuJzQii1PKsQFl/7QytN
- dJorNWhgX4tKehyaaEC5tXxe6PF5HmxDjN68G1/IJMlNnxqXZWWSY84sStGmaRhNcLKAPB
- lOBcRJ3SR19UgP1xp9Y3SBEszSkuhnA=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-hhVzdKuLOaWGHaUfDJxL-w-1; Wed, 06 May 2020 05:47:06 -0400
-X-MC-Unique: hhVzdKuLOaWGHaUfDJxL-w-1
-Received: by mail-io1-f69.google.com with SMTP id t130so1081300iod.10
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 02:47:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rZSmXkE5hbHUFGr4fqRhpF9EfEwVQeDRGEVGFjzUmlc=;
- b=G7niPeZmaR8nPidk69UgIgnohZMvgA6O3CqgojSmMBpbHCXEnM1odbbKt4p6NACiCM
- 3Wkk4yPcX8klr7ECRtaCK/usQJDi7k5zww+MDu0IOKIGocYtVttKvxLdlO6l3G+bEQMO
- BoPiZtgvXGZX/qfw2F4+4t1pCCWOKeMZP77csbHxD37WUhJ+wcy5bofT3fGQqtgqhufF
- 8Xpl8TnvulIeOIN57HYaMZX0oQk+PZqX6FUhyhcrX8YJpBcCgx88v2HE66eABPovIWFR
- 7uI+N5/MPHn97kp/YvLDgwWzzKg2UqiFYRaE5E8yDHa49qYMSgiDeCpRF9xM78bqJtBx
- mkFA==
-X-Gm-Message-State: AGi0PubwEj0EpbEp9huthXiK6LJqGlitnhu09hZ+HXQXgXXhDZL0/ePX
- 7q6/l9epy9HGwD9+M6lJPtkv8wDB/5QBS3Yzbjzc+ZtoT3Q5vH6368OqW7H05+FkA/gA2+V44d6
- uwel4E26miCKYqk+Oxi4ZPrycEfUGaP4=
-X-Received: by 2002:a5e:dd0c:: with SMTP id t12mr7565464iop.82.1588758425588; 
- Wed, 06 May 2020 02:47:05 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIHYY9LWcbGo5FOl3fyXEaBJyRmzUFJJJ0vlptdhh8S69K0fyGb25N/Jn/qq8+Dq75hsBGGUSwlXpcqgTdQgq4=
-X-Received: by 2002:a5e:dd0c:: with SMTP id t12mr7565442iop.82.1588758425264; 
- Wed, 06 May 2020 02:47:05 -0700 (PDT)
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uwx25ggXFYcraw8wlJgMYjAcAt7rECdGCBo2VgZbClU=;
+ b=fCSPGidBIR4AT8o5vcFrYW4z44mshPKC+ymIEc2iE6RM2l7xBY+oBZpSvX87sKkYs899wr
+ OqmtevEjNFpUWGLGXE5Y84bVVjDZgXOMmZ0a05OwY8S4V2pBY5qx3y1y5S/wiQ3TVzSClk
+ kGmwr9EZz7cy7RgLtRYaEr0BSBcgZhg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-GBwgf7kXNXKT49c3ZENCcw-1; Wed, 06 May 2020 05:50:04 -0400
+X-MC-Unique: GBwgf7kXNXKT49c3ZENCcw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89710835B44;
+ Wed,  6 May 2020 09:50:01 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-113-17.ams2.redhat.com [10.36.113.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27BF65C1BD;
+ Wed,  6 May 2020 09:49:48 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 00/17] virtio-mem: Paravirtualized memory hot(un)plug
+Date: Wed,  6 May 2020 11:49:31 +0200
+Message-Id: <20200506094948.76388-1-david@redhat.com>
 MIME-Version: 1.0
-References: <cover.1588252861.git.dimastep@yandex-team.ru>
- <2f783e19d2bfe75946ec677ddd5e979f9a3683d2.1588252862.git.dimastep@yandex-team.ru>
-In-Reply-To: <2f783e19d2bfe75946ec677ddd5e979f9a3683d2.1588252862.git.dimastep@yandex-team.ru>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 6 May 2020 11:46:54 +0200
-Message-ID: <CAMxuvay_kcOPSfDV3OFKe+FGU9A_oP25pQfEuvo6ZA1stN_ycw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] char-socket: return -1 in case of disconnect
- during tcp_chr_write
-To: Dima Stepanov <dimastep@yandex-team.ru>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 04:02:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,105 +71,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Wolf, Kevin" <kwolf@redhat.com>,
- yc-core@yandex-team.ru, qemu-block <qemu-block@nongnu.org>,
- Michael Tsirkin <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, David Gilbert <dgilbert@redhat.com>,
- Gonglei <arei.gonglei@huawei.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, Li Feng <fengli@smartx.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Bonzini, Paolo" <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Richard Henderson <rth@twiddle.net>, Eric Farman <farman@linux.ibm.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 30, 2020 at 3:37 PM Dima Stepanov <dimastep@yandex-team.ru> wro=
-te:
->
-> During testing of the vhost-user-blk reconnect functionality the qemu
-> SIGSEGV was triggered:
->  start qemu as:
->  x86_64-softmmu/qemu-system-x86_64 -m 1024M -M q35 \
->    -object memory-backend-file,id=3Dram-node0,size=3D1024M,mem-path=3D/de=
-v/shm/qemu,share=3Don \
->    -numa node,cpus=3D0,memdev=3Dram-node0 \
->    -chardev socket,id=3Dchardev0,path=3D./vhost.sock,noserver,reconnect=
-=3D1 \
->    -device vhost-user-blk-pci,chardev=3Dchardev0,num-queues=3D4 --enable-=
-kvm
->  start vhost-user-blk daemon:
->  ./vhost-user-blk -s ./vhost.sock -b test-img.raw
->
-> If vhost-user-blk will be killed during the vhost initialization
-> process, for instance after getting VHOST_SET_VRING_CALL command, then
-> QEMU will fail with the following backtrace:
->
-> Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-> 0x00005555559272bb in vhost_user_read (dev=3D0x7fffef2d53e0, msg=3D0x7fff=
-ffffd5b0)
->     at ./hw/virtio/vhost-user.c:260
-> 260         CharBackend *chr =3D u->user->chr;
->
->  #0  0x00005555559272bb in vhost_user_read (dev=3D0x7fffef2d53e0, msg=3D0=
-x7fffffffd5b0)
->     at ./hw/virtio/vhost-user.c:260
->  #1  0x000055555592acb8 in vhost_user_get_config (dev=3D0x7fffef2d53e0, c=
-onfig=3D0x7fffef2d5394 "", config_len=3D60)
->     at ./hw/virtio/vhost-user.c:1645
->  #2  0x0000555555925525 in vhost_dev_get_config (hdev=3D0x7fffef2d53e0, c=
-onfig=3D0x7fffef2d5394 "", config_len=3D60)
->     at ./hw/virtio/vhost.c:1490
->  #3  0x00005555558cc46b in vhost_user_blk_device_realize (dev=3D0x7fffef2=
-d51a0, errp=3D0x7fffffffd8f0)
->     at ./hw/block/vhost-user-blk.c:429
->  #4  0x0000555555920090 in virtio_device_realize (dev=3D0x7fffef2d51a0, e=
-rrp=3D0x7fffffffd948)
->     at ./hw/virtio/virtio.c:3615
->  #5  0x0000555555a9779c in device_set_realized (obj=3D0x7fffef2d51a0, val=
-ue=3Dtrue, errp=3D0x7fffffffdb88)
->     at ./hw/core/qdev.c:891
->  ...
->
-> The problem is that vhost_user_write doesn't get an error after
-> disconnect and try to call vhost_user_read(). The tcp_chr_write()
-> routine should return -1 in case of disconnect. Indicate the EIO error
-> if this routine is called in the disconnected state.
->
-> Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
+This is the very basic, initial version of virtio-mem. More info on
+virtio-mem in general can be found in the Linux kernel driver posting [1]
+and in patch #10.
 
+"The basic idea of virtio-mem is to provide a flexible,
+cross-architecture memory hot(un)plug solution that avoids many limitatio=
+ns
+imposed by existing technologies, architectures, and interfaces."
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+There are a lot of addons in the works (esp. protection of unplugged
+memory, better hugepage support (esp. when reading unplugged memory),
+resizeable memory backends, migration optimizations, support for more
+architectures, ...), this is the very basic version to get the ball
+rolling.
 
-> ---
->  chardev/char-socket.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index 185fe38..c128cca 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -175,14 +175,16 @@ static int tcp_chr_write(Chardev *chr, const uint8_=
-t *buf, int len)
->          if (ret < 0 && errno !=3D EAGAIN) {
->              if (tcp_chr_read_poll(chr) <=3D 0) {
->                  tcp_chr_disconnect_locked(chr);
-> -                return len;
-> +                /* Return an error since we made a disconnect. */
-> +                return ret;
->              } /* else let the read handler finish it properly */
->          }
->
->          return ret;
->      } else {
-> -        /* XXX: indicate an error ? */
-> -        return len;
-> +        /* Indicate an error. */
-> +        errno =3D EIO;
-> +        return -1;
->      }
->  }
->
-> --
-> 2.7.4
->
+The first 8 patches make sure we don't have any sudden surprises e.g., if
+somebody tries to pin all memory in RAM blocks, resulting in a higher
+memory consumption than desired. The remaining patches add basic virtio-m=
+em
+along with support for x86-64.
+
+[1] https://lkml.kernel.org/r/20200311171422.10484-1-david@redhat.com
+
+David Hildenbrand (17):
+  exec: Introduce ram_block_discard_set_(unreliable|required)()
+  vfio: Convert to ram_block_discard_set_broken()
+  accel/kvm: Convert to ram_block_discard_set_broken()
+  s390x/pv: Convert to ram_block_discard_set_broken()
+  virtio-balloon: Rip out qemu_balloon_inhibit()
+  target/i386: sev: Use ram_block_discard_set_broken()
+  migration/rdma: Use ram_block_discard_set_broken()
+  migration/colo: Use ram_block_discard_set_broken()
+  linux-headers: update to contain virtio-mem
+  virtio-mem: Paravirtualized memory hot(un)plug
+  virtio-pci: Proxy for virtio-mem
+  MAINTAINERS: Add myself as virtio-mem maintainer
+  hmp: Handle virtio-mem when printing memory device info
+  numa: Handle virtio-mem in NUMA stats
+  pc: Support for virtio-mem-pci
+  virtio-mem: Allow notifiers for size changes
+  virtio-pci: Send qapi events when the virtio-mem size changes
+
+ MAINTAINERS                                 |   8 +
+ accel/kvm/kvm-all.c                         |   3 +-
+ balloon.c                                   |  17 -
+ exec.c                                      |  48 ++
+ hw/core/numa.c                              |   6 +
+ hw/i386/Kconfig                             |   1 +
+ hw/i386/pc.c                                |  49 +-
+ hw/s390x/s390-virtio-ccw.c                  |  22 +-
+ hw/vfio/ap.c                                |  10 +-
+ hw/vfio/ccw.c                               |  11 +-
+ hw/vfio/common.c                            |  53 +-
+ hw/vfio/pci.c                               |   6 +-
+ hw/virtio/Kconfig                           |  11 +
+ hw/virtio/Makefile.objs                     |   2 +
+ hw/virtio/virtio-balloon.c                  |  12 +-
+ hw/virtio/virtio-mem-pci.c                  | 159 ++++
+ hw/virtio/virtio-mem-pci.h                  |  34 +
+ hw/virtio/virtio-mem.c                      | 781 ++++++++++++++++++++
+ include/exec/memory.h                       |  41 +
+ include/hw/pci/pci.h                        |   1 +
+ include/hw/vfio/vfio-common.h               |   4 +-
+ include/hw/virtio/virtio-mem.h              |  85 +++
+ include/migration/colo.h                    |   2 +-
+ include/standard-headers/linux/virtio_ids.h |   1 +
+ include/standard-headers/linux/virtio_mem.h | 208 ++++++
+ include/sysemu/balloon.h                    |   2 -
+ migration/migration.c                       |   8 +-
+ migration/postcopy-ram.c                    |  23 -
+ migration/rdma.c                            |  18 +-
+ migration/savevm.c                          |  11 +-
+ monitor/hmp-cmds.c                          |  16 +
+ monitor/monitor.c                           |   1 +
+ qapi/misc.json                              |  64 +-
+ target/i386/sev.c                           |   1 +
+ 34 files changed, 1598 insertions(+), 121 deletions(-)
+ create mode 100644 hw/virtio/virtio-mem-pci.c
+ create mode 100644 hw/virtio/virtio-mem-pci.h
+ create mode 100644 hw/virtio/virtio-mem.c
+ create mode 100644 include/hw/virtio/virtio-mem.h
+ create mode 100644 include/standard-headers/linux/virtio_mem.h
+
+--=20
+2.25.3
 
 
