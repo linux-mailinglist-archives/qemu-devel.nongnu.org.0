@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FC31C7008
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:11:52 +0200 (CEST)
-Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013071C7012
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:13:32 +0200 (CEST)
+Received: from localhost ([::1]:58082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWItz-0000pN-NC
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56448)
+	id 1jWIvb-0003V8-0b
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:13:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo0-00067V-Ot
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:40 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51414)
+ id 1jWIo1-00068T-Ij
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:41 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIny-0008Je-T8
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:40 -0400
-Received: by mail-wm1-x336.google.com with SMTP id x4so2315433wmj.1
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:38 -0700 (PDT)
+ id 1jWIo0-0000Lh-Qb
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:41 -0400
+Received: by mail-wm1-x336.google.com with SMTP id k12so2294600wmj.3
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZTJh34FGQCI152lwyVv0YTBLMCIdfCpxo+sU4MbJ6bM=;
- b=afMAA+H5YqNdc1Geqt97zuQ8Z32W7FIZw3TsHhdzmdUlfPcV1SqAAzpVIDD1ooWzKR
- e/xGNV9IbZHN8soRR1jkuvLYCnuMYqZ0Fkkhwe+4mb/s63VK98RK6rbApOdbJYjQphEb
- GgYsTpopVlL4lg38UgNwnJoAWeGiGVzrZzMF2gl/JQjCRIJAbbFWfumGHuv4UyLHYu10
- 8RARMZeFOvjpkYgbtwC9tqnKVa0ShrAOEz4H7p9O2gbGaXTbuah/mnoOl55SJZs09GX9
- wO4HAo5sOCebogDZrWfJN0vtrppoDo/zbKYWFQfS2ktueV8w7aq4rDtGG2pKyIJuiBvy
- 6BvQ==
+ bh=peaM6igo+AhDvK0qqAnxFsdR5nx5YlJ8GTR7GVhQ6qE=;
+ b=Hcm9XnLGvGSEqB9XHdouwA9/fVpoXuwHP70rQijEiQs80jghsXrlSHQRgTLjj0eDKJ
+ 6a3JQk+bm/LWIidhuilsh0PspmO+KPM/mhK6c0s7t2mfhuWaq94NshHFis25QMesKVWE
+ jG3tMuNLFQqMKm/2GHO0Z+qp0+FXH/iiL2gBX0ad8gbMgb3Omg9lYVF+T/myDnhrMxS+
+ me+lrnOnXLfkidr9oYUnlWzLhGNi/1TGlr6meM4wxpiUvVonFA4sM77ucfkTBvHXR6le
+ qj+EZFAwBAJEdwuQ0AsFA4GECFE0SVDp8DhlS9w1XASspikBROUIJGZF5Anr32pNawTI
+ Oyxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZTJh34FGQCI152lwyVv0YTBLMCIdfCpxo+sU4MbJ6bM=;
- b=bApCGUIhUV1YRsqgmuqN6cDHxRiUEbHCI4B/enNGK6nk5snvdZCP3vayDPLCY6pmOw
- 52gn0XZo+yE9jdiqSj1NPpVD4L83o2LcvNEfIjl2q00Q1SXSfzIb9KGRw3Azk6QQsFb7
- YXXnl/s4lYI2RpzD3p07U8l2+a07j3+Yx2pNjqXqbwmzvseGKL2lQdTjd69dyJ1VMFwl
- eTzg0Kgb+T/8ccCHAi9JYux/Hr9ILT0mhv+o6GAL4gA1SnSa+2sSC61JdWfcSwzHUSfV
- NljtF9wKSL8df6MwKzKfgLpQApHssHBnnjOUESeBmQ+ooWvLEPV6u+4xY5+zmD3BCdXO
- RIzQ==
-X-Gm-Message-State: AGi0PuYPL6wPniYvqkXnWpWJW6h9lcEGBjmJiSNKwMd7ofNVZxwti4Lc
- IBjjoMlp1XMuQcH3PPZcdfYHvA==
-X-Google-Smtp-Source: APiQypIcvNrbXeglYI0QTBJmkNzXle/skaCkV82T09XN2dy0/NyZ4cVCJNeeNN7yc7fEs5MZ1gLWEg==
-X-Received: by 2002:a05:600c:295a:: with SMTP id
- n26mr4616891wmd.16.1588766736163; 
- Wed, 06 May 2020 05:05:36 -0700 (PDT)
+ bh=peaM6igo+AhDvK0qqAnxFsdR5nx5YlJ8GTR7GVhQ6qE=;
+ b=HvnKm7WVFHQEvsCL/eDgwBWWkm+3tJyMB/mYg/s3M5CZnNKsi6jF5J7PhOeGqbSgcl
+ 4GQn6CFTHNi48gT4g67npuQjhqGe9TP4cqkRM/NyDzFmhtOGjCdkVt0/fjZLvyzc3geK
+ hUWdbB9HE3s+ovLTgcPlVXCL5Tt/vSV5M8m4WNi861GmGiklWObGdmYt+qYY7z9e8ICb
+ GyWlVSWA2nT2OXx3S17S46ZZsdtyISAN38veBLflpbGolsGsAdoRYRScw8zIz9fEChD7
+ q7CVPqh8q67qhXMpaniyqkYhfKx2ziQkqlx7CkcwBDlcyNEB6eYhyCyEeRRmWp/grt+F
+ nlWg==
+X-Gm-Message-State: AGi0PuYtsBfcaFd2webQi2t7cxdM9d8Udu/ma9NHE8W0gxzuLtOh74+C
+ HPtTxWD03JbdJxvufut761hcLt38egc=
+X-Google-Smtp-Source: APiQypJVvskfWWSvBhlmk7dJFVzsZkgu15NMv7HFkpeatpHPKVzJJmJIILb2izlwUtTTAa3jCtEm7w==
+X-Received: by 2002:a05:600c:1:: with SMTP id g1mr4116927wmc.142.1588766739533; 
+ Wed, 06 May 2020 05:05:39 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l16sm2390029wrp.91.2020.05.06.05.05.30
+ by smtp.gmail.com with ESMTPSA id v131sm2877237wmb.19.2020.05.06.05.05.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 05:05:30 -0700 (PDT)
+ Wed, 06 May 2020 05:05:37 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0C0821FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 218661FF91;
  Wed,  6 May 2020 13:05:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 04/14] .cirrus.yml: bootstrap pkg unconditionally
-Date: Wed,  6 May 2020 13:05:19 +0100
-Message-Id: <20200506120529.18974-5-alex.bennee@linaro.org>
+Subject: [PULL 05/14] .travis.yml: reduce the load on [ppc64] GCC check-tcg
+Date: Wed,  6 May 2020 13:05:20 +0100
+Message-Id: <20200506120529.18974-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200506120529.18974-1-alex.bennee@linaro.org>
 References: <20200506120529.18974-1-alex.bennee@linaro.org>
@@ -89,37 +88,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
+Cc: Fam Zheng <fam@euphon.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Li-Wen Hsu <lwhsu@lwhsu.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li-Wen Hsu <lwhsu@lwhsu.org>
+This seems to be timing out quite often and occasionally running out
+of disk space. Relegate it to light duties.
 
-This ensures compatibility with pkg repo so a change in upstream
-doesn't break setup. See:
-
-  https://lists.freebsd.org/pipermail/freebsd-cloud/2020-April/000234.html
-
-Message-Id: <CAKBkRUzicxphjjkkxdgzB3cDSv=AszD5V4X499jT2BjiAaazGw@mail.gmail.com>
-Signed-off-by: Li-Wen Hsu <lwhsu@lwhsu.org>
-[AJB: applied from Li-Wen's github, applied sob, tweaked commit message]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200501111505.4225-5-alex.bennee@linaro.org>
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index f06f5af2b93..de0727cb097 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -6,7 +6,7 @@ freebsd_12_task:
-     image_family: freebsd-12-1
-     cpu: 8
-     memory: 8G
--  install_script: pkg install -y
-+  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
-     bash bison curl cyrus-sasl git glib gmake gnutls gsed
-     nettle perl5 pixman pkgconf png usbredir
-   script:
+diff --git a/.travis.yml b/.travis.yml
+index 49267b73b36..fe708792ca2 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -458,7 +458,7 @@ jobs:
+           - genisoimage
+       env:
+         - TEST_CMD="make check check-tcg V=1"
+-        - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},ppc64le-linux-user"
++        - CONFIG="--disable-containers --target-list=ppc64-softmmu,ppc64le-linux-user"
+ 
+     - name: "[s390x] GCC check-tcg"
+       arch: s390x
 -- 
 2.20.1
 
