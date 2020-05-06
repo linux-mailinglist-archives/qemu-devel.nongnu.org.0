@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C4D1C6901
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 08:35:13 +0200 (CEST)
-Received: from localhost ([::1]:53198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027D01C6958
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 08:49:31 +0200 (CEST)
+Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWDeC-0000fo-1i
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 02:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42510)
+	id 1jWDs2-0005P5-3d
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 02:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jWDcd-00007E-0I
- for qemu-devel@nongnu.org; Wed, 06 May 2020 02:33:35 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:44881
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1jWDcb-0002Re-AY
- for qemu-devel@nongnu.org; Wed, 06 May 2020 02:33:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588746811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LVFyJmPNLdzQ6g2F9LClgPJEmDnYLNSS3tnhqWIM5R8=;
- b=NMqtna4T0ej+FzwgHEMQcrKTuO68cNDxbTMdq6aGjt+nP/KO14Fz5mWbOznZNu/GUWbJ31
- QjEylDWVE0LUbtwavHNPK3TvlqNoFfMXy4vUy/l7isoZdNljR3RJuy0k2ibPJAl6ytSai3
- aHgK1B3d4dI4tsPfetPC708J05+IDdk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-rDaaDdonM1C8u-GMxwyUbQ-1; Wed, 06 May 2020 02:33:30 -0400
-X-MC-Unique: rDaaDdonM1C8u-GMxwyUbQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FB25100CCC0;
- Wed,  6 May 2020 06:33:28 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B96BA9CB9;
- Wed,  6 May 2020 06:33:16 +0000 (UTC)
-Date: Wed, 6 May 2020 08:33:14 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 1/3] acpi: Move build_tpm2() in the generic part
-Message-ID: <20200506063314.4qvnyfonjixcknuj@kamzik.brq.redhat.com>
-References: <20200505144419.29174-1-eric.auger@redhat.com>
- <20200505144419.29174-2-eric.auger@redhat.com>
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jWDrH-0004zx-A9
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 02:48:43 -0400
+Received: from mga06.intel.com ([134.134.136.31]:29749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jWDrE-0001SJ-Se
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 02:48:42 -0400
+IronPort-SDR: X5I5hY7z41UF3BShctbSHj2y2+1z7HpL6RdNILbV9tLY5NdXOBzeY+TuGwmhJ2lLgSxGOxbMLJ
+ QHv5pEA2vcTQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 May 2020 23:48:37 -0700
+IronPort-SDR: LU8Ib861IlGylrHNnFnzVKcXhonmXETVG/JMsJY+moFQ1+WNGk7EUzoZ5SxohsU/9VqF6iUJpT
+ x2rk00xZcyGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,358,1583222400"; d="scan'208";a="263448737"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga006.jf.intel.com with ESMTP; 05 May 2020 23:48:32 -0700
+Date: Wed, 6 May 2020 02:38:46 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH v16 QEMU 08/16] vfio: Register SaveVMHandlers for VFIO
+ device
+Message-ID: <20200506063846.GB19334@joy-OptiPlex-7040>
+References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
+ <1585084154-29461-9-git-send-email-kwankhede@nvidia.com>
+ <20200325150248.6661e1bd@w520.home>
+ <a3a082a4-cc2f-b84b-60c6-a20f86528a6d@nvidia.com>
+ <20200504223726.5d4bb9ce@x1.home>
 MIME-Version: 1.0
-In-Reply-To: <20200505144419.29174-2-eric.auger@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:33:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200504223726.5d4bb9ce@x1.home>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yan.y.zhao@intel.com;
+ helo=mga06.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:48:37
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,97 +70,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, gshan@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- marcandre.lureau@redhat.com, imammedo@redhat.com, eric.auger.pro@gmail.com,
- lersek@redhat.com, ardb@kernel.org, stefanb@linux.ibm.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 05, 2020 at 04:44:17PM +0200, Eric Auger wrote:
-> We plan to build the tpm2 table on ARM too. In order to reuse the
-> generation code, let's move build_tpm2() to aml-build.c.
->=20
-> No change in the implementation.
->=20
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  include/hw/acpi/aml-build.h |  2 ++
->  hw/acpi/aml-build.c         | 30 ++++++++++++++++++++++++++++++
->  hw/i386/acpi-build.c        | 30 ------------------------------
->  3 files changed, 32 insertions(+), 30 deletions(-)
->=20
-> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-> index 0f4ed53d7f..a67ab4618a 100644
-> --- a/include/hw/acpi/aml-build.h
-> +++ b/include/hw/acpi/aml-build.h
-> @@ -437,4 +437,6 @@ void build_slit(GArray *table_data, BIOSLinker *linke=
-r, MachineState *ms);
-> =20
->  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->                  const char *oem_id, const char *oem_table_id);
-> +
-> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)=
-;
->  #endif
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index 2c3702b882..1f7fd09112 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -26,6 +26,7 @@
->  #include "qemu/bitops.h"
->  #include "sysemu/numa.h"
->  #include "hw/boards.h"
-> +#include "hw/acpi/tpm.h"
-> =20
->  static GArray *build_alloc_array(void)
->  {
-> @@ -1875,6 +1876,35 @@ build_hdr:
->                   "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_tabl=
-e_id);
->  }
-> =20
-> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
-> +{
-> +    Acpi20TPM2 *tpm2_ptr =3D acpi_data_push(table_data, sizeof *tpm2_ptr=
-);
-> +    unsigned log_addr_size =3D sizeof(tpm2_ptr->log_area_start_address);
-> +    unsigned log_addr_offset =3D
-> +        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
-> +
-> +    tpm2_ptr->platform_class =3D cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
-> +    if (TPM_IS_TIS_ISA(tpm_find())) {
-> +        tpm2_ptr->control_area_address =3D cpu_to_le64(0);
-> +        tpm2_ptr->start_method =3D cpu_to_le32(TPM2_START_METHOD_MMIO);
-> +    } else if (TPM_IS_CRB(tpm_find())) {
-> +        tpm2_ptr->control_area_address =3D cpu_to_le64(TPM_CRB_ADDR_CTRL=
-);
-> +        tpm2_ptr->start_method =3D cpu_to_le32(TPM2_START_METHOD_CRB);
-> +    } else {
-> +        g_warn_if_reached();
-> +    }
-> +
-> +    tpm2_ptr->log_area_minimum_length =3D
-> +        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
-> +
-> +    /* log area start address to be filled by Guest linker */
-> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-> +                                   log_addr_offset, log_addr_size,
-> +                                   ACPI_BUILD_TPMLOG_FILE, 0);
-> +    build_header(linker, table_data,
-> +                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4, NULL, N=
-ULL);
-> +}
-> +
+On Tue, May 05, 2020 at 12:37:26PM +0800, Alex Williamson wrote:
+> On Tue, 5 May 2020 04:49:10 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+> > On 3/26/2020 2:32 AM, Alex Williamson wrote:
+> > > On Wed, 25 Mar 2020 02:39:06 +0530
+> > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > >   
+> > >> Define flags to be used as delimeter in migration file stream.
+> > >> Added .save_setup and .save_cleanup functions. Mapped & unmapped migration
+> > >> region from these functions at source during saving or pre-copy phase.
+> > >> Set VFIO device state depending on VM's state. During live migration, VM is
+> > >> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
+> > >> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
+> > >>
+> > >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> > >> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> > >> ---
+> > >>   hw/vfio/migration.c  | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > >>   hw/vfio/trace-events |  2 ++
+> > >>   2 files changed, 78 insertions(+)
+> > >>
+> > >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> > >> index 22ded9d28cf3..033f76526e49 100644
+> > >> --- a/hw/vfio/migration.c
+> > >> +++ b/hw/vfio/migration.c
+> > >> @@ -8,6 +8,7 @@
+> > >>    */
+> > >>   
+> > >>   #include "qemu/osdep.h"
+> > >> +#include "qemu/main-loop.h"
+> > >>   #include <linux/vfio.h>
+> > >>   
+> > >>   #include "sysemu/runstate.h"
+> > >> @@ -24,6 +25,17 @@
+> > >>   #include "pci.h"
+> > >>   #include "trace.h"
+> > >>   
+> > >> +/*
+> > >> + * Flags used as delimiter:
+> > >> + * 0xffffffff => MSB 32-bit all 1s
+> > >> + * 0xef10     => emulated (virtual) function IO
+> > >> + * 0x0000     => 16-bits reserved for flags
+> > >> + */
+> > >> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
+> > >> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
+> > >> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+> > >> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+> > >> +
+> > >>   static void vfio_migration_region_exit(VFIODevice *vbasedev)
+> > >>   {
+> > >>       VFIOMigration *migration = vbasedev->migration;
+> > >> @@ -126,6 +138,69 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+> > >>       return 0;
+> > >>   }
+> > >>   
+> > >> +/* ---------------------------------------------------------------------- */
+> > >> +
+> > >> +static int vfio_save_setup(QEMUFile *f, void *opaque)
+> > >> +{
+> > >> +    VFIODevice *vbasedev = opaque;
+> > >> +    VFIOMigration *migration = vbasedev->migration;
+> > >> +    int ret;
+> > >> +
+> > >> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
+> > >> +
+> > >> +    if (migration->region.mmaps) {
+> > >> +        qemu_mutex_lock_iothread();
+> > >> +        ret = vfio_region_mmap(&migration->region);
+> > >> +        qemu_mutex_unlock_iothread();
+> > >> +        if (ret) {
+> > >> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
+> > >> +                         vbasedev->name, migration->region.index,
+> > >> +                         strerror(-ret));
+> > >> +            return ret;
+> > >> +        }
+> > >> +    }
+> > >> +
+> > >> +    ret = vfio_migration_set_state(vbasedev, ~0, VFIO_DEVICE_STATE_SAVING);
+> > >> +    if (ret) {
+> > >> +        error_report("%s: Failed to set state SAVING", vbasedev->name);
+> > >> +        return ret;
+> > >> +    }
+> > >> +
+> > >> +    /*
+> > >> +     * Save migration region size. This is used to verify migration region size
+> > >> +     * is greater than or equal to migration region size at destination
+> > >> +     */
+> > >> +    qemu_put_be64(f, migration->region.size);  
+> > > 
+> > > Is this requirement supported by the uapi?    
+> > 
+> > Yes, on UAPI thread we discussed this:
+> > 
+> >   * For the user application, data is opaque. The user application 
+> > should write
+> >   * data in the same order as the data is received and the data should be of
+> >   * same transaction size at the source.
+> > 
+> > data should be same transaction size, so migration region size should be 
+> > greater than or equal to the size at source when verifying at destination.
+> 
+> We are that user application for which the data is opaque, therefore we
+> should make no assumptions about how the vendor driver makes use of
+> their region.  If we get a transaction that exceeds the end of the
+> region, I agree, that would be an error.  But we have no business
+> predicting that such a transaction might occur if the vendor driver
+> indicates it can support the migration.
+> 
+> > > The vendor driver operates
+> > > within the migration region, but it has no requirement to use the full
+> > > extent of the region.  Shouldn't we instead insert the version string
+> > > from versioning API Yan proposed?  Is this were we might choose to use
+> > > an interface via the vfio API rather than sysfs if we had one?
+> > >  
+> > 
+> > VFIO API cannot be used by libvirt or management tool stack. We need 
+> > sysfs as Yan proposed to be used by libvirt or management tool stack.
+> 
+> It's been a long time, but that doesn't seem like what I was asking.
+> The sysfs version checking is used to select a target that is likely to
+> succeed, but the migration stream is still generated by a user and the
+> vendor driver is still ultimately responsible for validating that
+> stream.  I would hope that a vendor migration stream therefore starts
+> with information similar to that found in the sysfs interface, allowing
+> the receiving vendor driver to validate the source device and vendor
+> software version, such that we can fail an incoming migration that the
+> vendor driver deems incompatible.  Ideally the vendor driver might also
+> include consistency and sequence checking throughout the stream to
+> prevent a malicious user from exploiting the internal operation of the
+> vendor driver.  Thanks,
+> 
+maybe we can add a rw field migration_version in
+struct vfio_device_migration_info besides sysfs interface ?
 
-I'll let Igor and mst confirm/deny this, but my understanding was that the
-build_append* API was the preferred way to create the table. Indeed, I
-don't see too many table.field =3D cpu_to_le(...) lines in aml-build.c
+when reading it in src, it gets the same string as that from sysfs;
+when writing it in target, it returns success or not to check
+compatibility and fails the migration early in setup phase.
 
-I realize this function is just getting moved, but maybe it should get
-converted to the build_append* API while being moved?
-
-Thanks,
-drew
-
+Thanks
+Yan.
 
