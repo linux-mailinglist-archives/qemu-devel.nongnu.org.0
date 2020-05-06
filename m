@@ -2,91 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A4D1C6FF9
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:08:36 +0200 (CEST)
-Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E91081C700A
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:12:35 +0200 (CEST)
+Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWIqp-0002df-H9
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
+	id 1jWIug-00021H-Sr
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:12:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWIo0-00066i-2j
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:40 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54030
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWInx-0008Az-JT
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588766733;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Lrczv+j6Wd9V8pXLvK37NjdjaIG/kQHx01eSO+UTiBk=;
- b=NVkVCY/pBrmSaStH4Ek26BuvzMSFg65PHgRp+mox6I0LBbuGo5w9QnE/b0lSyhGOnZZ1u1
- tYzAvIOdQ48QkSmGv0O+ZjP3wJXBMyMtfCOtpHSOC+G8pymDr8HRzlhiBix2VSAqkCQRlm
- S06I7CHry8CDtQaeh5pNLDZlqGXniiI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-ooJ1gsVfMWyBdz-OsH_w0w-1; Wed, 06 May 2020 08:05:32 -0400
-X-MC-Unique: ooJ1gsVfMWyBdz-OsH_w0w-1
-Received: by mail-wm1-f70.google.com with SMTP id d134so2492872wmd.0
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8UQCLO69Ng+9ievTR1YKMQ7IS7/Jm5XdR//BLbfIXfw=;
- b=Zl/vO9Oh8I5e3OT2eSneiEd5S1kcN86hNv7aXcXct18g2mG/ue3na3i+0C2CWclGXZ
- J75JYNkAfvJc/DNY6YuqtsVsUjbEbP5k+tPEjxFo4ASfVqIpWxjcf+Z0KI5+dir0tgRL
- REZUqUfe+20JWHzSUTk9BVXcl9an0O9rOEONpdqim5YAxiVbMHFYYop1/foXpiPLGyb6
- 2+8WT0u7BDUjxLPRXvPGrKiY3sLpjLwMqOHDgyT7j8x69e+bm225sOIcyeJTR9NVtoxL
- 76dNv3mj3FkD/fx8rn6ab7GraaRVjKg2+AcV+zIaFOrXhOBO5n9bzAOM4e3VPAuo94qF
- 1rAw==
-X-Gm-Message-State: AGi0PuZjAddj1QsAPU/XtyuBIZvbJqHzY65C9AvV2UhYss7e/coqIb4s
- 9uvN46/mOw11Amb7sZIvW9Q++MBZL0uACbjez1cSyPmqW03wVgzIEjEcpoceX3qgKcSRrRil3K8
- HD0Ts4734KrGTcq0=
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr9993214wrs.213.1588766731362; 
- Wed, 06 May 2020 05:05:31 -0700 (PDT)
-X-Google-Smtp-Source: APiQypID9ByNWET63NHG5jI3s2sGQ4G5KBGc9yPGtQrWpDhXMstOCjyUqlA/NeU73mJBjh5ebmxqSQ==
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr9993173wrs.213.1588766731048; 
- Wed, 06 May 2020 05:05:31 -0700 (PDT)
-Received: from [192.168.1.37] (26.red-88-21-207.staticip.rima-tde.net.
- [88.21.207.26])
- by smtp.gmail.com with ESMTPSA id v16sm2727732wml.30.2020.05.06.05.05.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 May 2020 05:05:30 -0700 (PDT)
-Subject: Re: [PATCH v1 1/2] hw/riscv: spike: Remove deprecated ISA specific
- machines
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1588727508.git.alistair.francis@wdc.com>
- <a051869c728f7f9c5e274b363ee76fc16451a043.1588727508.git.alistair.francis@wdc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d5834a53-4c45-423e-3559-d087ade1af6f@redhat.com>
-Date: Wed, 6 May 2020 14:05:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jWIp5-0008Hv-3J; Wed, 06 May 2020 08:06:47 -0400
+Received: from fanzine.igalia.com ([178.60.130.6]:53606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1jWIp2-00056T-8W; Wed, 06 May 2020 08:06:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=Wbk+qqq35eElZcbnBBrG5M7XfMH+WAsMrJBj1+CWtPw=; 
+ b=a3bZ3Ob23DPrF9ICc/oJnp5DZXUx/WG8RTl3QAlLAwR3XahElDUDIBCYQjUIBx1qeVKLAqlp/EnK8e1dAU5Mzq4vxKFyPp4HBLdTgFGrCa5kqdN7ljC0Nf3V3D3L3oRLPL+UtaN04ydwT8H1ax8ienqFiEsvKqcgkRwRCaPbVWVBbccrF9wW+pHspGtezKEqikt4NdryQGCj1QAs+kPz8f3AVa+m2guccJv279f6dK1vtolhVZqELtB1OuXFZjECRunX30CTcPG475rPOiezphKGvcxTuGJ/zj2o4KQUO3IiTQeG0hzkw9KEIkjIVFViLGY6640ABw62h4rGablZyg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1jWIox-0002V2-Tc; Wed, 06 May 2020 14:06:39 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1jWIox-0007DR-Jv; Wed, 06 May 2020 14:06:39 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 13/31] qcow2: Update get/set_l2_entry() and add
+ get/set_l2_bitmap()
+In-Reply-To: <3295e0e3-8b7b-3440-55d9-a8d9458e5e17@redhat.com>
+References: <cover.1588699789.git.berto@igalia.com>
+ <30130e0f4662ea8ba705c5c54afc56bfb1ae70b6.1588699789.git.berto@igalia.com>
+ <3295e0e3-8b7b-3440-55d9-a8d9458e5e17@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 06 May 2020 14:06:39 +0200
+Message-ID: <w51ftcd9sj4.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <a051869c728f7f9c5e274b363ee76fc16451a043.1588727508.git.alistair.francis@wdc.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 06:18:29
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x (no timestamps) [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,22 +64,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@dabbelt.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/20 3:12 AM, Alistair Francis wrote:
-> The ISA specific Spike machines have  been deprecated in QEMU since 4.1,
-> let's finally remove them.
->=20
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   hw/riscv/spike.c         | 217 ---------------------------------------
->   include/hw/riscv/spike.h |   6 +-
->   2 files changed, 2 insertions(+), 221 deletions(-)
->=20
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+On Tue 05 May 2020 10:04:32 PM CEST, Eric Blake wrote:
+> What happens for an image whose size is not cluster-aligned?  Must the
+> bits corresponding to subclusters not present in the final cluster
+> always be zero, or are they instead ignored regardless of value?
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Attempting to read or write beyond the end of the image returns an error
+(see blk_check_byte_request()).
 
+But let's say we have a 32k image (only 1/2 of the first cluster is
+used) and we manipulate the bitmap to mark all subclusters as allocated.
+
+In this case if you try 'read 0 32k' then count_contiguous_subclusters()
+would indeed say that there are 64k of data available. However the
+caller knows that we only want 32k and
+
+    if (bytes_available > bytes_needed) {
+        bytes_available = bytes_needed;
+    }
+
+so in the end it doesn't really matter.
+
+I think in practice it's the same as with traditional qcow2 images: once
+we reach qcow2_get_host_offset() the code does not really know or care
+about the size of the image or how much of the last cluster contains
+actual data. It only cares about how much data the caller needs. The
+limits have already been checked before.
+
+But we could document it: "if the image size is not a multiple of the
+cluster size then the bits corresponding to the subclusters beyond the
+end of the image are ignored and should be set to zero", or something
+like that.
+
+Berto
 
