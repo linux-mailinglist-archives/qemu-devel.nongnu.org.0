@@ -2,87 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7C91C7963
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 20:29:36 +0200 (CEST)
-Received: from localhost ([::1]:47182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF8B1C7979
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 20:34:26 +0200 (CEST)
+Received: from localhost ([::1]:58988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWOnX-0003ah-2o
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 14:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60278)
+	id 1jWOsD-0000II-8P
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 14:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1jWOmH-0002i1-AK; Wed, 06 May 2020 14:28:17 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:52769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
- id 1jWOmF-0000mb-UU; Wed, 06 May 2020 14:28:16 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailout.west.internal (Postfix) with ESMTP id 54BA85C4;
- Wed,  6 May 2020 14:28:13 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Wed, 06 May 2020 14:28:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=AX7UfPLCTkOWi7qZeHN4nqghVrb
- z9XIDaJmmCTU8fsg=; b=B9IPoh76L88RP+G1BwXWwXjaM8oFIGYQQdkn458hx0i
- SNguNpSZNCSpql4GxDoPRMMKecnS/yRP+b1Kd0BF4rFIbaxCY9oHjZOhUVKLkdET
- G4NfAAF5I5Jo2Un68ue6TE+uJ0vbYbOT/fStHVHwJVMDfnRfnEXQU5nKUABjHd6b
- gXUHTvbGnMsDDi9hEpf+lGVS5sdSLwZ1zRGbiagqJB7ziwIOtPuNJazO0JRiWRL2
- x02knD/L3TzaVzE3r2YpycYiYPzGOggxcCJluU5vCaXapZ+4bHMYf+zg7I8wP6YY
- rucadQ7Yw/FOFwLlh8oY4c+Khq597JMa+lDXk9mpnag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=AX7UfP
- LCTkOWi7qZeHN4nqghVrbz9XIDaJmmCTU8fsg=; b=phCOjsOAbmsCX6VSdymIIq
- vfy2fJalfcV6XL7dMmiFa1rV+DnUluCvk5u54Ur/ltSBerYMEgA+JE74qVct+4RJ
- qwxkDc1egCpoAdw8dROmWhCMmOufutuDiAsm6CvFbcYyAcXhVVFYmvTmXIbl7blW
- nbdjhXoP2il0L7YkX4m6tN6L45lwMG6b2waB0ubYbgaFEk66iENWiZ0v6QWtn6yB
- 2seugFQkYzDFcUl+nutmYpO5v+h6ebGas34FSZOaVPHhWYfKCk+UpTU0G2RLWv8t
- J5gCuJwB0fT4TtyqRgBOLCZAbXo79Lr+zzrKFVI5kITj6aYYPMzl1vFFTKVUc8Iw
- ==
-X-ME-Sender: <xms:uwGzXprbHDNToNM1CODxM_w2JKeBuJ8iV5wYZAi7DWOSTpDpDm-QGQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrjeekgdduvddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- gfrhhlucfvnfffucdljedtmdenucfjughrpeffhffvuffkfhggtggujgesghdtreertddt
- udenucfhrhhomheprfgrthhrihgtkhcuhghilhhlihgrmhhsuceophgrthhrihgtkhessh
- htfigtgidrgiihiieqnecuggftrfgrthhtvghrnheptdefjeetuedtfeelfeeiieevveek
- geeuvedtveefiedvhfeiueeugffhkeelvdfhnecukfhppeduieeirddujeeirdduvdefrd
- dvvddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
- phgrthhrihgtkhesshhtfigtgidrgiihii
-X-ME-Proxy: <xmx:uwGzXhJzGPV3j8rs5iKOyfL-kvWhKkb9lJLgKeKWnvRmnMvfEVrNfg>
- <xmx:uwGzXlT8YS4q92TWyOTb8gxD64bHSX2LkUtKAeJltv-5c1h5LkWxoQ>
- <xmx:uwGzXpP1dAcUvvM85oEyuXYg5Xi1Dt-M30ue1WTlmlKroN0n6YDsAw>
- <xmx:vAGzXsOnqROJNpYXdT69l3NHhjXBGQWiUUCTEzUPQGDfdHz80b78Iw>
-Received: from localhost (mobile-166-176-123-220.mycingular.net
- [166.176.123.220])
- by mail.messagingengine.com (Postfix) with ESMTPA id 68CDE3066118;
- Wed,  6 May 2020 14:28:11 -0400 (EDT)
-Date: Wed, 6 May 2020 13:28:10 -0500
-From: Patrick Williams <patrick@stwcx.xyz>
-To: Amithash Prasad <amithash@fb.com>
-Subject: Re: [PATCH v2] aspeed: Add support for the sonorapass-bmc board
-Message-ID: <20200506182810.GB4865@heinlein>
-References: <20200501113704.2240698-1-patrick@stwcx.xyz>
- <20200506173035.2154053-1-patrick@stwcx.xyz>
- <BYAPR15MB2823122DCA19E2E831257DD6B2A40@BYAPR15MB2823.namprd15.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jWOo3-0004M5-G8
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:07 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44981)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jWOo2-0002ml-7I
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:07 -0400
+Received: by mail-pl1-x631.google.com with SMTP id b8so716832plm.11
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 11:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0XxHIH+aU72cGC8v9gqVLYCoVm5TOqhICJXBWXKkOj0=;
+ b=PTOA8PAnd08YdgbwfBuPUzBldh7XN/mytekkfLmPIP/dJdqkZMP+XW4BeGzYROae8T
+ FViEcE65/0gcVkfnq6F88+d/31rDeDy/JqPfSUv7QFT+Jm7S9aInWmCgAHrpQAlDrPN6
+ QjZVbS/BzZyFjiJ+caaZ77D+RV8qm21R0tHUtvZT42VebcXR2DSN7cS7UFvHp9ZsD2Ka
+ stIkalhyc3gCEtd45f6wmhQm8prKKtnlGH5zS2DhPLkW6juR7zMNNlbqENpOsDzU/HXR
+ aX0mtxU2bmjcRz+BzG55UCKhd+QeAvazffNhYosDOHy5EXJCIURJR9klnT7yaovqauZG
+ CZQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0XxHIH+aU72cGC8v9gqVLYCoVm5TOqhICJXBWXKkOj0=;
+ b=SqaEtr9am8bzrDl4zSP+rw9QYdCxiKtmfTxgmuZ2LDEogSSxDDq1VO30ZbJkr98Ill
+ d44hpbs8RGulIKG7raa8bC4g/q7e+gBYHbkuL/ujYVdQCH41c2IeeqdvVk0H6xfiCKAU
+ UiC/as8xWLk3K8iCbXuU3aN5jBGDfAhFCvqoWKu0ftyRvBmWWzzg+Yn5kViEg4492Akf
+ JipzhqOF7aTdqOt3ZUadB9g6acU3Cg/pupoaRzUZr96Dp/J5v6ZxIQHJaNkziPx58W3h
+ cHwvxIv5uEv72hYGIUyQhDdX2o43kGr+oAuwsMl06qdQrjMBzh9ZCndYo8HjhCfmhS+L
+ HLow==
+X-Gm-Message-State: AGi0PubvMch81uOc1rX3/eOqJcG0DNiI/HQRtMSMOa/0HecytBnlc66N
+ K6vExcAzkKtFswfw6w/Z3WQMHU389bk=
+X-Google-Smtp-Source: APiQypIPMFOBKk1PvhZdOgKoAJrWmHEdAq7f+rwZ78M8eeQbTUW/PTmlNpiu0DiLM5ATwn3WHX+p5w==
+X-Received: by 2002:a17:90a:20ea:: with SMTP id
+ f97mr10764274pjg.157.1588789803709; 
+ Wed, 06 May 2020 11:30:03 -0700 (PDT)
+Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
+ [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id w11sm2572589pfq.100.2020.05.06.11.30.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 May 2020 11:30:02 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] tcg patch queue
+Date: Wed,  6 May 2020 11:29:52 -0700
+Message-Id: <20200506183002.3192-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OwLcNYc0lM97+oe1"
-Content-Disposition: inline
-In-Reply-To: <BYAPR15MB2823122DCA19E2E831257DD6B2A40@BYAPR15MB2823.namprd15.prod.outlook.com>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=patrick@stwcx.xyz;
- helo=wout3-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 13:30:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,49 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Vijay Khemka <vijaykhemka@fb.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit a36d64f43325fa503075cc9408ddabb69b32f829:
 
---OwLcNYc0lM97+oe1
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-and-gdbstub-060520-1' into staging (2020-05-06 14:06:00 +0100)
 
-On Wed, May 06, 2020 at 06:06:34PM +0000, Amithash Prasad wrote:
-> >> +=A0=A0=A0 mc->desc=A0=A0=A0=A0=A0=A0 =3D "OpenPOWER SonoraPass BMC (A=
-RM1176)";
-> Open Compute Project?
+are available in the Git repository at:
 
-Oops.  Yeah, this is not an OpenPOWER machine.  Will send a v3.
+  https://github.com/rth7680/qemu.git tags/pull-tcg-20200506
 
---=20
-Patrick Williams
+for you to fetch changes up to 07dada0336a83002dfa8673a9220a88e13d9a45c:
 
---OwLcNYc0lM97+oe1
-Content-Type: application/pgp-signature; name="signature.asc"
+  tcg: Fix integral argument type to tcg_gen_rot[rl]i_i{32,64} (2020-05-06 09:25:10 -0700)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+Add tcg_gen_gvec_dup_imm
+Misc tcg patches
 
-iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAl6zAbgACgkQqwNHzC0A
-wRlzqA/9HhZ8aBxQ4OhRfbLpZK84Ug0Sedqy3WMpjItQFkpNBW9dXriq8XUy9Lkw
-12CkF0B+UA9yiwliSBakzzvE2NB7aONsrJEyjoLCfUErVQnb0Kpv2T1EU0QyUVvD
-5yKujT0ofSP+WTH3cmF5IX3/LlW7Hk0DLbUZtMMzWk5uCGp8nYHw4HFW2Kd0U6sW
-F2w4H9lmFK7u2SIdSCwvOs8IsRKyAhvZUKyX+YmDHKT22kJRe4TrGIre/QtSCTvx
-7MfBuxoic0sxv1902e5xaVv4ilvLs6Bk7MxCfcZe6EkQfXz/mZE9U9vO4sCjxUdQ
-+qvM7oZje7OJ8ymzzvTvSVKQ/5KauwMxz+GKOmicMrZ0RCfu+iD28w13eoRWXAii
-iABRZr1iWHrcHAvt9sZIEwyBVPYsf76D226WaCOjU0xOPsm9Gae+oXyqSBS+rBOQ
-g2vZZWlR3SweHzCUg/0woF+TsIfgWYZ/nSLIApd1PJ05zMgE3GfGlbLTEC1BcsMI
-pvJFKXW3/dCIc2kKyUA963DsagE5rKjig7QuXDI0PXL8ws6ry+bmRn1raU6/zjLj
-ERn76h/peVH1uTAF/FHollZ3v8tASDn5YkgsdkftRMp2kNEACFJX21pbSFryWlOi
-BqoWBAIIy25eycBqR06XcYz7+14LSa1XzkAUc3JnK5EaCI6W4R0=
-=13rE
------END PGP SIGNATURE-----
+----------------------------------------------------------------
+Richard Henderson (10):
+      tcg: Add tcg_gen_gvec_dup_imm
+      target/s390x: Use tcg_gen_gvec_dup_imm
+      target/ppc: Use tcg_gen_gvec_dup_imm
+      target/arm: Use tcg_gen_gvec_dup_imm
+      tcg: Use tcg_gen_gvec_dup_imm in logical simplifications
+      tcg: Remove tcg_gen_gvec_dup{8,16,32,64}i
+      tcg: Add tcg_gen_gvec_dup_tl
+      tcg: Improve vector tail clearing
+      tcg: Add load_dest parameter to GVecGen2
+      tcg: Fix integral argument type to tcg_gen_rot[rl]i_i{32,64}
 
---OwLcNYc0lM97+oe1--
+ include/tcg/tcg-op-gvec.h           |  13 ++-
+ include/tcg/tcg-op.h                |   8 +-
+ target/arm/translate-a64.c          |  10 +--
+ target/arm/translate-sve.c          |  12 ++-
+ target/arm/translate.c              |   9 +-
+ target/ppc/translate/vmx-impl.inc.c |  32 +++----
+ target/ppc/translate/vsx-impl.inc.c |   2 +-
+ target/s390x/translate_vx.inc.c     |  41 ++-------
+ tcg/tcg-op-gvec.c                   | 162 +++++++++++++++++++++++-------------
+ tcg/tcg-op.c                        |  16 ++--
+ 10 files changed, 166 insertions(+), 139 deletions(-)
 
