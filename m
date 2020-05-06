@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1D41C7A15
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 21:17:29 +0200 (CEST)
-Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8651C7A34
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 21:24:22 +0200 (CEST)
+Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWPXr-00048J-W8
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 15:17:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
+	id 1jWPeX-0001Bv-4U
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 15:24:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWPWu-0003bt-QW
- for qemu-devel@nongnu.org; Wed, 06 May 2020 15:16:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49037
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWPWs-00051i-4Z
- for qemu-devel@nongnu.org; Wed, 06 May 2020 15:16:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588792584;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=18sWelKQsD26LdM4FxrdQ7ldOmm/iTfoE1UGpFin83A=;
- b=anTWJChCvZUmvscxFMJJ9BeIUPwLLY6WnIdWqWMapx5FkgyDEMrNq+0KktamE7+7satbeK
- rnU5qZ9sRAXBnZ0tnEGObF1B6UHjmCIoCN9zQGNrRx3hGNWlFWal1du5rEywcOo+wc6Sxj
- uCXR/srzio0IbzQmg1L1817KaNcWY48=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-oLA7OuRIPjaBwGGMra5SkA-1; Wed, 06 May 2020 15:16:21 -0400
-X-MC-Unique: oLA7OuRIPjaBwGGMra5SkA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47777107ACF6;
- Wed,  6 May 2020 19:16:20 +0000 (UTC)
-Received: from work-vm (ovpn-114-245.ams2.redhat.com [10.36.114.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A586D10013D9;
- Wed,  6 May 2020 19:16:16 +0000 (UTC)
-Date: Wed, 6 May 2020 20:16:14 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Colin Walters <walters@verbum.org>
-Subject: Re: [PATCH] virtiofsd: Use clone() and not unshare(), support non-root
-Message-ID: <20200506191614.GR2743@work-vm>
-References: <348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com>
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1jWPdc-0000lT-Kb
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 15:23:24 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:14065)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1jWPdb-0002BR-8j
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 15:23:24 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5eb30e990001>; Wed, 06 May 2020 12:23:05 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Wed, 06 May 2020 12:23:17 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Wed, 06 May 2020 12:23:17 -0700
+Received: from [10.40.101.152] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 6 May
+ 2020 19:23:08 +0000
+Subject: Re: [PATCH v18 QEMU 02/18] vfio: Add function to unmap VFIO region
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <alex.williamson@redhat.com>, <cjia@nvidia.com>
+References: <1588632293-18932-1-git-send-email-kwankhede@nvidia.com>
+ <1588632293-18932-3-git-send-email-kwankhede@nvidia.com>
+ <9747d731-4547-5689-8f40-61d3a2945078@redhat.com>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <ba999ab9-27eb-ebc5-14e7-84ddd6ab4f2d@nvidia.com>
+Date: Thu, 7 May 2020 00:53:03 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <348d4774-bd5f-4832-bd7e-a21491fdac8d@www.fastmail.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <9747d731-4547-5689-8f40-61d3a2945078@redhat.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 05:50:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1588792985; bh=724FqxVf63Y+LUizwiFaeKmscdUQ123rnDqMYzzwy2w=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+ X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=Wap6xo7V/paJCxGYRml55M7LicoopuBG/YHKFoakrJHduziL+8Qbuaa+2rHwOiVc+
+ mbpq3aKlkcziYOdF4Wsfa4DikNNlDNvAiSQKQkj831UA6hzIe56Va1Gv3m25sj384a
+ gL2L7TeJuhsF6sDpgCKwPG+47AnWUZAE1i878sMoNLDzgZVaKuEBSrd3ndzVzbMEto
+ jAT7L5/7BkYnOkaS/m2741JyrR5VU301HKHLnmLgwPw64MMGjOi9S4w5fah9rP3V29
+ 3xnPiKAe7aMDFytL8JUi80I6JiS3/A95AYAXPUKxtH5qQfKmLWD99JPVozPKT1miEs
+ aKivUFYJ8ODTA==
+Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate26.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 15:23:18
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,92 +84,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: cohuck@redhat.com, aik@ozlabs.ru, Zhengxiao.zx@Alibaba-inc.com,
+ shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org, peterx@redhat.com,
+ eauger@redhat.com, yi.l.liu@intel.com, eskultet@redhat.com,
+ ziye.yang@intel.com, armbru@redhat.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, felipe@nutanix.com, Ken.Xue@amd.com, kevin.tian@intel.com,
+ yan.y.zhao@intel.com, dgilbert@redhat.com, changpeng.liu@intel.com,
+ quintela@redhat.com, zhi.a.wang@intel.com, jonathan.davies@nutanix.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Colin Walters (walters@verbum.org) wrote:
-> I'd like to make use of virtiofs as part of our tooling in
-> https://github.com/coreos/coreos-assembler
-> Most of the code runs as non-root today; qemu also runs as non-root.
-> We use 9p right now.
->=20
-> virtiofsd's builtin sandboxing effectively assumes it runs as
-> root.
->=20
-> First, change the code to use `clone()` and not `unshare()+fork()`.
->=20
-> Next, automatically use `CLONE_NEWUSER` if we're running as non root.
 
-Is it ever useful for root to run the code in a new user namespace?
 
-Dave
+On 5/5/2020 11:46 AM, Philippe Mathieu-Daud=E9 wrote:
+> Hi Kirti,
+>=20
+> On 5/5/20 12:44 AM, Kirti Wankhede wrote:
+>> This function will be used for migration region.
+>> Migration region is mmaped when migration starts and will be unmapped=20
+>> when
+>> migration is complete.
+>>
+>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+>> ---
+>> =A0 hw/vfio/common.c=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 | 20 +++++++=
++++++++++++++
+>> =A0 hw/vfio/trace-events=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 1 +
+>> =A0 include/hw/vfio/vfio-common.h |=A0 1 +
+>> =A0 3 files changed, 22 insertions(+)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index 0b3593b3c0c4..4a2f0d6a2233 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -983,6 +983,26 @@ int vfio_region_mmap(VFIORegion *region)
+>> =A0=A0=A0=A0=A0 return 0;
+>> =A0 }
+>> +void vfio_region_unmap(VFIORegion *region)
+>> +{
+>> +=A0=A0=A0 int i;
+>> +
+>> +=A0=A0=A0 if (!region->mem) {
+>> +=A0=A0=A0=A0=A0=A0=A0 return;
+>> +=A0=A0=A0 }
+>> +
+>> +=A0=A0=A0 for (i =3D 0; i < region->nr_mmaps; i++) {
+>=20
+> I'd refactor this=A0 block <...
+>> +       =20
+>> trace_vfio_region_unmap(memory_region_name(&region->mmaps[i].mem),
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 region->mmaps[i].offset,
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 region->mmaps[i].offset +
+>> +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 region->mmaps[i].size - 1);
+>> +=A0=A0=A0=A0=A0=A0=A0 memory_region_del_subregion(region->mem, &region-=
+>mmaps[i].mem);
+>> +=A0=A0=A0=A0=A0=A0=A0 munmap(region->mmaps[i].mmap, region->mmaps[i].si=
+ze);
+>> +=A0=A0=A0=A0=A0=A0=A0 object_unparent(OBJECT(&region->mmaps[i].mem));
+>> +=A0=A0=A0=A0=A0=A0=A0 region->mmaps[i].mmap =3D NULL;
+>=20
+> ...> into a helper and reuse it in vfio_region_mmap(). Well, actually=20
+> I'd factor it out from vfio_region_mmap() then reuse it here. Anyway=20
+> this is v18 so can be done later on top.
+>=20
 
-> This is similar logic to that in https://github.com/containers/bubblewrap
-> (Which...BTW, it could make sense for virtiofs to depend on bubblewrap
->  and re-exec itself rather than re-implementing the containerization
->  itself)
->=20
-> Signed-off-by: Colin Walters <walters@verbum.org>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 26 +++++++++++++++++++++-----
->  1 file changed, 21 insertions(+), 5 deletions(-)
->=20
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrou=
-gh_ll.c
-> index 4c35c95b25..468617f6d6 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -2530,6 +2530,21 @@ static void print_capabilities(void)
->      printf("}\n");
->  }
-> =20
-> +/* Copied from bubblewrap */
-> +static int
-> +raw_clone(unsigned long flags, void *child_stack)
-> +{
-> +#if defined(__s390__) || defined(__CRIS__)
-> +  /*
-> +   * On s390 and cris the order of the first and second arguments
-> +   * of the raw clone() system call is reversed.
-> +   */
-> +    return (int) syscall(__NR_clone, child_stack, flags);
-> +#else
-> +    return (int) syscall(__NR_clone, flags, child_stack);
-> +#endif
-> +}
-> +
->  /*
->   * Move to a new mount, net, and pid namespaces to isolate this process.
->   */
-> @@ -2547,14 +2562,15 @@ static void setup_namespaces(struct lo_data *lo, =
-struct fuse_session *se)
->       * an empty network namespace to prevent TCP/IP and other network
->       * activity in case this process is compromised.
->       */
-> -    if (unshare(CLONE_NEWPID | CLONE_NEWNS | CLONE_NEWNET) !=3D 0) {
-> -        fuse_log(FUSE_LOG_ERR, "unshare(CLONE_NEWPID | CLONE_NEWNS): %m\=
-n");
-> -        exit(1);
-> +    int clone_flags =3D SIGCHLD | CLONE_NEWPID | CLONE_NEWNS | CLONE_NEW=
-NET;
-> +    /* If we're non root, we need a new user namespace */
-> +    if (getuid() !=3D 0) {
-> +        clone_flags |=3D CLONE_NEWUSER;
->      }
-> =20
-> -    child =3D fork();
-> +    child =3D raw_clone(clone_flags, NULL);
->      if (child < 0) {
-> -        fuse_log(FUSE_LOG_ERR, "fork() failed: %m\n");
-> +        fuse_log(FUSE_LOG_ERR, "clone() failed: %m\n");
->          exit(1);
->      }
->      if (child > 0) {
-> --=20
-> 2.24.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Nevermind, this is not the last version, I'll do suggested change.
 
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+>=20
+
+Thanks,
+Kirti
+
+>> +=A0=A0=A0 }
+>> +}
+>> +
+>> =A0 void vfio_region_exit(VFIORegion *region)
+>> =A0 {
+>> =A0=A0=A0=A0=A0 int i;
+>> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+>> index b1ef55a33ffd..8cdc27946cb8 100644
+>> --- a/hw/vfio/trace-events
+>> +++ b/hw/vfio/trace-events
+>> @@ -111,6 +111,7 @@ vfio_region_mmap(const char *name, unsigned long=20
+>> offset, unsigned long end) "Reg
+>> =A0 vfio_region_exit(const char *name, int index) "Device %s, region %d"
+>> =A0 vfio_region_finalize(const char *name, int index) "Device %s, region=
+=20
+>> %d"
+>> =A0 vfio_region_mmaps_set_enabled(const char *name, bool enabled)=20
+>> "Region %s mmaps enabled: %d"
+>> +vfio_region_unmap(const char *name, unsigned long offset, unsigned=20
+>> long end) "Region %s unmap [0x%lx - 0x%lx]"
+>> =A0 vfio_region_sparse_mmap_header(const char *name, int index, int=20
+>> nr_areas) "Device %s region %d: %d sparse mmap entries"
+>> =A0 vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned=20
+>> long end) "sparse entry %d [0x%lx - 0x%lx]"
+>> =A0 vfio_get_dev_region(const char *name, int index, uint32_t type,=20
+>> uint32_t subtype) "%s index %d, %08x/%0x8"
+>> diff --git a/include/hw/vfio/vfio-common.h=20
+>> b/include/hw/vfio/vfio-common.h
+>> index fd564209ac71..8d7a0fbb1046 100644
+>> --- a/include/hw/vfio/vfio-common.h
+>> +++ b/include/hw/vfio/vfio-common.h
+>> @@ -171,6 +171,7 @@ int vfio_region_setup(Object *obj, VFIODevice=20
+>> *vbasedev, VFIORegion *region,
+>> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 in=
+t index, const char *name);
+>> =A0 int vfio_region_mmap(VFIORegion *region);
+>> =A0 void vfio_region_mmaps_set_enabled(VFIORegion *region, bool enabled)=
+;
+>> +void vfio_region_unmap(VFIORegion *region);
+>> =A0 void vfio_region_exit(VFIORegion *region);
+>> =A0 void vfio_region_finalize(VFIORegion *region);
+>> =A0 void vfio_reset_handler(void *opaque);
+>>
+>=20
 
