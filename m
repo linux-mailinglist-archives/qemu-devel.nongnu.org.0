@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA78A1C7BBE
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 22:59:58 +0200 (CEST)
-Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B233C1C7C8D
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 23:37:10 +0200 (CEST)
+Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWR93-00068l-73
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 16:59:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39608)
+	id 1jWRj3-0008P5-1D
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 17:37:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jWR8B-0005eM-KU
- for qemu-devel@nongnu.org; Wed, 06 May 2020 16:59:03 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jWR89-0002tM-Fh
- for qemu-devel@nongnu.org; Wed, 06 May 2020 16:59:03 -0400
-Received: by mail-lj1-x242.google.com with SMTP id u6so3927461ljl.6
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 13:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lifhjNc/+8n2VeRbNRRf7UQgSm7/0C49Qt1x2LZG53U=;
- b=0AqCEme16Hil182ogtEBnTHYLdlkTG7QaL0yhBc7bYXenbc+aGjU1p8qm6fS5UA+9A
- WSgP4HVfyAyCimgj2pfq8RpQ2k1O69qHxdeoqUg9fNmAL2XNG5rKT+7peAJvqEWYEFPK
- kBtXKy/6cNsvMB899sIasJ0Yb6FoKgRbZzZg4+Ak4CyEZB/snspaKwcJQq9puvfsH/EA
- WfL42BFYSsnq/ZTLAszWuO64KD1iBuSZizxiYkdtzwoYKmaixKTS47rg2HEtPEhLPsRH
- iKilFmEpHasEW1qtEZwwRZEXJ3c5IcvJdICaUihZQn9CAJSnGjOeiGd8tVM/878QNCJj
- zBrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lifhjNc/+8n2VeRbNRRf7UQgSm7/0C49Qt1x2LZG53U=;
- b=UjjSTff0OjAVgrJddfVfDPywvpGS7TJ6hLYdykUNwU6XPcX6tjckzdKrt3o6lV5ViA
- DxZgesFUzxiNuUIgEqpPUoYj0ftWSd78SC66IRk2V11nXaS3omXYHJji/cY48B7IJ6CO
- TqH6DGwFlwoZc8nZfXs6t26VycmlB0NmdTtpmb5EtIAUwbkTmjri/bPyEpB3yMk7R0JP
- pVP5AvKUeoS4okLMgatzq/9gRFxsNrrP+3o+yAOblMHbJhG8cEjcT6FDLDQYd0/WV4+I
- dPcyFY/X4WPj+conT+Sfc6ICPt3hhq/ExsiocCtXM0i0ltauUMaFf+g7zPVr37RXbs35
- ZNGw==
-X-Gm-Message-State: AGi0PuYAMMoXmGMYjIs5FPJm/eIvXZhy2a4CcySS7DjYR2tiRD7+f78b
- fGXMGmHzkXHvJ1W5E9qCKD8spVIYvr9yug==
-X-Google-Smtp-Source: APiQypJv3uwClEdISONl/cNqVeewtTY6PEvvPfuf9QPctPDCZ399LItUY08BymFUUmM2TcqQ12yqkw==
-X-Received: by 2002:a2e:8603:: with SMTP id a3mr6341940lji.153.1588798738717; 
- Wed, 06 May 2020 13:58:58 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id u9sm2029468ljl.33.2020.05.06.13.58.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 13:58:57 -0700 (PDT)
-From: andrew@daynix.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] e1000e: Added ICR clearing by corresponding IMS bit.
-Date: Thu,  7 May 2020 00:26:45 +0300
-Message-Id: <20200506212645.894533-1-andrew@daynix.com>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::242;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
+ id 1jWRhK-0006hP-5r; Wed, 06 May 2020 17:35:22 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:41322)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
+ id 1jWRhH-0006fl-WD; Wed, 06 May 2020 17:35:21 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 046LHnnc088527;
+ Wed, 6 May 2020 21:35:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
+ bh=HdN1UqFMciOkIwwQ7DVlFd6+2YPnNvPWrIVNPKoavKE=;
+ b=rRPXeXlsOs8o/M8DTGmU5fCGGxwd0mDdZS+gU9gYnG/XhyLusQdB+hIatEmjnZ4J7r4a
+ uPm9xPmRmAoAPm3P2LkAO7DeHlNlPL6OJrFQ6vg/tZ1ZJyzl3AZ3koqqMhHt9ndOQZ14
+ X3eKEhbm95+EKYBI+6hiZ0mJ08Ryefm59W8fmH5fMAGGOHZEhTwO1AQ+zuqQvZ2kQZwJ
+ /zz95fQAV9c/jfHguYavxOW8WGGBFMR1Hiy2gQhc53uEf391f7DUxHDnRvMUQHpsWbT1
+ WiyEWZwZURsOjSgu04ow2f3KqXc4PPxgrHUa/L7QHaKs1zj08oMLvBAxFu5UD3LmrH/i ZA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 30s09rcwgw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 May 2020 21:35:17 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 046LGboV070964;
+ Wed, 6 May 2020 21:35:16 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 30us7nprm4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 May 2020 21:35:16 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 046LZFQE016342;
+ Wed, 6 May 2020 21:35:16 GMT
+Received: from localhost.localdomain (/10.74.121.228)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 06 May 2020 14:35:15 -0700
+From: Eyal Moscovici <eyal.moscovici@oracle.com>
+To: 
+Subject: [PATCH v2 0/5] Additional parameters for qemu_img map
+Date: Thu,  7 May 2020 00:34:54 +0300
+Message-Id: <20200506213459.44743-1-eyal.moscovici@oracle.com>
+X-Mailer: git-send-email 2.17.2 (Apple Git-113)
+In-Reply-To: <59b0896d-85ad-08b5-fcc1-36adad7501a4@redhat.com>
+References: <59b0896d-85ad-08b5-fcc1-36adad7501a4@redhat.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ adultscore=0 suspectscore=0
+ mlxlogscore=651 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005060172
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxscore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 malwarescore=0 mlxlogscore=715 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005060172
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=eyal.moscovici@oracle.com; helo=userp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 17:35:17
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,55 +93,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Eyal Moscovici <eyal.moscovici@oracle.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ liran.alon@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Melnychenko <andrew@daynix.com>
+Hi,
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
-Added ICR clearing if there is IMS bit - according to the note by
-section 13.3.27 of the 8257X developers manual.
+The following series adds two parameters to qemu-img map:
+1. start-offset: mapping starting offset.
+2. max-length: the length of the mapping.
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/net/e1000e_core.c | 9 +++++++++
- hw/net/trace-events  | 1 +
- 2 files changed, 10 insertions(+)
+These parameters proved useful when mapping large disk spread across
+long store file chains. It allows us to bound the execution time of each
+qemu-img map execution as well as recover from failed mapping
+operations. In addition the map operation can divided to
+multiple independent tasks.
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index d5676871fa..302e99ff46 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
-         e1000e_clear_ims_bits(core, core->mac[IAM]);
-     }
- 
-+    /*
-+     * PCIe* GbE Controllers Open Source Software Developer's Manual
-+     * 13.3.27 Interrupt Cause Read Register
-+     */
-+    if (core->mac[ICR] & core->mac[IMS]) {
-+        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
-+        core->mac[ICR] = 0;
-+    }
-+
-     trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
-     e1000e_update_interrupt_state(core);
-     return ret;
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index e18f883cfd..46e40fcfa9 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
- e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
- e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
- e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
-+e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
- e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
- e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
- e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
+V2 changes:
+1. add error reporting to cvtnum.
+2. add image length validation in img_map.
+3. rebase over QEMU 5.0.
+
+Eyal Moscovici (5):
+  qemu-img: remove check that cvtnum value > MAX_INT
+  qemu_img: add error report to cvtnum
+  qemu-img: validate image length in img_map
+  qemu-img: refactor dump_map_entry JSON format output
+  qemu-img: Add --start-offset and --max-length to map
+
+ docs/tools/qemu-img.rst    |   2 +-
+ qemu-img-cmds.hx           |   4 +-
+ qemu-img.c                 | 106 ++++++++++++++++++++++---------------
+ tests/qemu-iotests/049.out |   4 +-
+ 4 files changed, 67 insertions(+), 49 deletions(-)
+
 -- 
-2.24.1
+2.17.2 (Apple Git-113)
 
 
