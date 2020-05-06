@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2AB1C7003
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:09:31 +0200 (CEST)
-Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A431C7005
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:10:12 +0200 (CEST)
+Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWIri-0004pw-As
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
+	id 1jWIsN-0006Hf-Qb
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:10:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo8-0006Ku-Bv
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:49 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36862)
+ id 1jWIo8-0006KE-1Z
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:48 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo6-0000ub-3Z
+ id 1jWIo6-0000vf-8z
  for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:47 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id k8so1103812ejv.3
+Received: by mail-wm1-x332.google.com with SMTP id 188so2309068wmc.2
  for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DrqUaGonDL46LGXalbeGbioWVxgk7+O8lq9vZxw9cGg=;
- b=xhW1l5QVlhf2N3yHKNGFlo5ygiJGhlR4W1/lnPkeUYBt3jcDyX115BdK5nQOcPpsyK
- HMGq9yRcHe8b0MsshVMGzH8dYqjoY0mhpV9YzdV/FtQAEZs1Bh/9CENMwZXthISGa4JR
- t0LJuWE+T1CrDepKC2DjNKwe0eDE0eIFqwSneUFZHQaJGP90I51lvLYZmZIC6/ciWQ15
- +dLL1Z05865Zoq/nVP4RKleugsKp+qZ8G6F313Y9nD1xZjXyfPN7UAHYAp9ryqp+xXOj
- v2lN6xB8LUpWlkQZZk8VcDRI5hdTlQvmT9U+Ie8QKUyMhcpec0jtuDkYcJnQXxp2IR7e
- S+/A==
+ bh=XI9W7JKa2XyA3yREs7k25PgwkqTKLOYrGC7rNXuuH+4=;
+ b=imxpirmX8HKyoZBurHzjZTMtIol8i8W8TSAxOQM/cqM/zvkxc+Sln0LLcHsTDC99ln
+ /NIGqjJEq1VaODtquy0C2tNWyGUhZeH6zcEDTnj3d2kEkubjdtHDehoN+SiypGTvKEYZ
+ H7V6N39a6hJ+aglkOEsnIbwMkbhbrAwCOXr5EJXa+rgk2pfuc2j50APbdgQckEM1KF9P
+ fcMydYH5fJiPeI2N83abMF3zNxxhhWhxfOFSQ03Oevd47gjGj2sqgseBXc8UR1KsUluF
+ QAMpFpBftBCSUUYrD+s2DEqOIfT71YDeVDUTsnnyYFh/Sz8lbbG94EIiJEFNkNhsAdCs
+ b98g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DrqUaGonDL46LGXalbeGbioWVxgk7+O8lq9vZxw9cGg=;
- b=XAGKDE59KF3ls68x76hh1n1WSzG1uhZIOWXhj7UgnBFUKXqhuFBp+H8D2qc0ebAqzy
- 2kDuO82M7CQwmeAo2vEkbFqdeJXFFWb77ds9tsFVZ1zyr9koqDxnkWmSWwW/Kk0BtaR6
- 1511rz8rH4PrOvb101WAn2i/yjU+PmOGzBXI1c9wlyEGkNf+GrWVnPX3NJvza7t1HpOR
- hz7CW689smNe38t6lRu81KBtwz5ZmTLyJZrG/mXCE+jjgNnuMGXc19qW88JLlOUq1q1W
- 7VG3rqFwh5B40LPUSyC2XkQmRqgHzwwnKoBWSw8WfJYdQXcEZMSSUqNeO1mUWEWLv0zG
- zEgQ==
-X-Gm-Message-State: AGi0PuaaW1iqWyPoCt2QWT3lEhrdKRMEfQz3WkID6ZGYfIWcyeUs8BSm
- +wv43ysuZq3u1saltsggmVHil/cWZ3A=
-X-Google-Smtp-Source: APiQypLh/cz9s9GlwCWMV1rUw6rpeXEEAhWdaU1J5LFVz7er4CUfG4Mu21vZH+lolKW5YJPn2XFp5g==
-X-Received: by 2002:adf:e2c2:: with SMTP id d2mr9957876wrj.55.1588766743820;
- Wed, 06 May 2020 05:05:43 -0700 (PDT)
+ bh=XI9W7JKa2XyA3yREs7k25PgwkqTKLOYrGC7rNXuuH+4=;
+ b=Lo5K5zh344ITYDpLyGlxC2LZxlerqlQcLeC+Yg9lwMl/7qln8tu2Z/OCJfkL4XcJab
+ 1WLnY7NsEXAevy3FgxJoWb5fybiIrapFVDQ1pg1QCbhXncTNHF5pNYqpdsFeA0L1BVsZ
+ VIXk9rL6wNi1eibyjD/h7H2Q6+NeiaxjTs9XvKcXObukuCQFr0MHoO/Pn8zgSS/Qt0RA
+ QBp1wuFWgaIGVRQXJ8SIXkgnk5gyLOMtbV3cYOPzsDD4dv7wk0A6XhWNelc6hP04Hrc4
+ hcXEido4Nu/phgzMy8moWe7qoENbMdRxH9YoeVpbOuw1vr/jCC6xvTLgg2zr5u8ukUgb
+ BSIw==
+X-Gm-Message-State: AGi0PuYv7PrByzqD0PLzNE+SS06oTeuKMNmB0wp9QsDgYBPT6HjyJKP8
+ OphaYwlI8bz5GeND2Qc0p5jteA==
+X-Google-Smtp-Source: APiQypLUG/6OiBZ7nOq+Uyn0EDlsPhkCqanW2lscEXsl3tQ6BYDeeboWAKFxHh0TZcNp0UWWKAqkWA==
+X-Received: by 2002:a7b:ca47:: with SMTP id m7mr4299460wml.55.1588766744768;
+ Wed, 06 May 2020 05:05:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n6sm436179wrt.58.2020.05.06.05.05.35
+ by smtp.gmail.com with ESMTPSA id n131sm2716513wmf.35.2020.05.06.05.05.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 06 May 2020 05:05:37 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 806F41FF98;
+ by zen.linaroharston (Postfix) with ESMTP id 945331FF99;
  Wed,  6 May 2020 13:05:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/14] tests/tcg: drop inferior.was_attached() test
-Date: Wed,  6 May 2020 13:05:24 +0100
-Message-Id: <20200506120529.18974-10-alex.bennee@linaro.org>
+Subject: [PULL 10/14] gdbstub: eliminate gdbserver_fd global
+Date: Wed,  6 May 2020 13:05:25 +0100
+Message-Id: <20200506120529.18974-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200506120529.18974-1-alex.bennee@linaro.org>
 References: <20200506120529.18974-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,47 +88,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test seems flaky and reports attachment even when we failed to
-negotiate the architecture. However the fetching of the guest
-architecture will fail tripping up the gdb AttributeError which will
-trigger our early no error status exit from the test
+We don't really need to track this fd beyond the initial creation of
+the socket. We already know if the system has been initialised by
+virtue of the gdbserver_state so lets remove it. This makes the later
+re-factoring easier.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200430190122.4592-5-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20200430190122.4592-6-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-index 387b2fc20aa..972cf73c315 100644
---- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-+++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-@@ -58,9 +58,6 @@ def run_test():
- #
- try:
-     inferior = gdb.selected_inferior()
--    if inferior.was_attached == False:
--        print("SKIPPING (failed to attach)", file=sys.stderr)
--        exit(0)
-     arch = inferior.architecture()
-     report(arch.name() == "aarch64", "connected to aarch64")
- except (gdb.error, AttributeError):
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve.py b/tests/tcg/aarch64/gdbstub/test-sve.py
-index 5995689625e..b96bdbb99af 100644
---- a/tests/tcg/aarch64/gdbstub/test-sve.py
-+++ b/tests/tcg/aarch64/gdbstub/test-sve.py
-@@ -59,9 +59,6 @@ def run_test():
- #
- try:
-     inferior = gdb.selected_inferior()
--    if inferior.was_attached == False:
--        print("SKIPPING (failed to attach)", file=sys.stderr)
--        exit(0)
-     arch = inferior.architecture()
-     report(arch.name() == "aarch64", "connected to aarch64")
- except (gdb.error, AttributeError):
+diff --git a/gdbstub.c b/gdbstub.c
+index 171e1509509..b5381aa5204 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -398,8 +398,6 @@ static void reset_gdbserver_state(void)
+ bool gdb_has_xml;
+ 
+ #ifdef CONFIG_USER_ONLY
+-/* XXX: This is not thread safe.  Do we care?  */
+-static int gdbserver_fd = -1;
+ 
+ static int get_char(void)
+ {
+@@ -2964,7 +2962,7 @@ void gdb_exit(CPUArchState *env, int code)
+       return;
+   }
+ #ifdef CONFIG_USER_ONLY
+-  if (gdbserver_fd < 0 || gdbserver_state.fd < 0) {
++  if (gdbserver_state.fd < 0) {
+       return;
+   }
+ #endif
+@@ -3011,7 +3009,7 @@ gdb_handlesig(CPUState *cpu, int sig)
+     char buf[256];
+     int n;
+ 
+-    if (gdbserver_fd < 0 || gdbserver_state.fd < 0) {
++    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
+         return sig;
+     }
+ 
+@@ -3060,7 +3058,7 @@ void gdb_signalled(CPUArchState *env, int sig)
+ {
+     char buf[4];
+ 
+-    if (gdbserver_fd < 0 || gdbserver_state.fd < 0) {
++    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
+         return;
+     }
+ 
+@@ -3068,7 +3066,7 @@ void gdb_signalled(CPUArchState *env, int sig)
+     put_packet(buf);
+ }
+ 
+-static bool gdb_accept(void)
++static bool gdb_accept(int gdb_fd)
+ {
+     struct sockaddr_in sockaddr;
+     socklen_t len;
+@@ -3076,7 +3074,7 @@ static bool gdb_accept(void)
+ 
+     for(;;) {
+         len = sizeof(sockaddr);
+-        fd = accept(gdbserver_fd, (struct sockaddr *)&sockaddr, &len);
++        fd = accept(gdb_fd, (struct sockaddr *)&sockaddr, &len);
+         if (fd < 0 && errno != EINTR) {
+             perror("accept");
+             return false;
+@@ -3137,13 +3135,13 @@ static int gdbserver_open(int port)
+ 
+ int gdbserver_start(int port)
+ {
+-    gdbserver_fd = gdbserver_open(port);
+-    if (gdbserver_fd < 0)
++    int gdb_fd = gdbserver_open(port);
++    if (gdb_fd < 0) {
+         return -1;
++    }
+     /* accept connections */
+-    if (!gdb_accept()) {
+-        close(gdbserver_fd);
+-        gdbserver_fd = -1;
++    if (!gdb_accept(gdb_fd)) {
++        close(gdb_fd);
+         return -1;
+     }
+     return 0;
+@@ -3152,7 +3150,7 @@ int gdbserver_start(int port)
+ /* Disable gdb stub for child processes.  */
+ void gdbserver_fork(CPUState *cpu)
+ {
+-    if (gdbserver_fd < 0 || gdbserver_state.fd < 0) {
++    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
+         return;
+     }
+     close(gdbserver_state.fd);
 -- 
 2.20.1
 
