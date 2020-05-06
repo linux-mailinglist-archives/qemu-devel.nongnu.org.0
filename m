@@ -2,120 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0189E1C760C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 18:15:41 +0200 (CEST)
-Received: from localhost ([::1]:43626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 467901C7638
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 18:27:28 +0200 (CEST)
+Received: from localhost ([::1]:51812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWMhw-0003gq-0p
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 12:15:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53046)
+	id 1jWMtL-0007xR-AC
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 12:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWMgu-0002zw-TL
- for qemu-devel@nongnu.org; Wed, 06 May 2020 12:14:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26940
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWMgt-0002D5-1A
- for qemu-devel@nongnu.org; Wed, 06 May 2020 12:14:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588781673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Jygcsr6ZgI9AuwK87zhr7UaMDTl5YIIWCXsob8GK8uQ=;
- b=SKfoz/uaFM7I44+9U4atUMeLfpgQLCoe945i+f7bd0j3Ys3zKszTcWBGhh3Khd88EZ7H1h
- gBb3QA4Sdcw3mZ5imP/R6PBjWnfpPxmDoQC0jqGmBhXcMm8GnXnGOnnj3oyykBqgaV6YIq
- CJNDgjB+wD+eE14wvwKZdhpwuWmOJjs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-4VirKQWENN25sKbwAkA30A-1; Wed, 06 May 2020 12:14:31 -0400
-X-MC-Unique: 4VirKQWENN25sKbwAkA30A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FC84100A8E7;
- Wed,  6 May 2020 16:14:30 +0000 (UTC)
-Received: from [10.36.113.17] (ovpn-113-17.ams2.redhat.com [10.36.113.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DC5960629;
- Wed,  6 May 2020 16:14:25 +0000 (UTC)
-Subject: Re: [PATCH v1 10/17] virtio-mem: Paravirtualized memory hot(un)plug
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200506094948.76388-1-david@redhat.com>
- <20200506094948.76388-11-david@redhat.com>
- <051610a8-4773-2de5-0d4c-48e39791f05e@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: Red Hat GmbH
-Message-ID: <f4f547cd-5ec2-50d8-00ea-0e79abab38bd@redhat.com>
-Date: Wed, 6 May 2020 18:14:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWMry-0006b2-3q
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 12:26:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWMrw-0006Ol-Pn
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 12:26:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jWMru-00070w-MO
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 16:25:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A87982E810B
+ for <qemu-devel@nongnu.org>; Wed,  6 May 2020 16:25:58 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <051610a8-4773-2de5-0d4c-48e39791f05e@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 06 May 2020 16:18:14 -0000
+From: "A. Farrell" <1865160@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: npm qemu-system-s390x s390x
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alfarre
+X-Launchpad-Bug-Reporter: A. Farrell (alfarre)
+X-Launchpad-Bug-Modifier: A. Farrell (alfarre)
+References: <158290082970.7536.17698296699397322599.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158878189466.11959.15143848478501964958.malone@wampee.canonical.com>
+Subject: [Bug 1865160] Re: Unpredictable behaviour resulting in User process
+ faults
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 2cdc287481bb8ba45fc6728d34553ed4925ec055
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 08:46:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -124,46 +74,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1865160 <1865160@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> +##
->> +{ 'struct': 'VirtioMEMDeviceInfo',
->> +  'data': { '*id': 'str',
->> +            'memaddr': 'size',
->> +            'requested-size': 'size',
->> +            'size': 'size',
->> +            'max-size': 'size',
->> +            'block-size': 'size',
->> +            'node': 'int',
->> +            'memdev': 'str'
->> +          }
->> +}
->> +
->>   ##
->>   # @MemoryDeviceInfo:
->>   #
->>   # Union containing information about a memory device
->>   #
->>   # nvdimm is included since 2.12. virtio-pmem is included since 4.1.
->> +# virtio-mem is included since 5.2.
-> 
-> but here 5.2.  They should probably be the same :)
-> 
-
-Thanks! I've been changing these numbers for a couple of releases
-already, it was meant to go wrong at one point :)
+Recreate with 20.04 LTS (GNU/Linux 5.4.0-26-generic s390x)
 
 
--- 
-Thanks,
+May  6 16:14:47 qemu2004 kernel: [86269.521861] User process fault: interru=
+ption code 0038 ilc:1 =
 
-David / dhildenb
+May  6 16:14:47 qemu2004 kernel: [86269.521943] Failing address: 6563746de4=
+0b6000 TEID: 6563746de40b6800
+May  6 16:14:47 qemu2004 kernel: [86269.521961] Fault in primary space mode=
+ while using user ASCE.
+May  6 16:14:47 qemu2004 kernel: [86269.521994] AS:00000001cc8581c7 R3:0000=
+000000000024 =
 
+May  6 16:14:47 qemu2004 kernel: [86269.522113] CPU: 2 PID: 19249 Comm: npm=
+ Not tainted 5.4.0-26-generic #30-Ubuntu
+May  6 16:14:47 qemu2004 kernel: [86269.522127] Hardware name: QEMU 2964 QE=
+MU (KVM/Linux)
+May  6 16:14:47 qemu2004 kernel: [86269.522145] User PSW : 0705200180000000=
+ 6563746de40b6167
+May  6 16:14:47 qemu2004 kernel: [86269.522173]            R:0 T:1 IO:1 EX:=
+1 Key:0 M:1 W:0 P:1 AS:0 CC:2 PM:0 RI:0 EA:3
+May  6 16:14:47 qemu2004 kernel: [86269.522198] User GPRS: 0000000000000000=
+ 000000edc8ef86a1 6563746de40b6167 0000000000000000
+May  6 16:14:47 qemu2004 kernel: [86269.522214]            0000000001cfb968=
+ 00000004e40b6164 0000000001cfedec 00000004e40b6100
+May  6 16:14:47 qemu2004 kernel: [86269.522230]            0000000001cf60b0=
+ 000003fff32fbfb0 00000004e40b60e9 000003fff32fbee0
+May  6 16:14:47 qemu2004 kernel: [86269.522246]            0000000000000004=
+ 00000004e40b616c 000003ffaeb7c5a4 000003fff32fbe70
+May  6 16:14:47 qemu2004 kernel: [86269.522335] User Code: Bad PSW.
+May  6 16:14:47 qemu2004 kernel: [86269.522350] Last Breaking-Event-Address:
+May  6 16:14:47 qemu2004 kernel: [86269.522380]  [<000000edc8ef8a28>] 0xedc=
+8ef8a28
+
+
+Segmentation fault.] - rollbackFailedOptional: verb npm-session 6b1c0749947=
+4304d
+
+
+** Tags added: npm s390x
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1865160
+
+Title:
+  Unpredictable behaviour resulting in User process faults
+
+Status in QEMU:
+  New
+
+Bug description:
+  An example of the behaviour can be reproduced when using NPM, whereby
+  running the command multiple times will result in a variety of error
+  conditions causing the command to fail:
+
+  Example of failure:
+
+  Segmentation fault.] / rollbackFailedOptional: verb npm-session
+  1a805a5e0ff7b8f5
+
+  [ 3144.216869] User process fault: interruption code 0038 ilc:3 =
+
+  [ 3144.216981] Failing address: 66616c7365000000 TEID: 66616c7365000800
+  [ 3144.217009] Fault in primary space mode while using user ASCE.
+  [ 3144.217055] AS:00000000ed28c1c7 R3:0000000000000024 =
+
+
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.216869] User process fault: inte=
+rruption code 0038 ilc:3 =
+
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.216981] Failing address: 66616c7=
+365000000 TEID: 66616c7365000800
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217009] Fault in primary space m=
+ode while using user ASCE.
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217055] AS:00000000ed28c1c7 R3:0=
+000000000000024 =
+
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217217] CPU: 2 PID: 1018 Comm: n=
+pm Not tainted 4.15.0-88-generic #88-Ubuntu
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217234] Hardware name: QEMU 2964=
+ QEMU (KVM/Linux)
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217257] User PSW : 00000000185db=
+982 00000000c1d5a1a1
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217290]            R:0 T:1 IO:1 =
+EX:1 Key:0 M:1 W:0 P:1 AS:0 CC:2 PM:0 RI:0 EA:3
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217322] User GPRS: 000002aa03705=
+200 0000006a16d73ac1 0000003da4b829f1 0000000000000000
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217343]            0000003da4b82=
+a08 0000003da4b82a08 000002aa036a92ec 0000000000000000
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217364]            0000003da4b82=
+9f1 000003ffdb8f7e50 0000003da4b82a08 000003ffdb8f7d88
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217385]            66616c7365000=
+000 000002aa036a05b0 000002aa015bcfb2 000003ffdb8f7d88
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512] User Code:#0000006a16d73=
+b00: c0f4000000df	brcl	15,0000006a16d73cbe
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]           >0000006a16d73=
+b06: a7290000		lghi	%r2,0
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b0a: 07fe		bcr	15,%r14
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b0c: c02f000001f3	llilf	%r2,499
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b12: e3d0dff8ff71	lay	%r13,-8(%r13)
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b18: e320d0000024	stg	%r2,0(%r13)
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217512]            0000006a16d73=
+b1e: c028000002aa	iihf	%r2,682
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217724] Last Breaking-Event-Addr=
+ess:
+  Feb 28 14:32:08 qemus390x kernel: [ 3144.217759]  [<000002aa015bcfae>] 0x=
+2aa015bcfae
+
+
+  =
+
+  QEMU emulator version 4.2.0
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+  QEMU Command:
+
+  sudo qemu-system-s390x -smp cpus=3D5 -machine s390-ccw-virtio -cpu
+  max,zpci=3Don -serial telnet::4441,server -display none -m 4096 -net nic
+  -net tap  -drive file=3Dubuntu.root,if=3Dnone,id=3Ddrive-virtio-
+  disk0,format=3Draw,cache=3Dnone -device virtio-blk-
+  ccw,devno=3Dfe.0.0003,drive=3Ddrive-virtio-disk0,id=3Dvirtio-
+  disk0,bootindex=3D100,scsi=3Doff -drive file=3Dubuntu.home,if=3Dnone,id=
+=3Ddrive-
+  virtio-disk1,format=3Draw,cache=3Dnone -device virtio-blk-
+  ccw,devno=3Dfe.0.0002,drive=3Ddrive-virtio-disk1,id=3Dvirtio-
+  disk1,bootindex=3D1,scsi=3Doff -drive file=3Dubuntu.swap,if=3Dnone,id=3Dd=
+rive-
+  virtio-disk4,format=3Draw,cache=3Dnone -device virtio-blk-
+  ccw,devno=3Dfe.0.0005,drive=3Ddrive-virtio-disk4,id=3Dvirtio-
+  disk4,bootindex=3D101,scsi=3Doff
+
+  =
+
+  Ubuntu 18.04.4 LTS qemus390x ttysclp0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1865160/+subscriptions
 
