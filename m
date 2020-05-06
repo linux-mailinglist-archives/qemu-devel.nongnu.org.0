@@ -2,62 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C761C6874
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 08:21:57 +0200 (CEST)
-Received: from localhost ([::1]:47750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8492B1C67FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 08:12:28 +0200 (CEST)
+Received: from localhost ([::1]:41420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWDRM-00069D-CD
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 02:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40688)
+	id 1jWDIB-0002yn-LK
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 02:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jWDQW-0005hO-Jj
- for qemu-devel@nongnu.org; Wed, 06 May 2020 02:21:05 -0400
-Received: from mga14.intel.com ([192.55.52.115]:12227)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jWDHQ-0002UY-2K; Wed, 06 May 2020 02:11:40 -0400
+Received: from mail-eopbgr10121.outbound.protection.outlook.com
+ ([40.107.1.121]:19435 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jWDQT-0007sP-S9
- for qemu-devel@nongnu.org; Wed, 06 May 2020 02:21:03 -0400
-IronPort-SDR: 6CZNy9be1jWJck+MGDXE7mNEz0FTe09aUrr24/A4NPgHAFRSbmHzDuGnvBgXpARo4/5brxxGTb
- xjKx1EDJEIZA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 May 2020 23:20:53 -0700
-IronPort-SDR: fY2pwJMzAmL3jDeuJD5u40ZAWjA8xKIznZwhQd6IYZkJVUjDAKeZHQ6/RlGxFftyiY+/lJ8O52
- QyDpODoFjETw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,358,1583222400"; d="scan'208";a="260004794"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by orsmga003.jf.intel.com with ESMTP; 05 May 2020 23:20:48 -0700
-Date: Wed, 6 May 2020 02:11:03 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v16 QEMU 04/16] vfio: Add save and load functions for
- VFIO PCI devices
-Message-ID: <20200506061102.GA19334@joy-OptiPlex-7040>
-References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-5-git-send-email-kwankhede@nvidia.com>
- <20200325135638.32421bf9@w520.home>
- <8504c8ad-9b0b-6079-3290-60caa447e708@nvidia.com>
- <20200504223711.307123eb@x1.home>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jWDHP-0003H1-BI; Wed, 06 May 2020 02:11:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ch6eWNMuqH9ox7ALUaxJAb0ccz5ah5Xqt2nAVdqMXXUd//qQIJdZST3Pv1UB9qY7/37DzRwUO82yl63QJ0lzILjsq0j2zCPGQsC/A0pyILfZqjfJ8U1+CiHIABphsnSae5al72YdbhRC2xMMPBRH7YnSPHWo5ywbMtrnp9LcweXl7tytLen2jPSExvEhTshx1Djf1VE/Da1C9Qn+A0qXUXuqlHivo7LLxoXGfA9uwdFd0UwVdV6V7kh2roSMQ+9m7wVWpOuG0WQdLXmGt4Unh50hkKq8UsGjmYSWrfV18FdXLSazgziomZ/Z2vXwT/iKj2hqWDF9TX3e8fSPCJ1fiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ez8rjGF9oFnUE8iTYGIqDHHxGi82IupilXrHANIpwmI=;
+ b=f7wYw7+AB298S7Y8LmH6IDgKq7N5XfLgKLDEwYbpcTY3RuQENMNLjZXMq8L9Bh1z2DflTUBMKwAeFyFwc5gIHVD9HgcMfDaRHq0jStrRTSFT6+YirHk7UxDINAdcnZVanqHbJv5so7BMUz3iKKeMKylqX1XqwAj1iai20bWvybo5UK/9JAEdP7KJrlH+i2ZPzFfGvAH2T0Q/YirwMTTP7WbCxUoWCzCfQs++IMjNfs2aEg5Ezwjhr7H1WsuQtqMdpHBC1koKM/QSMMzHJIKVeTxAP8m3RIIJ1TTV1m9d6NqQETftPuQEEkqevU+H8mvyXId3Yd0hGhOvfyJtGUlh0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ez8rjGF9oFnUE8iTYGIqDHHxGi82IupilXrHANIpwmI=;
+ b=kHrJXbwZsdIIBj+LVIfTL6q3Kmf6GkPaBzNxxv5VwP7kyCXBjB4ML2hVBLD1ZE6OpArUp25RhOj4IH9TA/wnk9rm0T6uZwvibL9t6zmGgJyhus02UQ9erZ/0IgWFMw7EtCiGEi6RJKWem8f66qGBKqENWL/7xXkq+q29IPyqS+w=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5495.eurprd08.prod.outlook.com (2603:10a6:20b:104::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Wed, 6 May
+ 2020 06:11:36 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.030; Wed, 6 May 2020
+ 06:11:35 +0000
+Subject: Re: [PATCH 0/8] iotests skipping
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200430124713.3067-1-vsementsov@virtuozzo.com>
+ <20200504163215.GG6129@linux.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200506091133969
+Message-ID: <cb05d45d-d15e-8d47-2fe7-db442892319f@virtuozzo.com>
+Date: Wed, 6 May 2020 09:11:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200504163215.GG6129@linux.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR05CA0005.eurprd05.prod.outlook.com (2603:10a6:205::18)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200504223711.307123eb@x1.home>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=yan.y.zhao@intel.com;
- helo=mga14.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:20:53
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.178) by
+ AM4PR05CA0005.eurprd05.prod.outlook.com (2603:10a6:205::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2979.27 via Frontend Transport; Wed, 6 May 2020 06:11:34 +0000
+X-Tagtoolbar-Keys: D20200506091133969
+X-Originating-IP: [185.215.60.178]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 518f6e84-d032-4778-03c6-08d7f1845482
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5495:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5495D610E3A0AC6BC8F7D64AC1A40@AM7PR08MB5495.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 03950F25EC
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6vRTNpJpJ6cKXBzh9KvfwWLg3ZVCI0+w9VewVgw0hZ7zElbladPHoHQLCwhmGqkTO3i2FQk8Mfb0PZz1yrJTbvzfxmWPuT+kcLVuKq3Qna4UcXhVe0zrV1J0uPAY4ZmX1Lx7ZaAGwR91i8TyiqKZPxnDmC0Z2UApUbKhV9boZfHjmS/OBaW05OT3m1sY7EwUZbZZknq1f3AkV3pi+x43eUDcqgAQCL5xqezos5IYqnaJxzIH67Mogd8Ua9fJG2RbjBqXxPzfw87j+YaBF76UjZ41GHkN1CULNo6ZkZUX2bHkAq6mVtBn3h7iNdjsJEBhXa//yLRNFpY8kLNCWlfI48RaYetQ3hRyohQ4sZQTN/oqt0pYKxX+UTkwWHz3J2Pn0vXWiwQk7QXdsIzdQRylC1ngce3KB6m3x3E8Sp2KWPWNQbaODjU5VB5U8GYAvaTGSeP/DJ+ooYqwg7Gbto1f0KX6YvU77t72xnJZLKOJRZw7mCX+OMUxBDG3FOGuWdH+yhQK8wyvc3ObnmUo2fzOphHeCxi9tDaDZNq2a7KF0D4H7ZcJ4EQv0RaZzXE8wf61
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(136003)(366004)(39830400003)(396003)(346002)(376002)(33430700001)(36756003)(8676002)(86362001)(31696002)(6486002)(52116002)(26005)(186003)(16576012)(31686004)(316002)(8936002)(33440700001)(2616005)(956004)(16526019)(6916009)(5660300002)(4744005)(66476007)(66556008)(66946007)(478600001)(4326008)(2906002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: XeKZKqt4Fme1WnxZF8rlKQVAd79nXAPcQQIlIjj7VpLJWFqG5gMU4/7QdP/oZrtEHAhjH5XlbumtPVeFDUodxHCSfETUUh89BUckN8FjZa7rcN8GGJAG3yOQtAQULH4yAlYZHRzfsmH8piPi08nf4WgnzourdWlBdrCC3ySFcgnxs0PR3+ekiiaGXpO/GL1USO0CKM7GyuQBG0B4fwjbsyWcnl7LWJC42z6+h6RnDmfpXl60g+MhPFCcJQgE7LVejILD5TT9vklLpdjNInWYxf6eAJogXRXfInd7/PRtmAP6Oax/+ruybasTh5ahaI6oFYllJ+uKWROYBYnWzCNsEynVOQl7/n+po1tFEYaArcb8SfaCANjXJIp2SjnUmvKTJE/NCGQA3YFa2hz/eT9CyAHTVckKCgWiw7z82SP0+a+uFnvKXIAOm+3mC+2FbCQ86LBQLuxqnaoriqNmwHOkKZoZpdsVXPw5NTSDtH6ERgFkZO7e2oE0CvOLpHFBtsxNvjROG4YAiXyF/VNsvggrp11vkOX4FIgXJBvq/zekccbYqRX6jQ6ATWgKN+Ey5WgxYK8Legcn0y7ZnzEPRtDSoYT0umYmML2d0Talbrp4l+nkVl4rTSB+dr6XCCn9nDnryWBQsJACgULy4hO69AhSWrKC7KZ7ZvOtAxEk8EjYlFwpN9Wap281HpGVNBDYBRB9J15IkcrWCODKu2nQVYO0e4iJ//rhx/eCW/OnmpwuM7rn26lVEQhI2DayxR0BbKKsOr6NPHQ1tBQr3fuCR+pt4ksq9X2anXTN1wKGeIgsYrw=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 518f6e84-d032-4778-03c6-08d7f1845482
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2020 06:11:35.9176 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l53PXksWoyqRwCi+V0I3ZblT9OJAOGQr7R2WDe24q/fvfdmEONTsULE+memxWJczj3aNvWCuABw5xcd5W145nkGAALgGAEorPbBbpzRmBAE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5495
+Received-SPF: pass client-ip=40.107.1.121;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:11:36
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,275 +117,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 05, 2020 at 12:37:11PM +0800, Alex Williamson wrote:
-> On Tue, 5 May 2020 04:48:37 +0530
-> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+04.05.2020 19:32, Kevin Wolf wrote:
+> Am 30.04.2020 um 14:47 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> Hi all!
+>>
+>> This series adds a bit more support for iotests skipping due to format
+>> whitelisting. Not pretend to be something complete. It just lay in its
+>> folder I don't know how much time, I forgot to send it.
+>>
+>> Still, now I've rebased it on master, let's take them, they are useful.
 > 
-> > On 3/26/2020 1:26 AM, Alex Williamson wrote:
-> > > On Wed, 25 Mar 2020 02:39:02 +0530
-> > > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> > >   
-> > >> These functions save and restore PCI device specific data - config
-> > >> space of PCI device.
-> > >> Tested save and restore with MSI and MSIX type.
-> > >>
-> > >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> > >> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> > >> ---
-> > >>   hw/vfio/pci.c                 | 163 ++++++++++++++++++++++++++++++++++++++++++
-> > >>   include/hw/vfio/vfio-common.h |   2 +
-> > >>   2 files changed, 165 insertions(+)
-> > >>
-> > >> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> > >> index 6c77c12e44b9..8deb11e87ef7 100644
-> > >> --- a/hw/vfio/pci.c
-> > >> +++ b/hw/vfio/pci.c
-> > >> @@ -41,6 +41,7 @@
-> > >>   #include "trace.h"
-> > >>   #include "qapi/error.h"
-> > >>   #include "migration/blocker.h"
-> > >> +#include "migration/qemu-file.h"
-> > >>   
-> > >>   #define TYPE_VFIO_PCI "vfio-pci"
-> > >>   #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
-> > >> @@ -1632,6 +1633,50 @@ static void vfio_bars_prepare(VFIOPCIDevice *vdev)
-> > >>       }
-> > >>   }
-> > >>   
-> > >> +static int vfio_bar_validate(VFIOPCIDevice *vdev, int nr)
-> > >> +{
-> > >> +    PCIDevice *pdev = &vdev->pdev;
-> > >> +    VFIOBAR *bar = &vdev->bars[nr];
-> > >> +    uint64_t addr;
-> > >> +    uint32_t addr_lo, addr_hi = 0;
-> > >> +
-> > >> +    /* Skip unimplemented BARs and the upper half of 64bit BARS. */
-> > >> +    if (!bar->size) {
-> > >> +        return 0;
-> > >> +    }
-> > >> +
-> > >> +    addr_lo = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + nr * 4, 4);
-> > >> +
-> > >> +    addr_lo = addr_lo & (bar->ioport ? PCI_BASE_ADDRESS_IO_MASK :
-> > >> +                                       PCI_BASE_ADDRESS_MEM_MASK);  
-> > > 
-> > > Nit, &= or combine with previous set.
-> > >   
-> > >> +    if (bar->type == PCI_BASE_ADDRESS_MEM_TYPE_64) {
-> > >> +        addr_hi = pci_default_read_config(pdev,
-> > >> +                                         PCI_BASE_ADDRESS_0 + (nr + 1) * 4, 4);
-> > >> +    }
-> > >> +
-> > >> +    addr = ((uint64_t)addr_hi << 32) | addr_lo;  
-> > > 
-> > > Could we use a union?
-> > >   
-> > >> +
-> > >> +    if (!QEMU_IS_ALIGNED(addr, bar->size)) {
-> > >> +        return -EINVAL;
-> > >> +    }  
-> > > 
-> > > What specifically are we validating here?  This should be true no
-> > > matter what we wrote to the BAR or else BAR emulation is broken.  The
-> > > bits that could make this unaligned are not implemented in the BAR.
-> > >   
-> > >> +
-> > >> +    return 0;
-> > >> +}
-> > >> +
-> > >> +static int vfio_bars_validate(VFIOPCIDevice *vdev)
-> > >> +{
-> > >> +    int i, ret;
-> > >> +
-> > >> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
-> > >> +        ret = vfio_bar_validate(vdev, i);
-> > >> +        if (ret) {
-> > >> +            error_report("vfio: BAR address %d validation failed", i);
-> > >> +            return ret;
-> > >> +        }
-> > >> +    }
-> > >> +    return 0;
-> > >> +}
-> > >> +
-> > >>   static void vfio_bar_register(VFIOPCIDevice *vdev, int nr)
-> > >>   {
-> > >>       VFIOBAR *bar = &vdev->bars[nr];
-> > >> @@ -2414,11 +2459,129 @@ static Object *vfio_pci_get_object(VFIODevice *vbasedev)
-> > >>       return OBJECT(vdev);
-> > >>   }
-> > >>   
-> > >> +static void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
-> > >> +{
-> > >> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-> > >> +    PCIDevice *pdev = &vdev->pdev;
-> > >> +    uint16_t pci_cmd;
-> > >> +    int i;
-> > >> +
-> > >> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
-> > >> +        uint32_t bar;
-> > >> +
-> > >> +        bar = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, 4);
-> > >> +        qemu_put_be32(f, bar);
-> > >> +    }
-> > >> +
-> > >> +    qemu_put_be32(f, vdev->interrupt);
-> > >> +    if (vdev->interrupt == VFIO_INT_MSI) {
-> > >> +        uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
-> > >> +        bool msi_64bit;
-> > >> +
-> > >> +        msi_flags = pci_default_read_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> > >> +                                            2);
-> > >> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
-> > >> +
-> > >> +        msi_addr_lo = pci_default_read_config(pdev,
-> > >> +                                         pdev->msi_cap + PCI_MSI_ADDRESS_LO, 4);
-> > >> +        qemu_put_be32(f, msi_addr_lo);
-> > >> +
-> > >> +        if (msi_64bit) {
-> > >> +            msi_addr_hi = pci_default_read_config(pdev,
-> > >> +                                             pdev->msi_cap + PCI_MSI_ADDRESS_HI,
-> > >> +                                             4);
-> > >> +        }
-> > >> +        qemu_put_be32(f, msi_addr_hi);
-> > >> +
-> > >> +        msi_data = pci_default_read_config(pdev,
-> > >> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
-> > >> +                2);
-> > >> +        qemu_put_be32(f, msi_data);  
-> > > 
-> > > Isn't the data field only a u16?
-> > >   
-> > 
-> > Yes, fixing it.
-> > 
-> > >> +    } else if (vdev->interrupt == VFIO_INT_MSIX) {
-> > >> +        uint16_t offset;
-> > >> +
-> > >> +        /* save enable bit and maskall bit */
-> > >> +        offset = pci_default_read_config(pdev,
-> > >> +                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
-> > >> +        qemu_put_be16(f, offset);
-> > >> +        msix_save(pdev, f);
-> > >> +    }
-> > >> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
-> > >> +    qemu_put_be16(f, pci_cmd);
-> > >> +}
-> > >> +
-> > >> +static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
-> > >> +{
-> > >> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-> > >> +    PCIDevice *pdev = &vdev->pdev;
-> > >> +    uint32_t interrupt_type;
-> > >> +    uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
-> > >> +    uint16_t pci_cmd;
-> > >> +    bool msi_64bit;
-> > >> +    int i, ret;
-> > >> +
-> > >> +    /* retore pci bar configuration */
-> > >> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
-> > >> +    vfio_pci_write_config(pdev, PCI_COMMAND,
-> > >> +                        pci_cmd & (!(PCI_COMMAND_IO | PCI_COMMAND_MEMORY)), 2);
-> > >> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
-> > >> +        uint32_t bar = qemu_get_be32(f);
-> > >> +
-> > >> +        vfio_pci_write_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, bar, 4);
-> > >> +    }
-> > >> +
-> > >> +    ret = vfio_bars_validate(vdev);
-> > >> +    if (ret) {
-> > >> +        return ret;
-> > >> +    }
-> > >> +
-> > >> +    interrupt_type = qemu_get_be32(f);
-> > >> +
-> > >> +    if (interrupt_type == VFIO_INT_MSI) {
-> > >> +        /* restore msi configuration */
-> > >> +        msi_flags = pci_default_read_config(pdev,
-> > >> +                                            pdev->msi_cap + PCI_MSI_FLAGS, 2);
-> > >> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
-> > >> +
-> > >> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> > >> +                              msi_flags & (!PCI_MSI_FLAGS_ENABLE), 2);
-> > >> +
-> > >> +        msi_addr_lo = qemu_get_be32(f);
-> > >> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_LO,
-> > >> +                              msi_addr_lo, 4);
-> > >> +
-> > >> +        msi_addr_hi = qemu_get_be32(f);
-> > >> +        if (msi_64bit) {
-> > >> +            vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_HI,
-> > >> +                                  msi_addr_hi, 4);
-> > >> +        }
-> > >> +        msi_data = qemu_get_be32(f);
-> > >> +        vfio_pci_write_config(pdev,
-> > >> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
-> > >> +                msi_data, 2);
-> > >> +
-> > >> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> > >> +                              msi_flags | PCI_MSI_FLAGS_ENABLE, 2);
-> > >> +    } else if (interrupt_type == VFIO_INT_MSIX) {
-> > >> +        uint16_t offset = qemu_get_be16(f);
-> > >> +
-> > >> +        /* load enable bit and maskall bit */
-> > >> +        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
-> > >> +                              offset, 2);
-> > >> +        msix_load(pdev, f);
-> > >> +    }
-> > >> +    pci_cmd = qemu_get_be16(f);
-> > >> +    vfio_pci_write_config(pdev, PCI_COMMAND, pci_cmd, 2);
-> > >> +    return 0;
-> > >> +}  
-> > > 
-> > > It always seems like there should be a lot more state than this, and I
-> > > probably sound like a broken record because I ask every time, but maybe
-> > > that's a good indication that we (or at least I) need a comment
-> > > explaining why we only care about these.  For example, what if we
-> > > migrate a device in the D3 power state, don't we need to account for
-> > > the state stored in the PM capability or does the device wake up into
-> > > D0 auto-magically after migration?  I think we could repeat that
-> > > question for every capability that can be modified.  Even for the MSI/X
-> > > cases, the interrupt may not be active, but there could be state in
-> > > virtual config space that would be different on the target.  For
-> > > example, if we migrate with a device in INTx mode where the guest had
-> > > written vector fields on the source, but only writes the enable bit on
-> > > the target, can we seamlessly figure out the rest?  For other
-> > > capabilities, that state may represent config space changes written
-> > > through to the physical device and represent a functional difference on
-> > > the target.  Thanks,
-> > >  
-> > 
-> > These are very basic set of registers from config state. Other are more 
-> > of vendor specific which vendor driver can save and restore in their own 
-> > data. I don't think we have to take care of all those vendor specific 
-> > fields here.
+> I agree. They are certainly not complete by any means, but let's just
+> take what we already have.
 > 
-> That had not been clear to me.  Intel folks, is this your understanding
-> regarding the responsibility of the user to save and restore config
-> space of the device as part of the vendor provided migration stream
-> data?  Thanks,
+> Thanks, applied to the block branch.
 > 
-Currently, the code works for us. but I agree with you that there should
-be more states to save, at least for emulated config bits.
-I think we should call pci_device_save() to serve that purpose.
 
-Thanks
-Yan
+Great! Thank you!
+
+
+-- 
+Best regards,
+Vladimir
 
