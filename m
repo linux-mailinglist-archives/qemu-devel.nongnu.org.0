@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1479F1C6DB1
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:54:52 +0200 (CEST)
-Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752AF1C6DC5
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:56:31 +0200 (CEST)
+Received: from localhost ([::1]:45702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWGlP-0003nJ-0K
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54454)
+	id 1jWGn0-0007WM-Fb
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWGhr-0005lr-0x
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:51:11 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:34717
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jWGhH-0004zF-HU
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:37 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48104
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jWGhp-00055x-Cl
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:51:10 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jWGh9-0004AQ-Bw
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588758668;
+ s=mimecast20190719; t=1588758626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rWys4epAU2XbucOUD2NVIBpXUWNVgzGVlwwLM5nrzXo=;
- b=OhL/LYtP/L2en4Zo2fYK5EMRL5yknDpkBBaauKFn5ptyo1ga/DoeLwNvSc5ODY2jkMxunc
- qdCETX5zSU6F/tmKeWTzMTQe3Jd7WRcvPXoU/kax7ktw7KAS4ayCgsNRiu5wqJIRw9PazH
- 2HYHInwrQMzonZqQApRcWvQDDiVoFmU=
+ bh=fntlZxOrQXIy/pcq6sRK0Boh9YWLv+kEEtgN1sPemoY=;
+ b=YOBvWUJ9vlO/TJCeNaxVorzaC9/eN5sguQLA5yVeqP1QHq8C95QHHWb/ux4m875sQ+7PjL
+ i3xkKlpvHwwH9H9cXW0Wpq8w96uN4HIDvmjt7Erd9OnPrKYDk69jnA75/kW9ILlONCu7rQ
+ PtBsP/0qKvOW3Z1PHb0Wbz4A3YojKv8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-Xl0oQs4VM6OnDDsJytsSUg-1; Wed, 06 May 2020 05:51:07 -0400
-X-MC-Unique: Xl0oQs4VM6OnDDsJytsSUg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-235--dY5D_JfPF-YpiqQbat7ig-1; Wed, 06 May 2020 05:50:25 -0400
+X-MC-Unique: -dY5D_JfPF-YpiqQbat7ig-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 148DC80058A;
- Wed,  6 May 2020 09:51:06 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-17.ams2.redhat.com [10.36.113.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4A7D5C1BD;
- Wed,  6 May 2020 09:51:03 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 17/17] virtio-pci: Send qapi events when the virtio-mem
- size changes
-Date: Wed,  6 May 2020 11:49:48 +0200
-Message-Id: <20200506094948.76388-18-david@redhat.com>
-In-Reply-To: <20200506094948.76388-1-david@redhat.com>
-References: <20200506094948.76388-1-david@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD1078014C0;
+ Wed,  6 May 2020 09:50:23 +0000 (UTC)
+Received: from [10.36.114.214] (ovpn-114-214.ams2.redhat.com [10.36.114.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D5BF5D9C5;
+ Wed,  6 May 2020 09:50:12 +0000 (UTC)
+Subject: Re: [PATCH v2 1/3] acpi: Move build_tpm2() in the generic part
+To: Andrew Jones <drjones@redhat.com>
+References: <20200505144419.29174-1-eric.auger@redhat.com>
+ <20200505144419.29174-2-eric.auger@redhat.com>
+ <20200506063314.4qvnyfonjixcknuj@kamzik.brq.redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <b8b64cf5-d730-20f0-c9e5-d290b8639e5a@redhat.com>
+Date: Wed, 6 May 2020 11:50:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
+In-Reply-To: <20200506063314.4qvnyfonjixcknuj@kamzik.brq.redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 23:48:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -75,178 +84,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-s390x@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, gshan@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
+ imammedo@redhat.com, marcandre.lureau@redhat.com, stefanb@linux.ibm.com,
+ lersek@redhat.com, ardb@kernel.org, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's register the notifier and trigger the qapi event with the right
-device id.
+Hi,
 
-MEMORY_DEVICE_SIZE_CHANGE is similar to BALLOON_CHANGE, however on a
-memory device level.
+On 5/6/20 8:33 AM, Andrew Jones wrote:
+> On Tue, May 05, 2020 at 04:44:17PM +0200, Eric Auger wrote:
+>> We plan to build the tpm2 table on ARM too. In order to reuse the
+>> generation code, let's move build_tpm2() to aml-build.c.
+>>
+>> No change in the implementation.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> ---
+>>  include/hw/acpi/aml-build.h |  2 ++
+>>  hw/acpi/aml-build.c         | 30 ++++++++++++++++++++++++++++++
+>>  hw/i386/acpi-build.c        | 30 ------------------------------
+>>  3 files changed, 32 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+>> index 0f4ed53d7f..a67ab4618a 100644
+>> --- a/include/hw/acpi/aml-build.h
+>> +++ b/include/hw/acpi/aml-build.h
+>> @@ -437,4 +437,6 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms);
+>>  
+>>  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>>                  const char *oem_id, const char *oem_table_id);
+>> +
+>> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog);
+>>  #endif
+>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>> index 2c3702b882..1f7fd09112 100644
+>> --- a/hw/acpi/aml-build.c
+>> +++ b/hw/acpi/aml-build.c
+>> @@ -26,6 +26,7 @@
+>>  #include "qemu/bitops.h"
+>>  #include "sysemu/numa.h"
+>>  #include "hw/boards.h"
+>> +#include "hw/acpi/tpm.h"
+>>  
+>>  static GArray *build_alloc_array(void)
+>>  {
+>> @@ -1875,6 +1876,35 @@ build_hdr:
+>>                   "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
+>>  }
+>>  
+>> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+>> +{
+>> +    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof *tpm2_ptr);
+>> +    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
+>> +    unsigned log_addr_offset =
+>> +        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
+>> +
+>> +    tpm2_ptr->platform_class = cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
+>> +    if (TPM_IS_TIS_ISA(tpm_find())) {
+>> +        tpm2_ptr->control_area_address = cpu_to_le64(0);
+>> +        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_MMIO);
+>> +    } else if (TPM_IS_CRB(tpm_find())) {
+>> +        tpm2_ptr->control_area_address = cpu_to_le64(TPM_CRB_ADDR_CTRL);
+>> +        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_CRB);
+>> +    } else {
+>> +        g_warn_if_reached();
+>> +    }
+>> +
+>> +    tpm2_ptr->log_area_minimum_length =
+>> +        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
+>> +
+>> +    /* log area start address to be filled by Guest linker */
+>> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
+>> +                                   log_addr_offset, log_addr_size,
+>> +                                   ACPI_BUILD_TPMLOG_FILE, 0);
+>> +    build_header(linker, table_data,
+>> +                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4, NULL, NULL);
+>> +}
+>> +
+> 
+> I'll let Igor and mst confirm/deny this, but my understanding was that the
+> build_append* API was the preferred way to create the table. Indeed, I
+> don't see too many table.field = cpu_to_le(...) lines in aml-build.c
+> 
+> I realize this function is just getting moved, but maybe it should get
+> converted to the build_append* API while being moved?
 
-Don't unregister the notifier (we neither have finalize() nor unrealize()
-for VirtIOPCIProxy, so it's not that simple to do it) - both devices are
-expected to vanish at the same time.
+The reason I did not convert is that the struct is as follows
 
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/virtio/virtio-mem-pci.c | 28 ++++++++++++++++++++++++++++
- hw/virtio/virtio-mem-pci.h |  1 +
- hw/virtio/virtio-mem.c     |  2 +-
- monitor/monitor.c          |  1 +
- qapi/misc.json             | 25 +++++++++++++++++++++++++
- 5 files changed, 56 insertions(+), 1 deletion(-)
+struct Acpi20TPM2 {
+    ACPI_TABLE_HEADER_DEF
+    uint16_t platform_class;
+    uint16_t reserved;
+    uint64_t control_area_address;
+    uint32_t start_method;
+    uint8_t start_method_params[12];
+    uint32_t log_area_minimum_length;
+    uint64_t log_area_start_address;
+} QEMU_PACKED;
 
-diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
-index a47d21c81f..780d7b4af7 100644
---- a/hw/virtio/virtio-mem-pci.c
-+++ b/hw/virtio/virtio-mem-pci.c
-@@ -15,6 +15,7 @@
- #include "virtio-mem-pci.h"
- #include "hw/mem/memory-device.h"
- #include "qapi/error.h"
-+#include "qapi/qapi-events-misc.h"
-=20
- static void virtio_mem_pci_realize(VirtIOPCIProxy *vpci_dev, Error **err=
-p)
- {
-@@ -75,6 +76,21 @@ static void virtio_mem_pci_fill_device_info(const Memo=
-ryDeviceState *md,
-     info->type =3D MEMORY_DEVICE_INFO_KIND_VIRTIO_MEM;
- }
-=20
-+static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *=
-data)
-+{
-+    VirtIOMEMPCI *pci_mem =3D container_of(notifier, VirtIOMEMPCI,
-+                                         size_change_notifier);
-+    DeviceState *dev =3D DEVICE(pci_mem);
-+    const uint64_t * const size_p =3D data;
-+    const char *id =3D NULL;
-+
-+    if (dev->id) {
-+        id =3D g_strdup(dev->id);
-+    }
-+
-+    qapi_event_send_memory_device_size_change(!!id, id, *size_p);
-+}
-+
- static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -99,9 +115,21 @@ static void virtio_mem_pci_class_init(ObjectClass *kl=
-ass, void *data)
- static void virtio_mem_pci_instance_init(Object *obj)
- {
-     VirtIOMEMPCI *dev =3D VIRTIO_MEM_PCI(obj);
-+    VirtIOMEMClass *vmc;
-+    VirtIOMEM *vmem;
-=20
-     virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-                                 TYPE_VIRTIO_MEM);
-+
-+    dev->size_change_notifier.notify =3D virtio_mem_pci_size_change_noti=
-fy;
-+    vmem =3D VIRTIO_MEM(&dev->vdev);
-+    vmc =3D VIRTIO_MEM_GET_CLASS(vmem);
-+    /*
-+     * We never remove the notifier again, as we expect both devices to
-+     * disappear at the same time.
-+     */
-+    vmc->add_size_change_notifier(vmem, &dev->size_change_notifier);
-+
-     object_property_add_alias(obj, VIRTIO_MEM_BLOCK_SIZE_PROP,
-                               OBJECT(&dev->vdev),
-                               VIRTIO_MEM_BLOCK_SIZE_PROP, &error_abort);
-diff --git a/hw/virtio/virtio-mem-pci.h b/hw/virtio/virtio-mem-pci.h
-index 8820cd6628..b51a28b275 100644
---- a/hw/virtio/virtio-mem-pci.h
-+++ b/hw/virtio/virtio-mem-pci.h
-@@ -28,6 +28,7 @@ typedef struct VirtIOMEMPCI VirtIOMEMPCI;
- struct VirtIOMEMPCI {
-     VirtIOPCIProxy parent_obj;
-     VirtIOMEM vdev;
-+    Notifier size_change_notifier;
- };
-=20
- #endif /* QEMU_VIRTIO_MEM_PCI_H */
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 88a99a0d90..eb5cf66855 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -491,7 +491,7 @@ static void virtio_mem_device_unrealize(DeviceState *=
-dev, Error **errp)
-     virtio_del_queue(vdev, 0);
-     virtio_cleanup(vdev);
-     g_free(vmem->bitmap);
--    ramblock_discard_set_required(false);
-+    ram_block_discard_set_required(false);
- }
-=20
- static int virtio_mem_pre_save(void *opaque)
-diff --git a/monitor/monitor.c b/monitor/monitor.c
-index 125494410a..19dcb8fbe3 100644
---- a/monitor/monitor.c
-+++ b/monitor/monitor.c
-@@ -235,6 +235,7 @@ static MonitorQAPIEventConf monitor_qapi_event_conf[Q=
-API_EVENT__MAX] =3D {
-     [QAPI_EVENT_QUORUM_REPORT_BAD] =3D { 1000 * SCALE_MS },
-     [QAPI_EVENT_QUORUM_FAILURE]    =3D { 1000 * SCALE_MS },
-     [QAPI_EVENT_VSERPORT_CHANGE]   =3D { 1000 * SCALE_MS },
-+    [QAPI_EVENT_MEMORY_DEVICE_SIZE_CHANGE] =3D { 1000 * SCALE_MS },
- };
-=20
- /*
-diff --git a/qapi/misc.json b/qapi/misc.json
-index feaeacec22..58b073562b 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -1432,6 +1432,31 @@
- ##
- { 'command': 'query-memory-devices', 'returns': ['MemoryDeviceInfo'] }
-=20
-+##
-+# @MEMORY_DEVICE_SIZE_CHANGE:
-+#
-+# Emitted when the size of a memory device changes. Only emitted for mem=
-ory
-+# devices that can actually change the size (e.g., virtio-mem due to gue=
-st
-+# action).
-+#
-+# @id: device's ID
-+# @size: the new size of memory that the device provides
-+#
-+# Note: this event is rate-limited.
-+#
-+# Since: 5.1
-+#
-+# Example:
-+#
-+# <- { "event": "MEMORY_DEVICE_SIZE_CHANGE",
-+#      "data": { "id": "vm0", "size": 1073741824},
-+#      "timestamp": { "seconds": 1588168529, "microseconds": 201316 } }
-+#
-+##
-+{ 'event': 'MEMORY_DEVICE_SIZE_CHANGE',
-+  'data': { '*id': 'str', 'size': 'size' } }
-+
-+
- ##
- # @MEM_UNPLUG_ERROR:
- #
---=20
-2.25.3
+
+If I understand correctly the build_append* adds the fields
+contiguously. It was not straightforward to me how to skip the
+start_method_params array.
+
+While we are at it the tcpalog arg is not used. Shall I remove it?
+
+Thanks
+
+Eric
+
+> 
+> Thanks,
+> drew
+> 
+> 
 
 
