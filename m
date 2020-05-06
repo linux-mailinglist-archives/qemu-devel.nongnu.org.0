@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2751C7A19
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 21:19:36 +0200 (CEST)
-Received: from localhost ([::1]:49420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273F91C7A21
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 21:21:46 +0200 (CEST)
+Received: from localhost ([::1]:52882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWPZv-0005Yt-2B
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 15:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42094)
+	id 1jWPc1-00079T-0H
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 15:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWPSP-0001WR-Uh
- for qemu-devel@nongnu.org; Wed, 06 May 2020 15:11:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33830)
+ id 1jWPb2-0006WD-Ux
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 15:20:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWPSO-0005ag-Ba
- for qemu-devel@nongnu.org; Wed, 06 May 2020 15:11:49 -0400
+ id 1jWPb1-0000tr-6r
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 15:20:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWPSL-0004M0-QC
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 19:11:45 +0000
+ id 1jWPay-0004nt-41
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 19:20:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C351B2E8115
- for <qemu-devel@nongnu.org>; Wed,  6 May 2020 19:11:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 123102E810A
+ for <qemu-devel@nongnu.org>; Wed,  6 May 2020 19:20:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 May 2020 19:04:22 -0000
-From: Launchpad Bug Tracker <1805256@bugs.launchpad.net>
+Date: Wed, 06 May 2020 19:09:29 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1805256@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=kunpeng920; status=Triaged; importance=Undecided;
@@ -68,9 +68,10 @@ X-Launchpad-Bug-Commenters: andrew-cloke dannf ikepanhc iveskim jan-glauber-i
  jnsnow kongzizaixian lizhengui philmd
  rafaeldtinoco ying-fang
 X-Launchpad-Bug-Reporter: dann frazier (dannf)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
 References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <158879186886.2033.18317087922600679706.launchpad@ackee.canonical.com>
+Message-Id: <158879216940.3828.17751295934760283389.malone@chaenomeles.canonical.com>
 Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
  Aarch64 when converting images
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -79,7 +80,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 2b998af37fb363b1237acff989c911c70a836173
+X-Launchpad-Hash: 63fb4b30e1575f3f013131ff3f82dbf20015df45
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 15:11:46
@@ -106,9 +107,44 @@ Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Merge proposal linked:
-   https://code.launchpad.net/~rafaeldtinoco/ubuntu/+source/qemu/+git/qemu/=
-+merge/383530
+Isn't this fixed by commit 5710a3e09f9?
+
+commit 5710a3e09f9b85801e5ce70797a4a511e5fc9e2c
+Author: Paolo Bonzini <pbonzini@redhat.com>
+Date:   Tue Apr 7 10:07:46 2020 -0400
+
+    async: use explicit memory barriers
+    =
+
+    When using C11 atomics, non-seqcst reads and writes do not participate
+    in the total order of seqcst operations.  In util/async.c and util/aio-=
+posix.c,
+    in particular, the pattern that we use
+    =
+
+              write ctx->notify_me                 write bh->scheduled
+              read bh->scheduled                   read ctx->notify_me
+              if !bh->scheduled, sleep             if ctx->notify_me, notify
+    =
+
+    needs to use seqcst operations for both the write and the read.  In
+    general this is something that we do not want, because there can be
+    many sources that are polled in addition to bottom halves.  The
+    alternative is to place a seqcst memory barrier between the write
+    and the read.  This also comes with a disadvantage, in that the
+    memory barrier is implicit on strongly-ordered architectures and
+    it wastes a few dozen clock cycles.
+    =
+
+    Fortunately, ctx->notify_me is never written concurrently by two
+    threads, so we can assert that and relax the writes to ctx->notify_me.
+    The resulting solution works and performs well on both aarch64 and x86.
+    =
+
+    Note that the atomic_set/atomic_read combination is not an atomic
+    read-modify-write, and therefore it is even weaker than C11 ATOMIC_RELA=
+XED;
+    on x86, ATOMIC_RELAXED compiles to a locked operation.
 
 -- =
 
