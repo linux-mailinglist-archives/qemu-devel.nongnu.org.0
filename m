@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C6A1C70AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:47:16 +0200 (CEST)
-Received: from localhost ([::1]:53644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264721C707C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:40:28 +0200 (CEST)
+Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWJSF-0007UW-6D
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:47:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34772)
+	id 1jWJLe-0002x3-M7
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:40:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWJR8-000727-0x
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:46:06 -0400
-Received: from indium.canonical.com ([91.189.90.7]:34520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWJR6-0003vT-Pc
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:46:05 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWJR3-0000qy-9s
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 12:46:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 64B5A2E8133
- for <qemu-devel@nongnu.org>; Wed,  6 May 2020 12:45:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jWJKI-0002Qt-Lu
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:39:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57075
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jWJKG-0006dZ-E4
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:39:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588768738;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pSRobJhoI1Cc8VP9suUtZXRJ9rns6OZoWuWlrqzsnOU=;
+ b=alx8fz6BKLpBsEJDr1VXVarqTzk4E4TExAxk8yXp/IyW21LUR16hqp0qEu6sAM38A+upbC
+ DLMY5TuuNxvBsHDFuomufaHzTFjlET2Pz8WPZnoQZM6eBsJ5Jt+Fi8mk8EMLDPwujPVUE8
+ +sR0Q8WLXUAzb+E/lmPtgnAP1UUucfk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-Cj_GaBJoOKWvB13UcloPYA-1; Wed, 06 May 2020 08:38:57 -0400
+X-MC-Unique: Cj_GaBJoOKWvB13UcloPYA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA3E819200C0;
+ Wed,  6 May 2020 12:38:55 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B2706443E;
+ Wed,  6 May 2020 12:38:41 +0000 (UTC)
+Date: Wed, 6 May 2020 14:38:39 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v4 03/13] acpi: rtc: use a single crs range
+Message-ID: <20200506143839.2439cc3f@redhat.com>
+In-Reply-To: <20200506083902.shumz2k3v5cbo6dl@sirius.home.kraxel.org>
+References: <20200505113843.22012-1-kraxel@redhat.com>
+ <20200505113843.22012-4-kraxel@redhat.com>
+ <20200505152410.69d576f8@redhat.com>
+ <20200506083902.shumz2k3v5cbo6dl@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 May 2020 12:34:12 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1877052@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer weller-andreas-weller
-X-Launchpad-Bug-Reporter: Andreas Weller (weller-andreas-weller)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
- =?utf-8?q?=29?=
-References: <158875190128.5304.17617014708809905297.malonedeb@soybean.canonical.com>
-Message-Id: <158876845224.12738.1330753240934953846.malone@gac.canonical.com>
-Subject: [Bug 1877052] Re: KVM Win 10 guest pauses after kernel upgrade
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d94db5c2a41e6259f26fdaf9a213fd05cc1517a5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 08:46:02
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 04:02:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,59 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877052 <1877052@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note: might be related (or not) to bug 1866870
-Let's analyze as independent and dup if it turns out to be a dup.
+On Wed, 6 May 2020 10:39:02 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
--- =
+>   Hi,
+> 
+> > >      crs = aml_resource_template();
+> > >      aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
+> > > -                           0x10, 0x02));
+> > > +                           0x10, 0x08));
+> > >      aml_append(crs, aml_irq_no_flags(RTC_ISA_IRQ));
+> > > -    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE + 2, RTC_ISA_BASE + 2,
+> > > -                           0x02, 0x06));  
+> > can we just drop the later range as unused? (I don't see where it's actually initialized)  
+> 
+> I'd rather follow what physical hardware is doing here
+> for better compatibility ...
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877052
+maybe add comment here why it doesn't match IO range that RTC actualy provides,
+otherwise it's looks very confusing
 
-Title:
-  KVM Win 10 guest pauses after kernel upgrade
+> 
+> take care,
+>   Gerd
+> 
 
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  New
-
-Bug description:
-  Hello!
-  Unfortunately the bug has apparently reappeared. I have a Windows 10 runn=
-ing in a VM, which after my today's "apt upgrade" goes into pause mode afte=
-r a few seconds of running time.
-
-  Until yesterday it used to work and I was able to boot the VM. During
-  the kernel update (from 5.4.0-28.33 to 5.4.0-29.34) the VM was active
-  and then went into pause mode. Even after a reboot of my host system
-  the problem still persists: the VM boots for a few seconds and then
-  switches to pause mode.
-
-  Current Kernel: Linux andreas-laptop 5.4.0-29-generic #33-Ubuntu SMP
-  Wed Apr 29 14:32:27 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
-
-  Maybe relevant logfile lines:
-  2020-05-06T07:46:42.857574Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-  2020-05-06T07:46:42.857718Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-  2020-05-06T07:46:42.860567Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-  2020-05-06T07:46:42.860582Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-  2020-05-06T07:47:22.901057Z qemu-system-x86_64: terminating on signal 15 =
-from pid 1593 (/usr/sbin/libvirtd)
-  2020-05-06 07:47:23.101+0000: shutting down, reason=3Ddestroyed
-
-
-  Kind regards,
-  =C2=A0=C2=A0=C2=A0Andreas
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877052/+subscriptions
 
