@@ -2,70 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED6E81C6A11
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 09:29:56 +0200 (CEST)
-Received: from localhost ([::1]:59246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F19A1C6A7C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 09:53:25 +0200 (CEST)
+Received: from localhost ([::1]:37652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWEVA-0001wK-0W
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 03:29:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
+	id 1jWErs-0006TP-6e
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 03:53:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1jWEUC-00014H-Vi
- for qemu-devel@nongnu.org; Wed, 06 May 2020 03:28:56 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:41496
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1jWEUC-00018U-9I
- for qemu-devel@nongnu.org; Wed, 06 May 2020 03:28:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588750135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=l7zUsKhHn004BEZcfmUJBENy677WQJkQ3AC/+lB5dlQ=;
- b=VbWWQJ4sJN24W8ZXmTdllfmMbZ/WMA9ArEioJ6WW70c97ddyJl8eOnZwG+ED93TwAybPz+
- Rz6keBGp5JWiTEHhbnFJz5dKcITrPsPHIA5xwEDJPjDs7dR9RjZkE74NMVvvxwScoX8aHW
- 6xaKltX1Zx0+5p38QS/3cBm9kNIngkY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-QJDLgnQwN4mGCQU4WWj2zQ-1; Wed, 06 May 2020 03:28:53 -0400
-X-MC-Unique: QJDLgnQwN4mGCQU4WWj2zQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E30F107ACCD;
- Wed,  6 May 2020 07:28:52 +0000 (UTC)
-Received: from localhost (ovpn-113-195.rdu2.redhat.com [10.10.113.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67B495C1BD;
- Wed,  6 May 2020 07:28:46 +0000 (UTC)
-Date: Wed, 6 May 2020 09:28:45 +0200
-From: Sergio Lopez <slp@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 13/13] microvm/acpi: use GSI 16-23 for virtio
-Message-ID: <20200506072845.ch4tf5x2iecds5lp@dritchie>
-References: <20200505134305.22666-1-kraxel@redhat.com>
- <20200505134305.22666-14-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <Pavel.Dovgaluk@gmail.com>)
+ id 1jWEr0-0005zk-ER
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 03:52:30 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:36806)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <Pavel.Dovgaluk@gmail.com>) id 1jWEqz-00085O-Fv
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 03:52:30 -0400
+Received: from [127.0.1.1] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 907D9CD461;
+ Wed,  6 May 2020 10:52:26 +0300 (MSK)
+Subject: [PATCH] icount: fix shift=auto for record/replay
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 06 May 2020 10:52:26 +0300
+Message-ID: <158875154623.957.4036561733593052357.stgit@pasha-ThinkPad-X280>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-In-Reply-To: <20200505134305.22666-14-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gjnioq4jjhsitiyt"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=slp@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: softfail client-ip=83.149.199.45;
+ envelope-from=Pavel.Dovgaluk@gmail.com; helo=mail.ispras.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 03:52:27
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: 7
+X-Spam_score: 0.7
+X-Spam_bar: /
+X-Spam_report: (0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
+ FORGED_GMAIL_RCVD=1, FREEMAIL_FROM=0.001, NML_ADSP_CUSTOM_MED=0.9,
+ SPF_SOFTFAIL=0.665, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,70 +52,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: pbonzini@redhat.com, dovgaluk@ispras.ru, pavel.dovgaluk@ispras.ru,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---gjnioq4jjhsitiyt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch fixes shift=auto when record/replay is enabled.
+Now user does not need to guess the best shift value.
 
-On Tue, May 05, 2020 at 03:43:05PM +0200, Gerd Hoffmann wrote:
-> With ACPI enabled and IO-APIC being properly declared in the ACPI tables
-> we can use interrupt lines 16-23 for virtio and avoid shared interrupts.
->=20
-> With acpi disabled we continue to use lines 8-15.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/i386/microvm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+---
+ cpus.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-
-> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-> index 2aa2804e4ca0..08ed2a17f2ca 100644
-> --- a/hw/i386/microvm.c
-> +++ b/hw/i386/microvm.c
-> @@ -124,7 +124,7 @@ static void microvm_devices_init(MicrovmMachineState =
-*mms)
-> =20
->      kvmclock_create();
-> =20
-> -    mms->virtio_irq_base =3D 8;
-> +    mms->virtio_irq_base =3D x86_machine_is_acpi_enabled(x86ms) ? 16 : 8=
-;
->      for (i =3D 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
->          sysbus_create_simple("virtio-mmio",
->                               VIRTIO_MMIO_BASE + i * 512,
-> --=20
-> 2.18.4
->=20
-
---gjnioq4jjhsitiyt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl6yZywACgkQ9GknjS8M
-AjW4RA//UMrGYX9f7u9Kgs435Pp7b1p/MEqrk3WXhTB6RocG3DETswePcjtUyaCj
-ebyjzsbfThmZsyIqECPzbIchE9hBBsxVcUIFIhw9UJKqGFLsiG3DMCbFNGTv+VS/
-sQhM6BfY4tseyJzwoRuO2TGfd6dM0vLh2BeWKTauIUu28qhcpRanndYKs53jA6H+
-FGs3TrvZ9mw+A9ngbbFbvu0Ek6AAAXWTzJqtpQ5g+6j3dq6FYNTUvmvnbt6Ev8z0
-/gCyQDxsKsgptVRgnJAGEjEcUlS/W9rq8G514wyh/q/vqt+ZKReWd42GvU16UUdo
-L3hbj8uL6AgFLPUBK/+M1AjbYKzms1oCWoQeyuqrOSvIKCm5Tvzr5uQkQamw+9EP
-ZUKaiWxt6kdA1ZN+L3IHXFuYa1L3YMSLWiHbKA6TMCuGf7BQVLECiVSrkowYMLbn
-fGsSW0PRt4Frne19IlK9MDAiEJgEQVQM3Jafqd5/9uLUxpQ810dBtp/O6VkLEUKq
-2StKRYSoLakBU6PIT/zHXzj1ZIgi7Exft4t4/4by8ezNpoZDNBgaY2NOGi6RrhaR
-MEYVBhjPwKCh9+49jIFn7AdxbJhTZELpB42cRk7t3hC1VdtdAqikt9Qw84ZllT7C
-1Ebg77mLY8ovd1/NEHMhcXev8owO9HnRqVVDXWlK5GbCpEAuc7I=
-=/kDr
------END PGP SIGNATURE-----
-
---gjnioq4jjhsitiyt--
+diff --git a/cpus.c b/cpus.c
+index 5670c96bcf..dfb9f4717f 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -379,7 +379,8 @@ static void icount_adjust(void)
+ 
+     seqlock_write_lock(&timers_state.vm_clock_seqlock,
+                        &timers_state.vm_clock_lock);
+-    cur_time = cpu_get_clock_locked();
++    cur_time = REPLAY_CLOCK_LOCKED(REPLAY_CLOCK_VIRTUAL_RT,
++                                   cpu_get_clock_locked());
+     cur_icount = cpu_get_icount_locked();
+ 
+     delta = cur_icount - cur_time;
+@@ -685,6 +686,7 @@ static const VMStateDescription icount_vmstate_timers = {
+     .fields = (VMStateField[]) {
+         VMSTATE_INT64(qemu_icount_bias, TimersState),
+         VMSTATE_INT64(qemu_icount, TimersState),
++        VMSTATE_INT16(icount_time_shift, TimersState),
+         VMSTATE_END_OF_LIST()
+     },
+     .subsections = (const VMStateDescription*[]) {
 
 
