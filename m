@@ -2,79 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE49E1C7009
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:11:54 +0200 (CEST)
-Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A4D1C6FF9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:08:36 +0200 (CEST)
+Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWIu1-0000t2-Jv
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56552)
+	id 1jWIqp-0002df-H9
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIoB-0006Rj-U2
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:51 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIoA-0001Oq-J7
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:51 -0400
-Received: by mail-wr1-x434.google.com with SMTP id h9so1913738wrt.0
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iiQCh//VFjxvmb6d7KKNLbr0lXh1jk7zOyRpXGAoAJ0=;
- b=sdxmYPddTxb3LN2vOnBpgGedl2sxGR7QRuWnGYv669AaJNgKAUTU9Tye/YSMxkI3jm
- MzMrY7GwB8nNPBcWOaB2cji+Rzn234pGgGLIJh9G+Mz0y69KkgWj46Nxx8E9AFj7Vhso
- wAi1acVJoXYNmms2agbSzCui58hvu2gQtMR2VNVMfrOVQbisHb2gXA8JI0ABJEzeXnoU
- vfrRErCW1Dk+Xsuw4P5Th9utjhxaNWqFdZXGRxma0tqVP8D2zLdB68DVaWRPXPeF/gUf
- zWmdlMKgAIMKjPr5pfPC5bdrZL8gWatq3FVIhX7c7nBA41wwyiU0w8BJRqLSF/4hxP/0
- EvVQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWIo0-00066i-2j
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:40 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54030
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWInx-0008Az-JT
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588766733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lrczv+j6Wd9V8pXLvK37NjdjaIG/kQHx01eSO+UTiBk=;
+ b=NVkVCY/pBrmSaStH4Ek26BuvzMSFg65PHgRp+mox6I0LBbuGo5w9QnE/b0lSyhGOnZZ1u1
+ tYzAvIOdQ48QkSmGv0O+ZjP3wJXBMyMtfCOtpHSOC+G8pymDr8HRzlhiBix2VSAqkCQRlm
+ S06I7CHry8CDtQaeh5pNLDZlqGXniiI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-371-ooJ1gsVfMWyBdz-OsH_w0w-1; Wed, 06 May 2020 08:05:32 -0400
+X-MC-Unique: ooJ1gsVfMWyBdz-OsH_w0w-1
+Received: by mail-wm1-f70.google.com with SMTP id d134so2492872wmd.0
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iiQCh//VFjxvmb6d7KKNLbr0lXh1jk7zOyRpXGAoAJ0=;
- b=hXeBv2x1EENaQ6MwhNGs+kn11PAUJBRbEUqbU7plo0wZjI2F+pp6zPoLJh/OysLZPG
- q8QexsJpP3/hXlTQ6qRRJdfSKqcxM7fzJ7tgO3wQ38sHT84mneb6LGIZU5k2xD+kQKoi
- t7E4aGi1MC7XnEJmU6amhMXMY8onUXVZzLqVvGRDwAaRRQXZHDoiEh5wZgom5GK06AMl
- rxovqX90mrNEVPII0DZ3hBhAFPNq5GX3QM65PdV7W5zVIOyQPi/C5FTiBrTR1RC4Boo1
- TorpgfFBFgg4mzt47j0XhJlbr+zzb5/NMSgRwCsjhXgQa+0nGcj1d4SmONzU+U4ZypLY
- JrYg==
-X-Gm-Message-State: AGi0PuZP5qCA6q/LwoLeFCR/hUcM1q4HqT1Wnj927oMVvVoNmVdWUTiJ
- aQ71fN4Di+848GkJ/7qSl9lHMg==
-X-Google-Smtp-Source: APiQypIrfaBNf8xh6nnne+NS1iggKY9AWVxwwHCJzE2XrJ0ZH9EWjWzgTIXPPqK4AtiCMoe2DO4J9w==
-X-Received: by 2002:adf:ed82:: with SMTP id c2mr9822818wro.255.1588766749088; 
- Wed, 06 May 2020 05:05:49 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u12sm2855904wmu.25.2020.05.06.05.05.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 05:05:46 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 063761FF9D;
- Wed,  6 May 2020 13:05:31 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 14/14] target/m68k: fix gdb for m68xxx
-Date: Wed,  6 May 2020 13:05:29 +0100
-Message-Id: <20200506120529.18974-15-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200506120529.18974-1-alex.bennee@linaro.org>
-References: <20200506120529.18974-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8UQCLO69Ng+9ievTR1YKMQ7IS7/Jm5XdR//BLbfIXfw=;
+ b=Zl/vO9Oh8I5e3OT2eSneiEd5S1kcN86hNv7aXcXct18g2mG/ue3na3i+0C2CWclGXZ
+ J75JYNkAfvJc/DNY6YuqtsVsUjbEbP5k+tPEjxFo4ASfVqIpWxjcf+Z0KI5+dir0tgRL
+ REZUqUfe+20JWHzSUTk9BVXcl9an0O9rOEONpdqim5YAxiVbMHFYYop1/foXpiPLGyb6
+ 2+8WT0u7BDUjxLPRXvPGrKiY3sLpjLwMqOHDgyT7j8x69e+bm225sOIcyeJTR9NVtoxL
+ 76dNv3mj3FkD/fx8rn6ab7GraaRVjKg2+AcV+zIaFOrXhOBO5n9bzAOM4e3VPAuo94qF
+ 1rAw==
+X-Gm-Message-State: AGi0PuZjAddj1QsAPU/XtyuBIZvbJqHzY65C9AvV2UhYss7e/coqIb4s
+ 9uvN46/mOw11Amb7sZIvW9Q++MBZL0uACbjez1cSyPmqW03wVgzIEjEcpoceX3qgKcSRrRil3K8
+ HD0Ts4734KrGTcq0=
+X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr9993214wrs.213.1588766731362; 
+ Wed, 06 May 2020 05:05:31 -0700 (PDT)
+X-Google-Smtp-Source: APiQypID9ByNWET63NHG5jI3s2sGQ4G5KBGc9yPGtQrWpDhXMstOCjyUqlA/NeU73mJBjh5ebmxqSQ==
+X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr9993173wrs.213.1588766731048; 
+ Wed, 06 May 2020 05:05:31 -0700 (PDT)
+Received: from [192.168.1.37] (26.red-88-21-207.staticip.rima-tde.net.
+ [88.21.207.26])
+ by smtp.gmail.com with ESMTPSA id v16sm2727732wml.30.2020.05.06.05.05.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 May 2020 05:05:30 -0700 (PDT)
+Subject: Re: [PATCH v1 1/2] hw/riscv: spike: Remove deprecated ISA specific
+ machines
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <cover.1588727508.git.alistair.francis@wdc.com>
+ <a051869c728f7f9c5e274b363ee76fc16451a043.1588727508.git.alistair.francis@wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d5834a53-4c45-423e-3559-d087ade1af6f@redhat.com>
+Date: Wed, 6 May 2020 14:05:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <a051869c728f7f9c5e274b363ee76fc16451a043.1588727508.git.alistair.francis@wdc.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,171 +100,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: alistair23@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: KONRAD Frederic <frederic.konrad@adacore.com>
+On 5/6/20 3:12 AM, Alistair Francis wrote:
+> The ISA specific Spike machines have  been deprecated in QEMU since 4.1,
+> let's finally remove them.
+>=20
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>   hw/riscv/spike.c         | 217 ---------------------------------------
+>   include/hw/riscv/spike.h |   6 +-
+>   2 files changed, 2 insertions(+), 221 deletions(-)
+>=20
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
 
-Currently "cf-core.xml" is sent to GDB when using any m68k flavor.  Thing is
-it uses the "org.gnu.gdb.coldfire.core" feature name and gdb 8.3 then expects
-a coldfire FPU instead of the default m68881 FPU.
-
-This is not OK because the m68881 floats registers are 96 bits wide so it
-crashes GDB with the following error message:
-
-(gdb) target remote localhost:7960
-Remote debugging using localhost:7960
-warning: Register "fp0" has an unsupported size (96 bits)
-warning: Register "fp1" has an unsupported size (96 bits)
-...
-Remote 'g' packet reply is too long (expected 148 bytes, got 180 bytes):    \
-  00000000000[...]0000
-
-With this patch: qemu-system-m68k -M none -cpu m68020 -s -S
-
-(gdb) tar rem :1234
-Remote debugging using :1234
-warning: No executable has been specified and target does not support
-determining executable automatically.  Try using the "file" command.
-0x00000000 in ?? ()
-(gdb) p $fp0
-$1 = nan(0xffffffffffffffff)
-
-Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1588094279-17913-3-git-send-email-frederic.konrad@adacore.com>
-Message-Id: <20200430190122.4592-10-alex.bennee@linaro.org>
-
-diff --git a/configure b/configure
-index c58787100f1..0d69c360c0e 100755
---- a/configure
-+++ b/configure
-@@ -7825,7 +7825,7 @@ case "$target_name" in
-   ;;
-   m68k)
-     bflt="yes"
--    gdb_xml_files="cf-core.xml cf-fp.xml m68k-fp.xml"
-+    gdb_xml_files="cf-core.xml cf-fp.xml m68k-core.xml m68k-fp.xml"
-     TARGET_SYSTBL_ABI=common
-   ;;
-   microblaze|microblazeel)
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 9445fcd6df5..72c545149e9 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -292,16 +292,38 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
-     cc->tcg_initialize = m68k_tcg_init;
- 
-     cc->gdb_num_core_regs = 18;
--    cc->gdb_core_xml_file = "cf-core.xml";
- 
-     dc->vmsd = &vmstate_m68k_cpu;
- }
- 
--#define DEFINE_M68K_CPU_TYPE(cpu_model, initfn) \
--    {                                           \
--        .name = M68K_CPU_TYPE_NAME(cpu_model),  \
--        .instance_init = initfn,                \
--        .parent = TYPE_M68K_CPU,                \
-+static void m68k_cpu_class_init_cf_core(ObjectClass *c, void *data)
-+{
-+    CPUClass *cc = CPU_CLASS(c);
-+
-+    cc->gdb_core_xml_file = "cf-core.xml";
-+}
-+
-+#define DEFINE_M68K_CPU_TYPE_CF(model)               \
-+    {                                                \
-+        .name = M68K_CPU_TYPE_NAME(#model),          \
-+        .instance_init = model##_cpu_initfn,         \
-+        .parent = TYPE_M68K_CPU,                     \
-+        .class_init = m68k_cpu_class_init_cf_core    \
-+    }
-+
-+static void m68k_cpu_class_init_m68k_core(ObjectClass *c, void *data)
-+{
-+    CPUClass *cc = CPU_CLASS(c);
-+
-+    cc->gdb_core_xml_file = "m68k-core.xml";
-+}
-+
-+#define DEFINE_M68K_CPU_TYPE_M68K(model)             \
-+    {                                                \
-+        .name = M68K_CPU_TYPE_NAME(#model),          \
-+        .instance_init = model##_cpu_initfn,         \
-+        .parent = TYPE_M68K_CPU,                     \
-+        .class_init = m68k_cpu_class_init_m68k_core  \
-     }
- 
- static const TypeInfo m68k_cpus_type_infos[] = {
-@@ -314,15 +336,15 @@ static const TypeInfo m68k_cpus_type_infos[] = {
-         .class_size = sizeof(M68kCPUClass),
-         .class_init = m68k_cpu_class_init,
-     },
--    DEFINE_M68K_CPU_TYPE("m68000", m68000_cpu_initfn),
--    DEFINE_M68K_CPU_TYPE("m68020", m68020_cpu_initfn),
--    DEFINE_M68K_CPU_TYPE("m68030", m68030_cpu_initfn),
--    DEFINE_M68K_CPU_TYPE("m68040", m68040_cpu_initfn),
--    DEFINE_M68K_CPU_TYPE("m68060", m68060_cpu_initfn),
--    DEFINE_M68K_CPU_TYPE("m5206", m5206_cpu_initfn),
--    DEFINE_M68K_CPU_TYPE("m5208", m5208_cpu_initfn),
--    DEFINE_M68K_CPU_TYPE("cfv4e", cfv4e_cpu_initfn),
--    DEFINE_M68K_CPU_TYPE("any", any_cpu_initfn),
-+    DEFINE_M68K_CPU_TYPE_M68K(m68000),
-+    DEFINE_M68K_CPU_TYPE_M68K(m68020),
-+    DEFINE_M68K_CPU_TYPE_M68K(m68030),
-+    DEFINE_M68K_CPU_TYPE_M68K(m68040),
-+    DEFINE_M68K_CPU_TYPE_M68K(m68060),
-+    DEFINE_M68K_CPU_TYPE_CF(m5206),
-+    DEFINE_M68K_CPU_TYPE_CF(m5208),
-+    DEFINE_M68K_CPU_TYPE_CF(cfv4e),
-+    DEFINE_M68K_CPU_TYPE_CF(any),
- };
- 
- DEFINE_TYPES(m68k_cpus_type_infos)
-diff --git a/gdb-xml/m68k-core.xml b/gdb-xml/m68k-core.xml
-new file mode 100644
-index 00000000000..5b092d26de0
---- /dev/null
-+++ b/gdb-xml/m68k-core.xml
-@@ -0,0 +1,29 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2008 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.m68k.core">
-+  <reg name="d0" bitsize="32"/>
-+  <reg name="d1" bitsize="32"/>
-+  <reg name="d2" bitsize="32"/>
-+  <reg name="d3" bitsize="32"/>
-+  <reg name="d4" bitsize="32"/>
-+  <reg name="d5" bitsize="32"/>
-+  <reg name="d6" bitsize="32"/>
-+  <reg name="d7" bitsize="32"/>
-+  <reg name="a0" bitsize="32" type="data_ptr"/>
-+  <reg name="a1" bitsize="32" type="data_ptr"/>
-+  <reg name="a2" bitsize="32" type="data_ptr"/>
-+  <reg name="a3" bitsize="32" type="data_ptr"/>
-+  <reg name="a4" bitsize="32" type="data_ptr"/>
-+  <reg name="a5" bitsize="32" type="data_ptr"/>
-+  <reg name="fp" bitsize="32" type="data_ptr"/>
-+  <reg name="sp" bitsize="32" type="data_ptr"/>
-+
-+  <reg name="ps" bitsize="32"/>
-+  <reg name="pc" bitsize="32" type="code_ptr"/>
-+
-+</feature>
--- 
-2.20.1
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
