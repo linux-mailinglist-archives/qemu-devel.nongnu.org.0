@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F951C6CEA
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:28:57 +0200 (CEST)
-Received: from localhost ([::1]:55644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BFA1C6CE5
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:27:49 +0200 (CEST)
+Received: from localhost ([::1]:51164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWGMK-0003kX-E8
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48942)
+	id 1jWGLD-0001vt-Uj
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:27:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWGJU-0007sJ-2U; Wed, 06 May 2020 05:26:00 -0400
+ id 1jWGJV-0007wJ-Di; Wed, 06 May 2020 05:26:01 -0400
 Received: from mail-eopbgr20115.outbound.protection.outlook.com
  ([40.107.2.115]:7399 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWGJT-0006M8-52; Wed, 06 May 2020 05:25:59 -0400
+ id 1jWGJU-0006M8-KH; Wed, 06 May 2020 05:26:01 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TS34xdh6r98S+zWpYwym2m8QrI3uJKxysaE320IJA40R72sOfiQ5kw5TPIch+bExJ2pCfkSfeEB3yxTYn6HjYSYz1wcItvjMwOOmDJesTdrNeJXKKq5RT3jZRIbCXAdTTqERUI/aPOiZX8ENE0JBkwUQn1uZBc3qLRjZ6KdoJfXHFPD6qhHxSdbqoncU0spemZ3C4nKiZ2Aacq1zDDND5k3jPq6/Kn9VBQaMvaOFe8meu1JOYM6rpkvq+UzKsZZQGGfVyUGjU84nmiRrlxIMMCer8NfLQ3SsCewz2LL604Q8fmP++KjAgMN4gQ0JnI6jBkMeEgCuezlRG6i4a8fmHA==
+ b=Kmkq3XLD5iZCUVTi/8h8HG7BF5mbR7lmtJPq137K5xvUYvBXheCabOJd2cHqaB++THVUu99F92D06HLafk2sGyZ8Jaua/7ApJQaLEOfB2Bk3rkt9H0Ag4WmZLreuehc2Vab9j/cuuwsvyUZdxEGS0R4RzLgyIZUkc3Z3qnl8mbbLNWEXFM7EfL4Z24j/Pti6Zai7vu5WCFLEMh3gw8IOI2HlF0XRmU81G6hpzlDwBHKksqMZ5w3VadJVPsNJ+r3u+M+6tRKvIBmDqZbpPbwrKcGSM85jypxKgWjeHCpC72PPb6mAWcsXubIzNNJeDahBg4qJxnZ5WN70HefF7oHSbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UhwpC8Q4GWHznTsW8gfNCsFiPmsjmwh67BhMgluksDA=;
- b=ZTFD+gxP/ycTK/Sg1s9g+hGZTV5JxAJaXFZYdM96AIz2p35MhUHp6BbMptYJQpPn9bb1NTnUe/XytZHChNRUUCAbAbj2rm9BgKUZIsuUunKabiwgVrrF6+oeTQOGuvh+IbnPLB3Z9ZKtgaXKBQSPZVCJe5NHo+nTR7FUr0apbOJwHb1Mq2DCoh+YFwC5zznKpFW+B1w6Y4/qzkiVvPfpo1k6vjgaCkhFnHtbAk1fdomyajlKhjyvb+B//f0BzQ69YzsquWHyUudTt+ae0niorFawaoCmw+6nBHylCBSuU57W/ee8v8upwEdm87u3y232DCwEWcqtThSkmoY+Olql8g==
+ bh=Qd8IHOGIPLUQSjIyBtnjHX/hsBMDt6lUuP3Mm3kWzt4=;
+ b=IEWGVcdDIesr7SlmGzdZ7N0uqXOs7W7l7nEOECDztma4FlNy/kp5MSs7tbOQZ9BMNW4cUoueRh8VofpKLDlSB2xL1HYBWQ1OzPuFhXUjP4la+ySzrUD7/RCaNmDS5nIlvytTzDchKC/DivOa+s4aGflcQ8+VGuCZnxBCkai1G3DpZwGih4O0SCIusNy/YqhTO9JTYC2+OXciskfzUPOE2fIGbEy9xXzv7lAcpuhkSEZhlgKbXqmIQAVjWbcyZu/wFgegyoxzF9JcHKnlKwFV+Zy9h8/kqS0jpGvDMDfQeMTLos8ycnrByzHk81J7El53zPCMI6CSuYr1K0w2PGgwyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UhwpC8Q4GWHznTsW8gfNCsFiPmsjmwh67BhMgluksDA=;
- b=uNBsaVeH77s4OoB2NwvNuRj6NEDoMXxk2NoxR4GACLw8jQ5ykeeZfrGMemyVYqpqrQcgy7245q9rKH8NBX9/WxMa9BjMKFcAgakrcbQ9gY3l8Dom7r4o2Uxd+/QsjdnJx5Z1Qkk610q+LTSplr/yp7pgMqMIefoRyYo9AJUSqCM=
+ bh=Qd8IHOGIPLUQSjIyBtnjHX/hsBMDt6lUuP3Mm3kWzt4=;
+ b=vel/Kzk6YJWchVWIoT3Ku5OKrk4UsMG5brcuvmQX2GKtWBi81EgwgodVASQHpcbX1B5PhYEQPrLfo7nl10woBUb1JKw5zpuOpNQ8Ew9v8oEjXd4saDan8XybNMXAI/2rIgcsSI3zHigM81o6IL/6XtFJzUPO0H4nSAt77sffxoY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM7PR08MB5382.eurprd08.prod.outlook.com (2603:10a6:20b:108::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Wed, 6 May
- 2020 09:25:51 +0000
+ 2020 09:25:52 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.030; Wed, 6 May 2020
- 09:25:51 +0000
+ 09:25:52 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 4/8] block/iscsi: drop unallocated_blocks_are_zero
-Date: Wed,  6 May 2020 12:25:09 +0300
-Message-Id: <20200506092513.20904-5-vsementsov@virtuozzo.com>
+Subject: [PATCH 5/8] block/file-posix: drop unallocated_blocks_are_zero
+Date: Wed,  6 May 2020 12:25:10 +0300
+Message-Id: <20200506092513.20904-6-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200506092513.20904-1-vsementsov@virtuozzo.com>
 References: <20200506092513.20904-1-vsementsov@virtuozzo.com>
@@ -62,32 +62,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.178) by
  FRYP281CA0017.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.26 via Frontend Transport; Wed, 6 May 2020 09:25:50 +0000
+ 15.20.2979.26 via Frontend Transport; Wed, 6 May 2020 09:25:51 +0000
 X-Mailer: git-send-email 2.21.0
 X-Originating-IP: [185.215.60.178]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 34b7a7be-9f14-49ff-f0fd-08d7f19f77db
+X-MS-Office365-Filtering-Correlation-Id: 2f04c9ee-09c2-4e53-e5e7-08d7f19f786a
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5382:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB538214EB57C69DC1ADDAFF0AC1A40@AM7PR08MB5382.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:262;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5382A50C2A519DA9DA525B81C1A40@AM7PR08MB5382.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:40;
 X-Forefront-PRVS: 03950F25EC
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M9uv+C/hxoBjoOWDk0Aqn/I/mJ8UtYyTk3eXJNowbAKb6tOzVPETJTxSlAt9xUQc2bG0Dnk8zcHR/hNKfr1j1ODt2tjS9DfeqvzwCsBipAqQrlCwL/p+ax1nU2VzgNS1Mx9sqik6UOgXnfQn64Q11xCbAIGiqZw2lscdZOz/I5v9/BZ4oGxF7jFKaYJ7hnZ385CAP19BOzil6w4tEPgkgFDqp/Lvw2umVOooi6+1QBKiRglq+oviXqiPzIqbWE/OZzKhuv4iDbk4Nc3jV3k1/fYPx4gaxHTylfzA4EM9cqhejBSNeS6u3DOX1MzwtcSCIRJwBx87rRQkujgjGWzvPsh2NAAzH8dHhFuKKBm9de8IvxhLBXczqGNp+Lmy2B9cZfnvtkk0Qy3H6FxytFcC4hoInJiM8onCjTgEkCJ/8AON+Ir4nwGnKEfpghTuRpNzUUHbFPZe1rUXyPs1deqr1Jj6DMxFUBZDW0UmH+0I/Nt+HhIYTCsIGUSbHI2wA8V2hsQXtuXUUzO4pND0WE0zSdOEsxJQPxpGpwINF2FsgJfrgRpntIXFIMxWpAFbByKn
+X-Microsoft-Antispam-Message-Info: hHlc8O7JMFZsjsgWEHihyMxpAQVocmZq49pH+MCw46KejgDdFZftRZr6CK15frV/FDJTQDg/peSh8ZyTmlk/FnZoI/MnnLWE8NzWi4/rlW2y6t6C0GB9Xs7W6mcLOFrlQINj4IqDuCFe5xkNROc7TQSUjbvAn/WGDDLQac4D2m6iQQrMOlUHds1bK6B0gKabhNzt47hhFuhmVHQWv8MVfAC5hkVPR9T6uKb3yfC2mhOZRgqCNnMqVUWEYZcBfo7v6DFaqjWc8DqLyd+fBZPbZDjgghNdjqKTyUvH+ymvn4k4g09p58CMIvirALo0T5qdOOXsoxKqr6hMCYzpLg20PeAjTHxln42NrW0VFM1QbVkox8EGZI/uRzIYGEJsq97RLXT/e4MV/7b8laObyCMD9/OKEYL9dHqXTO/i1CNeq/K4Ot8iVyNCWTS1E1hJYeg0nKcjRy4cdHkOwb+SI2j4KntBfpkYlSmgUQFwN7XLRltYfHnM9khA8Rq0qHExACsqMeDk3NqBIIekX0rjjDYIZjYHiv0p5tsqDsw+yx0U3Qlm+9PcvqQ9UuWaEVvpGjsl
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
  SFS:(4636009)(376002)(366004)(136003)(396003)(39840400004)(346002)(33430700001)(6486002)(6916009)(52116002)(956004)(2616005)(6666004)(8936002)(86362001)(26005)(107886003)(2906002)(6506007)(5660300002)(36756003)(478600001)(16526019)(7416002)(69590400007)(186003)(66946007)(66476007)(33440700001)(66556008)(4326008)(4744005)(316002)(1076003)(8676002)(6512007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: KDGJiKbHyjYm5y/LRTaASqVeKv31jKMxfzPBolVdwyCJc42wFeNBiR0E8MdnMIBdQ0N4jKeMB4/iwzdzmVX80fa65paz1guwuJ77PMTY3QmaeoOOE7Vgu73gPpsEDijnldahXmfiRJyUbsO8HAo/cHF8DCrZT0LC49/oLZ6UVT1jPKQ0Xx/Tg8ASrDgvslLluOaZpha/f+ymptiJn3XCXj4CaphIP6JPFNtM8+/FY9GewFt0Um4EKlvCskSE8ci6NXM73U8EHmKxGoRQInbNgBkLoZjyB7iWgGaItP828Z0RsQG9mTEpP99R3SIs7DwdNyJgvmwCc240A4R1GQ9D19Fq0MQOX/qXhJrb9iLdXCckaYrXR40HsHKkRMYdLmANAsxD7JYlyhFPXNwPgTrVOP+9MVL7Y3sKwR+/5VNQXnrRqjPDSJ9MNapyY7E98sZODz86tI6N7e4Opas0DaZqcj8YCOxKoZ27mE+ECT4YHYrmDwLHy54f2IuK+SxCfk57f/CUevEz5rVHlRD9XIZlSoItgwDmZeVMvz2cjPFErlP52U2CswbP3Ozl78emmsamCUp8Q4OHoVHOLlhCdREhvNGASAzhl07bb6K2Zwlyfj0MBdMREDd+/zi0sorXOM9gmfNtRjLoHwsyzoWybawiicOq0pPnHMiNu3WT9CYIl64CjnMQApTt+1k/2W6fIz5MaCYG+Cc1lO/pjTJuJLtp2aM3DIfDE8R3j1/EMUOYWXF/wV0RxlRcw32u37kpg/+MJLwz0EBHLKlFDW/FFGCRsN4Jn1ACZkCcMI+0iDPK08Y=
+X-MS-Exchange-AntiSpam-MessageData: aYJumq/lTqh3G6Z1bw2hN7ONYkfRHXNfvNpqrxTssW5rra19ksCmLWTgsgNE5oWNaCf5JPDlxofjMzIlEcNNj17OR/AL5lARNp2+K9rdhf4oUEf2gn/QmP2CAHuEsdjcCgKSsIaEverefcqIm86qrb0UNLEnQUTEXWAA9htb70ttPUJ+Q2XA7puS/BO2WiWxCYK3+2ZNxRaO+kR2b1aCfgI6VtzrU4PAVVvOxoxsLyxa0Ene/X1VkoWW09lSD83dOIQ0LBWR2MDDZg0cNl9ps/Igk7mtB3KFGxQdEYT6QQ/LBN4Ag8CONxsQVTi3LczuSK299uN7bvqnbKQ34Xcn3z1mtAia6XAzl2IGQgbij4JmdVSR/PR7W9pI6iuyVzuhaSERDrsqS5AmdzRm76hQBbqXPNxB9vuZadURHU4tNltgLWXda1vB9cF65JVqUIsIwQNfTfVCERGS5vu1d7giCX6ZEZ00CyYAeQzZfrxYJ1DBssG9BuGrjsvxoUmUa8yV1Aa3WSebu77edVQTnlu4SX7ndYsJ4/XoqBOJ2+oCEadI7dugt0vjr6GkMZ4Qwgeg3LUnlCah2/meXBFNng0DXAcA8p9TAAVJa4WfjOrbUo/MIAh9n1cOat4XO4hGJNyzPABqTo9MdnhHANHWrc1h/MKfFhD8T6BD+1c0/E8vmUuBtYtWAZT1rbOuZxLtx9wNTJo+IoxYcEij6ZVXFhFfUJoeuvRYhIL0bE07FAimxiuVXJ7HsQREhzK4n0cgrmmf6VUYPXzdiJIwI60/1DlRWfUftqBhaB87ObfTbljxRV8=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34b7a7be-9f14-49ff-f0fd-08d7f19f77db
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2020 09:25:51.0336 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f04c9ee-09c2-4e53-e5e7-08d7f19f786a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2020 09:25:52.2960 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SqGzsvmsTI6heQdCtyC1FIC5aQQEz5hjns2G7UwpUBiBav0PXQe1I5PpvjKXedXW+j4Bp8Sg6Uz/33J9zRSkOYG62W5Tm7CLy3dXzx6s65A=
+X-MS-Exchange-CrossTenant-UserPrincipalName: PXyYuuj5/kYuJ3CSulUPm6oX2QGLto8Ag4U2kDL1eZmZrCkI4FJ/VkzoL92MVzTsavAuP12O2R60X22RMe1j4pBumyDOhMAZOJ10e03GFl8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5382
 Received-SPF: pass client-ip=40.107.2.115;
  envelope-from=vsementsov@virtuozzo.com;
@@ -121,28 +121,28 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We set bdi->unallocated_blocks_are_zero = iscsilun->lbprz, but
-iscsi_co_block_status doesn't return 0 in case of iscsilun->lbprz, it
-returns ZERO when appropriate. So actually unallocated_blocks_are_zero
-is useless. Drop it now.
+raw_co_block_status() in block/file-posix.c never returns 0, so
+unallocated_blocks_are_zero is useless. Drop it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/iscsi.c | 1 -
- 1 file changed, 1 deletion(-)
+ block/file-posix.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index a8b76979d8..767e3e75fd 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -2163,7 +2163,6 @@ static int coroutine_fn iscsi_co_truncate(BlockDriverState *bs, int64_t offset,
- static int iscsi_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 05e094be29..5c01735108 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2878,9 +2878,6 @@ static int coroutine_fn raw_co_pwrite_zeroes(
+ 
+ static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
  {
-     IscsiLun *iscsilun = bs->opaque;
--    bdi->unallocated_blocks_are_zero = iscsilun->lbprz;
-     bdi->cluster_size = iscsilun->cluster_size;
+-    BDRVRawState *s = bs->opaque;
+-
+-    bdi->unallocated_blocks_are_zero = s->discard_zeroes;
      return 0;
  }
+ 
 -- 
 2.21.0
 
