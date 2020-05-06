@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694221C7C67
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 23:26:25 +0200 (CEST)
-Received: from localhost ([::1]:44212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA78A1C7BBE
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 22:59:58 +0200 (CEST)
+Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWRYe-0001Kn-D7
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 17:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47824)
+	id 1jWR93-00068l-73
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 16:59:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWRXh-0000pN-2P
- for qemu-devel@nongnu.org; Wed, 06 May 2020 17:25:25 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22419
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWRXg-0006QW-3r
- for qemu-devel@nongnu.org; Wed, 06 May 2020 17:25:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588800323;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/w4ZgOI/n39n2thxXaous+q8tI3SysUxsKk/BlOg46Y=;
- b=d0cGUBW/AGmbcmpy1HoCU1Trp2iFlsyxixoQSu5kVi1NiiNn16THgRQACNV2JT6C/1eKMo
- bwid/IHrlCS3ZHBI79m0j56QhcrKgKtfdHjpPRQwu1E4ZLAgtPutXsyLoi912PYhL/Slas
- 3dl1iEiPWp8skJlb/NHByG1scCVBkcg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-svpZcXpMNF-rsZdjbT1bFw-1; Wed, 06 May 2020 17:25:19 -0400
-X-MC-Unique: svpZcXpMNF-rsZdjbT1bFw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED94B1800D4A;
- Wed,  6 May 2020 21:25:17 +0000 (UTC)
-Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E0D4579A5;
- Wed,  6 May 2020 21:25:13 +0000 (UTC)
-Subject: Re: [PATCH 4/8] block/iscsi: drop unallocated_blocks_are_zero
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200506092513.20904-1-vsementsov@virtuozzo.com>
- <20200506092513.20904-5-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <7e9264f2-1ba7-e522-4333-c39e486872fa@redhat.com>
-Date: Wed, 6 May 2020 16:25:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jWR8B-0005eM-KU
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 16:59:03 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jWR89-0002tM-Fh
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 16:59:03 -0400
+Received: by mail-lj1-x242.google.com with SMTP id u6so3927461ljl.6
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 13:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lifhjNc/+8n2VeRbNRRf7UQgSm7/0C49Qt1x2LZG53U=;
+ b=0AqCEme16Hil182ogtEBnTHYLdlkTG7QaL0yhBc7bYXenbc+aGjU1p8qm6fS5UA+9A
+ WSgP4HVfyAyCimgj2pfq8RpQ2k1O69qHxdeoqUg9fNmAL2XNG5rKT+7peAJvqEWYEFPK
+ kBtXKy/6cNsvMB899sIasJ0Yb6FoKgRbZzZg4+Ak4CyEZB/snspaKwcJQq9puvfsH/EA
+ WfL42BFYSsnq/ZTLAszWuO64KD1iBuSZizxiYkdtzwoYKmaixKTS47rg2HEtPEhLPsRH
+ iKilFmEpHasEW1qtEZwwRZEXJ3c5IcvJdICaUihZQn9CAJSnGjOeiGd8tVM/878QNCJj
+ zBrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lifhjNc/+8n2VeRbNRRf7UQgSm7/0C49Qt1x2LZG53U=;
+ b=UjjSTff0OjAVgrJddfVfDPywvpGS7TJ6hLYdykUNwU6XPcX6tjckzdKrt3o6lV5ViA
+ DxZgesFUzxiNuUIgEqpPUoYj0ftWSd78SC66IRk2V11nXaS3omXYHJji/cY48B7IJ6CO
+ TqH6DGwFlwoZc8nZfXs6t26VycmlB0NmdTtpmb5EtIAUwbkTmjri/bPyEpB3yMk7R0JP
+ pVP5AvKUeoS4okLMgatzq/9gRFxsNrrP+3o+yAOblMHbJhG8cEjcT6FDLDQYd0/WV4+I
+ dPcyFY/X4WPj+conT+Sfc6ICPt3hhq/ExsiocCtXM0i0ltauUMaFf+g7zPVr37RXbs35
+ ZNGw==
+X-Gm-Message-State: AGi0PuYAMMoXmGMYjIs5FPJm/eIvXZhy2a4CcySS7DjYR2tiRD7+f78b
+ fGXMGmHzkXHvJ1W5E9qCKD8spVIYvr9yug==
+X-Google-Smtp-Source: APiQypJv3uwClEdISONl/cNqVeewtTY6PEvvPfuf9QPctPDCZ399LItUY08BymFUUmM2TcqQ12yqkw==
+X-Received: by 2002:a2e:8603:: with SMTP id a3mr6341940lji.153.1588798738717; 
+ Wed, 06 May 2020 13:58:58 -0700 (PDT)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id u9sm2029468ljl.33.2020.05.06.13.58.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 May 2020 13:58:57 -0700 (PDT)
+From: andrew@daynix.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] e1000e: Added ICR clearing by corresponding IMS bit.
+Date: Thu,  7 May 2020 00:26:45 +0300
+Message-Id: <20200506212645.894533-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200506092513.20904-5-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 05:50:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::242;
+ envelope-from=andrew@daynix.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,49 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, ronniesahlberg@gmail.com,
- codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org
+Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/20 4:25 AM, Vladimir Sementsov-Ogievskiy wrote:
-> We set bdi->unallocated_blocks_are_zero = iscsilun->lbprz, but
-> iscsi_co_block_status doesn't return 0 in case of iscsilun->lbprz, it
-> returns ZERO when appropriate. So actually unallocated_blocks_are_zero
-> is useless. Drop it now.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block/iscsi.c | 1 -
->   1 file changed, 1 deletion(-)
+From: Andrew Melnychenko <andrew@daynix.com>
 
-This one is easier to justify after removing the 2 clients.  But it's 
-simpler than patch 1 in that because block_status never returned 0, this 
-has no visible impact to 'qemu-io -c map' or similar, so it doesn't need 
-the commit message justification about any change in behavior like patch 
-1 needed.
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
+Added ICR clearing if there is IMS bit - according to the note by
+section 13.3.27 of the 8257X developers manual.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+---
+ hw/net/e1000e_core.c | 9 +++++++++
+ hw/net/trace-events  | 1 +
+ 2 files changed, 10 insertions(+)
 
-> 
-> diff --git a/block/iscsi.c b/block/iscsi.c
-> index a8b76979d8..767e3e75fd 100644
-> --- a/block/iscsi.c
-> +++ b/block/iscsi.c
-> @@ -2163,7 +2163,6 @@ static int coroutine_fn iscsi_co_truncate(BlockDriverState *bs, int64_t offset,
->   static int iscsi_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
->   {
->       IscsiLun *iscsilun = bs->opaque;
-> -    bdi->unallocated_blocks_are_zero = iscsilun->lbprz;
->       bdi->cluster_size = iscsilun->cluster_size;
->       return 0;
->   }
-> 
-
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index d5676871fa..302e99ff46 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
+         e1000e_clear_ims_bits(core, core->mac[IAM]);
+     }
+ 
++    /*
++     * PCIe* GbE Controllers Open Source Software Developer's Manual
++     * 13.3.27 Interrupt Cause Read Register
++     */
++    if (core->mac[ICR] & core->mac[IMS]) {
++        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
++        core->mac[ICR] = 0;
++    }
++
+     trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
+     e1000e_update_interrupt_state(core);
+     return ret;
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index e18f883cfd..46e40fcfa9 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
+ e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
+ e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
+ e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
++e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
+ e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
+ e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
+ e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.24.1
 
 
