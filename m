@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB641C6FF3
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:07:30 +0200 (CEST)
-Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FC31C7008
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:11:52 +0200 (CEST)
+Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWIpl-0000Ng-Rx
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56438)
+	id 1jWItz-0000pN-NC
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo0-00066m-0k
+ id 1jWIo0-00067V-Ot
  for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:40 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34192)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:51414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWInx-0008Bm-EP
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:39 -0400
-Received: by mail-wr1-x431.google.com with SMTP id y3so1915290wrt.1
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:34 -0700 (PDT)
+ id 1jWIny-0008Je-T8
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:40 -0400
+Received: by mail-wm1-x336.google.com with SMTP id x4so2315433wmj.1
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d1f2aEdjsEFanYx6BNV67Yvn98soCaaI3O+YSwy/f9s=;
- b=p+AimE4aJ/Cg7++kZR1l90QvFobmfJUBthYDeijnCz5z3u0ahbytbgl3PQRFAfCn4K
- +ZYIIVMg03PqQ+1GwBd5sxM8okQk7USpTxOc6konF5rz7LcYCWwyXwOkHmCb4VSzu5ie
- JmctO2bWAdqyXtFALYRKicg7kcP3klW2GLDyAAlnpgb44fvvUglsGaLOGDjbXv+DSsqV
- dDq6aVj9biHd/yKNC+T9vImsanmQOPQ+3mKbVsicB9OktZpBnN3Hc4rfWAbOLrcYnXYH
- WufOdWpNgo/5afdjckaiUp7nJJBCRPQtpdDyAYKPNw07BLSDU+52mLMzY+nP2gkmskr1
- xFnQ==
+ bh=ZTJh34FGQCI152lwyVv0YTBLMCIdfCpxo+sU4MbJ6bM=;
+ b=afMAA+H5YqNdc1Geqt97zuQ8Z32W7FIZw3TsHhdzmdUlfPcV1SqAAzpVIDD1ooWzKR
+ e/xGNV9IbZHN8soRR1jkuvLYCnuMYqZ0Fkkhwe+4mb/s63VK98RK6rbApOdbJYjQphEb
+ GgYsTpopVlL4lg38UgNwnJoAWeGiGVzrZzMF2gl/JQjCRIJAbbFWfumGHuv4UyLHYu10
+ 8RARMZeFOvjpkYgbtwC9tqnKVa0ShrAOEz4H7p9O2gbGaXTbuah/mnoOl55SJZs09GX9
+ wO4HAo5sOCebogDZrWfJN0vtrppoDo/zbKYWFQfS2ktueV8w7aq4rDtGG2pKyIJuiBvy
+ 6BvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d1f2aEdjsEFanYx6BNV67Yvn98soCaaI3O+YSwy/f9s=;
- b=dwRB5d3v1OuYcVItgiFYqT8EKn2cHBTj+AO+TSTE/fBy9/oMJZB/ZQvoTmktqAKdH1
- DEUskthbr5hSkHfiH+K7UW3adktw8X72THT/oYtNnKA2zqGlUO9ZHF8zcMaQRNr31mWf
- qSg2OLqz6YJYijPQF1bdYfyDL8u4arn3rH1/x3ejk+rWMe3GDJUe9sTcJxjTKrYyyjQY
- y/U+zG4xfninyWxHAlMM2Oc5WYFECorN6edVMi5ogakzPKJsbeBC86KH8kGkR101a9Xv
- hzWHkr/LCiwj8Vbayb7CI/fns6kvCLl2XJl56RsZwKsYM+4x8n3tN8xlYjT5/SyZTEmX
- U1cQ==
-X-Gm-Message-State: AGi0PuY4oZXx3rvjIUBgVXRfvMkyWDCza3EoTeWExu+zc6SYvGXN8bRs
- WPp+m9re4rfWpC9q1efzKzc3Lg==
-X-Google-Smtp-Source: APiQypLpiKxmTG7yG/IAkqbCGr6rn9WKEMKGU6fwjNoIzHr3aBX3owMf7JdZE5Yc4AWApNYXUwGDbA==
-X-Received: by 2002:a5d:6503:: with SMTP id x3mr10149959wru.153.1588766733628; 
- Wed, 06 May 2020 05:05:33 -0700 (PDT)
+ bh=ZTJh34FGQCI152lwyVv0YTBLMCIdfCpxo+sU4MbJ6bM=;
+ b=bApCGUIhUV1YRsqgmuqN6cDHxRiUEbHCI4B/enNGK6nk5snvdZCP3vayDPLCY6pmOw
+ 52gn0XZo+yE9jdiqSj1NPpVD4L83o2LcvNEfIjl2q00Q1SXSfzIb9KGRw3Azk6QQsFb7
+ YXXnl/s4lYI2RpzD3p07U8l2+a07j3+Yx2pNjqXqbwmzvseGKL2lQdTjd69dyJ1VMFwl
+ eTzg0Kgb+T/8ccCHAi9JYux/Hr9ILT0mhv+o6GAL4gA1SnSa+2sSC61JdWfcSwzHUSfV
+ NljtF9wKSL8df6MwKzKfgLpQApHssHBnnjOUESeBmQ+ooWvLEPV6u+4xY5+zmD3BCdXO
+ RIzQ==
+X-Gm-Message-State: AGi0PuYPL6wPniYvqkXnWpWJW6h9lcEGBjmJiSNKwMd7ofNVZxwti4Lc
+ IBjjoMlp1XMuQcH3PPZcdfYHvA==
+X-Google-Smtp-Source: APiQypIcvNrbXeglYI0QTBJmkNzXle/skaCkV82T09XN2dy0/NyZ4cVCJNeeNN7yc7fEs5MZ1gLWEg==
+X-Received: by 2002:a05:600c:295a:: with SMTP id
+ n26mr4616891wmd.16.1588766736163; 
+ Wed, 06 May 2020 05:05:36 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i6sm2432884wrw.97.2020.05.06.05.05.30
+ by smtp.gmail.com with ESMTPSA id l16sm2390029wrp.91.2020.05.06.05.05.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 06 May 2020 05:05:30 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EBBEF1FF8F;
- Wed,  6 May 2020 13:05:29 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0C0821FF90;
+ Wed,  6 May 2020 13:05:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/14] .cirrus.yml: bump FreeBSD to the current stable release
-Date: Wed,  6 May 2020 13:05:18 +0100
-Message-Id: <20200506120529.18974-4-alex.bennee@linaro.org>
+Subject: [PULL 04/14] .cirrus.yml: bootstrap pkg unconditionally
+Date: Wed,  6 May 2020 13:05:19 +0100
+Message-Id: <20200506120529.18974-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200506120529.18974-1-alex.bennee@linaro.org>
 References: <20200506120529.18974-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,33 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ed Maste <emaste@freebsd.org>,
+Cc: Ed Maste <emaste@freebsd.org>, Li-Wen Hsu <lwhsu@freebsd.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Li-Wen Hsu <lwhsu@freebsd.org>
+ Li-Wen Hsu <lwhsu@lwhsu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hopefully this will un-stick the test which has been broken for a long
-time.
+From: Li-Wen Hsu <lwhsu@lwhsu.org>
 
+This ensures compatibility with pkg repo so a change in upstream
+doesn't break setup. See:
+
+  https://lists.freebsd.org/pipermail/freebsd-cloud/2020-April/000234.html
+
+Message-Id: <CAKBkRUzicxphjjkkxdgzB3cDSv=AszD5V4X499jT2BjiAaazGw@mail.gmail.com>
+Signed-off-by: Li-Wen Hsu <lwhsu@lwhsu.org>
+[AJB: applied from Li-Wen's github, applied sob, tweaked commit message]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Li-Wen Hsu <lwhsu@freebsd.org>
-Tested-by: Li-Wen Hsu <lwhsu@freebsd.org>
-Message-Id: <20200501111505.4225-4-alex.bennee@linaro.org>
 
 diff --git a/.cirrus.yml b/.cirrus.yml
-index 90645fede6b..f06f5af2b93 100644
+index f06f5af2b93..de0727cb097 100644
 --- a/.cirrus.yml
 +++ b/.cirrus.yml
-@@ -3,7 +3,7 @@ env:
- 
- freebsd_12_task:
-   freebsd_instance:
--    image: freebsd-12-0-release-amd64
-+    image_family: freebsd-12-1
+@@ -6,7 +6,7 @@ freebsd_12_task:
+     image_family: freebsd-12-1
      cpu: 8
      memory: 8G
-   install_script: pkg install -y
+-  install_script: pkg install -y
++  install_script: ASSUME_ALWAYS_YES=yes pkg bootstrap -f ; pkg install -y
+     bash bison curl cyrus-sasl git glib gmake gnutls gsed
+     nettle perl5 pixman pkgconf png usbredir
+   script:
 -- 
 2.20.1
 
