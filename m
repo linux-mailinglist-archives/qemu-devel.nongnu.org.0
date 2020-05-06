@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF1B1C6630
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 05:06:30 +0200 (CEST)
-Received: from localhost ([::1]:52214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35D711C66F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 06:26:41 +0200 (CEST)
+Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWAOD-00039a-G8
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 23:06:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
+	id 1jWBdn-0007Vz-ST
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 00:26:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWANN-0002jl-Cj
- for qemu-devel@nongnu.org; Tue, 05 May 2020 23:05:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45676)
+ id 1jWBcz-00075a-Og
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 00:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWANM-0007Wl-21
- for qemu-devel@nongnu.org; Tue, 05 May 2020 23:05:37 -0400
+ id 1jWBcx-0004RH-P0
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 00:25:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWANK-0000Bg-6G
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 03:05:34 +0000
+ id 1jWBcu-0006G1-4O
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 04:25:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2CF4C2E80E7
- for <qemu-devel@nongnu.org>; Wed,  6 May 2020 03:05:34 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 03A502E812A
+ for <qemu-devel@nongnu.org>; Wed,  6 May 2020 04:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 May 2020 02:56:36 -0000
-From: xuan <1877015@bugs.launchpad.net>
+Date: Wed, 06 May 2020 04:17:20 -0000
+From: Launchpad Bug Tracker <1860056@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: mips
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: xavier-ding
-X-Launchpad-Bug-Reporter: xuan (xavier-ding)
-X-Launchpad-Bug-Modifier: xuan (xavier-ding)
-References: <158873300816.14142.15664636500998863138.malonedeb@gac.canonical.com>
-Message-Id: <158873379700.13253.13216768981471973072.launchpad@gac.canonical.com>
-Subject: [Bug 1877015] Re: virtio only support packed ring size power of 2
+X-Launchpad-Bug-Commenters: amarkovic andrew-pennebaker janitor
+X-Launchpad-Bug-Reporter: mcandre (andrew-pennebaker)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <157922250983.5290.10201589814072308267.malonedeb@wampee.canonical.com>
+Message-Id: <158873864019.30815.18212477990819399123.malone@loganberry.canonical.com>
+Subject: [Bug 1860056] Re: mips binaries segfault
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 88111d4d020ae5a8e4c4a41c16adb45d7f361b56
+X-Launchpad-Hash: a702c44c11f9455b2f84be0a675894b7fc3de324
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 22:50:31
@@ -72,40 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877015 <1877015@bugs.launchpad.net>
+Reply-To: Bug 1860056 <1860056@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Summary changed:
+[Expired for QEMU because there has been no activity for 60 days.]
 
-- virtio only support packed ring size power of 2 between 256 and 1024
-+ virtio only support packed ring size power of 2
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877015
+https://bugs.launchpad.net/bugs/1860056
 
 Title:
-  virtio only support packed ring size power of 2
+  mips binaries segfault
 
 Status in QEMU:
-  New
+  Expired
 
 Bug description:
-  Issue discription=EF=BC=9A
-  When QEMU starts with "-device virtio-net-pci,netdev=3Dnetdev0,mac=3D52:5=
-4:00:00:00:01,disable-modern=3Dfalse,mrg_rxbuf=3Don,rx_queue_size=3D1025,tx=
-_queue_size=3D1025,mq=3Don,vectors=3D15,packed=3Don"
+  Hello World appears to segfault with qemu mips, on a Debian 10.0.0
+  Buster amd64 host.
 
-  It raises error: Invalid rx_queue_size (=3D 1025), must be a power of 2
-  between 256 and 1024
+  Example:
 
-  Analysis:
-  According to virtio1.1 spec, the packed queue size value does not have to=
- be a power of 2.
+  =
+
+  $ cat mips/test/hello.cpp =
+
+  #include <iostream>
+  using std::cout;
+
+  int main() {
+      cout << "Hello World!\n";
+      return 0;
+  }
+
+  $ mips-linux-gnu-g++ -o hello hello.cpp && ./hello
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+
+  Note that 64-bit MIPS and little endian 32-bit MIPS qemu work fine.
+  The problem is limited to big endian 32-bit MIPS.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877015/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1860056/+subscriptions
 
