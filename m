@@ -2,76 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 752AF1C6DC5
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 11:56:31 +0200 (CEST)
-Received: from localhost ([::1]:45702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F356C1C6DEF
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 12:04:58 +0200 (CEST)
+Received: from localhost ([::1]:46420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWGn0-0007WM-Fb
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 05:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54208)
+	id 1jWGvC-0002nC-0R
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 06:04:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jWGhH-0004zF-HU
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:37 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48104
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jWGh9-0004AQ-Bw
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:50:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588758626;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fntlZxOrQXIy/pcq6sRK0Boh9YWLv+kEEtgN1sPemoY=;
- b=YOBvWUJ9vlO/TJCeNaxVorzaC9/eN5sguQLA5yVeqP1QHq8C95QHHWb/ux4m875sQ+7PjL
- i3xkKlpvHwwH9H9cXW0Wpq8w96uN4HIDvmjt7Erd9OnPrKYDk69jnA75/kW9ILlONCu7rQ
- PtBsP/0qKvOW3Z1PHb0Wbz4A3YojKv8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235--dY5D_JfPF-YpiqQbat7ig-1; Wed, 06 May 2020 05:50:25 -0400
-X-MC-Unique: -dY5D_JfPF-YpiqQbat7ig-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD1078014C0;
- Wed,  6 May 2020 09:50:23 +0000 (UTC)
-Received: from [10.36.114.214] (ovpn-114-214.ams2.redhat.com [10.36.114.214])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D5BF5D9C5;
- Wed,  6 May 2020 09:50:12 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] acpi: Move build_tpm2() in the generic part
-To: Andrew Jones <drjones@redhat.com>
-References: <20200505144419.29174-1-eric.auger@redhat.com>
- <20200505144419.29174-2-eric.auger@redhat.com>
- <20200506063314.4qvnyfonjixcknuj@kamzik.brq.redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <b8b64cf5-d730-20f0-c9e5-d290b8639e5a@redhat.com>
-Date: Wed, 6 May 2020 11:50:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <20200506063314.4qvnyfonjixcknuj@kamzik.brq.redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 23:48:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
+ id 1jWGjK-0000n0-I9; Wed, 06 May 2020 05:52:42 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:49258)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
+ id 1jWGjI-0005GE-MK; Wed, 06 May 2020 05:52:42 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0469nExg010611;
+ Wed, 6 May 2020 09:52:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : subject : from
+ : to : cc : message-id : references : in-reply-to : mime-version :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=xNte2sPIQONrxMh4kopWLxS/WxObBHFeLrhWpVIZ1YE=;
+ b=Ngeba1KnYnERQDQyzeDl6m7lFJY9K1a7+T3AI2vTZZDF7lFrWdro3XlsbV1ZXlHjAlxi
+ N3lrEtt+c2DCjP2VG9TC2oJqfMUuI9Q/4kXzGXREYSX2kTAgpXv4U+QzYRm45UC66L6k
+ yr2tN26SSyY/ITFA3aOOXVY2CbU38qQFgx1iLCkuPMTI/QRFeYW0HJyscaNIjKw3UDVf
+ NUMWMrUck0qYPHYo8y83ATuvT8WKJrQBcrKDLXAUUR85WINsp5WkPtV+mImQHj+B0w98
+ fvoGnpuVFghhzSSmCVrwNLwyehSXvp8hIsWvZs+M6Vo2Qc7+GpsdEniKDk3U9Tig2QNu sQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 30usgq0guj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 May 2020 09:52:35 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0469pjpe061162;
+ Wed, 6 May 2020 09:52:34 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 30t1r7ctex-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 May 2020 09:52:34 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0469qXNw032165;
+ Wed, 6 May 2020 09:52:33 GMT
+Received: from [10.74.121.227] (/10.74.121.227)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 06 May 2020 02:52:33 -0700
+User-Agent: Microsoft-MacOutlook/10.1e.0.191013
+Date: Wed, 06 May 2020 12:52:22 +0300
+Subject: Re: [PATCH 2/2] qemu-img: Add --start-offset and --max-length to map
+From: Eyal Moscovici <eyal.moscovici@oracle.com>
+To: Eric Blake <eblake@redhat.com>, <qemu-devel@nongnu.org>
+Message-ID: <D5701B9A-BC36-4F70-BE80-D4BC4D6B4DA5@oracle.com>
+Thread-Topic: [PATCH 2/2] qemu-img: Add --start-offset and --max-length to map
+References: <20200322091117.79443-1-eyal.moscovici@oracle.com>
+ <20200322091117.79443-3-eyal.moscovici@oracle.com>
+ <30f82564-3807-89d4-e7b1-923868f15705@redhat.com>
+In-Reply-To: <30f82564-3807-89d4-e7b1-923868f15705@redhat.com>
+Mime-version: 1.0
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9612
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ adultscore=0 suspectscore=0
+ spamscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005060077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9612
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 clxscore=1011
+ mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005060076
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=eyal.moscovici@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 05:52:36
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ MIME_QP_LONG_LINE=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,121 +101,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, gshan@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org,
- imammedo@redhat.com, marcandre.lureau@redhat.com, stefanb@linux.ibm.com,
- lersek@redhat.com, ardb@kernel.org, eric.auger.pro@gmail.com
+Cc: Kevin Wolf <kwolf@redhat.com>, liran.alon@oracle.com,
+ Yoav Elnekave <yoav.elnekave@oracle.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Thanks for the review. I will send V2 based on QEMU version 5.0.
 
-On 5/6/20 8:33 AM, Andrew Jones wrote:
-> On Tue, May 05, 2020 at 04:44:17PM +0200, Eric Auger wrote:
->> We plan to build the tpm2 table on ARM too. In order to reuse the
->> generation code, let's move build_tpm2() to aml-build.c.
->>
->> No change in the implementation.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> ---
->>  include/hw/acpi/aml-build.h |  2 ++
->>  hw/acpi/aml-build.c         | 30 ++++++++++++++++++++++++++++++
->>  hw/i386/acpi-build.c        | 30 ------------------------------
->>  3 files changed, 32 insertions(+), 30 deletions(-)
->>
->> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
->> index 0f4ed53d7f..a67ab4618a 100644
->> --- a/include/hw/acpi/aml-build.h
->> +++ b/include/hw/acpi/aml-build.h
->> @@ -437,4 +437,6 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms);
->>  
->>  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->>                  const char *oem_id, const char *oem_table_id);
->> +
->> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog);
->>  #endif
->> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
->> index 2c3702b882..1f7fd09112 100644
->> --- a/hw/acpi/aml-build.c
->> +++ b/hw/acpi/aml-build.c
->> @@ -26,6 +26,7 @@
->>  #include "qemu/bitops.h"
->>  #include "sysemu/numa.h"
->>  #include "hw/boards.h"
->> +#include "hw/acpi/tpm.h"
->>  
->>  static GArray *build_alloc_array(void)
->>  {
->> @@ -1875,6 +1876,35 @@ build_hdr:
->>                   "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
->>  }
->>  
->> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
->> +{
->> +    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof *tpm2_ptr);
->> +    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
->> +    unsigned log_addr_offset =
->> +        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
->> +
->> +    tpm2_ptr->platform_class = cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
->> +    if (TPM_IS_TIS_ISA(tpm_find())) {
->> +        tpm2_ptr->control_area_address = cpu_to_le64(0);
->> +        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_MMIO);
->> +    } else if (TPM_IS_CRB(tpm_find())) {
->> +        tpm2_ptr->control_area_address = cpu_to_le64(TPM_CRB_ADDR_CTRL);
->> +        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_CRB);
->> +    } else {
->> +        g_warn_if_reached();
->> +    }
->> +
->> +    tpm2_ptr->log_area_minimum_length =
->> +        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
->> +
->> +    /* log area start address to be filled by Guest linker */
->> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
->> +                                   log_addr_offset, log_addr_size,
->> +                                   ACPI_BUILD_TPMLOG_FILE, 0);
->> +    build_header(linker, table_data,
->> +                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4, NULL, NULL);
->> +}
->> +
-> 
-> I'll let Igor and mst confirm/deny this, but my understanding was that the
-> build_append* API was the preferred way to create the table. Indeed, I
-> don't see too many table.field = cpu_to_le(...) lines in aml-build.c
-> 
-> I realize this function is just getting moved, but maybe it should get
-> converted to the build_append* API while being moved?
+=EF=BB=BFOn 29/04/2020, 18:06, "Eric Blake" <eblake@redhat.com> wrote:
 
-The reason I did not convert is that the struct is as follows
+    On 3/22/20 4:11 AM, Eyal Moscovici wrote:
+    > The mapping operation of large disks especially ones stored over a
+    > long chain of QCOW2 files can take a long time to finish.
+    > Additionally when mapping fails there was no way recover by
+    > restarting the mapping from the failed location.
+    >=20
+    > The new options, --start-offset and --max-length allows the user to
+    > divide these type of map operations into shorter independent tasks.
+    >=20
+    > Acked-by: Mark Kanda <mark.kanda@oracle.com>
+    > Co-developed-by: Yoav Elnekave <yoav.elnekave@oracle.com>
+    > Signed-off-by: Yoav Elnekave <yoav.elnekave@oracle.com>
+    > Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
+    > ---
+    >   docs/tools/qemu-img.rst |  2 +-
+    >   qemu-img-cmds.hx        |  4 ++--
+    >   qemu-img.c              | 30 +++++++++++++++++++++++++++++-
+    >   3 files changed, 32 insertions(+), 4 deletions(-)
+    >=20
+    > diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+    > index 0080f83a76..924e89f679 100644
+    > --- a/docs/tools/qemu-img.rst
+    > +++ b/docs/tools/qemu-img.rst
+    > @@ -519,7 +519,7 @@ Command description:
+    >       ``ImageInfoSpecific*`` QAPI object (e.g. ``ImageInfoSpecificQCo=
+w2``
+    >       for qcow2 images).
+    >  =20
+    > -.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--outp=
+ut=3DOFMT] [-U] FILENAME
+    > +.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--star=
+t-offset=3Doffset] [--max-length=3Dlen] [--output=3DOFMT] [-U] FILENAME
+   =20
+    Consistency with the rest of the line says this should be=20
+    [--start-offset=3DOFFSET] [--max-length=3DLEN]
 
-struct Acpi20TPM2 {
-    ACPI_TABLE_HEADER_DEF
-    uint16_t platform_class;
-    uint16_t reserved;
-    uint64_t control_area_address;
-    uint32_t start_method;
-    uint8_t start_method_params[12];
-    uint32_t log_area_minimum_length;
-    uint64_t log_area_start_address;
-} QEMU_PACKED;
+Will fix.
+   =20
+    >  =20
+    >     Dump the metadata of image *FILENAME* and its backing file chain.
+    >     In particular, this commands dumps the allocation state of every =
+sector
+    > diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+    > index c9c54de1df..35f832816f 100644
+    > --- a/qemu-img-cmds.hx
+    > +++ b/qemu-img-cmds.hx
+    > @@ -63,9 +63,9 @@ SRST
+    >   ERST
+    >  =20
+    >   DEF("map", img_map,
+    > -    "map [--object objectdef] [--image-opts] [-f fmt] [--output=3Dofmt=
+] [-U] filename")
+    > +    "map [--object objectdef] [--image-opts] [-f fmt] [--start-offse=
+t=3Doffset] [--max-length=3Dlen] [--output=3Dofmt] [-U] filename")
+   =20
+    this one is fine,
+   =20
+    >   SRST
+    > -.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--outp=
+ut=3DOFMT] [-U] FILENAME
+    > +.. option:: map [--object OBJECTDEF] [--image-opts] [-f FMT] [--star=
+t-offset=3DOFFSET] [--max-length=3DLEN] [--output=3DOFMT] [-U] FILENAME
+   =20
+    this one has the same problem as the .rst.
+   =20
+    > @@ -3005,6 +3009,26 @@ static int img_map(int argc, char **argv)
+    >           case OPTION_OUTPUT:
+    >               output =3D optarg;
+    >               break;
+    > +        case 's':
+    > +            start_offset =3D cvtnum(optarg);
+    > +            if (start_offset < 0) {
+    > +                error_report("Invalid start offset specified! You ma=
+y use "
+    > +                             "k, M, G, T, P or E suffixes for ");
+    > +                error_report("kilobytes, megabytes, gigabytes, terab=
+ytes, "
+    > +                             "petabytes and exabytes.");
+   =20
+    Pre-existing elsewhere in the file, but this seems rather verbose -=20
+    shouldn't we have cvtnum() (or another wrapper function) give this extr=
+a=20
+    information about what is valid, rather than open-coding it at every=20
+    client of cvtnum()?
 
+You are probably right I will send a patch that adds the error message  abo=
+ut the units to cvtnum().
+   =20
+    > +                return 1;
+    > +            }
+    > +            break;
+    > +        case 'l':
+    > +            max_length =3D cvtnum(optarg);
+    > +            if (max_length < 0) {
+    > +                error_report("Invalid max length specified! You may =
+use "
+    > +                             "k, M, G, T, P or E suffixes for ");
+    > +                error_report("kilobytes, megabytes, gigabytes, terab=
+ytes, "
+    > +                             "petabytes and exabytes.");
+    > +                return 1;
+    > +            }
+    > +            break;
+    >           case OPTION_OBJECT: {
+    >               QemuOpts *opts;
+    >               opts =3D qemu_opts_parse_noisily(&qemu_object_opts,
+    > @@ -3050,7 +3074,11 @@ static int img_map(int argc, char **argv)
+    >           printf("[");
+    >       }
+    >  =20
+    > +    curr.start =3D start_offset;
+    >       length =3D blk_getlength(blk);
+    > +    if (max_length !=3D -1) {
+    > +        length =3D MIN(start_offset + max_length, length);
+    > +    }
+   =20
+    Pre-existing, but where does this code check for length =3D=3D -1?  But you=
+r=20
+    MIN() doesn't make it any worse (if we fail to get length, we merely=20
+    skip the loop).
 
-If I understand correctly the build_append* adds the fields
-contiguously. It was not straightforward to me how to skip the
-start_method_params array.
+I don't think there is a check. I will add a check in a different patch.
+   =20
+    >       while (curr.start + curr.length < length) {
+    >           int64_t offset =3D curr.start + curr.length;
+    >           int64_t n;
+    >=20
+   =20
+    Overall, the idea makes sense to me.  But I'm not sure which maintainer=
+=20
+    should actually incorporate the patch.
+   =20
+    Reviewed-by: Eric Blake <eblake@redhat.com>
+   =20
+    --=20
+    Eric Blake, Principal Software Engineer
+    Red Hat, Inc.           +1-919-301-3226
+    Virtualization:  qemu.org | libvirt.org
+   =20
+   =20
 
-While we are at it the tcpalog arg is not used. Shall I remove it?
-
-Thanks
-
-Eric
-
-> 
-> Thanks,
-> drew
-> 
-> 
 
 
