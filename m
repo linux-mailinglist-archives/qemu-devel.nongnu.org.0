@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D609F1C6FEB
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:07:04 +0200 (CEST)
-Received: from localhost ([::1]:55576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7431C7004
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:10:12 +0200 (CEST)
+Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWIpL-0007la-Rr
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:07:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56446)
+	id 1jWIsM-0006ET-VA
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:10:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo0-00067G-JP
+ id 1jWIo0-000673-Cj
  for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:40 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33706)
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWInx-0007wv-Ey
+ id 1jWInz-0008V1-10
  for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:40 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id h9so1912706wrt.0
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:33 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id y3so1915521wrt.1
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Kysom4i8NwH5auTulZbYwaQkg2dMIuW11Qe11nlqzl0=;
- b=lvdM2U1MkXwBH3wYb+DNpAxjbIr4daSTWeT4l1dyVH/2IgsF1FLSUodJmFOqDC3GlJ
- AZseuIm/Xh2JWWDi3xvx4PecLYnzbkhu+ujC8Ya1vasK0cHqBa78HU1cFEzA702bGbu9
- LiMpNqi2GHvPwzxYLlHzN33LlArIJNFGLALtwk8NXq3XeO8SDJZb69hhyDh5ZHI6NdxY
- W/iijqi/qrgYlpKPMfFcrSdBOjeLi041wYC5HpHbXYyK23rjCnPrI5xY02q1RR/xwC6D
- jWYAUvBd7jkM4U0M//FQyIpO9OycaG8QZ35s6jXKje0qu4BJvqXVLUA43qRk6QDYWnFT
- 1Obw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=l0ckrCQ5spxnPtMLXsVmR+wvBlQLiCiMnLYuS1h+C5Y=;
+ b=TOqCRSAmCrEql8RrV+2PZsVlf/9uPc+2OpeS/ne9FajwFAQ9RNxkJ091ChmabyS2G2
+ sR0OeB0wD+RqAYZEYlgXvGvP+k3uPRm6fnOD3zq+hG9JawhEfEnY+IiX8WAFNxiiLjE3
+ OBgnPwpT0G/H8dTVlW1VmSnW7hSco/756F1GCQ/aBUVcFvR6tFLASAyPJGQe02N+v3Gn
+ k1r/w18BKAE/ak7mzU5uY4Q8mkjMHmCSaMR5FfNwlKb8owhak5SF9IhBzyPSRwfACvXi
+ xjTlPpLZxMO9BS/29WOYIkTjugmgTZlAxnMMfONte1zzBsCR+BwZwabtNtx1YkzzNJ1I
+ O17w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Kysom4i8NwH5auTulZbYwaQkg2dMIuW11Qe11nlqzl0=;
- b=GF7Xo5tP1nwB5X3KBQ1e2EYypOYgpX652Zj0SPimWvH2DPm514S0pdklvEGsHRQ4mb
- 2PSfvlupfxhzjjSMgpsO4v4ljQ4dd2ZEA67NgnoVMzXPgfK5S/FhDFGO17ogqY3hXitj
- zkLKWSJ+4K9nx7hA+tITSIII+WypO8lEgFZUOLKlcvPz9ux30bsg9yL5MjJxGx1R/TZU
- k/3Tpb306onCTg31FxqRLDKu5Et08VCwvcROPOWCiB9DPnLzRg3EFH1wIA321GUwNVM6
- Lo24nRLVkMA7MbjJZhYTJVjgdFmdoTV6n4N1NEMsx0TuBERnq0wUxauTXDwT5e0fl7nG
- 7DRw==
-X-Gm-Message-State: AGi0PuYb2KBstQvezkYdnsEt46CqnFO2dqSXkakCCuQNwmYewD2CBJ1o
- YM+5tcBc5ebaOwi+MBmxAeU3Ey7jjqo=
-X-Google-Smtp-Source: APiQypJ6zuEixh5269VicW24mmvC9u2mnFAk3axfIp22X86rIqceioeXrN2Rl3t0k9e7Tpq1r/rgJA==
-X-Received: by 2002:adf:ecc3:: with SMTP id s3mr9883839wro.116.1588766732518; 
- Wed, 06 May 2020 05:05:32 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=l0ckrCQ5spxnPtMLXsVmR+wvBlQLiCiMnLYuS1h+C5Y=;
+ b=ZI6Bl2OkJi0cjXoBFV1+/v8iSbegz8pH+x863VY589v73IT9qpWi/sm2iUJysbaUuf
+ 7iWlqu2MjtesxZ/HXnAI2s9BC1K5KwNxkcbm5hejmFAA1UNQG/reTCMoHXUWVUZfPUTl
+ vXO2zQfUSR1oTih1ay/Ih1jLQgnKtUtz3rtiEEvA20wcrpiKbg1qjT8wSASKaZax4FPi
+ RCNb8grpXRYrQL6BlX9vsdcG2Tvuo2KUcCewT61XcrsNTQ7Q2ZWTFJH2UKLaM3RJrMrM
+ DSLoDe5b838G4ibmCImUEBFA63rxBhQX5RzBJqyGUMbN9RwrLmlxxjArkm8rmdQ2gf4Y
+ GCSA==
+X-Gm-Message-State: AGi0PuY/yBALBWSTMpDu1bXue/sedQexBr5e1wVSDT2PBG6la70aywm9
+ CDpsfmqA+qSLNhGf0p1yU87wizlJh28=
+X-Google-Smtp-Source: APiQypJkcGx/j7mGDmCQBPn4ix7LbhHpnk+UVV3jSg5VgUffe9hrgafulRM7Dzj7oK5mTZ5F3Q83BQ==
+X-Received: by 2002:a5d:6107:: with SMTP id v7mr8712424wrt.270.1588766737270; 
+ Wed, 06 May 2020 05:05:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z1sm2741114wmf.15.2020.05.06.05.05.30
+ by smtp.gmail.com with ESMTPSA id v16sm2727775wml.30.2020.05.06.05.05.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 06 May 2020 05:05:30 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AC9091FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id C12A01FF87;
  Wed,  6 May 2020 13:05:29 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/14] testing and gdbstub updates
-Date: Wed,  6 May 2020 13:05:15 +0100
-Message-Id: <20200506120529.18974-1-alex.bennee@linaro.org>
+Subject: [PULL 01/14] .travis.yml: show free disk space at end of run
+Date: Wed,  6 May 2020 13:05:16 +0100
+Message-Id: <20200506120529.18974-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200506120529.18974-1-alex.bennee@linaro.org>
+References: <20200506120529.18974-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -86,79 +88,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f19d118bed77bb95681b07f4e76dbb700c16918d:
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200501111505.4225-2-alex.bennee@linaro.org>
 
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2020-05-04' into staging (2020-05-05 15:47:44 +0100)
-
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-gdbstub-060520-1
-
-for you to fetch changes up to a976ed3ffdede7f64c89ac235d0154d048981b5f:
-
-  target/m68k: fix gdb for m68xxx (2020-05-06 09:29:26 +0100)
-
-----------------------------------------------------------------
-Testing and gdbstub updates:
-
-  - travis: drop macosx, tweak ppc64 native
-  - cirrus: fix FreeBSD, guard against future breakage
-  - gdbstub: support socket debug for linux-user
-  - gdbstub: add multiarch tests
-  - gdbstub: fixes for m68k
-
-----------------------------------------------------------------
-Alex Bennée (11):
-      .travis.yml: show free disk space at end of run
-      .travis.yml: drop MacOSX
-      .cirrus.yml: bump FreeBSD to the current stable release
-      .travis.yml: reduce the load on [ppc64] GCC check-tcg
-      configure: favour gdb-multiarch if we have it
-      tests/tcg: better trap gdb failures
-      tests/tcg: drop inferior.was_attached() test
-      gdbstub: eliminate gdbserver_fd global
-      gdbstub/linux-user: support debugging over a unix socket
-      tests/guest-debug: use the unix socket for linux-user tests
-      tests/tcg: add a multiarch linux-user gdb test
-
-KONRAD Frederic (1):
-      target/m68k: fix gdb for m68xxx
-
-Li-Wen Hsu (1):
-      .cirrus.yml: bootstrap pkg unconditionally
-
-Philippe Mathieu-Daudé (1):
-      gdbstub: Introduce gdb_get_float64() to get 64-bit float registers
-
- configure                                   |   4 +-
- include/exec/gdbstub.h                      |  25 ++++--
- bsd-user/main.c                             |   8 +-
- gdbstub.c                                   | 119 ++++++++++++++++++++++------
- linux-user/main.c                           |  12 +--
- target/m68k/cpu.c                           |  52 ++++++++----
- target/m68k/helper.c                        |   3 +-
- target/ppc/gdbstub.c                        |   4 +-
- target/ppc/translate_init.inc.c             |   2 +-
- .cirrus.yml                                 |   4 +-
- .travis.yml                                 |  31 +-------
- gdb-xml/m68k-core.xml                       |  29 +++++++
- tests/guest-debug/run-test.py               |  30 ++++++-
- tests/tcg/aarch64/Makefile.target           |   5 +-
- tests/tcg/aarch64/gdbstub/test-sve-ioctl.py |   4 -
- tests/tcg/aarch64/gdbstub/test-sve.py       |   4 -
- tests/tcg/cris/Makefile.target              |   1 +
- tests/tcg/multiarch/Makefile.target         |  14 ++++
- tests/tcg/multiarch/gdbstub/sha1.py         |  81 +++++++++++++++++++
- 19 files changed, 328 insertions(+), 104 deletions(-)
- create mode 100644 gdb-xml/m68k-core.xml
- create mode 100644 tests/tcg/multiarch/gdbstub/sha1.py
-
-
+diff --git a/.travis.yml b/.travis.yml
+index 2fd63eceaac..a4c3c6c8058 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -113,6 +113,7 @@ script:
+         $(exit $BUILD_RC);
+     fi
+ after_script:
++  - df -h
+   - if command -v ccache ; then ccache --show-stats ; fi
+ 
+ 
 -- 
 2.20.1
 
