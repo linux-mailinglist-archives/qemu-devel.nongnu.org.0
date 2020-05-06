@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FE21C701A
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:15:39 +0200 (CEST)
-Received: from localhost ([::1]:35630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE49E1C7009
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:11:54 +0200 (CEST)
+Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWIxe-0005su-0Y
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:15:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56558)
+	id 1jWIu1-0000t2-Jv
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:11:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIoD-0006VE-OO
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:53 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:50863)
+ id 1jWIoB-0006Rj-U2
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:51 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo9-0001KO-Ij
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:53 -0400
-Received: by mail-wm1-x333.google.com with SMTP id x25so2318080wmc.0
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:49 -0700 (PDT)
+ id 1jWIoA-0001Oq-J7
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:51 -0400
+Received: by mail-wr1-x434.google.com with SMTP id h9so1913738wrt.0
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nyAFPIx+jq/Ehvwqrvfm8Rt93l3rNEG7Vx2OIJ8VkIQ=;
- b=Fv2QuiVPyYdVWGbLkrMIrlVppH+Uqa6EA92bXpKXg2FW7AV89P/JCOLPNXc4DWPH0F
- wFMkRq0tTgVjRJmId+mAffp6jdGJ5yCmmQUH32X1/MSIXz9Xz6DmrA+DbAq9dv2W7bB4
- zVkJW7+q7Jq3ZPzhavJnPaYOOhS25Uvc+mnb1k+XpE/dzznLmOJLGuc5hNunsBqlPkMn
- uMuZlewPvePHSWuXXT9baVzQ9Z45+ib7QpoybC1FCoPEwIeoC+zKWuD4TW7pzkHQi3LH
- lvymEb6M2lMShWmBz70LtIQA1cY3OJAz+GriMcoQyRt79viRzJhGWOc9IqKnkgrcR+a3
- fUHA==
+ bh=iiQCh//VFjxvmb6d7KKNLbr0lXh1jk7zOyRpXGAoAJ0=;
+ b=sdxmYPddTxb3LN2vOnBpgGedl2sxGR7QRuWnGYv669AaJNgKAUTU9Tye/YSMxkI3jm
+ MzMrY7GwB8nNPBcWOaB2cji+Rzn234pGgGLIJh9G+Mz0y69KkgWj46Nxx8E9AFj7Vhso
+ wAi1acVJoXYNmms2agbSzCui58hvu2gQtMR2VNVMfrOVQbisHb2gXA8JI0ABJEzeXnoU
+ vfrRErCW1Dk+Xsuw4P5Th9utjhxaNWqFdZXGRxma0tqVP8D2zLdB68DVaWRPXPeF/gUf
+ zWmdlMKgAIMKjPr5pfPC5bdrZL8gWatq3FVIhX7c7nBA41wwyiU0w8BJRqLSF/4hxP/0
+ EvVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nyAFPIx+jq/Ehvwqrvfm8Rt93l3rNEG7Vx2OIJ8VkIQ=;
- b=JbiHLgi1k+lISQ+VxW+WWEMQAexFgwQeLqOUYSbtGnU39b32tWBhJnjsRRnR18F8vZ
- E6jSQKIk5gjBWm4PqmJkpASH7xiI2Vcz2JCusp0lDcIlpu2QibkyMzt0kHnmtTe65wWQ
- Jv11Zfb38JR5oT2esy7OiS7WP5/TUwiD5JYxKakEtXTuHWZ94oZ9LTDUKOBC5RyrMSL3
- uPYU07eJmOzJbeoQzC43k2CIR4RSqODKY7R0rcirnapDsN6dLoMOWjig5QIAPYV6c9dK
- 2vozimWdbbhEJAI3dOZT7oIQk556A7gr48PT8mk1zULAOzduFOTZ3tR2n7x/pw+Znsh8
- V3ig==
-X-Gm-Message-State: AGi0Pua4D/LaJnvw+jwNuGly+KIQmOOREiy+YHNYe2IaZfbIiSCVDAQ6
- upDMyVyq6UYLGr8RTju5fc205Q==
-X-Google-Smtp-Source: APiQypLrV6q5jm9EqKG/26cy/pXbFw87ZVA4HzZ69cnDNOfqe6nihnOFWY49E6EDL+KmAfnXYJM+2A==
-X-Received: by 2002:a05:600c:2314:: with SMTP id
- 20mr3944827wmo.35.1588766748127; 
- Wed, 06 May 2020 05:05:48 -0700 (PDT)
+ bh=iiQCh//VFjxvmb6d7KKNLbr0lXh1jk7zOyRpXGAoAJ0=;
+ b=hXeBv2x1EENaQ6MwhNGs+kn11PAUJBRbEUqbU7plo0wZjI2F+pp6zPoLJh/OysLZPG
+ q8QexsJpP3/hXlTQ6qRRJdfSKqcxM7fzJ7tgO3wQ38sHT84mneb6LGIZU5k2xD+kQKoi
+ t7E4aGi1MC7XnEJmU6amhMXMY8onUXVZzLqVvGRDwAaRRQXZHDoiEh5wZgom5GK06AMl
+ rxovqX90mrNEVPII0DZ3hBhAFPNq5GX3QM65PdV7W5zVIOyQPi/C5FTiBrTR1RC4Boo1
+ TorpgfFBFgg4mzt47j0XhJlbr+zzb5/NMSgRwCsjhXgQa+0nGcj1d4SmONzU+U4ZypLY
+ JrYg==
+X-Gm-Message-State: AGi0PuZP5qCA6q/LwoLeFCR/hUcM1q4HqT1Wnj927oMVvVoNmVdWUTiJ
+ aQ71fN4Di+848GkJ/7qSl9lHMg==
+X-Google-Smtp-Source: APiQypIrfaBNf8xh6nnne+NS1iggKY9AWVxwwHCJzE2XrJ0ZH9EWjWzgTIXPPqK4AtiCMoe2DO4J9w==
+X-Received: by 2002:adf:ed82:: with SMTP id c2mr9822818wro.255.1588766749088; 
+ Wed, 06 May 2020 05:05:49 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 185sm2935370wmc.32.2020.05.06.05.05.38
+ by smtp.gmail.com with ESMTPSA id u12sm2855904wmu.25.2020.05.06.05.05.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 05:05:45 -0700 (PDT)
+ Wed, 06 May 2020 05:05:46 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E32711FF9C;
- Wed,  6 May 2020 13:05:30 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 063761FF9D;
+ Wed,  6 May 2020 13:05:31 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/14] tests/tcg: add a multiarch linux-user gdb test
-Date: Wed,  6 May 2020 13:05:28 +0100
-Message-Id: <20200506120529.18974-14-alex.bennee@linaro.org>
+Subject: [PULL 14/14] target/m68k: fix gdb for m68xxx
+Date: Wed,  6 May 2020 13:05:29 +0100
+Message-Id: <20200506120529.18974-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200506120529.18974-1-alex.bennee@linaro.org>
 References: <20200506120529.18974-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,167 +88,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the gdbstub code was converted to the new API we missed a few
-snafus in the various guests. Add a simple gdb test script which can
-be used on all our linux-user guests to check for obvious failures.
+From: KONRAD Frederic <frederic.konrad@adacore.com>
 
+Currently "cf-core.xml" is sent to GDB when using any m68k flavor.  Thing is
+it uses the "org.gnu.gdb.coldfire.core" feature name and gdb 8.3 then expects
+a coldfire FPU instead of the default m68881 FPU.
+
+This is not OK because the m68881 floats registers are 96 bits wide so it
+crashes GDB with the following error message:
+
+(gdb) target remote localhost:7960
+Remote debugging using localhost:7960
+warning: Register "fp0" has an unsupported size (96 bits)
+warning: Register "fp1" has an unsupported size (96 bits)
+...
+Remote 'g' packet reply is too long (expected 148 bytes, got 180 bytes):    \
+  00000000000[...]0000
+
+With this patch: qemu-system-m68k -M none -cpu m68020 -s -S
+
+(gdb) tar rem :1234
+Remote debugging using :1234
+warning: No executable has been specified and target does not support
+determining executable automatically.  Try using the "file" command.
+0x00000000 in ?? ()
+(gdb) p $fp0
+$1 = nan(0xffffffffffffffff)
+
+Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200430190122.4592-9-alex.bennee@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <1588094279-17913-3-git-send-email-frederic.konrad@adacore.com>
+Message-Id: <20200430190122.4592-10-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index d99b2a9eced..312f36cde5f 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -54,9 +54,6 @@ sve-ioctls: CFLAGS+=-march=armv8.1-a+sve
- ifneq ($(HAVE_GDB_BIN),)
- GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
+diff --git a/configure b/configure
+index c58787100f1..0d69c360c0e 100755
+--- a/configure
++++ b/configure
+@@ -7825,7 +7825,7 @@ case "$target_name" in
+   ;;
+   m68k)
+     bflt="yes"
+-    gdb_xml_files="cf-core.xml cf-fp.xml m68k-fp.xml"
++    gdb_xml_files="cf-core.xml cf-fp.xml m68k-core.xml m68k-fp.xml"
+     TARGET_SYSTBL_ABI=common
+   ;;
+   microblaze|microblazeel)
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index 9445fcd6df5..72c545149e9 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -292,16 +292,38 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
+     cc->tcg_initialize = m68k_tcg_init;
  
--AARCH64_TESTS += gdbstub-sysregs gdbstub-sve-ioctls
--
--.PHONY: gdbstub-sysregs gdbstub-sve-ioctls
- run-gdbstub-sysregs: sysregs
- 	$(call run-test, $@, $(GDB_SCRIPT) \
- 		--gdb $(HAVE_GDB_BIN) \
-@@ -70,6 +67,8 @@ run-gdbstub-sve-ioctls: sve-ioctls
- 		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
- 		--bin $< --test $(AARCH64_SRC)/gdbstub/test-sve-ioctl.py, \
- 	"basic gdbstub SVE ZLEN support")
-+
-+EXTRA_RUNS += run-gdbstub-sysregs run-gdbstub-sve-ioctls
- endif
+     cc->gdb_num_core_regs = 18;
+-    cc->gdb_core_xml_file = "cf-core.xml";
  
- endif
-diff --git a/tests/tcg/cris/Makefile.target b/tests/tcg/cris/Makefile.target
-index 24c7f2e7616..e72d3cbdb23 100644
---- a/tests/tcg/cris/Makefile.target
-+++ b/tests/tcg/cris/Makefile.target
-@@ -23,6 +23,7 @@ CRIS_RUNS = $(patsubst %, run-%, $(CRIS_USABLE_TESTS))
+     dc->vmsd = &vmstate_m68k_cpu;
+ }
  
- # override the list of tests, as we can't build the multiarch tests
- TESTS = $(CRIS_USABLE_TESTS)
-+EXTRA_RUNS =
- VPATH = $(CRIS_SRC)
+-#define DEFINE_M68K_CPU_TYPE(cpu_model, initfn) \
+-    {                                           \
+-        .name = M68K_CPU_TYPE_NAME(cpu_model),  \
+-        .instance_init = initfn,                \
+-        .parent = TYPE_M68K_CPU,                \
++static void m68k_cpu_class_init_cf_core(ObjectClass *c, void *data)
++{
++    CPUClass *cc = CPU_CLASS(c);
++
++    cc->gdb_core_xml_file = "cf-core.xml";
++}
++
++#define DEFINE_M68K_CPU_TYPE_CF(model)               \
++    {                                                \
++        .name = M68K_CPU_TYPE_NAME(#model),          \
++        .instance_init = model##_cpu_initfn,         \
++        .parent = TYPE_M68K_CPU,                     \
++        .class_init = m68k_cpu_class_init_cf_core    \
++    }
++
++static void m68k_cpu_class_init_m68k_core(ObjectClass *c, void *data)
++{
++    CPUClass *cc = CPU_CLASS(c);
++
++    cc->gdb_core_xml_file = "m68k-core.xml";
++}
++
++#define DEFINE_M68K_CPU_TYPE_M68K(model)             \
++    {                                                \
++        .name = M68K_CPU_TYPE_NAME(#model),          \
++        .instance_init = model##_cpu_initfn,         \
++        .parent = TYPE_M68K_CPU,                     \
++        .class_init = m68k_cpu_class_init_m68k_core  \
+     }
  
- AS	= $(CC) -x assembler-with-cpp
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index 035b09c8533..51fb75ecfdd 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -42,5 +42,19 @@ run-test-mmap-%: test-mmap
- 	$(call run-test, test-mmap-$*, $(QEMU) -p $* $<,\
- 		"$< ($* byte pages) on $(TARGET_NAME)")
+ static const TypeInfo m68k_cpus_type_infos[] = {
+@@ -314,15 +336,15 @@ static const TypeInfo m68k_cpus_type_infos[] = {
+         .class_size = sizeof(M68kCPUClass),
+         .class_init = m68k_cpu_class_init,
+     },
+-    DEFINE_M68K_CPU_TYPE("m68000", m68000_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m68020", m68020_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m68030", m68030_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m68040", m68040_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m68060", m68060_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m5206", m5206_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("m5208", m5208_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("cfv4e", cfv4e_cpu_initfn),
+-    DEFINE_M68K_CPU_TYPE("any", any_cpu_initfn),
++    DEFINE_M68K_CPU_TYPE_M68K(m68000),
++    DEFINE_M68K_CPU_TYPE_M68K(m68020),
++    DEFINE_M68K_CPU_TYPE_M68K(m68030),
++    DEFINE_M68K_CPU_TYPE_M68K(m68040),
++    DEFINE_M68K_CPU_TYPE_M68K(m68060),
++    DEFINE_M68K_CPU_TYPE_CF(m5206),
++    DEFINE_M68K_CPU_TYPE_CF(m5208),
++    DEFINE_M68K_CPU_TYPE_CF(cfv4e),
++    DEFINE_M68K_CPU_TYPE_CF(any),
+ };
  
-+ifneq ($(HAVE_GDB_BIN),)
-+GDB_SCRIPT=$(SRC_PATH)/tests/guest-debug/run-test.py
-+
-+run-gdbstub-sha1: sha1
-+	$(call run-test, $@, $(GDB_SCRIPT) \
-+		--gdb $(HAVE_GDB_BIN) \
-+		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
-+		--bin $< --test $(MULTIARCH_SRC)/gdbstub/sha1.py, \
-+	"basic gdbstub support")
-+
-+EXTRA_RUNS += run-gdbstub-sha1
-+endif
-+
-+
- # Update TESTS
- TESTS += $(MULTIARCH_TESTS)
-diff --git a/tests/tcg/multiarch/gdbstub/sha1.py b/tests/tcg/multiarch/gdbstub/sha1.py
+ DEFINE_TYPES(m68k_cpus_type_infos)
+diff --git a/gdb-xml/m68k-core.xml b/gdb-xml/m68k-core.xml
 new file mode 100644
-index 00000000000..734553b98bb
+index 00000000000..5b092d26de0
 --- /dev/null
-+++ b/tests/tcg/multiarch/gdbstub/sha1.py
-@@ -0,0 +1,81 @@
-+from __future__ import print_function
-+#
-+# A very simple smoke test for debugging the SHA1 userspace test on
-+# each target.
-+#
-+# This is launched via tests/guest-debug/run-test.py
-+#
++++ b/gdb-xml/m68k-core.xml
+@@ -0,0 +1,29 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2008 Free Software Foundation, Inc.
 +
-+import gdb
-+import sys
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.m68k.core">
++  <reg name="d0" bitsize="32"/>
++  <reg name="d1" bitsize="32"/>
++  <reg name="d2" bitsize="32"/>
++  <reg name="d3" bitsize="32"/>
++  <reg name="d4" bitsize="32"/>
++  <reg name="d5" bitsize="32"/>
++  <reg name="d6" bitsize="32"/>
++  <reg name="d7" bitsize="32"/>
++  <reg name="a0" bitsize="32" type="data_ptr"/>
++  <reg name="a1" bitsize="32" type="data_ptr"/>
++  <reg name="a2" bitsize="32" type="data_ptr"/>
++  <reg name="a3" bitsize="32" type="data_ptr"/>
++  <reg name="a4" bitsize="32" type="data_ptr"/>
++  <reg name="a5" bitsize="32" type="data_ptr"/>
++  <reg name="fp" bitsize="32" type="data_ptr"/>
++  <reg name="sp" bitsize="32" type="data_ptr"/>
 +
-+initial_vlen = 0
-+failcount = 0
++  <reg name="ps" bitsize="32"/>
++  <reg name="pc" bitsize="32" type="code_ptr"/>
 +
-+def report(cond, msg):
-+    "Report success/fail of test"
-+    if cond:
-+        print("PASS: %s" % (msg))
-+    else:
-+        print("FAIL: %s" % (msg))
-+        global failcount
-+        failcount += 1
-+
-+def check_break(sym_name):
-+    "Setup breakpoint, continue and check we stopped."
-+    sym, ok = gdb.lookup_symbol(sym_name)
-+    bp = gdb.Breakpoint(sym_name)
-+
-+    gdb.execute("c")
-+
-+    # hopefully we came back
-+    end_pc = gdb.parse_and_eval('$pc')
-+    report(bp.hit_count == 1,
-+           "break @ %s (%s %d hits)" % (end_pc, sym.value(), bp.hit_count))
-+
-+    bp.delete()
-+
-+def run_test():
-+    "Run through the tests one by one"
-+
-+    check_break("SHA1Init")
-+
-+    # check step and inspect values
-+    gdb.execute("next")
-+    val_ctx = gdb.parse_and_eval("context->state[0]")
-+    exp_ctx = 0x67452301
-+    report(int(val_ctx) == exp_ctx, "context->state[0] == %x" % exp_ctx);
-+
-+    gdb.execute("next")
-+    val_ctx = gdb.parse_and_eval("context->state[1]")
-+    exp_ctx = 0xEFCDAB89
-+    report(int(val_ctx) == exp_ctx, "context->state[1] == %x" % exp_ctx);
-+
-+    # finally check we don't barf inspecting registers
-+    gdb.execute("info registers")
-+
-+#
-+# This runs as the script it sourced (via -x, via run-test.py)
-+#
-+try:
-+    inferior = gdb.selected_inferior()
-+    arch = inferior.architecture()
-+    print("ATTACHED: %s" % arch.name())
-+except (gdb.error, AttributeError):
-+    print("SKIPPING (not connected)", file=sys.stderr)
-+    exit(0)
-+
-+try:
-+    # These are not very useful in scripts
-+    gdb.execute("set pagination off")
-+    gdb.execute("set confirm off")
-+
-+    # Run the actual tests
-+    run_test()
-+except (gdb.error):
-+    print ("GDB Exception: %s" % (sys.exc_info()[0]))
-+    failcount += 1
-+    pass
-+
-+print("All tests complete: %d failures" % failcount)
-+exit(failcount)
++</feature>
 -- 
 2.20.1
 
