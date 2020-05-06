@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4059F1C7559
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 17:51:59 +0200 (CEST)
-Received: from localhost ([::1]:38312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317CB1C7586
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 17:58:15 +0200 (CEST)
+Received: from localhost ([::1]:46520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWML0-0005On-9C
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 11:51:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48396)
+	id 1jWMR4-0000aE-87
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 11:58:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWMK5-0004SO-1I
- for qemu-devel@nongnu.org; Wed, 06 May 2020 11:51:01 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49058
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jWMPy-0007vH-J6
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 11:57:06 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49722
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWMK3-0004JP-D8
- for qemu-devel@nongnu.org; Wed, 06 May 2020 11:51:00 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jWMPw-0004DH-F4
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 11:57:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588780257;
+ s=mimecast20190719; t=1588780623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VULCnDPgL5DVyhX2itzPVRGNJBt9JanNGL6XQI1qFEo=;
- b=fw05EKYLjqsXxur8UC0eXhULbnRtA/Cd6flC7WnCsJGXilbF162pgviAdOVJwc3SlDh1xc
- nGUKizX7OGSus6aNVvkV7nIto65wPUTIF5nf/WqqevSYd19yVYkFcxeLXwnoNNDi9XcnpH
- YbiwvY9fc//HHT0Cnt+F+Wdz9ijTtpE=
+ bh=+TMGCDYFMQDQHhAHC4nM0k55f8ZpjUDsqA39MHbiTUM=;
+ b=BMiGTQpYW7fkxUQsyFuTJnt2KfoHlr8HVp0hUYkvx7Z/viV8KbGZR5UUGtHxW5/x58vtUm
+ qgiMt0KtbyLRgqYvLel9KeBysvbfvUUPOZJTDjYdW+7Zm/9mhaZNvrzHx2NGQp+Dm3/3RT
+ mCtLi87FGTS3UlUkFYi14tT0W0Tx3gw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-ytZnQZUWMYy-yKf2h3X20A-1; Wed, 06 May 2020 11:50:48 -0400
-X-MC-Unique: ytZnQZUWMYy-yKf2h3X20A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-486-ZO3F7TG1NX6oVYT84oO3QA-1; Wed, 06 May 2020 11:57:01 -0400
+X-MC-Unique: ZO3F7TG1NX6oVYT84oO3QA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D4BD45F;
- Wed,  6 May 2020 15:50:46 +0000 (UTC)
-Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E6335C1D4;
- Wed,  6 May 2020 15:50:41 +0000 (UTC)
-Subject: Re: [PATCH 8/8] block: drop unallocated_blocks_are_zero
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200506092513.20904-1-vsementsov@virtuozzo.com>
- <20200506092513.20904-9-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <11bf5052-fe99-797f-3f76-5998f7376b54@redhat.com>
-Date: Wed, 6 May 2020 10:50:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82A7F460;
+ Wed,  6 May 2020 15:57:00 +0000 (UTC)
+Received: from gondolin (ovpn-112-211.ams2.redhat.com [10.36.112.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE1C860619;
+ Wed,  6 May 2020 15:56:58 +0000 (UTC)
+Date: Wed, 6 May 2020 17:56:56 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>
+Subject: Re: [PATCH v4 3/6] vfio-ccw: Add support for the schib region
+Message-ID: <20200506175656.53f60dc1.cohuck@redhat.com>
+In-Reply-To: <20200505125757.98209-4-farman@linux.ibm.com>
+References: <20200505125757.98209-1-farman@linux.ibm.com>
+ <20200505125757.98209-4-farman@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200506092513.20904-9-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 02:39:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 04:02:22
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,26 +79,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, ronniesahlberg@gmail.com,
- codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org
+Cc: Halil Pasic <pasic@linux.ibm.com>, Jason Herne <jjherne@linux.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Jared Rossi <jrossi@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/20 4:25 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Currently this field only set by qed and qcow2. But in fact, all
-> backing-supporting formats (parallels, qcow, qcow2, qed, vmdk) share
-> this semantics: on unallocated blocks, if there is no backing file they
-> just memset the buffer with zeroes.
+On Tue,  5 May 2020 14:57:54 +0200
+Eric Farman <farman@linux.ibm.com> wrote:
 
-In checking the behavior of all 5 .supports_backing drivers, I noticed 
-that qed.c:qed_read_backing_file() does a lot of redundant work in 
-computing the backing file size itself, when it could just defer to the 
-block layer like all the other drivers do.  That would be a separate patch.
+> From: Farhan Ali <alifm@linux.ibm.com>
+> 
+> The schib region can be used to obtain the latest SCHIB from the host
+> passthrough subchannel. Since the guest SCHIB is virtualized,
+> we currently only update the path related information so that the
+> guest is aware of any path related changes when it issues the
+> 'stsch' instruction.
+> 
+> Signed-off-by: Farhan Ali <alifm@linux.ibm.com>
+> Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> ---
+> 
+> Notes:
+>     v1->v2:
+>      - Remove silly variable intialization, and add a block comment,
+>        to css_do_stsch() [CH]
+>      - Add a TODO statement to s390_ccw_store(), for myself to sort
+>        out while we go over kernel code more closely [CH/EF]
+>      - In vfio_ccw_handle_store(),
+>         - Set schib pointer once region is determined to be non-NULL [CH]
+>         - Return cc=0 if pread() fails, and log an error [CH]
+>     
+>     v0->v1: [EF]
+>      - Change various incarnations of "update chp status" to
+>        "handle_store", to reflect the STSCH instruction that will
+>        drive this code
+>      - Remove temporary variable for casting/testing purposes in
+>        s390_ccw_store(), and add a block comment of WHY its there.
+>      - Add a few comments to vfio_ccw_handle_store()
+> 
+>  hw/s390x/css.c              | 13 ++++++--
+>  hw/s390x/s390-ccw.c         | 21 +++++++++++++
+>  hw/vfio/ccw.c               | 63 +++++++++++++++++++++++++++++++++++++
+>  include/hw/s390x/css.h      |  3 +-
+>  include/hw/s390x/s390-ccw.h |  1 +
+>  target/s390x/ioinst.c       |  3 +-
+>  6 files changed, 99 insertions(+), 5 deletions(-)
+> 
+(...)
+>  
+> +static IOInstEnding vfio_ccw_handle_store(SubchDev *sch)
+> +{
+> +    S390CCWDevice *cdev = sch->driver_data;
+> +    VFIOCCWDevice *vcdev = DO_UPCAST(VFIOCCWDevice, cdev, cdev);
+> +    SCHIB *schib = &sch->curr_status;
+> +    struct ccw_schib_region *region = vcdev->schib_region;
+> +    SCHIB *s;
+> +    int ret;
+> +
+> +    /* schib region not available so nothing else to do */
+> +    if (!region) {
+> +        return IOINST_CC_EXPECTED;
+> +    }
+> +
+> +    memset(region, 0, sizeof(*region));
+> +    ret = pread(vcdev->vdev.fd, region, vcdev->schib_region_size,
+> +                vcdev->schib_region_offset);
+> +
+> +    if (ret == -1) {
+> +        /*
+> +         * Device is probably damaged, but store subchannel does not
+> +         * have a nonzero cc defined for this scenario.  Log an error,
+> +         * and presume things are otherwise fine.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+One thing we might do is set the device number valid bit to 0 in our
+local copy and inject a (subchannel) crw. Maybe as a patch on top later.
+
+> +         */
+> +        error_report("vfio-ccw: store region read failed with errno=%d", errno);
+> +        return IOINST_CC_EXPECTED;
+> +    }
+> +
+> +    /*
+> +     * Selectively copy path-related bits of the SCHIB,
+> +     * rather than copying the entire struct.
+> +     */
+> +    s = (SCHIB *)region->schib_area;
+> +    schib->pmcw.pnom = s->pmcw.pnom;
+> +    schib->pmcw.lpum = s->pmcw.lpum;
+> +    schib->pmcw.pam = s->pmcw.pam;
+> +    schib->pmcw.pom = s->pmcw.pom;
+> +
+> +    if (s->scsw.flags & SCSW_FLAGS_MASK_PNO) {
+> +        schib->scsw.flags |= SCSW_FLAGS_MASK_PNO;
+> +    }
+> +
+> +    return IOINST_CC_EXPECTED;
+> +}
+> +
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
