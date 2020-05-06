@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4397C1C702B
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:20:11 +0200 (CEST)
-Received: from localhost ([::1]:37944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C6A1C70AC
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:47:16 +0200 (CEST)
+Received: from localhost ([::1]:53644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWJ22-0007Bs-9l
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:20:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58496)
+	id 1jWJSF-0007UW-6D
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:47:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1jWJ1G-0006lV-MU; Wed, 06 May 2020 08:19:22 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53683)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWJR8-000727-0x
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:46:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1jWJ1D-0004fj-Jo; Wed, 06 May 2020 08:19:22 -0400
-Received: by mail-wm1-x344.google.com with SMTP id k12so2340965wmj.3;
- Wed, 06 May 2020 05:19:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q5Os8dyJUPDIZSodvUQVJilx4gN1PaRSjUCuQBbM0mQ=;
- b=Zl/YPtzCbjnKh6wZrq+ztO4RT2QB7HVj/Fm35cN0vmJFvqFi13cmxN5LIsm5d03CLI
- fu0+rrx1Vna/2asInbpRTI7RCxeXJxZP0zCB3nZd5VQhDpxdoXdyVeiO1IB9OQH13UYd
- NYEvcWGgcIQpfRFnxGg8STfhlrXBReejpxNtxUS+nmDTHfwJe6j00fFUYhxDcBQeH2bn
- pdy77N2b5mgi6C04szucCsLccyVT2OOlGN7ebAjodQWwjdo00MAXtUcmlZP3oYtz89pt
- iKd/8rTY2QlN0FnxTaFVTQzzm2qN6TTpzHTpF51Phw/g/i0Wn1opMGqz8Yh8AHFYdY94
- lirA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q5Os8dyJUPDIZSodvUQVJilx4gN1PaRSjUCuQBbM0mQ=;
- b=RyKh+xrJvcUeXwqUsGMALacTgxT7/ZW4oX3G9T78MDo8HgwejxZlKnL8lBPjbq8gl6
- HWI+lc1Fi1Ub9a7mX34IZBrlaHWIyRs3pGUKx64Fj04+zQZn7G6EzSPqnh5s29t6LT9f
- pF4DVx+GRAQzfqeJUK47daH0pC/7jXpdqy1KcUTECkwMMCesbNxZfTnh978ddQNRYpfd
- 0OhrJqQsX0OZEZ5tOE9eru6/5tiemqzX8Zgk4YKyKBK7n3gsPCTCgoee875aYYq49U3/
- w3d56bVaG4iP9dLnaC3Nb4LTn5S3nYPKHZ3R2QUCfB2lRu4eCW22GxeWrHqnZLOvF5on
- oiIA==
-X-Gm-Message-State: AGi0PuZ/pIYCaQ7EzyzqWOII4D7fBvYNsHtrORW9PCeXJo/H6K4s9+Y9
- ifs/SgxyhzQAvqVnxgOxzgzZFe83rhCgzxhZVm4=
-X-Google-Smtp-Source: APiQypLeVpH913RfqJfPYP+brXYqrIS3pVomgf/Ib0DVEAcv2ZzAJrpwgG3sdpFOPJ5/HfFPbqmzCByzbt0QkhZ5Ytk=
-X-Received: by 2002:a1c:3c08:: with SMTP id j8mr4111430wma.30.1588767557342;
- Wed, 06 May 2020 05:19:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWJR6-0003vT-Pc
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:46:05 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jWJR3-0000qy-9s
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 12:46:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 64B5A2E8133
+ for <qemu-devel@nongnu.org>; Wed,  6 May 2020 12:45:58 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200506094948.76388-1-david@redhat.com>
- <20200506094948.76388-16-david@redhat.com>
-In-Reply-To: <20200506094948.76388-16-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 6 May 2020 14:19:06 +0200
-Message-ID: <CAM9Jb+gZGjWUthoU4E3U4nAowa2Kr8_5PWBZ0VkdAtL86TPE2A@mail.gmail.com>
-Subject: Re: [PATCH v1 15/17] pc: Support for virtio-mem-pci
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 06 May 2020 12:34:12 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1877052@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer weller-andreas-weller
+X-Launchpad-Bug-Reporter: Andreas Weller (weller-andreas-weller)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer?=
+ =?utf-8?q?=29?=
+References: <158875190128.5304.17617014708809905297.malonedeb@soybean.canonical.com>
+Message-Id: <158876845224.12738.1330753240934953846.malone@gac.canonical.com>
+Subject: [Bug 1877052] Re: KVM Win 10 guest pauses after kernel upgrade
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d94db5c2a41e6259f26fdaf9a213fd05cc1517a5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 08:46:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,174 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1877052 <1877052@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Let's wire it up similar to virtio-pmem. Also disallow unplug, so it's
-> harder for users to shoot themselves into the foot.
->
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/i386/Kconfig |  1 +
->  hw/i386/pc.c    | 49 ++++++++++++++++++++++++++++---------------------
->  2 files changed, 29 insertions(+), 21 deletions(-)
->
-> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-> index c93f32f657..03e347b207 100644
-> --- a/hw/i386/Kconfig
-> +++ b/hw/i386/Kconfig
-> @@ -35,6 +35,7 @@ config PC
->      select ACPI_PCI
->      select ACPI_VMGENID
->      select VIRTIO_PMEM_SUPPORTED
-> +    select VIRTIO_MEM_SUPPORTED
->
->  config PC_PCI
->      bool
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index f6b8431c8b..588804f895 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -86,6 +86,7 @@
->  #include "hw/net/ne2000-isa.h"
->  #include "standard-headers/asm-x86/bootparam.h"
->  #include "hw/virtio/virtio-pmem-pci.h"
-> +#include "hw/virtio/virtio-mem-pci.h"
->  #include "hw/mem/memory-device.h"
->  #include "sysemu/replay.h"
->  #include "qapi/qmp/qerror.h"
-> @@ -1654,8 +1655,8 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
->      numa_cpu_pre_plug(cpu_slot, dev, errp);
->  }
->
-> -static void pc_virtio_pmem_pci_pre_plug(HotplugHandler *hotplug_dev,
-> -                                        DeviceState *dev, Error **errp)
-> +static void pc_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
-> +                                      DeviceState *dev, Error **errp)
->  {
->      HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
->      Error *local_err = NULL;
-> @@ -1666,7 +1667,8 @@ static void pc_virtio_pmem_pci_pre_plug(HotplugHandler *hotplug_dev,
->           * order. This should never be the case on x86, however better add
->           * a safety net.
->           */
-> -        error_setg(errp, "virtio-pmem-pci not supported on this bus.");
-> +        error_setg(errp,
-> +                   "virtio based memory devices not supported on this bus.");
->          return;
->      }
->      /*
-> @@ -1681,8 +1683,8 @@ static void pc_virtio_pmem_pci_pre_plug(HotplugHandler *hotplug_dev,
->      error_propagate(errp, local_err);
->  }
->
-> -static void pc_virtio_pmem_pci_plug(HotplugHandler *hotplug_dev,
-> -                                    DeviceState *dev, Error **errp)
-> +static void pc_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
-> +                                  DeviceState *dev, Error **errp)
->  {
->      HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
->      Error *local_err = NULL;
-> @@ -1700,17 +1702,17 @@ static void pc_virtio_pmem_pci_plug(HotplugHandler *hotplug_dev,
->      error_propagate(errp, local_err);
->  }
->
-> -static void pc_virtio_pmem_pci_unplug_request(HotplugHandler *hotplug_dev,
-> -                                              DeviceState *dev, Error **errp)
-> +static void pc_virtio_md_pci_unplug_request(HotplugHandler *hotplug_dev,
-> +                                            DeviceState *dev, Error **errp)
->  {
-> -    /* We don't support virtio pmem hot unplug */
-> -    error_setg(errp, "virtio pmem device unplug not supported.");
-> +    /* We don't support hot unplug of virtio based memory devices */
-> +    error_setg(errp, "virtio based memory devices cannot be unplugged.");
->  }
->
-> -static void pc_virtio_pmem_pci_unplug(HotplugHandler *hotplug_dev,
-> -                                      DeviceState *dev, Error **errp)
-> +static void pc_virtio_md_pci_unplug(HotplugHandler *hotplug_dev,
-> +                                    DeviceState *dev, Error **errp)
->  {
-> -    /* We don't support virtio pmem hot unplug */
-> +    /* We don't support hot unplug of virtio based memory devices */
->  }
->
->  static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-> @@ -1720,8 +1722,9 @@ static void pc_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->          pc_memory_pre_plug(hotplug_dev, dev, errp);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
->          pc_cpu_pre_plug(hotplug_dev, dev, errp);
-> -    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
-> -        pc_virtio_pmem_pci_pre_plug(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-> +               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        pc_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
->      }
->  }
->
-> @@ -1732,8 +1735,9 @@ static void pc_machine_device_plug_cb(HotplugHandler *hotplug_dev,
->          pc_memory_plug(hotplug_dev, dev, errp);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
->          pc_cpu_plug(hotplug_dev, dev, errp);
-> -    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
-> -        pc_virtio_pmem_pci_plug(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-> +               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        pc_virtio_md_pci_plug(hotplug_dev, dev, errp);
->      }
->  }
->
-> @@ -1744,8 +1748,9 @@ static void pc_machine_device_unplug_request_cb(HotplugHandler *hotplug_dev,
->          pc_memory_unplug_request(hotplug_dev, dev, errp);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
->          pc_cpu_unplug_request_cb(hotplug_dev, dev, errp);
-> -    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
-> -        pc_virtio_pmem_pci_unplug_request(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-> +               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        pc_virtio_md_pci_unplug_request(hotplug_dev, dev, errp);
->      } else {
->          error_setg(errp, "acpi: device unplug request for not supported device"
->                     " type: %s", object_get_typename(OBJECT(dev)));
-> @@ -1759,8 +1764,9 @@ static void pc_machine_device_unplug_cb(HotplugHandler *hotplug_dev,
->          pc_memory_unplug(hotplug_dev, dev, errp);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_CPU)) {
->          pc_cpu_unplug_cb(hotplug_dev, dev, errp);
-> -    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
-> -        pc_virtio_pmem_pci_unplug(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-> +               object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        pc_virtio_md_pci_unplug(hotplug_dev, dev, errp);
->      } else {
->          error_setg(errp, "acpi: device unplug for not supported device"
->                     " type: %s", object_get_typename(OBJECT(dev)));
-> @@ -1772,7 +1778,8 @@ static HotplugHandler *pc_get_hotplug_handler(MachineState *machine,
->  {
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
->          object_dynamic_cast(OBJECT(dev), TYPE_CPU) ||
-> -        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI)) {
-> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_PMEM_PCI) ||
-> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
->          return HOTPLUG_HANDLER(machine);
->      }
->
-> --
+Note: might be related (or not) to bug 1866870
+Let's analyze as independent and dup if it turns out to be a dup.
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+-- =
 
-> 2.25.3
->
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877052
+
+Title:
+  KVM Win 10 guest pauses after kernel upgrade
+
+Status in QEMU:
+  New
+Status in qemu package in Ubuntu:
+  New
+
+Bug description:
+  Hello!
+  Unfortunately the bug has apparently reappeared. I have a Windows 10 runn=
+ing in a VM, which after my today's "apt upgrade" goes into pause mode afte=
+r a few seconds of running time.
+
+  Until yesterday it used to work and I was able to boot the VM. During
+  the kernel update (from 5.4.0-28.33 to 5.4.0-29.34) the VM was active
+  and then went into pause mode. Even after a reboot of my host system
+  the problem still persists: the VM boots for a few seconds and then
+  switches to pause mode.
+
+  Current Kernel: Linux andreas-laptop 5.4.0-29-generic #33-Ubuntu SMP
+  Wed Apr 29 14:32:27 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+  Maybe relevant logfile lines:
+  2020-05-06T07:46:42.857574Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+  2020-05-06T07:46:42.857718Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+  2020-05-06T07:46:42.860567Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+  2020-05-06T07:46:42.860582Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+  2020-05-06T07:47:22.901057Z qemu-system-x86_64: terminating on signal 15 =
+from pid 1593 (/usr/sbin/libvirtd)
+  2020-05-06 07:47:23.101+0000: shutting down, reason=3Ddestroyed
+
+
+  Kind regards,
+  =C2=A0=C2=A0=C2=A0Andreas
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877052/+subscriptions
 
