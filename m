@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550CB1C6B82
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 10:22:05 +0200 (CEST)
-Received: from localhost ([::1]:58532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9371C6B8E
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 10:23:42 +0200 (CEST)
+Received: from localhost ([::1]:35932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWFJc-0008K8-Bx
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 04:22:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37562)
+	id 1jWFLB-0002Cl-Eo
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 04:23:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWFIL-00076H-7e
- for qemu-devel@nongnu.org; Wed, 06 May 2020 04:20:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41674)
+ id 1jWFIM-00076R-Fs
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 04:20:47 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWFIJ-0003Hb-U8
- for qemu-devel@nongnu.org; Wed, 06 May 2020 04:20:44 -0400
+ id 1jWFIK-0003LM-65
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 04:20:46 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWFII-0005Yd-54
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 08:20:42 +0000
+ id 1jWFIJ-0005d3-7W
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 08:20:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 236EE2E80E7
- for <qemu-devel@nongnu.org>; Wed,  6 May 2020 08:20:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 347472E8104
+ for <qemu-devel@nongnu.org>; Wed,  6 May 2020 08:20:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 May 2020 08:01:53 -0000
+Date: Wed, 06 May 2020 08:02:13 -0000
 From: Andreas Weller <weller@andreas-weller.de>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: weller-andreas-weller
 X-Launchpad-Bug-Reporter: Andreas Weller (weller-andreas-weller)
 X-Launchpad-Bug-Modifier: Andreas Weller (weller-andreas-weller)
 References: <158875190128.5304.17617014708809905297.malonedeb@soybean.canonical.com>
-Message-Id: <158875211320.5426.5189590794265072598.malone@chaenomeles.canonical.com>
+Message-Id: <158875213399.13722.11947616465793382122.malone@gac.canonical.com>
 Subject: [Bug 1877052] Re: KVM Win 10 guest pauses after kernel upgrade
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a0b913c9998b7e7e46f64d686c3276b8fabcbdfb
+X-Launchpad-Hash: 373c4a1ec80c47911e0d8d8ed109c68902eb30a9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 04:05:47
@@ -78,9 +78,36 @@ Reply-To: Bug 1877052 <1877052@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "Libvirt Logfile"
-   https://bugs.launchpad.net/qemu/+bug/1877052/+attachment/5367244/+files/=
-win10.log
+** Attachment added: "History.log from apt"
+   https://bugs.launchpad.net/qemu/+bug/1877052/+attachment/5367245/+files/=
+history.log
+
+** Description changed:
+
+- =
+
+  Hello!
+  Unfortunately the bug has apparently reappeared. I have a Windows 10 runn=
+ing in a VM, which after my today's "apt upgrade" goes into pause mode afte=
+r a few seconds of running time.
+  =
+
+  Until yesterday it used to work and I was able to boot the VM. During
+  the kernel update (from 5.4.0-28.33 to 5.4.0-29.34) the VM was active
+  and then went into pause mode. Even after a reboot of my host system the
+  problem still persists: the VM boots for a few seconds and then switches
+  to pause mode.
+  =
+
++ Current Kernel: Linux andreas-laptop 5.4.0-29-generic #33-Ubuntu SMP Wed
++ Apr 29 14:32:27 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
++ =
+
+  =
+
+  Kind regards,
+-    Andreas
++ =C2=A0=C2=A0=C2=A0Andreas
 
 -- =
 
