@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB411C6B92
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 10:24:38 +0200 (CEST)
-Received: from localhost ([::1]:39730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 636F71C6AF2
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 10:09:22 +0200 (CEST)
+Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWFM5-0003m0-GV
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 04:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37578)
+	id 1jWF7J-0003fz-Fy
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 04:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWFIQ-00076o-6I
- for qemu-devel@nongnu.org; Wed, 06 May 2020 04:20:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41720)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jWF6a-0003H7-4x
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 04:08:36 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:41687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWFIM-0003Ml-3d
- for qemu-devel@nongnu.org; Wed, 06 May 2020 04:20:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWFIK-0005fn-6O
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 08:20:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2C27D2E80E7
- for <qemu-devel@nongnu.org>; Wed,  6 May 2020 08:20:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jWF6Z-00082z-4W
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 04:08:35 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id w137so537143ybg.8
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 01:08:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QBoQcq26X5IlJyCrqUS2mhYO9rMfyiRH6PeZR70LsXw=;
+ b=z20FouPus7rbY9GunnMpYnCtpqAbBIp5v+CES7BDKy3LW/MNdElAeoUUaMcNu/wlSJ
+ JvUIPNgldzeZaeFMdg2Ij/83dkzf1HuHID9CPTtymz1i1BvXfeEiou6cFpaLzXAmmJjT
+ rilBvTWb/p2MDqwDsDcoC36melEJ/Sgd3dqhcUrOLKyx6p00As8uh3GJJdexJZZ4Pv77
+ i1IrwhDD0+/Odh45oncSCZgkreYpS1kgJZiV5tg8qhsrPsap0LAbto+ACvc3Hvongufh
+ KkevwvZoG8Q8HRL+VrbOmTL/Se0AkcPx1znqTO61KoCdpKAJzIVwwphfKgmLpNX+/uKs
+ t7mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QBoQcq26X5IlJyCrqUS2mhYO9rMfyiRH6PeZR70LsXw=;
+ b=Tsivi4UYdHjRNeEkzjG6lfFhOVk3bwM5H5QKRIAeM9rlMff+tDrrISZBh9CmuHv2XO
+ mLf1Nw3pvy6gFL6RZQ7GXBSzhNAvfTRr4TjcUZlWTv+gdkmId9ZDZF8WlaBi2gK9UIU3
+ r3RZqIKikjVj6x5FGodBdvoDoDsfBa+oa0VT+RHPEGeffRKZ/XkwIwnmYXivDsPrpw6Y
+ NjtVhZfoKG3by0gBnR119mOoIedihjmP0cofKhKxHXp5PuggmFqIwWe6O3laZVE26fpr
+ MuXj6x7+QRbnj3h/zD8LsU1EvpkzgiKIFooK/mXWH8nnMflJNK/TNcaqG9jJoLlvZ4Di
+ bHgA==
+X-Gm-Message-State: AGi0PuaEoRpxK74HwhlsJ/DWwEGkrtCPAuAKt+1NCAdJWAXIoTeBKOSP
+ sn8mOAuIcLFlC7H3ptGFkOksqnZ7vy0Wg2UjSfh1Rg==
+X-Google-Smtp-Source: APiQypIivjATMIzVr7ZnWP/R+NYHijYmeWgRdqqiQX2R+GXJCLSpnJHFZVijJEoGw2AYkZk4S8/OxLly0CdnTaS+Fro=
+X-Received: by 2002:a5b:49:: with SMTP id e9mr12345725ybp.447.1588752513605;
+ Wed, 06 May 2020 01:08:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 May 2020 08:04:11 -0000
-From: Andreas Weller <weller@andreas-weller.de>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: weller-andreas-weller
-X-Launchpad-Bug-Reporter: Andreas Weller (weller-andreas-weller)
-X-Launchpad-Bug-Modifier: Andreas Weller (weller-andreas-weller)
-References: <158875190128.5304.17617014708809905297.malonedeb@soybean.canonical.com>
-Message-Id: <158875225186.14511.15056144423451882777.malone@gac.canonical.com>
-Subject: [Bug 1877052] Re: KVM Win 10 guest pauses after kernel upgrade
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 89a47241bc769d0151e819d3ccc835af41a6e4ec
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 04:05:47
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <20200329150953.23812-1-yuri.benditovich@daynix.com>
+ <20200331102004-mutt-send-email-mst@kernel.org>
+ <CAOEp5OeOcTZM_b254LxX5=jRiiAkGSoLsbMeiMjPs2OoF1MxNA@mail.gmail.com>
+ <90f00200-da2d-a8d6-a734-fc08e2e5313a@redhat.com>
+In-Reply-To: <90f00200-da2d-a8d6-a734-fc08e2e5313a@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Wed, 6 May 2020 11:08:24 +0300
+Message-ID: <CAOEp5OfuP7c+aOBhQP71BLRF=Wxg+w1BPFSm8=e8dfQOnLCK5Q@mail.gmail.com>
+Subject: Re: [PATCH v7 0/7] reference implementation of RSS and hash report
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000035b37d05a4f645eb"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b41;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-yb1-xb41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,98 +81,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877052 <1877052@bugs.launchpad.net>
+Cc: Yan Vugenfirer <yan@daynix.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "Dpkg -l Output"
-   https://bugs.launchpad.net/qemu/+bug/1877052/+attachment/5367247/+files/=
-dpkg-list.txt
+--00000000000035b37d05a4f645eb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-** Description changed:
+I'll send v8 soon
 
-  Hello!
-  Unfortunately the bug has apparently reappeared. I have a Windows 10 runn=
-ing in a VM, which after my today's "apt upgrade" goes into pause mode afte=
-r a few seconds of running time.
-  =
+Thanks,
+Yuri
 
-  Until yesterday it used to work and I was able to boot the VM. During
-  the kernel update (from 5.4.0-28.33 to 5.4.0-29.34) the VM was active
-  and then went into pause mode. Even after a reboot of my host system the
-  problem still persists: the VM boots for a few seconds and then switches
-  to pause mode.
-  =
+On Wed, May 6, 2020 at 8:37 AM Jason Wang <jasowang@redhat.com> wrote:
 
-  Current Kernel: Linux andreas-laptop 5.4.0-29-generic #33-Ubuntu SMP Wed
-  Apr 29 14:32:27 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
-  =
+>
+> On 2020/5/1 =E4=B8=8B=E5=8D=8812:01, Yuri Benditovich wrote:
+> > Michael/Jason,
+> >
+> > As Linux headers was updated in qemu and now include RSC/RSS/Hash
+> > definitions, please let me know what you prefer:
+> > 1. You apply this series as is, then I submit clean-up series that
+> > will remove all the redundant defines from virtio-net.c
+> > 2. I post v8 of this series with cleanup of all the redundant defines
+> > and also RSC ones
+> > 3. Something other
+>
+>
+> Hi Yuri:
+>
+> Though I've queued this series but consider we have new headers, I think
+> it's better to post v8.
+>
+> Thanks
+>
+>
 
-+ Maybe relevant logfile lines:
-+ 2020-05-06T07:46:42.857574Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-+ 2020-05-06T07:46:42.857718Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-+ 2020-05-06T07:46:42.860567Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-+ 2020-05-06T07:46:42.860582Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-+ 2020-05-06T07:47:22.901057Z qemu-system-x86_64: terminating on signal 15 =
-from pid 1593 (/usr/sbin/libvirtd)
-+ 2020-05-06 07:47:23.101+0000: shutting down, reason=3Ddestroyed
-+ =
+--00000000000035b37d05a4f645eb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  =
+<div dir=3D"ltr">I&#39;ll send v8 soon<div><br></div><div>Thanks,</div><div=
+>Yuri</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Wed, May 6, 2020 at 8:37 AM Jason Wang &lt;<a href=3D"mailto:=
+jasowang@redhat.com">jasowang@redhat.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex"><br>
+On 2020/5/1 =E4=B8=8B=E5=8D=8812:01, Yuri Benditovich wrote:<br>
+&gt; Michael/Jason,<br>
+&gt;<br>
+&gt; As Linux headers was updated in qemu and now include RSC/RSS/Hash <br>
+&gt; definitions, please let me know what you prefer:<br>
+&gt; 1. You apply this series as is, then I submit clean-up series that <br=
+>
+&gt; will remove all the redundant defines from virtio-net.c<br>
+&gt; 2. I post v8 of this series with cleanup of all the redundant defines =
+<br>
+&gt; and also RSC ones<br>
+&gt; 3. Something other<br>
+<br>
+<br>
+Hi Yuri:<br>
+<br>
+Though I&#39;ve queued this series but consider we have new headers, I thin=
+k <br>
+it&#39;s better to post v8.<br>
+<br>
+Thanks<br>
+<br>
+</blockquote></div>
 
-  Kind regards,
-  =C2=A0=C2=A0=C2=A0Andreas
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877052
-
-Title:
-  KVM Win 10 guest pauses after kernel upgrade
-
-Status in QEMU:
-  New
-Status in qemu package in Ubuntu:
-  New
-
-Bug description:
-  Hello!
-  Unfortunately the bug has apparently reappeared. I have a Windows 10 runn=
-ing in a VM, which after my today's "apt upgrade" goes into pause mode afte=
-r a few seconds of running time.
-
-  Until yesterday it used to work and I was able to boot the VM. During
-  the kernel update (from 5.4.0-28.33 to 5.4.0-29.34) the VM was active
-  and then went into pause mode. Even after a reboot of my host system
-  the problem still persists: the VM boots for a few seconds and then
-  switches to pause mode.
-
-  Current Kernel: Linux andreas-laptop 5.4.0-29-generic #33-Ubuntu SMP
-  Wed Apr 29 14:32:27 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
-
-  Maybe relevant logfile lines:
-  2020-05-06T07:46:42.857574Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-  2020-05-06T07:46:42.857718Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-  2020-05-06T07:46:42.860567Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
-  2020-05-06T07:46:42.860582Z qemu-system-x86_64: warning: host doesn't sup=
-port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
-  2020-05-06T07:47:22.901057Z qemu-system-x86_64: terminating on signal 15 =
-from pid 1593 (/usr/sbin/libvirtd)
-  2020-05-06 07:47:23.101+0000: shutting down, reason=3Ddestroyed
-
-
-  Kind regards,
-  =C2=A0=C2=A0=C2=A0Andreas
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877052/+subscriptions
+--00000000000035b37d05a4f645eb--
 
