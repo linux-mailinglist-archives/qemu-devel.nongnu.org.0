@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013071C7012
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:13:32 +0200 (CEST)
-Received: from localhost ([::1]:58082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFFC1C6FFB
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:08:40 +0200 (CEST)
+Received: from localhost ([::1]:36006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWIvb-0003V8-0b
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56458)
+	id 1jWIqt-0002pc-Qx
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:08:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo1-00068T-Ij
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:41 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53708)
+ id 1jWIo3-0006Aj-81
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:43 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo0-0000Lh-Qb
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:41 -0400
-Received: by mail-wm1-x336.google.com with SMTP id k12so2294600wmj.3
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:40 -0700 (PDT)
+ id 1jWIo1-0000V7-PP
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:42 -0400
+Received: by mail-wm1-x329.google.com with SMTP id 188so2308782wmc.2
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=peaM6igo+AhDvK0qqAnxFsdR5nx5YlJ8GTR7GVhQ6qE=;
- b=Hcm9XnLGvGSEqB9XHdouwA9/fVpoXuwHP70rQijEiQs80jghsXrlSHQRgTLjj0eDKJ
- 6a3JQk+bm/LWIidhuilsh0PspmO+KPM/mhK6c0s7t2mfhuWaq94NshHFis25QMesKVWE
- jG3tMuNLFQqMKm/2GHO0Z+qp0+FXH/iiL2gBX0ad8gbMgb3Omg9lYVF+T/myDnhrMxS+
- me+lrnOnXLfkidr9oYUnlWzLhGNi/1TGlr6meM4wxpiUvVonFA4sM77ucfkTBvHXR6le
- qj+EZFAwBAJEdwuQ0AsFA4GECFE0SVDp8DhlS9w1XASspikBROUIJGZF5Anr32pNawTI
- Oyxg==
+ bh=fvkeabdgvJPxQm3LnzLPHngBriCPb145ytneLsdCQhg=;
+ b=WEfHiC7/0bgofvJWpro3tI5zatnFNxJgMsYS1+1bZezQClNEviR3/72gqJLnSfFnsY
+ sIAMcmmsqXOxMfCfZxJUImf9kCo9aX3daaXyu1Qx2NOM7Rwq60QqbWba0LIFHcDK7pIn
+ vm49ochaTa8nKhR+fTImPrrdo7vDsuMa/ZeLCUDinei0SSPz+mXV8anGufW6KMpMFYj3
+ aJnPzkpJtZ/ADZXZYtK5xlT+wH/skQMJAaP4AkKPJ+O1SWK98tYCZy4q/lpA91xYzYxk
+ pHyp90gdHWcTyB/UsIVTzNGyTnR8GxLeqDlrO8AHG45Qn1Q/Oo3RWKOmrfLEsMrHLjgT
+ yn3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=peaM6igo+AhDvK0qqAnxFsdR5nx5YlJ8GTR7GVhQ6qE=;
- b=HvnKm7WVFHQEvsCL/eDgwBWWkm+3tJyMB/mYg/s3M5CZnNKsi6jF5J7PhOeGqbSgcl
- 4GQn6CFTHNi48gT4g67npuQjhqGe9TP4cqkRM/NyDzFmhtOGjCdkVt0/fjZLvyzc3geK
- hUWdbB9HE3s+ovLTgcPlVXCL5Tt/vSV5M8m4WNi861GmGiklWObGdmYt+qYY7z9e8ICb
- GyWlVSWA2nT2OXx3S17S46ZZsdtyISAN38veBLflpbGolsGsAdoRYRScw8zIz9fEChD7
- q7CVPqh8q67qhXMpaniyqkYhfKx2ziQkqlx7CkcwBDlcyNEB6eYhyCyEeRRmWp/grt+F
- nlWg==
-X-Gm-Message-State: AGi0PuYtsBfcaFd2webQi2t7cxdM9d8Udu/ma9NHE8W0gxzuLtOh74+C
- HPtTxWD03JbdJxvufut761hcLt38egc=
-X-Google-Smtp-Source: APiQypJVvskfWWSvBhlmk7dJFVzsZkgu15NMv7HFkpeatpHPKVzJJmJIILb2izlwUtTTAa3jCtEm7w==
-X-Received: by 2002:a05:600c:1:: with SMTP id g1mr4116927wmc.142.1588766739533; 
- Wed, 06 May 2020 05:05:39 -0700 (PDT)
+ bh=fvkeabdgvJPxQm3LnzLPHngBriCPb145ytneLsdCQhg=;
+ b=p5BgDzF4Ua/zASHHSAKwHk3phxxBdejqAvfDigW3FDX3jeH16hHSvAohuU7CBAPK8x
+ 2kf6sBXSF7xN3Vp38fdJJvLIbtlX0Bjbijb+kddEec7do4LqnT1wdfNMjtSblVfVijIp
+ 0gk7uzscWg6/pnErcR8BkaBpnPoj0kmiC2klRpxaDOsPe0/95PjXYNQRD+7GhaTRM7UR
+ SMx1Broqyv8wwQeaMZY26YWFWipswoxGHTCt+omXynIgu8uUOe8+y8sfxIDTTHbdVnHc
+ rbvVEuhM/0TlaN+6H/5khDHsEtlJDMLNOyyNfQXlIprO9G98QWqKQ9Mrydi0GmP641Ko
+ 3K+Q==
+X-Gm-Message-State: AGi0PubEWvvmgCrze3MVoqqN0ByBlXejP8+13oWeO28P2Y2Wvaz92Zfi
+ EGIDqf5rlyVW/BtUCsDCA2SR4MvVpZs=
+X-Google-Smtp-Source: APiQypKOeV+BiMWjXbTXSmgP8cUQrEoGgr8Pu9JX9+A37KVQBlss08cUeYl6U7t3GVmRNGfCaRvbig==
+X-Received: by 2002:a1c:7415:: with SMTP id p21mr3989036wmc.93.1588766740358; 
+ Wed, 06 May 2020 05:05:40 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v131sm2877237wmb.19.2020.05.06.05.05.32
+ by smtp.gmail.com with ESMTPSA id g69sm2971076wmg.17.2020.05.06.05.05.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 06 May 2020 05:05:37 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 218661FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 380251FF92;
  Wed,  6 May 2020 13:05:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/14] .travis.yml: reduce the load on [ppc64] GCC check-tcg
-Date: Wed,  6 May 2020 13:05:20 +0100
-Message-Id: <20200506120529.18974-6-alex.bennee@linaro.org>
+Subject: [PULL 06/14] configure: favour gdb-multiarch if we have it
+Date: Wed,  6 May 2020 13:05:21 +0100
+Message-Id: <20200506120529.18974-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200506120529.18974-1-alex.bennee@linaro.org>
 References: <20200506120529.18974-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,33 +88,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This seems to be timing out quite often and occasionally running out
-of disk space. Relegate it to light duties.
+As gdb will generally be talking to "foreign" guests lets use that if
+we can. Otherwise the chances of gdb barfing are considerably higher.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200501111505.4225-5-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20200430190122.4592-2-alex.bennee@linaro.org>
 
-diff --git a/.travis.yml b/.travis.yml
-index 49267b73b36..fe708792ca2 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -458,7 +458,7 @@ jobs:
-           - genisoimage
-       env:
-         - TEST_CMD="make check check-tcg V=1"
--        - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},ppc64le-linux-user"
-+        - CONFIG="--disable-containers --target-list=ppc64-softmmu,ppc64le-linux-user"
+diff --git a/configure b/configure
+index 23b5e93752b..c58787100f1 100755
+--- a/configure
++++ b/configure
+@@ -303,7 +303,7 @@ libs_qga=""
+ debug_info="yes"
+ stack_protector=""
+ use_containers="yes"
+-gdb_bin=$(command -v "gdb")
++gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
  
-     - name: "[s390x] GCC check-tcg"
-       arch: s390x
+ if test -e "$source_path/.git"
+ then
 -- 
 2.20.1
 
