@@ -2,112 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 615F01C6B8F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 10:23:46 +0200 (CEST)
-Received: from localhost ([::1]:36094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37581C6BA9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 10:27:01 +0200 (CEST)
+Received: from localhost ([::1]:45810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWFLF-0002Hv-DA
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 04:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37724)
+	id 1jWFON-0006Rw-Po
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 04:26:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWFJZ-0000jP-Pt; Wed, 06 May 2020 04:22:01 -0400
-Received: from mail-eopbgr00098.outbound.protection.outlook.com
- ([40.107.0.98]:63653 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWFJX-0004Vq-53; Wed, 06 May 2020 04:22:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TPNV2XnClnr7/7TcXLdTKHjSjNYZSaromUOYb30QTqcQdflviOGpdJ8AFfETes4mJcSnZ5wzjwqA8KFsV9M2uUxMes50FkSm9MLO9yBKdLphlEjJ2auOyi1j5xLteSSYkOWwiRTABNf7WK/fZExS1d4t1KA+Z0AgrvQJ16FLBUejX2PQVW2PJlb/jYE8SOgCVk19Tfj9QpbKw/DnO3cdyvV8OinYqFa2ZSUDWREgBGQRJtwqXSylAREVMRTtXe9fdG495flHLv7enqf19jeFr3o3n1WIgBxTe3vGx+JoTIIsEEOthq1kuigEo6BMDMjAg33m6+kYLeu6L0tihfYqxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5J4RZ7tR3bOQHGbxtK1aI3gDCG0quqBxR8b0JvaSh9A=;
- b=kFb3KQ68BA54XwlQdBx6zSunZFtTEGSQp/yYcS/uGlSSLxic3M5nAqFKPC9jYxgRMYXeTEP2tiwIgqz28nWDohpayZlVQ7XaJyqbpByX5rMLpfXkVHwcYkcgwR2p/9e5to+9g0L7/oF8RkOZCN8u9nm6/9Fj0DkSIaXkxdPg9nZm9JTK84X06odo3AlWQC3S1iXf/szEsxFk1y4qXGe2/sJY2qR/CBnUR/NUcxAuL4E9lwa8+GbRNBaiGmbDMtfOimSp92Z1WeA6E1B+I8yiPwdEmrowM1RsRtgXGS7H9yluv4My2qUobTrXBFp611aPjtrbWsPGA7bQ2rnd9sLzkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5J4RZ7tR3bOQHGbxtK1aI3gDCG0quqBxR8b0JvaSh9A=;
- b=LVmUGubv6nu2+4uBmbe+JX8OIDBVwUfQ3Tyli/uDU7/jMKtFIdu1hviv8I6I70OTYKEl1QMU97+4LE7FZb/9mFHdsf+1l/mYaoR32PmQfOeVlnpBh7HVhIfMPtEQMDX2mwZhHu7E7yVo2YSbVMkXn9z2y+ClpGtCSvFw9SB78Xo=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5462.eurprd08.prod.outlook.com (2603:10a6:20b:10b::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Wed, 6 May
- 2020 08:21:55 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.030; Wed, 6 May 2020
- 08:21:55 +0000
-Subject: Re: [PATCH v2 3/4] backup: Make sure that source and target size match
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200430142755.315494-1-kwolf@redhat.com>
- <20200430142755.315494-4-kwolf@redhat.com>
- <d5de1915-523b-fbdb-2ebe-8c31cf0e0cdf@virtuozzo.com>
- <20200505100334.GH5759@linux.fritz.box>
- <f91f3d3d-5c20-dfde-c9e0-506f8618c585@virtuozzo.com>
- <20200506080216.GA6333@linux.fritz.box>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200506112153782
-Message-ID: <abdb1914-d307-159c-e28f-237744d2f9be@virtuozzo.com>
-Date: Wed, 6 May 2020 11:21:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <20200506080216.GA6333@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0009.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jWFMm-0004d1-2s; Wed, 06 May 2020 04:25:20 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:42050)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jWFMk-0006um-Ho; Wed, 06 May 2020 04:25:19 -0400
+Received: by mail-lf1-x144.google.com with SMTP id j14so581139lfg.9;
+ Wed, 06 May 2020 01:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wdCuBlsJ7sHwtpHL3l2lAB6bzmZNZ9HRKt/MjxMKcSk=;
+ b=g1l2epmPeGRoLRWNR1spEHlu2/9Ohy4WxIrbxDPSAMJbpYKe4zaAPHQXAlPmURJ/yc
+ NxmFbGy4s6SPfYspUUU931lCvJiI3mDnGOS9doA2owHO4p2oKs11BYvVObk9jp8sLjrx
+ j2DbprBBk+xD1jS+uhRk8ooR8VbquoVgwZy/b80Pehw5XZCNN2U7NwE3Fm30Df0TmW3P
+ W2ONQ5b9GqeZVlZtSTJ+m8RESx1oiSBxMrbkAsS55NMxeG1AXL7qODm00MS85IXdN6ji
+ 274ui0uWXXDkskkeTnT6Oq4NCJPi0Kge2Rz3QPZOYHJqrG1UjnHnCaM00U/T8jB9TNw4
+ +fuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wdCuBlsJ7sHwtpHL3l2lAB6bzmZNZ9HRKt/MjxMKcSk=;
+ b=t5bq9Q5GENreLryGjCgmVIxkJwWRq/GKUVkJD5fWsshc9O9j7Uhw6yjwNqxl/9vtGW
+ 13iBqR48jy0E4nU02KHF5/xF1ZQ9EC4giH1f7lTxiVjpqEglC7CJJvxNDwaSO9CayTX8
+ Wcr3PjGgujEneMusOxTiw/DUkfVFYhRkLn0t1D6EgsKZoAzh9t45lWCdjQjQDWihNg2G
+ UNICaw4EeSAryoVGOSATN1Frx5p9MvTT2E9DovXFtukurw1Q7H2hCF9asKB4t8fSkYf7
+ aSlXnoMQ50xJpwq2sHfirc9S/REME6Mz+HOp//DXhZ7lOjDCF/7jWYzLnpmVitsBqWBC
+ 2iEQ==
+X-Gm-Message-State: AGi0PuYH79iz1XsfpZpqQxmoy5zpl2mcHfYfsBndH+Lv6K8eFmpDpHam
+ CjmSqARelO/LwVZffQs0TBe7nuKc/Ow=
+X-Google-Smtp-Source: APiQypK9UZe7Qow4N4rkh1CxonWWPVzMJTSB0CQ4HdWOroIlLkl3bWKk1LRuGFUfqNGeF3MQlkuXyg==
+X-Received: by 2002:ac2:4910:: with SMTP id n16mr4403959lfi.35.1588753515338; 
+ Wed, 06 May 2020 01:25:15 -0700 (PDT)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id h6sm825569ljj.29.2020.05.06.01.25.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 May 2020 01:25:14 -0700 (PDT)
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] hw/core: stream: Add end-of-packet flag
+Date: Wed,  6 May 2020 10:25:04 +0200
+Message-Id: <20200506082513.18751-1-edgar.iglesias@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.178) by
- FR2P281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.27 via Frontend Transport; Wed, 6 May 2020 08:21:54 +0000
-X-Tagtoolbar-Keys: D20200506112153782
-X-Originating-IP: [185.215.60.178]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 60b67f37-7ad6-4ee7-9ccb-08d7f1968992
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5462:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5462BDC1FD27FDFE0477123CC1A40@AM7PR08MB5462.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 03950F25EC
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R67mxtyoKRkoMhXq5zQeN4s1lBipk2ae7PWPem91aauSeFjKufvth5RtPEFpantnGkd5G6N6daV2Zfn9sXCVV1keSSxbwjfEkrrjksF0H4Cl68HGN9OCf7BhRsbmcHYrpwEbUPYVkM0KCfUnbmwswlA5pYhFptEEqgKAQatVRSY/yjHZbmClTdy0BKt17LyCwVL1fw5xCDq3fOq4vPfnaB91Kryhm7MueuIzPX+WHLzIr8/1xj17pjL7idls6yiPfX8WkGyibadAYYd+JhWB5ZgmI9keEImnMQRwpGHZzRFvYIboCTXs0JWNTECooeWzhkC0r20TJrc4w7ARcR3Cf6zPi/VgeFCMEboL/c5jSH4NR8bDFa3y/A4Eauf464trfpxvPJRBY8SlY3CdlKa0FgjVGJsIh0BDdqV96BoOrotoBEQZmfwCL38PDERqyLFk4pu4yxAuhRhT6jwtbUibxrFmnzIuEREBuUMepFonHJgkINFAEGUlErgLLQnS/4fTFxSAbLy6NEIk7SSSgHlYtRyIhw+R7tv6md/qEXcegctZHRs9FXr66Ze3KLgbJsigdeB6Ee8HcmyW9QpxcMeOKA5yFCDUBYz4/fVkiP8nfPyym2/2ZHCdiao42z6dA2WB8zbJ4eXYjwWegZRYzIkJ7w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39840400004)(396003)(136003)(366004)(346002)(376002)(33430700001)(31696002)(8936002)(16526019)(186003)(66556008)(4326008)(8676002)(66946007)(26005)(2906002)(6486002)(66476007)(86362001)(33440700001)(5660300002)(16576012)(316002)(36756003)(966005)(52116002)(2616005)(6916009)(31686004)(956004)(478600001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: cfD4Rdm+4AKmTf74gdy1ESNlGrkae8++WLTFBvb8x+ZF+MgdrZSvIcEnOVtX65KaAIrRDGfJdelUnjUvCPnnPefI0BKH5XoS2HetsBsziGC3azV/zALpsYtT3KzpOXvvZQ/p9HxaZ1m7XN9FTuzzvw2KcRVuWCBNukT66nyGlWkcVc89eoQw1tDxZGBVMfvb27f3PnF+NNKZa2kyoKPJxUxjGWUkNrmU3GaMYbZPgLniTRd9Ssvt8WL1MSucMeee5OMQxBa1CCAUEEAabPeJewJmBOxExS7hF3G1zA3jc+GEI9X3VSkNFgXyNtEvh90Hek6km4c+SAXCqbZThdv8O8/hgdDixrit6nND+E63tWdJUo5+aXcFUOJb/erZhxDHLuywL1TMNCSEImSeAZC+iGCyBCXaJ6gk0fhtkA5Jst90OTpoSOr7dI7twMD1ay86SyG6lXR/lGn7HnQmPsfytlxzcGNuLWrMLipTTxgtQw8po0JMU/YRbV0FpHPXGHFZPWyfcy0hV2yLBOB2Jf+h7hbRgLZcwfbh3ripqs2Lf3ntitoXw3sLoPC8PDg5UkdBt/uWVzDQesYhJQ2hnEJK0uAdlZhHh0oojOlCxa9+qNhYKooFGpS07ptRthf2xiL0EsC9oGOWFwVJ4sWqsHu+k/YDPv3qAYAE/XL6Pd7lcv6QlGkCrmcXv0ytPihDCuzpvJDc5z1Q1l2ZqDxSHQgO4zlfdcAM9nHptORdWrHxYxNGcXepwoEgQT+zi1MCLmPKljKwfYdW+hnk3KOVzIElTsqYRRikvYw5lM0HqAtUeOE=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60b67f37-7ad6-4ee7-9ccb-08d7f1968992
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2020 08:21:55.2595 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aOAizxDxKbfU0Sgsw0rxeYL8c3Dnm3XEdha3T7MMUr99qc4JaSbCI4eobnokHUmMPr5yYxLh2f00VIz4zT5modsRof7JWROTUlZI1JGKaV0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5462
-Received-SPF: pass client-ip=40.107.0.98;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 04:21:56
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x144.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: 13
+X-Spam_score: 1.3
+X-Spam_bar: +
+X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ FSL_HELO_FAKE=3.399, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,157 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: damien.hedde@greensocs.com, peter.maydell@linaro.org,
+ sstabellini@kernel.org, edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, jasowang@redhat.com, alistair@alistair23.me,
+ frederic.konrad@adacore.com, qemu-arm@nongnu.org, philmd@redhat.com,
+ luc.michel@greensocs.com, figlesia@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-06.05.2020 11:02, Kevin Wolf wrote:
-> Am 06.05.2020 um 08:07 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> 05.05.2020 13:03, Kevin Wolf wrote:
->>> Am 30.04.2020 um 20:21 hat Vladimir Sementsov-Ogievskiy geschrieben:
->>>> 30.04.2020 17:27, Kevin Wolf wrote:
->>>>> Since the introduction of a backup filter node in commit 00e30f05d, the
->>>>> backup block job crashes when the target image is smaller than the
->>>>> source image because it will try to write after the end of the target
->>>>> node without having BLK_PERM_RESIZE. (Previously, the BlockBackend layer
->>>>> would have caught this and errored out gracefully.)
->>>>>
->>>>> We can fix this and even do better than the old behaviour: Check that
->>>>> source and target have the same image size at the start of the block job
->>>>> and unshare BLK_PERM_RESIZE. (This permission was already unshared
->>>>> before the same commit 00e30f05d, but the BlockBackend that was used to
->>>>> make the restriction was removed without a replacement.) This will
->>>>> immediately error out when starting the job instead of only when writing
->>>>> to a block that doesn't exist in the target.
->>>>>
->>>>> Longer target than source would technically work because we would never
->>>>> write to blocks that don't exist, but semantically these are invalid,
->>>>> too, because a backup is supposed to create a copy, not just an image
->>>>> that starts with a copy.
->>>>>
->>>>> Fixes: 00e30f05de1d19586345ec373970ef4c192c6270
->>>>> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1778593
->>>>> Cc: qemu-stable@nongnu.org
->>>>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>>>
->>>> I'm OK with it as is, as it fixes bug:
->>>>
->>>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>>
->>>> still, some notes below
->>>>
->>>>
->>>>> ---
->>>>>     block/backup-top.c | 14 +++++++++-----
->>>>>     block/backup.c     | 14 +++++++++++++-
->>>>>     2 files changed, 22 insertions(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/block/backup-top.c b/block/backup-top.c
->>>>> index 3b50c06e2c..79b268e6dc 100644
->>>>> --- a/block/backup-top.c
->>>>> +++ b/block/backup-top.c
->>>>> @@ -148,8 +148,10 @@ static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
->>>>>              *
->>>>>              * Share write to target (child_file), to not interfere
->>>>>              * with guest writes to its disk which may be in target backing chain.
->>>>> +         * Can't resize during a backup block job because we check the size
->>>>> +         * only upfront.
->>>>>              */
->>>>> -        *nshared = BLK_PERM_ALL;
->>>>> +        *nshared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
->>>>>             *nperm = BLK_PERM_WRITE;
->>>>>         } else {
->>>>>             /* Source child */
->>>>> @@ -159,7 +161,7 @@ static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
->>>>>             if (perm & BLK_PERM_WRITE) {
->>>>>                 *nperm = *nperm | BLK_PERM_CONSISTENT_READ;
->>>>>             }
->>>>> -        *nshared &= ~BLK_PERM_WRITE;
->>>>> +        *nshared &= ~(BLK_PERM_WRITE | BLK_PERM_RESIZE);
->>>>>         }
->>>>>     }
->>>>> @@ -192,11 +194,13 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
->>>>>     {
->>>>>         Error *local_err = NULL;
->>>>>         BDRVBackupTopState *state;
->>>>> -    BlockDriverState *top = bdrv_new_open_driver(&bdrv_backup_top_filter,
->>>>> -                                                 filter_node_name,
->>>>> -                                                 BDRV_O_RDWR, errp);
->>>>> +    BlockDriverState *top;
->>>>>         bool appended = false;
->>>>> +    assert(source->total_sectors == target->total_sectors);
->>>>
->>>> May be better to error-out, just to keep backup-top independent. Still, now it's not
->>>> really needed, as we have only one caller. And this function have to be refactored
->>>> anyway, when publishing this filter (open() and close() should appear, so this code
->>>> will be rewritten anyway.)
->>>
->>> Yes, the whole function only works because it's used in this restricted
->>> context today. For example, we only know that total_sectors is up to
->>> date because the caller has called bdrv_getlength() just a moment ago.
->>>
->>> I think fixing this would be beyond the scope of this patch, but
->>> certainly a good idea anyway.
->>>
->>>> And the other thought: the permissions we declared above, will be activated only after
->>>> successful bdrv_child_refresh_perms(). I think some kind of race is possible, so that
->>>> size is changed actual permission activation. So, may be good to double check sizes after
->>>> bdrv_child_refresh_perms().. But it's a kind of paranoia.
->>>
->>> We're not in coroutine context, so we can't yield. I don't see who could
->>> change the size in parallel (apart from an external process, but an
->>> external process can mess up anything).
->>>
->>> When we make backup-top an independent driver, instead of double
->>> checking (what would you do on error?), maybe we could move the size
->>> initialisation (then with bdrv_getlength()) to after
->>> bdrv_child_refresh_perms().
->>>
->>>> Also, third thought: the restricted permissions doesn't save us from resizing
->>>> of the source through exactly this node, does it? Hmm, but your test works somehow. But
->>>> (I assume) it worked in a previous patch version without unsharing on source..
->>>>
->>>> Ha, but bdrv_co_truncate just can't work on backup-top, because it doesn't have file child.
->>>> But, if we fix bdrv_co_truncate to skip filters, we'll need to define .bdrv_co_truncate in
->>>> backup_top, which will return something like -EBUSY.. Or just -ENOTSUP, doesn't matter.
->>>
->>> Maybe this is a sign that bdrv_co_truncate shouldn't automatically skip
->>> filters because filters might depend on a fixed size?
->>>
->>> Or we could make the automatic skipping depend on having BLK_PERM_RESIZE
->>> for the child. If the filter doesn't have the permission, we must not
->>> call truncate for its child (it would crash). Then backup-top and
->>> similar filters must just be careful not to take RESIZE permissions.
->>>
->>
->> Hmm this should work.. Still it's a workaround, seems out of the
->> concept of permission system..
-> 
-> I'm not sure about this. I see the problem more with unconditionally
-> skipping the filter without checking whether the operation is even
-> allowed on the filtered child.
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Agree. Blindly skipping the filter is wrong anyway.
+Hi,
 
-> 
->> I think, that the problem is that .bdrv_top_child_perm can't return an
->> error.  The handler answers the question:
->>
->> - Hi, we are your owners and we want the following cumulative
->> permissions on you. Then, which permissions do you want on your child?
->>
->> And the handler can't answer: "Hi, you guys want too much, I refuse to
->> play by your rules"..
-> 
-> It can implement .bdrv_check_perm to do that. It's just a bit more work
-> for each driver to do that.
-> 
+When modeling pipelines of processing nodes that communicate
+through streaming interfaces (e.g AXI-Stream), some of these
+nodes send packets while others may just stream unpacketized data.
 
-OK, so, it actually can.
+The purpose of this series is to add an end-of-packet flag, e.g
+what AXI-Stream calls tlast. This is in preparation for modeling
+future nodes that may use huge packets that we wouldn't be able
+to buffer and also to handle nodes that don't use packets.
 
+Along the way I fixed a few things in the petalinux-ml605 eth setup.
+
+Cheers,
+Edgar
+
+ChangeLog:
+
+v1 -> v2:
+* Check that packets fit c_txmem
+
+Edgar E. Iglesias (9):
+  hw/net/xilinx_axienet: Auto-clear PHY Autoneg
+  hw/net/xilinx_axienet: Cleanup stream->push assignment
+  hw/net/xilinx_axienet: Remove unncessary cast
+  hw/dma/xilinx_axidma: Add DMA memory-region property
+  hw/core: stream: Add an end-of-packet flag
+  hw/net/xilinx_axienet: Handle fragmented packets from DMA
+  hw/dma/xilinx_axidma: mm2s: Stream descriptor by descriptor
+  hw/dma/xilinx_axidma: s2mm: Support stream fragments
+  MAINTAINERS: Add myself as streams maintainer
+
+ include/hw/stream.h     |  5 +--
+ hw/core/stream.c        |  4 +--
+ hw/dma/xilinx_axidma.c  | 75 ++++++++++++++++++++++++++---------------
+ hw/net/xilinx_axienet.c | 70 ++++++++++++++++++++++++++++----------
+ hw/ssi/xilinx_spips.c   |  2 +-
+ MAINTAINERS             |  6 ++++
+ 6 files changed, 113 insertions(+), 49 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.20.1
+
 
