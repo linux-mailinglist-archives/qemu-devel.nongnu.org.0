@@ -2,51 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308171C665C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 05:31:48 +0200 (CEST)
-Received: from localhost ([::1]:58156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA37B1C6DF5
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 12:06:12 +0200 (CEST)
+Received: from localhost ([::1]:50152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWAmg-000760-MQ
-	for lists+qemu-devel@lfdr.de; Tue, 05 May 2020 23:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35176)
+	id 1jWGwN-0004Pi-SH
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 06:06:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1jWAlR-0005fK-RZ
- for qemu-devel@nongnu.org; Tue, 05 May 2020 23:30:29 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:47866 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
+ id 1jWGlk-0005q4-U3; Wed, 06 May 2020 05:55:12 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:55776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1jWAlQ-0006ws-9G
- for qemu-devel@nongnu.org; Tue, 05 May 2020 23:30:29 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id CAEFA667C04D7198064D;
- Wed,  6 May 2020 11:30:15 +0800 (CST)
-Received: from opensource.huawei.com (10.175.104.212) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 6 May 2020 11:30:09 +0800
-From: Pan Nengyuan <pannengyuan@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH 2/2] migration/multifd: Do error_free after migrate_set_error
- to avoid memleaks
-Date: Wed, 6 May 2020 05:54:16 -0400
-Message-ID: <20200506095416.26099-3-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
-In-Reply-To: <20200506095416.26099-1-pannengyuan@huawei.com>
-References: <20200506095416.26099-1-pannengyuan@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.212]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
- envelope-from=pannengyuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/05 23:30:16
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
+ id 1jWGli-0005rm-6a; Wed, 06 May 2020 05:55:12 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0469rpYW006882;
+ Wed, 6 May 2020 09:55:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : subject : from
+ : to : cc : message-id : references : in-reply-to : mime-version :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=HHCISilUIWEMJOR3hboHEcpNQ6UrfIAkcvRJIaaOa8w=;
+ b=cw8ov/CeSaZSBdZOD6iue85ACE2W3CfOyLlhggWBCKftbVApXtL5a+DhHIJ4Wvr2kxJT
+ 9YlnTNs1s6uZFN5dTovf4a7PukREer54m+YaeqetXQdlVW2YZg9wbQeU42xosenL4JJy
+ DCWwd4u6MjHqSYznNg6OwDE18iD6XhbXysiTJ3JdGQmqZxODnDtw1m9vRigxbGNwfc+9
+ pOgq0Jy9SEMPfWQfP95IKcwkGKiHXdvSiij5+kDcBrhgOs8oomECZcKRI2kCxeqG3Q1M
+ UQluoPeyzle2das5KJlkmpnrSwrSj9NZVhBLjQkLXLTXcvHBUU/hYbAVWumWmdA1HgRT bQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 30s1gn98pv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 May 2020 09:55:08 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0469qawH072281;
+ Wed, 6 May 2020 09:55:07 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 30us7m7ceg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 May 2020 09:55:07 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0469t6RY000694;
+ Wed, 6 May 2020 09:55:06 GMT
+Received: from [10.74.121.227] (/10.74.121.227)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 06 May 2020 02:55:06 -0700
+User-Agent: Microsoft-MacOutlook/10.1e.0.191013
+Date: Wed, 06 May 2020 12:55:04 +0300
+Subject: Re: [PATCH 1/2] qemu-img: refactor dump_map_entry JSON format output
+From: Eyal Moscovici <eyal.moscovici@oracle.com>
+To: Eric Blake <eblake@redhat.com>, <qemu-devel@nongnu.org>
+Message-ID: <794C0193-218B-4914-95A8-FA2CEF8E4908@oracle.com>
+Thread-Topic: [PATCH 1/2] qemu-img: refactor dump_map_entry JSON format output
+References: <20200322091117.79443-1-eyal.moscovici@oracle.com>
+ <20200322091117.79443-2-eyal.moscovici@oracle.com>
+ <487b9270-4e39-9a0d-ca7e-c261ee2f02c2@redhat.com>
+In-Reply-To: <487b9270-4e39-9a0d-ca7e-c261ee2f02c2@redhat.com>
+Mime-version: 1.0
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9612
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ adultscore=0 suspectscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005060077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9612
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0 mlxscore=0
+ spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005060077
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=eyal.moscovici@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 05:55:08
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_QP_LONG_LINE=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -61,83 +101,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
- qemu-devel@nongnu.org, euler.robot@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, liran.alon@oracle.com, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When error happen in multifd_send_thread, it use error_copy to set migrate error in
-multifd_send_terminate_threads(). We should call error_free after it.
 
-Similarly, fix another two places in multifd_recv_thread/multifd_save_cleanup.
 
-The leak stack:
-Direct leak of 48 byte(s) in 1 object(s) allocated from:
-    #0 0x7f781af07cf0 in calloc (/lib64/libasan.so.5+0xefcf0)
-    #1 0x7f781a2ce22d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5322d)
-    #2 0x55ee1d075c17 in error_setv /mnt/sdb/backup/qemu/util/error.c:61
-    #3 0x55ee1d076464 in error_setg_errno_internal /mnt/sdb/backup/qemu/util/error.c:109
-    #4 0x55ee1cef066e in qio_channel_socket_writev /mnt/sdb/backup/qemu/io/channel-socket.c:569
-    #5 0x55ee1cee806b in qio_channel_writev /mnt/sdb/backup/qemu/io/channel.c:207
-    #6 0x55ee1cee806b in qio_channel_writev_all /mnt/sdb/backup/qemu/io/channel.c:171
-    #7 0x55ee1cee8248 in qio_channel_write_all /mnt/sdb/backup/qemu/io/channel.c:257
-    #8 0x55ee1ca12c9a in multifd_send_thread /mnt/sdb/backup/qemu/migration/multifd.c:657
-    #9 0x55ee1d0607fc in qemu_thread_start /mnt/sdb/backup/qemu/util/qemu-thread-posix.c:519
-    #10 0x7f78159ae2dd in start_thread (/lib64/libpthread.so.0+0x82dd)
-    #11 0x7f78156df4b2 in __GI___clone (/lib64/libc.so.6+0xfc4b2)
+=EF=BB=BFOn 29/04/2020, 17:58, "Eric Blake" <eblake@redhat.com> wrote:
 
-Indirect leak of 52 byte(s) in 1 object(s) allocated from:
-    #0 0x7f781af07f28 in __interceptor_realloc (/lib64/libasan.so.5+0xeff28)
-    #1 0x7f78156f07d9 in __GI___vasprintf_chk (/lib64/libc.so.6+0x10d7d9)
-    #2 0x7f781a30ea6c in g_vasprintf (/lib64/libglib-2.0.so.0+0x93a6c)
-    #3 0x7f781a2e7cd0 in g_strdup_vprintf (/lib64/libglib-2.0.so.0+0x6ccd0)
-    #4 0x7f781a2e7d8c in g_strdup_printf (/lib64/libglib-2.0.so.0+0x6cd8c)
-    #5 0x55ee1d075c86 in error_setv /mnt/sdb/backup/qemu/util/error.c:65
-    #6 0x55ee1d076464 in error_setg_errno_internal /mnt/sdb/backup/qemu/util/error.c:109
-    #7 0x55ee1cef066e in qio_channel_socket_writev /mnt/sdb/backup/qemu/io/channel-socket.c:569
-    #8 0x55ee1cee806b in qio_channel_writev /mnt/sdb/backup/qemu/io/channel.c:207
-    #9 0x55ee1cee806b in qio_channel_writev_all /mnt/sdb/backup/qemu/io/channel.c:171
-    #10 0x55ee1cee8248 in qio_channel_write_all /mnt/sdb/backup/qemu/io/channel.c:257
-    #11 0x55ee1ca12c9a in multifd_send_thread /mnt/sdb/backup/qemu/migration/multifd.c:657
-    #12 0x55ee1d0607fc in qemu_thread_start /mnt/sdb/backup/qemu/util/qemu-thread-posix.c:519
-    #13 0x7f78159ae2dd in start_thread (/lib64/libpthread.so.0+0x82dd)
-    #14 0x7f78156df4b2 in __GI___clone (/lib64/libc.so.6+0xfc4b2)
+    On 3/22/20 4:11 AM, Eyal Moscovici wrote:
+    > Previously dump_map_entry identified whether we need to start a new J=
+SON
+    > array based on whether start address =3D=3D 0. In this refactor we remove
+    > this assumption as in following patches we will allow map to start fr=
+om
+    > an arbitrary position.
+    >=20
+    > Acked-by: Mark Kanda <mark.kanda@oracle.com>
+    > Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
+    > ---
+    >   qemu-img.c | 12 ++++++++----
+    >   1 file changed, 8 insertions(+), 4 deletions(-)
+    >=20
+   =20
+    > @@ -2871,8 +2870,8 @@ static int dump_map_entry(OutputFormat output_f=
+ormat, MapEntry *e,
+    >           }
+    >           putchar('}');
+    >  =20
+    > -        if (!next) {
+    > -            printf("]\n");
+    > +        if (next) {
+    > +            printf(",\n");
+   =20
+    As long as you're touching this, puts(",") is slightly more efficient=20
+    than printf().  But what you have is not wrong.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
----
- migration/multifd.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks, will fix.
+   =20
+    Reviewed-by: Eric Blake <eblake@redhat.com>
+   =20
+    --=20
+    Eric Blake, Principal Software Engineer
+    Red Hat, Inc.           +1-919-301-3226
+    Virtualization:  qemu.org | libvirt.org
+   =20
+   =20
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 197d59294a..35ae3180d2 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -550,6 +550,7 @@ void multifd_save_cleanup(void)
-         multifd_send_state->ops->send_cleanup(p, &local_err);
-         if (local_err) {
-             migrate_set_error(migrate_get_current(), local_err);
-+            error_free(local_err);
-         }
-     }
-     qemu_sem_destroy(&multifd_send_state->channels_ready);
-@@ -688,6 +689,7 @@ out:
-     if (local_err) {
-         trace_multifd_send_error(p->id);
-         multifd_send_terminate_threads(local_err);
-+        error_free(local_err);
-     }
- 
-     /*
-@@ -965,6 +967,7 @@ static void *multifd_recv_thread(void *opaque)
- 
-     if (local_err) {
-         multifd_recv_terminate_threads(local_err);
-+        error_free(local_err);
-     }
-     qemu_mutex_lock(&p->mutex);
-     p->running = false;
--- 
-2.18.2
 
 
