@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9833B1C6FEC
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:07:06 +0200 (CEST)
-Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E2AB1C7003
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 14:09:31 +0200 (CEST)
+Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWIpN-0007pl-Hm
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:07:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56482)
+	id 1jWIri-0004pw-As
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 08:09:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo3-0006BQ-T6
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:43 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40657)
+ id 1jWIo8-0006Ku-Bv
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:49 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jWIo2-0000Zh-RO
- for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:43 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id u16so2332859wmc.5
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:42 -0700 (PDT)
+ id 1jWIo6-0000ub-3Z
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 08:05:47 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id k8so1103812ejv.3
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 05:05:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nswgQ5gSAZuGHO+UvPAeMZ2cIqUKiQZ2ZazFCKpY7L4=;
- b=AEMhra6hRfbwnR7u9gNmQ0hVPEUat++KuMjBMS9JO63c2FKu0hssxkKZZ+yP2S0TK1
- mBMD1lxAk+/r3YH2PcpOS/wlqkJvFRcatYcsq0BSpiQcUZOHJQekY/mu9QZiZUEuCGaw
- wGzXEFm+iOpH1alHmGXbLtpxgA7imVe4rjAa2mky8l4SMvtcAR5vf8lNrJK0WRaGBV/D
- CsO0/xRQ33oDX0sj4PtMDafMD+XWRIMZBKfcTySNOPi6CVnSV6q2XGMPfQLbMG6HCkAp
- InnoWbhF+ZpetA0QmVdNvhqEzrxjEb855orVhUjAst7iFsxcd5eymMInLS3Ni37yCw6o
- E73g==
+ bh=DrqUaGonDL46LGXalbeGbioWVxgk7+O8lq9vZxw9cGg=;
+ b=xhW1l5QVlhf2N3yHKNGFlo5ygiJGhlR4W1/lnPkeUYBt3jcDyX115BdK5nQOcPpsyK
+ HMGq9yRcHe8b0MsshVMGzH8dYqjoY0mhpV9YzdV/FtQAEZs1Bh/9CENMwZXthISGa4JR
+ t0LJuWE+T1CrDepKC2DjNKwe0eDE0eIFqwSneUFZHQaJGP90I51lvLYZmZIC6/ciWQ15
+ +dLL1Z05865Zoq/nVP4RKleugsKp+qZ8G6F313Y9nD1xZjXyfPN7UAHYAp9ryqp+xXOj
+ v2lN6xB8LUpWlkQZZk8VcDRI5hdTlQvmT9U+Ie8QKUyMhcpec0jtuDkYcJnQXxp2IR7e
+ S+/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nswgQ5gSAZuGHO+UvPAeMZ2cIqUKiQZ2ZazFCKpY7L4=;
- b=oasflDxvLB9l3FyKtBB8d0E6MxWFDQKxedQukDYHaUEvABDuklyi7Uo2zSq0JXUcZP
- eygKXuep028fmPdgFdjXB9vqXvHp/Gp0/9TfyNCaDZzV0XYBWZOEmcr2c7Eq4QOZfu/v
- u6Npne77sHuJrAe1r1sbWkxkoL8ry9ZYp03q7iSUyddUuOqPk1tcaRqWEabsxm+QXmaL
- gjqyfQCIWIiguVhoanTaSrknJHKwkDK+9GnmcxZYl+J1qflgIz4ZWGQ3UqLX5jTUJ6Uj
- KJLO0Tx0TRa/Cn1bkgrOQTiAoJUB5+9UyBzVDOSwllpLobMQ9PsI5f0soAkMZTMntWjc
- wGBw==
-X-Gm-Message-State: AGi0PuYDGcEdM1I1WMjWw6yXS7ymBsR32Q91QxI1/Mjkr61ph8Fb4152
- Crsw9eySYkOKiuDi/IFVh/ba0Q==
-X-Google-Smtp-Source: APiQypKMuzBkpsiZzPlOFKdB3IZBQ4CkWGCFtBFBQTMXp7dqNCQ7e6svV1RzlkFKFqUN5jl3wdhJOQ==
-X-Received: by 2002:a1c:668a:: with SMTP id a132mr4403683wmc.46.1588766741346; 
- Wed, 06 May 2020 05:05:41 -0700 (PDT)
+ bh=DrqUaGonDL46LGXalbeGbioWVxgk7+O8lq9vZxw9cGg=;
+ b=XAGKDE59KF3ls68x76hh1n1WSzG1uhZIOWXhj7UgnBFUKXqhuFBp+H8D2qc0ebAqzy
+ 2kDuO82M7CQwmeAo2vEkbFqdeJXFFWb77ds9tsFVZ1zyr9koqDxnkWmSWwW/Kk0BtaR6
+ 1511rz8rH4PrOvb101WAn2i/yjU+PmOGzBXI1c9wlyEGkNf+GrWVnPX3NJvza7t1HpOR
+ hz7CW689smNe38t6lRu81KBtwz5ZmTLyJZrG/mXCE+jjgNnuMGXc19qW88JLlOUq1q1W
+ 7VG3rqFwh5B40LPUSyC2XkQmRqgHzwwnKoBWSw8WfJYdQXcEZMSSUqNeO1mUWEWLv0zG
+ zEgQ==
+X-Gm-Message-State: AGi0PuaaW1iqWyPoCt2QWT3lEhrdKRMEfQz3WkID6ZGYfIWcyeUs8BSm
+ +wv43ysuZq3u1saltsggmVHil/cWZ3A=
+X-Google-Smtp-Source: APiQypLh/cz9s9GlwCWMV1rUw6rpeXEEAhWdaU1J5LFVz7er4CUfG4Mu21vZH+lolKW5YJPn2XFp5g==
+X-Received: by 2002:adf:e2c2:: with SMTP id d2mr9957876wrj.55.1588766743820;
+ Wed, 06 May 2020 05:05:43 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y31sm2568014wrd.83.2020.05.06.05.05.34
+ by smtp.gmail.com with ESMTPSA id n6sm436179wrt.58.2020.05.06.05.05.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 06 May 2020 05:05:37 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6953D1FF96;
+ by zen.linaroharston (Postfix) with ESMTP id 806F41FF98;
  Wed,  6 May 2020 13:05:30 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 08/14] tests/tcg: better trap gdb failures
-Date: Wed,  6 May 2020 13:05:23 +0100
-Message-Id: <20200506120529.18974-9-alex.bennee@linaro.org>
+Subject: [PULL 09/14] tests/tcg: drop inferior.was_attached() test
+Date: Wed,  6 May 2020 13:05:24 +0100
+Message-Id: <20200506120529.18974-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200506120529.18974-1-alex.bennee@linaro.org>
 References: <20200506120529.18974-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -93,72 +93,42 @@ Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It seems older and non-multiarach aware GDBs might not fail gracefully
-when faced with something they don't know. For example when faced with
-a target XML for s390x the Ubuntu 18.04 gdb will generate an internal
-fault and prompt for a core dump.
-
-Work around this by invoking GDB in a more batch orientated way and
-then trying to filter out between test failures and gdb failures.
+This test seems flaky and reports attachment even when we failed to
+negotiate the architecture. However the fetching of the guest
+architecture will fail tripping up the gdb AttributeError which will
+trigger our early no error status exit from the test
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200430190122.4592-4-alex.bennee@linaro.org>
+Message-Id: <20200430190122.4592-5-alex.bennee@linaro.org>
 
-diff --git a/tests/guest-debug/run-test.py b/tests/guest-debug/run-test.py
-index 8c49ee2f225..2bbb8fbaa38 100755
---- a/tests/guest-debug/run-test.py
-+++ b/tests/guest-debug/run-test.py
-@@ -50,8 +50,25 @@ if __name__ == '__main__':
-     inferior = subprocess.Popen(shlex.split(cmd))
- 
-     # Now launch gdb with our test and collect the result
--    gdb_cmd = "%s %s -ex 'target remote localhost:1234' -x %s" % (args.gdb, args.binary, args.test)
-+    gdb_cmd = "%s %s" % (args.gdb, args.binary)
-+    # run quietly and ignore .gdbinit
-+    gdb_cmd += " -q -n -batch"
-+    # disable prompts in case of crash
-+    gdb_cmd += " -ex 'set confirm off'"
-+    # connect to remote
-+    gdb_cmd += " -ex 'target remote localhost:1234'"
-+    # finally the test script itself
-+    gdb_cmd += " -x %s" % (args.test)
-+
-+    print("GDB CMD: %s" % (gdb_cmd))
- 
-     result = subprocess.call(gdb_cmd, shell=True);
- 
-+    # A negative result is the result of an internal gdb failure like
-+    # a crash. We force a return of 0 so we don't fail the test on
-+    # account of broken external tools.
-+    if result < 0:
-+        print("GDB crashed? SKIPPING")
-+        exit(0)
-+
-     exit(result)
 diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-index 984fbeb277e..387b2fc20aa 100644
+index 387b2fc20aa..972cf73c315 100644
 --- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
 +++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-@@ -70,7 +70,6 @@ except (gdb.error, AttributeError):
+@@ -58,9 +58,6 @@ def run_test():
+ #
  try:
-     # These are not very useful in scripts
-     gdb.execute("set pagination off")
--    gdb.execute("set confirm off")
- 
-     # Run the actual tests
-     run_test()
+     inferior = gdb.selected_inferior()
+-    if inferior.was_attached == False:
+-        print("SKIPPING (failed to attach)", file=sys.stderr)
+-        exit(0)
+     arch = inferior.architecture()
+     report(arch.name() == "aarch64", "connected to aarch64")
+ except (gdb.error, AttributeError):
 diff --git a/tests/tcg/aarch64/gdbstub/test-sve.py b/tests/tcg/aarch64/gdbstub/test-sve.py
-index dbe7f2aa932..5995689625e 100644
+index 5995689625e..b96bdbb99af 100644
 --- a/tests/tcg/aarch64/gdbstub/test-sve.py
 +++ b/tests/tcg/aarch64/gdbstub/test-sve.py
-@@ -71,7 +71,6 @@ except (gdb.error, AttributeError):
+@@ -59,9 +59,6 @@ def run_test():
+ #
  try:
-     # These are not very useful in scripts
-     gdb.execute("set pagination off")
--    gdb.execute("set confirm off")
- 
-     # Run the actual tests
-     run_test()
+     inferior = gdb.selected_inferior()
+-    if inferior.was_attached == False:
+-        print("SKIPPING (failed to attach)", file=sys.stderr)
+-        exit(0)
+     arch = inferior.architecture()
+     report(arch.name() == "aarch64", "connected to aarch64")
+ except (gdb.error, AttributeError):
 -- 
 2.20.1
 
