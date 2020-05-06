@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076CD1C7982
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 20:35:15 +0200 (CEST)
-Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B726E1C798F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 20:37:57 +0200 (CEST)
+Received: from localhost ([::1]:41230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWOsz-00014d-Ph
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 14:35:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60948)
+	id 1jWOvc-0004th-II
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 14:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jWOoE-0004aF-6Q
- for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:18 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:46565)
+ id 1jWOoF-0004cE-9u
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:19 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:37780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jWOoD-00032s-2C
- for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:17 -0400
-Received: by mail-pf1-x432.google.com with SMTP id 145so1408459pfw.13
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 11:30:16 -0700 (PDT)
+ id 1jWOoE-00034I-9I
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 14:30:18 -0400
+Received: by mail-pg1-x529.google.com with SMTP id r4so1491509pgg.4
+ for <qemu-devel@nongnu.org>; Wed, 06 May 2020 11:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hktRCt+zPcMLEnvaBC38jKwfPbiQdX/9XB+JNDn/fPU=;
- b=uJmz11sOKwhuxr29agT+kmoXmmHiRIW+iBUJyD7hrknHRoMUGUwZ85b7NWpGfZjOAs
- 4jXozEzsO15Ago5zYhdvHYo4T+BFyOlKpt0iWUOEY6IFDngYJg562436QIE1CHTYY/Uz
- ILrY23vDuJKEEXfipOs2VhIhmWWwq7qBj1+cOxe0bSEqs6i2aQPtxKEaiIjUO/iN60E5
- meFWIb/MiUZTl6cU20Kot/6Iv0lxJLX2FfsHHPN+Oo6H8M7tnIqTcTrf9MsQUcAKB02l
- xr6EF0s2EhP/2cr2ta2KR4qlKF1l52Qekolk5tNgGcISrhuO9i4fdafS/f6Yi/7ISbJ0
- 7RZw==
+ bh=3YIgXvNnlKZZkRJjIa1yeZKpwFFnxkASkY1Nv08qCiQ=;
+ b=CAj6yL6Rk2C3GDzJbBsrdQG4Hwbw0IPpTwMbBG0BMSRO1eTYLuF+8tTwm/ez4SEo48
+ AYMrShKUoi1OkpsUwugvZtKDhX2yQnpeOt9qrJ1u6w50udVrbvzCneaIQwYPOp0ET8CA
+ GMRxUcJYjXuvXXAvL8qJc4XLDVIrsh+bOaw1zwlpZryBIaYKQKyGqZpwLTfVBd92elBQ
+ Hf2zwk+ftvEMIRRr6/9knY5PWCnSE7q/BBvIduQ3CMBZdZVVN8I/yNIoGH1Do5EaXcaw
+ +LoJmiTQxgyzstYI6+F9GOXFgZZO+hhvJ8o8d8SvQ51TSv/P7cWrXvPgT+roOqO/w07b
+ +Qxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hktRCt+zPcMLEnvaBC38jKwfPbiQdX/9XB+JNDn/fPU=;
- b=OwG4GMBHpRdEWMsgbNqvdipPUbWRLhP0hPBssg8gwoGaCTkPksVG5fI9QVqSXH0GYl
- upTQkrNA6I+F2tKjSZeAOAhIitEfGa033oDDpxm5aU0icSlVBATn3NG7eCU1R0NklE+h
- A00jSbEk+CVvh8HDk/YYQ0m5bt8OFNU0Y7Eh2g78H901tWVeWa0G5UwEuyhUPbFy8wYW
- ZAB5v69BKRT3HrA+4cy4IcURdwgwA27NDN36B4p7/Gk0QSTOzQyUICBecoQl99ysBpjM
- 0fcKKmRWgYGsA4sTKLnsmtTa2gnnGZdDsYBKwFExjBwjD2tHR8OpYT2uo8raYmGKGrx2
- v1og==
-X-Gm-Message-State: AGi0PubOtT27ZSsj8nWUerNBjnwp+neh3MWHJRKOIkX/+yPH127lP6W/
- uztEtOLUWGxSDK5JCMGi59dTtUjSVjQ=
-X-Google-Smtp-Source: APiQypJOm3/3xLRWNwKKpN5sOaV4O8hG7IRkyueWzug4kiLnZhgPTVVZ9tmpu8ELHLhYTwm5lL7y5w==
-X-Received: by 2002:aa7:9302:: with SMTP id 2mr9461325pfj.256.1588789815175;
- Wed, 06 May 2020 11:30:15 -0700 (PDT)
+ bh=3YIgXvNnlKZZkRJjIa1yeZKpwFFnxkASkY1Nv08qCiQ=;
+ b=BioVnH52ozPDBvfVkalHvXlF91Z0VTEbuGKv0wQpx1UW39kfTXhFBmqH12YyZVm9vQ
+ viDsRkQ2s+Kk87cL1ID3st5PxRw+5+AwoYyAdOAhyMiKJw4mn6unS0uity793uYJe4Ip
+ xoPIhJg2mEIR9PSTOZNMAQJoIPJE9lUkEEVH0SnDD8oSinkZE2ubeMyZIFE6D0VOLHYQ
+ URpK7JPEJ7eB4eUO/ivgW0ceKk1N2OomrmIJmzDgUtvuJ2Ciu3JR3cit6azMxjb7A8hg
+ 9XQxhO2mg+NVkw3npMQd86o3njvWJD9jHIq/+rRv9xkduB+ABo9qjfIuiRcwGxoiIaVz
+ KEmA==
+X-Gm-Message-State: AGi0PuY/TsqTMXUckXaG3sJzkupV/AGLYtJdGnWRbTaVcN6kum+kHHul
+ iPbiAaQIBwiMuRuNsEQa9VBpIwgHMuM=
+X-Google-Smtp-Source: APiQypL75+hD/kSeLGUYUckLFYolK/nG+2qYS0u0htPJWlxMbNUldWKxokw8SMkNiTPAW0U+4x+AbQ==
+X-Received: by 2002:a62:888a:: with SMTP id l132mr5424303pfd.125.1588789816525; 
+ Wed, 06 May 2020 11:30:16 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id w11sm2572589pfq.100.2020.05.06.11.30.14
+ by smtp.gmail.com with ESMTPSA id w11sm2572589pfq.100.2020.05.06.11.30.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 11:30:14 -0700 (PDT)
+ Wed, 06 May 2020 11:30:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/10] tcg: Add load_dest parameter to GVecGen2
-Date: Wed,  6 May 2020 11:30:01 -0700
-Message-Id: <20200506183002.3192-10-richard.henderson@linaro.org>
+Subject: [PULL 10/10] tcg: Fix integral argument type to tcg_gen_rot[rl]i_i{32, 64}
+Date: Wed,  6 May 2020 11:30:02 -0700
+Message-Id: <20200506183002.3192-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200506183002.3192-1-richard.henderson@linaro.org>
 References: <20200506183002.3192-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,150 +87,105 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have this same parameter for GVecGen2i, GVecGen3,
-and GVecGen3i.  This will make some SVE2 insns easier
-to parameterize.
+For the benefit of compatibility of function pointer types,
+we have standardized on int32_t and int64_t as the integral
+argument to tcg expanders.
+
+We converted most of them in 474b2e8f0f7, but missed the rotates.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op-gvec.h |  2 ++
- tcg/tcg-op-gvec.c         | 45 ++++++++++++++++++++++++++++-----------
- 2 files changed, 34 insertions(+), 13 deletions(-)
+ include/tcg/tcg-op.h |  8 ++++----
+ tcg/tcg-op.c         | 16 ++++++++--------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/include/tcg/tcg-op-gvec.h b/include/tcg/tcg-op-gvec.h
-index d89f91f40e..cea6497341 100644
---- a/include/tcg/tcg-op-gvec.h
-+++ b/include/tcg/tcg-op-gvec.h
-@@ -109,6 +109,8 @@ typedef struct {
-     uint8_t vece;
-     /* Prefer i64 to v64.  */
-     bool prefer_i64;
-+    /* Load dest as a 2nd source operand.  */
-+    bool load_dest;
- } GVecGen2;
- 
- typedef struct {
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index 43cac1a0bf..049a55e700 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -663,17 +663,22 @@ static void expand_clr(uint32_t dofs, uint32_t maxsz)
- 
- /* Expand OPSZ bytes worth of two-operand operations using i32 elements.  */
- static void expand_2_i32(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
--                         void (*fni)(TCGv_i32, TCGv_i32))
-+                         bool load_dest, void (*fni)(TCGv_i32, TCGv_i32))
- {
-     TCGv_i32 t0 = tcg_temp_new_i32();
-+    TCGv_i32 t1 = tcg_temp_new_i32();
-     uint32_t i;
- 
-     for (i = 0; i < oprsz; i += 4) {
-         tcg_gen_ld_i32(t0, cpu_env, aofs + i);
--        fni(t0, t0);
--        tcg_gen_st_i32(t0, cpu_env, dofs + i);
-+        if (load_dest) {
-+            tcg_gen_ld_i32(t1, cpu_env, dofs + i);
-+        }
-+        fni(t1, t0);
-+        tcg_gen_st_i32(t1, cpu_env, dofs + i);
+diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
+index 230db6e022..e3399d6a5e 100644
+--- a/include/tcg/tcg-op.h
++++ b/include/tcg/tcg-op.h
+@@ -297,9 +297,9 @@ void tcg_gen_ctzi_i32(TCGv_i32 ret, TCGv_i32 arg1, uint32_t arg2);
+ void tcg_gen_clrsb_i32(TCGv_i32 ret, TCGv_i32 arg);
+ void tcg_gen_ctpop_i32(TCGv_i32 a1, TCGv_i32 a2);
+ void tcg_gen_rotl_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2);
+-void tcg_gen_rotli_i32(TCGv_i32 ret, TCGv_i32 arg1, unsigned arg2);
++void tcg_gen_rotli_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2);
+ void tcg_gen_rotr_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2);
+-void tcg_gen_rotri_i32(TCGv_i32 ret, TCGv_i32 arg1, unsigned arg2);
++void tcg_gen_rotri_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2);
+ void tcg_gen_deposit_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2,
+                          unsigned int ofs, unsigned int len);
+ void tcg_gen_deposit_z_i32(TCGv_i32 ret, TCGv_i32 arg,
+@@ -493,9 +493,9 @@ void tcg_gen_ctzi_i64(TCGv_i64 ret, TCGv_i64 arg1, uint64_t arg2);
+ void tcg_gen_clrsb_i64(TCGv_i64 ret, TCGv_i64 arg);
+ void tcg_gen_ctpop_i64(TCGv_i64 a1, TCGv_i64 a2);
+ void tcg_gen_rotl_i64(TCGv_i64 ret, TCGv_i64 arg1, TCGv_i64 arg2);
+-void tcg_gen_rotli_i64(TCGv_i64 ret, TCGv_i64 arg1, unsigned arg2);
++void tcg_gen_rotli_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2);
+ void tcg_gen_rotr_i64(TCGv_i64 ret, TCGv_i64 arg1, TCGv_i64 arg2);
+-void tcg_gen_rotri_i64(TCGv_i64 ret, TCGv_i64 arg1, unsigned arg2);
++void tcg_gen_rotri_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2);
+ void tcg_gen_deposit_i64(TCGv_i64 ret, TCGv_i64 arg1, TCGv_i64 arg2,
+                          unsigned int ofs, unsigned int len);
+ void tcg_gen_deposit_z_i64(TCGv_i64 ret, TCGv_i64 arg,
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index e2e25ebf7d..e60b74fb82 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -540,9 +540,9 @@ void tcg_gen_rotl_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
      }
-     tcg_temp_free_i32(t0);
-+    tcg_temp_free_i32(t1);
  }
  
- static void expand_2i_i32(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
-@@ -793,17 +798,22 @@ static void expand_4_i32(uint32_t dofs, uint32_t aofs, uint32_t bofs,
- 
- /* Expand OPSZ bytes worth of two-operand operations using i64 elements.  */
- static void expand_2_i64(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
--                         void (*fni)(TCGv_i64, TCGv_i64))
-+                         bool load_dest, void (*fni)(TCGv_i64, TCGv_i64))
+-void tcg_gen_rotli_i32(TCGv_i32 ret, TCGv_i32 arg1, unsigned arg2)
++void tcg_gen_rotli_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
  {
-     TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-     uint32_t i;
- 
-     for (i = 0; i < oprsz; i += 8) {
-         tcg_gen_ld_i64(t0, cpu_env, aofs + i);
--        fni(t0, t0);
--        tcg_gen_st_i64(t0, cpu_env, dofs + i);
-+        if (load_dest) {
-+            tcg_gen_ld_i64(t1, cpu_env, dofs + i);
-+        }
-+        fni(t1, t0);
-+        tcg_gen_st_i64(t1, cpu_env, dofs + i);
+-    tcg_debug_assert(arg2 < 32);
++    tcg_debug_assert(arg2 >= 0 && arg2 < 32);
+     /* some cases can be optimized here */
+     if (arg2 == 0) {
+         tcg_gen_mov_i32(ret, arg1);
+@@ -580,9 +580,9 @@ void tcg_gen_rotr_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
      }
-     tcg_temp_free_i64(t0);
-+    tcg_temp_free_i64(t1);
  }
  
- static void expand_2i_i64(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
-@@ -924,17 +934,23 @@ static void expand_4_i64(uint32_t dofs, uint32_t aofs, uint32_t bofs,
- /* Expand OPSZ bytes worth of two-operand operations using host vectors.  */
- static void expand_2_vec(unsigned vece, uint32_t dofs, uint32_t aofs,
-                          uint32_t oprsz, uint32_t tysz, TCGType type,
-+                         bool load_dest,
-                          void (*fni)(unsigned, TCGv_vec, TCGv_vec))
+-void tcg_gen_rotri_i32(TCGv_i32 ret, TCGv_i32 arg1, unsigned arg2)
++void tcg_gen_rotri_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
  {
-     TCGv_vec t0 = tcg_temp_new_vec(type);
-+    TCGv_vec t1 = tcg_temp_new_vec(type);
-     uint32_t i;
- 
-     for (i = 0; i < oprsz; i += tysz) {
-         tcg_gen_ld_vec(t0, cpu_env, aofs + i);
--        fni(vece, t0, t0);
--        tcg_gen_st_vec(t0, cpu_env, dofs + i);
-+        if (load_dest) {
-+            tcg_gen_ld_vec(t1, cpu_env, dofs + i);
-+        }
-+        fni(vece, t1, t0);
-+        tcg_gen_st_vec(t1, cpu_env, dofs + i);
+-    tcg_debug_assert(arg2 < 32);
++    tcg_debug_assert(arg2 >= 0 && arg2 < 32);
+     /* some cases can be optimized here */
+     if (arg2 == 0) {
+         tcg_gen_mov_i32(ret, arg1);
+@@ -1962,9 +1962,9 @@ void tcg_gen_rotl_i64(TCGv_i64 ret, TCGv_i64 arg1, TCGv_i64 arg2)
      }
-     tcg_temp_free_vec(t0);
-+    tcg_temp_free_vec(t1);
  }
  
- /* Expand OPSZ bytes worth of two-vector operands and an immediate operand
-@@ -1088,7 +1104,8 @@ void tcg_gen_gvec_2(uint32_t dofs, uint32_t aofs,
-          * that e.g. size == 80 would be expanded with 2x32 + 1x16.
-          */
-         some = QEMU_ALIGN_DOWN(oprsz, 32);
--        expand_2_vec(g->vece, dofs, aofs, some, 32, TCG_TYPE_V256, g->fniv);
-+        expand_2_vec(g->vece, dofs, aofs, some, 32, TCG_TYPE_V256,
-+                     g->load_dest, g->fniv);
-         if (some == oprsz) {
-             break;
-         }
-@@ -1098,17 +1115,19 @@ void tcg_gen_gvec_2(uint32_t dofs, uint32_t aofs,
-         maxsz -= some;
-         /* fallthru */
-     case TCG_TYPE_V128:
--        expand_2_vec(g->vece, dofs, aofs, oprsz, 16, TCG_TYPE_V128, g->fniv);
-+        expand_2_vec(g->vece, dofs, aofs, oprsz, 16, TCG_TYPE_V128,
-+                     g->load_dest, g->fniv);
-         break;
-     case TCG_TYPE_V64:
--        expand_2_vec(g->vece, dofs, aofs, oprsz, 8, TCG_TYPE_V64, g->fniv);
-+        expand_2_vec(g->vece, dofs, aofs, oprsz, 8, TCG_TYPE_V64,
-+                     g->load_dest, g->fniv);
-         break;
+-void tcg_gen_rotli_i64(TCGv_i64 ret, TCGv_i64 arg1, unsigned arg2)
++void tcg_gen_rotli_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
+ {
+-    tcg_debug_assert(arg2 < 64);
++    tcg_debug_assert(arg2 >= 0 && arg2 < 64);
+     /* some cases can be optimized here */
+     if (arg2 == 0) {
+         tcg_gen_mov_i64(ret, arg1);
+@@ -2001,9 +2001,9 @@ void tcg_gen_rotr_i64(TCGv_i64 ret, TCGv_i64 arg1, TCGv_i64 arg2)
+     }
+ }
  
-     case 0:
-         if (g->fni8 && check_size_impl(oprsz, 8)) {
--            expand_2_i64(dofs, aofs, oprsz, g->fni8);
-+            expand_2_i64(dofs, aofs, oprsz, g->load_dest, g->fni8);
-         } else if (g->fni4 && check_size_impl(oprsz, 4)) {
--            expand_2_i32(dofs, aofs, oprsz, g->fni4);
-+            expand_2_i32(dofs, aofs, oprsz, g->load_dest, g->fni4);
-         } else {
-             assert(g->fno != NULL);
-             tcg_gen_gvec_2_ool(dofs, aofs, oprsz, maxsz, g->data, g->fno);
+-void tcg_gen_rotri_i64(TCGv_i64 ret, TCGv_i64 arg1, unsigned arg2)
++void tcg_gen_rotri_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
+ {
+-    tcg_debug_assert(arg2 < 64);
++    tcg_debug_assert(arg2 >= 0 && arg2 < 64);
+     /* some cases can be optimized here */
+     if (arg2 == 0) {
+         tcg_gen_mov_i64(ret, arg1);
 -- 
 2.20.1
 
