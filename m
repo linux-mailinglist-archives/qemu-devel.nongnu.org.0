@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E281C6DE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 12:02:07 +0200 (CEST)
-Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825861C6DFC
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 12:07:16 +0200 (CEST)
+Received: from localhost ([::1]:52384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWGsQ-0006Vo-IY
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 06:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55614)
+	id 1jWGxP-0005MQ-Hv
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 06:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWGpC-0002mn-CR
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:58:46 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:23836
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jWGpe-0003M1-I0
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 05:59:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32625
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWGpB-0007mZ-HR
- for qemu-devel@nongnu.org; Wed, 06 May 2020 05:58:46 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jWGpd-0007s7-Ik
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 05:59:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588759124;
+ s=mimecast20190719; t=1588759152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3kjyS4/HKDNJDJTMMdkm0lc0Rr2NH7WKocMyGfUSP/k=;
- b=LsOqUqMU2oP58V50iEzs6U4Wovj7fFsPa/EKez+7CwxJ9LkAJvkoi+B/+kJfWNpOAv9IoT
- ASWUlwjbHboUvsVmY0i4MXDoLjzhOYqdkOlb2OoQu25iwvVmZ26XlUY4+s1HRM+nO3C6ZG
- 9VxetTGeEJ1zcK7Llalzs2GZIYDpPPA=
+ bh=4zvEnd1h/BCOSS6RyUBo4IOIsyq26sFYQfuwkmJ6Ldo=;
+ b=GwkLqF3AmWnNyYdh1pl6sD64bRaYyKk674dUk+U+V/8311LmZa1I6mKnqV4JpPIkxAfjaI
+ v4bxMb+k/CyLQz/rl2kXzIQEeMf3S/h0B06V7WyiokEsjoaR5ef20rpGM7RNfwIV6Y/A46
+ GM/8SvqkEz4PGjbaX6mdMMYRiIVWYqI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-xGfruh4MMXWJYvlO6GLLWg-1; Wed, 06 May 2020 05:58:42 -0400
-X-MC-Unique: xGfruh4MMXWJYvlO6GLLWg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-280-pB3vgmhlNSmjEN2GyA768g-1; Wed, 06 May 2020 05:59:09 -0400
+X-MC-Unique: pB3vgmhlNSmjEN2GyA768g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A79581899523;
- Wed,  6 May 2020 09:58:41 +0000 (UTC)
-Received: from work-vm (ovpn-114-245.ams2.redhat.com [10.36.114.245])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A1855C1D4;
- Wed,  6 May 2020 09:58:37 +0000 (UTC)
-Date: Wed, 6 May 2020 10:58:35 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH RFC 1/4] migration: Export migration_bitmap_sync_precopy()
-Message-ID: <20200506095835.GE2743@work-vm>
-References: <20200428194219.10963-1-peterx@redhat.com>
- <20200428194219.10963-2-peterx@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4F871899520;
+ Wed,  6 May 2020 09:59:06 +0000 (UTC)
+Received: from gondolin (ovpn-112-211.ams2.redhat.com [10.36.112.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 781E92E16F;
+ Wed,  6 May 2020 09:58:59 +0000 (UTC)
+Date: Wed, 6 May 2020 11:58:56 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH v16 QEMU 08/16] vfio: Register SaveVMHandlers for VFIO
+ device
+Message-ID: <20200506115856.012c88d8.cohuck@redhat.com>
+In-Reply-To: <20200506063846.GB19334@joy-OptiPlex-7040>
+References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
+ <1585084154-29461-9-git-send-email-kwankhede@nvidia.com>
+ <20200325150248.6661e1bd@w520.home>
+ <a3a082a4-cc2f-b84b-60c6-a20f86528a6d@nvidia.com>
+ <20200504223726.5d4bb9ce@x1.home>
+ <20200506063846.GB19334@joy-OptiPlex-7040>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200428194219.10963-2-peterx@redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 05:50:09
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 04:02:22
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,94 +84,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Tian Kevin <kevin.tian@intel.com>,
- qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+ "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu, 
+ Changpeng" <changpeng.liu@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Make it usable outside migration.  To make it easier to use, remove the
-> RAMState parameter since after all ram.c has the reference of ram_state
-> directly from its context.
->=20
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+On Wed, 6 May 2020 02:38:46 -0400
+Yan Zhao <yan.y.zhao@intel.com> wrote:
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> On Tue, May 05, 2020 at 12:37:26PM +0800, Alex Williamson wrote:
+> > It's been a long time, but that doesn't seem like what I was asking.
+> > The sysfs version checking is used to select a target that is likely to
+> > succeed, but the migration stream is still generated by a user and the
+> > vendor driver is still ultimately responsible for validating that
+> > stream.  I would hope that a vendor migration stream therefore starts
+> > with information similar to that found in the sysfs interface, allowing
+> > the receiving vendor driver to validate the source device and vendor
+> > software version, such that we can fail an incoming migration that the
+> > vendor driver deems incompatible.  Ideally the vendor driver might also
+> > include consistency and sequence checking throughout the stream to
+> > prevent a malicious user from exploiting the internal operation of the
+> > vendor driver.  Thanks,
 
-> ---
->  include/migration/misc.h |  1 +
->  migration/ram.c          | 10 +++++-----
->  2 files changed, 6 insertions(+), 5 deletions(-)
->=20
-> diff --git a/include/migration/misc.h b/include/migration/misc.h
-> index d2762257aa..e338be8c30 100644
-> --- a/include/migration/misc.h
-> +++ b/include/migration/misc.h
-> @@ -66,6 +66,7 @@ void remove_migration_state_change_notifier(Notifier *n=
-otify);
->  bool migration_in_setup(MigrationState *);
->  bool migration_has_finished(MigrationState *);
->  bool migration_has_failed(MigrationState *);
-> +void migration_bitmap_sync_precopy(void);
->  /* ...and after the device transmission */
->  bool migration_in_postcopy_after_devices(MigrationState *);
->  void migration_global_dump(Monitor *mon);
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 04f13feb2e..d737175d4e 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -970,7 +970,7 @@ static void migration_bitmap_sync(RAMState *rs)
->      }
->  }
-> =20
-> -static void migration_bitmap_sync_precopy(RAMState *rs)
-> +void migration_bitmap_sync_precopy(void)
->  {
->      Error *local_err =3D NULL;
-> =20
-> @@ -983,7 +983,7 @@ static void migration_bitmap_sync_precopy(RAMState *r=
-s)
->          local_err =3D NULL;
->      }
-> =20
-> -    migration_bitmap_sync(rs);
-> +    migration_bitmap_sync(ram_state);
-> =20
->      if (precopy_notify(PRECOPY_NOTIFY_AFTER_BITMAP_SYNC, &local_err)) {
->          error_report_err(local_err);
-> @@ -2303,7 +2303,7 @@ static void ram_init_bitmaps(RAMState *rs)
->      WITH_RCU_READ_LOCK_GUARD() {
->          ram_list_init_bitmaps();
->          memory_global_dirty_log_start();
-> -        migration_bitmap_sync_precopy(rs);
-> +        migration_bitmap_sync_precopy();
->      }
->      qemu_mutex_unlock_ramlist();
->      qemu_mutex_unlock_iothread();
-> @@ -2592,7 +2592,7 @@ static int ram_save_complete(QEMUFile *f, void *opa=
-que)
-> =20
->      WITH_RCU_READ_LOCK_GUARD() {
->          if (!migration_in_postcopy()) {
-> -            migration_bitmap_sync_precopy(rs);
-> +            migration_bitmap_sync_precopy();
->          }
-> =20
->          ram_control_before_iterate(f, RAM_CONTROL_FINISH);
-> @@ -2642,7 +2642,7 @@ static void ram_save_pending(QEMUFile *f, void *opa=
-que, uint64_t max_size,
->          remaining_size < max_size) {
->          qemu_mutex_lock_iothread();
->          WITH_RCU_READ_LOCK_GUARD() {
-> -            migration_bitmap_sync_precopy(rs);
-> +            migration_bitmap_sync_precopy();
->          }
->          qemu_mutex_unlock_iothread();
->          remaining_size =3D rs->migration_dirty_pages * TARGET_PAGE_SIZE;
-> --=20
-> 2.24.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Some kind of somewhat standardized marker for driver/version seems like
+a good idea. Further checking is also a good idea, but I think the
+details of that need to be left to the individual drivers.
+
+> >   
+> maybe we can add a rw field migration_version in
+> struct vfio_device_migration_info besides sysfs interface ?
+> 
+> when reading it in src, it gets the same string as that from sysfs;
+> when writing it in target, it returns success or not to check
+> compatibility and fails the migration early in setup phase.
+
+Getting both populated from the same source seems like a good idea.
+
+Not sure if a string is the best value to put into a migration stream;
+maybe the sysfs interface can derive a human-readable string from a
+more compact value to be put into the migration region (and ultimately
+the stream)? Might be overengineering, just thinking out aloud here.
 
 
