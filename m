@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDE91C72D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 16:29:10 +0200 (CEST)
-Received: from localhost ([::1]:41544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3938B1C72D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 16:29:03 +0200 (CEST)
+Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWL2r-0006u9-EK
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 10:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58188)
+	id 1jWL2j-0006hQ-MI
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 10:29:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jWL1i-0005Ve-Lr
- for qemu-devel@nongnu.org; Wed, 06 May 2020 10:27:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24552)
+ id 1jWL1e-0005Sa-ND
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 10:27:54 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9868
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jWL1h-0004Jn-Ny
- for qemu-devel@nongnu.org; Wed, 06 May 2020 10:27:58 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1jWL1d-0003rD-N2
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 10:27:54 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 046EKixs140897; Wed, 6 May 2020 10:27:56 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30s4gw34h4-1
+ 046E9rgF119156; Wed, 6 May 2020 10:27:50 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30s4r5bb9s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 06 May 2020 10:27:55 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 046ERGfx009586;
+ Wed, 06 May 2020 10:27:50 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 046EBJTG131004;
+ Wed, 6 May 2020 10:27:49 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30s4r5bb9h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 06 May 2020 10:27:49 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 046ERYw4027003;
  Wed, 6 May 2020 14:27:49 GMT
 Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma01dal.us.ibm.com with ESMTP id 30s0g6taq4-1
+ [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 30s0g7ja6m-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Wed, 06 May 2020 14:27:49 +0000
 Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com
  [9.57.199.108])
  by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 046ERm2L40436042
+ 046ERmEl48366056
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 6 May 2020 14:27:48 GMT
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1FC1FB2068;
+ by IMSVA (Postfix) with ESMTP id 3955FB2065;
  Wed,  6 May 2020 14:27:48 +0000 (GMT)
 Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 06A90B2065;
- Wed,  6 May 2020 14:27:47 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 20623B206B;
+ Wed,  6 May 2020 14:27:48 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  6 May 2020 14:27:47 +0000 (GMT)
+ Wed,  6 May 2020 14:27:48 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 0/3] Merge tpm 2020/05/06 v1
-Date: Wed,  6 May 2020 10:27:43 -0400
-Message-Id: <20200506142746.369563-1-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v1 1/3] tpm: tpm-tis-device: set PPI to false by default
+Date: Wed,  6 May 2020 10:27:44 -0400
+Message-Id: <20200506142746.369563-2-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200506142746.369563-1-stefanb@linux.vnet.ibm.com>
+References: <20200506142746.369563-1-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
@@ -62,15 +72,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.676
  definitions=2020-05-06_07:2020-05-05,
  2020-05-06 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0
- lowpriorityscore=0 mlxlogscore=763 clxscore=1015 bulkscore=0 mlxscore=0
- priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0 impostorscore=0
- suspectscore=1 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ mlxlogscore=999 clxscore=1015 priorityscore=1501 malwarescore=0
+ impostorscore=0 bulkscore=0 suspectscore=1 adultscore=0 phishscore=0
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2003020000 definitions=main-2005060108
-Received-SPF: none client-ip=148.163.156.1;
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 10:27:51
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 10:23:48
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
@@ -89,49 +99,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello!
-  This PR provides PPI changes for TPM support on ARM and compat
-  machines for QEMU 5.1
+From: Eric Auger <eric.auger@redhat.com>
 
-Regards,
-   Stefan
+The tpm-tis-device device does not support PPI. Let's
+change the default value for the corresponding property
+instead of tricking this latter in the mach-virt machine.
 
-The following changes since commit ea1329bb3a8d5cd25b70e3dbf73e7ded4d5ad756:
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Message-id: 20200427143145.16251-2-eric.auger@redhat.com
+---
+ hw/tpm/tpm_tis_sysbus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-05-05' into staging (2020-05-05 16:46:37 +0100)
-
-are available in the Git repository at:
-
-  git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2020-05-06-1
-
-for you to fetch changes up to 541aaa1df80df465c7dc934dc8cf57c0e3dfd6c3:
-
-  hw: add compat machines for 5.1 (2020-05-06 10:12:16 -0400)
-
-----------------------------------------------------------------
-Cornelia Huck (1):
-      hw: add compat machines for 5.1
-
-Eric Auger (2):
-      tpm: tpm-tis-device: set PPI to false by default
-      hw/arm/virt: Remove the compat forcing tpm-tis-device PPI to off
-
- hw/arm/virt.c              | 13 +++++++------
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  3 +++
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/ppc/spapr.c             | 15 +++++++++++++--
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- hw/tpm/tpm_tis_sysbus.c    |  2 +-
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- 10 files changed, 71 insertions(+), 12 deletions(-)
-
+diff --git a/hw/tpm/tpm_tis_sysbus.c b/hw/tpm/tpm_tis_sysbus.c
+index 18c02aed67..eced1fc843 100644
+--- a/hw/tpm/tpm_tis_sysbus.c
++++ b/hw/tpm/tpm_tis_sysbus.c
+@@ -91,7 +91,7 @@ static void tpm_tis_sysbus_reset(DeviceState *dev)
+ static Property tpm_tis_sysbus_properties[] = {
+     DEFINE_PROP_UINT32("irq", TPMStateSysBus, state.irq_num, TPM_TIS_IRQ),
+     DEFINE_PROP_TPMBE("tpmdev", TPMStateSysBus, state.be_driver),
+-    DEFINE_PROP_BOOL("ppi", TPMStateSysBus, state.ppi_enabled, true),
++    DEFINE_PROP_BOOL("ppi", TPMStateSysBus, state.ppi_enabled, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.24.1
+
 
