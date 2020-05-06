@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B233C1C7C8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 23:37:10 +0200 (CEST)
-Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283881C7C91
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 May 2020 23:37:41 +0200 (CEST)
+Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWRj3-0008P5-1D
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 17:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50640)
+	id 1jWRjY-0000VP-4x
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 17:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
- id 1jWRhK-0006hP-5r; Wed, 06 May 2020 17:35:22 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:41322)
+ id 1jWRhN-0006o2-Jm; Wed, 06 May 2020 17:35:25 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:52636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
- id 1jWRhH-0006fl-WD; Wed, 06 May 2020 17:35:21 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 046LHnnc088527;
- Wed, 6 May 2020 21:35:17 GMT
+ id 1jWRhM-0006wV-Cg; Wed, 06 May 2020 17:35:25 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 046LJ9Vn102767;
+ Wed, 6 May 2020 21:35:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=HdN1UqFMciOkIwwQ7DVlFd6+2YPnNvPWrIVNPKoavKE=;
- b=rRPXeXlsOs8o/M8DTGmU5fCGGxwd0mDdZS+gU9gYnG/XhyLusQdB+hIatEmjnZ4J7r4a
- uPm9xPmRmAoAPm3P2LkAO7DeHlNlPL6OJrFQ6vg/tZ1ZJyzl3AZ3koqqMhHt9ndOQZ14
- X3eKEhbm95+EKYBI+6hiZ0mJ08Ryefm59W8fmH5fMAGGOHZEhTwO1AQ+zuqQvZ2kQZwJ
- /zz95fQAV9c/jfHguYavxOW8WGGBFMR1Hiy2gQhc53uEf391f7DUxHDnRvMUQHpsWbT1
- WiyEWZwZURsOjSgu04ow2f3KqXc4PPxgrHUa/L7QHaKs1zj08oMLvBAxFu5UD3LmrH/i ZA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 30s09rcwgw-1
+ bh=sJ4m17NJK5cs8JtIQvb12r57i6kH9t2M3Mg55ZLfYHQ=;
+ b=RfqsuDaxFcilvOURMCXES5fTegBX0/MHyYXbEOIG67b3I0k+OupWVpOGzq8u3cPlv45f
+ c2mX1vGBr+D0ojla19GkbL+hKvLSdyCCQmWAqHgefW3Rl3E70H3NI7TUjZPDTlLtQ204
+ JuTvWNxrB18eoQ++wsPSRQmovSVl5xsC3VpsT7bo1AqtNVmRtnrnwcwD4uK7JWk5LnPL
+ 0zWPUMb2sl2YqpVhBZoZVOo3coVaD6N/KBEjylr8tHOl7T8hmrdh9N3Ejy5WVkNlgCUP
+ MOY/OSdrbSJ2lJh56z7X26Sm39266lCoPq/60OfchjAUtxPDfVMjvhSIH+ZoG+065ppB qA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 30s1gncq0r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 06 May 2020 21:35:17 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 046LGboV070964;
- Wed, 6 May 2020 21:35:16 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 30us7nprm4-1
+ Wed, 06 May 2020 21:35:22 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 046LHn7H039657;
+ Wed, 6 May 2020 21:35:22 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 30t1r8sryn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 06 May 2020 21:35:16 +0000
+ Wed, 06 May 2020 21:35:21 +0000
 Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 046LZFQE016342;
- Wed, 6 May 2020 21:35:16 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 046LZLQe012347;
+ Wed, 6 May 2020 21:35:21 GMT
 Received: from localhost.localdomain (/10.74.121.228)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 06 May 2020 14:35:15 -0700
+ with ESMTP ; Wed, 06 May 2020 14:35:20 -0700
 From: Eyal Moscovici <eyal.moscovici@oracle.com>
 To: 
-Subject: [PATCH v2 0/5] Additional parameters for qemu_img map
-Date: Thu,  7 May 2020 00:34:54 +0300
-Message-Id: <20200506213459.44743-1-eyal.moscovici@oracle.com>
+Subject: [PATCH v2 1/5] qemu-img: remove check that cvtnum value > MAX_INT
+Date: Thu,  7 May 2020 00:34:55 +0300
+Message-Id: <20200506213459.44743-2-eyal.moscovici@oracle.com>
 X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-In-Reply-To: <59b0896d-85ad-08b5-fcc1-36adad7501a4@redhat.com>
+In-Reply-To: <20200506213459.44743-1-eyal.moscovici@oracle.com>
 References: <59b0896d-85ad-08b5-fcc1-36adad7501a4@redhat.com>
+ <20200506213459.44743-1-eyal.moscovici@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  adultscore=0 suspectscore=0
- mlxlogscore=651 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
+ spamscore=0 mlxlogscore=999 malwarescore=0 phishscore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
  definitions=main-2005060172
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9613
  signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 malwarescore=0 mlxlogscore=715 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005060172
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=eyal.moscovici@oracle.com; helo=userp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 17:35:17
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0 mlxscore=0
+ spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 lowpriorityscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005060172
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=eyal.moscovici@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 17:35:22
 X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -99,36 +100,47 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eyal Moscovici <eyal.moscovici@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Following commit f46bfdbfc8f95cf65d7818ef68a801e063c40332 (util/cutils: Change
+qemu_strtosz*() from int64_t to uint64_t) which added a similar check to
+cvtnum. As a result there is no need to check it separately outside of cvtnum.
 
-The following series adds two parameters to qemu-img map:
-1. start-offset: mapping starting offset.
-2. max-length: the length of the mapping.
+Acked-by: Mark Kanda <mark.kanda@oracle.com>
+Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
+---
+ qemu-img.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-These parameters proved useful when mapping large disk spread across
-long store file chains. It allows us to bound the execution time of each
-qemu-img map execution as well as recover from failed mapping
-operations. In addition the map operation can divided to
-multiple independent tasks.
-
-V2 changes:
-1. add error reporting to cvtnum.
-2. add image length validation in img_map.
-3. rebase over QEMU 5.0.
-
-Eyal Moscovici (5):
-  qemu-img: remove check that cvtnum value > MAX_INT
-  qemu_img: add error report to cvtnum
-  qemu-img: validate image length in img_map
-  qemu-img: refactor dump_map_entry JSON format output
-  qemu-img: Add --start-offset and --max-length to map
-
- docs/tools/qemu-img.rst    |   2 +-
- qemu-img-cmds.hx           |   4 +-
- qemu-img.c                 | 106 ++++++++++++++++++++++---------------
- tests/qemu-iotests/049.out |   4 +-
- 4 files changed, 67 insertions(+), 49 deletions(-)
-
+diff --git a/qemu-img.c b/qemu-img.c
+index 6a4327aaba..116a9c6349 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -4307,7 +4307,7 @@ static int img_bench(int argc, char **argv)
+             int64_t sval;
+ 
+             sval = cvtnum(optarg);
+-            if (sval < 0 || sval > INT_MAX) {
++            if (sval < 0) {
+                 error_report("Invalid buffer size specified");
+                 return 1;
+             }
+@@ -4320,7 +4320,7 @@ static int img_bench(int argc, char **argv)
+             int64_t sval;
+ 
+             sval = cvtnum(optarg);
+-            if (sval < 0 || sval > INT_MAX) {
++            if (sval < 0) {
+                 error_report("Invalid step size specified");
+                 return 1;
+             }
+@@ -4493,7 +4493,7 @@ static int img_dd_bs(const char *arg,
+ 
+     res = cvtnum(arg);
+ 
+-    if (res <= 0 || res > INT_MAX) {
++    if (res <= 0) {
+         error_report("invalid number: '%s'", arg);
+         return 1;
+     }
 -- 
 2.17.2 (Apple Git-113)
 
