@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94141C94E6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 17:22:47 +0200 (CEST)
-Received: from localhost ([::1]:44060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDB0B1C94E0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 17:21:34 +0200 (CEST)
+Received: from localhost ([::1]:39856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWiMI-00047b-NO
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 11:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54112)
+	id 1jWiL7-0002HK-Vv
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 11:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jWiI8-0006pd-0N
+ id 1jWiI8-0006pj-A4
  for qemu-devel@nongnu.org; Thu, 07 May 2020 11:18:29 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51046)
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jWiI5-0002Zo-Od
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:18:27 -0400
-Received: by mail-wm1-x343.google.com with SMTP id m12so2072859wmc.0
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 08:18:25 -0700 (PDT)
+ id 1jWiI7-0002Zx-Aq
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:18:28 -0400
+Received: by mail-wr1-x441.google.com with SMTP id w7so6028458wre.13
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 08:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=TGcmfNlDWPZF6zKifFKModO2QCDgF7kjS3M9oH6wUnM=;
- b=t/P45HhfXSOxnzevGByJpsItNSTteT0+FvltoX/hvsGi2Gt5qrpcA5tCi2ImJ20sks
- SjJmu7pWh5VyXeXUQDukMRJiy3znFPJehUFE5yYs9cxRPiRaqy1XT1HZMzoZRiiljPVV
- qYFhsL/KjSfz62iHQvrnRI+e5B5G4wqtiDDjdLcX4x57rXvPNuhAUSJpl5pEKzB/zzhj
- D06xc3GpGeLqAmdHlUl3TcZV8k9CryzQGgdRUdxu825z+k4vpchW0uOdNpxf4BVJ358D
- qzdawIJgwKrJWUbypZlQPR6SWCKhtxWfNZ8Z4f5Ji4KN7F1DYLEMAWgyFMWCMLcb9o5T
- Xv8A==
+ bh=GnYXmYc6RRM664iT3oxB7lyBMcCRlVJ8yPsgk5u15TQ=;
+ b=xTjvaKod0wdM/kzGIi61kAVVN9qCdg1E6BZ15UAByaVuiPmS4anUf1W9HzTAvEIRC9
+ fcVfEkwdEYcua0fZ/lpI7Rn52Xgh0canXMQrHvevryPjbvYLvvl58o2DImFkuzZXRCKs
+ 5dP8s4CdwREKu471VbZZKrdod9OwBiIu9fTc+ALdatYhT1RZtGpQN7Cc/KXGgzYCrPq4
+ mt9X3u1D6VV8pGzYkk4Rqd5mRaT2etm6JVv7P3rIjRNdvffS4oPXyOBFSvYQ20F1lEpD
+ 7AtiOG5AnBT3kyIL1WN75v+DceAqGf8JIGMP49aWMeWnNWByxreDjGsvXWZH1ijO4/UH
+ Y6ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TGcmfNlDWPZF6zKifFKModO2QCDgF7kjS3M9oH6wUnM=;
- b=lqV4kTn1e54V28aNYAHnsK1nDOo+9qy1T+rZ9nw7RmxAvP3dHcFkpmtV/IJArw2cxL
- iWKyH5oATHuTjRoHzqgkJa2XX/4eoO4gowUs+zaetU9sw3CqpfJh5P3f24CWjysl3F32
- 1E8heJj9nKa8aiBfUt7IL0GOzXCXzbSdPhbzGcyB6JTo96oE0bjkT4xJ2LUH6t7ThmDk
- VWJLVl6XkS5OUouZH/JqY465Gz/4gAY+h7+VqF645nOWKlheDoTiSCs/J3e5Cld3B4mj
- gio0RVvh7GZmIsp1oG6CQPqahpyXu+x6xDxLy6dODv1b/h49WTM780ayv/IFT3xkME/x
- fdOw==
-X-Gm-Message-State: AGi0PubTdqXkdI6QjGUFRn6Sa0vXvjEP/GM9blEf9T7K7iffPq3W5co/
- ZIABf8ipa7XQ2XJtNotI3KAgvw==
-X-Google-Smtp-Source: APiQypIk1l3dAIwZzQXczf5nsuvc8qoVIPHvore/ektV3epakATUHPxxDGvB1rFyjnYyku6TZ7s5OQ==
-X-Received: by 2002:a1c:dc8b:: with SMTP id
- t133mr11000234wmg.117.1588864704035; 
- Thu, 07 May 2020 08:18:24 -0700 (PDT)
+ bh=GnYXmYc6RRM664iT3oxB7lyBMcCRlVJ8yPsgk5u15TQ=;
+ b=rvovPDx6LDNox6wd+MOPyKH/5h8seR6CVcYzqVoqJj+nnLpi0AkqTP1wPtzqmRpeSP
+ 9kibbytGEvu6N/iBSkWsbAIgakRUnq3AlUnE58tsEjI5jJnq2t2/RAuxpo5PxkPjzQi2
+ l+fg+QAbbRhl9uLYBmXaCyra4YID1/B8rcmaDRBHE+tRI7vpcd4DENN/iFVQsIjLDAqp
+ qgyfVdiXOc2Gt2vRNm4DiuHEZEjs5D54bmnXoGEnytRMyuOmUjgkCHWA1bKOGoX+WE89
+ HL8RyBdoig2RWDbd9H39jgb539KkWmfMu9+oDA/HX3+6iWm5hO027icaNHgH/BJ3/YY8
+ Noww==
+X-Gm-Message-State: AGi0PuaQ0N2yraZB4B2+81/MpQ+ZEkU9VFDaj0kqjPvP0mafKk/yUZ74
+ pp1VpKj99Om2Iqu4vyA7zgcwSOHTELj2bw==
+X-Google-Smtp-Source: APiQypJzqzs4V3aVaX/yPAadfEuBfLXoEuAPby7LDxGcuWdnuBSI77QcM2TgY0AE0yk4rAH4wMJGkg==
+X-Received: by 2002:a5d:51cb:: with SMTP id n11mr13338094wrv.236.1588864705313; 
+ Thu, 07 May 2020 08:18:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q74sm961246wme.14.2020.05.07.08.18.22
+ by smtp.gmail.com with ESMTPSA id q74sm961246wme.14.2020.05.07.08.18.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 08:18:23 -0700 (PDT)
+ Thu, 07 May 2020 08:18:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/5] docs/system: Add 'Arm' to the Integrator/CP document title
-Date: Thu,  7 May 2020 16:18:15 +0100
-Message-Id: <20200507151819.28444-2-peter.maydell@linaro.org>
+Subject: [PATCH 2/5] docs/system: Sort Arm board index into alphabetical order
+Date: Thu,  7 May 2020 16:18:16 +0100
+Message-Id: <20200507151819.28444-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200507151819.28444-1-peter.maydell@linaro.org>
 References: <20200507151819.28444-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,27 +88,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add 'Arm' to the Integrator/CP document title, for consistency with
-the titling of the other documentation of Arm devboard models
-(versatile, realview).
+Sort the board index into alphabetical order.  (Note that we need to
+sort alphabetically by the title text of each file, which isn't the
+same ordering as sorting by the filename.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/integratorcp.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ docs/system/target-arm.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/docs/system/arm/integratorcp.rst b/docs/system/arm/integratorcp.rst
-index e6f050f602b..594438008e4 100644
---- a/docs/system/arm/integratorcp.rst
-+++ b/docs/system/arm/integratorcp.rst
-@@ -1,5 +1,5 @@
--Integrator/CP (``integratorcp``)
--================================
-+Arm Integrator/CP (``integratorcp``)
-+====================================
+diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+index 324e2af1cbc..d1196cbe01c 100644
+--- a/docs/system/target-arm.rst
++++ b/docs/system/target-arm.rst
+@@ -71,15 +71,15 @@ undocumented; you can get a complete list by running
+    :maxdepth: 1
  
- The Arm Integrator/CP board is emulated with the following devices:
+    arm/integratorcp
+-   arm/versatile
+    arm/realview
+-   arm/xscale
+-   arm/palm
+-   arm/nseries
+-   arm/stellaris
++   arm/versatile
+    arm/musicpal
+-   arm/sx1
++   arm/nseries
+    arm/orangepi
++   arm/palm
++   arm/xscale
++   arm/sx1
++   arm/stellaris
  
+ Arm CPU features
+ ================
 -- 
 2.20.1
 
