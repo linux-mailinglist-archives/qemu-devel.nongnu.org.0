@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673BD1C9710
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:04:41 +0200 (CEST)
-Received: from localhost ([::1]:34030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D3E1C9712
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:05:12 +0200 (CEST)
+Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWjwt-0005og-Sd
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:04:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
+	id 1jWjxP-0006Um-3J
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWjum-0004aA-T4
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:02:28 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38624
+ id 1jWjuy-0004j9-ET
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:02:40 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:59505
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWjul-0001ZV-84
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:02:28 -0400
+ id 1jWjut-0001a9-0G
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:02:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588870945;
+ s=mimecast20190719; t=1588870953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=huJWCduFdXan6/tK/E6AOnPZJFaHON21BiOBOz5Fre4=;
- b=R8u40OHi+W48JGwRapDvRJtmUn2MjB+4vpK9jcbsnLgd3gTJpK3VpYgntKUz54e63PnW+v
- aZHX7bVO00fZ/5iVhU6j6gay7TVZiW6xAjpd0BLx6oqnjd+QQNmFQIWrbGbLvHYQjJ+pQX
- 3LLIOiKKAwyua9Rx6gpu7Rb1m42NlKs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0FeS7J+dpo8/xTc7woyCEyx39nSoYsRltfEaVs0z5v8=;
+ b=LzBK97jNLeIm10tV3QH3BqTT2byDXa9ZNgJMZXAs9UCMjn+ZvXW0fFUTXK/LAe2tgZ+2kh
+ w4uxAvZ/CYK339PSNZu41F9CliMj2XKaC4TMwfSBo+8Bheh+ZW528u5kanqS99r/LDGnDc
+ HCrAO567WUsoHVG08f4XHd+rz/uF+n0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-e17whfAdNGO0QI_J4wy7ng-1; Thu, 07 May 2020 13:02:23 -0400
-X-MC-Unique: e17whfAdNGO0QI_J4wy7ng-1
+ us-mta-405-QFl6ERcpMMqe1f9ATrMF5w-1; Thu, 07 May 2020 13:02:26 -0400
+X-MC-Unique: QFl6ERcpMMqe1f9ATrMF5w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3E9E800687;
- Thu,  7 May 2020 17:02:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 338231009445;
+ Thu,  7 May 2020 17:02:25 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-224.ams2.redhat.com
  [10.36.114.224])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FB3510027AB;
- Thu,  7 May 2020 17:02:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2AF46100EBA4;
+ Thu,  7 May 2020 17:02:22 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
  maozhongyi@cmss.chinamobile.com, marcandre.lureau@redhat.com,
  pannengyuan@huawei.com, f4bug@amsat.org, wei.w.wang@intel.com,
  yi.y.sun@intel.com, quintela@redhat.com
-Subject: [PULL 00/12] migration queue
-Date: Thu,  7 May 2020 18:01:59 +0100
-Message-Id: <20200507170211.238283-1-dgilbert@redhat.com>
+Subject: [PULL 01/12] migration: fix bad indentation in error_report()
+Date: Thu,  7 May 2020 18:02:00 +0100
+Message-Id: <20200507170211.238283-2-dgilbert@redhat.com>
+In-Reply-To: <20200507170211.238283-1-dgilbert@redhat.com>
+References: <20200507170211.238283-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,71 +86,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-The following changes since commit 3c7adbc67d9a5c3e992a4dd13b8704464daaad5b=
-:
+bad indentation conflicts with CODING_STYLE doc.
 
-  Merge remote-tracking branch 'remotes/berrange/tags/qcrypto-next-pull-req=
-uest' into staging (2020-05-07 14:30:12 +0100)
+Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
+Message-Id: <09f7529c665cac0c6a5e032ac6fdb6ca701f7e37.1585329482.git.maozho=
+ngyi@cmss.chinamobile.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ migration/migration.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-are available in the Git repository at:
-
-  git://github.com/dagrh/qemu.git tags/pull-migration-20200507a
-
-for you to fetch changes up to 13f2cb21e5fb33e9f8d7db8eee48edc1c67b812f:
-
-  migration/multifd: Do error_free after migrate_set_error to avoid memleak=
-s (2020-05-07 17:40:24 +0100)
-
-----------------------------------------------------------------
-Migration pull 2020-05-07
-
-Mostly tidy-ups, but two new features:
-  cpu-throttle-tailslow for making a gentler throttle
-  xbzrle encoding rate measurement for getting a feal for xbzrle
-performance.
-
-----------------------------------------------------------------
-David Hildenbrand (1):
-      migration/ram: Consolidate variable reset after placement in ram_load=
-_postcopy()
-
-Keqian Zhu (1):
-      migration/throttle: Add cpu-throttle-tailslow migration parameter
-
-Mao Zhongyi (4):
-      migration: fix bad indentation in error_report()
-      migration/migration: improve error reporting for migrate parameters
-      monitor/hmp-cmds: add hmp_handle_error() for hmp_migrate_set_speed()
-      migration: move the units of migrate parameters from milliseconds to =
-ms
-
-Marc-Andr=C3=A9 Lureau (1):
-      docs/devel/migration: start a debugging section
-
-Pan Nengyuan (3):
-      migration/rdma: fix a memleak on error path in rdma_start_incoming_mi=
-gration
-      migration/multifd: fix memleaks in multifd_new_send_channel_async
-      migration/multifd: Do error_free after migrate_set_error to avoid mem=
-leaks
-
-Philippe Mathieu-Daud=C3=A9 (1):
-      migration/colo: Add missing error-propagation code
-
-Wei Wang (1):
-      migration/xbzrle: add encoding rate
-
- docs/devel/migration.rst | 20 +++++++++++++
- migration/colo.c         |  3 ++
- migration/migration.c    | 44 +++++++++++++++++++---------
- migration/multifd.c      |  5 ++++
- migration/ram.c          | 74 ++++++++++++++++++++++++++++++++++++++++----=
-----
- migration/rdma.c         |  1 +
- monitor/hmp-cmds.c       | 23 +++++++++++----
- qapi/migration.json      | 53 +++++++++++++++++++++++++++++++++-
- 8 files changed, 192 insertions(+), 31 deletions(-)
+diff --git a/migration/migration.c b/migration/migration.c
+index 177cce9e95..8f27174ff6 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2494,7 +2494,7 @@ retry:
+         if (header_type >=3D MIG_RP_MSG_MAX ||
+             header_type =3D=3D MIG_RP_MSG_INVALID) {
+             error_report("RP: Received invalid message 0x%04x length 0x%04=
+x",
+-                    header_type, header_len);
++                         header_type, header_len);
+             mark_source_rp_bad(ms);
+             goto out;
+         }
+@@ -2503,9 +2503,9 @@ retry:
+             header_len !=3D rp_cmd_args[header_type].len) ||
+             header_len > sizeof(buf)) {
+             error_report("RP: Received '%s' message (0x%04x) with"
+-                    "incorrect length %d expecting %zu",
+-                    rp_cmd_args[header_type].name, header_type, header_len=
+,
+-                    (size_t)rp_cmd_args[header_type].len);
++                         "incorrect length %d expecting %zu",
++                         rp_cmd_args[header_type].name, header_type, heade=
+r_len,
++                         (size_t)rp_cmd_args[header_type].len);
+             mark_source_rp_bad(ms);
+             goto out;
+         }
+@@ -2560,7 +2560,7 @@ retry:
+             }
+             if (header_len !=3D expected_len) {
+                 error_report("RP: Req_Page_id with length %d expecting %zd=
+",
+-                        header_len, expected_len);
++                             header_len, expected_len);
+                 mark_source_rp_bad(ms);
+                 goto out;
+             }
+--=20
+2.26.2
 
 
