@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F3D1C9591
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 17:55:08 +0200 (CEST)
-Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7091C95F1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 18:05:46 +0200 (CEST)
+Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWirb-0003x1-Ry
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 11:55:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34280)
+	id 1jWj1s-0004yH-RO
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 12:05:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWiqN-0002qu-JE
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:53:51 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29435
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWiqM-0007Oy-Dl
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:53:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588866829;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2imK9ChuUza51HUVVAQLg1g+O/gp9mHUF8/7pz41/x0=;
- b=SCS30gSQ1NVo5SBW3CzXeONXJEtgayj/HNqrUB/WJgAshwgrpsEYJ6JJYakp9DjF5qUt7t
- faF5oozhR1ePSFyGI5QyIC8mbFqlJtTHhLkzYvNGZeq92GjvY0m3/eIMUqmgogWHiDJ7kD
- A6bq9RUVkCAdsJ+GozoiKFVqHOFkwi0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-w8OZw7kIOKmGdFm0_NNorQ-1; Thu, 07 May 2020 11:53:47 -0400
-X-MC-Unique: w8OZw7kIOKmGdFm0_NNorQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B4BC107ACCD;
- Thu,  7 May 2020 15:53:46 +0000 (UTC)
-Received: from work-vm (ovpn-114-224.ams2.redhat.com [10.36.114.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 12BC760C47;
- Thu,  7 May 2020 15:53:41 +0000 (UTC)
-Date: Thu, 7 May 2020 16:53:39 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Wang <wei.w.wang@intel.com>
-Subject: Re: [PATCH v3] migration/xbzrle: add encoding rate
-Message-ID: <20200507155339.GG17348@work-vm>
-References: <1588208375-19556-1-git-send-email-wei.w.wang@intel.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jWirE-0003vI-GQ
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:54:44 -0400
+Received: from mout.web.de ([212.227.15.4]:50641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jWirD-0007dU-0g
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:54:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1588866863;
+ bh=W5/fWHQejwb1rRwtl3PEeCTF6ZLzA/NS8GTzmYgK1cg=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=krH8lsv0cQFNhyz11xZsfbnNBpjJPdPw5gcq6Y5dlxAh4mE1H/lp7qerrtz5QbnSx
+ o2oo57Cqshu8kliY69hUgw5tAmHUEFKsuV/HUtB/zuRzNmc5D3MEVi9J2cdgjRrsVr
+ OC2bRXjD0PhZO8TCzfWzbGiq+l4nyKVgxxrjPb2o=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([89.247.255.60]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MV4hR-1jcXDe1imr-00YR1x; Thu, 07
+ May 2020 17:54:23 +0200
+Date: Thu, 7 May 2020 17:54:21 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Subject: Re: [PATCH v4 5/6] net/colo-compare.c, softmmu/vl.c: Check that
+ colo-compare is active
+Message-ID: <20200507175421.185b48f8@luklap>
+In-Reply-To: <0380e994e53947cd961cc363d46561d3@intel.com>
+References: <cover.1588587700.git.lukasstraub2@web.de>
+ <f6cbde747d78ff080f680c710e2793867a3cf1fa.1588587700.git.lukasstraub2@web.de>
+ <0380e994e53947cd961cc363d46561d3@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1588208375-19556-1-git-send-email-wei.w.wang@intel.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:56:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/GVB2=bDY+ECw89nTeP7n=n/";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:KEI0zgFpYfAIwnP2xauLxbAJw2kuaxfcCa9wVCuK9uEhLQv45c3
+ ortVfqH0+v0WYcqcaoN7Zdi54HzrHRZhmj191NE0Juwu0aF5xLp1hTnQn917KbosFQivqlE
+ L4Z4ji53gtbUNvv8y8ycPQ0GDWR7H0/tTs1aGdVNIIOC9XCVEhNx3LAE1qcmHJCV6wFSQu8
+ w+zDwxgAWaFCZ7WHYIGtA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qIyNNFAOoUc=:hBjNXqI0NJeVZwzfN33aab
+ jZinC9ww6qpnIYC/oX8YINefOGoXcreYj0h/vmiMNRMpYLnWHH7OhI4+PQZ97a+DoSr+FPzev
+ hfntE5ZrYGxbHWA1OUbV89e3QvrEJqhjk1H63EVRDS6+muO/ZKlk/F+BzdJLBc+UMJxnIs73e
+ KtQZX4Iu1uY5y3m595xGIU/m2Vr1WT3xluR/t8Pb22KO4Du6GIYt+8cP9wILN0fz+DzkxpVaL
+ Tg+v/TC/xPAlfwQeAqE6BURE9sIx0YWLN0fh21I9RXz5tQwhoRZIWwH0ryDU39og4IWJ2G1qI
+ h0rWKvkCjBJGCw9/dVswOMCdw5X8Z/Qw4YHAH1VfJT1dMkbEmKtjKdRCPiVor4WdQfjLujdXt
+ cF82H/5nm0efH9nqAKWbe6mMyboSlNA7LaKwFX7w+Mo7ELFDrhwgaGdjwglg6q8bT5Ci2n6ao
+ vvhK7fN0cdgorQTmN9Z3ejxd2TIAo2X8tb47bq/bGFhFnjxg72diKAGYkR7m8mrle1IhjJ8j0
+ 0rlNslDEkp+Z9ROHaui6mK+GtDG6WWQigxHWs6SCZJWHJod7AqO8UE5xRfEAiz4QIx3XB3FdH
+ CxL4/fM0OPFytVlTpzQ/BmFk5LFsowf9l7EYBsofXV4/ekuq0zBG543EVywsdiOfWaCfZS9et
+ 7XTUJpgIuZ50eFIyMMNAn1SatMp+OcTq4gNqfLMJ+qIqIdMnVPlXMqieX8SYH5LgxQ02TwNXv
+ oPIC6HHad4GNNGiR1fp44duodQBuOoIxu5hiYGiB4HqjM5EDslHZEhKgOhrZXEoBjszstRmOG
+ vQRBqxpGf/fTo6IgpmkLU9+tVPhzlBtitH6ES/gMe05ZiLZQ1pgUinDCwz+QYx65gi9xOp5pd
+ HwsB3dDkTpOOixW15rr4/eQzCi79kr9lGE6RLb2urX8+TYwBfKEzbPM9moWBMg2gEI0o0iYq9
+ RU9aomCBLk/XhqTJxulsugNuogBGAJ6ub7fvkd7c0+hHmqwy7LYDJPEt9RH7YqOYXFjvbTlM7
+ IF+H0bFdPByNM45kQrBMWvu15pI4uYURRz4lFDREcp5j0yl6fHxjAynQDRwHwV/GXfAY6FaAv
+ 9bdIvC55H6EdQmkgTKoIV54FengYlDhkBQyNbIYGG/F+8qm1lXNHa2L0bWRBx70y5Mi6fwZ9B
+ U8AX8HQd/KhYdDGrQ8YGRIXzHclMYnYD2bZG+vaghcbUsHYESSGRZ67wq8Mz8bu4VIe9fy+Ij
+ sEhgQWxnCq2HwKw8z
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 10:29:47
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,188 +90,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevin.tian@intel.com, quintela@redhat.com, qemu-devel@nongnu.org,
- peterx@redhat.com, gloryxiao@tencent.com, yi.y.sun@intel.com
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Wang (wei.w.wang@intel.com) wrote:
-> Users may need to check the xbzrle encoding rate to know if the guest
-> memory is xbzrle encoding-friendly, and dynamically turn off the
-> encoding if the encoding rate is low.
->=20
-> Signed-off-by: Yi Sun <yi.y.sun@intel.com>
-> Signed-off-by: Wei Wang <wei.w.wang@intel.com>
+--Sig_/GVB2=bDY+ECw89nTeP7n=n/
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Queued
+On Thu, 7 May 2020 11:38:04 +0000
+"Zhang, Chen" <chen.zhang@intel.com> wrote:
 
-> ---
->  migration/migration.c |  1 +
->  migration/ram.c       | 39 +++++++++++++++++++++++++++++++++++++--
->  monitor/hmp-cmds.c    |  2 ++
->  qapi/migration.json   |  5 ++++-
->  4 files changed, 44 insertions(+), 3 deletions(-)
+> > -----Original Message-----
+> > From: Lukas Straub <lukasstraub2@web.de>
+> > Sent: Monday, May 4, 2020 6:28 PM
+> > To: qemu-devel <qemu-devel@nongnu.org>
+> > Cc: Zhang, Chen <chen.zhang@intel.com>; Li Zhijian
+> > <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; Marc-
+> > Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>; Paolo Bonzini
+> > <pbonzini@redhat.com>
+> > Subject: [PATCH v4 5/6] net/colo-compare.c, softmmu/vl.c: Check that co=
+lo-
+> > compare is active
+> >=20
+> > If the colo-compare object is removed before failover and a checkpoint
+> > happens, qemu crashes because it tries to lock the destroyed event_mtx =
+in
+> > colo_notify_compares_event.
+> >=20
+> > Fix this by checking if everything is initialized by introducing a new =
+variable
+> > colo_compare_active which is protected by a new mutex
+> > colo_compare_mutex. The new mutex also protects against concurrent
+> > access of the net_compares list and makes sure that
+> > colo_notify_compares_event isn't active while we destroy event_mtx and
+> > event_complete_cond.
+> >=20
+> > With this it also is again possible to use colo without colo-compare (p=
+eriodic
+> > mode) and to use multiple colo-compare for multiple network interfaces.
+> >  =20
 >=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 187ac0410c..e40421353c 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -930,6 +930,7 @@ static void populate_ram_info(MigrationInfo *info, Mi=
-grationState *s)
->          info->xbzrle_cache->pages =3D xbzrle_counters.pages;
->          info->xbzrle_cache->cache_miss =3D xbzrle_counters.cache_miss;
->          info->xbzrle_cache->cache_miss_rate =3D xbzrle_counters.cache_mi=
-ss_rate;
-> +        info->xbzrle_cache->encoding_rate =3D xbzrle_counters.encoding_r=
-ate;
->          info->xbzrle_cache->overflow =3D xbzrle_counters.overflow;
->      }
-> =20
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 04f13feb2e..41b75a0a0f 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -327,6 +327,10 @@ struct RAMState {
->      uint64_t num_dirty_pages_period;
->      /* xbzrle misses since the beginning of the period */
->      uint64_t xbzrle_cache_miss_prev;
-> +    /* Amount of xbzrle pages since the beginning of the period */
-> +    uint64_t xbzrle_pages_prev;
-> +    /* Amount of xbzrle encoded bytes since the beginning of the period =
-*/
-> +    uint64_t xbzrle_bytes_prev;
-> =20
->      /* compression statistics since the beginning of the period */
->      /* amount of count that no free thread to compress data */
-> @@ -696,6 +700,18 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **=
-current_data,
->          return -1;
->      }
-> =20
-> +    /*
-> +     * Reaching here means the page has hit the xbzrle cache, no matter =
-what
-> +     * encoding result it is (normal encoding, overflow or skipping the =
-page),
-> +     * count the page as encoded. This is used to caculate the encoding =
-rate.
-> +     *
-> +     * Example: 2 pages (8KB) being encoded, first page encoding generat=
-es 2KB,
-> +     * 2nd page turns out to be skipped (i.e. no new bytes written to th=
-e
-> +     * page), the overall encoding rate will be 8KB / 2KB =3D 4, which h=
-as the
-> +     * skipped page included. In this way, the encoding rate can tell if=
- the
-> +     * guest page is good for xbzrle encoding.
-> +     */
-> +    xbzrle_counters.pages++;
->      prev_cached_page =3D get_cached_data(XBZRLE.cache, current_addr);
-> =20
->      /* save current buffer into memory */
-> @@ -726,6 +742,7 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **c=
-urrent_data,
->      } else if (encoded_len =3D=3D -1) {
->          trace_save_xbzrle_page_overflow();
->          xbzrle_counters.overflow++;
-> +        xbzrle_counters.bytes +=3D TARGET_PAGE_SIZE;
->          return -1;
->      }
-> =20
-> @@ -736,8 +753,12 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **=
-current_data,
->      qemu_put_be16(rs->f, encoded_len);
->      qemu_put_buffer(rs->f, XBZRLE.encoded_buf, encoded_len);
->      bytes_xbzrle +=3D encoded_len + 1 + 2;
-> -    xbzrle_counters.pages++;
-> -    xbzrle_counters.bytes +=3D bytes_xbzrle;
-> +    /*
-> +     * Like compressed_size (please see update_compress_thread_counts),
-> +     * the xbzrle encoded bytes don't count the 8 byte header with
-> +     * RAM_SAVE_FLAG_CONTINUE.
-> +     */
-> +    xbzrle_counters.bytes +=3D bytes_xbzrle - 8;
->      ram_counters.transferred +=3D bytes_xbzrle;
-> =20
->      return 1;
-> @@ -870,9 +891,23 @@ static void migration_update_rates(RAMState *rs, int=
-64_t end_time)
->      }
-> =20
->      if (migrate_use_xbzrle()) {
-> +        double encoded_size, unencoded_size;
-> +
->          xbzrle_counters.cache_miss_rate =3D (double)(xbzrle_counters.cac=
-he_miss -
->              rs->xbzrle_cache_miss_prev) / page_count;
->          rs->xbzrle_cache_miss_prev =3D xbzrle_counters.cache_miss;
-> +        unencoded_size =3D (xbzrle_counters.pages - rs->xbzrle_pages_pre=
-v) *
-> +                         TARGET_PAGE_SIZE;
-> +        encoded_size =3D xbzrle_counters.bytes - rs->xbzrle_bytes_prev;
-> +        if (xbzrle_counters.pages =3D=3D rs->xbzrle_pages_prev) {
-> +            xbzrle_counters.encoding_rate =3D 0;
-> +        } else if (!encoded_size) {
-> +            xbzrle_counters.encoding_rate =3D UINT64_MAX;
-> +        } else {
-> +            xbzrle_counters.encoding_rate =3D unencoded_size / encoded_s=
-ize;
-> +        }
-> +        rs->xbzrle_pages_prev =3D xbzrle_counters.pages;
-> +        rs->xbzrle_bytes_prev =3D xbzrle_counters.bytes;
->      }
-> =20
->      if (migrate_use_compression()) {
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index 9b94e67879..c2a3a667ae 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -303,6 +303,8 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdic=
-t)
->                         info->xbzrle_cache->cache_miss);
->          monitor_printf(mon, "xbzrle cache miss rate: %0.2f\n",
->                         info->xbzrle_cache->cache_miss_rate);
-> +        monitor_printf(mon, "xbzrle encoding rate: %0.2f\n",
-> +                       info->xbzrle_cache->encoding_rate);
->          monitor_printf(mon, "xbzrle overflow: %" PRIu64 "\n",
->                         info->xbzrle_cache->overflow);
->      }
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index eca2981d0a..358e40226d 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -70,6 +70,8 @@
->  #
->  # @cache-miss-rate: rate of cache miss (since 2.1)
->  #
-> +# @encoding-rate: rate of encoded bytes (since 5.1)
-> +#
->  # @overflow: number of overflows
->  #
->  # Since: 1.2
-> @@ -77,7 +79,7 @@
->  { 'struct': 'XBZRLECacheStats',
->    'data': {'cache-size': 'int', 'bytes': 'int', 'pages': 'int',
->             'cache-miss': 'int', 'cache-miss-rate': 'number',
-> -           'overflow': 'int' } }
-> +           'encoding-rate': 'number', 'overflow': 'int' } }
-> =20
->  ##
->  # @CompressionStats:
-> @@ -337,6 +339,7 @@
->  #             "pages":2444343,
->  #             "cache-miss":2244,
->  #             "cache-miss-rate":0.123,
-> +#             "encoding-rate":80.1,
->  #             "overflow":34434
->  #          }
->  #       }
-> --=20
-> 2.20.1
+> Hi Lukas,
 >=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> For this case I think we don't need to touch vl.c code, we can solve this=
+ issue from another perspective:
+> How to remove colo-compare?
+> User will use qemu-monitor or QMP command to disable an object, so we jus=
+t need return operation failed
+> When user try to remove colo-compare object while COLO is running.
 
+Yeah, but that still leaves the other problem that colo can't be used witho=
+ut colo-compare (qemu crashes then).
+
+Regards,
+Lukas Straub
+
+> Thanks
+> Zhang Chen
+>=20
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > ---
+> >  net/colo-compare.c | 35 +++++++++++++++++++++++++++++------
+> >  net/colo-compare.h |  1 +
+> >  softmmu/vl.c       |  2 ++
+> >  3 files changed, 32 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/net/colo-compare.c b/net/colo-compare.c index
+> > 56db3d3bfc..c7572d75e9 100644
+> > --- a/net/colo-compare.c
+> > +++ b/net/colo-compare.c
+> > @@ -54,6 +54,8 @@ static NotifierList colo_compare_notifiers =3D  #defi=
+ne
+> > REGULAR_PACKET_CHECK_MS 3000  #define DEFAULT_TIME_OUT_MS 3000
+> >=20
+> > +static QemuMutex colo_compare_mutex;
+> > +static bool colo_compare_active;
+> >  static QemuMutex event_mtx;
+> >  static QemuCond event_complete_cond;
+> >  static int event_unhandled_count;
+> > @@ -906,6 +908,12 @@ static void check_old_packet_regular(void *opaque)
+> > void colo_notify_compares_event(void *opaque, int event, Error **errp) =
+ {
+> >      CompareState *s;
+> > +    qemu_mutex_lock(&colo_compare_mutex);
+> > +
+> > +    if (!colo_compare_active) {
+> > +        qemu_mutex_unlock(&colo_compare_mutex);
+> > +        return;
+> > +    }
+> >=20
+> >      qemu_mutex_lock(&event_mtx);
+> >      QTAILQ_FOREACH(s, &net_compares, next) { @@ -919,6 +927,7 @@ void
+> > colo_notify_compares_event(void *opaque, int event, Error **errp)
+> >      }
+> >=20
+> >      qemu_mutex_unlock(&event_mtx);
+> > +    qemu_mutex_unlock(&colo_compare_mutex);
+> >  }
+> >=20
+> >  static void colo_compare_timer_init(CompareState *s) @@ -1274,7 +1283,=
+14
+> > @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+> >                             s->vnet_hdr);
+> >      }
+> >=20
+> > +    qemu_mutex_lock(&colo_compare_mutex);
+> > +    if (!colo_compare_active) {
+> > +        qemu_mutex_init(&event_mtx);
+> > +        qemu_cond_init(&event_complete_cond);
+> > +        colo_compare_active =3D true;
+> > +    }
+> >      QTAILQ_INSERT_TAIL(&net_compares, s, next);
+> > +    qemu_mutex_unlock(&colo_compare_mutex);
+> >=20
+> >      s->out_sendco.s =3D s;
+> >      s->out_sendco.chr =3D &s->chr_out;
+> > @@ -1290,9 +1306,6 @@ static void colo_compare_complete(UserCreatable
+> > *uc, Error **errp)
+> >=20
+> >      g_queue_init(&s->conn_list);
+> >=20
+> > -    qemu_mutex_init(&event_mtx);
+> > -    qemu_cond_init(&event_complete_cond);
+> > -
+> >      s->connection_track_table =3D
+> > g_hash_table_new_full(connection_key_hash,
+> >                                                        connection_key_e=
+qual,
+> >                                                        g_free, @@ -1384=
+,12 +1397,19 @@ static void
+> > colo_compare_finalize(Object *obj)
+> >=20
+> >      qemu_bh_delete(s->event_bh);
+> >=20
+> > +    qemu_mutex_lock(&colo_compare_mutex);
+> >      QTAILQ_FOREACH(tmp, &net_compares, next) {
+> >          if (tmp =3D=3D s) {
+> >              QTAILQ_REMOVE(&net_compares, s, next);
+> >              break;
+> >          }
+> >      }
+> > +    if (QTAILQ_EMPTY(&net_compares)) {
+> > +        colo_compare_active =3D false;
+> > +        qemu_mutex_destroy(&event_mtx);
+> > +        qemu_cond_destroy(&event_complete_cond);
+> > +    }
+> > +    qemu_mutex_unlock(&colo_compare_mutex);
+> >=20
+> >      AioContext *ctx =3D iothread_get_aio_context(s->iothread);
+> >      aio_context_acquire(ctx);
+> > @@ -1413,15 +1433,18 @@ static void colo_compare_finalize(Object *obj)
+> >          object_unref(OBJECT(s->iothread));
+> >      }
+> >=20
+> > -    qemu_mutex_destroy(&event_mtx);
+> > -    qemu_cond_destroy(&event_complete_cond);
+> > -
+> >      g_free(s->pri_indev);
+> >      g_free(s->sec_indev);
+> >      g_free(s->outdev);
+> >      g_free(s->notify_dev);
+> >  }
+> >=20
+> > +void colo_compare_init_globals(void)
+> > +{
+> > +    colo_compare_active =3D false;
+> > +    qemu_mutex_init(&colo_compare_mutex);
+> > +}
+> > +
+> >  static const TypeInfo colo_compare_info =3D {
+> >      .name =3D TYPE_COLO_COMPARE,
+> >      .parent =3D TYPE_OBJECT,
+> > diff --git a/net/colo-compare.h b/net/colo-compare.h index
+> > 22ddd512e2..eb483ac586 100644
+> > --- a/net/colo-compare.h
+> > +++ b/net/colo-compare.h
+> > @@ -17,6 +17,7 @@
+> >  #ifndef QEMU_COLO_COMPARE_H
+> >  #define QEMU_COLO_COMPARE_H
+> >=20
+> > +void colo_compare_init_globals(void);
+> >  void colo_notify_compares_event(void *opaque, int event, Error **errp);
+> > void colo_compare_register_notifier(Notifier *notify);  void
+> > colo_compare_unregister_notifier(Notifier *notify); diff --git a/softmm=
+u/vl.c
+> > b/softmmu/vl.c index 32c0047889..a913ed5469 100644
+> > --- a/softmmu/vl.c
+> > +++ b/softmmu/vl.c
+> > @@ -112,6 +112,7 @@
+> >  #include "qapi/qmp/qerror.h"
+> >  #include "sysemu/iothread.h"
+> >  #include "qemu/guest-random.h"
+> > +#include "net/colo-compare.h"
+> >=20
+> >  #define MAX_VIRTIO_CONSOLES 1
+> >=20
+> > @@ -2906,6 +2907,7 @@ void qemu_init(int argc, char **argv, char **envp)
+> >      precopy_infrastructure_init();
+> >      postcopy_infrastructure_init();
+> >      monitor_init_globals();
+> > +    colo_compare_init_globals();
+> >=20
+> >      if (qcrypto_init(&err) < 0) {
+> >          error_reportf_err(err, "cannot initialize crypto: ");
+> > --
+> > 2.20.1 =20
+>=20
+
+
+--Sig_/GVB2=bDY+ECw89nTeP7n=n/
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl60Ly0ACgkQNasLKJxd
+sljWphAAp/6lW/OuxEUh+gIaFAapOH4p9NxxVWjRfPWjdMRfR3zt4LJn5TMQJ65w
+waS8C6L1PkTZqIXsgAFtwQwMO+zoOqh+g1AJsH7OroJDZZTqBhWGclaLNLdxSrwS
+lI2Ue3MtFEBNvRSOkXJ5c6+CqFDTu2z96AbucSKZlainUmtX85kAG6IgPKj1rt8A
+lpemOkDrcNWk4bmjkTbI9Jduq51D45dawIC5Xe/QoeNym7u9ohTaZ1o9sOdjGJ5v
+tgc1ztf9nDSuJz/Kl8VMuEWEWt2QaiczcMC+0nyxPcqJZKu5YGkd4W9yDSQXHn9o
+oVL9TvYhWt/2v16RZe2Zkh3ZiMhBT5QPUyiouscdA4Bf0b6cJb/Dv7UmRoRgDx1v
+/9slUmICQc6SRVoqUXPL7WMF88YdwUjwAHFkcWsbmenul+7QH5kYuG0F17ZQVdpy
+BdOrsq+4MUFW+GozM91n2xXIXPcRkkDvCIPDaYp96Yl6XnhoQboZZLeuknnIgoUe
+50N8lfoBDwYKDket8FeGFUNqt/p7sidQ9ybZUC1aUu+T61Hcwd06B4at56XlKAJN
+I32Wys0gXwSkJ4ZtPvm9cG5gtlswUJDEqs9/VzOI09kBzLMhhwFP03r2lW6E1yRJ
+Rbo1i+36iHfsTLS/LdzjDcTIFNbujyzCgGFCnrVEa3+0yWQjWVU=
+=joDd
+-----END PGP SIGNATURE-----
+
+--Sig_/GVB2=bDY+ECw89nTeP7n=n/--
 
