@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A1E1C877A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 13:02:33 +0200 (CEST)
-Received: from localhost ([::1]:39110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3FB11C8780
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 13:03:43 +0200 (CEST)
+Received: from localhost ([::1]:43358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWeIS-0005fP-EF
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 07:02:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51518)
+	id 1jWeJa-0007Nb-Fn
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 07:03:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jWeGh-0004qf-4C
- for qemu-devel@nongnu.org; Thu, 07 May 2020 07:00:43 -0400
-Received: from mga07.intel.com ([134.134.136.100]:13259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jWeGe-00005H-QW
- for qemu-devel@nongnu.org; Thu, 07 May 2020 07:00:42 -0400
-IronPort-SDR: ivvDgyaO1/QTXZjTMTI4LnvsflQkypO0tsYGOcTGJ+tAnwXq+7MICVkln9mAG3f+MF17SFcWlh
- b65YGs/KrHRQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2020 04:00:29 -0700
-IronPort-SDR: TTCWn7jgs9sYARqDyAySksLRF45EN4F0vdnrBmxUz3wWGyGN9CYaqRzIq1+i1zenYmirry5cCy
- qEBveyVZVE6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,363,1583222400"; d="scan'208";a="284954629"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
- by fmsmga004.fm.intel.com with ESMTP; 07 May 2020 04:00:29 -0700
-Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 7 May 2020 04:00:29 -0700
-Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
- SHSMSX604.ccr.corp.intel.com (10.109.6.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 7 May 2020 19:00:26 +0800
-Received: from shsmsx604.ccr.corp.intel.com ([10.109.6.214]) by
- SHSMSX604.ccr.corp.intel.com ([10.109.6.214]) with mapi id 15.01.1713.004;
- Thu, 7 May 2020 19:00:26 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v4 3/6] net/colo-compare.c: Fix deadlock in
- compare_chr_send
-Thread-Topic: [PATCH v4 3/6] net/colo-compare.c: Fix deadlock in
- compare_chr_send
-Thread-Index: AQHWIf7BDkECWoyP7kGnccHgaQnR+6icRinA
-Date: Thu, 7 May 2020 11:00:26 +0000
-Message-ID: <c27b4dbdc6834e70b4af738d01f9fae4@intel.com>
-References: <cover.1588587700.git.lukasstraub2@web.de>
- <5536749ec95380f18c01789c472324565c060bcc.1588587700.git.lukasstraub2@web.de>
-In-Reply-To: <5536749ec95380f18c01789c472324565c060bcc.1588587700.git.lukasstraub2@web.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jWeIJ-000686-WD
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 07:02:24 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21682
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jWeII-0004In-Ob
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 07:02:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588849341;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bGKzYnlOMzGpmQG5UmtHO/giOncbIu10WfWcG/iWRwE=;
+ b=bLV3oVVgkum09DeO2NeZdgOfJDvB++WoKkWgIcLz08voUgei2ke+GH9pwTQ7G3MUGpZe87
+ ONIJBRLP2pxm/2zmhT8iZBHqfQ2FLlAQwBbG8UsVgR9u0TcAsLtkC6kqdS5NGDLTgshUqt
+ t4w6N9KZz1MV3uJK9M2t4QwG9dDDdeM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-176-mH9rtVt_MPC70eZZ8xk8cw-1; Thu, 07 May 2020 07:02:19 -0400
+X-MC-Unique: mH9rtVt_MPC70eZZ8xk8cw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC498800688;
+ Thu,  7 May 2020 11:02:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.63])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 629681001920;
+ Thu,  7 May 2020 11:02:13 +0000 (UTC)
+Date: Thu, 7 May 2020 12:02:10 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH v4 02/14] qcrypto/luks: implement encryption key management
+Message-ID: <20200507110210.GE1104082@redhat.com>
+References: <20200505200819.5662-1-mlevitsk@redhat.com>
+ <20200505200819.5662-3-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=chen.zhang@intel.com; helo=mga07.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 07:00:30
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <20200505200819.5662-3-mlevitsk@redhat.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,412 +83,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>, Paolo
- Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> -----Original Message-----
-> From: Lukas Straub <lukasstraub2@web.de>
-> Sent: Monday, May 4, 2020 6:28 PM
-> To: qemu-devel <qemu-devel@nongnu.org>
-> Cc: Zhang, Chen <chen.zhang@intel.com>; Li Zhijian=20
-> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; Marc-=20
-> Andr=E9 Lureau <marcandre.lureau@redhat.com>; Paolo Bonzini=20
-> <pbonzini@redhat.com>
-> Subject: [PATCH v4 3/6] net/colo-compare.c: Fix deadlock in=20
-> compare_chr_send
+On Tue, May 05, 2020 at 11:08:07PM +0300, Maxim Levitsky wrote:
+> Next few patches will expose that functionality
+> to the user.
 >=20
-> The chr_out chardev is connected to a filter-redirector running in the=20
-> main loop. qemu_chr_fe_write_all might block here in compare_chr_send=20
-> if the (socket-)buffer is full.
-> If another filter-redirector in the main loop want's to send data to=20
-> chr_pri_in it might also block if the buffer is full. This leads to a=20
-> deadlock because both event loops get blocked.
->=20
-> Fix this by converting compare_chr_send to a coroutine and putting the=20
-> packets in a send queue.
->=20
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 > ---
->  net/colo-compare.c | 187 ++++++++++++++++++++++++++++++++++-------
-> ----
->  net/colo.c         |   7 ++
->  net/colo.h         |   1 +
->  3 files changed, 150 insertions(+), 45 deletions(-)
+>  crypto/block-luks.c | 395 +++++++++++++++++++++++++++++++++++++++++++-
+>  qapi/crypto.json    |  61 ++++++-
+>  2 files changed, 452 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/net/colo-compare.c b/net/colo-compare.c index=20
-> 1de4220fe2..2a4e7f7c4e 100644
-> --- a/net/colo-compare.c
-> +++ b/net/colo-compare.c
-> @@ -32,6 +32,9 @@
->  #include "migration/migration.h"
->  #include "util.h"
->=20
-> +#include "block/aio-wait.h"
-> +#include "qemu/coroutine.h"
-> +
->  #define TYPE_COLO_COMPARE "colo-compare"
->  #define COLO_COMPARE(obj) \
->      OBJECT_CHECK(CompareState, (obj), TYPE_COLO_COMPARE) @@ -77,6
-> +80,23 @@ static int event_unhandled_count;
->   *                    |packet  |  |packet  +    |packet  | |packet  +
->   *                    +--------+  +--------+    +--------+ +--------+
->   */
-> +
-> +typedef struct SendCo {
-> +    Coroutine *co;
-> +    struct CompareState *s;
-> +    CharBackend *chr;
-> +    GQueue send_list;
-> +    bool notify_remote_frame;
-> +    bool done;
+> diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+> index 4861db810c..c108518df1 100644
+> --- a/crypto/block-luks.c
+> +++ b/crypto/block-luks.c
+
+> +/*
+> + * Erases an keyslot given its index
+> + * Returns:
+> + *    0 if the keyslot was erased successfully
+> + *   -1 if a error occurred while erasing the keyslot
+> + *
+> + */
+> +static int
+> +qcrypto_block_luks_erase_key(QCryptoBlock *block,
+> +                             unsigned int slot_idx,
+> +                             QCryptoBlockWriteFunc writefunc,
+> +                             void *opaque,
+> +                             Error **errp)
+> +{
+> +    QCryptoBlockLUKS *luks =3D block->opaque;
+> +    QCryptoBlockLUKSKeySlot *slot =3D &luks->header.key_slots[slot_idx];
+> +    g_autofree uint8_t *garbagesplitkey =3D NULL;
+> +    size_t splitkeylen =3D luks->header.master_key_len * slot->stripes;
+> +    size_t i;
+> +    Error *local_err =3D NULL;
 > +    int ret;
-> +} SendCo;
 > +
-> +typedef struct SendEntry {
-> +    uint32_t size;
-> +    uint32_t vnet_hdr_len;
-> +    uint8_t *buf;
-> +} SendEntry;
+> +    assert(slot_idx < QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS);
+> +    assert(splitkeylen > 0);
+> +    garbagesplitkey =3D g_new0(uint8_t, splitkeylen);
 > +
->  typedef struct CompareState {
->      Object parent;
->=20
-> @@ -91,6 +111,8 @@ typedef struct CompareState {
->      SocketReadState pri_rs;
->      SocketReadState sec_rs;
->      SocketReadState notify_rs;
-> +    SendCo out_sendco;
-> +    SendCo notify_sendco;
->      bool vnet_hdr;
->      uint32_t compare_timeout;
->      uint32_t expired_scan_cycle;
-> @@ -124,10 +146,11 @@ enum {
->=20
->=20
->  static int compare_chr_send(CompareState *s,
-> -                            const uint8_t *buf,
-> +                            uint8_t *buf,
->                              uint32_t size,
->                              uint32_t vnet_hdr_len,
-> -                            bool notify_remote_frame);
-> +                            bool notify_remote_frame,
-> +                            bool zero_copy);
->=20
->  static bool packet_matches_str(const char *str,
->                                 const uint8_t *buf, @@ -145,7 +168,7=20
-> @@ static void notify_remote_frame(CompareState *s)
->      char msg[] =3D "DO_CHECKPOINT";
->      int ret =3D 0;
->=20
-> -    ret =3D compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true);
-> +    ret =3D compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true,=20
-> + false);
->      if (ret < 0) {
->          error_report("Notify Xen COLO-frame failed");
->      }
-> @@ -272,12 +295,13 @@ static void
-> colo_release_primary_pkt(CompareState *s, Packet *pkt)
->                             pkt->data,
->                             pkt->size,
->                             pkt->vnet_hdr_len,
-> -                           false);
-> +                           false,
-> +                           true);
->      if (ret < 0) {
->          error_report("colo send primary packet failed");
->      }
->      trace_colo_compare_main("packet same and release packet");
-> -    packet_destroy(pkt, NULL);
-> +    packet_destroy_partial(pkt, NULL);
->  }
->=20
->  /*
-> @@ -699,65 +723,115 @@ static void colo_compare_connection(void=20
-> *opaque, void *user_data)
->      }
->  }
->=20
-> -static int compare_chr_send(CompareState *s,
-> -                            const uint8_t *buf,
-> -                            uint32_t size,
-> -                            uint32_t vnet_hdr_len,
-> -                            bool notify_remote_frame)
-> +static void coroutine_fn _compare_chr_send(void *opaque)
->  {
-> +    SendCo *sendco =3D opaque;
-> +    CompareState *s =3D sendco->s;
->      int ret =3D 0;
-> -    uint32_t len =3D htonl(size);
->=20
-> -    if (!size) {
-> -        return 0;
-> -    }
-> +    while (!g_queue_is_empty(&sendco->send_list)) {
-> +        SendEntry *entry =3D g_queue_pop_tail(&sendco->send_list);
-> +        uint32_t len =3D htonl(entry->size);
->=20
-> -    if (notify_remote_frame) {
-> -        ret =3D qemu_chr_fe_write_all(&s->chr_notify_dev,
-> -                                    (uint8_t *)&len,
-> -                                    sizeof(len));
-> -    } else {
-> -        ret =3D qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, size=
-of(len));
-> -    }
-> +        ret =3D qemu_chr_fe_write_all(sendco->chr, (uint8_t *)&len,=20
-> + sizeof(len));
->=20
-> -    if (ret !=3D sizeof(len)) {
-> -        goto err;
-> -    }
-> +        if (ret !=3D sizeof(len)) {
-> +            g_free(entry->buf);
-> +            g_slice_free(SendEntry, entry);
-> +            goto err;
-> +        }
->=20
-> -    if (s->vnet_hdr) {
-> -        /*
-> -         * We send vnet header len make other module(like filter-redirec=
-tor)
-> -         * know how to parse net packet correctly.
-> -         */
-> -        len =3D htonl(vnet_hdr_len);
-> +        if (!sendco->notify_remote_frame && s->vnet_hdr) {
+> +    /* Reset the key slot header */
+> +    memset(slot->salt, 0, QCRYPTO_BLOCK_LUKS_SALT_LEN);
+> +    slot->iterations =3D 0;
+> +    slot->active =3D QCRYPTO_BLOCK_LUKS_KEY_SLOT_DISABLED;
+> +
+> +    ret =3D qcrypto_block_luks_store_header(block,  writefunc,
+> +                                          opaque, &local_err);
+> +
+> +    if (ret) {
+
+ret < 0
+
+> +        error_propagate(errp, local_err);
+> +    }
+> +    /*
+> +     * Now try to erase the key material, even if the header
+> +     * update failed
+> +     */
+> +    for (i =3D 0; i < QCRYPTO_BLOCK_LUKS_ERASE_ITERATIONS; i++) {
+> +        if (qcrypto_random_bytes(garbagesplitkey,
+> +                                 splitkeylen, &local_err) < 0) {
 > +            /*
-> +             * We send vnet header len make other module(like filter-red=
-irector)
-> +             * know how to parse net packet correctly.
+> +             * If we failed to get the random data, still write
+> +             * at least zeros to the key slot at least once
 > +             */
-> +            len =3D htonl(entry->vnet_hdr_len);
->=20
-> -        if (!notify_remote_frame) {
-> -            ret =3D qemu_chr_fe_write_all(&s->chr_out,
-> +            ret =3D qemu_chr_fe_write_all(sendco->chr,
->                                          (uint8_t *)&len,
->                                          sizeof(len));
+> +            error_propagate(errp, local_err);
 > +
-> +            if (ret !=3D sizeof(len)) {
-> +                g_free(entry->buf);
-> +                g_slice_free(SendEntry, entry);
-> +                goto err;
+> +            if (i > 0) {
+> +                return -1;
 > +            }
->          }
->=20
-> -        if (ret !=3D sizeof(len)) {
-> +        ret =3D qemu_chr_fe_write_all(sendco->chr,
-> +                                    (uint8_t *)entry->buf,
-> +                                    entry->size);
-> +
-> +        if (ret !=3D entry->size) {
-> +            g_free(entry->buf);
-> +            g_slice_free(SendEntry, entry);
->              goto err;
->          }
-> +
-> +        g_free(entry->buf);
-> +        g_slice_free(SendEntry, entry);
->      }
->=20
-> +    sendco->ret =3D 0;
-> +    goto out;
-> +
-> +err:
-> +    while (!g_queue_is_empty(&sendco->send_list)) {
-> +        SendEntry *entry =3D g_queue_pop_tail(&sendco->send_list);
-> +        g_free(entry->buf);
-> +        g_slice_free(SendEntry, entry);
-> +    }
-> +    sendco->ret =3D ret < 0 ? ret : -EIO;
-> +out:
-> +    sendco->co =3D NULL;
-> +    sendco->done =3D true;
-> +    aio_wait_kick();
-> +}
-> +
-> +static int compare_chr_send(CompareState *s,
-> +                            uint8_t *buf,
-> +                            uint32_t size,
-> +                            uint32_t vnet_hdr_len,
-> +                            bool notify_remote_frame,
-> +                            bool zero_copy) {
-> +    SendCo *sendco;
-> +    SendEntry *entry;
-> +
->      if (notify_remote_frame) {
-> -        ret =3D qemu_chr_fe_write_all(&s->chr_notify_dev,
-> -                                    (uint8_t *)buf,
-> -                                    size);
-> +        sendco =3D &s->notify_sendco;
->      } else {
-> -        ret =3D qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)buf, size)=
-;
-> +        sendco =3D &s->out_sendco;
->      }
->=20
-> -    if (ret !=3D size) {
-> -        goto err;
-> +    if (!size) {
-> +        return 0;
->      }
->=20
-> -    return 0;
-> +    entry =3D g_slice_new(SendEntry);
-> +    entry->size =3D size;
-> +    entry->vnet_hdr_len =3D vnet_hdr_len;
-> +    if (zero_copy) {
-> +        entry->buf =3D buf;
-> +    } else {
-> +        entry->buf =3D g_malloc(size);
-> +        memcpy(entry->buf, buf, size);
-> +    }
-> +    g_queue_push_head(&sendco->send_list, entry);
-> +
-> +    if (sendco->done) {
-> +        sendco->co =3D qemu_coroutine_create(_compare_chr_send, sendco);
-> +        sendco->done =3D false;
-> +        qemu_coroutine_enter(sendco->co);
-> +        if (sendco->done) {
-> +            /* report early errors */
-> +            return sendco->ret;
+> +        }
+> +        if (writefunc(block,
+> +                      slot->key_offset_sector * QCRYPTO_BLOCK_LUKS_SECTO=
+R_SIZE,
+> +                      garbagesplitkey,
+> +                      splitkeylen,
+> +                      opaque,
+> +                      &local_err) !=3D splitkeylen) {
+> +            error_propagate(errp, local_err);
+> +            return -1;
 > +        }
 > +    }
->=20
-> -err:
-> -    return ret < 0 ? ret : -EIO;
-> +    /* assume success */
 > +    return 0;
->  }
->=20
->  static int compare_chr_can_read(void *opaque) @@ -1063,6 +1137,7 @@=20
-> static void compare_pri_rs_finalize(SocketReadState *pri_rs)
->                           pri_rs->buf,
->                           pri_rs->packet_len,
->                           pri_rs->vnet_hdr_len,
-> +                         false,
->                           false);
->      } else {
->          /* compare packet in the specified connection */ @@ -1093,7
-> +1168,7 @@ static void compare_notify_rs_finalize(SocketReadState
-> +*notify_rs)
->      if (packet_matches_str("COLO_USERSPACE_PROXY_INIT",
->                             notify_rs->buf,
->                             notify_rs->packet_len)) {
-> -        ret =3D compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0, true=
+
+We need to "return ret" here, in case the earlier store_header() failed
+
+> +}
+> =20
+
+
+
+> +static int
+> +qcrypto_block_luks_amend_add_keyslot(QCryptoBlock *block,
+> +                                     QCryptoBlockReadFunc readfunc,
+> +                                     QCryptoBlockWriteFunc writefunc,
+> +                                     void *opaque,
+> +                                     QCryptoBlockAmendOptionsLUKS *opts_=
+luks,
+> +                                     bool force,
+> +                                     Error **errp)
+> +{
+> +    QCryptoBlockLUKS *luks =3D block->opaque;
+> +    uint64_t iter_time =3D opts_luks->has_iter_time ?
+> +                         opts_luks->iter_time :
+> +                         QCRYPTO_BLOCK_LUKS_DEFAULT_ITER_TIME_MS;
+> +    int keyslot;
+> +    g_autofree char *old_password =3D NULL;
+> +    g_autofree char *new_password =3D NULL;
+> +    g_autofree uint8_t *master_key =3D NULL;
+> +
+> +    char *secret =3D opts_luks->has_secret ? opts_luks->secret : luks->s=
+ecret;
+> +
+> +    if (!opts_luks->has_new_secret) {
+> +        error_setg(errp, "'new-secret' is required to activate a keyslot=
+");
+> +        return -1;
+> +    }
+> +    if (opts_luks->has_old_secret) {
+> +        error_setg(errp,
+> +                   "'old-secret' must not be given when activating keysl=
+ots");
+> +        return -1;
+> +    }
+> +
+> +    if (opts_luks->has_keyslot) {
+> +        keyslot =3D opts_luks->keyslot;
+> +        if (keyslot < 0 || keyslot >=3D QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS=
+) {
+> +            error_setg(errp,
+> +                       "Invalid keyslot %u specified, must be between 0 =
+and %u",
+> +                       keyslot, QCRYPTO_BLOCK_LUKS_NUM_KEY_SLOTS - 1);
+> +            return -1;
+> +        }
+> +    } else {
+> +        keyslot =3D qcrypto_block_luks_find_free_keyslot(luks);
+> +        if (keyslot =3D=3D -1) {
+> +            error_setg(errp,
+> +                       "Can't add a keyslot - all keyslots are in use");
+> +            return -1;
+> +        }
+> +    }
+> +
+> +    if (!force && qcrypto_block_luks_slot_active(luks, keyslot)) {
+> +        error_setg(errp,
+> +                   "Refusing to overwrite active keyslot %i - "
+> +                   "please erase it first",
+> +                   keyslot);
+> +        return -EINVAL;
+
+s/-EINVAL/-1/
+
+> +    }
+> +
+> +    /* Locate the password that will be used to retrieve the master key =
+*/
+> +    old_password =3D qcrypto_secret_lookup_as_utf8(secret, errp);
+> +    if (!old_password) {
+> +        return -1;
+> +    }
+> +
+> +    /* Retrieve the master key */
+> +    master_key =3D g_new0(uint8_t, luks->header.master_key_len);
+> +
+> +    if (qcrypto_block_luks_find_key(block, old_password, master_key,
+> +                                    readfunc, opaque, errp) < 0) {
+> +        error_append_hint(errp, "Failed to retrieve the master key");
+> +        return -1;
+> +    }
+> +
+> +    /* Locate the new password*/
+> +    new_password =3D qcrypto_secret_lookup_as_utf8(opts_luks->new_secret=
+, errp);
+> +    if (!new_password) {
+> +        return -EINVAL;
+
+s/-EINVAL/-1/
+
+> +    }
+> +
+> +    /* Now set the new keyslots */
+> +    if (qcrypto_block_luks_store_key(block, keyslot, new_password, maste=
+r_key,
+> +                                     iter_time, writefunc, opaque, errp)=
+) {
+> +        error_append_hint(errp, "Failed to write to keyslot %i", keyslot=
 );
-> +        ret =3D compare_chr_send(s, (uint8_t *)msg, strlen(msg), 0,=20
-> + true, false);
->          if (ret < 0) {
->              error_report("Notify Xen COLO-frame INIT failed");
->          }
-> @@ -1199,6 +1274,18 @@ static void
-> colo_compare_complete(UserCreatable *uc, Error **errp)
->=20
->      QTAILQ_INSERT_TAIL(&net_compares, s, next);
->=20
-> +    s->out_sendco.s =3D s;
-> +    s->out_sendco.chr =3D &s->chr_out;
-> +    s->out_sendco.notify_remote_frame =3D false;
-> +    s->out_sendco.done =3D true;
-> +    g_queue_init(&s->out_sendco.send_list);
-> +
-> +    s->notify_sendco.s =3D s;
-> +    s->notify_sendco.chr =3D &s->chr_notify_dev;
-> +    s->notify_sendco.notify_remote_frame =3D true;
-> +    s->notify_sendco.done =3D true;
-> +    g_queue_init(&s->notify_sendco.send_list);
-> +
+> +        return -EINVAL;
 
-No need to init the notify_sendco each time, because the notify dev just an=
- optional parameter.
-You can use the if (s->notify_dev) here. Just Xen use the chr_notify_dev.
+s/-EINVAL/-1/
 
-Overall, make the chr_send job to coroutine is a good idea. It looks good f=
-or me.
-And your patch inspired me, it looks we can re-use the compare_chr_send cod=
-e on filter mirror/redirector too.
-
-Tested-by: Zhang Chen <chen.zhang@intel.com>
-
-
->      g_queue_init(&s->conn_list);
->=20
->      qemu_mutex_init(&event_mtx);
-> @@ -1225,8 +1312,9 @@ static void colo_flush_packets(void *opaque,=20
-> void
-> *user_data)
->                           pkt->data,
->                           pkt->size,
->                           pkt->vnet_hdr_len,
-> -                         false);
-> -        packet_destroy(pkt, NULL);
-> +                         false,
-> +                         true);
-> +        packet_destroy_partial(pkt, NULL);
->      }
->      while (!g_queue_is_empty(&conn->secondary_list)) {
->          pkt =3D g_queue_pop_head(&conn->secondary_list);
-> @@ -1301,10 +1389,19 @@ static void colo_compare_finalize(Object *obj)
->          }
->      }
->=20
-> +    AioContext *ctx =3D iothread_get_aio_context(s->iothread);
-> +    aio_context_acquire(ctx);
-> +    AIO_WAIT_WHILE(ctx, !s->out_sendco.done);
-> +    AIO_WAIT_WHILE(ctx, !s->notify_sendco.done);
-
-Same as above.
-
-> +    aio_context_release(ctx);
-> +
->      /* Release all unhandled packets after compare thead exited */
->      g_queue_foreach(&s->conn_list, colo_flush_packets, s);
-> +    AIO_WAIT_WHILE(NULL, !s->out_sendco.done);
->=20
->      g_queue_clear(&s->conn_list);
-> +    g_queue_clear(&s->out_sendco.send_list);
-> +    g_queue_clear(&s->notify_sendco.send_list);
-
-Same as above.
-
->=20
->      if (s->connection_track_table) {
->          g_hash_table_destroy(s->connection_track_table);
-> diff --git a/net/colo.c b/net/colo.c
-> index 8196b35837..a6c66d829a 100644
-> --- a/net/colo.c
-> +++ b/net/colo.c
-> @@ -185,6 +185,13 @@ void packet_destroy(void *opaque, void *user_data)
->      g_slice_free(Packet, pkt);
->  }
->=20
-> +void packet_destroy_partial(void *opaque, void *user_data) {
-> +    Packet *pkt =3D opaque;
-> +
-> +    g_slice_free(Packet, pkt);
+> +    }
+> +    return 0;
 > +}
 > +
->  /*
->   * Clear hashtable, stop this hash growing really huge
->   */
-> diff --git a/net/colo.h b/net/colo.h
-> index 679314b1ca..573ab91785 100644
-> --- a/net/colo.h
-> +++ b/net/colo.h
-> @@ -102,5 +102,6 @@ bool connection_has_tracked(GHashTable=20
-> *connection_track_table,  void connection_hashtable_reset(GHashTable
-> *connection_track_table);  Packet *packet_new(const void *data, int=20
-> size, int vnet_hdr_len);  void packet_destroy(void *opaque, void=20
-> *user_data);
-> +void packet_destroy_partial(void *opaque, void *user_data);
->=20
->  #endif /* NET_COLO_H */
-> --
-> 2.20.1
+> +static int
+> +qcrypto_block_luks_amend_erase_keyslots(QCryptoBlock *block,
+> +                                        QCryptoBlockReadFunc readfunc,
+> +                                        QCryptoBlockWriteFunc writefunc,
+> +                                        void *opaque,
+> +                                        QCryptoBlockAmendOptionsLUKS *op=
+ts_luks,
+> +                                        bool force,
+> +                                        Error **errp)
+> +{
+> +    QCryptoBlockLUKS *luks =3D block->opaque;
+> +    g_autofree uint8_t *tmpkey =3D NULL;
+> +    g_autofree char *old_password =3D NULL;
+> +
+> +    if (opts_luks->has_new_secret) {
+> +        error_setg(errp,
+> +                   "'new-secret' must not be given when erasing keyslots=
+");
+> +        return -1;
+> +    }
+> +    if (opts_luks->has_iter_time) {
+> +        error_setg(errp,
+> +                   "'iter-time' must not be given when erasing keyslots"=
+);
+> +        return -1;
+> +    }
+> +    if (opts_luks->has_secret) {
+> +        error_setg(errp,
+> +                   "'secret' must not be given when erasing keyslots");
+> +        return -1;
+> +    }
+> +
+> +    /* Load the old password if given */
+> +    if (opts_luks->has_old_secret) {
+> +        old_password =3D qcrypto_secret_lookup_as_utf8(opts_luks->old_se=
+cret,
+> +                                                     errp);
+> +        if (!old_password) {
+> +            return -1;
+> +        }
+> +
+> +        /*
+> +         * Allocate a temporary key buffer that we will need when
+> +         * checking if slot matches the given old password
+> +         */
+> +        tmpkey =3D g_new0(uint8_t, luks->header.master_key_len);
+> +}
+
+Indent missing
+
+
+
+With the minor points fixed
+
+   Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
