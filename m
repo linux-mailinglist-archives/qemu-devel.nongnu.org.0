@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFA61C97AF
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:26:51 +0200 (CEST)
-Received: from localhost ([::1]:60908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BE61C97C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:29:04 +0200 (CEST)
+Received: from localhost ([::1]:40068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWkIM-0005vL-RW
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:26:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56796)
+	id 1jWkKV-0000fN-4X
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jWkFd-0002Xx-G4
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:24:01 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:52843)
+ id 1jWkFe-0002ZO-ES
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:24:02 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:51337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jWkFc-0005fy-HQ
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:24:01 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id a5so2931754pjh.2
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:24:00 -0700 (PDT)
+ id 1jWkFd-0005h5-I2
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:24:02 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id mq3so2932815pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:24:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hu8GAtYpK4KqYeGSLVRmQ5y9C6Pv/NuZ3ZqPedv/gBI=;
- b=NRikOAcJqfw36J2pHMrL/68H9bsb/3BhB7kmrZsrw9Y1qOoN+s3gpmdzaqK+XFHWvM
- 5EDr4H7Kf4afM2rf52gEM2GD2OiX5a6qFiBIVIsTEil4+dYURPdWI7Y4UU5fNp3/+Yxb
- sGrhs525tvLsUw33BhHjDmvjo+wTQVON2BvNCB1GMBaxUiqN0dPt1TQ4znN9TXajzu7d
- +x4K1j/Gqaj7/ISBnEdyr1y5T31BepYnvHKsoAnnnkI8E8NzmGUFe1uk5i0JLD7HUgrd
- ru/sIsZE5WgwWXV5m9ZYOTpAz1rIl8uUW4kBUpdOf5G5+SGYVIdqW7diT7UBNXKomz1X
- K0tg==
+ bh=JDlFiCjVr5xHxciN5joXRaUK1WSJQwdyA4WuZ989PgM=;
+ b=jPamNmxOcXpYg9gdWJg1gmYijQWrOlp48jjB8HSlbYTN9B1K6rQHL2FRECq1sINIeX
+ /JWTsTF3FRthwOHIKW9Pqwj4g2Nly+U2peT5C3GzJHnAEQ7WWST1Ozf/Nar6SF5bR9aR
+ /JsTjIUoAxrmlT62X+cdIHzWeiSNSa7F6fLxWWKhcWttP8fYR7Oh0y9UI1INvloMIPZw
+ BreWkQVLBwVh7m0Dc9/fEZroupZ7dIbczqwJVEnpiYrGGCkRgYKKshWM89NDa4vTo6E7
+ HAYij2bPCvq84JAtuN4/He+YGbX+s5yI7opgzZxrjVAIf6TUoSIqS2kHA6ZLONTrXyG+
+ q1Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hu8GAtYpK4KqYeGSLVRmQ5y9C6Pv/NuZ3ZqPedv/gBI=;
- b=kg/yEZZF5SLyFE9uIg7DNpKRAoIpLw7myB6So59y75ciEauUxWwfW86e7lXJfhb6hl
- OexYXznCD84St67nXN7mybpFOcIrlmTDYtm9Oo7c8TEw6eTiDJ6eVLDgHuv8jv9+koAS
- D0njRsWJEfo0UO69IniOJYKG3qZqjz/kDJ2RuYQ6PUKM6x6tWbSrNj4FZiaJOk4E9QI1
- rUC3Fz99Y4q/NW2RffLruWF5gUuEC4XO/ctv3FMBY4GNXKyfomWJEXgj8tCISv7f3GjE
- mcOocbyBt+7cmAAd2jacKLfHZpsJ11TavcZROV1O9EvqwXXNEb+yZ9aEgPnfy+2aZOe3
- 5DpA==
-X-Gm-Message-State: AGi0PubkcPNsRlBQ9xVqiZ567TPHy3x2AsnZ3spxJsyEL7yVLJJto8bc
- 7cvuVApcg8TGMVsp7kb80xlbatyu0wc=
-X-Google-Smtp-Source: APiQypJ88JO6x8lG1/yka/JZojctNlkBkvrHWc3pNhs4fL/7yxgnGV2EIuoz/kMBJKIZEchKk4Mokg==
-X-Received: by 2002:a17:90a:cd03:: with SMTP id
- d3mr1157557pju.233.1588872238365; 
- Thu, 07 May 2020 10:23:58 -0700 (PDT)
+ bh=JDlFiCjVr5xHxciN5joXRaUK1WSJQwdyA4WuZ989PgM=;
+ b=TQv7Fcx3cHckUYcjZ//U//YX296j+GoGIcgvxN9MI4sx1bMPJzeCAd8PmOudMWHBY1
+ rf56w5LDZA7G1hcYEflMYeI0Un6BLdERXTA61yUMKw5NlEb54e1OK5yg0eM+Ro0tYcr9
+ mPtoP0LtlruLMLmhQq+Rl8TJ5j9oiEKUBkTgNs0blohuc4e3q/ekDUFlMzp/lBsEVCxC
+ IXzZ9vpfUl9T8fMuinVEnJC0VRloC7E7e+1/f42TAh0/Cy+z8nhvnhk+WAbUb4NLuCqY
+ L+DEoClacSpwj8GLmoOkvjunZWPrLs6A2SLrYki+2FmsuLD8LRay0/ShkleClyxC2zRD
+ RyZw==
+X-Gm-Message-State: AGi0Puaeo/u0GRzeAtqFrudACYZ0IEPwM3KiocFEGKNiIbWETo82CIIr
+ a2c2fsjSa2hn8POahoUNyGX8PoXyy6c=
+X-Google-Smtp-Source: APiQypK3j2oV23f6kwFGM3rOxkYG2/S/NybkJ2uW8VHvx+OFd6F+YL07RJqSDP6cr3QffcxkL6ACUQ==
+X-Received: by 2002:a17:90a:8815:: with SMTP id
+ s21mr1244170pjn.154.1588872239509; 
+ Thu, 07 May 2020 10:23:59 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id 19sm312228pjl.52.2020.05.07.10.23.57
+ by smtp.gmail.com with ESMTPSA id 19sm312228pjl.52.2020.05.07.10.23.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 10:23:57 -0700 (PDT)
+ Thu, 07 May 2020 10:23:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/4] target/arm: Use clear_vec_high more effectively
-Date: Thu,  7 May 2020 10:23:51 -0700
-Message-Id: <20200507172352.15418-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 4/4] target/arm: Fix tcg_gen_gvec_dup_imm vs DUP (indexed)
+Date: Thu,  7 May 2020 10:23:52 -0700
+Message-Id: <20200507172352.15418-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200507172352.15418-1-richard.henderson@linaro.org>
 References: <20200507172352.15418-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,165 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not explicitly store zero to the NEON high part
-when we can pass !is_q to clear_vec_high.
+DUP (indexed) can duplicate 128-bit elements, so using esz
+unconditionally can assert in tcg_gen_gvec_dup_imm.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Fixes: 8711e71f9cbb
+Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 59 +++++++++++++++++++++++---------------
- 1 file changed, 36 insertions(+), 23 deletions(-)
+ target/arm/translate-sve.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index b6feb2b9dc..0947eaee05 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -939,11 +939,10 @@ static void do_fp_ld(DisasContext *s, int destidx, TCGv_i64 tcg_addr, int size)
- {
-     /* This always zero-extends and writes to a full 128 bit wide vector */
-     TCGv_i64 tmplo = tcg_temp_new_i64();
--    TCGv_i64 tmphi;
-+    TCGv_i64 tmphi = NULL;
- 
-     if (size < 4) {
-         MemOp memop = s->be_data + size;
--        tmphi = tcg_const_i64(0);
-         tcg_gen_qemu_ld_i64(tmplo, tcg_addr, get_mem_index(s), memop);
-     } else {
-         bool be = s->be_data == MO_BE;
-@@ -961,12 +960,13 @@ static void do_fp_ld(DisasContext *s, int destidx, TCGv_i64 tcg_addr, int size)
-     }
- 
-     tcg_gen_st_i64(tmplo, cpu_env, fp_reg_offset(s, destidx, MO_64));
--    tcg_gen_st_i64(tmphi, cpu_env, fp_reg_hi_offset(s, destidx));
--
-     tcg_temp_free_i64(tmplo);
--    tcg_temp_free_i64(tmphi);
- 
--    clear_vec_high(s, true, destidx);
-+    if (tmphi) {
-+        tcg_gen_st_i64(tmphi, cpu_env, fp_reg_hi_offset(s, destidx));
-+        tcg_temp_free_i64(tmphi);
-+    }
-+    clear_vec_high(s, tmphi != NULL, destidx);
- }
- 
- /*
-@@ -6960,8 +6960,8 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
-         return;
-     }
- 
--    tcg_resh = tcg_temp_new_i64();
-     tcg_resl = tcg_temp_new_i64();
-+    tcg_resh = NULL;
- 
-     /* Vd gets bits starting at pos bits into Vm:Vn. This is
-      * either extracting 128 bits from a 128:128 concatenation, or
-@@ -6973,7 +6973,6 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
-             read_vec_element(s, tcg_resh, rm, 0, MO_64);
-             do_ext64(s, tcg_resh, tcg_resl, pos);
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index c8649283be..83614e9e70 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -2044,7 +2044,11 @@ static bool trans_DUP_x(DisasContext *s, arg_DUP_x *a)
+             unsigned nofs = vec_reg_offset(s, a->rn, index, esz);
+             tcg_gen_gvec_dup_mem(esz, dofs, nofs, vsz, vsz);
+         } else {
+-            tcg_gen_gvec_dup_imm(esz, dofs, vsz, vsz, 0);
++            /*
++             * While dup_mem handles 128-bit elements, dup_imm does not.
++             * Thankfully element size doesn't matter for splatting zero.
++             */
++            tcg_gen_gvec_dup_imm(MO_64, dofs, vsz, vsz, 0);
          }
--        tcg_gen_movi_i64(tcg_resh, 0);
-     } else {
-         TCGv_i64 tcg_hh;
-         typedef struct {
-@@ -6988,6 +6987,7 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
-             pos -= 64;
-         }
- 
-+        tcg_resh = tcg_temp_new_i64();
-         read_vec_element(s, tcg_resl, elt->reg, elt->elt, MO_64);
-         elt++;
-         read_vec_element(s, tcg_resh, elt->reg, elt->elt, MO_64);
-@@ -7003,9 +7003,12 @@ static void disas_simd_ext(DisasContext *s, uint32_t insn)
- 
-     write_vec_element(s, tcg_resl, rd, 0, MO_64);
-     tcg_temp_free_i64(tcg_resl);
--    write_vec_element(s, tcg_resh, rd, 1, MO_64);
--    tcg_temp_free_i64(tcg_resh);
--    clear_vec_high(s, true, rd);
-+
-+    if (is_q) {
-+        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-+        tcg_temp_free_i64(tcg_resh);
-+    }
-+    clear_vec_high(s, is_q, rd);
- }
- 
- /* TBL/TBX
-@@ -7042,17 +7045,21 @@ static void disas_simd_tb(DisasContext *s, uint32_t insn)
-      * the input.
-      */
-     tcg_resl = tcg_temp_new_i64();
--    tcg_resh = tcg_temp_new_i64();
-+    tcg_resh = NULL;
- 
-     if (is_tblx) {
-         read_vec_element(s, tcg_resl, rd, 0, MO_64);
-     } else {
-         tcg_gen_movi_i64(tcg_resl, 0);
      }
--    if (is_tblx && is_q) {
--        read_vec_element(s, tcg_resh, rd, 1, MO_64);
--    } else {
--        tcg_gen_movi_i64(tcg_resh, 0);
-+
-+    if (is_q) {
-+        tcg_resh = tcg_temp_new_i64();
-+        if (is_tblx) {
-+            read_vec_element(s, tcg_resh, rd, 1, MO_64);
-+        } else {
-+            tcg_gen_movi_i64(tcg_resh, 0);
-+        }
-     }
- 
-     tcg_idx = tcg_temp_new_i64();
-@@ -7072,9 +7079,12 @@ static void disas_simd_tb(DisasContext *s, uint32_t insn)
- 
-     write_vec_element(s, tcg_resl, rd, 0, MO_64);
-     tcg_temp_free_i64(tcg_resl);
--    write_vec_element(s, tcg_resh, rd, 1, MO_64);
--    tcg_temp_free_i64(tcg_resh);
--    clear_vec_high(s, true, rd);
-+
-+    if (is_q) {
-+        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-+        tcg_temp_free_i64(tcg_resh);
-+    }
-+    clear_vec_high(s, is_q, rd);
- }
- 
- /* ZIP/UZP/TRN
-@@ -7111,7 +7121,7 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
-     }
- 
-     tcg_resl = tcg_const_i64(0);
--    tcg_resh = tcg_const_i64(0);
-+    tcg_resh = is_q ? tcg_const_i64(0) : NULL;
-     tcg_res = tcg_temp_new_i64();
- 
-     for (i = 0; i < elements; i++) {
-@@ -7162,9 +7172,12 @@ static void disas_simd_zip_trn(DisasContext *s, uint32_t insn)
- 
-     write_vec_element(s, tcg_resl, rd, 0, MO_64);
-     tcg_temp_free_i64(tcg_resl);
--    write_vec_element(s, tcg_resh, rd, 1, MO_64);
--    tcg_temp_free_i64(tcg_resh);
--    clear_vec_high(s, true, rd);
-+
-+    if (is_q) {
-+        write_vec_element(s, tcg_resh, rd, 1, MO_64);
-+        tcg_temp_free_i64(tcg_resh);
-+    }
-+    clear_vec_high(s, is_q, rd);
- }
- 
- /*
+     return true;
 -- 
 2.20.1
 
