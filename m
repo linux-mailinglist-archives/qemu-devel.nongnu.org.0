@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F141C8CE6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:47:46 +0200 (CEST)
-Received: from localhost ([::1]:56326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4A91C8CEE
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:48:33 +0200 (CEST)
+Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWgsL-0001ZQ-BE
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:47:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33580)
+	id 1jWgt6-0002Xf-QM
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jWgno-0003dc-7O
- for qemu-devel@nongnu.org; Thu, 07 May 2020 09:43:04 -0400
-Received: from 17.mo7.mail-out.ovh.net ([188.165.35.227]:49852)
+ (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
+ id 1jWgrQ-0000zn-4v; Thu, 07 May 2020 09:46:48 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:57190 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jWgnl-0005PH-U7
- for qemu-devel@nongnu.org; Thu, 07 May 2020 09:43:03 -0400
-Received: from player735.ha.ovh.net (unknown [10.108.42.170])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 65B02162DE5
- for <qemu-devel@nongnu.org>; Thu,  7 May 2020 15:42:59 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player735.ha.ovh.net (Postfix) with ESMTPSA id CC22A11E6F9BE;
- Thu,  7 May 2020 13:42:57 +0000 (UTC)
-Date: Thu, 7 May 2020 15:42:53 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9pfs: Fix potential deadlock of QEMU mainloop
-Message-ID: <20200507154253.26715a19@bahia.lan>
-In-Reply-To: <3205025.KiTILEyK6o@silver>
-References: <158826201391.1344781.9403916162733181811.stgit@bahia.lan>
- <3204505.kZXhZKLjgj@silver> <20200506195415.4cc48810@bahia.lan>
- <3205025.KiTILEyK6o@silver>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
+ id 1jWgrO-0001F3-KE; Thu, 07 May 2020 09:46:47 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id BD7ED9A4637A1595BE71;
+ Thu,  7 May 2020 21:46:37 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 7 May 2020
+ 21:46:30 +0800
+Subject: Re: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200410114639.32844-1-gengdongjiu@huawei.com>
+ <CAFEAcA9oNuDf=bdSSE8mZWrB23+FegD5NeSAmu8dGWhB=adBQg@mail.gmail.com>
+ <da3cbdfd-a75d-c87f-3ece-616278aa64d5@huawei.com>
+ <20200506162439-mutt-send-email-mst@kernel.org>
+From: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <9198eac5-87ac-839c-f5dd-598880748b8e@huawei.com>
+Date: Thu, 7 May 2020 21:46:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200506162439-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 1180787529036568896
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrkedtgdeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=188.165.35.227; envelope-from=groug@kaod.org;
- helo=17.mo7.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 09:42:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=gengdongjiu@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 09:40:23
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,85 +63,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>, kvm-devel <kvm@vger.kernel.org>,
+ Igor Mammedov <imammedo@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng Xiang <zhengxiang9@huawei.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 07 May 2020 13:46:50 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> On Mittwoch, 6. Mai 2020 19:54:15 CEST Greg Kurz wrote:
-> > On Wed, 06 May 2020 15:36:16 +0200
-> > 
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > On Mittwoch, 6. Mai 2020 15:05:23 CEST Christian Schoenebeck wrote:
-> > > > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > > > > index 9e046f7acb51..ac84ae804496 100644
-> > > > > --- a/hw/9pfs/9p.c
-> > > > > +++ b/hw/9pfs/9p.c
-> > > > > @@ -2170,7 +2170,7 @@ static int coroutine_fn
-> > > > > v9fs_do_readdir_with_stat(V9fsPDU *pdu, int32_t count = 0;
-> > > > > 
-> > > > >      struct stat stbuf;
-> > > > >      off_t saved_dir_pos;
-> > > > > 
-> > > > > -    struct dirent *dent;
-> > > > > +    struct dirent dent;
-> > > 
-> > > One more: since this dirent structure is now on the stack, it should
-> > > better be initialized for safety reasons.
-> > 
-> > I don't think so, for two reasons:
-> > - I can't think of an initializer that would make sense for a dirent
+
+On 2020/5/7 4:25, Michael S. Tsirkin wrote:
+> On Wed, May 06, 2020 at 07:42:19PM +0800, gengdongjiu wrote:
+>> On 2020/4/17 21:32, Peter Maydell wrote:
+>>> On Fri, 10 Apr 2020 at 12:46, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+>>>>
+>>>> In the ARMv8 platform, the CPU error types includes synchronous external abort(SEA)
+>>>> and SError Interrupt (SEI). If exception happens in guest, host does not know the detailed
+>>>> information of guest, so it is expected that guest can do the recovery. For example, if an
+>>>> exception happens in a guest user-space application, host does not know which application
+>>>> encounters errors, only guest knows it.
+>>>>
+>>>> For the ARMv8 SEA/SEI, KVM or host kernel delivers SIGBUS to notify userspace.
+>>>> After user space gets the notification, it will record the CPER into guest GHES
+>>>> buffer and inject an exception or IRQ to guest.
+>>>>
+>>>> In the current implementation, if the type of SIGBUS is BUS_MCEERR_AR, we will
+>>>> treat it as a synchronous exception, and notify guest with ARMv8 SEA
+>>>> notification type after recording CPER into guest.
+>>>
+>>> Hi. I left a comment on patch 1. The other 3 patches unreviewed
+>>> are 5, 6 and 8, which are all ACPI core code, so that's for
+>>> MST, Igor or Shannon to review.
+>>>
+>>> Once those have been reviewed, please ping me if you want this
+>>> to go via target-arm.next.
+>>
+>> Hi Peter,
+>>    Igor have reviewed all ACPI core code. whether you can apply this series to target-arm.next I can make another patches to solve your comments on patch1 and another APCI comment.
+>> Thanks very much in advance.
 > 
-> The same as it would (implied - usually, e.g. with gmalloc0()) if you were 
-> allocating it on heap: by initializing it with all zeroes, e.g. just:
+> Given it all starts with patch 1, it's probably easier to address the
+> comment and repost.
+
+  Done.
+
+  Hi Peter,
+      Please review the patch 1 in the patchset v26. Thanks.
 > 
-> 	struct dirent dent = {};
 > 
-
-Ok, so you have a zeroed dent, which is likely just as wrong as
-any other arbitrary value... I just agree that if we have some
-bug that prevents v9fs_co_readdir() to fill the dentry, this
-would prevent arbitrary host data to leak to the guest.
-
-> > - if a future change introduces a branch where dent could be used
-> >   uninitialized, I'd rather give a chance to the compiler to bark
+>>>
+>>> thanks
+>>> -- PMM
+>>>
+>>> .
+>>>
 > 
-> The compiler would reliably bark on using it unitialized if you were about to 
-> access it directly within the same function. But that's not the case here. 
-
-Hmm... that's the case with the current code base:
-
-v9fs_do_readdir_with_stat:
-
-        err = v9fs_co_readdir(pdu, fidp, &dent);
-        if (err <= 0) {
-            break;
-        }
-        err = v9fs_co_name_to_path(pdu, &fidp->path, dent.d_name, &path);
-                                                     ^^^^
-
-v9fs_do_readdir:
-
-        err = v9fs_co_readdir(pdu, fidp, &dent);
-        if (err <= 0) {
-            break;
-        }
-        v9fs_string_init(&name);
-        v9fs_string_sprintf(&name, "%s", dent.d_name);
-                                         ^^^^
-
-> dirent is passed by reference to a function which will be altering it. Such 
-> stacked relations usually require more sophisticated diagnostics, like e.g. 
-> exeuting the LLVM sanitizer.
-> 
-
-We also do Coverity runs on a regular basis.
-
-> Best regards,
-> Christian Schoenebeck
-> 
+> .
 > 
 
 
