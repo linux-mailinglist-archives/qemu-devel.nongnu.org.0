@@ -2,55 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3F71C8EF9
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 16:35:04 +0200 (CEST)
-Received: from localhost ([::1]:40040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D861C9021
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 16:38:34 +0200 (CEST)
+Received: from localhost ([::1]:55138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWhc7-0003lB-8M
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 10:35:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
+	id 1jWhfV-0001gL-Ac
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 10:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jWhak-00025h-Rg
- for qemu-devel@nongnu.org; Thu, 07 May 2020 10:33:38 -0400
-Received: from 10.mo69.mail-out.ovh.net ([46.105.73.241]:57800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jWhaj-0003GD-8f
- for qemu-devel@nongnu.org; Thu, 07 May 2020 10:33:38 -0400
-Received: from player737.ha.ovh.net (unknown [10.108.57.178])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id 74A1F8E007
- for <qemu-devel@nongnu.org>; Thu,  7 May 2020 16:33:33 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player737.ha.ovh.net (Postfix) with ESMTPSA id BF8D88ADA921;
- Thu,  7 May 2020 14:33:31 +0000 (UTC)
-Date: Thu, 7 May 2020 16:33:28 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH] 9pfs: Fix potential deadlock of QEMU mainloop
-Message-ID: <20200507163328.4736534d@bahia.lan>
-In-Reply-To: <8590081.eFxiLWWr9E@silver>
-References: <158826201391.1344781.9403916162733181811.stgit@bahia.lan>
- <4216293.sUgoX00Q1d@silver> <20200506194910.615e8126@bahia.lan>
- <8590081.eFxiLWWr9E@silver>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jWhdC-0006X4-Jc
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 10:36:10 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:39789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jWhd7-0000Av-8G
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 10:36:10 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M9WmQ-1jRBJq1DzY-005ZDg; Thu, 07 May 2020 16:35:50 +0200
+To: Tobias Koch <tobias.koch@nonterra.com>, qemu-devel@nongnu.org
+References: <20200305210534.28392-1-tobias.koch@nonterra.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH] linux-user: mremap fails with EFAULT if address range
+ overlaps with stack guard
+Message-ID: <d643f0d0-d5e7-d1f3-d3e2-7d62661774e8@vivier.eu>
+Date: Thu, 7 May 2020 16:35:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 2034782608128317760
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrkedtgdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.73.241; envelope-from=groug@kaod.org;
- helo=10.mo69.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 10:33:33
+In-Reply-To: <20200305210534.28392-1-tobias.koch@nonterra.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ryYexHVoUBbfWw7xsCjdnBtzcNWyuUeaUVRd7l9jtyedAoDOV63
+ 8h+qEXRY1prFUnTeso49IsEA07Wl625nYaqbt9HwuJdpBiNQnUpdwcEK9JUH3v+gwKAH8L4
+ SdqPhGwP6xrPSLYqT5CloGWcytEvWSgfFQCv7/wLwqhiY9r22AnNCHAnGH7ttBBqJbAdoZQ
+ fs+17rx54qDqk9VkoVZYQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:U4HwvrIDk28=:onliGEFZb5jwWDKBwP6tzn
+ 9zvcpmVCQUuaJSz1tHRjNLMgsUa+CmZTWneHTQUGtp1gZ6PCpLd3tO/a0usQoMPl4NSAvHm60
+ gvJyTuuP09pC/O39gGUJ6duPdu3gaM9HeM7G+Ut1YT1T+uD3wCm/gBHDhhFuAYWFkzrOG3UCP
+ WNo/YM0RU61dDjjt9zyhMlGzf0E2Ocicn1DIYd9iyDMwqW7GYIyyUqe5D21cKCXIbG6g8+om/
+ C+H4xIqS08WTEqWwtVZJzDluNY0SeAnTKimjDTMnCvtcOxpait6W1NbbJtBbvUyGrB5Nq5ouv
+ SPRloCzlKK/qEvDLlDvQPM8oEnUTrZeT8msB4tHKfWM2ee2ncQf8cD5WLbGoqfYxWHjK0sdUL
+ xEixR8TKxi35OSn+2tpSYQAPS6fYWqBt/33Lq7LB7kfBkbYUbapHHNZvOfHinC52zsWogamq/
+ Bjo+8R+1a0Yf4K0beMhLVTTKDo0HS5o1IYMXd7YDfP601WBTXmVGKETO4ecIAVgr/WTmWhWAT
+ /E/TXtgZC0BKKkJrjMTO14s6WfS9b6OXh3fdau/vhLguTbtHBLotC2Q2GYVm0Uqpbnu3oP2cl
+ jLdIiWKP2ZeGNhV705QV7Cuk9xg0kAqjdcA6m6VfF8O+eDDr56hgrk3LfSkD7FIIZBjDjdP1k
+ 5v4zDdc2qRXEYMpPVN/InVZMlZe1QN8aU/wAP+N+GKRS4pZhWciDT1xMYlxyOoO/hb3YNao2a
+ 4hPBPxCikJM0JNJ6LixKj/Y0gq9RsRZPv+UtNN9N20JxAWM55pdUJo7LHKqkwdKdWZH5/pLHT
+ vt8IUoyI7D2bLhMJyuTGPNQy1au+c7/q6SABjO3AML+exgDXq6lu0+beySrX+cTYRs34jVf
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 10:17:48
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,164 +114,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: riku.voipio@iki.fi
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 07 May 2020 13:37:30 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Le 05/03/2020 à 22:05, Tobias Koch a écrit :
+> If the address range starting at old_address overlaps with the stack guard it
+> is invalid and mremap must fail with EFAULT. The musl c library relies on this
+> behavior to detect the stack size, which it does by doing consecutive mremaps
+> until it hits the stack guard. Without this patch, software (such as the Ruby
+> interpreter) that calls pthread_getattr_np under musl will crash on 32 bit
+> targets emulated on a 64 bit host.
 
-> On Mittwoch, 6. Mai 2020 19:49:10 CEST Greg Kurz wrote:
-> > > Ok, but why not both? Moving locks to worker thread and QemuMutex ->
-> > > CoMutex?
-> > Using CoMutex would be mandatory if we leave the locking where it sits
-> > today, so that the main thread can switch to other coroutines instead
-> > of blocking. We don't have the same requirement with the worker thread:
-> > it just needs to do the actual readdir() and then it goes back to the
-> > thread pool, waiting to be summoned again for some other work. 
-> 
-> Yes, I know.
-> 
-> > So I'd
-> > rather use standard mutexes to keep things simple... why would you
-> > want to use a CoMutex here ?
-> 
-> Like you said, it would not be mandatory, nor a big deal, the idea was just if 
-> a lock takes longer than expected then a worker thread could already continue 
-> with another task. I mean the amount of worker threads are limited they are 
-> not growing on demand, are they?
-> 
+Could you share some pointers to the code that is doing this?
 
-Yes, the pool is limited to a fixed number of 64 threads, but...
+We have already this kind of code in linux-user/elfload.c,
+setup_arg_pages(): could you check why it doesn't work?
 
-> I also haven't reviewed QEMU's lock implementations in very detail, but IIRC 
-> CoMutexes are completely handled in user space, while QemuMutex uses regular 
-> OS mutexes and hence might cost context switches. 
-> 
-
-... since the locking would only been exercised with an hypothetical
-client doing stupid things, this is beginning to look like bike-shedding
-to me. :)
-
-> > > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > > > index 9e046f7acb51..ac84ae804496 100644
-> > > > --- a/hw/9pfs/9p.c
-> > > > +++ b/hw/9pfs/9p.c
-> > > > @@ -2170,7 +2170,7 @@ static int coroutine_fn
-> > > > v9fs_do_readdir_with_stat(V9fsPDU *pdu, int32_t count = 0;
-> > > > 
-> > > >      struct stat stbuf;
-> > > >      off_t saved_dir_pos;
-> > > > 
-> > > > -    struct dirent *dent;
-> > > > +    struct dirent dent;
-> > > > 
-> > > >      /* save the directory position */
-> > > >      saved_dir_pos = v9fs_co_telldir(pdu, fidp);
-> > > > 
-> > > > @@ -2181,13 +2181,11 @@ static int coroutine_fn
-> > > > v9fs_do_readdir_with_stat(V9fsPDU *pdu, while (1) {
-> > > > 
-> > > >          v9fs_path_init(&path);
-> > > > 
-> > > > -        v9fs_readdir_lock(&fidp->fs.dir);
-> > > > -
-> > > 
-> > > That's the deadlock fix, but ...
-> > > 
-> > > >          err = v9fs_co_readdir(pdu, fidp, &dent);
-> > > > 
-> > > > -        if (err || !dent) {
-> > > > +        if (err <= 0) {
-> > > > 
-> > > >              break;
-> > > >          
-> > > >          }
-> > > 
-> > > ... even though this code simplification might make sense, I don't think
-> > > it
-> > > should be mixed with the deadlock fix together in one patch. They are not
-> > 
-> > I could possibly split this in two patches, one for returning a copy
-> > and one for moving the locking around, but...
-> > 
-> > > related with each other, nor is the code simplification you are aiming
-> > > trivial
-> > ... this assertion is somewhat wrong: moving the locking to
-> > v9fs_co_readdir() really requires it returns a copy.
-> 
-> Yeah, I am also not sure whether a split would make it more trivial enough in 
-> this case to be worth the hassle. If you find an acceptable solution, good, if 
-> not then leave it one patch.
-> 
-
-Another option would be to g_malloc() the dirent in v9fs_co_readdir() and
-g_free() in the callers. This would cause less churn since we could keep
-the same function signature.
-
-> > > enough to justify squashing. The deadlock fix should make it through the
-> > > stable branches, while the code simplification should not. So that's
-> > > better
-> > > off as a separate cleanup patch.
-> > 
-> > The issue has been there for such a long time without causing any
-> > trouble. Not worth adding churn in stable for a bug that is impossible
-> > to hit with a regular linux guest.
-> 
-> Who knows. There are also other clients out there. A potential deadlock is 
-> still a serious issue after all.
-> 
-
-Well, I guess Cc: qemu-stable doesn't cost much and then I let other
-people decide. I have enough in my plate with upstream.
-
-> > > > @@ -32,13 +32,20 @@ int coroutine_fn v9fs_co_readdir(V9fsPDU *pdu,
-> > > > V9fsFidState *fidp, struct dirent *entry;
-> > > > 
-> > > >              errno = 0;
-> > > > 
-> > > > +
-> > > > +            v9fs_readdir_lock(&fidp->fs.dir);
-> > > > +
-> > > > 
-> > > >              entry = s->ops->readdir(&s->ctx, &fidp->fs);
-> > > >              if (!entry && errno) {
-> > > >              
-> > > >                  err = -errno;
-> > > > 
-> > > > +            } else if (entry) {
-> > > > +                memcpy(dent, entry, sizeof(*dent));
-> > > > +                err = 1;
-> > > 
-> > > I find using sizeof(*dent) a bit dangerous considering potential type
-> > > changes in future. I would rather use sizeof(struct dirent). It is also
-> > > more human friendly to read IMO.
-> > 
-> > Hmm... I believe it's the opposite actually: with sizeof(*dent), memcpy
-> > will always copy the number of bytes that are expected to fit in *dent,
-> > no matter the type.
-> 
-> Yes, but what you intend is to flat copy a structure, not pointers. So no 
-> matter how the type is going to be changed you always actually wanted 
-> (semantically)
-> 
-> 	copy(sizeof(struct dirent), nelements)
-> 
-> Now it is nelements=1, in future it might also be nelements>1, but what you 
-> certainly don't ever want here is
-> 
-> 	copy(sizeof(void*), nelements)
-> 
-> > But yes, since memcpy() doesn't do any type checking for us, I think
-> > I'll just turn this into:
-> > 
-> >                 *dent = *entry;
-> 
-> Ok
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
-
+Thanks,
+Laurent
 
