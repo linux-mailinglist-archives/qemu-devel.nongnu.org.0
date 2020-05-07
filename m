@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B651C8A9F
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 14:22:54 +0200 (CEST)
-Received: from localhost ([::1]:52456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5B91C8A2E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 14:12:38 +0200 (CEST)
+Received: from localhost ([::1]:59446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWfYD-0002Nw-Hm
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 08:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43828)
+	id 1jWfOH-000197-Ao
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 08:12:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWfWx-0001wD-74
- for qemu-devel@nongnu.org; Thu, 07 May 2020 08:21:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42540)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jWfN2-0000H1-BB
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 08:11:20 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWfWu-0002iv-Fn
- for qemu-devel@nongnu.org; Thu, 07 May 2020 08:21:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWfWs-0002OD-2a
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 12:21:30 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BF60D2E810E
- for <qemu-devel@nongnu.org>; Thu,  7 May 2020 12:21:29 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jWfN1-0001G2-Bf
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 08:11:19 -0400
+Received: by mail-wm1-x344.google.com with SMTP id k12so6216131wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 05:11:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wFVKzsYazuYKj9heOP0kOc+xOXwZKNaQI+1syNAe7nw=;
+ b=I6aWz9PinYdDL2Xq1qEgKDQ/b/d3dIjL+jTkyjvbBUGSvPWEJa3WrLKsomaQZmIQZ6
+ q6GOJVMlzDXjjZqfu+p/mcA3bPpg7OyDDYU0Ybmh3ADqy7B4C9ooE4ylTcVngppiecPU
+ p53doAurX4EcwJC1lOQ+FlA/AjRACV0R2JhEuLpxKdO3OlcaDBJrE96Lcx4Q11Hq4ojT
+ kRN73rNpgIOrz1aunSJZ2dsjId17C8YrLH+3AYqKJPdRBHQc2k5gnnq0SwzIUinf5flk
+ EINaCym/k8kiybNxkE+Pg6xs99GIplZLQ8ZRyZIOHnHktX/gW/j5D2EWf7Q8PhOw+6fJ
+ 8wFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wFVKzsYazuYKj9heOP0kOc+xOXwZKNaQI+1syNAe7nw=;
+ b=j3E1fhODm1BICkzyZ86JglUWr/SXbSxGtvnImttYobDYJcv/tOQuIjsvSj/Aa23Ujc
+ X4c5f3cTjrwgNxHxtXv4Wy3uQupggujIwVjrzrIqybfQv0FlUBCFd9N7iYU+fciIcLjc
+ Jw0m8xfKlF2R2UKAjR+UBTo2UD0R4/52Hgbzfq6irnRdEEMDRU1Fwl7kWOQTokB61VxS
+ xaRVbzx2i+yqqfNgEDU1pvZBa7PfcMWtF9mq6/V8Z7zN48XluFsAN0qlT/66nEzSirKN
+ bRBiBOrT1W7oj6x8b18Mx0TXo8saQdfEIbBpC8qRqtbQDKBpStywJz656Teg1f3g2DJS
+ rDhA==
+X-Gm-Message-State: AGi0Pub9zIatlH1oyva3VfI7wxOtdBRGerNA6uEdS7OYElCy6JqgqtBx
+ uoeW15MymMUDxX2+zvsQ6TvS6BeVUC/pW/cha18=
+X-Google-Smtp-Source: APiQypIrutgCXbulDuAlppfAP6QmfR1GsEMUzPJyU74jqdfzmnkrsibTkvJbih7/k7aJeZ7N5jQMz0hzTsZIfDhSnEg=
+X-Received: by 2002:a7b:c74d:: with SMTP id w13mr9755931wmk.36.1588853477169; 
+ Thu, 07 May 2020 05:11:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <1588500367-1056-2-git-send-email-chenhc@lemote.com>
+ <20200506234214.2887220735@mail.kernel.org>
+In-Reply-To: <20200506234214.2887220735@mail.kernel.org>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Thu, 7 May 2020 14:10:55 +0200
+Message-ID: <CAHiYmc4u6iM8BsEX-bHgFk6eD36FcE=_P-n29U0P=51Cyb5YVA@mail.gmail.com>
+Subject: Re: [PATCH V3 01/14] KVM: MIPS: Define KVM_ENTRYHI_ASID to
+ cpu_asid_mask(&boot_cpu_data)
+To: Sasha Levin <sashal@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 07 May 2020 12:06:16 -0000
-From: Heiko Sieger <1856335@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger
-X-Launchpad-Bug-Reporter: Damir (djdatte)
-X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
-References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Message-Id: <158885317678.5113.11272016025557588530.malone@soybean.canonical.com>
-Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 1e158f4e3ceb69ebb3938f869a91ecb7816db0d4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 08:21:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,80 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
+Cc: kvm@vger.kernel.org, QEMU Developers <qemu-devel@nongnu.org>,
+ stable@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>, Xing Li <lixing@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Babu,
+=D1=87=D0=B5=D1=82, 7. =D0=BC=D0=B0=D1=98 2020. =D1=83 01:43 Sasha Levin <s=
+ashal@kernel.org> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=
+=D0=BB=D0=B0:
+>
+> Hi
+>
+> [This is an automated email]
+>
+> This commit has been processed because it contains a -stable tag.
+> The stable tag indicates that it's relevant for the following trees: all
+>
+> The bot has tested the following trees: v5.6.10, v5.4.38, v4.19.120, v4.1=
+4.178, v4.9.221, v4.4.221.
+>
+> v5.6.10: Build OK!
+> v5.4.38: Build OK!
+> v4.19.120: Build OK!
+> v4.14.178: Build OK!
+> v4.9.221: Build OK!
+> v4.4.221: Failed to apply! Possible dependencies:
+>     029499b47738 ("KVM: x86: MMU: Make mmu_set_spte() return emulate valu=
+e")
+>     19d194c62b25 ("MIPS: KVM: Simplify TLB_* macros")
+>     403015b323a2 ("MIPS: KVM: Move non-TLB handling code out of tlb.c")
+>     7ee0e5b29d27 ("KVM: x86: MMU: Remove unused parameter of __direct_map=
+()")
+>     9fbfb06a4065 ("MIPS: KVM: Arrayify struct kvm_mips_tlb::tlb_lo*")
+>     ba049e93aef7 ("kvm: rename pfn_t to kvm_pfn_t")
+>     bdb7ed8608f8 ("MIPS: KVM: Convert headers to kernel sized types")
+>     ca64c2beecd4 ("MIPS: KVM: Abstract guest ASID mask")
+>     caa1faa7aba6 ("MIPS: KVM: Trivial whitespace and style fixes")
+>     e6207bbea16c ("MIPS: KVM: Use MIPS_ENTRYLO_* defs from mipsregs.h")
+>
+>
+> NOTE: The patch will not be queued to stable trees until it is upstream.
+>
+> How should we proceed with this patch?
+>
 
-Thanks for the reply and the QEMU command line. I will try to implement
-it in the XML.
+Hi, Sasha.
 
-So essentially what you do is to define each group of cpus and associate
-them with a numa node:
+Please wait for the the review of the whole series. It might also be
+the case that this patch will be upstreamed before the whole series,
+but please do not rush or skip regular review process.
 
--numa node,nodeid=3D0,cpus=3D0-5 -numa node,nodeid=3D1,cpus=3D6-11 -numa
-node,nodeid=3D2,cpus=3D12-17 -numa node,nodeid=3D3,cpus=3D18-23
+Thanks for you involvement and efforts!
 
-Haven't tried it but that might work. Do you need QEMU 5.0 for this to
-work, or is 4.2 OK?
+Aleksandar
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856335
-
-Title:
-  Cache Layout wrong on many Zen Arch CPUs
-
-Status in QEMU:
-  New
-
-Bug description:
-  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
-  to always map Cache ass if it was an 4-Core per CCX CPU, which is
-  incorrect, and costs upwards 30% performance (more realistically 10%)
-  in L3 Cache Layout aware applications.
-
-  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
-
-  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
-/>
-
-  In windows, coreinfo reports correctly:
-
-  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
-
-  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
-/>
-
-  in windows, coreinfo reports incorrectly:
-
-  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
-
-  With newer Qemu there is a fix (that does behave correctly) in using the =
-dies parameter:
-  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
-
-  The problem is that the dies are exposed differently than how AMD does
-  it natively, they are exposed to Windows as sockets, which means, that
-  if you are nto a business user, you can't ever have a machine with
-  more than two CCX (6 cores) as consumer versions of Windows only
-  supports two sockets. (Should this be reported as a separate bug?)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
+> --
+> Thanks
+> Sasha
+>
 
