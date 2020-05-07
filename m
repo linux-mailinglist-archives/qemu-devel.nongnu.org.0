@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68B71C8B89
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 14:58:07 +0200 (CEST)
-Received: from localhost ([::1]:33178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4FF71C8BAB
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:03:35 +0200 (CEST)
+Received: from localhost ([::1]:51478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWg6I-0004UB-TJ
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 08:58:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50572)
+	id 1jWgBa-0003hr-Mu
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jWg3C-0007NM-3E
- for qemu-devel@nongnu.org; Thu, 07 May 2020 08:54:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22918
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jWg3E-0007SJ-12
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 08:54:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:33683
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jWg3A-0003O7-BD
- for qemu-devel@nongnu.org; Thu, 07 May 2020 08:54:53 -0400
+ id 1jWg3C-0003S6-4T
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 08:54:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588856091;
+ s=mimecast20190719; t=1588856093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pKWHhNBOoPG97iPKEehsBGoilB35XSMwsonrnezh4Ro=;
- b=EexUMCh1W7xg+z7lYB+p0gtOyJQZ+0q905/FZq0FUn1yrTXQlovnONGt5NY02ABP9vGBN5
- LDF/+Fmi9SWmY6de+AIi0WOh8sSwdWv/R2v2OdQWJrhf+zzmOeEwTk4Q2xGZvJnoDKSEdh
- 7pA+FzZqTBj/aDW+cxc9RY1TdsuVBQc=
+ bh=hUV9WBFS1hjSNcm49PRuPYmHnBP0wb3v9vNj7g9O9XI=;
+ b=Y3YjUxTcFlYLURxdhzW3MQDdpyTdKEN3hZy/nHf1DcnxajZ1Qx720W8haL4V4AxIaxwlUr
+ 7dG3o8/QwpOKK7/qiHlVK4mSN2y/s9zpIz7NEZPGT8lxdxXHTrbyuwS4y8elhMKp15XuR/
+ M44txupwPtmIw1zkjRn5NyCksxxbmpQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-wQbUkFPKOk6ly8ZqyPb40Q-1; Thu, 07 May 2020 08:54:48 -0400
-X-MC-Unique: wQbUkFPKOk6ly8ZqyPb40Q-1
+ us-mta-144-sH8LiojrNge8LRB2IGV6tg-1; Thu, 07 May 2020 08:54:50 -0400
+X-MC-Unique: sH8LiojrNge8LRB2IGV6tg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B0F5107B26F;
- Thu,  7 May 2020 12:54:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB3F91800D4A;
+ Thu,  7 May 2020 12:54:49 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE19270559;
- Thu,  7 May 2020 12:54:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9807C707BD;
+ Thu,  7 May 2020 12:54:47 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 10/14] iotests: qemu-img tests for luks key management
-Date: Thu,  7 May 2020 15:54:10 +0300
-Message-Id: <20200507125414.2151-11-mlevitsk@redhat.com>
+Subject: [PATCH v5 11/14] block/core: add generic infrastructure for
+ x-blockdev-amend qmp command
+Date: Thu,  7 May 2020 15:54:11 +0300
+Message-Id: <20200507125414.2151-12-mlevitsk@redhat.com>
 In-Reply-To: <20200507125414.2151-1-mlevitsk@redhat.com>
 References: <20200507125414.2151-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +57,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:15:48
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,538 +88,282 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit adds two tests, which test the new amend interface
-of both luks raw images and qcow2 luks encrypted images.
+blockdev-amend will be used similiar to blockdev-create
+to allow on the fly changes of the structure of the format based block devi=
+ces.
+
+Current plan is to first support encryption keyslot management for luks
+based formats (raw and embedded in qcow2)
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- tests/qemu-iotests/293     | 207 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/293.out |  99 ++++++++++++++++++
- tests/qemu-iotests/294     |  90 ++++++++++++++++
- tests/qemu-iotests/294.out |  30 ++++++
- tests/qemu-iotests/group   |   2 +
- 5 files changed, 428 insertions(+)
- create mode 100755 tests/qemu-iotests/293
- create mode 100644 tests/qemu-iotests/293.out
- create mode 100755 tests/qemu-iotests/294
- create mode 100644 tests/qemu-iotests/294.out
+ block/Makefile.objs       |   2 +-
+ block/amend.c             | 108 ++++++++++++++++++++++++++++++++++++++
+ include/block/block_int.h |  21 +++++---
+ qapi/block-core.json      |  42 +++++++++++++++
+ qapi/job.json             |   4 +-
+ 5 files changed, 169 insertions(+), 8 deletions(-)
+ create mode 100644 block/amend.c
 
-diff --git a/tests/qemu-iotests/293 b/tests/qemu-iotests/293
-new file mode 100755
-index 0000000000..aa1a77690f
---- /dev/null
-+++ b/tests/qemu-iotests/293
-@@ -0,0 +1,207 @@
-+#!/usr/bin/env bash
-+#
-+# Test encryption key management with luks
-+# Based on 134
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=3Dmlevitsk@redhat.com
-+
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
-+{
-+=09_cleanup_test_img
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+
-+_supported_fmt qcow2 luks
-+_supported_proto file #TODO
-+
-+QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
-+
-+if [ "$IMGFMT" =3D "qcow2" ] ; then
-+=09PR=3D"encrypt."
-+=09EXTRA_IMG_ARGS=3D"-o encrypt.format=3Dluks"
-+fi
-+
-+
-+# secrets: you are supposed to see the password as *******, see :-)
-+S0=3D"--object secret,id=3Dsec0,data=3Dhunter0"
-+S1=3D"--object secret,id=3Dsec1,data=3Dhunter1"
-+S2=3D"--object secret,id=3Dsec2,data=3Dhunter2"
-+S3=3D"--object secret,id=3Dsec3,data=3Dhunter3"
-+S4=3D"--object secret,id=3Dsec4,data=3Dhunter4"
-+SECRETS=3D"$S0 $S1 $S2 $S3 $S4"
-+
-+# image with given secret
-+IMGS0=3D"--image-opts driver=3D$IMGFMT,file.filename=3D$TEST_IMG,${PR}key-=
-secret=3Dsec0"
-+IMGS1=3D"--image-opts driver=3D$IMGFMT,file.filename=3D$TEST_IMG,${PR}key-=
-secret=3Dsec1"
-+IMGS2=3D"--image-opts driver=3D$IMGFMT,file.filename=3D$TEST_IMG,${PR}key-=
-secret=3Dsec2"
-+IMGS3=3D"--image-opts driver=3D$IMGFMT,file.filename=3D$TEST_IMG,${PR}key-=
-secret=3Dsec3"
-+IMGS4=3D"--image-opts driver=3D$IMGFMT,file.filename=3D$TEST_IMG,${PR}key-=
-secret=3Dsec4"
-+
-+
-+echo "=3D=3D creating a test image =3D=3D"
-+_make_test_img $S0 $EXTRA_IMG_ARGS -o ${PR}key-secret=3Dsec0,${PR}iter-tim=
-e=3D10 32M
-+
-+echo
-+echo "=3D=3D test that key 0 opens the image =3D=3D"
-+$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
-+
-+echo
-+echo "=3D=3D adding a password to slot 4 =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=3Dactive,${PR}new-secret=3Ds=
-ec4,${PR}iter-time=3D10,${PR}keyslot=3D4
-+echo "=3D=3D adding a password to slot 1 =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=3Dactive,${PR}new-secret=3Ds=
-ec1,${PR}iter-time=3D10
-+echo "=3D=3D adding a password to slot 3 =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dactive,${PR}new-secret=3Ds=
-ec3,${PR}iter-time=3D10,${PR}keyslot=3D3
-+
-+echo "=3D=3D adding a password to slot 2 =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=3Dactive,${PR}new-secret=3Ds=
-ec2,${PR}iter-time=3D10
-+
-+
-+echo "=3D=3D erase slot 4 =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}keyslot=3D4 =
-| _filter_img_create
-+
-+
-+echo
-+echo "=3D=3D all secrets should work =3D=3D"
-+for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
-+=09$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_tes=
-tdir
-+done
-+
-+echo
-+echo "=3D=3D erase slot 0 and try it =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec0 | _filter_img_create
-+$QEMU_IO $SECRETS -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_test=
-dir
-+
-+echo
-+echo "=3D=3D erase slot 2 and try it =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}keyslot=3D2 =
-| _filter_img_create
-+$QEMU_IO $SECRETS -c "read 0 4096" $IMGS2 | _filter_qemu_io | _filter_test=
-dir
-+
-+
-+# at this point slots 1 and 3 should be active
-+
-+echo
-+echo "=3D=3D filling  4 slots with secret 2 =3D=3D"
-+for i in $(seq 0 3) ; do
-+=09$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=3Dactive,${PR}new-secret=
-=3Dsec2,${PR}iter-time=3D10
-+done
-+
-+echo
-+echo "=3D=3D adding secret 0 =3D=3D"
-+=09$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=3Dactive,${PR}new-secret=
-=3Dsec0,${PR}iter-time=3D10
-+
-+echo
-+echo "=3D=3D adding secret 3 (last slot) =3D=3D"
-+=09$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=3Dactive,${PR}new-secret=
-=3Dsec3,${PR}iter-time=3D10
-+
-+echo
-+echo "=3D=3D trying to add another slot (should fail) =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS2 -o ${PR}state=3Dactive,${PR}new-secret=3Ds=
-ec3,${PR}iter-time=3D10
-+
-+echo
-+echo "=3D=3D all secrets should work again =3D=3D"
-+for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
-+=09$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_tes=
-tdir
-+done
-+
-+
-+echo
-+
-+echo "=3D=3D erase all keys of secret 2=3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec2
-+
-+echo "=3D=3D erase all keys of secret 1=3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec1
-+
-+echo "=3D=3D erase all keys of secret 0=3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec0
-+
-+echo "=3D=3D erasing secret3 will fail now since it is the only secret (in=
- 3 slots) =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec3
-+
-+echo
-+echo "=3D=3D only secret3 should work now  =3D=3D"
-+for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
-+=09$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_tes=
-tdir
-+done
-+
-+echo
-+echo "=3D=3D add secret0  =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=3Dactive,${PR}new-secret=3Ds=
-ec0,${PR}iter-time=3D10
-+
-+echo "=3D=3D erase secret3 =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec3
-+
-+echo
-+echo "=3D=3D only secret0 should work now  =3D=3D"
-+for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
-+=09$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_tes=
-tdir
-+done
-+
-+echo
-+echo "=3D=3D replace secret0 with secret1 (should fail)  =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=3Dactive,${PR}new-secret=3Ds=
-ec1,${PR}keyslot=3D0
-+
-+echo
-+echo "=3D=3D replace secret0 with secret1 with force (should work)  =3D=3D=
-"
-+$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=3Dactive,${PR}new-secret=3Ds=
-ec1,${PR}iter-time=3D10,${PR}keyslot=3D0 --force
-+
-+echo
-+echo "=3D=3D only secret1 should work now  =3D=3D"
-+for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
-+=09$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_tes=
-tdir
-+done
-+
-+
-+echo
-+echo "=3D=3D erase last secret (should fail)  =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}keyslot=3D0
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec1
-+
-+
-+echo "=3D=3D erase non existing secrets (should fail)  =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec5 --force
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}old-secret=
-=3Dsec0 --force
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}keyslot=3D1 =
---force
-+
-+echo
-+echo "=3D=3D erase last secret with force by slot (should work)  =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=3Dinactive,${PR}keyslot=3D0 =
---force
-+
-+echo
-+echo "=3D=3D we have no secrets now, data is lost forever =3D=3D"
-+for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
-+=09$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_tes=
-tdir
-+done
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-+
-diff --git a/tests/qemu-iotests/293.out b/tests/qemu-iotests/293.out
+diff --git a/block/Makefile.objs b/block/Makefile.objs
+index 3635b6b4c1..a0988638d5 100644
+--- a/block/Makefile.objs
++++ b/block/Makefile.objs
+@@ -19,7 +19,7 @@ block-obj-$(CONFIG_WIN32) +=3D file-win32.o win32-aio.o
+ block-obj-$(CONFIG_POSIX) +=3D file-posix.o
+ block-obj-$(CONFIG_LINUX_AIO) +=3D linux-aio.o
+ block-obj-$(CONFIG_LINUX_IO_URING) +=3D io_uring.o
+-block-obj-y +=3D null.o mirror.o commit.o io.o create.o
++block-obj-y +=3D null.o mirror.o commit.o io.o create.o amend.o
+ block-obj-y +=3D throttle-groups.o
+ block-obj-$(CONFIG_LINUX) +=3D nvme.o
+=20
+diff --git a/block/amend.c b/block/amend.c
 new file mode 100644
-index 0000000000..7260783126
+index 0000000000..4840c0ffef
 --- /dev/null
-+++ b/tests/qemu-iotests/293.out
-@@ -0,0 +1,99 @@
-+QA output created by 293
-+=3D=3D creating a test image =3D=3D
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432
++++ b/block/amend.c
+@@ -0,0 +1,108 @@
++/*
++ * Block layer code related to image options amend
++ *
++ * Copyright (c) 2018 Kevin Wolf <kwolf@redhat.com>
++ * Copyright (c) 2020 Red Hat. Inc
++ *
++ * Heavily based on create.c
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a=
+ copy
++ * of this software and associated documentation files (the "Software"), t=
+o deal
++ * in the Software without restriction, including without limitation the r=
+ights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or se=
+ll
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included=
+ in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS=
+ OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY=
+,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OT=
+HER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING=
+ FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS =
+IN
++ * THE SOFTWARE.
++ */
 +
-+=3D=3D test that key 0 opens the image =3D=3D
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++#include "qemu/osdep.h"
++#include "block/block_int.h"
++#include "qemu/job.h"
++#include "qemu/main-loop.h"
++#include "qapi/qapi-commands-block-core.h"
++#include "qapi/qapi-visit-block-core.h"
++#include "qapi/clone-visitor.h"
++#include "qapi/error.h"
 +
-+=3D=3D adding a password to slot 4 =3D=3D
-+=3D=3D adding a password to slot 1 =3D=3D
-+=3D=3D adding a password to slot 3 =3D=3D
-+=3D=3D adding a password to slot 2 =3D=3D
-+=3D=3D erase slot 4 =3D=3D
++typedef struct BlockdevAmendJob {
++    Job common;
++    BlockdevAmendOptions *opts;
++    BlockDriverState *bs;
++    bool force;
++} BlockdevAmendJob;
 +
-+=3D=3D all secrets should work =3D=3D
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=3D=3D erase slot 0 and try it =3D=3D
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+
-+=3D=3D erase slot 2 and try it =3D=3D
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+
-+=3D=3D filling  4 slots with secret 2 =3D=3D
-+
-+=3D=3D adding secret 0 =3D=3D
-+
-+=3D=3D adding secret 3 (last slot) =3D=3D
-+
-+=3D=3D trying to add another slot (should fail) =3D=3D
-+qemu-img: Can't add a keyslot - all keyslots are in use
-+
-+=3D=3D all secrets should work again =3D=3D
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=3D=3D erase all keys of secret 2=3D=3D
-+=3D=3D erase all keys of secret 1=3D=3D
-+=3D=3D erase all keys of secret 0=3D=3D
-+=3D=3D erasing secret3 will fail now since it is the only secret (in 3 slo=
-ts) =3D=3D
-+qemu-img: All the active keyslots match the (old) password that was given =
-and erasing them will erase all the data in the image irreversibly - refusi=
-ng operation
-+
-+=3D=3D only secret3 should work now  =3D=3D
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=3D=3D add secret0  =3D=3D
-+=3D=3D erase secret3 =3D=3D
-+
-+=3D=3D only secret0 should work now  =3D=3D
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+
-+=3D=3D replace secret0 with secret1 (should fail)  =3D=3D
-+qemu-img: Refusing to overwrite active keyslot 0 - please erase it first
-+
-+=3D=3D replace secret0 with secret1 with force (should work)  =3D=3D
-+
-+=3D=3D only secret1 should work now  =3D=3D
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+
-+=3D=3D erase last secret (should fail)  =3D=3D
-+qemu-img: Attempt to erase the only active keyslot 0 which will erase all =
-the data in the image irreversibly - refusing operation
-+qemu-img: All the active keyslots match the (old) password that was given =
-and erasing them will erase all the data in the image irreversibly - refusi=
-ng operation
-+=3D=3D erase non existing secrets (should fail)  =3D=3D
-+qemu-img: No secret with id 'sec5'
-+qemu-img: No keyslots match given (old) password for erase operation
-+
-+=3D=3D erase last secret with force by slot (should work)  =3D=3D
-+
-+=3D=3D we have no secrets now, data is lost forever =3D=3D
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+*** done
-diff --git a/tests/qemu-iotests/294 b/tests/qemu-iotests/294
-new file mode 100755
-index 0000000000..9c95ed8c9a
---- /dev/null
-+++ b/tests/qemu-iotests/294
-@@ -0,0 +1,90 @@
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=3Dmlevitsk@redhat.com
-+
-+seq=3D`basename $0`
-+echo "QA output created by $seq"
-+
-+status=3D1=09# failure is the default!
-+
-+_cleanup()
++static int coroutine_fn blockdev_amend_run(Job *job, Error **errp)
 +{
-+=09_cleanup_test_img
++    BlockdevAmendJob *s =3D container_of(job, BlockdevAmendJob, common);
++    int ret;
++
++    job_progress_set_remaining(&s->common, 1);
++    ret =3D s->bs->drv->bdrv_co_amend(s->bs, s->opts, s->force, errp);
++    job_progress_update(&s->common, 1);
++    qapi_free_BlockdevAmendOptions(s->opts);
++    return ret;
 +}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
 +
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
++static const JobDriver blockdev_amend_job_driver =3D {
++    .instance_size =3D sizeof(BlockdevAmendJob),
++    .job_type      =3D JOB_TYPE_AMEND,
++    .run           =3D blockdev_amend_run,
++};
 +
-+_supported_fmt luks
-+_supported_proto file #TODO
++void qmp_x_blockdev_amend(const char *job_id,
++                          const char *node_name,
++                          BlockdevAmendOptions *options,
++                          bool has_force,
++                          bool force,
++                          Error **errp)
++{
++    BlockdevAmendJob *s;
++    const char *fmt =3D BlockdevDriver_str(options->driver);
++    BlockDriver *drv =3D bdrv_find_format(fmt);
++    BlockDriverState *bs =3D bdrv_find_node(node_name);
 +
-+QEMU_IO_OPTIONS=3D$QEMU_IO_OPTIONS_NO_FMT
++    /*
++     * If the driver is in the schema, we know that it exists. But it may =
+not
++     * be whitelisted.
++     */
++    assert(drv);
++    if (bdrv_uses_whitelist() && !bdrv_is_whitelisted(drv, false)) {
++        error_setg(errp, "Driver is not whitelisted");
++        return;
++    }
 +
-+# you are supposed to see the password as *******, see :-)
-+S0=3D"--object secret,id=3Dsec0,data=3Dhunter0"
-+S1=3D"--object secret,id=3Dsec1,data=3Dhunter1"
-+SECRETS=3D"$S0 $S1"
++    if (bs->drv !=3D drv) {
++        error_setg(errp,
++                   "x-blockdev-amend doesn't support changing the block dr=
+iver");
++        return;
++    }
 +
++    /* Error out if the driver doesn't support .bdrv_co_amend */
++    if (!drv->bdrv_co_amend) {
++        error_setg(errp, "Driver does not support x-blockdev-amend");
++        return;
++    }
 +
-+IMGS0=3D"--image-opts driver=3D$IMGFMT,file.filename=3D$TEST_IMG,key-secre=
-t=3Dsec0"
-+IMGS1=3D"--image-opts driver=3D$IMGFMT,file.filename=3D$TEST_IMG,key-secre=
-t=3Dsec1"
++    /* Create the block job */
++    s =3D job_create(job_id, &blockdev_amend_job_driver, NULL,
++                   bdrv_get_aio_context(bs), JOB_DEFAULT | JOB_MANUAL_DISM=
+ISS,
++                   NULL, NULL, errp);
++    if (!s) {
++        return;
++    }
 +
-+echo "=3D=3D creating a test image =3D=3D"
-+_make_test_img $S0 -o "key-secret=3Dsec0,iter-time=3D10" 32M
-+
-+echo
-+echo "=3D=3D test that key 0 opens the image =3D=3D"
-+$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
-+
-+echo
-+echo "=3D=3D adding a password to slot 1 =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS0 -o state=3Dactive,new-secret=3Dsec1,keyslo=
-t=3D1,iter-time=3D10
-+
-+echo
-+echo "=3D=3D 'backup' the image header =3D=3D"
-+dd if=3D$TEST_IMG_FILE of=3D${TEST_IMG_FILE}.bk bs=3D4K skip=3D0 count=3D1
-+
-+echo
-+echo "=3D=3D erase slot 0 =3D=3D"
-+$QEMU_IMG amend $SECRETS $IMGS1 -o state=3Dinactive,keyslot=3D0 | _filter_=
-img_create
-+
-+echo
-+echo "=3D=3D test that key 0 doesn't open the image =3D=3D"
-+$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
-+
-+echo
-+echo "=3D=3D 'restore' the image header =3D=3D"
-+dd if=3D${TEST_IMG_FILE}.bk of=3D${TEST_IMG_FILE} bs=3D4K skip=3D0 count=
-=3D1 conv=3Dnotrunc
-+
-+echo
-+echo "=3D=3D test that key 0 still doesn't open the image (key material is=
- erased) =3D=3D"
-+$QEMU_IO $SECRETS -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_test=
-dir
-+
-+echo
-+echo "=3D=3D test that key 1 still works =3D=3D"
-+$QEMU_IO $SECRETS -c "read 0 4096" $IMGS1 | _filter_qemu_io | _filter_test=
-dir
-+
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
++    s->bs =3D bs,
++    s->opts =3D QAPI_CLONE(BlockdevAmendOptions, options),
++    s->force =3D has_force ? force : false;
++    job_start(&s->common);
++}
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 1f0524285d..758cd832b3 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -133,12 +133,27 @@ struct BlockDriver {
+     int (*bdrv_file_open)(BlockDriverState *bs, QDict *options, int flags,
+                           Error **errp);
+     void (*bdrv_close)(BlockDriverState *bs);
 +
 +
-+exit 0
-diff --git a/tests/qemu-iotests/294.out b/tests/qemu-iotests/294.out
-new file mode 100644
-index 0000000000..994ae87308
---- /dev/null
-+++ b/tests/qemu-iotests/294.out
-@@ -0,0 +1,30 @@
-+QA output created by 294
-+=3D=3D creating a test image =3D=3D
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D33554432
+     int coroutine_fn (*bdrv_co_create)(BlockdevCreateOptions *opts,
+                                        Error **errp);
+     int coroutine_fn (*bdrv_co_create_opts)(BlockDriver *drv,
+                                             const char *filename,
+                                             QemuOpts *opts,
+                                             Error **errp);
 +
-+=3D=3D test that key 0 opens the image =3D=3D
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++    int coroutine_fn (*bdrv_co_amend)(BlockDriverState *bs,
++                                      BlockdevAmendOptions *opts,
++                                      bool force,
++                                      Error **errp);
 +
-+=3D=3D adding a password to slot 1 =3D=3D
++    int (*bdrv_amend_options)(BlockDriverState *bs,
++                              QemuOpts *opts,
++                              BlockDriverAmendStatusCB *status_cb,
++                              void *cb_opaque,
++                              bool force,
++                              Error **errp);
 +
-+=3D=3D 'backup' the image header =3D=3D
-+1+0 records in
-+1+0 records out
+     int (*bdrv_make_empty)(BlockDriverState *bs);
+=20
+     /*
+@@ -433,12 +448,6 @@ struct BlockDriver {
+                                       BdrvCheckResult *result,
+                                       BdrvCheckMode fix);
+=20
+-    int (*bdrv_amend_options)(BlockDriverState *bs, QemuOpts *opts,
+-                              BlockDriverAmendStatusCB *status_cb,
+-                              void *cb_opaque,
+-                              bool force,
+-                              Error **errp);
+-
+     void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
+=20
+     /* TODO Better pass a option string/QDict/QemuOpts to add any rule? */
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 943df1926a..5b9123c15f 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4649,6 +4649,48 @@
+   'data': { 'job-id': 'str',
+             'options': 'BlockdevCreateOptions' } }
+=20
++##
++# @BlockdevAmendOptions:
++#
++# Options for amending an image format
++#
++# @driver           block driver that is suitable for the image
++#
++# Since: 5.0
++##
++{ 'union': 'BlockdevAmendOptions',
++  'base': {
++      'driver':         'BlockdevDriver' },
++  'discriminator': 'driver',
++  'data': {
++  } }
 +
-+=3D=3D erase slot 0 =3D=3D
++##
++# @x-blockdev-amend:
++#
++# Starts a job to amend format specific options of an existing open block =
+device
++# The job is automatically finalized, but a manual job-dismiss is required=
+.
++#
++# @job-id:          Identifier for the newly created job.
++#
++# @node-name:       Name of the block node to work on
++#
++# @options:         Options (driver specific)
++#
++# @force:           Allow unsafe operations, format specific
++#                   For luks that allows erase of the last active keyslot
++#                   (permanent loss of data),
++#                   and replacement of an active keyslot
++#                   (possible loss of data if IO error happens)
++#
++# Since: 5.0
++##
++{ 'command': 'x-blockdev-amend',
++  'data': { 'job-id': 'str',
++            'node-name': 'str',
++            'options': 'BlockdevAmendOptions',
++            '*force': 'bool' } }
 +
-+=3D=3D test that key 0 doesn't open the image =3D=3D
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+
-+=3D=3D 'restore' the image header =3D=3D
-+1+0 records in
-+1+0 records out
-+
-+=3D=3D test that key 0 still doesn't open the image (key material is erase=
-d) =3D=3D
-+qemu-io: can't open: Invalid password, cannot unlock any keyslot
-+
-+=3D=3D test that key 1 still works =3D=3D
-+read 4096/4096 bytes at offset 0
-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 1710470e70..560e50e9fa 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -298,3 +298,5 @@
- 288 quick
- 289 rw quick
- 290 rw auto quick
-+293 rw auto
-+294 rw auto quick
+ ##
+ # @BlockErrorAction:
+ #
+diff --git a/qapi/job.json b/qapi/job.json
+index 5e658281f5..7e4f7fcaa4 100644
+--- a/qapi/job.json
++++ b/qapi/job.json
+@@ -19,10 +19,12 @@
+ #
+ # @create: image creation job type, see "blockdev-create" (since 3.0)
+ #
++# @amend: image options amend job type, see "x-blockdev-amend" (since 5.0)
++#
+ # Since: 1.7
+ ##
+ { 'enum': 'JobType',
+-  'data': ['commit', 'stream', 'mirror', 'backup', 'create'] }
++  'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend'] }
+=20
+ ##
+ # @JobStatus:
 --=20
 2.17.2
 
