@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3761C8168
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:13:47 +0200 (CEST)
-Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B0D41C815F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:12:00 +0200 (CEST)
+Received: from localhost ([::1]:43554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWYqw-0000QE-6K
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:13:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33578)
+	id 1jWYpD-0005Lb-G2
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:11:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYhy-0007g0-CN; Thu, 07 May 2020 01:04:30 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:56607)
+ id 1jWYhy-0007fH-4b; Thu, 07 May 2020 01:04:30 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:50301 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYhw-0007du-QH; Thu, 07 May 2020 01:04:30 -0400
+ id 1jWYhw-0007dU-K2; Thu, 07 May 2020 01:04:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49HhFn6kNnz9sSx; Thu,  7 May 2020 15:04:13 +1000 (AEST)
+ id 49HhFp0LLTz9sT0; Thu,  7 May 2020 15:04:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1588827853;
- bh=+QbVUd1UgLdlY1lqI5xNAI7XHDlOWMlYunUoNKLLV3s=;
+ d=gibson.dropbear.id.au; s=201602; t=1588827854;
+ bh=LLwN8di5dedWUvODzdbVjKRWD4bvw8eDwuEzdivzzTg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VE/Gb0uM2mlbyjxEk0AZ/Xo1st4ZBqFl8gm71qUmbZ9HGcNelCeQmQ2F886JmgHpb
- ANE4GegUyXYQw175M6GxLZDv7ByLLyEs3vVKr3/wVFJd/vr7Xvom2qUp6ukWF8cS7m
- xP8zP/i5scZPOHIO+cuEJQqt/z1tiqkxiNq31hUY=
+ b=FLA2TorZFaFEIC6gqn0T13TopGUvw03sT61LRbabdq9u4QwNkHbjLM2hen7UfjTbN
+ bE8b57yGKwpx44P4M0+OFB30xEn2QJ02jxj8Y7LI7vY/KmPpd4oYhi1G35aNufHuTz
+ jYjfX1YX4VvtTentrRLLEMOrgr0kt3AJvOUjDGJ8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/18] spapr: Drop CAS reboot flag
-Date: Thu,  7 May 2020 15:02:17 +1000
-Message-Id: <20200507050228.802395-8-david@gibson.dropbear.id.au>
+Subject: [PULL 08/18] target/ppc: Enforce that the root page directory size
+ must be at least 5
+Date: Thu,  7 May 2020 15:02:18 +1000
+Message-Id: <20200507050228.802395-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 References: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 01:04:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -60,138 +62,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, npiggin@gmail.com, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
+ qemu-ppc@nongnu.org, clg@kaod.org,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-The CAS reboot flag is false by default and all the locations that
-could set it to true have been dropped. This means that all code
-blocks depending on the flag being set is dead code and the other
-code blocks should be executed always.
+According to the ISA the root page directory size of a radix tree for
+either process- or partition-scoped translation must be >= 5.
 
-Just do that and drop the now uneeded CAS reboot flag. Fix a
-comment on the way to make checkpatch happy.
+Thus add this to the list of conditions checked when validating the
+partition table entry in validate_pate();
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <158514994893.478799.11772512888322840990.stgit@bahia.lan>
+Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20200330094946.24678-2-clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c         | 18 ++++--------------
- hw/ppc/spapr_hcall.c   | 33 ++++++++++++++-------------------
- include/hw/ppc/spapr.h |  1 -
- 3 files changed, 18 insertions(+), 34 deletions(-)
+ target/ppc/mmu-radix64.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index f52488d397..841b5ec59b 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1579,9 +1579,7 @@ void spapr_setup_hpt(SpaprMachineState *spapr)
- {
-     int hpt_shift;
- 
--    if ((spapr->resize_hpt == SPAPR_RESIZE_HPT_DISABLED)
--        || (spapr->cas_reboot
--            && !spapr_ovec_test(spapr->ov5_cas, OV5_HPT_RESIZE))) {
-+    if (spapr->resize_hpt == SPAPR_RESIZE_HPT_DISABLED) {
-         hpt_shift = spapr_hpt_shift_for_ramsize(MACHINE(spapr)->maxram_size);
-     } else {
-         uint64_t current_ram_size;
-@@ -1645,16 +1643,10 @@ static void spapr_machine_reset(MachineState *machine)
- 
-     qemu_devices_reset();
- 
--    /*
--     * If this reset wasn't generated by CAS, we should reset our
--     * negotiated options and start from scratch
--     */
--    if (!spapr->cas_reboot) {
--        spapr_ovec_cleanup(spapr->ov5_cas);
--        spapr->ov5_cas = spapr_ovec_new();
-+    spapr_ovec_cleanup(spapr->ov5_cas);
-+    spapr->ov5_cas = spapr_ovec_new();
- 
--        ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
--    }
-+    ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
- 
-     /*
-      * This is fixing some of the default configuration of the XIVE
-@@ -1707,8 +1699,6 @@ static void spapr_machine_reset(MachineState *machine)
-     spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, 0, fdt_addr, 0);
-     first_ppc_cpu->env.gpr[5] = 0;
- 
--    spapr->cas_reboot = false;
--
-     spapr->fwnmi_system_reset_addr = -1;
-     spapr->fwnmi_machine_check_addr = -1;
-     spapr->fwnmi_machine_check_interlock = -1;
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 48a8745514..0f54988f2e 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1678,6 +1678,7 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
-     bool raw_mode_supported = false;
-     bool guest_xive;
-     CPUState *cs;
-+    void *fdt;
- 
-     /* CAS is supposed to be called early when only the boot vCPU is active. */
-     CPU_FOREACH(cs) {
-@@ -1818,27 +1819,21 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
- 
-     spapr_handle_transient_dev_before_cas(spapr);
- 
--    if (!spapr->cas_reboot) {
--        void *fdt;
--
--        /* If spapr_machine_reset() did not set up a HPT but one is necessary
--         * (because the guest isn't going to use radix) then set it up here. */
--        if ((spapr->patb_entry & PATE1_GR) && !guest_radix) {
--            /* legacy hash or new hash: */
--            spapr_setup_hpt(spapr);
--        }
--
--        fdt = spapr_build_fdt(spapr, false, fdt_bufsize);
--
--        g_free(spapr->fdt_blob);
--        spapr->fdt_size = fdt_totalsize(fdt);
--        spapr->fdt_initial_size = spapr->fdt_size;
--        spapr->fdt_blob = fdt;
-+    /*
-+     * If spapr_machine_reset() did not set up a HPT but one is necessary
-+     * (because the guest isn't going to use radix) then set it up here.
-+     */
-+    if ((spapr->patb_entry & PATE1_GR) && !guest_radix) {
-+        /* legacy hash or new hash: */
-+        spapr_setup_hpt(spapr);
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 224e646c50..9967857058 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -212,6 +212,9 @@ static bool validate_pate(PowerPCCPU *cpu, uint64_t lpid, ppc_v3_pate_t *pate)
+     if (lpid == 0 && !msr_hv) {
+         return false;
      }
- 
--    if (spapr->cas_reboot) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_SUBSYSTEM_RESET);
--    }
-+    fdt = spapr_build_fdt(spapr, false, fdt_bufsize);
-+
-+    g_free(spapr->fdt_blob);
-+    spapr->fdt_size = fdt_totalsize(fdt);
-+    spapr->fdt_initial_size = spapr->fdt_size;
-+    spapr->fdt_blob = fdt;
- 
-     return H_SUCCESS;
++    if ((pate->dw0 & PATE1_R_PRTS) < 5) {
++        return false;
++    }
+     /* More checks ... */
+     return true;
  }
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index b7e13e5aaf..e579eaf28c 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -178,7 +178,6 @@ struct SpaprMachineState {
-     SpaprEventSource *event_sources;
- 
-     /* ibm,client-architecture-support option negotiation */
--    bool cas_reboot;
-     bool cas_pre_isa3_guest;
-     SpaprOptionVector *ov5;         /* QEMU-supported option vectors */
-     SpaprOptionVector *ov5_cas;     /* negotiated (via CAS) option vectors */
 -- 
 2.26.2
 
