@@ -2,97 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48631C8340
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 09:11:56 +0200 (CEST)
-Received: from localhost ([::1]:44254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D88C1C832D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 09:06:18 +0200 (CEST)
+Received: from localhost ([::1]:39482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWahI-0002nm-0W
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 03:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59780)
+	id 1jWabo-0000T9-RO
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 03:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWagZ-0002MJ-Pf
- for qemu-devel@nongnu.org; Thu, 07 May 2020 03:11:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWagY-0005qv-JK
- for qemu-devel@nongnu.org; Thu, 07 May 2020 03:11:11 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWagW-0007fA-B2
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 07:11:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 526F02E802D
- for <qemu-devel@nongnu.org>; Thu,  7 May 2020 07:11:08 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jWaap-0008IH-7u; Thu, 07 May 2020 03:05:15 -0400
+Received: from mail-eopbgr80101.outbound.protection.outlook.com
+ ([40.107.8.101]:49891 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jWaam-0006g8-FN; Thu, 07 May 2020 03:05:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yufo6BzG0hw1F0oOVo/9wCdwo11YcQ9mrbrh/HSkVKlTtrZAs2jjw62+eCyOyWCLVwDfK3DdViJgUmVBLDDSub1trwGHeo3oW5oE/f/bXhKhBvz1ypMZQfFyDg7EIXFCCWgI8P8ASb0qGsH/EjzbND44TE/Qzmy4g63Su21Biug4keqpHqihZFpNhv+g4uZZcOso7ex644/r7nDbb3cHJE8hsWoX9Zaru724naAEuIh3Ipxf4T3A0+iMUXjdZdBNEFMI5CmrODFAYphQZB6X3HmICg1YU45ts4jENnAcluG8Cyy0OUF4NHTlQDYpBarGzlDaT40bTOLPFS49vXrKaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8ayJ1VRjH9mPvPkJnKjtt+msUAqwsopcYYIgp406QY8=;
+ b=hLVvTAnjS1haVVhco0/fUwLjrZHYsl5kIakwXQVAPAin2dKAhAXcozi3qIXRxLRaoMyhWHb2IbWy5SoMi0kIYWDXjsE55QSOpctsx9LAX4BMGtCDykAayBmSElVSGNekrvx6kG7e5RR/JGy8tiXAreDkxNWYbmF76LM6ff2ALDl94pccseDksYvbrJOudTL0Am/2AYT1/sObpKZgBgT3Qc5WbJ8zst7qUYozGww0abSuaIoFy3tx8q1I+CIe49agT5Y87DCjDP2Rwqv4+fR4oJIrIGgx64jTBr/jUSZr2AVThAaHuq8Jye52pVbetn+LkBDBUzU8/83U7l6rtS9lPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8ayJ1VRjH9mPvPkJnKjtt+msUAqwsopcYYIgp406QY8=;
+ b=mHDsxsPHzcpdO+QZrP3Nkv/08KoHICbMiW9VovJFcVerXqK/hve36kWHr7EiPzk1uT+wEXpc+MteRxDTtvZ//6qov4vld3kaVjgAVsnoa/zZnMEYddnZA/HbZLCJddBTaDbcSVBqLFfnB5FGOiSZEgK+UcGwaMXYZoO7K1bQeA8=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5413.eurprd08.prod.outlook.com (2603:10a6:20b:10a::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.21; Thu, 7 May
+ 2020 07:05:03 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.034; Thu, 7 May 2020
+ 07:05:03 +0000
+Subject: Re: [PATCH 8/8] block: drop unallocated_blocks_are_zero
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20200506092513.20904-1-vsementsov@virtuozzo.com>
+ <20200506092513.20904-9-vsementsov@virtuozzo.com>
+ <ad581d23-d79d-bf78-3cd5-848eb29a90f5@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200507100501347
+Message-ID: <903973be-6af6-edd3-3509-b7688e0bb8d5@virtuozzo.com>
+Date: Thu, 7 May 2020 10:05:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <ad581d23-d79d-bf78-3cd5-848eb29a90f5@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM4PR0701CA0028.eurprd07.prod.outlook.com
+ (2603:10a6:200:42::38) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 07 May 2020 07:00:01 -0000
-From: Ike Panhc <ike.pan@canonical.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=kunpeng920; status=Triaged; importance=Undecided;
- assignee=ike.pan@canonical.com; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04; status=Triaged;
- importance=Undecided; assignee=ike.pan@canonical.com; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-18.04-hwe;
- status=Triaged; importance=Undecided; assignee=ike.pan@canonical.com; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-19.10; status=Triaged;
- importance=Undecided; assignee=ike.pan@canonical.com; 
-X-Launchpad-Bug: product=kunpeng920; productseries=ubuntu-20.04; status=Triaged;
- importance=Undecided; assignee=ike.pan@canonical.com; 
-X-Launchpad-Bug: product=kunpeng920; productseries=upstream-kernel;
- status=Fix Committed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=In Progress; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
- component=main; status=In Progress; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
- component=main; status=In Progress; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
- component=main; status=In Progress; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu; 
- component=main; status=In Progress; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug-Tags: ikeradar patch qemu-img
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrew-cloke dannf ikepanhc iveskim jan-glauber-i
- jnsnow kongzizaixian lizhengui philmd
- rafaeldtinoco ying-fang
-X-Launchpad-Bug-Reporter: dann frazier (dannf)
-X-Launchpad-Bug-Modifier: Ike Panhc (ikepanhc)
-References: <154327283728.15443.11625169757714443608.malonedeb@soybean.canonical.com>
-Message-Id: <158883480140.12028.15004586174613215253.malone@wampee.canonical.com>
-Subject: [Bug 1805256] Re: qemu-img hangs on rcu_call_ready_event logic in
- Aarch64 when converting images
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: f51ab55f6a0c7118d68588708dae49663336feef
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:11:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.171) by
+ AM4PR0701CA0028.eurprd07.prod.outlook.com (2603:10a6:200:42::38) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.17 via Frontend
+ Transport; Thu, 7 May 2020 07:05:02 +0000
+X-Tagtoolbar-Keys: D20200507100501347
+X-Originating-IP: [185.215.60.171]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bedc6003-1e20-45de-2e8e-08d7f254f706
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5413:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB541331F48A0D03BB23D52761C1A50@AM7PR08MB5413.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Forefront-PRVS: 03965EFC76
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1rwsDSpFLtvGBVy9H8ba3Ho0u4Mm/OmgU70w3bHakGd42E7vZiZ6hC4OTX2rHezuxKeja+kJuXOGjykkgPjFTijKhLLVFnRw5YkNFeHhOfyVIcnY9ERrY6PKq/Cjqh0E5EC5OHNXaWBmBO/PWfqoEJC2YwLpfLmCZnk1V/4Ru/yrmnCEhqyfljKXFZXePJC5sLNTRfrbki/8F/MDKzteLBnbGB3ZU7JWZWZYXL9Y2y9thzEOL54cD1ctqQAxNngy2FAvxnVdwdB0b2+diC0L7DHwv749yUCPXNWMokppKHupLk3J6nY+mpCg8eZkN0IWidQxpWSC3htyP9dQbgEmmaM9cegvTZuBEjDCR3wPeZTrT2TjnOW13I30xV5ZnhWml1BE46/GeTow4M9yfVtum+QYSmpAk/a+xdAqGysgl/Axst1Dy7sjgpV0NacOxcUA/ROzzwBp2VAfV72wpM1PozhBNwh6Viwa4XV4Oj9/o85Cinms9NiiHpl0SJ7zgEIMSXLYrKvcvi921kzuVfaQ0RUpqIp8JDFQEFFA1vONw6fB5CQ0M1pC5zacTUFiADHh
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(376002)(136003)(39850400004)(366004)(396003)(33430700001)(8676002)(66556008)(66476007)(66946007)(16526019)(7416002)(36756003)(956004)(2616005)(83300400001)(83290400001)(83310400001)(83320400001)(83280400001)(8936002)(31696002)(2906002)(16576012)(478600001)(186003)(31686004)(26005)(52116002)(6486002)(5660300002)(33440700001)(316002)(4326008)(86362001)(53546011)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: GqibZ401vBv/z+XXLPclgS5vCIjhT3Wgrs8vt2p3Ni2hdnHCMJES3by3ci7t46vPWkRJXg5q9XKce7tOkJ1fnGXvcRfs370aCJeFyxbtPh16O9lQZ0B/mzCVAjhHYH6DmhQ1XL8li+lueJpQK0C29Ka8wfDLNjRAhs90stR9RJz1CHTN17fcEagPP5LXuHrGG/JsOY9/8prhRCyCXEFPPGUfHDXOpzcjboQHCU3Kdl7uew/zH9Bz2RCjTbDPKJslFNIy9SuyZ85LmwfNh7m2eZfBi6m9LmL4XBlFkKf0BDXme9N5hC8aX4fwO/yhTtELNzfM9LBX5u7Nkb9R+xSqu1yPfN2avk7P+zxVnXEOe7Lgli1TKTapOfSVKKGBsjshtI3oA4QLOEdhRHNmHPkSQhKURVTseeJdnn+5QJg3vZu44fMJVThjIsFePtXaduloDGmK63IaVEb+vLNZNBGjXwsPghrcJzOgE+QPdg4tzlUBH0Vr4PcBFXkOIMbzQlQOPy6vKY2vrZmgGxG8gF+2STs4cXtmJwIKTQKn1qxTFeHVzX1Lt3ldvhZqvUiC/PwvYCKmFxJu85jw415Pqs2f/VJ2M16rVjfskg+tt6vNftQYaOdUbpqzigk2/bHllhVIs3WoL55cWu8lhR4l2ISfbtm4n0V0KmVJ1oHbVDWjQlkbxQYlbuKZdzLzHPcNsmcOsP5i5UF5AjQMBh7r5Eq/VPGwVpn7tUHWw6o6TGQzbQ3L5jxmKos43mlLyZyk32osIgkvSFVn+t3j4PFKPdg54nYOrnFmWQCD7poJoKEDxD0=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bedc6003-1e20-45de-2e8e-08d7f254f706
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2020 07:05:03.7571 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dFmMEOKEhQNS/IcDz3OQsXbYQH5Qiy3jP74H0hRgHKZRDBvzqubLX186+ZV/ssv3M5DF17+Wlu81CLERGRu6CbOT8xn1j9MEy+XA1DEBYrU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5413
+Received-SPF: pass client-ip=40.107.8.101;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:05:05
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001, T_DKIM_INVALID=0.01,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -101,202 +119,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1805256 <1805256@bugs.launchpad.net>
+Cc: fam@euphon.net, kwolf@redhat.com, ronniesahlberg@gmail.com,
+ codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tested debs in ppa:rafaeldtinoco/lp1805256 for focal and eoan and 1000
-qemu-img convert passed.
+06.05.2020 18:14, Eric Blake wrote:
+> On 5/6/20 4:25 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> Currently this field only set by qed and qcow2.
+> 
+> Well, only after patches 1-6 (prior to then, it was also set in protocol drivers).  I think you might be able to hoist part of this patch earlier in the series, to make the changes to the protocol drivers easier to review, by rewording this sentence:
+> 
+> Currently, the only format drivers that set this field are qed and qcow2.
+> 
+>> But in fact, all
+>> backing-supporting formats (parallels, qcow, qcow2, qed, vmdk) share
+>> this semantics: on unallocated blocks, if there is no backing file they
+> 
+> s/this/these/
+> 
+>> just memset the buffer with zeroes.
+>>
+>> So, document this behavior for .supports_backing and drop
+>> .unallocated_blocks_are_zero
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   include/block/block.h     |  6 ------
+>>   include/block/block_int.h | 13 ++++++++++++-
+>>   block.c                   | 15 ---------------
+>>   block/io.c                |  8 ++++----
+>>   block/qcow2.c             |  1 -
+>>   block/qed.c               |  1 -
+>>   6 files changed, 16 insertions(+), 28 deletions(-)
+>>
+>> diff --git a/include/block/block.h b/include/block/block.h
+>> index 8b62429aa4..db1cb503ec 100644
+>> --- a/include/block/block.h
+>> +++ b/include/block/block.h
+>> @@ -21,11 +21,6 @@ typedef struct BlockDriverInfo {
+>>       /* offset at which the VM state can be saved (0 if not possible) */
+>>       int64_t vm_state_offset;
+>>       bool is_dirty;
+>> -    /*
+>> -     * True if unallocated blocks read back as zeroes. This is equivalent
+>> -     * to the LBPRZ flag in the SCSI logical block provisioning page.
+>> -     */
+>> -    bool unallocated_blocks_are_zero;
+> 
+> You can't delete this field until all protocol drivers are cleaned up, so deferring this part of the change to the end of the series makes sense.
+> 
+>>       /*
+>>        * True if this block driver only supports compressed writes
+>>        */
+>> @@ -431,7 +426,6 @@ int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+>>   int bdrv_has_zero_init_1(BlockDriverState *bs);
+>>   int bdrv_has_zero_init(BlockDriverState *bs);
+>>   int bdrv_has_zero_init_truncate(BlockDriverState *bs);
+>> -bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs);
+> 
+> Doing this cleanup makes sense: there is only one caller of this function pre-patch, and 0 callers post-patch - but whether the cleanup should be at the same time as you fix the one caller, or deferred to when you also clean up the field, is less important.
+> 
+> If I were writing the series:
+> 
+> 1 - fix qemu-img.c to not use the field
+> 2 - fix block_status to not use the function
 
--- =
+Hmm stop. We still need patches 1,2 before modifying block_status, otherwise we'll still need to check unallocated_blocks_are_zero
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1805256
+> 3-n - fix protocol drivers that set the field to also return _ZERO
+>   during block status (but not delete the field at that time)
+> n+1 - delete unused function and field (from ALL drivers)
+> 
+>>   bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+>>   int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+>>                         int64_t bytes, int64_t *pnum, int64_t *map,
+>> diff --git a/include/block/block_int.h b/include/block/block_int.h
+>> index 92335f33c7..c156b22c6b 100644
+>> --- a/include/block/block_int.h
+>> +++ b/include/block/block_int.h
+>> @@ -115,7 +115,18 @@ struct BlockDriver {
+>>        */
+>>       bool bdrv_needs_filename;
+>> -    /* Set if a driver can support backing files */
+>> +    /*
+>> +     * Set if a driver can support backing files. This also implies the
+>> +     * following semantics:
+>> +     *
+>> +     *  - Return status 0 of .bdrv_co_block_status means that corresponding
+>> +     *    blocks are not allocated in this layer of backing-chain
+>> +     *  - For such (unallocated) blocks, read will:
+>> +     *    - read from backing file if there is one and big enough
+> 
+> s/and/and it is/
+> 
+>> +     *    - fill buffer with zeroes if there is no backing file
+>> +     *    - space after EOF of the backing file considered as zero
+>> +     *      (corresponding part of read-buffer must be zeroed by driver)
+> 
+> Does the driver actually have to do the zeroing?  Looking at qcow2.c, I see:
+> static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
+> ...
+> 
+>      case QCOW2_CLUSTER_UNALLOCATED:
+>          assert(bs->backing); /* otherwise handled in qcow2_co_preadv_part */
+> 
+>          BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
+>          return bdrv_co_preadv_part(bs->backing, offset, bytes,
+>                                     qiov, qiov_offset, 0);
+> 
+> which just defers to the block layer to handle read-beyond-EOF, rather than an explicit memset in the driver.
+> 
+> So maybe you can simplify to:
+> - For such (unallocated) blocks, read will:
+>    - fill buffer with zeros if there is no backing file
+>    - read from the backing file otherwise, where the block layer
+>      takes care of reading zeros beyond EOF if backing file is short
+> 
+> But the effect is the same.
+> 
+>> +++ b/block/io.c
+>> @@ -2385,16 +2385,16 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+>>       if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
+>>           ret |= BDRV_BLOCK_ALLOCATED;
+>> -    } else if (want_zero) {
+>> -        if (bdrv_unallocated_blocks_are_zero(bs)) {
+>> -            ret |= BDRV_BLOCK_ZERO;
+>> -        } else if (bs->backing) {
+>> +    } else if (want_zero && bs->drv->supports_backing) {
+>> +        if (bs->backing) {
+>>               BlockDriverState *bs2 = bs->backing->bs;
+>>               int64_t size2 = bdrv_getlength(bs2);
+>>               if (size2 >= 0 && offset >= size2) {
+>>                   ret |= BDRV_BLOCK_ZERO;
+>>               }
+>> +        } else {
+>> +            ret |= BDRV_BLOCK_ZERO;
+>>           }
+> 
+> I like this part of the change.  But if it is done first in the series, it _does_ have a semantic impact on protocol drivers (previously, protocol drivers that return 0 but set the field .unallocated_blocks_are_zero will be changed to report _ZERO; after this patch, protocol drivers do not do that, because they don't support backing files, and it is now only backing files that do the _ZERO magic).  So doing _just_ this change, along with a better analysis of how it changes the semantics of 'qemu-io -c map' on protocol drivers while mentioning why that is okay, would make a better start to the series, rather than here at the end.  Of course, if you defer it to the end, then none of the protocol drivers set .unallocated_blocks_are_zero anyway, but that cost more review work on each altered protocol driver.
+> 
 
-Title:
-  qemu-img hangs on rcu_call_ready_event logic in Aarch64 when
-  converting images
 
-Status in kunpeng920:
-  Triaged
-Status in kunpeng920 ubuntu-18.04 series:
-  Triaged
-Status in kunpeng920 ubuntu-18.04-hwe series:
-  Triaged
-Status in kunpeng920 ubuntu-19.10 series:
-  Triaged
-Status in kunpeng920 ubuntu-20.04 series:
-  Triaged
-Status in kunpeng920 upstream-kernel series:
-  Fix Committed
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  In Progress
-Status in qemu source package in Bionic:
-  In Progress
-Status in qemu source package in Disco:
-  In Progress
-Status in qemu source package in Eoan:
-  In Progress
-Status in qemu source package in Focal:
-  In Progress
-
-Bug description:
-  [Impact]
-
-  * QEMU locking primitives might face a race condition in QEMU Async
-  I/O bottom halves scheduling. This leads to a dead lock making either
-  QEMU or one of its tools to hang indefinitely.
-
-  [Test Case]
-
-  * qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Hangs indefinitely approximately 30% of the runs in Aarch64.
-
-  [Regression Potential]
-
-  * This is a change to a core part of QEMU: The AIO scheduling. It
-  works like a "kernel" scheduler, whereas kernel schedules OS tasks,
-  the QEMU AIO code is responsible to schedule QEMU coroutines or event
-  listeners callbacks.
-
-  * There was a long discussion upstream about primitives and Aarch64.
-  After quite sometime Paolo released this patch and it solves the
-  issue. Tested platforms were: amd64 and aarch64 based on his commit
-  log.
-
-  * Christian suggests that this fix stay little longer in -proposed to
-  make sure it won't cause any regressions.
-
-  * dannf suggests we also check for performance regressions; e.g. how
-  long it takes to convert a cloud image on high-core systems.
-
-  [Other Info]
-
-  =C2=A0* Original Description bellow:
-
-  Command:
-
-  qemu-img convert -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Hangs indefinitely approximately 30% of the runs.
-
-  ----
-
-  Workaround:
-
-  qemu-img convert -m 1 -f qcow2 -O qcow2 ./disk01.qcow2 ./output.qcow2
-
-  Run "qemu-img convert" with "a single coroutine" to avoid this issue.
-
-  ----
-
-  (gdb) thread 1
-  ...
-  (gdb) bt
-  #0 0x0000ffffbf1ad81c in __GI_ppoll
-  #1 0x0000aaaaaabcf73c in ppoll
-  #2 qemu_poll_ns
-  #3 0x0000aaaaaabd0764 in os_host_main_loop_wait
-  #4 main_loop_wait
-  ...
-
-  (gdb) thread 2
-  ...
-  (gdb) bt
-  #0 syscall ()
-  #1 0x0000aaaaaabd41cc in qemu_futex_wait
-  #2 qemu_event_wait (ev=3Dev@entry=3D0xaaaaaac86ce8 <rcu_call_ready_event>)
-  #3 0x0000aaaaaabed05c in call_rcu_thread
-  #4 0x0000aaaaaabd34c8 in qemu_thread_start
-  #5 0x0000ffffbf25c880 in start_thread
-  #6 0x0000ffffbf1b6b9c in thread_start ()
-
-  (gdb) thread 3
-  ...
-  (gdb) bt
-  #0 0x0000ffffbf11aa20 in __GI___sigtimedwait
-  #1 0x0000ffffbf2671b4 in __sigwait
-  #2 0x0000aaaaaabd1ddc in sigwait_compat
-  #3 0x0000aaaaaabd34c8 in qemu_thread_start
-  #4 0x0000ffffbf25c880 in start_thread
-  #5 0x0000ffffbf1b6b9c in thread_start
-
-  ----
-
-  (gdb) run
-  Starting program: /usr/bin/qemu-img convert -f qcow2 -O qcow2
-  ./disk01.ext4.qcow2 ./output.qcow2
-
-  [New Thread 0xffffbec5ad90 (LWP 72839)]
-  [New Thread 0xffffbe459d90 (LWP 72840)]
-  [New Thread 0xffffbdb57d90 (LWP 72841)]
-  [New Thread 0xffffacac9d90 (LWP 72859)]
-  [New Thread 0xffffa7ffed90 (LWP 72860)]
-  [New Thread 0xffffa77fdd90 (LWP 72861)]
-  [New Thread 0xffffa6ffcd90 (LWP 72862)]
-  [New Thread 0xffffa67fbd90 (LWP 72863)]
-  [New Thread 0xffffa5ffad90 (LWP 72864)]
-
-  [Thread 0xffffa5ffad90 (LWP 72864) exited]
-  [Thread 0xffffa6ffcd90 (LWP 72862) exited]
-  [Thread 0xffffa77fdd90 (LWP 72861) exited]
-  [Thread 0xffffbdb57d90 (LWP 72841) exited]
-  [Thread 0xffffa67fbd90 (LWP 72863) exited]
-  [Thread 0xffffacac9d90 (LWP 72859) exited]
-  [Thread 0xffffa7ffed90 (LWP 72860) exited]
-
-  <HUNG w/ 3 threads in the stack trace showed before>
-  """
-
-  All the tasks left are blocked in a system call, so no task left to call
-  qemu_futex_wake() to unblock thread #2 (in futex()), which would unblock
-  thread #1 (doing poll() in a pipe with thread #2).
-
-  Those 7 threads exit before disk conversion is complete (sometimes in
-  the beginning, sometimes at the end).
-
-  ----
-
-  On the HiSilicon D06 system - a 96 core NUMA arm64 box - qemu-img
-  frequently hangs (~50% of the time) with this command:
-
-  qemu-img convert -f qcow2 -O qcow2 /tmp/cloudimg /tmp/cloudimg2
-
-  Where "cloudimg" is a standard qcow2 Ubuntu cloud image. This
-  qcow2->qcow2 conversion happens to be something uvtool does every time
-  it fetches images.
-
-  Once hung, attaching gdb gives the following backtrace:
-
-  (gdb) bt
-  #0  0x0000ffffae4f8154 in __GI_ppoll (fds=3D0xaaaae8a67dc0, nfds=3D187650=
-274213760,
-  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3D<optimized out>, timeout@entry=3D0x0, s=
-igmask=3D0xffffc123b950)
-  =C2=A0=C2=A0=C2=A0=C2=A0at ../sysdeps/unix/sysv/linux/ppoll.c:39
-  #1  0x0000aaaabbefaf00 in ppoll (__ss=3D0x0, __timeout=3D0x0, __nfds=3D<o=
-ptimized out>,
-  =C2=A0=C2=A0=C2=A0=C2=A0__fds=3D<optimized out>) at /usr/include/aarch64-=
-linux-gnu/bits/poll2.h:77
-  #2  qemu_poll_ns (fds=3D<optimized out>, nfds=3D<optimized out>,
-  =C2=A0=C2=A0=C2=A0=C2=A0timeout=3Dtimeout@entry=3D-1) at util/qemu-timer.=
-c:322
-  #3  0x0000aaaabbefbf80 in os_host_main_loop_wait (timeout=3D-1)
-  =C2=A0=C2=A0=C2=A0=C2=A0at util/main-loop.c:233
-  #4  main_loop_wait (nonblocking=3D<optimized out>) at util/main-loop.c:497
-  #5  0x0000aaaabbe2aa30 in convert_do_copy (s=3D0xffffc123bb58) at qemu-im=
-g.c:1980
-  #6  img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at qemu-=
-img.c:2456
-  #7  0x0000aaaabbe2333c in main (argc=3D7, argv=3D<optimized out>) at qemu=
--img.c:4975
-
-  Reproduced w/ latest QEMU git (@ 53744e0a182)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/kunpeng920/+bug/1805256/+subscriptions
+-- 
+Best regards,
+Vladimir
 
