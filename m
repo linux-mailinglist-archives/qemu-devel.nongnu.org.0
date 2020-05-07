@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DDB1C90B1
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 16:51:29 +0200 (CEST)
-Received: from localhost ([::1]:50188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D861C908E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 16:46:44 +0200 (CEST)
+Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWhs0-00044i-2q
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 10:51:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48520)
+	id 1jWhnP-0007uC-3k
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 10:46:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWhrB-0003fd-6B
- for qemu-devel@nongnu.org; Thu, 07 May 2020 10:50:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWhr8-00024a-M3
- for qemu-devel@nongnu.org; Thu, 07 May 2020 10:50:36 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWhr6-0003rE-Rr
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 14:50:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D000C2E810B
- for <qemu-devel@nongnu.org>; Thu,  7 May 2020 14:50:32 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 07 May 2020 14:44:10 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWhmJ-00072N-Mx
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 10:45:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:21580
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWhmH-0003dR-Ty
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 10:45:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588862732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2mD0J+BqA3hH5L2MGfLPWpRGM1gavaMsHDS4Z1HMFV8=;
+ b=dIImAfmVm4Hq5ztONVKR2f+yph+yoA7ayEsTEOfugcDgByZqRZ2+7j++x71qEPlyBj59dr
+ IcU6dBYsrboTX1f1FYioYXVVNWSOCziFilNbfoY+qWR3x5cy0bWX05wSjhiqaC2XsS/ORM
+ nydYzIkxqeY3BELUGdj55rxJBUeZP1s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-O-Z3v2kDNKCZoshuF8wnRA-1; Thu, 07 May 2020 10:45:29 -0400
+X-MC-Unique: O-Z3v2kDNKCZoshuF8wnRA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F867460;
+ Thu,  7 May 2020 14:45:28 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-114-73.phx2.redhat.com [10.3.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A86C15C1B0;
+ Thu,  7 May 2020 14:45:24 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: matmal01 pmaydell
-X-Launchpad-Bug-Reporter: Matthew (matmal01)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <158877804267.5105.15160019007007013161.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158886265075.4508.12017560462244139090.malone@soybean.canonical.com>
-Subject: [Bug 1877136] Re: Qemu GDB Arm core registers XML description not
- valid for M-profile
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 61a721d069803443f02c523cc63deed3bbfcb0ca
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 10:30:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Subject: [PATCH v2 10/9] qed: Simplify backing reads
+Date: Thu,  7 May 2020 09:45:13 -0500
+Message-Id: <20200507144513.348470-1-eblake@redhat.com>
+In-Reply-To: <20200507084800.20596-1-vsementsov@virtuozzo.com>
+References: <20200507084800.20596-1-vsementsov@virtuozzo.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:15:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,106 +77,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877136 <1877136@bugs.launchpad.net>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com,
+ "open list:qed" <qemu-block@nongnu.org>, stefanha@redhat.com,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch submitted:
-https://patchew.org/QEMU/20200507134755.13997-1-peter.maydell@linaro.org/
+The other four drivers that support backing files (qcow, qcow2,
+parallels, vmdk) all rely on the block layer to populate zeroes when
+reading beyond EOF of a short backing file.  We can simplify the qed
+code by doing likewise.
 
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+I noticed this during my audit that v1 of Vladimir's series was correct.
 
--- =
+No change in iotests results (test 274 is currently failing for qed,
+but for other reasons:
++Traceback (most recent call last):
++  File "274", line 24, in <module>
++    iotests.verify_image_format(supported_fmts=3D['qcow2'])
++AttributeError: module 'iotests' has no attribute 'verify_image_format'
+)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877136
+ block/qed.h |  1 -
+ block/qed.c | 64 +++++------------------------------------------------
+ 2 files changed, 6 insertions(+), 59 deletions(-)
 
-Title:
-  Qemu GDB Arm core registers XML description not valid for M-profile
+diff --git a/block/qed.h b/block/qed.h
+index 42c115d8220c..3d12bf78d412 100644
+--- a/block/qed.h
++++ b/block/qed.h
+@@ -140,7 +140,6 @@ typedef struct QEDAIOCB {
 
-Status in QEMU:
-  In Progress
+     /* Current cluster scatter-gather list */
+     QEMUIOVector cur_qiov;
+-    QEMUIOVector *backing_qiov;
+     uint64_t cur_pos;               /* position on block device, in bytes =
+*/
+     uint64_t cur_cluster;           /* cluster offset in image file */
+     unsigned int cur_nclusters;     /* number of clusters being accessed *=
+/
+diff --git a/block/qed.c b/block/qed.c
+index 927382995a0c..bea4b9f6cc97 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -849,56 +849,18 @@ static BDRVQEDState *acb_to_s(QEDAIOCB *acb)
+  * @s:              QED state
+  * @pos:            Byte position in device
+  * @qiov:           Destination I/O vector
+- * @backing_qiov:   Possibly shortened copy of qiov, to be allocated here
+- * @cb:             Completion function
+- * @opaque:         User data for completion function
+  *
+  * This function reads qiov->size bytes starting at pos from the backing f=
+ile.
+  * If there is no backing file then zeroes are read.
+  */
+ static int coroutine_fn qed_read_backing_file(BDRVQEDState *s, uint64_t po=
+s,
+-                                              QEMUIOVector *qiov,
+-                                              QEMUIOVector **backing_qiov)
++                                              QEMUIOVector *qiov)
+ {
+-    uint64_t backing_length =3D 0;
+-    size_t size;
+-    int ret;
+-
+-    /* If there is a backing file, get its length.  Treat the absence of a
+-     * backing file like a zero length backing file.
+-     */
+     if (s->bs->backing) {
+-        int64_t l =3D bdrv_getlength(s->bs->backing->bs);
+-        if (l < 0) {
+-            return l;
+-        }
+-        backing_length =3D l;
+-    }
+-
+-    /* Zero all sectors if reading beyond the end of the backing file */
+-    if (pos >=3D backing_length ||
+-        pos + qiov->size > backing_length) {
+-        qemu_iovec_memset(qiov, 0, 0, qiov->size);
+-    }
+-
+-    /* Complete now if there are no backing file sectors to read */
+-    if (pos >=3D backing_length) {
+-        return 0;
+-    }
+-
+-    /* If the read straddles the end of the backing file, shorten it */
+-    size =3D MIN((uint64_t)backing_length - pos, qiov->size);
+-
+-    assert(*backing_qiov =3D=3D NULL);
+-    *backing_qiov =3D g_new(QEMUIOVector, 1);
+-    qemu_iovec_init(*backing_qiov, qiov->niov);
+-    qemu_iovec_concat(*backing_qiov, qiov, 0, size);
+-
+-    BLKDBG_EVENT(s->bs->file, BLKDBG_READ_BACKING_AIO);
+-    ret =3D bdrv_co_preadv(s->bs->backing, pos, size, *backing_qiov, 0);
+-    if (ret < 0) {
+-        return ret;
++        BLKDBG_EVENT(s->bs->file, BLKDBG_READ_BACKING_AIO);
++        return bdrv_co_preadv(s->bs->backing, pos, qiov->size, qiov, 0);
+     }
++    qemu_iovec_memset(qiov, 0, 0, qiov->size);
+     return 0;
+ }
 
-Bug description:
-  When trying to debug an armv7-m binary running on Qemu, GDB makes some
-  mistakes due to mistakenly believing the target is not M-profile.
+@@ -915,7 +877,6 @@ static int coroutine_fn qed_copy_from_backing_file(BDRV=
+QEDState *s,
+                                                    uint64_t offset)
+ {
+     QEMUIOVector qiov;
+-    QEMUIOVector *backing_qiov =3D NULL;
+     int ret;
 
-  One observable is that backtraces over signal handlers are not handled
-  correctly -- since the special M-profile EXC_RETURN value is not
-  recognised.  That happens because GDB doesn't think the target is
-  M-profile.
+     /* Skip copy entirely if there is no work to do */
+@@ -925,13 +886,7 @@ static int coroutine_fn qed_copy_from_backing_file(BDR=
+VQEDState *s,
 
-  This happens because GDB sees a reported feature set from the Qemu
-  remote connection that includes the feature `org.gnu.gdb.arm.core`.
+     qemu_iovec_init_buf(&qiov, qemu_blockalign(s->bs, len), len);
 
-  As described in the GDB online docs, for "M-profile targets (e.g. Cortex-=
-M3), the =E2=80=98org.gnu.gdb.arm.core=E2=80=99 feature is replaced by =E2=
-=80=98org.gnu.gdb.arm.m-profile=E2=80=99"
-  https://sourceware.org/gdb/current/onlinedocs/gdb/ARM-Features.html
+-    ret =3D qed_read_backing_file(s, pos, &qiov, &backing_qiov);
+-
+-    if (backing_qiov) {
+-        qemu_iovec_destroy(backing_qiov);
+-        g_free(backing_qiov);
+-        backing_qiov =3D NULL;
+-    }
++    ret =3D qed_read_backing_file(s, pos, &qiov);
 
-  From a scan of the Qemu source code on commit
-  ea1329bb3a8d5cd25b70e3dbf73e7ded4d5ad756 it seems that when emulating
-  an arm core it uses `arm-core.xml` unconditionally for
-  `CPUClass->gdb_core_xml_file`, and that means the only feature
-  provided is `org.gnu.gdb.arm.core`.
+     if (ret) {
+         goto out;
+@@ -1339,8 +1294,7 @@ static int coroutine_fn qed_aio_read_data(void *opaqu=
+e, int ret,
+         qemu_iovec_memset(&acb->cur_qiov, 0, 0, acb->cur_qiov.size);
+         r =3D 0;
+     } else if (ret !=3D QED_CLUSTER_FOUND) {
+-        r =3D qed_read_backing_file(s, acb->cur_pos, &acb->cur_qiov,
+-                                  &acb->backing_qiov);
++        r =3D qed_read_backing_file(s, acb->cur_pos, &acb->cur_qiov);
+     } else {
+         BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+         r =3D bdrv_co_preadv(bs->file, offset, acb->cur_qiov.size,
+@@ -1365,12 +1319,6 @@ static int coroutine_fn qed_aio_next_io(QEDAIOCB *ac=
+b)
+     while (1) {
+         trace_qed_aio_next_io(s, acb, 0, acb->cur_pos + acb->cur_qiov.size=
+);
 
-  Note that even though there is a command to set the architecture in GDB, =
-setting the target architecture to an M-profile core is still not a valid w=
-orkaround.
-  This is because the target description overrides everything in setting th=
-e `is_m` attribute within GDB.
+-        if (acb->backing_qiov) {
+-            qemu_iovec_destroy(acb->backing_qiov);
+-            g_free(acb->backing_qiov);
+-            acb->backing_qiov =3D NULL;
+-        }
+-
+         acb->qiov_offset +=3D acb->cur_qiov.size;
+         acb->cur_pos +=3D acb->cur_qiov.size;
+         qemu_iovec_reset(&acb->cur_qiov);
+--=20
+2.26.2
 
-  Reproduction of the observable:
-  Using the examples here https://git.linaro.org/people/peter.maydell/m-pro=
-file-tests.git/tree/ .
-  Build the examples, and run =
-
-  ```
-  qemu-system-arm -s -S -no-reboot -M lm3s6965evb -m 16 -serial stdio -disp=
-lay none -net nic -net user,restrict=3Don -d guest_errors,unimp -kernel tes=
-t3-kern.bin
-  ```
-
-  Then in a GDB session
-  ```
-  vshcmd: > arm-none-eabi-gdb -q                                           =
-                                                                           =
-                                              =
-
-  (gdb)
-  vshcmd: > file test3-kern.elf
-  Reading symbols from test3-kern.elf...
-  (gdb)
-  vshcmd: > target remote localhost:1234
-  Remote debugging using localhost:1234
-  _start () at init-m.S:53
-  53        mov r0, #0
-  (gdb)
-  vshcmd: > show architecture
-  The target architecture is set automatically (currently armv7)
-  (gdb)
-  vshcmd: > break svc
-  Breakpoint 1 at 0x6fc: svc. (2 locations)
-  (gdb)
-  vshcmd: > cont
-  Continuing.
-
-  Breakpoint 1, svc () at test3.c:16
-  16          int test =3D SEQ();
-  (gdb)
-  vshcmd: > bt
-  #0  svc () at test3.c:16
-  #1  0xfffffff8 in ?? ()
-  Backtrace stopped: previous frame identical to this frame (corrupt stack?)
-  (gdb)
-  vshcmd: > print/x $lr
-  $1 =3D 0xfffffff9
-  (gdb)
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877136/+subscriptions
 
