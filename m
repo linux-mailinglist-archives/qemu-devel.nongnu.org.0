@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F281C9B21
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 21:31:10 +0200 (CEST)
-Received: from localhost ([::1]:43870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB791C9A2E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 20:59:01 +0200 (CEST)
+Received: from localhost ([::1]:45950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWmEf-0004qW-DG
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 15:31:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56844)
+	id 1jWljY-0003hJ-3b
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 14:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=38990af3b=alistair.francis@wdc.com>)
- id 1jWm5a-0000Jl-I5; Thu, 07 May 2020 15:21:47 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:58826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=38990af3b=alistair.francis@wdc.com>)
- id 1jWm5Z-0005H9-0a; Thu, 07 May 2020 15:21:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1588879306; x=1620415306;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=WVW5qKls1AcUBxryIO3izvqEFKIi2NetWmCN95eWQFA=;
- b=V0cUb08ES4PanZ8FAttrW1XtWV/n+aklg+On7CXXtChd0EvHaCMvKG00
- b3AKz9rjtMpMCAyUmkt27jnExpNm9FttYlDdxRVcPUlUP4pfvb+5Z/JO9
- siLmw9qTtfNM/wPfKv4HCsff/NwugPkxh3mGz/wYdhxIyRqUey2alKN6r
- sZ68gQxFvWmeknBCeIFHC6KRNZp7KWq5fcH3rrCCfjXCt2V2ttV/Rob4m
- sv9NwKYqElTjkNrYwxY5juwG1DeZVsm4wpn53tfZCNGzvIpS8fI/U+0rk
- RqasFeLctunOrUFONG1K1lb5kBv44AWKc+9efzBw2aO3R6v7PF8Z2/L+9 g==;
-IronPort-SDR: qHNwN+2dFrqpYGiZxrgVDDR7OCutj+S7HgfqHq+kIzvt0Db/gKoLhW/E7NpoJpuuQsCKQZetKT
- RLH7Y7gS9fUvX7KsdByw356whjtpVqBmpr/zFdvkIUdRba+fswId/QL9PkWjddsPoiyr7qveYp
- n3zX81AOR2lb+Kxjd4u/nfUE9UA51r4Bbg1EZ0cfAG0ad/7ae4+D6VkBVS56J7W80fDUn4ZkdN
- 93bYmPCSGMtt7WDsYPDMGxTZUYKS85Xjl1BnKgwgBgZH8+0AAu1XEb9rGkOf8+1AlV/JsDaF00
- VHs=
-X-IronPort-AV: E=Sophos;i="5.73,364,1583164800"; d="scan'208";a="239807170"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 08 May 2020 03:21:44 +0800
-IronPort-SDR: 28W281f3lniDJwutWpWBKiZ9UaUtLXGVxezNjjB2ncHJsCl8bnckMIouFiSC3eTZTHnQqIK8pV
- lDHosMNSxMy7anvFDMGB28kqvjBmouRPE=
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2020 12:11:34 -0700
-IronPort-SDR: cdgeCk4H5jYgFQELPP6wr1fVlzVWZ9CR0P702UOLmEcGF2dKFLor/ZzfP0V5bkEss5BY6TALCX
- B+lMBNvkRLYg==
-WDCIronportException: Internal
-Received: from uscxm6l72.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.57.6])
- by uls-op-cesaip01.wdc.com with ESMTP; 07 May 2020 12:21:43 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 9/9] target/riscv: Use a smaller guess size for no-MMU PMP
-Date: Thu,  7 May 2020 12:13:23 -0700
-Message-Id: <246b1d1fa8d1ad334152ace0cad21e8f40d53e7f.1588878756.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1588878756.git.alistair.francis@wdc.com>
-References: <cover.1588878756.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jWliV-0002uj-Eh
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 14:57:55 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:39900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jWliU-0002eO-Ca
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 14:57:55 -0400
+Received: by mail-lj1-x241.google.com with SMTP id u6so7503155ljl.6
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 11:57:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kyBtveBgtewVFjsGm++IS/2pw4fUMG6lASXmIKyp8+c=;
+ b=s8cPh37cL8qx4Rs7pDVp1oFvZKAXShfLtgE4wTdp5YbAbg/KW0MCE8BVGY51i/Fsnb
+ P14F/aGEYS98yGUHpFLJYqtF8lv7iy+YEBG9BUGrSC7jqbLq8apUmgCd6q57LL5mCQ0u
+ k7t2LkMW9rP+zakgRciiL4qTm7fy0Qi0iJ4FHKaiYhDcEfZGmOxntKXbV2uYEc7MFz7W
+ 6EN5idzH1bF/gs0pxXtNHWKy5xerbReHacIMQvIKKK3EKKusaYzRYoWst4lHdy16fG09
+ TCcZuZCj7Se57Y1TzzrfLWL4bYRrLHaeIoEXeNgdH5/T+8S4W3uJxZG342vS/Ptq9xB6
+ KjiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kyBtveBgtewVFjsGm++IS/2pw4fUMG6lASXmIKyp8+c=;
+ b=hWLhimxqTsAUO0LCel9eynvdy3lTRb/+xf062Ka1TozuTgMJ1Xac2FnHhzKe1+FDQu
+ cDkDVrrtXgPUxRG3/a1BD5mTBBZvFE4eWIkBua/XFf16NwR4YD9Ym9OtvE0dQ78tVXrl
+ WJkSxNl297rK/HCokM0eJ3GFysQLvMZqtNl4bc9WLH/5q1ZPQbg7XfkAFcHCZU1ldHSv
+ tdl+j9kUqVvaGz/9Fs4qTwv/8S1VV/wxRfhkwB5S5edUU6gZDgC78ZykTfyIc1nZrOSy
+ ysgouep9L+fE2g6mHT4E8wTEfFeiGatnIuIg2ajDGny0EHAIpyjjPIDycIe6waufWd6m
+ w3Ag==
+X-Gm-Message-State: AGi0PubGwk6x1Yoq0D/tZC7t9rbw3kN0IuxhH+pxZysxmjbcDdYU52mG
+ otQ+/3SRYrEca/KLbWF0JRwsgySP4iIN2g==
+X-Google-Smtp-Source: APiQypKGap/RQt3/mJdbZO/RP5PdrDRpt0g47epCB3AqdlabpZiGVYz7RCViwX5Y/y66YoyWktp+hA==
+X-Received: by 2002:a2e:8753:: with SMTP id q19mr9463524ljj.6.1588877872295;
+ Thu, 07 May 2020 11:57:52 -0700 (PDT)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id f9sm4464065lfm.62.2020.05.07.11.57.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 May 2020 11:57:51 -0700 (PDT)
+From: andrew@daynix.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] hw/net: Added basic IPv6 fragmentation. Fixed IPv6
+ payload length. Fixed CSO for IPv6.
+Date: Thu,  7 May 2020 22:25:40 +0300
+Message-Id: <20200507192541.1046225-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=38990af3b=alistair.francis@wdc.com;
- helo=esa2.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 15:19:37
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
+Received-SPF: none client-ip=2a00:1450:4864:20::241;
+ envelope-from=andrew@daynix.com; helo=mail-lj1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,47 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, palmer@dabbelt.com, alistair23@gmail.com
+Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/pmp.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+From: Andrew Melnychenko <andrew@daynix.com>
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 0e6b640fbd..5aba4d13ea 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -233,12 +233,21 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-         return true;
-     }
- 
--    /*
--     * if size is unknown (0), assume that all bytes
--     * from addr to the end of the page will be accessed.
--     */
-     if (size == 0) {
--        pmp_size = -(addr | TARGET_PAGE_MASK);
-+        if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
-+            /*
-+             * if size is unknown (0), assume that all bytes
-+             * from addr to the end of the page will be accessed.
-+             */
-+            pmp_size = -(addr | TARGET_PAGE_MASK);
-+        } else {
-+            /*
-+             * If size is unknown (0) and we don't have an MMU,
-+             * just guess the size as the xlen as we don't want to
-+             * access an entire page worth.
-+             */
-+            pmp_size = sizeof(target_ulong);
-+        }
-     } else {
-         pmp_size = size;
-     }
+Compare to previous patch - fixed issue with compilation in docker fedora test.
+
+Andrew Melnychenko (1):
+  hw/net: Added basic IPv6 fragmentation. Fixed IPv6 payload length.
+    Fixed CSO for IPv6.
+
+ hw/net/net_tx_pkt.c | 54 ++++++++++++++++++++++++---
+ hw/net/net_tx_pkt.h |  7 ++++
+ include/net/eth.h   | 15 ++++++--
+ net/eth.c           | 89 ++++++++++++++++++++++++++++++++++++++++++---
+ 4 files changed, 151 insertions(+), 14 deletions(-)
+
 -- 
-2.26.2
+2.24.1
 
 
