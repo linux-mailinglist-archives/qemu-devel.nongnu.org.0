@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD16D1C9602
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 18:08:12 +0200 (CEST)
-Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD1BE1C95BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 17:58:37 +0200 (CEST)
+Received: from localhost ([::1]:38044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWj4F-0003GY-6C
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 12:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34436)
+	id 1jWiuy-0006rr-NE
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 11:58:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWirf-0004OL-2D
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:55:11 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:49013
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jWiti-0005RY-IW
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:57:18 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27621
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWird-0007n9-VJ
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:55:10 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jWitg-00020O-V5
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:57:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588866908;
+ s=mimecast20190719; t=1588867035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7PbKbsmuj+N88lZdRzTZYO6sFx/jx/rHsfhMKbHUddY=;
- b=LdcLzsv9BbMVNEzfQIE+hunFTbQgDHKF2/KSmPtTLDq1NucF1aUuGJqEiuC3ZaYXg2nRK+
- lVXbC7sAnqvc2mtXDNlAKc/HC3tLXuxRMdHudMQuasX8LVup9TzLGklgIRTgQ59bMfV+P8
- tKsosLFMZ8+BvbvYkWUeCGIDece+Yfc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-u3i37zZZMTaTfVbfo5QHHQ-1; Thu, 07 May 2020 11:55:07 -0400
-X-MC-Unique: u3i37zZZMTaTfVbfo5QHHQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39781EC1A3;
- Thu,  7 May 2020 15:55:06 +0000 (UTC)
-Received: from work-vm (ovpn-114-224.ams2.redhat.com [10.36.114.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04A825D9C5;
- Thu,  7 May 2020 15:55:04 +0000 (UTC)
-Date: Thu, 7 May 2020 16:55:02 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Pan Nengyuan <pannengyuan@huawei.com>
-Subject: Re: [PATCH 0/2] migration/multifd: fix two memleaks
-Message-ID: <20200507155502.GH17348@work-vm>
-References: <20200506095416.26099-1-pannengyuan@huawei.com>
+ bh=IRSajkUHM6lER7L0rIVu3f65i583HPKvNKbmYn8jG9I=;
+ b=bw5cQzrenAFNeaK3/lkcdFex41+DM2OYSB0i6Tkb8i2fEizjE+3f8+k65Nq6Kq0oiIL/i2
+ zFeL6EzLF1hzaZ8qlZbLcKN2POZDNHmvDV4gdV8S25inRLsaqjITj7aJKX6VF3d3tnpcU0
+ kw+JsgzBiDjVqqoo98T2UjRzolpQaVo=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-R7MKVds1NxGRozHTWZbOIA-1; Thu, 07 May 2020 11:57:12 -0400
+X-MC-Unique: R7MKVds1NxGRozHTWZbOIA-1
+Received: by mail-pg1-f197.google.com with SMTP id l7so4569049pgb.2
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 08:57:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2SyF2372pTBjf3SVGEBfCB5pCYPLHN9ahZ+Rga2Pu7M=;
+ b=Fo42COJR7alHsDqCoOzpDyTmBe5X3jTw9i/UvIS071V7Ta2jksYOHyaNelIfIeLy+X
+ D5rputl62zkFr3vPEeJ16jl5prkmoCoLo/QXyg0aY5g6CxNKPxE1l406DdyDKY0yD60Z
+ v+oK5hqPyTURj5gOM2HtktdyDaBPhm+wELo32zqN36Sy9VXphb1dNeRMhTqY7SP4Hy0P
+ RCIv/qa7dCcgn+d3Eh6BSabv7JL8mIWSN0VuKJajdfKUjGKdLsuMx2zpAaIwCdKPM7wf
+ rHD2dnnxdB98BLgqOSCKXIvnJgJPOELV50PZwzYSbBljOfaTa38WOuNcYslP1NBfWS0D
+ Y5Mw==
+X-Gm-Message-State: AGi0Puaco1SMN8jddhZo0yzdouXQ42xWPyLDw38uc1HUTcLV31f6HKOk
+ 6UmYr2WrAWa58XYIIXRuyWb2MUhUp1xfFcwe6FRQzagHdjGNq6R6kFwMc/xE/Z4VrInxiJOw8Qv
+ JSwDNm2pVRqFDzU7MVs6rDVl++yoN7Sc=
+X-Received: by 2002:a62:2c92:: with SMTP id
+ s140mr15022600pfs.223.1588867031046; 
+ Thu, 07 May 2020 08:57:11 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJhU8N+AjfOqlq9v8EhzhES+n4PFesa1n0XGcA21EMIzM0DZWtIIUQ9RXi2yw36kzIIlEbmE2wXwlH7OvJwSmM=
+X-Received: by 2002:a62:2c92:: with SMTP id
+ s140mr15022552pfs.223.1588867030694; 
+ Thu, 07 May 2020 08:57:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200506095416.26099-1-pannengyuan@huawei.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20200420093241.4238-1-lulu@redhat.com>
+ <20200420093241.4238-4-lulu@redhat.com>
+ <c107994b-888d-8aa4-57d2-5188837ed757@redhat.com>
+In-Reply-To: <c107994b-888d-8aa4-57d2-5188837ed757@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Thu, 7 May 2020 23:56:59 +0800
+Message-ID: <CACLfguUwYL_eaS81HiOhRWOg22xZoiA9QWVxAxe0FC6z4fZjCQ@mail.gmail.com>
+Subject: Re: [RFC v1 3/4] vhost-vdpa: implement vhost-vdpa backend
+To: Maxime Coquelin <maxime.coquelin@redhat.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,31 +92,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, euler.robot@huawei.com,
- qemu-devel@nongnu.org, quintela@redhat.com
+Cc: Cornelia Huck <cohuck@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ rob.miller@broadcom.com, saugatm@xilinx.com,
+ Markus Armbruster <armbru@redhat.com>, hch@infradead.org,
+ Eugenio Perez Martin <eperezma@redhat.com>, jgg@mellanox.com,
+ mhabets@solarflare.com, shahafs@mellanox.com, kevin.tian@intel.com,
+ parav@mellanox.com, vmireyno@marvell.com, "Liang,
+ Cunming" <cunming.liang@intel.com>, gdawar@xilinx.com, jiri@mellanox.com,
+ xiao.w.wang@intel.com, Stefan Hajnoczi <stefanha@redhat.com>, "Wang,
+ Zhihong" <zhihong.wang@intel.com>, Ariel Adam <aadam@redhat.com>,
+ rdunlap@infradead.org, hanand@xilinx.com, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Pan Nengyuan (pannengyuan@huawei.com) wrote:
-> Fix two memleaks in multifd_send_thread/multifd_new_send_channel_async wh=
-en error happen.
->=20
-> Pan Nengyuan (2):
->   migration/multifd: fix memleaks in multifd_new_send_channel_async
->   migration/multifd: Do error_free after migrate_set_error to avoid
->     memleaks
->=20
->  migration/multifd.c | 5 +++++
->  1 file changed, 5 insertions(+)
+On Thu, May 7, 2020 at 11:13 PM Maxime Coquelin
+<maxime.coquelin@redhat.com> wrote:
+>
+>
+>
+> On 4/20/20 11:32 AM, Cindy Lu wrote:
+> > Currently we have 2 types of vhost backends in QEMU: vhost kernel and
+> > vhost-user. The above patch provides a generic device for vDPA purpose,
+> > this vDPA device exposes to user space a non-vendor-specific configurat=
+ion
+> > interface for setting up a vhost HW accelerator, this patch set introdu=
+ces
+> > a third vhost backend called vhost-vdpa based on the vDPA interface.
+> >
+> > Vhost-vdpa usage:
+> >
+> >   qemu-system-x86_64 -cpu host -enable-kvm \
+> >     ......
+> >   -netdev type=3Dvhost-vdpa,vhostdev=3D/dev/vhost-vdpa-id,id=3Dvhost-vd=
+pa0 \
+> >   -device virtio-net-pci,netdev=3Dvhost-vdpa0,page-per-vq=3Don \
+> >
+> > Author: Tiwei Bie
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > ---
+> >  hw/net/vhost_net.c                |  43 ++++
+> >  hw/net/virtio-net.c               |   9 +
+> >  hw/virtio/Makefile.objs           |   2 +-
+> >  hw/virtio/vhost-backend.c         |   3 +
+> >  hw/virtio/vhost-vdpa.c            | 379 ++++++++++++++++++++++++++++++
+> >  hw/virtio/vhost.c                 |   5 +
+> >  include/hw/virtio/vhost-backend.h |   6 +-
+> >  include/hw/virtio/vhost-vdpa.h    |  14 ++
+> >  8 files changed, 459 insertions(+), 2 deletions(-)
+> >  create mode 100644 hw/virtio/vhost-vdpa.c
+> >  create mode 100644 include/hw/virtio/vhost-vdpa.h
+> >
+> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > index 4096d64aaf..0d13fda2fc 100644
+> > --- a/hw/net/vhost_net.c
+> > +++ b/hw/net/vhost_net.c
+> > @@ -17,8 +17,10 @@
+> >  #include "net/net.h"
+> >  #include "net/tap.h"
+> >  #include "net/vhost-user.h"
+> > +#include "net/vhost-vdpa.h"
+> >
+> >  #include "standard-headers/linux/vhost_types.h"
+> > +#include "linux-headers/linux/vhost.h"
+> >  #include "hw/virtio/virtio-net.h"
+> >  #include "net/vhost_net.h"
+> >  #include "qemu/error-report.h"
+> > @@ -85,6 +87,29 @@ static const int user_feature_bits[] =3D {
+> >      VHOST_INVALID_FEATURE_BIT
+> >  };
+> >
+> > +static const int vdpa_feature_bits[] =3D {
+> > +    VIRTIO_F_NOTIFY_ON_EMPTY,
+> > +    VIRTIO_RING_F_INDIRECT_DESC,
+> > +    VIRTIO_RING_F_EVENT_IDX,
+> > +    VIRTIO_F_ANY_LAYOUT,
+> > +    VIRTIO_F_VERSION_1,
+> > +    VIRTIO_NET_F_CSUM,
+> > +    VIRTIO_NET_F_GUEST_CSUM,
+> > +    VIRTIO_NET_F_GSO,
+> > +    VIRTIO_NET_F_GUEST_TSO4,
+> > +    VIRTIO_NET_F_GUEST_TSO6,
+> > +    VIRTIO_NET_F_GUEST_ECN,
+> > +    VIRTIO_NET_F_GUEST_UFO,
+> > +    VIRTIO_NET_F_HOST_TSO4,
+> > +    VIRTIO_NET_F_HOST_TSO6,
+> > +    VIRTIO_NET_F_HOST_ECN,
+> > +    VIRTIO_NET_F_HOST_UFO,
+> > +    VIRTIO_NET_F_MRG_RXBUF,
+> > +    VIRTIO_NET_F_MTU,
+> > +    VIRTIO_F_IOMMU_PLATFORM,
+> > +    VIRTIO_NET_F_GUEST_ANNOUNCE,
+> > +    VHOST_INVALID_FEATURE_BIT
+> > +};
+> >  static const int *vhost_net_get_feature_bits(struct vhost_net *net)
+> >  {
+> >      const int *feature_bits =3D 0;
+> > @@ -96,6 +121,9 @@ static const int *vhost_net_get_feature_bits(struct =
+vhost_net *net)
+> >      case NET_CLIENT_DRIVER_VHOST_USER:
+> >          feature_bits =3D user_feature_bits;
+> >          break;
+> > +    case NET_CLIENT_DRIVER_VHOST_VDPA:
+> > +        feature_bits =3D vdpa_feature_bits;
+> > +        break;
+> >      default:
+> >          error_report("Feature bits not defined for this type: %d",
+> >                  net->nc->info->type);
+> > @@ -434,6 +462,10 @@ VHostNetState *get_vhost_net(NetClientState *nc)
+> >          assert(vhost_net);
+> >          break;
+> >  #endif
+> > +    case NET_CLIENT_DRIVER_VHOST_VDPA:
+> > +        vhost_net =3D vhost_vdpa_get_vhost_net(nc);
+> > +        assert(vhost_net);
+> > +        break;
+> >      default:
+> >          break;
+> >      }
+> > @@ -465,3 +497,14 @@ int vhost_net_set_mtu(struct vhost_net *net, uint1=
+6_t mtu)
+> >
+> >      return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
+> >  }
+> > +int vhost_set_state(NetClientState *nc, int state)
+> > +{
+> > +    struct vhost_net *net =3D get_vhost_net(nc);
+> > +    struct vhost_dev *hdev =3D &net->dev;
+> > +    if (nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA) {
+>
+> Maybe checking the vhost_set_state callback is implemented is enough,
+> and it is not need to restrict that to Vhost-vDPA?
+Sure, Will remove this
 
-Queued
-
->=20
-> --=20
-> 2.18.2
->=20
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > +        if (hdev->vhost_ops->vhost_set_state) {
+> > +                return hdev->vhost_ops->vhost_set_state(hdev, state);
+> > +             }
+> > +        }
+> > +    return 0;
+> > +}
+>
 
 
