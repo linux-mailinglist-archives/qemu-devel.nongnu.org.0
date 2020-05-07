@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B53B1C8B86
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 14:57:58 +0200 (CEST)
-Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEDD1C8BA0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:00:59 +0200 (CEST)
+Received: from localhost ([::1]:42960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWg69-00047Y-Cu
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 08:57:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
+	id 1jWg94-0008Q9-2l
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jWg2z-00077K-5e
- for qemu-devel@nongnu.org; Thu, 07 May 2020 08:54:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56517
+ id 1jWg35-0007Bn-P7
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 08:54:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48415
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jWg2y-0002Y5-CU
- for qemu-devel@nongnu.org; Thu, 07 May 2020 08:54:40 -0400
+ id 1jWg33-0002uS-7v
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 08:54:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588856079;
+ s=mimecast20190719; t=1588856084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tYbAH/LlXkVIXkztG5vCyXpUmpElz0YHwXi8vEsztGY=;
- b=TPtskMFGfovBlEDzvNP1TWsq5EyHdDjJbQ9kqSzd5iztVP+dCuRgkvh/wILXAoHNSVKC04
- IX7da1OPcWNDIWZ35Kyy2orUiUSYYHkylxz4nNsQDKwAYeSRaz2ziUAZDu9UgaIvCoMT9i
- vMX+O9OF2cD7BXJZukMSSRtJ3J7aNN4=
+ bh=7sCKTf/34RoLtGvfPcFCHixOF7sb7Y6dVr+WCAqv99o=;
+ b=QJxQzUZxjY3erbUAo/545lRnnIZJvshxoUFu2WvYdbVM255Mph5kSMhgA+kdo9hG0eCLa+
+ ioLToEdpiRRJjyO7YDIEKOglmMEy9D9lHqrVyehP+bxbkRPVEW9XTnri/DKvyZx2vKqp34
+ MxX1j7VrIt5cXTXYFkulvtYtda4lCHI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-lK01BE8dObiIudgLfNN3Vg-1; Thu, 07 May 2020 08:54:37 -0400
-X-MC-Unique: lK01BE8dObiIudgLfNN3Vg-1
+ us-mta-22-IOR47QQ5NVCANAtBRjMu3Q-1; Thu, 07 May 2020 08:54:40 -0400
+X-MC-Unique: IOR47QQ5NVCANAtBRjMu3Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9745F107ACF2;
- Thu,  7 May 2020 12:54:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41D63100AA30;
+ Thu,  7 May 2020 12:54:39 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 908F2707BB;
- Thu,  7 May 2020 12:54:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 00577707B3;
+ Thu,  7 May 2020 12:54:36 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/14] block/crypto: rename two functions
-Date: Thu,  7 May 2020 15:54:06 +0300
-Message-Id: <20200507125414.2151-7-mlevitsk@redhat.com>
+Subject: [PATCH v5 07/14] block/crypto: implement the encryption key management
+Date: Thu,  7 May 2020 15:54:07 +0300
+Message-Id: <20200507125414.2151-8-mlevitsk@redhat.com>
 In-Reply-To: <20200507125414.2151-1-mlevitsk@redhat.com>
 References: <20200507125414.2151-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -56,10 +56,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlevitsk@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:56:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:15:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,70 +87,274 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-rename the write_func to create_write_func, and init_func to create_init_fu=
-nc.
-This is preparation for other write_func that will be used to update the en=
-cryption keys.
+This implements the encryption key management using the generic code in
+qcrypto layer and exposes it to the user via qemu-img
 
-No functional changes
+This code adds another 'write_func' because the initialization
+write_func works directly on the underlying file, and amend
+works on instance of luks device.
+
+This commit also adds a 'hack/workaround' I and Kevin Wolf (thanks)
+made to make the driver both support write sharing (to avoid breaking the u=
+sers),
+and be safe against concurrent  metadata update (the keyslots)
+
+Eventually the write sharing for luks driver will be deprecated
+and removed together with this hack.
+
+The hack is that we ask (as a format driver) for BLK_PERM_CONSISTENT_READ
+and then when we want to update the keys, we unshare that permission.
+So if someone else has the image open, even readonly, encryption
+key update will fail gracefully.
+
+Also thanks to Daniel Berrange for the idea of
+unsharing read, rather that write permission which allows
+to avoid cases when the other user had opened the image read-only.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- block/crypto.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ block/crypto.c | 127 +++++++++++++++++++++++++++++++++++++++++++++++--
+ block/crypto.h |  34 +++++++++++++
+ 2 files changed, 158 insertions(+), 3 deletions(-)
 
 diff --git a/block/crypto.c b/block/crypto.c
-index 61eed85de3..38ab0e6aa4 100644
+index 38ab0e6aa4..dbc3ab25f4 100644
 --- a/block/crypto.c
 +++ b/block/crypto.c
-@@ -79,12 +79,12 @@ struct BlockCryptoCreateData {
+@@ -37,6 +37,7 @@ typedef struct BlockCrypto BlockCrypto;
+=20
+ struct BlockCrypto {
+     QCryptoBlock *block;
++    bool updating_keys;
  };
 =20
 =20
--static ssize_t block_crypto_write_func(QCryptoBlock *block,
--                                       size_t offset,
--                                       const uint8_t *buf,
--                                       size_t buflen,
--                                       void *opaque,
--                                       Error **errp)
-+static ssize_t block_crypto_create_write_func(QCryptoBlock *block,
-+                                              size_t offset,
-+                                              const uint8_t *buf,
-+                                              size_t buflen,
-+                                              void *opaque,
-+                                              Error **errp)
- {
-     struct BlockCryptoCreateData *data =3D opaque;
-     ssize_t ret;
-@@ -97,11 +97,10 @@ static ssize_t block_crypto_write_func(QCryptoBlock *bl=
-ock,
+@@ -71,6 +72,24 @@ static ssize_t block_crypto_read_func(QCryptoBlock *bloc=
+k,
      return ret;
  }
 =20
--
--static ssize_t block_crypto_init_func(QCryptoBlock *block,
--                                      size_t headerlen,
--                                      void *opaque,
--                                      Error **errp)
-+static ssize_t block_crypto_create_init_func(QCryptoBlock *block,
-+                                             size_t headerlen,
-+                                             void *opaque,
-+                                             Error **errp)
++static ssize_t block_crypto_write_func(QCryptoBlock *block,
++                                       size_t offset,
++                                       const uint8_t *buf,
++                                       size_t buflen,
++                                       void *opaque,
++                                       Error **errp)
++{
++    BlockDriverState *bs =3D opaque;
++    ssize_t ret;
++
++    ret =3D bdrv_pwrite(bs->file, offset, buf, buflen);
++    if (ret < 0) {
++        error_setg_errno(errp, -ret, "Could not write encryption header");
++        return ret;
++    }
++    return ret;
++}
++
+=20
+ struct BlockCryptoCreateData {
+     BlockBackend *blk;
+@@ -149,6 +168,19 @@ static QemuOptsList block_crypto_create_opts_luks =3D =
+{
+ };
+=20
+=20
++static QemuOptsList block_crypto_amend_opts_luks =3D {
++    .name =3D "crypto",
++    .head =3D QTAILQ_HEAD_INITIALIZER(block_crypto_create_opts_luks.head),
++    .desc =3D {
++        BLOCK_CRYPTO_OPT_DEF_LUKS_STATE(""),
++        BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT(""),
++        BLOCK_CRYPTO_OPT_DEF_LUKS_OLD_SECRET(""),
++        BLOCK_CRYPTO_OPT_DEF_LUKS_NEW_SECRET(""),
++        BLOCK_CRYPTO_OPT_DEF_LUKS_ITER_TIME(""),
++        { /* end of list */ }
++    },
++};
++
+ QCryptoBlockOpenOptions *
+ block_crypto_open_opts_init(QDict *opts, Error **errp)
  {
-     struct BlockCryptoCreateData *data =3D opaque;
+@@ -741,6 +773,95 @@ block_crypto_get_specific_info_luks(BlockDriverState *=
+bs, Error **errp)
+     return spec_info;
+ }
 =20
-@@ -296,8 +295,8 @@ static int block_crypto_co_create_generic(BlockDriverSt=
-ate *bs,
-     };
++static int
++block_crypto_amend_options_luks(BlockDriverState *bs,
++                                QemuOpts *opts,
++                                BlockDriverAmendStatusCB *status_cb,
++                                void *cb_opaque,
++                                bool force,
++                                Error **errp)
++{
++    BlockCrypto *crypto =3D bs->opaque;
++    QDict *cryptoopts =3D NULL;
++    QCryptoBlockAmendOptions *amend_options =3D NULL;
++    int ret;
++
++    assert(crypto);
++    assert(crypto->block);
++    crypto->updating_keys =3D true;
++
++    ret =3D bdrv_child_refresh_perms(bs, bs->file, errp);
++    if (ret < 0) {
++        goto cleanup;
++    }
++
++    cryptoopts =3D qemu_opts_to_qdict(opts, NULL);
++    qdict_put_str(cryptoopts, "format", "luks");
++    amend_options =3D block_crypto_amend_opts_init(cryptoopts, errp);
++    if (!amend_options) {
++        ret =3D -EINVAL;
++        goto cleanup;
++    }
++
++    ret =3D qcrypto_block_amend_options(crypto->block,
++                                      block_crypto_read_func,
++                                      block_crypto_write_func,
++                                      bs,
++                                      amend_options,
++                                      force,
++                                      errp);
++cleanup:
++    crypto->updating_keys =3D false;
++    bdrv_child_refresh_perms(bs, bs->file, errp);
++    qapi_free_QCryptoBlockAmendOptions(amend_options);
++    qobject_unref(cryptoopts);
++    return ret;
++}
++
++
++static void
++block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
++                         const BdrvChildRole *role,
++                         BlockReopenQueue *reopen_queue,
++                         uint64_t perm, uint64_t shared,
++                         uint64_t *nperm, uint64_t *nshared)
++{
++
++    BlockCrypto *crypto =3D bs->opaque;
++
++    bdrv_filter_default_perms(bs, c, role, reopen_queue,
++            perm, shared, nperm, nshared);
++    /*
++     * Ask for consistent read permission so that if
++     * someone else tries to open this image with this permission
++     * neither will be able to edit encryption keys, since
++     * we will unshare that permission while trying to
++     * update the encryption keys
++     */
++    if (!(bs->open_flags & BDRV_O_NO_IO)) {
++        *nperm |=3D BLK_PERM_CONSISTENT_READ;
++    }
++    /*
++     * This driver doesn't modify LUKS metadata except
++     * when updating the encryption slots.
++     * Thus unlike a proper format driver we don't ask for
++     * shared write/read permission. However we need it
++     * when we are updating the keys, to ensure that only we
++     * have access to the device.
++     *
++     * Encryption update will set the crypto->updating_keys
++     * during that period and refresh permissions
++     *
++     */
++    if (crypto->updating_keys) {
++        /* need exclusive write access for header update */
++        *nperm |=3D BLK_PERM_WRITE;
++        /* unshare read and write permission */
++        *nshared &=3D ~(BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE);
++    }
++}
++
++
+ static const char *const block_crypto_strong_runtime_opts[] =3D {
+     BLOCK_CRYPTO_OPT_LUKS_KEY_SECRET,
 =20
-     crypto =3D qcrypto_block_create(opts, NULL,
--                                  block_crypto_init_func,
--                                  block_crypto_write_func,
-+                                  block_crypto_create_init_func,
-+                                  block_crypto_create_write_func,
-                                   &data,
-                                   errp);
+@@ -753,13 +874,12 @@ static BlockDriver bdrv_crypto_luks =3D {
+     .bdrv_probe         =3D block_crypto_probe_luks,
+     .bdrv_open          =3D block_crypto_open_luks,
+     .bdrv_close         =3D block_crypto_close,
+-    /* This driver doesn't modify LUKS metadata except when creating image=
+.
+-     * Allow share-rw=3Don as a special case. */
+-    .bdrv_child_perm    =3D bdrv_filter_default_perms,
++    .bdrv_child_perm    =3D block_crypto_child_perms,
+     .bdrv_co_create     =3D block_crypto_co_create_luks,
+     .bdrv_co_create_opts =3D block_crypto_co_create_opts_luks,
+     .bdrv_co_truncate   =3D block_crypto_co_truncate,
+     .create_opts        =3D &block_crypto_create_opts_luks,
++    .amend_opts         =3D &block_crypto_amend_opts_luks,
+=20
+     .bdrv_reopen_prepare =3D block_crypto_reopen_prepare,
+     .bdrv_refresh_limits =3D block_crypto_refresh_limits,
+@@ -769,6 +889,7 @@ static BlockDriver bdrv_crypto_luks =3D {
+     .bdrv_measure       =3D block_crypto_measure,
+     .bdrv_get_info      =3D block_crypto_get_info_luks,
+     .bdrv_get_specific_info =3D block_crypto_get_specific_info_luks,
++    .bdrv_amend_options =3D block_crypto_amend_options_luks,
+=20
+     .strong_runtime_opts =3D block_crypto_strong_runtime_opts,
+ };
+diff --git a/block/crypto.h b/block/crypto.h
+index 06e044c9be..c72c3dec61 100644
+--- a/block/crypto.h
++++ b/block/crypto.h
+@@ -41,6 +41,11 @@
+ #define BLOCK_CRYPTO_OPT_LUKS_IVGEN_HASH_ALG "ivgen-hash-alg"
+ #define BLOCK_CRYPTO_OPT_LUKS_HASH_ALG "hash-alg"
+ #define BLOCK_CRYPTO_OPT_LUKS_ITER_TIME "iter-time"
++#define BLOCK_CRYPTO_OPT_LUKS_KEYSLOT "keyslot"
++#define BLOCK_CRYPTO_OPT_LUKS_STATE "state"
++#define BLOCK_CRYPTO_OPT_LUKS_OLD_SECRET "old-secret"
++#define BLOCK_CRYPTO_OPT_LUKS_NEW_SECRET "new-secret"
++
+=20
+ #define BLOCK_CRYPTO_OPT_DEF_LUKS_KEY_SECRET(prefix)                    \
+     BLOCK_CRYPTO_OPT_DEF_KEY_SECRET(prefix,                             \
+@@ -88,6 +93,35 @@
+         .help =3D "Time to spend in PBKDF in milliseconds",     \
+     }
+=20
++#define BLOCK_CRYPTO_OPT_DEF_LUKS_STATE(prefix)                           =
+\
++    {                                                                     =
+\
++        .name =3D prefix BLOCK_CRYPTO_OPT_LUKS_STATE,                     =
+  \
++        .type =3D QEMU_OPT_STRING,                                        =
+  \
++        .help =3D "Select new state of affected keyslots (active/inactive)=
+",\
++    }
++
++#define BLOCK_CRYPTO_OPT_DEF_LUKS_KEYSLOT(prefix)              \
++    {                                                          \
++        .name =3D prefix BLOCK_CRYPTO_OPT_LUKS_KEYSLOT,          \
++        .type =3D QEMU_OPT_NUMBER,                               \
++        .help =3D "Select a single keyslot to modify explicitly",\
++    }
++
++#define BLOCK_CRYPTO_OPT_DEF_LUKS_OLD_SECRET(prefix)            \
++    {                                                           \
++        .name =3D prefix BLOCK_CRYPTO_OPT_LUKS_OLD_SECRET,        \
++        .type =3D QEMU_OPT_STRING,                                \
++        .help =3D "Select all keyslots that match this password", \
++    }
++
++#define BLOCK_CRYPTO_OPT_DEF_LUKS_NEW_SECRET(prefix)            \
++    {                                                           \
++        .name =3D prefix BLOCK_CRYPTO_OPT_LUKS_NEW_SECRET,        \
++        .type =3D QEMU_OPT_STRING,                                \
++        .help =3D "New secret to set in the matching keyslots. "  \
++                "Empty string to erase",                        \
++    }
++
+ QCryptoBlockCreateOptions *
+ block_crypto_create_opts_init(QDict *opts, Error **errp);
 =20
 --=20
 2.17.2
