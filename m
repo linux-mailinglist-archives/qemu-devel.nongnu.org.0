@@ -2,106 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55C31C8529
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 10:53:43 +0200 (CEST)
-Received: from localhost ([::1]:40972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBDB31C852F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 10:55:30 +0200 (CEST)
+Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWcHm-0001SV-V4
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 04:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52254)
+	id 1jWcJV-0004Mr-TD
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 04:55:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWcDK-00026D-6D; Thu, 07 May 2020 04:49:06 -0400
-Received: from mail-eopbgr40111.outbound.protection.outlook.com
- ([40.107.4.111]:2308 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWcDJ-0006ET-4r; Thu, 07 May 2020 04:49:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O6pmF64j7uHEuEEEBMBPRsh3XGO43FA2YZyC/SBt5SfysVLQ/MK+2jojedAuzZ6P8Ovil/i3g62vZMRjvI5Ypbss+nCmX+nt7DENKI3PkyphFENjfOy59hshEJioursrfjkBP27pdChFGlP2y+Xf6PRbfEKgrwt/tIx6Ol32aSa+RMvd7Ee8U+G1MyN+RIyKfHzS6be+weM1eDPBJYHe3Bxhs7SLOhmSVYIlTY/phRvB1txAjx1mL4OZT9/zOGe3p3rjniO6/Azuk34qQVtvcTA3uorxc/6bPn+zKUlOz/iAerOZYdyndDaNwlDkc0Lf+dkwKaOqgLOWFQGd6TWTPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mn/VD7SGrYD9isyxJr+qPCOSGyJdWiVJSY29xgLanPk=;
- b=Fk6TPV+WiPV+QvIXMyaPEb/iYNiVB48z5Ut6vPW1Vrr7np0kFM+FMDZnG0NONxE9Vu9YahgUBpHrHYJk5FHgST+SMR5Uq5PYiyKnuK2Ta45NF4qqPDSKrVO8rNmXZxMCN7lQP3xwznAoK0s246yYFPrEZC4Told/upFeMtZy/jQRagFLW9rgx3bDOBOj8EJcTeDoDt76UWzO6MYxCp0zfg3kdlbCTj9oLuSOFBXuTKkx9ZWt7q3lNwQmxZYBId4NtoHMQZC8cuihFX13WttwGE09jRya7b5CNN5yyBj2lTMOAaUxe2K+aOHKu7YtpXA2hIr6mJmIvvQx4JigPbaX/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mn/VD7SGrYD9isyxJr+qPCOSGyJdWiVJSY29xgLanPk=;
- b=IVrfCsqVBTdTOF9LTfhjtSRHFVyCFA6zXJr2+blDVo+M+vErpw+MAd6KGEEPfR+gwqIYtmK+H5/CqAJHK3U0bWYzAEISq24VLSbJwHBCwwABxu4Jf3LUpqjF9WSl4sBfGqP8Lu7d30U17MoV3CE8b5UYw2+NxiafvFaoRd7HMTM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5495.eurprd08.prod.outlook.com (2603:10a6:20b:104::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Thu, 7 May
- 2020 08:48:44 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.034; Thu, 7 May 2020
- 08:48:44 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 9/9] block: drop unallocated_blocks_are_zero
-Date: Thu,  7 May 2020 11:48:00 +0300
-Message-Id: <20200507084800.20596-10-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200507084800.20596-1-vsementsov@virtuozzo.com>
-References: <20200507084800.20596-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0034.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::21) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jWcDg-0002zn-9w
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 04:49:28 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:22041
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jWcDf-0007Ny-6d
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 04:49:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588841366;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=TEBDyPZg+tWEo8hM9o2TLwMBbs4f3EjolsavhpT8kMI=;
+ b=jCtklF/0s4kKJl/Lp74ria+VeoczemD0+dIpkZ8/qokAtVBxeMyzvfCV1XFfJD0zQv25TC
+ Li1phhCkTX3eAKQM2LoAguvg5Osbuy8eoBgYo8jFPc2DLZggZ1RKHiYmUMSe1R5449ozu2
+ HDR6iAUi8g0HO36SU9evcFJiabNA11k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-86-7k8xdBYiM_edQs4p2x4iJQ-1; Thu, 07 May 2020 04:49:22 -0400
+X-MC-Unique: 7k8xdBYiM_edQs4p2x4iJQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72E01464;
+ Thu,  7 May 2020 08:49:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-92.ams2.redhat.com
+ [10.36.114.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DDF5462952;
+ Thu,  7 May 2020 08:49:19 +0000 (UTC)
+Subject: Re: [PATCH v3 09/33] block: Add generic bdrv_inherited_options()
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20200218124242.584644-1-mreitz@redhat.com>
+ <20200218124242.584644-10-mreitz@redhat.com>
+ <20200506103722.GB6333@linux.fritz.box>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <7d226c94-2f14-eddb-b795-f8a961023947@redhat.com>
+Date: Thu, 7 May 2020 10:49:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.171) by
- FR2P281CA0034.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.26 via Frontend Transport; Thu, 7 May 2020 08:48:43 +0000
-X-Mailer: git-send-email 2.21.0
-X-Originating-IP: [185.215.60.171]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 30ffff44-3b0b-43eb-f2a5-08d7f2637330
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5495:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54958463528EE0DCE6E51CA6C1A50@AM7PR08MB5495.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
-X-Forefront-PRVS: 03965EFC76
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bIhS0CMUsznp6sgxyExV7gPz/tMhgh1oJlcF/wAP0CTi4c5XBHJkuVAFnpw5wzaYVGFCcag9KVGV3H3NWK4XOnxRt1owEsNbrvavoRSaeFB5PyfB6IP2B5JtwfnSu7JbFkYCliA/3p/lhCYJ3LUjCQ0tDTqyv5ScjoOANiJehzdoxpdPhR84rnORSI4yp6dgoM+xfL/amL2OpHQ8712YVqHVuS/iimTbiz2ApjPEoPTEcGvh5/MzD4WPc9rSmv4CMaeKRDFwdX8Zptrvu1BtTMl7qCyiIu3mODaotRgOOTI6m1yJWQzV/wFL4sgPM4auZZ9lBvMkWPnXHap2hwYC8sLSPARDubT/gn8ffxEGEE5CTe3QGeJ7N96Kuy35257w/42KOhC52wUlYOBFHJqD8o2KS4SmRrLuln5ndwvMyjOYLkPUcD+/GYqK6tZLLBftcJKSC4d+ogA6H855a2GCe7G98NiQOPedIN2cSz9cE7BzBHrqvbyXsqR1GakaeJJR6K43X6vq9SYjK5xkWjHsRd+qw5MvVUAQ1/cJLOiOibQGu7gfPaXCawqq1Su53In0
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(346002)(39850400004)(396003)(366004)(136003)(33430700001)(4326008)(478600001)(107886003)(66476007)(66946007)(66556008)(5660300002)(69590400007)(2906002)(52116002)(7416002)(6486002)(1076003)(36756003)(86362001)(6512007)(83280400001)(6916009)(186003)(16526019)(83320400001)(956004)(26005)(33440700001)(8676002)(83300400001)(83290400001)(6666004)(2616005)(83310400001)(8936002)(6506007)(316002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: rXTvLwBxwv677CGecbRAtwyaMABTZD1jFtTr2HTkVZF2jloOXS0OXdVvmfgfUnGuu4aJ4ETKJr+Vd0cYt1v5Y3O4NsO1zh7iFDJtUKQGEdi3pjRhEB1AwYHoa1ACOGZFQmCSyW+OLQpkAtFHVWy23E6jXXRyLVirOuHxccUJo2dEsYwtv+8CZUxiepaz9uv7uECUOxDIR/iu5hVMMNAI28pvUY4SjwyjMkFIbtL2N1Cxsb/4I3eBDzxX7fWAit3G7uzWa0zbU5XIGFChOHdVHhw8mrCI00qXcmnI/TZQMBrqgJoYalQbDRm/4mOARenBpxVg5qRuRX2RBAanj6NULsuQ4+UqXjXOyl4dSrMf2LzcZQqrjtQ46T9irOa+MtOzkZn2XvufQqg+GYbUBzZSFdtoqM88bwhuXD6hpBB/RLqLnIB/zD90BJ6H13rZrM5XsF8ZUiIWiqsSPyz6+T1Ka4jKWsTngoKdo4gkoZDd/s8g4ND0QLqQxrVkclPnT0LmOLs7c+luIzmtiQiK48Hy9KmtWvJZkvf6Y7C1nYDqhIkhkEcrQKZdZk/hDYKC8Yrx1Ygry6la3UKj73NH8++abSHe6QkJLaXR6aZWrDsnalbhgi0SFGH8qXWQmq60IHgOiG7A6oZO/AzUiJv0mnxAb6jjdehElspHIfSrNUcLdtv1FpOiru63siZ/c+nLoxW6spkRM3sEN9UwTDaRWK7nlijypPKbLZSv3DcD6PHyhH4QVuZKJTZjy5H2jkQ2pPkQSFF6GANSrOxDttgAE14j0sMJulje4klRzxkWAfrVYLQ=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30ffff44-3b0b-43eb-f2a5-08d7f2637330
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2020 08:48:44.6905 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Mqd1F2d3sEk5tL4I6K/S6Oxdf+tfOPWUrvI878BOcijcL/SWzrp+gA6NDqsqNY1DaPpt59R+JedmIfw4mGP1jy7xhVL3hRGf6G538mg9AA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5495
-Received-SPF: pass client-ip=40.107.4.111;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 04:48:35
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20200506103722.GB6333@linux.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="XJL9UXjnNVfCqg5hRGcUPHHgUkIN9dfsM"
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,121 +106,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- stefanha@redhat.com, codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de,
- qemu-devel@nongnu.org, mreitz@redhat.com, ronniesahlberg@gmail.com,
- den@openvz.org, pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently this field only set by qed and qcow2. But in fact, all
-backing-supporting formats (parallels, qcow, qcow2, qed, vmdk) share
-these semantics: on unallocated blocks, if there is no backing file they
-just memset the buffer with zeroes.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--XJL9UXjnNVfCqg5hRGcUPHHgUkIN9dfsM
+Content-Type: multipart/mixed; boundary="fRBdyO9iKXoZZYyzxABrzEY8HlCWT20IL"
 
-So, document this behavior for .supports_backing and drop
-.unallocated_blocks_are_zero
+--fRBdyO9iKXoZZYyzxABrzEY8HlCWT20IL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- include/block/block.h     |  5 -----
- include/block/block_int.h | 12 +++++++++++-
- block/io.c                |  9 ++-------
- block/qcow2.c             |  1 -
- block/qed.c               |  1 -
- 5 files changed, 13 insertions(+), 15 deletions(-)
+On 06.05.20 12:37, Kevin Wolf wrote:
+> Am 18.02.2020 um 13:42 hat Max Reitz geschrieben:
+>> After the series this patch belongs to, we want to have a common
+>> BdrvChildClass that encompasses all of child_file, child_format, and
+>> child_backing.  Such a single class needs a single .inherit_options()
+>> implementation, and this patch introduces it.
+>>
+>> The next patch will show how the existing implementations can fall back
+>> to it just by passing appropriate BdrvChildRole and parent_is_format
+>> values.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> ---
+>>  block.c | 84 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 84 insertions(+)
+>>
+>> diff --git a/block.c b/block.c
+>> index c33f0e9b42..9179b9b604 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -998,6 +998,90 @@ static void bdrv_temp_snapshot_options(int *child_f=
+lags, QDict *child_options,
+>>      *child_flags &=3D ~BDRV_O_NATIVE_AIO;
+>>  }
+>> =20
+>> +/*
+>> + * Returns the options and flags that a generic child of a BDS should
+>> + * get, based on the given options and flags for the parent BDS.
+>> + */
+>> +static void __attribute__((unused))
+>> +    bdrv_inherited_options(BdrvChildRole role, bool parent_is_format,
+>> +                           int *child_flags, QDict *child_options,
+>> +                           int parent_flags, QDict *parent_options)
+>> +{
+>> +    int flags =3D parent_flags;
+>> +
+>> +    /*
+>> +     * First, decide whether to set, clear, or leave BDRV_O_PROTOCOL.
+>> +     * Generally, the question to answer is: Should this child be
+>> +     * format-probed by default?
+>> +     */
+>> +
+>> +    /*
+>> +     * Pure and non-filtered data children of non-format nodes should
+>> +     * be probed by default (even when the node itself has BDRV_O_PROTO=
+COL
+>> +     * set).  This only affects a very limited set of drivers (namely
+>> +     * quorum and blkverify when this comment was written).
+>> +     * Force-clear BDRV_O_PROTOCOL then.
+>> +     */
+>> +    if (!parent_is_format &&
+>> +        (role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
+>> +                 BDRV_CHILD_FILTERED)) =3D=3D
+>> +            BDRV_CHILD_DATA)
+>=20
+> You could avoid the odd indentation (I can't decide whether or not it
+> should be one space more to align correctly) and probably also make the
+> expression more readable if you split it into:
+>=20
+>     (role & BDRV_CHILD_DATA) &&
+>     !(role & (BDRV_CHILD_METADATA | BDRV_CHILD_FILTERED))
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 931003a476..db1cb503ec 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -21,11 +21,6 @@ typedef struct BlockDriverInfo {
-     /* offset at which the VM state can be saved (0 if not possible) */
-     int64_t vm_state_offset;
-     bool is_dirty;
--    /*
--     * True if unallocated blocks read back as zeroes. This is equivalent
--     * to the LBPRZ flag in the SCSI logical block provisioning page.
--     */
--    bool unallocated_blocks_are_zero;
-     /*
-      * True if this block driver only supports compressed writes
-      */
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 92335f33c7..8fac6c3ce2 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -115,7 +115,17 @@ struct BlockDriver {
-      */
-     bool bdrv_needs_filename;
- 
--    /* Set if a driver can support backing files */
-+    /*
-+     * Set if a driver can support backing files. This also implies the
-+     * following semantics:
-+     *
-+     *  - Return status 0 of .bdrv_co_block_status means that corresponding
-+     *    blocks are not allocated in this layer of backing-chain
-+     *  - For such (unallocated) blocks, read will:
-+     *    - fill buffer with zeros if there is no backing file
-+     *    - read from the backing file otherwise, where the block layer
-+     *      takes care of reading zeros beyond EOF if backing file is short
-+     */
-     bool supports_backing;
- 
-     /* For handling image reopen for split or non-split files */
-diff --git a/block/io.c b/block/io.c
-index 00e7371d50..484adec5a1 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2385,7 +2385,7 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
- 
-     if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
-         ret |= BDRV_BLOCK_ALLOCATED;
--    } else if (want_zero) {
-+    } else if (want_zero && bs->drv->supports_backing) {
-         if (bs->backing) {
-             BlockDriverState *bs2 = bs->backing->bs;
-             int64_t size2 = bdrv_getlength(bs2);
-@@ -2394,12 +2394,7 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
-                 ret |= BDRV_BLOCK_ZERO;
-             }
-         } else {
--            BlockDriverInfo bdi;
--            int ret2 = bdrv_get_info(bs, &bdi);
--
--            if (ret2 == 0 && bdi.unallocated_blocks_are_zero) {
--                ret |= BDRV_BLOCK_ZERO;
--            }
-+            ret |= BDRV_BLOCK_ZERO;
-         }
-     }
- 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 2ba0b17c39..dc3c0aac2b 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4858,7 +4858,6 @@ err:
- static int qcow2_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
- {
-     BDRVQcow2State *s = bs->opaque;
--    bdi->unallocated_blocks_are_zero = true;
-     bdi->cluster_size = s->cluster_size;
-     bdi->vm_state_offset = qcow2_vm_state_offset(s);
-     return 0;
-diff --git a/block/qed.c b/block/qed.c
-index b0fdb8f565..fb7833dc8b 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -1514,7 +1514,6 @@ static int bdrv_qed_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-     memset(bdi, 0, sizeof(*bdi));
-     bdi->cluster_size = s->header.cluster_size;
-     bdi->is_dirty = s->header.features & QED_F_NEED_CHECK;
--    bdi->unallocated_blocks_are_zero = true;
-     return 0;
- }
- 
--- 
-2.21.0
+Yes, looks good.
+
+>> +    {
+>> +        flags &=3D ~BDRV_O_PROTOCOL;
+>> +    }
+>> +
+>> +    /*
+>> +     * All children of format nodes (except for COW children) and all
+>> +     * metadata children in general should never be format-probed.
+>> +     * Force-set BDRV_O_PROTOCOL then.
+>> +     */
+>> +    if ((parent_is_format && !(role & BDRV_CHILD_COW)) ||
+>> +        (role & BDRV_CHILD_METADATA))
+>> +    {
+>> +        flags |=3D BDRV_O_PROTOCOL;
+>> +    }
+>> +
+>> +    /*
+>> +     * If the cache mode isn't explicitly set, inherit direct and no-fl=
+ush from
+>> +     * the parent.
+>> +     */
+>> +    qdict_copy_default(child_options, parent_options, BDRV_OPT_CACHE_DI=
+RECT);
+>> +    qdict_copy_default(child_options, parent_options, BDRV_OPT_CACHE_NO=
+_FLUSH);
+>> +    qdict_copy_default(child_options, parent_options, BDRV_OPT_FORCE_SH=
+ARE);
+>> +
+>> +    if (role & BDRV_CHILD_COW) {
+>> +        /* backing files are always opened read-only */
+>=20
+> Not "always", just by default.
+
+OK.  I just copied the comment from bdrv_backing_options().
+
+>> +        qdict_set_default_str(child_options, BDRV_OPT_READ_ONLY, "on");
+>> +        qdict_set_default_str(child_options, BDRV_OPT_AUTO_READ_ONLY, "=
+off");
+>> +    } else {
+>> +        /* Inherit the read-only option from the parent if it's not set=
+ */
+>> +        qdict_copy_default(child_options, parent_options, BDRV_OPT_READ=
+_ONLY);
+>> +        qdict_copy_default(child_options, parent_options,
+>> +                           BDRV_OPT_AUTO_READ_ONLY);
+>> +    }
+>> +
+>> +    if (parent_is_format && !(role & BDRV_CHILD_COW)) {
+>> +        /*
+>> +         * Our format drivers take care to send flushes and respect
+>> +         * unmap policy, so we can default to enable both on lower
+>> +         * layers regardless of the corresponding parent options.
+>> +         */
+>> +        qdict_set_default_str(child_options, BDRV_OPT_DISCARD, "unmap")=
+;
+>> +    }
+>=20
+> Why the restriction to format here? Don't we break "unmap" propagation
+> through filters with this?
+
+Right now (before this series), the behavior seems ambiguous, in that
+for filters that use bs->file, it is set, but for those that use
+bs->backing, it isn=E2=80=99t.
+
+But I suspect the main reason for what I did is the way I interpreted
+the comment (which before this series only mentions block drivers in
+general, not specifically format drivers): It sounded to me as if the
+block driver needed to respect the unmap policy, and I didn=E2=80=99t think
+filters did that.  So it was my understanding that filter drivers would
+just propagate discards and thus we couldn=E2=80=99t default-enable unmap o=
+n
+their children.
+
+But I was wrong, the block driver doesn=E2=80=99t need to respect anything,
+because bdrv_co_pdiscard() already does.
+
+So I suppose it should indeed be enabled for all children, with the
+comment changed to express that it isn=E2=80=99t any block driver that resp=
+ects
+unmap policy, but bdrv_co_pdiscard(), e.g.:
+
+bdrv_co_pdiscard() respects unmap policy for the parent, so we can
+default to enable it on lower layers regardless of the parent option.
+
+> It would probably also be a good question why we don't propagate it to
+> the backing file, but this is preexisting.
+
+I suppose we should, although it=E2=80=99s irrelevant, so.  I suppose I=E2=
+=80=99ll just
+drop the parent_is_format, adjust the comment and that should be fine
+for this series.
+
+Max
+
+
+--fRBdyO9iKXoZZYyzxABrzEY8HlCWT20IL--
+
+--XJL9UXjnNVfCqg5hRGcUPHHgUkIN9dfsM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl6zy40ACgkQ9AfbAGHV
+z0AoMwgAkxyDoRcFWFlAXMzWaTNajiievWxXB+BOMyNoyDdKlKZ0dkgnMZYUMyBF
+sGe2zjRE/TagnZdm35kHsZpZ9tqVou8bbX9YzsxNKkz5lkRArdNjxfFctWQZ3o9h
+U4PUKPz8s4N8OVy4XwySKAGAwQsZkz2Jw4ag0TnP+MhoEdqJ25MYWGT6C42cIncR
+c6LV9YAtUNjjqeGHp45cfKS/UUf3PWzrBTsGz9C1cqQcq7zJqb0GCbAd5pzmOxQ4
+xRbpoxkz7Rd4H74vA3f76cK+Y9Oxq01W6B4UQgKUN7X5vPtLPEwDOcNlslkcKx+/
+x1Is+2LUXNnoa+lv7eKkPoptf2N/Qg==
+=0Sj2
+-----END PGP SIGNATURE-----
+
+--XJL9UXjnNVfCqg5hRGcUPHHgUkIN9dfsM--
 
 
