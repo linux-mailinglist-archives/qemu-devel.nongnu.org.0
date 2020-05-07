@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54AF1C9813
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:41:42 +0200 (CEST)
-Received: from localhost ([::1]:39600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB7FE1C9819
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:43:52 +0200 (CEST)
+Received: from localhost ([::1]:48486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWkWj-000658-U8
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:41:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58636)
+	id 1jWkYp-0001cE-JF
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVJ-000428-Ps
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60268
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVQ-0004HS-LK
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:20 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43238
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVI-0001pp-UX
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:13 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVP-0001tV-Mr
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588873211;
+ s=mimecast20190719; t=1588873219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HfPvUKlpTOVQLFy8BwTSc/DXLFLUF3kj7Agr3qTHJq8=;
- b=K0fESeVfYgPq10qfkJo+KGddCzZubOHjAkG+NG8+irVr/ECFDJoCfAhvx5lOuR2oxwUBYG
- aPBUgx1D1jInIcZFPgyfZHNvewqJqUZKS1eUW2L1m9evdoQlIiiICNXhNNSzUvrbyn/+kU
- zA4c/cFr7TUq26wMFPCpw2Fg7CeP/y8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-J646-Ki_MuqQG3feSsJ6uw-1; Thu, 07 May 2020 13:40:10 -0400
-X-MC-Unique: J646-Ki_MuqQG3feSsJ6uw-1
-Received: by mail-wm1-f70.google.com with SMTP id h6so3816541wmi.7
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:40:10 -0700 (PDT)
+ bh=lxO/QfhV7TdK4OIX7B7RR3nAolSQ5KL0SwXgbuIknFc=;
+ b=IrxhOifPTe+j91upsc2c2OXBdBQEeurm9UBtG8tRknIOExAzd0sa11R987aydcVQ9UJ5eH
+ U6aBVutYIqH/ZXSH/rCF0RpviK2nqiOTweuCNc9Qs/MTgn+PO6fzqXQjF2ZTQHZHtqxVy4
+ ffrCBPPNFi4CDF/hw6uYNO3dDG02BM4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-vDE5JFgDPJOIxdrQJLu2sQ-1; Thu, 07 May 2020 13:40:16 -0400
+X-MC-Unique: vDE5JFgDPJOIxdrQJLu2sQ-1
+Received: by mail-wm1-f69.google.com with SMTP id o74so1358353wme.2
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:40:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kxvXFPE6UHybEFXPcbW7yUzdfwvwhz8UFSm+7XHIpoE=;
- b=Pm99cz+oC4SPnthII1gWlcCaGAF77xZAsg0scSkJfCJ6z72muN4mRGIzLvBPoTZjHQ
- 3tF/3TyAA18YUNtmBaOitYq5LQ+DJcLH8M/Am+qCFB+pH6XneGzzrQT/y5pIV6yfz83J
- OMvRf0roJ9xKL9H6wN1+CMR1Z+zI3bUXY4H1TJN2ueI1iMXEXPyKvolAvD5HhTdFfemI
- V3Z+4fTHhDSSWvAqGW8ITmwEnDd/lQTtsDEUMHkhKRiBgtAuEQTFaZvFFZMhIBvfkDOd
- 9ZzYiVTtPPe6w8esyVhYvlAlxaCyLXsQXvsnO1Dr0mDUfaBQRud0JoGIzNvkF65wnw2H
- Ds5A==
-X-Gm-Message-State: AGi0PuYK5uMxZu9q3mWBY3C7kbPTUeMJbemYc94tgMmgxrEUInDrEZfA
- xGM6bSMoMa/5ZwFDfpRNzj1qr6WAl1x8DKvrKy1rRARzeFlWmy6ERaUl/tNrTokz0ZHSuILVDP0
- Z9DBy2IBGIBu080Y=
-X-Received: by 2002:adf:e8c4:: with SMTP id k4mr16056753wrn.209.1588873209110; 
- Thu, 07 May 2020 10:40:09 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKlrGEn0Sc/1RPDvoGn3rAxgVJuKzc8w2GXUIsYM+I8hINTpoVRTGPr4A3JRU1Chjb4djvbRA==
-X-Received: by 2002:adf:e8c4:: with SMTP id k4mr16056726wrn.209.1588873208935; 
- Thu, 07 May 2020 10:40:08 -0700 (PDT)
+ bh=AYsaK9GNOXZIFUV300k/n6Vn/uB0ELw2OsZ7tcgl1LI=;
+ b=KCxjFb4Mvf0PWMi114i882UVszO7MebtyJh9fJvW9FimXet4tFz5dK3EyHnnu/qDta
+ FO5sH01SZ38vpfiD4sYCIFzKX0lk6bpLGCf1fYAgwVnUyWKHm1FBhk0UBcI9R4z2ATSx
+ GiUi539r2O47hXArtRtaK7Oglw8fhD4bQfcVsb8RAVrw9Uc29UMcgYczNMIELKLxKrbd
+ W8hgK9UarOYezHcDkLilgGUACl1iisiIDK7Oj8KVCNiP7TlXcZoihAnM+01gd/biQDtZ
+ kOdJYbIKdRO0VyRfdpoNRYr5+6gzBcMGYaO4NPwPWvEO9rZnIFtqrxZbp6rjXKZ1upvd
+ BnrA==
+X-Gm-Message-State: AGi0PubnphL7TDaBpHAfh0u3a7KRc1B8oxz+RT4gcawiMPr21BnqvdIK
+ ALHKb2PuVRAyBNB/Z6BLPfYl2u8enZsV3zbY/vjiwGeioWpD+XT8uS2lwFe6g7EhtVp6lCUZ+7c
+ Rvnj7Cg4wVUwb5+E=
+X-Received: by 2002:a7b:c3d2:: with SMTP id t18mr3291881wmj.100.1588873215514; 
+ Thu, 07 May 2020 10:40:15 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJ/AaUMzxN6c9AoFV7na/bw7wTqjkWo0VEqXrFVogrggBfyPF77EaBvs4PKan+/nsLzTJ6QVQ==
+X-Received: by 2002:a7b:c3d2:: with SMTP id t18mr3291851wmj.100.1588873215269; 
+ Thu, 07 May 2020 10:40:15 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id t16sm9133352wrm.26.2020.05.07.10.40.06
+ by smtp.gmail.com with ESMTPSA id k23sm8431664wmi.46.2020.05.07.10.40.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 10:40:08 -0700 (PDT)
+ Thu, 07 May 2020 10:40:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH 01/10] exec: Rename qemu_ram_writeback() as qemu_ram_msync()
-Date: Thu,  7 May 2020 19:39:49 +0200
-Message-Id: <20200507173958.25894-2-philmd@redhat.com>
+Subject: [PATCH 02/10] exec/ramblock: Add missing 'qemu/rcu.h' include
+Date: Thu,  7 May 2020 19:39:50 +0200
+Message-Id: <20200507173958.25894-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200507173958.25894-1-philmd@redhat.com>
 References: <20200507173958.25894-1-philmd@redhat.com>
@@ -73,16 +73,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:15:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,89 +103,43 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Richard Henderson <rth@twiddle.net>,
+ qemu-ppc@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Richard Henderson <rth@twiddle.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename qemu_ram_writeback() as qemu_ram_msync() to better
-match what it does.
+The first field of RAMBlock is a rcu_head structure.
+We need to include the "qemu/rcu.h" to avoid errors when
+including "exec/ramblock.h" without "qemu/rcu.h":
 
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+  include/exec/ramblock.h:27:21: error: field =E2=80=98rcu=E2=80=99 has inc=
+omplete type
+     27 |     struct rcu_head rcu;
+        |                     ^~~
+  include/exec/ramblock.h:39:5: error: expected specifier-qualifier-list be=
+fore =E2=80=98QLIST_ENTRY=E2=80=99
+     39 |     QLIST_ENTRY(RAMBlock) next;
+        |     ^~~~~~~~~~~
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/exec/ram_addr.h | 4 ++--
- exec.c                  | 2 +-
- hw/block/nvme.c         | 3 +--
- memory.c                | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
+ include/exec/ramblock.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 4e05292f91..7b5c24e928 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -136,12 +136,12 @@ void qemu_ram_free(RAMBlock *block);
+diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+index 07d50864d8..6ac0aa7a89 100644
+--- a/include/exec/ramblock.h
++++ b/include/exec/ramblock.h
+@@ -21,6 +21,7 @@
 =20
- int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp);
+ #ifndef CONFIG_USER_ONLY
+ #include "cpu-common.h"
++#include "qemu/rcu.h"
 =20
--void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t leng=
-th);
-+void qemu_ram_msync(RAMBlock *block, ram_addr_t start, ram_addr_t length);
-=20
- /* Clear whole block of mem */
- static inline void qemu_ram_block_writeback(RAMBlock *block)
- {
--    qemu_ram_writeback(block, 0, block->used_length);
-+    qemu_ram_msync(block, 0, block->used_length);
- }
-=20
- #define DIRTY_CLIENTS_ALL     ((1 << DIRTY_MEMORY_NUM) - 1)
-diff --git a/exec.c b/exec.c
-index 2874bb5088..f5a8cdf370 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2127,7 +2127,7 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsi=
-ze, Error **errp)
-  * Otherwise no-op.
-  * @Note: this is supposed to be a synchronous op.
-  */
--void qemu_ram_writeback(RAMBlock *block, ram_addr_t start, ram_addr_t leng=
-th)
-+void qemu_ram_msync(RAMBlock *block, ram_addr_t start, ram_addr_t length)
- {
-     /* The requested range should fit in within the block range */
-     g_assert((start + length) <=3D block->used_length);
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 9b453423cf..21a199e53b 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1207,8 +1207,7 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr a=
-ddr, unsigned size)
-          */
-         if (addr =3D=3D 0xE08 &&
-             (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02)) {
--            qemu_ram_writeback(n->pmrdev->mr.ram_block,
--                               0, n->pmrdev->size);
-+            qemu_ram_msync(n->pmrdev->mr.ram_block, 0, n->pmrdev->size);
-         }
-         memcpy(&val, ptr + addr, size);
-     } else {
-diff --git a/memory.c b/memory.c
-index 601b749906..3e65e33ac4 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2205,7 +2205,7 @@ void memory_region_do_writeback(MemoryRegion *mr, hwa=
-ddr addr, hwaddr size)
-      * different types of memory regions
-      */
-     if (mr->ram_block && mr->dirty_log_mask) {
--        qemu_ram_writeback(mr->ram_block, addr, size);
-+        qemu_ram_msync(mr->ram_block, addr, size);
-     }
- }
-=20
+ struct RAMBlock {
+     struct rcu_head rcu;
 --=20
 2.21.3
 
