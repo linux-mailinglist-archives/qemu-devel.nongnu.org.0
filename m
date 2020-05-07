@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1591C982E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:45:39 +0200 (CEST)
-Received: from localhost ([::1]:55922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7508D1C9817
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:42:47 +0200 (CEST)
+Received: from localhost ([::1]:42358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWkaW-0004mZ-Ua
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
+	id 1jWkXm-0007Iz-3r
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVd-0004cw-1J
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:33 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55916
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVj-0004ty-Fc
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:39 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24304
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVb-000238-OY
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:32 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVh-000243-Vp
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588873230;
+ s=mimecast20190719; t=1588873237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DTInzwfX63p1qih9M+Dgx3t+UyJi8t1Fm5i0KyZ44dI=;
- b=dilP+YDoYFV0p+PcNr3yDD9pVVV/giapUSXUxxCa20OjyyoUpbpTrx1sndwwKF8mcDzvpK
- hrLnhOlXfWMSq6NL5M6h/Ez1R3EFtB36hbY7gwIVBWTbq1/Pikz1nLhfDgZ7XuqChDnNwx
- Ltu/aSPETncIYlJzhAiEoTiwSwv5C80=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-Td0NmQ9GMdKRYqYPmoGBsQ-1; Thu, 07 May 2020 13:40:29 -0400
-X-MC-Unique: Td0NmQ9GMdKRYqYPmoGBsQ-1
-Received: by mail-wm1-f69.google.com with SMTP id o26so3019873wmh.1
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:40:29 -0700 (PDT)
+ bh=ZdFZ0OjE1DpAAVLNEZIjDa8uv1PWgwWozsvTfYsCYTw=;
+ b=fqs3NY0MwEsFXhtfJZVQcYghaYguR6/N/SVruP9SufuA2o/YO+MkzX/1CsEc6+2wcFCChy
+ qxO7yCzlK/9GwPq2UopMK7xw3tErMECxM1hzc0XZ5fkwrMmo2MOkGhrkQJ5PpzdAs2kStI
+ hLc7G3vtQHU7FNjpcB8jk8JZl6qsOt4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-495-kddcGn7pNz6SBaZFLnbpHw-1; Thu, 07 May 2020 13:40:35 -0400
+X-MC-Unique: kddcGn7pNz6SBaZFLnbpHw-1
+Received: by mail-wm1-f71.google.com with SMTP id w189so134751wmg.1
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:40:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cufZfBHIUwQzCgzD4HBPhihgc0XcJ+ZYlhn0GKj8V9k=;
- b=ZT2tHtA5uhE52AdZADDY6WKcVUAdZYvKFZW95XUvDCiNLZBx9zZiHC0ggYhPNQvCsA
- G4m79pRAbHmajkSaecqPyiPTtkDmE3yPtlC+mKfp67oCHYRpmVJOzrAFgG1GevvW2m44
- bpRVHOyz1t6g5563+0HF0EKzTz2t15jTyYWathbIp4KHMm6kbmSejB55URS1uPAVw7Cp
- 44tuHf5fo/4UG5+gPjj+KdOlrTUlbwpIxE8R5KlJHhtclPBcb55StYn4WLAsSBxWFvXb
- 5XO9pvPT3A3O6fdVzniKrgSDbaURPF5jZCKSiPTS5WiGpkkS29e6he0mBx73+ByVHROa
- 5tRg==
-X-Gm-Message-State: AGi0PubA2nr5v2aJDweZJmaCTMUdSDze5ts/NHSdRpG88liBbGYISfud
- bDP8Oyd9Dq8gS3n3hybQ+ctJ+7yVCawCaisVz4wbRaTWkMaVTOckOmyMipm5CG+lHuiGtY6zeHY
- v1237+CTzywUQhj4=
-X-Received: by 2002:a1c:5642:: with SMTP id k63mr11361487wmb.188.1588873228044; 
- Thu, 07 May 2020 10:40:28 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJbDQPmlpA5L5mUbNL57avc7o0U8xeDyRm/PDLK7AdA2hywNGuD6taYQC/vj9FG7kxQww3kOw==
-X-Received: by 2002:a1c:5642:: with SMTP id k63mr11361466wmb.188.1588873227814; 
- Thu, 07 May 2020 10:40:27 -0700 (PDT)
+ bh=DuSlgYQW6m0eg/30d5EZD9dD1Dk0rLysx3QIzLKclSo=;
+ b=k/CNdeo/yrfjbUl9ArfQASE6veMhP///cHGEqWYF+TEoJ0Mw1B/uJxree8mMHjdD6E
+ LO5hAgqsie81EoEyNFAPUxXFNRWCCyHVzVj3cIsYQchjVbdkQlqIHETKZH34E7sXKPaX
+ 04pD4EhWX8e/1vB53J68drJv/oL2fg21KhSiAX1sMWF3nFuM6ufvH+55mZPUaPiw7I6v
+ rqeAZIic0yJygoYHcl2AoFf6sguYU4QKMSM/XYaMT2F4YRn0QSTN5Ww7d7n0ntxN6TWk
+ S1vQy0rxfvRECsSeJsFMo3FNgi0c6zYKlpipl4uX2zQ9sSwH4JhWg2Y30VCyKlxQFcPi
+ ihXg==
+X-Gm-Message-State: AGi0Pua8IYafI3NjS1YmTozer/m1DdZKLQsJx6ootJlJjX25H+5ujmya
+ WTqgjJTiPRYJOLrAsKHC8ivHJZeBmQ0Ru4tahhxCOPn7qd93Pq0RXvxEWG4/CL5stN9Tpohihi0
+ jkbjeJBfmQJmvi2k=
+X-Received: by 2002:a1c:7e82:: with SMTP id z124mr4412726wmc.53.1588873234572; 
+ Thu, 07 May 2020 10:40:34 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIUjywJdc7qvMuEX/G7gKNbNfCgRlvC+A643ONE2kdTVge32hF2c0AYqiGKGwl93xhWiL4H5g==
+X-Received: by 2002:a1c:7e82:: with SMTP id z124mr4412705wmc.53.1588873234244; 
+ Thu, 07 May 2020 10:40:34 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id x5sm8941896wro.12.2020.05.07.10.40.25
+ by smtp.gmail.com with ESMTPSA id c190sm9535898wme.10.2020.05.07.10.40.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 10:40:27 -0700 (PDT)
+ Thu, 07 May 2020 10:40:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH 04/10] exec/memory-internal: Check CONFIG_SOFTMMU instead of
- CONFIG_USER_ONLY
-Date: Thu,  7 May 2020 19:39:52 +0200
-Message-Id: <20200507173958.25894-5-philmd@redhat.com>
+Subject: [PATCH 05/10] exec: Move qemu_minrampagesize/qemu_maxrampagesize to
+ 'qemu-common.h'
+Date: Thu,  7 May 2020 19:39:53 +0200
+Message-Id: <20200507173958.25894-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200507173958.25894-1-philmd@redhat.com>
 References: <20200507173958.25894-1-philmd@redhat.com>
@@ -74,17 +74,17 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,7 +100,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
@@ -111,29 +112,105 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The CONFIG_SOFTMMU definition is poisoned in "exec/poison.h".
-As this header is internal, check for poisoned CONFIG_SOFTMMU
-instead of CONFIG_USER_ONLY to make this include harder to use.
+Move these generic functions to a more common place, with other
+functions related to host page size. Document a little.
 
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/exec/memory-internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/ram_addr.h    |  3 ---
+ include/qemu-common.h      | 10 ++++++++++
+ hw/ppc/spapr_caps.c        |  2 +-
+ hw/s390x/s390-virtio-ccw.c |  1 +
+ hw/vfio/spapr.c            |  2 +-
+ 5 files changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/include/exec/memory-internal.h b/include/exec/memory-internal.=
-h
-index 9fcc2af25c..b2b7c1e78a 100644
---- a/include/exec/memory-internal.h
-+++ b/include/exec/memory-internal.h
-@@ -22,7 +22,7 @@
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 06096e8c6a..195b67d3c8 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -93,9 +93,6 @@ static inline unsigned long int ramblock_recv_bitmap_offs=
+et(void *host_addr,
 =20
+ bool ramblock_is_pmem(RAMBlock *rb);
+=20
+-long qemu_minrampagesize(void);
+-long qemu_maxrampagesize(void);
+-
+ /**
+  * qemu_ram_alloc_from_file,
+  * qemu_ram_alloc_from_fd:  Allocate a ram block from the specified backin=
+g
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index d0142f29ac..2821a6ef76 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -80,6 +80,16 @@ bool set_preferred_target_page_bits(int bits);
+  */
+ void finalize_target_page_bits(void);
+=20
++/**
++ * qemu_minrampagesize:
++ * qemu_maxrampagesize:
++ *
++ * If backed via -memdev, return the device page size,
++ * else return the host kernel page size.
++ */
++long qemu_minrampagesize(void);
++long qemu_maxrampagesize(void);
++
+ /**
+  * Sends a (part of) iovec down a socket, yielding when the socket is full=
+, or
+  * Receives data into a (part of) iovec from a socket,
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index eb54f94227..33a802a103 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -23,11 +23,11 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "sysemu/hw_accel.h"
+-#include "exec/ram_addr.h"
+ #include "target/ppc/cpu.h"
+ #include "target/ppc/mmu-hash64.h"
+ #include "cpu-models.h"
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index f660070d22..c009384505 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -12,6 +12,7 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "qapi/error.h"
  #include "cpu.h"
+ #include "hw/boards.h"
+diff --git a/hw/vfio/spapr.c b/hw/vfio/spapr.c
+index 2900bd1941..c64db940a7 100644
+--- a/hw/vfio/spapr.c
++++ b/hw/vfio/spapr.c
+@@ -9,13 +9,13 @@
+  */
 =20
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_SOFTMMU
- static inline AddressSpaceDispatch *flatview_to_dispatch(FlatView *fv)
- {
-     return fv->dispatch;
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ #include "cpu.h"
+ #include <sys/ioctl.h>
+ #include <linux/vfio.h>
+=20
+ #include "hw/vfio/vfio-common.h"
+ #include "hw/hw.h"
+-#include "exec/ram_addr.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "trace.h"
 --=20
 2.21.3
 
