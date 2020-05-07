@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F741C9721
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:07:22 +0200 (CEST)
-Received: from localhost ([::1]:44276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7E91C973E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:14:18 +0200 (CEST)
+Received: from localhost ([::1]:42396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWjzV-0001zF-Vb
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51528)
+	id 1jWk6D-0005J5-5s
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:14:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWjvP-0005h9-Rx
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:03:07 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55944
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWjvO-0001wT-QZ
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:03:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588870985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b3mSP3+ZZbdihoIHFS6AI5mby/iNLpFsgph7o8h9bYA=;
- b=QjoNxZMCkjp0PAR1LyNsDhmXGSEi0ZXGrpwpJN4VPMYG3JjTDuGiG7LMN2aswaIphxwpXf
- gmtVEKQZ8G0PX/NaEFp/kEHMKVwGJb9L9aFLBEwTrlJMlX9Gz8Het1wSIXkdoA78lJvBa4
- /OI+rjg0Sv+JbnPttQyN0tEWD6X9Vew=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-pLp3JQV_Peq0NbSOw4thEQ-1; Thu, 07 May 2020 13:03:03 -0400
-X-MC-Unique: pLp3JQV_Peq0NbSOw4thEQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 416171005510;
- Thu,  7 May 2020 17:03:02 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-224.ams2.redhat.com
- [10.36.114.224])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3980410013BD;
- Thu,  7 May 2020 17:03:00 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
- maozhongyi@cmss.chinamobile.com, marcandre.lureau@redhat.com,
- pannengyuan@huawei.com, f4bug@amsat.org, wei.w.wang@intel.com,
- yi.y.sun@intel.com, quintela@redhat.com
-Subject: [PULL 12/12] migration/multifd: Do error_free after migrate_set_error
- to avoid memleaks
-Date: Thu,  7 May 2020 18:02:11 +0100
-Message-Id: <20200507170211.238283-13-dgilbert@redhat.com>
-In-Reply-To: <20200507170211.238283-1-dgilbert@redhat.com>
-References: <20200507170211.238283-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWk2m-0001aL-Qj
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:10:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWk2l-00013M-9v
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:10:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jWk2i-0002jG-BM
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 17:10:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4F32F2E80E7
+ for <qemu-devel@nongnu.org>; Thu,  7 May 2020 17:10:40 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Date: Thu, 07 May 2020 17:02:45 -0000
+From: Bump <1877418@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bump55
+X-Launchpad-Bug-Reporter: Bump (bump55)
+X-Launchpad-Bug-Modifier: Bump (bump55)
+Message-Id: <158887096525.4808.16857448132122344597.malonedeb@soybean.canonical.com>
+Subject: [Bug 1877418] [NEW] qemu-nbd freezes access to VDI file
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 6bebcc2d64a06c5738a6c14674ddc16d98344594
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 13:10:40
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,103 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1877418 <1877418@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
+Public bug reported:
 
-When error happen in multifd_send_thread, it use error_copy to set migrate =
-error in
-multifd_send_terminate_threads(). We should call error_free after it.
+Mounted Oracle Virtualbox .vdi drive, which has GTP+BTRFS:
+sudo qemu-nbd -c /dev/nbd0 /storage/btrfs.vdi
 
-Similarly, fix another two places in multifd_recv_thread/multifd_save_clean=
-up.
+Then I am operating on the btrfs filesystem and suddenly it freezes.
 
-The leak stack:
-Direct leak of 48 byte(s) in 1 object(s) allocated from:
-    #0 0x7f781af07cf0 in calloc (/lib64/libasan.so.5+0xefcf0)
-    #1 0x7f781a2ce22d in g_malloc0 (/lib64/libglib-2.0.so.0+0x5322d)
-    #2 0x55ee1d075c17 in error_setv /mnt/sdb/backup/qemu/util/error.c:61
-    #3 0x55ee1d076464 in error_setg_errno_internal /mnt/sdb/backup/qemu/uti=
-l/error.c:109
-    #4 0x55ee1cef066e in qio_channel_socket_writev /mnt/sdb/backup/qemu/io/=
-channel-socket.c:569
-    #5 0x55ee1cee806b in qio_channel_writev /mnt/sdb/backup/qemu/io/channel=
-.c:207
-    #6 0x55ee1cee806b in qio_channel_writev_all /mnt/sdb/backup/qemu/io/cha=
-nnel.c:171
-    #7 0x55ee1cee8248 in qio_channel_write_all /mnt/sdb/backup/qemu/io/chan=
-nel.c:257
-    #8 0x55ee1ca12c9a in multifd_send_thread /mnt/sdb/backup/qemu/migration=
-/multifd.c:657
-    #9 0x55ee1d0607fc in qemu_thread_start /mnt/sdb/backup/qemu/util/qemu-t=
-hread-posix.c:519
-    #10 0x7f78159ae2dd in start_thread (/lib64/libpthread.so.0+0x82dd)
-    #11 0x7f78156df4b2 in __GI___clone (/lib64/libc.so.6+0xfc4b2)
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-Indirect leak of 52 byte(s) in 1 object(s) allocated from:
-    #0 0x7f781af07f28 in __interceptor_realloc (/lib64/libasan.so.5+0xeff28=
-)
-    #1 0x7f78156f07d9 in __GI___vasprintf_chk (/lib64/libc.so.6+0x10d7d9)
-    #2 0x7f781a30ea6c in g_vasprintf (/lib64/libglib-2.0.so.0+0x93a6c)
-    #3 0x7f781a2e7cd0 in g_strdup_vprintf (/lib64/libglib-2.0.so.0+0x6ccd0)
-    #4 0x7f781a2e7d8c in g_strdup_printf (/lib64/libglib-2.0.so.0+0x6cd8c)
-    #5 0x55ee1d075c86 in error_setv /mnt/sdb/backup/qemu/util/error.c:65
-    #6 0x55ee1d076464 in error_setg_errno_internal /mnt/sdb/backup/qemu/uti=
-l/error.c:109
-    #7 0x55ee1cef066e in qio_channel_socket_writev /mnt/sdb/backup/qemu/io/=
-channel-socket.c:569
-    #8 0x55ee1cee806b in qio_channel_writev /mnt/sdb/backup/qemu/io/channel=
-.c:207
-    #9 0x55ee1cee806b in qio_channel_writev_all /mnt/sdb/backup/qemu/io/cha=
-nnel.c:171
-    #10 0x55ee1cee8248 in qio_channel_write_all /mnt/sdb/backup/qemu/io/cha=
-nnel.c:257
-    #11 0x55ee1ca12c9a in multifd_send_thread /mnt/sdb/backup/qemu/migratio=
-n/multifd.c:657
-    #12 0x55ee1d0607fc in qemu_thread_start /mnt/sdb/backup/qemu/util/qemu-=
-thread-posix.c:519
-    #13 0x7f78159ae2dd in start_thread (/lib64/libpthread.so.0+0x82dd)
-    #14 0x7f78156df4b2 in __GI___clone (/lib64/libc.so.6+0xfc4b2)
+-- =
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Message-Id: <20200506095416.26099-3-pannengyuan@huawei.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/multifd.c | 3 +++
- 1 file changed, 3 insertions(+)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877418
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index e3efd33a0d..5a3e4d0d46 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -550,6 +550,7 @@ void multifd_save_cleanup(void)
-         multifd_send_state->ops->send_cleanup(p, &local_err);
-         if (local_err) {
-             migrate_set_error(migrate_get_current(), local_err);
-+            error_free(local_err);
-         }
-     }
-     qemu_sem_destroy(&multifd_send_state->channels_ready);
-@@ -688,6 +689,7 @@ out:
-     if (local_err) {
-         trace_multifd_send_error(p->id);
-         multifd_send_terminate_threads(local_err);
-+        error_free(local_err);
-     }
-=20
-     /*
-@@ -965,6 +967,7 @@ static void *multifd_recv_thread(void *opaque)
-=20
-     if (local_err) {
-         multifd_recv_terminate_threads(local_err);
-+        error_free(local_err);
-     }
-     qemu_mutex_lock(&p->mutex);
-     p->running =3D false;
---=20
-2.26.2
+Title:
+  qemu-nbd freezes access to VDI file
 
+Status in QEMU:
+  New
+
+Bug description:
+  Mounted Oracle Virtualbox .vdi drive, which has GTP+BTRFS:
+  sudo qemu-nbd -c /dev/nbd0 /storage/btrfs.vdi
+
+  Then I am operating on the btrfs filesystem and suddenly it freezes.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877418/+subscriptions
 
