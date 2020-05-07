@@ -2,58 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D531C95DF
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 18:03:00 +0200 (CEST)
-Received: from localhost ([::1]:48214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3337D1C95EB
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 18:05:34 +0200 (CEST)
+Received: from localhost ([::1]:56762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWizD-0003a4-4k
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 12:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36338)
+	id 1jWj1h-0007aj-5u
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 12:05:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jWiwO-0001sr-1b
- for qemu-devel@nongnu.org; Thu, 07 May 2020 12:00:04 -0400
-Received: from 1.mo6.mail-out.ovh.net ([46.105.56.136]:57260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jWiwM-00044F-6J
- for qemu-devel@nongnu.org; Thu, 07 May 2020 12:00:03 -0400
-Received: from player690.ha.ovh.net (unknown [10.110.115.67])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 16B2C20EA14
- for <qemu-devel@nongnu.org>; Thu,  7 May 2020 17:59:55 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player690.ha.ovh.net (Postfix) with ESMTPSA id 75F1D12041965;
- Thu,  7 May 2020 15:59:54 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001e8d9f1e8-1641-4944-be00-424590eaca86,AF032C7111AD4BAD20ACDD539227CED07D4E1059)
- smtp.auth=groug@kaod.org
-Date: Thu, 7 May 2020 17:59:52 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v6 3/5] 9pfs: add new function v9fs_co_readdir_many()
-Message-ID: <20200507175952.119eae30@bahia.lan>
-In-Reply-To: <4330996.EtvE2UMZrz@silver>
-References: <cover.1587309014.git.qemu_oss@crudebyte.com>
- <5819799.mbObChnQ2B@silver> <20200504111834.117c98d9@bahia.lan>
- <4330996.EtvE2UMZrz@silver>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jWiyt-00045i-6W
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 12:02:39 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44953
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jWiyq-0003sQ-Fa
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 12:02:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588867354;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pBwa7V3c5laGSzlhFEVk3gSOupBGcgpGYoMz2T21NtM=;
+ b=XjyOLfjCj5nzqBZp1e9+W3lsg8GivAyhJVhC8S3pAL3W0JsU52kGWHopF2te4P1B23670p
+ 655sKDAi6ECPo3j6KurCZkU6t8YqtBNtLGJlbM1wPw5Rbchb/vGjx7jI1ybcqulPRkI+q9
+ 3UZ+5muaOpUT6PSnhCjt1L9U8lwzdH8=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-rRKeVe2XNwiWgshrtjm2pA-1; Thu, 07 May 2020 12:02:32 -0400
+X-MC-Unique: rRKeVe2XNwiWgshrtjm2pA-1
+Received: by mail-pf1-f199.google.com with SMTP id y16so6023665pfe.16
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 09:02:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4wVEwJb2NUfoxXRGJ2Xb2+qOoW/XCm/5XFuvinXQDeg=;
+ b=DRiNU+eB1QZ+/joyxpLQ+L1kLEwngbg6FugLqseUjZDD6uAsVSdFQqX9oDWTKZ+77l
+ 7DqYDJyqIVfVk3Ztj615GdisZydSTv9Focq4DqpwEeFsDrc/WGajYwdqSvMnsXkiQB9m
+ odArN8nNOuhaCLYpNmoZqzupZdI/nJ86qsDB8cofYf+rTFTEbxteKDICSIMNIDJU2qJD
+ jkUQVGKpl3AU7lwQZ9NPQxmYad7kFJzfYJrDkBsevLm2+iGWnAYg4N/wNKx9ObulGZHb
+ JeVoT71IbGUBqp3XbjoiOtpdEvr4BBkk0aoZR5WV0K9Te/5Kdtd9iMRAvxTc0ieA7+eB
+ pk6g==
+X-Gm-Message-State: AGi0PubXU758O3//jCBREabIoZbTy0z1xB5piBWAWfY9g5Cavr4cPASs
+ jKuFwhiOvngQjdtOoItS18fztNpvu5BVqdrymGQWU+kNz8Ihq5n8qLoUJWeRiye19oGGxMKQntl
+ 9SQ/T+EbvPu7iluzBoLTDX9qRMZvVj08=
+X-Received: by 2002:a17:90a:cb86:: with SMTP id
+ a6mr810801pju.127.1588867351305; 
+ Thu, 07 May 2020 09:02:31 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLMvolKoVVenIxvb6E4pMk+9LTgUd9wV5wdWe38c69enU38bmjvNf4JADo9h7k3SDSaHFOZf7TDPAa1oXhk0Vc=
+X-Received: by 2002:a17:90a:cb86:: with SMTP id
+ a6mr810741pju.127.1588867350863; 
+ Thu, 07 May 2020 09:02:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 3493385936021330240
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrkedtgdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheekhfdtheegheehjeeludefkefhvdelfedvieehhfekhfdufffhueeuvdfftdfhnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.56.136; envelope-from=groug@kaod.org;
- helo=1.mo6.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 11:59:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200420093241.4238-1-lulu@redhat.com>
+ <20200420093241.4238-4-lulu@redhat.com>
+ <9eedb51e-0a78-c1f5-d391-366259a0e71a@redhat.com>
+In-Reply-To: <9eedb51e-0a78-c1f5-d391-366259a0e71a@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Fri, 8 May 2020 00:02:19 +0800
+Message-ID: <CACLfguUFAtuwC7v6JrMEc6e6_6kUBHALLS-K9-47mzw3qnCXCg@mail.gmail.com>
+Subject: Re: [RFC v1 3/4] vhost-vdpa: implement vhost-vdpa backend
+To: Maxime Coquelin <maxime.coquelin@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,98 +92,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Cornelia Huck <cohuck@redhat.com>, Michael Tsirkin <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ rob.miller@broadcom.com, saugatm@xilinx.com,
+ Markus Armbruster <armbru@redhat.com>, hch@infradead.org,
+ Eugenio Perez Martin <eperezma@redhat.com>, jgg@mellanox.com,
+ mhabets@solarflare.com, shahafs@mellanox.com, kevin.tian@intel.com,
+ parav@mellanox.com, vmireyno@marvell.com, "Liang,
+ Cunming" <cunming.liang@intel.com>, gdawar@xilinx.com, jiri@mellanox.com,
+ xiao.w.wang@intel.com, Stefan Hajnoczi <stefanha@redhat.com>, "Wang,
+ Zhihong" <zhihong.wang@intel.com>, Ariel Adam <aadam@redhat.com>,
+ rdunlap@infradead.org, hanand@xilinx.com, "Zhu,
+ Lingshan" <lingshan.zhu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 07 May 2020 14:16:43 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-
-> On Montag, 4. Mai 2020 11:18:34 CEST Greg Kurz wrote:
-> > On Fri, 01 May 2020 16:04:41 +0200
-> > 
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > On Donnerstag, 30. April 2020 15:30:49 CEST Greg Kurz wrote:
-> > > > > > I agree that a client that issues concurrent readdir requests on the
-> > > > > > same fid is probably asking for troubles, but this permitted by the
-> > > > > > spec. Whether we should detect such conditions and warn or even fail
-> > > > > > is discussion for another thread.
-> > > > > > 
-> > > > > > The locking is only needed to avoid concurrent accesses to the
-> > > > > > dirent
-> > > > > > structure returned by readdir(), otherwise we could return partially
-> > > > > > overwritten file names to the client. It must be done for each
-> > > > > > individual
-> > > > > > call to readdir(), but certainly not for multiple calls.
-> > > > > 
-> > > > > Yeah, that would resolve this issue more appropriately for 9p2000.L,
-> > > > > since
-> > > > > Treaddir specifies an offset, but for 9p2000.u the result of a
-> > > > > concurrent
-> > > > > read on a directory (9p2000.u) would still be undefined.
-> > > > 
-> > > > The bad client behavior you want to tackle has nothing to do with
-> > > > the locking itself. Since all the code in 9p.c runs serialized in
-> > > > the context of the QEMU main loop, concurrent readdir requests could
-> > > > easily be detected up-front with a simple flag in the fid structure.
-> > > 
-> > > Well, it's fine with me. I don't really see an issue here right now. But
-> > > that all the code was serialized is not fully true. Most of the 9p.c code
-> > > is still heavily dispatching between main thread and worker threads back
-> > > and forth. And for that reason the order of request processing might
-> > > change quite arbitrarily in between. Just keep that in mind.
-> > 
-> > Just to make things clear. The code in 9p.c is ALWAYS exclusively run by
-> > the main thread. Only the code called under v9fs_co_run_in_worker() is
-> > dispatched on worker threads. So, yes the order of individual backend
-> > operations may change, but the start of a new client request is necessarily
-> > serialized with the completion of pending ones, which is the only thing
-> > we care for actually.
-> 
-> I just looked at this. 9p.c code is called by main I/O thread only, that's 
-> clear. The start of requests come also in in order, yes, but it seems you 
-> would think that main I/O thread would not grab the next client request from 
-> queue before completing the current/previous client request (that is not 
-> before transmitting result to client). If yes, I am not so sure about this 
-> claim:
-> 
-
-Hrm... I don't think I've ever said anything like that :)
-
-What I'm saying is that, thanks to the serialization of
-request start and completion, v9fs_readdir() and v9fs_read()
-can:
-- flag the fid as being involved in a readdir request
-- clear the flag when the request is complete or failed
-- directly fail or print a warning if the fid already
-  has the flag set (ie. a previous request hasn't
-  completed yet)
-
-But again, I'm not a big fan of adding code to handle
-such an unlikely situation which is even not explicitly
-forbidden by the 9p spec.
-
-> For instance v9fs_path_write_lock() is using a co-mutex, right? So an 
-> unsuccesful lock would cause main I/O thread to grab the next request before 
-> completing the current/previous request.
-> 
-
-An unsuccessful lock would cause the main I/O thread to switch
-to some other task.
-
-> And what happens on any run_in_worker({}) call? If there is another client 
-> request in the queue, main I/O thread would pull that request from the queue 
-> before waiting for the worker thread to complete its task, wouldn't it?
-> 
-
-The main I/O thread won't wait for anything, so, yes, it will probably
-start handling the new request until it yields.
-
-> Just looked at the code so far, haven't tested it yet ...
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
+On Thu, May 7, 2020 at 11:30 PM Maxime Coquelin
+<maxime.coquelin@redhat.com> wrote:
+>
+>
+>
+> On 4/20/20 11:32 AM, Cindy Lu wrote:
+> > diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhos=
+t-backend.h
+> > index 6f6670783f..d81bd9885f 100644
+> > --- a/include/hw/virtio/vhost-backend.h
+> > +++ b/include/hw/virtio/vhost-backend.h
+> > @@ -17,7 +17,8 @@ typedef enum VhostBackendType {
+> >      VHOST_BACKEND_TYPE_NONE =3D 0,
+> >      VHOST_BACKEND_TYPE_KERNEL =3D 1,
+> >      VHOST_BACKEND_TYPE_USER =3D 2,
+> > -    VHOST_BACKEND_TYPE_MAX =3D 3,
+> > +    VHOST_BACKEND_TYPE_VDPA =3D 3,
+> > +    VHOST_BACKEND_TYPE_MAX =3D 4,
+> >  } VhostBackendType;
+> >
+> >  typedef enum VhostSetConfigType {
+> > @@ -112,6 +113,7 @@ typedef int (*vhost_get_inflight_fd_op)(struct vhos=
+t_dev *dev,
+> >  typedef int (*vhost_set_inflight_fd_op)(struct vhost_dev *dev,
+> >                                          struct vhost_inflight *infligh=
+t);
+> >
+> > +typedef int (*vhost_set_state_op)(struct vhost_dev *dev, int state);
+>
+> I think state should be of type uint8_t.
+>
+ok, I will change this to uint8_t
 
 
