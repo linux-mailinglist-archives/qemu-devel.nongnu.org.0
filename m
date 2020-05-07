@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235CC1C981A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:44:05 +0200 (CEST)
-Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1591C982E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:45:39 +0200 (CEST)
+Received: from localhost ([::1]:55922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWkZ2-000218-5g
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58704)
+	id 1jWkaW-0004mZ-Ua
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:45:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVY-0004SL-Ay
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:28 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34820
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVd-0004cw-1J
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:33 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:55916
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVX-00020v-Fw
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:27 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkVb-000238-OY
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588873226;
+ s=mimecast20190719; t=1588873230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZIo/ym+GwChrjVctsSvXHZCFHOcswzIaMYFLtwhZ4lE=;
- b=dzrru/7fz/mklnskO3+tTD7YiOLp6j/uEV3iRgqg8if48FKApN0SIHBjinWraYOfUDefMU
- 2QVbWCzBgjMfrltEUOFVQ/v86nrXEq9oueoGAiU7XBRglC3GoADl1s0GAJ3yqq7Kigd/zP
- E2eHZgTZmo5y6T3cLXDI9QT9iC9AGq4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-FmDPm5V4PCOmGm1V3jHKFw-1; Thu, 07 May 2020 13:40:22 -0400
-X-MC-Unique: FmDPm5V4PCOmGm1V3jHKFw-1
-Received: by mail-wr1-f70.google.com with SMTP id u4so3869705wrm.13
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:40:22 -0700 (PDT)
+ bh=DTInzwfX63p1qih9M+Dgx3t+UyJi8t1Fm5i0KyZ44dI=;
+ b=dilP+YDoYFV0p+PcNr3yDD9pVVV/giapUSXUxxCa20OjyyoUpbpTrx1sndwwKF8mcDzvpK
+ hrLnhOlXfWMSq6NL5M6h/Ez1R3EFtB36hbY7gwIVBWTbq1/Pikz1nLhfDgZ7XuqChDnNwx
+ Ltu/aSPETncIYlJzhAiEoTiwSwv5C80=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-Td0NmQ9GMdKRYqYPmoGBsQ-1; Thu, 07 May 2020 13:40:29 -0400
+X-MC-Unique: Td0NmQ9GMdKRYqYPmoGBsQ-1
+Received: by mail-wm1-f69.google.com with SMTP id o26so3019873wmh.1
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:40:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i0MZMfJVODlK5BEAJP5UwDYJxQ9slk7d2GJvo0cW21A=;
- b=cSabAA1Zr7ui2QAjubogGow4xWJYlL8KSVvIBqspuwZRGdWYN+tWaBX1Fum+o9cShK
- Ls2/lgDAQsguUtQcaqyBndg+lp9UtAtm2ZVVHwA+rnsc4CP5Dxy/2SjrA/AUDUEpQCIQ
- PrIMdkTKRU77QSmFqQbLvehQq3KEOVRjL9qrLUe0uduzprvlfnpXc3daoKXBZcbFBKvk
- JFP7qZ+/xsTXlPAemOKtsvHT2cD0FLM4ieVjMeY++z2awpBRhepKi2tRTHTZYtWK+ziQ
- 2BqwJt0uLrzhIwGsA75Wb16Q+yoI+4ygvVmKMRjgLjXsGJMGgCXyUQ9MT/tO5ASOZpYG
- X98Q==
-X-Gm-Message-State: AGi0PuYpt1ENq0oHvfuTbmf8RfuSe5gAUsWFJ2CVI3EpP1M6MNU38vlQ
- 0VsJlXQLHqx6fW0hV2Bf5eIdGlANr60dcSNMaOb1h0j+zJbi0Z301G8K6C+qXcp/VTZp1G2e7UZ
- k6TArMQKLvbeNNv4=
-X-Received: by 2002:a1c:2e91:: with SMTP id u139mr11194544wmu.18.1588873221696; 
- Thu, 07 May 2020 10:40:21 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLjd6hp7wq7mFKudq18rc8BGau0g28R6juxYKJghEkCTOt96u7gXk2f7QLvYsavtxvXfsaWtw==
-X-Received: by 2002:a1c:2e91:: with SMTP id u139mr11194521wmu.18.1588873221496; 
- Thu, 07 May 2020 10:40:21 -0700 (PDT)
+ bh=cufZfBHIUwQzCgzD4HBPhihgc0XcJ+ZYlhn0GKj8V9k=;
+ b=ZT2tHtA5uhE52AdZADDY6WKcVUAdZYvKFZW95XUvDCiNLZBx9zZiHC0ggYhPNQvCsA
+ G4m79pRAbHmajkSaecqPyiPTtkDmE3yPtlC+mKfp67oCHYRpmVJOzrAFgG1GevvW2m44
+ bpRVHOyz1t6g5563+0HF0EKzTz2t15jTyYWathbIp4KHMm6kbmSejB55URS1uPAVw7Cp
+ 44tuHf5fo/4UG5+gPjj+KdOlrTUlbwpIxE8R5KlJHhtclPBcb55StYn4WLAsSBxWFvXb
+ 5XO9pvPT3A3O6fdVzniKrgSDbaURPF5jZCKSiPTS5WiGpkkS29e6he0mBx73+ByVHROa
+ 5tRg==
+X-Gm-Message-State: AGi0PubA2nr5v2aJDweZJmaCTMUdSDze5ts/NHSdRpG88liBbGYISfud
+ bDP8Oyd9Dq8gS3n3hybQ+ctJ+7yVCawCaisVz4wbRaTWkMaVTOckOmyMipm5CG+lHuiGtY6zeHY
+ v1237+CTzywUQhj4=
+X-Received: by 2002:a1c:5642:: with SMTP id k63mr11361487wmb.188.1588873228044; 
+ Thu, 07 May 2020 10:40:28 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJbDQPmlpA5L5mUbNL57avc7o0U8xeDyRm/PDLK7AdA2hywNGuD6taYQC/vj9FG7kxQww3kOw==
+X-Received: by 2002:a1c:5642:: with SMTP id k63mr11361466wmb.188.1588873227814; 
+ Thu, 07 May 2020 10:40:27 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id v131sm9445838wmb.19.2020.05.07.10.40.19
+ by smtp.gmail.com with ESMTPSA id x5sm8941896wro.12.2020.05.07.10.40.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 10:40:20 -0700 (PDT)
+ Thu, 07 May 2020 10:40:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH 03/10] exec: Move tb_invalidate_phys_range() to
- 'exec/exec-all.h'
-Date: Thu,  7 May 2020 19:39:51 +0200
-Message-Id: <20200507173958.25894-4-philmd@redhat.com>
+Subject: [PATCH 04/10] exec/memory-internal: Check CONFIG_SOFTMMU instead of
+ CONFIG_USER_ONLY
+Date: Thu,  7 May 2020 19:39:52 +0200
+Message-Id: <20200507173958.25894-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200507173958.25894-1-philmd@redhat.com>
 References: <20200507173958.25894-1-philmd@redhat.com>
@@ -74,16 +74,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,77 +111,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move tb_invalidate_phys_range() to "exec/exec-all.h" with the
-other TranslationBlock invalidate functions. Move all these
-functions altogether. Check for the CONFIG_SOFTMMU definition
-which is more explicit than CONFIG_USER_ONLY.
+The CONFIG_SOFTMMU definition is poisoned in "exec/poison.h".
+As this header is internal, check for poisoned CONFIG_SOFTMMU
+instead of CONFIG_USER_ONLY to make this include harder to use.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- include/exec/exec-all.h | 14 ++++++++------
- include/exec/ram_addr.h |  2 --
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ include/exec/memory-internal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 350c4b451b..f1a9b8a576 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -454,12 +454,15 @@ static inline uint32_t curr_cflags(void)
- }
+diff --git a/include/exec/memory-internal.h b/include/exec/memory-internal.=
+h
+index 9fcc2af25c..b2b7c1e78a 100644
+--- a/include/exec/memory-internal.h
++++ b/include/exec/memory-internal.h
+@@ -22,7 +22,7 @@
 =20
- /* TranslationBlock invalidate API */
--#if defined(CONFIG_USER_ONLY)
+ #include "cpu.h"
+=20
+-#ifndef CONFIG_USER_ONLY
 +#ifdef CONFIG_SOFTMMU
-+void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs att=
-rs);
-+void tb_invalidate_phys_range(ram_addr_t start, ram_addr_t end);
-+void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
-+#else
- void tb_invalidate_phys_addr(target_ulong addr);
- void tb_invalidate_phys_range(target_ulong start, target_ulong end);
--#else
--void tb_invalidate_phys_addr(AddressSpace *as, hwaddr addr, MemTxAttrs att=
-rs);
--#endif
-+#endif /* CONFIG_SOFTMMU */
-+
- void tb_flush(CPUState *cpu);
- void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
- TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
-@@ -583,7 +586,6 @@ void tlb_reset_dirty(CPUState *cpu, ram_addr_t start1, =
-ram_addr_t length);
- void tlb_set_dirty(CPUState *cpu, target_ulong vaddr);
-=20
- /* exec.c */
--void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
-=20
- MemoryRegionSection *
- address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
-@@ -591,7 +593,7 @@ address_space_translate_for_iotlb(CPUState *cpu, int as=
-idx, hwaddr addr,
-                                   MemTxAttrs attrs, int *prot);
- hwaddr memory_region_section_get_iotlb(CPUState *cpu,
-                                        MemoryRegionSection *section);
--#endif
-+#endif /* CONFIG_USER_ONLY */
-=20
- /* vl.c */
- extern int singlestep;
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 7b5c24e928..06096e8c6a 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -147,8 +147,6 @@ static inline void qemu_ram_block_writeback(RAMBlock *b=
-lock)
- #define DIRTY_CLIENTS_ALL     ((1 << DIRTY_MEMORY_NUM) - 1)
- #define DIRTY_CLIENTS_NOCODE  (DIRTY_CLIENTS_ALL & ~(1 << DIRTY_MEMORY_COD=
-E))
-=20
--void tb_invalidate_phys_range(ram_addr_t start, ram_addr_t end);
--
- static inline bool cpu_physical_memory_get_dirty(ram_addr_t start,
-                                                  ram_addr_t length,
-                                                  unsigned client)
+ static inline AddressSpaceDispatch *flatview_to_dispatch(FlatView *fv)
+ {
+     return fv->dispatch;
 --=20
 2.21.3
 
