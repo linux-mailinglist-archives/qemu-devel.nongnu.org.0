@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0E51C8C59
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:29:07 +0200 (CEST)
-Received: from localhost ([::1]:48188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875331C8C64
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:31:31 +0200 (CEST)
+Received: from localhost ([::1]:52414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWgaI-0001ob-KO
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57678)
+	id 1jWgcc-0003sg-Iu
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jWgXd-0007yS-Rq
- for qemu-devel@nongnu.org; Thu, 07 May 2020 09:26:21 -0400
-Received: from mga18.intel.com ([134.134.136.126]:5759)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1jWgXa-000739-Nl
- for qemu-devel@nongnu.org; Thu, 07 May 2020 09:26:21 -0400
-IronPort-SDR: MmtJxjXigyopO+EkN3KCP8c46gWJnDz8vJk70AeTIFy+vlMVFwdhdX6tgj6kVid7LWcJv/zpnc
- 7YdRbwKUh12g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 May 2020 06:26:14 -0700
-IronPort-SDR: kYXMerlS8kj5M/s/RTRYlh6Ycb3A+LggxHNqG8wvP9XWMYDoTasNhZcg4To/SM/3yQD13WMZF9
- igxA14YAk3TQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,363,1583222400"; d="scan'208";a="249283531"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
- by orsmga007.jf.intel.com with ESMTP; 07 May 2020 06:26:13 -0700
-Received: from shsmsx602.ccr.corp.intel.com (10.109.6.142) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 7 May 2020 06:26:13 -0700
-Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
- SHSMSX602.ccr.corp.intel.com (10.109.6.142) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 7 May 2020 21:26:11 +0800
-Received: from shsmsx604.ccr.corp.intel.com ([10.109.6.214]) by
- SHSMSX604.ccr.corp.intel.com ([10.109.6.214]) with mapi id 15.01.1713.004;
- Thu, 7 May 2020 21:26:11 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v4 6/6] net/colo-compare.c: Correct ordering in complete
- and finalize
-Thread-Topic: [PATCH v4 6/6] net/colo-compare.c: Correct ordering in complete
- and finalize
-Thread-Index: AQHWIf7Cka4G08x9BkqXms8e2TNTRKicoIKA
-Date: Thu, 7 May 2020 13:26:11 +0000
-Message-ID: <83c26ab24d28480d94c45c0a0f49d130@intel.com>
-References: <cover.1588587700.git.lukasstraub2@web.de>
- <ac784f17537184c3ab8c745a1d593b02bde85738.1588587700.git.lukasstraub2@web.de>
-In-Reply-To: <ac784f17537184c3ab8c745a1d593b02bde85738.1588587700.git.lukasstraub2@web.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jWgbN-0003Gh-F9
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 09:30:13 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:44350)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jWgbL-0003hG-2Q
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 09:30:13 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id a2so4936041oia.11
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 06:30:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K6JLBLcH0Ctp7znskHui3Cii+iUETON1EYGDPapIpmk=;
+ b=bwqvkPVlEvmKAWBsG9BG4q2Fpe1QnnWhvDz0SaT4Tep4DU3ggJTMpNCVszPPMLskAo
+ +qjr6lENlVQFhriWzO+jUVhbJlwxohoJc95OK/YmtjaYRpsO3kQFiVRiNXNVSoVg0MWD
+ lDhgZdkQrIrboYG9fx2tTXGnTLxBi0FO+5ylDx2hVzde6m9EUTPaWgiRQ+0UX4ncePiS
+ SAH2TohFJqVkqBxwMbRjBUSCmFZaZE7Ng01T9LcwuCxeCU0OBdIy/SeJaukS/otZsjtd
+ 8b5zTLZjK3kT84iQkLWsBEnAdacc+KbE+obd0xqDacd6OICRyeHuwfPjnvA2i4kW0tJ7
+ jJ5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K6JLBLcH0Ctp7znskHui3Cii+iUETON1EYGDPapIpmk=;
+ b=mLPbKwh1NTXmKtO/zlddZjcN5FCugBaqjeXZ+ER0h1WHb3WDO3cnGNmjcjPQBiweDo
+ nxc6bYL3MgAyI0vZEQDIlRCtiVdyoRbunpc3lsZJ6l2piMLb9zouqR7EyvjEkz6Lq4N1
+ p1W0Sg8XKGHAkzS8hUMu+3qwWEHHpbN4O0y3KZf82UOplFZNR+QdGo4gxhQXJa33wkxE
+ wRl9tV02xcXscV6Sq5H6ixhUL7I1CZmHg8fk5XuJGbv00m7lHExArltmn/bYeGK/paXn
+ 3lvrmxCUXqIVQdOZwsDfeDM/zIgFvV7D7vVvj4vdNCOiGjNW6lT3TXySvbPOQpAu0Odn
+ DRNw==
+X-Gm-Message-State: AGi0PuYou5bwpFElckbZ8GTyBLNwgvFvbaIsXwyFK6h0aMLGQVtlxZtY
+ mnlPtIQQMPlcDBm/6FOc3B72rbbzMWJvZnHUGtZ/ow==
+X-Google-Smtp-Source: APiQypKEOgP092WQssEm+Ebxo/u4Rxl1d1FpyDip5DjzvP3I99bP/cVk1zCEDp1b1KEiyd98oDTL33c7gZc0jQHycwA=
+X-Received: by 2002:a54:400c:: with SMTP id x12mr6318654oie.146.1588858209500; 
+ Thu, 07 May 2020 06:30:09 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 09:26:14
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+References: <20200507050228.802395-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20200507050228.802395-1-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 May 2020 14:29:58 +0100
+Message-ID: <CAFEAcA_GXSkhDp4p+yOdv5FKympes+bB5VBurawOO=fFpOoR-A@mail.gmail.com>
+Subject: Re: [PULL 00/18] ppc-for-5.1 queue 20200507
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,125 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>, Paolo
- Bonzini <pbonzini@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Nicholas Piggin <npiggin@gmail.com>,
+ Greg Kurz <groug@kaod.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 7 May 2020 at 06:04, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> The following changes since commit 570a9214827e3d42f7173c4d4c9f045b99834cf0:
+>
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-reg-to-apply-20200505' into staging (2020-05-06 15:38:02 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dgibson/qemu.git tags/ppc-for-5.1-20200507
+>
+> for you to fetch changes up to c4f6a4a3dd5f2aa15329b8158de25f50b5ba3252:
+>
+>   target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9 (2020-05-07 11:10:50 +1000)
+>
+> ----------------------------------------------------------------
+> ppc patch queue for 2020-04-07
+>
+> First pull request for qemu-5.1.  This includes:
+>  * Removal of all remaining cases where we had CAS triggered reboots
+>  * A number of improvements to NMI injection
+>  * Support for partition scoped radix translation in softmmu
+>  * Some fixes for NVDIMM handling
+>  * A handful of other minor fixes
+>
 
+Applied, thanks.
 
-> -----Original Message-----
-> From: Lukas Straub <lukasstraub2@web.de>
-> Sent: Monday, May 4, 2020 6:28 PM
-> To: qemu-devel <qemu-devel@nongnu.org>
-> Cc: Zhang, Chen <chen.zhang@intel.com>; Li Zhijian
-> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; Marc-
-> Andr=E9 Lureau <marcandre.lureau@redhat.com>; Paolo Bonzini
-> <pbonzini@redhat.com>
-> Subject: [PATCH v4 6/6] net/colo-compare.c: Correct ordering in complete
-> and finalize
->=20
-> In colo_compare_complete, insert CompareState into net_compares only
-> after everything has been initialized.
-> In colo_compare_finalize, remove CompareState from net_compares before
-> anything is deinitialized.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
 
-S/deinitialized/finalized
-
-It looks no dependences on each step on initialization and finalization.
-Do you means we just need add/remove each colo-compare module at last in lo=
-gic?
-Or current code have some issue?
-
-Thanks
-Zhang Chen
-
->=20
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> ---
->  net/colo-compare.c | 45 +++++++++++++++++++++++----------------------
->  1 file changed, 23 insertions(+), 22 deletions(-)
->=20
-> diff --git a/net/colo-compare.c b/net/colo-compare.c index
-> c7572d75e9..6f80bcece6 100644
-> --- a/net/colo-compare.c
-> +++ b/net/colo-compare.c
-> @@ -1283,15 +1283,6 @@ static void
-> colo_compare_complete(UserCreatable *uc, Error **errp)
->                             s->vnet_hdr);
->      }
->=20
-> -    qemu_mutex_lock(&colo_compare_mutex);
-> -    if (!colo_compare_active) {
-> -        qemu_mutex_init(&event_mtx);
-> -        qemu_cond_init(&event_complete_cond);
-> -        colo_compare_active =3D true;
-> -    }
-> -    QTAILQ_INSERT_TAIL(&net_compares, s, next);
-> -    qemu_mutex_unlock(&colo_compare_mutex);
-> -
->      s->out_sendco.s =3D s;
->      s->out_sendco.chr =3D &s->chr_out;
->      s->out_sendco.notify_remote_frame =3D false; @@ -1312,6 +1303,16 @@
-> static void colo_compare_complete(UserCreatable *uc, Error **errp)
->                                                        connection_destroy=
-);
->=20
->      colo_compare_iothread(s);
-> +
-> +    qemu_mutex_lock(&colo_compare_mutex);
-> +    if (!colo_compare_active) {
-> +        qemu_mutex_init(&event_mtx);
-> +        qemu_cond_init(&event_complete_cond);
-> +        colo_compare_active =3D true;
-> +    }
-> +    QTAILQ_INSERT_TAIL(&net_compares, s, next);
-> +    qemu_mutex_unlock(&colo_compare_mutex);
-> +
->      return;
->  }
->=20
-> @@ -1384,19 +1385,6 @@ static void colo_compare_finalize(Object *obj)
->      CompareState *s =3D COLO_COMPARE(obj);
->      CompareState *tmp =3D NULL;
->=20
-> -    qemu_chr_fe_deinit(&s->chr_pri_in, false);
-> -    qemu_chr_fe_deinit(&s->chr_sec_in, false);
-> -    qemu_chr_fe_deinit(&s->chr_out, false);
-> -    if (s->notify_dev) {
-> -        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
-> -    }
-> -
-> -    if (s->iothread) {
-> -        colo_compare_timer_del(s);
-> -    }
-> -
-> -    qemu_bh_delete(s->event_bh);
-> -
->      qemu_mutex_lock(&colo_compare_mutex);
->      QTAILQ_FOREACH(tmp, &net_compares, next) {
->          if (tmp =3D=3D s) {
-> @@ -1411,6 +1399,19 @@ static void colo_compare_finalize(Object *obj)
->      }
->      qemu_mutex_unlock(&colo_compare_mutex);
->=20
-> +    qemu_chr_fe_deinit(&s->chr_pri_in, false);
-> +    qemu_chr_fe_deinit(&s->chr_sec_in, false);
-> +    qemu_chr_fe_deinit(&s->chr_out, false);
-> +    if (s->notify_dev) {
-> +        qemu_chr_fe_deinit(&s->chr_notify_dev, false);
-> +    }
-> +
-> +    if (s->iothread) {
-> +        colo_compare_timer_del(s);
-> +    }
-> +
-> +    qemu_bh_delete(s->event_bh);
-> +
->      AioContext *ctx =3D iothread_get_aio_context(s->iothread);
->      aio_context_acquire(ctx);
->      AIO_WAIT_WHILE(ctx, !s->out_sendco.done);
-> --
-> 2.20.1
+-- PMM
 
