@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136771C8D12
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:54:43 +0200 (CEST)
-Received: from localhost ([::1]:50200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC8A1C8D15
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:56:20 +0200 (CEST)
+Received: from localhost ([::1]:58392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWgz4-0002lL-1t
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34346)
+	id 1jWh0d-0006CO-Fz
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:56:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jWgsd-0002si-HG
- for qemu-devel@nongnu.org; Thu, 07 May 2020 09:48:05 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jWgsZ-0002QK-AO
- for qemu-devel@nongnu.org; Thu, 07 May 2020 09:48:02 -0400
-Received: by mail-wr1-x434.google.com with SMTP id h9so6498922wrt.0
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 06:47:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=omD69ttFpxcDTaYekNBFVUzGkRuZKIclc+69h9JbEvA=;
- b=IEl0+1Qh8WlMukYuKO3rZbTOC+RE6IQVl4gHr8vXgUgCjDXYIm3uIEU7grgG06pBGN
- j2rohfKXSesZ9uVtfxxG5wA4YML1chSKWFXlaIe0dFKNgfiXWVyHF3UJyPYCnuEc26zh
- t8p4igrhcHJHzaFrnQxk+6BK6Zl9xY0BtC9Us/zt1LzSmL9yJAM3us7wQzy2f2mM1a9Z
- NgzM+2N5fANampKxM/P/OfN02KmDhm/IC3ExDczryKJXYfjQpQYSnrnYdT1txh9oN9NZ
- eJcAhtd9AjKGW9Sv2xrOcJaQ8v+j2sEVU/nWFGGJN+/m0VRpj3927akvbtiFX+klas+j
- Sguw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=omD69ttFpxcDTaYekNBFVUzGkRuZKIclc+69h9JbEvA=;
- b=Hz82gEuNPxCmIpymSmyw5wMwNC5FJ9vSBx3tv/PaUjz24L+Z51smTKlle5RiG2gwsH
- uKCUgc8aS/rEVkc/8F5MV5HPe5tfDJKPgVB8YfunqBzX8b8VovoeGdYep98z1fb7+FPX
- XAsUh3l8HB7WYLws7GQqTETWuIUlo2hAi+WmR923xSV2qmPL5jYup4GDCZdYEyO/u4Gs
- qK3X8WO8znh7ohBZnglpz+RJcUZvlFthzvbdIsY7O5LXB526V/NDWMBLL+oXPYZT2OV+
- iRcG+54hRiabieM1Mwd1bLhNLxq4fe1JmVgRgimlTkHRDLYfm3+hYYxVST0AemyXQCnA
- AZNQ==
-X-Gm-Message-State: AGi0Pua6iL6XtCLNFE9vZ6G6X4lrrSax+pykCt05jYY2Ueadn3INDOKP
- wgEfTk0njtc+qa+Q8o48/7XoKQ==
-X-Google-Smtp-Source: APiQypLnO7e9CdfS83/GTPKjicsihUykbO0KKDNY69D/i432klDgPncsXorVQkMlGcyPaX6CKDyg8g==
-X-Received: by 2002:a5d:650b:: with SMTP id x11mr15299876wru.405.1588859277480; 
- Thu, 07 May 2020 06:47:57 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s14sm8443128wme.33.2020.05.07.06.47.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 06:47:56 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1jWgtU-0003z7-9n
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 09:48:56 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38052
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1jWgtS-0003Ip-9i
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 09:48:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588859333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u5j+c2TImbGIqhAmcmscAySueDWf9irIaJXboUVTLsM=;
+ b=SqKk3jRds74Egn2JP0AkV5WWDIPV9BZXRK8nWlkCxZ2LxFqhDKUTZLEIJhyHE+2u0XtEWg
+ +EJdFvN2dp8dswl+lWaCp0wWn3pMcflc9ZJmJWZmXlHSvORxjaq4g1i/c8vsWG2+3IDFEe
+ HRhw4UhBL7ZeiQirR9QbozfMBAWL5Ag=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-pttp7b5uNduk6AZ8i0lE4w-1; Thu, 07 May 2020 09:48:49 -0400
+X-MC-Unique: pttp7b5uNduk6AZ8i0lE4w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 831B3107ACF4;
+ Thu,  7 May 2020 13:48:48 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-114-199.ams2.redhat.com
+ [10.36.114.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1E7010013BD;
+ Thu,  7 May 2020 13:48:25 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: lvivier@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Use correct GDB XML for M-profile cores
-Date: Thu,  7 May 2020 14:47:55 +0100
-Message-Id: <20200507134755.13997-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+Subject: [RFC v4 1/6] qmp: add QMP command x-debug-query-virtio
+Date: Thu,  7 May 2020 15:47:55 +0200
+Message-Id: <20200507134800.10837-2-lvivier@redhat.com>
+In-Reply-To: <20200507134800.10837-1-lvivier@redhat.com>
+References: <20200507134800.10837-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,139 +81,272 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, Amit Shah <amit@kernel.org>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GDB's remote protocol requires M-profile cores to use the feature
-name 'org.gnu.gdb.arm.m-profile' instead of the 'org.gnu.gdb.arm.core'
-feature used for A- and R-profile cores. We weren't doing this, which
-meant GDB treated our M-profile cores like A-profile ones. This mostly
-doesn't matter, but for instance means that it doesn't correctly
-handle backtraces where an M-profile exception frame is involved.
+This new command lists all the instances of VirtIODevice with
+their path and virtio type
 
-Ship a copy of GDB's arm-m-profile.xml and use it on the M-profile
-cores.  The integer registers have the same offsets as the
-arm-core.xml, but register 25 is the M-profile XPSR rather than the
-A-profile CPSR, so we need to update arm_cpu_gdb_read_register() and
-arm_cpu_gdb_write_register() to handle XSPR reads and writes.
-
-Fixes: https://bugs.launchpad.net/qemu/+bug/1877136
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- configure                 |  4 ++--
- target/arm/cpu.c          |  1 +
- target/arm/gdbstub.c      | 22 ++++++++++++++++++----
- gdb-xml/arm-m-profile.xml | 27 +++++++++++++++++++++++++++
- 4 files changed, 48 insertions(+), 6 deletions(-)
- create mode 100644 gdb-xml/arm-m-profile.xml
+ hw/virtio/Makefile.objs    |  2 ++
+ hw/virtio/virtio-stub.c    | 14 ++++++++
+ hw/virtio/virtio.c         | 28 ++++++++++++++++
+ include/hw/virtio/virtio.h |  1 +
+ qapi/Makefile.objs         |  2 +-
+ qapi/qapi-schema.json      |  1 +
+ qapi/virtio.json           | 68 ++++++++++++++++++++++++++++++++++++++
+ tests/qtest/qmp-cmd-test.c |  1 +
+ 8 files changed, 116 insertions(+), 1 deletion(-)
+ create mode 100644 hw/virtio/virtio-stub.c
+ create mode 100644 qapi/virtio.json
 
-diff --git a/configure b/configure
-index 0d69c360c0e..360e7e6a0a4 100755
---- a/configure
-+++ b/configure
-@@ -7806,14 +7806,14 @@ case "$target_name" in
-     TARGET_SYSTBL_ABI=common,oabi
-     bflt="yes"
-     mttcg="yes"
--    gdb_xml_files="arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
-+    gdb_xml_files="arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml arm-m-profile.xml"
-   ;;
-   aarch64|aarch64_be)
-     TARGET_ARCH=aarch64
-     TARGET_BASE_ARCH=arm
-     bflt="yes"
-     mttcg="yes"
--    gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
-+    gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml arm-m-profile.xml"
-   ;;
-   cris)
-   ;;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5d64adfe76e..b386bbbfd12 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2179,6 +2179,7 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
- #endif
- 
-     cc->cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt;
-+    cc->gdb_core_xml_file = "arm-m-profile.xml";
- }
- 
- static const ARMCPRegInfo cortexr5_cp_reginfo[] = {
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 063551df234..ecfa88f8e60 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -57,8 +57,12 @@ int arm_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-         }
-         return gdb_get_reg32(mem_buf, 0);
-     case 25:
--        /* CPSR */
--        return gdb_get_reg32(mem_buf, cpsr_read(env));
-+        /* CPSR, or XPSR for M-profile */
-+        if (arm_feature(env, ARM_FEATURE_M)) {
-+            return gdb_get_reg32(mem_buf, xpsr_read(env));
-+        } else {
-+            return gdb_get_reg32(mem_buf, cpsr_read(env));
-+        }
-     }
-     /* Unknown register.  */
-     return 0;
-@@ -98,8 +102,18 @@ int arm_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-         }
-         return 4;
-     case 25:
--        /* CPSR */
--        cpsr_write(env, tmp, 0xffffffff, CPSRWriteByGDBStub);
-+        /* CPSR, or XPSR for M-profile */
-+        if (arm_feature(env, ARM_FEATURE_M)) {
-+            /*
-+             * Don't allow writing to XPSR.Exception as it can cause
-+             * a transition into or out of handler mode (it's not
-+             * writeable via the MSR insn so this is a reasonable
-+             * restriction). Other fields are safe to update.
-+             */
-+            xpsr_write(env, tmp, ~XPSR_EXCP);
-+        } else {
-+            cpsr_write(env, tmp, 0xffffffff, CPSRWriteByGDBStub);
-+        }
-         return 4;
-     }
-     /* Unknown register.  */
-diff --git a/gdb-xml/arm-m-profile.xml b/gdb-xml/arm-m-profile.xml
+diff --git a/hw/virtio/Makefile.objs b/hw/virtio/Makefile.objs
+index 4e4d39a0a48f..0b649f120044 100644
+--- a/hw/virtio/Makefile.objs
++++ b/hw/virtio/Makefile.objs
+@@ -38,6 +38,8 @@ obj-$(CONFIG_VIRTIO_SERIAL) +=3D virtio-serial-pci.o
+ endif
+ else
+ common-obj-y +=3D vhost-stub.o
++common-obj-y +=3D virtio-stub.o
+ endif
+=20
+ common-obj-$(CONFIG_ALL) +=3D vhost-stub.o
++common-obj-$(CONFIG_ALL) +=3D virtio-stub.o
+diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
 new file mode 100644
-index 00000000000..5319d764eeb
+index 000000000000..d4a88f5753a9
 --- /dev/null
-+++ b/gdb-xml/arm-m-profile.xml
-@@ -0,0 +1,27 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2010-2020 Free Software Foundation, Inc.
++++ b/hw/virtio/virtio-stub.c
+@@ -0,0 +1,14 @@
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-virtio.h"
 +
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
++static void *qmp_virtio_unsupported(Error **errp)
++{
++    error_setg(errp, "Virtio is disabled");
++    return NULL;
++}
 +
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.arm.m-profile">
-+  <reg name="r0" bitsize="32"/>
-+  <reg name="r1" bitsize="32"/>
-+  <reg name="r2" bitsize="32"/>
-+  <reg name="r3" bitsize="32"/>
-+  <reg name="r4" bitsize="32"/>
-+  <reg name="r5" bitsize="32"/>
-+  <reg name="r6" bitsize="32"/>
-+  <reg name="r7" bitsize="32"/>
-+  <reg name="r8" bitsize="32"/>
-+  <reg name="r9" bitsize="32"/>
-+  <reg name="r10" bitsize="32"/>
-+  <reg name="r11" bitsize="32"/>
-+  <reg name="r12" bitsize="32"/>
-+  <reg name="sp" bitsize="32" type="data_ptr"/>
-+  <reg name="lr" bitsize="32"/>
-+  <reg name="pc" bitsize="32" type="code_ptr"/>
-+  <reg name="xpsr" bitsize="32" regnum="25"/>
-+</feature>
--- 
-2.20.1
++VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
++{
++    return qmp_virtio_unsupported(errp);
++}
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index b6c8ef5bc025..05b640bcc267 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -13,6 +13,8 @@
+=20
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-virtio.h"
++#include "qapi/qapi-visit-virtio.h"
+ #include "cpu.h"
+ #include "trace.h"
+ #include "exec/address-spaces.h"
+@@ -28,6 +30,8 @@
+ #include "sysemu/dma.h"
+ #include "sysemu/runstate.h"
+=20
++static QTAILQ_HEAD(, VirtIODevice) virtio_list;
++
+ /*
+  * The alignment to use between consumer and producer parts of vring.
+  * x86 pagesize again. This is the default, used by transports like PCI
+@@ -3628,6 +3632,7 @@ static void virtio_device_realize(DeviceState *dev, E=
+rror **errp)
+=20
+     vdev->listener.commit =3D virtio_memory_listener_commit;
+     memory_listener_register(&vdev->listener, vdev->dma_as);
++    QTAILQ_INSERT_TAIL(&virtio_list, vdev, next);
+ }
+=20
+ static void virtio_device_unrealize(DeviceState *dev, Error **errp)
+@@ -3646,6 +3651,7 @@ static void virtio_device_unrealize(DeviceState *dev,=
+ Error **errp)
+         }
+     }
+=20
++    QTAILQ_REMOVE(&virtio_list, vdev, next);
+     g_free(vdev->bus_name);
+     vdev->bus_name =3D NULL;
+ }
+@@ -3802,6 +3808,8 @@ static void virtio_device_class_init(ObjectClass *kla=
+ss, void *data)
+     vdc->stop_ioeventfd =3D virtio_device_stop_ioeventfd_impl;
+=20
+     vdc->legacy_features |=3D VIRTIO_LEGACY_FEATURES;
++
++    QTAILQ_INIT(&virtio_list);
+ }
+=20
+ bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev)
+@@ -3812,6 +3820,26 @@ bool virtio_device_ioeventfd_enabled(VirtIODevice *v=
+dev)
+     return virtio_bus_ioeventfd_enabled(vbus);
+ }
+=20
++VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
++{
++    VirtioInfoList *list =3D NULL;
++    VirtioInfoList *node;
++    VirtIODevice *vdev;
++
++    QTAILQ_FOREACH(vdev, &virtio_list, next) {
++        DeviceState *dev =3D DEVICE(vdev);
++        node =3D g_new0(VirtioInfoList, 1);
++        node->value =3D g_new(VirtioInfo, 1);
++        node->value->path =3D g_strdup(dev->canonical_path);
++        node->value->type =3D qapi_enum_parse(&VirtioType_lookup, vdev->na=
+me,
++                                            VIRTIO_TYPE_UNKNOWN, NULL);
++        node->next =3D list;
++        list =3D node;
++    }
++
++    return list;
++}
++
+ static const TypeInfo virtio_device_info =3D {
+     .name =3D TYPE_VIRTIO_DEVICE,
+     .parent =3D TYPE_DEVICE,
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index b69d51749635..65adce680188 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -111,6 +111,7 @@ struct VirtIODevice
+     bool use_guest_notifier_mask;
+     AddressSpace *dma_as;
+     QLIST_HEAD(, VirtQueue) *vector_queues;
++    QTAILQ_ENTRY(VirtIODevice) next;
+ };
+=20
+ typedef struct VirtioDeviceClass {
+diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
+index 4673ab7490df..4fae2e37cfc9 100644
+--- a/qapi/Makefile.objs
++++ b/qapi/Makefile.objs
+@@ -8,7 +8,7 @@ util-obj-y +=3D qapi-util.o
+ QAPI_COMMON_MODULES =3D audio authz block-core block char common control c=
+rypto
+ QAPI_COMMON_MODULES +=3D dump error introspect job machine migration misc
+ QAPI_COMMON_MODULES +=3D net pragma qdev qom rdma rocker run-state sockets=
+ tpm
+-QAPI_COMMON_MODULES +=3D trace transaction ui
++QAPI_COMMON_MODULES +=3D trace transaction ui virtio
+ QAPI_TARGET_MODULES =3D machine-target misc-target
+ QAPI_MODULES =3D $(QAPI_COMMON_MODULES) $(QAPI_TARGET_MODULES)
+=20
+diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
+index 43b0ba0dea22..189f5a0a7383 100644
+--- a/qapi/qapi-schema.json
++++ b/qapi/qapi-schema.json
+@@ -84,3 +84,4 @@
+ { 'include': 'misc.json' }
+ { 'include': 'misc-target.json' }
+ { 'include': 'audio.json' }
++{ 'include': 'virtio.json' }
+diff --git a/qapi/virtio.json b/qapi/virtio.json
+new file mode 100644
+index 000000000000..da59a118dbfb
+--- /dev/null
++++ b/qapi/virtio.json
+@@ -0,0 +1,68 @@
++##
++# =3D Virtio devices
++##
++
++##
++# @VirtioType:
++#
++# An enumeration of Virtio device types.
++#
++# Since: 5.1.0
++##
++{ 'enum': 'VirtioType',
++  'data': [ 'unknown', 'virtio-9p', 'virtio-blk', 'virtio-serial',
++            'virtio-gpu', 'virtio-input', 'virtio-net', 'virtio-scsi',
++            'vhost-user-fs', 'vhost-vsock', 'virtio-balloon', 'virtio-cryp=
+to',
++            'virtio-iommu', 'virtio-pmem', 'virtio-rng' ]
++}
++
++##
++# @VirtioInfo:
++#
++# Information about a given VirtIODevice
++#
++# @path: VirtIO device canonical path.
++#
++# @type: VirtIO device type.
++#
++# Since: 5.1
++#
++##
++{ 'struct': 'VirtioInfo',
++  'data': {
++    'path': 'str',
++    'type': 'VirtioType'
++  }
++}
++
++##
++# @x-debug-query-virtio:
++#
++# Return the list of all VirtIO devices
++#
++# Returns: list of @VirtioInfo
++#
++# Since: 5.1
++#
++# Example:
++#
++# -> { "execute": "x-debug-query-virtio" }
++# <- { "return": [
++#        {
++#            "path": "/machine/peripheral-anon/device[3]/virtio-backend",
++#            "type": "virtio-net"
++#        },
++#        {
++#            "path": "/machine/peripheral-anon/device[1]/virtio-backend",
++#            "type": "virtio-serial"
++#        },
++#        {
++#            "path": "/machine/peripheral-anon/device[0]/virtio-backend",
++#            "type": "virtio-blk"
++#        }
++#      ]
++#    }
++#
++##
++
++{ 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index 9f5228cd9951..a7bf8aab6357 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -92,6 +92,7 @@ static bool query_is_blacklisted(const char *cmd)
+         "query-gic-capabilities", /* arm */
+         /* Success depends on target-specific build configuration: */
+         "query-pci",              /* CONFIG_PCI */
++        "x-debug-query-virtio",   /* CONFIG_VIRTIO */
+         /* Success depends on launching SEV guest */
+         "query-sev-launch-measure",
+         /* Success depends on Host or Hypervisor SEV support */
+--=20
+2.26.2
 
 
