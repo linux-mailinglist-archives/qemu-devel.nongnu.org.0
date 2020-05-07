@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2825A1C8A07
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 14:03:56 +0200 (CEST)
-Received: from localhost ([::1]:44960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B651C8A9F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 14:22:54 +0200 (CEST)
+Received: from localhost ([::1]:52456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWfFr-0002eu-5T
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 08:03:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37300)
+	id 1jWfYD-0002Nw-Hm
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 08:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jWfAV-0006Rl-M9
- for qemu-devel@nongnu.org; Thu, 07 May 2020 07:58:23 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52296
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jWfAU-00017m-Pl
- for qemu-devel@nongnu.org; Thu, 07 May 2020 07:58:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588852701;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OU0ohFscvXTx3pz4sXQvULRVgv4Z9aSgJ+wX8ckL0NA=;
- b=fFnxzzPBCSKAtLTd9pCh6TkxetlQ7MBLAKKmq0xRXA5Rk08+xmC43TM3fLcmQbUhNXUJTY
- sCpBnh2tblSkXWsVmM9m1KUX9VKl/Z/OIWIPkpkq2+TZrpmBE5zAs9lMrxPZFV7YwKdIpL
- 2sbzF0iD12fWf6dB3WOejXFN/v82Hpo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-FDvDB7RWNYOv7TQwmmwM9A-1; Thu, 07 May 2020 07:58:19 -0400
-X-MC-Unique: FDvDB7RWNYOv7TQwmmwM9A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1B841005510;
- Thu,  7 May 2020 11:58:18 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.36.110.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B87362A9D;
- Thu,  7 May 2020 11:58:16 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] crypto: extend hash benchmark to cover more algorithms
-Date: Thu,  7 May 2020 12:58:03 +0100
-Message-Id: <20200507115803.1122661-6-berrange@redhat.com>
-In-Reply-To: <20200507115803.1122661-1-berrange@redhat.com>
-References: <20200507115803.1122661-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWfWx-0001wD-74
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 08:21:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jWfWu-0002iv-Fn
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 08:21:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jWfWs-0002OD-2a
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 12:21:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BF60D2E810E
+ for <qemu-devel@nongnu.org>; Thu,  7 May 2020 12:21:29 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:56:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Date: Thu, 07 May 2020 12:06:16 -0000
+From: Heiko Sieger <1856335@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger
+X-Launchpad-Bug-Reporter: Damir (djdatte)
+X-Launchpad-Bug-Modifier: Heiko Sieger (h-sieger)
+References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
+Message-Id: <158885317678.5113.11272016025557588530.malone@soybean.canonical.com>
+Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 1e158f4e3ceb69ebb3938f869a91ecb7816db0d4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 08:21:30
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,140 +72,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extend the hash benchmark so that it can validate all algorithms
-supported by QEMU instead of being limited to sha256.
+Hello Babu,
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- tests/benchmark-crypto-hash.c | 73 ++++++++++++++++++++++++++++-------
- 1 file changed, 59 insertions(+), 14 deletions(-)
+Thanks for the reply and the QEMU command line. I will try to implement
+it in the XML.
 
-diff --git a/tests/benchmark-crypto-hash.c b/tests/benchmark-crypto-hash.c
-index 7f659f7323..d16837d00a 100644
---- a/tests/benchmark-crypto-hash.c
-+++ b/tests/benchmark-crypto-hash.c
-@@ -15,9 +15,14 @@
- #include "crypto/init.h"
- #include "crypto/hash.h"
-=20
-+typedef struct QCryptoHashOpts {
-+    size_t chunk_size;
-+    QCryptoHashAlgorithm alg;
-+} QCryptoHashOpts;
-+
- static void test_hash_speed(const void *opaque)
- {
--    size_t chunk_size =3D (size_t)opaque;
-+    const QCryptoHashOpts *opts =3D opaque;
-     uint8_t *in =3D NULL, *out =3D NULL;
-     size_t out_len =3D 0;
-     const size_t total =3D 2 * GiB;
-@@ -25,26 +30,24 @@ static void test_hash_speed(const void *opaque)
-     struct iovec iov;
-     int ret;
-=20
--    in =3D g_new0(uint8_t, chunk_size);
--    memset(in, g_test_rand_int(), chunk_size);
-+    in =3D g_new0(uint8_t, opts->chunk_size);
-+    memset(in, g_test_rand_int(), opts->chunk_size);
-=20
-     iov.iov_base =3D (char *)in;
--    iov.iov_len =3D chunk_size;
-+    iov.iov_len =3D opts->chunk_size;
-=20
-     g_test_timer_start();
-     remain =3D total;
-     while (remain) {
--        ret =3D qcrypto_hash_bytesv(QCRYPTO_HASH_ALG_SHA256,
-+        ret =3D qcrypto_hash_bytesv(opts->alg,
-                                   &iov, 1, &out, &out_len,
-                                   NULL);
-         g_assert(ret =3D=3D 0);
-=20
--        remain -=3D chunk_size;
-+        remain -=3D opts->chunk_size;
-     }
-     g_test_timer_elapsed();
-=20
--    g_print("sha256: ");
--    g_print("Hash %zu GB chunk size %zu bytes ", total / GiB, chunk_size);
-     g_print("%.2f MB/sec ", (double)total / MiB / g_test_timer_last());
-=20
-     g_free(out);
-@@ -53,17 +56,59 @@ static void test_hash_speed(const void *opaque)
-=20
- int main(int argc, char **argv)
- {
--    size_t i;
-     char name[64];
-=20
-     g_test_init(&argc, &argv, NULL);
-     g_assert(qcrypto_init(NULL) =3D=3D 0);
-=20
--    for (i =3D 512; i <=3D 64 * KiB; i *=3D 2) {
--        memset(name, 0 , sizeof(name));
--        snprintf(name, sizeof(name), "/crypto/hash/speed-%zu", i);
--        g_test_add_data_func(name, (void *)i, test_hash_speed);
--    }
-+#define TEST_ONE(a, c)                                          \
-+    QCryptoHashOpts opts ## a ## c =3D {                          \
-+        .alg =3D QCRYPTO_HASH_ALG_ ## a, .chunk_size =3D c,         \
-+    };                                                          \
-+    memset(name, 0 , sizeof(name));                             \
-+    snprintf(name, sizeof(name),                                \
-+             "/crypto/benchmark/hash/%s/bufsize-%d",            \
-+             QCryptoHashAlgorithm_str(QCRYPTO_HASH_ALG_ ## a),  \
-+             c);                                                \
-+    if (qcrypto_hash_supports(QCRYPTO_HASH_ALG_ ## a))          \
-+        g_test_add_data_func(name,                              \
-+                             &opts ## a ## c,                   \
-+                             test_hash_speed);
-+
-+    TEST_ONE(MD5, 512);
-+    TEST_ONE(MD5, 1024);
-+    TEST_ONE(MD5, 4096);
-+    TEST_ONE(MD5, 16384);
-+
-+    TEST_ONE(SHA1, 512);
-+    TEST_ONE(SHA1, 1024);
-+    TEST_ONE(SHA1, 4096);
-+    TEST_ONE(SHA1, 16384);
-+
-+    TEST_ONE(SHA224, 512);
-+    TEST_ONE(SHA224, 1024);
-+    TEST_ONE(SHA224, 4096);
-+    TEST_ONE(SHA224, 16384);
-+
-+    TEST_ONE(SHA384, 512);
-+    TEST_ONE(SHA384, 1024);
-+    TEST_ONE(SHA384, 4096);
-+    TEST_ONE(SHA384, 16384);
-+
-+    TEST_ONE(SHA256, 512);
-+    TEST_ONE(SHA256, 1024);
-+    TEST_ONE(SHA256, 4096);
-+    TEST_ONE(SHA256, 16384);
-+
-+    TEST_ONE(SHA512, 512);
-+    TEST_ONE(SHA512, 1024);
-+    TEST_ONE(SHA512, 4096);
-+    TEST_ONE(SHA512, 16384);
-+
-+    TEST_ONE(RIPEMD160, 512);
-+    TEST_ONE(RIPEMD160, 1024);
-+    TEST_ONE(RIPEMD160, 4096);
-+    TEST_ONE(RIPEMD160, 16384);
-=20
-     return g_test_run();
- }
---=20
-2.26.2
+So essentially what you do is to define each group of cpus and associate
+them with a numa node:
 
+-numa node,nodeid=3D0,cpus=3D0-5 -numa node,nodeid=3D1,cpus=3D6-11 -numa
+node,nodeid=3D2,cpus=3D12-17 -numa node,nodeid=3D3,cpus=3D18-23
+
+Haven't tried it but that might work. Do you need QEMU 5.0 for this to
+work, or is 4.2 OK?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1856335
+
+Title:
+  Cache Layout wrong on many Zen Arch CPUs
+
+Status in QEMU:
+  New
+
+Bug description:
+  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
+  to always map Cache ass if it was an 4-Core per CCX CPU, which is
+  incorrect, and costs upwards 30% performance (more realistically 10%)
+  in L3 Cache Layout aware applications.
+
+  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
+
+  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
+/>
+
+  In windows, coreinfo reports correctly:
+
+  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
+
+  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
+  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
+  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
+  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
+/>
+
+  in windows, coreinfo reports incorrectly:
+
+  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
+  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
+
+  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
+
+  With newer Qemu there is a fix (that does behave correctly) in using the =
+dies parameter:
+  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
+
+  The problem is that the dies are exposed differently than how AMD does
+  it natively, they are exposed to Windows as sockets, which means, that
+  if you are nto a business user, you can't ever have a machine with
+  more than two CCX (6 cores) as consumer versions of Windows only
+  supports two sockets. (Should this be reported as a separate bug?)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
 
