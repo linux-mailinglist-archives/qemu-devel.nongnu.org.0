@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91C61C814B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:06:02 +0200 (CEST)
-Received: from localhost ([::1]:40064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4731C8150
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:07:37 +0200 (CEST)
+Received: from localhost ([::1]:49654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWYjR-0000qR-NS
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33528)
+	id 1jWYky-0004kI-57
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYht-0007V4-Ht; Thu, 07 May 2020 01:04:25 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:44631)
+ id 1jWYhx-0007dN-Fx; Thu, 07 May 2020 01:04:29 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51327 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYhr-00070M-Gv; Thu, 07 May 2020 01:04:25 -0400
+ id 1jWYhv-0007Yo-PG; Thu, 07 May 2020 01:04:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49HhFn4ztWz9sSm; Thu,  7 May 2020 15:04:13 +1000 (AEST)
+ id 49HhFn5Srsz9sSr; Thu,  7 May 2020 15:04:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1588827853;
- bh=F8qKptjSIPSTQGjLaBtQk0trTc8MzA+Ysu7dOVrTfrA=;
+ bh=xlc5mtv/3xKknETuQ4MDMoZwVMk16BLB0W7Wmq965XI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Zs/mo7F3SV4/XKhrlZPLffr/bhOQbYHWd40ncB3ddX6HFSSt+iU6TaBbjoCzKpQjU
- +xgdmNt2dwkxXGbJ3CXSXvcJBHGJhJq6qo0Ig4uKbCxlhyeCFwUmBUN2BLHCFXHzME
- OQVvplRn1Z7OZanjssfkZ9w3AuXwD8VBeTD0TZGA=
+ b=UNtgMppsC/BBPsbWgxkSHkuLLpO5jgwtCxYFB5ODOk4WBhjIXBtejIJWwDZ0Hxkhu
+ hLnnnWiAWGj7d5XkXmJ2T6qHeki/RgyB63nCc//aZkT3ltkKIcjFN+7jZbgRF/tNjj
+ OwZtAuBlS75tGPQAoI/4Ln/APJRjcKtEV5ySl9ys=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 04/18] ppc/pnv: Add support for NMI interface
-Date: Thu,  7 May 2020 15:02:14 +1000
-Message-Id: <20200507050228.802395-5-david@gibson.dropbear.id.au>
+Subject: [PULL 05/18] spapr: Simplify selection of radix/hash during CAS
+Date: Thu,  7 May 2020 15:02:15 +1000
+Message-Id: <20200507050228.802395-6-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 References: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 01:04:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -65,92 +64,80 @@ Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, npiggin@gmail.com, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicholas Piggin <npiggin@gmail.com>
+From: Greg Kurz <groug@kaod.org>
 
-This implements the NMI interface for the PNV machine, similarly to
-commit 3431648272d ("spapr: Add support for new NMI interface") for
-SPAPR.
+The guest can select the MMU mode by setting bits 0-1 of byte 24
+in OV5 to to 0b00 for hash or 0b01 for radix. As required by the
+architecture, we terminate the boot process if any other value
+is found there.
 
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20200325144147.221875-3-npiggin@gmail.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+The usual way to negotiate features in OV5 is basically ANDing
+the bitfield provided by the guest and the bitfield of features
+supported by QEMU, previously populated at machine init.
+
+For some not documented reason, MMU is treated differently : bit 1
+of byte 24 (the radix/hash bit) is cleared from the guest OV5 and
+explicitely set in the final negotiated OV5 if radix was requested.
+
+Since the only expected input from the guest is the radix/hash bit
+being set or not, it seems more appropriate to handle this like we
+do for XIVE.
+
+Set the radix bit in spapr->ov5 at machine init if it has a chance
+to work (ie. power9, either TCG or a radix capable KVM) and rely
+exclusively on spapr_ovec_intersect() to set the radix bit in
+spapr->ov5_cas.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <158514993621.478799.4204740354545734293.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ hw/ppc/spapr.c       | 1 +
+ hw/ppc/spapr_hcall.c | 6 +-----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index c9cb6fa357..a3b7a8d0ff 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -27,6 +27,7 @@
- #include "sysemu/runstate.h"
- #include "sysemu/cpus.h"
- #include "sysemu/device_tree.h"
-+#include "sysemu/hw_accel.h"
- #include "target/ppc/cpu.h"
- #include "qemu/log.h"
- #include "hw/ppc/fdt.h"
-@@ -34,6 +35,7 @@
- #include "hw/ppc/pnv.h"
- #include "hw/ppc/pnv_core.h"
- #include "hw/loader.h"
-+#include "hw/nmi.h"
- #include "exec/address-spaces.h"
- #include "qapi/visitor.h"
- #include "monitor/monitor.h"
-@@ -1977,10 +1979,35 @@ static void pnv_machine_set_hb(Object *obj, bool value, Error **errp)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 785c41d205..167b1216ba 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2837,6 +2837,7 @@ static void spapr_machine_init(MachineState *machine)
+     if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
+         ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3_00, 0,
+                               spapr->max_compat_pvr)) {
++        spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_300);
+         /* KVM and TCG always allow GTSE with radix... */
+         spapr_ovec_set(spapr->ov5, OV5_MMU_RADIX_GTSE);
      }
- }
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index e8ee447537..fb4fdd4a0c 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1739,9 +1739,7 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+         exit(EXIT_FAILURE);
+     }
  
-+static void pnv_cpu_do_nmi_on_cpu(CPUState *cs, run_on_cpu_data arg)
-+{
-+    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+    CPUPPCState *env = &cpu->env;
-+
-+    cpu_synchronize_state(cs);
-+    ppc_cpu_do_system_reset(cs);
-+    /*
-+     * SRR1[42:45] is set to 0100 which the ISA defines as implementation
-+     * dependent. POWER processors use this for xscom triggered interrupts,
-+     * which come from the BMC or NMI IPIs.
-+     */
-+    env->spr[SPR_SRR1] |= PPC_BIT(43);
-+}
-+
-+static void pnv_nmi(NMIState *n, int cpu_index, Error **errp)
-+{
-+    CPUState *cs;
-+
-+    CPU_FOREACH(cs) {
-+        async_run_on_cpu(cs, pnv_cpu_do_nmi_on_cpu, RUN_ON_CPU_NULL);
-+    }
-+}
-+
- static void pnv_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-     InterruptStatsProviderClass *ispc = INTERRUPT_STATS_PROVIDER_CLASS(oc);
-+    NMIClass *nc = NMI_CLASS(oc);
+-    /* The radix/hash bit in byte 24 requires special handling: */
+     guest_radix = spapr_ovec_test(ov5_guest, OV5_MMU_RADIX_300);
+-    spapr_ovec_clear(ov5_guest, OV5_MMU_RADIX_300);
  
-     mc->desc = "IBM PowerNV (Non-Virtualized)";
-     mc->init = pnv_init;
-@@ -1997,6 +2024,7 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_size = INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
-     mc->default_ram_id = "pnv.ram";
-     ispc->print_info = pnv_pic_print_info;
-+    nc->nmi_monitor_handler = pnv_nmi;
+     guest_xive = spapr_ovec_test(ov5_guest, OV5_XIVE_EXPLOIT);
  
-     object_class_property_add_bool(oc, "hb-mode",
-                                    pnv_machine_get_hb, pnv_machine_set_hb,
-@@ -2060,6 +2088,7 @@ static const TypeInfo types[] = {
-         .class_size    = sizeof(PnvMachineClass),
-         .interfaces = (InterfaceInfo[]) {
-             { TYPE_INTERRUPT_STATS_PROVIDER },
-+            { TYPE_NMI },
-             { },
-         },
-     },
+@@ -1786,14 +1784,12 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+     /* full range of negotiated ov5 capabilities */
+     spapr_ovec_intersect(spapr->ov5_cas, spapr->ov5, ov5_guest);
+     spapr_ovec_cleanup(ov5_guest);
+-    /* Now that processing is finished, set the radix/hash bit for the
+-     * guest if it requested a valid mode; otherwise terminate the boot. */
++
+     if (guest_radix) {
+         if (kvm_enabled() && !kvmppc_has_cap_mmu_radix()) {
+             error_report("Guest requested unavailable MMU mode (radix).");
+             exit(EXIT_FAILURE);
+         }
+-        spapr_ovec_set(spapr->ov5_cas, OV5_MMU_RADIX_300);
+     } else {
+         if (kvm_enabled() && kvmppc_has_cap_mmu_radix()
+             && !kvmppc_has_cap_mmu_hash_v3()) {
 -- 
 2.26.2
 
