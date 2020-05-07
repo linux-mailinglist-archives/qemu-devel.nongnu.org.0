@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB3E1C97F5
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:36:20 +0200 (CEST)
-Received: from localhost ([::1]:32966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D5F1C9742
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:16:12 +0200 (CEST)
+Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWkRX-0002Tz-GR
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57578)
+	id 1jWk83-0006qu-E6
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:16:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWkMH-0005Q2-3z
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:30:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jWkMB-00086D-2z
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:30:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jWkM8-0008RL-UC
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 17:30:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AF2B12E810A
- for <qemu-devel@nongnu.org>; Thu,  7 May 2020 17:30:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jWk76-00062d-PU
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:15:12 -0400
+Received: from 4.mo68.mail-out.ovh.net ([46.105.59.63]:58708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jWk75-0002x2-Gh
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:15:12 -0400
+Received: from player735.ha.ovh.net (unknown [10.108.57.95])
+ by mo68.mail-out.ovh.net (Postfix) with ESMTP id 5411416528F
+ for <qemu-devel@nongnu.org>; Thu,  7 May 2020 19:15:02 +0200 (CEST)
+Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
+ (Authenticated sender: clg@kaod.org)
+ by player735.ha.ovh.net (Postfix) with ESMTPSA id A213211E93710;
+ Thu,  7 May 2020 17:14:57 +0000 (UTC)
+Subject: Re: [PATCH] ppc/pnv: Fix NMI system reset SRR1 value
+To: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org
+References: <20200507114824.788942-1-npiggin@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <55ff4f45-4e1f-e0af-7b25-0c197dd41e19@kaod.org>
+Date: Thu, 7 May 2020 19:14:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 07 May 2020 17:12:37 -0000
-From: Bump <1877418@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=btrfs-progs; component=main;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bump55
-X-Launchpad-Bug-Reporter: Bump (bump55)
-X-Launchpad-Bug-Modifier: Bump (bump55)
-References: <158887096525.4808.16857448132122344597.malonedeb@soybean.canonical.com>
-Message-Id: <158887155714.4759.9259948772680682325.malone@chaenomeles.canonical.com>
-Subject: [Bug 1877418] Re: qemu-nbd freezes access to VDI file
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: d7fb9ce3788b1d40f4eae502ec1b876fbffd3a11
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 13:10:40
+In-Reply-To: <20200507114824.788942-1-npiggin@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 4761712181045988326
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrkedtgddutdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefffdvtddugeeifeduuefghfejgfeigeeigeeltedthefgieeiveeuiefhgeefgfenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=46.105.59.63; envelope-from=clg@kaod.org;
+ helo=4.mo68.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 13:15:02
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,57 +63,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877418 <1877418@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "shell-commands.txt"
-   https://bugs.launchpad.net/qemu/+bug/1877418/+attachment/5367894/+files/=
-shell-commands.txt
+On 5/7/20 1:48 PM, Nicholas Piggin wrote:
+> Commit a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
+> SRR1 setting wrong for sresets that hit outside of power-save states.
+> 
+> Fix this, better documenting the source for the bit definitions.
+> 
+> Fixes: a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
+> Cc: Cédric Le Goater <clg@kaod.org>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-** Description changed:
+We should introduce some defines like the SRR1_WAKE ones in Linux and 
+cleanup powerpc_reset_wakeup(). This function uses cryptic values. 
+That can be done later on as a followup.
 
-  Mounted Oracle Virtualbox .vdi drive, which has GTP+BTRFS:
-+ sudo modprobe nbd max_part=3D16
-  sudo qemu-nbd -c /dev/nbd0 /storage/btrfs.vdi
-  =
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-  Then I am operating on the btrfs filesystem and suddenly it freezes.
+> ---
+> 
+> Thanks to Cedric for pointing out concerns with a previous MCE patch
+> that unearthed this as well. Linux does not actually care what these
+> SRR1[42:45] bits look like for non-powersave sresets, but we should
+> follow documented behaviour as far as possible.
 
-** Description changed:
+We should introduce some defines like the SRR1_WAKE ones in Linux and 
+cleanup powerpc_reset_wakeup(). This function uses cryptic values. 
+That can be done later on as a followup.
 
-- Mounted Oracle Virtualbox .vdi drive, which has GTP+BTRFS:
-+ Mounted Oracle Virtualbox .vdi drive (dynamically allocated), which has G=
-TP+BTRFS:
-  sudo modprobe nbd max_part=3D16
-  sudo qemu-nbd -c /dev/nbd0 /storage/btrfs.vdi
-  =
 
-  Then I am operating on the btrfs filesystem and suddenly it freezes.
+I am currently after a bug which results in a CPU hard lockup because 
+of a pending interrupt. It occurs on a SMP PowerNV machine when it is 
+stressed with IO, such as scp of a big file. 
 
--- =
+I am suspecting more and more an issue with an interrupt being handled 
+when the CPU is coming out of idle. I haven't seen anything wrong in
+the models. Unless this maybe :
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877418
+    /* Pretend to be returning from doze always as we don't lose state */
+    *msr |= (0x1ull << (63 - 47));
 
-Title:
-  qemu-nbd freezes access to VDI file
+I am not sure how in sync it is with PSSCR.
 
-Status in QEMU:
-  New
-Status in btrfs-progs package in Ubuntu:
-  New
 
-Bug description:
-  Mounted Oracle Virtualbox .vdi drive (dynamically allocated), which has G=
-TP+BTRFS:
-  sudo modprobe nbd max_part=3D16
-  sudo qemu-nbd -c /dev/nbd0 /storage/btrfs.vdi
-  mount /dev/nbd0p1 /mydata/
+Thanks, 
 
-  Then I am operating on the btrfs filesystem and suddenly it freezes.
+C.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877418/+subscriptions
+>  hw/ppc/pnv.c | 26 ++++++++++++++++++++------
+>  1 file changed, 20 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index a3b7a8d0ff..1b4748ce6d 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1986,12 +1986,26 @@ static void pnv_cpu_do_nmi_on_cpu(CPUState *cs, run_on_cpu_data arg)
+>  
+>      cpu_synchronize_state(cs);
+>      ppc_cpu_do_system_reset(cs);
+> -    /*
+> -     * SRR1[42:45] is set to 0100 which the ISA defines as implementation
+> -     * dependent. POWER processors use this for xscom triggered interrupts,
+> -     * which come from the BMC or NMI IPIs.
+> -     */
+> -    env->spr[SPR_SRR1] |= PPC_BIT(43);
+> +    if (env->spr[SPR_SRR1] & PPC_BITMASK(46, 47)) {
+> +        /*
+> +	 * Power-save wakeups, as indicated by non-zero SRR1[46:47] put the
+> +	 * wakeup reason in SRR1[42:45], system reset is indicated with 0b0100
+> +	 * (PPC_BIT(43)).
+> +	 */
+> +        if (!(env->spr[SPR_SRR1] & PPC_BIT(43))) {
+> +            warn_report("ppc_cpu_do_system_reset does not set system reset wakeup reason");
+> +            env->spr[SPR_SRR1] |= PPC_BIT(43);
+> +        }
+> +    } else {
+> +        /*
+> +	 * For non-powersave system resets, SRR1[42:45] are defined to be
+> +	 * implementation-dependent. The POWER9 User Manual specifies that
+> +	 * an external (SCOM driven, which may come from a BMC nmi command or
+> +	 * another CPU requesting a NMI IPI) system reset exception should be
+> +	 * 0b0010 (PPC_BIT(44)).
+> +         */
+> +        env->spr[SPR_SRR1] |= PPC_BIT(44);
+> +    }
+>  }
+>  
+>  static void pnv_nmi(NMIState *n, int cpu_index, Error **errp)
+> 
+
 
