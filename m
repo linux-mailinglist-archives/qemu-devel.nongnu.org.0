@@ -2,52 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA761C9F1E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 01:29:25 +0200 (CEST)
-Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D4B1C8D18
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:56:54 +0200 (CEST)
+Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWpxE-0005sS-GH
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 19:29:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
+	id 1jWh1B-0006mw-JB
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWpwL-0004gL-UN; Thu, 07 May 2020 19:28:29 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:32917 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWpwK-0001Gt-DA; Thu, 07 May 2020 19:28:29 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49J8ln69Bfz9sRY; Fri,  8 May 2020 09:28:21 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1588894101;
- bh=LX+UY2kgK6xt3zpJWZqaQ5mDAW6ZkKK/KCa552FQVkg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QYhiah/ZsR6udMeZBvle8a8nmThQ4eHyTkMg8/YrmfBUfyrE+okImaebSSzwWmJ1q
- BH5E4qvjYKKv7EuXjRFz5bHpnhRct81L4bxjV584jm2OkCkHSjd4OFSC1yia5U7YoI
- V4g1WD48SUlEigfjCbgXH+uCP6r3S6BtqPfg1aJ0=
-Date: Thu, 7 May 2020 23:52:38 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] ppc/spapr: add a POWER10 CPU model
-Message-ID: <20200507135238.GB2282@umbus.fritz.box>
-References: <20200507073855.2485680-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWgxq-0001zN-OF
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 09:53:26 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:43619
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWgxp-0003yM-VI
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 09:53:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588859604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e8gNxRdoO7T7Jh9XsKdugx/FZO/g8FJ3Zbk8I++SmJk=;
+ b=IH0vsselSbmJJPy3SENeu6GwxStcGBjUGUJXRK6sx9+NBeUR6dick583iRMW2DSK/hTIcx
+ IhnP+eJvIc8ftIm+3jO/TwIhji9z/OFP1rbwUhViGi7oUvRoghPJIU2P+G0SdX/Jjx/s/H
+ PkWW6ar5adb48B0uPh5kxxlziSbaiNM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-zjbmNobfO7uA4lLtuVmx3Q-1; Thu, 07 May 2020 09:53:20 -0400
+X-MC-Unique: zjbmNobfO7uA4lLtuVmx3Q-1
+Received: by mail-wm1-f72.google.com with SMTP id a206so372067wmh.6
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 06:53:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oGhvpbKRRF12rPLBlUaWRAJu5Zn5LwTdeQhQdoMKA7Y=;
+ b=T3rgjBYYEcSmhxaV4FR1txHPkJ9LuvPrtZgPYdmBvwV8mJlT1/d+hTDzieJTNgShDl
+ bhKyCn43HBopfON2HM0fCL6F9d2XfUwoCTbBMCkOW7cOW8W4Lc60FuQd5+bOp9saPO+Y
+ bg9NXY1F47bVS+Br2UYqaos6g9nxkFoq4VtOpDfOUuxMweCtxQpR7FKdSV56rBDzNfn4
+ WFG+F16/pxgbjn3rBKg7kdSKmPdv3hm0T3G/t1OME/X56vvtWNy6eCY/DGEwUuWRzBxA
+ 4RZmLT9MActfV1CnjKOfEGc0imTqt9vnUvPQ17ulfguZDRK9sk3wKN/avRb+iat1W81s
+ 3DFA==
+X-Gm-Message-State: AGi0PubeDFBxBl6OyfCUhzdSmFEF/npuoqXvHzMnOEky7PWHkZyr/w5K
+ v21bh74z+AAjlJ6UfWrEN3YH9r8m/aiOy5PW3ayi8QV/vu3gYOnN/0Xy/u5O/Drv1l2SSR6VUVl
+ RJQ2s/Il2NfAwu5U=
+X-Received: by 2002:adf:e28c:: with SMTP id v12mr17561604wri.157.1588859598948; 
+ Thu, 07 May 2020 06:53:18 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLs3UUgz62xquy70CAaGxyZ83eD6WbwuK2+WAQF6WyDB7dWt4n+ie9uEbm58tLZVZ4P6RM+7w==
+X-Received: by 2002:adf:e28c:: with SMTP id v12mr17561568wri.157.1588859598691; 
+ Thu, 07 May 2020 06:53:18 -0700 (PDT)
+Received: from [192.168.1.39] (248.red-88-21-203.staticip.rima-tde.net.
+ [88.21.203.248])
+ by smtp.gmail.com with ESMTPSA id q74sm587281wme.14.2020.05.07.06.53.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 May 2020 06:53:18 -0700 (PDT)
+Subject: Re: [PATCH v5 05/15] acpi: move aml builder code for serial device
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20200507131640.14041-1-kraxel@redhat.com>
+ <20200507131640.14041-6-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9776cfdf-f3d2-57d6-69e0-ae16380d6fea@redhat.com>
+Date: Thu, 7 May 2020 15:53:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="K8nIJk4ghYZn606h"
-Content-Disposition: inline
-In-Reply-To: <20200507073855.2485680-1-clg@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200507131640.14041-6-kraxel@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,65 +98,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Popple <alistair@popple.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/7/20 3:16 PM, Gerd Hoffmann wrote:
+> The code uses the isa_serial_io array to figure what the device uid is.
+> Side effect is that acpi antries are not limited to port 1+2 any more,
+> we'll also get entries for ports 3+4.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
---K8nIJk4ghYZn606h
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 07, 2020 at 09:38:55AM +0200, C=E9dric Le Goater wrote:
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-
-Applied to ppc-for-5.1, thanks
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 > ---
->  hw/ppc/spapr_cpu_core.c | 1 +
->  1 file changed, 1 insertion(+)
+>   hw/char/serial-isa.c | 22 ++++++++++++++++++++++
+>   hw/i386/acpi-build.c | 32 --------------------------------
+>   2 files changed, 22 insertions(+), 32 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index ac1c10942771..9c7e0d225a0a 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -410,6 +410,7 @@ static const TypeInfo spapr_cpu_core_type_infos[] =3D=
- {
->      DEFINE_SPAPR_CPU_CORE_TYPE("power8nvl_v1.0"),
->      DEFINE_SPAPR_CPU_CORE_TYPE("power9_v1.0"),
->      DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.0"),
-> +    DEFINE_SPAPR_CPU_CORE_TYPE("power10_v1.0"),
->  #ifdef CONFIG_KVM
->      DEFINE_SPAPR_CPU_CORE_TYPE("host"),
->  #endif
+> diff --git a/hw/char/serial-isa.c b/hw/char/serial-isa.c
+> index f9b6eed7833d..165e320e65f0 100644
+> --- a/hw/char/serial-isa.c
+> +++ b/hw/char/serial-isa.c
+> @@ -27,6 +27,7 @@
+>   #include "qapi/error.h"
+>   #include "qemu/module.h"
+>   #include "sysemu/sysemu.h"
+> +#include "hw/acpi/aml-build.h"
+>   #include "hw/char/serial.h"
+>   #include "hw/isa/isa.h"
+>   #include "hw/qdev-properties.h"
+> @@ -81,6 +82,25 @@ static void serial_isa_realizefn(DeviceState *dev, Err=
+or **errp)
+>       isa_register_ioport(isadev, &s->io, isa->iobase);
+>   }
+>  =20
+> +static void serial_isa_build_aml(ISADevice *isadev, Aml *scope)
+> +{
+> +    ISASerialState *isa =3D ISA_SERIAL(isadev);
+> +    Aml *dev;
+> +    Aml *crs;
+> +
+> +    crs =3D aml_resource_template();
+> +    aml_append(crs, aml_io(AML_DECODE16, isa->iobase, isa->iobase, 0x00,=
+ 0x08));
+> +    aml_append(crs, aml_irq_no_flags(isa->isairq));
+> +
+> +    dev =3D aml_device("COM%d", isa->index + 1);
+> +    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0501")));
+> +    aml_append(dev, aml_name_decl("_UID", aml_int(isa->index + 1)));
+> +    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+> +    aml_append(dev, aml_name_decl("_CRS", crs));
+> +
+> +    aml_append(scope, dev);
+> +}
+> +
+>   static const VMStateDescription vmstate_isa_serial =3D {
+>       .name =3D "serial",
+>       .version_id =3D 3,
+> @@ -103,9 +123,11 @@ static Property serial_isa_properties[] =3D {
+>   static void serial_isa_class_initfn(ObjectClass *klass, void *data)
+>   {
+>       DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +    ISADeviceClass *isa =3D ISA_DEVICE_CLASS(klass);
+>  =20
+>       dc->realize =3D serial_isa_realizefn;
+>       dc->vmsd =3D &vmstate_isa_serial;
+> +    isa->build_aml =3D serial_isa_build_aml;
+>       device_class_set_props(dc, serial_isa_properties);
+>       set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+>   }
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 3a82730a0d19..0e6a5151f4c3 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1208,36 +1208,6 @@ static Aml *build_lpt_device_aml(void)
+>       return dev;
+>   }
+>  =20
+> -static void build_com_device_aml(Aml *scope, uint8_t uid)
+> -{
+> -    Aml *dev;
+> -    Aml *crs;
+> -    uint8_t irq =3D 4;
+> -    uint16_t io_port =3D 0x03F8;
+> -
+> -    assert(uid =3D=3D 1 || uid =3D=3D 2);
+> -    if (uid =3D=3D 2) {
+> -        irq =3D 3;
+> -        io_port =3D 0x02F8;
+> -    }
+> -    if (!memory_region_present(get_system_io(), io_port)) {
+> -        return;
+> -    }
+> -
+> -    dev =3D aml_device("COM%d", uid);
+> -    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0501")));
+> -    aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
+> -
+> -    aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+> -
+> -    crs =3D aml_resource_template();
+> -    aml_append(crs, aml_io(AML_DECODE16, io_port, io_port, 0x00, 0x08));
+> -    aml_append(crs, aml_irq_no_flags(irq));
+> -    aml_append(dev, aml_name_decl("_CRS", crs));
+> -
+> -    aml_append(scope, dev);
+> -}
+> -
+>   static void build_isa_devices_aml(Aml *table)
+>   {
+>       ISADevice *fdc =3D pc_find_fdc0();
+> @@ -1252,8 +1222,6 @@ static void build_isa_devices_aml(Aml *table)
+>           aml_append(scope, build_fdc_device_aml(fdc));
+>       }
+>       aml_append(scope, build_lpt_device_aml());
+> -    build_com_device_aml(scope, 1);
+> -    build_com_device_aml(scope, 2);
+>  =20
+>       if (ambiguous) {
+>           error_report("Multiple ISA busses, unable to define IPMI ACPI d=
+ata");
+>=20
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---K8nIJk4ghYZn606h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl60EqYACgkQbDjKyiDZ
-s5IgLxAAtDnMURNgzOLywjiHEVfKzssBzwO8EGaKIPkCi+j+pqlgEVCzr/K+/Wy/
-R5/D/EfEvpAED1ReloqIj9QZPQEeQY4No98Y1zZ+/TatOQoUyP97VgNcLLmNfqlV
-OPKBomWqFDVo5+lJ5kp1tWZbeqmOmSxTUCHUcJiDcsfsA/piMP6rKnYQkvsI3lxK
-at8e2YCs523bkDMP+Y9MC8OlkhB6XglM4Ppj8twHPxpMrXdfexEznC7EWVFRmGg/
-+r4hW2LaoIexQTzom/m8Bgjw75W8U6F5thMM220GUSGLJmzC4ArQHrswMooFIZTL
-XCKMCCdm8+5kCoeZ3FkP6sCYam61/iOQtV5JH/902UKl8aIVmthtmekz9ppJfYfs
-aX09619/yDZGn8duc8lqIdmS0gm9bs00X91iEyh8Mb0Pyyqp6uBLPbPeyMndNbeW
-HqgI7vrVDZ6VYbKJbo9j9JOwBuUnLE4CM9kahXvHHMMZUNwhXgB3POmvN+HVCQp/
-xaWSiOwRI1no6RRsHCPb5/4Hg+Q8OPBFMUL9SMDNzzQw+ciSxbfXy6czfV5JzNKr
-eIAgkD8sgdTUknbl2f2tqU0ZuOpejwRemIvYXQIQn/qDN/2DUebYUtb+tbKFdmPR
-I2+6SDbYWQv70XFpxaa1moUXBnPWgo3fcI2OHs/C127AbdzXe8g=
-=OfeW
------END PGP SIGNATURE-----
-
---K8nIJk4ghYZn606h--
 
