@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52E91C90A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 16:50:21 +0200 (CEST)
-Received: from localhost ([::1]:48030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F43D1C90D2
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 16:53:46 +0200 (CEST)
+Received: from localhost ([::1]:55366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWhqu-00036Q-UJ
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 10:50:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48266)
+	id 1jWhuD-0006Qt-6T
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 10:53:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jWhpy-0002I5-Qj
- for qemu-devel@nongnu.org; Thu, 07 May 2020 10:49:22 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51548
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jWht9-0004k7-RV
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 10:52:39 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46347
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1jWhpy-000871-3f
- for qemu-devel@nongnu.org; Thu, 07 May 2020 10:49:22 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jWht9-0005l1-6o
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 10:52:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588862961;
+ s=mimecast20190719; t=1588863158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=uHQndjzVFWDYsY8OzJ1ZpaOFAkMFhi/bqw0JPYzZmU8=;
- b=h6DHrV2Jwto8rvcdKl5tjJXe3DmTTbZ1bxVK/66bttAbU3sEDLT7vlLvYlh8bE5z0xnVBX
- +A9Ay6OqubNIbABg+FMr1S5A7Sl40CQa3UX9qBX0gy1im/SIu/WVdZl7Nuh7fbgyvpk4zK
- eB1JQM/mUXLUTsW+Hmxx9bfUkdYSUzc=
+ bh=LQ9h8BsfChMvLfocCW2hsuX6JA66R2zTvOMlTYm5RDM=;
+ b=SAMG8REtz5DFsH6mj1DxmXNcA8JAqC41oTDelpoO3pxpil1YlS7kFlaGASfM8moj7bcvE0
+ lJVdI8OVk1AduzVJ0uLgc8dXw/cJgR4uqb+HZxioyIiQI8iTDRPBCdwGNWMtObIvITo4R+
+ VJQQZnfK/dULX2FCq1iK05TAOIYZ5BM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-V_DQ9JpjNrOPrYLDEXhT2g-1; Thu, 07 May 2020 10:49:18 -0400
-X-MC-Unique: V_DQ9JpjNrOPrYLDEXhT2g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-422-5Urh3RIbML2nwg5WUVulAQ-1; Thu, 07 May 2020 10:52:34 -0400
+X-MC-Unique: 5Urh3RIbML2nwg5WUVulAQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02B981895943
- for <qemu-devel@nongnu.org>; Thu,  7 May 2020 14:49:18 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2784860BEC;
- Thu,  7 May 2020 14:49:15 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3B3AB17477; Thu,  7 May 2020 16:49:14 +0200 (CEST)
-Date: Thu, 7 May 2020 16:49:14 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: libvir-list@redhat.com, qemu-devel@nongnu.org
-Subject: device hotplug & file handles
-Message-ID: <20200507144914.4zg3753uh3kytz6g@sirius.home.kraxel.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F75C800688;
+ Thu,  7 May 2020 14:52:33 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-113-33.ams2.redhat.com [10.36.113.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30D037055D;
+ Thu,  7 May 2020 14:52:31 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/3] mirror: Make sure that source and target size match
+Date: Thu,  7 May 2020 16:52:25 +0200
+Message-Id: <20200507145228.323412-1-kwolf@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,37 +74,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Same thing as the recent fix for backup, except that mirror already
+forbids resizing during the job. So what remains is checking that the
+sizes match at the start of the job.
 
-For usb device pass-through (aka -device usb-host) it would be very
-useful to pass file handles from libvirt to qemu.  The workflow would
-change from ...
+Kevin Wolf (3):
+  iotests/229: Use blkdebug to inject an error
+  mirror: Make sure that source and target size match
+  iotests: Mirror with different source/target size
 
-  (1) libvirt enables access to /dev/usb/$bus/$dev
-  (2) libvirt passes $bus + $dev (using hostbus + hostaddr properties)
-      to qemu.
-  (3) qemu opens /dev/usb/$bus/$dev
+ block/mirror.c             | 21 ++++++++++--------
+ tests/qemu-iotests/041     | 45 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/041.out |  4 ++--
+ tests/qemu-iotests/229     | 15 +++++++++----
+ tests/qemu-iotests/229.out |  6 ++---
+ 5 files changed, 73 insertions(+), 18 deletions(-)
 
-... to ...
-
-  (1) libvirt opens /dev/usb/$bus/$dev
-  (2) libvirt passes filehandle to qemu.
-
-Question is how can we pass the file descriptor best?  My idea would be
-to simply add an fd property to usb-host:
-
- * Coldplug would be "-device usb-host,fd=3D<nr>" (cmd line).
- * Hotplug would be "device_add usb-host,fd=3D<getfd-name>" (monitor).
-
-Will that work from libvirt point of view?
-Or does anyone have an better idea?
-
-thanks,
-  Gerd
-
-PS: background: https://bugzilla.redhat.com/show_bug.cgi?id=3D1595525
+--=20
+2.25.3
 
 
