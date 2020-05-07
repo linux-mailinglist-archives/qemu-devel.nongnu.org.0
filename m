@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC62A1C9C45
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 22:26:02 +0200 (CEST)
-Received: from localhost ([::1]:38828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C80B11C9C5B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 22:29:46 +0200 (CEST)
+Received: from localhost ([::1]:42220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWn5l-0000Zy-GO
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 16:26:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43872)
+	id 1jWn9N-0002Ly-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 16:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <amanieu@gmail.com>)
- id 1jWn4w-0008Cb-38; Thu, 07 May 2020 16:25:10 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <amanieu@gmail.com>)
- id 1jWn4v-0002q3-Dl; Thu, 07 May 2020 16:25:09 -0400
-Received: by mail-wr1-x444.google.com with SMTP id i15so7537202wrx.10;
- Thu, 07 May 2020 13:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UkQ2SXUns6F/5PObSbNi0PU9ulwYNF013AWTnOJW1V0=;
- b=UC43ZlZjow+N6/LNlQek8nn4jbXnTe9OjaVzN1CFkpenoeUsrAm7KzfNF3+65zNiSW
- b201ttBFquhdnpUs4KS2/I2Q8QCGKaDJaKN4AwZ9sNKbdWsMJmA55VccRGhhPlOXKpRU
- i1Z/xRKFiD6s26tObIt4q+QAJJtbu/Twr1yoxelFqlp489qko7b9UAe+F8O4hX1y2uvm
- IWMqMG+DByH7c8OyIEFFcR/s0zAfFjBpyC5PXhm0NXIgSDu/bKLfKFjKqPfeeNf3clDa
- 58FOwtw2yN688MO8t3TuzG4Lok23KVdQZkxx9eZO09Cz97Ge/986+WJtDxe3nAFqCKGW
- qIOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UkQ2SXUns6F/5PObSbNi0PU9ulwYNF013AWTnOJW1V0=;
- b=G+D2X36XIXxsjzQb89SW8/4no9WLSo70Cz08Ri12TErle658Dy4XMbXx6k0M2XCCXx
- 9lPv9ZeQYnKsvuZnWHGCS2I5tZ8mysv/ywLIgoBj2xsAsVkvWigjZV2hZI0+vCXS1Cah
- xIAnbZ2XJBe8sDbD6HK/sLF8jWq7oYQr3NTEQP7okz8d1+j0KxUgJwJGpmKxMSkbmaXg
- 3aML8gYcNegX3YIyqWFGkqib+2eBCaw51Ph7NURsqn13i+1gnF34z+MPvtv3LatW6nQJ
- hv6rfgTBXrNHMmI8qcl4R5rFRsSzNucFETfWAZBTxmREh6LOnAlZXd+qv7jy6VQBxSHO
- YlGw==
-X-Gm-Message-State: AGi0PubzyWkIgZBxRyc9hqbYABAN/LHYq+yK2GZR+fRBW7xx/8EfyV12
- wLHRrDY72YxTZ/oNvyqK4420qfshZGXOZw==
-X-Google-Smtp-Source: APiQypIbgdMiM49HcDQ7OZvkb4703UIUSaznP2UAr1B8wuqY/qpvthAxIETHVP5mobow1kIwSqw5vg==
-X-Received: by 2002:adf:afd9:: with SMTP id y25mr17515023wrd.421.1588883107194; 
- Thu, 07 May 2020 13:25:07 -0700 (PDT)
-Received: from amanieu-laptop.home ([2a00:23c6:f081:f801:76b2:7504:9791:6959])
- by smtp.gmail.com with ESMTPSA id
- c25sm9516522wmb.44.2020.05.07.13.25.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 13:25:06 -0700 (PDT)
-From: Amanieu d'Antras <amanieu@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user/arm: Reset CPSR_E when entering a signal handler
-Date: Thu,  7 May 2020 21:24:29 +0100
-Message-Id: <20200507202429.1643202-1-amanieu@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWn8I-0001BS-0Q
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 16:28:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50026
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWn8G-0002Mb-Nu
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 16:28:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588883315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mSxWDZsjj3SaGgtFx1GscCkXpWzyoWovCugop63z/1U=;
+ b=Gq01eD4lmLJKvy69g1AJeVCq59hLq34yi7JcS2y2yVUoA/zXJ2ILyKNOn+x0OlDz/7YlT2
+ fKPYAZTfrp3gelB9R/4bD4ktCa7wqDg7giAziSbJ0hGY40tac6xTDsegxsBsHceNjuvQD6
+ M9+g9+4301HM5peexafNvEY6I6J2xI4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-hN_DlCjLN7CG9P-XeVUyBg-1; Thu, 07 May 2020 16:28:29 -0400
+X-MC-Unique: hN_DlCjLN7CG9P-XeVUyBg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B13118FE860;
+ Thu,  7 May 2020 20:28:28 +0000 (UTC)
+Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FCFD19C4F;
+ Thu,  7 May 2020 20:28:25 +0000 (UTC)
+Subject: Re: [PATCH] Fix erroneous double negation in conditional
+To: Raphael Norwitz <raphael.s.norwitz@gmail.com>, qemu-devel@nongnu.org,
+ mst@redhat.com, qemu-trivial@nongnu.org
+References: <CAFubqFt+KVJFYCEimgdTYRiiBm9y9ZRvSshxRv0kizRcUZTkLQ@mail.gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <62e04219-9254-3210-e948-e6049f535da3@redhat.com>
+Date: Thu, 7 May 2020 15:28:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=amanieu@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <CAFubqFt+KVJFYCEimgdTYRiiBm9y9ZRvSshxRv0kizRcUZTkLQ@mail.gmail.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:56:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,47 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
- qemu-arm@nongnu.org, Amanieu d'Antras <amanieu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes signal handlers running with the wrong endianness if the
-interrupted code used SETEND to dynamically switch endianness.
+On 5/7/20 3:06 PM, Raphael Norwitz wrote:
+> In vhost_migration_log() there is the following check:
+>      if(!!enable =3D=3D dev->log_enabled) {
+>          return 0;
+>      }
+>=20
+> The double negative =E2=80=9C!!=E2=80=9D is unnecessary and bad coding st=
+yle. This
+> change removes it.
 
-Signed-off-by: Amanieu d'Antras <amanieu@gmail.com>
----
- linux-user/arm/signal.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+!!int or !!ptr is not bad coding style - it is the shortest way to=20
+compare a non-bool against 0, and canonicalize the result back into bool=20
+(that is, convert all non-zero values into '1').  But !!bool is a waste=20
+of typing, since bool is already in the proper form.  Your patch as-is=20
+is incorrect; since the function declares 'int enable', this is using=20
+the !!int form which is not bad coding style.
 
-diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index d96fc27ce1..8aca5f61b7 100644
---- a/linux-user/arm/signal.c
-+++ b/linux-user/arm/signal.c
-@@ -244,6 +244,12 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
-     } else {
-         cpsr &= ~CPSR_T;
-     }
-+    cpsr &= ~CPSR_E;
-+#ifdef TARGET_WORDS_BIGENDIAN
-+    if (env->cp15.sctlr_el[1] & SCTLR_E0E) {
-+        cpsr |= CPSR_E;
-+    }
-+#endif
- 
-     if (ka->sa_flags & TARGET_SA_RESTORER) {
-         if (is_fdpic) {
-@@ -287,7 +293,8 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
-     env->regs[13] = frame_addr;
-     env->regs[14] = retcode;
-     env->regs[15] = handler & (thumb ? ~1 : ~3);
--    cpsr_write(env, cpsr, CPSR_IT | CPSR_T, CPSRWriteByInstr);
-+    cpsr_write(env, cpsr, CPSR_IT | CPSR_T | CPSR_E, CPSRWriteByInstr);
-+    arm_rebuild_hflags(env);
- 
-     return 0;
- }
--- 
-2.26.2
+On the other hand, looking at this function closer, we see that=20
+vhost_migration_log() is static, so all uses lie within this file.  And=20
+the callers are:
+
+static void vhost_log_global_start(MemoryListener *listener)
+     r =3D vhost_migration_log(listener, true);
+static void vhost_log_global_stop(MemoryListener *listener)
+     r =3D vhost_migration_log(listener, false);
+
+and looking at struct vhost_dev, its log_enabled member is bool.
+
+So the _real_ problem with this file is that it uses 'int enable' rather=20
+than 'bool enable'.  And once you fix the parameter type, then you are=20
+indeed correct that you would have a !!bool scenario worth cleaning up.
+
+Looking forward to v2 along those lines.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
