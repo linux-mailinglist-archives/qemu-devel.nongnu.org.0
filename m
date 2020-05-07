@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B65F11C86C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 12:32:33 +0200 (CEST)
-Received: from localhost ([::1]:56550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFEA1C8781
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 13:04:05 +0200 (CEST)
+Received: from localhost ([::1]:44836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWdpQ-0006i9-C7
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 06:32:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45736)
+	id 1jWeJw-0007yw-RP
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 07:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1jWdoY-0006B6-1c; Thu, 07 May 2020 06:31:38 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:56814 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1jWdoW-0008IR-MA; Thu, 07 May 2020 06:31:37 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id E8E56452AD0204D732F5;
- Thu,  7 May 2020 18:31:24 +0800 (CST)
-Received: from [127.0.0.1] (10.173.221.230) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0;
- Thu, 7 May 2020 18:31:15 +0800
-Subject: Re: [PATCH v3] migration/throttle: Add cpu-throttle-tailslow
- migration parameter
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200413101508.54793-1-zhukeqian1@huawei.com>
- <20200430141239.GH2874@work-vm>
-From: zhukeqian <zhukeqian1@huawei.com>
-Message-ID: <bc72b9c0-3592-df1f-c101-1a08c6982e72@huawei.com>
-Date: Thu, 7 May 2020 18:31:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jWeH7-0004w3-BA
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 07:01:09 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:32821
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1jWeH3-0000IW-2N
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 07:01:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588849261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=t2VHDzctGZvLsU60zVEFuMdDSc5SkIQXKrDY67fuPeU=;
+ b=aJmJAdAKgTRXmsOUw4hltJWZ4PKbTsSobdy/Oz+aMLFO3pc2CLZpLeiWkrQFL7/NbSVD/8
+ 0zDfcENuWll3ke4rgLkO/MhYJ75iC4CHExnNO673/7MkGiOYY6+ZWkdnRnOYycvMCMkAn+
+ xeEj8F/M7bPBt+BJBI0VTb43pioE5LQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-EUGDDg33MqOCVqCSPP6b8w-1; Thu, 07 May 2020 06:59:24 -0400
+X-MC-Unique: EUGDDg33MqOCVqCSPP6b8w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE21680183C;
+ Thu,  7 May 2020 10:59:23 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.74.8.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F904649A9;
+ Thu,  7 May 2020 10:59:20 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Subject: [PATCH 0/2] use unsigned type for MegasasState fields
+Date: Thu,  7 May 2020 16:27:16 +0530
+Message-Id: <20200507105718.1319187-1-ppandit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200430141239.GH2874@work-vm>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.173.221.230]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhukeqian1@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 06:31:25
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,80 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- wanghaibin.wang@huawei.com
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, Ren Ding <rding@gatech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dr.David,
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Sorry for the reply delay, just come back from holiday.
+Hello,
 
-On 2020/4/30 22:12, Dr. David Alan Gilbert wrote:
-> * Keqian Zhu (zhukeqian1@huawei.com) wrote:
->> At the tail stage of throttling, the Guest is very sensitive to
->> CPU percentage while the @cpu-throttle-increment is excessive
->> usually at tail stage.
-[...]
->> -static void mig_throttle_guest_down(void)
->> +static void mig_throttle_guest_down(uint64_t bytes_dirty_period,
->> +                                    uint64_t bytes_dirty_threshold)
->>  {
->>      MigrationState *s = migrate_get_current();
->>      uint64_t pct_initial = s->parameters.cpu_throttle_initial;
->> -    uint64_t pct_icrement = s->parameters.cpu_throttle_increment;
->> +    uint64_t pct_increment = s->parameters.cpu_throttle_increment;
->> +    bool pct_tailslow = s->parameters.cpu_throttle_tailslow;
->>      int pct_max = s->parameters.max_cpu_throttle;
->>  
->> +    uint64_t throttle_now = cpu_throttle_get_percentage();
->> +    uint64_t cpu_now, cpu_ideal, throttle_inc;
->> +
->>      /* We have not started throttling yet. Let's start it. */
->>      if (!cpu_throttle_active()) {
->>          cpu_throttle_set(pct_initial);
->>      } else {
->>          /* Throttling already on, just increase the rate */
->> -        cpu_throttle_set(MIN(cpu_throttle_get_percentage() + pct_icrement,
->> -                         pct_max));
->> +        if (!pct_tailslow) {
->> +            throttle_inc = pct_increment;
->> +        } else {
->> +            /* Compute the ideal CPU percentage used by Guest, which may
->> +             * make the dirty rate match the dirty rate threshold. */
->> +            cpu_now = 100 - throttle_now;
->> +            cpu_ideal = cpu_now * (bytes_dirty_threshold * 1.0 /
->> +                        bytes_dirty_period);
-> 
-> I worry if we need a divide-by-0 check; but that seems unlikely.
-mig_throttle_guest_down is called when bytes_dirty_period is bigger than
-bytes_dirty_threshold, and bytes_dirty_threshold is of unsigned type, so
-bytes_dirty_period will not be zero here. I will add an assert check here
-to make it clear.
+* This series fixes an OOB access issue which may occur when a guest user
+  sets 's->reply_queue_head' field to a negative(or large positive) value,
+  via 'struct mfi_init_qinfo' object in megasas_init_firmware().
 
-> Now if that worked out as huge, then I think the MIN's guard it even
-> with overflow below, so I think we're OK.
-Yes, it will not exceed legacy increment.
+* Second patch updates other numeric fields of MegasasState to unsigned typ=
+e.
 
-> 
->> +            throttle_inc = MIN(cpu_now - cpu_ideal, pct_increment);
->> +        }
->> +        cpu_throttle_set(MIN(throttle_now + throttle_inc, pct_max));
->>      }
->>  }
->>  
-[...]
->> -- 
->> 2.19.1
->>
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
-Thanks,
-Keqian
-> 
-> .
-> 
+Thank you.
+---
+Prasad J Pandit (2):
+  megasas: use unsigned type for reply_queue_head
+  megasas: use unsigned type for positive numeric fields
+
+ hw/scsi/megasas.c | 40 ++++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
+
+--=20
+2.25.4
 
 
