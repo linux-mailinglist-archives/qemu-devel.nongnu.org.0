@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED211C97D0
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:31:05 +0200 (CEST)
-Received: from localhost ([::1]:49150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 593871C97D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:33:35 +0200 (CEST)
+Received: from localhost ([::1]:56784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWkMS-0004U6-OI
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:31:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57140)
+	id 1jWkOs-0008LC-DB
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1jWkIl-0007f6-7g; Thu, 07 May 2020 13:27:15 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59658)
+ id 1jWkIl-0007fq-EY; Thu, 07 May 2020 13:27:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1jWkIk-0007DQ-E4; Thu, 07 May 2020 13:27:14 -0400
+ id 1jWkIk-0007DU-KX; Thu, 07 May 2020 13:27:15 -0400
 Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 047H1oo9123955; Thu, 7 May 2020 13:27:02 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30twj0mb54-1
+ 047H1oUI123979; Thu, 7 May 2020 13:27:09 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30twj0mb89-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 07 May 2020 13:27:02 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 047HPqIN009099;
- Thu, 7 May 2020 17:27:00 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04fra.de.ibm.com with ESMTP id 30s0g64s6u-1
+ Thu, 07 May 2020 13:27:08 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 047HPVTA013431;
+ Thu, 7 May 2020 17:27:05 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 30s0g5utdm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 07 May 2020 17:27:00 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 047HQvdS5636564
+ Thu, 07 May 2020 17:27:05 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 047HR3Pl54919668
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 7 May 2020 17:26:57 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 74B77A405E;
- Thu,  7 May 2020 17:26:57 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 45B90A4040;
- Thu,  7 May 2020 17:26:57 +0000 (GMT)
+ Thu, 7 May 2020 17:27:03 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A90BD42047;
+ Thu,  7 May 2020 17:27:03 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E84142042;
+ Thu,  7 May 2020 17:27:03 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.160.63])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu,  7 May 2020 17:26:57 +0000 (GMT)
-Subject: [PATCH 3/6] target/ppc: Don't initialize some local variables in
- ppc_radix64_xlate()
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu,  7 May 2020 17:27:03 +0000 (GMT)
+Subject: [PATCH 4/6] target/ppc: Add missing braces in
+ ppc_radix64_partition_scoped_xlate()
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 07 May 2020 19:26:50 +0200
-Message-ID: <158887241032.1564424.1335205982073200922.stgit@bahia.lan>
+Date: Thu, 07 May 2020 19:27:02 +0200
+Message-ID: <158887242253.1564424.10905940069629249156.stgit@bahia.lan>
 In-Reply-To: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
 References: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -65,7 +65,7 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
  definitions=2020-05-07_10:2020-05-07,
  2020-05-07 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=758
+ mlxlogscore=797
  priorityscore=1501 lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0
  malwarescore=0 impostorscore=0 suspectscore=0 mlxscore=0 clxscore=1034
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -97,31 +97,28 @@ Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is the job of the ppc_radix64_get_fully_qualified_addr() function
-which is called at the beginning of ppc_radix64_xlate() to set both
-lpid *and* pid. It doesn't buy us anything to initialize them first.
+As per CODING_STYLE.
 
-Worse, a bug in ppc_radix64_get_fully_qualified_addr(), eg. failing to
-set either lpid or pid, would be undetectable by static analysis tools
-like coverity.
-
+Fixes: d04ea940c597 "target/ppc: Add support for Radix partition-scoped translation"
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- target/ppc/mmu-radix64.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/mmu-radix64.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index c76879f65b78..5e2d912ee346 100644
+index 5e2d912ee346..956519b3ad20 100644
 --- a/target/ppc/mmu-radix64.c
 +++ b/target/ppc/mmu-radix64.c
-@@ -433,7 +433,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
-                              bool cause_excp)
- {
-     CPUPPCState *env = &cpu->env;
--    uint64_t lpid = 0, pid = 0;
-+    uint64_t lpid, pid;
-     ppc_v3_pate_t pate;
-     int psize, prot;
-     hwaddr g_raddr;
+@@ -282,8 +282,9 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu, int rwx,
+                               pate.dw0 & PRTBE_R_RPDS, h_raddr, h_page_size,
+                               &pte, &fault_cause, &pte_addr) ||
+         ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, h_prot, true)) {
+-        if (pde_addr) /* address being translated was that of a guest pde */
++        if (pde_addr) { /* address being translated was that of a guest pde */
+             fault_cause |= DSISR_PRTABLE_FAULT;
++        }
+         if (cause_excp) {
+             ppc_radix64_raise_hsi(cpu, rwx, eaddr, g_raddr, fault_cause);
+         }
 
 
