@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3439D1C814F
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:07:36 +0200 (CEST)
-Received: from localhost ([::1]:49598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70E81C814A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:06:02 +0200 (CEST)
+Received: from localhost ([::1]:40038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWYkx-0004j0-6g
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33530)
+	id 1jWYjR-0000pn-9M
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYht-0007V6-Me; Thu, 07 May 2020 01:04:25 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44055 helo=ozlabs.org)
+ id 1jWYht-0007Uu-58; Thu, 07 May 2020 01:04:25 -0400
+Received: from ozlabs.org ([203.11.71.1]:46253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYhr-0006zf-Ej; Thu, 07 May 2020 01:04:25 -0400
+ id 1jWYhr-0006zq-Fl; Thu, 07 May 2020 01:04:24 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49HhFn3bQ5z9sSc; Thu,  7 May 2020 15:04:13 +1000 (AEST)
+ id 49HhFn4Mp5z9sSk; Thu,  7 May 2020 15:04:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1588827853;
- bh=rv01STFoNzIdEUQWkxzNomnQspQsudGQNlgPG2JbmyM=;
+ bh=uCaTANb2yoKIfc6GQwlTA7Oai6/KVGiIVGXK+qiTZ4w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DMTpT1FdqS2BSW3DjblH09ZoJKG4RsRdVlkOsE/aDexmol5KAfvQs0MYQ6xfAKZOY
- tw7c+w8fNeNjK66bz5DRcMYUUQYdELWmmyNzXtYzNsdpDH1P7bPnz3IVP9l1b+mdoF
- 7qeHMZ5WH3vop+XoSL3Oz3tlGsh1/2JrJixNP0QA=
+ b=OleOt0fqrou/ANuF8RVMSOeB5eVN6/d51Tc1I9vm7CmN7K5v5eZIBqd/CxdbqnKLb
+ PEjZW3ZwVCwuiKFuMlgXhiKd4Dp+kDG0bmT1m72qXSZHEXxpXiceZH5S3iBf/+8NrF
+ b1y/R7ZUbaqHVua1FtA24lrfvP+lCMGqECWrl3vM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/18] spapr: Don't check capabilities removed between CAS calls
-Date: Thu,  7 May 2020 15:02:12 +1000
-Message-Id: <20200507050228.802395-3-david@gibson.dropbear.id.au>
+Subject: [PULL 03/18] ppc/spapr: tweak change system reset helper
+Date: Thu,  7 May 2020 15:02:13 +1000
+Message-Id: <20200507050228.802395-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 References: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 01:04:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -64,67 +65,89 @@ Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, npiggin@gmail.com, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Nicholas Piggin <npiggin@gmail.com>
 
-We currently check if some capability in OV5 was removed by the guest
-since the previous CAS, and we trigger a CAS reboot in that case. This
-was required because it could call for a device-tree property or node
-removal, that we didn't support until recently (see commit 6787d27b04a7
-"spapr: add option vector handling in CAS-generated resets" for details).
+Rather than have the helper take an optional vector address
+override, instead have its caller modify env->nip itself.
+This is more consistent when adding pnv nmi support, and also
+with mce injection added later.
 
-Now that we render a full FDT at CAS and that SLOF is able to handle
-node removal, we don't need to do a CAS reset in this case anymore.
-Also, this check can only return true if the guest has already called
-CAS since the last full system reset (otherwise spapr->ov5_cas is
-empty). Linux doesn't do that so this can be considered as dead code
-for the vast majority of existing setups.
-
-Drop the check. Since the only use of the ov5_cas_old variable is
-precisely the check itself, drop the variable as well.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <158514993021.478799.10928618293640651819.stgit@bahia.lan>
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Message-Id: <20200325144147.221875-2-npiggin@gmail.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_hcall.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ hw/ppc/spapr.c           | 9 ++++++---
+ target/ppc/cpu.h         | 2 +-
+ target/ppc/excp_helper.c | 5 +----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 0d50fc9117..e8ee447537 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1676,7 +1676,7 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
-     target_ulong fdt_bufsize = args[2];
-     target_ulong ov_table;
-     uint32_t cas_pvr;
--    SpaprOptionVector *ov1_guest, *ov5_guest, *ov5_cas_old;
-+    SpaprOptionVector *ov1_guest, *ov5_guest;
-     bool guest_radix;
-     Error *local_err = NULL;
-     bool raw_mode_supported = false;
-@@ -1782,22 +1782,10 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
-      * by LoPAPR 1.1, 14.5.4.8, which QEMU doesn't implement, we don't need
-      * to worry about this for now.
-      */
--    ov5_cas_old = spapr_ovec_clone(spapr->ov5_cas);
--
--    /* also clear the radix/hash bit from the current ov5_cas bits to
--     * be in sync with the newly ov5 bits. Else the radix bit will be
--     * seen as being removed and this will generate a reset loop
--     */
--    spapr_ovec_clear(ov5_cas_old, OV5_MMU_RADIX_300);
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 9a2bd501aa..785c41d205 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3385,13 +3385,13 @@ static void spapr_machine_finalizefn(Object *obj)
+ void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
+ {
+     SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
++    PowerPCCPU *cpu = POWERPC_CPU(cs);
++    CPUPPCState *env = &cpu->env;
  
-     /* full range of negotiated ov5 capabilities */
-     spapr_ovec_intersect(spapr->ov5_cas, spapr->ov5, ov5_guest);
-     spapr_ovec_cleanup(ov5_guest);
--    /* capabilities that have been added since CAS-generated guest reset.
--     * if capabilities have since been removed, generate another reset
--     */
--    spapr->cas_reboot = !spapr_ovec_subset(ov5_cas_old, spapr->ov5_cas);
--    spapr_ovec_cleanup(ov5_cas_old);
-     /* Now that processing is finished, set the radix/hash bit for the
-      * guest if it requested a valid mode; otherwise terminate the boot. */
-     if (guest_radix) {
+     cpu_synchronize_state(cs);
+     /* If FWNMI is inactive, addr will be -1, which will deliver to 0x100 */
+     if (spapr->fwnmi_system_reset_addr != -1) {
+         uint64_t rtas_addr, addr;
+-        PowerPCCPU *cpu = POWERPC_CPU(cs);
+-        CPUPPCState *env = &cpu->env;
+ 
+         /* get rtas addr from fdt */
+         rtas_addr = spapr_get_rtas_addr();
+@@ -3405,7 +3405,10 @@ void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg)
+         stq_be_phys(&address_space_memory, addr + sizeof(uint64_t), 0);
+         env->gpr[3] = addr;
+     }
+-    ppc_cpu_do_system_reset(cs, spapr->fwnmi_system_reset_addr);
++    ppc_cpu_do_system_reset(cs);
++    if (spapr->fwnmi_system_reset_addr != -1) {
++        env->nip = spapr->fwnmi_system_reset_addr;
++    }
+ }
+ 
+ static void spapr_nmi(NMIState *n, int cpu_index, Error **errp)
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 88d9449555..f4a5304d43 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1220,7 +1220,7 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+ int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+                                int cpuid, void *opaque);
+ #ifndef CONFIG_USER_ONLY
+-void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector);
++void ppc_cpu_do_system_reset(CPUState *cs);
+ void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
+ extern const VMStateDescription vmstate_ppc_cpu;
+ #endif
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 81ee19ebae..1acc3786de 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -983,15 +983,12 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+     }
+ }
+ 
+-void ppc_cpu_do_system_reset(CPUState *cs, target_ulong vector)
++void ppc_cpu_do_system_reset(CPUState *cs)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+ 
+     powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_RESET);
+-    if (vector != -1) {
+-        env->nip = vector;
+-    }
+ }
+ 
+ void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
 -- 
 2.26.2
 
