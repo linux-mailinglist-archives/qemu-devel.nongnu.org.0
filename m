@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B7D1C8131
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 06:55:04 +0200 (CEST)
-Received: from localhost ([::1]:32890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD981C814D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:06:10 +0200 (CEST)
+Received: from localhost ([::1]:41022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWYYp-0005Jp-EQ
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 00:55:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59456)
+	id 1jWYjZ-0001FB-ME
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1jWYY5-0004tA-Ay
- for qemu-devel@nongnu.org; Thu, 07 May 2020 00:54:17 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:39645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1jWYY4-0006Fz-8k
- for qemu-devel@nongnu.org; Thu, 07 May 2020 00:54:17 -0400
-Received: by mail-qk1-x743.google.com with SMTP id s9so4743001qkm.6
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 21:54:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=braap-org.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=wpuwABheavrXnYDU5P7Wl+Jqup4AHIK2T/DX6ud3zMU=;
- b=Rr4t2ifXdKG+JOd00zU+QS0HG0iNs0f1Tfnm5EEzJhtkncDjCxZHg84CqrVu6GztPs
- K0Ajuf2jiKdZleygCrTdGQXuPhuS/DZON0jqpmRvYThwTwfbUBdZpCKEgah6GVIZtwWf
- qLzVUkD5lDZk1pDNuWdm5z2G3mrxO1bSwPOvCBx4+HrzAj1F78qhs1ZRl+8a/X5jfiYt
- faqO84F2CWo0xEjmwXQIPJEnbNJv0u5qnhFvs1a1khRgOaG1eCTTPWWPjkrpw9t//RGc
- r+KS6+4Zzavboj9a/HzVr02GysnpHmMOBk9vPKwBIeASC6tLBxzsCNceUeWd+AOCgogI
- XAnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=wpuwABheavrXnYDU5P7Wl+Jqup4AHIK2T/DX6ud3zMU=;
- b=i+UFhonAxUKktqZub+ItB+uwG9KyMiT5E8/9Xpm4PW/mTPc8MC+jCkHIlk6R/FDQ4I
- YHnuGmDFbwKiRiQnWcLH4f8Mv1YBlTyH32+kJbUtyCQ0Mk62AOqhnxM5STEeEsTEWH5x
- Rn9b7oDDR7Wj6+VodIdGCwqAkFL4Oogy8AtJJZch3hO+hIiPL8+WAfdU/9Ua06B+5/CK
- 0cTexiyR/0rtebKfbkNaqz1MntgLx3RiBVM8BW1jka/hXwsXdtcJ3ZVtWb+B8zprlziQ
- 9LhN3m6PB6798+cxxmYGfM7qw4DL+jqiGOOtle2OWTAg8f+0p+6b24QxRN6ChRAU5vgW
- Xq1g==
-X-Gm-Message-State: AGi0Pua0nlM0zLwaGqZlg1e2QnbnhNEMsi5DxfNZcV0nWWwRWS4mqOw5
- IY/BxsM4F5sPPNEGD5qbEBo+gw==
-X-Google-Smtp-Source: APiQypJpihLiNggGTPkCHIPIIYVrWd5Fg8Lns1tWgZrhH6C3Y0RICjB3Q6sbAE2h0uQF3g25M5HIUg==
-X-Received: by 2002:a05:620a:13f2:: with SMTP id
- h18mr12177079qkl.37.1588827254786; 
- Wed, 06 May 2020 21:54:14 -0700 (PDT)
-Received: from localhost ([70.19.54.161])
- by smtp.gmail.com with ESMTPSA id o14sm3442035qkj.27.2020.05.06.21.54.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 21:54:13 -0700 (PDT)
-Date: Thu, 7 May 2020 00:54:13 -0400
-From: "Emilio G. Cota" <cota@braap.org>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3] tests/qht-bench: Fix Clang
- 'implicit-int-float-conversion' warning
-Message-ID: <20200507045413.GA59851@sff>
-References: <20200504144352.23021-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jWYht-0007VC-Q7; Thu, 07 May 2020 01:04:25 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51995 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jWYhr-0006zG-GF; Thu, 07 May 2020 01:04:25 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49HhFn1Cckz9sSW; Thu,  7 May 2020 15:04:13 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1588827853;
+ bh=BeBPV0jGM9MMAFCuVvUR8L8BVAjuzxl16FKjLO6gvmg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=YueiBkhbF3kuk7L3g2mK93+LbujuO1JRIGtpKXgDQjEQaMevraYVPLyPtsjoNQixQ
+ IOLlDfn+UDCqc0GA5CHZ4e2z51DrfFkQuCYZXgy7Wu88bVdn7hblJg2YZZR6esZlx9
+ H3LkkTz5jb1XMBRKmXnAyxUSd5Mwu3FPOf7MEqMk=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/18] ppc-for-5.1 queue 20200507
+Date: Thu,  7 May 2020 15:02:10 +1000
+Message-Id: <20200507050228.802395-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200504144352.23021-1-philmd@redhat.com>
-Received-SPF: softfail client-ip=2607:f8b0:4864:20::743;
- envelope-from=cota@braap.org; helo=mail-qk1-x743.google.com
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_SOFTFAIL=0.665,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,30 +58,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Alexander Bulekov <alxndr@bu.edu>
+Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, npiggin@gmail.com, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 04, 2020 at 16:43:52 +0200, Philippe Mathieu-Daudé wrote:
-> When building with Clang 10 on Fedora 32, we get:
-> 
->   tests/qht-bench.c:287:29: error: implicit conversion from 'unsigned long' to 'double' changes value from 18446744073709551615 to 18446744073709551616 [-Werror,-Wimplicit-int-float-conversion]
-(snip)
-> @@ -284,7 +285,7 @@ static void do_threshold(double rate, uint64_t *threshold)
->      if (rate == 1.0) {
->          *threshold = UINT64_MAX;
->      } else {
-> -        *threshold = rate * UINT64_MAX;
-> +        *threshold = rate * nextafter(0x1p64, 0.0);
+The following changes since commit 570a9214827e3d42f7173c4d4c9f045b99834cf0:
 
-Reviewed-by: Emilio G. Cota <cota@braap.org>
+  Merge remote-tracking branch 'remotes/alistair/tags/pull-reg-to-apply-20200505' into staging (2020-05-06 15:38:02 +0100)
 
-Please consider mentioning 25f74087c69 in the commit log -- it clearly
-describes the problem.
+are available in the Git repository at:
 
-Thanks,
+  git://github.com/dgibson/qemu.git tags/ppc-for-5.1-20200507
 
-		Emilio
+for you to fetch changes up to c4f6a4a3dd5f2aa15329b8158de25f50b5ba3252:
+
+  target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9 (2020-05-07 11:10:50 +1000)
+
+----------------------------------------------------------------
+ppc patch queue for 2020-04-07
+
+First pull request for qemu-5.1.  This includes:
+ * Removal of all remaining cases where we had CAS triggered reboots
+ * A number of improvements to NMI injection
+ * Support for partition scoped radix translation in softmmu
+ * Some fixes for NVDIMM handling
+ * A handful of other minor fixes
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (1):
+      spapr/cas: Separate CAS handling from rebuilding the FDT
+
+CÃ©dric Le Goater (6):
+      target/ppc: Introduce a relocation bool in ppc_radix64_handle_mmu_fault()
+      target/ppc: Assert if HV mode is set when running under a pseries machine
+      target/ppc: Introduce ppc_radix64_xlate() for Radix tree translation
+      target/ppc: Extend ppc_radix64_check_prot() with a 'partition_scoped' bool
+      target/ppc: Rework ppc_radix64_walk_tree() for partition-scoped translation
+      target/ppc: Add support for Radix partition-scoped translation
+
+Daniel Henrique Barboza (1):
+      spapr_nvdimm.c: make 'label-size' mandatory
+
+Daniele Buono (1):
+      target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9
+
+David Gibson (2):
+      spapr: Don't allow unplug of NVLink2 devices
+      spapr_nvdimm: Tweak error messages
+
+Greg Kurz (3):
+      spapr: Don't check capabilities removed between CAS calls
+      spapr: Simplify selection of radix/hash during CAS
+      spapr: Drop CAS reboot flag
+
+Nicholas Piggin (3):
+      target/ppc: Improve syscall exception logging
+      ppc/spapr: tweak change system reset helper
+      ppc/pnv: Add support for NMI interface
+
+Suraj Jitindar Singh (1):
+      target/ppc: Enforce that the root page directory size must be at least 5
+
+ hw/ppc/pnv.c             |  29 +++
+ hw/ppc/spapr.c           |  29 ++-
+ hw/ppc/spapr_hcall.c     | 108 ++++++-----
+ hw/ppc/spapr_nvdimm.c    |  10 +-
+ hw/ppc/spapr_pci.c       |   4 +
+ include/hw/ppc/spapr.h   |   8 +-
+ target/ppc/cpu.h         |   5 +-
+ target/ppc/excp_helper.c |  38 +++-
+ target/ppc/mmu-radix64.c | 468 ++++++++++++++++++++++++++++++++++-------------
+ target/ppc/translate.c   |  24 ++-
+ 10 files changed, 506 insertions(+), 217 deletions(-)
 
