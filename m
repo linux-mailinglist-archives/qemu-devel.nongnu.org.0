@@ -2,73 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9016A1C7E87
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 02:25:56 +0200 (CEST)
-Received: from localhost ([::1]:59300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FEC31C7FC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 03:12:33 +0200 (CEST)
+Received: from localhost ([::1]:38486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWUMN-0004kY-2r
-	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 20:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
+	id 1jWV5T-0006Qo-PD
+	for lists+qemu-devel@lfdr.de; Wed, 06 May 2020 21:12:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jWULK-00041c-7T
- for qemu-devel@nongnu.org; Wed, 06 May 2020 20:24:50 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:43966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jWULI-0004N0-Mc
- for qemu-devel@nongnu.org; Wed, 06 May 2020 20:24:49 -0400
-Received: by mail-lj1-x242.google.com with SMTP id l19so4351577lje.10
- for <qemu-devel@nongnu.org>; Wed, 06 May 2020 17:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qD1c7REwBEKcDQVl/lAZh92gsdIE/e/TVVeaXW6CI30=;
- b=wfH5qK35YHsv8iwKMeJSMtTQWed6fhOxm0ETYreWhSC8bUX1Py/d04kZ2n/+Axdsa0
- oMn51/2sX+TNXLgEWk92MS1vyxnyaCODnK6SByymRdK93Zo9VaEocrWwb2hYpJ1QOX9m
- hQ/+TXejYtwB/KUjMnErEXbew+hqXeFefn5HhcQK33I+ERLB2QPaQO9ZJ9T5NfucP0sc
- PIT9YJHW6ayi6+YjpGWb/VB1WwCy/BZzkHAGRh7exMmHg/sGnMDf8hjkWrm0Bp90r9Y0
- E6lpVHFVFbmgOsvn7pHswl1NUiRXwq4Lekc39pH0NdsW9DN8NN5TdAxwufq7kLaFSfip
- ngUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qD1c7REwBEKcDQVl/lAZh92gsdIE/e/TVVeaXW6CI30=;
- b=FXCAOoHDpeshACmvnJK8TLrqD4yP4y1rlp2dDOlB/twXWDSR9xw5N5KhoOEwQhBS4g
- 1DYTj8PMKDqEB+o90nYaQ49bpGyxn6Vn4MSRSrl9Njb5OGu+oIQGGJzLoQL3MIl7E948
- wQY/9vOSjKD75yA8vDMzB0y44ZyXWG1L5jPlfA5fyYWu44QryMKklZuzBbXZB4wMUQzV
- YTOwTd6iFlfnnN1xPGRNJLWahvbKbDyxtiPDZcNBJKsByBGYxDvsSM1GiWTBUZg9hU3M
- QCyMUvXSIqF5UzhjSrLPDs55iZ56q8iZyvXkuRG3u3XOjZOxWDIs23D/Jb+ARHKUTCGw
- M6mw==
-X-Gm-Message-State: AGi0PuZmKqf58UjwJiB1Atau2PeoVVurKElI7MBhOempQAA4yxu+EE1c
- 86no3RVeRJjkWQd5YUX0XhvhrMOwHgTUMw==
-X-Google-Smtp-Source: APiQypKtjvPKCAkqdGCI8a5E4V23hjZDCiDksrBGdP3TGugEdcBNhBm4WX5qUSZDo9aG3K9PvDQ6zw==
-X-Received: by 2002:a2e:7508:: with SMTP id q8mr6830185ljc.234.1588811086382; 
- Wed, 06 May 2020 17:24:46 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id m15sm2280455lji.21.2020.05.06.17.24.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 May 2020 17:24:45 -0700 (PDT)
-From: andrew@daynix.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/net: Added basic IPv6 fragmentation. Fixed IPv6 payload
- length. Fixed CSO for IPv6.
-Date: Thu,  7 May 2020 03:52:34 +0300
-Message-Id: <20200507005234.959590-1-andrew@daynix.com>
-X-Mailer: git-send-email 2.24.1
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jWV4S-00061d-SB
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 21:11:28 -0400
+Received: from mga03.intel.com ([134.134.136.65]:44823)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jWV4M-0000Uj-Vv
+ for qemu-devel@nongnu.org; Wed, 06 May 2020 21:11:28 -0400
+IronPort-SDR: Gszz0A/4/ZmGLr0bikMbZIe7B8Jl2v+sI55K8ZaD2HoDTDIQATpXiy/wygHS7SzDL6t+jHPz5U
+ JEVz7JJHjc8g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 May 2020 18:11:16 -0700
+IronPort-SDR: PEmCdGW0QnQK8jJLji8HuinXsJFe5vSiTAaTAsa023fLtNhKQTpZcLR08JgKmq6dBLN/Xu9xpg
+ rjz5nl7NdlXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,361,1583222400"; d="scan'208";a="461664540"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by fmsmga005.fm.intel.com with ESMTP; 06 May 2020 18:11:11 -0700
+Date: Wed, 6 May 2020 21:01:26 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v1 2/2] Sample mtty: Add migration capability to mtty
+ module
+Message-ID: <20200507010126.GD19334@joy-OptiPlex-7040>
+References: <1588614860-16330-1-git-send-email-kwankhede@nvidia.com>
+ <1588614860-16330-3-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::242;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1588614860-16330-3-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=yan.y.zhao@intel.com;
+ helo=mga03.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/06 21:11:17
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,301 +67,839 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Melnychenko <andrew@daynix.com>
+On Tue, May 05, 2020 at 01:54:20AM +0800, Kirti Wankhede wrote:
+> This patch makes mtty device migration capable. Purpose od this code is
+> to test migration interface. Only stop-and-copy phase is implemented.
+> Postcopy migration is not supported.
+> 
+> Actual data for mtty device migration is very less. Appended dummy data to
+> migration data stream, default 100 Mbytes. Added sysfs file
+> 'dummy_data_size_MB' to get dummy data size from user which can be used
+> to check performance of based of data size. During resuming dummy data is
+> read and discarded.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> ---
+>  samples/vfio-mdev/mtty.c | 602 ++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 574 insertions(+), 28 deletions(-)
+> 
+> diff --git a/samples/vfio-mdev/mtty.c b/samples/vfio-mdev/mtty.c
+> index bf666cce5bb7..f9194234fc6a 100644
+> --- a/samples/vfio-mdev/mtty.c
+> +++ b/samples/vfio-mdev/mtty.c
+> @@ -44,9 +44,23 @@
+>  
+>  #define MTTY_STRING_LEN		16
+>  
+> -#define MTTY_CONFIG_SPACE_SIZE  0xff
+> -#define MTTY_IO_BAR_SIZE        0x8
+> -#define MTTY_MMIO_BAR_SIZE      0x100000
+> +#define MTTY_CONFIG_SPACE_SIZE		0xff
+> +#define MTTY_IO_BAR_SIZE		0x8
+> +#define MTTY_MMIO_BAR_SIZE		0x100000
+> +#define MTTY_MIGRATION_REGION_SIZE	0x1000000	// 16M
+> +
+> +#define MTTY_MIGRATION_REGION_INDEX	VFIO_PCI_NUM_REGIONS
+> +#define MTTY_REGIONS_MAX		(MTTY_MIGRATION_REGION_INDEX + 1)
+> +
+> +/* Data section start from page aligned offset */
+> +#define MTTY_MIGRATION_REGION_DATA_OFFSET	(0x1000)
+> +
+> +/* First page is used for struct vfio_device_migration_info */
+> +#define MTTY_MIGRATION_REGION_SIZE_MMAP     \
+> +	(MTTY_MIGRATION_REGION_SIZE - MTTY_MIGRATION_REGION_DATA_OFFSET)
+> +
+> +#define MIGRATION_INFO_OFFSET(MEMBER)	\
+> +		offsetof(struct vfio_device_migration_info, MEMBER)
+>  
+>  #define STORE_LE16(addr, val)   (*(u16 *)addr = val)
+>  #define STORE_LE32(addr, val)   (*(u32 *)addr = val)
+> @@ -129,6 +143,28 @@ struct serial_port {
+>  	u8 intr_trigger_level;  /* interrupt trigger level */
+>  };
+>  
+> +/* Migration packet */
+> +#define PACKET_ID		(u16)(0xfeedbaba)
+> +
+> +#define PACKET_FLAGS_ACTUAL_DATA	(1 << 0)
+> +#define PACKET_FLAGS_DUMMY_DATA		(1 << 1)
+> +
+> +#define PACKET_DATA_SIZE_MAX		(8 * 1024 * 1024)
+> +
+> +struct packet {
+> +	u16 id;
+> +	u16 flags;
+> +	u32 data_size;
+> +	u8 data[];
+> +};
+> +
+> +enum {
+> +	PACKET_STATE_NONE = 0,
+> +	PACKET_STATE_PREPARED,
+> +	PACKET_STATE_COPIED,
+> +	PACKET_STATE_LAST,
+> +};
+> +
+>  /* State of each mdev device */
+>  struct mdev_state {
+>  	int irq_fd;
+> @@ -138,22 +174,37 @@ struct mdev_state {
+>  	u8 *vconfig;
+>  	struct mutex ops_lock;
+>  	struct mdev_device *mdev;
+> -	struct mdev_region_info region_info[VFIO_PCI_NUM_REGIONS];
+> -	u32 bar_mask[VFIO_PCI_NUM_REGIONS];
+> +	struct mdev_region_info region_info[MTTY_REGIONS_MAX];
+> +	u32 bar_mask[MTTY_REGIONS_MAX];
+>  	struct list_head next;
+>  	struct serial_port s[2];
+>  	struct mutex rxtx_lock;
+>  	struct vfio_device_info dev_info;
+> -	int nr_ports;
+> +	u32 nr_ports;
+>  
+>  	/* List of pinned gpfns, gpfn as index and content is translated hpfn */
+>  	unsigned long *gpfn_to_hpfn;
+>  	struct notifier_block nb;
+> +
+> +	u32 device_state;
+> +	u64 saved_size;
+> +	void *mig_region_base;
+> +	bool is_actual_data_sent;
+> +	struct packet *pkt;
+> +	u32 packet_state;
+> +	u64 dummy_data_size;
+>  };
+>  
+>  static struct mutex mdev_list_lock;
+>  static struct list_head mdev_devices_list;
+>  
+> +/*
+> + * Default dummy data size set to 100 MB. To change value of dummy data size at
+> + * runtime but before migration write size in MB to sysfs file
+> + * dummy_data_size_MB
+> + */
+> +static unsigned long user_dummy_data_size = (100 * 1024 * 1024);
+> +
+>  static const struct file_operations vd_fops = {
+>  	.owner          = THIS_MODULE,
+>  };
+> @@ -639,6 +690,288 @@ static void mdev_read_base(struct mdev_state *mdev_state)
+>  	}
+>  }
+>  
+> +static int save_setup(struct mdev_state *mdev_state)
+> +{
+> +	mdev_state->is_actual_data_sent = false;
+> +
+> +	memset(mdev_state->pkt, 0, sizeof(struct packet) +
+> +				   PACKET_DATA_SIZE_MAX);
+> +
+> +	return 0;
+> +}
+> +
+> +static int set_device_state(struct mdev_state *mdev_state, u32 device_state)
+> +{
+> +	int ret = 0;
+> +
+> +	if (mdev_state->device_state == device_state)
+> +		return 0;
+> +
+> +	if (device_state & VFIO_DEVICE_STATE_RUNNING) {
+> +#if defined(DEBUG)
+> +		if (device_state & VFIO_DEVICE_STATE_SAVING) {
+> +			pr_info("%s: %s Pre-copy\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +		} else
+> +			pr_info("%s: %s Running\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +#endif
+> +	} else {
+> +		if (device_state & VFIO_DEVICE_STATE_SAVING) {
+> +#if defined(DEBUG)
+> +			pr_info("%s: %s Stop-n-copy\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +#endif
+> +			ret = save_setup(mdev_state);
+> +
+> +		} else if (device_state & VFIO_DEVICE_STATE_RESUMING) {
+> +#if defined(DEBUG)
+> +			pr_info("%s: %s Resuming\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +		} else {
+> +			pr_info("%s: %s Stopped\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +#endif
+> +		}
+> +	}
+> +
+> +	mdev_state->device_state = device_state;
+> +
+> +	return ret;
+> +}
+> +
+> +static u32 get_device_state(struct mdev_state *mdev_state)
+> +{
+> +	return mdev_state->device_state;
+> +}
+> +
+> +static void write_to_packet(struct packet *pkt, u8 *data, size_t size)
+> +{
+> +	if ((pkt->data_size + size) > PACKET_DATA_SIZE_MAX) {
+> +		pr_err("%s: packet data overflow\n", __func__);
+> +		return;
+> +	}
+> +	memcpy((void *)&pkt->data[pkt->data_size], (void *)data, size);
+> +	pkt->data_size += size;
+> +}
+> +
+> +static void read_from_packet(struct packet *pkt, u8 *data,
+> +			     int index, size_t size)
+> +{
+> +	if ((index + size) > PACKET_DATA_SIZE_MAX) {
+> +		pr_err("%s: packet data overflow\n", __func__);
+> +		return;
+> +	}
+> +
+> +	memcpy((void *)data, (void *)&pkt->data[index], size);
+> +}
+> +
+> +static int save_device_data(struct mdev_state *mdev_state, u64 *pending)
+> +{
+> +	/* Save device data only during stop-and-copy phase */
+> +	if (mdev_state->device_state != VFIO_DEVICE_STATE_SAVING) {
+> +		*pending = 0;
+> +		return 0;
+> +	}
+> +
+> +	if (mdev_state->packet_state == PACKET_STATE_PREPARED) {
+> +		*pending = sizeof(struct packet) + mdev_state->pkt->data_size;
+> +		return 0;
+> +	}
+> +
+> +	if (!mdev_state->is_actual_data_sent) {
+> +
+> +		/* create actual data packet */
+> +		write_to_packet(mdev_state->pkt, (u8 *)&mdev_state->nr_ports,
+> +				sizeof(mdev_state->nr_ports));
+> +		write_to_packet(mdev_state->pkt, (u8 *)&mdev_state->s,
+> +				sizeof(struct serial_port) * 2);
+> +
+> +		write_to_packet(mdev_state->pkt, mdev_state->vconfig,
+> +				MTTY_CONFIG_SPACE_SIZE);
+> +
+> +		write_to_packet(mdev_state->pkt, (u8 *)mdev_state->gpfn_to_hpfn,
+> +				sizeof(unsigned long) * MAX_GPFN_COUNT);
+> +
+> +		mdev_state->pkt->id = PACKET_ID;
+> +		mdev_state->pkt->flags = PACKET_FLAGS_ACTUAL_DATA;
+> +
+> +		mdev_state->is_actual_data_sent = true;
+> +	} else {
+> +		/* create dummy data packet */
+> +		if (mdev_state->dummy_data_size > user_dummy_data_size) {
+> +			*pending = 0;
+> +			mdev_state->packet_state = PACKET_STATE_NONE;
+> +			return 0;
+> +		}
+> +
+> +		memset(mdev_state->pkt->data, 0xa5, PACKET_DATA_SIZE_MAX);
+> +
+> +		mdev_state->pkt->id = PACKET_ID;
+> +		mdev_state->pkt->flags = PACKET_FLAGS_DUMMY_DATA;
+> +		mdev_state->pkt->data_size = PACKET_DATA_SIZE_MAX;
+> +		mdev_state->dummy_data_size += PACKET_DATA_SIZE_MAX;
+> +	}
+> +
+> +	*pending = sizeof(struct packet) + mdev_state->pkt->data_size;
+> +	mdev_state->packet_state = PACKET_STATE_PREPARED;
+> +	mdev_state->saved_size = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static int copy_device_data(struct mdev_state *mdev_state)
+> +{
+> +	u64 size;
+> +
+> +	if (!mdev_state->pkt || !mdev_state->mig_region_base)
+> +		return -EINVAL;
+> +
+> +	if (mdev_state->packet_state == PACKET_STATE_COPIED)
+> +		return 0;
+> +
+> +	if (!mdev_state->pkt->data_size)
+> +		return 0;
+> +
+> +	size = sizeof(struct packet) + mdev_state->pkt->data_size;
+> +
+> +	memcpy(mdev_state->mig_region_base, mdev_state->pkt, size);
+> +
+if data area is mmaped, who is going to copy data from mdev_state->pkt
+to mdev_state->mig_region_base ?
+actually, I do see this area is mmaped in this sample.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1708065
-Overall, there was an issue that big frames of IPv6 doesn't sent.
-With network backend with 'virtual header' - there was an issue
-in 'plen' field. Overall, during TSO, 'plen' would be changed,
-but with 'vheader' this field should be set to the size of the
-payload itself instead of '0'.
-For software offload - there is added basic IPv6 fragmentation.
-Also fixed checksum offload for IPv6.
-The basic IPv6 fragmentation - adding 'frag' extension to
-the packet, overall shares some logic with IPv4. It works,
-but there are still issues with a combination of
-extensions - in the future, it would require refactoring
-work to implement workflow with IPv6 and extension.
-e1000e driver doesn't set the 'plen' field for IPv6 for big packets
-if TSO is enabled. "Jumbo option" isn't added yet, until
-qemu supports packets greater than 64K.
-
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/net/net_tx_pkt.c | 53 ++++++++++++++++++++++++---
- hw/net/net_tx_pkt.h |  7 ++++
- include/net/eth.h   | 15 ++++++--
- net/eth.c           | 89 ++++++++++++++++++++++++++++++++++++++++++---
- 4 files changed, 150 insertions(+), 14 deletions(-)
-
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index 162f802dd7..e3c7850b54 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -468,8 +468,8 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
-     /* num of iovec without vhdr */
-     uint32_t iov_len = pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - 1;
-     uint16_t csl;
--    struct ip_header *iphdr;
-     size_t csum_offset = pkt->virt_hdr.csum_start + pkt->virt_hdr.csum_offset;
-+    uint16_t l3_proto = eth_get_l3_proto(iov, 1, iov->iov_len);
- 
-     /* Put zero to checksum field */
-     iov_from_buf(iov, iov_len, csum_offset, &csum, sizeof csum);
-@@ -477,9 +477,17 @@ static void net_tx_pkt_do_sw_csum(struct NetTxPkt *pkt)
-     /* Calculate L4 TCP/UDP checksum */
-     csl = pkt->payload_len;
- 
-+    csum_cntr = 0;
-     /* add pseudo header to csum */
--    iphdr = pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base;
--    csum_cntr = eth_calc_ip4_pseudo_hdr_csum(iphdr, csl, &cso);
-+    if (l3_proto == ETH_P_IP) {
-+        csum_cntr = eth_calc_ip4_pseudo_hdr_csum(
-+                pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base,
-+                csl, &cso);
-+    } else if (l3_proto == ETH_P_IPV6) {
-+        csum_cntr = eth_calc_ip6_pseudo_hdr_csum(
-+                pkt->vec[NET_TX_PKT_L3HDR_FRAG].iov_base,
-+                csl, pkt->l4proto, &cso);
-+    }
- 
-     /* data checksum */
-     csum_cntr +=
-@@ -580,10 +588,11 @@ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
- 
-         more_frags = (fragment_offset + fragment_len < pkt->payload_len);
- 
--        eth_setup_ip4_fragmentation(l2_iov_base, l2_iov_len, l3_iov_base,
--            l3_iov_len, fragment_len, fragment_offset, more_frags);
-+        eth_setup_ip_fragmentation(l2_iov_base, l2_iov_len, l3_iov_base,
-+            &l3_iov_len, ETH_MAX_IP_DGRAM_LEN,
-+            fragment_len, fragment_offset, more_frags);
- 
--        eth_fix_ip4_checksum(l3_iov_base, l3_iov_len);
-+        fragment[NET_TX_PKT_FRAGMENT_L3_HDR_POS].iov_len = l3_iov_len;
- 
-         net_tx_pkt_sendv(pkt, nc, fragment, dst_idx);
- 
-@@ -617,6 +626,7 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
- 
-     if (pkt->has_virt_hdr ||
-         pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
-+        net_tx_pkt_fix_ip6_payload_len(pkt);
-         net_tx_pkt_sendv(pkt, nc, pkt->vec,
-             pkt->payload_frags + NET_TX_PKT_PL_START_FRAG);
-         return true;
-@@ -635,3 +645,34 @@ bool net_tx_pkt_send_loopback(struct NetTxPkt *pkt, NetClientState *nc)
- 
-     return res;
- }
-+
-+void net_tx_pkt_fix_ip6_payload_len(struct NetTxPkt *pkt)
-+{
-+    /*
-+     * If ipv6 payload length field is 0 - then there should be Hop-by-Hop
-+     * option for packets greater than 65,535.
-+     * For packets with payload less than 65,535: fix 'plen' field.
-+     * For now, qemu drops every packet with size greater 64K
-+     * (see net_tx_pkt_send()) so, there is no reason to add jumbo option to ip6
-+     * hop-by-hop extension if it's missed
-+     */
-+
-+    struct iovec *l2 = &pkt->vec[NET_TX_PKT_L2HDR_FRAG];
-+    if (eth_get_l3_proto(l2, 1, l2->iov_len) == ETH_P_IPV6) {
-+        struct ip6_header *ip6 = (struct ip6_header *) pkt->l3_hdr;
-+        /*
-+         * TODO: if qemu would support >64K packets - add jumbo option check
-+         * something like that:
-+         * 'if (ip6->ip6_plen == 0 && !has_jumbo_option(ip6)) {'
-+         */
-+        if (ip6->ip6_plen == 0) {
-+            if (pkt->payload_len <= ETH_MAX_IP_DGRAM_LEN) {
-+                ip6->ip6_plen = htons(pkt->payload_len);
-+            }
-+            /*
-+             * TODO: if qemu would support >64K packets
-+             * add jumbo option for packets greater then 65,535 bytes
-+             */
-+        }
-+    }
-+}
-diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
-index 212ecc62fc..912d56ef13 100644
---- a/hw/net/net_tx_pkt.h
-+++ b/hw/net/net_tx_pkt.h
-@@ -187,4 +187,11 @@ bool net_tx_pkt_parse(struct NetTxPkt *pkt);
- */
- bool net_tx_pkt_has_fragments(struct NetTxPkt *pkt);
- 
-+/**
-+ * Fix IPv6 'plen' field.
-+ *
-+ * @pkt            packet
-+ */
-+void net_tx_pkt_fix_ip6_payload_len(struct NetTxPkt *pkt);
-+
- #endif
-diff --git a/include/net/eth.h b/include/net/eth.h
-index 7f45c678e7..05c75ac9fc 100644
---- a/include/net/eth.h
-+++ b/include/net/eth.h
-@@ -139,6 +139,14 @@ struct ip6_ext_hdr_routing {
-     uint8_t     rsvd[4];
- };
- 
-+struct ip6_ext_hdr_fragment {
-+    uint8_t     nxt;
-+    uint8_t     res0;
-+    uint16_t    off;
-+    uint32_t    id;
-+};
-+
-+
- struct ip6_option_hdr {
- #define IP6_OPT_PAD1   (0x00)
- #define IP6_OPT_HOME   (0xC9)
-@@ -186,6 +194,7 @@ struct tcp_hdr {
- 
- #define ip6_nxt      ip6_ctlun.ip6_un1.ip6_un1_nxt
- #define ip6_ecn_acc  ip6_ctlun.ip6_un3.ip6_un3_ecn
-+#define ip6_plen     ip6_ctlun.ip6_un1.ip6_un1_plen
- 
- #define PKT_GET_ETH_HDR(p)        \
-     ((struct eth_header *)(p))
-@@ -398,9 +407,9 @@ void eth_get_protocols(const struct iovec *iov, int iovcnt,
-                        eth_ip4_hdr_info *ip4hdr_info,
-                        eth_l4_hdr_info  *l4hdr_info);
- 
--void eth_setup_ip4_fragmentation(const void *l2hdr, size_t l2hdr_len,
--                                 void *l3hdr, size_t l3hdr_len,
--                                 size_t l3payload_len,
-+void eth_setup_ip_fragmentation(const void *l2hdr, size_t l2hdr_len,
-+                                 void *l3hdr, size_t *l3hdr_len,
-+                                 size_t l3hdr_max_len, size_t l3payload_len,
-                                  size_t frag_offset, bool more_frags);
- 
- void
-diff --git a/net/eth.c b/net/eth.c
-index 0c1d413ee2..21ec5dc33d 100644
---- a/net/eth.c
-+++ b/net/eth.c
-@@ -314,10 +314,62 @@ eth_strip_vlan_ex(const struct iovec *iov, int iovcnt, size_t iovoff,
-     return 0;
- }
- 
-+static bool eth_is_ip6_extension_header_type(uint8_t hdr_type);
-+
-+static void *eth_ip6_find_ext(struct ip6_header *ip6, uint8_t ext_type)
-+{
-+    uint8_t curr_ext_hdr_type = ip6->ip6_nxt;
-+    struct ip6_ext_hdr *ext_hdr = (struct ip6_ext_hdr *)(ip6 + 1);
-+    for (; eth_is_ip6_extension_header_type(curr_ext_hdr_type);) {
-+        if (curr_ext_hdr_type == ext_type) {
-+            return ext_hdr;
-+        }
-+        curr_ext_hdr_type = ext_hdr->ip6r_nxt;
-+        ext_hdr = (struct ip6_ext_hdr *)(((uint8_t *)ext_hdr)
-+                + (ext_hdr->ip6r_len + 1) * IP6_EXT_GRANULARITY);
-+    }
-+
-+    return NULL;
-+}
-+
-+/*
-+ * To add an extension - there is should be
-+ * enough memory 'behind' the ip6 header.
-+ */
-+static void *eth_ip6_add_ext_nonsafe(struct ip6_header *ip6, uint8_t ext_type)
-+{
-+    uint8_t curr_ext_hdr_type = ip6->ip6_nxt;
-+    struct ip6_ext_hdr *ext_hdr = (struct ip6_ext_hdr *)(ip6 + 1);
-+    struct ip6_ext_hdr *ext_hdr_prev = NULL;
-+
-+    if (!eth_is_ip6_extension_header_type(curr_ext_hdr_type)) {
-+        ext_hdr->ip6r_nxt = ip6->ip6_nxt;
-+        ip6->ip6_nxt = ext_type;
-+        return ext_hdr;
-+    }
-+
-+    ext_hdr_prev = ext_hdr;
-+    curr_ext_hdr_type = ext_hdr->ip6r_nxt;
-+    ext_hdr = (struct ip6_ext_hdr *)(((uint8_t *)ext_hdr)
-+            + (ext_hdr->ip6r_len + 1) * IP6_EXT_GRANULARITY);
-+
-+    for (; eth_is_ip6_extension_header_type(curr_ext_hdr_type);) {
-+        ext_hdr_prev = ext_hdr;
-+        curr_ext_hdr_type = ext_hdr->ip6r_nxt;
-+        ext_hdr = (struct ip6_ext_hdr *)(((uint8_t *)ext_hdr)
-+                + (ext_hdr->ip6r_len + 1) * IP6_EXT_GRANULARITY);
-+    }
-+
-+    ext_hdr->ip6r_nxt = ext_hdr_prev->ip6r_nxt;
-+    ext_hdr_prev->ip6r_nxt = ext_type;
-+
-+    return ext_hdr;
-+}
-+
- void
--eth_setup_ip4_fragmentation(const void *l2hdr, size_t l2hdr_len,
--                            void *l3hdr, size_t l3hdr_len,
--                            size_t l3payload_len,
-+eth_setup_ip_fragmentation(const void *l2hdr, size_t l2hdr_len,
-+                            void *l3hdr, size_t *l3hdr_len,
-+                            size_t l3hdr_max_len, size_t l3payload_len,
-                             size_t frag_offset, bool more_frags)
- {
-     const struct iovec l2vec = {
-@@ -325,7 +377,9 @@ eth_setup_ip4_fragmentation(const void *l2hdr, size_t l2hdr_len,
-         .iov_len = l2hdr_len
-     };
- 
--    if (eth_get_l3_proto(&l2vec, 1, l2hdr_len) == ETH_P_IP) {
-+    uint16_t l3_proto = eth_get_l3_proto(&l2vec, 1, l2hdr_len);
-+
-+    if (l3_proto == ETH_P_IP) {
-         uint16_t orig_flags;
-         struct ip_header *iphdr = (struct ip_header *) l3hdr;
-         uint16_t frag_off_units = frag_offset / IP_FRAG_UNIT_SIZE;
-@@ -337,7 +391,32 @@ eth_setup_ip4_fragmentation(const void *l2hdr, size_t l2hdr_len,
-         orig_flags = be16_to_cpu(iphdr->ip_off) & ~(IP_OFFMASK|IP_MF);
-         new_ip_off = frag_off_units | orig_flags  | (more_frags ? IP_MF : 0);
-         iphdr->ip_off = cpu_to_be16(new_ip_off);
--        iphdr->ip_len = cpu_to_be16(l3payload_len + l3hdr_len);
-+        iphdr->ip_len = cpu_to_be16(l3payload_len + *l3hdr_len);
-+
-+        eth_fix_ip4_checksum(l3hdr, *l3hdr_len);
-+    } else if (l3_proto == ETH_P_IPV6) {
-+        struct ip6_header *ip6 = (struct ip6_header *) l3hdr;
-+
-+        struct ip6_ext_hdr_fragment *frag_ext = NULL;
-+
-+        /* Find frag extension */
-+        frag_ext = eth_ip6_find_ext(ip6, IP6_FRAGMENT);
-+        if (frag_ext == NULL) {
-+            /* No frag extension? Add one */
-+            if (*l3hdr_len + sizeof(*frag_ext) > l3hdr_max_len) {
-+                return; /* TODO: request to reallocate l3hdr */
-+            }
-+            frag_ext = eth_ip6_add_ext_nonsafe(ip6, IP6_FRAGMENT);
-+            *l3hdr_len += sizeof(*frag_ext);
-+            static uint32_t s_id = 0x71656d75; /* 'qemu' */
-+            frag_ext->id = cpu_to_be32(s_id);
-+            ++s_id;
-+        }
-+
-+        frag_ext->off = cpu_to_be16((frag_offset / IP_FRAG_UNIT_SIZE) << 3
-+                | (uint16_t)!!more_frags);
-+
-+        ip6->ip6_plen = cpu_to_be16(l3payload_len + *l3hdr_len - sizeof(*ip6));
-     }
- }
- 
--- 
-2.24.1
-
+> +	mdev_state->saved_size = size;
+> +	mdev_state->packet_state = PACKET_STATE_COPIED;
+> +	memset(mdev_state->pkt, 0, sizeof(struct packet));
+> +	return 0;
+> +}
+> +
+> +static int resume_device_data(struct mdev_state *mdev_state, u64 data_size)
+> +{
+> +	unsigned long i;
+> +
+> +	if (mdev_state->device_state != VFIO_DEVICE_STATE_RESUMING)
+> +		return -EINVAL;
+> +
+> +	if (!mdev_state->pkt || !mdev_state->mig_region_base)
+> +		return -EINVAL;
+> +
+> +	memcpy(mdev_state->pkt, mdev_state->mig_region_base, data_size);
+> +
+> +	if (mdev_state->pkt->flags & PACKET_FLAGS_ACTUAL_DATA) {
+> +		int index = 0;
+> +		/* restore device data */
+> +		read_from_packet(mdev_state->pkt, (u8 *)&mdev_state->nr_ports,
+> +				 index, sizeof(mdev_state->nr_ports));
+> +		index += sizeof(mdev_state->nr_ports);
+> +
+> +		read_from_packet(mdev_state->pkt, (u8 *)&mdev_state->s,
+> +				index, sizeof(struct serial_port) * 2);
+> +		index += sizeof(struct serial_port) * 2;
+> +
+> +		read_from_packet(mdev_state->pkt, mdev_state->vconfig,
+> +				 index, MTTY_CONFIG_SPACE_SIZE);
+> +		index += MTTY_CONFIG_SPACE_SIZE;
+> +
+> +		read_from_packet(mdev_state->pkt,
+> +				(u8 *)mdev_state->gpfn_to_hpfn,
+> +				index, sizeof(unsigned long) * MAX_GPFN_COUNT);
+> +		index += sizeof(unsigned long) * MAX_GPFN_COUNT;
+> +
+> +		for (i = 0; i < MAX_GPFN_COUNT; i++) {
+> +			if (mdev_state->gpfn_to_hpfn[i] != PFN_NULL) {
+> +				int ret;
+> +				unsigned long hpfn;
+> +
+> +				ret = vfio_pin_pages(mdev_dev(mdev_state->mdev),
+> +				       &i, 1, IOMMU_READ | IOMMU_WRITE, &hpfn);
+> +				if (ret <= 0) {
+> +					pr_err("%s: 0x%lx unpin error %d\n",
+> +							__func__, i, ret);
+> +					continue;
+> +				}
+> +				mdev_state->gpfn_to_hpfn[i] = hpfn;
+> +			}
+> +		}
+> +	} else {
+> +#if defined(DEBUG)
+> +		pr_info("%s: %s discard data 0x%llx\n",
+> +			 __func__, dev_name(mdev_dev(mdev_state->mdev)),
+> +			data_size);
+> +#endif
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int handle_mig_read(unsigned int index, struct mdev_state *mdev_state,
+> +			   loff_t offset, u8 *buf, u32 count)
+> +{
+> +	int ret = 0;
+> +	u64 pending = 0;
+> +
+> +	switch (offset) {
+> +	case MIGRATION_INFO_OFFSET(device_state):	// 0x00
+> +		*(u32 *)buf = get_device_state(mdev_state);
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(pending_bytes):	// 0x08
+> +		ret = save_device_data(mdev_state, &pending);
+> +		if (ret)
+> +			break;
+> +		*(u64 *)buf = pending;
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(data_offset):	// 0x10
+> +		if (mdev_state->device_state & VFIO_DEVICE_STATE_SAVING) {
+> +			ret = copy_device_data(mdev_state);
+> +			if (ret)
+> +				break;
+> +		}
+> +		*(u64 *)buf = MTTY_MIGRATION_REGION_DATA_OFFSET;
+what is this?
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(data_size):		// 0x18
+> +		*(u64 *)buf = mdev_state->saved_size;
+> +		break;
+> +
+> +	default:
+> +		ret = -EINVAL;
+> +	}
+> +
+> +#if defined(DEBUG)
+> +	pr_info("%s: %s MIG  RD @0x%llx bytes: %d data: 0x%x\n",
+> +			__func__, dev_name(mdev_dev(mdev_state->mdev)),
+> +			offset, count, *(u32 *)buf);
+> +#endif
+> +	return ret;
+> +}
+> +
+> +static int handle_mig_write(unsigned int index, struct mdev_state *mdev_state,
+> +				loff_t offset, u8 *buf, u32 count)
+> +{
+> +	int ret = 0;
+> +
+> +#if defined(DEBUG)
+> +	pr_info("%s: %s MIG  WR @0x%llx bytes: %d data: 0x%x\n",
+> +			__func__, dev_name(mdev_dev(mdev_state->mdev)),
+> +			offset, count, *(u32 *)buf);
+> +#endif
+> +	switch (offset) {
+> +	case MIGRATION_INFO_OFFSET(device_state):	// 0x00
+> +		ret = set_device_state(mdev_state, *(u32 *)buf);
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(data_size):		// 0x18
+> +		ret = resume_device_data(mdev_state, *(u64 *)buf);
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(pending_bytes):	// 0x08
+> +	case MIGRATION_INFO_OFFSET(data_offset):	// 0x10
+> +	default:
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static ssize_t mdev_access(struct mdev_device *mdev, u8 *buf, size_t count,
+>  			   loff_t pos, bool is_write)
+>  {
+> @@ -702,6 +1035,18 @@ static ssize_t mdev_access(struct mdev_device *mdev, u8 *buf, size_t count,
+>  		}
+>  		break;
+>  
+> +	case MTTY_MIGRATION_REGION_INDEX:
+> +		if (is_write) {
+> +			ret = handle_mig_write(index, mdev_state, offset, buf,
+> +					      count);
+> +		} else {
+> +			ret = handle_mig_read(index, mdev_state, offset, buf,
+> +					      count);
+> +		}
+> +		if (ret)
+> +			goto accessfailed;
+> +		break;
+> +
+>  	default:
+>  		ret = -1;
+>  		goto accessfailed;
+> @@ -709,7 +1054,6 @@ static ssize_t mdev_access(struct mdev_device *mdev, u8 *buf, size_t count,
+>  
+>  	ret = count;
+>  
+> -
+>  accessfailed:
+>  	mutex_unlock(&mdev_state->ops_lock);
+>  
+> @@ -819,13 +1163,29 @@ static int mtty_reset(struct mdev_device *mdev)
+>  static ssize_t mtty_read(struct mdev_device *mdev, char __user *buf,
+>  			 size_t count, loff_t *ppos)
+>  {
+> -	unsigned int done = 0;
+> +	unsigned int done = 0, index;
+>  	int ret;
+>  
+> +	index = MTTY_VFIO_PCI_OFFSET_TO_INDEX(*ppos);
+> +
+>  	while (count) {
+>  		size_t filled;
+>  
+> -		if (count >= 4 && !(*ppos % 4)) {
+> +		if ((index == MTTY_MIGRATION_REGION_INDEX) &&
+> +		    (count >= 8 && !(*ppos % 8))) {
+> +			u64 val;
+> +
+> +			ret =  mdev_access(mdev, (u8 *)&val, sizeof(val),
+> +					   *ppos, false);
+> +			if (ret <= 0)
+> +				goto read_err;
+> +
+> +			if (copy_to_user(buf, &val, sizeof(val)))
+> +				goto read_err;
+> +
+> +			filled = 8;
+> +
+> +		} else if (count >= 4 && !(*ppos % 4)) {
+>  			u32 val;
+>  
+>  			ret =  mdev_access(mdev, (u8 *)&val, sizeof(val),
+> @@ -878,13 +1238,27 @@ static ssize_t mtty_read(struct mdev_device *mdev, char __user *buf,
+>  static ssize_t mtty_write(struct mdev_device *mdev, const char __user *buf,
+>  		   size_t count, loff_t *ppos)
+>  {
+> -	unsigned int done = 0;
+> +	unsigned int done = 0, index;
+>  	int ret;
+>  
+> +	index = MTTY_VFIO_PCI_OFFSET_TO_INDEX(*ppos);
+>  	while (count) {
+>  		size_t filled;
+>  
+> -		if (count >= 4 && !(*ppos % 4)) {
+> +		if ((index == MTTY_MIGRATION_REGION_INDEX) &&
+> +		    (count >= 8 && !(*ppos % 8))) {
+> +			u64 val;
+> +
+> +			if (copy_from_user(&val, buf, sizeof(val)))
+> +				goto write_err;
+> +
+> +			ret = mdev_access(mdev, (u8 *)&val, sizeof(val),
+> +					  *ppos, true);
+> +			if (ret <= 0)
+> +				goto write_err;
+> +
+> +			filled = 8;
+> +		} else if (count >= 4 && !(*ppos % 4)) {
+>  			u32 val;
+>  
+>  			if (copy_from_user(&val, buf, sizeof(val)))
+> @@ -1061,12 +1435,13 @@ static int mtty_trigger_interrupt(struct mdev_state *mdev_state)
+>  }
+>  
+>  static int mtty_get_region_info(struct mdev_device *mdev,
+> -			 struct vfio_region_info *region_info,
+> -			 u16 *cap_type_id, void **cap_type)
+> +				struct vfio_region_info *region_info,
+> +				struct vfio_info_cap *caps)
+>  {
+>  	unsigned int size = 0;
+>  	struct mdev_state *mdev_state;
+> -	u32 bar_index;
+> +	u32 index;
+> +	int ret = 0;
+>  
+>  	if (!mdev)
+>  		return -EINVAL;
+> @@ -1075,13 +1450,13 @@ static int mtty_get_region_info(struct mdev_device *mdev,
+>  	if (!mdev_state)
+>  		return -EINVAL;
+>  
+> -	bar_index = region_info->index;
+> -	if (bar_index >= VFIO_PCI_NUM_REGIONS)
+> +	index = region_info->index;
+> +	if (index >= MTTY_REGIONS_MAX)
+>  		return -EINVAL;
+>  
+>  	mutex_lock(&mdev_state->ops_lock);
+>  
+> -	switch (bar_index) {
+> +	switch (index) {
+>  	case VFIO_PCI_CONFIG_REGION_INDEX:
+>  		size = MTTY_CONFIG_SPACE_SIZE;
+>  		break;
+> @@ -1092,21 +1467,63 @@ static int mtty_get_region_info(struct mdev_device *mdev,
+>  		if (mdev_state->nr_ports == 2)
+>  			size = MTTY_IO_BAR_SIZE;
+>  		break;
+> +	case MTTY_MIGRATION_REGION_INDEX:
+> +		size = MTTY_MIGRATION_REGION_SIZE;
+> +		break;
+>  	default:
+>  		size = 0;
+>  		break;
+>  	}
+>  
+> -	mdev_state->region_info[bar_index].size = size;
+> -	mdev_state->region_info[bar_index].vfio_offset =
+> -		MTTY_VFIO_PCI_INDEX_TO_OFFSET(bar_index);
+> +	mdev_state->region_info[index].size = size;
+> +	mdev_state->region_info[index].vfio_offset =
+> +					MTTY_VFIO_PCI_INDEX_TO_OFFSET(index);
+>  
+>  	region_info->size = size;
+> -	region_info->offset = MTTY_VFIO_PCI_INDEX_TO_OFFSET(bar_index);
+> +	region_info->offset = MTTY_VFIO_PCI_INDEX_TO_OFFSET(index);
+>  	region_info->flags = VFIO_REGION_INFO_FLAG_READ |
+> -		VFIO_REGION_INFO_FLAG_WRITE;
+> +			     VFIO_REGION_INFO_FLAG_WRITE;
+> +
+> +	if (index == MTTY_MIGRATION_REGION_INDEX) {
+> +		struct vfio_region_info_cap_sparse {
+> +			struct vfio_region_info_cap_sparse_mmap sparse;
+> +			struct vfio_region_sparse_mmap_area area;
+> +		};
+> +
+> +		struct vfio_region_info_cap_sparse mig_region;
+> +
+> +		struct vfio_region_info_cap_type cap_type = {
+> +			.header.id = VFIO_REGION_INFO_CAP_TYPE,
+> +			.header.version = 1,
+> +			.type = VFIO_REGION_TYPE_MIGRATION,
+> +			.subtype = VFIO_REGION_SUBTYPE_MIGRATION
+> +		};
+> +
+> +		/* Add REGION CAP type */
+> +		ret = vfio_info_add_capability(caps, &cap_type.header,
+> +						sizeof(cap_type));
+> +		if (ret)
+> +			goto exit;
+> +
+> +		/* Add sparse mmap cap type */
+> +		mig_region.sparse.nr_areas = 1;
+> +		mig_region.sparse.header.id = VFIO_REGION_INFO_CAP_SPARSE_MMAP;
+> +		mig_region.sparse.header.version = 1;
+> +
+> +		mig_region.area.offset = MTTY_MIGRATION_REGION_DATA_OFFSET;
+> +		mig_region.area.size = MTTY_MIGRATION_REGION_SIZE_MMAP;
+> +
+> +		region_info->flags |= VFIO_REGION_INFO_FLAG_CAPS;
+> +
+> +		if (region_info->argsz > sizeof(*region_info))
+> +			region_info->flags |= VFIO_REGION_INFO_FLAG_MMAP;
+> +
+> +		ret = vfio_info_add_capability(caps, &mig_region.sparse.header,
+> +						sizeof(mig_region));
+> +	}
+> +exit:
+>  	mutex_unlock(&mdev_state->ops_lock);
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  static int mtty_get_irq_info(struct mdev_device *mdev,
+> @@ -1138,7 +1555,7 @@ static int mtty_get_device_info(struct mdev_device *mdev,
+>  			 struct vfio_device_info *dev_info)
+>  {
+>  	dev_info->flags = VFIO_DEVICE_FLAGS_PCI;
+> -	dev_info->num_regions = VFIO_PCI_NUM_REGIONS;
+> +	dev_info->num_regions = MTTY_REGIONS_MAX;
+>  	dev_info->num_irqs = VFIO_PCI_NUM_IRQS;
+>  
+>  	return 0;
+> @@ -1150,6 +1567,7 @@ static long mtty_ioctl(struct mdev_device *mdev, unsigned int cmd,
+>  	int ret = 0;
+>  	unsigned long minsz;
+>  	struct mdev_state *mdev_state;
+> +	struct vfio_info_cap caps = { .buf = NULL, .size = 0 };
+>  
+>  	if (!mdev)
+>  		return -EINVAL;
+> @@ -1185,8 +1603,6 @@ static long mtty_ioctl(struct mdev_device *mdev, unsigned int cmd,
+>  	case VFIO_DEVICE_GET_REGION_INFO:
+>  	{
+>  		struct vfio_region_info info;
+> -		u16 cap_type_id = 0;
+> -		void *cap_type = NULL;
+>  
+>  		minsz = offsetofend(struct vfio_region_info, offset);
+>  
+> @@ -1196,11 +1612,29 @@ static long mtty_ioctl(struct mdev_device *mdev, unsigned int cmd,
+>  		if (info.argsz < minsz)
+>  			return -EINVAL;
+>  
+> -		ret = mtty_get_region_info(mdev, &info, &cap_type_id,
+> -					   &cap_type);
+> +		ret = mtty_get_region_info(mdev, &info, &caps);
+>  		if (ret)
+>  			return ret;
+>  
+> +		if (caps.size) {
+> +			info.flags |= VFIO_REGION_INFO_FLAG_CAPS;
+> +			if (info.argsz < sizeof(info) + caps.size) {
+> +				info.argsz = sizeof(info) + caps.size;
+> +				info.cap_offset = 0;
+> +			} else {
+> +				vfio_info_cap_shift(&caps, sizeof(info));
+> +				if (copy_to_user((void __user *)arg +
+> +							sizeof(info), caps.buf,
+> +							caps.size)) {
+> +					kfree(caps.buf);
+> +					ret = -EFAULT;
+> +					break;
+> +				}
+> +				info.cap_offset = sizeof(info);
+> +			}
+> +			kfree(caps.buf);
+> +		}
+> +
+>  		if (copy_to_user((void __user *)arg, &info, minsz))
+>  			return -EFAULT;
+>  
+> @@ -1266,6 +1700,89 @@ static long mtty_ioctl(struct mdev_device *mdev, unsigned int cmd,
+>  	return -ENOTTY;
+>  }
+>  
+> +void mmap_close(struct vm_area_struct *vma)
+> +{
+> +	struct mdev_device *mdev = vma->vm_private_data;
+> +	struct mdev_state *mdev_state;
+> +	uint32_t index = 0;
+> +
+> +	if (!mdev)
+> +		return;
+> +
+> +	mdev_state = mdev_get_drvdata(mdev);
+> +	if (!mdev_state)
+> +		return;
+> +
+> +	mutex_lock(&mdev_state->ops_lock);
+> +	index = MTTY_VFIO_PCI_OFFSET_TO_INDEX(vma->vm_pgoff << PAGE_SHIFT);
+> +	if (index == MTTY_MIGRATION_REGION_INDEX) {
+> +		if (mdev_state->mig_region_base != NULL) {
+> +			vfree(mdev_state->mig_region_base);
+> +			mdev_state->mig_region_base = NULL;
+> +		}
+> +
+> +		if (mdev_state->pkt != NULL) {
+> +			vfree(mdev_state->pkt);
+> +			mdev_state->pkt = NULL;
+> +		}
+> +	}
+> +	mutex_unlock(&mdev_state->ops_lock);
+> +}
+> +
+> +static const struct vm_operations_struct mdev_vm_ops = {
+> +	.close = mmap_close,
+> +};
+> +
+> +static int mtty_mmap(struct mdev_device *mdev, struct vm_area_struct *vma)
+> +{
+> +	struct mdev_state *mdev_state;
+> +	unsigned int index;
+> +	int ret = 0;
+> +
+> +	if (!mdev)
+> +		return -EINVAL;
+> +
+> +	mdev_state = mdev_get_drvdata(mdev);
+> +	if (!mdev_state)
+> +		return -ENODEV;
+> +
+> +	mutex_lock(&mdev_state->ops_lock);
+> +
+> +	index = MTTY_VFIO_PCI_OFFSET_TO_INDEX(vma->vm_pgoff << PAGE_SHIFT);
+> +	if (index == MTTY_MIGRATION_REGION_INDEX) {
+> +		mdev_state->mig_region_base =
+> +				 vmalloc_user(MTTY_MIGRATION_REGION_SIZE_MMAP);
+> +		if (mdev_state->mig_region_base == NULL) {
+> +			ret = -ENOMEM;
+> +			goto mmap_exit;
+> +		}
+> +
+> +		mdev_state->pkt = vzalloc(sizeof(struct packet) +
+> +					  PACKET_DATA_SIZE_MAX);
+> +		if (mdev_state->pkt == NULL) {
+> +			vfree(mdev_state->mig_region_base);
+> +			mdev_state->mig_region_base = NULL;
+> +			ret = -ENOMEM;
+> +			goto mmap_exit;
+> +		}
+> +
+> +		vma->vm_ops = &mdev_vm_ops;
+> +
+> +		ret = remap_vmalloc_range(vma, mdev_state->mig_region_base, 0);
+> +		if (ret != 0) {
+> +			pr_err("remap_vmalloc_range failed, ret= %d\n", ret);
+> +			vfree(mdev_state->mig_region_base);
+> +			mdev_state->mig_region_base = NULL;
+> +			vfree(mdev_state->pkt);
+> +			mdev_state->pkt = NULL;
+> +			goto mmap_exit;
+> +		}
+> +	}
+> +mmap_exit:
+> +	mutex_unlock(&mdev_state->ops_lock);
+> +	return ret;
+> +}
+> +
+>  static void unpin_pages_all(struct mdev_state *mdev_state)
+>  {
+>  	struct mdev_device *mdev = mdev_state->mdev;
+> @@ -1339,6 +1856,8 @@ static int mtty_open(struct mdev_device *mdev)
+>  
+>  	ret = vfio_register_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY, &events,
+>  				     &mdev_state->nb);
+> +	mdev_state->dummy_data_size = 0;
+> +	mdev_state->mig_region_base = NULL;
+>  	return ret;
+>  }
+>  
+> @@ -1355,6 +1874,15 @@ static void mtty_close(struct mdev_device *mdev)
+>  	unpin_pages_all(mdev_state);
+>  	vfio_unregister_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY,
+>  				 &mdev_state->nb);
+> +	if (mdev_state->pkt != NULL) {
+> +		vfree(mdev_state->pkt);
+> +		mdev_state->pkt = NULL;
+> +	}
+> +
+> +	if (mdev_state->mig_region_base != NULL) {
+> +		vfree(mdev_state->mig_region_base);
+> +		mdev_state->mig_region_base = NULL;
+> +	}
+>  }
+>  
+>  static ssize_t
+> @@ -1466,9 +1994,26 @@ pin_pages_store(struct device *dev, struct device_attribute *attr,
+>  
+>  static DEVICE_ATTR_RW(pin_pages);
+>  
+> +static ssize_t
+> +dummy_data_size_MB_store(struct device *dev, struct device_attribute *attr,
+> +			 const char *buf, size_t count)
+> +{
+> +	int ret;
+> +
+> +	ret = kstrtoul(buf, 0, &user_dummy_data_size);
+> +	if (ret)
+> +		return ret;
+> +
+> +	user_dummy_data_size = user_dummy_data_size << 20;
+> +	return count;
+> +}
+> +
+> +static DEVICE_ATTR_WO(dummy_data_size_MB);
+> +
+>  static struct attribute *mdev_dev_attrs[] = {
+>  	&dev_attr_sample_mdev_dev.attr,
+>  	&dev_attr_pin_pages.attr,
+> +	&dev_attr_dummy_data_size_MB.attr,
+>  	NULL,
+>  };
+>  
+> @@ -1573,6 +2118,7 @@ static const struct mdev_parent_ops mdev_fops = {
+>  	.read                   = mtty_read,
+>  	.write                  = mtty_write,
+>  	.ioctl		        = mtty_ioctl,
+> +	.mmap			= mtty_mmap,
+>  };
+>  
+>  static void mtty_device_release(struct device *dev)
+> -- 
+> 2.7.0
+> 
 
