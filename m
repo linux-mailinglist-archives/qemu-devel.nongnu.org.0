@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5B31C961A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 18:13:02 +0200 (CEST)
-Received: from localhost ([::1]:53256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBB01C964A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 18:20:25 +0200 (CEST)
+Received: from localhost ([::1]:60024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWj8v-0001By-3I
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 12:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38438)
+	id 1jWjG3-0004O7-GD
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 12:20:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1jWj7Z-00007T-Kv; Thu, 07 May 2020 12:11:37 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:14032
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1jWj7X-0001VU-UN; Thu, 07 May 2020 12:11:37 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 047F8geP119768; Thu, 7 May 2020 12:11:29 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 30vmqaj1w5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 07 May 2020 12:11:29 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 047Fv6j0117907;
- Thu, 7 May 2020 12:11:28 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 30vmqaj1uv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 07 May 2020 12:11:28 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 047G9oeU019081;
- Thu, 7 May 2020 16:11:26 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma01fra.de.ibm.com with ESMTP id 30s0g5csa4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 07 May 2020 16:11:26 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 047GAEGo63766876
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 7 May 2020 16:10:14 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C3A75204E;
- Thu,  7 May 2020 16:11:24 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.160.63])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id E68B652050;
- Thu,  7 May 2020 16:11:23 +0000 (GMT)
-Subject: [PATCH] target/ppc: Untabify excp_helper.c
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 07 May 2020 18:11:23 +0200
-Message-ID: <158886788307.1560068.14096740175576278978.stgit@bahia.lan>
-User-Agent: StGit/unknown-version
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1jWjEx-0003wN-Bq
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 12:19:15 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26841
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1jWjEw-0002VU-2b
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 12:19:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588868352;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UQXyZfXby0uC+Gd+Q/92Y8G7Z/N+m3sT33Qo0XzpTp8=;
+ b=GndBY8N/Gq+UAvsJTg0Xj4DKS0XLfdced7Ncx9DF18B2uVqFFhyy0uI6f3AkHB10pq7o2H
+ KsYTMb/2lcUrKyIcnSYgCHsyDxNOqqw0RDj3fAx+vq8s8DElVMcIfifMjacfat3+Kb5y5h
+ m6dqRead3Wyj0Eff7mJFV7jlLio2moA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-461-p32K0elkOPi5SUuOxB8rcw-1; Thu, 07 May 2020 12:19:10 -0400
+X-MC-Unique: p32K0elkOPi5SUuOxB8rcw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7017A461
+ for <qemu-devel@nongnu.org>; Thu,  7 May 2020 16:19:09 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B44E52618B;
+ Thu,  7 May 2020 16:19:00 +0000 (UTC)
+Date: Thu, 7 May 2020 18:18:57 +0200
+From: Peter Krempa <pkrempa@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: device hotplug & file handles
+Message-ID: <20200507161857.GK2102825@angien.pipo.sk>
+References: <20200507144914.4zg3753uh3kytz6g@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-07_09:2020-05-07,
- 2020-05-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034
- priorityscore=1501 lowpriorityscore=0 phishscore=0 bulkscore=0
- adultscore=0 malwarescore=0 spamscore=0 suspectscore=0 impostorscore=0
- mlxscore=0 mlxlogscore=884 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005070123
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=groug@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 12:11:34
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_SOFTFAIL=0.665,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200507144914.4zg3753uh3kytz6g@sirius.home.kraxel.org>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:56:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,47 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>
+Cc: libvir-list@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some tabs crept in with a recent change.
+On Thu, May 07, 2020 at 16:49:14 +0200, Gerd Hoffmann wrote:
+>   Hi,
+>=20
+> For usb device pass-through (aka -device usb-host) it would be very
+> useful to pass file handles from libvirt to qemu.  The workflow would
+> change from ...
+>=20
+>   (1) libvirt enables access to /dev/usb/$bus/$dev
+>   (2) libvirt passes $bus + $dev (using hostbus + hostaddr properties)
+>       to qemu.
+>   (3) qemu opens /dev/usb/$bus/$dev
+>=20
+> ... to ...
+>=20
+>   (1) libvirt opens /dev/usb/$bus/$dev
+>   (2) libvirt passes filehandle to qemu.
+>=20
+> Question is how can we pass the file descriptor best?  My idea would be
+> to simply add an fd property to usb-host:
+>=20
+>  * Coldplug would be "-device usb-host,fd=3D<nr>" (cmd line).
+>  * Hotplug would be "device_add usb-host,fd=3D<getfd-name>" (monitor).
 
-Fixes: 6dc6b557913f "target/ppc: Improve syscall exception logging"
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- target/ppc/excp_helper.c |   16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+We have prior art for both approaches so it's fine.
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 639cac38f9c3..4db3d9ed9af5 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -70,16 +70,16 @@ static inline void dump_syscall(CPUPPCState *env)
- static inline void dump_hcall(CPUPPCState *env)
- {
-     qemu_log_mask(CPU_LOG_INT, "hypercall r3=%016" PRIx64
--		  " r4=%016" PRIx64 " r5=%016" PRIx64 " r6=%016" PRIx64
--		  " r7=%016" PRIx64 " r8=%016" PRIx64 " r9=%016" PRIx64
--		  " r10=%016" PRIx64 " r11=%016" PRIx64 " r12=%016" PRIx64
-+                  " r4=%016" PRIx64 " r5=%016" PRIx64 " r6=%016" PRIx64
-+                  " r7=%016" PRIx64 " r8=%016" PRIx64 " r9=%016" PRIx64
-+                  " r10=%016" PRIx64 " r11=%016" PRIx64 " r12=%016" PRIx64
-                   " nip=" TARGET_FMT_lx "\n",
-                   ppc_dump_gpr(env, 3), ppc_dump_gpr(env, 4),
--		  ppc_dump_gpr(env, 5), ppc_dump_gpr(env, 6),
--		  ppc_dump_gpr(env, 7), ppc_dump_gpr(env, 8),
--		  ppc_dump_gpr(env, 9), ppc_dump_gpr(env, 10),
--		  ppc_dump_gpr(env, 11), ppc_dump_gpr(env, 12),
--		  env->nip);
-+                  ppc_dump_gpr(env, 5), ppc_dump_gpr(env, 6),
-+                  ppc_dump_gpr(env, 7), ppc_dump_gpr(env, 8),
-+                  ppc_dump_gpr(env, 9), ppc_dump_gpr(env, 10),
-+                  ppc_dump_gpr(env, 11), ppc_dump_gpr(env, 12),
-+                  env->nip);
- }
- 
- static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
+>=20
+> Will that work from libvirt point of view?
+
+Sure! Just please make sure that the new approach is detectable somehow.
+Either via device-list-properties or query-qmp-schema.
+
+> Or does anyone have an better idea?
+>=20
+> thanks,
+>   Gerd
+>=20
+> PS: background: https://bugzilla.redhat.com/show_bug.cgi?id=3D1595525
+>=20
 
 
