@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4A91C8CEE
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:48:33 +0200 (CEST)
-Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601F41C8D07
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 15:53:08 +0200 (CEST)
+Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWgt6-0002Xf-QM
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:48:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34190)
+	id 1jWgxX-0000vK-Df
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 09:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
- id 1jWgrQ-0000zn-4v; Thu, 07 May 2020 09:46:48 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:57190 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
- id 1jWgrO-0001F3-KE; Thu, 07 May 2020 09:46:47 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id BD7ED9A4637A1595BE71;
- Thu,  7 May 2020 21:46:37 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Thu, 7 May 2020
- 21:46:30 +0800
-Subject: Re: [PATCH v25 00/10] Add ARMv8 RAS virtualization support in QEMU
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200410114639.32844-1-gengdongjiu@huawei.com>
- <CAFEAcA9oNuDf=bdSSE8mZWrB23+FegD5NeSAmu8dGWhB=adBQg@mail.gmail.com>
- <da3cbdfd-a75d-c87f-3ece-616278aa64d5@huawei.com>
- <20200506162439-mutt-send-email-mst@kernel.org>
-From: gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <9198eac5-87ac-839c-f5dd-598880748b8e@huawei.com>
-Date: Thu, 7 May 2020 21:46:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.3.0
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1jWgt7-0003Qb-Fa
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 09:48:33 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27589
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1jWgt5-0002pg-7x
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 09:48:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588859309;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bm434Sx8fMyA8/6E2+2m2ygOFIlCsDp5bXTvEQyeQa0=;
+ b=c2zsuSC73Uz3b6jglEUa28KVF4vQkHwVYYROTgB2PA3e1C4HMD52pu4FWoZX/5szbf7Z1n
+ FS2vnlSpw5r9JcmQS0dCJAxyq5mzODTLo3KpsvPZMwdQOe3Vqb79h+vZhjHlP0IixHCP9P
+ RNnqur4XLpibgtxfXzCg5rd8xx4sED8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-j3XifsDtNZGn9WqltWnhCA-1; Thu, 07 May 2020 09:48:26 -0400
+X-MC-Unique: j3XifsDtNZGn9WqltWnhCA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49DBFEC1B3;
+ Thu,  7 May 2020 13:48:25 +0000 (UTC)
+Received: from thinkpad.redhat.com (ovpn-114-199.ams2.redhat.com
+ [10.36.114.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0CD510013BD;
+ Thu,  7 May 2020 13:48:01 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: lvivier@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [RFC v4 0/6] hmp,qmp: Add some commands to introspect virtio devices
+Date: Thu,  7 May 2020 15:47:54 +0200
+Message-Id: <20200507134800.10837-1-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200506162439-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=gengdongjiu@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 09:40:23
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 00:55:34
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,66 +78,338 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>, kvm-devel <kvm@vger.kernel.org>,
- Igor Mammedov <imammedo@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng Xiang <zhengxiang9@huawei.com>,
- qemu-arm <qemu-arm@nongnu.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
+ qemu-block@nongnu.org, Amit Shah <amit@kernel.org>,
+ Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 2020/5/7 4:25, Michael S. Tsirkin wrote:
-> On Wed, May 06, 2020 at 07:42:19PM +0800, gengdongjiu wrote:
->> On 2020/4/17 21:32, Peter Maydell wrote:
->>> On Fri, 10 Apr 2020 at 12:46, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
->>>>
->>>> In the ARMv8 platform, the CPU error types includes synchronous external abort(SEA)
->>>> and SError Interrupt (SEI). If exception happens in guest, host does not know the detailed
->>>> information of guest, so it is expected that guest can do the recovery. For example, if an
->>>> exception happens in a guest user-space application, host does not know which application
->>>> encounters errors, only guest knows it.
->>>>
->>>> For the ARMv8 SEA/SEI, KVM or host kernel delivers SIGBUS to notify userspace.
->>>> After user space gets the notification, it will record the CPER into guest GHES
->>>> buffer and inject an exception or IRQ to guest.
->>>>
->>>> In the current implementation, if the type of SIGBUS is BUS_MCEERR_AR, we will
->>>> treat it as a synchronous exception, and notify guest with ARMv8 SEA
->>>> notification type after recording CPER into guest.
->>>
->>> Hi. I left a comment on patch 1. The other 3 patches unreviewed
->>> are 5, 6 and 8, which are all ACPI core code, so that's for
->>> MST, Igor or Shannon to review.
->>>
->>> Once those have been reviewed, please ping me if you want this
->>> to go via target-arm.next.
->>
->> Hi Peter,
->>    Igor have reviewed all ACPI core code. whether you can apply this series to target-arm.next I can make another patches to solve your comments on patch1 and another APCI comment.
->> Thanks very much in advance.
-> 
-> Given it all starts with patch 1, it's probably easier to address the
-> comment and repost.
-
-  Done.
-
-  Hi Peter,
-      Please review the patch 1 in the patchset v26. Thanks.
-> 
-> 
->>>
->>> thanks
->>> -- PMM
->>>
->>> .
->>>
-> 
-> .
-> 
+This series introduces new QMP/HMP commands to dump the status=0D
+of a a virtio device at different levels.=0D
+=0D
+1. Main command=0D
+=0D
+ HMP Only:=0D
+=0D
+     x-debug-virtio [subcommand]=0D
+=0D
+   Example:=0D
+=0D
+    List all sub-commands:=0D
+=0D
+    (qemu) x-debug-virtio=0D
+    x-debug-virtio query  -- List all available virtio devices=0D
+    x-debug-virtio status path -- Display status of a given virtio device=
+=0D
+    x-debug-virtio queue-status path queue -- Display status of a given vir=
+tio queue=0D
+    x-debug-virtio queue-element path queue [index] -- Display element of a=
+ given virtio queue=0D
+=0D
+2. List available virtio devices in the machine=0D
+=0D
+  HMP Form:=0D
+=0D
+    x-debug-virtio query=0D
+=0D
+  Example:=0D
+=0D
+    (qemu) x-debug-virtio query=0D
+    /machine/peripheral-anon/device[3]/virtio-backend [virtio-net]=0D
+    /machine/peripheral-anon/device[1]/virtio-backend [virtio-serial]=0D
+    /machine/peripheral-anon/device[0]/virtio-backend [virtio-blk]=0D
+=0D
+  QMP Form:=0D
+=0D
+    { 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }=0D
+=0D
+  Example:=0D
+=0D
+  -> { "execute": "x-debug-query-virtio" }=0D
+  <- { "return": [=0D
+         {=0D
+             "path": "/machine/peripheral-anon/device[3]/virtio-backend",=
+=0D
+             "type": "virtio-net"=0D
+         },=0D
+         {=0D
+             "path": "/machine/peripheral-anon/device[1]/virtio-backend",=
+=0D
+             "type": "virtio-serial"=0D
+         },=0D
+         {=0D
+             "path": "/machine/peripheral-anon/device[0]/virtio-backend",=
+=0D
+             "type": "virtio-blk"=0D
+         }=0D
+       ]=0D
+     }=0D
+=0D
+3. Display status of a given virtio device=0D
+=0D
+  HMP Form:=0D
+=0D
+    x-debug-virtio status <path>=0D
+=0D
+  Example:=0D
+=0D
+    (qemu) x-debug-virtio status /machine/peripheral-anon/device[3]/virtio-=
+backend=0D
+    /machine/peripheral-anon/device[3]/virtio-backend:=0D
+      Device Id:        1=0D
+      Guest features:   event-idx, indirect-desc, version-1=0D
+                        ctrl-mac-addr, guest-announce, ctrl-vlan, ctrl-rx, =
+ctrl-vq, status, mrg-rxbuf, host-ufo, host-ecn, host-tso6, host-tso4, guest=
+-ufo, guest-ecn, guest-tso6, guest-tso4, mac, ctrl-guest-offloads, guest-cs=
+um, csum=0D
+      Host features:    event-idx, indirect-desc, bad-feature, version-1, a=
+ny-layout, notify-on-empty=0D
+                        gso, ctrl-mac-addr, guest-announce, ctrl-rx-extra, =
+ctrl-vlan, ctrl-rx, ctrl-vq, status, mrg-rxbuf, host-ufo, host-ecn, host-ts=
+o6, host-tso4, guest-ufo, guest-ecn, guest-tso6, guest-tso4, mac, ctrl-gues=
+t-offloads, guest-csum, csum=0D
+      Backend features:=0D
+      Endianness:       little=0D
+      VirtQueues:       3=0D
+=0D
+  QMP Form:=0D
+=0D
+    { 'command': 'x-debug-virtio-status',=0D
+      'data': { 'path': 'str' },=0D
+      'returns': 'VirtioStatus'=0D
+    }=0D
+=0D
+  Example:=0D
+=0D
+  -> { "execute": "x-debug-virtio-status",=0D
+       "arguments": {=0D
+           "path": "/machine/peripheral-anon/device[3]/virtio-backend"=0D
+       }=0D
+    }=0D
+  <- { "return": {=0D
+       "device-endian": "little",=0D
+       "device-id": 1,=0D
+       "backend-features": {=0D
+         "device": {=0D
+           "type": "virtio-net",=0D
+           "data": []=0D
+         },=0D
+         "unknown": 0,=0D
+         "transport": []=0D
+       },=0D
+       "num-vqs": 3,=0D
+       "guest-features": {=0D
+         "device": {=0D
+           "type": "virtio-net",=0D
+           "data": [ "ctrl-mac-addr", "guest-announce", "ctrl-vlan", "ctrl-=
+rx",=0D
+                     "ctrl-vq", "status", "mrg-rxbuf", "host-ufo", "host-ec=
+n",=0D
+                     "host-tso6", "host-tso4", "guest-ufo", "guest-ecn",=0D
+                     "guest-tso6", "guest-tso4", "mac", "ctrl-guest-offload=
+s",=0D
+                     "guest-csum", "csum" ]=0D
+         },=0D
+         "unknown": 0,=0D
+         "transport": [ "event-idx", "indirect-desc", "version-1" ]=0D
+       },=0D
+       "host-features": {=0D
+         "device": {=0D
+           "type": "virtio-net",=0D
+           "data": [ "gso", "ctrl-mac-addr", "guest-announce", "ctrl-rx-ext=
+ra",=0D
+                     "ctrl-vlan", "ctrl-rx", "ctrl-vq", "status", "mrg-rxbu=
+f",=0D
+                     "host-ufo", "host-ecn", "host-tso6", "host-tso4",=0D
+                     "guest-ufo", "guest-ecn", "guest-tso6", "guest-tso4",=
+=0D
+                     "mac", "ctrl-guest-offloads", "guest-csum", "csum" ]=
+=0D
+           },=0D
+           "unknown": 0,=0D
+           "transport": [ "event-idx", "indirect-desc", "bad-feature",=0D
+                          "version-1", "any-layout", "notify-on-empty" ]=0D
+         }=0D
+       }=0D
+     }=0D
+=0D
+4. Display status of a given virtio queue=0D
+=0D
+  HMP Form:=0D
+=0D
+    x-debug-virtio queue-status <path> <queue>=0D
+=0D
+  Example:=0D
+=0D
+    (qemu) x-debug-virtio queue-status /machine/peripheral-anon/device[3]/v=
+irtio-backend 0=0D
+    /machine/peripheral-anon/device[3]/virtio-backend:=0D
+      index:                0=0D
+      inuse:                0=0D
+      last_avail_idx:       61=0D
+      shadow_avail_idx:     292=0D
+      signalled_used:       61=0D
+      signalled_used_valid: 1=0D
+      VRing:=0D
+        num:         256=0D
+        num_default: 256=0D
+        align:       4096=0D
+        desc:        0x000000006c352000=0D
+        avail:       0x000000006c353000=0D
+        used:        0x000000006c353240=0D
+=0D
+  QMP Form:=0D
+=0D
+    { 'command': 'x-debug-virtio-queue-status',=0D
+      'data': { 'path': 'str', 'queue': 'uint16' },=0D
+      'returns': 'VirtQueueStatus'=0D
+    }=0D
+=0D
+  Example:=0D
+=0D
+  -> { "execute": "x-debug-virtio-queue-status",=0D
+       "arguments": {=0D
+           "path": "/machine/peripheral-anon/device[3]/virtio-backend",=0D
+           "queue": 0=0D
+       }=0D
+    }=0D
+  <- { "return": {=0D
+       "signalled_used": 373,=0D
+       "inuse": 0,=0D
+       "vring_desc": 864411648,=0D
+       "vring_num_default": 256,=0D
+       "signalled_used_valid": 1,=0D
+       "vring_avail": 864415744,=0D
+       "last_avail_idx": 373,=0D
+       "queue_index": 0,=0D
+       "vring_used": 864416320,=0D
+       "shadow_avail_idx": 619,=0D
+       "used_idx": 373,=0D
+       "vring_num": 256,=0D
+       "vring_align": 4096=0D
+       }=0D
+     }=0D
+=0D
+5. Display element of a given virtio queue=0D
+=0D
+  HMP Form:=0D
+=0D
+    x-debug-virtio queue-element <path> <queue> [index]=0D
+=0D
+  Example:=0D
+=0D
+    Dump the information of the head element of the first queue of=0D
+    the first virtio device::=0D
+=0D
+      (qemu) x-debug-virtio queue-element/machine/peripheral-anon/device[3]=
+/virtio-backend 0=0D
+      index:  67=0D
+      ndescs: 1=0D
+      descs:  addr 0x6fe69800 len 1536 (write)=0D
+=0D
+      (qemu) xp/128bx 0x6fe69800=0D
+      000000006fe69800: 0x02 0x00 0x00 0x00 0x00 0x00 0x00 0x00=0D
+      000000006fe69808: 0x00 0x00 0x01 0x00 0x52 0x54 0x00 0x12=0D
+      000000006fe69810: 0x34 0x56 0x52 0x54 0x00 0x09 0x51 0xde=0D
+      000000006fe69818: 0x08 0x00 0x45 0x00 0x00 0x4c 0x8f 0x32=0D
+=0D
+    device[3] is a virtio-net device and we can see in the element buffer t=
+he=0D
+    MAC address of the card::=0D
+=0D
+      [root@localhost ~]# ip link show ens4=0D
+      2: ens4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel st=
+ate UP m0=0D
+          link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff=0D
+=0D
+    and the MAC address of the gateway::=0D
+=0D
+      [root@localhost ~]# arp -a=0D
+      _gateway (192.168.122.1) at 52:54:00:09:51:de [ether] on ens4=0D
+=0D
+  QMP Form:=0D
+=0D
+    { 'command': 'x-debug-virtio-queue-element',=0D
+      'data': { 'path': 'str', 'queue': 'uint16', '*index': 'uint16' },=0D
+      'returns': 'VirtioQueueElement'=0D
+    }=0D
+=0D
+  Example:=0D
+=0D
+  -> { "execute": "x-debug-virtio-queue-element",=0D
+       "arguments": {=0D
+           "path": "/machine/peripheral-anon/device[3]/virtio-backend",=0D
+           "queue": 0=0D
+       }=0D
+    }=0D
+  -> { "return": {=0D
+          "index": 109,=0D
+          "ndescs": 1,=0D
+          "descs": [=0D
+              { "flags": [ "write" ], "len": 1536, "addr": 853145600 }=0D
+          ]=0D
+       }=0D
+    }=0D
+=0D
+v4: re-send series as v3 didn't reach qemu-devel=0D
+=0D
+v3: use qapi_free_VirtioInfoList() on the head of the list, not on the tail=
+=0D
+    prefix the commands with x-debug-=0D
+=0D
+v2: introduce VirtioType enum=0D
+    use an enum for the endianness=0D
+    change field names to stick to naming conventions (s/_/-/)=0D
+    add a patch to decode feature bits=0D
+    don't check if the queue is empty to allow to displa old elements=0D
+    use enum for desc flags=0D
+    manage indirect desc=0D
+    decode device features in the HMP command=0D
+=0D
+Laurent Vivier (6):=0D
+  qmp: add QMP command x-debug-query-virtio=0D
+  qmp: add QMP command x-debug-virtio-status=0D
+  qmp: decode feature bits in virtio-status=0D
+  qmp: add QMP command x-debug-virtio-queue-status=0D
+  qmp: add QMP command x-debug-virtio-queue-element=0D
+  hmp: add x-debug-virtio commands=0D
+=0D
+ Makefile                     |   2 +-=0D
+ Makefile.target              |   7 +-=0D
+ docs/system/monitor.rst      |   2 +=0D
+ hmp-commands-virtio.hx       | 160 +++++++++++=0D
+ hmp-commands.hx              |  10 +=0D
+ hw/block/virtio-blk.c        |  23 ++=0D
+ hw/char/virtio-serial-bus.c  |  11 +=0D
+ hw/display/virtio-gpu-base.c |  10 +=0D
+ hw/net/virtio-net.c          |  35 +++=0D
+ hw/scsi/virtio-scsi.c        |  12 +=0D
+ hw/virtio/Makefile.objs      |   2 +=0D
+ hw/virtio/virtio-balloon.c   |  13 +=0D
+ hw/virtio/virtio-iommu.c     |  14 +=0D
+ hw/virtio/virtio-stub.c      |  34 +++=0D
+ hw/virtio/virtio.c           | 542 +++++++++++++++++++++++++++++++++++=0D
+ include/hw/virtio/virtio.h   |  14 +=0D
+ include/monitor/hmp.h        |   4 +=0D
+ monitor/misc.c               |  17 ++=0D
+ qapi/Makefile.objs           |   2 +-=0D
+ qapi/qapi-schema.json        |   1 +=0D
+ qapi/virtio.json             | 502 ++++++++++++++++++++++++++++++++=0D
+ tests/qtest/qmp-cmd-test.c   |   1 +=0D
+ 22 files changed, 1414 insertions(+), 4 deletions(-)=0D
+ create mode 100644 hmp-commands-virtio.hx=0D
+ create mode 100644 hw/virtio/virtio-stub.c=0D
+ create mode 100644 qapi/virtio.json=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
