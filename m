@@ -2,84 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFCF1C9827
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:45:22 +0200 (CEST)
-Received: from localhost ([::1]:55266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62C81C985A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:52:38 +0200 (CEST)
+Received: from localhost ([::1]:42784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWkaH-0004T8-En
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:45:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58686)
+	id 1jWkhJ-0003CW-O3
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jWkVU-0004MQ-AA
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:24 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:33552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1jWkVQ-0001sC-E1
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:40:24 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id v8so8030102wma.0
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:thread-index
- :content-language;
- bh=eaPyYTkYXBrXu/xH0NnuAlo+Tq2jEVRxDirxaSw4Dm4=;
- b=Ag3/IzoGlN3au/qY+FZpa2CRlAewKiyWW+S5kVf2ol4AXBrd54gIBzulDIW0UcAgvk
- 7QEOG5ezi6c5yG0dvMa3fBA4XhAv7mf8JM0wyzADxytMZtnopGSmz3wxcP5dbw6dMVH8
- waJJUudnOaFisZEtev+OiOyqhyTHMZboI+r7KuDy57mkFl+RCyRNkT0mM4YgzIqxkZoh
- QKQESboX15XGVw7SDeLMKqHpogruNBMS6gyNMZvJVQ1x950l0QK4uJ7KqCrnjOEsDVqL
- dLYC/NIF1YFk8qJVjGLif0CZtdFxYqKhDAGYM1hw3O89yo91/25cu3Dwhd08bGhU5wQk
- g8UQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkY2-0000or-46
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:43:02 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46994
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWkY0-00035X-1n
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:43:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588873379;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QqXs+4p0UzibebDzREgeiVymJKSTSD/jei/aikWxysM=;
+ b=aP2aHK7rPUCc3ar1t9x3C3roINg2NM4YHDiiZKZnmrc69BQ81OI9iXuGm+4yLH8SnBiP+Y
+ GrN7ZRsxiIfewOI9dAygGuSuViwfaJ/XxYEEoVSsq29AEOhKoAA6YEW9uwy6JTk2omjSkN
+ 58ObhY47bSvdl5WX7kh7XeGDeqNuI1U=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-A_Gi0DOHMVWRpHhk0jUnSA-1; Thu, 07 May 2020 13:42:57 -0400
+X-MC-Unique: A_Gi0DOHMVWRpHhk0jUnSA-1
+Received: by mail-ej1-f69.google.com with SMTP id a23so3224432ejv.14
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 10:42:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :thread-index:content-language;
- bh=eaPyYTkYXBrXu/xH0NnuAlo+Tq2jEVRxDirxaSw4Dm4=;
- b=cPd+npdaKsTk6kcUon9s7C/pWvJEhsBch31OF6gV9eWn6ldNV/PrwmdymxArRk6fy+
- tEC1Z+6xUpb5OtbCmPFNqKCy+AxC2eIJDagpSllSfU9Ri2MjBJXxqpTXKIMo2kdvVpjn
- 2meB/8B4vq3M703Bxpntga/iuAfhdx1f/awNLhw6Kp/DF1gamefif9uCgRD2Fgsoupgk
- hTE8qwVYc2dAcKQrAMOMB9gxLQpk3gU0dfglPs5S9raZgqE7tD57Wlq46DLenI6NoX8D
- Ww5dO5r3DJR9ILJ44s5Ebxqm0B8w8SH74eMB+KzrmfdAV5rBB5owGbLke+Q6yoiPv8lf
- AYew==
-X-Gm-Message-State: AGi0PuY2RE89SrDsMSb/xFObRxLObUxtYdVZ1NzYkfqMMV0HHd5OitD3
- OjBX0tMnJzpG6LRXtJLbKH96Z1rM538=
-X-Google-Smtp-Source: APiQypJCeKi1dsLuz1/XdQ4gHUKarUmee4ON98uMkUjEOZrkzHu3A/+yV1UEtRqanV14aWFbNTS9yQ==
-X-Received: by 2002:a1c:7d4b:: with SMTP id y72mr11731981wmc.11.1588873217964; 
- Thu, 07 May 2020 10:40:17 -0700 (PDT)
-Received: from CBGR90WXYV0 ([54.239.6.186])
- by smtp.gmail.com with ESMTPSA id i74sm9154972wri.49.2020.05.07.10.40.15
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 07 May 2020 10:40:17 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: =?utf-8?Q?'Philippe_Mathieu-Daud=C3=A9'?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>
-References: <20200507155813.16169-1-philmd@redhat.com>
-In-Reply-To: <20200507155813.16169-1-philmd@redhat.com>
-Subject: RE: [PATCH] accel: Move Xen accelerator code under accel/xen/
-Date: Thu, 7 May 2020 18:40:15 +0100
-Message-ID: <00d101d62496$9261b6e0$b72524a0$@xen.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F7GGoxEF3psu6MRTXWTgeCNDDYeHsWjOqb0+9njiZtU=;
+ b=T4boMzTDctKXVp1rxVpDIJ9AjpyVb72/wjgVxiNZK1SaSmfXyZ7Lu5Qs8884n4agnY
+ SJy+3lSMYooJ8b9ixFw8uXnWSkkzQr2+Vbr/OgZlxSPchiYVHVlF0Sof6KrKXHr52qef
+ Ny+L8wRa/sDETSuvQurMt4lTjp3IE0ahV1XCMqzxd/hfY9Eze445eS0PRhRu5Gu56Hx9
+ bvYNXkJyom1q43XYfdGbio5ojmZoU3oZz9hnggimrxZ07FmaL3unnshhQXMg3u0sTHlO
+ 0wUPWQpdjJp0fBFM43UUXIouPcp4R7D2gTkycco5wkj6hLh+Gcj6rFtvO/TcT5jskJ0j
+ JMHQ==
+X-Gm-Message-State: AGi0PuYzfksdtjsmnKwddfqDLgn46kDQSOGwLHMBxQ/zVNB4XosiUjPh
+ N2XRPUfvV+eTqF8cUJuSA26zGu6cwk0quazpteH+DrEgYEGPBueElBLVdmFPWheXKCsRjclkhe5
+ boZgaf6LYMBfIwTw=
+X-Received: by 2002:a05:6402:1766:: with SMTP id
+ da6mr12795803edb.119.1588873376477; 
+ Thu, 07 May 2020 10:42:56 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKAOIbzI830xSvBzDNleX77ZWkTaPgP+bPdn2JhJxW/bz0S3S3ozoTS79tQ9UBvRKXddDwGBQ==
+X-Received: by 2002:a05:6402:1766:: with SMTP id
+ da6mr12795770edb.119.1588873376233; 
+ Thu, 07 May 2020 10:42:56 -0700 (PDT)
+Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id m5sm636707ejk.27.2020.05.07.10.42.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 May 2020 10:42:55 -0700 (PDT)
+Subject: Re: [PATCH 08/10] hw/block: Let the NVMe emulated device be
+ target-agnostic
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20200507173958.25894-1-philmd@redhat.com>
+ <20200507173958.25894-9-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <322769a8-59b1-10e0-cd28-134cf66fa113@redhat.com>
+Date: Thu, 7 May 2020 19:42:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
+In-Reply-To: <20200507173958.25894-9-philmd@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQLCd2e1MKAbxFSNuZsafCzsSnsP7KbEPi8w
-Content-Language: en-gb
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32b.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,42 +102,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: 'Stefano Stabellini' <sstabellini@kernel.org>,
- 'Eduardo Habkost' <ehabkost@redhat.com>, 'Juan Quintela' <quintela@redhat.com>,
- "'Michael S. Tsirkin'" <mst@redhat.com>,
- "'Dr. David Alan Gilbert'" <dgilbert@redhat.com>,
- 'Aleksandar Markovic' <aleksandar.qemu.devel@gmail.com>,
- 'Paolo Bonzini' <pbonzini@redhat.com>, 'Igor Mammedov' <imammedo@redhat.com>,
- 'Anthony Perard' <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- 'Aurelien Jarno' <aurelien@aurel32.net>, 'Richard Henderson' <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, Keith Busch <kbusch@kernel.org>,
+ Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Sent: 07 May 2020 16:58
-> To: qemu-devel@nongnu.org
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>; =
-xen-devel@lists.xenproject.org; Stefano Stabellini
-> <sstabellini@kernel.org>; Aleksandar Markovic =
-<aleksandar.qemu.devel@gmail.com>; Aurelien Jarno
-> <aurelien@aurel32.net>; Paolo Bonzini <pbonzini@redhat.com>; Igor =
-Mammedov <imammedo@redhat.com>;
-> Eduardo Habkost <ehabkost@redhat.com>; Richard Henderson =
-<rth@twiddle.net>; Marcel Apfelbaum
-> <marcel.apfelbaum@gmail.com>; Dr. David Alan Gilbert =
-<dgilbert@redhat.com>; Juan Quintela
-> <quintela@redhat.com>; Michael S. Tsirkin <mst@redhat.com>; Paul =
-Durrant <paul@xen.org>; Anthony
-> Perard <anthony.perard@citrix.com>
-> Subject: [PATCH] accel: Move Xen accelerator code under accel/xen/
->=20
-> This code is not related to hardware emulation.
-> Move it under accel/ with the other hypervisors.
+On 5/7/20 7:39 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Now than qemu_ram_msync() has been ...
+
+Oops =3D)
+
+"Now than qemu_ram_msync() is no more target-specific, we can
+make this device-generic."
+
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Reviewed-by: Paul Durrant <paul@xen.org>
+> ---
+>   hw/block/Makefile.objs | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/block/Makefile.objs b/hw/block/Makefile.objs
+> index 47960b5f0d..8855c22656 100644
+> --- a/hw/block/Makefile.objs
+> +++ b/hw/block/Makefile.objs
+> @@ -13,6 +13,6 @@ common-obj-$(CONFIG_SH4) +=3D tc58128.o
+>  =20
+>   obj-$(CONFIG_VIRTIO_BLK) +=3D virtio-blk.o
+>   obj-$(CONFIG_VHOST_USER_BLK) +=3D vhost-user-blk.o
+> -obj-$(CONFIG_NVME_PCI) +=3D nvme.o
+> +common-obj-$(CONFIG_NVME_PCI) +=3D nvme.o
+>  =20
+>   obj-y +=3D dataplane/
+>=20
 
 
