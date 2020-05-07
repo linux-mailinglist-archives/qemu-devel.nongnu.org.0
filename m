@@ -2,109 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8CB91C833D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 09:09:29 +0200 (CEST)
-Received: from localhost ([::1]:42070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68E41C8350
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 09:17:21 +0200 (CEST)
+Received: from localhost ([::1]:48776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWaeu-0001j0-OD
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 03:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59166)
+	id 1jWamW-0004xx-Ff
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 03:17:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWae0-0001Fa-Hz; Thu, 07 May 2020 03:08:32 -0400
-Received: from mail-am6eur05on2127.outbound.protection.outlook.com
- ([40.107.22.127]:42720 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWadz-0008RH-LF; Thu, 07 May 2020 03:08:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zv9k5vECyQIl+qLY7dyiFsUmuQsgNkQiTWDklz0GSAXM5+X9gnYE2dE2PZr8Ss824gGMtH3xifVteRrkEqV8ojg4noMMVKtqeTicxDWOmJWBwKENZOd3p2nrndWpdJ88tFlKlZZqlVVKty9m2TAhkSl/GvnDcXE5qAS4Hn8gyYXI38cocDIOCe8TAUadrJnllTbbWReXfkatDqomWlr8pow9IgE+Vb03uz4DpjVbcPE+pMogHW4thF1+8C2EN/5/jH0FW2L2i2pRZaLz9fk2Li0b6icQydQXx5e/jJXoCY8qOp8oDLlY39+eSoVW+uq1U6/dxRemn4gcWzsTuqz2JQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aa3VwSwF7Y1US/T79SKizQ3mPPU+IuGKeN6TxME9hoA=;
- b=BXMuv9R5uSLyixesKTm1kYvmdG2mgej87w5F5HyTRYinoi6jlznf+Qbd6wdniuOG17ULd5IJbGSy9Hv+7q5nyn9BBwQIvfwbe3gAYarQmSsRKUJg3t6+B8gloWCWXnJThbBqQMN9m1OHF66GiWW/NLMbIUVtKSJ1QVFJmXjnQgKSmNluTIuUGLVktYA0nAre0+o6UF5v6O7JJDOQO7+9wKEdDLkFsPFP1uqOOChqdT3lOwkO8R6gkAsWJWmpkl21u/jPZSV7x89NwrQON0wsk7fPIkRFWnpI+7ZgIux2mpsMka3BEs6i6Q0M2UQCuTK698wFxdkfj1/Si9Dfu6QMZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aa3VwSwF7Y1US/T79SKizQ3mPPU+IuGKeN6TxME9hoA=;
- b=Bc0lDAmDERbRFFhiZ427ZnvrdbwRL3ohH3gD57Vz+mOOjxGQMMUf1XUpVGALhrqQI1ZpFkqceqQJLCN3/mcNjJzX+Zz0LmZY+uZEBA8vrSHdSiSTMeqwjtwBiM9frijpil6B6ebV3IhyGc7z16F3l7KmZBxCYOIRv09RU3DzOCE=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5479.eurprd08.prod.outlook.com (2603:10a6:20b:104::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Thu, 7 May
- 2020 07:08:29 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.034; Thu, 7 May 2020
- 07:08:29 +0000
-Subject: Re: [PATCH 2/8] block/vpc: return ZERO block-status when appropriate
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20200506092513.20904-1-vsementsov@virtuozzo.com>
- <20200506092513.20904-3-vsementsov@virtuozzo.com>
- <235e0619-3b54-28fe-d1b6-d00ac1d37cfe@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200507100827241
-Message-ID: <b0252c4f-e2ff-536d-cd8f-9e01f4165577@virtuozzo.com>
-Date: Thu, 7 May 2020 10:08:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <235e0619-3b54-28fe-d1b6-d00ac1d37cfe@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FRYP281CA0018.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::28)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jWal7-0004No-5g
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 03:15:53 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:28224
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jWal4-0003HB-6w
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 03:15:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588835749;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cf3b96NuvIThpS9f59kMDGSKOHiZbMPX7vmad87hH/4=;
+ b=gpN2YqG9B3T2C9S1TbF/nif1XWEaRteoF2GqhlHCFiyUM9ct6NVRwPBo6WVv6ph481h8q1
+ iD7Z0Yh/jpHUV5cEOfPQK6W1rN4kp4Q7yGXsD4Z3Fuqsk2llhi1RZ+GLA0cH4NYlR1Kdpq
+ 89/SVVhDV5OgY49KIVzo2c81J7FUlnE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-52-gq0YGXbGPFGyjxjNMN0bZw-1; Thu, 07 May 2020 03:15:47 -0400
+X-MC-Unique: gq0YGXbGPFGyjxjNMN0bZw-1
+Received: by mail-wr1-f72.google.com with SMTP id z5so2829149wrt.17
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 00:15:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=2vVigyUvQxsc7XSeajwsi+zbMnh697hw31fC4iTyfHo=;
+ b=psS26WYZlApfclGqPKTLE2YoTZAvZTeQsRKW/udzrUhT8kUOu77LcbEyDt5D8DrY+3
+ eBdvCs4Arxbu0U1CCe1f/nmYWR4MePAcmPYzmqo86J3uZ+PvX9+Gh7IFFtM18SIlXAoV
+ ndB5ebX2rg9REQQOIvC63sT2n6ZlyqM7Tu1vxoSUB9NMpA1zRlUtIyx/UbpKSefK2tau
+ uY/LiYihObY56d29cmQ2CRILdaCbiL8JNqIy3fgipfBTeKreoCACEX0hH48zmd/prgox
+ BW1OSYKjxHjRFyUDn8JTMCBsWxKaoy9Kf8acnU9SWBVu9zO8+98tpIzA39TOIWUM+1yf
+ +t3Q==
+X-Gm-Message-State: AGi0PuZyClkv0STANmMyC1Ft639SGxo2gUFnd6h9Ee1nHRXVYqCdcO8n
+ OVNr2Jx2e55VG+zb75iQVCtFWe6kMdQqcV70lQ+DbP7VssHSYcW0II3OUfrQCzSQwaAeUf57+TG
+ ZUbHiwj/bBy6+5AU=
+X-Received: by 2002:adf:dd8a:: with SMTP id x10mr14062097wrl.308.1588835746237; 
+ Thu, 07 May 2020 00:15:46 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJxmVtHaOQGB7HjrSvi93vTnr3SqDf84RhB3xdBnm+SDBFkcDvBxhs3mSnob7xBEqsijhUNRg==
+X-Received: by 2002:adf:dd8a:: with SMTP id x10mr14062054wrl.308.1588835745807; 
+ Thu, 07 May 2020 00:15:45 -0700 (PDT)
+Received: from redhat.com (bzq-109-66-7-121.red.bezeqint.net. [109.66.7.121])
+ by smtp.gmail.com with ESMTPSA id
+ n6sm6772975wrs.81.2020.05.07.00.15.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 May 2020 00:15:45 -0700 (PDT)
+Date: Thu, 7 May 2020 03:15:41 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Raphael Norwitz <raphael.s.norwitz@gmail.com>
+Subject: Re: [PATCH v2 5/5] vhost: add device started check in migration set
+ log
+Message-ID: <20200507031519-mutt-send-email-mst@kernel.org>
+References: <cover.1588252861.git.dimastep@yandex-team.ru>
+ <d25241eb1fe7a55fc7dbe63ecedb4f1adf407837.1588252862.git.dimastep@yandex-team.ru>
+ <CAFubqFsvn+wNm-rAU1sLBic6J70-ZP_UT4xMDcvGeZ9TarYdjw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.171) by
- FRYP281CA0018.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.27 via Frontend Transport; Thu, 7 May 2020 07:08:28 +0000
-X-Tagtoolbar-Keys: D20200507100827241
-X-Originating-IP: [185.215.60.171]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 952115c8-b7a2-44e9-b47e-08d7f2557194
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5479:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB547937AB55225FA66E9450E0C1A50@AM7PR08MB5479.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 03965EFC76
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N/AVLK2rluRTTfcJdwOQY1FMH5OmdGBNq9XhcJYffK18EJtZAkp1BO6cvPO476rPE5MDJ2mvAUC9ZYPhgo5/3brOehPIN8Y3M159TgsJyYpnsLCwcvYyGmH0HGK9rz17lkWmgoAcZ1Wg+462s2BIe66U6vt5NhDuYMTpGwStaUAUpy5A6j9Uu5v4O6MD6AWArhehmgl2MJXw+PwTC1V5RScoyLMkRWZVq63SCKwrW3o7o6qEJSCKibOpkMGPdU7Bx/ITad5Ey2cl3hbldqJlkL3950C7Fw+mzvXPfIWOt04KWn1fUEsOgh6t5LcyjRL8W4hZhxBfMvLvFWUe/07Qxm4HRyZEdaFIz1QR9p+hOSIFrmrBeZsC/wR67xHP8WVpGgPEX4uhdEfZ2l4kG4i6Qyv8JfWHOIhFsWqeTHQhFOuxdKsnaeW4/K57W0bVPmCnKnYbody9fvJnbQGsCyR2UtpejVYPjgpcTcB+AJUvntcz9UrEJVtYvgfv9xRPr35mrz7rdR7w5ljgWCh5L6nuUKTNnAiXRlhIC8zp9GDRoVmErAC1U462/Yk1jcM8sk/k
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(39850400004)(366004)(376002)(136003)(346002)(33430700001)(4326008)(16576012)(33440700001)(2616005)(5660300002)(956004)(36756003)(478600001)(2906002)(8936002)(316002)(7416002)(66946007)(186003)(66476007)(66556008)(31696002)(6486002)(52116002)(8676002)(83320400001)(16526019)(26005)(31686004)(86362001)(83280400001)(83300400001)(83310400001)(83290400001)(53546011)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: aNsytQD1yCwWNw/vnBGm+7+mian8BEGYCQHNaGfZAJCuWA420Abpdltwa/YJox5H1Z+jQ3Y286GNGCE8sr7FE6lTkibup+xBGWAj+3ay9QxNN1i3Bug5V9SGGp7cgy4/cLAF66Cz53v813YBzzoY0gFIgQIqU990+mmiBIc3qMK9tz931xJUPUhYEYFnTOzz8V2JRKBqa1T1fvq0H7qdVJFcj8qazogjJ+Ph5D7bQAazx8JCxIbKHfkIefn49SvcVLRnYi6zKyG312qDOE85/bSfIoB5iQIRAt190EH3POTi/wNmH/ooCYC9ENQCDd8TsngjibpfKiE4h5DEXhAEm+zxTLRIad4XZNAb/YLrfW/dupZh98Z/1VlZYKHZ4euquU2qHRiVIV1ai8CProc7+tXUztWpWpRVCeTiTBs4kOYWCCRDaO+AIbo1b1KVMaLdzyGu/c8MJMPByoU7KYncDSygQrFomaUXkEDE8uMOh3OpwWtCbWlTTq9EhoybjemHbPqkwyIZxNIg/SV4fbun96mpvM4VlegL+y255vUZx7VIOObeYxssStk5+/PlaJYwI9qO0NWPTlKYpRIQJHh1cZImZMoyN/lH0JDyL8av+8uVIrggiLZv6vhrXS87FYCNzTL2dWHhwNtXgRs2EePEYA8lEzTDDi+qs6iVtan+yoyO2i7eP0ah5jT4FjWcWuBp4SIecARIoVjfE4IWr842uP1dr0VC489tQ6HIBipSEYu3xd/kxSXumGyRp79qFCtHiR4nBvOKq5vBnf16++/Ik7CGP/Pw8nNReLYtPM05rcM=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 952115c8-b7a2-44e9-b47e-08d7f2557194
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2020 07:08:28.9311 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2v71O038PObpPTkfFyLuyVxhxrofV/M8x1unHUcA1RuPNO/im7UZ8uA7doG1Kk98IvbozHQ0VZcHMNFMss7ldeh4wZkU4wfpjffT4WnZncg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5479
-Received-SPF: pass client-ip=40.107.22.127;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:08:29
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+In-Reply-To: <CAFubqFsvn+wNm-rAU1sLBic6J70-ZP_UT4xMDcvGeZ9TarYdjw@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:15:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001, T_DKIM_INVALID=0.01,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,38 +98,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, ronniesahlberg@gmail.com,
- codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org
+Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com,
+ qemu-block@nongnu.org, jasowang@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, raphael.norwitz@nutanix.com, arei.gonglei@huawei.com,
+ fengli@smartx.com, yc-core@yandex-team.ru, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, mreitz@redhat.com,
+ Dima Stepanov <dimastep@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-07.05.2020 0:18, Eric Blake wrote:
-> On 5/6/20 4:25 AM, Vladimir Sementsov-Ogievskiy wrote:
->> In case when get_image_offset() returns -1, we do zero out the
->> corresponding chunk of qiov. So, this should be reported as ZERO.
->>
->> After block-status update, it never reports 0, so setting
->> unallocated_blocks_are_zero doesn't make sense. Drop it.
-> 
-> Same analysis as in patch 1 as to the lone two clients that cared, and the fact that we are changing 'qemu-io -c map' output by reporting data as allocated now.  But I concur that as there is never a backing file, the change is not a regression, but rather a bug fix.
+On Wed, May 06, 2020 at 06:08:34PM -0400, Raphael Norwitz wrote:
+> As you correctly point out, this code needs to be looked at more
+> carefully so that
+> if the device does disconnect in the background we can handle the migrati=
+on path
+> gracefully. In particular, we need to decide whether a migration
+> should be allowed
+> to continue if a device disconnects durning the migration stage.
+>=20
+> mst, any thoughts?
 
-Note that we have a problem with meaning of unallocated for protocol drivers. For example, iscsi block_status return 0, and it means "unallocated garbage", i.e. not occupying space, read may return any garbage. But vdi and vpc are format drivers, just don't support backing and they would better return ZERO status where appropriate.
+Why not? It can't change state while disconnected, so it just makes
+things easier.
 
-> 
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block/vpc.c | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> While the commit message could be improved, the code change itself looks correct.
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> 
+> Have you looked at the suggestion I gave Li Feng to move vhost_dev_cleanu=
+p()
+> into the connection path in vhost-user-blk? I=E2=80=99m not sure if he=E2=
+=80=99s
+> actively working on it,
+> but I would prefer if we can find a way to keep some state around
+> between reconnects
+> so we aren=E2=80=99t constantly checking dev->started. A device can be st=
+opped
+> for reasons
+> other than backend disconnect so I=E2=80=99d rather not reuse this field =
+to
+> check for backend
+> disconnect failures.
+>=20
+> On Thu, Apr 30, 2020 at 9:57 AM Dima Stepanov <dimastep@yandex-team.ru> w=
+rote:
+> >
+> > If vhost-user daemon is used as a backend for the vhost device, then we
+> > should consider a possibility of disconnect at any moment. If such
+> > disconnect happened in the vhost_migration_log() routine the vhost
+> > device structure will be clean up.
+> > At the start of the vhost_migration_log() function there is a check:
+> >   if (!dev->started) {
+> >       dev->log_enabled =3D enable;
+> >       return 0;
+> >   }
+> > To be consistent with this check add the same check after calling the
+> > vhost_dev_set_log() routine. This in general help not to break a
+>=20
+> Could you point to the specific asserts which are being triggered?
+>=20
+> > migration due the assert() message. But it looks like that this code
+> > should be revised to handle these errors more carefully.
+> >
+> > In case of vhost-user device backend the fail paths should consider the
+> > state of the device. In this case we should skip some function calls
+> > during rollback on the error paths, so not to get the NULL dereference
+> > errors.
+> >
+> > Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
+> > ---
+> >  hw/virtio/vhost.c | 39 +++++++++++++++++++++++++++++++++++----
+> >  1 file changed, 35 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> > index 3ee50c4..d5ab96d 100644
+> > --- a/hw/virtio/vhost.c
+> > +++ b/hw/virtio/vhost.c
+> > @@ -787,6 +787,17 @@ static int vhost_dev_set_features(struct vhost_dev=
+ *dev,
+> >  static int vhost_dev_set_log(struct vhost_dev *dev, bool enable_log)
+> >  {
+> >      int r, i, idx;
+>=20
+> A couple points here
+>=20
+>=20
+> (1) This will fail the live migration if the device is disconnected.
+> That my be the right thing
+>       to do, but if there are cases where migrations can proceed with
+> a disconnected device,
+>       this may not be desirable.
+>=20
+> (2) This looks racy. As far as I can tell vhost_dev_set_log() is only
+> called by vhost_migration_log(),
+>       and as you say one of the first things vhost_migration_log does
+> is return if dev->started is not
+>       set. What=E2=80=99s to stop a disconnect from clearing the vdev rig=
+ht
+> after this check, just before
+>       vhost_dev_set_features() is called?
+>=20
+> As stated above, I would prefer it if we could add some state which
+> would persist between
+> reconnects which could then be checked in the vhost-user code before
+> interacting with
+> the backend. I understand this will be a much more involved change and
+> will require a lot
+> of thought.
+>=20
+> Also, regarding (1) above, if the original check in
+> vhost_migration_log() returns success if the
+> device is not started why return an error here? I imagine this could
+> lead to some inconsistent
+> behavior if the device disconnects before the first check verses
+> before the second.
+>=20
+> > +
+> > +    if (!dev->started) {
+> > +        /*
+> > +         * If vhost-user daemon is used as a backend for the
+> > +         * device and the connection is broken, then the vhost_dev
+> > +         * structure will be reset all its values to 0.
+> > +         * Add additional check for the device state.
+> > +         */
+> > +        return -1;
+> > +    }
+> > +
+> >      r =3D vhost_dev_set_features(dev, enable_log);
+> >      if (r < 0) {
+> >          goto err_features;
+> > @@ -801,12 +812,19 @@ static int vhost_dev_set_log(struct vhost_dev *de=
+v, bool enable_log)
+> >      }
 
-
--- 
-Best regards,
-Vladimir
 
