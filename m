@@ -2,41 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453EF1C84C1
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 10:26:53 +0200 (CEST)
-Received: from localhost ([::1]:55682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095731C84EF
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 10:37:06 +0200 (CEST)
+Received: from localhost ([::1]:42256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWbro-0007DE-C3
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 04:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48646)
+	id 1jWc1g-0005c3-Ge
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 04:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jWbqn-0005xz-Si; Thu, 07 May 2020 04:25:49 -0400
-Received: from relay.sw.ru ([185.231.240.75]:37752)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jWc0V-0004ud-Md; Thu, 07 May 2020 04:35:53 -0400
+Received: from mail-am6eur05on2126.outbound.protection.outlook.com
+ ([40.107.22.126]:10464 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jWbql-0004mb-Ps; Thu, 07 May 2020 04:25:49 -0400
-Received: from dptest2.qa.sw.ru ([10.94.4.71])
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <dplotnikov@virtuozzo.com>)
- id 1jWbqb-00024P-9J; Thu, 07 May 2020 11:25:37 +0300
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v24 4/4] iotests: 287: add qcow2 compression type test
-Date: Thu,  7 May 2020 11:25:21 +0300
-Message-Id: <20200507082521.29210-5-dplotnikov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20200507082521.29210-1-dplotnikov@virtuozzo.com>
-References: <20200507082521.29210-1-dplotnikov@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=dplotnikov@virtuozzo.com; helo=relay.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 04:25:44
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jWc0R-0004vQ-UK; Thu, 07 May 2020 04:35:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LCxAetQ0UOINj7mZNHpG1CcMd7TYk9f3gWEhpu31aup6peMuJdzn5zIrrqhq56x5BUPK911J+xNTkQo18Rolne1DnRkSK2FxfMGAE2/L8CROBtqyocBaUZljoXYEo+Yq3l/+QzlRKbRoV6LVYdeSZhAJ926pU1Pj11cecVMUjNNYpGJLqd99ZkGFLuk6ZXv6p1WHotkNbFrtq5FTGQnvrI/cndBfQGwSYF+F0RRtcuVgiEHQFXFco87T0piO5JUidlJp6Q7QUNB60mYMGwvcgDN6OT1hNXoFPoPn5RzAIB+xO0B74VZFBCf/CTuqNBBQaCE0ZQ+XUpEKnt+OliOl8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BlFAnyZl00dQHlUPITIYMXGOzyxg/3td9VI10ocfV48=;
+ b=hbvpnnWM5bhlmFXi+HC3xeAawcP7SxoMGXS3OGj8XoAAnBtm6rxUPwf7OQBc+HxlHWaSWYig3YoOj+/UCK5jG2I8PIab/OC6fLPbVZ+1sojMMsXaHqcQtnrkYaOV+hQvUq9Um9Rg+qJojxbEx1AtnZuwW5d7Zk7KbBcG1rZfTWsH3sxNRaqW0yzmb6ZsI0q+wpSYdv2cSgSGiMk8U/bVQH+m7ynTLh5J8OlP1nZrH3AU90wl0ngzHfPxLoJRKwfIVBQsp6G9nCM2+PnYHFbYzvZurwoy5Gd9Ez7x2fxnlfwZ7RUXcRiA7QNMIem92IXnY6CuXfSVwWvU/+L/6pncBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BlFAnyZl00dQHlUPITIYMXGOzyxg/3td9VI10ocfV48=;
+ b=Tu8B/cCzQU5OQs2Gq7Rq6axg7QN020OvUqsJSmCOUUuGh0xBy/D3jMz17j5nweFOPnOARtNSksfxtydLNPvN7blyA2eKJv8Hpi2tOfs+ahaMZkxTsNBg8YY7IrTGu3BFtM6jJbxe7Y5kvT/OdsfNrnxW+1IAj7/y5oImIQPo+mE=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5528.eurprd08.prod.outlook.com (2603:10a6:20b:dd::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Thu, 7 May
+ 2020 08:35:44 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.034; Thu, 7 May 2020
+ 08:35:44 +0000
+Subject: Re: [PATCH 8/8] block: drop unallocated_blocks_are_zero
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20200506092513.20904-1-vsementsov@virtuozzo.com>
+ <20200506092513.20904-9-vsementsov@virtuozzo.com>
+ <ad581d23-d79d-bf78-3cd5-848eb29a90f5@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200507113542734
+Message-ID: <1420c058-a67a-ec7b-86b8-2f10efb2f1ba@virtuozzo.com>
+Date: Thu, 7 May 2020 11:35:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <ad581d23-d79d-bf78-3cd5-848eb29a90f5@redhat.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR01CA0129.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::34) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.171) by
+ AM0PR01CA0129.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend
+ Transport; Thu, 7 May 2020 08:35:43 +0000
+X-Tagtoolbar-Keys: D20200507113542734
+X-Originating-IP: [185.215.60.171]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7baebfe7-3779-402e-0f04-08d7f261a259
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5528:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5528FA63FACC62368C8F16D6C1A50@AM7PR08MB5528.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+X-Forefront-PRVS: 03965EFC76
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VYYQykUeHK6htVzyteAT7eadY3vB9Dk3qznOgso0r0iyucdOQCLgt1BkW2rnCfezfQziwOZ/uXL6eUev1AfEqascJZuaSw/fxdhNog6Oclqzv/IlLJ2AllrmnxXzxt+yWuLgUlvg/sVGzVFnb1wmuA6dLL3ntBCnPEmLo9V2D+beWp+JqMz5YMz1i4tUzmbtLkSj3e7/jyCDOl5vGvN73WU+C7OZddLxGxP517brnuBoTA7Au+KTNAfPP50iaGZWCCcKzqdmdh/VsNj7C4TBNlrYRxDecCOwwPXnXxjPW6WPaucuk4KVbxHRYrZdvvKyrH5a54r7XtXzBJjWmRcnEdDdV0FnbK/OfAuJBhFn/U4ajJUaG/BbkSkq2iFaJ5nC8yYINxoFlv7IytJH0v41sjpAIQitBv71hjd/bzWv2cNakxvizIlK0LSmlbdMOaMNfl8LeAgtqnQSHqcRgooM1VWgcer/fDE86yVQ8fF3b1vDtY+m8UK34SmHg+dh8hE6uGQJrw0SQtPIVwquq/BAGG/yJpCPMyBA43cFZUb6i4YjlMWP8VieQ8tbFUOZlp73
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(366004)(346002)(39850400004)(136003)(376002)(33430700001)(5660300002)(26005)(316002)(16576012)(31696002)(31686004)(6486002)(33440700001)(8676002)(4326008)(478600001)(8936002)(186003)(86362001)(2906002)(2616005)(956004)(83320400001)(16526019)(66556008)(36756003)(83280400001)(53546011)(66476007)(66946007)(7416002)(52116002)(83300400001)(83310400001)(83290400001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: +fbxopjTKH5pVce6NEU4V9/h4Wlsnr4DSn9oRjgCy8wBBjnP9G4nvny5QlOmX1OiNVLsTQ+TBX9etvx+3SLSMBJwETTeW6Vi9OXXJ7NHaMvK1Tgc5xCqxy0po7BU39K3E0LFME4WdpNWyPtdBVw1zgHQ5XHJZGXDEU9dOZ2Ydf3hrdPuxyHH/TFKLFtuloF+hvhymThYwO496kmuyiRH8AFxHvl5oFnsC+pzr5uTh0CU+A40MnhbIRyPaqRy7bRzqnT7sWdNcqBt6iSHZYblB6A2eTA7U5qCkAf48UmshEFOzWP4oNjZ+fB7hFUce14lxSrNwC0DF9Fz/5iEGnvCwxTrdCyilXXBtggDqTtuq8uMpx1MrQh5IwSCNbH8vTo31LP5LqpimE0bNc/NLhhPFvXecsudUGV9FmvlHFAcvd6jBhM4Cb/oEDTmWNWhmDjz8vqIVX7dY4ocMABBLTGY28QJipPkF429UbQZbDEVkp/8vCUfuqws8tKsxxDcZ25MvdS3JWeMBmZSqBoHxcrb03o2fPC2No7xczHa6B2RSV9poaFjk1mexl03rOlcO57g6qdySIwURuvMmeec4GoLHUUVNjPRYojXoXTKNx0SYmSVZ/a1alHKoPWivPv67PEQuyyi0r/VEdwEk0OwKslWcb9xAS6xKHKQMl9QxiUwnXPTm193y/WIe86HfTEFiVsze3oYEr9fqH9Ieg35Jik6JduAkOXZBEFJxP+wXMsBUZHAkG+0foLMQ0ESqh4c9joSZvmF/VhD+5GsBXDdFxHIZeCxfaWeTOBXUKJ4FCKGkOk=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7baebfe7-3779-402e-0f04-08d7f261a259
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2020 08:35:44.7073 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CY4GAIkUsvlspGtGS8sbSLParPdy57Vbg9x9ko8ndRtk/Mrmzny637Z3a7Xqto9dXm98CFzbCVW8eFHlkv5YzaehxO+uv6fNT80A8oLXdII=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5528
+Received-SPF: pass client-ip=40.107.22.126;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 04:35:45
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001, T_DKIM_INVALID=0.01,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,270 +119,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-block@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: fam@euphon.net, kwolf@redhat.com, ronniesahlberg@gmail.com,
+ codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test checks fulfilling qcow2 requirements for the compression
-type feature and zstd compression type operability.
+06.05.2020 18:14, Eric Blake wrote:
+> On 5/6/20 4:25 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> Currently this field only set by qed and qcow2.
+> 
+> Well, only after patches 1-6 (prior to then, it was also set in protocol drivers).  I think you might be able to hoist part of this patch earlier in the series, to make the changes to the protocol drivers easier to review, by rewording this sentence:
+> 
+> Currently, the only format drivers that set this field are qed and qcow2.
+> 
+>> But in fact, all
+>> backing-supporting formats (parallels, qcow, qcow2, qed, vmdk) share
+>> this semantics: on unallocated blocks, if there is no backing file they
+> 
+> s/this/these/
+> 
+>> just memset the buffer with zeroes.
+>>
+>> So, document this behavior for .supports_backing and drop
+>> .unallocated_blocks_are_zero
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   include/block/block.h     |  6 ------
+>>   include/block/block_int.h | 13 ++++++++++++-
+>>   block.c                   | 15 ---------------
+>>   block/io.c                |  8 ++++----
+>>   block/qcow2.c             |  1 -
+>>   block/qed.c               |  1 -
+>>   6 files changed, 16 insertions(+), 28 deletions(-)
+>>
+>> diff --git a/include/block/block.h b/include/block/block.h
+>> index 8b62429aa4..db1cb503ec 100644
+>> --- a/include/block/block.h
+>> +++ b/include/block/block.h
+>> @@ -21,11 +21,6 @@ typedef struct BlockDriverInfo {
+>>       /* offset at which the VM state can be saved (0 if not possible) */
+>>       int64_t vm_state_offset;
+>>       bool is_dirty;
+>> -    /*
+>> -     * True if unallocated blocks read back as zeroes. This is equivalent
+>> -     * to the LBPRZ flag in the SCSI logical block provisioning page.
+>> -     */
+>> -    bool unallocated_blocks_are_zero;
+> 
+> You can't delete this field until all protocol drivers are cleaned up, so deferring this part of the change to the end of the series makes sense.
+> 
+>>       /*
+>>        * True if this block driver only supports compressed writes
+>>        */
+>> @@ -431,7 +426,6 @@ int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+>>   int bdrv_has_zero_init_1(BlockDriverState *bs);
+>>   int bdrv_has_zero_init(BlockDriverState *bs);
+>>   int bdrv_has_zero_init_truncate(BlockDriverState *bs);
+>> -bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs);
+> 
+> Doing this cleanup makes sense: there is only one caller of this function pre-patch, and 0 callers post-patch - but whether the cleanup should be at the same time as you fix the one caller, or deferred to when you also clean up the field, is less important.
+> 
+> If I were writing the series:
+> 
+> 1 - fix qemu-img.c to not use the field
+> 2 - fix block_status to not use the function
+> 3-n - fix protocol drivers that set the field to also return _ZERO
+>   during block status (but not delete the field at that time)
+> n+1 - delete unused function and field (from ALL drivers)
+> 
+>>   bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+>>   int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+>>                         int64_t bytes, int64_t *pnum, int64_t *map,
+>> diff --git a/include/block/block_int.h b/include/block/block_int.h
+>> index 92335f33c7..c156b22c6b 100644
+>> --- a/include/block/block_int.h
+>> +++ b/include/block/block_int.h
+>> @@ -115,7 +115,18 @@ struct BlockDriver {
+>>        */
+>>       bool bdrv_needs_filename;
+>> -    /* Set if a driver can support backing files */
+>> +    /*
+>> +     * Set if a driver can support backing files. This also implies the
+>> +     * following semantics:
+>> +     *
+>> +     *  - Return status 0 of .bdrv_co_block_status means that corresponding
+>> +     *    blocks are not allocated in this layer of backing-chain
+>> +     *  - For such (unallocated) blocks, read will:
+>> +     *    - read from backing file if there is one and big enough
+> 
+> s/and/and it is/
+> 
+>> +     *    - fill buffer with zeroes if there is no backing file
+>> +     *    - space after EOF of the backing file considered as zero
+>> +     *      (corresponding part of read-buffer must be zeroed by driver)
+> 
+> Does the driver actually have to do the zeroing?  Looking at qcow2.c, I see:
+> static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
+> ...
+> 
+>      case QCOW2_CLUSTER_UNALLOCATED:
+>          assert(bs->backing); /* otherwise handled in qcow2_co_preadv_part */
+> 
+>          BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
+>          return bdrv_co_preadv_part(bs->backing, offset, bytes,
+>                                     qiov, qiov_offset, 0);
+> 
+> which just defers to the block layer to handle read-beyond-EOF, rather than an explicit memset in the driver.
+> 
+> So maybe you can simplify to:
+> - For such (unallocated) blocks, read will:
+>    - fill buffer with zeros if there is no backing file
+>    - read from the backing file otherwise, where the block layer
+>      takes care of reading zeros beyond EOF if backing file is short
+> 
+> But the effect is the same.
+> 
+>> +++ b/block/io.c
+>> @@ -2385,16 +2385,16 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+>>       if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
+>>           ret |= BDRV_BLOCK_ALLOCATED;
+>> -    } else if (want_zero) {
+>> -        if (bdrv_unallocated_blocks_are_zero(bs)) {
+>> -            ret |= BDRV_BLOCK_ZERO;
+>> -        } else if (bs->backing) {
+>> +    } else if (want_zero && bs->drv->supports_backing) {
+>> +        if (bs->backing) {
+>>               BlockDriverState *bs2 = bs->backing->bs;
+>>               int64_t size2 = bdrv_getlength(bs2);
+>>               if (size2 >= 0 && offset >= size2) {
+>>                   ret |= BDRV_BLOCK_ZERO;
+>>               }
+>> +        } else {
+>> +            ret |= BDRV_BLOCK_ZERO;
+>>           }
+> 
+> I like this part of the change.  But if it is done first in the series, it _does_ have a semantic impact on protocol drivers (previously, protocol drivers that return 0 but set the field .unallocated_blocks_are_zero will be changed to report _ZERO; after this patch, protocol drivers do not do that, because they don't support backing files, and it is now only backing files that do the _ZERO magic).  So doing _just_ this change, along with a better analysis of how it changes the semantics of 'qemu-io -c map' on protocol drivers while mentioning why that is okay, would make a better start to the series, rather than here at the end.  Of course, if you defer it to the end, then none of the protocol drivers set .unallocated_blocks_are_zero anyway, but that cost more review work on each altered protocol driver.
+> 
 
-Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- tests/qemu-iotests/287     | 152 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/287.out |  67 ++++++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 220 insertions(+)
- create mode 100755 tests/qemu-iotests/287
- create mode 100644 tests/qemu-iotests/287.out
+Doing just this change prior to patches 1/2  breaks final BDRV_BLOCK_ZERO produced for vdi and vpc.
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-new file mode 100755
-index 0000000000..f98a4cadc1
---- /dev/null
-+++ b/tests/qemu-iotests/287
-@@ -0,0 +1,152 @@
-+#!/usr/bin/env bash
-+#
-+# Test case for an image using zstd compression
-+#
-+# Copyright (c) 2020 Virtuozzo International GmbH
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=dplotnikov@virtuozzo.com
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+# standard environment
-+. ./common.rc
-+. ./common.filter
-+
-+# This tests qocw2-specific low-level functionality
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_unsupported_imgopts 'compat=0.10' data_file
-+
-+COMPR_IMG="$TEST_IMG.compressed"
-+RAND_FILE="$TEST_DIR/rand_data"
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    _rm_test_img "$COMPR_IMG"
-+    rm -f "$RAND_FILE"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# for all the cases
-+CLUSTER_SIZE=65536
-+
-+# Check if we can run this test.
-+if IMGOPTS='compression_type=zstd' _make_test_img 64M |
-+    grep "Invalid parameter 'zstd'"; then
-+    _notrun "ZSTD is disabled"
-+fi
-+
-+echo
-+echo "=== Testing compression type incompatible bit setting for zlib ==="
-+echo
-+_make_test_img -o compression_type=zlib 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+echo
-+echo "=== Testing compression type incompatible bit setting for zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+echo
-+echo "=== Testing zlib with incompatible bit set ==="
-+echo
-+_make_test_img -o compression_type=zlib 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-feature-bit incompatible 3
-+# to make sure the bit was actually set
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
-+    echo "Error: The image opened successfully. The image must not be opened."
-+fi
-+
-+echo
-+echo "=== Testing zstd with incompatible bit unset ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$PYTHON qcow2.py "$TEST_IMG" set-header incompatible_features 0
-+# to make sure the bit was actually unset
-+$PYTHON qcow2.py "$TEST_IMG" dump-header | grep incompatible_features
-+
-+if $QEMU_IMG info "$TEST_IMG" >/dev/null 2>&1 ; then
-+    echo "Error: The image opened successfully. The image must not be opened."
-+fi
-+
-+echo
-+echo "=== Testing compression type values ==="
-+echo
-+# zlib=0
-+_make_test_img -o compression_type=zlib 64M
-+peek_file_be "$TEST_IMG" 104 1
-+echo
-+
-+# zstd=1
-+_make_test_img -o compression_type=zstd 64M
-+peek_file_be "$TEST_IMG" 104 1
-+echo
-+
-+echo
-+echo "=== Testing simple reading and writing with zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+# read on the cluster boundaries
-+$QEMU_IO -c "read -v 131070 8 " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -v 65534 8" "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Testing adjacent clusters reading and writing with zstd ==="
-+echo
-+_make_test_img -o compression_type=zstd 64M
-+$QEMU_IO -c "write -c -P 0xAB 0 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAC 64K 64K " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "write -c -P 0xAD 128K 64K " "$TEST_IMG" | _filter_qemu_io
-+
-+$QEMU_IO -c "read -P 0xAB 0 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAC 64K 64k " "$TEST_IMG" | _filter_qemu_io
-+$QEMU_IO -c "read -P 0xAD 128K 64k " "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Testing incompressible cluster processing with zstd ==="
-+echo
-+# create a 2M image and fill it with 1M likely incompressible data
-+# and 1M compressible data
-+dd if=/dev/urandom of="$RAND_FILE" bs=1M count=1 seek=1
-+QEMU_IO_OPTIONS="$QEMU_IO_OPTIONS_NO_FMT" \
-+$QEMU_IO -f raw -c "write -P 0xFA 0 1M" "$RAND_FILE" | _filter_qemu_io
-+
-+$QEMU_IMG convert -f raw -O $IMGFMT -c \
-+-o "$(_optstr_add "$IMGOPTS" "compression_type=zlib")" "$RAND_FILE" \
-+"$TEST_IMG" | _filter_qemu_io
-+
-+$QEMU_IMG convert -O $IMGFMT -c \
-+-o "$(_optstr_add "$IMGOPTS" "compression_type=zstd")" "$TEST_IMG" \
-+"$COMPR_IMG" | _filter_qemu_io
-+
-+$QEMU_IMG compare "$TEST_IMG" "$COMPR_IMG"
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/287.out b/tests/qemu-iotests/287.out
-new file mode 100644
-index 0000000000..6b9dfb4af0
---- /dev/null
-+++ b/tests/qemu-iotests/287.out
-@@ -0,0 +1,67 @@
-+QA output created by 287
-+
-+=== Testing compression type incompatible bit setting for zlib ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type incompatible bit setting for zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zlib with incompatible bit set  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     [3]
-+
-+=== Testing zstd with incompatible bit unset  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+incompatible_features     []
-+
-+=== Testing compression type values  ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   0
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+   1
-+
-+=== Testing simple reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0001fffe:  ac ac 00 00 00 00 00 00  ........
-+read 8/8 bytes at offset 131070
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+0000fffe:  00 00 ac ac ac ac ac ac  ........
-+read 8/8 bytes at offset 65534
-+8 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing adjacent clusters reading and writing with zstd ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 65536
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Testing incompressible cluster processing with zstd ===
-+
-+1+0 records in
-+1+0 records out
-+wrote 1048576/1048576 bytes at offset 0
-+1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Images are identical.
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 1710470e70..f1fd4e357f 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -295,6 +295,7 @@
- 283 auto quick
- 284 rw
- 286 rw quick
-+287 auto quick
- 288 quick
- 289 rw quick
- 290 rw auto quick
 -- 
-2.17.0
-
+Best regards,
+Vladimir
 
