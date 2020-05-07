@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945711C9581
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 17:53:00 +0200 (CEST)
-Received: from localhost ([::1]:53974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEBC1C95BA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 17:58:35 +0200 (CEST)
+Received: from localhost ([::1]:37884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWipX-0001PX-Jw
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 11:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33890)
+	id 1jWiuw-0006mP-FP
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 11:58:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWiob-0000oE-W2
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:52:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48718
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jWiob-0004pG-AX
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:52:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588866720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RKtDwjoKpoNomLmsbqU87QgwjrxGQ/q8GY8DUxU3VtU=;
- b=i/yiYdMiBA3e10spXnVfnTMszxLh+tC1D2FMBMDR5ymTt27IwHpUCD2T5Yjyd5EN1Qyquo
- 6JKLQpGJzhLKa0HjKM5Jckaz0Amlb8PLn+sfuh+vpyC+ps5g1hdMdBbyQzuziMLI57GRp2
- 3lOypkC4NVwlxTXiK5tqiikMa2HTWPA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-V3yKOn7iMoGMm5B1WwS7Ag-1; Thu, 07 May 2020 11:51:56 -0400
-X-MC-Unique: V3yKOn7iMoGMm5B1WwS7Ag-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17CD980058A;
- Thu,  7 May 2020 15:51:55 +0000 (UTC)
-Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8244B649D6;
- Thu,  7 May 2020 15:51:39 +0000 (UTC)
-Subject: Re: [RFC v3 6/6] hmp: add x-debug-virtio commands
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20200507114927.6733-1-lvivier@redhat.com>
- <20200507114927.6733-7-lvivier@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ce9d977b-a833-3b21-2283-31234f51511b@redhat.com>
-Date: Thu, 7 May 2020 10:51:39 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jWipG-0001Vk-Mi
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:52:42 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:44010)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jWipD-00054T-SK
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:52:42 -0400
+Received: by mail-oi1-x235.google.com with SMTP id j16so5563653oih.10
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 08:52:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uHhlNWa+QHqY3duorH8jkUvSE//0HmWIYr7IEJS9ufE=;
+ b=G2SWbDey39tKmJJxMAgQCICFUkjHNSj/g5lraSk+imyq/kHTwxmm1mYHNTb5ZtfjjC
+ hS+EiisYEqLAQ2wQoVjLpxfoMPJb3tsA5ydkZr/URiCYVEjqHY0wguKiQH/X2utCGGkf
+ pbvXJ4lJ5U3FX5MTN/P4Wl72jZb3QoAwSHVZKZnOwFQOpqcJQ3gLQjUiSqP05cbGcgYE
+ SUg+Y3HJITI3QHm05acbXFWeq9qOREn+iA6c8Y/ZkZQvzt+V/XdkZNCpjuurlLf3j5/d
+ F1sWsSxCtpWnsRfcgPLJAKrjRuI5xmnUPJfB2krSzOeHYSQK3UdswcHDML/c4CN0GhYB
+ iM8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uHhlNWa+QHqY3duorH8jkUvSE//0HmWIYr7IEJS9ufE=;
+ b=m9mXrdgEA/2Urw57OPFf+3AlzmfJMfYrmIWSb58f9TGXpZrgvL0vkwONsU3IxJ/b7K
+ 4Db1ByuoSFFt755XpQPlERraR8rnuQYdbbmX7JmDD2udO2ybEpgkcwTj7KmkePa985Pq
+ RC5q86ai2ENl3I3KCEa3d0AmTgoC2QZ8M9P+HHj2onVsGXb/6VM0SN74LA9lQerFrKVJ
+ kcfvhI9RHF9mPnfQfE87/43yvJyeFFEurca7Gt3kEf1bTD0hvjfJDVj7VNEtSC6RC6Ch
+ AeelE4TYhhfPF3CvVb/+u9H3n3LPZcALUg3zTTc2MqYFaPiuHso2tzlUMOGBIbVVNP/K
+ 3nlw==
+X-Gm-Message-State: AGi0PuYuU1W1UiKIbmITzSwnfWOl2Ldr6o2LKm99jChd4CcflfDm0LMf
+ P+AOvAfhTrWTE1PGSyDBZKtY5BuoRv+yUSTGkG3wUg==
+X-Google-Smtp-Source: APiQypI+3eq8irjprUxtIu0bZlqjzePEkdIjUTl+JkKroxfBMK2VP+ZQT8jXzCDLdDFdw1SW5BqRtuD3W+l5DHUcBoQ=
+X-Received: by 2002:aca:4a45:: with SMTP id x66mr6618264oia.48.1588866758239; 
+ Thu, 07 May 2020 08:52:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200507114927.6733-7-lvivier@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 03:56:18
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200505125826.1001451-1-mreitz@redhat.com>
+ <20200505125826.1001451-25-mreitz@redhat.com>
+In-Reply-To: <20200505125826.1001451-25-mreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 May 2020 16:52:27 +0100
+Message-ID: <CAFEAcA_H7-YS4kKsoSpPKG5=3mqJNpa034KkNwPpBEgffUiT6g@mail.gmail.com>
+Subject: Re: [PULL 24/24] block/block-copy: use aio-task-pool API
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x235.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,63 +79,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Amit Shah <amit@kernel.org>,
- Max Reitz <mreitz@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/7/20 6:49 AM, Laurent Vivier wrote:
-> This patch implements HMP version of the virtio QMP commands
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+On Tue, 5 May 2020 at 13:59, Max Reitz <mreitz@redhat.com> wrote:
+>
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>
+> Run block_copy iterations in parallel in aio tasks.
+>
+> Changes:
+>   - BlockCopyTask becomes aio task structure. Add zeroes field to pass
+>     it to block_copy_do_copy
+>   - add call state - it's a state of one call of block_copy(), shared
+>     between parallel tasks. For now used only to keep information about
+>     first error: is it read or not.
+>   - convert block_copy_dirty_clusters to aio-task loop.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Message-Id: <20200429130847.28124-6-vsementsov@virtuozzo.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
-Most HMP commands do not use '-' in their name.  Also, HMP doesn't 
-promise api compatibility; so we could just name this 'info virtio' or 
-'debug_virtio' without an x- prefix, with no real loss.
+Hi; this patch seems to introduce a use-after-free (CID 1428756):
 
-> ---
->   Makefile                |   2 +-
->   Makefile.target         |   7 +-
->   docs/system/monitor.rst |   2 +
->   hmp-commands-virtio.hx  | 160 +++++++++++++++++++++++++++++++++
->   hmp-commands.hx         |  10 +++
->   hw/virtio/virtio.c      | 193 +++++++++++++++++++++++++++++++++++++++-
->   include/monitor/hmp.h   |   4 +
->   monitor/misc.c          |  17 ++++
->   8 files changed, 391 insertions(+), 4 deletions(-)
->   create mode 100644 hmp-commands-virtio.hx
-> 
 
-> +SRST
-> +``x-debug-virtio`` *subcommand*
-> +  Show various information about virtio.
-> +
-> +  Example:
-> +
-> +  List all sub-commands::
-> +
-> +    (qemu) x-debug-virtio
-> +    x-debug-virtio query  -- List all available virtio devices
-> +    x-debug-virtio status path -- Display status of a given virtio device
-> +    x-debug-virtio queue-status path queue -- Display status of a given virtio queue
-> +    x-debug-virtio queue-element path queue [index] -- Display element of a given virtio queue
+> @@ -484,6 +554,8 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+>      int ret = 0;
+>      bool found_dirty = false;
+>      int64_t end = offset + bytes;
+> +    AioTaskPool *aio = NULL;
+> +    BlockCopyCallState call_state = {false, false};
+>
+>      /*
+>       * block_copy() user is responsible for keeping source and target in same
+> @@ -495,11 +567,11 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+>      assert(QEMU_IS_ALIGNED(offset, s->cluster_size));
+>      assert(QEMU_IS_ALIGNED(bytes, s->cluster_size));
+>
+> -    while (bytes) {
+> -        g_autofree BlockCopyTask *task = NULL;
+> +    while (bytes && aio_task_pool_status(aio) == 0) {
+> +        BlockCopyTask *task;
+>          int64_t status_bytes;
+>
+> -        task = block_copy_task_create(s, offset, bytes);
+> +        task = block_copy_task_create(s, &call_state, offset, bytes);
+>          if (!task) {
+>              /* No more dirty bits in the bitmap */
+>              trace_block_copy_skip_range(s, offset, bytes);
+> @@ -519,6 +591,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
+>          }
+>          if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
+>              block_copy_task_end(task, 0);
+> +            g_free(task);
 
-Oh, you're introducing it as a metacommand (like 'info' already is) with 
-several subcommands.  Still, naming it 'virtio' instead of 
-'x-debug-virtio' would make sense to me, even though the underlying QMP 
-commands are (correctly) in the x-debug- namespace.
+This hunk frees 'task' here...
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>              progress_set_remaining(s->progress,
+>                                     bdrv_get_dirty_count(s->copy_bitmap) +
+>                                     s->in_flight_bytes);
 
+...but the next lines after this one (just out of context) are:
+
+            trace_block_copy_skip_range(s, task->offset, task->bytes);
+            offset = task_end(task);
+
+which now dereference 'task' after it is freed.
+
+thanks
+-- PMM
 
