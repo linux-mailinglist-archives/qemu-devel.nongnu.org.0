@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7909D1C814C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:06:07 +0200 (CEST)
-Received: from localhost ([::1]:40570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3761C8168
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:13:47 +0200 (CEST)
+Received: from localhost ([::1]:52162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWYjW-000135-DZ
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
+	id 1jWYqw-0000QE-6K
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:13:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYhx-0007dc-Jc; Thu, 07 May 2020 01:04:29 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:49789 helo=ozlabs.org)
+ id 1jWYhy-0007g0-CN; Thu, 07 May 2020 01:04:30 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:56607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYhv-0007Yq-TV; Thu, 07 May 2020 01:04:29 -0400
+ id 1jWYhw-0007du-QH; Thu, 07 May 2020 01:04:30 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49HhFn60kDz9sSs; Thu,  7 May 2020 15:04:13 +1000 (AEST)
+ id 49HhFn6kNnz9sSx; Thu,  7 May 2020 15:04:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1588827853;
- bh=tHs+GfOOXl50YkrqHGHK5Hke1db7bRi2ie5q1tvX20Q=;
+ bh=+QbVUd1UgLdlY1lqI5xNAI7XHDlOWMlYunUoNKLLV3s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HpF4vHZl351iaZSG1FI+VW43wAnOlp6QoRi6jtrKhakW7q6f5wkMp6zBhnfwyPd0C
- SRadgUj1LzKPaa6NGbwRXRbQ5D7JqQGQ8E9bZzt0jXV056DNmq4C8QKiohFKLoav+F
- 2avZY70yn22lBfbt/Okq4ie+egL+Pg3eYb2vRfJs=
+ b=VE/Gb0uM2mlbyjxEk0AZ/Xo1st4ZBqFl8gm71qUmbZ9HGcNelCeQmQ2F886JmgHpb
+ ANE4GegUyXYQw175M6GxLZDv7ByLLyEs3vVKr3/wVFJd/vr7Xvom2qUp6ukWF8cS7m
+ xP8zP/i5scZPOHIO+cuEJQqt/z1tiqkxiNq31hUY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/18] spapr/cas: Separate CAS handling from rebuilding the FDT
-Date: Thu,  7 May 2020 15:02:16 +1000
-Message-Id: <20200507050228.802395-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/18] spapr: Drop CAS reboot flag
+Date: Thu,  7 May 2020 15:02:17 +1000
+Message-Id: <20200507050228.802395-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 References: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 01:04:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -64,186 +64,134 @@ Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, npiggin@gmail.com, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
+From: Greg Kurz <groug@kaod.org>
 
-At the moment "ibm,client-architecture-support" ("CAS") is implemented
-in SLOF and QEMU assists via the custom H_CAS hypercall which copies
-an updated flatten device tree (FDT) blob to the SLOF memory which
-it then uses to update its internal tree.
+The CAS reboot flag is false by default and all the locations that
+could set it to true have been dropped. This means that all code
+blocks depending on the flag being set is dead code and the other
+code blocks should be executed always.
 
-When we enable the OpenFirmware client interface in QEMU, we won't need
-to copy the FDT to the guest as the client is expected to fetch
-the device tree using the client interface.
+Just do that and drop the now uneeded CAS reboot flag. Fix a
+comment on the way to make checkpatch happy.
 
-This moves FDT rebuild out to a separate helper which is going to be
-called from the "ibm,client-architecture-support" handler and leaves
-writing FDT to the guest in the H_CAS handler.
-
-This should not cause any behavioral change.
-
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-Id: <20200310050733.29805-3-aik@ozlabs.ru>
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <158514994229.478799.2178881312094922324.stgit@bahia.lan>
+Message-Id: <158514994893.478799.11772512888322840990.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c         |  1 -
- hw/ppc/spapr_hcall.c   | 67 ++++++++++++++++++++++++++----------------
- include/hw/ppc/spapr.h |  7 +++++
- 3 files changed, 48 insertions(+), 27 deletions(-)
+ hw/ppc/spapr.c         | 18 ++++--------------
+ hw/ppc/spapr_hcall.c   | 33 ++++++++++++++-------------------
+ include/hw/ppc/spapr.h |  1 -
+ 3 files changed, 18 insertions(+), 34 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 167b1216ba..f52488d397 100644
+index f52488d397..841b5ec59b 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -96,7 +96,6 @@
-  *
-  * We load our kernel at 4M, leaving space for SLOF initial image
-  */
--#define FDT_MAX_SIZE            0x100000
- #define RTAS_MAX_ADDR           0x80000000 /* RTAS must stay below that */
- #define FW_MAX_SIZE             0x400000
- #define FW_FILE_NAME            "slof.bin"
+@@ -1579,9 +1579,7 @@ void spapr_setup_hpt(SpaprMachineState *spapr)
+ {
+     int hpt_shift;
+ 
+-    if ((spapr->resize_hpt == SPAPR_RESIZE_HPT_DISABLED)
+-        || (spapr->cas_reboot
+-            && !spapr_ovec_test(spapr->ov5_cas, OV5_HPT_RESIZE))) {
++    if (spapr->resize_hpt == SPAPR_RESIZE_HPT_DISABLED) {
+         hpt_shift = spapr_hpt_shift_for_ramsize(MACHINE(spapr)->maxram_size);
+     } else {
+         uint64_t current_ram_size;
+@@ -1645,16 +1643,10 @@ static void spapr_machine_reset(MachineState *machine)
+ 
+     qemu_devices_reset();
+ 
+-    /*
+-     * If this reset wasn't generated by CAS, we should reset our
+-     * negotiated options and start from scratch
+-     */
+-    if (!spapr->cas_reboot) {
+-        spapr_ovec_cleanup(spapr->ov5_cas);
+-        spapr->ov5_cas = spapr_ovec_new();
++    spapr_ovec_cleanup(spapr->ov5_cas);
++    spapr->ov5_cas = spapr_ovec_new();
+ 
+-        ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
+-    }
++    ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
+ 
+     /*
+      * This is fixing some of the default configuration of the XIVE
+@@ -1707,8 +1699,6 @@ static void spapr_machine_reset(MachineState *machine)
+     spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, 0, fdt_addr, 0);
+     first_ppc_cpu->env.gpr[5] = 0;
+ 
+-    spapr->cas_reboot = false;
+-
+     spapr->fwnmi_system_reset_addr = -1;
+     spapr->fwnmi_machine_check_addr = -1;
+     spapr->fwnmi_machine_check_interlock = -1;
 diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index fb4fdd4a0c..48a8745514 100644
+index 48a8745514..0f54988f2e 100644
 --- a/hw/ppc/spapr_hcall.c
 +++ b/hw/ppc/spapr_hcall.c
-@@ -1665,16 +1665,12 @@ static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
-     spapr_clear_pending_hotplug_events(spapr);
- }
+@@ -1678,6 +1678,7 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+     bool raw_mode_supported = false;
+     bool guest_xive;
+     CPUState *cs;
++    void *fdt;
  
--static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
--                                                  SpaprMachineState *spapr,
--                                                  target_ulong opcode,
--                                                  target_ulong *args)
-+target_ulong do_client_architecture_support(PowerPCCPU *cpu,
-+                                            SpaprMachineState *spapr,
-+                                            target_ulong vec,
-+                                            target_ulong fdt_bufsize)
- {
--    /* Working address in data buffer */
--    target_ulong addr = ppc64_phys_to_real(args[0]);
--    target_ulong fdt_buf = args[1];
--    target_ulong fdt_bufsize = args[2];
--    target_ulong ov_table;
-+    target_ulong ov_table; /* Working address in data buffer */
-     uint32_t cas_pvr;
-     SpaprOptionVector *ov1_guest, *ov5_guest;
-     bool guest_radix;
-@@ -1694,7 +1690,7 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
-         }
-     }
+     /* CAS is supposed to be called early when only the boot vCPU is active. */
+     CPU_FOREACH(cs) {
+@@ -1818,27 +1819,21 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
  
--    cas_pvr = cas_check_pvr(spapr, cpu, &addr, &raw_mode_supported, &local_err);
-+    cas_pvr = cas_check_pvr(spapr, cpu, &vec, &raw_mode_supported, &local_err);
-     if (local_err) {
-         error_report_err(local_err);
-         return H_HARDWARE;
-@@ -1717,7 +1713,7 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
-     }
+     spapr_handle_transient_dev_before_cas(spapr);
  
-     /* For the future use: here @ov_table points to the first option vector */
--    ov_table = addr;
-+    ov_table = vec;
- 
-     ov1_guest = spapr_ovec_parse_vector(ov_table, 1);
-     if (!ov1_guest) {
-@@ -1824,7 +1820,6 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
- 
-     if (!spapr->cas_reboot) {
-         void *fdt;
--        SpaprDeviceTreeUpdateHeader hdr = { .version_id = 1 };
- 
-         /* If spapr_machine_reset() did not set up a HPT but one is necessary
-          * (because the guest isn't going to use radix) then set it up here. */
-@@ -1833,21 +1828,7 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
-             spapr_setup_hpt(spapr);
-         }
- 
--        if (fdt_bufsize < sizeof(hdr)) {
--            error_report("SLOF provided insufficient CAS buffer "
--                         TARGET_FMT_lu " (min: %zu)", fdt_bufsize, sizeof(hdr));
--            exit(EXIT_FAILURE);
+-    if (!spapr->cas_reboot) {
+-        void *fdt;
+-
+-        /* If spapr_machine_reset() did not set up a HPT but one is necessary
+-         * (because the guest isn't going to use radix) then set it up here. */
+-        if ((spapr->patb_entry & PATE1_GR) && !guest_radix) {
+-            /* legacy hash or new hash: */
+-            spapr_setup_hpt(spapr);
 -        }
 -
--        fdt_bufsize -= sizeof(hdr);
+-        fdt = spapr_build_fdt(spapr, false, fdt_bufsize);
 -
-         fdt = spapr_build_fdt(spapr, false, fdt_bufsize);
--        _FDT((fdt_pack(fdt)));
--
--        cpu_physical_memory_write(fdt_buf, &hdr, sizeof(hdr));
--        cpu_physical_memory_write(fdt_buf + sizeof(hdr), fdt,
--                                  fdt_totalsize(fdt));
--        trace_spapr_cas_continue(fdt_totalsize(fdt) + sizeof(hdr));
+-        g_free(spapr->fdt_blob);
+-        spapr->fdt_size = fdt_totalsize(fdt);
+-        spapr->fdt_initial_size = spapr->fdt_size;
+-        spapr->fdt_blob = fdt;
++    /*
++     * If spapr_machine_reset() did not set up a HPT but one is necessary
++     * (because the guest isn't going to use radix) then set it up here.
++     */
++    if ((spapr->patb_entry & PATE1_GR) && !guest_radix) {
++        /* legacy hash or new hash: */
++        spapr_setup_hpt(spapr);
+     }
  
-         g_free(spapr->fdt_blob);
-         spapr->fdt_size = fdt_totalsize(fdt);
-@@ -1862,6 +1843,40 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
+-    if (spapr->cas_reboot) {
+-        qemu_system_reset_request(SHUTDOWN_CAUSE_SUBSYSTEM_RESET);
+-    }
++    fdt = spapr_build_fdt(spapr, false, fdt_bufsize);
++
++    g_free(spapr->fdt_blob);
++    spapr->fdt_size = fdt_totalsize(fdt);
++    spapr->fdt_initial_size = spapr->fdt_size;
++    spapr->fdt_blob = fdt;
+ 
      return H_SUCCESS;
  }
- 
-+static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
-+                                                  SpaprMachineState *spapr,
-+                                                  target_ulong opcode,
-+                                                  target_ulong *args)
-+{
-+    target_ulong vec = ppc64_phys_to_real(args[0]);
-+    target_ulong fdt_buf = args[1];
-+    target_ulong fdt_bufsize = args[2];
-+    target_ulong ret;
-+    SpaprDeviceTreeUpdateHeader hdr = { .version_id = 1 };
-+
-+    if (fdt_bufsize < sizeof(hdr)) {
-+        error_report("SLOF provided insufficient CAS buffer "
-+                     TARGET_FMT_lu " (min: %zu)", fdt_bufsize, sizeof(hdr));
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    fdt_bufsize -= sizeof(hdr);
-+
-+    ret = do_client_architecture_support(cpu, spapr, vec, fdt_bufsize);
-+    if (ret == H_SUCCESS) {
-+        _FDT((fdt_pack(spapr->fdt_blob)));
-+        spapr->fdt_size = fdt_totalsize(spapr->fdt_blob);
-+        spapr->fdt_initial_size = spapr->fdt_size;
-+
-+        cpu_physical_memory_write(fdt_buf, &hdr, sizeof(hdr));
-+        cpu_physical_memory_write(fdt_buf + sizeof(hdr), spapr->fdt_blob,
-+                                  spapr->fdt_size);
-+        trace_spapr_cas_continue(spapr->fdt_size + sizeof(hdr));
-+    }
-+
-+    return ret;
-+}
-+
- static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-                                               SpaprMachineState *spapr,
-                                               target_ulong opcode,
 diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 42d64a0368..b7e13e5aaf 100644
+index b7e13e5aaf..e579eaf28c 100644
 --- a/include/hw/ppc/spapr.h
 +++ b/include/hw/ppc/spapr.h
-@@ -102,6 +102,8 @@ typedef enum {
- #define SPAPR_CAP_FIXED_CCD             0x03
- #define SPAPR_CAP_FIXED_NA              0x10 /* Lets leave a bit of a gap... */
+@@ -178,7 +178,6 @@ struct SpaprMachineState {
+     SpaprEventSource *event_sources;
  
-+#define FDT_MAX_SIZE                    0x100000
-+
- typedef struct SpaprCapabilities SpaprCapabilities;
- struct SpaprCapabilities {
-     uint8_t caps[SPAPR_CAP_NUM];
-@@ -566,6 +568,11 @@ void spapr_register_hypercall(target_ulong opcode, spapr_hcall_fn fn);
- target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
-                              target_ulong *args);
- 
-+target_ulong do_client_architecture_support(PowerPCCPU *cpu,
-+                                            SpaprMachineState *spapr,
-+                                            target_ulong addr,
-+                                            target_ulong fdt_bufsize);
-+
- /* Virtual Processor Area structure constants */
- #define VPA_MIN_SIZE           640
- #define VPA_SIZE_OFFSET        0x4
+     /* ibm,client-architecture-support option negotiation */
+-    bool cas_reboot;
+     bool cas_pre_isa3_guest;
+     SpaprOptionVector *ov5;         /* QEMU-supported option vectors */
+     SpaprOptionVector *ov5_cas;     /* negotiated (via CAS) option vectors */
 -- 
 2.26.2
 
