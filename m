@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC39F1C9713
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:05:12 +0200 (CEST)
-Received: from localhost ([::1]:35598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5584D1C9711
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 19:05:09 +0200 (CEST)
+Received: from localhost ([::1]:35370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWjxP-0006WT-Js
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51444)
+	id 1jWjxM-0006Ov-8e
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 13:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWjuz-0004kG-EF
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:02:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39964
+ id 1jWjux-0004ie-SF
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:02:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:49511
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jWjuv-0001bF-0e
- for qemu-devel@nongnu.org; Thu, 07 May 2020 13:02:41 -0400
+ id 1jWjuv-0001bE-0e
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 13:02:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1588870956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zIpgeCFsLaXlM09x3yJ/YbxMjQwTXw1hTKGqgDwsFxo=;
- b=Wb4ubqiXB0LimWAn2fepJtOw2eIzd33LUsaIenArjPoZ8S3m/dvM4LKcTIiUzI6wKMGAfx
- 9ftSEai4PIuC/bthc1PtdfoRAt2FV5M1W+PXMJKwyDhs+i3qhImkjRMomcoj80id6muOxF
- JN3zm6rSPs3sCQcZjtMcMXXS6U4kEMI=
+ bh=hhwILh8ISp9wWeYw5tkeXjHnt8GuHk8Q/Jrg8V6g11c=;
+ b=DxWWQlNB5KlBD6C4tZBNbvmFS1YNHDfBRg1dSYFn5EgWzDmjUWCwiKlvIVz9eXruXY1pI/
+ E5726ckVHAmFa3q0juF6YbQ1ihG0f6MrzuvnrWKBLgBD0WHXv7asdHk8DjUYC2+qzsiz92
+ L/abFmSvChjuNpcdApDzHwtrW9bBaX4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-1N0o07S9MWmtrxHhqBMrhw-1; Thu, 07 May 2020 13:02:34 -0400
-X-MC-Unique: 1N0o07S9MWmtrxHhqBMrhw-1
+ us-mta-345-hi3AZmr3P1Ks98WHN9snrw-1; Thu, 07 May 2020 13:02:33 -0400
+X-MC-Unique: hi3AZmr3P1Ks98WHN9snrw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2171819057A2;
- Thu,  7 May 2020 17:02:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E95A107ACCA;
+ Thu,  7 May 2020 17:02:30 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-224.ams2.redhat.com
  [10.36.114.224])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C9FB1001B07;
- Thu,  7 May 2020 17:02:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BBD11002380;
+ Thu,  7 May 2020 17:02:28 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, david@redhat.com, zhukeqian1@huawei.com,
  maozhongyi@cmss.chinamobile.com, marcandre.lureau@redhat.com,
  pannengyuan@huawei.com, f4bug@amsat.org, wei.w.wang@intel.com,
  yi.y.sun@intel.com, quintela@redhat.com
-Subject: [PULL 02/12] migration/migration: improve error reporting for migrate
- parameters
-Date: Thu,  7 May 2020 18:02:01 +0100
-Message-Id: <20200507170211.238283-3-dgilbert@redhat.com>
+Subject: [PULL 03/12] monitor/hmp-cmds: add hmp_handle_error() for
+ hmp_migrate_set_speed()
+Date: Thu,  7 May 2020 18:02:02 +0100
+Message-Id: <20200507170211.238283-4-dgilbert@redhat.com>
 In-Reply-To: <20200507170211.238283-1-dgilbert@redhat.com>
 References: <20200507170211.238283-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -89,66 +89,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
 
-use QERR_INVALID_PARAMETER_VALUE instead of
-"Parameter '%s' expects" for consistency.
-
 Signed-off-by: Mao Zhongyi <maozhongyi@cmss.chinamobile.com>
-Message-Id: <4ce71da4a5f98ad6ead0806ec71043473dcb4c07.1585641083.git.maozho=
-ngyi@cmss.chinamobile.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <305323f835436023c53d759f5ab18af3ec874183.1585641083.git.maozho=
+ngyi@cmss.chinamobile.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ monitor/hmp-cmds.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 8f27174ff6..6e079efdcc 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1202,16 +1202,19 @@ static bool migrate_params_check(MigrationParameter=
-s *params, Error **errp)
-     }
-=20
-     if (params->has_max_bandwidth && (params->max_bandwidth > SIZE_MAX)) {
--        error_setg(errp, "Parameter 'max_bandwidth' expects an integer in =
-the"
--                         " range of 0 to %zu bytes/second", SIZE_MAX);
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-+                   "max_bandwidth",
-+                   "an integer in the range of 0 to "stringify(SIZE_MAX)
-+                   " bytes/second");
-         return false;
-     }
-=20
-     if (params->has_downtime_limit &&
-         (params->downtime_limit > MAX_MIGRATE_DOWNTIME)) {
--        error_setg(errp, "Parameter 'downtime_limit' expects an integer in=
- "
--                         "the range of 0 to %d milliseconds",
--                         MAX_MIGRATE_DOWNTIME);
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-+                   "downtime_limit",
-+                   "an integer in the range of 0 to "
-+                    stringify(MAX_MIGRATE_DOWNTIME)" milliseconds");
-         return false;
-     }
-=20
-@@ -2107,9 +2110,10 @@ void qmp_migrate_set_speed(int64_t value, Error **er=
-rp)
- void qmp_migrate_set_downtime(double value, Error **errp)
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 7f6e982dc8..9bb6946fbf 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1198,8 +1198,11 @@ void hmp_migrate_set_cache_size(Monitor *mon, const =
+QDict *qdict)
+ /* Kept for backwards compatibility */
+ void hmp_migrate_set_speed(Monitor *mon, const QDict *qdict)
  {
-     if (value < 0 || value > MAX_MIGRATE_DOWNTIME_SECONDS) {
--        error_setg(errp, "Parameter 'downtime_limit' expects an integer in=
- "
--                         "the range of 0 to %d seconds",
--                         MAX_MIGRATE_DOWNTIME_SECONDS);
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-+                   "downtime_limit",
-+                   "an integer in the range of 0 to "
-+                    stringify(MAX_MIGRATE_DOWNTIME_SECONDS)" seconds");
-         return;
-     }
++    Error *err =3D NULL;
++
+     int64_t value =3D qdict_get_int(qdict, "value");
+-    qmp_migrate_set_speed(value, NULL);
++    qmp_migrate_set_speed(value, &err);
++    hmp_handle_error(mon, err);
+ }
 =20
+ void hmp_migrate_set_capability(Monitor *mon, const QDict *qdict)
 --=20
 2.26.2
 
