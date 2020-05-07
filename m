@@ -2,111 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51BC71C9973
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 20:39:51 +0200 (CEST)
-Received: from localhost ([::1]:46708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 139B51C9987
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 20:44:53 +0200 (CEST)
+Received: from localhost ([::1]:57914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWlR0-0006J0-AA
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 14:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
+	id 1jWlVr-0002wx-If
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 14:44:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWlPw-0005NC-E8; Thu, 07 May 2020 14:38:44 -0400
-Received: from mail-eopbgr70113.outbound.protection.outlook.com
- ([40.107.7.113]:38020 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jWlPv-00009Z-Kp; Thu, 07 May 2020 14:38:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PZiMaU2voPC0E44eE7Imx7lv/3uGIfRfnY5faqpMAw/BgczXE6dn6/eWJhcWigWB7hg6v/3Bhp+hRqZ5bYLeZIDG+wPb+MxWclBgT73vc3MmEQYcwzMyVx2UEwIpVdQsQccwHp6g2rtszC0mtxRgGiiMesXsTMcXifiLpJSoaYZO70qZlYIUY3uIpTqLFrsU8492wO0P/vpgb1fzIcEE5GsSTq405D7twWhMF3aw1gkZZPtReeoQSgefH9F/fmlGQXMPbSDeTye0j3ltpxkcFaj+scmp9W1eynUrCPxCL0uPoc/V8e2OZ2oVMhK2XnWb20YOZh/9NlPNjkQO/P5ncQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fFZGMlPKi7+VQ5k8Tl/CVz4xQ6qGm4H8nUrR+sMor/A=;
- b=b5DMj+DQtnJQL5ZUgfYjS17Q3fWVHcDw1v55GOCQr4Y0ZLGMP3bPlS9OrIEK6hygnm5z+SQdf2sQlMs8JjFvdlM4GHpay59TpLgoxUCjfS/N9sp/yQ+k9Ec+4gVMewl5rOu27s6f5BRjMh8+22PBaEZIZ8U6/4HmD7BciqO8f/4fHER+cKzxlxjnblXLDbZjVi5j0pdMT3ln25uPVa34MlkX8zjROfZvFfYTM044PUuO/es/Tj+uOuxxXQKSNaGiUj01slZWtfHQI6wBaHiMIuDfkMIWtfDa4YwDg82UOYCILlYhOQwGj7TH4IHZtXa/pXFMJIBVy4+au7+DsXPh/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fFZGMlPKi7+VQ5k8Tl/CVz4xQ6qGm4H8nUrR+sMor/A=;
- b=DoqQw31xQQlBmxcqzugPq9iVrgAbgpPLk9kgbyK8WIRyeWBuiIlPirAqt8YZ0CqWRTLrrJAxJhtUtYJbdrHmlGwbbkoaRBxJbnXh+KOLcvu3pgQzrk+QXiiV6cjK/bnwPj3AN+AL/XHLGb6+snR831R8dJEZzu/uxCR2vkYhr3s=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Thu, 7 May
- 2020 18:38:40 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.034; Thu, 7 May 2020
- 18:38:40 +0000
-Subject: Re: [PATCH v4 5/5] block/block-copy: use aio-task-pool API
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200429130847.28124-1-vsementsov@virtuozzo.com>
- <20200429130847.28124-6-vsementsov@virtuozzo.com>
- <20200507155300.GG6019@linux.fritz.box>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Tagtoolbar-Keys: D20200507213839009
-Message-ID: <9570fd98-d809-d56a-a2a6-ffd2ed0f2675@virtuozzo.com>
-Date: Thu, 7 May 2020 21:38:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
-In-Reply-To: <20200507155300.GG6019@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0014.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jWlUw-00022U-DI
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 14:43:54 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42875
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jWlUt-0004Y5-Be
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 14:43:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588877030;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6c1pQRhCsTOGP7cSEnRY7kqeqtM7sdKQPmWYvHvM3ZE=;
+ b=EQSmosnSBZGcZs2AylvzaAJWhOX4dES3L9oyEEhO3oRzm54pCgy1xGDGyWRjl02Ezw75cn
+ uYpAdRW8mldqNGpGd9J2fzvAJ7QjWlmkEtI4HaWEmyxaimVnepVymfAtx2f9M3ywiZb11T
+ Sog5ucf/zG+KMiIrqUna9qmwm+xyPno=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-uR3aaPPjNFiF0r5nZtu9ZA-1; Thu, 07 May 2020 14:43:37 -0400
+X-MC-Unique: uR3aaPPjNFiF0r5nZtu9ZA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECD19BFC4;
+ Thu,  7 May 2020 18:43:34 +0000 (UTC)
+Received: from work-vm (ovpn-114-224.ams2.redhat.com [10.36.114.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DC9D60BEC;
+ Thu,  7 May 2020 18:43:26 +0000 (UTC)
+Date: Thu, 7 May 2020 19:43:24 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v1 2/2] Sample mtty: Add migration capability to mtty
+ module
+Message-ID: <20200507184324.GG2699@work-vm>
+References: <1588614860-16330-1-git-send-email-kwankhede@nvidia.com>
+ <1588614860-16330-3-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.171) by
- FR2P281CA0014.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2958.30 via Frontend Transport; Thu, 7 May 2020 18:38:40 +0000
-X-Tagtoolbar-Keys: D20200507213839009
-X-Originating-IP: [185.215.60.171]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8d7a3be5-9b48-4382-a21c-08d7f2b5dccb
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5494:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5494A25820FE6C95E69908A6C1A50@AM7PR08MB5494.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:77;
-X-Forefront-PRVS: 03965EFC76
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Q5LPYYQc641TgH0NAivHPCS8AkRYWsC5/60BrSYvEqobNGHSicBkKBtcIoPobgN2y6iF9cztXp0hOi2+qkDgQQKcv6KmekxdnBol+ic3L9C41ztYEVyfhnYyIncTtrk+Tg49+9wtpEImpSEWcU14XUSmvikXxVxE3Qn3gChTOb/5oHV8rSaqIUk4zraEHaS65C0WddWlq+caPWfOnVVY1iny6FxCHZQFOLBVreW3vsjoUKKOHYVrz3oeR1Rntd62IDMVZOU3LzTHWC2k6xecmXd3h3IQst8SZJi3pu1VPhIIbcey58/2iDqlQWtjkXBgcFTYLHyZjzltoRO8inETSCkB4SkrrzOVOFbmzNY3qaHmEy0IPo4XLLXwbons1AXRi9WzG73zbdmHaX7bt8NRyKoVxJMYSFNM5SLpMe2wxlN33K8xKoFKZrS894VVd+VPwG2TsPHTGH3pq2e83nIwS++E4qysPux+aWvgx6jRTK9ooX33/JJXCopAyvnho9Wy8n4UDWKDvYcChFbfCTE4DHRWIuO7NixyOcoYjxlKQvKQIwXlq5AP5UdQcaGWMfjg
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(376002)(396003)(346002)(39850400004)(136003)(366004)(33430700001)(26005)(5660300002)(66556008)(66476007)(33440700001)(6486002)(186003)(16526019)(956004)(16576012)(316002)(2616005)(31686004)(478600001)(2906002)(36756003)(52116002)(66946007)(6916009)(83290400001)(8676002)(86362001)(31696002)(4326008)(83320400001)(107886003)(83280400001)(83310400001)(8936002)(83300400001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: algvIh1W+bFgTFnsOOgu592n56P8FE/9nDmU9zyyOLt0LaT4LyKqTOsgoUfcBc1ojaDg2zbSRcPjyiT2meBZdhdXWURkBOSel4brttME2O2S9XrMS4y3uum2bDM5oLFyBn9+7KQ+fDVBX3YkTa/4Ly5jOu50qG4jLeNGlvFJ+DQg8ZAr59sahiEWBOeNZC1GmfAelu+ilGrojZlOWt+D5Ae6WyJAtYxWp3vc6t2pPbGX9LlhKctM6jv7jIl9Kb8WxgWiase8LRu2hVGQqFCCSjjzgz9t2Pje8rVQ5XtVithA4d4vp9Wo2i7myZ4AcSPtDLBsKEOz8jZiWEAeHkUM7jc7Nlhatii6ZzUNK1w4+dPqO8csxE718igsG3KH6T7tquYcE8rXO+NMetrpWk5wb76WdBjPbknkoWADycBP9BuGTNd6r5MRyHfe+Juvl7pJrBhWh/SuHGpq4VWEjhDb//MoJl9C5u8NKmtk5hTIwyopIUOJ0fDa4VIRNBwvTUKaOC/L+NMS6YIKpQJKaZ9mzKtJbbvvVqpXb0rnCBw6A6izO6c4dPFcQYtpKDCT77hmPDiUJpa/saHYIWEdZAipUdnh76ZSdiVPBY+whk0eMBJgxFHHlvJGnLOebkB6+MnlZXhnmGDeUggIBByw6NLHklREsf4DrIGGtv/cwd+8TXU7RjSTVm8JgefEbMZbSynLRZtgVmZ/73Jz/U25m2l4jsLx03SL8xmJ67fVSxlMvOA/sOYuyLwT0rW2pmm2q7T5a/bOvxzsKKzNrqKGHX9k+8stErGFaF5nu6vfXG12Rho=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d7a3be5-9b48-4382-a21c-08d7f2b5dccb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2020 18:38:40.4505 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LbzG3PBc/z9k/SVRxXJGYcAXmyyuJo52CTXKPHSwFGnc8KKBi99hbWDXTKXGnZU27D7gAGASz3o3HkulQRA7Jtij8fE4WP241JivpBKeli0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5494
-Received-SPF: pass client-ip=40.107.7.113;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 14:38:35
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1588614860-16330-3-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 02:00:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -119,44 +79,838 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
+ cohuck@redhat.com, shuangtai.tst@alibaba-inc.com, qemu-devel@nongnu.org,
+ zhi.a.wang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ alex.williamson@redhat.com, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-07.05.2020 18:53, Kevin Wolf wrote:
-> Am 29.04.2020 um 15:08 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> Run block_copy iterations in parallel in aio tasks.
->>
->> Changes:
->>    - BlockCopyTask becomes aio task structure. Add zeroes field to pass
->>      it to block_copy_do_copy
->>    - add call state - it's a state of one call of block_copy(), shared
->>      between parallel tasks. For now used only to keep information about
->>      first error: is it read or not.
->>    - convert block_copy_dirty_clusters to aio-task loop.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> This patch makes mtty device migration capable. Purpose od this code is
+> to test migration interface. Only stop-and-copy phase is implemented.
+> Postcopy migration is not supported.
 > 
->> @@ -519,6 +591,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
->>           }
->>           if (s->skip_unallocated && !(ret & BDRV_BLOCK_ALLOCATED)) {
->>               block_copy_task_end(task, 0);
->> +            g_free(task);
->>               progress_set_remaining(s->progress,
->>                                      bdrv_get_dirty_count(s->copy_bitmap) +
->>                                      s->in_flight_bytes);
->>               trace_block_copy_skip_range(s, task->offset, task->bytes);
->>               offset = task_end(task);
->>               bytes = end - offset;
+> Actual data for mtty device migration is very less. Appended dummy data to
+> migration data stream, default 100 Mbytes. Added sysfs file
+> 'dummy_data_size_MB' to get dummy data size from user which can be used
+> to check performance of based of data size. During resuming dummy data is
+> read and discarded.
 > 
-> Coverity found this use after free for task. Please fix.
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> ---
+>  samples/vfio-mdev/mtty.c | 602 ++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 574 insertions(+), 28 deletions(-)
 > 
+> diff --git a/samples/vfio-mdev/mtty.c b/samples/vfio-mdev/mtty.c
+> index bf666cce5bb7..f9194234fc6a 100644
+> --- a/samples/vfio-mdev/mtty.c
+> +++ b/samples/vfio-mdev/mtty.c
+> @@ -44,9 +44,23 @@
+>  
+>  #define MTTY_STRING_LEN		16
+>  
+> -#define MTTY_CONFIG_SPACE_SIZE  0xff
+> -#define MTTY_IO_BAR_SIZE        0x8
+> -#define MTTY_MMIO_BAR_SIZE      0x100000
+> +#define MTTY_CONFIG_SPACE_SIZE		0xff
+> +#define MTTY_IO_BAR_SIZE		0x8
+> +#define MTTY_MMIO_BAR_SIZE		0x100000
+> +#define MTTY_MIGRATION_REGION_SIZE	0x1000000	// 16M
+> +
+> +#define MTTY_MIGRATION_REGION_INDEX	VFIO_PCI_NUM_REGIONS
+> +#define MTTY_REGIONS_MAX		(MTTY_MIGRATION_REGION_INDEX + 1)
+> +
+> +/* Data section start from page aligned offset */
+> +#define MTTY_MIGRATION_REGION_DATA_OFFSET	(0x1000)
+> +
+> +/* First page is used for struct vfio_device_migration_info */
+> +#define MTTY_MIGRATION_REGION_SIZE_MMAP     \
+> +	(MTTY_MIGRATION_REGION_SIZE - MTTY_MIGRATION_REGION_DATA_OFFSET)
+> +
+> +#define MIGRATION_INFO_OFFSET(MEMBER)	\
+> +		offsetof(struct vfio_device_migration_info, MEMBER)
+>  
+>  #define STORE_LE16(addr, val)   (*(u16 *)addr = val)
+>  #define STORE_LE32(addr, val)   (*(u32 *)addr = val)
+> @@ -129,6 +143,28 @@ struct serial_port {
+>  	u8 intr_trigger_level;  /* interrupt trigger level */
+>  };
+>  
+> +/* Migration packet */
+> +#define PACKET_ID		(u16)(0xfeedbaba)
+> +
+> +#define PACKET_FLAGS_ACTUAL_DATA	(1 << 0)
+> +#define PACKET_FLAGS_DUMMY_DATA		(1 << 1)
+> +
+> +#define PACKET_DATA_SIZE_MAX		(8 * 1024 * 1024)
+> +
+> +struct packet {
+> +	u16 id;
+> +	u16 flags;
+> +	u32 data_size;
+> +	u8 data[];
+> +};
+> +
+> +enum {
+> +	PACKET_STATE_NONE = 0,
+> +	PACKET_STATE_PREPARED,
+> +	PACKET_STATE_COPIED,
+> +	PACKET_STATE_LAST,
+> +};
+> +
+>  /* State of each mdev device */
+>  struct mdev_state {
+>  	int irq_fd;
+> @@ -138,22 +174,37 @@ struct mdev_state {
+>  	u8 *vconfig;
+>  	struct mutex ops_lock;
+>  	struct mdev_device *mdev;
+> -	struct mdev_region_info region_info[VFIO_PCI_NUM_REGIONS];
+> -	u32 bar_mask[VFIO_PCI_NUM_REGIONS];
+> +	struct mdev_region_info region_info[MTTY_REGIONS_MAX];
+> +	u32 bar_mask[MTTY_REGIONS_MAX];
+>  	struct list_head next;
+>  	struct serial_port s[2];
+>  	struct mutex rxtx_lock;
+>  	struct vfio_device_info dev_info;
+> -	int nr_ports;
+> +	u32 nr_ports;
+>  
+>  	/* List of pinned gpfns, gpfn as index and content is translated hpfn */
+>  	unsigned long *gpfn_to_hpfn;
+>  	struct notifier_block nb;
+> +
+> +	u32 device_state;
+> +	u64 saved_size;
+> +	void *mig_region_base;
+> +	bool is_actual_data_sent;
+> +	struct packet *pkt;
+> +	u32 packet_state;
+> +	u64 dummy_data_size;
+>  };
+>  
+>  static struct mutex mdev_list_lock;
+>  static struct list_head mdev_devices_list;
+>  
+> +/*
+> + * Default dummy data size set to 100 MB. To change value of dummy data size at
+> + * runtime but before migration write size in MB to sysfs file
+> + * dummy_data_size_MB
+> + */
+> +static unsigned long user_dummy_data_size = (100 * 1024 * 1024);
+> +
+>  static const struct file_operations vd_fops = {
+>  	.owner          = THIS_MODULE,
+>  };
+> @@ -639,6 +690,288 @@ static void mdev_read_base(struct mdev_state *mdev_state)
+>  	}
+>  }
+>  
+> +static int save_setup(struct mdev_state *mdev_state)
+> +{
+> +	mdev_state->is_actual_data_sent = false;
+> +
+> +	memset(mdev_state->pkt, 0, sizeof(struct packet) +
+> +				   PACKET_DATA_SIZE_MAX);
+> +
+> +	return 0;
+> +}
+> +
+> +static int set_device_state(struct mdev_state *mdev_state, u32 device_state)
+> +{
+> +	int ret = 0;
+> +
+> +	if (mdev_state->device_state == device_state)
+> +		return 0;
+> +
+> +	if (device_state & VFIO_DEVICE_STATE_RUNNING) {
+> +#if defined(DEBUG)
+> +		if (device_state & VFIO_DEVICE_STATE_SAVING) {
+> +			pr_info("%s: %s Pre-copy\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +		} else
+> +			pr_info("%s: %s Running\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +#endif
+> +	} else {
+> +		if (device_state & VFIO_DEVICE_STATE_SAVING) {
+> +#if defined(DEBUG)
+> +			pr_info("%s: %s Stop-n-copy\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +#endif
+> +			ret = save_setup(mdev_state);
+> +
+> +		} else if (device_state & VFIO_DEVICE_STATE_RESUMING) {
+> +#if defined(DEBUG)
+> +			pr_info("%s: %s Resuming\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +		} else {
+> +			pr_info("%s: %s Stopped\n", __func__,
+> +				dev_name(mdev_dev(mdev_state->mdev)));
+> +#endif
+> +		}
+> +	}
+> +
+> +	mdev_state->device_state = device_state;
+> +
+> +	return ret;
+> +}
+> +
+> +static u32 get_device_state(struct mdev_state *mdev_state)
+> +{
+> +	return mdev_state->device_state;
+> +}
+> +
+> +static void write_to_packet(struct packet *pkt, u8 *data, size_t size)
+> +{
+> +	if ((pkt->data_size + size) > PACKET_DATA_SIZE_MAX) {
+> +		pr_err("%s: packet data overflow\n", __func__);
+> +		return;
+> +	}
+> +	memcpy((void *)&pkt->data[pkt->data_size], (void *)data, size);
+> +	pkt->data_size += size;
+> +}
+> +
+> +static void read_from_packet(struct packet *pkt, u8 *data,
+> +			     int index, size_t size)
+> +{
+> +	if ((index + size) > PACKET_DATA_SIZE_MAX) {
+> +		pr_err("%s: packet data overflow\n", __func__);
+> +		return;
+> +	}
+> +
+> +	memcpy((void *)data, (void *)&pkt->data[index], size);
+> +}
+> +
+> +static int save_device_data(struct mdev_state *mdev_state, u64 *pending)
+> +{
+> +	/* Save device data only during stop-and-copy phase */
+> +	if (mdev_state->device_state != VFIO_DEVICE_STATE_SAVING) {
+> +		*pending = 0;
+> +		return 0;
+> +	}
+> +
+> +	if (mdev_state->packet_state == PACKET_STATE_PREPARED) {
+> +		*pending = sizeof(struct packet) + mdev_state->pkt->data_size;
+> +		return 0;
+> +	}
+> +
+> +	if (!mdev_state->is_actual_data_sent) {
+> +
+> +		/* create actual data packet */
+> +		write_to_packet(mdev_state->pkt, (u8 *)&mdev_state->nr_ports,
+> +				sizeof(mdev_state->nr_ports));
+> +		write_to_packet(mdev_state->pkt, (u8 *)&mdev_state->s,
+> +				sizeof(struct serial_port) * 2);
+> +
+> +		write_to_packet(mdev_state->pkt, mdev_state->vconfig,
+> +				MTTY_CONFIG_SPACE_SIZE);
+> +
+> +		write_to_packet(mdev_state->pkt, (u8 *)mdev_state->gpfn_to_hpfn,
+> +				sizeof(unsigned long) * MAX_GPFN_COUNT);
+> +
+> +		mdev_state->pkt->id = PACKET_ID;
+> +		mdev_state->pkt->flags = PACKET_FLAGS_ACTUAL_DATA;
+> +
+> +		mdev_state->is_actual_data_sent = true;
+> +	} else {
+> +		/* create dummy data packet */
+> +		if (mdev_state->dummy_data_size > user_dummy_data_size) {
+> +			*pending = 0;
+> +			mdev_state->packet_state = PACKET_STATE_NONE;
+> +			return 0;
+> +		}
+> +
+> +		memset(mdev_state->pkt->data, 0xa5, PACKET_DATA_SIZE_MAX);
+> +
+> +		mdev_state->pkt->id = PACKET_ID;
+> +		mdev_state->pkt->flags = PACKET_FLAGS_DUMMY_DATA;
+> +		mdev_state->pkt->data_size = PACKET_DATA_SIZE_MAX;
+> +		mdev_state->dummy_data_size += PACKET_DATA_SIZE_MAX;
+> +	}
+> +
+> +	*pending = sizeof(struct packet) + mdev_state->pkt->data_size;
+> +	mdev_state->packet_state = PACKET_STATE_PREPARED;
+> +	mdev_state->saved_size = 0;
+> +
+> +	return 0;
+> +}
+> +
+> +static int copy_device_data(struct mdev_state *mdev_state)
+> +{
+> +	u64 size;
+> +
+> +	if (!mdev_state->pkt || !mdev_state->mig_region_base)
+> +		return -EINVAL;
+> +
+> +	if (mdev_state->packet_state == PACKET_STATE_COPIED)
+> +		return 0;
+> +
+> +	if (!mdev_state->pkt->data_size)
+> +		return 0;
+> +
+> +	size = sizeof(struct packet) + mdev_state->pkt->data_size;
+> +
+> +	memcpy(mdev_state->mig_region_base, mdev_state->pkt, size);
+> +
+> +	mdev_state->saved_size = size;
+> +	mdev_state->packet_state = PACKET_STATE_COPIED;
+> +	memset(mdev_state->pkt, 0, sizeof(struct packet));
+> +	return 0;
+> +}
+> +
+> +static int resume_device_data(struct mdev_state *mdev_state, u64 data_size)
+> +{
+> +	unsigned long i;
+> +
+> +	if (mdev_state->device_state != VFIO_DEVICE_STATE_RESUMING)
+> +		return -EINVAL;
+> +
+> +	if (!mdev_state->pkt || !mdev_state->mig_region_base)
+> +		return -EINVAL;
+> +
+> +	memcpy(mdev_state->pkt, mdev_state->mig_region_base, data_size);
+> +
+> +	if (mdev_state->pkt->flags & PACKET_FLAGS_ACTUAL_DATA) {
+> +		int index = 0;
+> +		/* restore device data */
+> +		read_from_packet(mdev_state->pkt, (u8 *)&mdev_state->nr_ports,
+> +				 index, sizeof(mdev_state->nr_ports));
+> +		index += sizeof(mdev_state->nr_ports);
+> +
+> +		read_from_packet(mdev_state->pkt, (u8 *)&mdev_state->s,
+> +				index, sizeof(struct serial_port) * 2);
+> +		index += sizeof(struct serial_port) * 2;
 
-Oops. Done. Sorry for that :(
+Do you need to validate what you've read at this point - for example,
+the max_fifo_size, or the head/tail/count values in rxtx?
+e.g. if count was 0, max_fifio_size was 255, and head was 255 would
+writing to the UART_TX cause an overrun?
 
+> +
+> +		read_from_packet(mdev_state->pkt, mdev_state->vconfig,
+> +				 index, MTTY_CONFIG_SPACE_SIZE);
 
--- 
-Best regards,
-Vladimir
+Similarly, PCI dev ID, capabilities etc ?
+
+Dave
+
+> +		index += MTTY_CONFIG_SPACE_SIZE;
+> +
+> +		read_from_packet(mdev_state->pkt,
+> +				(u8 *)mdev_state->gpfn_to_hpfn,
+> +				index, sizeof(unsigned long) * MAX_GPFN_COUNT);
+> +		index += sizeof(unsigned long) * MAX_GPFN_COUNT;
+> +
+> +		for (i = 0; i < MAX_GPFN_COUNT; i++) {
+> +			if (mdev_state->gpfn_to_hpfn[i] != PFN_NULL) {
+> +				int ret;
+> +				unsigned long hpfn;
+> +
+> +				ret = vfio_pin_pages(mdev_dev(mdev_state->mdev),
+> +				       &i, 1, IOMMU_READ | IOMMU_WRITE, &hpfn);
+> +				if (ret <= 0) {
+> +					pr_err("%s: 0x%lx unpin error %d\n",
+> +							__func__, i, ret);
+> +					continue;
+> +				}
+> +				mdev_state->gpfn_to_hpfn[i] = hpfn;
+> +			}
+> +		}
+> +	} else {
+> +#if defined(DEBUG)
+> +		pr_info("%s: %s discard data 0x%llx\n",
+> +			 __func__, dev_name(mdev_dev(mdev_state->mdev)),
+> +			data_size);
+> +#endif
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int handle_mig_read(unsigned int index, struct mdev_state *mdev_state,
+> +			   loff_t offset, u8 *buf, u32 count)
+> +{
+> +	int ret = 0;
+> +	u64 pending = 0;
+> +
+> +	switch (offset) {
+> +	case MIGRATION_INFO_OFFSET(device_state):	// 0x00
+> +		*(u32 *)buf = get_device_state(mdev_state);
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(pending_bytes):	// 0x08
+> +		ret = save_device_data(mdev_state, &pending);
+> +		if (ret)
+> +			break;
+> +		*(u64 *)buf = pending;
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(data_offset):	// 0x10
+> +		if (mdev_state->device_state & VFIO_DEVICE_STATE_SAVING) {
+> +			ret = copy_device_data(mdev_state);
+> +			if (ret)
+> +				break;
+> +		}
+> +		*(u64 *)buf = MTTY_MIGRATION_REGION_DATA_OFFSET;
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(data_size):		// 0x18
+> +		*(u64 *)buf = mdev_state->saved_size;
+> +		break;
+> +
+> +	default:
+> +		ret = -EINVAL;
+> +	}
+> +
+> +#if defined(DEBUG)
+> +	pr_info("%s: %s MIG  RD @0x%llx bytes: %d data: 0x%x\n",
+> +			__func__, dev_name(mdev_dev(mdev_state->mdev)),
+> +			offset, count, *(u32 *)buf);
+> +#endif
+> +	return ret;
+> +}
+> +
+> +static int handle_mig_write(unsigned int index, struct mdev_state *mdev_state,
+> +				loff_t offset, u8 *buf, u32 count)
+> +{
+> +	int ret = 0;
+> +
+> +#if defined(DEBUG)
+> +	pr_info("%s: %s MIG  WR @0x%llx bytes: %d data: 0x%x\n",
+> +			__func__, dev_name(mdev_dev(mdev_state->mdev)),
+> +			offset, count, *(u32 *)buf);
+> +#endif
+> +	switch (offset) {
+> +	case MIGRATION_INFO_OFFSET(device_state):	// 0x00
+> +		ret = set_device_state(mdev_state, *(u32 *)buf);
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(data_size):		// 0x18
+> +		ret = resume_device_data(mdev_state, *(u64 *)buf);
+> +		break;
+> +
+> +	case MIGRATION_INFO_OFFSET(pending_bytes):	// 0x08
+> +	case MIGRATION_INFO_OFFSET(data_offset):	// 0x10
+> +	default:
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static ssize_t mdev_access(struct mdev_device *mdev, u8 *buf, size_t count,
+>  			   loff_t pos, bool is_write)
+>  {
+> @@ -702,6 +1035,18 @@ static ssize_t mdev_access(struct mdev_device *mdev, u8 *buf, size_t count,
+>  		}
+>  		break;
+>  
+> +	case MTTY_MIGRATION_REGION_INDEX:
+> +		if (is_write) {
+> +			ret = handle_mig_write(index, mdev_state, offset, buf,
+> +					      count);
+> +		} else {
+> +			ret = handle_mig_read(index, mdev_state, offset, buf,
+> +					      count);
+> +		}
+> +		if (ret)
+> +			goto accessfailed;
+> +		break;
+> +
+>  	default:
+>  		ret = -1;
+>  		goto accessfailed;
+> @@ -709,7 +1054,6 @@ static ssize_t mdev_access(struct mdev_device *mdev, u8 *buf, size_t count,
+>  
+>  	ret = count;
+>  
+> -
+>  accessfailed:
+>  	mutex_unlock(&mdev_state->ops_lock);
+>  
+> @@ -819,13 +1163,29 @@ static int mtty_reset(struct mdev_device *mdev)
+>  static ssize_t mtty_read(struct mdev_device *mdev, char __user *buf,
+>  			 size_t count, loff_t *ppos)
+>  {
+> -	unsigned int done = 0;
+> +	unsigned int done = 0, index;
+>  	int ret;
+>  
+> +	index = MTTY_VFIO_PCI_OFFSET_TO_INDEX(*ppos);
+> +
+>  	while (count) {
+>  		size_t filled;
+>  
+> -		if (count >= 4 && !(*ppos % 4)) {
+> +		if ((index == MTTY_MIGRATION_REGION_INDEX) &&
+> +		    (count >= 8 && !(*ppos % 8))) {
+> +			u64 val;
+> +
+> +			ret =  mdev_access(mdev, (u8 *)&val, sizeof(val),
+> +					   *ppos, false);
+> +			if (ret <= 0)
+> +				goto read_err;
+> +
+> +			if (copy_to_user(buf, &val, sizeof(val)))
+> +				goto read_err;
+> +
+> +			filled = 8;
+> +
+> +		} else if (count >= 4 && !(*ppos % 4)) {
+>  			u32 val;
+>  
+>  			ret =  mdev_access(mdev, (u8 *)&val, sizeof(val),
+> @@ -878,13 +1238,27 @@ static ssize_t mtty_read(struct mdev_device *mdev, char __user *buf,
+>  static ssize_t mtty_write(struct mdev_device *mdev, const char __user *buf,
+>  		   size_t count, loff_t *ppos)
+>  {
+> -	unsigned int done = 0;
+> +	unsigned int done = 0, index;
+>  	int ret;
+>  
+> +	index = MTTY_VFIO_PCI_OFFSET_TO_INDEX(*ppos);
+>  	while (count) {
+>  		size_t filled;
+>  
+> -		if (count >= 4 && !(*ppos % 4)) {
+> +		if ((index == MTTY_MIGRATION_REGION_INDEX) &&
+> +		    (count >= 8 && !(*ppos % 8))) {
+> +			u64 val;
+> +
+> +			if (copy_from_user(&val, buf, sizeof(val)))
+> +				goto write_err;
+> +
+> +			ret = mdev_access(mdev, (u8 *)&val, sizeof(val),
+> +					  *ppos, true);
+> +			if (ret <= 0)
+> +				goto write_err;
+> +
+> +			filled = 8;
+> +		} else if (count >= 4 && !(*ppos % 4)) {
+>  			u32 val;
+>  
+>  			if (copy_from_user(&val, buf, sizeof(val)))
+> @@ -1061,12 +1435,13 @@ static int mtty_trigger_interrupt(struct mdev_state *mdev_state)
+>  }
+>  
+>  static int mtty_get_region_info(struct mdev_device *mdev,
+> -			 struct vfio_region_info *region_info,
+> -			 u16 *cap_type_id, void **cap_type)
+> +				struct vfio_region_info *region_info,
+> +				struct vfio_info_cap *caps)
+>  {
+>  	unsigned int size = 0;
+>  	struct mdev_state *mdev_state;
+> -	u32 bar_index;
+> +	u32 index;
+> +	int ret = 0;
+>  
+>  	if (!mdev)
+>  		return -EINVAL;
+> @@ -1075,13 +1450,13 @@ static int mtty_get_region_info(struct mdev_device *mdev,
+>  	if (!mdev_state)
+>  		return -EINVAL;
+>  
+> -	bar_index = region_info->index;
+> -	if (bar_index >= VFIO_PCI_NUM_REGIONS)
+> +	index = region_info->index;
+> +	if (index >= MTTY_REGIONS_MAX)
+>  		return -EINVAL;
+>  
+>  	mutex_lock(&mdev_state->ops_lock);
+>  
+> -	switch (bar_index) {
+> +	switch (index) {
+>  	case VFIO_PCI_CONFIG_REGION_INDEX:
+>  		size = MTTY_CONFIG_SPACE_SIZE;
+>  		break;
+> @@ -1092,21 +1467,63 @@ static int mtty_get_region_info(struct mdev_device *mdev,
+>  		if (mdev_state->nr_ports == 2)
+>  			size = MTTY_IO_BAR_SIZE;
+>  		break;
+> +	case MTTY_MIGRATION_REGION_INDEX:
+> +		size = MTTY_MIGRATION_REGION_SIZE;
+> +		break;
+>  	default:
+>  		size = 0;
+>  		break;
+>  	}
+>  
+> -	mdev_state->region_info[bar_index].size = size;
+> -	mdev_state->region_info[bar_index].vfio_offset =
+> -		MTTY_VFIO_PCI_INDEX_TO_OFFSET(bar_index);
+> +	mdev_state->region_info[index].size = size;
+> +	mdev_state->region_info[index].vfio_offset =
+> +					MTTY_VFIO_PCI_INDEX_TO_OFFSET(index);
+>  
+>  	region_info->size = size;
+> -	region_info->offset = MTTY_VFIO_PCI_INDEX_TO_OFFSET(bar_index);
+> +	region_info->offset = MTTY_VFIO_PCI_INDEX_TO_OFFSET(index);
+>  	region_info->flags = VFIO_REGION_INFO_FLAG_READ |
+> -		VFIO_REGION_INFO_FLAG_WRITE;
+> +			     VFIO_REGION_INFO_FLAG_WRITE;
+> +
+> +	if (index == MTTY_MIGRATION_REGION_INDEX) {
+> +		struct vfio_region_info_cap_sparse {
+> +			struct vfio_region_info_cap_sparse_mmap sparse;
+> +			struct vfio_region_sparse_mmap_area area;
+> +		};
+> +
+> +		struct vfio_region_info_cap_sparse mig_region;
+> +
+> +		struct vfio_region_info_cap_type cap_type = {
+> +			.header.id = VFIO_REGION_INFO_CAP_TYPE,
+> +			.header.version = 1,
+> +			.type = VFIO_REGION_TYPE_MIGRATION,
+> +			.subtype = VFIO_REGION_SUBTYPE_MIGRATION
+> +		};
+> +
+> +		/* Add REGION CAP type */
+> +		ret = vfio_info_add_capability(caps, &cap_type.header,
+> +						sizeof(cap_type));
+> +		if (ret)
+> +			goto exit;
+> +
+> +		/* Add sparse mmap cap type */
+> +		mig_region.sparse.nr_areas = 1;
+> +		mig_region.sparse.header.id = VFIO_REGION_INFO_CAP_SPARSE_MMAP;
+> +		mig_region.sparse.header.version = 1;
+> +
+> +		mig_region.area.offset = MTTY_MIGRATION_REGION_DATA_OFFSET;
+> +		mig_region.area.size = MTTY_MIGRATION_REGION_SIZE_MMAP;
+> +
+> +		region_info->flags |= VFIO_REGION_INFO_FLAG_CAPS;
+> +
+> +		if (region_info->argsz > sizeof(*region_info))
+> +			region_info->flags |= VFIO_REGION_INFO_FLAG_MMAP;
+> +
+> +		ret = vfio_info_add_capability(caps, &mig_region.sparse.header,
+> +						sizeof(mig_region));
+> +	}
+> +exit:
+>  	mutex_unlock(&mdev_state->ops_lock);
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  static int mtty_get_irq_info(struct mdev_device *mdev,
+> @@ -1138,7 +1555,7 @@ static int mtty_get_device_info(struct mdev_device *mdev,
+>  			 struct vfio_device_info *dev_info)
+>  {
+>  	dev_info->flags = VFIO_DEVICE_FLAGS_PCI;
+> -	dev_info->num_regions = VFIO_PCI_NUM_REGIONS;
+> +	dev_info->num_regions = MTTY_REGIONS_MAX;
+>  	dev_info->num_irqs = VFIO_PCI_NUM_IRQS;
+>  
+>  	return 0;
+> @@ -1150,6 +1567,7 @@ static long mtty_ioctl(struct mdev_device *mdev, unsigned int cmd,
+>  	int ret = 0;
+>  	unsigned long minsz;
+>  	struct mdev_state *mdev_state;
+> +	struct vfio_info_cap caps = { .buf = NULL, .size = 0 };
+>  
+>  	if (!mdev)
+>  		return -EINVAL;
+> @@ -1185,8 +1603,6 @@ static long mtty_ioctl(struct mdev_device *mdev, unsigned int cmd,
+>  	case VFIO_DEVICE_GET_REGION_INFO:
+>  	{
+>  		struct vfio_region_info info;
+> -		u16 cap_type_id = 0;
+> -		void *cap_type = NULL;
+>  
+>  		minsz = offsetofend(struct vfio_region_info, offset);
+>  
+> @@ -1196,11 +1612,29 @@ static long mtty_ioctl(struct mdev_device *mdev, unsigned int cmd,
+>  		if (info.argsz < minsz)
+>  			return -EINVAL;
+>  
+> -		ret = mtty_get_region_info(mdev, &info, &cap_type_id,
+> -					   &cap_type);
+> +		ret = mtty_get_region_info(mdev, &info, &caps);
+>  		if (ret)
+>  			return ret;
+>  
+> +		if (caps.size) {
+> +			info.flags |= VFIO_REGION_INFO_FLAG_CAPS;
+> +			if (info.argsz < sizeof(info) + caps.size) {
+> +				info.argsz = sizeof(info) + caps.size;
+> +				info.cap_offset = 0;
+> +			} else {
+> +				vfio_info_cap_shift(&caps, sizeof(info));
+> +				if (copy_to_user((void __user *)arg +
+> +							sizeof(info), caps.buf,
+> +							caps.size)) {
+> +					kfree(caps.buf);
+> +					ret = -EFAULT;
+> +					break;
+> +				}
+> +				info.cap_offset = sizeof(info);
+> +			}
+> +			kfree(caps.buf);
+> +		}
+> +
+>  		if (copy_to_user((void __user *)arg, &info, minsz))
+>  			return -EFAULT;
+>  
+> @@ -1266,6 +1700,89 @@ static long mtty_ioctl(struct mdev_device *mdev, unsigned int cmd,
+>  	return -ENOTTY;
+>  }
+>  
+> +void mmap_close(struct vm_area_struct *vma)
+> +{
+> +	struct mdev_device *mdev = vma->vm_private_data;
+> +	struct mdev_state *mdev_state;
+> +	uint32_t index = 0;
+> +
+> +	if (!mdev)
+> +		return;
+> +
+> +	mdev_state = mdev_get_drvdata(mdev);
+> +	if (!mdev_state)
+> +		return;
+> +
+> +	mutex_lock(&mdev_state->ops_lock);
+> +	index = MTTY_VFIO_PCI_OFFSET_TO_INDEX(vma->vm_pgoff << PAGE_SHIFT);
+> +	if (index == MTTY_MIGRATION_REGION_INDEX) {
+> +		if (mdev_state->mig_region_base != NULL) {
+> +			vfree(mdev_state->mig_region_base);
+> +			mdev_state->mig_region_base = NULL;
+> +		}
+> +
+> +		if (mdev_state->pkt != NULL) {
+> +			vfree(mdev_state->pkt);
+> +			mdev_state->pkt = NULL;
+> +		}
+> +	}
+> +	mutex_unlock(&mdev_state->ops_lock);
+> +}
+> +
+> +static const struct vm_operations_struct mdev_vm_ops = {
+> +	.close = mmap_close,
+> +};
+> +
+> +static int mtty_mmap(struct mdev_device *mdev, struct vm_area_struct *vma)
+> +{
+> +	struct mdev_state *mdev_state;
+> +	unsigned int index;
+> +	int ret = 0;
+> +
+> +	if (!mdev)
+> +		return -EINVAL;
+> +
+> +	mdev_state = mdev_get_drvdata(mdev);
+> +	if (!mdev_state)
+> +		return -ENODEV;
+> +
+> +	mutex_lock(&mdev_state->ops_lock);
+> +
+> +	index = MTTY_VFIO_PCI_OFFSET_TO_INDEX(vma->vm_pgoff << PAGE_SHIFT);
+> +	if (index == MTTY_MIGRATION_REGION_INDEX) {
+> +		mdev_state->mig_region_base =
+> +				 vmalloc_user(MTTY_MIGRATION_REGION_SIZE_MMAP);
+> +		if (mdev_state->mig_region_base == NULL) {
+> +			ret = -ENOMEM;
+> +			goto mmap_exit;
+> +		}
+> +
+> +		mdev_state->pkt = vzalloc(sizeof(struct packet) +
+> +					  PACKET_DATA_SIZE_MAX);
+> +		if (mdev_state->pkt == NULL) {
+> +			vfree(mdev_state->mig_region_base);
+> +			mdev_state->mig_region_base = NULL;
+> +			ret = -ENOMEM;
+> +			goto mmap_exit;
+> +		}
+> +
+> +		vma->vm_ops = &mdev_vm_ops;
+> +
+> +		ret = remap_vmalloc_range(vma, mdev_state->mig_region_base, 0);
+> +		if (ret != 0) {
+> +			pr_err("remap_vmalloc_range failed, ret= %d\n", ret);
+> +			vfree(mdev_state->mig_region_base);
+> +			mdev_state->mig_region_base = NULL;
+> +			vfree(mdev_state->pkt);
+> +			mdev_state->pkt = NULL;
+> +			goto mmap_exit;
+> +		}
+> +	}
+> +mmap_exit:
+> +	mutex_unlock(&mdev_state->ops_lock);
+> +	return ret;
+> +}
+> +
+>  static void unpin_pages_all(struct mdev_state *mdev_state)
+>  {
+>  	struct mdev_device *mdev = mdev_state->mdev;
+> @@ -1339,6 +1856,8 @@ static int mtty_open(struct mdev_device *mdev)
+>  
+>  	ret = vfio_register_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY, &events,
+>  				     &mdev_state->nb);
+> +	mdev_state->dummy_data_size = 0;
+> +	mdev_state->mig_region_base = NULL;
+>  	return ret;
+>  }
+>  
+> @@ -1355,6 +1874,15 @@ static void mtty_close(struct mdev_device *mdev)
+>  	unpin_pages_all(mdev_state);
+>  	vfio_unregister_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY,
+>  				 &mdev_state->nb);
+> +	if (mdev_state->pkt != NULL) {
+> +		vfree(mdev_state->pkt);
+> +		mdev_state->pkt = NULL;
+> +	}
+> +
+> +	if (mdev_state->mig_region_base != NULL) {
+> +		vfree(mdev_state->mig_region_base);
+> +		mdev_state->mig_region_base = NULL;
+> +	}
+>  }
+>  
+>  static ssize_t
+> @@ -1466,9 +1994,26 @@ pin_pages_store(struct device *dev, struct device_attribute *attr,
+>  
+>  static DEVICE_ATTR_RW(pin_pages);
+>  
+> +static ssize_t
+> +dummy_data_size_MB_store(struct device *dev, struct device_attribute *attr,
+> +			 const char *buf, size_t count)
+> +{
+> +	int ret;
+> +
+> +	ret = kstrtoul(buf, 0, &user_dummy_data_size);
+> +	if (ret)
+> +		return ret;
+> +
+> +	user_dummy_data_size = user_dummy_data_size << 20;
+> +	return count;
+> +}
+> +
+> +static DEVICE_ATTR_WO(dummy_data_size_MB);
+> +
+>  static struct attribute *mdev_dev_attrs[] = {
+>  	&dev_attr_sample_mdev_dev.attr,
+>  	&dev_attr_pin_pages.attr,
+> +	&dev_attr_dummy_data_size_MB.attr,
+>  	NULL,
+>  };
+>  
+> @@ -1573,6 +2118,7 @@ static const struct mdev_parent_ops mdev_fops = {
+>  	.read                   = mtty_read,
+>  	.write                  = mtty_write,
+>  	.ioctl		        = mtty_ioctl,
+> +	.mmap			= mtty_mmap,
+>  };
+>  
+>  static void mtty_device_release(struct device *dev)
+> -- 
+> 2.7.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
