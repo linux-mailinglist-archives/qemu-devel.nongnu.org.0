@@ -2,69 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9772F1C8510
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 10:46:47 +0200 (CEST)
-Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022B81C851D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 10:51:03 +0200 (CEST)
+Received: from localhost ([::1]:55618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWcB4-0001Bf-Kg
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 04:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51648)
+	id 1jWcFC-0004Cs-2p
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 04:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jWcAC-0000j6-Qd
- for qemu-devel@nongnu.org; Thu, 07 May 2020 04:45:52 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:32846)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jWcAA-00022b-SW
- for qemu-devel@nongnu.org; Thu, 07 May 2020 04:45:52 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id b17so1162994ooa.0
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 01:45:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c1Mb6OZpWMyTtJ9/wbtgbyEX3acbcVdZ3HzvoUHi0a4=;
- b=O4MxiRwHuibTZyb5EiGEdZ2YUbDGysiiPNHqrz60bziKcRtD3UhfyTKtgMSSjEl1f/
- KW45+iHkeBUa6T1oPhpA/tgrjc9fL9HXLj0UInRTuTwi4TjJRytmREPfjU+Gpf7/GEn1
- f0dw6+7Bz29IW/iUmYr4OQdWpmdtX5nO9KUtu6b1A1lIhrjqLssCX/80S7Zv41WmB/aC
- TTtcAr7lj+e7t3hOSRTZ6xg0zxULrkBqgk1KgV//3Dc0P/0UalpTzW3RKV3tXdx08/gr
- 5yLi2cPjEVFYHuRCy961hkbIMF/0yXKP1+ozvCV2algqP1bezs8l8fJtQatRH0QaJuM0
- pIHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=c1Mb6OZpWMyTtJ9/wbtgbyEX3acbcVdZ3HzvoUHi0a4=;
- b=LzOLaXlAkwBdt9ZLdkTqxwE5UpXEFY51ZMUjMUFzALeHsfVkxq0PkeFaYMaW/F9rmA
- kQkI+YVmBp27mK4Hp/8HAkKnKegM/KLvn9zkdiw2RJQfKVzzeEaLtkhjQVQD6Pv2m7kX
- znw2PV/MhHwv5rfcfKcNTlqgjb45B564pEd/EXISz3CUJE+DInNdvcM85T7cX+wKZgJM
- FtL1trElDr2c6sE/X4xYV3EslKBIQLvmroklvGbYESAUU/WYYax4SjVznfHWVKsqC4ZE
- AQ6o3h4nkilkQ7ke55T8QdENojQuhqaFaNJqFWjdR3yGNN9AKx8UssiwkoX5wMKpC3Mq
- zWIw==
-X-Gm-Message-State: AGi0PuZ8Mi8KmR0CU2xjOib5JN4bzddh2CryDMammam8LBCfHYXpn6b8
- OhOHmFo6hbYT2kw0ImnZSNWOlHDL4YgWE2EdRDLEoQ==
-X-Google-Smtp-Source: APiQypLxDZvfn5ZE77gSC+cZY9JPmCH4zmiJn6owSnCinju+3BQSKZCADFHB4cxCyCbjtju0UAJWs085NNQq6MARsr4=
-X-Received: by 2002:a4a:8253:: with SMTP id t19mr10627769oog.69.1588841148877; 
- Thu, 07 May 2020 01:45:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jWcD9-0001vy-VP; Thu, 07 May 2020 04:48:57 -0400
+Received: from mail-eopbgr40111.outbound.protection.outlook.com
+ ([40.107.4.111]:2308 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jWcCs-0006ET-4n; Thu, 07 May 2020 04:48:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jEl6om5VA27Rdz9C21YH1iGknC6aqdWwuTMvNWycWG9OSckfC7BbrjwvSy57r7wH05VFr+zdNXHin5XOLlurl2/rEtc6cL99+tcBlE0Ugmo/z2o6xrUfl3j/tdwIO1KEkuTIX05ymIYu4iYzzLBg6deLQMJ5UqTDAOfIX+59IB/gh3tHgQ7Oh9TDo1+tQTKkF76c14yc9GqeBVaUuge0k8XPBC+u9VA1n0UBNRlbnc/2BTr3+c37v651UUAhJiDLnd/IbD2WvaTLs58TDt2xZop/8laQtKzV1oMiMp8GxyX4XLzjSFzJSTk0GYbzguKZmTNhdPS0tFjLzcBBJbd4Zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/T2U0BbAQLVp84ALKJHlPhxwtB1FnSttVtFGS1cxJRk=;
+ b=WIHgK2Kz4ISR5IxvAQy7HNm96S3LI6O/RgmVU6+cVA7sZFdM9+pXnUrc8ysho78eFD99ibsdHaz68Ed+huivqmXavI6EcX+NuGXE5ULg7ttx3l8yn8v8x2eXsPnzhTrWRCXOeiWQkAoDcEfpN4NbBpqiw4SLQ/4GExPzmfIFgRrd/qD+d73yx0bn0CtUG2yxt1gHXy2Mv9SAUErd+J72ZQk+wkUCJ9cata8PGJxO/B+K/syzGFCpwggzzEaT5i/LGNOul+Li7qBy50zz7tnGzD1Xy1FQxIWeoDKic2/j88I80D6pD43vKJ0KxXnu1SIbB0KZyAQ2Obr5dbTkSgPZjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/T2U0BbAQLVp84ALKJHlPhxwtB1FnSttVtFGS1cxJRk=;
+ b=sWaM/WuhLh/WWshEzgh3Txjt5Lw/n0a06bwNImRxHlvhSbuP1aAbgjPexbiA+fELYcOvYXwfNFFdWR0cHgpSq9+ozp6fSBIRehg62bjfzh+Mr/qWh5Abchp4ZFqmyIeauNxfI1Zt3YrKS1Y9YETHSCubdDcTwXJf2UqaOBn/fNg=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5495.eurprd08.prod.outlook.com (2603:10a6:20b:104::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Thu, 7 May
+ 2020 08:48:34 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2958.034; Thu, 7 May 2020
+ 08:48:34 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 0/9] drop unallocated_blocks_are_zero
+Date: Thu,  7 May 2020 11:47:51 +0300
+Message-Id: <20200507084800.20596-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.21.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR2P281CA0034.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::21) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20200506142746.369563-1-stefanb@linux.vnet.ibm.com>
-In-Reply-To: <20200506142746.369563-1-stefanb@linux.vnet.ibm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 May 2020 09:45:37 +0100
-Message-ID: <CAFEAcA-cLrMRSZhTdrq4Q2PDa0X2HihLw1-xPzJewwe9d8n16A@mail.gmail.com>
-Subject: Re: [PULL v1 0/3] Merge tpm 2020/05/06 v1
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.171) by
+ FR2P281CA0034.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2979.26 via Frontend Transport; Thu, 7 May 2020 08:48:33 +0000
+X-Mailer: git-send-email 2.21.0
+X-Originating-IP: [185.215.60.171]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d60ec321-145b-4bd2-d855-08d7f2636d39
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5495:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54959EA6D53A875275A7BB37C1A50@AM7PR08MB5495.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
+X-Forefront-PRVS: 03965EFC76
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FN+HV/qqo1tAUXNJZODPYxMyVPIh3so9LNjhADrElQdc8SnlzWhcExwO2n/rFJKy/hG3hUHXagnkYSt7P+6uMAxw0cZ7t57fEukDEHEsaSG42fBIRMJXs2wH1IlXEw1gyxO7+qDQp7APNaoV8jXRTYrJWStYZ+Mg0lnFN2m+iBxQY70tkjkFWpOLXfMztjFOCBdyFkogx6a/0gfmw4Pybr99iuULV3h7/ihj//GZEuXYqFA4JXQIJ99vSiJsQC2hR04nALjjFZMjzO+APopkdsO1Kq5uCuIlyRLGTa6Cg2pdjtFkrpzkYTVg1fjKaY45VyzRkgFWPWdz8LUhaLO+jh2AI4rKq8OdTu9Bm3JAt3uBlX6bnZnYL0HOvYU5blD+Oe3uQhbaiQvQVYsbpH1RkTqYGUWr80pOKmSTaQrlU0W6WAhujU9N3+5VMry+PrxVLIepEUO5P9T73AFLGhb3H24Kgo1e6k/47Xcgk2a9mqGzLGeo+Q3n0EJul0SZ8EEbfg8W8C2tAOMcwfFQ7wB+1w/RcYcnwLCCV2S9u3U9ncRSsYKlFzCdQBAGj0UlotIeC9ol0X5n2GpToR9uGofDVZakmizLXcsXPxMUvwHUoFs+jJCUPDxNNGaaCD0lr+Xf8HVIF5dKt3fn2e/wc24VtQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(346002)(39850400004)(396003)(366004)(136003)(33430700001)(4326008)(478600001)(107886003)(66476007)(66946007)(66556008)(5660300002)(966005)(69590400007)(2906002)(52116002)(7416002)(6486002)(1076003)(36756003)(86362001)(6512007)(83280400001)(6916009)(186003)(16526019)(83320400001)(956004)(26005)(33440700001)(8676002)(83300400001)(83290400001)(6666004)(2616005)(83310400001)(8936002)(6506007)(316002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: gRfnvW9kCL2GkueML27el/EVdy+Uv16t7trStePQnU9lYNZ8IIdSbCPwv9Jl62X5b61sNx1HGEEgL5IPOmFo46u7IePUdDmW8vNzVsXrQuuC9AtDPvFOCrv0xmk214tPDpwNeD3sP1ozqnnOSOQqv16ttgAhypar1jyQoMb6mnp08kExMH/951pI0IWHokBbreKUzHxyTJ2fM8h15/qAXrJYdFh2XpbYZFXTqK/ZSgd+6O5hnzYUX58pv4wzfV18aEFIXFLr91RJy+sACHqmbE47Izhzz7tWnswkqD83T/fKcBbAENHF1rnRphtU8vndOd/koe0U1Zo1kkimv/hVNb0hOXM0klPwNPQyjj+Mh/cF8cPUybCSFSYNtyZe3KLJQ4aZ+mpxD3vI/8rAYBGX25qCzC985nlWpahi4AKIyt1RmGnOC2hFiPZ2Xx6QcOfaoMIh++bZMuRLmRSLG4LGyq6nc7/bSVrnRLLhL51t5ptYjq8bNLjVaL9ySdHIkiPECvTSrxm+LPqAQTcsisC1JU15zTpLb/n0wv5sxsUzuH1mblpWHBQCBzEzHWExqsbcsf3jkC0EAggSBt93fAhwG+ypY6w/9R3QgBDN65aQlwZLM1ZLZle+Fm85VlnaYSmZesDjVmH+g3PFn9G+8A+lStbIa0iB6I+0QAV8JFPUl/EiUyDtCwchv7QOUhhHwezb/hRtwyT9xKbNlieiU8ZprnB1dDuzHxIBq45zKvmbHUDByE8rKEyo13P9TAmITgCpWPtUVZUwFhDGTep1DWfG3EnZfQqoLDRpJj1RDpQzGRs=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d60ec321-145b-4bd2-d855-08d7f2636d39
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2020 08:48:34.6825 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zGMCJMwMaxcWOeASiItcfTo++JRFhA5FIY68KstI4dxfukbamVCdkiEZ/8pQ+8UtxSCf424l18Hzo4OprIb2INI6oUg1taDpR7XIt38r7Vc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5495
+Received-SPF: pass client-ip=40.107.4.111;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 04:48:35
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,45 +112,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ stefanha@redhat.com, codyprime@gmail.com, sw@weilnetz.de, pl@kamp.de,
+ qemu-devel@nongnu.org, mreitz@redhat.com, ronniesahlberg@gmail.com,
+ den@openvz.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 May 2020 at 15:27, Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
->
-> Hello!
->   This PR provides PPI changes for TPM support on ARM and compat
->   machines for QEMU 5.1
->
-> Regards,
->    Stefan
->
-> The following changes since commit ea1329bb3a8d5cd25b70e3dbf73e7ded4d5ad756:
->
->   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2020-05-05' into staging (2020-05-05 16:46:37 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2020-05-06-1
->
-> for you to fetch changes up to 541aaa1df80df465c7dc934dc8cf57c0e3dfd6c3:
->
->   hw: add compat machines for 5.1 (2020-05-06 10:12:16 -0400)
->
-> ----------------------------------------------------------------
-> Cornelia Huck (1):
->       hw: add compat machines for 5.1
->
-> Eric Auger (2):
->       tpm: tpm-tis-device: set PPI to false by default
->       hw/arm/virt: Remove the compat forcing tpm-tis-device PPI to off
->
+Hi all!
+
+v2 (by Eric's review):
+
+01: moved to the start of the series, add Eric's r-b
+02: new
+03-04: improve commit message
+05: add Eric's r-b
+06-08: improve commit message a bit, add Eric's r-b
+09: typos and wording, rebase on 02
 
 
-Applied, thanks.
+This is first step to block-status refactoring, and solves most simple
+problem mentioned in my investigation of block-status described in
+the thread "backing chain & block status & filters":
+  https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg04706.html
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
 
--- PMM
+unallocated_blocks_are_zero doesn't simplify all the logic about
+block-status, and happily it's not needed, as shown by the following
+patches. So, let's get rid of it.
+
+Vladimir Sementsov-Ogievskiy (9):
+  qemu-img: convert: don't use unallocated_blocks_are_zero
+  block: inline bdrv_unallocated_blocks_are_zero()
+  block/vdi: return ZERO block-status when appropriate
+  block/vpc: return ZERO block-status when appropriate
+  block/crypto: drop unallocated_blocks_are_zero
+  block/iscsi: drop unallocated_blocks_are_zero
+  block/file-posix: drop unallocated_blocks_are_zero
+  block/vhdx: drop unallocated_blocks_are_zero
+  block: drop unallocated_blocks_are_zero
+
+ include/block/block.h     |  6 ------
+ include/block/block_int.h | 12 +++++++++++-
+ block.c                   | 15 ---------------
+ block/crypto.c            |  1 -
+ block/file-posix.c        |  3 ---
+ block/io.c                |  8 ++++----
+ block/iscsi.c             |  1 -
+ block/qcow2.c             |  1 -
+ block/qed.c               |  1 -
+ block/vdi.c               |  3 +--
+ block/vhdx.c              |  3 ---
+ block/vpc.c               |  3 +--
+ qemu-img.c                |  4 +---
+ 13 files changed, 18 insertions(+), 43 deletions(-)
+
+-- 
+2.21.0
+
 
