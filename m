@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD981C814D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:06:10 +0200 (CEST)
-Received: from localhost ([::1]:41022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154D61C814E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 07:07:36 +0200 (CEST)
+Received: from localhost ([::1]:49508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWYjZ-0001FB-ME
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:06:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33534)
+	id 1jWYkx-0004gr-2Q
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 01:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYht-0007VC-Q7; Thu, 07 May 2020 01:04:25 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51995 helo=ozlabs.org)
+ id 1jWYht-0007V7-N8; Thu, 07 May 2020 01:04:25 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52449 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jWYhr-0006zG-GF; Thu, 07 May 2020 01:04:25 -0400
+ id 1jWYhr-00070N-G7; Thu, 07 May 2020 01:04:25 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49HhFn1Cckz9sSW; Thu,  7 May 2020 15:04:13 +1000 (AEST)
+ id 49HhFn268fz9sRY; Thu,  7 May 2020 15:04:13 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1588827853;
- bh=BeBPV0jGM9MMAFCuVvUR8L8BVAjuzxl16FKjLO6gvmg=;
- h=From:To:Cc:Subject:Date:From;
- b=YueiBkhbF3kuk7L3g2mK93+LbujuO1JRIGtpKXgDQjEQaMevraYVPLyPtsjoNQixQ
- IOLlDfn+UDCqc0GA5CHZ4e2z51DrfFkQuCYZXgy7Wu88bVdn7hblJg2YZZR6esZlx9
- H3LkkTz5jb1XMBRKmXnAyxUSd5Mwu3FPOf7MEqMk=
+ bh=m9jI1TLvGlY1glLjzeD6ysxs6fYmaEobrj3tLK7VEls=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=dbq1S3e+PaYw53mw8bYwG6V87MhTcRKmvGEAbKQU7+jSApL8kmSLt2VRgxOBwa5EC
+ HQ5CY2UtvwBr3azlVVjvh/lrgaKJajYrFed7DNwiBBntpfS4VQ42x/BeyHalIjwRZ9
+ 8V2XGnX4BB8HV4Tn2u+u7Kq5h1E5T6UPZBjnVRO0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/18] ppc-for-5.1 queue 20200507
-Date: Thu,  7 May 2020 15:02:10 +1000
-Message-Id: <20200507050228.802395-1-david@gibson.dropbear.id.au>
+Subject: [PULL 01/18] target/ppc: Improve syscall exception logging
+Date: Thu,  7 May 2020 15:02:11 +1000
+Message-Id: <20200507050228.802395-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200507050228.802395-1-david@gibson.dropbear.id.au>
+References: <20200507050228.802395-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 01:04:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -63,72 +64,75 @@ Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, npiggin@gmail.com, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 570a9214827e3d42f7173c4d4c9f045b99834cf0:
+From: Nicholas Piggin <npiggin@gmail.com>
 
-  Merge remote-tracking branch 'remotes/alistair/tags/pull-reg-to-apply-20200505' into staging (2020-05-06 15:38:02 +0100)
+system calls (at least in Linux) use registers r3-r8 for inputs, so
+include those registers in the dump.
 
-are available in the Git repository at:
+This also adds a mode for PAPR hcalls, which have a different calling
+convention.
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-5.1-20200507
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Message-Id: <20200317054918.199161-1-npiggin@gmail.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ target/ppc/excp_helper.c | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-for you to fetch changes up to c4f6a4a3dd5f2aa15329b8158de25f50b5ba3252:
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index 08bc885ca6..81ee19ebae 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -57,12 +57,29 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+ #else /* defined(CONFIG_USER_ONLY) */
+ static inline void dump_syscall(CPUPPCState *env)
+ {
+-    qemu_log_mask(CPU_LOG_INT, "syscall r0=%016" PRIx64 " r3=%016" PRIx64
+-                  " r4=%016" PRIx64 " r5=%016" PRIx64 " r6=%016" PRIx64
++    qemu_log_mask(CPU_LOG_INT, "syscall r0=%016" PRIx64
++                  " r3=%016" PRIx64 " r4=%016" PRIx64 " r5=%016" PRIx64
++                  " r6=%016" PRIx64 " r7=%016" PRIx64 " r8=%016" PRIx64
+                   " nip=" TARGET_FMT_lx "\n",
+                   ppc_dump_gpr(env, 0), ppc_dump_gpr(env, 3),
+                   ppc_dump_gpr(env, 4), ppc_dump_gpr(env, 5),
+-                  ppc_dump_gpr(env, 6), env->nip);
++                  ppc_dump_gpr(env, 6), ppc_dump_gpr(env, 7),
++                  ppc_dump_gpr(env, 8), env->nip);
++}
++
++static inline void dump_hcall(CPUPPCState *env)
++{
++    qemu_log_mask(CPU_LOG_INT, "hypercall r3=%016" PRIx64
++		  " r4=%016" PRIx64 " r5=%016" PRIx64 " r6=%016" PRIx64
++		  " r7=%016" PRIx64 " r8=%016" PRIx64 " r9=%016" PRIx64
++		  " r10=%016" PRIx64 " r11=%016" PRIx64 " r12=%016" PRIx64
++                  " nip=" TARGET_FMT_lx "\n",
++                  ppc_dump_gpr(env, 3), ppc_dump_gpr(env, 4),
++		  ppc_dump_gpr(env, 5), ppc_dump_gpr(env, 6),
++		  ppc_dump_gpr(env, 7), ppc_dump_gpr(env, 8),
++		  ppc_dump_gpr(env, 9), ppc_dump_gpr(env, 10),
++		  ppc_dump_gpr(env, 11), ppc_dump_gpr(env, 12),
++		  env->nip);
+ }
+ 
+ static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
+@@ -379,9 +396,14 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+         }
+         break;
+     case POWERPC_EXCP_SYSCALL:   /* System call exception                    */
+-        dump_syscall(env);
+         lev = env->error_code;
+ 
++        if ((lev == 1) && cpu->vhyp) {
++            dump_hcall(env);
++        } else {
++            dump_syscall(env);
++        }
++
+         /*
+          * We need to correct the NIP which in this case is supposed
+          * to point to the next instruction
+-- 
+2.26.2
 
-  target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9 (2020-05-07 11:10:50 +1000)
-
-----------------------------------------------------------------
-ppc patch queue for 2020-04-07
-
-First pull request for qemu-5.1.  This includes:
- * Removal of all remaining cases where we had CAS triggered reboots
- * A number of improvements to NMI injection
- * Support for partition scoped radix translation in softmmu
- * Some fixes for NVDIMM handling
- * A handful of other minor fixes
-
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      spapr/cas: Separate CAS handling from rebuilding the FDT
-
-Cédric Le Goater (6):
-      target/ppc: Introduce a relocation bool in ppc_radix64_handle_mmu_fault()
-      target/ppc: Assert if HV mode is set when running under a pseries machine
-      target/ppc: Introduce ppc_radix64_xlate() for Radix tree translation
-      target/ppc: Extend ppc_radix64_check_prot() with a 'partition_scoped' bool
-      target/ppc: Rework ppc_radix64_walk_tree() for partition-scoped translation
-      target/ppc: Add support for Radix partition-scoped translation
-
-Daniel Henrique Barboza (1):
-      spapr_nvdimm.c: make 'label-size' mandatory
-
-Daniele Buono (1):
-      target-ppc: fix rlwimi, rlwinm, rlwnm for Clang-9
-
-David Gibson (2):
-      spapr: Don't allow unplug of NVLink2 devices
-      spapr_nvdimm: Tweak error messages
-
-Greg Kurz (3):
-      spapr: Don't check capabilities removed between CAS calls
-      spapr: Simplify selection of radix/hash during CAS
-      spapr: Drop CAS reboot flag
-
-Nicholas Piggin (3):
-      target/ppc: Improve syscall exception logging
-      ppc/spapr: tweak change system reset helper
-      ppc/pnv: Add support for NMI interface
-
-Suraj Jitindar Singh (1):
-      target/ppc: Enforce that the root page directory size must be at least 5
-
- hw/ppc/pnv.c             |  29 +++
- hw/ppc/spapr.c           |  29 ++-
- hw/ppc/spapr_hcall.c     | 108 ++++++-----
- hw/ppc/spapr_nvdimm.c    |  10 +-
- hw/ppc/spapr_pci.c       |   4 +
- include/hw/ppc/spapr.h   |   8 +-
- target/ppc/cpu.h         |   5 +-
- target/ppc/excp_helper.c |  38 +++-
- target/ppc/mmu-radix64.c | 468 ++++++++++++++++++++++++++++++++++-------------
- target/ppc/translate.c   |  24 ++-
- 10 files changed, 506 insertions(+), 217 deletions(-)
 
