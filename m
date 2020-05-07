@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D071C9506
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 17:27:03 +0200 (CEST)
-Received: from localhost ([::1]:59722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D4DF1C94E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 May 2020 17:22:44 +0200 (CEST)
+Received: from localhost ([::1]:43860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWiQQ-0002Uh-4M
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 11:27:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54156)
+	id 1jWiMF-00042S-BE
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 11:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jWiIB-0006sW-1a
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:18:31 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43328)
+ id 1jWiKw-0002pG-GY
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:21:22 -0400
+Received: from mail-oo1-xc30.google.com ([2607:f8b0:4864:20::c30]:38456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jWiI9-0002ap-Vt
- for qemu-devel@nongnu.org; Thu, 07 May 2020 11:18:30 -0400
-Received: by mail-wr1-x441.google.com with SMTP id i15so6432874wrx.10
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 08:18:29 -0700 (PDT)
+ id 1jWiKv-0005VG-CQ
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 11:21:22 -0400
+Received: by mail-oo1-xc30.google.com with SMTP id i9so1403658ool.5
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 08:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=rTf9IBDSAsF51iBWcS+fobjD1nzCOzkNrL8OJ1OV40M=;
- b=i5AQcm++hyCzhLAgoHyYhSW5VN3U/ORNfWsg2zSpo3vBirDxM03uvaBesTfw5L/NOM
- AHu/BhjjL98extszOh4q9euqMFG51934dyNOn+U4Iqg7KcKlrJoNee2ukpRGyfdmovqV
- 2ibXtvztYqGMs0XgEBu8RGNAvWi7u2mMnITilnBXlTcSse69UbbSktCksXOs8bCigKht
- w1OX9s6MD/dCiFIWcKQKtkjAmMTZj1DQnUCb9DYP0fKJKtUpxrtSbyje1c849hAEChjT
- g2BuxEpGBOLXOk3jFz95RrF49Sih9A4yPxHRhJiLNXkIwOinRY9Pg8EYVDqWzLeC/KQ4
- 3cSw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=4mCD4KJ+Eib5gP/XAUVRY32MfBCuCpkwjOt+CwYZfGk=;
+ b=F9bJUSE4o0KpdRmxgC/+C1D3ocdU/V72BMNYL3taC9llvBDYvHKckDW4+5jUnAIpAs
+ m8ZYGU8nBZFVPfII0Y+V0h85CSK53uWS6ZQGlSgVWssWKiPo83peiGTuMGWdzFCWmsXZ
+ p1vR+2z5B8mtfRCkZvLTnrIcNwMS9PLHkYr3x3YiH16LGXhuLN7ISYYwC6fMd0wM8P9h
+ W7z1xIZydn8aZ+3zdI7h9ypwRfdTODw6BcpwFlfVjY0WpGu1pznJE5COaKuPYPlpgJMk
+ 2jIs0h37wc7aWeBnm5vksDWNrHx/vyV3TJRxuI8P8qkE6vIFEjOf3hMMUdSdO4jq/xPL
+ vI/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rTf9IBDSAsF51iBWcS+fobjD1nzCOzkNrL8OJ1OV40M=;
- b=hc2mul+vzdrMr09l/DCaVehpIub1UJAgH0ax1naix+YgvTOwPGnt4tX6sK5urv3SAz
- VdE5P3HoWd32/qR8k+jibjmJ+3nL2dk+NpUyl7+O4HHvDUpKKp9BCLc8K0O8A3TDep6X
- u3YHR5CHAlpyqiGh1C6buvIvZjSZlhkWdHlVqtmBP33F3QfMgqn4d+/kyMtmdCVuHaf7
- SD7FP7KGQ3Jk6NtMbPgDWWoJOPBcfTYZCpLRmwRDyGsQDYzEgNruLYF7aqNG4ciJHWoS
- ST3N6daxdM5miKrGvy3YtUS+V51ckCzgziHSr8i1/hdJJ1LY2b7RjHekoPf+0ZtLPv8x
- cHyA==
-X-Gm-Message-State: AGi0PuYrezzcFLKSDAeKtgirG7o86N7mYG5kGtHC3olzoV4Zt1d7f+zZ
- MlmRQZ3eiULHzW4/YOEo2QedUw==
-X-Google-Smtp-Source: APiQypJ35Usq63LoiRjN0xCWHXpjkwG8aieOIze9ulmvT4dI4uhcuW7jbfyLqYEs2Dp8sxWgzZIYBA==
-X-Received: by 2002:adf:e58d:: with SMTP id l13mr17143980wrm.187.1588864708620; 
- Thu, 07 May 2020 08:18:28 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q74sm961246wme.14.2020.05.07.08.18.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 08:18:28 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 5/5] docs/system: Document Musca boards
-Date: Thu,  7 May 2020 16:18:19 +0100
-Message-Id: <20200507151819.28444-6-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507151819.28444-1-peter.maydell@linaro.org>
-References: <20200507151819.28444-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=4mCD4KJ+Eib5gP/XAUVRY32MfBCuCpkwjOt+CwYZfGk=;
+ b=L/ViBbV/HsMmLQxvCkwcVDGTrHqwJpNaseYbemPHW4cUlTB+Lkp+V3CduQibvpLceY
+ TVIZ5S8fPdl1E7FxOQevPDTcFSmD/G+D4sFuO3PPXaDKSh18phqfN9ZDPn1xiTjie4wl
+ OY07KXTnESiYBeSitkdsaNqBu14QvcFaf9CKdT1L3fYWlCCDr68mjUfdyHlj29EVaBDK
+ aCJkLoHh0tesrQOwEZmHZwENj2USTWQEeaJ35tXd5tkJ3vgzY0gKHhY9d61ICFZlEcB2
+ 02AQAfK4GCuODdvzZpNMkTGzXHvfd+yA4qZNYnWeV8U7Wwt74yApR5NxoCbLZEaAyriC
+ KW4A==
+X-Gm-Message-State: AGi0PuaShisjGWNuggNFjtfm2USUvAHg9KejO1GPwNLjrUsQjvjtecwX
+ xPW5vofLepmJrw+ZiOGPzROJFtdBY3Co0RhSzvuMHQ==
+X-Google-Smtp-Source: APiQypL7n4Oj6/9vh6Frdq2EKwzIDeur/JXFIG1eDJUEMO1r8WlgV45AstEYjqMIRkpogIyO5Vb64ObQt1qSIUw5yvg=
+X-Received: by 2002:a4a:d136:: with SMTP id n22mr12137262oor.85.1588864878241; 
+ Thu, 07 May 2020 08:21:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+References: <20200507115803.1122661-1-berrange@redhat.com>
+In-Reply-To: <20200507115803.1122661-1-berrange@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 May 2020 16:21:07 +0100
+Message-ID: <CAFEAcA9ryabGKgAbQu+zzy3WwDs_AGJQyNX3hUM8RPu4aeTTuw@mail.gmail.com>
+Subject: Re: [PULL 0/5] Misc crypto subsystem fixes
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c30;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc30.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,81 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide a minimal documentation of the Musca boards.
+On Thu, 7 May 2020 at 12:59, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
+wrote:
+>
+> The following changes since commit 609dd53df540edd72faee705205aceca9c42fe=
+a5:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20200506' into =
+stag=3D
+> ing (2020-05-07 09:45:54 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/berrange/qemu tags/qcrypto-next-pull-request
+>
+> for you to fetch changes up to 6022e15d146d8bba9610a9d134afa4bc6e5d9275:
+>
+>   crypto: extend hash benchmark to cover more algorithms (2020-05-07 12:5=
+2:51=3D
+>  +0100)
+>
+> ----------------------------------------------------------------
+> Misc crypto subsystem fixes
+>
+> * Improve error message for large files when creating LUKS volumes
+> * Expand crypto hash benchmark coverage
+> * Misc code refactoring with no functional change
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/arm/musca.rst  | 31 +++++++++++++++++++++++++++++++
- docs/system/target-arm.rst |  1 +
- MAINTAINERS                |  1 +
- 3 files changed, 33 insertions(+)
- create mode 100644 docs/system/arm/musca.rst
 
-diff --git a/docs/system/arm/musca.rst b/docs/system/arm/musca.rst
-new file mode 100644
-index 00000000000..8375c5008d5
---- /dev/null
-+++ b/docs/system/arm/musca.rst
-@@ -0,0 +1,31 @@
-+Arm Musca boards (``musca-a``, ``musca-b1``)
-+============================================
-+
-+The Arm Musca development boards are a reference implementation
-+of a system using the SSE-200 subsystem for embedded. They are
-+dual Cortex-M33 systems.
-+
-+QEMU provides models of the A and B1 variants of this board.
-+
-+Unimplemented devices:
-+
-+- SPI
-+- |I2C|
-+- |I2S|
-+- PWM
-+- QSPI
-+- Timer
-+- SCC
-+- GPIO
-+- eFlash
-+- MHU
-+- PVT
-+- SDIO
-+- CryptoCell
-+
-+Note that (like the real hardware) the Musca-A machine is
-+asymmetric: CPU 0 does not have the FPU or DSP extensions,
-+but CPU 1 does. Also like the real hardware, the memory maps
-+for the A and B1 variants differ significantly, so guest
-+software must be built for the right variant.
-+
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index 15bcf9f81f0..1b86b93c346 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -72,6 +72,7 @@ undocumented; you can get a complete list by running
- 
-    arm/integratorcp
-    arm/mps2
-+   arm/musca
-    arm/realview
-    arm/versatile
-    arm/vexpress
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ea7bdd359e0..f8e0fdb4ef2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -706,6 +706,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/arm/musca.c
-+F: docs/system/arm/musca.rst
- 
- Musicpal
- M: Jan Kiszka <jan.kiszka@web.de>
--- 
-2.20.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
+for any user-visible changes.
+
+-- PMM
 
