@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C423A1CB706
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 20:21:50 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C80C21CB725
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 20:27:56 +0200 (CEST)
+Received: from localhost ([::1]:43238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX7d7-0002qq-D5
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 14:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59934)
+	id 1jX7j1-00087n-Qr
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 14:27:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jX7cI-0002GO-3e
- for qemu-devel@nongnu.org; Fri, 08 May 2020 14:20:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43843
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jX7cG-0002J4-H1
- for qemu-devel@nongnu.org; Fri, 08 May 2020 14:20:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588962055;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cZjBRf1/O61bt+E9xxVbeqwMOKgGv5nR+POyVufS8Ks=;
- b=VU/boOKUVTHUs64wDs99b6PyVpnmcVkUsgmNmnCBZ5WKk18j49hCUfxeMOZgkmjZ7tcIZb
- 5J/XOFRZDVHJ3oL5dRzK5y5T71tADG99bmHSNMknnzA7IA0YmqgyseS7Jxd49tJ/zfoHw5
- u23GamMtR1g1vKqQtF7HxURKBGu7Pko=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-47Fw4iUPO0KBcUIVMjH9yA-1; Fri, 08 May 2020 14:20:39 -0400
-X-MC-Unique: 47Fw4iUPO0KBcUIVMjH9yA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3AB18014C1;
- Fri,  8 May 2020 18:20:35 +0000 (UTC)
-Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C886B341FF;
- Fri,  8 May 2020 18:20:29 +0000 (UTC)
-Subject: Re: [PATCH v3 05/17] block/io: support int64_t bytes in
- bdrv_co_do_pwrite_zeroes()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200430111033.29980-1-vsementsov@virtuozzo.com>
- <20200430111033.29980-6-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <d102bdad-a6aa-2153-04e7-9338e4014740@redhat.com>
-Date: Fri, 8 May 2020 13:20:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jX7hW-0006YC-C0
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 14:26:22 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:42497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jX7hU-0004vf-GP
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 14:26:21 -0400
+Received: by mail-pg1-x531.google.com with SMTP id n11so1227266pgl.9
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 11:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=He1E3wpQCl9jPTfjN7MBWAwPVAbruYVbszesB5MhDtw=;
+ b=IJoubZIS/saWfxZhu2SpWZxsjr+WyR1xNQpbsmt3hHzFd5UcN3R6LKkOxCl33yoG8L
+ 01PuIz0Zodf0U/ZVWjFtFcUOFqymsWqU/sKEDvwVWWYeScmPm925nQlv97LjKhBGGpTI
+ Qhr6wGRc767oFEHdwNKUUBAeaWLqhUG+qJkg+3+KoOYZyYL6BasFG+HJgIG5aXYARrPj
+ 8yNgcmtijZKhnX+F58fP6HgvKkqZI9AxurmMKEPRAy19K43lljUuP5+w5HSfMGybFjjg
+ HTBqD3JQ89zGvAacfEGwaVk22t8DH+Q7kPE97YftqFNp8lBVBIC6jf/8zlscTCAu7HMx
+ PqtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=He1E3wpQCl9jPTfjN7MBWAwPVAbruYVbszesB5MhDtw=;
+ b=YKol0tPvUtJSNRja9mylL/k4LmnX6iY7fPe347taeP72nPFRZ/qauaaFLruDF6o7RK
+ jcLVaxITuHIP1UASdVCRa9E45nJHp1FSfZCfi0+NdDuvjL0vHC9qiHd0b/bdYBqENQov
+ zqEA5yEcDfYvI7LQdW6zR32pn1DTtnPumgSjfMRnGm3E9DsrsuH9MQVclBAWaY1hNXjH
+ Ht1aLUa1Ew2Gll2wHz38TXX1tynlSCZIGTIsdA7dWKmS1oVNlEwyESLkzoQSpHVUWI00
+ Ez+aKRmry62jdsB5oHuOgGG/fS5ZT0G5FxVyaaldTZMerMaOA5UaLsAwthdh3p7QRHHL
+ sdVw==
+X-Gm-Message-State: AGi0PuZLsCNEXfAUZtSOTvxZcv+NbUYPu29YdzT2GUMEx2GKuKMgvW7d
+ plSYwNEfD6MaxfuPCqvuTdbOigZbVnU=
+X-Google-Smtp-Source: APiQypKLa75pBdqdvb72YtRN2YmLXUuSJoN5G5VCbUz8/teXy9DfUnDF29VrX83JiIOGWXIFMLkZhw==
+X-Received: by 2002:aa7:8d93:: with SMTP id i19mr4321010pfr.112.1588962378182; 
+ Fri, 08 May 2020 11:26:18 -0700 (PDT)
+Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
+ [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id u9sm2421775pfn.197.2020.05.08.11.26.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 May 2020 11:26:17 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/19] tcg: Better handling of constants
+Date: Fri,  8 May 2020 11:25:57 -0700
+Message-Id: <20200508182616.18318-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20200430111033.29980-6-vsementsov@virtuozzo.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,63 +84,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, integration@gluster.org, berto@igalia.com,
- pavel.dovgaluk@ispras.ru, dillaman@redhat.com, qemu-devel@nongnu.org,
- sw@weilnetz.de, pl@kamp.de, ronniesahlberg@gmail.com, mreitz@redhat.com,
- den@openvz.org, sheepdog@lists.wpkg.org, stefanha@redhat.com,
- namei.unix@gmail.com, pbonzini@redhat.com, jsnow@redhat.com, ari@tuxera.com
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/20 6:10 AM, Vladimir Sementsov-Ogievskiy wrote:
-> We are generally moving to int64_t for both offset and bytes parameters
-> on all io paths.
-> 
-> Main motivation is realization of 64-bit write_zeroes operation for
-> fast zeroing large disk chunks, up to the whole disk.
-> 
-> We chose signed type, to be consistent with off_t (which is signed) and
-> with possibility for signed return type (where negative value means
-> error).
-> 
-> So, prepare bdrv_co_do_pwrite_zeroes() now.
-> 
-> Patch-correctness audit by Eric Blake:
-> 
+V4 adds the r-b against v2 that I forgot to go back and add.
 
-> 
->      use of 'num' within the loop
->      compute 'int head' via % 'int alignment' - safe
->      clamp size by 'int max_write_zeroes' - safe
->      drv->bdrv_co_pwrite_zeroes(int) - safe because of clamping
->      clamp size by 'int max_transfer' - safe
->      qemu_iovec_init_buf(size_t) - safe because of clamping
->      bdrv_driver_pwritev(uint64_t) [well, int64_t after 4/17] - safe
+Re patch 17, Alex asked if I could ifdef tcg_reg_alloc_dup2
+instead of assert within it.  Answer: No, not without adding
+still more ifdefs to compensate.  In the end I prefer the assert.
 
-I know you were quoting me, but the [comment] can be dropped (I wrote my 
-audit on patches in isolation while reviewing the pre-series state of 
-the tree, but when this commit is finally applied, the previous patch 
-will already be in place)
+V3 fixes the target/sparc regression during register allocation.
 
-> 
->      So even with the wider type, we aren't exceeding the contract of
->      anything we pass it on to.  Later patches may improve
->      drv->bdrv_co_pwrite_zeroes and qemu_iovec_init_buf to be 64-bit
->      clean, at which point we would want to revisit this function to use
->      64-bit clamping rather than 32-bit clamping, but it does not have
->      to happen here.
-> 
-> Series: 64bit-block-status
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->   block/io.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
+V1 blurb:
+
+This promotes constants to full-fledged temporaries, which are then
+hashed so we have only a single copy across the TB.  If an opcode
+requires forcing one into a register, then we will only do this
+once -- at least until the register is killed, e.g. by a function call.
+
+While this is probably an modest improvement for integer code, it is
+significant for SVE vector code.  In particular, where a generator function
+loads a constant for the operation, and then the generator function is
+called N times for the N x 128-bit vector.  Previously we'd be loading
+up the same constant N times and now we do so only once.
+
+The existing tcg_const_{type}() functions are unchanged, allocating
+a new temporary and initializing it.  The constant propagation pass
+of the optimizer will generally remove the temporary when it turns
+out not to be modified further.
+
+This adds new tcg_constant_{type}() functions which produce a read-only
+temporary containing the constant which need not be freed.  I have
+updated the generic expanders to take advantage of this, but have not
+touched the target front ends.
+
+This also, in the end, allows the complete removal of the tcg opcodes
+that create a constant: INDEX_op_movi_{i32,i64} and INDEX_op_dupi_vec.
+Loading of constants into hard registers is completely controlled by
+the register allocator.
+
+
+r~
+
+
+Richard Henderson (19):
+  tcg: Consolidate 3 bits into enum TCGTempKind
+  tcg: Add temp_readonly
+  tcg: Introduce TYPE_CONST temporaries
+  tcg: Use tcg_constant_i32 with icount expander
+  tcg: Use tcg_constant_{i32,i64} with tcg int expanders
+  tcg: Use tcg_constant_{i32,vec} with tcg vec expanders
+  tcg: Use tcg_constant_{i32,i64,vec} with tcg gvec expanders
+  tcg: Use tcg_constant_{i32,i64} with tcg plugins
+  tcg: Rename struct tcg_temp_info to TempOptInfo
+  tcg/optimize: Improve find_better_copy
+  tcg/optimize: Adjust TempOptInfo allocation
+  tcg/optimize: Use tcg_constant_internal with constant folding
+  tcg/tci: Add special tci_movi_{i32,i64} opcodes
+  tcg: Remove movi and dupi opcodes
+  tcg: Use tcg_out_dupi_vec from temp_load
+  tcg: Increase tcg_out_dupi_vec immediate to int64_t
+  tcg: Add tcg_reg_alloc_dup2
+  tcg/i386: Use tcg_constant_vec with tcg vec expanders
+  tcg: Remove tcg_gen_dup{8,16,32,64}i_vec
+
+ include/exec/gen-icount.h    |  25 +--
+ include/tcg/tcg-op.h         |  17 +-
+ include/tcg/tcg-opc.h        |  11 +-
+ include/tcg/tcg.h            |  50 ++++-
+ accel/tcg/plugin-gen.c       |  49 ++---
+ tcg/aarch64/tcg-target.inc.c |  12 +-
+ tcg/arm/tcg-target.inc.c     |   1 -
+ tcg/i386/tcg-target.inc.c    | 110 ++++++----
+ tcg/mips/tcg-target.inc.c    |   2 -
+ tcg/optimize.c               | 204 +++++++++---------
+ tcg/ppc/tcg-target.inc.c     |  24 +--
+ tcg/riscv/tcg-target.inc.c   |   2 -
+ tcg/s390/tcg-target.inc.c    |   2 -
+ tcg/sparc/tcg-target.inc.c   |   2 -
+ tcg/tcg-op-gvec.c            | 125 +++++------
+ tcg/tcg-op-vec.c             |  83 ++++----
+ tcg/tcg-op.c                 | 216 +++++++++----------
+ tcg/tcg.c                    | 397 ++++++++++++++++++++++++++---------
+ tcg/tci.c                    |   4 +-
+ tcg/tci/tcg-target.inc.c     |   6 +-
+ 20 files changed, 751 insertions(+), 591 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.20.1
 
 
