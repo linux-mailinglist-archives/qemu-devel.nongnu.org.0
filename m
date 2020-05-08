@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A597F1CB63B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 19:44:49 +0200 (CEST)
-Received: from localhost ([::1]:37216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5541CB709
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 20:22:52 +0200 (CEST)
+Received: from localhost ([::1]:37842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX73I-00048e-7i
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 13:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50544)
+	id 1jX7e7-0004Mg-Vr
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 14:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX72M-0003EA-Jp
- for qemu-devel@nongnu.org; Fri, 08 May 2020 13:43:50 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:31475
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX72K-0001Iv-AC
- for qemu-devel@nongnu.org; Fri, 08 May 2020 13:43:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588959826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QwqCc54WUdJ8IVQXs2aqqbwWsReBPOchijLtWuJi0cI=;
- b=HpxfkrbxqA1m6duttNhTp3hc1OplbRP3xxLZJJsbjUpdERtD6SEMw4rZRuoofAI404xoO9
- CRVC0l2yALd9zKlvM0vvP5RJ0TOsQBMuwrrkL/Kc5j6By8RyQvadMNp/HlGLEp/cOSFaNA
- ZFY223+OqEG42QNjMTCrAM3t3kLqJfo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-115-81JlH9euNw6q_xTm-u9__Q-1; Fri, 08 May 2020 13:43:45 -0400
-X-MC-Unique: 81JlH9euNw6q_xTm-u9__Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15BF219200C0;
- Fri,  8 May 2020 17:43:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C11F42E188;
- Fri,  8 May 2020 17:43:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4D86C11358BC; Fri,  8 May 2020 19:43:42 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] cpus: Fix botched configure_icount() error API violation
- fix
-References: <20200508104933.19051-1-armbru@redhat.com>
-Date: Fri, 08 May 2020 19:43:42 +0200
-In-Reply-To: <20200508104933.19051-1-armbru@redhat.com> (Markus Armbruster's
- message of "Fri, 8 May 2020 12:49:33 +0200")
-Message-ID: <87lfm2wcdt.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 11:31:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <arbab@linux.ibm.com>)
+ id 1jX7Hi-0004io-Jf; Fri, 08 May 2020 13:59:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <arbab@linux.ibm.com>)
+ id 1jX7Hh-0002k1-61; Fri, 08 May 2020 13:59:42 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 048HXm7c056383; Fri, 8 May 2020 13:59:32 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30vtt449a5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 May 2020 13:59:32 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 048HtLYx023932;
+ Fri, 8 May 2020 17:59:31 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma03dal.us.ibm.com with ESMTP id 30s0g88vgg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 May 2020 17:59:31 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 048HxUOb55050590
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 8 May 2020 17:59:30 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AC370AC05B;
+ Fri,  8 May 2020 17:59:30 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 31B3FAC059;
+ Fri,  8 May 2020 17:59:30 +0000 (GMT)
+Received: from arbab-laptop.localdomain (unknown [9.65.228.143])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with SMTP;
+ Fri,  8 May 2020 17:59:30 +0000 (GMT)
+Received: by arbab-laptop.localdomain (Postfix, from userid 152845)
+ id C0D854606EE; Fri,  8 May 2020 12:59:27 -0500 (CDT)
+From: Reza Arbab <arbab@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH] spapr: Add a new level of NUMA for GPUs
+Date: Fri,  8 May 2020 12:59:27 -0500
+Message-Id: <20200508175927.21791-1-arbab@linux.ibm.com>
+X-Mailer: git-send-email 2.18.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-08_16:2020-05-08,
+ 2020-05-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ spamscore=0 clxscore=1011 priorityscore=1501 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005080147
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=arbab@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 13:59:37
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 08 May 2020 14:22:03 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,33 +89,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>,
+ Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+NUMA nodes corresponding to GPU memory currently have the same
+affinity/distance as normal memory nodes. Add a third NUMA associativity
+reference point enabling us to give GPU nodes more distance.
 
-> Fixes: abc9bf69a66a11499a801ff545b8fe7adbb3a04c
-> Fixes: Coverity CID 1428754
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  cpus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/cpus.c b/cpus.c
-> index 5670c96bcf..b9275c672d 100644
-> --- a/cpus.c
-> +++ b/cpus.c
-> @@ -813,7 +813,7 @@ void configure_icount(QemuOpts *opts, Error **errp)
->          return;
->      }
->  
-> -    if (strcmp(option, "auto") != 0) {
-> +    if (option && !strcmp(option, "auto")) {
->          if (qemu_strtol(option, NULL, 0, &time_shift) < 0
->              || time_shift < 0 || time_shift > MAX_ICOUNT_SHIFT) {
->              error_setg(errp, "icount: Invalid shift value");
+Before, `numactl -H` output in a guest with 4 GPUs (nodes 2-5):
 
-Nonsense.  I shouldn't multi-task.
+node distances:
+node   0   1   2   3   4   5
+  0:  10  40  40  40  40  40
+  1:  40  10  40  40  40  40
+  2:  40  40  10  40  40  40
+  3:  40  40  40  10  40  40
+  4:  40  40  40  40  10  40
+  5:  40  40  40  40  40  10
+
+After:
+
+node distances:
+node   0   1   2   3   4   5
+  0:  10  40  80  80  80  80
+  1:  40  10  80  80  80  80
+  2:  80  80  10  80  80  80
+  3:  80  80  80  10  80  80
+  4:  80  80  80  80  10  80
+  5:  80  80  80  80  80  10
+
+These are the same distances as on the host, mirroring the change made
+to host firmware in skiboot commit f845a648b8cb ("numa/associativity:
+Add a new level of NUMA for GPU's").
+
+Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
+---
+ hw/ppc/spapr.c             | 6 +++++-
+ hw/ppc/spapr_pci_nvlink2.c | 8 +++-----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index c18eab0a2305..53567f98f0c6 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -892,7 +892,11 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+     int rtas;
+     GString *hypertas = g_string_sized_new(256);
+     GString *qemu_hypertas = g_string_sized_new(256);
+-    uint32_t refpoints[] = { cpu_to_be32(0x4), cpu_to_be32(0x4) };
++    uint32_t refpoints[] = {
++        cpu_to_be32(0x4),
++        cpu_to_be32(0x4),
++        cpu_to_be32(0x2),
++    };
+     uint64_t max_device_addr = MACHINE(spapr)->device_memory->base +
+         memory_region_size(&MACHINE(spapr)->device_memory->mr);
+     uint32_t lrdr_capacity[] = {
+diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+index 8332d5694e46..f2cb26019e88 100644
+--- a/hw/ppc/spapr_pci_nvlink2.c
++++ b/hw/ppc/spapr_pci_nvlink2.c
+@@ -37,8 +37,6 @@
+ #define PHANDLE_NVLINK(phb, gn, nn)  (0x00130000 | (((phb)->index) << 8) | \
+                                      ((gn) << 4) | (nn))
+ 
+-#define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+-
+ typedef struct SpaprPhbPciNvGpuSlot {
+         uint64_t tgt;
+         uint64_t gpa;
+@@ -361,9 +359,9 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *sphb, void *fdt)
+                                                     "nvlink2-mr[0]", NULL);
+         uint32_t associativity[] = {
+             cpu_to_be32(0x4),
+-            SPAPR_GPU_NUMA_ID,
+-            SPAPR_GPU_NUMA_ID,
+-            SPAPR_GPU_NUMA_ID,
++            cpu_to_be32(nvslot->numa_id),
++            cpu_to_be32(nvslot->numa_id),
++            cpu_to_be32(nvslot->numa_id),
+             cpu_to_be32(nvslot->numa_id)
+         };
+         uint64_t size = object_property_get_uint(nv_mrobj, "size", NULL);
+-- 
+2.18.1
 
 
