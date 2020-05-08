@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF66E1CAE0C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:10:19 +0200 (CEST)
-Received: from localhost ([::1]:56756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344FF1CADA0
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:06:21 +0200 (CEST)
+Received: from localhost ([::1]:40018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2le-00016g-TB
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:10:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53886)
+	id 1jX2ho-0002dz-7W
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:06:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jX2X1-0007Zc-Jj
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:55:11 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40196)
+ id 1jX2Yi-0002MT-8k
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:56:56 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:43008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jX2X0-0003mD-PJ
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:55:11 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e16so1717256wra.7
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 05:55:10 -0700 (PDT)
+ id 1jX2Yh-00089g-7h
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:56:55 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id o198so866397ybg.10
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 05:56:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/hmWHO6d7/G558em/hObj2NusDs/d8TWPYPLgPOejdI=;
- b=VHqHdCsXsWwK9GVzrfW/O6tznjR6I3uF04yXtT+oEdybe91qHsx0QcYw82/duS4G2G
- /w3m+ttQroKp4YSaphGSVf2zWFT/fe7YJouZztz8qtVLiPULHWS2whqY3R8G3Ux0rvyU
- u8SiwngO0NS04C1o+pMwvbYqGGMjYf3Ognsig3hntgozWSagpERhhSFRymc9g5Y1mrUw
- I74t3it7G4ZekXJeetLnWidU9Ob9ZLieDLalQqbdrI7KgzIoWt9ZFVxInmiOmDxAvWP9
- bfMkMbPvLd+2P3hspmMnGhOYU19zMDBpuMrCLNk82i++iBpai0U61yIQb3r+H1tRlsZN
- fNHg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yawplcW+s6eTVKC/zWKsoN6KA2rF31bdzEEW/HgGGac=;
+ b=IUInBYh76Q54mYfArJG3VoyNFXlZ2uUWKhnBJ5ynLRwgyAzPfZ8HiFPeKQp49qwEVh
+ vYN5EXqf6wirszmOkD3iCOeaI40Ue9O6f/FihrM5ExbPwr2Pcml1DgjEhRbwSoQhVOkf
+ 9Mk0AN0/PxB9jBABQiZRIS3tBUUMcnxrI3icYDME79rx5ekJn8c4yxcenhUf3VNnl+QW
+ WjOUsEVzne10Wddjb3OAPOnmhYJMOxKGfmjxmiNagDZEa+88L6t6gPWc+wsFXH0PdB0x
+ Hyh0A5I3gsNJ/gm5e71JiMfAqzlk8y0vsLjNZz2cVj5equ7y7OC2/x1+btomwbTCCfjf
+ 6pIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=/hmWHO6d7/G558em/hObj2NusDs/d8TWPYPLgPOejdI=;
- b=sC5r+CAsGyD3HgNPRFS2iMB8k4Un06C6/1TBYkSWkM53qXwwxg4U9wE2IZgugQBtoi
- qOaXkqSoWppNjfm0BlIXyi6TpnZZY/7yMv5OAnc9zqng8nQdtrqdfRHx9Y4HdEiJMYU7
- ut1tdrVJeRRvkm5WYOYeRrs9aD4P4YtBPd3dftOnCaQmMmVsYNApnCOQ4YRNWDRHldOU
- LyuKEd4EFK2KRWNsbYstjRMMOpuXTmy+sKAE18Mp4YXxdPRWf8TPz4XTLTB1Qty89myt
- Dz8NC75L/a1b6BiLDZj60UOYLuCAdJ25uvwU1glhP8aBYlBDtXWh0qgl2mqT/6ROg39P
- QOXA==
-X-Gm-Message-State: AGi0PuZY8EBbd1h26z2cG6d/BXn+Xd6UpvHqt6BxcId+teFPOqXc7ZZC
- IVQX/8VIgOXx4DRWCG5YU6WE5HWfHVLaUg==
-X-Google-Smtp-Source: APiQypLiO+cg10X08BMNDGKyHzEKQO1Nxap5HLqnuE/19vW/GqbqXbYYe2QNzW7hT3A7gzxQijl5SQ==
-X-Received: by 2002:adf:e64c:: with SMTP id b12mr2762220wrn.131.1588942509339; 
- Fri, 08 May 2020 05:55:09 -0700 (PDT)
-Received: from f2.redhat.com (bzq-79-183-19-16.red.bezeqint.net.
- [79.183.19.16])
- by smtp.gmail.com with ESMTPSA id a8sm2852375wrg.85.2020.05.08.05.55.08
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 08 May 2020 05:55:08 -0700 (PDT)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
- quintela@redhat.com, dgilbert@redhat.com
-Subject: [PATCH 7/7] virtio-net: align RSC fields with updated virtio-net
- header
-Date: Fri,  8 May 2020 15:54:52 +0300
-Message-Id: <20200508125452.7802-8-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200508125452.7802-1-yuri.benditovich@daynix.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yawplcW+s6eTVKC/zWKsoN6KA2rF31bdzEEW/HgGGac=;
+ b=YBXmzr9RZzv4HYdhEX4q6CJ4QXG5Y8kGgETyyvuC/KrLg++Bh3fyJ8znjJrd2TtHos
+ rK1J+aCMMfKOfKDBIHfwl/HGtcOo4cU3A3r7sCCdEIkoYvwLhIIJETMUQ/Iu6MryUcCI
+ hCDA4RQMt52ln50XW2FZRmpAa1H+yJQ+BcmOn4kbS+bfsRzCE0SUA0JXYbSj5mPx+u5G
+ 2hLOc0b8sFXsWmwFYP7sTT/i3vgcdeVz/X0k1NAx4ZrtXx3V8eMQZX8gQr7wrJaNP63Z
+ fjLwcLRx/91oSeWCPU+/mY5sRYBRHAqe7SsCtnOWtvrk3u79RuRYTKuBXFgaJGegLMSW
+ O7Pw==
+X-Gm-Message-State: AGi0PuYzbQ7R3qh54CfHQPmk6NmpJJ0shh9h4mwuf2DKbqn9cCB+o7d6
+ VC/f/hvLuVIc//cGnsUh7ORsNJvLrqUdinMinwqVJL/0v6g=
+X-Google-Smtp-Source: APiQypKxxEd1TGBRwSCDhZNf082yNPNfFXZFbv2vI/UNFGTTUyusYAtHqa1ZGphjjFekvadl2Gga7GrrG1MzCKYMsbA=
+X-Received: by 2002:a25:3a03:: with SMTP id h3mr4467883yba.265.1588942613672; 
+ Fri, 08 May 2020 05:56:53 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200508125452.7802-1-yuri.benditovich@daynix.com>
-Received-SPF: none client-ip=2a00:1450:4864:20::443;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-wr1-x443.google.com
+In-Reply-To: <20200508125452.7802-1-yuri.benditovich@daynix.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Fri, 8 May 2020 15:56:41 +0300
+Message-ID: <CAOEp5OcvTsw-pqMKoK-5K0NRS_bt7P2MRr_pJiSH0cHNvdp9ww@mail.gmail.com>
+Subject: Re: [PATCH 0/7] reference implementation of RSS and hash report
+To: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, 
+ quintela@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000e8aea05a5228872"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b41;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-yb1-xb41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,70 +80,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: Yan Vugenfirer <yan@daynix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Removal of duplicated RSC definitions. Changing names of the
-fields to ones defined in the Linux header.
+--0000000000000e8aea05a5228872
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- hw/net/virtio-net.c | 28 ++++------------------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
+Please ignore mistaken v7 instead of v8
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index c263b1511d..10b4ba50ad 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -88,26 +88,6 @@
-                                          VIRTIO_NET_RSS_HASH_TYPE_TCP_EX | \
-                                          VIRTIO_NET_RSS_HASH_TYPE_UDP_EX)
- 
--/* temporary until standard header include it */
--#if !defined(VIRTIO_NET_HDR_F_RSC_INFO)
--
--#define VIRTIO_NET_HDR_F_RSC_INFO  4 /* rsc_ext data in csum_ fields */
--#define VIRTIO_NET_F_RSC_EXT       61
--
--#endif
--
--static inline __virtio16 *virtio_net_rsc_ext_num_packets(
--    struct virtio_net_hdr *hdr)
--{
--    return &hdr->csum_start;
--}
--
--static inline __virtio16 *virtio_net_rsc_ext_num_dupacks(
--    struct virtio_net_hdr *hdr)
--{
--    return &hdr->csum_offset;
--}
--
- static VirtIOFeature feature_sizes[] = {
-     {.flags = 1ULL << VIRTIO_NET_F_MAC,
-      .end = endof(struct virtio_net_config, mac)},
-@@ -1821,15 +1801,15 @@ static size_t virtio_net_rsc_drain_seg(VirtioNetRscChain *chain,
-                                        VirtioNetRscSeg *seg)
- {
-     int ret;
--    struct virtio_net_hdr *h;
-+    struct virtio_net_hdr_v1 *h;
- 
--    h = (struct virtio_net_hdr *)seg->buf;
-+    h = (struct virtio_net_hdr_v1 *)seg->buf;
-     h->flags = 0;
-     h->gso_type = VIRTIO_NET_HDR_GSO_NONE;
- 
-     if (seg->is_coalesced) {
--        *virtio_net_rsc_ext_num_packets(h) = seg->packets;
--        *virtio_net_rsc_ext_num_dupacks(h) = seg->dup_ack;
-+        h->rsc.segments = seg->packets;
-+        h->rsc.dup_acks = seg->dup_ack;
-         h->flags = VIRTIO_NET_HDR_F_RSC_INFO;
-         if (chain->proto == ETH_P_IP) {
-             h->gso_type = VIRTIO_NET_HDR_GSO_TCPV4;
--- 
-2.17.1
+On Fri, May 8, 2020 at 3:54 PM Yuri Benditovich <yuri.benditovich@daynix.com>
+wrote:
 
+> Support for VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT
+> features in QEMU for reference purpose.
+> Implements Toeplitz hash calculation for incoming
+> packets according to configuration provided by driver.
+> Uses calculated hash for decision on receive virtqueue
+> and/or reports the hash in the virtio header
+>
+> Changes from v7:
+> Patch 7.1: removed (RSS and hash report definitions)
+> Patch 7.2: delete configuration struct with RSS definitions
+> Patch 7.4: delete duplicated packet structure
+> Added patch 7 - adapt RSC definitions to updated header
+>
+> Yuri Benditovich (7):
+>   virtio-net: implement RSS configuration command
+>   virtio-net: implement RX RSS processing
+>   tap: allow extended virtio header with hash info
+>   virtio-net: reference implementation of hash report
+>   vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
+>   virtio-net: add migration support for RSS and hash report
+>   virtio-net: align RSC fields with updated virtio-net header
+>
+>  hw/net/trace-events            |   3 +
+>  hw/net/virtio-net.c            | 387 +++++++++++++++++++++++++++++----
+>  include/hw/virtio/virtio-net.h |  16 ++
+>  include/migration/vmstate.h    |  10 +
+>  net/tap.c                      |   3 +-
+>  5 files changed, 379 insertions(+), 40 deletions(-)
+>
+> --
+> 2.17.1
+>
+>
+
+--0000000000000e8aea05a5228872
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Please ignore mistaken v7 instead of v8</div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 8, 2020=
+ at 3:54 PM Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich@daynix.=
+com">yuri.benditovich@daynix.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">Support for VIRTIO_NET_F_RSS and VIRTIO_NE=
+T_F_HASH_REPORT<br>
+features in QEMU for reference purpose.<br>
+Implements Toeplitz hash calculation for incoming<br>
+packets according to configuration provided by driver.<br>
+Uses calculated hash for decision on receive virtqueue<br>
+and/or reports the hash in the virtio header<br>
+<br>
+Changes from v7:<br>
+Patch 7.1: removed (RSS and hash report definitions)<br>
+Patch 7.2: delete configuration struct with RSS definitions<br>
+Patch 7.4: delete duplicated packet structure<br>
+Added patch 7 - adapt RSC definitions to updated header<br>
+<br>
+Yuri Benditovich (7):<br>
+=C2=A0 virtio-net: implement RSS configuration command<br>
+=C2=A0 virtio-net: implement RX RSS processing<br>
+=C2=A0 tap: allow extended virtio header with hash info<br>
+=C2=A0 virtio-net: reference implementation of hash report<br>
+=C2=A0 vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro<br>
+=C2=A0 virtio-net: add migration support for RSS and hash report<br>
+=C2=A0 virtio-net: align RSC fields with updated virtio-net header<br>
+<br>
+=C2=A0hw/net/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A03 +<br>
+=C2=A0hw/net/virtio-net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 387 ++=
++++++++++++++++++++++++++++----<br>
+=C2=A0include/hw/virtio/virtio-net.h |=C2=A0 16 ++<br>
+=C2=A0include/migration/vmstate.h=C2=A0 =C2=A0 |=C2=A0 10 +<br>
+=C2=A0net/tap.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
+=C2=A05 files changed, 379 insertions(+), 40 deletions(-)<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
+</blockquote></div>
+
+--0000000000000e8aea05a5228872--
 
