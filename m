@@ -2,93 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D62001CA5A3
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:02:55 +0200 (CEST)
-Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7A51CA5AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:04:49 +0200 (CEST)
+Received: from localhost ([::1]:36394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWxyA-0001Uw-Rh
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41768)
+	id 1jWy00-0003c5-MP
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:04:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWxx3-0000fV-G5
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:01:45 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35055
+ id 1jWxyv-00030R-Vf
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:03:41 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:39350
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWxx2-0002op-ND
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:01:45 -0400
+ id 1jWxyt-0005jk-KQ
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:03:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588924904;
+ s=mimecast20190719; t=1588925018;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=65ssXkaSSraLTnCVIM8DWlt4bh27ueore7tly090W2g=;
- b=BjBbZv36l67AE0CrRnHFb70yAjZLdv93IbLTsyekiVw3hHIVh3y6uN73SNREXie9PLB4io
- LUsRmJ1l/PD7uJsvEXDJT06ayHChkTeDwUemtuqV3cujXc2o6iR24+8e06p+oIQPHK0Gvn
- yDw/PO01Lk9AcQ60IsXFAphZUI/Y/e8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-qDxHuMD1PiawquCmi-PyIQ-1; Fri, 08 May 2020 04:01:42 -0400
-X-MC-Unique: qDxHuMD1PiawquCmi-PyIQ-1
-Received: by mail-wm1-f72.google.com with SMTP id o11so2580594wme.8
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:01:42 -0700 (PDT)
+ bh=0Bax9nR8cg/d6UliQhNebvDqtE1Yo3CgNVTbDeNVvyA=;
+ b=JZjVc0zrrLixbpaATtpqOURfNrIL1kZajicDJPseiZfi4fsWW9DrrcTMmzXPQQ5BnKd/QC
+ KxJM/Ue2yR5V503C9oX1o+pGTZy3mBmQ7xgI+9NmvdB0aa72rw3s78jd75xWAfvyLi0wsU
+ UGYGzUYwg8hhML5Xr+YB1/8cuEISByM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-444--GOEBp3MNuOzjIox5109jw-1; Fri, 08 May 2020 04:03:37 -0400
+X-MC-Unique: -GOEBp3MNuOzjIox5109jw-1
+Received: by mail-wm1-f70.google.com with SMTP id h6so4811824wmi.7
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:03:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=65ssXkaSSraLTnCVIM8DWlt4bh27ueore7tly090W2g=;
- b=rb8svnT+jPgO4rbF0M3fBxixEAf1cZh/wFrbagv+uLHQCi9sFjhwyw7YukGwNuv9/+
- Xlov6ldxrKMV8AlvQv36qbpgfaIqdkpiFqBmZLojZhZHfEqOOsRyWr4L/gLtJ2WcuIXX
- WoFx9Je+VKrQ3v8boIQkNjRh+pw3bygOQJfCPd56niKOkWaXka/TtXxzSUL53hsn6PFw
- LeXKTdbL6BkPPL91D4cYtA5K7FOQyCqUdEflJaSkAf54D4Mj0Uq2u7Dh9Z7qJnGe44O9
- ELGlvzkTkbY4gAHKdy70ZB23icMry2P2OSb9uQRwLIx5m0gFT6cChCfCUWeRU8N1tSBl
- LEDg==
-X-Gm-Message-State: AGi0PuZjnJIaWB27BQ0diCfTx4npJC5wYReZjJa3qxu3MNDlI5lcu+kZ
- aftxhanfSfB8HC1OChyTMy51p1f1Q4QOqgQBjYqpmOSafUtz9wNwzGAWmbUuEvympq4xcfFQ2sl
- J4oLmAnE9m+Bh0jo=
-X-Received: by 2002:a5d:5646:: with SMTP id j6mr1491572wrw.207.1588924900847; 
- Fri, 08 May 2020 01:01:40 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLwfOk3kzezxVkw6obUCkIcXsnUOLMfGeFdxGMdQtj78RHJNldWgkOfApTqx4kaQRDNz9o73w==
-X-Received: by 2002:a5d:5646:: with SMTP id j6mr1491534wrw.207.1588924900646; 
- Fri, 08 May 2020 01:01:40 -0700 (PDT)
+ bh=0Bax9nR8cg/d6UliQhNebvDqtE1Yo3CgNVTbDeNVvyA=;
+ b=Q10ZsSXNh9KmuLmpGV6r53c0HVgEWnIhq929Ww54+1aj9MJHkgeJ5u3Ha3E8dVjlBn
+ nIRdwYe04dPTg0wCnE06cLJ9R8RpK3SuFpFvuiQhDSewQbI0/yZqwo6LdXfoDTm3dp/Y
+ oYrgYCDbFQAjaQJvYzy73OROCbCxoAusZrBYy0hI41W9gHod+gWUt2bDTmz3cclbcvnb
+ RpBM+i59+9vfMXf2XlgUTQ+1Clfk1CQhmEyLA1V9LqCPK0qc7AZOwbFyaVbh/SNoWOyE
+ z3Mq3ld193zu1CnSGWWvdZNrHmVRg3sPb+J/NbixqDUeVhBnPXIQOUinikIEDoK1axu0
+ J+SA==
+X-Gm-Message-State: AGi0Pubw+fKU0iZVZlNWdJgcI9N1VeAL7IikjRpB4QJB0Ul1eqcwGFHY
+ MMjb9Cz1tZ/EhwdtJ3HFLMRKHEIjhFV8eHhdaFvbcZ35DMO01V+6pu1f3icEgQu1jcQvKQtdmbw
+ C7s8G++I4WQOlHQE=
+X-Received: by 2002:adf:fccd:: with SMTP id f13mr1503951wrs.386.1588925015546; 
+ Fri, 08 May 2020 01:03:35 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLMT+dtHBorN8AhWjT5Gp1Kf69qs5b/8ap0xyafE0nCALekGOmYNQEhZ7aAu08EjLOAeFupdQ==
+X-Received: by 2002:adf:fccd:: with SMTP id f13mr1503907wrs.386.1588925015243; 
+ Fri, 08 May 2020 01:03:35 -0700 (PDT)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id 92sm1667796wrm.71.2020.05.08.01.01.39
+ by smtp.gmail.com with ESMTPSA id t4sm1709351wri.54.2020.05.08.01.03.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 01:01:40 -0700 (PDT)
+ Fri, 08 May 2020 01:03:33 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 04/10] exec/memory-internal: Check CONFIG_SOFTMMU instead
- of CONFIG_USER_ONLY
-In-Reply-To: <20200507173958.25894-5-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 7 May 2020 19:39:52
+Subject: Re: [PATCH 05/10] exec: Move qemu_minrampagesize/qemu_maxrampagesize
+ to 'qemu-common.h'
+In-Reply-To: <20200507173958.25894-6-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 7 May 2020 19:39:53
  +0200")
 References: <20200507173958.25894-1-philmd@redhat.com>
- <20200507173958.25894-5-philmd@redhat.com>
+ <20200507173958.25894-6-philmd@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Fri, 08 May 2020 10:01:38 +0200
-Message-ID: <87r1vug8il.fsf@secure.mitica>
+Date: Fri, 08 May 2020 10:03:32 +0200
+Message-ID: <87mu6ig8ff.fsf@secure.mitica>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,9 +105,9 @@ Reply-To: quintela@redhat.com
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Cornelia Huck <cohuck@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
  qemu-ppc@nongnu.org, Keith Busch <kbusch@kernel.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
@@ -117,11 +117,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> The CONFIG_SOFTMMU definition is poisoned in "exec/poison.h".
-> As this header is internal, check for poisoned CONFIG_SOFTMMU
-> instead of CONFIG_USER_ONLY to make this include harder to use.
+> Move these generic functions to a more common place, with other
+> functions related to host page size. Document a little.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>>
+> Cc: Alexey Kardashevskiy <aik@ozlabs.ru>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
