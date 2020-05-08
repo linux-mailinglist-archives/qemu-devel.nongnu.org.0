@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09EEC1CAE07
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:09:25 +0200 (CEST)
-Received: from localhost ([::1]:52790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CA11CAF6D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:18:37 +0200 (CEST)
+Received: from localhost ([::1]:54012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2km-0007us-0u
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55126)
+	id 1jX2tg-0005Bo-Vz
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:18:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2d3-0003eh-6J
- for qemu-devel@nongnu.org; Fri, 08 May 2020 09:01:25 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51418
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jX2ie-0005Ho-C3
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 09:07:12 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45901
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2cx-0000cK-JH
- for qemu-devel@nongnu.org; Fri, 08 May 2020 09:01:24 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jX2ic-00076X-Sc
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 09:07:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588942876;
+ s=mimecast20190719; t=1588943228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j9bv+IvwU1JVdJT6Na2PKEdPF9l/Chz715FKIVQ4vTk=;
- b=gyZuUjrDeXFxO2hIfUoBwyY2FVFJU3e1hwEAVeLczRQi93QmX1oDY+EETMll2b5Cd219J9
- 5tmPTv3bUtenPG+Ov6qyNKnWzKLetaV4HA/zU6iMRNzU1qHw6NhtJv35buoNzKv9XKtssD
- Q3UB0M5qctmClJWOsPicBbesQtIcqXo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-97-ATqexkDjN9OE73ss6oPNbw-1; Fri, 08 May 2020 09:01:14 -0400
-X-MC-Unique: ATqexkDjN9OE73ss6oPNbw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D258EC1A9;
- Fri,  8 May 2020 13:01:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 696F31002380;
- Fri,  8 May 2020 13:01:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E468611358BC; Fri,  8 May 2020 15:01:05 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [PATCH v4 00/34] Configurable policy for handling deprecated
- interfaces
-References: <20200317115459.31821-1-armbru@redhat.com>
- <20200504082439.GC2102825@angien.pipo.sk>
-Date: Fri, 08 May 2020 15:01:05 +0200
-In-Reply-To: <20200504082439.GC2102825@angien.pipo.sk> (Peter Krempa's message
- of "Mon, 4 May 2020 10:24:39 +0200")
-Message-ID: <874ksqy41a.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
+ bh=gmqnEPBHm7xS7uPpmghTJS93/hexnmN1g25lr9BQt+o=;
+ b=R72H5Ka1e0dI2dt9FYkC1R3i3KeatX1EVfnnvo9FARsJwh2fIpFATj2nty3kwt/SVy4m1Q
+ +Sh0qO3so1xMd2maBtNPVU/0aY426ETV2B0ucwjUNBFBeBBjCr6nerjrIc+yDfNsSEmBEj
+ nSfs2bXQlKQ9rUAsYWs0/04xDDGYljM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-MHcayo9WPputGo5AvLYI-Q-1; Fri, 08 May 2020 09:07:07 -0400
+X-MC-Unique: MHcayo9WPputGo5AvLYI-Q-1
+Received: by mail-wm1-f69.google.com with SMTP id d134so5335401wmd.0
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 06:07:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3FKuiRR3O8LmcwZdbwLVvVLWFoqltBGT9KYsB06Dmlc=;
+ b=OXExFpyJFt5Y8TYZgjm88VY8rbr12MjNTsy0BZKF6OdDyXE+BfFOFT6Q6ZwXwJ1d7m
+ HCKzDVvHtNhTSetFkAdRFeRTMXBMpLc+yoW0F0hv8R45Vu9UtQci/yb/HfLdg21LOhT9
+ 9OmzBTv7HzCuUmOUWMrsAXtRpy7sTFZNZuBXoy6SUoXGDXNJ7CIQHpnPTr2y1MnAX+y/
+ HZtT5g+I9aytMCkn6Ezdx4UU6iIw3mYbxKYj+iTGUYB5JFWsO+vMTFoR1LejrpqHdqpR
+ TPi3g+D6JMRvyKSGxTxIQtdx/sP8hDiJ//L9uWolmAggzGaMOjNK6rCZm7Cpf6wTesrH
+ RPFA==
+X-Gm-Message-State: AGi0PuZEQ4Smggv25GYzqm94qTMATLpz3qFtoyXj/6bkp9xrDhny6ky/
+ JBYcZa/shg4WBWwVSGEzf/J6O2Kal4kTCrjclzovFKT9WwuS2Ae9xrQSyDEg8yOY+JAbIXIwybK
+ FX/mOBePQZUX+YaE=
+X-Received: by 2002:adf:a4c5:: with SMTP id h5mr2832404wrb.408.1588943225516; 
+ Fri, 08 May 2020 06:07:05 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKG4xW3KRV/fDEhzMFe4Pz4n1cZWNNoXFxlxOQyfKnh9LaKTzW8uAsA83mdCwAK3t0IY1ARdA==
+X-Received: by 2002:adf:a4c5:: with SMTP id h5mr2832381wrb.408.1588943225280; 
+ Fri, 08 May 2020 06:07:05 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id b14sm89508wmb.18.2020.05.08.06.07.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 May 2020 06:07:04 -0700 (PDT)
+Subject: Re: [PATCH] tests/acceptance/boot_linux: Skip slow Aarch64 'virt'
+ machine TCG test
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200507162235.1790-1-philmd@redhat.com>
+ <874ksr615d.fsf@linaro.org>
+ <CAFEAcA800Lhgqa6gOWmA5M2D3+Xj0hYcJw9Tkget4yvW5fFs+A@mail.gmail.com>
+ <871rnv5vva.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <15b8c809-d8f8-4ca0-9815-d35a87fc5f83@redhat.com>
+Date: Fri, 8 May 2020 15:07:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <871rnv5vva.fsf@linaro.org>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,7 +89,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,82 +102,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- libvir-list@redhat.com, qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com,
- marcandre.lureau@gmail.com, libguestfs@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Krempa <pkrempa@redhat.com> writes:
+On 5/7/20 10:32 PM, Alex Benn=C3=A9e wrote:
+>=20
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>=20
+>> On Thu, 7 May 2020 at 19:38, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>>
+>>>
+>>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>>
+>>>> The BootLinuxAarch64.test_virt_tcg is reported to take >7min to run.
+>>>> Add a possibility to users to skip this particular test, by setting
+>>>> the AVOCADO_SKIP_SLOW_TESTS environment variable:
+>>>>
+>>>>    $ AVOCADO_SKIP_SLOW_TESTS=3Dplease make check-acceptance
+>>>>    ...
+>>>>      (05/88) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt=
+_tcg: SKIP: Test takes >7min
+>>>>    ...
+>>>
+>>> 7m =3D 420s - I'm seeing:
+>>>
+>>>    hyperfine "./tests/venv/bin/avocado run ./tests/acceptance/boot_linu=
+x.py:BootLinuxAarch64.test_virt_tcg"
+>>>    Benchmark #1: ./tests/venv/bin/avocado run ./tests/acceptance/boot_l=
+inux.py:BootLinuxAarch64.test_virt_tcg
+>>>      Time (mean =C2=B1 =CF=83):     162.179 s =C2=B1  3.138 s    [User:=
+ 204.726 s, System: 9.663 s]
+>>>      Range (min =E2=80=A6 max):   158.651 s =E2=80=A6 170.036 s    10 r=
+uns
+>>>
+>>> Is this on very slow hardware?
+>>
+>> Intel(R) Xeon(R) W-2145 CPU @ 3.70GHz 16-core
+>> clang sanitizer build, which probably slows it down a bit.
+>>
+>> But even 200 seconds is an order of magnitude slower than any
+>> of the other tests that check-acceptance runs. I think we
+>> should be aiming for tests here to be ~30 seconds at most,
+>> or the whole thing will take forever by the time we have
+>> decent coverage of most machines.
+>=20
+> I think we could say the same for a whole bunch of the tests that are
+> based on full distro downloads. What is this one running under the hood
+> anyway?
 
-> On Tue, Mar 17, 2020 at 12:54:25 +0100, Markus Armbruster wrote:
->> This series extends QMP introspection to cover deprecation.
->> Additionally, new option -compat lets you configure what to do when
->> deprecated interfaces get used.  This is intended for testing users of
->> the management interfaces.  It is experimental.
->>=20
->> -compat deprecated-input=3D<in-policy> configures what to do when
->> deprecated input is received.  Available policies:
->>=20
->> * accept: Accept deprecated commands and arguments (default)
->> * reject: Reject them
->> * crash: Crash
->
-> I've noticed that the 'crash' option doesn't manage to log the reason to
-> stderr. Relevant section of libvirt's log file which agregates the
-> stderr/out
->
-> 2020-04-30 13:24:22.006+0000: 2072883: debug : virCommandHandshakeChild:4=
-18 : Handshake with parent is done
-> char device redirected to /dev/pts/0 (label charserial0)
-> 2020-04-30 13:24:31.879+0000: Domain id=3D4 is tainted: custom-monitor
-> 2020-04-30 13:24:32.330+0000: shutting down, reason=3Dcrashed
->
-> 'handshake' line is last of libvirt's messages pre-start of the qemu
-> process. 'char device redirected' is reported by qemu. 'domain is
-> tainted' is added by libvirt when I've issued the deprecated API via
-> virsh qemu-monitor-command. 'reason=3Dcrashed' is added by libvirts VM
-> shutdown hanlder.
+Download time is now counted separately, this was one big feature=20
+request after the last KVM forum.
 
-I'm up to my ears in QOM right now.  I'd like to follow up when I pivot
-back to QAPI/QMP.  Please pester me if that takes too long.
+The second request was to improve test timing management, like having=20
+different timers tracking if the test is behaving as expected. I.e. you=20
+might want to boot a VM and run 'ping -c 3'. The whole test shouldn't=20
+take more than 7min, but we want to be sure the 'ping' command doesn't=20
+take more than 3.x seconds. I haven't heard about a such feature ready yet.
 
->>=20
->> -compat deprecated-output=3D<out-policy> configures what to do when
->> deprecated output is sent.  Available output policies:
->>=20
->> * accept: Emit deprecated command results and events (default)
->> * hide: Suppress them
->>=20
->> For now, -compat covers only deprecated syntactic aspects of QMP.  We
->> may want to extend it to cover semantic aspects, CLI, and experimental
->> features.
->>=20
->> PATCH 01-04: Documentation fixes
->> PATCH 05-10: Test improvements
->> PATCH 11-24: Add feature flags to remaining user-defined types and to
->>       =09     struct members
->> PATCH 25-26: New special feature 'deprecated', visible in
->>       =09     introspection
->
-> These are cool. I've added support for verifying that any command
-> excercised by the libvirt unit test suite is not deprecated, or we at
-> least know that it is and have a replacement.
->
-> https://www.redhat.com/archives/libvir-list/2020-April/msg01444.html
+I really hope you are using a common cache location and now download the=20
+artifacts each time...
 
-Awesome!
-
->> PATCH 27-34: New -compat to set policy for handling stuff marked with
->>       =09     feature 'deprecated'
->
-> While implementing support for this feature I noticed that it's
-> impossible for libvirt to detect that it's available. The idea is to
-> make a developer-centred setting in our config which will enable the
-> compat setting if available and ignore it if not available to prevent us
-> having to fiddle with the settings when testing various qemu versions.
-
-Again, I'd like to follow up when I pivot back to QAPI/QMP.
+>=20
+>=20
+>>
+>> thanks
+>> -- PMM
+>=20
+>=20
 
 
