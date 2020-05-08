@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B49E1CAD87
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:04:50 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00261CADBB
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:06:32 +0200 (CEST)
+Received: from localhost ([::1]:40918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2gL-0007YG-7B
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:04:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
+	id 1jX2hz-00034O-KW
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jX2Ku-0000dy-PS
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:40 -0400
-Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:45707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jX2Ks-0000n1-SD
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:40 -0400
-Received: by mail-vs1-xe41.google.com with SMTP id e10so934383vsp.12
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 05:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2JkY6Ys4MEndsruP5t0cw+6fU0xJWpFWnZpLDmrVxLo=;
- b=f9J265HGSZ0EFjw9MFQhPXEm/tndUbm/qo9OcYNW3OS6pyPo5y3W8C5IHyoi7riu8D
- +GZ52OsgJiWDsss3otZPo3rSPc4rhAPkNFWnh4shrwWDInOxVIB+qN1xCHHbRfVfG2cJ
- Guiz7njdXVQAziieEm7a2Px2XcLUi77ddL1CLbNIsI+UQT2PhyqSZ5B458Txz9VuWi2r
- f85MVg4IrnaXSISH6S2dfyMEEP3SEUcvRW9kXgQwXEGGph5X12VitmfK1xQqNS6WoNKr
- h+zmYPQ65+xJn3zt49oNN8S89ZxPLNAXpYaus6j8vwS9CJsOUL5FCGlfcPNm78pUCRLs
- ToVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2JkY6Ys4MEndsruP5t0cw+6fU0xJWpFWnZpLDmrVxLo=;
- b=KoZh+VZsQXxnT002peh3gud0FwAFf9Y4m09VD8kFgwdRSOmcNj5OGcRId0/+SfAGTS
- 2JV9p2bMend9V1vYzITvMzGxgPYDuBZ9Mtx4iee52qzwzxRLNhmewkwFQAOs0/qHnNog
- zMcRU8YvBUQBiDfekD1Hzk5t9DxoWZT8WiU2tRfDb5UxITe5FiPhfnDRgV6Qjxvrg/qJ
- QrnUv9UWHq3KvpIAjhfNBkr1xjbwGAsITXOx5ZvKwCSjRHVZORBttlZDVv47LqGFnr69
- wDArRTO85F0HCE0yq0/Otn/OaRyamz3BrBldE5DW0chGKvOTJwpyxSjJHc2Q97QuClrX
- aPrw==
-X-Gm-Message-State: AGi0PublX6g1BYw5e/a7cuCfAtEFWTi/s5G+9MxqBudEQsxikqOGPUkf
- VsUWLDuYz1jmoBzjV20Wzb3XPZC1DK/JmVB+VrD+iA==
-X-Google-Smtp-Source: APiQypKIHb6ouEmeQAj09iA2ZO9qrEQjlsf1Nr/WxK6jXejdI+QVRaPIA9IJ4s/I/olnNK6mQY5KlrwulaGnF4X9lKs=
-X-Received: by 2002:a67:d61c:: with SMTP id n28mr1659888vsj.70.1588941756719; 
- Fri, 08 May 2020 05:42:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2PX-0001Ft-MT
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:47:28 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29004
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2PR-0001XY-NA
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:47:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588942040;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fsnozb6kIQGYwomOyBKftMgcGklRNkmQU34LmQ0rQgU=;
+ b=SfOLxMtdXmgGzdvsjglMWBv6LvsfWkuqYSTFU0S7UUeod9yianCmFpbt22Ldh9gefBd/AV
+ nZrazawrPwp0YQZq04JYtEMDzU0ofDX/vaOzWiwwDIuAephuHrsdf/54Me+aTjeXvffehr
+ VjFudQC+cZ8C3epxhiJ0IM5rDl4TnJA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-xHC9BoC8MPSLoyVaICWZKA-1; Fri, 08 May 2020 08:47:17 -0400
+X-MC-Unique: xHC9BoC8MPSLoyVaICWZKA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 541CB107ACF2;
+ Fri,  8 May 2020 12:47:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 60BF76ACF1;
+ Fri,  8 May 2020 12:47:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D67E811358BC; Fri,  8 May 2020 14:47:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 3/3] hw: Remove unnecessary DEVICE() cast
+References: <20200504100735.10269-1-f4bug@amsat.org>
+ <20200504100735.10269-4-f4bug@amsat.org>
+Date: Fri, 08 May 2020 14:47:04 +0200
+In-Reply-To: <20200504100735.10269-4-f4bug@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 4 May 2020 12:07:35
+ +0200")
+Message-ID: <87r1vuy4on.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-References: <20200428085122.1621-1-fengli@smartx.com>
- <20200508051441.8143-1-fengli@smartx.com>
- <20200508051441.8143-2-fengli@smartx.com>
- <CAJ+F1CK6S-M4ykYp0DapZ9q0nAD046Uim-F7cxUTYqYC5anBTA@mail.gmail.com>
-In-Reply-To: <CAJ+F1CK6S-M4ykYp0DapZ9q0nAD046Uim-F7cxUTYqYC5anBTA@mail.gmail.com>
-From: Li Feng <fengli@smartx.com>
-Date: Fri, 8 May 2020 20:42:22 +0800
-Message-ID: <CAHckoCxh5USw8bqWyn-mc6fEemnu_EEn+NWSLjG-PbuWAaAB7w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] io/channel: fix crash when qio_channel_readv_all
- return 0
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::e41;
- envelope-from=fengli@smartx.com; helo=mail-vs1-xe41.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,103 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Feng <lifeng1519@gmail.com>, Dima Stepanov <dimastep@yandex-team.ru>,
- Kyle Zhang <kyle@smartx.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Joel Stanley <joel@jms.id.au>, Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, David Gibson <david@gibson.dropbear.id.au>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> =E4=BA=8E2020=E5=B9=B45=
-=E6=9C=888=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=888:32=E5=86=99=E9=81=
-=93=EF=BC=9A
->
-> Hi
->
-> On Fri, May 8, 2020 at 7:14 AM Li Feng <fengli@smartx.com> wrote:
-> >
-> > Root cause:
-> > From `man recvmsg`, the RETURN VALUE says:
-> > These  calls return the number of bytes received, or -1 if an error occ=
-urred.
-> > In the event of an error, errno is set to indicate the error.
-> > The return value will be 0 when the peer has performed an orderly shutd=
-own.
-> >
-> > When an error happens, the socket will be closed, and recvmsg return 0,
-> > then error_setg will trigger a crash.
-> >
-> > This unit test could reproduce this issue:
-> > tests/test-char -p /char/socket/client/reconnect-error/unix
->
-> Current master doesn't trigger the backtrace, it's only after your patch =
-2.
-Yes. However, the issue did exist in the master code base.
-The test case in patch 2 revealed this issue.
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
+> The DEVICE() macro is defined as:
 >
-> >
-> > The core file backtrace is :
-> >
-> > (gdb) bt
-> >     #0  0x00007ffff5ac3277 in raise () from /lib64/libc.so.6
-> >     #1  0x00007ffff5ac4968 in abort () from /lib64/libc.so.6
-> >     #2  0x00005555555aaa94 in error_handle_fatal (errp=3D<optimized out=
->, err=3D0x7fffec0012d0) at util/error.c:40
-> >     #3  0x00005555555aab6d in error_setv (errp=3D0x555555802a08 <error_=
-abort>, src=3D0x5555555c4280 "io/channel.c", line=3D148,
-> >         func=3D0x5555555c4580 <__func__.17489> "qio_channel_readv_all",=
- err_class=3DERROR_CLASS_GENERIC_ERROR,
-> >         fmt=3D<optimized out>, ap=3D0x7ffff423bae0, suffix=3D0x0) at ut=
-il/error.c:73
-> >     #4  0x00005555555aacf0 in error_setg_internal (errp=3Derrp@entry=3D=
-0x555555802a08 <error_abort>,
-> >         src=3Dsrc@entry=3D0x5555555c4280 "io/channel.c", line=3Dline@en=
-try=3D148,
-> >         func=3Dfunc@entry=3D0x5555555c4580 <__func__.17489> "qio_channe=
-l_readv_all",
-> >         fmt=3Dfmt@entry=3D0x5555555c43a0 "Unexpected end-of-file before=
- all bytes were read") at util/error.c:97
-> >     #5  0x000055555556c25c in qio_channel_readv_all (ioc=3D<optimized o=
-ut>, iov=3D<optimized out>, niov=3D<optimized out>,
-> >         errp=3D0x555555802a08 <error_abort>) at io/channel.c:147
-> >     #6  0x000055555556c29a in qio_channel_read_all (ioc=3D<optimized ou=
-t>, buf=3D<optimized out>, buflen=3D<optimized out>,
-> >         errp=3D<optimized out>) at io/channel.c:247
-> >     #7  0x000055555556ad22 in char_socket_ping_pong (ioc=3D0x7fffec0008=
-c0) at tests/test-char.c:732
-> >     #8  0x000055555556ae12 in char_socket_client_server_thread (data=3D=
-data@entry=3D0x55555582e350) at tests/test-char.c:891
-> >     #9  0x00005555555a95b6 in qemu_thread_start (args=3D<optimized out>=
-) at util/qemu-thread-posix.c:519
-> >     #10 0x00007ffff5e61e25 in start_thread () from /lib64/libpthread.so=
-.0
-> >     #11 0x00007ffff5b8bbad in clone () from /lib64/libc.so.6
-> >
-> > Signed-off-by: Li Feng <fengli@smartx.com>
-> > ---
-> >  io/channel.c | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/io/channel.c b/io/channel.c
-> > index e4376eb0bc..1a4a505f01 100644
-> > --- a/io/channel.c
-> > +++ b/io/channel.c
-> > @@ -144,8 +144,6 @@ int qio_channel_readv_all(QIOChannel *ioc,
-> >
-> >      if (ret =3D=3D 0) {
-> >          ret =3D -1;
-> > -        error_setg(errp,
-> > -                   "Unexpected end-of-file before all bytes were read"=
-);
+>   #define DEVICE(obj) OBJECT_CHECK(DeviceState, (obj), TYPE_DEVICE)
 >
-> Nack, this code is fine.
+> which expands to:
 >
-> The problem is that the test case doesn't expect a disconnect in
-> char_socket_ping_pong().
-Yes, in the test case I try to inject an error in char_socket_ping_pong.
-Any concerns about these two patches?
+>   ((DeviceState *)object_dynamic_cast_assert((Object *)(obj), (name),
+>                                              __FILE__, __LINE__,
+>                                              __func__))
 >
-> --
-> Marc-Andr=C3=A9 Lureau
+> This assertion can only fail when @obj points to something other
+> than its stated type, i.e. when we're in undefined behavior country.
+>
+> Remove the unnecessary DEVICE() casts when we already know the
+> pointer is of DeviceState type.
+>
+> Patch created mechanically using spatch with this script:
+>
+>   @@
+>   typedef DeviceState;
+>   DeviceState *s;
+>   @@
+>   -   DEVICE(s)
+>   +   s
+>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> Acked-by: Paul Durrant <paul@xen.org>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Acked-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+Lovely.
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+
+Now repeat this exercise for each QOM type cast macro :)
+
 
