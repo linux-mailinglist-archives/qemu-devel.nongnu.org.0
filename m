@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559AF1CB6A7
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A81A1CB6A8
 	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 20:05:51 +0200 (CEST)
-Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:57940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX7Nd-0001yR-TH
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 14:05:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
+	id 1jX7Ne-0001zj-Jj
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 14:05:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jX7Ln-0000D4-En
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jX7Ln-0000DC-Lv
  for qemu-devel@nongnu.org; Fri, 08 May 2020 14:03:55 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42063
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:52342
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jX7Lk-0007J5-Gl
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jX7Lk-0007J3-GN
  for qemu-devel@nongnu.org; Fri, 08 May 2020 14:03:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1588961029;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EScge7zxkj4dBUBAwXNDX8fjUPshhKKboImtNdvR30I=;
- b=eal1/p/uaKeo2K0+Zdcx9uDLHr2KMJm0FMhiADcz1obxIaGwmXi92q/gNmvDW0+H/TImlB
- 2vcHEoSfB7rWIAGQgafsJVBOLONrFqdiAHkDU6/U3Rok791/dhsLeq3zPt2o3D7bdGtCQt
- Hrc5e28CCd4vVtSPmo+itOtiocyK2RI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qfzq08Le1zJf7CAaoM1AwB/IXH0chskOmrefaRv4knQ=;
+ b=WQllda6DnjRXt7u6UnuITjqMggl9dAG1mqsBtB6Y/psnuz/nmoKAujTFYEDmptcVAvhHx0
+ uw2MDfBGHM7z7jJ5qmKF32+UzOy7SUiiuPdRRurxnlf0OaGfPtCOUN5ekyiAumdk+pMaCb
+ yT9lduuItK2ErB5psbP5vBzqpaz0y6E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-Nwej7LbfObaRCknw8hMVvA-1; Fri, 08 May 2020 14:03:42 -0400
-X-MC-Unique: Nwej7LbfObaRCknw8hMVvA-1
+ us-mta-290-6CVAJRdzPKe3uvRWxLOOSw-1; Fri, 08 May 2020 14:03:44 -0400
+X-MC-Unique: 6CVAJRdzPKe3uvRWxLOOSw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5120C107ACCA;
- Fri,  8 May 2020 18:03:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 858897BB2;
+ Fri,  8 May 2020 18:03:43 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-114-73.phx2.redhat.com [10.3.114.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C710E60FC2;
- Fri,  8 May 2020 18:03:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1EFEB61989;
+ Fri,  8 May 2020 18:03:43 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/9] qemu-img: Add convert --bitmaps
-Date: Fri,  8 May 2020 13:03:31 -0500
-Message-Id: <20200508180340.675712-1-eblake@redhat.com>
+Subject: [PATCH v3 1/9] docs: Sort sections on qemu-img subcommand parameters
+Date: Fri,  8 May 2020 13:03:32 -0500
+Message-Id: <20200508180340.675712-2-eblake@redhat.com>
+In-Reply-To: <20200508180340.675712-1-eblake@redhat.com>
+References: <20200508180340.675712-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:09
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 08:00:48
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,72 +81,82 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2 was here, to see the original cover letter:
-https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg03464.html
+We already list the subcommand summaries alphabetically, we should do
+the same for the documentation related to subcommand-specific
+parameters.
 
-Since then:
-- patch 2 was previously posted in isolation but fits well in this series
-- patch 3 is new
-- patch 4 and 5 were split from v2:2/6 [Max]
-- new filename chosen in patch 5 is saner [Kevin]
-- patch 6 allows list of operations on one bitmap name [Max]
-- patch 7 exposes 0 when measuring v3 image without bitmaps [Max]
-- patch 7 and 9 iotests beefed up [Max]
-- patch 8 had enough rebase churn that I dropped R-b
-- compilation passes on mingw [patchew]
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+---
+ docs/tools/qemu-img.rst | 48 ++++++++++++++++++++---------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
-001/9:[----] [--] 'docs: Sort sections on qemu-img subcommand parameters'
-002/9:[down] 'qemu-img: Fix stale comments on doc location'
-003/9:[down] 'block: Make it easier to learn which BDS support bitmaps'
-004/9:[down] 'blockdev: Promote several bitmap functions to non-static'
-005/9:[0076] [FC] 'blockdev: Split off basic bitmap operations for qemu-img'
-006/9:[0199] [FC] 'qemu-img: Add bitmap sub-command'
-007/9:[0078] [FC] 'qcow2: Expose bitmaps' size during measure'
-008/9:[0017] [FC] 'qemu-img: Add convert --bitmaps option'
-009/9:[0033] [FC] 'iotests: Add test 291 to for qemu-img bitmap coverage'
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index 0080f83a76c9..7d08c48d308f 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -142,30 +142,6 @@ by the used format or see the format descriptions below for details.
+   the documentation of the emulator's ``-drive cache=...`` option for allowed
+   values.
 
-Series can also be downloaded at:
-https://repo.or.cz/qemu/ericb.git/shortlog/refs/tags/qemu-img-bitmaps-v3
+-Parameters to snapshot subcommand:
+-
+-.. program:: qemu-img-snapshot
+-
+-.. option:: snapshot
+-
+-  Is the name of the snapshot to create, apply or delete
+-
+-.. option:: -a
+-
+-  Applies a snapshot (revert disk to saved state)
+-
+-.. option:: -c
+-
+-  Creates a snapshot
+-
+-.. option:: -d
+-
+-  Deletes a snapshot
+-
+-.. option:: -l
+-
+-  Lists all snapshots in the given image
+-
+ Parameters to compare subcommand:
 
-Eric Blake (9):
-  docs: Sort sections on qemu-img subcommand parameters
-  qemu-img: Fix stale comments on doc location
-  block: Make it easier to learn which BDS support bitmaps
-  blockdev: Promote several bitmap functions to non-static
-  blockdev: Split off basic bitmap operations for qemu-img
-  qemu-img: Add bitmap sub-command
-  qcow2: Expose bitmaps' size during measure
-  qemu-img: Add convert --bitmaps option
-  iotests: Add test 291 to for qemu-img bitmap coverage
+ .. program:: qemu-img-compare
+@@ -245,6 +221,30 @@ Parameters to dd subcommand:
 
- docs/tools/qemu-img.rst          |  77 ++++---
- Makefile.objs                    |   3 +-
- qapi/block-core.json             |  15 +-
- block/qcow2.h                    |   1 +
- include/block/block_int.h        |  13 ++
- include/block/dirty-bitmap.h     |   1 +
- block/crypto.c                   |   2 +-
- block/dirty-bitmap.c             |   9 +
- block/monitor/bitmap-qmp-cmds.c  | 323 +++++++++++++++++++++++++++++
- block/qcow2-bitmap.c             |   7 +
- block/qcow2.c                    |  38 +++-
- block/raw-format.c               |   2 +-
- blockdev.c                       | 303 +--------------------------
- qemu-img.c                       | 340 ++++++++++++++++++++++++++++++-
- MAINTAINERS                      |   1 +
- block/monitor/Makefile.objs      |   1 +
- qemu-img-cmds.hx                 |  13 +-
- tests/qemu-iotests/178.out.qcow2 |  16 ++
- tests/qemu-iotests/190           |  43 +++-
- tests/qemu-iotests/190.out       |  23 ++-
- tests/qemu-iotests/291           | 112 ++++++++++
- tests/qemu-iotests/291.out       |  78 +++++++
- tests/qemu-iotests/group         |   1 +
- 23 files changed, 1077 insertions(+), 345 deletions(-)
- create mode 100644 block/monitor/bitmap-qmp-cmds.c
- create mode 100755 tests/qemu-iotests/291
- create mode 100644 tests/qemu-iotests/291.out
+   Sets the number of input blocks to skip
 
++Parameters to snapshot subcommand:
++
++.. program:: qemu-img-snapshot
++
++.. option:: snapshot
++
++  Is the name of the snapshot to create, apply or delete
++
++.. option:: -a
++
++  Applies a snapshot (revert disk to saved state)
++
++.. option:: -c
++
++  Creates a snapshot
++
++.. option:: -d
++
++  Deletes a snapshot
++
++.. option:: -l
++
++  Lists all snapshots in the given image
++
+ Command description:
+
+ .. program:: qemu-img-commands
 -- 
 2.26.2
 
