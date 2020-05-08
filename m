@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451EB1CB0B7
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:45:47 +0200 (CEST)
-Received: from localhost ([::1]:40298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33A11CB0C5
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:47:39 +0200 (CEST)
+Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX3Jx-0007vw-JF
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:45:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36480)
+	id 1jX3Lm-0003Eu-Pn
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:47:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
- id 1jX3Io-0006qO-JJ
- for qemu-devel@nongnu.org; Fri, 08 May 2020 09:44:34 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:52317)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
- id 1jX3In-0007Uh-9i
- for qemu-devel@nongnu.org; Fri, 08 May 2020 09:44:34 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id a5so4291207pjh.2
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 06:44:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=F+E75ICeA2GJwn0vXrw85dqpoWG2OQuILd1/YbbgQc8=;
- b=G4Bm9NJEcskRvbkASpDLuHDKWSiiofFFy5M2+8s9eqyi8NCwn6kX9zx1Qd580Av5pg
- a/TtUZ3Fcd8Vc4BW1+U2bm9Fd1Ey5PCMaJ7208BhsVatUtda4K3K0KtAjJ8PoGNHVK+c
- 4wKZ20mD4FcGpuq+LxAl1o2LksP9XDiz/a1vc+1utddcFqYLnhxZ6Q4dHwb0fkHwIjMe
- TLoqBJI1yLasgef4m6bv0cabUDyV61Ao3pp5aTONNzzTz4HVf1dPmyw8RqyF3GSl3FPL
- r0ShlDBX8L6HSkaYJOCDo08v8EvdC+zBpIYqIiYUeTTnLwoNGCX0RoIZWxpXGBm19UKS
- +iZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=F+E75ICeA2GJwn0vXrw85dqpoWG2OQuILd1/YbbgQc8=;
- b=GAR5siUq0nmRfSpXoSHYZzsBRF7dW7cQZxbFVbqNjF87o5EfA0UzTO7wWgsRSQBdIe
- 6n5RDDN4pZpfN12yXiSBefNSJkPUhjkwSe3oK6EqlPkmuSZXdIPrhDacUBiEDpRhri6s
- uv5Gfi1CRqYSOxIvntmZKQfb4Gtk1pwDa+ABf1hNpC3EP2sTieE6Fp0G2kkZxDrYpjbi
- By3kBPz9leY0mcnh3dFHKiumoF65iKNgWmbCjr7aZf8etMGnmV6v55+sFbYUcClCj3NB
- KRTfwFXEXtYiMj+869Ad1Tz37FappELdtnsGMANMqhiSlUtlmLxnHadLFvF0JqG5UnxH
- I2Iw==
-X-Gm-Message-State: AGi0Pua/gTUQlKeo5XStlCKrakmn4ZKpkvZa/KLBrn+to8L8Kuo7P7RU
- Hy4kmPtxHHEz0PPrsL/7b/c=
-X-Google-Smtp-Source: APiQypI0YFlTMT8v39OGI4MFeE15GFt3Mncf5M6kpZkYsrgG5GewU9Oj/kbMGmQCTujA6z5UwHQtvg==
-X-Received: by 2002:a17:902:bc8c:: with SMTP id
- bb12mr2414760plb.142.1588945471350; 
- Fri, 08 May 2020 06:44:31 -0700 (PDT)
-Received: from mail.google.com ([149.248.10.52])
- by smtp.gmail.com with ESMTPSA id m6sm2515648pjo.5.2020.05.08.06.44.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 06:44:30 -0700 (PDT)
-Date: Fri, 8 May 2020 21:44:24 +0800
-From: Changbin Du <changbin.du@gmail.com>
-To: Changbin Du <changbin.du@gmail.com>
-Subject: Re: [PATCH v2] ui/sdl2: fix segment fault caused by null pointer
- dereference
-Message-ID: <20200508134424.dg44xm7lt4ahqftn@mail.google.com>
-References: <20200427132412.17909-1-changbin.du@gmail.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jX3Jk-0000UI-4m
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 09:45:32 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:50674
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jX3Ji-00006L-0w
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 09:45:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588945528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=89TaezP2YGhTAfal+R/4/ZywYldKM30CgPY5KjVJK8k=;
+ b=Pfl+XXQsD7MKl9KahiwSFRmjbDXW48R5ju1s3e2NH6gO9piAI44emwBuqRzEvYjcjVMkJY
+ 8lHipkQEYa8f7FQcz5x1//ffgR/ERrW+o2Ldswnc6llT6/WknmDyakrnm45LLSFlZcVhcT
+ v9DLKnCJCVmnuuY1wLTgAfRiU7/DdlI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-5L6QjSMTN8COSImvquFvDA-1; Fri, 08 May 2020 09:45:22 -0400
+X-MC-Unique: 5L6QjSMTN8COSImvquFvDA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B44156B29;
+ Fri,  8 May 2020 13:45:21 +0000 (UTC)
+Received: from [10.3.114.73] (ovpn-114-73.phx2.redhat.com [10.3.114.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F19E860BE2;
+ Fri,  8 May 2020 13:45:20 +0000 (UTC)
+Subject: Re: [PATCH] cpus: Fix botched configure_icount() error API violation
+ fix
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200508104933.19051-1-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <85ab3d39-0916-3637-6568-70166436e7f8@redhat.com>
+Date: Fri, 8 May 2020 08:45:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200427132412.17909-1-changbin.du@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=changbin.du@gmail.com; helo=mail-pj1-x1043.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200508104933.19051-1-armbru@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,67 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hello, is this ready to merge now?
+On 5/8/20 5:49 AM, Markus Armbruster wrote:
+> Fixes: abc9bf69a66a11499a801ff545b8fe7adbb3a04c
+> Fixes: Coverity CID 1428754
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   cpus.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Mon, Apr 27, 2020 at 09:24:12PM +0800, Changbin Du wrote:
-> I found SDL_GetWindowFromID() sometimes return NULL when I start qemu via
-> ssh forwarding even the window has been crated already. I am not sure
-> whether this is a bug of SDL, but we'd better check it carefully.
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 > 
-> Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> 
-> ---
-> v2: fix typo.
-> ---
->  ui/sdl2.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/ui/sdl2.c b/ui/sdl2.c
-> index 3c9424eb42..61c7956da3 100644
-> --- a/ui/sdl2.c
-> +++ b/ui/sdl2.c
-> @@ -332,6 +332,10 @@ static void handle_keydown(SDL_Event *ev)
->      int gui_key_modifier_pressed = get_mod_state();
->      int gui_keysym = 0;
->  
-> +    if (!scon) {
-> +        return;
-> +    }
-> +
->      if (!scon->ignore_hotkeys && gui_key_modifier_pressed && !ev->key.repeat) {
->          switch (ev->key.keysym.scancode) {
->          case SDL_SCANCODE_2:
-> @@ -412,6 +416,10 @@ static void handle_keyup(SDL_Event *ev)
->  {
->      struct sdl2_console *scon = get_scon_from_window(ev->key.windowID);
->  
-> +    if (!scon) {
-> +        return;
-> +    }
-> +
->      scon->ignore_hotkeys = false;
->      sdl2_process_key(scon, &ev->key);
->  }
-> @@ -421,6 +429,10 @@ static void handle_textinput(SDL_Event *ev)
->      struct sdl2_console *scon = get_scon_from_window(ev->text.windowID);
->      QemuConsole *con = scon ? scon->dcl.con : NULL;
->  
-> +    if (!con) {
-> +        return;
-> +    }
-> +
->      if (qemu_console_is_graphic(con)) {
->          return;
->      }
-> -- 
-> 2.25.1
+> diff --git a/cpus.c b/cpus.c
+> index 5670c96bcf..b9275c672d 100644
+> --- a/cpus.c
+> +++ b/cpus.c
+> @@ -813,7 +813,7 @@ void configure_icount(QemuOpts *opts, Error **errp)
+>           return;
+>       }
+>   
+> -    if (strcmp(option, "auto") != 0) {
+> +    if (option && !strcmp(option, "auto")) {
+
+Another alternative would be using g_strcmp0, but this form is fine.
+
+>           if (qemu_strtol(option, NULL, 0, &time_shift) < 0
+>               || time_shift < 0 || time_shift > MAX_ICOUNT_SHIFT) {
+>               error_setg(errp, "icount: Invalid shift value");
 > 
 
 -- 
-Cheers,
-Changbin Du
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
