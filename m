@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE741CA8E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 13:02:23 +0200 (CEST)
-Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2DE1CA97A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 13:23:56 +0200 (CEST)
+Received: from localhost ([::1]:34166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX0lq-0004vw-7f
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 07:02:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54050)
+	id 1jX16h-00051g-Fw
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 07:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jX0km-0004VE-3w
- for qemu-devel@nongnu.org; Fri, 08 May 2020 07:01:16 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57571
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1jX0kk-0002kL-AA
- for qemu-devel@nongnu.org; Fri, 08 May 2020 07:01:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588935672;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HRLTazxR1tS4LNpLP1ps3/DHyVAQs0s9XAw2k9vItQY=;
- b=iBrjeEQyPAsP+T4eVFLP7YmT/VuctyVDd9NsSdfqlwCNDMehduyYS6X8nYtGCrEhkwm6jO
- ZDzT72UQKswddufQRR0WfNqHQYD6AoapOOnjqGekVvKziCKIlGnl+NMg+iqOITmQdYzfRR
- pq/A1iS24692a8BzQPAbn3OQcL4BvBU=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-rS_11SHiN0uu-9D-Xos7xg-1; Fri, 08 May 2020 07:01:03 -0400
-X-MC-Unique: rS_11SHiN0uu-9D-Xos7xg-1
-Received: by mail-io1-f70.google.com with SMTP id k1so1395824iov.18
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 04:01:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jX15r-0004ce-Q1
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 07:23:03 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53848)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jX15q-0007nf-8K
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 07:23:03 -0400
+Received: by mail-wm1-x342.google.com with SMTP id k12so9792657wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 04:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gxTu+BptZNmY+f6nAeoR5hFSnpmhp03FQjB1IrvxGE8=;
+ b=o6qD2vZHbIIUEyBdfLY6/WENHdnEusBbe1BoDBsj4mANpRtc4izvSrP/A55E5sXX9g
+ +u3IWJw2LGgIsqSo4aIY99QnUciTKNg5GpSipbku8jYfB2KZN2fI0uP9Rm5kQ7bpDrsQ
+ sut5t6Wb/ebOG0/kCH1zmCrhngAKloKEc0H0xhznSfXa8eJhdr76LE+jrP937F+Qojt4
+ Um9kbNovySvEsY+76GW9jfv24v0K7wHAUHRGcfR0T1A3o40E83m+MYxLmXJ2Q8UB98OF
+ wu0rHjqMn8YozbPB3XVnIIBT9sNAYe27J60WOvSCl/CTd49DmBFhu9tWKG2QE8MFD8Wj
+ lwog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3OcsBVsB6NcoujPekpp5fmVJT3ojXt1NWH2peGtNHfg=;
- b=WsyMBJWVGsoeaJFruw0VHIldgafMDCRkrBYMnii/pNV3H0pp9qAwyzm50h3B2bS56g
- WjXYvg5e+izHDpYxyGBrfUIoEzLYvkRyqctYAQl2lA41BnLhTYdGGYSel1AtydrNNplq
- tgHMAuUA6KoiIyWmkOOUpRQaPnp2PEcWfcmrlPkcnnRjHcz80STBb5+KaI/BCZGwwqCO
- mEaTVJaYFu7tac5/e+0gX8KbyAEPtLx+FUT4oA2GGJb4XEfXpk0WsilCW492Lk+81H0h
- nRA3TW++Gx2vhs3HkilN9IYV2jfcyAKQnDIMOptaNl8gMr9K0kIBw6yAShgDGHIwz9iv
- zYMA==
-X-Gm-Message-State: AGi0PuaErEbh6iSzWQwCGnOudf5kFUQO0nvuytrSB1Kur1AWKLbCPZXa
- VbfpChx0G3+bKqo+77AzSKI54vlkiFwtiXoXMfil99D7HRoWNCIvg27Co60nwM1tLvolrBtcYcL
- j/lP4tw/I/AWwZ3gUByRjntDO61GwS6I=
-X-Received: by 2002:a05:6e02:c85:: with SMTP id
- b5mr2157055ile.165.1588935662504; 
- Fri, 08 May 2020 04:01:02 -0700 (PDT)
-X-Google-Smtp-Source: APiQypL+JZmYug75QyPe8e4yLJLQoumub/vHAp5hT/d9YbM8cyXPKz8zxQ3r6ahIgrLLpyDrjQ1b6kF0U5XI1D5haNE=
-X-Received: by 2002:a05:6e02:c85:: with SMTP id
- b5mr2157022ile.165.1588935662165; 
- Fri, 08 May 2020 04:01:02 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gxTu+BptZNmY+f6nAeoR5hFSnpmhp03FQjB1IrvxGE8=;
+ b=H5eOTH/qEs+IQATiPhx9fzbtEOExB7j74dlZNIEBEMz4ZmZbno13cf0hEfaEDDSfZe
+ nt+FFSQGGzO8jbEX9Om9YF1QsdInEPLmGI2t6kgLNTfKuBK4raH9iPxvSrxzEayoajaL
+ dQpMB3xJl3XpSP6vxgQ6LKGmj4yBKlqKyZV1NmHZNJt43i/fGs4xi0r71Fb95A5o9MJb
+ Fagl5RHNomskp/rcOXe1ALZOEBsE3mLKouXMfV000E+soWyJrl4ohMdhMxYDXhg+pML8
+ g6YIdpp6SW/oej3Al09OkzKDvcAgL9rL7eTUR4dv8UxrzLznROVuzGMW/zqrGa2+N/av
+ I6Qw==
+X-Gm-Message-State: AGi0PuZMbAiJ2w995Ps5XzehVsuzs5z4ohONJtle8qR6K81Qm5zMXUIR
+ YLLvwZ9cutffaiE6P8zMXHVaJAUjkaLdGNEgukY=
+X-Google-Smtp-Source: APiQypJsMmA8yqQyiJQ09LneNrCjpVIT6yT+vc+b2YtHT48Ll207QOPxkDLPKb2X+HB/y7a0diZuxLdAaZXD64GLnQM=
+X-Received: by 2002:a1c:f211:: with SMTP id s17mr17208980wmc.168.1588936979875; 
+ Fri, 08 May 2020 04:22:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200428085122.1621-1-fengli@smartx.com>
- <20200508051441.8143-1-fengli@smartx.com>
- <20200508051441.8143-3-fengli@smartx.com>
-In-Reply-To: <20200508051441.8143-3-fengli@smartx.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 8 May 2020 13:00:50 +0200
-Message-ID: <CAMxuvawoyrBZdY31RA76bG57MdDEdnau-AN-xwN=8wm-pX2fFg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] char-socket: initialize reconnect timer only when
- the timer doesn't start
-To: Li Feng <fengli@smartx.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <1588500367-1056-1-git-send-email-chenhc@lemote.com>
+ <1588500367-1056-11-git-send-email-chenhc@lemote.com>
+In-Reply-To: <1588500367-1056-11-git-send-email-chenhc@lemote.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Fri, 8 May 2020 13:22:39 +0200
+Message-ID: <CAHiYmc4S=jH35B4OzfLZ7tVEUn--W3WrLPVnt2tZKbqv9f22WQ@mail.gmail.com>
+Subject: Re: [PATCH V3 10/14] KVM: MIPS: Add Loongson-3 Virtual IPI interrupt
+ support
+To: Huacai Chen <chenhc@lemote.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mlureau@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,311 +82,440 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Feng Li <lifeng1519@gmail.com>, Dima Stepanov <dimastep@yandex-team.ru>,
- Kyle Zhang <kyle@smartx.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, kvm@vger.kernel.org,
+ Huacai Chen <chenhuacai@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Fuxin Zhang <zhangfx@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ linux-mips@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 8, 2020 at 7:14 AM Li Feng <fengli@smartx.com> wrote:
+=D0=BD=D0=B5=D0=B4, 3. =D0=BC=D0=B0=D1=98 2020. =D1=83 12:14 Huacai Chen <c=
+henhc@lemote.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=
+=D0=BB=D0=B0:
 >
-> When the disconnect event is triggered in the connecting stage,
-> the tcp_chr_disconnect_locked may be called twice.
+> This patch add Loongson-3 Virtual IPI interrupt support in the kernel,
+> because emulate it in QEMU is too expensive for performance.
 >
-> The first call:
->     #0  qemu_chr_socket_restart_timer (chr=3D0x55555582ee90) at chardev/c=
-har-socket.c:120
->     #1  0x000055555558e38c in tcp_chr_disconnect_locked (chr=3D<optimized=
- out>) at chardev/char-socket.c:490
->     #2  0x000055555558e3cd in tcp_chr_disconnect (chr=3D0x55555582ee90) a=
-t chardev/char-socket.c:497
->     #3  0x000055555558ea32 in tcp_chr_new_client (chr=3Dchr@entry=3D0x555=
-55582ee90, sioc=3Dsioc@entry=3D0x55555582f0b0) at chardev/char-socket.c:892
->     #4  0x000055555558eeb8 in qemu_chr_socket_connected (task=3D0x5555558=
-2f300, opaque=3D<optimized out>) at chardev/char-socket.c:1090
->     #5  0x0000555555574352 in qio_task_complete (task=3Dtask@entry=3D0x55=
-555582f300) at io/task.c:196
->     #6  0x00005555555745f4 in qio_task_thread_result (opaque=3D0x55555582=
-f300) at io/task.c:111
->     #7  qio_task_wait_thread (task=3D0x55555582f300) at io/task.c:190
->     #8  0x000055555558f17e in tcp_chr_wait_connected (chr=3D0x55555582ee9=
-0, errp=3D0x555555802a08 <error_abort>) at chardev/char-socket.c:1013
->     #9  0x0000555555567cbd in char_socket_client_reconnect_test (opaque=
-=3D0x5555557fe020 <client8unix>) at tests/test-char.c:1152
-> The second call:
->     #0  0x00007ffff5ac3277 in raise () from /lib64/libc.so.6
->     #1  0x00007ffff5ac4968 in abort () from /lib64/libc.so.6
->     #2  0x00007ffff5abc096 in __assert_fail_base () from /lib64/libc.so.6
->     #3  0x00007ffff5abc142 in __assert_fail () from /lib64/libc.so.6
->     #4  0x000055555558d10a in qemu_chr_socket_restart_timer (chr=3D0x5555=
-5582ee90) at chardev/char-socket.c:125
->     #5  0x000055555558df0c in tcp_chr_disconnect_locked (chr=3D<optimized=
- out>) at chardev/char-socket.c:490
->     #6  0x000055555558df4d in tcp_chr_disconnect (chr=3D0x55555582ee90) a=
-t chardev/char-socket.c:497
->     #7  0x000055555558e5b2 in tcp_chr_new_client (chr=3Dchr@entry=3D0x555=
-55582ee90, sioc=3Dsioc@entry=3D0x55555582f0b0) at chardev/char-socket.c:892
->     #8  0x000055555558e93a in tcp_chr_connect_client_sync (chr=3Dchr@entr=
-y=3D0x55555582ee90, errp=3Derrp@entry=3D0x7fffffffd178) at chardev/char-soc=
-ket.c:944
->     #9  0x000055555558ec78 in tcp_chr_wait_connected (chr=3D0x55555582ee9=
-0, errp=3D0x555555802a08 <error_abort>) at chardev/char-socket.c:1035
->     #10 0x000055555556804b in char_socket_client_test (opaque=3D0x5555557=
-fe020 <client8unix>) at tests/test-char.c:1023
->
-> Run test/test-char to reproduce this issue.
->
-> test-char: chardev/char-socket.c:125: qemu_chr_socket_restart_timer: Asse=
-rtion `!s->reconnect_timer' failed.
->
-> Signed-off-by: Li Feng <fengli@smartx.com>
 
-After applying your patch, with qemu configure --enable-debug
---enable-sanitizers:
+Huacei, hi!
 
-$ tests/test-char
-Unexpected error in qio_channel_readv_all() at
-/home/elmarco/src/qq/io/channel.c:147:
-Unexpected end-of-file before all bytes were read
-[1]    2445287 abort (core dumped)  tests/test-char
+While, in principle, I support this patch, could you please, just for
+the sake of everybody being on the same page, describe the
+hyphothetical alternative implementation in QEMU, and explain why it
+would be more expensive than the solution proposed in this patch.
 
+No need to go into details, I would like to see just the general idea
+you had in your mind.
+
+Yours,
+Aleksandar
+
+
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->  chardev/char-socket.c |  2 +-
->  tests/test-char.c     | 68 ++++++++++++++++++++++++++++++++++++++++-----=
-------
->  2 files changed, 55 insertions(+), 15 deletions(-)
+>  arch/mips/include/asm/kvm_host.h |  32 ++++++
+>  arch/mips/kvm/Makefile           |   3 +
+>  arch/mips/kvm/emulate.c          |  23 ++++-
+>  arch/mips/kvm/loongson_ipi.c     | 214 +++++++++++++++++++++++++++++++++=
+++++++
+>  arch/mips/kvm/mips.c             |   6 ++
+>  5 files changed, 277 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/mips/kvm/loongson_ipi.c
 >
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index 1f14c2c7c8..d84330b3c9 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -486,7 +486,7 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
->      if (emit_close) {
->          qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
->      }
-> -    if (s->reconnect_time) {
-> +    if (s->reconnect_time && !s->reconnect_timer) {
->          qemu_chr_socket_restart_timer(chr);
->      }
+> diff --git a/arch/mips/include/asm/kvm_host.h b/arch/mips/include/asm/kvm=
+_host.h
+> index a7758c0..f165902 100644
+> --- a/arch/mips/include/asm/kvm_host.h
+> +++ b/arch/mips/include/asm/kvm_host.h
+> @@ -23,6 +23,8 @@
+>  #include <asm/inst.h>
+>  #include <asm/mipsregs.h>
+>
+> +#include <kvm/iodev.h>
+> +
+>  /* MIPS KVM register ids */
+>  #define MIPS_CP0_32(_R, _S)                                    \
+>         (KVM_REG_MIPS_CP0 | KVM_REG_SIZE_U32 | (8 * (_R) + (_S)))
+> @@ -181,11 +183,39 @@ struct kvm_vcpu_stat {
+>  struct kvm_arch_memory_slot {
+>  };
+>
+> +#ifdef CONFIG_CPU_LOONGSON64
+> +struct ipi_state {
+> +       uint32_t status;
+> +       uint32_t en;
+> +       uint32_t set;
+> +       uint32_t clear;
+> +       uint64_t buf[4];
+> +};
+> +
+> +struct loongson_kvm_ipi;
+> +
+> +struct ipi_io_device {
+> +       int node_id;
+> +       struct loongson_kvm_ipi *ipi;
+> +       struct kvm_io_device device;
+> +};
+> +
+> +struct loongson_kvm_ipi {
+> +       spinlock_t lock;
+> +       struct kvm *kvm;
+> +       struct ipi_state ipistate[16];
+> +       struct ipi_io_device dev_ipi[4];
+> +};
+> +#endif
+> +
+>  struct kvm_arch {
+>         /* Guest physical mm */
+>         struct mm_struct gpa_mm;
+>         /* Mask of CPUs needing GPA ASID flush */
+>         cpumask_t asid_flush_mask;
+> +#ifdef CONFIG_CPU_LOONGSON64
+> +       struct loongson_kvm_ipi ipi;
+> +#endif
+>  };
+>
+>  #define N_MIPS_COPROC_REGS     32
+> @@ -1133,6 +1163,8 @@ extern int kvm_mips_trans_mtc0(union mips_instructi=
+on inst, u32 *opc,
+>  /* Misc */
+>  extern void kvm_mips_dump_stats(struct kvm_vcpu *vcpu);
+>  extern unsigned long kvm_mips_get_ramsize(struct kvm *kvm);
+> +extern int kvm_vcpu_ioctl_interrupt(struct kvm_vcpu *vcpu,
+> +                            struct kvm_mips_interrupt *irq);
+>
+>  static inline void kvm_arch_hardware_unsetup(void) {}
+>  static inline void kvm_arch_sync_events(struct kvm *kvm) {}
+> diff --git a/arch/mips/kvm/Makefile b/arch/mips/kvm/Makefile
+> index 0a3cef6..506c4ac 100644
+> --- a/arch/mips/kvm/Makefile
+> +++ b/arch/mips/kvm/Makefile
+> @@ -13,6 +13,9 @@ kvm-objs :=3D $(common-objs-y) mips.o emulate.o entry.o=
+ \
+>             fpu.o
+>  kvm-objs +=3D hypcall.o
+>  kvm-objs +=3D mmu.o
+> +ifdef CONFIG_CPU_LOONGSON64
+> +kvm-objs +=3D loongson_ipi.o
+> +endif
+>
+>  ifdef CONFIG_KVM_MIPS_VZ
+>  kvm-objs               +=3D vz.o
+> diff --git a/arch/mips/kvm/emulate.c b/arch/mips/kvm/emulate.c
+> index 754094b..3946499 100644
+> --- a/arch/mips/kvm/emulate.c
+> +++ b/arch/mips/kvm/emulate.c
+> @@ -1600,6 +1600,7 @@ enum emulation_result kvm_mips_emulate_store(union =
+mips_instruction inst,
+>                                              struct kvm_run *run,
+>                                              struct kvm_vcpu *vcpu)
+>  {
+> +       int r;
+>         enum emulation_result er;
+>         u32 rt;
+>         void *data =3D run->mmio.data;
+> @@ -1666,9 +1667,18 @@ enum emulation_result kvm_mips_emulate_store(union=
+ mips_instruction inst,
+>                 goto out_fail;
+>         }
+>
+> -       run->mmio.is_write =3D 1;
+>         vcpu->mmio_needed =3D 1;
+> +       run->mmio.is_write =3D 1;
+>         vcpu->mmio_is_write =3D 1;
+> +
+> +       r =3D kvm_io_bus_write(vcpu, KVM_MMIO_BUS,
+> +                       run->mmio.phys_addr, run->mmio.len, data);
+> +
+> +       if (!r) {
+> +               vcpu->mmio_needed =3D 0;
+> +               return EMULATE_DONE;
+> +       }
+> +
+>         return EMULATE_DO_MMIO;
+>
+>  out_fail:
+> @@ -1681,6 +1691,7 @@ enum emulation_result kvm_mips_emulate_load(union m=
+ips_instruction inst,
+>                                             u32 cause, struct kvm_run *ru=
+n,
+>                                             struct kvm_vcpu *vcpu)
+>  {
+> +       int r;
+>         enum emulation_result er;
+>         unsigned long curr_pc;
+>         u32 op, rt;
+> @@ -1745,6 +1756,16 @@ enum emulation_result kvm_mips_emulate_load(union =
+mips_instruction inst,
+>
+>         run->mmio.is_write =3D 0;
+>         vcpu->mmio_is_write =3D 0;
+> +
+> +       r =3D kvm_io_bus_read(vcpu, KVM_MMIO_BUS,
+> +                       run->mmio.phys_addr, run->mmio.len, run->mmio.dat=
+a);
+> +
+> +       if (!r) {
+> +               kvm_mips_complete_mmio_load(vcpu, run);
+> +               vcpu->mmio_needed =3D 0;
+> +               return EMULATE_DONE;
+> +       }
+> +
+>         return EMULATE_DO_MMIO;
 >  }
-> diff --git a/tests/test-char.c b/tests/test-char.c
-> index 8d39bdc9fa..d5c9049eec 100644
-> --- a/tests/test-char.c
-> +++ b/tests/test-char.c
-> @@ -625,12 +625,14 @@ static void char_udp_test(void)
->  typedef struct {
->      int event;
->      bool got_pong;
-> +    CharBackend *be;
->  } CharSocketTestData;
 >
->
->  #define SOCKET_PING "Hello"
->  #define SOCKET_PONG "World"
->
-> +typedef void (*char_socket_cb)(void *opaque, QEMUChrEvent event);
->
->  static void
->  char_socket_event(void *opaque, QEMUChrEvent event)
-> @@ -639,6 +641,27 @@ char_socket_event(void *opaque, QEMUChrEvent event)
->      data->event =3D event;
->  }
->
-> +static void
-> +char_socket_event_with_error(void *opaque, QEMUChrEvent event)
+> diff --git a/arch/mips/kvm/loongson_ipi.c b/arch/mips/kvm/loongson_ipi.c
+> new file mode 100644
+> index 00000000..3681fc8
+> --- /dev/null
+> +++ b/arch/mips/kvm/loongson_ipi.c
+> @@ -0,0 +1,214 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Loongson-3 Virtual IPI interrupt support.
+> + *
+> + * Copyright (C) 2019  Loongson Technologies, Inc.  All rights reserved.
+> + *
+> + * Authors: Chen Zhu <zhuchen@loongson.cn>
+> + * Authors: Huacai Chen <chenhc@lemote.com>
+> + */
+> +
+> +#include <linux/kvm_host.h>
+> +
+> +#define IPI_BASE            0x3ff01000ULL
+> +
+> +#define CORE0_STATUS_OFF       0x000
+> +#define CORE0_EN_OFF           0x004
+> +#define CORE0_SET_OFF          0x008
+> +#define CORE0_CLEAR_OFF        0x00c
+> +#define CORE0_BUF_20           0x020
+> +#define CORE0_BUF_28           0x028
+> +#define CORE0_BUF_30           0x030
+> +#define CORE0_BUF_38           0x038
+> +
+> +#define CORE1_STATUS_OFF       0x100
+> +#define CORE1_EN_OFF           0x104
+> +#define CORE1_SET_OFF          0x108
+> +#define CORE1_CLEAR_OFF        0x10c
+> +#define CORE1_BUF_20           0x120
+> +#define CORE1_BUF_28           0x128
+> +#define CORE1_BUF_30           0x130
+> +#define CORE1_BUF_38           0x138
+> +
+> +#define CORE2_STATUS_OFF       0x200
+> +#define CORE2_EN_OFF           0x204
+> +#define CORE2_SET_OFF          0x208
+> +#define CORE2_CLEAR_OFF        0x20c
+> +#define CORE2_BUF_20           0x220
+> +#define CORE2_BUF_28           0x228
+> +#define CORE2_BUF_30           0x230
+> +#define CORE2_BUF_38           0x238
+> +
+> +#define CORE3_STATUS_OFF       0x300
+> +#define CORE3_EN_OFF           0x304
+> +#define CORE3_SET_OFF          0x308
+> +#define CORE3_CLEAR_OFF        0x30c
+> +#define CORE3_BUF_20           0x320
+> +#define CORE3_BUF_28           0x328
+> +#define CORE3_BUF_30           0x330
+> +#define CORE3_BUF_38           0x338
+> +
+> +static int loongson_vipi_read(struct loongson_kvm_ipi *ipi,
+> +                               gpa_t addr, int len, void *val)
 > +{
-> +    static bool first_error;
-> +    CharSocketTestData *data =3D opaque;
-> +    CharBackend *be =3D data->be;
-> +    data->event =3D event;
-> +    switch (event) {
-> +    case CHR_EVENT_OPENED:
-> +        if (!first_error) {
-> +            first_error =3D true;
-> +            qemu_chr_fe_disconnect(be);
-> +        }
-> +        return;
-> +    case CHR_EVENT_CLOSED:
-> +        return;
-> +    default:
-> +        return;
-> +    }
+> +       uint32_t core =3D (addr >> 8) & 3;
+> +       uint32_t node =3D (addr >> 44) & 3;
+> +       uint32_t id =3D core + node * 4;
+> +       uint64_t offset =3D addr & 0xff;
+> +       void *pbuf;
+> +       struct ipi_state *s =3D &(ipi->ipistate[id]);
+> +
+> +       BUG_ON(offset & (len - 1));
+> +
+> +       switch (offset) {
+> +       case CORE0_STATUS_OFF:
+> +               *(uint64_t *)val =3D s->status;
+> +               break;
+> +
+> +       case CORE0_EN_OFF:
+> +               *(uint64_t *)val =3D s->en;
+> +               break;
+> +
+> +       case CORE0_SET_OFF:
+> +               *(uint64_t *)val =3D 0;
+> +               break;
+> +
+> +       case CORE0_CLEAR_OFF:
+> +               *(uint64_t *)val =3D 0;
+> +               break;
+> +
+> +       case CORE0_BUF_20 ... CORE0_BUF_38:
+> +               pbuf =3D (void *)s->buf + (offset - 0x20);
+> +               if (len =3D=3D 8)
+> +                       *(uint64_t *)val =3D *(uint64_t *)pbuf;
+> +               else /* Assume len =3D=3D 4 */
+> +                       *(uint32_t *)val =3D *(uint32_t *)pbuf;
+> +               break;
+> +
+> +       default:
+> +               pr_notice("%s with unknown addr %llx\n", __func__, addr);
+> +               break;
+> +       }
+> +
+> +       return 0;
 > +}
 > +
->
->  static void
->  char_socket_read(void *opaque, const uint8_t *buf, int size)
-> @@ -699,19 +722,24 @@ char_socket_addr_to_opt_str(SocketAddress *addr, bo=
-ol fd_pass,
+> +static int loongson_vipi_write(struct loongson_kvm_ipi *ipi,
+> +                               gpa_t addr, int len, const void *val)
+> +{
+> +       uint32_t core =3D (addr >> 8) & 3;
+> +       uint32_t node =3D (addr >> 44) & 3;
+> +       uint32_t id =3D core + node * 4;
+> +       uint64_t data, offset =3D addr & 0xff;
+> +       void *pbuf;
+> +       struct kvm *kvm =3D ipi->kvm;
+> +       struct kvm_mips_interrupt irq;
+> +       struct ipi_state *s =3D &(ipi->ipistate[id]);
+> +
+> +       data =3D *(uint64_t *)val;
+> +       BUG_ON(offset & (len - 1));
+> +
+> +       switch (offset) {
+> +       case CORE0_STATUS_OFF:
+> +               break;
+> +
+> +       case CORE0_EN_OFF:
+> +               s->en =3D data;
+> +               break;
+> +
+> +       case CORE0_SET_OFF:
+> +               s->status |=3D data;
+> +               irq.cpu =3D id;
+> +               irq.irq =3D 6;
+> +               kvm_vcpu_ioctl_interrupt(kvm->vcpus[id], &irq);
+> +               break;
+> +
+> +       case CORE0_CLEAR_OFF:
+> +               s->status &=3D ~data;
+> +               if (!s->status) {
+> +                       irq.cpu =3D id;
+> +                       irq.irq =3D -6;
+> +                       kvm_vcpu_ioctl_interrupt(kvm->vcpus[id], &irq);
+> +               }
+> +               break;
+> +
+> +       case CORE0_BUF_20 ... CORE0_BUF_38:
+> +               pbuf =3D (void *)s->buf + (offset - 0x20);
+> +               if (len =3D=3D 8)
+> +                       *(uint64_t *)pbuf =3D (uint64_t)data;
+> +               else /* Assume len =3D=3D 4 */
+> +                       *(uint32_t *)pbuf =3D (uint32_t)data;
+> +               break;
+> +
+> +       default:
+> +               pr_notice("%s with unknown addr %llx\n", __func__, addr);
+> +               break;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int kvm_ipi_read(struct kvm_vcpu *vcpu, struct kvm_io_device *dev=
+,
+> +                       gpa_t addr, int len, void *val)
+> +{
+> +       unsigned long flags;
+> +       struct loongson_kvm_ipi *ipi;
+> +       struct ipi_io_device *ipi_device;
+> +
+> +       ipi_device =3D container_of(dev, struct ipi_io_device, device);
+> +       ipi =3D ipi_device->ipi;
+> +
+> +       spin_lock_irqsave(&ipi->lock, flags);
+> +       loongson_vipi_read(ipi, addr, len, val);
+> +       spin_unlock_irqrestore(&ipi->lock, flags);
+> +
+> +       return 0;
+> +}
+> +
+> +static int kvm_ipi_write(struct kvm_vcpu *vcpu, struct kvm_io_device *de=
+v,
+> +                       gpa_t addr, int len, const void *val)
+> +{
+> +       unsigned long flags;
+> +       struct loongson_kvm_ipi *ipi;
+> +       struct ipi_io_device *ipi_device;
+> +
+> +       ipi_device =3D container_of(dev, struct ipi_io_device, device);
+> +       ipi =3D ipi_device->ipi;
+> +
+> +       spin_lock_irqsave(&ipi->lock, flags);
+> +       loongson_vipi_write(ipi, addr, len, val);
+> +       spin_unlock_irqrestore(&ipi->lock, flags);
+> +
+> +       return 0;
+> +}
+> +
+> +static const struct kvm_io_device_ops kvm_ipi_ops =3D {
+> +       .read     =3D kvm_ipi_read,
+> +       .write    =3D kvm_ipi_write,
+> +};
+> +
+> +void kvm_init_loongson_ipi(struct kvm *kvm)
+> +{
+> +       int i;
+> +       unsigned long addr;
+> +       struct loongson_kvm_ipi *s;
+> +       struct kvm_io_device *device;
+> +
+> +       s =3D &kvm->arch.ipi;
+> +       s->kvm =3D kvm;
+> +       spin_lock_init(&s->lock);
+> +
+> +       /*
+> +        * Initialize IPI device
+> +        */
+> +       for (i =3D 0; i < 4; i++) {
+> +               device =3D &s->dev_ipi[i].device;
+> +               kvm_iodevice_init(device, &kvm_ipi_ops);
+> +               addr =3D (((unsigned long)i) << 44) + IPI_BASE;
+> +               mutex_lock(&kvm->slots_lock);
+> +               kvm_io_bus_register_dev(kvm, KVM_MMIO_BUS, addr, 0x400, d=
+evice);
+> +               mutex_unlock(&kvm->slots_lock);
+> +               s->dev_ipi[i].ipi =3D s;
+> +               s->dev_ipi[i].node_id =3D i;
+> +       }
+> +}
+> diff --git a/arch/mips/kvm/mips.c b/arch/mips/kvm/mips.c
+> index 5ca122c..ed989ef 100644
+> --- a/arch/mips/kvm/mips.c
+> +++ b/arch/mips/kvm/mips.c
+> @@ -128,6 +128,8 @@ int kvm_arch_check_processor_compat(void *opaque)
+>         return 0;
 >  }
 >
->
-> -static void
-> +static int
->  char_socket_ping_pong(QIOChannel *ioc)
+> +extern void kvm_init_loongson_ipi(struct kvm *kvm);
+> +
+>  int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
 >  {
->      char greeting[sizeof(SOCKET_PING)];
->      const char *response =3D SOCKET_PONG;
+>         switch (type) {
+> @@ -147,6 +149,10 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned long =
+type)
+>         if (!kvm->arch.gpa_mm.pgd)
+>                 return -ENOMEM;
 >
-> -    qio_channel_read_all(ioc, greeting, sizeof(greeting), &error_abort);
-> +    int ret;
-> +    ret =3D qio_channel_read_all(ioc, greeting, sizeof(greeting), &error=
-_abort);
-> +    if (ret !=3D 0) {
-> +        object_unref(OBJECT(ioc));
-> +        return -1;
-> +    }
->
->      g_assert(memcmp(greeting, SOCKET_PING, sizeof(greeting)) =3D=3D 0);
->
->      qio_channel_write_all(ioc, response, sizeof(SOCKET_PONG), &error_abo=
-rt);
-> -
->      object_unref(OBJECT(ioc));
-> +    return 0;
+> +#ifdef CONFIG_CPU_LOONGSON64
+> +       kvm_init_loongson_ipi(kvm);
+> +#endif
+> +
+>         return 0;
 >  }
 >
->
-> @@ -783,6 +811,7 @@ static void char_socket_server_test(gconstpointer opa=
-que)
->
->   reconnect:
->      data.event =3D -1;
-> +    data.be =3D &be;
->      qemu_chr_fe_set_handlers(&be, NULL, NULL,
->                               char_socket_event, NULL,
->                               &data, NULL, true);
-> @@ -855,10 +884,13 @@ char_socket_client_server_thread(gpointer data)
->      QIOChannelSocket *ioc =3D data;
->      QIOChannelSocket *cioc;
->
-> +retry:
->      cioc =3D qio_channel_socket_accept(ioc, &error_abort);
->      g_assert_nonnull(cioc);
->
-> -    char_socket_ping_pong(QIO_CHANNEL(cioc));
-> +    if (char_socket_ping_pong(QIO_CHANNEL(cioc)) !=3D 0) {
-> +        goto retry;
-> +    }
->
->      return NULL;
->  }
-> @@ -869,6 +901,7 @@ typedef struct {
->      const char *reconnect;
->      bool wait_connected;
->      bool fd_pass;
-> +    char_socket_cb event_cb;
->  } CharSocketClientTestConfig;
->
->  static void char_socket_client_dupid_test(gconstpointer opaque)
-> @@ -920,6 +953,7 @@ static void char_socket_client_dupid_test(gconstpoint=
-er opaque)
->  static void char_socket_client_test(gconstpointer opaque)
->  {
->      const CharSocketClientTestConfig *config =3D opaque;
-> +    const char_socket_cb event_cb =3D config->event_cb;
->      QIOChannelSocket *ioc;
->      char *optstr;
->      Chardev *chr;
-> @@ -983,8 +1017,9 @@ static void char_socket_client_test(gconstpointer op=
-aque)
->
->   reconnect:
->      data.event =3D -1;
-> +    data.be =3D &be;
->      qemu_chr_fe_set_handlers(&be, NULL, NULL,
-> -                             char_socket_event, NULL,
-> +                             event_cb, NULL,
->                               &data, NULL, true);
->      if (config->reconnect) {
->          g_assert(data.event =3D=3D -1);
-> @@ -1022,7 +1057,7 @@ static void char_socket_client_test(gconstpointer o=
-paque)
->      /* Setup a callback to receive the reply to our greeting */
->      qemu_chr_fe_set_handlers(&be, char_socket_can_read,
->                               char_socket_read,
-> -                             char_socket_event, NULL,
-> +                             event_cb, NULL,
->                               &data, NULL, true);
->      g_assert(data.event =3D=3D CHR_EVENT_OPENED);
->      data.event =3D -1;
-> @@ -1467,19 +1502,22 @@ int main(int argc, char **argv)
->
->  #define SOCKET_CLIENT_TEST(name, addr)                                  =
-\
->      static CharSocketClientTestConfig client1 ## name =3D               =
-  \
-> -        { addr, NULL, false, false };                                   =
-\
-> +        { addr, NULL, false, false, char_socket_event};                 =
-\
->      static CharSocketClientTestConfig client2 ## name =3D               =
-  \
-> -        { addr, NULL, true, false };                                    =
-\
-> +        { addr, NULL, true, false, char_socket_event };                 =
-\
->      static CharSocketClientTestConfig client3 ## name =3D               =
-  \
-> -        { addr, ",reconnect=3D1", false };                              =
-  \
-> +        { addr, ",reconnect=3D1", false, false, char_socket_event };    =
-  \
->      static CharSocketClientTestConfig client4 ## name =3D               =
-  \
-> -        { addr, ",reconnect=3D1", true };                               =
-  \
-> +        { addr, ",reconnect=3D1", true, false, char_socket_event };     =
-  \
->      static CharSocketClientTestConfig client5 ## name =3D               =
-  \
-> -        { addr, NULL, false, true };                                    =
-\
-> +        { addr, NULL, false, true, char_socket_event };                 =
-\
->      static CharSocketClientTestConfig client6 ## name =3D               =
-  \
-> -        { addr, NULL, true, true };                                     =
-\
-> +        { addr, NULL, true, true, char_socket_event };                  =
-\
->      static CharSocketClientTestConfig client7 ## name =3D               =
-  \
-> -        { addr, ",reconnect=3D1", false, false };                       =
-  \
-> +        { addr, ",reconnect=3D1", false, false, char_socket_event };    =
-  \
-> +    static CharSocketClientTestConfig client8 ## name =3D               =
-  \
-> +        { addr, ",reconnect=3D1", true, false,                          =
-  \
-> +            char_socket_event_with_error };                             =
-\
->      g_test_add_data_func("/char/socket/client/mainloop/" # name,        =
-\
->                           &client1 ##name, char_socket_client_test);     =
-\
->      g_test_add_data_func("/char/socket/client/wait-conn/" # name,       =
-\
-> @@ -1493,7 +1531,9 @@ int main(int argc, char **argv)
->      g_test_add_data_func("/char/socket/client/wait-conn-fdpass/" # name,=
- \
->                           &client6 ##name, char_socket_client_test);     =
-\
->      g_test_add_data_func("/char/socket/client/dupid-reconnect/" # name, =
-\
-> -                         &client7 ##name, char_socket_client_dupid_test)
-> +                         &client7 ##name, char_socket_client_dupid_test)=
-;\
-> +    g_test_add_data_func("/char/socket/client/reconnect-error/" # name, =
-\
-> +                         &client8 ##name, char_socket_client_test)
->
->      if (has_ipv4) {
->          SOCKET_SERVER_TEST(tcp, &tcpaddr);
 > --
-> 2.11.0
+> 2.7.0
 >
-
 
