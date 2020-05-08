@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902B11CAD86
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:04:48 +0200 (CEST)
-Received: from localhost ([::1]:33102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CA41CAE9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:11:52 +0200 (CEST)
+Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2gJ-0007UA-F2
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:04:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54868)
+	id 1jX2n9-0003ru-2u
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jX2bY-0001A8-Rr
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:59:52 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44611)
+ id 1jX2ba-0001CQ-01
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:59:54 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1jX2bY-0006eq-0N
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:59:52 -0400
-Received: by mail-wr1-x443.google.com with SMTP id 50so1202727wrc.11
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 05:59:51 -0700 (PDT)
+ id 1jX2bZ-0006hB-7T
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:59:53 -0400
+Received: by mail-wr1-x443.google.com with SMTP id l18so1732272wrn.6
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 05:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=OHvBPJe5dvk8hPuFqDgGk/yn6yHcuCjG//Dr25P1Lus=;
- b=hWqbJJsJSAaAvtOBPv1r0nXLKKzNxMLphVqY9czvSd4wF4smjkmr7hRG+aRarPbcSA
- 7NFvhiUMwqGrfaj8qcVhGyG75T/crveJCbuy5rSiHLSDkiIv613WtYKFo194xi6Y3WBZ
- SjOAMMLNqkSd9/xVsFU1NFUdm7JA2VE0lioMP80gdycL9h+decYjtFD1pmRB7Q1Nsblq
- ykIk/IWKPtb9Iu6MdaCjvErpMszuErN86d9zL5CcjEj8P8bBY9cscQ23wo2OlQY6TULA
- GHk7f8/ZYf7z6l15jSFgxmV5IRBg8Y+6U7uTenXut0GHaHgRl/Sqen033wqRTQkTuLxS
- hspA==
+ bh=/hmWHO6d7/G558em/hObj2NusDs/d8TWPYPLgPOejdI=;
+ b=bz2GEL9NKlKov5U1IR81lsUGdhzQpjNb9u+V4wOER38/VNyrK4diko7P/mcdbi5oeO
+ VVDCSOZb+NEEYITyfk/Y6m8naQOYtzGx8Ccgc0ceANV/TVb5npObMr+wiUlJcz5ZSdco
+ TRGmD+s+ggSgqC7VIl02CTR5Kopg+UKQjg8WAgOVozTzQ0A2NlqWu4O92tLoCu5wwap2
+ a2L9ivjwKiAHHQSQ1pKM1JRaY5KI3ZZaAhY6j1Cad+b0dUxmj9t19Q0gFV3m1D8j4vdB
+ TodKS3VB8aO+iS04dfohUwowCnol7eytpRokkD0FMZeQfR/ldKOuj7dLjBMVXJ+usylj
+ 2FUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=OHvBPJe5dvk8hPuFqDgGk/yn6yHcuCjG//Dr25P1Lus=;
- b=HLw+HUgIgQH0tqndqVk9g0GP0jIM83vtvX0S5bV87ET7HTlXQQJwJ8Gn7rqAzGo3jK
- g5En84BXtsrLVpQLZEUOwOUUgfrMLwYudyW/Lv++65v0FE55TlrNOZK45glp+sPRFE77
- ETzrhHsK+ayfwzErrLomn5ScX+28LomEs1tUT6bJ0LGZCSNAMh7mtHNAlX9/SHOri+cz
- 2+oX5R6MuQMKf7PeiM/B9Ytf47TZTPw1FVfgEjRhx16zx4meBjHeMBI8muA4CuJ0g8py
- 2QYioNBJBjnKKVj4Y9tu6K9bP9X+wiaF0iyMhFcnNnMSa9pL2n/fOCU2LV1TkDcH9Cd4
- qB+A==
-X-Gm-Message-State: AGi0PuZm2ibnkC70JxSrq9ekZt80KDGn4j5yP+EQZ+r7D39JVbd6F8Sr
- O+15XPkILUBWyI4V4oq4ME8G7rGAFBOPfg==
-X-Google-Smtp-Source: APiQypKvqoqebW/EvxV2iTicGyQ1x7b9LgoDbPbml1eldSkaNb5/q2x5kQKYVoOniDkKk09PkpEC4Q==
-X-Received: by 2002:a05:6000:12cf:: with SMTP id
- l15mr2823410wrx.348.1588942790589; 
- Fri, 08 May 2020 05:59:50 -0700 (PDT)
+ bh=/hmWHO6d7/G558em/hObj2NusDs/d8TWPYPLgPOejdI=;
+ b=sQBrFqYwhsIxCiFT5yqusnVL0htInYCo5epE5W7WkJrEuH07BqToNpk31Z8B9CzKAb
+ XGJsxUjfQsbzhMQIwcWKHjUHUivDlCIWYP8v8t15zjEi7Ac5umM1pNaqc7cKh329DQU0
+ UFYApXEvc9KaE+FxaEVg13cMFJLJOZUKW0HUeuMjut2TfQkLCVTa98LlOoPn8OQ1cVn7
+ Re7ejx2M3awsTVrCZ6YqQexdule2ksgKg/eAzaTudTOXFtfJsHIhu8RXzX1O1IqaQHHk
+ D75hAT81Mj4l7MNpDzSgC9gSRGORuk1CCobV77kNeIRz1n7RXHT+ixqvjcegXvg7BCJD
+ /rxw==
+X-Gm-Message-State: AGi0Pub40x1FdQpoRgxPaHNVNVqRVwlDVSPEC44oionfGL01yu/mtS8s
+ 6D07atxAX671SHF3VifkhC/LFSi0AipowQ==
+X-Google-Smtp-Source: APiQypIZ67c/pX1TTu07upMI6r6h0qTOc8pPA05J7U6EEy/whoVCDcwR1BNBty13NBWzSKlSJ9QzAw==
+X-Received: by 2002:adf:e2c2:: with SMTP id d2mr3028472wrj.55.1588942791821;
+ Fri, 08 May 2020 05:59:51 -0700 (PDT)
 Received: from f2.redhat.com (bzq-79-183-19-16.red.bezeqint.net.
  [79.183.19.16])
- by smtp.gmail.com with ESMTPSA id g6sm2915974wrw.34.2020.05.08.05.59.49
+ by smtp.gmail.com with ESMTPSA id g6sm2915974wrw.34.2020.05.08.05.59.50
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 08 May 2020 05:59:50 -0700 (PDT)
+ Fri, 08 May 2020 05:59:51 -0700 (PDT)
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com
-Subject: [PATCH v8 6/7] virtio-net: add migration support for RSS and hash
- report
-Date: Fri,  8 May 2020 15:59:33 +0300
-Message-Id: <20200508125934.7861-7-yuri.benditovich@daynix.com>
+Subject: [PATCH v8 7/7] virtio-net: align RSC fields with updated virtio-net
+ header
+Date: Fri,  8 May 2020 15:59:34 +0300
+Message-Id: <20200508125934.7861-8-yuri.benditovich@daynix.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200508125934.7861-1-yuri.benditovich@daynix.com>
 References: <20200508125934.7861-1-yuri.benditovich@daynix.com>
@@ -89,75 +88,65 @@ Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save and restore RSS/hash report configuration.
+Removal of duplicated RSC definitions. Changing names of the
+fields to ones defined in the Linux header.
 
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 ---
- hw/net/virtio-net.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ hw/net/virtio-net.c | 28 ++++------------------------
+ 1 file changed, 4 insertions(+), 24 deletions(-)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 5facd333ce..c263b1511d 100644
+index c263b1511d..10b4ba50ad 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -2777,6 +2777,13 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
-         }
-     }
+@@ -88,26 +88,6 @@
+                                          VIRTIO_NET_RSS_HASH_TYPE_TCP_EX | \
+                                          VIRTIO_NET_RSS_HASH_TYPE_UDP_EX)
  
-+    if (n->rss_data.enabled) {
-+        trace_virtio_net_rss_enable(n->rss_data.hash_types,
-+                                    n->rss_data.indirections_len,
-+                                    sizeof(n->rss_data.key));
-+    } else {
-+        trace_virtio_net_rss_disable();
-+    }
-     return 0;
- }
+-/* temporary until standard header include it */
+-#if !defined(VIRTIO_NET_HDR_F_RSC_INFO)
+-
+-#define VIRTIO_NET_HDR_F_RSC_INFO  4 /* rsc_ext data in csum_ fields */
+-#define VIRTIO_NET_F_RSC_EXT       61
+-
+-#endif
+-
+-static inline __virtio16 *virtio_net_rsc_ext_num_packets(
+-    struct virtio_net_hdr *hdr)
+-{
+-    return &hdr->csum_start;
+-}
+-
+-static inline __virtio16 *virtio_net_rsc_ext_num_dupacks(
+-    struct virtio_net_hdr *hdr)
+-{
+-    return &hdr->csum_offset;
+-}
+-
+ static VirtIOFeature feature_sizes[] = {
+     {.flags = 1ULL << VIRTIO_NET_F_MAC,
+      .end = endof(struct virtio_net_config, mac)},
+@@ -1821,15 +1801,15 @@ static size_t virtio_net_rsc_drain_seg(VirtioNetRscChain *chain,
+                                        VirtioNetRscSeg *seg)
+ {
+     int ret;
+-    struct virtio_net_hdr *h;
++    struct virtio_net_hdr_v1 *h;
  
-@@ -2954,6 +2961,32 @@ static const VMStateDescription vmstate_virtio_net_has_vnet = {
-     },
- };
+-    h = (struct virtio_net_hdr *)seg->buf;
++    h = (struct virtio_net_hdr_v1 *)seg->buf;
+     h->flags = 0;
+     h->gso_type = VIRTIO_NET_HDR_GSO_NONE;
  
-+static bool virtio_net_rss_needed(void *opaque)
-+{
-+    return VIRTIO_NET(opaque)->rss_data.enabled;
-+}
-+
-+static const VMStateDescription vmstate_virtio_net_rss = {
-+    .name      = "virtio-net-device/rss",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = virtio_net_rss_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_BOOL(rss_data.enabled, VirtIONet),
-+        VMSTATE_BOOL(rss_data.redirect, VirtIONet),
-+        VMSTATE_BOOL(rss_data.populate_hash, VirtIONet),
-+        VMSTATE_UINT32(rss_data.hash_types, VirtIONet),
-+        VMSTATE_UINT16(rss_data.indirections_len, VirtIONet),
-+        VMSTATE_UINT16(rss_data.default_queue, VirtIONet),
-+        VMSTATE_UINT8_ARRAY(rss_data.key, VirtIONet,
-+                            VIRTIO_NET_RSS_MAX_KEY_SIZE),
-+        VMSTATE_VARRAY_UINT16_ALLOC(rss_data.indirections_table, VirtIONet,
-+                                    rss_data.indirections_len, 0,
-+                                    vmstate_info_uint16, uint16_t),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
- static const VMStateDescription vmstate_virtio_net_device = {
-     .name = "virtio-net-device",
-     .version_id = VIRTIO_NET_VM_VERSION,
-@@ -3004,6 +3037,10 @@ static const VMStateDescription vmstate_virtio_net_device = {
-                             has_ctrl_guest_offloads),
-         VMSTATE_END_OF_LIST()
-    },
-+    .subsections = (const VMStateDescription * []) {
-+        &vmstate_virtio_net_rss,
-+        NULL
-+    }
- };
- 
- static NetClientInfo net_virtio_info = {
+     if (seg->is_coalesced) {
+-        *virtio_net_rsc_ext_num_packets(h) = seg->packets;
+-        *virtio_net_rsc_ext_num_dupacks(h) = seg->dup_ack;
++        h->rsc.segments = seg->packets;
++        h->rsc.dup_acks = seg->dup_ack;
+         h->flags = VIRTIO_NET_HDR_F_RSC_INFO;
+         if (chain->proto == ETH_P_IP) {
+             h->gso_type = VIRTIO_NET_HDR_GSO_TCPV4;
 -- 
 2.17.1
 
