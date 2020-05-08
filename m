@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA54A1CB3FD
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:52:34 +0200 (CEST)
-Received: from localhost ([::1]:42128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 311F11CB40D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:54:08 +0200 (CEST)
+Received: from localhost ([::1]:50146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX5If-00040v-PA
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41210)
+	id 1jX5KB-0000KL-5V
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX5Aa-0007Zg-GR
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:12 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:39054)
+ id 1jX5Ab-0007cP-T1
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:13 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX5AZ-00055t-N0
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:12 -0400
-Received: by mail-pf1-x443.google.com with SMTP id 18so1129445pfx.6
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:44:11 -0700 (PDT)
+ id 1jX5Ab-0005Am-0K
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:13 -0400
+Received: by mail-pl1-x644.google.com with SMTP id t7so896289plr.0
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NN/QLBosnfSE6MOjBuSmBLZSNupnPgsxwETGi0A5VuM=;
- b=YSTkmNdPAb6KWVnRXBQOb9kH/kZiOxMSfb0NNfEwvv02MVv+Pqr48jnlkNBSdwnNmY
- TExxZ2xg10NLDylQc9LxuZ0eiqO6RPkST+QpMw1o+9WgsHrzGigAXskLlqM+MFz4/dHy
- Hd5b6BL+dsdLy0qH5dIpP9WWmeNAcxBnkqxycn41K8FM+EgYlu4CcBAhLFGsDIp6xCjd
- ID5/noCtmQrM13DOntYHdOIyiS5+er4T8aHmZkve0IQG5CiCLx81PaBGuSdNQhxKoGyd
- qHcQiRGNLAeRsAhFQcX06nynr2z/9HpvnunjFZTgENG6a0VbHqeV1qtL59MxZq0I1tuh
- zfgw==
+ bh=Ar4ktbgi8ho4D2K0AlAA7ABuossIOEQqKwU/YvDdwbY=;
+ b=ZdydXPRhNZgdD9zIFzZz76BjDSza6fXyPwoktHSKq7jeSb7C+qRauV9UNTecJMcHrH
+ aCLreOkVI61D/fUeZbNToHXSgnM32z1uxxAwKnV+OPL8MMkABOlOjyeoHrEc0Vi88FPS
+ QqJkExE+Fq6JNmTWppxFqyQXIRVvAYuppbIEYDKGrB6Mh+FUfLhIW6v7AxtxDzMKFJL3
+ 8kep2b42X7eDkAPGv7afHva/HOdF5py6CacNgwTVAIHL9iinlljmIojFlXgJQB21u6mG
+ s3pX+hPkd5D7gKcZ0qcZOU7TYxJ+iDKQZPpAXAX8xfu+g31O5Medq3iXP4OwUB+dUce3
+ ZD2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NN/QLBosnfSE6MOjBuSmBLZSNupnPgsxwETGi0A5VuM=;
- b=VA1t2R8wcjl2XayR1EgKUzb3BCCv9OsliAh3bhc8zz9SZ8ZzcTYUZf1XZVgAUYFJsL
- BiqoQl8xgjPXSiOVG3uobmT5zDeabpLx4zY8TcgchN1blOGFtx84i9tJF36NGDHpqamu
- skAoOh6Gw6uaDlFTINt5NeGoOmV1jR9dtgfh9GwwNCk6KcYutfHpzOtZBv9qzxXq+nqD
- jOURQaidgPomkZ1wKt7nS1LDEhNIKvS4bKFm+97wfweVd865Khju/1yuT7OK20ESKlPF
- kZ9Ocvj82seK5J/0hvVVSD9bUHLEZ/bG2H6FWxIP10LjL7Z3EmQhLcvT7yFiodIn9ddA
- /BlA==
-X-Gm-Message-State: AGi0PuZSL3wnAQz0+gm4ahZPn655TTOnZRYBAAN2PULGiZ7msdY7gcHA
- e0lcukh8UnXsBsLK91Xddh28DqfiPVU=
-X-Google-Smtp-Source: APiQypIC6J0oFvA9p/4SZ9TQwAcfvyE8hMGYIrjthbT/ZiuXhe2xCUCCuN2OCF5A6grH/ZvghAdCaQ==
-X-Received: by 2002:a62:7c16:: with SMTP id x22mr3458266pfc.267.1588952650069; 
- Fri, 08 May 2020 08:44:10 -0700 (PDT)
+ bh=Ar4ktbgi8ho4D2K0AlAA7ABuossIOEQqKwU/YvDdwbY=;
+ b=iB+V8o+uaEvxKtl44tjctXJVfE4tzp3jezE6AcwuD7hLBpt4TeXbMyL7I4/HkB+WrL
+ WGZT+FWP6aUOfep3Q6vmFQchrCDUoleZ66yrjqNhO3uafYaqGKwHe6FkTWLeFJZUTi9y
+ LjmL1dkI0Iyh56m+C9du2afW988uvMyphecV3HMPJj8ySZfH2pwyacdkUDh7fA7y0i0m
+ 9a+TfgwhyJ3aye9jtVmimziDAy1rscIIip4FRoLCLjEgfi4/20KkAanQYoI5qKmlXsA7
+ TKxwBH03iDwfD+mlfvMPoLLv34kd7zX48kGXo4R98HWOCvXRk2jNkGQyNTWxyMg6bP56
+ Pzaw==
+X-Gm-Message-State: AGi0PuZTVfbrtbEQyQdz5um2JAgDdm0pUG7NIYGuw7PBArKtWwg4sHpk
+ ZB21Lf/yfinhX2gAjiS22xin1ST6iSs=
+X-Google-Smtp-Source: APiQypKiTjGeNdHu+OHkpKpoh+yyEFanFn+8hTeLZNB2Al5ycxoRjJIO9GS8DWKBJEhNJswI3KUypQ==
+X-Received: by 2002:a17:902:c213:: with SMTP id
+ 19mr3027627pll.172.1588952651211; 
+ Fri, 08 May 2020 08:44:11 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id o99sm2727662pjo.8.2020.05.08.08.44.08
+ by smtp.gmail.com with ESMTPSA id o99sm2727662pjo.8.2020.05.08.08.44.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 08:44:09 -0700 (PDT)
+ Fri, 08 May 2020 08:44:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/19] exec: Fix cpu_watchpoint_address_matches address
- length
-Date: Fri,  8 May 2020 08:43:42 -0700
-Message-Id: <20200508154359.7494-3-richard.henderson@linaro.org>
+Subject: [PATCH v5 03/19] accel/tcg: Add block comment for probe_access
+Date: Fri,  8 May 2020 08:43:43 -0700
+Message-Id: <20200508154359.7494-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200508154359.7494-1-richard.henderson@linaro.org>
 References: <20200508154359.7494-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,28 +90,40 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only caller of cpu_watchpoint_address_matches passes
-TARGET_PAGE_SIZE, so the bug is not currently visible.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- exec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/exec/exec-all.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/exec.c b/exec.c
-index 2874bb5088..5162f0d12f 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1127,7 +1127,7 @@ int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
-     int ret = 0;
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 350c4b451b..d656a1f05c 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -330,6 +330,23 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
+ {
+ }
+ #endif
++/**
++ * probe_access:
++ * @env: CPUArchState
++ * @addr: guest virtual address to look up
++ * @size: size of the access
++ * @access_type: read, write or execute permission
++ * @mmu_idx: MMU index to use for lookup
++ * @retaddr: return address for unwinding
++ *
++ * Look up the guest virtual address @addr.  Raise an exception if the
++ * page does not satisfy @access_type.  Raise an exception if the
++ * access (@addr, @size) hits a watchpoint.  For writes, mark a clean
++ * page as dirty.
++ *
++ * Finally, return the host address for a page that is backed by RAM,
++ * or NULL if the page requires I/O.
++ */
+ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr);
  
-     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
--        if (watchpoint_address_matches(wp, addr, TARGET_PAGE_SIZE)) {
-+        if (watchpoint_address_matches(wp, addr, len)) {
-             ret |= wp->flags;
-         }
-     }
 -- 
 2.20.1
 
