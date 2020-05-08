@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78561CA5BE
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:11:04 +0200 (CEST)
-Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268341CA5D0
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:14:01 +0200 (CEST)
+Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWy63-0003Ae-Py
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:11:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
+	id 1jWy8u-0005X5-7c
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:14:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWy4b-0001XI-Br
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:09:33 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26243
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jWy7y-0004Ih-2N
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:13:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27366
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWy4a-0001jp-4o
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:09:33 -0400
+ id 1jWy7v-0007en-BR
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:13:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588925371;
+ s=mimecast20190719; t=1588925578;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oX/UTFDoFq2xilmT5mQ3wHoTb7H1sD2yz5pYFLm5wvI=;
- b=Zs04LEXJdS6IxWAfeakpVtkI2VWSrAfFzpER6TVGl23NTsJICFl0Lhd7nFSc1ol6gQnLuh
- R0+wG/q8n9X80qaQybVmVmkFew34S8U0Gj9HCwnsj2GaQJzuwz5NTq3kVLKnEoo89ZJ7JL
- 7KXlkVWnjLHwKNyi4wdepe6Px8qUkko=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-z2AKT7GHPS2OxR8JOGXI7w-1; Fri, 08 May 2020 04:09:24 -0400
-X-MC-Unique: z2AKT7GHPS2OxR8JOGXI7w-1
-Received: by mail-wr1-f70.google.com with SMTP id y4so522925wrt.4
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:09:23 -0700 (PDT)
+ bh=YLoNvgAnmhAe37oY099ELg/k7qGKpXf7UiAPPYIuppk=;
+ b=VYCVJ2RM4NNmYN/+ax8zVlvsVeHuxSkglHA7JlXkdA1vCcdE4Zpj8mQ6tW0kbfg8fRQH++
+ epNHmTS5DMl6PbD9wAFLcKW6ZwQnM1JCdU+CYMk3yHxcJxuj0g/X7jB2XBPrUkuzSKaBV5
+ 208CwpVjiCKkTWloW1xd0qzaXbJnUl0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-224-oTgP2uX6ORaBJC2ATjdaHQ-1; Fri, 08 May 2020 04:12:56 -0400
+X-MC-Unique: oTgP2uX6ORaBJC2ATjdaHQ-1
+Received: by mail-wm1-f72.google.com with SMTP id h184so4825567wmf.5
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:12:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=oX/UTFDoFq2xilmT5mQ3wHoTb7H1sD2yz5pYFLm5wvI=;
- b=fUA9Lg4yQa/GxqSzqGrBZ5TON6xoaCImtp6h0tQqK8sXZbTZxH6qgtTKHzy0EEsn3Z
- OpdK8Bo0tRphMlAN2g/1UedcRg/8P4JCySdszPopGBw0mdENv9vjCPyKN12BaGqdOmvS
- pSy1RHlzh1dr56A0DGVj6FR1pn/phUUTacRZvrpyHFf9hnjXKRRNbG0SMhD9C/tTKoUC
- LukBzq/VHWsGO9jymiIWSQ93JOg3v20GFCfQaPnqY9z4hQQE46hbe+vjGKB+xpNuz4eF
- dkxk6+J3lwpvJOa34Q9jDPmH+ZaiurOpJZuxc/gKQm5rlaYaXYLXwfRQaZOmWMrWF4bs
- r2SA==
-X-Gm-Message-State: AGi0PuakRGU5TwwFsPul+dvT4qpZehyzCkMWTrq9oALFdDO5G9xkq0so
- pgEqxo6jpX0O+TZjNhKUtb+QVOMCJEEmhTJPkYLw7AXG/XRVWFnxtm9L8xirlsOoackrMPkPYor
- 3ja+hEuesdxzAqDk=
-X-Received: by 2002:a05:600c:4013:: with SMTP id
- i19mr7964324wmm.71.1588925362529; 
- Fri, 08 May 2020 01:09:22 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJG6RJSOyv396s8s2+8n0ipFN2UscfyyVhf1hHc0lUCk28q5UY+7qDJkv0m7anKVQiKS7UFCg==
-X-Received: by 2002:a05:600c:4013:: with SMTP id
- i19mr7964306wmm.71.1588925362371; 
- Fri, 08 May 2020 01:09:22 -0700 (PDT)
+ bh=YLoNvgAnmhAe37oY099ELg/k7qGKpXf7UiAPPYIuppk=;
+ b=SiN216XcY4MW5iaoQJ5euC/gbzAIMSW/e4c/X5ujkaSwvIvDpJ2EyLAWEbUj/WNStO
+ L+T4YafiVQ8ErWIIoxhV/SBFRydb1o/96mhreZIVs6zNNXU2Urq0HcN56z7KBDD7iSQ0
+ 0d4oaEDIoWBjEUt627w0YJVVrJiqfJs5lWKlcN7fMo/T94qQTF4+jiHslQy1jRyoTpc9
+ SBCn8ihnghlcfaeDUDr3F9VVC8qY7To2CPXnt4TbtzSsXQIBMPbHmpLol6bIJACJ2cW2
+ U8AbLtcoqRHhk33nYcEJsy3qHvgmJ7/fTdvMURAezr/ueeAjDLpsEZabiHA2thDShe9R
+ VY5g==
+X-Gm-Message-State: AGi0PubizcAQdjuFRj7BkPFB4jFI5QdKAI3BgpNQ0CNDwu+jUi+rYQyF
+ Fu8FQ7GG+vSxgsYL542J+SSmNecmwDGkOyS72MX9CYqINQtT8foq8LRTbyZxEsYsozTzZRxU9zG
+ FzO7gpD+ypf1/MTs=
+X-Received: by 2002:adf:9286:: with SMTP id 6mr1573107wrn.179.1588925575084;
+ Fri, 08 May 2020 01:12:55 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJniVE7SdUvDZPGcVfmK34MTJP2V68E0OO7nQf2tYId/f91uLf28KiJH9N9YOElUquHEfqkBA==
+X-Received: by 2002:adf:9286:: with SMTP id 6mr1573080wrn.179.1588925574912;
+ Fri, 08 May 2020 01:12:54 -0700 (PDT)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id r11sm516796wrv.14.2020.05.08.01.09.20
+ by smtp.gmail.com with ESMTPSA id g74sm11802679wme.44.2020.05.08.01.12.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 01:09:21 -0700 (PDT)
+ Fri, 08 May 2020 01:12:54 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 08/10] hw/block: Let the NVMe emulated device be
- target-agnostic
-In-Reply-To: <20200507173958.25894-9-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 7 May 2020 19:39:56
+Subject: Re: [PATCH 10/10] exec: Move cpu_physical_memory_* functions to
+ 'exec/memory-internal.h'
+In-Reply-To: <20200507173958.25894-11-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 7 May 2020 19:39:58
  +0200")
 References: <20200507173958.25894-1-philmd@redhat.com>
- <20200507173958.25894-9-philmd@redhat.com>
+ <20200507173958.25894-11-philmd@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Fri, 08 May 2020 10:09:20 +0200
-Message-ID: <87a72ig85r.fsf@secure.mitica>
+Date: Fri, 08 May 2020 10:12:53 +0200
+Message-ID: <875zd6g7zu.fsf@secure.mitica>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:25
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=quintela@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -119,10 +117,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> Now than qemu_ram_msync() has been ...
->
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Once here, can someone give a test that meassures if it makes sense that
+this functions are inline?
+They are relatively big, and I would preffer them to be in a .c file,
+but I have no clue about how performance critical they are.
+
+Again, this include was another of the reasons that migration/ram.c
+can't be make target agnostic.
+
+Later, Juan.
 
 
