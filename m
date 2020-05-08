@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04251CB609
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 19:32:28 +0200 (CEST)
-Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA5581CB61E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 19:36:03 +0200 (CEST)
+Received: from localhost ([::1]:55470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX6rL-00008F-Bl
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 13:32:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47870)
+	id 1jX6uo-0004op-OR
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 13:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
- id 1jX6q4-0007kU-II
- for qemu-devel@nongnu.org; Fri, 08 May 2020 13:31:08 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:37266)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
- id 1jX6q3-0006Ft-JK
- for qemu-devel@nongnu.org; Fri, 08 May 2020 13:31:08 -0400
-Received: by mail-io1-xd42.google.com with SMTP id u11so2591920iow.4
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 10:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kdk0kUyMhofrKL8cT/0ym4KC3p3RaAaMrBjo/oA0SvU=;
- b=RDu7Q0r6qt0jccGwYFbjiMXZM16ugIgBkM631HVnTXf56yntVd5qqZMJnqSHLjinDw
- mwUGuIbMWRjhgcON8kaf+EDWIaC+P2ZePWEOFlWtIw9JuIXkQ6ERArH5qri4An4/pJXk
- CkoQFMJx0jAFOH7x6blmgbUD5lM4a9N2lRTi12cGeB6fMEsZDEgI+VaVxlyVFTZ6ZFfw
- eCgegTpnGwdMNqtXzlxdm+eJDiUqRzu/jlrUr0m6H9plXL30OXFkAThfnH9OO2MFE6Aq
- nJpCn4Ps9Xr+FOJXWKMgsqZHoMfOCyyEGbXbMcHp0dqFqX1EVZdwpkZKtl5QIXFx+SEE
- Garw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kdk0kUyMhofrKL8cT/0ym4KC3p3RaAaMrBjo/oA0SvU=;
- b=QD088X3kYd9KN4YcNOgXdZfpPfY1cZE9FqyVrSQ4/Y8MBVgxfPQF7Wn1SxiGu3hbD5
- At5xaZ2Tt9wRc7+IRjeJzv0Ipcb/wOQv6xgTmys3BY6Iex/jPWcDSXycGO2lSBHWG+y4
- ai3+6+jqQYCQ7BMkHbZd6414p2hK9fXm4lEdUV7dtOYF/RRbrl+f/TjR3VpH9ufsggEG
- FgI08izVzmfM59LOlOvpGZszuRb71xTpEL7SXvXtqZKpb4a2DbZ2LxjEgcAKKeZPsbAj
- he0QvSSnY9OuurJJ3UM/2lvW/GiqPBQ7HLYbHltEBULzDhyrOzWQnUQmmjl3YDIc79/a
- 8R3A==
-X-Gm-Message-State: AGi0PuYSCoUPGKIXC/SG9PM5psyTQTYjYom/A81oa4IhBRg1J/5jvZ5X
- 1Jklks+pX+XZdhoPYIBvhreyDFT7ZfziAhQKxBk=
-X-Google-Smtp-Source: APiQypKIWh1mwJjO4DyFfe4PobimhzMBcWNw18a6QrZWEK23lYvaqiX310FuZE2mj34AsTS0xWFQU7xUlpnRzNLCZ5U=
-X-Received: by 2002:a6b:d90f:: with SMTP id r15mr3689145ioc.5.1588959065176;
- Fri, 08 May 2020 10:31:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jX6qN-00089A-Sd
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 13:31:27 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43144
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1jX6qK-0007da-RQ
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 13:31:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588959084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zHTjC5bNaqRh/6Gz4+rqfpS0GeoPwj/VGfvVs65rmHw=;
+ b=Zi2FZEsOw6ZlbDQN6hFsRlVTNxJnBjKzXl0YuAxAFo0exSQJ/Gs7nUUUYwNmGwk2R9y1k2
+ 00CBTBEtFnBrO6wGOYjOq6VMpmQ+x8N1Y+l1SRtovGE6lqnQq1IurJ6w9rUySPobdBKvOT
+ PHSSjQPY53tIjQFBdkGPl5rq5kVWdog=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-YX6hIeZ_MpSHcZWfi-EpAA-1; Fri, 08 May 2020 13:31:18 -0400
+X-MC-Unique: YX6hIeZ_MpSHcZWfi-EpAA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 896E380058A;
+ Fri,  8 May 2020 17:31:17 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-114-214.ams2.redhat.com [10.36.114.214])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E9F160BE1;
+ Fri,  8 May 2020 17:31:14 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
+ jean-philippe@linaro.org, bbhushan2@marvell.com, peterx@redhat.com,
+ armbru@redhat.com, pbonzini@redhat.com
+Subject: [PATCH v2 2/5] virtio-iommu: Implement RESV_MEM probe request
+Date: Fri,  8 May 2020 19:30:54 +0200
+Message-Id: <20200508173057.32215-3-eric.auger@redhat.com>
+In-Reply-To: <20200508173057.32215-1-eric.auger@redhat.com>
+References: <20200508173057.32215-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <20200428005134.6158.88521.stgit@localhost.localdomain>
-In-Reply-To: <20200428005134.6158.88521.stgit@localhost.localdomain>
-From: Alexander Duyck <alexander.duyck@gmail.com>
-Date: Fri, 8 May 2020 10:30:54 -0700
-Message-ID: <CAKgT0UcygsdURGivgTb08i2Ot0TQAzahLKhkkzXvhsoEU-7p3Q@mail.gmail.com>
-Subject: Re: [PATCH v23 QEMU 0/5] virtio-balloon: add support for page poison
- reporting and free page reporting
-To: David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alexander.duyck@gmail.com; helo=mail-io1-xd42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 08:00:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,92 +82,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I just wanted to follow up since it has been a little over a week
-since I submitted this and I haven't heard anything back. It looks
-like the linux-headers patches can be dropped since the headers appear
-to have been synced. I was wondering if I should resubmit with just
-the 3 patches that are adding the functionality, or if this patch-set
-is good as-is?
+This patch implements the PROBE request. At the moment,
+only THE RESV_MEM property is handled. The first goal is
+to report iommu wide reserved regions such as the MSI regions
+set by the machine code. On x86 this will be the IOAPIC MSI
+region, [0xFEE00000 - 0xFEEFFFFF], on ARM this may be the ITS
+doorbell.
 
-Thanks.
+In the future we may introduce per device reserved regions.
+This will be useful when protecting host assigned devices
+which may expose their own reserved regions
 
-- Alex
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-On Mon, Apr 27, 2020 at 5:53 PM Alexander Duyck
-<alexander.duyck@gmail.com> wrote:
->
-> This series provides an asynchronous means of reporting free guest pages
-> to QEMU through virtio-balloon so that the memory associated with those
-> pages can be dropped and reused by other processes and/or guests on the
-> host. Using this it is possible to avoid unnecessary I/O to disk and
-> greatly improve performance in the case of memory overcommit on the host.
->
-> I originally submitted this patch series back on February 11th 2020[1],
-> but at that time I was focused primarily on the kernel portion of this
-> patch set. However as of April 7th those patches are now included in
-> Linus's kernel tree[2] and so I am submitting the QEMU pieces for
-> inclusion.
->
-> [1]: https://lore.kernel.org/lkml/20200211224416.29318.44077.stgit@localhost.localdomain/
-> [2]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b0c504f154718904ae49349147e3b7e6ae91ffdc
->
-> Changes from v17:
-> Fixed typo in patch 1 title
-> Addressed white-space issues reported via checkpatch
-> Added braces {} for two if statements to match expected coding style
->
-> Changes from v18:
-> Updated patches 2 and 3 based on input from dhildenb
-> Added comment to patch 2 describing what keeps us from reporting a bad page
-> Added patch to address issue with ROM devices being directly writable
->
-> Changes from v19:
-> Added std-headers change to match changes pushed for linux kernel headers
-> Added patch to remove "report" from page hinting code paths
-> Updated comment to better explain why we disable hints w/ page poisoning
-> Removed code that was modifying config size for poison vs hinting
-> Dropped x-page-poison property
-> Added code to bounds check the reported region vs the RAM block
-> Dropped patch for ROM devices as that was already pulled in by Paolo
->
-> Changes from v20:
-> Rearranged patches to push Linux header sync patches to front
-> Removed association between free page hinting and VIRTIO_BALLOON_F_PAGE_POISON
-> Added code to enable VIRTIO_BALLOON_F_PAGE_POISON if page reporting is enabled
-> Fixed possible resource leak if poison or qemu_balloon_is_inhibited return true
->
-> Changes from v21:
-> Added ack for patch 3
-> Rewrote patch description for page poison reporting feature
-> Made page-poison independent property and set to enabled by default
-> Added logic to migrate poison_val
-> Added several comments in code to better explain features
-> Switched free-page-reporting property to disabled by default
->
-> Changes from v22:
-> Added ack for patches 4 & 5
-> Added additional comment fixes in patch 3 to remove "reporting" reference
-> Renamed rvq in patch 5 to reporting_vq to improve readability
-> Moved call adding reporting_vq to after free_page_vq to fix VQ ordering
->
-> ---
->
-> Alexander Duyck (5):
->       linux-headers: Update to allow renaming of free_page_report_cmd_id
->       linux-headers: update to contain virito-balloon free page reporting
->       virtio-balloon: Replace free page hinting references to 'report' with 'hint'
->       virtio-balloon: Implement support for page poison reporting feature
->       virtio-balloon: Provide an interface for free page reporting
->
->
->  hw/virtio/virtio-balloon.c                      |  176 ++++++++++++++++++-----
->  include/hw/virtio/virtio-balloon.h              |   23 ++-
->  include/standard-headers/linux/virtio_balloon.h |   12 +-
->  3 files changed, 159 insertions(+), 52 deletions(-)
->
-> --
+---
+
+v1 -> v2:
+- move the unlock back to the same place
+- remove the push label and factorize the code after the out label
+- fix a bunch of cpu_to_leX according to the latest spec revision
+- do not remove sizeof(last) from free space
+- check the ep exists
+---
+ include/hw/virtio/virtio-iommu.h |  2 +
+ hw/virtio/virtio-iommu.c         | 94 ++++++++++++++++++++++++++++++--
+ hw/virtio/trace-events           |  1 +
+ 3 files changed, 93 insertions(+), 4 deletions(-)
+
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
+index e653004d7c..49eb105cd8 100644
+--- a/include/hw/virtio/virtio-iommu.h
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -53,6 +53,8 @@ typedef struct VirtIOIOMMU {
+     GHashTable *as_by_busptr;
+     IOMMUPciBus *iommu_pcibus_by_bus_num[PCI_BUS_MAX];
+     PCIBus *primary_bus;
++    ReservedRegion *reserved_regions;
++    uint32_t nb_reserved_regions;
+     GTree *domains;
+     QemuMutex mutex;
+     GTree *endpoints;
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index 22ba8848c2..35d772e021 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -38,6 +38,7 @@
+ 
+ /* Max size */
+ #define VIOMMU_DEFAULT_QUEUE_SIZE 256
++#define VIOMMU_PROBE_SIZE 512
+ 
+ typedef struct VirtIOIOMMUDomain {
+     uint32_t id;
+@@ -378,6 +379,65 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+     return ret;
+ }
+ 
++static ssize_t virtio_iommu_fill_resv_mem_prop(VirtIOIOMMU *s, uint32_t ep,
++                                               uint8_t *buf, size_t free)
++{
++    struct virtio_iommu_probe_resv_mem prop = {};
++    size_t size = sizeof(prop), length = size - sizeof(prop.head), total;
++    int i;
++
++    total = size * s->nb_reserved_regions;
++
++    if (total > free) {
++        return -ENOSPC;
++    }
++
++    for (i = 0; i < s->nb_reserved_regions; i++) {
++        prop.head.type = cpu_to_le16(VIRTIO_IOMMU_PROBE_T_RESV_MEM);
++        prop.head.length = cpu_to_le16(length);
++        prop.subtype = s->reserved_regions[i].type;
++        prop.start = cpu_to_le64(s->reserved_regions[i].low);
++        prop.end = cpu_to_le64(s->reserved_regions[i].high);
++
++        memcpy(buf, &prop, size);
++
++        trace_virtio_iommu_fill_resv_property(ep, prop.subtype,
++                                              prop.start, prop.end);
++        buf += size;
++    }
++    return total;
++}
++
++/**
++ * virtio_iommu_probe - Fill the probe request buffer with
++ * the properties the device is able to return and add a NONE
++ * property at the end.
++ */
++static int virtio_iommu_probe(VirtIOIOMMU *s,
++                              struct virtio_iommu_req_probe *req,
++                              uint8_t *buf)
++{
++    uint32_t ep_id = le32_to_cpu(req->endpoint);
++    size_t free = VIOMMU_PROBE_SIZE;
++    ssize_t count;
++
++    if (!virtio_iommu_mr(s, ep_id)) {
++        return VIRTIO_IOMMU_S_NOENT;
++    }
++
++    count = virtio_iommu_fill_resv_mem_prop(s, ep_id, buf, free);
++    if (count < 0) {
++        return VIRTIO_IOMMU_S_INVAL;
++    }
++    buf += count;
++    free -= count;
++
++    /* Fill the rest with zeroes */
++    memset(buf, 0, free);
++
++    return VIRTIO_IOMMU_S_OK;
++}
++
+ static int virtio_iommu_iov_to_req(struct iovec *iov,
+                                    unsigned int iov_cnt,
+                                    void *req, size_t req_sz)
+@@ -407,15 +467,27 @@ virtio_iommu_handle_req(detach)
+ virtio_iommu_handle_req(map)
+ virtio_iommu_handle_req(unmap)
+ 
++static int virtio_iommu_handle_probe(VirtIOIOMMU *s,
++                                     struct iovec *iov,
++                                     unsigned int iov_cnt,
++                                     uint8_t *buf)
++{
++    struct virtio_iommu_req_probe req;
++    int ret = virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req));
++
++    return ret ? ret : virtio_iommu_probe(s, &req, buf);
++}
++
+ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+ {
+     VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
+     struct virtio_iommu_req_head head;
+     struct virtio_iommu_req_tail tail = {};
++    size_t output_size = sizeof(tail), sz;
+     VirtQueueElement *elem;
+     unsigned int iov_cnt;
+     struct iovec *iov;
+-    size_t sz;
++    void *buf = NULL;
+ 
+     for (;;) {
+         elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
+@@ -452,6 +524,17 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+         case VIRTIO_IOMMU_T_UNMAP:
+             tail.status = virtio_iommu_handle_unmap(s, iov, iov_cnt);
+             break;
++        case VIRTIO_IOMMU_T_PROBE:
++        {
++            struct virtio_iommu_req_tail *ptail;
++
++            output_size = s->config.probe_size + sizeof(tail);
++            buf = g_malloc0(output_size);
++
++            ptail = (struct virtio_iommu_req_tail *)
++                        (buf + s->config.probe_size);
++            ptail->status = virtio_iommu_handle_probe(s, iov, iov_cnt, buf);
++        }
+         default:
+             tail.status = VIRTIO_IOMMU_S_UNSUPP;
+         }
+@@ -459,12 +542,13 @@ static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+ 
+ out:
+         sz = iov_from_buf(elem->in_sg, elem->in_num, 0,
+-                          &tail, sizeof(tail));
+-        assert(sz == sizeof(tail));
++                          buf ? buf : &tail, output_size);
++        assert(sz == output_size);
+ 
+-        virtqueue_push(vq, elem, sizeof(tail));
++        virtqueue_push(vq, elem, sz);
+         virtio_notify(vdev, vq);
+         g_free(elem);
++        g_free(buf);
+     }
+ }
+ 
+@@ -667,6 +751,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+     s->config.page_size_mask = TARGET_PAGE_MASK;
+     s->config.input_range.end = -1UL;
+     s->config.domain_range.end = 32;
++    s->config.probe_size = VIOMMU_PROBE_SIZE;
+ 
+     virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
+     virtio_add_feature(&s->features, VIRTIO_RING_F_INDIRECT_DESC);
+@@ -676,6 +761,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+     virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
+     virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
+     virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
++    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
+ 
+     qemu_mutex_init(&s->mutex);
+ 
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index e83500bee9..5550475691 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -73,3 +73,4 @@ virtio_iommu_get_domain(uint32_t domain_id) "Alloc domain=%d"
+ virtio_iommu_put_domain(uint32_t domain_id) "Free domain=%d"
+ virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint32_t sid) "0x%"PRIx64" -> 0x%"PRIx64 " for sid=%d"
+ virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uint64_t addr) "FAULT reason=%d flags=%d endpoint=%d address =0x%"PRIx64
++virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_t start, uint64_t end) "dev= %d, type=%d start=0x%"PRIx64" end=0x%"PRIx64
+-- 
+2.20.1
+
 
