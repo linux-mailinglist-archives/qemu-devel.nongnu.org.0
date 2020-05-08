@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1191CB64B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 19:46:48 +0200 (CEST)
-Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31E01CB6D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 20:14:38 +0200 (CEST)
+Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX75D-0005yb-A5
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 13:46:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51120)
+	id 1jX7W9-0007vP-II
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 14:14:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jX748-0004xC-IY
- for qemu-devel@nongnu.org; Fri, 08 May 2020 13:45:40 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56217)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jX746-0004k1-R2
- for qemu-devel@nongnu.org; Fri, 08 May 2020 13:45:40 -0400
-Received: by mail-wm1-x344.google.com with SMTP id e26so11030016wmk.5
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 10:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YRgiHARMevehzIkgStpvXQEJMCrTdVn04I4zJJXdiBA=;
- b=XPt5zsRi1/nSVetAWab2X0MiDHhN+pDeqiyKvbvwyqoFfLTiG0L8o2F0W0IiGeQ3DC
- xDfKevYJ79XlKsPjcWTJ+HZ2x/VOaTRVpJBhL9u/SBzUz4PbwM/zh0DUWVPL+x9piHCE
- mI0sAL6OlhseBaGgwkaixhDrz6LZVlB3OKzGMwFyKoo2EDns3TkIXBYeP8ccvm4GZcmH
- BHuRy442sLpqRkA6Zx9o85S5PNz+nutyDjGtlyg9TBzNKcyenWsPtFz3uFusJ6ieYhQZ
- jFm7pWsZ0ydm3O6DfwRKNvRKaxZ2iS4uxih51zoOWreP0My+R+8oFXjDGu/o3I8k3PBl
- 7fsA==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jX7V3-0006vJ-TK
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 14:13:29 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48298
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jX7V1-00011f-Nk
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 14:13:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588961606;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6rSqaLD10t2F/EmurDFluFwlhdPW6OmQ5N1HQMGxCxo=;
+ b=JH2syRJpCrGvfr586A0B+QkyF1ujyxTS+C8G66Vd3DC8yVEpoPddNxy/EmYIV1M0st5C9W
+ AbUytGL/LinR2sQrHFUru+xEooYYHFFb5g1FjWN41xBHtgwhiS/lFQAO0xrgM5RHCZBcUR
+ jxDLswWYv6p4qy4fuSPmTwoMGuyny+Q=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-WKSJhAeCOTeSAQgYIOVC2g-1; Fri, 08 May 2020 14:13:25 -0400
+X-MC-Unique: WKSJhAeCOTeSAQgYIOVC2g-1
+Received: by mail-wr1-f71.google.com with SMTP id f15so1276922wrj.2
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 11:13:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YRgiHARMevehzIkgStpvXQEJMCrTdVn04I4zJJXdiBA=;
- b=YX9cM6aL3cNDP3TFwj3fJFnjUYrrXYgaqgaghhe1G0yZfD+cIdTuM1jgM0889jkQlb
- 1bT1WFpvW+qv2ZIcCxEC1Zl66UhPSeQvkITnlhrjw+mXRvw8HEhLa5+Bj2Vmy8UQttXO
- RN2Wji84KqoaHcWPAX4xc6T+SGuhyh+5zaeiSz+0d96buis/n0iwsvzlanCZYJy20H2y
- gr0g6r5hpM4RsMLhb9vFKYT/fNZTW+qYQUiAu14px5xViru7VPDtPBeON9ySkhVZ5kjI
- ONPHrMpp6b5y+oCf2q9ekOyXv8JsB5aexYWDcx8S+3kDzZLY8HSB+OdiydAmiYfGs8Bn
- 6vtw==
-X-Gm-Message-State: AGi0PuZo5K95QoT1Jmz+5vidpZL8jxjTwncvrizopCKM/fw5fLhvKpw9
- fB9nCsM2pRr/7ukUF2A2tEDLEmZeO/I3M+az7eNr0Q==
-X-Google-Smtp-Source: APiQypJM/iud1wo8AWPbm3eXxm/NdtP9Q2AnX5vyItDLO70Sbl3EfdFSv5aZ3b6bQHHst8XVIWhtJFbnEEpBL6ToBJw=
-X-Received: by 2002:a7b:cf23:: with SMTP id m3mr16675315wmg.36.1588959936713; 
- Fri, 08 May 2020 10:45:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200506212645.894533-1-andrew@daynix.com>
- <b67e29f9-a904-242f-9df2-801410f07aba@redhat.com>
-In-Reply-To: <b67e29f9-a904-242f-9df2-801410f07aba@redhat.com>
-From: Andrew Melnichenko <andrew@daynix.com>
-Date: Fri, 8 May 2020 21:13:21 +0300
-Message-ID: <CABcq3pEicPdvMDAC7v_ns_YasCBvc8o-3-6vOb=+mTfXzvTJeQ@mail.gmail.com>
-Subject: Re: [PATCH v2] e1000e: Added ICR clearing by corresponding IMS bit.
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000972b3205a52690a4"
-Received-SPF: none client-ip=2a00:1450:4864:20::344;
- envelope-from=andrew@daynix.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ h=x-gm-message-state:content-transfer-encoding:from:mime-version
+ :subject:date:message-id:references:cc:in-reply-to:to;
+ bh=Mx3GKkaDTJhQGvoZ5R6Z20RMSa1lbFA43/KRiVg0GYc=;
+ b=IaFJMwYE6dfViNsIxAl9hh5S1pyfI+xYdeo9EsgzDl/xuk0rHhAkCM95WoJM8FGpuY
+ Qo5Yx6kqPfm3uR4iw5/DGZgcL7fdeWfTiVakyGp5S/LtQge9I0JblBDZp2YfR1JKUawq
+ lHr5/mqkDjB7R3mzNCjSurVhoiDg4Pnz0qy12B3qTt2ZBfEUosDJDlPNLeREB5/9G9qQ
+ IamoUAlQh1z3/eQtPclogzTtnr5TnRsIRT00D2DXh/IIUR6ebSbel0YOI4r2BNCbe6VR
+ UzgWjHcrIvSzPHI1jSuOaF3NLi6fPdIVcCILzAoXuf7i195mgJjTG0MJRdSqfENLibiL
+ m4tQ==
+X-Gm-Message-State: AGi0PubWA0fdS9qAsjvqjQJE2SQ05Vja2myvWxFJ8s9A73NhTMP5L5t0
+ L3RgxgjiHAM7XvFtpExK9ih4LRHMyF5SIKt7HN12miXLJon5rI8ZEuE6pfEpeBi1vRls/tQVBT2
+ GR4mrdZYk/e0+8pA=
+X-Received: by 2002:adf:bb4e:: with SMTP id x14mr4178026wrg.63.1588961603693; 
+ Fri, 08 May 2020 11:13:23 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKVCkd4durHDfQE0F8YN/M9b9vvzRhUJHYqeFztvlx4LW4zeksqUdDc14mHPbobYbsiul4BCg==
+X-Received: by 2002:adf:bb4e:: with SMTP id x14mr4178007wrg.63.1588961603460; 
+ Fri, 08 May 2020 11:13:23 -0700 (PDT)
+Received: from [192.168.3.122] (p5B0C65A5.dip0.t-ipconnect.de. [91.12.101.165])
+ by smtp.gmail.com with ESMTPSA id r2sm4646176wrg.84.2020.05.08.11.13.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 May 2020 11:13:22 -0700 (PDT)
+From: David Hildenbrand <david@redhat.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v23 QEMU 0/5] virtio-balloon: add support for page poison
+ reporting and free page reporting
+Date: Fri, 8 May 2020 20:13:21 +0200
+Message-Id: <DB82EE9A-39EF-414B-9BB7-C5B283F014A4@redhat.com>
+References: <CAKgT0UcygsdURGivgTb08i2Ot0TQAzahLKhkkzXvhsoEU-7p3Q@mail.gmail.com>
+In-Reply-To: <CAKgT0UcygsdURGivgTb08i2Ot0TQAzahLKhkkzXvhsoEU-7p3Q@mail.gmail.com>
+To: Alexander Duyck <alexander.duyck@gmail.com>
+X-Mailer: iPhone Mail (17D50)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,202 +94,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dmitry.fleytman@gmail.com, qemu-devel@nongnu.org
+Cc: virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000972b3205a52690a4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Yo, I've used OpenSDM_8257x-18.pdf specification.
-This document was recommended by Intel guys(Also, they referenced to that
-note).
-I've made a fast fix and it works. Before that I had a fix for Linux e1000e
-driver.
-Overall, the issue was in pending interrupts that can't be cleared by
-reading ICR in Linux(Windows driver clears by writing to ICR).
 
-You can download spec for example from:
-http://iweb.dl.sourceforge.net/project/e1000/8257x%20Developer%20Manual/Rev=
-ision%201.8/OpenSDM_8257x-18.pdf
+> Am 08.05.2020 um 19:31 schrieb Alexander Duyck <alexander.duyck@gmail.com=
+>:
+>=20
+> =EF=BB=BFI just wanted to follow up since it has been a little over a wee=
+k
+> since I submitted this and I haven't heard anything back. It looks
+> like the linux-headers patches can be dropped since the headers appear
+> to have been synced. I was wondering if I should resubmit with just
+> the 3 patches that are adding the functionality, or if this patch-set
+> is good as-is?
 
-On Fri, May 8, 2020 at 5:21 AM Jason Wang <jasowang@redhat.com> wrote:
+Should be good as-is. However, if the new compat machines are already upstr=
+eam, you might want to tackle that right away.
 
->
-> On 2020/5/7 =E4=B8=8A=E5=8D=885:26, andrew@daynix.com wrote:
-> > From: Andrew Melnychenko <andrew@daynix.com>
-> >
-> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1707441
-> > Added ICR clearing if there is IMS bit - according to the note by
-> > section 13.3.27 of the 8257X developers manual.
-> >
-> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> > ---
-> >   hw/net/e1000e_core.c | 9 +++++++++
-> >   hw/net/trace-events  | 1 +
-> >   2 files changed, 10 insertions(+)
-> >
-> > diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-> > index d5676871fa..302e99ff46 100644
-> > --- a/hw/net/e1000e_core.c
-> > +++ b/hw/net/e1000e_core.c
-> > @@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
-> >           e1000e_clear_ims_bits(core, core->mac[IAM]);
-> >       }
-> >
-> > +    /*
-> > +     * PCIe* GbE Controllers Open Source Software Developer's Manual
-> > +     * 13.3.27 Interrupt Cause Read Register
-> > +     */
->
->
-> Hi Andrew:
->
-> Which version of the manual did you use? I try to use the one mentioned
-> in e1000e.c which is
->
-> http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-data=
-sheet.pdf
-> .
->
-> But I couldn't find chapter 13.3.27.
->
-> Thanks
->
->
-> > +    if (core->mac[ICR] & core->mac[IMS]) {
-> > +        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR],
-> core->mac[IMS]);
-> > +        core->mac[ICR] =3D 0;
-> > +    }
-> > +
-> >       trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
-> >       e1000e_update_interrupt_state(core);
-> >       return ret;
-> > diff --git a/hw/net/trace-events b/hw/net/trace-events
-> > index e18f883cfd..46e40fcfa9 100644
-> > --- a/hw/net/trace-events
-> > +++ b/hw/net/trace-events
-> > @@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting
-> ICR read. Current ICR: 0x%x"
-> >   e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR:
-> 0x%x"
-> >   e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero
-> IMS"
-> >   e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
-> > +e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing
-> ICR on read due corresponding IMS bit: 0x%x & 0x%x"
-> >   e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IM=
-S
-> due to EIAME, IAM: 0x%X, cause: 0x%X"
-> >   e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR
-> bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
-> >   e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to
-> IMC write 0x%x"
->
->
+Cheers and have a nice weekend!
 
---000000000000972b3205a52690a4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>=20
+> Thanks.
+>=20
+> - Alex
+>=20
+>> On Mon, Apr 27, 2020 at 5:53 PM Alexander Duyck
+>> <alexander.duyck@gmail.com> wrote:
+>>=20
+>> This series provides an asynchronous means of reporting free guest pages
+>> to QEMU through virtio-balloon so that the memory associated with those
+>> pages can be dropped and reused by other processes and/or guests on the
+>> host. Using this it is possible to avoid unnecessary I/O to disk and
+>> greatly improve performance in the case of memory overcommit on the host=
+.
+>>=20
+>> I originally submitted this patch series back on February 11th 2020[1],
+>> but at that time I was focused primarily on the kernel portion of this
+>> patch set. However as of April 7th those patches are now included in
+>> Linus's kernel tree[2] and so I am submitting the QEMU pieces for
+>> inclusion.
+>>=20
+>> [1]: https://lore.kernel.org/lkml/20200211224416.29318.44077.stgit@local=
+host.localdomain/
+>> [2]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
+commit/?id=3Db0c504f154718904ae49349147e3b7e6ae91ffdc
+>>=20
+>> Changes from v17:
+>> Fixed typo in patch 1 title
+>> Addressed white-space issues reported via checkpatch
+>> Added braces {} for two if statements to match expected coding style
+>>=20
+>> Changes from v18:
+>> Updated patches 2 and 3 based on input from dhildenb
+>> Added comment to patch 2 describing what keeps us from reporting a bad p=
+age
+>> Added patch to address issue with ROM devices being directly writable
+>>=20
+>> Changes from v19:
+>> Added std-headers change to match changes pushed for linux kernel header=
+s
+>> Added patch to remove "report" from page hinting code paths
+>> Updated comment to better explain why we disable hints w/ page poisoning
+>> Removed code that was modifying config size for poison vs hinting
+>> Dropped x-page-poison property
+>> Added code to bounds check the reported region vs the RAM block
+>> Dropped patch for ROM devices as that was already pulled in by Paolo
+>>=20
+>> Changes from v20:
+>> Rearranged patches to push Linux header sync patches to front
+>> Removed association between free page hinting and VIRTIO_BALLOON_F_PAGE_=
+POISON
+>> Added code to enable VIRTIO_BALLOON_F_PAGE_POISON if page reporting is e=
+nabled
+>> Fixed possible resource leak if poison or qemu_balloon_is_inhibited retu=
+rn true
+>>=20
+>> Changes from v21:
+>> Added ack for patch 3
+>> Rewrote patch description for page poison reporting feature
+>> Made page-poison independent property and set to enabled by default
+>> Added logic to migrate poison_val
+>> Added several comments in code to better explain features
+>> Switched free-page-reporting property to disabled by default
+>>=20
+>> Changes from v22:
+>> Added ack for patches 4 & 5
+>> Added additional comment fixes in patch 3 to remove "reporting" referenc=
+e
+>> Renamed rvq in patch 5 to reporting_vq to improve readability
+>> Moved call adding reporting_vq to after free_page_vq to fix VQ ordering
+>>=20
+>> ---
+>>=20
+>> Alexander Duyck (5):
+>>      linux-headers: Update to allow renaming of free_page_report_cmd_id
+>>      linux-headers: update to contain virito-balloon free page reporting
+>>      virtio-balloon: Replace free page hinting references to 'report' wi=
+th 'hint'
+>>      virtio-balloon: Implement support for page poison reporting feature
+>>      virtio-balloon: Provide an interface for free page reporting
+>>=20
+>>=20
+>> hw/virtio/virtio-balloon.c                      |  176 +++++++++++++++++=
++-----
+>> include/hw/virtio/virtio-balloon.h              |   23 ++-
+>> include/standard-headers/linux/virtio_balloon.h |   12 +-
+>> 3 files changed, 159 insertions(+), 52 deletions(-)
+>>=20
+>> --
+>=20
 
-<div dir=3D"ltr"><div>Yo, I&#39;ve used OpenSDM_8257x-18.pdf specification.=
-</div><div> This document was recommended by Intel guys(Also, they referenc=
-ed to that note).</div><div>I&#39;ve made a fast fix and it works. Before t=
-hat I had a fix for Linux e1000e driver.</div><div>Overall, the issue was i=
-n pending interrupts that can&#39;t be cleared by reading ICR in Linux(Wind=
-ows driver clears by writing to ICR).</div><div></div><div><br></div><div>Y=
-ou can download spec for example from:</div><div><a href=3D"http://iweb.dl.=
-sourceforge.net/project/e1000/8257x%20Developer%20Manual/Revision%201.8/Ope=
-nSDM_8257x-18.pdf">http://iweb.dl.sourceforge.net/project/e1000/8257x%20Dev=
-eloper%20Manual/Revision%201.8/OpenSDM_8257x-18.pdf</a> </div></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, May 8=
-, 2020 at 5:21 AM Jason Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jas=
-owang@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex"><br>
-On 2020/5/7 =E4=B8=8A=E5=8D=885:26, <a href=3D"mailto:andrew@daynix.com" ta=
-rget=3D"_blank">andrew@daynix.com</a> wrote:<br>
-&gt; From: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.com" targ=
-et=3D"_blank">andrew@daynix.com</a>&gt;<br>
-&gt;<br>
-&gt; Buglink: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1707=
-441" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_=
-bug.cgi?id=3D1707441</a><br>
-&gt; Added ICR clearing if there is IMS bit - according to the note by<br>
-&gt; section 13.3.27 of the 8257X developers manual.<br>
-&gt;<br>
-&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.=
-com" target=3D"_blank">andrew@daynix.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/net/e1000e_core.c | 9 +++++++++<br>
-&gt;=C2=A0 =C2=A0hw/net/trace-events=C2=A0 | 1 +<br>
-&gt;=C2=A0 =C2=A02 files changed, 10 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c<br>
-&gt; index d5676871fa..302e99ff46 100644<br>
-&gt; --- a/hw/net/e1000e_core.c<br>
-&gt; +++ b/hw/net/e1000e_core.c<br>
-&gt; @@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore *core, int index=
-)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0e1000e_clear_ims_bits(core, co=
-re-&gt;mac[IAM]);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* PCIe* GbE Controllers Open Source Software Deve=
-loper&#39;s Manual<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* 13.3.27 Interrupt Cause Read Register<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-<br>
-<br>
-Hi Andrew:<br>
-<br>
-Which version of the manual did you use? I try to use the one mentioned <br=
->
-in e1000e.c which is <br>
-<a href=3D"http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-contro=
-ller-datasheet.pdf" rel=3D"noreferrer" target=3D"_blank">http://www.intel.c=
-om/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf</a>.<br>
-<br>
-But I couldn&#39;t find chapter 13.3.27.<br>
-<br>
-Thanks<br>
-<br>
-<br>
-&gt; +=C2=A0 =C2=A0 if (core-&gt;mac[ICR] &amp; core-&gt;mac[IMS]) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_e1000e_irq_icr_clear_icr_bit_ims(co=
-re-&gt;mac[ICR], core-&gt;mac[IMS]);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 core-&gt;mac[ICR] =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0trace_e1000e_irq_icr_read_exit(core-&gt;mac[=
-ICR]);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0e1000e_update_interrupt_state(core);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
-&gt; diff --git a/hw/net/trace-events b/hw/net/trace-events<br>
-&gt; index e18f883cfd..46e40fcfa9 100644<br>
-&gt; --- a/hw/net/trace-events<br>
-&gt; +++ b/hw/net/trace-events<br>
-&gt; @@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) &quot;Star=
-ting ICR read. Current ICR: 0x%x&quot;<br>
-&gt;=C2=A0 =C2=A0e1000e_irq_icr_read_exit(uint32_t icr) &quot;Ending ICR re=
-ad. Current ICR: 0x%x&quot;<br>
-&gt;=C2=A0 =C2=A0e1000e_irq_icr_clear_zero_ims(void) &quot;Clearing ICR on =
-read due to zero IMS&quot;<br>
-&gt;=C2=A0 =C2=A0e1000e_irq_icr_clear_iame(void) &quot;Clearing ICR on read=
- due to IAME&quot;<br>
-&gt; +e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) &quot;Cl=
-earing ICR on read due corresponding IMS bit: 0x%x &amp; 0x%x&quot;<br>
-&gt;=C2=A0 =C2=A0e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) &=
-quot;Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X&quot;<br>
-&gt;=C2=A0 =C2=A0e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) &qu=
-ot;Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X&quot;<br>
-&gt;=C2=A0 =C2=A0e1000e_irq_ims_clear_set_imc(uint32_t val) &quot;Clearing =
-IMS bits due to IMC write 0x%x&quot;<br>
-<br>
-</blockquote></div>
-
---000000000000972b3205a52690a4--
 
