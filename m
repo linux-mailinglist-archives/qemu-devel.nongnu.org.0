@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198161CB2B0
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:19:32 +0200 (CEST)
-Received: from localhost ([::1]:36482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7791CB2B4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:21:55 +0200 (CEST)
+Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX4mh-0006kq-1P
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60080)
+	id 1jX4p0-00025o-5q
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4ee-0002ko-79
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:11:12 -0400
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:39964)
+ id 1jX4l6-0005Us-Hu
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:17:52 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:45467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4ed-00049G-36
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:11:11 -0400
-Received: by mail-pj1-x1042.google.com with SMTP id fu13so4361717pjb.5
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:11:10 -0700 (PDT)
+ id 1jX4l5-0002ku-CH
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:17:52 -0400
+Received: by mail-pf1-x429.google.com with SMTP id w65so1061849pfc.12
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:17:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=N87+uoODPiN2PxHSS9BG0v3AbBww5OeyNSCwJsVaeMs=;
- b=OUWi3kzqWsRbphN5foKSoQBdk58BLmncizVFzR6E4ZSO+NsdqrDlv8iyJ2jeMo0cuV
- L3ybrT5zWS74B3g0d7rpq75Js4ahJlOgdDzs1BAhZKU43ZyUbjmx6PZ2mI9T9Op5FThL
- XPohekfig5BGjC12dng8euU1JB9kSYxcEmlp8VUokjlzPc9Oy79IMfe5vfRfq4O32cXm
- skABQkgV1v4IXQmjLOiFN6Utt8koq4Rvp2ZQ4X4W3vGccqxS30gAkMj5MLJcog/Xriu0
- fCk2k0Ip6YvOOotQonItwbMvH0Zv72Wa8UOed2Dyii9zGpg+cHfBk3kERKtLLx9pRHwK
- SWSQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tLmvZ13dyq6vL3rMorwGE0qcBwEkXCJuZdJxTSPx65c=;
+ b=eA5dxYvZz0AehNdBnYW0rlYbi2Qxt5uUphf+Pa+nXBCXUnr/8/sGW5MegOvagzBKNf
+ siwewzJ/D4+u3PmZhdD7uQZC6kOYtn9orwA6hREY8DbgPHQUOwE0jdACHPTryrO4YnzK
+ aQJLzgV1oYSn3YLP/3ka2UWT+hHf8QPsB2V6S8nyCfva1ZtN5eITLbPboJMavYvv/P7g
+ PpqIx8T8I7SmvKMSMCrVdkw03kr/f3p5USms/+Wc5zsynYNMt2HREwRHyflDrgh71JxZ
+ glF8BiY4QxOiSz9RMKUqIaEo7Ew7eIRa6drIKBo/r6gVdzgEfJgyRfLrOAqqrrr/zMfL
+ cxxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=N87+uoODPiN2PxHSS9BG0v3AbBww5OeyNSCwJsVaeMs=;
- b=nf1LT/dBCRqn57twlnkZXVHMOGyK75Mqb4xg3O/NY+BlolIJrcS/cfphDy5xNhLiT5
- ZWsKWtH43gZ4u8cU/gmmMlAlNvjqRR4dh1F+ZvLSeOLEG96Way0w5OrgWXXTdcepezj3
- J8NlkfE/W9BoTzrj2g5Wys160tnajHdCSaE/swR2R1wCEbooIc11JUG3nxnHTYq72hzH
- Z4K1jWsDi91MSxYldIbp+kvR0xvdscBTBkh6fgpF+2n+wZgRweXfzy501xEqLPzDw/WA
- iUiuVUGJh/QAPJIL9S3xNnlQDFtCdoz7LQXT8F79UH03f9VaVQXpU2AuHpFzP1pW2LIT
- b7aQ==
-X-Gm-Message-State: AGi0PuaHc0c9MA/2LdVuMAgX5nqq9BgS1dk33S+vfJWamoaOy27K/A9c
- mfAuhQqz/AJNL9o0z49mDBkjw1KnxqY=
-X-Google-Smtp-Source: APiQypJPcot5XcvmP6yDf8BSKrWsJm478BI/I0n/Bdpg7znVPgSn/OTozZKE4MPnKfR/5Fo1XNpMqg==
-X-Received: by 2002:a17:902:8b88:: with SMTP id
- ay8mr2862403plb.235.1588950669263; 
- Fri, 08 May 2020 08:11:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tLmvZ13dyq6vL3rMorwGE0qcBwEkXCJuZdJxTSPx65c=;
+ b=sXCgCf1qN7oiL5KKrwSPCoMhzJXWB4NDMT10Yt6Ya4dIGcnA2d9JSsHoRuopl67qGn
+ 22yhnSgBivF6qR2DAOVFg2qbfyTmEKh1GpdjU6Bm/dgoc/D8VDeevmCt6q4voS8mkAXB
+ 2FFGc6U7egEdMbendyIpHI5MAAjFGHNSdTlkAD0cVFldjzdBZSQg/UWGHpcp8uH4eWqS
+ TaWS4q762JO+DdWFxkY+3+q+ghbeCztHhYMiZzVxUOiKDXgRsoQsb2+vFJUvW14uiZ+D
+ fOBNUy0ZcLjFePr3CrbojhywJiW9K2RqgTkIXOQ733raZaZQy2W7SVXdHg+jmBTZghg3
+ yU/w==
+X-Gm-Message-State: AGi0Pua3OEAHuDPQgYdKtrgXUwZkUJHvtNaDIkoj2IGXi2gYaFDC7krP
+ aobxx/oSjGvFFJYWcDED+//lhLr7LJU=
+X-Google-Smtp-Source: APiQypKsZG8u3y4chiOJE5Iw5O0kOHVRuvU7Wfgjd8goXcBOdEZacTcvxejTDVmOT1Fe9+KGrncsQQ==
+X-Received: by 2002:a63:9d49:: with SMTP id i70mr2639852pgd.247.1588951069173; 
+ Fri, 08 May 2020 08:17:49 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id d13sm1557562pga.64.2020.05.08.08.11.08
+ by smtp.gmail.com with ESMTPSA id b5sm2125933pfb.190.2020.05.08.08.17.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 08:11:08 -0700 (PDT)
+ Fri, 08 May 2020 08:17:48 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/10] tcg: Improve move ops in liveness_pass_2
-Date: Fri,  8 May 2020 08:10:55 -0700
-Message-Id: <20200508151055.5832-11-richard.henderson@linaro.org>
+Subject: [PATCH v3 00/19] tcg: Better handling of constants
+Date: Fri,  8 May 2020 08:17:28 -0700
+Message-Id: <20200508151747.6166-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200508151055.5832-1-richard.henderson@linaro.org>
-References: <20200508151055.5832-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1042;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1042.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,110 +88,83 @@ Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the output of the move is dead, then the last use is in
-the store.  If we propagate the input to the store, then we
-can remove the move opcode entirely.
+V3 fixes the target/sparc regression during register allocation.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/tcg.c | 78 +++++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 56 insertions(+), 22 deletions(-)
+V1 blurb:
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index aa13158999..216a6963b3 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -2982,34 +2982,68 @@ static bool liveness_pass_2(TCGContext *s)
-         }
- 
-         /* Outputs become available.  */
--        for (i = 0; i < nb_oargs; i++) {
--            arg_ts = arg_temp(op->args[i]);
-+        if (opc == INDEX_op_mov_i32 || opc == INDEX_op_mov_i64) {
-+            arg_ts = arg_temp(op->args[0]);
-             dir_ts = arg_ts->state_ptr;
--            if (!dir_ts) {
--                continue;
-+            if (dir_ts) {
-+                op->args[0] = temp_arg(dir_ts);
-+                changes = true;
-+
-+                /* The output is now live and modified.  */
-+                arg_ts->state = 0;
-+
-+                if (NEED_SYNC_ARG(0)) {
-+                    TCGOpcode sopc = (arg_ts->type == TCG_TYPE_I32
-+                                      ? INDEX_op_st_i32
-+                                      : INDEX_op_st_i64);
-+                    TCGOp *sop = tcg_op_insert_after(s, op, sopc);
-+                    TCGTemp *out_ts = dir_ts;
-+
-+                    if (IS_DEAD_ARG(0)) {
-+                        out_ts = arg_temp(op->args[1]);
-+                        arg_ts->state = TS_DEAD;
-+                        tcg_op_remove(s, op);
-+                    } else {
-+                        arg_ts->state = TS_MEM;
-+                    }
-+
-+                    sop->args[0] = temp_arg(out_ts);
-+                    sop->args[1] = temp_arg(arg_ts->mem_base);
-+                    sop->args[2] = arg_ts->mem_offset;
-+                } else {
-+                    tcg_debug_assert(!IS_DEAD_ARG(0));
-+                }
-             }
--            op->args[i] = temp_arg(dir_ts);
--            changes = true;
-+        } else {
-+            for (i = 0; i < nb_oargs; i++) {
-+                arg_ts = arg_temp(op->args[i]);
-+                dir_ts = arg_ts->state_ptr;
-+                if (!dir_ts) {
-+                    continue;
-+                }
-+                op->args[i] = temp_arg(dir_ts);
-+                changes = true;
- 
--            /* The output is now live and modified.  */
--            arg_ts->state = 0;
-+                /* The output is now live and modified.  */
-+                arg_ts->state = 0;
- 
--            /* Sync outputs upon their last write.  */
--            if (NEED_SYNC_ARG(i)) {
--                TCGOpcode sopc = (arg_ts->type == TCG_TYPE_I32
--                                  ? INDEX_op_st_i32
--                                  : INDEX_op_st_i64);
--                TCGOp *sop = tcg_op_insert_after(s, op, sopc);
-+                /* Sync outputs upon their last write.  */
-+                if (NEED_SYNC_ARG(i)) {
-+                    TCGOpcode sopc = (arg_ts->type == TCG_TYPE_I32
-+                                      ? INDEX_op_st_i32
-+                                      : INDEX_op_st_i64);
-+                    TCGOp *sop = tcg_op_insert_after(s, op, sopc);
- 
--                sop->args[0] = temp_arg(dir_ts);
--                sop->args[1] = temp_arg(arg_ts->mem_base);
--                sop->args[2] = arg_ts->mem_offset;
-+                    sop->args[0] = temp_arg(dir_ts);
-+                    sop->args[1] = temp_arg(arg_ts->mem_base);
-+                    sop->args[2] = arg_ts->mem_offset;
- 
--                arg_ts->state = TS_MEM;
--            }
--            /* Drop outputs that are dead.  */
--            if (IS_DEAD_ARG(i)) {
--                arg_ts->state = TS_DEAD;
-+                    arg_ts->state = TS_MEM;
-+                }
-+                /* Drop outputs that are dead.  */
-+                if (IS_DEAD_ARG(i)) {
-+                    arg_ts->state = TS_DEAD;
-+                }
-             }
-         }
-     }
+This promotes constants to full-fledged temporaries, which are then
+hashed so we have only a single copy across the TB.  If an opcode
+requires forcing one into a register, then we will only do this
+once -- at least until the register is killed, e.g. by a function call.
+
+While this is probably an modest improvement for integer code, it is
+significant for SVE vector code.  In particular, where a generator function
+loads a constant for the operation, and then the generator function is
+called N times for the N x 128-bit vector.  Previously we'd be loading
+up the same constant N times and now we do so only once.
+
+The existing tcg_const_{type}() functions are unchanged, allocating
+a new temporary and initializing it.  The constant propagation pass
+of the optimizer will generally remove the temporary when it turns
+out not to be modified further.
+
+This adds new tcg_constant_{type}() functions which produce a read-only
+temporary containing the constant which need not be freed.  I have
+updated the generic expanders to take advantage of this, but have not
+touched the target front ends.
+
+This also, in the end, allows the complete removal of the tcg opcodes
+that create a constant: INDEX_op_movi_{i32,i64} and INDEX_op_dupi_vec.
+Loading of constants into hard registers is completely controlled by
+the register allocator.
+
+
+r~
+
+
+Richard Henderson (19):
+  tcg: Consolidate 3 bits into enum TCGTempKind
+  tcg: Add temp_readonly
+  tcg: Introduce TYPE_CONST temporaries
+  tcg: Use tcg_constant_i32 with icount expander
+  tcg: Use tcg_constant_{i32,i64} with tcg int expanders
+  tcg: Use tcg_constant_{i32,vec} with tcg vec expanders
+  tcg: Use tcg_constant_{i32,i64,vec} with tcg gvec expanders
+  tcg: Use tcg_constant_{i32,i64} with tcg plugins
+  tcg: Rename struct tcg_temp_info to TempOptInfo
+  tcg/optimize: Improve find_better_copy
+  tcg/optimize: Adjust TempOptInfo allocation
+  tcg/optimize: Use tcg_constant_internal with constant folding
+  tcg/tci: Add special tci_movi_{i32,i64} opcodes
+  tcg: Remove movi and dupi opcodes
+  tcg: Use tcg_out_dupi_vec from temp_load
+  tcg: Increase tcg_out_dupi_vec immediate to int64_t
+  tcg: Add tcg_reg_alloc_dup2
+  tcg/i386: Use tcg_constant_vec with tcg vec expanders
+  tcg: Remove tcg_gen_dup{8,16,32,64}i_vec
+
+ include/exec/gen-icount.h    |  25 +--
+ include/tcg/tcg-op.h         |  17 +-
+ include/tcg/tcg-opc.h        |  11 +-
+ include/tcg/tcg.h            |  50 ++++-
+ accel/tcg/plugin-gen.c       |  49 ++---
+ tcg/aarch64/tcg-target.inc.c |  12 +-
+ tcg/arm/tcg-target.inc.c     |   1 -
+ tcg/i386/tcg-target.inc.c    | 110 ++++++----
+ tcg/mips/tcg-target.inc.c    |   2 -
+ tcg/optimize.c               | 204 +++++++++---------
+ tcg/ppc/tcg-target.inc.c     |  24 +--
+ tcg/riscv/tcg-target.inc.c   |   2 -
+ tcg/s390/tcg-target.inc.c    |   2 -
+ tcg/sparc/tcg-target.inc.c   |   2 -
+ tcg/tcg-op-gvec.c            | 125 +++++------
+ tcg/tcg-op-vec.c             |  83 ++++----
+ tcg/tcg-op.c                 | 216 +++++++++----------
+ tcg/tcg.c                    | 397 ++++++++++++++++++++++++++---------
+ tcg/tci.c                    |   4 +-
+ tcg/tci/tcg-target.inc.c     |   6 +-
+ 20 files changed, 751 insertions(+), 591 deletions(-)
+
 -- 
 2.20.1
 
