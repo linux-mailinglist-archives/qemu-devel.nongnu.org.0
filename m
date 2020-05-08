@@ -2,97 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574C51CB467
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:13:07 +0200 (CEST)
-Received: from localhost ([::1]:34404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5A31CB44D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:03:48 +0200 (CEST)
+Received: from localhost ([::1]:34380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX5cY-0004Lm-48
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:13:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45880)
+	id 1jX5TX-0000TF-0o
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:03:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jX5OW-000203-8T
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:58:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52082
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jX5OV-0001n1-IO
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:58:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588953514;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wTUXMQmDa+FxahjGnXMPJb6FhVMxmy0XknlvBB2lhGQ=;
- b=Ok8vTtJAUFdC1uLeL/Lbo20UTpftEhSX9uINft8AC2Rh0VGh1+7xNr5Hc44LQMj7Ombsqg
- KQnovvVPQXnsGxakLZ9GqwNSKwRFpRx9AKROeeNPd3zUfuJwq8azpbvfYE3zjviChXlxnW
- uHl30cYyAZGf43wCe0yF/H1aL/NmcJ8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-OOc9w4_gNbeLcm6-caDQdg-1; Fri, 08 May 2020 11:58:30 -0400
-X-MC-Unique: OOc9w4_gNbeLcm6-caDQdg-1
-Received: by mail-wm1-f69.google.com with SMTP id l21so5381340wmh.2
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:58:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jX5PN-0003jS-Ss
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:59:29 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:40780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jX5PN-0002hM-1A
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:59:29 -0400
+Received: by mail-pl1-x644.google.com with SMTP id t16so914711plo.7
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HOMmb0OB3xpv2TR8F2Rn038VKNn18AkT91a3W5PX7Sc=;
+ b=T4ewhurJhTRrSVcnNjZUeXw1+PHbGnDuUXBOQTromtVpPeUEW4K9t3vdIAf0cG3Ib8
+ 85QymjyWYu67nxak2ApZK/FDXStyEEAdTknIIrDuPPxRKwXauoZBtDEFFyzQdTD2NkLd
+ 5RKcqXpX9EGkKCXAEhW3BuzRVLwUJ15EIbqiqAlFLItm1zGlGS8pVnxswQ7gq8Q4v7rL
+ wHpHtZOx3UfuLKHS9nCB4YmGPzM1IEtHqCJWn6LwzafweaEYTpJmLUZc62HPogMPtCSo
+ OS5GCQlZtsxHCNTqcRus/sQFa+fTFJTbe4yxzC9RC7PEy++n4dplaZQoQCDwWzWGonyK
+ anYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wTUXMQmDa+FxahjGnXMPJb6FhVMxmy0XknlvBB2lhGQ=;
- b=tTbswJDxtLFP98SV6ezfKsMkIMBlI5sVet3eF7S2rJN/Ak1N7vxMXBCnhlh9Ypk39e
- 7EGlIiOR+LGkCbNqaoe7Tn4KJmhfMJBAfOUfsxH+UwAyNehULW3E6J+90+V6tQ8Tz/HB
- ARUgM6Il5cbzTwB9MyuKETf7VeNhTJBYgZkPr8/OrvOrVxhEB3qswPRzLj5ygvu60pkm
- Dmc9gsBaL32t5zFJ8Of3AwzNue+8UyCdDEDZ00pshRTI9Wzy0IsPo+D+mlmT8iLmaTaO
- BOH9kQWvpa0/+D4eNCGUvC/fgTrPH7aAEtJR6lTfVRiKGGMJjEPV+Z0Ei9Zqd9qIBv19
- vbxQ==
-X-Gm-Message-State: AGi0PubNPQieJwBcEGzWWa8fzWIWpetzZ5xjJUAPG9blv+amJdZU8smi
- 7nQdk4y508H+CrqDv37h16wQi6Z8cOwfPLXrZg+/zZCPsZc/bUpvP/sRty1L1S7fTB7LyiiowGp
- LO9u0x8CLJrfktnQ=
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr3558669wrw.311.1588953509530; 
- Fri, 08 May 2020 08:58:29 -0700 (PDT)
-X-Google-Smtp-Source: APiQypL5Gcew3Hc3b6/iJVLsETDRJ3yUdT5UDlu52ZGXVLExvEV5jT6BSPcurOZC+DObynv9C82+dg==
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr3558646wrw.311.1588953509281; 
- Fri, 08 May 2020 08:58:29 -0700 (PDT)
-Received: from [192.168.178.58] ([151.30.94.138])
- by smtp.gmail.com with ESMTPSA id m1sm3379155wrx.44.2020.05.08.08.58.27
+ bh=HOMmb0OB3xpv2TR8F2Rn038VKNn18AkT91a3W5PX7Sc=;
+ b=DOcYvaUhYR4O/Stl5NtZ8KylugXRFoeRFVdO6ADV6VKYHV23SXNLL1mnK7P4h8Cc2H
+ b4RnA46Te+dsp71bVUhP3pZdYQbPGBK37i9Ls2broHHWkZ/de+rbz4/PcQFGgP3gPwXJ
+ bFkdCCigPLvAE5lObFFg9K2qE/5p5fthd0424np88ymfnoHVj8Q/kGxKAyN8SyDQDRqw
+ VdSw7KjmJ2L1LogICXkbUgAEOo/vmK9IH10C3zk/UYRaIbZ4Fp8EqYHxcEPiZziu5m03
+ p3UrfLfhJAbcD718GpIU+gUnsJ/Bt8W6MLN3WO0VZsV9k4uW0SiuztcZxxGLTU8vvLt6
+ RwcA==
+X-Gm-Message-State: AGi0PuYqI9t2Fjf26LaF2oITUoGvtMNtUo9bHa5Z7BYHOVZSX6G15WSY
+ zs1ewpd0nqnulhZvz9V5oB2fdA==
+X-Google-Smtp-Source: APiQypLp3AP6E2XRsSRh0zqeQQbmuQN2BrFcfO89TYopgBqBfUMBHIcsScz9qsstG0l03fa+E3hjyw==
+X-Received: by 2002:a17:90a:e38c:: with SMTP id
+ b12mr7216613pjz.102.1588953566260; 
+ Fri, 08 May 2020 08:59:26 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id k5sm2756865pjl.32.2020.05.08.08.59.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 May 2020 08:58:28 -0700 (PDT)
-Subject: Re: [PATCH 0/4] memory: Add memory_region_msync() & make NVMe
- emulated device generic
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beata Michalska <beata.michalska@linaro.org>
-References: <20200508062456.23344-1-philmd@redhat.com>
- <9396e0cb-388a-e08e-c066-82a60708ecdc@redhat.com>
- <CADSWDzvECqOXzusk=tj8r4z-E5CDZn4TNG8PJ5pxLHAn3saOzA@mail.gmail.com>
- <500bd6f3-2b14-eda8-72e5-56c46b7860bd@redhat.com>
- <653758ab-468d-b6f8-0ca6-404a799e3928@redhat.com>
- <CAP+75-W=DVYQuh0bVMRdo=mK8nLA=4VmsjJfXfO+TBwBj+aw0A@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <09b4b2f7-572c-08a5-d1d4-214609de8b85@redhat.com>
-Date: Fri, 8 May 2020 17:58:25 +0200
+ Fri, 08 May 2020 08:59:25 -0700 (PDT)
+Subject: Re: [PATCH 0/3] tcg/s390: Support host vector operations
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20200508155745.8223-1-richard.henderson@linaro.org>
+Message-ID: <3791ad15-2493-5e4b-57da-94f3f2f1c4f6@linaro.org>
+Date: Fri, 8 May 2020 08:59:23 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAP+75-W=DVYQuh0bVMRdo=mK8nLA=4VmsjJfXfO+TBwBj+aw0A@mail.gmail.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20200508155745.8223-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,22 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Keith Busch <kbusch@kernel.org>, Richard Henderson <rth@twiddle.net>
+Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/05/20 17:35, Philippe Mathieu-Daudé wrote:
->> So I understand I can simply rename memory_region_writeback ->
->> memory_region_msync in patch #2.
-> 
-> (removing the mr->dirty_log_mask).
-> 
+On 5/8/20 8:57 AM, Richard Henderson wrote:
+> I've had this floating around on a branch for a while now
+> It is able to run arm sve tests under qemu, but I have not
+> been able to test it against real hardware. 
 
-Yes.
+Dangit.
+I hit send right as I remembered that I should mark this as:
 
-Paolo
+Based-on: 20200508151055.5832-1-richard.henderson@linaro.org
+("tcg vector rotate operations").
 
+
+r~
 
