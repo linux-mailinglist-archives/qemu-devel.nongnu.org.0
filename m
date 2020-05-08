@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 966C71CB72D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 20:28:37 +0200 (CEST)
-Received: from localhost ([::1]:47148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCA21CB76E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 20:38:01 +0200 (CEST)
+Received: from localhost ([::1]:47952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX7jg-0001HT-I1
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 14:28:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33790)
+	id 1jX7sm-0006XG-6i
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 14:38:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX7hp-00071L-Ix
- for qemu-devel@nongnu.org; Fri, 08 May 2020 14:26:41 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34552)
+ id 1jX7hq-00072E-0t
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 14:26:42 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX7hn-0007E1-Mw
+ id 1jX7ho-0007Fk-R2
  for qemu-devel@nongnu.org; Fri, 08 May 2020 14:26:41 -0400
-Received: by mail-pf1-x443.google.com with SMTP id x15so783183pfa.1
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 11:26:38 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id r10so745545pgv.8
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 11:26:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QceWq606b5fd+dz7ujV26VKv63SExBpTQSdHWzSFdho=;
- b=OntNbQ+KMfV0CDQHCyFSmJrtB0R6jZ1PYRvyp2yFFJ6akLMs886MCSORYgOKKzjcV3
- Kaf+UU5b9PABAt8v46bak5/tJVz9aHAo5Z3h7S8VtP8W/d25i6c2CAftNhxm7DR9qgOS
- Rg66XDJRWsfiG3dG60DlvCA1GANoVX9auCUOVkFXxJXn54f3qdujPkC2nRQYU0uWZrzq
- qCYaK9SPM6Evm7r7EKGqQx3mJvGb3OXeHIlBpfswl2BYHe7sYqmgrhflYeWCY9c9ktgh
- WicS5h5mGfkyXdS/uvAabih7YBWm1uHuto0x0VUrq3ELtbW7F0+4oijqFYP80lmZfqUs
- axqA==
+ bh=NvO2T1wYwGiRfWfqGrh6DB/67jrIMOZ5KtEk6dFeoQw=;
+ b=Bpjuu1vi1ISatmjpQP8glGwpYO1NhrMKF9eWP26MTCy2EcTF38nQHNw8nmrUokoMqZ
+ AvgYyo/581M+LFj5Aorq+41OtojKTcIJ1h4DA3Y7NUcR+LaZSoN1p6HjGMaIu3EsctAQ
+ xYK42aQqWDkBznJCzt6y5V1EaMKm4kRIWx/C2FJa0yJCU8DafIjk1Dvjx/n/amtCVg5A
+ qqMnt3zew51Qh2tVDPoi1ft/V/sEC1l5itmJucqygNtDDGSK4Nn8PGd6zxPoryRKvoH/
+ ZfHNBfhf7cfttqILTY5P7DoM6qZeWFujInl+IRbufFC9Z1dcTy/kVCUnI1s557IIFxnS
+ Fs7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QceWq606b5fd+dz7ujV26VKv63SExBpTQSdHWzSFdho=;
- b=UoPEIvX650KTqJoBVpl511WZDceUNx8w2L9bisljeMS5L2I4DWzyLVCWxcPi2GoJ3c
- DfHv+EzIhbTdRJwoLHz+rhBvPmmsAUvDgeKmNeoz9zgWGOVznvmshux1C5dT4mbu825Q
- 60T5yx+7hkTiy4uK4Xd1g2HiWi5bNgmkNXiMtIIUsXauSLSpJIeVM5IJ++FhT8zUGZxG
- DqqK7AoUtQGSMNBDFtGifiar1sKu9iQqm6AsFaWq8J8R8+DSUuC1OHr7hc2zfacjn332
- 4nenaXF4s2xiNeVInZIor0xY+ER+dAK/TAty6OlVanfT8lP5QKjsWR16S4OFhzBZqvur
- Ukhg==
-X-Gm-Message-State: AGi0PuaHTiQzkZNawGUfTtPgsHSG02DYVpuKwL3QoDVXZArjQ59NdwG7
- Nrva57R922NvusyE1746qMQPSBkbXjU=
-X-Google-Smtp-Source: APiQypKAMxsNkaZxQm3eFRyMSU4QtZqf78R1gRRdMPiEKaRvjrRGM9QGfTbUGYZ0mUifRUqiX0UAkg==
-X-Received: by 2002:a63:600c:: with SMTP id u12mr3153738pgb.318.1588962397273; 
- Fri, 08 May 2020 11:26:37 -0700 (PDT)
+ bh=NvO2T1wYwGiRfWfqGrh6DB/67jrIMOZ5KtEk6dFeoQw=;
+ b=iJ0oaR8Pfvhwq+hnb2Xfl5doJ4W4vV7adpNJOSLCoN3uZTALClFOOEPiwf3JXTjRXs
+ th57v8ErhVLGU5EGWHKBIISpOAkO7HmwPhj+2GEv1ZWzQFnYi7SzbyCuf55j2WsULmP6
+ aSMk4LtMscsQO2ngZ3sPqCLbjsUmzIKkarxumd8twKlarY7qJG7kHX2SGeSusJqa4pvz
+ JMUJj71f4jUP2fe79mfNf0NPnirhEKqA2QD+gb7dv03Dc3XYf766CLYjdfBUnFB7Zp44
+ 3XDxzqCAjGxVQnHlLVcI8UrkQqQeMtxZY7zEH7szPY2qHLWb2ZopoGEec+2XSCYNBjld
+ De5g==
+X-Gm-Message-State: AGi0Pub6/8RDNxiBEav/3Tazhd7lzhMLHu8Zpu6gRbSFBvkwhcF1+eeW
+ myrTw/mK4hWFPAIJpRodbag0fdHfdag=
+X-Google-Smtp-Source: APiQypLo9XgWiM0jDwToYfVd0dFyd0Djt+D8gVWVRO6LAqCSUjt+YKYb05qtzfc0g7r9UnkfvqnaDQ==
+X-Received: by 2002:a62:3584:: with SMTP id c126mr4210621pfa.316.1588962398740; 
+ Fri, 08 May 2020 11:26:38 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id u9sm2421775pfn.197.2020.05.08.11.26.36
+ by smtp.gmail.com with ESMTPSA id u9sm2421775pfn.197.2020.05.08.11.26.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 11:26:36 -0700 (PDT)
+ Fri, 08 May 2020 11:26:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/19] tcg: Remove movi and dupi opcodes
-Date: Fri,  8 May 2020 11:26:11 -0700
-Message-Id: <20200508182616.18318-15-richard.henderson@linaro.org>
+Subject: [PATCH v4 15/19] tcg: Use tcg_out_dupi_vec from temp_load
+Date: Fri,  8 May 2020 11:26:12 -0700
+Message-Id: <20200508182616.18318-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200508182616.18318-1-richard.henderson@linaro.org>
 References: <20200508182616.18318-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,292 +86,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- alex.bennee@linaro.org
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are now completely covered by mov from a
-TYPE_CONST temporary.
+Having dupi pass though movi is confusing and arguably wrong.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-opc.h        |  3 ---
- tcg/aarch64/tcg-target.inc.c |  3 ---
- tcg/arm/tcg-target.inc.c     |  1 -
- tcg/i386/tcg-target.inc.c    |  3 ---
- tcg/mips/tcg-target.inc.c    |  2 --
- tcg/optimize.c               |  4 ----
- tcg/ppc/tcg-target.inc.c     |  3 ---
- tcg/riscv/tcg-target.inc.c   |  2 --
- tcg/s390/tcg-target.inc.c    |  2 --
- tcg/sparc/tcg-target.inc.c   |  2 --
- tcg/tcg-op-vec.c             |  1 -
- tcg/tcg.c                    | 18 +-----------------
- tcg/tci/tcg-target.inc.c     |  2 --
- 13 files changed, 1 insertion(+), 45 deletions(-)
+ tcg/aarch64/tcg-target.inc.c |  7 ----
+ tcg/i386/tcg-target.inc.c    | 63 ++++++++++++++++++++++++------------
+ tcg/ppc/tcg-target.inc.c     |  6 ----
+ tcg/tcg.c                    |  8 ++++-
+ 4 files changed, 49 insertions(+), 35 deletions(-)
 
-diff --git a/include/tcg/tcg-opc.h b/include/tcg/tcg-opc.h
-index 5a941eaa07..d63c6bcb3d 100644
---- a/include/tcg/tcg-opc.h
-+++ b/include/tcg/tcg-opc.h
-@@ -45,7 +45,6 @@ DEF(br, 0, 0, 1, TCG_OPF_BB_END)
- DEF(mb, 0, 0, 1, 0)
- 
- DEF(mov_i32, 1, 1, 0, TCG_OPF_NOT_PRESENT)
--DEF(movi_i32, 1, 0, 1, TCG_OPF_NOT_PRESENT)
- DEF(setcond_i32, 1, 2, 1, 0)
- DEF(movcond_i32, 1, 4, 1, IMPL(TCG_TARGET_HAS_movcond_i32))
- /* load/store */
-@@ -110,7 +109,6 @@ DEF(ctz_i32, 1, 2, 0, IMPL(TCG_TARGET_HAS_ctz_i32))
- DEF(ctpop_i32, 1, 1, 0, IMPL(TCG_TARGET_HAS_ctpop_i32))
- 
- DEF(mov_i64, 1, 1, 0, TCG_OPF_64BIT | TCG_OPF_NOT_PRESENT)
--DEF(movi_i64, 1, 0, 1, TCG_OPF_64BIT | TCG_OPF_NOT_PRESENT)
- DEF(setcond_i64, 1, 2, 1, IMPL64)
- DEF(movcond_i64, 1, 4, 1, IMPL64 | IMPL(TCG_TARGET_HAS_movcond_i64))
- /* load/store */
-@@ -215,7 +213,6 @@ DEF(qemu_st_i64, 0, TLADDR_ARGS + DATA64_ARGS, 1,
- #define IMPLVEC  TCG_OPF_VECTOR | IMPL(TCG_TARGET_MAYBE_vec)
- 
- DEF(mov_vec, 1, 1, 0, TCG_OPF_VECTOR | TCG_OPF_NOT_PRESENT)
--DEF(dupi_vec, 1, 0, 1, TCG_OPF_VECTOR | TCG_OPF_NOT_PRESENT)
- 
- DEF(dup_vec, 1, 1, 0, IMPLVEC)
- DEF(dup2_vec, 1, 2, 0, IMPLVEC | IMPL(TCG_TARGET_REG_BITS == 32))
 diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-index 760b0e742d..d065fd600b 100644
+index d065fd600b..a7b1d36494 100644
 --- a/tcg/aarch64/tcg-target.inc.c
 +++ b/tcg/aarch64/tcg-target.inc.c
-@@ -2262,8 +2262,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i32: /* Always emitted via tcg_out_movi.  */
--    case INDEX_op_movi_i64:
-     case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
+@@ -1010,13 +1010,6 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+     case TCG_TYPE_I64:
+         tcg_debug_assert(rd < 32);
+         break;
+-
+-    case TCG_TYPE_V64:
+-    case TCG_TYPE_V128:
+-        tcg_debug_assert(rd >= 32);
+-        tcg_out_dupi_vec(s, type, rd, value);
+-        return;
+-
      default:
          g_assert_not_reached();
-@@ -2471,7 +2469,6 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         break;
- 
-     case INDEX_op_mov_vec:  /* Always emitted via tcg_out_mov.  */
--    case INDEX_op_dupi_vec: /* Always emitted via tcg_out_movi.  */
-     case INDEX_op_dup_vec:  /* Always emitted via tcg_out_dup_vec.  */
-     default:
-         g_assert_not_reached();
-diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
-index 6aa7757aac..b967499fa4 100644
---- a/tcg/arm/tcg-target.inc.c
-+++ b/tcg/arm/tcg-target.inc.c
-@@ -2068,7 +2068,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         break;
- 
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
--    case INDEX_op_movi_i32: /* Always emitted via tcg_out_movi.  */
-     case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
-     default:
-         tcg_abort();
+     }
 diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index ae0228238b..bc957e7bed 100644
+index bc957e7bed..4118071dd9 100644
 --- a/tcg/i386/tcg-target.inc.c
 +++ b/tcg/i386/tcg-target.inc.c
-@@ -2678,8 +2678,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         break;
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i32: /* Always emitted via tcg_out_movi.  */
--    case INDEX_op_movi_i64:
-     case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
-     default:
-         tcg_abort();
-@@ -2965,7 +2963,6 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         break;
- 
-     case INDEX_op_mov_vec:  /* Always emitted via tcg_out_mov.  */
--    case INDEX_op_dupi_vec: /* Always emitted via tcg_out_movi.  */
-     case INDEX_op_dup_vec:  /* Always emitted via tcg_out_dup_vec.  */
-     default:
-         g_assert_not_reached();
-diff --git a/tcg/mips/tcg-target.inc.c b/tcg/mips/tcg-target.inc.c
-index 4d32ebc1df..09dc5a94fa 100644
---- a/tcg/mips/tcg-target.inc.c
-+++ b/tcg/mips/tcg-target.inc.c
-@@ -2155,8 +2155,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         break;
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i32: /* Always emitted via tcg_out_movi.  */
--    case INDEX_op_movi_i64:
-     case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
-     default:
-         tcg_abort();
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index dd5187be31..9a2c945dbe 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -1099,10 +1099,6 @@ void tcg_optimize(TCGContext *s)
-         CASE_OP_32_64_VEC(mov):
-             tcg_opt_gen_mov(s, op, op->args[0], op->args[1]);
-             break;
--        CASE_OP_32_64(movi):
--        case INDEX_op_dupi_vec:
--            tcg_opt_gen_movi(s, &temps_used, op, op->args[0], op->args[1]);
--            break;
- 
-         case INDEX_op_dup_vec:
-             if (arg_is_const(op->args[1])) {
-diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index 7da67086c6..c525439b62 100644
---- a/tcg/ppc/tcg-target.inc.c
-+++ b/tcg/ppc/tcg-target.inc.c
-@@ -2967,8 +2967,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
- 
-     case INDEX_op_mov_i32:   /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i32:  /* Always emitted via tcg_out_movi.  */
--    case INDEX_op_movi_i64:
-     case INDEX_op_call:      /* Always emitted via tcg_out_call.  */
-     default:
-         tcg_abort();
-@@ -3314,7 +3312,6 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         return;
- 
-     case INDEX_op_mov_vec:  /* Always emitted via tcg_out_mov.  */
--    case INDEX_op_dupi_vec: /* Always emitted via tcg_out_movi.  */
-     case INDEX_op_dup_vec:  /* Always emitted via tcg_out_dup_vec.  */
-     default:
-         g_assert_not_reached();
-diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-index 2bc0ba71f2..ec609272ad 100644
---- a/tcg/riscv/tcg-target.inc.c
-+++ b/tcg/riscv/tcg-target.inc.c
-@@ -1606,8 +1606,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i32: /* Always emitted via tcg_out_movi.  */
--    case INDEX_op_movi_i64:
-     case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
-     default:
-         g_assert_not_reached();
-diff --git a/tcg/s390/tcg-target.inc.c b/tcg/s390/tcg-target.inc.c
-index b07e9ff7d6..f6b003a700 100644
---- a/tcg/s390/tcg-target.inc.c
-+++ b/tcg/s390/tcg-target.inc.c
-@@ -2310,8 +2310,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i32: /* Always emitted via tcg_out_movi.  */
--    case INDEX_op_movi_i64:
-     case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
-     default:
-         tcg_abort();
-diff --git a/tcg/sparc/tcg-target.inc.c b/tcg/sparc/tcg-target.inc.c
-index 65fddb310d..0808b79eee 100644
---- a/tcg/sparc/tcg-target.inc.c
-+++ b/tcg/sparc/tcg-target.inc.c
-@@ -1591,8 +1591,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i32: /* Always emitted via tcg_out_movi.  */
--    case INDEX_op_movi_i64:
-     case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
-     default:
-         tcg_abort();
-diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-index 0e3e80a612..4681d26973 100644
---- a/tcg/tcg-op-vec.c
-+++ b/tcg/tcg-op-vec.c
-@@ -83,7 +83,6 @@ bool tcg_can_emit_vecop_list(const TCGOpcode *list,
-         case INDEX_op_xor_vec:
-         case INDEX_op_mov_vec:
-         case INDEX_op_dup_vec:
--        case INDEX_op_dupi_vec:
-         case INDEX_op_dup2_vec:
-         case INDEX_op_ld_vec:
-         case INDEX_op_st_vec:
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 94f7898317..7a23ccb017 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1463,7 +1463,6 @@ bool tcg_op_supported(TCGOpcode op)
-         return TCG_TARGET_HAS_goto_ptr;
- 
-     case INDEX_op_mov_i32:
--    case INDEX_op_movi_i32:
-     case INDEX_op_setcond_i32:
-     case INDEX_op_brcond_i32:
-     case INDEX_op_ld8u_i32:
-@@ -1557,7 +1556,6 @@ bool tcg_op_supported(TCGOpcode op)
-         return TCG_TARGET_REG_BITS == 32;
- 
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i64:
-     case INDEX_op_setcond_i64:
-     case INDEX_op_brcond_i64:
-     case INDEX_op_ld8u_i64:
-@@ -1663,7 +1661,6 @@ bool tcg_op_supported(TCGOpcode op)
- 
-     case INDEX_op_mov_vec:
-     case INDEX_op_dup_vec:
--    case INDEX_op_dupi_vec:
-     case INDEX_op_dupm_vec:
-     case INDEX_op_ld_vec:
-     case INDEX_op_st_vec:
-@@ -3488,7 +3485,7 @@ static void tcg_reg_alloc_bb_end(TCGContext *s, TCGRegSet allocated_regs)
- }
- 
- /*
-- * Specialized code generation for INDEX_op_movi_*.
-+ * Specialized code generation for INDEX_op_mov_* with a constant.
-  */
- static void tcg_reg_alloc_do_movi(TCGContext *s, TCGTemp *ots,
-                                   tcg_target_ulong val, TCGLifeData arg_life,
-@@ -3511,14 +3508,6 @@ static void tcg_reg_alloc_do_movi(TCGContext *s, TCGTemp *ots,
+@@ -977,30 +977,32 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
      }
  }
  
--static void tcg_reg_alloc_movi(TCGContext *s, const TCGOp *op)
--{
--    TCGTemp *ots = arg_temp(op->args[0]);
--    tcg_target_ulong val = op->args[1];
--
--    tcg_reg_alloc_do_movi(s, ots, val, op->life, op->output_pref[0]);
--}
--
- /*
-  * Specialized code generation for INDEX_op_mov_*.
-  */
-@@ -4301,11 +4290,6 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
-         case INDEX_op_mov_vec:
-             tcg_reg_alloc_mov(s, op);
-             break;
--        case INDEX_op_movi_i32:
--        case INDEX_op_movi_i64:
--        case INDEX_op_dupi_vec:
--            tcg_reg_alloc_movi(s, op);
+-static void tcg_out_movi(TCGContext *s, TCGType type,
+-                         TCGReg ret, tcg_target_long arg)
++static void tcg_out_movi_vec(TCGContext *s, TCGType type,
++                             TCGReg ret, tcg_target_long arg)
++{
++    if (arg == 0) {
++        tcg_out_vex_modrm(s, OPC_PXOR, ret, ret, ret);
++        return;
++    }
++    if (arg == -1) {
++        tcg_out_vex_modrm(s, OPC_PCMPEQB, ret, ret, ret);
++        return;
++    }
++
++    int rexw = (type == TCG_TYPE_I32 ? 0 : P_REXW);
++    tcg_out_vex_modrm_pool(s, OPC_MOVD_VyEy + rexw, ret);
++    if (TCG_TARGET_REG_BITS == 64) {
++        new_pool_label(s, arg, R_386_PC32, s->code_ptr - 4, -4);
++    } else {
++        new_pool_label(s, arg, R_386_32, s->code_ptr - 4, 0);
++    }
++}
++
++static void tcg_out_movi_int(TCGContext *s, TCGType type,
++                             TCGReg ret, tcg_target_long arg)
+ {
+     tcg_target_long diff;
+ 
+-    switch (type) {
+-    case TCG_TYPE_I32:
+-#if TCG_TARGET_REG_BITS == 64
+-    case TCG_TYPE_I64:
+-#endif
+-        if (ret < 16) {
 -            break;
-         case INDEX_op_dup_vec:
-             tcg_reg_alloc_dup(s, op);
-             break;
-diff --git a/tcg/tci/tcg-target.inc.c b/tcg/tci/tcg-target.inc.c
-index 1f1639df0d..b796f4fc19 100644
---- a/tcg/tci/tcg-target.inc.c
-+++ b/tcg/tci/tcg-target.inc.c
-@@ -815,8 +815,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+-        }
+-        /* fallthru */
+-    case TCG_TYPE_V64:
+-    case TCG_TYPE_V128:
+-    case TCG_TYPE_V256:
+-        tcg_debug_assert(ret >= 16);
+-        tcg_out_dupi_vec(s, type, ret, arg);
+-        return;
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+     if (arg == 0) {
+         tgen_arithr(s, ARITH_XOR, ret, ret);
+         return;
+@@ -1029,6 +1031,25 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+     tcg_out64(s, arg);
+ }
+ 
++static void tcg_out_movi(TCGContext *s, TCGType type,
++                         TCGReg ret, tcg_target_long arg)
++{
++    switch (type) {
++    case TCG_TYPE_I32:
++#if TCG_TARGET_REG_BITS == 64
++    case TCG_TYPE_I64:
++#endif
++        if (ret < 16) {
++            tcg_out_movi_int(s, type, ret, arg);
++        } else {
++            tcg_out_movi_vec(s, type, ret, arg);
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
+ static inline void tcg_out_pushi(TCGContext *s, tcg_target_long val)
+ {
+     if (val == (int8_t)val) {
+diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
+index c525439b62..7111da34dd 100644
+--- a/tcg/ppc/tcg-target.inc.c
++++ b/tcg/ppc/tcg-target.inc.c
+@@ -987,12 +987,6 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg ret,
+         tcg_out_movi_int(s, type, ret, arg, false);
          break;
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
--    case INDEX_op_movi_i32: /* Always emitted via tcg_out_movi.  */
--    case INDEX_op_movi_i64:
-     case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
+ 
+-    case TCG_TYPE_V64:
+-    case TCG_TYPE_V128:
+-        tcg_debug_assert(ret >= TCG_REG_V0);
+-        tcg_out_dupi_vec(s, type, ret, arg);
+-        break;
+-
      default:
-         tcg_abort();
+         g_assert_not_reached();
+     }
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 7a23ccb017..a84a9d3d63 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3400,7 +3400,13 @@ static void temp_load(TCGContext *s, TCGTemp *ts, TCGRegSet desired_regs,
+     case TEMP_VAL_CONST:
+         reg = tcg_reg_alloc(s, desired_regs, allocated_regs,
+                             preferred_regs, ts->indirect_base);
+-        tcg_out_movi(s, ts->type, reg, ts->val);
++        if (ts->type <= TCG_TYPE_I64) {
++            tcg_out_movi(s, ts->type, reg, ts->val);
++        } else if (TCG_TARGET_REG_BITS == 64) {
++            tcg_out_dupi_vec(s, ts->type, reg, ts->val);
++        } else {
++            tcg_out_dupi_vec(s, ts->type, reg, dup_const(MO_32, ts->val));
++        }
+         ts->mem_coherent = 0;
+         break;
+     case TEMP_VAL_MEM:
 -- 
 2.20.1
 
