@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 268341CA5D0
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:14:01 +0200 (CEST)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06761CA5F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:22:53 +0200 (CEST)
+Received: from localhost ([::1]:35818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWy8u-0005X5-7c
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:14:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44142)
+	id 1jWyHU-00023d-Oz
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWy7y-0004Ih-2N
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:13:02 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27366
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWy7v-0007en-BR
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:13:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588925578;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YLoNvgAnmhAe37oY099ELg/k7qGKpXf7UiAPPYIuppk=;
- b=VYCVJ2RM4NNmYN/+ax8zVlvsVeHuxSkglHA7JlXkdA1vCcdE4Zpj8mQ6tW0kbfg8fRQH++
- epNHmTS5DMl6PbD9wAFLcKW6ZwQnM1JCdU+CYMk3yHxcJxuj0g/X7jB2XBPrUkuzSKaBV5
- 208CwpVjiCKkTWloW1xd0qzaXbJnUl0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-oTgP2uX6ORaBJC2ATjdaHQ-1; Fri, 08 May 2020 04:12:56 -0400
-X-MC-Unique: oTgP2uX6ORaBJC2ATjdaHQ-1
-Received: by mail-wm1-f72.google.com with SMTP id h184so4825567wmf.5
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:12:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1jWyGK-0000mo-11
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:21:40 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1jWyGI-0001Xv-B8
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:21:39 -0400
+Received: by mail-wm1-x343.google.com with SMTP id 188so9289188wmc.2
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0/AgBiC6qKeHKJYdAkiVkky+NGmrOIHqcX4j3U3cGLU=;
+ b=rd83KKIc0rAng26v4lLrAz6DoMzjBez9W4x0XeId/pg0zqNdtwSqXjcZb92wUSvG3o
+ /tgBSOxfapo3T5IZFFMnZB/1JtOsQ9NEOEEWzVzu24VqqhVM9ZfP94Jlgm1hUbHupr/U
+ d8HyP1AcLtSY7p9Mv9byV9+4ZAVMG3haLbr4cRcU2hYHUsYfoynvCoJ4iyPAcrswNplE
+ upn1kW5hoz/ZKIUVGG+B/yhrsq/KiWlnJnW0+O0CIcCacKcqj1+HNr8FOzDwauZF6Vzo
+ a+GxzbVF2xINsn1efSh9SgO88CSixI5mOGCsrQGLfIcxIi5tNU4m7KoIMIG+NnwC4rC3
+ Wb8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YLoNvgAnmhAe37oY099ELg/k7qGKpXf7UiAPPYIuppk=;
- b=SiN216XcY4MW5iaoQJ5euC/gbzAIMSW/e4c/X5ujkaSwvIvDpJ2EyLAWEbUj/WNStO
- L+T4YafiVQ8ErWIIoxhV/SBFRydb1o/96mhreZIVs6zNNXU2Urq0HcN56z7KBDD7iSQ0
- 0d4oaEDIoWBjEUt627w0YJVVrJiqfJs5lWKlcN7fMo/T94qQTF4+jiHslQy1jRyoTpc9
- SBCn8ihnghlcfaeDUDr3F9VVC8qY7To2CPXnt4TbtzSsXQIBMPbHmpLol6bIJACJ2cW2
- U8AbLtcoqRHhk33nYcEJsy3qHvgmJ7/fTdvMURAezr/ueeAjDLpsEZabiHA2thDShe9R
- VY5g==
-X-Gm-Message-State: AGi0PubizcAQdjuFRj7BkPFB4jFI5QdKAI3BgpNQ0CNDwu+jUi+rYQyF
- Fu8FQ7GG+vSxgsYL542J+SSmNecmwDGkOyS72MX9CYqINQtT8foq8LRTbyZxEsYsozTzZRxU9zG
- FzO7gpD+ypf1/MTs=
-X-Received: by 2002:adf:9286:: with SMTP id 6mr1573107wrn.179.1588925575084;
- Fri, 08 May 2020 01:12:55 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJniVE7SdUvDZPGcVfmK34MTJP2V68E0OO7nQf2tYId/f91uLf28KiJH9N9YOElUquHEfqkBA==
-X-Received: by 2002:adf:9286:: with SMTP id 6mr1573080wrn.179.1588925574912;
- Fri, 08 May 2020 01:12:54 -0700 (PDT)
-Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id g74sm11802679wme.44.2020.05.08.01.12.54
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0/AgBiC6qKeHKJYdAkiVkky+NGmrOIHqcX4j3U3cGLU=;
+ b=X55S9cFgzZw8M9GNz77dXwjBBFTUVpPVQw0OVQ+pQcMeC+w/U4ZFWv0+HSHoxIvwqj
+ sMkxW1WP5JN5VcabYy/eOqWBcDixk7jhjwP+lfWunAWvq0KpJBubIDNJIDCqp0NLNNGH
+ kJYRtmX2R6kIJ0OBfRLA6h7sBhzjEcEeABAJUtFYU3uwsMfGjI6mGa0Yq8PKVOiFwaWw
+ ZcLMXL0PnttY9lPg7Bh1vLIlekcwqxdE+26S96zspMTNNakSTfjbaaUF6jrnsx4VYEZM
+ w8ldqRGODutqRPEaNrtQC+lgi8ARoOch1EaRowMByw9GUvYj6w9SK26l16Zsi/w7z92w
+ W48w==
+X-Gm-Message-State: AGi0PubEHQ+hlM9YwEV+EocTFXaLHBCKYHnch7c9VF4xXNg0kn3MvFzV
+ jHWbMNH9FpntSWepokmuEx/VFQ==
+X-Google-Smtp-Source: APiQypJ9XmUKIvWeeoSFrD8E8yC72Rnc3/cQ2mbgbsabEfMpyYVF9P1veb1wpJLW1MEKzRSKFS5z3w==
+X-Received: by 2002:a7b:c4d1:: with SMTP id g17mr14648882wmk.158.1588926096545; 
+ Fri, 08 May 2020 01:21:36 -0700 (PDT)
+Received: from myrica ([2001:171b:226e:c200:c43b:ef78:d083:b355])
+ by smtp.gmail.com with ESMTPSA id p7sm1781670wrf.31.2020.05.08.01.21.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 01:12:54 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 10/10] exec: Move cpu_physical_memory_* functions to
- 'exec/memory-internal.h'
-In-Reply-To: <20200507173958.25894-11-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 7 May 2020 19:39:58
- +0200")
-References: <20200507173958.25894-1-philmd@redhat.com>
- <20200507173958.25894-11-philmd@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Fri, 08 May 2020 10:12:53 +0200
-Message-ID: <875zd6g7zu.fsf@secure.mitica>
+ Fri, 08 May 2020 01:21:35 -0700 (PDT)
+Date: Fri, 8 May 2020 10:21:26 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH 5/5] hw/arm/virt: Let the virtio-iommu bypass MSIs
+Message-ID: <20200508082126.GA1770804@myrica>
+References: <20200507143201.31080-1-eric.auger@redhat.com>
+ <20200507143201.31080-6-eric.auger@redhat.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=quintela@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507143201.31080-6-eric.auger@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,32 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
+ peterx@redhat.com, armbru@redhat.com, qemu-arm@nongnu.org,
+ bbhushan2@marvell.com, eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Thu, May 07, 2020 at 04:32:01PM +0200, Eric Auger wrote:
+> At the moment the virtio-iommu translates MSI transactions.
+> This behavior is inherited from ARM SMMU. The virt machine
+> code knows where the guest MSI doorbells are so we can easily
+> declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
+> setting the guest will not map MSIs through the IOMMU and those
+> transactions will be simply bypassed. The ITS does MSI translation
+> anyway.
 
-Once here, can someone give a test that meassures if it makes sense that
-this functions are inline?
-They are relatively big, and I would preffer them to be in a .c file,
-but I have no clue about how performance critical they are.
+Makes sense. I think we have to check that the ITS is used before
+declaring the resv region, though. When using gicv2m, the guest will see
+this MSI region and deduce that it doesn't need to create a SW mapping for
+MSIs (might be wrong, I haven't tested it yet).
 
-Again, this include was another of the reasons that migration/ram.c
-can't be make target agnostic.
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>  hw/arm/virt.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 171e6908ec..6a041e97a5 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2138,6 +2138,11 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+>  {
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+>          virt_memory_pre_plug(hotplug_dev, dev, errp);
+> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+> +        /* we declare a VIRTIO_IOMMU_RESV_MEM_T_MSI region */
+> +        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
+> +        qdev_prop_set_string(dev, "reserved-regions[0]",
+> +                             "0x8090000, 0x809FFFF, 1");
 
-Later, Juan.
+Maybe worth adding a comment saying this is the GITS_TRANSLATER page?
 
+Thanks,
+Jean
 
