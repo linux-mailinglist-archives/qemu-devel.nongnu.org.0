@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8001CAC56
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:54:57 +0200 (CEST)
-Received: from localhost ([::1]:48222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0907A1CAD01
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:58:51 +0200 (CEST)
+Received: from localhost ([::1]:38610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2Wm-0005qA-Ct
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:54:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49392)
+	id 1jX2aX-0005mQ-Kw
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KX-0000Et-9J
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41844
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2Kb-0000Gh-Od
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:22 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:31409
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KS-0008Ea-Qz
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:16 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KU-0008IY-8l
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588941732;
+ s=mimecast20190719; t=1588941733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YTemD0JLp415x05I2fMhDhO+J7yzVhGwAWs1mEFO9fs=;
- b=HsA6jpd33N9FTnQu2yro9faRFfq8iOZyc1cTR52r+nFD8aCOI30b4x64X3Kh346BA6IkFH
- J0xcu1Qb+8Hpeci2z6WWQugOSKvito0wIurrXmO+Khl2Za73wl8iWu1KEBMmYqs0bRP7xO
- 12oLh/d8Hv3y0XpUjl4Cil7jMuWYT6M=
+ bh=i7RxmXrWkhB3B0hao+JlSmpvKAKAKpecfjVU6sy9RK0=;
+ b=aSI/PzlfYPXNss96bcZvAuNA/2uDv3z5D5i1ObbSJN7D6rNG/sTNixPPmNgSPG8oyMV4mz
+ 9Ji3YE44yFesszTy7t9i5c5dJtFhWI8ZmYIkBIMW3rqFGfHrKH8yEo5UuFJwoeZ94C7LxV
+ xB3baWWhzAJ4aOm+fKW1w5DFs+sIIhY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-z-r5LZrwPNuXlQghFrWTdw-1; Fri, 08 May 2020 08:42:09 -0400
-X-MC-Unique: z-r5LZrwPNuXlQghFrWTdw-1
+ us-mta-507-LILeNVcpNH6H-yXH_McEFg-1; Fri, 08 May 2020 08:42:11 -0400
+X-MC-Unique: LILeNVcpNH6H-yXH_McEFg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84C42100CCC1;
- Fri,  8 May 2020 12:42:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D79C9464;
+ Fri,  8 May 2020 12:42:09 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-190.ams2.redhat.com
  [10.36.113.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8729419167;
- Fri,  8 May 2020 12:42:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CFD8919167;
+ Fri,  8 May 2020 12:42:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 20/30] iotests/055: Use cache.no-flush for vmdk target
-Date: Fri,  8 May 2020 14:41:25 +0200
-Message-Id: <20200508124135.252565-21-kwolf@redhat.com>
+Subject: [PULL 21/30] qcow2: Fix preallocation on block devices
+Date: Fri,  8 May 2020 14:41:26 +0200
+Message-Id: <20200508124135.252565-22-kwolf@redhat.com>
 In-Reply-To: <20200508124135.252565-1-kwolf@redhat.com>
 References: <20200508124135.252565-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,75 +82,80 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-055 uses the backup block job to create a compressed backup of an
-$IMGFMT image with both qcow2 and vmdk targets. However, cluster
-allocation in vmdk is very slow because it flushes the image file after
-each L2 update.
+From: Max Reitz <mreitz@redhat.com>
 
-There is no reason why we need this level of safety in this test, so
-let's disable flushes for vmdk. For the blockdev-backup tests this is
-achieved by simply adding the cache.no-flush=3Don to the drive_add() for
-the target. For drive-backup, the caching flags are copied from the
-source node, so we'll also add the flag to the source node, even though
-it is not vmdk.
+Calling bdrv_getlength() to get the pre-truncate file size will not
+really work on block devices, because they have always the same length,
+and trying to write beyond it will fail with a rather cryptic error
+message.
 
-This can make the test run significantly faster (though it doesn't make
-a difference on tmpfs). In my usual setup it goes from ~45s to ~15s.
+Instead, we should use qcow2_get_last_cluster() and bdrv_getlength()
+only as a fallback.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200505064618.16267-1-kwolf@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Before this patch:
+$ truncate -s 1G test.img
+$ sudo losetup -f --show test.img
+/dev/loop0
+$ sudo qemu-img create -f qcow2 -o preallocation=3Dfull /dev/loop0 64M
+Formatting '/dev/loop0', fmt=3Dqcow2 size=3D67108864 cluster_size=3D65536
+preallocation=3Dfull lazy_refcounts=3Doff refcount_bits=3D16
+qemu-img: /dev/loop0: Could not resize image: Failed to resize refcount
+structures: No space left on device
+
+With this patch:
+$ sudo qemu-img create -f qcow2 -o preallocation=3Dfull /dev/loop0 64M
+Formatting '/dev/loop0', fmt=3Dqcow2 size=3D67108864 cluster_size=3D65536
+preallocation=3Dfull lazy_refcounts=3Doff refcount_bits=3D16
+qemu-img: /dev/loop0: Could not resize image: Failed to resize
+underlying file: Preallocation mode 'full' unsupported for this
+non-regular file
+
+So as you can see, it still fails, but now the problem is missing
+support on the block device level, so we at least get a better error
+message.
+
+Note that we cannot preallocate block devices on truncate by design,
+because we do not know what area to preallocate.  Their length is always
+the same, the truncate operation does not change it.
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20200505141801.1096763-1-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/055 | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ block/qcow2.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/055 b/tests/qemu-iotests/055
-index 7f8e630de3..4d3744b0d3 100755
---- a/tests/qemu-iotests/055
-+++ b/tests/qemu-iotests/055
-@@ -489,7 +489,7 @@ class TestSingleTransaction(iotests.QMPTestCase):
+diff --git a/block/qcow2.c b/block/qcow2.c
+index fc7d4b185e..11903fb547 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -4107,7 +4107,7 @@ static int coroutine_fn qcow2_co_truncate(BlockDriver=
+State *bs, int64_t offset,
+     {
+         int64_t allocation_start, host_offset, guest_offset;
+         int64_t clusters_allocated;
+-        int64_t old_file_size, new_file_size;
++        int64_t old_file_size, last_cluster, new_file_size;
+         uint64_t nb_new_data_clusters, nb_new_l2_tables;
 =20
- class TestCompressedToQcow2(iotests.QMPTestCase):
-     image_len =3D 64 * 1024 * 1024 # MB
--    target_fmt =3D {'type': 'qcow2', 'args': ()}
-+    target_fmt =3D {'type': 'qcow2', 'args': (), 'drive-opts': ''}
+         /* With a data file, preallocation means just allocating the metad=
+ata
+@@ -4127,7 +4127,13 @@ static int coroutine_fn qcow2_co_truncate(BlockDrive=
+rState *bs, int64_t offset,
+             ret =3D old_file_size;
+             goto fail;
+         }
+-        old_file_size =3D ROUND_UP(old_file_size, s->cluster_size);
++
++        last_cluster =3D qcow2_get_last_cluster(bs, old_file_size);
++        if (last_cluster >=3D 0) {
++            old_file_size =3D (last_cluster + 1) * s->cluster_size;
++        } else {
++            old_file_size =3D ROUND_UP(old_file_size, s->cluster_size);
++        }
 =20
-     def tearDown(self):
-         self.vm.shutdown()
-@@ -500,14 +500,16 @@ class TestCompressedToQcow2(iotests.QMPTestCase):
-             pass
-=20
-     def do_prepare_drives(self, attach_target):
--        self.vm =3D iotests.VM().add_drive('blkdebug::' + test_img)
-+        self.vm =3D iotests.VM().add_drive('blkdebug::' + test_img,
-+                                         opts=3Dself.target_fmt['drive-opt=
-s'])
-=20
-         qemu_img('create', '-f', self.target_fmt['type'], blockdev_target_=
-img,
-                  str(self.image_len), *self.target_fmt['args'])
-         if attach_target:
-             self.vm.add_drive(blockdev_target_img,
-                               img_format=3Dself.target_fmt['type'],
--                              interface=3D"none")
-+                              interface=3D"none",
-+                              opts=3Dself.target_fmt['drive-opts'])
-=20
-         self.vm.launch()
-=20
-@@ -601,7 +603,8 @@ class TestCompressedToQcow2(iotests.QMPTestCase):
-=20
-=20
- class TestCompressedToVmdk(TestCompressedToQcow2):
--    target_fmt =3D {'type': 'vmdk', 'args': ('-o', 'subformat=3DstreamOpti=
-mized')}
-+    target_fmt =3D {'type': 'vmdk', 'args': ('-o', 'subformat=3DstreamOpti=
-mized'),
-+                  'drive-opts': 'cache.no-flush=3Don'}
-=20
-     @iotests.skip_if_unsupported(['vmdk'])
-     def setUp(self):
+         nb_new_data_clusters =3D DIV_ROUND_UP(offset - old_length,
+                                             s->cluster_size);
 --=20
 2.25.3
 
