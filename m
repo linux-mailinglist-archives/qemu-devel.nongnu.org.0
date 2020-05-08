@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1391CAC28
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:51:46 +0200 (CEST)
-Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BF61CAC50
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:53:17 +0200 (CEST)
+Received: from localhost ([::1]:38956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2Th-0006VK-Ex
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:51:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49350)
+	id 1jX2VA-0001YE-JE
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:53:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KU-0000Be-Ed
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:14 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:21817
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KW-0000Dl-7D
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46646
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KN-000869-Ii
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:14 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KP-00089O-8T
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588941726;
+ s=mimecast20190719; t=1588941727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+CxTJcdLUVWj5Wybblu9Gx5OEIzan5qW+8m1lJRkdx4=;
- b=KKsq4blBiNygf9cYMIWA3BSvsTf5beukDiqaYuyr2Ud81twAdRCoHfZ8RP/Hec8y3q6Y3t
- cZ3BNw7WouU8s49OX/ws6Jr7aaQSshze81Qb7AlrRkbsQhTB8rvzVHMjELXlxI9fJ/a2sM
- dgJMprLJNa3gJpWo48tCrckCXha76nM=
+ bh=0mk5t4ExfFITXC1xdImicYrTSZpeRVb+VyBfmNxOm6Q=;
+ b=QB+XiqBAv9GzcigAGsZBEcJpJldHTruR8E9zisXsa8g0sW5r/thHjHKKo5XutZquKUbXJ6
+ fa9p2mr38wpS5DJahwBGwvtqko6UCVfjwIBav7yGOQ7CxacSu95d+zOlLuHmTrKRiTUzC4
+ MnDzEEnQuI1OJ4PwPPj7qalgqZ4pcP8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-_Ad1PUY0NiGBhvsLhRp-tQ-1; Fri, 08 May 2020 08:42:04 -0400
-X-MC-Unique: _Ad1PUY0NiGBhvsLhRp-tQ-1
+ us-mta-357-ci_ew-doPMmJFnDk263e_w-1; Fri, 08 May 2020 08:42:05 -0400
+X-MC-Unique: ci_ew-doPMmJFnDk263e_w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5555A100CCC1;
- Fri,  8 May 2020 12:42:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DE97464;
+ Fri,  8 May 2020 12:42:04 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-190.ams2.redhat.com
  [10.36.113.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 540B819167;
- Fri,  8 May 2020 12:42:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D32519167;
+ Fri,  8 May 2020 12:42:03 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/30] iotests/283: Use consistent size for source and target
-Date: Fri,  8 May 2020 14:41:21 +0200
-Message-Id: <20200508124135.252565-17-kwolf@redhat.com>
+Subject: [PULL 17/30] backup: Improve error for bdrv_getlength() failure
+Date: Fri,  8 May 2020 14:41:22 +0200
+Message-Id: <20200508124135.252565-18-kwolf@redhat.com>
 In-Reply-To: <20200508124135.252565-1-kwolf@redhat.com>
 References: <20200508124135.252565-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:23:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,52 +82,38 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test case forgot to specify the null-co size for the target node.
-When adding a check to backup that both sizes match, this would fail
-because of the size mismatch and not the behaviour that the test really
-wanted to test.
+bdrv_get_device_name() will be an empty string with modern management
+tools that don't use -drive. Use bdrv_get_device_or_node_name() instead
+so that the node name is used if the BlockBackend is anonymous.
 
-Fixes: a541fcc27c98b96da187c7d4573f3270f3ddd283
+While at it, start with upper case to make the message consistent with
+the rest of the function.
+
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20200430142755.315494-2-kwolf@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Message-Id: <20200430142755.315494-3-kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/283     | 6 +++++-
- tests/qemu-iotests/283.out | 2 +-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ block/backup.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
-index e17b953333..383797ed62 100644
---- a/tests/qemu-iotests/283
-+++ b/tests/qemu-iotests/283
-@@ -74,7 +74,11 @@ to check that crash is fixed :)
- vm =3D iotests.VM()
- vm.launch()
+diff --git a/block/backup.c b/block/backup.c
+index a7a7dcaf4c..c4c3b8cd46 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -400,8 +400,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDr=
+iverState *bs,
 =20
--vm.qmp_log('blockdev-add', **{'node-name': 'target', 'driver': 'null-co'})
-+vm.qmp_log('blockdev-add', **{
-+    'node-name': 'target',
-+    'driver': 'null-co',
-+    'size': size,
-+})
+     len =3D bdrv_getlength(bs);
+     if (len < 0) {
+-        error_setg_errno(errp, -len, "unable to get length for '%s'",
+-                         bdrv_get_device_name(bs));
++        error_setg_errno(errp, -len, "Unable to get length for '%s'",
++                         bdrv_get_device_or_node_name(bs));
+         goto error;
+     }
 =20
- vm.qmp_log('blockdev-add', **{
-     'node-name': 'source',
-diff --git a/tests/qemu-iotests/283.out b/tests/qemu-iotests/283.out
-index daaf5828c1..d8cff22cc1 100644
---- a/tests/qemu-iotests/283.out
-+++ b/tests/qemu-iotests/283.out
-@@ -1,4 +1,4 @@
--{"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name"=
-: "target"}}
-+{"execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name"=
-: "target", "size": 1048576}}
- {"return": {}}
- {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "image": {=
-"driver": "null-co", "node-name": "base", "size": 1048576}, "node-name": "s=
-ource"}}
- {"return": {}}
 --=20
 2.25.3
 
