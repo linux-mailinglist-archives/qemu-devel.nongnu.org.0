@@ -2,92 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2194F1CA5BA
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:09:44 +0200 (CEST)
-Received: from localhost ([::1]:46602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78561CA5BE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:11:04 +0200 (CEST)
+Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWy4l-0000pn-5P
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43206)
+	id 1jWy63-0003Ae-Py
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:11:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWy3V-00073T-BF
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:08:25 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:51685
+ id 1jWy4b-0001XI-Br
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:09:33 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:26243
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWy3U-0007i5-IG
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:08:24 -0400
+ id 1jWy4a-0001jp-4o
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:09:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588925303;
+ s=mimecast20190719; t=1588925371;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3M3Sie6sHH4F//aP9lcPPkUNV4SWqztGtawK1ZyAkUw=;
- b=G+G/vOuAOJrk0DEdOJaqDOO8oEf7bbD366httyNsqBOGJL3gHeBp3AOtV8VfbBD4kr+Wa7
- tGjMba8T5bwEKukQGn4dyNNZyyye8Dvy0TDeWuzC1Ce4AU7afEeScstgh1Chtyj6APnkFR
- WfVjLQpD0i/4flEvoHA9X0/6RmFAElM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-zU08DJyJNfOqUbhhQrOEhw-1; Fri, 08 May 2020 04:08:22 -0400
-X-MC-Unique: zU08DJyJNfOqUbhhQrOEhw-1
-Received: by mail-wm1-f69.google.com with SMTP id h184so4820345wmf.5
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:08:22 -0700 (PDT)
+ bh=oX/UTFDoFq2xilmT5mQ3wHoTb7H1sD2yz5pYFLm5wvI=;
+ b=Zs04LEXJdS6IxWAfeakpVtkI2VWSrAfFzpER6TVGl23NTsJICFl0Lhd7nFSc1ol6gQnLuh
+ R0+wG/q8n9X80qaQybVmVmkFew34S8U0Gj9HCwnsj2GaQJzuwz5NTq3kVLKnEoo89ZJ7JL
+ 7KXlkVWnjLHwKNyi4wdepe6Px8qUkko=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-z2AKT7GHPS2OxR8JOGXI7w-1; Fri, 08 May 2020 04:09:24 -0400
+X-MC-Unique: z2AKT7GHPS2OxR8JOGXI7w-1
+Received: by mail-wr1-f70.google.com with SMTP id y4so522925wrt.4
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:09:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=3M3Sie6sHH4F//aP9lcPPkUNV4SWqztGtawK1ZyAkUw=;
- b=nYCGdCh6bz+GWh+evUVUVVfTmAWeWYGkbOTmrbmLxsejecVionJB2NZd2ijScdshHn
- t0OM+FrwFQ/bEnzV4oSlT66lONUOa1cMlxMVdeG5KZGZJSxozrACDJcYLDHG405v3Qoz
- /Kz7fejdXylfcF42yJrnc9Tf7jaYelCcjIYdTkO72N9Lj5kiEw0vTyW8pcMcoPBS+5Ob
- /kYSSMitvil0qdoAX3BWODqRpZDbApzYdf6cgoXj7BZRlzY/y9SLuUaQCyUQTeXHJcfP
- yT0Spx2/IhIEdVsSrdI7I3r70xQaJjvv2Q9wa/HQPhYLMAPu8rAKHSU+TcUyvG7St0tn
- XwxQ==
-X-Gm-Message-State: AGi0PuaPjOlpx15ypYGdGIUnQTf9EZCnmcgIVYZg5d8yegUyMTLGOCGA
- yhzpsvdtGhDS5qGoFcaupq0WMf6PIIZYMvGS8ls8KWtQ3kCPV3gucXzqRqr7DX30zdd/XjJLfcW
- eJptn5luAcKrl+cY=
-X-Received: by 2002:a5d:550c:: with SMTP id b12mr1608907wrv.152.1588925301482; 
- Fri, 08 May 2020 01:08:21 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ9e9iyqFL1GiboSQId4vkLu6NoLEgu/GcIhQyfGHaAoLDM8gqB7nP5Y55GxjmMeqboCH2AoA==
-X-Received: by 2002:a5d:550c:: with SMTP id b12mr1608881wrv.152.1588925301283; 
- Fri, 08 May 2020 01:08:21 -0700 (PDT)
+ bh=oX/UTFDoFq2xilmT5mQ3wHoTb7H1sD2yz5pYFLm5wvI=;
+ b=fUA9Lg4yQa/GxqSzqGrBZ5TON6xoaCImtp6h0tQqK8sXZbTZxH6qgtTKHzy0EEsn3Z
+ OpdK8Bo0tRphMlAN2g/1UedcRg/8P4JCySdszPopGBw0mdENv9vjCPyKN12BaGqdOmvS
+ pSy1RHlzh1dr56A0DGVj6FR1pn/phUUTacRZvrpyHFf9hnjXKRRNbG0SMhD9C/tTKoUC
+ LukBzq/VHWsGO9jymiIWSQ93JOg3v20GFCfQaPnqY9z4hQQE46hbe+vjGKB+xpNuz4eF
+ dkxk6+J3lwpvJOa34Q9jDPmH+ZaiurOpJZuxc/gKQm5rlaYaXYLXwfRQaZOmWMrWF4bs
+ r2SA==
+X-Gm-Message-State: AGi0PuakRGU5TwwFsPul+dvT4qpZehyzCkMWTrq9oALFdDO5G9xkq0so
+ pgEqxo6jpX0O+TZjNhKUtb+QVOMCJEEmhTJPkYLw7AXG/XRVWFnxtm9L8xirlsOoackrMPkPYor
+ 3ja+hEuesdxzAqDk=
+X-Received: by 2002:a05:600c:4013:: with SMTP id
+ i19mr7964324wmm.71.1588925362529; 
+ Fri, 08 May 2020 01:09:22 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJG6RJSOyv396s8s2+8n0ipFN2UscfyyVhf1hHc0lUCk28q5UY+7qDJkv0m7anKVQiKS7UFCg==
+X-Received: by 2002:a05:600c:4013:: with SMTP id
+ i19mr7964306wmm.71.1588925362371; 
+ Fri, 08 May 2020 01:09:22 -0700 (PDT)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id f5sm1644494wrp.70.2020.05.08.01.08.20
+ by smtp.gmail.com with ESMTPSA id r11sm516796wrv.14.2020.05.08.01.09.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 01:08:20 -0700 (PDT)
+ Fri, 08 May 2020 01:09:21 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 07/10] exec: Move all RAMBlock functions to
- 'exec/ramblock.h'
-In-Reply-To: <20200507173958.25894-8-philmd@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 7 May 2020 19:39:55
+Subject: Re: [PATCH 08/10] hw/block: Let the NVMe emulated device be
+ target-agnostic
+In-Reply-To: <20200507173958.25894-9-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 7 May 2020 19:39:56
  +0200")
 References: <20200507173958.25894-1-philmd@redhat.com>
- <20200507173958.25894-8-philmd@redhat.com>
+ <20200507173958.25894-9-philmd@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Fri, 08 May 2020 10:08:19 +0200
-Message-ID: <87eerug87g.fsf@secure.mitica>
+Date: Fri, 08 May 2020 10:09:20 +0200
+Message-ID: <87a72ig85r.fsf@secure.mitica>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,17 +119,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> The RAMBlock API was dispersed in 3 different headers.
-> One of these headers, "exec/ram_addr.h", is restricted
-> to target dependent code. However these functions are
-> not target specific. Move all functions into a single
-> place.  Now all these functions can be accessed by
-> target-agnostic code.
+> Now than qemu_ram_msync() has been ...
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-Very nice of you doing this, Thanks.
 
 
