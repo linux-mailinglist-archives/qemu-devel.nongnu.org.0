@@ -2,60 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A491CB953
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 22:49:55 +0200 (CEST)
-Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B651CB952
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 22:49:54 +0200 (CEST)
+Received: from localhost ([::1]:37008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX9wP-0005RC-Bo
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 16:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44282)
+	id 1jX9wP-0005S2-AC
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 16:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jX9u0-00048K-Nk
+ id 1jX9u2-00048t-Qq
  for qemu-devel@nongnu.org; Fri, 08 May 2020 16:47:26 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25952
- helo=mx0a-001b2d01.pphosted.com)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1jX9tx-0006OQ-KE
- for qemu-devel@nongnu.org; Fri, 08 May 2020 16:47:24 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 048KWEuu060011; Fri, 8 May 2020 16:47:19 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 30wdcg22jb-1
+ id 1jX9ty-0006SB-JO
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 16:47:26 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 048KX2QJ062045; Fri, 8 May 2020 16:47:20 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30wa86yf25-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 May 2020 16:47:20 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 048KfkOY086719;
+ Fri, 8 May 2020 16:47:19 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30wa86yf1q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 08 May 2020 16:47:19 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 048Kk5fw002566;
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 048KkAup018734;
  Fri, 8 May 2020 20:47:19 GMT
 Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma03dal.us.ibm.com with ESMTP id 30s0g8a19w-1
+ [9.57.198.29]) by ppma01dal.us.ibm.com with ESMTP id 30s0g7j2tt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Fri, 08 May 2020 20:47:19 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
  by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 048KlIXo53215492
+ 048KlIOU54460720
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 8 May 2020 20:47:18 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3485F124053;
+ by IMSVA (Postfix) with ESMTP id 46842124055;
  Fri,  8 May 2020 20:47:18 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1E3CC124052;
+ by IMSVA (Postfix) with ESMTP id 38515124054;
  Fri,  8 May 2020 20:47:18 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
  Fri,  8 May 2020 20:47:18 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 0/1] Merge tpm 2020/05/08 v2
-Date: Fri,  8 May 2020 16:47:15 -0400
-Message-Id: <20200508204716.1279160-1-stefanb@linux.vnet.ibm.com>
+Subject: [PULL v2 1/1] hw/tpm: fix usage of bool in tpm-tis.c
+Date: Fri,  8 May 2020 16:47:16 -0400
+Message-Id: <20200508204716.1279160-2-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200508204716.1279160-1-stefanb@linux.vnet.ibm.com>
+References: <20200508204716.1279160-1-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
@@ -63,21 +71,20 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
  definitions=2020-05-08_18:2020-05-08,
  2020-05-08 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=1
- priorityscore=1501 mlxlogscore=980 impostorscore=0 phishscore=0
- malwarescore=0 bulkscore=0 clxscore=1015 mlxscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005080169
-Received-SPF: none client-ip=148.163.158.5;
+ spamscore=0 bulkscore=0
+ priorityscore=1501 suspectscore=1 adultscore=0 mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005080173
+Received-SPF: none client-ip=148.163.156.1;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 15:43:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 13:59:37
 X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -25
 X-Spam_score: -2.6
 X-Spam_bar: --
 X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,31 +97,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ Jafar Abdi <cafer.abdi@gmail.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This PR submits a fix that changes improperly used 'FALSE' to 'false'.
+From: Jafar Abdi <cafer.abdi@gmail.com>
 
-The following changes since commit c88f1ffc19e38008a1c33ae039482a860aa7418c:
+Clean up wrong usage of FALSE and TRUE in places that use "bool" from stdbool.h.
 
-  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2020-05-08 14:29:18 +0100)
+FALSE and TRUE (with capital letters) are the constants defined by glib for
+being used with the "gboolean" type of glib. But some parts of the code also use
+TRUE and FALSE for variables that are declared as "bool" (the type from <stdbool.h>).
 
-are available in the Git repository at:
-
-  git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2020-05-08-1
-
-for you to fetch changes up to 441adbb4540423c90e4628a3c553e61d38445d73:
-
-  hw/tpm: fix usage of bool in tpm-tis.c (2020-05-08 16:40:45 -0400)
-
-----------------------------------------------------------------
-Jafar Abdi (1):
-      hw/tpm: fix usage of bool in tpm-tis.c
-
+Signed-off-by: Jafar Abdi <cafer.abdi@gmail.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+---
  hw/tpm/tpm_tis_common.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/hw/tpm/tpm_tis_common.c b/hw/tpm/tpm_tis_common.c
+index 9ce64d4836..1af4bce139 100644
+--- a/hw/tpm/tpm_tis_common.c
++++ b/hw/tpm/tpm_tis_common.c
+@@ -536,7 +536,7 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
+             while ((TPM_TIS_IS_VALID_LOCTY(s->active_locty) &&
+                     locty > s->active_locty) ||
+                     !TPM_TIS_IS_VALID_LOCTY(s->active_locty)) {
+-                bool higher_seize = FALSE;
++                bool higher_seize = false;
+ 
+                 /* already a pending SEIZE ? */
+                 if ((s->loc[locty].access & TPM_TIS_ACCESS_SEIZE)) {
+@@ -546,7 +546,7 @@ static void tpm_tis_mmio_write(void *opaque, hwaddr addr,
+                 /* check for ongoing seize by a higher locality */
+                 for (l = locty + 1; l < TPM_TIS_NUM_LOCALITIES; l++) {
+                     if ((s->loc[l].access & TPM_TIS_ACCESS_SEIZE)) {
+-                        higher_seize = TRUE;
++                        higher_seize = true;
+                         break;
+                     }
+                 }
 -- 
 2.24.1
 
