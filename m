@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5EE1CA3D2
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 08:26:26 +0200 (CEST)
-Received: from localhost ([::1]:38566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2C81CA3D8
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 08:28:42 +0200 (CEST)
+Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWwSm-0007Qs-SK
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 02:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
+	id 1jWwUy-0002Gv-Uw
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 02:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWwRU-00067Q-HO
- for qemu-devel@nongnu.org; Fri, 08 May 2020 02:25:04 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33736
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWwRb-0006JU-Cv
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 02:25:11 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49247
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWwRT-0000rp-QM
- for qemu-devel@nongnu.org; Fri, 08 May 2020 02:25:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jWwRa-0001M3-98
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 02:25:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588919102;
+ s=mimecast20190719; t=1588919109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=iHeGHQ3CjfamZeouPv/1W6zmvc4lyJbZtZlNXRjWXV8=;
- b=LK/MlbsTRCe4MXrtTl8NiZhNij8teXH1/wjAkxyLgaXFGLwrx+5TqmwUISomYUIGf2ghO2
- hef4iY4FjmYh5o6lZyAjSVS2YbHjh0TejlEZnIYtoVXxhq5cGNwPVTZE1QcUbzMvBe64VW
- kiDXhZpi2V94wwqVvnEYmSsvB9A9Q8w=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-1d0mIDAFMvOjS8AXGkJ-og-1; Fri, 08 May 2020 02:25:01 -0400
-X-MC-Unique: 1d0mIDAFMvOjS8AXGkJ-og-1
-Received: by mail-wr1-f70.google.com with SMTP id a3so403737wro.1
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 23:25:01 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qfS14LJEpOzY6PX3UrAqMHPU323E/PoXkpCr/b9ynrI=;
+ b=RwtSieZvzaVn1yN88Y6wDfHoBwh+etUpgg7qa0/HjT4eNdCl26zuUS6rLuCQOmgFxANa7j
+ khyJGhJKJ08sWfkjM5Yq1+21jbqGCCcsGL76KcyXYfD0LWy27nC1YGVSQT2c6wPnksYHMJ
+ 5K0upoSMj4qVg61aH9g1qAaMSz9/C5Y=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-PHToQnYdNHCo4tSrH2Rfcw-1; Fri, 08 May 2020 02:25:08 -0400
+X-MC-Unique: PHToQnYdNHCo4tSrH2Rfcw-1
+Received: by mail-wr1-f69.google.com with SMTP id f15so402544wrj.2
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 23:25:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Xyc0Czgga+Rr4c6WxR1kGKetMFvmJEzyEAhcB0IsToE=;
- b=TA/i4tAaCr4Jl8HQ5Edfzg2gjnPftFPE/2Z6Oj7Y4hPqE3luILa56Ll5lnD4sSX1Zd
- udrsDeyDSrYAlHmonffXlJFivF7vAeAo/BQOFAEROzWQjJKvy5dTBM3/7dGjR7O3Avfk
- R8rQFUHQiv0PYW0SFCxhgW5PoYXqT0QkCP/iLyP1BTgkr2CWEXxHjimUlu1abuL1URgF
- bSdcB9TlZHNZ0QQKEM00/vZMgdqGvIPSVil0b5uBE5Cz94oOv36Y0lVBMopfaTOEO4Ef
- RJxTORpaib1N7TrLoqhkudKNU/Pk/SdAptDf52q8jEKQAATZOFalzdzlYwANw0ZBJ9vo
- +3OA==
-X-Gm-Message-State: AGi0PuaBmIyFAWHfbIwuUmeIK+dju+a5lR/zpk6z+Yn6rZ/KoEUFZsm2
- P2aTBJQgUQfOy2NljyOvKn96ckt/qIUmW69M/uS5vp2wtDxY1vXen56NnSGpADVXCs0T/yF5tnP
- U1dkhA3wAr0qCNTo=
-X-Received: by 2002:a7b:c147:: with SMTP id z7mr15296014wmi.52.1588919099973; 
- Thu, 07 May 2020 23:24:59 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLnEe3H3LcVeithwji8aLeepTr7xRFarwz7OvQpZL9N5GP1KgHkWCQD77Ujm5ctdozvRG2/zQ==
-X-Received: by 2002:a7b:c147:: with SMTP id z7mr15295978wmi.52.1588919099654; 
- Thu, 07 May 2020 23:24:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QtFWs4BxQJZYmga34DJ69kEprWz+1I1FCi2dNjcpyyQ=;
+ b=YOa/JoYPwAEOoHJw+JwwbIkYQ/9fPEfabF0fN766CzHaSFLGsp8eqo39AfOlQDccps
+ VYTwE+qlzMQIDFY5OOSctoBdqIsz4yCf1wAdv02mvzsplwRZCOjtnitAy9KOXJx6M0v8
+ C+qgPDsZh74UC0l7jtrHxFF0c8Sv2n66TsAPOjH03qKCniY8ymmF2gf/jjbZfRoC9MOB
+ 3ASR+QVq/KaTXZFirWnZmrbu7NUO46X6a7i1LnEnX24wWPcTzIeKYk+Gf4Mmvs4RTTeB
+ BMxfwcakN6dE5q8inAG1lijJwYLNPZJTJQVfb4oDzpuNJeFYiGANR0xLwuVfHpAUeAfu
+ IPgQ==
+X-Gm-Message-State: AGi0PuY97oGz4uBZ+K6FflHuOd9qAdPrEYUCp5UZeSVi5EJ1QE4EhjuY
+ nyfZFI+fx8Qa5PsHmhfpBjxV7b8SNh8ExBCBUckH0PTqoxfUulBoitHQkVbDJ4i5SQM09mB5k0u
+ b4hGj2KQKiuqYMKw=
+X-Received: by 2002:a1c:8094:: with SMTP id b142mr1182404wmd.61.1588919105848; 
+ Thu, 07 May 2020 23:25:05 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIqeXAJW3AWL3zXCLwWFgpEGhKvp4glTtjV0jZlpsYrscbMVm/0s36scgQzMwv6oEgiNDOYiw==
+X-Received: by 2002:a1c:8094:: with SMTP id b142mr1182374wmd.61.1588919105605; 
+ Thu, 07 May 2020 23:25:05 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id i1sm1278619wrx.22.2020.05.07.23.24.58
+ by smtp.gmail.com with ESMTPSA id w18sm1304743wro.33.2020.05.07.23.25.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 23:24:59 -0700 (PDT)
+ Thu, 07 May 2020 23:25:05 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] memory: Add memory_region_msync() & make NVMe emulated
- device generic
-Date: Fri,  8 May 2020 08:24:52 +0200
-Message-Id: <20200508062456.23344-1-philmd@redhat.com>
+Subject: [PATCH 1/4] memory: Rename memory_region_do_writeback ->
+ memory_region_writeback
+Date: Fri,  8 May 2020 08:24:53 +0200
+Message-Id: <20200508062456.23344-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200508062456.23344-1-philmd@redhat.com>
+References: <20200508062456.23344-1-philmd@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
@@ -71,7 +74,7 @@ Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
@@ -102,26 +105,67 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let the NVMe emulated device be target-agnostic.
+We usually use '_do_' for internal functions. Rename
+memory_region_do_writeback() as memory_region_writeback().
 
-It is not clear if dccvap_writefn() really needs
-memory_region_writeback() or could use memory_region_msync().
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ include/exec/memory.h | 4 ++--
+ memory.c              | 2 +-
+ target/arm/helper.c   | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-Philippe Mathieu-Daud=C3=A9 (4):
-  memory: Rename memory_region_do_writeback -> memory_region_writeback
-  memory: Extract memory_region_msync() from memory_region_writeback()
-  hw/block: Let the NVMe emulated device be target-agnostic
-  exec: Rename qemu_ram_writeback() as qemu_ram_msync()
-
- include/exec/memory.h   | 15 +++++++++++++--
- include/exec/ram_addr.h |  4 ++--
- exec.c                  |  2 +-
- hw/block/nvme.c         |  6 ++----
- memory.c                | 12 +++++++++---
- target/arm/helper.c     |  2 +-
- hw/block/Makefile.objs  |  2 +-
- 7 files changed, 29 insertions(+), 14 deletions(-)
-
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index e000bd2f97..1b7cfdd5b6 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1474,14 +1474,14 @@ void *memory_region_get_ram_ptr(MemoryRegion *mr);
+ void memory_region_ram_resize(MemoryRegion *mr, ram_addr_t newsize,
+                               Error **errp);
+ /**
+- * memory_region_do_writeback: Trigger cache writeback or msync for
++ * memory_region_writeback: Trigger cache writeback or msync for
+  * selected address range
+  *
+  * @mr: the memory region to be updated
+  * @addr: the initial address of the range to be written back
+  * @size: the size of the range to be written back
+  */
+-void memory_region_do_writeback(MemoryRegion *mr, hwaddr addr, hwaddr size=
+);
++void memory_region_writeback(MemoryRegion *mr, hwaddr addr, hwaddr size);
+=20
+ /**
+  * memory_region_set_log: Turn dirty logging on or off for a region.
+diff --git a/memory.c b/memory.c
+index 601b749906..aa1f807392 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2198,7 +2198,7 @@ void memory_region_ram_resize(MemoryRegion *mr, ram_a=
+ddr_t newsize, Error **errp
+ }
+=20
+=20
+-void memory_region_do_writeback(MemoryRegion *mr, hwaddr addr, hwaddr size=
+)
++void memory_region_writeback(MemoryRegion *mr, hwaddr addr, hwaddr size)
+ {
+     /*
+      * Might be extended case needed to cover
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index a94f650795..c4710b7371 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6829,7 +6829,7 @@ static void dccvap_writefn(CPUARMState *env, const AR=
+MCPRegInfo *opaque,
+         mr =3D memory_region_from_host(haddr, &offset);
+=20
+         if (mr) {
+-            memory_region_do_writeback(mr, offset, dline_size);
++            memory_region_writeback(mr, offset, dline_size);
+         }
+     }
+ }
 --=20
 2.21.3
 
