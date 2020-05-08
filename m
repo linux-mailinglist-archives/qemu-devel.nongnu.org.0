@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BE91CA7E7
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 12:07:08 +0200 (CEST)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A591CA1A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 05:45:34 +0200 (CEST)
+Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWzuN-0001V1-BH
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 06:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41142)
+	id 1jWtx7-0006v9-Qj
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 23:45:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jWztS-0000zT-Ga
- for qemu-devel@nongnu.org; Fri, 08 May 2020 06:06:10 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51886)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jWztQ-0002fA-5c
- for qemu-devel@nongnu.org; Fri, 08 May 2020 06:06:10 -0400
-Received: by mail-wm1-x341.google.com with SMTP id x4so9617324wmj.1
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 03:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=T5xlC7qPnScxdD8HfkPXyyRLvRSedibj7CnwraNl2wo=;
- b=ligq+n587Hx4n2gUCiSweXFiBtq9wqtVWw1i94hYEQuOFEwLOzUK2AqmeVJrfk8Xwm
- OkUUqBsbITm5nSRLWTuoYJH8LK++ZXDlh/mMFJru9ZlE4aSDvc4n/1XUyX6E/laKqPHM
- HF6FlZcKWLpjuxB+hrneX4v5zBJJTYl9dcEWqejyAp66TdRRd/tn/4Ki17LF+GkNnyWr
- QrmgmoCAiKaCdpI7Y5kKIKzCk2S6uszGqOo5IKQ0EL/s+xrvUBxzDHH+gtBqmXBVybMv
- KiO4s4CMfm3YBwMRgD+keUeWzHZTHQDS6H+2uuqgURebT7cE1ugO4fEZs2SM46p2ZLvm
- YxQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=T5xlC7qPnScxdD8HfkPXyyRLvRSedibj7CnwraNl2wo=;
- b=fU8XILnKd1o/SKI2GSO5HScaL9p8UGq4o1DpYkhX/Tix9M2xKaOT08GiP/koFO3JZE
- eek5SPZ/EJf2xr6Wb7iW70u3R8OCRZ8vv9jPqbD2AUhpfcw8DVffIcAZW42wTopfBzxC
- m6iUV9akxdv97NuJdQZNH8wBnspAVpHoYgs4tyN5PSz4nK+k4PK7+fBBtH3dslYd/dQO
- qbzsoMOc6e5Y/Z3tJSGiucwDJZIUPKergH76Kq49FV4dVebxDuJDnnDADJKpjCA/2VCt
- iy8yb9TvPvGeiAa4MJpdmDxtsqummyKU2EMOIgyGBpMmeLDNgl9Rv+5XhBq9dM+TcPtr
- 6eJQ==
-X-Gm-Message-State: AGi0PuZQtHpm8RW4yzLe5pP/yhvyTx4emnbWLsR5vWFNC4o8uTSlBJ2x
- 0S0fIDR9lLDKJdA2sYIy7Kv2SRfKHJ/zt+hwhf8=
-X-Google-Smtp-Source: APiQypITeNK+k5wXCOBAFXPWVcF9IAiL/o64wDX9ljR63w3WxyhEA1CStyUedfLaHR+RNHQCtwr8y258jLkSDvBRBPA=
-X-Received: by 2002:a7b:c74d:: with SMTP id w13mr14758749wmk.36.1588932366832; 
- Fri, 08 May 2020 03:06:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1jWtvk-00050Y-0m
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 23:44:08 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:40704 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1jWtve-0007R3-NY
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 23:44:07 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id DFD8DECD2CC754D3FE57;
+ Fri,  8 May 2020 11:43:58 +0800 (CST)
+Received: from opensource.huawei.com (10.175.101.6) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 8 May 2020 11:43:50 +0800
+From: Pan Nengyuan <pannengyuan@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH 0/2] migration/rdma: fix nullptr-def in
+ rdma_start_incoming_migration
+Date: Fri, 8 May 2020 06:07:53 -0400
+Message-ID: <20200508100755.7875-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-References: <1588500367-1056-1-git-send-email-chenhc@lemote.com>
- <1588500367-1056-2-git-send-email-chenhc@lemote.com>
-In-Reply-To: <1588500367-1056-2-git-send-email-chenhc@lemote.com>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Fri, 8 May 2020 12:05:33 +0200
-Message-ID: <CAHiYmc41JQ+H+D6rsot34gDoKG1dsyFWCcs_FbuA2neAgReaOw@mail.gmail.com>
-Subject: Re: [PATCH V3 01/14] KVM: MIPS: Define KVM_ENTRYHI_ASID to
- cpu_asid_mask(&boot_cpu_data)
-To: Huacai Chen <chenhc@lemote.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=pannengyuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 23:43:59
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,63 +58,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, kvm@vger.kernel.org,
- Huacai Chen <chenhuacai@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- stable@vger.kernel.org, Fuxin Zhang <zhangfx@lemote.com>,
- Paolo Bonzini <pbonzini@redhat.com>, linux-mips@vger.kernel.org,
- Xing Li <lixing@loongson.cn>
+Cc: zhang.zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
+ qemu-devel@nongnu.org, euler.robot@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D0=BD=D0=B5=D0=B4, 3. =D0=BC=D0=B0=D1=98 2020. =D1=83 12:06 Huacai Chen <c=
-henhc@lemote.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=
-=D0=BB=D0=B0:
->
-> From: Xing Li <lixing@loongson.cn>
->
-> The code in decode_config4() of arch/mips/kernel/cpu-probe.c
->
->         asid_mask =3D MIPS_ENTRYHI_ASID;
->         if (config4 & MIPS_CONF4_AE)
->                 asid_mask |=3D MIPS_ENTRYHI_ASIDX;
->         set_cpu_asid_mask(c, asid_mask);
->
-> set asid_mask to cpuinfo->asid_mask.
->
-> So in order to support variable ASID_MASK, KVM_ENTRYHI_ASID should also
-> be changed to cpu_asid_mask(&boot_cpu_data).
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Xing Li <lixing@loongson.cn>
-> [Huacai: Change current_cpu_data to boot_cpu_data for optimization]
-> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> ---
->  arch/mips/include/asm/kvm_host.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+I fix a memleak in rdma_start_incoming_migration some time ago.
+https://patchwork.kernel.org/patch/11498191/
 
-For what is worth:
+I'm sorry that it may cause a null-pointer access, this patch fix that.
 
-Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Since we are here, rdma_start_outgoing_migration has the similar memleak, fix it together.
 
-> diff --git a/arch/mips/include/asm/kvm_host.h b/arch/mips/include/asm/kvm=
-_host.h
-> index 2c343c3..a01cee9 100644
-> --- a/arch/mips/include/asm/kvm_host.h
-> +++ b/arch/mips/include/asm/kvm_host.h
-> @@ -275,7 +275,7 @@ enum emulation_result {
->  #define MIPS3_PG_FRAME         0x3fffffc0
->
->  #define VPN2_MASK              0xffffe000
-> -#define KVM_ENTRYHI_ASID       MIPS_ENTRYHI_ASID
-> +#define KVM_ENTRYHI_ASID       cpu_asid_mask(&boot_cpu_data)
->  #define TLB_IS_GLOBAL(x)       ((x).tlb_lo[0] & (x).tlb_lo[1] & ENTRYLO_=
-G)
->  #define TLB_VPN2(x)            ((x).tlb_hi & VPN2_MASK)
->  #define TLB_ASID(x)            ((x).tlb_hi & KVM_ENTRYHI_ASID)
-> --
-> 2.7.0
->
+Pan Nengyuan (2):
+  migration/rdma: fix potential nullptr access in
+    rdma_start_incoming_migration
+  migration/rdma: cleanup rdma context before g_free to avoid memleaks
+
+ migration/rdma.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+-- 
+2.18.2
+
 
