@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAA91CB384
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:40:25 +0200 (CEST)
-Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD7D1CB375
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:38:38 +0200 (CEST)
+Received: from localhost ([::1]:44512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX56t-0007dL-5X
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:40:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35012)
+	id 1jX55B-0004Id-As
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4pO-0004cK-7A
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:22:19 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:40683)
+ id 1jX4pM-0004bO-8c
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:22:17 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4pK-00076F-8u
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:22:17 -0400
-Received: by mail-pg1-x542.google.com with SMTP id j21so999785pgb.7
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:22:13 -0700 (PDT)
+ id 1jX4pL-00076O-9D
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:22:15 -0400
+Received: by mail-pl1-x642.google.com with SMTP id s20so858166plp.6
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Bq1T35WTx3CYkI2SYC9Hyi7M0Eqbmy6VmAmWCxKnbCw=;
- b=b/4uadFitO7HkqRLhXIX7Tolfi/VbYL+s6jJbQW6xWidQNuMLPd3tYN+nYTrjycv6p
- HFsSUy8GU3AyR0wynL0KsCxpaMUI9ZzwUBkSyaVAab4IoEis52YQfmgCJJOhCuzA2f2D
- Keq6+eU6eFDW+NNf7yfLDj5QO29r+hi041iPL2wQVJruTP7M+3VOLPJEk7tLVPjxgLQ6
- mZghtUZ+MKrFzm1srOCz/WjeG/EAjDBnw7dOp5zUDSjNiBkYQ9kcqZGRIi8cGi/FipPM
- pDg36h/JP4y7n7x5yF1Nx/6jIqrSX7dAtzKawg91CDSMl5RNVB5+RidHQQP3k0RAxh/y
- HvLw==
+ bh=I+AyE2bJa10UxodOkXAXrVws6OuY7h9XFrym37/9NTI=;
+ b=sjBb+YGrz5hisCzyfJ5eZEZSuQjzKv/3/DWIqIya4a0HyY18QMZxb5bdRYSIL7dskB
+ h6trMfvD/p50bLgPVLtQS/L6Ub3dlTjRefMjacTsscqtJYlkWxRKSA9jfADtOyUOULQW
+ H7n3lGHWrKnV7tJPImPmvq2qtaBw1xRfRBw43qeLcS0gqfLl1nouHbADkrebZMaX9LVA
+ +cNzQjFHv8Sek/hruKBamvrWbzTUhAYvaneRMybwK1u7ajAOksalVmedBGYKLBLmix27
+ NkjytkVu+GfEfZWbtNgzr+kB6m6T7Ep8RWXAxLu2+1jdJlAmpgzIK/9zN+PRQV4OL5NN
+ 6Asw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bq1T35WTx3CYkI2SYC9Hyi7M0Eqbmy6VmAmWCxKnbCw=;
- b=SnYa9FVfi7ATe5AMC/w5+y6j3gzWqRmqlqFK1JrH6b2awmZg1Dn2f8kzK9GJ3oSWJU
- dMiJwxRDXmOCaLFJ/H2uzbaZ0e2v1y2eMwBfzWITJmHY+fzHwxpdJnI9ehuzHzfbm8jj
- vgp5IuQ+x840zszJGdJxKC/MBXrlgSecxzEXkAWen2+D237XLe4ffQe6PhmCFgybcx2o
- znroicZA7G0a7KrJhMDC3nIrwL6WYvbUH2JE1je4p0+sj5AWZIzQzrDYxCy4jxR2/jj+
- 1Hq8xkTBRsPf/QupfQ4BwRmOuUeXTmE2ZJRLn2YdjPSNXZ274FJ890vqCcpnV7kpvyjt
- Vlng==
-X-Gm-Message-State: AGi0PubhYjZ7Rk8OCDABzo/DpF5M4jbqq2Lru9bn+g7MU9xjuLVoyn2G
- +je3GZRzojt5TK+uC0LRYkEMOoCssGg=
-X-Google-Smtp-Source: APiQypLGrpDn7X1GKcv/i4UfKJKq4PLD6v2N/VMxWQJxWd+xA2U/2fPz5PN+bF4mdjOOKqWnIqLniQ==
-X-Received: by 2002:aa7:842b:: with SMTP id q11mr3421533pfn.302.1588951331794; 
- Fri, 08 May 2020 08:22:11 -0700 (PDT)
+ bh=I+AyE2bJa10UxodOkXAXrVws6OuY7h9XFrym37/9NTI=;
+ b=S7MGHb0hQbuqWvPT76bvcfQclu5XNv5oqdIfWtDve4nK/CSPbehDz2v5eSXj6Q8ab2
+ b5XrlN0Fw+qntsh01jkPD3BdXFAVm/6S2l7RA/UApBrHDG5xFBDxRAU2LKnL7mjJb58f
+ ZGRx/KMNPz+DQrVJsGBVABya2RpfEXdkRMwSt7c30C1dMdUxMpauPtRMtXFz032f43ld
+ w9XL8+HUo2hsYF2LfGHCr7jWNQtky8rT9zxr5iMkHsMSJZZXqXRCJ6ov2D866A53r/7G
+ rIgwrhmWZMvUn/RdK/Nm88c6sk4cwyatD1mNLGj+UpJW5CsD2u7e2iBiKcjfq4wnwnfe
+ RASA==
+X-Gm-Message-State: AGi0PubMqVml6wRGdGYrwuO4B6qXFuHFDYb94EvrWp0E/w4Uxj+r1QWu
+ Boz6AIDUHGbcDERi/lkdlq1imKb4GjQ=
+X-Google-Smtp-Source: APiQypIxHhogPupHT07SG3N5RVSezXncpV8tUpdYmDthPrZuZTiGzcAQ2+RiVCjyi59Em5bOoO63jQ==
+X-Received: by 2002:a17:902:549:: with SMTP id
+ 67mr2901759plf.115.1588951333075; 
+ Fri, 08 May 2020 08:22:13 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id n16sm2104575pfq.61.2020.05.08.08.22.10
+ by smtp.gmail.com with ESMTPSA id n16sm2104575pfq.61.2020.05.08.08.22.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 08:22:10 -0700 (PDT)
+ Fri, 08 May 2020 08:22:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/16] target/arm: Create gen_gvec_{mla,mls}
-Date: Fri,  8 May 2020 08:21:51 -0700
-Message-Id: <20200508152200.6547-8-richard.henderson@linaro.org>
+Subject: [PATCH v3 08/16] target/arm: Swap argument order for VSHL during
+ decode
+Date: Fri,  8 May 2020 08:21:52 -0700
+Message-Id: <20200508152200.6547-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200508152200.6547-1-richard.henderson@linaro.org>
 References: <20200508152200.6547-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,215 +91,52 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide a functional interface for the vector expansion.
-This fits better with the existing set of helpers that
-we provide for other operations.
+Rather than perform the argument swap during code generation,
+perform it during decode.  This means it doesn't have to be
+special cased later, and we can share code with aarch64 code
+generation.  Hopefully the decode comment addresses any confusion
+that might arise in between.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.h          |   7 +-
- target/arm/translate-a64.c      |   4 +-
- target/arm/translate-neon.inc.c |  16 +----
- target/arm/translate.c          | 117 +++++++++++++++++---------------
- 4 files changed, 71 insertions(+), 73 deletions(-)
+ target/arm/neon-dp.decode       | 9 +++++++--
+ target/arm/translate-neon.inc.c | 3 +--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index e35c812cc5..9354ceba35 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -286,8 +286,11 @@ void gen_gvec_cle0(unsigned vece, uint32_t rd_ofs, uint32_t rm_ofs,
- void gen_gvec_cge0(unsigned vece, uint32_t rd_ofs, uint32_t rm_ofs,
-                    uint32_t opr_sz, uint32_t max_sz);
+diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
+index ec3a92fe75..6b0b6566d6 100644
+--- a/target/arm/neon-dp.decode
++++ b/target/arm/neon-dp.decode
+@@ -65,8 +65,13 @@ VCGT_U_3s        1111 001 1 0 . .. .... .... 0011 . . . 0 .... @3same
+ VCGE_S_3s        1111 001 0 0 . .. .... .... 0011 . . . 1 .... @3same
+ VCGE_U_3s        1111 001 1 0 . .. .... .... 0011 . . . 1 .... @3same
  
--extern const GVecGen3 mla_op[4];
--extern const GVecGen3 mls_op[4];
-+void gen_gvec_mla(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                  uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
-+void gen_gvec_mls(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                  uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
+-VSHL_S_3s        1111 001 0 0 . .. .... .... 0100 . . . 0 .... @3same
+-VSHL_U_3s        1111 001 1 0 . .. .... .... 0100 . . . 0 .... @3same
++# The shift operations are of the form Vd = Vm << Vn.
++# By reversing the names of the fields here, we can use standard expanders.
++@3same_rev       .... ... . . . size:2 .... .... .... . q:1 . . .... \
++                 &3same vn=%vm_dp vm=%vn_dp vd=%vd_dp
 +
- extern const GVecGen3 cmtst_op[4];
- extern const GVecGen3 sshl_op[4];
- extern const GVecGen3 ushl_op[4];
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index fef93dc27a..ab9df12e44 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -11226,9 +11226,9 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
-         return;
-     case 0x12: /* MLA, MLS */
-         if (u) {
--            gen_gvec_op3(s, is_q, rd, rn, rm, &mls_op[size]);
-+            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_mls, size);
-         } else {
--            gen_gvec_op3(s, is_q, rd, rn, rm, &mla_op[size]);
-+            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_mla, size);
-         }
-         return;
-     case 0x11:
++VSHL_S_3s        1111 001 0 0 . .. .... .... 0100 . . . 0 .... @3same_rev
++VSHL_U_3s        1111 001 1 0 . .. .... .... 0100 . . . 0 .... @3same_rev
+ 
+ VMAX_S_3s        1111 001 0 0 . .. .... .... 0110 . . . 0 .... @3same
+ VMAX_U_3s        1111 001 1 0 . .. .... .... 0110 . . . 0 .... @3same
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 50b77b6d71..aefeff498a 100644
+index aefeff498a..416302bcc7 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -632,6 +632,8 @@ DO_3SAME_NO_SZ_3(VMAX_U, tcg_gen_gvec_umax)
- DO_3SAME_NO_SZ_3(VMIN_S, tcg_gen_gvec_smin)
- DO_3SAME_NO_SZ_3(VMIN_U, tcg_gen_gvec_umin)
- DO_3SAME_NO_SZ_3(VMUL, tcg_gen_gvec_mul)
-+DO_3SAME_NO_SZ_3(VMLA, gen_gvec_mla)
-+DO_3SAME_NO_SZ_3(VMLS, gen_gvec_mls)
- 
- #define DO_3SAME_CMP(INSN, COND)                                        \
-     static void gen_##INSN##_3s(unsigned vece, uint32_t rd_ofs,         \
-@@ -685,20 +687,6 @@ static bool trans_VMUL_p_3s(DisasContext *s, arg_3same *a)
-     return do_3same(s, a, gen_VMUL_p_3s);
- }
- 
--#define DO_3SAME_GVEC3_NO_SZ_3(INSN, OPARRAY)                           \
--    static void gen_##INSN##_3s(unsigned vece, uint32_t rd_ofs,         \
--                                uint32_t rn_ofs, uint32_t rm_ofs,       \
--                                uint32_t oprsz, uint32_t maxsz)         \
--    {                                                                   \
--        tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs,                          \
--                       oprsz, maxsz, &OPARRAY[vece]);                   \
--    }                                                                   \
--    DO_3SAME_NO_SZ_3(INSN, gen_##INSN##_3s)
--
--
--DO_3SAME_GVEC3_NO_SZ_3(VMLA, mla_op)
--DO_3SAME_GVEC3_NO_SZ_3(VMLS, mls_op)
--
- #define DO_3SAME_GVEC3_SHIFT(INSN, OPARRAY)                             \
-     static void gen_##INSN##_3s(unsigned vece, uint32_t rd_ofs,         \
+@@ -692,8 +692,7 @@ static bool trans_VMUL_p_3s(DisasContext *s, arg_3same *a)
                                  uint32_t rn_ofs, uint32_t rm_ofs,       \
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 45df3743f6..52b6d32cf1 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -4520,62 +4520,69 @@ static void gen_mls_vec(unsigned vece, TCGv_vec d, TCGv_vec a, TCGv_vec b)
- /* Note that while NEON does not support VMLA and VMLS as 64-bit ops,
-  * these tables are shared with AArch64 which does support them.
-  */
-+void gen_gvec_mla(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                  uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
-+{
-+    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_mul_vec, INDEX_op_add_vec, 0
-+    };
-+    static const GVecGen3 ops[4] = {
-+        { .fni4 = gen_mla8_i32,
-+          .fniv = gen_mla_vec,
-+          .load_dest = true,
-+          .opt_opc = vecop_list,
-+          .vece = MO_8 },
-+        { .fni4 = gen_mla16_i32,
-+          .fniv = gen_mla_vec,
-+          .load_dest = true,
-+          .opt_opc = vecop_list,
-+          .vece = MO_16 },
-+        { .fni4 = gen_mla32_i32,
-+          .fniv = gen_mla_vec,
-+          .load_dest = true,
-+          .opt_opc = vecop_list,
-+          .vece = MO_32 },
-+        { .fni8 = gen_mla64_i64,
-+          .fniv = gen_mla_vec,
-+          .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-+          .load_dest = true,
-+          .opt_opc = vecop_list,
-+          .vece = MO_64 },
-+    };
-+    tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
-+}
- 
--static const TCGOpcode vecop_list_mla[] = {
--    INDEX_op_mul_vec, INDEX_op_add_vec, 0
--};
--
--static const TCGOpcode vecop_list_mls[] = {
--    INDEX_op_mul_vec, INDEX_op_sub_vec, 0
--};
--
--const GVecGen3 mla_op[4] = {
--    { .fni4 = gen_mla8_i32,
--      .fniv = gen_mla_vec,
--      .load_dest = true,
--      .opt_opc = vecop_list_mla,
--      .vece = MO_8 },
--    { .fni4 = gen_mla16_i32,
--      .fniv = gen_mla_vec,
--      .load_dest = true,
--      .opt_opc = vecop_list_mla,
--      .vece = MO_16 },
--    { .fni4 = gen_mla32_i32,
--      .fniv = gen_mla_vec,
--      .load_dest = true,
--      .opt_opc = vecop_list_mla,
--      .vece = MO_32 },
--    { .fni8 = gen_mla64_i64,
--      .fniv = gen_mla_vec,
--      .prefer_i64 = TCG_TARGET_REG_BITS == 64,
--      .load_dest = true,
--      .opt_opc = vecop_list_mla,
--      .vece = MO_64 },
--};
--
--const GVecGen3 mls_op[4] = {
--    { .fni4 = gen_mls8_i32,
--      .fniv = gen_mls_vec,
--      .load_dest = true,
--      .opt_opc = vecop_list_mls,
--      .vece = MO_8 },
--    { .fni4 = gen_mls16_i32,
--      .fniv = gen_mls_vec,
--      .load_dest = true,
--      .opt_opc = vecop_list_mls,
--      .vece = MO_16 },
--    { .fni4 = gen_mls32_i32,
--      .fniv = gen_mls_vec,
--      .load_dest = true,
--      .opt_opc = vecop_list_mls,
--      .vece = MO_32 },
--    { .fni8 = gen_mls64_i64,
--      .fniv = gen_mls_vec,
--      .prefer_i64 = TCG_TARGET_REG_BITS == 64,
--      .load_dest = true,
--      .opt_opc = vecop_list_mls,
--      .vece = MO_64 },
--};
-+void gen_gvec_mls(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
-+                  uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
-+{
-+    static const TCGOpcode vecop_list[] = {
-+        INDEX_op_mul_vec, INDEX_op_sub_vec, 0
-+    };
-+    static const GVecGen3 ops[4] = {
-+        { .fni4 = gen_mls8_i32,
-+          .fniv = gen_mls_vec,
-+          .load_dest = true,
-+          .opt_opc = vecop_list,
-+          .vece = MO_8 },
-+        { .fni4 = gen_mls16_i32,
-+          .fniv = gen_mls_vec,
-+          .load_dest = true,
-+          .opt_opc = vecop_list,
-+          .vece = MO_16 },
-+        { .fni4 = gen_mls32_i32,
-+          .fniv = gen_mls_vec,
-+          .load_dest = true,
-+          .opt_opc = vecop_list,
-+          .vece = MO_32 },
-+        { .fni8 = gen_mls64_i64,
-+          .fniv = gen_mls_vec,
-+          .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-+          .load_dest = true,
-+          .opt_opc = vecop_list,
-+          .vece = MO_64 },
-+    };
-+    tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
-+}
- 
- /* CMTST : test is "if (X & Y != 0)". */
- static void gen_cmtst_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
+                                 uint32_t oprsz, uint32_t maxsz)         \
+     {                                                                   \
+-        /* Note the operation is vshl vd,vm,vn */                       \
+-        tcg_gen_gvec_3(rd_ofs, rm_ofs, rn_ofs,                          \
++        tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs,                          \
+                        oprsz, maxsz, &OPARRAY[vece]);                   \
+     }                                                                   \
+     DO_3SAME(INSN, gen_##INSN##_3s)
 -- 
 2.20.1
 
