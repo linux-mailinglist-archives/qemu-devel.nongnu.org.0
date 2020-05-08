@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598821CB507
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:34:39 +0200 (CEST)
-Received: from localhost ([::1]:35506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEF21CB508
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:35:04 +0200 (CEST)
+Received: from localhost ([::1]:36884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX5xN-0007Ze-QU
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60592)
+	id 1jX5xn-00087s-Ri
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:35:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5w4-0005wg-Cm
- for qemu-devel@nongnu.org; Fri, 08 May 2020 12:33:16 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57030
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5wR-0006ta-Hs
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 12:33:40 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45539
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5w2-0005A1-R3
- for qemu-devel@nongnu.org; Fri, 08 May 2020 12:33:15 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5wP-0005OG-Ej
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 12:33:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588955592;
+ s=mimecast20190719; t=1588955616;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pNOPBaptLtkgLmyWaGY4d608APV0MPx1WGQ/pUAZTpE=;
- b=Myp8GrvRPSTAsE8z1dxKgAJ5xhJkGVKjOMWeuEXHsXDePuXcvSsfMFLCTOyvks9cv5cTh2
- 0IcZTi8MhO6zPrzm8d4wWcp8tS1Lcv+mxRrMcfZZndVyUVf8fzW64F5cEwUxeyagEulV/4
- N9pRCVycn+EGwR7OXH90Z1M/elBjwnU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=52firLbS5N65LDVCF108n3lH3o1t+XvS9Gj2k2LVUns=;
+ b=FWP/v61ebcZmkvmecvuV4g1EU6S1AToBvDOwRQfiJLD8lEB6p0jHn5aKDuAeSP5RIyScB/
+ WlYOKZkfF9JgfJ1KDPuTCfvPoMcQ889+wJy36fqCuhBVa1VwrUzdAg+MtXaffV/oihRwea
+ hnjzh4wRctnxoPro1VJ4q0hVC3F+M/Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-8vGW5FV2P5CP-P00v267vA-1; Fri, 08 May 2020 12:33:08 -0400
-X-MC-Unique: 8vGW5FV2P5CP-P00v267vA-1
+ us-mta-396-Kp8pYzeGNz-dwQ4msHg7_Q-1; Fri, 08 May 2020 12:33:33 -0400
+X-MC-Unique: Kp8pYzeGNz-dwQ4msHg7_Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4B81800688;
- Fri,  8 May 2020 16:33:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73D40107ACCA;
+ Fri,  8 May 2020 16:33:31 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-75.pek2.redhat.com [10.72.12.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F20346ACF5;
- Fri,  8 May 2020 16:32:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 860B86C760;
+ Fri,  8 May 2020 16:33:13 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v2 0/9] vDPA support in qemu
-Date: Sat,  9 May 2020 00:32:09 +0800
-Message-Id: <20200508163218.22592-1-lulu@redhat.com>
+Subject: [RFC v2 1/9] net: introduce qemu_get_peer
+Date: Sat,  9 May 2020 00:32:10 +0800
+Message-Id: <20200508163218.22592-2-lulu@redhat.com>
+In-Reply-To: <20200508163218.22592-1-lulu@redhat.com>
+References: <20200508163218.22592-1-lulu@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
@@ -86,65 +89,43 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vDPA device is a device that uses a datapath which complies with the
-virtio specifications with vendor specific control path. vDPA devices
-can be both physically located on the hardware or emulated by software.
-This RFC introduce the vDPA support in qemu
+This is a small function that can get the peer from given NetClientState and queue_index
 
-change from v1
-separe the patch of introduce vhost_set_vring_ready method
-separe the patch of qemu_get_peer
-separe the patch  of vhost_set_state
-intorduce the new macro specific for vDPA in configure
-intorduce the fuction to pass the fd from cmdline 
-introduce the docmation in qemu-options.hx
-the other comments form last version  
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+---
+ include/net/net.h | 1 +
+ net/net.c         | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-
-Cindy Lu (3):
-  net: introduce qemu_get_peer
-  net: use the function qemu_get_peer
-  virtio_net: introduce vhost_set_state
-
-Jason Wang (4):
-  virtio-bus: introduce queue_enabled method
-  virito-pci: implement queue_enabled method
-  vhost_net: set vq ready during start if necessary
-  vhost: introduce vhost_set_vring_ready method
-
-Tiwei Bie (2):
-  vhost-vdpa: introduce vhost-vdpa net client
-  vhost-vdpa: implement vhost-vdpa backend
-
- configure                         |  21 ++
- hw/net/vhost_net-stub.c           |   4 +
- hw/net/vhost_net.c                |  77 ++++-
- hw/net/virtio-net.c               |   9 +
- hw/virtio/Makefile.objs           |   1 +
- hw/virtio/vhost-backend.c         |   5 +
- hw/virtio/vhost-vdpa.c            | 447 ++++++++++++++++++++++++++++++
- hw/virtio/vhost.c                 |  14 +
- hw/virtio/virtio-pci.c            |  13 +
- hw/virtio/virtio.c                |   6 +
- include/hw/virtio/vhost-backend.h |  10 +-
- include/hw/virtio/vhost-vdpa.h    |  25 ++
- include/hw/virtio/vhost.h         |   1 +
- include/hw/virtio/virtio-bus.h    |   4 +
- include/net/net.h                 |   1 +
- include/net/vhost-vdpa.h          |  19 ++
- include/net/vhost_net.h           |   4 +-
- net/Makefile.objs                 |   2 +-
- net/clients.h                     |   2 +
- net/net.c                         |   9 +
- net/vhost-vdpa.c                  | 227 +++++++++++++++
- qapi/net.json                     |  22 +-
- qemu-options.hx                   |  19 ++
- 23 files changed, 930 insertions(+), 12 deletions(-)
- create mode 100644 hw/virtio/vhost-vdpa.c
- create mode 100644 include/hw/virtio/vhost-vdpa.h
- create mode 100644 include/net/vhost-vdpa.h
- create mode 100644 net/vhost-vdpa.c
-
+diff --git a/include/net/net.h b/include/net/net.h
+index e175ba9677..0a74324ccd 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -175,6 +175,7 @@ void hmp_info_network(Monitor *mon, const QDict *qdict);
+ void net_socket_rs_init(SocketReadState *rs,
+                         SocketReadStateFinalize *finalize,
+                         bool vnet_hdr);
++NetClientState *qemu_get_peer(NetClientState *nc, int queue_index);
+ 
+ /* NIC info */
+ 
+diff --git a/net/net.c b/net/net.c
+index 84aa6d8d00..b3192deaf1 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -324,6 +324,12 @@ void *qemu_get_nic_opaque(NetClientState *nc)
+ 
+     return nic->opaque;
+ }
++NetClientState *qemu_get_peer(NetClientState *nc, int queue_index)
++{
++    assert(nc != NULL);
++    NetClientState *ncs = nc + queue_index;
++    return ncs->peer;
++}
+ 
+ static void qemu_cleanup_net_client(NetClientState *nc)
+ {
 -- 
 2.21.1
 
