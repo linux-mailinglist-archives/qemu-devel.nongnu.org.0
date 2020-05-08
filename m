@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A671CACB1
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:57:59 +0200 (CEST)
-Received: from localhost ([::1]:33788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEEB1CAE00
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:08:05 +0200 (CEST)
+Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2Zi-0003Xf-NL
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1jX2jU-0005wx-S9
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2St-0005zE-Ot
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:50:55 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:38126
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2Ss-0002So-Ki
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:50:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588942253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zudctO3EkR+8Y0s3mx6MbBIauAULqPgX14OPAMKsxPM=;
- b=GyG3gvoZIszpvvKVWhZ0elNqWCCN4vkybmpJiEVQscR5ZIa5exV7asPCw/XFbvpL1fDRlc
- GqolCWINcY3fyXorw/H3QG00EXRb60CwdLwgNTSXcoPiDXIslBHrY+87FPaYNXu/L1JYJX
- gmy6SSah2UEjEVkb8Qg+o4KOfW6Gx4o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-1-TUPxSPMNaE1-cw9UJ2Pg-1; Fri, 08 May 2020 08:50:52 -0400
-X-MC-Unique: 1-TUPxSPMNaE1-cw9UJ2Pg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFAC2107ACCA;
- Fri,  8 May 2020 12:50:48 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B92B5C1BE;
- Fri,  8 May 2020 12:50:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0D88F11358BC; Fri,  8 May 2020 14:50:41 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 1/3] target: Remove unnecessary CPU() cast
-References: <20200504100735.10269-1-f4bug@amsat.org>
- <20200504100735.10269-2-f4bug@amsat.org>
-Date: Fri, 08 May 2020 14:50:41 +0200
-In-Reply-To: <20200504100735.10269-2-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 4 May 2020 12:07:33
- +0200")
-Message-ID: <87imh6y4im.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <miaoyubo@huawei.com>)
+ id 1jX2TA-0006XB-Pq
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:51:12 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2519 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <miaoyubo@huawei.com>)
+ id 1jX2T9-0002qi-0Y
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:51:12 -0400
+Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.53])
+ by Forcepoint Email with ESMTP id BD974AED847D04E6F656;
+ Fri,  8 May 2020 20:50:55 +0800 (CST)
+Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
+ DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Fri, 8 May 2020 20:50:55 +0800
+Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
+ dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Fri, 8 May 2020 20:50:54 +0800
+Received: from dggeme756-chm.china.huawei.com ([10.6.80.68]) by
+ dggeme756-chm.china.huawei.com ([10.6.80.68]) with mapi id 15.01.1913.007;
+ Fri, 8 May 2020 20:50:54 +0800
+From: miaoyubo <miaoyubo@huawei.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: RE: [PATCH v6 2/8] fw_cfg: Write the extra roots into the fw_cfg
+Thread-Topic: [PATCH v6 2/8] fw_cfg: Write the extra roots into the fw_cfg
+Thread-Index: AQHWDaVtFt2HHsrzj0S5wEUUfu+NQ6iXl+gAgAa6uLA=
+Date: Fri, 8 May 2020 12:50:54 +0000
+Message-ID: <f3e847eb9e4744c2b4ef0a6f53bcd4d4@huawei.com>
+References: <20200408125816.955-1-miaoyubo@huawei.com>
+ <20200408125816.955-3-miaoyubo@huawei.com>
+ <20200504100057-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200504100057-mutt-send-email-mst@kernel.org>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.173.221.29]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 08:00:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=miaoyubo@huawei.com;
+ helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 08:50:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,62 +74,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Joel Stanley <joel@jms.id.au>, Anthony Perard <anthony.perard@citrix.com>,
- xen-devel@lists.xenproject.org, David Gibson <david@gibson.dropbear.id.au>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Corey Minyard <minyard@acm.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Xiexiangyou <xiexiangyou@huawei.com>,
+ "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+> -----Original Message-----
+> From: Michael S. Tsirkin [mailto:mst@redhat.com]
+> Sent: Monday, May 4, 2020 10:03 PM
+> To: miaoyubo <miaoyubo@huawei.com>
+> Cc: peter.maydell@linaro.org; shannon.zhaosl@gmail.com;
+> lersek@redhat.com; imammedo@redhat.com; qemu-devel@nongnu.org;
+> berrange@redhat.com; Xiexiangyou <xiexiangyou@huawei.com>
+> Subject: Re: [PATCH v6 2/8] fw_cfg: Write the extra roots into the fw_cfg
+>=20
+> On Wed, Apr 08, 2020 at 08:58:10PM +0800, Yubo Miao wrote:
+> > From: miaoyubo <miaoyubo@huawei.com>
+> >
+> > Write the extra roots into the fw_cfg therefore the uefi could get the
+> > extra roots. Only if the uefi know there are extra roots, the config
+> > space of devices behind the root could be obtained.
+> >
+> > Signed-off-by: miaoyubo <miaoyubo@huawei.com>
+> > ---
+> >  hw/arm/virt.c | 23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c index
+> > 7dc96abf72..0fdfe4129c 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -77,6 +77,7 @@
+> >  #include "hw/acpi/generic_event_device.h"
+> >  #include "hw/virtio/virtio-iommu.h"
+> >  #include "hw/char/pl011.h"
+> > +#include "hw/pci/pci_bus.h"
+> >
+> >  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
+> >      static void virt_##major##_##minor##_class_init(ObjectClass *oc,
+> > \ @@ -1435,6 +1436,12 @@ void virt_machine_done(Notifier *notifier,
+> void *data)
+> >      ARMCPU *cpu =3D ARM_CPU(first_cpu);
+> >      struct arm_boot_info *info =3D &vms->bootinfo;
+> >      AddressSpace *as =3D arm_boot_address_space(cpu, info);
+> > +    PCIHostState *s =3D OBJECT_CHECK(PCIHostState,
+> > +                                   object_resolve_path_type("",
+> > +                                   "pcie-host-bridge", NULL),
+> > +                                   TYPE_PCI_HOST_BRIDGE);
+> > +
+> > +    PCIBus *bus =3D s->bus;
+> >
+> >      /*
+> >       * If the user provided a dtb, we assume the dynamic sysbus nodes
+>=20
+>=20
+> Seems duplicated all over the place. Add an API for that?
+>
 
-> The CPU() macro is defined as:
->
->   #define CPU(obj) ((CPUState *)(obj))
->
-> which expands to:
->
->   ((CPUState *)object_dynamic_cast_assert((Object *)(obj), (name),
->                                           __FILE__, __LINE__, __func__))
->
-> This assertion can only fail when @obj points to something other
-> than its stated type, i.e. when we're in undefined behavior country.
->
-> Remove the unnecessary CPU() casts when we already know the pointer
-> is of CPUState type.
->
-> Patch created mechanically using spatch with this script:
->
->   @@
->   typedef CPUState;
->   CPUState *s;
->   @@
->   -   CPU(s)
->   +   s
->
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Thanks for your reply. I will add the API in patch v7.
+=20
+> > @@ -1453,6 +1460,22 @@ void virt_machine_done(Notifier *notifier, void
+> *data)
+> >          exit(1);
+> >      }
+> >
+> > +    if (bus) {
+> > +        int extra_hosts =3D 0;
+> > +        QLIST_FOREACH(bus, &bus->child, sibling) {
+> > +            /* look for expander root buses */
+> > +            if (pci_bus_is_root(bus)) {
+> > +                extra_hosts++;
+> > +            }
+> > +        }
+> > +        if (extra_hosts && vms->fw_cfg) {
+> > +            uint64_t *val =3D g_malloc(sizeof(*val));
+> > +            *val =3D cpu_to_le64(extra_hosts);
+> > +            fw_cfg_add_file(vms->fw_cfg,
+> > +                   "etc/extra-pci-roots", val, sizeof(*val));
+> > +        }
+> > +    }
+> > +
+> >      virt_acpi_setup(vms);
+> >      virt_build_smbios(vms);
+>=20
+>=20
+> Duplicated from pc. Pls refactor.
+>=20
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Sure. It would be done in patch v7
 
+> >  }
+> > --
+> > 2.19.1
+> >
+
+Regards,
+Miao
 
