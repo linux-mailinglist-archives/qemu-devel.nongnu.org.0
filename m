@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FD91CB515
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:40:41 +0200 (CEST)
-Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2711CB50E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:38:31 +0200 (CEST)
+Received: from localhost ([::1]:45124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX63E-00088S-1J
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:40:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33452)
+	id 1jX617-0003mT-V8
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:38:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5z6-0001XT-2Y
- for qemu-devel@nongnu.org; Fri, 08 May 2020 12:36:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:25420
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5zQ-0001xT-24
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 12:36:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60426
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5z5-0006bC-BU
- for qemu-devel@nongnu.org; Fri, 08 May 2020 12:36:23 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5zO-0007nC-Vs
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 12:36:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588955782;
+ s=mimecast20190719; t=1588955802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tZuxKlrob2Ti4p/kqBbh1fKtv4u9PKjb4qN3Quxs17k=;
- b=JePckwcewv/K1ktTnJVNuH6LwKhNg8iLY0H7GphZ53316InRG67SjMKffAI9xljSUmtrsN
- a3mBAlBi5+/xd5CG9cH2VTKkY9lAqHwCB6ZJAg9UyWgbGE8MNjHrUM26GuWkNljkRehFlD
- yBl+cwYqH6GL1YyODeIDdn9rVyZYyjE=
+ bh=0+UijJbg4+qyAryZoZTlBXF6cXTGUPho1cE100TLt24=;
+ b=TWesI5F3rEOv51+uX0l7Nu1dXm0l9BlIZpA0zz3gigGoFjTgqV3fKr5qFrcXNIa/mPvVxE
+ uBwcpMj14LZYuGK+b9cHDXub65qMdqQB7pz8O01JAsLnFhNA44W6xDEDtNSB8jx6C0FXuH
+ ALeJbOaDJpa1+mcFXJzy79f7BR+/GaA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-05nrjMPNMa-edHQoXuA1Yw-1; Fri, 08 May 2020 12:36:20 -0400
-X-MC-Unique: 05nrjMPNMa-edHQoXuA1Yw-1
+ us-mta-187-8N2YBCf-Pimh3P9VqZQ1Zw-1; Fri, 08 May 2020 12:36:40 -0400
+X-MC-Unique: 8N2YBCf-Pimh3P9VqZQ1Zw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEDE8464;
- Fri,  8 May 2020 16:36:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69E4C464;
+ Fri,  8 May 2020 16:36:37 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-75.pek2.redhat.com [10.72.12.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF6F46AD18;
- Fri,  8 May 2020 16:35:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E9AF86AD0A;
+ Fri,  8 May 2020 16:36:19 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v2 8/9] vhost_net: set vq ready during start if necessary
-Date: Sat,  9 May 2020 00:32:17 +0800
-Message-Id: <20200508163218.22592-9-lulu@redhat.com>
+Subject: [RFC v2 9/9] vhost: introduce vhost_set_vring_ready method
+Date: Sat,  9 May 2020 00:32:18 +0800
+Message-Id: <20200508163218.22592-10-lulu@redhat.com>
 In-Reply-To: <20200508163218.22592-1-lulu@redhat.com>
 References: <20200508163218.22592-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -55,10 +55,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=lulu@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 11:31:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,26 +91,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
+Vhost-vdpa introduces VHOST_VDPA_SET_VRING_ENABLE which complies the
+semantic of queue_enable defined in virtio spec. This method can be
+used for preventing device from executing request for a specific
+virtqueue. This patch introduces the vhost_ops for this.
+
+Note that, we've already had vhost_set_vring_enable which has different
+semantic which allows to enable or disable a specific virtqueue for
+some kinds of vhost backends. E.g vhost-user use this to changes the
+number of active queue pairs.
+
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/vhost_net.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/net/vhost_net-stub.c |  4 ++++
+ hw/net/vhost_net.c      | 11 ++++++++++-
+ include/net/vhost_net.h |  1 +
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
+diff --git a/hw/net/vhost_net-stub.c b/hw/net/vhost_net-stub.c
+index aac0e98228..43e93e1a9a 100644
+--- a/hw/net/vhost_net-stub.c
++++ b/hw/net/vhost_net-stub.c
+@@ -86,6 +86,10 @@ int vhost_set_vring_enable(NetClientState *nc, int enable)
+     return 0;
+ }
+ 
++int vhost_set_vring_ready(NetClientState *nc)
++{
++    return 0;
++}
+ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
+ {
+     return 0;
 diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 1af39abaf3..eff9ec9177 100644
+index eff9ec9177..6911282a0a 100644
 --- a/hw/net/vhost_net.c
 +++ b/hw/net/vhost_net.c
-@@ -383,6 +383,10 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-                 goto err_start;
-             }
+@@ -375,7 +375,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+             goto err_start;
          }
-+
-+        if (virtio_queue_enabled(dev, i)) {
-+            vhost_set_vring_ready(peer);
-+        }
-     }
  
+-        if (ncs[i].peer->vring_enable) {
++        if (peer->vring_enable) {
+             /* restore vring enable state */
+             r = vhost_set_vring_enable(peer, peer->vring_enable);
+ 
+@@ -496,6 +496,15 @@ int vhost_set_vring_enable(NetClientState *nc, int enable)
      return 0;
+ }
+ 
++int vhost_set_vring_ready(NetClientState *nc)
++{
++    VHostNetState *net = get_vhost_net(nc);
++    const VhostOps *vhost_ops = net->dev.vhost_ops;
++    if (vhost_ops && vhost_ops->vhost_set_vring_ready) {
++        return vhost_ops->vhost_set_vring_ready(&net->dev);
++    }
++    return 0;
++}
+ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
+ {
+     const VhostOps *vhost_ops = net->dev.vhost_ops;
+diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+index b47844bf29..247432a3b2 100644
+--- a/include/net/vhost_net.h
++++ b/include/net/vhost_net.h
+@@ -35,6 +35,7 @@ int vhost_net_notify_migration_done(VHostNetState *net, char* mac_addr);
+ VHostNetState *get_vhost_net(NetClientState *nc);
+ 
+ int vhost_set_vring_enable(NetClientState * nc, int enable);
++int vhost_set_vring_ready(NetClientState *nc);
+ 
+ uint64_t vhost_net_get_acked_features(VHostNetState *net);
+ 
 -- 
 2.21.1
 
