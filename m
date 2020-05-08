@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1B31CA89A
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 12:50:36 +0200 (CEST)
-Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344981CA8C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 12:55:34 +0200 (CEST)
+Received: from localhost ([::1]:47286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX0aR-0004WX-Rd
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 06:50:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52112)
+	id 1jX0fF-0007qv-79
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 06:55:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX0ZZ-00046i-Ba
- for qemu-devel@nongnu.org; Fri, 08 May 2020 06:49:41 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58066
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX0ZX-0001fn-ME
- for qemu-devel@nongnu.org; Fri, 08 May 2020 06:49:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588934978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HDLJ6mVYnOqwtlk1UjoadduOsHPCrmrOAx943hTFpcM=;
- b=ayd/uy64mQucAeFeHOTCaXDXMK6G7OHtHX8kxjX4hIr1SWjtMMypiujrItca9awg4B+3kl
- i29CKWeGP0nzSQu7JaIHC4aaRPbVLiAxECA99Q9Bv998B0pjU6Tg7OMrhQIo62MUswBuPv
- uh2nlrXnzQs6q6K+x1XSTSs0W/tsimo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-FQFl2T_KNyOhEBYdhevpYA-1; Fri, 08 May 2020 06:49:36 -0400
-X-MC-Unique: FQFl2T_KNyOhEBYdhevpYA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 931FF835B40;
- Fri,  8 May 2020 10:49:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D40B707A6;
- Fri,  8 May 2020 10:49:35 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C30E211358BC; Fri,  8 May 2020 12:49:33 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] cpus: Fix botched configure_icount() error API violation fix
-Date: Fri,  8 May 2020 12:49:33 +0200
-Message-Id: <20200508104933.19051-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jX0eB-0006zY-EL
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 06:54:27 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jX0eA-00066T-B9
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 06:54:27 -0400
+Received: by mail-wm1-x343.google.com with SMTP id r26so10136056wmh.0
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 03:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=tRc1wFGoADt31h04bCok03WJLaNfqn/3kUZGVULqzzQ=;
+ b=qg0xLkSj0rReMs6wUMdkgawQJduE6glcaZ3M/JJNhVwkt47v2fVBPJJfVKzDv432mw
+ ycNE8i27pktwDKHPaeE2/BEh+ZLyMzY1uorEcKg6cQpuYDvvKsZZX6cRFcxS930xQ9d7
+ b8c+P0Fv6oahC72K3eG1xJ5V1UetdetBoEL4CBnzGBvSKpvc9X19XtU0Q+vE8Xasm3lM
+ /ZqXjKMndFB856wEA0onmOGrGXS8RRGDJMN9GI9tSFRS+3XK2LyYguZgjEMzZEINky13
+ ww7r+oMl/P05KRjXICcDy7c1Zy7mFiQEGlESv+q9v67NuzTKadDw9o0BaUecJJySfyUe
+ LNVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=tRc1wFGoADt31h04bCok03WJLaNfqn/3kUZGVULqzzQ=;
+ b=iz+Ue+a9bXlPEzN73i50Vf9CAALzVkP80Zgr9O0GyJy3DsKckUsvbX+EuoEfcsXq0/
+ 8Kar+avkx4TkGItE9+qQOFbwjzmG05Q0dFHvI9q3YymmpIZqQI8XgJlrCUpeHtXcFKKv
+ UO/9xK8tyEsQW93KFONdC+ylAvUsOsYTt7BKH8S2WkuACLbKuqQrvLTNRvk23Pe9Pe1o
+ vGn6hOZoCVHHDgQI8k2Z9C+YAIQdywccsUmrmsjIAMFncDLUeKSb+p/faJ7sBSyTTAPj
+ TXyrzkaEzxjt6BPf+QpzpLM841U+3M+XDkggX/2730J/zgKF0wWMn6aOzy9MuDKj00JG
+ MLSQ==
+X-Gm-Message-State: AGi0PuabDscl/gtAYdFPS4MTLVQpyUQciRgDZnFXPXzF3SdwYnU+uX3m
+ 3qRxKx6EZwbgLYA36LmHAVZQoTsZQvjzH68XsM4=
+X-Google-Smtp-Source: APiQypJ9ewqTeRIergKcspUnlfNfDA/Isven7yFAosfVEH3inHBXuq+mw/Q2T5qLTRjRDQYvID21eFcXo7IpnBuaqco=
+X-Received: by 2002:a1c:f211:: with SMTP id s17mr17073649wmc.168.1588935264569; 
+ Fri, 08 May 2020 03:54:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+References: <1588500367-1056-1-git-send-email-chenhc@lemote.com>
+ <1588500367-1056-8-git-send-email-chenhc@lemote.com>
+In-Reply-To: <1588500367-1056-8-git-send-email-chenhc@lemote.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Fri, 8 May 2020 12:53:35 +0200
+Message-ID: <CAHiYmc4auUtJayvB-qTFNsv5BGhe0FaTTRxODZLw+yNRzwHB_Q@mail.gmail.com>
+Subject: Re: [PATCH V3 07/14] KVM: MIPS: Use root tlb to control guest's CCA
+ for Loongson-3
+To: Huacai Chen <chenhc@lemote.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:23:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,31 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, kvm@vger.kernel.org,
+ Huacai Chen <chenhuacai@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Fuxin Zhang <zhangfx@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ linux-mips@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: abc9bf69a66a11499a801ff545b8fe7adbb3a04c
-Fixes: Coverity CID 1428754
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- cpus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+=D0=BD=D0=B5=D0=B4, 3. =D0=BC=D0=B0=D1=98 2020. =D1=83 12:12 Huacai Chen <c=
+henhc@lemote.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=
+=D0=BB=D0=B0:
+>
+> KVM guest has two levels of address translation: guest tlb translates
+> GVA to GPA, and root tlb translates GPA to HPA. By default guest's CCA
+> is controlled by guest tlb, but Loongson-3 maintains all cache coherency
+> by hardware (including multi-core coherency and I/O DMA coherency) so it
+> prefers all guest mappings be cacheable mappings. Thus, we use root tlb
+> to control guest's CCA for Loongson-3.
+>
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  arch/mips/kvm/vz.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/arch/mips/kvm/vz.c b/arch/mips/kvm/vz.c
+> index 422cd06..f9fbbc16 100644
+> --- a/arch/mips/kvm/vz.c
+> +++ b/arch/mips/kvm/vz.c
+> @@ -2871,6 +2871,12 @@ static int kvm_vz_hardware_enable(void)
+>         if (cpu_has_guestctl2)
+>                 clear_c0_guestctl2(0x3f << 10);
+>
+> +#ifdef CONFIG_CPU_LOONGSON64
+> +       /* Control guest CCA attribute */
+> +       if (cpu_has_csr())
+> +               csr_writel(csr_readl(0xffffffec) | 0x1, 0xffffffec);
+> +#endif
+> +
+>         return 0;
+>  }
+>
+> --
+> 2.7.0
+>
 
-diff --git a/cpus.c b/cpus.c
-index 5670c96bcf..b9275c672d 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -813,7 +813,7 @@ void configure_icount(QemuOpts *opts, Error **errp)
-         return;
-     }
-=20
--    if (strcmp(option, "auto") !=3D 0) {
-+    if (option && !strcmp(option, "auto")) {
-         if (qemu_strtol(option, NULL, 0, &time_shift) < 0
-             || time_shift < 0 || time_shift > MAX_ICOUNT_SHIFT) {
-             error_setg(errp, "icount: Invalid shift value");
---=20
-2.21.1
-
+Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 
