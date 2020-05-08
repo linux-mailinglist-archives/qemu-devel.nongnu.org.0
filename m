@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CF5C1CB509
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:36:28 +0200 (CEST)
-Received: from localhost ([::1]:39798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638B21CB50D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:38:29 +0200 (CEST)
+Received: from localhost ([::1]:45024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX5z9-000104-Eq
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:36:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60812)
+	id 1jX616-0003j8-Bo
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:38:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5wl-0007Tw-PY
- for qemu-devel@nongnu.org; Fri, 08 May 2020 12:34:01 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39017
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5x8-0007qC-5O
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 12:34:22 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36766
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5wk-00065d-Gu
- for qemu-devel@nongnu.org; Fri, 08 May 2020 12:33:59 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1jX5x7-0007hE-6P
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 12:34:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588955637;
+ s=mimecast20190719; t=1588955660;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=skuyGgsJUoIoU9Um/NUc1NTgtGUTH2qtntoWXyeA5eA=;
- b=CiQi9jbORetfn4kG6fUPgW5p4+BCYHjvvS77v7P0SNbEc7Shj9nrS5iWNZVsTSjHr8dnLF
- inM23pz++6RB9baBDRmPhZbOPxwCkCtqSiKaUwMAcLpG8u+sCDtzpKuaKgN3BoUtjTJLe2
- ZihxoN8UgE8M2I84Ei8vYiNkNM1lhls=
+ bh=W0nhH79L1o1AT2y6BnT9L+LpqnN5izFGzVarE8zoLWM=;
+ b=RmUB1dsbndlukau4SR89GL5ob2f7EAIv6DMG7wkAa3EqOgbqWmCrqpPZahprCMix4R5pmK
+ k71tFVYpa5rpfuT5Q6aicaYlqqBBt5LpUEcqj0LGgwjkwR4p7girTLasdeKpx9pa6/tu86
+ 7g/HDwqgy4lv3ESTrrAsRDYoPPNP6oQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-7ouM8NXwNZucpKj05OPm0g-1; Fri, 08 May 2020 12:33:55 -0400
-X-MC-Unique: 7ouM8NXwNZucpKj05OPm0g-1
+ us-mta-412-F90NuD-8NG-P-xGlaLTciQ-1; Fri, 08 May 2020 12:34:18 -0400
+X-MC-Unique: F90NuD-8NG-P-xGlaLTciQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31A8E107ACCA;
- Fri,  8 May 2020 16:33:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 449B7872FE0;
+ Fri,  8 May 2020 16:34:13 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-75.pek2.redhat.com [10.72.12.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FE436ACF5;
- Fri,  8 May 2020 16:33:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79FD96ACEF;
+ Fri,  8 May 2020 16:33:55 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com, armbru@redhat.com, eblake@redhat.com, cohuck@redhat.com,
  jasowang@redhat.com
-Subject: [RFC v2 2/9] net: use the function qemu_get_peer
-Date: Sat,  9 May 2020 00:32:11 +0800
-Message-Id: <20200508163218.22592-3-lulu@redhat.com>
+Subject: [RFC v2 3/9] virtio_net: introduce vhost_set_state
+Date: Sat,  9 May 2020 00:32:12 +0800
+Message-Id: <20200508163218.22592-4-lulu@redhat.com>
 In-Reply-To: <20200508163218.22592-1-lulu@redhat.com>
 References: <20200508163218.22592-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 08:00:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,68 +89,104 @@ Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-user the qemu_get_peer to replace the old process
+Introduce a function to set the state to the vhost driver.
+vDPA need to sync the driver's state to NIC
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/net/vhost_net.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ hw/net/vhost_net.c                | 9 +++++++++
+ hw/net/virtio-net.c               | 9 +++++++++
+ include/hw/virtio/vhost-backend.h | 2 ++
+ include/net/vhost_net.h           | 2 +-
+ 4 files changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 6b82803fa7..d1d421e3d9 100644
+index d1d421e3d9..63b2a85d6e 100644
 --- a/hw/net/vhost_net.c
 +++ b/hw/net/vhost_net.c
-@@ -306,7 +306,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(dev)));
-     VirtioBusState *vbus = VIRTIO_BUS(qbus);
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(vbus);
-+    struct vhost_net *net;
-     int r, e, i;
-+    NetClientState *peer;
+@@ -465,3 +465,12 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
  
-     if (!k->set_guest_notifiers) {
-         error_report("binding does not support guest notifiers");
-@@ -314,9 +316,9 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+     return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
+ }
++int vhost_set_state(NetClientState *nc, uint8_t state)
++{
++    struct vhost_net *net = get_vhost_net(nc);
++    struct vhost_dev *hdev = &net->dev;
++        if (hdev->vhost_ops->vhost_set_state) {
++                return hdev->vhost_ops->vhost_set_state(hdev, state);
++        }
++    return 0;
++}
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index db3d7c38e6..1bddb4b4af 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -206,6 +206,9 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
+     NetClientState *nc = qemu_get_queue(n->nic);
+     int queues = n->multiqueue ? n->max_queues : 1;
++    NetClientState *peer = qemu_get_peer(nc, 0);
++    uint8_t status_set  = vdev->status ;
++    uint8_t vhost_started_pre = n->vhost_started;
+ 
+     if (!get_vhost_net(nc->peer)) {
+         return;
+@@ -245,6 +248,7 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
+                 return;
+             }
+         }
++        status_set = status_set | VIRTIO_CONFIG_S_DRIVER_OK;
+ 
+         n->vhost_started = 1;
+         r = vhost_net_start(vdev, n->nic->ncs, queues);
+@@ -252,11 +256,16 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
+             error_report("unable to start vhost net: %d: "
+                          "falling back on userspace virtio", -r);
+             n->vhost_started = 0;
++            status_set = status_set & ~VIRTIO_CONFIG_S_DRIVER_OK;
+         }
+     } else {
+         vhost_net_stop(vdev, n->nic->ncs, queues);
++        status_set = status_set & ~VIRTIO_CONFIG_S_DRIVER_OK;
+         n->vhost_started = 0;
      }
++    if (vhost_started_pre != n->vhost_started) {
++            vhost_set_state(peer, status_set);
++    }
+ }
  
-     for (i = 0; i < total_queues; i++) {
--        struct vhost_net *net;
+ static int virtio_net_set_vnet_endian_one(VirtIODevice *vdev,
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index 6f6670783f..f823055167 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -112,6 +112,7 @@ typedef int (*vhost_get_inflight_fd_op)(struct vhost_dev *dev,
+ typedef int (*vhost_set_inflight_fd_op)(struct vhost_dev *dev,
+                                         struct vhost_inflight *inflight);
  
--        net = get_vhost_net(ncs[i].peer);
-+        peer = qemu_get_peer(ncs, i);
-+        net = get_vhost_net(peer);
-         vhost_net_set_vq_index(net, i * 2);
++typedef int (*vhost_set_state_op)(struct vhost_dev *dev, uint8_t state);
+ typedef struct VhostOps {
+     VhostBackendType backend_type;
+     vhost_backend_init vhost_backend_init;
+@@ -152,6 +153,7 @@ typedef struct VhostOps {
+     vhost_backend_mem_section_filter_op vhost_backend_mem_section_filter;
+     vhost_get_inflight_fd_op vhost_get_inflight_fd;
+     vhost_set_inflight_fd_op vhost_set_inflight_fd;
++    vhost_set_state_op vhost_set_state;
+ } VhostOps;
  
-         /* Suppress the masking guest notifiers on vhost user
-@@ -335,7 +337,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-     }
+ extern const VhostOps user_ops;
+diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+index 77e47398c4..6548a5a105 100644
+--- a/include/net/vhost_net.h
++++ b/include/net/vhost_net.h
+@@ -39,5 +39,5 @@ int vhost_set_vring_enable(NetClientState * nc, int enable);
+ uint64_t vhost_net_get_acked_features(VHostNetState *net);
  
-     for (i = 0; i < total_queues; i++) {
--        r = vhost_net_start_one(get_vhost_net(ncs[i].peer), dev);
-+        peer = qemu_get_peer(ncs, i);
-+        r = vhost_net_start_one(get_vhost_net(peer), dev);
- 
-         if (r < 0) {
-             goto err_start;
-@@ -343,7 +346,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
- 
-         if (ncs[i].peer->vring_enable) {
-             /* restore vring enable state */
--            r = vhost_set_vring_enable(ncs[i].peer, ncs[i].peer->vring_enable);
-+            r = vhost_set_vring_enable(peer, peer->vring_enable);
- 
-             if (r < 0) {
-                 goto err_start;
-@@ -355,7 +358,8 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
- 
- err_start:
-     while (--i >= 0) {
--        vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
-+        peer = qemu_get_peer(ncs , i);
-+        vhost_net_stop_one(get_vhost_net(peer), dev);
-     }
-     e = k->set_guest_notifiers(qbus->parent, total_queues * 2, false);
-     if (e < 0) {
+ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+-
++int vhost_set_state(NetClientState *nc, uint8_t state);
+ #endif
 -- 
 2.21.1
 
