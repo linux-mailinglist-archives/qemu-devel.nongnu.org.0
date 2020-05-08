@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CB21CACAC
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:55:52 +0200 (CEST)
-Received: from localhost ([::1]:50974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B49E1CAD87
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:04:50 +0200 (CEST)
+Received: from localhost ([::1]:33270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2Xf-0006yE-Ey
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:55:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49544)
+	id 1jX2gL-0007YG-7B
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:04:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2Ko-0000Qh-5F
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:34 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44036
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2Kh-0000PZ-El
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588941746;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NKvUyWgy6b6PvsF7ZmRM30cDr61HDcC2VNX4IfLQ29Q=;
- b=G7/CuETIYwRdBfCsr2k7zsvKPyh0lzXl4priWmj/ksvRpYAeIGimHUZA2N4wHU404IX1dj
- qzFXbfbLs28/SPj5mERO9esxGgzzluA8oFttNMZu0nmOUJ4imiB7oJUzWiz8Ui+3eZWISl
- wDzGrX1JFaicyYYE9RHEgVX6KoVfkVY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-nxK4d-6BOMCWIdBhEgN-Kg-1; Fri, 08 May 2020 08:42:22 -0400
-X-MC-Unique: nxK4d-6BOMCWIdBhEgN-Kg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D0FB19057A1;
- Fri,  8 May 2020 12:42:21 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-113-190.ams2.redhat.com
- [10.36.113.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CB5A19167;
- Fri,  8 May 2020 12:42:20 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 30/30] block: Drop unused .bdrv_has_zero_init_truncate
-Date: Fri,  8 May 2020 14:41:35 +0200
-Message-Id: <20200508124135.252565-31-kwolf@redhat.com>
-In-Reply-To: <20200508124135.252565-1-kwolf@redhat.com>
-References: <20200508124135.252565-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jX2Ku-0000dy-PS
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:40 -0400
+Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:45707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jX2Ks-0000n1-SD
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:40 -0400
+Received: by mail-vs1-xe41.google.com with SMTP id e10so934383vsp.12
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 05:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2JkY6Ys4MEndsruP5t0cw+6fU0xJWpFWnZpLDmrVxLo=;
+ b=f9J265HGSZ0EFjw9MFQhPXEm/tndUbm/qo9OcYNW3OS6pyPo5y3W8C5IHyoi7riu8D
+ +GZ52OsgJiWDsss3otZPo3rSPc4rhAPkNFWnh4shrwWDInOxVIB+qN1xCHHbRfVfG2cJ
+ Guiz7njdXVQAziieEm7a2Px2XcLUi77ddL1CLbNIsI+UQT2PhyqSZ5B458Txz9VuWi2r
+ f85MVg4IrnaXSISH6S2dfyMEEP3SEUcvRW9kXgQwXEGGph5X12VitmfK1xQqNS6WoNKr
+ h+zmYPQ65+xJn3zt49oNN8S89ZxPLNAXpYaus6j8vwS9CJsOUL5FCGlfcPNm78pUCRLs
+ ToVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2JkY6Ys4MEndsruP5t0cw+6fU0xJWpFWnZpLDmrVxLo=;
+ b=KoZh+VZsQXxnT002peh3gud0FwAFf9Y4m09VD8kFgwdRSOmcNj5OGcRId0/+SfAGTS
+ 2JV9p2bMend9V1vYzITvMzGxgPYDuBZ9Mtx4iee52qzwzxRLNhmewkwFQAOs0/qHnNog
+ zMcRU8YvBUQBiDfekD1Hzk5t9DxoWZT8WiU2tRfDb5UxITe5FiPhfnDRgV6Qjxvrg/qJ
+ QrnUv9UWHq3KvpIAjhfNBkr1xjbwGAsITXOx5ZvKwCSjRHVZORBttlZDVv47LqGFnr69
+ wDArRTO85F0HCE0yq0/Otn/OaRyamz3BrBldE5DW0chGKvOTJwpyxSjJHc2Q97QuClrX
+ aPrw==
+X-Gm-Message-State: AGi0PublX6g1BYw5e/a7cuCfAtEFWTi/s5G+9MxqBudEQsxikqOGPUkf
+ VsUWLDuYz1jmoBzjV20Wzb3XPZC1DK/JmVB+VrD+iA==
+X-Google-Smtp-Source: APiQypKIHb6ouEmeQAj09iA2ZO9qrEQjlsf1Nr/WxK6jXejdI+QVRaPIA9IJ4s/I/olnNK6mQY5KlrwulaGnF4X9lKs=
+X-Received: by 2002:a67:d61c:: with SMTP id n28mr1659888vsj.70.1588941756719; 
+ Fri, 08 May 2020 05:42:36 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+References: <20200428085122.1621-1-fengli@smartx.com>
+ <20200508051441.8143-1-fengli@smartx.com>
+ <20200508051441.8143-2-fengli@smartx.com>
+ <CAJ+F1CK6S-M4ykYp0DapZ9q0nAD046Uim-F7cxUTYqYC5anBTA@mail.gmail.com>
+In-Reply-To: <CAJ+F1CK6S-M4ykYp0DapZ9q0nAD046Uim-F7cxUTYqYC5anBTA@mail.gmail.com>
+From: Li Feng <fengli@smartx.com>
+Date: Fri, 8 May 2020 20:42:22 +0800
+Message-ID: <CAHckoCxh5USw8bqWyn-mc6fEemnu_EEn+NWSLjG-PbuWAaAB7w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] io/channel: fix crash when qio_channel_readv_all
+ return 0
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: none client-ip=2607:f8b0:4864:20::e41;
+ envelope-from=fengli@smartx.com; helo=mail-vs1-xe41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,247 +82,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Li Feng <lifeng1519@gmail.com>, Dima Stepanov <dimastep@yandex-team.ru>,
+ Kyle Zhang <kyle@smartx.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> =E4=BA=8E2020=E5=B9=B45=
+=E6=9C=888=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=888:32=E5=86=99=E9=81=
+=93=EF=BC=9A
+>
+> Hi
+>
+> On Fri, May 8, 2020 at 7:14 AM Li Feng <fengli@smartx.com> wrote:
+> >
+> > Root cause:
+> > From `man recvmsg`, the RETURN VALUE says:
+> > These  calls return the number of bytes received, or -1 if an error occ=
+urred.
+> > In the event of an error, errno is set to indicate the error.
+> > The return value will be 0 when the peer has performed an orderly shutd=
+own.
+> >
+> > When an error happens, the socket will be closed, and recvmsg return 0,
+> > then error_setg will trigger a crash.
+> >
+> > This unit test could reproduce this issue:
+> > tests/test-char -p /char/socket/client/reconnect-error/unix
+>
+> Current master doesn't trigger the backtrace, it's only after your patch =
+2.
+Yes. However, the issue did exist in the master code base.
+The test case in patch 2 revealed this issue.
 
-Now that there are no clients of bdrv_has_zero_init_truncate, none of
-the drivers need to worry about providing it.
-
-What's more, this eliminates a source of some confusion: a literal
-reading of the documentation as written in ceaca56f and implemented in
-commit 1dcaf527 claims that a driver which returns 0 for
-bdrv_has_zero_init_truncate() must not return 1 for
-bdrv_has_zero_init(); this condition was violated for parallels, qcow,
-and sometimes for vdi, although in practice it did not matter since
-those drivers also lacked .bdrv_co_truncate.
-
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200428202905.770727-10-eblake@redhat.com>
-Acked-by: Richard W.M. Jones <rjones@redhat.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- include/block/block.h     |  1 -
- include/block/block_int.h |  7 -------
- block.c                   | 21 ---------------------
- block/file-posix.c        |  1 -
- block/file-win32.c        |  1 -
- block/nfs.c               |  1 -
- block/qcow2.c             |  1 -
- block/qed.c               |  1 -
- block/raw-format.c        |  6 ------
- block/rbd.c               |  1 -
- block/sheepdog.c          |  3 ---
- block/ssh.c               |  1 -
- 12 files changed, 45 deletions(-)
-
-diff --git a/include/block/block.h b/include/block/block.h
-index 8b62429aa4..4de8d8f8a6 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -430,7 +430,6 @@ int bdrv_pdiscard(BdrvChild *child, int64_t offset, int=
-64_t bytes);
- int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
- int bdrv_has_zero_init_1(BlockDriverState *bs);
- int bdrv_has_zero_init(BlockDriverState *bs);
--int bdrv_has_zero_init_truncate(BlockDriverState *bs);
- bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs);
- bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
- int bdrv_block_status(BlockDriverState *bs, int64_t offset,
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 92335f33c7..df6d0273d6 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -449,16 +449,9 @@ struct BlockDriver {
-     /*
-      * Returns 1 if newly created images are guaranteed to contain only
-      * zeros, 0 otherwise.
--     * Must return 0 if .bdrv_has_zero_init_truncate() returns 0.
-      */
-     int (*bdrv_has_zero_init)(BlockDriverState *bs);
-=20
--    /*
--     * Returns 1 if new areas added by growing the image with
--     * PREALLOC_MODE_OFF contain only zeros, 0 otherwise.
--     */
--    int (*bdrv_has_zero_init_truncate)(BlockDriverState *bs);
--
-     /* Remove fd handlers, timers, and other event loop callbacks so the e=
-vent
-      * loop is no longer in use.  Called with no in-flight requests and in
-      * depth-first traversal order with parents before child nodes.
-diff --git a/block.c b/block.c
-index cf5c19b1db..0653ccb913 100644
---- a/block.c
-+++ b/block.c
-@@ -5284,27 +5284,6 @@ int bdrv_has_zero_init(BlockDriverState *bs)
-     return 0;
- }
-=20
--int bdrv_has_zero_init_truncate(BlockDriverState *bs)
--{
--    if (!bs->drv) {
--        return 0;
--    }
--
--    if (bs->backing) {
--        /* Depends on the backing image length, but better safe than sorry=
- */
--        return 0;
--    }
--    if (bs->drv->bdrv_has_zero_init_truncate) {
--        return bs->drv->bdrv_has_zero_init_truncate(bs);
--    }
--    if (bs->file && bs->drv->is_filter) {
--        return bdrv_has_zero_init_truncate(bs->file->bs);
--    }
--
--    /* safe default */
--    return 0;
--}
--
- bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs)
- {
-     BlockDriverInfo bdi;
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 05e094be29..3ab8f5a0fa 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3100,7 +3100,6 @@ BlockDriver bdrv_file =3D {
-     .bdrv_co_create =3D raw_co_create,
-     .bdrv_co_create_opts =3D raw_co_create_opts,
-     .bdrv_has_zero_init =3D bdrv_has_zero_init_1,
--    .bdrv_has_zero_init_truncate =3D bdrv_has_zero_init_1,
-     .bdrv_co_block_status =3D raw_co_block_status,
-     .bdrv_co_invalidate_cache =3D raw_co_invalidate_cache,
-     .bdrv_co_pwrite_zeroes =3D raw_co_pwrite_zeroes,
-diff --git a/block/file-win32.c b/block/file-win32.c
-index fa569685d8..221aaf713e 100644
---- a/block/file-win32.c
-+++ b/block/file-win32.c
-@@ -641,7 +641,6 @@ BlockDriver bdrv_file =3D {
-     .bdrv_close         =3D raw_close,
-     .bdrv_co_create_opts =3D raw_co_create_opts,
-     .bdrv_has_zero_init =3D bdrv_has_zero_init_1,
--    .bdrv_has_zero_init_truncate =3D bdrv_has_zero_init_1,
-=20
-     .bdrv_aio_preadv    =3D raw_aio_preadv,
-     .bdrv_aio_pwritev   =3D raw_aio_pwritev,
-diff --git a/block/nfs.c b/block/nfs.c
-index 76daa7c9f6..b1718d125a 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -872,7 +872,6 @@ static BlockDriver bdrv_nfs =3D {
-     .create_opts                    =3D &nfs_create_opts,
-=20
-     .bdrv_has_zero_init             =3D nfs_has_zero_init,
--    .bdrv_has_zero_init_truncate    =3D nfs_has_zero_init,
-     .bdrv_get_allocated_file_size   =3D nfs_get_allocated_file_size,
-     .bdrv_co_truncate               =3D nfs_file_co_truncate,
-=20
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 11903fb547..1ad95ff048 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -5621,7 +5621,6 @@ BlockDriver bdrv_qcow2 =3D {
-     .bdrv_co_create_opts  =3D qcow2_co_create_opts,
-     .bdrv_co_create       =3D qcow2_co_create,
-     .bdrv_has_zero_init   =3D qcow2_has_zero_init,
--    .bdrv_has_zero_init_truncate =3D bdrv_has_zero_init_1,
-     .bdrv_co_block_status =3D qcow2_co_block_status,
-=20
-     .bdrv_co_preadv_part    =3D qcow2_co_preadv_part,
-diff --git a/block/qed.c b/block/qed.c
-index fb609cfba1..5da9726518 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -1675,7 +1675,6 @@ static BlockDriver bdrv_qed =3D {
-     .bdrv_co_create           =3D bdrv_qed_co_create,
-     .bdrv_co_create_opts      =3D bdrv_qed_co_create_opts,
-     .bdrv_has_zero_init       =3D bdrv_has_zero_init_1,
--    .bdrv_has_zero_init_truncate =3D bdrv_has_zero_init_1,
-     .bdrv_co_block_status     =3D bdrv_qed_co_block_status,
-     .bdrv_co_readv            =3D bdrv_qed_co_readv,
-     .bdrv_co_writev           =3D bdrv_qed_co_writev,
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 351f2d91c6..9108e43696 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -414,11 +414,6 @@ static int raw_has_zero_init(BlockDriverState *bs)
-     return bdrv_has_zero_init(bs->file->bs);
- }
-=20
--static int raw_has_zero_init_truncate(BlockDriverState *bs)
--{
--    return bdrv_has_zero_init_truncate(bs->file->bs);
--}
--
- static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
-                                            const char *filename,
-                                            QemuOpts *opts,
-@@ -582,7 +577,6 @@ BlockDriver bdrv_raw =3D {
-     .bdrv_co_ioctl        =3D &raw_co_ioctl,
-     .create_opts          =3D &raw_create_opts,
-     .bdrv_has_zero_init   =3D &raw_has_zero_init,
--    .bdrv_has_zero_init_truncate =3D &raw_has_zero_init_truncate,
-     .strong_runtime_opts  =3D raw_strong_runtime_opts,
-     .mutable_opts         =3D mutable_opts,
- };
-diff --git a/block/rbd.c b/block/rbd.c
-index 331c45adb2..617553b022 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -1313,7 +1313,6 @@ static BlockDriver bdrv_rbd =3D {
-     .bdrv_co_create         =3D qemu_rbd_co_create,
-     .bdrv_co_create_opts    =3D qemu_rbd_co_create_opts,
-     .bdrv_has_zero_init     =3D bdrv_has_zero_init_1,
--    .bdrv_has_zero_init_truncate =3D bdrv_has_zero_init_1,
-     .bdrv_get_info          =3D qemu_rbd_getinfo,
-     .create_opts            =3D &qemu_rbd_create_opts,
-     .bdrv_getlength         =3D qemu_rbd_getlength,
-diff --git a/block/sheepdog.c b/block/sheepdog.c
-index 739e6dee30..27a30d17f4 100644
---- a/block/sheepdog.c
-+++ b/block/sheepdog.c
-@@ -3226,7 +3226,6 @@ static BlockDriver bdrv_sheepdog =3D {
-     .bdrv_co_create               =3D sd_co_create,
-     .bdrv_co_create_opts          =3D sd_co_create_opts,
-     .bdrv_has_zero_init           =3D bdrv_has_zero_init_1,
--    .bdrv_has_zero_init_truncate  =3D bdrv_has_zero_init_1,
-     .bdrv_getlength               =3D sd_getlength,
-     .bdrv_get_allocated_file_size =3D sd_get_allocated_file_size,
-     .bdrv_co_truncate             =3D sd_co_truncate,
-@@ -3265,7 +3264,6 @@ static BlockDriver bdrv_sheepdog_tcp =3D {
-     .bdrv_co_create               =3D sd_co_create,
-     .bdrv_co_create_opts          =3D sd_co_create_opts,
-     .bdrv_has_zero_init           =3D bdrv_has_zero_init_1,
--    .bdrv_has_zero_init_truncate  =3D bdrv_has_zero_init_1,
-     .bdrv_getlength               =3D sd_getlength,
-     .bdrv_get_allocated_file_size =3D sd_get_allocated_file_size,
-     .bdrv_co_truncate             =3D sd_co_truncate,
-@@ -3304,7 +3302,6 @@ static BlockDriver bdrv_sheepdog_unix =3D {
-     .bdrv_co_create               =3D sd_co_create,
-     .bdrv_co_create_opts          =3D sd_co_create_opts,
-     .bdrv_has_zero_init           =3D bdrv_has_zero_init_1,
--    .bdrv_has_zero_init_truncate  =3D bdrv_has_zero_init_1,
-     .bdrv_getlength               =3D sd_getlength,
-     .bdrv_get_allocated_file_size =3D sd_get_allocated_file_size,
-     .bdrv_co_truncate             =3D sd_co_truncate,
-diff --git a/block/ssh.c b/block/ssh.c
-index f9e08a4900..098dbe03c1 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -1397,7 +1397,6 @@ static BlockDriver bdrv_ssh =3D {
-     .bdrv_co_create_opts          =3D ssh_co_create_opts,
-     .bdrv_close                   =3D ssh_close,
-     .bdrv_has_zero_init           =3D ssh_has_zero_init,
--    .bdrv_has_zero_init_truncate  =3D ssh_has_zero_init,
-     .bdrv_co_readv                =3D ssh_co_readv,
-     .bdrv_co_writev               =3D ssh_co_writev,
-     .bdrv_getlength               =3D ssh_getlength,
---=20
-2.25.3
-
+>
+> >
+> > The core file backtrace is :
+> >
+> > (gdb) bt
+> >     #0  0x00007ffff5ac3277 in raise () from /lib64/libc.so.6
+> >     #1  0x00007ffff5ac4968 in abort () from /lib64/libc.so.6
+> >     #2  0x00005555555aaa94 in error_handle_fatal (errp=3D<optimized out=
+>, err=3D0x7fffec0012d0) at util/error.c:40
+> >     #3  0x00005555555aab6d in error_setv (errp=3D0x555555802a08 <error_=
+abort>, src=3D0x5555555c4280 "io/channel.c", line=3D148,
+> >         func=3D0x5555555c4580 <__func__.17489> "qio_channel_readv_all",=
+ err_class=3DERROR_CLASS_GENERIC_ERROR,
+> >         fmt=3D<optimized out>, ap=3D0x7ffff423bae0, suffix=3D0x0) at ut=
+il/error.c:73
+> >     #4  0x00005555555aacf0 in error_setg_internal (errp=3Derrp@entry=3D=
+0x555555802a08 <error_abort>,
+> >         src=3Dsrc@entry=3D0x5555555c4280 "io/channel.c", line=3Dline@en=
+try=3D148,
+> >         func=3Dfunc@entry=3D0x5555555c4580 <__func__.17489> "qio_channe=
+l_readv_all",
+> >         fmt=3Dfmt@entry=3D0x5555555c43a0 "Unexpected end-of-file before=
+ all bytes were read") at util/error.c:97
+> >     #5  0x000055555556c25c in qio_channel_readv_all (ioc=3D<optimized o=
+ut>, iov=3D<optimized out>, niov=3D<optimized out>,
+> >         errp=3D0x555555802a08 <error_abort>) at io/channel.c:147
+> >     #6  0x000055555556c29a in qio_channel_read_all (ioc=3D<optimized ou=
+t>, buf=3D<optimized out>, buflen=3D<optimized out>,
+> >         errp=3D<optimized out>) at io/channel.c:247
+> >     #7  0x000055555556ad22 in char_socket_ping_pong (ioc=3D0x7fffec0008=
+c0) at tests/test-char.c:732
+> >     #8  0x000055555556ae12 in char_socket_client_server_thread (data=3D=
+data@entry=3D0x55555582e350) at tests/test-char.c:891
+> >     #9  0x00005555555a95b6 in qemu_thread_start (args=3D<optimized out>=
+) at util/qemu-thread-posix.c:519
+> >     #10 0x00007ffff5e61e25 in start_thread () from /lib64/libpthread.so=
+.0
+> >     #11 0x00007ffff5b8bbad in clone () from /lib64/libc.so.6
+> >
+> > Signed-off-by: Li Feng <fengli@smartx.com>
+> > ---
+> >  io/channel.c | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/io/channel.c b/io/channel.c
+> > index e4376eb0bc..1a4a505f01 100644
+> > --- a/io/channel.c
+> > +++ b/io/channel.c
+> > @@ -144,8 +144,6 @@ int qio_channel_readv_all(QIOChannel *ioc,
+> >
+> >      if (ret =3D=3D 0) {
+> >          ret =3D -1;
+> > -        error_setg(errp,
+> > -                   "Unexpected end-of-file before all bytes were read"=
+);
+>
+> Nack, this code is fine.
+>
+> The problem is that the test case doesn't expect a disconnect in
+> char_socket_ping_pong().
+Yes, in the test case I try to inject an error in char_socket_ping_pong.
+Any concerns about these two patches?
+>
+> --
+> Marc-Andr=C3=A9 Lureau
 
