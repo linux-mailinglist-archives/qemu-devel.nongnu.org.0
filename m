@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BF71CB444
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:02:01 +0200 (CEST)
-Received: from localhost ([::1]:54242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05AE1CB44C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 18:03:47 +0200 (CEST)
+Received: from localhost ([::1]:34118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX5Ro-0005Pq-Io
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:02:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41354)
+	id 1jX5TW-0000Ma-Qw
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 12:03:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX5At-0007vM-Ay
+ id 1jX5At-0007vy-Jo
  for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:31 -0400
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:33146)
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX5Ar-0005ey-DY
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:30 -0400
-Received: by mail-pj1-x1044.google.com with SMTP id 7so5362328pjo.0
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:44:27 -0700 (PDT)
+ id 1jX5Ar-0005fO-D1
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:31 -0400
+Received: by mail-pg1-x541.google.com with SMTP id r10so540417pgv.8
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JFw94RsIxJxFivVcuXkKXo6q5XbvxxZGz8yeQyMWqCM=;
- b=FgxLQVg4gMsfyp1vDGi0yT4THchWQaZgiMxUAEk++/zIRojwET643mRnTnr1Nob6uc
- +IJv9hqVfiLlO84k+4Lo3gsjvwqnMl6C0rx4DptFGIrY+xsZWdpUL1rt9PdQw4kLi6RZ
- Hhpyt5KTNknTbqyJi5hFSDr5NXGAsttVYnEtjRSlrvCgR0tfn21zuBfAo/sJe/7UaoCk
- O8Yky3ER7aj1CY5RqTdJiaAjK8/0g/FmxxHdkJkQtYtR0g7jJAYtbzhMzItX/I2xtCHY
- Vii+TMqbxKYJobjrAI4jspXppzMl1FRLwQ6h31SfObK+nzEae0EjRbKIle+ugX4fU3W0
- O2/Q==
+ bh=NJ7tcpWJHZVF+lqFFr3iSzkxO+gqeqH9eerAkzbMBl4=;
+ b=N856rf1dvbSN/PjxfqMlLKNRPiKgNDhdwj4F+qBXUiPrbFidNGJ5rcpL98M/gBLjWG
+ 1jtAr+O3Yo5cPT4zD3SApvErCWvE3UKZabHET0ay36h0ihJ9yEi2gWXxJ1zrNO2WAqmG
+ FfX6v2jN2J9n4cbVWosRrPWf+PQklnKL2Xh//g/9DdI8IV+8BHKVGXk2eRBfh3IZBP2u
+ owE7f50kMuN2ntULjFIMYcf3uFe/36vGIF0sgHe3865Lc8aymkkVhM9Nb0ktGF88SotJ
+ zuCC0ZJBHZ0GP7RwQA7EUafqEYE/KWNy3tNr/NAmQvKxZmt/c6eGnNqs4xIFLzVyWqnm
+ ttXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JFw94RsIxJxFivVcuXkKXo6q5XbvxxZGz8yeQyMWqCM=;
- b=VnuUGmMNCQxaAxZkoRM1bZtFT+wDsPiRSlIyA8bHb5tozpkyNWK68hSlGFkwChb1cz
- guQCXEXZWEsxYTxA5jnUS+JoPH5TUXY7HCw3sVKWQbLEQSBgBXo1C3bv/HFGwGXX/6wB
- zrUm5sMPeYOIPQIBJn/eMjgu88M1F8YBH0H00wKghwmwuzDqCzrX9kPIwrCVVK9B7ASM
- AB0v6roiZmU6YvOeqAcCMYgniWMM9K4bi8C1zH6cuRuHKCZTzza/f9aplwLxSranpxMU
- QwG7y2RFAN1SBoFcLG/UY04expeDj44MgMPWFjvYR7ikFbr7KNqstML0o5y3BkQyJG1B
- VOaQ==
-X-Gm-Message-State: AGi0Pua0/IEab/BC9UZ5F/lg3YrIveUNjZxnIjS1TsXzQvJ3kwPTjHD6
- C8LyqoPw2VYyztXRSAfnAL4kRl/hbyI=
-X-Google-Smtp-Source: APiQypIzi/df03qRaV4Om0qey438TtHiXW4pteKVVn3YnD3h4WQL12H5IYwZe02y3K7pBvBi5JaEAg==
-X-Received: by 2002:a17:90a:7065:: with SMTP id
- f92mr6653664pjk.160.1588952665760; 
- Fri, 08 May 2020 08:44:25 -0700 (PDT)
+ bh=NJ7tcpWJHZVF+lqFFr3iSzkxO+gqeqH9eerAkzbMBl4=;
+ b=Mez32WhTuXIiSdTB1VYdFkVkib5LcOs5uebf5p+SRBwfJBcYrJ03EZoKR7jKpM1DYT
+ iIgcPGZOhX5G4jNx0tk2HRpBOY/l+1nJysbjhNRclE3Ter7Z7wSugZOq5mSU5tD68WbX
+ gjkMv1mGLOrrIiGSgGEURiA4BzzE2BNJLjwztTO7DmK4R9E6sZ0AiZLRQiyoMVUff6vK
+ GPuhgYv/d+MyU6cbYuXQ0P1lMAgcg2XTQty3n/EVS5nvxqHM2osOZXFz6BQ43Fky3LMR
+ QPRODXNqfnrlK9dSgF8+IspNeOsL35/OjPofeXdZSpomYunRto8e0DOU90Tyv0fXp3Vk
+ nKTQ==
+X-Gm-Message-State: AGi0Puae3F+62/GUZDBtSkXHPlFJr/jyfFTP5PJNFkF5l10By94G90W7
+ +Et26X3mjUUGkVyPgh8d6dXKYxVP9To=
+X-Google-Smtp-Source: APiQypKOSDMt+dDpfVmJKGGCx/GWCojnr1xaX1L2vhSTgnYvhar5/lKiFkXjSXFMGYfTLxWILInhJA==
+X-Received: by 2002:a65:644a:: with SMTP id s10mr2578157pgv.451.1588952666856; 
+ Fri, 08 May 2020 08:44:26 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id o99sm2727662pjo.8.2020.05.08.08.44.24
+ by smtp.gmail.com with ESMTPSA id o99sm2727662pjo.8.2020.05.08.08.44.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 08:44:25 -0700 (PDT)
+ Fri, 08 May 2020 08:44:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/19] target/arm: Use SVEContLdSt for contiguous stores
-Date: Fri,  8 May 2020 08:43:55 -0700
-Message-Id: <20200508154359.7494-16-richard.henderson@linaro.org>
+Subject: [PATCH v5 16/19] target/arm: Reuse sve_probe_page for gather
+ first-fault loads
+Date: Fri,  8 May 2020 08:43:56 -0700
+Message-Id: <20200508154359.7494-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200508154359.7494-1-richard.henderson@linaro.org>
 References: <20200508154359.7494-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,352 +90,378 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow the model set up for contiguous loads.  This handles
-watchpoints correctly for contiguous stores, recognizing the
-exception before any changes to memory.
+This avoids the need for a separate set of helpers to implement
+no-fault semantics, and will enable MTE in the future.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve_helper.c | 285 ++++++++++++++++++++++------------------
- 1 file changed, 159 insertions(+), 126 deletions(-)
+ target/arm/sve_helper.c | 323 ++++++++++++++++------------------------
+ 1 file changed, 127 insertions(+), 196 deletions(-)
 
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index f4969347d4..4ed9bbe1ee 100644
+index 4ed9bbe1ee..1560129b08 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -3995,6 +3995,10 @@ static void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host)  \
-     *(TYPEE *)(vd + H(reg_off)) = val;                                 \
- }
+@@ -5254,231 +5254,162 @@ DO_LD1_ZPZ_D(dd_be, zd)
  
-+#define DO_ST_HOST(NAME, H, TYPEE, TYPEM, HOST) \
-+static void sve_##NAME##_host(void *vd, intptr_t reg_off, void *host)  \
-+{ HOST(host, (TYPEM)*(TYPEE *)(vd + H(reg_off))); }
-+
- #define DO_LD_TLB(NAME, H, TYPEE, TYPEM, TLB) \
- static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
-                              target_ulong addr, uintptr_t ra)               \
-@@ -4022,6 +4026,7 @@ DO_LD_PRIM_1(ld1bdu,     , uint64_t, uint8_t)
- DO_LD_PRIM_1(ld1bds,     , uint64_t,  int8_t)
+ /* First fault loads with a vector index.  */
  
- #define DO_ST_PRIM_1(NAME, H, TE, TM)                   \
-+    DO_ST_HOST(st1##NAME, H, TE, TM, stb_p)             \
-     DO_ST_TLB(st1##NAME, H, TE, TM, cpu_stb_data_ra)
- 
- DO_ST_PRIM_1(bb,   H1,  uint8_t, uint8_t)
-@@ -4036,6 +4041,8 @@ DO_ST_PRIM_1(bd,     , uint64_t, uint8_t)
-     DO_LD_TLB(ld1##NAME##_le, H, TE, TM, cpu_##LD##_le_data_ra)
- 
- #define DO_ST_PRIM_2(NAME, H, TE, TM, ST) \
-+    DO_ST_HOST(st1##NAME##_be, H, TE, TM, ST##_be_p)    \
-+    DO_ST_HOST(st1##NAME##_le, H, TE, TM, ST##_le_p)    \
-     DO_ST_TLB(st1##NAME##_be, H, TE, TM, cpu_##ST##_be_data_ra) \
-     DO_ST_TLB(st1##NAME##_le, H, TE, TM, cpu_##ST##_le_data_ra)
- 
-@@ -4908,151 +4915,177 @@ DO_LDFF1_LDNF1_2(dd,  MO_64, MO_64)
- #undef DO_LDFF1_LDNF1_2
- 
+-/* Load one element into VD+REG_OFF from (ENV,VADDR) without faulting.
+- * The controlling predicate is known to be true.  Return true if the
+- * load was successful.
+- */
+-typedef bool sve_ld1_nf_fn(CPUARMState *env, void *vd, intptr_t reg_off,
+-                           target_ulong vaddr, int mmu_idx);
+-
+-#ifdef CONFIG_SOFTMMU
+-#define DO_LD_NF(NAME, H, TYPEE, TYPEM, HOST) \
+-static bool sve_ld##NAME##_nf(CPUARMState *env, void *vd, intptr_t reg_off, \
+-                              target_ulong addr, int mmu_idx)               \
+-{                                                                           \
+-    target_ulong next_page = -(addr | TARGET_PAGE_MASK);                    \
+-    if (likely(next_page - addr >= sizeof(TYPEM))) {                        \
+-        void *host = tlb_vaddr_to_host(env, addr, MMU_DATA_LOAD, mmu_idx);  \
+-        if (likely(host)) {                                                 \
+-            TYPEM val = HOST(host);                                         \
+-            *(TYPEE *)(vd + H(reg_off)) = val;                              \
+-            return true;                                                    \
+-        }                                                                   \
+-    }                                                                       \
+-    return false;                                                           \
+-}
+-#else
+-#define DO_LD_NF(NAME, H, TYPEE, TYPEM, HOST) \
+-static bool sve_ld##NAME##_nf(CPUARMState *env, void *vd, intptr_t reg_off, \
+-                            target_ulong addr, int mmu_idx)                 \
+-{                                                                           \
+-    if (likely(page_check_range(addr, sizeof(TYPEM), PAGE_READ))) {         \
+-        TYPEM val = HOST(g2h(addr));                                        \
+-        *(TYPEE *)(vd + H(reg_off)) = val;                                  \
+-        return true;                                                        \
+-    }                                                                       \
+-    return false;                                                           \
+-}
+-#endif
+-
+-DO_LD_NF(bsu, H1_4, uint32_t, uint8_t, ldub_p)
+-DO_LD_NF(bss, H1_4, uint32_t,  int8_t, ldsb_p)
+-DO_LD_NF(bdu,     , uint64_t, uint8_t, ldub_p)
+-DO_LD_NF(bds,     , uint64_t,  int8_t, ldsb_p)
+-
+-DO_LD_NF(hsu_le, H1_4, uint32_t, uint16_t, lduw_le_p)
+-DO_LD_NF(hss_le, H1_4, uint32_t,  int16_t, ldsw_le_p)
+-DO_LD_NF(hsu_be, H1_4, uint32_t, uint16_t, lduw_be_p)
+-DO_LD_NF(hss_be, H1_4, uint32_t,  int16_t, ldsw_be_p)
+-DO_LD_NF(hdu_le,     , uint64_t, uint16_t, lduw_le_p)
+-DO_LD_NF(hds_le,     , uint64_t,  int16_t, ldsw_le_p)
+-DO_LD_NF(hdu_be,     , uint64_t, uint16_t, lduw_be_p)
+-DO_LD_NF(hds_be,     , uint64_t,  int16_t, ldsw_be_p)
+-
+-DO_LD_NF(ss_le,  H1_4, uint32_t, uint32_t, ldl_le_p)
+-DO_LD_NF(ss_be,  H1_4, uint32_t, uint32_t, ldl_be_p)
+-DO_LD_NF(sdu_le,     , uint64_t, uint32_t, ldl_le_p)
+-DO_LD_NF(sds_le,     , uint64_t,  int32_t, ldl_le_p)
+-DO_LD_NF(sdu_be,     , uint64_t, uint32_t, ldl_be_p)
+-DO_LD_NF(sds_be,     , uint64_t,  int32_t, ldl_be_p)
+-
+-DO_LD_NF(dd_le,      , uint64_t, uint64_t, ldq_le_p)
+-DO_LD_NF(dd_be,      , uint64_t, uint64_t, ldq_be_p)
+-
  /*
-- * Common helpers for all contiguous 1,2,3,4-register predicated stores.
-+ * Common helper for all contiguous 1,2,3,4-register predicated stores.
+- * Common helper for all gather first-faulting loads.
++ * Common helpers for all gather first-faulting loads.
   */
--static void sve_st1_r(CPUARMState *env, void *vg, target_ulong addr,
--                      uint32_t desc, const uintptr_t ra,
--                      const int esize, const int msize,
--                      sve_ldst1_tlb_fn *tlb_fn)
+-static inline void sve_ldff1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
+-                                target_ulong base, uint32_t desc, uintptr_t ra,
+-                                zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn,
+-                                sve_ld1_nf_fn *nonfault_fn)
 +
 +static inline QEMU_ALWAYS_INLINE
-+void sve_stN_r(CPUARMState *env, uint64_t *vg, target_ulong addr, uint32_t desc,
-+               const uintptr_t retaddr, const int esz,
-+               const int msz, const int N,
-+               sve_ldst1_host_fn *host_fn,
-+               sve_ldst1_tlb_fn *tlb_fn)
++void sve_ldff1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
++                 target_ulong base, uint32_t desc, uintptr_t retaddr,
++                 const int esz, const int msz, zreg_off_fn *off_fn,
++                 sve_ldst1_host_fn *host_fn,
++                 sve_ldst1_tlb_fn *tlb_fn)
  {
-     const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
--    intptr_t i, oprsz = simd_oprsz(desc);
--    void *vd = &env->vfp.zregs[rd];
+-    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
+-    const int mmu_idx = get_mmuidx(oi);
++    const int mmu_idx = cpu_mmu_index(env, false);
+     const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
+-    intptr_t reg_off, reg_max = simd_oprsz(desc);
+-    target_ulong addr;
++    const int esize = 1 << esz;
++    const int msize = 1 << msz;
 +    const intptr_t reg_max = simd_oprsz(desc);
-+    intptr_t reg_off, reg_last, mem_off;
-+    SVEContLdSt info;
-+    void *host;
-+    int i, flags;
++    intptr_t reg_off;
++    SVEHostPage info;
++    target_ulong addr, in_page;
  
--    for (i = 0; i < oprsz; ) {
--        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
--        do {
--            if (pg & 1) {
--                tlb_fn(env, vd, i, addr, ra);
-+    /* Find the active elements.  */
-+    if (!sve_cont_ldst_elements(&info, addr, vg, reg_max, esz, N << msz)) {
-+        /* The entire predicate was false; no store occurs.  */
+     /* Skip to the first true predicate.  */
+-    reg_off = find_next_active(vg, 0, reg_max, MO_32);
+-    if (likely(reg_off < reg_max)) {
+-        /* Perform one normal read, which will fault or not.  */
+-        addr = off_fn(vm, reg_off);
+-        addr = base + (addr << scale);
+-        tlb_fn(env, vd, reg_off, addr, ra);
+-
+-        /* The rest of the reads will be non-faulting.  */
++    reg_off = find_next_active(vg, 0, reg_max, esz);
++    if (unlikely(reg_off >= reg_max)) {
++        /* The entire predicate was false; no load occurs.  */
++        memset(vd, 0, reg_max);
 +        return;
-+    }
+     }
+ 
+-    /* After any fault, zero the leading predicated false elements.  */
++    /*
++     * Probe the first element, allowing faults.
++     */
++    addr = base + (off_fn(vm, reg_off) << scale);
++    tlb_fn(env, vd, reg_off, addr, retaddr);
 +
-+    /* Probe the page(s).  Exit with exception for any invalid page. */
-+    sve_cont_ldst_pages(&info, FAULT_ALL, env, addr, MMU_DATA_STORE, retaddr);
-+
-+    /* Handle watchpoints for all active elements. */
-+    sve_cont_ldst_watchpoints(&info, env, vg, addr, 1 << esz, N << msz,
-+                              BP_MEM_WRITE, retaddr);
-+
-+    /* TODO: MTE check. */
-+
-+    flags = info.page[0].flags | info.page[1].flags;
-+    if (unlikely(flags != 0)) {
-+#ifdef CONFIG_USER_ONLY
-+        g_assert_not_reached();
-+#else
-+        /*
-+         * At least one page includes MMIO.
-+         * Any bus operation can fail with cpu_transaction_failed,
-+         * which for ARM will raise SyncExternal.  We cannot avoid
-+         * this fault and will leave with the store incomplete.
-+         */
-+        mem_off = info.mem_off_first[0];
-+        reg_off = info.reg_off_first[0];
-+        reg_last = info.reg_off_last[1];
-+        if (reg_last < 0) {
-+            reg_last = info.reg_off_split;
-+            if (reg_last < 0) {
-+                reg_last = info.reg_off_last[0];
-             }
--            i += esize, pg >>= esize;
--            addr += msize;
--        } while (i & 15);
-+        }
-+
-+        do {
-+            uint64_t pg = vg[reg_off >> 6];
-+            do {
-+                if ((pg >> (reg_off & 63)) & 1) {
-+                    for (i = 0; i < N; ++i) {
-+                        tlb_fn(env, &env->vfp.zregs[(rd + i) & 31], reg_off,
-+                               addr + mem_off + (i << msz), retaddr);
-+                    }
-+                }
-+                reg_off += 1 << esz;
-+                mem_off += N << msz;
-+            } while (reg_off & 63);
-+        } while (reg_off <= reg_last);
-+        return;
-+#endif
-+    }
-+
-+    mem_off = info.mem_off_first[0];
-+    reg_off = info.reg_off_first[0];
-+    reg_last = info.reg_off_last[0];
-+    host = info.page[0].host;
-+
-+    while (reg_off <= reg_last) {
++    /* After any fault, zero the other elements. */
+     swap_memzero(vd, reg_off);
++    reg_off += esize;
++    swap_memzero(vd + reg_off, reg_max - reg_off);
+ 
+-    while (likely((reg_off += 4) < reg_max)) {
+-        uint64_t pg = *(uint64_t *)(vg + (reg_off >> 6) * 8);
+-        if (likely((pg >> (reg_off & 63)) & 1)) {
+-            addr = off_fn(vm, reg_off);
+-            addr = base + (addr << scale);
+-            if (!nonfault_fn(env, vd, reg_off, addr, mmu_idx)) {
+-                record_fault(env, reg_off, reg_max);
+-                break;
++    /*
++     * Probe the remaining elements, not allowing faults.
++     */
++    while (reg_off < reg_max) {
 +        uint64_t pg = vg[reg_off >> 6];
 +        do {
-+            if ((pg >> (reg_off & 63)) & 1) {
-+                for (i = 0; i < N; ++i) {
-+                    host_fn(&env->vfp.zregs[(rd + i) & 31], reg_off,
-+                            host + mem_off + (i << msz));
++            if (likely((pg >> (reg_off & 63)) & 1)) {
++                addr = base + (off_fn(vm, reg_off) << scale);
++                in_page = -(addr | TARGET_PAGE_MASK);
++
++                if (unlikely(in_page < msize)) {
++                    /* Stop if the element crosses a page boundary. */
++                    goto fault;
 +                }
-+            }
-+            reg_off += 1 << esz;
-+            mem_off += N << msz;
-+        } while (reg_off <= reg_last && (reg_off & 63));
-+    }
 +
-+    /*
-+     * Use the slow path to manage the cross-page misalignment.
-+     * But we know this is RAM and cannot trap.
-+     */
-+    mem_off = info.mem_off_split;
-+    if (unlikely(mem_off >= 0)) {
-+        reg_off = info.reg_off_split;
-+        for (i = 0; i < N; ++i) {
-+            tlb_fn(env, &env->vfp.zregs[(rd + i) & 31], reg_off,
-+                   addr + mem_off + (i << msz), retaddr);
-+        }
-+    }
-+
-+    mem_off = info.mem_off_first[1];
-+    if (unlikely(mem_off >= 0)) {
-+        reg_off = info.reg_off_first[1];
-+        reg_last = info.reg_off_last[1];
-+        host = info.page[1].host;
-+
-+        do {
-+            uint64_t pg = vg[reg_off >> 6];
-+            do {
-+                if ((pg >> (reg_off & 63)) & 1) {
-+                    for (i = 0; i < N; ++i) {
-+                        host_fn(&env->vfp.zregs[(rd + i) & 31], reg_off,
-+                                host + mem_off + (i << msz));
-+                    }
++                sve_probe_page(&info, true, env, addr, 0, MMU_DATA_LOAD,
++                               mmu_idx, retaddr);
++                if (unlikely(info.flags & (TLB_INVALID_MASK | TLB_MMIO))) {
++                    goto fault;
 +                }
-+                reg_off += 1 << esz;
-+                mem_off += N << msz;
-+            } while (reg_off & 63);
-+        } while (reg_off <= reg_last);
++                if (unlikely(info.flags & TLB_WATCHPOINT) &&
++                    (cpu_watchpoint_address_matches
++                     (env_cpu(env), addr, msize) & BP_MEM_READ)) {
++                    goto fault;
++                }
++                /* TODO: MTE check. */
++
++                host_fn(vd, reg_off, info.host);
+             }
+-        } else {
+-            *(uint32_t *)(vd + H1_4(reg_off)) = 0;
+-        }
++            reg_off += esize;
++        } while (reg_off & 63);
      }
++    return;
++
++ fault:
++    record_fault(env, reg_off, reg_max);
  }
  
--static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
--                      uint32_t desc, const uintptr_t ra,
--                      const int esize, const int msize,
--                      sve_ldst1_tlb_fn *tlb_fn)
+-static inline void sve_ldff1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
+-                                target_ulong base, uint32_t desc, uintptr_t ra,
+-                                zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn,
+-                                sve_ld1_nf_fn *nonfault_fn)
 -{
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
--    intptr_t i, oprsz = simd_oprsz(desc);
--    void *d1 = &env->vfp.zregs[rd];
--    void *d2 = &env->vfp.zregs[(rd + 1) & 31];
+-    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
+-    const int mmu_idx = get_mmuidx(oi);
+-    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
+-    intptr_t reg_off, reg_max = simd_oprsz(desc);
+-    target_ulong addr;
 -
--    for (i = 0; i < oprsz; ) {
--        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
--        do {
--            if (pg & 1) {
--                tlb_fn(env, d1, i, addr, ra);
--                tlb_fn(env, d2, i, addr + msize, ra);
--            }
--            i += esize, pg >>= esize;
--            addr += 2 * msize;
--        } while (i & 15);
+-    /* Skip to the first true predicate.  */
+-    reg_off = find_next_active(vg, 0, reg_max, MO_64);
+-    if (likely(reg_off < reg_max)) {
+-        /* Perform one normal read, which will fault or not.  */
+-        addr = off_fn(vm, reg_off);
+-        addr = base + (addr << scale);
+-        tlb_fn(env, vd, reg_off, addr, ra);
+-
+-        /* The rest of the reads will be non-faulting.  */
 -    }
--}
 -
--static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
--                      uint32_t desc, const uintptr_t ra,
--                      const int esize, const int msize,
--                      sve_ldst1_tlb_fn *tlb_fn)
--{
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
--    intptr_t i, oprsz = simd_oprsz(desc);
--    void *d1 = &env->vfp.zregs[rd];
--    void *d2 = &env->vfp.zregs[(rd + 1) & 31];
--    void *d3 = &env->vfp.zregs[(rd + 2) & 31];
+-    /* After any fault, zero the leading predicated false elements.  */
+-    swap_memzero(vd, reg_off);
 -
--    for (i = 0; i < oprsz; ) {
--        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
--        do {
--            if (pg & 1) {
--                tlb_fn(env, d1, i, addr, ra);
--                tlb_fn(env, d2, i, addr + msize, ra);
--                tlb_fn(env, d3, i, addr + 2 * msize, ra);
+-    while (likely((reg_off += 8) < reg_max)) {
+-        uint8_t pg = *(uint8_t *)(vg + H1(reg_off >> 3));
+-        if (likely(pg & 1)) {
+-            addr = off_fn(vm, reg_off);
+-            addr = base + (addr << scale);
+-            if (!nonfault_fn(env, vd, reg_off, addr, mmu_idx)) {
+-                record_fault(env, reg_off, reg_max);
+-                break;
 -            }
--            i += esize, pg >>= esize;
--            addr += 3 * msize;
--        } while (i & 15);
+-        } else {
+-            *(uint64_t *)(vd + reg_off) = 0;
+-        }
 -    }
--}
--
--static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
--                      uint32_t desc, const uintptr_t ra,
--                      const int esize, const int msize,
--                      sve_ldst1_tlb_fn *tlb_fn)
--{
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
--    intptr_t i, oprsz = simd_oprsz(desc);
--    void *d1 = &env->vfp.zregs[rd];
--    void *d2 = &env->vfp.zregs[(rd + 1) & 31];
--    void *d3 = &env->vfp.zregs[(rd + 2) & 31];
--    void *d4 = &env->vfp.zregs[(rd + 3) & 31];
--
--    for (i = 0; i < oprsz; ) {
--        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
--        do {
--            if (pg & 1) {
--                tlb_fn(env, d1, i, addr, ra);
--                tlb_fn(env, d2, i, addr + msize, ra);
--                tlb_fn(env, d3, i, addr + 2 * msize, ra);
--                tlb_fn(env, d4, i, addr + 3 * msize, ra);
--            }
--            i += esize, pg >>= esize;
--            addr += 4 * msize;
--        } while (i & 15);
--    }
--}
--
--#define DO_STN_1(N, NAME, ESIZE) \
--void QEMU_FLATTEN HELPER(sve_st##N##NAME##_r) \
--    (CPUARMState *env, void *vg, target_ulong addr, uint32_t desc)  \
-+#define DO_STN_1(N, NAME, ESZ) \
-+void HELPER(sve_st##N##NAME##_r)(CPUARMState *env, void *vg,        \
-+                                 target_ulong addr, uint32_t desc)  \
- {                                                                   \
--    sve_st##N##_r(env, vg, addr, desc, GETPC(), ESIZE, 1,           \
--                  sve_st1##NAME##_tlb);                             \
-+    sve_stN_r(env, vg, addr, desc, GETPC(), ESZ, MO_8, N,           \
-+              sve_st1##NAME##_host, sve_st1##NAME##_tlb);           \
++#define DO_LDFF1_ZPZ_S(MEM, OFS, MSZ) \
++void HELPER(sve_ldff##MEM##_##OFS)(CPUARMState *env, void *vd, void *vg,       \
++                                   void *vm, target_ulong base, uint32_t desc) \
++{                                                                              \
++    sve_ldff1_z(env, vd, vg, vm, base, desc, GETPC(), MO_32, MSZ,              \
++                off_##OFS##_s, sve_ld1##MEM##_host, sve_ld1##MEM##_tlb);       \
  }
  
--#define DO_STN_2(N, NAME, ESIZE, MSIZE) \
--void QEMU_FLATTEN HELPER(sve_st##N##NAME##_le_r) \
--    (CPUARMState *env, void *vg, target_ulong addr, uint32_t desc)    \
-+#define DO_STN_2(N, NAME, ESZ, MSZ) \
-+void HELPER(sve_st##N##NAME##_le_r)(CPUARMState *env, void *vg,       \
-+                                    target_ulong addr, uint32_t desc) \
- {                                                                     \
--    sve_st##N##_r(env, vg, addr, desc, GETPC(), ESIZE, MSIZE,         \
--                  sve_st1##NAME##_le_tlb);                            \
-+    sve_stN_r(env, vg, addr, desc, GETPC(), ESZ, MSZ, N,              \
-+              sve_st1##NAME##_le_host, sve_st1##NAME##_le_tlb);       \
- }                                                                     \
--void QEMU_FLATTEN HELPER(sve_st##N##NAME##_be_r)                      \
--    (CPUARMState *env, void *vg, target_ulong addr, uint32_t desc)    \
-+void HELPER(sve_st##N##NAME##_be_r)(CPUARMState *env, void *vg,       \
-+                                    target_ulong addr, uint32_t desc) \
- {                                                                     \
--    sve_st##N##_r(env, vg, addr, desc, GETPC(), ESIZE, MSIZE,         \
--                  sve_st1##NAME##_be_tlb);                            \
-+    sve_stN_r(env, vg, addr, desc, GETPC(), ESZ, MSZ, N,              \
-+              sve_st1##NAME##_be_host, sve_st1##NAME##_be_tlb);       \
+-#define DO_LDFF1_ZPZ_S(MEM, OFS) \
+-void HELPER(sve_ldff##MEM##_##OFS)                                      \
+-    (CPUARMState *env, void *vd, void *vg, void *vm,                    \
+-     target_ulong base, uint32_t desc)                                  \
+-{                                                                       \
+-    sve_ldff1_zs(env, vd, vg, vm, base, desc, GETPC(),                  \
+-                 off_##OFS##_s, sve_ld1##MEM##_tlb, sve_ld##MEM##_nf);  \
++#define DO_LDFF1_ZPZ_D(MEM, OFS, MSZ) \
++void HELPER(sve_ldff##MEM##_##OFS)(CPUARMState *env, void *vd, void *vg,       \
++                                   void *vm, target_ulong base, uint32_t desc) \
++{                                                                              \
++    sve_ldff1_z(env, vd, vg, vm, base, desc, GETPC(), MO_64, MSZ,              \
++                off_##OFS##_d, sve_ld1##MEM##_host, sve_ld1##MEM##_tlb);       \
  }
  
--DO_STN_1(1, bb, 1)
--DO_STN_1(1, bh, 2)
--DO_STN_1(1, bs, 4)
--DO_STN_1(1, bd, 8)
--DO_STN_1(2, bb, 1)
--DO_STN_1(3, bb, 1)
--DO_STN_1(4, bb, 1)
-+DO_STN_1(1, bb, MO_8)
-+DO_STN_1(1, bh, MO_16)
-+DO_STN_1(1, bs, MO_32)
-+DO_STN_1(1, bd, MO_64)
-+DO_STN_1(2, bb, MO_8)
-+DO_STN_1(3, bb, MO_8)
-+DO_STN_1(4, bb, MO_8)
+-#define DO_LDFF1_ZPZ_D(MEM, OFS) \
+-void HELPER(sve_ldff##MEM##_##OFS)                                      \
+-    (CPUARMState *env, void *vd, void *vg, void *vm,                    \
+-     target_ulong base, uint32_t desc)                                  \
+-{                                                                       \
+-    sve_ldff1_zd(env, vd, vg, vm, base, desc, GETPC(),                  \
+-                 off_##OFS##_d, sve_ld1##MEM##_tlb, sve_ld##MEM##_nf);  \
+-}
++DO_LDFF1_ZPZ_S(bsu, zsu, MO_8)
++DO_LDFF1_ZPZ_S(bsu, zss, MO_8)
++DO_LDFF1_ZPZ_D(bdu, zsu, MO_8)
++DO_LDFF1_ZPZ_D(bdu, zss, MO_8)
++DO_LDFF1_ZPZ_D(bdu, zd, MO_8)
  
--DO_STN_2(1, hh, 2, 2)
--DO_STN_2(1, hs, 4, 2)
--DO_STN_2(1, hd, 8, 2)
--DO_STN_2(2, hh, 2, 2)
--DO_STN_2(3, hh, 2, 2)
--DO_STN_2(4, hh, 2, 2)
-+DO_STN_2(1, hh, MO_16, MO_16)
-+DO_STN_2(1, hs, MO_32, MO_16)
-+DO_STN_2(1, hd, MO_64, MO_16)
-+DO_STN_2(2, hh, MO_16, MO_16)
-+DO_STN_2(3, hh, MO_16, MO_16)
-+DO_STN_2(4, hh, MO_16, MO_16)
+-DO_LDFF1_ZPZ_S(bsu, zsu)
+-DO_LDFF1_ZPZ_S(bsu, zss)
+-DO_LDFF1_ZPZ_D(bdu, zsu)
+-DO_LDFF1_ZPZ_D(bdu, zss)
+-DO_LDFF1_ZPZ_D(bdu, zd)
++DO_LDFF1_ZPZ_S(bss, zsu, MO_8)
++DO_LDFF1_ZPZ_S(bss, zss, MO_8)
++DO_LDFF1_ZPZ_D(bds, zsu, MO_8)
++DO_LDFF1_ZPZ_D(bds, zss, MO_8)
++DO_LDFF1_ZPZ_D(bds, zd, MO_8)
  
--DO_STN_2(1, ss, 4, 4)
--DO_STN_2(1, sd, 8, 4)
--DO_STN_2(2, ss, 4, 4)
--DO_STN_2(3, ss, 4, 4)
--DO_STN_2(4, ss, 4, 4)
-+DO_STN_2(1, ss, MO_32, MO_32)
-+DO_STN_2(1, sd, MO_64, MO_32)
-+DO_STN_2(2, ss, MO_32, MO_32)
-+DO_STN_2(3, ss, MO_32, MO_32)
-+DO_STN_2(4, ss, MO_32, MO_32)
+-DO_LDFF1_ZPZ_S(bss, zsu)
+-DO_LDFF1_ZPZ_S(bss, zss)
+-DO_LDFF1_ZPZ_D(bds, zsu)
+-DO_LDFF1_ZPZ_D(bds, zss)
+-DO_LDFF1_ZPZ_D(bds, zd)
++DO_LDFF1_ZPZ_S(hsu_le, zsu, MO_16)
++DO_LDFF1_ZPZ_S(hsu_le, zss, MO_16)
++DO_LDFF1_ZPZ_D(hdu_le, zsu, MO_16)
++DO_LDFF1_ZPZ_D(hdu_le, zss, MO_16)
++DO_LDFF1_ZPZ_D(hdu_le, zd, MO_16)
  
--DO_STN_2(1, dd, 8, 8)
--DO_STN_2(2, dd, 8, 8)
--DO_STN_2(3, dd, 8, 8)
--DO_STN_2(4, dd, 8, 8)
-+DO_STN_2(1, dd, MO_64, MO_64)
-+DO_STN_2(2, dd, MO_64, MO_64)
-+DO_STN_2(3, dd, MO_64, MO_64)
-+DO_STN_2(4, dd, MO_64, MO_64)
+-DO_LDFF1_ZPZ_S(hsu_le, zsu)
+-DO_LDFF1_ZPZ_S(hsu_le, zss)
+-DO_LDFF1_ZPZ_D(hdu_le, zsu)
+-DO_LDFF1_ZPZ_D(hdu_le, zss)
+-DO_LDFF1_ZPZ_D(hdu_le, zd)
++DO_LDFF1_ZPZ_S(hsu_be, zsu, MO_16)
++DO_LDFF1_ZPZ_S(hsu_be, zss, MO_16)
++DO_LDFF1_ZPZ_D(hdu_be, zsu, MO_16)
++DO_LDFF1_ZPZ_D(hdu_be, zss, MO_16)
++DO_LDFF1_ZPZ_D(hdu_be, zd, MO_16)
  
- #undef DO_STN_1
- #undef DO_STN_2
+-DO_LDFF1_ZPZ_S(hsu_be, zsu)
+-DO_LDFF1_ZPZ_S(hsu_be, zss)
+-DO_LDFF1_ZPZ_D(hdu_be, zsu)
+-DO_LDFF1_ZPZ_D(hdu_be, zss)
+-DO_LDFF1_ZPZ_D(hdu_be, zd)
++DO_LDFF1_ZPZ_S(hss_le, zsu, MO_16)
++DO_LDFF1_ZPZ_S(hss_le, zss, MO_16)
++DO_LDFF1_ZPZ_D(hds_le, zsu, MO_16)
++DO_LDFF1_ZPZ_D(hds_le, zss, MO_16)
++DO_LDFF1_ZPZ_D(hds_le, zd, MO_16)
+ 
+-DO_LDFF1_ZPZ_S(hss_le, zsu)
+-DO_LDFF1_ZPZ_S(hss_le, zss)
+-DO_LDFF1_ZPZ_D(hds_le, zsu)
+-DO_LDFF1_ZPZ_D(hds_le, zss)
+-DO_LDFF1_ZPZ_D(hds_le, zd)
++DO_LDFF1_ZPZ_S(hss_be, zsu, MO_16)
++DO_LDFF1_ZPZ_S(hss_be, zss, MO_16)
++DO_LDFF1_ZPZ_D(hds_be, zsu, MO_16)
++DO_LDFF1_ZPZ_D(hds_be, zss, MO_16)
++DO_LDFF1_ZPZ_D(hds_be, zd, MO_16)
+ 
+-DO_LDFF1_ZPZ_S(hss_be, zsu)
+-DO_LDFF1_ZPZ_S(hss_be, zss)
+-DO_LDFF1_ZPZ_D(hds_be, zsu)
+-DO_LDFF1_ZPZ_D(hds_be, zss)
+-DO_LDFF1_ZPZ_D(hds_be, zd)
++DO_LDFF1_ZPZ_S(ss_le,  zsu, MO_32)
++DO_LDFF1_ZPZ_S(ss_le,  zss, MO_32)
++DO_LDFF1_ZPZ_D(sdu_le, zsu, MO_32)
++DO_LDFF1_ZPZ_D(sdu_le, zss, MO_32)
++DO_LDFF1_ZPZ_D(sdu_le, zd, MO_32)
+ 
+-DO_LDFF1_ZPZ_S(ss_le,  zsu)
+-DO_LDFF1_ZPZ_S(ss_le,  zss)
+-DO_LDFF1_ZPZ_D(sdu_le, zsu)
+-DO_LDFF1_ZPZ_D(sdu_le, zss)
+-DO_LDFF1_ZPZ_D(sdu_le, zd)
++DO_LDFF1_ZPZ_S(ss_be,  zsu, MO_32)
++DO_LDFF1_ZPZ_S(ss_be,  zss, MO_32)
++DO_LDFF1_ZPZ_D(sdu_be, zsu, MO_32)
++DO_LDFF1_ZPZ_D(sdu_be, zss, MO_32)
++DO_LDFF1_ZPZ_D(sdu_be, zd, MO_32)
+ 
+-DO_LDFF1_ZPZ_S(ss_be,  zsu)
+-DO_LDFF1_ZPZ_S(ss_be,  zss)
+-DO_LDFF1_ZPZ_D(sdu_be, zsu)
+-DO_LDFF1_ZPZ_D(sdu_be, zss)
+-DO_LDFF1_ZPZ_D(sdu_be, zd)
++DO_LDFF1_ZPZ_D(sds_le, zsu, MO_32)
++DO_LDFF1_ZPZ_D(sds_le, zss, MO_32)
++DO_LDFF1_ZPZ_D(sds_le, zd, MO_32)
+ 
+-DO_LDFF1_ZPZ_D(sds_le, zsu)
+-DO_LDFF1_ZPZ_D(sds_le, zss)
+-DO_LDFF1_ZPZ_D(sds_le, zd)
++DO_LDFF1_ZPZ_D(sds_be, zsu, MO_32)
++DO_LDFF1_ZPZ_D(sds_be, zss, MO_32)
++DO_LDFF1_ZPZ_D(sds_be, zd, MO_32)
+ 
+-DO_LDFF1_ZPZ_D(sds_be, zsu)
+-DO_LDFF1_ZPZ_D(sds_be, zss)
+-DO_LDFF1_ZPZ_D(sds_be, zd)
++DO_LDFF1_ZPZ_D(dd_le, zsu, MO_64)
++DO_LDFF1_ZPZ_D(dd_le, zss, MO_64)
++DO_LDFF1_ZPZ_D(dd_le, zd, MO_64)
+ 
+-DO_LDFF1_ZPZ_D(dd_le, zsu)
+-DO_LDFF1_ZPZ_D(dd_le, zss)
+-DO_LDFF1_ZPZ_D(dd_le, zd)
+-
+-DO_LDFF1_ZPZ_D(dd_be, zsu)
+-DO_LDFF1_ZPZ_D(dd_be, zss)
+-DO_LDFF1_ZPZ_D(dd_be, zd)
++DO_LDFF1_ZPZ_D(dd_be, zsu, MO_64)
++DO_LDFF1_ZPZ_D(dd_be, zss, MO_64)
++DO_LDFF1_ZPZ_D(dd_be, zd, MO_64)
+ 
+ /* Stores with a vector index.  */
+ 
 -- 
 2.20.1
 
