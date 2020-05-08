@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBE41CB3D0
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:45:44 +0200 (CEST)
-Received: from localhost ([::1]:44650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6331CB3E4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:48:17 +0200 (CEST)
+Received: from localhost ([::1]:53610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX5C3-000859-93
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:45:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35070)
+	id 1jX5EW-0003kh-5w
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4pU-0004kk-Mj
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:22:24 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39098)
+ id 1jX4pV-0004ne-Vq
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:22:26 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:35931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4pT-0007I8-66
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:22:24 -0400
-Received: by mail-pl1-x641.google.com with SMTP id s20so858506plp.6
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:22:22 -0700 (PDT)
+ id 1jX4pU-0007Iz-Md
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:22:25 -0400
+Received: by mail-pl1-x643.google.com with SMTP id f15so861202plr.3
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:22:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Satlmvku/pHGor6xmZAkPC5FD5Q8goGXCeVbGvbx+tw=;
- b=NB2V41QMaUYgyy5+LQORYYXwax1Bq7vky0SwxoJr4i8PnpnbnMW/GvT/FGHuhpEMuO
- 1uRW/VNsCchD9LXy1fbsJ0JPOBCEWltUJBYfd36t3U5vjM83Zj93gZA2YjoU3vw07ZEu
- nmA7O4LCsgnhvoClppU809tIkgI10uHkHHs8/CRZwvBczNjeUEQbGJvHcFbOaOgzXDp4
- cP/8JOy/pbIMnCyRpj4Fp22Uk3eAjKkF/ImvUsTb17auDbS7mA+s73ZjVgiWEfF98r6l
- mORMTukZq411JKDskOBmdkx8JqO6IhM3skIGDElndyLZtcZDzkqS7C6xslMlzYlR3gRM
- dI8Q==
+ bh=GhTaGh+nCSjvlRkbgPDytkfIlvYPc2vjTiPUcZT8Rmg=;
+ b=k6hZ99xQUq/IJZsAXx/zRSgR/a1PJAsIszh5qI8nSfscZUL+wXo01LSFdEIwNz+AJY
+ UxkxL5iXPP6YtfHYLj23XWy7NhT0dyyATgNOsAFwYZqJmvgSOrBuvopfiXCUN0yrXw1m
+ 2ygnWS3F5SSNzyt3L5pxHJH0xo89b1U3l1vJEPnIf+WfG5sEnn1qgTPt7UZGhhrPWM5T
+ 0M1aA6g8PgF35aeR8IPMJnFmiyrz57RxLquIJWQg9yR/Iry0SsM7HVUn2CqFFCUaum/h
+ lSJjyNapPSHgnfBO6CLvlgbvC2SRmuT9BVRkuzYYShAMtTSBhST3iJZQmR9Xfin32EA5
+ +w8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Satlmvku/pHGor6xmZAkPC5FD5Q8goGXCeVbGvbx+tw=;
- b=iApy3mkRTjArKMoA/B7NR2UxkxqtKveGm4p7fGTpyK6y4GXJZh3XlHYP/xFuoQW5O7
- buNg+ScLt/bfXmIH/Dv1ePA5yU36kd+1SSb/9L2L25jifqEBGL13hCIFmP/vCTGYqIUx
- IZ7cjvHLvq27EH/kbqu4In7P+XWW+lIiYPN83doNTxeHvDFQEy6UCHh46vv9a6UI/p+Y
- SB+HAEeOLjxOOoPZg8Y0IURzqOmJJdDYcniUJxINuX342nafVc3U0wKLq6U/TvFALRyd
- kHr5xLXIkFHNZyQSwlOPrfYjkKXlnxUAJTQ8TMOvUwUBm5je/moP5VWeqZMu1oznE31L
- 0RNw==
-X-Gm-Message-State: AGi0PuYiA69KT/bw3yhZFns23HogrHvYo8WkCbysOAyybEO3gTivQHT2
- f9GOR3IKJb+noVfguJd3sVgFEwBasDo=
-X-Google-Smtp-Source: APiQypItIA8cHCF4y3HKU/GN6fZdYjCSoLssT8g+6B5X9e4WVOkbDnyZYRfwsEmcdEy+appIugw0Ow==
-X-Received: by 2002:a17:90a:fd94:: with SMTP id
- cx20mr6922796pjb.157.1588951341477; 
- Fri, 08 May 2020 08:22:21 -0700 (PDT)
+ bh=GhTaGh+nCSjvlRkbgPDytkfIlvYPc2vjTiPUcZT8Rmg=;
+ b=Fu3c16LbFCJ4UJqmFv9+BrKBDNbGxyAHgqByYRYdcRI6opUmN+XFsDIahW/za2KBGW
+ TdeNg8yYw5YljoCsuDV9UmUjtmy/rdXqm6/fAt9OysvUYg+s77GtTOxvXe+XUSQxBmtD
+ Oi9ytUV0NALzwPt+7i8mlj8Amr9MRhIj7x2eqxAe5Fm9sixJvYBFshb4eneJGjI/VOJd
+ DXoWQFWwjV+A2hYDl59RuRPEXb1mvc4Bt/rKS0u+aE0Jev5UNYtfXLwIDz6dAePIAjVA
+ XBrbWx7xCbQBQBibXmXPlHDkn9w5vK6e2VAUz/FlMSxRh/L5tQO2PPQU8XVEpvqjPIE4
+ a4XQ==
+X-Gm-Message-State: AGi0PuY14Aaa1DrSKKvY2OHl5x+qWQ9CArPk/kjnjP1q4g03JyG5jV2S
+ /KUGLaMPcFTB+529FMAsoVsTlCN+GvE=
+X-Google-Smtp-Source: APiQypIIlXA7LpPRK/Z7INdPeQqDOP+zxA/z/47ns5pYG1GhgvAE5Vfb9z4Hw3jff26DaNEQi91ajw==
+X-Received: by 2002:a17:902:59ce:: with SMTP id
+ d14mr2120232plj.339.1588951342701; 
+ Fri, 08 May 2020 08:22:22 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id n16sm2104575pfq.61.2020.05.08.08.22.20
+ by smtp.gmail.com with ESMTPSA id n16sm2104575pfq.61.2020.05.08.08.22.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 08:22:20 -0700 (PDT)
+ Fri, 08 May 2020 08:22:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/16] target/arm: Clear tail in gvec_fmul_idx_*,
- gvec_fmla_idx_*
-Date: Fri,  8 May 2020 08:21:58 -0700
-Message-Id: <20200508152200.6547-15-richard.henderson@linaro.org>
+Subject: [PATCH v3 15/16] target/arm: Vectorize SABD/UABD
+Date: Fri,  8 May 2020 08:21:59 -0700
+Message-Id: <20200508152200.6547-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200508152200.6547-1-richard.henderson@linaro.org>
 References: <20200508152200.6547-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,34 +90,270 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Must clear the tail for AdvSIMD when SVE is enabled.
+Include 64-bit element size in preparation for SVE2.
 
-Fixes: ca40a6e6e39
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/vec_helper.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/arm/helper.h        |  10 +++
+ target/arm/translate.h     |   5 ++
+ target/arm/translate-a64.c |   8 ++-
+ target/arm/translate.c     | 133 ++++++++++++++++++++++++++++++++++++-
+ target/arm/vec_helper.c    |  24 +++++++
+ 5 files changed, 176 insertions(+), 4 deletions(-)
 
+diff --git a/target/arm/helper.h b/target/arm/helper.h
+index aed3050965..4678d3a6f4 100644
+--- a/target/arm/helper.h
++++ b/target/arm/helper.h
+@@ -731,6 +731,16 @@ DEF_HELPER_FLAGS_3(gvec_sli_h, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_3(gvec_sli_s, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_3(gvec_sli_d, TCG_CALL_NO_RWG, void, ptr, ptr, i32)
+ 
++DEF_HELPER_FLAGS_4(gvec_sabd_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_sabd_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_sabd_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_sabd_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_4(gvec_uabd_b, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_uabd_h, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_uabd_s, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_uabd_d, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++
+ #ifdef TARGET_AARCH64
+ #include "helper-a64.h"
+ #include "helper-sve.h"
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index aea8a9759d..bbfe3d1393 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -337,6 +337,11 @@ void gen_gvec_sqrdmlah_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
+ void gen_gvec_sqrdmlsh_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
+                           uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
+ 
++void gen_gvec_sabd(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
++void gen_gvec_uabd(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz);
++
+ /*
+  * Forward to the isar_feature_* tests given a DisasContext pointer.
+  */
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 4577df3cf4..54b06553a6 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -11190,6 +11190,13 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
+             gen_gvec_fn3(s, is_q, rd, rn, rm, tcg_gen_gvec_smin, size);
+         }
+         return;
++    case 0xe: /* SABD, UABD */
++        if (u) {
++            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_uabd, size);
++        } else {
++            gen_gvec_fn3(s, is_q, rd, rn, rm, gen_gvec_sabd, size);
++        }
++        return;
+     case 0x10: /* ADD, SUB */
+         if (u) {
+             gen_gvec_fn3(s, is_q, rd, rn, rm, tcg_gen_gvec_sub, size);
+@@ -11322,7 +11329,6 @@ static void disas_simd_3same_int(DisasContext *s, uint32_t insn)
+                 genenvfn = fns[size][u];
+                 break;
+             }
+-            case 0xe: /* SABD, UABD */
+             case 0xf: /* SABA, UABA */
+             {
+                 static NeonGenTwoOpFn * const fns[3][2] = {
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 0e2cf6028a..0ed6f49f42 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -5102,6 +5102,126 @@ void gen_gvec_sqsub_qc(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
+                    rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
+ }
+ 
++static void gen_sabd_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
++{
++    TCGv_i32 t = tcg_temp_new_i32();
++
++    tcg_gen_sub_i32(t, a, b);
++    tcg_gen_sub_i32(d, b, a);
++    tcg_gen_movcond_i32(TCG_COND_LT, d, a, b, d, t);
++    tcg_temp_free_i32(t);
++}
++
++static void gen_sabd_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
++{
++    TCGv_i64 t = tcg_temp_new_i64();
++
++    tcg_gen_sub_i64(t, a, b);
++    tcg_gen_sub_i64(d, b, a);
++    tcg_gen_movcond_i64(TCG_COND_LT, d, a, b, d, t);
++    tcg_temp_free_i64(t);
++}
++
++static void gen_sabd_vec(unsigned vece, TCGv_vec d, TCGv_vec a, TCGv_vec b)
++{
++    TCGv_vec t = tcg_temp_new_vec_matching(d);
++
++    tcg_gen_smin_vec(vece, t, a, b);
++    tcg_gen_smax_vec(vece, d, a, b);
++    tcg_gen_sub_vec(vece, d, d, t);
++    tcg_temp_free_vec(t);
++}
++
++void gen_gvec_sabd(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
++{
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_sub_vec, INDEX_op_smin_vec, INDEX_op_smax_vec, 0
++    };
++    static const GVecGen3 ops[4] = {
++        { .fniv = gen_sabd_vec,
++          .fno = gen_helper_gvec_sabd_b,
++          .opt_opc = vecop_list,
++          .vece = MO_8 },
++        { .fniv = gen_sabd_vec,
++          .fno = gen_helper_gvec_sabd_h,
++          .opt_opc = vecop_list,
++          .vece = MO_16 },
++        { .fni4 = gen_sabd_i32,
++          .fniv = gen_sabd_vec,
++          .fno = gen_helper_gvec_sabd_s,
++          .opt_opc = vecop_list,
++          .vece = MO_32 },
++        { .fni8 = gen_sabd_i64,
++          .fniv = gen_sabd_vec,
++          .fno = gen_helper_gvec_sabd_d,
++          .prefer_i64 = TCG_TARGET_REG_BITS == 64,
++          .opt_opc = vecop_list,
++          .vece = MO_64 },
++    };
++    tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
++}
++
++static void gen_uabd_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
++{
++    TCGv_i32 t = tcg_temp_new_i32();
++
++    tcg_gen_sub_i32(t, a, b);
++    tcg_gen_sub_i32(d, b, a);
++    tcg_gen_movcond_i32(TCG_COND_LTU, d, a, b, d, t);
++    tcg_temp_free_i32(t);
++}
++
++static void gen_uabd_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
++{
++    TCGv_i64 t = tcg_temp_new_i64();
++
++    tcg_gen_sub_i64(t, a, b);
++    tcg_gen_sub_i64(d, b, a);
++    tcg_gen_movcond_i64(TCG_COND_LTU, d, a, b, d, t);
++    tcg_temp_free_i64(t);
++}
++
++static void gen_uabd_vec(unsigned vece, TCGv_vec d, TCGv_vec a, TCGv_vec b)
++{
++    TCGv_vec t = tcg_temp_new_vec_matching(d);
++
++    tcg_gen_umin_vec(vece, t, a, b);
++    tcg_gen_umax_vec(vece, d, a, b);
++    tcg_gen_sub_vec(vece, d, d, t);
++    tcg_temp_free_vec(t);
++}
++
++void gen_gvec_uabd(unsigned vece, uint32_t rd_ofs, uint32_t rn_ofs,
++                   uint32_t rm_ofs, uint32_t opr_sz, uint32_t max_sz)
++{
++    static const TCGOpcode vecop_list[] = {
++        INDEX_op_sub_vec, INDEX_op_umin_vec, INDEX_op_umax_vec, 0
++    };
++    static const GVecGen3 ops[4] = {
++        { .fniv = gen_uabd_vec,
++          .fno = gen_helper_gvec_uabd_b,
++          .opt_opc = vecop_list,
++          .vece = MO_8 },
++        { .fniv = gen_uabd_vec,
++          .fno = gen_helper_gvec_uabd_h,
++          .opt_opc = vecop_list,
++          .vece = MO_16 },
++        { .fni4 = gen_uabd_i32,
++          .fniv = gen_uabd_vec,
++          .fno = gen_helper_gvec_uabd_s,
++          .opt_opc = vecop_list,
++          .vece = MO_32 },
++        { .fni8 = gen_uabd_i64,
++          .fniv = gen_uabd_vec,
++          .fno = gen_helper_gvec_uabd_d,
++          .prefer_i64 = TCG_TARGET_REG_BITS == 64,
++          .opt_opc = vecop_list,
++          .vece = MO_64 },
++    };
++    tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, opr_sz, max_sz, &ops[vece]);
++}
++
+ /* Translate a NEON data processing instruction.  Return nonzero if the
+    instruction is invalid.
+    We process data in a mixture of 32-bit and 64-bit chunks.
+@@ -5236,6 +5356,16 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+             }
+             return 1;
+ 
++        case NEON_3R_VABD:
++            if (u) {
++                gen_gvec_uabd(size, rd_ofs, rn_ofs, rm_ofs,
++                              vec_size, vec_size);
++            } else {
++                gen_gvec_sabd(size, rd_ofs, rn_ofs, rm_ofs,
++                              vec_size, vec_size);
++            }
++            return 0;
++
+         case NEON_3R_VADD_VSUB:
+         case NEON_3R_LOGIC:
+         case NEON_3R_VMAX:
+@@ -5380,9 +5510,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+         case NEON_3R_VQRSHL:
+             GEN_NEON_INTEGER_OP_ENV(qrshl);
+             break;
+-        case NEON_3R_VABD:
+-            GEN_NEON_INTEGER_OP(abd);
+-            break;
+         case NEON_3R_VABA:
+             GEN_NEON_INTEGER_OP(abd);
+             tcg_temp_free_i32(tmp2);
 diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 6aa2ca0827..a483841add 100644
+index a483841add..a4972d02fc 100644
 --- a/target/arm/vec_helper.c
 +++ b/target/arm/vec_helper.c
-@@ -747,6 +747,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *stat, uint32_t desc) \
-             d[i + j] = TYPE##_mul(n[i + j], mm, stat);                     \
-         }                                                                  \
-     }                                                                      \
-+    clear_tail(d, oprsz, simd_maxsz(desc));                                \
- }
+@@ -1407,3 +1407,27 @@ DO_CMP0(gvec_cgt0_h, int16_t, >)
+ DO_CMP0(gvec_cge0_h, int16_t, >=)
  
- DO_MUL_IDX(gvec_fmul_idx_h, float16, H2)
-@@ -771,6 +772,7 @@ void HELPER(NAME)(void *vd, void *vn, void *vm, void *va,                  \
-                                      mm, a[i + j], 0, stat);               \
-         }                                                                  \
-     }                                                                      \
-+    clear_tail(d, oprsz, simd_maxsz(desc));                                \
- }
- 
- DO_FMLA_IDX(gvec_fmla_idx_h, float16, H2)
+ #undef DO_CMP0
++
++#define DO_ABD(NAME, TYPE)                                      \
++void HELPER(NAME)(void *vd, void *vn, void *vm, uint32_t desc)  \
++{                                                               \
++    intptr_t i, opr_sz = simd_oprsz(desc);                      \
++    TYPE *d = vd, *n = vn, *m = vm;                             \
++                                                                \
++    for (i = 0; i < opr_sz / sizeof(TYPE); ++i) {               \
++        d[i] = n[i] < m[i] ? m[i] - n[i] : n[i] - m[i];         \
++    }                                                           \
++    clear_tail(d, opr_sz, simd_maxsz(desc));                    \
++}
++
++DO_ABD(gvec_sabd_b, int8_t)
++DO_ABD(gvec_sabd_h, int16_t)
++DO_ABD(gvec_sabd_s, int32_t)
++DO_ABD(gvec_sabd_d, int64_t)
++
++DO_ABD(gvec_uabd_b, uint8_t)
++DO_ABD(gvec_uabd_h, uint16_t)
++DO_ABD(gvec_uabd_s, uint32_t)
++DO_ABD(gvec_uabd_d, uint64_t)
++
++#undef DO_ABD
 -- 
 2.20.1
 
