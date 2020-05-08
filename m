@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030C81CAD2D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:02:14 +0200 (CEST)
-Received: from localhost ([::1]:52974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044981CAC52
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:53:45 +0200 (CEST)
+Received: from localhost ([::1]:41530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2dp-0003fq-0Z
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49478)
+	id 1jX2Vb-0002rv-Ud
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2Kh-0000Kk-8A
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52841
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2Kj-0000Mf-AF
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28124
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2Kb-00008c-J5
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:26 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2Kc-0000C2-QI
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588941740;
+ s=mimecast20190719; t=1588941742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=prSLUMQRDRgoKC7sDQ/elX7ogSIiZSGw4L7684zV2jc=;
- b=ZICmHtVKdbWfTeuV+olEbUox+juZvc4fEZiQpLYlp0zshGkxH2VnTeLaMGj6NOTzxRV/kY
- NAXO0rXhq8a1bqYRkDXdsZ97Rq34HvwQi9xK6oNvFr4CoeK5mDIgwOYapHaA7AYTiVZISI
- ExpFQFEQSDZz6O+cvR10f3/ZoVhW0iQ=
+ bh=hnbb/sx78Ba81Y4kHzeVy4wmoW2WdPmnhMhUpgQwPnI=;
+ b=MXf+3dqKsJQw+JsjjoGlusUm14EBSiQwi+OxItsP7OXhjmTQ803OwnAegp4Dadx9WQzA+v
+ oYLWLXl5fNVuZeRaHOu60Wngcl0V78TDbomPqrxf8IKu8R4GIws7WdHX4xsHwYTY57ADbb
+ skFzt+YXumGwrLMxftcZmrsIyzXEM+8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-CRSaoGbTPG-XSvltb3XyEA-1; Fri, 08 May 2020 08:42:18 -0400
-X-MC-Unique: CRSaoGbTPG-XSvltb3XyEA-1
+ us-mta-293-eU7RytmvMuuigsPRCP8Xnw-1; Fri, 08 May 2020 08:42:20 -0400
+X-MC-Unique: eU7RytmvMuuigsPRCP8Xnw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AECAF1005510;
- Fri,  8 May 2020 12:42:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 087FF800687;
+ Fri,  8 May 2020 12:42:19 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-190.ams2.redhat.com
  [10.36.113.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC7BD19167;
- Fri,  8 May 2020 12:42:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 064AC19167;
+ Fri,  8 May 2020 12:42:17 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 27/30] ssh: Support BDRV_REQ_ZERO_WRITE for truncate
-Date: Fri,  8 May 2020 14:41:32 +0200
-Message-Id: <20200508124135.252565-28-kwolf@redhat.com>
+Subject: [PULL 28/30] parallels: Rework truncation logic
+Date: Fri,  8 May 2020 14:41:33 +0200
+Message-Id: <20200508124135.252565-29-kwolf@redhat.com>
 In-Reply-To: <20200508124135.252565-1-kwolf@redhat.com>
 References: <20200508124135.252565-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:25:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:23:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,35 +84,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Blake <eblake@redhat.com>
 
-Our .bdrv_has_zero_init_truncate can detect when the remote side
-always zero fills; we can reuse that same knowledge to implement
-BDRV_REQ_ZERO_WRITE by ignoring it when the server gives it to us for
-free.
+The parallels driver tries to use truncation for image growth, but can
+only do so when reads are guaranteed as zero.  Now that we have a way
+to request zero contents from truncation, we can defer the decision to
+actual allocation attempts rather than up front, reducing the number
+of places that still use bdrv_has_zero_init_truncate.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20200428202905.770727-7-eblake@redhat.com>
-Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+Message-Id: <20200428202905.770727-8-eblake@redhat.com>
+Reviewed-by: Denis V. Lunev <den@openvz.org>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/ssh.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ block/parallels.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/block/ssh.c b/block/ssh.c
-index 9eb33df859..f9e08a4900 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -883,6 +883,10 @@ static int ssh_file_open(BlockDriverState *bs, QDict *=
-options, int bdrv_flags,
-     /* Go non-blocking. */
-     ssh_set_blocking(s->session, 0);
+diff --git a/block/parallels.c b/block/parallels.c
+index 8db64a55e3..e7717c508e 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -166,7 +166,7 @@ static int64_t block_status(BDRVParallelsState *s, int6=
+4_t sector_num,
+ static int64_t allocate_clusters(BlockDriverState *bs, int64_t sector_num,
+                                  int nb_sectors, int *pnum)
+ {
+-    int ret;
++    int ret =3D 0;
+     BDRVParallelsState *s =3D bs->opaque;
+     int64_t pos, space, idx, to_allocate, i, len;
 =20
-+    if (s->attrs->type =3D=3D SSH_FILEXFER_TYPE_REGULAR) {
-+        bs->supported_truncate_flags =3D BDRV_REQ_ZERO_WRITE;
-+    }
-+
-     qapi_free_BlockdevOptionsSsh(opts);
+@@ -196,14 +196,24 @@ static int64_t allocate_clusters(BlockDriverState *bs=
+, int64_t sector_num,
+     }
+     if (s->data_end + space > (len >> BDRV_SECTOR_BITS)) {
+         space +=3D s->prealloc_size;
++        /*
++         * We require the expanded size to read back as zero. If the
++         * user permitted truncation, we try that; but if it fails, we
++         * force the safer-but-slower fallocate.
++         */
++        if (s->prealloc_mode =3D=3D PRL_PREALLOC_MODE_TRUNCATE) {
++            ret =3D bdrv_truncate(bs->file,
++                                (s->data_end + space) << BDRV_SECTOR_BITS,
++                                false, PREALLOC_MODE_OFF, BDRV_REQ_ZERO_WR=
+ITE,
++                                NULL);
++            if (ret =3D=3D -ENOTSUP) {
++                s->prealloc_mode =3D PRL_PREALLOC_MODE_FALLOCATE;
++            }
++        }
+         if (s->prealloc_mode =3D=3D PRL_PREALLOC_MODE_FALLOCATE) {
+             ret =3D bdrv_pwrite_zeroes(bs->file,
+                                      s->data_end << BDRV_SECTOR_BITS,
+                                      space << BDRV_SECTOR_BITS, 0);
+-        } else {
+-            ret =3D bdrv_truncate(bs->file,
+-                                (s->data_end + space) << BDRV_SECTOR_BITS,
+-                                false, PREALLOC_MODE_OFF, 0, NULL);
+         }
+         if (ret < 0) {
+             return ret;
+@@ -828,6 +838,7 @@ static int parallels_open(BlockDriverState *bs, QDict *=
+options, int flags,
+         qemu_opt_get_size_del(opts, PARALLELS_OPT_PREALLOC_SIZE, 0);
+     s->prealloc_size =3D MAX(s->tracks, s->prealloc_size >> BDRV_SECTOR_BI=
+TS);
+     buf =3D qemu_opt_get_del(opts, PARALLELS_OPT_PREALLOC_MODE);
++    /* prealloc_mode can be downgraded later during allocate_clusters */
+     s->prealloc_mode =3D qapi_enum_parse(&prealloc_mode_lookup, buf,
+                                        PRL_PREALLOC_MODE_FALLOCATE,
+                                        &local_err);
+@@ -836,10 +847,6 @@ static int parallels_open(BlockDriverState *bs, QDict =
+*options, int flags,
+         goto fail_options;
+     }
 =20
-     return 0;
+-    if (!bdrv_has_zero_init_truncate(bs->file->bs)) {
+-        s->prealloc_mode =3D PRL_PREALLOC_MODE_FALLOCATE;
+-    }
+-
+     if ((flags & BDRV_O_RDWR) && !(flags & BDRV_O_INACTIVE)) {
+         s->header->inuse =3D cpu_to_le32(HEADER_INUSE_MAGIC);
+         ret =3D parallels_update_header(bs);
 --=20
 2.25.3
 
