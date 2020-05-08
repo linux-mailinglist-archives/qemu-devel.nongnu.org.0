@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00261CADBB
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:06:32 +0200 (CEST)
-Received: from localhost ([::1]:40918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDC71CAD8D
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:05:28 +0200 (CEST)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2hz-00034O-KW
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50942)
+	id 1jX2gx-0000Od-M6
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:05:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2PX-0001Ft-MT
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:47:28 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29004
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2S3-0004kC-Gz
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:50:03 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29166
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2PR-0001XY-NA
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:47:27 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1jX2S2-0007Qx-55
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:50:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588942040;
+ s=mimecast20190719; t=1588942201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fsnozb6kIQGYwomOyBKftMgcGklRNkmQU34LmQ0rQgU=;
- b=SfOLxMtdXmgGzdvsjglMWBv6LvsfWkuqYSTFU0S7UUeod9yianCmFpbt22Ldh9gefBd/AV
- nZrazawrPwp0YQZq04JYtEMDzU0ofDX/vaOzWiwwDIuAephuHrsdf/54Me+aTjeXvffehr
- VjFudQC+cZ8C3epxhiJ0IM5rDl4TnJA=
+ bh=mr4uqpTXg1sXYxmIwAO3pDUOz2ZcsDiSAVP7r/LI/bA=;
+ b=NG2sgFXCVisgjvMMA+Mrl5ZJ9QmVS8CKnuUifi5RQgxfQ7hhA+EYmgaWJHvlw6lWtnJzGr
+ qdooTjjn+MBVzKFZv/4X/b6ckO+7zoMou7K9+p1CzTIr9APTxK939BlRjka89s79lX3jK9
+ 7HCyrTOintJAiG85/FqUcWkaaGWuKMM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-xHC9BoC8MPSLoyVaICWZKA-1; Fri, 08 May 2020 08:47:17 -0400
-X-MC-Unique: xHC9BoC8MPSLoyVaICWZKA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-373-4YAIeqf8OaueleRfKAlSYA-1; Fri, 08 May 2020 08:50:00 -0400
+X-MC-Unique: 4YAIeqf8OaueleRfKAlSYA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 541CB107ACF2;
- Fri,  8 May 2020 12:47:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABB70800688;
+ Fri,  8 May 2020 12:49:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-6.ams2.redhat.com [10.36.113.6])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 60BF76ACF1;
- Fri,  8 May 2020 12:47:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 500E85D9CA;
+ Fri,  8 May 2020 12:49:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D67E811358BC; Fri,  8 May 2020 14:47:04 +0200 (CEST)
+ id E80F711358BC; Fri,  8 May 2020 14:49:48 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 3/3] hw: Remove unnecessary DEVICE() cast
+Subject: Re: [PATCH v2 2/3] various: Remove unnecessary OBJECT() cast
 References: <20200504100735.10269-1-f4bug@amsat.org>
- <20200504100735.10269-4-f4bug@amsat.org>
-Date: Fri, 08 May 2020 14:47:04 +0200
-In-Reply-To: <20200504100735.10269-4-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 4 May 2020 12:07:35
+ <20200504100735.10269-3-f4bug@amsat.org>
+Date: Fri, 08 May 2020 14:49:48 +0200
+In-Reply-To: <20200504100735.10269-3-f4bug@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 4 May 2020 12:07:34
  +0200")
-Message-ID: <87r1vuy4on.fsf@dusky.pond.sub.org>
+Message-ID: <87mu6iy4k3.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=armbru@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:23:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,54 +99,56 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
  qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
  "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
  Andrew Jeffery <andrew@aj.id.au>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Corey Minyard <cminyard@mvista.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-> The DEVICE() macro is defined as:
+> The OBJECT() macro is defined as:
 >
->   #define DEVICE(obj) OBJECT_CHECK(DeviceState, (obj), TYPE_DEVICE)
+>   #define OBJECT(obj) ((Object *)(obj))
 >
 > which expands to:
 >
->   ((DeviceState *)object_dynamic_cast_assert((Object *)(obj), (name),
->                                              __FILE__, __LINE__,
->                                              __func__))
->
+>   ((Object *)object_dynamic_cast_assert((Object *)(obj), (name),
+>                                         __FILE__, __LINE__, __func__))
+
+Nope :)
+
 > This assertion can only fail when @obj points to something other
 > than its stated type, i.e. when we're in undefined behavior country.
->
-> Remove the unnecessary DEVICE() casts when we already know the
-> pointer is of DeviceState type.
+
+There is no assertion.
+
+> Remove the unnecessary OBJECT() casts when we already know the
+> pointer is of Object type.
 >
 > Patch created mechanically using spatch with this script:
 >
 >   @@
->   typedef DeviceState;
->   DeviceState *s;
+>   typedef Object;
+>   Object *o;
 >   @@
->   -   DEVICE(s)
->   +   s
+>   -   OBJECT(o)
+>   +   o
 >
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Acked-by: Paul Durrant <paul@xen.org>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Acked-by: Cornelia Huck <cohuck@redhat.com>
+> Acked-by: Corey Minyard <cminyard@mvista.com>
 > Acked-by: John Snow <jsnow@redhat.com>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> v2: Reword (Markus)
 
-Lovely.
+My rewording suggestion applied to PATCH 3, not to this one.
 
+With v2's commit message;
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-Now repeat this exercise for each QOM type cast macro :)
 
 
