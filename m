@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEEB1CAE00
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 15:08:05 +0200 (CEST)
-Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1953F1CAD12
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:59:43 +0200 (CEST)
+Received: from localhost ([::1]:43600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2jU-0005wx-S9
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 09:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52216)
+	id 1jX2bN-0007mh-L5
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miaoyubo@huawei.com>)
- id 1jX2TA-0006XB-Pq
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:51:12 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2519 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miaoyubo@huawei.com>)
- id 1jX2T9-0002qi-0Y
- for qemu-devel@nongnu.org; Fri, 08 May 2020 08:51:12 -0400
-Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.53])
- by Forcepoint Email with ESMTP id BD974AED847D04E6F656;
- Fri,  8 May 2020 20:50:55 +0800 (CST)
-Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
- DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 8 May 2020 20:50:55 +0800
-Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
- dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Fri, 8 May 2020 20:50:54 +0800
-Received: from dggeme756-chm.china.huawei.com ([10.6.80.68]) by
- dggeme756-chm.china.huawei.com ([10.6.80.68]) with mapi id 15.01.1913.007;
- Fri, 8 May 2020 20:50:54 +0800
-From: miaoyubo <miaoyubo@huawei.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: RE: [PATCH v6 2/8] fw_cfg: Write the extra roots into the fw_cfg
-Thread-Topic: [PATCH v6 2/8] fw_cfg: Write the extra roots into the fw_cfg
-Thread-Index: AQHWDaVtFt2HHsrzj0S5wEUUfu+NQ6iXl+gAgAa6uLA=
-Date: Fri, 8 May 2020 12:50:54 +0000
-Message-ID: <f3e847eb9e4744c2b4ef0a6f53bcd4d4@huawei.com>
-References: <20200408125816.955-1-miaoyubo@huawei.com>
- <20200408125816.955-3-miaoyubo@huawei.com>
- <20200504100057-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200504100057-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.173.221.29]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=miaoyubo@huawei.com;
- helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 08:50:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jX2Wt-0007Fl-0L
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:55:03 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1jX2Wr-00038C-V4
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 08:55:02 -0400
+Received: by mail-wm1-x342.google.com with SMTP id v8so9863928wma.0
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 05:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=vcmawNGolcSr0FlfA8Z05/mM0RwBuCRKaqBzUPxedkw=;
+ b=L1Ij0jCZdJJBVY32xz9q3sR2Me8MsfdCw2TgV2K7rUnvQw4ZVABM6tuCHL32Staj9s
+ hMY0C20fw4BYr1vsK6SiouryIZUNscKN972FF9AZXDtxC4p/mlo5VKKNfHFCpaqCGO7U
+ AL0JSNN7aq3dxAml7y0JukSXVGgq9C1MW5Qj33nKRgvaKjq3RJzaI/eKciOuVfs9tBp+
+ 0lGMju4NwYZYlkNwZH7bIrMkPKHQtCnf78xOllpk32iVGcz1IybXWB5nVhiqeLY7JmL/
+ sYJeYL6ggn5VuFCiAz/KVlVG5xiZjSqKBjp4clMjh9/FZc7RsNVirTZfo4adD9Y7wtaM
+ XL+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=vcmawNGolcSr0FlfA8Z05/mM0RwBuCRKaqBzUPxedkw=;
+ b=eHLkKkYw5mfJCgJjlhnR5Pj1SjoBzQsBJUVftb74RccHoi0Q0PmoRrJQZjKbHK4C/t
+ 6yrN6oR0hyeM35lOR4eUZiAIjb5tIL+J6raAmmtqczklxUNh3INz2vqU60up6wvZXtDP
+ 8VlMar+VVsoTIMlncuxsuTUfa0lcamt3yDt5E3V0xRBk5QMCSygwd/gcC/VhjhB6NGZI
+ 0mYoJJH+9hJuJQXvy91SasSg2G9E7JY8+8z81Ldd8K5S1HQNKytHDj3pDco/OHzm1Fp2
+ OMdxYoAfV3jnHa/aCSBKyV9odknnSeZ7IGC3rBikooyU+tnWsOvrYtq0oyfoXH7xrifk
+ mq/Q==
+X-Gm-Message-State: AGi0PuYW+fDsCyKim5vHVqnxhCsi5FWTAqoLAcg4sW75qzmFHM7MYb3O
+ esHjfeYRYG8LuREc/1/jcKZBFU/uS4oLKw==
+X-Google-Smtp-Source: APiQypKbuATsiCAum132TU/EJVQtXU5CtWuBx/QhL413iIb9o7XWQ241pUSVt7H9Rb5tVNGUhFmqwA==
+X-Received: by 2002:a1c:6a17:: with SMTP id f23mr15190455wmc.136.1588942499681; 
+ Fri, 08 May 2020 05:54:59 -0700 (PDT)
+Received: from f2.redhat.com (bzq-79-183-19-16.red.bezeqint.net.
+ [79.183.19.16])
+ by smtp.gmail.com with ESMTPSA id a8sm2852375wrg.85.2020.05.08.05.54.58
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 08 May 2020 05:54:58 -0700 (PDT)
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: qemu-devel@nongnu.org, mst@redhat.com, jasowang@redhat.com,
+ quintela@redhat.com, dgilbert@redhat.com
+Subject: [PATCH 0/7] reference implementation of RSS and hash report
+Date: Fri,  8 May 2020 15:54:45 +0300
+Message-Id: <20200508125452.7802-1-yuri.benditovich@daynix.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2a00:1450:4864:20::342;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,105 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Xiexiangyou <xiexiangyou@huawei.com>,
- "shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "lersek@redhat.com" <lersek@redhat.com>
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Michael S. Tsirkin [mailto:mst@redhat.com]
-> Sent: Monday, May 4, 2020 10:03 PM
-> To: miaoyubo <miaoyubo@huawei.com>
-> Cc: peter.maydell@linaro.org; shannon.zhaosl@gmail.com;
-> lersek@redhat.com; imammedo@redhat.com; qemu-devel@nongnu.org;
-> berrange@redhat.com; Xiexiangyou <xiexiangyou@huawei.com>
-> Subject: Re: [PATCH v6 2/8] fw_cfg: Write the extra roots into the fw_cfg
->=20
-> On Wed, Apr 08, 2020 at 08:58:10PM +0800, Yubo Miao wrote:
-> > From: miaoyubo <miaoyubo@huawei.com>
-> >
-> > Write the extra roots into the fw_cfg therefore the uefi could get the
-> > extra roots. Only if the uefi know there are extra roots, the config
-> > space of devices behind the root could be obtained.
-> >
-> > Signed-off-by: miaoyubo <miaoyubo@huawei.com>
-> > ---
-> >  hw/arm/virt.c | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >
-> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c index
-> > 7dc96abf72..0fdfe4129c 100644
-> > --- a/hw/arm/virt.c
-> > +++ b/hw/arm/virt.c
-> > @@ -77,6 +77,7 @@
-> >  #include "hw/acpi/generic_event_device.h"
-> >  #include "hw/virtio/virtio-iommu.h"
-> >  #include "hw/char/pl011.h"
-> > +#include "hw/pci/pci_bus.h"
-> >
-> >  #define DEFINE_VIRT_MACHINE_LATEST(major, minor, latest) \
-> >      static void virt_##major##_##minor##_class_init(ObjectClass *oc,
-> > \ @@ -1435,6 +1436,12 @@ void virt_machine_done(Notifier *notifier,
-> void *data)
-> >      ARMCPU *cpu =3D ARM_CPU(first_cpu);
-> >      struct arm_boot_info *info =3D &vms->bootinfo;
-> >      AddressSpace *as =3D arm_boot_address_space(cpu, info);
-> > +    PCIHostState *s =3D OBJECT_CHECK(PCIHostState,
-> > +                                   object_resolve_path_type("",
-> > +                                   "pcie-host-bridge", NULL),
-> > +                                   TYPE_PCI_HOST_BRIDGE);
-> > +
-> > +    PCIBus *bus =3D s->bus;
-> >
-> >      /*
-> >       * If the user provided a dtb, we assume the dynamic sysbus nodes
->=20
->=20
-> Seems duplicated all over the place. Add an API for that?
->
+Support for VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT
+features in QEMU for reference purpose.
+Implements Toeplitz hash calculation for incoming
+packets according to configuration provided by driver.
+Uses calculated hash for decision on receive virtqueue
+and/or reports the hash in the virtio header
 
-Thanks for your reply. I will add the API in patch v7.
-=20
-> > @@ -1453,6 +1460,22 @@ void virt_machine_done(Notifier *notifier, void
-> *data)
-> >          exit(1);
-> >      }
-> >
-> > +    if (bus) {
-> > +        int extra_hosts =3D 0;
-> > +        QLIST_FOREACH(bus, &bus->child, sibling) {
-> > +            /* look for expander root buses */
-> > +            if (pci_bus_is_root(bus)) {
-> > +                extra_hosts++;
-> > +            }
-> > +        }
-> > +        if (extra_hosts && vms->fw_cfg) {
-> > +            uint64_t *val =3D g_malloc(sizeof(*val));
-> > +            *val =3D cpu_to_le64(extra_hosts);
-> > +            fw_cfg_add_file(vms->fw_cfg,
-> > +                   "etc/extra-pci-roots", val, sizeof(*val));
-> > +        }
-> > +    }
-> > +
-> >      virt_acpi_setup(vms);
-> >      virt_build_smbios(vms);
->=20
->=20
-> Duplicated from pc. Pls refactor.
->=20
+Changes from v7:
+Patch 7.1: removed (RSS and hash report definitions)
+Patch 7.2: delete configuration struct with RSS definitions
+Patch 7.4: delete duplicated packet structure
+Added patch 7 - adapt RSC definitions to updated header
 
-Sure. It would be done in patch v7
+Yuri Benditovich (7):
+  virtio-net: implement RSS configuration command
+  virtio-net: implement RX RSS processing
+  tap: allow extended virtio header with hash info
+  virtio-net: reference implementation of hash report
+  vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
+  virtio-net: add migration support for RSS and hash report
+  virtio-net: align RSC fields with updated virtio-net header
 
-> >  }
-> > --
-> > 2.19.1
-> >
+ hw/net/trace-events            |   3 +
+ hw/net/virtio-net.c            | 387 +++++++++++++++++++++++++++++----
+ include/hw/virtio/virtio-net.h |  16 ++
+ include/migration/vmstate.h    |  10 +
+ net/tap.c                      |   3 +-
+ 5 files changed, 379 insertions(+), 40 deletions(-)
 
-Regards,
-Miao
+-- 
+2.17.1
+
 
