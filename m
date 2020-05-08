@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507F31CB2BB
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:23:30 +0200 (CEST)
-Received: from localhost ([::1]:48020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08021CB2C6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:27:58 +0200 (CEST)
+Received: from localhost ([::1]:34662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX4qX-0004X6-AH
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33844)
+	id 1jX4ur-0004Fh-Re
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:27:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4lD-0005pd-Ml
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:17:59 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37643)
+ id 1jX4lF-0005tO-6z
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:18:01 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4lC-0002wt-60
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:17:59 -0400
-Received: by mail-pg1-x543.google.com with SMTP id f23so325091pgj.4
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:17:57 -0700 (PDT)
+ id 1jX4lD-0002xO-KB
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:18:00 -0400
+Received: by mail-pg1-x542.google.com with SMTP id s18so978863pgl.12
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ffqmtu5anvlOz3MWFAh7dIs6kb9n+nAaQuOqSU6gXKY=;
- b=H8lepMkFtyYuig0Ha4WofilcUgYKipB94ksuMV38Mtl1ERYPI+QHvtLR05xvDPGG4j
- X6cB8yP73TM0WJ6gqYb6HBC8r/BLmI8s20axvYzMVkWiygtpK9y3iG7w20mX4UfIN3Ne
- zOxH/c7fiBghvign72EGgZeKqKh4ANS12Bb7t0FeSaF4k0q+Z+lEqZsA6lW0jBJkLdoH
- Kb3eGlB3UU6aDQ/iRGiro5YhxRpSkkn4blC9QN5SfL8tQyThOdH4A1VKJiAGOpC5ygxR
- W7nZjks+FEtCBdSl1+THHuELDteFUoM8Km/cxgL87spRZLOs2n1eyBLltCqBHk802iYf
- AOTw==
+ bh=xmadSpOQwsQc/jlcXZb4SKOmMYrqNW8ASv1JO/0wGNg=;
+ b=T5iJ1cP5PMVadSWIkoCPtfWXr0yVyosnDbaOQHn6mVVizdKt0pbii4ekq7O5sCir0M
+ Cwd+WQ61iIDLTWDOnvP17bTDuQX8fo59YPmv0nDbjaBOHDTTFRtndnjcRCUKYUJYhd3F
+ xtEfaD5KHeVGxIQ5PfieCRXy7DYLLXNymKDG5WzOxOWo8ci1HNnEAiSXVSu4bZI5Zh+z
+ BS4EjUYD+Lg/w+nLzG2f8bYBCnvfggTJIj/q6MXzeqgzkmYgNYEzPCJpwcJmVcKplZSQ
+ ye7pUnyqAnnj9RchgB90xEAc/mpdYtjvl2EUp52jKsUw/QkBBm93kWc/qOjDZWdTBjwe
+ 8iLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ffqmtu5anvlOz3MWFAh7dIs6kb9n+nAaQuOqSU6gXKY=;
- b=tqZqPdhcmrJR9OH/5GKFGgNm3ubXOkZiFh8o41S3pl3S9IicWIrWl9d49ARA4IQvPR
- 4V32i94eJwtIan/xPGgHYFem3lgsflUSgbJdORhycvF5zUkH5OTKyx1aIXKorO8xWTi9
- RiO89Hfq8kcPnzfZ2zhn88Lwh3hcLKsFmR2kImvDlT8AVh0GSnz/sflYaO1tzB04FUIP
- h0NbCkPvMTaOjoku2QN8TKZWAcpLfi53GEIdjqngnYp4pe9VIXz9KQi/8+eLTfqwrP5o
- u4ZVxl/+N4e3SXn/c7WO1TSDTJn1hyjWcuyzC+3zmrY2LLyqfpTuPSmHbUQ53JLyhyGX
- uy0A==
-X-Gm-Message-State: AGi0PuZ5Lg2bdHhfuShn0+b03hniI5062vH7rUj/ZG0T4LvI0j5XRDOd
- F36x8Qlk40iva9Kpjh6iHXfSVMhzFJU=
-X-Google-Smtp-Source: APiQypKSmqaurpt6kTXYRIP5tp3oXcA604KOjm/+tE2uJhTxL1QMl1MBlW/8JGihgnj9Vkws1KD7Dg==
-X-Received: by 2002:a62:1985:: with SMTP id 127mr3218752pfz.175.1588951076362; 
- Fri, 08 May 2020 08:17:56 -0700 (PDT)
+ bh=xmadSpOQwsQc/jlcXZb4SKOmMYrqNW8ASv1JO/0wGNg=;
+ b=J4byhUYGLnP5X9iZeRmNDMoXFHqoisNFlxFTCmWo9RG4pO8iQtvikHVdtB5S5rwTt4
+ Va4hPUGltZg6mpEsSSy6mPN/0Td3Yt/za17ao9s4YfVH/dCb1PLR3RN6ScVX80EcICnz
+ xVuQaIsjIiuQkowe8KFIpsRFiSjOhU9IcrnfG7zpbi36C/ES0P7aGkdAIjWLKbQpn0N+
+ b8dqXLcIr55zJQ7MwGLQE6aifajOkf/WRsZv5VgiyIcCJHdoW6m5m8eoqZjoi+dDXugo
+ M1fyKpQAVbh2ApBE6CDVayNuBERFY+reBCN8CA198pdPRN5eX5+GfxD8/i76tcczZS38
+ 6LOg==
+X-Gm-Message-State: AGi0PuZuN0PD7zIybNxdoBUsKzMVFqi9Hra9Pi13/qDPEPK+p8LsXW3q
+ Xr7GbYdhmGtgDcdNED0buVbx0Pi0ehg=
+X-Google-Smtp-Source: APiQypLc2QN1jAXwWjYVy1j/tzyTEAvUnwAivAF/adEL1x95TDDNClydSGDQTSlmgpq5B82L2JoUMA==
+X-Received: by 2002:a62:dbc2:: with SMTP id f185mr3320223pfg.65.1588951077533; 
+ Fri, 08 May 2020 08:17:57 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id b5sm2125933pfb.190.2020.05.08.08.17.55
+ by smtp.gmail.com with ESMTPSA id b5sm2125933pfb.190.2020.05.08.08.17.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 08:17:55 -0700 (PDT)
+ Fri, 08 May 2020 08:17:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/19] tcg: Use tcg_constant_{i32,
- vec} with tcg vec expanders
-Date: Fri,  8 May 2020 08:17:34 -0700
-Message-Id: <20200508151747.6166-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 07/19] tcg: Use tcg_constant_{i32, i64,
+ vec} with tcg gvec expanders
+Date: Fri,  8 May 2020 08:17:35 -0700
+Message-Id: <20200508151747.6166-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200508151747.6166-1-richard.henderson@linaro.org>
 References: <20200508151747.6166-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,120 +92,437 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-op-vec.c | 63 ++++++++++++++++++++++++++----------------------
- 1 file changed, 34 insertions(+), 29 deletions(-)
+ tcg/tcg-op-gvec.c | 125 +++++++++++++++++++---------------------------
+ 1 file changed, 50 insertions(+), 75 deletions(-)
 
-diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-index 43101defe4..0e3e80a612 100644
---- a/tcg/tcg-op-vec.c
-+++ b/tcg/tcg-op-vec.c
-@@ -233,25 +233,17 @@ void tcg_gen_mov_vec(TCGv_vec r, TCGv_vec a)
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 3707c0effb..8ecaf4d67e 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -96,7 +96,7 @@ void tcg_gen_gvec_2_ool(uint32_t dofs, uint32_t aofs,
+                         gen_helper_gvec_2 *fn)
+ {
+     TCGv_ptr a0, a1;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -108,7 +108,6 @@ void tcg_gen_gvec_2_ool(uint32_t dofs, uint32_t aofs,
+ 
+     tcg_temp_free_ptr(a0);
+     tcg_temp_free_ptr(a1);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Generate a call to a gvec-style helper with two vector operands
+@@ -118,7 +117,7 @@ void tcg_gen_gvec_2i_ool(uint32_t dofs, uint32_t aofs, TCGv_i64 c,
+                          gen_helper_gvec_2i *fn)
+ {
+     TCGv_ptr a0, a1;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -130,7 +129,6 @@ void tcg_gen_gvec_2i_ool(uint32_t dofs, uint32_t aofs, TCGv_i64 c,
+ 
+     tcg_temp_free_ptr(a0);
+     tcg_temp_free_ptr(a1);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Generate a call to a gvec-style helper with three vector operands.  */
+@@ -139,7 +137,7 @@ void tcg_gen_gvec_3_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+                         gen_helper_gvec_3 *fn)
+ {
+     TCGv_ptr a0, a1, a2;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -154,7 +152,6 @@ void tcg_gen_gvec_3_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+     tcg_temp_free_ptr(a0);
+     tcg_temp_free_ptr(a1);
+     tcg_temp_free_ptr(a2);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Generate a call to a gvec-style helper with four vector operands.  */
+@@ -163,7 +160,7 @@ void tcg_gen_gvec_4_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+                         int32_t data, gen_helper_gvec_4 *fn)
+ {
+     TCGv_ptr a0, a1, a2, a3;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -181,7 +178,6 @@ void tcg_gen_gvec_4_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+     tcg_temp_free_ptr(a1);
+     tcg_temp_free_ptr(a2);
+     tcg_temp_free_ptr(a3);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Generate a call to a gvec-style helper with five vector operands.  */
+@@ -190,7 +186,7 @@ void tcg_gen_gvec_5_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+                         uint32_t maxsz, int32_t data, gen_helper_gvec_5 *fn)
+ {
+     TCGv_ptr a0, a1, a2, a3, a4;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -211,7 +207,6 @@ void tcg_gen_gvec_5_ool(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+     tcg_temp_free_ptr(a2);
+     tcg_temp_free_ptr(a3);
+     tcg_temp_free_ptr(a4);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Generate a call to a gvec-style helper with three vector operands
+@@ -221,7 +216,7 @@ void tcg_gen_gvec_2_ptr(uint32_t dofs, uint32_t aofs,
+                         int32_t data, gen_helper_gvec_2_ptr *fn)
+ {
+     TCGv_ptr a0, a1;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -233,7 +228,6 @@ void tcg_gen_gvec_2_ptr(uint32_t dofs, uint32_t aofs,
+ 
+     tcg_temp_free_ptr(a0);
+     tcg_temp_free_ptr(a1);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Generate a call to a gvec-style helper with three vector operands
+@@ -243,7 +237,7 @@ void tcg_gen_gvec_3_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+                         int32_t data, gen_helper_gvec_3_ptr *fn)
+ {
+     TCGv_ptr a0, a1, a2;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -258,7 +252,6 @@ void tcg_gen_gvec_3_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+     tcg_temp_free_ptr(a0);
+     tcg_temp_free_ptr(a1);
+     tcg_temp_free_ptr(a2);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Generate a call to a gvec-style helper with four vector operands
+@@ -269,7 +262,7 @@ void tcg_gen_gvec_4_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+                         gen_helper_gvec_4_ptr *fn)
+ {
+     TCGv_ptr a0, a1, a2, a3;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -287,7 +280,6 @@ void tcg_gen_gvec_4_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+     tcg_temp_free_ptr(a1);
+     tcg_temp_free_ptr(a2);
+     tcg_temp_free_ptr(a3);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Generate a call to a gvec-style helper with five vector operands
+@@ -298,7 +290,7 @@ void tcg_gen_gvec_5_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+                         gen_helper_gvec_5_ptr *fn)
+ {
+     TCGv_ptr a0, a1, a2, a3, a4;
+-    TCGv_i32 desc = tcg_const_i32(simd_desc(oprsz, maxsz, data));
++    TCGv_i32 desc = tcg_constant_i32(simd_desc(oprsz, maxsz, data));
+ 
+     a0 = tcg_temp_new_ptr();
+     a1 = tcg_temp_new_ptr();
+@@ -319,7 +311,6 @@ void tcg_gen_gvec_5_ptr(uint32_t dofs, uint32_t aofs, uint32_t bofs,
+     tcg_temp_free_ptr(a2);
+     tcg_temp_free_ptr(a3);
+     tcg_temp_free_ptr(a4);
+-    tcg_temp_free_i32(desc);
+ }
+ 
+ /* Return true if we want to implement something of OPRSZ bytes
+@@ -609,16 +600,13 @@ static void do_dup(unsigned vece, uint32_t dofs, uint32_t oprsz,
+     /* Otherwise implement out of line.  */
+     t_ptr = tcg_temp_new_ptr();
+     tcg_gen_addi_ptr(t_ptr, cpu_env, dofs);
+-    t_desc = tcg_const_i32(simd_desc(oprsz, maxsz, 0));
++    t_desc = tcg_constant_i32(simd_desc(oprsz, maxsz, 0));
+ 
+     if (vece == MO_64) {
+-        if (in_64) {
+-            gen_helper_gvec_dup64(t_ptr, t_desc, in_64);
+-        } else {
+-            t_64 = tcg_const_i64(in_c);
+-            gen_helper_gvec_dup64(t_ptr, t_desc, t_64);
+-            tcg_temp_free_i64(t_64);
++        if (!in_64) {
++            in_64 = tcg_constant_i64(in_c);
+         }
++        gen_helper_gvec_dup64(t_ptr, t_desc, in_64);
+     } else {
+         typedef void dup_fn(TCGv_ptr, TCGv_i32, TCGv_i32);
+         static dup_fn * const fns[3] = {
+@@ -646,7 +634,6 @@ static void do_dup(unsigned vece, uint32_t dofs, uint32_t oprsz,
      }
- }
  
--#define MO_REG  (TCG_TARGET_REG_BITS == 64 ? MO_64 : MO_32)
--
--static void do_dupi_vec(TCGv_vec r, unsigned vece, TCGArg a)
--{
--    TCGTemp *rt = tcgv_vec_temp(r);
--    vec_gen_2(INDEX_op_dupi_vec, rt->base_type, vece, temp_arg(rt), a);
--}
--
- TCGv_vec tcg_const_zeros_vec(TCGType type)
- {
-     TCGv_vec ret = tcg_temp_new_vec(type);
--    do_dupi_vec(ret, MO_REG, 0);
-+    tcg_gen_mov_vec(ret, tcg_constant_vec(type, MO_8, 0));
-     return ret;
- }
+     tcg_temp_free_ptr(t_ptr);
+-    tcg_temp_free_i32(t_desc);
+     return;
  
- TCGv_vec tcg_const_ones_vec(TCGType type)
- {
-     TCGv_vec ret = tcg_temp_new_vec(type);
--    do_dupi_vec(ret, MO_REG, -1);
-+    tcg_gen_mov_vec(ret, tcg_constant_vec(type, MO_8, -1));
-     return ret;
- }
- 
-@@ -267,37 +259,50 @@ TCGv_vec tcg_const_ones_vec_matching(TCGv_vec m)
-     return tcg_const_ones_vec(t->base_type);
- }
- 
--void tcg_gen_dup64i_vec(TCGv_vec r, uint64_t a)
-+void tcg_gen_dupi_vec(unsigned vece, TCGv_vec dest, uint64_t val)
- {
--    if (TCG_TARGET_REG_BITS == 32 && a == deposit64(a, 32, 32, a)) {
--        do_dupi_vec(r, MO_32, a);
--    } else if (TCG_TARGET_REG_BITS == 64 || a == (uint64_t)(int32_t)a) {
--        do_dupi_vec(r, MO_64, a);
--    } else {
--        TCGv_i64 c = tcg_const_i64(a);
--        tcg_gen_dup_i64_vec(MO_64, r, c);
--        tcg_temp_free_i64(c);
-+    TCGType type = tcgv_vec_temp(dest)->base_type;
-+
-+    /*
-+     * For MO_64 constants that can't be represented in tcg_target_long,
-+     * we must use INDEX_op_dup2_vec.
-+     */
-+    if (TCG_TARGET_REG_BITS == 32) {
-+        val = dup_const(vece, val);
-+        if (val != deposit64(val, 32, 32, val) &&
-+            val != (uint64_t)(int32_t)val) {
-+            uint32_t vl = extract64(val, 0, 32);
-+            uint32_t vh = extract64(val, 32, 32);
-+            TCGArg al = tcgv_i32_arg(tcg_constant_i32(vl));
-+            TCGArg ah = tcgv_i32_arg(tcg_constant_i32(vh));
-+            TCGArg di = tcgv_vec_arg(dest);
-+
-+            vec_gen_3(INDEX_op_dup2_vec, type, MO_64, di, al, ah);
-+            return;
-+        }
-     }
-+
-+    tcg_gen_mov_vec(dest, tcg_constant_vec(type, vece, val));
- }
- 
--void tcg_gen_dup32i_vec(TCGv_vec r, uint32_t a)
-+void tcg_gen_dup64i_vec(TCGv_vec dest, uint64_t val)
- {
--    do_dupi_vec(r, MO_REG, dup_const(MO_32, a));
-+    tcg_gen_dupi_vec(MO_64, dest, val);
- }
- 
--void tcg_gen_dup16i_vec(TCGv_vec r, uint32_t a)
-+void tcg_gen_dup32i_vec(TCGv_vec dest, uint32_t val)
- {
--    do_dupi_vec(r, MO_REG, dup_const(MO_16, a));
-+    tcg_gen_dupi_vec(MO_32, dest, val);
- }
- 
--void tcg_gen_dup8i_vec(TCGv_vec r, uint32_t a)
-+void tcg_gen_dup16i_vec(TCGv_vec dest, uint32_t val)
- {
--    do_dupi_vec(r, MO_REG, dup_const(MO_8, a));
-+    tcg_gen_dupi_vec(MO_16, dest, val);
- }
- 
--void tcg_gen_dupi_vec(unsigned vece, TCGv_vec r, uint64_t a)
-+void tcg_gen_dup8i_vec(TCGv_vec dest, uint32_t val)
- {
--    do_dupi_vec(r, MO_REG, dup_const(vece, a));
-+    tcg_gen_dupi_vec(MO_8, dest, val);
- }
- 
- void tcg_gen_dup_i64_vec(unsigned vece, TCGv_vec r, TCGv_i64 a)
-@@ -502,8 +507,8 @@ void tcg_gen_abs_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
-             if (tcg_can_emit_vec_op(INDEX_op_sari_vec, type, vece) > 0) {
-                 tcg_gen_sari_vec(vece, t, a, (8 << vece) - 1);
+  done:
+@@ -1196,10 +1183,8 @@ void tcg_gen_gvec_2i(uint32_t dofs, uint32_t aofs, uint32_t oprsz,
+             if (g->fno) {
+                 tcg_gen_gvec_2_ool(dofs, aofs, oprsz, maxsz, c, g->fno);
              } else {
--                do_dupi_vec(t, MO_REG, 0);
--                tcg_gen_cmp_vec(TCG_COND_LT, vece, t, a, t);
-+                tcg_gen_cmp_vec(TCG_COND_LT, vece, t, a,
-+                                tcg_constant_vec(type, vece, 0));
+-                TCGv_i64 tcg_c = tcg_const_i64(c);
+-                tcg_gen_gvec_2i_ool(dofs, aofs, tcg_c, oprsz,
+-                                    maxsz, c, g->fnoi);
+-                tcg_temp_free_i64(tcg_c);
++                tcg_gen_gvec_2i_ool(dofs, aofs, tcg_constant_i64(c),
++                                    oprsz, maxsz, 0, g->fnoi);
              }
-             tcg_gen_xor_vec(vece, r, a, t);
-             tcg_gen_sub_vec(vece, r, r, t);
+             oprsz = maxsz;
+         }
+@@ -1647,16 +1632,14 @@ static void gen_addv_mask(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b, TCGv_i64 m)
+ 
+ void tcg_gen_vec_add8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+ {
+-    TCGv_i64 m = tcg_const_i64(dup_const(MO_8, 0x80));
++    TCGv_i64 m = tcg_constant_i64(dup_const(MO_8, 0x80));
+     gen_addv_mask(d, a, b, m);
+-    tcg_temp_free_i64(m);
+ }
+ 
+ void tcg_gen_vec_add16_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+ {
+-    TCGv_i64 m = tcg_const_i64(dup_const(MO_16, 0x8000));
++    TCGv_i64 m = tcg_constant_i64(dup_const(MO_16, 0x8000));
+     gen_addv_mask(d, a, b, m);
+-    tcg_temp_free_i64(m);
+ }
+ 
+ void tcg_gen_vec_add32_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+@@ -1740,9 +1723,8 @@ void tcg_gen_gvec_adds(unsigned vece, uint32_t dofs, uint32_t aofs,
+ void tcg_gen_gvec_addi(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        int64_t c, uint32_t oprsz, uint32_t maxsz)
+ {
+-    TCGv_i64 tmp = tcg_const_i64(c);
++    TCGv_i64 tmp = tcg_constant_i64(c);
+     tcg_gen_gvec_adds(vece, dofs, aofs, tmp, oprsz, maxsz);
+-    tcg_temp_free_i64(tmp);
+ }
+ 
+ static const TCGOpcode vecop_list_sub[] = { INDEX_op_sub_vec, 0 };
+@@ -1800,16 +1782,14 @@ static void gen_subv_mask(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b, TCGv_i64 m)
+ 
+ void tcg_gen_vec_sub8_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+ {
+-    TCGv_i64 m = tcg_const_i64(dup_const(MO_8, 0x80));
++    TCGv_i64 m = tcg_constant_i64(dup_const(MO_8, 0x80));
+     gen_subv_mask(d, a, b, m);
+-    tcg_temp_free_i64(m);
+ }
+ 
+ void tcg_gen_vec_sub16_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+ {
+-    TCGv_i64 m = tcg_const_i64(dup_const(MO_16, 0x8000));
++    TCGv_i64 m = tcg_constant_i64(dup_const(MO_16, 0x8000));
+     gen_subv_mask(d, a, b, m);
+-    tcg_temp_free_i64(m);
+ }
+ 
+ void tcg_gen_vec_sub32_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+@@ -1920,9 +1900,8 @@ void tcg_gen_gvec_muls(unsigned vece, uint32_t dofs, uint32_t aofs,
+ void tcg_gen_gvec_muli(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        int64_t c, uint32_t oprsz, uint32_t maxsz)
+ {
+-    TCGv_i64 tmp = tcg_const_i64(c);
++    TCGv_i64 tmp = tcg_constant_i64(c);
+     tcg_gen_gvec_muls(vece, dofs, aofs, tmp, oprsz, maxsz);
+-    tcg_temp_free_i64(tmp);
+ }
+ 
+ void tcg_gen_gvec_ssadd(unsigned vece, uint32_t dofs, uint32_t aofs,
+@@ -1979,18 +1958,16 @@ void tcg_gen_gvec_sssub(unsigned vece, uint32_t dofs, uint32_t aofs,
+ 
+ static void tcg_gen_usadd_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
+ {
+-    TCGv_i32 max = tcg_const_i32(-1);
++    TCGv_i32 max = tcg_constant_i32(-1);
+     tcg_gen_add_i32(d, a, b);
+     tcg_gen_movcond_i32(TCG_COND_LTU, d, d, a, max, d);
+-    tcg_temp_free_i32(max);
+ }
+ 
+ static void tcg_gen_usadd_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+ {
+-    TCGv_i64 max = tcg_const_i64(-1);
++    TCGv_i64 max = tcg_constant_i64(-1);
+     tcg_gen_add_i64(d, a, b);
+     tcg_gen_movcond_i64(TCG_COND_LTU, d, d, a, max, d);
+-    tcg_temp_free_i64(max);
+ }
+ 
+ void tcg_gen_gvec_usadd(unsigned vece, uint32_t dofs, uint32_t aofs,
+@@ -2023,18 +2000,16 @@ void tcg_gen_gvec_usadd(unsigned vece, uint32_t dofs, uint32_t aofs,
+ 
+ static void tcg_gen_ussub_i32(TCGv_i32 d, TCGv_i32 a, TCGv_i32 b)
+ {
+-    TCGv_i32 min = tcg_const_i32(0);
++    TCGv_i32 min = tcg_constant_i32(0);
+     tcg_gen_sub_i32(d, a, b);
+     tcg_gen_movcond_i32(TCG_COND_LTU, d, a, b, min, d);
+-    tcg_temp_free_i32(min);
+ }
+ 
+ static void tcg_gen_ussub_i64(TCGv_i64 d, TCGv_i64 a, TCGv_i64 b)
+ {
+-    TCGv_i64 min = tcg_const_i64(0);
++    TCGv_i64 min = tcg_constant_i64(0);
+     tcg_gen_sub_i64(d, a, b);
+     tcg_gen_movcond_i64(TCG_COND_LTU, d, a, b, min, d);
+-    tcg_temp_free_i64(min);
+ }
+ 
+ void tcg_gen_gvec_ussub(unsigned vece, uint32_t dofs, uint32_t aofs,
+@@ -2195,16 +2170,14 @@ static void gen_negv_mask(TCGv_i64 d, TCGv_i64 b, TCGv_i64 m)
+ 
+ void tcg_gen_vec_neg8_i64(TCGv_i64 d, TCGv_i64 b)
+ {
+-    TCGv_i64 m = tcg_const_i64(dup_const(MO_8, 0x80));
++    TCGv_i64 m = tcg_constant_i64(dup_const(MO_8, 0x80));
+     gen_negv_mask(d, b, m);
+-    tcg_temp_free_i64(m);
+ }
+ 
+ void tcg_gen_vec_neg16_i64(TCGv_i64 d, TCGv_i64 b)
+ {
+-    TCGv_i64 m = tcg_const_i64(dup_const(MO_16, 0x8000));
++    TCGv_i64 m = tcg_constant_i64(dup_const(MO_16, 0x8000));
+     gen_negv_mask(d, b, m);
+-    tcg_temp_free_i64(m);
+ }
+ 
+ void tcg_gen_vec_neg32_i64(TCGv_i64 d, TCGv_i64 b)
+@@ -2472,9 +2445,8 @@ void tcg_gen_gvec_ands(unsigned vece, uint32_t dofs, uint32_t aofs,
+ void tcg_gen_gvec_andi(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        int64_t c, uint32_t oprsz, uint32_t maxsz)
+ {
+-    TCGv_i64 tmp = tcg_const_i64(dup_const(vece, c));
++    TCGv_i64 tmp = tcg_constant_i64(dup_const(vece, c));
+     tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, tmp, &gop_ands);
+-    tcg_temp_free_i64(tmp);
+ }
+ 
+ static const GVecGen2s gop_xors = {
+@@ -2497,9 +2469,8 @@ void tcg_gen_gvec_xors(unsigned vece, uint32_t dofs, uint32_t aofs,
+ void tcg_gen_gvec_xori(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        int64_t c, uint32_t oprsz, uint32_t maxsz)
+ {
+-    TCGv_i64 tmp = tcg_const_i64(dup_const(vece, c));
++    TCGv_i64 tmp = tcg_constant_i64(dup_const(vece, c));
+     tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, tmp, &gop_xors);
+-    tcg_temp_free_i64(tmp);
+ }
+ 
+ static const GVecGen2s gop_ors = {
+@@ -2522,9 +2493,8 @@ void tcg_gen_gvec_ors(unsigned vece, uint32_t dofs, uint32_t aofs,
+ void tcg_gen_gvec_ori(unsigned vece, uint32_t dofs, uint32_t aofs,
+                       int64_t c, uint32_t oprsz, uint32_t maxsz)
+ {
+-    TCGv_i64 tmp = tcg_const_i64(dup_const(vece, c));
++    TCGv_i64 tmp = tcg_constant_i64(dup_const(vece, c));
+     tcg_gen_gvec_2s(dofs, aofs, oprsz, maxsz, tmp, &gop_ors);
+-    tcg_temp_free_i64(tmp);
+ }
+ 
+ void tcg_gen_vec_shl8i_i64(TCGv_i64 d, TCGv_i64 a, int64_t c)
+@@ -3011,10 +2981,11 @@ void tcg_gen_gvec_rotls(unsigned vece, uint32_t dofs, uint32_t aofs,
+ static void tcg_gen_shlv_mod_vec(unsigned vece, TCGv_vec d,
+                                  TCGv_vec a, TCGv_vec b)
+ {
+-    TCGv_vec t = tcg_temp_new_vec_matching(d);
++    TCGType type = tcgv_vec_temp(d)->type;
++    TCGv_vec t = tcg_temp_new_vec(type);
++    TCGv_vec m = tcg_constant_vec(type, vece, (8 << vece) - 1);
+ 
+-    tcg_gen_dupi_vec(vece, t, (8 << vece) - 1);
+-    tcg_gen_and_vec(vece, t, t, b);
++    tcg_gen_and_vec(vece, t, b, m);
+     tcg_gen_shlv_vec(vece, d, a, t);
+     tcg_temp_free_vec(t);
+ }
+@@ -3074,10 +3045,11 @@ void tcg_gen_gvec_shlv(unsigned vece, uint32_t dofs, uint32_t aofs,
+ static void tcg_gen_shrv_mod_vec(unsigned vece, TCGv_vec d,
+                                  TCGv_vec a, TCGv_vec b)
+ {
+-    TCGv_vec t = tcg_temp_new_vec_matching(d);
++    TCGType type = tcgv_vec_temp(d)->type;
++    TCGv_vec t = tcg_temp_new_vec(type);
++    TCGv_vec m = tcg_constant_vec(type, vece, (8 << vece) - 1);
+ 
+-    tcg_gen_dupi_vec(vece, t, (8 << vece) - 1);
+-    tcg_gen_and_vec(vece, t, t, b);
++    tcg_gen_and_vec(vece, t, b, m);
+     tcg_gen_shrv_vec(vece, d, a, t);
+     tcg_temp_free_vec(t);
+ }
+@@ -3137,10 +3109,11 @@ void tcg_gen_gvec_shrv(unsigned vece, uint32_t dofs, uint32_t aofs,
+ static void tcg_gen_sarv_mod_vec(unsigned vece, TCGv_vec d,
+                                  TCGv_vec a, TCGv_vec b)
+ {
+-    TCGv_vec t = tcg_temp_new_vec_matching(d);
++    TCGType type = tcgv_vec_temp(d)->type;
++    TCGv_vec t = tcg_temp_new_vec(type);
++    TCGv_vec m = tcg_constant_vec(type, vece, (8 << vece) - 1);
+ 
+-    tcg_gen_dupi_vec(vece, t, (8 << vece) - 1);
+-    tcg_gen_and_vec(vece, t, t, b);
++    tcg_gen_and_vec(vece, t, b, m);
+     tcg_gen_sarv_vec(vece, d, a, t);
+     tcg_temp_free_vec(t);
+ }
+@@ -3200,10 +3173,11 @@ void tcg_gen_gvec_sarv(unsigned vece, uint32_t dofs, uint32_t aofs,
+ static void tcg_gen_rotlv_mod_vec(unsigned vece, TCGv_vec d,
+                                   TCGv_vec a, TCGv_vec b)
+ {
+-    TCGv_vec t = tcg_temp_new_vec_matching(d);
++    TCGType type = tcgv_vec_temp(d)->type;
++    TCGv_vec t = tcg_temp_new_vec(type);
++    TCGv_vec m = tcg_constant_vec(type, vece, (8 << vece) - 1);
+ 
+-    tcg_gen_dupi_vec(vece, t, (8 << vece) - 1);
+-    tcg_gen_and_vec(vece, t, t, b);
++    tcg_gen_and_vec(vece, t, b, m);
+     tcg_gen_rotlv_vec(vece, d, a, t);
+     tcg_temp_free_vec(t);
+ }
+@@ -3259,10 +3233,11 @@ void tcg_gen_gvec_rotlv(unsigned vece, uint32_t dofs, uint32_t aofs,
+ static void tcg_gen_rotrv_mod_vec(unsigned vece, TCGv_vec d,
+                                   TCGv_vec a, TCGv_vec b)
+ {
+-    TCGv_vec t = tcg_temp_new_vec_matching(d);
++    TCGType type = tcgv_vec_temp(d)->type;
++    TCGv_vec t = tcg_temp_new_vec(type);
++    TCGv_vec m = tcg_constant_vec(type, vece, (8 << vece) - 1);
+ 
+-    tcg_gen_dupi_vec(vece, t, (8 << vece) - 1);
+-    tcg_gen_and_vec(vece, t, t, b);
++    tcg_gen_and_vec(vece, t, b, m);
+     tcg_gen_rotrv_vec(vece, d, a, t);
+     tcg_temp_free_vec(t);
+ }
 -- 
 2.20.1
 
