@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840C11CA1A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 05:46:36 +0200 (CEST)
-Received: from localhost ([::1]:40344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75ABF1CA1BB
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 05:57:02 +0200 (CEST)
+Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWty7-0000tQ-II
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 23:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34020)
+	id 1jWu8D-0005aU-19
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 23:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1jWtvR-0004i2-Fj; Thu, 07 May 2020 23:43:49 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:54727)
+ (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1jWu7L-00057T-F1
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 23:56:07 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1jWtvQ-0006qW-1T; Thu, 07 May 2020 23:43:49 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id y6so3638792pjc.4;
- Thu, 07 May 2020 20:43:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:subject:to:cc:references:in-reply-to:mime-version
- :message-id:content-transfer-encoding;
- bh=d1Jhrl3U55fk8bLW4ytoygLqK8oF6EAJsjnSbZLjgJQ=;
- b=OXvzsIakOI6aa87vstn8Mk+PDKTBSruDsz+8XTzOUZGuvt+THxPcBmUeQpxk/gRkDo
- /hTbc7Nw3DhW/Np3EqHUBhTWHFuehxSIs8yFQDrHEJ19PIEaxTUwySyGiECPe7/Pk0oC
- qJTsBZnjpDw50vd7glYcJEGaKvZZjz+LBJYy1dq/vJHXLyGY/WfJo7N6k2y0QOgpdwhT
- X1nzPI+ar8ls/5BiDeco0zX1uydGL6GvqorxwIswfRRbppqCiX4LwHN73SH+BWHKXl8C
- plzajWzwHkTzQwl80snHCAGOoZ84wUUTgFEyVUWcdVCJGyPcbgsjeWaOTPZq/ErIanlk
- LNXw==
+ (Exim 4.90_1) (envelope-from <dereksu@qnap.com>) id 1jWu7K-0003Bs-0f
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 23:56:07 -0400
+Received: by mail-pg1-x542.google.com with SMTP id s18so241012pgl.12
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 20:56:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=X2Dn7bNnuqHGjHdduKehjzI1ZKbit1B5jrC9GMqyM3M=;
+ b=kUSxTgDTOJcF79QZrvV2BwQTUm97YFsaOe7/kxGDHHjzgRN4V+uG7b451PH7cjsTT+
+ fwBmBQ9k5tFOvhK8WrsCSeRYjUqsSJfUr69cjmRcgGLPuhYne916yz5c4slZO7Dm2LbQ
+ tHV6SEmuTZuWOzXwHIuNtowDr5BwHQuTB/jVw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
- :mime-version:message-id:content-transfer-encoding;
- bh=d1Jhrl3U55fk8bLW4ytoygLqK8oF6EAJsjnSbZLjgJQ=;
- b=E4h4TdFLFcBfF4lUNbPKvW5CsMDMUVQ3GJv89CpLbq1FWYjrACPtFiOQnTb5p/22Ko
- fi6dtdLSxdPAoseOfClBhg8oc4XnwGVNCObI6ZQoIiSOOFnNpoE0KpnqFvoJx6d0qxur
- gEJn9hnlHsalzMD4nd6h+uXkJaIr5jD7HA30QfDaU+TRldAy4rUa9LPFPCjyRdBQk3tp
- bzltX5a5u30l0MChN9g0sFyt/NsDIp0dbPeg+5g1v3QygFLT+EYbHbTJ3PuHIjGAAZsS
- YpIl/3HfbU0S+FV1PuDf+o7Mvxj5dZ2lqGAQa6Nv3IznyAzkBJ8GLswdSP714xYJRb3f
- TQbQ==
-X-Gm-Message-State: AGi0PuaDGLWD8l+Wop5X/djJE/4DGLpFNSzXX6u8Pmj9guLMMoNs8OnD
- kXx0IOieI7/hGFiqOQRzpH0+eAhD
-X-Google-Smtp-Source: APiQypI4g1TC/3RT50MOxYVWZszfnU9sksE3iUycKhBPKg3Gf3rmgwh5M/NhZE3nH99z5Etdgql8RQ==
-X-Received: by 2002:a17:90b:a8e:: with SMTP id
- bn14mr3870241pjb.197.1588909425952; 
- Thu, 07 May 2020 20:43:45 -0700 (PDT)
-Received: from localhost (61-68-214-199.tpgi.com.au. [61.68.214.199])
- by smtp.gmail.com with ESMTPSA id i13sm1148840pja.40.2020.05.07.20.43.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 May 2020 20:43:45 -0700 (PDT)
-Date: Fri, 08 May 2020 13:43:39 +1000
-From: Nicholas Piggin <npiggin@gmail.com>
-Subject: Re: [PATCH] ppc/pnv: Fix NMI system reset SRR1 value
-To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
-References: <20200507114824.788942-1-npiggin@gmail.com>
- <55ff4f45-4e1f-e0af-7b25-0c197dd41e19@kaod.org>
-In-Reply-To: <55ff4f45-4e1f-e0af-7b25-0c197dd41e19@kaod.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X2Dn7bNnuqHGjHdduKehjzI1ZKbit1B5jrC9GMqyM3M=;
+ b=VjN2zl/XensJ1dt3ricBKhdNp4H7nhL0GLYge1v5ug6GtexXuhSEXMcXGpyoF7uuGh
+ I/fAt9O6O2Edmh/Fzt1UI6SzKoDctgcQImhxHwXXHKPrZj168tT68w8eQsmfce24Xeel
+ zevJq/vIJv5OBogcZ+zHzJPlydkmkeVsc9mdPTPs2ZvIUPGCdU3UddPfPrD7CyfO/ZVW
+ WkZVxC4ti4zNHKuxtswuZHLDKccM3R3smlomKoXHTC7209D9IuBgveNtIpImgjHwSGss
+ sZrx9+Ii7sDsxRjE/ffBm2vw9dpPD3wGDpPp9leGk3KA5cINM4N8TDntExMUNlioDPzO
+ pJRA==
+X-Gm-Message-State: AGi0PuZpcXKZ5zR7OiwnCR/ZDLrvIXECu80F6L8ql0QPsr/YgIihO+Bx
+ /egiZfDr64KuMvQX5Ww6ArKbwQ==
+X-Google-Smtp-Source: APiQypKFmy5yIzWMbn0W8dSJ7bHjQjTG6SN3I995m0c1oxZ3wCl5tH0fF0gFvpNYEIGjR1Y61yrnNw==
+X-Received: by 2002:aa7:8b0d:: with SMTP id f13mr708470pfd.270.1588910163732; 
+ Thu, 07 May 2020 20:56:03 -0700 (PDT)
+Received: from Jing-Weide-MacBook-Pro-3.local
+ (202-39-79-13.HINET-IP.hinet.net. [202.39.79.13])
+ by smtp.gmail.com with ESMTPSA id q7sm310980pgs.13.2020.05.07.20.56.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 May 2020 20:56:03 -0700 (PDT)
+Subject: Re: [PATCH v4 5/6] net/colo-compare.c, softmmu/vl.c: Check that
+ colo-compare is active
+To: "Zhang, Chen" <chen.zhang@intel.com>, Lukas Straub <lukasstraub2@web.de>
+References: <cover.1588587700.git.lukasstraub2@web.de>
+ <f6cbde747d78ff080f680c710e2793867a3cf1fa.1588587700.git.lukasstraub2@web.de>
+ <0380e994e53947cd961cc363d46561d3@intel.com> <20200507175421.185b48f8@luklap>
+ <59eea784a36643b4b1fe32b0700f57f7@intel.com>
+From: Derek Su <dereksu@qnap.com>
+Message-ID: <82d9726c-11e5-2090-96d9-4e8617f8f02e@qnap.com>
+Date: Fri, 8 May 2020 11:55:59 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.0
 MIME-Version: 1.0
-Message-Id: <1588908336.cr0wsknhb6.astroid@bobo.none>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x1041.google.com
+In-Reply-To: <59eea784a36643b4b1fe32b0700f57f7@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=dereksu@qnap.com; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -84,73 +88,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Excerpts from C=C3=A9dric Le Goater's message of May 8, 2020 3:14 am:
-> On 5/7/20 1:48 PM, Nicholas Piggin wrote:
->> Commit a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
->> SRR1 setting wrong for sresets that hit outside of power-save states.
->>=20
->> Fix this, better documenting the source for the bit definitions.
->>=20
->> Fixes: a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
->> Cc: C=C3=A9dric Le Goater <clg@kaod.org>
->> Cc: David Gibson <david@gibson.dropbear.id.au>
->> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
->=20
-> We should introduce some defines like the SRR1_WAKE ones in Linux and=20
-> cleanup powerpc_reset_wakeup(). This function uses cryptic values.=20
-> That can be done later on as a followup.
->=20
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+On 2020/5/8 上午10:26, Zhang, Chen wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Lukas Straub <lukasstraub2@web.de>
+>> Sent: Thursday, May 7, 2020 11:54 PM
+>> To: Zhang, Chen <chen.zhang@intel.com>
+>> Cc: qemu-devel <qemu-devel@nongnu.org>; Li Zhijian
+>> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; Marc-
+>> André Lureau <marcandre.lureau@redhat.com>; Paolo Bonzini
+>> <pbonzini@redhat.com>
+>> Subject: Re: [PATCH v4 5/6] net/colo-compare.c, softmmu/vl.c: Check that
+>> colo-compare is active
+>>
+>> On Thu, 7 May 2020 11:38:04 +0000
+>> "Zhang, Chen" <chen.zhang@intel.com> wrote:
+>>
+>>>> -----Original Message-----
+>>>> From: Lukas Straub <lukasstraub2@web.de>
+>>>> Sent: Monday, May 4, 2020 6:28 PM
+>>>> To: qemu-devel <qemu-devel@nongnu.org>
+>>>> Cc: Zhang, Chen <chen.zhang@intel.com>; Li Zhijian
+>>>> <lizhijian@cn.fujitsu.com>; Jason Wang <jasowang@redhat.com>; Marc-
+>>>> André Lureau <marcandre.lureau@redhat.com>; Paolo Bonzini
+>>>> <pbonzini@redhat.com>
+>>>> Subject: [PATCH v4 5/6] net/colo-compare.c, softmmu/vl.c: Check that
+>>>> colo- compare is active
+>>>>
+>>>> If the colo-compare object is removed before failover and a
+>>>> checkpoint happens, qemu crashes because it tries to lock the
+>>>> destroyed event_mtx in colo_notify_compares_event.
+>>>>
+>>>> Fix this by checking if everything is initialized by introducing a
+>>>> new variable colo_compare_active which is protected by a new mutex
+>>>> colo_compare_mutex. The new mutex also protects against concurrent
+>>>> access of the net_compares list and makes sure that
+>>>> colo_notify_compares_event isn't active while we destroy event_mtx
+>>>> and event_complete_cond.
+>>>>
+>>>> With this it also is again possible to use colo without colo-compare
+>>>> (periodic
+>>>> mode) and to use multiple colo-compare for multiple network interfaces.
+>>>>
+>>>
+>>> Hi Lukas,
+>>>
+>>> For this case I think we don't need to touch vl.c code, we can solve this
+>> issue from another perspective:
+>>> How to remove colo-compare?
+>>> User will use qemu-monitor or QMP command to disable an object, so we
+>>> just need return operation failed When user try to remove colo-compare
+>> object while COLO is running.
+>>
+>> Yeah, but that still leaves the other problem that colo can't be used without
+>> colo-compare (qemu crashes then).
+> 
+> Yes, the COLO-compare is necessary module in COLO original design.
+> At most cases, user need it do dynamic sync.
+> For rare cases, maybe we can add a new colo-compare parameter to bypass all the network workload.
+
+Hi, Chen
+
+In our application, we only need "periodical mode" because of the 
+performance issue, and have internal patch now. Is it OK to send the 
+internal patch for review?
 
 Thanks.
 
->> ---
->>=20
->> Thanks to Cedric for pointing out concerns with a previous MCE patch
->> that unearthed this as well. Linux does not actually care what these
->> SRR1[42:45] bits look like for non-powersave sresets, but we should
->> follow documented behaviour as far as possible.
->=20
-> We should introduce some defines like the SRR1_WAKE ones in Linux and=20
-> cleanup powerpc_reset_wakeup(). This function uses cryptic values.=20
-> That can be done later on as a followup.
->=20
->=20
-> I am currently after a bug which results in a CPU hard lockup because=20
-> of a pending interrupt. It occurs on a SMP PowerNV machine when it is=20
-> stressed with IO, such as scp of a big file.=20
->=20
-> I am suspecting more and more an issue with an interrupt being handled=20
-> when the CPU is coming out of idle. I haven't seen anything wrong in
+Regards,
+Derek
 
-So you can't hit it when booting Linux with powersave=3Doff?
+> 
+> Thanks
+> Zhang Chen
+> 
+>>
+>> Regards,
+>> Lukas Straub
+>>
+>>> Thanks
+>>> Zhang Chen
+>>>
+>>>> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+>>>> ---
+>>>>   net/colo-compare.c | 35 +++++++++++++++++++++++++++++------
+>>>>   net/colo-compare.h |  1 +
+>>>>   softmmu/vl.c       |  2 ++
+>>>>   3 files changed, 32 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/net/colo-compare.c b/net/colo-compare.c index
+>>>> 56db3d3bfc..c7572d75e9 100644
+>>>> --- a/net/colo-compare.c
+>>>> +++ b/net/colo-compare.c
+>>>> @@ -54,6 +54,8 @@ static NotifierList colo_compare_notifiers =
+>>>> #define REGULAR_PACKET_CHECK_MS 3000  #define
+>> DEFAULT_TIME_OUT_MS
+>>>> 3000
+>>>>
+>>>> +static QemuMutex colo_compare_mutex; static bool
+>>>> +colo_compare_active;
+>>>>   static QemuMutex event_mtx;
+>>>>   static QemuCond event_complete_cond;  static int
+>>>> event_unhandled_count; @@ -906,6 +908,12 @@ static void
+>>>> check_old_packet_regular(void *opaque) void
+>>>> colo_notify_compares_event(void *opaque, int event, Error **errp)  {
+>>>>       CompareState *s;
+>>>> +    qemu_mutex_lock(&colo_compare_mutex);
+>>>> +
+>>>> +    if (!colo_compare_active) {
+>>>> +        qemu_mutex_unlock(&colo_compare_mutex);
+>>>> +        return;
+>>>> +    }
+>>>>
+>>>>       qemu_mutex_lock(&event_mtx);
+>>>>       QTAILQ_FOREACH(s, &net_compares, next) { @@ -919,6 +927,7 @@
+>>>> void colo_notify_compares_event(void *opaque, int event, Error **errp)
+>>>>       }
+>>>>
+>>>>       qemu_mutex_unlock(&event_mtx);
+>>>> +    qemu_mutex_unlock(&colo_compare_mutex);
+>>>>   }
+>>>>
+>>>>   static void colo_compare_timer_init(CompareState *s) @@ -1274,7
+>>>> +1283,14 @@ static void colo_compare_complete(UserCreatable *uc,
+>> Error **errp)
+>>>>                              s->vnet_hdr);
+>>>>       }
+>>>>
+>>>> +    qemu_mutex_lock(&colo_compare_mutex);
+>>>> +    if (!colo_compare_active) {
+>>>> +        qemu_mutex_init(&event_mtx);
+>>>> +        qemu_cond_init(&event_complete_cond);
+>>>> +        colo_compare_active = true;
+>>>> +    }
+>>>>       QTAILQ_INSERT_TAIL(&net_compares, s, next);
+>>>> +    qemu_mutex_unlock(&colo_compare_mutex);
+>>>>
+>>>>       s->out_sendco.s = s;
+>>>>       s->out_sendco.chr = &s->chr_out; @@ -1290,9 +1306,6 @@ static
+>>>> void colo_compare_complete(UserCreatable
+>>>> *uc, Error **errp)
+>>>>
+>>>>       g_queue_init(&s->conn_list);
+>>>>
+>>>> -    qemu_mutex_init(&event_mtx);
+>>>> -    qemu_cond_init(&event_complete_cond);
+>>>> -
+>>>>       s->connection_track_table =
+>>>> g_hash_table_new_full(connection_key_hash,
+>>>>                                                         connection_key_equal,
+>>>>                                                         g_free, @@
+>>>> -1384,12 +1397,19 @@ static void colo_compare_finalize(Object *obj)
+>>>>
+>>>>       qemu_bh_delete(s->event_bh);
+>>>>
+>>>> +    qemu_mutex_lock(&colo_compare_mutex);
+>>>>       QTAILQ_FOREACH(tmp, &net_compares, next) {
+>>>>           if (tmp == s) {
+>>>>               QTAILQ_REMOVE(&net_compares, s, next);
+>>>>               break;
+>>>>           }
+>>>>       }
+>>>> +    if (QTAILQ_EMPTY(&net_compares)) {
+>>>> +        colo_compare_active = false;
+>>>> +        qemu_mutex_destroy(&event_mtx);
+>>>> +        qemu_cond_destroy(&event_complete_cond);
+>>>> +    }
+>>>> +    qemu_mutex_unlock(&colo_compare_mutex);
+>>>>
+>>>>       AioContext *ctx = iothread_get_aio_context(s->iothread);
+>>>>       aio_context_acquire(ctx);
+>>>> @@ -1413,15 +1433,18 @@ static void colo_compare_finalize(Object *obj)
+>>>>           object_unref(OBJECT(s->iothread));
+>>>>       }
+>>>>
+>>>> -    qemu_mutex_destroy(&event_mtx);
+>>>> -    qemu_cond_destroy(&event_complete_cond);
+>>>> -
+>>>>       g_free(s->pri_indev);
+>>>>       g_free(s->sec_indev);
+>>>>       g_free(s->outdev);
+>>>>       g_free(s->notify_dev);
+>>>>   }
+>>>>
+>>>> +void colo_compare_init_globals(void) {
+>>>> +    colo_compare_active = false;
+>>>> +    qemu_mutex_init(&colo_compare_mutex);
+>>>> +}
+>>>> +
+>>>>   static const TypeInfo colo_compare_info = {
+>>>>       .name = TYPE_COLO_COMPARE,
+>>>>       .parent = TYPE_OBJECT,
+>>>> diff --git a/net/colo-compare.h b/net/colo-compare.h index
+>>>> 22ddd512e2..eb483ac586 100644
+>>>> --- a/net/colo-compare.h
+>>>> +++ b/net/colo-compare.h
+>>>> @@ -17,6 +17,7 @@
+>>>>   #ifndef QEMU_COLO_COMPARE_H
+>>>>   #define QEMU_COLO_COMPARE_H
+>>>>
+>>>> +void colo_compare_init_globals(void);
+>>>>   void colo_notify_compares_event(void *opaque, int event, Error
+>>>> **errp); void colo_compare_register_notifier(Notifier *notify);
+>>>> void colo_compare_unregister_notifier(Notifier *notify); diff --git
+>>>> a/softmmu/vl.c b/softmmu/vl.c index 32c0047889..a913ed5469 100644
+>>>> --- a/softmmu/vl.c
+>>>> +++ b/softmmu/vl.c
+>>>> @@ -112,6 +112,7 @@
+>>>>   #include "qapi/qmp/qerror.h"
+>>>>   #include "sysemu/iothread.h"
+>>>>   #include "qemu/guest-random.h"
+>>>> +#include "net/colo-compare.h"
+>>>>
+>>>>   #define MAX_VIRTIO_CONSOLES 1
+>>>>
+>>>> @@ -2906,6 +2907,7 @@ void qemu_init(int argc, char **argv, char
+>> **envp)
+>>>>       precopy_infrastructure_init();
+>>>>       postcopy_infrastructure_init();
+>>>>       monitor_init_globals();
+>>>> +    colo_compare_init_globals();
+>>>>
+>>>>       if (qcrypto_init(&err) < 0) {
+>>>>           error_reportf_err(err, "cannot initialize crypto: ");
+>>>> --
+>>>> 2.20.1
+>>>
+> 
 
-Do we model stop with EC=3D0 properly? Looks like helper_pminsn seems to
-be doing the right thing there.
-
-> the models. Unless this maybe :
->=20
->     /* Pretend to be returning from doze always as we don't lose state */
->     *msr |=3D (0x1ull << (63 - 47));
->=20
-> I am not sure how in sync it is with PSSCR.
-
-That should be okay, the hardware can always enter a shallower state=20
-than was asked for. Linux will handle it. For testing purpose, we could
-model deeper states by scribbling on registers and indicating state loss.
-
-Aide from SRR1 sleep state value, Linux uses the SRR1 wake reason value=20
-to run the interrupt handler, but even if we got SRR1 wrong, Linux=20
-eventually enables MSR[EE] so the interrupt should get replayed then=20
-(this is what Linux used to do until we added the wake-reason processing=20
-for improved performance).
-
-But we do appear to get those right in powerpc_reset_wakeup().
-
-Thanks,
-Nick
 
