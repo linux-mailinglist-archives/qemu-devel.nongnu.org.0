@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89611CA01D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 03:35:26 +0200 (CEST)
-Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C561CA086
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 04:09:52 +0200 (CEST)
+Received: from localhost ([::1]:56716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWrvB-0002Wx-IV
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 21:35:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
+	id 1jWsSV-0004gf-Ll
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 22:09:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jWrtu-0001vz-Hc
- for qemu-devel@nongnu.org; Thu, 07 May 2020 21:34:06 -0400
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:45735)
+ (Exim 4.90_1) (envelope-from <priyamvad.agnisys@gmail.com>)
+ id 1jWsRn-0004I5-4M
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 22:09:07 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:34279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1jWrts-00049a-Pj
- for qemu-devel@nongnu.org; Thu, 07 May 2020 21:34:06 -0400
-Received: by mail-il1-x143.google.com with SMTP id i16so4121588ils.12
- for <qemu-devel@nongnu.org>; Thu, 07 May 2020 18:34:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <priyamvad.agnisys@gmail.com>)
+ id 1jWsRl-0007HJ-Tn
+ for qemu-devel@nongnu.org; Thu, 07 May 2020 22:09:06 -0400
+Received: by mail-lj1-x243.google.com with SMTP id f11so25050ljp.1
+ for <qemu-devel@nongnu.org>; Thu, 07 May 2020 19:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zsOIyHMGZH3XOjJ735p/3+4LkslrWpaxXDn/ZINt+9Q=;
- b=HExs0x4rmiFrnTumtycH8E9k2ulAB+CF6B8PXk0tHIjmaWtH56sygj63d8uYVK3Y0m
- 6zbNo26VkA9DYvRKFiSa6CGaAG2NBoMH5+jxXixp5CQBroA4nKTe/r6T3UdD7Nf4EQ87
- a+c2+/AwjxfJBTE+kcq26gil9n5xU114vVvRqpelVVhYLTYpauX8ueGt17sQpkglLRic
- u0kxK9dyoU130gJZt5QsQEvquyUH8OEvsOaTgGQnHjhm98Oa2DzCSa1fPc4f7QsVTJlj
- DU39U+GfVovV1exhRmZElTwbLPBmYqthr8FtUKb4O+jG3qnXKXPxfdrIP0oWklKL9C+X
- jR5g==
+ :cc; bh=4JX2CguDDJl9WQNK9lPvg2yUGcHHhh1EKNvF+1dss3A=;
+ b=XNAOYMSHzwOmmXQR6E1oID7mFO1UICndjqZ1Z4U7zj+XloGWLUQUNJyYc1qKO2vv3W
+ av2lneWIaWv5Z30PN3V2YKBQS86x+480LbJWxLD2jW+RzKYKnCr6NnbdMzU8W1IY/lvq
+ thK6CrXlSMhKV/DdYDKbqV+wyleE2TOIrihswbsxbuthy4yRg42IhYsZEeMxfaxwHGBH
+ DiwuQA9RpjG4N4xST3ta4h1ysa98C1hY78gP77G5Eey6yJEW4yTXSaIylDK6/cHB6zgl
+ 99een0tonrRRf7xPDTh48XTeS8/3MH4OS/0shMolvsVQbcYvmL2/+7ygPaKyE4BpFlGR
+ hLng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zsOIyHMGZH3XOjJ735p/3+4LkslrWpaxXDn/ZINt+9Q=;
- b=Qvjjf9BVs7O3f9q/8bQb+ryZatAaDFDIzJiK2LjQxmj5jL+O8K/WTHhsnXIwVfLvke
- wF6ZT9zyqnQW7eQ29jzRz6OoYtlN3iUOweUUZSpKP9srJPRAJlQp0RskAZT9U6Azc0hb
- gMueUomP/G+E+Tm28HdpF2OutgnmWVXqRKh2w7czbTa1mNThnEGkaA8sw+ZaMqdfPCW7
- +c/maCAgvCXPAm30ueirlhJPCu1bq9iKk2rnGmihOoOOCv4P6R7NIjRQ9Zxb/csGKCwR
- FQmlrlVfU5VMf6abSv1jD16uK9tMnWDZTTlTKV2kxMA+I6/eZwxbB52HZuErjJCLfJFf
- DY/g==
-X-Gm-Message-State: AGi0PuakTzFD0hnkVQDBuoSa08/wcVP0dX75H/bPattaHTEn1flkICY+
- IBMy/G8CB45mF/1yYoM+xuCDadWHdmiTn1aKlyk=
-X-Google-Smtp-Source: APiQypK5y2qBrRDPOcL9WCkgv3J/cuVcKBtIqbssvaIMRDMxRkXHwTnsyujjVCsU0TClX2GoFk4k9sftzWYvp38ZPP8=
-X-Received: by 2002:a92:5d0f:: with SMTP id r15mr171356ilb.251.1588901642474; 
- Thu, 07 May 2020 18:34:02 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=4JX2CguDDJl9WQNK9lPvg2yUGcHHhh1EKNvF+1dss3A=;
+ b=tqnYCVxPXgaPY7WzXyCFVYF6ccqZiPDzxqiyZFneu04/h4XqyEKhdxMFzI5yAVgpLL
+ zw1FR6EVuWlxvkBhom53/HvSvmpCVYeHjTBMMVYRCQ2ucWUlbeBF5Aak7g2FvoyqmyXb
+ xthVJ0gtz0wimjMu/WcrUAbNP3Wa2lKwMRcMdQZFU1D8Lx+WwlipLnnBVXFnO6XWeDTc
+ pqNzhCm49if3/Gx0OUiLeZzAYbehGOkTdcy+W8S7sFHPgD6H4hq3SFwSUTggvJOVS+PH
+ xPEnFdFmHxSkp5Nc4ApA73Z0fPILYKFkTvBuLNqKQA8JsOLpKcP0j4Ag/PRnuaWGagmT
+ Xvyw==
+X-Gm-Message-State: AOAM533xnjRibJoh9v9kabMOdkFnbVs7LHDvLBsXqLUpUdzRxCfWzwsm
+ 1QMsx57omCWLQmBFXfKgRZr5K85MTZJlsPsozTg=
+X-Google-Smtp-Source: ABdhPJxsRIZD/1Q+DD3EtOWnmt/MriXqsV9vuPUl3urGPkDsQP2bBs4Gcd8EgjJD89zz7rBVY7O5PPAQ5rjq2J62BVI=
+X-Received: by 2002:a2e:a556:: with SMTP id e22mr90162ljn.130.1588903742930;
+ Thu, 07 May 2020 19:09:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <1588501221-1205-1-git-send-email-chenhc@lemote.com>
- <CAHiYmc5UanJELbuo8RzODNo0+cvQ_XL-HhNC2DUMSGVKVZEBMQ@mail.gmail.com>
- <CABDp7Vp6p+M_sZp_WD+M3EeSOG1eKhX-nZzSiyc-PDKTno+iLw@mail.gmail.com>
- <CAHiYmc63HW-P=nJyRtFYyL0Ou+dZ=LRWFJpfZ1O_+c+-gjo=aw@mail.gmail.com>
- <CAAhV-H6vASk3-LWMijDv+ZsJqFMCdnTd9J7nHORXBoSNYX=5nA@mail.gmail.com>
- <CAHiYmc7XhGGb4q3RUX_-=ohsX2D7PHgax4y6nCPGtW7LLHV9dQ@mail.gmail.com>
-In-Reply-To: <CAHiYmc7XhGGb4q3RUX_-=ohsX2D7PHgax4y6nCPGtW7LLHV9dQ@mail.gmail.com>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Fri, 8 May 2020 09:41:38 +0800
-Message-ID: <CAAhV-H6JWtuek8kHFh5-3zW87av5zWwcOGwH0V4MZDF7Xuj=Bw@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 V3 0/7] mips: Add Loongson-3 machine support (with
- KVM)
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=chenhuacai@gmail.com; helo=mail-il1-x143.google.com
+References: <CAPV47zdeH0+G85De2nOeD-dw91PKqPZh0U4SZuwuFmdqRyhXjQ@mail.gmail.com>
+ <d418f253-1749-8d29-c228-0c69c2cec3a7@redhat.com>
+In-Reply-To: <d418f253-1749-8d29-c228-0c69c2cec3a7@redhat.com>
+From: Priyamvad Acharya <priyamvad.agnisys@gmail.com>
+Date: Fri, 8 May 2020 07:38:51 +0530
+Message-ID: <CAPV47zfy84NGNo-Zy=XB62p2jFpNGziHXJ9qK78UYoB5hHgD7g@mail.gmail.com>
+Subject: Re: Parameter 'driver' expects pluggable device type
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000002e027005a5197bf8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=priyamvad.agnisys@gmail.com; helo=mail-lj1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -72,7 +65,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,261 +79,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chen huacai <zltjiangshi@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Aleksandar,
+--0000000000002e027005a5197bf8
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 7, 2020 at 8:18 PM Aleksandar Markovic
-<aleksandar.qemu.devel@gmail.com> wrote:
+Hi,
+Thanks for providing relevant information.
+FYI
+I am using Qemu version *4.2.94 (v5.0.0-rc4-dirty).*
+I am using *virt* board.
+
+Where we need to set *user creatable *to true?
+Any other modification is needed to allow sysbus device support?
+
+Below is the script which I am using  to boot linux image with pl061 device
+on virt board.
+
+#!/bin/bash
 >
-> =D1=81=D1=80=D0=B5, 6. =D0=BC=D0=B0=D1=98 2020. =D1=83 03:43 Huacai Chen =
-<chenhuacai@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=
-=BE/=D0=BB=D0=B0:
-> >
-> > Hi, Aleksandar,
-> >
-> > On Tue, May 5, 2020 at 6:12 PM Aleksandar Markovic
-> > <aleksandar.qemu.devel@gmail.com> wrote:
-> > >
-> > >
-> > >
-> > > =D1=83=D1=82=D0=BE=D1=80=D0=B0=D0=BA, 05. =D0=BC=D0=B0=D1=98 2020., c=
-hen huacai <zltjiangshi@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
-=81=D0=B0=D0=BE/=D0=BB=D0=B0:
-> > >>
-> > >> Hi, Aleksandar,
-> > >>
-> > >> On Sun, May 3, 2020 at 6:50 PM Aleksandar Markovic
-> > >> <aleksandar.qemu.devel@gmail.com> wrote:
-> > >> >
-> > >> > =D0=BD=D0=B5=D0=B4, 3. =D0=BC=D0=B0=D1=98 2020. =D1=83 12:21 Huaca=
-i Chen <zltjiangshi@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=
-=D0=B0=D0=BE/=D0=BB=D0=B0:
-> > >> > >
-> > >> > > Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongs=
-on-3B
-> > >> > > R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest,=
- while
-> > >> > > Loongson-3A R4 is the newest and its ISA is almost the superset =
-of all
-> > >> > > others. To reduce complexity, in QEMU we just define two CPU typ=
-es:
-> > >> > >
-> > >> > > 1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R=
-1. It is
-> > >> > >    suitable for TCG because Loongson-3A R1 has fewest ASE.
-> > >> > > 2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R=
-4. It is
-> > >> > >    suitable for KVM because Loongson-3A R4 has the VZ ASE.
-> > >> > >
-> > >> >
-> > >> > Huacai, thanks for putting together v3, which is a little better t=
-han v2, and
-> > >> > thanks for addressing my previous suggestions.
-> > >> >
-> > >> > Now, give us some time to digest new data on Loongson3.  We will
-> > >> > respond, but it won't happen immediately, which is, you'd agree,
-> > >> > reasonable. Just be patient.
-> > >> >
-> > >> > But again, in general, I salute your efforts very much!
-> > >> >
-> > >> > Yours, Aleksandar
-> > >> I'm sorry for this late response because I have done many tests to
-> > >> reproduce the problem reported at
-> > >> https://patchew.org/QEMU/1588501221-1205-1-git-send-email-chenhc@lem=
-ote.com/,
-> > >> but I don't have such a failure...
-> > >>
-> > >> What I have done:
-> > >> 1, "make check" on MIPS64 platform (distro is Fedora28 for Loongson)=
-;
-> > >> 2, "make check" on X86_64 platform (distro is RHEL8);
-> > >> 3, "make docker-test-quick@centos7 SHOW_ENV=3D1 NETWORK=3D1" on X86_=
-64
-> > >> platform (distro is RHEL8);
-> > >> 4, "make docker-test-quick@centos7 SHOW_ENV=3D1 J=3Dn NETWORK=3D1" o=
-n X86_64
-> > >> platform (distro is RHEL8 and I've tried n=3D2,3,4....14);
-> > >>
-> > >> I always get the same result:
-> > >> Not run: 259
-> > >> Passed all 117 iotests
-> > >>
-> > >> And, it seems that my patchset doesn't touch anything about iotests,
-> > >> so I don't know why the build test fails on iotests 192 (Maybe your
-> > >> build test has the same problem without my patches).
-> > >>
-> > >
-> > > From time to time, there is some instability in our automatic iotests=
-. You shouldn't bother too much about it, of course you retest in your envi=
-ronments, that is good. But, in all likelyhood, your patchset doesn't reall=
-y have anything to do with the reported iotest failure.
-> >
-> > Thank you for your help, and here is another question: Could
-> > "target/mips: Support variable page size" series be merged now? This
-> > Loongson-3 series depend on variable page size logically.
-> >
+> KERNEL="/lhome/priyamvad/debian_qemu_arm32/vmlinuz-3.16.0-6-armmp-lpae"
 >
-> Hi, Huacei.
+> INIT_IMAGE="/lhome/priyamvad/debian_qemu_arm32/initrd.img-3.16.0-6-armmp-lpae"
+> DISK="/lhome/priyamvad/debian_qemu_arm32/hda30.qcow2"
 >
-> Please be patient. This is a significant series, and we don't do or
-> have a "fast track" for series of such nature. It might or might not
-> be that some of the patches will be accepted before the entire series,
-> but certainly do not rush us. This is not the way to achieve your
-> goal, let's put it that way. Focus on improving your series. Being
-> careful with reviewing and upstreaming is actually in your interest.
-Thank your very much. I know I should be patient, and I'm patient
-actually. I mention "target/mips: Support variable page size" here
-because I forget to add "for-5.1" in that series, I want to know
-whether I should resend it.
+> ./qemu-system-arm \
+> -M virt \
+> -m 1024 \
+> -smp 4 \
+> -kernel $KERNEL \
+> -object rng-random,filename=/dev/urandom,id=rng0 \
+> -device virtio-rng-device,rng=rng0 \
+> -initrd $INIT_IMAGE \
+> -append 'root=/dev/vda2' \
+> -drive if=none,file=$DISK,format=qcow2,id=hd \
+> -device pl061 \
+> -device virtio-blk-device,drive=hd \
+> -device virtio-net-device,netdev=usernet \
+> -netdev user,id=usernet,hostfwd=tcp::2222-:22 \
+> -nographic
+>
+
+Is this script  to boot linux image with pl061 device on virt board?
+
+
+On Fri, 8 May 2020 at 02:32, John Snow <jsnow@redhat.com> wrote:
 
 >
-> Yours,
-> Aleksandar
 >
-> > >
-> > > Truly yours,
-> > > Aleksandar
-> > >
-> > >
-> > >>
-> > >> P.S.: I have found a problem that my patchset has a build failure wi=
-th
-> > >> CONFIG_KVM=3Dn, but this is another problem and I will send V4 to fi=
-x it
-> > >> (after collecting all problems in V3).
-> > >>
-> > >>
-> > >> >
-> > >> > > Loongson-3 lacks English documents. I've tried to translated the=
-m with
-> > >> > > translate.google.com, and the machine translated documents (toge=
-ther
-> > >> > > with their original Chinese versions) are available here.
-> > >> > >
-> > >> > > Loongson-3A R1 (Loongson-3A1000)
-> > >> > > User Manual Part 1:
-> > >> > > http://ftp.godson.ac.cn/lemote/3A1000_p1.pdf
-> > >> > > http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_man=
-ual_P1.pdf (Chinese Version)
-> > >> > > User Manual Part 2:
-> > >> > > http://ftp.godson.ac.cn/lemote/3A1000_p2.pdf
-> > >> > > http://ftp.godson.ac.cn/lemote/Loongson3A1000_processor_user_man=
-ual_P2.pdf (Chinese Version)
-> > >> > >
-> > >> > > Loongson-3A R2 (Loongson-3A2000)
-> > >> > > User Manual Part 1:
-> > >> > > http://ftp.godson.ac.cn/lemote/3A2000_p1.pdf
-> > >> > > http://ftp.godson.ac.cn/lemote/Loongson3A2000_user1.pdf (Chinese=
- Version)
-> > >> > > User Manual Part 2:
-> > >> > > http://ftp.godson.ac.cn/lemote/3A2000_p2.pdf
-> > >> > > http://ftp.godson.ac.cn/lemote/Loongson3A2000_user2.pdf (Chinese=
- Version)
-> > >> > >
-> > >> > > Loongson-3A R3 (Loongson-3A3000)
-> > >> > > User Manual Part 1:
-> > >> > > http://ftp.godson.ac.cn/lemote/3A3000_p1.pdf
-> > >> > > http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual1.=
-pdf (Chinese Version)
-> > >> > > User Manual Part 2:
-> > >> > > http://ftp.godson.ac.cn/lemote/3A3000_p2.pdf
-> > >> > > http://ftp.godson.ac.cn/lemote/Loongson3A3000_3B3000usermanual2.=
-pdf (Chinese Version)
-> > >> > >
-> > >> > > Loongson-3A R4 (Loongson-3A4000)
-> > >> > > User Manual Part 1:
-> > >> > > http://ftp.godson.ac.cn/lemote/3A4000_p1.pdf
-> > >> > > http://ftp.godson.ac.cn/lemote/3A4000user.pdf (Chinese Version)
-> > >> > > User Manual Part 2:
-> > >> > > I'm sorry that it is unavailable now.
-> > >> > >
-> > >> > > We are preparing to add QEMU's Loongson-3 support. MIPS VZ exten=
-sion is
-> > >> > > fully supported in Loongson-3A R4+, so we at first add QEMU/KVM =
-support
-> > >> > > in this series. And the next series will add QEMU/TCG support (i=
-t will
-> > >> > > emulate Loongson-3A R1).
-> > >> > >
-> > >> > > We already have a full functional Linux kernel (based on Linux-5=
-.4.x LTS
-> > >> > > but not upstream yet) here:
-> > >> > >
-> > >> > > https://github.com/chenhuacai/linux
-> > >> > >
-> > >> > > How to use QEMU/Loongson-3?
-> > >> > > 1, Download kernel source from the above URL;
-> > >> > > 2, Build a kernel with arch/mips/configs/loongson3_{def,hpc}conf=
-ig;
-> > >> > > 3, Boot a Loongson-3A4000 host with this kernel;
-> > >> > > 4, Build QEMU-5.0.0 with this patchset;
-> > >> > > 5, modprobe kvm;
-> > >> > > 6, Use QEMU with TCG (available in future):
-> > >> > >        qemu-system-mips64el -M loongson3,accel=3Dtcg -cpu Loongs=
-on-3A1000 -kernel <path_to_kernel> -append ...
-> > >> > >    Use QEMU with KVM (available at present):
-> > >> > >        qemu-system-mips64el -M loongson3,accel=3Dkvm -cpu Loongs=
-on-3A4000 -kernel <path_to_kernel> -append ...
-> > >> > >
-> > >> > >    The "-cpu" parameter can be omitted here and QEMU will use th=
-e correct type for TCG/KVM automatically.
-> > >> > >
-> > >> > > V1 -> V2:
-> > >> > > 1, Add a cover letter;
-> > >> > > 2, Improve CPU definitions;
-> > >> > > 3, Remove LS7A-related things (Use GPEX instead);
-> > >> > > 4, Add a description of how to run QEMU/Loongson-3.
-> > >> > >
-> > >> > > V2 -> V3:
-> > >> > > 1, Fix all possible checkpatch.pl errors and warnings.
-> > >> > >
-> > >> > > Huacai Chen(7):
-> > >> > >  configure: Add KVM target support for MIPS64
-> > >> > >  hw/mips: Implement the kvm_type() hook in MachineClass
-> > >> > >  hw/mips: Add CPU IRQ3 delivery for KVM
-> > >> > >  target/mips: Add Loongson-3 CPU definition
-> > >> > >  target/mips: Add more CP0 register for save/restor
-> > >> > >  hw/mips: Add Loongson-3 machine support (with KVM)
-> > >> > >  MAINTAINERS: Add myself as Loongson-3 maintainer
-> > >> > >
-> > >> > > Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> > >> > > ---
-> > >> > >  MAINTAINERS                          |   5 +
-> > >> > >  configure                            |   2 +-
-> > >> > >  default-configs/mips64el-softmmu.mak |   1 +
-> > >> > >  hw/core/Makefile.objs                |   2 +-
-> > >> > >  hw/core/null-machine.c               |   4 +
-> > >> > >  hw/mips/Kconfig                      |  10 +
-> > >> > >  hw/mips/Makefile.objs                |   3 +-
-> > >> > >  hw/mips/common.c                     |  31 ++
-> > >> > >  hw/mips/mips_int.c                   |   4 +-
-> > >> > >  hw/mips/mips_loongson3.c             | 901 ++++++++++++++++++++=
-+++++++++++++++
-> > >> > >  include/hw/mips/mips.h               |   3 +
-> > >> > >  target/mips/cpu.h                    |  28 ++
-> > >> > >  target/mips/internal.h               |   2 +
-> > >> > >  target/mips/kvm.c                    | 212 +++++++++
-> > >> > >  target/mips/machine.c                |   6 +-
-> > >> > >  target/mips/mips-defs.h              |   7 +-
-> > >> > >  target/mips/translate.c              |   2 +
-> > >> > >  target/mips/translate_init.inc.c     |  86 ++++
-> > >> > >  18 files changed, 1300 insertions(+), 9 deletions(-)
-> > >> > >  create mode 100644 hw/mips/common.c
-> > >> > >  create mode 100644 hw/mips/mips_loongson3.c
-> > >> > > --
-> > >> > > 2.7.0
-> > >>
-> > >>
-> > >>
-> > >> --
-> > >> Huacai Chen
-> > Best regards,
-> > Huacai
+> On 5/6/20 8:56 AM, Priyamvad Acharya wrote:
+> >
+> > Hello developer community,
+> > I want to allow a *sysbus *type device to boot with kernel image(arm
+> > architecture) via Qemu command line .
+> >
+> > When I run qemu arm system executable with *-device *option via qemu
+> > command line,I get following error message
+> >
+> >> qemu-system-arm: -device pl061: Parameter 'driver' expects pluggable
+> > device type
+> >
+> > So, how to allow a sysbus device via command line?
+> > Is there any working patch?
+>
+> Hi, it looks like the pl061 device is not declared "user creatable" so
+> it is unavailable from the CLI. As a sysbus device, QEMU is not aware,
+> in the abstract, of how to "connect" the device to other devices.
+>
+> See the sysbus class initialization code for more detail:
+> https://github.com/qemu/qemu/blob/master/hw/core/sysbus.c#L301
+>
+>
+> However, It looks like these boards/devices create such a device:
+>
+> hw/arm/highbank
+> hw/arm/realview
+> hw/arm/sbsa-ref
+> hw/arm/stellaris
+> hw/arm/versatilepb
+> hw/arm/virt
+>
+> If you want one on some other kind of machine, you'll need to write it
+> up yourself in the machine board code, but you didn't tell us what
+> version of QEMU you're using, what machine type you are trying to use, etc.
+>
+> --js
+>
+>
+
+--0000000000002e027005a5197bf8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div>Thanks for providing relevant informati=
+on.</div><div>FYI</div><div>I am using Qemu version <b>4.2.94 (v5.0.0-rc4-d=
+irty).</b></div><div>I am using <b>virt</b> board.</div><div><br></div><div=
+>Where we need to set <b>user creatable </b>to true?</div><div>Any other mo=
+dification is needed to allow sysbus device support?</div><div><br></div><d=
+iv>Below is the script which I am using=C2=A0 to boot linux image with pl06=
+1 device on virt board.</div><div><br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex"><div>#!/bin/bash<br><br>KERNEL=3D&quot;/lhome/priyamvad/=
+debian_qemu_arm32/vmlinuz-3.16.0-6-armmp-lpae&quot;<br>INIT_IMAGE=3D&quot;/=
+lhome/priyamvad/debian_qemu_arm32/initrd.img-3.16.0-6-armmp-lpae&quot;<br>D=
+ISK=3D&quot;/lhome/priyamvad/debian_qemu_arm32/hda30.qcow2&quot;<br><br>./q=
+emu-system-arm \<br>	-M virt \<br>	-m 1024 \<br>	-smp 4 \<br>	-kernel $KERN=
+EL \<br>	-object rng-random,filename=3D/dev/urandom,id=3Drng0 \<br>	-device=
+ virtio-rng-device,rng=3Drng0 \<br>	-initrd $INIT_IMAGE \<br>	-append &#39;=
+root=3D/dev/vda2&#39; \<br>	-drive if=3Dnone,file=3D$DISK,format=3Dqcow2,id=
+=3Dhd \<br>	-device pl061 \ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>	-device virtio-bl=
+k-device,drive=3Dhd \<br>	-device virtio-net-device,netdev=3Dusernet \<br>	=
+-netdev user,id=3Dusernet,hostfwd=3Dtcp::2222-:22 \<br>	-nographic<br></div=
+></blockquote><div><br></div><div>Is this script=C2=A0=20
+ to boot linux image with pl061 device on virt board?
+
+</div><div><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri, 8 May 2020 at 02:32, John Snow &lt;<a href=3D"=
+mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+On 5/6/20 8:56 AM, Priyamvad Acharya wrote:<br>
+&gt; <br>
+&gt; Hello developer community,<br>
+&gt; I want to allow a *sysbus *type device to boot with kernel image(arm<b=
+r>
+&gt; architecture) via Qemu command line .<br>
+&gt; <br>
+&gt; When I run qemu arm system executable with *-device *option via qemu<b=
+r>
+&gt; command line,I get following error message<br>
+&gt; <br>
+&gt;&gt; qemu-system-arm: -device pl061: Parameter &#39;driver&#39; expects=
+ pluggable<br>
+&gt; device type<br>
+&gt; <br>
+&gt; So, how to allow a sysbus device via command line?<br>
+&gt; Is there any working patch?<br>
+<br>
+Hi, it looks like the pl061 device is not declared &quot;user creatable&quo=
+t; so<br>
+it is unavailable from the CLI. As a sysbus device, QEMU is not aware,<br>
+in the abstract, of how to &quot;connect&quot; the device to other devices.=
+<br>
+<br>
+See the sysbus class initialization code for more detail:<br>
+<a href=3D"https://github.com/qemu/qemu/blob/master/hw/core/sysbus.c#L301" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/qemu/qemu/blob/mast=
+er/hw/core/sysbus.c#L301</a><br>
+<br>
+<br>
+However, It looks like these boards/devices create such a device:<br>
+<br>
+hw/arm/highbank<br>
+hw/arm/realview<br>
+hw/arm/sbsa-ref<br>
+hw/arm/stellaris<br>
+hw/arm/versatilepb<br>
+hw/arm/virt<br>
+<br>
+If you want one on some other kind of machine, you&#39;ll need to write it<=
+br>
+up yourself in the machine board code, but you didn&#39;t tell us what<br>
+version of QEMU you&#39;re using, what machine type you are trying to use, =
+etc.<br>
+<br>
+--js<br>
+<br>
+</blockquote></div>
+
+--0000000000002e027005a5197bf8--
 
