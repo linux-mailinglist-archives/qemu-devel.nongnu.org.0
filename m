@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475C81CA1A2
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 05:45:02 +0200 (CEST)
-Received: from localhost ([::1]:60064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840C11CA1A9
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 05:46:36 +0200 (CEST)
+Received: from localhost ([::1]:40344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWtwb-0005c0-6P
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 23:45:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
+	id 1jWty7-0000tQ-II
+	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 23:46:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jWtvE-0004J4-Pe; Thu, 07 May 2020 23:43:36 -0400
-Resent-Date: Thu, 07 May 2020 23:43:36 -0400
-Resent-Message-Id: <E1jWtvE-0004J4-Pe@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jWtvD-00062I-3U; Thu, 07 May 2020 23:43:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1588909389; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=YDFMfbgyO8sk60OLEOlchy3b18BGjXkit0fhOZ288ICGqnW8YYeqjAfKhBGZxIQpmHbzZEXBjriN1u3X20mmpGiPOy+IbGJJLRkhuGrznR6zDPob1VydDxMjM9+ZNXhJf2SZ+Pe0VHcCwc4f3sMLX+Ra3twbRNEpaMH9rUw+BPA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1588909389;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=oRg71rOzN2sAtTx2yd828EvyTMnBcPMu0Q7Ik0aLxTI=; 
- b=XegOHduWdhoajNLHsZTWMFHdzi6cPic+SK+4gHMc+RlGkXi+/Ep54jIJrsShTA/3u92mxH6N51fsS7M0oCQ3VzEtb6eDmNCDxG9OXbx5VcAaFod1WhwcbTrfiyBMoYQbyPNZr5HAXpBZesEshPqaagCy8dbLztICn1EEQ0R4T2Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1588909387965591.4173727118624;
- Thu, 7 May 2020 20:43:07 -0700 (PDT)
-Message-ID: <158890938646.29923.2870364451732664506@45ef0f9c86ae>
-In-Reply-To: <20200507114824.788942-1-npiggin@gmail.com>
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1jWtvR-0004i2-Fj; Thu, 07 May 2020 23:43:49 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:54727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1jWtvQ-0006qW-1T; Thu, 07 May 2020 23:43:49 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id y6so3638792pjc.4;
+ Thu, 07 May 2020 20:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=d1Jhrl3U55fk8bLW4ytoygLqK8oF6EAJsjnSbZLjgJQ=;
+ b=OXvzsIakOI6aa87vstn8Mk+PDKTBSruDsz+8XTzOUZGuvt+THxPcBmUeQpxk/gRkDo
+ /hTbc7Nw3DhW/Np3EqHUBhTWHFuehxSIs8yFQDrHEJ19PIEaxTUwySyGiECPe7/Pk0oC
+ qJTsBZnjpDw50vd7glYcJEGaKvZZjz+LBJYy1dq/vJHXLyGY/WfJo7N6k2y0QOgpdwhT
+ X1nzPI+ar8ls/5BiDeco0zX1uydGL6GvqorxwIswfRRbppqCiX4LwHN73SH+BWHKXl8C
+ plzajWzwHkTzQwl80snHCAGOoZ84wUUTgFEyVUWcdVCJGyPcbgsjeWaOTPZq/ErIanlk
+ LNXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=d1Jhrl3U55fk8bLW4ytoygLqK8oF6EAJsjnSbZLjgJQ=;
+ b=E4h4TdFLFcBfF4lUNbPKvW5CsMDMUVQ3GJv89CpLbq1FWYjrACPtFiOQnTb5p/22Ko
+ fi6dtdLSxdPAoseOfClBhg8oc4XnwGVNCObI6ZQoIiSOOFnNpoE0KpnqFvoJx6d0qxur
+ gEJn9hnlHsalzMD4nd6h+uXkJaIr5jD7HA30QfDaU+TRldAy4rUa9LPFPCjyRdBQk3tp
+ bzltX5a5u30l0MChN9g0sFyt/NsDIp0dbPeg+5g1v3QygFLT+EYbHbTJ3PuHIjGAAZsS
+ YpIl/3HfbU0S+FV1PuDf+o7Mvxj5dZ2lqGAQa6Nv3IznyAzkBJ8GLswdSP714xYJRb3f
+ TQbQ==
+X-Gm-Message-State: AGi0PuaDGLWD8l+Wop5X/djJE/4DGLpFNSzXX6u8Pmj9guLMMoNs8OnD
+ kXx0IOieI7/hGFiqOQRzpH0+eAhD
+X-Google-Smtp-Source: APiQypI4g1TC/3RT50MOxYVWZszfnU9sksE3iUycKhBPKg3Gf3rmgwh5M/NhZE3nH99z5Etdgql8RQ==
+X-Received: by 2002:a17:90b:a8e:: with SMTP id
+ bn14mr3870241pjb.197.1588909425952; 
+ Thu, 07 May 2020 20:43:45 -0700 (PDT)
+Received: from localhost (61-68-214-199.tpgi.com.au. [61.68.214.199])
+ by smtp.gmail.com with ESMTPSA id i13sm1148840pja.40.2020.05.07.20.43.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 May 2020 20:43:45 -0700 (PDT)
+Date: Fri, 08 May 2020 13:43:39 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
 Subject: Re: [PATCH] ppc/pnv: Fix NMI system reset SRR1 value
+To: =?iso-8859-1?q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org
+References: <20200507114824.788942-1-npiggin@gmail.com>
+ <55ff4f45-4e1f-e0af-7b25-0c197dd41e19@kaod.org>
+In-Reply-To: <55ff4f45-4e1f-e0af-7b25-0c197dd41e19@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: npiggin@gmail.com
-Date: Thu, 7 May 2020 20:43:07 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 23:43:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+Message-Id: <1588908336.cr0wsknhb6.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=npiggin@gmail.com; helo=mail-pj1-x1041.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,56 +84,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, npiggin@gmail.com,
- david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUwNzExNDgyNC43ODg5
-NDItMS1ucGlnZ2luQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
-IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
-Zm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDA1MDcxMTQ4MjQuNzg4OTQyLTEtbnBpZ2dpbkBn
-bWFpbC5jb20KU3ViamVjdDogW1BBVENIXSBwcGMvcG52OiBGaXggTk1JIHN5c3RlbSByZXNldCBT
-UlIxIHZhbHVlClR5cGU6IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
-YmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
-cyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3Jp
-cHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9
-PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKU3dp
-dGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpmYmU3MmNiIHBwYy9wbnY6IEZpeCBOTUkgc3lz
-dGVtIHJlc2V0IFNSUjEgdmFsdWUKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBjb2RlIGlu
-ZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM1OiBGSUxFOiBody9wcGMvcG52LmM6MTk5MToK
-K15JICogUG93ZXItc2F2ZSB3YWtldXBzLCBhcyBpbmRpY2F0ZWQgYnkgbm9uLXplcm8gU1JSMVs0
-Njo0N10gcHV0IHRoZSQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMK
-IzM2OiBGSUxFOiBody9wcGMvcG52LmM6MTk5MjoKK15JICogd2FrZXVwIHJlYXNvbiBpbiBTUlIx
-WzQyOjQ1XSwgc3lzdGVtIHJlc2V0IGlzIGluZGljYXRlZCB3aXRoIDBiMDEwMCQKCkVSUk9SOiBj
-b2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzM3OiBGSUxFOiBody9wcGMvcG52LmM6
-MTk5MzoKK15JICogKFBQQ19CSVQoNDMpKS4kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiMzODogRklMRTogaHcvcHBjL3Budi5jOjE5OTQ6CiteSSAqLyQKCkVSUk9S
-OiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNDA6IEZJTEU6IGh3L3BwYy9wbnYuYzoxOTk2Ogor
-ICAgICAgICAgICAgd2Fybl9yZXBvcnQoInBwY19jcHVfZG9fc3lzdGVtX3Jlc2V0IGRvZXMgbm90
-IHNldCBzeXN0ZW0gcmVzZXQgd2FrZXVwIHJlYXNvbiIpOwoKRVJST1I6IGNvZGUgaW5kZW50IHNo
-b3VsZCBuZXZlciB1c2UgdGFicwojNDU6IEZJTEU6IGh3L3BwYy9wbnYuYzoyMDAxOgorXkkgKiBG
-b3Igbm9uLXBvd2Vyc2F2ZSBzeXN0ZW0gcmVzZXRzLCBTUlIxWzQyOjQ1XSBhcmUgZGVmaW5lZCB0
-byBiZSQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ2OiBGSUxF
-OiBody9wcGMvcG52LmM6MjAwMjoKK15JICogaW1wbGVtZW50YXRpb24tZGVwZW5kZW50LiBUaGUg
-UE9XRVI5IFVzZXIgTWFudWFsIHNwZWNpZmllcyB0aGF0JAoKRVJST1I6IGNvZGUgaW5kZW50IHNo
-b3VsZCBuZXZlciB1c2UgdGFicwojNDc6IEZJTEU6IGh3L3BwYy9wbnYuYzoyMDAzOgorXkkgKiBh
-biBleHRlcm5hbCAoU0NPTSBkcml2ZW4sIHdoaWNoIG1heSBjb21lIGZyb20gYSBCTUMgbm1pIGNv
-bW1hbmQgb3IkCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM0ODog
-RklMRTogaHcvcHBjL3Budi5jOjIwMDQ6CiteSSAqIGFub3RoZXIgQ1BVIHJlcXVlc3RpbmcgYSBO
-TUkgSVBJKSBzeXN0ZW0gcmVzZXQgZXhjZXB0aW9uIHNob3VsZCBiZSQKCkVSUk9SOiBjb2RlIGlu
-ZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzQ5OiBGSUxFOiBody9wcGMvcG52LmM6MjAwNToK
-K15JICogMGIwMDEwIChQUENfQklUKDQ0KSkuJAoKdG90YWw6IDEwIGVycm9ycywgMCB3YXJuaW5n
-cywgMzIgbGluZXMgY2hlY2tlZAoKQ29tbWl0IGZiZTcyY2I5ZDQ2NSAocHBjL3BudjogRml4IE5N
-SSBzeXN0ZW0gcmVzZXQgU1JSMSB2YWx1ZSkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA1MDcx
-MTQ4MjQuNzg4OTQyLTEtbnBpZ2dpbkBnbWFpbC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBl
-PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
-dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
-dy1kZXZlbEByZWRoYXQuY29t
+Excerpts from C=C3=A9dric Le Goater's message of May 8, 2020 3:14 am:
+> On 5/7/20 1:48 PM, Nicholas Piggin wrote:
+>> Commit a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
+>> SRR1 setting wrong for sresets that hit outside of power-save states.
+>>=20
+>> Fix this, better documenting the source for the bit definitions.
+>>=20
+>> Fixes: a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
+>> Cc: C=C3=A9dric Le Goater <clg@kaod.org>
+>> Cc: David Gibson <david@gibson.dropbear.id.au>
+>> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+>=20
+> We should introduce some defines like the SRR1_WAKE ones in Linux and=20
+> cleanup powerpc_reset_wakeup(). This function uses cryptic values.=20
+> That can be done later on as a followup.
+>=20
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Thanks.
+
+>> ---
+>>=20
+>> Thanks to Cedric for pointing out concerns with a previous MCE patch
+>> that unearthed this as well. Linux does not actually care what these
+>> SRR1[42:45] bits look like for non-powersave sresets, but we should
+>> follow documented behaviour as far as possible.
+>=20
+> We should introduce some defines like the SRR1_WAKE ones in Linux and=20
+> cleanup powerpc_reset_wakeup(). This function uses cryptic values.=20
+> That can be done later on as a followup.
+>=20
+>=20
+> I am currently after a bug which results in a CPU hard lockup because=20
+> of a pending interrupt. It occurs on a SMP PowerNV machine when it is=20
+> stressed with IO, such as scp of a big file.=20
+>=20
+> I am suspecting more and more an issue with an interrupt being handled=20
+> when the CPU is coming out of idle. I haven't seen anything wrong in
+
+So you can't hit it when booting Linux with powersave=3Doff?
+
+Do we model stop with EC=3D0 properly? Looks like helper_pminsn seems to
+be doing the right thing there.
+
+> the models. Unless this maybe :
+>=20
+>     /* Pretend to be returning from doze always as we don't lose state */
+>     *msr |=3D (0x1ull << (63 - 47));
+>=20
+> I am not sure how in sync it is with PSSCR.
+
+That should be okay, the hardware can always enter a shallower state=20
+than was asked for. Linux will handle it. For testing purpose, we could
+model deeper states by scribbling on registers and indicating state loss.
+
+Aide from SRR1 sleep state value, Linux uses the SRR1 wake reason value=20
+to run the interrupt handler, but even if we got SRR1 wrong, Linux=20
+eventually enables MSR[EE] so the interrupt should get replayed then=20
+(this is what Linux used to do until we added the wake-reason processing=20
+for improved performance).
+
+But we do appear to get those right in powerpc_reset_wakeup().
+
+Thanks,
+Nick
 
