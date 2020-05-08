@@ -2,91 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567011CA5F5
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:22:50 +0200 (CEST)
-Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 188BB1CA644
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 10:41:07 +0200 (CEST)
+Received: from localhost ([::1]:44560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWyHQ-0001tx-SI
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:22:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45762)
+	id 1jWyZ7-0001Cn-OV
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 04:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWyGK-0000mz-AU
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:21:40 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23550
- helo=us-smtp-delivery-1.mimecast.com)
+ id 1jWyY6-0000Z1-0r
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:40:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:27852
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1jWyGJ-0001YU-8W
- for qemu-devel@nongnu.org; Fri, 08 May 2020 04:21:40 -0400
+ id 1jWyY4-0003hU-Hk
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 04:40:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588926097;
+ s=mimecast20190719; t=1588927199;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=maHgRF+ilqsvHd0XsrIV+9iWxWLFqJu4Oy3nDK+OX7E=;
- b=GdvlU5u8p3PW97x3PK1Un8p9GC7gkOzkde5YF0ujMWw1FlHPqb3Lm2Xcp3LH5XfJPbG160
- 1LHWTosw4c2Qx3WzoMHwoDx9TtMfuq26yivtiuW2Y2RfnIj0ky9Osbdr/WYV7w+ERqT4Gn
- rigynbcC8+kVjfKSVe/2TPSbRhsRHAY=
+ bh=reH0qvTpLHYW8AWLzCTVWmAxiqSUgDgGOqWacJWsPL4=;
+ b=evXKIwnnJYt27KzkER+TPMbkCWJTsrWMp3O4sn5J7u43BhYyKeGgMptZ0HCPEkUr+rsNfT
+ 4UEV6vIUgrvvrUhPCGcjGGwEmkoD48Fla1vQwXwb3VdYIuT9Lpa1c0Q3SuBFkpRIa4mTvD
+ 0jF9t0OuvYmm7iL0IbLguxoyDPYkZ20=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-6EFYtj8pMiS_QRrcRkc13w-1; Fri, 08 May 2020 04:21:34 -0400
-X-MC-Unique: 6EFYtj8pMiS_QRrcRkc13w-1
-Received: by mail-wr1-f72.google.com with SMTP id 90so480451wrg.23
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:21:34 -0700 (PDT)
+ us-mta-471-CCHTlfdpOAe3q1QEbw62sw-1; Fri, 08 May 2020 04:39:55 -0400
+X-MC-Unique: CCHTlfdpOAe3q1QEbw62sw-1
+Received: by mail-wr1-f72.google.com with SMTP id 30so540271wrq.15
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 01:39:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=maHgRF+ilqsvHd0XsrIV+9iWxWLFqJu4Oy3nDK+OX7E=;
- b=FEgrw4ScXbPd2pipOpYBnjTGjNxaBtAQhc3DLlcOJ9bxDQdaIKVMlO/2xR7ZQ8mO2k
- 7xK187Z6G93U1vspkoSLi1tIURJjGdjaKnfX0zQJdfYMCddoDzPgv7gtJfOJjBHiYsDY
- J9FWwbaDFkFsPOd/LjiRhAm/G0pKMi4G8h/sEgwe+6Nd0WdAyn6ZaW6HD5oSPLl4MOn9
- AqVkvLZSYERQgWR7pc568en8qCgXZMb6l4MxTWsnlVMwnXE8L1o+YQkmtAvmMzAnIYc9
- bx80sBDQjZX6S6MXd+JIVJKCLrbmwKu4cy5+/nMfl/Swnn315Tnx+IFECDld7hp0gGk6
- FsZA==
-X-Gm-Message-State: AGi0PuZygBx87vGHfW7uDr295Jdxn5+jzXTXKUh/rxRv7cEWkKaxJpLE
- ZaREQpoiMoh9e4e3QLqboMy4eEhPptL+vRzU6ueTjElmP8gRixzKZdY6fqn0KOta9MrVph06min
- ySPpJ1RFUVRdP+HM=
-X-Received: by 2002:a1c:2042:: with SMTP id g63mr14829580wmg.70.1588926093883; 
- Fri, 08 May 2020 01:21:33 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJzWytOef06ibth82GDIgn/BS1NwyHC/lV7hYUC4I1DKjzucs1abKb8IMp756vMjMiA8qW3JQ==
-X-Received: by 2002:a1c:2042:: with SMTP id g63mr14829552wmg.70.1588926093655; 
- Fri, 08 May 2020 01:21:33 -0700 (PDT)
+ bh=Oums1JEin6yJ+Rlwcse4Oz5sWMkUJewVQwCMYJIC6+w=;
+ b=X70Xddci+tCYNsbKdQhQTHXLI9PUMjziJlOrU5Ap1lI1Ka5S0+QY6tbqhXSTfir1gv
+ PrKtaSjLnEEVtuVTmenZ3KcqC7jgFbo8bvDqnCWKSUvmyn6aRvnULqQRYRXX6wJPuiFQ
+ pNI/Wo4LLNMtwtWu8GMW/1JQV4G1KyRYNbtbGFmB/sqd+NAJ0d9TsHlXWPY/OeqZhY+x
+ 5RAOuA3BVWTvChF8M18Qqkl7q6Xeh+sXTMPLOTGV7SUIMfrbkLL08E0I4sxAYhD3rg3/
+ vTz7xoOPFLwfJ8MpyXaI2Iz4hoCZnxM1HIL9U73E9oN8TqvKyj5trK08IiQfqChDqaFr
+ /FvA==
+X-Gm-Message-State: AGi0PuaT77DymfwkLTIrVfIbx2Gbw/vJTmXoioN4jZzUfneWSkn6WGF0
+ j86HjnTm3SCZCLRE7esBX4xp7H4k9afP3caFlkQhGGJ1SdN2HQAWSxqBwIQiZ1WFK/3FTh3yupW
+ TOdVRO5/O8+e5IoA=
+X-Received: by 2002:a1c:3985:: with SMTP id
+ g127mr15211435wma.102.1588927194307; 
+ Fri, 08 May 2020 01:39:54 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIGZvQSiAVo/M2tuOGa6PEpWsThKAvLNEB70YMcWK9+Ce3x+uPZMGBN2OqDydYDc6Du++rEkg==
+X-Received: by 2002:a1c:3985:: with SMTP id
+ g127mr15211401wma.102.1588927194082; 
+ Fri, 08 May 2020 01:39:54 -0700 (PDT)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id y70sm12762561wmc.36.2020.05.08.01.21.32
+ by smtp.gmail.com with ESMTPSA id m6sm1808275wrq.5.2020.05.08.01.39.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 01:21:33 -0700 (PDT)
+ Fri, 08 May 2020 01:39:52 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 00/10] exec: Shear 'exec/ram_addr.h' and make NVMe device
- target-agnostic
-In-Reply-To: <6109af19-24d0-1fdc-4f5c-772cfe9ec087@redhat.com> (Paolo
- Bonzini's message of "Fri, 8 May 2020 00:15:07 +0200")
-References: <20200507173958.25894-1-philmd@redhat.com>
- <6109af19-24d0-1fdc-4f5c-772cfe9ec087@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 1/2] exec: Check Xen is enabled before calling the Xen
+ API
+In-Reply-To: <20200508080738.2646-2-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 8 May 2020 10:07:37
+ +0200")
+References: <20200508080738.2646-1-philmd@redhat.com>
+ <20200508080738.2646-2-philmd@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
-Date: Fri, 08 May 2020 10:21:32 +0200
-Message-ID: <871rnug7lf.fsf@secure.mitica>
+Date: Fri, 08 May 2020 10:39:51 +0200
+Message-ID: <87wo5mes6g.fsf@secure.mitica>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=quintela@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:23:32
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,76 +104,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: quintela@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Richard Henderson <rth@twiddle.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paul Durrant <paul@xen.org>, qemu-devel@nongnu.org,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> wrote:
-> On 07/05/20 19:39, Philippe Mathieu-Daud=C3=A9 wrote:
->> Stefan suggested to make qemu_ram_writeback() target agnostic,
->> Paolo to add memory_region_msync(), and Peter to remove
->> "exec/ram_addr.h" [*].
->>=20
->> I let a single function in this file,
->> cpu_physical_memory_sync_dirty_bitmap(), to let the maintainer
->> have the pleasure to remove this header definitively himself :)
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  include/exec/ram_addr.h | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
-> I don't think this is a good idea. :)
->
-> "exec/ram_addr.h" is a good place for functions that work on ram-addr_t
-> and/or RAMBlock data.  There should very few of these, since these are
-> mostly an internal concept that should only be used for live migration.
->  You could:
->
-> - figure out which files actually need to include exec/ram_addr.h.
-> There's already very few of them.
+> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+> index 5e59a3d8d7..dd8713179e 100644
+> --- a/include/exec/ram_addr.h
+> +++ b/include/exec/ram_addr.h
+> @@ -330,7 +330,9 @@ static inline void cpu_physical_memory_set_dirty_rang=
+e(ram_addr_t start,
+>          }
+>      }
+> =20
+> -    xen_hvm_modified_memory(start, length);
+> +    if (xen_enabled()) {
+> +        xen_hvm_modified_memory(start, length);
+> +    }
+>  }
+> =20
+>  #if !defined(_WIN32)
+> @@ -388,7 +390,9 @@ static inline void cpu_physical_memory_set_dirty_lebi=
+tmap(unsigned long *bitmap,
+>              }
+>          }
+> =20
+> -        xen_hvm_modified_memory(start, pages << TARGET_PAGE_BITS);
+> +        if (xen_enabled()) {
+> +            xen_hvm_modified_memory(start, pages << TARGET_PAGE_BITS);
+> +        }
+>      } else {
+>          uint8_t clients =3D tcg_enabled() ? DIRTY_CLIENTS_ALL : DIRTY_CL=
+IENTS_NOCODE;
 
-ram_addr.h looks really "not dangerous", I think that I preffer the
-memory-internal.h or whatever name that implies that you should think
-twice before using that file.
+I don't object moving the xen code to accell.  But I think that this
+change is bad.
 
-My main problem with that include are:
+On the following patch:
+- You export xen_allowed
+  (ok, it was already exported, but I think it shouldn't)
 
-- cpu_physical_memory_set_dirty_lebitmap()
-- cpu_physical_memory_sync_dirty_bitmap()
+(master)$ find . -type f | xargs grep xen_allowed
+./hw/xen/xen-common.c:    ac->allowed =3D &xen_allowed;
+./include/hw/xen/xen.h:extern bool xen_allowed;
+./include/hw/xen/xen.h:    return xen_allowed;
+./softmmu/vl.c:bool xen_allowed;
 
-Both are long, both are complex, and if one changes them, it is very
-probably that you end breaking some random architecture in TCG (being
-there, done that).
+This are all the users that I can find.
 
-As you said, that functions are used only in a couple of places.  I
-haven't meassured the impact of moving it to a .c file, but I would
-preffer it if performance don't suffer.
+And xen_havm_modified_memory() is an empty function if xen is not
+compiled in.  And in the case that xen is compiled in, the 1st thing
+that it checks is:
 
->
-> - move the large functions to a new .c file, ramblock.c.  Figure out
-> which can be static, move the declarations for the others to ramblock.h
+   if (unlikely(xen_in_migration)) {
 
-Ok, it appears that we kind of agree.
+That is way more restrictive that xen_enabled().
 
-> - kill ram_addr.h and include ramblock.h instead.
+So, I think that it is better to drop this patch, maintain next one, but
+just un-exporting xen_allowed.
 
-I created ramblock.h initially (/me checks) because if you just need to
-walk a ramblock (that is clearly target independent code), you needed to
-become target dependent, due to the definitions that are there inside.
+What do you think?
 
-I don't care one way or another, just that we don't create the old
-dependency.
+Later, Juan.
 
-> Not coincidentially, qemu_ram_writeback() takes a RAMBlock*, and it ends
-> up in ramblock.h.
-
-Thanks, Juan.
 
 
