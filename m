@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2EEE1CB3FB
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:52:10 +0200 (CEST)
-Received: from localhost ([::1]:40702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E971CB40B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:53:56 +0200 (CEST)
+Received: from localhost ([::1]:49286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX5IH-0003Fl-Iu
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41286)
+	id 1jX5Jz-0008Ie-Ck
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX5Ak-0007m2-4X
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:23 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:53120)
+ id 1jX5Am-0007nQ-42
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:25 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX5Ah-0005Tw-JW
- for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:21 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id a5so4452816pjh.2
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:44:18 -0700 (PDT)
+ id 1jX5Aj-0005Y2-4f
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:44:23 -0400
+Received: by mail-pf1-x444.google.com with SMTP id 18so1125889pfv.8
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fF+5wwLOen+npTtt/gQ1qVYGPHz8onoyiX2hDw1RdH0=;
- b=lr6Xkqkpr8e+AHhNkUo62JbYPwZ9na5P+6bxNKLZpZMwRGMjlDUeCNtoS8FTNx4v1h
- W1RtmBjvjb8e+PsqOdLyCGNYwaUcJYoFIN7cHQcEWQheBgFXZ4IVp/o1mnktqzA5p5bh
- BXNZqcQul1dzb/S7KP21NrKxr7F5vPXjCPXt5yU5xaxshkTLjCt8R0eNfCdL+vwx4U49
- 6n4zvJdZD7pfCW/UW2u6hvV84qFLzYgpRKwIykkBHHI8inLOp46v1ROMrTKPTu8Af01U
- NXXxbhmKBMCuIl6YjBnWAEsmeKgQdGLglXRTC7LQFhyFQm2HrNpS72ie3vezREMosWep
- aBvQ==
+ bh=ITiSi2RLqhYUiFxJMkeBvHtUt4UbgRa64Bukhjjf9rQ=;
+ b=KpvikU7TrTeWPCwHt0Z/wNSpIDGwGnMWR//3KjHs5DKTHZ6TCitqFQVGeldveuq2aZ
+ fdoj/AMDP6bQGvwhI4+WE2pVRpAhIgw1RuMVgmccDM0pBbRR3ZD1DPW3LJ+kKGl/BXbk
+ I+9/XbUjvKFMRk5ZEmplxG3zB5gQGKm43fmV+X60/5h6m073JclnNAIHdEVOQXsQouma
+ xzR1Xc/JgZ0iZGP086R54nNWWvv18nMWPBOa+hHpaxEtKYZp+n5yYwtWsJQ9Oh4JTm/3
+ jA7T6XGg6JXafMvSDix68uQ27AU3yRx/CJ1qe9XTr22ssECtYjHHHM5J92Tl1g2q46R/
+ QB/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fF+5wwLOen+npTtt/gQ1qVYGPHz8onoyiX2hDw1RdH0=;
- b=gI7Bw5h3n2D59Qznso+1jCHNoEEqKQw0OHerPD9Xjdm0ACNysMdz8seD6dWJjg4uRd
- 6GD43UQMxRgFSPY8Zx4s6V6LKh26p86HpbYgsyTZF1JTPpkYYw4QF61L6NuK+o+sztUf
- +y4VkKmb65SZlOzFNcxlOOlZ5GGzF1+ow1AK3WYRnTBTFb9PIHAZ7PifmvyLkLMdxhZL
- ezz9/Tux19X5D0hs3+VCNmKhXvT/SYTFhPQ8Vz/GxSfDEqGP4w7bcbqe4iV4HX5i1U5e
- DStNqyJniz2dKFquGEIFciuPPmJ11XM9uJLT8KqfEaqIf1cib7pQ6z0KUVbNgEl+eTCP
- KGRw==
-X-Gm-Message-State: AGi0Pub7yQqYJKpZ2wfZzuFiPhp+VOsun90v3FFzJ6Tz3w2dP6sy0e/D
- 4yCdaFKTJwd/8m1KU/vex/GzTCKXVWs=
-X-Google-Smtp-Source: APiQypJX7ev1MUXjxr/ZO/uYkanMuI2OcQI1PSkY8adGlAB2a3dkX9jm43X/sj3D8Vd0SGYEQF0srQ==
-X-Received: by 2002:a17:90a:276a:: with SMTP id
- o97mr6697145pje.194.1588952657236; 
- Fri, 08 May 2020 08:44:17 -0700 (PDT)
+ bh=ITiSi2RLqhYUiFxJMkeBvHtUt4UbgRa64Bukhjjf9rQ=;
+ b=RVhNTGSUnuf2TuJHQucGRmf5lX79P4CopdIMCM/bP7sChkNrSd2mmSPfBscW315zGS
+ kpaV3CaAYEtAXMtUYhTyIwEhe31d5hR5djVsZlE5QD8w/FqtWD/IK2nHfavcmnWG4N9L
+ GbFbAz+u0a+c9GA/ow+/5u1i08gqfHxgppEe3+NRhiXq++YTJ4KdXfzRhqTfVnRqTiO9
+ 9MmE7FM9cWtzMQURIjMSJupFHSwYb51uZEHT5jTZ99GhZoum5LynCnPE/tJsPQwnju9v
+ A5DQGeDNp7dJKleakBO3wX97hYhdIVeB4ISI84YngrDr+zBHh8jwk/KkhqVOKJe4fSAO
+ 4IPA==
+X-Gm-Message-State: AGi0PuYDDqQDua+ogn8QKvBN1GlTa5kUFq3vpimQ70N4zfykX3yvBnAj
+ +6LZ/cgM89LWfJnD3oOdnRUxOgltgWY=
+X-Google-Smtp-Source: APiQypJqRUT3SC/QOol8Zt42+plcMmAF8inHpDC29eiU70/JnuatfIwGGakCtxxhnAmT3QRIL1aAEQ==
+X-Received: by 2002:a62:fc4f:: with SMTP id e76mr3558276pfh.222.1588952658707; 
+ Fri, 08 May 2020 08:44:18 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id o99sm2727662pjo.8.2020.05.08.08.44.16
+ by smtp.gmail.com with ESMTPSA id o99sm2727662pjo.8.2020.05.08.08.44.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 08:44:16 -0700 (PDT)
+ Fri, 08 May 2020 08:44:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/19] target/arm: Drop manual handling of
- set/clear_helper_retaddr
-Date: Fri,  8 May 2020 08:43:48 -0700
-Message-Id: <20200508154359.7494-9-richard.henderson@linaro.org>
+Subject: [PATCH v5 09/19] target/arm: Add sve infrastructure for page lookup
+Date: Fri,  8 May 2020 08:43:49 -0700
+Message-Id: <20200508154359.7494-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200508154359.7494-1-richard.henderson@linaro.org>
 References: <20200508154359.7494-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,284 +89,312 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we converted back to cpu_*_data_ra, we do not need to
-do this ourselves.
+For contiguous predicated memory operations, we want to
+minimize the number of tlb lookups performed.  We have
+open-coded this for sve_ld1_r, but for correctness with
+MTE we will need this for all of the memory operations.
+
+Create a structure that holds the bounds of active elements,
+and metadata for two pages.  Add routines to find those
+active elements, lookup the pages, and run watchpoints
+for those pages.
+
+Temporarily mark the functions unused to avoid Werror.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/sve_helper.c | 38 --------------------------------------
- 1 file changed, 38 deletions(-)
+ target/arm/sve_helper.c | 263 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 261 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 655bc9476f..aad2c8c237 100644
+index aad2c8c237..2f053a9152 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -4133,12 +4133,6 @@ static intptr_t max_for_page(target_ulong base, intptr_t mem_off,
+@@ -1630,7 +1630,7 @@ void HELPER(sve_cpy_z_d)(void *vd, void *vg, uint64_t val, uint32_t desc)
+     }
+ }
+ 
+-/* Big-endian hosts need to frob the byte indicies.  If the copy
++/* Big-endian hosts need to frob the byte indices.  If the copy
+  * happens to be 8-byte aligned, then no frobbing necessary.
+  */
+ static void swap_memmove(void *vd, void *vs, size_t n)
+@@ -3974,7 +3974,7 @@ void HELPER(sve_fcmla_zpzzz_d)(CPUARMState *env, void *vg, uint32_t desc)
+ /*
+  * Load elements into @vd, controlled by @vg, from @host + @mem_ofs.
+  * Memory is valid through @host + @mem_max.  The register element
+- * indicies are inferred from @mem_ofs, as modified by the types for
++ * indices are inferred from @mem_ofs, as modified by the types for
+  * which the helper is built.  Return the @mem_ofs of the first element
+  * not loaded (which is @mem_max if they are all loaded).
+  *
+@@ -4133,6 +4133,265 @@ static intptr_t max_for_page(target_ulong base, intptr_t mem_off,
      return MIN(split, mem_max - mem_off) + mem_off;
  }
  
--#ifndef CONFIG_USER_ONLY
--/* These are normally defined only for CONFIG_USER_ONLY in <exec/cpu_ldst.h> */
--static inline void set_helper_retaddr(uintptr_t ra) { }
--static inline void clear_helper_retaddr(void) { }
--#endif
--
++/*
++ * Resolve the guest virtual address to info->host and info->flags.
++ * If @nofault, return false if the page is invalid, otherwise
++ * exit via page fault exception.
++ */
++
++typedef struct {
++    void *host;
++    int flags;
++    MemTxAttrs attrs;
++} SVEHostPage;
++
++static bool sve_probe_page(SVEHostPage *info, bool nofault,
++                           CPUARMState *env, target_ulong addr,
++                           int mem_off, MMUAccessType access_type,
++                           int mmu_idx, uintptr_t retaddr)
++{
++    int flags;
++
++    addr += mem_off;
++    flags = probe_access_flags(env, addr, access_type, mmu_idx, nofault,
++                               &info->host, retaddr);
++    info->flags = flags;
++
++    if (flags & TLB_INVALID_MASK) {
++        g_assert(nofault);
++        return false;
++    }
++
++    /* Ensure that info->host[] is relative to addr, not addr + mem_off. */
++    info->host -= mem_off;
++
++#ifdef CONFIG_USER_ONLY
++    memset(&info->attrs, 0, sizeof(info->attrs));
++#else
++    /*
++     * Find the iotlbentry for addr and return the transaction attributes.
++     * This *must* be present in the TLB because we just found the mapping.
++     */
++    {
++        uintptr_t index = tlb_index(env, mmu_idx, addr);
++
++# ifdef CONFIG_DEBUG_TCG
++        CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
++        target_ulong comparator = (access_type == MMU_DATA_LOAD
++                                   ? entry->addr_read
++                                   : tlb_addr_write(entry));
++        g_assert(tlb_hit(comparator, addr));
++# endif
++
++        CPUIOTLBEntry *iotlbentry = &env_tlb(env)->d[mmu_idx].iotlb[index];
++        info->attrs = iotlbentry->attrs;
++    }
++#endif
++
++    return true;
++}
++
++
++/*
++ * Analyse contiguous data, protected by a governing predicate.
++ */
++
++typedef enum {
++    FAULT_NO,
++    FAULT_FIRST,
++    FAULT_ALL,
++} SVEContFault;
++
++typedef struct {
++    /*
++     * First and last element wholly contained within the two pages.
++     * mem_off_first[0] and reg_off_first[0] are always set >= 0.
++     * reg_off_last[0] may be < 0 if the first element crosses pages.
++     * All of mem_off_first[1], reg_off_first[1] and reg_off_last[1]
++     * are set >= 0 only if there are complete elements on a second page.
++     *
++     * The reg_off_* offsets are relative to the internal vector register.
++     * The mem_off_first offset is relative to the memory address; the
++     * two offsets are different when a load operation extends, a store
++     * operation truncates, or for multi-register operations.
++     */
++    int16_t mem_off_first[2];
++    int16_t reg_off_first[2];
++    int16_t reg_off_last[2];
++
++    /*
++     * One element that is misaligned and spans both pages,
++     * or -1 if there is no such active element.
++     */
++    int16_t mem_off_split;
++    int16_t reg_off_split;
++
++    /*
++     * The byte offset at which the entire operation crosses a page boundary.
++     * Set >= 0 if and only if the entire operation spans two pages.
++     */
++    int16_t page_split;
++
++    /* TLB data for the two pages. */
++    SVEHostPage page[2];
++} SVEContLdSt;
++
++/*
++ * Find first active element on each page, and a loose bound for the
++ * final element on each page.  Identify any single element that spans
++ * the page boundary.  Return true if there are any active elements.
++ */
++static bool __attribute__((unused))
++sve_cont_ldst_elements(SVEContLdSt *info, target_ulong addr, uint64_t *vg,
++                       intptr_t reg_max, int esz, int msize)
++{
++    const int esize = 1 << esz;
++    const uint64_t pg_mask = pred_esz_masks[esz];
++    intptr_t reg_off_first = -1, reg_off_last = -1, reg_off_split;
++    intptr_t mem_off_last, mem_off_split;
++    intptr_t page_split, elt_split;
++    intptr_t i;
++
++    /* Set all of the element indices to -1, and the TLB data to 0. */
++    memset(info, -1, offsetof(SVEContLdSt, page));
++    memset(info->page, 0, sizeof(info->page));
++
++    /* Gross scan over the entire predicate to find bounds. */
++    i = 0;
++    do {
++        uint64_t pg = vg[i] & pg_mask;
++        if (pg) {
++            reg_off_last = i * 64 + 63 - clz64(pg);
++            if (reg_off_first < 0) {
++                reg_off_first = i * 64 + ctz64(pg);
++            }
++        }
++    } while (++i * 64 < reg_max);
++
++    if (unlikely(reg_off_first < 0)) {
++        /* No active elements, no pages touched. */
++        return false;
++    }
++    tcg_debug_assert(reg_off_last >= 0 && reg_off_last < reg_max);
++
++    info->reg_off_first[0] = reg_off_first;
++    info->mem_off_first[0] = (reg_off_first >> esz) * msize;
++    mem_off_last = (reg_off_last >> esz) * msize;
++
++    page_split = -(addr | TARGET_PAGE_MASK);
++    if (likely(mem_off_last + msize <= page_split)) {
++        /* The entire operation fits within a single page. */
++        info->reg_off_last[0] = reg_off_last;
++        return true;
++    }
++
++    info->page_split = page_split;
++    elt_split = page_split / msize;
++    reg_off_split = elt_split << esz;
++    mem_off_split = elt_split * msize;
++
++    /*
++     * This is the last full element on the first page, but it is not
++     * necessarily active.  If there is no full element, i.e. the first
++     * active element is the one that's split, this value remains -1.
++     * It is useful as iteration bounds.
++     */
++    if (elt_split != 0) {
++        info->reg_off_last[0] = reg_off_split - esize;
++    }
++
++    /* Determine if an unaligned element spans the pages.  */
++    if (page_split % msize != 0) {
++        /* It is helpful to know if the split element is active. */
++        if ((vg[reg_off_split >> 6] >> (reg_off_split & 63)) & 1) {
++            info->reg_off_split = reg_off_split;
++            info->mem_off_split = mem_off_split;
++
++            if (reg_off_split == reg_off_last) {
++                /* The page crossing element is last. */
++                return true;
++            }
++        }
++        reg_off_split += esize;
++        mem_off_split += msize;
++    }
++
++    /*
++     * We do want the first active element on the second page, because
++     * this may affect the address reported in an exception.
++     */
++    reg_off_split = find_next_active(vg, reg_off_split, reg_max, esz);
++    tcg_debug_assert(reg_off_split <= reg_off_last);
++    info->reg_off_first[1] = reg_off_split;
++    info->mem_off_first[1] = (reg_off_split >> esz) * msize;
++    info->reg_off_last[1] = reg_off_last;
++    return true;
++}
++
++/*
++ * Resolve the guest virtual addresses to info->page[].
++ * Control the generation of page faults with @fault.  Return false if
++ * there is no work to do, which can only happen with @fault == FAULT_NO.
++ */
++static bool __attribute__((unused))
++sve_cont_ldst_pages(SVEContLdSt *info, SVEContFault fault, CPUARMState *env,
++                    target_ulong addr, MMUAccessType access_type,
++                    uintptr_t retaddr)
++{
++    int mmu_idx = cpu_mmu_index(env, false);
++    int mem_off = info->mem_off_first[0];
++    bool nofault = fault == FAULT_NO;
++    bool have_work = true;
++
++    if (!sve_probe_page(&info->page[0], nofault, env, addr, mem_off,
++                        access_type, mmu_idx, retaddr)) {
++        /* No work to be done. */
++        return false;
++    }
++
++    if (likely(info->page_split < 0)) {
++        /* The entire operation was on the one page. */
++        return true;
++    }
++
++    /*
++     * If the second page is invalid, then we want the fault address to be
++     * the first byte on that page which is accessed.
++     */
++    if (info->mem_off_split >= 0) {
++        /*
++         * There is an element split across the pages.  The fault address
++         * should be the first byte of the second page.
++         */
++        mem_off = info->page_split;
++        /*
++         * If the split element is also the first active element
++         * of the vector, then:  For first-fault we should continue
++         * to generate faults for the second page.  For no-fault,
++         * we have work only if the second page is valid.
++         */
++        if (info->mem_off_first[0] < info->mem_off_split) {
++            nofault = FAULT_FIRST;
++            have_work = false;
++        }
++    } else {
++        /*
++         * There is no element split across the pages.  The fault address
++         * should be the first active element on the second page.
++         */
++        mem_off = info->mem_off_first[1];
++        /*
++         * There must have been one active element on the first page,
++         * so we're out of first-fault territory.
++         */
++        nofault = fault != FAULT_ALL;
++    }
++
++    have_work |= sve_probe_page(&info->page[1], nofault, env, addr, mem_off,
++                                access_type, mmu_idx, retaddr);
++    return have_work;
++}
++
  /*
   * The result of tlb_vaddr_to_host for user-only is just g2h(x),
   * which is always non-null.  Elide the useless test.
-@@ -4180,7 +4174,6 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-         return;
-     }
-     mem_off = reg_off >> diffsz;
--    set_helper_retaddr(retaddr);
- 
-     /*
-      * If the (remaining) load is entirely within a single page, then:
-@@ -4195,7 +4188,6 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-         if (test_host_page(host)) {
-             mem_off = host_fn(vd, vg, host - mem_off, mem_off, mem_max);
-             tcg_debug_assert(mem_off == mem_max);
--            clear_helper_retaddr();
-             /* After having taken any fault, zero leading inactive elements. */
-             swap_memzero(vd, reg_off);
-             return;
-@@ -4246,7 +4238,6 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     }
- #endif
- 
--    clear_helper_retaddr();
-     memcpy(vd, &scratch, reg_max);
- }
- 
-@@ -4306,7 +4297,6 @@ static void sve_ld2_r(CPUARMState *env, void *vg, target_ulong addr,
-     intptr_t i, oprsz = simd_oprsz(desc);
-     ARMVectorReg scratch[2] = { };
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -4318,7 +4308,6 @@ static void sve_ld2_r(CPUARMState *env, void *vg, target_ulong addr,
-             addr += 2 * size;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- 
-     /* Wait until all exceptions have been raised to write back.  */
-     memcpy(&env->vfp.zregs[rd], &scratch[0], oprsz);
-@@ -4333,7 +4322,6 @@ static void sve_ld3_r(CPUARMState *env, void *vg, target_ulong addr,
-     intptr_t i, oprsz = simd_oprsz(desc);
-     ARMVectorReg scratch[3] = { };
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -4346,7 +4334,6 @@ static void sve_ld3_r(CPUARMState *env, void *vg, target_ulong addr,
-             addr += 3 * size;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- 
-     /* Wait until all exceptions have been raised to write back.  */
-     memcpy(&env->vfp.zregs[rd], &scratch[0], oprsz);
-@@ -4362,7 +4349,6 @@ static void sve_ld4_r(CPUARMState *env, void *vg, target_ulong addr,
-     intptr_t i, oprsz = simd_oprsz(desc);
-     ARMVectorReg scratch[4] = { };
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -4376,7 +4362,6 @@ static void sve_ld4_r(CPUARMState *env, void *vg, target_ulong addr,
-             addr += 4 * size;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- 
-     /* Wait until all exceptions have been raised to write back.  */
-     memcpy(&env->vfp.zregs[rd], &scratch[0], oprsz);
-@@ -4483,7 +4468,6 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-         return;
-     }
-     mem_off = reg_off >> diffsz;
--    set_helper_retaddr(retaddr);
- 
-     /*
-      * If the (remaining) load is entirely within a single page, then:
-@@ -4498,7 +4482,6 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-         if (test_host_page(host)) {
-             mem_off = host_fn(vd, vg, host - mem_off, mem_off, mem_max);
-             tcg_debug_assert(mem_off == mem_max);
--            clear_helper_retaddr();
-             /* After any fault, zero any leading inactive elements.  */
-             swap_memzero(vd, reg_off);
-             return;
-@@ -4541,7 +4524,6 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-     }
- #endif
- 
--    clear_helper_retaddr();
-     record_fault(env, reg_off, reg_max);
- }
- 
-@@ -4687,7 +4669,6 @@ static void sve_st1_r(CPUARMState *env, void *vg, target_ulong addr,
-     intptr_t i, oprsz = simd_oprsz(desc);
-     void *vd = &env->vfp.zregs[rd];
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -4698,7 +4679,6 @@ static void sve_st1_r(CPUARMState *env, void *vg, target_ulong addr,
-             addr += msize;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- }
- 
- static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
-@@ -4711,7 +4691,6 @@ static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
-     void *d1 = &env->vfp.zregs[rd];
-     void *d2 = &env->vfp.zregs[(rd + 1) & 31];
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -4723,7 +4702,6 @@ static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
-             addr += 2 * msize;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- }
- 
- static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
-@@ -4737,7 +4715,6 @@ static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
-     void *d2 = &env->vfp.zregs[(rd + 1) & 31];
-     void *d3 = &env->vfp.zregs[(rd + 2) & 31];
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -4750,7 +4727,6 @@ static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
-             addr += 3 * msize;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- }
- 
- static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
-@@ -4765,7 +4741,6 @@ static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
-     void *d3 = &env->vfp.zregs[(rd + 2) & 31];
-     void *d4 = &env->vfp.zregs[(rd + 3) & 31];
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -4779,7 +4754,6 @@ static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
-             addr += 4 * msize;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- }
- 
- #define DO_STN_1(N, NAME, ESIZE) \
-@@ -4875,7 +4849,6 @@ static void sve_ld1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-     intptr_t i, oprsz = simd_oprsz(desc);
-     ARMVectorReg scratch = { };
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -4886,7 +4859,6 @@ static void sve_ld1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-             i += 4, pg >>= 4;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- 
-     /* Wait until all exceptions have been raised to write back.  */
-     memcpy(vd, &scratch, oprsz);
-@@ -4900,7 +4872,6 @@ static void sve_ld1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-     intptr_t i, oprsz = simd_oprsz(desc) / 8;
-     ARMVectorReg scratch = { };
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; i++) {
-         uint8_t pg = *(uint8_t *)(vg + H1(i));
-         if (likely(pg & 1)) {
-@@ -4908,7 +4879,6 @@ static void sve_ld1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-             tlb_fn(env, &scratch, i * 8, base + (off << scale), ra);
-         }
-     }
--    clear_helper_retaddr();
- 
-     /* Wait until all exceptions have been raised to write back.  */
-     memcpy(vd, &scratch, oprsz * 8);
-@@ -5080,13 +5050,11 @@ static inline void sve_ldff1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-     reg_off = find_next_active(vg, 0, reg_max, MO_32);
-     if (likely(reg_off < reg_max)) {
-         /* Perform one normal read, which will fault or not.  */
--        set_helper_retaddr(ra);
-         addr = off_fn(vm, reg_off);
-         addr = base + (addr << scale);
-         tlb_fn(env, vd, reg_off, addr, ra);
- 
-         /* The rest of the reads will be non-faulting.  */
--        clear_helper_retaddr();
-     }
- 
-     /* After any fault, zero the leading predicated false elements.  */
-@@ -5122,13 +5090,11 @@ static inline void sve_ldff1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-     reg_off = find_next_active(vg, 0, reg_max, MO_64);
-     if (likely(reg_off < reg_max)) {
-         /* Perform one normal read, which will fault or not.  */
--        set_helper_retaddr(ra);
-         addr = off_fn(vm, reg_off);
-         addr = base + (addr << scale);
-         tlb_fn(env, vd, reg_off, addr, ra);
- 
-         /* The rest of the reads will be non-faulting.  */
--        clear_helper_retaddr();
-     }
- 
-     /* After any fault, zero the leading predicated false elements.  */
-@@ -5240,7 +5206,6 @@ static void sve_st1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-     const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
-     intptr_t i, oprsz = simd_oprsz(desc);
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; ) {
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-@@ -5251,7 +5216,6 @@ static void sve_st1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-             i += 4, pg >>= 4;
-         } while (i & 15);
-     }
--    clear_helper_retaddr();
- }
- 
- static void sve_st1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-@@ -5261,7 +5225,6 @@ static void sve_st1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-     const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
-     intptr_t i, oprsz = simd_oprsz(desc) / 8;
- 
--    set_helper_retaddr(ra);
-     for (i = 0; i < oprsz; i++) {
-         uint8_t pg = *(uint8_t *)(vg + H1(i));
-         if (likely(pg & 1)) {
-@@ -5269,7 +5232,6 @@ static void sve_st1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-             tlb_fn(env, vd, i * 8, base + (off << scale), ra);
-         }
-     }
--    clear_helper_retaddr();
- }
- 
- #define DO_ST1_ZPZ_S(MEM, OFS) \
 -- 
 2.20.1
 
