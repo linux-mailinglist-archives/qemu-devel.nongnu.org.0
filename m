@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8F51CB3E1
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:47:56 +0200 (CEST)
-Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DDA1CB3F1
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:50:45 +0200 (CEST)
+Received: from localhost ([::1]:34190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX5EB-00031V-AK
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36370)
+	id 1jX5Gu-00084Z-N1
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:50:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1jX4tB-0003vo-Up; Fri, 08 May 2020 11:26:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45132)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1jX4t7-0006tA-2U; Fri, 08 May 2020 11:26:13 -0400
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
- [209.85.166.179])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 04CDA24980;
- Fri,  8 May 2020 15:26:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1588951565;
- bh=WVKRkpnKWRKXSnE4Jf19NwhyhkIz7kJD+SSWpQxKgpM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=eIZWmIoQdmzNqd0B0jctotc6+m7ZWfAJYxv5Tc7RioQj5ayqrVl9V09aeTM8++1/Y
- kIfdeqaLlbj6RsiWm5E9KnxInOacxC1SGK/E461k1101K9aiy9qKhMqGgjGB5AUmJ3
- jskQSnl2ESVDy9zrLsj8HQjmtroowV/KP+uWAwWU=
-Received: by mail-il1-f179.google.com with SMTP id r2so1751250ilo.6;
- Fri, 08 May 2020 08:26:04 -0700 (PDT)
-X-Gm-Message-State: AGi0PubXmvnpWxvgbmy2TgGAP9w2ugG0wdPccVbzu9J6insK+L0I+J51
- RwUdB/8pOsSU97odphH7AX3V0KTjGTKR17wGo58=
-X-Google-Smtp-Source: APiQypL9T8I7bcpLMvDFzMUa+i1RYnU1Q+640wt2xUVKwqxhPpu9aHIdFhZ+5CQm/Q+VYo6C9FGbhT62h4clb3eQtHc=
-X-Received: by 2002:a92:39dd:: with SMTP id h90mr3465169ilf.80.1588951564458; 
- Fri, 08 May 2020 08:26:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jX4ya-0002zZ-LI
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:31:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56449
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jX4yY-00049h-EE
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 11:31:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588951901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AUkTJEbXEMCm3sKLxj2KywXilCnCVVLPbqHWI8aeR4E=;
+ b=NviUJGXNrrBPFeUXtHj7BqNVmz3S3+VfKefcOXmoBbMUF/yGRbY0n0PDZ9k16hpH1VZdCO
+ h52qSlDEp0PUBglcQjm+essjTxXXB8+Hfv24607pCds5vaZ/4E9I3/cPksz2rDWg8l7mEu
+ WyaE/lAz5tyAwqysM3pfLdQv7oz0/vI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-0X7IpNZ0Mo2abQRkNGfuCQ-1; Fri, 08 May 2020 11:31:39 -0400
+X-MC-Unique: 0X7IpNZ0Mo2abQRkNGfuCQ-1
+Received: by mail-wr1-f71.google.com with SMTP id u4so1051773wrm.13
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:31:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AUkTJEbXEMCm3sKLxj2KywXilCnCVVLPbqHWI8aeR4E=;
+ b=nrrx6uM5soxgWIVN+UXQoUZVoyw/OO7no1deK6F1laLjFfBAV1RdVC2hUDBIi3PzYK
+ B0cajMP9FTn3uDdas05ZySE/sClasmvtg5GKZqNggc6bcpLi3izXCJ8keMlwi8X+Epjn
+ Oa5eWzwg0yai0xWGUSirM5CK5ZshU0s5k23qTGgFemZJHi8xrX+pzSqB5Rs0a+bmkdlE
+ MFotW2EhgjtKNlQdVSgdUZLTrpWNvb0QXSqE0OfwKr8L2P/jlSi5dn+vAw6exAvU5F0b
+ UzRa/7pbF0fhSyGscF4F0vRnliDnGZgLv91sHiozbPrOEZuQE7nv+tL7RoGMCXQxnm4J
+ 4hdg==
+X-Gm-Message-State: AGi0Pub77g1HZJrMQs3ZtOsFpKuZ+uaGYc+5ILTdfQE3f0RfEUSpZv1g
+ UBppUtwUONQOxP+kEFcg5nm1JR55CwO1P3R/cZ2RTXbnuwuEr07IA6abU/YGyvJo7SrIkNnBM66
+ Zbfy1jK2zEnUmm3Y=
+X-Received: by 2002:a1c:3c42:: with SMTP id j63mr12808063wma.118.1588951898606; 
+ Fri, 08 May 2020 08:31:38 -0700 (PDT)
+X-Google-Smtp-Source: APiQypL2fGeUgjHCxll65VsvtZ1qg41AryU2QW5vprP7vHCZ9bLAkT2NlTJkhJ456BnwK5JblJnTWg==
+X-Received: by 2002:a1c:3c42:: with SMTP id j63mr12808033wma.118.1588951898283; 
+ Fri, 08 May 2020 08:31:38 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id i1sm3408067wrx.22.2020.05.08.08.31.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 May 2020 08:31:37 -0700 (PDT)
+Subject: Re: [PATCH] qom/object: Fix object_child_foreach_recursive() return
+ value
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200404153340.164861-1-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8530616a-1a92-e80e-4b03-c217faabe3e7@redhat.com>
+Date: Fri, 8 May 2020 17:31:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200505144419.29174-1-eric.auger@redhat.com>
- <20200505144419.29174-4-eric.auger@redhat.com>
- <976a1479-4443-da02-2ad8-1e1570742caa@gmail.com>
-In-Reply-To: <976a1479-4443-da02-2ad8-1e1570742caa@gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 8 May 2020 17:25:53 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHHn9mbowEzEf3O3L7eC=e5zY3w2CqzK2qop19kKRDa=A@mail.gmail.com>
-Message-ID: <CAMj1kXHHn9mbowEzEf3O3L7eC=e5zY3w2CqzK2qop19kKRDa=A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] arm/acpi: Add the TPM2.0 device under the DSDT
-To: Shannon Zhao <shannon.zhaosl@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 11:26:05
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+In-Reply-To: <20200404153340.164861-1-clg@kaod.org>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 11:31:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,35 +99,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- gshan@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
- marcandre.lureau@redhat.com, imammedo@redhat.com, eric.auger.pro@gmail.com,
- Laszlo Ersek <lersek@redhat.com>, stefanb@linux.ibm.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Crosthwaite <peter.crosthwaite@xilinx.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 May 2020 at 17:24, Shannon Zhao <shannon.zhaosl@gmail.com> wrote:
->
-> Hi,
->
-> On 2020/5/5 22:44, Eric Auger wrote:
-> > +static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
-> > +{
-> > +    hwaddr pbus_base = vms->memmap[VIRT_PLATFORM_BUS].base;
-> > +    PlatformBusDevice *pbus = PLATFORM_BUS_DEVICE(vms->platform_bus_dev);
-> > +    MemoryRegion *sbdev_mr;
-> > +    SysBusDevice *sbdev;
-> > +    hwaddr tpm_base;
-> > +
-> > +    sbdev = (SysBusDevice *)object_dynamic_cast(OBJECT(tpm_find()),
-> > +                                                TYPE_SYS_BUS_DEVICE);
->
-> Does it need to check the tpm version like you do in previous patch?
->
-> tpm_get_version(tpm_find()) == TPM_VERSION_2_0
->
+On 4/4/20 5:33 PM, Cédric Le Goater wrote:
+> When recursing, the return value of do_object_child_foreach() is not
+> taken into account.
+> 
+> Cc: Peter Crosthwaite <peter.crosthwaite@xilinx.com>
+> Fixes: d714b8de7747 ("qom: Add recursive version of object_child_for_each")
 
-I don't think so. The device node could in theory be used to describe
-a TPM 1.2/1.3 as well, even though we never actually do that.
+Indeed.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   qom/object.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/qom/object.c b/qom/object.c
+> index 1812f792247d..b68a707a5e65 100644
+> --- a/qom/object.c
+> +++ b/qom/object.c
+> @@ -1057,7 +1057,10 @@ static int do_object_child_foreach(Object *obj,
+>                   break;
+>               }
+>               if (recurse) {
+> -                do_object_child_foreach(child, fn, opaque, true);
+> +                ret = do_object_child_foreach(child, fn, opaque, true);
+> +                if (ret != 0) {
+> +                    break;
+> +                }
+>               }
+>           }
+>       }
+> 
+
 
