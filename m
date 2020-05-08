@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A0E1CA1AA
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 05:46:58 +0200 (CEST)
-Received: from localhost ([::1]:41902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8E81CA7F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 12:10:18 +0200 (CEST)
+Received: from localhost ([::1]:43826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jWtyT-0001Wr-EH
-	for lists+qemu-devel@lfdr.de; Thu, 07 May 2020 23:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34098)
+	id 1jWzxR-0003GR-F5
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 06:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1jWtvl-00053S-Oo
- for qemu-devel@nongnu.org; Thu, 07 May 2020 23:44:09 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3755 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
- id 1jWtvk-0007RS-Pn
- for qemu-devel@nongnu.org; Thu, 07 May 2020 23:44:09 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id 00EF447EA034DFFC1136;
- Fri,  8 May 2020 11:44:04 +0800 (CST)
-Received: from opensource.huawei.com (10.175.101.6) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 8 May 2020 11:43:54 +0800
-From: Pan Nengyuan <pannengyuan@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH 2/2] migration/rdma: cleanup rdma context before g_free to
- avoid memleaks
-Date: Fri, 8 May 2020 06:07:55 -0400
-Message-ID: <20200508100755.7875-3-pannengyuan@huawei.com>
-X-Mailer: git-send-email 2.18.2
-In-Reply-To: <20200508100755.7875-1-pannengyuan@huawei.com>
-References: <20200508100755.7875-1-pannengyuan@huawei.com>
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jWzwg-0002Ym-Is
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 06:09:30 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jWzwe-0004mt-G4
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 06:09:30 -0400
+Received: by mail-wr1-x441.google.com with SMTP id h9so1210543wrt.0
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 03:09:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8VKYlrpPH4YRMjE2iFfbycMZkHwOVHse6ZGSGY3uPKY=;
+ b=JE0hxLvYsuxWE64dvjF2JUhfJ3IzSYJ9wp7QtA+M/MTuvoK7F98ieiQn8DJeN1eMGU
+ GUNKkxeGUEYbCzyAXz+y+STyTh715A2PVe1n3J+XPY/W7K40+JbE/FaZHjjhMQMXggBQ
+ +Kgg/FwsVhFvs6PzNlRKyZVIgXF/0kWSWE+WKELLZZymYCc1LjB6M6zTM/MBykl8VeG5
+ IepMWO5t0tQEMhDqH3a4NuYN4eF9pL9QNGdodn7C5XsQn236R/CM/YR5od1AbKYtPNY9
+ TreG/Z5Mr9dJ1jAfGi+9M9zrbNZc+ToV0+SOeUe5CwDlSg58ACXPwcfw0USieQOcf+XD
+ ZiGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8VKYlrpPH4YRMjE2iFfbycMZkHwOVHse6ZGSGY3uPKY=;
+ b=QMhVKYFNrl5T6aAeIFwO3Coj1XgtpNjO20+sh0K4AgfrZQbrJ9xzW7MWa3qIwuXnme
+ 4M+FGwhNeNcFHLI1oDmfq5uPRIpDF27Sbhyf14p9KxCmDTpeuxOkjkV2oZz0rRwJvRMe
+ hBwzrlNgfR3Dn4hlR0aymAf9qtbPc6PDnDYYnTK3C7fxjWkF0zOqqk46EzlmKIDePhs5
+ M1k83aRGjFtJMbLMhVuaLV76Gz9291dtwEQ6/DMZ+omuu26k969On8daxvr37U3vN4Gv
+ YT0D3lloBOZzSGe/3KYGsPaW++H+OlefiBKY89dLB+gjJ/lyPtJRVJv+keljMgSJxR/w
+ yI0A==
+X-Gm-Message-State: AGi0PubFEYSRZYnm1CIxEDzjetXfBx8KdL7esm4G7dyGX+CAXop8ucZo
+ n9LgzSKQ4ATV5W0ni9mhaRD+SaybWvJCL9RK1gQ=
+X-Google-Smtp-Source: APiQypKIhO1+vEDdCLtLXyBrlYKHzVc0jr7QIpvq+o6OY332o917S1E6kc51ietEUOZ8OykjxapWccBATB+XXAm+S6k=
+X-Received: by 2002:adf:94a6:: with SMTP id 35mr2036714wrr.420.1588932566539; 
+ Fri, 08 May 2020 03:09:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=pannengyuan@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/07 22:13:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <1588500367-1056-1-git-send-email-chenhc@lemote.com>
+ <1588500367-1056-5-git-send-email-chenhc@lemote.com>
+ <CAHiYmc42QJ_XzHxoBKyccocb7sJCn42UtOuQ-2LNCzK=RqkEVQ@mail.gmail.com>
+In-Reply-To: <CAHiYmc42QJ_XzHxoBKyccocb7sJCn42UtOuQ-2LNCzK=RqkEVQ@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Fri, 8 May 2020 12:08:56 +0200
+Message-ID: <CAHiYmc4VfRG=vYzjNfPBUTcjWngaGo7gJBxLJ5NJKAseh7CrdQ@mail.gmail.com>
+Subject: Re: [PATCH V3 04/14] KVM: MIPS: Add EVENTFD support which is needed
+ by VHOST
+To: Huacai Chen <chenhc@lemote.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,58 +83,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
- qemu-devel@nongnu.org, euler.robot@huawei.com
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, kvm@vger.kernel.org,
+ Huacai Chen <chenhuacai@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Fuxin Zhang <zhangfx@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ linux-mips@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When error happen in initializing 'rdma_return_path', we should cleanup rdma context
-before g_free(rdma) to avoid some memleaks. This patch fix that.
+=D0=BF=D0=B5=D1=82, 8. =D0=BC=D0=B0=D1=98 2020. =D1=83 11:08 Aleksandar Mar=
+kovic
+<aleksandar.qemu.devel@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=
+=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> =D0=BD=D0=B5=D0=B4, 3. =D0=BC=D0=B0=D1=98 2020. =D1=83 12:09 Huacai Chen =
+<chenhc@lemote.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE=
+/=D0=BB=D0=B0:
+> >
+> > Add EVENTFD support for KVM/MIPS, which is needed by VHOST. Tested on
+> > Loongson-3 platform.
+> >
+> > Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > ---
+>
+> Perhaps this patch needs rebasing to land cleanly into master.
+>
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
----
- migration/rdma.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Or, maybe, my tree was out-of-date. Sorry if that was the case.
 
-diff --git a/migration/rdma.c b/migration/rdma.c
-index 72e8b1c95b..ec45d33ba3 100644
---- a/migration/rdma.c
-+++ b/migration/rdma.c
-@@ -4094,20 +4094,20 @@ void rdma_start_outgoing_migration(void *opaque,
-         rdma_return_path = qemu_rdma_data_init(host_port, errp);
- 
-         if (rdma_return_path == NULL) {
--            goto err;
-+            goto return_path_err;
-         }
- 
-         ret = qemu_rdma_source_init(rdma_return_path,
-             s->enabled_capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL], errp);
- 
-         if (ret) {
--            goto err;
-+            goto return_path_err;
-         }
- 
-         ret = qemu_rdma_connect(rdma_return_path, errp);
- 
-         if (ret) {
--            goto err;
-+            goto return_path_err;
-         }
- 
-         rdma->return_path = rdma_return_path;
-@@ -4120,6 +4120,8 @@ void rdma_start_outgoing_migration(void *opaque,
-     s->to_dst_file = qemu_fopen_rdma(rdma, "wb");
-     migrate_fd_connect(s, NULL);
-     return;
-+return_path_err:
-+    qemu_rdma_cleanup(rdma);
- err:
-     g_free(rdma);
-     g_free(rdma_return_path);
--- 
-2.18.2
+Yours,
+Aleksandar
 
+> But, in general, for what is worth:
+>
+> Reviewed-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+>
+>
+> >  arch/mips/kvm/Kconfig     | 1 +
+> >  arch/mips/kvm/Makefile    | 2 +-
+> >  arch/mips/kvm/trap_emul.c | 3 +++
+> >  arch/mips/kvm/vz.c        | 3 +++
+> >  4 files changed, 8 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/mips/kvm/Kconfig b/arch/mips/kvm/Kconfig
+> > index b91d145..d697752 100644
+> > --- a/arch/mips/kvm/Kconfig
+> > +++ b/arch/mips/kvm/Kconfig
+> > @@ -22,6 +22,7 @@ config KVM
+> >         select EXPORT_UASM
+> >         select PREEMPT_NOTIFIERS
+> >         select KVM_GENERIC_DIRTYLOG_READ_PROTECT
+> > +       select HAVE_KVM_EVENTFD
+> >         select HAVE_KVM_VCPU_ASYNC_IOCTL
+> >         select KVM_MMIO
+> >         select MMU_NOTIFIER
+> > diff --git a/arch/mips/kvm/Makefile b/arch/mips/kvm/Makefile
+> > index 01affc1..0a3cef6 100644
+> > --- a/arch/mips/kvm/Makefile
+> > +++ b/arch/mips/kvm/Makefile
+> > @@ -2,7 +2,7 @@
+> >  # Makefile for KVM support for MIPS
+> >  #
+> >
+> > -common-objs-y =3D $(addprefix ../../../virt/kvm/, kvm_main.o coalesced=
+_mmio.o)
+> > +common-objs-y =3D $(addprefix ../../../virt/kvm/, kvm_main.o coalesced=
+_mmio.o eventfd.o)
+> >
+> >  EXTRA_CFLAGS +=3D -Ivirt/kvm -Iarch/mips/kvm
+> >
+> > diff --git a/arch/mips/kvm/trap_emul.c b/arch/mips/kvm/trap_emul.c
+> > index 5a11e83..f464506b 100644
+> > --- a/arch/mips/kvm/trap_emul.c
+> > +++ b/arch/mips/kvm/trap_emul.c
+> > @@ -529,6 +529,9 @@ static int kvm_trap_emul_check_extension(struct kvm=
+ *kvm, long ext)
+> >         case KVM_CAP_MIPS_TE:
+> >                 r =3D 1;
+> >                 break;
+> > +       case KVM_CAP_IOEVENTFD:
+> > +               r =3D 1;
+> > +               break;
+> >         default:
+> >                 r =3D 0;
+> >                 break;
+> > diff --git a/arch/mips/kvm/vz.c b/arch/mips/kvm/vz.c
+> > index dde2088..17932ab 100644
+> > --- a/arch/mips/kvm/vz.c
+> > +++ b/arch/mips/kvm/vz.c
+> > @@ -2927,6 +2927,9 @@ static int kvm_vz_check_extension(struct kvm *kvm=
+, long ext)
+> >                 r =3D 2;
+> >                 break;
+> >  #endif
+> > +       case KVM_CAP_IOEVENTFD:
+> > +               r =3D 1;
+> > +               break;
+> >         default:
+> >                 r =3D 0;
+> >                 break;
+> > --
+> > 2.7.0
+> >
 
