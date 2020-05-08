@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A961CA920
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 13:10:58 +0200 (CEST)
-Received: from localhost ([::1]:38034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7456C1CA959
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 13:15:00 +0200 (CEST)
+Received: from localhost ([::1]:53962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX0u9-0001Wj-QQ
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 07:10:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
+	id 1jX0y3-000058-Ex
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 07:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jX0sI-0007ku-4J; Fri, 08 May 2020 07:09:03 -0400
-Received: from mail-bn8nam11on2055.outbound.protection.outlook.com
- ([40.107.236.55]:6139 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ id 1jX0sN-0007rT-4J; Fri, 08 May 2020 07:09:07 -0400
+Received: from mail-eopbgr700053.outbound.protection.outlook.com
+ ([40.107.70.53]:30111 helo=NAM04-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jX0sG-0002Df-7N; Fri, 08 May 2020 07:09:01 -0400
+ id 1jX0sH-0002Ga-UJ; Fri, 08 May 2020 07:09:06 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hDGmlBBUbqX4Tn1qBMCHVpe0At0b9ivzzzNlOw3nsa1D8KO4B2MNRRu7I8sWPs5jgkExa1oLShKi73rHH3eBYtgCitQLB3h3kIuJ7uQgJhSawaCbOcVlfl1hToKV3B+/jp+0vhpsZsOyYnHu4jxe5PVbRZnyTapAIXxZY0BRL8M/kNAB9qs44DdqzIgdB36P/fwPJxAWkxH3D00eWQWBONuvveySId57Zc20E9BPL7uSnKkuxuojG8cNU1EMnHCy47wQdT/IYMCly8401XKzDZGMuSEuyg3eQnjQ5cMj0d3VrOKK6XOmKnf/S+J/+e/rXJskILa0fkCqznKMEF1e0A==
+ b=jH/S6JWiM2YHbP6mmpHDP9oFx5XSAxwitCgBryknl6eJa+8SuFnrl0iOnZps1WpEvpvGPmNJCZ9aJt9my20UznO/Ou5Bw6YROBJ8dSSMgd7mLTj3kiK1Vi1q7e5PzUXp8n0jpREr9WzLOVr1eFon4YDrjS2CrIA8ljzPWTyMiCwSMfZyvfqpTveKGHN/HY92IHn8VV4QwmfAGby8I1vd6bGHd0n+JCh3WFSb6iEOgSGrAxeABK7Zu/Ur0hvP9m/SON9CGwCz1yPOnAIL0EBctL6POZJSDQxUpasbQ6WQ0H2gMMEEG8MKirLVZ0opItJfjzwEA8Sg3AqBAlVzgH/7Hg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hhO7baxXC785Pes0oMdQ65hgslSRme54fITQLtZfb8o=;
- b=PA1wQGHnAEnFJ5PqB9PcTMFYmxC2P/qZ0zKN9MfXjGafKHePKZx2JfFlL1gjw0BfA/Qx+/A3Tk4SHcml3JVlBVbE8xKv+kDDJ8JPMwPMWDxYi2eiCENlcz+KEIYdMdLRHF28dSlYJ37+o3+yE/OLRiPii1KMhs8dybw5eMibhClZJvhi1LYKVNF+rc8lxd0ptiqaUMKp4Ng0zkLZXmLczEk33tH135y291ajPWWJ+//HPcfKGs7vNYwSG5OEihS8hP0rS+F8pFEF32xQox6m9CloEV7ylw7T0l1iSFfwHBKCuiR57hgimHoQioOBxZPV92I2SuiISUMa5s2YMaG65w==
+ bh=RC8slCZyxUtSJ0l+ao8ellzyeEKZrcXfFj+qTnHkgKI=;
+ b=Ed7wRurtyyh5KmJ3vSiPgh8j21NF2r7JmcnU7CHCrYRY48XeG7PkLTjSRRjDmTdHdKiJkrJ5OyiGKjOE+AAislO6RHPSLyW7skcwf5W0mlMjiCKcT1b6Gp976MOIX6r++b6e8aKIo6uTB9/3rRQ/udky+7EMKdLdG0CgP8We/G+jR+w+luUw3pfnEJVl7UUaVBKa/NiI7HYZ6Q7D1LjELp4naggfdEQI6XxCqhYWgYbMO6Q0h0GGd4dyoJgrmzjDgl7KIJoz1AFLjZgKiVN61+u5d8DCpve3BJubsVtfA5n22Kk4fvIOiitFLDYXQt6DUqC3U1Q7SUHrClWA+Q8SLw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -32,18 +32,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hhO7baxXC785Pes0oMdQ65hgslSRme54fITQLtZfb8o=;
- b=S93Dt74IOKaIm0IwuhBbkCUV+bUN8Fz06UrI2rNBOeJjMkX503w4idshIoIQUaYcE3XaKuK3F3uxs/hMTfy4VizJjcEnQVfu8NT5MU38pEqKGE/X9wqOSSfs77hISgH1PuyrIqNctCG52LM170I2YJhyXcCGlJDpBxae3sqqo+4=
-Received: from SN6PR05CA0004.namprd05.prod.outlook.com (2603:10b6:805:de::17)
- by MN2PR02MB6126.namprd02.prod.outlook.com (2603:10b6:208:1be::29)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20; Fri, 8 May
- 2020 11:08:58 +0000
-Received: from SN1NAM02FT053.eop-nam02.prod.protection.outlook.com
- (2603:10b6:805:de:cafe::c2) by SN6PR05CA0004.outlook.office365.com
- (2603:10b6:805:de::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.11 via Frontend
- Transport; Fri, 8 May 2020 11:08:57 +0000
+ bh=RC8slCZyxUtSJ0l+ao8ellzyeEKZrcXfFj+qTnHkgKI=;
+ b=k7R2R4zY+v7bhUlyh81tkXABLiBQJYDu8iESxuKk0st4ZJvppVVKFj4NJV+B5oBWNtW0jJCMmX8d184T87Zn/7oel5H9ABwnP/iTFl0FOL3lFgI8ECkjUD5iawOXqJsEQsUkWozUjMKR5iaKlpP7/nW6Z2bmLYem1DF8IZ1caTE=
+Received: from BL0PR01CA0022.prod.exchangelabs.com (2603:10b6:208:71::35) by
+ BYAPR02MB4856.namprd02.prod.outlook.com (2603:10b6:a03:51::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2958.19; Fri, 8 May 2020 11:08:58 +0000
+Received: from BL2NAM02FT046.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:71:cafe::28) by BL0PR01CA0022.outlook.office365.com
+ (2603:10b6:208:71::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend
+ Transport; Fri, 8 May 2020 11:08:58 +0000
 Authentication-Results: spf=pass (sender IP is 149.199.60.83)
  smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
  header.d=none;wdc.com; dmarc=bestguesspass action=none
@@ -52,26 +51,27 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT053.mail.protection.outlook.com (10.152.72.102) with Microsoft SMTP
+ BL2NAM02FT046.mail.protection.outlook.com (10.152.76.118) with Microsoft SMTP
  Server id 15.20.2979.29 via Frontend Transport; Fri, 8 May 2020 11:08:57
  +0000
-Received: from [149.199.38.66] (port=36252 helo=xsj-pvapsmtp01)
+Received: from [149.199.38.66] (port=36293 helo=xsj-pvapsmtp01)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jX0s2-0002UB-4I; Fri, 08 May 2020 04:08:46 -0700
+ id 1jX0s2-0002UF-O5; Fri, 08 May 2020 04:08:46 -0700
 Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jX0sC-0005fv-Tp; Fri, 08 May 2020 04:08:56 -0700
-Received: from xsj-pvapsmtp01 (smtp2.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 048B8tOQ017637; 
- Fri, 8 May 2020 04:08:55 -0700
+ id 1jX0sD-0005gK-HG; Fri, 08 May 2020 04:08:57 -0700
+Received: from xsj-pvapsmtp01 (smtp-fallback.xilinx.com [149.199.38.66] (may
+ be forged))
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 048B8u25017645; 
+ Fri, 8 May 2020 04:08:56 -0700
 Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1jX0sB-0005f6-AG; Fri, 08 May 2020 04:08:55 -0700
+ id 1jX0sC-0005fk-8M; Fri, 08 May 2020 04:08:56 -0700
 Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 41EFB13C03F7; Fri,  8 May 2020 16:31:03 +0530 (IST)
+ id 34BF313C042F; Fri,  8 May 2020 16:31:04 +0530 (IST)
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
@@ -79,10 +79,9 @@ To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Tong Ho <tong.ho@xilinx.com>, Ramon Fried <rfried.dev@gmail.com>
-Subject: [PATCH v3 09/11] net: cadence_gem: Update the reset value for
- interrupt mask register
-Date: Fri,  8 May 2020 16:30:43 +0530
-Message-Id: <1588935645-20351-10-git-send-email-sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v3 10/11] net: cadence_gem: TX_LAST bit should be set by guest
+Date: Fri,  8 May 2020 16:30:44 +0530
+Message-Id: <1588935645-20351-11-git-send-email-sai.pavan.boddu@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1588935645-20351-1-git-send-email-sai.pavan.boddu@xilinx.com>
 References: <1588935645-20351-1-git-send-email-sai.pavan.boddu@xilinx.com>
@@ -94,37 +93,37 @@ X-MS-Office365-Filtering-HT: Tenant
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
  SFTY:;
- SFS:(136003)(396003)(376002)(39860400002)(346002)(46966005)(33430700001)(2906002)(70206006)(36756003)(186003)(110136005)(4326008)(8676002)(81166007)(356005)(6266002)(82740400003)(47076004)(5660300002)(316002)(42186006)(82310400002)(478600001)(4744005)(2616005)(70586007)(33440700001)(26005)(336012)(426003)(6666004)(8936002);
+ SFS:(376002)(346002)(136003)(396003)(39860400002)(46966005)(33430700001)(6266002)(110136005)(4326008)(82740400003)(70206006)(47076004)(2906002)(70586007)(5660300002)(8676002)(8936002)(33440700001)(336012)(6666004)(356005)(42186006)(316002)(82310400002)(2616005)(426003)(186003)(36756003)(26005)(81166007)(478600001)(42866002);
  DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aa2474bb-2a49-4813-7221-08d7f3403405
-X-MS-TrafficTypeDiagnostic: MN2PR02MB6126:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB6126205C37B6B5D14A0D5545CAA20@MN2PR02MB6126.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 0b3eb208-ee8f-4865-bcd4-08d7f3403470
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4856:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB4856134CEC43B34B98E2ED33CAA20@BYAPR02MB4856.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:83;
+X-MS-Oob-TLC-OOBClassifiers: OLM:255;
 X-Forefront-PRVS: 039735BC4E
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MroVFnJ3XvYbq7ieEgZlUjrVgUXZ6c8Y2llCBmbAuQMmBLSR8j6/mHLy8bjIDi404z4+c1Ok3jnOmu2nEmwZTru4/n3jtoTKM02+zkU7KBd4GqP8HviIhkhLyWNYR7QzMrUuiLw9okvq7Z5GnZnYgeMV2srJI5Z5SbX/qh/Rsoi0nqYsSKjum7iDcKvCzhEKqsQBkTvH/LHMotmSjHBVlgh14MuzkdzwI7EnF0fuvmM3ggsj5R+gfRKDgTS6ubhHddcZAsWYMV7FFg4vFeHtKkM/BFRv3DtkjNckU+zBTMTaZW97twmOSuxzwgMua+cRvN6ynHz5/C3ajc3s/4CaqKCOMBVJD4KofnJsMBc+OTgQr6iuMVEtggDY1U9Ka8bdEGZwZUI5pYQ/IltVdhoVUukaV6o9mszSz7Q3u4sQO7rK0suMR+w8bzPlZTFzN5Iac4Kh/iOvlvJ2kp3yKjre0stkXaJb7HLLGtfqnodUY3I84zhxhR71JTXRDX1EmNPR4ChKGYISMbdKoy0lWdMylk4B2Skm6qbT2yNcvN/NpLd7aGzRJAXN0zYGVPtaMk8jutfssqHUQuyo8BIpw/LkYw==
+X-Microsoft-Antispam-Message-Info: GVJkTB5kLph/ukqzrQZkyS2tDWbfZqh1JrRweRM83HBAjtZHBZAG5ySqAitIUSR27/GjhiggViyez8bV7AT24geUOmVyIbbEiiIX0NlFuS1VYYEsfZQ+JcIhiGogK86SqWvvahPrrRsh2fNWkxD7N30AxVT91RWdMrXKMTW8ZtPQzoYzw0ns1iU0fZJ3MXoMDi533mZDdXs452PsAfLkM+U3n2nvKcgxCeiNOLwfXdb6BSZ6R4ep2pfdXj7m5dQbcm4GQ3C6IWIzrTL8bxmQzqVsvoBxeKwpGSzET35ddueVyVV+RIci64Wcu/aPxxtzYUGvLiaeYRPZrcanpKws39wEwbhz7sRAVYrsy+WjEMErCQB/MiwnvDTyusarn8RvXOdsuOr+GR524KkCn3aIUDpdMX6gKZjJ9PlcuNW4XkWBMTbcAI9xz3tfREGUj/MM0rJxtqiVaS8LoExBKSDn0znlZbFtisPmRx+VHu/zwa0GDWC84yIqsUPMURFpjcwwo0HGJhUmuKQ7tVrqoJfaiA+YAJXbb5my5plARfustkvhF2rimEl6qKxYF4UbQBXDNSsEjfbyYkAgOyo4jbZDfcKFrEiHvp4clhvbDKew+iQ=
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2020 11:08:57.2303 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa2474bb-2a49-4813-7221-08d7f3403405
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2020 11:08:57.9339 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b3eb208-ee8f-4865-bcd4-08d7f3403470
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6126
-Received-SPF: pass client-ip=40.107.236.55; envelope-from=saipava@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 07:08:58
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4856
+Received-SPF: pass client-ip=40.107.70.53; envelope-from=saipava@xilinx.com;
+ helo=NAM04-SN1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 07:09:00
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -143,26 +142,40 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mask all interrupt on reset.
+TX_LAST bit should not be set by hardware, its set by guest to inform
+the last bd of the frame.
 
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/net/cadence_gem.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/net/cadence_gem.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 65b29cc..45c7390 100644
+index 45c7390..f8cea63 100644
 --- a/hw/net/cadence_gem.c
 +++ b/hw/net/cadence_gem.c
-@@ -1348,6 +1348,7 @@ static void gem_reset(DeviceState *d)
-     s->regs[GEM_DESCONF2] = 0x2ab10000 | s->jumbo_max_len;
-     s->regs[GEM_DESCONF5] = 0x002f2045;
-     s->regs[GEM_DESCONF6] = GEM_DESCONF6_64B_MASK;
-+    s->regs[GEM_INT_Q1_MASK] = 0x00000CE6;
-     s->regs[GEM_JUMBO_MAX_LEN] = s->jumbo_max_len;
+@@ -348,11 +348,6 @@ static inline unsigned tx_desc_get_last(uint32_t *desc)
+     return (desc[1] & DESC_1_TX_LAST) ? 1 : 0;
+ }
  
-     if (s->num_priority_queues > 1) {
+-static inline void tx_desc_set_last(uint32_t *desc)
+-{
+-    desc[1] |= DESC_1_TX_LAST;
+-}
+-
+ static inline unsigned tx_desc_get_length(uint32_t *desc)
+ {
+     return desc[1] & DESC_1_LENGTH;
+@@ -1271,7 +1266,6 @@ static void gem_transmit(CadenceGEMState *s)
+ 
+             /* read next descriptor */
+             if (tx_desc_get_wrap(desc)) {
+-                tx_desc_set_last(desc);
+ 
+                 if (s->regs[GEM_DMACFG] & GEM_DMACFG_ADDR_64B) {
+                     packet_desc_addr = s->regs[GEM_TBQPH];
 -- 
 2.7.4
 
