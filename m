@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD611CB2C1
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:25:36 +0200 (CEST)
-Received: from localhost ([::1]:56582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01821CB2CB
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 17:28:37 +0200 (CEST)
+Received: from localhost ([::1]:36974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX4sZ-0000r2-CB
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:25:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1jX4vU-0005LL-K6
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 11:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4lG-0005x5-Hr
+ id 1jX4lG-0005xr-R0
  for qemu-devel@nongnu.org; Fri, 08 May 2020 11:18:02 -0400
-Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:52941)
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:51445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jX4lE-0002yL-9X
+ id 1jX4lF-00030H-KB
  for qemu-devel@nongnu.org; Fri, 08 May 2020 11:18:02 -0400
-Received: by mail-pj1-x1043.google.com with SMTP id a5so4398688pjh.2
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:17:59 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id mq3so4401792pjb.1
+ for <qemu-devel@nongnu.org>; Fri, 08 May 2020 08:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UBTvpXnQhX/NB3BncFrtFDo86VAuYzf/XHrJqnCZIJI=;
- b=TnCj1xMJY4IE2Ybc4amV58DvRB4eizBZO6b2h7x++IVoMj4Y9hIEQWhJFXYDrBrBZE
- p4wOc5+N0tiV+MJxEEPp1BO87fQqDtNdGIRgCKyI/8Y5zHnDxYpVaoMyCONp0x2gUmm0
- U0wMxZnSZzRyuVJ9VbV//3xkBb08Vd1KrGOBCmdDk5Swb8wJduWj5X2bz+4mIfHyR3Rs
- vGvN51Xz1nMt6omnXm3BOaD+yPIKX9X1tLZF31XOPt6RYHwHmv/hW+t1y39AsnIkADLd
- JhmMkQXj4LC+mZ1k39DUFtAzE7/tAloOlt0BzI10LtyEbDtJu+B15pZk4wrrdUpnEyJ+
- 6Q/g==
+ bh=s8VXXHi1iDtHYGhbceKG3FGqG6XMQ3ZwJ4s4y4ornzs=;
+ b=O5WlKMK+lw2xqLMfEROonr49PfT0cYPUmoGIrRn4GqMGdOt4PnMTilb2/XRfQBlSjR
+ TjNFlKdTvCJGSVqhdU904I7GgnK0O6SECzZPGFHssQxODM7sBrBSqetArlX9qz9ZqVtn
+ Exe/UjC7KT3Z5h5K9pW6HF9q6vdD8O7GUTVN/5ackxHTBhZU6ie4RpMX7tWcjjUGu6iW
+ CqZEYiYX6QduyPjUojrco5/r+Q9/e6v6VTgRN4d/g3z9YE5vuYzYPK2/WtxPCggRkIsT
+ NSGKdX7FfYf6G5CglXn6Sy+NlS0SHkumzO7VOz1moXJMFQYTuz3YX6MPbopY7FZnduMA
+ UN/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UBTvpXnQhX/NB3BncFrtFDo86VAuYzf/XHrJqnCZIJI=;
- b=Dqho/z98CH6xfcEC1Wspv9SpOojM0dQFNlSa4baONUdJePvFS1sdsigTj85Xaz199Y
- UFNtgDq9TumRpRC7Q/etiWnrLYbeNUJmxG1NjxzmoB6wzXSG6Ri4QG2kg3x8h/zoNDoh
- eYO0KtTJ3JvcI96PIRpgGCMZBOXAUNE1gyLw2ARCa5KmmoiRNK4KNNupyhPchnjQf1et
- 9rJNayNqeYlAf2FFnr/erxBD77QOjNCNdpdM+xQ0CVRd5slJ6/3mvv5cThVhx4Q6N94h
- Xsn5lGjChyGlXK8w2bGF5ExIfGJUGmfLgsJubAZ4edabZ4pQjAIqC04WZGaT/azOT+GC
- FQSw==
-X-Gm-Message-State: AGi0Pub6XGFA5pKM9BLjweEXgGO2jRucZIDoXqXVCj1dX0snLXnfC3JW
- igjJs81hqp963WYYBCvHMJZ7nBgVjto=
-X-Google-Smtp-Source: APiQypLM+qPjyGq3+0x+QjP1ZPxZgoTBJBBQm1X60QjHByiwE0TGh2m54v64KXkoJiNwjy40J4+t7g==
-X-Received: by 2002:a17:902:bd87:: with SMTP id
- q7mr2944156pls.92.1588951078580; 
- Fri, 08 May 2020 08:17:58 -0700 (PDT)
+ bh=s8VXXHi1iDtHYGhbceKG3FGqG6XMQ3ZwJ4s4y4ornzs=;
+ b=bqcfkEY4uku8nBoqapPp9EsphlzO8EiDsAT4wriuPlrylGlVCMb/O+S6aqNy5mcBkS
+ LzH7uaL4Wah03W93q5hIEp4dhW9gdFJ+xDWfx8Eygv/gClEwi9If3syZftoVwb9E2mDJ
+ 1M/Y06MI4xoqiBqKY30TPhIBj2/cEFgwup0TjbrKySIazw7qsFQe27JGqfF77yes5C6S
+ Wl3qUJIrkeGrHTfzdQlFgpkC+5MSk+uKX4Am+tBAqxgJRWA9e58VePu/EpsfoIMA2OzX
+ PWnlc+R9X2x7YJUlN7ttj+bhBBX52fLg8NHoD6GS/jeouTxzFPJJ1Olh662OUvzGEjkF
+ mTsw==
+X-Gm-Message-State: AGi0PuYhHOoiJdzQTcfA7dh+aRpjoOFlhnOOFlMaEmaHbOZ00oNMT/1c
+ DzB9tSrCYQhgzAPlKtjELRZjSqmxzKw=
+X-Google-Smtp-Source: APiQypKfrkchL+nNHy6BayCNs8DXrYZnvq4A41dU+1VKNnpE5LOVnfAZjEELnYtQ1qa46ApF+mvIuA==
+X-Received: by 2002:a17:90a:8c8e:: with SMTP id
+ b14mr2356897pjo.222.1588951079874; 
+ Fri, 08 May 2020 08:17:59 -0700 (PDT)
 Received: from localhost.localdomain (174-21-149-226.tukw.qwest.net.
  [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id b5sm2125933pfb.190.2020.05.08.08.17.57
+ by smtp.gmail.com with ESMTPSA id b5sm2125933pfb.190.2020.05.08.08.17.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 May 2020 08:17:57 -0700 (PDT)
+ Fri, 08 May 2020 08:17:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/19] tcg: Use tcg_constant_{i32,i64} with tcg plugins
-Date: Fri,  8 May 2020 08:17:36 -0700
-Message-Id: <20200508151747.6166-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/19] tcg: Rename struct tcg_temp_info to TempOptInfo
+Date: Fri,  8 May 2020 08:17:37 -0700
+Message-Id: <20200508151747.6166-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200508151747.6166-1-richard.henderson@linaro.org>
 References: <20200508151747.6166-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,99 +87,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: alex.bennee@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fix this name vs our coding style.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/plugin-gen.c | 49 +++++++++++++++++++-----------------------
- 1 file changed, 22 insertions(+), 27 deletions(-)
+ tcg/optimize.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 51580d51a0..e5dc9d0ca9 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -284,8 +284,8 @@ static TCGOp *copy_extu_i32_i64(TCGOp **begin_op, TCGOp *op)
-     if (TCG_TARGET_REG_BITS == 32) {
-         /* mov_i32 */
-         op = copy_op(begin_op, op, INDEX_op_mov_i32);
--        /* movi_i32 */
--        op = copy_op(begin_op, op, INDEX_op_movi_i32);
-+        /* mov_i32 w/ $0 */
-+        op = copy_op(begin_op, op, INDEX_op_mov_i32);
-     } else {
-         /* extu_i32_i64 */
-         op = copy_op(begin_op, op, INDEX_op_extu_i32_i64);
-@@ -306,39 +306,34 @@ static TCGOp *copy_mov_i64(TCGOp **begin_op, TCGOp *op)
-     return op;
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 8f3bd99ff4..c0fc5e3da6 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -35,20 +35,20 @@
+         glue(glue(case INDEX_op_, x), _i64):    \
+         glue(glue(case INDEX_op_, x), _vec)
+ 
+-struct tcg_temp_info {
++typedef struct TempOptInfo {
+     bool is_const;
+     TCGTemp *prev_copy;
+     TCGTemp *next_copy;
+     tcg_target_ulong val;
+     tcg_target_ulong mask;
+-};
++} TempOptInfo;
+ 
+-static inline struct tcg_temp_info *ts_info(TCGTemp *ts)
++static inline TempOptInfo *ts_info(TCGTemp *ts)
+ {
+     return ts->state_ptr;
  }
  
--static TCGOp *copy_movi_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
--{
--    if (TCG_TARGET_REG_BITS == 32) {
--        /* 2x movi_i32 */
--        op = copy_op(begin_op, op, INDEX_op_movi_i32);
--        op->args[1] = v;
--
--        op = copy_op(begin_op, op, INDEX_op_movi_i32);
--        op->args[1] = v >> 32;
--    } else {
--        /* movi_i64 */
--        op = copy_op(begin_op, op, INDEX_op_movi_i64);
--        op->args[1] = v;
--    }
--    return op;
--}
--
- static TCGOp *copy_const_ptr(TCGOp **begin_op, TCGOp *op, void *ptr)
+-static inline struct tcg_temp_info *arg_info(TCGArg arg)
++static inline TempOptInfo *arg_info(TCGArg arg)
  {
-     if (UINTPTR_MAX == UINT32_MAX) {
--        /* movi_i32 */
--        op = copy_op(begin_op, op, INDEX_op_movi_i32);
--        op->args[1] = (uintptr_t)ptr;
-+        /* mov_i32 */
-+        op = copy_op(begin_op, op, INDEX_op_mov_i32);
-+        op->args[1] = tcgv_i32_arg(tcg_constant_i32((uintptr_t)ptr));
-     } else {
--        /* movi_i64 */
--        op = copy_movi_i64(begin_op, op, (uint64_t)(uintptr_t)ptr);
-+        /* mov_i64 */
-+        op = copy_op(begin_op, op, INDEX_op_mov_i64);
-+        op->args[1] = tcgv_i64_arg(tcg_constant_i64((uintptr_t)ptr));
+     return ts_info(arg_temp(arg));
+ }
+@@ -71,9 +71,9 @@ static inline bool ts_is_copy(TCGTemp *ts)
+ /* Reset TEMP's state, possibly removing the temp for the list of copies.  */
+ static void reset_ts(TCGTemp *ts)
+ {
+-    struct tcg_temp_info *ti = ts_info(ts);
+-    struct tcg_temp_info *pi = ts_info(ti->prev_copy);
+-    struct tcg_temp_info *ni = ts_info(ti->next_copy);
++    TempOptInfo *ti = ts_info(ts);
++    TempOptInfo *pi = ts_info(ti->prev_copy);
++    TempOptInfo *ni = ts_info(ti->next_copy);
+ 
+     ni->prev_copy = ti->prev_copy;
+     pi->next_copy = ti->next_copy;
+@@ -89,12 +89,12 @@ static void reset_temp(TCGArg arg)
+ }
+ 
+ /* Initialize and activate a temporary.  */
+-static void init_ts_info(struct tcg_temp_info *infos,
++static void init_ts_info(TempOptInfo *infos,
+                          TCGTempSet *temps_used, TCGTemp *ts)
+ {
+     size_t idx = temp_idx(ts);
+     if (!test_bit(idx, temps_used->l)) {
+-        struct tcg_temp_info *ti = &infos[idx];
++        TempOptInfo *ti = &infos[idx];
+ 
+         ts->state_ptr = ti;
+         ti->next_copy = ts;
+@@ -114,7 +114,7 @@ static void init_ts_info(struct tcg_temp_info *infos,
      }
-     return op;
  }
  
- static TCGOp *copy_const_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
+-static void init_arg_info(struct tcg_temp_info *infos,
++static void init_arg_info(TempOptInfo *infos,
+                           TCGTempSet *temps_used, TCGArg arg)
  {
--    return copy_movi_i64(begin_op, op, v);
-+    if (TCG_TARGET_REG_BITS == 32) {
-+        /* 2x mov_i32 */
-+        op = copy_op(begin_op, op, INDEX_op_mov_i32);
-+        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v));
-+        op = copy_op(begin_op, op, INDEX_op_mov_i32);
-+        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v >> 32));
-+    } else {
-+        /* mov_i64 */
-+        op = copy_op(begin_op, op, INDEX_op_mov_i64);
-+        op->args[1] = tcgv_i64_arg(tcg_constant_i64(v));
-+    }
-+    return op;
- }
+     init_ts_info(infos, temps_used, arg_temp(arg));
+@@ -180,7 +180,7 @@ static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg val)
+     const TCGOpDef *def;
+     TCGOpcode new_op;
+     tcg_target_ulong mask;
+-    struct tcg_temp_info *di = arg_info(dst);
++    TempOptInfo *di = arg_info(dst);
  
- static TCGOp *copy_extu_tl_i64(TCGOp **begin_op, TCGOp *op)
-@@ -486,8 +481,8 @@ static TCGOp *append_mem_cb(const struct qemu_plugin_dyn_cb *cb,
+     def = &tcg_op_defs[op->opc];
+     if (def->flags & TCG_OPF_VECTOR) {
+@@ -211,8 +211,8 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
+     TCGTemp *dst_ts = arg_temp(dst);
+     TCGTemp *src_ts = arg_temp(src);
+     const TCGOpDef *def;
+-    struct tcg_temp_info *di;
+-    struct tcg_temp_info *si;
++    TempOptInfo *di;
++    TempOptInfo *si;
+     tcg_target_ulong mask;
+     TCGOpcode new_op;
  
-     tcg_debug_assert(type == PLUGIN_GEN_CB_MEM);
+@@ -245,7 +245,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
+     di->mask = mask;
  
--    /* const_i32 == movi_i32 ("info", so it remains as is) */
--    op = copy_op(&begin_op, op, INDEX_op_movi_i32);
-+    /* const_i32 == mov_i32 ("info", so it remains as is) */
-+    op = copy_op(&begin_op, op, INDEX_op_mov_i32);
+     if (src_ts->type == dst_ts->type) {
+-        struct tcg_temp_info *ni = ts_info(si->next_copy);
++        TempOptInfo *ni = ts_info(si->next_copy);
  
-     /* const_ptr */
-     op = copy_const_ptr(&begin_op, op, cb->userp);
+         di->next_copy = si->next_copy;
+         di->prev_copy = src_ts;
+@@ -608,7 +608,7 @@ void tcg_optimize(TCGContext *s)
+ {
+     int nb_temps, nb_globals;
+     TCGOp *op, *op_next, *prev_mb = NULL;
+-    struct tcg_temp_info *infos;
++    TempOptInfo *infos;
+     TCGTempSet temps_used;
+ 
+     /* Array VALS has an element for each temp.
+@@ -619,7 +619,7 @@ void tcg_optimize(TCGContext *s)
+     nb_temps = s->nb_temps;
+     nb_globals = s->nb_globals;
+     bitmap_zero(temps_used.l, nb_temps);
+-    infos = tcg_malloc(sizeof(struct tcg_temp_info) * nb_temps);
++    infos = tcg_malloc(sizeof(TempOptInfo) * nb_temps);
+ 
+     QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
+         tcg_target_ulong mask, partmask, affected;
 -- 
 2.20.1
 
