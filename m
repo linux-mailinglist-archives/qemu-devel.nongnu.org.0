@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [IPv6:2001:470:142::17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA5651CABFA
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:48:52 +0200 (CEST)
-Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 516B81CAC27
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 May 2020 14:51:27 +0200 (CEST)
+Received: from localhost ([::1]:56830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jX2Qt-0001Wb-MW
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49206)
+	id 1jX2TO-0005jn-Bm
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 08:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KE-0008Ui-F1
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KF-0008V7-6k
  for qemu-devel@nongnu.org; Fri, 08 May 2020 08:42:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:38505
- helo=us-smtp-1.mimecast.com)
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34797
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KD-0007yk-NJ
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jX2KE-0007zO-K3
  for qemu-devel@nongnu.org; Fri, 08 May 2020 08:41:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588941716;
+ s=mimecast20190719; t=1588941717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7oq2a3siUA30JcZw3UcGIEgLFEu65ZoCtYNkgQf0L4o=;
- b=f7RFMJoLusZQciIMyZnqEHRb9pxLRJb06w59t/cVeoijmkss/EBfQp+tJmb7ctH/5AdgBe
- EFV1nVXRb5JuQzUJH6hYQRe7oqnrAoM0MnjA26gs3tvvOqWc/DWX7hv1wJ2+H5fURbyEf+
- JHeWrGhQSiCNBLSnsAGfmvAMn7e7DoA=
+ bh=b1OyryKVIZVincCCnrhSK09zDYfIE8R77/lfy0Df264=;
+ b=DatdtiZHrXq+mMlxggKcEDMGZDZXg5yK1ALP7S1EYIUKbvqn2Wu9/OVwtBoG0g91icHtJS
+ fvXEMKr9iQn2YxWacpyrgGhvbma2cqAKl5FrZl97r66w9eia/wFtGpWBXhr5RxT8zyA5ou
+ 1knqxENLeewIucwnRHmLG8WN8mFXQEA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-yQ6SKZ8oNa--zRBpVDx7BA-1; Fri, 08 May 2020 08:41:52 -0400
-X-MC-Unique: yQ6SKZ8oNa--zRBpVDx7BA-1
+ us-mta-395-KpnKZ1iLM_C17ikzrQP86Q-1; Fri, 08 May 2020 08:41:53 -0400
+X-MC-Unique: KpnKZ1iLM_C17ikzrQP86Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8744A835B8B;
- Fri,  8 May 2020 12:41:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5C29464;
+ Fri,  8 May 2020 12:41:52 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-113-190.ams2.redhat.com
  [10.36.113.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 887C319167;
- Fri,  8 May 2020 12:41:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D378E19167;
+ Fri,  8 May 2020 12:41:51 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 07/30] iotests/109: mark required formats as required to
- support whitelisting
-Date: Fri,  8 May 2020 14:41:12 +0200
-Message-Id: <20200508124135.252565-8-kwolf@redhat.com>
+Subject: [PULL 08/30] iotests/113: mark bochs as required to support
+ whitelisting
+Date: Fri,  8 May 2020 14:41:13 +0200
+Message-Id: <20200508124135.252565-9-kwolf@redhat.com>
 In-Reply-To: <20200508124135.252565-1-kwolf@redhat.com>
 References: <20200508124135.252565-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 02:23:32
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 01:34:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,24 +86,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20200430124713.3067-8-vsementsov@virtuozzo.com>
+Message-Id: <20200430124713.3067-9-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/109 | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qemu-iotests/113 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/109 b/tests/qemu-iotests/109
-index a51dd84b3d..5bc2e9b001 100755
---- a/tests/qemu-iotests/109
-+++ b/tests/qemu-iotests/109
-@@ -42,6 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+diff --git a/tests/qemu-iotests/113 b/tests/qemu-iotests/113
+index f2703a2c50..71a65de2e7 100755
+--- a/tests/qemu-iotests/113
++++ b/tests/qemu-iotests/113
+@@ -37,8 +37,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.rc
+ . ./common.filter
+=20
+-# Some of these test cases use bochs, but others do use raw, so this
+-# is only half a lie.
++# Some of these test cases use bochs, but others do use raw
++_require_drivers bochs
  _supported_fmt raw
  _supported_proto file
  _supported_os Linux
-+_require_drivers qcow qcow2 qed vdi vmdk vpc
-=20
- qemu_comm_method=3Dqmp
-=20
 --=20
 2.25.3
 
