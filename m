@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE771CBEFD
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 10:28:36 +0200 (CEST)
-Received: from localhost ([::1]:53712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A8F1CBEF9
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 10:28:32 +0200 (CEST)
+Received: from localhost ([::1]:53186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXKqZ-0008Th-Pe
-	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 04:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45770)
+	id 1jXKqV-0008FK-5P
+	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 04:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jXKp6-00070S-3A
- for qemu-devel@nongnu.org; Sat, 09 May 2020 04:27:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53614)
+ id 1jXKp4-00070C-PI
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 04:27:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jXKp3-0000w3-Pn
- for qemu-devel@nongnu.org; Sat, 09 May 2020 04:27:03 -0400
+ id 1jXKp3-0000wi-Nx
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 04:27:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jXKoz-0000BR-1R
+ id 1jXKoz-0000CJ-Rq
  for <qemu-devel@nongnu.org>; Sat, 09 May 2020 08:26:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E75662E80BA
- for <qemu-devel@nongnu.org>; Sat,  9 May 2020 08:26:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C0F662E80BA
+ for <qemu-devel@nongnu.org>; Sat,  9 May 2020 08:26:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 09 May 2020 08:15:38 -0000
+Date: Sat, 09 May 2020 08:17:17 -0000
 From: Xavier <1877716@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: zkrx
 X-Launchpad-Bug-Reporter: Xavier (zkrx)
 X-Launchpad-Bug-Modifier: Xavier (zkrx)
 References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
-Message-Id: <158901213812.13531.5011166073834078493.malone@gac.canonical.com>
+Message-Id: <158901223755.5986.15843160190337741176.malone@soybean.canonical.com>
 Subject: [Bug 1877716] Re: Win10 guest unsuable after a few minutes
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
@@ -49,7 +49,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 30efbc13e4f57cb09088082d9071356f67c9dea4
+X-Launchpad-Hash: 0b2687108309ea8be482d1df90488dfd9285b45c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/09 00:00:46
@@ -76,10 +76,8 @@ Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "libvirt/qemu log of a 73fd272 run reproducing the iss=
-ue"
-   https://bugs.launchpad.net/qemu/+bug/1877716/+attachment/5368818/+files/=
-win10.log
+Note that bisecting is difficult due to the nature of the bug (does not
+appear before 5 to 10 minutes on my machine).
 
 -- =
 
