@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D128A1CBEBF
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 10:08:41 +0200 (CEST)
-Received: from localhost ([::1]:37116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A78B1CBECC
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 10:17:17 +0200 (CEST)
+Received: from localhost ([::1]:46634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXKXI-0004Ud-Dm
-	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 04:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43882)
+	id 1jXKfc-0001L6-Nz
+	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 04:17:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jXKWQ-000433-1y; Sat, 09 May 2020 04:07:46 -0400
-Resent-Date: Sat, 09 May 2020 04:07:46 -0400
-Resent-Message-Id: <E1jXKWQ-000433-1y@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21325)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jXKWO-0001vp-By; Sat, 09 May 2020 04:07:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1589011635; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VsBtMHMvKm6+lOicflhKX5CpIuZuScIgKA+mTHiiBtcHbUyks7+KNIf9d+rs0wa1R7zZr4iFOKQGXg9Mq3byHpuyYfiWrDDsYxYBw7FL2a2eOPCNdgEcGgO09dDqyegpMzHwc8CEcZ8+xb/vHkE0JFv9h9cLKbSsWA1ayj3M21E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1589011635;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Mbfbl3zm48amvFRgWpXg1Kn6lnsHR5kzxmoo7RjuaOs=; 
- b=Go7dD/JJYXsQeHJIs1VovsvMpZiW1dZAE9HkPJd0txrP9Jt84G6NmJ+z9zg+Y2JtmwTGF4tcev0t1X5x1sfOdopi0NPk4/IAqJW3xlTEmj9uFpmM0fBJCFVErtDlQCKqHpce1ceKNOPo6Lbyw6WIJmxwq8WYUl8tfVGSgiBfnv4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1589011632623140.4446159939032;
- Sat, 9 May 2020 01:07:12 -0700 (PDT)
-Message-ID: <158901163055.29981.7632486829920635097@45ef0f9c86ae>
-In-Reply-To: <20200508230823.22956-1-walling@linux.ibm.com>
-Subject: Re: [PATCH v1 0/8] s390: Extended-Length SCCB & DIAGNOSE 0x318
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jXKeE-0000bu-4v
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 04:15:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jXKeD-0004gf-09
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 04:15:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jXKeB-000859-AD
+ for <qemu-devel@nongnu.org>; Sat, 09 May 2020 08:15:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 46ED62E8052
+ for <qemu-devel@nongnu.org>; Sat,  9 May 2020 08:15:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: walling@linux.ibm.com
-Date: Sat, 9 May 2020 01:07:12 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/09 04:07:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 09 May 2020 08:10:21 -0000
+From: Xavier <1877716@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: zkrx
+X-Launchpad-Bug-Reporter: Xavier (zkrx)
+X-Launchpad-Bug-Modifier: Xavier (zkrx)
+Message-Id: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
+Subject: [Bug 1877716] [NEW] Win10 guest unsuable after a few minutes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 256fec435823905de25a73e0d1dc13a31de8f25e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/09 00:00:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,77 +71,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: frankja@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, mst@redhat.com, svens@linux.ibm.com,
- pbonzini@redhat.com, mihajlov@linux.ibm.com, rth@twiddle.net
+Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUwODIzMDgyMy4yMjk1
-Ni0xLXdhbGxpbmdAbGludXguaWJtLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAyMDA1MDgyMzA4MjMuMjI5NTYtMS13YWxsaW5n
-QGxpbnV4LmlibS5jb20KU3ViamVjdDogW1BBVENIIHYxIDAvOF0gczM5MDogRXh0ZW5kZWQtTGVu
-Z3RoIFNDQ0IgJiBESUFHTk9TRSAweDMxOApUeXBlOiBzZXJpZXMKCj09PSBURVNUIFNDUklQVCBC
-RUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4
-aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0g
-aGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBU
-RVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0
-NGJkODg4NzEzMzg0ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMTAxZjVjNSBzMzkw
-OiBkaWFnbm9zZSAzMTggaW5mbyByZXNldCBhbmQgbWlncmF0aW9uIHN1cHBvcnQKMDdkYmVjMiBz
-MzkwL2t2bTogaGVhZGVyIHN5bmMgZm9yIGRpYWczMTgKOTk4NTQ1NyBzMzkwL3NjbHA6IGFkZCBl
-eHRlbmRlZC1sZW5ndGggc2NjYiBzdXBwb3J0IGZvciBrdm0gZ3Vlc3QKOGQxM2E4YSBzMzkwL3Nj
-bHA6IHVzZSBjcHUgb2Zmc2V0IHRvIGxvY2F0ZSBjcHUgZW50cmllcwo0ZDE3NTE2IHMzOTAvc2Ns
-cDogcmVhZCBzY2NiIGZyb20gbWVtIGJhc2VkIG9uIHNjY2IgbGVuZ3RoCjRhMWI0NjkgczM5MC9z
-Y2xwOiByZXdvcmsgc2NscCBib3VuZGFyeSBhbmQgbGVuZ3RoIGNoZWNrcwo2OTlmOTc4IHMzOTAv
-c2NscDogY2hlY2sgc2NjYiBsZW4gYmVmb3JlIGZpbGxpbmcgaW4gZGF0YQplNDQ3NmNjIHMzOTAv
-c2NscDogcmVtb3ZlIFNDTFBEZXZpY2UgcGFyYW0gZnJvbSBwcmVwYXJlX2NwdV9lbnRyaWVzCgo9
-PT0gT1VUUFVUIEJFR0lOID09PQoxLzggQ2hlY2tpbmcgY29tbWl0IGU0NDc2Y2NkMmUyYiAoczM5
-MC9zY2xwOiByZW1vdmUgU0NMUERldmljZSBwYXJhbSBmcm9tIHByZXBhcmVfY3B1X2VudHJpZXMp
-CjIvOCBDaGVja2luZyBjb21taXQgNjk5Zjk3OGYyNmU4IChzMzkwL3NjbHA6IGNoZWNrIHNjY2Ig
-bGVuIGJlZm9yZSBmaWxsaW5nIGluIGRhdGEpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0
-ZXJzCiMyMjogRklMRTogaHcvczM5MHgvc2NscC5jOjc5OgorICAgIGlmIChiZTE2X3RvX2NwdShz
-Y2NiLT5oLmxlbmd0aCkgPCAoc2l6ZW9mKFJlYWRJbmZvKSArIGNwdV9jb3VudCAqIHNpemVvZihD
-UFVFbnRyeSkpKSB7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzQ3OiBGSUxFOiBo
-dy9zMzkweC9zY2xwLmM6MTM3OgorICAgIGlmIChiZTE2X3RvX2NwdShzY2NiLT5oLmxlbmd0aCkg
-PCAoc2l6ZW9mKFJlYWRDcHVJbmZvKSArIGNwdV9jb3VudCAqIHNpemVvZihDUFVFbnRyeSkpKSB7
-CgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
-RVJTIG5lZWQgdXBkYXRpbmc/CiM2NzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMSBl
-cnJvcnMsIDIgd2FybmluZ3MsIDQ1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvOCBoYXMgc3R5bGUg
-cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
-ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
-IGluIE1BSU5UQUlORVJTLgoKMy84IENoZWNraW5nIGNvbW1pdCA0YTFiNDY5YmJiY2IgKHMzOTAv
-c2NscDogcmV3b3JrIHNjbHAgYm91bmRhcnkgYW5kIGxlbmd0aCBjaGVja3MpCjQvOCBDaGVja2lu
-ZyBjb21taXQgNGQxNzUxNjg1OWM1IChzMzkwL3NjbHA6IHJlYWQgc2NjYiBmcm9tIG1lbSBiYXNl
-ZCBvbiBzY2NiIGxlbmd0aCkKNS84IENoZWNraW5nIGNvbW1pdCA4ZDEzYThhMTU5NjYgKHMzOTAv
-c2NscDogdXNlIGNwdSBvZmZzZXQgdG8gbG9jYXRlIGNwdSBlbnRyaWVzKQo2LzggQ2hlY2tpbmcg
-Y29tbWl0IDk5ODU0NTdhNGYyMyAoczM5MC9zY2xwOiBhZGQgZXh0ZW5kZWQtbGVuZ3RoIHNjY2Ig
-c3VwcG9ydCBmb3Iga3ZtIGd1ZXN0KQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
-ODc6IEZJTEU6IGh3L3MzOTB4L3NjbHAuYzoxMjg6CisgICAgICAgIHdhcm5fcmVwb3J0KCJpbnN1
-ZmZpY2llbnQgc2NjYiBzaXplIHRvIHN0b3JlIGZ1bGwgcmVhZCBzY3AgaW5mbyByZXNwb25zZSIp
-OwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzExMTogRklMRTogdGFyZ2V0L3Mz
-OTB4L2NwdV9mZWF0dXJlc19kZWYuaW5jLmg6MTAwOgorREVGX0ZFQVQoRVhURU5ERURfTEVOR1RI
-X1NDQ0IsICJlbHMiLCBTVEZMLCAxNDAsICJFeHRlbmRlZC1sZW5ndGggU0NDQiBmYWNpbGl0eSIp
-Cgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDc0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYv
-OCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJy
-b3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNl
-ZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo3LzggQ2hlY2tpbmcgY29tbWl0IDA3ZGJlYzIx
-NjAwNyAoczM5MC9rdm06IGhlYWRlciBzeW5jIGZvciBkaWFnMzE4KQo4LzggQ2hlY2tpbmcgY29t
-bWl0IDEwMWY1YzU2ZTQ4MyAoczM5MDogZGlhZ25vc2UgMzE4IGluZm8gcmVzZXQgYW5kIG1pZ3Jh
-dGlvbiBzdXBwb3J0KQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjE5OiBGSUxF
-OiB0YXJnZXQvczM5MHgvY3B1X2ZlYXR1cmVzX2RlZi5pbmMuaDoxMjY6CitERUZfRkVBVChESUFH
-MzE4LCAiZGlhZzMxOCIsIFNDTFBfQllURV8xMzQsIDAsICJDb250cm9sIHByb2dyYW0gbmFtZSBh
-bmQgdmVyc2lvbiBjb2RlcyIpCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDI1NSBsaW5l
-cyBjaGVja2VkCgpQYXRjaCA4LzggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBV
-VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA1MDgyMzA4MjMu
-MjI5NTYtMS13YWxsaW5nQGxpbnV4LmlibS5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1l
-c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
-czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
-ZXZlbEByZWRoYXQuY29t
+Public bug reported:
+
+On Arch Linux, the recent qemu package update seems to misbehave on some
+systems. In my case, my Windows 10 guest runs fine for around 5 minutes
+and then start to get really sluggish, even unresponsive. It needs to be
+forced off. I could reproduce this on a minimal VM with no passthrough,
+although my current testing setup involves an nvme pcie passthrough.
+
+I bisected it to the following commit which rapidly starts to run sluggishl=
+y on my setup:
+https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4ccf
+
+I've ran the previous commit (
+https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f089b
+) for the entire night without an issue so far.
+
+I believe this might be a duplicate of
+https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
+
+Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x86_=
+64 GNU/Linux
+AMD Ryzen 7 2700X Eight-Core Processor
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877716
+
+Title:
+  Win10 guest unsuable after a few minutes
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Arch Linux, the recent qemu package update seems to misbehave on
+  some systems. In my case, my Windows 10 guest runs fine for around 5
+  minutes and then start to get really sluggish, even unresponsive. It
+  needs to be forced off. I could reproduce this on a minimal VM with no
+  passthrough, although my current testing setup involves an nvme pcie
+  passthrough.
+
+  I bisected it to the following commit which rapidly starts to run sluggis=
+hly on my setup:
+  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
+ccf
+
+  I've ran the previous commit (
+  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
+89b
+  ) for the entire night without an issue so far.
+
+  I believe this might be a duplicate of
+  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
+
+  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
+6_64 GNU/Linux
+  AMD Ryzen 7 2700X Eight-Core Processor
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
 
