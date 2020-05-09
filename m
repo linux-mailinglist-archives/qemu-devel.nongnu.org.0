@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C881CBBD9
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 02:36:41 +0200 (CEST)
-Received: from localhost ([::1]:43924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A1B1CBC36
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 03:51:44 +0200 (CEST)
+Received: from localhost ([::1]:59492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXDTr-0001c2-Lv
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 20:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43720)
+	id 1jXEeV-0002yO-MY
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 21:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jXDSp-0000yA-Gk
- for qemu-devel@nongnu.org; Fri, 08 May 2020 20:35:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48396)
+ id 1jXEdQ-0002SL-Ir
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 21:50:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jXDSo-0005z3-8s
- for qemu-devel@nongnu.org; Fri, 08 May 2020 20:35:35 -0400
+ id 1jXEdP-0007cY-74
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 21:50:36 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jXDSl-0001XA-7a
- for <qemu-devel@nongnu.org>; Sat, 09 May 2020 00:35:31 +0000
+ id 1jXEdN-0001aU-49
+ for <qemu-devel@nongnu.org>; Sat, 09 May 2020 01:50:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 369052E810B
- for <qemu-devel@nongnu.org>; Sat,  9 May 2020 00:35:31 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 04D062E8029
+ for <qemu-devel@nongnu.org>; Sat,  9 May 2020 01:50:32 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 09 May 2020 00:27:21 -0000
+Date: Sat, 09 May 2020 01:42:43 -0000
 From: A A <1877688@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: c3bacd17
 X-Launchpad-Bug-Reporter: A A (c3bacd17)
 X-Launchpad-Bug-Modifier: A A (c3bacd17)
 References: <158898272347.4759.14841085044555564691.malonedeb@chaenomeles.canonical.com>
-Message-Id: <158898404210.10870.1156667153961277357.launchpad@wampee.canonical.com>
+Message-Id: <158898856393.3557.11842308273419192071.malone@chaenomeles.canonical.com>
 Subject: [Bug 1877688] Re: 9p virtfs device reports error when opening certain
  files
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 34a2526fd180f84ca692ddc8c71e09f05237eda6
+X-Launchpad-Hash: d0f864ce9cad6d67fd2ffbb8802b25daa993d8f6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 20:10:43
@@ -77,6 +77,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Reply-To: Bug 1877688 <1877688@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+
+Here's a C program to trigger this behavior. I don't think it matters
+what the contents of "file" or its size is.
 
 ** Description changed:
 
@@ -105,24 +108,31 @@ evice
 
   There's nothing relevant in the guest kernel logs as far as I'm aware of
   with loglevel set to 7.
-+ =
+  =
 
-+ Aha, I found the cursed file. See this strace log:
-+ =
+- Aha, I found the cursed file. See this strace log:
+- =
 
-+ openat(AT_FDCWD, "/home/user/.local/share/nvim/shada/main.shada", O_RDONL=
+- openat(AT_FDCWD, "/home/user/.local/share/nvim/shada/main.shada", O_RDONL=
 Y|O_CLOEXEC) =3D 25
-+ mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
+- mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
 ) =3D 0x7f3ab8427000
-+ mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
+- mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
 ) =3D 0x7f3ab8350000
-+ mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
+- mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
 ) =3D 0x7f3ab8279000
-+ mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
+- mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
 ) =3D 0x7f3ab81a2000
-+ mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
+- mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
 ) =3D 0x7f3ab80cb000
-+ readv(25,
+- readv(25,
++ I tracked down the issue to readv() with a small buffer(<=3D12 bytes) and
++ then a large buffer(>=3D 1024 bytes). A C program is provided to trigger
++ this behavior.
+
+** Attachment added: "readv.c"
+   https://bugs.launchpad.net/qemu/+bug/1877688/+attachment/5368749/+files/=
+readv.c
 
 -- =
 
@@ -159,21 +169,9 @@ evice
   There's nothing relevant in the guest kernel logs as far as I'm aware
   of with loglevel set to 7.
 
-  Aha, I found the cursed file. See this strace log:
-
-  openat(AT_FDCWD, "/home/user/.local/share/nvim/shada/main.shada", O_RDONL=
-Y|O_CLOEXEC) =3D 25
-  mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
-) =3D 0x7f3ab8427000
-  mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
-) =3D 0x7f3ab8350000
-  mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
-) =3D 0x7f3ab8279000
-  mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
-) =3D 0x7f3ab81a2000
-  mmap(NULL, 880640, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0=
-) =3D 0x7f3ab80cb000
-  readv(25,
+  I tracked down the issue to readv() with a small buffer(<=3D12 bytes)
+  and then a large buffer(>=3D 1024 bytes). A C program is provided to
+  trigger this behavior.
 
 To manage notifications about this bug go to:
 https://bugs.launchpad.net/qemu/+bug/1877688/+subscriptions
