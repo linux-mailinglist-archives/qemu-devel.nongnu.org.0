@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5701CBCA7
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 05:01:18 +0200 (CEST)
-Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100B41CBCDB
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 05:12:38 +0200 (CEST)
+Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXFjp-0001hD-R4
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 23:01:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39888)
+	id 1jXFun-00031I-50
+	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 23:12:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jXFir-0001B9-Ks
- for qemu-devel@nongnu.org; Fri, 08 May 2020 23:00:17 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:40473)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jXFip-0000wo-5o
- for qemu-devel@nongnu.org; Fri, 08 May 2020 23:00:16 -0400
-Received: by mail-lj1-x242.google.com with SMTP id y4so3709177ljn.7
- for <qemu-devel@nongnu.org>; Fri, 08 May 2020 20:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SGyC04vMmQZ1Q3PPNwr6iHH4M23gvNf4HdfnG6lYuew=;
- b=iAR+oiHoKzF4k6IxAsX89TV7SAgwVO2tOhs9+BqI6qiALtg51IQ/bKAH0Y3W241rvY
- 82IZTmEuQogeq6+f6GxBpKy/eGSzO/Y6XEkalWTD1fryeGVyOkDimZZNdEIip82AIRXh
- X4b67aTCIPWqBMvCmyoKcVcHUo9QAR4P5cWSB51gJF8Z2rZ6BoOsfB3E+Cp3tEdi2eBT
- AjVwJP0rCDH30upjxeF8AoT9ltwVConJmfPhXC8DQphwrc5oUr89urg37g7Bwqe2xGPk
- Rv+NxrkokeGTEVc8Tpt6zepiXwXQP8hX64paZ/O3bXsmLuwzq3DQj44GXqY/QCCtjJvo
- qL8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SGyC04vMmQZ1Q3PPNwr6iHH4M23gvNf4HdfnG6lYuew=;
- b=DOP6ea5nsGJreVnsuF8nPeyfNwjlclQakVKQeu/TDk7WA25ray7LJS+z2sz4zHA/Qk
- aXgOV2nqM0kCbczNIntfeaRfHqFoGnAsTZQwSv19TIrqXaEfaP6YfDGTtIqNoIDy5qEz
- H4rfeBy4N9Rxwo9jiJ7AvMjobxvHVVyJqbG7dhrx6qcenfwohDR8BZQAlZOqoIttZP1R
- QOw3PL6aJnR8YLqHREFOADWjg/9GIA/RMyvnFP1+E6bEy+qij3HfyFNiOcwbmc9TbAbB
- uFrgbYgDzR8sLUp5rkIY7wEgW2mthIs8mj6vN1i4dFMXtCEn870Jqpv+q4McUisC9fH/
- Ls/w==
-X-Gm-Message-State: AOAM532gK28vHPUC3dIlXKCYWzm/03ALQEAptEjzJLkbvh5q2ZMSRT33
- 7hn37eG6QIKodLvVsVR2yk5vr4vAOInv5opvesU=
-X-Google-Smtp-Source: ABdhPJwZFxa4eGsLRJCaW1fDvOvabk9jOeNIxrYLpbU8OZhToGlzdd/lc5mx6S7MMoBFZlIYy20JiAcQ0pPlo12htMk=
-X-Received: by 2002:a2e:9b0f:: with SMTP id u15mr3505438lji.272.1588993213044; 
- Fri, 08 May 2020 20:00:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jXFtV-0002XE-DY
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 23:11:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27049
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jXFtU-0001Au-CE
+ for qemu-devel@nongnu.org; Fri, 08 May 2020 23:11:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1588993875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=un7W13Pwoo0ykPYpOB3fFD8olDxlxQSGtoLr+GS5O+E=;
+ b=G/8HZ/B7rfaq8kPlgpJsUNGG3tc/GcUkw3MW7TDXXm2CEM41eDMhZkQFVARuqEfQblQqNc
+ BHRvKIOpFntSOkpw73OGLtrS1POHjgVe3ce1TI8c6oTnf+q2n9f1oqxMPdFaJBYS74yawd
+ BGDSzHyhYPEQXitDmvwy60QSnYM6HR4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-teLtDMIwOASOGQnoJn1jAA-1; Fri, 08 May 2020 23:11:13 -0400
+X-MC-Unique: teLtDMIwOASOGQnoJn1jAA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3226080B719;
+ Sat,  9 May 2020 03:11:11 +0000 (UTC)
+Received: from [10.72.13.128] (ovpn-13-128.pek2.redhat.com [10.72.13.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 785015F7DC;
+ Sat,  9 May 2020 03:10:50 +0000 (UTC)
+Subject: Re: [RFC v2 0/9] vDPA support in qemu
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, armbru@redhat.com,
+ eblake@redhat.com, cohuck@redhat.com
+References: <20200508163218.22592-1-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <05a79596-13c4-d66b-4014-32b0229914ab@redhat.com>
+Date: Sat, 9 May 2020 11:10:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <1588501221-1205-1-git-send-email-chenhc@lemote.com>
- <CAHiYmc4GnBE7YWghRk9FUL93RBsbJ+QddNsqMZFOGsUQumhmSg@mail.gmail.com>
-In-Reply-To: <CAHiYmc4GnBE7YWghRk9FUL93RBsbJ+QddNsqMZFOGsUQumhmSg@mail.gmail.com>
-From: chen huacai <zltjiangshi@gmail.com>
-Date: Sat, 9 May 2020 11:07:54 +0800
-Message-ID: <CABDp7Voi1PJL+fnNHMpWU=T7fLG2cmS9gN1O5mFKDGYocNE-3g@mail.gmail.com>
-Subject: Re: [PATCH for-5.1 V3 0/7] mips: Add Loongson-3 machine support (with
- KVM)
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=zltjiangshi@gmail.com; helo=mail-lj1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200508163218.22592-1-lulu@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 23:05:58
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,62 +83,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
+ saugatm@xilinx.com, hanand@xilinx.com, hch@infradead.org, eperezma@redhat.com,
+ jgg@mellanox.com, shahafs@mellanox.com, kevin.tian@intel.com,
+ parav@mellanox.com, vmireyno@marvell.com, cunming.liang@intel.com,
+ gdawar@xilinx.com, jiri@mellanox.com, xiao.w.wang@intel.com,
+ stefanha@redhat.com, zhihong.wang@intel.com, aadam@redhat.com,
+ rdunlap@infradead.org, maxime.coquelin@redhat.com, lingshan.zhu@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Aleksandar,
 
-On Sat, May 9, 2020 at 12:55 AM Aleksandar Markovic
-<aleksandar.qemu.devel@gmail.com> wrote:
+On 2020/5/9 上午12:32, Cindy Lu wrote:
+> vDPA device is a device that uses a datapath which complies with the
+> virtio specifications with vendor specific control path. vDPA devices
+> can be both physically located on the hardware or emulated by software.
+> This RFC introduce the vDPA support in qemu
 >
-> =D0=BD=D0=B5=D0=B4, 3. =D0=BC=D0=B0=D1=98 2020. =D1=83 12:21 Huacai Chen =
-<zltjiangshi@gmail.com> =D1=98=D0=B5 =D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=
-=D0=BE/=D0=BB=D0=B0:
-> >
-> > Loongson-3 CPU family include Loongson-3A R1/R2/R3/R4 and Loongson-3B
-> > R1/R2. Loongson-3A R1 is the oldest and its ISA is the smallest, while
-> > Loongson-3A R4 is the newest and its ISA is almost the superset of all
-> > others. To reduce complexity, in QEMU we just define two CPU types:
-> >
-> > 1, "Loongson-3A1000" CPU which is corresponding to Loongson-3A R1. It i=
-s
-> >    suitable for TCG because Loongson-3A R1 has fewest ASE.
-> > 2, "Loongson-3A4000" CPU which is corresponding to Loongson-3A R4. It i=
-s
-> >    suitable for KVM because Loongson-3A R4 has the VZ ASE.
-> >
->
-> Hi, Huacei,
->
-> Just a couple of practicalities. As you know, we can't upstream this
-> series until correspondent kernel support is upstreamed into kernel.
-> This is my advice, timing-wise:
->
-> - I think it is too late (and not good from testing/risk perspective)
-> to shoot for integrating your kernel series into kernel 5.7;
-> - My advice is to try to upstream your kernel series at the beginning
-> of 5.8 development cycle (which should not be too far)
-> - Once this is done, it will open the door for integrating this series
-> into QEMU upstream
-> - This means that combination of kernel 5.8 and QEMU 5.1 will
-> hopefully be a working system from Loongson KVM point of view
-> - This will also mean we will have relatively sufficient time to test,
-> and possibly fix some new bugs before QEMU 5.1 release.
->
-> I hope this tentative plan sounds good to you.
-OK, I will try to upstream kernel series at first, and send a V4 of
-qemu series after that.
->
-> Sincerely,
-> Aleksandar
+> change from v1
+> separe the patch of introduce vhost_set_vring_ready method
 
 
+I think you meant "separate"?
 
---=20
-Huacai Chen
+May worth to mention TODO:
+
+1) vIOMMU support
+2) live migration support
+
+And it might be helpful if you can publish a github repo for people to try.
+
+Thanks
+
+
+> separe the patch of qemu_get_peer
+> separe the patch  of vhost_set_state
+> intorduce the new macro specific for vDPA in configure
+> intorduce the fuction to pass the fd from cmdline
+> introduce the docmation in qemu-options.hx
+> the other comments form last version
+>
+>
+> Cindy Lu (3):
+>    net: introduce qemu_get_peer
+>    net: use the function qemu_get_peer
+>    virtio_net: introduce vhost_set_state
+>
+> Jason Wang (4):
+>    virtio-bus: introduce queue_enabled method
+>    virito-pci: implement queue_enabled method
+>    vhost_net: set vq ready during start if necessary
+>    vhost: introduce vhost_set_vring_ready method
+>
+> Tiwei Bie (2):
+>    vhost-vdpa: introduce vhost-vdpa net client
+>    vhost-vdpa: implement vhost-vdpa backend
+>
+>   configure                         |  21 ++
+>   hw/net/vhost_net-stub.c           |   4 +
+>   hw/net/vhost_net.c                |  77 ++++-
+>   hw/net/virtio-net.c               |   9 +
+>   hw/virtio/Makefile.objs           |   1 +
+>   hw/virtio/vhost-backend.c         |   5 +
+>   hw/virtio/vhost-vdpa.c            | 447 ++++++++++++++++++++++++++++++
+>   hw/virtio/vhost.c                 |  14 +
+>   hw/virtio/virtio-pci.c            |  13 +
+>   hw/virtio/virtio.c                |   6 +
+>   include/hw/virtio/vhost-backend.h |  10 +-
+>   include/hw/virtio/vhost-vdpa.h    |  25 ++
+>   include/hw/virtio/vhost.h         |   1 +
+>   include/hw/virtio/virtio-bus.h    |   4 +
+>   include/net/net.h                 |   1 +
+>   include/net/vhost-vdpa.h          |  19 ++
+>   include/net/vhost_net.h           |   4 +-
+>   net/Makefile.objs                 |   2 +-
+>   net/clients.h                     |   2 +
+>   net/net.c                         |   9 +
+>   net/vhost-vdpa.c                  | 227 +++++++++++++++
+>   qapi/net.json                     |  22 +-
+>   qemu-options.hx                   |  19 ++
+>   23 files changed, 930 insertions(+), 12 deletions(-)
+>   create mode 100644 hw/virtio/vhost-vdpa.c
+>   create mode 100644 include/hw/virtio/vhost-vdpa.h
+>   create mode 100644 include/net/vhost-vdpa.h
+>   create mode 100644 net/vhost-vdpa.c
+>
+
 
