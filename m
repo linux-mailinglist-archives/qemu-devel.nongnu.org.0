@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100B41CBCDB
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 05:12:38 +0200 (CEST)
-Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEA961CBDD3
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 May 2020 07:43:42 +0200 (CEST)
+Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXFun-00031I-50
-	for lists+qemu-devel@lfdr.de; Fri, 08 May 2020 23:12:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42636)
+	id 1jXIH0-0001hb-0u
+	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 01:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jXFtV-0002XE-DY
- for qemu-devel@nongnu.org; Fri, 08 May 2020 23:11:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:27049
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jXFtU-0001Au-CE
- for qemu-devel@nongnu.org; Fri, 08 May 2020 23:11:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1588993875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=un7W13Pwoo0ykPYpOB3fFD8olDxlxQSGtoLr+GS5O+E=;
- b=G/8HZ/B7rfaq8kPlgpJsUNGG3tc/GcUkw3MW7TDXXm2CEM41eDMhZkQFVARuqEfQblQqNc
- BHRvKIOpFntSOkpw73OGLtrS1POHjgVe3ce1TI8c6oTnf+q2n9f1oqxMPdFaJBYS74yawd
- BGDSzHyhYPEQXitDmvwy60QSnYM6HR4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-teLtDMIwOASOGQnoJn1jAA-1; Fri, 08 May 2020 23:11:13 -0400
-X-MC-Unique: teLtDMIwOASOGQnoJn1jAA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3226080B719;
- Sat,  9 May 2020 03:11:11 +0000 (UTC)
-Received: from [10.72.13.128] (ovpn-13-128.pek2.redhat.com [10.72.13.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 785015F7DC;
- Sat,  9 May 2020 03:10:50 +0000 (UTC)
-Subject: Re: [RFC v2 0/9] vDPA support in qemu
-To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, armbru@redhat.com,
- eblake@redhat.com, cohuck@redhat.com
-References: <20200508163218.22592-1-lulu@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <05a79596-13c4-d66b-4014-32b0229914ab@redhat.com>
-Date: Sat, 9 May 2020 11:10:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jXGfS-0007gL-R2
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 00:00:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jXGfR-0006AI-0C
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 00:00:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jXGfO-0006TO-Jp
+ for <qemu-devel@nongnu.org>; Sat, 09 May 2020 04:00:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8FA4B2E80E7
+ for <qemu-devel@nongnu.org>; Sat,  9 May 2020 04:00:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200508163218.22592-1-lulu@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/08 23:05:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 09 May 2020 03:51:03 -0000
+From: =?utf-8?b?RnLDqWTDqXJpYyBCcmnDqHJl?= <fbriere@fbriere.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: gui usability
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange fbriere lockywolf
+X-Launchpad-Bug-Reporter: Lockywolf (lockywolf)
+X-Launchpad-Bug-Modifier: =?utf-8?b?RnLDqWTDqXJpYyBCcmnDqHJlIChmYnJpZXJl?=
+ =?utf-8?q?=29?=
+References: <158469084688.19486.16271224237247905413.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158899626383.5105.14524558046346022993.malone@chaenomeles.canonical.com>
+Subject: [Bug 1868221] Re: /usr/share/applications/qemu.desktop should have an
+ "Exec=" key.
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d99f6be9fb67d6eb5e0e27d4cee346bfa60e1bd8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/09 00:00:46
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, FROM_EXCESS_BASE64=0.979,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 09 May 2020 01:41:26 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,90 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mhabets@solarflare.com, qemu-devel@nongnu.org, rob.miller@broadcom.com,
- saugatm@xilinx.com, hanand@xilinx.com, hch@infradead.org, eperezma@redhat.com,
- jgg@mellanox.com, shahafs@mellanox.com, kevin.tian@intel.com,
- parav@mellanox.com, vmireyno@marvell.com, cunming.liang@intel.com,
- gdawar@xilinx.com, jiri@mellanox.com, xiao.w.wang@intel.com,
- stefanha@redhat.com, zhihong.wang@intel.com, aadam@redhat.com,
- rdunlap@infradead.org, maxime.coquelin@redhat.com, lingshan.zhu@intel.com
+Reply-To: Bug 1868221 <1868221@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thank you Lockywolf for this bug report.  Have you filed one against KDE
+as you previously mentioned?  If so, could you provide us with a link?
+Thanks in advance!
 
-On 2020/5/9 上午12:32, Cindy Lu wrote:
-> vDPA device is a device that uses a datapath which complies with the
-> virtio specifications with vendor specific control path. vDPA devices
-> can be both physically located on the hardware or emulated by software.
-> This RFC introduce the vDPA support in qemu
->
-> change from v1
-> separe the patch of introduce vhost_set_vring_ready method
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1868221
 
-I think you meant "separate"?
+Title:
+  /usr/share/applications/qemu.desktop should have an "Exec=3D" key.
 
-May worth to mention TODO:
+Status in QEMU:
+  New
 
-1) vIOMMU support
-2) live migration support
+Bug description:
+  According to the www.freedesktop.org .desktop-file specification, all
+  "Application" desktop files should have an "Exec=3D" key. The one in
+  qemu doesn't.
 
-And it might be helpful if you can publish a github repo for people to try.
+  This can be easily verified by running kbuildsycoca4 if KDE4 is
+  present, but the issue is not DE-dependent.
 
-Thanks
+  Which binary exactly should be assigned as the default one, I don't
+  know.
 
-
-> separe the patch of qemu_get_peer
-> separe the patch  of vhost_set_state
-> intorduce the new macro specific for vDPA in configure
-> intorduce the fuction to pass the fd from cmdline
-> introduce the docmation in qemu-options.hx
-> the other comments form last version
->
->
-> Cindy Lu (3):
->    net: introduce qemu_get_peer
->    net: use the function qemu_get_peer
->    virtio_net: introduce vhost_set_state
->
-> Jason Wang (4):
->    virtio-bus: introduce queue_enabled method
->    virito-pci: implement queue_enabled method
->    vhost_net: set vq ready during start if necessary
->    vhost: introduce vhost_set_vring_ready method
->
-> Tiwei Bie (2):
->    vhost-vdpa: introduce vhost-vdpa net client
->    vhost-vdpa: implement vhost-vdpa backend
->
->   configure                         |  21 ++
->   hw/net/vhost_net-stub.c           |   4 +
->   hw/net/vhost_net.c                |  77 ++++-
->   hw/net/virtio-net.c               |   9 +
->   hw/virtio/Makefile.objs           |   1 +
->   hw/virtio/vhost-backend.c         |   5 +
->   hw/virtio/vhost-vdpa.c            | 447 ++++++++++++++++++++++++++++++
->   hw/virtio/vhost.c                 |  14 +
->   hw/virtio/virtio-pci.c            |  13 +
->   hw/virtio/virtio.c                |   6 +
->   include/hw/virtio/vhost-backend.h |  10 +-
->   include/hw/virtio/vhost-vdpa.h    |  25 ++
->   include/hw/virtio/vhost.h         |   1 +
->   include/hw/virtio/virtio-bus.h    |   4 +
->   include/net/net.h                 |   1 +
->   include/net/vhost-vdpa.h          |  19 ++
->   include/net/vhost_net.h           |   4 +-
->   net/Makefile.objs                 |   2 +-
->   net/clients.h                     |   2 +
->   net/net.c                         |   9 +
->   net/vhost-vdpa.c                  | 227 +++++++++++++++
->   qapi/net.json                     |  22 +-
->   qemu-options.hx                   |  19 ++
->   23 files changed, 930 insertions(+), 12 deletions(-)
->   create mode 100644 hw/virtio/vhost-vdpa.c
->   create mode 100644 include/hw/virtio/vhost-vdpa.h
->   create mode 100644 include/net/vhost-vdpa.h
->   create mode 100644 net/vhost-vdpa.c
->
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1868221/+subscriptions
 
