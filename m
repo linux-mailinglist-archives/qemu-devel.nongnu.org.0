@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D47C1CCCED
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:35:49 +0200 (CEST)
-Received: from localhost ([::1]:54758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9F01CCC88
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 19:12:48 +0200 (CEST)
+Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXqnk-00012W-80
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:35:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44868)
+	id 1jXpVO-0007Ii-JZ
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 13:12:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <ad0e5a9b6abde52502aa40b30661d29aebe1590a@lizzy.crudebyte.com>)
- id 1jXqhi-0006Ah-3Z
- for qemu-devel@nongnu.org; Sun, 10 May 2020 14:29:34 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:44391)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <ad0e5a9b6abde52502aa40b30661d29aebe1590a@lizzy.crudebyte.com>)
- id 1jXqhh-0005RE-BT
- for qemu-devel@nongnu.org; Sun, 10 May 2020 14:29:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=vmF7NmnttbFuaHeIWeCyzKORtLSbSPMZue6Yg+i6MrE=; b=nPnzn
- th+MlUrV0bY0+I2y7fObjOQ/LThcRxE2ZOW1h1Aoy9PIgYXzNbBwt9lEL1YGhgZ4GhDVVme3yoTs/
- mEmdSz0p3eLR8I2mhggB3Z9U3nEoI8aH+CYETj2jxItnsTKKYKLArBlku1WTBFg68fSGIqQFDQwjB
- F5rM55E6JP5ihJ4oYg4YBsuLEo9NV/x6PTbaLnfC61zbCz5UXdqSj7qsi3K574Sjkp0mdIbm78JgK
- gU2OJHOP0bUGRNoJciNntwTvpI8uY1Uw9rA2wmnb0ZlNTZQ9IPCcW/BqsGKomfN43DynYScHDQFA8
- GReJ9YmstH0Wxe3XaiWoG5lMnMiHg==;
-Message-Id: <ad0e5a9b6abde52502aa40b30661d29aebe1590a.1589132512.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1589132512.git.qemu_oss@crudebyte.com>
-References: <cover.1589132512.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 10 May 2020 19:05:02 +0200
-Subject: [PATCH 1/2] xen-9pfs: Fix log messages of reply errors
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jXpU6-0005lV-1k; Sun, 10 May 2020 13:11:26 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:33949)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jXpU5-0000BV-7r; Sun, 10 May 2020 13:11:25 -0400
+Received: by mail-ed1-x544.google.com with SMTP id g16so5876576eds.1;
+ Sun, 10 May 2020 10:11:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=g3CQKoEsceWltY1vfC5X9PTIbG5UKc71WRd2sRWmnNo=;
+ b=mWusThvKxZ0N9XxbLxhOJ5eUy2Hx5nGDF7aNELt9BwPw/JUUDp7tDFjCdp778SqzCS
+ tlgQDpcmCLxTkMNUJhQzG8fz5QwzjNbAcN9ySp3j3ja2e0mgeatnBYv8w0HMjRjabWfi
+ WPjoTlrCR8YX5HsiegJ/zZ3684yATucuENuIZLrGf+wcKaIDD5zK8z04w3NBsc0loclH
+ GqAiv1KIVZCRCAbEGVV+V8qkYsQgMM+dtqVFAY1MJhTiGIhhPgSRu9CDMj9TjgoPIBug
+ IAeua/vtKKhocxCpX2M0sQhJOwHTVYmDu2NWFNjAVKY+L1gwciVXFQX7fovPpGpxZvR6
+ w/cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=g3CQKoEsceWltY1vfC5X9PTIbG5UKc71WRd2sRWmnNo=;
+ b=nl35KYjgXNvCRnHiE2dYx6jmR6TwXs2/vkyYmFav/T+u4NCBvZwNohLcQOdkrZaikW
+ KSxTI8dGLvj7RLJ516lLDQhQJdDym7qlLQI8aPN1V/2iI8dc1zSILQx28/YguxRhvYit
+ l67A/Hu75oJRtz/0rQpd9Od/P4NcrbNX7BAHtVrKzpUp628rTvEMQThAVe0CWM9T2hVH
+ mdkVgewClTOSk8oJtDXxz8K2bRL9iEdDhbXR+if0dmKhp0Iu1Ab48UaFqhVt+ZzD9P9E
+ 4MX7xci4oIK4Pp+HvxwllXrO8jjgFjp51bX6mY3SOzrELo6hZ/I2UhOdb7PYtu6lZM2t
+ mcoA==
+X-Gm-Message-State: AGi0PubwKwWMZfLlA/j4LjIG/HALcUJFG65UBuj5k7+1jIe9K7ZTxB7K
+ YWc7N9IS74Q38epCfyOOHc3foVwBcoc=
+X-Google-Smtp-Source: APiQypKFjlZFGyKOuYxPH+HBVACdAG36MfrM67vMDO1QrAnzmtM5YBjgvFI/OCu1aPHkwUFU+Q/blQ==
+X-Received: by 2002:a50:8b06:: with SMTP id l6mr10016514edl.190.1589130683278; 
+ Sun, 10 May 2020 10:11:23 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id w7sm960776edr.20.2020.05.10.10.11.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 May 2020 10:11:22 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=ad0e5a9b6abde52502aa40b30661d29aebe1590a@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:00:36
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Subject: [PATCH 0/3] plugins: Move declarations around and rename 'hwaddr'
+ argument
+Date: Sun, 10 May 2020 19:11:16 +0200
+Message-Id: <20200510171119.20827-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,47 +85,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If delivery of some 9pfs response fails for some reason, log the
-error message by mentioning the 9P protocol reply type, not by
-client's request type. The latter could be misleading that the
-error occurred already when handling the request input.
+Rename qemu_plugin_hwaddr_is_io() 'hwaddr' argument to later
+allow declaration of the 'hwaddr' type to be poisoned (see [*]).
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/xen-9p-backend.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+[*] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02254.html
+    "exec/cpu: Poison 'hwaddr' type in user-mode emulation"
 
-diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
-index 18fe5b7c92..f04caabfe5 100644
---- a/hw/9pfs/xen-9p-backend.c
-+++ b/hw/9pfs/xen-9p-backend.c
-@@ -137,7 +137,8 @@ static ssize_t xen_9pfs_pdu_vmarshal(V9fsPDU *pdu,
-     ret = v9fs_iov_vmarshal(in_sg, num, offset, 0, fmt, ap);
-     if (ret < 0) {
-         xen_pv_printf(&xen_9pfs->xendev, 0,
--                      "Failed to encode VirtFS request type %d\n", pdu->id + 1);
-+                      "Failed to encode VirtFS reply type %d\n",
-+                      pdu->id + 1);
-         xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
-         xen_9pfs_disconnect(&xen_9pfs->xendev);
-     }
-@@ -201,9 +202,9 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
- 
-     buf_size = iov_size(ring->sg, num);
-     if (buf_size  < P9_IOHDRSZ) {
--        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
--                "needs %zu bytes, buffer has %zu, less than minimum\n",
--                pdu->id, *size, buf_size);
-+        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs reply type %d needs "
-+                      "%zu bytes, buffer has %zu, less than minimum\n",
-+                      pdu->id + 1, *size, buf_size);
-         xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
-         xen_9pfs_disconnect(&xen_9pfs->xendev);
-     }
+Philippe Mathieu-Daudé (3):
+  qemu/plugin: Trivial code movement
+  qemu/plugin: Move !CONFIG_PLUGIN stubs altogether
+  qemu/qemu-plugin: Make qemu_plugin_hwaddr_is_io() hwaddr argument
+    const
+
+ include/qemu/plugin.h      | 65 ++++++++++++++++++--------------------
+ include/qemu/qemu-plugin.h |  2 +-
+ plugins/api.c              |  4 +--
+ 3 files changed, 34 insertions(+), 37 deletions(-)
+
 -- 
-2.20.1
+2.21.3
 
 
