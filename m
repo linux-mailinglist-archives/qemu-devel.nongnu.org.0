@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A001CCB68
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 15:48:16 +0200 (CEST)
-Received: from localhost ([::1]:59632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E0B1CCB6C
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 15:50:03 +0200 (CEST)
+Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXmJT-00061m-RF
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 09:48:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40860)
+	id 1jXmLC-0000E1-4j
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 09:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jXmCg-0003S5-WB
- for qemu-devel@nongnu.org; Sun, 10 May 2020 09:41:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:43148
+ id 1jXmCj-0003UA-Lz
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 09:41:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44641
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jXmCf-0003uZ-HK
- for qemu-devel@nongnu.org; Sun, 10 May 2020 09:41:14 -0400
+ id 1jXmCg-0003uj-OP
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 09:41:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589118072;
+ s=mimecast20190719; t=1589118074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WtcqoeQnc4lIUOckIdvVUOg78hvaSIGMyGT0PrwZSDQ=;
- b=hnPp3IPvLJNuaZmGAUyZKSfG/A0HT3wMlq5WH2aL/+mhzx9xYzoCJ4+jBljD/v9OzxJDVW
- ttVt926mMXAqGfCgXbedIqztdmpa31kqBlrwJCU9iIUO6dHvnFLlWfl2o0zmi5zrVSGgu5
- aq7U30rjtuTWWqVlh/LEiBKuDWG0xRs=
+ bh=qZ0JGzCS9evERMvLz6DYAtMDGVcN+R9Icf+Fo5WCTp0=;
+ b=MzQzkC+Ba3k25J5300vNMXmLDHZhzdoNMeNDGFBifnTaTmWDcqdNDqklple8XKjY2Av0q3
+ 7h6CBGLU7ksiJqdh0DKcmx0aYliE1OFFnyUspoXPDO8AVsKyQQmO9dP2kl/c7pV/qDO9cS
+ KMrKb0vVdtyJQnGlTMa5HEnw6erwWwM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-EHHsdc6sPJWsa6mr6QVlSQ-1; Sun, 10 May 2020 09:41:07 -0400
-X-MC-Unique: EHHsdc6sPJWsa6mr6QVlSQ-1
+ us-mta-257-LJGLqjVyMS6TcElsyxmCVA-1; Sun, 10 May 2020 09:41:10 -0400
+X-MC-Unique: LJGLqjVyMS6TcElsyxmCVA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5977835B40;
- Sun, 10 May 2020 13:41:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74CB8464;
+ Sun, 10 May 2020 13:41:09 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5CB122E17D;
- Sun, 10 May 2020 13:41:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DC8D2E17D;
+ Sun, 10 May 2020 13:41:06 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 09/14] iotests: filter few more luks specific create options
-Date: Sun, 10 May 2020 16:40:32 +0300
-Message-Id: <20200510134037.18487-10-mlevitsk@redhat.com>
+Subject: [PATCH v6 10/14] iotests: qemu-img tests for luks key management
+Date: Sun, 10 May 2020 16:40:33 +0300
+Message-Id: <20200510134037.18487-11-mlevitsk@redhat.com>
 In-Reply-To: <20200510134037.18487-1-mlevitsk@redhat.com>
 References: <20200510134037.18487-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -56,17 +56,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mlevitsk@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 09:00:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 08:00:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,339 +87,483 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows more tests to be able to have same output on both qcow2 luks encrypted images
-and raw luks images
+This commit adds two tests, which test the new amend interface
+of both luks raw images and qcow2 luks encrypted images.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qemu-iotests/087.out       |  6 ++---
- tests/qemu-iotests/134.out       |  2 +-
- tests/qemu-iotests/158.out       |  4 +--
- tests/qemu-iotests/188.out       |  2 +-
- tests/qemu-iotests/189.out       |  4 +--
- tests/qemu-iotests/198.out       |  4 +--
- tests/qemu-iotests/263.out       |  4 +--
- tests/qemu-iotests/274.out       | 46 ++++++++++++++++----------------
- tests/qemu-iotests/284.out       |  6 ++---
- tests/qemu-iotests/common.filter |  6 +++--
- 10 files changed, 43 insertions(+), 41 deletions(-)
+ tests/qemu-iotests/293     | 207 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/293.out |  99 ++++++++++++++++++
+ tests/qemu-iotests/294     |  90 ++++++++++++++++
+ tests/qemu-iotests/294.out |  30 ++++++
+ tests/qemu-iotests/group   |   2 +
+ 5 files changed, 428 insertions(+)
+ create mode 100755 tests/qemu-iotests/293
+ create mode 100644 tests/qemu-iotests/293.out
+ create mode 100755 tests/qemu-iotests/294
+ create mode 100644 tests/qemu-iotests/294.out
 
-diff --git a/tests/qemu-iotests/087.out b/tests/qemu-iotests/087.out
-index f23bffbbf1..d5ff53302e 100644
---- a/tests/qemu-iotests/087.out
-+++ b/tests/qemu-iotests/087.out
-@@ -34,7 +34,7 @@ QMP_VERSION
- 
- === Encrypted image QCow ===
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encryption=on encrypt.key-secret=sec0 size=134217728
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encryption=on size=134217728
- Testing:
- QMP_VERSION
- {"return": {}}
-@@ -46,7 +46,7 @@ QMP_VERSION
- 
- === Encrypted image LUKS ===
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encrypt.format=luks encrypt.key-secret=sec0 size=134217728
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
- Testing:
- QMP_VERSION
- {"return": {}}
-@@ -58,7 +58,7 @@ QMP_VERSION
- 
- === Missing driver ===
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encryption=on encrypt.key-secret=sec0 size=134217728
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encryption=on size=134217728
- Testing: -S
- QMP_VERSION
- {"return": {}}
-diff --git a/tests/qemu-iotests/134.out b/tests/qemu-iotests/134.out
-index f2878f5f3a..e4733c0b81 100644
---- a/tests/qemu-iotests/134.out
-+++ b/tests/qemu-iotests/134.out
-@@ -1,5 +1,5 @@
- QA output created by 134
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encryption=on encrypt.key-secret=sec0 size=134217728
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encryption=on size=134217728
- 
- == reading whole image ==
- read 134217728/134217728 bytes at offset 0
-diff --git a/tests/qemu-iotests/158.out b/tests/qemu-iotests/158.out
-index fa2294bb85..52ea9a488f 100644
---- a/tests/qemu-iotests/158.out
-+++ b/tests/qemu-iotests/158.out
-@@ -1,6 +1,6 @@
- QA output created by 158
- == create base ==
--Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT encryption=on encrypt.key-secret=sec0 size=134217728
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT encryption=on size=134217728
- 
- == writing whole image ==
- wrote 134217728/134217728 bytes at offset 0
-@@ -10,7 +10,7 @@ wrote 134217728/134217728 bytes at offset 0
- read 134217728/134217728 bytes at offset 0
- 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- == create overlay ==
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encryption=on encrypt.key-secret=sec0 size=134217728 backing_file=TEST_DIR/t.IMGFMT.base
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encryption=on size=134217728 backing_file=TEST_DIR/t.IMGFMT.base
- 
- == writing part of a cluster ==
- wrote 1024/1024 bytes at offset 0
-diff --git a/tests/qemu-iotests/188.out b/tests/qemu-iotests/188.out
-index 4b9aadd51c..5426861b18 100644
---- a/tests/qemu-iotests/188.out
-+++ b/tests/qemu-iotests/188.out
-@@ -1,5 +1,5 @@
- QA output created by 188
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10 size=16777216
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216
- 
- == reading whole image ==
- read 16777216/16777216 bytes at offset 0
-diff --git a/tests/qemu-iotests/189.out b/tests/qemu-iotests/189.out
-index e536d95d53..bc213cbe14 100644
---- a/tests/qemu-iotests/189.out
-+++ b/tests/qemu-iotests/189.out
-@@ -1,6 +1,6 @@
- QA output created by 189
- == create base ==
--Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10 size=16777216
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216
- 
- == writing whole image ==
- wrote 16777216/16777216 bytes at offset 0
-@@ -10,7 +10,7 @@ wrote 16777216/16777216 bytes at offset 0
- read 16777216/16777216 bytes at offset 0
- 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- == create overlay ==
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encrypt.format=luks encrypt.key-secret=sec1 encrypt.iter-time=10 size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
- 
- == writing part of a cluster ==
- wrote 1024/1024 bytes at offset 0
-diff --git a/tests/qemu-iotests/198.out b/tests/qemu-iotests/198.out
-index b0f2d417af..acfdf96b0c 100644
---- a/tests/qemu-iotests/198.out
-+++ b/tests/qemu-iotests/198.out
-@@ -1,12 +1,12 @@
- QA output created by 198
- == create base ==
--Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10 size=16777216
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=16777216
- 
- == writing whole image base ==
- wrote 16777216/16777216 bytes at offset 0
- 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- == create overlay ==
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encrypt.format=luks encrypt.key-secret=sec1 encrypt.iter-time=10 size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=16777216 backing_file=TEST_DIR/t.IMGFMT.base
- 
- == writing whole image layer ==
- wrote 16777216/16777216 bytes at offset 0
-diff --git a/tests/qemu-iotests/263.out b/tests/qemu-iotests/263.out
-index 4cf5c79ed8..54bfbeeff8 100644
---- a/tests/qemu-iotests/263.out
-+++ b/tests/qemu-iotests/263.out
-@@ -2,7 +2,7 @@ QA output created by 263
- 
- testing LUKS qcow2 encryption
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10 size=1048576
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- == reading the whole image ==
- read 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -21,7 +21,7 @@ read 982528/982528 bytes at offset 66048
- 
- testing legacy AES qcow2 encryption
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT encrypt.format=aes encrypt.key-secret=sec0 size=1048576
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- == reading the whole image ==
- read 1048576/1048576 bytes at offset 0
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
-index 9d6fdeb1f7..59de176b99 100644
---- a/tests/qemu-iotests/274.out
-+++ b/tests/qemu-iotests/274.out
-@@ -1,9 +1,9 @@
- == Commit tests ==
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=2097152 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 size=1048576 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=2097152 backing_file=TEST_DIR/PID-mid lazy_refcounts=off refcount_bits=16
- 
- wrote 2097152/2097152 bytes at offset 0
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -63,11 +63,11 @@ read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- === Testing HMP commit (top -> mid) ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=2097152 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 size=1048576 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=2097152 backing_file=TEST_DIR/PID-mid lazy_refcounts=off refcount_bits=16
- 
- wrote 2097152/2097152 bytes at offset 0
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -92,11 +92,11 @@ read 1048576/1048576 bytes at offset 1048576
- 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- 
- === Testing QMP active commit (top -> mid) ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=2097152 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=2097152 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-mid', fmt=qcow2 size=1048576 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-mid', fmt=qcow2 cluster_size=65536 size=1048576 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=2097152 backing_file=TEST_DIR/PID-mid cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=2097152 backing_file=TEST_DIR/PID-mid lazy_refcounts=off refcount_bits=16
- 
- wrote 2097152/2097152 bytes at offset 0
- 2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -128,9 +128,9 @@ read 1048576/1048576 bytes at offset 1048576
- 
- == Resize tests ==
- === preallocation=off ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=6442450944 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=6442450944 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=1073741824 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=1073741824 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
- wrote 65536/65536 bytes at offset 5368709120
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -147,9 +147,9 @@ read 65536/65536 bytes at offset 5368709120
- { "start": 1073741824, "length": 7516192768, "depth": 0, "zero": true, "data": false}]
- 
- === preallocation=metadata ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=34359738368 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=34359738368 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=32212254720 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=32212254720 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
- wrote 65536/65536 bytes at offset 33285996544
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -171,9 +171,9 @@ read 65536/65536 bytes at offset 33285996544
- { "start": 34896609280, "length": 536870912, "depth": 0, "zero": true, "data": false, "offset": 2685075456}]
- 
- === preallocation=falloc ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=10485760 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=10485760 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=5242880 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=5242880 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
- wrote 65536/65536 bytes at offset 9437184
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -190,9 +190,9 @@ read 65536/65536 bytes at offset 9437184
- { "start": 5242880, "length": 10485760, "depth": 0, "zero": false, "data": true, "offset": 327680}]
- 
- === preallocation=full ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=16777216 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=16777216 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=8388608 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=8388608 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
- wrote 65536/65536 bytes at offset 11534336
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -209,9 +209,9 @@ read 65536/65536 bytes at offset 11534336
- { "start": 8388608, "length": 4194304, "depth": 0, "zero": false, "data": true, "offset": 327680}]
- 
- === preallocation=off ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=393216 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=393216 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=259072 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=259072 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
- wrote 65536/65536 bytes at offset 259072
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -229,9 +229,9 @@ read 65536/65536 bytes at offset 259072
- { "start": 262144, "length": 262144, "depth": 0, "zero": true, "data": false}]
- 
- === preallocation=off ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=409600 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=409600 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=262144 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=262144 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
- wrote 65536/65536 bytes at offset 344064
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-@@ -248,9 +248,9 @@ read 65536/65536 bytes at offset 344064
- { "start": 262144, "length": 262144, "depth": 0, "zero": true, "data": false}]
- 
- === preallocation=off ===
--Formatting 'TEST_DIR/PID-base', fmt=qcow2 size=524288 cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-base', fmt=qcow2 cluster_size=65536 size=524288 lazy_refcounts=off refcount_bits=16
- 
--Formatting 'TEST_DIR/PID-top', fmt=qcow2 size=262144 backing_file=TEST_DIR/PID-base cluster_size=65536 lazy_refcounts=off refcount_bits=16
-+Formatting 'TEST_DIR/PID-top', fmt=qcow2 cluster_size=65536 size=262144 backing_file=TEST_DIR/PID-base lazy_refcounts=off refcount_bits=16
- 
- wrote 65536/65536 bytes at offset 446464
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-diff --git a/tests/qemu-iotests/284.out b/tests/qemu-iotests/284.out
-index 48216f5742..a929239302 100644
---- a/tests/qemu-iotests/284.out
-+++ b/tests/qemu-iotests/284.out
-@@ -2,7 +2,7 @@ QA output created by 284
- 
- testing LUKS qcow2 encryption
- 
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- 
- == cluster size 512
- == checking image refcounts ==
-@@ -21,7 +21,7 @@ wrote 1/1 bytes at offset 512
- 
- == rechecking image refcounts ==
- No errors were found on the image.
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- 
- == cluster size 2048
- == checking image refcounts ==
-@@ -40,7 +40,7 @@ wrote 1/1 bytes at offset 2048
- 
- == rechecking image refcounts ==
- No errors were found on the image.
--Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 encrypt.format=luks encrypt.key-secret=sec0 encrypt.iter-time=10
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
- 
- == cluster size 32768
- == checking image refcounts ==
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index 3f8ee3e5f7..bcc4495d52 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -150,8 +150,10 @@ _filter_img_create()
-         -e "s# block_state_zero=\\(on\\|off\\)##g" \
-         -e "s# log_size=[0-9]\\+##g" \
-         -e "s# refcount_bits=[0-9]\\+##g" \
--        -e "s# key-secret=[a-zA-Z0-9]\\+##g" \
--        -e "s# iter-time=[0-9]\\+##g" \
-+        -e "s# \\(encrypt\\.\\)\\?key-secret=[a-zA-Z0-9]\\+##g" \
-+        -e "s# \\(encrypt\\.\\)\\?slot=[0-9]\\+##g" \
-+        -e "s# \\(encrypt\\.\\)\\?iter-time=[0-9]\\+##g" \
-+        -e "s# encrypt\\.format=[a-zA-Z0-9]\\+##g" \
-         -e "s# force_size=\\(on\\|off\\)##g"
- }
- 
+diff --git a/tests/qemu-iotests/293 b/tests/qemu-iotests/293
+new file mode 100755
+index 0000000000..aa1a77690f
+--- /dev/null
++++ b/tests/qemu-iotests/293
+@@ -0,0 +1,207 @@
++#!/usr/bin/env bash
++#
++# Test encryption key management with luks
++# Based on 134
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=mlevitsk@redhat.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++	_cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt qcow2 luks
++_supported_proto file #TODO
++
++QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
++
++if [ "$IMGFMT" = "qcow2" ] ; then
++	PR="encrypt."
++	EXTRA_IMG_ARGS="-o encrypt.format=luks"
++fi
++
++
++# secrets: you are supposed to see the password as *******, see :-)
++S0="--object secret,id=sec0,data=hunter0"
++S1="--object secret,id=sec1,data=hunter1"
++S2="--object secret,id=sec2,data=hunter2"
++S3="--object secret,id=sec3,data=hunter3"
++S4="--object secret,id=sec4,data=hunter4"
++SECRETS="$S0 $S1 $S2 $S3 $S4"
++
++# image with given secret
++IMGS0="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec0"
++IMGS1="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec1"
++IMGS2="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec2"
++IMGS3="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec3"
++IMGS4="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,${PR}key-secret=sec4"
++
++
++echo "== creating a test image =="
++_make_test_img $S0 $EXTRA_IMG_ARGS -o ${PR}key-secret=sec0,${PR}iter-time=10 32M
++
++echo
++echo "== test that key 0 opens the image =="
++$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== adding a password to slot 4 =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=active,${PR}new-secret=sec4,${PR}iter-time=10,${PR}keyslot=4
++echo "== adding a password to slot 1 =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=active,${PR}new-secret=sec1,${PR}iter-time=10
++echo "== adding a password to slot 3 =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=active,${PR}new-secret=sec3,${PR}iter-time=10,${PR}keyslot=3
++
++echo "== adding a password to slot 2 =="
++$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec2,${PR}iter-time=10
++
++
++echo "== erase slot 4 =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=4 | _filter_img_create
++
++
++echo
++echo "== all secrets should work =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++echo
++echo "== erase slot 0 and try it =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec0 | _filter_img_create
++$QEMU_IO $SECRETS -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== erase slot 2 and try it =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=2 | _filter_img_create
++$QEMU_IO $SECRETS -c "read 0 4096" $IMGS2 | _filter_qemu_io | _filter_testdir
++
++
++# at this point slots 1 and 3 should be active
++
++echo
++echo "== filling  4 slots with secret 2 =="
++for i in $(seq 0 3) ; do
++	$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec2,${PR}iter-time=10
++done
++
++echo
++echo "== adding secret 0 =="
++	$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec0,${PR}iter-time=10
++
++echo
++echo "== adding secret 3 (last slot) =="
++	$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec3,${PR}iter-time=10
++
++echo
++echo "== trying to add another slot (should fail) =="
++$QEMU_IMG amend $SECRETS $IMGS2 -o ${PR}state=active,${PR}new-secret=sec3,${PR}iter-time=10
++
++echo
++echo "== all secrets should work again =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++
++echo
++
++echo "== erase all keys of secret 2=="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec2
++
++echo "== erase all keys of secret 1=="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec1
++
++echo "== erase all keys of secret 0=="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=inactive,${PR}old-secret=sec0
++
++echo "== erasing secret3 will fail now since it is the only secret (in 3 slots) =="
++$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=inactive,${PR}old-secret=sec3
++
++echo
++echo "== only secret3 should work now  =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++echo
++echo "== add secret0  =="
++$QEMU_IMG amend $SECRETS $IMGS3 -o ${PR}state=active,${PR}new-secret=sec0,${PR}iter-time=10
++
++echo "== erase secret3 =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=inactive,${PR}old-secret=sec3
++
++echo
++echo "== only secret0 should work now  =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++echo
++echo "== replace secret0 with secret1 (should fail)  =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=active,${PR}new-secret=sec1,${PR}keyslot=0
++
++echo
++echo "== replace secret0 with secret1 with force (should work)  =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o ${PR}state=active,${PR}new-secret=sec1,${PR}iter-time=10,${PR}keyslot=0 --force
++
++echo
++echo "== only secret1 should work now  =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++
++echo
++echo "== erase last secret (should fail)  =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=0
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec1
++
++
++echo "== erase non existing secrets (should fail)  =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec5 --force
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}old-secret=sec0 --force
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=1 --force
++
++echo
++echo "== erase last secret with force by slot (should work)  =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o ${PR}state=inactive,${PR}keyslot=0 --force
++
++echo
++echo "== we have no secrets now, data is lost forever =="
++for IMG in "$IMGS0" "$IMGS1" "$IMGS2" "$IMGS3"; do
++	$QEMU_IO $SECRETS -c "read 0 4096" $IMG | _filter_qemu_io | _filter_testdir
++done
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
++
+diff --git a/tests/qemu-iotests/293.out b/tests/qemu-iotests/293.out
+new file mode 100644
+index 0000000000..7260783126
+--- /dev/null
++++ b/tests/qemu-iotests/293.out
+@@ -0,0 +1,99 @@
++QA output created by 293
++== creating a test image ==
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432
++
++== test that key 0 opens the image ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== adding a password to slot 4 ==
++== adding a password to slot 1 ==
++== adding a password to slot 3 ==
++== adding a password to slot 2 ==
++== erase slot 4 ==
++
++== all secrets should work ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== erase slot 0 and try it ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== erase slot 2 and try it ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== filling  4 slots with secret 2 ==
++
++== adding secret 0 ==
++
++== adding secret 3 (last slot) ==
++
++== trying to add another slot (should fail) ==
++qemu-img: Can't add a keyslot - all keyslots are in use
++
++== all secrets should work again ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== erase all keys of secret 2==
++== erase all keys of secret 1==
++== erase all keys of secret 0==
++== erasing secret3 will fail now since it is the only secret (in 3 slots) ==
++qemu-img: All the active keyslots match the (old) password that was given and erasing them will erase all the data in the image irreversibly - refusing operation
++
++== only secret3 should work now  ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== add secret0  ==
++== erase secret3 ==
++
++== only secret0 should work now  ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== replace secret0 with secret1 (should fail)  ==
++qemu-img: Refusing to overwrite active keyslot 0 - please erase it first
++
++== replace secret0 with secret1 with force (should work)  ==
++
++== only secret1 should work now  ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== erase last secret (should fail)  ==
++qemu-img: Attempt to erase the only active keyslot 0 which will erase all the data in the image irreversibly - refusing operation
++qemu-img: All the active keyslots match the (old) password that was given and erasing them will erase all the data in the image irreversibly - refusing operation
++== erase non existing secrets (should fail)  ==
++qemu-img: No secret with id 'sec5'
++qemu-img: No keyslots match given (old) password for erase operation
++
++== erase last secret with force by slot (should work)  ==
++
++== we have no secrets now, data is lost forever ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++*** done
+diff --git a/tests/qemu-iotests/294 b/tests/qemu-iotests/294
+new file mode 100755
+index 0000000000..9c95ed8c9a
+--- /dev/null
++++ b/tests/qemu-iotests/294
+@@ -0,0 +1,90 @@
++#
++# Copyright (C) 2019 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=mlevitsk@redhat.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++	_cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++
++_supported_fmt luks
++_supported_proto file #TODO
++
++QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
++
++# you are supposed to see the password as *******, see :-)
++S0="--object secret,id=sec0,data=hunter0"
++S1="--object secret,id=sec1,data=hunter1"
++SECRETS="$S0 $S1"
++
++
++IMGS0="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,key-secret=sec0"
++IMGS1="--image-opts driver=$IMGFMT,file.filename=$TEST_IMG,key-secret=sec1"
++
++echo "== creating a test image =="
++_make_test_img $S0 -o "key-secret=sec0,iter-time=10" 32M
++
++echo
++echo "== test that key 0 opens the image =="
++$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== adding a password to slot 1 =="
++$QEMU_IMG amend $SECRETS $IMGS0 -o state=active,new-secret=sec1,keyslot=1,iter-time=10
++
++echo
++echo "== 'backup' the image header =="
++dd if=$TEST_IMG_FILE of=${TEST_IMG_FILE}.bk bs=4K skip=0 count=1
++
++echo
++echo "== erase slot 0 =="
++$QEMU_IMG amend $SECRETS $IMGS1 -o state=inactive,keyslot=0 | _filter_img_create
++
++echo
++echo "== test that key 0 doesn't open the image =="
++$QEMU_IO $S0 -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== 'restore' the image header =="
++dd if=${TEST_IMG_FILE}.bk of=${TEST_IMG_FILE} bs=4K skip=0 count=1 conv=notrunc
++
++echo
++echo "== test that key 0 still doesn't open the image (key material is erased) =="
++$QEMU_IO $SECRETS -c "read 0 4096" $IMGS0 | _filter_qemu_io | _filter_testdir
++
++echo
++echo "== test that key 1 still works =="
++$QEMU_IO $SECRETS -c "read 0 4096" $IMGS1 | _filter_qemu_io | _filter_testdir
++
++echo "*** done"
++rm -f $seq.full
++status=0
++
++
++exit 0
+diff --git a/tests/qemu-iotests/294.out b/tests/qemu-iotests/294.out
+new file mode 100644
+index 0000000000..994ae87308
+--- /dev/null
++++ b/tests/qemu-iotests/294.out
+@@ -0,0 +1,30 @@
++QA output created by 294
++== creating a test image ==
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432
++
++== test that key 0 opens the image ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++== adding a password to slot 1 ==
++
++== 'backup' the image header ==
++1+0 records in
++1+0 records out
++
++== erase slot 0 ==
++
++== test that key 0 doesn't open the image ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== 'restore' the image header ==
++1+0 records in
++1+0 records out
++
++== test that key 0 still doesn't open the image (key material is erased) ==
++qemu-io: can't open: Invalid password, cannot unlock any keyslot
++
++== test that key 1 still works ==
++read 4096/4096 bytes at offset 0
++4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index fe649c5b73..2488ca2eca 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -299,3 +299,5 @@
+ 289 rw quick
+ 290 rw auto quick
+ 292 rw auto quick
++293 rw auto
++294 rw auto quick
 -- 
 2.17.2
 
