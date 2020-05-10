@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 281F01CCD02
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:49:14 +0200 (CEST)
-Received: from localhost ([::1]:52672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2451CCCFB
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:44:40 +0200 (CEST)
+Received: from localhost ([::1]:38272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXr0j-0007bh-4z
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:49:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45888)
+	id 1jXqwJ-0000hQ-0L
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jXqv3-0007uu-Iz
- for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:21 -0400
-Received: from mailout06.t-online.de ([194.25.134.19]:58962)
+ id 1jXqv1-0007qH-1K
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:19 -0400
+Received: from mailout02.t-online.de ([194.25.134.17]:36484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jXqv2-0005R2-PS
- for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:21 -0400
-Received: from fwd13.aul.t-online.de (fwd13.aul.t-online.de [172.20.27.62])
- by mailout06.t-online.de (Postfix) with SMTP id 16F9B412B005;
- Sun, 10 May 2020 20:43:19 +0200 (CEST)
+ id 1jXqv0-0005Qj-1w
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:18 -0400
+Received: from fwd32.aul.t-online.de (fwd32.aul.t-online.de [172.20.26.144])
+ by mailout02.t-online.de (Postfix) with SMTP id 5D87941ACBAA;
+ Sun, 10 May 2020 20:43:16 +0200 (CEST)
 Received: from linpower.localnet
- (X7H34aZlZhPe0kHioGJmNp9z7PjBwteoz9OM883n20cISuyiQR6vdbCayze57P+gzC@[46.86.59.135])
- by fwd13.t-online.de
+ (bHC234ZvYhqqiycqzb-FGY2RKNXtxkMVJ7AimXqY37O5ZudUwK4a4UPvwxe+uPiwcp@[46.86.59.135])
+ by fwd32.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jXquu-0r4RE00; Sun, 10 May 2020 20:43:12 +0200
+ esmtp id 1jXqux-0uILmS0; Sun, 10 May 2020 20:43:15 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 9C379200629; Sun, 10 May 2020 20:43:04 +0200 (CEST)
+ id 9E4DC20062B; Sun, 10 May 2020 20:43:04 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 04/10] ui/gtk: remove unused code
-Date: Sun, 10 May 2020 20:42:58 +0200
-Message-Id: <20200510184304.9267-4-vr_qemu@t-online.de>
+Subject: [PATCH 05/10] ui/gtk: remove unused variable ignore_keys
+Date: Sun, 10 May 2020 20:42:59 +0200
+Message-Id: <20200510184304.9267-5-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <2393388c-86c3-4d7e-178e-2c7e6d14a8de@t-online.de>
 References: <2393388c-86c3-4d7e-178e-2c7e6d14a8de@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: X7H34aZlZhPe0kHioGJmNp9z7PjBwteoz9OM883n20cISuyiQR6vdbCayze57P+gzC
-X-TOI-MSGID: 87158edc-5690-4c38-b3b7-a2cfe7a7c11e
-Received-SPF: none client-ip=194.25.134.19;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout06.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:43:11
+X-ID: bHC234ZvYhqqiycqzb-FGY2RKNXtxkMVJ7AimXqY37O5ZudUwK4a4UPvwxe+uPiwcp
+X-TOI-MSGID: 786493ba-6b4b-4b8a-accc-f216fa1b679f
+Received-SPF: none client-ip=194.25.134.17;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:43:16
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,8 +68,9 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This code was last used before commit 2ec78706d1 "ui: convert
-GTK and SDL1 frontends to keycodemapdb".
+Since the removal of GTK2 code the code around ignore_keys is
+unused. See commit 1a01716a30 "gtk: Avoid accel key leakage
+into guest on console switch" why it was needed before.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
@@ -77,25 +78,41 @@ Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
  1 file changed, 9 deletions(-)
 
 diff --git a/ui/gtk.c b/ui/gtk.c
-index 5de2a75691..c70bfc2be4 100644
+index c70bfc2be4..5a25e3fa4c 100644
 --- a/ui/gtk.c
 +++ b/ui/gtk.c
-@@ -112,15 +112,6 @@
- # define VTE_CHECK_VERSION(a, b, c) 0
- #endif
+@@ -168,8 +168,6 @@ struct GtkDisplayState {
  
--/* Some older mingw versions lack this constant or have
-- * it conditionally defined */
--#ifdef _WIN32
--# ifndef MAPVK_VK_TO_VSC
--#  define MAPVK_VK_TO_VSC 0
--# endif
--#endif
--
--
- #define HOTKEY_MODIFIERS        (GDK_CONTROL_MASK | GDK_MOD1_MASK)
+     bool external_pause_update;
  
- static const guint16 *keycode_map;
+-    bool ignore_keys;
+-
+     DisplayOptions *opts;
+ };
+ 
+@@ -1085,14 +1083,8 @@ static gboolean gd_text_key_down(GtkWidget *widget,
+ static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
+ {
+     VirtualConsole *vc = opaque;
+-    GtkDisplayState *s = vc->s;
+     int qcode;
+ 
+-    if (s->ignore_keys) {
+-        s->ignore_keys = (key->type == GDK_KEY_PRESS);
+-        return TRUE;
+-    }
+-
+ #ifdef WIN32
+     /* on windows, we ought to ignore the reserved key event? */
+     if (key->hardware_keycode == 0xff)
+@@ -1189,7 +1181,6 @@ static void gd_menu_switch_vc(GtkMenuItem *item, void *opaque)
+         gtk_notebook_set_current_page(nb, page);
+         gtk_widget_grab_focus(vc->focus);
+     }
+-    s->ignore_keys = false;
+ }
+ 
+ static void gd_accel_switch_vc(void *opaque)
 -- 
 2.26.1
 
