@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF311CC60F
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 03:43:53 +0200 (CEST)
-Received: from localhost ([::1]:33584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F386E1CC60C
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 03:42:43 +0200 (CEST)
+Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXb0S-0007r8-Qx
-	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 21:43:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36702)
+	id 1jXazK-0005oe-P6
+	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 21:42:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1jXay8-0003oI-PN
+ id 1jXay8-0003oU-Tv
  for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:28 -0400
-Received: from mga09.intel.com ([134.134.136.24]:59851)
+Received: from mga09.intel.com ([134.134.136.24]:59849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1jXay6-0006mD-Bn
+ id 1jXay8-0006cQ-0a
  for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:28 -0400
-IronPort-SDR: u9WOWGHsHwdbxLpeX7128y6TTjkPiUPtUdz8NNKI8Z/qep67Xj298Xto1djMiHe9/Q/buK0r2y
- 1tGPk/Bw4tPw==
+IronPort-SDR: F7JXl7uP9UfrxvJ3ggL4alHLKEMoW71ULGQYWaphKKjkg0TEdlrW2ka9AKPcr/YB7oEMXSO+8y
+ rYCFsRir9Ifg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2020 18:41:19 -0700
-IronPort-SDR: Y439t2SCK7z5nVebFQI8wGC3Ouft8BZAxbZdlyt06B3mjoCeVKTJlH6EgJTOnUrTFpaLP4N161
- HyCuVEpuZsag==
+ 09 May 2020 18:41:21 -0700
+IronPort-SDR: cinDRlfI2mB7SBOmzz/Lwzu/cfAxMoVQzslMMWibGFDHzmAhquNfGzh6xGbN4m/JkBAjKU8Z0E
+ ORf6DHVvYc8w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,373,1583222400"; d="scan'208";a="264783129"
+X-IronPort-AV: E=Sophos;i="5.73,373,1583222400"; d="scan'208";a="264783135"
 Received: from unknown (HELO local-michael-cet-test.sh.intel.com)
  ([10.239.159.128])
- by orsmga006.jf.intel.com with ESMTP; 09 May 2020 18:41:18 -0700
+ by orsmga006.jf.intel.com with ESMTP; 09 May 2020 18:41:20 -0700
 From: Yang Weijiang <weijiang.yang@intel.com>
 To: qemu-devel@nongnu.org,
 	pbonzini@redhat.com
-Subject: [Qemu-devel][PATCH v5 2/4] x86/cpuid: Add XSAVES feature words and
- CET related state bits
-Date: Sun, 10 May 2020 09:42:48 +0800
-Message-Id: <20200510014250.28111-3-weijiang.yang@intel.com>
+Subject: [Qemu-devel][PATCH v5 3/4] x86/cpuid: Add support for XSAVES
+ dependent feature enumeration
+Date: Sun, 10 May 2020 09:42:49 +0800
+Message-Id: <20200510014250.28111-4-weijiang.yang@intel.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20200510014250.28111-1-weijiang.yang@intel.com>
 References: <20200510014250.28111-1-weijiang.yang@intel.com>
@@ -69,102 +69,73 @@ Cc: Yang Weijiang <weijiang.yang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CET SHSTK/IBT MSRs can be saved/restored with XSAVES/XRSTORS, but
-currently the related feature words are not supported, so add the
-new entries. XSAVES/RSTORS always use compacted storage format, which
-means the supervisor states' offsets are always 0, ignore them while
-calculating stardard format storage size.
+Currently XSAVES dependent features are not supported in CPUID enumeration,
+update CPUID(0xD,n>=1) to enable it.
+
+CET XSAVES related enumeration includes:
+CPUID(0xD,1):ECX[bit 11]: user mode CET state, controls bit 11 in XSS.
+CPUID(0xD,1):ECX[bit 12]: supervisor mode CET state, controls bit 12 in XSS.
+CPUID(0xD,11): user mode CET state sub-leaf, reports the state size.
+CPUID(0xD,12): supervisor mode CE state sub-leaf, reports the state size.
 
 Signed-off-by: Zhang Yi <yi.z.zhang@linux.intel.com>
 Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
 ---
- target/i386/cpu.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 90ffc5f3b1..3174e05482 100644
+index 3174e05482..881c84a3b3 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -965,7 +965,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
-             NULL, "avx512vbmi", "umip", "pku",
--            NULL /* ospke */, "waitpkg", "avx512vbmi2", NULL,
-+            NULL /* ospke */, "waitpkg", "avx512vbmi2", "shstk",
-             "gfni", "vaes", "vpclmulqdq", "avx512vnni",
-             "avx512bitalg", NULL, "avx512-vpopcntdq", NULL,
-             "la57", NULL, NULL, NULL,
-@@ -988,7 +988,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             NULL, NULL, "md-clear", NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL /* pconfig */, NULL,
--            NULL, NULL, NULL, NULL,
-+            "ibt", NULL, NULL, NULL,
-             NULL, NULL, "spec-ctrl", "stibp",
-             NULL, "arch-capabilities", "core-capability", "ssbd",
-         },
-@@ -1069,6 +1069,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .tcg_features = TCG_XSAVE_FEATURES,
-     },
-+    /* Below are xsaves feature words */
-+    [FEAT_XSAVES_LO] = {
-+        .type = CPUID_FEATURE_WORD,
-+        .cpuid = {
-+            .eax = 0xD,
-+            .needs_ecx = true,
-+            .ecx = 1,
-+            .reg = R_ECX,
-+        },
-+        .migratable_flags = XSTATE_CET_U_MASK,
-+    },
-+    [FEAT_XSAVES_HI] = {
-+        .type = CPUID_FEATURE_WORD,
-+        .cpuid = {
-+            .eax = 0xD,
-+            .needs_ecx = true,
-+            .ecx = 1,
-+            .reg = R_EDX
-+        },
-+    },
-     [FEAT_6_EAX] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
-@@ -1455,6 +1475,14 @@ static const ExtSaveArea x86_ext_save_areas[] = {
-           { .feature = FEAT_7_0_ECX, .bits = CPUID_7_0_ECX_PKU,
-             .offset = offsetof(X86XSaveArea, pkru_state),
-             .size = sizeof(XSavePKRU) },
-+    [XSTATE_CET_U_BIT] = {
-+            .feature = FEAT_7_0_ECX, .bits = CPUID_7_0_ECX_CET_SHSTK,
-+            .offset = 0 /*supervisor mode component, offset = 0 */,
-+            .size = sizeof(XSavesCETU) },
-+    [XSTATE_CET_S_BIT] = {
-+            .feature = FEAT_7_0_ECX, .bits = CPUID_7_0_ECX_CET_SHSTK,
-+            .offset = 0 /*supervisor mode component, offset = 0 */,
-+            .size = sizeof(XSavesCETS) },
- };
+@@ -1513,6 +1513,12 @@ static inline uint64_t x86_cpu_xsave_components(X86CPU *cpu)
+            cpu->env.features[FEAT_XSAVE_COMP_LO];
+ }
  
- static uint32_t xsave_area_size(uint64_t mask)
-@@ -1465,6 +1493,9 @@ static uint32_t xsave_area_size(uint64_t mask)
-     for (i = 0; i < ARRAY_SIZE(x86_ext_save_areas); i++) {
-         const ExtSaveArea *esa = &x86_ext_save_areas[i];
-         if ((mask >> i) & 1) {
-+            if (i >= 2 && !esa->offset) {
-+                continue;
++static inline uint64_t x86_cpu_xsave_sv_components(X86CPU *cpu)
++{
++    return ((uint64_t)cpu->env.features[FEAT_XSAVES_HI]) << 32 |
++           cpu->env.features[FEAT_XSAVES_LO];
++}
++
+ const char *get_register_name_32(unsigned int reg)
+ {
+     if (reg >= CPU_NB_REGS32) {
+@@ -5722,13 +5728,22 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+              */
+             *ebx = kvm_enabled() ? *ecx : xsave_area_size(env->xcr0);
+         } else if (count == 1) {
++            /* ebx is updated in kvm.*/
+             *eax = env->features[FEAT_XSAVE];
++            *ecx = env->features[FEAT_XSAVES_LO];
++            *edx = env->features[FEAT_XSAVES_HI];
+         } else if (count < ARRAY_SIZE(x86_ext_save_areas)) {
+             if ((x86_cpu_xsave_components(cpu) >> count) & 1) {
+                 const ExtSaveArea *esa = &x86_ext_save_areas[count];
+                 *eax = esa->size;
+                 *ebx = esa->offset;
+             }
++            if ((x86_cpu_xsave_sv_components(cpu) >> count) & 1) {
++                const ExtSaveArea *esa_sv = &x86_ext_save_areas[count];
++                *eax = esa_sv->size;
++                *ebx = 0;
++                *ecx = 1;
 +            }
-             ret = MAX(ret, esa->offset + esa->size);
+         }
+         break;
+     }
+@@ -6280,8 +6295,10 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
          }
      }
-@@ -6008,6 +6039,9 @@ static void x86_cpu_reset(DeviceState *dev)
-     }
-     for (i = 2; i < ARRAY_SIZE(x86_ext_save_areas); i++) {
-         const ExtSaveArea *esa = &x86_ext_save_areas[i];
-+        if (!esa->offset) {
-+            continue;
-+        }
-         if (env->features[esa->feature] & esa->bits) {
-             xcr0 |= 1ull << i;
-         }
+ 
+-    env->features[FEAT_XSAVE_COMP_LO] = mask;
++    env->features[FEAT_XSAVE_COMP_LO] = mask & CPUID_XSTATE_USER_MASK;
+     env->features[FEAT_XSAVE_COMP_HI] = mask >> 32;
++    env->features[FEAT_XSAVES_LO] = mask & CPUID_XSTATE_KERNEL_MASK;
++    env->features[FEAT_XSAVES_HI] = mask >> 32;
+ }
+ 
+ /***** Steps involved on loading and filtering CPUID data
 -- 
 2.17.2
 
