@@ -2,60 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8731CC60A
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 03:34:00 +0200 (CEST)
-Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EEC51CC60E
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 03:42:44 +0200 (CEST)
+Received: from localhost ([::1]:57396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXaqt-0000Zr-5O
-	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 21:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35642)
+	id 1jXazL-0005s4-Hw
+	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 21:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <masahiroy@kernel.org>)
- id 1jXaq7-0008K9-NX
- for qemu-devel@nongnu.org; Sat, 09 May 2020 21:33:11 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:47399)
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1jXay8-0003mR-0t
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:28 -0400
+Received: from mga09.intel.com ([134.134.136.24]:59849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <masahiroy@kernel.org>)
- id 1jXaq5-0001Ir-Me
- for qemu-devel@nongnu.org; Sat, 09 May 2020 21:33:11 -0400
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net
- [126.90.202.47]) (authenticated)
- by conuserg-07.nifty.com with ESMTP id 04A1WcoN012946;
- Sun, 10 May 2020 10:32:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 04A1WcoN012946
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1589074358;
- bh=KbpFI1jAE6OftW1TG+fD7c5LM9KgQP75oygUNcgET2w=;
- h=From:To:Cc:Subject:Date:From;
- b=H4MdutyzKaK6veMO4/4OQeYJOJyD9S4mvwGFLA6AOGkEa0GJ8+jP2ziwxm2zIJRwc
- AtLfojoCziDZxpyJxNBFspirc9uICNLvmiIV2wdzwJ+fwrEuBYvLn11Vo/QN28GwpG
- c0Ejjd6RWFG/J+jSTGxmNpCkYeC8ZuDqc64kQPfNJM8y98N6g671eoKRb/g379n5qG
- 1I1IYspA55YFzXC02+x48FGEl8i2C/2m8yNdxhzTOEdmCmPgszhYhX5q7ZQWnN1QnE
- UiLzGb/6sxut5TIvihBrYuIPL1vsI6RwJzl8DnIZOxVoAF7Ctv3Az+jBA5JE5dwDL+
- Nr4PYZvH5aThQ==
-X-Nifty-SrcIP: [126.90.202.47]
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH] qom: remove index from object_resolve_abs_path()
-Date: Sun, 10 May 2020 10:32:35 +0900
-Message-Id: <20200510013235.954906-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=210.131.2.74;
- envelope-from=masahiroy@kernel.org; helo=conuserg-07.nifty.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/09 21:33:05
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_BL=0.001,
- RCVD_IN_MSPIKE_L3=0.001, SPF_SOFTFAIL=0.665,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
+ id 1jXay6-0006cQ-FC
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:27 -0400
+IronPort-SDR: DnCQf5NIqTA9rE/ARq6MklnCU6gnbTRLNzLFWZLQ2F+A0oJ0kzctr0Y7B27mIRe9OHmlUx3oPM
+ Bln/vpwMDiuQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 May 2020 18:41:17 -0700
+IronPort-SDR: 9Oo7DWSIenvkoNgKZHxVEu37Emz9H0mP8RIDRLLq8akIIVTEyz09t0dht/nePyDNtoY3IdvD6E
+ kvKqkxn0Q3yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,373,1583222400"; d="scan'208";a="264783103"
+Received: from unknown (HELO local-michael-cet-test.sh.intel.com)
+ ([10.239.159.128])
+ by orsmga006.jf.intel.com with ESMTP; 09 May 2020 18:41:15 -0700
+From: Yang Weijiang <weijiang.yang@intel.com>
+To: qemu-devel@nongnu.org,
+	pbonzini@redhat.com
+Subject: [Qemu-devel][PATCH v5 0/4] Enable CET support for guest
+Date: Sun, 10 May 2020 09:42:46 +0800
+Message-Id: <20200510014250.28111-1-weijiang.yang@intel.com>
+X-Mailer: git-send-email 2.17.2
+Received-SPF: pass client-ip=134.134.136.24;
+ envelope-from=weijiang.yang@intel.com; helo=mga09.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/09 21:41:17
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,74 +62,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Yang Weijiang <weijiang.yang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You can advance 'parts' to track the current path fragment.
-The 'index' parameter is unneeded.
+Control-flow Enforcement Technology (CET) provides protection against 
+return/jump-oriented programming (ROP/JOP). It includes two
+sub-features: Shadow Stack(SHSTK) and Indirect Branch Tracking(IBT).
+This patchset is to enable CET related CPUID report, XSAVES/XRSTORS
+support and MSR access etc. for guest.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+CET KVM patches:
+https://lkml.kernel.org/r/20200506082110.25441-1-weijiang.yang@intel.com
 
- qom/object.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+CET kernel patches:
+https://lkml.kernel.org/r/20200429220732.31602-1-yu-cheng.yu@intel.com
 
-diff --git a/qom/object.c b/qom/object.c
-index aa8a3f24e6..a3ee968b12 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -2012,25 +2012,24 @@ Object *object_resolve_path_component(Object *parent, const gchar *part)
+v5:
+  - Checked CET states before access related MSRs.
+  - Added new MSR MSR_KVM_GUEST_SSP for live-migration.
+  - Refactored patches to make them more structured.
+
+v4:
+  - Added MSR read/write interface for PL1_SSP/PL2_SSP.
+  - Removed CET structures from X86XSaveArea.
+  - Cleared ebx in return of CPUID.(EAX=d, ECX=1).
  
- static Object *object_resolve_abs_path(Object *parent,
-                                           gchar **parts,
--                                          const char *typename,
--                                          int index)
-+                                          const char *typename)
- {
-     Object *child;
+v3:
+  - Add CET MSR save/restore support for live-migration.
  
--    if (parts[index] == NULL) {
-+    if (*parts == NULL) {
-         return object_dynamic_cast(parent, typename);
-     }
- 
--    if (strcmp(parts[index], "") == 0) {
--        return object_resolve_abs_path(parent, parts, typename, index + 1);
-+    if (strcmp(*parts, "") == 0) {
-+        return object_resolve_abs_path(parent, parts + 1, typename);
-     }
- 
--    child = object_resolve_path_component(parent, parts[index]);
-+    child = object_resolve_path_component(parent, *parts);
-     if (!child) {
-         return NULL;
-     }
- 
--    return object_resolve_abs_path(child, parts, typename, index + 1);
-+    return object_resolve_abs_path(child, parts + 1, typename);
- }
- 
- static Object *object_resolve_partial_path(Object *parent,
-@@ -2042,7 +2041,7 @@ static Object *object_resolve_partial_path(Object *parent,
-     GHashTableIter iter;
-     ObjectProperty *prop;
- 
--    obj = object_resolve_abs_path(parent, parts, typename, 0);
-+    obj = object_resolve_abs_path(parent, parts, typename);
- 
-     g_hash_table_iter_init(&iter, parent->properties);
-     while (g_hash_table_iter_next(&iter, NULL, (gpointer *)&prop)) {
-@@ -2087,7 +2086,7 @@ Object *object_resolve_path_type(const char *path, const char *typename,
-             *ambiguousp = ambiguous;
-         }
-     } else {
--        obj = object_resolve_abs_path(object_get_root(), parts, typename, 1);
-+        obj = object_resolve_abs_path(object_get_root(), parts + 1, typename);
-     }
- 
-     g_strfreev(parts);
+v2:
+  - In CPUID.(EAX=d, ECX=1), set return ECX[n] = 0 if bit n corresponds
+    to a bit in MSR_IA32_XSS.
+  - In CPUID.(EAX=d, ECX=n), set return ECX = 1 if bit n corresponds
+    to a bit in MSR_IA32_XSS.
+  - Skip Supervisor mode xsave component when calculate User mode
+    xave component size in xsave_area_size() and x86_cpu_reset().
+
+Yang Weijiang (4):
+  x86/cpu: Add CET CPUID/XSAVES flags and data structures
+  x86/cpuid: Add XSAVES feature words and CET related state bits
+  x86/cpuid: Add support for XSAVES dependent feature enumeration
+  x86/cpu: Add user space access interface for CET MSRs
+
+ target/i386/cpu.c     |  57 ++++++++++++++-
+ target/i386/cpu.h     |  53 ++++++++++++++
+ target/i386/kvm.c     |  73 +++++++++++++++++++
+ target/i386/machine.c | 161 ++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 341 insertions(+), 3 deletions(-)
+
 -- 
-2.25.1
+2.17.2
 
 
