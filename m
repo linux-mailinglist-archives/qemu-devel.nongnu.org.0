@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9D91CCB6A
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 15:49:32 +0200 (CEST)
-Received: from localhost ([::1]:36232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6541CCB94
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 16:38:17 +0200 (CEST)
+Received: from localhost ([::1]:42840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXmKh-0007zW-1v
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 09:49:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40896)
+	id 1jXn5s-0003Nb-19
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 10:38:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jXmCt-0003sJ-95
- for qemu-devel@nongnu.org; Sun, 10 May 2020 09:41:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:59978
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jXn4z-0002TS-CA; Sun, 10 May 2020 10:37:21 -0400
+Resent-Date: Sun, 10 May 2020 10:37:21 -0400
+Resent-Message-Id: <E1jXn4z-0002TS-CA@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jXmCq-0003wz-5U
- for qemu-devel@nongnu.org; Sun, 10 May 2020 09:41:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589118083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/HUW7WgTYaF8IFWAVvyTsAGBWU/fXbjo+SM+5j28r9k=;
- b=GjzyU8Q1gJGp3z1X2gIb8nr78wVICUG1Xl1Tpee18ALcRXlZonHRNG/dtCLHb967Y8mvXz
- YRMyFQlOFxxu5HIqbf9LD4LLgQ2va7SaMh9a2djiM3JsdTSP9zC7BtWQDs2ORx981GvGkG
- YBR8D0xCwdBBAKPEKUpDnIJXBnthJ4U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-ppjz8ZaaMASK3qVxeiXiOw-1; Sun, 10 May 2020 09:41:21 -0400
-X-MC-Unique: ppjz8ZaaMASK3qVxeiXiOw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68E6380058A;
- Sun, 10 May 2020 13:41:20 +0000 (UTC)
-Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 137CA2E17D;
- Sun, 10 May 2020 13:41:17 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 14/14] iotests: add tests for blockdev-amend
-Date: Sun, 10 May 2020 16:40:37 +0300
-Message-Id: <20200510134037.18487-15-mlevitsk@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1jXn4x-00009a-6D; Sun, 10 May 2020 10:37:20 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1589121426; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=abK7I8UmWVxANRNbqUi7r4wiN23g+tOq5hO6qXEnwEiilcWunKW1G2l33wzf+qXwjMYhcjbTr9+YifLD6C6f25ftKbCuQ3s79FenIlZM4yYTBBbFS8zMuIwHtTTQOTcfa/bqDkLUUKBbsysBcR2+OvPIwnkfMlEukeMJOV07Oko=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1589121426;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=4oMmvQ+Qr/NbvUJvydKFG5s/1r643WyXvKJAwsvMBTM=; 
+ b=aUe1zTBoNvNO4VOjMn8pCwGBe8XKPjdgvgz2TSRRKFXIAdUqahSKZ3uVZL1002Max9bcCaNkfP91ZXjl6Q4zM1biHll72c/jVxxGafbXC3fqQbDytrzBGDTrrJg+e1dKe2gg0RsZuYb++jJkP7lIa0Bd2YJy3Y8j97P++6fSYZE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1589121423715189.0895156399106;
+ Sun, 10 May 2020 07:37:03 -0700 (PDT)
+Message-ID: <158912142179.14941.4183626755874359606@45ef0f9c86ae>
 In-Reply-To: <20200510134037.18487-1-mlevitsk@redhat.com>
-References: <20200510134037.18487-1-mlevitsk@redhat.com>
+Subject: Re: [PATCH v6 00/14] LUKS: encryption slot management using amend
+ interface
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 08:00:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mlevitsk@redhat.com
+Date: Sun, 10 May 2020 07:37:03 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 10:37:14
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,652 +68,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, mlevitsk@redhat.com, berrange@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit adds two tests that cover the
-new blockdev-amend functionality of luks and qcow2 driver
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/qemu-iotests/295     | 279 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/295.out |  40 ++++++
- tests/qemu-iotests/296     | 234 +++++++++++++++++++++++++++++++
- tests/qemu-iotests/296.out |  33 +++++
- tests/qemu-iotests/group   |   2 +
- 5 files changed, 588 insertions(+)
- create mode 100755 tests/qemu-iotests/295
- create mode 100644 tests/qemu-iotests/295.out
- create mode 100755 tests/qemu-iotests/296
- create mode 100644 tests/qemu-iotests/296.out
-
-diff --git a/tests/qemu-iotests/295 b/tests/qemu-iotests/295
-new file mode 100755
-index 0000000000..be5dfe5063
---- /dev/null
-+++ b/tests/qemu-iotests/295
-@@ -0,0 +1,279 @@
-+#!/usr/bin/env python3
-+#
-+# Test case QMP's encrypted key management
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+import os
-+import time
-+import json
-+
-+test_img = os.path.join(iotests.test_dir, 'test.img')
-+
-+class Secret:
-+    def __init__(self, index):
-+        self._id = "keysec" + str(index)
-+        # you are not supposed to see the password...
-+        self._secret = "hunter" + str(index)
-+
-+    def id(self):
-+        return self._id
-+
-+    def secret(self):
-+        return self._secret
-+
-+    def to_cmdline_object(self):
-+        return  [ "secret,id=" + self._id + ",data=" + self._secret]
-+
-+    def to_qmp_object(self):
-+        return { "qom_type" : "secret", "id": self.id(),
-+                 "props": { "data": self.secret() } }
-+
-+################################################################################
-+class EncryptionSetupTestCase(iotests.QMPTestCase):
-+
-+    # test case startup
-+    def setUp(self):
-+        # start the VM
-+        self.vm = iotests.VM()
-+        self.vm.launch()
-+
-+        # create the secrets and load 'em into the VM
-+        self.secrets = [ Secret(i) for i in range(0, 6) ]
-+        for secret in self.secrets:
-+            result = self.vm.qmp("object-add", **secret.to_qmp_object())
-+            self.assert_qmp(result, 'return', {})
-+
-+        if iotests.imgfmt == "qcow2":
-+            self.pfx = "encrypt."
-+            self.img_opts = [ '-o', "encrypt.format=luks" ]
-+        else:
-+            self.pfx = ""
-+            self.img_opts = []
-+
-+    # test case shutdown
-+    def tearDown(self):
-+        # stop the VM
-+        self.vm.shutdown()
-+
-+    ###########################################################################
-+    # create the encrypted block device
-+    def createImg(self, file, secret):
-+
-+        iotests.qemu_img(
-+            'create',
-+            '--object', *secret.to_cmdline_object(),
-+            '-f', iotests.imgfmt,
-+            '-o', self.pfx + 'key-secret=' + secret.id(),
-+            '-o', self.pfx + 'iter-time=10',
-+            *self.img_opts,
-+            file,
-+            '1M')
-+
-+    ###########################################################################
-+    # open an encrypted block device
-+    def openImageQmp(self, id, file, secret, read_only = False):
-+
-+        encrypt_options = {
-+            'key-secret' : secret.id()
-+        }
-+
-+        if iotests.imgfmt == "qcow2":
-+            encrypt_options = {
-+                'encrypt': {
-+                    'format':'luks',
-+                    **encrypt_options
-+                }
-+            }
-+
-+        result = self.vm.qmp('blockdev-add', **
-+            {
-+                'driver': iotests.imgfmt,
-+                'node-name': id,
-+                'read-only': read_only,
-+
-+                **encrypt_options,
-+
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': test_img,
-+                }
-+            }
-+        )
-+        self.assert_qmp(result, 'return', {})
-+
-+    # close the encrypted block device
-+    def closeImageQmp(self, id):
-+        result = self.vm.qmp('blockdev-del', **{ 'node-name': id })
-+        self.assert_qmp(result, 'return', {})
-+
-+    ###########################################################################
-+    # add a key to an encrypted block device
-+    def addKeyQmp(self, id, new_secret, secret = None,
-+                  slot = None, force = False):
-+
-+        crypt_options = {
-+            'state'      : 'active',
-+            'new-secret' : new_secret.id(),
-+            'iter-time' : 10
-+        }
-+
-+        if slot != None:
-+            crypt_options['keyslot'] = slot
-+
-+
-+        if secret != None:
-+            crypt_options['secret'] = secret.id()
-+
-+        if iotests.imgfmt == "qcow2":
-+            crypt_options['format'] = 'luks'
-+            crypt_options = {
-+                'encrypt': crypt_options
-+            }
-+
-+        args = {
-+            'node-name': id,
-+            'job-id' : 'job_add_key',
-+            'options' : {
-+                    'driver' : iotests.imgfmt,
-+                    **crypt_options
-+                },
-+        }
-+
-+        if force == True:
-+            args['force'] = True
-+
-+        #TODO: check what jobs return
-+        result = self.vm.qmp('x-blockdev-amend', **args)
-+        assert result['return'] == {}
-+        self.vm.run_job('job_add_key')
-+
-+    # erase a key from an encrypted block device
-+    def eraseKeyQmp(self, id, old_secret = None, slot = None, force = False):
-+
-+        crypt_options = {
-+            'state'      : 'inactive',
-+        }
-+
-+        if slot != None:
-+            crypt_options['keyslot'] = slot
-+        if old_secret != None:
-+            crypt_options['old-secret'] = old_secret.id()
-+
-+        if iotests.imgfmt == "qcow2":
-+            crypt_options['format'] = 'luks'
-+            crypt_options = {
-+                'encrypt': crypt_options
-+            }
-+
-+        args = {
-+            'node-name': id,
-+            'job-id' : 'job_erase_key',
-+            'options' : {
-+                    'driver' : iotests.imgfmt,
-+                    **crypt_options
-+                },
-+        }
-+
-+        if force == True:
-+            args['force'] = True
-+
-+        result = self.vm.qmp('x-blockdev-amend', **args)
-+        assert result['return'] == {}
-+        self.vm.run_job('job_erase_key')
-+
-+    ###########################################################################
-+    # create image, and change its key
-+    def testChangeKey(self):
-+
-+        # create the image with secret0 and open it
-+        self.createImg(test_img, self.secrets[0]);
-+        self.openImageQmp("testdev", test_img, self.secrets[0])
-+
-+        # add key to slot 1
-+        self.addKeyQmp("testdev", new_secret = self.secrets[1])
-+
-+        # add key to slot 5
-+        self.addKeyQmp("testdev", new_secret = self.secrets[2], slot=5)
-+
-+        # erase key from slot 0
-+        self.eraseKeyQmp("testdev", old_secret = self.secrets[0])
-+
-+        #reopen the image with secret1
-+        self.closeImageQmp("testdev")
-+        self.openImageQmp("testdev", test_img, self.secrets[1])
-+
-+        # close and erase the image for good
-+        self.closeImageQmp("testdev")
-+        os.remove(test_img)
-+
-+    # test that if we erase the old password,
-+    # we can still change the encryption keys using 'old-secret'
-+    def testOldPassword(self):
-+
-+        # create the image with secret0 and open it
-+        self.createImg(test_img, self.secrets[0]);
-+        self.openImageQmp("testdev", test_img, self.secrets[0])
-+
-+        # add key to slot 1
-+        self.addKeyQmp("testdev", new_secret = self.secrets[1])
-+
-+        # erase key from slot 0
-+        self.eraseKeyQmp("testdev", old_secret = self.secrets[0])
-+
-+        # this will fail as the old password is no longer valid
-+        self.addKeyQmp("testdev", new_secret = self.secrets[2])
-+
-+        # this will work
-+        self.addKeyQmp("testdev", new_secret = self.secrets[2], secret = self.secrets[1])
-+
-+        # close and erase the image for good
-+        self.closeImageQmp("testdev")
-+        os.remove(test_img)
-+
-+    def testUseForceLuke(self):
-+
-+        self.createImg(test_img, self.secrets[0]);
-+        self.openImageQmp("testdev", test_img, self.secrets[0])
-+
-+        # Add bunch of secrets
-+        self.addKeyQmp("testdev", new_secret = self.secrets[1], slot=4)
-+        self.addKeyQmp("testdev", new_secret = self.secrets[4], slot=2)
-+
-+        # overwrite an active secret
-+        self.addKeyQmp("testdev", new_secret = self.secrets[5], slot=2)
-+        self.addKeyQmp("testdev", new_secret = self.secrets[5], slot=2, force=True)
-+
-+        self.addKeyQmp("testdev", new_secret = self.secrets[0])
-+
-+        # Now erase all the secrets
-+        self.eraseKeyQmp("testdev", old_secret = self.secrets[5])
-+        self.eraseKeyQmp("testdev", slot=4)
-+
-+        # erase last keyslot
-+        self.eraseKeyQmp("testdev", old_secret = self.secrets[0])
-+        self.eraseKeyQmp("testdev", old_secret = self.secrets[0], force=True)
-+
-+        self.closeImageQmp("testdev")
-+        os.remove(test_img)
-+
-+
-+if __name__ == '__main__':
-+    # Encrypted formats support
-+    iotests.activate_logging()
-+    iotests.main(supported_fmts = ['qcow2', 'luks'])
-diff --git a/tests/qemu-iotests/295.out b/tests/qemu-iotests/295.out
-new file mode 100644
-index 0000000000..ad34b2ca2c
---- /dev/null
-+++ b/tests/qemu-iotests/295.out
-@@ -0,0 +1,40 @@
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
-+{"return": {}}
-+Job failed: Invalid password, cannot unlock any keyslot
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+Job failed: Refusing to overwrite active keyslot 2 - please erase it first
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_add_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
-+{"return": {}}
-+Job failed: All the active keyslots match the (old) password that was given and erasing them will erase all the data in the image irreversibly - refusing operation
-+{"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job_erase_key"}}
-+{"return": {}}
-+...
-+----------------------------------------------------------------------
-+Ran 3 tests
-+
-+OK
-diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
-new file mode 100755
-index 0000000000..ec69ec8974
---- /dev/null
-+++ b/tests/qemu-iotests/296
-@@ -0,0 +1,234 @@
-+#!/usr/bin/env python3
-+#
-+# Test case for encryption key management versus image sharing
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+import os
-+import time
-+import json
-+
-+test_img = os.path.join(iotests.test_dir, 'test.img')
-+
-+class Secret:
-+    def __init__(self, index):
-+        self._id = "keysec" + str(index)
-+        # you are not supposed to see the password...
-+        self._secret = "hunter" + str(index)
-+
-+    def id(self):
-+        return self._id
-+
-+    def secret(self):
-+        return self._secret
-+
-+    def to_cmdline_object(self):
-+        return  [ "secret,id=" + self._id + ",data=" + self._secret]
-+
-+    def to_qmp_object(self):
-+        return { "qom_type" : "secret", "id": self.id(),
-+                 "props": { "data": self.secret() } }
-+
-+################################################################################
-+
-+class EncryptionSetupTestCase(iotests.QMPTestCase):
-+
-+    # test case startup
-+    def setUp(self):
-+
-+        # start the VMs
-+        self.vm1 = iotests.VM(path_suffix = 'VM1')
-+        self.vm2 = iotests.VM(path_suffix = 'VM2')
-+        self.vm1.launch()
-+        self.vm2.launch()
-+
-+        # create the secrets and load 'em into the VMs
-+        self.secrets = [ Secret(i) for i in range(0, 4) ]
-+        for secret in self.secrets:
-+            result = self.vm1.qmp("object-add", **secret.to_qmp_object())
-+            self.assert_qmp(result, 'return', {})
-+            result = self.vm2.qmp("object-add", **secret.to_qmp_object())
-+            self.assert_qmp(result, 'return', {})
-+
-+    # test case shutdown
-+    def tearDown(self):
-+        # stop the VM
-+        self.vm1.shutdown()
-+        self.vm2.shutdown()
-+
-+    ###########################################################################
-+    # create the encrypted block device using qemu-img
-+    def createImg(self, file, secret):
-+
-+        output = iotests.qemu_img_pipe(
-+            'create',
-+            '--object', *secret.to_cmdline_object(),
-+            '-f', iotests.imgfmt,
-+            '-o', 'key-secret=' + secret.id(),
-+            '-o', 'iter-time=10',
-+            file,
-+            '1M')
-+
-+        iotests.log(output, filters=[iotests.filter_test_dir])
-+
-+    # attempts to add a key using qemu-img
-+    def addKey(self, file, secret, new_secret):
-+
-+        image_options = {
-+            'key-secret' : secret.id(),
-+            'driver' : iotests.imgfmt,
-+            'file' : {
-+                'driver':'file',
-+                'filename': file,
-+                }
-+            }
-+
-+        output = iotests.qemu_img_pipe(
-+            'amend',
-+            '--object', *secret.to_cmdline_object(),
-+            '--object', *new_secret.to_cmdline_object(),
-+
-+            '-o', 'state=active',
-+            '-o', 'new-secret=' + new_secret.id(),
-+            '-o', 'iter-time=10',
-+
-+            "json:" + json.dumps(image_options)
-+            )
-+
-+        iotests.log(output, filters=[iotests.filter_test_dir])
-+
-+    ###########################################################################
-+    # open an encrypted block device
-+    def openImageQmp(self, vm, id, file, secret,
-+                     readOnly = False, reOpen = False):
-+
-+        command = 'x-blockdev-reopen' if reOpen else 'blockdev-add'
-+
-+        result = vm.qmp(command, **
-+            {
-+                'driver': iotests.imgfmt,
-+                'node-name': id,
-+                'read-only': readOnly,
-+                'key-secret' : secret.id(),
-+                'file': {
-+                    'driver': 'file',
-+                    'filename': test_img,
-+                }
-+            }
-+        )
-+        self.assert_qmp(result, 'return', {})
-+
-+    # close the encrypted block device
-+    def closeImageQmp(self, vm, id):
-+        result = vm.qmp('blockdev-del', **{ 'node-name': id })
-+        self.assert_qmp(result, 'return', {})
-+
-+    ###########################################################################
-+
-+    # add a key to an encrypted block device
-+    def addKeyQmp(self, vm, id, new_secret):
-+
-+        args = {
-+            'node-name': id,
-+            'job-id' : 'job0',
-+            'options' : {
-+                'state'     : 'active',
-+                'driver'    : iotests.imgfmt,
-+                'new-secret': new_secret.id(),
-+                'iter-time' : 10
-+            },
-+        }
-+
-+        result = vm.qmp('x-blockdev-amend', **args)
-+        assert result['return'] == {}
-+        vm.run_job('job0')
-+
-+    # test that when the image opened by two qemu processes,
-+    # neither of them can update the image
-+    def test1(self):
-+        self.createImg(test_img, self.secrets[0]);
-+
-+        # VM1 opens the image and adds a key
-+        self.openImageQmp(self.vm1, "testdev", test_img, self.secrets[0])
-+        self.addKeyQmp(self.vm1, "testdev", new_secret = self.secrets[1])
-+
-+
-+        # VM2 opens the image
-+        self.openImageQmp(self.vm2, "testdev", test_img, self.secrets[0])
-+
-+
-+        # neither VMs now should be able to add a key
-+        self.addKeyQmp(self.vm1, "testdev", new_secret = self.secrets[2])
-+        self.addKeyQmp(self.vm2, "testdev", new_secret = self.secrets[2])
-+
-+
-+        # VM 1 closes the image
-+        self.closeImageQmp(self.vm1, "testdev")
-+
-+
-+        # now VM2 can add the key
-+        self.addKeyQmp(self.vm2, "testdev", new_secret = self.secrets[2])
-+
-+
-+        # qemu-img should also not be able to add a key
-+        self.addKey(test_img, self.secrets[0], self.secrets[2])
-+
-+        # cleanup
-+        self.closeImageQmp(self.vm2, "testdev")
-+        os.remove(test_img)
-+
-+
-+    def test2(self):
-+        self.createImg(test_img, self.secrets[0]);
-+
-+        # VM1 opens the image readonly
-+        self.openImageQmp(self.vm1, "testdev", test_img, self.secrets[0],
-+                          readOnly = True)
-+
-+        # VM2 opens the image
-+        self.openImageQmp(self.vm2, "testdev", test_img, self.secrets[0])
-+
-+        # VM1 can't add a key since image is readonly
-+        self.addKeyQmp(self.vm1, "testdev", new_secret = self.secrets[2])
-+
-+        # VM2 can't add a key since VM is has the image opened
-+        self.addKeyQmp(self.vm2, "testdev", new_secret = self.secrets[2])
-+
-+
-+        #VM1 reopens the image read-write
-+        self.openImageQmp(self.vm1, "testdev", test_img, self.secrets[0],
-+                          reOpen = True, readOnly = False)
-+
-+        # VM1 still can't add the key
-+        self.addKeyQmp(self.vm1, "testdev", new_secret = self.secrets[2])
-+
-+        # VM2 gets away
-+        self.closeImageQmp(self.vm2, "testdev")
-+
-+        # VM1 now can add the key
-+        self.addKeyQmp(self.vm1, "testdev", new_secret = self.secrets[2])
-+
-+        self.closeImageQmp(self.vm1, "testdev")
-+        os.remove(test_img)
-+
-+
-+if __name__ == '__main__':
-+    # support only raw luks since luks encrypted qcow2 is a proper
-+    # format driver which doesn't allow any sharing
-+    iotests.activate_logging()
-+    iotests.main(supported_fmts = ['luks'])
-diff --git a/tests/qemu-iotests/296.out b/tests/qemu-iotests/296.out
-new file mode 100644
-index 0000000000..afb6d2d09d
---- /dev/null
-+++ b/tests/qemu-iotests/296.out
-@@ -0,0 +1,33 @@
-+Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
-+
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+Job failed: Failed to get shared "consistent read" lock
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+Job failed: Failed to get shared "consistent read" lock
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+qemu-img: Failed to get shared "consistent read" lock
-+Is another process using the image [TEST_DIR/test.img]?
-+
-+Formatting 'TEST_DIR/test.img', fmt=luks size=1048576 key-secret=keysec0 iter-time=10
-+
-+Job failed: Block node is read-only
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+Job failed: Failed to get shared "consistent read" lock
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+Job failed: Failed to get shared "consistent read" lock
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+{"execute": "job-dismiss", "arguments": {"id": "job0"}}
-+{"return": {}}
-+..
-+----------------------------------------------------------------------
-+Ran 2 tests
-+
-+OK
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 2488ca2eca..92fe97ddd8 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -301,3 +301,5 @@
- 292 rw auto quick
- 293 rw auto
- 294 rw auto quick
-+295 rw auto
-+296 rw auto
--- 
-2.17.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDUxMDEzNDAzNy4xODQ4
+Ny0xLW1sZXZpdHNrQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMjAwNTEwMTM0MDM3LjE4NDg3LTEtbWxldml0c2tA
+cmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjYgMDAvMTRdIExVS1M6IGVuY3J5cHRpb24gc2xv
+dCBtYW5hZ2VtZW50IHVzaW5nIGFtZW5kIGludGVyZmFjZQpUeXBlOiBzZXJpZXMKCj09PSBURVNU
+IFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9u
+dWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5h
+bGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFz
+ZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rl
+c3QnCjk0OGM2ZTQgaW90ZXN0czogYWRkIHRlc3RzIGZvciBibG9ja2Rldi1hbWVuZAo5YzRjZDg3
+IGJsb2NrL3Fjb3cyOiBpbXBsZW1lbnQgYmxvY2tkZXYtYW1lbmQKNmQ2NTViNyBibG9jay9jcnlw
+dG86IGltcGxlbWVudCBibG9ja2Rldi1hbWVuZAo0MjE4MWQxIGJsb2NrL2NvcmU6IGFkZCBnZW5l
+cmljIGluZnJhc3RydWN0dXJlIGZvciB4LWJsb2NrZGV2LWFtZW5kIHFtcCBjb21tYW5kCjExZjk2
+M2QgaW90ZXN0czogcWVtdS1pbWcgdGVzdHMgZm9yIGx1a3Mga2V5IG1hbmFnZW1lbnQKYjcwZjdj
+NSBpb3Rlc3RzOiBmaWx0ZXIgZmV3IG1vcmUgbHVrcyBzcGVjaWZpYyBjcmVhdGUgb3B0aW9ucwo0
+MDI2MTU2IGJsb2NrL3Fjb3cyOiBleHRlbmQgcWVtdS1pbWcgYW1lbmQgaW50ZXJmYWNlIHdpdGgg
+Y3J5cHRvIG9wdGlvbnMKNzZmNDhkZCBibG9jay9jcnlwdG86IGltcGxlbWVudCB0aGUgZW5jcnlw
+dGlvbiBrZXkgbWFuYWdlbWVudAplOWYxY2Q3IGJsb2NrL2NyeXB0bzogcmVuYW1lIHR3byBmdW5j
+dGlvbnMKNmM2ZmQ1NiBibG9jay9hbWVuZDogcmVmYWN0b3IgcWNvdzIgYW1lbmQgb3B0aW9ucwow
+MzI5YzliIGJsb2NrL2FtZW5kOiBzZXBhcmF0ZSBhbWVuZCBhbmQgY3JlYXRlIG9wdGlvbnMgZm9y
+IHFlbXUtaW1nCjMyNzMwM2EgYmxvY2svYW1lbmQ6IGFkZCAnZm9yY2UnIG9wdGlvbgpjMThmY2Ri
+IHFjcnlwdG8vbHVrczogaW1wbGVtZW50IGVuY3J5cHRpb24ga2V5IG1hbmFnZW1lbnQKOWNkZThl
+MyBxY3J5cHRvL2NvcmU6IGFkZCBnZW5lcmljIGluZnJhc3RydWN0dXJlIGZvciBjcnlwdG8gb3B0
+aW9ucyBhbWVuZG1lbnQKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTQgQ2hlY2tpbmcgY29tbWl0
+IDljZGU4ZTNkMjE3YSAocWNyeXB0by9jb3JlOiBhZGQgZ2VuZXJpYyBpbmZyYXN0cnVjdHVyZSBm
+b3IgY3J5cHRvIG9wdGlvbnMgYW1lbmRtZW50KQoyLzE0IENoZWNraW5nIGNvbW1pdCBjMThmY2Ri
+OWFmYTQgKHFjcnlwdG8vbHVrczogaW1wbGVtZW50IGVuY3J5cHRpb24ga2V5IG1hbmFnZW1lbnQp
+CjMvMTQgQ2hlY2tpbmcgY29tbWl0IDMyNzMwM2FiZGZhYSAoYmxvY2svYW1lbmQ6IGFkZCAnZm9y
+Y2UnIG9wdGlvbikKNC8xNCBDaGVja2luZyBjb21taXQgMDMyOWM5YmIyNzNlIChibG9jay9hbWVu
+ZDogc2VwYXJhdGUgYW1lbmQgYW5kIGNyZWF0ZSBvcHRpb25zIGZvciBxZW11LWltZykKRVJST1I6
+IE1hY3JvcyB3aXRoIG11bHRpcGxlIHN0YXRlbWVudHMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIGEg
+ZG8gLSB3aGlsZSBsb29wCiMzMTogRklMRTogYmxvY2svcWNvdzIuYzo1NTIzOgorI2RlZmluZSBR
+Q09XX0NPTU1PTl9PUFRJT05TICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBcCisgICAgeyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIFwKKyAgICAgICAgLm5hbWUgPSBCTE9DS19PUFRfU0laRSwgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgICAgICAudHlwZSA9IFFFTVVfT1BU
+X1NJWkUsICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgICAgIC5o
+ZWxwID0gIlZpcnR1YWwgZGlzayBzaXplIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFwKKyAgICB9LCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXAorICAgIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgICAgIC5uYW1lID0gQkxPQ0tfT1BU
+X0NPTVBBVF9MRVZFTCwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgLnR5
+cGUgPSBRRU1VX09QVF9TVFJJTkcsICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+XAorICAgICAgICAuaGVscCA9ICJDb21wYXRpYmlsaXR5IGxldmVsICh2MiBbMC4xMF0gb3IgdjMg
+WzEuMV0pIiAgICAgICBcCisgICAgfSwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICB7ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgICAgICAubmFt
+ZSA9IEJMT0NLX09QVF9CQUNLSU5HX0ZJTEUsICAgICAgICAgICAgICAgICAgICAgICAgICAgICBc
+CisgICAgICAgIC50eXBlID0gUUVNVV9PUFRfU1RSSU5HLCAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIFwKKyAgICAgICAgLmhlbHAgPSAiRmlsZSBuYW1lIG9mIGEgYmFzZSBpbWFn
+ZSIgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIH0sICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgeyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwK
+KyAgICAgICAgLm5hbWUgPSBCTE9DS19PUFRfQkFDS0lOR19GTVQsICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXAorICAgICAgICAudHlwZSA9IFFFTVVfT1BUX1NUUklORywgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgICAgIC5oZWxwID0gIkltYWdlIGZvcm1h
+dCBvZiB0aGUgYmFzZSBpbWFnZSIgICAgICAgICAgICAgICAgICAgIFwKKyAgICB9LCAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAor
+ICAgIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBcCisgICAgICAgIC5uYW1lID0gQkxPQ0tfT1BUX0RBVEFfRklMRSwgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgLnR5cGUgPSBRRU1VX09QVF9TVFJJ
+TkcsICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgICAgICAuaGVscCA9
+ICJGaWxlIG5hbWUgb2YgYW4gZXh0ZXJuYWwgZGF0YSBmaWxlIiAgICAgICAgICAgICAgICBcCisg
+ICAgfSwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIFwKKyAgICB7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgICAgICAubmFtZSA9IEJMT0NLX09QVF9EQVRB
+X0ZJTEVfUkFXLCAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgICAgIC50eXBlID0g
+UUVNVV9PUFRfQk9PTCwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAg
+ICAgICAgLmhlbHAgPSAiVGhlIGV4dGVybmFsIGRhdGEgZmlsZSBtdXN0IHN0YXkgdmFsaWQgIiAg
+ICAgICAgICAgXAorICAgICAgICAgICAgICAgICJhcyBhIHJhdyBpbWFnZSIgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgfSwgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICB7ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAg
+ICAgICAubmFtZSA9IEJMT0NLX09QVF9FTkNSWVBULCAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBcCisgICAgICAgIC50eXBlID0gUUVNVV9PUFRfQk9PTCwgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgLmhlbHAgPSAiRW5jcnlwdCB0aGUgaW1h
+Z2Ugd2l0aCBmb3JtYXQgJ2FlcycuIChEZXByZWNhdGVkICIgXAorICAgICAgICAgICAgICAgICJp
+biBmYXZvciBvZiAiIEJMT0NLX09QVF9FTkNSWVBUX0ZPUk1BVCAiPWFlcykiLCAgICBcCisgICAg
+fSwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIFwKKyAgICB7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXAorICAgICAgICAubmFtZSA9IEJMT0NLX09QVF9FTkNSWVBU
+X0ZPUk1BVCwgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgICAgIC50eXBlID0gUUVN
+VV9PUFRfU1RSSU5HLCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAg
+ICAgLmhlbHAgPSAiRW5jcnlwdCB0aGUgaW1hZ2UsIGZvcm1hdCBjaG9pY2VzOiAnYWVzJywgJ2x1
+a3MnIiwgXAorICAgIH0sICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBcCisgICAgQkxPQ0tfQ1JZUFRPX09QVF9ERUZfS0VZX1NFQ1JF
+VCgiZW5jcnlwdC4iLCAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgIklEIG9mIHNlY3Jl
+dCBwcm92aWRpbmcgcWNvdyBBRVMga2V5IG9yIExVS1MgcGFzc3BocmFzZSIpLCAgXAorICAgIEJM
+T0NLX0NSWVBUT19PUFRfREVGX0xVS1NfQ0lQSEVSX0FMRygiZW5jcnlwdC4iKSwgICAgICAgICAg
+ICAgICBcCisgICAgQkxPQ0tfQ1JZUFRPX09QVF9ERUZfTFVLU19DSVBIRVJfTU9ERSgiZW5jcnlw
+dC4iKSwgICAgICAgICAgICAgIFwKKyAgICBCTE9DS19DUllQVE9fT1BUX0RFRl9MVUtTX0lWR0VO
+X0FMRygiZW5jcnlwdC4iKSwgICAgICAgICAgICAgICAgXAorICAgIEJMT0NLX0NSWVBUT19PUFRf
+REVGX0xVS1NfSVZHRU5fSEFTSF9BTEcoImVuY3J5cHQuIiksICAgICAgICAgICBcCisgICAgQkxP
+Q0tfQ1JZUFRPX09QVF9ERUZfTFVLU19IQVNIX0FMRygiZW5jcnlwdC4iKSwgICAgICAgICAgICAg
+ICAgIFwKKyAgICBCTE9DS19DUllQVE9fT1BUX0RFRl9MVUtTX0lURVJfVElNRSgiZW5jcnlwdC4i
+KSwgICAgICAgICAgICAgICAgXAorICAgIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgICAgIC5uYW1lID0gQkxPQ0tf
+T1BUX0NMVVNURVJfU0laRSwgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAg
+LnR5cGUgPSBRRU1VX09QVF9TSVpFLCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgXAorICAgICAgICAuaGVscCA9ICJxY293MiBjbHVzdGVyIHNpemUiLCAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBcCisgICAgICAgIC5kZWZfdmFsdWVfc3RyID0gc3RyaW5naWZ5KERF
+RkFVTFRfQ0xVU1RFUl9TSVpFKSAgICAgICAgICAgIFwKKyAgICB9LCAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIHsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBcCisgICAgICAgIC5uYW1lID0gQkxPQ0tfT1BUX1BSRUFMTE9DLCAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIFwKKyAgICAgICAgLnR5cGUgPSBRRU1VX09QVF9TVFJJTkcsICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgICAgICAuaGVscCA9ICJQcmVhbGxv
+Y2F0aW9uIG1vZGUgKGFsbG93ZWQgdmFsdWVzOiBvZmYsICIgICAgICAgICBcCisgICAgICAgICAg
+ICAgICAgIm1ldGFkYXRhLCBmYWxsb2MsIGZ1bGwpIiAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFwKKyAgICB9LCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXAorICAgIHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCisgICAgICAgIC5uYW1lID0gQkxPQ0tfT1BU
+X0xBWllfUkVGQ09VTlRTLCAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICAgICAgLnR5
+cGUgPSBRRU1VX09QVF9CT09MLCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+XAorICAgICAgICAuaGVscCA9ICJQb3N0cG9uZSByZWZjb3VudCB1cGRhdGVzIiwgICAgICAgICAg
+ICAgICAgICAgICAgICBcCisgICAgICAgIC5kZWZfdmFsdWVfc3RyID0gIm9mZiIgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwKKyAgICB9LCAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgIHsgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBc
+CisgICAgICAgIC5uYW1lID0gQkxPQ0tfT1BUX1JFRkNPVU5UX0JJVFMsICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIFwKKyAgICAgICAgLnR5cGUgPSBRRU1VX09QVF9OVU1CRVIsICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgXAorICAgICAgICAuaGVscCA9ICJXaWR0aCBvZiBh
+IHJlZmVyZW5jZSBjb3VudCBlbnRyeSBpbiBiaXRzIiwgICAgICAgICBcCisgICAgICAgIC5kZWZf
+dmFsdWVfc3RyID0gIjE2IiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwK
+KyAgICB9ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXAorCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDIzMSBsaW5lcyBj
+aGVja2VkCgpQYXRjaCA0LzE0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo1LzE0IENoZWNr
+aW5nIGNvbW1pdCA2YzZmZDU2ZTZmOTUgKGJsb2NrL2FtZW5kOiByZWZhY3RvciBxY293MiBhbWVu
+ZCBvcHRpb25zKQo2LzE0IENoZWNraW5nIGNvbW1pdCBlOWYxY2Q3YTRiZDAgKGJsb2NrL2NyeXB0
+bzogcmVuYW1lIHR3byBmdW5jdGlvbnMpCjcvMTQgQ2hlY2tpbmcgY29tbWl0IDc2ZjQ4ZGQxZmEy
+YSAoYmxvY2svY3J5cHRvOiBpbXBsZW1lbnQgdGhlIGVuY3J5cHRpb24ga2V5IG1hbmFnZW1lbnQp
+CjgvMTQgQ2hlY2tpbmcgY29tbWl0IDQwMjYxNTYzMzBlNyAoYmxvY2svcWNvdzI6IGV4dGVuZCBx
+ZW11LWltZyBhbWVuZCBpbnRlcmZhY2Ugd2l0aCBjcnlwdG8gb3B0aW9ucykKOS8xNCBDaGVja2lu
+ZyBjb21taXQgYjcwZjdjNTAwYzg1IChpb3Rlc3RzOiBmaWx0ZXIgZmV3IG1vcmUgbHVrcyBzcGVj
+aWZpYyBjcmVhdGUgb3B0aW9ucykKMTAvMTQgQ2hlY2tpbmcgY29tbWl0IDExZjk2M2Q4NmQwMSAo
+aW90ZXN0czogcWVtdS1pbWcgdGVzdHMgZm9yIGx1a3Mga2V5IG1hbmFnZW1lbnQpCldBUk5JTkc6
+IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1
+cGRhdGluZz8KIzE1OiAKbmV3IGZpbGUgbW9kZSAxMDA3NTUKCnRvdGFsOiAwIGVycm9ycywgMSB3
+YXJuaW5ncywgNDMxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzE0IGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCjExLzE0IENoZWNraW5nIGNvbW1pdCA0MjE4MWQxYWUyMjAgKGJsb2NrL2NvcmU6
+IGFkZCBnZW5lcmljIGluZnJhc3RydWN0dXJlIGZvciB4LWJsb2NrZGV2LWFtZW5kIHFtcCBjb21t
+YW5kKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5U
+QUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzMTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDog
+MCBlcnJvcnMsIDEgd2FybmluZ3MsIDIxNiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMS8xNCBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgoxMi8xNCBDaGVja2luZyBjb21taXQgNmQ2NTViNzRkY2My
+IChibG9jay9jcnlwdG86IGltcGxlbWVudCBibG9ja2Rldi1hbWVuZCkKMTMvMTQgQ2hlY2tpbmcg
+Y29tbWl0IDljNGNkODc3MDZiMCAoYmxvY2svcWNvdzI6IGltcGxlbWVudCBibG9ja2Rldi1hbWVu
+ZCkKMTQvMTQgQ2hlY2tpbmcgY29tbWl0IDk0OGM2ZTQ5OWY4NiAoaW90ZXN0czogYWRkIHRlc3Rz
+IGZvciBibG9ja2Rldi1hbWVuZCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmls
+ZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTU6IApuZXcgZmlsZSBtb2Rl
+IDEwMDc1NQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1OTEgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggMTQvMTQgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9m
+IHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWlu
+dGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09
+CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
+bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA1MTAxMzQwMzcuMTg0ODctMS1t
+bGV2aXRza0ByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0K
+RW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3
+Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0
+LmNvbQ==
 
