@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9F01CCC88
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 19:12:48 +0200 (CEST)
-Received: from localhost ([::1]:46816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279CA1CCC8D
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 19:14:19 +0200 (CEST)
+Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXpVO-0007Ii-JZ
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 13:12:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36876)
+	id 1jXpWs-0002Q6-3y
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 13:14:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXpU6-0005lV-1k; Sun, 10 May 2020 13:11:26 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:33949)
+ id 1jXpU7-0005mN-LA; Sun, 10 May 2020 13:11:27 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:42479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXpU5-0000BV-7r; Sun, 10 May 2020 13:11:25 -0400
-Received: by mail-ed1-x544.google.com with SMTP id g16so5876576eds.1;
- Sun, 10 May 2020 10:11:24 -0700 (PDT)
+ id 1jXpU7-0000Bt-0J; Sun, 10 May 2020 13:11:27 -0400
+Received: by mail-ed1-x542.google.com with SMTP id s10so5858008edy.9;
+ Sun, 10 May 2020 10:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=g3CQKoEsceWltY1vfC5X9PTIbG5UKc71WRd2sRWmnNo=;
- b=mWusThvKxZ0N9XxbLxhOJ5eUy2Hx5nGDF7aNELt9BwPw/JUUDp7tDFjCdp778SqzCS
- tlgQDpcmCLxTkMNUJhQzG8fz5QwzjNbAcN9ySp3j3ja2e0mgeatnBYv8w0HMjRjabWfi
- WPjoTlrCR8YX5HsiegJ/zZ3684yATucuENuIZLrGf+wcKaIDD5zK8z04w3NBsc0loclH
- GqAiv1KIVZCRCAbEGVV+V8qkYsQgMM+dtqVFAY1MJhTiGIhhPgSRu9CDMj9TjgoPIBug
- IAeua/vtKKhocxCpX2M0sQhJOwHTVYmDu2NWFNjAVKY+L1gwciVXFQX7fovPpGpxZvR6
- w/cw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+R9EYTOiCvQbq05OuVhtB2qHgFEnZLCI6qjL27hF2YM=;
+ b=MDddxZcLQ+i1nMJ1VDYjSlrbsSI/8AnySHKjg6Sj2RIURwJQUlfl2olECr+RGeqSCh
+ BE61NzR6pOJjkuzO1g/S3AdvyJAisthr6z8Jvw5xJ/98Xlr+19EN/6PEFBPjMtICqZ5z
+ 9+kdkjjB7EWxdDgIo8NgPvzJ7v5wPUJUZBdoCooIC1YHcW+J/KhjsFy/29/DN1l0TY/3
+ qCI6OB+rljyLQoQ3DPKh516rte10nlooxyj4i92tmwda2U5ZxlcLJfnqANYbJjPOsJ3w
+ 6l9nlJSKIYFkVJE7IH73W37fFCz/NjU8nxwl6RcSmTthN5B7ALCSQRPfcgedkZi4o2sO
+ iFww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=g3CQKoEsceWltY1vfC5X9PTIbG5UKc71WRd2sRWmnNo=;
- b=nl35KYjgXNvCRnHiE2dYx6jmR6TwXs2/vkyYmFav/T+u4NCBvZwNohLcQOdkrZaikW
- KSxTI8dGLvj7RLJ516lLDQhQJdDym7qlLQI8aPN1V/2iI8dc1zSILQx28/YguxRhvYit
- l67A/Hu75oJRtz/0rQpd9Od/P4NcrbNX7BAHtVrKzpUp628rTvEMQThAVe0CWM9T2hVH
- mdkVgewClTOSk8oJtDXxz8K2bRL9iEdDhbXR+if0dmKhp0Iu1Ab48UaFqhVt+ZzD9P9E
- 4MX7xci4oIK4Pp+HvxwllXrO8jjgFjp51bX6mY3SOzrELo6hZ/I2UhOdb7PYtu6lZM2t
- mcoA==
-X-Gm-Message-State: AGi0PubwKwWMZfLlA/j4LjIG/HALcUJFG65UBuj5k7+1jIe9K7ZTxB7K
- YWc7N9IS74Q38epCfyOOHc3foVwBcoc=
-X-Google-Smtp-Source: APiQypKFjlZFGyKOuYxPH+HBVACdAG36MfrM67vMDO1QrAnzmtM5YBjgvFI/OCu1aPHkwUFU+Q/blQ==
-X-Received: by 2002:a50:8b06:: with SMTP id l6mr10016514edl.190.1589130683278; 
- Sun, 10 May 2020 10:11:23 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=+R9EYTOiCvQbq05OuVhtB2qHgFEnZLCI6qjL27hF2YM=;
+ b=t6REItwDC8SRcocxU6pJGMwSV6S0J4MWdATjDwgzd8P1mAfdGDzWmZABrG7bkxXND/
+ lVKZ786WVwrVuf1i2lZc9aZQcfeC4sQkTtgWwsNpqOuif+ctH0YuzQ5ebFeqC0nTQ42H
+ Ab4oKETLXfAHPmMz9xz8yIrabjlhQps7pqw6HyvNpsJMxyoV4qR2jewh3BRvrsMp4VT+
+ DKLGhZ8Iz180ktui1i6DoUBghrK4z89AVgbF0retyHG5UkJADQW5JF64BpHPJ5GkORq2
+ Fu+xtyoPbSVLqxltY544ElEck7U9TycRnENXHu35RXKSRxUi3r/S7qe+GHx6HBCCx3/7
+ YXZA==
+X-Gm-Message-State: AGi0PuZMc8w1z/Q1EM7DOg2uLkok9f5r7ExWLaR/zv50nxvodLuZ7UNj
+ XYH0QgD7HnmhjxiAv8MZuKu+B8ZM8/M=
+X-Google-Smtp-Source: APiQypJaVTuou/HjJPd6Fon9772mjdoCV7ap9k7rX38nALdYYvUXxMeJYJ+nhfK9F42kM7sSFWo7gg==
+X-Received: by 2002:a05:6402:1d89:: with SMTP id
+ dk9mr10153093edb.382.1589130685005; 
+ Sun, 10 May 2020 10:11:25 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id w7sm960776edr.20.2020.05.10.10.11.21
+ by smtp.gmail.com with ESMTPSA id w7sm960776edr.20.2020.05.10.10.11.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 10:11:22 -0700 (PDT)
+ Sun, 10 May 2020 10:11:24 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] plugins: Move declarations around and rename 'hwaddr'
- argument
-Date: Sun, 10 May 2020 19:11:16 +0200
-Message-Id: <20200510171119.20827-1-f4bug@amsat.org>
+Subject: [PATCH 1/3] qemu/plugin: Trivial code movement
+Date: Sun, 10 May 2020 19:11:17 +0200
+Message-Id: <20200510171119.20827-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200510171119.20827-1-f4bug@amsat.org>
+References: <20200510171119.20827-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -85,29 +87,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, "Emilio G . Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename qemu_plugin_hwaddr_is_io() 'hwaddr' argument to later
-allow declaration of the 'hwaddr' type to be poisoned (see [*]).
+Move the qemu_plugin_event enum declaration earlier.
+This will make the next commit easier to review.
 
-[*] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02254.html
-    "exec/cpu: Poison 'hwaddr' type in user-mode emulation"
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/qemu/plugin.h | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-Philippe Mathieu-Daudé (3):
-  qemu/plugin: Trivial code movement
-  qemu/plugin: Move !CONFIG_PLUGIN stubs altogether
-  qemu/qemu-plugin: Make qemu_plugin_hwaddr_is_io() hwaddr argument
-    const
-
- include/qemu/plugin.h      | 65 ++++++++++++++++++--------------------
- include/qemu/qemu-plugin.h |  2 +-
- plugins/api.c              |  4 +--
- 3 files changed, 34 insertions(+), 37 deletions(-)
-
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index 11687e8cdc..e45f950fe3 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -13,6 +13,22 @@
+ #include "qemu/queue.h"
+ #include "qemu/option.h"
+ 
++/*
++ * Events that plugins can subscribe to.
++ */
++enum qemu_plugin_event {
++    QEMU_PLUGIN_EV_VCPU_INIT,
++    QEMU_PLUGIN_EV_VCPU_EXIT,
++    QEMU_PLUGIN_EV_VCPU_TB_TRANS,
++    QEMU_PLUGIN_EV_VCPU_IDLE,
++    QEMU_PLUGIN_EV_VCPU_RESUME,
++    QEMU_PLUGIN_EV_VCPU_SYSCALL,
++    QEMU_PLUGIN_EV_VCPU_SYSCALL_RET,
++    QEMU_PLUGIN_EV_FLUSH,
++    QEMU_PLUGIN_EV_ATEXIT,
++    QEMU_PLUGIN_EV_MAX, /* total number of plugin events we support */
++};
++
+ /*
+  * Option parsing/processing.
+  * Note that we can load an arbitrary number of plugins.
+@@ -47,22 +63,6 @@ static inline int qemu_plugin_load_list(QemuPluginList *head)
+ }
+ #endif /* !CONFIG_PLUGIN */
+ 
+-/*
+- * Events that plugins can subscribe to.
+- */
+-enum qemu_plugin_event {
+-    QEMU_PLUGIN_EV_VCPU_INIT,
+-    QEMU_PLUGIN_EV_VCPU_EXIT,
+-    QEMU_PLUGIN_EV_VCPU_TB_TRANS,
+-    QEMU_PLUGIN_EV_VCPU_IDLE,
+-    QEMU_PLUGIN_EV_VCPU_RESUME,
+-    QEMU_PLUGIN_EV_VCPU_SYSCALL,
+-    QEMU_PLUGIN_EV_VCPU_SYSCALL_RET,
+-    QEMU_PLUGIN_EV_FLUSH,
+-    QEMU_PLUGIN_EV_ATEXIT,
+-    QEMU_PLUGIN_EV_MAX, /* total number of plugin events we support */
+-};
+-
+ union qemu_plugin_cb_sig {
+     qemu_plugin_simple_cb_t          simple;
+     qemu_plugin_udata_cb_t           udata;
 -- 
 2.21.3
 
