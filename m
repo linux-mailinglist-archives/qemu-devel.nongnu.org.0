@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B64C1CCBF9
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 17:32:47 +0200 (CEST)
-Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CE61CCBFE
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 17:35:01 +0200 (CEST)
+Received: from localhost ([::1]:54072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXnwc-0002aS-29
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 11:32:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
+	id 1jXnym-0005av-KC
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 11:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXnsn-00069d-Go
- for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:49 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36923)
+ id 1jXnsp-0006Bp-5P
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:51 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXnsm-0000yi-TY
- for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:49 -0400
-Received: by mail-wr1-x444.google.com with SMTP id k1so7744795wrx.4
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 08:28:48 -0700 (PDT)
+ id 1jXnso-0000yr-H1
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:50 -0400
+Received: by mail-wr1-x444.google.com with SMTP id g13so7719580wrb.8
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 08:28:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3fNdIn+8vkXom2UjSJnuRhcE6SsVXVyDMS2MettPTi8=;
- b=h51MAUZX9uFzwwAF1hhLyLpmXvJO1sTnOKllqyl7pw4p53EfCzvRHO9Uc8MOC7arfv
- iZguT9JjUziMGHuU8ErE6katwJlgSAVYU42wGxY2x98pZHd9WktcgyEXGlAgQAX2uQ1T
- QYT611ZUzjw2jta6c2nd0ulwMcxz0hX7o+ETLOZfBkcyl9+KetloMEMG/4pGe417e0EP
- Y89nHmAYK5zGsn8HLzghXnCjH4qMYhksZ3lTfUYcuidORiinIdmV5SKxfsS+cbApzeWb
- FjZFV+EGv2Kt3F6U/DEil3aj/+ofDTa8g84RdU39rWcjvtzgtZ4EWeHxCHrx8KLMAcms
- 723w==
+ bh=Nhtj1jAF4qT4dfDuiPhnBSJih8Wb/3HVDfEqyCaACoc=;
+ b=LKDZqnAw1B5EhxraXCFJv0s3xYPDrGFHCFwuF8LWC3zSrviQFQvc+S3mm4S+WdZjsa
+ 0U2+UTywrOLHA0dSEAHQvdwilMrUYFVhk/j5/nobwNv6hI2SK6UQ75Op0ktX8B7pWIlM
+ ZSznCdty6cNdSDBIfyPT+VhcF5PM0s6PAnTFUKuY+l310xVQjWJqWEy2X6++8P+oAB0r
+ o1jXQ1BqKrPGy3+y4XkH0yNTin1Az9s0uI1x3AwLm++pKe7OiK1A/UA9veUmlkWFu3Wu
+ Z9NkSR4TwiE3lde/V2ZHfkfEqtroM7q7trCqpMfBKVCAqx61S/b/Xt8yKHBLoBCgndc0
+ IX4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3fNdIn+8vkXom2UjSJnuRhcE6SsVXVyDMS2MettPTi8=;
- b=qGzw1WxZij+z2PoS1gkAFDb+bHH2bnl+1P7UTPnNnPOCOUokd6/rSHAuXAGpFisDTG
- lJOnK1IvLIMFdIq0A4n1RwIm2/DR0y+wDeZ6G5g/t6EbqZK17xhFClUuCryB3Oob1jCr
- U/iVglTPAUeRsjsiYpMLd88cN1PFAisJt71qxploVvtoo5pppchsQIN4EAQGzXtc5WOa
- T4qhNh0Q8qLHDjonA+LTESVY+W2vgJbsxqowhsEJnGmRC9MaYiZ25yRGbEow7a86qBV6
- c8FSqCHSHupgmjBAFKmaWleLj+cRMzDXqMpLIxXAv6+2Rlo2xRI4Z4yOaeXzMkOEo36+
- uZlg==
-X-Gm-Message-State: AGi0PuaKxLUPeJKzYQyZbDjiJ69/fMOCjknswNk4NEYFqoE20fcRmfPM
- q+6T1sR6UobUJZnEQrD4JkcUGzpkaRA=
-X-Google-Smtp-Source: APiQypJCyPF63FjgsoVgU66F4M6tfVUV/O0MYDveuraEQAuLLaQ+Es5MikjgA/XjpqQw7+yB932Lvg==
-X-Received: by 2002:a05:6000:12c2:: with SMTP id
- l2mr2279794wrx.133.1589124527291; 
- Sun, 10 May 2020 08:28:47 -0700 (PDT)
+ bh=Nhtj1jAF4qT4dfDuiPhnBSJih8Wb/3HVDfEqyCaACoc=;
+ b=rM+c1eG8E21jFhxCm28YZ8HEx0Nyz18KbZj9PJE4urx7yunMUusAfFIiw3L1uFoJE4
+ GN28h9hOyUbo21DPtyYx3Yiv1bUHL27ENYMJo4sBlNb4+SExxYydPNWJk5UaMsnCCuM3
+ KRlyYu80sBfgvpR4CfTGVLBVi0lHtZrcb2V8pZ+sTo0BlOYikKDlsb9sQ7Kt/sSEh4r+
+ 8ZZcsTnUPKQyk4sbGQkv4HB9gQvoTel6sHZBxpImHi2LnE2xr0NMi23c/L4viomyizOh
+ yiSMT+r8uSneHJoBKQhrHfZ6isJe5yZC+zdL2mJGwl0sG4qmLj4kKhuHlvYZbbY8X5c8
+ XNgA==
+X-Gm-Message-State: AGi0PuaO5095NNpOcU6PC+GhIVSS+Gq/Qr1NErTqaREzfcDW5WMaqXSd
+ CC2PmVzuF1LaUET/1+BOUhYxf9hDWLw=
+X-Google-Smtp-Source: APiQypK6xaZiFtQl72J2Rnx7ZWzfryDLEgDNcykWQDkjbHyeP9WanegBpZPqasopUlGsMEERBL6QTQ==
+X-Received: by 2002:adf:9447:: with SMTP id 65mr13973249wrq.331.1589124529112; 
+ Sun, 10 May 2020 08:28:49 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id a67sm24186702wmc.30.2020.05.10.08.28.45
+ by smtp.gmail.com with ESMTPSA id a67sm24186702wmc.30.2020.05.10.08.28.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 08:28:46 -0700 (PDT)
+ Sun, 10 May 2020 08:28:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] hw/misc/empty_slot: Lower address space priority
-Date: Sun, 10 May 2020 17:28:35 +0200
-Message-Id: <20200510152840.13558-3-f4bug@amsat.org>
+Subject: [PATCH 3/7] hw/misc/empty_slot: Convert 'size' field as qdev property
+Date: Sun, 10 May 2020 17:28:36 +0200
+Message-Id: <20200510152840.13558-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200510152840.13558-1-f4bug@amsat.org>
 References: <20200510152840.13558-1-f4bug@amsat.org>
@@ -100,28 +99,61 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Empty slots model RAZ/WI access on a bus. Since we can still
-(hot) plug devices on the bus, lower the slot priority, so
-device added later is accessed first.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/core/empty_slot.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/core/empty_slot.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/hw/core/empty_slot.c b/hw/core/empty_slot.c
-index 3ba450e1ca..5ab426e965 100644
+index 5ab426e965..0df086fe98 100644
 --- a/hw/core/empty_slot.c
 +++ b/hw/core/empty_slot.c
-@@ -67,7 +67,7 @@ void empty_slot_init(hwaddr addr, uint64_t slot_size)
+@@ -12,6 +12,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/sysbus.h"
+ #include "qemu/module.h"
++#include "hw/qdev-properties.h"
+ #include "hw/empty_slot.h"
  
+ //#define DEBUG_EMPTY_SLOT
+@@ -57,17 +58,13 @@ void empty_slot_init(hwaddr addr, uint64_t slot_size)
+     if (slot_size > 0) {
+         /* Only empty slots larger than 0 byte need handling. */
+         DeviceState *dev;
+-        SysBusDevice *s;
+-        EmptySlot *e;
+ 
+         dev = qdev_create(NULL, TYPE_EMPTY_SLOT);
+-        s = SYS_BUS_DEVICE(dev);
+-        e = EMPTY_SLOT(dev);
+-        e->size = slot_size;
+ 
++        qdev_prop_set_uint64(dev, "size", slot_size);
          qdev_init_nofail(dev);
  
--        sysbus_mmio_map(s, 0, addr);
-+        sysbus_mmio_map_overlap(s, 0, addr, -10000);
+-        sysbus_mmio_map_overlap(s, 0, addr, -10000);
++        sysbus_mmio_map_overlap(SYS_BUS_DEVICE(dev), 0, addr, -10000);
      }
  }
  
+@@ -80,11 +77,17 @@ static void empty_slot_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+ }
+ 
++static Property empty_slot_properties[] = {
++    DEFINE_PROP_UINT64("size", EmptySlot, size, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void empty_slot_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->realize = empty_slot_realize;
++    device_class_set_props(dc, empty_slot_properties);
+ }
+ 
+ static const TypeInfo empty_slot_info = {
 -- 
 2.21.3
 
