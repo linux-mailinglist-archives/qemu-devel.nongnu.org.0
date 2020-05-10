@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306F01CCD17
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:52:41 +0200 (CEST)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06881CCCFD
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:46:20 +0200 (CEST)
+Received: from localhost ([::1]:44018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXr44-0003vt-A9
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:52:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45916)
+	id 1jXqxv-00030R-Do
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:46:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jXqvF-0008IO-BR
- for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:33 -0400
-Received: from mailout08.t-online.de ([194.25.134.20]:45964)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jXqw7-0001K7-T7
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:44:27 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:40001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jXqvE-0005Te-Dn
- for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:33 -0400
-Received: from fwd03.aul.t-online.de (fwd03.aul.t-online.de [172.20.27.148])
- by mailout08.t-online.de (Postfix) with SMTP id 4DE64411E3C2;
- Sun, 10 May 2020 20:43:31 +0200 (CEST)
-Received: from linpower.localnet
- (EBMjgQZTZh0GoxMjU3+39KAfuO0yz5ADucJ4mg5dxOvPu3CDT1t+nebHnJxFpfwwv2@[46.86.59.135])
- by fwd03.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jXqv9-0Aca8G0; Sun, 10 May 2020 20:43:27 +0200
-Received: by linpower.localnet (Postfix, from userid 1000)
- id A9151200633; Sun, 10 May 2020 20:43:04 +0200 (CEST)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 10/10] ui/gtk: use native keyboard scancodes on Windows
-Date: Sun, 10 May 2020 20:43:04 +0200
-Message-Id: <20200510184304.9267-10-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <2393388c-86c3-4d7e-178e-2c7e6d14a8de@t-online.de>
-References: <2393388c-86c3-4d7e-178e-2c7e6d14a8de@t-online.de>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1jXqw6-00075K-Gn
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:44:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=rHVcn77k6CsXf82ouWmyt4zE1aIA+5IHVEoShkgUKFw=; b=wLtaQXwEYHO/yYZA2aAEGNsX47
+ ++BGiSb2QzwnDoDDYsA9sBAlPWo3KdCKwwrrHkAElmzs5jS8RpDyAjMO6Sb3LSzDqWxqK0cedeTOo
+ rpPTsY3qDiFGFkwx+knzR9TNUb+0oyHJF3M0VeO5u3Dga/mfIpV2n9rlNEwd0x1jomrPx2ZM6S9ZN
+ mMyqgj+Bt29IVAB/w9l4nu2TBKzu0Z/XqvRczNhECnu64FGdoj09WbxLOkL7fQUV/6bJAunxWAF76
+ dti9Go9glxvkRR855jKUoo0r4OYLB9l6fEbWc+UbUKxRy+k0OH4PtGNKQIHwvI5D0mRsmOn4fBYqJ
+ 46DL5xK2H19qcmJRpZ958qc+4bZPM4LcKOgsWYwJa8O6SpljP4HLnXf1PzEAh4TouoK0z52TOWoy8
+ BMoPcA19i9782fnstPoaSXD7r1QO/Qtg70ugtyQYAbDKWd/ileMpvabDpwlx7iV2oJizRSPyv9RF+
+ ssCSxTj8w35er58VdeZw2QdGj2yRVeoXuofqJVE2MdBTjI7K7IUOfukQ6mgrMlNoDiNMEhj4RSmWX
+ 9Tj4UdTl3vPGqN3hqSzepGioOMVYgndOFvjFTIiwwsVnfFtrVmRks1HMwbrdBjI1oxvqfgvsm0SgI
+ EnDqIEEzwh4Y7MJTBXYnNuBM1/C5Twf7nvTG4E1TY=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Subject: Re: [PATCH 2/2] 9pfs: fix init_in_iov_from_pdu truncating size
+Date: Sun, 10 May 2020 20:43:41 +0200
+Message-ID: <2111838.FFCTJPLGb3@silver>
+In-Reply-To: <54f3b9c9f05a77ccdd6103bd46c828fcb675cbac.1589132512.git.qemu_oss@crudebyte.com>
+References: <cover.1589132512.git.qemu_oss@crudebyte.com>
+ <54f3b9c9f05a77ccdd6103bd46c828fcb675cbac.1589132512.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ID: EBMjgQZTZh0GoxMjU3+39KAfuO0yz5ADucJ4mg5dxOvPu3CDT1t+nebHnJxFpfwwv2
-X-TOI-MSGID: 8ef9979f-de5f-4d84-aee7-bc274509155f
-Received-SPF: none client-ip=194.25.134.20;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:43:07
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:44:23
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,99 +68,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since GTK 3.22 the function gdk_event_get_scancode() is
-available. On Windows this function returns keyboard scancodes
-and some extended flags. These raw keyboard scancodes are much
-better suited for this use case than the half-cooked win32
-virtual-key codes because scancodes report the key position on
-the keyboard and the positions are independent of national
-language settings.
+On Sonntag, 10. Mai 2020 19:18:21 CEST Christian Schoenebeck wrote:
+> Commit SHA-1 16724a173049ac29c7b5ade741da93a0f46edff7 introduced
+> truncating the response to the currently available transport buffer
+> size, which was supposed to fix an 9pfs error on Xen boot where
+> transport buffer might still be smaller than required for response.
+> 
+> Unfortunately this change broke small reads (with less than 12
+> bytes).
+> 
+> To address both concerns, check the actual response type and only
+> truncate reply for Rreaddir responses, and only if truncated reply
+> would at least return one payload byte to client. Use Rreaddir's
+> precise header size (11) for this instead of P9_IOHDRSZ.
 
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- ui/gtk.c | 33 +++++++++++++++++++++++++++++----
- 1 file changed, 29 insertions(+), 4 deletions(-)
+Oops, that should have been "Rread's" of course, not "Rreaddir's". Apparently 
+I already spent too much time on readdir() code.
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index a43fddc57f..242b378bf1 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -1016,8 +1016,13 @@ static const guint16 *gd_get_keymap(size_t *maplen)
- #ifdef GDK_WINDOWING_WIN32
-     if (GDK_IS_WIN32_DISPLAY(dpy)) {
-         trace_gd_keymap_windowing("win32");
-+#if GTK_CHECK_VERSION(3, 22, 0)
-+        *maplen = qemu_input_map_atset1_to_qcode_len;
-+        return qemu_input_map_atset1_to_qcode;
-+#else
-         *maplen = qemu_input_map_win32_to_qcode_len;
-         return qemu_input_map_win32_to_qcode;
-+#endif
-     }
- #endif
- 
-@@ -1063,6 +1068,25 @@ static int gd_map_keycode(int scancode)
-     return keycode_map[scancode];
- }
- 
-+static int gd_get_keycode(GdkEventKey *key)
-+{
-+#if defined G_OS_WIN32 && GTK_CHECK_VERSION(3, 22, 0)
-+    int scancode = gdk_event_get_scancode((GdkEvent *)key);
-+
-+    /* translate Windows native scan codes to atset1 keycodes */
-+    switch (scancode & (KF_EXTENDED | 0xff)) {
-+    case 0x145:     /* NUMLOCK */
-+        return scancode & 0xff;
-+    }
-+
-+    return scancode & KF_EXTENDED ?
-+        0xe000 | (scancode & 0xff) : scancode & 0xff;
-+
-+#else
-+    return key->hardware_keycode;
-+#endif
-+}
-+
- static gboolean gd_text_key_down(GtkWidget *widget,
-                                  GdkEventKey *key, void *opaque)
- {
-@@ -1074,7 +1098,7 @@ static gboolean gd_text_key_down(GtkWidget *widget,
-     } else if (key->length) {
-         kbd_put_string_console(con, key->string, key->length);
-     } else {
--        int qcode = gd_map_keycode(key->hardware_keycode);
-+        int qcode = gd_map_keycode(gd_get_keycode(key));
-         kbd_put_qcode_console(con, qcode, false);
-     }
-     return TRUE;
-@@ -1083,7 +1107,7 @@ static gboolean gd_text_key_down(GtkWidget *widget,
- static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
- {
-     VirtualConsole *vc = opaque;
--    int qcode;
-+    int keycode, qcode;
- 
- #ifdef G_OS_WIN32
-     /* on windows, we ought to ignore the reserved key event? */
-@@ -1111,9 +1135,10 @@ static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
-         return TRUE;
-     }
- 
--    qcode = gd_map_keycode(key->hardware_keycode);
-+    keycode = gd_get_keycode(key);
-+    qcode = gd_map_keycode(keycode);
- 
--    trace_gd_key_event(vc->label, key->hardware_keycode, qcode,
-+    trace_gd_key_event(vc->label, keycode, qcode,
-                        (key->type == GDK_KEY_PRESS) ? "down" : "up");
- 
-     qkbd_state_key_event(vc->gfx.kbd, qcode,
--- 
-2.26.1
+If there's not more to do, then maybe you could just amend this log message 
+typo Greg? I would appreciate it.
+
+Best regards,
+Christian Schoenebeck
+
 
 
