@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A1C1CCCC3
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 19:56:47 +0200 (CEST)
-Received: from localhost ([::1]:56370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E731CCD01
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:49:09 +0200 (CEST)
+Received: from localhost ([::1]:52456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXqBx-0003ue-Vs
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 13:56:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41286)
+	id 1jXr0e-0007WU-JL
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jXqAx-0002yw-3r
- for qemu-devel@nongnu.org; Sun, 10 May 2020 13:55:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48518)
+ id 1jXqxK-0003ku-J8
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:45:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jXqAv-0006Vg-L4
- for qemu-devel@nongnu.org; Sun, 10 May 2020 13:55:42 -0400
+ id 1jXqxJ-0002J6-E6
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:45:42 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jXqAt-0006wy-Ft
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 17:55:39 +0000
+ id 1jXqxH-0002zp-CE
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 18:45:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6E3B12E8076
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 17:55:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 582AB2E8073
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 18:45:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 10 May 2020 17:47:11 -0000
-From: Damir <1856335@bugs.launchpad.net>
+Date: Sun, 10 May 2020 18:38:05 -0000
+From: "Catherine A. Frederick" <1877794@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user ppc64 tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: babumoger djdatte h-sieger
-X-Launchpad-Bug-Reporter: Damir (djdatte)
-X-Launchpad-Bug-Modifier: Damir (djdatte)
-References: <157625616239.22064.10423897892496347105.malonedeb@gac.canonical.com>
-Message-Id: <158913283187.13853.4379051209165101767.malone@gac.canonical.com>
-Subject: [Bug 1856335] Re: Cache Layout wrong on many Zen Arch CPUs
+X-Launchpad-Bug-Commenters: laurent-vivier mptcultist
+X-Launchpad-Bug-Reporter: Catherine A. Frederick (mptcultist)
+X-Launchpad-Bug-Modifier: Catherine A. Frederick (mptcultist)
+References: <158906134520.4878.9001427424029475940.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158913588514.12028.9467458244967045223.malone@wampee.canonical.com>
+Subject: [Bug 1877794] Re: Constant Folding on 64-bit Subtraction causes
+ SIGILL on linux-user glxgears ppc64le to x86_64 by way of generating bad
+ shift instruction with c=-1
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 5dab677e8a2465240aba436206e9fccea0c1b725
+X-Launchpad-Hash: 5439f77021518a79d672094298a7627bbcb1a906
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 13:55:40
@@ -72,82 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1856335 <1856335@bugs.launchpad.net>
+Reply-To: Bug 1877794 <1877794@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-
-I took a look today at the layouts when using 1950X (which previously
-worked, and yes, admittedly, I am using Windows / coreinfo), and any
-basic config (previously something simple as Sockets=3D1,Cores=3D8, Theads=
-=3D1
-(now also Dies=3D1) worked, but now, the topology presents as if all cores
-share L3, and that each two cores share L1C/L1D/L2, like if they were
-smt-siblings. I would call this a serious regression.
-
-I don't think using Numa Nodes is an ok way to solve this (especially
-not when at least for 4CCX CPUs, this worked flawlessly before), as that
-will make numa-aware applications start taking note of numa nodes, and
-possibly do wierd things (plus, it introduces more configuration where
-it was not needed before).
+I'm on 5.0-rc4 add a few patches implementing a subset of drm/amdgpu
+support, with mesa-utils 8.4.0-1. Important note I guess: I can't get
+the crash to trigger under llvmpipe/softrast, I can only get it on
+RadeonSI. I valgrind'd qemu only to not find anything on the host-side.
+I'm 99% sure this isn't a memory corruption bug from my patches, anyway,
+and it's not replicable on upstream qemu because DRM simply isn't
+functional. (Oh dear, I think I might be on my own until I can get this
+stuff upstreamed.)
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1856335
+https://bugs.launchpad.net/bugs/1877794
 
 Title:
-  Cache Layout wrong on many Zen Arch CPUs
+  Constant Folding on 64-bit Subtraction causes SIGILL on linux-user
+  glxgears ppc64le to x86_64 by way of generating bad shift instruction
+  with c=3D-1
 
 Status in QEMU:
   New
 
 Bug description:
-  AMD CPUs have L3 cache per 2, 3 or 4 cores. Currently, TOPOEXT seems
-  to always map Cache ass if it was an 4-Core per CCX CPU, which is
-  incorrect, and costs upwards 30% performance (more realistically 10%)
-  in L3 Cache Layout aware applications.
-
-  Example on a 4-CCX CPU (1950X /w 8 Cores and no SMT):
-
-  =C2=A0=C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'8' threads=3D'1'=
-/>
-
-  In windows, coreinfo reports correctly:
-
-  ****----  Unified Cache 1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----****  Unified Cache 6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  On a 3-CCX CPU (3960X /w 6 cores and no SMT):
-
-  =C2=A0<cpu mode=3D'custom' match=3D'exact' check=3D'full'>
-  =C2=A0=C2=A0=C2=A0=C2=A0<model fallback=3D'forbid'>EPYC-IBPB</model>
-  =C2=A0=C2=A0=C2=A0=C2=A0<vendor>AMD</vendor>
-  =C2=A0=C2=A0=C2=A0=C2=A0<topology sockets=3D'1' cores=3D'6' threads=3D'1'=
-/>
-
-  in windows, coreinfo reports incorrectly:
-
-  ****--  Unified Cache  1, Level 3,    8 MB, Assoc  16, LineSize  64
-  ----**  Unified Cache  6, Level 3,    8 MB, Assoc  16, LineSize  64
-
-  Validated against 3.0, 3.1, 4.1 and 4.2 versions of qemu-kvm.
-
-  With newer Qemu there is a fix (that does behave correctly) in using the =
-dies parameter:
-  =C2=A0<qemu:arg value=3D'cores=3D3,threads=3D1,dies=3D2,sockets=3D1'/>
-
-  The problem is that the dies are exposed differently than how AMD does
-  it natively, they are exposed to Windows as sockets, which means, that
-  if you are nto a business user, you can't ever have a machine with
-  more than two CCX (6 cores) as consumer versions of Windows only
-  supports two sockets. (Should this be reported as a separate bug?)
+  Hello, I've been recently working on my own little branch of QEMU
+  implementing the drm IOCTLs, when I discovered that glxgears seems to
+  crash in GLXSwapBuffers(); with a SIGILL. I investigated this for
+  about 2 weeks, manually trying to trace the call stack, only to find
+  that we seemingly crash in a bad shift instruction. Originally
+  intended to be an shr_i64 generated to an RLDICL, we end up with an
+  all ones(-1) c value, which gets thrown to the macro for generating
+  the MB, and replaces the instruction with mostly ones. This new
+  instruction, FFFFFFE0 is invalid on ppc64le, and crashes in a host
+  SIGILL in codegen_buffer. I tried to see if the output of translate.c
+  had this bad instruction, but all I got were two (shr eax, cl)
+  instructions, and upon creating a test program with shr (eax, cl) in
+  it, nothing happened. Then figuring that there was nothing actually
+  wrong with the instruction in the first place, I turned my eye to the
+  optimizer, and completely disabled constant folding for arithmetic
+  instructions.  This seemed to actually resolve the issue, and then I
+  slowly enabled constant folding again on various instructions only to
+  find that enabling not on the shifts, but on subtraction seemed to
+  cause the bug to reappear. I am bewildered and frankly at this point
+  I'm not sure I have a chance in hell of figuring out what causes it,
+  so I'm throwing it here.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1856335/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1877794/+subscriptions
 
