@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEC51CC60E
+	by mail.lfdr.de (Postfix) with ESMTPS id 6938F1CC60D
 	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 03:42:44 +0200 (CEST)
-Received: from localhost ([::1]:57396 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXazL-0005s4-Hw
+	id 1jXazL-0005rL-EG
 	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 21:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1jXay8-0003mR-0t
+ id 1jXay8-0003nO-8g
  for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:28 -0400
-Received: from mga09.intel.com ([134.134.136.24]:59849)
+Received: from mga09.intel.com ([134.134.136.24]:59850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1jXay6-0006cQ-FC
+ id 1jXay6-0006hs-Im
  for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:27 -0400
-IronPort-SDR: DnCQf5NIqTA9rE/ARq6MklnCU6gnbTRLNzLFWZLQ2F+A0oJ0kzctr0Y7B27mIRe9OHmlUx3oPM
- Bln/vpwMDiuQ==
+IronPort-SDR: Jxyti4Q41eN8YU1ZXNwb067kdL9dLHNaOzd72/a1G/w1keHRVVUVkMpVl5v5YJRjE5vfIBK2g9
+ VKSZNJSJfLMg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2020 18:41:17 -0700
-IronPort-SDR: 9Oo7DWSIenvkoNgKZHxVEu37Emz9H0mP8RIDRLLq8akIIVTEyz09t0dht/nePyDNtoY3IdvD6E
- kvKqkxn0Q3yA==
+ 09 May 2020 18:41:18 -0700
+IronPort-SDR: AJS9Qroqc1PVnpajeL7JYlnbSd/7zEEZRNhBS4l+345dhhPihUI3Su0cl/c/i4dAoNbuoF5XS9
+ C+JNTKKDrEBw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,373,1583222400"; d="scan'208";a="264783103"
+X-IronPort-AV: E=Sophos;i="5.73,373,1583222400"; d="scan'208";a="264783113"
 Received: from unknown (HELO local-michael-cet-test.sh.intel.com)
  ([10.239.159.128])
- by orsmga006.jf.intel.com with ESMTP; 09 May 2020 18:41:15 -0700
+ by orsmga006.jf.intel.com with ESMTP; 09 May 2020 18:41:17 -0700
 From: Yang Weijiang <weijiang.yang@intel.com>
 To: qemu-devel@nongnu.org,
 	pbonzini@redhat.com
-Subject: [Qemu-devel][PATCH v5 0/4] Enable CET support for guest
-Date: Sun, 10 May 2020 09:42:46 +0800
-Message-Id: <20200510014250.28111-1-weijiang.yang@intel.com>
+Subject: [Qemu-devel][PATCH v5 1/4] x86/cpu: Add CET CPUID/XSAVES flags and
+ data structures
+Date: Sun, 10 May 2020 09:42:47 +0800
+Message-Id: <20200510014250.28111-2-weijiang.yang@intel.com>
 X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20200510014250.28111-1-weijiang.yang@intel.com>
+References: <20200510014250.28111-1-weijiang.yang@intel.com>
 Received-SPF: pass client-ip=134.134.136.24;
  envelope-from=weijiang.yang@intel.com; helo=mga09.intel.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/09 21:41:17
@@ -48,8 +51,8 @@ X-Spam_score_int: -68
 X-Spam_score: -6.9
 X-Spam_bar: ------
 X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,51 +69,98 @@ Cc: Yang Weijiang <weijiang.yang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Control-flow Enforcement Technology (CET) provides protection against 
-return/jump-oriented programming (ROP/JOP). It includes two
-sub-features: Shadow Stack(SHSTK) and Indirect Branch Tracking(IBT).
-This patchset is to enable CET related CPUID report, XSAVES/XRSTORS
-support and MSR access etc. for guest.
+CET feature SHSTK and IBT are enumerated via CPUID(EAX=0x7,0):ECX[bit 7]
+and EDX[bit 20] respectively. Two CET bits (bit 11 and 12) are defined in
+MSR_IA32_XSS to support XSAVES/XRSTORS. CPUID(EAX=0xd, 1):ECX[bit 11] and
+ECX[bit 12] correspond to CET states in user and supervisor mode respectively.
 
-CET KVM patches:
-https://lkml.kernel.org/r/20200506082110.25441-1-weijiang.yang@intel.com
+Signed-off-by: Zhang Yi <yi.z.zhang@linux.intel.com>
+Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
+---
+ target/i386/cpu.h | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-CET kernel patches:
-https://lkml.kernel.org/r/20200429220732.31602-1-yu-cheng.yu@intel.com
-
-v5:
-  - Checked CET states before access related MSRs.
-  - Added new MSR MSR_KVM_GUEST_SSP for live-migration.
-  - Refactored patches to make them more structured.
-
-v4:
-  - Added MSR read/write interface for PL1_SSP/PL2_SSP.
-  - Removed CET structures from X86XSaveArea.
-  - Cleared ebx in return of CPUID.(EAX=d, ECX=1).
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index e818fc712a..ed03cd1760 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -489,6 +489,9 @@ typedef enum X86Seg {
+ #define XSTATE_ZMM_Hi256_BIT            6
+ #define XSTATE_Hi16_ZMM_BIT             7
+ #define XSTATE_PKRU_BIT                 9
++#define XSTATE_RESERVED_BIT             10
++#define XSTATE_CET_U_BIT                11
++#define XSTATE_CET_S_BIT                12
  
-v3:
-  - Add CET MSR save/restore support for live-migration.
+ #define XSTATE_FP_MASK                  (1ULL << XSTATE_FP_BIT)
+ #define XSTATE_SSE_MASK                 (1ULL << XSTATE_SSE_BIT)
+@@ -499,6 +502,19 @@ typedef enum X86Seg {
+ #define XSTATE_ZMM_Hi256_MASK           (1ULL << XSTATE_ZMM_Hi256_BIT)
+ #define XSTATE_Hi16_ZMM_MASK            (1ULL << XSTATE_Hi16_ZMM_BIT)
+ #define XSTATE_PKRU_MASK                (1ULL << XSTATE_PKRU_BIT)
++#define XSTATE_RESERVED_MASK            (1ULL << XSTATE_RESERVED_BIT)
++#define XSTATE_CET_U_MASK               (1ULL << XSTATE_CET_U_BIT)
++#define XSTATE_CET_S_MASK               (1ULL << XSTATE_CET_S_BIT)
++
++/* CPUID feature bits available in XCR0 */
++#define CPUID_XSTATE_USER_MASK  (XSTATE_FP_MASK | XSTATE_SSE_MASK | \
++                                 XSTATE_YMM_MASK | XSTATE_BNDREGS_MASK | \
++                                 XSTATE_BNDCSR_MASK | XSTATE_OPMASK_MASK | \
++                                 XSTATE_ZMM_Hi256_MASK | \
++                                 XSTATE_Hi16_ZMM_MASK | XSTATE_PKRU_MASK)
++
++/* CPUID feature bits available in XSS */
++#define CPUID_XSTATE_KERNEL_MASK    (XSTATE_CET_U_MASK)
  
-v2:
-  - In CPUID.(EAX=d, ECX=1), set return ECX[n] = 0 if bit n corresponds
-    to a bit in MSR_IA32_XSS.
-  - In CPUID.(EAX=d, ECX=n), set return ECX = 1 if bit n corresponds
-    to a bit in MSR_IA32_XSS.
-  - Skip Supervisor mode xsave component when calculate User mode
-    xave component size in xsave_area_size() and x86_cpu_reset().
-
-Yang Weijiang (4):
-  x86/cpu: Add CET CPUID/XSAVES flags and data structures
-  x86/cpuid: Add XSAVES feature words and CET related state bits
-  x86/cpuid: Add support for XSAVES dependent feature enumeration
-  x86/cpu: Add user space access interface for CET MSRs
-
- target/i386/cpu.c     |  57 ++++++++++++++-
- target/i386/cpu.h     |  53 ++++++++++++++
- target/i386/kvm.c     |  73 +++++++++++++++++++
- target/i386/machine.c | 161 ++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 341 insertions(+), 3 deletions(-)
-
+ /* CPUID feature words */
+ typedef enum FeatureWord {
+@@ -536,6 +552,8 @@ typedef enum FeatureWord {
+     FEAT_VMX_EPT_VPID_CAPS,
+     FEAT_VMX_BASIC,
+     FEAT_VMX_VMFUNC,
++    FEAT_XSAVES_LO,     /* CPUID[EAX=0xd,ECX=1].ECX */
++    FEAT_XSAVES_HI,     /* CPUID[EAX=0xd,ECX=1].EDX */
+     FEATURE_WORDS,
+ } FeatureWord;
+ 
+@@ -743,6 +761,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_ECX_WAITPKG           (1U << 5)
+ /* Additional AVX-512 Vector Byte Manipulation Instruction */
+ #define CPUID_7_0_ECX_AVX512_VBMI2      (1U << 6)
++/* CET SHSTK feature */
++#define CPUID_7_0_ECX_CET_SHSTK         (1U << 7)
+ /* Galois Field New Instructions */
+ #define CPUID_7_0_ECX_GFNI              (1U << 8)
+ /* Vector AES Instructions */
+@@ -770,6 +790,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_EDX_AVX512_4VNNIW     (1U << 2)
+ /* AVX512 Multiply Accumulation Single Precision */
+ #define CPUID_7_0_EDX_AVX512_4FMAPS     (1U << 3)
++/* CET IBT feature */
++#define CPUID_7_0_EDX_CET_IBT           (1U << 20)
+ /* Speculation Control */
+ #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
+ /* Single Thread Indirect Branch Predictors */
+@@ -1260,6 +1282,19 @@ typedef struct XSavePKRU {
+     uint32_t padding;
+ } XSavePKRU;
+ 
++/* Ext. save area 11: User mode CET state */
++typedef struct XSavesCETU {
++    uint64_t u_cet;
++    uint64_t user_ssp;
++} XSavesCETU;
++
++/* Ext. save area 12: Supervisor mode CET state */
++typedef struct XSavesCETS {
++    uint64_t kernel_ssp;
++    uint64_t pl1_ssp;
++    uint64_t pl2_ssp;
++} XSavesCETS;
++
+ typedef struct X86XSaveArea {
+     X86LegacyXSaveArea legacy;
+     X86XSaveHeader header;
 -- 
 2.17.2
 
