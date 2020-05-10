@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD4B1CCE1A
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 23:05:21 +0200 (CEST)
-Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DE81CCE17
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 23:03:44 +0200 (CEST)
+Received: from localhost ([::1]:49308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXt8S-00043q-R4
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 17:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60430)
+	id 1jXt6t-0001A2-Po
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 17:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXt4s-00076L-Da
- for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:38 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:34440)
+ id 1jXt4v-0007Bl-Ec
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:42 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:44021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXt4r-00015X-QP
- for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:38 -0400
-Received: by mail-ej1-x642.google.com with SMTP id s9so6209888eju.1
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 14:01:37 -0700 (PDT)
+ id 1jXt4t-00015x-V0
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:41 -0400
+Received: by mail-ed1-x544.google.com with SMTP id g9so1683301edw.10
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 14:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=INiH/hiJ+WGtAmJUDmdS9OFn2OmFj310/NQ1BEXJmuM=;
- b=eBtQpJEI8y+EPVT4bZvJ612r7SrP/j8NZ7Wpj2Sej94Xm7r9qyPUMjQWuK1bkObWt+
- JeiS1LQEPxtmBOaqmHdT7ahxTUnN1Y9ujKs2J4KMuPio3xwBEPzo/bongGLfqO5fkgWQ
- JZ2ciQySh9UzaIzGXR2XCw96Qm1Kh+NEPSHxDGIgj/rzGIgYo0N0AKhYgjmsyms6r/vk
- +VwYrASuI7bXQgdBGpmXxfZNzw2KvKNAoKhGss8SIXuujHlt90Pfrbg4NK720+8f8kYJ
- kXbxbLdOZ6P6rOzYrRml322Zg7kR4U9MM4xD9y7Co7aXWkYaO6ORLG/F5r4VsuBhZSPY
- Q7+A==
+ bh=+ZxNxslkecYKX5bxxdVY39Xg+MqGP6GRs661eU+PrOc=;
+ b=nd0VSjkOzx4wZE4yfHeg48nPpmhdlQY+3MC+d7MMVNeqtSqE9+z9MkO62ibInFBuKk
+ +c95ytRjX5gJbsKNo+BkWXkaTjL+6vy84iYf8K5Bksg2B5V4RgjNCzSTs4CACmxkNEYR
+ iIEreaP4PS641abVl8l5LYkioe55raCklnXtZP7yfXexDkd3EnJovP8Qs9i8hu8pTD+Q
+ GJN0qTQucPS38AXwm2CSikwqC3IizEaqc7+ncZ9G8RaQ6HetbckytRT9OBNp0xzkT5w0
+ qjkBMfPG3r5BPL7QLdiXf16giWPPwWhiSmTkfbQ+8oAOwiv6cRPqpRfuXgxzToyUil6i
+ 2MMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=INiH/hiJ+WGtAmJUDmdS9OFn2OmFj310/NQ1BEXJmuM=;
- b=cvZ/odkCMh1T39X4BBM5wpIXrpXhFLw8ZY1fgauGQWp6t7gzwMQjOv6YjD7m/4VXK2
- JyanLwtJZnlE0uKuwVZH2kqAcUxmiqjHQbW2ujiS2N+Y5AQuMRD5MJDP1+rWKZROVHt5
- MomZjJy4WHz59lTC93itZlbGgfVCELy2wlrpwMByuZX9OIQPR+KImcmEvbH0q6Jg+HBX
- 6qYBgAGJfyb1PrXfBvu2Nm/+MTvp5l6oenRb7+zu1tMVriR8NrDJ9//UbqzKtg2cIC+/
- RnwA5lTg9/vtHHvMJycsmu/2G9YYNE+dkGfjDnQdEoJnm5yg01tKm1sW/g1Jzk4Psigy
- EFRg==
-X-Gm-Message-State: AGi0PuYkCSzJrcZ+EO+No7EDpiiq3OATwfXiOYYYOtuEa8cU3CdhglBy
- V4hbsqQ0FB8qiNmT0vMf6qWr8ZgaVhs=
-X-Google-Smtp-Source: APiQypIYFmVrFBhF4Mr4GGBHzBLgGzbzSybB5vkCOD8Wm5HPr79ytmmjYoHeLBL5r8QnQQCTrgzb4A==
-X-Received: by 2002:a17:906:2b96:: with SMTP id
- m22mr10561807ejg.330.1589144496393; 
- Sun, 10 May 2020 14:01:36 -0700 (PDT)
+ bh=+ZxNxslkecYKX5bxxdVY39Xg+MqGP6GRs661eU+PrOc=;
+ b=Bbt5shhzOo+VvHAk5x2fK0gosYC69nl2q57up+2js+3a4LyqsD/wkVhVBhnn5zCTX+
+ yzFKtaYgYLBecRU12DHjivoDw9w7dBWo3KwGBd59N1YlZL5mD8SH3GiSKiDYG0Qer9yN
+ B5BdrY3h6WurYaGkx+is603RejoHrEGynXm6S4oxFC1qvgl7ACztk4CA8y4r0udctZ4l
+ oys/xYBSjKU5T1I+ZNQu/BYhRrXmNooPPJHNt1LsOmZKfTZRNbioCQdouxj5Bu3DMHYe
+ PjMYQHGaewskfdhO1JK9tgZfswgcsIwyf5ylH8a/JSWyp9YUcexni3MoXPP4/3KIJKrT
+ tJzg==
+X-Gm-Message-State: AGi0Pua39few++SBtx0ccvmrRKzLPRM7n7ALbyw/FjW+2Gm8TZIIEBHk
+ VbzPF6X1DKz7fHmZlAMRjO8Bu5zv8fA=
+X-Google-Smtp-Source: APiQypKRqF9l2r5+e9JdH3s/YQq+YwyrzzCNfUrOxujBOvnWWx7bOmuw0cznetegtXdLkQvxuu068Q==
+X-Received: by 2002:a50:d0d7:: with SMTP id g23mr4850665edf.163.1589144498141; 
+ Sun, 10 May 2020 14:01:38 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id d15sm921152ejr.50.2020.05.10.14.01.34
+ by smtp.gmail.com with ESMTPSA id d15sm921152ejr.50.2020.05.10.14.01.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 14:01:35 -0700 (PDT)
+ Sun, 10 May 2020 14:01:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/12] hw/mips/fuloong2e: Rename PMON BIOS name
-Date: Sun, 10 May 2020 23:01:18 +0200
-Message-Id: <20200510210128.18343-3-f4bug@amsat.org>
+Subject: [PATCH 03/12] hw/mips/fuloong2e: Move code and update a comment
+Date: Sun, 10 May 2020 23:01:19 +0200
+Message-Id: <20200510210128.18343-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200510210128.18343-1-f4bug@amsat.org>
 References: <20200510210128.18343-1-f4bug@amsat.org>
@@ -65,8 +64,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -101,27 +100,33 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm not sure where 'pmon_fulong2e.bin' comes from. As I always
-found this bios named 'pmon_2e.bin', rename the definition.
+Move the RAM-related call closer to the RAM creation block,
+rename the ROM comment.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/mips_fulong2e.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/mips/mips_fulong2e.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
-index ef02d54b33..f067fa9720 100644
+index f067fa9720..4e1a3646af 100644
 --- a/hw/mips/mips_fulong2e.c
 +++ b/hw/mips/mips_fulong2e.c
-@@ -69,7 +69,7 @@
-  * 2, use "Bonito2edev" to replace "dir_corresponding_to_your_target_hardware"
-  * in the "Compile Guide".
-  */
--#define FULONG_BIOSNAME "pmon_fulong2e.bin"
-+#define FULONG_BIOSNAME "pmon_2e.bin"
+@@ -316,12 +316,11 @@ static void mips_fulong2e_init(MachineState *machine)
+         error_report("Invalid RAM size, should be 256MB");
+         exit(EXIT_FAILURE);
+     }
++    memory_region_add_subregion(address_space_mem, 0, machine->ram);
  
- /* PCI SLOT in fulong 2e */
- #define FULONG2E_VIA_SLOT        5
+-    /* allocate RAM */
++    /* Boot ROM */
+     memory_region_init_rom(bios, NULL, "fulong2e.bios", BIOS_SIZE,
+                            &error_fatal);
+-
+-    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
+ 
+     /*
 -- 
 2.21.3
 
