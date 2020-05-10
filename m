@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990561CCE18
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 23:03:45 +0200 (CEST)
-Received: from localhost ([::1]:49458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 521AF1CCE1C
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 23:07:39 +0200 (CEST)
+Received: from localhost ([::1]:33918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXt6u-0001Do-Lb
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 17:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60448)
+	id 1jXtAg-0008Cr-Dt
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 17:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXt4x-0007FI-W4
- for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:44 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34855)
+ id 1jXt4z-0007JW-S5
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:47 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:42067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXt4x-00016G-9h
- for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:43 -0400
-Received: by mail-ed1-x541.google.com with SMTP id h15so3897782edv.2
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 14:01:42 -0700 (PDT)
+ id 1jXt4z-00016T-4V
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:45 -0400
+Received: by mail-ed1-x541.google.com with SMTP id s10so6189419edy.9
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 14:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+8JRvFNRcXTIFmUjOpwGkhhocKvXrzubaGtLH/+phWc=;
- b=UkhvGcafC1WLA02XEgfJwZaDnXKTne00koNyzc+xMEbN8enfImt8rE9jv+NWE8Zqgp
- bIZAxNlYfRxGNotOpEK5zut0hhorXZUUiVtrEvwlA3xxYwJVC2FeKzIwsUzj9eYvnQSf
- OalBe3zDrNIz0fTkjSD4MDP3mRf8vrlq1DkiEck+5areTakJLzUcMwd5qy08N9S3y/7B
- OszKaJbQc11xsikJrj8hLZGhyaD9zQh/JT1l1vBvCmty0PR1jLwYQrQnY+QzC/22rNfZ
- FsVGOcInzu5FelFTbOGkfzOWv0+/9kMXM+uVP9NxR0ZBVmWPFRKzankKbfJWx/PFH7H+
- 3Hrg==
+ bh=BXdTrm0G7e8AJaMl1cQX+rO0kJVj/ZnPckUe++HqUug=;
+ b=R6blrxJLXjFopvNoqjcbWyGA0Tx2C5Ho57LJOBFAsi+UIoBntgsouUwP4NedlHP+41
+ FSR1g4zzpWnWamBjfUrzJHvI7kMXm+QqVRmPR568ef4cTn8xPjjhDl0o8wOox3piyp4q
+ txJnM4lkPNs9egQm/EeJj1qdfllhzkx0pfQRxJOt7cxjI3UdWA1KJDOXi2JaNftCDxOj
+ uM4j3gF8sf5nxRoaLvV9Oo0noJBA/hlaO/D7Ihc6R9zAm9dKtpsWTElFtApC5+orKIvq
+ dsPO7Wgi4jPxaVFtX2Zn6OcFp/4+B96Vz4Rx2DRPWpw2h95kIv59HJKAqZUW2eq8hG0A
+ 0SYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+8JRvFNRcXTIFmUjOpwGkhhocKvXrzubaGtLH/+phWc=;
- b=rinDKnazgqHpfQBjv1/vJ1uzFcbgstswFOSicvYivC7IlptiHPeiICWvZacKTm9d1X
- GwpsY2ursJYshpYPyOHNTSjoL6QvzTY9m1p39/SuCHsACSG9Icxcv1BIh3BQ89txfahw
- wtuMbDUC5cfJ5e750oDpIYmoq1tR3PmIuDzCUBebsuNARFIQNVb3zCDk2xgr3UirMdgC
- 8SIOw3o+wU8l4pUMwvHjTlRhWcPB6dpFLPYnK0hq5iUBdI7Jx/zcj9x9U5JP22IXiP6a
- VgefZ79VoCxbasNagutvw546qd/8gNYQVThLKNYFjdxKP8nkpKYf3TDkQ4Ep9j5aIc8w
- vAQA==
-X-Gm-Message-State: AGi0PuaMvXzK5w7zewWdN9witGyE3vDRyNv89o3prPmYzIycTzd69Uh+
- owNlmObbL1ca+mwGlK/Xo6ffH33M1Jg=
-X-Google-Smtp-Source: APiQypIsdAbUhiN+KoO/9H7cEVcnhsqu+LzqhQZvQrMQ5bfNUC6Gvz6cvQDpev7Q/gf5SWkKJcY24Q==
-X-Received: by 2002:a50:8b42:: with SMTP id l60mr10567401edl.55.1589144501743; 
- Sun, 10 May 2020 14:01:41 -0700 (PDT)
+ bh=BXdTrm0G7e8AJaMl1cQX+rO0kJVj/ZnPckUe++HqUug=;
+ b=LE3FNNEzRSPBR51cRPOAxvqjmtaazhlTOx4m7x8zW/k1QdECdKA/+4GSDM0+nNW2uX
+ 6levq8PE/9TUxtTt2gnP3IhbDiHjWbXhGSYseq2Utq2dQf15T5FukXIWvEegciE2JcKB
+ t14zGQLJfYW9LZxEj6pkkARGaSNATD06Dk3QpHKRHAxGgQvgwbzcm7O9a8jrCGDiw8ne
+ AZtYkT+4AhpFo+U0vgNLp+wuS85hZTfzeM4V8lPV8cdcmRxNESy6I9pxNWNKXtRqG3Ty
+ dAeNf974ObCMK/V2VQucwf7crp27TdUoIbLp9q6xIgTJusGU6F/HOILRPcTtrzcnLtBe
+ glkQ==
+X-Gm-Message-State: AGi0PuafQL3wtkPi+ZtKBstJNvmbWZYQWMXUwWygJQTZHfEYOHlRzq9X
+ TO+97BPsewdUj5/6lY60ujK1+nwZ2iA=
+X-Google-Smtp-Source: APiQypJd3X5j25RzbHX5+Dee748Upsxfeezlggd4uhxe70bm5KdIiYOjCNeBzNFcibw5/D/KWT5KXQ==
+X-Received: by 2002:a05:6402:1d1c:: with SMTP id
+ dg28mr10856953edb.315.1589144503742; 
+ Sun, 10 May 2020 14:01:43 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id d15sm921152ejr.50.2020.05.10.14.01.40
+ by smtp.gmail.com with ESMTPSA id d15sm921152ejr.50.2020.05.10.14.01.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 14:01:41 -0700 (PDT)
+ Sun, 10 May 2020 14:01:42 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/12] hw/pci-host: Use CONFIG_PCI_BONITO to select the Bonito
- North Bridge
-Date: Sun, 10 May 2020 23:01:21 +0200
-Message-Id: <20200510210128.18343-6-f4bug@amsat.org>
+Subject: [PATCH 06/12] hw/pci-host/bonito: Fix DPRINTF() format strings
+Date: Sun, 10 May 2020 23:01:22 +0200
+Message-Id: <20200510210128.18343-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200510210128.18343-1-f4bug@amsat.org>
 References: <20200510210128.18343-1-f4bug@amsat.org>
@@ -90,9 +90,10 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Huacai Chen <chenhuacai@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Huacai Chen <chenhuacai@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
  Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
@@ -100,56 +101,42 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Ease the kconfig selection by introducing CONFIG_PCI_BONITO to select
-the Bonito North Bridge.
-
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/Kconfig           | 1 +
- hw/pci-host/Kconfig       | 4 ++++
- hw/pci-host/Makefile.objs | 2 +-
- 3 files changed, 6 insertions(+), 1 deletion(-)
+ hw/pci-host/bonito.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index cd38546689..67d39c56a4 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -43,6 +43,7 @@ config JAZZ
+diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+index b9bfe3c417..10ead31e4f 100644
+--- a/hw/pci-host/bonito.c
++++ b/hw/pci-host/bonito.c
+@@ -239,7 +239,7 @@ static void bonito_writel(void *opaque, hwaddr addr,
  
- config FULOONG
-     bool
-+    select PCI_BONITO
+     saddr = addr >> 2;
  
- config MIPS_CPS
-     bool
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 9642c77e98..8db41edc7e 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -55,3 +55,7 @@ config PCI_EXPRESS_DESIGNWARE
-     bool
-     select PCI_EXPRESS
-     select MSI_NONBROKEN
-+
-+config PCI_BONITO
-+    select PCI
-+    bool
-diff --git a/hw/pci-host/Makefile.objs b/hw/pci-host/Makefile.objs
-index 8c87e8494d..e422e0aca0 100644
---- a/hw/pci-host/Makefile.objs
-+++ b/hw/pci-host/Makefile.objs
-@@ -12,7 +12,7 @@ common-obj-$(CONFIG_PPCE500_PCI) += ppce500.o
- common-obj-$(CONFIG_VERSATILE_PCI) += versatile.o
+-    DPRINTF("bonito_writel "TARGET_FMT_plx" val %x saddr %x\n",
++    DPRINTF("bonito_writel "TARGET_FMT_plx" val %lx saddr %x\n",
+             addr, val, saddr);
+     switch (saddr) {
+     case BONITO_BONPONCFG:
+@@ -327,7 +327,7 @@ static void bonito_pciconf_writel(void *opaque, hwaddr addr,
+     PCIBonitoState *s = opaque;
+     PCIDevice *d = PCI_DEVICE(s);
  
- common-obj-$(CONFIG_PCI_SABRE) += sabre.o
--common-obj-$(CONFIG_FULONG) += bonito.o
-+common-obj-$(CONFIG_PCI_BONITO) += bonito.o
- common-obj-$(CONFIG_PCI_I440FX) += i440fx.o
- common-obj-$(CONFIG_XEN_IGD_PASSTHROUGH) += xen_igd_pt.o
- common-obj-$(CONFIG_PCI_EXPRESS_Q35) += q35.o
+-    DPRINTF("bonito_pciconf_writel "TARGET_FMT_plx" val %x\n", addr, val);
++    DPRINTF("bonito_pciconf_writel "TARGET_FMT_plx" val %lx\n", addr, val);
+     d->config_write(d, addr, val, 4);
+ }
+ 
+@@ -474,7 +474,7 @@ static void bonito_spciconf_write(void *opaque, hwaddr addr, uint64_t val,
+     uint32_t pciaddr;
+     uint16_t status;
+ 
+-    DPRINTF("bonito_spciconf_write "TARGET_FMT_plx" size %d val %x\n",
++    DPRINTF("bonito_spciconf_write "TARGET_FMT_plx" size %d val %lx\n",
+             addr, size, val);
+ 
+     pciaddr = bonito_sbridge_pciaddr(s, addr);
 -- 
 2.21.3
 
