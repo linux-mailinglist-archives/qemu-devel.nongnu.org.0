@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665241CC96A
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0AA1CC969
 	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 10:32:52 +0200 (CEST)
-Received: from localhost ([::1]:50270 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:50302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXhOE-0003KL-Oz
+	id 1jXhOE-0003Kz-T2
 	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 04:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
- id 1jXhMG-0001cf-TD
+ id 1jXhMG-0001ci-Pi
  for qemu-devel@nongnu.org; Sun, 10 May 2020 04:30:48 -0400
-Received: from mail-m971.mail.163.com ([123.126.97.1]:47414)
+Received: from mail-m971.mail.163.com ([123.126.97.1]:47416)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zxq_yx_007@163.com>) id 1jXhMB-0006eX-Th
- for qemu-devel@nongnu.org; Sun, 10 May 2020 04:30:47 -0400
+ (envelope-from <zxq_yx_007@163.com>) id 1jXhMD-0006eZ-Np
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 04:30:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=Kr5tK/lJOCD/Lw7Hi7
- LPIehwjT6/hFwPvHylzYiwoO0=; b=FZlMZXdMjdmJIF+jY+hifnt09zCE7Exf3T
- kIxuu8lmsJB9pFXYt29Lq+C64lE+eO39Ub5yrAhhO/pqbujMNqzkyY2rFBl/eZy2
- maCK77q/to+6jCti++kXVtSFCKL5HxKmq/RnL6BTUVmVb3mMde/GONnBUfjc/9AH
- guR72+HI8=
+ s=s110527; h=From:Subject:Date:Message-Id; bh=lVrFysFkDG9ewq07JW
+ wjB/lue4dFXuRJNZJNnV0jr8w=; b=MIVgIaNCy8N3JCNLJIS5qQ2XVVb7r0n9CK
+ HlGVao3mbIpB4K1mNppxjhp+CtvF5XffyrL63D45xzK77nUkns141LHquy1Pq9z/
+ Aqrswd6AZwLg0MptOxFQjVfqOtOvIwpxHDs7oN0CVKQwRBXjFijo0lo3eOu5o4hJ
+ EU/pYUDNM=
 Received: from localhost.localdomain (unknown [111.194.184.25])
- by smtp1 (Coremail) with SMTP id GdxpCgAHJ_UKuLdej37fBA--.10S3;
+ by smtp1 (Coremail) with SMTP id GdxpCgAHJ_UKuLdej37fBA--.10S4;
  Sun, 10 May 2020 16:15:16 +0800 (CST)
 From: xiaoqiang zhao <zxq_yx_007@163.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 1/3] qemu-sockets: add abstract UNIX domain socket
- support
-Date: Sun, 10 May 2020 16:14:51 +0800
-Message-Id: <20200510081453.2915-2-zxq_yx_007@163.com>
+Subject: [PATCH RESEND v3 2/3] tests/util-sockets: add abstract unix socket
+ cases
+Date: Sun, 10 May 2020 16:14:52 +0800
+Message-Id: <20200510081453.2915-3-zxq_yx_007@163.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200510081453.2915-1-zxq_yx_007@163.com>
 References: <20200510081453.2915-1-zxq_yx_007@163.com>
-X-CM-TRANSID: GdxpCgAHJ_UKuLdej37fBA--.10S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW3AF1xJFy3GFWfKF45ZF4fKrg_yoW7KF1kpr
- y5K3Z8KayrJw4Igrs3Xa1UCr1fA3ZYgryUW3y8JwnY9ws5Ww18Za4UKryYgry5JrW3W347
- urn0gr4UCF9xJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UY9a9UUUUU=
+X-CM-TRANSID: GdxpCgAHJ_UKuLdej37fBA--.10S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZw1kurWkCFyfXF13GrW3Wrg_yoW5Jw4xpF
+ yfGFy5Kw4rAFs7uwsxJaykXr1fGF4rZa1jy3s3A3W5Ar4DG34YqFsYkFyUtw1xAFW8Xw4S
+ 9rnxKF10gw43taDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UpmhwUUUUU=
 X-Originating-IP: [111.194.184.25]
-X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/xtbBEAogxlUMQ9JU9QAAsV
+X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/1tbiMwwgxlXl3hG+xwAAsf
 Received-SPF: pass client-ip=123.126.97.1; envelope-from=zxq_yx_007@163.com;
  helo=mail-m971.mail.163.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 04:15:21
@@ -72,191 +72,114 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-unix_listen/connect_saddr now support abstract address types
-
-two aditional BOOL switches are introduced:
-tight: whether to set @addrlen to the minimal string length,
-       or the maximum sun_path length. default is TRUE
-abstract: whether we use abstract address. default is FALSE
-
-cli example:
--monitor unix:/tmp/unix.socket,abstract,tight=off
-OR
--chardev socket,path=/tmp/unix.socket,id=unix1,abstract,tight=on
+add cases to test tight and non-tight for abstract address type
 
 Signed-off-by: xiaoqiang zhao <zxq_yx_007@163.com>
 ---
- chardev/char-socket.c |  4 ++++
- chardev/char.c        |  7 +++++++
- qapi/sockets.json     |  9 ++++++++-
- util/qemu-sockets.c   | 39 ++++++++++++++++++++++++++++++++-------
- 4 files changed, 51 insertions(+), 8 deletions(-)
+ tests/test-util-sockets.c | 83 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 185fe38dda..16f2211091 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -1380,6 +1380,8 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-     const char *host = qemu_opt_get(opts, "host");
-     const char *port = qemu_opt_get(opts, "port");
-     const char *fd = qemu_opt_get(opts, "fd");
-+    bool tight = qemu_opt_get_bool(opts, "tight", true);
-+    bool abstract = qemu_opt_get_bool(opts, "abstract", false);
-     SocketAddressLegacy *addr;
-     ChardevSocket *sock;
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index 5fd947c7bf..8042fb9276 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -227,6 +227,84 @@ static void test_socket_fd_pass_num_nocli(void)
+     g_free(addr.u.fd.str);
+ }
  
-@@ -1431,6 +1433,8 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-         addr->type = SOCKET_ADDRESS_LEGACY_KIND_UNIX;
-         q_unix = addr->u.q_unix.data = g_new0(UnixSocketAddress, 1);
-         q_unix->path = g_strdup(path);
-+        q_unix->tight = tight;
-+        q_unix->abstract = abstract;
-     } else if (host) {
-         addr->type = SOCKET_ADDRESS_LEGACY_KIND_INET;
-         addr->u.inet.data = g_new(InetSocketAddress, 1);
-diff --git a/chardev/char.c b/chardev/char.c
-index e77564060d..f44fda3a92 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -939,6 +939,13 @@ QemuOptsList qemu_chardev_opts = {
-         },{
-             .name = "logappend",
-             .type = QEMU_OPT_BOOL,
-+        },{
-+            .name = "tight",
-+            .type = QEMU_OPT_BOOL,
-+            .def_value_str = "on",
-+        },{
-+            .name = "abstract",
-+            .type = QEMU_OPT_BOOL,
-         },
-         { /* end of list */ }
-     },
-diff --git a/qapi/sockets.json b/qapi/sockets.json
-index ea933ed4b2..e7aa096cde 100644
---- a/qapi/sockets.json
-+++ b/qapi/sockets.json
-@@ -73,12 +73,19 @@
- # Captures a socket address in the local ("Unix socket") namespace.
- #
- # @path: filesystem path to use
-+# @tight: pass a socket address length that does not include the whole
-+#         struct sockaddr_un record but (besides other components) only
-+#         the relevant part of the filename or abstract string.
-+#         default value is 'true'
-+# @abstract: whether this is a abstract address, default is 'false'
- #
- # Since: 1.3
- ##
- { 'struct': 'UnixSocketAddress',
-   'data': {
--    'path': 'str' } }
-+    'path': 'str',
-+    '*tight': 'bool',
-+    '*abstract': 'bool' } }
- 
- ##
- # @VsockSocketAddress:
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 86c48b9fa5..b37d288866 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -863,6 +863,7 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
-     char *pathbuf = NULL;
-     const char *path;
-     size_t pathlen;
-+    size_t addrlen;
- 
-     sock = qemu_socket(PF_UNIX, SOCK_STREAM, 0);
-     if (sock < 0) {
-@@ -879,9 +880,11 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
-     }
- 
-     pathlen = strlen(path);
--    if (pathlen > sizeof(un.sun_path)) {
-+    if (pathlen > sizeof(un.sun_path) ||
-+        (saddr->abstract && pathlen > (sizeof(un.sun_path) - 1))) {
-         error_setg(errp, "UNIX socket path '%s' is too long", path);
-         error_append_hint(errp, "Path must be less than %zu bytes\n",
-+                          saddr->abstract ? sizeof(un.sun_path) - 1 :
-                           sizeof(un.sun_path));
-         goto err;
-     }
-@@ -903,7 +906,7 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
-         close(fd);
-     }
- 
--    if (unlink(path) < 0 && errno != ENOENT) {
-+    if (!saddr->abstract && unlink(path) < 0 && errno != ENOENT) {
-         error_setg_errno(errp, errno,
-                          "Failed to unlink socket %s", path);
-         goto err;
-@@ -911,9 +914,19 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
- 
-     memset(&un, 0, sizeof(un));
-     un.sun_family = AF_UNIX;
--    memcpy(un.sun_path, path, pathlen);
-+    addrlen = sizeof(un);
- 
--    if (bind(sock, (struct sockaddr*) &un, sizeof(un)) < 0) {
-+    if (saddr->abstract) {
-+        un.sun_path[0] = '\0';
-+        memcpy(&un.sun_path[1], path, pathlen);
-+        if (saddr->tight) {
-+            addrlen = offsetof(struct sockaddr_un, sun_path) + 1 + pathlen;
-+        }
-+    } else {
-+        memcpy(un.sun_path, path, pathlen);
-+    }
++static gpointer unix_server_thread_func(gpointer user_data)
++{
++    SocketAddress addr;
++    Error *err = NULL;
++    int fd = -1;
++    int connfd = -1;
++    struct sockaddr_un un;
++    socklen_t len = sizeof(un);
++    char name[] = "/tmp/unix-test.sock";
 +
-+    if (bind(sock, (struct sockaddr *) &un, addrlen) < 0) {
-         error_setg_errno(errp, errno, "Failed to bind socket to %s", path);
-         goto err;
++    addr.type = SOCKET_ADDRESS_TYPE_UNIX;
++    addr.u.q_unix.path = name;
++    addr.u.q_unix.tight = user_data != NULL;
++    addr.u.q_unix.abstract = true;
++
++    fd = socket_listen(&addr, 1, &err);
++    g_assert_cmpint(fd, >=, 0);
++    g_assert(fd_is_socket(fd));
++
++    connfd = accept(fd, (struct sockaddr *)&un, &len);
++    g_assert_cmpint(connfd, !=, -1);
++
++    close(fd);
++
++    return NULL;
++}
++
++static gpointer unix_client_thread_func(gpointer user_data)
++{
++    SocketAddress addr;
++    Error *err = NULL;
++    int fd = -1;
++    char name[] = "/tmp/unix-test.sock";
++
++    addr.type = SOCKET_ADDRESS_TYPE_UNIX;
++    addr.u.q_unix.path = name;
++    addr.u.q_unix.tight = user_data != NULL;
++    addr.u.q_unix.abstract = true;
++
++    fd = socket_connect(&addr, &err);
++
++    g_assert_cmpint(fd, >=, 0);
++
++    close(fd);
++
++    return NULL;
++}
++
++static void test_socket_unix_abstract_good(void)
++{
++    /* non tight socklen serv and cli */
++    GThread *serv = g_thread_new("abstract_unix_server",
++                                 unix_server_thread_func,
++                                 NULL);
++
++    sleep(1);
++
++    GThread *cli = g_thread_new("abstruct_unix_client",
++                                unix_client_thread_func,
++                                NULL);
++
++    g_thread_join(cli);
++    g_thread_join(serv);
++
++    /* tight socklen serv and cli */
++    serv = g_thread_new("abstract_unix_server",
++                        unix_server_thread_func,
++                        (gpointer)1);
++
++    sleep(1);
++
++    cli = g_thread_new("abstruct_unix_client",
++                       unix_client_thread_func,
++                       (gpointer)1);
++
++    g_thread_join(cli);
++    g_thread_join(serv);
++}
+ 
+ int main(int argc, char **argv)
+ {
+@@ -265,6 +343,11 @@ int main(int argc, char **argv)
+                         test_socket_fd_pass_num_nocli);
      }
-@@ -936,6 +949,7 @@ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
-     struct sockaddr_un un;
-     int sock, rc;
-     size_t pathlen;
-+    size_t addrlen;
  
-     if (saddr->path == NULL) {
-         error_setg(errp, "unix connect: no path specified");
-@@ -949,21 +963,32 @@ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
-     }
- 
-     pathlen = strlen(saddr->path);
--    if (pathlen > sizeof(un.sun_path)) {
-+    if (pathlen > sizeof(un.sun_path) ||
-+        (saddr->abstract && pathlen > (sizeof(un.sun_path) - 1))) {
-         error_setg(errp, "UNIX socket path '%s' is too long", saddr->path);
-         error_append_hint(errp, "Path must be less than %zu bytes\n",
-+                          saddr->abstract ? sizeof(un.sun_path) - 1 :
-                           sizeof(un.sun_path));
-         goto err;
-     }
- 
-     memset(&un, 0, sizeof(un));
-     un.sun_family = AF_UNIX;
--    memcpy(un.sun_path, saddr->path, pathlen);
-+    addrlen = sizeof(un);
- 
-+    if (saddr->abstract) {
-+        un.sun_path[0] = '\0';
-+        memcpy(&un.sun_path[1], saddr->path, pathlen);
-+        if (saddr->tight) {
-+            addrlen = offsetof(struct sockaddr_un, sun_path) + 1 + pathlen;
-+        }
-+    } else {
-+        memcpy(un.sun_path, saddr->path, pathlen);
-+    }
-     /* connect to peer */
-     do {
-         rc = 0;
--        if (connect(sock, (struct sockaddr *) &un, sizeof(un)) < 0) {
-+        if (connect(sock, (struct sockaddr *) &un, addrlen) < 0) {
-             rc = -errno;
-         }
-     } while (rc == -EINTR);
++#ifdef __linux__
++        g_test_add_func("/util/socket/unix-abstract/good",
++                        test_socket_unix_abstract_good);
++#endif
++
+ end:
+     return g_test_run();
+ }
 -- 
 2.17.1
 
