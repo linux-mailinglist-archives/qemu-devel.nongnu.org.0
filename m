@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427651CCE1F
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 23:08:34 +0200 (CEST)
-Received: from localhost ([::1]:36142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B56B1CCE19
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 23:05:19 +0200 (CEST)
+Received: from localhost ([::1]:56444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXtBZ-0000hZ-CT
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 17:08:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60456)
+	id 1jXt8Q-00041G-Jf
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 17:05:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXt53-0007OG-Dd
- for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:49 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36224)
+ id 1jXt54-0007Pn-2z
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:51 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:33723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXt51-00016a-Cv
- for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:48 -0400
-Received: by mail-ej1-x643.google.com with SMTP id z5so5392807ejb.3
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 14:01:46 -0700 (PDT)
+ id 1jXt53-00016h-61
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:49 -0400
+Received: by mail-ej1-x643.google.com with SMTP id nv1so6204151ejb.0
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 14:01:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gEArLcdVFbJa5wuXqVtjUOCd7tloprZST1TLvA6aPgg=;
- b=BPgszTLex8FCtSMffY6aAHz8T7k64zx3u6G1BEGSP3dYbD2FPuQ7t3OZZ+FkoeAe/V
- FCy9zmDdrkHmmw4wfWmr58RmfCqSN96Pq7mA1O+aGALRmA4oJwCvl+M96N3ZsMKSUzT7
- vviR01ddeiAEs4uzBmgVAulingKuuzTlgy1WaQOdCQJAtm4bqmM42vE/xQJPNSzJIpMR
- ON+dJCoQR5cyPdIJeuTjpib7y51T9lTbQrzEdGFQAZeytNP/bkFEy4yO34K46JukBY2e
- Z7zOEWDdLwUsg1/6lVsv7fDKeAW/+Yg/xaZde0RhjCV//PighnD0yIYsplXH0Nvb2Utj
- /SEg==
+ bh=RQF0AIKv5jY/IdYIv+ZhyhMOTflQHjTZ2jYUwkEq1vA=;
+ b=XtZzbUXx2u9LILr4KkET2BaOdIk2n+4GvRBfzhOUapPMkFvAUAZ+Q/v/hSnS8hssZt
+ kSDj6HArDA30ZTzwa83gfqWFuYpwqHgrBFx9fLwLx6IK8uERZbcvnb6oMJSsnEBfuAGk
+ 4ieeazU62TuCN0CyKPR2K987s9bQoJW9Jf1xmQXPgCXURy30yPpGb0zdCh2moloBNknj
+ bGh5w/FhEUNZEOam1p1E2k5j0RY3bsz0iowWNKKc6XUjF5ecw0A8IXkgIy9mA8qAcuQ8
+ vLypSHhirXUbYk9drPBQPj8N0bNjKjvi8TrKTtnrrX+YEQqxypBwu8Zljkc7dG1CO3zy
+ ydxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=gEArLcdVFbJa5wuXqVtjUOCd7tloprZST1TLvA6aPgg=;
- b=fjzuSYaSDT2st7FgJU9yIDWLWsTRfQvtu3qX7LxVfIMmqFvJ7osEVlhwHFRlBBq4hJ
- bpoeFrzgIAygOJUqOIVWqmAi5HDh7M5FtPrzkx/Cg+gqI/BXVtOFeg+Wg7AaIvtF5hEb
- pDgjbt5eJYfFtgeNVcfO+w/NbWfFpiXrDPSjxHiy6KJLYN1OC5vDlc0NAL2lh1I1RgYd
- XhbCTFwLdqevWQ9VedwGIEFykofhBsSKH1r03jnsD0AFehdViR/qwsoO9Jsd1jqKDzNo
- mua5EZGbkV09M0uUfJd/lLMjBhrSl024OOUtha4KWgmorMvFTiWp8FdJCSy8psJIexCh
- wWFA==
-X-Gm-Message-State: AGi0Pub/aKai5SKyZpAVTT8teRYVcR//cn144cZ15oI6vjlD/pb+NcZT
- xCjgl8PdgGEQCQagWYifHjyeGu78wao=
-X-Google-Smtp-Source: APiQypI8vAWsC49U84xRyk7hrGOMA3Ca9DpvjVKp5L0Ublw06S+z/eMkLROJOpJhfM9yYWSlXUNKPw==
-X-Received: by 2002:a17:906:3952:: with SMTP id
- g18mr10982023eje.191.1589144505540; 
- Sun, 10 May 2020 14:01:45 -0700 (PDT)
+ bh=RQF0AIKv5jY/IdYIv+ZhyhMOTflQHjTZ2jYUwkEq1vA=;
+ b=T+jSP9pFAkl7yJ3l5dgMD3pIOHZ0HyC5gzcJndOaceqBZt9z/5JHpuSuckkV6wOCnX
+ pncRuXz9cEdz9TjC6KhKvcSWSeHxBdCUG3PCFv4c/KPTMAeVvBBmvyXqzlZ+ZxlsJZ+f
+ S72jNyoj25SJke05bu5xtT2Zb2hPdtCSTdmgo7lQqgF6dRIRsady+OW3sV1o6oq9kswi
+ N0CuNf6929dq7Koreol69ZsmaxJxz2c+bBjYGAgOqhotNTqOi3CbT/vIEA0FtdflpDLq
+ Mtbme3eFy7SPOKaGVZBz/OSVRhrp3dAbzbAFVa81iGbYhc7slpqqiy4rdNNbXDmOfZMx
+ todQ==
+X-Gm-Message-State: AGi0PuZayO3H1ffEFf+jCVDZlZnqcpK/aG7N9jJkvD2qyKuSXzMPuZat
+ z9R0HPsmZ1BpUXsbz2DfxOZ0WhfQ1ok=
+X-Google-Smtp-Source: APiQypJguef/0Wk97lVqhjPJ6X9mmKks1nlVC2PgMFmVNjT43chokAFJDyJn+ITMrPnnrodUzMBVlg==
+X-Received: by 2002:a17:906:4147:: with SMTP id
+ l7mr9861603ejk.360.1589144507366; 
+ Sun, 10 May 2020 14:01:47 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id d15sm921152ejr.50.2020.05.10.14.01.43
+ by smtp.gmail.com with ESMTPSA id d15sm921152ejr.50.2020.05.10.14.01.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 14:01:44 -0700 (PDT)
+ Sun, 10 May 2020 14:01:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/12] hw/pci-host/bonito: Map peripheral using physical
- address
-Date: Sun, 10 May 2020 23:01:23 +0200
-Message-Id: <20200510210128.18343-8-f4bug@amsat.org>
+Subject: [PATCH 08/12] hw/pci-host/bonito: Map all the Bonito64 I/O range
+Date: Sun, 10 May 2020 23:01:24 +0200
+Message-Id: <20200510210128.18343-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200510210128.18343-1-f4bug@amsat.org>
 References: <20200510210128.18343-1-f4bug@amsat.org>
@@ -102,33 +101,48 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peripherals are mapped at physical address on busses.
-Only CPU/IOMMU can use virtual addresses.
+To ease following guest accesses to the Bonito64 chipset,
+map its I/O range as UnimplementedDevice.
+We can now see the accesses to unimplemented peripheral
+using the '-d unimp' command line option.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/bonito.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/pci-host/bonito.c | 3 +++
+ hw/pci-host/Kconfig  | 1 +
+ 2 files changed, 4 insertions(+)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index 10ead31e4f..7ed462ffb5 100644
+index 7ed462ffb5..9761780f44 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -647,12 +647,12 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+@@ -48,6 +48,7 @@
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+ #include "exec/address-spaces.h"
++#include "hw/misc/unimp.h"
+ 
+ /* #define DEBUG_BONITO */
+ 
+@@ -644,6 +645,8 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+     sysbus_init_mmio(sysbus, &phb->data_mem);
+     sysbus_mmio_map(sysbus, 2, BONITO_SPCICONFIG_BASE);
+ 
++    create_unimplemented_device("bonito", BONITO_REG_BASE, BONITO_REG_SIZE);
++
      memory_region_init_io(&s->iomem_ldma, OBJECT(s), &bonito_ldma_ops, s,
                            "ldma", 0x100);
      sysbus_init_mmio(sysbus, &s->iomem_ldma);
--    sysbus_mmio_map(sysbus, 3, 0xbfe00200);
-+    sysbus_mmio_map(sysbus, 3, 0x1fe00200);
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 8db41edc7e..036a61877a 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -58,4 +58,5 @@ config PCI_EXPRESS_DESIGNWARE
  
-     memory_region_init_io(&s->iomem_cop, OBJECT(s), &bonito_cop_ops, s,
-                           "cop", 0x100);
-     sysbus_init_mmio(sysbus, &s->iomem_cop);
--    sysbus_mmio_map(sysbus, 4, 0xbfe00300);
-+    sysbus_mmio_map(sysbus, 4, 0x1fe00300);
- 
-     /* Map PCI IO Space  0x1fd0 0000 - 0x1fd1 0000 */
-     memory_region_init_alias(&s->bonito_pciio, OBJECT(s), "isa_mmio",
+ config PCI_BONITO
+     select PCI
++    select UNIMP
+     bool
 -- 
 2.21.3
 
