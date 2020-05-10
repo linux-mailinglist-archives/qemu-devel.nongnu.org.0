@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F5B1CCBFF
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 17:37:04 +0200 (CEST)
-Received: from localhost ([::1]:56704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA551CCC02
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 17:38:16 +0200 (CEST)
+Received: from localhost ([::1]:59476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXo0l-0006w6-GS
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 11:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52534)
+	id 1jXo1v-0008Td-K5
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 11:38:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXnsr-0006GI-5L
- for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:53 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41921)
+ id 1jXnss-0006JH-Um
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:54 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXnsq-0000yz-Go
- for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:52 -0400
-Received: by mail-wr1-x443.google.com with SMTP id g13so7719641wrb.8
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 08:28:52 -0700 (PDT)
+ id 1jXnss-0000zF-9b
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:54 -0400
+Received: by mail-wm1-x333.google.com with SMTP id n5so1171643wmd.0
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 08:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Px9WR0XkE8GuycVpdZd0K01muDBPGEtID7KYWMZhl04=;
- b=Y1zj040dxOQID0WLZ0m8woVy/TYdTCDtIYrQxUxxWnGCYrKmdzVNM6+kPlv1DILaXW
- 2m6SPPO6V9JxqNKf7P4Xo+VsWMYUTC3fpFSHxHLUoF0+BV5ITXncxcohz6BMta4t/i87
- Cpni2UjGou5VvRXgSRgbCSFiE6iiIXb2m8YUj4kab6p1rINwq5Aam3DeR/XAM6xwHOgi
- 2Hvsz2RAsTLlYrbH1+3fYRzhO5lvmkZ0BCbP0+elVWlsJig/MpsnSt16rTaVRktlRD1Q
- aajxQsRb/ef4X4uaCy07aQ0GKSD6s2DAnglLB51RFvkiov34oucCazGUT/yjt/I2lhCJ
- 6gew==
+ bh=JZAHSZ9/RMyf7zmTq4LzX8Lv/0TSeN7lgrmPTggBXqs=;
+ b=NRL5funxvIR+mwEtIZiowPP+soIu5SGLOtHPcDKMfHP70XokVySO9O2gQh1m/39F17
+ yN4lI8wJMSwxt30AVojmpTrz2RusfVLHlYSCW1c+d2CkoadbcYMbGO/QI+9OlZ3Q7Gvn
+ jjJ9NfTkOD6IMKtkUAQvWKwZXNd7gCSjkYC1VdUxPQ7i5nDwRXYq+GLVEbw6QvOCxjOR
+ 1B60bHhKpfLOjjiER54NBvrtgUBCkiur2edYM+VHluxIBItiGkAH3fXKBES6MkPUIjqN
+ RqXlSmmaP59BxPpmWp4eojlVat3vTbF3DKTmn//N2oVTUdH5mZkXnBBikyFQ85P8vxnQ
+ 3pnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Px9WR0XkE8GuycVpdZd0K01muDBPGEtID7KYWMZhl04=;
- b=VAhZzJq5fLZVUW6XDQpkGSMSmXEL4T//UdQxU87lTR6W62PvC8bsIdGNuX7gp74cZv
- CCM0/1/x+ZSJ+x1jPMJulOGymkMKmDAKH3+WZ6K5/drTYu/t3187NE1B6VbJr9jPjO/j
- fjoRVjYECUTxMB+gHFh36XAA/Af3uZ5mOHgL4AXdVr3VFBmZhog0gULGg191JhxsrGMc
- 9IfBNvKcuLZXnhJ31KV3oonk+K1KFLf6bmNlBJ/SNFt0myiArYm/CJU+ON2/ciqqgqsI
- bvZPiCR8BM07oR7hsAClMaGAPfFsklPl7nnT3p3JEgu0Rlpde56Czl4vMdsAfQaApkxT
- fQDg==
-X-Gm-Message-State: AGi0PuZBBuIDj8JMVQCA0cG9cVI1r7NwtSlQQCsTbCW+UfCXG9g2KU4b
- zuBXWXVYntWs/842HPeS69t9z7C9l6A=
-X-Google-Smtp-Source: APiQypLefDygx0GN6RWBKoRnU+dqf8+G8L0kOvyE6mAKHW1LjZgq6MmF0yZdO9DDuXDqmykUm2p41w==
-X-Received: by 2002:adf:ec09:: with SMTP id x9mr13920736wrn.21.1589124530927; 
- Sun, 10 May 2020 08:28:50 -0700 (PDT)
+ bh=JZAHSZ9/RMyf7zmTq4LzX8Lv/0TSeN7lgrmPTggBXqs=;
+ b=OhxTFV7uiklfQKDAKF7Nxfkc4Rrx0rgRXFMvu5btnvan1Rw64PLA6tuwMYW1r2ua09
+ HRuR+Hx8oVzcTWIyFJAprWE9XVslvyPDJtsSxe9MCJeh7xxvrWogkTYiUUqUr6k3D565
+ 6G4SXWi/+d1Wl5BGY4FxWIp9UxybFRE0BefBHRf0mLepI3+posJGboso5XizdJTVjMuw
+ FgyqAe5JcGj1MK+Jt+gRK0JIzSa3J1d+lM8lSYiNMPOiU30Ux1ggiXIJwpNkWeJBNNXo
+ 1Pk8x36ILcTf4nIiORxnS9G4ff4tFej0gNkKCJaBry1BFRlV7y2jnPIt3v6JE1y401rr
+ +GAQ==
+X-Gm-Message-State: AGi0PuZ5eLJsQNNf/ubNAw9cThZ1n5Bs5f9m5CgMIBpATfXHo7KNq8X2
+ +6cyh1RfgjCGRSh7mkiYLI6IhTGrwMo=
+X-Google-Smtp-Source: APiQypIl/8NFotEUeOhN7zQSLmjcsU2xY2JrpUpw6dFhOp8vuiNFPoN38lGFtfb3kxj76GWHuSOwuw==
+X-Received: by 2002:a05:600c:22d1:: with SMTP id
+ 17mr25486101wmg.167.1589124532669; 
+ Sun, 10 May 2020 08:28:52 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id a67sm24186702wmc.30.2020.05.10.08.28.49
+ by smtp.gmail.com with ESMTPSA id a67sm24186702wmc.30.2020.05.10.08.28.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 08:28:50 -0700 (PDT)
+ Sun, 10 May 2020 08:28:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] hw/misc/empty_slot: Add a 'name' qdev property
-Date: Sun, 10 May 2020 17:28:37 +0200
-Message-Id: <20200510152840.13558-5-f4bug@amsat.org>
+Subject: [PATCH 5/7] hw/misc/empty_slot: Convert debug printf() to trace event
+Date: Sun, 10 May 2020 17:28:38 +0200
+Message-Id: <20200510152840.13558-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200510152840.13558-1-f4bug@amsat.org>
 References: <20200510152840.13558-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -99,45 +100,67 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a 'name' qdev property so when multiple slots are
-accessed, we can notice which one is accessed.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/core/empty_slot.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ hw/core/empty_slot.c | 19 ++++++++-----------
+ hw/core/trace-events |  4 ++++
+ 2 files changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/hw/core/empty_slot.c b/hw/core/empty_slot.c
-index 0df086fe98..576b276c4b 100644
+index 576b276c4b..d28f7f99c9 100644
 --- a/hw/core/empty_slot.c
 +++ b/hw/core/empty_slot.c
-@@ -31,6 +31,7 @@ typedef struct EmptySlot {
-     SysBusDevice parent_obj;
+@@ -14,15 +14,7 @@
+ #include "qemu/module.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/empty_slot.h"
+-
+-//#define DEBUG_EMPTY_SLOT
+-
+-#ifdef DEBUG_EMPTY_SLOT
+-#define DPRINTF(fmt, ...)                                       \
+-    do { printf("empty_slot: " fmt , ## __VA_ARGS__); } while (0)
+-#else
+-#define DPRINTF(fmt, ...) do {} while (0)
+-#endif
++#include "trace.h"
  
-     MemoryRegion iomem;
-+    char *name;
-     uint64_t size;
- } EmptySlot;
- 
-@@ -72,13 +73,17 @@ static void empty_slot_realize(DeviceState *dev, Error **errp)
+ #define TYPE_EMPTY_SLOT "empty_slot"
+ #define EMPTY_SLOT(obj) OBJECT_CHECK(EmptySlot, (obj), TYPE_EMPTY_SLOT)
+@@ -38,14 +30,19 @@ typedef struct EmptySlot {
+ static uint64_t empty_slot_read(void *opaque, hwaddr addr,
+                                 unsigned size)
  {
-     EmptySlot *s = EMPTY_SLOT(dev);
- 
-+    if (s->name == NULL) {
-+        s->name = g_strdup("empty-slot");
-+    }
-     memory_region_init_io(&s->iomem, OBJECT(s), &empty_slot_ops, s,
--                          "empty-slot", s->size);
-+                          s->name, s->size);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+-    DPRINTF("read from " TARGET_FMT_plx "\n", addr);
++    EmptySlot *s = EMPTY_SLOT(opaque);
++
++    trace_empty_slot_write(addr, size << 1, 0, size, s->name);
++
+     return 0;
  }
  
- static Property empty_slot_properties[] = {
-     DEFINE_PROP_UINT64("size", EmptySlot, size, 0),
-+    DEFINE_PROP_STRING("name", EmptySlot, name),
-     DEFINE_PROP_END_OF_LIST(),
- };
+ static void empty_slot_write(void *opaque, hwaddr addr,
+                              uint64_t val, unsigned size)
+ {
+-    DPRINTF("write 0x%x to " TARGET_FMT_plx "\n", (unsigned)val, addr);
++    EmptySlot *s = EMPTY_SLOT(opaque);
++
++    trace_empty_slot_write(addr, size << 1, val, size, s->name);
+ }
  
+ static const MemoryRegionOps empty_slot_ops = {
+diff --git a/hw/core/trace-events b/hw/core/trace-events
+index 1ac60ede6b..bbb68fb6f0 100644
+--- a/hw/core/trace-events
++++ b/hw/core/trace-events
+@@ -34,3 +34,7 @@ clock_disconnect(const char *clk) "'%s'"
+ clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', ns=%"PRIu64"->%"PRIu64
+ clock_propagate(const char *clk) "'%s'"
+ clock_update(const char *clk, const char *src, uint64_t val, int cb) "'%s', src='%s', ns=%"PRIu64", cb=%d"
++
++# empty_slot.c
++empty_slot_read(uint64_t addr, unsigned width, uint64_t value, unsigned size, const char *name) "rd addr:0x%04"PRIx64" data:0x%0*"PRIx64" size %u [%s]"
++empty_slot_write(uint64_t addr, unsigned width, uint64_t value, unsigned size, const char *name) "wr addr:0x%04"PRIx64" data:0x%0*"PRIx64" size %u [%s]"
 -- 
 2.21.3
 
