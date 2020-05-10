@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA34F1CCBF6
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 17:30:20 +0200 (CEST)
-Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B64C1CCBF9
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 17:32:47 +0200 (CEST)
+Received: from localhost ([::1]:49184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXnuF-0007Zy-T3
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 11:30:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52522)
+	id 1jXnwc-0002aS-29
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 11:32:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXnsl-00068X-UW
- for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:47 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36499)
+ id 1jXnsn-00069d-Go
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:49 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXnsl-0000yV-5J
- for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:47 -0400
-Received: by mail-wr1-x442.google.com with SMTP id y16so552166wrs.3
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 08:28:46 -0700 (PDT)
+ id 1jXnsm-0000yi-TY
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 11:28:49 -0400
+Received: by mail-wr1-x444.google.com with SMTP id k1so7744795wrx.4
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 08:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FTIVyDAEBMzFrxhPmJ8SqTBQ9LJJn+QNrQQoHkrH+DU=;
- b=msAsWSOdS3qpXwtqo0IYXM3g7YUfgKFsiIUQKUYL2NWy5aA3/NQSuBnOTcAlH9p33a
- UZSmuWWJerlcAIEcnDQW45V46Noe3XfBbpJwG0gYSVPsWP3gjGLX/zAsKrwNPf6s5OUC
- miLsWb9nqjX/ASTB6O2MtORqm907xacoV9LCVTAdB9ZLYfLpg4rKNRCFTJ9aDFuop0rx
- h//PB7STDUUx1KUbmi0eciZr9DcDQcMlKCOT+6wcFA4cFs4jH43n6qA8JlkbhJreiExo
- Nv/Il7+jf+f3AvzW48OyVzNmnK7JeUP3987SNoYatKR4H/iyrhOiZCIAywuYTfSuHp7s
- Q3jQ==
+ bh=3fNdIn+8vkXom2UjSJnuRhcE6SsVXVyDMS2MettPTi8=;
+ b=h51MAUZX9uFzwwAF1hhLyLpmXvJO1sTnOKllqyl7pw4p53EfCzvRHO9Uc8MOC7arfv
+ iZguT9JjUziMGHuU8ErE6katwJlgSAVYU42wGxY2x98pZHd9WktcgyEXGlAgQAX2uQ1T
+ QYT611ZUzjw2jta6c2nd0ulwMcxz0hX7o+ETLOZfBkcyl9+KetloMEMG/4pGe417e0EP
+ Y89nHmAYK5zGsn8HLzghXnCjH4qMYhksZ3lTfUYcuidORiinIdmV5SKxfsS+cbApzeWb
+ FjZFV+EGv2Kt3F6U/DEil3aj/+ofDTa8g84RdU39rWcjvtzgtZ4EWeHxCHrx8KLMAcms
+ 723w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FTIVyDAEBMzFrxhPmJ8SqTBQ9LJJn+QNrQQoHkrH+DU=;
- b=L3HDSX2f3OTIj2XMsYSNAki37WBZTUxcKqP5CImApX0KQ9O3iBy5oEWU1NlAMsqM4u
- aQeTO3IUWj3G0CKv+vw1KFChGmQ24GchT4irF3FAQ0mimfvvYb4Dp64XDhyVft5xJg1C
- JwVojK+7mFIFStWo3QTMnGjYeYoM1a7W3kXzRzvZejBNCDlbC7UFUPRf3+f79LWtV/oF
- NX5culJA0/2oVQeP2gBCU0BAmFdwNi89x+MvutSQz7vS17giThG+4U0vnXyUa2eur3OS
- yB/ipIJ5NNJf+LJfyjYtoQPT0Ok3ZH78F2BKi7rFu/3L7xCD70J+INhMx5ZjcU8ZSu+v
- 1t7g==
-X-Gm-Message-State: AGi0PubAhcQmEWEKchdKDkoGjUHjE5yu04+2uSPTCOeKPd7+l2SHo8YQ
- h23iFeiO+nsYL7tWleSPOkwWCQgxc4c=
-X-Google-Smtp-Source: APiQypI678r+4XFWrK/Ku+Vu7xlEl2s034DWyKkhgo6vH7aCtp/LpNJiDsZREj0SgAkWekN2tsbkrg==
-X-Received: by 2002:a5d:5189:: with SMTP id k9mr13755787wrv.3.1589124525626;
- Sun, 10 May 2020 08:28:45 -0700 (PDT)
+ bh=3fNdIn+8vkXom2UjSJnuRhcE6SsVXVyDMS2MettPTi8=;
+ b=qGzw1WxZij+z2PoS1gkAFDb+bHH2bnl+1P7UTPnNnPOCOUokd6/rSHAuXAGpFisDTG
+ lJOnK1IvLIMFdIq0A4n1RwIm2/DR0y+wDeZ6G5g/t6EbqZK17xhFClUuCryB3Oob1jCr
+ U/iVglTPAUeRsjsiYpMLd88cN1PFAisJt71qxploVvtoo5pppchsQIN4EAQGzXtc5WOa
+ T4qhNh0Q8qLHDjonA+LTESVY+W2vgJbsxqowhsEJnGmRC9MaYiZ25yRGbEow7a86qBV6
+ c8FSqCHSHupgmjBAFKmaWleLj+cRMzDXqMpLIxXAv6+2Rlo2xRI4Z4yOaeXzMkOEo36+
+ uZlg==
+X-Gm-Message-State: AGi0PuaKxLUPeJKzYQyZbDjiJ69/fMOCjknswNk4NEYFqoE20fcRmfPM
+ q+6T1sR6UobUJZnEQrD4JkcUGzpkaRA=
+X-Google-Smtp-Source: APiQypJCyPF63FjgsoVgU66F4M6tfVUV/O0MYDveuraEQAuLLaQ+Es5MikjgA/XjpqQw7+yB932Lvg==
+X-Received: by 2002:a05:6000:12c2:: with SMTP id
+ l2mr2279794wrx.133.1589124527291; 
+ Sun, 10 May 2020 08:28:47 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id a67sm24186702wmc.30.2020.05.10.08.28.44
+ by smtp.gmail.com with ESMTPSA id a67sm24186702wmc.30.2020.05.10.08.28.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 08:28:45 -0700 (PDT)
+ Sun, 10 May 2020 08:28:46 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] hw/sparc/sun4m: Use UnimplementedDevice for I/O devices
-Date: Sun, 10 May 2020 17:28:34 +0200
-Message-Id: <20200510152840.13558-2-f4bug@amsat.org>
+Subject: [PATCH 2/7] hw/misc/empty_slot: Lower address space priority
+Date: Sun, 10 May 2020 17:28:35 +0200
+Message-Id: <20200510152840.13558-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200510152840.13558-1-f4bug@amsat.org>
 References: <20200510152840.13558-1-f4bug@amsat.org>
@@ -64,8 +65,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -16
@@ -99,57 +100,28 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These devices are not slots on a bus, but real I/O devices
-that we do not implement. As the ISDN ROM would be a ROMD
-device, also model it as UnimplementedDevice.
+Empty slots model RAZ/WI access on a bus. Since we can still
+(hot) plug devices on the bus, lower the slot priority, so
+device added later is accessed first.
 
-Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sparc/sun4m.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ hw/core/empty_slot.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 9838c5a183..f1494907b0 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -47,6 +47,7 @@
- #include "hw/nvram/fw_cfg.h"
- #include "hw/char/escc.h"
- #include "hw/empty_slot.h"
-+#include "hw/misc/unimp.h"
- #include "hw/irq.h"
- #include "hw/loader.h"
- #include "elf.h"
-@@ -920,7 +921,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
-     }
+diff --git a/hw/core/empty_slot.c b/hw/core/empty_slot.c
+index 3ba450e1ca..5ab426e965 100644
+--- a/hw/core/empty_slot.c
++++ b/hw/core/empty_slot.c
+@@ -67,7 +67,7 @@ void empty_slot_init(hwaddr addr, uint64_t slot_size)
  
-     if (hwdef->sx_base) {
--        empty_slot_init(hwdef->sx_base, 0x2000);
-+        create_unimplemented_device("SUNW,sx", hwdef->sx_base, 0x2000);
-     }
+         qdev_init_nofail(dev);
  
-     nvram = m48t59_init(slavio_irq[0], hwdef->nvram_base, 0, 0x2000, 1968, 8);
-@@ -983,14 +984,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
-     if (hwdef->dbri_base) {
-         /* ISDN chip with attached CS4215 audio codec */
-         /* prom space */
--        empty_slot_init(hwdef->dbri_base+0x1000, 0x30);
-+        create_unimplemented_device("SUNW,DBRI.prom",
-+                                    hwdef->dbri_base + 0x1000, 0x30);
-         /* reg space */
--        empty_slot_init(hwdef->dbri_base+0x10000, 0x100);
-+        create_unimplemented_device("SUNW,DBRI",
-+                                    hwdef->dbri_base + 0x10000, 0x100);
+-        sysbus_mmio_map(s, 0, addr);
++        sysbus_mmio_map_overlap(s, 0, addr, -10000);
      }
+ }
  
-     if (hwdef->bpp_base) {
-         /* parallel port */
--        empty_slot_init(hwdef->bpp_base, 0x20);
-+        create_unimplemented_device("SUNW,bpp", hwdef->bpp_base, 0x20);
-     }
- 
-     initrd_size = 0;
 -- 
 2.21.3
 
