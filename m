@@ -2,78 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416E81CCC8B
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 19:13:00 +0200 (CEST)
-Received: from localhost ([::1]:47834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA6C1CCCE6
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:29:34 +0200 (CEST)
+Received: from localhost ([::1]:48396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXpVb-0007mT-9Y
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 13:12:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
+	id 1jXqhh-0005cL-7Y
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXpUA-0005q6-7N; Sun, 10 May 2020 13:11:30 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37071)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXpU9-0000CE-I8; Sun, 10 May 2020 13:11:29 -0400
-Received: by mail-ed1-x544.google.com with SMTP id w2so5875810edx.4;
- Sun, 10 May 2020 10:11:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=opJWKypD+HXG5axwxyBOWTbtCOfa9yREZFCiYnwvuD0=;
- b=CPVHAz98Cmyf66upvDkvwXPvXF2FlyrWNlWEPK9BTzDafFEvCTWTKyJOZS0FY9y2ep
- FPTd1Ne7PW2YXr1TbXIsAagS5afadsDh/MByCOZzKD1bqwEaTf4Yx5TPXHYvOOiREelY
- fDtUUajWOgEEslD8HRZuRXW4J1GnqT1vvs8YolXnG9sa7m8ydj9MOMHuc44LQ2NsyUoq
- kkDyWNXygnn1uIVd9M0f591pKGA7dEngCSRyKsiOMdjd3oGhmaaTLWetKO0H2f6RY6J+
- m1QU7uaeuiipcM+GURd76Bse9WyOd3sz9V5aRHvbduCYMjLhYnm1JPH4gICKLlApJumZ
- 0Ekg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=opJWKypD+HXG5axwxyBOWTbtCOfa9yREZFCiYnwvuD0=;
- b=fDuYmkcZ8HlguyRutVGMkn2sxVvi+4Tp1y0nQEPOPvLEreBYwL6bDccLVlS8DrDg9Q
- cFJD3WNI2RFxfzoqzlRIU4JqavzsqWWkqqgTTqbE+faipntuliySHuv3d8f2NgbSaWon
- hz1UmR5a008AelodGJBAZ4x+dEEnPKD3pjRdxZsCTbOpO73HAwb5TezlR7WVzrWa6sbZ
- bd0rccPuW25oZ32o1XwYEIasgDNlPM3IYfoigp3nc2RY0lKkev7Ar+j0njWD2VNoGIWm
- aflWpZsGmclYT7rJBQZqNY9ZFuyat7HYpfCeXR/UfMgC2zzw/DuEYGK5tWZPthTKJyPD
- 8XwQ==
-X-Gm-Message-State: AOAM531sYjA8RAuF20gL7oeeyoJo9gMzLJNU/0tp/xmHKXvsy94SdMFn
- DymVUFI7LQlQhLLY3vhAoQbANTsjMH4=
-X-Google-Smtp-Source: ABdhPJx6fDzA1yjGn8O/Y7E0YHHrCbPFvmdyGZmtFczPoLoYv7bGshd4zW04ykGRZpFKfm3Pi8fZlg==
-X-Received: by 2002:aa7:d496:: with SMTP id b22mr918491edr.301.1589130687702; 
- Sun, 10 May 2020 10:11:27 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id w7sm960776edr.20.2020.05.10.10.11.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 10:11:27 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1)
+ (envelope-from <54f3b9c9f05a77ccdd6103bd46c828fcb675cbac@lizzy.crudebyte.com>)
+ id 1jXqgi-00058O-8l
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:28:32 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:51931)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <54f3b9c9f05a77ccdd6103bd46c828fcb675cbac@lizzy.crudebyte.com>)
+ id 1jXqgg-0004CT-Lx
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:28:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=dbVxlY5uoYntWjDm7o4KOAqYCxACWT1Q7BS/wBPpRow=; b=dxVKd
+ tddrilngLhFYKXN9vBoZnGCdqMz0mWtO6/91q1SzvZQwwVnLUzXuXB6i+2BhB4VjYxwbgk2rnt7Cm
+ IiOjUYrzpIVwAJ51Y99yUhtSJh5MTj98NSpSAlskPLGEOgMd+4zb2DNCOBsdupSFF7TiecppSdI7y
+ F4bF8t7kVKVXgzv1IsZgEPttF9JyKe2NuCwC/7loehbdLZ9u/ZQkn9SFphokEypcgoSpfBjF/akEG
+ GDpSQCGzCE9ceTTm2CPOQ9CrPBgPTUFmm92okgorx2+cfCCloO0cIxCTXNEKjjiCYkv+K9bF0EyEp
+ Asa8n389ErXSs3ZaMoY8EPZzj54Fw==;
+Message-Id: <54f3b9c9f05a77ccdd6103bd46c828fcb675cbac.1589132512.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1589132512.git.qemu_oss@crudebyte.com>
+References: <cover.1589132512.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Sun, 10 May 2020 19:18:21 +0200
+Subject: [PATCH 2/2] 9pfs: fix init_in_iov_from_pdu truncating size
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] qemu/qemu-plugin: Make qemu_plugin_hwaddr_is_io() hwaddr
- argument const
-Date: Sun, 10 May 2020 19:11:19 +0200
-Message-Id: <20200510171119.20827-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20200510171119.20827-1-f4bug@amsat.org>
-References: <20200510171119.20827-1-f4bug@amsat.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Cc: Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=54f3b9c9f05a77ccdd6103bd46c828fcb675cbac@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:00:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,59 +62,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, "Emilio G . Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename qemu_plugin_hwaddr_is_io() address argument 'haddr'
-similarly to qemu_plugin_hwaddr_device_offset(), and make
-it const.
+Commit SHA-1 16724a173049ac29c7b5ade741da93a0f46edff7 introduced
+truncating the response to the currently available transport buffer
+size, which was supposed to fix an 9pfs error on Xen boot where
+transport buffer might still be smaller than required for response.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Unfortunately this change broke small reads (with less than 12
+bytes).
+
+To address both concerns, check the actual response type and only
+truncate reply for Rreaddir responses, and only if truncated reply
+would at least return one payload byte to client. Use Rreaddir's
+precise header size (11) for this instead of P9_IOHDRSZ.
+
+Fixes: 16724a173049ac29c7b5ade741da93a0f46edff7
+Fixes: https://bugs.launchpad.net/bugs/1877688
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
-Having the variable named similarly to the 'hwaddr' typedef is
-slighly confusing. Also if we declare 'hwaddr' typedef poisoned,
-GCC complains qemu_plugin_hwaddr_is_io() use a poisoned variable...
+ hw/9pfs/virtio-9p-device.c | 35 +++++++++++++++++++++++++++--------
+ hw/9pfs/xen-9p-backend.c   | 38 +++++++++++++++++++++++++++++---------
+ 2 files changed, 56 insertions(+), 17 deletions(-)
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/qemu/qemu-plugin.h | 2 +-
- plugins/api.c              | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 5502e112c8..89ed579f55 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -331,7 +331,7 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
-  * to return information about it. For non-IO accesses the device
-  * offset will be into the appropriate block of RAM.
-  */
--bool qemu_plugin_hwaddr_is_io(struct qemu_plugin_hwaddr *hwaddr);
-+bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr);
- uint64_t qemu_plugin_hwaddr_device_offset(const struct qemu_plugin_hwaddr *haddr);
+diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+index 536447a355..57e4d92ecb 100644
+--- a/hw/9pfs/virtio-9p-device.c
++++ b/hw/9pfs/virtio-9p-device.c
+@@ -154,15 +154,34 @@ static void virtio_init_in_iov_from_pdu(V9fsPDU *pdu, struct iovec **piov,
+     VirtQueueElement *elem = v->elems[pdu->idx];
+     size_t buf_size = iov_size(elem->in_sg, elem->in_num);
  
- typedef void
-diff --git a/plugins/api.c b/plugins/api.c
-index 53c8a73582..bbdc5a4eb4 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -275,10 +275,10 @@ struct qemu_plugin_hwaddr *qemu_plugin_get_hwaddr(qemu_plugin_meminfo_t info,
- }
- #endif
+-    if (buf_size < P9_IOHDRSZ) {
+-        VirtIODevice *vdev = VIRTIO_DEVICE(v);
++    if (pdu->id + 1 == P9_RREAD) {
++        /* size[4] Rread tag[2] count[4] data[count] */
++        const size_t hdr_size = 11;
++        /*
++         * If current transport buffer size is smaller than actually required
++         * for this Rreaddir response, then truncate the response to the
++         * currently available transport buffer size, however only if it would
++         * at least allow to return 1 payload byte to client.
++         */
++        if (buf_size < hdr_size + 1) {
++            VirtIODevice *vdev = VIRTIO_DEVICE(v);
  
--bool qemu_plugin_hwaddr_is_io(struct qemu_plugin_hwaddr *hwaddr)
-+bool qemu_plugin_hwaddr_is_io(const struct qemu_plugin_hwaddr *haddr)
- {
- #ifdef CONFIG_SOFTMMU
--    return hwaddr->is_io;
-+    return haddr->is_io;
- #else
-     return false;
- #endif
+-        virtio_error(vdev,
+-                     "VirtFS reply type %d needs %zu bytes, buffer has %zu, less than minimum",
+-                     pdu->id + 1, *size, buf_size);
+-    }
+-    if (buf_size < *size) {
+-        *size = buf_size;
++            virtio_error(vdev,
++                         "VirtFS reply type %d needs %zu bytes, buffer has "
++                         "%zu, less than minimum (%zu)",
++                         pdu->id + 1, *size, buf_size, hdr_size + 1);
++        }
++        if (buf_size < *size) {
++            *size = buf_size;
++        }
++    } else {
++        if (buf_size < *size) {
++            VirtIODevice *vdev = VIRTIO_DEVICE(v);
++
++            virtio_error(vdev,
++                         "VirtFS reply type %d needs %zu bytes, buffer has %zu",
++                         pdu->id + 1, *size, buf_size);
++        }
+     }
+ 
+     *piov = elem->in_sg;
+diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+index f04caabfe5..98f340d24b 100644
+--- a/hw/9pfs/xen-9p-backend.c
++++ b/hw/9pfs/xen-9p-backend.c
+@@ -201,15 +201,35 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
+     xen_9pfs_in_sg(ring, ring->sg, &num, pdu->idx, *size);
+ 
+     buf_size = iov_size(ring->sg, num);
+-    if (buf_size  < P9_IOHDRSZ) {
+-        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs reply type %d needs "
+-                      "%zu bytes, buffer has %zu, less than minimum\n",
+-                      pdu->id + 1, *size, buf_size);
+-        xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
+-        xen_9pfs_disconnect(&xen_9pfs->xendev);
+-    }
+-    if (buf_size  < *size) {
+-        *size = buf_size;
++    if (pdu->id + 1 == P9_RREAD) {
++        /* size[4] Rread tag[2] count[4] data[count] */
++        const size_t hdr_size = 11;
++        /*
++         * If current transport buffer size is smaller than actually required
++         * for this Rreaddir response, then truncate the response to the
++         * currently available transport buffer size, however only if it would
++         * at least allow to return 1 payload byte to client.
++         */
++        if (buf_size < hdr_size + 1) {
++            xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs reply type %d "
++                          "needs %zu bytes, buffer has %zu, less than "
++                          "minimum (%zu)\n",
++                          pdu->id + 1, *size, buf_size, hdr_size + 1);
++            xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
++            xen_9pfs_disconnect(&xen_9pfs->xendev);
++        }
++        if (buf_size < *size) {
++            *size = buf_size;
++        }
++    } else {
++        if (buf_size < *size) {
++            xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs reply type %d "
++                         "needs %zu bytes, buffer has %zu\n", pdu->id + 1,
++                          *size, buf_size);
++
++            xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
++            xen_9pfs_disconnect(&xen_9pfs->xendev);
++        }
+     }
+ 
+     *piov = ring->sg;
 -- 
-2.21.3
+2.20.1
 
 
