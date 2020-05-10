@@ -2,47 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FE31CCC81
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 18:57:23 +0200 (CEST)
-Received: from localhost ([::1]:36940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D47C1CCCED
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:35:49 +0200 (CEST)
+Received: from localhost ([::1]:54758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXpGT-0007ie-RJ
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 12:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35840)
+	id 1jXqnk-00012W-80
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:35:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jXpFc-0007I1-CL
- for qemu-devel@nongnu.org; Sun, 10 May 2020 12:56:28 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:41421)
+ (Exim 4.90_1)
+ (envelope-from <ad0e5a9b6abde52502aa40b30661d29aebe1590a@lizzy.crudebyte.com>)
+ id 1jXqhi-0006Ah-3Z
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:29:34 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1jXpFa-00063Z-Vi
- for qemu-devel@nongnu.org; Sun, 10 May 2020 12:56:28 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 053C64015F;
- Sun, 10 May 2020 19:56:14 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id DDB8F295;
- Sun, 10 May 2020 19:56:13 +0300 (MSK)
+ (Exim 4.90_1)
+ (envelope-from <ad0e5a9b6abde52502aa40b30661d29aebe1590a@lizzy.crudebyte.com>)
+ id 1jXqhh-0005RE-BT
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:29:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=vmF7NmnttbFuaHeIWeCyzKORtLSbSPMZue6Yg+i6MrE=; b=nPnzn
+ th+MlUrV0bY0+I2y7fObjOQ/LThcRxE2ZOW1h1Aoy9PIgYXzNbBwt9lEL1YGhgZ4GhDVVme3yoTs/
+ mEmdSz0p3eLR8I2mhggB3Z9U3nEoI8aH+CYETj2jxItnsTKKYKLArBlku1WTBFg68fSGIqQFDQwjB
+ F5rM55E6JP5ihJ4oYg4YBsuLEo9NV/x6PTbaLnfC61zbCz5UXdqSj7qsi3K574Sjkp0mdIbm78JgK
+ gU2OJHOP0bUGRNoJciNntwTvpI8uY1Uw9rA2wmnb0ZlNTZQ9IPCcW/BqsGKomfN43DynYScHDQFA8
+ GReJ9YmstH0Wxe3XaiWoG5lMnMiHg==;
+Message-Id: <ad0e5a9b6abde52502aa40b30661d29aebe1590a.1589132512.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1589132512.git.qemu_oss@crudebyte.com>
+References: <cover.1589132512.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Sun, 10 May 2020 19:05:02 +0200
+Subject: [PATCH 1/2] xen-9pfs: Fix log messages of reply errors
 To: qemu-devel@nongnu.org
-From: Michael Tokarev <mjt@tls.msk.ru>
-Subject: some fun with -vga virtio or -display gtk,gl=on
-Message-ID: <b701327d-c31a-d117-3bb9-74034eb478a8@msgid.tls.msk.ru>
-Date: Sun, 10 May 2020 19:56:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 12:56:14
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
- RCVD_IN_DNSWL_HI=-5 autolearn=_AUTOLEARN
+Cc: Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=ad0e5a9b6abde52502aa40b30661d29aebe1590a@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:00:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,45 +62,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
+If delivery of some 9pfs response fails for some reason, log the
+error message by mentioning the 9P protocol reply type, not by
+client's request type. The latter could be misleading that the
+error occurred already when handling the request input.
 
-I'm seeing somewhat strange behavior of the mentioned options.
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ hw/9pfs/xen-9p-backend.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-First is -vga virtio and regular gtk display - qemu opens initial window
-of size 640x480 (I think anyway), and this window stays of that size, at
-least while booting windows 10 (it uses stdvga driver), - it is not being
-resized when windows switches to higher resolution, but scales instead.
-"Best fit" does not change anything. What actually changes things is
-*another* attempt to change screen resolution within windows, - this time
-window gets correctly resized to the new size.
+diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+index 18fe5b7c92..f04caabfe5 100644
+--- a/hw/9pfs/xen-9p-backend.c
++++ b/hw/9pfs/xen-9p-backend.c
+@@ -137,7 +137,8 @@ static ssize_t xen_9pfs_pdu_vmarshal(V9fsPDU *pdu,
+     ret = v9fs_iov_vmarshal(in_sg, num, offset, 0, fmt, ap);
+     if (ret < 0) {
+         xen_pv_printf(&xen_9pfs->xendev, 0,
+-                      "Failed to encode VirtFS request type %d\n", pdu->id + 1);
++                      "Failed to encode VirtFS reply type %d\n",
++                      pdu->id + 1);
+         xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
+         xen_9pfs_disconnect(&xen_9pfs->xendev);
+     }
+@@ -201,9 +202,9 @@ static void xen_9pfs_init_in_iov_from_pdu(V9fsPDU *pdu,
+ 
+     buf_size = iov_size(ring->sg, num);
+     if (buf_size  < P9_IOHDRSZ) {
+-        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs request type %d"
+-                "needs %zu bytes, buffer has %zu, less than minimum\n",
+-                pdu->id, *size, buf_size);
++        xen_pv_printf(&xen_9pfs->xendev, 0, "Xen 9pfs reply type %d needs "
++                      "%zu bytes, buffer has %zu, less than minimum\n",
++                      pdu->id + 1, *size, buf_size);
+         xen_be_set_state(&xen_9pfs->xendev, XenbusStateClosing);
+         xen_9pfs_disconnect(&xen_9pfs->xendev);
+     }
+-- 
+2.20.1
 
-With -display sdl qemu window gets resized properly, ditto with -vga std.
-Only -vga virtio -display gtk shows this strange behavior so far.
-
-
-And second is another fun thing with mouse and its cursor when using
--display gtk,gl=on (independent on stdvga or virtiovga). This is quite
-odd.  First, mouse _cursor_ disappears when the mouse is under qemu
-window title or under the menu bar. Clicking on title/menu does the
-correct things, but clicking needs to be done without seeing the cursor.
-This is about the upper part of the window. And at the same time,
-the bottom part, apparently of the same height as the window title +
-menu bar, is unavailable within the guest, when trying to enter that
-area with mouse the cursor gets out of sync and clicking on that area
-is not possible.  It *looks* like the mouse cursor is shifted by the
-height of upper area of invisibility, somehow.
-
-Again, sdl display works fine here.
-
-What is the thing about?  Having in mind also other fun things with gtk
-display in the past (some of which are still here), should we switch
-default display to sdl which does not have these issues?
-
-Thanks,
-
-/mjt
 
