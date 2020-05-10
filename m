@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F1B1CCCFE
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:46:49 +0200 (CEST)
-Received: from localhost ([::1]:45658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C571CCCFA
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 20:44:35 +0200 (CEST)
+Received: from localhost ([::1]:37930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXqyO-0003y8-44
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45868)
+	id 1jXqwE-0000Yg-JO
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 14:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jXquv-0007hu-N2
- for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:13 -0400
-Received: from mailout06.t-online.de ([194.25.134.19]:58580)
+ id 1jXquu-0007gh-Jk
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:12 -0400
+Received: from mailout08.t-online.de ([194.25.134.20]:45010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1jXquu-0005LJ-N5
- for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:13 -0400
-Received: from fwd18.aul.t-online.de (fwd18.aul.t-online.de [172.20.26.244])
- by mailout06.t-online.de (Postfix) with SMTP id 11FF6412B000;
- Sun, 10 May 2020 20:43:11 +0200 (CEST)
+ id 1jXqut-0005Kn-SL
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 14:43:12 -0400
+Received: from fwd10.aul.t-online.de (fwd10.aul.t-online.de [172.20.26.152])
+ by mailout08.t-online.de (Postfix) with SMTP id 52081410DE12;
+ Sun, 10 May 2020 20:43:10 +0200 (CEST)
 Received: from linpower.localnet
- (ZGsaI4ZArh2p4tcVeWMbsQWTZHinmOYO+4ZDxCh6zMxsEtCdqr0p6i9KXLRyygXZUW@[46.86.59.135])
- by fwd18.t-online.de
+ (SarWkQZHghCqUVkN6wP8qHFtdnsP6l9FRK8cl2-NPruvS050obWFpTLP-7i5Hnhgnj@[46.86.59.135])
+ by fwd10.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1jXqup-1lEoaW0; Sun, 10 May 2020 20:43:07 +0200
+ esmtp id 1jXqus-1vLm640; Sun, 10 May 2020 20:43:10 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 99239200626; Sun, 10 May 2020 20:43:04 +0200 (CEST)
+ id 9A15A200627; Sun, 10 May 2020 20:43:04 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 02/10] ui/gtk: fix handling of AltGr key on Windows
-Date: Sun, 10 May 2020 20:42:56 +0200
-Message-Id: <20200510184304.9267-2-vr_qemu@t-online.de>
+Subject: [PATCH 03/10] ui/gkt: release all keys on grab-broken-event
+Date: Sun, 10 May 2020 20:42:57 +0200
+Message-Id: <20200510184304.9267-3-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <2393388c-86c3-4d7e-178e-2c7e6d14a8de@t-online.de>
 References: <2393388c-86c3-4d7e-178e-2c7e6d14a8de@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: ZGsaI4ZArh2p4tcVeWMbsQWTZHinmOYO+4ZDxCh6zMxsEtCdqr0p6i9KXLRyygXZUW
-X-TOI-MSGID: 94e6f681-a0f3-4fd4-a4c4-53acd4f9acd8
-Received-SPF: none client-ip=194.25.134.19;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout06.t-online.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:43:11
+X-ID: SarWkQZHghCqUVkN6wP8qHFtdnsP6l9FRK8cl2-NPruvS050obWFpTLP-7i5Hnhgnj
+X-TOI-MSGID: c579c7b6-edc9-4a60-90a5-8622e012e7c9
+Received-SPF: none client-ip=194.25.134.20;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 14:43:07
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,88 +68,50 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wire up the keyboard hooking code on Windows to fix the AltGr
-key and improve keyboard grabbing.
+There is no way to grab the Ctrl-Alt-Del key combination on
+Windows. This key combination will leave all three keys in a
+stuck condition. This patch uses the grab-broken-event to
+release the keys.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- ui/gtk.c | 30 +++++++++++++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
+ ui/gtk.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/ui/gtk.c b/ui/gtk.c
-index 83f2f5d49b..68c63532b1 100644
+index 68c63532b1..5de2a75691 100644
 --- a/ui/gtk.c
 +++ b/ui/gtk.c
-@@ -38,6 +38,10 @@
- 
- #include "ui/console.h"
- #include "ui/gtk.h"
-+#ifdef CONFIG_WIN32
-+#include <gdk/gdkwin32.h>
-+#include "win32-kbd-hook.h"
-+#endif
- 
- #include <glib/gi18n.h>
- #include <locale.h>
-@@ -1451,6 +1455,9 @@ static void gd_grab_keyboard(VirtualConsole *vc, const char *reason)
-         }
-     }
- 
-+#ifdef CONFIG_WIN32
-+    win32_kbd_set_grab(true);
-+#endif
- #if GTK_CHECK_VERSION(3, 20, 0)
-     gd_grab_update(vc, true, vc->s->ptr_owner == vc);
- #else
-@@ -1472,6 +1479,9 @@ static void gd_ungrab_keyboard(GtkDisplayState *s)
-     }
-     s->kbd_owner = NULL;
- 
-+#ifdef CONFIG_WIN32
-+    win32_kbd_set_grab(false);
-+#endif
- #if GTK_CHECK_VERSION(3, 20, 0)
-     gd_grab_update(vc, false, vc->s->ptr_owner == vc);
- #else
-@@ -1614,12 +1624,28 @@ static gboolean gd_leave_event(GtkWidget *widget, GdkEventCrossing *crossing,
+@@ -1132,6 +1132,20 @@ static gboolean gd_key_event(GtkWidget *widget, GdkEventKey *key, void *opaque)
      return TRUE;
  }
  
-+static gboolean gd_focus_in_event(GtkWidget *widget,
-+                                  GdkEventFocus *event, gpointer opaque)
++static gboolean gd_grab_broken_event(GtkWidget *widget,
++                                     GdkEventGrabBroken *event, void *opaque)
 +{
 +#ifdef CONFIG_WIN32
-+    VirtualConsole *vc = opaque;
-+    GtkDisplayState *s = vc->s;
++    if (event->keyboard) {
++        VirtualConsole *vc = opaque;
++        GtkDisplayState *s = vc->s;
 +
-+    win32_kbd_set_window(gdk_win32_window_get_impl_hwnd(
-+        gtk_widget_get_window(vc->window ? vc->window : s->window)));
++        gtk_release_modifiers(s);
++    }
 +#endif
 +    return TRUE;
 +}
 +
- static gboolean gd_focus_out_event(GtkWidget *widget,
--                                   GdkEventCrossing *crossing, gpointer opaque)
-+                                   GdkEventFocus *event, gpointer opaque)
+ static gboolean gd_event(GtkWidget *widget, GdkEvent *event, void *opaque)
  {
-     VirtualConsole *vc = opaque;
-     GtkDisplayState *s = vc->s;
- 
-+#ifdef CONFIG_WIN32
-+    win32_kbd_set_window(NULL);
-+#endif
-     gtk_release_modifiers(s);
-     return TRUE;
- }
-@@ -1878,6 +1904,8 @@ static void gd_connect_vc_gfx_signals(VirtualConsole *vc)
-                          G_CALLBACK(gd_enter_event), vc);
-         g_signal_connect(vc->gfx.drawing_area, "leave-notify-event",
-                          G_CALLBACK(gd_leave_event), vc);
-+        g_signal_connect(vc->gfx.drawing_area, "focus-in-event",
-+                         G_CALLBACK(gd_focus_in_event), vc);
-         g_signal_connect(vc->gfx.drawing_area, "focus-out-event",
+     if (event->type == GDK_MOTION_NOTIFY) {
+@@ -1910,6 +1924,8 @@ static void gd_connect_vc_gfx_signals(VirtualConsole *vc)
                           G_CALLBACK(gd_focus_out_event), vc);
          g_signal_connect(vc->gfx.drawing_area, "configure-event",
+                          G_CALLBACK(gd_configure), vc);
++        g_signal_connect(vc->gfx.drawing_area, "grab-broken-event",
++                         G_CALLBACK(gd_grab_broken_event), vc);
+     } else {
+         g_signal_connect(vc->gfx.drawing_area, "key-press-event",
+                          G_CALLBACK(gd_text_key_down), vc);
 -- 
 2.26.1
 
