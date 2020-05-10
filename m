@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBD01CCE16
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 23:03:43 +0200 (CEST)
-Received: from localhost ([::1]:49180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD4B1CCE1A
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 23:05:21 +0200 (CEST)
+Received: from localhost ([::1]:56544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXt6s-00016k-CD
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 17:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60426)
+	id 1jXt8S-00043q-R4
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 17:05:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXt4r-00073R-59
- for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:37 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:45333)
+ id 1jXt4s-00076L-Da
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:38 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:34440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jXt4q-00015R-C1
- for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:36 -0400
-Received: by mail-ej1-x642.google.com with SMTP id yc10so4296672ejb.12
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 14:01:36 -0700 (PDT)
+ id 1jXt4r-00015X-QP
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 17:01:38 -0400
+Received: by mail-ej1-x642.google.com with SMTP id s9so6209888eju.1
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 14:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4xpV43cJtjJhTGNuwU3vJ0xowPTiH8xsSOamwFx2umU=;
- b=bnUq7SQBGH34mmIjPwfHTqyfQJgChk3LmtgX5yjF65dLb9TtSZTGYvvq7uE/hBrUNQ
- wTPW77ZkABLX2VaCFgv3JFTzERV/NT6hiR12lYYQCL/xkpwWSriKWVmrazuCNaCZToOn
- x7Ra7cfCSUBq26b1P3dMXxTs8NSGJL1pr6XPkUfHnjdN3gmUBOVOyYBMlFBbz10tckc1
- gLqK8X/CYtF296Or792cXLHmnzPTnhCE+M1KY/IuiOdiwwyIAsVoTHzQgsU70CdZ5h64
- bDauYsN4fNmZwc8fObJiKsdzRRapZ94uadf8B439AsWFRu/0bHvuOXe2zr5/MNJie04x
- Or6w==
+ bh=INiH/hiJ+WGtAmJUDmdS9OFn2OmFj310/NQ1BEXJmuM=;
+ b=eBtQpJEI8y+EPVT4bZvJ612r7SrP/j8NZ7Wpj2Sej94Xm7r9qyPUMjQWuK1bkObWt+
+ JeiS1LQEPxtmBOaqmHdT7ahxTUnN1Y9ujKs2J4KMuPio3xwBEPzo/bongGLfqO5fkgWQ
+ JZ2ciQySh9UzaIzGXR2XCw96Qm1Kh+NEPSHxDGIgj/rzGIgYo0N0AKhYgjmsyms6r/vk
+ +VwYrASuI7bXQgdBGpmXxfZNzw2KvKNAoKhGss8SIXuujHlt90Pfrbg4NK720+8f8kYJ
+ kXbxbLdOZ6P6rOzYrRml322Zg7kR4U9MM4xD9y7Co7aXWkYaO6ORLG/F5r4VsuBhZSPY
+ Q7+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4xpV43cJtjJhTGNuwU3vJ0xowPTiH8xsSOamwFx2umU=;
- b=OOapKkevyfUjxQFnStpCfTtmm7/q6SumUGghw2Oea6xHdGeSzMNxHinI6C/38U9/LT
- HSh5k85rzUixoxENsqULIVJyjidNnfMxLQZ0tlD+4vSYBy5dkXq5aC+m8JOHJkCjcdDt
- kdbuOig9mIF9MN6XahLoKbnKvMprqymZROu2795TeWyC7gHGGgJlO+/3QnDN8TRth4sM
- i0wNzm+h/OCjs1WTHwBivIe74ZA9/bxpctVJscsm5rdytTUJVFVGec45+x9M4MHtBLPR
- EkUr96QEVO/ZrSTXM5jeIayMG9NMC8qfyq5mOG6bPlSykbA8A8H/vquF2T0rLllH6A2/
- wqzA==
-X-Gm-Message-State: AGi0PuYjN3GIgETDTVDQNhPp7AEkwQkz91FC9Lffm4ZJwsZa0wf2CIXb
- x3QsXkrBhRXBkH/wRzB5U7VW1z/SHC8=
-X-Google-Smtp-Source: APiQypL169Auu2EzRXblkbgLNKZEeT9/XxpJvoDVptfurJvOEQAO166ziZU+o+hapoT/jHfz7eJ2hg==
-X-Received: by 2002:a17:906:ca14:: with SMTP id
- jt20mr10164192ejb.233.1589144494588; 
- Sun, 10 May 2020 14:01:34 -0700 (PDT)
+ bh=INiH/hiJ+WGtAmJUDmdS9OFn2OmFj310/NQ1BEXJmuM=;
+ b=cvZ/odkCMh1T39X4BBM5wpIXrpXhFLw8ZY1fgauGQWp6t7gzwMQjOv6YjD7m/4VXK2
+ JyanLwtJZnlE0uKuwVZH2kqAcUxmiqjHQbW2ujiS2N+Y5AQuMRD5MJDP1+rWKZROVHt5
+ MomZjJy4WHz59lTC93itZlbGgfVCELy2wlrpwMByuZX9OIQPR+KImcmEvbH0q6Jg+HBX
+ 6qYBgAGJfyb1PrXfBvu2Nm/+MTvp5l6oenRb7+zu1tMVriR8NrDJ9//UbqzKtg2cIC+/
+ RnwA5lTg9/vtHHvMJycsmu/2G9YYNE+dkGfjDnQdEoJnm5yg01tKm1sW/g1Jzk4Psigy
+ EFRg==
+X-Gm-Message-State: AGi0PuYkCSzJrcZ+EO+No7EDpiiq3OATwfXiOYYYOtuEa8cU3CdhglBy
+ V4hbsqQ0FB8qiNmT0vMf6qWr8ZgaVhs=
+X-Google-Smtp-Source: APiQypIYFmVrFBhF4Mr4GGBHzBLgGzbzSybB5vkCOD8Wm5HPr79ytmmjYoHeLBL5r8QnQQCTrgzb4A==
+X-Received: by 2002:a17:906:2b96:: with SMTP id
+ m22mr10561807ejg.330.1589144496393; 
+ Sun, 10 May 2020 14:01:36 -0700 (PDT)
 Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id d15sm921152ejr.50.2020.05.10.14.01.32
+ by smtp.gmail.com with ESMTPSA id d15sm921152ejr.50.2020.05.10.14.01.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 May 2020 14:01:33 -0700 (PDT)
+ Sun, 10 May 2020 14:01:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/12] MAINTAINERS: Add Huacai Chen as fuloong2e co-maintainer
-Date: Sun, 10 May 2020 23:01:17 +0200
-Message-Id: <20200510210128.18343-2-f4bug@amsat.org>
+Subject: [PATCH 02/12] hw/mips/fuloong2e: Rename PMON BIOS name
+Date: Sun, 10 May 2020 23:01:18 +0200
+Message-Id: <20200510210128.18343-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200510210128.18343-1-f4bug@amsat.org>
 References: <20200510210128.18343-1-f4bug@amsat.org>
@@ -101,41 +101,27 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Huacai Chen <chenhc@lemote.com>
+I'm not sure where 'pmon_fulong2e.bin' comes from. As I always
+found this bios named 'pmon_2e.bin', rename the definition.
 
-I submitted the MIPS/fuloong2e support about ten years ago, and
-after that I became a MIPS kernel developer. Last year, Philippe
-Mathieu- Daudé asked me that whether I can be a reviewer of
-MIPS/fuloong2e, and I promised that I will do some QEMU work in
-the next year (i.e., 2020 and later). I think now (and also in
-future) I can have some spare time, so I can finally do some real
-work on QEMU/MIPS. And if possible, I hope I can be a co-maintainer
-of MIPS/fuloong2e.
-
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
-Message-Id: <1586337380-25217-3-git-send-email-chenhc@lemote.com>
-[PMD: Added Jiaxun Yang as reviewer]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/mips/mips_fulong2e.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1f84e3ae2c..aa5c54c75a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1075,8 +1075,10 @@ S: Obsolete
- F: hw/mips/mips_r4k.c
+diff --git a/hw/mips/mips_fulong2e.c b/hw/mips/mips_fulong2e.c
+index ef02d54b33..f067fa9720 100644
+--- a/hw/mips/mips_fulong2e.c
++++ b/hw/mips/mips_fulong2e.c
+@@ -69,7 +69,7 @@
+  * 2, use "Bonito2edev" to replace "dir_corresponding_to_your_target_hardware"
+  * in the "Compile Guide".
+  */
+-#define FULONG_BIOSNAME "pmon_fulong2e.bin"
++#define FULONG_BIOSNAME "pmon_2e.bin"
  
- Fulong 2E
-+M: Huacai Chen <chenhc@lemote.com>
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- M: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-+R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- S: Odd Fixes
- F: hw/mips/mips_fulong2e.c
- F: hw/isa/vt82c686.c
+ /* PCI SLOT in fulong 2e */
+ #define FULONG2E_VIA_SLOT        5
 -- 
 2.21.3
 
