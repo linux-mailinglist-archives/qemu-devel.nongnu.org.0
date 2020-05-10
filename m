@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F386E1CC60C
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 03:42:43 +0200 (CEST)
-Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2D11CC610
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 May 2020 03:44:43 +0200 (CEST)
+Received: from localhost ([::1]:35726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXazK-0005oe-P6
-	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 21:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36706)
+	id 1jXb1G-0000JS-OP
+	for lists+qemu-devel@lfdr.de; Sat, 09 May 2020 21:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1jXay8-0003oU-Tv
- for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:28 -0400
-Received: from mga09.intel.com ([134.134.136.24]:59849)
+ id 1jXayA-0003rN-LW
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:31 -0400
+Received: from mga09.intel.com ([134.134.136.24]:59850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <weijiang.yang@intel.com>)
- id 1jXay8-0006cQ-0a
- for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:28 -0400
-IronPort-SDR: F7JXl7uP9UfrxvJ3ggL4alHLKEMoW71ULGQYWaphKKjkg0TEdlrW2ka9AKPcr/YB7oEMXSO+8y
- rYCFsRir9Ifg==
+ id 1jXay8-0006hs-IC
+ for qemu-devel@nongnu.org; Sat, 09 May 2020 21:41:30 -0400
+IronPort-SDR: 9EHYVJ1jEEVoCadK9dN91NZLlORhO99c1zQenOikJn+bgq0nIgKU5s8hk6HlUrAnrZigg5qVAE
+ TE+bSMP1xmUA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 May 2020 18:41:21 -0700
-IronPort-SDR: cinDRlfI2mB7SBOmzz/Lwzu/cfAxMoVQzslMMWibGFDHzmAhquNfGzh6xGbN4m/JkBAjKU8Z0E
- ORf6DHVvYc8w==
+ 09 May 2020 18:41:22 -0700
+IronPort-SDR: 4vKevsnqgDQPWk+jAmYKdwa6wRzyRFbSAKMv8VhSoIE2bUuo5I8hK+E2YAV6jVTKrArRaLcljM
+ 8lwpN2lJgu8A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,373,1583222400"; d="scan'208";a="264783135"
+X-IronPort-AV: E=Sophos;i="5.73,373,1583222400"; d="scan'208";a="264783141"
 Received: from unknown (HELO local-michael-cet-test.sh.intel.com)
  ([10.239.159.128])
- by orsmga006.jf.intel.com with ESMTP; 09 May 2020 18:41:20 -0700
+ by orsmga006.jf.intel.com with ESMTP; 09 May 2020 18:41:21 -0700
 From: Yang Weijiang <weijiang.yang@intel.com>
 To: qemu-devel@nongnu.org,
 	pbonzini@redhat.com
-Subject: [Qemu-devel][PATCH v5 3/4] x86/cpuid: Add support for XSAVES
- dependent feature enumeration
-Date: Sun, 10 May 2020 09:42:49 +0800
-Message-Id: <20200510014250.28111-4-weijiang.yang@intel.com>
+Subject: [Qemu-devel][PATCH v5 4/4] x86/cpu: Add user space access interface
+ for CET MSRs
+Date: Sun, 10 May 2020 09:42:50 +0800
+Message-Id: <20200510014250.28111-5-weijiang.yang@intel.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20200510014250.28111-1-weijiang.yang@intel.com>
 References: <20200510014250.28111-1-weijiang.yang@intel.com>
@@ -69,73 +69,330 @@ Cc: Yang Weijiang <weijiang.yang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently XSAVES dependent features are not supported in CPUID enumeration,
-update CPUID(0xD,n>=1) to enable it.
+Added interface for CET MSR_IA32_{U,S}_CET, MSR_IA32_PL{0,1,2,3}_SSP,
+MSR_IA32_INTR_SSP_TBL and MSR_KVM_GUEST_SSP save/restore. Check if
+corresponding CET features are available before access the MSRs.
 
-CET XSAVES related enumeration includes:
-CPUID(0xD,1):ECX[bit 11]: user mode CET state, controls bit 11 in XSS.
-CPUID(0xD,1):ECX[bit 12]: supervisor mode CET state, controls bit 12 in XSS.
-CPUID(0xD,11): user mode CET state sub-leaf, reports the state size.
-CPUID(0xD,12): supervisor mode CE state sub-leaf, reports the state size.
-
-Signed-off-by: Zhang Yi <yi.z.zhang@linux.intel.com>
 Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
 ---
- target/i386/cpu.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ target/i386/cpu.h     |  18 +++++
+ target/i386/kvm.c     |  73 +++++++++++++++++++
+ target/i386/machine.c | 161 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 252 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 3174e05482..881c84a3b3 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1513,6 +1513,12 @@ static inline uint64_t x86_cpu_xsave_components(X86CPU *cpu)
-            cpu->env.features[FEAT_XSAVE_COMP_LO];
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index ed03cd1760..51577a04ca 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -480,6 +480,15 @@ typedef enum X86Seg {
+ #define MSR_IA32_VMX_TRUE_ENTRY_CTLS     0x00000490
+ #define MSR_IA32_VMX_VMFUNC             0x00000491
+ 
++#define MSR_IA32_U_CET                  0x6a0
++#define MSR_IA32_S_CET                  0x6a2
++#define MSR_IA32_PL0_SSP                0x6a4
++#define MSR_IA32_PL1_SSP                0x6a5
++#define MSR_IA32_PL2_SSP                0x6a6
++#define MSR_IA32_PL3_SSP                0x6a7
++#define MSR_IA32_SSP_TBL                0x6a8
++#define MSR_KVM_GUEST_SSP               0x4b564d06
++
+ #define XSTATE_FP_BIT                   0
+ #define XSTATE_SSE_BIT                  1
+ #define XSTATE_YMM_BIT                  2
+@@ -1567,6 +1576,15 @@ typedef struct CPUX86State {
+ 
+     uintptr_t retaddr;
+ 
++    uint64_t u_cet;
++    uint64_t s_cet;
++    uint64_t pl0_ssp;
++    uint64_t pl1_ssp;
++    uint64_t pl2_ssp;
++    uint64_t pl3_ssp;
++    uint64_t ssp_tbl;
++    uint64_t guest_ssp;
++
+     /* Fields up to this point are cleared by a CPU reset */
+     struct {} end_reset_fields;
+ 
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 4901c6dd74..0735981558 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -2979,6 +2979,31 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+         }
+     }
+ 
++    if (((env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_CET_SHSTK) ||
++        (env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_CET_IBT)) &&
++        (env->features[FEAT_XSAVES_LO] & XSTATE_CET_U_MASK)) {
++        kvm_msr_entry_add(cpu, MSR_IA32_U_CET, env->u_cet);
++        kvm_msr_entry_add(cpu, MSR_IA32_PL3_SSP, env->pl3_ssp);
++    }
++
++    if (env->features[FEAT_XSAVES_LO] & XSTATE_CET_S_MASK) {
++        if (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_CET_SHSTK) {
++            kvm_msr_entry_add(cpu, MSR_IA32_PL0_SSP, env->pl0_ssp);
++            kvm_msr_entry_add(cpu, MSR_IA32_PL1_SSP, env->pl1_ssp);
++            kvm_msr_entry_add(cpu, MSR_IA32_PL2_SSP, env->pl2_ssp);
++            kvm_msr_entry_add(cpu, MSR_IA32_SSP_TBL, env->ssp_tbl);
++        }
++
++        if (env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_CET_IBT) {
++            kvm_msr_entry_add(cpu, MSR_IA32_S_CET, env->s_cet);
++        }
++    }
++
++    if ((env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_CET_SHSTK) &&
++        (env->features[FEAT_XSAVES_LO] & (XSTATE_CET_U_MASK |
++        XSTATE_CET_S_MASK)))
++        kvm_msr_entry_add(cpu, MSR_KVM_GUEST_SSP, env->guest_ssp);
++
+     return kvm_buf_set_msrs(cpu);
  }
  
-+static inline uint64_t x86_cpu_xsave_sv_components(X86CPU *cpu)
+@@ -3295,6 +3320,30 @@ static int kvm_get_msrs(X86CPU *cpu)
+         }
+     }
+ 
++    if (((env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_CET_SHSTK) ||
++        (env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_CET_IBT)) &&
++        (env->features[FEAT_XSAVES_LO] & XSTATE_CET_U_MASK)) {
++        kvm_msr_entry_add(cpu, MSR_IA32_U_CET, 0);
++        kvm_msr_entry_add(cpu, MSR_IA32_PL3_SSP, 0);
++    }
++
++    if (env->features[FEAT_XSAVES_LO] & XSTATE_CET_S_MASK) {
++        if (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_CET_SHSTK) {
++            kvm_msr_entry_add(cpu, MSR_IA32_PL0_SSP, 0);
++            kvm_msr_entry_add(cpu, MSR_IA32_PL1_SSP, 0);
++            kvm_msr_entry_add(cpu, MSR_IA32_PL2_SSP, 0);
++            kvm_msr_entry_add(cpu, MSR_IA32_SSP_TBL, 0);
++        }
++
++        if (env->features[FEAT_7_0_EDX] & CPUID_7_0_EDX_CET_IBT) {
++            kvm_msr_entry_add(cpu, MSR_IA32_S_CET, 0);
++        }
++    }
++    if ((env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_CET_SHSTK) &&
++        (env->features[FEAT_XSAVES_LO] & (XSTATE_CET_U_MASK |
++        XSTATE_CET_S_MASK)))
++        kvm_msr_entry_add(cpu, MSR_KVM_GUEST_SSP, 0);
++
+     ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, cpu->kvm_msr_buf);
+     if (ret < 0) {
+         return ret;
+@@ -3578,6 +3627,30 @@ static int kvm_get_msrs(X86CPU *cpu)
+         case MSR_IA32_RTIT_ADDR0_A ... MSR_IA32_RTIT_ADDR3_B:
+             env->msr_rtit_addrs[index - MSR_IA32_RTIT_ADDR0_A] = msrs[i].data;
+             break;
++        case MSR_IA32_U_CET:
++            env->u_cet = msrs[i].data;
++            break;
++        case MSR_IA32_S_CET:
++            env->s_cet = msrs[i].data;
++            break;
++        case MSR_IA32_PL0_SSP:
++            env->pl0_ssp = msrs[i].data;
++            break;
++        case MSR_IA32_PL1_SSP:
++            env->pl1_ssp = msrs[i].data;
++            break;
++        case MSR_IA32_PL2_SSP:
++            env->pl2_ssp = msrs[i].data;
++            break;
++        case MSR_IA32_PL3_SSP:
++            env->pl3_ssp = msrs[i].data;
++            break;
++        case MSR_IA32_SSP_TBL:
++            env->ssp_tbl = msrs[i].data;
++            break;
++        case MSR_KVM_GUEST_SSP:
++            env->guest_ssp = msrs[i].data;
++            break;
+         }
+     }
+ 
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 0c96531a56..3e1d8b6eb9 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -962,6 +962,159 @@ static const VMStateDescription vmstate_umwait = {
+     }
+ };
+ 
++static bool u_cet_needed(void *opaque)
 +{
-+    return ((uint64_t)cpu->env.features[FEAT_XSAVES_HI]) << 32 |
-+           cpu->env.features[FEAT_XSAVES_LO];
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->u_cet != 0;
 +}
 +
- const char *get_register_name_32(unsigned int reg)
++static const VMStateDescription vmstate_u_cet = {
++    .name = "cpu/u_cet",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = u_cet_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.u_cet, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool s_cet_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->s_cet != 0;
++}
++
++static const VMStateDescription vmstate_s_cet = {
++    .name = "cpu/s_cet",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = s_cet_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.s_cet, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool pl0_ssp_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->pl0_ssp != 0;
++}
++
++static const VMStateDescription vmstate_pl0_ssp = {
++    .name = "cpu/pl0_ssp",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = pl0_ssp_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.pl0_ssp, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool pl1_ssp_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->pl1_ssp != 0;
++}
++
++static const VMStateDescription vmstate_pl1_ssp = {
++    .name = "cpu/pl1_ssp",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = pl1_ssp_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.pl1_ssp, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool pl2_ssp_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->pl2_ssp != 0;
++}
++
++static const VMStateDescription vmstate_pl2_ssp = {
++    .name = "cpu/pl2_ssp",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = pl2_ssp_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.pl2_ssp, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++
++static bool pl3_ssp_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->pl3_ssp != 0;
++}
++
++static const VMStateDescription vmstate_pl3_ssp = {
++    .name = "cpu/pl3_ssp",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = pl3_ssp_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.pl3_ssp, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool ssp_tbl_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->ssp_tbl != 0;
++}
++
++static const VMStateDescription vmstate_ssp_tbl = {
++    .name = "cpu/ssp_tbl",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = ssp_tbl_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.ssp_tbl, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool guest_ssp_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return env->guest_ssp != 0;
++}
++
++static const VMStateDescription vmstate_guest_ssp = {
++    .name = "cpu/guest_ssp",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = guest_ssp_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64(env.guest_ssp, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ #ifdef TARGET_X86_64
+ static bool pkru_needed(void *opaque)
  {
-     if (reg >= CPU_NB_REGS32) {
-@@ -5722,13 +5728,22 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-              */
-             *ebx = kvm_enabled() ? *ecx : xsave_area_size(env->xcr0);
-         } else if (count == 1) {
-+            /* ebx is updated in kvm.*/
-             *eax = env->features[FEAT_XSAVE];
-+            *ecx = env->features[FEAT_XSAVES_LO];
-+            *edx = env->features[FEAT_XSAVES_HI];
-         } else if (count < ARRAY_SIZE(x86_ext_save_areas)) {
-             if ((x86_cpu_xsave_components(cpu) >> count) & 1) {
-                 const ExtSaveArea *esa = &x86_ext_save_areas[count];
-                 *eax = esa->size;
-                 *ebx = esa->offset;
-             }
-+            if ((x86_cpu_xsave_sv_components(cpu) >> count) & 1) {
-+                const ExtSaveArea *esa_sv = &x86_ext_save_areas[count];
-+                *eax = esa_sv->size;
-+                *ebx = 0;
-+                *ecx = 1;
-+            }
-         }
-         break;
+@@ -1447,6 +1600,14 @@ VMStateDescription vmstate_x86_cpu = {
+         &vmstate_nested_state,
+ #endif
+         &vmstate_msr_tsx_ctrl,
++        &vmstate_u_cet,
++        &vmstate_s_cet,
++        &vmstate_pl0_ssp,
++        &vmstate_pl1_ssp,
++        &vmstate_pl2_ssp,
++        &vmstate_pl3_ssp,
++        &vmstate_ssp_tbl,
++        &vmstate_guest_ssp,
+         NULL
      }
-@@ -6280,8 +6295,10 @@ static void x86_cpu_enable_xsave_components(X86CPU *cpu)
-         }
-     }
- 
--    env->features[FEAT_XSAVE_COMP_LO] = mask;
-+    env->features[FEAT_XSAVE_COMP_LO] = mask & CPUID_XSTATE_USER_MASK;
-     env->features[FEAT_XSAVE_COMP_HI] = mask >> 32;
-+    env->features[FEAT_XSAVES_LO] = mask & CPUID_XSTATE_KERNEL_MASK;
-+    env->features[FEAT_XSAVES_HI] = mask >> 32;
- }
- 
- /***** Steps involved on loading and filtering CPUID data
+ };
 -- 
 2.17.2
 
