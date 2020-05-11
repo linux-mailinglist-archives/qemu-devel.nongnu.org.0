@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1101CDB56
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:37:43 +0200 (CEST)
-Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E221CDB57
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:37:46 +0200 (CEST)
+Received: from localhost ([::1]:52620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8co-0007E0-07
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
+	id 1jY8cr-0007Oi-NH
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:37:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZV-0001nb-56
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:17 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44505)
+ id 1jY8ZW-0001pO-36
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:22 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZU-00070P-7m
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:16 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id 50so10453147wrc.11
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:15 -0700 (PDT)
+ id 1jY8ZV-00070e-8R
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:17 -0400
+Received: by mail-wr1-x433.google.com with SMTP id x17so11009876wrt.5
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JEvempOs4qwCLlW8+Q/mQ4vm2AHnJE/FFxeayEtZ2rg=;
- b=ND0BwB2qLdk0USt8J04Shxk31omqX3pgStx/xXqVLqrwNOFd8PDM+IItgVYrQxcYd9
- Z1/SJ6ko9rP0MEaRWvdsbaTdQ4NOUs5Jx5Y6xqNoTCaJh2ysrQhcvR7Jg+CEejQpnEDP
- 0UzxRgFzarDmIKcNhGxUNZoxjyqjtkVLIIgaT/NYM4J+3tQs7FPTSNKCs46xAFuKy46k
- GGZZi7a+6snW+HyWHp/zQKvuAZoL+0q8BLYPREc13/YeWH/PPnxf0K45w7RRExlzk/oi
- 7sq3P6qC6Mhgo+N3ujLxD+M2OEi2GJO/q83rO821mcUouBU2pIysXMSsCXbKCvvbS3ie
- 79gA==
+ bh=HrUC6cR46kql6q+CIiU3E4k07J5wqDy/mLv107e44a0=;
+ b=vS+1zXsqdRaCbSbH4/Exr56iPVokExB0A12osZyDV4G2LOGQeOJd5E+KtCQI61dmli
+ zK/5FQOettW6yozRD3XbPR+kwXLgSY6ZDwNc5iUbLXOvkGVgkRbhSzkZ5ZsRSiz7+5W2
+ Aa8f6JOqYsXFYcx2XiLpK7yHdOqXVlhI617j9bbNbPrlqH1vRXzxkokP5+bE8x8rgeq6
+ aVyJL/B/utMLtNZy5KqcAliriGMdLzYyl4ns9QcZWiOHnjY70Y6DBbNWwVhSv4ahpFFN
+ Y4ObHRFoFF3JrubttngwXwC58gpEOqktLmd/pdIJJoMXVIGHtEGHhD0ajMGhowNj/xaE
+ tP6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JEvempOs4qwCLlW8+Q/mQ4vm2AHnJE/FFxeayEtZ2rg=;
- b=CPE6YXDwSANB/nQ9bZxcr4wFm2LclG8+DP2tGRZtjPxhnr3mo70ZdPJyZc7FDV3dza
- aIwMC6iz19HsuwZ4wIbeatS+dn57Je5aGipK/72HIaO5PiB+F2h2PtSvkJQhf5E0NEDD
- 84+MD7u23VVcTEEPUhiegdBQS2wZTncm/2nBgjQCoAI5ZTmgHs6gddrjwd2m6nNm627W
- YncI6LaJvAoMJ4mHC624Dodaxhh20TDkHt6DlcF6N6mwGZ+YkZJhqT6AO3D2vO4DSBDI
- Tztuzf1u5DLEfwXxKfjRYOoAEElsxwaegwGa8AS7lG9xnr53pBXDIqvciEFXQFB+4xux
- uU5A==
-X-Gm-Message-State: AGi0PuZ1jRzJVxFH0J6HHJJil6DMD3u94qXJNuajjpBA6xjEX46+ss2G
- ooB17dzluRyhdVXH4zBSFfh/sx2k3w1zmw==
-X-Google-Smtp-Source: APiQypJ9Q49j2E+xgorTERhSnr+0UiGin//+C7BWrqeK6MA/QipHkHQXguqVVFfx7JdybLm2WGbfIA==
-X-Received: by 2002:adf:afd6:: with SMTP id y22mr18779187wrd.417.1589204054485; 
- Mon, 11 May 2020 06:34:14 -0700 (PDT)
+ bh=HrUC6cR46kql6q+CIiU3E4k07J5wqDy/mLv107e44a0=;
+ b=pLGjiYmd3YI049J9qzqIpyCj+eptAQWZxQPef7regFWWQ/5O6BJUT/0T9V/r0uMBI9
+ uwCFZIHQFvLsj+R4wCf75Nhc2Xyemb+vsyApPEGAnoxmPvztyLOpHjVG1y1cglGxMSif
+ /g8BV/S8Y+GVk+0NIoni/GQxK4w4Cr4oXEkIpr7VsjVpf1g0cp/Ie4S+UINHM+YeGw0O
+ QhBumusa6WbuZAU26c1Lwxb92eoeX4DeF96yMnZ+CMlDS1fDbWhDhkJNa9zoDHEQjRe5
+ hhJ2hN0LdLKiI2Q3Jlyw9YogQD6h0JUeyJjudVCYbeZR9B/TpSLM4HnzyiCCkLmeg2A8
+ AZPA==
+X-Gm-Message-State: AGi0PubSG/0IKtS7lPCl0sA7LIu9tszcliLleCKvDhu7FnjlhCIyUS+8
+ Y2xGUf6ntcKdHzzK+Eemp9fwzLS6xBhDEA==
+X-Google-Smtp-Source: APiQypIGSqwF8ilm+W7jtQNd1bOY3idC/JEaAGxBiUrxJvgNZwh17MNaQ+KNrX1uYT0bGCxdqYh+8w==
+X-Received: by 2002:adf:f3cc:: with SMTP id g12mr7908730wrp.427.1589204055443; 
+ Mon, 11 May 2020 06:34:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.13
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:13 -0700 (PDT)
+ Mon, 11 May 2020 06:34:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/34] hw/timer/nrf51_timer: Display timer ID in trace events
-Date: Mon, 11 May 2020 14:33:37 +0100
-Message-Id: <20200511133405.5275-7-peter.maydell@linaro.org>
+Subject: [PULL 07/34] hw/timer/nrf51_timer: Add trace event of counter value
+ update
+Date: Mon, 11 May 2020 14:33:38 +0100
+Message-Id: <20200511133405.5275-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,110 +92,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The NRF51 series SoC have 3 timer peripherals, each having
-4 counters. To help differentiate which peripheral is accessed,
-display the timer ID in the trace events.
+Add trace event to display timer's counter value updates.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200504072822.18799-4-f4bug@amsat.org
+Message-id: 20200504072822.18799-5-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/timer/nrf51_timer.h |  1 +
- hw/arm/nrf51_soc.c             |  5 +++++
- hw/timer/nrf51_timer.c         | 11 +++++++++--
- hw/timer/trace-events          |  4 ++--
- 4 files changed, 17 insertions(+), 4 deletions(-)
+ hw/timer/nrf51_timer.c | 1 +
+ hw/timer/trace-events  | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/include/hw/timer/nrf51_timer.h b/include/hw/timer/nrf51_timer.h
-index 85cad2300df..eb6815f21d7 100644
---- a/include/hw/timer/nrf51_timer.h
-+++ b/include/hw/timer/nrf51_timer.h
-@@ -59,6 +59,7 @@ typedef struct NRF51TimerState {
-     MemoryRegion iomem;
-     qemu_irq irq;
- 
-+    uint8_t id;
-     QEMUTimer timer;
-     int64_t timer_start_ns;
-     int64_t update_counter_ns;
-diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
-index e50473fd199..71309e53cc8 100644
---- a/hw/arm/nrf51_soc.c
-+++ b/hw/arm/nrf51_soc.c
-@@ -150,6 +150,11 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
- 
-     /* TIMER */
-     for (i = 0; i < NRF51_NUM_TIMERS; i++) {
-+        object_property_set_uint(OBJECT(&s->timer[i]), i, "id", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-         object_property_set_bool(OBJECT(&s->timer[i]), true, "realized", &err);
-         if (err) {
-             error_propagate(errp, err);
 diff --git a/hw/timer/nrf51_timer.c b/hw/timer/nrf51_timer.c
-index bc82c85a6f2..38cea0542e1 100644
+index 38cea0542e1..42be79c7363 100644
 --- a/hw/timer/nrf51_timer.c
 +++ b/hw/timer/nrf51_timer.c
-@@ -17,6 +17,7 @@
- #include "hw/arm/nrf51.h"
- #include "hw/irq.h"
- #include "hw/timer/nrf51_timer.h"
-+#include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "trace.h"
+@@ -240,6 +240,7 @@ static void nrf51_timer_write(void *opaque, hwaddr offset,
  
-@@ -185,7 +186,7 @@ static uint64_t nrf51_timer_read(void *opaque, hwaddr offset, unsigned int size)
-                       __func__, offset);
-     }
- 
--    trace_nrf51_timer_read(offset, r, size);
-+    trace_nrf51_timer_read(s->id, offset, r, size);
- 
-     return r;
- }
-@@ -197,7 +198,7 @@ static void nrf51_timer_write(void *opaque, hwaddr offset,
-     uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-     size_t idx;
- 
--    trace_nrf51_timer_write(offset, value, size);
-+    trace_nrf51_timer_write(s->id, offset, value, size);
- 
-     switch (offset) {
-     case NRF51_TIMER_TASK_START:
-@@ -372,12 +373,18 @@ static const VMStateDescription vmstate_nrf51_timer = {
-     }
- };
- 
-+static Property nrf51_timer_properties[] = {
-+    DEFINE_PROP_UINT8("id", NRF51TimerState, id, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void nrf51_timer_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->reset = nrf51_timer_reset;
-     dc->vmsd = &vmstate_nrf51_timer;
-+    device_class_set_props(dc, nrf51_timer_properties);
- }
- 
- static const TypeInfo nrf51_timer_info = {
+             idx = (offset - NRF51_TIMER_TASK_CAPTURE_0) / 4;
+             s->cc[idx] = s->counter;
++            trace_nrf51_timer_set_count(s->id, idx, s->counter);
+         }
+         break;
+     case NRF51_TIMER_EVENT_COMPARE_0 ... NRF51_TIMER_EVENT_COMPARE_3:
 diff --git a/hw/timer/trace-events b/hw/timer/trace-events
-index 29fda7870e0..43b605cc759 100644
+index 43b605cc759..80ea197594e 100644
 --- a/hw/timer/trace-events
 +++ b/hw/timer/trace-events
-@@ -67,8 +67,8 @@ cmsdk_apb_dualtimer_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK
- cmsdk_apb_dualtimer_reset(void) "CMSDK APB dualtimer: reset"
- 
+@@ -69,6 +69,7 @@ cmsdk_apb_dualtimer_reset(void) "CMSDK APB dualtimer: reset"
  # nrf51_timer.c
--nrf51_timer_read(uint64_t addr, uint32_t value, unsigned size) "read addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
--nrf51_timer_write(uint64_t addr, uint32_t value, unsigned size) "write addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
-+nrf51_timer_read(uint8_t timer_id, uint64_t addr, uint32_t value, unsigned size) "timer %u read addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
-+nrf51_timer_write(uint8_t timer_id, uint64_t addr, uint32_t value, unsigned size) "timer %u write addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
+ nrf51_timer_read(uint8_t timer_id, uint64_t addr, uint32_t value, unsigned size) "timer %u read addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
+ nrf51_timer_write(uint8_t timer_id, uint64_t addr, uint32_t value, unsigned size) "timer %u write addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
++nrf51_timer_set_count(uint8_t timer_id, uint8_t counter_id, uint32_t value) "timer %u counter %u count 0x%" PRIx32
  
  # bcm2835_systmr.c
  bcm2835_systmr_irq(bool enable) "timer irq state %u"
