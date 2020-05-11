@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8941E1CD81E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:26:31 +0200 (CEST)
-Received: from localhost ([::1]:40804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8D01CD89E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:36:38 +0200 (CEST)
+Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY6Zq-0008E1-CQ
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55850)
+	id 1jY6jd-00014U-UK
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:36:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY6Od-0000i3-G9; Mon, 11 May 2020 07:14:55 -0400
-Received: from mout.web.de ([212.227.15.14]:37697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY6Oc-0006ti-Hw; Mon, 11 May 2020 07:14:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589195688;
- bh=ox7FrQlIDpodo9cR+t+IPZpwtzB7Qs5pOwi+y4G35M0=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=OnZ4+5ZqLtFFJ9bQcOkXe6xYdkNM80rywQvGir9YO9Loqjn4fjAxKzlX+IEPs/O3j
- mt9kflmw8Bjwd6J2IXAdrdh7jIQQgiVkKswvdtDzlyZHTTMpvZ5XECcM5//a6FN+Iu
- 1UhJklww41YGWfyadW7u851Jczij1bqbWYOhqo7E=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LfzcB-1ijs4B3Adv-00pgGC; Mon, 11
- May 2020 13:14:48 +0200
-Date: Mon, 11 May 2020 13:14:47 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH 4/5] chardev/char-socket.c: Add yank feature
-Message-ID: <7f87fcd9be3cedfe0410c151de2bf4e5d907b1e2.1589193717.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1589193717.git.lukasstraub2@web.de>
-References: <cover.1589193717.git.lukasstraub2@web.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/oQzx6d5Nk2.gRvD_d/mV1E.";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:0wT0tdxCVau8z0N6eYdSpqwC5zAcYrOZroPKp2QhXq3kpCeF8cG
- oGhyLcx4nw0trtcn43p7I5gR8QvRsspNvDE264Y2USE8upIFEvOpyP7u+wXw7x5J9q/7Okc
- Oqc+jMRUYoKc/pYBAZhW1rpH1lh5LfpBthTy4M+cg9soqaD3bTjjg0tmSqWn4bIOw6L+5nS
- j3JAMN+2Tks7+aeXoC+0w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:u/mYSBWGa1A=:V866AMqLzcEYkIHs2en4Yj
- UIEiw7bxXvUgPvL4Tzl9n7T7elfb30P9gs2GVxPJllz9UxalZIsqmc5pFkp5N9iMqORiwBInF
- FTrYLyfWqLm1RHBNQsjMGDRW9Rku9lDkAnqdTeth7TyyypL/XoEsV5OdSM0Mn6lmZPP+QI1pT
- TRoSwiKjKJvT6DO7M9TpM57P7EuMWF6r5AxFLpqNNCAryGwqyn2hFb0oUjBvaJyypu9mr8f37
- T1Q6wRPmzJmUMF1f+rTb8rLHt3BcwPDsYLyk2JS8v5cxub0dw96kUA66Av9q5+RaYFa+88wB8
- owayfvWWVWAOfAYTWVNyD5R18nJ9YMgDkEwpHAk592qBoZ/zE0oIHgIsHFJRqqFF0MwQR8a1k
- /2hjj/DS305a+5yaznSs0Ax/hk4950fcHhgGGIWw2ywZyt21R40IPewfAOFRiUC1DwQXx9oV6
- Dyzj5+5Vl4KWX6ax9OOiquDokANX7CO8K7EKpK/7ZqEHQAJLEEhaufBhPJEFFOin2xrCkKtAl
- ynx27C3jjTRf9ZcTxAyUAJQ626SH4H7YnMVNn+o25Zrl7HiH04zda1aaAL+OUWb/+rOSY9i+g
- RvDmLgbMZNOSX4fpy2v9Z8ljPDGng57vNFFhNZodNeDhfJSwZjaXQdCgI780xbaDzPAMO4c2i
- iqo17owBX27wAKu82AwqRBvuV9I8JhSwekr7gctRYrac/F/Lpy9N0v/I8kOV36vcbWPxObl4Q
- r5trFmBlOAc7yz5dGS5q3PDWMQlxhvvyuMAv8FpNEUmesdyVq7DTn8srASkbs5ybTJ1l25/jU
- yswgr/QufQV2ESAySpzLiE5A5CtCO9xxxwlxQyk7H/dpFqMTEQq9ulIlnDBAABHSWVFrw9X1o
- N06NSs39GRCeP6MlpSlLyJgxVYYxD2SSnEndK1SFDJuNbjJc+JuqgN7DRBx3XQYOZqgCtphjw
- VRus+skV9DzZrY2hz4Im7KLCTtLW8OVe5MVGpdCTrDr2+Ogs25a5Rr65jp9gd1MV4ATkhXalm
- brgnVZVFgfGzHX3WNQ/bXvL/XQO4z3GFiWBwoCcKe5JV9vXFR7yi/t8d/8s8Ios6zAKNkY5vU
- 0sD4xR4ef6TFP1OQCLwGSUQbmABYVKfab8LC5ZVeLH5ZDpr5aXTCNpvJEBYnHjtyrOQznvBug
- rfa7CB+5o1UoCwIHsthELyPKYnvnOBg+pLeNcs+095uKEVmj8sHomHuZudei3X2rx5zROW/ZY
- gCgelDymDVQprt+ry
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 07:10:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jY6Oi-0000rd-GN
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:15:00 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:22659
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1jY6Oh-0006xG-Oa
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:15:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589195698;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SaINzKai802fTlrpKB04eMIdZm3zzjmjJTDzHyKI76s=;
+ b=PTNptWrLnURB2pZnw7Ub8iXJtlyxShBPFORbnievmzY4LKG1qoHsLE0lJkow2WZK0pQ+Xh
+ E+zvPfGuWb/yiLgDuHbuUq8iqTPuapKnnUbhPXPPaPod6dKKIQ8ma4ON6mjVfJsS4w0Pgk
+ RSnsgRptMyLz2aCjUJDg9QaHpveoJ98=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-fCshEwQQN46RoKNd0HBaIQ-1; Mon, 11 May 2020 07:14:56 -0400
+X-MC-Unique: fCshEwQQN46RoKNd0HBaIQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1CF5460;
+ Mon, 11 May 2020 11:14:55 +0000 (UTC)
+Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A7215C1B2;
+ Mon, 11 May 2020 11:14:50 +0000 (UTC)
+Message-ID: <6f02830942ac3d4812344d7ecfa1841fa668c177.camel@redhat.com>
+Subject: Re: [PATCH 3/4] device-core: use atomic_set on .realized property
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 11 May 2020 14:14:49 +0300
+In-Reply-To: <82d51a76-fd38-d72e-2d22-c4de1a76d5f9@redhat.com>
+References: <20200416203624.32366-1-mlevitsk@redhat.com>
+ <20200416203624.32366-4-mlevitsk@redhat.com>
+ <20200504104538.GC354891@stefanha-x1.localdomain>
+ <b265d4ee-400e-bb80-cc37-e89c5dab2a8c@redhat.com>
+ <948c2e2f293c08b6411030dc5ad91c23a2f773f0.camel@redhat.com>
+ <82d51a76-fd38-d72e-2d22-c4de1a76d5f9@redhat.com>
+Mime-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,139 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Daniel P. =?ISO-8859-1?Q?Berrang=E9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/oQzx6d5Nk2.gRvD_d/mV1E.
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2020-05-11 at 13:11 +0200, Paolo Bonzini wrote:
+> On 11/05/20 13:00, Maxim Levitsky wrote:
+> > On second thought, I think both cases matter, after I examined the device removal case.
+> > In device removal case, the device is first un-realized and then removed from the bus,
+> > so just like in device hotplug case, the scsi_device_find can give you an unrealized device.
+> > 
+> > I will change this patch to set .realized to false at the start (if needed) of the function and to true at the end (also if needed)
+> > Will atomic_rcu_set work? or atomic_store_release?
+> > (Both are the same thing, but former documents the purpose of using with RCU.
+> 
+> atomic_rcu_set is more to store pointers, in this case you want to store
+> the value after any other change to the struct so atomic_store_release
+> is more appropriate.
+> 
+> Paolo
+> 
+All right then.
+Best regards,
+	Maxim Levitsky
 
-Add yank option which is passed to the socket-channel.
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- chardev/char-socket.c | 8 ++++++++
- chardev/char.c        | 3 +++
- qapi/char.json        | 5 ++++-
- 3 files changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 185fe38dda..e476358941 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -65,6 +65,7 @@ typedef struct {
-     int max_size;
-     int do_telnetopt;
-     int do_nodelay;
-+    int do_yank;
-     int *read_msgfds;
-     size_t read_msgfds_num;
-     int *write_msgfds;
-@@ -877,6 +878,9 @@ static int tcp_chr_new_client(Chardev *chr, QIOChannelS=
-ocket *sioc)
-     if (s->do_nodelay) {
-         qio_channel_set_delay(s->ioc, false);
-     }
-+    if (s->do_yank) {
-+        qio_channel_set_yank(s->ioc, true);
-+    }
-     if (s->listener) {
-         qio_net_listener_set_client_func_full(s->listener, NULL, NULL,
-                                               NULL, chr->gcontext);
-@@ -1297,6 +1301,7 @@ static void qmp_chardev_open_socket(Chardev *chr,
-     SocketChardev *s =3D SOCKET_CHARDEV(chr);
-     ChardevSocket *sock =3D backend->u.socket.data;
-     bool do_nodelay     =3D sock->has_nodelay ? sock->nodelay : false;
-+    bool do_yank        =3D sock->has_yank    ? sock->yank    : false;
-     bool is_listen      =3D sock->has_server  ? sock->server  : true;
-     bool is_telnet      =3D sock->has_telnet  ? sock->telnet  : false;
-     bool is_tn3270      =3D sock->has_tn3270  ? sock->tn3270  : false;
-@@ -1310,6 +1315,7 @@ static void qmp_chardev_open_socket(Chardev *chr,
-     s->is_tn3270 =3D is_tn3270;
-     s->is_websock =3D is_websock;
-     s->do_nodelay =3D do_nodelay;
-+    s->do_yank =3D do_yank;
-     if (sock->tls_creds) {
-         Object *creds;
-         creds =3D object_resolve_path_component(
-@@ -1400,6 +1406,8 @@ static void qemu_chr_parse_socket(QemuOpts *opts, Cha=
-rdevBackend *backend,
-=20
-     sock->has_nodelay =3D qemu_opt_get(opts, "delay");
-     sock->nodelay =3D !qemu_opt_get_bool(opts, "delay", true);
-+    sock->has_yank =3D qemu_opt_get(opts, "yank");
-+    sock->yank =3D qemu_opt_get_bool(opts, "yank", false);
-     /*
-      * We have different default to QMP for 'server', hence
-      * we can't just check for existence of 'server'
-diff --git a/chardev/char.c b/chardev/char.c
-index e77564060d..04075389bf 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -939,6 +939,9 @@ QemuOptsList qemu_chardev_opts =3D {
-         },{
-             .name =3D "logappend",
-             .type =3D QEMU_OPT_BOOL,
-+        },{
-+            .name =3D "yank",
-+            .type =3D QEMU_OPT_BOOL,
-         },
-         { /* end of list */ }
-     },
-diff --git a/qapi/char.json b/qapi/char.json
-index daceb20f84..f9c04e720c 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -270,6 +270,8 @@
- #             then attempt a reconnect after the given number of seconds.
- #             Setting this to zero disables this function. (default: 0)
- #             (Since: 2.2)
-+# @yank: Shutdown the socket when the 'yank' qmp command is executed.
-+#        (Since: 5.1)
- #
- # Since: 1.4
- ##
-@@ -283,7 +285,8 @@
-             '*telnet': 'bool',
-             '*tn3270': 'bool',
-             '*websocket': 'bool',
--            '*reconnect': 'int' },
-+            '*reconnect': 'int',
-+            '*yank': 'bool' },
-   'base': 'ChardevCommon' }
-=20
- ##
---=20
-2.20.1
-
-
---Sig_/oQzx6d5Nk2.gRvD_d/mV1E.
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65M6cACgkQNasLKJxd
-sliFAg//YyalI54Fj8NyBm0Irs3WorpvvGdQ+OnevRLWD0hYvfia8b5uU4Az4u0O
-xy1wp8U/LO+Gop0SvbYseRs+xjYM9O1Qfc8hL0cvsSiJUYR5Qrr113nLP0YMMgTL
-g/qjKlRaBefhRLha5LfF5BEiI568ojmWt+s2mZzvWsQmH9J+hxkXxr8vQpSl95Nb
-95+EXXPwgftwiWrme6zhC+SX/2nwNXeE11kZBhQTwaDpTwAtiqL99KK9pB2V9dxk
-9cPkI4VxxO+BVvsAXVEofohHAWpkz9hFI5l//3yTNDVzdwbLaQRUJ4XmiXYux1wS
-uuWdm731p+cHD1bDk3OkA4dooNJOmUUVvXhQ/EDXWB02NotNyQldNcrkKKRf9L1d
-+FaH9uxloKxkyYqbCmGkkYFB+RHHWkkSHj9lrDGY3GwrgCDFxVG7YsklAtbbGils
-mRFutM3rAkhtEYMjPXbSWFyY4OTjCHih7rBYYCJ0LuzSb/5jk6vxTDwu7XJj7Ss0
-mePOdd7CvrvV+7/dOrEmOkXHrVkK3FlZtsjGV55X2Hq7NUzNRyjov2eXeDP605OE
-+iZy1k4WjkD2kGhhW7Mr8MyN4+KkIshO2d+//w/cQ5hU2H4V82sjEKWfbDDIW6Do
-3DWNSlN9W3lRYs0ao0/chwlaCNsTJ0LfUUfWgbsjdxQ76wuQHZY=
-=CdWq
------END PGP SIGNATURE-----
-
---Sig_/oQzx6d5Nk2.gRvD_d/mV1E.--
 
