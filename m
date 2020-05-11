@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D2C1CD89B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:35:47 +0200 (CEST)
-Received: from localhost ([::1]:54840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FE31CD799
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:19:56 +0200 (CEST)
+Received: from localhost ([::1]:59138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY6io-0007uT-QI
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55424)
+	id 1jY6TT-0002du-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY6ND-0007YN-7p
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:13:27 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33431)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jY6OS-0000LJ-D7; Mon, 11 May 2020 07:14:44 -0400
+Received: from mout.web.de ([212.227.15.4]:55247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY6NC-0006Ix-Dp
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:13:26 -0400
-Received: by mail-ot1-x344.google.com with SMTP id j26so7232522ots.0
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 04:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IMDbJBu5+Rd0eP4QGCJnPPGRd2XqPGZu1QMu29plVuk=;
- b=RyFcJVC0xhi2jPq4KWOP/f3G3rVzh4eo7EmdCswcGRde8sxNpf5fHeYJhVa3gOMMKe
- 0MYwkN1ISxuRPZWsVd/b5h/2EsasiYNOFNgbn82BUHslSixptrSffqSX3rwTaLAc+9zp
- AJXZbDpuUFQ+KyfMkhlOhOGjcYCFE9XPbho9wEmXrqKWijVjSISwtZlsvto+L/99MbDz
- qyZ+pLyPpTr+pAhm+cMLF0hq2m+lptm559WOh1g77KvzLOkyTvjJE6npuRiruCdbLNPD
- Ba8o8nOp6+Kt8vFQ9qHUndXCpfK9VbrQIbIFlobAKQ01fCBlgwXVHCbwCflySbkxbSVL
- 1KQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IMDbJBu5+Rd0eP4QGCJnPPGRd2XqPGZu1QMu29plVuk=;
- b=a/9pyj8RYTJ39E6URN/pb6Ja+LruFHPspy5S6wD1jVl8UZi7inOU70McIxZdODLTgn
- DQ5y+D9ZHW1WadIkUbS0LiGmkINo8aWwPUJrWATdhZEG2LA1VZ555+hvrPRp/L09kJ6e
- XrCDgWU5/oE7kBT2s/fnBH/19nU1Z1AGuvXyokAijl+hh+cku08ktAe1SeJzVgW7RsRD
- g5xkEPxy5mCYZ2GWIYts7y6pABnRQ9WVX5B5E+B2UF8trSWdmnFaxFQDiSdj3Wb/NOr0
- SchaFp/xMEEIz9e3yWB0wJ6ujzfjj2mHh+64+4HgQ+0vVqr9jKiH0nWp9QHDKXZ5XRIQ
- WwGQ==
-X-Gm-Message-State: AGi0PuZis+HvKDu+BSdX8nDgyhvWGCm8RPGeOZWMqBK3cVaN5DL+GLP8
- inncHAlz+RZ/HVDAESaU0Lk6c80tipFgMhuayVs1IA==
-X-Google-Smtp-Source: APiQypKRqrOsnBkUVQa2sGZlRFy0PFIKLlSWxXCWIz5SoPIsdZhjggSABwpbiITEVnW7RFpSuEu4HAAuZfH3j9E5Zgo=
-X-Received: by 2002:a9d:398b:: with SMTP id y11mr68131otb.135.1589195604991;
- Mon, 11 May 2020 04:13:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jY6OR-0006pA-Hm; Mon, 11 May 2020 07:14:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1589195675;
+ bh=humdI/22fGDkxx2xF+0v4LcfHfCCcq0p3L3ORQdAD7g=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=pInkQOOTMVzmBpxt0ZNcMjV6lPnjiQZZ3QrnzEJHsiBbw/jj7qdBKjMyagLVC6NAL
+ fnT4frnhhgv+FNFCqDzgLqT86nePBiaz1mIIPpWgJk4TBgDOyGYO1vVeuJBqd+LKGQ
+ 6+zw+XWVJN1oy6ZBp58KeKszQenFf+4fR5PSH4Qs=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0Mg1Nl-1jmBIM1olp-00NTI9; Mon, 11
+ May 2020 13:14:35 +0200
+Date: Mon, 11 May 2020 13:14:34 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
+ hanging qemu
+Message-ID: <cover.1589193717.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-References: <20200507202429.1643202-1-amanieu@gmail.com>
-In-Reply-To: <20200507202429.1643202-1-amanieu@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 May 2020 12:13:14 +0100
-Message-ID: <CAFEAcA_doVoCbX9y=UEJp11wjrpuS8+oS8OL=dz200SiULmEjw@mail.gmail.com>
-Subject: Re: [PATCH] linux-user/arm: Reset CPSR_E when entering a signal
- handler
-To: "Amanieu d'Antras" <amanieu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/fMdxexITl0+PoIdGC8dHkWa";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:6elkNXNr4kWfEFTrZ3gagqstdgKNhVOyO0SqbBkIjdy4hgrq4p+
+ mdUaHHD8Bt+nHFAoZNPKFoRsWGklP2I7hnZ/lWGGnD5y7R6z+LKXG85pJPdB0gAV+7B2vBU
+ x+Q3Sb9ndhvZYSqI4ArrcDbKPYa7NJkiUy50Lhhb9SGxKbKEvCNxQW1NaNOhzyLxaAyJc64
+ eNpHrbgS6zoavmkQZ/xUw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aF49x4xSdsw=:jye6um4kS5q8sE6+LkjlzF
+ jw5+fCTMCTePzp686y3DsAeL6Ac7bHN0K7h673T9djzGoslatbPmYylJJc8x0aVPQUi0ZE7S5
+ 5JYO+RYS9WWNNcAtrbf/MD5Qx53xERlgEcCRMHy0hldkehpwlOvJx+nYbKNusPHkJLCqwc5NJ
+ 0rmyQ3wmxEbPr3/ezEiGljQvxog2izilSc9PkSxm89fYSHcYuUU3pUu8DgzuLm7EtnstSvjJ6
+ x9MepwdhzTct1ACGRUlfbn0AXeGISfCUNx8AgXNAwVkFkvapNQVo8iPbN6qhdR32Kq3NgE/Y9
+ rmIvcTYNyJ1rzYR6N5BGtZdJsghk7mKteKxZZL3sUUMaxGzsWKaXdQRVHOw68oHhgtbidmPMZ
+ W++ipZrYXpjzHTKmuQ4Zq5xCAHljytvCAkPFnOA2j6a8iwlrrE48ksShDljAlS0fHZqVA5cJ7
+ dX4KmgO5MgckaRC1rbHTilCt5vvWX6EP+4KjUfT7H1V4ACVgokG9y+7/bgCxqdQkZhWO0+KBx
+ os329HyqyfuYxurz9TLft0dd99VsfSYr5K4hdDmwF1/gStejRYYZaiPLXu5yJjxdIPJ/sThaX
+ jDFnZ65rxbAOmrG/K0R6766K2TyMAbwCNQq1Ri9fc25iYXXLhR+3hvhHvQzq5SysYomOcF7Ys
+ zmYO31Wy6ovfNENsULZHp5B1LOLcscMrnuj4gCLM/TJ+sDb8/02JgXRojQafM0aT2r9vyyZXG
+ 3d2oqb1aZVRJWZ03E09T8FnCs9hXfxyqibktqnxF6jwMPcZ4Xt/F9Pwnk86IBQB/ZDs8HNnO6
+ 48suFFa1IuAQ27nmAu6Z89FcOmkjL4IhE4rcxBz9t55/lpwydSKulI50xo0rjeeGQRQNCLBNh
+ p6uv51EcMCcJ1Si0yzMNXPhY2zz5xeyEhHQn1PwSEcYKAEsjcWvuZ6+yJLz1A7leLQ5CcC/on
+ Civ9XZ/kHG+x9HGSC4xAfWWKYJZ9USpOgdvCbsO9f/DNbW79I4DizSuE03uNFog+HYka47OJB
+ 1ELICu4+5nJYFLrMXXtAzhCFwmojIeoGvG2ZMVUtdqYu+Md3Ph6Bqym2KQ2kc+/kfqJRyjHdG
+ K/6FYxYhSMio7XupVVe4pMHLGEgrR6SW68rfPLSTzWKKcV59rcSpoDgNWLFky/NbL8x/NYKLz
+ Mcfvzbm7mNdZyiM3JBWDhf1kJdC3Hi4mVzme7MnXtAunWiRMPt6IKCYhgvEOandu2zlNAZd93
+ JtiVbaDkK+SxMDCoN
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 07:14:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +84,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 May 2020 at 21:25, Amanieu d'Antras <amanieu@gmail.com> wrote:
->
-> This fixes signal handlers running with the wrong endianness if the
-> interrupted code used SETEND to dynamically switch endianness.
->
-> Signed-off-by: Amanieu d'Antras <amanieu@gmail.com>
-> ---
->  linux-user/arm/signal.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-> index d96fc27ce1..8aca5f61b7 100644
-> --- a/linux-user/arm/signal.c
-> +++ b/linux-user/arm/signal.c
-> @@ -244,6 +244,12 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
->      } else {
->          cpsr &= ~CPSR_T;
->      }
-> +    cpsr &= ~CPSR_E;
-> +#ifdef TARGET_WORDS_BIGENDIAN
-> +    if (env->cp15.sctlr_el[1] & SCTLR_E0E) {
-> +        cpsr |= CPSR_E;
-> +    }
-> +#endif
+--Sig_/fMdxexITl0+PoIdGC8dHkWa
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The #ifdef isn't incorrect, but I don't think we need it --
-if we're emulating a little-endian binary then SCTLR_E0E will
-be 0 and we won't set CPSR.E. So we can drop the #ifdef and
-the code is a little cleaner to read.
+Hello Everyone,
+In many cases, if qemu has a network connection (qmp, migration, chardev, e=
+tc.)
+to some other server and that server dies or hangs, qemu hangs too.
+These patches introduce the new 'yank' out-of-band qmp command to recover f=
+rom
+these kinds of hangs. The different subsystems register callbacks which get
+executed with the yank command. For example the callback can shutdown() a
+socket. This is intended for the colo use-case, but it can be used for other
+things too of course.
 
-Otherwise
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Regards,
+Lukas Straub
 
-thanks
--- PMM
+Lukas Straub (5):
+  Introduce yank feature
+  io/channel.c,io/channel-socket.c: Add yank feature
+  block/nbd.c: Add yank feature
+  chardev/char-socket.c: Add yank feature
+  migration: Add yank feature
+
+ Makefile.objs               |  2 +
+ block/nbd.c                 | 68 ++++++++++++++++++++++++---------
+ chardev/char-socket.c       |  8 ++++
+ chardev/char.c              |  3 ++
+ include/io/channel-socket.h |  1 +
+ include/io/channel.h        | 12 ++++++
+ io/channel-socket.c         | 29 ++++++++++++++
+ io/channel.c                |  9 +++++
+ migration/channel.c         |  2 +
+ migration/migration.c       | 11 ++++++
+ qapi/block-core.json        |  5 ++-
+ qapi/char.json              |  5 ++-
+ qapi/migration.json         | 17 +++++++--
+ qapi/misc.json              | 15 ++++++++
+ softmmu/vl.c                |  2 +
+ yank.c                      | 75 +++++++++++++++++++++++++++++++++++++
+ yank.h                      | 12 ++++++
+ 17 files changed, 254 insertions(+), 22 deletions(-)
+ create mode 100644 yank.c
+ create mode 100644 yank.h
+
+--=20
+2.20.1
+
+--Sig_/fMdxexITl0+PoIdGC8dHkWa
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65M5oACgkQNasLKJxd
+slgLVw//RrE0dxe7099otWYb0fLRtBKW/pknxHtMLHH5VrhumzeW2Bz+yJlg7kZa
+axZkYRILyfZH0xMmL92dI51rMuSUBz+xlzzBSH3yp4lIuK2PqpQYvUOq02nwvggU
+NdKanbPVUGw0FuKgRUO3X1UDBSsJ9Nc1mvfPwtJl+ZjxkfPwdfemuDibJ9Fzagn6
+iI2rBdSnSDumSw6TL5m9JYWx8OlHWonwrBntr/HZUL6CoOKcH9xiY/Nv4dtdNgfy
+FIdChCrE/gpVAwsF0VOrOEhzX4Epgc7rcvgJfopxou6Jrh5PcrS43sqoDufrVuQx
+QSCYyGzmkKLbAJNtq20IIbxXiejDY+6ASc8rRVq1S9FtXKzlYyu7RJyXYKiKoR2H
+uflSfMZ0AgS9lBFg/DNfDoeL4bhOBObaZpD6Mq2kL1AzdiTRdlMu1uLEPl1EC+RK
+bjfn14Sk3teNtPuuScc9hqLwSqEier0iI3OF+7MAo70E3HGctYIIKhN9/sXye0DX
+gFqY0n4piqwjPmlPVAcz6XtxxBfehWocRI3alK7PEj/0cFFNwRYp5WSWfYkqWeDJ
+keHPvCF/v4xxEQWSE8hXLHkMf7lOttT7P4uSDocYDxx94EK5OHog4FwFvbt/1kGG
+0j0m3pJqanNy4dIuq8MnzBAAaEiY6VtVNjl926S5EVI+Q+TM0Jg=
+=b9EB
+-----END PGP SIGNATURE-----
+
+--Sig_/fMdxexITl0+PoIdGC8dHkWa--
 
