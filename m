@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502791CDBA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:46:29 +0200 (CEST)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A751CDBB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:49:03 +0200 (CEST)
+Received: from localhost ([::1]:42636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8lI-0006vS-9t
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:46:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49124)
+	id 1jY8nm-0002hA-5A
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zy-0002Zu-7P
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:46 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53716)
+ id 1jY8Zz-0002cu-6T
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:47 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zx-0007Dq-3S
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:45 -0400
-Received: by mail-wm1-x336.google.com with SMTP id k12so18030732wmj.3
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:44 -0700 (PDT)
+ id 1jY8Zy-0007Ey-AC
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:46 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id y24so19314645wma.4
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FKycni8NPHvHNWeB849RmEyB5xFRLf+3CRF6YKP5BZ0=;
- b=mK9bkm87iSNjS1dFx2KMRjLsZShdvyR4I5N7joi+c3QCdrhC9IriArJTkKIbFTfgga
- ju3VXRtVRFt+PAxuPA053ZF9nEkHM9bnIRiwIFkz06EVNQkaFDypyi9mSuSzzqudSQ4d
- OkWJNgXY5cto9J9xetFOb4TdmIT5O2Ttz4vDMpC/mTqQ8D+FnpLSWGzF6+f3Azp21HF0
- OLU7H/8RZd8ZeGAxMkNk+/HG3xXb1AtRFfq/Jf8k4IbZE2CtQXxpO/BJXWV5TDw5nKNI
- txsE/ZZ/msGvIg3NLLY4HHyHNnWYyR9N1s4bhdMcwkZpylXH/Ckjlrh4GrOk7xNZ45Cf
- lyyQ==
+ bh=XSEEKypaUPHa3YKv/s4gpdUF8gfQ0Q/8VrxqSnRvXag=;
+ b=MB36tHAjfWLuNmNRjVSRDDD7o99WUwlcnEL3g+Wik207G+qWGL9r00+ZECSWk4Onqp
+ bRLCOZuRKyh8BvE3+5c845AysM9k7GhGsqzssIcJ6ITyizGFxEXZI01TPkDtJPdG3vkD
+ VdbquIgJuZxDgtmCqt39VnA9mVCZKRYfpSGdsoUCr29nqz03zOjWsy3MrbEBXZGBaVL2
+ HnS9G4yuvjVboyP26/zXQd8nAzAVgXip9KR3cgpVpDWm1Y9JElwNAwAVAPMpB4SJGKOX
+ j+IGTUcn1szidkimmPrlghNZhunJN9PFUlawj2AhCKozy8d4i0b8udWreIytIAjiMrtZ
+ 0ffA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FKycni8NPHvHNWeB849RmEyB5xFRLf+3CRF6YKP5BZ0=;
- b=ADbbKjghtYBkY2s5d8+mSRXgX5sku+zA2K4lrND8lssfw4vm5tlPW5GlBoQ3drBO2f
- lC/bKYwbsiNz3E/TklyLGzbZCWx9ktFnnUuEUEmHOP+XkunI08Iw8ozNE8TQhwykIzaQ
- mIgbTAJqxN0jwHwK5xRFdl+igXHaCHA5o7yLYI1BL/VruXzqO+zzPKB6wA6dmw0elsxT
- AY9wL2oAYuk5Ni9YWmhIK0uz9B1+ToHF0q+mEnl7SXLne+5JyUGEmXwGpXFRH/cZKwWZ
- EEblUQm2IRVkLjFSZ9m1IJjP0LfkSGSR+aG7g9KSYQLsBSt4teO21EZfW0SAZD/HnY/L
- fugw==
-X-Gm-Message-State: AGi0PuZGksAjbbjsG7piQCNRBB5fHzkP4e9uXgAgsw8JYuilHsqZ0CWz
- P6j7Yi/MFDI5H1ZbRnRBcluDTwAt7Q4qxA==
-X-Google-Smtp-Source: APiQypLbZHHmBEeirjr3ioj6RA7TZe0km4nek/XX5jVogA6y9Dwy7kpFcd8QLP18PJUB4t3bVdtHNg==
-X-Received: by 2002:a1c:bbc4:: with SMTP id
- l187mr12225429wmf.183.1589204083196; 
- Mon, 11 May 2020 06:34:43 -0700 (PDT)
+ bh=XSEEKypaUPHa3YKv/s4gpdUF8gfQ0Q/8VrxqSnRvXag=;
+ b=PE9MsrAOPxxE9VF6LInQzJlMtYMiiIflxgeKzxAmRI83dKFB6BOiNj/vkU8l/T6Mfp
+ vtqXk1EhPMuFpNNLvcJjSrfOL+SCkjyaNayc5lzGpcloPl1unQl5XWgq+lYUdNNmvKT2
+ 8xgSdFmW+XMhZd19jP8R1yHsdbMV8FVEI4dV4FLmqoSp04nYpyqRJEUqIHXzDVsPKGXh
+ ZvrwqJ3hf3issb/+2FFIQn3t3bN66ZC7COB/4UzQuCRVzU/KBR2GjZaCS/cJ7M7huu+O
+ Gnh535VN3xt4Sjk29hasnGyNsjTlcDsASGTKYVYH5xtW0EFWzmoDuRXHUP+drdzV6Hmv
+ 6jgQ==
+X-Gm-Message-State: AGi0PuZ59YpdVwvwBXJpJj/wptxNIqwZCXa/DjjnOyWyVKqv2DJpyDfE
+ l9FfSk5Y7MpIGUkS8+dVhbIMAQWpRZJZXw==
+X-Google-Smtp-Source: APiQypKh7twA3QkiyzkT65EFMzdNXRja7A+gdF2UwThzHdT52JEtOeMCuZtgfmq91Fy75cWh6ZJJaw==
+X-Received: by 2002:a1c:bc08:: with SMTP id m8mr31295488wmf.119.1589204084630; 
+ Mon, 11 May 2020 06:34:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.42
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:42 -0700 (PDT)
+ Mon, 11 May 2020 06:34:44 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/34] target/arm: Make set_feature() available for other files
-Date: Mon, 11 May 2020 14:33:59 +0100
-Message-Id: <20200511133405.5275-29-peter.maydell@linaro.org>
+Subject: [PULL 29/34] target/arm/cpu: Use ARRAY_SIZE() to iterate over
+ ARMCPUInfo[]
+Date: Mon, 11 May 2020 14:34:00 +0100
+Message-Id: <20200511133405.5275-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,90 +90,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Move the common set_feature() and unset_feature() functions
-from cpu.c and cpu64.c to cpu.h.
+Use ARRAY_SIZE() to iterate over ARMCPUInfo[].
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Since on the aarch64-linux-user build, arm_cpus[] is empty, add
+the cpu_count variable and only iterate when it is non-zero.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200504172448.9402-3-philmd@redhat.com
-Message-ID: <20190921150420.30743-2-thuth@redhat.com>
-[PMD: Split Thomas's patch in two: set_feature, cpu_register]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200504172448.9402-4-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h   | 10 ++++++++++
- target/arm/cpu.c   | 10 ----------
- target/arm/cpu64.c | 10 ----------
- 3 files changed, 10 insertions(+), 20 deletions(-)
+ target/arm/cpu.c   | 16 +++++++++-------
+ target/arm/cpu64.c |  8 +++-----
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 8608da6b6fc..676f216b67c 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -696,6 +696,16 @@ typedef struct CPUARMState {
-     void *gicv3state;
- } CPUARMState;
- 
-+static inline void set_feature(CPUARMState *env, int feature)
-+{
-+    env->features |= 1ULL << feature;
-+}
-+
-+static inline void unset_feature(CPUARMState *env, int feature)
-+{
-+    env->features &= ~(1ULL << feature);
-+}
-+
- /**
-  * ARMELChangeHookFn:
-  * type of a function which can be registered via arm_register_el_change_hook()
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5d64adfe76e..13959cb6435 100644
+index 13959cb6435..b4d73dd47c1 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -725,16 +725,6 @@ static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
- 
+@@ -2739,7 +2739,6 @@ static const ARMCPUInfo arm_cpus[] = {
+     { .name = "any",         .initfn = arm_max_initfn },
  #endif
+ #endif
+-    { .name = NULL }
+ };
  
--static inline void set_feature(CPUARMState *env, int feature)
--{
--    env->features |= 1ULL << feature;
--}
--
--static inline void unset_feature(CPUARMState *env, int feature)
--{
--    env->features &= ~(1ULL << feature);
--}
--
- static int
- print_insn_thumb1(bfd_vma pc, disassemble_info *info)
+ static Property arm_cpu_properties[] = {
+@@ -2887,19 +2886,22 @@ static const TypeInfo idau_interface_type_info = {
+ 
+ static void arm_cpu_register_types(void)
  {
+-    const ARMCPUInfo *info = arm_cpus;
++    const size_t cpu_count = ARRAY_SIZE(arm_cpus);
+ 
+     type_register_static(&arm_cpu_type_info);
+     type_register_static(&idau_interface_type_info);
+ 
+-    while (info->name) {
+-        arm_cpu_register(info);
+-        info++;
+-    }
+-
+ #ifdef CONFIG_KVM
+     type_register_static(&host_arm_cpu_type_info);
+ #endif
++
++    if (cpu_count) {
++        size_t i;
++
++        for (i = 0; i < cpu_count; ++i) {
++            arm_cpu_register(&arm_cpus[i]);
++        }
++    }
+ }
+ 
+ type_init(arm_cpu_register_types)
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 9bdf75b1abb..cbaa5ed2287 100644
+index cbaa5ed2287..f5c49ee32d0 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -29,16 +29,6 @@
- #include "kvm_arm.h"
- #include "qapi/visitor.h"
+@@ -734,7 +734,6 @@ static const ARMCPUInfo aarch64_cpus[] = {
+     { .name = "cortex-a53",         .initfn = aarch64_a53_initfn },
+     { .name = "cortex-a72",         .initfn = aarch64_a72_initfn },
+     { .name = "max",                .initfn = aarch64_max_initfn },
+-    { .name = NULL }
+ };
  
--static inline void set_feature(CPUARMState *env, int feature)
--{
--    env->features |= 1ULL << feature;
--}
--
--static inline void unset_feature(CPUARMState *env, int feature)
--{
--    env->features &= ~(1ULL << feature);
--}
--
- #ifndef CONFIG_USER_ONLY
- static uint64_t a57_a53_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ static bool aarch64_cpu_get_aarch64(Object *obj, Error **errp)
+@@ -840,13 +839,12 @@ static const TypeInfo aarch64_cpu_type_info = {
+ 
+ static void aarch64_cpu_register_types(void)
  {
+-    const ARMCPUInfo *info = aarch64_cpus;
++    size_t i;
+ 
+     type_register_static(&aarch64_cpu_type_info);
+ 
+-    while (info->name) {
+-        aarch64_cpu_register(info);
+-        info++;
++    for (i = 0; i < ARRAY_SIZE(aarch64_cpus); ++i) {
++        aarch64_cpu_register(&aarch64_cpus[i]);
+     }
+ }
+ 
 -- 
 2.20.1
 
