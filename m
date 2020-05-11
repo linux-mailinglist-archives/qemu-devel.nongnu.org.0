@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552C51CD8B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:43:28 +0200 (CEST)
-Received: from localhost ([::1]:42530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88D21CD89D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:36:14 +0200 (CEST)
+Received: from localhost ([::1]:56372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY6qF-0007iB-EO
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:43:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57778)
+	id 1jY6jF-0000B7-Qz
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jY6g2-0005lA-1I
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:32:54 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31574
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jY6hz-0007Tc-T3
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:34:55 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:32232
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jY6fz-0007E8-DQ
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:32:53 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jY6hy-0007TN-NE
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:34:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589196769;
+ s=mimecast20190719; t=1589196893;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=e1jXsjLDgxxDL3WPWWIYZi3LkILVb4BgCfucYuGiTE4=;
- b=SB9ouBKObBoHtxuk8n6SE3vvwSNtQRUMcbJfqfvdkNgGuFT39/GSt6jM4QGKxydRGVr340
- 0tihQ6T8otjm9AfsysP1yyxMQXVzs2ToXeFNaq92iDuMbPMVgxArNuFYeD5DPdV0aL05+t
- oTspTjDv1DDF+EjLB61yHXVEjwz0qEs=
+ bh=eiIw/GYlFotp6RclmORvcQ8g8kH2kGGUsqY/lzLOzlU=;
+ b=dmn+gDFUO8SsGyPyVW3zndfndVUVgYyNtSB/tHUsbm0bcHYZsgbS5pctZy4UoTO2rcjQVN
+ 9zJrEN5a9hzNk1JyJcZGVKAm2WqOk18AAuR3w83dz+y+7W5XRWpCBLkP+lCuKgY1NSHsvw
+ 3VAj2PZNDkdTimh+8bijoBxhHrAmbDI=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-BEMZUNZDP3y_QTNtTYRwXg-1; Mon, 11 May 2020 07:32:32 -0400
-X-MC-Unique: BEMZUNZDP3y_QTNtTYRwXg-1
-Received: by mail-wr1-f72.google.com with SMTP id p2so3197104wrm.6
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 04:32:32 -0700 (PDT)
+ us-mta-274-0dg06w4IM1OBA_Ruta1-9w-1; Mon, 11 May 2020 07:34:52 -0400
+X-MC-Unique: 0dg06w4IM1OBA_Ruta1-9w-1
+Received: by mail-wr1-f72.google.com with SMTP id z10so1099536wrs.2
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 04:34:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=e1jXsjLDgxxDL3WPWWIYZi3LkILVb4BgCfucYuGiTE4=;
- b=OGAaRjQ812YfNwD7B1jynHISejiOmQM45tXgUDoXAGPmXu0R6CjOIbSQCAT1ogjZOV
- AqDiR9hR7YYTIN6kvu0ubum/EE2WDXbpp11ocCJgpzJhdKzoBzvzWDvG0YRrgPuVWQx8
- 7Nan4Db3zm9PW7i0/bBWsmD3P0K/eYMSI59oS8nseeQhKUO99DfBjCyhRDC6uDdvyE9J
- CXemJ/3LzPVwtNrFqQOH0qrLPDLN+zl6cy8VbS03cUqk4KhmWsyuV0IRNPWIxbV6Ecp7
- WC9MLYfte1TM+yrElUHKvPTVspNq6TtJiqXSOGEdHIKuQUURtj9B3A6pLzkwgIWfFWBV
- 86Lg==
-X-Gm-Message-State: AGi0PuY2KIadFrQ7FK6LbZDBcJ8CIAdAxB5HNb1AFcAFwVbI4h8EXexc
- iQ0CafqrjX05WxTGqTVCUZjnXCLD5j1H8hjMBVNdtjZ/sTur7pHsDFjW2q0K2NNoxF5YmcoC65I
- gNlBfgmAE8/UNtl4=
-X-Received: by 2002:a5d:6702:: with SMTP id o2mr12408292wru.231.1589196751252; 
- Mon, 11 May 2020 04:32:31 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKA9n3K0ELkFktaIlu98BryncK5bEhJy6F4YwSdJ/XxV3R5g1GD3Bw9Uvvc/yh06uG9G61XXw==
-X-Received: by 2002:a5d:6702:: with SMTP id o2mr12408253wru.231.1589196750820; 
- Mon, 11 May 2020 04:32:30 -0700 (PDT)
+ bh=eiIw/GYlFotp6RclmORvcQ8g8kH2kGGUsqY/lzLOzlU=;
+ b=C5Y89S86UEv3hfDumqToaRvR4S9ew2ALwjJdBfXxpnRGNyhioo8aR4QvVOLMlUhJor
+ PP8bSMiGTv+dj/Xd8vIDAM3/g7KOYa3bUA4zclLI1XaKH7tZlLysWWhl9EGuzjOUhgTH
+ ZE9BmsV1L1BRIaZU4WF0axhJfwF0TLMqukhPpWV3+pdKgtXUx0Ql8crtBEvnEuREhdKB
+ Irv2v8ZrF3r5DLAOufTJbNCp7U14eiDn1med3sinbyal7jXk6lIAaYRvotxCOz6xGExg
+ 1z7e4hVtlLQQL49OkuXaGNOodluZdvVQbZTEet/V+2kMsK/64PKOwqbEeZABw584iVyJ
+ tBeg==
+X-Gm-Message-State: AGi0PuYaxgBGzKqdVkWG5ycseJsLCJqbNyNkUmTYtjh6tjysl9V0+Xis
+ hwScHpjgrlqj9bXEVj5Ls5MVAyemCjzs/obYbseAtaLuSBviPf4rGYRtryhMSHYXGXzguSFZaLG
+ DM/RfOwbvNH87D20=
+X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr15428997wmi.110.1589196890610; 
+ Mon, 11 May 2020 04:34:50 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKyBWwxj/9b2ZHY5bPRGi2XfOKP8X4m/HsGGG2sV5u/SojFeY0G5z8fRdAhuRLIPCKS3cfuGw==
+X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr15428958wmi.110.1589196890333; 
+ Mon, 11 May 2020 04:34:50 -0700 (PDT)
 Received: from redhat.com (bzq-79-179-68-225.red.bezeqint.net. [79.179.68.225])
- by smtp.gmail.com with ESMTPSA id s11sm17053819wrp.79.2020.05.11.04.32.28
+ by smtp.gmail.com with ESMTPSA id u16sm17244263wrq.17.2020.05.11.04.34.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 04:32:30 -0700 (PDT)
-Date: Mon, 11 May 2020 07:32:27 -0400
+ Mon, 11 May 2020 04:34:49 -0700 (PDT)
+Date: Mon, 11 May 2020 07:34:47 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Dmitry Sepp <dmitry.sepp@opensynergy.com>
 Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
-Message-ID: <20200511073049-mutt-send-email-mst@kernel.org>
+Message-ID: <20200511073251-mutt-send-email-mst@kernel.org>
 References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
  <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
  <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
@@ -127,10 +127,7 @@ On Mon, May 11, 2020 at 01:25:23PM +0200, Dmitry Sepp wrote:
 > made upstream that camera should be implemented as separate device type. We 
 > still plan to implement a simple frame capture capability as a downstream 
 > patch though.
-
-You want to spec out what's in the field, spec-wise internal up/down
-stream distinctions are not important.
-
+> 
 > > 
 > > 2. If Host has multiple video devices (especially in ARM SOCs over
 > > MIPI interfaces or USB), different VM can be started or hotplugged
@@ -139,7 +136,15 @@ stream distinctions are not important.
 > We do support this in our device implementation. But spec in general has no 
 > requirements or instructions regarding this. And it is in fact flexible enough 
 > to provide abstraction on top of several HW devices.
-> 
+
+Hmm I agree if it's just for pass-through of host devices that's a very
+limited usecase. Not out of scope for virtio, but let's make
+it clear it's pass-through in the device name, so that if
+people want to create a virtualizeable interface down the road
+they don't feel blocked.
+
+
+
 > > 
 > > Also instead of using libraries like Gstreamer in Host userspace, they
 > > can also be used inside the VM userspace after getting access to
