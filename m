@@ -2,64 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098A51CD65B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:20:08 +0200 (CEST)
-Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CE71CD679
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:24:39 +0200 (CEST)
+Received: from localhost ([::1]:48022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY5Xb-0008KH-2R
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:20:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47956)
+	id 1jY5by-0005tz-HA
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1jY5W9-0007OJ-2N
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:18:37 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:44006)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jY5XM-0000Bp-SZ
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:19:52 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <geert.uytterhoeven@gmail.com>)
- id 1jY5W7-0002gk-SH
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:18:36 -0400
-Received: by mail-oi1-f193.google.com with SMTP id j16so14599319oih.10
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:18:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jY5XL-00038O-OS
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:19:52 -0400
+Received: by mail-ot1-x343.google.com with SMTP id m13so7092634otf.6
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6p361W+9SNoRv3u3+vgwbIUzgFekB4gxuXrzmtgq1rM=;
+ b=BdvMGhslcO6EF62v1y1tsezno584rxCKYhfnJ4xGDM/KnJo8eoR0p3tl8EpttXKW3G
+ ffHHME75nSRQ4Y4XcxQU97rxp5Kzyb2D43L0vx2a5P0eeZy538lYh8m1PEspu32F2NfX
+ f5YO6AYTkRnWGei5/Lu5ySHSwa94BNSnd6lmpb4tE3sDAuv2YZSYtpm2BkM6ERyeYaCM
+ B2hC1EH0S5nWO+r+pUmJu+I4BWktzzex9BLDDvLRSJUpktcbVItO8s5QuGOp0LPZwwlO
+ eT0OR1d+kSCwhjhVpmOC66huFOosnKPtsFphGJTlujy8wxG0m64F7igOF7R2HvxNurIa
+ UoaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=dhHEh+pNrtrDrMKnU82n0ghqaec/6dzj+ojpD1sC6tU=;
- b=E5P7PQBNBaDhe9TYH+zBQ5mxloSU6IsAR+Z25Fw1v5UpO1s0ZjO2EYuB1OMRxG2yNW
- 1c3ZFKVgdAWrA2ug3ynT36yIi5543npJrSEUNwPDsY/63H6JhBhDP/ikY1O808GLBOGU
- tT2JsrdvT7WeTwTwqPMEv4HnIs02uDlOKNmfmbL0xxt61AnvNyVrHn498UkWtvctnsK/
- 3MnkL0xxuZ49cbR10ufcJgnqPm1E5dIlA1XkXocasFmoIJCAKTZxkDOkfcypOp5onCCl
- nhVQ1fY0fu7o8k+sfTkl1ciocvP7i4aUoABNNFeBxuSgcqPE6VjwLuTx9sCP199Km592
- uwBg==
-X-Gm-Message-State: AGi0PuY8szG/JYs2Hd24W2wEqc3ALTSZesv07QHerLu1KMyF1Lzp6Six
- 3tfCYUrs8dwzsrKhc9c7e4+lC2nRoWpsA9FwsbQ=
-X-Google-Smtp-Source: APiQypLbjyTZbvqRLGoc90pFkCHUbFvz5HgFxZ0FoH+dKrKDX/RlQwLNKA9fzQii+Qv4ryb+mU1sZeCNokwWcDCIukA=
-X-Received: by 2002:aca:f541:: with SMTP id t62mr18420359oih.148.1589192313970; 
- Mon, 11 May 2020 03:18:33 -0700 (PDT)
+ bh=6p361W+9SNoRv3u3+vgwbIUzgFekB4gxuXrzmtgq1rM=;
+ b=BrGHdzeqhYWP6Q8gDYlj7emotjOzfEVRnDrnOecN60CoZX0nxCWAfh6XYSAerloBBo
+ C8U71JPhm6unS0RuUOXrYJUr+p2Mace7z7jMYg1bf8k+MaqbAJPHn4JXXfM0clMcPgGh
+ Um56vVV0wGH8JzePMePOOnnb50/nY4XYntFpoXnen/oyQkppzK3VGEUyJjcsMT2k1nuU
+ tXUfgLq6vcS4dkLRhfj6fGR8zoc6lYX5wBamwPpTKtaEdpKSxXk2EEYDfS6NAhPkl2BV
+ 8xIhZEK6TYv5H8YvcH/n8uPoLpfqc9HrEK76ciZTcoM72HRHoeTNhtGh3K3aFaf9toD5
+ JMsA==
+X-Gm-Message-State: AGi0PuYzn3d0zCnRIkG6uZW42QV1BZtMrG9kUN2kesptN5Rz0HdnNx62
+ u3843w3IMqw/okRo4XtNJ4QGHBB3IzldaKEMpTDIVw==
+X-Google-Smtp-Source: APiQypIW/Tzn6P0IdTmHXqYVS3Vx5mG3OLonazxAC9EE2o2mgKaLkw+o2ywwqgqwBK896q22epxanAjn0qm4PXtSRkQ=
+X-Received: by 2002:a05:6830:1e4e:: with SMTP id
+ e14mr11855173otj.91.1589192390336; 
+ Mon, 11 May 2020 03:19:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be>
- <20200324135653.6676-4-geert+renesas@glider.be>
- <CACRpkdbN82n3B+Q-QVjB1jLpJAYS19fKukkDXQm3gZsuFFFM_w@mail.gmail.com>
-In-Reply-To: <CACRpkdbN82n3B+Q-QVjB1jLpJAYS19fKukkDXQm3gZsuFFFM_w@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 11 May 2020 12:18:22 +0200
-Message-ID: <CAMuHMdXskE8_A4gbFVWfPVdcxBO-CfaMDEehSxGAK_aC0MQ7=A@mail.gmail.com>
-Subject: Re: [PATCH v6 4/8] gpiolib: Add support for GPIO lookup by line name
-To: Linus Walleij <linus.walleij@linaro.org>
+References: <20200508154359.7494-1-richard.henderson@linaro.org>
+ <20200508154359.7494-5-richard.henderson@linaro.org>
+ <CAFEAcA-9bd11QTUGYdta+pDRFvd-9qtiBiBCGUCCX7Mi+swQbA@mail.gmail.com>
+ <62eca244-78dd-0359-d82b-30089d893d39@linaro.org>
+In-Reply-To: <62eca244-78dd-0359-d82b-30089d893d39@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 May 2020 11:19:39 +0100
+Message-ID: <CAFEAcA9wULdkxfzr0BDknqGpB6zuJjQXkvzL4WbsoMiZpfOOUA@mail.gmail.com>
+Subject: Re: [PATCH v5 04/19] accel/tcg: Adjust probe_access call to
+ page_check_range
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.167.193;
- envelope-from=geert.uytterhoeven@gmail.com; helo=mail-oi1-f193.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 06:18:34
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.001, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,74 +83,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Phil Reid <preid@electromag.com.au>,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <marc.zyngier@arm.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Rob Herring <robh+dt@kernel.org>, Harish Jenny K N <harish_kandiga@mentor.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <graf@amazon.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Linus,
-
-On Thu, Mar 26, 2020 at 10:18 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > Currently a GPIO lookup table can only refer to a specific GPIO by a
-> > tuple, consisting of a GPIO controller label and a GPIO offset inside
-> > the controller.
-> >
-> > However, a GPIO may also carry a line name, defined by DT or ACPI.
-> > If present, the line name is the most use-centric way to refer to a
-> > GPIO.  Hence add support for looking up GPIOs by line name.
-> >
-> > Implement this by reusing the existing gpiod_lookup infrastructure.
-> > Rename gpiod_lookup.chip_label to gpiod_lookup.key, to make it clear
-> > that this field can have two meanings, and update the kerneldoc and
-> > GPIO_LOOKUP*() macros.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> > Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> > Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+On Fri, 8 May 2020 at 17:57, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> On 5/8/20 9:13 AM, Peter Maydell wrote:
+> > We've gone round this multiple times now so I feel like
+> > I must be missing something here.
 >
-> I kind of like this approach, however there are things here that
-> need to be considered: the line name is in no way globally unique,
-> and I think there are already quite a few GPIO chips that
-> have the same line names assigned for every instance of that
-> chip.
+> While probe_access() has a size parameter, probe_access_flags() does not.
 >
-> gpiochip_set_desc_names() only warns if there is a line with
-> the same name on the same gpio_chip.
+> For probe_access_internal(), I currently have a "fault_size" parameter that
+> gets passed to tlb_fill, which is "size" for probe_access() and 0 for
+> probe_access_flags().
+>
+> I *could* add another "check_size" parameter to probe_access_internal, to be
+> passed on to page_check_range(). It would be "size" for probe_access() and 1
+> for probe_access_flags().  But what's the point?  Always passing 1 to
+> page_check_range() has the same effect.
+>
+> I feel like I'm missing something with your objection.
 
-on a _different_ gpio chip.
+The thing I was missing was that probe_access_flags() doesn't
+have a size to pass usefully to probe_access_internal() and
+so the size is zero in that case, but that tlb_fill() and
+probe_check_range() want different values for the "just
+tell me about this address" case.
 
-> I suppose we need to document that the line name look-up
-> will be on a first-come-first-served basis: whatever line
-> we find first with this name is what you will get a reference
-> to, no matter what chip it is on, and it is possible albeit
-> not recommended that some other chip has a line with the
-> same name.
-
-Agreed.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+thanks
+-- PMM
 
