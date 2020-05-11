@@ -2,79 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F90D1CD5AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:49:39 +0200 (CEST)
-Received: from localhost ([::1]:60030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 274781CD5B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:51:12 +0200 (CEST)
+Received: from localhost ([::1]:36382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY546-0002pD-F0
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42426)
+	id 1jY55b-0005Hv-7T
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jY52T-00016F-1E; Mon, 11 May 2020 05:47:57 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:34465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jY52S-0003Oz-4M; Mon, 11 May 2020 05:47:56 -0400
-Received: by mail-lj1-x243.google.com with SMTP id f11so8751386ljp.1;
- Mon, 11 May 2020 02:47:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=LLpJhfY06EKF+oBDQZd0EOAQxJmdqFBtBjBb9Q83wyQ=;
- b=dUMWPGtFKW6rfx1FUyj6/UlWhOOJJ8G4+tG7JANPNzAaQhFgWx/rOvTZeiNafCTOcN
- Iazj2I9S83+BU11LF6gkqmvKmlCZeX9TcXBymElrfGdsW/px7YFloQ0scppSTRkCR2Lr
- TFZT8jq/Gi1hiNimejQ7nJ5qG277mVE0w5p+WfAxuD2KetciOvfNwZMau3pqU7FvqoSG
- 9m7NKy4gJbZWd6r9mAmdjByfP/hjL0NvXiZnkEQqxcrWzZQb7k3N4CdoYLg2GlP9lVR5
- OKVfA+kgyIpiubCPlqTP183NUYpU4btkqwNnJ3pwTJ+NcX2LorVy4tHvlr2tzmM4wwJw
- +ZHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=LLpJhfY06EKF+oBDQZd0EOAQxJmdqFBtBjBb9Q83wyQ=;
- b=XMedJKmryukFFEMfQ4v8YCS+EpmOBOYTCQd+GHdmB9qkZ+iWqtmEE/ilGMDPnJl1dP
- tORTXl1RgqS1lSkWUmWJ+Xg4rvhGJjiK4W7VLZNF7rctbtxnSrrvk7NEJtIqLncHWm/C
- JC7O8MY8BfIJoa17B5sLoiO2hJpJdG/CPu3nC0XhltcCduyugfD30JKZ5PqbEX9WCC0t
- kNUhp2YbukUFJJUKwabgw1qN3wdCqOOxBesGnhiEbTMKt685O1RrNNFpY3sQMN5e5YRT
- EnUd816PWoYjS9pK76/LMflGMV2ERLmLK/yHMy5UUciizUD/c2Ecudc5qmRLQDSCp/8+
- Pp5A==
-X-Gm-Message-State: AOAM531olB1WClbNEN6/a8w8FguiD4KAl1OWXFSO67mcEtilzzEK99sj
- xgWWItYEUhwaDkFvtc3dm1Y=
-X-Google-Smtp-Source: ABdhPJwLcg+uXF0jvSmlx/FD+/OzvbjV1vXuoRWwrq5i5XkGfM+aIGwidcM3ywJk6CJLLncUZJjS3g==
-X-Received: by 2002:a2e:a169:: with SMTP id u9mr9793594ljl.144.1589190473033; 
- Mon, 11 May 2020 02:47:53 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id w9sm9420258ljj.88.2020.05.11.02.47.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 02:47:52 -0700 (PDT)
-Date: Mon, 11 May 2020 11:47:36 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 04/11] sysemu/hvf: Only declare hvf_allowed when HVF is
- available
-Message-ID: <20200511094736.GR5519@toto>
-References: <20200509130910.26335-1-f4bug@amsat.org>
- <20200509130910.26335-5-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jY53o-00037c-AC
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:49:20 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:57796
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jY53n-0003ey-C1
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:49:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589190558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hdC3RfKeg9SnJ0vitZcrHQa43RrkEUGWJLmnIc9TAZg=;
+ b=XfXSlUsw69V/g5HbppjRsLI5CbOs0jWp6q/32y3Nh/K96VntvgSdpK5DbE4Dfv2cUS8kVx
+ p92X8QrrBfNStSjX8jaa7H91vQo3BNkwsirCBDCsTVGZgzDUgns3ZvGmcWWZzupsQ2Zzy3
+ kpur9b2GkWYjOkimDU/RPlH7ZTKc/Pw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-edELrsfLNDyBvQfey4D9YQ-1; Mon, 11 May 2020 05:49:16 -0400
+X-MC-Unique: edELrsfLNDyBvQfey4D9YQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 860AA8005B7;
+ Mon, 11 May 2020 09:49:15 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-247.ams2.redhat.com
+ [10.36.113.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9BB71002382;
+ Mon, 11 May 2020 09:49:07 +0000 (UTC)
+Subject: Re: [PATCH v3 4/9] blockdev: Promote several bitmap functions to
+ non-static
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200508180340.675712-1-eblake@redhat.com>
+ <20200508180340.675712-5-eblake@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <94418e74-606c-6ab1-f4fc-1e691f80f5f4@redhat.com>
+Date: Mon, 11 May 2020 11:48:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200509130910.26335-5-f4bug@amsat.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200508180340.675712-5-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="PyG3AH4JQhq1kVr6P2QI8DPb4WokEthFD"
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 01:43:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,69 +106,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Marek Vasut <marex@denx.de>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: kwolf@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 09, 2020 at 03:09:03PM +0200, Philippe Mathieu-Daudé wrote:
-> When HVF is not available, the tcg_allowed variable does not exist.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--PyG3AH4JQhq1kVr6P2QI8DPb4WokEthFD
+Content-Type: multipart/mixed; boundary="Ai1z3pIJd2dH8rOqsIBeywHfcSh58GHIP"
 
-Typo in commit message tcg_allowed -> hvf_allowed.
+--Ai1z3pIJd2dH8rOqsIBeywHfcSh58GHIP
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-With that fixed:
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 08.05.20 20:03, Eric Blake wrote:
+> The next patch will split blockdev.c, which will require accessing
+> some previously-static functions from more than one .c file.  But part
+> of promoting a function to public is picking a naming scheme that does
+> not reek of exposing too many internals (two of the three functions
+> were named starting with 'do_').  To make future code motion easier,
+> perform the function rename and non-static promotion into its own
+> patch.
+>=20
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
->  include/sysemu/hvf.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-> index d211e808e9..fe95743124 100644
-> --- a/include/sysemu/hvf.h
-> +++ b/include/sysemu/hvf.h
-> @@ -18,7 +18,6 @@
->  #include "exec/memory.h"
->  #include "sysemu/accel.h"
->  
-> -extern bool hvf_allowed;
->  #ifdef CONFIG_HVF
->  #include <Hypervisor/hv.h>
->  #include <Hypervisor/hv_vmx.h>
-> @@ -26,11 +25,12 @@ extern bool hvf_allowed;
->  #include "target/i386/cpu.h"
->  uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
->                                   int reg);
-> +extern bool hvf_allowed;
->  #define hvf_enabled() (hvf_allowed)
-> -#else
-> +#else /* !CONFIG_HVF */
->  #define hvf_enabled() 0
->  #define hvf_get_supported_cpuid(func, idx, reg) 0
-> -#endif
-> +#endif /* !CONFIG_HVF */
->  
->  /* hvf_slot flags */
->  #define HVF_SLOT_LOG (1 << 0)
-> -- 
-> 2.21.3
-> 
+>  include/block/block_int.h | 12 +++++++++++
+>  blockdev.c                | 45 ++++++++++++++++-----------------------
+>  2 files changed, 30 insertions(+), 27 deletions(-)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+> diff --git a/blockdev.c b/blockdev.c
+> index b3c840ec0312..fbeb38437869 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+
+[...]
+
+> @@ -2504,9 +2495,10 @@ out:
+>      aio_context_release(aio_context);
+>  }
+>=20
+> -static BdrvDirtyBitmap *do_block_dirty_bitmap_remove(
+> -        const char *node, const char *name, bool release,
+> -        BlockDriverState **bitmap_bs, Error **errp)
+> +BdrvDirtyBitmap *block_dirty_bitmap_remove(const char *node, const char =
+*name,
+> +                                           bool release,
+> +                                           BlockDriverState **bitmap_bs,
+
+I=E2=80=99m not entirely sure what this parameter is even used for, but it
+obviously doesn=E2=80=99t concern this patch.
+
+Max
+
+> +                                           Error **errp)
+>  {
+>      BlockDriverState *bs;
+>      BdrvDirtyBitmap *bitmap;
+
+
+--Ai1z3pIJd2dH8rOqsIBeywHfcSh58GHIP--
+
+--PyG3AH4JQhq1kVr6P2QI8DPb4WokEthFD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl65H4oACgkQ9AfbAGHV
+z0DjZwf/dwhtfZzIVAG5W/MSI7ukxUjlpMPbocXyyjkMvcV1LNIvQM/1mt6oKxEH
++h1+2VMMrgrUH6bFZmVkXfnjzWMberQ8acMIyrrSZbl2OM1xXsAFxrQ+jEEm9ThW
++Y4TJjqjcXJ6EfL3beHgQyx4Nj5e0SXC5ehsnvvVHAnO4B/fM30aIDmIJ/xwJtSf
+Cb6euOZHV0OS90j0d3L0xxr2ubk9/oPquPLZASARZn2gay94AFEV84YW23TvkQ3l
+JNGMSe93hI1Dc+OKcx83RW7imNXvba5l38dhnoaBput4+wGBP2OXbz5IkbicAW91
+dPVaREVjnrqm8lNR11+yO3q9x3WQMA==
+=oqEP
+-----END PGP SIGNATURE-----
+
+--PyG3AH4JQhq1kVr6P2QI8DPb4WokEthFD--
+
 
