@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 170711CD67B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:26:18 +0200 (CEST)
-Received: from localhost ([::1]:52208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79301CDCBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:12:53 +0200 (CEST)
+Received: from localhost ([::1]:55294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY5dZ-0007oy-2r
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48202)
+	id 1jY9Aq-0002Go-MG
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jY5YC-0001ES-FT
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:20:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39129
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jY5YB-0003Lg-6d
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:20:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589192441;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6K7Jb9KxhJ0Z3M7+jg0dXDkWcgyqfOLfhefCZZo0kM4=;
- b=JD1jxiiz2f2/YE1d2P4qkbZUkH3QsBRhbG63HCQGBdyak3tDFRWus64vDlkE3fiYPSyCSF
- 0HztYeixura4nePe+hhREm0hOdxsbwfQPehn5XEYWn6F4gJoFDVK0/gsHe1qdEJ12CdcnL
- sLr0j6vSWZeXozXWOFJU33bdVCwNnko=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-s32iGES-OYWOk8FgG4pPwA-1; Mon, 11 May 2020 06:20:38 -0400
-X-MC-Unique: s32iGES-OYWOk8FgG4pPwA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1407CEC1B3;
- Mon, 11 May 2020 10:20:35 +0000 (UTC)
-Received: from gondolin (ovpn-112-254.ams2.redhat.com [10.36.112.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7AD85D9DA;
- Mon, 11 May 2020 10:20:26 +0000 (UTC)
-Date: Mon, 11 May 2020 12:20:24 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH 03/11] sysemu/tcg: Only declare tcg_allowed when TCG is
- available
-Message-ID: <20200511122024.1f684a63.cohuck@redhat.com>
-In-Reply-To: <20200509130910.26335-4-f4bug@amsat.org>
-References: <20200509130910.26335-1-f4bug@amsat.org>
- <20200509130910.26335-4-f4bug@amsat.org>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <keiichiw@chromium.org>)
+ id 1jY5YL-0001Si-Iv
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:20:53 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <keiichiw@chromium.org>)
+ id 1jY5YJ-0003Rx-S0
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:20:53 -0400
+Received: by mail-lf1-x142.google.com with SMTP id b26so7029155lfa.5
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7l3aJuCw1ZmCkBeYJdf5n98EOG+qDwjoqW0w6aiK8Jw=;
+ b=Sikc5W36ZX6VLf4vxIpmICrDhJ9qmRTG+teL0qUfwHpirI6RkJ0v/hdzb+V3cF37dh
+ poqmBP9D3KmtU4xWW4uVxU1M/fLBVgjGL/GEtQNHvCviUoj0IopFFElfZVB028qoKj7i
+ Ag+GhK48JROPwo+bKXsnuOf+mgnNWfkx9wMmM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7l3aJuCw1ZmCkBeYJdf5n98EOG+qDwjoqW0w6aiK8Jw=;
+ b=LbMl6+jtDheATyA3IA3JI7YiMy+7wThPwl0pnVtVYfniFCMPCaCHVzN0SEvXLzLbvq
+ ntPT8Sy5W1BDPK93h/MWEiAb+Yadlnsh5G08Xh12yEa9kOJ/niEEpd47kdDg/c8+93O8
+ VHH6G3CLQ3x/Jq2srxWayeZyO/ibRXAFhBWfs1GZ2ofXXO+RQyiy46FQ+8EwkNoldD5w
+ FKSOh/oa7/Og8ZRAA39VjGAdf/2+YPn95OzC4MFILQLi58ajNeYkASWOb/Jgln1T45r0
+ qoqoIAg4TH5n0C09i0qk0vQHG3HuOkSIFJ542+iWBYfey6l6SNpxVQ8X8jz704mxvK3+
+ vM0Q==
+X-Gm-Message-State: AOAM532GnzQgky577aEUbHYZU1d7mpJFAFps9smhYqx3RuGivVH/iXF5
+ E/9q4xPonCXqMTCnuGNkdJ0nxjM07xiaqSYNhIVZTw==
+X-Google-Smtp-Source: ABdhPJwQliO9vuZUSjoSithFIp6Rh4GnLng2aK/kW3AYtqC4jRKZQweyrqj0jcFbUxqjG+HiYZc8QabdBuaOZVk+23w=
+X-Received: by 2002:ac2:504c:: with SMTP id a12mr10601082lfm.110.1589192449476; 
+ Mon, 11 May 2020 03:20:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
+ <CAK25hWMj5PyQFZVN5AToHjdySvi6iZ4zjZeUJQR85jNgoeLeAw@mail.gmail.com>
+ <CAK25hWOPS1wGORXgtv8hUNu9-mLO+5C_k3Cj=8pnoFWmjuhJdg@mail.gmail.com>
+ <2405792.XL1faGB9W5@os-lin-dmo>
+In-Reply-To: <2405792.XL1faGB9W5@os-lin-dmo>
+From: Keiichi Watanabe <keiichiw@chromium.org>
+Date: Mon, 11 May 2020 19:20:38 +0900
+Message-ID: <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
+To: Dmitry Sepp <dmitry.sepp@opensynergy.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=keiichiw@chromium.org; helo=mail-lf1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 11 May 2020 10:09:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,36 +79,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+ virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
+ Kiran Pawar <Kiran.Pawar@opensynergy.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Tomasz Figa <tfiga@chromium.org>, Saket Sinha <saket.sinha89@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Pawel Osciak <posciak@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat,  9 May 2020 15:09:02 +0200
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+Hi Dmitry,
 
-> When TCG is not available, the tcg_allowed variable does not exist.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  include/sysemu/tcg.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
+>
+> Hi Saket and all,
+>
+> As we are working with automotive platforms, unfortunately we don't plan any
+> Qemu reference implementation so far.
+>
+> Of course we are ready to support the community if any help is needed. Is
+> there interest in support for the FWHT format only for testing purpose or you
+> want a full-featured implementation on the QEMU side?
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+I guess we don't need to implement the codec algorithm in QEMU.
+Rather, QEMU forwards virtio-video requests to the host video device
+or a software library such as GStreamer or ffmpeg.
+So, what we need to implement in QEMU is a kind of API translation,
+which shouldn't care about actual video formats so much.
 
+Regarding the FWHT format discussed in the patch thread [1], in my
+understanding, Hans suggested to have QEMU implementation forwarding
+requests to the host's vicodec module [2].
+Then, we'll be able to test the virtio-video driver on QEMU on Linux
+even if the host Linux has no hardware video decoder.
+(Please correct me if I'm wrong.)
+
+Let me add Hans and Linux media ML in CC.
+
+[1]  https://patchwork.linuxtv.org/patch/61717/
+[2] https://lwn.net/Articles/760650/
+
+Best regards,
+Keiichi
+
+>
+> Please note that the spec is not finalized yet and a major update is now
+> discussed with upstream and the Chrome OS team, which is also interested and
+> deeply involved in the process. The update mostly implies some rewording and
+> reorganization of data structures, but for sure will require a driver rework.
+>
+> Best regards,
+> Dmitry.
+>
+> On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
+> > Hi,
+> >
+> > As suggested on #qemu-devel IRC channel, I am including virtio-dev, Gerd and
+> > Michael to point in the right direction how to move forward with Qemu
+> > support for Virtio Video V4L2 driver
+> > posted in [1].
+> >
+> > [1]: https://patchwork.linuxtv.org/patch/61717/
+> >
+> > Regards,
+> > Saket Sinha
+> >
+> > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com> wrote:
+> > > Hi ,
+> > >
+> > > This is to inquire about Qemu support for Virtio Video V4L2 driver
+> > > posted in [1].
+> > > I am currently not aware of any upstream effort for Qemu reference
+> > > implementation and would like to discuss how to proceed with the same.
+> > >
+> > > [1]: https://patchwork.linuxtv.org/patch/61717/
+> > >
+> > > Regards,
+> > > Saket Sinha
+>
+>
+>
+> ---------------------------------------------------------------------
+> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+>
 
