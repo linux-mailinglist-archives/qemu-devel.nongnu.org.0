@@ -2,56 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C981CD1F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:38:30 +0200 (CEST)
-Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898671CD1E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:34:59 +0200 (CEST)
+Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY257-0000uY-QX
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:38:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46464)
+	id 1jY21i-0007E3-Jg
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jY23a-0007uN-Sv
- for qemu-devel@nongnu.org; Mon, 11 May 2020 02:36:54 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:54623 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jY23Y-000743-Rp
- for qemu-devel@nongnu.org; Mon, 11 May 2020 02:36:54 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49LB6k5tHlz9sSs; Mon, 11 May 2020 16:36:46 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1589179006;
- bh=LU/g/1Jm4lQvc8vkDsb2IV5IrzbgdZwWHuU8KdDTJiI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U1zFt074Vq01AQQDtTQMpq1De7o7J+hV2X0BbUtVhn6uLWTdZR77ntT9ejv4uZ9VM
- KvULJ5AdITQDJ/Fg+O+xqcLjYE5i66x/A5g+9AICDkKAGEH9jbECbRBLjY+6D6bRmt
- WbtrDcx4Mqj39KHjLydmSDFKS/tDZiFTiJoUBREU=
-Date: Mon, 11 May 2020 16:33:52 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH RESEND v3 0/2] Makefile: libfdt: build only the strict
- necessary
-Message-ID: <20200511063352.GR2183@umbus.fritz.box>
-References: <20200411093150.4741-1-cfontana@suse.de>
- <20200414020303.GC48061@umbus.fritz.box>
- <47c51117-133c-9b88-4dec-b56d883f5e8b@suse.de>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jY20n-0006k8-4f
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 02:34:01 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jY20l-0006gf-Up
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 02:34:00 -0400
+Received: by mail-wm1-x342.google.com with SMTP id m12so11829342wmc.0
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 23:33:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ihtLHJsjvXDzEPmkXFvqJBRb71oCHyYlH1TVJyDtLdk=;
+ b=ZjARBELM1YdRX9wnsA2N+q6rlghJmdc4fzZZ9JBxJprD5COMdctwRD1BjqKAjnOgQq
+ Hol8naYs/rdpUyXossDQSbL4/LTZNqUmLZxJdSZzRkI/DesRunDbOt2fh3S3nR6K3Goz
+ /CNPxo0ApfQDAKSl2b4DGZNph/qLJb34jdon463GlsZQ5JxhIHgWxfsPUbE20XOmxlDd
+ RwDKtmGMIkpxvFmLhewFNBZVg+jxIYRGShu4T2OwPp+dAScdEdLkrZYl7oVlBYCbKrjf
+ rgTbV7laEXCmf4YPGJ+ketTn0XGGVO/sZPYwrYhF/LDLIL6T5R/pQKVsJpgM6s5EFJOp
+ 2fpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ihtLHJsjvXDzEPmkXFvqJBRb71oCHyYlH1TVJyDtLdk=;
+ b=kiGAd7oxlhxF514PPL5phZj7e36waMisodhb5Bo0Euee0r/ALTJVz8oacU+KvaUcwN
+ Zy/I7o0rMIcYkh4TOSvi2FzHdvrCCdlS1ax7bFsufb6iNtNx95nMQmZrzaK/wC0tPybd
+ U/W/Wjc8v3IgRuqBf5lUEfQBguKm19nRgmw7qewZp+tDXUF/MgbQJfhi/y+D0ovWsPSx
+ 6gJbBrQ0AiDSeDa03xkipqKTTA9emrQzL13B71bFFSYrAb2l3jLPoQrRDTme7j3AOl8q
+ aBIViy+ClMYTY97nKKndJN7NZbatzbhEOptFesu4WxQ/NngFKjtjcqHSL23JX5jSMvEC
+ iO6Q==
+X-Gm-Message-State: AGi0PuZeEP8uZ54Mq48HhpBfJOxUIeUqoSUXTyhUvV6CVriSRJ6v/K/2
+ AGjzvnH0JjIoMxq/yYwYhDA=
+X-Google-Smtp-Source: APiQypIw7Rg2kg+Munxow2KsSCLi6tAsDETQqbFoDdwX71sPJbbsOmkkjTccykjtZTcYkZJRXPc+3Q==
+X-Received: by 2002:a1c:e90a:: with SMTP id q10mr29086205wmc.22.1589178838289; 
+ Sun, 10 May 2020 23:33:58 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id f7sm15075400wrt.10.2020.05.10.23.33.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 May 2020 23:33:57 -0700 (PDT)
+Subject: Re: [PATCH 09/12] hw/pci-host/bonito: Map the different PCI ranges
+ more detailled
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <20200510210128.18343-1-f4bug@amsat.org>
+ <20200510210128.18343-10-f4bug@amsat.org>
+ <CAHiYmc4dt43BU41mFrHUv-dK_Xr34Ai8o3xtzXxYikhFaX-N2A@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a170e94e-9539-27fd-21a0-04eab99c54b3@amsat.org>
+Date: Mon, 11 May 2020 08:33:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="N+qDRRsDvMgizTft"
-Content-Disposition: inline
-In-Reply-To: <47c51117-133c-9b88-4dec-b56d883f5e8b@suse.de>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:36:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <CAHiYmc4dt43BU41mFrHUv-dK_Xr34Ai8o3xtzXxYikhFaX-N2A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,106 +93,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe Mathieu-Daude <philmd@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Alex Bennee <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Huacai Chen <chenhuacai@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/11/20 8:12 AM, Aleksandar Markovic wrote:
+> нед, 10. мај 2020. у 23:01 Philippe Mathieu-Daudé <f4bug@amsat.org> је
+> написао/ла:
+>>
+>> Better describe the Bonito64 MEM HI/LO and I/O PCI ranges,
+>> add more PCI regions as unimplemented.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/pci-host/bonito.c | 30 ++++++++++++++++++++++++++----
+>>   1 file changed, 26 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+>> index 9761780f44..90a6c52a38 100644
+>> --- a/hw/pci-host/bonito.c
+>> +++ b/hw/pci-host/bonito.c
+>> @@ -39,6 +39,7 @@
+>>    */
+>>
+>>   #include "qemu/osdep.h"
+>> +#include "qemu/units.h"
+>>   #include "qemu/error-report.h"
+>>   #include "hw/pci/pci.h"
+>>   #include "hw/irq.h"
+>> @@ -82,7 +83,7 @@
+>>   #define BONITO_PCILO1_BASE      0x14000000
+>>   #define BONITO_PCILO2_BASE      0x18000000
+>>   #define BONITO_PCIHI_BASE       0x20000000
+>> -#define BONITO_PCIHI_SIZE       0x20000000
+>> +#define BONITO_PCIHI_SIZE       0x60000000
+>>   #define BONITO_PCIHI_TOP        (BONITO_PCIHI_BASE + BONITO_PCIHI_SIZE - 1)
+>>   #define BONITO_PCIIO_BASE       0x1fd00000
+>>   #define BONITO_PCIIO_BASE_VA    0xbfd00000
+>> @@ -606,13 +607,25 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
+>>       PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+>>       BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
+>>
+>> -    memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCILO_SIZE);
+>> +    memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
+>>       phb->bus = pci_register_root_bus(DEVICE(dev), "pci",
+>>                                        pci_bonito_set_irq, pci_bonito_map_irq,
+>>                                        dev, &bs->pci_mem, get_system_io(),
+>>                                        0x28, 32, TYPE_PCI_BUS);
+>> -    memory_region_add_subregion(get_system_memory(), BONITO_PCILO_BASE,
+>> -                                &bs->pci_mem);
+>> +
+>> +    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
+>> +    for (size_t i = 0; i < 3; i++) {
+>> +        char *name = g_strdup_printf("pci.lomem%zu", i);
+>> +
+>> +        memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
+>> +                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
+>> +        memory_region_add_subregion(get_system_memory(),
+>> +                                    BONITO_PCILO_BASE + i * 64 * MiB,
+>> +                                    &pcimem_lo_alias[i]);
+>> +        g_free(name);
+>> +    }
+>> +
+>> +    create_unimplemented_device("pci.io", 0x1fd00000, 1 * MiB);
+> 
+> Hi, Philippe.
+> 
+> I am delighted with the whole series, finally cleaning Bonito code feels good.
+> 
+> I just want to ask you if it possible to get rid of constants like
+> 0x1fd00000 (generally in this code, not limited to this patch), and
+> give the some nice "#define" names?
 
---N+qDRRsDvMgizTft
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes sure. These patches are almost 1year old, gathering the result of a 
+debugging session. Also ...
 
-On Wed, Apr 15, 2020 at 10:16:52AM +0200, Claudio Fontana wrote:
-> On 4/14/20 4:03 AM, David Gibson wrote:
-> > On Sat, Apr 11, 2020 at 11:31:48AM +0200, Claudio Fontana wrote:
-> >> v2 -> v3:
-> >>
-> >> * changed into a 2 patch series; in the second patch we remove the old
-> >>   compatibility gunks that were meant for removal some time after 4.1.
-> >>
-> >> * renamed the libfdt PHONY rule to dtc/all, with the intent to make
-> >>   existing working trees forward and backward compatible across the ch=
-ange.
-> >>
-> >> v1 -> v2:
-> >>
-> >> * fix error generated when running UNCHECKED_GOALS without prior confi=
-gure,
-> >>   for example during make docker-image-fedora. Without configure, DSOS=
-UF is
-> >>   empty, and the module pattern rule in rules.mak that uses this varia=
-ble
-> >>   can match too much; provide a default in the Makefile to avoid it.
-> >>
-> >> * only attempt to build the archive when there is a non-empty list of =
-objects.
-> >>   This could be done in general for the %.a: pattern in rules.mak, but=
- maybe
-> >>   there are valid reasons to build an empty .a?
-> >>
-> >> * removed some intermediate variables that did not add much value
-> >>   (LIBFDT_srcdir, LIBFDT_archive)
-> >>
-> >> Tested locally with 3 VPATH configurations (no-, VPATH, VPATH in src s=
-ubdir),
-> >> and with docker-image-fedora, docker-test-debug@fedora that failed
-> >> before.
-> >=20
-> > Seems reasonable to me.  It's a bit of a shame that we can't use the
-> > dtc makefiles more simply for this.  But I don't quickly know how to
-> > fix them upstream to allow that.
->=20
->=20
-> Hi David,
+> 
+> Yours,
+> Aleksandar
+> 
+>>   }
+>>
+>>   static void bonito_realize(PCIDevice *dev, Error **errp)
+>> @@ -620,6 +633,7 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+>>       PCIBonitoState *s = PCI_BONITO(dev);
+>>       SysBusDevice *sysbus = SYS_BUS_DEVICE(s->pcihost);
+>>       PCIHostState *phb = PCI_HOST_BRIDGE(s->pcihost);
+>> +    BonitoState *bs = BONITO_PCI_HOST_BRIDGE(s->pcihost);
+>>
+>>       /*
+>>        * Bonito North Bridge, built on FPGA,
+>> @@ -652,6 +666,7 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+>>       sysbus_init_mmio(sysbus, &s->iomem_ldma);
+>>       sysbus_mmio_map(sysbus, 3, 0x1fe00200);
+>>
+>> +    /* PCI copier */
+>>       memory_region_init_io(&s->iomem_cop, OBJECT(s), &bonito_cop_ops, s,
+>>                             "cop", 0x100);
+>>       sysbus_init_mmio(sysbus, &s->iomem_cop);
+>> @@ -669,6 +684,13 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
+>>       sysbus_init_mmio(sysbus, &s->bonito_localio);
+>>       sysbus_mmio_map(sysbus, 6, BONITO_DEV_BASE);
+>>
+>> +    MemoryRegion *pcimem_alias = g_new(MemoryRegion, 1);
 
-Sorry it's taken so long to reply.
+... I'll declare the variable during function prologue ;)
 
-> I tried to look at dtc upstream makefiles, I don't see a perfect
-> solution at the moment.
->=20
-> I came up with this idea though (not fully tested..) that _could_
-> work, ie special casing the libfdt target when it is the only goal
-> in MAKECMDGOALS.
->=20
-> Any thoughts?
+>> +    memory_region_init_alias(pcimem_alias, NULL, "pci.mem.alias",
+>> +                             &bs->pci_mem, 0, BONITO_PCIHI_SIZE);
+>> +    memory_region_add_subregion(get_system_memory(),
+>> +                                0x20000000ul, pcimem_alias);
+>> +    create_unimplemented_device("PCI_2", 0x80000000ul, 2 * GiB); /* pci_hi */
 
-Bit of a hack, but still better than what we have now.  If you post
-that for dtc upstream <devicetree-compiler@vger.kernel.org>, I'd apply
-it.
+... And add definitions for these addresses.
 
-Another improvement would be to not include these files on a "make
-clean" - it's kind of annoying how a make clean will regenerate all
-these before removing them.
+Thanks for the other reviews in this series!
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---N+qDRRsDvMgizTft
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl648dAACgkQbDjKyiDZ
-s5Kd6BAAqcC+gdLVJOPT3WhZRMdS4Qodla+TtcqIcrLOQvSBwhai6RHmL8C6pDd2
-mjgSYf1ixxaQ6WtE2mEdJmxN3c0DopvWETmz/W+6Co3dkamhzHW1mIJp13IkhoFv
-i4nVzYcIRSetJ2J+Noc5irL9MdsGgUfGxG2sx1rkhVv+Syab80aVINQXg6ZDmbJ+
-mbzwPUrRsd/OXDcEmCmhETj88NAyPdwPjotWDrW8FyOZRTt5f99WZZiYBz+N912+
-VD2W32K4Vy/qPxEGs27cjwDotwsotXGfedk/2OPHWBN1UTjbuTQJaW+lONMUZcKO
-S19ZiTuHzZiU2seqdQa3q01LuufvDFN0IIp8rZtheh1vHz/S7H+w8518lGAMSmFH
-nDdozYMh3ytVDzjmn6FcIWXsoBs4e10pVujJVhIKIbMFHHu825PedDuVPO77AVuX
-bWDxuoutl8a0xFsm80CllkCMcRJF4IgOhSvZyauWMw9X3NB7J25gHWBHEMUXVbQ0
-N+XMK7lp2/Hn7h8BezlmmMY+BLK5Eh/rY3Gu1CxQ3WgDxrJDcsWMntLWWYEq+o0d
-lE3iOJlkCzni2bm7kIiGLzM9LhN0x/H0+jAzTNy7kx7ooJyEXVqDTNuPqgIxwjZV
-IPnKeWb4OvHZPVa+NF/36zplXc+a8IGFc6IiMTF3DGM1cO00cF0=
-=d2u8
------END PGP SIGNATURE-----
-
---N+qDRRsDvMgizTft--
+>> +
+>>       /* set the default value of north bridge pci config */
+>>       pci_set_word(dev->config + PCI_COMMAND, 0x0000);
+>>       pci_set_word(dev->config + PCI_STATUS, 0x0000);
+>> --
+>> 2.21.3
+>>
+> 
 
