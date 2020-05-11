@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1F21CE285
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 20:24:36 +0200 (CEST)
-Received: from localhost ([::1]:42878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7EA1CE2CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 20:31:32 +0200 (CEST)
+Received: from localhost ([::1]:56246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYD6P-0005kl-RX
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 14:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42984)
+	id 1jYDD8-0004U0-PK
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 14:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYD4z-0004HB-Un
- for qemu-devel@nongnu.org; Mon, 11 May 2020 14:23:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:50809
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYDBm-0003eG-4V
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 14:30:06 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:31338
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYD4y-0008SP-Mv
- for qemu-devel@nongnu.org; Mon, 11 May 2020 14:23:05 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYDBk-0003ix-Mg
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 14:30:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589221383;
+ s=mimecast20190719; t=1589221803;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mnM/QhtVGCKMsu19tI9TO6UKM0NRWRfikWzARs25Nhw=;
- b=Ox9VHariS9UX4l8pMNBnj6YjP3mIVay2BM/YLQnZfV1LmsKIRdeCaqLNWpB9PRsGojs0yZ
- sizBKPmVSKETWkuqh9YyHCp2kyYpWACzXE1d6L5lcHLphChD03h6BUmdweSPhSejugXxpH
- 55umW+w926u87ZaoVKapTn4dHZa8bC4=
+ bh=tyMiAPXgCTwsNdpQz0KKozmav9hMXji3AVCCoO4tLQ4=;
+ b=UzR1WhaummzxMiDYIb7zJ2yJKY+ZJSam/k1vdWRNLFgVXk353C2+uegMspIr4n64TW1q92
+ EPLgzd0AAzeEI5mFU5lhl8z25XdZt2jio+cm/LhxckDTx3lCxI3WDFxczJA26fdtVqPGeH
+ j8+SlfZaGjEvggQiFWn3ZkvvmW75Nek=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-pE8PgBh2MdOKk1qehpv95Q-1; Mon, 11 May 2020 14:23:01 -0400
-X-MC-Unique: pE8PgBh2MdOKk1qehpv95Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-512-Pp8IpQNVPQGSCU-lpyIrzQ-1; Mon, 11 May 2020 14:30:01 -0400
+X-MC-Unique: Pp8IpQNVPQGSCU-lpyIrzQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3EF2800687;
- Mon, 11 May 2020 18:23:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17B531899520;
+ Mon, 11 May 2020 18:30:00 +0000 (UTC)
 Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71E7C5D782;
- Mon, 11 May 2020 18:23:00 +0000 (UTC)
-Subject: Re: [PATCH v3 6/9] qemu-img: Add bitmap sub-command
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4798A5C1B5;
+ Mon, 11 May 2020 18:29:59 +0000 (UTC)
+Subject: Re: [PATCH v3 7/9] qcow2: Expose bitmaps' size during measure
 To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
 References: <20200508180340.675712-1-eblake@redhat.com>
- <20200508180340.675712-7-eblake@redhat.com>
- <ce9731fd-d137-f5d2-6dc4-071a0b9e0b97@redhat.com>
+ <20200508180340.675712-8-eblake@redhat.com>
+ <98430e29-65e8-c0c7-c172-fdaa121f97c5@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <bf472c11-e3b6-caee-7aa7-7803f762612d@redhat.com>
-Date: Mon, 11 May 2020 13:22:58 -0500
+Message-ID: <998d0a6d-af8c-69d1-50fe-11a31896d7f3@redhat.com>
+Date: Mon, 11 May 2020 13:29:58 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <ce9731fd-d137-f5d2-6dc4-071a0b9e0b97@redhat.com>
+In-Reply-To: <98430e29-65e8-c0c7-c172-fdaa121f97c5@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,61 +83,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, Nir Soffer <nsoffer@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/20 6:10 AM, Max Reitz wrote:
+On 5/11/20 6:50 AM, Max Reitz wrote:
 > On 08.05.20 20:03, Eric Blake wrote:
->> Include actions for --add, --remove, --clear, --enable, --disable, and
->> --merge (note that --clear is a bit of fluff, because the same can be
->> accomplished by removing a bitmap and then adding a new one in its
->> place, but it matches what QMP commands exist).  Listing is omitted,
->> because it does not require a bitmap name and because it was already
->> possible with 'qemu-img info'.  A single command line can play one or
->> more bitmap commands in sequence on the same bitmap name (although all
->> added bitmaps share the same granularity, and and all merged bitmaps
->> come from the same source file).  Merge defaults to other bitmaps in
->> the primary image, but can also be told to merge bitmaps from a
->> distinct image.
+>> It's useful to know how much space can be occupied by qcow2 persistent
+>> bitmaps, even though such metadata is unrelated to the guest-visible
+>> data.  Report this value as an additional field, present when
+>> measuring an existing image and the output format supports bitmaps.
+>> Update iotest 178 and 190 to updated output, as well as new coverage
+>> in 190 demonstrating non-zero values made possible with the
+>> recently-added qemu-img bitmap command.
+>>
+>> The addition of a new field demonstrates why we should always
+>> zero-initialize qapi C structs; while the qcow2 driver still fully
+>> populates all fields, the raw and crypto drivers had to be tweaked to
+>> avoid uninitialized data.
+>>
+>> See also: https://bugzilla.redhat.com/1779904
+>>
+>> Reported-by: Nir Soffer <nsoffer@redhat.com>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>> ---
+
+>> +#
+>> +# @bitmaps: Additional size required for bitmap metadata in a source image,
 > 
-> For the record: Yes, my comment was mostly about my confusion around the
-> {}.  So just replacing them by () would have pacified me.
-> 
-> But this is more fun, of course.
+> s/in/from/?  Otherwise it sounds like this would be about allocation in
+> the source, which it clear can’t be, but, well.
 > 
 
->> +++ b/docs/tools/qemu-img.rst
->> @@ -281,6 +281,29 @@ Command description:
+Yes, 'from' sounds nicer, especially since the size requirements being 
+measured depend on the destination's cluster size (which may be 
+different from the source's cluster size).
+
+>> +#           if that bitmap metadata can be copied in addition to guest
+>> +#           contents. (since 5.1)
 > 
 > [...]
 > 
->> +  Additional options ``-g`` set a non-default *GRANULARITY* for
+
+>> +    /*
+>> +     * Remove data clusters that are not required.  This overestimates the
+>>        * required size because metadata needed for the fully allocated file is
+>> -     * still counted.
+>> +     * still counted.  Show bitmaps only if both source and destination
+>> +     * would support them.
+>>        */
+>>       info->required = info->fully_allocated - virtual_size + required;
+>> +    info->has_bitmaps = version >= 3 && in_bs &&
+>> +        bdrv_dirty_bitmap_supported(in_bs);
 > 
-> sets?
+> Why is it important whether the source format supports persistent dirty
+> bitmaps?
 
-Or maybe:
-
-Additional options include ``-g`` which sets a non-default *GRANULARITY* 
-for ``--add``, and ``-b`` and ``-F`` which select an alternative source 
-file for all *SOURCE* bitmaps used by ``--merge``.
-
-And in writing this, I just realized - even though you _can_ use --add 
-more than once in a command line, the command is still limited to 
-operating on a single bitmap name, so unless you write contortions like:
-
-qemu-img bitmap --add --remove --add -g 1024 file.qcow2 bitmapname
-
-there will normally be at most one --add operation for a -g to be used 
-with (because otherwise the second --add will fail when attempting to 
-create an already-existing bitmap name).
+If the source format does not support bitmaps, there is nothing to copy 
+over.  Reporting '0' would work, but adds verbosity.  It also becomes a 
+question as to whether 'qemu-img convert --bitmaps' should silently 
+ignore such sources, or loudly error out that the option is unsupported 
+because the source lacks bitmaps.  I could lean either way.
 
 > 
-> With that fixed (or maybe not, you know that better than me):
+> I’m asking because I’d like there to be some concise reason when and why
+> the @bitmaps field appears.  “Whenever the target supports bitmaps” is
+> more concise than “When both source and target support bitmaps”.  Also,
+> the latter is not really different from “When any bitmap data can be
+> copied”, but in the latter case we should not show it when there are no
+> bitmaps in the source (even though the format supports them).
 > 
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> 
+> Or from the other perspective: As a user, I would never be annoyed by
+> the @bitmaps field being present.  I don’t mind a “0”.
+> OTOH, what information can it convey to me that it it’s optional and
+> sometimes not present?
 
+The impact to the iotests .out files is larger if I do not require that 
+the source supports bitmaps (more lines of 'bitmaps: 0' added).  I'm 
+fine doing that, if we decide we're okay with the simpler definition of 
+'"bitmaps" is present if the destination supports them' (rather than 
+this version's implementation of '"bitmaps" is present if both the 
+source and destination support them').
+
+> I can see these cases:
+> 
+> - That the source format doesn’t support bitmaps?  I want to convert it
+> to something else anyway, so I don’t really care about what the source
+> format can or can’t do.
+> 
+> - That the destination doesn’t support bitmaps?  Ah, yes, the fact that
+> the bitmap field is missing might be a warning sign for this.
+> 
+> - That qemu is too old to copy bitmaps?  Same here.
+
+In fact, that argument is a GOOD reason to output 'bitmaps: 0' in as 
+many cases as possible, because it then becomes a side-effect witness of 
+whether 'qemu-img convert --bitmaps' is even understood.
+
+> 
+> - That there are no bitmaps in the source?  OK, but then I disregard the
+> @bitmaps field anyway, present or not.
+> 
+> So from that standpoint, the best use seems to me to take “The @bitmaps
+> field isn’t present” as kind of a warning that something in the convert
+> process won’t support copying bitmaps.  If it’s present, all is well.
+> So basically there’d be an iff relationship between “measure reports
+> @bitmaps” and “convert --bitmap can work”.
+
+Yes, I can make that tweak for v4.
+
+> 
+> But the distinction between “the source format doesn’t support bitmaps”
+> and “the source image doesn’t have bitmaps” doesn’t seem that important
+> to me to make it visible in the interface.
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
