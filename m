@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069931CE04C
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:21:16 +0200 (CEST)
-Received: from localhost ([::1]:54130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224F01CE07D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:32:11 +0200 (CEST)
+Received: from localhost ([::1]:43890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYBB4-0007RW-DX
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:21:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51212)
+	id 1jYBLd-0000w5-Jj
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jYB9K-00065o-Jn
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:19:29 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:50880
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jYB9G-0003wq-1J
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:19:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589213959;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=82hlNy4y36jCTvXG1w0lKZid7ROvP++Vuif2OG4TaKc=;
- b=iqyqGn5Flo9RJuOSgBN+BqwSlaVNUCRB+McdN1evzvJSaqMIgWRbein1IzrGSohlXdmh48
- y4LjwYNHaFZQvMT/jg/wr1pJ1mOCq51LDfzRsW1LH7NfZAckhVs6i60b0ZHQO8U6G2FF/d
- /oW4IvT76+5KfXln7V/ZRkJB/Ua3mdo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-Zyws2wQ5PMSY-0--PZM5VQ-1; Mon, 11 May 2020 12:19:17 -0400
-X-MC-Unique: Zyws2wQ5PMSY-0--PZM5VQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EBD6475;
- Mon, 11 May 2020 16:19:16 +0000 (UTC)
-Received: from work-vm (ovpn-114-150.ams2.redhat.com [10.36.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B1A0C61988;
- Mon, 11 May 2020 16:19:11 +0000 (UTC)
-Date: Mon, 11 May 2020 17:19:09 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH 3/5] block/nbd.c: Add yank feature
-Message-ID: <20200511161909.GJ2811@work-vm>
-References: <cover.1589193717.git.lukasstraub2@web.de>
- <1e712fa7f08e4772c2a68197a851161bee51610f.1589193717.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jYBK3-0000HH-Lk
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:30:31 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:32935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jYBK2-0006vi-KG
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:30:31 -0400
+Received: by mail-pg1-x543.google.com with SMTP id a4so4799706pgc.0
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 09:30:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=12LvgeCJuJQO3x2fy3fOhZzkeb9hiF3TwYLbtoQhgjE=;
+ b=IM0B5u3hBpCzzpi8IxE9sXcWUgtDEjBiX8nG2PnrRXW9fnY7BhJ4VZX53DNIoh85PL
+ 8ZsqC7xxT1azwq5FYbXqgAEnyIb/4dWXfchjVLFIJmjr909BuKa4fHRFDO8Ir5AobA9B
+ SDQkTu34UIn++jLG22dbNBNZgSA7QSsKOMh7oKLrwdRO7MZy+j8DiFxEqRStMOjFXi8Y
+ Tj/tjmz1RQOlrWw6cf1EIjG6rLbfAqnG4FMVknJEcc43dapTc7kBrhqImYJWuj/21zPS
+ lg+J3318kmpAvYWe/S9nn2JG80kFNJ1STvvAoWVCN1H1M1RYKddg+nPUuDuwyVAwiiXv
+ 2b7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=12LvgeCJuJQO3x2fy3fOhZzkeb9hiF3TwYLbtoQhgjE=;
+ b=JB5zcPPlkybcgq50WD2I/L9eu3F33K6lx6AYWKCVDyc7b8T6RzxSGnu8zKxDbLMT83
+ yT/yvMVpgAlqTH7Jp/XngxQbdfzv6nm99n6fVp7BhB19c9N0L/LyQTvpFxvdbslRhRPP
+ UqMc/agy2+IEbBTTMQmuQ0cqWDCVbVFUfV3eflWJmk0/bG8x+NpGYg6Z1HQVDVZZm1x7
+ j1aAGOs37Ml+UVBbN92DauOvprXy+3BbrEG0P/T6xpm3Fp5bqrehSteYGiJx+QM0MoiO
+ 5D7ZNsCDdJnaedcEZyq8YOaf3Rd+PNxyFQ1LQ9IudYHn5bmp/Bl5ywycC3sUTqTsgaHH
+ /jrA==
+X-Gm-Message-State: AGi0PualtMzqIGfPgmPFlwbq7tRaxGKfU2Q+D3v93WYt100kibuG6UKW
+ a3/70jGsuUSRk/aa7KN1CoheWg==
+X-Google-Smtp-Source: APiQypIxSHvfBpeI5GgcgAdvgUY8hMhxX2Z9+ye+soBg+4jiP7ygMrKAW997OWDcXwNQxQmelp09Mg==
+X-Received: by 2002:a63:4f65:: with SMTP id p37mr15762222pgl.60.1589214628988; 
+ Mon, 11 May 2020 09:30:28 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id w143sm9371201pfc.165.2020.05.11.09.30.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 May 2020 09:30:28 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/8] RISCV risu porting
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, peter.maydell@linaro.org
+References: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <69d804ea-5274-bee4-9368-69c888082143@linaro.org>
+Date: Mon, 11 May 2020 09:30:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1e712fa7f08e4772c2a68197a851161bee51610f.1589193717.git.lukasstraub2@web.de>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+In-Reply-To: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,141 +88,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wxy194768@alibaba-inc.com,
+ wenmeng_zhang@c-sky.com, palmer@dabbelt.com, alistair23@gmail.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Lukas Straub (lukasstraub2@web.de) wrote:
-> Add yank option, pass it to the socket-channel and register a yank
-> function which sets s->state = NBD_CLIENT_QUIT. This is the same
-> behaviour as if an error occured.
-> 
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+On 4/30/20 12:21 AM, LIU Zhiwei wrote:
+> It's some difficult when I try to support RV32, because it's very
+> similiar to RV64, so I can't make two .risu files like arm.risu and
+> aarch64.risu.
 
-> +static void nbd_yank(void *opaque)
-> +{
-> +    BlockDriverState *bs = opaque;
-> +    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-> +
-> +    atomic_set(&s->state, NBD_CLIENT_QUIT);
-
-I think I was expecting a shutdown on the socket here - why doesn't it
-have one?
-
-Dave
-
-> +}
-> +
->  static void nbd_client_close(BlockDriverState *bs)
->  {
->      BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-> @@ -1407,14 +1421,17 @@ static void nbd_client_close(BlockDriverState *bs)
->      nbd_teardown_connection(bs);
->  }
->  
-> -static QIOChannelSocket *nbd_establish_connection(SocketAddress *saddr,
-> +static QIOChannelSocket *nbd_establish_connection(BlockDriverState *bs,
-> +                                                  SocketAddress *saddr,
->                                                    Error **errp)
->  {
-> +    BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
->      QIOChannelSocket *sioc;
->      Error *local_err = NULL;
->  
->      sioc = qio_channel_socket_new();
->      qio_channel_set_name(QIO_CHANNEL(sioc), "nbd-client");
-> +    qio_channel_set_yank(QIO_CHANNEL(sioc), s->yank);
->  
->      qio_channel_socket_connect_sync(sioc, saddr, &local_err);
->      if (local_err) {
-> @@ -1438,7 +1455,7 @@ static int nbd_client_connect(BlockDriverState *bs, Error **errp)
->       * establish TCP connection, return error if it fails
->       * TODO: Configurable retry-until-timeout behaviour.
->       */
-> -    QIOChannelSocket *sioc = nbd_establish_connection(s->saddr, errp);
-> +    QIOChannelSocket *sioc = nbd_establish_connection(bs, s->saddr, errp);
->  
->      if (!sioc) {
->          return -ECONNREFUSED;
-> @@ -1829,6 +1846,12 @@ static QemuOptsList nbd_runtime_opts = {
->                      "future requests before a successful reconnect will "
->                      "immediately fail. Default 0",
->          },
-> +        {
-> +            .name = "yank",
-> +            .type = QEMU_OPT_BOOL,
-> +            .help = "Forcibly close the connection and don't attempt to "
-> +                    "reconnect when the 'yank' qmp command is executed.",
-> +        },
->          { /* end of list */ }
->      },
->  };
-> @@ -1888,6 +1911,8 @@ static int nbd_process_options(BlockDriverState *bs, QDict *options,
->  
->      s->reconnect_delay = qemu_opt_get_number(opts, "reconnect-delay", 0);
->  
-> +    s->yank = qemu_opt_get_bool(opts, "yank", false);
-> +
->      ret = 0;
->  
->   error:
-> @@ -1921,6 +1946,10 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
->      /* successfully connected */
->      s->state = NBD_CLIENT_CONNECTED;
->  
-> +    if (s->yank) {
-> +        yank_register_function(nbd_yank, bs);
-> +    }
-> +
->      s->connection_co = qemu_coroutine_create(nbd_connection_entry, s);
->      bdrv_inc_in_flight(bs);
->      aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
-> @@ -1972,6 +2001,11 @@ static void nbd_close(BlockDriverState *bs)
->      BDRVNBDState *s = bs->opaque;
->  
->      nbd_client_close(bs);
-> +
-> +    if (s->yank) {
-> +        yank_unregister_function(nbd_yank, bs);
-> +    }
-> +
->      nbd_clear_bdrvstate(s);
->  }
->  
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 943df1926a..1c1578160e 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -3862,6 +3862,8 @@
->  #                   reconnect. After that time, any delayed requests and all
->  #                   future requests before a successful reconnect will
->  #                   immediately fail. Default 0 (Since 4.2)
-> +# @yank: Forcibly close the connection and don't attempt to reconnect when
-> +#        the 'yank' qmp command is executed. (Since: 5.1)
->  #
->  # Since: 2.9
->  ##
-> @@ -3870,7 +3872,8 @@
->              '*export': 'str',
->              '*tls-creds': 'str',
->              '*x-dirty-bitmap': 'str',
-> -            '*reconnect-delay': 'uint32' } }
-> +            '*reconnect-delay': 'uint32',
-> +	    'yank': 'bool' } }
->  
->  ##
->  # @BlockdevOptionsRaw:
-> -- 
-> 2.20.1
-> 
+You could a command-line parameter, like --be or --sve for this.
 
 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+r~
 
