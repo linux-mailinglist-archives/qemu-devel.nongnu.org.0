@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800601CE152
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 19:12:03 +0200 (CEST)
-Received: from localhost ([::1]:56496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168CD1CE1A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 19:24:25 +0200 (CEST)
+Received: from localhost ([::1]:55662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYByE-0004a0-Ip
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 13:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59560)
+	id 1jYCAC-000277-5H
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 13:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYBsS-0000Jj-Nr
- for qemu-devel@nongnu.org; Mon, 11 May 2020 13:06:04 -0400
-Received: from mail-mw2nam10on2082.outbound.protection.outlook.com
- ([40.107.94.82]:36801 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ id 1jYC6z-00059P-Jz
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 13:21:05 -0400
+Received: from mail-mw2nam10on2073.outbound.protection.outlook.com
+ ([40.107.94.73]:37344 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYBsP-0000WA-85
- for qemu-devel@nongnu.org; Mon, 11 May 2020 13:06:03 -0400
+ id 1jYC6w-0003uV-2I
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 13:21:05 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lWjmoPLbPgjkQKl0n8IdJKb39CxJVG4d2yQJrvzF4sXqjp/HaR3HpXwPFX3MAZyjrSI5HnAaBeiSGNVSy+DAxc71ubpn/rp0VgMUEVLTX+c24EFJesq6ME8oKMErfZDJSy+TfdD/tlw/mxhz1cR3EDCPNWa6PZXOnKOqkGtnWYrifn276nIfvNSNhWqCWk8PJxj974tKha68NSforl1+GQRmztI0qxLhaeHOfUKLHYIb9CFqiJlJw0wR1iFopsnoWFwHhmE58M6zUgpcUMCjhLePg8MIjW3hrHlmQi+pZgC5CggUCiXNucJ3ciTZTNpp1/UubjE/fIWgQiTPXG6ZIw==
+ b=OrkbXmEL4JkUe0KsYMnkTfgjuWZsIZS5oBR01Y3crM2y8MjEziKPC3k2+bvMA3uAE6SpIG88g5Saxjw/HZqWFBQXGSndsTo7QDMD0fSdbJ41/lOVeUTezwYi6fygn57C9rTbmgFvtGHxpxMoBSjoDBqljCuqDrIy+9IfSo+Oq2t4SBIdv3L/VOsRvrz32hzqP+5TqWIrpHaWrr6QwW0s1SzKDkptWbCammtQHJIjFpFsLe3Jh8nqxeBCjwNGeSmai6OSesH57ZybVAAfRUcs/KvgAL+C+2AMzz8fM6EKWQ0IkBaBpSUun+6hyvX/2GNIysFblR0jzZlSonwEtip6Tw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o60L6e30yi1g7LDrK0JYu+UbNwYEeJaHIddk9UYupak=;
- b=fl8nrFtkCSUxjlPjVW5jSHJ0a9XvwMwA/Wbxx7fXVwVqmsXHVr7w2V4IVqBQywWApG41iassvdezS+JfQHad4NmX5bCKNDWtpbvLtMhldbw/GjyMedris+ry54zhOOpclUW8Za+qaMeE505sJGUBHDc6Y4Qit6Df+Qrn9s30l6cERElXlXWg1TxulyF/kn4oCs+0Ys8crRktkrqXNITUMRAqCu4LhDXkO7LYiiNHya3FmZr1MVljE55He/Jn8oMBMLq/C2kcfqQC3Nq02jSWzSA47VjU3Dk1otD+B+Wu09Tcx9JLP7xIEiH9XDazkiZKOLloTi20c30+F2p0XPX9sQ==
+ bh=hUeNmFjAPFyqGor4e03Zece3+ySpxSOYPpwOHZIGd5c=;
+ b=aVKZNONn4dMnRfOc/UlHAJh6m2Im94roRMVX8F/xoMOZPBVpl2dp7OtGEk0xZ+joIDBfXFqWuILJcnj06xwr1vBV3rRTsChdbiqQN+nLAx0mRRhBK5HU7KPwbSzonK0tbueZ2RcWOzFcjTrsZBM9MQ3cLIg2Vwq8VaYgzIB66fb+6/irgKz/qpcaMuuhQ1tTLaZBEdYDBrUjdKdlOo7V1i+wmEUhPfXJClRb4m3OVjQVlSNe4BkEpLfH3Qo9bRcRODRCYKnYBVZM7d5kYsAKMWhGtO2UMxl1geCjMgtx2+pDBXhXIXwRvPSdBugX1RqRBAGhvQzFxDuY2wuDP8LL2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -34,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o60L6e30yi1g7LDrK0JYu+UbNwYEeJaHIddk9UYupak=;
- b=R7ahxeFhDtafEzIC/qyQM3mu2T5vaMZIQxOwcgI0U3oQU6nxc7ha23jQTirNAInXwIkqw2LdjXJ4fPhFrqPshrk9ycr/SepGkqnx2Q7y7canM86vgCbMilya29icJq75emuFl/KWdNKP3mIb1owPc6LduVPNmzA31tJoMbFFIds=
-Received: from CY4PR02CA0015.namprd02.prod.outlook.com (2603:10b6:903:18::25)
- by DM5PR02MB3735.namprd02.prod.outlook.com (2603:10b6:4:af::36) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.35; Mon, 11 May
- 2020 17:05:57 +0000
-Received: from CY1NAM02FT060.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:18:cafe::f4) by CY4PR02CA0015.outlook.office365.com
- (2603:10b6:903:18::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26 via Frontend
- Transport; Mon, 11 May 2020 17:05:57 +0000
+ bh=hUeNmFjAPFyqGor4e03Zece3+ySpxSOYPpwOHZIGd5c=;
+ b=Bs6a3C6h51vrqWjVt3u75H3BiqeHBUrBX6L0uqNhRHslWJe0VNraruebiVtF1y/vjZ21/nDDblIjKdmzQSovdSkU9u3bSpvjkx6pOstNg59Kqqm2w5Pf9g9vBbfppur9ftvH9VdTHXS9aWFN6vhO7XIFk6hIOG6sDd7EQQYN8wg=
+Received: from SN4PR0401CA0034.namprd04.prod.outlook.com
+ (2603:10b6:803:2a::20) by CH2PR02MB7047.namprd02.prod.outlook.com
+ (2603:10b6:610:85::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.30; Mon, 11 May
+ 2020 17:05:56 +0000
+Received: from SN1NAM02FT060.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:803:2a:cafe::57) by SN4PR0401CA0034.outlook.office365.com
+ (2603:10b6:803:2a::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.30 via Frontend
+ Transport; Mon, 11 May 2020 17:05:56 +0000
 Authentication-Results: spf=pass (sender IP is 149.199.60.83)
  smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=bestguesspass action=none
@@ -54,31 +54,33 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT060.mail.protection.outlook.com (10.152.74.252) with Microsoft SMTP
+ SN1NAM02FT060.mail.protection.outlook.com (10.152.72.192) with Microsoft SMTP
  Server id 15.20.2979.29 via Frontend Transport; Mon, 11 May 2020 17:05:56
  +0000
-Received: from [149.199.38.66] (port=35087 helo=xsj-pvapsmtp01)
+Received: from [149.199.38.66] (port=35077 helo=xsj-pvapsmtp01)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <joe.komlodi@xilinx.com>) id 1jYBs5-0007nH-1d
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:05:41 -0700
+ (envelope-from <joe.komlodi@xilinx.com>) id 1jYBs4-0007nB-TO
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:05:40 -0700
 Received: from [127.0.0.1] (helo=localhost)
  by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <joe.komlodi@xilinx.com>) id 1jYBsK-0004Py-6F
+ (envelope-from <joe.komlodi@xilinx.com>) id 1jYBsK-0004Py-1j
  for qemu-devel@nongnu.org; Mon, 11 May 2020 10:05:56 -0700
-Received: from xsj-pvapsmtp01 (xsj-smtp1.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04BH5pdY028917; 
- Mon, 11 May 2020 10:05:51 -0700
+Received: from xsj-pvapsmtp01 (xsj-pvapsmtp01.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04BH5psI000793; 
+ Mon, 11 May 2020 10:05:52 -0700
 Received: from [172.19.2.32] (helo=xsjkomlodi50.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <komlodi@xilinx.com>)
- id 1jYBsF-0004PW-NY; Mon, 11 May 2020 10:05:51 -0700
+ id 1jYBsF-0004PW-P7; Mon, 11 May 2020 10:05:51 -0700
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/4] target/microblaze: Add dynamic GDB XML and correct
- SReg reporting
-Date: Mon, 11 May 2020 10:05:47 -0700
-Message-Id: <1589216751-106038-1-git-send-email-komlodi@xilinx.com>
+Subject: [PATCH v1 1/4] target/microblaze: gdb: Add dynamic GDB XML register
+ support
+Date: Mon, 11 May 2020 10:05:48 -0700
+Message-Id: <1589216751-106038-2-git-send-email-komlodi@xilinx.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1589216751-106038-1-git-send-email-komlodi@xilinx.com>
+References: <1589216751-106038-1-git-send-email-komlodi@xilinx.com>
 X-RCIS-Action: ALLOW
 X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
 X-TM-AS-User-Approved-Sender: Yes;Yes
@@ -87,31 +89,31 @@ X-MS-Office365-Filtering-HT: Tenant
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
  SFTY:;
- SFS:(136003)(396003)(39860400002)(376002)(346002)(46966005)(33430700001)(6666004)(2616005)(356005)(81166007)(426003)(36756003)(7696005)(82310400002)(316002)(33440700001)(478600001)(186003)(70586007)(26005)(9786002)(6916009)(2906002)(44832011)(70206006)(107886003)(5660300002)(4326008)(8676002)(8936002)(47076004)(82740400003)(86362001)(336012);
+ SFS:(376002)(136003)(396003)(346002)(39860400002)(46966005)(33430700001)(6666004)(336012)(44832011)(316002)(36756003)(33440700001)(82310400002)(2906002)(2616005)(426003)(86362001)(356005)(107886003)(478600001)(70206006)(81166007)(70586007)(6916009)(7696005)(82740400003)(8676002)(8936002)(186003)(9786002)(47076004)(26005)(5660300002)(4326008);
  DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 291d7168-0f9e-41ff-37d1-08d7f5cd921c
-X-MS-TrafficTypeDiagnostic: DM5PR02MB3735:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB3735C2A20376DB67C2A17B1DD0A10@DM5PR02MB3735.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: da4eb191-8113-421e-beef-08d7f5cd9212
+X-MS-TrafficTypeDiagnostic: CH2PR02MB7047:
+X-Microsoft-Antispam-PRVS: <CH2PR02MB704714E2A5382F8EB573098DD0A10@CH2PR02MB7047.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Oob-TLC-OOBClassifiers: OLM:1751;
 X-Forefront-PRVS: 04004D94E2
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QLLhR3xWipD4QBKzcs5o2Ej8lbP6LpRM/2xqfrl24kcCm9WLsBq+KBNR/vXNYjmZKuhmI2ahXLNqmCA0FeaD0/4lPXYfMij3mTTgOF3l/4Owip0zPpj8XlIcr3p7aDEg4VzotKLBSiB8Kbg8sQkdkymEsMvGebcArzcKRxP7rtj/n4sO46CcUai7A+pDYNhtjGFlpAWVdraSnjIvL9eVpUCtDYQf4lGuBwjCrC1AO8+We1/aWxs1+k1UU+p8W1Z3WdtZI+VzfG4fqupo3EtuxRwredNVkHuRFYoByRYl1dGAa0cwETExCDsPYs4QOU4IXJDF9NHZsWhqn4SPFRrk2p1Cm8tHMafzm+MGwrtuNrCmL0v40SQuLQ3m0eaJsXCtyxlV25KWY9TodoDTmRyWUy89tChNDcvsCdknnE5VYmDv1wvG+knb2Glaoq3S89fQOoWTqMIOvsElaV3Jxz1ekeTxT0HXTgbl3IkD6AWB9REeeKxo9kDR7Wt98dToP44vcK5W1PvO0oU3XGYSsG3WR2hBZbrjMjbj24v36ODmR49U358CLBvk9eJG3GLet/bqsVGUyv2Lb+psfPT46RZxdw==
+X-Microsoft-Antispam-Message-Info: 9rlePO0zG5nYjIx8Y3CPiDETq+G6OONthpvB7S6Pd9SGg5SVjgTcvPZ6Wxcjbws1qQ6EsMNjDIKZmeDPOaDvbFfJzF7+3+RIZRTBKf7E3eIWPpdOV4gKOZwAytCh80Rr1gxBVMMLETbPNReHUY7GC9UUjsHvu5SmH0occojLgCtpagImRU7jRkwZp4kpOR6cv/NUJleCV0wOkcC0KUePJq4QhXgturVHpxKm3r+X6rtAwtGivl/wWVX81H5Ypv6t0Cjgg0dBKp/lhVOCMQe5YJlJnbF/UAYani1lwA0gatbYhmNiKWkqYISrbwGilOzessWwaRIxbSQTc597fuGuKHVCtQ3yYFJYJXVq0WW3SJ83cmMbKPV58HftQiynhNAh2xi7cZV4EsggsXHz3QbKalsJepjW2e0HRdWE1n9P4vdnEJ0VXeuema8WxTpBPyAM13rLp/Nl4st3NqYVRRpmR6PTL78B4vrzxSaBgs+cR0Km+EUxaNcjRdJYCcMToXw/BvVVSiiaMmbVCv82oALgAjMbh0OS8H1p2opZtlfBdKnzgPdI+z7kdAyAhE3iEYov1zg01ZvEceop0nNeKXJHtQ==
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2020 17:05:56.4368 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 291d7168-0f9e-41ff-37d1-08d7f5cd921c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2020 17:05:56.3987 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: da4eb191-8113-421e-beef-08d7f5cd9212
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3735
-Received-SPF: pass client-ip=40.107.94.82; envelope-from=komlodi@xilinx.com;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB7047
+Received-SPF: pass client-ip=40.107.94.73; envelope-from=komlodi@xilinx.com;
  helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 13:06:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 13:20:59
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -136,35 +138,224 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+Add dynamic GDB register XML for Microblaze, and modify the config file to
+use XML when building for Microblaze.
+For the dynamic XML to be read, there still needs to be a core XML file.
 
-This series adds dynamic GDB XML support for Micraoblaze CPUs, and fixes
-an issue when reporting Microblaze SRegs through GDB.
+Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
+---
+ configure                   |   1 +
+ target/microblaze/cpu.c     |   4 ++
+ target/microblaze/cpu.h     |   9 ++++
+ target/microblaze/gdbstub.c | 123 ++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 137 insertions(+)
 
-The SRegs used to be printed out by iterating over the SReg array, but the
-SReg array isn't laid out in memory in the same order that GDB expects them.
-
-When reporting register to GDB, note that even though 32-bit Microblaze
-supports having certain registers wider than 32-bits, we're repoting all of
-them as being 32-bits wide right now to maintain compatibility with GDB.
-
-Thanks!
-Joe
-
-Joe Komlodi (4):
-  target/microblaze: gdb: Add dynamic GDB XML register support
-  target/microblaze: gdb: Extend the number of registers presented to
-    GDB
-  target/microblaze: gdb: Fix incorrect SReg reporting
-  target/microblaze: monitor: Increase the number of registers reported
-
- configure                     |   1 +
- target/microblaze/cpu.c       |   6 +-
- target/microblaze/cpu.h       |   9 ++
- target/microblaze/gdbstub.c   | 214 +++++++++++++++++++++++++++++++++++++++++-
- target/microblaze/translate.c |  16 +++-
- 5 files changed, 240 insertions(+), 6 deletions(-)
-
+diff --git a/configure b/configure
+index 0d69c36..5a099b6 100755
+--- a/configure
++++ b/configure
+@@ -7832,6 +7832,7 @@ case "$target_name" in
+     TARGET_ARCH=microblaze
+     TARGET_SYSTBL_ABI=common
+     bflt="yes"
++    gdb_xml_files="microblaze-core.xml"
+     echo "TARGET_ABI32=y" >> $config_target_mak
+   ;;
+   mips|mipsel)
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index aa99830..41cac1b 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -226,6 +226,8 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+     env->pvr.regs[11] = (cpu->cfg.use_mmu ? PVR11_USE_MMU : 0) |
+                         16 << 17;
+ 
++    mb_gen_dynamic_xml(cpu);
++
+     mcc->parent_realize(dev, errp);
+ }
+ 
+@@ -330,6 +332,8 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+     dc->vmsd = &vmstate_mb_cpu;
+     device_class_set_props(dc, mb_properties);
+     cc->gdb_num_core_regs = 32 + 5;
++    cc->gdb_get_dynamic_xml = mb_gdb_get_dynamic_xml;
++    cc->gdb_core_xml_file = "microblaze-core.xml";
+ 
+     cc->disas_set_info = mb_disas_set_info;
+     cc->tcg_initialize = mb_tcg_init;
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index a31134b..074a18e 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -25,6 +25,8 @@
+ #include "fpu/softfloat-types.h"
+ 
+ typedef struct CPUMBState CPUMBState;
++typedef struct DynamicMBGDBXMLInfo DynamicMBGDBXMLInfo;
++
+ #if !defined(CONFIG_USER_ONLY)
+ #include "mmu.h"
+ #endif
+@@ -272,6 +274,10 @@ struct CPUMBState {
+     } pvr;
+ };
+ 
++struct DynamicMBGDBXMLInfo {
++    char *xml;
++};
++
+ /**
+  * MicroBlazeCPU:
+  * @env: #CPUMBState
+@@ -286,6 +292,7 @@ struct MicroBlazeCPU {
+ 
+     CPUNegativeOffsetState neg;
+     CPUMBState env;
++    DynamicMBGDBXMLInfo dyn_xml;
+ 
+     /* Microblaze Configuration Settings */
+     struct {
+@@ -321,6 +328,8 @@ void mb_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr mb_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int mb_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int mb_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
++void mb_gen_dynamic_xml(MicroBlazeCPU *cpu);
++const char *mb_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname);
+ 
+ void mb_tcg_init(void);
+ /* you can call this signal handler from your SIGBUS and SIGSEGV
+diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
+index f41ebf1..cdca434 100644
+--- a/target/microblaze/gdbstub.c
++++ b/target/microblaze/gdbstub.c
+@@ -54,3 +54,126 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+     }
+     return 4;
+ }
++
++static void mb_gen_xml_reg_tag(const MicroBlazeCPU *cpu, GString *s,
++                               const char *name, uint8_t bitsize,
++                               const char *type)
++{
++    g_string_append_printf(s, "<reg name=\"%s\" bitsize=\"%d\"",
++                           name, bitsize);
++    if (type) {
++        g_string_append_printf(s, " type=\"%s\"", type);
++    }
++    g_string_append_printf(s, "/>\n");
++}
++
++static uint8_t mb_cpu_sreg_size(const MicroBlazeCPU *cpu, uint8_t index)
++{
++    /*
++     * NOTE:  mb-gdb will refuse to connect if we say registers are
++     * larger then 32-bits.
++     * For now, say none of our registers are dynamically sized, and are
++     * therefore only 32-bits.
++     */
++
++    return 32;
++}
++
++static void mb_gen_xml_reg_tags(const MicroBlazeCPU *cpu, GString *s)
++{
++    uint8_t i;
++    const char *type;
++    char reg_name[4];
++    bool has_hw_exception = cpu->cfg.dopb_bus_exception ||
++                            cpu->cfg.iopb_bus_exception ||
++                            cpu->cfg.illegal_opcode_exception ||
++                            cpu->cfg.opcode_0_illegal ||
++                            cpu->cfg.div_zero_exception ||
++                            cpu->cfg.unaligned_exceptions;
++
++    static const char *reg_types[32] = {
++        [1] = "data_ptr",
++        [14] = "code_ptr",
++        [15] = "code_ptr",
++        [16] = "code_ptr",
++        [17] = "code_ptr"
++    };
++
++    for (i = 0; i < 32; ++i) {
++        type = reg_types[i];
++        /* r17 only has a code_ptr tag if we have HW exceptions */
++        if (i == 17 && !has_hw_exception) {
++            type = NULL;
++        }
++
++        sprintf(reg_name, "r%d", i);
++        mb_gen_xml_reg_tag(cpu, s, reg_name, 32, type);
++    }
++}
++
++static void mb_gen_xml_sreg_tags(const MicroBlazeCPU *cpu, GString *s)
++{
++    uint8_t i;
++
++    static const char *sreg_names[] = {
++        "rpc",
++        "rmsr",
++        "rear",
++        "resr",
++        "rfsr",
++        "rbtr",
++        "rpvr0",
++        "rpvr1",
++        "rpvr2",
++        "rpvr3",
++        "rpvr4",
++        "rpvr5",
++        "rpvr6",
++        "rpvr7",
++        "rpvr8",
++        "rpvr9",
++        "rpvr10",
++        "rpvr11",
++        "redr",
++        "rpid",
++        "rzpr",
++        "rtlblo",
++        "rtlbhi",
++        "rtlbx",
++        "rtlbsx",
++        "rslr",
++        "rshr"
++    };
++
++    static const char *sreg_types[ARRAY_SIZE(sreg_names)] = {
++        [SR_PC] = "code_ptr"
++    };
++
++    for (i = 0; i < ARRAY_SIZE(sreg_names); ++i) {
++        mb_gen_xml_reg_tag(cpu, s, sreg_names[i], mb_cpu_sreg_size(cpu, i),
++                           sreg_types[i]);
++    }
++}
++
++void mb_gen_dynamic_xml(MicroBlazeCPU *cpu)
++{
++    GString *s = g_string_new(NULL);
++
++    g_string_printf(s, "<?xml version=\"1.0\"?>\n"
++                       "<!DOCTYPE feature SYSTEM \"gdb-target.dtd\">\n"
++                       "<feature name=\"org.gnu.gdb.microblaze.core\">\n");
++
++    mb_gen_xml_reg_tags(cpu, s);
++    mb_gen_xml_sreg_tags(cpu, s);
++
++    g_string_append_printf(s, "</feature>");
++
++    cpu->dyn_xml.xml = g_string_free(s, false);
++}
++
++const char *mb_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
++{
++    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
++
++    return cpu->dyn_xml.xml;
++}
 -- 
 2.7.4
 
