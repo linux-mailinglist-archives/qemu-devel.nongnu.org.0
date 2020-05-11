@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D7F51CE508
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 22:06:37 +0200 (CEST)
-Received: from localhost ([::1]:35578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9567D1CE4F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 22:03:44 +0200 (CEST)
+Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYEhA-0007rd-AF
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 16:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57718)
+	id 1jYEeN-000641-3g
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 16:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jYEbj-00049U-SD; Mon, 11 May 2020 16:01:00 -0400
-Received: from mout.web.de ([212.227.15.14]:35343)
+ (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
+ id 1jYEdM-0005TZ-Cl; Mon, 11 May 2020 16:02:40 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:42087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jYEbi-0007q3-Ix; Mon, 11 May 2020 16:00:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589227251;
- bh=o0GBAHDH/4KPa8rw5f4k2nO41w+F7oWdLMFzYd/zU4o=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=qwz/LqRwGzznRNPyU/4TsU7Ue6MOT2WXA4wjJdvVuuxJzK/1B/WZKVWJMqmP7HIlT
- jJtOmC4Roq7LTCrLJy3Yv48PrRsn/G3mWOvWcmeMTN4+/KaNpygYhVtvwLnl40aGgL
- OYGuzZoyuKy4TA6Ahmr9XqlWoBnekCodPC3gymCA=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MevzF-1jj2M62gNl-00OYp2; Mon, 11
- May 2020 22:00:51 +0200
-Date: Mon, 11 May 2020 22:00:42 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PATCH 2/5] io/channel.c,io/channel-socket.c: Add yank feature
-Message-ID: <20200511220042.1f226f70@luklap>
-In-Reply-To: <20200511115146.GK1135885@redhat.com>
-References: <cover.1589193717.git.lukasstraub2@web.de>
- <db00ff13f62fe97634132e43105b9bf63bbbf582.1589193717.git.lukasstraub2@web.de>
- <20200511115146.GK1135885@redhat.com>
+ (Exim 4.90_1) (envelope-from <leobras.c@gmail.com>)
+ id 1jYEdL-0008H9-I6; Mon, 11 May 2020 16:02:40 -0400
+Received: by mail-qt1-x842.google.com with SMTP id x12so9124993qts.9;
+ Mon, 11 May 2020 13:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JiciO0iEuz3Ix6g9dsBXqhhpVz+mJsN+11cGOCdnM8I=;
+ b=qQJTjS/VHodMqRSsn+LaG2IBWdLDM/SL6/QDhyW3Z1TCFTQHS93wq/qq4YZA1WHHa/
+ 4AoD+pU0wjoqn4rXePjux0/q74eLbhFwqPXNWH0/aDqHHX5cbFDUD4ix2HDpBBVS/Vve
+ Bsvbcb9aaIJqkgQ4aFsAV6p1azqCI6joc9raNJFygiMWGd6RDTyj3Ujt+1useousgLi1
+ cg5XXBXqBILMWJPUURmiFnkcAW+TnOjFXWW/HuMHwQ9jFEuKxgFQfuMq1I8b/RDgdB0w
+ vO2ML+gvjJet1/I0EgXEPLqlMifRe6GWiCDD9uDmRG1+gJWOy5JWyEv2ATLhwJhEbsfE
+ we6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JiciO0iEuz3Ix6g9dsBXqhhpVz+mJsN+11cGOCdnM8I=;
+ b=RmSL4zcV6Z9ppedwapJrN/9TCjd/lx4NioVzhFKQLwQQfmiJsRH5nSwztWhqY3Zcbp
+ 2ygZjM5siXn7gNkIWpO4xYFUNrbe67kKispJgsV51tbyrY4ejXiklhzNMLQ2gEtt8f0F
+ 2NLml64iRh4tQDBH2hNcz4UmT3iYsdhmX+hxT419XWt6DNmS37TUkpY7X3yuE558nJ8m
+ PK9XAq0FeS6c1jvRR9jhMLLo18+64MXKgQSla7lkB3LDD+dPXccExmEKih8cikiAUGaT
+ tIqkm82vR/RoGeTV1sRd6g6imOVbsZaCXhHusJagVjtf6mXDk5lLI9rgdKfMwiJea1aF
+ t+cw==
+X-Gm-Message-State: AGi0PubnPQ28Yf0B6qyikGxGes+/JZ4iTXnbrdWWr1/rH/JE2K5ELHr1
+ aUFmV3GmDEfFT7+uzUnMEeY=
+X-Google-Smtp-Source: APiQypL2ypwOXa7HrMZ920d3nYaY1BrSiHBMFJCTDwixKVL5GXjbmY+RlfjTzxxgwqnW1v5Nyr4Yhg==
+X-Received: by 2002:ac8:6c6:: with SMTP id j6mr18181841qth.194.1589227357767; 
+ Mon, 11 May 2020 13:02:37 -0700 (PDT)
+Received: from LeoBras.aus.stglabs.ibm.com
+ (143-255-224-253.dynamic.desktop.com.br. [143.255.224.253])
+ by smtp.gmail.com with ESMTPSA id i23sm9208723qke.65.2020.05.11.13.02.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 13:02:36 -0700 (PDT)
+From: Leonardo Bras <leobras.c@gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>,
+ Bharata B Rao <bharata.rao@in.ibm.com>
+Subject: [RESEND PATCH v3 1/1] ppc/spapr: Add hotremovable flag on DIMM LMBs
+ on drmem_v2
+Date: Mon, 11 May 2020 17:02:02 -0300
+Message-Id: <20200511200201.58537-1-leobras.c@gmail.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/hlX8Matle/Uuvv1wk+f81Ux";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:TSah9ZkKk/8xVrmXl/09Q7UAXnzPzKhfXir6MSCpYH4DBKgkLY8
- Dhc8MCragEmp5gFM55Lt8YJ29ACs7WrSL+wOI61/t9A/KetncaJgQoLO/jdfwWUDAkRoWkp
- r2GD6PJ17PljeZjlYxyJXu/GED6sMhXCFJVF/6ccZANc5aq6GOB+TinY8CEVCVJbyAwo/iT
- pT14xmqaZvsSqphW+1plQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+aZVAe/4+IQ=:+O25/xuTUASMN5UkZKUgd1
- w2w0sYb3CqitPl1122ov8dtAvkHvsjOtYAOJ6B4wHkXjfN6N6LB8A1MmtlLrJj/oaeD6YJIpa
- J7eibYG2Or4FPi4k19m2SeTfFzzEoRoZP/gRZsg1IozS5BUe8RLpiw1yIWl1sXLU4FzQxN4Lf
- LInJ7UROZu14+VprMtEjPoLI55UhRhWvrG2niA6E4s4eZbOWtB9RYJUS9gWtHFGpHO1+MOR/P
- fByw/ZbOrD/DN7EpJ73pRtO8rFnxTG4oPNxuVtXSgVT1huGZrIyhyhCV+uzgPu6XRxA06OTHN
- c9MaP/o346RF09LDuQbrSM6HnaBLQYFOTo3tSE/AlRdf9W8w25BH+0A2KniwJdMGlnJZO7Z+d
- zDAJOKblZkp5KNJamElhCBR2w3BMQ08UVqREOnr/SREMUJfjbB8fuBj/klLOtbOBsfvtAgl07
- yXihesJ8PfHCHUpcWOTPaSSNxZKSgKnIevj/3hPCiPEDI1L2YRAYqTHpT2eZTzA9mI9x+zJey
- HsPWbMBCeisjbYMOxygfMyujMVehzUAide/+rqYAwtetsMI9IIJUE2DdeN6Qxyx9F5DRgYwPq
- TxoJERB2+IkHHF5Zhe+st+3RFDjQFCsKWbq2dRMPkyrwGLoakugI6tjtgJJDq/D+VY/5WL2rA
- kzI0HhHsOcRFZVsoUSAj/aMAYZRX5LAJarc0AvzEQmur31i/Db2J82sS84KlCNTyMXzYtf4J4
- wGHEUULEi4oUzNr6vF6f3pMpWepKM9gTFLU4h8defBTaV0lAVhRAVhXItlhhWSztfV/CCIgCz
- pdpCQjpDu60sURSLAeEutakoWmauepdhbOCSxqaksSVr7rOSmPNCbytmu4s71wk/q+LYiq4Rk
- O8EbpXAPT56bUtaWBcY7g54vqey7o12z3yTqm4cM8KAWyMLo+n2gybzn9jYeuk66KauN0lxD+
- +vV0OyL2y8Lm3ekIALyAZWB5qTXUvr6UKgVg0lpCZUapqLqoRwjG6Sy5lLcTbeYPJH1jNQi0t
- q8QIom1//7679j4gdqebLzSCKsBSuThJcEo503bN9CN5RLB6ge1f07+SmwCkncTL9KfeZH5og
- TVASlh+9g8dgogknH4YUzkvXY5W//YyegtxszWtnFerDVjbwyckIbUh5D8N+N12XKuuRe+iJr
- 2q2Gt+wzIeGUgjGjoIe1O0JOlI/gU4qdpEk/yLyF5Qa9Y5/BikZaN1d47orIWss4jfpUXaSdt
- jw7XAftf2FO36vX+W
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 15:45:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
+ envelope-from=leobras.c@gmail.com; helo=mail-qt1-x842.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,73 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Leonardo Bras <leonardo@linux.ibm.com>,
+ Bharata B Rao <bharata@linux.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Leonardo Bras <leobras.c@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/hlX8Matle/Uuvv1wk+f81Ux
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: Leonardo Bras <leonardo@linux.ibm.com>
 
-On Mon, 11 May 2020 12:51:46 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On reboot, all memory that was previously added using object_add and
+device_add is placed in this DIMM area.
 
-> On Mon, May 11, 2020 at 01:14:41PM +0200, Lukas Straub wrote:
-> > Add qio_channel_set_yank function to channel and to channel-socket,
-> > which will register a yank function. The yank function calls
-> > shutdown() on the socket.
-> >=20
-> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > ---
-> >  Makefile.objs               |  1 +
-> >  include/io/channel-socket.h |  1 +
-> >  include/io/channel.h        | 12 ++++++++++++
-> >  io/channel-socket.c         | 29 +++++++++++++++++++++++++++++
-> >  io/channel.c                |  9 +++++++++
-> >  5 files changed, 52 insertions(+) =20
->=20
-> Assuming we want the yank feature (which I'm not entirely convinced
-> of), then I don't think any of this addition should exist. The
-> QIOChannel class already provides a "qio_channel_shutdown" method
-> which can be invoked. The layer above which is using the QIOChannel
-> should be calling this existing qio_channel_shutdown method in
-> response to any yank request.  The I/O layer shouldn't have any
-> direct dependancy on the yank feature.
+The new SPAPR_LMB_FLAGS_HOTREMOVABLE flag helps Linux to put this memory in
+the correct memory zone, so no unmovable allocations are made there,
+allowing the object to be easily hot-removed by device_del and
+object_del.
 
-Having the code here simplifys the code in the other places.
+This new flag was accepted in Power Architecture documentation.
 
-Regards,
-Lukas Straub
+Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+Reviewed-by: Bharata B Rao <bharata@linux.ibm.com>
 
->=20
-> Regards,
-> Daniel
+---
+Changes since v1:
+- Flag name changed from SPAPR_LMB_FLAGS_HOTPLUGGED to
+	SPAPR_LMB_FLAGS_HOTREMOVABLE
+---
+ hw/ppc/spapr.c         | 3 ++-
+ include/hw/ppc/spapr.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 9a2bd501aa..fe662e297e 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -446,7 +446,8 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineState *spapr, void *fdt,
+         g_assert(drc);
+         elem = spapr_get_drconf_cell(size / lmb_size, addr,
+                                      spapr_drc_index(drc), node,
+-                                     SPAPR_LMB_FLAGS_ASSIGNED);
++                                     (SPAPR_LMB_FLAGS_ASSIGNED |
++                                      SPAPR_LMB_FLAGS_HOTREMOVABLE);
+         QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
+         nr_entries++;
+         cur_addr = addr + size;
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 42d64a0368..93e0d43051 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -880,6 +880,7 @@ int spapr_rtc_import_offset(SpaprRtcState *rtc, int64_t legacy_offset);
+ #define SPAPR_LMB_FLAGS_ASSIGNED 0x00000008
+ #define SPAPR_LMB_FLAGS_DRC_INVALID 0x00000020
+ #define SPAPR_LMB_FLAGS_RESERVED 0x00000080
++#define SPAPR_LMB_FLAGS_HOTREMOVABLE 0x00000100
+ 
+ void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg);
+ 
+-- 
+2.25.1
 
---Sig_/hlX8Matle/Uuvv1wk+f81Ux
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65ruoACgkQNasLKJxd
-sljeWg/8D5/EVQJ0pFLNxNmctBtKS7GyexKAEm+6KqVu+HSTs8/Enf2zmL/FuxHM
-efViTVRa84OUXCZD1wZEfHQGm/40Et73h36gJMC69VLTJ3BuwwABWF+rQmBBG3vP
-62wOXx2d9eIqadQZw8i6to27DTcsFBvlV9abUfx8z5aCYZZAxF0eu4BkQi+HKdTb
-WgSj1n0qfLhpx1Y4U79xf6ZJWJbbwBHm54S/D9ylzy+q7agtcOLSPnva6HYKjc/7
-qlOr7kRCTdFvgMNtIExMxY6L2UKt1Rttmexk1PU91B6HGodEegyQs/ZAFI0f1FyI
-dUEuNNvXqPSQXuGkp0ZHdVt2wGiRfrU+ag5BwDGOhHtq//YF9vlj4xyQfuOl9mwr
-LuCQvQy7zA98uj7nYS1ew34+fSl7yff/bXyUwJN3PjyNEtlciwQbQJCQ/L70Hll4
-njPG/rFxLKaiiawu1qOuUCYEzkRtMZWzX0J2WU+TJtjqnFQep0HIK7ez7rHykV7M
-GCZ1yHVvsQ6MfvOWocg+6MSghSylY0rBOPK6SqaX+afeax5bNwMj9B5/ESfE8syL
-3XrDijp9zDpmyFcpjRHDd17zj2KxvZJTD7atwV5mPZHE6k8zEhdI0wBcIna/Z4dc
-fHtJ69gJ9YsyOYHd5taqTkAZFvLKVhb8JNAiqd2RR48UXSEBv4g=
-=D/VM
------END PGP SIGNATURE-----
-
---Sig_/hlX8Matle/Uuvv1wk+f81Ux--
 
