@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27B41CDB86
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:43:13 +0200 (CEST)
-Received: from localhost ([::1]:49734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502791CDBA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:46:29 +0200 (CEST)
+Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8i8-0001xL-N9
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:43:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49114)
+	id 1jY8lI-0006vS-9t
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:46:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zw-0002Vt-Uc
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:44 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52132)
+ id 1jY8Zy-0002Zu-7P
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:46 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zv-0007Co-Q0
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:44 -0400
-Received: by mail-wm1-x335.google.com with SMTP id f134so5900554wmf.1
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:43 -0700 (PDT)
+ id 1jY8Zx-0007Dq-3S
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:45 -0400
+Received: by mail-wm1-x336.google.com with SMTP id k12so18030732wmj.3
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=EycYX61osoiUiTKFgHPBJxcF1OjdHnGeFDt+a8slNIw=;
- b=IagC0eV3GbvO+tI5GJbDS25Os/grZzVWaQyRGqejkYach3H8Pb3w4FDj04Jspye/Yk
- OVhzZHzh7k6bscJjZdN1hbCsBIT9+u/UrdWOzBX1obOd0x0q9nk/lT0M6pAQksTtQixh
- 8RWJ1na0z7hjZ9lFQ3bcwVE+FXoVoNuhA0mHTtYFnE9njZjE0AfUUfg7dxmwaaDrZqQU
- +EcrUZ1z2DuGt/W1fiO6qYMBJpqn+dGVz9D8CjY+c87Tp+tpYDe7EGn5bvhrdF1QsbN0
- uZeSwXus3N/aZxtzfP4J8kxQg796Oz9/mBvtSCPC7/7rxn7GnsIbQmTPNuF1YUP8JOF/
- mupQ==
+ bh=FKycni8NPHvHNWeB849RmEyB5xFRLf+3CRF6YKP5BZ0=;
+ b=mK9bkm87iSNjS1dFx2KMRjLsZShdvyR4I5N7joi+c3QCdrhC9IriArJTkKIbFTfgga
+ ju3VXRtVRFt+PAxuPA053ZF9nEkHM9bnIRiwIFkz06EVNQkaFDypyi9mSuSzzqudSQ4d
+ OkWJNgXY5cto9J9xetFOb4TdmIT5O2Ttz4vDMpC/mTqQ8D+FnpLSWGzF6+f3Azp21HF0
+ OLU7H/8RZd8ZeGAxMkNk+/HG3xXb1AtRFfq/Jf8k4IbZE2CtQXxpO/BJXWV5TDw5nKNI
+ txsE/ZZ/msGvIg3NLLY4HHyHNnWYyR9N1s4bhdMcwkZpylXH/Ckjlrh4GrOk7xNZ45Cf
+ lyyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EycYX61osoiUiTKFgHPBJxcF1OjdHnGeFDt+a8slNIw=;
- b=KW2J2H1lPwi8i3OZZhk3ZkVn5pnH/17zU6gu5Q6N/NwsJGzC9PiQPMOigohSi2tqkZ
- 7wX8r69H6Jp76adBFhDdl8DpMvOHbq3V2OUsnJA9JfG9WD7WDaT/0jtrP/f0q0jePFuK
- KSFa/3xlQeMhcYNrnqK1rXPW4VshAWPasfgNi8/RhXtgbI2WMV26Chk4hzxBwEuajoUG
- 5kNKUlHqndMzG5u3QwtIIKtdmMsQP2vhjZ+2fkFWodZWUJpm2XIyK6crzJuicKEZVXjU
- 0sP1nqociEE5s9F3lo+5g2DdDVD/wlu83sgD39AqGdavSs9ZV288eDjrvlh+HeFIsvRE
- 1eeg==
-X-Gm-Message-State: AGi0PuafnvvGeURvCDlHxUxozdPuweLOJgCOM8VW2TClY6/814GG1V0v
- Xnz1A5uyeDTISVR06/1ZTPqchuEMFEG/tQ==
-X-Google-Smtp-Source: APiQypJQ2fDECOnU6bV5jAI3Nvtmsv4YGdFrpXNHCKF6u9ZNfKGAxI4sOq2WgXkigh9o1lQcopcT4w==
-X-Received: by 2002:a1c:e903:: with SMTP id q3mr30634884wmc.76.1589204082008; 
- Mon, 11 May 2020 06:34:42 -0700 (PDT)
+ bh=FKycni8NPHvHNWeB849RmEyB5xFRLf+3CRF6YKP5BZ0=;
+ b=ADbbKjghtYBkY2s5d8+mSRXgX5sku+zA2K4lrND8lssfw4vm5tlPW5GlBoQ3drBO2f
+ lC/bKYwbsiNz3E/TklyLGzbZCWx9ktFnnUuEUEmHOP+XkunI08Iw8ozNE8TQhwykIzaQ
+ mIgbTAJqxN0jwHwK5xRFdl+igXHaCHA5o7yLYI1BL/VruXzqO+zzPKB6wA6dmw0elsxT
+ AY9wL2oAYuk5Ni9YWmhIK0uz9B1+ToHF0q+mEnl7SXLne+5JyUGEmXwGpXFRH/cZKwWZ
+ EEblUQm2IRVkLjFSZ9m1IJjP0LfkSGSR+aG7g9KSYQLsBSt4teO21EZfW0SAZD/HnY/L
+ fugw==
+X-Gm-Message-State: AGi0PuZGksAjbbjsG7piQCNRBB5fHzkP4e9uXgAgsw8JYuilHsqZ0CWz
+ P6j7Yi/MFDI5H1ZbRnRBcluDTwAt7Q4qxA==
+X-Google-Smtp-Source: APiQypLbZHHmBEeirjr3ioj6RA7TZe0km4nek/XX5jVogA6y9Dwy7kpFcd8QLP18PJUB4t3bVdtHNg==
+X-Received: by 2002:a1c:bbc4:: with SMTP id
+ l187mr12225429wmf.183.1589204083196; 
+ Mon, 11 May 2020 06:34:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.40
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:41 -0700 (PDT)
+ Mon, 11 May 2020 06:34:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/34] target/arm/kvm: Inline set_feature() calls
-Date: Mon, 11 May 2020 14:33:58 +0100
-Message-Id: <20200511133405.5275-28-peter.maydell@linaro.org>
+Subject: [PULL 28/34] target/arm: Make set_feature() available for other files
+Date: Mon, 11 May 2020 14:33:59 +0100
+Message-Id: <20200511133405.5275-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,103 +90,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-We want to move the inlined declarations of set_feature()
-from cpu*.c to cpu.h. To avoid clashing with the KVM
-declarations, inline the few KVM calls.
+Move the common set_feature() and unset_feature() functions
+from cpu.c and cpu64.c to cpu.h.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20200504172448.9402-2-philmd@redhat.com
+Message-id: 20200504172448.9402-3-philmd@redhat.com
+Message-ID: <20190921150420.30743-2-thuth@redhat.com>
+[PMD: Split Thomas's patch in two: set_feature, cpu_register]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/kvm32.c | 13 ++++---------
- target/arm/kvm64.c | 22 ++++++----------------
- 2 files changed, 10 insertions(+), 25 deletions(-)
+ target/arm/cpu.h   | 10 ++++++++++
+ target/arm/cpu.c   | 10 ----------
+ target/arm/cpu64.c | 10 ----------
+ 3 files changed, 10 insertions(+), 20 deletions(-)
 
-diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-index f271181ab8e..7b3a19e9aef 100644
---- a/target/arm/kvm32.c
-+++ b/target/arm/kvm32.c
-@@ -22,11 +22,6 @@
- #include "internals.h"
- #include "qemu/log.h"
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 8608da6b6fc..676f216b67c 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -696,6 +696,16 @@ typedef struct CPUARMState {
+     void *gicv3state;
+ } CPUARMState;
  
--static inline void set_feature(uint64_t *features, int feature)
++static inline void set_feature(CPUARMState *env, int feature)
++{
++    env->features |= 1ULL << feature;
++}
++
++static inline void unset_feature(CPUARMState *env, int feature)
++{
++    env->features &= ~(1ULL << feature);
++}
++
+ /**
+  * ARMELChangeHookFn:
+  * type of a function which can be registered via arm_register_el_change_hook()
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 5d64adfe76e..13959cb6435 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -725,16 +725,6 @@ static bool arm_cpu_virtio_is_big_endian(CPUState *cs)
+ 
+ #endif
+ 
+-static inline void set_feature(CPUARMState *env, int feature)
 -{
--    *features |= 1ULL << feature;
+-    env->features |= 1ULL << feature;
 -}
 -
- static int read_sys_reg32(int fd, uint32_t *pret, uint64_t id)
+-static inline void unset_feature(CPUARMState *env, int feature)
+-{
+-    env->features &= ~(1ULL << feature);
+-}
+-
+ static int
+ print_insn_thumb1(bfd_vma pc, disassemble_info *info)
  {
-     struct kvm_one_reg idreg = { .id = id, .addr = (uintptr_t)pret };
-@@ -146,14 +141,14 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-      * timers; this in turn implies most of the other feature
-      * bits, but a few must be tested.
-      */
--    set_feature(&features, ARM_FEATURE_V7VE);
--    set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
-+    features |= 1ULL << ARM_FEATURE_V7VE;
-+    features |= 1ULL << ARM_FEATURE_GENERIC_TIMER;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 9bdf75b1abb..cbaa5ed2287 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -29,16 +29,6 @@
+ #include "kvm_arm.h"
+ #include "qapi/visitor.h"
  
-     if (extract32(id_pfr0, 12, 4) == 1) {
--        set_feature(&features, ARM_FEATURE_THUMB2EE);
-+        features |= 1ULL << ARM_FEATURE_THUMB2EE;
-     }
-     if (extract32(ahcf->isar.mvfr1, 12, 4) == 1) {
--        set_feature(&features, ARM_FEATURE_NEON);
-+        features |= 1ULL << ARM_FEATURE_NEON;
-     }
- 
-     ahcf->features = features;
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index be5b31c2b0f..cd8ab6b8aed 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -447,16 +447,6 @@ void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
-     }
- }
- 
--static inline void set_feature(uint64_t *features, int feature)
+-static inline void set_feature(CPUARMState *env, int feature)
 -{
--    *features |= 1ULL << feature;
+-    env->features |= 1ULL << feature;
 -}
 -
--static inline void unset_feature(uint64_t *features, int feature)
+-static inline void unset_feature(CPUARMState *env, int feature)
 -{
--    *features &= ~(1ULL << feature);
+-    env->features &= ~(1ULL << feature);
 -}
 -
- static int read_sys_reg32(int fd, uint32_t *pret, uint64_t id)
+ #ifndef CONFIG_USER_ONLY
+ static uint64_t a57_a53_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
  {
-     uint64_t ret;
-@@ -648,11 +638,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-      * with VFPv4+Neon; this in turn implies most of the other
-      * feature bits.
-      */
--    set_feature(&features, ARM_FEATURE_V8);
--    set_feature(&features, ARM_FEATURE_NEON);
--    set_feature(&features, ARM_FEATURE_AARCH64);
--    set_feature(&features, ARM_FEATURE_PMU);
--    set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
-+    features |= 1ULL << ARM_FEATURE_V8;
-+    features |= 1ULL << ARM_FEATURE_NEON;
-+    features |= 1ULL << ARM_FEATURE_AARCH64;
-+    features |= 1ULL << ARM_FEATURE_PMU;
-+    features |= 1ULL << ARM_FEATURE_GENERIC_TIMER;
- 
-     ahcf->features = features;
- 
-@@ -802,7 +792,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     if (cpu->has_pmu) {
-         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_PMU_V3;
-     } else {
--        unset_feature(&env->features, ARM_FEATURE_PMU);
-+        env->features &= ~(1ULL << ARM_FEATURE_PMU);
-     }
-     if (cpu_isar_feature(aa64_sve, cpu)) {
-         assert(kvm_arm_sve_supported(cs));
 -- 
 2.20.1
 
