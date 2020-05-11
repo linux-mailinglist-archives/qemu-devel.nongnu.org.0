@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440EC1CDB4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:36:00 +0200 (CEST)
-Received: from localhost ([::1]:43494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190311CDB90
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:43:43 +0200 (CEST)
+Received: from localhost ([::1]:52348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8b9-0003gk-AI
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:35:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48898)
+	id 1jY8ic-0003AO-37
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:43:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZS-0001ia-Rz
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:14 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52120)
+ id 1jY8ZT-0001kd-SS
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:15 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZR-000707-VZ
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:14 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id f134so5898898wmf.1
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:13 -0700 (PDT)
+ id 1jY8ZS-00070I-V6
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:15 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id m12so13162949wmc.0
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LZBTHfpEZAJcb/Rg+g/QLUSKbytIhAoqXs85oGOuYl8=;
- b=XQPHx/ga/2RQnX5Volz9GWLWZgteq9NE8OhV/A5rbyimnj1JlkibTWG2o37aiUeOMk
- 5NrS4qE88CYTJ6b7NIqtwbiKeKpWyvO+w8rW9kntNH9O2/v2N0X9G9Pu4lDNhfXw3rno
- LlpvrFSqKJo2kg2bNgKD9RHNMgrthJAc159gvkJborNIumz+hBXEqSOR6WLqlcFZsyzx
- 7s+JjiKmEQ6Mj75j40o51FBsnmzc8dl34/qKtUWfJifogkDCzrMQz543HegI09x+Nnlo
- KwTnsubrMSC65/cnaxtfR+LxVrdK+t16cv/MBX/t306hnpDXGBNNHntyvYIOSHdKh63z
- FKDA==
+ bh=wIUXoa1qdi1AIuD+cK38yBBIEnIcG+EzyRhkeedc+fE=;
+ b=W9yL5isRdDsx4hAyn8gDmlY7pbq+F0a/Hl2FXfTGs4ZvPtgsvaYtl7YbSU+uvlWEhw
+ e9u1531rUD+U1SbpxcoX1VynDMyAazUeo55vjCngMluvsjR3Kz93n3MB1tYuHa0XxE2f
+ vrE2c1iLkI84V60CBgUeetbb8Ybzk/Gwhv7K46KioQPCXHNZBlhdlnpQv3WMW5eNj7K2
+ 4oJyyepvexBLypICPVPQaIryNVr1JPU7E1B0nCQzrJSdDM4WgkeUEVwLpIFVfGbp2b5y
+ 4sx2PK1dWx0KhbhE+7GPphRJVGmszYq/XRPFQFg4DAt0W4QrUmGvi10UIxpdVMo1uf43
+ jQ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LZBTHfpEZAJcb/Rg+g/QLUSKbytIhAoqXs85oGOuYl8=;
- b=lhF/hy9RSEwwnCAsYocwum/5U8jN9OTJui7Yp7C57w18x3vTVQx3ahqXoWD8CjHTLx
- R/bOs9o5YCgSfpt1EB912RgD/mOHtp8HhUPhu1L34gWOJuvLWqHh7tcvibLf+4wqJUal
- zGM5/u6HBfNeNo2LU/1E148rnTysDXsU3A3ZNo3ZGTon+Elt+i7RoF5qWSLmSrz11h5s
- hus+VIiJylTFYc8W4th5xOsci99KVWfzhFTkAHKyKqyYNqiMWyI29tol/X5XLGfUvJXM
- eCoy5TaGCaRuTjKCqUP4vVFIu6Q3rWsolSWqDD5qy+UI3aVY5pLCgQro1Pj+EhJFb0Vh
- epmQ==
-X-Gm-Message-State: AGi0PuaS+BeJPshXlChy9TkCyg/TCJOuLq0PEhYqjMOJ5hvmuBDbGQRb
- yLOkPQSyY5lsJ0ZUCws6/X1CGFMxWU31ig==
-X-Google-Smtp-Source: APiQypKNVqnr5JePnzhP5QJDrSCPuuUAUA82qhtXDqi/YZdLEN7bGIefw31iYLPrUvhwC2yLbyjQVg==
-X-Received: by 2002:a1c:f416:: with SMTP id z22mr31779778wma.32.1589204052249; 
- Mon, 11 May 2020 06:34:12 -0700 (PDT)
+ bh=wIUXoa1qdi1AIuD+cK38yBBIEnIcG+EzyRhkeedc+fE=;
+ b=qLVM8BLcTDmsnDKFSsLswYjWVqIrSdpVb9D3WGf+Oplrz8zw94kWETr6rAZgbLe1MG
+ PVgha+oMrKQ6MFLnQP6RVWneZ4te/GVBCX7olWlncHSx/inG5y3gK2ZIVhc3CGzvbhV0
+ B6Gun+OYdW5XwU2nXsYv7Ukuf4OB69LjILPo4CHjIh5C+kSfeQiWkdxJydxAf/qD5GlY
+ vlVVS35VZ09inISjZbDuzAocJIk7WeRsQo+vQSLRF/GogWJoxctwtnjT+q5o0Y81v0yT
+ lxQH8AGhke8PboY3RH2uEChAKbGzgy6F86CpPI4iBcJf4MnU+CQ1EYJgtO5GwFygGjG0
+ 254Q==
+X-Gm-Message-State: AGi0Pua59A4xb+8Of9yMqTiMy6NVAYzob4Q02oCMQHLEZxWNrL5cGwuk
+ 8PjprdgSPuWCg85yJxUneWSwllvVAt0dHw==
+X-Google-Smtp-Source: APiQypJwNma/q8RCPSA++cMwXR3MNIcUot6bt9pcrwJfOhFxx4Cws+x69OvqIMQx1gIm89e5dXiLiw==
+X-Received: by 2002:a7b:cf25:: with SMTP id m5mr33820213wmg.65.1589204053320; 
+ Mon, 11 May 2020 06:34:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.11
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:11 -0700 (PDT)
+ Mon, 11 May 2020 06:34:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/34] aspeed: sdmc: Implement AST2600 locking behaviour
-Date: Mon, 11 May 2020 14:33:35 +0100
-Message-Id: <20200511133405.5275-5-peter.maydell@linaro.org>
+Subject: [PULL 05/34] hw/arm/nrf51: Add NRF51_PERIPHERAL_SIZE definition
+Date: Mon, 11 May 2020 14:33:36 +0100
+Message-Id: <20200511133405.5275-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,115 +89,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The AST2600 handles this differently with the extra 'hardlock' state, so
-move the testing to the soc specific class' write callback.
+On the NRF51 series, all peripherals have a fixed I/O size
+of 4KiB. Define NRF51_PERIPHERAL_SIZE and use it.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20200505090136.341426-1-joel@jms.id.au
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200504072822.18799-2-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/aspeed_sdmc.c | 55 +++++++++++++++++++++++++++++++++++--------
- 1 file changed, 45 insertions(+), 10 deletions(-)
+ include/hw/arm/nrf51.h        | 3 +--
+ include/hw/i2c/microbit_i2c.h | 2 +-
+ hw/arm/nrf51_soc.c            | 4 ++--
+ hw/i2c/microbit_i2c.c         | 2 +-
+ hw/timer/nrf51_timer.c        | 2 +-
+ 5 files changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/hw/misc/aspeed_sdmc.c b/hw/misc/aspeed_sdmc.c
-index 7b466bf19a6..14db9cfc1f8 100644
---- a/hw/misc/aspeed_sdmc.c
-+++ b/hw/misc/aspeed_sdmc.c
-@@ -23,7 +23,12 @@
+diff --git a/include/hw/arm/nrf51.h b/include/hw/arm/nrf51.h
+index 1008fee6c93..de836beaa4c 100644
+--- a/include/hw/arm/nrf51.h
++++ b/include/hw/arm/nrf51.h
+@@ -24,11 +24,10 @@
+ #define NRF51_IOMEM_BASE      0x40000000
+ #define NRF51_IOMEM_SIZE      0x20000000
  
- /* Protection Key Register */
- #define R_PROT            (0x00 / 4)
-+#define   PROT_UNLOCKED      0x01
-+#define   PROT_HARDLOCKED    0x10  /* AST2600 */
-+#define   PROT_SOFTLOCKED    0x00
-+
- #define   PROT_KEY_UNLOCK     0xFC600309
-+#define   PROT_KEY_HARDLOCK   0xDEADDEAD /* AST2600 */
++#define NRF51_PERIPHERAL_SIZE 0x00001000
+ #define NRF51_UART_BASE       0x40002000
+ #define NRF51_TWI_BASE        0x40003000
+-#define NRF51_TWI_SIZE        0x00001000
+ #define NRF51_TIMER_BASE      0x40008000
+-#define NRF51_TIMER_SIZE      0x00001000
+ #define NRF51_RNG_BASE        0x4000D000
+ #define NRF51_NVMC_BASE       0x4001E000
+ #define NRF51_GPIO_BASE       0x50000000
+diff --git a/include/hw/i2c/microbit_i2c.h b/include/hw/i2c/microbit_i2c.h
+index aad636127ea..2bff36680cc 100644
+--- a/include/hw/i2c/microbit_i2c.h
++++ b/include/hw/i2c/microbit_i2c.h
+@@ -29,7 +29,7 @@
+ #define MICROBIT_I2C(obj) \
+     OBJECT_CHECK(MicrobitI2CState, (obj), TYPE_MICROBIT_I2C)
  
- /* Configuration Register */
- #define R_CONF            (0x04 / 4)
-@@ -130,16 +135,6 @@ static void aspeed_sdmc_write(void *opaque, hwaddr addr, uint64_t data,
-         return;
-     }
+-#define MICROBIT_I2C_NREGS (NRF51_TWI_SIZE / sizeof(uint32_t))
++#define MICROBIT_I2C_NREGS (NRF51_PERIPHERAL_SIZE / sizeof(uint32_t))
  
--    if (addr == R_PROT) {
--        s->regs[addr] = (data == PROT_KEY_UNLOCK) ? 1 : 0;
--        return;
--    }
--
--    if (!s->regs[R_PROT]) {
--        qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked!\n", __func__);
--        return;
--    }
--
-     asc->write(s, addr, data);
+ typedef struct {
+     SysBusDevice parent_obj;
+diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
+index 57eff63f0df..e50473fd199 100644
+--- a/hw/arm/nrf51_soc.c
++++ b/hw/arm/nrf51_soc.c
+@@ -156,7 +156,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
+             return;
+         }
+ 
+-        base_addr = NRF51_TIMER_BASE + i * NRF51_TIMER_SIZE;
++        base_addr = NRF51_TIMER_BASE + i * NRF51_PERIPHERAL_SIZE;
+ 
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->timer[i]), 0, base_addr);
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer[i]), 0,
+@@ -166,7 +166,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
+ 
+     /* STUB Peripherals */
+     memory_region_init_io(&s->clock, OBJECT(dev_soc), &clock_ops, NULL,
+-                          "nrf51_soc.clock", 0x1000);
++                          "nrf51_soc.clock", NRF51_PERIPHERAL_SIZE);
+     memory_region_add_subregion_overlap(&s->container,
+                                         NRF51_IOMEM_BASE, &s->clock, -1);
+ 
+diff --git a/hw/i2c/microbit_i2c.c b/hw/i2c/microbit_i2c.c
+index 4661f052532..80247398208 100644
+--- a/hw/i2c/microbit_i2c.c
++++ b/hw/i2c/microbit_i2c.c
+@@ -100,7 +100,7 @@ static void microbit_i2c_realize(DeviceState *dev, Error **errp)
+     MicrobitI2CState *s = MICROBIT_I2C(dev);
+ 
+     memory_region_init_io(&s->iomem, OBJECT(s), &microbit_i2c_ops, s,
+-                          "microbit.twi", NRF51_TWI_SIZE);
++                          "microbit.twi", NRF51_PERIPHERAL_SIZE);
+     sysbus_init_mmio(sbd, &s->iomem);
  }
  
-@@ -320,6 +315,16 @@ static uint32_t aspeed_2400_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
- static void aspeed_2400_sdmc_write(AspeedSDMCState *s, uint32_t reg,
-                                    uint32_t data)
- {
-+    if (reg == R_PROT) {
-+        s->regs[reg] = (data == PROT_KEY_UNLOCK) ? PROT_UNLOCKED : PROT_SOFTLOCKED;
-+        return;
-+    }
-+
-+    if (!s->regs[R_PROT]) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked!\n", __func__);
-+        return;
-+    }
-+
-     switch (reg) {
-     case R_CONF:
-         data = aspeed_2400_sdmc_compute_conf(s, data);
-@@ -368,6 +373,16 @@ static uint32_t aspeed_2500_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
- static void aspeed_2500_sdmc_write(AspeedSDMCState *s, uint32_t reg,
-                                    uint32_t data)
- {
-+    if (reg == R_PROT) {
-+        s->regs[reg] = (data == PROT_KEY_UNLOCK) ? PROT_UNLOCKED : PROT_SOFTLOCKED;
-+        return;
-+    }
-+
-+    if (!s->regs[R_PROT]) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked!\n", __func__);
-+        return;
-+    }
-+
-     switch (reg) {
-     case R_CONF:
-         data = aspeed_2500_sdmc_compute_conf(s, data);
-@@ -424,7 +439,27 @@ static uint32_t aspeed_2600_sdmc_compute_conf(AspeedSDMCState *s, uint32_t data)
- static void aspeed_2600_sdmc_write(AspeedSDMCState *s, uint32_t reg,
-                                    uint32_t data)
- {
-+    if (s->regs[R_PROT] == PROT_HARDLOCKED) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked until system reset!\n",
-+                __func__);
-+        return;
-+    }
-+
-+    if (reg != R_PROT && s->regs[R_PROT] == PROT_SOFTLOCKED) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: SDMC is locked!\n", __func__);
-+        return;
-+    }
-+
-     switch (reg) {
-+    case R_PROT:
-+        if (data == PROT_KEY_UNLOCK)  {
-+            data = PROT_UNLOCKED;
-+        } else if (data == PROT_KEY_HARDLOCK) {
-+            data = PROT_HARDLOCKED;
-+        } else {
-+            data = PROT_SOFTLOCKED;
-+        }
-+        break;
-     case R_CONF:
-         data = aspeed_2600_sdmc_compute_conf(s, data);
-         break;
+diff --git a/hw/timer/nrf51_timer.c b/hw/timer/nrf51_timer.c
+index e04046eb15e..bc82c85a6f2 100644
+--- a/hw/timer/nrf51_timer.c
++++ b/hw/timer/nrf51_timer.c
+@@ -313,7 +313,7 @@ static void nrf51_timer_init(Object *obj)
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+ 
+     memory_region_init_io(&s->iomem, obj, &rng_ops, s,
+-            TYPE_NRF51_TIMER, NRF51_TIMER_SIZE);
++                          TYPE_NRF51_TIMER, NRF51_PERIPHERAL_SIZE);
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->irq);
+ 
 -- 
 2.20.1
 
