@@ -2,94 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9A81CDA6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:47:19 +0200 (CEST)
-Received: from localhost ([::1]:32860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA5A01CDA79
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:51:55 +0200 (CEST)
+Received: from localhost ([::1]:43774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY7q2-0001Pb-FV
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38378)
+	id 1jY7uU-0006r6-TO
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY7cE-0001ON-Em
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:33:02 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:22450
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY7cC-00077R-D9
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:33:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589200379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PNNV0qs1SjdJBOj8gSVVeLYEgNbzc5QlNqFsgOVbvTg=;
- b=DJKX2Z8ZipyDp9bycE6eqOUv3DgqZV1KL7hfUrspnEaKH59QSaGzqh+WhfB3xbeModaAFQ
- a2mZ1svGl5eaIfZFGltHIqZ0Ucnl8pEEqdupNdUDpt5HwEq3VSjakzyCFRgGvinOq5sxMy
- nTQKFL7YPswUyjRH9fQr0zBbU8RdPyg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-XWdKqipbMlCBt1paysVQBg-1; Mon, 11 May 2020 08:32:56 -0400
-X-MC-Unique: XWdKqipbMlCBt1paysVQBg-1
-Received: by mail-wr1-f71.google.com with SMTP id p13so411647wrw.1
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 05:32:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PNNV0qs1SjdJBOj8gSVVeLYEgNbzc5QlNqFsgOVbvTg=;
- b=rBgWyXdwxMx5ezRknih9liq9EiMywBFslFTBH6I+5FHow8LjCVjCtofETMDxDrn9J0
- JwKsqoolybovXyeg83fCbu4vBwDcv5o4EAXGD0zfoyRY52ljcLE9oH4IBAOVf/F0aaNk
- nkUda7jW3GmjzB3hrvBzwHNknZbFyJ5d+Cyg5qIXR+65PpT0eXB5NpEA0r9CznuzsBtT
- s2IIoNo1/tElL5JqsGwsm9hquGLx3AYiUJN81sD23Vqjyruhtzb90mgfbwwaFfAuQcKr
- gcD+WIDXjOrzdI09e3wpIrEmaZ5krXaPb8NEMOMFMiof//Xr8fMdWNXDhc4VQggJUszL
- j3Sg==
-X-Gm-Message-State: AGi0PuY134WLOx8M0iG7KJvWMlLgU0R5fOri5MMZkmtfbNUa+NbncMM9
- U4pvaTCYAz1Hoyaj4wl4Wy6wAGQoZQvQTN1h7EYhrcbcwqKmPYTMfR/rV+S8KMO9t4Ydh1it/G4
- EhpBAm0huIowDIvs=
-X-Received: by 2002:a1c:25c4:: with SMTP id l187mr28219496wml.89.1589200375101; 
- Mon, 11 May 2020 05:32:55 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ3Nkr9fL8w21ZbLvGSWjCMXRRGd+OZoRZFv5kk5yEn0/CWHQ7FILrAEVNi8y/PhLgRC+gGGg==
-X-Received: by 2002:a1c:25c4:: with SMTP id l187mr28219477wml.89.1589200374907; 
- Mon, 11 May 2020 05:32:54 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id q184sm26881509wma.25.2020.05.11.05.32.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 May 2020 05:32:53 -0700 (PDT)
-Subject: Re: [PATCH] ui: update keycodemapdb submodule commit
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200505125713.940953-1-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e98883d2-7afc-442e-b01e-fb8278f80cb6@redhat.com>
-Date: Mon, 11 May 2020 14:32:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jY7tS-000603-Mv
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:50:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46208)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jY7tR-0002Qj-Hh
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:50:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jY7tP-0005xQ-Ee
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 12:50:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 30D772E810D
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 12:50:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200505125713.940953-1-berrange@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 01:43:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 11 May 2020 12:36:10 -0000
+From: Stefan Hajnoczi <1877716@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: busimus post-factum stefanha zkrx
+X-Launchpad-Bug-Reporter: zkrx (zkrx)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
+Message-Id: <158920057023.4508.13500039233411580612.malone@soybean.canonical.com>
+Subject: [Bug 1877716] Re: Win10 guest unusable after a few minutes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 35baf431896bf9ce325ad6b86941b907da6e65ed
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 08:50:48
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -98,63 +72,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Volker
+That's good news! Most users do not have io_uring enabled yet.
 
-On 5/5/20 2:57 PM, Daniel P. Berrangé wrote:
-> Primarily this is to pull in a fix for Win32 keycodes. The other useful
-> change is the removal of build timestamp from generated files which is
-> desirable for reproducable builds.
-> 
-> The make rules need updating due to slightly changed CLI syntax - more
-> args must now come after the command name.
-> 
-> 27acf0ef828bf719b2053ba398b195829413dbdd Fix win32 keycode for VK_OEM_102
-> 317d3eeb963a515e15a63fa356d8ebcda7041a51 Add support for generating RST formatted docs pages
-> 7381b9bfadd31c4c9e9a10b5bb5032f9189d4352 Introduce separate args for title & subtitle with docs generator
-> 6280c94f306df6a20bbc100ba15a5a81af0366e6 keymap-gen: Name sections in pod output
-> df4e56f8fab65ba714ec18f4e7338a966a1620ad Add an empty meson project
-> 16e5b0787687d8904dad2c026107409eb9bfcb95 remove buildtime from generated files
-> 044f21dd0d4f62519aae9f1d53a026407a0b664f add header file generators
-> 7779876a6b06755e3bb2c94ee3ded50635bcb0fa c++: add extern declaration to the generated file
-> 0e0a317889464397d6f1ae03aad0d2ca593aab04 move CLanguageGenerator closer to CLanguageGenerator itself
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   Makefile        | 4 ++--
->   ui/keycodemapdb | 2 +-
->   2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 34275f57c9..5f2b63b1cd 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -310,10 +310,10 @@ ui/input-keymap-%.c: $(KEYCODEMAP_GEN) $(KEYCODEMAP_CSV) $(SRC_PATH)/ui/Makefile
->   	$(call quiet-command,\
->   	    stem=$* && src=$${stem%-to-*} dst=$${stem#*-to-} && \
->   	    test -e $(KEYCODEMAP_GEN) && \
-> -	    $(PYTHON) $(KEYCODEMAP_GEN) \
-> +	    $(PYTHON) $(KEYCODEMAP_GEN) code-map \
->   	          --lang glib2 \
->   	          --varname qemu_input_map_$${src}_to_$${dst} \
-> -	          code-map $(KEYCODEMAP_CSV) $${src} $${dst} \
-> +	          $(KEYCODEMAP_CSV) $${src} $${dst} \
->   	        > $@ || rm -f $@, "GEN", "$@")
->   
->   $(KEYCODEMAP_GEN): .git-submodule-status
-> diff --git a/ui/keycodemapdb b/ui/keycodemapdb
-> index 6b3d716e2b..27acf0ef82 160000
-> --- a/ui/keycodemapdb
-> +++ b/ui/keycodemapdb
-> @@ -1 +1 @@
-> -Subproject commit 6b3d716e2b6472eb7189d3220552280ef3d832ce
-> +Subproject commit 27acf0ef828bf719b2053ba398b195829413dbdd
-> 
+-- =
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877716
 
+Title:
+  Win10 guest unusable after a few minutes
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Arch Linux, the recent qemu package update seems to misbehave on
+  some systems. In my case, my Windows 10 guest runs fine for around 5
+  minutes and then start to get really sluggish, even unresponsive. It
+  needs to be forced off. I could reproduce this on a minimal VM with no
+  passthrough, although my current testing setup involves an nvme pcie
+  passthrough.
+
+  I bisected it to the following commit which rapidly starts to run sluggis=
+hly on my setup:
+  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
+ccf
+
+  I've ran the previous commit (
+  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
+89b
+  ) for the entire night without an issue so far.
+
+  I believe this might be a duplicate of
+  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
+
+  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
+6_64 GNU/Linux
+  AMD Ryzen 7 2700X Eight-Core Processor
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
 
