@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC811CE189
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 19:21:40 +0200 (CEST)
-Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7211CE1C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 19:33:34 +0200 (CEST)
+Received: from localhost ([::1]:40108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYC7W-00053b-GM
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 13:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
+	id 1jYCJ3-0008Ug-R8
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 13:33:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jYC5i-0003KR-8o
- for qemu-devel@nongnu.org; Mon, 11 May 2020 13:19:46 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:48184
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jYC5g-0003Gg-DF
- for qemu-devel@nongnu.org; Mon, 11 May 2020 13:19:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589217582;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ytChMxuyZk8sUO244ZoYR/VaCGgs8delvAwvozv+58o=;
- b=BW9+Qzxx4IIPCjKlKwmGk/F2zmeJPDzpBTKkHXiMdF6hgEIj8gcO8L7cqE9VKEPjKwXRKc
- 3tmM9FnOqC/T7wzdP4+xYjHTKgsKE7eB4ZbsDktJe8k3+MEuEAhcrTpurNuMU/Czb+A6yx
- PcOxsDZmilIpiH3uDhovQuhRmEXo2/Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-aEXkpEQfNyWwSbZeQDZAgA-1; Mon, 11 May 2020 13:19:40 -0400
-X-MC-Unique: aEXkpEQfNyWwSbZeQDZAgA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF61A1005510;
- Mon, 11 May 2020 17:19:39 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AE7C341FF;
- Mon, 11 May 2020 17:19:33 +0000 (UTC)
-Date: Mon, 11 May 2020 18:19:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: B3r3n <B3r3n@argosnet.com>
-Subject: Re: Qemu, VNC and non-US keymaps
-Message-ID: <20200511171930.GS1135885@redhat.com>
-References: <E1jY9FF-0000Po-2c@lists.gnu.org>
- <af732fbf-fd70-97bc-3ea8-25d66f5895de@redhat.com>
- <20200511151155.GO1135885@redhat.com>
- <20200511152957.6CFA8D1826@zmta04.collab.prod.int.phx2.redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYCGG-0006sa-Qm
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 13:30:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45308)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYCGF-0000xV-9Q
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 13:30:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYCGD-0002ew-5u
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 17:30:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 27F272E8105
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 17:30:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200511152957.6CFA8D1826@zmta04.collab.prod.int.phx2.redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 11 May 2020 17:23:22 -0000
+From: Alexander Bulekov <1878054@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <158921780313.11557.11335648957795976711.malonedeb@wampee.canonical.com>
+Subject: [Bug 1878054] [NEW] Hang with high CPU usage in sdhci_data_transfer
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 5ab1ed8a6d417101c99e3d02ca9310c1a7201c84
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 11:35:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,101 +71,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-discuss@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=83=C2=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Bug 1878054 <1878054@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 11, 2020 at 05:29:48PM +0200, B3r3n wrote:
-> Hello Daniel,
-> 
-> > There is no mention here of what VNC client program is being used, which
-> > is quite important, as key handling is a big mess in VNC.
-> I tested with TightVNC & noVNC through Apache. Both behaves the same. I did
-> not tested Ultr@VNC.
+Public bug reported:
 
-AFAIK, neithe TightVNC nor Ultra@VNC support the scancode extension.
+Hello,
+While fuzzing, I found an input that causes QEMU to hang with 100% CPU usag=
+e.
+I have waited several minutes, and QEMU is still unresponsive. Using gdb, It
+appears that it is stuck in an sdhci_data_transfer:
 
-noVNC does, for most modern browsers, so it might work if you remove
-the -k arg from QEMU.
+#0   memory_region_access_valid (mr=3D<optimized out>, addr=3D0x10284920, s=
+ize=3D<optimized out>, is_write=3D0xff, attrs=3D...) at /home/alxndr/Develo=
+pment/qemu/memory.c:1378
+#1   memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimized =
+out>, data=3D<optimized out>, op=3DMO_32, attrs=3D...) at /home/alxndr/Deve=
+lopment/qemu/memory.c:1463
+#2   flatview_write_continue (fv=3D<optimized out>, addr=3D0x10284920, attr=
+s=3D..., ptr=3D<optimized out>, len=3D0xb7, addr1=3D0x5555582798e0, l=3D<op=
+timized out>, mr=3D0x5555582798e0 <io_mem_unassigned>) at /home/alxndr/Deve=
+lopment/qemu/exec.c:3137
+#3   flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=3D.=
+.., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Developme=
+nt/qemu/exec.c:3177
+#4   address_space_write (as=3D<optimized out>, addr=3D<optimized out>, att=
+rs=3D..., buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Development/qemu/=
+exec.c:3268
+#5   address_space_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=3D=
+0x5555582798e0, attrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, len=3D=
+0x4, is_write=3D0xb8, is_write@entry=3D0x1) at
+/home/alxndr/Development/qemu/exec.c:3278
+#6   dma_memory_rw_relaxed (as=3D0x5555572509ac <unassigned_mem_ops+44>, ad=
+dr=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_FR=
+OM_DEVICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:87
+#7   dma_memory_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=3D0x5=
+555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_FROM_DEVIC=
+E) at /home/alxndr/Development/qemu/include/sysemu/dma.h:110
+#8   dma_memory_write (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=3D=
+0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Development=
+/qemu/include/sysemu/dma.h:122
+#9   sdhci_sdma_transfer_multi_blocks (s=3D<optimized out>) at /home/alxndr=
+/Development/qemu/hw/sd/sdhci.c:618
+#10  sdhci_data_transfer (opaque=3D0x61e000021080) at /home/alxndr/Developm=
+ent/qemu/hw/sd/sdhci.c:891
+#11  sdhci_send_command (s=3D0x61e000021080) at /home/alxndr/Development/qe=
+mu/hw/sd/sdhci.c:364
+#12  sdhci_write (opaque=3D<optimized out>, offset=3D0xc, val=3D<optimized =
+out>, size=3D<optimized out>) at /home/alxndr/Development/qemu/hw/sd/sdhci.=
+c:1158
+#13  memory_region_write_accessor (mr=3D<optimized out>, addr=3D<optimized =
+out>, value=3D<optimized out>, size=3D<optimized out>, shift=3D<optimized o=
+ut>, mask=3D<optimized out>, attrs=3D...) at
+/home/alxndr/Development/qemu/memory.c:483
+#14  access_with_adjusted_size (addr=3D<optimized out>, value=3D<optimized =
+out>, size=3D<optimized out>, access_size_min=3D<optimized out>, access_siz=
+e_max=3D<optimized out>, access_fn=3D<optimized out>, mr=3D0x61e0000219f0, =
+attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+#15  memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimized =
+out>, data=3D0x1ffe0ff, op=3D<optimized out>, attrs=3D...) at /home/alxndr/=
+Development/qemu/memory.c:1476
+#16  flatview_write_continue (fv=3D<optimized out>, addr=3D0xe106800c, attr=
+s=3D..., ptr=3D<optimized out>, len=3D0xff3, addr1=3D0x5555582798e0, l=3D<o=
+ptimized out>, mr=3D0x61e0000219f0) at /home/alxndr/Development/qemu/exec.c=
+:3137
+#17  flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=3D.=
+.., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Developme=
+nt/qemu/exec.c:3177
+#18  address_space_write (as=3D<optimized out>, addr=3D<optimized out>, att=
+rs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, buf@entry=3D0x62100008ad0=
+0, len=3D0x4) at /home/alxndr/Development/qemu/exec.c:3268
+#19  qtest_process_command (chr=3D<optimized out>, chr@entry=3D0x55555827c0=
+40 <qtest_chr>, words=3D<optimized out>) at /home/alxndr/Development/qemu/q=
+test.c:567
+#20  qtest_process_inbuf (chr=3D0x55555827c040 <qtest_chr>, inbuf=3D0x61900=
+000f640) at /home/alxndr/Development/qemu/qtest.c:710
 
-> > The default VNC protocol passes X11 keysyms over the wire.
-> > 
-> > The remote desktop gets hardware scancodes and turns them into keysyms,
-> > which the VNC client sees. The VNC client passes them to the VNC server
-> > in QEMU, which then has to turn them back into hardware scancodes. This
-> > reverse mapping relies on knowledge of the keyboard mapping, and is what
-> > the "-k fr" argument tells QEMU.
-> > 
-> > For this to work at all, the keymap used by the remote desktop must
-> > match the keymap used by QEMU, which must match the keymap used by
-> > the guest OS.  Even this is not sufficient though, because the act
-> > of translating hardware scancodes into keysyms is *lossy*. There is
-> > no way to reliably go back to hardware scancodes, which is precisely
-> > what QEMU tries to do - some reverse mappings will be ambiguous.
-> Yes, I saw that topic passing by. Looks messy with all these interferences...
-> 
-> > Due to this mess, years ago (over a decade) QEMU introduced a VNC
-> > protocol extension that allows for passing hardware scancodes over
-> > the wire.
-> I guess I also crossed something about this on Internet.
-> Are you talking of the RFB protocol ?
 
-Yes, RFB protocol is the technical name for the VNC wire protocol.
+I am attaching the qtest commands for reproducing it.
+I can reproduce it in a qemu 5.0 build using:
 
-> > With this extension, the VNC client gets the hardware scancode
-> > from the remote desktop, and passes it straight to the VNC server,
-> > which passes it straight to the guest OS, which then applies the
-> > localized keyboard mapping.   This is good because the localized
-> > keyboard mapping conversion is now only done once, in the guest
-> > OS.
-> > 
-> > To make use of this protocol extension to VNC, you must *NOT*
-> > pass any "-k" arg to QEMU, and must use a VNC client that has
-> > support for this protocol extension.  The GTK-VNC widget supports
-> > this and is used by virt-viewer, remote-viewer, virt-manager,
-> > GNOME Boxes, Vinagre client applications.  The TigerVNC client
-> > also supports this extension.
-> So if I read you, if the client "enforce" this protocol (supposed RFB), Qemu
-> will automatically uses it as well ?
+qemu-system-i386 -M pc-q35-5.0 -qtest stdio -device sdhci-pci,sd-spec-
+version=3D3 -device sd-card,drive=3Dmydrive -drive if=3Dsd,index=3D0,file=
+=3Dnull-
+co://,format=3Draw,id=3Dmydrive -nographic -nographic -serial none -monitor
+none < attachment
 
-The client should automatically activate the extension if QEMU advertizes
-it, and QEMU advertizes it if you remove the -k arg.
+Please let me know if I can provide any further info.
+-Alex
 
-> Removing -k option is great to me if it works, since user will have its own
-> mapping and these are international :-)
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878054
 
-> > To summarize, my recommendation is to remove the "-k" arg entirely,
-> > and pick a VNC client that supports the scancode extension.
-> For now I am using TightVNC & noVNC. noVNC is precious since it widens the
-> user world, removing any client software constraint.
+Title:
+  Hang with high CPU usage in sdhci_data_transfer
 
-As above, noVNC ought to support the extension.
+Status in QEMU:
+  New
 
-> 
-> > It is possible there might be a genuine bug in QEMU's 'fr' keymap
-> > that can be fixed to deal with AltGr problems. Personally though I
-> > don't spend time investigating these problems, as the broad reverse
-> > keymapping problem is unfixable. The only sensible option is to take
-> > the route of using the VNC hardware scancode extension. It is notable
-> > that SPICE learnt from VNC's mistake and used hardware scancodes from
-> > the very start.
-> 
-> This was another path I intend to follow : using SPICE and a "noSPICE"
-> client if VNC was too painful.
-> If I understand you, using SPICE could also solve the issue ?
-> 
-> Many thanks for your inputs...
+Bug description:
+  Hello,
+  While fuzzing, I found an input that causes QEMU to hang with 100% CPU us=
+age.
+  I have waited several minutes, and QEMU is still unresponsive. Using gdb,=
+ It
+  appears that it is stuck in an sdhci_data_transfer:
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  #0   memory_region_access_valid (mr=3D<optimized out>, addr=3D0x10284920,=
+ size=3D<optimized out>, is_write=3D0xff, attrs=3D...) at /home/alxndr/Deve=
+lopment/qemu/memory.c:1378
+  #1   memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimize=
+d out>, data=3D<optimized out>, op=3DMO_32, attrs=3D...) at /home/alxndr/De=
+velopment/qemu/memory.c:1463
+  #2   flatview_write_continue (fv=3D<optimized out>, addr=3D0x10284920, at=
+trs=3D..., ptr=3D<optimized out>, len=3D0xb7, addr1=3D0x5555582798e0, l=3D<=
+optimized out>, mr=3D0x5555582798e0 <io_mem_unassigned>) at /home/alxndr/De=
+velopment/qemu/exec.c:3137
+  #3   flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+  #4   address_space_write (as=3D<optimized out>, addr=3D<optimized out>, a=
+ttrs=3D..., buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Development/qem=
+u/exec.c:3268
+  #5   address_space_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, attrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, len=
+=3D0x4, is_write=3D0xb8, is_write@entry=3D0x1) at
+  /home/alxndr/Development/qemu/exec.c:3278
+  #6   dma_memory_rw_relaxed (as=3D0x5555572509ac <unassigned_mem_ops+44>, =
+addr=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_=
+FROM_DEVICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:87
+  #7   dma_memory_rw (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=3D0=
+x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4, dir=3DDMA_DIRECTION_FROM_DEV=
+ICE) at /home/alxndr/Development/qemu/include/sysemu/dma.h:110
+  #8   dma_memory_write (as=3D0x5555572509ac <unassigned_mem_ops+44>, addr=
+=3D0x5555582798e0, buf=3D0xaaaab04f325, len=3D0x4) at /home/alxndr/Developm=
+ent/qemu/include/sysemu/dma.h:122
+  #9   sdhci_sdma_transfer_multi_blocks (s=3D<optimized out>) at /home/alxn=
+dr/Development/qemu/hw/sd/sdhci.c:618
+  #10  sdhci_data_transfer (opaque=3D0x61e000021080) at /home/alxndr/Develo=
+pment/qemu/hw/sd/sdhci.c:891
+  #11  sdhci_send_command (s=3D0x61e000021080) at /home/alxndr/Development/=
+qemu/hw/sd/sdhci.c:364
+  #12  sdhci_write (opaque=3D<optimized out>, offset=3D0xc, val=3D<optimize=
+d out>, size=3D<optimized out>) at /home/alxndr/Development/qemu/hw/sd/sdhc=
+i.c:1158
+  #13  memory_region_write_accessor (mr=3D<optimized out>, addr=3D<optimize=
+d out>, value=3D<optimized out>, size=3D<optimized out>, shift=3D<optimized=
+ out>, mask=3D<optimized out>, attrs=3D...) at
+  /home/alxndr/Development/qemu/memory.c:483
+  #14  access_with_adjusted_size (addr=3D<optimized out>, value=3D<optimize=
+d out>, size=3D<optimized out>, access_size_min=3D<optimized out>, access_s=
+ize_max=3D<optimized out>, access_fn=3D<optimized out>, mr=3D0x61e0000219f0=
+, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #15  memory_region_dispatch_write (mr=3D<optimized out>, addr=3D<optimize=
+d out>, data=3D0x1ffe0ff, op=3D<optimized out>, attrs=3D...) at /home/alxnd=
+r/Development/qemu/memory.c:1476
+  #16  flatview_write_continue (fv=3D<optimized out>, addr=3D0xe106800c, at=
+trs=3D..., ptr=3D<optimized out>, len=3D0xff3, addr1=3D0x5555582798e0, l=3D=
+<optimized out>, mr=3D0x61e0000219f0) at /home/alxndr/Development/qemu/exec=
+.c:3137
+  #17  flatview_write (fv=3D0x606000045da0, addr=3D<optimized out>, attrs=
+=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /home/alxndr/Devel=
+opment/qemu/exec.c:3177
+  #18  address_space_write (as=3D<optimized out>, addr=3D<optimized out>, a=
+ttrs=3D..., attrs@entry=3D..., buf=3D0xaaaab04f325, buf@entry=3D0x62100008a=
+d00, len=3D0x4) at /home/alxndr/Development/qemu/exec.c:3268
+  #19  qtest_process_command (chr=3D<optimized out>, chr@entry=3D0x55555827=
+c040 <qtest_chr>, words=3D<optimized out>) at /home/alxndr/Development/qemu=
+/qtest.c:567
+  #20  qtest_process_inbuf (chr=3D0x55555827c040 <qtest_chr>, inbuf=3D0x619=
+00000f640) at /home/alxndr/Development/qemu/qtest.c:710
 
+  =
+
+  I am attaching the qtest commands for reproducing it.
+  I can reproduce it in a qemu 5.0 build using:
+
+  qemu-system-i386 -M pc-q35-5.0 -qtest stdio -device sdhci-pci,sd-spec-
+  version=3D3 -device sd-card,drive=3Dmydrive -drive if=3Dsd,index=3D0,file
+  =3Dnull-co://,format=3Draw,id=3Dmydrive -nographic -nographic -serial none
+  -monitor none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878054/+subscriptions
 
