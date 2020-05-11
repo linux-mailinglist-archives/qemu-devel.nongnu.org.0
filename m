@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8691CDB6B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:39:06 +0200 (CEST)
-Received: from localhost ([::1]:60454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD971CDB7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:41:38 +0200 (CEST)
+Received: from localhost ([::1]:43710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8e9-0002eq-Ly
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:39:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48882)
+	id 1jY8gb-0007gH-K5
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZQ-0001eb-Mf
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:12 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36996)
+ id 1jY8ZR-0001hJ-VS
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:14 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZP-0006zZ-OE
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:12 -0400
-Received: by mail-wm1-x341.google.com with SMTP id z72so9672166wmc.2
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:11 -0700 (PDT)
+ id 1jY8ZQ-0006zq-Qj
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:13 -0400
+Received: by mail-wr1-x436.google.com with SMTP id i15so10961203wrx.10
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=QY58CXVUaQwf+QAV/2GBzlVDHqKHNdceOqgL9U9QO1k=;
- b=KM85AzjXIH2OScFzV350Jbe+tvJFDJ8X7ooJHab4XInMd77kU4IwuRFeONzM87Q+21
- CDw1urxRjkkcAl15MKL+HrqqHG6G+qs9uUE9clXEhRej9hF3JDoxXsdqbr9Z6Db9Fwfe
- MMbKmkBO558zY3nJhrOQiPDxasRdtSJy0fYZGfuMXWwNn/Lf0E5HWzM+thbLCGCNUHwJ
- WAb419HDGOr1mjmRpXuxFchPaMyeHLw+1VQ8kZ0S56GAxFiOgwaHfzZ54rGu4zx8lrrG
- amtsLg0binF53D4kkdorLtj/FyV/k8R/BzZ7+s5/h1E0SRxy0O2XK7wsKVz5jZSW6kvD
- eNAQ==
+ bh=GYv16+FW+jpblC87r0KGO4QFt+WFmyf8MHKvbTVEmDg=;
+ b=Ijh1z3sq+D9151+Mz/NXmu+8kCHeXct6/EgVqRkGgZ/fmpCXXYku1MlUsHHvbVVt3t
+ tPA9MngWoWOhZvfsj9reDTUoiaZ8mpHzsCM8z0ob3YFZm0rdndFPP9je6u34QNw0y7dD
+ 5e6vHum9aGupxMwaBzkdjKg9ylRZl4WXOKaotgyq2ZawyEmJM3rzf8b4x9D9CR6sSC46
+ 3unlJI2kY9U8eCwy0spjbjxNwD4cDXqwddZoZycRiCutKj5uO/+7xJHBlqbvz5FZziJc
+ wijsqEGP0GN3fWEJeskc/5Uoo9dQVtzqaIjOGy2jTiiJfzat9JUuQGoGFhTkPPv9tmWT
+ TLZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QY58CXVUaQwf+QAV/2GBzlVDHqKHNdceOqgL9U9QO1k=;
- b=kF6x2IF1MGwotDbT+7OGhNHBgx2B/9BdwrOzM30TVpTbfVla290P97NFaNts55mQ7n
- 7GgeTYVz6CyRMucNuv4wXwuuu18P1r5B11oRA1vLmyutyBA8zF3OU7rlilhEZBOyhh9E
- N74u5LmV6Jl9p58VmG97tFBNSuLubjNXUgxlUY0u+N21vtguzz8fA8Hch4lpWCsnVjAG
- sNzEEgYHDOQGVcjdxrYEEfG8fD8vHU6JBmvxLG/tc01nZPfK26b9PvPF/yKtBcpYmgnx
- 7fKGWIed18P12zdugcNFoKKDwQ6RZjIiP1Ya5UETt+mD6k0sBLqL3PKIQ2i2oBzYccf2
- 4eGQ==
-X-Gm-Message-State: AGi0PubFmCh1ofqO8ygahOTSmSS7hXt85FY8Cm8JWbiozTR+wE2cHXY2
- BV+iAtjittn0iimrl/GGiTDbmDpgOpRGbA==
-X-Google-Smtp-Source: APiQypLjPexCblnVhZFdsFu4KnRcvGXrCnbttgpWFHUKhlqxx33USgA+KxjC86BkylCcFeU6ViBExQ==
-X-Received: by 2002:a1c:bbc4:: with SMTP id
- l187mr12222887wmf.183.1589204049853; 
- Mon, 11 May 2020 06:34:09 -0700 (PDT)
+ bh=GYv16+FW+jpblC87r0KGO4QFt+WFmyf8MHKvbTVEmDg=;
+ b=MnE7MN+Tvvsez9OOxmOCnTHkVXA9dpvEQTvI23kyu02Tj+AOET5fU2vqCWPmxfi6w6
+ 41ph/axKrtawWRgbmqnztS2m3LYakY0Jr8X4GLU74Iqr7rDlQ5VX3K+5NGYn/WSk/YDm
+ TDfgML9y2oL710DRbLK7wTpU7TjrkRtz7OL3yGIi7iZgbJ4a8WshO1c747zWCLCJOO3Z
+ KuwYbpKap60YTt+xyCn071J6GSBRFGQxCqOjl/C+hDCZIeK7uimBiG0YgeL19ZsPy4t9
+ mZ+iB0pBtGIgjUKHL6Qc5hKwm/cyCoFcPjb01EJd89CDR79KnhTNr+SUQDwDFDunGclD
+ ekAw==
+X-Gm-Message-State: AGi0PuZuABgj1K8F4VD2EO26SsxujlP+Q0d3Ld0KWDsjIlHvYBHnQHrY
+ 20GMg1Q0f0ZBnd1li3Q8RBtLy2Oh/+09dQ==
+X-Google-Smtp-Source: APiQypJPyDRoHgQ5AArs04lp8lTbeNzu9P4rsc45/kc2elUWQ8BjrO596bIQWS0WSkd6pLPqt3ITkQ==
+X-Received: by 2002:adf:a118:: with SMTP id o24mr18414516wro.330.1589204051041; 
+ Mon, 11 May 2020 06:34:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.08
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:08 -0700 (PDT)
+ Mon, 11 May 2020 06:34:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/34] target/arm: Drop access_el3_aa32ns_aa64any()
-Date: Mon, 11 May 2020 14:33:33 +0100
-Message-Id: <20200511133405.5275-3-peter.maydell@linaro.org>
+Subject: [PULL 03/34] aspeed: Support AST2600A1 silicon revision
+Date: Mon, 11 May 2020 14:33:34 +0100
+Message-Id: <20200511133405.5275-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,101 +89,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+From: Joel Stanley <joel@jms.id.au>
 
-Calling access_el3_aa32ns() works for AArch32 only cores
-but it does not handle 32-bit EL2 on top of 64-bit EL3
-for mixed 32/64-bit cores.
+There are minimal differences from Qemu's point of view between the A0
+and A1 silicon revisions.
 
-Merge access_el3_aa32ns_aa64any() into access_el3_aa32ns()
-and only use the latter.
+As the A1 exercises different code paths in u-boot it is desirable to
+emulate that instead.
 
-Fixes: 68e9c2fe65 ("target-arm: Add VTCR_EL2")
-Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20200505141729.31930-2-edgar.iglesias@gmail.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-id: 20200504093703.261135-1-joel@jms.id.au
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 30 +++++++-----------------------
- 1 file changed, 7 insertions(+), 23 deletions(-)
+ include/hw/misc/aspeed_scu.h |  1 +
+ hw/arm/aspeed.c              |  8 ++++----
+ hw/arm/aspeed_ast2600.c      |  6 +++---
+ hw/misc/aspeed_scu.c         | 11 +++++------
+ 4 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a94f6507950..b88d27819d5 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -503,35 +503,19 @@ void init_cpreg_list(ARMCPU *cpu)
- }
+diff --git a/include/hw/misc/aspeed_scu.h b/include/hw/misc/aspeed_scu.h
+index 1d7f7ffc159..a6739bb846b 100644
+--- a/include/hw/misc/aspeed_scu.h
++++ b/include/hw/misc/aspeed_scu.h
+@@ -41,6 +41,7 @@ typedef struct AspeedSCUState {
+ #define AST2500_A0_SILICON_REV   0x04000303U
+ #define AST2500_A1_SILICON_REV   0x04010303U
+ #define AST2600_A0_SILICON_REV   0x05000303U
++#define AST2600_A1_SILICON_REV   0x05010303U
+ 
+ #define ASPEED_IS_AST2500(si_rev)     ((((si_rev) >> 24) & 0xff) == 0x04)
+ 
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a3a8cd0a58a..1eacb2fc172 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -93,7 +93,7 @@ struct AspeedBoardState {
+ 
+ /* Tacoma hardware value */
+ #define TACOMA_BMC_HW_STRAP1  0x00000000
+-#define TACOMA_BMC_HW_STRAP2  0x00000000
++#define TACOMA_BMC_HW_STRAP2  0x00000040
  
  /*
-- * Some registers are not accessible if EL3.NS=0 and EL3 is using AArch32 but
-- * they are accessible when EL3 is using AArch64 regardless of EL3.NS.
-- *
-- * access_el3_aa32ns: Used to check AArch32 register views.
-- * access_el3_aa32ns_aa64any: Used to check both AArch32/64 register views.
-+ * Some registers are not accessible from AArch32 EL3 if SCR.NS == 0.
-  */
- static CPAccessResult access_el3_aa32ns(CPUARMState *env,
-                                         const ARMCPRegInfo *ri,
-                                         bool isread)
- {
--    bool secure = arm_is_secure_below_el3(env);
--
--    assert(!arm_el_is_aa64(env, 3));
--    if (secure) {
-+    if (!is_a64(env) && arm_current_el(env) == 3 &&
-+        arm_is_secure_below_el3(env)) {
-         return CP_ACCESS_TRAP_UNCATEGORIZED;
-     }
-     return CP_ACCESS_OK;
+  * The max ram region is for firmwares that scan the address space
+@@ -585,7 +585,7 @@ static void aspeed_machine_ast2600_evb_class_init(ObjectClass *oc, void *data)
+     AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+ 
+     mc->desc       = "Aspeed AST2600 EVB (Cortex A7)";
+-    amc->soc_name  = "ast2600-a0";
++    amc->soc_name  = "ast2600-a1";
+     amc->hw_strap1 = AST2600_EVB_HW_STRAP1;
+     amc->hw_strap2 = AST2600_EVB_HW_STRAP2;
+     amc->fmc_model = "w25q512jv";
+@@ -600,8 +600,8 @@ static void aspeed_machine_tacoma_class_init(ObjectClass *oc, void *data)
+     MachineClass *mc = MACHINE_CLASS(oc);
+     AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+ 
+-    mc->desc       = "Aspeed AST2600 EVB (Cortex A7)";
+-    amc->soc_name  = "ast2600-a0";
++    mc->desc       = "OpenPOWER Tacoma BMC (Cortex A7)";
++    amc->soc_name  = "ast2600-a1";
+     amc->hw_strap1 = TACOMA_BMC_HW_STRAP1;
+     amc->hw_strap2 = TACOMA_BMC_HW_STRAP2;
+     amc->fmc_model = "mx66l1g45g";
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 1a869e09b96..c6e0ab84ac8 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -557,9 +557,9 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+ 
+     dc->realize      = aspeed_soc_ast2600_realize;
+ 
+-    sc->name         = "ast2600-a0";
++    sc->name         = "ast2600-a1";
+     sc->cpu_type     = ARM_CPU_TYPE_NAME("cortex-a7");
+-    sc->silicon_rev  = AST2600_A0_SILICON_REV;
++    sc->silicon_rev  = AST2600_A1_SILICON_REV;
+     sc->sram_size    = 0x10000;
+     sc->spis_num     = 2;
+     sc->ehcis_num    = 2;
+@@ -571,7 +571,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
  }
  
--static CPAccessResult access_el3_aa32ns_aa64any(CPUARMState *env,
--                                                const ARMCPRegInfo *ri,
--                                                bool isread)
--{
--    if (!arm_el_is_aa64(env, 3)) {
--        return access_el3_aa32ns(env, ri, isread);
--    }
--    return CP_ACCESS_OK;
--}
--
- /* Some secure-only AArch32 registers trap to EL3 if used from
-  * Secure EL1 (but are just ordinary UNDEF in other non-EL3 contexts).
-  * Note that an access from Secure EL1 can only happen if EL3 is AArch64.
-@@ -5147,7 +5131,7 @@ static const ARMCPRegInfo el3_no_el2_cp_reginfo[] = {
-       .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-     { .name = "VTCR_EL2", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
--      .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
-+      .access = PL2_RW, .accessfn = access_el3_aa32ns,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
-     { .name = "VTTBR", .state = ARM_CP_STATE_AA32,
-       .cp = 15, .opc1 = 6, .crm = 2,
-@@ -5195,7 +5179,7 @@ static const ARMCPRegInfo el3_no_el2_cp_reginfo[] = {
-       .type = ARM_CP_CONST, .resetvalue = 0 },
-     { .name = "HPFAR_EL2", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 4, .crn = 6, .crm = 0, .opc2 = 4,
--      .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
-+      .access = PL2_RW, .accessfn = access_el3_aa32ns,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
-     { .name = "HSTR_EL2", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 3,
-@@ -7537,12 +7521,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             ARMCPRegInfo vpidr_regs[] = {
-                 { .name = "VPIDR_EL2", .state = ARM_CP_STATE_BOTH,
-                   .opc0 = 3, .opc1 = 4, .crn = 0, .crm = 0, .opc2 = 0,
--                  .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
-+                  .access = PL2_RW, .accessfn = access_el3_aa32ns,
-                   .type = ARM_CP_CONST, .resetvalue = cpu->midr,
-                   .fieldoffset = offsetof(CPUARMState, cp15.vpidr_el2) },
-                 { .name = "VMPIDR_EL2", .state = ARM_CP_STATE_BOTH,
-                   .opc0 = 3, .opc1 = 4, .crn = 0, .crm = 0, .opc2 = 5,
--                  .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
-+                  .access = PL2_RW, .accessfn = access_el3_aa32ns,
-                   .type = ARM_CP_NO_RAW,
-                   .writefn = arm_cp_write_ignore, .readfn = mpidr_read },
-                 REGINFO_SENTINEL
+ static const TypeInfo aspeed_soc_ast2600_type_info = {
+-    .name           = "ast2600-a0",
++    .name           = "ast2600-a1",
+     .parent         = TYPE_ASPEED_SOC,
+     .instance_size  = sizeof(AspeedSoCState),
+     .instance_init  = aspeed_soc_ast2600_init,
+diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+index 9d7482a9df1..ec4fef900e2 100644
+--- a/hw/misc/aspeed_scu.c
++++ b/hw/misc/aspeed_scu.c
+@@ -431,6 +431,7 @@ static uint32_t aspeed_silicon_revs[] = {
+     AST2500_A0_SILICON_REV,
+     AST2500_A1_SILICON_REV,
+     AST2600_A0_SILICON_REV,
++    AST2600_A1_SILICON_REV,
+ };
+ 
+ bool is_supported_silicon_rev(uint32_t silicon_rev)
+@@ -649,12 +650,10 @@ static const MemoryRegionOps aspeed_ast2600_scu_ops = {
+     .valid.unaligned = false,
+ };
+ 
+-static const uint32_t ast2600_a0_resets[ASPEED_AST2600_SCU_NR_REGS] = {
+-    [AST2600_SILICON_REV]       = AST2600_SILICON_REV,
+-    [AST2600_SILICON_REV2]      = AST2600_SILICON_REV,
+-    [AST2600_SYS_RST_CTRL]      = 0xF7CFFEDC | 0x100,
++static const uint32_t ast2600_a1_resets[ASPEED_AST2600_SCU_NR_REGS] = {
++    [AST2600_SYS_RST_CTRL]      = 0xF7C3FED8,
+     [AST2600_SYS_RST_CTRL2]     = 0xFFFFFFFC,
+-    [AST2600_CLK_STOP_CTRL]     = 0xEFF43E8B,
++    [AST2600_CLK_STOP_CTRL]     = 0xFFFF7F8A,
+     [AST2600_CLK_STOP_CTRL2]    = 0xFFF0FFF0,
+     [AST2600_SDRAM_HANDSHAKE]   = 0x00000040,  /* SoC completed DRAM init */
+     [AST2600_HPLL_PARAM]        = 0x1000405F,
+@@ -684,7 +683,7 @@ static void aspeed_2600_scu_class_init(ObjectClass *klass, void *data)
+ 
+     dc->desc = "ASPEED 2600 System Control Unit";
+     dc->reset = aspeed_ast2600_scu_reset;
+-    asc->resets = ast2600_a0_resets;
++    asc->resets = ast2600_a1_resets;
+     asc->calc_hpll = aspeed_2500_scu_calc_hpll; /* No change since AST2500 */
+     asc->apb_divider = 4;
+     asc->nr_regs = ASPEED_AST2600_SCU_NR_REGS;
 -- 
 2.20.1
 
