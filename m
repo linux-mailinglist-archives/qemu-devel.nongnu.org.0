@@ -2,108 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4911CDCBA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:11:54 +0200 (CEST)
-Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6EC1CD5D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:03:35 +0200 (CEST)
+Received: from localhost ([::1]:38090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY99t-0000TY-Ey
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47672)
+	id 1jY5Ha-00037f-QC
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quweijie@huayun.com>)
- id 1jY5U7-0005qd-MZ
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:16:31 -0400
-Received: from mail-bjbon0148.outbound.protection.partner.outlook.cn
- ([42.159.36.148]:18982
- helo=CN01-BJB-obe.outbound.protection.partner.outlook.cn)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quweijie@huayun.com>)
- id 1jY5U6-0001wP-Oj
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:16:31 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PAmIIv8JBodU1p3SLqwRy8NHv1LVGjCQIoy5q2f9QwhBBoK1ylOcSg833QgDBDWYtMICruMNQ0QlAXrOFEy3ubOs4VuuDyA3tOk11NixiUCC4tLgMqo1UT649pNhx+jmPAP5MEVUsL6JrBASnyRZI69a7uKwJqkU5wiw2CnUYlXXt9bUCeqYkGon+11iMQmIkhA+FHQ3NXR/b8ANS+G1uR2Ias/7Wfbx3rF42O1lyJJN1tu5PqQrJdNISgRWeAmeF5XRliDfqBLV1ARb8XUOn3Kyc61BQ9PB4GxYnh8nHM5VXZEGtztTR0lyYRRPsXSpL+/UASFxOgLTDRS/pYYocg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8WtlHJG0eGmoPYvwW7AqxBu6rC/JQVz153onHaEUCq4=;
- b=Ws+B4ppMpboACrxl00SF/lCySUe2s7PBpQmv2y7aVx7sOqJiFYYGmfhCSqmgV52Mb5heqvpUlFZQG3r9rrtzOMGN9lCnNohk+U14p8aQrSQLxGJ4p1e2OTAf/4a+JitauEqeMqGQWPC6BpmqNcdAFz316DaMNBcDUA6qMKt5tPOy6seDHZUKaFX5BWv5WsN1tDUnxGCULfGUCAqgCstQIweOPMDwdTvD0Nv0hh4aA2sEdbvqP5lb2EeCTcjz3Q37hHaQazGOjHtuC7lV/E/BK+136rR1VwP+XlXKj1E20nhnrxZ4mWCtmYUC4XLb4wcaORCvxEPqcTqN65porxNX5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=huayun.com; dmarc=pass action=none header.from=huayun.com;
- dkim=pass header.d=huayun.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=hycloud.partner.onmschina.cn; s=selector1-hycloud-partner-onmschina-cn;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8WtlHJG0eGmoPYvwW7AqxBu6rC/JQVz153onHaEUCq4=;
- b=lWBWRaA+tqMK+/mMZhhbLV/lKrj00Fdrq5sHcSX8URYuhsYWws1q+RUMGp9JShijuo4xAbFN5FasIE1Bj8r4JlKXc7CTB7zrEVE60Y0ZNej263JiBifIlYtJ72x8o1pRDVdsb9u6NVy2MktjmQNMhNU1to+gX892Is+rZEvyCrg=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=huayun.com;
-Received: from SHXPR01MB0574.CHNPR01.prod.partner.outlook.cn (10.43.110.78) by
- SHXPR01MB0525.CHNPR01.prod.partner.outlook.cn (10.43.109.204) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.34; Mon, 11 May 2020 10:01:08 +0000
-Received: from SHXPR01MB0574.CHNPR01.prod.partner.outlook.cn ([10.43.110.78])
- by SHXPR01MB0574.CHNPR01.prod.partner.outlook.cn ([10.43.110.78])
- with mapi id 15.20.2979.033; Mon, 11 May 2020 10:01:08 +0000
-From: quweijie@huayun.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] If we have more than one colo-compare,
- we can only destroy the lock when we delete the last one.
-Date: Mon, 11 May 2020 18:00:31 +0800
-Message-Id: <1589191231-18876-2-git-send-email-quweijie@huayun.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1589191231-18876-1-git-send-email-quweijie@huayun.com>
-References: <1589191231-18876-1-git-send-email-quweijie@huayun.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SHAPR01CA029.CHNPR01.prod.partner.outlook.cn (10.41.244.36)
- To SHXPR01MB0574.CHNPR01.prod.partner.outlook.cn
- (10.43.110.78)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jY5Fd-0001hI-R1
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:01:35 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jY5Fb-0006Mz-Ma
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:01:33 -0400
+Received: by mail-oi1-x241.google.com with SMTP id j16so14564980oih.10
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/DiWneqlXuxXo6nMkYvuc7Yj2MM/2MTUcrxrR8pBB+U=;
+ b=KN9/8d/J3FFYkjNlfmRPSD0fWeyNlY6gDsep9prJrlyH4yXOLe0yyyEtV5T9Tav2+G
+ xPYlMO4g6h6cykBc/e+GFgYJeHVD/oZ9ElXs7PltnGOZWADg+TRxG5fSDE4xAMROd7s4
+ v3bcAycE5FHXTifpCdJpqhOGyuDnhs5/g2R3DAzT6KpUa0/XC4UsPdpKO6FvPt8um1Ij
+ O21hBAU8yf5SI/1YEBTIHGnJP0faMR11YkStpOPqSimIqq0xuXJxv2FjVUYwAe22ggwm
+ Uh/bleQM8u2r1itcv5jrTsvck5jtuFJalfhG7SlcUbbAKYgDQ3DxQYHSVOOvUwhq2kkx
+ 7VPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/DiWneqlXuxXo6nMkYvuc7Yj2MM/2MTUcrxrR8pBB+U=;
+ b=We3G1MLL9OeKDyBfhQtJPCRwxSu7iC8TLlqFDZCPBtJ+b19cjRZKh0xqG1J4b720nq
+ ZUiz/P2UY8avhYyoBuiX7CIsiZU1Z7ztSLcvlWbbLJXog8br1z31xxTEqeY83jrENMEj
+ pw9j+xUo5UWMwyjm8A1hrO9t0nMA1+3RQJ1IT9A2RAlQjaq296WREgiX42GHpwIfEZCw
+ Tdq7BfvDPigN7oyt38L6ZU5qhsMU/Nk5FN7F5oLFO3dMRLugLFN59peQEFY6JofyqY/s
+ vVWGN7DS2Dg7YGPpcONB7flqEVzziFWPxkQNt4rRqbKTFZQZVYxx30f76kKbBHUMqjE2
+ 6Psg==
+X-Gm-Message-State: AGi0PuYXjO5QrFTr6BCkuIQ1I5Dv4TtQzIwuLk3hq+G5tWSEz292eEG3
+ turLUAeMFyH/92bR4PKtwDaoea6tC6InTZxNktnWSA==
+X-Google-Smtp-Source: APiQypK6wiuFfYiPMl8GoJZ/2r1PHkKZZVeaWj5bEhncMOgUCgfM+EMHGZYpf+l9orLlMVlPE9QbcQCzBN2G4aH1tKM=
+X-Received: by 2002:a54:400c:: with SMTP id x12mr18388321oie.146.1589191289386; 
+ Mon, 11 May 2020 03:01:29 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain.localdomain (116.228.45.98) by
- SHAPR01CA029.CHNPR01.prod.partner.outlook.cn (10.41.244.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.27 via Frontend Transport; Mon, 11 May 2020 10:01:07 +0000
-X-Mailer: git-send-email 1.8.3.1
-X-Originating-IP: [116.228.45.98]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e2e4fd7d-1cd1-4bac-c43c-08d7f59239c3
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0525:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SHXPR01MB0525DE47F97AA54D26431DCFB2A10@SHXPR01MB0525.CHNPR01.prod.partner.outlook.cn>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6;
-X-Forefront-PRVS: 04004D94E2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1KHG3QiLeW33x/Vmg+FxkuTePPxLE/r4Um0RhsBcaQEZlLfhYSw33dbMevjRKCr2P84h6oqPpDwQObZwPyUB6laklwJcdmW/t8Cche+p1nqYd34kcnoK8YLVQWlfGTkkZ4bPqsFwFAmGZkHbnbzSU2FSNeWEyvyhxj4LmlMcEfksAnIc8NoaIFnLVaDchXEHrVPD8qu76Rd7zdVBFTPqVSv3qeMP9dC4dtYKSIK2k9+Y2sTB4utR5KGe/X3vdbOATMOkr30rQQ5YiDzqE9hBbbw7haeQE9aPFn4F3UUOeZilwPSR1yCA2StqUp+VkOnm8rpc72pgo0movfiQhFCPG7IFx0yFieJT/DfPu1BMoUhohNbsaXuPlXgzvh9ERKRRwFth7FklT60ESGG6eyS/hPfheAaFrj9Y+Ty+jq+tMD6ms570rW6+DUiUmAHJqPH0HtNuKB7zx7CD7J5BUNGncgIQsOT/0aalPZXiYXsejt2TwgFf3L8mG8IJFvj0zH/QGMM1EQmbkY9vzBj0jFlK0A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SHXPR01MB0574.CHNPR01.prod.partner.outlook.cn; PTR:;
- CAT:NONE; SFTY:;
- SFS:(366004)(346002)(376002)(329002)(328002)(33430700001)(8676002)(66476007)(508600001)(95416001)(66946007)(4744005)(6916009)(86362001)(9686003)(36756003)(8936002)(186003)(33440700001)(26005)(2906002)(66556008)(54906003)(956004)(2616005)(63696004)(52116002)(6666004)(4326008)(16526019)(5660300002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Zw02TXaf7ViOSuxtKTfenpO/MvSpGoWekCbBoplGMHdH/GUoI0gxQr8y2cj/8xDqEGEnFpy6azx3JUCEIvWElI4HK1qn4TXtH92Yu7Ize5w1Bh1E0iOYL5Rc1GnsMgEQUAwuAmDTBxBfS17P7Ff3I5vQDUwNY/moqx6l0ARw8/UBFvHoxAR9vjObri2KyzCJTQKecjbzL5sG3RPfQerpyy9MD8ySRNFEdJE5Q6G7zNzyTfzsLtjrK1lFiWCiHg5TMZaFk50JJchy0K9Zi+DlSdWoSb+WMh5zMBNihBOMWwFNnyGG5rqYsHGbDHFfF4GwDIRaPiGFrdSS+4BpQ4PxR5S2V3gd8NGRzk9Bej1Q3ElB/mjquKj/hn+KrYV0ITMJDxesObTbi6YsuCBY6iWkrCWvY2GqlD0aUqe465XnMEI=
-X-OriginatorOrg: huayun.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2e4fd7d-1cd1-4bac-c43c-08d7f59239c3
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2020 10:01:08.0635 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a674a363-98d5-4f2d-95da-d54302c8edaa
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rqpC/Zjy21QFje9TlKB76y1aU1iFVPbD6/khHNXqmCSidJcj4SbWrB77yFeRpo7j2qSsqH6rwa+/4vlIvhKooA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0525
-Received-SPF: pass client-ip=42.159.36.148; envelope-from=quweijie@huayun.com;
- helo=CN01-BJB-obe.outbound.protection.partner.outlook.cn
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 06:16:27
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+References: <20200504093703.261135-1-joel@jms.id.au>
+In-Reply-To: <20200504093703.261135-1-joel@jms.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 May 2020 11:01:18 +0100
+Message-ID: <CAFEAcA9kGXBqdaig3g77JMLZ+pQ4WwZvpKVY-bbzKCXGch4O5A@mail.gmail.com>
+Subject: Re: [PATCH] aspeed: Support AST2600A1 silicon revision
+To: Joel Stanley <joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 11 May 2020 10:09:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -115,36 +78,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, quweijie <quweijie@huayun.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: quweijie <quweijie@huayun.com>
+On Mon, 4 May 2020 at 10:37, Joel Stanley <joel@jms.id.au> wrote:
+>
+> There are minimal differences from Qemu's point of view between the A0
+> and A1 silicon revisions.
+>
+> As the A1 exercises different code paths in u-boot it is desirable to
+> emulate that instead.
+>
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-Signed-off-by: quweijie <quweijie@huayun.com>
----
- net/colo-compare.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 10c0239..ee878f6 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1313,8 +1313,10 @@ static void colo_compare_finalize(Object *obj)
-         object_unref(OBJECT(s->iothread));
-     }
- 
--    qemu_mutex_destroy(&event_mtx);
--    qemu_cond_destroy(&event_complete_cond);
-+    if(QTAILQ_EMPTY(&net_compares)) {
-+        qemu_mutex_destroy(&event_mtx);
-+        qemu_cond_destroy(&event_complete_cond);
-+    }
- 
-     g_free(s->pri_indev);
-     g_free(s->sec_indev);
--- 
-1.8.3.1
 
+Applied to target-arm.next, thanks.
+
+-- PMM
 
