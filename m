@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C961CE00F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:07:50 +0200 (CEST)
-Received: from localhost ([::1]:49520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243761CDFBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 17:55:13 +0200 (CEST)
+Received: from localhost ([::1]:49974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYAy5-0000aK-7L
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47414)
+	id 1jYAlr-0002Y4-Nz
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 11:55:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jYAw0-00074i-9O
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:05:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43316)
+ (Exim 4.90_1) (envelope-from <igotti@gmail.com>) id 1jYAkQ-0001SR-G3
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 11:53:42 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:39898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jYAvx-0007Ws-ER
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:05:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jYAvv-0002jX-AB
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 16:05:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 46E722E80E7
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 16:05:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <igotti@gmail.com>) id 1jYAkO-0003ci-K3
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 11:53:41 -0400
+Received: by mail-lf1-x143.google.com with SMTP id h26so7939198lfg.6
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 08:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZnCJz6+6KTdMt04/X/VPEjWbLhIlfeIW1KJvIDFxjyQ=;
+ b=hybfyhWtxxLYpiXnl9SP2MOXnQUrt2uuTnjq0MyevsMe58BNPNtU8Cvh0krg5y0cT0
+ ZDEj47vCC4/f32dWKblwoWPFtVsW5bPfoQd2zd4RA2XJ16+3vKrsK5Q/3DTkFAlxsTSa
+ lWf5Ki2GoPEQrk6pg39GJQxyOgioZd78DhA4HWNmugvCWw9ujxboo4CACdffL0rBEnTe
+ a+x5MtJleveFVykFoecz0JWr0GphRq37qAkOT4JzTkcjUO3yEVJbgu2C/Ft7dNc8GYXf
+ 0pC+Yf4VvyhFj1Bl6s9u4RVUlj6j/28w35bUTa1BOKyfT7m+gkxHh4xVyLJBWvn5vyZ+
+ zrAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZnCJz6+6KTdMt04/X/VPEjWbLhIlfeIW1KJvIDFxjyQ=;
+ b=iyq3g9lPYAJm9iUL2TGAJsjX8eZWl1AsLD9d9sJmOEhtz+X59GGE3v+UVW16jTGuoO
+ 4zcjHMTJTxiSLGvbES5KfTzzWeDXWg/rBa8Z38OS8sIawzH5D4NhVCE2f8sFboV1eBbh
+ XnkoaUd6Bi3sfByAcZ9m54voRxf+jRsQ/fuy61sy7rAGlyDahDiefODQRZD9pjY90R6I
+ RFjp2l+rCAH1OIWiT/ALc3wuOeeJIeeTKiUgB1F1LbM9DOvNvJcznvXlhgYArATa7mis
+ bHnBeqSV4KVBRtG00oi81Kd3UaDZaLlEOfGQyefl8O8HO55yTL6+DvqSNBeeu8Ay4h0u
+ Zw+w==
+X-Gm-Message-State: AOAM531pobxrXlGFRUFFGAFkS2ab389cuBvXUTaMqg3tepzXOb/3iYAz
+ Oo0GL8FiQP/usn/gFoIbfy06uQEHja1Ynrcp9Rk=
+X-Google-Smtp-Source: ABdhPJwtT7ywW/jr5oEZH6J3KYX1B6SJM2No6OHTVlYi9Wn28nuxUnF3vy3DFT6MpUpiBRlaZKRpn2eHR+5WHrInA60=
+X-Received: by 2002:ac2:47fb:: with SMTP id b27mr11800344lfp.10.1589212413594; 
+ Mon, 11 May 2020 08:53:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 11 May 2020 15:53:09 -0000
-From: Alexander Bulekov <1878034@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <158921238974.12092.6203453160058985938.malonedeb@wampee.canonical.com>
-Subject: [Bug 1878034] [NEW] memcpy param-overlap through
- e1000e_write_to_rx_buffers
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b8c007397a6de7346555435ea549bb2f91884045
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 11:35:34
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+References: <CAEme+7FPF+inSJSXQPmuv8Up3Eam0N7fT03zqM-RvcvKsxjfVQ@mail.gmail.com>
+ <f4feb648-7dc5-ac54-bc0b-db650dd176f1@vivier.eu>
+ <CAEme+7EtF6B2+2U_yF2dd-g2m+=S3P5=DL1oLmHfmWw2S7PYAw@mail.gmail.com>
+ <20200509230016.GA109593@sff>
+In-Reply-To: <20200509230016.GA109593@sff>
+From: Nikolay Igotti <igotti@gmail.com>
+Date: Mon, 11 May 2020 18:53:19 +0300
+Message-ID: <CAEme+7H82A2RNk5g09rmhThxW4=6sqWP5o65OCsJ8zf1L-nb+w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] plugins: avoid failing plugin when CPU is inited
+ several times
+To: "Emilio G. Cota" <cota@braap.org>
+Content-Type: multipart/alternative; boundary="00000000000062907005a56159d1"
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=igotti@gmail.com; helo=mail-lf1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,235 +80,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878034 <1878034@bugs.launchpad.net>
+Cc: riku.voipio@iki.fi, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+--00000000000062907005a56159d1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-While fuzzing, I found an input that triggers an overlapping memcpy (caught=
- by AddressSanitizer).
-Overlapping memcpys are undefined behavior according to the POSIX and C sta=
-ndards, and can lead to bugs.
+Attached to the mail counter.c when running with attached test.c compiled
+to Linux standalone binary shows failing assert, unless the patch is
+applied.
 
-=3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory rang=
-es
-#0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0x97a3d4)
-#1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/qemu/=
-exec.c:3142:13
-#2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.c:31=
-77:14
-#3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/exec=
-.c:3268:18
-#4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/in=
-clude/sysemu/dma.h:87:18
-#5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/include/sy=
-semu/dma.h:110:12
-#6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/pc=
-i/pci.h:787:5
-#7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/include/hw=
-/pci/pci.h:800:12
-#8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Development/qe=
-mu/hw/net/e1000e_core.c:1412:9
-#9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Development/=
-qemu/hw/net/e1000e_core.c:1582:21
-#10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/hw/n=
-et/e1000e_core.c:1709:9
-#11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw/net=
-/net_tx_pkt.c:544:9
-#12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/net/=
-net_tx_pkt.c:620:9
-#13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development/qem=
-u/hw/net/net_tx_pkt.c:633:11
-#14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/hw/n=
-et/e1000e_core.c:664:16
-#15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/qemu/=
-hw/net/e1000e_core.c:743:17
-#16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/hw/ne=
-t/e1000e_core.c:934:9
-#17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/net/e=
-1000e_core.c:2451:9
-#18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/hw/ne=
-t/e1000e_core.c:3261:9
-#19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Development=
-/qemu/memory.c:483:5
-#20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Development/qe=
-mu/memory.c:544:18
-#21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Development=
-/qemu/memory.c:1476:16
+=D0=B2=D1=81, 10 =D0=BC=D0=B0=D1=8F 2020 =D0=B3. =D0=B2 02:00, Emilio G. Co=
+ta <cota@braap.org>:
 
-I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
-cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc-q=
-35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe1020000
-outl 0xcf8 0x80001014
-outl 0xcf8 0x80001004
-outw 0xcfc 0x7
-outl 0xcf8 0x800010a2
-write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e1000000=
-0001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3b000=
-2e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ffdf05=
-5e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e10000000=
-001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b0002=
-e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffef055=
-e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e100000000=
-01fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b0002e=
-10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff055e=
-2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e1000000000=
-1ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b0002e1=
-0000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f055e2=
-d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e10000000001=
-ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b0002e10=
-000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f055e2d=
-3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e10000000001f=
-f25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002e100=
-00000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055e2d3=
-b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e10000000001ff=
-35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e1000=
-0000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e2d3b=
-0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e10000000001ff4=
-5055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e10000=
-000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2d3b0=
-002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001ff55=
-055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e100000=
-00001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d3b00=
-02e10000000001ff61055e2d3b0002e10000000001ff63
-EOF
+> On Mon, Apr 20, 2020 at 13:04:51 +0300, Nikolay Igotti wrote:
+> > In linux-user multithreaded scenarious CPU could be inited many times
+> with
+> > the same id,
+> > so avoid assertions on already present hashtable entry.
+> >
+> > Signed-off-by: Nikolay Igotti <igotti@gmail.com>
+> > ---
+> >  plugins/core.c | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> >
+> > diff --git a/plugins/core.c b/plugins/core.c
+> > index 51bfc94787..889cc6441a 100644
+> > --- a/plugins/core.c
+> > +++ b/plugins/core.c
+> > @@ -196,13 +196,10 @@ plugin_register_cb_udata(qemu_plugin_id_t id, enu=
+m
+> > qemu_plugin_event ev,
+> >
+> >  void qemu_plugin_vcpu_init_hook(CPUState *cpu)
+> >  {
+> > -    bool success;
+> > -
+> >      qemu_rec_mutex_lock(&plugin.lock);
+> >      plugin_cpu_update__locked(&cpu->cpu_index, NULL, NULL);
+> > -    success =3D g_hash_table_insert(plugin.cpu_ht, &cpu->cpu_index,
+> > +    g_hash_table_insert(plugin.cpu_ht, &cpu->cpu_index,
+> >                                    &cpu->cpu_index);
+> > -    g_assert(success);
+> >      qemu_rec_mutex_unlock(&plugin.lock);
+>
+> Do you have a reproducer for this? I'd expect (1) the g_hash_table_remove
+> call in qemu_plugin_vcpu_exit_hook to clear this entry upon CPU exit,
+> and (2) no two live CPUs to have the same cpu_index. But maybe assumption
+> (2) is wrong, or simply (1) does not get called for some exiting CPUs,
+> in which case the right fix would be to make sure that it does get called
+> on CPU exit.
+>
+> Thanks,
+>
+>                 Emilio
+>
 
-I also attached the trace to this launchpad report, in case the
-formatting is broken:
+--00000000000062907005a56159d1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
--monitor none -serial none < attachment
+<div><div><br></div><div><div dir=3D"auto">Attached to the mail counter.c w=
+hen running with attached test.c compiled to Linux standalone binary shows =
+failing assert, unless the patch is applied.</div><br><div class=3D"gmail_q=
+uote"><div dir=3D"ltr" class=3D"gmail_attr">=D0=B2=D1=81, 10 =D0=BC=D0=B0=
+=D1=8F 2020 =D0=B3. =D0=B2 02:00, Emilio G. Cota &lt;<a href=3D"mailto:cota=
+@braap.org" target=3D"_blank">cota@braap.org</a>&gt;:<br></div></div></div>=
+</div><div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">O=
+n Mon, Apr 20, 2020 at 13:04:51 +0300, Nikolay Igotti wrote:<br>
+&gt; In linux-user multithreaded scenarious CPU could be inited many times =
+with<br>
+&gt; the same id,<br>
+&gt; so avoid assertions on already present hashtable entry.<br>
+&gt; <br>
+&gt; Signed-off-by: Nikolay Igotti &lt;<a href=3D"mailto:igotti@gmail.com" =
+target=3D"_blank">igotti@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 plugins/core.c | 5 +----<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 4 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/plugins/core.c b/plugins/core.c<br>
+&gt; index 51bfc94787..889cc6441a 100644<br>
+&gt; --- a/plugins/core.c<br>
+&gt; +++ b/plugins/core.c<br>
+&gt; @@ -196,13 +196,10 @@ plugin_register_cb_udata(qemu_plugin_id_t id, en=
+um<br>
+&gt; qemu_plugin_event ev,<br>
+&gt; <br>
+&gt;=C2=A0 void qemu_plugin_vcpu_init_hook(CPUState *cpu)<br>
+&gt;=C2=A0 {<br>
+&gt; -=C2=A0 =C2=A0 bool success;<br>
+&gt; -<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_rec_mutex_lock(&amp;plugin.lock);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 plugin_cpu_update__locked(&amp;cpu-&gt;cpu_index, =
+NULL, NULL);<br>
+&gt; -=C2=A0 =C2=A0 success =3D g_hash_table_insert(plugin.cpu_ht, &amp;cpu=
+-&gt;cpu_index,<br>
+&gt; +=C2=A0 =C2=A0 g_hash_table_insert(plugin.cpu_ht, &amp;cpu-&gt;cpu_ind=
+ex,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;cpu-&gt;cpu_in=
+dex);<br>
+&gt; -=C2=A0 =C2=A0 g_assert(success);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 qemu_rec_mutex_unlock(&amp;plugin.lock);<br>
+<br>
+Do you have a reproducer for this? I&#39;d expect (1) the g_hash_table_remo=
+ve<br>
+call in qemu_plugin_vcpu_exit_hook to clear this entry upon CPU exit,<br>
+and (2) no two live CPUs to have the same cpu_index. But maybe assumption<b=
+r>
+(2) is wrong, or simply (1) does not get called for some exiting CPUs,<br>
+in which case the right fix would be to make sure that it does get called<b=
+r>
+on CPU exit.<br>
+<br>
+Thanks,<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Emilio<br>
+</blockquote></div></div>
+</div>
 
-Please let me know if I can provide any further info.
--Alex
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "attachment"
-   https://bugs.launchpad.net/bugs/1878034/+attachment/5369905/+files/attac=
-hment
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878034
-
-Title:
-  memcpy param-overlap through e1000e_write_to_rx_buffers
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  While fuzzing, I found an input that triggers an overlapping memcpy (caug=
-ht by AddressSanitizer).
-  Overlapping memcpys are undefined behavior according to the POSIX and C s=
-tandards, and can lead to bugs.
-
-  =3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory ra=
-nges
-  #0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build/i=
-386-softmmu/qemu-system-i386+0x97a3d4)
-  #1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/qem=
-u/exec.c:3142:13
-  #2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.c:=
-3177:14
-  #3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/ex=
-ec.c:3268:18
-  #4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
-include/sysemu/dma.h:87:18
-  #5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/include/=
-sysemu/dma.h:110:12
-  #6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
-pci/pci.h:787:5
-  #7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/include/=
-hw/pci/pci.h:800:12
-  #8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Development/=
-qemu/hw/net/e1000e_core.c:1412:9
-  #9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Developmen=
-t/qemu/hw/net/e1000e_core.c:1582:21
-  #10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/hw=
-/net/e1000e_core.c:1709:9
-  #11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw/n=
-et/net_tx_pkt.c:544:9
-  #12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/ne=
-t/net_tx_pkt.c:620:9
-  #13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development/q=
-emu/hw/net/net_tx_pkt.c:633:11
-  #14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/hw=
-/net/e1000e_core.c:664:16
-  #15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/qem=
-u/hw/net/e1000e_core.c:743:17
-  #16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/hw/=
-net/e1000e_core.c:934:9
-  #17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/net=
-/e1000e_core.c:2451:9
-  #18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/hw/=
-net/e1000e_core.c:3261:9
-  #19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Developme=
-nt/qemu/memory.c:483:5
-  #20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Development/=
-qemu/memory.c:544:18
-  #21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Developme=
-nt/qemu/memory.c:1476:16
-
-  I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
-  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
--q35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
-  outl 0xcf8 0x80001010
-  outl 0xcfc 0xe1020000
-  outl 0xcf8 0x80001014
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  outl 0xcf8 0x800010a2
-  write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e10000=
-000001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3b0=
-002e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ffdf=
-055e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e100000=
-00001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b00=
-02e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffef0=
-55e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e1000000=
-0001fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b000=
-2e10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff05=
-5e2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e10000000=
-001ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b0002=
-e10000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f055=
-e2d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e100000000=
-01ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b0002e=
-10000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f055e=
-2d3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e1000000000=
-1ff25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002e1=
-0000000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055e2=
-d3b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e10000000001=
-ff35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e10=
-000000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e2d=
-3b0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e10000000001f=
-f45055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e100=
-00000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2d3=
-b0002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001ff=
-55055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e1000=
-0000001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d3b=
-0002e10000000001ff61055e2d3b0002e10000000001ff63
-  EOF
-
-  I also attached the trace to this launchpad report, in case the
-  formatting is broken:
-
-  qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
-  -monitor none -serial none < attachment
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878034/+subscriptions
+--00000000000062907005a56159d1--
 
