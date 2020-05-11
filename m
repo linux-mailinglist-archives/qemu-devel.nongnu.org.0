@@ -2,81 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DC511CDDAE
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:51:25 +0200 (CEST)
-Received: from localhost ([::1]:60746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C3A1CDDBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:54:03 +0200 (CEST)
+Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9m8-0000lH-FQ
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33712)
+	id 1jY9og-00054r-Kq
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:54:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jY9je-0006sK-7T
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:48:50 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:52650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jY9jc-0008J9-Cq
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:48:49 -0400
-Received: by mail-wm1-x343.google.com with SMTP id m24so8725829wml.2
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 07:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=q1wvdbtBIFU8rxUIS5Q3G/CxjdcAgeS+8fKk+BKc294=;
- b=MUIScS4ze/RgBaoDURDmVDsVyelITqy3WD+JhxAYSuqAqrMK7O0dh5SjmAu9nHzzco
- tMww6p/npayYumKvqVYG2wXL4T6R+rwafI+qV1CyvGczjQcofYkdNXMCExxtFJAhXKET
- +AWy2zLuxVYrEfh0Ux90de0hNM2owy3Sgg02N8qjEFkP45f4nKv+NvoqWDDVFn1/vJJh
- mPLzdHGMlPQnuW2c9VXHN8PAeoZkOpMU7GBtdS7u0w5ViEdsBj6Hm3fHFSMUa8lm5cX8
- q1My6KfgrEbGidsRbQAgoYazyRFnSf25KQtL46rhNEovgfKwzbnF023rFsRaoE8aiAvo
- 0b/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=q1wvdbtBIFU8rxUIS5Q3G/CxjdcAgeS+8fKk+BKc294=;
- b=J4ThDU0AIsa+hqHZLoBQTu51jsA/X6DYzd52IQQ981y3RiDtJHWzJq0wSJGg66EeT4
- UYRIXRiLLL8Vrf8DFzxktIXU7N8SwkVcBkelxefxNUi5lxU5KhahWeS0hnrKW1Kr4SOy
- 3+yHGgh7NmzN5xQtMCfjFichK+S5Wu72jhX4g7L9Uxk0/Mfa9VyxquJBEoetrQcjvnsz
- 6PNeJ6wcAaxGRLd3+rjH7rvZFJztNHoWvsTn3miFOcHgjpBxUrguKhn5jH9vRA2sbKzd
- Nr3sN+A39g3FWWtYWZYEfdVfpZv6nPpuZKTC0e2Q/nCwlPcR2yD1kWY+9PU4lsnMtp7j
- c2xw==
-X-Gm-Message-State: AGi0PuYvs61mjex0QtwU3cP2nK1oiFXcJGunFVjfHGboy1ftpAfIlbOQ
- HKEIszXtRGqWJbgystTtZ/xm4Q==
-X-Google-Smtp-Source: APiQypItTxssSzt7cIrBL/ZnoFP+HZqbNrM9+r2XXNEyUuH9/RPqADTOs5I/krqTGuG1NQ7O+8Wi9Q==
-X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr34144913wmg.114.1589208526330; 
- Mon, 11 May 2020 07:48:46 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n17sm4271655wrr.42.2020.05.11.07.48.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 07:48:45 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8BEFA1FF7E;
- Mon, 11 May 2020 15:48:44 +0100 (BST)
-References: <20200326193156.4322-1-robert.foley@linaro.org>
- <20200326193156.4322-3-robert.foley@linaro.org>
-User-agent: mu4e 1.4.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v8 02/74] cpu: rename cpu->work_mutex to cpu->lock
-In-reply-to: <20200326193156.4322-3-robert.foley@linaro.org>
-Date: Mon, 11 May 2020 15:48:44 +0100
-Message-ID: <87r1vqfrxv.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jY9la-0000ny-IF; Mon, 11 May 2020 10:50:50 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32072)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jY9lZ-0000Ea-CZ; Mon, 11 May 2020 10:50:50 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04BE2NDs037747; Mon, 11 May 2020 10:50:47 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30wrvnys9r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 May 2020 10:50:47 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04BE2x6I041013;
+ Mon, 11 May 2020 10:50:46 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30wrvnys8m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 May 2020 10:50:46 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04BElB67009119;
+ Mon, 11 May 2020 14:50:43 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 30wm55ckmx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 May 2020 14:50:43 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04BEoeoD44564494
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 May 2020 14:50:40 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C9E834C044;
+ Mon, 11 May 2020 14:50:40 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 323C74C040;
+ Mon, 11 May 2020 14:50:40 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.161.199])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 11 May 2020 14:50:40 +0000 (GMT)
+Subject: Re: [PATCH v1 2/8] s390/sclp: check sccb len before filling in data
+To: David Hildenbrand <david@redhat.com>,
+ Collin Walling <walling@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20200508230823.22956-1-walling@linux.ibm.com>
+ <20200508230823.22956-3-walling@linux.ibm.com>
+ <58bc496c-28bb-26f8-ab46-aba6ad141717@linux.ibm.com>
+ <737869a8-13b2-1831-00c6-629d5a109d9c@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <05ab2e59-10c0-c7df-c014-b54883ddccd3@linux.ibm.com>
+Date: Mon, 11 May 2020 16:50:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <737869a8-13b2-1831-00c6-629d5a109d9c@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="uyRh5iRtajxEbzc5Uh5T8nwh8V6FqXdJj"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-11_06:2020-05-11,
+ 2020-05-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ mlxscore=0 bulkscore=0 malwarescore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 clxscore=1015 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2003020000 definitions=main-2005110112
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 10:37:41
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,172 +147,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, "Emilio G. Cota" <cota@braap.org>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: mst@redhat.com, cohuck@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, svens@linux.ibm.com, pbonzini@redhat.com,
+ mihajlov@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--uyRh5iRtajxEbzc5Uh5T8nwh8V6FqXdJj
+Content-Type: multipart/mixed; boundary="LI8D56ZQPz5GLmgfgaCGi3gxMbKz4nMio"
 
-Robert Foley <robert.foley@linaro.org> writes:
+--LI8D56ZQPz5GLmgfgaCGi3gxMbKz4nMio
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> From: "Emilio G. Cota" <cota@braap.org>
->
-> This lock will soon protect more fields of the struct. Give
-> it a more appropriate name.
+On 5/11/20 4:44 PM, David Hildenbrand wrote:
+> On 11.05.20 16:36, Janosch Frank wrote:
+>> On 5/9/20 1:08 AM, Collin Walling wrote:
+>>> The SCCB must be checked for a sufficient length before it is filled
+>>> with any data. If the length is insufficient, then the SCLP command
+>>> is suppressed and the proper response code is set in the SCCB header.=
 
-Hmm while bisecting to find another problem I found this commit:
+>>>
+>>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+>>
+>> Fixes tag?
+>> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+>=20
+> This is not a fix AFAIKs.
+> sclp_service_call()/sclp_service_call_protected() always supplies a ful=
+l
+> SCCB of exactly 4k size.
+>=20
 
-  /home/alex/lsrc/qemu.git/hw/core/cpu.c: In function =E2=80=98cpu_common_f=
-inalize=E2=80=99:
-  /home/alex/lsrc/qemu.git/hw/core/cpu.c:383:27: error: incompatible type f=
-or argument 1 of =E2=80=98qemu_mutex_destroy=E2=80=99
-       qemu_mutex_destroy(cpu->lock);
-                          ~~~^~~~~~
-  In file included from /home/alex/lsrc/qemu.git/include/hw/core/cpu.h:31,
-                   from /home/alex/lsrc/qemu.git/hw/core/cpu.c:23:
-  /home/alex/lsrc/qemu.git/include/qemu/thread.h:26:36: note: expected =E2=
-=80=98QemuMutex *=E2=80=99 {aka =E2=80=98struct QemuMutex *=E2=80=99} but a=
-rgument is of type =E2=80=98QemuMutex=E2=80=99 {aka =E2=80=98struct QemuMut=
-ex=E2=80=99}
-   void qemu_mutex_destroy(QemuMutex *mutex);
-                           ~~~~~~~~~~~^~~~~
-  make: *** [/home/alex/lsrc/qemu.git/rules.mak:69: hw/core/cpu.o] Error 1
+We don't check for QEMU's 4k buffer here, but for the length that was
+specified by the guest.
 
-which works fine in the final product so I suspect something has slipped
-between commits somewhere.
+It's valid for the guest to request cpu info and state that its buffer
+is only 1k. We can't write everything in 1k if we have ~200 cpus, so
+we'll report the insufficient length rc.
 
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-> ---
->  cpus-common.c         | 14 +++++++-------
->  cpus.c                |  4 ++--
->  hw/core/cpu.c         |  4 ++--
->  include/hw/core/cpu.h |  6 ++++--
->  4 files changed, 15 insertions(+), 13 deletions(-)
->
-> diff --git a/cpus-common.c b/cpus-common.c
-> index 3d659df464..f75cae23d9 100644
-> --- a/cpus-common.c
-> +++ b/cpus-common.c
-> @@ -107,10 +107,10 @@ struct qemu_work_item {
->=20=20
->  static void queue_work_on_cpu(CPUState *cpu, struct qemu_work_item *wi)
->  {
-> -    qemu_mutex_lock(&cpu->work_mutex);
-> +    qemu_mutex_lock(&cpu->lock);
->      QSIMPLEQ_INSERT_TAIL(&cpu->work_list, wi, node);
->      wi->done =3D false;
-> -    qemu_mutex_unlock(&cpu->work_mutex);
-> +    qemu_mutex_unlock(&cpu->lock);
->=20=20
->      qemu_cpu_kick(cpu);
->  }
-> @@ -304,15 +304,15 @@ void process_queued_cpu_work(CPUState *cpu)
->  {
->      struct qemu_work_item *wi;
->=20=20
-> -    qemu_mutex_lock(&cpu->work_mutex);
-> +    qemu_mutex_lock(&cpu->lock);
->      if (QSIMPLEQ_EMPTY(&cpu->work_list)) {
-> -        qemu_mutex_unlock(&cpu->work_mutex);
-> +        qemu_mutex_unlock(&cpu->lock);
->          return;
->      }
->      while (!QSIMPLEQ_EMPTY(&cpu->work_list)) {
->          wi =3D QSIMPLEQ_FIRST(&cpu->work_list);
->          QSIMPLEQ_REMOVE_HEAD(&cpu->work_list, node);
-> -        qemu_mutex_unlock(&cpu->work_mutex);
-> +        qemu_mutex_unlock(&cpu->lock);
->          if (wi->exclusive) {
->              /* Running work items outside the BQL avoids the following d=
-eadlock:
->               * 1) start_exclusive() is called with the BQL taken while a=
-nother
-> @@ -328,13 +328,13 @@ void process_queued_cpu_work(CPUState *cpu)
->          } else {
->              wi->func(cpu, wi->data);
->          }
-> -        qemu_mutex_lock(&cpu->work_mutex);
-> +        qemu_mutex_lock(&cpu->lock);
->          if (wi->free) {
->              g_free(wi);
->          } else {
->              atomic_mb_set(&wi->done, true);
->          }
->      }
-> -    qemu_mutex_unlock(&cpu->work_mutex);
-> +    qemu_mutex_unlock(&cpu->lock);
->      qemu_cond_broadcast(&qemu_work_cond);
->  }
-> diff --git a/cpus.c b/cpus.c
-> index 151abbc04c..71bd2f5d55 100644
-> --- a/cpus.c
-> +++ b/cpus.c
-> @@ -100,9 +100,9 @@ static inline bool cpu_work_list_empty(CPUState *cpu)
->  {
->      bool ret;
->=20=20
-> -    qemu_mutex_lock(&cpu->work_mutex);
-> +    qemu_mutex_lock(&cpu->lock);
->      ret =3D QSIMPLEQ_EMPTY(&cpu->work_list);
-> -    qemu_mutex_unlock(&cpu->work_mutex);
-> +    qemu_mutex_unlock(&cpu->lock);
->      return ret;
->  }
->=20=20
-> diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-> index 2fc6aa2159..bc0416829a 100644
-> --- a/hw/core/cpu.c
-> +++ b/hw/core/cpu.c
-> @@ -367,7 +367,7 @@ static void cpu_common_initfn(Object *obj)
->      cpu->nr_cores =3D 1;
->      cpu->nr_threads =3D 1;
->=20=20
-> -    qemu_mutex_init(&cpu->work_mutex);
-> +    qemu_mutex_init(&cpu->lock);
->      QSIMPLEQ_INIT(&cpu->work_list);
->      QTAILQ_INIT(&cpu->breakpoints);
->      QTAILQ_INIT(&cpu->watchpoints);
-> @@ -379,7 +379,7 @@ static void cpu_common_finalize(Object *obj)
->  {
->      CPUState *cpu =3D CPU(obj);
->=20=20
-> -    qemu_mutex_destroy(&cpu->work_mutex);
-> +    qemu_mutex_destroy(cpu->lock);
->  }
->=20=20
->  static int64_t cpu_common_get_arch_id(CPUState *cpu)
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 398b65159e..0b75fdb093 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -331,7 +331,8 @@ struct qemu_work_item;
->   * @opaque: User data.
->   * @mem_io_pc: Host Program Counter at which the memory was accessed.
->   * @kvm_fd: vCPU file descriptor for KVM.
-> - * @work_mutex: Lock to prevent multiple access to @work_list.
-> + * @lock: Lock to prevent multiple access to per-CPU fields. Must be acq=
-uired
-> + *        after the BQL.
->   * @work_list: List of pending asynchronous work.
->   * @trace_dstate_delayed: Delayed changes to trace_dstate (includes all =
-changes
->   *                        to @trace_dstate).
-> @@ -375,7 +376,8 @@ struct CPUState {
->      uint64_t random_seed;
->      sigjmp_buf jmp_env;
->=20=20
-> -    QemuMutex work_mutex;
-> +    QemuMutex lock;
-> +    /* fields below protected by @lock */
->      QSIMPLEQ_HEAD(, qemu_work_item) work_list;
->=20=20
->      CPUAddressSpace *cpu_ases;
+What he fixes here is the time of the length check, it should be done
+before any changes are being done to the work_sccb.
 
 
---=20
-Alex Benn=C3=A9e
+--LI8D56ZQPz5GLmgfgaCGi3gxMbKz4nMio--
+
+--uyRh5iRtajxEbzc5Uh5T8nwh8V6FqXdJj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl65Zj8ACgkQ41TmuOI4
+ufgbnRAAsuUZyuqQDdefZZMkPlE4ves510zxcWIi29Z9Q2Z1OZ3g0S2jXIMLxyuf
+ANx7g3nMM0id5QqaP3V4sG12vaR8Y/bbCPtzy5w62lBZ8iEnILLVgpq74mqcCUAs
+X/o4WfpKpQC3ejCvHLDSbjBfmqqzBKgj7zurd0n/F1nO3y3McMW0Z1iku5hkzKAa
+u7P1qSyfyQszntiUabwjgkZ32eZJx7wiJsGbwKKEsoUj9VhP+Os3qHq8Bcp1nZbD
+Y+Fgn03pnv75irxmkXx+HGanmgEsqByWhESKv8Y8mILekK4kh98kZ3bow0iOcjmW
+n6dYJ0uhqVW3mQrsYv0bLx7XoTtnmAupIpEurt1YLsZP0GCaCT7Kq0oX8ywhyyT+
+5mwl2JYCXSbR+7cVaipoW+WIJllxEtaeOAcPSwRksiScJ7idgWzlcfD9cdNNXIoc
+35c3Z9jBJW8pg0KvuylVGK6tVujxsr5JQ7X8Qri3CO7ySNtwVjGsyF5nMjbfc5aC
+t4FQfdZ+Hs2oA24UQdaR5jQvQPyp3Qnk97g6vPZMJbuAZjwMQ/mYhGxCk+VRCafg
+u5dgJ1gJ8y+Bb9FsPl1NLrsZgZ/qAq7Lcn1/m3JbmLU7uFJfXTo0FFhilajJjEgP
++f4+XCmDAHtSp+mZsu+nhBl5otXriXcZvGZG1GRaBxIsFVl7AHU=
+=QSru
+-----END PGP SIGNATURE-----
+
+--uyRh5iRtajxEbzc5Uh5T8nwh8V6FqXdJj--
+
 
