@@ -2,75 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B701CDDB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:51:53 +0200 (CEST)
-Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DA051CDD5E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:38:00 +0200 (CEST)
+Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9ma-0001l9-Rc
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:51:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59320)
+	id 1jY9Z8-0006pK-Be
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olivier.lahaye@cea.fr>)
- id 1jY9TE-0003zn-T8; Mon, 11 May 2020 10:31:52 -0400
-Received: from cirse-smtp-out.extra.cea.fr ([132.167.192.148]:43106)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jY9Xx-0006LK-8H; Mon, 11 May 2020 10:36:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18150
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olivier.lahaye@cea.fr>)
- id 1jY9TC-0002Je-Vg; Mon, 11 May 2020 10:31:52 -0400
-Received: from pisaure.intra.cea.fr (pisaure.intra.cea.fr [132.166.88.21])
- by cirse-sys.extra.cea.fr (8.14.7/8.14.7/CEAnet-Internet-out-4.0) with ESMTP
- id 04BEVjKW030521; Mon, 11 May 2020 16:31:45 +0200
-Received: from pisaure.intra.cea.fr (localhost [127.0.0.1])
- by localhost (Postfix) with SMTP id 59757210E9F;
- Mon, 11 May 2020 16:31:45 +0200 (CEST)
-Received: from muguet1-smtp-out.intra.cea.fr (muguet1-smtp-out.intra.cea.fr
- [132.166.192.12])
- by pisaure.intra.cea.fr (Postfix) with ESMTP id 42DE5210E8C;
- Mon, 11 May 2020 16:31:45 +0200 (CEST)
-Received: from EXCAH-A0.intra.cea.fr (excah-a0.intra.cea.fr [132.166.88.74])
- by muguet1-sys.intra.cea.fr (8.14.7/8.14.7/CEAnet-Internet-out-4.0) with ESMTP
- id 04BEVjkQ024686; Mon, 11 May 2020 16:31:45 +0200
-Received: from EXDAG0-A3.intra.cea.fr ([fe80::25a1:c396:2106:4c5b]) by
- EXCAH-A0.intra.cea.fr ([fe80::446e:fe1a:2892:9de1%10]) with mapi id
- 14.03.0487.000; Mon, 11 May 2020 16:31:45 +0200
-From: LAHAYE Olivier <olivier.lahaye@cea.fr>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, B3r3n
- <B3r3n@argosnet.com>, "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>,
- "Daniel P . Berrange" <berrange@redhat.com>, Gerd Hoffmann
- <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-Subject: Re: Qemu, VNC and non-US keymaps
-Thread-Topic: Qemu, VNC and non-US keymaps
-Thread-Index: AQHWJ5+fVD6rkJq73keSL9W8GvQa16iizwAAgAAjigA=
-Date: Mon, 11 May 2020 14:31:45 +0000
-Message-ID: <336D5401-9C4F-4C18-B8DF-AFCC7233155E@cea.fr>
-References: <E1jY9FF-0000Po-2c@lists.gnu.org>
- <af732fbf-fd70-97bc-3ea8-25d66f5895de@redhat.com>
-In-Reply-To: <af732fbf-fd70-97bc-3ea8-25d66f5895de@redhat.com>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.22.0.200209
-x-originating-ip: [132.166.88.106]
-x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-23234.003
-x-tm-as-result: No--14.501800-0.000000-31
-x-tm-as-user-approved-sender: Yes
-x-tm-as-user-blocked-sender: No
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5A5AF00DCE606D49A82DDC5911A48488@cea.fr>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1jY9Xw-0003pU-4w; Mon, 11 May 2020 10:36:44 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04BE38vQ164664; Mon, 11 May 2020 10:36:40 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30wsc3747h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 May 2020 10:36:40 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04BE4Xps170754;
+ Mon, 11 May 2020 10:36:40 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30wsc3746s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 May 2020 10:36:40 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04BEZIxE006930;
+ Mon, 11 May 2020 14:36:38 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04fra.de.ibm.com with ESMTP id 30wm55hufs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 May 2020 14:36:38 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04BEaZQ460358700
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 May 2020 14:36:35 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 578A14C046;
+ Mon, 11 May 2020 14:36:35 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B27D34C05A;
+ Mon, 11 May 2020 14:36:34 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.161.199])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 11 May 2020 14:36:34 +0000 (GMT)
+Subject: Re: [PATCH v1 2/8] s390/sclp: check sccb len before filling in data
+To: Collin Walling <walling@linux.ibm.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20200508230823.22956-1-walling@linux.ibm.com>
+ <20200508230823.22956-3-walling@linux.ibm.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <58bc496c-28bb-26f8-ab46-aba6ad141717@linux.ibm.com>
+Date: Mon, 11 May 2020 16:36:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Received-SPF: pass client-ip=132.167.192.148;
- envelope-from=olivier.lahaye@cea.fr; helo=cirse-smtp-out.extra.cea.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 10:31:47
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200508230823.22956-3-walling@linux.ibm.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="lY4RFBTQUR3fl6P6rCv5wuhqu1MJr4uuR"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-11_06:2020-05-11,
+ 2020-05-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ impostorscore=0 adultscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005110112
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 10:36:41
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 11 May 2020 10:50:27 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,40 +145,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: david@redhat.com, cohuck@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, mst@redhat.com, svens@linux.ibm.com,
+ pbonzini@redhat.com, mihajlov@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SSBoYXZlIGEgc2ltaWxhciBwcm9ibGVtIHdpdGggcWVtdSAoYWxsIHZlcnNpb25zIGluY2x1ZGlu
-ZyA1LjAuMCkgb24gTWFjT1MtMTAuMTQuNiAobWFjIGJvb2sgcHJvIDIwMTd3aXRoIHRvdWNoIGJh
-cikuDQoNClVzaW5nIC1rIGZyLW1hYyB0aGUgIkAiLyIjIiBrZXkgaXMgZGVhZC4NClNob3drZXkg
-ZG9lc24ndCBkZXRlY3QgdGhlIGtleS4NCk1vcmVvdmVyLCB0aGUgIyBhbmQgQCBzeW1ib2xzIGFy
-ZSBtYXBwZWQgb24gdGhlICI8IiAvICI+IiBrZXkgYW5kIHRodXMgSSBtaXNzIHRoZSByZWRpcmVj
-dGlvbiBvcGVyYXRvciBpbiBzaGVsbC4NCg0KQ2hlZXJzLA0KDQpPbGl2aWVyLg0KDQrvu79MZSAx
-MS8wNS8yMDIwIDE2OjI1LCDCqyBRZW11LWRpc2N1c3MgYXUgbm9tIGRlIFBoaWxpcHBlIE1hdGhp
-ZXUtRGF1ZMOpIMK7IDxxZW11LWRpc2N1c3MtYm91bmNlcytvbGl2aWVyLmxhaGF5ZT1jZWEuZnJA
-bm9uZ251Lm9yZyBhdSBub20gZGUgcGhpbG1kQHJlZGhhdC5jb20+IGEgw6ljcml0IDoNCg0KICAg
-IENjJ2luZyBtb3JlIGRldmVsb3BlcnMuDQogICAgDQogICAgT24gNS8xMS8yMCA0OjE3IFBNLCBC
-M3IzbiB3cm90ZToNCiAgICA+IERlYXIgYWxsLA0KICAgID4gDQogICAgPiBJIGFtIHN0cnVnZ2xp
-bmcgZm9yIGRheXMvd2Vla3Mgd2l0aCBRZW11IGFuZCBpdHMgVk5DIGFjY2Vzc2VzLi4ud2l0aCAN
-CiAgICA+IG5vbi1VUyBrZXltYXBzLg0KICAgID4gDQogICAgPiBMZXQgbWUgc3VtbSB0aGUgZmFj
-dHM6DQogICAgPiAtIEkgYW0gdXNpbmcgYSBmcmVuY2gga2V5Ym9hcmQgb3ZlciBhIFVidW50dSAx
-OC4wNC4NCiAgICA+IC0gSSBpbnN0YWxsZWQgYSBzaW1wbGUgRGViaWFuIGluIGEgUWVtdSBWTSwg
-Y29uZmlndXJlZCB3aXRoIEZSIGtleWJvYXJkIA0KICAgID4gKEFaRVJUWSkuDQogICAgPiAtIEkg
-YW0gbGF1bmNoaW5nIHRoZSBRZW11IFZNIHdpdGggdGhlICctayBmcicga2V5bWFwaW5nIChvcmln
-aW5hbCkNCiAgICA+IC0gSSB0ZXN0ZWQgd2l0aCBRZW11IDMuMS4xLCA0LjIuMCAmIDUuMC4wLg0K
-ICAgID4gDQogICAgPiBJIGZhaWwgdG8gaGF2ZSB0aGUgQWx0R3Iga2V5cywgY3JpdGljYWwgdG8g
-ZnJlbmNoZXMgKHBpcGUsIGJhY2tzbGFzaCwgDQogICAgPiBkYXNoIGV0YykuDQogICAgPiBjaGVj
-a2luZyB3aXRoIHNob3drZXksIEkgc2VlIHRoZSBrZXlzIGFycml2aW5nIHByb3Blcmx5ICgyOSs1
-NiwgMjkrMTAwLCANCiAgICA+IGV0YykuDQogICAgPiANCiAgICA+IENvbnNpZGVyaW5nIGl0IG1p
-Z2h0IGJlIGEgZGViaWFuIGlzc3VlIGFzIHdlbGwsIEkgdXBkYXRlZCB0aGUgDQogICAgPiBxZW11
-L2tleW1hcHMvZnIgZmlsZSB0byBoYXZlIGJhciBkaXJlY3RseSB3aXRoIHRoZSA2IGtleSAobm9y
-bWFsbHkgYmFyIA0KICAgID4gaXMgQWx0R3IgKyA2KS4NCiAgICA+IEZvciBhbiB1bmtub3duIHJl
-YXNvbiwgdGhlICc2JyB0aGVuIG5vIGxvbmdlciB3b3JrcyAoc2hvd2tleSBzaG93cyANCiAgICA+
-IG5vdGhpbmcgYXMgd2VsbCkuDQogICAgPiANCiAgICA+IFRoZXJlIG1pZ2h0IGJlIHNvbWV0aGlu
-ZyBJIG1pc3MsIGFuZCB0aGUgbWlnaHQgYWxzbyBiZSBzb21lIGJ1ZyANCiAgICA+IHNvbWV3aGVy
-ZSwgb3Igc29tZSBtaXNzaW5ncy4NCiAgICA+IEZvciBleGFtcGxlLCBtYXliZSBYMTEgbXVzdCBi
-ZSBpbnN0YWxsZWQsIGV2ZW4gaXQgdW51c2VkIChWTkMgY2xpZW50IA0KICAgID4gY29ubmVjdHMg
-dG8gUWVtdSBWTkMgcG9ydCBkaXJlY3RseSksIG9yIHdoYXRldmVyLg0KICAgID4gDQogICAgPiBB
-bnkgaGVscCBhcHByZWNpYXRlZCA6LSkNCiAgICA+IA0KICAgID4gVGhhbmtzDQogICAgPiANCiAg
-ICA+IEJyZ3Jkcw0KICAgID4gDQogICAgPiANCiAgICANCiAgICANCiAgICANCg0K
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--lY4RFBTQUR3fl6P6rCv5wuhqu1MJr4uuR
+Content-Type: multipart/mixed; boundary="19f08KTvoKZnBzHvOoPtG1luQLpqjx6yF"
+
+--19f08KTvoKZnBzHvOoPtG1luQLpqjx6yF
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 5/9/20 1:08 AM, Collin Walling wrote:
+> The SCCB must be checked for a sufficient length before it is filled
+> with any data. If the length is insufficient, then the SCLP command
+> is suppressed and the proper response code is set in the SCCB header.
+>=20
+> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+
+Fixes tag?
+Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+
+> ---
+>  hw/s390x/sclp.c | 22 ++++++++++------------
+>  smp.max_cpus    |  0
+>  2 files changed, 10 insertions(+), 12 deletions(-)
+>  create mode 100644 smp.max_cpus
+>=20
+> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+> index 156ffe3223..d08a291e40 100644
+> --- a/hw/s390x/sclp.c
+> +++ b/hw/s390x/sclp.c
+> @@ -76,6 +76,11 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sc=
+cb)
+>      int rnsize, rnmax;
+>      IplParameterBlock *ipib =3D s390_ipl_get_iplb();
+> =20
+> +    if (be16_to_cpu(sccb->h.length) < (sizeof(ReadInfo) + cpu_count * =
+sizeof(CPUEntry))) {
+> +        sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INSUFFICIENT_SCC=
+B_LENGTH);
+> +        return;
+> +    }
+> +
+>      /* CPU information */
+>      prepare_cpu_entries(read_info->entries, &cpu_count);
+>      read_info->entries_cpu =3D cpu_to_be16(cpu_count);
+> @@ -84,12 +89,6 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sc=
+cb)
+> =20
+>      read_info->ibc_val =3D cpu_to_be32(s390_get_ibc_val());
+> =20
+> -    if (be16_to_cpu(sccb->h.length) <
+> -            (sizeof(ReadInfo) + cpu_count * sizeof(CPUEntry))) {
+> -        sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INSUFFICIENT_SCC=
+B_LENGTH);
+> -        return;
+> -    }
+> -
+>      /* Configuration Characteristic (Extension) */
+>      s390_get_feat_block(S390_FEAT_TYPE_SCLP_CONF_CHAR,
+>                           read_info->conf_char);
+> @@ -135,17 +134,16 @@ static void sclp_read_cpu_info(SCLPDevice *sclp, =
+SCCB *sccb)
+>      ReadCpuInfo *cpu_info =3D (ReadCpuInfo *) sccb;
+>      int cpu_count;
+> =20
+> +    if (be16_to_cpu(sccb->h.length) < (sizeof(ReadCpuInfo) + cpu_count=
+ * sizeof(CPUEntry))) {
+> +        sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INSUFFICIENT_SCC=
+B_LENGTH);
+> +        return;
+> +    }
+> +
+>      prepare_cpu_entries(cpu_info->entries, &cpu_count);
+>      cpu_info->nr_configured =3D cpu_to_be16(cpu_count);
+>      cpu_info->offset_configured =3D cpu_to_be16(offsetof(ReadCpuInfo, =
+entries));
+>      cpu_info->nr_standby =3D cpu_to_be16(0);
+> =20
+> -    if (be16_to_cpu(sccb->h.length) <
+> -            (sizeof(ReadCpuInfo) + cpu_count * sizeof(CPUEntry))) {
+> -        sccb->h.response_code =3D cpu_to_be16(SCLP_RC_INSUFFICIENT_SCC=
+B_LENGTH);
+> -        return;
+> -    }
+> -
+>      /* The standby offset is 16-byte for each CPU */
+>      cpu_info->offset_standby =3D cpu_to_be16(cpu_info->offset_configur=
+ed
+>          + cpu_info->nr_configured*sizeof(CPUEntry));
+> diff --git a/smp.max_cpus b/smp.max_cpus
+> new file mode 100644
+> index 0000000000..e69de29bb2
+>=20
+
+
+
+--19f08KTvoKZnBzHvOoPtG1luQLpqjx6yF--
+
+--lY4RFBTQUR3fl6P6rCv5wuhqu1MJr4uuR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl65YvIACgkQ41TmuOI4
+ufjr6Q/+OIOqv/uXFWJWVwhX/coHra/mZGnVcYchgpj+7m3pFaXeHWNxg3GaOqZg
+vit2ktJmYryKD2HJ9pJnM2gP3D5oTdyuLesVBwrnb2J5tb4qejYjd9YeeCeDKKA4
++ubLUqLWIii7e5EdqZb94cj+tS0v08o+tegLNGqpyER+6eqPTrO5kVI5oJNXeOVa
+zyiFpBTlfF4CxwWMCl5w/7LLRKCsHiugnQ6e1yMqtJ0ITypDlVy+CgO39tM9VvG5
++x5XaAU88JL+UDwpJZAhXctJwea/RbIUyMhAeETbWiTTwSCclW7TiFfpPW9LW5Dq
+plOwhgC/pghP4XcSW2TJuSKg7O/H+WoveTQdBo1flc0kmCoBCkE3Kw5Ga5Jdac+5
+eIqRDhXOKtRpnTvtmhQrVlqiOOmqQDZTaCwVEAppW3jfjNYsk6+2VYfhHuATlCR/
+dTn0ef3yLrNPGB34CA1ACQZwYvpfGpszoQI/zRGejmoJf+dBLBUJvfwCiAdE2T93
+8HH+tS3mI4Ecz3KGlwkX32RJ6sFlKib4Cn+qm+LeY6iW6tf7k4VouczqFaMU3CQ3
+EKCFPEAC9PW37qBSl5TAh+/J3vdTf998RBFT49GiwSorhtnp6MkP1X6EEXdPffWG
+8TTIxqI4VWplnKH9ovkXQPzZAKtrwYNGdId/DscoDZRTggXV36U=
+=JicT
+-----END PGP SIGNATURE-----
+
+--lY4RFBTQUR3fl6P6rCv5wuhqu1MJr4uuR--
+
 
