@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6811CE0CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:40:49 +0200 (CEST)
-Received: from localhost ([::1]:40390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590351CE0F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:49:37 +0200 (CEST)
+Received: from localhost ([::1]:55738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYBU0-0004Je-G1
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:40:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55204)
+	id 1jYBcV-0003VE-TC
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYBSh-0003Il-Dq
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:39:27 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:40561)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jYBb5-0002yA-Na; Mon, 11 May 2020 12:48:07 -0400
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:45223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYBSf-0001la-9e
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:39:27 -0400
-Received: by mail-pf1-x444.google.com with SMTP id x2so4979482pfx.7
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 09:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ReaqC1vUYuLUY6DMS8He004r5qrLKP3LM3/d98FNdc8=;
- b=pnazu1loHKhJ1qOneM0Ui+NYFSYk9rJrQdg48G0e8wpTdWPHtVk0kSzOCMHNKcHelw
- qJcTi93a+wv+LwAcOMreU+NRgr+LhUZVBN9nEY/gSh8WFAfnH68E+rLXSO0VVRkX4Uqf
- b0CPgo515tmaROGvIk6YNnCRJRkeQ1mhpQkOSWLFscIiCL9u2W+wfqi0p6/oNU0lEEkt
- MvUjUHsgdsneYqIdBFbADkWpJblq2ouX8ueXMlIsjBeuhEBfKlbBpZK2E8bRLClwLATK
- YCQRH0UHmfU3pf8zaCsrmvjtGs5i6rNeJMM5oZxUD8bmmVwvwQfVnAI4pavo/1+woSQ2
- sRtQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jYBb4-0004MH-US; Mon, 11 May 2020 12:48:07 -0400
+Received: by mail-io1-xd44.google.com with SMTP id i19so10479143ioh.12;
+ Mon, 11 May 2020 09:48:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=MWJveCUZ0uKJCkmQvcC9nArilKrXkegojoXCehmFwXU=;
+ b=PWFaFqethFsYKZnML2XRm8so5ovmyRmFyM66KNaz1DDxFdr/g+qEDO4UrDQ9IOgFPa
+ vgxawWUY005MnGITIcEgV/T/DHBgZyHfteavbMw34RpNrdRUtgEXNw2GDkR2p9PGjDSm
+ /s1Ps5QetiulQuBVBFCpSRIX4KF4LM6KdffooVimvxKaTXd741b4bIb5el2QilTedZ1E
+ vuQnt+av0gD8s0i46X1FqCjYPH1brN3Kmde6pJBSdlTGaodH5KWPqWkc8lbf3JCaWaNM
+ Gw5FMxcud+N9Ovd3HDQrnQKa1TN88YNlzxcwvMh3F3y4tUOgj0vBSxH/RhfYmOO4q4ED
+ uQ6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ReaqC1vUYuLUY6DMS8He004r5qrLKP3LM3/d98FNdc8=;
- b=QjwOVEFtwVJrcfCCvRuxqtFUSPJydq+LmOhwu6lkPYjqlmrtneIt3QGCg5rkKHfq4t
- XxOUL2QbheFZkLh7BeKoS8GvTHuwuXNZ3/2Qm2/VI4kUmAb/D9IF1jBAKh/XQD8yDh2O
- L1y80go/ULVfkm9ZQEjNEyLcAAAI59axEu7O5dU9/UiAMUyVIU0d1m+V3S6Tja1bJXnI
- u9YXBOP4fp/CDKjJHf1bcRv7Fo+3BDmoGa+omdlTSU66yqqVndD+b40izeuHiPtRM9De
- EiGEC52JgtU8bLk8VbQwYY/EAv7JfZsWy7a30dszvMz7QYEEN9RNI19kk721o0PyjvTS
- gYWw==
-X-Gm-Message-State: AGi0Pua2AbYo/QGOViGKXoDXJCZ0y2w/lgDurMqOMf+a3nWE/qQrzA47
- zirVfAHoFqgzkZHXFlMFJt38+g==
-X-Google-Smtp-Source: APiQypJWwcEMyTcIxEcRqjeNMyyEPInkZrrkUaDi//wFNhOznULesSvemxTQswItfoI+7jGReiCD+g==
-X-Received: by 2002:a63:f555:: with SMTP id e21mr15290639pgk.254.1589215160827; 
- Mon, 11 May 2020 09:39:20 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id n69sm10109792pjc.8.2020.05.11.09.39.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 May 2020 09:39:20 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/8] riscv: Add RV64I instructions description
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, peter.maydell@linaro.org
-References: <20200430072139.4602-1-zhiwei_liu@c-sky.com>
- <20200430072139.4602-2-zhiwei_liu@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <eb866cde-b8c1-f722-d364-1ae015bb277d@linaro.org>
-Date: Mon, 11 May 2020 09:39:18 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=MWJveCUZ0uKJCkmQvcC9nArilKrXkegojoXCehmFwXU=;
+ b=uS8xIoiIYd9ZGN8mFXOc8QEeAq+sjiRHWjqix1jSISJWA7qLLuMEs/W/JqgCdxFcv0
+ OD5M2MKbox7/pvTtpIlamopt4ExFfAIbL4aBq93YqgSfyd2UUSqlcZcJFwvZX3ODBYmT
+ FFx3D1VYPXfEcoqKfmpcKuJdQQZ49bky7BQgPkyFRbBijZnJdRqPpIxLawg+2J9K0T7Y
+ DEkHubnFLowTIThitE34bRTe/cficwztJkPbZzT0boPBoed2GmbjHiOR+eChajdohC4A
+ MJTrQrbcgKo+qui073ubWQzOyPRSodOQ40LWQkfq8aXHVpBxp5FLTfAz8bS9SHedOA6e
+ nWCQ==
+X-Gm-Message-State: AGi0PuYNqO3cBcmWkUViOqssoVqitrSputOehY2l4sZjMbxct33OM1Pc
+ Rb4/43u24FJ/ZuSEeNYdj+r2dCgDVQwup3qGQ+w=
+X-Google-Smtp-Source: APiQypJSnv9kSKwP3NVeY/64oV539Ei1/cJfUrCklLvyQluUracFRfIA/gDvhlayI56c9+tS0rh1VcW5kWzyMJesiTQ=
+X-Received: by 2002:a5e:880b:: with SMTP id l11mr16379108ioj.42.1589215684749; 
+ Mon, 11 May 2020 09:48:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200430072139.4602-2-zhiwei_liu@c-sky.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+References: <20200510203457.10546-1-f4bug@amsat.org>
+In-Reply-To: <20200510203457.10546-1-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 11 May 2020 09:39:18 -0700
+Message-ID: <CAKmqyKO0FToRt-nHP7OKgbYf_2V8XLBV3FYhtz+c+n02u=kD3g@mail.gmail.com>
+Subject: Re: [PATCH] hw/registerfields: Prefix local variables with underscore
+ in macros
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -89,28 +80,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wxy194768@alibaba-inc.com,
- wenmeng_zhang@c-sky.com, palmer@dabbelt.com, alistair23@gmail.com,
- alex.bennee@linaro.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/20 12:21 AM, LIU Zhiwei wrote:
-> +LUI RISCV imm:20 rd:5 0110111 \
-> +!constraints { $rd != 2 && $rd != 3 && $rd != 4 }
+On Sun, May 10, 2020 at 1:35 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> One can name a local variable holding a value as 'v', but it
+> currently clashes with the registerfields macros. To save others
+> to debug the same mistake, prefix the macro's local variables
+> with an underscore.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-I think it would be helpful to add a function for this.  e.g. greg($rd) and
-gbase($rs1) (including $0).  It would keep the constraints smaller, and avoid
-mistakes.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-These functions would go into risugen_riscv.pm.
+Alistair
 
-> +ADDI RISCV imm:12 rs1:5 000 rd:5 0010011 \
-> +!constraints { $rd != 2 && $rd != 3 && $rd != 4 && $rs1 != 2 }
-
-Since all of sp, gp, tp are not in risu's control, why is rs1 only excluding
-sp, and not gp and tp as well?
-
-
-r~
+> ---
+>  include/hw/registerfields.h | 40 ++++++++++++++++++-------------------
+>  1 file changed, 20 insertions(+), 20 deletions(-)
+>
+> diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
+> index 0407edb7ec..93fa4a84c2 100644
+> --- a/include/hw/registerfields.h
+> +++ b/include/hw/registerfields.h
+> @@ -66,35 +66,35 @@
+>  #define FIELD_DP8(storage, reg, field, val) ({                          =
+  \
+>      struct {                                                            =
+  \
+>          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
+  \
+> -    } v =3D { .v =3D val };                                             =
+      \
+> -    uint8_t d;                                                          =
+  \
+> -    d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
+    \
+> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
+  \
+> -    d; })
+> +    } _v =3D { .v =3D val };                                            =
+      \
+> +    uint8_t _d;                                                         =
+  \
+> +    _d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,      =
+    \
+> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);            =
+  \
+> +    _d; })
+>  #define FIELD_DP16(storage, reg, field, val) ({                         =
+  \
+>      struct {                                                            =
+  \
+>          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
+  \
+> -    } v =3D { .v =3D val };                                             =
+      \
+> -    uint16_t d;                                                         =
+  \
+> -    d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
+    \
+> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
+  \
+> -    d; })
+> +    } _v =3D { .v =3D val };                                            =
+      \
+> +    uint16_t _d;                                                        =
+  \
+> +    _d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,      =
+    \
+> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);            =
+  \
+> +    _d; })
+>  #define FIELD_DP32(storage, reg, field, val) ({                         =
+  \
+>      struct {                                                            =
+  \
+>          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
+  \
+> -    } v =3D { .v =3D val };                                             =
+      \
+> -    uint32_t d;                                                         =
+  \
+> -    d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
+    \
+> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
+  \
+> -    d; })
+> +    } _v =3D { .v =3D val };                                            =
+      \
+> +    uint32_t _d;                                                        =
+  \
+> +    _d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,      =
+    \
+> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);            =
+  \
+> +    _d; })
+>  #define FIELD_DP64(storage, reg, field, val) ({                         =
+  \
+>      struct {                                                            =
+  \
+>          unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
+  \
+> -    } v =3D { .v =3D val };                                             =
+      \
+> -    uint64_t d;                                                         =
+  \
+> -    d =3D deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
+    \
+> -                  R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
+  \
+> -    d; })
+> +    } _v =3D { .v =3D val };                                            =
+      \
+> +    uint64_t _d;                                                        =
+  \
+> +    _d =3D deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,      =
+    \
+> +                  R_ ## reg ## _ ## field ## _LENGTH, _v.v);            =
+  \
+> +    _d; })
+>
+>  /* Deposit a field to array of registers.  */
+>  #define ARRAY_FIELD_DP32(regs, reg, field, val)                         =
+  \
+> --
+> 2.21.3
+>
+>
 
