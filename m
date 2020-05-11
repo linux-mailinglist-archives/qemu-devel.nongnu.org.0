@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2291A1CDBAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:46:38 +0200 (CEST)
-Received: from localhost ([::1]:33888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5BA1CDC1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:54:24 +0200 (CEST)
+Received: from localhost ([::1]:36300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8lR-0007KF-25
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:46:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49122)
+	id 1jY8sx-0004Dg-8K
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:54:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zx-0002XH-D2
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:45 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40450)
+ id 1jY8Zw-0002Ua-Fy
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:44 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zt-0007Bf-FW
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:45 -0400
-Received: by mail-wm1-x344.google.com with SMTP id u16so19266858wmc.5
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:40 -0700 (PDT)
+ id 1jY8Zu-0007CV-Uk
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:44 -0400
+Received: by mail-wr1-x433.google.com with SMTP id j5so11006254wrq.2
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=v1dvCBxFBJBneqSkfomRaeMPdW2t+uuCs4QEcDthqJo=;
- b=k6Nkmx1dvBVAktgaKRh71EABEYboWUvng4bDeOhgH7BRjIMdId9OT1Q4+jYLjSzhzH
- 2WxLM55wprliv8QM7rcSC4BKJ1Ea9Ns+xYIEBXcBz8ejl8itwcpGx45NG+VHcPdBugmv
- iGa33Ly4baX+OxNCIcQQ+2tbgomlrZTAXxJJqy6/A8Xg/ARzbxmkSXEtUA3I5UbJCb5k
- AJLhyWEy8Q84kjHStdtNvx/jX6K7AwHuu/DzNNvjiMth7iuEYhpKEPPMXuLGgEyMW1Rq
- EORGrtWZ48hjEx/BJet+00A1wglzN8HTRvd+jH7bWLnUKvW8i+B+xqB2V3KHRrJyrkvS
- VKXA==
+ bh=5udJ6NsXumn6EzqY46EHYT0fqNHGOGDE5W29huFq8fk=;
+ b=CvMqB7JqbkqUCzeBm0imbb4NlQ7R2W0OFtMDjNovHmi/AwZDJrspuNVxCDU6Mg+zJH
+ nJvT2BKhQdkqyCpby0Es10sFgJedmuMVY2ZmvoQKv3c0Inlm/VZhrDtOu9+NYbvm05Or
+ rn8e2OGTY73tXvs0grgZpivuijScaEidisD2okNxl1f8ZSU82xL8RROIllQ0EmNgXkaU
+ eykY89/So35ZYH0k9my6Qxbo447f73t6tQgCd0tWSHJVl3YrNAhgDJqG63SX8S+0Jh8T
+ ZXADDtzU03iOtrVna29KmP8rHGgILs0mqf8SploThMxeXGfyBJ2sRKH55b4gPZUGUhmA
+ VsFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v1dvCBxFBJBneqSkfomRaeMPdW2t+uuCs4QEcDthqJo=;
- b=biT3NLzKWnQrcOFNPLjgPtywqg0A8OhvVD49KpUqK5ZYZ7SO5D3a8TH5oP61zAVTyX
- u7Kr1TEdvSjAvkatHxzeJR18ZchiiZfkK6FCyn8Z0+gZzTV63iJbhWFmG4uHzNNDbj4I
- 9aH9bN/aqjdjUSlrs6f2gKgO1BgQ9E0exoFcA3n3OQKLAd7YnIoX9M8r9b+72ClCchrP
- 8nHPqTho2czCeVQbUG+NHW+Y7WzUf4sLsbjCl5TDOBbUrqrxJv9ZOphuzXHX07E736Wn
- dHnQHB7kz4nduoRUs7oxwBc6cxrponZnmf/WiUnGYlubEIBpO3Ysd6zSJ4/jZ7Vw1OhO
- T+0w==
-X-Gm-Message-State: AGi0PubUlcmQCiyUh5GBFP+QwfmArUPs8CU+ZKdCWoANnzmF8XVUE4/L
- puYWtIAeSALfojOz6/oBVB3HDS/Gxtxjtg==
-X-Google-Smtp-Source: APiQypKwEJThP9sd5HLkQIDN7EvVNitCT3qaOW8ptSCi8lC1yfmhc+x5OgIPWL1FTlSr/pa93zd+yw==
-X-Received: by 2002:a1c:f615:: with SMTP id w21mr30225342wmc.183.1589204079634; 
- Mon, 11 May 2020 06:34:39 -0700 (PDT)
+ bh=5udJ6NsXumn6EzqY46EHYT0fqNHGOGDE5W29huFq8fk=;
+ b=ieqiJUWvD+RF2TG+R/c5Fii4dYIVkWvO4TwVgWQMenzkkJWnogH8/EsAu8va2B4OTp
+ 5f9Lj+hPx/glQbAbv93DOGWfySYHiNSr+nNd3xQySxRCTae3J9gpq+zJVR2MA4jNfXHJ
+ ABCTG5iiUBbJ/obP1jhhastVEd+RMmUno/y6g3TELPjlgcVwRgL+W7KBmqYUYTRfvMRI
+ z3Fck114iEvuxeUrsh3BmRVEiZFywFBEPoJ1dtDEDuXJZuwOWhiRmlYm15QC425MXXUZ
+ N5JkFDzMYwNYQJoe1Y99Z/YwR9hsxX7sPTYdIYYf4FfwLakazzxNhByQxH9HeVGR+JxS
+ KeDA==
+X-Gm-Message-State: AGi0PuYhZpaIZHQ+WdAAzWck3Mfkx0gpgc318viZWB1InmXiCzs7GU/t
+ tVtzyMRgWsGxp3vfGD6jaIW10YKSCSkTsQ==
+X-Google-Smtp-Source: APiQypK3OGk+nhW3h9m+7w0h4uAfwb6hl0byUry5zAsbD26qTd5nrCNjVTl0gAzcoLp/e7/mqQ+TmA==
+X-Received: by 2002:a5d:68cb:: with SMTP id p11mr18665544wrw.349.1589204080830; 
+ Mon, 11 May 2020 06:34:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.38
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:38 -0700 (PDT)
+ Mon, 11 May 2020 06:34:40 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/34] target/arm: Reuse sve_probe_page for gather loads
-Date: Mon, 11 May 2020 14:33:56 +0100
-Message-Id: <20200511133405.5275-26-peter.maydell@linaro.org>
+Subject: [PULL 26/34] target/arm: Remove sve_memopidx
+Date: Mon, 11 May 2020 14:33:57 +0100
+Message-Id: <20200511133405.5275-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,258 +90,150 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+None of the sve helpers use TCGMemOpIdx any longer, so we can
+stop passing it.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200508154359.7494-19-richard.henderson@linaro.org
+Message-id: 20200508154359.7494-20-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sve_helper.c | 208 +++++++++++++++++++++-------------------
- 1 file changed, 109 insertions(+), 99 deletions(-)
+ target/arm/internals.h     |  5 -----
+ target/arm/sve_helper.c    | 14 +++++++-------
+ target/arm/translate-sve.c | 17 +++--------------
+ 3 files changed, 10 insertions(+), 26 deletions(-)
 
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index e633aff36ef..a833e3941d3 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -979,11 +979,6 @@ static inline int arm_num_ctx_cmps(ARMCPU *cpu)
+     }
+ }
+ 
+-/* Note make_memop_idx reserves 4 bits for mmu_idx, and MO_BSWAP is bit 3.
+- * Thus a TCGMemOpIdx, without any MO_ALIGN bits, fits in 8 bits.
+- */
+-#define MEMOPIDX_SHIFT  8
+-
+ /**
+  * v7m_using_psp: Return true if using process stack pointer
+  * Return true if the CPU is currently using the process stack
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index ad7e10f1e79..f1870aabc2f 100644
+index f1870aabc2f..116d535fa5f 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -5124,130 +5124,140 @@ static target_ulong off_zd_d(void *reg, intptr_t reg_ofs)
-     return *(uint64_t *)(reg + reg_ofs);
- }
- 
--static void sve_ld1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
--                       target_ulong base, uint32_t desc, uintptr_t ra,
--                       zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn)
-+static inline QEMU_ALWAYS_INLINE
-+void sve_ld1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-+               target_ulong base, uint32_t desc, uintptr_t retaddr,
-+               int esize, int msize, zreg_off_fn *off_fn,
-+               sve_ldst1_host_fn *host_fn,
-+               sve_ldst1_tlb_fn *tlb_fn)
+@@ -4440,7 +4440,7 @@ void sve_ldN_r(CPUARMState *env, uint64_t *vg, const target_ulong addr,
+                sve_ldst1_host_fn *host_fn,
+                sve_ldst1_tlb_fn *tlb_fn)
  {
-     const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
--    intptr_t i, oprsz = simd_oprsz(desc);
--    ARMVectorReg scratch = { };
-+    const int mmu_idx = cpu_mmu_index(env, false);
-+    const intptr_t reg_max = simd_oprsz(desc);
-+    ARMVectorReg scratch;
-+    intptr_t reg_off;
-+    SVEHostPage info, info2;
- 
--    for (i = 0; i < oprsz; ) {
--        uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-+    memset(&scratch, 0, reg_max);
-+    reg_off = 0;
-+    do {
-+        uint64_t pg = vg[reg_off >> 6];
-         do {
-             if (likely(pg & 1)) {
--                target_ulong off = off_fn(vm, i);
--                tlb_fn(env, &scratch, i, base + (off << scale), ra);
-+                target_ulong addr = base + (off_fn(vm, reg_off) << scale);
-+                target_ulong in_page = -(addr | TARGET_PAGE_MASK);
-+
-+                sve_probe_page(&info, false, env, addr, 0, MMU_DATA_LOAD,
-+                               mmu_idx, retaddr);
-+
-+                if (likely(in_page >= msize)) {
-+                    if (unlikely(info.flags & TLB_WATCHPOINT)) {
-+                        cpu_check_watchpoint(env_cpu(env), addr, msize,
-+                                             info.attrs, BP_MEM_READ, retaddr);
-+                    }
-+                    /* TODO: MTE check */
-+                    host_fn(&scratch, reg_off, info.host);
-+                } else {
-+                    /* Element crosses the page boundary. */
-+                    sve_probe_page(&info2, false, env, addr + in_page, 0,
-+                                   MMU_DATA_LOAD, mmu_idx, retaddr);
-+                    if (unlikely((info.flags | info2.flags) & TLB_WATCHPOINT)) {
-+                        cpu_check_watchpoint(env_cpu(env), addr,
-+                                             msize, info.attrs,
-+                                             BP_MEM_READ, retaddr);
-+                    }
-+                    /* TODO: MTE check */
-+                    tlb_fn(env, &scratch, reg_off, addr, retaddr);
-+                }
-             }
--            i += 4, pg >>= 4;
--        } while (i & 15);
--    }
-+            reg_off += esize;
-+            pg >>= esize;
-+        } while (reg_off & 63);
-+    } while (reg_off < reg_max);
- 
-     /* Wait until all exceptions have been raised to write back.  */
--    memcpy(vd, &scratch, oprsz);
-+    memcpy(vd, &scratch, reg_max);
- }
- 
--static void sve_ld1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
--                       target_ulong base, uint32_t desc, uintptr_t ra,
--                       zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn)
--{
+-    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
++    const unsigned rd = simd_data(desc);
+     const intptr_t reg_max = simd_oprsz(desc);
+     intptr_t reg_off, reg_last, mem_off;
+     SVEContLdSt info;
+@@ -4696,7 +4696,7 @@ void sve_ldnfff1_r(CPUARMState *env, void *vg, const target_ulong addr,
+                    sve_ldst1_host_fn *host_fn,
+                    sve_ldst1_tlb_fn *tlb_fn)
+ {
+-    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
++    const unsigned rd = simd_data(desc);
+     void *vd = &env->vfp.zregs[rd];
+     const intptr_t reg_max = simd_oprsz(desc);
+     intptr_t reg_off, mem_off, reg_last;
+@@ -4925,7 +4925,7 @@ void sve_stN_r(CPUARMState *env, uint64_t *vg, target_ulong addr, uint32_t desc,
+                sve_ldst1_host_fn *host_fn,
+                sve_ldst1_tlb_fn *tlb_fn)
+ {
+-    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
++    const unsigned rd = simd_data(desc);
+     const intptr_t reg_max = simd_oprsz(desc);
+     intptr_t reg_off, reg_last, mem_off;
+     SVEContLdSt info;
+@@ -5131,9 +5131,9 @@ void sve_ld1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                sve_ldst1_host_fn *host_fn,
+                sve_ldst1_tlb_fn *tlb_fn)
+ {
 -    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
--    intptr_t i, oprsz = simd_oprsz(desc) / 8;
--    ARMVectorReg scratch = { };
--
--    for (i = 0; i < oprsz; i++) {
--        uint8_t pg = *(uint8_t *)(vg + H1(i));
--        if (likely(pg & 1)) {
--            target_ulong off = off_fn(vm, i * 8);
--            tlb_fn(env, &scratch, i * 8, base + (off << scale), ra);
--        }
--    }
--
--    /* Wait until all exceptions have been raised to write back.  */
--    memcpy(vd, &scratch, oprsz * 8);
-+#define DO_LD1_ZPZ_S(MEM, OFS, MSZ) \
-+void HELPER(sve_ld##MEM##_##OFS)(CPUARMState *env, void *vd, void *vg,       \
-+                                 void *vm, target_ulong base, uint32_t desc) \
-+{                                                                            \
-+    sve_ld1_z(env, vd, vg, vm, base, desc, GETPC(), 4, 1 << MSZ,             \
-+              off_##OFS##_s, sve_ld1##MEM##_host, sve_ld1##MEM##_tlb);       \
- }
+     const int mmu_idx = cpu_mmu_index(env, false);
+     const intptr_t reg_max = simd_oprsz(desc);
++    const int scale = simd_data(desc);
+     ARMVectorReg scratch;
+     intptr_t reg_off;
+     SVEHostPage info, info2;
+@@ -5276,10 +5276,10 @@ void sve_ldff1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                  sve_ldst1_tlb_fn *tlb_fn)
+ {
+     const int mmu_idx = cpu_mmu_index(env, false);
+-    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
++    const intptr_t reg_max = simd_oprsz(desc);
++    const int scale = simd_data(desc);
+     const int esize = 1 << esz;
+     const int msize = 1 << msz;
+-    const intptr_t reg_max = simd_oprsz(desc);
+     intptr_t reg_off;
+     SVEHostPage info;
+     target_ulong addr, in_page;
+@@ -5430,9 +5430,9 @@ void sve_st1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
+                sve_ldst1_host_fn *host_fn,
+                sve_ldst1_tlb_fn *tlb_fn)
+ {
+-    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
+     const int mmu_idx = cpu_mmu_index(env, false);
+     const intptr_t reg_max = simd_oprsz(desc);
++    const int scale = simd_data(desc);
+     void *host[ARM_MAX_VQ * 4];
+     intptr_t reg_off, i;
+     SVEHostPage info, info2;
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 6c8bda4e4cc..36816aafaf6 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -4582,11 +4582,6 @@ static const uint8_t dtype_esz[16] = {
+     3, 2, 1, 3
+ };
  
--#define DO_LD1_ZPZ_S(MEM, OFS) \
--void QEMU_FLATTEN HELPER(sve_ld##MEM##_##OFS) \
--    (CPUARMState *env, void *vd, void *vg, void *vm,         \
--     target_ulong base, uint32_t desc)                       \
--{                                                            \
--    sve_ld1_zs(env, vd, vg, vm, base, desc, GETPC(),         \
--              off_##OFS##_s, sve_ld1##MEM##_tlb);            \
-+#define DO_LD1_ZPZ_D(MEM, OFS, MSZ) \
-+void HELPER(sve_ld##MEM##_##OFS)(CPUARMState *env, void *vd, void *vg,       \
-+                                 void *vm, target_ulong base, uint32_t desc) \
-+{                                                                            \
-+    sve_ld1_z(env, vd, vg, vm, base, desc, GETPC(), 8, 1 << MSZ,             \
-+              off_##OFS##_d, sve_ld1##MEM##_host, sve_ld1##MEM##_tlb);       \
- }
- 
--#define DO_LD1_ZPZ_D(MEM, OFS) \
--void QEMU_FLATTEN HELPER(sve_ld##MEM##_##OFS) \
--    (CPUARMState *env, void *vd, void *vg, void *vm,         \
--     target_ulong base, uint32_t desc)                       \
--{                                                            \
--    sve_ld1_zd(env, vd, vg, vm, base, desc, GETPC(),         \
--               off_##OFS##_d, sve_ld1##MEM##_tlb);           \
+-static TCGMemOpIdx sve_memopidx(DisasContext *s, int dtype)
+-{
+-    return make_memop_idx(s->be_data | dtype_mop[dtype], get_mem_index(s));
 -}
-+DO_LD1_ZPZ_S(bsu, zsu, MO_8)
-+DO_LD1_ZPZ_S(bsu, zss, MO_8)
-+DO_LD1_ZPZ_D(bdu, zsu, MO_8)
-+DO_LD1_ZPZ_D(bdu, zss, MO_8)
-+DO_LD1_ZPZ_D(bdu, zd, MO_8)
- 
--DO_LD1_ZPZ_S(bsu, zsu)
--DO_LD1_ZPZ_S(bsu, zss)
--DO_LD1_ZPZ_D(bdu, zsu)
--DO_LD1_ZPZ_D(bdu, zss)
--DO_LD1_ZPZ_D(bdu, zd)
-+DO_LD1_ZPZ_S(bss, zsu, MO_8)
-+DO_LD1_ZPZ_S(bss, zss, MO_8)
-+DO_LD1_ZPZ_D(bds, zsu, MO_8)
-+DO_LD1_ZPZ_D(bds, zss, MO_8)
-+DO_LD1_ZPZ_D(bds, zd, MO_8)
- 
--DO_LD1_ZPZ_S(bss, zsu)
--DO_LD1_ZPZ_S(bss, zss)
--DO_LD1_ZPZ_D(bds, zsu)
--DO_LD1_ZPZ_D(bds, zss)
--DO_LD1_ZPZ_D(bds, zd)
-+DO_LD1_ZPZ_S(hsu_le, zsu, MO_16)
-+DO_LD1_ZPZ_S(hsu_le, zss, MO_16)
-+DO_LD1_ZPZ_D(hdu_le, zsu, MO_16)
-+DO_LD1_ZPZ_D(hdu_le, zss, MO_16)
-+DO_LD1_ZPZ_D(hdu_le, zd, MO_16)
- 
--DO_LD1_ZPZ_S(hsu_le, zsu)
--DO_LD1_ZPZ_S(hsu_le, zss)
--DO_LD1_ZPZ_D(hdu_le, zsu)
--DO_LD1_ZPZ_D(hdu_le, zss)
--DO_LD1_ZPZ_D(hdu_le, zd)
-+DO_LD1_ZPZ_S(hsu_be, zsu, MO_16)
-+DO_LD1_ZPZ_S(hsu_be, zss, MO_16)
-+DO_LD1_ZPZ_D(hdu_be, zsu, MO_16)
-+DO_LD1_ZPZ_D(hdu_be, zss, MO_16)
-+DO_LD1_ZPZ_D(hdu_be, zd, MO_16)
- 
--DO_LD1_ZPZ_S(hsu_be, zsu)
--DO_LD1_ZPZ_S(hsu_be, zss)
--DO_LD1_ZPZ_D(hdu_be, zsu)
--DO_LD1_ZPZ_D(hdu_be, zss)
--DO_LD1_ZPZ_D(hdu_be, zd)
-+DO_LD1_ZPZ_S(hss_le, zsu, MO_16)
-+DO_LD1_ZPZ_S(hss_le, zss, MO_16)
-+DO_LD1_ZPZ_D(hds_le, zsu, MO_16)
-+DO_LD1_ZPZ_D(hds_le, zss, MO_16)
-+DO_LD1_ZPZ_D(hds_le, zd, MO_16)
- 
--DO_LD1_ZPZ_S(hss_le, zsu)
--DO_LD1_ZPZ_S(hss_le, zss)
--DO_LD1_ZPZ_D(hds_le, zsu)
--DO_LD1_ZPZ_D(hds_le, zss)
--DO_LD1_ZPZ_D(hds_le, zd)
-+DO_LD1_ZPZ_S(hss_be, zsu, MO_16)
-+DO_LD1_ZPZ_S(hss_be, zss, MO_16)
-+DO_LD1_ZPZ_D(hds_be, zsu, MO_16)
-+DO_LD1_ZPZ_D(hds_be, zss, MO_16)
-+DO_LD1_ZPZ_D(hds_be, zd, MO_16)
- 
--DO_LD1_ZPZ_S(hss_be, zsu)
--DO_LD1_ZPZ_S(hss_be, zss)
--DO_LD1_ZPZ_D(hds_be, zsu)
--DO_LD1_ZPZ_D(hds_be, zss)
--DO_LD1_ZPZ_D(hds_be, zd)
-+DO_LD1_ZPZ_S(ss_le, zsu, MO_32)
-+DO_LD1_ZPZ_S(ss_le, zss, MO_32)
-+DO_LD1_ZPZ_D(sdu_le, zsu, MO_32)
-+DO_LD1_ZPZ_D(sdu_le, zss, MO_32)
-+DO_LD1_ZPZ_D(sdu_le, zd, MO_32)
- 
--DO_LD1_ZPZ_S(ss_le, zsu)
--DO_LD1_ZPZ_S(ss_le, zss)
--DO_LD1_ZPZ_D(sdu_le, zsu)
--DO_LD1_ZPZ_D(sdu_le, zss)
--DO_LD1_ZPZ_D(sdu_le, zd)
-+DO_LD1_ZPZ_S(ss_be, zsu, MO_32)
-+DO_LD1_ZPZ_S(ss_be, zss, MO_32)
-+DO_LD1_ZPZ_D(sdu_be, zsu, MO_32)
-+DO_LD1_ZPZ_D(sdu_be, zss, MO_32)
-+DO_LD1_ZPZ_D(sdu_be, zd, MO_32)
- 
--DO_LD1_ZPZ_S(ss_be, zsu)
--DO_LD1_ZPZ_S(ss_be, zss)
--DO_LD1_ZPZ_D(sdu_be, zsu)
--DO_LD1_ZPZ_D(sdu_be, zss)
--DO_LD1_ZPZ_D(sdu_be, zd)
-+DO_LD1_ZPZ_D(sds_le, zsu, MO_32)
-+DO_LD1_ZPZ_D(sds_le, zss, MO_32)
-+DO_LD1_ZPZ_D(sds_le, zd, MO_32)
- 
--DO_LD1_ZPZ_D(sds_le, zsu)
--DO_LD1_ZPZ_D(sds_le, zss)
--DO_LD1_ZPZ_D(sds_le, zd)
-+DO_LD1_ZPZ_D(sds_be, zsu, MO_32)
-+DO_LD1_ZPZ_D(sds_be, zss, MO_32)
-+DO_LD1_ZPZ_D(sds_be, zd, MO_32)
- 
--DO_LD1_ZPZ_D(sds_be, zsu)
--DO_LD1_ZPZ_D(sds_be, zss)
--DO_LD1_ZPZ_D(sds_be, zd)
-+DO_LD1_ZPZ_D(dd_le, zsu, MO_64)
-+DO_LD1_ZPZ_D(dd_le, zss, MO_64)
-+DO_LD1_ZPZ_D(dd_le, zd, MO_64)
- 
--DO_LD1_ZPZ_D(dd_le, zsu)
--DO_LD1_ZPZ_D(dd_le, zss)
--DO_LD1_ZPZ_D(dd_le, zd)
 -
--DO_LD1_ZPZ_D(dd_be, zsu)
--DO_LD1_ZPZ_D(dd_be, zss)
--DO_LD1_ZPZ_D(dd_be, zd)
-+DO_LD1_ZPZ_D(dd_be, zsu, MO_64)
-+DO_LD1_ZPZ_D(dd_be, zss, MO_64)
-+DO_LD1_ZPZ_D(dd_be, zd, MO_64)
+ static void do_mem_zpa(DisasContext *s, int zt, int pg, TCGv_i64 addr,
+                        int dtype, gen_helper_gvec_mem *fn)
+ {
+@@ -4599,9 +4594,7 @@ static void do_mem_zpa(DisasContext *s, int zt, int pg, TCGv_i64 addr,
+      * registers as pointers, so encode the regno into the data field.
+      * For consistency, do this even for LD1.
+      */
+-    desc = sve_memopidx(s, dtype);
+-    desc |= zt << MEMOPIDX_SHIFT;
+-    desc = simd_desc(vsz, vsz, desc);
++    desc = simd_desc(vsz, vsz, zt);
+     t_desc = tcg_const_i32(desc);
+     t_pg = tcg_temp_new_ptr();
  
- #undef DO_LD1_ZPZ_S
- #undef DO_LD1_ZPZ_D
+@@ -4833,9 +4826,7 @@ static void do_ldrq(DisasContext *s, int zt, int pg, TCGv_i64 addr, int msz)
+     int desc, poff;
+ 
+     /* Load the first quadword using the normal predicated load helpers.  */
+-    desc = sve_memopidx(s, msz_dtype(s, msz));
+-    desc |= zt << MEMOPIDX_SHIFT;
+-    desc = simd_desc(16, 16, desc);
++    desc = simd_desc(16, 16, zt);
+     t_desc = tcg_const_i32(desc);
+ 
+     poff = pred_full_reg_offset(s, pg);
+@@ -5064,9 +5055,7 @@ static void do_mem_zpz(DisasContext *s, int zt, int pg, int zm,
+     TCGv_i32 t_desc;
+     int desc;
+ 
+-    desc = sve_memopidx(s, msz_dtype(s, msz));
+-    desc |= scale << MEMOPIDX_SHIFT;
+-    desc = simd_desc(vsz, vsz, desc);
++    desc = simd_desc(vsz, vsz, scale);
+     t_desc = tcg_const_i32(desc);
+ 
+     tcg_gen_addi_ptr(t_pg, cpu_env, pred_full_reg_offset(s, pg));
 -- 
 2.20.1
 
