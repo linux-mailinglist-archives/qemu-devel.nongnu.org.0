@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810C61CD994
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:24:53 +0200 (CEST)
-Received: from localhost ([::1]:35714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B4A1CD9F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:33:50 +0200 (CEST)
+Received: from localhost ([::1]:45052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY7UK-0003C3-HT
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37116)
+	id 1jY7cz-0008DB-Qc
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jY7T0-0001s3-3b; Mon, 11 May 2020 08:23:30 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37062)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jY7Wi-0006AJ-P3
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:27:20 -0400
+Received: from mout.web.de ([212.227.15.4]:47933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jY7Sz-0004db-7l; Mon, 11 May 2020 08:23:29 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k1so10705080wrx.4;
- Mon, 11 May 2020 05:23:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vAPfxjqThNPJhfJkrO3DuZdVyej2WKzeiTE+Tbap9WY=;
- b=GrDaCS2gVl0Ais9EHxzmojL44v+n7eSQUYETJRuT6UubKMrwy8qgxdPFB9x9Oq2alg
- joFamIeIfu3fzJdWdzQblpZaYx9xXyHG+ZxfNPvm7kMi6zcsgCaCdjtrWtnkH1EpTaoJ
- stk3TS4ZLiZgPus/YjsRVB47Yn37AaUDgCopWIRIvOJvC3cI6IREzf67n6pkPhvbjCz9
- /U3sYtsUen2zLVQnLQG1yvfSeKe9N+U4Jnx5YYNDJ3ZNWLDszvypzS9VMKLLxzBQcbDQ
- 5RzcSZil/aAcVV13VrwbLsP1AVp4PIW5CicVEpAAAwaUQGubW4TRGnSv27778jxQ0tzo
- 2dfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vAPfxjqThNPJhfJkrO3DuZdVyej2WKzeiTE+Tbap9WY=;
- b=sO+ohKxTKIf1+YwzQcXLWXFBJUwt1tyPYlhWCzL+h89TCi+jGBWpRtCH7MJ86YrGo5
- DDBbD6I7vqwDnC+vpjkgXImRDmx4DhRIhMtWMJ7HUY3bwy88QILQw5uUgbJjr+9jjzIh
- 6ZN6Q8r1EKrYc4K6MTP8BinUvFOfR7W6Z+fv+22dj/xbZKEvcvBR6ZmaZCqwOq4clFbE
- wUe7aG5QZP2JHXmQluO5Bsq/feUhpHxtczTMBN7jXks/qyx8xB2mTTz9itT+Gnna3aV4
- 6XxcuHERmGxTQl8REBmzSocl2GrwBddCwu4RFNUyok0jFGJeTwyzifhueK84zsQbVCC8
- +NHg==
-X-Gm-Message-State: AGi0PubjAPCrjLmGWkkEP9JxND7YQSjZJSYHyTJvVt37+BZgGko/iSbh
- QQPPWtdmwTywwlrfFxtBixk=
-X-Google-Smtp-Source: APiQypK4CKhHz1WkhD0e4Cpw4k29ZUqp1dLnZo8Z3aBK81kOlxHA9tmDQU/sIQsvp+HV2Ju8LuzYlQ==
-X-Received: by 2002:adf:e751:: with SMTP id c17mr19841001wrn.351.1589199807105; 
- Mon, 11 May 2020 05:23:27 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 32sm17695700wrg.19.2020.05.11.05.23.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 May 2020 05:23:26 -0700 (PDT)
-Subject: Re: [PATCH 0/4] hw/arm/nrf51: Extend tracing
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200504072822.18799-1-f4bug@amsat.org>
- <CAFEAcA99uztOyAODdb=oGo7XM45dj-uWY6yiMW2LBACQH5=GUA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e605fa67-f11f-f327-7e9a-040d49a4d57c@amsat.org>
-Date: Mon, 11 May 2020 14:23:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jY7Wh-0005vn-Kp
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:27:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1589200011;
+ bh=qfGg68Nfb6jE9N0y6KIMdqu5LDQlJ+AcA8oLmpKWpJ4=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=CMoW0J2dOSKFKGd3UaXKl1zMBEcPMB15+5j8shcpax+XAoO5bflZrbk3XLrOWRLPI
+ tIx3ClH2ZT3IF4Yi92qLaeLgYcu+2W26Gx/0FcXC9hsZbJh2uqqLeVgw84X0FbJMy3
+ FT4SpIptDCnvAEzSSb4/Xs5ccLhrAURSH2T1r02Q=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MJZLX-1jWCuG25Gd-0031lc; Mon, 11
+ May 2020 14:26:51 +0200
+Date: Mon, 11 May 2020 14:26:41 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH 0/5] colo: Introduce resource agent and test suite/CI
+Message-ID: <cover.1589199922.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA99uztOyAODdb=oGo7XM45dj-uWY6yiMW2LBACQH5=GUA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; boundary="Sig_/YV7hbUDMAZhIGSqYwkB0cHN";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:JCN1WQU/u4Sw7qVGrnjacK0WJRnT0GsAhvo9okb+ZiSt1eAaqO7
+ snyPu6RCywCV93nczoSfK4SZY9FifHwCInYDubYwQGy70tuH3XLGrtvFYYAoTjVac8Wkamf
+ xNjzOvHYamWGs7hcK11KeA0RV9bHuoSNtOo0w0ZTS6T1mbZG6/rhoYW/hwxAo2DwE4tUDhb
+ 4PbwO+6JgSwat9r0CKNPw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+cnAJbnDbqI=:b322e51DVd8McZYRQdz53y
+ OsDCFLyUWNRENoXROxj+19z3DdS7GBWauWHiUlomgTcEZqLfAkDtJ65KMmRMZSeTeEXqWQYKD
+ 9YiDBydALJY4cdFB9EH6sWklFc4wawCLlfb7XWuDGYQvbDRqopyTh0F2mmk21dbEQ0ImEjAqm
+ ivQA7sMmoTCSgpsXT6Cg5+1fE51WK3VyrrFsj+tELWXgwsVKI6s6d+/58I4w0lVXQlQ6FqAJl
+ QJ+ehsf9EXVnbLiw+gSYqYmSzI24V1vcMnmapA/sI4sEiKkCcrTVFK6QQCbNzpiJ9UI3m/s41
+ knzUpxQCtN8FOse+LEzQ2wavoCtThSiuEJUfNWNuL4ZG+bvl46NOT7B1YX/gFiaDITUgycG0O
+ MFMkq+beWDIX847RkMqcLldrnnZJgvB0jMwM8n/yxmr073vgI0cpbKf/h33LeHFf3HaWLC4t+
+ bpMQ3U/R8dQCqNX8WwJSZWz2/ih1s0wBRB0RMFvbHdVWaPnlsSz7oJjQgjdVKKvhU+RA/7aQS
+ BkJLEAo3xRqK9k6VHRKNGIsb1I7o2byi9NrmsQ32JcwI89GYP5/hXx9plCCjdsHQir3lTwojI
+ kpZ9v3fOsIb2DZb5x9EHBOsWZwwcO3tHw+1fI/guiOFBaGHIOoy4+6xdOLhPGPDaRI6ShpHq5
+ HKwbgIPKyJICaYjmdOH9GwF9CgMV+BbTuaiJSHqmzIXNdqvWEAz6blMQuiarb5DPV2Z7Kn2uN
+ DQRku1bR9MNymOtNQyYbBLTZC7DBqmCuzC8aswQ/28RdUdz4AUval/AbbuBq2VyaacDPCYxqE
+ oZDRLqw8ZGoJQCo/0CfOYPTVt2bs8r7Wya5wJN5COnCk4f6nRsJhgnJN4OJ/TZ+i7f7Gmhsup
+ eM54zwHcE6XB5p94YSSxaXVm6H0EFdjHU3Kie3LUqHtvUyMchQKL8oKA0onzX/4AYaGUKTc3g
+ 6sB9MrbVTWa4Mu5JBFwmRb13RqU38xwfyobnlvEUfbhGSK26Bua0A1qrGeuEyL2uSLIe2gdSP
+ edqHP5BJrOnvjhmWpXbqW+p8YoJ5lC7xfNV3HBPhX+5E+DB5zI5pohc1Nkt3uwm5tOdFeuZrg
+ HL3Xt8+shlJRhWLBLfWAPfDRsdq3nGbQLS/dmg/GGmKPMTMH2l1I1wp95HaIyNz74f2HNw7j7
+ brXmydM569CJFl5ubqvZsubeQuf2VT14Zx97sUzvTtndo7QIqPaGZCtJiGLE9/dlp9oKru5Zm
+ hHsLdRS1LaK/0XYfN
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 07:14:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,35 +85,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Steffen_G=c3=b6rtz?= <contrib@steffen-goertz.de>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Zhang Chen <chen.zhang@intel.com>, Alberto Garcia <berto@igalia.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/20 12:45 PM, Peter Maydell wrote:
-> On Mon, 4 May 2020 at 08:28, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Few patches while playing with the Zephyr Project.
->>
->> - better display of unimplemented peripheral accesses,
->> - better display of timers use.
->>
->> Philippe Mathieu-Daudé (4):
->>    hw/arm/nrf51: Add NRF51_PERIPHERAL_SIZE definition
->>    hw/arm/nrf51_soc: Mark some peripherals as unimplemented
->>    hw/timer/nrf51_timer: Display timer ID in trace events
->>    hw/timer/nrf51_timer: Add trace event of counter value update
-> 
-> Hi; I've put patches 1, 3 and 4 into target-arm.next as they
-> have been reviewed and are independent of the unimp-peripherals
-> patch.
+--Sig_/YV7hbUDMAZhIGSqYwkB0cHN
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Appreciated! I plan to respin the unimp-peripherals patch with better 
-description once I've the PPI peripheral working.
+Hello Everyone,
+These patches introduce a resource agent for fully automatic management of =
+colo
+and a test suite building upon the resource agent to extensively test colo.
 
-> 
-> thanks
-> -- PMM
-> 
+Test suite features:
+-Tests failover with peer crashing and hanging and failover during checkpoi=
+nt
+-Tests network using ssh and iperf3
+-Quick test requires no special configuration
+-Network test for testing colo-compare
+-Stress test: failover all the time with network load
+
+Resource agent features:
+-Fully automatic management of colo
+-Handles many failures: hanging/crashing qemu, replication error, disk erro=
+r, ...
+-Recovers from hanging qemu by using the "yank" oob command
+-Tracks which node has up-to-date data
+-Works well in clusters with more than 2 nodes
+
+Run times on my laptop:
+Quick test: 200s
+Network test: 800s (tagged as slow)
+Stress test: 1300s (tagged as slow)
+
+The test suite needs access to a network bridge to properly test the networ=
+k,
+so some parameters need to be given to the test run. See
+tests/acceptance/colo.py for more information.
+
+I wonder how this integrates in existing CI infrastructure. Is there a comm=
+on
+CI for qemu where this can run or does every subsystem have to run their own
+CI?
+
+Regards,
+Lukas Straub
+
+
+Lukas Straub (5):
+  block/quorum.c: stable children names
+  colo: Introduce resource agent
+  colo: Introduce high-level test suite
+  configure,Makefile: Install colo resource-agent
+  MAINTAINERS: Add myself as maintainer for COLO resource agent
+
+ MAINTAINERS                              |    6 +
+ Makefile                                 |    5 +
+ block/quorum.c                           |   20 +-
+ configure                                |   10 +
+ scripts/colo-resource-agent/colo         | 1429 ++++++++++++++++++++++
+ scripts/colo-resource-agent/crm_master   |   44 +
+ scripts/colo-resource-agent/crm_resource |   12 +
+ tests/acceptance/colo.py                 |  689 +++++++++++
+ 8 files changed, 2209 insertions(+), 6 deletions(-)
+ create mode 100755 scripts/colo-resource-agent/colo
+ create mode 100755 scripts/colo-resource-agent/crm_master
+ create mode 100755 scripts/colo-resource-agent/crm_resource
+ create mode 100644 tests/acceptance/colo.py
+
+--=20
+2.20.1
+
+--Sig_/YV7hbUDMAZhIGSqYwkB0cHN
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65RIEACgkQNasLKJxd
+sliRBQ/+M8ZHJRk0YYjsL6HgKCRvX77rGkonQSdYnG4bn8s4OI72LXT3R2Buttf9
+P3NJHxpvFiRd/WjMnsyn7SgoaajAWzelTH+2JWPkkPXOy3+4o1PJZ7KkbQ3rIFVw
+IsKRZXFCNs0dFuGkdJ4unuI0yu3aX5RIIpZJmpUyBK/C92Jda5jeR6K9tneO/khP
+YN9qZskLiMpF0l45k7lLQrqt75xiZq6mvBm+UiZSb3o79b5j7l+tkHfGWTpAJfZi
+R+9NYWATI3R9Gy4mkxY83RtiH2RLZpjCdMzgBG5Ch5B1P3ESCvs6llHZSRPyPQal
+39SVqkjB1fZmt8M5jjzun8Bwd7HAlJeqgQwClZc4nOgqJhXRf6gmWvwd2U0ZvMpU
+46RACHCDwJvrqHNJkqzZpCuUHLOYXRtJn63ohDXKHyHRHT6J3yg8nAU147+tzhW8
+9BKY/XWHnLiRWy4LNBtNV7kgS9lJBNd4HKFrcGF81kHN8QuNB7f3xkXyCgXqqFID
+HyhRqcotEjRJwAO9NTPqb/k3tOATSc9/5N2gOhUqpcKupIzBToESczwpyB1Jfy4c
+bZ42Bm0uQvHcwk/QDbC3w/ySzxOBviavhfRyUfEBFdOvv4HlYtKmOgtihWvj4aTY
+pRlM0Si+Ywutz1+jdOkhNLmTfGSLo0SKJsX0U0osCAcDXuy3zu4=
+=3IzG
+-----END PGP SIGNATURE-----
+
+--Sig_/YV7hbUDMAZhIGSqYwkB0cHN--
 
