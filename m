@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E0D1CDB58
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:37:46 +0200 (CEST)
-Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051161CDB4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:36:04 +0200 (CEST)
+Received: from localhost ([::1]:43978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8cr-0007NC-PW
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:37:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48968)
+	id 1jY8bC-0003sb-TS
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zc-0001ry-9q
+ id 1jY8Zc-0001s1-Ae
  for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:24 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39230)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zb-00071C-00
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:23 -0400
-Received: by mail-wm1-x333.google.com with SMTP id y24so19312611wma.4
+ id 1jY8Zb-00071K-1L
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:24 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id s8so10983463wrt.9
  for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DLnD8953PRrsw//8fypvw6MUqDO9NndS+JGe2zBreDM=;
- b=SeSlMpVOHNTTqxXWGPXooYTZZr1cpLNMuqH1xBfF9AcBDx2AodmCHuy8quWnfkkk0a
- Ccpubbe2CrrSZ/7lkvCGyvD3oxIjKeKUVQ3QoAZCZeH+p2vn3hCo3i7DnKHJUD+7GKeo
- 01Zu3BJ8hwUaUh7MkPYo7MA+VFSYLsOIi/Q/GBq0S7+7dcF8CF0QF8vf/QdaqNWXlxHh
- 8vHTjpFk6nqwXHjNfpbykS1ebZg2tq5ugcWV50f8oTfPgXlCdVyuAloSTZw/ESZkVkY5
- wCO4+eSdlMjwl8OxRsNkcrtBMXZWLOCIP4dhwJz3zf3oz5cUhMXP1mwiSUYTVTFZaUPq
- BJhw==
+ bh=fXod/8ZHLxKpq+52Y123DpffxkGp4HAChW55s9+pKU8=;
+ b=OTdle7p24DW+Fk5tHYE5R5vWtn6I0F7FIzwf6+RZb3jesPa4qX/fBO0UD9X4i0Hz+Y
+ solb6dqlJFbWcb8TF4t4hG8cS/Z8ZrWnbfhKd0enbc+mg7yk9xXGZmbFLcrujYyQoC80
+ xRjA7NrBM+ZwUMvHmtiZjvyf7zSAQnn5cEeAqzJeXZ2gDk9lJ8s7xOkrZ79BCdksQxxy
+ SyR0eNeoffoEdiskNV3XXDY3To92L1yt8XEghdsiF2SXlIlPk/e4KCxV5iyidGrU+ojY
+ o6gbtnwzGgNxcUNRV9QaYK3xUEHzN0RnHLNEdTSPWy9PS6kDvqoRFZhwpr/FB+Bdku5Q
+ 88hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DLnD8953PRrsw//8fypvw6MUqDO9NndS+JGe2zBreDM=;
- b=P+K8fc2bnyoVBHN3N8QwJ8i3ACz9ua7S+GxRrewEdOztlLMwrn1sWCOxguCnhoQjAK
- MrKIPlIhzy3eMaiuoiNJLPJxZ+cydLiyOx4Wls7Vf6y0FG8//hfhcZtSJWl96TzHAOk4
- 34qm4YUISnFx+vmEed9OXwX+MgDA8MZneCq6d1na7Q8L8fEAnIvGUOuCepLHgBgUR7F+
- mioWFscPiHk/OWFC39Cu03y2G44T/BF8mzgAeVJvaLl5ajsgEqMxSjc2/PKA92pDxmaf
- dMWS6BpEId5HKHo+tNCkA/CzGXJ/Xi178f9eMwCJaICtDbUZWd8thUFg6piY8fl/cI2f
- fYPw==
-X-Gm-Message-State: AGi0PuYelVlOkzlwUkfDMu5bgWvwhrfhMLS/P1wiq4ytEhGrb2WzkF72
- szzFNx03eRZ2gh09X3M6mwXXDEA8Shw89w==
-X-Google-Smtp-Source: APiQypJvj0hbwPspA9eLR8ZUFeJ9u+/EgXvYxVT7nLYuistz7uPiBD2FrNv504FVYvTfoZCrBk17KA==
-X-Received: by 2002:a1c:740e:: with SMTP id p14mr8253679wmc.102.1589204058846; 
- Mon, 11 May 2020 06:34:18 -0700 (PDT)
+ bh=fXod/8ZHLxKpq+52Y123DpffxkGp4HAChW55s9+pKU8=;
+ b=VKLMhudsPhy6gpq+m73QicTWTUT/9S8rK3AfGNA+euV3eDH57fEvmYtwJMSGIPG21J
+ BhI8fLQ21UpWwSlGVDFvU8NMepD03rfi/ZKKTcDs8Pp/dS9XXBcGwcNM1HwBZZZXbTHc
+ iDY0dWJThtnq0gM2LfyHG5Bn3KOCAPwrkaE+/HCjRdUfrLSlS9gdsdiSPZBrKqMNMOEW
+ 1j+SaGGrV00VcbMORjJ6WyM73GA1jN2rLJ4FFD3uPFIeDt8Yzs0KXz9dWitfGmw3epQV
+ jayaWXVA/xG+njeBQ2LQuTLtGIbNpTbBAqugr0Aik0pdYPBO665ZCv5P5TgpL27lxD7c
+ nnfQ==
+X-Gm-Message-State: AGi0PuYxNjvtt7JKPl9hCOSUOKsr5XL/uH/bd3NlJeRGmIIpGuWAYCLO
+ gMCg1yFqueenR+1CgMX9Od9dkL+D48nheg==
+X-Google-Smtp-Source: APiQypIFMyuWZxCC4mQuxEl05Zv3r+ByRyFwJQskfUtqSCJBjyFk7HGZA1PrN97qF3xq9q3FMykIIQ==
+X-Received: by 2002:a5d:69c3:: with SMTP id s3mr18592871wrw.305.1589204059836; 
+ Mon, 11 May 2020 06:34:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.17
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:18 -0700 (PDT)
+ Mon, 11 May 2020 06:34:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/34] accel/tcg: Add block comment for probe_access
-Date: Mon, 11 May 2020 14:33:41 +0100
-Message-Id: <20200511133405.5275-11-peter.maydell@linaro.org>
+Subject: [PULL 11/34] accel/tcg: Adjust probe_access call to page_check_range
+Date: Mon, 11 May 2020 14:33:42 +0100
+Message-Id: <20200511133405.5275-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,42 +90,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+We have validated that addr+size does not cross a page boundary.
+Therefore we need to validate exactly one page.  We can achieve
+that passing any value 1 <= x <= size to page_check_range.
+
+Passing 1 will simplify the next patch.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200508154359.7494-4-richard.henderson@linaro.org
+Message-id: 20200508154359.7494-5-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/exec-all.h | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ accel/tcg/user-exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 350c4b451be..d656a1f05c0 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -330,6 +330,23 @@ static inline void tlb_flush_by_mmuidx_all_cpus_synced(CPUState *cpu,
- {
- }
- #endif
-+/**
-+ * probe_access:
-+ * @env: CPUArchState
-+ * @addr: guest virtual address to look up
-+ * @size: size of the access
-+ * @access_type: read, write or execute permission
-+ * @mmu_idx: MMU index to use for lookup
-+ * @retaddr: return address for unwinding
-+ *
-+ * Look up the guest virtual address @addr.  Raise an exception if the
-+ * page does not satisfy @access_type.  Raise an exception if the
-+ * access (@addr, @size) hits a watchpoint.  For writes, mark a clean
-+ * page as dirty.
-+ *
-+ * Finally, return the host address for a page that is backed by RAM,
-+ * or NULL if the page requires I/O.
-+ */
- void *probe_access(CPUArchState *env, target_ulong addr, int size,
-                    MMUAccessType access_type, int mmu_idx, uintptr_t retaddr);
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 4be78eb9b38..03538e2a389 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -211,7 +211,7 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+         g_assert_not_reached();
+     }
  
+-    if (!guest_addr_valid(addr) || page_check_range(addr, size, flags) < 0) {
++    if (!guest_addr_valid(addr) || page_check_range(addr, 1, flags) < 0) {
+         CPUState *cpu = env_cpu(env);
+         CPUClass *cc = CPU_GET_CLASS(cpu);
+         cc->tlb_fill(cpu, addr, size, access_type, MMU_USER_IDX, false,
 -- 
 2.20.1
 
