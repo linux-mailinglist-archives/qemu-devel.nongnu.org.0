@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C25E1CD6DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:50:17 +0200 (CEST)
-Received: from localhost ([::1]:54632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754CD1CD6DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:51:49 +0200 (CEST)
+Received: from localhost ([::1]:58242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY60m-0008H0-Ii
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:50:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51558)
+	id 1jY62G-0002C9-IJ
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:51:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY5zH-00072j-Nz
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:48:43 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33187)
+ id 1jY609-0008TA-NY
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:49:37 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY5zG-0000lU-RK
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:48:43 -0400
-Received: by mail-oi1-x243.google.com with SMTP id o24so14697439oic.0
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:48:42 -0700 (PDT)
+ id 1jY608-0000y9-V6
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:49:37 -0400
+Received: by mail-ot1-x344.google.com with SMTP id j26so7185206ots.0
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=jLHPBC0H4IGlejcDmPFNjwEn4/1nzZJ4WYBrN4gYvxI=;
- b=bGz95uB4d5Eh2741D+h4Mu+83Zkz22IaLbmGFzQ1NGvrFEm0wy21qluAigCqmb485m
- WS0hwWCDZmE0e/2itT16IlGrIOxU2T6EkQMqNnks4diUT6EvKrXxfCOCOh4fSNF19JFn
- RwJNC5DSgVMqpz7zQrcAirryLN0JSL98v1X3Zygtg59PvEhU7Ysg1PTPfPnVJ+rscP9K
- B/oWUlaK6M5hjOC4ZbEfOurEHNtafJG0nk03m8eQd79hRsNNskUczetvg+9UFcL/+CDY
- XVcVgUnm7g68iK7OnasGMlcshYIwG6xzuVV1h6UF34ZCePrJykvWdB2WfTKNn4e5KSO+
- L7Vw==
+ bh=p/L8YiOMY7moj54hTlWVGnurquvkmgCcL9OxN5wRMgY=;
+ b=UxrMYuTVs4ja3V4pdqKqJb4BM5q2mLt2k7jkxgDNIJstfue6bI9BPVMGtmu2+jnqjE
+ 07SloKweRkO01mzTf0xw8zV8SLzgC3bvitlSHgKN7NxS5yefkMOGFHB61JmUhYQMPJD+
+ +5o3KWb0EeCBdCMW5t5VDRDlv6qRsliks4I5VKHVfuYd3NIoOuhGauZhhL/WfwK0v4mA
+ UgBYuzx5CcH+L2NTydh8kb+irzJkVjx9QxNFgJvZLoFai5u/9iMHEDIn4GkCjxksBJqL
+ 6d9jdYfjrV7ApxtIuoyastmqyhR2F7TGUvOTes47B9wvyKdMfQ8XrvAez7A7zQjtXqHW
+ mAoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=jLHPBC0H4IGlejcDmPFNjwEn4/1nzZJ4WYBrN4gYvxI=;
- b=DDDKyqek5Hr9LHXTgVskWMdsR+V+XbQb1LAQvdakm3GA8syH90vhn5afsL0dEJrYb7
- 256mTFACh9OiaLHz0mN2z+fv2JtgJDnPiqUf+gb1lEHSCM+jJynaD+honQ4J35sWu0J3
- lINSCZCjxTkcVsUgSC19HiB0VBtn0v+/4XkB2RWY5dAKZvQRWVHn+j5mHPGjA35F3xzN
- d7ovB9il+bJ3pOfE7GwLFMmRa15xZ1gAZrKhxYYtbqqlsQkf0l2uQowrrVhCt/PU2EnN
- RD1cm3b6sQXYQ21dARagGMUzEf0SX+gOSUb8zKTHVOH8HOkulNC9mGt1UTYrOWYixXHK
- VGkw==
-X-Gm-Message-State: AGi0PuYxqq/i+27nalV2fW46jk7Dd9ink6olrp0EuNs2sbrsRhCS2Phm
- gZEI7/zKf2ofYQPumkvy6nryaY8HDCSNYfjor2R9hQ==
-X-Google-Smtp-Source: APiQypLR8o4xaAqmxYdmaQXwZocTYHMvGVYPRIc/hM9kNZGXXyzCoY2/LQXA67XGCBb6p+vUgOsfzl3mZg2bFnq/Uy4=
-X-Received: by 2002:aca:4a45:: with SMTP id x66mr17938204oia.48.1589194121552; 
- Mon, 11 May 2020 03:48:41 -0700 (PDT)
+ bh=p/L8YiOMY7moj54hTlWVGnurquvkmgCcL9OxN5wRMgY=;
+ b=r4nNCBf014uCE4jxNEtv4kh8NhiWdUzICArbki7XyaIfZpTkfRqpfLO3imGFr8628E
+ K2n2Hm2xAeVhqPQk6XLPUmGa8lU/rEeoht2KHaHPamTrQ6ABs8pGERTiO5jD3R+sBCVa
+ cPr1W6AgwRB3xr/0hq+a5hXQZ0qJeDH+yor9LBTEuHtz0BfGuYhm1Vncc64jtsycpmJy
+ +qwDRH4vpvbVWB5HJrX6j4X/4fgA0kCeBPhrfPwEIoyaNKILv1+GaMzOOUHuhcEnDe9+
+ c8d2HSOFMFqYgZUmAQuZMyrdU3jUVQTWc4g8SncP+jXLPohFxIo6KoioGQunQ3O/aVXs
+ VlDg==
+X-Gm-Message-State: AGi0PubG+l0SmhYZBrM2RaR0zlWk6IIDWTLIU9MKOo06VWj49xS8exDX
+ n2pPEMennHFdxGMlY6dE+cifPkTZJEzPCQDv7m5g8g==
+X-Google-Smtp-Source: APiQypKknY2StE2gPeVG8BKrnpo16rxX+QEDBQiju3EB1ws6Ji1M7zJYgXNwAxRgi72X7QCPQYpXf+oF7rBOzxzo7QM=
+X-Received: by 2002:a05:6830:22dc:: with SMTP id
+ q28mr11510180otc.221.1589194175902; 
+ Mon, 11 May 2020 03:49:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200504172448.9402-1-philmd@redhat.com>
-In-Reply-To: <20200504172448.9402-1-philmd@redhat.com>
+References: <20200505095945.23146-1-f4bug@amsat.org>
+In-Reply-To: <20200505095945.23146-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 May 2020 11:48:30 +0100
-Message-ID: <CAFEAcA_kV8HzHv3xuPRPMKC4JwH8BDfskWqwtDJ=tHMVt0i_Gg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] target/arm: Restrict TCG cpus to TCG accel
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 11 May 2020 11:49:25 +0100
+Message-ID: <CAFEAcA_dH+xKQegbsQkOM9YASEMZrmLO5HL-L8bWsgUq+hfTsw@mail.gmail.com>
+Subject: Re: [RFC PATCH] hw/arm/musicpal: Map the UART devices unconditionally
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,35 +81,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 May 2020 at 18:24, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
+On Tue, 5 May 2020 at 10:59, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
 >
-> These are the uncontroversial patches from "Support disabling
-> TCG on ARM (part 2)"
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
+> I can't find proper documentation or datasheet, but it is likely
+> a MMIO mapped serial device mapped in the 0x80000000..0x8000ffff
+> range belongs to the SoC address space, thus is always mapped in
+> the memory bus.
+> Map the devices on the bus regardless a chardev is attached to it.
 >
-> The other patches are blocked by the "accel: Allow targets to
-> use Kconfig" series:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg689024.html
->
-> Patch #4 is new "Restrict v8M IDAU interface to Aarch32 CPUs".
->
-> Since v2:
-> - Fixed set_feature() clash trying to KISS
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg697523.html
-> - Fixed aarch64-linux-user build failure reported by Peter:
->   https://www.mail-archive.com/qemu-devel@nongnu.org/msg699319.html
->
-> Since v1:
-> - Dropped 'Make set_feature() available for other files' patch
->   which fails to build with KVM only, see:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg03843.html
->
-> Many thanks to Richard Henderson for his patience (again...)!
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> from 2019... found while doing housekeeping
+> ---
+
 
 
 
