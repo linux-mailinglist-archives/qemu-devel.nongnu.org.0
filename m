@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4811CDB55
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:37:39 +0200 (CEST)
-Received: from localhost ([::1]:51768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8691CDB6B
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:39:06 +0200 (CEST)
+Received: from localhost ([::1]:60454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8ck-000736-JX
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48872)
+	id 1jY8e9-0002eq-Ly
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZP-0001dB-N2
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:11 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43261)
+ id 1jY8ZQ-0001eb-Mf
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:12 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZO-0006zL-FA
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:11 -0400
-Received: by mail-wr1-x441.google.com with SMTP id i15so10961029wrx.10
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:10 -0700 (PDT)
+ id 1jY8ZP-0006zZ-OE
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:12 -0400
+Received: by mail-wm1-x341.google.com with SMTP id z72so9672166wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=StLU2CfUIhim1LoWHHxgyFkd3H5dmMx4AUAfUWESJ6c=;
- b=Wq0ooVIMNvdhavW5QD0xnUpYPMjqNi/EY51Bv9oGWh+P8zXlEJSY5MXK2KEFprCiOw
- xcaOmIjqAOypqWkHph9is2Kt2spl4NQ313oz2i5eKckFY+Utaji1ZoLBdg7zhiZQaHrs
- 2nDoCDDgpETwbgcEpZ6j6gVueR2W5jNrIenY7XYKX+C9mk3ZADLTSqkvYr8nJijmuAQk
- 6Gz364ZDcUs0DKjCYQCvXSPn+5JQT1XZGDNdSkDdUStgNSg5rtNqCi0RVtoPwdCndWCj
- zpGLfQ9e48IqNrPULg/WecK3g6C++dVOIR98juQYQziAuzcmKv5k2cFUNu7r01i1hcPJ
- 2Scw==
+ bh=QY58CXVUaQwf+QAV/2GBzlVDHqKHNdceOqgL9U9QO1k=;
+ b=KM85AzjXIH2OScFzV350Jbe+tvJFDJ8X7ooJHab4XInMd77kU4IwuRFeONzM87Q+21
+ CDw1urxRjkkcAl15MKL+HrqqHG6G+qs9uUE9clXEhRej9hF3JDoxXsdqbr9Z6Db9Fwfe
+ MMbKmkBO558zY3nJhrOQiPDxasRdtSJy0fYZGfuMXWwNn/Lf0E5HWzM+thbLCGCNUHwJ
+ WAb419HDGOr1mjmRpXuxFchPaMyeHLw+1VQ8kZ0S56GAxFiOgwaHfzZ54rGu4zx8lrrG
+ amtsLg0binF53D4kkdorLtj/FyV/k8R/BzZ7+s5/h1E0SRxy0O2XK7wsKVz5jZSW6kvD
+ eNAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=StLU2CfUIhim1LoWHHxgyFkd3H5dmMx4AUAfUWESJ6c=;
- b=CbhcYW0ada2pF2w9LjZhmtqCq1ClS3Au5VnjQDtf8L19suO+WwxeRnTmNCG+DBFYkI
- DB9ytjT3EzHVEonl9XsU/9sIDe91LwxyKzvU77A8zDFTMx0hsQJsL6b1Y8OmKhyqvCnl
- 4dpDs1rXsbTOjnlq9mJYfObF20iFs3qd5JgHlkqb+hprUglQ/OpIYMWZy4JsMCGhb+Xk
- DOf2OQBcKSEx80e2ZzXLO0ZeWUbt+KEXfS7MpGsxEUnU2uxR/r9EYmHh5Zus3qKhqOrL
- e76TXBprUSzSKXKy2YuQyH/QIdeGpbD1SP+uxY029K5X8Kk1k5yjmsziN3XlVH+XWf2w
- E2CQ==
-X-Gm-Message-State: AGi0Pua9iP3v+fGsawcV9GEOo8+U3mDiA1dcHX5ZeS8DbFsX/mfnh6V8
- xWFhV5bQTIbTNtlq/p4ZSYUbIzuizfPpsw==
-X-Google-Smtp-Source: APiQypJoq7LtFUWPamONC7UtRsJckGpafAecNjbbdqAGArYmTBTWVDP7KtqHdUoL0OlbUh7G6BYhzg==
-X-Received: by 2002:adf:c381:: with SMTP id p1mr19628146wrf.148.1589204048474; 
- Mon, 11 May 2020 06:34:08 -0700 (PDT)
+ bh=QY58CXVUaQwf+QAV/2GBzlVDHqKHNdceOqgL9U9QO1k=;
+ b=kF6x2IF1MGwotDbT+7OGhNHBgx2B/9BdwrOzM30TVpTbfVla290P97NFaNts55mQ7n
+ 7GgeTYVz6CyRMucNuv4wXwuuu18P1r5B11oRA1vLmyutyBA8zF3OU7rlilhEZBOyhh9E
+ N74u5LmV6Jl9p58VmG97tFBNSuLubjNXUgxlUY0u+N21vtguzz8fA8Hch4lpWCsnVjAG
+ sNzEEgYHDOQGVcjdxrYEEfG8fD8vHU6JBmvxLG/tc01nZPfK26b9PvPF/yKtBcpYmgnx
+ 7fKGWIed18P12zdugcNFoKKDwQ6RZjIiP1Ya5UETt+mD6k0sBLqL3PKIQ2i2oBzYccf2
+ 4eGQ==
+X-Gm-Message-State: AGi0PubFmCh1ofqO8ygahOTSmSS7hXt85FY8Cm8JWbiozTR+wE2cHXY2
+ BV+iAtjittn0iimrl/GGiTDbmDpgOpRGbA==
+X-Google-Smtp-Source: APiQypLjPexCblnVhZFdsFu4KnRcvGXrCnbttgpWFHUKhlqxx33USgA+KxjC86BkylCcFeU6ViBExQ==
+X-Received: by 2002:a1c:bbc4:: with SMTP id
+ l187mr12222887wmf.183.1589204049853; 
+ Mon, 11 May 2020 06:34:09 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.07
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:07 -0700 (PDT)
+ Mon, 11 May 2020 06:34:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/34] aspeed: Add boot stub for smp booting
-Date: Mon, 11 May 2020 14:33:32 +0100
-Message-Id: <20200511133405.5275-2-peter.maydell@linaro.org>
+Subject: [PULL 02/34] target/arm: Drop access_el3_aa32ns_aa64any()
+Date: Mon, 11 May 2020 14:33:33 +0100
+Message-Id: <20200511133405.5275-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,134 +89,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-This is a boot stub that is similar to the code u-boot runs, allowing
-the kernel to boot the secondary CPU.
+Calling access_el3_aa32ns() works for AArch32 only cores
+but it does not handle 32-bit EL2 on top of 64-bit EL3
+for mixed 32/64-bit cores.
 
-u-boot works as follows:
+Merge access_el3_aa32ns_aa64any() into access_el3_aa32ns()
+and only use the latter.
 
- 1. Initialises the SMP mailbox area in the SCU at 0x1e6e2180 with default values
-
- 2. Copies a stub named 'mailbox_insn' from flash to the SCU, just above the
-    mailbox area
-
- 3. Sets AST_SMP_MBOX_FIELD_READY to a magic value to indicate the
-    secondary can begin execution from the stub
-
- 4. The stub waits until the AST_SMP_MBOX_FIELD_GOSIGN register is set to
-    a magic value
-
- 5. Jumps to the address in AST_SMP_MBOX_FIELD_ENTRY, starting Linux
-
-Linux indicates it is ready by writing the address of its entrypoint
-function to AST_SMP_MBOX_FIELD_ENTRY and the 'go' magic number to
-AST_SMP_MBOX_FIELD_GOSIGN. The secondary CPU sees this at step 4 and
-breaks out of it's loop.
-
-To be compatible, a fixed qemu stub is loaded into the mailbox area. As
-qemu can ensure the stub is loaded before execution starts, we do not
-need to emulate the AST_SMP_MBOX_FIELD_READY behaviour of u-boot. The
-secondary CPU's program counter points to the beginning of the stub,
-allowing qemu to start secondaries at step four.
-
-Reboot behaviour is preserved by resetting AST_SMP_MBOX_FIELD_GOSIGN
-when the secondaries are reset.
-
-This is only configured when the system is booted with -kernel and qemu
-does not execute u-boot first.
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Tested-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
+Fixes: 68e9c2fe65 ("target-arm: Add VTCR_EL2")
+Reported-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-id: 20200505141729.31930-2-edgar.iglesias@gmail.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 65 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+ target/arm/helper.c | 30 +++++++-----------------------
+ 1 file changed, 7 insertions(+), 23 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index a6a2102a93c..a3a8cd0a58a 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -116,6 +116,58 @@ static const MemoryRegionOps max_ram_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index a94f6507950..b88d27819d5 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -503,35 +503,19 @@ void init_cpreg_list(ARMCPU *cpu)
+ }
  
-+#define AST_SMP_MAILBOX_BASE            0x1e6e2180
-+#define AST_SMP_MBOX_FIELD_ENTRY        (AST_SMP_MAILBOX_BASE + 0x0)
-+#define AST_SMP_MBOX_FIELD_GOSIGN       (AST_SMP_MAILBOX_BASE + 0x4)
-+#define AST_SMP_MBOX_FIELD_READY        (AST_SMP_MAILBOX_BASE + 0x8)
-+#define AST_SMP_MBOX_FIELD_POLLINSN     (AST_SMP_MAILBOX_BASE + 0xc)
-+#define AST_SMP_MBOX_CODE               (AST_SMP_MAILBOX_BASE + 0x10)
-+#define AST_SMP_MBOX_GOSIGN             0xabbaab00
-+
-+static void aspeed_write_smpboot(ARMCPU *cpu,
-+                                 const struct arm_boot_info *info)
-+{
-+    static const uint32_t poll_mailbox_ready[] = {
-+        /*
-+         * r2 = per-cpu go sign value
-+         * r1 = AST_SMP_MBOX_FIELD_ENTRY
-+         * r0 = AST_SMP_MBOX_FIELD_GOSIGN
-+         */
-+        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
-+        0xe21000ff,  /* ands    r0, r0, #255          */
-+        0xe59f201c,  /* ldr     r2, [pc, #28]         */
-+        0xe1822000,  /* orr     r2, r2, r0            */
-+
-+        0xe59f1018,  /* ldr     r1, [pc, #24]         */
-+        0xe59f0018,  /* ldr     r0, [pc, #24]         */
-+
-+        0xe320f002,  /* wfe                           */
-+        0xe5904000,  /* ldr     r4, [r0]              */
-+        0xe1520004,  /* cmp     r2, r4                */
-+        0x1afffffb,  /* bne     <wfe>                 */
-+        0xe591f000,  /* ldr     pc, [r1]              */
-+        AST_SMP_MBOX_GOSIGN,
-+        AST_SMP_MBOX_FIELD_ENTRY,
-+        AST_SMP_MBOX_FIELD_GOSIGN,
-+    };
-+
-+    rom_add_blob_fixed("aspeed.smpboot", poll_mailbox_ready,
-+                       sizeof(poll_mailbox_ready),
-+                       info->smp_loader_start);
-+}
-+
-+static void aspeed_reset_secondary(ARMCPU *cpu,
-+                                   const struct arm_boot_info *info)
-+{
-+    AddressSpace *as = arm_boot_address_space(cpu, info);
-+    CPUState *cs = CPU(cpu);
-+
-+    /* info->smp_bootreg_addr */
-+    address_space_stl_notdirty(as, AST_SMP_MBOX_FIELD_GOSIGN, 0,
-+                               MEMTXATTRS_UNSPECIFIED, NULL);
-+    cpu_set_pc(cs, info->smp_loader_start);
-+}
-+
- #define FIRMWARE_ADDR 0x0
- 
- static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
-@@ -270,6 +322,19 @@ static void aspeed_machine_init(MachineState *machine)
-         }
+ /*
+- * Some registers are not accessible if EL3.NS=0 and EL3 is using AArch32 but
+- * they are accessible when EL3 is using AArch64 regardless of EL3.NS.
+- *
+- * access_el3_aa32ns: Used to check AArch32 register views.
+- * access_el3_aa32ns_aa64any: Used to check both AArch32/64 register views.
++ * Some registers are not accessible from AArch32 EL3 if SCR.NS == 0.
+  */
+ static CPAccessResult access_el3_aa32ns(CPUARMState *env,
+                                         const ARMCPRegInfo *ri,
+                                         bool isread)
+ {
+-    bool secure = arm_is_secure_below_el3(env);
+-
+-    assert(!arm_el_is_aa64(env, 3));
+-    if (secure) {
++    if (!is_a64(env) && arm_current_el(env) == 3 &&
++        arm_is_secure_below_el3(env)) {
+         return CP_ACCESS_TRAP_UNCATEGORIZED;
      }
+     return CP_ACCESS_OK;
+ }
  
-+    if (machine->kernel_filename && bmc->soc.num_cpus > 1) {
-+        /* With no u-boot we must set up a boot stub for the secondary CPU */
-+        MemoryRegion *smpboot = g_new(MemoryRegion, 1);
-+        memory_region_init_ram(smpboot, OBJECT(bmc), "aspeed.smpboot",
-+                               0x80, &error_abort);
-+        memory_region_add_subregion(get_system_memory(),
-+                                    AST_SMP_MAILBOX_BASE, smpboot);
-+
-+        aspeed_board_binfo.write_secondary_boot = aspeed_write_smpboot;
-+        aspeed_board_binfo.secondary_cpu_reset_hook = aspeed_reset_secondary;
-+        aspeed_board_binfo.smp_loader_start = AST_SMP_MBOX_CODE;
-+    }
-+
-     aspeed_board_binfo.ram_size = ram_size;
-     aspeed_board_binfo.loader_start = sc->memmap[ASPEED_SDRAM];
-     aspeed_board_binfo.nb_cpus = bmc->soc.num_cpus;
+-static CPAccessResult access_el3_aa32ns_aa64any(CPUARMState *env,
+-                                                const ARMCPRegInfo *ri,
+-                                                bool isread)
+-{
+-    if (!arm_el_is_aa64(env, 3)) {
+-        return access_el3_aa32ns(env, ri, isread);
+-    }
+-    return CP_ACCESS_OK;
+-}
+-
+ /* Some secure-only AArch32 registers trap to EL3 if used from
+  * Secure EL1 (but are just ordinary UNDEF in other non-EL3 contexts).
+  * Note that an access from Secure EL1 can only happen if EL3 is AArch64.
+@@ -5147,7 +5131,7 @@ static const ARMCPRegInfo el3_no_el2_cp_reginfo[] = {
+       .access = PL2_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "VTCR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
+-      .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
++      .access = PL2_RW, .accessfn = access_el3_aa32ns,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "VTTBR", .state = ARM_CP_STATE_AA32,
+       .cp = 15, .opc1 = 6, .crm = 2,
+@@ -5195,7 +5179,7 @@ static const ARMCPRegInfo el3_no_el2_cp_reginfo[] = {
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "HPFAR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 6, .crm = 0, .opc2 = 4,
+-      .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
++      .access = PL2_RW, .accessfn = access_el3_aa32ns,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "HSTR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 3,
+@@ -7537,12 +7521,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             ARMCPRegInfo vpidr_regs[] = {
+                 { .name = "VPIDR_EL2", .state = ARM_CP_STATE_BOTH,
+                   .opc0 = 3, .opc1 = 4, .crn = 0, .crm = 0, .opc2 = 0,
+-                  .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
++                  .access = PL2_RW, .accessfn = access_el3_aa32ns,
+                   .type = ARM_CP_CONST, .resetvalue = cpu->midr,
+                   .fieldoffset = offsetof(CPUARMState, cp15.vpidr_el2) },
+                 { .name = "VMPIDR_EL2", .state = ARM_CP_STATE_BOTH,
+                   .opc0 = 3, .opc1 = 4, .crn = 0, .crm = 0, .opc2 = 5,
+-                  .access = PL2_RW, .accessfn = access_el3_aa32ns_aa64any,
++                  .access = PL2_RW, .accessfn = access_el3_aa32ns,
+                   .type = ARM_CP_NO_RAW,
+                   .writefn = arm_cp_write_ignore, .readfn = mpidr_read },
+                 REGINFO_SENTINEL
 -- 
 2.20.1
 
