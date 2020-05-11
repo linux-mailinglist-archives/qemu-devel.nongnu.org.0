@@ -2,101 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF2D1CDEBF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 17:20:49 +0200 (CEST)
-Received: from localhost ([::1]:51532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5781CDF2F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 17:37:40 +0200 (CEST)
+Received: from localhost ([::1]:53598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYAEa-00069H-BS
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 11:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40510)
+	id 1jYAUt-00060k-6y
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 11:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYACr-0005EP-Fr
- for qemu-devel@nongnu.org; Mon, 11 May 2020 11:19:01 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:36508
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYACp-00080e-Qy
- for qemu-devel@nongnu.org; Mon, 11 May 2020 11:19:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589210338;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rlAKmh/Yq5x7+5q+gRANWEpVtnBHKDEGnTQwS0BgAH0=;
- b=TeBfoqf6IKY2hA7HH8AwM4pTVbx2AatssUeutePA9AeQP3END63wkRIOYsOjZww7hVG1F9
- JqRyxUBA9tF789Mc3TegjIZ+yYSIk41WqNnCdg1oDLIqMkVhy/zeWFbyc2iN7eoyC9Qsqw
- pInUttiK7h1ks2bzshNxfGHlob7MU+s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-0Hh4Gm8iOYyCCAZp650Z2A-1; Mon, 11 May 2020 11:18:55 -0400
-X-MC-Unique: 0Hh4Gm8iOYyCCAZp650Z2A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D9AA19200E0;
- Mon, 11 May 2020 15:18:54 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-247.ams2.redhat.com
- [10.36.113.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ADBCE1053B1B;
- Mon, 11 May 2020 15:18:50 +0000 (UTC)
-Subject: Re: [PATCH v2 2/4] iotests/229: Use blkdebug to inject an error
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200511135825.219437-1-kwolf@redhat.com>
- <20200511135825.219437-3-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <dab0c0e9-e77b-6f3c-9dc0-45ecd15498e5@redhat.com>
-Date: Mon, 11 May 2020 17:18:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYASw-0004bN-31
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 11:35:38 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYASu-0007ho-QD
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 11:35:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYASr-0004BS-MI
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 15:35:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A73352E8112
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 15:35:33 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200511135825.219437-3-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="1HBBPS4l6gCOvKlo5LKEkT6DPu6VTA1nb"
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 01:43:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 11 May 2020 15:21:24 -0000
+From: Stefan Hajnoczi <1877716@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: busimus post-factum stefanha zkrx
+X-Launchpad-Bug-Reporter: zkrx (zkrx)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
+Message-Id: <158921048438.3557.2513769591820795052.malone@chaenomeles.canonical.com>
+Subject: [Bug 1877716] Re: Win10 guest unusable after a few minutes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3dd4a4dd61f7cdf2b67ea55fdb043c0ccd67b6d3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 11:35:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -105,62 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, jsnow@redhat.com, qemu-devel@nongnu.org
+Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1HBBPS4l6gCOvKlo5LKEkT6DPu6VTA1nb
-Content-Type: multipart/mixed; boundary="NfQTJVwMNQDR2r2xs1jJ6w4Nb9LB7GYPp"
+I have been able to reproduce the issue and found that nodes are not
+being removed from the AioContext->aio_handlers list when
+aio_set_fd_handler() is called. perf shows that large amounts of CPU
+time are spent in aio_pending().
 
---NfQTJVwMNQDR2r2xs1jJ6w4Nb9LB7GYPp
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Working on getting to the bottom of the issue and fixing it.
 
-On 11.05.20 15:58, Kevin Wolf wrote:
-> 229 relies on the mirror running into an I/O error when the target is
-> smaller than the source. After changing mirror to catch this condition
-> while starting the job, this test case won't get a job that is paused
-> for an I/O error any more. Use blkdebug instead to inject an error.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> Message-Id: <20200507145228.323412-2-kwolf@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+-- =
 
-Did you do this on purpose, or did you send the patch mail this way
-accidentally (with Message-ID tag and double S-o-b)?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877716
 
-(Because I=E2=80=99ve never seen anyone else do it)
+Title:
+  Win10 guest unusable after a few minutes
 
-> ---
->  tests/qemu-iotests/229     | 15 +++++++++++----
->  tests/qemu-iotests/229.out |  6 +++---
->  2 files changed, 14 insertions(+), 7 deletions(-)
+Status in QEMU:
+  New
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Bug description:
+  On Arch Linux, the recent qemu package update seems to misbehave on
+  some systems. In my case, my Windows 10 guest runs fine for around 5
+  minutes and then start to get really sluggish, even unresponsive. It
+  needs to be forced off. I could reproduce this on a minimal VM with no
+  passthrough, although my current testing setup involves an nvme pcie
+  passthrough.
 
+  I bisected it to the following commit which rapidly starts to run sluggis=
+hly on my setup:
+  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
+ccf
 
---NfQTJVwMNQDR2r2xs1jJ6w4Nb9LB7GYPp--
+  I've ran the previous commit (
+  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
+89b
+  ) for the entire night without an issue so far.
 
---1HBBPS4l6gCOvKlo5LKEkT6DPu6VTA1nb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+  I believe this might be a duplicate of
+  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
 
------BEGIN PGP SIGNATURE-----
+  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
+6_64 GNU/Linux
+  AMD Ryzen 7 2700X Eight-Core Processor
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl65bNUACgkQ9AfbAGHV
-z0Bfigf+Kb5svv3YwissmdJMAp+VAK9EKUzBRNNoV0IxVC/2iUZz8P01Y6WoRonh
-UK73dAFOwSJhtPG8OshRSsXuIgZYeh86NC6XsD/IPoE6l1VTcYBnGPOlHR8m4fpG
-YS84uU29CG66RSLooPZg40JsdEK3GF7X/+O6kvDtL2LmkL0o6gqNDINpMWe7jrVL
-sV6elE1gXghJlZcqKbbQtSbNcznOWB24WMR1X7J6/rAEI5uQEQcDkDdaBg3bZb2A
-i+2/zLWONeuWCVbD6rrBbB9MHKIMa95yv/HRH281vOrXVK6VpgH61Dz28oUBsx2L
-3vbbDrioGtNObErM6mmyj4mEC3R+tA==
-=kvEs
------END PGP SIGNATURE-----
-
---1HBBPS4l6gCOvKlo5LKEkT6DPu6VTA1nb--
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
 
