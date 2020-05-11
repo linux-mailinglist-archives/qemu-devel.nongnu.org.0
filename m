@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DF01CD7A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:20:19 +0200 (CEST)
-Received: from localhost ([::1]:59688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C2F1CD884
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:34:00 +0200 (CEST)
+Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY6Tq-0002yu-LA
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:20:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55796)
+	id 1jY6h3-0005FV-U3
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY6OT-0000Nb-FK; Mon, 11 May 2020 07:14:45 -0400
-Received: from mout.web.de ([212.227.17.11]:45173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ id 1jY6OW-0000Uv-NI; Mon, 11 May 2020 07:14:48 -0400
+Received: from mout.web.de ([212.227.15.3]:35957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY6OS-0006pG-Er; Mon, 11 May 2020 07:14:45 -0400
+ id 1jY6OV-0006rr-LE; Mon, 11 May 2020 07:14:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589195679;
- bh=69isl/oloXKqCgT1lMh7Rv9glCgzyS4DtmEifV3kP2Y=;
+ s=dbaedf251592; t=1589195682;
+ bh=KUWMlVMntn3U1nUaS+EoCscEK7fr6wH8WZeZRn/C7XE=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=Ls5hh1hNeY5R9PSRPcu0l8xb9iP8cgvDfwuYZvKhzmNCphsc7EhdeNzPh+ZWkJdPq
- dCSB3itY0opts2furo1sGH4TKfZcTZ5FKyqe3sf8UNJePEkPDXIJErsD5+Y5ajV6GS
- 9JCYXCkygiweynZ0ncWoGRc+3+1JFqEdPwGiOCNg=
+ b=KLqskJKV6otItMdDFp3CRHcgzVnGX62cdARHWDWp9Wqb33VEFMm43Q9hC0F34zKBy
+ owXoUCQ00wcmP0CCk1VOyM6P65xpbpRWle+h34xux6c1OxEWF3nj1NomPqv3gepkok
+ xBlNTXkc4ego5pmZsdKLjF7v27tcZY5TE17ySYLo=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N7gXQ-1j40SL0KZe-014gPR; Mon, 11
- May 2020 13:14:39 +0200
-Date: Mon, 11 May 2020 13:14:37 +0200
+Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MFcPd-1jLgBz1pIL-00Eht0; Mon, 11
+ May 2020 13:14:42 +0200
+Date: Mon, 11 May 2020 13:14:41 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH 1/5] Introduce yank feature
-Message-ID: <99931d0c9ab23eb641bd612e154f007348afa690.1589193717.git.lukasstraub2@web.de>
+Subject: [PATCH 2/5] io/channel.c,io/channel-socket.c: Add yank feature
+Message-ID: <db00ff13f62fe97634132e43105b9bf63bbbf582.1589193717.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1589193717.git.lukasstraub2@web.de>
 References: <cover.1589193717.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/I_Kx/CpVvM=iQB0A2ZZVo8K";
+Content-Type: multipart/signed; boundary="Sig_/+Z.y1BF4DD61=sLH0F31ie5";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:MJUelbv6jUA0wE0LZky0xBVwVS9C3aZj3VVV3jOfm7HZnRG5Mm0
- QY4q73Ow6G9i6DBZaNmccKdFCL1AX30vLnN6xSvjqoz+5KKVGTaW3EnBk7InpRL+7DXpsV7
- vkK3cI+w8qTBbaAiavTEpyhT0IIx7R2OAA2LPBtZxfh4qS+gBnZ4Cq3BvXLi/R8KyHKOM1q
- tBB6JTCxGYekgDGRQnAFg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zVbW5lOgWBg=:0lyFw7JO3+DbF/yjYHeZDj
- SVyQQI0VVcepf5xP72yT5xqOJoKSQUtL0KbNIEaVgm5LqI2Srzhit0q/Fg5RA0dV0T/GTK4Dc
- ds1ePzZWf1lcXlCkY1R+Fgi7KpZksphPoLvDIGK1Dkng6JGlxyBSkYMpS7PF7iBZgyLi2phw+
- DVOr6PfmZql8DqngKZBpWM/dBEQPOtjZqL/PLCbT8G/W7xZpOfNVvrtqtnyacdkfFpLxsJqLo
- q2DoscYECFfTKTn/9AcxXTe4hCSaATlNS7DpXqdzNn52biLFnp66MLxYUm4SjQk2A3nubrqGM
- K2wNZmNhuzd6Z35PFjjbmAAwtFzUCYe+NLiZWB9vc04GSEb/UwKl198EzxJPNa5RF7QBg2eyJ
- h57vbpxxq8i8tg4fxVbN6/wg/mUCWAYEN2szjgWoCH+F5gCQl6RfWGC4RiFUvrJgNZjVy8o5V
- hgVn59NMcxmSpON+eAIKB/1RYSPtfvBBNCnEXWv9tKkSY+aIOEtKmeMlFYhpeP4a/O3I9gBUj
- BjjkFa/IayvG3nVk1BvedH7tesB737XQeSB8upt0NT3hk+4qH8RVwpksK3SGM7u5plqicheBj
- C3gH9lvouwvIUBJDySL0GBBuWWhIaIkAwqmjCqhIf89xtG6XpW8CMqKQ8dtMGIrXuePOrewCJ
- /6G6J/aS0VXZHTKsTYb+Ppikrkj+7K3Mch0nvxXgoPuNszVecxQSUxkQV0mvb9EznFHMN6qxM
- 6XbXepKGN9j9cm5KM2K69c0y3Z8IC9Qt4Exz4/d0v8p4O+nDP7yah4DrHJteDgjRk1hHH7R5F
- VGRSw5sWw88o9qxrf8pux4OS7/wQzKS0erLq8bYCxMxtI1mialhe905T3HBvS8Q22T2N6HYNz
- kxy5L11dVDULmwMqAv6pKkKhCk2NjYMlPtjJE+MEikJXlrz7jve7Zza41dwBIM/k/AUwM87jD
- zxUuYakuLWW5sQlkwyekoRM93ilMuCZeEzyqxNBmqwMxLBQ2x9LFGVdgj1GJYSp1WyZ45JTam
- Msp4RH3dQZrvtip2k9ZesHrjF14aRaqH04oy483U3X9ZH+P8xDALsU+d8+IPMen/QSxlHDZjn
- Tbg5E7YBe5oBVHo2gv/PjcpPc5UgRrCd8gHL4hkfVntJv3gGn4UXksMoxJQ2JShJyiuuMUGB5
- xbzYq78TNh5rHtxLr1w+6ls8Q4kWKBACunWNJ+SHfLJMagl/b4vvxAAINL+iuSiHfj51RykbK
- LlednjxGt74IvNYRA
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:7Czdz+grKSXvHO3K5q013O5YYv+f/v+3lPiUpo3O1Z6jfnVFweG
+ jkEvCFjB+M17hCupvgf3oMcvI3jTg1B1upcBEvPUhWivjxR371rsOdnMH2Gx66h44LIAMlD
+ u50BxUBlufpE5XtVcTCSQaYnAUnyScRjRkAHsvdjwEP6CqHhrcMdE9zj41zZ0lZNmnDSt6R
+ uEpnhIxBzyJZX39S4mXjQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:e6NH5ealTW4=:uAgmTrfDC88JrPoaVp7i8T
+ lMmM2BA35dIHHF0kciOSvmPmgODxNE4ILjvk9ktLC8WNxopUyoBYOgUe24sN5aCyNxcbcPKWB
+ LNBqbep5i/oZewtH6NUDxDQtoiXItmPV/71c7f8UTRhCRY0rrlVgRYeM2LUJuG+JOkJUuZKmv
+ fQv8C5qItxRZXGRVqiTHaU9raK0wQhwC4f6MAzztpgG+7N/wYQfXHEaFBS7g3jC/VF2F28Ddg
+ el5yqeMnYFkzr4+dr5v53cpho7DZqE+9N4T8nMLkl4srQX/vY4Mmufii0UY7Lr8CI9EVx5X4n
+ HAJsnM91aSEe8jU3Yrlmvr6qBLp6L4PMt5Oo/V0qzJCucsziPIB1tFtnLXeThKmyyUjEaVAJy
+ tKIOvK/7I7urkJ8qd/HlxgcF4jxfb3r6U/dCKEIOuASmqFg8Eys9FAghiqejYuz14q60F9V68
+ w7Rw1HM//4QrKNf3SrGJwDxgZECbWEFRtFWmTS7YoSwrof0Po8TZTImiWk8kNziDmOX4KpjHM
+ XhDiXYxUWgoYEvn4YOWIZOckr2QKBCzBjKFMxLeik2ad6MZu8kGZ6NLBNbaMACLpQedmXQejT
+ KvpIsk+dRixCefEMGCTTlbOJOSp1YXaT/7E1LK9vK1lriFZbogtueOxDPRtBn04FWvg1e0C1/
+ 7NYITPg5JauQy6lBvE3CSdb57rLuqzpe11z6A7mvzMGZvnlgnbw5Bo4eb8aA0oNjZjo0Pt7Eg
+ 2P3OEHTsz/atcMXtW+tUfZbv04r9LCTW9oulVTF5supLZG0F6+SwqgsFGpqv8ohItkk3g8wu9
+ /HyD8eoatkxKzFXQqQdJcVU3ULm5MApZZADX6DMbp7VplWycAOBRPEJ4DKbkkMVJcorVweUuX
+ 6Hg12tOnVVnZtbUS2sS3NPEdY7HqF5LBFCbhvmmOwrGs+8DSlVbExnxJLkiv5Q+E8KwVekN2R
+ ffBdn1DBCUOKqhZ7X/+BBdb5fjg1F5ffIu2O604iwmOBWBmTS0DzJTlDO7fCce16M9xXisQ23
+ YAxxZRKD78yFWT/7MEBn8DRPiZS9aqClARzUJ0QHYd8M6LjAd8DbSUdtTkFmuvL3+Brda99wO
+ 2+pmBFy7Z7qx+GvQq8uMMPhIAybmfAs7fm9T1JsVkBeSbnAS0mnVPR0+IbDIEfWSk3rNDNcE7
+ lu25fibwMtVg4z2/jR4cJr1nFbcNU0atMUQ6jlL97PKiC1k50Qyz1/3ZZqK1h4jbVnl8Pg9HY
+ YayNkdCDNWOlV63Hd
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 07:14:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 07:11:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -95,192 +95,202 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/I_Kx/CpVvM=iQB0A2ZZVo8K
+--Sig_/+Z.y1BF4DD61=sLH0F31ie5
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-The yank feature allows to recover from hanging qemu by "yanking"
-at various parts. Other qemu systems can register yank functions
-which will be called by the 'yank' out-of-band qmp command.
+Add qio_channel_set_yank function to channel and to channel-socket,
+which will register a yank function. The yank function calls
+shutdown() on the socket.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- qapi/misc.json | 15 ++++++++++
- softmmu/vl.c   |  2 ++
- yank.c         | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++
- yank.h         | 12 ++++++++
- 4 files changed, 104 insertions(+)
- create mode 100644 yank.c
- create mode 100644 yank.h
+ Makefile.objs               |  1 +
+ include/io/channel-socket.h |  1 +
+ include/io/channel.h        | 12 ++++++++++++
+ io/channel-socket.c         | 29 +++++++++++++++++++++++++++++
+ io/channel.c                |  9 +++++++++
+ 5 files changed, 52 insertions(+)
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 99b90ac80b..de1ee494ae 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -1550,3 +1550,18 @@
- ##
- { 'command': 'query-vm-generation-id', 'returns': 'GuidInfo' }
+diff --git a/Makefile.objs b/Makefile.objs
+index a7c967633a..889115775c 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -24,6 +24,7 @@ block-obj-m =3D block/
+ crypto-obj-y =3D crypto/
 =20
-+##
-+# @yank:
-+#
-+# Recover from hanging qemu by calling yank functions.
-+#
-+# Returns: nothing.
-+#
-+# Example:
-+#
-+# -> { "execute": "yank" }
-+# <- { "return": {} }
-+#
-+# Since: 5.1
-+##
-+{ 'command': 'yank', 'allow-oob': true }
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 32c0047889..5d99749d29 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -112,6 +112,7 @@
- #include "qapi/qmp/qerror.h"
- #include "sysemu/iothread.h"
- #include "qemu/guest-random.h"
-+#include "yank.h"
+ io-obj-y =3D io/
++io-obj-y +=3D yank.o
 =20
- #define MAX_VIRTIO_CONSOLES 1
+ endif # CONFIG_SOFTMMU or CONFIG_TOOLS
 =20
-@@ -2906,6 +2907,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     precopy_infrastructure_init();
-     postcopy_infrastructure_init();
-     monitor_init_globals();
-+    yank_init();
+diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
+index 777ff5954e..0fa7a364f3 100644
+--- a/include/io/channel-socket.h
++++ b/include/io/channel-socket.h
+@@ -48,6 +48,7 @@ struct QIOChannelSocket {
+     socklen_t localAddrLen;
+     struct sockaddr_storage remoteAddr;
+     socklen_t remoteAddrLen;
++    bool yank;
+ };
 =20
-     if (qcrypto_init(&err) < 0) {
-         error_reportf_err(err, "cannot initialize crypto: ");
-diff --git a/yank.c b/yank.c
-new file mode 100644
-index 0000000000..cefbfd8ab5
---- /dev/null
-+++ b/yank.c
-@@ -0,0 +1,75 @@
-+/*
-+ * QEMU yank feature
+=20
+diff --git a/include/io/channel.h b/include/io/channel.h
+index d4557f0930..782b618694 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -132,6 +132,8 @@ struct QIOChannelClass {
+                         bool enabled);
+     void (*io_set_delay)(QIOChannel *ioc,
+                          bool enabled);
++    void (*io_set_yank)(QIOChannel *ioc,
++                        bool enabled);
+     off_t (*io_seek)(QIOChannel *ioc,
+                      off_t offset,
+                      int whence,
+@@ -550,6 +552,16 @@ int qio_channel_shutdown(QIOChannel *ioc,
+ void qio_channel_set_delay(QIOChannel *ioc,
+                            bool enabled);
+=20
++/**
++ * qio_channel_set_yank:
++ * @ioc: the channel object
++ * @enabled: the new flag state
 + *
-+ * Copyright (c) Lukas Straub <lukasstraub2@web.de>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.
-+ * See the COPYING file in the top-level directory.
++ * Controls wether this channel participates in yanking.
 + */
++void qio_channel_set_yank(QIOChannel *ioc,
++                          bool enabled);
 +
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/thread.h"
-+#include "qemu/queue.h"
+ /**
+  * qio_channel_set_cork:
+  * @ioc: the channel object
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index b74f5b92a0..be03946d29 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -26,6 +26,7 @@
+ #include "io/channel-watch.h"
+ #include "trace.h"
+ #include "qapi/clone-visitor.h"
 +#include "yank.h"
-+
-+struct YankFuncAndParam {
-+    YankFn *func;
-+    void *opaque;
-+    QLIST_ENTRY(YankFuncAndParam) next;
-+};
-+
-+static QemuMutex lock;
-+static QLIST_HEAD(qlisthead, YankFuncAndParam) head
-+    =3D QLIST_HEAD_INITIALIZER(head);
-+
-+void yank_register_function(YankFn *func, void *opaque)
+=20
+ #define SOCKET_MAX_FDS 16
+=20
+@@ -55,6 +56,7 @@ qio_channel_socket_new(void)
+=20
+     sioc =3D QIO_CHANNEL_SOCKET(object_new(TYPE_QIO_CHANNEL_SOCKET));
+     sioc->fd =3D -1;
++    sioc->yank =3D 0;
+=20
+     ioc =3D QIO_CHANNEL(sioc);
+     qio_channel_set_feature(ioc, QIO_CHANNEL_FEATURE_SHUTDOWN);
+@@ -395,10 +397,19 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
+     return NULL;
+ }
+=20
++static void qio_channel_socket_yank(void *opaque)
 +{
-+    struct YankFuncAndParam *tmp =3D g_malloc(sizeof(struct YankFuncAndPar=
-am));
-+    tmp->func =3D func;
-+    tmp->opaque =3D opaque;
++    QIOChannel *ioc =3D opaque;
++    QIOChannelSocket *sioc =3D QIO_CHANNEL_SOCKET(ioc);
 +
-+    qemu_mutex_lock(&lock);
-+    QLIST_INSERT_HEAD(&head, tmp, next);
-+    qemu_mutex_unlock(&lock);
++    shutdown(sioc->fd, SHUT_RDWR);
 +}
 +
-+void yank_unregister_function(YankFn *func, void *opaque)
-+{
-+    qemu_mutex_lock(&lock);
-+
-+    struct YankFuncAndParam *tmp;
-+    QLIST_FOREACH(tmp, &head, next) {
-+        if (tmp->func =3D=3D func && tmp->opaque =3D=3D opaque) {
-+            QLIST_REMOVE(tmp, next);
-+            g_free(tmp);
-+            qemu_mutex_unlock(&lock);
-+            return;
-+        }
+ static void qio_channel_socket_init(Object *obj)
+ {
+     QIOChannelSocket *ioc =3D QIO_CHANNEL_SOCKET(obj);
+     ioc->fd =3D -1;
++    ioc->yank =3D 0;
+ }
+=20
+ static void qio_channel_socket_finalize(Object *obj)
+@@ -422,6 +433,9 @@ static void qio_channel_socket_finalize(Object *obj)
+         closesocket(ioc->fd);
+         ioc->fd =3D -1;
+     }
++    if (ioc->yank) {
++        yank_unregister_function(qio_channel_socket_yank, ioc);
 +    }
-+
-+    abort();
-+}
-+
-+void yank_call_functions(void)
+ }
+=20
+=20
+@@ -686,6 +700,20 @@ qio_channel_socket_set_delay(QIOChannel *ioc,
+                     &v, sizeof(v));
+ }
+=20
++static void
++qio_channel_socket_set_yank(QIOChannel *ioc,
++                            bool enabled)
 +{
-+    qemu_mutex_lock(&lock);
++    QIOChannelSocket *sioc =3D QIO_CHANNEL_SOCKET(ioc);
 +
-+    struct YankFuncAndParam *tmp;
-+    QLIST_FOREACH(tmp, &head, next) {
-+        tmp->func(tmp->opaque);
++    if (sioc->yank) {
++        yank_unregister_function(qio_channel_socket_yank, ioc);
 +    }
-+
-+    qemu_mutex_unlock(&lock);
++    sioc->yank =3D enabled;
++    if (sioc->yank) {
++        yank_register_function(qio_channel_socket_yank, ioc);
++    }
 +}
-+
-+void qmp_yank(Error **errp)
+=20
+ static void
+ qio_channel_socket_set_cork(QIOChannel *ioc,
+@@ -784,6 +812,7 @@ static void qio_channel_socket_class_init(ObjectClass *=
+klass,
+     ioc_klass->io_shutdown =3D qio_channel_socket_shutdown;
+     ioc_klass->io_set_cork =3D qio_channel_socket_set_cork;
+     ioc_klass->io_set_delay =3D qio_channel_socket_set_delay;
++    ioc_klass->io_set_yank =3D qio_channel_socket_set_yank;
+     ioc_klass->io_create_watch =3D qio_channel_socket_create_watch;
+     ioc_klass->io_set_aio_fd_handler =3D qio_channel_socket_set_aio_fd_han=
+dler;
+ }
+diff --git a/io/channel.c b/io/channel.c
+index e4376eb0bc..0c4095e0e0 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -373,6 +373,15 @@ void qio_channel_set_delay(QIOChannel *ioc,
+     }
+ }
+=20
++void qio_channel_set_yank(QIOChannel *ioc,
++                          bool enabled)
 +{
-+    yank_call_functions();
++    QIOChannelClass *klass =3D QIO_CHANNEL_GET_CLASS(ioc);
++
++    if (klass->io_set_yank) {
++        klass->io_set_yank(ioc, enabled);
++    }
 +}
-+
-+void yank_init(void)
-+{
-+    qemu_mutex_init(&lock);
-+    QLIST_INIT(&head);
-+}
-diff --git a/yank.h b/yank.h
-new file mode 100644
-index 0000000000..7376224219
---- /dev/null
-+++ b/yank.h
-@@ -0,0 +1,12 @@
-+
-+#ifndef YANK_H
-+#define YANK_H
-+
-+typedef void (YankFn) (void *opaque);
-+
-+void yank_register_function(YankFn *func, void *opaque);
-+void yank_unregister_function(YankFn *func, void *opaque);
-+void yank_call_functions(void);
-+void yank_init(void);
-+void qmp_yank(Error **errp);
-+#endif
+=20
+ void qio_channel_set_cork(QIOChannel *ioc,
+                           bool enabled)
 --=20
 2.20.1
 
 
---Sig_/I_Kx/CpVvM=iQB0A2ZZVo8K
+--Sig_/+Z.y1BF4DD61=sLH0F31ie5
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65M50ACgkQNasLKJxd
-sljF3g//Us2qiNZcJZKouFsTTshtllfrT2KsgQ9R8+mhMUFYR1xg8R2762Q3cdr9
-/5MPThQ0OSAkDVeYlodoTwHJu8v1MXgmXhwEvGSRlo13ITybpoWZD//eOp7yE6mZ
-4wXjMRygQKq1SVZ82tW9lRFCpwUcg7xTR28sKMAYkaY0NiXN/Y/71u/mVmruanIB
-PtN4T+flpH41IXDwwD+mK7lANIjU2BrBJRAXjtENuiKDIuwC9XwFRepr0N/065uY
-/T/nVAR4x4yvDOnu/sJbeOME0Wqm08BBo/sQ86J9vyyI/7machOmXEKLE+RtALjM
-Xbuy36o5bC51JyR/VrOxd3TBdk0jgBsk+J+wUSISvBIh+WuFiYfqNtYkuyqZh7Hr
-xKuI+R0dcCU0t9FZd4LszNN29C9f2P8VR/lfoWw27vUwAfLtD9EF3mVflxzEfrqO
-fHnasQwFXT77SPvBwj/heThaLChu0XuWrBPrLddT+2VNUS/OOC2eiD/KC8P+96+v
-N5RChkGkoq/RrK6NYBWLNgGZfkAaJU5OBbpE/aNerSikUVAW+q43b+qLoaGeGXVE
-Y3UGSlA9roVCiPteWS6JaUKFgAmefZnTASpm610cejMfgG0KK0BizPCpben9vzsu
-vLjIt0utqAU/gbCk7rOzIHpRdgMCqwDeKrxOyZKVDrW41I+0lNI=
-=Qx+H
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65M6EACgkQNasLKJxd
+sljo9g//W+2343YJ+TbDPBooBeKFlJqOVcz1lAaJNefEdIQ1g8XfdTmp1IC3G3B1
+snWrRVXb8ShCeW3fEHyiZoMkrkZ4m9wPvJi8jbcvxjurc8KKQWC1lnxTK2Vl9wqJ
+FgrljFaeh6soK9o4qVvAWa5oltmAJsEo/9xItWPVBBii+ct2yF3rmlAgS/gAYhoo
+vsPgyNyUL9Ioc7mdTqWGPLgn1o+MZ0ZhsImyVKWQeJCrJDkkJW6aVqDTX5+DhD6+
+alRRdU9kChfCF08/TZtthlnnLTsNJh4sn8jk0CDcszIatq469OKNI/HLKdQDCBlL
+rLNTIaLX63yDfKHrTV5OBXU5dHSl7oU0TMyKTuYF4MgMaBND6KRZYzqru80wsJ4k
+BXH6qq9gP/4SjiW7pghzYUBjd8a9mIK4gvHJhEQqRJjvEZXkTjRSMO9Kq3nex70G
+NboLA4ey2bHVVXG+UWH2VdrmVNxJE5uuyKKw7Cgc4+j6MWGfDswnHUpi4VCCJLoj
+b0DQmqDTdRMYOo7ALO4vXCkxMdPTkb5wdhF51x73jWgj+i8CgwfyivtrdKVRo/sC
+vmoRj58MQ8DKmzdueOINNn9WvAI46F+p4cNuJRsjmM771s6kklAfzUOAlrCWy5oi
+O3ZxDXVWW64xLRGUgvOzCdy7jNNqcbXrZb8PeQi4ip+UPNyqKus=
+=jpRL
 -----END PGP SIGNATURE-----
 
---Sig_/I_Kx/CpVvM=iQB0A2ZZVo8K--
+--Sig_/+Z.y1BF4DD61=sLH0F31ie5--
 
