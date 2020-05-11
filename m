@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A371CD882
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:33:39 +0200 (CEST)
-Received: from localhost ([::1]:49748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652181CD75F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:12:54 +0200 (CEST)
+Received: from localhost ([::1]:49972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY6gk-00052l-Ek
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:33:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54918)
+	id 1jY6Mf-0006Ks-D4
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY6L2-0005E5-OM
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:11:12 -0400
-Received: from mout.web.de ([212.227.17.12]:41025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY6L1-0005mk-Tq
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:11:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589195463;
- bh=8aa/cXv8MJaQTeNGuhAYmWL57Hgij/DmXi7owbKM+js=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=ElpuAmr32P3BcPMQbFvM1DiqPwEaQsMWeMEr2oUIegE5pSG70OfSd7H2ZKsq8Go0d
- rkBIvGVAITuKb4ItpfGotd3L1iE885lucHhx3X40KhsE0+c2P3Ws8FrBLLZO4FPlps
- wLwhH80F0AZbA/yPU0C829Ohy23ZsXOw+9auErQ8=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MsJSy-1jF43B1gD4-00teTy; Mon, 11
- May 2020 13:11:03 +0200
-Date: Mon, 11 May 2020 13:11:01 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH 6/6] migration/colo.c: Move colo_notify_compares_event to
- the right place
-Message-ID: <d4555dd5146a54518c4d9d4efd996b7c745c6687.1589193382.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1589193382.git.lukasstraub2@web.de>
-References: <cover.1589193382.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jY6L7-0005J2-7m
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:11:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49489
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jY6L6-0005p6-EA
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:11:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589195475;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q5crtsZ8C1ZnRGJlZ9cldEnfZWOlTEhC5Hozu7U+jRI=;
+ b=ADa/HDZKqcuCwvm1qD6LWLtI/Sfo6+sRFVHk5CNA7Tp+L/baTpC1jStzdkJto1pv4HyGzQ
+ 9ad5RDWKQKZCWh403frm1HJQyGxpnD1AxAECSbpKymhRNVNAk4LuviAJlF5QS7v4NPaDP+
+ Y3DvGDKBw6FdfoKmjOwWs5VSfIUcOII=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-e71M698AM2qN4FmiCevkag-1; Mon, 11 May 2020 07:11:13 -0400
+X-MC-Unique: e71M698AM2qN4FmiCevkag-1
+Received: by mail-wr1-f69.google.com with SMTP id z5so5047227wrt.17
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 04:11:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q5crtsZ8C1ZnRGJlZ9cldEnfZWOlTEhC5Hozu7U+jRI=;
+ b=L1IBYeE1aRcShJv+34SCO+O8flMwxLfAYGAOjDU/jl27tCn3VH4XSVbJ552kDQCSHJ
+ EwGBwnOtSuj8lIPsseI+ZS3S8FuYukSS9UNkErloL5RlsVULYfGvcPfeew0m1uZXMpBd
+ OL61PEnLqqt7sIODXq9OMYWABIHvUGd3vY93qS5HHiSasDmDzlNkcYXNFee6brYf4XNn
+ 3uqCs5N5Ym0/qn+C8+Rn6EJlin3wbOxD8kOEhR3ckXtuUH/NqOTtoxVXSFNJdz99pxNi
+ 8j78pkgDOqElg6bimW/lJu2nFA0FjOzGUb2Os5d+zMoW2FPHa/lqiavGfE8N9dDDvbqT
+ eWyQ==
+X-Gm-Message-State: AGi0Pua88Uifz3VG11yUjPqORd+F2rAxMqkf6Tq+lHHjJIbI0ovSX8Jv
+ nPrKaL8iz2tVTjSa/IrD8JwSeG1ew6PM2WvjgVqmtjtWl4fh0mZk2mJkhX7WFU94W8LXv3rbt1N
+ gCaRinVK+pu6qCMY=
+X-Received: by 2002:adf:f5c4:: with SMTP id k4mr16414632wrp.23.1589195472439; 
+ Mon, 11 May 2020 04:11:12 -0700 (PDT)
+X-Google-Smtp-Source: APiQypImuFSybS82VJpBzOJllgJHAc/wCz6zPqQI1AYKEYn+haLDrVpWWtXSS3/e/+RnmF3p8k39mQ==
+X-Received: by 2002:adf:f5c4:: with SMTP id k4mr16414605wrp.23.1589195472208; 
+ Mon, 11 May 2020 04:11:12 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:ec64:483c:eca:9b27?
+ ([2001:b07:6468:f312:ec64:483c:eca:9b27])
+ by smtp.gmail.com with ESMTPSA id o26sm15421208wro.83.2020.05.11.04.11.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 May 2020 04:11:11 -0700 (PDT)
+Subject: Re: [PATCH 3/4] device-core: use atomic_set on .realized property
+To: Maxim Levitsky <mlevitsk@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+References: <20200416203624.32366-1-mlevitsk@redhat.com>
+ <20200416203624.32366-4-mlevitsk@redhat.com>
+ <20200504104538.GC354891@stefanha-x1.localdomain>
+ <b265d4ee-400e-bb80-cc37-e89c5dab2a8c@redhat.com>
+ <948c2e2f293c08b6411030dc5ad91c23a2f773f0.camel@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <82d51a76-fd38-d72e-2d22-c4de1a76d5f9@redhat.com>
+Date: Mon, 11 May 2020 13:11:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/SRb1ob89Z9y2QWedmIRxl6S";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:IU3txvhBiDREI7tNkWx5REKG0Uwnv8IAQ5LmYKL67wiqxUBMOz0
- p5ndNdGAW5FFPlTEc5QTBzYWe6+xo9MWfLMPlNqr2WfNX6zhM/GzCk6rGlev1VD5PTHdepY
- dK17zoILIrgBBtobj8jFp+DIh/2AqBGVqEzE6EOUoGM+FEVxNSg2NpmRuExPh44ZD0+bEzt
- wVCL4Nancp9BOYIvLFkfQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0DKC7TXAbnA=:DWl6hDFq3XycRpSa+M1Hp/
- hHGddW+YlCsAHnie+oATtR+re7h3E41g3fHGSLJqgBpsLi2etwMDeFUBuMXXzRzKuc+bC/ACJ
- QVwuqm2DboB9boqVwxkNmpu3JFXYmTAjKDnPt0Yal9bzRfC2T9Y3CXCRLXSH8ER/MtptiJeeu
- axIEa/KMy1Tb2Yx8UjLhN9av6zYRbeHOLarY+Ed9A9cGoD7Fe7lDPyNond4f+CRK/NkpH3H3A
- xO5Pg6hmv/jpultud0CM7HDS/jdSzDMEow1AXzrhZmNA4nw2A7vYzdPr0+h5zoFyChPOr8asd
- Ra0yqjMdoYQO3uASIi3kEP7IXVpKjNOKuKqsmqEUtMNwd1RQggl8c1I8Yy5PBshvgGbm/EiBS
- EL753HU4MsQzJncjA4dcChrq5eRdHXPtUPM2LWtK7z5Kn95fdCOj8E4BDjzw/hCiC1398NJ6V
- F/dAdq6LMitG2pmz2Gvyu2rqpNS1jbjrkSWxibm+WEZ6+m7cwX2ApFs1c5QCtAC2n57+qvdM9
- l09dZpmAuSGsqv/enXkKKlQbHO7a6uEE4yZ6DPj5Pd/YJTwQg4o60tePPzUT6HUDgCDXxJ4uQ
- sIr+t9b3mz2QJq0IiwSOXYj9pXGN1JCJyeTCGkVFkdeOe4r40ahfjR3QRBQw1KyInCuuOIw9h
- 7lj4YOyaMSGcB5U2q5x/dKXnAwcG2WMVA1pIFBL7ObxkoZJoHl8G0awGeYkBjydfeXbpmtaQT
- VPaTnaD+yrz68mePAL1Fov9q8jD/FBNmKdwKOqa8nTJ82ztnR8bYyDdI9uP3UiDpSaiszHJaR
- 5AOtHtW1jgJTXgS4SRDv4/3NjiK2vgbTRVzZYA7fE6HAAWoYCO7OliBdLO7W8iTrf2W9d7t88
- FDJN8/QReDVxto0RXdk+BjadKW17dLNO5YCvK4EA1v6/1yV9OBHQr5E+bVPNdjSvOrJ+9xgWY
- xsdLGkvG7N0pWKMijf5LuQPnK52sK0F94zje8SbtPMvotB4XJt758E1uuePvUyVSquJunOasS
- xc8Dnf1s5oIhYvZsR80dYQSsqcTfSB7fQUPggmDYbqZCs0OgF7kdJtgRFtomnjtWCnban41F7
- RyLccvU7BF0mXftQKvRH7t2WtOh04L/+IIPi2aMPQgS/wegoMdpdHxcuJIXsJtNgUTBRPjl2d
- q5ZtkUyxRi4pdwdGRlLBXvqujdLJaP4gZ8lbLNR2j47S/7s+dOEcM2bb9Xh4f8XRErhCPOSVO
- 5YYf7WPd2bR/Xp4Np
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 07:10:54
+In-Reply-To: <948c2e2f293c08b6411030dc5ad91c23a2f773f0.camel@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 00:05:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,83 +103,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/SRb1ob89Z9y2QWedmIRxl6S
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 11/05/20 13:00, Maxim Levitsky wrote:
+> On second thought, I think both cases matter, after I examined the device removal case.
+> In device removal case, the device is first un-realized and then removed from the bus,
+> so just like in device hotplug case, the scsi_device_find can give you an unrealized device.
+> 
+> I will change this patch to set .realized to false at the start (if needed) of the function and to true at the end (also if needed)
+> Will atomic_rcu_set work? or atomic_store_release?
+> (Both are the same thing, but former documents the purpose of using with RCU.
 
-If the secondary has to failover during checkpointing, it still is
-in the old state (i.e. different state than primary). Thus we can't
-expose the primary state until after the checkpoint is sent.
+atomic_rcu_set is more to store pointers, in this case you want to store
+the value after any other change to the struct so atomic_store_release
+is more appropriate.
 
-This fixes sporadic connection reset of client connections during
-failover.
+Paolo
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- migration/colo.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/migration/colo.c b/migration/colo.c
-index a69782efc5..a3fc21e86e 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -430,12 +430,6 @@ static int colo_do_checkpoint_transaction(MigrationSta=
-te *s,
-         goto out;
-     }
-=20
--    qemu_event_reset(&s->colo_checkpoint_event);
--    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT, &local_err);
--    if (local_err) {
--        goto out;
--    }
--
-     /* Disable block migration */
-     migrate_set_block_enabled(false, &local_err);
-     qemu_mutex_lock_iothread();
-@@ -494,6 +488,12 @@ static int colo_do_checkpoint_transaction(MigrationSta=
-te *s,
-         goto out;
-     }
-=20
-+    qemu_event_reset(&s->colo_checkpoint_event);
-+    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT, &local_err);
-+    if (local_err) {
-+        goto out;
-+    }
-+
-     colo_receive_check_message(s->rp_state.from_dst_file,
-                        COLO_MESSAGE_VMSTATE_LOADED, &local_err);
-     if (local_err) {
---=20
-2.20.1
-
---Sig_/SRb1ob89Z9y2QWedmIRxl6S
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65MsUACgkQNasLKJxd
-sljf7A//XMzwV5vPfRb8lhiXwt1UwOJiJIkZ06ZtD3frAU07bMOE6eExDQZlw52e
-R+IA9MzX/0WWsSx5U2LAhFKfoNC0so7w5BfADuwaU40j9K8quIi8P17YGyt80oLa
-UMDOUu2lPu+5PlRkjI72djMCWk3knHxWhFdeFEtxdiUtK3kUjk/W3T5xNZJatPPA
-KTdOf/YIlBAhdQ6JOKCoaPHZ00ETQcqaE31Rn1l57Kun0EF3D/fuW2YVPah42jTr
-amZqCVSIk1K+WSOxHA51Oqgfs4uHnmHHhXuIBBTuDpZVg5p967xHiW4yw/dOrlOz
-8DhWan7TCv4xvkspuZMA3+mGUPyyqRPp8eWsYJD9GfpA/qGKlWJrHxCSwgjIWO0t
-vyeghDjYC1+mYnA9CBuAJR0kc0GLGepeO6q0RNSjwz+GReOrk1LB1PJJVgphlrKX
-8piZgiz4VjcPLzz12EGG5gtIR3MYFZwCPnIHjD082G0mYszZBumeU5rMTVj6IfYM
-1p2zykVK8a2ahxMk9Cxen3cN1bzoHimHNUjx2cwoI5YVm+1/cUHsX/Yv5qRQnYiq
-/67dUaaCwZYUngFchG/8ExMi/PSCp70SjlXpWUAxhBnUBCm3MtOffPCKwLQP6QP7
-Ezq5J7idBWwof41wEwdxYtBCiJMOOlJJHuu/KJoK6fYAPuXLeNs=
-=PntW
------END PGP SIGNATURE-----
-
---Sig_/SRb1ob89Z9y2QWedmIRxl6S--
 
