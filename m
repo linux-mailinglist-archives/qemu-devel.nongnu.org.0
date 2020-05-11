@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7DD01CD580
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:41:03 +0200 (CEST)
-Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270781CDCAB
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:11:09 +0200 (CEST)
+Received: from localhost ([::1]:46748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY4vm-0000VN-Qc
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40614)
+	id 1jY999-000787-LI
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:11:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1jY4sN-0007S9-Vq
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:37:32 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:59958)
+ (Exim 4.90_1) (envelope-from <Dmitry.Sepp@opensynergy.com>)
+ id 1jY4vP-00014N-AZ
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:40:39 -0400
+Received: from plasma4.jpberlin.de ([80.241.57.33]:54659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1jY4sM-0008P6-HD
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:37:31 -0400
-Received: from [172.17.10.6] (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 1AD1296EF0;
- Mon, 11 May 2020 09:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1589189847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qrp09nn4bKJNi0+huvUws2uTX9fOuj7EqBmFOFnoXRs=;
- b=VoisRkrCMvT6CcVzAUphHW0Gs+4+MdcGteY5Pep2lwmuumYFRb6/Zynz34noBZAosBt1pU
- EkiRwtea15ppEowqGVu4dO1zbNSucs/iCWTRRgdAabcWb0Zj45F0U7lgK2hUx9NgCiipS3
- Roio2YsPm3nX5hLvwv1H4lRNVzAuECc=
-Subject: Re: [PATCH v4 08/10] hw/core/resettable: add support for warm reset
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20190821163341.16309-1-damien.hedde@greensocs.com>
- <20190821163341.16309-9-damien.hedde@greensocs.com>
- <762b6429-15af-4f6e-2a31-87e3d3313f86@amsat.org>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <1c84c058-0b8b-7e70-0739-09fe3b65dcc4@greensocs.com>
-Date: Mon, 11 May 2020 11:37:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <Dmitry.Sepp@opensynergy.com>)
+ id 1jY4vN-0000zs-AW
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:40:38 -0400
+Received: from spamfilter05.heinlein-hosting.de
+ (spamfilter05.heinlein-hosting.de [80.241.56.123])
+ by plasma.jpberlin.de (Postfix) with ESMTP id 61813BE4F7;
+ Mon, 11 May 2020 11:40:30 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+ by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de
+ [80.241.56.123]) (amavisd-new, port 10030)
+ with ESMTP id wcI2nhFaRMNp; Mon, 11 May 2020 11:40:28 +0200 (CEST)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (Client CN "webmail.opensynergy.com",
+ Issuer "GeoTrust EV RSA CA 2018" (not verified))
+ (Authenticated sender: opensynergy@jpberlin.de)
+ by plasma.jpberlin.de (Postfix) with ESMTPSA id B6A5CBE3F0;
+ Mon, 11 May 2020 11:40:28 +0200 (CEST)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 11 May
+ 2020 11:40:28 +0200
+From: Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To: Kiran Pawar <Kiran.Pawar@opensynergy.com>, Samiullah Khawaja
+ <samiullah.khawaja@opensynergy.com>, <qemu-devel@nongnu.org>, Saket Sinha
+ <saket.sinha89@gmail.com>
+Subject: Re: Fwd: Qemu Support for Virtio Video V4L2 driver
+Date: Mon, 11 May 2020 11:40:22 +0200
+Message-ID: <2405792.XL1faGB9W5@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAK25hWOPS1wGORXgtv8hUNu9-mLO+5C_k3Cj=8pnoFWmjuhJdg@mail.gmail.com>
+References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
+ <CAK25hWMj5PyQFZVN5AToHjdySvi6iZ4zjZeUJQR85jNgoeLeAw@mail.gmail.com>
+ <CAK25hWOPS1wGORXgtv8hUNu9-mLO+5C_k3Cj=8pnoFWmjuhJdg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <762b6429-15af-4f6e-2a31-87e3d3313f86@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 8bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1589189847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qrp09nn4bKJNi0+huvUws2uTX9fOuj7EqBmFOFnoXRs=;
- b=bUGDaoPKhNNfD2q2wwpszP+HRgpJwQ2t4YlC7Y8AETvNQATGGgzeCDFcQ/WOPOsHp+Asz4
- xnCkN+vcRHmvI0snwF2IQrcDMpPmhc3srOKoOzLIzcyzYqVo6JbmRZutVpnVr+8vxxVNTk
- UrQoJmGmksVYmPLmr5xtlEHXVuwVV6c=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1589189847; a=rsa-sha256; cv=none;
- b=NdBZmD9cdMnfvoLBNZbfvCVOHGKnF98HrM1yY+C8fPNpnS7ai1257m5qfmsjWZwJjJemDa
- uMd/Hjtao5EaZ+C0BdcJHetL6xLYJcLrBdzKo31W/4U3vrfZRyaR9GOkkq39hd9EFTB9Ft
- SrypVncu6EHMFAr6MJMTyVvdwqXwtko=
-ARC-Authentication-Results: i=1; ORIGINATING;
- auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 05:37:27
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
+X-Rspamd-Queue-Id: 61813BE4F7
+X-Rspamd-Score: -0.81 / 15.00 / 200.00
+Received-SPF: none client-ip=80.241.57.33;
+ envelope-from=Dmitry.Sepp@opensynergy.com; helo=plasma4.jpberlin.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 05:40:32
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 11 May 2020 10:09:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,50 +78,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, berrange@redhat.com,
- ehabkost@redhat.com, mark.burton@greensocs.com, pbonzini@redhat.com,
- david@gibson.dropbear.id.au
+Cc: virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Saket and all,
 
-Hi Philippe,
+As we are working with automotive platforms, unfortunately we don't plan any 
+Qemu reference implementation so far.
 
-On 5/10/20 10:17 PM, Philippe Mathieu-Daudé wrote:
-> Hi Damien,
+Of course we are ready to support the community if any help is needed. Is 
+there interest in support for the FWHT format only for testing purpose or you 
+want a full-featured implementation on the QEMU side?
+
+Please note that the spec is not finalized yet and a major update is now 
+discussed with upstream and the Chrome OS team, which is also interested and 
+deeply involved in the process. The update mostly implies some rewording and 
+reorganization of data structures, but for sure will require a driver rework.
+
+Best regards,
+Dmitry.
+
+On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
+> Hi,
 > 
-> On 8/21/19 6:33 PM, Damien Hedde wrote:
->> Add the RESET_TYPE_WARM reset type.
->> Expand the actual implementation to support several types.
->>
->>     /**
->>    * ResetType:
->> - * Types of reset.
->> + * Types of reset, values can be OR'ed together.
->>    *
->>    * + Cold: reset resulting from a power cycle of the object.
->> - *
->> - * TODO: Support has to be added to handle more types. In particular,
->> - * ResetState structure needs to be expanded.
->> + * + Warm: reset without power cycling.
->>    */
->>   typedef enum ResetType {
->> -    RESET_TYPE_COLD,
->> +    RESET_TYPE_COLD = 0x1,
->> +    RESET_TYPE_WARM = 0x2,
+> As suggested on #qemu-devel IRC channel, I am including virtio-dev, Gerd and
+> Michael to point in the right direction how to move forward with Qemu
+> support for Virtio Video V4L2 driver
+> posted in [1].
 > 
-> I'm a bit lost with the various iterations, what is the plan with warm
-> reset, is this blocked due to discussion, API, something else?
+> [1]: https://patchwork.linuxtv.org/patch/61717/
 > 
-
-I removed it in the last versions of the series because it was adding
-complexity. There were unsolved issues and discussions, in particular
-regarding the interactions and propagation along trees between the
-different types.
-
-Damien
-
-
+> Regards,
+> Saket Sinha
+> 
+> On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com> wrote:
+> > Hi ,
+> > 
+> > This is to inquire about Qemu support for Virtio Video V4L2 driver
+> > posted in [1].
+> > I am currently not aware of any upstream effort for Qemu reference
+> > implementation and would like to discuss how to proceed with the same.
+> > 
+> > [1]: https://patchwork.linuxtv.org/patch/61717/
+> > 
+> > Regards,
+> > Saket Sinha
 
 
 
