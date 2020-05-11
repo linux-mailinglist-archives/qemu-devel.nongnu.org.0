@@ -2,68 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A151CE251
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 20:12:13 +0200 (CEST)
-Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 178041CE241
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 20:07:16 +0200 (CEST)
+Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYCuS-0006CR-Lb
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 14:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40724)
+	id 1jYCpf-0008WE-20
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 14:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jYCt4-0005Wf-Ie
- for qemu-devel@nongnu.org; Mon, 11 May 2020 14:10:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55170)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jYCnz-0006b7-BJ
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 14:05:31 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:50437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jYCt2-0005Bh-TQ
- for qemu-devel@nongnu.org; Mon, 11 May 2020 14:10:46 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jYCt1-0000Dl-2z
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 18:10:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 128B32E8024
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 18:10:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1jYCnx-000239-HN
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 14:05:30 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1Mw9Dg-1jHdp90gs8-00s8Ev; Mon, 11 May 2020 20:05:23 +0200
+Subject: Re: [PATCH v1 0/7] various tcg and linux-user updates
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200501145713.19822-1-alex.bennee@linaro.org>
+ <87tv0mg1y3.fsf@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <3bf57eac-311d-865f-bcda-a4e0257d24ec@vivier.eu>
+Date: Mon, 11 May 2020 20:05:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 11 May 2020 18:04:22 -0000
-From: Alexander Bulekov <1878067@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <158922026261.5250.13637087242622903872.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1878067] [NEW] Assertion failure in eth_get_gso_type through the
- e1000e
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: a340161c2d68aaf6cb897b6f0121250848969fb7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 11:35:34
+In-Reply-To: <87tv0mg1y3.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:n2vctaIs1gWXYnLxXmLV1bCXx/9vHZCV8Ht0+8w0dpfceESF8e9
+ X2pDwAxNlxMNHMMxpmBMLhjVgLUS7iwRDZxov1egj3p9jVrspmo+slemXp9sevC0jK4RVia
+ 140BPXG8bgvBJucsdGJX03l5aagUIAQEl5I505lpgiGdPfovI38tcsl4BCtfRKcAc7yTCkk
+ USHzSo9qqRPPQ6ZIBjyLQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:G16dbckU93A=:e0WGx7xbk5E6HpUTR1fofH
+ RWubnuGLlNxJMmpAeBfuME9HgODsQj+KOG3B/q1yJStZrfPiOb9WVS8qYAPTSHa9TtTHaYqYw
+ g8oUWI3wYtBd+73pQXuUJPxB5Oj3ny9KglL+nGkQKk/tY2PPdKWcLgqLert0eQljltQnoHrGK
+ sMFZwDSL5LiuWTlHVRvSfVgnEPGw77tOpufi/WyJGccf6bkk3gLa0wlWKnWUyj5k2VZwMCV71
+ 4E49Gxj2IHkRTfnU3gyuRh0dpVcY6KXAYbX0U6EGNo207RXdRObKFRGC00m5UtqSamp5VSHV+
+ uBadItismEUxTODNZBbRFpqIs+ewjZkI9Hmk81nnfw0IUSgr/wCzpHj6x6WxyaH6urAkOisq4
+ 7UPdPzL9+r5GHRFc6CdSlji6NWyecwztGjtgwPfccC6N6fum0vZCdQ88R0rDC88eoSw6lSzbB
+ COhGUGeBljiTidk0quBRkw5FbepBQtWUtiBhNA2CsXaLcdah8azmCZzmqBS1KR75SQnAv/C/P
+ FlD53+jHH9HvDqoO6u1vUz41Kz4s4JInJxzGkTBdJt/D9/J+5VnZL7VgQvIoo2RS+ZoaBhGCi
+ gvCyqNFKWls3BM/xq/7BVvxTtldMfvDlRHSgyMKOef6rLhMWnQVQzfBMikg8kmIa+zh9Fn+Zf
+ J8EI6NaJ9QCIKDYq3alUcFya+skpz50NepE5ge7ybOuxNGNpIFt6PSL7B/RDHvzMfB/mxzJRR
+ lQ5LCBZ0pJL7D+84c66T3hAn65hYkGT1JuWWOpdVx9p3+islR6eSvY5IpUNnUwpcnIFnB+M3X
+ hmNQYkZ+cmEvp38vkIo6w76ILfzF60b8itQsCa5pxP6TE8aWiMxn8s2x4X+YPgfsXiqVV+B
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 14:05:26
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,246 +115,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878067 <1878067@bugs.launchpad.net>
+Cc: riku.voipio@iki.fi, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Le 11/05/2020 à 13:12, Alex Bennée a écrit :
+> 
+> Alex Bennée <alex.bennee@linaro.org> writes:
+> 
+>> Hi,
+>>
+>> Cleaning up my queues into more focused trees these are all tweaks to
+>> TCG related stuff. The guest_base changes where posted before but
+>> where a little radical for 5.0 but I think are worth getting in early
+>> as it enables the sanitizer builds for a range of linux-user targets
+>> we couldn't run before. Finally there is a little tweak made to the
+>> out_asm handling which makes it a bit easier to see which guest
+>> instructions are being emulated by which host code.
+>>
+>> The following need review:
+>>
+>>  - translate-all: include guest address in out_asm output
+>>  - disas: add optional note support to cap_disas
+>>  - disas: include an optional note for the start of disassembly
+>>  - accel/tcg: don't disable exec_tb trace events
+>>  - linux-user: completely re-write init_guest_space
+> 
+> Gentle ping,
+> 
+> I would especially like some feed-back on the guest base updates from
+> the linux-user maintainers so we can get the sanitizers more widely
+> used.
+> 
+> If your happy for me to include them in my next PR I'll just take some
+> Acked-by's ;-)
+> 
+I don't have enough time to review the changes, but if you are confident
+with your patch you can add:
 
-Hello,
-While fuzzing, I found an input that triggers an assertion failure in
-eth_get_gso_type through the e1000e:
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 
-#1  0x00007ffff685755b in __GI_abort () at abort.c:79
-#2  0x00007ffff7c75dc3 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#3  0x00007ffff7cd0b0a in g_assertion_message_expr () at /usr/lib/x86_64-li=
-nux-gnu/libglib-2.0.so.0
-#4  0x0000555556875f33 in eth_get_gso_type (l3_proto=3D<optimized out>, l3_=
-hdr=3D<optimized out>, l4proto=3D<optimized out>) at /home/alxndr/Developme=
-nt/qemu/net/eth.c:76
-#5  0x00005555565e09ac in net_tx_pkt_get_gso_type (pkt=3D0x631000014800, ts=
-o_enable=3D0x1) at /home/alxndr/Development/qemu/hw/net/net_tx_pkt.c:300
-#6  0x00005555565e09ac in net_tx_pkt_build_vheader (pkt=3D0x631000014800, t=
-so_enable=3D<optimized out>, csum_enable=3D<optimized out>, gso_size=3D<opt=
-imized out>) at /home/alxndr/Development/qemu/hw/net/net_tx_pkt.c:316
-#7  0x000055555660bdb1 in e1000e_setup_tx_offloads (core=3D0x7fffeeb754e0, =
-tx=3D0x7fffeeb95748) at /home/alxndr/Development/qemu/hw/net/e1000e_core.c:=
-637
-#8  0x000055555660bdb1 in e1000e_tx_pkt_send (core=3D0x7fffeeb754e0, tx=3D0=
-x7fffeeb95748, queue_index=3D<optimized out>) at /home/alxndr/Development/q=
-emu/hw/net/e1000e_core.c:658
-#9  0x000055555660bdb1 in e1000e_process_tx_desc (core=3D0x7fffeeb754e0, tx=
-=3D0x7fffeeb95748, dp=3D<optimized out>, queue_index=3D<optimized out>) at =
-/home/alxndr/Development/qemu/hw/net/e1000e_core.c:743
-#10 0x000055555660bdb1 in e1000e_start_xmit (core=3Dcore@entry=3D0x7fffeeb7=
-54e0, txr=3D<optimized out>, txr@entry=3D0x7fffffffbe60) at /home/alxndr/De=
-velopment/qemu/hw/net/e1000e_core.c:934
-#11 0x0000555556607e2e in e1000e_set_tctl (core=3D0x7fffeeb754e0, index=3D<=
-optimized out>, val=3D<optimized out>) at /home/alxndr/Development/qemu/hw/=
-net/e1000e_core.c:2431
-#12 0x00005555565f90fd in e1000e_core_write (core=3D<optimized out>, addr=
-=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home=
-/alxndr/Development/qemu/hw/net/e1000e_core.c:3261
-#13 0x0000555555ff4337 in memory_region_write_accessor (mr=3D<optimized out=
->, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>,=
- shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/alx=
-ndr/Development/qemu/memory.c:483
-#14 0x0000555555ff3ce0 in access_with_adjusted_size (addr=3D<optimized out>=
-, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<optim=
-ized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>, =
-mr=3D0x7fffeeb75110, attrs=3D...) at /home/alxndr/Development/qemu/memory.c=
-:544
-#15 0x0000555555ff3ce0 in memory_region_dispatch_write (mr=3D<optimized out=
->, addr=3D<optimized out>, data=3D0x2b, op=3D<optimized out>, attrs=3D...) =
-at /home/alxndr/Development/qemu/memory.c:1476
-
-I can reproduce it in qemu 5.0 built with using:
-cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc-q=
-35-5.0 -netdev user,id=3Dqtest-bn0 -device e1000e,netdev=3Dqtest-bn0 -displ=
-ay none -nodefaults -nographic -qtest stdio -monitor none -serial none
-outl 0xcf8 0x80000810
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80000814
-outl 0xcf8 0x80000804
-outw 0xcfc 0x7
-outl 0xcf8 0x800008a2
-write 0xe0000420 0x1fc 0x3ff9ffdf00000000002467ff272d2f3ff9ffdf000000000024=
-6fff272d2f3ff9ffdf00000000002477ff272d2f3ff9ffdf0000000000247fff272d2f3ff9f=
-fdf00000000002487ff272d2f3ff9ffdf0000000000248fff272d2f3ff9ffdf000000000024=
-97ff272d2f3ff9ffdf0000000000249fff272d2f3ff9ffdf000000000024a7ff272d2f3ff9f=
-fdf000000000024afff272d2f3ff9ffdf000000000024b7ff272d2f3ff9ffdf000000000024=
-bfff272d2f3ff9ffdf000000000024c7ff272d2f3ff9ffdf000000000024cfff272d2f3ff9f=
-fdf000000000024d7ff272d2f3ff9ffdf000000000024dfff272d2f3ff9ffdf000000000024=
-e7ff272d2f3ff9ffdf000000000024efff272d2f3ff9ffdf000000000024f7ff272d2f3ff9f=
-fdf000000000024ffff272d2f3ff9ffdf00000000002407ff272d2f3ff9ffdf000000000024=
-0fff272d2f3ff9ffdf00000000002417ff272d2f3ff9ffdf0000000000241fff272d2f3ff9f=
-fdf00000000002427ff272d2f3ff9ffdf0000000000242fff272d2f3ff9ffdf000000000024=
-37ff272d2f3ff9ffdf0000000000243fff272d2f3ff9ffdf00000000002447ff272d2f3ff9f=
-fdf0000000000244fff272d2f3ff9ffdf00000000002457ff272d2f3ff9ffdf000000000024=
-5fff272d2f3ff9ffdf00000000002467ff272d2f3ff9ffdf0000000000246fff27
-write 0xe00000b8 0x349 0xa300f52bff003100ffa300f52bff003100ffa300f52bff0031=
-00ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100f=
-fa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa3=
-00f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f=
-52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52b=
-ff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff0=
-03100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff0031=
-00ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100f=
-fa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa3=
-00f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f=
-52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52b=
-ff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff0=
-03100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff0031=
-00ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100f=
-fa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa3=
-00f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f=
-52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52b=
-ff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff0=
-03100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff0031=
-00ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100f=
-fa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa3=
-00f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f=
-52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52b
-EOF
-
-I also attached the trace to this launchpad report, in case the
-formatting is broken:
-
-qemu-system-i386 -M pc-q35-5.0 -netdev user,id=3Dqtest-bn0 -device
-e1000e,netdev=3Dqtest-bn0 -display none -nodefaults -nographic -qtest
-stdio -monitor none -serial none < attachment
-
-Please let me know if I can provide any further info.
--Alex
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "attachment"
-   https://bugs.launchpad.net/bugs/1878067/+attachment/5369990/+files/attac=
-hment
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878067
-
-Title:
-  Assertion failure in eth_get_gso_type through the e1000e
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  While fuzzing, I found an input that triggers an assertion failure in
-  eth_get_gso_type through the e1000e:
-
-  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
-  #2  0x00007ffff7c75dc3 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so=
-.0
-  #3  0x00007ffff7cd0b0a in g_assertion_message_expr () at /usr/lib/x86_64-=
-linux-gnu/libglib-2.0.so.0
-  #4  0x0000555556875f33 in eth_get_gso_type (l3_proto=3D<optimized out>, l=
-3_hdr=3D<optimized out>, l4proto=3D<optimized out>) at /home/alxndr/Develop=
-ment/qemu/net/eth.c:76
-  #5  0x00005555565e09ac in net_tx_pkt_get_gso_type (pkt=3D0x631000014800, =
-tso_enable=3D0x1) at /home/alxndr/Development/qemu/hw/net/net_tx_pkt.c:300
-  #6  0x00005555565e09ac in net_tx_pkt_build_vheader (pkt=3D0x631000014800,=
- tso_enable=3D<optimized out>, csum_enable=3D<optimized out>, gso_size=3D<o=
-ptimized out>) at /home/alxndr/Development/qemu/hw/net/net_tx_pkt.c:316
-  #7  0x000055555660bdb1 in e1000e_setup_tx_offloads (core=3D0x7fffeeb754e0=
-, tx=3D0x7fffeeb95748) at /home/alxndr/Development/qemu/hw/net/e1000e_core.=
-c:637
-  #8  0x000055555660bdb1 in e1000e_tx_pkt_send (core=3D0x7fffeeb754e0, tx=
-=3D0x7fffeeb95748, queue_index=3D<optimized out>) at /home/alxndr/Developme=
-nt/qemu/hw/net/e1000e_core.c:658
-  #9  0x000055555660bdb1 in e1000e_process_tx_desc (core=3D0x7fffeeb754e0, =
-tx=3D0x7fffeeb95748, dp=3D<optimized out>, queue_index=3D<optimized out>) a=
-t /home/alxndr/Development/qemu/hw/net/e1000e_core.c:743
-  #10 0x000055555660bdb1 in e1000e_start_xmit (core=3Dcore@entry=3D0x7fffee=
-b754e0, txr=3D<optimized out>, txr@entry=3D0x7fffffffbe60) at /home/alxndr/=
-Development/qemu/hw/net/e1000e_core.c:934
-  #11 0x0000555556607e2e in e1000e_set_tctl (core=3D0x7fffeeb754e0, index=
-=3D<optimized out>, val=3D<optimized out>) at /home/alxndr/Development/qemu=
-/hw/net/e1000e_core.c:2431
-  #12 0x00005555565f90fd in e1000e_core_write (core=3D<optimized out>, addr=
-=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home=
-/alxndr/Development/qemu/hw/net/e1000e_core.c:3261
-  #13 0x0000555555ff4337 in memory_region_write_accessor (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
->, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/a=
-lxndr/Development/qemu/memory.c:483
-  #14 0x0000555555ff3ce0 in access_with_adjusted_size (addr=3D<optimized ou=
-t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
-imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
-, mr=3D0x7fffeeb75110, attrs=3D...) at /home/alxndr/Development/qemu/memory=
-.c:544
-  #15 0x0000555555ff3ce0 in memory_region_dispatch_write (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, data=3D0x2b, op=3D<optimized out>, attrs=3D...=
-) at /home/alxndr/Development/qemu/memory.c:1476
-
-  I can reproduce it in qemu 5.0 built with using:
-  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
--q35-5.0 -netdev user,id=3Dqtest-bn0 -device e1000e,netdev=3Dqtest-bn0 -dis=
-play none -nodefaults -nographic -qtest stdio -monitor none -serial none
-  outl 0xcf8 0x80000810
-  outl 0xcfc 0xe0000000
-  outl 0xcf8 0x80000814
-  outl 0xcf8 0x80000804
-  outw 0xcfc 0x7
-  outl 0xcf8 0x800008a2
-  write 0xe0000420 0x1fc 0x3ff9ffdf00000000002467ff272d2f3ff9ffdf0000000000=
-246fff272d2f3ff9ffdf00000000002477ff272d2f3ff9ffdf0000000000247fff272d2f3ff=
-9ffdf00000000002487ff272d2f3ff9ffdf0000000000248fff272d2f3ff9ffdf0000000000=
-2497ff272d2f3ff9ffdf0000000000249fff272d2f3ff9ffdf000000000024a7ff272d2f3ff=
-9ffdf000000000024afff272d2f3ff9ffdf000000000024b7ff272d2f3ff9ffdf0000000000=
-24bfff272d2f3ff9ffdf000000000024c7ff272d2f3ff9ffdf000000000024cfff272d2f3ff=
-9ffdf000000000024d7ff272d2f3ff9ffdf000000000024dfff272d2f3ff9ffdf0000000000=
-24e7ff272d2f3ff9ffdf000000000024efff272d2f3ff9ffdf000000000024f7ff272d2f3ff=
-9ffdf000000000024ffff272d2f3ff9ffdf00000000002407ff272d2f3ff9ffdf0000000000=
-240fff272d2f3ff9ffdf00000000002417ff272d2f3ff9ffdf0000000000241fff272d2f3ff=
-9ffdf00000000002427ff272d2f3ff9ffdf0000000000242fff272d2f3ff9ffdf0000000000=
-2437ff272d2f3ff9ffdf0000000000243fff272d2f3ff9ffdf00000000002447ff272d2f3ff=
-9ffdf0000000000244fff272d2f3ff9ffdf00000000002457ff272d2f3ff9ffdf0000000000=
-245fff272d2f3ff9ffdf00000000002467ff272d2f3ff9ffdf0000000000246fff27
-  write 0xe00000b8 0x349 0xa300f52bff003100ffa300f52bff003100ffa300f52bff00=
-3100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff00310=
-0ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ff=
-a300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa30=
-0f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f5=
-2bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bf=
-f003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff00=
-3100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff00310=
-0ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ff=
-a300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa30=
-0f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f5=
-2bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bf=
-f003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff00=
-3100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff00310=
-0ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ff=
-a300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa30=
-0f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f5=
-2bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bf=
-f003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff00=
-3100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff00310=
-0ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ff=
-a300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52bff003100ffa30=
-0f52bff003100ffa300f52bff003100ffa300f52bff003100ffa300f52b
-  EOF
-
-  I also attached the trace to this launchpad report, in case the
-  formatting is broken:
-
-  qemu-system-i386 -M pc-q35-5.0 -netdev user,id=3Dqtest-bn0 -device
-  e1000e,netdev=3Dqtest-bn0 -display none -nodefaults -nographic -qtest
-  stdio -monitor none -serial none < attachment
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878067/+subscriptions
+Thanks,
+Laurent
 
