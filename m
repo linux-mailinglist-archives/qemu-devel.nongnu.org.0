@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754CD1CD6DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:51:49 +0200 (CEST)
-Received: from localhost ([::1]:58242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F6A1CD6EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:56:03 +0200 (CEST)
+Received: from localhost ([::1]:32906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY62G-0002C9-IJ
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51782)
+	id 1jY66M-00048Q-AH
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY609-0008TA-NY
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:49:37 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:33219)
+ id 1jY65J-0003bu-8f
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:54:57 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:39024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY608-0000y9-V6
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:49:37 -0400
-Received: by mail-ot1-x344.google.com with SMTP id j26so7185206ots.0
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:49:36 -0700 (PDT)
+ id 1jY65H-0002Hw-5i
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:54:56 -0400
+Received: by mail-oi1-x243.google.com with SMTP id b18so14692627oic.6
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=p/L8YiOMY7moj54hTlWVGnurquvkmgCcL9OxN5wRMgY=;
- b=UxrMYuTVs4ja3V4pdqKqJb4BM5q2mLt2k7jkxgDNIJstfue6bI9BPVMGtmu2+jnqjE
- 07SloKweRkO01mzTf0xw8zV8SLzgC3bvitlSHgKN7NxS5yefkMOGFHB61JmUhYQMPJD+
- +5o3KWb0EeCBdCMW5t5VDRDlv6qRsliks4I5VKHVfuYd3NIoOuhGauZhhL/WfwK0v4mA
- UgBYuzx5CcH+L2NTydh8kb+irzJkVjx9QxNFgJvZLoFai5u/9iMHEDIn4GkCjxksBJqL
- 6d9jdYfjrV7ApxtIuoyastmqyhR2F7TGUvOTes47B9wvyKdMfQ8XrvAez7A7zQjtXqHW
- mAoQ==
+ bh=QjaTUArLqqwGoWa/w8L2qR728XtmXgTP5JiymM5u3wY=;
+ b=SKZcWQcHnSXpnDa/lTWWyOQ9hVDjzBBUtZVkr36MY4+dFSoqIPzJ1rmRJW1VqEo7Ha
+ XBcy9YX8p5WBMLT//m3GvKrrIfPJUFh+bQaE7jtRKP/LhQt4TI5CaIHBLotnubulAKKh
+ UcMJEbKyGqA//SuPMFwpxSHvflJsoHlH0jzexEZjCBrZv3ZBv+AO23erAlXqwRe7tsNY
+ QiRuaXlFrpY3vcL5RQg6XUcoZgYOfnAnHwEyxbfu7wjD0rCTiQmvNOk80yRyraieBb8u
+ p64vlY0A/cq9SWKXF4ino5KMdaE2oDhivl0qqXYtURvBSkXc2+//t/SmZh0KpSpcigBk
+ 5xpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=p/L8YiOMY7moj54hTlWVGnurquvkmgCcL9OxN5wRMgY=;
- b=r4nNCBf014uCE4jxNEtv4kh8NhiWdUzICArbki7XyaIfZpTkfRqpfLO3imGFr8628E
- K2n2Hm2xAeVhqPQk6XLPUmGa8lU/rEeoht2KHaHPamTrQ6ABs8pGERTiO5jD3R+sBCVa
- cPr1W6AgwRB3xr/0hq+a5hXQZ0qJeDH+yor9LBTEuHtz0BfGuYhm1Vncc64jtsycpmJy
- +qwDRH4vpvbVWB5HJrX6j4X/4fgA0kCeBPhrfPwEIoyaNKILv1+GaMzOOUHuhcEnDe9+
- c8d2HSOFMFqYgZUmAQuZMyrdU3jUVQTWc4g8SncP+jXLPohFxIo6KoioGQunQ3O/aVXs
- VlDg==
-X-Gm-Message-State: AGi0PubG+l0SmhYZBrM2RaR0zlWk6IIDWTLIU9MKOo06VWj49xS8exDX
- n2pPEMennHFdxGMlY6dE+cifPkTZJEzPCQDv7m5g8g==
-X-Google-Smtp-Source: APiQypKknY2StE2gPeVG8BKrnpo16rxX+QEDBQiju3EB1ws6Ji1M7zJYgXNwAxRgi72X7QCPQYpXf+oF7rBOzxzo7QM=
-X-Received: by 2002:a05:6830:22dc:: with SMTP id
- q28mr11510180otc.221.1589194175902; 
- Mon, 11 May 2020 03:49:35 -0700 (PDT)
+ bh=QjaTUArLqqwGoWa/w8L2qR728XtmXgTP5JiymM5u3wY=;
+ b=kkXPqscu/yr1Qe6vKzsiZ2PHEmBNoldMm+aJXvdxFzIKKNj1SQoEidcYDsYHh2c+Hw
+ raOdLQ5DSeXYRK69VNrjUMFsrT48H/fW2WuZFr0lmtV5UnjE6rEiCR59nOTz9JmNw4n8
+ 8haTV4qvbNol6srYOw46sYcCkFYNq8LemQlrcUbhYqns7VGHz0l7wym/2VXwxpMRBps2
+ 12ANAxZo8rWYuvVdNHWMxAEiGE5+1Mx77XLsoRgJIfYHwHCzpE0frhhXuEOUbS5lBZAo
+ 1LDvbUkjsxpqaNfsKCX+N9K6JqbF9T7Gtqcz8iP+zkm5lHnpyJIXr6FvPlB6gm02gzbT
+ S+Ow==
+X-Gm-Message-State: AGi0PubNxN/QLvRpywnw5TbuUio8OnJFP2ks/IIVn9u3RwqzDyvCNSbX
+ 7AGHyUrlNElXGP8SUXV+DH42b9mx5lsJONfNMIr73g==
+X-Google-Smtp-Source: APiQypLFthu4QgZlPiyAVnhmYsH7llx9Uq4jNPwPYnSdHGoXnXB9SWbhaqvegLpV/hH0bMWWKg0UhNsVC39pzWK0ZAk=
+X-Received: by 2002:a54:400c:: with SMTP id x12mr18504395oie.146.1589194493404; 
+ Mon, 11 May 2020 03:54:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200505095945.23146-1-f4bug@amsat.org>
-In-Reply-To: <20200505095945.23146-1-f4bug@amsat.org>
+References: <20200506173035.2154053-1-patrick@stwcx.xyz>
+ <20200506183219.2166987-1-patrick@stwcx.xyz>
+In-Reply-To: <20200506183219.2166987-1-patrick@stwcx.xyz>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 May 2020 11:49:25 +0100
-Message-ID: <CAFEAcA_dH+xKQegbsQkOM9YASEMZrmLO5HL-L8bWsgUq+hfTsw@mail.gmail.com>
-Subject: Re: [RFC PATCH] hw/arm/musicpal: Map the UART devices unconditionally
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 11 May 2020 11:54:42 +0100
+Message-ID: <CAFEAcA8RMhq3aZcqzqFkaWCkwkzfptxAyAogEEg+BcqNU1BquA@mail.gmail.com>
+Subject: Re: [PATCH v3] aspeed: Add support for the sonorapass-bmc board
+To: Patrick Williams <patrick@stwcx.xyz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,29 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Amithash Prasad <amithash@fb.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Vijay Khemka <vijaykhemka@fb.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 May 2020 at 10:59, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
+On Wed, 6 May 2020 at 19:32, Patrick Williams <patrick@stwcx.xyz> wrote:
 >
-> I can't find proper documentation or datasheet, but it is likely
-> a MMIO mapped serial device mapped in the 0x80000000..0x8000ffff
-> range belongs to the SoC address space, thus is always mapped in
-> the memory bus.
-> Map the devices on the bus regardless a chardev is attached to it.
+> Sonora Pass is a 2 socket x86 motherboard designed by Facebook
+> and supported by OpenBMC.  Strapping configuration was obtained
+> from hardware and i2c configuration is based on dts found at:
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> from 2019... found while doing housekeeping
-> ---
+> https://github.com/facebook/openbmc-linux/blob/1633c87b8ba7c162095787c988=
+979b748ba65dc8/arch/arm/boot/dts/aspeed-bmc-facebook-sonorapass.dts
+>
+> Booted a test image of http://github.com/facebook/openbmc to login
+> prompt.
+>
+> Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+> Reviewed-by: Amithash Prasad <amithash@fb.com>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
+Looking up through the thread I can't find the email where
+Amithash gave his reviewed-by tag -- did I miss it?
 
+PS: for the future, v2/v3 etc patches should be sent as
+fresh emails, not as followups/replies to the v1.
 
-
-Applied to target-arm.next, thanks.
-
+thanks
 -- PMM
 
