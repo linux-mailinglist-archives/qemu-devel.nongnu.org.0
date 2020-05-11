@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C9F1CDA5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:44:17 +0200 (CEST)
-Received: from localhost ([::1]:56696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 791C91CD9E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:31:45 +0200 (CEST)
+Received: from localhost ([::1]:44948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY7n6-0007MI-3r
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37704)
+	id 1jY7ay-00088o-6C
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:31:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY7X0-0006LK-AX
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:27:38 -0400
-Received: from mout.web.de ([212.227.17.12]:55115)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY7Wz-000649-9k
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:27:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589200033;
- bh=WHLl8IB544s/xbL4S9Gq3qqev/C2bzs+WF4myt75DTM=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=cbkxlGQH2T6rZ9gSIELKLDnoQK7B4CBVqK1QZJHBEQoqspsLl9S8lWvIGpWc4B6iz
- nrCEPk9kMfE+oTDkUxRBLZBUXsCQ/XbFJECSLYqs4KPlJIMFHDZkgemApfij10bNLM
- UNCN/2nxhfloXAjgQWBIR2coH56LrvYa9ubF0N+c=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LeLWz-1ikXgy0UcH-00qCGE; Mon, 11
- May 2020 14:27:13 +0200
-Date: Mon, 11 May 2020 14:27:11 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH 5/5] MAINTAINERS: Add myself as maintainer for COLO resource
- agent
-Message-ID: <57d7784ead7a2f3be4437b14a0c69ed87bc55a91.1589199922.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1589199922.git.lukasstraub2@web.de>
-References: <cover.1589199922.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY7Yz-0007J9-5V
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:29:41 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40871
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY7Yv-0006JD-Uj
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:29:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589200176;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L8L4dH79F/shaoDlU4MtTMVVRmb5egfDfK9KucJ74l8=;
+ b=huSvlD/4V8ymdevWIYQxB6GpqBtcZbPNX5LSmWSo3UwqQp/l1xaYAXybWy1J/B3a2w3jft
+ sR0UIdPsJzEwSdrFTZqLC2Jr9CDHT57qfIL+pdABTcB7AZqP17IHnR2dpAo9t6/VF4Dkva
+ cDK0cRpiOHrU7LbtVRaNlA9tDDbFmAA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-eaHbUZ9WNx6j4E0E5HqSPA-1; Mon, 11 May 2020 08:29:34 -0400
+X-MC-Unique: eaHbUZ9WNx6j4E0E5HqSPA-1
+Received: by mail-wr1-f71.google.com with SMTP id 30so5165114wrq.15
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 05:29:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=L8L4dH79F/shaoDlU4MtTMVVRmb5egfDfK9KucJ74l8=;
+ b=in6ya3P3hKBiSKXxDsRhj10KrDS2Caxjnu60BJUgKxMPURwE0TNgQMmxjhyy7XWkBM
+ Ge+LV8Cb9sL7XFC7hvqiedG6xKawuDTgA0qWCglov/NJwCZwO7+5EGkgINlpmV6+1ajq
+ sK9BwwybYmh7ip24id14qNewRqkstsYI3GzNZdAUrqFrCVcJiqt/YeEUiNtFhryQOU+0
+ Dh+0y6mguun4XhKwk1FDH4R2NKdRxqY3nv6P1XgKnk3xFumfo8Um1boXRAOzY9IgRsbq
+ 7cCYrRHQaeLg6SbdfUscA6OVwKor0S4bpkgeppz4qoo5yhMmDARFcYOrIEkGpem78Jdr
+ MtVg==
+X-Gm-Message-State: AGi0Pub3m2bmpaY4qrLFagoitV1mGwndxckuTCkqhbqAekXBQrQaqMZP
+ sYqLQjCeSvtKHhyXtTa7rSpQoTWL+OPv/STJM+LX9qkl3W8PjUqu6AOiSTu8lUYc5Jgp4ekDlAn
+ COof2tYgzjHF38TI=
+X-Received: by 2002:a5d:6b90:: with SMTP id n16mr439026wrx.220.1589200173548; 
+ Mon, 11 May 2020 05:29:33 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKcKEiOnqfAsZMxICoK31AGYiX38a3/H8tq8UPmIBsMSzRauMwJT4miSZdGi0Vew+lO78Z9xw==
+X-Received: by 2002:a5d:6b90:: with SMTP id n16mr438995wrx.220.1589200173317; 
+ Mon, 11 May 2020 05:29:33 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id q17sm9650822wmk.36.2020.05.11.05.29.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 May 2020 05:29:32 -0700 (PDT)
+Subject: Re: [PATCH v26 01/10] acpi: nvdimm: change NVDIMM_UUID_LE to a common
+ macro
+To: Dongjiu Geng <gengdongjiu@huawei.com>, imammedo@redhat.com,
+ mst@redhat.com, xiaoguangrong.eric@gmail.com, peter.maydell@linaro.org,
+ shannon.zhaosl@gmail.com, pbonzini@redhat.com, fam@euphon.net,
+ rth@twiddle.net, ehabkost@redhat.com, mtosatti@redhat.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org, qemu-arm@nongnu.org
+References: <20200507134205.7559-1-gengdongjiu@huawei.com>
+ <20200507134205.7559-2-gengdongjiu@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4f29e19c-cb37-05e6-0ae3-c019370e090b@redhat.com>
+Date: Mon, 11 May 2020 14:29:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/tqhr02zDZJ9i_MNE=83F3ke";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:rA8ZYAEABW72dxjlKx4b62qk8VzjlQyHSWFmMuBHAmzxmNQSYag
- u9zSg6qifV9j7h4+bfsIh/3gOsZjqltL/lyiBnCbdUtV7JwAfUtDcLnq++guFp2+vEFRjCM
- C+oZyWqv4KhBYixUVxOJtp9X1CNGdojx1EBqtevqgIAdt7qj0fnRWHQAgagV6RlBCuMP1Nf
- oXki2At3aT1gvJPA1fFOg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:G48vKEeada8=:qegn5ve0cO9B1KEGUmfjMQ
- RkbkkDtC5siS6EuLL6VqenUD6XrAYNnbr9hZhNODXVZh6THD2yEtHtJGPziMakXfwiGTcd5UR
- 7I8TVOkgX71tvD5oAWz6UnEjL9YkMXL/7QcnvgGJvgHkBpoddDQOtmKQ0jNQiOzdomB6N433m
- GdTH79mC5jBrdpikdwzhClcGByfr+rJSHBJRL971gILu/+K5Hiv8P5rMqmZp4DIw352Zv304O
- +ptC5jb2G7lIB9slCPv75Oyh7tfm2UUAThBPtEg2dp7g7xh7PB4FrBGTWPfNvSIm582q1UORp
- 052JM/dN8DhEa+kCdRuK93dwtxvGPwHk5Qsb0GHA4v5HCuUk77Wg5hTyX5PPVoXK9tXm7Euzt
- soSoq9+xHjx/vw7OAzjH2WWzEfotatAmIEo4hslr4/cDBht3z7hxG+LCMoprkcKYOiv/NdXvU
- lvNQoaa0UN35enh5jgo49KlGcm4hbdFshEclvDnPzrK/rGUCRlb2fKNtCniMRSR82WZrOFavb
- oaJyAoU4t/zgLWRDjrzpaFvL62flIy3hTvR+EOmP8xU/8SUtmjwZZaLYMw+QPwZB4x8zlDPD4
- obMBjaPPeIDqMAEFdDgZOkXrYnmsE1GIqaIYbcPr197jO1dzk1WuMMaQjZPOHtpuIdDLApo09
- a6Ir1sczfsCAv3DYDnk5GSF+kJiKT42ZXW8SNQt+GKz75X/Wlx0Kx6MWAjl2ifb/kvPj7A7lh
- QsQv4tkyizcviCXCisaJenyMOwUfJeW94SODSzNBO+kLmo8DpNa/+2r6Vl3hlsKrEsmXFAJSG
- +ZUwX8hUwhVFFA0xfFKOMXM1WlHrarXvZhqVhYlXdjUrmC6zhaDtjna9U7Ebx+qvfoDFNofvB
- fGeXNyZqUaTGlqdcW/FztQmW2QST2xPAr5KKjtQpSwFeNaRVOTJSi3lqgmKvzStjIFe/TcS+l
- VIw/JgQUJT5Jt1zQU0zNfd5CilmUlaeBi/mBGLni+0SjxETNFYNXkLO/tkqB58dINeA2UPKsR
- NeoHJXS0xBF10Epg0A5EgqzdWSwoT1zsSwOcRkgG1ozRGqZeLC5elW7flMziD+JzZ8J2xWHup
- i+uv+K6q1xu7SPg0crvGFHmXhiEj8xg9b9HTx5kWdd9zcsmvWprKf6Vt7XELw0PqOq5MVini8
- qoi+XM5S/HU+mWMpA29y7KpuCAAMNZ4U7Kc3CiJbNrw9SHgTbtap3KLod48AiVSN4AGYjIBD+
- IdzjMkE/+B2P++5L4
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 07:10:54
+In-Reply-To: <20200507134205.7559-2-gengdongjiu@huawei.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,63 +103,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Alberto Garcia <berto@igalia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: zhengxiang9@huawei.com, linuxarm@huawei.com, Jonathan.Cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/tqhr02zDZJ9i_MNE=83F3ke
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 5/7/20 3:41 PM, Dongjiu Geng wrote:
+> The little end UUID is used in many places, so make
+> NVDIMM_UUID_LE to a common macro to convert the UUID
+> to a little end array.
+> 
+> Reviewed-by: Xiang Zheng <zhengxiang9@huawei.com>
+> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> ---
+> Change since v25:
+> 1. Address Peter's comments to add a proper doc-comment comment for
+>     UUID_LE macros.
+> ---
+>   hw/acpi/nvdimm.c    | 10 +++-------
+>   include/qemu/uuid.h | 26 ++++++++++++++++++++++++++
+>   slirp               |  2 +-
+>   3 files changed, 30 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index fa7bf8b..9316d12 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -27,6 +27,7 @@
+>    */
+>   
+>   #include "qemu/osdep.h"
+> +#include "qemu/uuid.h"
+>   #include "hw/acpi/acpi.h"
+>   #include "hw/acpi/aml-build.h"
+>   #include "hw/acpi/bios-linker-loader.h"
+> @@ -34,18 +35,13 @@
+>   #include "hw/mem/nvdimm.h"
+>   #include "qemu/nvdimm-utils.h"
+>   
+> -#define NVDIMM_UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)             \
+> -   { (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
+> -     (b) & 0xff, ((b) >> 8) & 0xff, (c) & 0xff, ((c) >> 8) & 0xff,          \
+> -     (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }
+> -
+>   /*
+>    * define Byte Addressable Persistent Memory (PM) Region according to
+>    * ACPI 6.0: 5.2.25.1 System Physical Address Range Structure.
+>    */
+>   static const uint8_t nvdimm_nfit_spa_uuid[] =
+> -      NVDIMM_UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
+> -                     0x18, 0xb7, 0x8c, 0xdb);
+> +      UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
+> +              0x18, 0xb7, 0x8c, 0xdb);
+>   
+>   /*
+>    * NVDIMM Firmware Interface Table
+> diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
+> index 129c45f..2d17a90 100644
+> --- a/include/qemu/uuid.h
+> +++ b/include/qemu/uuid.h
+> @@ -34,6 +34,32 @@ typedef struct {
+>       };
+>   } QemuUUID;
+>   
+> +/**
+> + * @time_low: The low field of the timestamp
+> + * @time_mid: The middle field of the timestamp
+> + * @time_hi_and_version: The high field of the timestamp
+> + *                       multiplexed with the version number
+> + * @clock_seq_hi_and_reserved: The high field of the clock
+> + *                             sequence multiplexed with the variant
+> + * @clock_seq_low: The low field of the clock sequence
+> + * @node0: The spatially unique node0 identifier
+> + * @node1: The spatially unique node1 identifier
+> + * @node2: The spatially unique node2 identifier
+> + * @node3: The spatially unique node3 identifier
+> + * @node4: The spatially unique node4 identifier
+> + * @node5: The spatially unique node5 identifier
+> + *
+> + * This macro converts the fields of UUID to little-endian array
+> + */
+> +#define UUID_LE(time_low, time_mid, time_hi_and_version, \
+> +  clock_seq_hi_and_reserved, clock_seq_low, node0, node1, node2, \
+> +  node3, node4, node5) \
+> +  { (time_low) & 0xff, ((time_low) >> 8) & 0xff, ((time_low) >> 16) & 0xff, \
+> +    ((time_low) >> 24) & 0xff, (time_mid) & 0xff, ((time_mid) >> 8) & 0xff, \
+> +    (time_hi_and_version) & 0xff, ((time_hi_and_version) >> 8) & 0xff, \
+> +    (clock_seq_hi_and_reserved), (clock_seq_low), (node0), (node1), (node2),\
+> +    (node3), (node4), (node5) }
+> +
+>   #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
+>                    "%02hhx%02hhx-%02hhx%02hhx-" \
+>                    "%02hhx%02hhx-" \
+> diff --git a/slirp b/slirp
+> index 2faae0f..55ab21c 160000
+> --- a/slirp
+> +++ b/slirp
+> @@ -1 +1 @@
+> -Subproject commit 2faae0f778f818fadc873308f983289df697eb93
+> +Subproject commit 55ab21c9a36852915b81f1b41ebaf3b6509dd8ba
 
-While I'm not going to have much time for this, I'll still
-try to test and review patches.
+The SLiRP submodule change is certainly unrelated.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8cbc1fac2b..4c623a96e1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2466,6 +2466,12 @@ F: net/colo*
- F: net/filter-rewriter.c
- F: net/filter-mirror.c
-=20
-+COLO resource agent and testing
-+M: Lukas Straub <lukasstraub2@web.de>
-+S: Odd fixes
-+F: scripts/colo-resource-agent/*
-+F: tests/acceptance/colo.py
-+
- Record/replay
- M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
- R: Paolo Bonzini <pbonzini@redhat.com>
---=20
-2.20.1
-
---Sig_/tqhr02zDZJ9i_MNE=83F3ke
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65RJ8ACgkQNasLKJxd
-slic8g//U10f9tOlXyXC9RQPuopPuMipcghIJ18pUnsQb/KRlmne8I2xv4NzeKOq
-0EiOlVmwoFrqTfbmXHumd36N0LHLuxwYpyRm5/fxxoDhEllinujJsZcodybUK/n2
-Avw8Xb+uDG6c9J15yw7u8TRQy3aVtjtFLYIJh+67mIleginakKN8yZ/TuLuvDDSC
-NDHggjeGy3KL2+Y95UszYm8h/99cXoLeDDGJPy2IYtK53Q6e6TqXKlSg3Kf3E0Ut
-AdNODfjvMv7Q9p8CcjwJpWP/EUauXfraWTH+rUPC7XCH6h+j+3pPAPgV8sQEb1yH
-CwtUZ8Kgw7VmUqq/11EvaeZXOLlxVJ+sa8nQ/KlIt75T7BjN+7FgbQ1zCXWSgpEk
-lWScfERC7rb5nGss+2B5G6/ztp11ShWyshXpIjahOa4Bw9t+Cf9J+rjYRfdqbBFt
-Teal6DmGPgkydjShw3i6F8ftosK+G1UWbuPzruvV9igASWh4HDJ/Z8qTcZZxsSam
-u/hoGe3LdCmvlyHcCbxV+/OAneecyiDq3T7ro7YQJ0tk3Rlslil2eHxLVkPvB1xH
-8P9TtTexE5JVcmsohZ2bjcKp2cxGQ+cjYxefneD4tbc0HbHGwgeTJDzadpw9Y8KT
-2YZ5BSoWVibnA40WPcUByT6VQX7EbnaZO6UqoETckDZCeetTtfw=
-=QTmt
------END PGP SIGNATURE-----
-
---Sig_/tqhr02zDZJ9i_MNE=83F3ke--
 
