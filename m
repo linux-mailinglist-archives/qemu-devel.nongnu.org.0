@@ -2,61 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310BA1CDCEC
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:19:29 +0200 (CEST)
-Received: from localhost ([::1]:45414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF261CDD15
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:26:12 +0200 (CEST)
+Received: from localhost ([::1]:36534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9HD-0001tF-TD
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55650)
+	id 1jY9Ni-000436-5D
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jY99H-0000GM-2Y
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:11:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:47985
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY9MH-0002SC-LU
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:24:41 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24758
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jY99G-0003m9-8C
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:11:14 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY9ME-0000DS-Ts
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:24:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589206273;
+ s=mimecast20190719; t=1589207077;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=kX9jF7eoGAEHyIV6/c7y0ZOPuncIrUjOHAqyeUtGQzg=;
- b=GGgHS3Kt0AIK/5DbWPzORQ/YD4s6TCH4qu2Tg4A+T5/1nsVjVkddx4eFodJThfCssZgl6R
- G8M/SX8coZmgpaHEp3FplOZzJ5Rl6x9HsJZwoUGlFy3N8RBKLGhpQ5Jg3OsEMEHRXFKTWD
- Tn+xiOY9IaDzqcF2L+gWAkExufLo3AU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-OZKtK-JhPj2O7Gc86mdgnA-1; Mon, 11 May 2020 10:11:09 -0400
-X-MC-Unique: OZKtK-JhPj2O7Gc86mdgnA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9E68872FE2
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 14:11:08 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D7FF5C1B2;
- Mon, 11 May 2020 14:11:07 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] numa: prevent usage of -M memory-backend and -numa memdev
- at the same time
-Date: Mon, 11 May 2020 10:11:03 -0400
-Message-Id: <20200511141103.43768-3-imammedo@redhat.com>
-In-Reply-To: <20200511141103.43768-1-imammedo@redhat.com>
-References: <20200511141103.43768-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aN8Pu9t+QaXRZUJqFXsydhyvkyWjMzawV1OGGeVJCI0=;
+ b=MQxsNL5T/FPvdo2siv2t5JOnYOjKE6KAz517LU3FRJm43fuXBAVp7SJ8Et7eA6VPoonQTv
+ lscmh6fAg7cvwJ+L4udvwrU/US2gzgHNMFmfjLSDx/TeXv/R2lDbGXJ7ais74axmyFHj+1
+ kkoMbNGGITatJeH+3PItdU2YV7Sw7i4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-430-4kqUm5zRPoSHJQuTog-t-w-1; Mon, 11 May 2020 10:24:36 -0400
+X-MC-Unique: 4kqUm5zRPoSHJQuTog-t-w-1
+Received: by mail-wm1-f72.google.com with SMTP id w189so4725639wmg.1
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 07:24:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aN8Pu9t+QaXRZUJqFXsydhyvkyWjMzawV1OGGeVJCI0=;
+ b=jOo+XzqULa3LDJKc8uua7cjbrzsrGko3te/dLN/S/p7gcvO7F5M4nj5cLRMkpo9bHx
+ l4U0fH0dcpJSokRQCxyLBm7sGxJ5Np4MbCgkAxP1RHyqHU7IEvShablW9dj5M5Tkl6q1
+ ynBbcRsXVqhEy3HdNwi9emXgco2jz2Abn/i6PIT2JygtWQdXYB8baXWaXaIIb0GQBbzI
+ Rlg7Kpwbyfkv4iXmbTj+b/VcfgAYFGA0xdL/z0uXyFbhxyQV9LLd95c7UXYynlX8OphZ
+ jQwqI05cKLhViDCU5WnXGJlAR+eINfopAnOf7Lvv99uFP1iCk4iWcdn4jUGL7kCLENGe
+ O49Q==
+X-Gm-Message-State: AGi0PuYnYl09ciVwCLIoeGNviZ8+8hIDsSpMfRhPWaSC/CtHadG/rBR9
+ vbgQbZuMMmeB/VFiaj7j/TerK4VVUNwf64ZWs7uZ6odtN/j6CsQ1gIuBGS7lj6FDy9blbeaYsZu
+ 755AwKZulfgoaYlI=
+X-Received: by 2002:adf:97d9:: with SMTP id t25mr10678509wrb.176.1589207074612; 
+ Mon, 11 May 2020 07:24:34 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIY8qhCWdmbKE1tSvMUG4Itb6sb5Pt/IfOX4Wv8HU7lR/HX4E0G63bhImE+LKUv3JrDoGFKcg==
+X-Received: by 2002:adf:97d9:: with SMTP id t25mr10678488wrb.176.1589207074352; 
+ Mon, 11 May 2020 07:24:34 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id h188sm29378176wme.8.2020.05.11.07.24.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 May 2020 07:24:33 -0700 (PDT)
+Subject: Re: Qemu, VNC and non-US keymaps
+To: B3r3n <B3r3n@argosnet.com>, qemu-discuss@nongnu.org,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <E1jY9FF-0000Po-2c@lists.gnu.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <af732fbf-fd70-97bc-3ea8-25d66f5895de@redhat.com>
+Date: Mon, 11 May 2020 16:24:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <E1jY9FF-0000Po-2c@lists.gnu.org>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 00:05:06
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,55 +99,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Options -M memory-backend and -numa memdev are mutually exclusive,
-and if used together, it might lead to a crash in the worst case.
-For example when the same backend is used with these options together:
-  -m 4G \
-  -object memory-backend-ram,id=mem0,size=4G \
-  -M pc,memory-backend=mem0 \
-  -numa node,memdev=mem0
-QEMU will abort with:
-   exec.c:2006: qemu_ram_set_idstr: Assertion `!new_block->idstr[0]' failed.
+Cc'ing more developers.
 
-and following backtrace:
-    abort ()
-    qemu_ram_set_idstr ()
-    vmstate_register_ram ()
-    vmstate_register_ram_global ()
-    machine_consume_memdev ()
-    numa_init_memdev_container ()
-    numa_complete_configuration ()
-    machine_run_board_init ()
-
-add a check to error out in case the user tries to use both options at
-the same time.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- hw/core/numa.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 316bc50d75..5f81900f88 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -757,6 +757,11 @@ void numa_complete_configuration(MachineState *ms)
-         }
- 
-         if (!numa_uses_legacy_mem() && mc->default_ram_id) {
-+            if (ms->ram_memdev_id) {
-+                error_report("'-machine memory-backend' and '-numa memdev'"
-+                             " properties are mutually exclusive");
-+                exit(1);
-+            }
-             ms->ram = g_new(MemoryRegion, 1);
-             memory_region_init(ms->ram, OBJECT(ms), mc->default_ram_id,
-                                ram_size);
--- 
-2.18.4
+On 5/11/20 4:17 PM, B3r3n wrote:
+> Dear all,
+> 
+> I am struggling for days/weeks with Qemu and its VNC accesses...with 
+> non-US keymaps.
+> 
+> Let me summ the facts:
+> - I am using a french keyboard over a Ubuntu 18.04.
+> - I installed a simple Debian in a Qemu VM, configured with FR keyboard 
+> (AZERTY).
+> - I am launching the Qemu VM with the '-k fr' keymaping (original)
+> - I tested with Qemu 3.1.1, 4.2.0 & 5.0.0.
+> 
+> I fail to have the AltGr keys, critical to frenches (pipe, backslash, 
+> dash etc).
+> checking with showkey, I see the keys arriving properly (29+56, 29+100, 
+> etc).
+> 
+> Considering it might be a debian issue as well, I updated the 
+> qemu/keymaps/fr file to have bar directly with the 6 key (normally bar 
+> is AltGr + 6).
+> For an unknown reason, the '6' then no longer works (showkey shows 
+> nothing as well).
+> 
+> There might be something I miss, and the might also be some bug 
+> somewhere, or some missings.
+> For example, maybe X11 must be installed, even it unused (VNC client 
+> connects to Qemu VNC port directly), or whatever.
+> 
+> Any help appreciated :-)
+> 
+> Thanks
+> 
+> Brgrds
+> 
+> 
 
 
