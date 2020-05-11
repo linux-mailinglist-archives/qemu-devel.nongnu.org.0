@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265431CD982
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:19:41 +0200 (CEST)
-Received: from localhost ([::1]:50102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2E01CDA78
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:51:54 +0200 (CEST)
+Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY7PI-000585-5v
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:19:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36212)
+	id 1jY7uS-0006mG-M1
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jY7N9-0002t4-9r
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:17:27 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33343)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jY7N6-0001Il-Vt
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:17:26 -0400
-Received: by mail-pf1-x441.google.com with SMTP id x77so4671443pfc.0
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 05:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BVb2tEdBBUM2O1DVYo2BYb6jpQaKakfgatqd7gzAt0E=;
- b=pyHulGqxtdfufS67tqQZLFm+BhqcuP0+UEXUPTmIWn/Wt9BLeJTL/3Oac83dnYTwR2
- r7F3qw4Lo+WQQqC8CXMbL2h/gbxY2GUYwHXCmdqIRtL+AeqFFO14XKtdvZYMcwbMRLwx
- tOV9HOtxxQic/GhaA5XpL+5bFo6mzf6Y2ruusQw6Khih5Fl9bqPgoLPQalII+/VvqQEt
- +UtmkMTdZVh/6ttgEyt/MpGGECiPTkD19RGHtT6xeJUWJoRCZg9lv4GSEUSjMDETq0Sw
- TUOcvjtCbc2bU2NeHq5iO58C+QBatPZKqVsNgavnhuKOIdk4qLPCEaVXZa+IPwS9gXMB
- GgnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=BVb2tEdBBUM2O1DVYo2BYb6jpQaKakfgatqd7gzAt0E=;
- b=dYq/UVINZd0Z1LCLxVhWK4KX/1PBVp+PmDXA1jw21LoU/I5r6a5uQrB/sy84D18YDr
- gfyKKkvTXu2do9d1FHVEwvmOnqSvo2KE1GRTVivBDZCeiF6qKyvYmrZG8FMcJ48AdDNZ
- HHXrBjlJ0WnUR0IaAMLygRyxq7GnA21jiNODclD50yyjcd76a/RKQqvepTcZDCF7Qg5i
- pA9OWpCQwscHlpk54/g0PSaal/HwfO7AJEH/C5BIj9HiwyMBiqSU7eRjV7miwuYABEqt
- MTHBN/groBmD5Z7b889IBz5zHsH/sPzn02f3P9l8P0Z8eWyDlpv9XR4/IJi+Mt9ooMo0
- YvAQ==
-X-Gm-Message-State: AGi0PubLHfA3uSFJeOytPaQcWQe48Nn4GaOiX6t2VWtQGYx4VfVJtnPG
- GQ0WyIaGUyNFFr/0dGlibpSw7A==
-X-Google-Smtp-Source: APiQypJf4aJwQ0Rr8Du+pKo1eWYqFArYpdpDkbyKW45l78dWR/asrHwq7W8Xwdb0pVOlbzzNAyuHuw==
-X-Received: by 2002:a62:3784:: with SMTP id
- e126mr15910492pfa.303.1589199442609; 
- Mon, 11 May 2020 05:17:22 -0700 (PDT)
-Received: from 31_216.localdomain ([47.240.108.254])
- by smtp.gmail.com with ESMTPSA id j24sm1592313pga.51.2020.05.11.05.17.19
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 11 May 2020 05:17:21 -0700 (PDT)
-From: Li Feng <fengli@smartx.com>
-To: kyle@smartx.com, lifeng1519@gmail.com, dimastep@yandex-team.ru,
- marcandre.lureau@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v4] char-socket: initialize reconnect timer only when the
- timer doesn't start
-Date: Mon, 11 May 2020 20:39:47 +0800
-Message-Id: <20200511123947.74383-1-fengli@smartx.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20200428085122.1621-1-fengli@smartx.com>
-References: <20200428085122.1621-1-fengli@smartx.com>
-Received-SPF: none client-ip=2607:f8b0:4864:20::441;
- envelope-from=fengli@smartx.com; helo=mail-pf1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jY7tP-0005w9-Qq
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:50:47 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28824
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jY7tO-0002Px-C7
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:50:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589201444;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aYA6ol9GjahMSUrpPJDAht23k9a8XUsjnG4cH8LJjno=;
+ b=DUwvuoeYRh4gENqEs4h4yf0hsP5a06Q3pSH23WzOBW714qTWLN86kxow17gyIUbyUrN/A9
+ sK1W1G4CXpjxK+uz98jNpiWhvgwOHePi5+nzGMPQShQgczn7WXy2/j47dseP0J8IYgZA+Q
+ 1QCnjeo202vOw/RJ+lgK5c/rAS5fTmk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-2hbqwTU2OkqeKiSpm2LdDg-1; Mon, 11 May 2020 08:50:42 -0400
+X-MC-Unique: 2hbqwTU2OkqeKiSpm2LdDg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4928A100CCA4;
+ Mon, 11 May 2020 12:50:40 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-142.ams2.redhat.com [10.36.114.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D516D619BF;
+ Mon, 11 May 2020 12:50:12 +0000 (UTC)
+Date: Mon, 11 May 2020 14:50:11 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v5 00/18] nvme: refactoring and cleanups
+Message-ID: <20200511125011.GD5661@linux.fritz.box>
+References: <20200505054840.186586-1-its@irrelevant.dk>
+ <20200511062513.3axdfcmr4izulv5x@apples.localdomain>
+ <095f3c9b-5b32-7a88-03e9-ca993ca3f3c9@redhat.com>
+ <20200511070936.fxarxicz7zrj6mop@apples.localdomain>
+MIME-Version: 1.0
+In-Reply-To: <20200511070936.fxarxicz7zrj6mop@apples.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,258 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Feng <fengli@smartx.com>
+Cc: Beata Michalska <beata.michalska@linaro.org>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the disconnect event is triggered in the connecting stage,
-the tcp_chr_disconnect_locked may be called twice.
+Am 11.05.2020 um 09:09 hat Klaus Jensen geschrieben:
+> On May 11 09:00, Philippe Mathieu-Daudé wrote:
+> > Hi Klaus,
+> > 
+> > On 5/11/20 8:25 AM, Klaus Jensen wrote:
+> > > On May  5 07:48, Klaus Jensen wrote:
+> > > > From: Klaus Jensen <k.jensen@samsung.com>
+> > > > 
+> > > > Changes since v5
+> > > > ~~~~~~~~~~~~~~~~
+> > > > No functional changes, just updated Reviewed-by tags. Also, I screwed up
+> > > > the CC list when sending v4.
+> > > > 
+> > > > Philippe and Keith, please add a Reviewed-by to
+> > > > 
+> > > >    * "nvme: factor out pmr setup" and
+> > > >    * "do cmb/pmr init as part of pci init"
+> > > > 
+> > > > since the first one was added and the second one was changed in v4 when
+> > > > rebasing on Kevins block-next tree which had the PMR work that was not
+> > > > in master at the time.
+> > > > 
+> > > > With those in place, it should be ready for Kevin to merge.
+> > > > 
+> > > Gentle ping on this.
+> > > 
+> > > Also, please see the two patches in "[PATCH 0/2] hw/block/nvme: fixes
+> > > for interrupt behavior". I think they should go in preparation to this
+> > > series.
+> > 
+> > I was going to ping Kevin last week, but then read your comment on pach #7
+> > "nvme: add max_ioqpairs device parameter", so I interpreted you would
+> > respin.
+> > Now it is clearer, applying in the following order you don't need to respin,
+> > right?
+> > 
+> > - [PATCH 0/2] hw/block/nvme: fixes for interrupt behavior"
+> > - [PATCH v5 00/18] nvme: refactoring and cleanups
 
-The first call:
-    #0  qemu_chr_socket_restart_timer (chr=0x55555582ee90) at chardev/char-socket.c:120
-    #1  0x000055555558e38c in tcp_chr_disconnect_locked (chr=<optimized out>) at chardev/char-socket.c:490
-    #2  0x000055555558e3cd in tcp_chr_disconnect (chr=0x55555582ee90) at chardev/char-socket.c:497
-    #3  0x000055555558ea32 in tcp_chr_new_client (chr=chr@entry=0x55555582ee90, sioc=sioc@entry=0x55555582f0b0) at chardev/char-socket.c:892
-    #4  0x000055555558eeb8 in qemu_chr_socket_connected (task=0x55555582f300, opaque=<optimized out>) at chardev/char-socket.c:1090
-    #5  0x0000555555574352 in qio_task_complete (task=task@entry=0x55555582f300) at io/task.c:196
-    #6  0x00005555555745f4 in qio_task_thread_result (opaque=0x55555582f300) at io/task.c:111
-    #7  qio_task_wait_thread (task=0x55555582f300) at io/task.c:190
-    #8  0x000055555558f17e in tcp_chr_wait_connected (chr=0x55555582ee90, errp=0x555555802a08 <error_abort>) at chardev/char-socket.c:1013
-    #9  0x0000555555567cbd in char_socket_client_reconnect_test (opaque=0x5555557fe020 <client8unix>) at tests/test-char.c:1152
-The second call:
-    #0  0x00007ffff5ac3277 in raise () from /lib64/libc.so.6
-    #1  0x00007ffff5ac4968 in abort () from /lib64/libc.so.6
-    #2  0x00007ffff5abc096 in __assert_fail_base () from /lib64/libc.so.6
-    #3  0x00007ffff5abc142 in __assert_fail () from /lib64/libc.so.6
-    #4  0x000055555558d10a in qemu_chr_socket_restart_timer (chr=0x55555582ee90) at chardev/char-socket.c:125
-    #5  0x000055555558df0c in tcp_chr_disconnect_locked (chr=<optimized out>) at chardev/char-socket.c:490
-    #6  0x000055555558df4d in tcp_chr_disconnect (chr=0x55555582ee90) at chardev/char-socket.c:497
-    #7  0x000055555558e5b2 in tcp_chr_new_client (chr=chr@entry=0x55555582ee90, sioc=sioc@entry=0x55555582f0b0) at chardev/char-socket.c:892
-    #8  0x000055555558e93a in tcp_chr_connect_client_sync (chr=chr@entry=0x55555582ee90, errp=errp@entry=0x7fffffffd178) at chardev/char-socket.c:944
-    #9  0x000055555558ec78 in tcp_chr_wait_connected (chr=0x55555582ee90, errp=0x555555802a08 <error_abort>) at chardev/char-socket.c:1035
-    #10 0x000055555556804b in char_socket_client_test (opaque=0x5555557fe020 <client8unix>) at tests/test-char.c:1023
+I was waiting for the review Klaus asked for. You had a comment about
+renaming patches, but I didn't see any comments about the patches in
+question.
 
-Run test/test-char to reproduce this issue.
+> Ugh. "[PATCH v5 00/18] nvme: refactoring and cleanups" doesn't apply
+> completely cleanly.
+> 
+> "[PATCH 0/2] hw/block/nvme: fixes for interrupt behavior" was intented
+> to go into master because it fixes a bug, that is why I split them up.
+> 
+> But looks like it is better to just roll it into this series. I'll
+> respin a v6 with the two interrupt fixes.
 
-test-char: chardev/char-socket.c:125: qemu_chr_socket_restart_timer: Assertion `!s->reconnect_timer' failed.
+Ok, I'll wait for that one then. I'm still not sure, though, whether I
+should then wait for additional review or just apply the patches.
 
-Signed-off-by: Li Feng <fengli@smartx.com>
----
-v4:
-- remove the wrong patch
-- fix the char_socket_ping_pong to support the reconnect exception test
-
-v3:
-- add a patch to fix a crash when recvmsg return 0
-- make the tests reproduce the two crash
-
-v2:
-- add unit test
-
- chardev/char-socket.c |  2 +-
- tests/test-char.c     | 74 +++++++++++++++++++++++++++++++++++++++------------
- 2 files changed, 58 insertions(+), 18 deletions(-)
-
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 1f14c2c7c8..d84330b3c9 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -486,7 +486,7 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
-     if (emit_close) {
-         qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
-     }
--    if (s->reconnect_time) {
-+    if (s->reconnect_time && !s->reconnect_timer) {
-         qemu_chr_socket_restart_timer(chr);
-     }
- }
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 8d39bdc9fa..d94580c61e 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -625,12 +625,14 @@ static void char_udp_test(void)
- typedef struct {
-     int event;
-     bool got_pong;
-+    CharBackend *be;
- } CharSocketTestData;
- 
- 
- #define SOCKET_PING "Hello"
- #define SOCKET_PONG "World"
- 
-+typedef void (*char_socket_cb)(void *opaque, QEMUChrEvent event);
- 
- static void
- char_socket_event(void *opaque, QEMUChrEvent event)
-@@ -639,6 +641,27 @@ char_socket_event(void *opaque, QEMUChrEvent event)
-     data->event = event;
- }
- 
-+static void
-+char_socket_event_with_error(void *opaque, QEMUChrEvent event)
-+{
-+    static bool first_error;
-+    CharSocketTestData *data = opaque;
-+    CharBackend *be = data->be;
-+    data->event = event;
-+    switch (event) {
-+    case CHR_EVENT_OPENED:
-+        if (!first_error) {
-+            first_error = true;
-+            qemu_chr_fe_disconnect(be);
-+        }
-+        return;
-+    case CHR_EVENT_CLOSED:
-+        return;
-+    default:
-+        return;
-+    }
-+}
-+
- 
- static void
- char_socket_read(void *opaque, const uint8_t *buf, int size)
-@@ -699,19 +722,24 @@ char_socket_addr_to_opt_str(SocketAddress *addr, bool fd_pass,
- }
- 
- 
--static void
--char_socket_ping_pong(QIOChannel *ioc)
-+static int
-+char_socket_ping_pong(QIOChannel *ioc, Error **errp)
- {
-     char greeting[sizeof(SOCKET_PING)];
-     const char *response = SOCKET_PONG;
- 
--    qio_channel_read_all(ioc, greeting, sizeof(greeting), &error_abort);
-+    int ret;
-+    ret = qio_channel_read_all(ioc, greeting, sizeof(greeting), errp);
-+    if (ret != 0) {
-+        object_unref(OBJECT(ioc));
-+        return -1;
-+    }
- 
-     g_assert(memcmp(greeting, SOCKET_PING, sizeof(greeting)) == 0);
- 
--    qio_channel_write_all(ioc, response, sizeof(SOCKET_PONG), &error_abort);
--
-+    qio_channel_write_all(ioc, response, sizeof(SOCKET_PONG), errp);
-     object_unref(OBJECT(ioc));
-+    return 0;
- }
- 
- 
-@@ -723,7 +751,7 @@ char_socket_server_client_thread(gpointer data)
- 
-     qio_channel_socket_connect_sync(ioc, addr, &error_abort);
- 
--    char_socket_ping_pong(QIO_CHANNEL(ioc));
-+    char_socket_ping_pong(QIO_CHANNEL(ioc), &error_abort);
- 
-     return NULL;
- }
-@@ -783,6 +811,7 @@ static void char_socket_server_test(gconstpointer opaque)
- 
-  reconnect:
-     data.event = -1;
-+    data.be = &be;
-     qemu_chr_fe_set_handlers(&be, NULL, NULL,
-                              char_socket_event, NULL,
-                              &data, NULL, true);
-@@ -855,10 +884,13 @@ char_socket_client_server_thread(gpointer data)
-     QIOChannelSocket *ioc = data;
-     QIOChannelSocket *cioc;
- 
-+retry:
-     cioc = qio_channel_socket_accept(ioc, &error_abort);
-     g_assert_nonnull(cioc);
- 
--    char_socket_ping_pong(QIO_CHANNEL(cioc));
-+    if (char_socket_ping_pong(QIO_CHANNEL(cioc), NULL) != 0) {
-+        goto retry;
-+    }
- 
-     return NULL;
- }
-@@ -869,6 +901,7 @@ typedef struct {
-     const char *reconnect;
-     bool wait_connected;
-     bool fd_pass;
-+    char_socket_cb event_cb;
- } CharSocketClientTestConfig;
- 
- static void char_socket_client_dupid_test(gconstpointer opaque)
-@@ -920,6 +953,7 @@ static void char_socket_client_dupid_test(gconstpointer opaque)
- static void char_socket_client_test(gconstpointer opaque)
- {
-     const CharSocketClientTestConfig *config = opaque;
-+    const char_socket_cb event_cb = config->event_cb;
-     QIOChannelSocket *ioc;
-     char *optstr;
-     Chardev *chr;
-@@ -983,8 +1017,9 @@ static void char_socket_client_test(gconstpointer opaque)
- 
-  reconnect:
-     data.event = -1;
-+    data.be = &be;
-     qemu_chr_fe_set_handlers(&be, NULL, NULL,
--                             char_socket_event, NULL,
-+                             event_cb, NULL,
-                              &data, NULL, true);
-     if (config->reconnect) {
-         g_assert(data.event == -1);
-@@ -1022,7 +1057,7 @@ static void char_socket_client_test(gconstpointer opaque)
-     /* Setup a callback to receive the reply to our greeting */
-     qemu_chr_fe_set_handlers(&be, char_socket_can_read,
-                              char_socket_read,
--                             char_socket_event, NULL,
-+                             event_cb, NULL,
-                              &data, NULL, true);
-     g_assert(data.event == CHR_EVENT_OPENED);
-     data.event = -1;
-@@ -1467,19 +1502,22 @@ int main(int argc, char **argv)
- 
- #define SOCKET_CLIENT_TEST(name, addr)                                  \
-     static CharSocketClientTestConfig client1 ## name =                 \
--        { addr, NULL, false, false };                                   \
-+        { addr, NULL, false, false, char_socket_event};                 \
-     static CharSocketClientTestConfig client2 ## name =                 \
--        { addr, NULL, true, false };                                    \
-+        { addr, NULL, true, false, char_socket_event };                 \
-     static CharSocketClientTestConfig client3 ## name =                 \
--        { addr, ",reconnect=1", false };                                \
-+        { addr, ",reconnect=1", false, false, char_socket_event };      \
-     static CharSocketClientTestConfig client4 ## name =                 \
--        { addr, ",reconnect=1", true };                                 \
-+        { addr, ",reconnect=1", true, false, char_socket_event };       \
-     static CharSocketClientTestConfig client5 ## name =                 \
--        { addr, NULL, false, true };                                    \
-+        { addr, NULL, false, true, char_socket_event };                 \
-     static CharSocketClientTestConfig client6 ## name =                 \
--        { addr, NULL, true, true };                                     \
-+        { addr, NULL, true, true, char_socket_event };                  \
-     static CharSocketClientTestConfig client7 ## name =                 \
--        { addr, ",reconnect=1", false, false };                         \
-+        { addr, ",reconnect=1", false, false, char_socket_event };      \
-+    static CharSocketClientTestConfig client8 ## name =                 \
-+        { addr, ",reconnect=1", true, false,                            \
-+            char_socket_event_with_error };                             \
-     g_test_add_data_func("/char/socket/client/mainloop/" # name,        \
-                          &client1 ##name, char_socket_client_test);     \
-     g_test_add_data_func("/char/socket/client/wait-conn/" # name,       \
-@@ -1493,7 +1531,9 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/char/socket/client/wait-conn-fdpass/" # name, \
-                          &client6 ##name, char_socket_client_test);     \
-     g_test_add_data_func("/char/socket/client/dupid-reconnect/" # name, \
--                         &client7 ##name, char_socket_client_dupid_test)
-+                         &client7 ##name, char_socket_client_dupid_test);\
-+    g_test_add_data_func("/char/socket/client/reconnect-error/" # name, \
-+                         &client8 ##name, char_socket_client_test)
- 
-     if (has_ipv4) {
-         SOCKET_SERVER_TEST(tcp, &tcpaddr);
--- 
-2.11.0
+Kevin
 
 
