@@ -2,54 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BBD1CE107
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:56:30 +0200 (CEST)
-Received: from localhost ([::1]:37052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488FF1CE14B
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 19:10:19 +0200 (CEST)
+Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYBjB-0001a7-Oc
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57824)
+	id 1jYBwX-0002GF-D0
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 13:10:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jYBiI-0000m4-8O
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:55:34 -0400
-Received: from 2.mo6.mail-out.ovh.net ([46.105.76.65]:42401)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jYBiH-00064X-C8
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:55:33 -0400
-Received: from player794.ha.ovh.net (unknown [10.108.42.239])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 4447620F10A
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 18:55:30 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player794.ha.ovh.net (Postfix) with ESMTPSA id 18B04F3C317A;
- Mon, 11 May 2020 16:55:22 +0000 (UTC)
-Date: Mon, 11 May 2020 18:55:21 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 0/6] target/ppc: Various clean-up and fixes for radix64
-Message-ID: <20200511185521.1601dbde@bahia.lan>
-In-Reply-To: <20200511014426.GO2183@umbus.fritz.box>
-References: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
- <20200511014426.GO2183@umbus.fritz.box>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jYBs5-0000B8-H2; Mon, 11 May 2020 13:05:41 -0400
+Received: from mout.web.de ([217.72.192.78]:48233)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jYBs4-0000QT-AM; Mon, 11 May 2020 13:05:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1589216733;
+ bh=3UZ9T42ixVhIK6oedstnerVogxYPsFF+JVelGAkxhGI=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=m+BDAZOzm6K57ahVBrZtFWFAnArD15LLuLJgSDLsfWHJmXjx+V6zU5W66sYQ/2coj
+ xvYDZ9j6OK3E7P2QBh/aPCL5S5Iwhcv1mxMDXPF0BXE9100UW8oaTvPxiFjvWQdbGp
+ poG355iC3h6M96uxBaqtMNP4BEsu/R7Z8nMyYZTs=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb102
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MGzXS-1jLaxD0nYo-00Dow7; Mon, 11
+ May 2020 19:05:33 +0200
+Date: Mon, 11 May 2020 19:05:24 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 3/5] block/nbd.c: Add yank feature
+Message-ID: <20200511190524.3681e58c@luklap>
+In-Reply-To: <20200511161909.GJ2811@work-vm>
+References: <cover.1589193717.git.lukasstraub2@web.de>
+ <1e712fa7f08e4772c2a68197a851161bee51610f.1589193717.git.lukasstraub2@web.de>
+ <20200511161909.GJ2811@work-vm>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/V.tcl9KElve6YU94VniHosD";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Ovh-Tracer-Id: 9475855093603146214
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrledtgdellecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgefgkeduvddutdfgkeekjeelgeejffehudeuhfeltdetfedthffftdfggeeihfdvnecukfhppedtrddtrddtrddtpdekvddrvdehfedrvddtkedrvdegkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejleegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.76.65; envelope-from=groug@kaod.org;
- helo=2.mo6.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 12:55:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/Fw26JbUyinwh0/FOh7zPil4";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:PDZzxCt7km1iM7AUCJ/aKMX+ZEZZ/1Mna4hOygbVjz6SviJ+vUL
+ LYNP6Al17qhlEdS8T00BKSsMiUF7AxQ84bOpWIgo0m6gi/1fBEpGAR9tlMcac0KipIMZTQ8
+ 1fXVlh+znlj7zZyOi2OBlKlh/KxwlXfML51GMd97Vw6DAF5+7lRUij8wou2Kv6i3kNFVirC
+ PC8wxGREtxLUVPdDOnPIw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HGdt8KSuEeI=:U2RDQ9uO/FsGC9yKBkBT39
+ qn1QSx2jyE0ewiRe5Dng6FjDqecQROZp+rRny/O1upG2GOCOns+dBWPJ8ef4KAHt4cgYdguub
+ W6EvrXlPi8ns+bNgNTGNZtV1P4MdmqDUI7p6BaqqNqLEM8YAfp0pcwirSA6leYUDyiSZRkh0h
+ CmRLwOnCEozau8QLkvNnCCCGKVX+SeK0mPiXVZ2Id7542ncSLmiVmFlroNPtQIJNQgmU4eb5V
+ 21cE53Z6paoxXkRxJhaAW9SmcO6Rlq7EWizyRaas6T1l2Apf52iN7psJ0rg4y0xiNLnlZnqY3
+ A8QG6FQJgnylCIyu1TjfhOpSFJ+FFLO8H4+Bgz/EWvPJCGGKLEbPSf06ZpXMPxXYxem6Tz8xp
+ +gm5H68eV/j5Ty39As+BoNlML3WEQV4ja51i57dDMCUBhHcWZSjQ5gKDjnrwmUOQqXXPirsoc
+ d4xWcvhHwmmJ+CgwWAwIvde9R6QuR0MjDJUbxzUwE5HeYGlLmfWpOo9AYUlD8rv/TjZDxrhK0
+ MdEAbyBndsZ1U7v6xYNmjR1foAG3a/OLs4oy7HdCwXikduOnY5UzmE9TzHlLJJ4wVotZ4/9J7
+ 9QCP5HAmNgA0GmCE47dkEpW1tS5GOqXk+BWs2Bg3avOHQIQdatBFWa6pEvpheKa9lw6Cwf0Uh
+ KagXjxKDLXGrjGGkUoEn/8prnep3vyVQpN+eECrgcrCFYNQTW2FN0ADxHN7iq1K3gZbBRI2q3
+ 4UoDY093bMZbXiKLz/atx4igBUXCIFwzI3U7D6BGNoPgg8Vs2Co4CHAlVR+656agi608d5DBb
+ mb05iKpAxVgt/OR/a9M/6yeJbJc9NAoTp9LgoRIyfJPIGHixfUrfgLhTpwnZS0KurxssHkeJj
+ FXXljoAk2AoC35OmWcwgD0Zmrip+wlfkK9rzCvhUxr9WfmVY9Jub5OnGUqcXOEtVAmXx+tQpH
+ d16mE7+UExMFkWIlxjasCjtqiuJwuQPVfo39xAGbiZLWROTjJQwuC0o/UBZb6ZVhEtxDXmLSR
+ WD+dXBo14g/hpl8MXpROyESXJBdlpkzxtUcNR6j3BNNyoudVLmpeOc8DoBb+nCJLivBieF/eL
+ GYoP7VFqgzj8lZoeNJlgfjT8APQpVBAr8zab/lXUansQmmcFtSju8zGXCA81KDJ4Tx4mB+99A
+ zCc3N/2yS1FC+06cqxPL6sBpyfYiOp9EpNAscjLHhzpMo3JVvaSb1WJNlSFlyigKGdMlpL3PL
+ rCa+F6tLx9BMR83Ln
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 13:05:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,50 +87,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/V.tcl9KElve6YU94VniHosD
+--Sig_/Fw26JbUyinwh0/FOh7zPil4
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, 11 May 2020 11:44:26 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+On Mon, 11 May 2020 17:19:09 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-> On Thu, May 07, 2020 at 07:26:32PM +0200, Greg Kurz wrote:
-> > First three patches of this series are simple cleanups. The other
-> > ones fix some regressions introduced by Cedric's recent addition
-> > of partition-scoped translation.
+> * Lukas Straub (lukasstraub2@web.de) wrote:
+> > Add yank option, pass it to the socket-channel and register a yank
+> > function which sets s->state =3D NBD_CLIENT_QUIT. This is the same
+> > behaviour as if an error occured.
+> >=20
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de> =20
 >=20
-> 1-5/6 applied to ppc-for-5.1.  I have some comments on 6/6.
+> > +static void nbd_yank(void *opaque)
+> > +{
+> > +    BlockDriverState *bs =3D opaque;
+> > +    BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
+> > +
+> > +    atomic_set(&s->state, NBD_CLIENT_QUIT); =20
+>=20
+> I think I was expecting a shutdown on the socket here - why doesn't it
+> have one?
+
+For nbd, we register two yank functions: This one and we enable the yank fe=
+ature on the qio channel (see function nbd_establish_connection below).
+
+Regards,
+Lukas Straub
+
+> Dave
+>=20
+> > +}
+> > +
+> >  static void nbd_client_close(BlockDriverState *bs)
+> >  {
+> >      BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
+> > @@ -1407,14 +1421,17 @@ static void nbd_client_close(BlockDriverState *=
+bs)
+> >      nbd_teardown_connection(bs);
+> >  }
+> > =20
+> > -static QIOChannelSocket *nbd_establish_connection(SocketAddress *saddr,
+> > +static QIOChannelSocket *nbd_establish_connection(BlockDriverState *bs,
+> > +                                                  SocketAddress *saddr,
+> >                                                    Error **errp)
+> >  {
+> > +    BDRVNBDState *s =3D (BDRVNBDState *)bs->opaque;
+> >      QIOChannelSocket *sioc;
+> >      Error *local_err =3D NULL;
+> > =20
+> >      sioc =3D qio_channel_socket_new();
+> >      qio_channel_set_name(QIO_CHANNEL(sioc), "nbd-client");
+> > +    qio_channel_set_yank(QIO_CHANNEL(sioc), s->yank);
+> > =20
+> >      qio_channel_socket_connect_sync(sioc, saddr, &local_err);
+> >      if (local_err) {
+> > @@ -1438,7 +1455,7 @@ static int nbd_client_connect(BlockDriverState *b=
+s, Error **errp)
+> >       * establish TCP connection, return error if it fails
+> >       * TODO: Configurable retry-until-timeout behaviour.
+> >       */
+> > -    QIOChannelSocket *sioc =3D nbd_establish_connection(s->saddr, errp=
+);
+> > +    QIOChannelSocket *sioc =3D nbd_establish_connection(bs, s->saddr, =
+errp);
+> > =20
+> >      if (!sioc) {
+> >          return -ECONNREFUSED;
+> > @@ -1829,6 +1846,12 @@ static QemuOptsList nbd_runtime_opts =3D {
+> >                      "future requests before a successful reconnect wil=
+l "
+> >                      "immediately fail. Default 0",
+> >          },
+> > +        {
+> > +            .name =3D "yank",
+> > +            .type =3D QEMU_OPT_BOOL,
+> > +            .help =3D "Forcibly close the connection and don't attempt=
+ to "
+> > +                    "reconnect when the 'yank' qmp command is executed=
+.",
+> > +        },
+> >          { /* end of list */ }
+> >      },
+> >  };
+> > @@ -1888,6 +1911,8 @@ static int nbd_process_options(BlockDriverState *=
+bs, QDict *options,
+> > =20
+> >      s->reconnect_delay =3D qemu_opt_get_number(opts, "reconnect-delay"=
+, 0);
+> > =20
+> > +    s->yank =3D qemu_opt_get_bool(opts, "yank", false);
+> > +
+> >      ret =3D 0;
+> > =20
+> >   error:
+> > @@ -1921,6 +1946,10 @@ static int nbd_open(BlockDriverState *bs, QDict =
+*options, int flags,
+> >      /* successfully connected */
+> >      s->state =3D NBD_CLIENT_CONNECTED;
+> > =20
+> > +    if (s->yank) {
+> > +        yank_register_function(nbd_yank, bs);
+> > +    }
+> > +
+> >      s->connection_co =3D qemu_coroutine_create(nbd_connection_entry, s=
+);
+> >      bdrv_inc_in_flight(bs);
+> >      aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
+> > @@ -1972,6 +2001,11 @@ static void nbd_close(BlockDriverState *bs)
+> >      BDRVNBDState *s =3D bs->opaque;
+> > =20
+> >      nbd_client_close(bs);
+> > +
+> > +    if (s->yank) {
+> > +        yank_unregister_function(nbd_yank, bs);
+> > +    }
+> > +
+> >      nbd_clear_bdrvstate(s);
+> >  }
+> > =20
+> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> > index 943df1926a..1c1578160e 100644
+> > --- a/qapi/block-core.json
+> > +++ b/qapi/block-core.json
+> > @@ -3862,6 +3862,8 @@
+> >  #                   reconnect. After that time, any delayed requests a=
+nd all
+> >  #                   future requests before a successful reconnect will
+> >  #                   immediately fail. Default 0 (Since 4.2)
+> > +# @yank: Forcibly close the connection and don't attempt to reconnect =
+when
+> > +#        the 'yank' qmp command is executed. (Since: 5.1)
+> >  #
+> >  # Since: 2.9
+> >  ##
+> > @@ -3870,7 +3872,8 @@
+> >              '*export': 'str',
+> >              '*tls-creds': 'str',
+> >              '*x-dirty-bitmap': 'str',
+> > -            '*reconnect-delay': 'uint32' } }
+> > +            '*reconnect-delay': 'uint32',
+> > +	    'yank': 'bool' } }
+> > =20
+> >  ##
+> >  # @BlockdevOptionsRaw:
+> > --=20
+> > 2.20.1
+> >  =20
+>=20
+>=20
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 >=20
 
-As said in another mail, since patch 3 breaks build with gcc-9.3.1, I
-intend to send a v2 for the whole series later this week. I suggest
-you simply drop the patches you've applied for now.
 
---Sig_/V.tcl9KElve6YU94VniHosD
+--Sig_/Fw26JbUyinwh0/FOh7zPil4
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl65g3kACgkQcdTV5YIv
-c9aLQQ//S/gl6LgIFUdqGu6QCD0epl2C4sTkZU+nosDJHtdzZj18jjfu+C8K5ROB
-7DCXctaX15OHsY6FN8sbGVn3I2893atGFVlfMmvQdVtrxAX4HvBycvNA0bbqZA/B
-EyOQaPeGwgGQSRspR8BgVZeClFP5zWhe31nO2yPmZvBepbEv+aF4kKNtoDsGngL9
-3y9yGyl4NkoHUfSeCZJKPw6nlhgBvjKGthH/SLtrpoayBUJCG+0D3dJazxLgWUdP
-VREz8rCqP/Q294Z0S0D6HjQkJzsZnljRb2NjeV3ZSIH7YcaBRlWcZ5IuDr3u8aqn
-dX2cBCWgjOf4tapbgN1UxeKwzNc4X1ucWQbKKIQRLbW/k15QY8ykojUY3s9NLine
-2VSVsUtPuMmks79hJ7b6V2EDOEpSKUS4DNdR4/Tx0NBEyktZKM/iquTe2Eudq1zd
-y0HtfhvXLdg6iEPIsS8Q+8Wn8Dffc9UBpYcIb4+PLGG98mA34IBjBxUQhs+xEJa8
-o/xPaUTrJAHDuz4hCkBJFCDYw3ETuDhw5ZxrH42uuJkf5UeG0dmOMzfDlKrotUW1
-WfHlaYa2PLaTAJEN6kdFGOnqEFlCR1Iq1oxuP5pVvKu0uEhXo7xsV1is/4KkJGcz
-Z8i+kIUo2hCwUFiZJPnb+dePgAacbiROePf2xaSpX0ZcjyrT9ZU=
-=XcVh
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65hdQACgkQNasLKJxd
+slj61w//VuZw0l2bgNq22nbRtNjjROv6PoHr2A59nAwdA61oe4NGSwTLVcZSBKLB
+Xo/xHkTBBzLwslc7uoAQP64rkqsg0jSXeq4WArF4YGr4Q1mBRCnGXaGu6EH+XwI+
+iokDn60KVysJXO9PV1pUFd9ApTgWH8oo3AKRTD9lNLEmPTqb6eGW0Yg3IFfH2KKf
+orD65uQhLdQ+FTwub3SmFyTzZ4C+Cyp1k8jhi2KaDqtWjbuLwB3zBnWmYZuILuAQ
+FkyVY/E0qEV3HyutZmp98Q8cA7DL2LHsi2FHDZc7nszujv6UNYXL3Z7sLLsZZLeT
+QQkfOzwnbGjgp3+sFRcOo1vtgbtVGV+IVcw8+gJq+iytR3QwNoqbQdGNOd1CF9NS
+azg1RXrEG8wc3Yrl6wddHz+CD9BugFeUsix6hCdCvO11SXqCXjXZn8Gdjg4ZsfnJ
+OpSDN4ghTa+ZahLheCAlIDgc9aTRNtpPgL3ueG8OyVryahaZZ431EoDQrFq+YWXf
+hyzk0dYEp+XXx1gAscBDdp/kaE/zfbB/jlsVDUj5HH86ICzWGozAK4rnr7kkR/1J
+TfPPhkAEG5R/O9slnY5De+lyH30Bs05kYkg7Or8iuWejn28JWgRajj/Ln0nL4SVT
+M5cBwvZLo9Tgi/QkqYhPdeIDsY7Dm1aWbvpdUrZ45OpJ8R6ApIc=
+=q35d
 -----END PGP SIGNATURE-----
 
---Sig_/V.tcl9KElve6YU94VniHosD--
+--Sig_/Fw26JbUyinwh0/FOh7zPil4--
 
