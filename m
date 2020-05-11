@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE11C1CDB8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:43:28 +0200 (CEST)
-Received: from localhost ([::1]:51024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADF81CDB79
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:41:23 +0200 (CEST)
+Received: from localhost ([::1]:42148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8iN-0002Yt-PD
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:43:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49012)
+	id 1jY8gM-00072T-2Q
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:41:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zh-000263-Et
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:29 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37586)
+ id 1jY8Zg-00022a-EZ
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:28 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Ze-00073w-6H
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:29 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id k1so11002244wrx.4
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:25 -0700 (PDT)
+ id 1jY8Ze-00074I-Vv
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:28 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id g12so19266643wmh.3
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Du43sqI4TNRbw2ibtMce80G4lFxFLuU9nAqSLElfUqM=;
- b=tR5nuJmuClyTBBV3DuwecWJZXYpjq+d0TJRCIeDLq2LoOm3FA++akw3CA25TyRMDSm
- 1UlusSmPt9RmcQ7iEOwn7WtG7gKzaiLSKlTJg8uqf2fjRjrklRr4u9SLUiFXYZAKnx9Q
- /agLRfU5YK4XNTxD9WrvYKsmmzuGHT90vbE7mflMqmqbzKJlvsuQy1NSdV1trywp/bh9
- uVYxTQJsGQkCQDes+QZCm1AH5T9AP/l8EO1N/Lhw+pRa7UcMSpVpJgOEfbFU672c5UAf
- WJPIrTWxmbmytht0qzD2oNKD4jwT8IqK2RB4z3EvhXDhycinb6cobMgmFFEEyqhhJlng
- 9mzw==
+ bh=zAWAHddUEw4C2UEsSfPl55AqQD5kSZuypfZNPPCY+D0=;
+ b=e2YW8y5DvyDy3CJtt5i2a9URGSSPcPGxrP+a6eVkOe3fvv4KEImYzvKKZ4UO6uoHJJ
+ QwRXi0GOoVAcECn2/NjI6RVZYzAY5iaIxYOVFdw7buohwL7vcwsrcxFYTyHhMRNp8aTj
+ Em4TN/IdOFtNPo5pVVB2253liCV5u39lLkpqlSqLRtdwj90h8KrFG01hSPuA0eNJHk9N
+ vRWYnyOETccugy3LH3IT5IE6SwTOJmF184Cc6M+NxY9tbJJ1qRGPQTY7X27Rmy8+E5Lz
+ iVycgdpf2YZ8YiaTcp94OKYvZ4tWClXl5ZgXBe3xlgM5CEdCrgJszCyPyZJ/Kz5XIfXW
+ +86A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Du43sqI4TNRbw2ibtMce80G4lFxFLuU9nAqSLElfUqM=;
- b=tuFR98tiW/g5Q6LDCeVKf+GJc9zn2cZYTd38IYX0r1e5BWaZJgUvdIHOeCa6MmdtHk
- awiBcJChBcQM9jflrUw9to7o/ozcLV3iNiDYdHfhOcF2GtfjbQonkhU8pqxhYxf2pYOt
- kKfT7AKjvXuK2NMheP4O77AfFxe7bxok1eD+zkSvBXD9EEr3cpHnX2K6EN3umaVYnCbN
- gsrl4pn394hvHDONwXjhn6KC8LEhw20X8ppwhYYtLOvUzjiFEJHGeQ7Wv/xt7aYQBrSv
- //3r/RDKjDhm2zM8VUt9dU6Uhl8btH+CMOnal5yB56RM4s//R5IpWHF1AJKv5BpE3Y8U
- rF7g==
-X-Gm-Message-State: AGi0PuZW1jnn1vfUAiHexwEddxjVFVZ0oPuCT+mR2BZdY+UNObWHWss5
- G79iSIZti2NAuctbiR6wO/FNnUsCSu8tvg==
-X-Google-Smtp-Source: APiQypJCzx1hWAnebFggio8I/f/oMh/IAKTEbBX7hHZnL9VQvQiMJcyboAjaZYkz9m+Rb8VrbBFdBg==
-X-Received: by 2002:a5d:6690:: with SMTP id l16mr820047wru.115.1589204063977; 
- Mon, 11 May 2020 06:34:23 -0700 (PDT)
+ bh=zAWAHddUEw4C2UEsSfPl55AqQD5kSZuypfZNPPCY+D0=;
+ b=awwqGY/hhy4aUQbo0oXyVSzvoUGita6ddPOIeP0nHDplsJ77+4F/cgAS0NvoKKhKJ0
+ Hwbfq33wCZu84EIqbKah0BxCxblntAQPLw1IcTgRijM7VlGu20RKU77av0wPmalddtpV
+ 0T3JUyNENNEGTbUONpgVtofwuuN3bfaB3Y52m8q+jknOurudmbFJEZ+dtvU2iHgWSDFi
+ 9IjnqSBexJhFsRbhhmspAN67uzcIbvdSUwRUhgak0d/bNrnsedpviPk7CpCwK41Hwbq6
+ QvvLFe1HdEOs7vsvTEKNt7L2vTWPEGJfDiv/WXuLjI9VDY2rpURcpEocRLwE/ifNH2OF
+ LDYA==
+X-Gm-Message-State: AGi0PuZNsVr4tb9UY4ZuPRz/LP78QjlO8fAUOijo9Rb+4xEUvQep00YM
+ MJuA7u1fjJ4KgvwrW7LfbRTHKnHM1pn3kw==
+X-Google-Smtp-Source: APiQypIPihQaz3XN9cQClfu3aWaeJ9BhdbHg8e5ThXnw75eFs95gHkIva7AYsm41wuL/HxIL8lJKVA==
+X-Received: by 2002:a7b:c846:: with SMTP id c6mr1649543wml.62.1589204065090;
+ Mon, 11 May 2020 06:34:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.22
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:23 -0700 (PDT)
+ Mon, 11 May 2020 06:34:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/34] target/arm: Use cpu_*_data_ra for sve_ldst_tlb_fn
-Date: Mon, 11 May 2020 14:33:45 +0100
-Message-Id: <20200511133405.5275-15-peter.maydell@linaro.org>
+Subject: [PULL 15/34] target/arm: Drop manual handling of
+ set/clear_helper_retaddr
+Date: Mon, 11 May 2020 14:33:46 +0100
+Message-Id: <20200511133405.5275-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,518 +91,286 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Use the "normal" memory access functions, rather than the
-softmmu internal helper functions directly.
-
-Since fb901c905dc3, cpu_mem_index is now a simple extract
-from env->hflags and not a large computation.  Which means
-that it's now more work to pass around this value than it
-is to recompute it.
-
-This only adjusts the primitives, and does not clean up
-all of the uses within sve_helper.c.
+Since we converted back to cpu_*_data_ra, we do not need to
+do this ourselves.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200508154359.7494-8-richard.henderson@linaro.org
+Message-id: 20200508154359.7494-9-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sve_helper.c | 221 ++++++++++++++++------------------------
- 1 file changed, 86 insertions(+), 135 deletions(-)
+ target/arm/sve_helper.c | 38 --------------------------------------
+ 1 file changed, 38 deletions(-)
 
 diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index fdfa6520946..655bc9476f4 100644
+index 655bc9476f4..aad2c8c2371 100644
 --- a/target/arm/sve_helper.c
 +++ b/target/arm/sve_helper.c
-@@ -3991,9 +3991,8 @@ typedef intptr_t sve_ld1_host_fn(void *vd, void *vg, void *host,
-  * Load one element into @vd + @reg_off from (@env, @vaddr, @ra).
-  * The controlling predicate is known to be true.
-  */
--typedef void sve_ld1_tlb_fn(CPUARMState *env, void *vd, intptr_t reg_off,
--                            target_ulong vaddr, TCGMemOpIdx oi, uintptr_t ra);
--typedef sve_ld1_tlb_fn sve_st1_tlb_fn;
-+typedef void sve_ldst1_tlb_fn(CPUARMState *env, void *vd, intptr_t reg_off,
-+                              target_ulong vaddr, uintptr_t retaddr);
- 
- /*
-  * Generate the above primitives.
-@@ -4016,27 +4015,23 @@ static intptr_t sve_##NAME##_host(void *vd, void *vg, void *host,           \
-     return mem_off;                                                         \
+@@ -4133,12 +4133,6 @@ static intptr_t max_for_page(target_ulong base, intptr_t mem_off,
+     return MIN(split, mem_max - mem_off) + mem_off;
  }
  
--#ifdef CONFIG_SOFTMMU
--#define DO_LD_TLB(NAME, H, TYPEE, TYPEM, HOST, MOEND, TLB) \
-+#define DO_LD_TLB(NAME, H, TYPEE, TYPEM, TLB) \
- static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
--                             target_ulong addr, TCGMemOpIdx oi, uintptr_t ra)  \
-+                             target_ulong addr, uintptr_t ra)               \
- {                                                                           \
--    TYPEM val = TLB(env, addr, oi, ra);                                     \
--    *(TYPEE *)(vd + H(reg_off)) = val;                                      \
-+    *(TYPEE *)(vd + H(reg_off)) = (TYPEM)TLB(env, addr, ra);                \
- }
--#else
--#define DO_LD_TLB(NAME, H, TYPEE, TYPEM, HOST, MOEND, TLB)                  \
-+
-+#define DO_ST_TLB(NAME, H, TYPEE, TYPEM, TLB) \
- static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
--                             target_ulong addr, TCGMemOpIdx oi, uintptr_t ra)  \
-+                             target_ulong addr, uintptr_t ra)               \
- {                                                                           \
--    TYPEM val = HOST(g2h(addr));                                            \
--    *(TYPEE *)(vd + H(reg_off)) = val;                                      \
-+    TLB(env, addr, (TYPEM)*(TYPEE *)(vd + H(reg_off)), ra);                 \
- }
+-#ifndef CONFIG_USER_ONLY
+-/* These are normally defined only for CONFIG_USER_ONLY in <exec/cpu_ldst.h> */
+-static inline void set_helper_retaddr(uintptr_t ra) { }
+-static inline void clear_helper_retaddr(void) { }
 -#endif
- 
- #define DO_LD_PRIM_1(NAME, H, TE, TM)                   \
-     DO_LD_HOST(NAME, H, TE, TM, ldub_p)                 \
--    DO_LD_TLB(NAME, H, TE, TM, ldub_p, 0, helper_ret_ldub_mmu)
-+    DO_LD_TLB(NAME, H, TE, TM, cpu_ldub_data_ra)
- 
- DO_LD_PRIM_1(ld1bb,  H1,   uint8_t,  uint8_t)
- DO_LD_PRIM_1(ld1bhu, H1_2, uint16_t, uint8_t)
-@@ -4046,39 +4041,51 @@ DO_LD_PRIM_1(ld1bss, H1_4, uint32_t,  int8_t)
- DO_LD_PRIM_1(ld1bdu,     , uint64_t, uint8_t)
- DO_LD_PRIM_1(ld1bds,     , uint64_t,  int8_t)
- 
--#define DO_LD_PRIM_2(NAME, end, MOEND, H, TE, TM, PH, PT)  \
--    DO_LD_HOST(NAME##_##end, H, TE, TM, PH##_##end##_p)    \
--    DO_LD_TLB(NAME##_##end, H, TE, TM, PH##_##end##_p,     \
--              MOEND, helper_##end##_##PT##_mmu)
-+#define DO_ST_PRIM_1(NAME, H, TE, TM)                   \
-+    DO_ST_TLB(st1##NAME, H, TE, TM, cpu_stb_data_ra)
- 
--DO_LD_PRIM_2(ld1hh,  le, MO_LE, H1_2, uint16_t, uint16_t, lduw, lduw)
--DO_LD_PRIM_2(ld1hsu, le, MO_LE, H1_4, uint32_t, uint16_t, lduw, lduw)
--DO_LD_PRIM_2(ld1hss, le, MO_LE, H1_4, uint32_t,  int16_t, lduw, lduw)
--DO_LD_PRIM_2(ld1hdu, le, MO_LE,     , uint64_t, uint16_t, lduw, lduw)
--DO_LD_PRIM_2(ld1hds, le, MO_LE,     , uint64_t,  int16_t, lduw, lduw)
-+DO_ST_PRIM_1(bb,   H1,  uint8_t, uint8_t)
-+DO_ST_PRIM_1(bh, H1_2, uint16_t, uint8_t)
-+DO_ST_PRIM_1(bs, H1_4, uint32_t, uint8_t)
-+DO_ST_PRIM_1(bd,     , uint64_t, uint8_t)
- 
--DO_LD_PRIM_2(ld1ss,  le, MO_LE, H1_4, uint32_t, uint32_t, ldl, ldul)
--DO_LD_PRIM_2(ld1sdu, le, MO_LE,     , uint64_t, uint32_t, ldl, ldul)
--DO_LD_PRIM_2(ld1sds, le, MO_LE,     , uint64_t,  int32_t, ldl, ldul)
-+#define DO_LD_PRIM_2(NAME, H, TE, TM, LD) \
-+    DO_LD_HOST(ld1##NAME##_be, H, TE, TM, LD##_be_p)    \
-+    DO_LD_HOST(ld1##NAME##_le, H, TE, TM, LD##_le_p)    \
-+    DO_LD_TLB(ld1##NAME##_be, H, TE, TM, cpu_##LD##_be_data_ra) \
-+    DO_LD_TLB(ld1##NAME##_le, H, TE, TM, cpu_##LD##_le_data_ra)
- 
--DO_LD_PRIM_2(ld1dd,  le, MO_LE,     , uint64_t, uint64_t, ldq, ldq)
-+#define DO_ST_PRIM_2(NAME, H, TE, TM, ST) \
-+    DO_ST_TLB(st1##NAME##_be, H, TE, TM, cpu_##ST##_be_data_ra) \
-+    DO_ST_TLB(st1##NAME##_le, H, TE, TM, cpu_##ST##_le_data_ra)
- 
--DO_LD_PRIM_2(ld1hh,  be, MO_BE, H1_2, uint16_t, uint16_t, lduw, lduw)
--DO_LD_PRIM_2(ld1hsu, be, MO_BE, H1_4, uint32_t, uint16_t, lduw, lduw)
--DO_LD_PRIM_2(ld1hss, be, MO_BE, H1_4, uint32_t,  int16_t, lduw, lduw)
--DO_LD_PRIM_2(ld1hdu, be, MO_BE,     , uint64_t, uint16_t, lduw, lduw)
--DO_LD_PRIM_2(ld1hds, be, MO_BE,     , uint64_t,  int16_t, lduw, lduw)
-+DO_LD_PRIM_2(hh,  H1_2, uint16_t, uint16_t, lduw)
-+DO_LD_PRIM_2(hsu, H1_4, uint32_t, uint16_t, lduw)
-+DO_LD_PRIM_2(hss, H1_4, uint32_t,  int16_t, lduw)
-+DO_LD_PRIM_2(hdu,     , uint64_t, uint16_t, lduw)
-+DO_LD_PRIM_2(hds,     , uint64_t,  int16_t, lduw)
- 
--DO_LD_PRIM_2(ld1ss,  be, MO_BE, H1_4, uint32_t, uint32_t, ldl, ldul)
--DO_LD_PRIM_2(ld1sdu, be, MO_BE,     , uint64_t, uint32_t, ldl, ldul)
--DO_LD_PRIM_2(ld1sds, be, MO_BE,     , uint64_t,  int32_t, ldl, ldul)
-+DO_ST_PRIM_2(hh, H1_2, uint16_t, uint16_t, stw)
-+DO_ST_PRIM_2(hs, H1_4, uint32_t, uint16_t, stw)
-+DO_ST_PRIM_2(hd,     , uint64_t, uint16_t, stw)
- 
--DO_LD_PRIM_2(ld1dd,  be, MO_BE,     , uint64_t, uint64_t, ldq, ldq)
-+DO_LD_PRIM_2(ss,  H1_4, uint32_t, uint32_t, ldl)
-+DO_LD_PRIM_2(sdu,     , uint64_t, uint32_t, ldl)
-+DO_LD_PRIM_2(sds,     , uint64_t,  int32_t, ldl)
-+
-+DO_ST_PRIM_2(ss, H1_4, uint32_t, uint32_t, stl)
-+DO_ST_PRIM_2(sd,     , uint64_t, uint32_t, stl)
-+
-+DO_LD_PRIM_2(dd,     , uint64_t, uint64_t, ldq)
-+DO_ST_PRIM_2(dd,     , uint64_t, uint64_t, stq)
- 
- #undef DO_LD_TLB
-+#undef DO_ST_TLB
- #undef DO_LD_HOST
- #undef DO_LD_PRIM_1
-+#undef DO_ST_PRIM_1
- #undef DO_LD_PRIM_2
-+#undef DO_ST_PRIM_2
- 
+-
  /*
-  * Skip through a sequence of inactive elements in the guarding predicate @vg,
-@@ -4152,7 +4159,7 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                       uint32_t desc, const uintptr_t retaddr,
-                       const int esz, const int msz,
-                       sve_ld1_host_fn *host_fn,
--                      sve_ld1_tlb_fn *tlb_fn)
-+                      sve_ldst1_tlb_fn *tlb_fn)
- {
-     const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const int mmu_idx = get_mmuidx(oi);
-@@ -4234,7 +4241,7 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
-          * on I/O memory, it may succeed but not bring in the TLB entry.
-          * But even then we have still made forward progress.
-          */
--        tlb_fn(env, &scratch, reg_off, addr + mem_off, oi, retaddr);
-+        tlb_fn(env, &scratch, reg_off, addr + mem_off, retaddr);
-         reg_off += 1 << esz;
+  * The result of tlb_vaddr_to_host for user-only is just g2h(x),
+  * which is always non-null.  Elide the useless test.
+@@ -4180,7 +4174,6 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
+         return;
+     }
+     mem_off = reg_off >> diffsz;
+-    set_helper_retaddr(retaddr);
+ 
+     /*
+      * If the (remaining) load is entirely within a single page, then:
+@@ -4195,7 +4188,6 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
+         if (test_host_page(host)) {
+             mem_off = host_fn(vd, vg, host - mem_off, mem_off, mem_max);
+             tcg_debug_assert(mem_off == mem_max);
+-            clear_helper_retaddr();
+             /* After having taken any fault, zero leading inactive elements. */
+             swap_memzero(vd, reg_off);
+             return;
+@@ -4246,7 +4238,6 @@ static void sve_ld1_r(CPUARMState *env, void *vg, const target_ulong addr,
      }
  #endif
-@@ -4293,9 +4300,8 @@ DO_LD1_2(ld1dd,  3, 3)
-  */
- static void sve_ld2_r(CPUARMState *env, void *vg, target_ulong addr,
-                       uint32_t desc, int size, uintptr_t ra,
--                      sve_ld1_tlb_fn *tlb_fn)
-+                      sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
+ 
+-    clear_helper_retaddr();
+     memcpy(vd, &scratch, reg_max);
+ }
+ 
+@@ -4306,7 +4297,6 @@ static void sve_ld2_r(CPUARMState *env, void *vg, target_ulong addr,
      intptr_t i, oprsz = simd_oprsz(desc);
      ARMVectorReg scratch[2] = { };
-@@ -4305,8 +4311,8 @@ static void sve_ld2_r(CPUARMState *env, void *vg, target_ulong addr,
+ 
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
          uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
          do {
-             if (pg & 1) {
--                tlb_fn(env, &scratch[0], i, addr, oi, ra);
--                tlb_fn(env, &scratch[1], i, addr + size, oi, ra);
-+                tlb_fn(env, &scratch[0], i, addr, ra);
-+                tlb_fn(env, &scratch[1], i, addr + size, ra);
-             }
-             i += size, pg >>= size;
+@@ -4318,7 +4308,6 @@ static void sve_ld2_r(CPUARMState *env, void *vg, target_ulong addr,
              addr += 2 * size;
-@@ -4321,9 +4327,8 @@ static void sve_ld2_r(CPUARMState *env, void *vg, target_ulong addr,
+         } while (i & 15);
+     }
+-    clear_helper_retaddr();
  
- static void sve_ld3_r(CPUARMState *env, void *vg, target_ulong addr,
-                       uint32_t desc, int size, uintptr_t ra,
--                      sve_ld1_tlb_fn *tlb_fn)
-+                      sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
+     /* Wait until all exceptions have been raised to write back.  */
+     memcpy(&env->vfp.zregs[rd], &scratch[0], oprsz);
+@@ -4333,7 +4322,6 @@ static void sve_ld3_r(CPUARMState *env, void *vg, target_ulong addr,
      intptr_t i, oprsz = simd_oprsz(desc);
      ARMVectorReg scratch[3] = { };
-@@ -4333,9 +4338,9 @@ static void sve_ld3_r(CPUARMState *env, void *vg, target_ulong addr,
+ 
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
          uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
          do {
-             if (pg & 1) {
--                tlb_fn(env, &scratch[0], i, addr, oi, ra);
--                tlb_fn(env, &scratch[1], i, addr + size, oi, ra);
--                tlb_fn(env, &scratch[2], i, addr + 2 * size, oi, ra);
-+                tlb_fn(env, &scratch[0], i, addr, ra);
-+                tlb_fn(env, &scratch[1], i, addr + size, ra);
-+                tlb_fn(env, &scratch[2], i, addr + 2 * size, ra);
-             }
-             i += size, pg >>= size;
+@@ -4346,7 +4334,6 @@ static void sve_ld3_r(CPUARMState *env, void *vg, target_ulong addr,
              addr += 3 * size;
-@@ -4351,9 +4356,8 @@ static void sve_ld3_r(CPUARMState *env, void *vg, target_ulong addr,
+         } while (i & 15);
+     }
+-    clear_helper_retaddr();
  
- static void sve_ld4_r(CPUARMState *env, void *vg, target_ulong addr,
-                       uint32_t desc, int size, uintptr_t ra,
--                      sve_ld1_tlb_fn *tlb_fn)
-+                      sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
+     /* Wait until all exceptions have been raised to write back.  */
+     memcpy(&env->vfp.zregs[rd], &scratch[0], oprsz);
+@@ -4362,7 +4349,6 @@ static void sve_ld4_r(CPUARMState *env, void *vg, target_ulong addr,
      intptr_t i, oprsz = simd_oprsz(desc);
      ARMVectorReg scratch[4] = { };
-@@ -4363,10 +4367,10 @@ static void sve_ld4_r(CPUARMState *env, void *vg, target_ulong addr,
+ 
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
          uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
          do {
-             if (pg & 1) {
--                tlb_fn(env, &scratch[0], i, addr, oi, ra);
--                tlb_fn(env, &scratch[1], i, addr + size, oi, ra);
--                tlb_fn(env, &scratch[2], i, addr + 2 * size, oi, ra);
--                tlb_fn(env, &scratch[3], i, addr + 3 * size, oi, ra);
-+                tlb_fn(env, &scratch[0], i, addr, ra);
-+                tlb_fn(env, &scratch[1], i, addr + size, ra);
-+                tlb_fn(env, &scratch[2], i, addr + 2 * size, ra);
-+                tlb_fn(env, &scratch[3], i, addr + 3 * size, ra);
-             }
-             i += size, pg >>= size;
+@@ -4376,7 +4362,6 @@ static void sve_ld4_r(CPUARMState *env, void *vg, target_ulong addr,
              addr += 4 * size;
-@@ -4459,7 +4463,7 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                         uint32_t desc, const uintptr_t retaddr,
-                         const int esz, const int msz,
-                         sve_ld1_host_fn *host_fn,
--                        sve_ld1_tlb_fn *tlb_fn)
-+                        sve_ldst1_tlb_fn *tlb_fn)
- {
-     const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const int mmu_idx = get_mmuidx(oi);
-@@ -4519,7 +4523,7 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-      * Perform one normal read, which will fault or not.
-      * But it is likely to bring the page into the tlb.
-      */
--    tlb_fn(env, vd, reg_off, addr + mem_off, oi, retaddr);
-+    tlb_fn(env, vd, reg_off, addr + mem_off, retaddr);
+         } while (i & 15);
+     }
+-    clear_helper_retaddr();
  
-     /* After any fault, zero any leading predicated false elts.  */
-     swap_memzero(vd, reg_off);
-@@ -4671,60 +4675,14 @@ DO_LDFF1_LDNF1_2(dd,  3, 3)
- #undef DO_LDFF1_LDNF1_1
- #undef DO_LDFF1_LDNF1_2
+     /* Wait until all exceptions have been raised to write back.  */
+     memcpy(&env->vfp.zregs[rd], &scratch[0], oprsz);
+@@ -4483,7 +4468,6 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
+         return;
+     }
+     mem_off = reg_off >> diffsz;
+-    set_helper_retaddr(retaddr);
  
--/*
-- * Store contiguous data, protected by a governing predicate.
-- */
--
--#ifdef CONFIG_SOFTMMU
--#define DO_ST_TLB(NAME, H, TYPEM, HOST, MOEND, TLB) \
--static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
--                             target_ulong addr, TCGMemOpIdx oi, uintptr_t ra) \
--{                                                                           \
--    TLB(env, addr, *(TYPEM *)(vd + H(reg_off)), oi, ra);                    \
--}
--#else
--#define DO_ST_TLB(NAME, H, TYPEM, HOST, MOEND, TLB) \
--static void sve_##NAME##_tlb(CPUARMState *env, void *vd, intptr_t reg_off,  \
--                             target_ulong addr, TCGMemOpIdx oi, uintptr_t ra) \
--{                                                                           \
--    HOST(g2h(addr), *(TYPEM *)(vd + H(reg_off)));                           \
--}
--#endif
--
--DO_ST_TLB(st1bb,   H1,  uint8_t, stb_p, 0, helper_ret_stb_mmu)
--DO_ST_TLB(st1bh, H1_2, uint16_t, stb_p, 0, helper_ret_stb_mmu)
--DO_ST_TLB(st1bs, H1_4, uint32_t, stb_p, 0, helper_ret_stb_mmu)
--DO_ST_TLB(st1bd,     , uint64_t, stb_p, 0, helper_ret_stb_mmu)
--
--DO_ST_TLB(st1hh_le, H1_2, uint16_t, stw_le_p, MO_LE, helper_le_stw_mmu)
--DO_ST_TLB(st1hs_le, H1_4, uint32_t, stw_le_p, MO_LE, helper_le_stw_mmu)
--DO_ST_TLB(st1hd_le,     , uint64_t, stw_le_p, MO_LE, helper_le_stw_mmu)
--
--DO_ST_TLB(st1ss_le, H1_4, uint32_t, stl_le_p, MO_LE, helper_le_stl_mmu)
--DO_ST_TLB(st1sd_le,     , uint64_t, stl_le_p, MO_LE, helper_le_stl_mmu)
--
--DO_ST_TLB(st1dd_le,     , uint64_t, stq_le_p, MO_LE, helper_le_stq_mmu)
--
--DO_ST_TLB(st1hh_be, H1_2, uint16_t, stw_be_p, MO_BE, helper_be_stw_mmu)
--DO_ST_TLB(st1hs_be, H1_4, uint32_t, stw_be_p, MO_BE, helper_be_stw_mmu)
--DO_ST_TLB(st1hd_be,     , uint64_t, stw_be_p, MO_BE, helper_be_stw_mmu)
--
--DO_ST_TLB(st1ss_be, H1_4, uint32_t, stl_be_p, MO_BE, helper_be_stl_mmu)
--DO_ST_TLB(st1sd_be,     , uint64_t, stl_be_p, MO_BE, helper_be_stl_mmu)
--
--DO_ST_TLB(st1dd_be,     , uint64_t, stq_be_p, MO_BE, helper_be_stq_mmu)
--
--#undef DO_ST_TLB
--
- /*
-  * Common helpers for all contiguous 1,2,3,4-register predicated stores.
-  */
- static void sve_st1_r(CPUARMState *env, void *vg, target_ulong addr,
-                       uint32_t desc, const uintptr_t ra,
-                       const int esize, const int msize,
--                      sve_st1_tlb_fn *tlb_fn)
-+                      sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
+     /*
+      * If the (remaining) load is entirely within a single page, then:
+@@ -4498,7 +4482,6 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
+         if (test_host_page(host)) {
+             mem_off = host_fn(vd, vg, host - mem_off, mem_off, mem_max);
+             tcg_debug_assert(mem_off == mem_max);
+-            clear_helper_retaddr();
+             /* After any fault, zero any leading inactive elements.  */
+             swap_memzero(vd, reg_off);
+             return;
+@@ -4541,7 +4524,6 @@ static void sve_ldff1_r(CPUARMState *env, void *vg, const target_ulong addr,
+     }
+ #endif
+ 
+-    clear_helper_retaddr();
+     record_fault(env, reg_off, reg_max);
+ }
+ 
+@@ -4687,7 +4669,6 @@ static void sve_st1_r(CPUARMState *env, void *vg, target_ulong addr,
      intptr_t i, oprsz = simd_oprsz(desc);
      void *vd = &env->vfp.zregs[rd];
-@@ -4734,7 +4692,7 @@ static void sve_st1_r(CPUARMState *env, void *vg, target_ulong addr,
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-             if (pg & 1) {
--                tlb_fn(env, vd, i, addr, oi, ra);
-+                tlb_fn(env, vd, i, addr, ra);
-             }
-             i += esize, pg >>= esize;
-             addr += msize;
-@@ -4746,9 +4704,8 @@ static void sve_st1_r(CPUARMState *env, void *vg, target_ulong addr,
- static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
-                       uint32_t desc, const uintptr_t ra,
-                       const int esize, const int msize,
--                      sve_st1_tlb_fn *tlb_fn)
-+                      sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-     intptr_t i, oprsz = simd_oprsz(desc);
-     void *d1 = &env->vfp.zregs[rd];
-@@ -4759,8 +4716,8 @@ static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-             if (pg & 1) {
--                tlb_fn(env, d1, i, addr, oi, ra);
--                tlb_fn(env, d2, i, addr + msize, oi, ra);
-+                tlb_fn(env, d1, i, addr, ra);
-+                tlb_fn(env, d2, i, addr + msize, ra);
-             }
-             i += esize, pg >>= esize;
-             addr += 2 * msize;
-@@ -4772,9 +4729,8 @@ static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
- static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
-                       uint32_t desc, const uintptr_t ra,
-                       const int esize, const int msize,
--                      sve_st1_tlb_fn *tlb_fn)
-+                      sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-     intptr_t i, oprsz = simd_oprsz(desc);
-     void *d1 = &env->vfp.zregs[rd];
-@@ -4786,9 +4742,9 @@ static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-             if (pg & 1) {
--                tlb_fn(env, d1, i, addr, oi, ra);
--                tlb_fn(env, d2, i, addr + msize, oi, ra);
--                tlb_fn(env, d3, i, addr + 2 * msize, oi, ra);
-+                tlb_fn(env, d1, i, addr, ra);
-+                tlb_fn(env, d2, i, addr + msize, ra);
-+                tlb_fn(env, d3, i, addr + 2 * msize, ra);
-             }
-             i += esize, pg >>= esize;
-             addr += 3 * msize;
-@@ -4800,9 +4756,8 @@ static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
- static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
-                       uint32_t desc, const uintptr_t ra,
-                       const int esize, const int msize,
--                      sve_st1_tlb_fn *tlb_fn)
-+                      sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-     intptr_t i, oprsz = simd_oprsz(desc);
-     void *d1 = &env->vfp.zregs[rd];
-@@ -4815,10 +4770,10 @@ static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
-         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
-         do {
-             if (pg & 1) {
--                tlb_fn(env, d1, i, addr, oi, ra);
--                tlb_fn(env, d2, i, addr + msize, oi, ra);
--                tlb_fn(env, d3, i, addr + 2 * msize, oi, ra);
--                tlb_fn(env, d4, i, addr + 3 * msize, oi, ra);
-+                tlb_fn(env, d1, i, addr, ra);
-+                tlb_fn(env, d2, i, addr + msize, ra);
-+                tlb_fn(env, d3, i, addr + 2 * msize, ra);
-+                tlb_fn(env, d4, i, addr + 3 * msize, ra);
-             }
-             i += esize, pg >>= esize;
-             addr += 4 * msize;
-@@ -4914,9 +4869,8 @@ static target_ulong off_zd_d(void *reg, intptr_t reg_ofs)
  
- static void sve_ld1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-                        target_ulong base, uint32_t desc, uintptr_t ra,
--                       zreg_off_fn *off_fn, sve_ld1_tlb_fn *tlb_fn)
-+                       zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
+         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
+         do {
+@@ -4698,7 +4679,6 @@ static void sve_st1_r(CPUARMState *env, void *vg, target_ulong addr,
+             addr += msize;
+         } while (i & 15);
+     }
+-    clear_helper_retaddr();
+ }
+ 
+ static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
+@@ -4711,7 +4691,6 @@ static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
+     void *d1 = &env->vfp.zregs[rd];
+     void *d2 = &env->vfp.zregs[(rd + 1) & 31];
+ 
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
+         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
+         do {
+@@ -4723,7 +4702,6 @@ static void sve_st2_r(CPUARMState *env, void *vg, target_ulong addr,
+             addr += 2 * msize;
+         } while (i & 15);
+     }
+-    clear_helper_retaddr();
+ }
+ 
+ static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
+@@ -4737,7 +4715,6 @@ static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
+     void *d2 = &env->vfp.zregs[(rd + 1) & 31];
+     void *d3 = &env->vfp.zregs[(rd + 2) & 31];
+ 
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
+         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
+         do {
+@@ -4750,7 +4727,6 @@ static void sve_st3_r(CPUARMState *env, void *vg, target_ulong addr,
+             addr += 3 * msize;
+         } while (i & 15);
+     }
+-    clear_helper_retaddr();
+ }
+ 
+ static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
+@@ -4765,7 +4741,6 @@ static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
+     void *d3 = &env->vfp.zregs[(rd + 2) & 31];
+     void *d4 = &env->vfp.zregs[(rd + 3) & 31];
+ 
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
+         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
+         do {
+@@ -4779,7 +4754,6 @@ static void sve_st4_r(CPUARMState *env, void *vg, target_ulong addr,
+             addr += 4 * msize;
+         } while (i & 15);
+     }
+-    clear_helper_retaddr();
+ }
+ 
+ #define DO_STN_1(N, NAME, ESIZE) \
+@@ -4875,7 +4849,6 @@ static void sve_ld1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
      intptr_t i, oprsz = simd_oprsz(desc);
      ARMVectorReg scratch = { };
-@@ -4927,7 +4881,7 @@ static void sve_ld1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
+ 
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
+         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
          do {
-             if (likely(pg & 1)) {
-                 target_ulong off = off_fn(vm, i);
--                tlb_fn(env, &scratch, i, base + (off << scale), oi, ra);
-+                tlb_fn(env, &scratch, i, base + (off << scale), ra);
-             }
+@@ -4886,7 +4859,6 @@ static void sve_ld1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
              i += 4, pg >>= 4;
          } while (i & 15);
-@@ -4940,9 +4894,8 @@ static void sve_ld1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
+     }
+-    clear_helper_retaddr();
  
- static void sve_ld1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-                        target_ulong base, uint32_t desc, uintptr_t ra,
--                       zreg_off_fn *off_fn, sve_ld1_tlb_fn *tlb_fn)
-+                       zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-     const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
+     /* Wait until all exceptions have been raised to write back.  */
+     memcpy(vd, &scratch, oprsz);
+@@ -4900,7 +4872,6 @@ static void sve_ld1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
      intptr_t i, oprsz = simd_oprsz(desc) / 8;
      ARMVectorReg scratch = { };
-@@ -4952,7 +4905,7 @@ static void sve_ld1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
+ 
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; i++) {
          uint8_t pg = *(uint8_t *)(vg + H1(i));
          if (likely(pg & 1)) {
-             target_ulong off = off_fn(vm, i * 8);
--            tlb_fn(env, &scratch, i * 8, base + (off << scale), oi, ra);
-+            tlb_fn(env, &scratch, i * 8, base + (off << scale), ra);
+@@ -4908,7 +4879,6 @@ static void sve_ld1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
+             tlb_fn(env, &scratch, i * 8, base + (off << scale), ra);
          }
      }
-     clear_helper_retaddr();
-@@ -5114,7 +5067,7 @@ DO_LD_NF(dd_be,      , uint64_t, uint64_t, ldq_be_p)
-  */
- static inline void sve_ldff1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-                                 target_ulong base, uint32_t desc, uintptr_t ra,
--                                zreg_off_fn *off_fn, sve_ld1_tlb_fn *tlb_fn,
-+                                zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn,
-                                 sve_ld1_nf_fn *nonfault_fn)
- {
-     const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-@@ -5130,7 +5083,7 @@ static inline void sve_ldff1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-         set_helper_retaddr(ra);
+-    clear_helper_retaddr();
+ 
+     /* Wait until all exceptions have been raised to write back.  */
+     memcpy(vd, &scratch, oprsz * 8);
+@@ -5080,13 +5050,11 @@ static inline void sve_ldff1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
+     reg_off = find_next_active(vg, 0, reg_max, MO_32);
+     if (likely(reg_off < reg_max)) {
+         /* Perform one normal read, which will fault or not.  */
+-        set_helper_retaddr(ra);
          addr = off_fn(vm, reg_off);
          addr = base + (addr << scale);
--        tlb_fn(env, vd, reg_off, addr, oi, ra);
-+        tlb_fn(env, vd, reg_off, addr, ra);
+         tlb_fn(env, vd, reg_off, addr, ra);
  
          /* The rest of the reads will be non-faulting.  */
-         clear_helper_retaddr();
-@@ -5156,7 +5109,7 @@ static inline void sve_ldff1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
+-        clear_helper_retaddr();
+     }
  
- static inline void sve_ldff1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-                                 target_ulong base, uint32_t desc, uintptr_t ra,
--                                zreg_off_fn *off_fn, sve_ld1_tlb_fn *tlb_fn,
-+                                zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn,
-                                 sve_ld1_nf_fn *nonfault_fn)
- {
-     const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
-@@ -5172,7 +5125,7 @@ static inline void sve_ldff1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-         set_helper_retaddr(ra);
+     /* After any fault, zero the leading predicated false elements.  */
+@@ -5122,13 +5090,11 @@ static inline void sve_ldff1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
+     reg_off = find_next_active(vg, 0, reg_max, MO_64);
+     if (likely(reg_off < reg_max)) {
+         /* Perform one normal read, which will fault or not.  */
+-        set_helper_retaddr(ra);
          addr = off_fn(vm, reg_off);
          addr = base + (addr << scale);
--        tlb_fn(env, vd, reg_off, addr, oi, ra);
-+        tlb_fn(env, vd, reg_off, addr, ra);
+         tlb_fn(env, vd, reg_off, addr, ra);
  
          /* The rest of the reads will be non-faulting.  */
-         clear_helper_retaddr();
-@@ -5282,9 +5235,8 @@ DO_LDFF1_ZPZ_D(dd_be, zd)
+-        clear_helper_retaddr();
+     }
  
- static void sve_st1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
-                        target_ulong base, uint32_t desc, uintptr_t ra,
--                       zreg_off_fn *off_fn, sve_ld1_tlb_fn *tlb_fn)
-+                       zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
+     /* After any fault, zero the leading predicated false elements.  */
+@@ -5240,7 +5206,6 @@ static void sve_st1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
      const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
      intptr_t i, oprsz = simd_oprsz(desc);
  
-@@ -5294,7 +5246,7 @@ static void sve_st1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; ) {
+         uint16_t pg = *(uint16_t *)(vg + H1_2(i >> 3));
          do {
-             if (likely(pg & 1)) {
-                 target_ulong off = off_fn(vm, i);
--                tlb_fn(env, vd, i, base + (off << scale), oi, ra);
-+                tlb_fn(env, vd, i, base + (off << scale), ra);
-             }
+@@ -5251,7 +5216,6 @@ static void sve_st1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
              i += 4, pg >>= 4;
          } while (i & 15);
-@@ -5304,9 +5256,8 @@ static void sve_st1_zs(CPUARMState *env, void *vd, void *vg, void *vm,
+     }
+-    clear_helper_retaddr();
+ }
  
  static void sve_st1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
-                        target_ulong base, uint32_t desc, uintptr_t ra,
--                       zreg_off_fn *off_fn, sve_ld1_tlb_fn *tlb_fn)
-+                       zreg_off_fn *off_fn, sve_ldst1_tlb_fn *tlb_fn)
- {
--    const TCGMemOpIdx oi = extract32(desc, SIMD_DATA_SHIFT, MEMOPIDX_SHIFT);
+@@ -5261,7 +5225,6 @@ static void sve_st1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
      const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
      intptr_t i, oprsz = simd_oprsz(desc) / 8;
  
-@@ -5315,7 +5266,7 @@ static void sve_st1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
+-    set_helper_retaddr(ra);
+     for (i = 0; i < oprsz; i++) {
          uint8_t pg = *(uint8_t *)(vg + H1(i));
          if (likely(pg & 1)) {
-             target_ulong off = off_fn(vm, i * 8);
--            tlb_fn(env, vd, i * 8, base + (off << scale), oi, ra);
-+            tlb_fn(env, vd, i * 8, base + (off << scale), ra);
+@@ -5269,7 +5232,6 @@ static void sve_st1_zd(CPUARMState *env, void *vd, void *vg, void *vm,
+             tlb_fn(env, vd, i * 8, base + (off << scale), ra);
          }
      }
-     clear_helper_retaddr();
+-    clear_helper_retaddr();
+ }
+ 
+ #define DO_ST1_ZPZ_S(MEM, OFS) \
 -- 
 2.20.1
 
