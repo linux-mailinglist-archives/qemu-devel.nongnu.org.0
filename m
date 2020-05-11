@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905D81CD843
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:27:47 +0200 (CEST)
-Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A371CD882
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:33:39 +0200 (CEST)
+Received: from localhost ([::1]:49748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY6b4-0000TX-Fs
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:27:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54888)
+	id 1jY6gk-00052l-Ek
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:33:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY6Ky-00058W-NS
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:11:08 -0400
-Received: from mout.web.de ([212.227.15.14]:56081)
+ id 1jY6L2-0005E5-OM
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:11:12 -0400
+Received: from mout.web.de ([212.227.17.12]:41025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY6Kx-0005lb-T8
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:11:08 -0400
+ id 1jY6L1-0005mk-Tq
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:11:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589195460;
- bh=tUg9o884OMIklfCikslkyZW37XNcYKoP71AiwmXwais=;
+ s=dbaedf251592; t=1589195463;
+ bh=8aa/cXv8MJaQTeNGuhAYmWL57Hgij/DmXi7owbKM+js=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=HhJZf8whG4m37KkvMIcoWqfkCyE/Mg7MyLwP2gg7lpwBnG7fzd8pCniv2bw+9BbHM
- Z63KpGKlgELSbElYbVjWqA2LB/5nOy2ikXUr/wf3l+jyCw/X+WZ65sTpqe6gal2THP
- dYQaf2SHD8GKkHOVrQvslKU6Vl+3QPaqnxnz8diA=
+ b=ElpuAmr32P3BcPMQbFvM1DiqPwEaQsMWeMEr2oUIegE5pSG70OfSd7H2ZKsq8Go0d
+ rkBIvGVAITuKb4ItpfGotd3L1iE885lucHhx3X40KhsE0+c2P3Ws8FrBLLZO4FPlps
+ wLwhH80F0AZbA/yPU0C829Ohy23ZsXOw+9auErQ8=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M4KNZ-1jXpLu3hQX-000MFN; Mon, 11
- May 2020 13:10:59 +0200
-Date: Mon, 11 May 2020 13:10:58 +0200
+Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MsJSy-1jF43B1gD4-00teTy; Mon, 11
+ May 2020 13:11:03 +0200
+Date: Mon, 11 May 2020 13:11:01 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH 5/6] migration/qemu-file.c: Don't ratelimit a shutdown fd
-Message-ID: <f3ea4250e6982598ffffc73924a6917dbc823c87.1589193382.git.lukasstraub2@web.de>
+Subject: [PATCH 6/6] migration/colo.c: Move colo_notify_compares_event to
+ the right place
+Message-ID: <d4555dd5146a54518c4d9d4efd996b7c745c6687.1589193382.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1589193382.git.lukasstraub2@web.de>
 References: <cover.1589193382.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/flNjsFKhuuZ.XOnZadI_aPr";
+Content-Type: multipart/signed; boundary="Sig_/SRb1ob89Z9y2QWedmIRxl6S";
  protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:wRaJQIVGOrJKahlvJBpGxF5IfAavcvQhBJS93SOFVHN+nTFMCV1
- bi/9HMv+nsF9Z2f3o9Muz+4NaL7ZCnOZY9nbWsKvgbFhlhVqgMeXfZI3gtKol51E4EYIAMz
- Mb9KU0wPrYMEFcTeKllvK4gJR09kOJKq/RhKCLg12fn+AaKEWjcm3MjhOFBxXNrr8YYuqhp
- TiKfbAeByRad7kv94SDiQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Z2atHHipKfU=:1U5dNSkQ3wUvDdYHthQHdO
- Al/GrL7FYMkWYRJZRk9+vs+NCTY7AqHGkvNTl4ND7C3RDFWY4I3ykfBIo6yrbdVr3LBjObRlC
- bzyqSdQHYa4hWl+EAjMNO7pdtz/WumSWYFqTLRneX/PYjYE1tzo3FcrzkZQZfXJ8bhFmGLRqY
- Kl/y6W10hDlR4gIXOtuljunWI63qhFgCwkso3UhAx7DW58YmAGr3DQ9Py/uyO+Bn7T6Bn895r
- NXJ0Q13+UVYsYQ2MYQRDZhSRVadK3PWLPE1D7ZDxL8+y/bFu2D/ntYSyNR772aLlUJOuuFZhJ
- WhGyiCkC2xXbCyxM7dNX5kHnOxxSHOX7fDSRdJ0dWbKxkSj8PVD2MOBFRV0VaKtUX+GAkOqW8
- 7fd89LKsUgDyax1J8vu1mSVcK9HlrQWPilwMLmHFIEn3qlUN5T04f1kEqSTBFaNpYRSuITeB7
- AUMF3qMDwzZnEXxn8bf/yJx2wwcA1jYkmsg9Rbg3GinT42TCyNIAw2XJPnqhQ73Bt60u4GFjy
- p9KaOug47O4LIlGjAYRQvrwVeGMPN46jC6JH7PIHj8U+6EpjyNr/UqWs4V+HXVuZxrbO6MIMN
- P2KchcoM5yqxntNKZIsLO4gUHF24MCehH1Bj1YVYgkXBEYVSl21gf/1JSLNAT4OgjiZclBJtw
- GbpPZvheF9bvEjFuM/L2y5eXfVhECHtlFluC6nGl73e/UBBT5FfopsDIsIwrZtv9Ow6qxGN4u
- Hyh3VBZivjmPh8FjcP7Xn92OBirJPYg8hUQTHJYzw2CIsJzAHLEjntjP41qAuwKVuxCOQKeZs
- +kCvdXqJRWX+ET/UsFXejRlQifWLk7QiR9CzzXifnSHYFXxroO6Ax0GkH3fE/nSYfUGyd2nAK
- gPjfwV6zV6+68KPaFWIvQyw+Endutr4TMf2gSN4ke+5zaqbXtJAIYQnuAHCM2xjDBBxigv43Q
- rEaKAK18hN1MjjM1WzjFD3hjc4vIBeszSHa0Gnsl83HLEt2Lv0hyxNzfSqIZjqXC+wlwTBRGZ
- FbYccZB4UsJ61s8wyiUPzLzrJGnyrDJ5/ED+ZEzsg1luPxLVQia6wHEDZNpvShicDZhVVX4am
- xsanau6M4irFkoW/c6SBbLH06rtWE1NVkcPWFs5cfhOJoMZEfMk7BtZvzhVRrGq7uzy5z7QQI
- hEZoflI3OZCOvA6oEjpUvlt22DGKmwkHYc1CvkB4zbH1ghZumeJBomhERmlUH6NoL194HijCT
- rfzs4vgFx+HbE2rnF
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:IU3txvhBiDREI7tNkWx5REKG0Uwnv8IAQ5LmYKL67wiqxUBMOz0
+ p5ndNdGAW5FFPlTEc5QTBzYWe6+xo9MWfLMPlNqr2WfNX6zhM/GzCk6rGlev1VD5PTHdepY
+ dK17zoILIrgBBtobj8jFp+DIh/2AqBGVqEzE6EOUoGM+FEVxNSg2NpmRuExPh44ZD0+bEzt
+ wVCL4Nancp9BOYIvLFkfQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0DKC7TXAbnA=:DWl6hDFq3XycRpSa+M1Hp/
+ hHGddW+YlCsAHnie+oATtR+re7h3E41g3fHGSLJqgBpsLi2etwMDeFUBuMXXzRzKuc+bC/ACJ
+ QVwuqm2DboB9boqVwxkNmpu3JFXYmTAjKDnPt0Yal9bzRfC2T9Y3CXCRLXSH8ER/MtptiJeeu
+ axIEa/KMy1Tb2Yx8UjLhN9av6zYRbeHOLarY+Ed9A9cGoD7Fe7lDPyNond4f+CRK/NkpH3H3A
+ xO5Pg6hmv/jpultud0CM7HDS/jdSzDMEow1AXzrhZmNA4nw2A7vYzdPr0+h5zoFyChPOr8asd
+ Ra0yqjMdoYQO3uASIi3kEP7IXVpKjNOKuKqsmqEUtMNwd1RQggl8c1I8Yy5PBshvgGbm/EiBS
+ EL753HU4MsQzJncjA4dcChrq5eRdHXPtUPM2LWtK7z5Kn95fdCOj8E4BDjzw/hCiC1398NJ6V
+ F/dAdq6LMitG2pmz2Gvyu2rqpNS1jbjrkSWxibm+WEZ6+m7cwX2ApFs1c5QCtAC2n57+qvdM9
+ l09dZpmAuSGsqv/enXkKKlQbHO7a6uEE4yZ6DPj5Pd/YJTwQg4o60tePPzUT6HUDgCDXxJ4uQ
+ sIr+t9b3mz2QJq0IiwSOXYj9pXGN1JCJyeTCGkVFkdeOe4r40ahfjR3QRBQw1KyInCuuOIw9h
+ 7lj4YOyaMSGcB5U2q5x/dKXnAwcG2WMVA1pIFBL7ObxkoZJoHl8G0awGeYkBjydfeXbpmtaQT
+ VPaTnaD+yrz68mePAL1Fov9q8jD/FBNmKdwKOqa8nTJ82ztnR8bYyDdI9uP3UiDpSaiszHJaR
+ 5AOtHtW1jgJTXgS4SRDv4/3NjiK2vgbTRVzZYA7fE6HAAWoYCO7OliBdLO7W8iTrf2W9d7t88
+ FDJN8/QReDVxto0RXdk+BjadKW17dLNO5YCvK4EA1v6/1yV9OBHQr5E+bVPNdjSvOrJ+9xgWY
+ xsdLGkvG7N0pWKMijf5LuQPnK52sK0F94zje8SbtPMvotB4XJt758E1uuePvUyVSquJunOasS
+ xc8Dnf1s5oIhYvZsR80dYQSsqcTfSB7fQUPggmDYbqZCs0OgF7kdJtgRFtomnjtWCnban41F7
+ RyLccvU7BF0mXftQKvRH7t2WtOh04L/+IIPi2aMPQgS/wegoMdpdHxcuJIXsJtNgUTBRPjl2d
+ q5ZtkUyxRi4pdwdGRlLBXvqujdLJaP4gZ8lbLNR2j47S/7s+dOEcM2bb9Xh4f8XRErhCPOSVO
+ 5YYf7WPd2bR/Xp4Np
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 07:10:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,55 +94,77 @@ Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/flNjsFKhuuZ.XOnZadI_aPr
+--Sig_/SRb1ob89Z9y2QWedmIRxl6S
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-This causes the migration thread to hang if we failover during
-checkpoint. A shutdown fd won't cause network traffic anyway.
+If the secondary has to failover during checkpointing, it still is
+in the old state (i.e. different state than primary). Thus we can't
+expose the primary state until after the checkpoint is sent.
+
+This fixes sporadic connection reset of client connections during
+failover.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 ---
- migration/qemu-file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ migration/colo.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 1c3a358a14..0748b5810f 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -660,7 +660,7 @@ int64_t qemu_ftell(QEMUFile *f)
- int qemu_file_rate_limit(QEMUFile *f)
- {
-     if (f->shutdown) {
--        return 1;
-+        return 0;
+diff --git a/migration/colo.c b/migration/colo.c
+index a69782efc5..a3fc21e86e 100644
+--- a/migration/colo.c
++++ b/migration/colo.c
+@@ -430,12 +430,6 @@ static int colo_do_checkpoint_transaction(MigrationSta=
+te *s,
+         goto out;
      }
-     if (qemu_file_get_error(f)) {
-         return 1;
+=20
+-    qemu_event_reset(&s->colo_checkpoint_event);
+-    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT, &local_err);
+-    if (local_err) {
+-        goto out;
+-    }
+-
+     /* Disable block migration */
+     migrate_set_block_enabled(false, &local_err);
+     qemu_mutex_lock_iothread();
+@@ -494,6 +488,12 @@ static int colo_do_checkpoint_transaction(MigrationSta=
+te *s,
+         goto out;
+     }
+=20
++    qemu_event_reset(&s->colo_checkpoint_event);
++    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT, &local_err);
++    if (local_err) {
++        goto out;
++    }
++
+     colo_receive_check_message(s->rp_state.from_dst_file,
+                        COLO_MESSAGE_VMSTATE_LOADED, &local_err);
+     if (local_err) {
 --=20
 2.20.1
 
-
---Sig_/flNjsFKhuuZ.XOnZadI_aPr
+--Sig_/SRb1ob89Z9y2QWedmIRxl6S
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65MsIACgkQNasLKJxd
-sljmvBAAooZW0qTfOd1ma3V2WOqUPqrMep0iTH06U7J1b2Nu75H1BiFFZL1Zsxok
-aYILa5gqcTfVscdlNKJ7bGGv+sM+EcDbPwu8Q0xaYGdWcTvAF6MvrIwd5tSpqtQB
-Uvpd02YcIWw9kROzQfw2Thi2GVh2k0PLuo6vot9eTvOTNHGs2xpzMEcKhPKvIHz5
-VHf5eticieQAvC5fu+UbLe9Asmq8sgMCqbXFH1rruEbyghi5cWBzCqC/gC+pHkUZ
-BbAuJxQvXnp8LhXxBtZxbHzt4q9b1rnsVLetairfGQk47YY5Qb75V/2cPG6l/0Ry
-GCa/pUBqsmHQjjjsKomaHBBGASgFZL8LQqbNjDcFC7ScK97ifmaONl7GafvDEZHX
-K6vm/spoipQyXzcMmROLA56Z0x93gqWXCr4wlrUuAMYJe6cHjkZCO+naMEUlAtCB
-DQ6LCSSgggW5sZadoVZE7lBzZvE8fTa1pllgmYEdLz9I/s1KX1ehRIauhOhuUD6k
-rOuvbq+jXyzJWFkjdndNov/tmOFMWjVjedbQXgqMQwSzlv8mUoXveA9EDU8oKQDC
-uM97KHsbVdCTOv03mTCH0MMgV96Cc7DaX0r1baVz3W+i9ATqyUJdS4LhR6niasER
-gNYvSrc+AJTP6jU9qrHN6igM7m0haDxcazvvtVa28n0k1RWoCcU=
-=rd3m
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65MsUACgkQNasLKJxd
+sljf7A//XMzwV5vPfRb8lhiXwt1UwOJiJIkZ06ZtD3frAU07bMOE6eExDQZlw52e
+R+IA9MzX/0WWsSx5U2LAhFKfoNC0so7w5BfADuwaU40j9K8quIi8P17YGyt80oLa
+UMDOUu2lPu+5PlRkjI72djMCWk3knHxWhFdeFEtxdiUtK3kUjk/W3T5xNZJatPPA
+KTdOf/YIlBAhdQ6JOKCoaPHZ00ETQcqaE31Rn1l57Kun0EF3D/fuW2YVPah42jTr
+amZqCVSIk1K+WSOxHA51Oqgfs4uHnmHHhXuIBBTuDpZVg5p967xHiW4yw/dOrlOz
+8DhWan7TCv4xvkspuZMA3+mGUPyyqRPp8eWsYJD9GfpA/qGKlWJrHxCSwgjIWO0t
+vyeghDjYC1+mYnA9CBuAJR0kc0GLGepeO6q0RNSjwz+GReOrk1LB1PJJVgphlrKX
+8piZgiz4VjcPLzz12EGG5gtIR3MYFZwCPnIHjD082G0mYszZBumeU5rMTVj6IfYM
+1p2zykVK8a2ahxMk9Cxen3cN1bzoHimHNUjx2cwoI5YVm+1/cUHsX/Yv5qRQnYiq
+/67dUaaCwZYUngFchG/8ExMi/PSCp70SjlXpWUAxhBnUBCm3MtOffPCKwLQP6QP7
+Ezq5J7idBWwof41wEwdxYtBCiJMOOlJJHuu/KJoK6fYAPuXLeNs=
+=PntW
 -----END PGP SIGNATURE-----
 
---Sig_/flNjsFKhuuZ.XOnZadI_aPr--
+--Sig_/SRb1ob89Z9y2QWedmIRxl6S--
 
