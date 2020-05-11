@@ -2,75 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7BC1CDCC2
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:13:34 +0200 (CEST)
-Received: from localhost ([::1]:58532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AA061CDCA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:10:02 +0200 (CEST)
+Received: from localhost ([::1]:42512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9BV-0003fE-NL
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:13:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54908)
+	id 1jY985-0005Gj-76
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keiichiw@chromium.org>)
- id 1jY951-0002Zw-OO
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:06:51 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:41251)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <keiichiw@chromium.org>)
- id 1jY94x-0002Or-SW
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:06:51 -0400
-Received: by mail-lj1-x242.google.com with SMTP id j3so9609733ljg.8
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 07:06:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=haJMwOvTf5fIl1NGZ/2blWPLBhZV7nR/CzNYhK0YNtE=;
- b=n3b7+DIaKbaJmEW0MOOdepTs9odKwvh9njPSmX33PZuzNcsHSDv4wcNL+zteym8y9v
- uchnC8mXHH90NCTwe+7m75OrDXq8d7DIMq37JOc1KHKC8LmQM7MH7ilxQ1AdTWAjf3Ty
- oHI3GCazdgs0X92bI+TDo9xWGu31EV6mzm9ko=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=haJMwOvTf5fIl1NGZ/2blWPLBhZV7nR/CzNYhK0YNtE=;
- b=b/lZta7KAER5+wSHc/z+U7syIRqlD6VEjcDWpDj7lhqcGodEKJu5T7Myh0YjiJBDe7
- GorMchvmk54HLqSsC+b/piHvy73a8VkkSfaOD/8yFVTEUoV4FO+8o209I629krSxCsN4
- 5G5iMxzKAK8cFKPuToBT+p3eEbyvPOebdFhKUyzBCrxGJDXo+QcgPDI+42HW/khrIz+k
- 2nU8XIWSyUBlv2xWZutJFIxsBBRptWis8FZVmotmt2gQbP1RfgnPxaMGg/3XBmuTJ6wZ
- 9/knKgxFK2lhTE2lgLcUEAQIeQ6x2QBU04DSS1yFoZO/SceDfQlrEUW5g9weLnJe/lP2
- NGmw==
-X-Gm-Message-State: AOAM533a2RD4jW3+QL2j6RYw1fchgZG/3T2VHva6rmk7Fys85sYMxBmF
- ELvNBqsL9P65wNkVK+RikvmqN1uwGvHWyfKf1Iu0/g==
-X-Google-Smtp-Source: ABdhPJwBH1E+ecdt/FDIZFNnCScP8N2GvNenf9y6DgFEQTQkGQSP9zS/tKDGLkdIcNibwUzh5C9ZKuEYv8PXGjGaVso=
-X-Received: by 2002:a05:651c:32e:: with SMTP id
- b14mr10453920ljp.277.1589206005853; 
- Mon, 11 May 2020 07:06:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <13824125580@163.com>)
+ id 1jY96H-0003z4-Ua
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:08:10 -0400
+Received: from m13-81.163.com ([220.181.13.81]:31099)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <13824125580@163.com>)
+ id 1jY96D-0002dF-13
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:08:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=kVT6v
+ zZ3iGi/ns83U1Vk9CE/+JMUIYPpaJaMsLb3RPg=; b=Gu5hGOn0ALyMigvk1U4SV
+ W/zAu2fFBox2y6xigMxFx46nfsqS8cKCT+X2adCvffxPGDbTm2Yah8H9OjMaC3Zh
+ bcPpw3ZKB2HuiG5KyV3RiGaCNRgV78kbPtTJw9hvdlNMh86JiEQV+28vqWzpJxuP
+ 2EHGYoekKTz7SARxLN7zb8=
+Received: from 13824125580$163.com ( [113.74.45.41] ) by
+ ajax-webmail-wmsvr81 (Coremail) ; Mon, 11 May 2020 22:07:34 +0800 (CST)
+X-Originating-IP: [113.74.45.41]
+Date: Mon, 11 May 2020 22:07:34 +0800 (CST)
+From: tugouxp <13824125580@163.com>
+To: qemu-devel@nongnu.org
+Subject: Is qemu could be a "FSM" state machine if running on a "quiet and
+ clean" host pc without random event input?
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190724(ac680a23)
+ Copyright (c) 2002-2020 www.mailtech.cn 163com
+X-CM-CTRLDATA: nJAJWGZvb3Rlcl9odG09MTIyNTo2MQ==
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_124533_722150239.1589206054153"
 MIME-Version: 1.0
-References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
- <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
- <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
- <2515515.r9knKAEANn@os-lin-dmo>
- <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
- <CAK25hWNR0WdpddU1kDChUB+PWiLG2A76KJW5u5F-LNkGBREj_g@mail.gmail.com>
-In-Reply-To: <CAK25hWNR0WdpddU1kDChUB+PWiLG2A76KJW5u5F-LNkGBREj_g@mail.gmail.com>
-From: Keiichi Watanabe <keiichiw@chromium.org>
-Date: Mon, 11 May 2020 23:06:34 +0900
-Message-ID: <CAD90VcYJe7+R256RdOQKxFQciq54+PwbyDRF1cynjOzdQBrq-g@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
-To: Saket Sinha <saket.sinha89@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=keiichiw@chromium.org; helo=mail-lj1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Message-ID: <7da014ca.86ed.172040ff509.Coremail.13824125580@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: UcGowAC31rYnXLle_H4sAA--.30090W
+X-CM-SenderInfo: bprtmjyurskkiyq6il2tof0z/xtbBRQchQlPAFsHn5QAAsn
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.13.81; envelope-from=13824125580@163.com;
+ helo=m13-81.163.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 10:07:36
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FROM_LOCAL_DIGITS=0.001,
+ FROM_LOCAL_HEX=0.006, HTML_MESSAGE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 11 May 2020 10:09:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,133 +68,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
- virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
- Kiran Pawar <Kiran.Pawar@opensynergy.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Tomasz Figa <tfiga@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- libcamera-devel@lists.libcamera.org, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Sepp <dmitry.sepp@opensynergy.com>, Pawel Osciak <posciak@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Saket,
+------=_Part_124533_722150239.1589206054153
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-On Mon, May 11, 2020 at 9:33 PM Saket Sinha <saket.sinha89@gmail.com> wrote:
->
-> Hi Keiichi,
->
-> > > > I do not support the approach of  QEMU implementation forwarding
-> > > > requests to the host's vicodec module since  this can limit the scope
-> > > > of the virtio-video device only for testing,
-> > >
-> > > That was my understanding as well.
-> >
-> > Not really because the API which the vicodec provides is V4L2 stateful
-> > decoder interface [1], which are also used by other video drivers on
-> > Linux.
-> > The difference between vicodec and actual device drivers is that
-> > vicodec performs decoding in the kernel space without using special
-> > video devices. In other words, vicodec is a software decoder in kernel
-> > space which provides the same interface with actual video drivers.
-> > Thus, if the QEMU implementation can forward virtio-video requests to
-> > vicodec, it can forward them to the actual V4L2 video decoder devices
-> > as well and VM gets access to a paravirtualized video device.
-> >
-> > The reason why we discussed vicodec in the previous thread was it'll
-> > allow us to test the virtio-video driver without hardware requirement.
-> >
-> > [1] https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
-> >
->
-> Thanks for clarification.
->
-> Could  you provide your views if it would be possible to support also
-> paravirtualized v4l-subdev devices which is enabled by media
-> controller to expose ISP processing blocks to linux userspace.
-> Ofcourse, we might need to change implementation and spec to support that
-> Please refer (1) for details.
+SGkgZm9sa3M6CiAgaSB3YW50IHRvIGtub3cgYWJvdXQgd2hldGhlciB0aGVyciBhcmUgbGltaXRh
+dGlvbnMgZHVyaW5nIHFlbXUgZW11bGF0aW9uIHN5c3RlbXMsIGZvciBleGFtcGUsIGRpZCB0aGUg
+cmVndWxhciBidWdzIGNvcmVuZXIgY2FzZSBjYW50IGJlIGR1cGxpY2F0ZWQgb24gcWVtZSBidXQg
+ZXhpc3Qgb24gcmVhbCBib2Fkcz8KCgp3aHkgdGhpbmcgdGhpcyBpcyB0aGF0ICwgaSBoYXZlIGV2
+ZXIgdXNlIGhkbCBzaW11bGF0b3IgKG1vZHNpbSBhbmQgaXZlcmlsb2cpIGFuZCBvcGVucmlzYyBw
+cm9jZXNzb3IgdG8gZW11bGF0ZSB0aGUgbGludXggYW5kIHVjb3MgcnVubmluZywgYW5kIHNlZSB0
+aGUgd2F2ZWZvcm0gb2YgdGhlIHNpbXVsYXRlaW9uIHByb2Nlc3Mgb2YgdGhlIG9wZXJhdGlvbnMg
+c3lzdGVtcy4KaSBmb3VuZCBhbiBpbnRlcmVzdGluZyB0aGluZ3MsIGlmIGkgdGFrZSBqdXN0IHRo
+ZSB0aWNrIGludGVycnVwdCBhcyB0aGUgb25seSB0ZXN0YmVjaCBldmVudCBzb3VyY2UsdGhlICBr
+ZXJuZWwgc2ltdWxhdGlvbiB3YXZlZm9ybSBpcyBpZGVudGljYWwgZHVwbGljYXRlZCBhZ2FpbiBh
+bmQgYWdhaW4sIHdoaWNoIG1lYW5zIGkgY2FuIHByZWRpY2F0ZSBmdXR1cmUgYmVoYXZpb3IuCgoK
+aSB0aGluayB0aGlzIHNvbWV0aGluZyBsaWtlIHFlbXUgd29yayBwcmluY2lwbGUgYW5kIHNvIHdh
+bnQgdG8ga25vdywgd2hldGhlciB0aGUgcWVtdSBoYXMgdGhpcyBsaW1pdGF0aW9uPyBpcyB0aGUg
+c2ltdWxhdGlvbiBwcm9jZXMgYSAiRlNNIiAgdGhhdCB3aXRoIGRlZmluaXRpb24gb3V0cHV0IGlm
+IHRoZSBpbnB1dCBldmVudCBhcmUgYWxsIHJlZ3VsYXIgYW5kIHdpdGhvdXQgcmFuZG9tPwoKCnRo
+YW5rIHlvdQo=
+------=_Part_124533_722150239.1589206054153
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
 
-Again, the current virtio-video protocol and driver only support video
-encoding and decoding. We had no detailed discussion about camera
-supports.
-Moreover, I personally disagree with supporting video capturing in
-virtio-video protocol. Instead, I believe it's better to have a
-separate protocol like "virtio-camera". Decoupling video codec APIs
-and camera APIs should make protocols simpler and easier to maintain.
-I suggested this idea in [1].
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+SGkgZm9sa3M6PC9kaXY+
+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij4mbmJzcDsgaSB3YW50IHRvIGtub3cgYWJvdXQgd2hldGhl
+ciB0aGVyciBhcmUgbGltaXRhdGlvbnMgZHVyaW5nIHFlbXUgZW11bGF0aW9uIHN5c3RlbXMsIGZv
+ciBleGFtcGUsIGRpZCB0aGUgcmVndWxhciBidWdzIGNvcmVuZXIgY2FzZSBjYW50IGJlIGR1cGxp
+Y2F0ZWQgb24gcWVtZSBidXQgZXhpc3Qgb24gcmVhbCBib2Fkcz88L2Rpdj48ZGl2IHN0eWxlPSJt
+YXJnaW46MDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPndoeSB0aGluZyB0aGlz
+IGlzIHRoYXQgLCBpIGhhdmUgZXZlciB1c2UgaGRsIHNpbXVsYXRvciAobW9kc2ltIGFuZCBpdmVy
+aWxvZykgYW5kIG9wZW5yaXNjIHByb2Nlc3NvciB0byBlbXVsYXRlIHRoZSBsaW51eCBhbmQgdWNv
+cyBydW5uaW5nLCBhbmQgc2VlIHRoZSB3YXZlZm9ybSBvZiB0aGUgc2ltdWxhdGVpb24gcHJvY2Vz
+cyBvZiB0aGUgb3BlcmF0aW9ucyBzeXN0ZW1zLjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+
+aSBmb3VuZCBhbiBpbnRlcmVzdGluZyB0aGluZ3MsIGlmIGkgdGFrZSBqdXN0IHRoZSB0aWNrIGlu
+dGVycnVwdCBhcyB0aGUgb25seSB0ZXN0YmVjaCBldmVudCBzb3VyY2UsdGhlJm5ic3A7IGtlcm5l
+bCBzaW11bGF0aW9uIHdhdmVmb3JtIGlzIGlkZW50aWNhbCBkdXBsaWNhdGVkIGFnYWluIGFuZCBh
+Z2Fpbiwgd2hpY2ggbWVhbnMgaSBjYW4gcHJlZGljYXRlIGZ1dHVyZSBiZWhhdmlvci48L2Rpdj48
+ZGl2IHN0eWxlPSJtYXJnaW46MDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPmkg
+dGhpbmsgdGhpcyBzb21ldGhpbmcgbGlrZSBxZW11IHdvcmsgcHJpbmNpcGxlIGFuZCBzbyB3YW50
+IHRvIGtub3csIHdoZXRoZXIgdGhlIHFlbXUgaGFzIHRoaXMgbGltaXRhdGlvbj8gaXMgdGhlIHNp
+bXVsYXRpb24gcHJvY2VzIGEgIkZTTSImbmJzcDsgdGhhdCB3aXRoIGRlZmluaXRpb24gb3V0cHV0
+IGlmIHRoZSBpbnB1dCBldmVudCBhcmUgYWxsIHJlZ3VsYXIgYW5kIHdpdGhvdXQgcmFuZG9tPzwv
+ZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjow
+OyI+dGhhbmsgeW91PGJyPjwvZGl2PjwvZGl2Pjxicj48YnI+PHNwYW4gdGl0bGU9Im5ldGVhc2Vm
+b290ZXIiPjxwPjxici8+Jm5ic3A7PC9wPjwvc3Bhbj4=
+------=_Part_124533_722150239.1589206054153--
 
-So, the answer to your question is:
-No in virtio-video protocol. But, it's possible to start designing a
-new "virtio-camera" protocol that supports camera features including
-image processing.
-
-[1] https://markmail.org/message/4q2g5oqniw62pmqd
-
->
-> > >
-> > > > which instead can be used with multiple use cases such as -
-> > > >
-> > > > 1. VM gets access to paravirtualized  camera devices which shares the
-> > > > video frames input through actual HW camera attached to Host.
-> > >
-> > > This use-case is out of the scope of virtio-video. Initially I had a plan to
-> > > support capture-only streams like camera as well, but later the decision was
-> > > made upstream that camera should be implemented as separate device type. We
-> > > still plan to implement a simple frame capture capability as a downstream
-> > > patch though.
-> > >
-> > > >
-> > > > 2. If Host has multiple video devices (especially in ARM SOCs over
-> > > > MIPI interfaces or USB), different VM can be started or hotplugged
-> > > > with selective video streams from actual HW video devices.
-> > >
-> > > We do support this in our device implementation. But spec in general has no
-> > > requirements or instructions regarding this. And it is in fact flexible enough
-> > > to provide abstraction on top of several HW devices.
-> > >
-> > > >
-> > > > Also instead of using libraries like Gstreamer in Host userspace, they
-> > > > can also be used inside the VM userspace after getting access to
-> > > > paravirtualized HW camera devices .
-> >
-> > Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
-> > can translate virtio-video requests to this API, we can easily support
-> > multiple platforms.
-> > I'm not sure how feasible it is though, as I have no experience of
-> > using this API by myself...
-> >
-> > [2] https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
-> >
->
-> Like pointed out above, Gstreamer is not the only framework present there.
-> We have the newer libcamera framework [2] and then Openmax (used in
-> Android Hal )
-> Refer [3] for comparison.
-
-It seems that we had miscommunication here. While I had mentioned
-Gstreamer as a generic implementation to cover "video decoding" APIs
-on various platforms, you were talking about "camera" APIs.
-As I said above, virtio-video is NOT designed for cameras.
-
-For abstraction of video decoding APIs, I don't know any better
-library than Gstreamer. For cameras, libcamera sounds good, but I'm
-not so familiar with this area...
-
-Best regards,
-Keiichi
-
-
->
-> My intentions are to make the implementation more generic so that it
-> can be used by different frameworks on different platforms.
->
-> [1]: https://static.sched.com/hosted_files/osseu19/21/libcamera.pdf
-> [2]: http://libcamera.org
-> [3]: https://processors.wiki.ti.com/images/7/7e/OMX_Android_GST_Comparison.pdf
->
-> Regards,
-> Saket Sinha
 
