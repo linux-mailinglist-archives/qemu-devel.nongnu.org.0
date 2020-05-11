@@ -2,55 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F4C1CD1F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:38:28 +0200 (CEST)
-Received: from localhost ([::1]:52304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77391CD1DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:32:54 +0200 (CEST)
+Received: from localhost ([::1]:45952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY255-0000qY-8c
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:38:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46468)
+	id 1jY1zh-0005cX-Qc
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:32:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jY23b-0007uV-Bu; Mon, 11 May 2020 02:36:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:37441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jY23Y-000742-VA; Mon, 11 May 2020 02:36:55 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49LB6l0xkgz9sTH; Mon, 11 May 2020 16:36:46 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1589179007;
- bh=fpH8RoaCbdgmGjevZaV5wDdi3Q9Hoi0Q1eGkanzgnyo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lK0TAnS6c+FlkjGAm/SUJtCwQKvVMjWkE6tIWV/yKS1CYip4oqnU80muSUmEMxThr
- yIuBM5pgY7b+qW4jnCwoaQ+I4OFmIdncOA5Y/cAkmIJE48f9JdqAIM72nk+Dw6Wmv/
- b0Hyc29VDY2q6FNfPQZcozDTQEVMmWyqQXAN5OYY=
-Date: Mon, 11 May 2020 16:27:01 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu] spapr: Add PVR setting capability
-Message-ID: <20200511062701.GQ2183@umbus.fritz.box>
-References: <20200417041105.63563-1-aik@ozlabs.ru>
- <20200504133027.4f5a18f8@bahia.lan>
- <15bdf96d-c617-665e-09cd-f4f0e0f107e4@ozlabs.ru>
- <20200505055007.GD218517@umbus.fritz.box>
- <7f7467ea-7919-f642-5bbe-083c34a018f5@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jY1xo-00058d-0V
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 02:30:56 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jY1xn-0006FH-9F
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 02:30:55 -0400
+Received: by mail-wr1-x442.google.com with SMTP id 50so8814461wrc.11
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 23:30:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=quIFR6mhP1x3onKdwu+UFr2o1QVXyu3HI0oYKF2760A=;
+ b=Nuxc3EKKo42I/zTJTKgOJYXVPaZbReHov6TkTXi/4XYJboY3wb4Nvv0dAjUp2HLZBh
+ KtXpcgG+yFFlhYVpTPIPYcL672pQvQvC9X3B4Ve6ggX9Yd3qM/WHKlkcJD8x4lyR9UOC
+ ni1HFM9WiozSguaem6ZxjDIw95XFWUdHilC7gKOwjsOH19gEoXT5ghF0u4qj4DC3Y8CZ
+ W+jYNX8Je1KFBAlfa7SlKGIpDJeSjIHDxbbwPS+vbuHKeLCWEBfCpt5VKga5oDbgOLnS
+ 3pkHHGUfR573NuY+ng+TiynEKqo9iMI13qAybumuGMUeazC68irsyYv5H6zen8SbhEql
+ f5TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=quIFR6mhP1x3onKdwu+UFr2o1QVXyu3HI0oYKF2760A=;
+ b=AeyKsjZrqtJN0nbrl7Pyi4q1abgJvVecuuGhQcu1pg9D5kdOmm2Xa/Wb0tgblac6tT
+ gg9vGkkJWRmF5Mk9+WcyuXq1qHWV9QSHZbfLl4iorfbBa7by3O+qo0Wsl4mEqnG5abbh
+ aEWCjcvQFgHiCqV9q0CSgqpEErEV3OIyGnFymQWaqwlgMooEJTSthTOrwLsCuGCvlcW4
+ AdUSKYcd7QlRnUWZ3uGjFoxBlOAZM0upX1k8vrxSV8J4zLNknymoqLcAe2BmVpFb6dQm
+ 44COxawFoKT4RvDraxoTOWfKMKqB1+vj+PZmTetj2XSMQCNmxiGMgodJfL73lGNa5v1U
+ Z0dg==
+X-Gm-Message-State: AGi0PuZtja4QIoe8pRHT2xAQnXW/7lSQUdm6R6e0DhZnGvLaQ1jg7K9C
+ Z8Tv69A2Yj6APLeKvHbbm/o=
+X-Google-Smtp-Source: APiQypJ2Waw8c3ACqFTZsDcsaD3xU67UESVDZ7CnZD4jcPCWb5cJENXXePojbpI9rkEUeO5OXzo2Fg==
+X-Received: by 2002:a5d:6ac1:: with SMTP id u1mr16839681wrw.319.1589178652665; 
+ Sun, 10 May 2020 23:30:52 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id u24sm17912797wmm.47.2020.05.10.23.30.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 May 2020 23:30:51 -0700 (PDT)
+Subject: Re: [PATCH 11/12] hw/pci-host/bonito: Set the Config register reset
+ value with FIELD_DP32
+To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+References: <20200510210128.18343-1-f4bug@amsat.org>
+ <20200510210128.18343-12-f4bug@amsat.org>
+ <CAHiYmc5xCbftuexryEkY4+1FxOWVqz-wzJN2fg_dCiif0-BhYQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <58233ffa-f763-9948-6dfa-1b3159ae829f@amsat.org>
+Date: Mon, 11 May 2020 08:30:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uRjmd8ppyyws0Tml"
-Content-Disposition: inline
-In-Reply-To: <7f7467ea-7919-f642-5bbe-083c34a018f5@ozlabs.ru>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:36:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <CAHiYmc5xCbftuexryEkY4+1FxOWVqz-wzJN2fg_dCiif0-BhYQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,234 +93,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Huacai Chen <chenhuacai@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/11/20 8:17 AM, Aleksandar Markovic wrote:
+> нед, 10. мај 2020. у 23:01 Philippe Mathieu-Daudé <f4bug@amsat.org> је
+> написао/ла:
+>>
+>> Describe some Config registers fields with the registerfields
+>> API. Use the FIELD_DP32() macro to set the BONGENCFG register
+>> bits at reset.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/pci-host/bonito.c | 21 ++++++++++++++++++++-
+>>   1 file changed, 20 insertions(+), 1 deletion(-)
+>>
+> 
+> Some Config registers? Is there any reason not to cover all Bonito
+> config registers? Or, the commit message was inprecise?
 
---uRjmd8ppyyws0Tml
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The commit message is not correct English, I wanted to say "some bits of 
+the Config register" (I don't want to overload the file defining bits 
+we'll never use).
 
-On Tue, May 05, 2020 at 04:18:40PM +1000, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 05/05/2020 15:50, David Gibson wrote:
-> > On Tue, May 05, 2020 at 10:56:17AM +1000, Alexey Kardashevskiy wrote:
-> >>
-> >>
-> >> On 04/05/2020 21:30, Greg Kurz wrote:
-> >>> On Fri, 17 Apr 2020 14:11:05 +1000
-> >>> Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
-> >>>
-> >>>> At the moment the VCPU init sequence includes setting PVR which in c=
-ase of
-> >>>> KVM-HV only checks if it matches the hardware PVR mask as PVR cannot=
- be
-> >>>> virtualized by the hardware. In order to cope with various CPU revis=
-ions
-> >>>> only top 16bit of PVR are checked which works for minor revision upd=
-ates.
-> >>>>
-> >>>> However in every CPU generation starting POWER7 (at least) there wer=
-e CPUs
-> >>>> supporting the (almost) same POWER ISA level but having different top
-> >>>> 16bits of PVR - POWER7+, POWER8E, POWER8NVL; this time we got POWER9+
-> >>>> with a new PVR family. We would normally add the PVR mask for the ne=
-w one
-> >>>> too, the problem with it is that although the physical machines exis=
-t,
-> >>>> P9+ is not going to be released as a product, and this situation is =
-likely
-> >>>> to repeat in the future.
-> >>>>
-> >>>> Instead of adding every new CPU family in QEMU, this adds a new sPAPR
-> >>>> machine capability to force PVR setting/checking. It is "on" by defa=
-ult
-> >>>> to preserve the existing behavior. When "off", it is the user's
-> >>>> responsibility to specify the correct CPU.
-> >>>>
-> >>>
-> >>> I don't quite understand the motivation for this... what does this
-> >>> buy us ?
-> >>
-> >> I answered that part in another mail in this thread, shortly this is to
-> >> make QEMU work with HV KVM on unknown-to-QEMU CPU family (0x004f0000).
-> >>
-> >>
-> >>>
-> >>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> >>>> ---
-> >>>>  include/hw/ppc/spapr.h |  5 ++++-
-> >>>>  hw/ppc/spapr.c         |  1 +
-> >>>>  hw/ppc/spapr_caps.c    | 18 ++++++++++++++++++
-> >>>>  target/ppc/kvm.c       | 16 ++++++++++++++--
-> >>>>  4 files changed, 37 insertions(+), 3 deletions(-)
-> >>>>
-> >>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> >>>> index e579eaf28c05..5ccac4d56871 100644
-> >>>> --- a/include/hw/ppc/spapr.h
-> >>>> +++ b/include/hw/ppc/spapr.h
-> >>>> @@ -81,8 +81,10 @@ typedef enum {
-> >>>>  #define SPAPR_CAP_CCF_ASSIST            0x09
-> >>>>  /* Implements PAPR FWNMI option */
-> >>>>  #define SPAPR_CAP_FWNMI                 0x0A
-> >>>> +/* Implements PAPR PVR option */
-> >>>> +#define SPAPR_CAP_PVR                   0x0B
-> >>>>  /* Num Caps */
-> >>>> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI + 1)
-> >>>> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_PVR + 1)
-> >>>> =20
-> >>>>  /*
-> >>>>   * Capability Values
-> >>>> @@ -912,6 +914,7 @@ extern const VMStateDescription vmstate_spapr_ca=
-p_nested_kvm_hv;
-> >>>>  extern const VMStateDescription vmstate_spapr_cap_large_decr;
-> >>>>  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
-> >>>>  extern const VMStateDescription vmstate_spapr_cap_fwnmi;
-> >>>> +extern const VMStateDescription vmstate_spapr_cap_pvr;
-> >>>> =20
-> >>>>  static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int c=
-ap)
-> >>>>  {
-> >>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> >>>> index 841b5ec59b12..ecc74c182b9f 100644
-> >>>> --- a/hw/ppc/spapr.c
-> >>>> +++ b/hw/ppc/spapr.c
-> >>>> @@ -4535,6 +4535,7 @@ static void spapr_machine_class_init(ObjectCla=
-ss *oc, void *data)
-> >>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_C=
-AP_ON;
-> >>>>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_ON;
-> >>>>      smc->default_caps.caps[SPAPR_CAP_FWNMI] =3D SPAPR_CAP_ON;
-> >>>> +    smc->default_caps.caps[SPAPR_CAP_PVR] =3D SPAPR_CAP_ON;
-> >>>>      spapr_caps_add_properties(smc, &error_abort);
-> >>>>      smc->irq =3D &spapr_irq_dual;
-> >>>>      smc->dr_phb_enabled =3D true;
-> >>>> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> >>>> index eb54f9422722..398b72b77f9f 100644
-> >>>> --- a/hw/ppc/spapr_caps.c
-> >>>> +++ b/hw/ppc/spapr_caps.c
-> >>>> @@ -525,6 +525,14 @@ static void cap_fwnmi_apply(SpaprMachineState *=
-spapr, uint8_t val,
-> >>>>      }
-> >>>>  }
-> >>>> =20
-> >>>> +static void cap_pvr_apply(SpaprMachineState *spapr, uint8_t val, Er=
-ror **errp)
-> >>>> +{
-> >>>> +    if (val) {
-> >>>> +        return;
-> >>>> +    }
-> >>>> +    warn_report("If you're uing kvm-hv.ko, only \"-cpu host\" is su=
-pported");
-> >>>> +}
-> >>>> +
-> >>>>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
-> >>>>      [SPAPR_CAP_HTM] =3D {
-> >>>>          .name =3D "htm",
-> >>>> @@ -633,6 +641,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_=
-NUM] =3D {
-> >>>>          .type =3D "bool",
-> >>>>          .apply =3D cap_fwnmi_apply,
-> >>>>      },
-> >>>> +    [SPAPR_CAP_PVR] =3D {
-> >>>> +        .name =3D "pvr",
-> >>>> +        .description =3D "Enforce PVR in KVM",
-> >>>> +        .index =3D SPAPR_CAP_PVR,
-> >>>> +        .get =3D spapr_cap_get_bool,
-> >>>> +        .set =3D spapr_cap_set_bool,
-> >>>> +        .type =3D "bool",
-> >>>> +        .apply =3D cap_pvr_apply,
-> >>>> +    },
-> >>>>  };
-> >>>> =20
-> >>>>  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *s=
-papr,
-> >>>> @@ -773,6 +790,7 @@ SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NES=
-TED_KVM_HV);
-> >>>>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
-> >>>>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> >>>>  SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI);
-> >>>> +SPAPR_CAP_MIG_STATE(pvr, SPAPR_CAP_PVR);
-> >>>> =20
-> >>>>  void spapr_caps_init(SpaprMachineState *spapr)
-> >>>>  {
-> >>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> >>>> index 03d0667e8f94..a4adc29b6522 100644
-> >>>> --- a/target/ppc/kvm.c
-> >>>> +++ b/target/ppc/kvm.c
-> >>>> @@ -466,15 +466,27 @@ int kvm_arch_init_vcpu(CPUState *cs)
-> >>>>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> >>>>      CPUPPCState *cenv =3D &cpu->env;
-> >>>>      int ret;
-> >>>> +    SpaprMachineState *spapr;
-> >>>> =20
-> >>>
-> >>> We generally try to avoid adding such explicit dependencies to the
-> >>> machine code within the target directory... A virtual hypervisor
-> >>> hook could possibly do the trick but this would require to set
-> >>> PowerPCCPU::vhyp before kvm_arch_init_vcpu() gets called, eg.
-> >>> when the vCPU is created in spapr_create_vcpu() rather than
-> >>> when it gets realized.
-> >>
-> >> The only thing kvm_arch_sync_sregs() does is setting PVR, and it does
-> >> not do even that for Book3E so there is dependency already, mine at
-> >> least explicit :)
-> >>
-> >> I am really not sure what setting PVR buys us, KVM PR will take
-> >> anything,
-> >=20
-> > PR will take anything, but it changes the behaviour.  Basically PR
-> > will try to match its behaviour to the PVR you specify.  It can't
-> > entirely succeeed in all cases, of course, but that's PR for you.
-> >
-> > From an API point of view, the idea is that setting the PVR here
-> > specifies the model you want the vcpu to appear to be.  But, KVM is
-> > free to say "can't do that".
->=20
->=20
-> Except pseries does not care what the CPU appears to be and uses
-> KVM_REG_PPC_ARCH_COMPAT instead.
+> 
+> But, in general, I salute the intent of this patch.
 
-I'm not really sure what you mean by that.  The exact cpu model can be
-relevant for pseries in certain edge cases, although in most cases
-it's the compat mode that will matter in practice.
+Thanks! I'll reword the description.
 
-> So, is this a no? Thanks,
-
-Yes, although not really for the reasons above.  As you say this is
-just for the handful of people who have never-released machines, which
-makes this some ugly and confusing cruft for nearly everyone.  So, I'm
-more inclined to say that if you happen to have one of those machines,
-you get to apply the workaround patch yourself.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---uRjmd8ppyyws0Tml
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl648DUACgkQbDjKyiDZ
-s5Kf5A//daTfKGY00o1U7bsgt1jIkjeOvcQ0TCRPd+d99ZIUab+kNuBhz7CYqWLH
-301qDH+SV5iNXSCaCDnO7WErQSBcJFB2f+xW8kEpeGrJ38GPeVoKmoy+rKi87fkM
-cd/XecWdePakJSiwV3bNulKIB3ISndZk1I5kGeQDglvlGFbjHwhbw9pSDonO0wWF
-PvCCAA6t+CFbB1EFgSQU9aTLeaXg4y1wsI0NihtaDQYOfLnBc/dDdRWQdJylatBH
-ulhQPeiqzzz36RmnWOoeYWsjm/Qr8ajJd5DtNVJTDw48CNeMggHSN2GQq7noshLl
-LXmyxaQ1isMDG/PbzxZdNhlKxVRJclRduDo/GGlNtBJf72TwsmV8SnAFRQmsjxib
-aqyWPQhS229k3TEQ5Ls2MY/1sTqUu2KZGK8ORmWyLQbz7rlTW16JrWweC/0IEz7M
-tTyWEyMlG2+gTCHyx9sMSleFFhc0rArL8sNPPUrcH4eiUzp3jVT6M77OP6S9oYhn
-sltpdmTHnK6VCgMx1nIcd8iKEayLWr3KXQXZbQiiJuqjZ5JxlDZrqJafNdq1XLxV
-Fwqu5TxkH/iyLbZhtGUEyQdwQggzQ1AZqNbfDmBjYgchqo6Mu08ccEs2b4NsHdZf
-1jSOpgQKyv1P8xlSeS5kJkXPZxCsYzp6e5UWCtCEHDQzLIY65fA=
-=ACLh
------END PGP SIGNATURE-----
-
---uRjmd8ppyyws0Tml--
+> 
+> Sincerely,
+> Aleksandar
+> 
+>> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+>> index 335c7787eb..86aceb333a 100644
+>> --- a/hw/pci-host/bonito.c
+>> +++ b/hw/pci-host/bonito.c
+>> @@ -50,6 +50,7 @@
+>>   #include "sysemu/runstate.h"
+>>   #include "exec/address-spaces.h"
+>>   #include "hw/misc/unimp.h"
+>> +#include "hw/registerfields.h"
+>>
+>>   /* #define DEBUG_BONITO */
+>>
+>> @@ -112,8 +113,19 @@
+>>   /* Power on register */
+>>
+>>   #define BONITO_BONPONCFG        (0x00 >> 2)      /* 0x100 */
+>> +
+>> +/* PCI configuration register */
+>>   #define BONITO_BONGENCFG_OFFSET 0x4
+>>   #define BONITO_BONGENCFG        (BONITO_BONGENCFG_OFFSET >> 2)   /*0x104 */
+>> +REG32(BONGENCFG,        0x104)
+>> +FIELD(BONGENCFG, DEBUGMODE,      0, 1)
+>> +FIELD(BONGENCFG, SNOOP,          1, 1)
+>> +FIELD(BONGENCFG, CPUSELFRESET,   2, 1)
+>> +FIELD(BONGENCFG, BYTESWAP,       6, 1)
+>> +FIELD(BONGENCFG, UNCACHED,       7, 1)
+>> +FIELD(BONGENCFG, PREFETCH,       8, 1)
+>> +FIELD(BONGENCFG, WRITEBEHIND,    9, 1)
+>> +FIELD(BONGENCFG, PCIQUEUE,      12, 1)
+>>
+>>   /* 2. IO & IDE configuration */
+>>   #define BONITO_IODEVCFG         (0x08 >> 2)      /* 0x108 */
+>> @@ -577,11 +589,18 @@ static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
+>>   static void bonito_reset(void *opaque)
+>>   {
+>>       PCIBonitoState *s = opaque;
+>> +    uint32_t val = 0;
+>>
+>>       /* set the default value of north bridge registers */
+>>
+>>       s->regs[BONITO_BONPONCFG] = 0xc40;
+>> -    s->regs[BONITO_BONGENCFG] = 0x1384;
+>> +    val = FIELD_DP32(val, BONGENCFG, PCIQUEUE, 1);
+>> +    val = FIELD_DP32(val, BONGENCFG, WRITEBEHIND, 1);
+>> +    val = FIELD_DP32(val, BONGENCFG, PREFETCH, 1);
+>> +    val = FIELD_DP32(val, BONGENCFG, UNCACHED, 1);
+>> +    val = FIELD_DP32(val, BONGENCFG, CPUSELFRESET, 1);
+>> +    s->regs[BONITO_BONGENCFG] = val;
+>> +
+>>       s->regs[BONITO_IODEVCFG] = 0x2bff8010;
+>>       s->regs[BONITO_SDCFG] = 0x255e0091;
+>>
+>> --
+>> 2.21.3
+>>
+> 
 
