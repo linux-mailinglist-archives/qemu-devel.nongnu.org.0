@@ -2,46 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40CE01CD238
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 09:10:36 +0200 (CEST)
-Received: from localhost ([::1]:54732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6E61CD239
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 09:11:51 +0200 (CEST)
+Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY2aB-0003Ld-11
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 03:10:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49688)
+	id 1jY2bO-0004sC-Pg
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 03:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jY2ZM-0002UB-51; Mon, 11 May 2020 03:09:44 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:38478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jY2ZK-0000Ij-I4; Mon, 11 May 2020 03:09:43 -0400
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 0BE6CBF5B8;
- Mon, 11 May 2020 07:09:40 +0000 (UTC)
-Date: Mon, 11 May 2020 09:09:36 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 00/18] nvme: refactoring and cleanups
-Message-ID: <20200511070936.fxarxicz7zrj6mop@apples.localdomain>
-References: <20200505054840.186586-1-its@irrelevant.dk>
- <20200511062513.3axdfcmr4izulv5x@apples.localdomain>
- <095f3c9b-5b32-7a88-03e9-ca993ca3f3c9@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY2aY-0004Bt-QP
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 03:10:58 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22874
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY2aX-0000eF-O5
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 03:10:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589181056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=om5XKvopxh0OhbPqD1P3kfr9ycnOyfNaH58tN57LfaY=;
+ b=N4OZ3xT6Ds3sCJETchc47qNq/uV+9MzDm59Koz5RWGoFUxYhlYthAH7TTbfL501H5BY6X4
+ 8As4Lu02xMsf89wByOIm0wb4oDBlwQjqnjhhepQEOE+sXVU4fNw8ti+SI9SWWxrN0fpXEt
+ tosmlSYmQl4p7yxgfdHFjO6TRX1K8Ws=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-AKMC7HmWM9aD9x9GOd8KLA-1; Mon, 11 May 2020 03:10:51 -0400
+X-MC-Unique: AKMC7HmWM9aD9x9GOd8KLA-1
+Received: by mail-wr1-f71.google.com with SMTP id z10so790342wrs.2
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 00:10:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=om5XKvopxh0OhbPqD1P3kfr9ycnOyfNaH58tN57LfaY=;
+ b=IxLfJdHpkxhB2wJRkMPqd4WHQTBPn2jy9do/07pVAMpEBo+Yq7rbW7VJzQIVWQkOnT
+ ypg+JyLSDV3EIyjX8UH0ypGPyoC4U+i2Oi9hXJqNGTAgSwcC2NaJQrA0s/oszv2zPQqa
+ Rmef9Vtv5tyDlEwPfPPlIOMc2t1SijhXp1ku95AsUITttkpNlN8Lkk7fpS3iqHQAD4cu
+ 6ICSC2pXsUtEsDXMDYOrDTDyLe6s7vRh9EXCzf5p7jIoqVOLlGC6DaEIocvtB0XNMSRN
+ J66VvwLJqqTOpMyMySebegA5vperkumXA4lvagW3oXfP+0rdhKEPuL9mtQyrQVj136EO
+ h1bA==
+X-Gm-Message-State: AGi0PuZqFKq2du4BfphpC1w7ZBOAn8ghQiqEpwTDvoRVMmV8GbV8fwLq
+ vG6baAoFgUVj/uAujvWN1ZZpDwnOmFAYpJRJzAez2eQvVraQ0Mx/bVpvveqkBy1Ds0fItRYsA5G
+ j4HCj2WfnV8keo3Q=
+X-Received: by 2002:a5d:66c5:: with SMTP id k5mr16760722wrw.17.1589181050279; 
+ Mon, 11 May 2020 00:10:50 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJZ+5/w5EjMP7ihJoOURg9iMQRMid70pCQ8yFw6BaDlKQPjqs1u6QpzpRZPnO7s+PF2wJQtLQ==
+X-Received: by 2002:a5d:66c5:: with SMTP id k5mr16760699wrw.17.1589181050034; 
+ Mon, 11 May 2020 00:10:50 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id a15sm16569792wrw.56.2020.05.11.00.10.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 May 2020 00:10:49 -0700 (PDT)
+Subject: Re: Abort in mch_update_pciexbar
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20200511045912.keffhizkobgwqcag@mozz.bu.edu>
+ <c6b66f8a-40e4-8ad5-afb4-09bddbcac529@redhat.com>
+Message-ID: <2344dc20-5c7f-75eb-96d2-bef0153550d6@redhat.com>
+Date: Mon, 11 May 2020 09:10:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <c6b66f8a-40e4-8ad5-afb4-09bddbcac529@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <095f3c9b-5b32-7a88-03e9-ca993ca3f3c9@redhat.com>
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:25:18
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,58 +98,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On May 11 09:00, Philippe Mathieu-Daudé wrote:
-> Hi Klaus,
+On 5/11/20 8:19 AM, Philippe Mathieu-Daudé wrote:
+> On 5/11/20 6:59 AM, Alexander Bulekov wrote:
+>> Hello,
+>> While fuzzing, I found an input that triggers an assertion failure in
+>> mch_update_pciexbar:
+>>
+>> #6 0x7f38d387c55a in abort 
+>> /build/glibc-GwnBeO/glibc-2.30/stdlib/abort.c:79:7
+>> #7 0x55c27e94ffd0 in mch_update_pciexbar hw/pci-host/q35.c:331:9
+>> #8 0x55c27e94db38 in mch_write_config hw/pci-host/q35.c:487:9
+>> #9 0x55c27e9e3f4c in pci_host_config_write_common hw/pci/pci_host.c:81:5
+>> #10 0x55c27e9e5307 in pci_data_write hw/pci/pci_host.c:118:5
+>> #11 0x55c27e9e6601 in pci_host_data_write hw/pci/pci_host.c:165:9
+>> #12 0x55c27ca3b17b in memory_region_write_accessor memory.c:496:5
+>> #13 0x55c27ca3a5e4 in access_with_adjusted_size memory.c:557:18
+>> #14 0x55c27ca38177 in memory_region_dispatch_write memory.c:1488:16
+>> #15 0x55c27c721325 in flatview_write_continue exec.c:3174:23
+>> #16 0x55c27c70994d in flatview_write exec.c:3214:14
+>> #17 0x55c27c709462 in address_space_write exec.c:3305:18
 > 
-> On 5/11/20 8:25 AM, Klaus Jensen wrote:
-> > On May  5 07:48, Klaus Jensen wrote:
-> > > From: Klaus Jensen <k.jensen@samsung.com>
-> > > 
-> > > Changes since v5
-> > > ~~~~~~~~~~~~~~~~
-> > > No functional changes, just updated Reviewed-by tags. Also, I screwed up
-> > > the CC list when sending v4.
-> > > 
-> > > Philippe and Keith, please add a Reviewed-by to
-> > > 
-> > >    * "nvme: factor out pmr setup" and
-> > >    * "do cmb/pmr init as part of pci init"
-> > > 
-> > > since the first one was added and the second one was changed in v4 when
-> > > rebasing on Kevins block-next tree which had the PMR work that was not
-> > > in master at the time.
-> > > 
-> > > With those in place, it should be ready for Kevin to merge.
-> > > 
-> > Gentle ping on this.
-> > 
-> > Also, please see the two patches in "[PATCH 0/2] hw/block/nvme: fixes
-> > for interrupt behavior". I think they should go in preparation to this
-> > series.
+> These lines don't match QEMU v5.0.0.
 > 
-> I was going to ping Kevin last week, but then read your comment on pach #7
-> "nvme: add max_ioqpairs device parameter", so I interpreted you would
-> respin.
-> Now it is clearer, applying in the following order you don't need to respin,
-> right?
+>>
+>> I can reproduce it in a qemu 5.0 build using:
+>> cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M 
+>> pc-q35-5.0 -display none -nodefaults -nographic -qtest stdio
+>> outl 0xcf8 0xf2000060
+>> outl 0xcfc 0x8400056e
 > 
-> - [PATCH 0/2] hw/block/nvme: fixes for interrupt behavior"
-> - [PATCH v5 00/18] nvme: refactoring and cleanups
-> 
+> The guest shouldn't ask for a reserved bar length (grep for 
+> MCH_HOST_BRIDGE_PCIEXBAR_LENGTH_RVD). I suppose we should simply report 
+> it as GUEST_ERROR and ignore it.
 
-Ugh. "[PATCH v5 00/18] nvme: refactoring and cleanups" doesn't apply
-completely cleanly.
+This patch prevent the crash:
 
-"[PATCH 0/2] hw/block/nvme: fixes for interrupt behavior" was intented
-to go into master because it fixes a bug, that is why I split them up.
+-- >8 --
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index 2bbc90b28f..2b744aca93 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -36,6 +36,7 @@
+  #include "qapi/error.h"
+  #include "qapi/visitor.h"
+  #include "qemu/module.h"
++#include "qemu/log.h"
 
-But looks like it is better to just roll it into this series. I'll
-respin a v6 with the two interrupt fixes.
+ 
+/****************************************************************************
+   * Q35 host
+@@ -320,6 +321,9 @@ static void mch_update_pciexbar(MCHPCIState *mch)
+          addr_mask |= MCH_HOST_BRIDGE_PCIEXBAR_64ADMSK;
+          break;
+      case MCH_HOST_BRIDGE_PCIEXBAR_LENGTH_RVD:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid use of reserved 
+value\n",
++                                       __func__);
++        return;
+      default:
+          abort();
+      }
+---
+
+But the real question is what would the real hardware do in this case.
+
+> 
+>> EOF
+>>
+>> I also uploaded the above trace, in case the formatting is broken:
+>>
+>> curl https://paste.debian.net/plain/1146095 | qemu-system-i386 -M 
+>> pc-q35-5.0 -display none -nodefaults -nographic -qtest stdio
+>>
+>> Please let me know if I can provide any further info.
+> 
+> It would help the community if you fill your bug reports with Launchpad, 
+> so they don't get lost in the high email flow, and we can track/update 
+> them. See for example:
+> https://bugs.launchpad.net/qemu/+bug/1835865 and
+> https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg06082.html 
+> which refers it.
+
 
