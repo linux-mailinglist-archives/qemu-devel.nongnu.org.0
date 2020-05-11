@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA061CDCA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:10:02 +0200 (CEST)
-Received: from localhost ([::1]:42512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCA11CDCFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:21:42 +0200 (CEST)
+Received: from localhost ([::1]:51904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY985-0005Gj-76
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55122)
+	id 1jY9JN-0004o1-1n
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:21:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <13824125580@163.com>)
- id 1jY96H-0003z4-Ua
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:08:10 -0400
-Received: from m13-81.163.com ([220.181.13.81]:31099)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <13824125580@163.com>)
- id 1jY96D-0002dF-13
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:08:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=kVT6v
- zZ3iGi/ns83U1Vk9CE/+JMUIYPpaJaMsLb3RPg=; b=Gu5hGOn0ALyMigvk1U4SV
- W/zAu2fFBox2y6xigMxFx46nfsqS8cKCT+X2adCvffxPGDbTm2Yah8H9OjMaC3Zh
- bcPpw3ZKB2HuiG5KyV3RiGaCNRgV78kbPtTJw9hvdlNMh86JiEQV+28vqWzpJxuP
- 2EHGYoekKTz7SARxLN7zb8=
-Received: from 13824125580$163.com ( [113.74.45.41] ) by
- ajax-webmail-wmsvr81 (Coremail) ; Mon, 11 May 2020 22:07:34 +0800 (CST)
-X-Originating-IP: [113.74.45.41]
-Date: Mon, 11 May 2020 22:07:34 +0800 (CST)
-From: tugouxp <13824125580@163.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jY99E-00009V-OE
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:11:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42483
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jY99D-0003lm-6R
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:11:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589206269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=Bm5qAWA9IZjbvui5U1ITShEozof1Yy7dnvEPJ7EVQj0=;
+ b=gK7rz3N1SBkureisbCU3AJJTJdaQ4nc54UxafQIzIyzNgJVjTt6OGAP+Elchz26z+rU1lU
+ qSN38+qHf6QUwAW87ftC5+BOBidpQw/PuSBX5efXfKPQPDYHDORIahfxhmzLkl9Gmub6qZ
+ mWPiyGB2QtogYE3cRGPAVONnM7bVleU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-fssBP8CeONSc26GkVGZ79Q-1; Mon, 11 May 2020 10:11:07 -0400
+X-MC-Unique: fssBP8CeONSc26GkVGZ79Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90F3E475
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 14:11:06 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B7ACC5C1B2;
+ Mon, 11 May 2020 14:11:05 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: Is qemu could be a "FSM" state machine if running on a "quiet and
- clean" host pc without random event input?
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190724(ac680a23)
- Copyright (c) 2002-2020 www.mailtech.cn 163com
-X-CM-CTRLDATA: nJAJWGZvb3Rlcl9odG09MTIyNTo2MQ==
-Content-Type: multipart/alternative; 
- boundary="----=_Part_124533_722150239.1589206054153"
-MIME-Version: 1.0
-Message-ID: <7da014ca.86ed.172040ff509.Coremail.13824125580@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: UcGowAC31rYnXLle_H4sAA--.30090W
-X-CM-SenderInfo: bprtmjyurskkiyq6il2tof0z/xtbBRQchQlPAFsHn5QAAsn
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
-Received-SPF: pass client-ip=220.181.13.81; envelope-from=13824125580@163.com;
- helo=m13-81.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 10:07:36
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FROM_LOCAL_DIGITS=0.001,
- FROM_LOCAL_HEX=0.006, HTML_MESSAGE=0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Subject: [PATCH 0/2] make -M memory-backend and -numa memdev mutually exclusive
+Date: Mon, 11 May 2020 10:11:01 -0400
+Message-Id: <20200511141103.43768-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,56 +74,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------=_Part_124533_722150239.1589206054153
-Content-Type: text/plain; charset=GBK
-Content-Transfer-Encoding: base64
+The options can't be used together (1st provides RAM for non-numa and fake-numa,
+while 2nd provides RAM for each numa node).
+If used together it might lead to crashes, so add a check to prevent simultaneous
+usage.
 
-SGkgZm9sa3M6CiAgaSB3YW50IHRvIGtub3cgYWJvdXQgd2hldGhlciB0aGVyciBhcmUgbGltaXRh
-dGlvbnMgZHVyaW5nIHFlbXUgZW11bGF0aW9uIHN5c3RlbXMsIGZvciBleGFtcGUsIGRpZCB0aGUg
-cmVndWxhciBidWdzIGNvcmVuZXIgY2FzZSBjYW50IGJlIGR1cGxpY2F0ZWQgb24gcWVtZSBidXQg
-ZXhpc3Qgb24gcmVhbCBib2Fkcz8KCgp3aHkgdGhpbmcgdGhpcyBpcyB0aGF0ICwgaSBoYXZlIGV2
-ZXIgdXNlIGhkbCBzaW11bGF0b3IgKG1vZHNpbSBhbmQgaXZlcmlsb2cpIGFuZCBvcGVucmlzYyBw
-cm9jZXNzb3IgdG8gZW11bGF0ZSB0aGUgbGludXggYW5kIHVjb3MgcnVubmluZywgYW5kIHNlZSB0
-aGUgd2F2ZWZvcm0gb2YgdGhlIHNpbXVsYXRlaW9uIHByb2Nlc3Mgb2YgdGhlIG9wZXJhdGlvbnMg
-c3lzdGVtcy4KaSBmb3VuZCBhbiBpbnRlcmVzdGluZyB0aGluZ3MsIGlmIGkgdGFrZSBqdXN0IHRo
-ZSB0aWNrIGludGVycnVwdCBhcyB0aGUgb25seSB0ZXN0YmVjaCBldmVudCBzb3VyY2UsdGhlICBr
-ZXJuZWwgc2ltdWxhdGlvbiB3YXZlZm9ybSBpcyBpZGVudGljYWwgZHVwbGljYXRlZCBhZ2FpbiBh
-bmQgYWdhaW4sIHdoaWNoIG1lYW5zIGkgY2FuIHByZWRpY2F0ZSBmdXR1cmUgYmVoYXZpb3IuCgoK
-aSB0aGluayB0aGlzIHNvbWV0aGluZyBsaWtlIHFlbXUgd29yayBwcmluY2lwbGUgYW5kIHNvIHdh
-bnQgdG8ga25vdywgd2hldGhlciB0aGUgcWVtdSBoYXMgdGhpcyBsaW1pdGF0aW9uPyBpcyB0aGUg
-c2ltdWxhdGlvbiBwcm9jZXMgYSAiRlNNIiAgdGhhdCB3aXRoIGRlZmluaXRpb24gb3V0cHV0IGlm
-IHRoZSBpbnB1dCBldmVudCBhcmUgYWxsIHJlZ3VsYXIgYW5kIHdpdGhvdXQgcmFuZG9tPwoKCnRo
-YW5rIHlvdQo=
-------=_Part_124533_722150239.1589206054153
-Content-Type: text/html; charset=GBK
-Content-Transfer-Encoding: base64
+Igor Mammedov (2):
+  vl.c: run preconfig loop before creating default RAM backend
+  numa: prevent usage of -M memory-backend and -numa memdev at the same
+    time
 
-PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
-Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+SGkgZm9sa3M6PC9kaXY+
-PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij4mbmJzcDsgaSB3YW50IHRvIGtub3cgYWJvdXQgd2hldGhl
-ciB0aGVyciBhcmUgbGltaXRhdGlvbnMgZHVyaW5nIHFlbXUgZW11bGF0aW9uIHN5c3RlbXMsIGZv
-ciBleGFtcGUsIGRpZCB0aGUgcmVndWxhciBidWdzIGNvcmVuZXIgY2FzZSBjYW50IGJlIGR1cGxp
-Y2F0ZWQgb24gcWVtZSBidXQgZXhpc3Qgb24gcmVhbCBib2Fkcz88L2Rpdj48ZGl2IHN0eWxlPSJt
-YXJnaW46MDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPndoeSB0aGluZyB0aGlz
-IGlzIHRoYXQgLCBpIGhhdmUgZXZlciB1c2UgaGRsIHNpbXVsYXRvciAobW9kc2ltIGFuZCBpdmVy
-aWxvZykgYW5kIG9wZW5yaXNjIHByb2Nlc3NvciB0byBlbXVsYXRlIHRoZSBsaW51eCBhbmQgdWNv
-cyBydW5uaW5nLCBhbmQgc2VlIHRoZSB3YXZlZm9ybSBvZiB0aGUgc2ltdWxhdGVpb24gcHJvY2Vz
-cyBvZiB0aGUgb3BlcmF0aW9ucyBzeXN0ZW1zLjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+
-aSBmb3VuZCBhbiBpbnRlcmVzdGluZyB0aGluZ3MsIGlmIGkgdGFrZSBqdXN0IHRoZSB0aWNrIGlu
-dGVycnVwdCBhcyB0aGUgb25seSB0ZXN0YmVjaCBldmVudCBzb3VyY2UsdGhlJm5ic3A7IGtlcm5l
-bCBzaW11bGF0aW9uIHdhdmVmb3JtIGlzIGlkZW50aWNhbCBkdXBsaWNhdGVkIGFnYWluIGFuZCBh
-Z2Fpbiwgd2hpY2ggbWVhbnMgaSBjYW4gcHJlZGljYXRlIGZ1dHVyZSBiZWhhdmlvci48L2Rpdj48
-ZGl2IHN0eWxlPSJtYXJnaW46MDsiPjxicj48L2Rpdj48ZGl2IHN0eWxlPSJtYXJnaW46MDsiPmkg
-dGhpbmsgdGhpcyBzb21ldGhpbmcgbGlrZSBxZW11IHdvcmsgcHJpbmNpcGxlIGFuZCBzbyB3YW50
-IHRvIGtub3csIHdoZXRoZXIgdGhlIHFlbXUgaGFzIHRoaXMgbGltaXRhdGlvbj8gaXMgdGhlIHNp
-bXVsYXRpb24gcHJvY2VzIGEgIkZTTSImbmJzcDsgdGhhdCB3aXRoIGRlZmluaXRpb24gb3V0cHV0
-IGlmIHRoZSBpbnB1dCBldmVudCBhcmUgYWxsIHJlZ3VsYXIgYW5kIHdpdGhvdXQgcmFuZG9tPzwv
-ZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+PGJyPjwvZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjow
-OyI+dGhhbmsgeW91PGJyPjwvZGl2PjwvZGl2Pjxicj48YnI+PHNwYW4gdGl0bGU9Im5ldGVhc2Vm
-b290ZXIiPjxwPjxici8+Jm5ic3A7PC9wPjwvc3Bhbj4=
-------=_Part_124533_722150239.1589206054153--
+ hw/core/numa.c | 5 +++++
+ softmmu/vl.c   | 5 +++--
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+-- 
+2.18.4
 
 
