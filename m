@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D931CDF59
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 17:49:02 +0200 (CEST)
-Received: from localhost ([::1]:43650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C961CE00F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:07:50 +0200 (CEST)
+Received: from localhost ([::1]:49520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYAft-0007yl-DD
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 11:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44762)
+	id 1jYAy5-0000aK-7L
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jYAeF-00078e-FR
- for qemu-devel@nongnu.org; Mon, 11 May 2020 11:47:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:59428
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jYAeE-0001se-JP
- for qemu-devel@nongnu.org; Mon, 11 May 2020 11:47:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589212037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZKy+Aa5m4DNYSp4Uctc5auKxOIyeyYkksy7ZRfq2Avg=;
- b=f2Gn9Xitp2C+FZpJKFgsoYhQvZFCoi7HjS6LyB7UXAbdYVDywbzNP78LaTue+8gijv7jX4
- s5eZPvXpgksFZDD1fI9x7fOO6NlVDbaovH5u0Yvaoxb0qN0Agt4N4iOd0UBk7UqFmoMtyd
- YigNz+p7wlqBtx5n18BTzVGHWfqVKL0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-IJcZNSZdNPeROMZMDUWzwQ-1; Mon, 11 May 2020 11:46:56 -0400
-X-MC-Unique: IJcZNSZdNPeROMZMDUWzwQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D859107B267;
- Mon, 11 May 2020 15:46:55 +0000 (UTC)
-Received: from work-vm (ovpn-114-150.ams2.redhat.com [10.36.114.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBDA55C1B2;
- Mon, 11 May 2020 15:46:47 +0000 (UTC)
-Date: Mon, 11 May 2020 16:46:45 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
- hanging qemu
-Message-ID: <20200511154645.GI2811@work-vm>
-References: <cover.1589193717.git.lukasstraub2@web.de>
- <20200511114947.GJ1135885@redhat.com>
- <20200511120718.GD2811@work-vm>
- <20200511121714.GL1135885@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYAw0-00074i-9O
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:05:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYAvx-0007Ws-ER
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:05:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYAvv-0002jX-AB
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 16:05:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 46E722E80E7
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 16:05:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200511121714.GL1135885@redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 00:05:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 11 May 2020 15:53:09 -0000
+From: Alexander Bulekov <1878034@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <158921238974.12092.6203453160058985938.malonedeb@wampee.canonical.com>
+Subject: [Bug 1878034] [NEW] memcpy param-overlap through
+ e1000e_write_to_rx_buffers
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b8c007397a6de7346555435ea549bb2f91884045
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 11:35:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,110 +72,235 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Reply-To: Bug 1878034 <1878034@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> On Mon, May 11, 2020 at 01:07:18PM +0100, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > On Mon, May 11, 2020 at 01:14:34PM +0200, Lukas Straub wrote:
-> > > > Hello Everyone,
-> > > > In many cases, if qemu has a network connection (qmp, migration, chardev, etc.)
-> > > > to some other server and that server dies or hangs, qemu hangs too.
-> > > 
-> > > If qemu as a whole hangs due to a stalled network connection, that is a
-> > > bug in QEMU that we should be fixing IMHO. QEMU should be doing non-blocking
-> > > I/O in general, such that if the network connection or remote server stalls,
-> > > we simply stop sending I/O - we shouldn't ever hang the QEMU process or main
-> > > loop.
-> > > 
-> > > There are places in QEMU code which are not well behaved in this respect,
-> > > but many are, and others are getting fixed where found to be important.
-> > > 
-> > > Arguably any place in QEMU code which can result in a hang of QEMU in the
-> > > event of a stalled network should be considered a security flaw, because
-> > > the network is untrusted in general.
-> > 
-> > That's not really true of the 'management network' - people trust that
-> > and I don't see a lot of the qemu code getting fixed safely for all of
-> > them.
-> 
-> It depends on the user / app / deployment scenario. In OpenStack alot of
-> work was done to beef up security between services on the mgmt network,
-> with TLS encryption as standard to reduce attack vectors.
-> 
-> > > > These patches introduce the new 'yank' out-of-band qmp command to recover from
-> > > > these kinds of hangs. The different subsystems register callbacks which get
-> > > > executed with the yank command. For example the callback can shutdown() a
-> > > > socket. This is intended for the colo use-case, but it can be used for other
-> > > > things too of course.
-> > > 
-> > > IIUC, invoking the "yank" command unconditionally kills every single
-> > > network connection in QEMU that has registered with the "yank" subsystem.
-> > > IMHO this is way too big of a hammer, even if we accept there are bugs in
-> > > QEMU not handling stalled networking well.
-> > 
-> > But isn't this hammer conditional - I see that it's a migration
-> > capabiltiy for the migration socket, and a flag in nbd - so it only
-> > yanks things you've told it to.
-> 
-> IIUC, you have to set these flags upfront when you launch QEMU, or
-> hotplug the device using the feature. When something gets stuck,
-> and you issue the "yank" command, then everything that has the flag
-> enabled gets torn down. So in practice it looks like the flag will
-> get enabled for everything at QEMU startup, and yanking down tear
-> down everything.
+Public bug reported:
 
-For COLO I really expect it for the migration stream, the disk mirroring
-stream and probably the network comparison/forwarding streams.
+Hello,
+While fuzzing, I found an input that triggers an overlapping memcpy (caught=
+ by AddressSanitizer).
+Overlapping memcpys are undefined behavior according to the POSIX and C sta=
+ndards, and can lead to bugs.
 
-> > > eg if a chardev hangs QEMU, and we tear down everything, killing the NBD
-> > > connection used for the guest disk, we needlessly break I/O.
-> > > 
-> > > eg doing this in the chardev backend is not desirable, because the bugs
-> > > with hanging QEMU are typically caused by the way the frontend device
-> > > uses the chardev blocking I/O calls, instead of non-blocking I/O calls.
-> > > 
-> > 
-> > Having a way to get out of any of these problems from a single point is
-> > quite nice.  To be useful in COLO you need to know for sure you can get
-> > out of any network screwup.
-> > 
-> > We already use shutdown(2) in migrate_cancel and migrate-pause for
-> > basically the same reason; I don't think we've got anything similar for
-> > NBD, and we probably should have (I think I asked for it fairly
-> > recently).
-> 
-> Yes, the migrate_cancel is an example of a more fine grained way to
-> recover. I was thinking that we need an equivalent fine control knob
-> for NBD too.
+=3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory rang=
+es
+#0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0x97a3d4)
+#1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/qemu/=
+exec.c:3142:13
+#2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.c:31=
+77:14
+#3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/exec=
+.c:3268:18
+#4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/in=
+clude/sysemu/dma.h:87:18
+#5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/include/sy=
+semu/dma.h:110:12
+#6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/pc=
+i/pci.h:787:5
+#7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/include/hw=
+/pci/pci.h:800:12
+#8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Development/qe=
+mu/hw/net/e1000e_core.c:1412:9
+#9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Development/=
+qemu/hw/net/e1000e_core.c:1582:21
+#10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/hw/n=
+et/e1000e_core.c:1709:9
+#11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw/net=
+/net_tx_pkt.c:544:9
+#12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/net/=
+net_tx_pkt.c:620:9
+#13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development/qem=
+u/hw/net/net_tx_pkt.c:633:11
+#14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/hw/n=
+et/e1000e_core.c:664:16
+#15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:743:17
+#16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/hw/ne=
+t/e1000e_core.c:934:9
+#17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/net/e=
+1000e_core.c:2451:9
+#18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/hw/ne=
+t/e1000e_core.c:3261:9
+#19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Development=
+/qemu/memory.c:483:5
+#20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Development/qe=
+mu/memory.c:544:18
+#21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Development=
+/qemu/memory.c:1476:16
 
-I feel it might be nice not to have to create so many separate knobs.
+I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
+cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc-q=
+35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
+outl 0xcf8 0x80001010
+outl 0xcfc 0xe1020000
+outl 0xcf8 0x80001014
+outl 0xcf8 0x80001004
+outw 0xcfc 0x7
+outl 0xcf8 0x800010a2
+write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e1000000=
+0001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3b000=
+2e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ffdf05=
+5e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e10000000=
+001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b0002=
+e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffef055=
+e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e100000000=
+01fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b0002e=
+10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff055e=
+2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e1000000000=
+1ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b0002e1=
+0000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f055e2=
+d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e10000000001=
+ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b0002e10=
+000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f055e2d=
+3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e10000000001f=
+f25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002e100=
+00000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055e2d3=
+b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e10000000001ff=
+35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e1000=
+0000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e2d3b=
+0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e10000000001ff4=
+5055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e10000=
+000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2d3b0=
+002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001ff55=
+055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e100000=
+00001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d3b00=
+02e10000000001ff61055e2d3b0002e10000000001ff63
+EOF
 
-> That way if QEMU does get stuck, you can start by tearing down the
-> least distruptive channel. eg try tearing down the migration connection
-> first (which shouldn't negatively impact the guest), and only if that
-> doesn't work then, move on to tear down the NBD connection (which risks
-> data loss)
+I also attached the trace to this launchpad report, in case the
+formatting is broken:
 
-I wonder if a different way would be to make all network connections
-register with yank, but then make yank take a list of connections to
-shutdown(2).
+qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
+-monitor none -serial none < attachment
 
-Dave
+Please let me know if I can provide any further info.
+-Alex
 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
+** Attachment added: "attachment"
+   https://bugs.launchpad.net/bugs/1878034/+attachment/5369905/+files/attac=
+hment
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878034
+
+Title:
+  memcpy param-overlap through e1000e_write_to_rx_buffers
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers an overlapping memcpy (caug=
+ht by AddressSanitizer).
+  Overlapping memcpys are undefined behavior according to the POSIX and C s=
+tandards, and can lead to bugs.
+
+  =3D=3D22287=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory ra=
+nges
+  #0 0x563c9f4823d4 in __asan_memcpy (/home/alxndr/Development/qemu/build/i=
+386-softmmu/qemu-system-i386+0x97a3d4)
+  #1 0x563c9f4cb2b1 in flatview_write_continue /home/alxndr/Development/qem=
+u/exec.c:3142:13
+  #2 0x563c9f4c3b97 in flatview_write /home/alxndr/Development/qemu/exec.c:=
+3177:14
+  #3 0x563c9f4c3b97 in address_space_write /home/alxndr/Development/qemu/ex=
+ec.c:3268:18
+  #4 0x563c9fbc457b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
+include/sysemu/dma.h:87:18
+  #5 0x563c9fbc457b in dma_memory_rw /home/alxndr/Development/qemu/include/=
+sysemu/dma.h:110:12
+  #6 0x563c9fbc457b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
+pci/pci.h:787:5
+  #7 0x563c9fbc457b in pci_dma_write /home/alxndr/Development/qemu/include/=
+hw/pci/pci.h:800:12
+  #8 0x563c9fbc457b in e1000e_write_to_rx_buffers /home/alxndr/Development/=
+qemu/hw/net/e1000e_core.c:1412:9
+  #9 0x563c9fbb9c98 in e1000e_write_packet_to_guest /home/alxndr/Developmen=
+t/qemu/hw/net/e1000e_core.c:1582:21
+  #10 0x563c9fbb9c98 in e1000e_receive_iov /home/alxndr/Development/qemu/hw=
+/net/e1000e_core.c:1709:9
+  #11 0x563c9fba8080 in net_tx_pkt_sendv /home/alxndr/Development/qemu/hw/n=
+et/net_tx_pkt.c:544:9
+  #12 0x563c9fba8080 in net_tx_pkt_send /home/alxndr/Development/qemu/hw/ne=
+t/net_tx_pkt.c:620:9
+  #13 0x563c9fba8827 in net_tx_pkt_send_loopback /home/alxndr/Development/q=
+emu/hw/net/net_tx_pkt.c:633:11
+  #14 0x563c9fbd2052 in e1000e_tx_pkt_send /home/alxndr/Development/qemu/hw=
+/net/e1000e_core.c:664:16
+  #15 0x563c9fbd2052 in e1000e_process_tx_desc /home/alxndr/Development/qem=
+u/hw/net/e1000e_core.c:743:17
+  #16 0x563c9fbd2052 in e1000e_start_xmit /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:934:9
+  #17 0x563c9fbcecf0 in e1000e_set_tdt /home/alxndr/Development/qemu/hw/net=
+/e1000e_core.c:2451:9
+  #18 0x563c9fbbf20c in e1000e_core_write /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:3261:9
+  #19 0x563c9f5b68d6 in memory_region_write_accessor /home/alxndr/Developme=
+nt/qemu/memory.c:483:5
+  #20 0x563c9f5b627f in access_with_adjusted_size /home/alxndr/Development/=
+qemu/memory.c:544:18
+  #21 0x563c9f5b627f in memory_region_dispatch_write /home/alxndr/Developme=
+nt/qemu/memory.c:1476:16
+
+  I can reproduce it in qemu 5.0 built with --enable-sanitizers using:
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
+-q35-5.0 -accel qtest -qtest stdio -nographic -monitor none -serial none
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe1020000
+  outl 0xcf8 0x80001014
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x800010a2
+  write 0xe102003a 0x3ff 0xd1055e2d3b0002e10000000001ffd3055e2d3b0002e10000=
+000001ffd5055e2d3b0002e10000000001ffd7055e2d3b0002e10000000001ffd9055e2d3b0=
+002e10000000001ffdb055e2d3b0002e10000000001ffdd055e2d3b0002e10000000001ffdf=
+055e2d3b0002e10000000001ffe1055e2d3b0002e10000000001ffe3055e2d3b0002e100000=
+00001ffe5055e2d3b0002e10000000001ffe7055e2d3b0002e10000000001ffe9055e2d3b00=
+02e10000000001ffeb055e2d3b0002e10000000001ffed055e2d3b0002e10000000001ffef0=
+55e2d3b0002e10000000001fff1055e2d3b0002e10000000001fff3055e2d3b0002e1000000=
+0001fff5055e2d3b0002e10000000001fff7055e2d3b0002e10000000001fff9055e2d3b000=
+2e10000000001fffb055e2d3b0002e10000000001fffd055e2d3b0002e10000000001ffff05=
+5e2d3b0002e10000000001ff01055e2d3b0002e10000000001ff03055e2d3b0002e10000000=
+001ff05055e2d3b0002e10000000001ff07055e2d3b0002e10000000001ff09055e2d3b0002=
+e10000000001ff0b055e2d3b0002e10000000001ff0d055e2d3b0002e10000000001ff0f055=
+e2d3b0002e10000000001ff11055e2d3b0002e10000000001ff13055e2d3b0002e100000000=
+01ff15055e2d3b0002e10000000001ff17055e2d3b0002e10000000001ff19055e2d3b0002e=
+10000000001ff1b055e2d3b0002e10000000001ff1d055e2d3b0002e10000000001ff1f055e=
+2d3b0002e10000000001ff21055e2d3b0002e10000000001ff23055e2d3b0002e1000000000=
+1ff25055e2d3b0002e10000000001ff27055e2d3b0002e10000000001ff29055e2d3b0002e1=
+0000000001ff2b055e2d3b0002e10000000001ff2d055e2d3b0002e10000000001ff2f055e2=
+d3b0002e10000000001ff31055e2d3b0002e10000000001ff33055e2d3b0002e10000000001=
+ff35055e2d3b0002e10000000001ff37055e2d3b0002e10000000001ff39055e2d3b0002e10=
+000000001ff3b055e2d3b0002e10000000001ff3d055e2d3b0002e10000000001ff3f055e2d=
+3b0002e10000000001ff41055e2d3b0002e10000000001ff43055e2d3b0002e10000000001f=
+f45055e2d3b0002e10000000001ff47055e2d3b0002e10000000001ff49055e2d3b0002e100=
+00000001ff4b055e2d3b0002e10000000001ff4d055e2d3b0002e10000000001ff4f055e2d3=
+b0002e10000000001ff51055e2d3b0002e10000000001ff53055e2d3b0002e10000000001ff=
+55055e2d3b0002e10000000001ff57055e2d3b0002e10000000001ff59055e2d3b0002e1000=
+0000001ff5b055e2d3b0002e10000000001ff5d055e2d3b0002e10000000001ff5f055e2d3b=
+0002e10000000001ff61055e2d3b0002e10000000001ff63
+  EOF
+
+  I also attached the trace to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -nographic
+  -monitor none -serial none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878034/+subscriptions
 
