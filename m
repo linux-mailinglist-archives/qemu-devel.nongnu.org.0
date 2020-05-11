@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02821CD230
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 09:04:51 +0200 (CEST)
-Received: from localhost ([::1]:50330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815A11CD23A
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 09:12:35 +0200 (CEST)
+Received: from localhost ([::1]:56124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY2Ud-0008DS-1V
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 03:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49034)
+	id 1jY2c6-00047y-DZ
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 03:12:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jY2Tk-0007g1-Lu; Mon, 11 May 2020 03:03:56 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37776)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jY2YA-0001m4-0L; Mon, 11 May 2020 03:08:30 -0400
+Received: from mout.web.de ([217.72.192.78]:54235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jY2Tj-0007FB-OR; Mon, 11 May 2020 03:03:56 -0400
-Received: by mail-wr1-x441.google.com with SMTP id k1so9459315wrx.4;
- Mon, 11 May 2020 00:03:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PBbm2rT9MzHZvmOkHUsfFM7PIuWNpVS0isoEqsMJPYU=;
- b=kh5djo/qT1QepUQXmC7b/4aACZZDxutLcxDu6O8xdmYDaxjF4dT1cjorJbw/9g6vHo
- SGrJc7O2Rv2gqDt68meWMBvaymTZ75ycGNWmO+/MSnZsNu5CUVonp548GFcPXUi9o0Xk
- VR8stWqIJvcqyiyT+xj1XOJdPfJU2lwnm/YfV2aFU/v+NdJ0cVZtyB4KYyyQqVvTTbSw
- XHJPHiviDthU7PVmjovA1TrG9hw7g2WQFh+4HyJpdrqaWamY9axqksoTwA/BYKlJ6h0j
- cSkkiDhEN1vQTmTAuYqnwyyTK3HhJsmnbIvLtna52uy56CzvSOcMOU2FbciUqVa+n4ik
- +g8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PBbm2rT9MzHZvmOkHUsfFM7PIuWNpVS0isoEqsMJPYU=;
- b=lMiSeYd89YpKm8S6S5Tyty2LD0uHW8L0Rg+FG2H/bGHQX20igkigwgbIVf9O0m8FsB
- bhW3WQsorGDQqkgWpfHva3ha0chMrvz6YWh+u0IT885dvFgGCDrGQfNB4b92Y/X3rTPq
- lmGUrimI13E88ScPSi1YLMaCeGKo1qIkDO2O0cZ6N2X47WPC5rSLy+2JF5J78XpKN1Ih
- 8xtbSfLt3Ik48Fh+WAXBnYxynw7KtTfOj9aelEcORxAw0MfilNf3UnUgCr8APng5BxE3
- U0u0HPbF4e+KpxnuMGeLm/Lziz35MPf2zgdLVmN+r3pLxaSUeOzw6kbxBY1bCoJMexcF
- HCew==
-X-Gm-Message-State: AGi0PuabsU6/qtXHiqFpFoNZWjfes34EoUyDv6gKXz04Ko8Y8Llrhdco
- vDWpIZiiFlbY22k8O29zfTUgu0+j1Ko=
-X-Google-Smtp-Source: APiQypJ4GwxuRJ2fTHQd2J6Fq/Gvpf5Jltc2DngGaFJ9IoI3A/GBMUfjbIhtapWindIVYs6f8pXctg==
-X-Received: by 2002:a05:6000:12c2:: with SMTP id
- l2mr5358852wrx.133.1589180633670; 
- Mon, 11 May 2020 00:03:53 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id b2sm12300203wrm.30.2020.05.11.00.03.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 May 2020 00:03:52 -0700 (PDT)
-Subject: Re: [PATCH 0/7] hw/sparc/leon3: Few fixes and disable HelenOS test
-To: KONRAD Frederic <frederic.konrad@adacore.com>, qemu-devel@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <20200331105048.27989-1-f4bug@amsat.org>
- <81737d76-06c6-4c83-1287-b0d14db4ce2f@amsat.org>
- <989bf2f5-0e23-f9c3-e9e1-0bd8c03f3231@adacore.com>
- <1b7a4c63-5a31-6efe-d807-7092e3ee0ffb@amsat.org>
- <230dbf6b-120a-f1f0-d48d-9fa4a04e05cd@adacore.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <23588fda-b95b-45a9-b788-e846d26a3bc3@amsat.org>
-Date: Mon, 11 May 2020 09:03:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jY2Y8-00007v-Uc; Mon, 11 May 2020 03:08:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1589180892;
+ bh=kdZYXdLjb9N8p3xlWxsGNaLfKYEwisH80Lk4OmkVxUI=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=nFILUQ9tVPr7vJUhDwdIoH5wkJySXywYutowTyGxfs0Fzp+FfFKEIZmk+iXMHIclD
+ L+YTaRbSroq9aBOmMUtr3Bwa4/AcuWxPIhjcV0ov9/lVoqghi3Q1R4BeBoduJAM+0N
+ hK+c5vC8IvG+sjH2MoCtDkUZG7XBTf7zEffQ5GbU=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MQvsg-1jgBTZ3Yvm-00ULTs; Mon, 11
+ May 2020 09:08:11 +0200
+Date: Mon, 11 May 2020 09:08:01 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH] block/replication.c: Avoid cancelling the job twice
+Message-ID: <20200511090801.7ed5d8f3@luklap>
 MIME-Version: 1.0
-In-Reply-To: <230dbf6b-120a-f1f0-d48d-9fa4a04e05cd@adacore.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: multipart/signed; boundary="Sig_/37uZL0=cJI=k9Vn_.CeuFNk";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:DWUOH31qynvI8d72VHP7zZ7twTny8RBbbbt1DauTNcuPV9Z/5ao
+ e45UU9vf14ClU/1luvBhsbj7YyUEv7hQnozNzjDZyLIIMyVN2oMdUI3yZqqAgfC948qviDB
+ +dEC/8Kaia9o981lDE/No74Jb/DKSbXOXW/NWuTzbktQYlTWqY6B7r2eSYc04taf3VQxZxc
+ FN6mm2AOEPwejBE4WIeRg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CuPCsJw5j7A=:fps0FunEtkfBiHWQmes0wq
+ 8UIQMYoPZyTNoS7wK6VzGoU5tCXx2gV9WCQYAIOY6DaLf1WKV/zCb126dmvVA83PISmIA/IvY
+ Iezi2OlvOCZkIoddXxXV5zwAJv2/Z6/UiL8RHJzrgmMejAAnOvC0l2+1d2AQ40EPmPYeSwion
+ WLucvjyPTQFOH5tAEXXClnaDtIxkuKAzsVot6m876i+rkCE2Tmsn6Efd2ytSxlNH4xj5Hr2i4
+ y9vJvExsMctB2IG1LU1ZsyXRmn7v3EkYWZssklBpkmEwl8kKJxzQiDwtlx3RkEN0MLNF/vdii
+ dY36iYdU+phzmzUeYbIMIUKFWZ+j3O7ZtlQwIjVb5TLol7x0iBH4gIWojQHJyb3FMKhKgYyQF
+ ujeMlNGjNXd7UfDFeZ/CxVV0heqjAjMOdQDaMRgJhvlHiZFfD932K7RGAE5cT8VYVFjh6PSAI
+ 8d1nlVPYq4iLzYI85ZE3vaJ7v2sBzivURn8c2TauRzcrjLDWf69sLeWqXevqRg4l7QNfMCxdp
+ YKcLiYn37AEU+cN+D2fugULFtrO8187ChTlXFQZpwaj/u+G4Y0zVzCg6UEs72ZpVzSqPg497A
+ v/3u83+Hy3ZgoyNby4Uj+Dcd+FDSmHKsWjhxMAQnPcaqkIOI/z6ubZDhrwMfUQTqVvGpR+v8X
+ +dD14C0d2hFLhSXovanfaqBWWlqfgJUQ5+IMTDb161jd7eAw2zz9uvWW6K6BHk9CH3av+DlY2
+ e3ccWYckDZu2fkHz4OZwz0xpFBnP/JSxaUl9oN7xPJgCkKWJSYMvUaaOIQnIdXiEuk/wrzml0
+ PQz46YWmzXha/dijxWDfsyMhfpSiDmjWTX82e+w/mpmsy33t6ZwTTkpA7gMw+qP/79S33t2Rz
+ AZhqXt/UpYBYjj4/auCZTu8P2VxAzD1kpY4n1nQMjW19MfCYxfrypiUWohZm0LWKhDIwwjhzf
+ bCJZyEbvee2zVscHJg60Z4L1nZyEy4gL4jnNArYQcAaUCCgXpeNWi9w1BuhgwmYnHbfsVddEX
+ I8qa4GooIQjWcmcRlbZ9IPuj/nU0W54iKqrpmx2eHF6SokCzhoCd62+MDh1RQVi+ssFFuwtS9
+ tfWDqkm5fsWozgPoRwvf9pdekxMOSjBIMwIDJvtyL3ZhFN/e6DfyJjc+8qJnptaJZweMVNSoW
+ Az5sZlMvbK2mfI9xPUI9Aqd/pvN7cPZqqhdDNB9FMlZmSQG7UB8TfRYgvj+Vt4m2v8wHESeCc
+ pu9pZR+tT9pe0atTm
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:08:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,85 +83,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>, Fabien Chouteau <chouteau@adacore.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Jiri Gaisler <jiri@gaisler.se>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/14/20 12:00 PM, KONRAD Frederic wrote:
-> Le 4/13/20 à 11:07 PM, Philippe Mathieu-Daudé a écrit :
->> [Cc'ing Peter]
->>
->> On 4/13/20 12:12 PM, KONRAD Frederic wrote:
->>> Le 4/11/20 à 7:30 PM, Philippe Mathieu-Daudé a écrit :
->>>> On 3/31/20 12:50 PM, Philippe Mathieu-Daudé wrote:
->>>>> Philippe Mathieu-Daudé (7):
->>>>>     hw/misc/grlib_ahb_apb_pnp: Avoid crash when writing to AHB PnP
->>>>>       registers
->>>>>     hw/misc/grlib_ahb_apb_pnp: Fix AHB PnP 8-bit accesses
->>>>
->>>> Ping ^^^ for 5.0?
->>>
->>> Hi Philippe,
->>>
->>> You already have my rb tag for those one, and IMHO they should be good
->>> candidate
->>> for 5.0 (if it's not too late).
->>
->> Yes, thanks for the reviews. I see Mark Cave-Ayland merged this file
->> first, but you are listed as maintainer :) I was hoping you could send a
->> pull request.
-> 
-> Yes that's usually Mark who take the patches, sorry I didn't get it.
+--Sig_/37uZL0=cJI=k9Vn_.CeuFNk
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-No worries. As there are other sparc64 patches on the list, maybe Mark 
-will prepare a pull request now.
+If qemu in colo secondary mode is stopped, it crashes because
+s->backup_job is canceled twice: First with job_cancel_sync_all()
+in qemu_cleanup() and then in replication_stop().
 
-> 
->>
->> $ scripts/get_maintainer.pl -f hw/misc/grlib_ahb_apb_pnp.c
->> Fabien Chouteau <chouteau@adacore.com> (maintainer:Leon3)
->> KONRAD Frederic <frederic.konrad@adacore.com> (maintainer:Leon3)
->> qemu-devel@nongnu.org (open list:All patches CC here)
->>
-> 
->> This is a bug but not 'security critical', so it might wait 5.1 and go
->> via qemu-trivial tree.
-> 
-> Well let's do that then if you're ok.
+Fix this by assigning NULL to s->backup_job when the job completes
+so replication_stop() and replication_do_checkpoint() won't touch
+the job.
 
-OK, then ping? :)
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+---
+ block/replication.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> 
-> Best Regards,
-> Fred
-> 
->>
->> Regards,
->>
->> Phil.
->>
->>>
->>> Cheers,
->>> Fred
->>>
->>>>
->>>>>     hw/misc/grlib_ahb_apb_pnp: Add trace events on read accesses
->>>>>     hw/timer/grlib_gptimer: Display frequency in decimal
->>>>>     target/sparc/int32_helper: Remove DEBUG_PCALL definition
->>>>>     target/sparc/int32_helper: Extract and use excp_name_str()
->>>>>
->>>>>    hw/misc/grlib_ahb_apb_pnp.c             | 24 
->>>>> ++++++++++++++++++++++--
->>>>>    target/sparc/int32_helper.c             | 23 
->>>>> ++++++++++++-----------
->>>>>    hw/misc/trace-events                    |  4 ++++
->>>>>    hw/timer/trace-events                   |  2 +-
->>>>>    tests/acceptance/machine_sparc_leon3.py |  4 ++++
->>>>>    5 files changed, 43 insertions(+), 14 deletions(-)
->>>>>
->>>
-> 
+diff --git a/block/replication.c b/block/replication.c
+index da013c2041..33f2f62a44 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -398,6 +398,8 @@ static void backup_job_cleanup(BlockDriverState *bs)
+     BDRVReplicationState *s =3D bs->opaque;
+     BlockDriverState *top_bs;
+=20
++    s->backup_job =3D NULL;
++
+     top_bs =3D bdrv_lookup_bs(s->top_id, s->top_id, NULL);
+     if (!top_bs) {
+         return;
+--=20
+2.20.1
+
+--Sig_/37uZL0=cJI=k9Vn_.CeuFNk
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl64+dEACgkQNasLKJxd
+slg+/w/9FNT9vGcPTDVQo9faWQzNMFgKVvlWNvcquY5Kz5Lw/Tk7eu6H5jNjqauQ
+XvbCayKBQBgKayAUf9bcikZ+8Pg4xF4K/VRWzQ135qV9p8VASSuN91QK3o7brk8A
+JtrX89R4el56y207174kR44+/24k+DCrXPlpB6H/YhL8rsL2hDYFKmuSNrBPsoek
+OhaYyvi9qlXPSFDIF18mrI7olqvK7e6pN6TfHmd/47YedEGtVqhXzurDKDUuUFLu
+nQTlkb+gRHRNnA/bCMizZ60Ku0r2bcUuOvBqWBImyobvaWxWVB4iHkciwcpu/6wW
+UzlOem2VXurDOCe3aoDayj8Rg7fz2g9koBKyLvsYehFdIX70uwm2HO47GvkBxgmZ
+fh7PemMTa+JvP93+5PRBVfMVyAWMXxmH+GCgeibQ0WgP77E7zQ6LarOtLSOIA12N
+Yp7lqRnYlrEU+Psh7EieA0y0nA8m4aZBDNBv4HuIR/4xYybmWHKkgBNi4wVAszpd
+FVdq2tRieJOrNlpP2sdIcXIYEdWN6zC9MI03bg2rUFCV7Y/V2DSxkEsPnxuYCe4O
+ffwM4HmLUIPMP+Rtc1KF8TzBwtO00eHkUb79z1uNS7V9O9WRgDV6Ac0qL+ZfkAmg
++mKwPIZwquIw3U9mWuJLhe0fIkyiKVKl/KScy6k0RsCB7ocrsrA=
+=9Q56
+-----END PGP SIGNATURE-----
+
+--Sig_/37uZL0=cJI=k9Vn_.CeuFNk--
 
