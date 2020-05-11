@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613EE1CE023
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:12:11 +0200 (CEST)
-Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE031CE029
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:14:02 +0200 (CEST)
+Received: from localhost ([::1]:36986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYB2I-0004Na-C6
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48262)
+	id 1jYB45-0007fW-Te
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jYB0U-0002UR-1x
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:10:18 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:39451
+ id 1jYB0V-0002WR-9Q
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:10:19 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:20573
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1jYB0T-00019P-6B
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:10:17 -0400
+ id 1jYB0U-0001A1-CB
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:10:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589213416;
+ s=mimecast20190719; t=1589213417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=P4QIO4kgNzm3qXY393mDHSXk7baXBdVjmzR7Zrg69Ik=;
- b=D94j3Vr9BNpT3QCxTUf7qCg+qQfqnJ2ROWTJB4bzZuYotk9ynnfMCZHjkkujNvEIoj249j
- jftycTUGIaAIMh6tj2jTZt6DZv4rzP4z6SllHB5HnVRbUGOWG8R/Jhodyz55y+BEWmQqfN
- pQ21xtVZuwie063y3iRdNfGS1Ldndfg=
+ references:references; bh=v6NxqcYEzK4ft0LoCoTz3Wn4loJq3RbuOWoQob7rOWk=;
+ b=DB+6pskmGNBwJ4kAMHELhA7DnK6CC0KPu1MIcZIVI+7QHj5Kf9V5wUUxqHszsvqMLd1x9n
+ g+deqt6tdWZsGj/tUWbWOji/h+f2gPBXLIy1JkfbOnMjbnIhUzkxHU7Fj4eJ23/VlBN0Tt
+ a5eNs6+5uJbWLu4jiSEwIm9xq/CDde4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-VGBZvO5nMcOEAO_HGQXfAw-1; Mon, 11 May 2020 12:10:11 -0400
-X-MC-Unique: VGBZvO5nMcOEAO_HGQXfAw-1
+ us-mta-60-2kxTre3wMHuXfFizGc1jaw-1; Mon, 11 May 2020 12:10:13 -0400
+X-MC-Unique: 2kxTre3wMHuXfFizGc1jaw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66870100CCC0;
- Mon, 11 May 2020 16:10:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADA8B475;
+ Mon, 11 May 2020 16:10:12 +0000 (UTC)
 Received: from maximlenovopc.usersys.redhat.com (unknown [10.35.206.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80AAD5C1B5;
- Mon, 11 May 2020 16:10:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C746A5C1B5;
+ Mon, 11 May 2020 16:10:10 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/7] device-core: use atomic_set on .realized property
-Date: Mon, 11 May 2020 19:09:48 +0300
-Message-Id: <20200511160951.8733-5-mlevitsk@redhat.com>
+Subject: [PATCH v2 5/7] virtio-scsi: don't touch scsi devices that are not yet
+ realized or about to be un-realized
+Date: Mon, 11 May 2020 19:09:49 +0300
+Message-Id: <20200511160951.8733-6-mlevitsk@redhat.com>
 In-Reply-To: <20200511160951.8733-1-mlevitsk@redhat.com>
 References: <20200511160951.8733-1-mlevitsk@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
@@ -82,63 +83,50 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some code might race with placement of new devices on a bus.
-We currently first place a (unrealized) device on the bus
-and then realize it.
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1812399
 
-As a workaround, users that scan the child device list, can
-check the realized property to see if it is safe to access such a device.
-Use an atomic write here too to aid with this.
-
-A separate discussion is what to do with devices that are unrealized:
-It looks like for this case we only call the hotplug handler's unplug
-callback and its up to it to unrealize the device.
-An atomic operation doesn't cause harm for this code path though.
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- hw/core/qdev.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ hw/scsi/virtio-scsi.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index 732789e2b7..d530c5922f 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -964,7 +964,20 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-             }
-        }
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index b0f4a35f81..1cc1fc557c 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -35,13 +35,30 @@ static inline int virtio_scsi_get_lun(uint8_t *lun)
  
-+       atomic_store_release(&dev->realized, value);
+ static inline SCSIDevice *virtio_scsi_device_find(VirtIOSCSI *s, uint8_t *lun)
+ {
++    SCSIDevice *device = NULL;
 +
-     } else if (!value && dev->realized) {
-+
-+        /*
-+         * Change the value so that any concurrent users are aware
-+         * that the device is going to be unrealized
-+         *
-+         * TODO: change .realized property to enum that states
-+         * each phase of the device realization/unrealization
-+         */
-+
-+        atomic_store_release(&dev->realized, value);
-+
-         /* We want local_err to track only the first error */
-         QLIST_FOREACH(bus, &dev->child_bus, sibling) {
-             object_property_set_bool(OBJECT(bus), false, "realized",
-@@ -980,12 +993,12 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-         DEVICE_LISTENER_CALL(unrealize, Reverse, dev);
- 
-         if (local_err != NULL) {
-+            atomic_store_release(&dev->realized, true);
-             goto fail;
-         }
+     if (lun[0] != 1) {
+         return NULL;
      }
+     if (lun[2] != 0 && !(lun[2] >= 0x40 && lun[2] < 0x80)) {
+         return NULL;
+     }
+-    return scsi_device_find(&s->bus, 0, lun[1], virtio_scsi_get_lun(lun));
++
++    device = scsi_device_find(&s->bus, 0, lun[1], virtio_scsi_get_lun(lun));
++
++    /*
++     * This function might run on the IO thread and we might race against
++     * main thread hot-plugging the device.
++     *
++     * We assume that as soon as .realized is set to true we can let
++     * the user access the device.
++     */
++
++    if (!device || !atomic_load_acquire(&device->qdev.realized)) {
++        return NULL;
++    }
++
++    return device;
+ }
  
-     assert(local_err == NULL);
--    dev->realized = value;
-     return;
- 
- child_realize_fail:
+ void virtio_scsi_init_req(VirtIOSCSI *s, VirtQueue *vq, VirtIOSCSIReq *req)
 -- 
 2.17.2
 
