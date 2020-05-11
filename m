@@ -2,51 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAC7A1CD1F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:39:46 +0200 (CEST)
-Received: from localhost ([::1]:56788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BFA71CD1C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:20:59 +0200 (CEST)
+Received: from localhost ([::1]:37692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY26L-00039E-Oy
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46466)
+	id 1jY1oA-0008PM-Hh
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jY23b-0007uU-8z; Mon, 11 May 2020 02:36:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:59519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jY23Z-000744-5V; Mon, 11 May 2020 02:36:54 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49LB6k4wqbz9sT8; Mon, 11 May 2020 16:36:46 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1589179006;
- bh=T1NDT/vJJZiLN9+DqFfiBJD8XAlVNNKrDy7TbV2ti6c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QZhc36X1fhm2uic7M08TExZiYEUqlgY+XKEvX3trMNNSvGFRANoN3L58rhhxSIm9/
- gCO62zA/vcbgbjPwnRBTps+C1C6PnmGHYHzo4WKgJ2wZXwOlDXDmxa/K/Knk1ro/ba
- wcKXF3S2WIRv1nQksPKiD+/YxYYqn7qsAJv01qLY=
-Date: Mon, 11 May 2020 16:17:45 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Reza Arbab <arbab@linux.ibm.com>
-Subject: Re: [PATCH] spapr: Add a new level of NUMA for GPUs
-Message-ID: <20200511061745.GP2183@umbus.fritz.box>
-References: <20200508175927.21791-1-arbab@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY1nI-0007u1-8L
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 02:20:04 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33361
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY1nG-0003O3-7o
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 02:20:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589178000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zy12sd76hKv+UuiN4e7HK7KbsMAgQuBLA9xWXALbN9Y=;
+ b=a/iBMPIPL8S+e215h0vx91iwpZv0j930j8QVkfdlQJn3zCGukHKPLe8PA85RkugiWjkR7n
+ J97pOLb7ORFZ8qhhhOLb4OTJCuGacG18AUFEpC2YFoZaN2A1gigUgUyzPiSLlV/xdo8zxs
+ UpkPAFGx0QSZabSkBqstMuBZxnkGDXA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-05T-zGOmPYuXcQLwwRLF5A-1; Mon, 11 May 2020 02:19:54 -0400
+X-MC-Unique: 05T-zGOmPYuXcQLwwRLF5A-1
+Received: by mail-wr1-f71.google.com with SMTP id w9so865897wrr.3
+ for <qemu-devel@nongnu.org>; Sun, 10 May 2020 23:19:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zy12sd76hKv+UuiN4e7HK7KbsMAgQuBLA9xWXALbN9Y=;
+ b=Ni/GH89923YZhsJ/FLsf6UZUxFat92YKM20F6BA3FvPJq3zzyHy7yICrmvj2sVd7oW
+ BbdfDregoNcn5osjwQkUsbwUqkpOoHXBUY2zYV6nmkwLxWCFX5pYNMgWF/dNQGVbJD/K
+ G03xx0g/wr/5mNu+cK9CmInmS2s/wmEWf2e0ZJvwedzdUV3EmpZxDRPe9+rKvs/qgfh8
+ iqlSetX1HNfnSfXADSmLPJTRi7XP3F6TN6t2R+OtcRZq6xVMzE6kuaQylQgjuEW6NCLS
+ GXyoyONw1Ee2MhHb4yhZyf6+iLAq4QoeeLvRqnH7nbskM0pKvSJUa+98nWJwzrkHm8iI
+ JqmQ==
+X-Gm-Message-State: AGi0PubGXzfVyiaHT/1TOdhPpZ6tVMSoL4d7Tle/1tgQo6mCF9TvYPGW
+ /AoBrHufqv59p5q+/4DJw6LtIX3Q58gYff0zRyYheRw9CQAmD+9UJ0a7CXm39KGO7XIKkjg/4vg
+ sKhcOTUDNZlbtm2g=
+X-Received: by 2002:adf:bb4e:: with SMTP id x14mr16678431wrg.63.1589177993701; 
+ Sun, 10 May 2020 23:19:53 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJ1/qH2/8NtFRsybcT+ObiovHaeXPWiGGW1XP/zHwjYRtPnaGSD4NGFDLc/HM7nS1T6luFtSg==
+X-Received: by 2002:adf:bb4e:: with SMTP id x14mr16678410wrg.63.1589177993444; 
+ Sun, 10 May 2020 23:19:53 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id t2sm26103743wmt.15.2020.05.10.23.19.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 May 2020 23:19:52 -0700 (PDT)
+Subject: Re: Abort in mch_update_pciexbar
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20200511045912.keffhizkobgwqcag@mozz.bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c6b66f8a-40e4-8ad5-afb4-09bddbcac529@redhat.com>
+Date: Mon, 11 May 2020 08:19:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zn4k3Q+N5puqXur4"
-Content-Disposition: inline
-In-Reply-To: <20200508175927.21791-1-arbab@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:36:48
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+In-Reply-To: <20200511045912.keffhizkobgwqcag@mozz.bu.edu>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 01:43:51
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,176 +97,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Daniel Henrique Barboza <danielhb@linux.ibm.com>,
- Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/11/20 6:59 AM, Alexander Bulekov wrote:
+> Hello,
+> While fuzzing, I found an input that triggers an assertion failure in
+> mch_update_pciexbar:
+> 
+> #6 0x7f38d387c55a in abort /build/glibc-GwnBeO/glibc-2.30/stdlib/abort.c:79:7
+> #7 0x55c27e94ffd0 in mch_update_pciexbar hw/pci-host/q35.c:331:9
+> #8 0x55c27e94db38 in mch_write_config hw/pci-host/q35.c:487:9
+> #9 0x55c27e9e3f4c in pci_host_config_write_common hw/pci/pci_host.c:81:5
+> #10 0x55c27e9e5307 in pci_data_write hw/pci/pci_host.c:118:5
+> #11 0x55c27e9e6601 in pci_host_data_write hw/pci/pci_host.c:165:9
+> #12 0x55c27ca3b17b in memory_region_write_accessor memory.c:496:5
+> #13 0x55c27ca3a5e4 in access_with_adjusted_size memory.c:557:18
+> #14 0x55c27ca38177 in memory_region_dispatch_write memory.c:1488:16
+> #15 0x55c27c721325 in flatview_write_continue exec.c:3174:23
+> #16 0x55c27c70994d in flatview_write exec.c:3214:14
+> #17 0x55c27c709462 in address_space_write exec.c:3305:18
 
---zn4k3Q+N5puqXur4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These lines don't match QEMU v5.0.0.
 
-On Fri, May 08, 2020 at 12:59:27PM -0500, Reza Arbab wrote:
-> NUMA nodes corresponding to GPU memory currently have the same
-> affinity/distance as normal memory nodes. Add a third NUMA associativity
-> reference point enabling us to give GPU nodes more distance.
->=20
-> Before, `numactl -H` output in a guest with 4 GPUs (nodes 2-5):
->=20
-> node distances:
-> node   0   1   2   3   4   5
->   0:  10  40  40  40  40  40
->   1:  40  10  40  40  40  40
->   2:  40  40  10  40  40  40
->   3:  40  40  40  10  40  40
->   4:  40  40  40  40  10  40
->   5:  40  40  40  40  40  10
->=20
-> After:
->=20
-> node distances:
-> node   0   1   2   3   4   5
->   0:  10  40  80  80  80  80
->   1:  40  10  80  80  80  80
->   2:  80  80  10  80  80  80
->   3:  80  80  80  10  80  80
->   4:  80  80  80  80  10  80
->   5:  80  80  80  80  80  10
->=20
-> These are the same distances as on the host, mirroring the change made
-> to host firmware in skiboot commit f845a648b8cb ("numa/associativity:
-> Add a new level of NUMA for GPU's").
+> 
+> I can reproduce it in a qemu 5.0 build using:
+> cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc-q35-5.0 -display none -nodefaults -nographic -qtest stdio
+> outl 0xcf8 0xf2000060
+> outl 0xcfc 0x8400056e
 
-Urgh.  I have a numnber of thoughts on this.
+The guest shouldn't ask for a reserved bar length (grep for 
+MCH_HOST_BRIDGE_PCIEXBAR_LENGTH_RVD). I suppose we should simply report 
+it as GUEST_ERROR and ignore it.
 
-1)
+> EOF
+> 
+> I also uploaded the above trace, in case the formatting is broken:
+> 
+> curl https://paste.debian.net/plain/1146095 | qemu-system-i386 -M pc-q35-5.0 -display none -nodefaults -nographic -qtest stdio
+> 
+> Please let me know if I can provide any further info.
 
-This would all be much simpler, if PAPR's representation of NUMA
-distances weren't so awful.  Somehow it manages to be both so complex
-that it's very hard to understand, and yet very limited in that it
-has no way to represent distances in any absolute units, or even
-specific ratios between distances.
+It would help the community if you fill your bug reports with Launchpad, 
+so they don't get lost in the high email flow, and we can track/update 
+them. See for example:
+https://bugs.launchpad.net/qemu/+bug/1835865 and
+https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg06082.html 
+which refers it.
 
-Both qemu and the guest kernel can have an arbitrary set of nodes,
-with an arbitrary matrix of distances between each pair, which we then
-have to lossily encode into this PAPR nonsense.
-
-2)
-
-Alas, I don't think we can simply change this information.  We'll have
-to do it conditionally on a new machine type.  This is guest visible
-information, which shouldn't change under a running guest across
-migration between different qemu versions.  At least for Linux guests
-we'd probably get away with it, since I think it only reads this info
-at boot, and across a migration we'd at worst get non-optimal
-behaviour, not actual breakage.
-
-Still, I'd need a stronger case than "probably won't break" before
-breaking our rules about guest environment stability within a machine
-type.
-
-3)
-
-I'm not sure that this version is totally correct w.r.t. PAPR.  But
-then, I'm also not really sure of that for the existing version.
-Specifically it's not at all clear from PAPR if the IDs used at each
-level of the ibm,associativity need to be:
-   a) globally unique
-   b) unique only within the associativity level they appear at
-or c) unique only within the "node" at the next higher level they
-      belong to
-
-4)
-
-I'm not totally clear on the rationale for using the individual gpu's
-numa ID at all levels, rather than just one.  I'm guessing this is so
-that the gpu memory blocks are distant from each other as well as
-distant from main memory.  Is that right?
-
-> Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
-> ---
->  hw/ppc/spapr.c             | 6 +++++-
->  hw/ppc/spapr_pci_nvlink2.c | 8 +++-----
->  2 files changed, 8 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index c18eab0a2305..53567f98f0c6 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -892,7 +892,11 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
-void *fdt)
->      int rtas;
->      GString *hypertas =3D g_string_sized_new(256);
->      GString *qemu_hypertas =3D g_string_sized_new(256);
-> -    uint32_t refpoints[] =3D { cpu_to_be32(0x4), cpu_to_be32(0x4) };
-> +    uint32_t refpoints[] =3D {
-> +        cpu_to_be32(0x4),
-> +        cpu_to_be32(0x4),
-> +        cpu_to_be32(0x2),
-> +    };
->      uint64_t max_device_addr =3D MACHINE(spapr)->device_memory->base +
->          memory_region_size(&MACHINE(spapr)->device_memory->mr);
->      uint32_t lrdr_capacity[] =3D {
-> diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
-> index 8332d5694e46..f2cb26019e88 100644
-> --- a/hw/ppc/spapr_pci_nvlink2.c
-> +++ b/hw/ppc/spapr_pci_nvlink2.c
-> @@ -37,8 +37,6 @@
->  #define PHANDLE_NVLINK(phb, gn, nn)  (0x00130000 | (((phb)->index) << 8)=
- | \
->                                       ((gn) << 4) | (nn))
-> =20
-> -#define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
-> -
->  typedef struct SpaprPhbPciNvGpuSlot {
->          uint64_t tgt;
->          uint64_t gpa;
-> @@ -361,9 +359,9 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *s=
-phb, void *fdt)
->                                                      "nvlink2-mr[0]", NUL=
-L);
->          uint32_t associativity[] =3D {
->              cpu_to_be32(0x4),
-> -            SPAPR_GPU_NUMA_ID,
-> -            SPAPR_GPU_NUMA_ID,
-> -            SPAPR_GPU_NUMA_ID,
-> +            cpu_to_be32(nvslot->numa_id),
-> +            cpu_to_be32(nvslot->numa_id),
-> +            cpu_to_be32(nvslot->numa_id),
->              cpu_to_be32(nvslot->numa_id)
->          };
->          uint64_t size =3D object_property_get_uint(nv_mrobj, "size", NUL=
-L);
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---zn4k3Q+N5puqXur4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl647gYACgkQbDjKyiDZ
-s5JVQxAAkWOOYDiK0vnc1Qh+2ZxiS1wshiDBBYVDbzWTc0+4cDQRe7b/NSu3DGkv
-nGZJUR/t8PS/v1echmhAoJBFm4i6tuFuBlmBra13KzJetFZKMdPJS97PoCxD2XsQ
-aua7mt5nhyYaoqUzN7Ue8XJSg6gwfy8iwPzGaX6QBwTjjNwYZtePpkxo0RLmeHHF
-epaVtf1+vErKDLbOuJLPcu2LYOaSqZ3GsacW2NjAwO7KIJ3egfKwzIY44j6OsJEL
-Y8am9iaZ27eVp0IDAxFbQnrjx/OkWiHe3sLJWXaK1F4HVgtkbL07QfwxzId4fUp0
-z5lJclfeS8lNnDA3X+CqWuGzhY/W8rb2yGoc0q0hAGZmCW0B3okgIZyeyiX1N8x1
-zlalfXB/i0gmt64XflPcAhMN7MzJU4aNfCNpvVSWXr50TJPkoHjw4tJhDeM4ZxMa
-+Myds+sklOSzguYT3uQ0W1yvAazhAAJrlVCRGZBvJ17jpAB1KnjMoncpAzf+sEwG
-uuzuLQSvB5mgfDnhmorg2vi3WbjvM+ztANLNqlDo+bvkXl7489o/b9KFeAFxDnWn
-eh6fsoAQ9GHAKtt40m+kPdm9TT3dCaIyW/17Ao58fblpc9CI21EcJs03Zn/z53pY
-sgI3Ak8+KCt3RFbOy7RsRmY5WGqdDoHLsoVpQ0VepaBdPRXtN+c=
-=SiDq
------END PGP SIGNATURE-----
-
---zn4k3Q+N5puqXur4--
 
