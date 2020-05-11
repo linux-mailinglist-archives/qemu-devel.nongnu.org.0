@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE9D1CD680
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:27:13 +0200 (CEST)
-Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6981CD6A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:36:50 +0200 (CEST)
+Received: from localhost ([::1]:34298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY5eS-0000yL-FU
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48960)
+	id 1jY5nl-0005y5-0y
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jY5dH-00089h-1y
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:25:59 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36520)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jY5n4-0005ZT-Bq
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:36:06 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jY5dG-0004he-18
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:25:58 -0400
-Received: by mail-wr1-x443.google.com with SMTP id y16so3059764wrs.3
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:25:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jY5n2-0006PP-Hg
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:36:05 -0400
+Received: by mail-ot1-x341.google.com with SMTP id z25so7091903otq.13
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:36:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=SH2zsrKPoKryaS1XPDVCA9WuLNkkpScdEL2lT6GHl/w=;
- b=SJ1bLvnEPh+JbvlxZVVbES9nb6T/S8f2zQY+cnztLaQgOjiCOsnw+3ZRH9d7BADAqo
- Py2xeN4OJyBnG5qg95JcDCOqISXvJMF2GuL68Z8NV6vrznHoT5YddGC7l8WkvG4AsNSB
- TsySHQW+q4wRs6fwRz5y0nJWHQPrgaX5RxvEghdgDK18GgPsOVj8NDSCOVZ3OcDTWxD7
- lSr24LTvfPnIwUJepYTFGUbsHMMC/MyTvzozEAenI77T8Nz10NILwjhJgeil8hwy5Stb
- MhieEUK8I2f+4i8gRMMkbpqj78XCIZXA5KyCLYodgljJSSXp0SPcnc5BuzDrVqYlxmC6
- jVew==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2iaFPk9EyfoSNtxcEQjdK2j0hE5PEU6StVFa3LCvvBc=;
+ b=roYbCwyEmD43+Dd7jU6LyUWFZ4FqZj3OByjEUtXSBMuhMtgumgOoZktrD9MgzN6KK8
+ eyB/XehK7RuGC4TyMWAGjRfeo5qnUlT7Brd9hcAJx9fI9uTtlO2GLIEW8WG4Pch8oStv
+ dJ9isYQ63ReVuoCQVsh2HT1WeDoPlZ9VAdGc6ZP/HSAfqfB+O6yF81CZAydGWXpPXGHF
+ vY1MiYMvjf0UQzF1VopqHb4QJKxAOC+g+pAGw20QZ6spsIpMwvUICdJT/yiPdjb514dL
+ T3IiJsw8phA9mCmwGSgiKrbb+L+LSZIBrszhq7ys50hNSY6FhatyPJljWN7c9ZVSQG9I
+ 4vlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=SH2zsrKPoKryaS1XPDVCA9WuLNkkpScdEL2lT6GHl/w=;
- b=ZsxvRWMZRhr/06bMD3r6QUIsYHkj/yYvlE68h6Jf+zucilZjTiY61jCjw3WnHd3z5P
- hVZAzDiaRmszRBYSNvaoyE14RrQDF2ym1XA4rLNjjWOZWfCeWMDMHhHL4gVlzqh1QSx+
- mMjB9ThghIa0wM1mL4JzM+QtTYO8Rq5fL33B8MXfhbZVft+xm+zj8wmD71F1J39/QNKH
- 7f7BbDdxro+Man55icX/KYrktY86pHon9VNPxxCfb2iSjlTKdwNBuMBdH2h9/tAi+qn6
- YdimVX0OdeQUMC0g0MK/1t9+22cLtpJuGuJ6FRkIQx2jO/OsCmSZ8t+aOIv1xNBCdjEP
- 5GyA==
-X-Gm-Message-State: AGi0PubHTqBHfrnhborZ99vXpF57S7h2rGzTZb8jxNI2RBmTxXGpqnw9
- U7lVhJZE5G85Bz1WlV77iVjgLg==
-X-Google-Smtp-Source: APiQypJ/XdHvFsBcx80iwLJe3HTQneR6lwcHBGxcMQIQZbTIloxGfdd6fGVsWCxRmP2XrCjqr9In4A==
-X-Received: by 2002:a5d:5686:: with SMTP id f6mr18488751wrv.168.1589192755980; 
- Mon, 11 May 2020 03:25:55 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d6sm3458954wra.63.2020.05.11.03.25.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 03:25:54 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 83FB71FF7E;
- Mon, 11 May 2020 11:25:53 +0100 (BST)
-References: <20200326193156.4322-1-robert.foley@linaro.org>
- <20200326193156.4322-18-robert.foley@linaro.org>
-User-agent: mu4e 1.4.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v8 17/74] hw/semihosting: convert to cpu_halted_set
-In-reply-to: <20200326193156.4322-18-robert.foley@linaro.org>
-Date: Mon, 11 May 2020 11:25:53 +0100
-Message-ID: <87zhaeg43y.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2iaFPk9EyfoSNtxcEQjdK2j0hE5PEU6StVFa3LCvvBc=;
+ b=ak4rd7S7YMIL7FOXky6DvZlmoWzRQb9FB5eiLYwJlX53xYzwyeKJ7yF5OWw1ecDNtq
+ xL7azbrHqLfO+R/P6LcHwQM/4HAc0BlQYujnw3SSLR+5aOMtOTpbctGVOdItI++v5elN
+ z4guDqvfE3PhZFyt50Nc6z4ttpAgeG3kVA+5HHRyVn2o3ARe1iOZcfzwFIt/tpCwjQKe
+ nksQtbW1qFHhnEZ3IzqhxQ0PwyI5rgZr/S4IKB5/nXYZiZi7QqdAG7u/0hNaPzdOlirv
+ E6keczeOCzyl4HP5b/edzKAHq2WErIzvHhfMjVD41J4gtDiKeMd6fxEEB22TWBdPAiWt
+ 8bbw==
+X-Gm-Message-State: AGi0PuYuT8LSsLVkNc6PcS3jOwldUSGxDiKwPT798e0724x10mn+DrNV
+ 9zxEoXmCfX3jLR7/riH4dgL8A62K/VCSsYT5ytl4zA==
+X-Google-Smtp-Source: APiQypKojcmSQN3AFAwvpFTpitYaBzMP5nr20doevIqIvUuXbPVyJBlMiYASzt9v6KZtk3ODeyvq5tqzvkysyrme4yw=
+X-Received: by 2002:a9d:2c08:: with SMTP id f8mr12304550otb.135.1589193362799; 
+ Mon, 11 May 2020 03:36:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+References: <20200508154359.7494-1-richard.henderson@linaro.org>
+In-Reply-To: <20200508154359.7494-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 May 2020 11:35:52 +0100
+Message-ID: <CAFEAcA8B_5c1Cvfss7mo74Q17AiZf-OhTk-xmnTsobjpHc=83w@mail.gmail.com>
+Subject: Re: [PATCH v5 00/19] target/arm: sve load/store improvements
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,48 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Robert Foley <robert.foley@linaro.org> writes:
-
-> Signed-off-by: Robert Foley <robert.foley@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  hw/semihosting/console.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+On Fri, 8 May 2020 at 16:44, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
-> index 6346bd7f50..f70085f3c1 100644
-> --- a/hw/semihosting/console.c
-> +++ b/hw/semihosting/console.c
-> @@ -131,7 +131,7 @@ static void console_wake_up(gpointer data, gpointer u=
-ser_data)
->  {
->      CPUState *cs =3D (CPUState *) data;
->      /* cpu_handle_halt won't know we have work so just unbung here */
-> -    cs->halted =3D 0;
-> +    cpu_halted_set(cs, 0);
->      qemu_cpu_kick(cs);
->  }
->=20=20
-> @@ -154,7 +154,7 @@ target_ulong qemu_semihosting_console_inc(CPUArchStat=
-e *env)
->      g_assert(current_cpu);
->      if (fifo8_is_empty(&c->fifo)) {
->          c->sleeping_cpus =3D g_slist_prepend(c->sleeping_cpus, current_c=
-pu);
-> -        current_cpu->halted =3D 1;
-> +        cpu_halted_set(current_cpu, 1);
->          current_cpu->exception_index =3D EXCP_HALTED;
->          cpu_loop_exit(current_cpu);
->          /* never returns */
+> Version 5 splits patch 4, as requested during review.
+> The patches remaining unreviewed are:
+>
+> 0004-accel-tcg-Adjust-probe_access-call-to-page_check_.patch
+> 0005-accel-tcg-Add-probe_access_flags.patch
 
+Applied to target-arm.next, thanks. Sorry it took me so long
+to figure out what was going on with patches 4/5.
 
---=20
-Alex Benn=C3=A9e
+-- PMM
 
