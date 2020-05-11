@@ -2,101 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209871CD4C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:23:07 +0200 (CEST)
-Received: from localhost ([::1]:51218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94F01CD4D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:27:04 +0200 (CEST)
+Received: from localhost ([::1]:54844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY4eQ-0007Hp-7P
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:23:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38654)
+	id 1jY4iF-0001pE-OE
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jY4df-0006h5-0G
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:22:19 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56692
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jY4dd-0004Fc-H5
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:22:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589188936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xpCMpgp2eOj5QEKsF5MFdfKRTdkDsI22iUq17sI6IxU=;
- b=D11AfOtvRE1XwyzQ+73OCaIcPm51Q42BUY4ONaNt5SLbetyRMF5ztkSahScSeJqUfJNTmU
- gVK5tElbhxTpPotK1kJ0tFArbr3h4tcO3v5KuhPDYbyINx78POBk8tw/Y6H7tV5e/XvG8I
- Fj+Sqj6XeqchRkufx6VvUWPT9VZqKJE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-4TheFBb5OLqGVmZpPXCbpw-1; Mon, 11 May 2020 05:22:14 -0400
-X-MC-Unique: 4TheFBb5OLqGVmZpPXCbpw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09B5C475;
- Mon, 11 May 2020 09:22:13 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-247.ams2.redhat.com
- [10.36.113.247])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1293F38E;
- Mon, 11 May 2020 09:22:01 +0000 (UTC)
-Subject: Re: [PATCH v3 3/9] block: Make it easier to learn which BDS support
- bitmaps
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200508180340.675712-1-eblake@redhat.com>
- <20200508180340.675712-4-eblake@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <aba3eddd-1201-9182-6011-9fe0bbca1b76@redhat.com>
-Date: Mon, 11 May 2020 11:21:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1jY4hI-0000mb-HD; Mon, 11 May 2020 05:26:04 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:47948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dimastep@yandex-team.ru>)
+ id 1jY4hE-0005Ds-OS; Mon, 11 May 2020 05:26:02 -0400
+Received: from mxbackcorp1g.mail.yandex.net (mxbackcorp1g.mail.yandex.net
+ [IPv6:2a02:6b8:0:1402::301])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 954962E14F7;
+ Mon, 11 May 2020 12:25:54 +0300 (MSK)
+Received: from iva4-7c3d9abce76c.qloud-c.yandex.net
+ (iva4-7c3d9abce76c.qloud-c.yandex.net [2a02:6b8:c0c:4e8e:0:640:7c3d:9abc])
+ by mxbackcorp1g.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ ZXmsrMc4VS-PpAKws1Z; Mon, 11 May 2020 12:25:54 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1589189154; bh=pX2lP3obviLVGwwzxt6isdkDCUTdKcep+W4ykUgk8Bc=;
+ h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
+ b=A7qdHfAMhdBkhwzjmS9T82czLznH3pdmVH5X9uUKObaBBTvUfJVM8kv7dyEAjOfM/
+ N6COta3R8oLM1/ny4qycoWXBUxbIe/TgqXJRfMs8VAtobotC4QcnOLTCFRCpNs55tg
+ Lthh6FGrkGbNpZdKcYO7H8yMWINPY4lEACQWEtIQ=
+Authentication-Results: mxbackcorp1g.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b080:7214::1:7])
+ by iva4-7c3d9abce76c.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ E3CEgGVtP9-PpWulvLv; Mon, 11 May 2020 12:25:51 +0300
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client certificate not present)
+Date: Mon, 11 May 2020 12:25:49 +0300
+From: Dima Stepanov <dimastep@yandex-team.ru>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v2 5/5] vhost: add device started check in migration set
+ log
+Message-ID: <20200511092541.GA27558@dimastep-nix>
+References: <cover.1588252861.git.dimastep@yandex-team.ru>
+ <d25241eb1fe7a55fc7dbe63ecedb4f1adf407837.1588252862.git.dimastep@yandex-team.ru>
+ <ed805147-d87d-5ac2-3196-367981b0679c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200508180340.675712-4-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="KoHrgWC9lcnKwTG6vq5DCZNEWpY4IyeLt"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ed805147-d87d-5ac2-3196-367981b0679c@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=dimastep@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 04:55:47
+X-ACL-Warn: Detected OS   = ???
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -105,116 +78,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, yc-core@yandex-team.ru,
+ qemu-block@nongnu.org, mst@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, arei.gonglei@huawei.com, raphael.norwitz@nutanix.com,
+ fengli@smartx.com, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---KoHrgWC9lcnKwTG6vq5DCZNEWpY4IyeLt
-Content-Type: multipart/mixed; boundary="b0jGwRJyB55rVdf7qdvOw6moXoVq2if3a"
+On Mon, May 11, 2020 at 11:15:53AM +0800, Jason Wang wrote:
+> 
+> On 2020/4/30 下午9:36, Dima Stepanov wrote:
+> >If vhost-user daemon is used as a backend for the vhost device, then we
+> >should consider a possibility of disconnect at any moment. If such
+> >disconnect happened in the vhost_migration_log() routine the vhost
+> >device structure will be clean up.
+> >At the start of the vhost_migration_log() function there is a check:
+> >   if (!dev->started) {
+> >       dev->log_enabled = enable;
+> >       return 0;
+> >   }
+> >To be consistent with this check add the same check after calling the
+> >vhost_dev_set_log() routine. This in general help not to break a
+> >migration due the assert() message. But it looks like that this code
+> >should be revised to handle these errors more carefully.
+> >
+> >In case of vhost-user device backend the fail paths should consider the
+> >state of the device. In this case we should skip some function calls
+> >during rollback on the error paths, so not to get the NULL dereference
+> >errors.
+> >
+> >Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
+> >---
+> >  hw/virtio/vhost.c | 39 +++++++++++++++++++++++++++++++++++----
+> >  1 file changed, 35 insertions(+), 4 deletions(-)
+> >
+> >diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> >index 3ee50c4..d5ab96d 100644
+> >--- a/hw/virtio/vhost.c
+> >+++ b/hw/virtio/vhost.c
+> >@@ -787,6 +787,17 @@ static int vhost_dev_set_features(struct vhost_dev *dev,
+> >  static int vhost_dev_set_log(struct vhost_dev *dev, bool enable_log)
+> >  {
+> >      int r, i, idx;
+> >+
+> >+    if (!dev->started) {
+> >+        /*
+> >+         * If vhost-user daemon is used as a backend for the
+> >+         * device and the connection is broken, then the vhost_dev
+> >+         * structure will be reset all its values to 0.
+> >+         * Add additional check for the device state.
+> >+         */
+> >+        return -1;
+> >+    }
+> >+
+> >      r = vhost_dev_set_features(dev, enable_log);
+> >      if (r < 0) {
+> >          goto err_features;
+> >@@ -801,12 +812,19 @@ static int vhost_dev_set_log(struct vhost_dev *dev, bool enable_log)
+> >      }
+> >      return 0;
+> >  err_vq:
+> >-    for (; i >= 0; --i) {
+> >+    /*
+> >+     * Disconnect with the vhost-user daemon can lead to the
+> >+     * vhost_dev_cleanup() call which will clean up vhost_dev
+> >+     * structure.
+> >+     */
+> >+    for (; dev->started && (i >= 0); --i) {
+> >          idx = dev->vhost_ops->vhost_get_vq_index(
+> 
+> 
+> Why need the check of dev->started here, can started be modified outside
+> mainloop? If yes, I don't get the check of !dev->started in the beginning of
+> this function.
+> 
+No dev->started can't change outside the mainloop. The main problem is
+only for the vhost_user_blk daemon. Consider the case when we
+successfully pass the dev->started check at the beginning of the
+function, but after it we hit the disconnect on the next call on the
+second or third iteration:
+     r = vhost_virtqueue_set_addr(dev, dev->vqs + i, idx, enable_log);
+The unix socket backend device will call the disconnect routine for this
+device and reset the structure. So the structure will be reset (and
+dev->started set to false) inside this set_addr() call. So
+we shouldn't call the clean up calls because this virtqueues were clean
+up in the disconnect call. But we should protect these calls somehow, so
+it will not hit SIGSEGV and we will be able to pass migration.
 
---b0jGwRJyB55rVdf7qdvOw6moXoVq2if3a
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Just to summarize it:
+For the vhost-user-blk devices we ca hit clean up calls twice in case of
+vhost disconnect:
+1. The first time during the disconnect process. The clean up is called
+inside it.
+2. The second time during roll back clean up.
+So if it is the case we should skip p2.
 
-On 08.05.20 20:03, Eric Blake wrote:
-> Upcoming patches will enhance bitmap support in qemu-img, but in doing
-> so, it turns out to be nice to suppress output when bitmaps make no
-> sense (such as on a qcow2 v2 image).  Add a hook to make this easier
-> to query.
->=20
-> In the future, when we improve the ability to look up bitmaps through
-> a filter, we will probably also want to teach the block layer to
-> automatically let filters pass this request on through.
->=20
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  block/qcow2.h                | 1 +
->  include/block/block_int.h    | 1 +
->  include/block/dirty-bitmap.h | 1 +
->  block/dirty-bitmap.c         | 9 +++++++++
->  block/qcow2-bitmap.c         | 7 +++++++
->  block/qcow2.c                | 1 +
->  6 files changed, 20 insertions(+)
->=20
-> diff --git a/block/qcow2.h b/block/qcow2.h
-> index f4de0a27d5c3..fb2b2b5a7b4d 100644
-> --- a/block/qcow2.h
-> +++ b/block/qcow2.h
-> @@ -764,6 +764,7 @@ bool qcow2_co_can_store_new_dirty_bitmap(BlockDriverS=
-tate *bs,
->  int qcow2_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
->                                              const char *name,
->                                              Error **errp);
-> +bool qcow2_dirty_bitmap_supported(BlockDriverState *bs);
->=20
->  ssize_t coroutine_fn
->  qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index df6d0273d679..cb1082da4c43 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -560,6 +560,7 @@ struct BlockDriver {
->                               uint64_t parent_perm, uint64_t parent_share=
-d,
->                               uint64_t *nperm, uint64_t *nshared);
->=20
-> +    bool (*bdrv_dirty_bitmap_supported)(BlockDriverState *bs);
+> 
+> >dev, dev->vq_index + i);
+> >          vhost_virtqueue_set_addr(dev, dev->vqs + i, idx,
+> >                                   dev->log_enabled);
+> >      }
+> >-    vhost_dev_set_features(dev, dev->log_enabled);
+> >+    if (dev->started) {
+> >+        vhost_dev_set_features(dev, dev->log_enabled);
+> >+    }
+> >  err_features:
+> >      return r;
+> >  }
+> >@@ -832,7 +850,15 @@ static int vhost_migration_log(MemoryListener *listener, int enable)
+> >      } else {
+> >          vhost_dev_log_resize(dev, vhost_get_log_size(dev));
+> >          r = vhost_dev_set_log(dev, true);
+> >-        if (r < 0) {
+> >+        /*
+> >+         * The dev log resize can fail, because of disconnect
+> >+         * with the vhost-user-blk daemon. Check the device
+> >+         * state before calling the vhost_dev_set_log()
+> >+         * function.
+> >+         * Don't return error if device isn't started to be
+> >+         * consistent with the check above.
+> >+         */
+> >+        if (dev->started && r < 0) {
+> >              return r;
+> >          }
+> >      }
+> >@@ -1739,7 +1765,12 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+> >  fail_log:
+> >      vhost_log_put(hdev, false);
+> >  fail_vq:
+> >-    while (--i >= 0) {
+> >+    /*
+> >+     * Disconnect with the vhost-user daemon can lead to the
+> >+     * vhost_dev_cleanup() call which will clean up vhost_dev
+> >+     * structure.
+> >+     */
+> >+    while ((--i >= 0) && (hdev->started)) {
+> >          vhost_virtqueue_stop(hdev,
+> >                               vdev,
+> >                               hdev->vqs + i,
+> 
+> 
+> This should be a separate patch.
+Do you mean i should split this patch to two patches?
 
-All BDSs support bitmaps, but only some support persistent dirty
-bitmaps, so I think the name should reflect that.
+Thanks.
 
-Conceptually, this looks reasonable.  This information might indeed be
-nice to have, and I=E2=80=99m not sure whether we should extend any existin=
-g
-interface to return it.
-
-(The interfaces that come to my mind are:
-(1) bdrv_can_store_new_dirty_bitmap() below, which we could make accept
-a NULL @name to return basically the same information.  But it=E2=80=99s st=
-ill a
-bit different, because I=E2=80=99d expect that function to return whether a=
-ny
-bitmap can be stored then, not whether the node supports bitmaps at all.
- So e.g. if there are already too many bitmaps, it should return false,
-even though the node itself does support bitmaps.
-
-(2) bdrv_get_info()/BlockDriverInfo: This information would fit in very
-nicely here, but do we have to put it here just because it does?  I
-don=E2=80=99t think so.  This patch adds 20 lines of code, that shows that =
-it=E2=80=99s
-very simple to add a dedicated method, and it=E2=80=99s certainly a bit eas=
-ier
-to use than to invoke bdrv_get_info() and throw away all the other
-information.  Perhaps this patch only shows that BlockDriverInfo doesn=E2=
-=80=99t
-make much sense in the first place, and most of its fields should have
-been scalar return values from dedicated functions.)
-
-Max
-
-
---b0jGwRJyB55rVdf7qdvOw6moXoVq2if3a--
-
---KoHrgWC9lcnKwTG6vq5DCZNEWpY4IyeLt
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl65GTIACgkQ9AfbAGHV
-z0BIswf6AuHSSVg8BoM2paXheSqDvrx56rYZNDu2vq/LoMDh5ZHhhySMFh8RLk0A
-ChccmDnYTgBgqZpPBBNZ2U0O4fizA7FoxSff5SkZiWbsfigoxJqRd50i1yFjUUky
-L9afNvBgIWuuMx3MDYlXl1rbvOBrHF8ekiWJtweU8IWASgoNaNz8bTx/c1896k5w
-q5Ncny2CD1RHinh4KARMNiNcYaSVkyLKHac2c2j/ITB9rSsDa2dGPffsngO6+eL9
-cyy1gKdDudp5VkDJT54Nb+ApMTzxfTU8Zn+TkdXQJZuYUskoSSlnFkAEWS2HTo0e
-8in0x/lGcDXxyzAyU90vBM06JykE7A==
-=Ayp5
------END PGP SIGNATURE-----
-
---KoHrgWC9lcnKwTG6vq5DCZNEWpY4IyeLt--
-
+> 
+> Thanks
+> 
 
