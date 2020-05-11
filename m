@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC15E1CCF10
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:14:15 +0200 (CEST)
-Received: from localhost ([::1]:60320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8071CCF41
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:46:46 +0200 (CEST)
+Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXx1L-0000zb-1W
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57224)
+	id 1jXxWn-0003IK-DX
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:46:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jXwzy-00089n-3a
- for qemu-devel@nongnu.org; Sun, 10 May 2020 21:12:50 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:43931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1jXwzx-0007ey-6U
- for qemu-devel@nongnu.org; Sun, 10 May 2020 21:12:49 -0400
-Received: by mail-lf1-x141.google.com with SMTP id 188so6039029lfa.10
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 18:12:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=jpcqyqvgUy9zcNCAtH07HIIihJz6L4Jt7RYE9e9z0LQ=;
- b=Ddqlv29m4Ay8/4r8fhVW7xPKKfqxnH9qfhQK0WealnbYCtLA/+vaVk404aQH9lh3jp
- S9So1RoNT3XXyUURKDhiQMDy2UVm8hYhSidw/f8l7kEzan2w/W3UhJMXyLnrl21OfY3Q
- RNtRViSTUgX5H25rNmZsUniW9Fczq5X37Bzec4i60cz+0Nx/g+04OjOuE3ZrR3HBaVu7
- 0EgYzDteL9IR3z+QuzYwYQdxmq/nlmvV/UUpgEuU+cvNA6NSICtjkt0bMbpj7kuak5d2
- SIKGaMsY2k2sYupdyH73jBFnXzZf9KXmwOUY/ZI+8xtx6nBBYIS4f+cOnT/3Tl+5uOWJ
- vBXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=jpcqyqvgUy9zcNCAtH07HIIihJz6L4Jt7RYE9e9z0LQ=;
- b=pTYc8fTZ33WCEJVNERMYWTChajE6+8/+Suw06K0jmuLA1YkGGtKWYUVxsY+hZJfY32
- YY9PtbzroxllgEO51xZ0oGavgZLeUswT5PbFF7PmHWwRwZHgdmy1F4BTXx0Yj6egxBaB
- +UgGwvvQhOGiR4iPw3Y+UbPIqGLK3YQioBhu4N3XyoesdI/+oEslcFu/EPpa/W+YqyMg
- CEmLu/U23dM+BlNGcyZFCv9T2GfqKQGjmD4EoYFtNKk/ri8LMaryL87Kw8VolKYITI2V
- iwbGMTHbf+wfvPOmbWEmoIRmP2TGbWlUMyFXJ+pTtmjxfeDGj2s6fX1J68vxYbZgvFXe
- 95Jg==
-X-Gm-Message-State: AOAM531Q89WOLo8q/vHwkAAgex/5wRmg3zmjXjhDUKFc5jQULx9DS96C
- 15vsiy8/9Aotz6S1wo9nDR+SCDaWi1zwXbH5Wng=
-X-Google-Smtp-Source: ABdhPJzeISaV8VAPEYJcqWy9Q1srDAUK3jIfTpOyihR8Z4nTUjQKyQA1Rp9pdjzz1YIbSvX8Lp7YB2wSmvAbhZH2s28=
-X-Received: by 2002:a19:d97:: with SMTP id 145mr9002017lfn.193.1589159567581; 
- Sun, 10 May 2020 18:12:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jXxUu-0000wY-3I; Sun, 10 May 2020 21:44:48 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51661 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jXxUr-0000el-81; Sun, 10 May 2020 21:44:47 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49L3dg6WMVz9sSs; Mon, 11 May 2020 11:44:39 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1589161479;
+ bh=RCbGGWQa2xpkEY1NpyqGV3zauGWlJOna/SDkXIquvJw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GAdrlFzFWJRpsCOXpNBs4F1bk9CPZizmJv8q5aS+40VYAp/Fvp2O4SpB2Mrattjq6
+ dwAteJ+/K4u2Sf7hUh7QgnbPDuSC+q85+ZuvkR/Ikdumjo768IgcAdQk6dG1E3TqfR
+ h5FkbJvBItBv46QcqWgmJDBjXKP12Va8N5JGD7Bs=
+Date: Mon, 11 May 2020 11:30:10 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] ppc/pnv: Fix NMI system reset SRR1 value
+Message-ID: <20200511013010.GI2183@umbus.fritz.box>
+References: <20200507114824.788942-1-npiggin@gmail.com>
+ <20200507135154.GA2282@umbus.fritz.box>
+ <20200508104305.355e97d8@bahia.lan>
 MIME-Version: 1.0
-References: <20200510210128.18343-1-f4bug@amsat.org>
- <20200510210128.18343-7-f4bug@amsat.org>
-In-Reply-To: <20200510210128.18343-7-f4bug@amsat.org>
-From: chen huacai <zltjiangshi@gmail.com>
-Date: Mon, 11 May 2020 09:20:30 +0800
-Message-ID: <CABDp7VqY1v8AiJbM8_owP5wk1ZBODDTNsZVjkxdhtmfuhufq+g@mail.gmail.com>
-Subject: Re: [PATCH 06/12] hw/pci-host/bonito: Fix DPRINTF() format strings
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=zltjiangshi@gmail.com; helo=mail-lf1-x141.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PMULwz+zIGJzpDN9"
+Content-Disposition: inline
+In-Reply-To: <20200508104305.355e97d8@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,68 +62,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-level <qemu-devel@nongnu.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Huacai Chen <chenhc@lemote.com>
 
-On Mon, May 11, 2020 at 5:07 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/pci-host/bonito.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-> index b9bfe3c417..10ead31e4f 100644
-> --- a/hw/pci-host/bonito.c
-> +++ b/hw/pci-host/bonito.c
-> @@ -239,7 +239,7 @@ static void bonito_writel(void *opaque, hwaddr addr,
->
->      saddr =3D addr >> 2;
->
-> -    DPRINTF("bonito_writel "TARGET_FMT_plx" val %x saddr %x\n",
-> +    DPRINTF("bonito_writel "TARGET_FMT_plx" val %lx saddr %x\n",
->              addr, val, saddr);
->      switch (saddr) {
->      case BONITO_BONPONCFG:
-> @@ -327,7 +327,7 @@ static void bonito_pciconf_writel(void *opaque, hwadd=
-r addr,
->      PCIBonitoState *s =3D opaque;
->      PCIDevice *d =3D PCI_DEVICE(s);
->
-> -    DPRINTF("bonito_pciconf_writel "TARGET_FMT_plx" val %x\n", addr, val=
-);
-> +    DPRINTF("bonito_pciconf_writel "TARGET_FMT_plx" val %lx\n", addr, va=
-l);
->      d->config_write(d, addr, val, 4);
->  }
->
-> @@ -474,7 +474,7 @@ static void bonito_spciconf_write(void *opaque, hwadd=
-r addr, uint64_t val,
->      uint32_t pciaddr;
->      uint16_t status;
->
-> -    DPRINTF("bonito_spciconf_write "TARGET_FMT_plx" size %d val %x\n",
-> +    DPRINTF("bonito_spciconf_write "TARGET_FMT_plx" size %d val %lx\n",
->              addr, size, val);
->
->      pciaddr =3D bonito_sbridge_pciaddr(s, addr);
-> --
-> 2.21.3
->
->
+--PMULwz+zIGJzpDN9
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 08, 2020 at 10:43:05AM +0200, Greg Kurz wrote:
+> On Thu, 7 May 2020 23:51:54 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Thu, May 07, 2020 at 09:48:24PM +1000, Nicholas Piggin wrote:
+> > > Commit a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
+>=20
+> Please note that the culprit patch was merged with a different SHA1:
+>=20
+> https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D01b552b05b0f21f8ff57a50=
+8f7ad26f7abbcd123
+>=20
+> > > SRR1 setting wrong for sresets that hit outside of power-save states.
+> > >=20
+> > > Fix this, better documenting the source for the bit definitions.
+> > >=20
+> > > Fixes: a77fed5bd926 ("ppc/pnv: Add support for NMI interface") got the
+>=20
+> Fixes: 01b552b05b0f ("ppc/pnv: Add support for NMI interface")
+
+Updated in my tree, thanks.
+
+>=20
+> > > Cc: C=E9dric Le Goater <clg@kaod.org>
+> > > Cc: David Gibson <david@gibson.dropbear.id.au>
+> > > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> >=20
+> > Applied to ppc-for-5.1, thanks.
+> > > ---
+> > >=20
+> > > Thanks to Cedric for pointing out concerns with a previous MCE patch
+> > > that unearthed this as well. Linux does not actually care what these
+> > > SRR1[42:45] bits look like for non-powersave sresets, but we should
+> > > follow documented behaviour as far as possible.
+> > >=20
+> > >  hw/ppc/pnv.c | 26 ++++++++++++++++++++------
+> > >  1 file changed, 20 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> > > index a3b7a8d0ff..1b4748ce6d 100644
+> > > --- a/hw/ppc/pnv.c
+> > > +++ b/hw/ppc/pnv.c
+> > > @@ -1986,12 +1986,26 @@ static void pnv_cpu_do_nmi_on_cpu(CPUState *c=
+s, run_on_cpu_data arg)
+> > > =20
+> > >      cpu_synchronize_state(cs);
+> > >      ppc_cpu_do_system_reset(cs);
+> > > -    /*
+> > > -     * SRR1[42:45] is set to 0100 which the ISA defines as implement=
+ation
+> > > -     * dependent. POWER processors use this for xscom triggered inte=
+rrupts,
+> > > -     * which come from the BMC or NMI IPIs.
+> > > -     */
+> > > -    env->spr[SPR_SRR1] |=3D PPC_BIT(43);
+> > > +    if (env->spr[SPR_SRR1] & PPC_BITMASK(46, 47)) {
+> > > +        /*
+> > > +	 * Power-save wakeups, as indicated by non-zero SRR1[46:47] put the
+> > > +	 * wakeup reason in SRR1[42:45], system reset is indicated with 0b0=
+100
+> > > +	 * (PPC_BIT(43)).
+> > > +	 */
+> > > +        if (!(env->spr[SPR_SRR1] & PPC_BIT(43))) {
+> > > +            warn_report("ppc_cpu_do_system_reset does not set system=
+ reset wakeup reason");
+> > > +            env->spr[SPR_SRR1] |=3D PPC_BIT(43);
+> > > +        }
+> > > +    } else {
+> > > +        /*
+> > > +	 * For non-powersave system resets, SRR1[42:45] are defined to be
+> > > +	 * implementation-dependent. The POWER9 User Manual specifies that
+> > > +	 * an external (SCOM driven, which may come from a BMC nmi command =
+or
+> > > +	 * another CPU requesting a NMI IPI) system reset exception should =
+be
+> > > +	 * 0b0010 (PPC_BIT(44)).
+> > > +         */
+> > > +        env->spr[SPR_SRR1] |=3D PPC_BIT(44);
+> > > +    }
+> > >  }
+> > > =20
+> > >  static void pnv_nmi(NMIState *n, int cpu_index, Error **errp)
+> >=20
+>=20
+
 
 
 --=20
-Huacai Chen
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--PMULwz+zIGJzpDN9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl64qqIACgkQbDjKyiDZ
+s5L1xg/9HkETp8mkJni53fXJ346Nue8JhAYdg77xNPm1Cv/LOnZj3aqkp8hO9YEf
+zrHlSTkq2HJ8VON2FocWgdvY60D+OSitj4CM1Ab2ldDnkMK5h0CYsQpoVQW+oLsa
+NOpzalxaWUQT67vI1PDdD4SnvIHv+dJqDJ8K24xh9V+yKwNEDdlP8t6kmgEBio45
+dvQRCNaRICU9gb3ar3OJW5aWlmFEGWcMWxIy4p79Y8puFp2ZTSJxOFNHxfRhGznB
+nJi8RTUVqKmzfCf++UsmfzSu3L9yKRNhGJ0+0++VCWRjoWzpHb39VZsLfBVdFKZR
+FfsF4VQU9GPRH+Y+UfRO6bdqT155u6LWoJMPNTM54cAGWgyDS4j3sszWMqwF13RS
+Gj0kdso4brrv0Wo25tZeiQ9zTfSqiAHaNgsAiB+lSdc+CNhfySO9SOa5QOtlCvT/
+xLXIP0zgst81P3re4zDZEd519Ud1WQw/CYd9bmpQU7AcR5PtHK1dVYxFwjntb8Yt
+ZTKDe5fPENMQk9TFFJLBDMl2Zn6BWI8Ils6AssPnZDLFlxqMBbrmFHlyj1Xd/twu
+XuNEjr5ydTxSUKEW6M6DtR/0sRTwlotoH65c869T/7DOw8yo8tYxBYDh6o8sjrDb
+r5Hb4hmJbD3+5nJTMXVUTq/J3N5wBpGKzWO2rlCR1MNb1fqi0OQ=
+=GOeV
+-----END PGP SIGNATURE-----
+
+--PMULwz+zIGJzpDN9--
 
