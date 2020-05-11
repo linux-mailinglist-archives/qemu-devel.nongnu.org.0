@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190311CDB90
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:43:43 +0200 (CEST)
-Received: from localhost ([::1]:52348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1101CDB56
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:37:43 +0200 (CEST)
+Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8ic-0003AO-37
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:43:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48904)
+	id 1jY8co-0007E0-07
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:37:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZT-0001kd-SS
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:15 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50468)
+ id 1jY8ZV-0001nb-56
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:17 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZS-00070I-V6
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:15 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id m12so13162949wmc.0
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:14 -0700 (PDT)
+ id 1jY8ZU-00070P-7m
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:16 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id 50so10453147wrc.11
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wIUXoa1qdi1AIuD+cK38yBBIEnIcG+EzyRhkeedc+fE=;
- b=W9yL5isRdDsx4hAyn8gDmlY7pbq+F0a/Hl2FXfTGs4ZvPtgsvaYtl7YbSU+uvlWEhw
- e9u1531rUD+U1SbpxcoX1VynDMyAazUeo55vjCngMluvsjR3Kz93n3MB1tYuHa0XxE2f
- vrE2c1iLkI84V60CBgUeetbb8Ybzk/Gwhv7K46KioQPCXHNZBlhdlnpQv3WMW5eNj7K2
- 4oJyyepvexBLypICPVPQaIryNVr1JPU7E1B0nCQzrJSdDM4WgkeUEVwLpIFVfGbp2b5y
- 4sx2PK1dWx0KhbhE+7GPphRJVGmszYq/XRPFQFg4DAt0W4QrUmGvi10UIxpdVMo1uf43
- jQ5Q==
+ bh=JEvempOs4qwCLlW8+Q/mQ4vm2AHnJE/FFxeayEtZ2rg=;
+ b=ND0BwB2qLdk0USt8J04Shxk31omqX3pgStx/xXqVLqrwNOFd8PDM+IItgVYrQxcYd9
+ Z1/SJ6ko9rP0MEaRWvdsbaTdQ4NOUs5Jx5Y6xqNoTCaJh2ysrQhcvR7Jg+CEejQpnEDP
+ 0UzxRgFzarDmIKcNhGxUNZoxjyqjtkVLIIgaT/NYM4J+3tQs7FPTSNKCs46xAFuKy46k
+ GGZZi7a+6snW+HyWHp/zQKvuAZoL+0q8BLYPREc13/YeWH/PPnxf0K45w7RRExlzk/oi
+ 7sq3P6qC6Mhgo+N3ujLxD+M2OEi2GJO/q83rO821mcUouBU2pIysXMSsCXbKCvvbS3ie
+ 79gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wIUXoa1qdi1AIuD+cK38yBBIEnIcG+EzyRhkeedc+fE=;
- b=qLVM8BLcTDmsnDKFSsLswYjWVqIrSdpVb9D3WGf+Oplrz8zw94kWETr6rAZgbLe1MG
- PVgha+oMrKQ6MFLnQP6RVWneZ4te/GVBCX7olWlncHSx/inG5y3gK2ZIVhc3CGzvbhV0
- B6Gun+OYdW5XwU2nXsYv7Ukuf4OB69LjILPo4CHjIh5C+kSfeQiWkdxJydxAf/qD5GlY
- vlVVS35VZ09inISjZbDuzAocJIk7WeRsQo+vQSLRF/GogWJoxctwtnjT+q5o0Y81v0yT
- lxQH8AGhke8PboY3RH2uEChAKbGzgy6F86CpPI4iBcJf4MnU+CQ1EYJgtO5GwFygGjG0
- 254Q==
-X-Gm-Message-State: AGi0Pua59A4xb+8Of9yMqTiMy6NVAYzob4Q02oCMQHLEZxWNrL5cGwuk
- 8PjprdgSPuWCg85yJxUneWSwllvVAt0dHw==
-X-Google-Smtp-Source: APiQypJwNma/q8RCPSA++cMwXR3MNIcUot6bt9pcrwJfOhFxx4Cws+x69OvqIMQx1gIm89e5dXiLiw==
-X-Received: by 2002:a7b:cf25:: with SMTP id m5mr33820213wmg.65.1589204053320; 
- Mon, 11 May 2020 06:34:13 -0700 (PDT)
+ bh=JEvempOs4qwCLlW8+Q/mQ4vm2AHnJE/FFxeayEtZ2rg=;
+ b=CPE6YXDwSANB/nQ9bZxcr4wFm2LclG8+DP2tGRZtjPxhnr3mo70ZdPJyZc7FDV3dza
+ aIwMC6iz19HsuwZ4wIbeatS+dn57Je5aGipK/72HIaO5PiB+F2h2PtSvkJQhf5E0NEDD
+ 84+MD7u23VVcTEEPUhiegdBQS2wZTncm/2nBgjQCoAI5ZTmgHs6gddrjwd2m6nNm627W
+ YncI6LaJvAoMJ4mHC624Dodaxhh20TDkHt6DlcF6N6mwGZ+YkZJhqT6AO3D2vO4DSBDI
+ Tztuzf1u5DLEfwXxKfjRYOoAEElsxwaegwGa8AS7lG9xnr53pBXDIqvciEFXQFB+4xux
+ uU5A==
+X-Gm-Message-State: AGi0PuZ1jRzJVxFH0J6HHJJil6DMD3u94qXJNuajjpBA6xjEX46+ss2G
+ ooB17dzluRyhdVXH4zBSFfh/sx2k3w1zmw==
+X-Google-Smtp-Source: APiQypJ9Q49j2E+xgorTERhSnr+0UiGin//+C7BWrqeK6MA/QipHkHQXguqVVFfx7JdybLm2WGbfIA==
+X-Received: by 2002:adf:afd6:: with SMTP id y22mr18779187wrd.417.1589204054485; 
+ Mon, 11 May 2020 06:34:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.12
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:12 -0700 (PDT)
+ Mon, 11 May 2020 06:34:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/34] hw/arm/nrf51: Add NRF51_PERIPHERAL_SIZE definition
-Date: Mon, 11 May 2020 14:33:36 +0100
-Message-Id: <20200511133405.5275-6-peter.maydell@linaro.org>
+Subject: [PULL 06/34] hw/timer/nrf51_timer: Display timer ID in trace events
+Date: Mon, 11 May 2020 14:33:37 +0100
+Message-Id: <20200511133405.5275-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,99 +91,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-On the NRF51 series, all peripherals have a fixed I/O size
-of 4KiB. Define NRF51_PERIPHERAL_SIZE and use it.
+The NRF51 series SoC have 3 timer peripherals, each having
+4 counters. To help differentiate which peripheral is accessed,
+display the timer ID in the trace events.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200504072822.18799-2-f4bug@amsat.org
+Message-id: 20200504072822.18799-4-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/nrf51.h        | 3 +--
- include/hw/i2c/microbit_i2c.h | 2 +-
- hw/arm/nrf51_soc.c            | 4 ++--
- hw/i2c/microbit_i2c.c         | 2 +-
- hw/timer/nrf51_timer.c        | 2 +-
- 5 files changed, 6 insertions(+), 7 deletions(-)
+ include/hw/timer/nrf51_timer.h |  1 +
+ hw/arm/nrf51_soc.c             |  5 +++++
+ hw/timer/nrf51_timer.c         | 11 +++++++++--
+ hw/timer/trace-events          |  4 ++--
+ 4 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/arm/nrf51.h b/include/hw/arm/nrf51.h
-index 1008fee6c93..de836beaa4c 100644
---- a/include/hw/arm/nrf51.h
-+++ b/include/hw/arm/nrf51.h
-@@ -24,11 +24,10 @@
- #define NRF51_IOMEM_BASE      0x40000000
- #define NRF51_IOMEM_SIZE      0x20000000
+diff --git a/include/hw/timer/nrf51_timer.h b/include/hw/timer/nrf51_timer.h
+index 85cad2300df..eb6815f21d7 100644
+--- a/include/hw/timer/nrf51_timer.h
++++ b/include/hw/timer/nrf51_timer.h
+@@ -59,6 +59,7 @@ typedef struct NRF51TimerState {
+     MemoryRegion iomem;
+     qemu_irq irq;
  
-+#define NRF51_PERIPHERAL_SIZE 0x00001000
- #define NRF51_UART_BASE       0x40002000
- #define NRF51_TWI_BASE        0x40003000
--#define NRF51_TWI_SIZE        0x00001000
- #define NRF51_TIMER_BASE      0x40008000
--#define NRF51_TIMER_SIZE      0x00001000
- #define NRF51_RNG_BASE        0x4000D000
- #define NRF51_NVMC_BASE       0x4001E000
- #define NRF51_GPIO_BASE       0x50000000
-diff --git a/include/hw/i2c/microbit_i2c.h b/include/hw/i2c/microbit_i2c.h
-index aad636127ea..2bff36680cc 100644
---- a/include/hw/i2c/microbit_i2c.h
-+++ b/include/hw/i2c/microbit_i2c.h
-@@ -29,7 +29,7 @@
- #define MICROBIT_I2C(obj) \
-     OBJECT_CHECK(MicrobitI2CState, (obj), TYPE_MICROBIT_I2C)
- 
--#define MICROBIT_I2C_NREGS (NRF51_TWI_SIZE / sizeof(uint32_t))
-+#define MICROBIT_I2C_NREGS (NRF51_PERIPHERAL_SIZE / sizeof(uint32_t))
- 
- typedef struct {
-     SysBusDevice parent_obj;
++    uint8_t id;
+     QEMUTimer timer;
+     int64_t timer_start_ns;
+     int64_t update_counter_ns;
 diff --git a/hw/arm/nrf51_soc.c b/hw/arm/nrf51_soc.c
-index 57eff63f0df..e50473fd199 100644
+index e50473fd199..71309e53cc8 100644
 --- a/hw/arm/nrf51_soc.c
 +++ b/hw/arm/nrf51_soc.c
-@@ -156,7 +156,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
-             return;
-         }
+@@ -150,6 +150,11 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
  
--        base_addr = NRF51_TIMER_BASE + i * NRF51_TIMER_SIZE;
-+        base_addr = NRF51_TIMER_BASE + i * NRF51_PERIPHERAL_SIZE;
- 
-         sysbus_mmio_map(SYS_BUS_DEVICE(&s->timer[i]), 0, base_addr);
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer[i]), 0,
-@@ -166,7 +166,7 @@ static void nrf51_soc_realize(DeviceState *dev_soc, Error **errp)
- 
-     /* STUB Peripherals */
-     memory_region_init_io(&s->clock, OBJECT(dev_soc), &clock_ops, NULL,
--                          "nrf51_soc.clock", 0x1000);
-+                          "nrf51_soc.clock", NRF51_PERIPHERAL_SIZE);
-     memory_region_add_subregion_overlap(&s->container,
-                                         NRF51_IOMEM_BASE, &s->clock, -1);
- 
-diff --git a/hw/i2c/microbit_i2c.c b/hw/i2c/microbit_i2c.c
-index 4661f052532..80247398208 100644
---- a/hw/i2c/microbit_i2c.c
-+++ b/hw/i2c/microbit_i2c.c
-@@ -100,7 +100,7 @@ static void microbit_i2c_realize(DeviceState *dev, Error **errp)
-     MicrobitI2CState *s = MICROBIT_I2C(dev);
- 
-     memory_region_init_io(&s->iomem, OBJECT(s), &microbit_i2c_ops, s,
--                          "microbit.twi", NRF51_TWI_SIZE);
-+                          "microbit.twi", NRF51_PERIPHERAL_SIZE);
-     sysbus_init_mmio(sbd, &s->iomem);
- }
- 
+     /* TIMER */
+     for (i = 0; i < NRF51_NUM_TIMERS; i++) {
++        object_property_set_uint(OBJECT(&s->timer[i]), i, "id", &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+         object_property_set_bool(OBJECT(&s->timer[i]), true, "realized", &err);
+         if (err) {
+             error_propagate(errp, err);
 diff --git a/hw/timer/nrf51_timer.c b/hw/timer/nrf51_timer.c
-index e04046eb15e..bc82c85a6f2 100644
+index bc82c85a6f2..38cea0542e1 100644
 --- a/hw/timer/nrf51_timer.c
 +++ b/hw/timer/nrf51_timer.c
-@@ -313,7 +313,7 @@ static void nrf51_timer_init(Object *obj)
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+@@ -17,6 +17,7 @@
+ #include "hw/arm/nrf51.h"
+ #include "hw/irq.h"
+ #include "hw/timer/nrf51_timer.h"
++#include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
  
-     memory_region_init_io(&s->iomem, obj, &rng_ops, s,
--            TYPE_NRF51_TIMER, NRF51_TIMER_SIZE);
-+                          TYPE_NRF51_TIMER, NRF51_PERIPHERAL_SIZE);
-     sysbus_init_mmio(sbd, &s->iomem);
-     sysbus_init_irq(sbd, &s->irq);
+@@ -185,7 +186,7 @@ static uint64_t nrf51_timer_read(void *opaque, hwaddr offset, unsigned int size)
+                       __func__, offset);
+     }
  
+-    trace_nrf51_timer_read(offset, r, size);
++    trace_nrf51_timer_read(s->id, offset, r, size);
+ 
+     return r;
+ }
+@@ -197,7 +198,7 @@ static void nrf51_timer_write(void *opaque, hwaddr offset,
+     uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+     size_t idx;
+ 
+-    trace_nrf51_timer_write(offset, value, size);
++    trace_nrf51_timer_write(s->id, offset, value, size);
+ 
+     switch (offset) {
+     case NRF51_TIMER_TASK_START:
+@@ -372,12 +373,18 @@ static const VMStateDescription vmstate_nrf51_timer = {
+     }
+ };
+ 
++static Property nrf51_timer_properties[] = {
++    DEFINE_PROP_UINT8("id", NRF51TimerState, id, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void nrf51_timer_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->reset = nrf51_timer_reset;
+     dc->vmsd = &vmstate_nrf51_timer;
++    device_class_set_props(dc, nrf51_timer_properties);
+ }
+ 
+ static const TypeInfo nrf51_timer_info = {
+diff --git a/hw/timer/trace-events b/hw/timer/trace-events
+index 29fda7870e0..43b605cc759 100644
+--- a/hw/timer/trace-events
++++ b/hw/timer/trace-events
+@@ -67,8 +67,8 @@ cmsdk_apb_dualtimer_write(uint64_t offset, uint64_t data, unsigned size) "CMSDK
+ cmsdk_apb_dualtimer_reset(void) "CMSDK APB dualtimer: reset"
+ 
+ # nrf51_timer.c
+-nrf51_timer_read(uint64_t addr, uint32_t value, unsigned size) "read addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
+-nrf51_timer_write(uint64_t addr, uint32_t value, unsigned size) "write addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
++nrf51_timer_read(uint8_t timer_id, uint64_t addr, uint32_t value, unsigned size) "timer %u read addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
++nrf51_timer_write(uint8_t timer_id, uint64_t addr, uint32_t value, unsigned size) "timer %u write addr 0x%" PRIx64 " data 0x%" PRIx32 " size %u"
+ 
+ # bcm2835_systmr.c
+ bcm2835_systmr_irq(bool enable) "timer irq state %u"
 -- 
 2.20.1
 
