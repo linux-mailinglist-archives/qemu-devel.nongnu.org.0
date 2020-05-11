@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EAEE1CDDD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:55:06 +0200 (CEST)
-Received: from localhost ([::1]:46790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5541CDDDC
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:56:09 +0200 (CEST)
+Received: from localhost ([::1]:53370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9ph-0007K9-Bj
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:55:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34480)
+	id 1jY9qi-0003Dw-TQ
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:56:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <geert@linux-m68k.org>)
- id 1jY9nt-0004w4-Qf
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:16 -0400
-Received: from baptiste.telenet-ops.be ([2a02:1800:120:4::f00:13]:59820)
+ id 1jY9nu-0004wj-Ln
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:17 -0400
+Received: from andre.telenet-ops.be ([2a02:1800:120:4::f00:15]:36894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <geert@linux-m68k.org>)
- id 1jY9ns-0000dR-Gj
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:13 -0400
+ id 1jY9ns-0000dV-JW
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:14 -0400
 Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:702c:fb99:3097:2049])
- by baptiste.telenet-ops.be with bizsmtp
- id dSsy2200E0GoAb601SsyU5; Mon, 11 May 2020 16:53:08 +0200
+ by andre.telenet-ops.be with bizsmtp
+ id dSsy220060GoAb601Ssy9H; Mon, 11 May 2020 16:53:08 +0200
 Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jY9ne-00082b-0K; Mon, 11 May 2020 16:52:58 +0200
+ id 1jY9ne-00082e-2B; Mon, 11 May 2020 16:52:58 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
  (envelope-from <geert@linux-m68k.org>)
- id 1jY9nd-0005zR-UX; Mon, 11 May 2020 16:52:57 +0200
+ id 1jY9ne-0005zT-0R; Mon, 11 May 2020 16:52:58 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Linus Walleij <linus.walleij@linaro.org>,
  Bartosz Golaszewski <bgolaszewski@baylibre.com>,
  Jonathan Corbet <corbet@lwn.net>,
  Harish Jenny K N <harish_kandiga@mentor.com>,
  Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH v7 1/6] i2c: i801: Use GPIO_LOOKUP() helper macro
-Date: Mon, 11 May 2020 16:52:52 +0200
-Message-Id: <20200511145257.22970-2-geert+renesas@glider.be>
+Subject: [PATCH v7 2/6] mfd: sm501: Use GPIO_LOOKUP_IDX() helper macro
+Date: Mon, 11 May 2020 16:52:53 +0200
+Message-Id: <20200511145257.22970-3-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200511145257.22970-1-geert+renesas@glider.be>
 References: <20200511145257.22970-1-geert+renesas@glider.be>
-Received-SPF: none client-ip=2a02:1800:120:4::f00:13;
- envelope-from=geert@linux-m68k.org; helo=baptiste.telenet-ops.be
+Received-SPF: none client-ip=2a02:1800:120:4::f00:15;
+ envelope-from=geert@linux-m68k.org; helo=andre.telenet-ops.be
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -23
@@ -73,42 +73,57 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 i801_add_mux() fills in the GPIO lookup table by manually populating an
-array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP() helper
-macro instead, to relax a dependency on the gpiod_lookup structure's
-member names.
+array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP_IDX()
+helper macro instead, to relax a dependency on the gpiod_lookup
+structure's member names.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Jean Delvare <jdelvare@suse.de>
+Acked-by: Lee Jones <lee.jones@linaro.org>
 ---
-This is now commit be1b92c133cc91b2 ("i2c: i801: Use GPIO_LOOKUP()
-helper macro") in i2c/for-next.
-
 v7:
-  - Add Reviewed-by,
+  - Add Acked-by,
 
 v6:
   - New.
 ---
- drivers/i2c/busses/i2c-i801.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/mfd/sm501.c | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-i801.c b/drivers/i2c/busses/i2c-i801.c
-index a9c03f5c34825a95..4f333889489c882a 100644
---- a/drivers/i2c/busses/i2c-i801.c
-+++ b/drivers/i2c/busses/i2c-i801.c
-@@ -1439,9 +1439,9 @@ static int i801_add_mux(struct i801_priv *priv)
+diff --git a/drivers/mfd/sm501.c b/drivers/mfd/sm501.c
+index e49787e6bb93e5c8..ccd62b963952814e 100644
+--- a/drivers/mfd/sm501.c
++++ b/drivers/mfd/sm501.c
+@@ -1145,22 +1145,14 @@ static int sm501_register_gpio_i2c_instance(struct sm501_devdata *sm,
  		return -ENOMEM;
- 	lookup->dev_id = "i2c-mux-gpio";
- 	for (i = 0; i < mux_config->n_gpios; i++) {
--		lookup->table[i].chip_label = mux_config->gpio_chip;
--		lookup->table[i].chip_hwnum = mux_config->gpios[i];
--		lookup->table[i].con_id = "mux";
-+		lookup->table[i] = (struct gpiod_lookup)
-+			GPIO_LOOKUP(mux_config->gpio_chip,
-+				    mux_config->gpios[i], "mux", 0);
- 	}
+ 
+ 	lookup->dev_id = "i2c-gpio";
+-	if (iic->pin_sda < 32)
+-		lookup->table[0].chip_label = "SM501-LOW";
+-	else
+-		lookup->table[0].chip_label = "SM501-HIGH";
+-	lookup->table[0].chip_hwnum = iic->pin_sda % 32;
+-	lookup->table[0].con_id = NULL;
+-	lookup->table[0].idx = 0;
+-	lookup->table[0].flags = GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN;
+-	if (iic->pin_scl < 32)
+-		lookup->table[1].chip_label = "SM501-LOW";
+-	else
+-		lookup->table[1].chip_label = "SM501-HIGH";
+-	lookup->table[1].chip_hwnum = iic->pin_scl % 32;
+-	lookup->table[1].con_id = NULL;
+-	lookup->table[1].idx = 1;
+-	lookup->table[1].flags = GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN;
++	lookup->table[0] = (struct gpiod_lookup)
++		GPIO_LOOKUP_IDX(iic->pin_sda < 32 ? "SM501-LOW" : "SM501-HIGH",
++				iic->pin_sda % 32, NULL, 0,
++				GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN);
++	lookup->table[1] = (struct gpiod_lookup)
++		GPIO_LOOKUP_IDX(iic->pin_scl < 32 ? "SM501-LOW" : "SM501-HIGH",
++				iic->pin_scl % 32, NULL, 1,
++				GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN);
  	gpiod_add_lookup_table(lookup);
- 	priv->lookup = lookup;
+ 
+ 	icd = dev_get_platdata(&pdev->dev);
 -- 
 2.17.1
 
