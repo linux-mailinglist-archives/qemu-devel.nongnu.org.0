@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED8F1CCF46
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:48:23 +0200 (CEST)
-Received: from localhost ([::1]:59062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8C31CCF42
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:46:53 +0200 (CEST)
+Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXxYM-0007Yi-FB
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60638)
+	id 1jXxWu-0003bG-4r
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:46:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jXxUt-0000wF-RD; Sun, 10 May 2020 21:44:47 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40849 helo=ozlabs.org)
+ id 1jXxUu-0000wl-EJ; Sun, 10 May 2020 21:44:48 -0400
+Received: from ozlabs.org ([203.11.71.1]:33685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jXxUr-0000ep-La; Sun, 10 May 2020 21:44:47 -0400
+ id 1jXxUr-0000en-MH; Sun, 10 May 2020 21:44:48 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49L3dh0hVTz9sT3; Mon, 11 May 2020 11:44:39 +1000 (AEST)
+ id 49L3dh1hC2z9sT4; Mon, 11 May 2020 11:44:40 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1589161480;
- bh=+Rn3CdA9n9JQew4PZJ8hYG1v3n0iNbURgN1AZwvZ8Es=;
+ bh=rNRKRkqr64A3lrJbutaFfIrbgAI/5OJZ0kLFzbu0684=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c3XzV1SOnMI8Flub2UM/B6MSZb6ONtDbWsML3CM0U1VdVVZ/lumuRdogrGMyk278F
- 1P5oAOpHTBF6vESYOHwzIxfj1dIj6DrmwljtRAYsM74O4h1B/xRnBWnoid9/pDdYwv
- qvYp4PYzf+tBQX1cFaRu3s147XQgxwsrsC/K9cXk=
-Date: Mon, 11 May 2020 11:33:59 +1000
+ b=cQtUDu/kXka90VoLZu2wQ3P0OvO4PhZGYZkON/NyCcWIZHMKCN452g5cKYMsRAZqP
+ 9P2uThCMHbVZDm8C8F1Ibdbq6pr1l5glQzbkGsf7hEspVTJNuN9id/Shs4GWG07HLp
+ FkqncZEx5wZNP576vEV8TSOqMJWxkGD00Q8XRekg=
+Date: Mon, 11 May 2020 11:35:22 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 07/10] exec: Move all RAMBlock functions to
- 'exec/ramblock.h'
-Message-ID: <20200511013359.GK2183@umbus.fritz.box>
+Subject: Re: [PATCH 10/10] exec: Move cpu_physical_memory_* functions to
+ 'exec/memory-internal.h'
+Message-ID: <20200511013522.GL2183@umbus.fritz.box>
 References: <20200507173958.25894-1-philmd@redhat.com>
- <20200507173958.25894-8-philmd@redhat.com>
+ <20200507173958.25894-11-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Z9t8O/5YJLB6LEUl"
+ protocol="application/pgp-signature"; boundary="GeDkoc8jIzHasOdk"
 Content-Disposition: inline
-In-Reply-To: <20200507173958.25894-8-philmd@redhat.com>
+In-Reply-To: <20200507173958.25894-11-philmd@redhat.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 21:17:54
@@ -78,582 +78,775 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Z9t8O/5YJLB6LEUl
+--GeDkoc8jIzHasOdk
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 07, 2020 at 07:39:55PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> The RAMBlock API was dispersed in 3 different headers.
-> One of these headers, "exec/ram_addr.h", is restricted
-> to target dependent code. However these functions are
-> not target specific. Move all functions into a single
-> place.  Now all these functions can be accessed by
-> target-agnostic code.
->=20
+On Thu, May 07, 2020 at 07:39:58PM +0200, Philippe Mathieu-Daud=E9 wrote:
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
 ppc parts
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  include/exec/cpu-common.h    |  24 -------
->  include/exec/ram_addr.h      | 105 ---------------------------
->  include/exec/ramblock.h      | 134 +++++++++++++++++++++++++++++++++++
->  migration/migration.h        |   1 +
->  accel/tcg/translate-all.c    |   2 -
->  hw/block/nvme.c              |   2 +-
->  hw/s390x/s390-stattrib-kvm.c |   1 -
->  hw/s390x/s390-stattrib.c     |   1 -
->  hw/s390x/s390-virtio-ccw.c   |   1 -
->  hw/virtio/vhost-user.c       |   1 +
->  hw/virtio/vhost.c            |   1 +
->  hw/virtio/virtio-balloon.c   |   1 +
->  memory.c                     |   1 +
->  migration/migration.c        |   1 +
->  migration/postcopy-ram.c     |   1 +
->  migration/savevm.c           |   1 +
->  stubs/ram-block.c            |   2 +-
->  target/ppc/kvm.c             |   1 -
->  target/s390x/kvm.c           |   1 -
->  util/vfio-helpers.c          |   2 +-
->  20 files changed, 145 insertions(+), 139 deletions(-)
+>  include/exec/memory-internal.h | 305 ++++++++++++++++++++++++++++++++-
+>  include/exec/ram_addr.h        | 303 +-------------------------------
+>  accel/tcg/cputlb.c             |   1 -
+>  hw/ppc/spapr.c                 |   1 -
+>  hw/ppc/spapr_pci.c             |   1 -
+>  memory.c                       |   1 -
+>  6 files changed, 305 insertions(+), 307 deletions(-)
 >=20
-> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-> index b47e5630e7..347ceb603b 100644
-> --- a/include/exec/cpu-common.h
-> +++ b/include/exec/cpu-common.h
-> @@ -49,25 +49,6 @@ typedef uint32_t CPUReadMemoryFunc(void *opaque, hwadd=
-r addr);
->  void qemu_ram_remap(ram_addr_t addr, ram_addr_t length);
->  /* This should not be used by devices.  */
->  ram_addr_t qemu_ram_addr_from_host(void *ptr);
-> -RAMBlock *qemu_ram_block_by_name(const char *name);
-> -RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
-> -                                   ram_addr_t *offset);
-> -ram_addr_t qemu_ram_block_host_offset(RAMBlock *rb, void *host);
-> -void qemu_ram_set_idstr(RAMBlock *block, const char *name, DeviceState *=
-dev);
-> -void qemu_ram_unset_idstr(RAMBlock *block);
-> -const char *qemu_ram_get_idstr(RAMBlock *rb);
-> -void *qemu_ram_get_host_addr(RAMBlock *rb);
-> -ram_addr_t qemu_ram_get_offset(RAMBlock *rb);
-> -ram_addr_t qemu_ram_get_used_length(RAMBlock *rb);
-> -bool qemu_ram_is_shared(RAMBlock *rb);
-> -bool qemu_ram_is_uf_zeroable(RAMBlock *rb);
-> -void qemu_ram_set_uf_zeroable(RAMBlock *rb);
-> -bool qemu_ram_is_migratable(RAMBlock *rb);
-> -void qemu_ram_set_migratable(RAMBlock *rb);
-> -void qemu_ram_unset_migratable(RAMBlock *rb);
-> -
-> -size_t qemu_ram_pagesize(RAMBlock *block);
-> -size_t qemu_ram_pagesize_largest(void);
+> diff --git a/include/exec/memory-internal.h b/include/exec/memory-interna=
+l.h
+> index b2b7c1e78a..4abb3bbd85 100644
+> --- a/include/exec/memory-internal.h
+> +++ b/include/exec/memory-internal.h
+> @@ -21,8 +21,13 @@
+>  #define MEMORY_INTERNAL_H
 > =20
->  void cpu_physical_memory_rw(hwaddr addr, void *buf,
->                              hwaddr len, bool is_write);
-> @@ -100,11 +81,6 @@ void qemu_flush_coalesced_mmio_buffer(void);
+>  #include "cpu.h"
+> +#include "sysemu/tcg.h"
+> +#include "sysemu/xen.h"
+> +#include "exec/ramlist.h"
+> +#include "exec/ramblock.h"
 > =20
->  void cpu_flush_icache_range(hwaddr start, hwaddr len);
+>  #ifdef CONFIG_SOFTMMU
+> +
+>  static inline AddressSpaceDispatch *flatview_to_dispatch(FlatView *fv)
+>  {
+>      return fv->dispatch;
+> @@ -49,5 +54,303 @@ void address_space_dispatch_free(AddressSpaceDispatch=
+ *d);
 > =20
-> -typedef int (RAMBlockIterFunc)(RAMBlock *rb, void *opaque);
-> -
-> -int qemu_ram_foreach_block(RAMBlockIterFunc func, void *opaque);
-> -int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length);
-> -
+>  void mtree_print_dispatch(struct AddressSpaceDispatch *d,
+>                            MemoryRegion *root);
+> -#endif
+> +
+> +#define DIRTY_CLIENTS_ALL     ((1 << DIRTY_MEMORY_NUM) - 1)
+> +#define DIRTY_CLIENTS_NOCODE  (DIRTY_CLIENTS_ALL & ~(1 << DIRTY_MEMORY_C=
+ODE))
+> +
+> +static inline bool cpu_physical_memory_get_dirty(ram_addr_t start,
+> +                                                 ram_addr_t length,
+> +                                                 unsigned client)
+> +{
+> +    DirtyMemoryBlocks *blocks;
+> +    unsigned long end, page;
+> +    unsigned long idx, offset, base;
+> +    bool dirty =3D false;
+> +
+> +    assert(client < DIRTY_MEMORY_NUM);
+> +
+> +    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+> +    page =3D start >> TARGET_PAGE_BITS;
+> +
+> +    WITH_RCU_READ_LOCK_GUARD() {
+> +        blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+> +
+> +        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+> +        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+> +        base =3D page - offset;
+> +        while (page < end) {
+> +            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
+ZE);
+> +            unsigned long num =3D next - base;
+> +            unsigned long found =3D find_next_bit(blocks->blocks[idx],
+> +                                                num, offset);
+> +            if (found < num) {
+> +                dirty =3D true;
+> +                break;
+> +            }
+> +
+> +            page =3D next;
+> +            idx++;
+> +            offset =3D 0;
+> +            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+> +        }
+> +    }
+> +
+> +    return dirty;
+> +}
+> +
+> +static inline bool cpu_physical_memory_all_dirty(ram_addr_t start,
+> +                                                 ram_addr_t length,
+> +                                                 unsigned client)
+> +{
+> +    DirtyMemoryBlocks *blocks;
+> +    unsigned long end, page;
+> +    unsigned long idx, offset, base;
+> +    bool dirty =3D true;
+> +
+> +    assert(client < DIRTY_MEMORY_NUM);
+> +
+> +    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+> +    page =3D start >> TARGET_PAGE_BITS;
+> +
+> +    RCU_READ_LOCK_GUARD();
+> +
+> +    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+> +
+> +    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+> +    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+> +    base =3D page - offset;
+> +    while (page < end) {
+> +        unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SIZE);
+> +        unsigned long num =3D next - base;
+> +        unsigned long found =3D find_next_zero_bit(blocks->blocks[idx],
+> +                                                 num, offset);
+> +        if (found < num) {
+> +            dirty =3D false;
+> +            break;
+> +        }
+> +
+> +        page =3D next;
+> +        idx++;
+> +        offset =3D 0;
+> +        base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+> +    }
+> +
+> +    return dirty;
+> +}
+> +
+> +static inline bool cpu_physical_memory_get_dirty_flag(ram_addr_t addr,
+> +                                                      unsigned client)
+> +{
+> +    return cpu_physical_memory_get_dirty(addr, 1, client);
+> +}
+> +
+> +static inline bool cpu_physical_memory_is_clean(ram_addr_t addr)
+> +{
+> +    bool vga =3D cpu_physical_memory_get_dirty_flag(addr, DIRTY_MEMORY_V=
+GA);
+> +    bool code =3D cpu_physical_memory_get_dirty_flag(addr, DIRTY_MEMORY_=
+CODE);
+> +    bool migration =3D cpu_physical_memory_get_dirty_flag(addr,
+> +                                                        DIRTY_MEMORY_MIG=
+RATION);
+> +    return !(vga && code && migration);
+> +}
+> +
+> +static inline uint8_t cpu_physical_memory_range_includes_clean(ram_addr_=
+t start,
+> +                                                            ram_addr_t l=
+ength,
+> +                                                            uint8_t mask)
+> +{
+> +    uint8_t ret =3D 0;
+> +
+> +    if (mask & (1 << DIRTY_MEMORY_VGA) &&
+> +        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_VGA))=
+ {
+> +        ret |=3D (1 << DIRTY_MEMORY_VGA);
+> +    }
+> +    if (mask & (1 << DIRTY_MEMORY_CODE) &&
+> +        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_CODE)=
+) {
+> +        ret |=3D (1 << DIRTY_MEMORY_CODE);
+> +    }
+> +    if (mask & (1 << DIRTY_MEMORY_MIGRATION) &&
+> +        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_MIGRA=
+TION)) {
+> +        ret |=3D (1 << DIRTY_MEMORY_MIGRATION);
+> +    }
+> +    return ret;
+> +}
+> +
+> +static inline void cpu_physical_memory_set_dirty_flag(ram_addr_t addr,
+> +                                                      unsigned client)
+> +{
+> +    unsigned long page, idx, offset;
+> +    DirtyMemoryBlocks *blocks;
+> +
+> +    assert(client < DIRTY_MEMORY_NUM);
+> +
+> +    page =3D addr >> TARGET_PAGE_BITS;
+> +    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+> +    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+> +
+> +    RCU_READ_LOCK_GUARD();
+> +
+> +    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+> +
+> +    set_bit_atomic(offset, blocks->blocks[idx]);
+> +}
+> +
+> +static inline void cpu_physical_memory_set_dirty_range(ram_addr_t start,
+> +                                                       ram_addr_t length,
+> +                                                       uint8_t mask)
+> +{
+> +    DirtyMemoryBlocks *blocks[DIRTY_MEMORY_NUM];
+> +    unsigned long end, page;
+> +    unsigned long idx, offset, base;
+> +    int i;
+> +
+> +    if (!mask && !xen_enabled()) {
+> +        return;
+> +    }
+> +
+> +    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+> +    page =3D start >> TARGET_PAGE_BITS;
+> +
+> +    WITH_RCU_READ_LOCK_GUARD() {
+> +        for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
+> +            blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i]);
+> +        }
+> +
+> +        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+> +        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+> +        base =3D page - offset;
+> +        while (page < end) {
+> +            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
+ZE);
+> +
+> +            if (likely(mask & (1 << DIRTY_MEMORY_MIGRATION))) {
+> +                bitmap_set_atomic(blocks[DIRTY_MEMORY_MIGRATION]->blocks=
+[idx],
+> +                                  offset, next - page);
+> +            }
+> +            if (unlikely(mask & (1 << DIRTY_MEMORY_VGA))) {
+> +                bitmap_set_atomic(blocks[DIRTY_MEMORY_VGA]->blocks[idx],
+> +                                  offset, next - page);
+> +            }
+> +            if (unlikely(mask & (1 << DIRTY_MEMORY_CODE))) {
+> +                bitmap_set_atomic(blocks[DIRTY_MEMORY_CODE]->blocks[idx],
+> +                                  offset, next - page);
+> +            }
+> +
+> +            page =3D next;
+> +            idx++;
+> +            offset =3D 0;
+> +            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+> +        }
+> +    }
+> +
+> +    xen_hvm_modified_memory(start, length);
+> +}
+> +
+> +#if !defined(_WIN32)
+> +static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long =
+*bitmap,
+> +                                                          ram_addr_t sta=
+rt,
+> +                                                          ram_addr_t pag=
+es)
+> +{
+> +    unsigned long i, j;
+> +    unsigned long page_number, c;
+> +    hwaddr addr;
+> +    ram_addr_t ram_addr;
+> +    unsigned long len =3D (pages + HOST_LONG_BITS - 1) / HOST_LONG_BITS;
+> +    unsigned long hpratio =3D qemu_real_host_page_size / TARGET_PAGE_SIZ=
+E;
+> +    unsigned long page =3D BIT_WORD(start >> TARGET_PAGE_BITS);
+> +
+> +    /* start address is aligned at the start of a word? */
+> +    if ((((page * BITS_PER_LONG) << TARGET_PAGE_BITS) =3D=3D start) &&
+> +        (hpratio =3D=3D 1)) {
+> +        unsigned long **blocks[DIRTY_MEMORY_NUM];
+> +        unsigned long idx;
+> +        unsigned long offset;
+> +        long k;
+> +        long nr =3D BITS_TO_LONGS(pages);
+> +
+> +        idx =3D (start >> TARGET_PAGE_BITS) / DIRTY_MEMORY_BLOCK_SIZE;
+> +        offset =3D BIT_WORD((start >> TARGET_PAGE_BITS) %
+> +                          DIRTY_MEMORY_BLOCK_SIZE);
+> +
+> +        WITH_RCU_READ_LOCK_GUARD() {
+> +            for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
+> +                blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i])=
+->blocks;
+> +            }
+> +
+> +            for (k =3D 0; k < nr; k++) {
+> +                if (bitmap[k]) {
+> +                    unsigned long temp =3D leul_to_cpu(bitmap[k]);
+> +
+> +                    atomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], te=
+mp);
+> +
+> +                    if (global_dirty_log) {
+> +                        atomic_or(&blocks[DIRTY_MEMORY_MIGRATION][idx][o=
+ffset],
+> +                                  temp);
+> +                    }
+> +
+> +                    if (tcg_enabled()) {
+> +                        atomic_or(&blocks[DIRTY_MEMORY_CODE][idx][offset=
+],
+> +                                  temp);
+> +                    }
+> +                }
+> +
+> +                if (++offset >=3D BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)=
+) {
+> +                    offset =3D 0;
+> +                    idx++;
+> +                }
+> +            }
+> +        }
+> +
+> +        xen_hvm_modified_memory(start, pages << TARGET_PAGE_BITS);
+> +    } else {
+> +        uint8_t clients =3D tcg_enabled() ? DIRTY_CLIENTS_ALL
+> +                                        : DIRTY_CLIENTS_NOCODE;
+> +
+> +        if (!global_dirty_log) {
+> +            clients &=3D ~(1 << DIRTY_MEMORY_MIGRATION);
+> +        }
+> +
+> +        /*
+> +         * bitmap-traveling is faster than memory-traveling (for addr...)
+> +         * especially when most of the memory is not dirty.
+> +         */
+> +        for (i =3D 0; i < len; i++) {
+> +            if (bitmap[i] !=3D 0) {
+> +                c =3D leul_to_cpu(bitmap[i]);
+> +                do {
+> +                    j =3D ctzl(c);
+> +                    c &=3D ~(1ul << j);
+> +                    page_number =3D (i * HOST_LONG_BITS + j) * hpratio;
+> +                    addr =3D page_number * TARGET_PAGE_SIZE;
+> +                    ram_addr =3D start + addr;
+> +                    cpu_physical_memory_set_dirty_range(ram_addr,
+> +                                       TARGET_PAGE_SIZE * hpratio, clien=
+ts);
+> +                } while (c !=3D 0);
+> +            }
+> +        }
+> +    }
+> +}
+> +#endif /* not _WIN32 */
+> +
+> +bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
+> +                                              ram_addr_t length,
+> +                                              unsigned client);
+> +
+> +DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty(
+> +                                                            MemoryRegion=
+ *mr,
+> +                                                            hwaddr offse=
+t,
+> +                                                            hwaddr lengt=
+h,
+> +                                                            unsigned cli=
+ent);
+> +
+> +bool cpu_physical_memory_snapshot_get_dirty(DirtyBitmapSnapshot *snap,
+> +                                            ram_addr_t start,
+> +                                            ram_addr_t length);
+> +
+> +static inline void cpu_physical_memory_clear_dirty_range(ram_addr_t star=
+t,
+> +                                                         ram_addr_t leng=
+th)
+> +{
+> +    cpu_physical_memory_test_and_clear_dirty(start, length,
+> +                                             DIRTY_MEMORY_MIGRATION);
+> +    cpu_physical_memory_test_and_clear_dirty(start, length, DIRTY_MEMORY=
+_VGA);
+> +    cpu_physical_memory_test_and_clear_dirty(start, length, DIRTY_MEMORY=
+_CODE);
+> +}
+> +
+> +#endif /* CONFIG_SOFTMMU */
 >  #endif
-> =20
->  #endif /* CPU_COMMON_H */
 > diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-> index c61d5188f7..0deffad66f 100644
+> index 6acde47a0f..64bf28a332 100644
 > --- a/include/exec/ram_addr.h
 > +++ b/include/exec/ram_addr.h
-> @@ -26,112 +26,7 @@
+> @@ -21,310 +21,9 @@
+> =20
+>  #ifndef CONFIG_USER_ONLY
+>  #include "cpu.h"
+> -#include "sysemu/xen.h"
+> -#include "sysemu/tcg.h"
 >  #include "exec/ramlist.h"
 >  #include "exec/ramblock.h"
-> =20
-> -/**
-> - * clear_bmap_size: calculate clear bitmap size
-> - *
-> - * @pages: number of guest pages
-> - * @shift: guest page number shift
-> - *
-> - * Returns: number of bits for the clear bitmap
-> - */
-> -static inline long clear_bmap_size(uint64_t pages, uint8_t shift)
-> -{
-> -    return DIV_ROUND_UP(pages, 1UL << shift);
-> -}
-> =20
-> -/**
-> - * clear_bmap_set: set clear bitmap for the page range
-> - *
-> - * @rb: the ramblock to operate on
-> - * @start: the start page number
-> - * @size: number of pages to set in the bitmap
-> - *
-> - * Returns: None
-> - */
-> -static inline void clear_bmap_set(RAMBlock *rb, uint64_t start,
-> -                                  uint64_t npages)
-> -{
-> -    uint8_t shift =3D rb->clear_bmap_shift;
 > -
-> -    bitmap_set_atomic(rb->clear_bmap, start >> shift,
-> -                      clear_bmap_size(npages, shift));
-> -}
 > -
-> -/**
-> - * clear_bmap_test_and_clear: test clear bitmap for the page, clear if s=
-et
-> - *
-> - * @rb: the ramblock to operate on
-> - * @page: the page number to check
-> - *
-> - * Returns: true if the bit was set, false otherwise
-> - */
-> -static inline bool clear_bmap_test_and_clear(RAMBlock *rb, uint64_t page)
-> -{
-> -    uint8_t shift =3D rb->clear_bmap_shift;
 > -
-> -    return bitmap_test_and_clear_atomic(rb->clear_bmap, page >> shift, 1=
-);
-> -}
-> -
-> -static inline bool offset_in_ramblock(RAMBlock *b, ram_addr_t offset)
-> -{
-> -    return (b && b->host && offset < b->used_length) ? true : false;
-> -}
-> -
-> -static inline void *ramblock_ptr(RAMBlock *block, ram_addr_t offset)
-> -{
-> -    assert(offset_in_ramblock(block, offset));
-> -    return (char *)block->host + offset;
-> -}
-> -
-> -bool ramblock_is_pmem(RAMBlock *rb);
-> -
-> -/**
-> - * qemu_ram_alloc_from_file,
-> - * qemu_ram_alloc_from_fd:  Allocate a ram block from the specified back=
-ing
-> - *                          file or device
-> - *
-> - * Parameters:
-> - *  @size: the size in bytes of the ram block
-> - *  @mr: the memory region where the ram block is
-> - *  @ram_flags: specify the properties of the ram block, which can be one
-> - *              or bit-or of following values
-> - *              - RAM_SHARED: mmap the backing file or device with MAP_S=
-HARED
-> - *              - RAM_PMEM: the backend @mem_path or @fd is persistent m=
-emory
-> - *              Other bits are ignored.
-> - *  @mem_path or @fd: specify the backing file or device
-> - *  @errp: pointer to Error*, to store an error if it happens
-> - *
-> - * Return:
-> - *  On success, return a pointer to the ram block.
-> - *  On failure, return NULL.
-> - */
-> -RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-> -                                   uint32_t ram_flags, const char *mem_p=
-ath,
-> -                                   Error **errp);
-> -RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-> -                                 uint32_t ram_flags, int fd,
-> -                                 Error **errp);
-> -
-> -RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
-> -                                  MemoryRegion *mr, Error **errp);
-> -RAMBlock *qemu_ram_alloc(ram_addr_t size, bool share, MemoryRegion *mr,
-> -                         Error **errp);
-> -RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t size, ram_addr_t max_size,
-> -                                    void (*resized)(const char*,
-> -                                                    uint64_t length,
-> -                                                    void *host),
-> -                                    MemoryRegion *mr, Error **errp);
-> -void qemu_ram_free(RAMBlock *block);
-> -
-> -int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp);
-> -
-> -void qemu_ram_msync(RAMBlock *block, ram_addr_t start, ram_addr_t length=
-);
-> -
-> -/* Clear whole block of mem */
-> -static inline void qemu_ram_block_writeback(RAMBlock *block)
-> -{
-> -    qemu_ram_msync(block, 0, block->used_length);
-> -}
-> =20
->  #define DIRTY_CLIENTS_ALL     ((1 << DIRTY_MEMORY_NUM) - 1)
->  #define DIRTY_CLIENTS_NOCODE  (DIRTY_CLIENTS_ALL & ~(1 << DIRTY_MEMORY_C=
+> -#define DIRTY_CLIENTS_ALL     ((1 << DIRTY_MEMORY_NUM) - 1)
+> -#define DIRTY_CLIENTS_NOCODE  (DIRTY_CLIENTS_ALL & ~(1 << DIRTY_MEMORY_C=
 ODE))
-> diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
-> index 6ac0aa7a89..b6b34141fc 100644
-> --- a/include/exec/ramblock.h
-> +++ b/include/exec/ramblock.h
-> @@ -22,6 +22,7 @@
->  #ifndef CONFIG_USER_ONLY
->  #include "cpu-common.h"
->  #include "qemu/rcu.h"
-> +#include "qemu/bitmap.h"
+> -
+> -static inline bool cpu_physical_memory_get_dirty(ram_addr_t start,
+> -                                                 ram_addr_t length,
+> -                                                 unsigned client)
+> -{
+> -    DirtyMemoryBlocks *blocks;
+> -    unsigned long end, page;
+> -    unsigned long idx, offset, base;
+> -    bool dirty =3D false;
+> -
+> -    assert(client < DIRTY_MEMORY_NUM);
+> -
+> -    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+> -    page =3D start >> TARGET_PAGE_BITS;
+> -
+> -    WITH_RCU_READ_LOCK_GUARD() {
+> -        blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+> -
+> -        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+> -        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+> -        base =3D page - offset;
+> -        while (page < end) {
+> -            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
+ZE);
+> -            unsigned long num =3D next - base;
+> -            unsigned long found =3D find_next_bit(blocks->blocks[idx],
+> -                                                num, offset);
+> -            if (found < num) {
+> -                dirty =3D true;
+> -                break;
+> -            }
+> -
+> -            page =3D next;
+> -            idx++;
+> -            offset =3D 0;
+> -            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+> -        }
+> -    }
+> -
+> -    return dirty;
+> -}
+> -
+> -static inline bool cpu_physical_memory_all_dirty(ram_addr_t start,
+> -                                                 ram_addr_t length,
+> -                                                 unsigned client)
+> -{
+> -    DirtyMemoryBlocks *blocks;
+> -    unsigned long end, page;
+> -    unsigned long idx, offset, base;
+> -    bool dirty =3D true;
+> -
+> -    assert(client < DIRTY_MEMORY_NUM);
+> -
+> -    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+> -    page =3D start >> TARGET_PAGE_BITS;
+> -
+> -    RCU_READ_LOCK_GUARD();
+> -
+> -    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+> -
+> -    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+> -    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+> -    base =3D page - offset;
+> -    while (page < end) {
+> -        unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SIZE);
+> -        unsigned long num =3D next - base;
+> -        unsigned long found =3D find_next_zero_bit(blocks->blocks[idx],
+> -                                                 num, offset);
+> -        if (found < num) {
+> -            dirty =3D false;
+> -            break;
+> -        }
+> -
+> -        page =3D next;
+> -        idx++;
+> -        offset =3D 0;
+> -        base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+> -    }
+> -
+> -    return dirty;
+> -}
+> -
+> -static inline bool cpu_physical_memory_get_dirty_flag(ram_addr_t addr,
+> -                                                      unsigned client)
+> -{
+> -    return cpu_physical_memory_get_dirty(addr, 1, client);
+> -}
+> -
+> -static inline bool cpu_physical_memory_is_clean(ram_addr_t addr)
+> -{
+> -    bool vga =3D cpu_physical_memory_get_dirty_flag(addr, DIRTY_MEMORY_V=
+GA);
+> -    bool code =3D cpu_physical_memory_get_dirty_flag(addr, DIRTY_MEMORY_=
+CODE);
+> -    bool migration =3D cpu_physical_memory_get_dirty_flag(addr,
+> -                                                        DIRTY_MEMORY_MIG=
+RATION);
+> -    return !(vga && code && migration);
+> -}
+> -
+> -static inline uint8_t cpu_physical_memory_range_includes_clean(ram_addr_=
+t start,
+> -                                                            ram_addr_t l=
+ength,
+> -                                                            uint8_t mask)
+> -{
+> -    uint8_t ret =3D 0;
+> -
+> -    if (mask & (1 << DIRTY_MEMORY_VGA) &&
+> -        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_VGA))=
+ {
+> -        ret |=3D (1 << DIRTY_MEMORY_VGA);
+> -    }
+> -    if (mask & (1 << DIRTY_MEMORY_CODE) &&
+> -        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_CODE)=
+) {
+> -        ret |=3D (1 << DIRTY_MEMORY_CODE);
+> -    }
+> -    if (mask & (1 << DIRTY_MEMORY_MIGRATION) &&
+> -        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_MIGRA=
+TION)) {
+> -        ret |=3D (1 << DIRTY_MEMORY_MIGRATION);
+> -    }
+> -    return ret;
+> -}
+> -
+> -static inline void cpu_physical_memory_set_dirty_flag(ram_addr_t addr,
+> -                                                      unsigned client)
+> -{
+> -    unsigned long page, idx, offset;
+> -    DirtyMemoryBlocks *blocks;
+> -
+> -    assert(client < DIRTY_MEMORY_NUM);
+> -
+> -    page =3D addr >> TARGET_PAGE_BITS;
+> -    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+> -    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+> -
+> -    RCU_READ_LOCK_GUARD();
+> -
+> -    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
+> -
+> -    set_bit_atomic(offset, blocks->blocks[idx]);
+> -}
+> -
+> -static inline void cpu_physical_memory_set_dirty_range(ram_addr_t start,
+> -                                                       ram_addr_t length,
+> -                                                       uint8_t mask)
+> -{
+> -    DirtyMemoryBlocks *blocks[DIRTY_MEMORY_NUM];
+> -    unsigned long end, page;
+> -    unsigned long idx, offset, base;
+> -    int i;
+> -
+> -    if (!mask && !xen_enabled()) {
+> -        return;
+> -    }
+> -
+> -    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+> -    page =3D start >> TARGET_PAGE_BITS;
+> -
+> -    WITH_RCU_READ_LOCK_GUARD() {
+> -        for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
+> -            blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i]);
+> -        }
+> -
+> -        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
+> -        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
+> -        base =3D page - offset;
+> -        while (page < end) {
+> -            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
+ZE);
+> -
+> -            if (likely(mask & (1 << DIRTY_MEMORY_MIGRATION))) {
+> -                bitmap_set_atomic(blocks[DIRTY_MEMORY_MIGRATION]->blocks=
+[idx],
+> -                                  offset, next - page);
+> -            }
+> -            if (unlikely(mask & (1 << DIRTY_MEMORY_VGA))) {
+> -                bitmap_set_atomic(blocks[DIRTY_MEMORY_VGA]->blocks[idx],
+> -                                  offset, next - page);
+> -            }
+> -            if (unlikely(mask & (1 << DIRTY_MEMORY_CODE))) {
+> -                bitmap_set_atomic(blocks[DIRTY_MEMORY_CODE]->blocks[idx],
+> -                                  offset, next - page);
+> -            }
+> -
+> -            page =3D next;
+> -            idx++;
+> -            offset =3D 0;
+> -            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+> -        }
+> -    }
+> -
+> -    xen_hvm_modified_memory(start, length);
+> -}
+> -
+> -#if !defined(_WIN32)
+> -static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long =
+*bitmap,
+> -                                                          ram_addr_t sta=
+rt,
+> -                                                          ram_addr_t pag=
+es)
+> -{
+> -    unsigned long i, j;
+> -    unsigned long page_number, c;
+> -    hwaddr addr;
+> -    ram_addr_t ram_addr;
+> -    unsigned long len =3D (pages + HOST_LONG_BITS - 1) / HOST_LONG_BITS;
+> -    unsigned long hpratio =3D qemu_real_host_page_size / TARGET_PAGE_SIZ=
+E;
+> -    unsigned long page =3D BIT_WORD(start >> TARGET_PAGE_BITS);
+> -
+> -    /* start address is aligned at the start of a word? */
+> -    if ((((page * BITS_PER_LONG) << TARGET_PAGE_BITS) =3D=3D start) &&
+> -        (hpratio =3D=3D 1)) {
+> -        unsigned long **blocks[DIRTY_MEMORY_NUM];
+> -        unsigned long idx;
+> -        unsigned long offset;
+> -        long k;
+> -        long nr =3D BITS_TO_LONGS(pages);
+> -
+> -        idx =3D (start >> TARGET_PAGE_BITS) / DIRTY_MEMORY_BLOCK_SIZE;
+> -        offset =3D BIT_WORD((start >> TARGET_PAGE_BITS) %
+> -                          DIRTY_MEMORY_BLOCK_SIZE);
+> -
+> -        WITH_RCU_READ_LOCK_GUARD() {
+> -            for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
+> -                blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i])=
+->blocks;
+> -            }
+> -
+> -            for (k =3D 0; k < nr; k++) {
+> -                if (bitmap[k]) {
+> -                    unsigned long temp =3D leul_to_cpu(bitmap[k]);
+> -
+> -                    atomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], te=
+mp);
+> -
+> -                    if (global_dirty_log) {
+> -                        atomic_or(&blocks[DIRTY_MEMORY_MIGRATION][idx][o=
+ffset],
+> -                                  temp);
+> -                    }
+> -
+> -                    if (tcg_enabled()) {
+> -                        atomic_or(&blocks[DIRTY_MEMORY_CODE][idx][offset=
+],
+> -                                  temp);
+> -                    }
+> -                }
+> -
+> -                if (++offset >=3D BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)=
+) {
+> -                    offset =3D 0;
+> -                    idx++;
+> -                }
+> -            }
+> -        }
+> -
+> -        xen_hvm_modified_memory(start, pages << TARGET_PAGE_BITS);
+> -    } else {
+> -        uint8_t clients =3D tcg_enabled()
+> -                          ? DIRTY_CLIENTS_ALL : DIRTY_CLIENTS_NOCODE;
+> -
+> -        if (!global_dirty_log) {
+> -            clients &=3D ~(1 << DIRTY_MEMORY_MIGRATION);
+> -        }
+> -
+> -        /*
+> -         * bitmap-traveling is faster than memory-traveling (for addr...)
+> -         * especially when most of the memory is not dirty.
+> -         */
+> -        for (i =3D 0; i < len; i++) {
+> -            if (bitmap[i] !=3D 0) {
+> -                c =3D leul_to_cpu(bitmap[i]);
+> -                do {
+> -                    j =3D ctzl(c);
+> -                    c &=3D ~(1ul << j);
+> -                    page_number =3D (i * HOST_LONG_BITS + j) * hpratio;
+> -                    addr =3D page_number * TARGET_PAGE_SIZE;
+> -                    ram_addr =3D start + addr;
+> -                    cpu_physical_memory_set_dirty_range(ram_addr,
+> -                                       TARGET_PAGE_SIZE * hpratio, clien=
+ts);
+> -                } while (c !=3D 0);
+> -            }
+> -        }
+> -    }
+> -}
+> -#endif /* not _WIN32 */
+> -
+> -bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
+> -                                              ram_addr_t length,
+> -                                              unsigned client);
+> -
+> -DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty(
+> -                                                            MemoryRegion=
+ *mr,
+> -                                                            hwaddr offse=
+t,
+> -                                                            hwaddr lengt=
+h,
+> -                                                            unsigned cli=
+ent);
+> -
+> -bool cpu_physical_memory_snapshot_get_dirty(DirtyBitmapSnapshot *snap,
+> -                                            ram_addr_t start,
+> -                                            ram_addr_t length);
+> -
+> -static inline void cpu_physical_memory_clear_dirty_range(ram_addr_t star=
+t,
+> -                                                         ram_addr_t leng=
+th)
+> -{
+> -    cpu_physical_memory_test_and_clear_dirty(start, length,
+> -                                             DIRTY_MEMORY_MIGRATION);
+> -    cpu_physical_memory_test_and_clear_dirty(start, length, DIRTY_MEMORY=
+_VGA);
+> -    cpu_physical_memory_test_and_clear_dirty(start, length, DIRTY_MEMORY=
+_CODE);
+> -}
+> -
+> +#include "exec/memory-internal.h"
 > =20
->  struct RAMBlock {
->      struct rcu_head rcu;
-> @@ -61,5 +62,138 @@ struct RAMBlock {
->      unsigned long *clear_bmap;
->      uint8_t clear_bmap_shift;
->  };
-> +
-> +RAMBlock *qemu_ram_block_by_name(const char *name);
-> +RAMBlock *qemu_ram_block_from_host(void *ptr, bool round_offset,
-> +                                   ram_addr_t *offset);
-> +ram_addr_t qemu_ram_block_host_offset(RAMBlock *rb, void *host);
-> +void qemu_ram_set_idstr(RAMBlock *block, const char *name, DeviceState *=
-dev);
-> +void qemu_ram_unset_idstr(RAMBlock *block);
-> +const char *qemu_ram_get_idstr(RAMBlock *rb);
-> +void *qemu_ram_get_host_addr(RAMBlock *rb);
-> +ram_addr_t qemu_ram_get_offset(RAMBlock *rb);
-> +ram_addr_t qemu_ram_get_used_length(RAMBlock *rb);
-> +bool qemu_ram_is_shared(RAMBlock *rb);
-> +bool qemu_ram_is_uf_zeroable(RAMBlock *rb);
-> +void qemu_ram_set_uf_zeroable(RAMBlock *rb);
-> +bool qemu_ram_is_migratable(RAMBlock *rb);
-> +void qemu_ram_set_migratable(RAMBlock *rb);
-> +void qemu_ram_unset_migratable(RAMBlock *rb);
-> +
-> +size_t qemu_ram_pagesize(RAMBlock *block);
-> +size_t qemu_ram_pagesize_largest(void);
-> +
-> +/**
-> + * clear_bmap_size: calculate clear bitmap size
-> + *
-> + * @pages: number of guest pages
-> + * @shift: guest page number shift
-> + *
-> + * Returns: number of bits for the clear bitmap
-> + */
-> +static inline long clear_bmap_size(uint64_t pages, uint8_t shift)
-> +{
-> +    return DIV_ROUND_UP(pages, 1UL << shift);
-> +}
-> +
-> +/**
-> + * clear_bmap_set: set clear bitmap for the page range
-> + *
-> + * @rb: the ramblock to operate on
-> + * @start: the start page number
-> + * @size: number of pages to set in the bitmap
-> + *
-> + * Returns: None
-> + */
-> +static inline void clear_bmap_set(RAMBlock *rb, uint64_t start,
-> +                                  uint64_t npages)
-> +{
-> +    uint8_t shift =3D rb->clear_bmap_shift;
-> +
-> +    bitmap_set_atomic(rb->clear_bmap, start >> shift,
-> +                      clear_bmap_size(npages, shift));
-> +}
-> +
-> +/**
-> + * clear_bmap_test_and_clear: test clear bitmap for the page, clear if s=
-et
-> + *
-> + * @rb: the ramblock to operate on
-> + * @page: the page number to check
-> + *
-> + * Returns: true if the bit was set, false otherwise
-> + */
-> +static inline bool clear_bmap_test_and_clear(RAMBlock *rb, uint64_t page)
-> +{
-> +    uint8_t shift =3D rb->clear_bmap_shift;
-> +
-> +    return bitmap_test_and_clear_atomic(rb->clear_bmap, page >> shift, 1=
-);
-> +}
-> +
-> +static inline bool offset_in_ramblock(RAMBlock *b, ram_addr_t offset)
-> +{
-> +    return (b && b->host && offset < b->used_length) ? true : false;
-> +}
-> +
-> +static inline void *ramblock_ptr(RAMBlock *block, ram_addr_t offset)
-> +{
-> +    assert(offset_in_ramblock(block, offset));
-> +    return (char *)block->host + offset;
-> +}
-> +
-> +bool ramblock_is_pmem(RAMBlock *rb);
-> +
-> +/**
-> + * qemu_ram_alloc_from_file,
-> + * qemu_ram_alloc_from_fd:  Allocate a ram block from the specified back=
-ing
-> + *                          file or device
-> + *
-> + * Parameters:
-> + *  @size: the size in bytes of the ram block
-> + *  @mr: the memory region where the ram block is
-> + *  @ram_flags: specify the properties of the ram block, which can be one
-> + *              or bit-or of following values
-> + *              - RAM_SHARED: mmap the backing file or device with MAP_S=
-HARED
-> + *              - RAM_PMEM: the backend @mem_path or @fd is persistent m=
-emory
-> + *              Other bits are ignored.
-> + *  @mem_path or @fd: specify the backing file or device
-> + *  @errp: pointer to Error*, to store an error if it happens
-> + *
-> + * Return:
-> + *  On success, return a pointer to the ram block.
-> + *  On failure, return NULL.
-> + */
-> +RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-> +                                   uint32_t ram_flags, const char *mem_p=
-ath,
-> +                                   Error **errp);
-> +RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-> +                                 uint32_t ram_flags, int fd,
-> +                                 Error **errp);
-> +
-> +RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
-> +                                  MemoryRegion *mr, Error **errp);
-> +RAMBlock *qemu_ram_alloc(ram_addr_t size, bool share, MemoryRegion *mr,
-> +                         Error **errp);
-> +RAMBlock *qemu_ram_alloc_resizeable(ram_addr_t size, ram_addr_t max_size,
-> +                                    void (*resized)(const char*,
-> +                                                    uint64_t length,
-> +                                                    void *host),
-> +                                    MemoryRegion *mr, Error **errp);
-> +void qemu_ram_free(RAMBlock *block);
-> +
-> +int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp);
-> +
-> +void qemu_ram_msync(RAMBlock *block, ram_addr_t start, ram_addr_t length=
-);
-> +
-> +/* Clear whole block of mem */
-> +static inline void qemu_ram_block_writeback(RAMBlock *block)
-> +{
-> +    qemu_ram_msync(block, 0, block->used_length);
-> +}
-> +
-> +typedef int (RAMBlockIterFunc)(RAMBlock *rb, void *opaque);
-> +
-> +int qemu_ram_foreach_block(RAMBlockIterFunc func, void *opaque);
-> +int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length);
-> +
->  #endif
->  #endif
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 507284e563..73eb210ef5 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -21,6 +21,7 @@
->  #include "qemu/coroutine_int.h"
->  #include "io/channel.h"
->  #include "net/announce.h"
-> +#include "exec/ramblock.h"
-> =20
->  struct PostcopyBlocktimeContext;
-> =20
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 9924e66d1f..15c8ee9110 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -43,8 +43,6 @@
->  #include <libutil.h>
->  #endif
->  #endif
-> -#else
-> -#include "exec/ram_addr.h"
->  #endif
-> =20
+>  /* Called with RCU critical section */
+>  static inline
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index e3b5750c3b..922671f246 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -26,7 +26,6 @@
+>  #include "exec/cpu_ldst.h"
 >  #include "exec/cputlb.h"
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 21a199e53b..8d8dd7ce80 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -46,7 +46,7 @@
->  #include "qapi/visitor.h"
->  #include "sysemu/hostmem.h"
->  #include "sysemu/block-backend.h"
+>  #include "exec/memory-internal.h"
 > -#include "exec/ram_addr.h"
-> +#include "exec/ramblock.h"
-> =20
->  #include "qemu/log.h"
->  #include "qemu/module.h"
-> diff --git a/hw/s390x/s390-stattrib-kvm.c b/hw/s390x/s390-stattrib-kvm.c
-> index f89d8d9d16..46ca7e7d1f 100644
-> --- a/hw/s390x/s390-stattrib-kvm.c
-> +++ b/hw/s390x/s390-stattrib-kvm.c
-> @@ -15,7 +15,6 @@
->  #include "hw/s390x/storage-attributes.h"
+>  #include "tcg/tcg.h"
 >  #include "qemu/error-report.h"
->  #include "sysemu/kvm.h"
-> -#include "exec/ram_addr.h"
->  #include "cpu.h"
->  #include "kvm_s390x.h"
+>  #include "exec/log.h"
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index c18eab0a23..d7c3bf3932 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -69,7 +69,6 @@
+>  #include "hw/virtio/vhost-scsi-common.h"
 > =20
-> diff --git a/hw/s390x/s390-stattrib.c b/hw/s390x/s390-stattrib.c
-> index 58121b9f68..9785d51577 100644
-> --- a/hw/s390x/s390-stattrib.c
-> +++ b/hw/s390x/s390-stattrib.c
-> @@ -16,7 +16,6 @@
->  #include "migration/register.h"
->  #include "hw/s390x/storage-attributes.h"
->  #include "qemu/error-report.h"
-> -#include "exec/ram_addr.h"
->  #include "qapi/error.h"
->  #include "qapi/qmp/qdict.h"
-> =20
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index c009384505..ade36eda5e 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -17,7 +17,6 @@
->  #include "cpu.h"
->  #include "hw/boards.h"
 >  #include "exec/address-spaces.h"
 > -#include "exec/ram_addr.h"
->  #include "hw/s390x/s390-virtio-hcall.h"
->  #include "hw/s390x/sclp.h"
->  #include "hw/s390x/s390_flic.h"
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index ec21e8fbe8..12764d6254 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -23,6 +23,7 @@
->  #include "sysemu/cryptodev.h"
->  #include "migration/migration.h"
->  #include "migration/postcopy-ram.h"
-> +#include "exec/ramblock.h"
+>  #include "hw/usb.h"
+>  #include "qemu/config-file.h"
+>  #include "qemu/error-report.h"
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 61b84a392d..8d9aeba6e6 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -36,7 +36,6 @@
+>  #include "hw/ppc/spapr.h"
+>  #include "hw/pci-host/spapr.h"
+>  #include "exec/address-spaces.h"
+> -#include "exec/ram_addr.h"
+>  #include <libfdt.h>
 >  #include "trace.h"
-> =20
->  #include <sys/ioctl.h>
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index aff98a0ede..7da8d95a43 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -22,6 +22,7 @@
->  #include "qemu/memfd.h"
->  #include "standard-headers/linux/vhost_types.h"
->  #include "exec/address-spaces.h"
-> +#include "exec/ramblock.h"
->  #include "hw/virtio/virtio-bus.h"
->  #include "hw/virtio/virtio-access.h"
->  #include "migration/blocker.h"
-> diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-> index a4729f7fc9..ea112e9403 100644
-> --- a/hw/virtio/virtio-balloon.c
-> +++ b/hw/virtio/virtio-balloon.c
-> @@ -23,6 +23,7 @@
->  #include "sysemu/balloon.h"
->  #include "hw/virtio/virtio-balloon.h"
->  #include "exec/address-spaces.h"
-> +#include "exec/ramblock.h"
->  #include "qapi/error.h"
->  #include "qapi/qapi-events-misc.h"
->  #include "qapi/visitor.h"
+>  #include "qemu/error-report.h"
 > diff --git a/memory.c b/memory.c
-> index 3e65e33ac4..e8e7bcd6c7 100644
+> index e8e7bcd6c7..4e1d19c5fc 100644
 > --- a/memory.c
 > +++ b/memory.c
-> @@ -28,6 +28,7 @@
+> @@ -27,7 +27,6 @@
+>  #include "trace-root.h"
 > =20
 >  #include "exec/memory-internal.h"
->  #include "exec/ram_addr.h"
-> +#include "exec/ramblock.h"
+> -#include "exec/ram_addr.h"
+>  #include "exec/ramblock.h"
 >  #include "sysemu/kvm.h"
 >  #include "sysemu/runstate.h"
->  #include "sysemu/tcg.h"
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 177cce9e95..8c7ed8cc79 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -46,6 +46,7 @@
->  #include "qemu/thread.h"
->  #include "trace.h"
->  #include "exec/target_page.h"
-> +#include "exec/ramblock.h"
->  #include "io/channel-buffer.h"
->  #include "migration/colo.h"
->  #include "hw/boards.h"
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index a36402722b..78646abf7a 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -18,6 +18,7 @@
-> =20
->  #include "qemu/osdep.h"
->  #include "exec/target_page.h"
-> +#include "exec/ramblock.h"
->  #include "migration.h"
->  #include "qemu-file.h"
->  #include "savevm.h"
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index b979ea6e7f..714b5b4591 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -48,6 +48,7 @@
->  #include "sysemu/cpus.h"
->  #include "exec/memory.h"
->  #include "exec/target_page.h"
-> +#include "exec/ramblock.h"
->  #include "trace.h"
->  #include "qemu/iov.h"
->  #include "qemu/main-loop.h"
-> diff --git a/stubs/ram-block.c b/stubs/ram-block.c
-> index 73c0a3ee08..9e73543598 100644
-> --- a/stubs/ram-block.c
-> +++ b/stubs/ram-block.c
-> @@ -1,6 +1,6 @@
->  #include "qemu/osdep.h"
->  #include "exec/ramlist.h"
-> -#include "exec/cpu-common.h"
-> +#include "exec/ramblock.h"
-> =20
->  void *qemu_ram_get_host_addr(RAMBlock *rb)
->  {
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 2692f76130..1f3db517db 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -43,7 +43,6 @@
->  #include "trace.h"
->  #include "exec/gdbstub.h"
->  #include "exec/memattrs.h"
-> -#include "exec/ram_addr.h"
->  #include "sysemu/hostmem.h"
->  #include "qemu/cutils.h"
->  #include "qemu/main-loop.h"
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index 69881a0da0..42657bc0a5 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -41,7 +41,6 @@
->  #include "sysemu/runstate.h"
->  #include "sysemu/device_tree.h"
->  #include "exec/gdbstub.h"
-> -#include "exec/ram_addr.h"
->  #include "trace.h"
->  #include "hw/s390x/s390-pci-inst.h"
->  #include "hw/s390x/s390-pci-bus.h"
-> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-> index e399e330e2..2ee169da58 100644
-> --- a/util/vfio-helpers.c
-> +++ b/util/vfio-helpers.c
-> @@ -15,7 +15,7 @@
->  #include <linux/vfio.h>
->  #include "qapi/error.h"
->  #include "exec/ramlist.h"
-> -#include "exec/cpu-common.h"
-> +#include "exec/ramblock.h"
->  #include "trace.h"
->  #include "qemu/error-report.h"
->  #include "standard-headers/linux/pci_regs.h"
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -661,25 +854,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Z9t8O/5YJLB6LEUl
+--GeDkoc8jIzHasOdk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl64q4cACgkQbDjKyiDZ
-s5KTlw/8CdkN1l++QxkA6FxdY8/lT4vIE9jhihBxWNfGSUBcabwpFlbP5eDVlqXs
-giUSOPgXILVYZqPxw3u2CKxLTfjt6FliUUitboWXVjFgQQUxPoV5DrKNEu9GzqJU
-+bYhLl2JWeRB+1JApcbvSX385A6J/DL8CAWVy2BKKz2bqkdXNpiZ+rNZgVTVbpjF
-bKBvk9hiob4zJW+rp7R9sq4CHApQpNY/2DJC8uzs2u7Ije8hyiTREmhmtduD99V/
-CJat+P5qxEsVO5nlVKFSq4kdBwnI5flCZYiPaFakuI5caFTwU8d+t4QYZpAUoQai
-vraNVfJLey6rB3V5ZaFXK3JyFXFAMCjpK6xCnS3UONFYVSI9BfA+IhN7klreUV4/
-gEIy76uyg+OntG/wJuTo3xIl4CsB+SPCAKVTy9jaMvyqW9nT22VUHpw+ndPLgG+Q
-+5mR1dn1mylw+eo9zWLJ+1CVs16LWTH/YP0SEOXhpKpkR+1r6TfsXbXq7ewxrMzn
-wGCP+92W7ufR8NJhwzq2q+zBwR2UwkIQNsq8SHB5Zx/IqnBR7ZyZmCaq14HSuP2v
-zUfQwfiosqeW86lZRRTnmspbVsFf/CMlYCPpAJ3fK8cByt257rRCazKPlpvZwkWG
-ZsoT8IPwQNWmNEvr7uhcqm1IookRyxQOUzK3FE3YkIDCOsadlwI=
-=F15G
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl64q9oACgkQbDjKyiDZ
+s5JroQ//c6UBQ+a/Jk9FtTZQcbytG0Xw3jhi1uOlLdNlQOPk6fHHjpTz++Bh42HL
+b1dKEw6vC1t3CS0nQhb7fJsNE/mPcE4L9Nc1iij8HcnbiZXTv0GGBzu+Ug2wx/1w
+eD/JgsuoZvvRjQiJXuPo8ID763LuElDWgNiMu1JVKQktOEfoF9JQrVIerZo23Xmg
+0KhxK+ZJgzfO8b/heI31pMupxVXhCCrbjhgJXQHC+6bXxcOfIBCQMXCbO8sqDVRF
+OuZlS9YsYful12zk9M++7llx6DuAjr0Z1XbxBfKJ1wMXyCexBh4QU7UXxd4Gl/Gb
+dIL+kkfqTZVuP2hHhLjTI7/1vs4Urs6sAUJS8ae6XrulMvSk6xCWnAltOSvJ4GmS
+9Xx8WNHSr2Y6F6EbYNeWz87Wzx5o2AgZ659EppwcGiCoY8mFNPhNDSh0jmsqiblT
+2sg+KcjT6k4m7NeJqI7J0f6dqMC/QSBGUGT6ddmbFXi1QGsdaqgMTVV3UyyrtZuM
+OjPjNdF724ohnuu9WkVbmNPZbMBUhIUQBUrAUbD1AUD210lffHes51ANIdO8EEOq
+aSOo+8WJtCvLzH9nvsW1uJe/azPKNN9dXPnQ/Fz5vlLtileYce+2G9vFXbBWWZdl
+HJPQKkmzOANcGyuyT56NKaj2w7JWPAf64vt+C5WjlJ5fGsZQRZM=
+=4FxC
 -----END PGP SIGNATURE-----
 
---Z9t8O/5YJLB6LEUl--
+--GeDkoc8jIzHasOdk--
 
