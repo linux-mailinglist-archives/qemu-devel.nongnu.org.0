@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270781CDCAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:11:09 +0200 (CEST)
-Received: from localhost ([::1]:46748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3161CD593
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:44:34 +0200 (CEST)
+Received: from localhost ([::1]:42776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY999-000787-LI
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:11:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41144)
+	id 1jY4zB-0003RY-IV
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:44:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Dmitry.Sepp@opensynergy.com>)
- id 1jY4vP-00014N-AZ
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:40:39 -0400
-Received: from plasma4.jpberlin.de ([80.241.57.33]:54659)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Dmitry.Sepp@opensynergy.com>)
- id 1jY4vN-0000zs-AW
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:40:38 -0400
-Received: from spamfilter05.heinlein-hosting.de
- (spamfilter05.heinlein-hosting.de [80.241.56.123])
- by plasma.jpberlin.de (Postfix) with ESMTP id 61813BE4F7;
- Mon, 11 May 2020 11:40:30 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
- by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de
- [80.241.56.123]) (amavisd-new, port 10030)
- with ESMTP id wcI2nhFaRMNp; Mon, 11 May 2020 11:40:28 +0200 (CEST)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (Client CN "webmail.opensynergy.com",
- Issuer "GeoTrust EV RSA CA 2018" (not verified))
- (Authenticated sender: opensynergy@jpberlin.de)
- by plasma.jpberlin.de (Postfix) with ESMTPSA id B6A5CBE3F0;
- Mon, 11 May 2020 11:40:28 +0200 (CEST)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
- (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 11 May
- 2020 11:40:28 +0200
-From: Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To: Kiran Pawar <Kiran.Pawar@opensynergy.com>, Samiullah Khawaja
- <samiullah.khawaja@opensynergy.com>, <qemu-devel@nongnu.org>, Saket Sinha
- <saket.sinha89@gmail.com>
-Subject: Re: Fwd: Qemu Support for Virtio Video V4L2 driver
-Date: Mon, 11 May 2020 11:40:22 +0200
-Message-ID: <2405792.XL1faGB9W5@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <CAK25hWOPS1wGORXgtv8hUNu9-mLO+5C_k3Cj=8pnoFWmjuhJdg@mail.gmail.com>
-References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
- <CAK25hWMj5PyQFZVN5AToHjdySvi6iZ4zjZeUJQR85jNgoeLeAw@mail.gmail.com>
- <CAK25hWOPS1wGORXgtv8hUNu9-mLO+5C_k3Cj=8pnoFWmjuhJdg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jY4y8-0002wX-5Q
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:43:28 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33524)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
+ id 1jY4y6-00024e-60
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:43:27 -0400
+Received: by mail-wm1-x344.google.com with SMTP id d207so3459539wmd.0
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 02:43:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=t4a6EitklfM4cMKqe/aAP3h1iETuRVqtm3hsYTtBiuU=;
+ b=sGzcUUxUlBwP+Atztv2tuMGB294MenhhBhfl8WJhdYAvcCuyK9DFol6/OPAY91Scur
+ E8gQeVmT3mVm3kNbzSxXzVJcO/7vNYLrkNpfgdNWW/W2sxvPj6EAWJE2+mBmoRd4s5qL
+ CovAw9970TbcFJmcVL8jbxoeMFFNSkxo3dRR4jWLgOkUx4BB4+7ROZg/KNmuemij6rs1
+ S+AYgsdDLqyj9cvLbLuJtXrSI+9cubqJ5D1zn4zsIdOWFqjC70Axw3B2U1wKb0sr+6hP
+ /8So0VhhYgU/rjFlzGIpNzq9UDpLGME3fId2sXCyLS1IHpZH5Ce3WHmpf6mt+kQ6+1MG
+ Yd/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=t4a6EitklfM4cMKqe/aAP3h1iETuRVqtm3hsYTtBiuU=;
+ b=oB7Foxx8+xHPPHCb1LYuDpcOe/mSxXHxYHkkyPMlwPMeAdlNSUx2hLwODoFLP7gU5Q
+ Vz0cuGtnuMbzS/pOWBF7gr7C9q/UYoew/rYGEQbnio9yjuggSuFXooPJoWrtnXcBPY07
+ kbMADwN2TauUEkfryqXQhvGZPgY66UQK7ttoNXzbuZvWLs2yNSzZRoDmSqGjAiO83nKn
+ Pe1dJXqioWx+r4wHAbVo3caewnoj/F4H9AjzhHRE16p7hhGLFuwTIMuHUir/5KgX3OXy
+ OsU00ht/1HzSqJxQquNeaM1Rlueb1D7D18PCfPtndxJaePeqktftJ0u1p37kJtwx7rdJ
+ o53A==
+X-Gm-Message-State: AGi0PubxQjm4qdKqQ2SdeUi+NvIgtZXBP/qY3EHxh46gLY8vy+IRI8mq
+ WApoDTe+cSaR/5j52G8fA7sjo8AxFM5ZBY9dCJ0=
+X-Google-Smtp-Source: APiQypJuXvq+WR2jguMuGT2dPIG5P4XGKx4u5yCPkU3F0ac569+VG25GY8UZpw98ZQAzaxvVdFmHgerQBzGal2x4ICw=
+X-Received: by 2002:a7b:c74d:: with SMTP id w13mr29543340wmk.36.1589190204661; 
+ Mon, 11 May 2020 02:43:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
-X-Rspamd-Queue-Id: 61813BE4F7
-X-Rspamd-Score: -0.81 / 15.00 / 200.00
-Received-SPF: none client-ip=80.241.57.33;
- envelope-from=Dmitry.Sepp@opensynergy.com; helo=plasma4.jpberlin.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 05:40:32
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20200510210128.18343-1-f4bug@amsat.org>
+In-Reply-To: <20200510210128.18343-1-f4bug@amsat.org>
+From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Date: Mon, 11 May 2020 11:43:11 +0200
+Message-ID: <CAHiYmc6mKVgNAkW4wG7_hcjiF6u_9odJA-fOOk0Z-ZvviXb4Xw@mail.gmail.com>
+Subject: Re: [PATCH 00/12] hw/mips/fuloong2e: PoC to fix hang after reboot
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 11 May 2020 10:09:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,53 +80,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Huacai Chen <chenhuacai@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Saket and all,
+=D0=BD=D0=B5=D0=B4, 10. =D0=BC=D0=B0=D1=98 2020. =D1=83 23:01 Philippe Math=
+ieu-Daud=C3=A9 <f4bug@amsat.org> =D1=98=D0=B5
+=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
+>
+> The PMON firmware behave differently regarding it is run
+> after a cold/warm reset. A simple bit flip fix the issue,
+> however we need to know the type of reset to set it.
+> Currently QEMU only supports COLD reset.
+>
+> This series contains various of my current Fuloong queue,
+> - Welcome Huacai Chen as co-maintainer,
+> - Fix typo in machine name,
+> - Few cleanups in Bonito64,
+> - Report various Bonito64 accesses as UNIMP,
+> - Proof-of-concept fix for the reset bit.
+>
+> The last patch is not for merging, but is included to see
+> if the Multi-phase reset mechanism can fix the problem.
+>
 
-As we are working with automotive platforms, unfortunately we don't plan any 
-Qemu reference implementation so far.
+Perhaps you can change the title of the series in its next version to:
 
-Of course we are ready to support the community if any help is needed. Is 
-there interest in support for the FWHT format only for testing purpose or you 
-want a full-featured implementation on the QEMU side?
+target/mips: Fuloong2e and ither mips fixes and improvements
 
-Please note that the spec is not finalized yet and a major update is now 
-discussed with upstream and the Chrome OS team, which is also interested and 
-deeply involved in the process. The update mostly implies some rewording and 
-reorganization of data structures, but for sure will require a driver rework.
+or similar, since its scope is wider than the current title conveys.
 
-Best regards,
-Dmitry.
+Regards,
+Aleksandar
 
-On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
-> Hi,
-> 
-> As suggested on #qemu-devel IRC channel, I am including virtio-dev, Gerd and
-> Michael to point in the right direction how to move forward with Qemu
-> support for Virtio Video V4L2 driver
-> posted in [1].
-> 
-> [1]: https://patchwork.linuxtv.org/patch/61717/
-> 
+
+
 > Regards,
-> Saket Sinha
-> 
-> On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com> wrote:
-> > Hi ,
-> > 
-> > This is to inquire about Qemu support for Virtio Video V4L2 driver
-> > posted in [1].
-> > I am currently not aware of any upstream effort for Qemu reference
-> > implementation and would like to discuss how to proceed with the same.
-> > 
-> > [1]: https://patchwork.linuxtv.org/patch/61717/
-> > 
-> > Regards,
-> > Saket Sinha
-
-
+>
+> Phil.
+>
+> Huacai Chen (1):
+>   MAINTAINERS: Add Huacai Chen as fuloong2e co-maintainer
+>
+> Philippe Mathieu-Daud=C3=A9 (11):
+>   hw/mips/fuloong2e: Rename PMON BIOS name
+>   hw/mips/fuloong2e: Move code and update a comment
+>   hw/mips/fuloong2e: Fix typo in Fuloong machine name
+>   hw/pci-host: Use CONFIG_PCI_BONITO to select the Bonito North Bridge
+>   hw/pci-host/bonito: Fix DPRINTF() format strings
+>   hw/pci-host/bonito: Map peripheral using physical address
+>   hw/pci-host/bonito: Map all the Bonito64 I/O range
+>   hw/pci-host/bonito: Map the different PCI ranges more detailled
+>   hw/pci-host/bonito: Better describe the I/O CS regions
+>   hw/pci-host/bonito: Set the Config register reset value with
+>     FIELD_DP32
+>   POC hw/pci-host/bonito: Fix BONGENCFG value after a warm-reset
+>
+>  docs/system/target-mips.rst              |  2 +-
+>  default-configs/mips64el-softmmu.mak     |  2 +-
+>  hw/isa/vt82c686.c                        |  2 +-
+>  hw/mips/{mips_fulong2e.c =3D> fuloong2e.c} | 41 +++++------
+>  hw/pci-host/bonito.c                     | 92 +++++++++++++++++++-----
+>  tests/qtest/endianness-test.c            |  2 +-
+>  MAINTAINERS                              |  6 +-
+>  hw/mips/Kconfig                          |  3 +-
+>  hw/mips/Makefile.objs                    |  2 +-
+>  hw/pci-host/Kconfig                      |  5 ++
+>  hw/pci-host/Makefile.objs                |  2 +-
+>  11 files changed, 114 insertions(+), 45 deletions(-)
+>  rename hw/mips/{mips_fulong2e.c =3D> fuloong2e.c} (91%)
+>
+> --
+> 2.21.3
+>
 
