@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F431CDCD3
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:15:25 +0200 (CEST)
-Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5991CD8E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 13:51:05 +0200 (CEST)
+Received: from localhost ([::1]:47440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9DI-0005Ox-8J
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:15:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60582)
+	id 1jY6xa-00034D-Si
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 07:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keiichiw@chromium.org>)
- id 1jY6wP-0001js-4b
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:49:49 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:45907)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <keiichiw@chromium.org>)
- id 1jY6wN-0003uU-P0
- for qemu-devel@nongnu.org; Mon, 11 May 2020 07:49:48 -0400
-Received: by mail-lf1-x143.google.com with SMTP id a4so7222716lfh.12
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 04:49:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B21F7CiOg+DDDaqcnQJW0RYfm2fpIW2cEenamiuDnaA=;
- b=A53Unz8Owy5JTyr9M5bWp9gLHNtWnSvJtGt1v6oqr3IeXsxJ0ugGzoCAjVun/M/448
- mYD/I+0FPQMyINWyPxjg898kLjLdGFL2kILNGhDnTlefdcj34ZjP1MJpzch+FlY+yW79
- 6X+0zmCJbzk0LggSaFKu/+39KHg4CtDlf/hqg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B21F7CiOg+DDDaqcnQJW0RYfm2fpIW2cEenamiuDnaA=;
- b=CL3nR+7xkDVWGdCOfcGKss6VSSqFiXtufN+uV7J7uXjQ9mQw9bwjL/lSls2vPsetm/
- OBjN8cJxl/OQ+Cv4PyaeMt9bUHNoKg4Rd3V1nuRIpuPJ1/4CRJaZWp9ht8vttB0MK+as
- epO9NxM0UyL/e0YeXhYhCQZ8ylRTZGTe+WrkY8r61gsBNmsCYjCV1W9cBp92NUDjL1f5
- owwWSdyq4VKOSZMYpEwI0FPGdkp/DlHT396teOdAME1rfbnRRASVv5uiSYRFt2ngovTO
- c0pGmCgy/gej58l8VVHlPyRfhvpTya1o41OVugVHomnlwTYIS/465Nrjr2phC5bW7P5+
- nEmA==
-X-Gm-Message-State: AOAM530YV8lulACcQhPcksEVFACfa16cmPoP6ZpAaKVJ0GI0EXuyX1RP
- +572CefdpolQzRufml58hDaNQqK1S/tn2w/hOniEeg==
-X-Google-Smtp-Source: ABdhPJy2dm/OSzYbLWWpaDMwsa/U0AXERYmQvZeMpWlmx2lpQWzJ5BXYK0R27wI7E9fHJmoZpAWuq7QjCsf4UJPK3RE=
-X-Received: by 2002:a19:6b13:: with SMTP id d19mr11026821lfa.126.1589197785384; 
- Mon, 11 May 2020 04:49:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jY6wc-00025k-3n
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:50:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:30363
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jY6wa-0003wZ-RZ
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 07:50:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589197799;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=B8ykmCM5GNjMyOxqSH/uXv/i3smxyZJTAq66DErhu9g=;
+ b=N6fiAJXdwpz4CBbE0mJMfIyc2E0EVmF0TwNcSQr+perpV/DvrCeBdyHyuTnqPa5KGeVMd+
+ Ru92h6nhHvfdf09VTjorcphNclpm/as2McvYuZp+ivSJ4VdnjqV8t6kJQNyorcnRA4bZ9I
+ BqvxwIeEbi8dDiWwA8TC9pG5gkHufB4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-kxPKXkzqNk2i2RCDlgH1Gw-1; Mon, 11 May 2020 07:49:57 -0400
+X-MC-Unique: kxPKXkzqNk2i2RCDlgH1Gw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1998F460;
+ Mon, 11 May 2020 11:49:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 706965D788;
+ Mon, 11 May 2020 11:49:50 +0000 (UTC)
+Date: Mon, 11 May 2020 12:49:47 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
+ hanging qemu
+Message-ID: <20200511114947.GJ1135885@redhat.com>
+References: <cover.1589193717.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
- <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
- <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
- <2515515.r9knKAEANn@os-lin-dmo>
-In-Reply-To: <2515515.r9knKAEANn@os-lin-dmo>
-From: Keiichi Watanabe <keiichiw@chromium.org>
-Date: Mon, 11 May 2020 20:49:33 +0900
-Message-ID: <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
-To: Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::143;
- envelope-from=keiichiw@chromium.org; helo=mail-lf1-x143.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+In-Reply-To: <cover.1589193717.git.lukasstraub2@web.de>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 11 May 2020 10:09:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,177 +80,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
- virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
- Kiran Pawar <Kiran.Pawar@opensynergy.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Tomasz Figa <tfiga@chromium.org>, Saket Sinha <saket.sinha89@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Pawel Osciak <posciak@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Mon, May 11, 2020 at 01:14:34PM +0200, Lukas Straub wrote:
+> Hello Everyone,
+> In many cases, if qemu has a network connection (qmp, migration, chardev, etc.)
+> to some other server and that server dies or hangs, qemu hangs too.
 
-Thanks Saket for your feedback. As Dmitry mentioned, we're focusing on
-video encoding and decoding, not camera. So, my reply was about how to
-implement paravirtualized video codec devices.
+If qemu as a whole hangs due to a stalled network connection, that is a
+bug in QEMU that we should be fixing IMHO. QEMU should be doing non-blocking
+I/O in general, such that if the network connection or remote server stalls,
+we simply stop sending I/O - we shouldn't ever hang the QEMU process or main
+loop.
 
-On Mon, May 11, 2020 at 8:25 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
->
-> Hi Saket,
->
-> On Montag, 11. Mai 2020 13:05:53 CEST Saket Sinha wrote:
-> > Hi Keiichi,
-> >
-> > I do not support the approach of  QEMU implementation forwarding
-> > requests to the host's vicodec module since  this can limit the scope
-> > of the virtio-video device only for testing,
->
-> That was my understanding as well.
+There are places in QEMU code which are not well behaved in this respect,
+but many are, and others are getting fixed where found to be important.
 
-Not really because the API which the vicodec provides is V4L2 stateful
-decoder interface [1], which are also used by other video drivers on
-Linux.
-The difference between vicodec and actual device drivers is that
-vicodec performs decoding in the kernel space without using special
-video devices. In other words, vicodec is a software decoder in kernel
-space which provides the same interface with actual video drivers.
-Thus, if the QEMU implementation can forward virtio-video requests to
-vicodec, it can forward them to the actual V4L2 video decoder devices
-as well and VM gets access to a paravirtualized video device.
+Arguably any place in QEMU code which can result in a hang of QEMU in the
+event of a stalled network should be considered a security flaw, because
+the network is untrusted in general.
 
-The reason why we discussed vicodec in the previous thread was it'll
-allow us to test the virtio-video driver without hardware requirement.
+> These patches introduce the new 'yank' out-of-band qmp command to recover from
+> these kinds of hangs. The different subsystems register callbacks which get
+> executed with the yank command. For example the callback can shutdown() a
+> socket. This is intended for the colo use-case, but it can be used for other
+> things too of course.
 
-[1] https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
+IIUC, invoking the "yank" command unconditionally kills every single
+network connection in QEMU that has registered with the "yank" subsystem.
+IMHO this is way too big of a hammer, even if we accept there are bugs in
+QEMU not handling stalled networking well.
 
->
-> > which instead can be used with multiple use cases such as -
-> >
-> > 1. VM gets access to paravirtualized  camera devices which shares the
-> > video frames input through actual HW camera attached to Host.
->
-> This use-case is out of the scope of virtio-video. Initially I had a plan to
-> support capture-only streams like camera as well, but later the decision was
-> made upstream that camera should be implemented as separate device type. We
-> still plan to implement a simple frame capture capability as a downstream
-> patch though.
->
-> >
-> > 2. If Host has multiple video devices (especially in ARM SOCs over
-> > MIPI interfaces or USB), different VM can be started or hotplugged
-> > with selective video streams from actual HW video devices.
->
-> We do support this in our device implementation. But spec in general has no
-> requirements or instructions regarding this. And it is in fact flexible enough
-> to provide abstraction on top of several HW devices.
->
-> >
-> > Also instead of using libraries like Gstreamer in Host userspace, they
-> > can also be used inside the VM userspace after getting access to
-> > paravirtualized HW camera devices .
+eg if a chardev hangs QEMU, and we tear down everything, killing the NBD
+connection used for the guest disk, we needlessly break I/O.
 
-Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
-can translate virtio-video requests to this API, we can easily support
-multiple platforms.
-I'm not sure how feasible it is though, as I have no experience of
-using this API by myself...
+eg doing this in the chardev backend is not desirable, because the bugs
+with hanging QEMU are typically caused by the way the frontend device
+uses the chardev blocking I/O calls, instead of non-blocking I/O calls.
 
-[2] https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
 
-Best regards,
-Keiichi
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-> >
->
-> Regarding the cameras, unfortunately same as above.
->
-> Best regards,
-> Dmitry.
->
-> > Regards,
-> > Saket Sinha
-> >
-> > On Mon, May 11, 2020 at 12:20 PM Keiichi Watanabe <keiichiw@chromium.org>
-> wrote:
-> > > Hi Dmitry,
-> > >
-> > > On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> wrote:
-> > > > Hi Saket and all,
-> > > >
-> > > > As we are working with automotive platforms, unfortunately we don't plan
-> > > > any Qemu reference implementation so far.
-> > > >
-> > > > Of course we are ready to support the community if any help is needed.
-> > > > Is
-> > > > there interest in support for the FWHT format only for testing purpose
-> > > > or you want a full-featured implementation on the QEMU side?
-> > >
-> > > I guess we don't need to implement the codec algorithm in QEMU.
-> > > Rather, QEMU forwards virtio-video requests to the host video device
-> > > or a software library such as GStreamer or ffmpeg.
-> > > So, what we need to implement in QEMU is a kind of API translation,
-> > > which shouldn't care about actual video formats so much.
-> > >
-> > > Regarding the FWHT format discussed in the patch thread [1], in my
-> > > understanding, Hans suggested to have QEMU implementation forwarding
-> > > requests to the host's vicodec module [2].
-> > > Then, we'll be able to test the virtio-video driver on QEMU on Linux
-> > > even if the host Linux has no hardware video decoder.
-> > > (Please correct me if I'm wrong.)
-> > >
-> > > Let me add Hans and Linux media ML in CC.
-> > >
-> > > [1]  https://patchwork.linuxtv.org/patch/61717/
-> > > [2] https://lwn.net/Articles/760650/
-> > >
-> > > Best regards,
-> > > Keiichi
-> > >
-> > > > Please note that the spec is not finalized yet and a major update is now
-> > > > discussed with upstream and the Chrome OS team, which is also interested
-> > > > and deeply involved in the process. The update mostly implies some
-> > > > rewording and reorganization of data structures, but for sure will
-> > > > require a driver rework.
-> > > >
-> > > > Best regards,
-> > > > Dmitry.
-> > > >
-> > > > On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
-> > > > > Hi,
-> > > > >
-> > > > > As suggested on #qemu-devel IRC channel, I am including virtio-dev,
-> > > > > Gerd and Michael to point in the right direction how to move forward
-> > > > > with Qemu support for Virtio Video V4L2 driver
-> > > > > posted in [1].
-> > > > >
-> > > > > [1]: https://patchwork.linuxtv.org/patch/61717/
-> > > > >
-> > > > > Regards,
-> > > > > Saket Sinha
-> > > > >
-> > > > > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com>
-> wrote:
-> > > > > > Hi ,
-> > > > > >
-> > > > > > This is to inquire about Qemu support for Virtio Video V4L2 driver
-> > > > > > posted in [1].
-> > > > > > I am currently not aware of any upstream effort for Qemu reference
-> > > > > > implementation and would like to discuss how to proceed with the
-> > > > > > same.
-> > > > > >
-> > > > > > [1]: https://patchwork.linuxtv.org/patch/61717/
-> > > > > >
-> > > > > > Regards,
-> > > > > > Saket Sinha
-> > > >
-> > > > ---------------------------------------------------------------------
-> > > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> > > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
->
->
 
