@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9C81CD97E
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:17:46 +0200 (CEST)
-Received: from localhost ([::1]:45920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB821CD97F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:18:56 +0200 (CEST)
+Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY7NR-0002nQ-9g
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:17:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36116)
+	id 1jY7OZ-0004HJ-94
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY7Mb-0002Mw-TR
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:16:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:56517
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jY7NC-0002yC-4t
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:17:30 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59787
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY7Ma-0001B2-In
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:16:53 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jY7N9-0001KI-V9
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:17:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589199410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1589199446;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ydObYYo+WSc1BrntvPtq3Ig3E9a4zFFsz6Ri/slbRiw=;
- b=Tmn+/V/jg5Wa7XFaHFHsrMfxkGmrk6gusxYobutiDkqYJ/mclcnbufPniwBtAM1rl/jpaA
- uyD1sdOwkSUqnxXlx7boFxIVg4scONuQ/11NS0ngWG3tj9zRDN3jOOGBuWbcZMTi0fxlW9
- TT/Y8/i8HnZq8k506NFj6yx6+da0bf8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-RFuTHpw6MKeCbjIQpYrzbQ-1; Mon, 11 May 2020 08:16:49 -0400
-X-MC-Unique: RFuTHpw6MKeCbjIQpYrzbQ-1
-Received: by mail-wr1-f72.google.com with SMTP id j16so5141000wrw.20
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 05:16:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ydObYYo+WSc1BrntvPtq3Ig3E9a4zFFsz6Ri/slbRiw=;
- b=AtqOy3+jhIIXyOjc4h8TnBrdp7OsYxc8l/GUF+TsUvvpc8TMINawgPqtcNnoU8y8NN
- 1EZQ1J8FiPDivtup6+G2Y3y0UQzU4f306CxLMsbxDRJ2SA8jcD8WYwoL6GffGO81rdXq
- U9k9pCXRNJLBm/AhvpO/aUuEEDWcnCrcp7mXaEBx8mVjNX2YFuvyHwi+1W8q2i+yROeu
- WoQ5+fHfZQAsCnN1TM6EkdoSaf70qWEWN8Z+clf9ZK1VSHJCf3A41xWE/MeLEfdvZMvb
- MkaZ3MpFuYPTPNn5m4R1WiO3FYZy79ug71y/vNlhBBZEGi7uci1kQpXWaxfWOE7pnZNK
- UwSQ==
-X-Gm-Message-State: AGi0PuYwod26quD9/Fh1TLog4XX04YnyJOQ2JSEBuzMrd6yFBkyGry/Z
- IFYpTqdzulSN2JaUEH2BJNyU08ehvmeGWJ/jG+pwOHHWn4Xh8yMjHL9WDeTmRpjmez41NYe5tJq
- mpTg+dZxtW2NBOI0=
-X-Received: by 2002:a7b:c766:: with SMTP id x6mr32408388wmk.142.1589199408345; 
- Mon, 11 May 2020 05:16:48 -0700 (PDT)
-X-Google-Smtp-Source: APiQypL7V6x64lZd7N/I0nSiOAhrBuczOZIRH3EXfW0xuLrW81nLeZapCa4OkIV90JTTczNJDRrmcQ==
-X-Received: by 2002:a7b:c766:: with SMTP id x6mr32408370wmk.142.1589199408134; 
- Mon, 11 May 2020 05:16:48 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id p8sm22309123wma.45.2020.05.11.05.16.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 May 2020 05:16:47 -0700 (PDT)
-Subject: Re: [PATCH v1 4/7] accel/tcg: don't disable exec_tb trace events
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200501145713.19822-1-alex.bennee@linaro.org>
- <20200501145713.19822-5-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0f053652-d269-f47a-d5e2-dc07c169c96e@redhat.com>
-Date: Mon, 11 May 2020 14:16:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ bh=I4dodrFkm7W23QcCiM2XgZ4yQUtn5VFbzMjDR0gce5c=;
+ b=I2gspClLbaOBURhgTFAzzYwBe8YrD1nGqvgnKpKslqQyIIHjSkQSF0www25a5Yey1fiMGq
+ vBfUdUxJEuvcF+jqDMBEfdWPtQof0ih7pf4tfHteoTed6sxZzFdbPAxGf0YAfWGurc5n77
+ OOdhgjHl5pwcCjEkASEPfFSh7OgqVDY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-310-LK4EOlMoM-qJh58IWW22zA-1; Mon, 11 May 2020 08:17:24 -0400
+X-MC-Unique: LK4EOlMoM-qJh58IWW22zA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2152819200C4;
+ Mon, 11 May 2020 12:17:23 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B59C760621;
+ Mon, 11 May 2020 12:17:16 +0000 (UTC)
+Date: Mon, 11 May 2020 13:17:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
+ hanging qemu
+Message-ID: <20200511121714.GL1135885@redhat.com>
+References: <cover.1589193717.git.lukasstraub2@web.de>
+ <20200511114947.GJ1135885@redhat.com>
+ <20200511120718.GD2811@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20200501145713.19822-5-alex.bennee@linaro.org>
-Content-Language: en-US
+In-Reply-To: <20200511120718.GD2811@work-vm>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,42 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, riku.voipio@iki.fi,
- richard.henderson@linaro.org, laurent@vivier.eu,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/1/20 4:57 PM, Alex Bennée wrote:
-> I doubt the well predicted trace event check is particularly special in
-> the grand context of TCG code execution.
+On Mon, May 11, 2020 at 01:07:18PM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > On Mon, May 11, 2020 at 01:14:34PM +0200, Lukas Straub wrote:
+> > > Hello Everyone,
+> > > In many cases, if qemu has a network connection (qmp, migration, chardev, etc.)
+> > > to some other server and that server dies or hangs, qemu hangs too.
+> > 
+> > If qemu as a whole hangs due to a stalled network connection, that is a
+> > bug in QEMU that we should be fixing IMHO. QEMU should be doing non-blocking
+> > I/O in general, such that if the network connection or remote server stalls,
+> > we simply stop sending I/O - we shouldn't ever hang the QEMU process or main
+> > loop.
+> > 
+> > There are places in QEMU code which are not well behaved in this respect,
+> > but many are, and others are getting fixed where found to be important.
+> > 
+> > Arguably any place in QEMU code which can result in a hang of QEMU in the
+> > event of a stalled network should be considered a security flaw, because
+> > the network is untrusted in general.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   accel/tcg/trace-events | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/accel/tcg/trace-events b/accel/tcg/trace-events
-> index 01852217a6..385b9f749b 100644
-> --- a/accel/tcg/trace-events
-> +++ b/accel/tcg/trace-events
-> @@ -1,10 +1,10 @@
->   # See docs/devel/tracing.txt for syntax documentation.
->   
-> -# TCG related tracing (mostly disabled by default)
-> +# TCG related tracing
->   # cpu-exec.c
-> -disable exec_tb(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
-> -disable exec_tb_nocache(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
-> -disable exec_tb_exit(void *last_tb, unsigned int flags) "tb:%p flags=0x%x"
-> +exec_tb(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
-> +exec_tb_nocache(void *tb, uintptr_t pc) "tb:%p pc=0x%"PRIxPTR
-> +exec_tb_exit(void *last_tb, unsigned int flags) "tb:%p flags=0x%x"
->   
->   # translate-all.c
->   translate_block(void *tb, uintptr_t pc, uint8_t *tb_code) "tb:%p, pc:0x%"PRIxPTR", tb_code:%p"
-> 
+> That's not really true of the 'management network' - people trust that
+> and I don't see a lot of the qemu code getting fixed safely for all of
+> them.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+It depends on the user / app / deployment scenario. In OpenStack alot of
+work was done to beef up security between services on the mgmt network,
+with TLS encryption as standard to reduce attack vectors.
+
+> > > These patches introduce the new 'yank' out-of-band qmp command to recover from
+> > > these kinds of hangs. The different subsystems register callbacks which get
+> > > executed with the yank command. For example the callback can shutdown() a
+> > > socket. This is intended for the colo use-case, but it can be used for other
+> > > things too of course.
+> > 
+> > IIUC, invoking the "yank" command unconditionally kills every single
+> > network connection in QEMU that has registered with the "yank" subsystem.
+> > IMHO this is way too big of a hammer, even if we accept there are bugs in
+> > QEMU not handling stalled networking well.
+> 
+> But isn't this hammer conditional - I see that it's a migration
+> capabiltiy for the migration socket, and a flag in nbd - so it only
+> yanks things you've told it to.
+
+IIUC, you have to set these flags upfront when you launch QEMU, or
+hotplug the device using the feature. When something gets stuck,
+and you issue the "yank" command, then everything that has the flag
+enabled gets torn down. So in practice it looks like the flag will
+get enabled for everything at QEMU startup, and yanking down tear
+down everything.
+
+> > eg if a chardev hangs QEMU, and we tear down everything, killing the NBD
+> > connection used for the guest disk, we needlessly break I/O.
+> > 
+> > eg doing this in the chardev backend is not desirable, because the bugs
+> > with hanging QEMU are typically caused by the way the frontend device
+> > uses the chardev blocking I/O calls, instead of non-blocking I/O calls.
+> > 
+> 
+> Having a way to get out of any of these problems from a single point is
+> quite nice.  To be useful in COLO you need to know for sure you can get
+> out of any network screwup.
+> 
+> We already use shutdown(2) in migrate_cancel and migrate-pause for
+> basically the same reason; I don't think we've got anything similar for
+> NBD, and we probably should have (I think I asked for it fairly
+> recently).
+
+Yes, the migrate_cancel is an example of a more fine grained way to
+recover. I was thinking that we need an equivalent fine control knob
+for NBD too.
+
+That way if QEMU does get stuck, you can start by tearing down the
+least distruptive channel. eg try tearing down the migration connection
+first (which shouldn't negatively impact the guest), and only if that
+doesn't work then, move on to tear down the NBD connection (which risks
+data loss)
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
