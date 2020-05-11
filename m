@@ -2,139 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C3A1CDDBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:54:03 +0200 (CEST)
-Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8567D1CDDE8
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:57:52 +0200 (CEST)
+Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9og-00054r-Kq
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33994)
+	id 1jY9sN-0006PK-Kc
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jY9la-0000ny-IF; Mon, 11 May 2020 10:50:50 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jY9lZ-0000Ea-CZ; Mon, 11 May 2020 10:50:50 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04BE2NDs037747; Mon, 11 May 2020 10:50:47 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30wrvnys9r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 May 2020 10:50:47 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04BE2x6I041013;
- Mon, 11 May 2020 10:50:46 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 30wrvnys8m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 May 2020 10:50:46 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04BElB67009119;
- Mon, 11 May 2020 14:50:43 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma04ams.nl.ibm.com with ESMTP id 30wm55ckmx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 May 2020 14:50:43 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04BEoeoD44564494
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 May 2020 14:50:40 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C9E834C044;
- Mon, 11 May 2020 14:50:40 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 323C74C040;
- Mon, 11 May 2020 14:50:40 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.145.161.199])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 11 May 2020 14:50:40 +0000 (GMT)
-Subject: Re: [PATCH v1 2/8] s390/sclp: check sccb len before filling in data
-To: David Hildenbrand <david@redhat.com>,
- Collin Walling <walling@linux.ibm.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20200508230823.22956-1-walling@linux.ibm.com>
- <20200508230823.22956-3-walling@linux.ibm.com>
- <58bc496c-28bb-26f8-ab46-aba6ad141717@linux.ibm.com>
- <737869a8-13b2-1831-00c6-629d5a109d9c@redhat.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Autocrypt: addr=frankja@linux.ibm.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <05ab2e59-10c0-c7df-c014-b54883ddccd3@linux.ibm.com>
-Date: Mon, 11 May 2020 16:50:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <737869a8-13b2-1831-00c6-629d5a109d9c@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="uyRh5iRtajxEbzc5Uh5T8nwh8V6FqXdJj"
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-11_06:2020-05-11,
- 2020-05-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 suspectscore=0
- mlxscore=0 bulkscore=0 malwarescore=0 adultscore=0 phishscore=0
- mlxlogscore=999 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2003020000 definitions=main-2005110112
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 10:37:41
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+ (Exim 4.90_1) (envelope-from <geert@linux-m68k.org>)
+ id 1jY9nu-0004wl-SD
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:17 -0400
+Received: from baptiste.telenet-ops.be ([2a02:1800:120:4::f00:13]:59818)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <geert@linux-m68k.org>)
+ id 1jY9ns-0000dQ-UQ
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:14 -0400
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:702c:fb99:3097:2049])
+ by baptiste.telenet-ops.be with bizsmtp
+ id dSsy2200D0GoAb601SsyU4; Mon, 11 May 2020 16:53:08 +0200
+Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1jY9nd-00082a-WB; Mon, 11 May 2020 16:52:58 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1jY9nd-0005zP-TZ; Mon, 11 May 2020 16:52:57 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Harish Jenny K N <harish_kandiga@mentor.com>,
+ Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: [PATCH v7 0/6] gpio: Add GPIO Aggregator
+Date: Mon, 11 May 2020 16:52:51 +0200
+Message-Id: <20200511145257.22970-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2a02:1800:120:4::f00:13;
+ envelope-from=geert@linux-m68k.org; helo=baptiste.telenet-ops.be
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,75 +60,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, cohuck@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, svens@linux.ibm.com, pbonzini@redhat.com,
- mihajlov@linux.ibm.com, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
+ Marc Zyngier <marc.zyngier@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Alexander Graf <graf@amazon.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Phil Reid <preid@electromag.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---uyRh5iRtajxEbzc5Uh5T8nwh8V6FqXdJj
-Content-Type: multipart/mixed; boundary="LI8D56ZQPz5GLmgfgaCGi3gxMbKz4nMio"
+	Hi all,
 
---LI8D56ZQPz5GLmgfgaCGi3gxMbKz4nMio
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+GPIO controllers are exported to userspace using /dev/gpiochip*
+character devices.  Access control to these devices is provided by
+standard UNIX file system permissions, on an all-or-nothing basis:
+either a GPIO controller is accessible for a user, or it is not.
+Currently no mechanism exists to control access to individual GPIOs.
 
-On 5/11/20 4:44 PM, David Hildenbrand wrote:
-> On 11.05.20 16:36, Janosch Frank wrote:
->> On 5/9/20 1:08 AM, Collin Walling wrote:
->>> The SCCB must be checked for a sufficient length before it is filled
->>> with any data. If the length is insufficient, then the SCLP command
->>> is suppressed and the proper response code is set in the SCCB header.=
+Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+them as a new gpiochip.  This is useful for implementing access control,
+and assigning a set of GPIOs to a specific user.  Furthermore, this
+simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+can just grab the full GPIO controller, and no longer needs to care
+about which GPIOs to grab and which not, reducing the attack surface.
+This has been implemented for ARM virt in QEMU[1].
 
->>>
->>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
->>
->> Fixes tag?
->> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
->=20
-> This is not a fix AFAIKs.
-> sclp_service_call()/sclp_service_call_protected() always supplies a ful=
-l
-> SCCB of exactly 4k size.
->=20
+Recently, other use cases have been discovered[2], like describing
+simple GPIO-operated devices in DT, and using the GPIO Aggregator as a
+generic GPIO driver for userspace, which is useful for industrial
+control.
 
-We don't check for QEMU's 4k buffer here, but for the length that was
-specified by the guest.
+Note that the first patch of this series ("i2c: i801: Use GPIO_LOOKUP()
+helper macro") has been applied to i2c/for-next.
 
-It's valid for the guest to request cpu info and state that its buffer
-is only 1k. We can't write everything in 1k if we have ~200 cpus, so
-we'll report the insufficient length rc.
+Changes compared to v6[3]:
+  - Document non-uniqueness of line names,
+  - Rebase on top of commit a0b66a73785ccc8f ("gpio: Rename variable in
+    core APIs"),
+  - Maintained => Supported,
+  - Add Reviewed-by, Acked-by,
+  - Drop applied patches:
+      - "ARM: integrator: impd1: Use GPIO_LOOKUP() helper macro",
+      - "gpiolib: Introduce gpiod_set_config()".
 
-What he fixes here is the time of the length check, it should be done
-before any changes are being done to the work_sccb.
+Changes compared to v5[4]:
+  - Convert raw gpiod_lookup users to GPIO_LOOKUP*(),
+  - Update Documentation/driver-api/gpio/board.rst for gpiod_lookup
+    changes,
+  - Reword rationale behing looking up GPIOs by line name,
+  - Introduce gpiod_set_config(),
+  - Use gpiod_to_chip() instead of open-coding,
+  - Drop debug print of gpio_desc.label, as it usually points to the
+    GPIO Aggregator itself,
+  - Drop no longer needed #include "gpiolib.h",
+  - Fix missing offset translation in gpio_fwd_set_config(),
+  - Fix "allows" without object,
+  - Drop "gpiochipN" support,
+  - Extend example.
 
+Changes compared to v4[5]:
+  - Add Reviewed-by, Tested-by,
+  - Fix inconsistent indentation in documentation.
 
---LI8D56ZQPz5GLmgfgaCGi3gxMbKz4nMio--
+Changes compared to v3[6] (more details in the individual patches):
+  - Drop controversial GPIO repeater,
+  - Drop support for legacy sysfs interface based name matching,
+  - Drop applied "gpiolib: Add GPIOCHIP_NAME definition",
+  - Documentation improvements,
+  - Lots of small cleanups.
 
---uyRh5iRtajxEbzc5Uh5T8nwh8V6FqXdJj
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Changes compared to v2[7] (more details in the individual patches):
+  - Integrate GPIO Repeater functionality,
+  - Absorb GPIO forwarder library, as the Aggregator and Repeater are
+    now a single driver,
+  - Use the aggregator parameters to create a GPIO lookup table instead
+    of an array of GPIO descriptors,
+  - Add documentation,
+  - New patches:
+      - "gpiolib: Add GPIOCHIP_NAME definition",
+      - "gpiolib: Add support for gpiochipN-based table lookup",
+      - "gpiolib: Add support for GPIO line table lookup",
+      - "dt-bindings: gpio: Add gpio-repeater bindings",
+      - "docs: gpio: Add GPIO Aggregator/Repeater documentation",
+      - "MAINTAINERS: Add GPIO Aggregator/Repeater section".
+  - Dropped patches:
+      - "gpio: Export gpiod_{request,free}() to modular GPIO code",
+      - "gpio: Export gpiochip_get_desc() to modular GPIO code",
+      - "gpio: Export gpio_name_to_desc() to modular GPIO code",
+      - "gpio: Add GPIO Forwarder Helper".
 
------BEGIN PGP SIGNATURE-----
+Changes compared to v1[8]:
+  - Drop "virtual", rename to gpio-aggregator,
+  - Create and use new GPIO Forwarder Helper, to allow sharing code with
+    the GPIO inverter,
+  - Lift limit on the maximum number of GPIOs,
+  - Improve parsing of GPIO specifiers,
+  - Fix modular build.
 
-iQIzBAEBCAAdFiEEwGNS88vfc9+v45Yq41TmuOI4ufgFAl65Zj8ACgkQ41TmuOI4
-ufgbnRAAsuUZyuqQDdefZZMkPlE4ves510zxcWIi29Z9Q2Z1OZ3g0S2jXIMLxyuf
-ANx7g3nMM0id5QqaP3V4sG12vaR8Y/bbCPtzy5w62lBZ8iEnILLVgpq74mqcCUAs
-X/o4WfpKpQC3ejCvHLDSbjBfmqqzBKgj7zurd0n/F1nO3y3McMW0Z1iku5hkzKAa
-u7P1qSyfyQszntiUabwjgkZ32eZJx7wiJsGbwKKEsoUj9VhP+Os3qHq8Bcp1nZbD
-Y+Fgn03pnv75irxmkXx+HGanmgEsqByWhESKv8Y8mILekK4kh98kZ3bow0iOcjmW
-n6dYJ0uhqVW3mQrsYv0bLx7XoTtnmAupIpEurt1YLsZP0GCaCT7Kq0oX8ywhyyT+
-5mwl2JYCXSbR+7cVaipoW+WIJllxEtaeOAcPSwRksiScJ7idgWzlcfD9cdNNXIoc
-35c3Z9jBJW8pg0KvuylVGK6tVujxsr5JQ7X8Qri3CO7ySNtwVjGsyF5nMjbfc5aC
-t4FQfdZ+Hs2oA24UQdaR5jQvQPyp3Qnk97g6vPZMJbuAZjwMQ/mYhGxCk+VRCafg
-u5dgJ1gJ8y+Bb9FsPl1NLrsZgZ/qAq7Lcn1/m3JbmLU7uFJfXTo0FFhilajJjEgP
-+f4+XCmDAHtSp+mZsu+nhBl5otXriXcZvGZG1GRaBxIsFVl7AHU=
-=QSru
------END PGP SIGNATURE-----
+Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+response to my proof-of-concept for GPIO virtualization with QEMU[9][10].
 
---uyRh5iRtajxEbzc5Uh5T8nwh8V6FqXdJj--
+For the first use case, aggregated GPIO controllers are instantiated and
+destroyed by writing to atribute files in sysfs.
+Sample session on the Renesas Koelsch development board:
 
+  - Unbind LEDs from leds-gpio driver:
+
+        echo leds > /sys/bus/platform/drivers/leds-gpio/unbind
+
+  - Create aggregators:
+
+    $ echo e6052000.gpio 19,20 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator gpio-aggregator.0: gpio 0 => gpio-953
+    gpio-aggregator gpio-aggregator.0: gpio 1 => gpio-954
+    gpiochip_find_base: found new base at 758
+    gpio gpiochip12: (gpio-aggregator.0): added GPIO chardev (254:13)
+    gpiochip_setup_dev: registered GPIOs 758 to 759 on device: gpiochip12 (gpio-aggregator.0)
+
+    $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator gpio-aggregator.1: gpio 0 => gpio-955
+    gpio-aggregator gpio-aggregator.1: gpio 1 => gpio-1012
+    gpio-aggregator gpio-aggregator.1: gpio 2 => gpio-1013
+    gpio-aggregator gpio-aggregator.1: gpio 3 => gpio-1014
+    gpiochip_find_base: found new base at 754
+    gpio gpiochip13: (gpio-aggregator.1): added GPIO chardev (254:13)
+    gpiochip_setup_dev: registered GPIOs 754 to 757 on device: gpiochip13 (gpio-aggregator.1)
+
+  - Adjust permissions on /dev/gpiochip1[23] (optional)
+
+  - Control LEDs:
+
+    $ gpioset gpiochip12 0=0 1=1 # LED6 OFF, LED7 ON
+    $ gpioset gpiochip12 0=1 1=0 # LED6 ON, LED7 OFF
+    $ gpioset gpiochip13 0=1     # LED8 ON
+    $ gpioset gpiochip13 0=0     # LED8 OFF
+
+  - Destroy aggregators:
+
+    $ echo gpio-aggregator.0 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+    $ echo gpio-aggregator.1 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+
+To ease testing, I have pushed this series to the
+topic/gpio-aggregator-v7 branch of my renesas-drivers repository at
+git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
+
+Thanks!
+
+References:
+  [1] "[PATCH QEMU v2 0/5] Add a GPIO backend"
+      (https://lore.kernel.org/linux-gpio/20200423090118.11199-1-geert+renesas@glider.be/)
+  [2] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+      (https://lore.kernel.org/r/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/)
+  [3] "[PATCH v6 0/8] gpio: Add GPIO Aggregator"
+      (https://lore.kernel.org/linux-doc/20200324135328.5796-1-geert+renesas@glider.be/)
+  [4] "[PATCH v5 0/5] gpio: Add GPIO Aggregator"
+      (https://lore.kernel.org/r/20200218151812.7816-1-geert+renesas@glider.be/)
+  [5] "[PATCH v4 0/5] gpio: Add GPIO Aggregator"
+      (https://lore.kernel.org/r/20200115181523.23556-1-geert+renesas@glider.be)
+  [6] "[PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater"
+      (https://lore.kernel.org/r/20191127084253.16356-1-geert+renesas@glider.be/)
+  [7] "[PATCH/RFC v2 0/5] gpio: Add GPIO Aggregator Driver"
+      (https://lore.kernel.org/r/20190911143858.13024-1-geert+renesas@glider.be/)
+  [8] "[PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver"
+      (https://lore.kernel.org/r/20190705160536.12047-1-geert+renesas@glider.be/)
+  [9] "[PATCH QEMU POC] Add a GPIO backend"
+      (https://lore.kernel.org/r/20181003152521.23144-1-geert+renesas@glider.be/)
+ [10] "Getting To Blinky: Virt Edition / Making device pass-through
+       work on embedded ARM"
+      (https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
+
+Geert Uytterhoeven (6):
+  i2c: i801: Use GPIO_LOOKUP() helper macro
+  mfd: sm501: Use GPIO_LOOKUP_IDX() helper macro
+  gpiolib: Add support for GPIO lookup by line name
+  gpio: Add GPIO Aggregator
+  docs: gpio: Add GPIO Aggregator documentation
+  MAINTAINERS: Add GPIO Aggregator section
+
+ .../admin-guide/gpio/gpio-aggregator.rst      | 111 ++++
+ Documentation/admin-guide/gpio/index.rst      |   1 +
+ Documentation/driver-api/gpio/board.rst       |  15 +-
+ MAINTAINERS                                   |   7 +
+ drivers/gpio/Kconfig                          |  12 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-aggregator.c                | 568 ++++++++++++++++++
+ drivers/gpio/gpiolib.c                        |  22 +-
+ drivers/i2c/busses/i2c-i801.c                 |   6 +-
+ drivers/mfd/sm501.c                           |  24 +-
+ include/linux/gpio/machine.h                  |  17 +-
+ 11 files changed, 748 insertions(+), 36 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+ create mode 100644 drivers/gpio/gpio-aggregator.c
+
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
