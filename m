@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C0C1CCF44
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:47:12 +0200 (CEST)
-Received: from localhost ([::1]:52762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD751CD013
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 05:02:48 +0200 (CEST)
+Received: from localhost ([::1]:53778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXxXD-0004a1-47
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:47:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60658)
+	id 1jXyiM-0002Tx-Rb
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 23:02:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jXxUx-00011G-2D; Sun, 10 May 2020 21:44:51 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59963 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jXyh8-0001Yr-Dd
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 23:01:30 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:57295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jXxUw-0000hu-7I; Sun, 10 May 2020 21:44:50 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49L3dh35scz9sT8; Mon, 11 May 2020 11:44:40 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1589161480;
- bh=/7FsHhkawjvfdMokDx3DZ7Cgr6EHPs5i4fUjg30RaPc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZoU/FHOtHzNIgU7ce04m0HPG48EQPTVSfB8Ku14/FSu+yH9TD2XqCdF58+pwoHjKx
- L27RFbzN2RjxINo7NDkkcRYwpGaxZQtWcVNRFE2eYgkP5dRBDM9cuCmxPeoXLq2Q9h
- zQD36rQ3YdULKr+en2kpMskJTW8KUc2xpM4tQjSg=
-Date: Mon, 11 May 2020 11:44:26 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 0/6] target/ppc: Various clean-up and fixes for radix64
-Message-ID: <20200511014426.GO2183@umbus.fritz.box>
-References: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jXyh7-00009e-0e
+ for qemu-devel@nongnu.org; Sun, 10 May 2020 23:01:29 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 04B2xuj8018668
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Sun, 10 May 2020 23:00:00 -0400
+Date: Sun, 10 May 2020 22:59:56 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: Assertion Failure in virtio_net_reset
+Message-ID: <20200511025956.uojost3s6vxcecdf@mozz.bu.edu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="V7BlxAaPrdhzdIM1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 23:01:23
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,49 +56,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: jasowang@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
+While fuzzing, I found an input that triggers an assertion failure in
+virtio-net.c:
 
---V7BlxAaPrdhzdIM1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+hw/net/virtio-net.c:533: void virtio_net_reset(VirtIODevice *): Assertion `=
+!virtio_net_get_subqueue(nc)->async_tx.elem' failed.
 
-On Thu, May 07, 2020 at 07:26:32PM +0200, Greg Kurz wrote:
-> First three patches of this series are simple cleanups. The other
-> ones fix some regressions introduced by Cedric's recent addition
-> of partition-scoped translation.
+#9 0x55a33fa31b78 in virtio_net_reset hw/net/virtio-net.c:533:13
+#10 0x55a33fc88412 in virtio_reset hw/virtio/virtio.c:1919:9
+#11 0x55a341d82764 in virtio_bus_reset hw/virtio/virtio-bus.c:95:9
+#12 0x55a341dba2de in virtio_pci_reset hw/virtio/virtio-pci.c:1824:5
+#13 0x55a341db3e02 in virtio_pci_common_write hw/virtio/virtio-pci.c:1252:13
+#14 0x55a33f62117b in memory_region_write_accessor memory.c:496:5
+#15 0x55a33f6205e4 in access_with_adjusted_size memory.c:557:18
+#16 0x55a33f61e177 in memory_region_dispatch_write memory.c:1488:16
 
-1-5/6 applied to ppc-for-5.1.  I have some comments on 6/6.
+I can reproduce it in a qemu 5.0 build using:
+cat << EOF | qemu-system-i386 -M pc-q35-5.0 -netdev user,id=3Dqtest-bn0 -de=
+vice virtio-net-pci,netdev=3Dqtest-bn0 -display none -nodefaults -nographic=
+ -qtest stdio
+outl 0xcf8 0x80000820
+outl 0xcfc 0xe0004000
+outl 0xcf8 0x80000824
+outl 0xcfc 0xc021
+outl 0xcf8 0x80000804
+outw 0xcfc 0x7
+outl 0xcf8 0x8000089a
+write 0xc021e0004016 0x16 0x0100000000ff4f000100cd003d00000000000000f600
+write 0x3d00d8 0xae 0x0100007a000a00000000000d00840100007a000a00000000000f0=
+0840100007a000a00000000001100840100007a000a00000000001300840100007a000a0000=
+0000001500840100007a000a00000000001700840100007a000a00000000001900840100007=
+a000a00000000001b00840100007a000a00000000001d00840100007a000a00000000001f00=
+840100007a000a00000000002100840100007a000a00000000002300840100007a000a
+write 0xf60002 0x7 0x0a00000000000b
+write 0xc021e0004014 0x9 0x95a4b3c2d1e0effe0d
+write 0xc021e0004014 0x2a3 0x0000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+000000000000000000000000000000000000000000000000000000000000000000000000000=
+00000000000000000000000000000
+EOF
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+I also uploaded the above trace, in case the formatting is broken:
 
---V7BlxAaPrdhzdIM1
-Content-Type: application/pgp-signature; name="signature.asc"
+curl https://paste.debian.net/plain/1146086 | qemu-system-i386 -M pc-q35-5.=
+0 -netdev user,id=3Dqtest-bn0 -device virtio-net-pci,netdev=3Dqtest-bn0 -di=
+splay none -nodefaults -nographic -qtest stdio
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl64rfoACgkQbDjKyiDZ
-s5K1JQ//cLhnHEUENptW8ZLFvbJBMpfmGdnETLEaqkKBQYuz/Ig4ubnnfCV/bVeX
-/MldAuQSxCKaNqGSq3sDeN8PdkAopK+JWRQlI+2yHVB2Ns5prytEStrz61BIk87o
-ARswTUqpL8jr6vZkeBICSSkBYaYMgRfM27HqTMrABfFnJ2AwwP2JsRX/unOR3yji
-F07RDRDNsAtSg9ctfYdWpdiLwA0I2eUx/T5ZbX1CvJOvVGuSVqclt5WCjRefnc2o
-vadg5UvSmykriNLmo1iOsgzqHuUZoMdihLRfS7hACrYrdB9d0gC5WYhq3mIiC1lU
-WedfGnh2y/oPMGf0pxTA3XE37kNoVI9H4ULdrHIR2X7N/HXYPe8kEd1IhoEfhObF
-APp4Sipj0r10kQDE5KArAl7Cz2Mbw3CPZ6c1Wez/CCNSCh+8Te5AFis0zYJLfV4H
-KhKsAfqVfP/Dr/vuPHDAG7D2T+BtjivRQjKX8CTk1WVYLY7uZWcBQTYfZSJmU6Ab
-V15k3ZQgLJeqpo3rOMVs5dBCcTE6PRAgTgiu8tMnyAVUOiA9NnK+aElm9j7EDDt5
-+QjGHaSWwwpdFaUiJnc3cDulQNttzmWRM329ZKidl4gge9c9c4GbfvYI6RcZe106
-ezmOttAZDtEWOPMrHwcHdUQP5p2dG6iIfUpGIaBdPAvTgkMJ9pU=
-=K6qW
------END PGP SIGNATURE-----
-
---V7BlxAaPrdhzdIM1--
+Please let me know if I can provide any further info.
+-Alex
 
