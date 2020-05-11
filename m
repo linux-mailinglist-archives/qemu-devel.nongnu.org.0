@@ -2,78 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098341CD5BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:56:11 +0200 (CEST)
-Received: from localhost ([::1]:50256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6991CD5C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:58:18 +0200 (CEST)
+Received: from localhost ([::1]:55770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY5AQ-0003QH-4U
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43450)
+	id 1jY5CS-0005x3-Bk
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:58:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jY58t-00022q-Jr; Mon, 11 May 2020 05:54:35 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:38728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jY58s-00057Q-Aw; Mon, 11 May 2020 05:54:35 -0400
-Received: by mail-lj1-x243.google.com with SMTP id e25so8757572ljg.5;
- Mon, 11 May 2020 02:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=tiyyfkVX+Vv+hcjnSdTeDu1LOtGQ32sOhl+9tc0AzN0=;
- b=fMKMwzHKAL+cC6GYL7w6Jo1hhb5zYEWOu+Hm1gsRT7aE0QuTlXpXlcee6I1vIfHTZC
- Vo9VeSvSNJboZSAY84hXz1eBveXwKvejjHIovRw4E9UfTyYUg71VuDjwlGLgEGTSpzey
- gcCq7dQYd/ajywcWswVmaM5wJQSPlaC4vZTjAmuEVpU5L83wA3QvdbZMz8izaqS5NSTm
- oofor2fr+mK8xGjfS7pD7W4SNCyqQdNEB4eWGL+hLA7IQg4UbP2qqb7gMdvDlICBAqFs
- zW7MSa0A1LOrKMzwxLhYfNPT4H0V3Gf4h4sUii3tJFgofR40LLf6Q3o+UA9GeDOw8op9
- sqUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=tiyyfkVX+Vv+hcjnSdTeDu1LOtGQ32sOhl+9tc0AzN0=;
- b=WEPW0aSCwLU83LGS3fa2z9m74sg/lmQSoYb/v6UHHZwODAW59gGPDM0phRW4tikb8e
- yxN65x9cMhIXE+vsZvA7ovCupP6pdLYmbxeKlO0/CoUqhASEYqtB385GckZbp/TJFLrK
- FZ7uyhhVhQiqMwGXDF9V/5lHaCH8fUdAnRo6Z1sPOrzPZigh/ksVRnTnKmCKGHtmNm2J
- T2O2a+ZhaEtyRk2LgnYaQQM+o4ZYCKLrNLh5SwTuVcmtXASd4tDA0MqUyveY49c5WRXC
- MiP+jvqOy1+jCfc/vIfin9DMxm0rXu82K+DDv7LRmXfJcYdf7oP9pNeQNlKSyIR5rCk8
- 9PJw==
-X-Gm-Message-State: AOAM532o4zcFMw/qreivL4hVqtq8c1i0Moq3VmnhebzE5nargEAuVRqt
- 9k2T008lN7OogSe14m0Lahg=
-X-Google-Smtp-Source: ABdhPJz+MtRuntfrRkEMQVanEs2Ehicxuu4xy5lCw5aWu+zWimC9nOZPengQVdTQtuxI9wjfgHFNyQ==
-X-Received: by 2002:a2e:6e13:: with SMTP id j19mr9855811ljc.292.1589190871093; 
- Mon, 11 May 2020 02:54:31 -0700 (PDT)
-Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id s7sm10412923lfb.40.2020.05.11.02.54.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 02:54:29 -0700 (PDT)
-Date: Mon, 11 May 2020 11:54:13 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 02/11] sysemu/accel: Restrict machine methods to
- system-mode
-Message-ID: <20200511095413.GS5519@toto>
-References: <20200509130910.26335-1-f4bug@amsat.org>
- <20200509130910.26335-3-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jY5BW-0004n6-2i
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:57:18 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55044
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1jY5BU-0005cv-Ae
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:57:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589191035;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=LlhRH0nNaQzZoRjFY0ytvrJDl+/Gm/wchCeLvqa20lM=;
+ b=TsC5gwo5BXtp80G9vu824/YepWwuDVHDIchj0xabdZV9RHlkEW33Lw+Ah+FZoR3jI1nJ+s
+ T+c8BQLIBPqoDisAxJEh9FJExpYqm68Ayy2rC4kXJzpUbn724gppsBY6P98neRQblOO5YO
+ Yk9j984SZbKJn0iFmswdk9TDpBuxySA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-SvP_IWOBMBadWHOtHNv79w-1; Mon, 11 May 2020 05:57:13 -0400
+X-MC-Unique: SvP_IWOBMBadWHOtHNv79w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F8AB8014C0;
+ Mon, 11 May 2020 09:57:12 +0000 (UTC)
+Received: from [10.36.114.224] (ovpn-114-224.ams2.redhat.com [10.36.114.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DAE3060C05;
+ Mon, 11 May 2020 09:57:11 +0000 (UTC)
+Subject: Re: [PATCH 1/3] tcg/s390: Change FACILITY representation
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20200508155745.8223-1-richard.henderson@linaro.org>
+ <20200508155745.8223-2-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+ mQINBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABtCREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT6JAlgEEwEIAEICGwMFCQlmAYAGCwkIBwMCBhUI
+ AgkKCwQWAgMBAh4BAheAFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl3pImkCGQEACgkQTd4Q
+ 9wD/g1o+VA//SFvIHUAvul05u6wKv/pIR6aICPdpF9EIgEU448g+7FfDgQwcEny1pbEzAmiw
+ zAXIQ9H0NZh96lcq+yDLtONnXk/bEYWHHUA014A1wqcYNRY8RvY1+eVHb0uu0KYQoXkzvu+s
+ Dncuguk470XPnscL27hs8PgOP6QjG4jt75K2LfZ0eAqTOUCZTJxA8A7E9+XTYuU0hs7QVrWJ
+ jQdFxQbRMrYz7uP8KmTK9/Cnvqehgl4EzyRaZppshruKMeyheBgvgJd5On1wWq4ZUV5PFM4x
+ II3QbD3EJfWbaJMR55jI9dMFa+vK7MFz3rhWOkEx/QR959lfdRSTXdxs8V3zDvChcmRVGN8U
+ Vo93d1YNtWnA9w6oCW1dnDZ4kgQZZSBIjp6iHcA08apzh7DPi08jL7M9UQByeYGr8KuR4i6e
+ RZI6xhlZerUScVzn35ONwOC91VdYiQgjemiVLq1WDDZ3B7DIzUZ4RQTOaIWdtXBWb8zWakt/
+ ztGhsx0e39Gvt3391O1PgcA7ilhvqrBPemJrlb9xSPPRbaNAW39P8ws/UJnzSJqnHMVxbRZC
+ Am4add/SM+OCP0w3xYss1jy9T+XdZa0lhUvJfLy7tNcjVG/sxkBXOaSC24MFPuwnoC9WvCVQ
+ ZBxouph3kqc4Dt5X1EeXVLeba+466P1fe1rC8MbcwDkoUo65Ag0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAGJAiUEGAECAA8FAlXLn5ECGwwFCQlmAYAACgkQTd4Q
+ 9wD/g1qA6w/+M+ggFv+JdVsz5+ZIc6MSyGUozASX+bmIuPeIecc9UsFRatc91LuJCKMkD9Uv
+ GOcWSeFpLrSGRQ1Z7EMzFVU//qVs6uzhsNk0RYMyS0B6oloW3FpyQ+zOVylFWQCzoyyf227y
+ GW8HnXunJSC+4PtlL2AY4yZjAVAPLK2l6mhgClVXTQ/S7cBoTQKP+jvVJOoYkpnFxWE9pn4t
+ H5QIFk7Ip8TKr5k3fXVWk4lnUi9MTF/5L/mWqdyIO1s7cjharQCstfWCzWrVeVctpVoDfJWp
+ 4LwTuQ5yEM2KcPeElLg5fR7WB2zH97oI6/Ko2DlovmfQqXh9xWozQt0iGy5tWzh6I0JrlcxJ
+ ileZWLccC4XKD1037Hy2FLAjzfoWgwBLA6ULu0exOOdIa58H4PsXtkFPrUF980EEibUp0zFz
+ GotRVekFAceUaRvAj7dh76cToeZkfsjAvBVb4COXuhgX6N4pofgNkW2AtgYu1nUsPAo+NftU
+ CxrhjHtLn4QEBpkbErnXQyMjHpIatlYGutVMS91XTQXYydCh5crMPs7hYVsvnmGHIaB9ZMfB
+ njnuI31KBiLUks+paRkHQlFcgS2N3gkRBzH7xSZ+t7Re3jvXdXEzKBbQ+dC3lpJB0wPnyMcX
+ FOTT3aZT7IgePkt5iC/BKBk3hqKteTnJFeVIT7EC+a6YUFg=
+Organization: Red Hat GmbH
+Message-ID: <149809ef-baee-b254-b228-39affba92373@redhat.com>
+Date: Mon, 11 May 2020 11:57:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200509130910.26335-3-f4bug@amsat.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200508155745.8223-2-richard.henderson@linaro.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=david@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,57 +125,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Marek Vasut <marex@denx.de>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 09, 2020 at 03:09:01PM +0200, Philippe Mathieu-Daudé wrote:
-> Restrict init_machine(), setup_post() and has_memory()
-> to system-mode.
-
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-
+On 08.05.20 17:57, Richard Henderson wrote:
+> We will shortly need to be able to check facilities
+> beyond the first 64.  Instead of explicitly masking
+> against s390_facilities, create a FACILITY macro
+> that indexes an array.
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/sysemu/accel.h | 2 ++
->  1 file changed, 2 insertions(+)
+>  tcg/s390/tcg-target.h     | 29 ++++++++-------
+>  tcg/s390/tcg-target.inc.c | 74 +++++++++++++++++++--------------------
+>  2 files changed, 52 insertions(+), 51 deletions(-)
 > 
-> diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
-> index 47e5788530..e08b8ab8fa 100644
-> --- a/include/sysemu/accel.h
-> +++ b/include/sysemu/accel.h
-> @@ -37,10 +37,12 @@ typedef struct AccelClass {
->      /*< public >*/
+> diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
+> index 07accabbd1..7ca48457ff 100644
+> --- a/tcg/s390/tcg-target.h
+> +++ b/tcg/s390/tcg-target.h
+> @@ -52,16 +52,19 @@ typedef enum TCGReg {
+>  /* A list of relevant facilities used by this translator.  Some of these
+>     are required for proper operation, and these are checked at startup.  */
 >  
->      const char *name;
-> +#ifndef CONFIG_USER_ONLY
->      int (*init_machine)(MachineState *ms);
->      void (*setup_post)(MachineState *ms, AccelState *accel);
->      bool (*has_memory)(MachineState *ms, AddressSpace *as,
->                         hwaddr start_addr, hwaddr size);
-> +#endif
->      bool *allowed;
->      /*
->       * Array of global properties that would be applied when specific
-> -- 
-> 2.21.3
-> 
+> -#define FACILITY_ZARCH_ACTIVE         (1ULL << (63 - 2))
+> -#define FACILITY_LONG_DISP            (1ULL << (63 - 18))
+> -#define FACILITY_EXT_IMM              (1ULL << (63 - 21))
+> -#define FACILITY_GEN_INST_EXT         (1ULL << (63 - 34))
+> -#define FACILITY_LOAD_ON_COND         (1ULL << (63 - 45))
+> +#define FACILITY_ZARCH_ACTIVE         2
+> +#define FACILITY_LONG_DISP            18
+> +#define FACILITY_EXT_IMM              21
+> +#define FACILITY_GEN_INST_EXT         34
+> +#define FACILITY_LOAD_ON_COND         45
+>  #define FACILITY_FAST_BCR_SER         FACILITY_LOAD_ON_COND
+>  #define FACILITY_DISTINCT_OPS         FACILITY_LOAD_ON_COND
+> -#define FACILITY_LOAD_ON_COND2        (1ULL << (63 - 53))
+> +#define FACILITY_LOAD_ON_COND2        53
+>  
+> -extern uint64_t s390_facilities;
+> +extern uint64_t s390_facilities[1];
+> +
+> +#define FACILITY(X) \
+> +    ((s390_facilities[FACILITY_##X / 64] >> (63 - FACILITY_##X % 64)) & 1)
+
+I'd have named this "HAVE_FACILITY" or similar.
+
+Apart from that, looks good
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
