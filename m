@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2E01CDA78
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:51:54 +0200 (CEST)
-Received: from localhost ([::1]:43574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C981CDADA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:12:28 +0200 (CEST)
+Received: from localhost ([::1]:51116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY7uS-0006mG-M1
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:51:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41068)
+	id 1jY8EM-0006DD-MX
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:12:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jY7tP-0005w9-Qq
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:50:47 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28824
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jY7tO-0002Px-C7
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:50:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589201444;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aYA6ol9GjahMSUrpPJDAht23k9a8XUsjnG4cH8LJjno=;
- b=DUwvuoeYRh4gENqEs4h4yf0hsP5a06Q3pSH23WzOBW714qTWLN86kxow17gyIUbyUrN/A9
- sK1W1G4CXpjxK+uz98jNpiWhvgwOHePi5+nzGMPQShQgczn7WXy2/j47dseP0J8IYgZA+Q
- 1QCnjeo202vOw/RJ+lgK5c/rAS5fTmk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-2hbqwTU2OkqeKiSpm2LdDg-1; Mon, 11 May 2020 08:50:42 -0400
-X-MC-Unique: 2hbqwTU2OkqeKiSpm2LdDg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4928A100CCA4;
- Mon, 11 May 2020 12:50:40 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-142.ams2.redhat.com [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D516D619BF;
- Mon, 11 May 2020 12:50:12 +0000 (UTC)
-Date: Mon, 11 May 2020 14:50:11 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v5 00/18] nvme: refactoring and cleanups
-Message-ID: <20200511125011.GD5661@linux.fritz.box>
-References: <20200505054840.186586-1-its@irrelevant.dk>
- <20200511062513.3axdfcmr4izulv5x@apples.localdomain>
- <095f3c9b-5b32-7a88-03e9-ca993ca3f3c9@redhat.com>
- <20200511070936.fxarxicz7zrj6mop@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <amanieu@gmail.com>)
+ id 1jY8DU-0005eS-LV; Mon, 11 May 2020 09:11:32 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <amanieu@gmail.com>)
+ id 1jY8DT-00017X-Uz; Mon, 11 May 2020 09:11:32 -0400
+Received: by mail-wm1-x342.google.com with SMTP id d207so3904014wmd.0;
+ Mon, 11 May 2020 06:11:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qV+WPsyPxR6+lt2ti2yn0mOEjpo225y5D7KTke+SxoI=;
+ b=EbL09V9B/eLfPenF2TnjUhuEkhV+qymLv3U7PpNKuamXivLL5QDmRIdlUKgYRrI5fQ
+ SkzE+PSWvkeEdhA5bsVkuAzQigpQE3hjbGBjZV0S9VanIW0FKscmM5EDnfyy5AjfGe1T
+ U20hKxdbWYgrNY6/nKvxU9jiL75kKVI2yPgbqIrnMNs8etHFLpysxjw4czh25V1TU4St
+ rNhi9VgmC07CJaclTm6BEp5JYdrnQbS3WzL9IH0I1qLCz4BemGAd3cM5cB9ikxfkvy6Z
+ QL1WvxYGNqOpdwMS2Q3azQ5CNqcWXCxG4HOmQnXU4eMTU9w2oAyKdkiOMShE3udJkTvn
+ lqsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qV+WPsyPxR6+lt2ti2yn0mOEjpo225y5D7KTke+SxoI=;
+ b=sHbpTUWlZz0+aj71B42V1JV+AnjpAyofTo6MjOHzsfFXEmhIva+Tx/RKh151Su+WwH
+ k6Aa3Rv5xYF6e35+bK4Yyv2G6xkckSMX/oNP6KLHRpWSk7wfzKkwZPn0ckHZzZ7UEs6d
+ 0gekZ4m5n/tLC1p+7CicHiQmEEVnLf7QzvnaaqQFiiFDFMnSUgSui5ajc0JnMygtRVQ1
+ S3vl1IVWmNK/5J35D3R/aYa1pFz3vQz2exvxVFfG62X01jJIxGaHsDyxrChb4dgtJCEK
+ GRez7oBBVyW3bSzHfgSH82Uwm6WNO7o+I/7qiGEkLjgpLTi7y4b8/C6KslVKw8gH1syi
+ bjrQ==
+X-Gm-Message-State: AGi0PubiRChtmLihQ+UmM24pfO1XjqXWtv1XuE6R+A3lhK0hu+ui+89s
+ WbFxXKJgqX9ivRkISvdFaH6V5TCnt4g=
+X-Google-Smtp-Source: APiQypKQ4qH2xPrj8fLnpWSk0Lnt+EbFXPgwlcG1BEFj4f0fs0Ee/wxBuE0Zc5wBBvNkQSbyxjzNPA==
+X-Received: by 2002:a1c:7e82:: with SMTP id z124mr23960192wmc.53.1589202688548; 
+ Mon, 11 May 2020 06:11:28 -0700 (PDT)
+Received: from amanieu-laptop.home ([2a00:23c6:f081:f801:76b2:7504:9791:6959])
+ by smtp.gmail.com with ESMTPSA id
+ a7sm25831081wmj.12.2020.05.11.06.11.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 06:11:27 -0700 (PDT)
+From: Amanieu d'Antras <amanieu@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user/arm: Reset CPSR_E when entering a signal handler
+Date: Mon, 11 May 2020 14:11:17 +0100
+Message-Id: <20200511131117.2486486-1-amanieu@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200511070936.fxarxicz7zrj6mop@apples.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=amanieu@gmail.com; helo=mail-wm1-x342.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,69 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beata Michalska <beata.michalska@linaro.org>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+ qemu-arm@nongnu.org, Amanieu d'Antras <amanieu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.05.2020 um 09:09 hat Klaus Jensen geschrieben:
-> On May 11 09:00, Philippe Mathieu-Daudé wrote:
-> > Hi Klaus,
-> > 
-> > On 5/11/20 8:25 AM, Klaus Jensen wrote:
-> > > On May  5 07:48, Klaus Jensen wrote:
-> > > > From: Klaus Jensen <k.jensen@samsung.com>
-> > > > 
-> > > > Changes since v5
-> > > > ~~~~~~~~~~~~~~~~
-> > > > No functional changes, just updated Reviewed-by tags. Also, I screwed up
-> > > > the CC list when sending v4.
-> > > > 
-> > > > Philippe and Keith, please add a Reviewed-by to
-> > > > 
-> > > >    * "nvme: factor out pmr setup" and
-> > > >    * "do cmb/pmr init as part of pci init"
-> > > > 
-> > > > since the first one was added and the second one was changed in v4 when
-> > > > rebasing on Kevins block-next tree which had the PMR work that was not
-> > > > in master at the time.
-> > > > 
-> > > > With those in place, it should be ready for Kevin to merge.
-> > > > 
-> > > Gentle ping on this.
-> > > 
-> > > Also, please see the two patches in "[PATCH 0/2] hw/block/nvme: fixes
-> > > for interrupt behavior". I think they should go in preparation to this
-> > > series.
-> > 
-> > I was going to ping Kevin last week, but then read your comment on pach #7
-> > "nvme: add max_ioqpairs device parameter", so I interpreted you would
-> > respin.
-> > Now it is clearer, applying in the following order you don't need to respin,
-> > right?
-> > 
-> > - [PATCH 0/2] hw/block/nvme: fixes for interrupt behavior"
-> > - [PATCH v5 00/18] nvme: refactoring and cleanups
+This fixes signal handlers running with the wrong endianness if the
+interrupted code used SETEND to dynamically switch endianness.
 
-I was waiting for the review Klaus asked for. You had a comment about
-renaming patches, but I didn't see any comments about the patches in
-question.
+Signed-off-by: Amanieu d'Antras <amanieu@gmail.com>
+---
+ linux-user/arm/signal.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-> Ugh. "[PATCH v5 00/18] nvme: refactoring and cleanups" doesn't apply
-> completely cleanly.
-> 
-> "[PATCH 0/2] hw/block/nvme: fixes for interrupt behavior" was intented
-> to go into master because it fixes a bug, that is why I split them up.
-> 
-> But looks like it is better to just roll it into this series. I'll
-> respin a v6 with the two interrupt fixes.
-
-Ok, I'll wait for that one then. I'm still not sure, though, whether I
-should then wait for additional review or just apply the patches.
-
-Kevin
+diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
+index d96fc27ce1..a475a103e9 100644
+--- a/linux-user/arm/signal.c
++++ b/linux-user/arm/signal.c
+@@ -244,6 +244,11 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
+     } else {
+         cpsr &= ~CPSR_T;
+     }
++    if (env->cp15.sctlr_el[1] & SCTLR_E0E) {
++        cpsr |= CPSR_E;
++    } else {
++        cpsr &= ~CPSR_E;
++    }
+ 
+     if (ka->sa_flags & TARGET_SA_RESTORER) {
+         if (is_fdpic) {
+@@ -287,7 +292,8 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
+     env->regs[13] = frame_addr;
+     env->regs[14] = retcode;
+     env->regs[15] = handler & (thumb ? ~1 : ~3);
+-    cpsr_write(env, cpsr, CPSR_IT | CPSR_T, CPSRWriteByInstr);
++    cpsr_write(env, cpsr, CPSR_IT | CPSR_T | CPSR_E, CPSRWriteByInstr);
++    arm_rebuild_hflags(env);
+ 
+     return 0;
+ }
+-- 
+2.26.2
 
 
