@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A6C1CE0B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:38:08 +0200 (CEST)
-Received: from localhost ([::1]:59384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E8F1CE0C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:40:06 +0200 (CEST)
+Received: from localhost ([::1]:38156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYBRP-0000GM-3P
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54742)
+	id 1jYBTJ-0003OS-MH
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:40:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYBPv-0007H6-JR
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:36:35 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:30475
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYBPu-00013M-I0
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:36:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589214992;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NRwE6/Qo8qRVVp1RfvsYsQfE87zn+GckiKfS3Igwt/E=;
- b=Ijb6W6Hb7347reG0+T5LMzi39bqkt2pZY4/++4TtwXcHMWs+LpIWwkP3aUfSz/Uumyd6G3
- prkx/8GKnvCM3S3S9r7os49EeNcpmfuS76idcs9uFy0UIMBeNNqtk7Fkyrr13eF5hdH0dN
- e9YO+YnAVSDsQpsXVqnkOhmMYJKevuU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-88oxXcLgNG-gycbPdHH93Q-1; Mon, 11 May 2020 12:36:26 -0400
-X-MC-Unique: 88oxXcLgNG-gycbPdHH93Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A59668C2CAE;
- Mon, 11 May 2020 16:35:42 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-114-142.ams2.redhat.com
- [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 813DD5C1B5;
- Mon, 11 May 2020 16:35:41 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/2] iotests: Run pylint and mypy in a testcase
-Date: Mon, 11 May 2020 18:35:29 +0200
-Message-Id: <20200511163529.349329-3-kwolf@redhat.com>
-In-Reply-To: <20200511163529.349329-1-kwolf@redhat.com>
-References: <20200511163529.349329-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jYBRZ-0001i1-TK
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:38:17 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:35220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jYBRY-0001ct-C2
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:38:17 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id ms17so8055675pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 09:38:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=+/vgPwcDENgntB+ynmCq9hgCDYeMvyd4G6CNUg+VgBY=;
+ b=lzDUNRbUKQmAEEA/WriPykkREFJfzy+iPpbLeCMl3AUHeX3SCUHtimHD8aUTGvOUJJ
+ niv/sA8KQLiNqR8hgIiQg/J+8nLLozRhNw50gnlgj6Ow9Uc8tXzrF7UOcqBD8ehQQVIM
+ bSlQhR3NBbwyZCuk43lIWkav8scXn/+MY58YXAWQjHLWrtyLCuMfzCwoUWWpgGkYmeeg
+ 0tu6vJzUBCXC/NlyGgDqIJujT0NyHhvzlXOLeekYr2ckUk+iWmnx7j8f4VwtQaF7nXjL
+ bz0bksx+MNCx/FqjIxpnMbaTE/H/8cipjiRIMNsBTBraujJgemCJ1Z/1BXHUAHjvOeYz
+ 24yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+/vgPwcDENgntB+ynmCq9hgCDYeMvyd4G6CNUg+VgBY=;
+ b=DeCZqcuahxGJluK4hpwJS3Z0MHKKvgr5mV99NIDZDXTNctfojL79/AOmoHP7qpg+1N
+ VhPQgD+cwahE/eIBKJzK+zrkz8Siuq4iXvZN+fYPLjMllk63zSLj2ruHLLzy3Xsgk2cu
+ 1pcfDy1EslPElGurA5+98PnDqFjgtPvtTRazt9hrSpnXK5QJBlRS4G2xIuIeKTh/pn1b
+ V2A+VYvDg/qlPAo/GeIhf4pRZF4WqPkCcxTdibkgGhCQ1v2tZCz7Gqnig0wQP0j2QvHX
+ oCq4QdansitY2W7nGZ/V0Kw/lNkrWLP+UvBIq5rIa+eQL3B79rxXpqcUkrTakdRVB7/2
+ AO9g==
+X-Gm-Message-State: AGi0PuZh/Ll6e/Wsw7D6Y5P+ct5Ylk9aSNhIi2WrQl5BK/2LK18rTfAi
+ z7SkUfn/lAZ2N5fpRSIOriaenpu1iqs=
+X-Google-Smtp-Source: APiQypKB3Qr3V7lt5Y+c1Rk/Pn7uAZAp/NOcO5ZM/ovorBkgmZYuDitzGV/bINzxpN79+fl1eFX5hw==
+X-Received: by 2002:a17:90a:8c83:: with SMTP id
+ b3mr23432102pjo.141.1589215094409; 
+ Mon, 11 May 2020 09:38:14 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
+ by smtp.gmail.com with ESMTPSA id y8sm9877300pfg.216.2020.05.11.09.38.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 May 2020 09:38:13 -0700 (PDT)
+Subject: Re: [PATCH 0/3] tcg/s390: Support host vector operations
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20200508155745.8223-1-richard.henderson@linaro.org>
+ <9c9ce42c-f283-67a5-194a-7d973ce9a3d2@redhat.com>
+ <253a16ad-a964-31ed-32f7-b0eb87287249@redhat.com>
+ <b93bbbfd-e363-9c40-b2d7-d2f901cc1874@linaro.org>
+ <51cf0f04-8c3f-9783-da6c-38b29ed2597f@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <59e505fa-6cc9-2ce5-7413-61fa70f1570e@linaro.org>
+Date: Mon, 11 May 2020 09:38:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+In-Reply-To: <51cf0f04-8c3f-9783-da6c-38b29ed2597f@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,97 +93,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We made sure that iotests.py passes pylint. It would be a shame if we
-allowed new patches in that break this again, so let's just add a
-meta-test case that runs pylint on it.
+On 5/11/20 8:34 AM, David Hildenbrand wrote:
+> Yes, compiles with that. Where are the arm sve tests located, so I can
+> run them? (are they in tests/tcg?)
 
-While we don't pass mypy --strict yet, we can already run it with a few
-options that would be part of --strict to make sure that we won't
-regress on these aspects at least until we can enable the full thing.
+Ah, they're risu files.  I'll find somewhere to share them.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/297     | 44 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/297.out |  3 +++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 48 insertions(+)
- create mode 100755 tests/qemu-iotests/297
- create mode 100644 tests/qemu-iotests/297.out
 
-diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-new file mode 100755
-index 0000000000..5c5420712b
---- /dev/null
-+++ b/tests/qemu-iotests/297
-@@ -0,0 +1,44 @@
-+#!/usr/bin/env bash
-+#
-+# Copyright (C) 2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+
-+seq=$(basename $0)
-+echo "QA output created by $seq"
-+
-+status=1	# failure is the default!
-+
-+# get standard environment
-+. ./common.rc
-+
-+if ! type -p "pylint-3" > /dev/null; then
-+    _notrun "pylint-3 not found"
-+fi
-+if ! type -p "mypy" > /dev/null; then
-+    _notrun "mypy not found"
-+fi
-+
-+pylint-3 --score=n iotests.py
-+
-+MYPYPATH=../../python/ mypy --warn-unused-configs --disallow-subclassing-any \
-+    --disallow-any-generics --disallow-incomplete-defs \
-+    --disallow-untyped-decorators --no-implicit-optional \
-+    --warn-redundant-casts --warn-unused-ignores \
-+    --no-implicit-reexport iotests.py
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/297.out b/tests/qemu-iotests/297.out
-new file mode 100644
-index 0000000000..6acc843649
---- /dev/null
-+++ b/tests/qemu-iotests/297.out
-@@ -0,0 +1,3 @@
-+QA output created by 297
-+Success: no issues found in 1 source file
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index fe649c5b73..c514975880 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -299,3 +299,4 @@
- 289 rw quick
- 290 rw auto quick
- 292 rw auto quick
-+297 meta
--- 
-2.25.3
-
+r~
 
