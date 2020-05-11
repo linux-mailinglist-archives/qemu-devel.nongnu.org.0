@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FEE1CD1C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:18:35 +0200 (CEST)
-Received: from localhost ([::1]:35504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC7A1CD1F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:39:46 +0200 (CEST)
+Received: from localhost ([::1]:56788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY1lr-0007Ia-2S
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43050)
+	id 1jY26L-00039E-Oy
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jY1kl-0006Mk-3e
- for qemu-devel@nongnu.org; Mon, 11 May 2020 02:17:27 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37346)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jY1kj-0001Lw-Ks
- for qemu-devel@nongnu.org; Mon, 11 May 2020 02:17:26 -0400
-Received: by mail-wr1-x441.google.com with SMTP id k1so9329519wrx.4
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 23:17:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IW3CNoM9BbFV1lTj+yq8dCxOyJZgRUinJJqVaCyzLTY=;
- b=F/9ZxAgx0eznQvGO5fNhLc5VjeHKDh74xQ7mVYcywDPXGyib3uQNCecK7U3K4AMeFA
- j0NXA52OPCFoKjArItPpXJnFFoTz9F+05xiMbhLULnFK/GoX40iKyWuOXxoN5TyBiTWh
- ABjH6zMDqrBZx20ww9HrTPp9PnVWFa6+/1YWpCyltrEFA1cftSEAPu3Kf2pEMrpXBY8I
- MmIy02x0H3xTs+cWvxi12Vz5m60drko3XqIR16P7PKGN8dnNwbzgKUzLVej3TIr4/fH5
- SNZv+x/u+h8OzkCgjxtonsinHg81f+s1xXG7yzRdwglvJazext4eWKlwQe6Ww8X5aKRw
- xRYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IW3CNoM9BbFV1lTj+yq8dCxOyJZgRUinJJqVaCyzLTY=;
- b=N+Bp5erTQoMmMaHbJYnpC1FT8hR3Yjbb9YeptyFjEFlCL3x30RoZCx0DZyPpfOMm6K
- uMDjQSdp8ggZs5yTAfU/X2JR/3YlyUR/N0rrzRhIkWe7oaxthB8A+4KVUmhDc73cz/OK
- yFragYc5gPi2xHw/m4ltm9/jEX682SKdU+GkkU9yJwCJtWMxJctt6O3EZo4C0yWaNj0d
- gLG4lWCYVh06RjlddhThXhlszn/O9n30EGPxX724+57LEaMrl6TJ0Q5SpgY+KoZaGcpE
- 2GEukhPQpP/JkNzpDEBMjRCZm1KET2DvtazaIOS/4qcd3LIxsA+o/OxxEWeNfWYNB8EG
- w6ug==
-X-Gm-Message-State: AGi0Pubza1fsZElVzBGHBb9HwIv8srfCVLh60DMos89SauMTAMhj9Dfo
- gLn5lEvfU3BcXV1RFX6X8h2GUhN95A1MgY0uYcE=
-X-Google-Smtp-Source: APiQypK0D4K9OQ61MPLPHvwiVlIa4zePrN59kgb8G7zJUWWGszGsoDJ7cbnVAbWBHG3C11Q8krqOudm0s6tZI/zxPzQ=
-X-Received: by 2002:a5d:55c5:: with SMTP id i5mr11155793wrw.402.1589177844016; 
- Sun, 10 May 2020 23:17:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jY23b-0007uU-8z; Mon, 11 May 2020 02:36:55 -0400
+Received: from ozlabs.org ([203.11.71.1]:59519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jY23Z-000744-5V; Mon, 11 May 2020 02:36:54 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49LB6k4wqbz9sT8; Mon, 11 May 2020 16:36:46 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1589179006;
+ bh=T1NDT/vJJZiLN9+DqFfiBJD8XAlVNNKrDy7TbV2ti6c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QZhc36X1fhm2uic7M08TExZiYEUqlgY+XKEvX3trMNNSvGFRANoN3L58rhhxSIm9/
+ gCO62zA/vcbgbjPwnRBTps+C1C6PnmGHYHzo4WKgJ2wZXwOlDXDmxa/K/Knk1ro/ba
+ wcKXF3S2WIRv1nQksPKiD+/YxYYqn7qsAJv01qLY=
+Date: Mon, 11 May 2020 16:17:45 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Reza Arbab <arbab@linux.ibm.com>
+Subject: Re: [PATCH] spapr: Add a new level of NUMA for GPUs
+Message-ID: <20200511061745.GP2183@umbus.fritz.box>
+References: <20200508175927.21791-1-arbab@linux.ibm.com>
 MIME-Version: 1.0
-References: <20200510210128.18343-1-f4bug@amsat.org>
- <20200510210128.18343-12-f4bug@amsat.org>
-In-Reply-To: <20200510210128.18343-12-f4bug@amsat.org>
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Date: Mon, 11 May 2020 08:17:11 +0200
-Message-ID: <CAHiYmc5xCbftuexryEkY4+1FxOWVqz-wzJN2fg_dCiif0-BhYQ@mail.gmail.com>
-Subject: Re: [PATCH 11/12] hw/pci-host/bonito: Set the Config register reset
- value with FIELD_DP32
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zn4k3Q+N5puqXur4"
+Content-Disposition: inline
+In-Reply-To: <20200508175927.21791-1-arbab@linux.ibm.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:36:48
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,93 +60,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Huacai Chen <chenhuacai@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb@linux.ibm.com>,
+ Leonardo Augusto Guimaraes Garcia <lagarcia@linux.ibm.com>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=D0=BD=D0=B5=D0=B4, 10. =D0=BC=D0=B0=D1=98 2020. =D1=83 23:01 Philippe Math=
-ieu-Daud=C3=A9 <f4bug@amsat.org> =D1=98=D0=B5
-=D0=BD=D0=B0=D0=BF=D0=B8=D1=81=D0=B0=D0=BE/=D0=BB=D0=B0:
->
-> Describe some Config registers fields with the registerfields
-> API. Use the FIELD_DP32() macro to set the BONGENCFG register
-> bits at reset.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+--zn4k3Q+N5puqXur4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 08, 2020 at 12:59:27PM -0500, Reza Arbab wrote:
+> NUMA nodes corresponding to GPU memory currently have the same
+> affinity/distance as normal memory nodes. Add a third NUMA associativity
+> reference point enabling us to give GPU nodes more distance.
+>=20
+> Before, `numactl -H` output in a guest with 4 GPUs (nodes 2-5):
+>=20
+> node distances:
+> node   0   1   2   3   4   5
+>   0:  10  40  40  40  40  40
+>   1:  40  10  40  40  40  40
+>   2:  40  40  10  40  40  40
+>   3:  40  40  40  10  40  40
+>   4:  40  40  40  40  10  40
+>   5:  40  40  40  40  40  10
+>=20
+> After:
+>=20
+> node distances:
+> node   0   1   2   3   4   5
+>   0:  10  40  80  80  80  80
+>   1:  40  10  80  80  80  80
+>   2:  80  80  10  80  80  80
+>   3:  80  80  80  10  80  80
+>   4:  80  80  80  80  10  80
+>   5:  80  80  80  80  80  10
+>=20
+> These are the same distances as on the host, mirroring the change made
+> to host firmware in skiboot commit f845a648b8cb ("numa/associativity:
+> Add a new level of NUMA for GPU's").
+
+Urgh.  I have a numnber of thoughts on this.
+
+1)
+
+This would all be much simpler, if PAPR's representation of NUMA
+distances weren't so awful.  Somehow it manages to be both so complex
+that it's very hard to understand, and yet very limited in that it
+has no way to represent distances in any absolute units, or even
+specific ratios between distances.
+
+Both qemu and the guest kernel can have an arbitrary set of nodes,
+with an arbitrary matrix of distances between each pair, which we then
+have to lossily encode into this PAPR nonsense.
+
+2)
+
+Alas, I don't think we can simply change this information.  We'll have
+to do it conditionally on a new machine type.  This is guest visible
+information, which shouldn't change under a running guest across
+migration between different qemu versions.  At least for Linux guests
+we'd probably get away with it, since I think it only reads this info
+at boot, and across a migration we'd at worst get non-optimal
+behaviour, not actual breakage.
+
+Still, I'd need a stronger case than "probably won't break" before
+breaking our rules about guest environment stability within a machine
+type.
+
+3)
+
+I'm not sure that this version is totally correct w.r.t. PAPR.  But
+then, I'm also not really sure of that for the existing version.
+Specifically it's not at all clear from PAPR if the IDs used at each
+level of the ibm,associativity need to be:
+   a) globally unique
+   b) unique only within the associativity level they appear at
+or c) unique only within the "node" at the next higher level they
+      belong to
+
+4)
+
+I'm not totally clear on the rationale for using the individual gpu's
+numa ID at all levels, rather than just one.  I'm guessing this is so
+that the gpu memory blocks are distant from each other as well as
+distant from main memory.  Is that right?
+
+> Signed-off-by: Reza Arbab <arbab@linux.ibm.com>
 > ---
->  hw/pci-host/bonito.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
->
+>  hw/ppc/spapr.c             | 6 +++++-
+>  hw/ppc/spapr_pci_nvlink2.c | 8 +++-----
+>  2 files changed, 8 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index c18eab0a2305..53567f98f0c6 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -892,7 +892,11 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
+void *fdt)
+>      int rtas;
+>      GString *hypertas =3D g_string_sized_new(256);
+>      GString *qemu_hypertas =3D g_string_sized_new(256);
+> -    uint32_t refpoints[] =3D { cpu_to_be32(0x4), cpu_to_be32(0x4) };
+> +    uint32_t refpoints[] =3D {
+> +        cpu_to_be32(0x4),
+> +        cpu_to_be32(0x4),
+> +        cpu_to_be32(0x2),
+> +    };
+>      uint64_t max_device_addr =3D MACHINE(spapr)->device_memory->base +
+>          memory_region_size(&MACHINE(spapr)->device_memory->mr);
+>      uint32_t lrdr_capacity[] =3D {
+> diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
+> index 8332d5694e46..f2cb26019e88 100644
+> --- a/hw/ppc/spapr_pci_nvlink2.c
+> +++ b/hw/ppc/spapr_pci_nvlink2.c
+> @@ -37,8 +37,6 @@
+>  #define PHANDLE_NVLINK(phb, gn, nn)  (0x00130000 | (((phb)->index) << 8)=
+ | \
+>                                       ((gn) << 4) | (nn))
+> =20
+> -#define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+> -
+>  typedef struct SpaprPhbPciNvGpuSlot {
+>          uint64_t tgt;
+>          uint64_t gpa;
+> @@ -361,9 +359,9 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *s=
+phb, void *fdt)
+>                                                      "nvlink2-mr[0]", NUL=
+L);
+>          uint32_t associativity[] =3D {
+>              cpu_to_be32(0x4),
+> -            SPAPR_GPU_NUMA_ID,
+> -            SPAPR_GPU_NUMA_ID,
+> -            SPAPR_GPU_NUMA_ID,
+> +            cpu_to_be32(nvslot->numa_id),
+> +            cpu_to_be32(nvslot->numa_id),
+> +            cpu_to_be32(nvslot->numa_id),
+>              cpu_to_be32(nvslot->numa_id)
+>          };
+>          uint64_t size =3D object_property_get_uint(nv_mrobj, "size", NUL=
+L);
 
-Some Config registers? Is there any reason not to cover all Bonito
-config registers? Or, the commit message was inprecise?
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-But, in general, I salute the intent of this patch.
+--zn4k3Q+N5puqXur4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Sincerely,
-Aleksandar
+-----BEGIN PGP SIGNATURE-----
 
-> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-> index 335c7787eb..86aceb333a 100644
-> --- a/hw/pci-host/bonito.c
-> +++ b/hw/pci-host/bonito.c
-> @@ -50,6 +50,7 @@
->  #include "sysemu/runstate.h"
->  #include "exec/address-spaces.h"
->  #include "hw/misc/unimp.h"
-> +#include "hw/registerfields.h"
->
->  /* #define DEBUG_BONITO */
->
-> @@ -112,8 +113,19 @@
->  /* Power on register */
->
->  #define BONITO_BONPONCFG        (0x00 >> 2)      /* 0x100 */
-> +
-> +/* PCI configuration register */
->  #define BONITO_BONGENCFG_OFFSET 0x4
->  #define BONITO_BONGENCFG        (BONITO_BONGENCFG_OFFSET >> 2)   /*0x104=
- */
-> +REG32(BONGENCFG,        0x104)
-> +FIELD(BONGENCFG, DEBUGMODE,      0, 1)
-> +FIELD(BONGENCFG, SNOOP,          1, 1)
-> +FIELD(BONGENCFG, CPUSELFRESET,   2, 1)
-> +FIELD(BONGENCFG, BYTESWAP,       6, 1)
-> +FIELD(BONGENCFG, UNCACHED,       7, 1)
-> +FIELD(BONGENCFG, PREFETCH,       8, 1)
-> +FIELD(BONGENCFG, WRITEBEHIND,    9, 1)
-> +FIELD(BONGENCFG, PCIQUEUE,      12, 1)
->
->  /* 2. IO & IDE configuration */
->  #define BONITO_IODEVCFG         (0x08 >> 2)      /* 0x108 */
-> @@ -577,11 +589,18 @@ static int pci_bonito_map_irq(PCIDevice *pci_dev, i=
-nt irq_num)
->  static void bonito_reset(void *opaque)
->  {
->      PCIBonitoState *s =3D opaque;
-> +    uint32_t val =3D 0;
->
->      /* set the default value of north bridge registers */
->
->      s->regs[BONITO_BONPONCFG] =3D 0xc40;
-> -    s->regs[BONITO_BONGENCFG] =3D 0x1384;
-> +    val =3D FIELD_DP32(val, BONGENCFG, PCIQUEUE, 1);
-> +    val =3D FIELD_DP32(val, BONGENCFG, WRITEBEHIND, 1);
-> +    val =3D FIELD_DP32(val, BONGENCFG, PREFETCH, 1);
-> +    val =3D FIELD_DP32(val, BONGENCFG, UNCACHED, 1);
-> +    val =3D FIELD_DP32(val, BONGENCFG, CPUSELFRESET, 1);
-> +    s->regs[BONITO_BONGENCFG] =3D val;
-> +
->      s->regs[BONITO_IODEVCFG] =3D 0x2bff8010;
->      s->regs[BONITO_SDCFG] =3D 0x255e0091;
->
-> --
-> 2.21.3
->
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl647gYACgkQbDjKyiDZ
+s5JVQxAAkWOOYDiK0vnc1Qh+2ZxiS1wshiDBBYVDbzWTc0+4cDQRe7b/NSu3DGkv
+nGZJUR/t8PS/v1echmhAoJBFm4i6tuFuBlmBra13KzJetFZKMdPJS97PoCxD2XsQ
+aua7mt5nhyYaoqUzN7Ue8XJSg6gwfy8iwPzGaX6QBwTjjNwYZtePpkxo0RLmeHHF
+epaVtf1+vErKDLbOuJLPcu2LYOaSqZ3GsacW2NjAwO7KIJ3egfKwzIY44j6OsJEL
+Y8am9iaZ27eVp0IDAxFbQnrjx/OkWiHe3sLJWXaK1F4HVgtkbL07QfwxzId4fUp0
+z5lJclfeS8lNnDA3X+CqWuGzhY/W8rb2yGoc0q0hAGZmCW0B3okgIZyeyiX1N8x1
+zlalfXB/i0gmt64XflPcAhMN7MzJU4aNfCNpvVSWXr50TJPkoHjw4tJhDeM4ZxMa
++Myds+sklOSzguYT3uQ0W1yvAazhAAJrlVCRGZBvJ17jpAB1KnjMoncpAzf+sEwG
+uuzuLQSvB5mgfDnhmorg2vi3WbjvM+ztANLNqlDo+bvkXl7489o/b9KFeAFxDnWn
+eh6fsoAQ9GHAKtt40m+kPdm9TT3dCaIyW/17Ao58fblpc9CI21EcJs03Zn/z53pY
+sgI3Ak8+KCt3RFbOy7RsRmY5WGqdDoHLsoVpQ0VepaBdPRXtN+c=
+=SiDq
+-----END PGP SIGNATURE-----
+
+--zn4k3Q+N5puqXur4--
 
