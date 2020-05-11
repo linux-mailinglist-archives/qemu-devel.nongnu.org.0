@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79301CDCBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:12:53 +0200 (CEST)
-Received: from localhost ([::1]:55294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FD81CD66D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:21:48 +0200 (CEST)
+Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9Aq-0002Go-MG
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:12:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48238)
+	id 1jY5ZD-0002Au-69
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keiichiw@chromium.org>)
- id 1jY5YL-0001Si-Iv
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jY5YM-0001Tr-5l
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:20:54 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:52601
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1jY5YL-0003SS-BT
  for qemu-devel@nongnu.org; Mon, 11 May 2020 06:20:53 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38483)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <keiichiw@chromium.org>)
- id 1jY5YJ-0003Rx-S0
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:20:53 -0400
-Received: by mail-lf1-x142.google.com with SMTP id b26so7029155lfa.5
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7l3aJuCw1ZmCkBeYJdf5n98EOG+qDwjoqW0w6aiK8Jw=;
- b=Sikc5W36ZX6VLf4vxIpmICrDhJ9qmRTG+teL0qUfwHpirI6RkJ0v/hdzb+V3cF37dh
- poqmBP9D3KmtU4xWW4uVxU1M/fLBVgjGL/GEtQNHvCviUoj0IopFFElfZVB028qoKj7i
- Ag+GhK48JROPwo+bKXsnuOf+mgnNWfkx9wMmM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7l3aJuCw1ZmCkBeYJdf5n98EOG+qDwjoqW0w6aiK8Jw=;
- b=LbMl6+jtDheATyA3IA3JI7YiMy+7wThPwl0pnVtVYfniFCMPCaCHVzN0SEvXLzLbvq
- ntPT8Sy5W1BDPK93h/MWEiAb+Yadlnsh5G08Xh12yEa9kOJ/niEEpd47kdDg/c8+93O8
- VHH6G3CLQ3x/Jq2srxWayeZyO/ibRXAFhBWfs1GZ2ofXXO+RQyiy46FQ+8EwkNoldD5w
- FKSOh/oa7/Og8ZRAA39VjGAdf/2+YPn95OzC4MFILQLi58ajNeYkASWOb/Jgln1T45r0
- qoqoIAg4TH5n0C09i0qk0vQHG3HuOkSIFJ542+iWBYfey6l6SNpxVQ8X8jz704mxvK3+
- vM0Q==
-X-Gm-Message-State: AOAM532GnzQgky577aEUbHYZU1d7mpJFAFps9smhYqx3RuGivVH/iXF5
- E/9q4xPonCXqMTCnuGNkdJ0nxjM07xiaqSYNhIVZTw==
-X-Google-Smtp-Source: ABdhPJwQliO9vuZUSjoSithFIp6Rh4GnLng2aK/kW3AYtqC4jRKZQweyrqj0jcFbUxqjG+HiYZc8QabdBuaOZVk+23w=
-X-Received: by 2002:ac2:504c:: with SMTP id a12mr10601082lfm.110.1589192449476; 
- Mon, 11 May 2020 03:20:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589192451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VjmQHhVMcUm20e38DUZZKfoXauzZsIWn3wSRQEQWl7Y=;
+ b=Wdw4SXGvwGSpJc6HCLLJ7a8n6v3EzbhQDxVCqOfGB5jtTtGCvGhoXJXr3PaI4x2FB0Cy0Z
+ W32+xl/gecNWhyUEZIMCshR7xkqqybAbxs8zBca6ByVlbOBrtefR9xsx5EI+RrqiPQyQ/Z
+ i6mcF/F+CfPcqsANuEp4m+5jcuVXib0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-372-jZ1eBfpYNQSfbWgK7i2CSw-1; Mon, 11 May 2020 06:20:49 -0400
+X-MC-Unique: jZ1eBfpYNQSfbWgK7i2CSw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27848107ACCA
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 10:20:49 +0000 (UTC)
+Received: from [10.40.192.119] (unknown [10.40.192.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 62B3F1002394;
+ Mon, 11 May 2020 10:20:43 +0000 (UTC)
+Subject: Re: device hotplug & file handles
+To: Gerd Hoffmann <kraxel@redhat.com>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org
+References: <20200507144914.4zg3753uh3kytz6g@sirius.home.kraxel.org>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <b717c50a-aea6-6da6-6d1d-ed5f559325ac@redhat.com>
+Date: Mon, 11 May 2020 12:20:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
- <CAK25hWMj5PyQFZVN5AToHjdySvi6iZ4zjZeUJQR85jNgoeLeAw@mail.gmail.com>
- <CAK25hWOPS1wGORXgtv8hUNu9-mLO+5C_k3Cj=8pnoFWmjuhJdg@mail.gmail.com>
- <2405792.XL1faGB9W5@os-lin-dmo>
-In-Reply-To: <2405792.XL1faGB9W5@os-lin-dmo>
-From: Keiichi Watanabe <keiichiw@chromium.org>
-Date: Mon, 11 May 2020 19:20:38 +0900
-Message-ID: <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
-To: Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=keiichiw@chromium.org; helo=mail-lf1-x142.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200507144914.4zg3753uh3kytz6g@sirius.home.kraxel.org>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 11 May 2020 10:09:20 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,91 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
- virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
- Kiran Pawar <Kiran.Pawar@opensynergy.com>,
- Alexandre Courbot <acourbot@chromium.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Tomasz Figa <tfiga@chromium.org>, Saket Sinha <saket.sinha89@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Pawel Osciak <posciak@chromium.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Dmitry,
+On 5/7/20 4:49 PM, Gerd Hoffmann wrote:
+>    Hi,
+> 
+> For usb device pass-through (aka -device usb-host) it would be very
+> useful to pass file handles from libvirt to qemu.  The workflow would
+> change from ...
+> 
+>    (1) libvirt enables access to /dev/usb/$bus/$dev
+>    (2) libvirt passes $bus + $dev (using hostbus + hostaddr properties)
+>        to qemu.
+>    (3) qemu opens /dev/usb/$bus/$dev
+> 
+> ... to ...
+> 
+>    (1) libvirt opens /dev/usb/$bus/$dev
+>    (2) libvirt passes filehandle to qemu.
+> 
+> Question is how can we pass the file descriptor best?  My idea would be
+> to simply add an fd property to usb-host:
+> 
+>   * Coldplug would be "-device usb-host,fd=<nr>" (cmd line).
+>   * Hotplug would be "device_add usb-host,fd=<getfd-name>" (monitor).
+> 
+> Will that work from libvirt point of view?
+> Or does anyone have an better idea?
+> 
+> thanks,
+>    Gerd
+> 
+> PS: background: https://bugzilla.redhat.com/show_bug.cgi?id=1595525
+> 
 
-On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
->
-> Hi Saket and all,
->
-> As we are working with automotive platforms, unfortunately we don't plan any
-> Qemu reference implementation so far.
->
-> Of course we are ready to support the community if any help is needed. Is
-> there interest in support for the FWHT format only for testing purpose or you
-> want a full-featured implementation on the QEMU side?
+I don't have a better idea, but a little background on why libvirt even 
+invented private /dev in the first place. The reason was that 
+occasionally, when udev ran its rules it would overwrite the security 
+labels on /dev nodes set by libvirt and thus denying access to QEMU. See:
 
-I guess we don't need to implement the codec algorithm in QEMU.
-Rather, QEMU forwards virtio-video requests to the host video device
-or a software library such as GStreamer or ffmpeg.
-So, what we need to implement in QEMU is a kind of API translation,
-which shouldn't care about actual video formats so much.
+https://bugzilla.redhat.com/show_bug.cgi?id=1354251
 
-Regarding the FWHT format discussed in the patch thread [1], in my
-understanding, Hans suggested to have QEMU implementation forwarding
-requests to the host's vicodec module [2].
-Then, we'll be able to test the virtio-video driver on QEMU on Linux
-even if the host Linux has no hardware video decoder.
-(Please correct me if I'm wrong.)
+Now, I think there is the same risk with what you are proposing. This 
+isn't problem for DAC where permissions are checked during open(), but 
+it may be a problem for SELinux where each individual operation with the 
+FD is inspected.
 
-Let me add Hans and Linux media ML in CC.
+Having said that, I am not against this approach, in fact I'm in favour 
+of it. Let's hope that people learned that having udev overwriting 
+seclabels is a bad idea and the bug won't appear again.
 
-[1]  https://patchwork.linuxtv.org/patch/61717/
-[2] https://lwn.net/Articles/760650/
+Michal
 
-Best regards,
-Keiichi
-
->
-> Please note that the spec is not finalized yet and a major update is now
-> discussed with upstream and the Chrome OS team, which is also interested and
-> deeply involved in the process. The update mostly implies some rewording and
-> reorganization of data structures, but for sure will require a driver rework.
->
-> Best regards,
-> Dmitry.
->
-> On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
-> > Hi,
-> >
-> > As suggested on #qemu-devel IRC channel, I am including virtio-dev, Gerd and
-> > Michael to point in the right direction how to move forward with Qemu
-> > support for Virtio Video V4L2 driver
-> > posted in [1].
-> >
-> > [1]: https://patchwork.linuxtv.org/patch/61717/
-> >
-> > Regards,
-> > Saket Sinha
-> >
-> > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com> wrote:
-> > > Hi ,
-> > >
-> > > This is to inquire about Qemu support for Virtio Video V4L2 driver
-> > > posted in [1].
-> > > I am currently not aware of any upstream effort for Qemu reference
-> > > implementation and would like to discuss how to proceed with the same.
-> > >
-> > > [1]: https://patchwork.linuxtv.org/patch/61717/
-> > >
-> > > Regards,
-> > > Saket Sinha
->
->
->
-> ---------------------------------------------------------------------
-> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
->
 
