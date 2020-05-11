@@ -2,72 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA8E1CE47B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 21:30:32 +0200 (CEST)
-Received: from localhost ([::1]:46470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFDB1CE48F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 21:36:33 +0200 (CEST)
+Received: from localhost ([::1]:60136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYE8E-0005R8-Kr
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 15:30:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52754)
+	id 1jYEE4-0003sc-HK
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 15:36:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jYE5G-0003i0-C3
- for qemu-devel@nongnu.org; Mon, 11 May 2020 15:27:26 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39231
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jYE5F-0004FN-JC
- for qemu-devel@nongnu.org; Mon, 11 May 2020 15:27:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589225244;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wqigBBfPszxvGqm7eR5k+8fnxpcDQck5luyILOJeRPE=;
- b=XNN6ll5GtThJekzy/x+LFBI32e2co1xA+wbAxRQxniIHiBJN1rRM2gTcbuRiFtsLujVEs4
- AleWgeuv4py/UAZHNMGqzyAyqYt/4zW8XZR4XXZ2UKEGxfhYWHykgqwBhWt79DAM1E5ZFR
- JEOYiOzyo5kEommpdKNxUddXjUKkvhA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-matndBUxPIK7ve2VWTWXbQ-1; Mon, 11 May 2020 15:27:20 -0400
-X-MC-Unique: matndBUxPIK7ve2VWTWXbQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75D63107ACCA;
- Mon, 11 May 2020 19:27:19 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A56B6C76B;
- Mon, 11 May 2020 19:26:54 +0000 (UTC)
-Date: Mon, 11 May 2020 21:26:52 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v5 03/15] acpi: rtc: use a single crs range
-Message-ID: <20200511212652.2dbc2fad@redhat.com>
-In-Reply-To: <20200507131640.14041-4-kraxel@redhat.com>
-References: <20200507131640.14041-1-kraxel@redhat.com>
- <20200507131640.14041-4-kraxel@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1jYE8t-0008Mv-4F
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 15:31:11 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:57700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1jYE8r-0005O8-8S
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 15:31:10 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04BJR1vf074690;
+ Mon, 11 May 2020 19:30:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=3MrbEOhSV++RMTzecidcyxKPWr5WbpQdob7iOpE37GE=;
+ b=WKyZx7ko6TIsEXWLPXSq+llxE81yEgobK2uzWk5R9INCqKBUCi938bRdQwIZ54B8TBjq
+ V+vdfClRSyX+ErYutXLWJTb0Lo26ZMeekPw6V0WYOx3IbqYMtUggdKuLZ6D7vVrgE75y
+ 0gxFUfqSTBYTBTxDBGCqLbN2xFitZ4crjFrQEr9S8b8mN+EJ+R1Kg4vBobm7MV83U9lK
+ eFjrlzxyRT8o8sSF3zt8YUVlWaECAl1jtAPb5QwWGM4c8e8NjAEKvwzNcqgkawz9IwG9
+ NYAX1xk5Z6+49R314YmWy6mq8EPc5540csXpvo7LjB7gU+IRt068s5YDjfSUOZm0FOML hA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 30x3mbq2tj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 11 May 2020 19:30:57 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04BJRZQZ036721;
+ Mon, 11 May 2020 19:30:56 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 30x63na0jc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 May 2020 19:30:56 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04BJUrIE017701;
+ Mon, 11 May 2020 19:30:53 GMT
+Received: from dhcp-10-39-215-151.vpn.oracle.com (/10.39.215.151)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 11 May 2020 12:30:53 -0700
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH RESEND v6 00/36] Initial support for multi-process qemu
+From: Jag Raman <jag.raman@oracle.com>
+In-Reply-To: <20200511144005.GC182627@stefanha-x1.localdomain>
+Date: Mon, 11 May 2020 15:30:50 -0400
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2D3D00E3-EFE0-4D60-8B68-9CF41F6154CA@oracle.com>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <20200511144005.GC182627@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9618
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 suspectscore=3
+ malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005110148
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9618
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 impostorscore=0
+ mlxscore=0 suspectscore=3 bulkscore=0 mlxlogscore=999 phishscore=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005110148
+Received-SPF: pass client-ip=156.151.31.85; envelope-from=jag.raman@oracle.com;
+ helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 15:31:06
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,51 +101,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>, john.g.johnson@oracle.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com, quintela@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ liran.alon@oracle.com, stefanha@redhat.com, pbonzini@redhat.com,
+ rth@twiddle.net, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  7 May 2020 15:16:28 +0200
-Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> Use a single io range for _CRS instead of two,
-> following what real hardware does.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> On May 11, 2020, at 10:40 AM, Stefan Hajnoczi <stefanha@gmail.com> =
+wrote:
+>=20
+> Hi,
+> Have you decided whether to drop the remote device program in favor of
+> using a softmmu make target?
+>=20
+> Is there anything in this series you'd like me to review before you =
+send
+> the next revision?
 
-> ---
->  hw/rtc/mc146818rtc.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-> index 2104e0aa3b14..ab0cc59973b3 100644
-> --- a/hw/rtc/mc146818rtc.c
-> +++ b/hw/rtc/mc146818rtc.c
-> @@ -1013,12 +1013,14 @@ static void rtc_build_aml(ISADevice *isadev, Aml *scope)
->      Aml *dev;
->      Aml *crs;
->  
-> +    /*
-> +     * Reserving 8 io ports here, following what physical hardware
-> +     * does, even though qemu only responds to the first two ports.
-> +     */
->      crs = aml_resource_template();
->      aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE, RTC_ISA_BASE,
-> -                           0x10, 0x02));
-> +                           0x01, 0x08));
->      aml_append(crs, aml_irq_no_flags(RTC_ISA_IRQ));
-> -    aml_append(crs, aml_io(AML_DECODE16, RTC_ISA_BASE + 2, RTC_ISA_BASE + 2,
-> -                           0x02, 0x06));
->  
->      dev = aml_device("RTC");
->      aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0B00")));
+Hi Stefan,
+
+We are planning to drop the separate remote device program in the next
+revision. We are planning to use QEMU=E2=80=99s existing event loop =
+instead of
+a separate event loop for the remote process, as well as the command
+line invocation you suggested in your feedback.
+
+We hope the following core patches look good to you, by and large:
+[PATCH RESEND v6 01/36] memory: alloc RAM from file at offset
+[PATCH RESEND v6 11/36] multi-process: define mpqemu-link object
+[PATCH RESEND v6 12/36] multi-process: add functions to synchronize =
+proxy and remote endpoints
+[PATCH RESEND v6 13/36] multi-process: setup PCI host bridge for remote =
+device
+[PATCH RESEND v6 14/36] multi-process: setup a machine object for remote =
+device process
+[PATCH RESEND v6 15/36] multi-process: setup memory manager for remote =
+device
+[PATCH RESEND v6 17/36] multi-process: introduce proxy object
+[PATCH RESEND v6 18/36] multi-process: Initialize Proxy Object's =
+communication channel
+[PATCH RESEND v6 19/36] multi-process: Connect Proxy Object with device =
+in the remote process
+[PATCH RESEND v6 20/36] multi-process: Forward PCI config space acceses =
+to the remote process
+[PATCH RESEND v6 21/36] multi-process: PCI BAR read/write handling for =
+proxy & remote endpoints
+[PATCH RESEND v6 22/36] multi-process: Synchronize remote memory
+[PATCH RESEND v6 23/36] multi-process: create IOHUB object to handle irq
+[PATCH RESEND v6 24/36] multi-process: Retrieve PCI info from remote =
+process
+
+Thank you very much!
+=E2=80=94
+Jag
+
+>=20
+> Stefan
 
 
