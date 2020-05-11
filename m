@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BB41CCF49
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:50:26 +0200 (CEST)
-Received: from localhost ([::1]:36280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C0C1CCF44
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:47:12 +0200 (CEST)
+Received: from localhost ([::1]:52762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXxaL-00020x-D4
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:50:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60664)
+	id 1jXxXD-0004a1-47
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:47:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jXxUx-00013F-OL; Sun, 10 May 2020 21:44:51 -0400
-Received: from ozlabs.org ([203.11.71.1]:45045)
+ id 1jXxUx-00011G-2D; Sun, 10 May 2020 21:44:51 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59963 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jXxUw-0000lz-FP; Sun, 10 May 2020 21:44:51 -0400
+ id 1jXxUw-0000hu-7I; Sun, 10 May 2020 21:44:50 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49L3dh3qR8z9sTH; Mon, 11 May 2020 11:44:40 +1000 (AEST)
+ id 49L3dh35scz9sT8; Mon, 11 May 2020 11:44:40 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1589161480;
- bh=+oObCguYBouRQdHyv9/oUGRBmsEpMGj1T2qMCe/oX1Q=;
+ bh=/7FsHhkawjvfdMokDx3DZ7Cgr6EHPs5i4fUjg30RaPc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Kt+UapPHXGSBuAxGQyF8Ov1EjWozQ9iwsJpF4F20Zoi/giquXiDAzMwxTSbLNbSHQ
- v7tqLXGTd6xmBzTMFO15MDCRnoE3bAq64b8pNaorNeJN+/eQxQ1torang0nDyIP++6
- Toa/hTW8So0eKOURBml9bFbo5W37P2o7N/Wlahkk=
-Date: Mon, 11 May 2020 11:43:48 +1000
+ b=ZoU/FHOtHzNIgU7ce04m0HPG48EQPTVSfB8Ku14/FSu+yH9TD2XqCdF58+pwoHjKx
+ L27RFbzN2RjxINo7NDkkcRYwpGaxZQtWcVNRFE2eYgkP5dRBDM9cuCmxPeoXLq2Q9h
+ zQD36rQ3YdULKr+en2kpMskJTW8KUc2xpM4tQjSg=
+Date: Mon, 11 May 2020 11:44:26 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 6/6] target/ppc: Don't update radix PTE R/C bits with
- gdbstub
-Message-ID: <20200511014348.GN2183@umbus.fritz.box>
+Subject: Re: [PATCH 0/6] target/ppc: Various clean-up and fixes for radix64
+Message-ID: <20200511014426.GO2183@umbus.fritz.box>
 References: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
- <158887243487.1564424.7276382177976503972.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tpyx7gKuSYt+mjHM"
+ protocol="application/pgp-signature"; boundary="V7BlxAaPrdhzdIM1"
 Content-Disposition: inline
-In-Reply-To: <158887243487.1564424.7276382177976503972.stgit@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 21:17:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -68,172 +66,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---tpyx7gKuSYt+mjHM
+--V7BlxAaPrdhzdIM1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 07, 2020 at 07:27:15PM +0200, Greg Kurz wrote:
-> gdbstub shouldn't silently change guest visible state when doing address
-> translation. While here drop a not very useful comment.
->=20
-> This was found while reading the code. I could verify that this affects
-> both powernv and pseries, but I failed to observe any actual bug.
->=20
-> Fixes: d04ea940c597 "target/ppc: Add support for Radix partition-scoped t=
-ranslation"
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+On Thu, May 07, 2020 at 07:26:32PM +0200, Greg Kurz wrote:
+> First three patches of this series are simple cleanups. The other
+> ones fix some regressions introduced by Cedric's recent addition
+> of partition-scoped translation.
 
-It's a real fix.  But AFAICT we'll always have cause_excp =3D=3D
-cause_rc_update, and I can't see any reason we'd ever them different.
-So I'd prefer to just rename the flag and use it for both tests.
-
-Maybe just 'guest_visible' ?
-
-> ---
->  target/ppc/mmu-radix64.c |   36 ++++++++++++++++++++++++------------
->  1 file changed, 24 insertions(+), 12 deletions(-)
->=20
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index ceeb3dfe2d49..bc51cd89a079 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -270,7 +270,8 @@ static int ppc_radix64_partition_scoped_xlate(PowerPC=
-CPU *cpu, int rwx,
->                                                ppc_v3_pate_t pate,
->                                                hwaddr *h_raddr, int *h_pr=
-ot,
->                                                int *h_page_size, bool pde=
-_addr,
-> -                                              bool cause_excp)
-> +                                              bool cause_excp,
-> +                                              bool cause_rc_update)
->  {
->      int fault_cause =3D 0;
->      hwaddr pte_addr;
-> @@ -291,8 +292,9 @@ static int ppc_radix64_partition_scoped_xlate(PowerPC=
-CPU *cpu, int rwx,
->          return 1;
->      }
-> =20
-> -    /* Update Reference and Change Bits */
-> -    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, h_prot);
-> +    if (cause_rc_update) {
-> +        ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, h_prot);
-> +    }
-> =20
->      return 0;
->  }
-> @@ -301,7 +303,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu, int rwx,
->                                              vaddr eaddr, uint64_t pid,
->                                              ppc_v3_pate_t pate, hwaddr *=
-g_raddr,
->                                              int *g_prot, int *g_page_siz=
-e,
-> -                                            bool cause_excp)
-> +                                            bool cause_excp,
-> +                                            bool cause_rc_update)
->  {
->      CPUState *cs =3D CPU(cpu);
->      CPUPPCState *env =3D &cpu->env;
-> @@ -336,7 +339,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu, int rwx,
->          ret =3D ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_=
-addr,
->                                                   pate, &h_raddr, &h_prot,
->                                                   &h_page_size, true,
-> -                                                 cause_excp);
-> +                                                 cause_excp,
-> +                                                 cause_rc_update);
->          if (ret) {
->              return ret;
->          }
-> @@ -376,7 +380,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu, int rwx,
->              ret =3D ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pt=
-e_addr,
->                                                       pate, &h_raddr, &h_=
-prot,
->                                                       &h_page_size, true,
-> -                                                     cause_excp);
-> +                                                     cause_excp,
-> +                                                     cause_rc_update);
->              if (ret) {
->                  return ret;
->              }
-> @@ -408,7 +413,9 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu, int rwx,
->          return 1;
->      }
-> =20
-> -    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, g_prot);
-> +    if (cause_rc_update) {
-> +        ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, g_prot);
-> +    }
-> =20
->      return 0;
->  }
-> @@ -433,7 +440,8 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCP=
-U *cpu, int rwx,
->  static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
->                               bool relocation,
->                               hwaddr *raddr, int *psizep, int *protp,
-> -                             bool cause_excp)
-> +                             bool cause_excp,
-> +                             bool cause_rc_update)
->  {
->      CPUPPCState *env =3D &cpu->env;
->      uint64_t lpid, pid;
-> @@ -483,7 +491,9 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
-addr, int rwx,
->      if (relocation) {
->          int ret =3D ppc_radix64_process_scoped_xlate(cpu, rwx, eaddr, pi=
-d,
->                                                     pate, &g_raddr, &prot,
-> -                                                   &psize, cause_excp);
-> +                                                   &psize,
-> +                                                   cause_excp,
-> +                                                   cause_rc_update);
->          if (ret) {
->              return ret;
->          }
-> @@ -506,7 +516,9 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr e=
-addr, int rwx,
-> =20
->              ret =3D ppc_radix64_partition_scoped_xlate(cpu, rwx, eaddr, =
-g_raddr,
->                                                       pate, raddr, &prot,=
- &psize,
-> -                                                     0, cause_excp);
-> +                                                     0,
-> +                                                     cause_excp,
-> +                                                     cause_rc_update);
->              if (ret) {
->                  return ret;
->              }
-> @@ -562,7 +574,7 @@ int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vad=
-dr eaddr, int rwx,
-> =20
->      /* Translate eaddr to raddr (where raddr is addr qemu needs for acce=
-ss) */
->      if (ppc_radix64_xlate(cpu, eaddr, rwx, relocation, &raddr,
-> -                          &page_size, &prot, true)) {
-> +                          &page_size, &prot, true, true)) {
->          return 1;
->      }
-> =20
-> @@ -584,7 +596,7 @@ hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cp=
-u, target_ulong eaddr)
->      }
-> =20
->      if (ppc_radix64_xlate(cpu, eaddr, 0, msr_dr, &raddr, &psize,
-> -                          &prot, false)) {
-> +                          &prot, false, false)) {
->          return -1;
->      }
-> =20
->=20
+1-5/6 applied to ppc-for-5.1.  I have some comments on 6/6.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -241,25 +84,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---tpyx7gKuSYt+mjHM
+--V7BlxAaPrdhzdIM1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl64rdQACgkQbDjKyiDZ
-s5Kc4Q//ZHs+t+DSztlUdhbO+khQ/fojmQZ2fZH1ezpgjMIINIe1DMgDcnhZgX5F
-h3CVn7Slj94eFPT0MncRCNLvz+N8+pmM/HefcMKPpSiKza7cHyVf7zhzbkyqMnpx
-BTDVoypzcncPPfbiWnrX+hk6cagO13eGFTq76+4J/e7VdaxGW0NYwl7XxmgqQiNh
-rWzX4nAo/TCRcfennmezu37HwYogUOrLPvA3KMSjUDh9CQ4TPJSJQU8a4OEX8Aqu
-x9CWy1SMVS71lYZO0KcdbiAFXbLaN7B55BjI9td6wsXGo0f3FfYhc8tyy9IouT3u
-SxVEpvnjoviQZ5/JqYx9KChLk/t98z8m/avuqRRMQGSxzUfwgzD9vSzjjtoAS2iB
-O+VhDn5F/RC63oGw4Xlv6Top+DRcgXGa20gxj3c3CehwgMoETe8uIck0dQdNNG2w
-GF3OmwfW8GtbFq2xDVDoQdghY/1pykjKX4YypsNqK2TAf/a4+pZ5/sRAqcWVJs3T
-YrHT2KN+0POsE6pRk2JV62NU+3dfjmVwC7YPjQRPXb2ogxj24dYjfRsTe0mLzUy8
-1bs5b87TgXRfXhICE8e1axzpKwMiLQfMLTFOS2FcbRd9kUV7F+FQyU0DD+dgZorv
-3h0fXrGYHbD1MJ9yKdUj6SDuDsx+4w7cM05Jk4rmsHGfZfOi4uU=
-=xohv
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl64rfoACgkQbDjKyiDZ
+s5K1JQ//cLhnHEUENptW8ZLFvbJBMpfmGdnETLEaqkKBQYuz/Ig4ubnnfCV/bVeX
+/MldAuQSxCKaNqGSq3sDeN8PdkAopK+JWRQlI+2yHVB2Ns5prytEStrz61BIk87o
+ARswTUqpL8jr6vZkeBICSSkBYaYMgRfM27HqTMrABfFnJ2AwwP2JsRX/unOR3yji
+F07RDRDNsAtSg9ctfYdWpdiLwA0I2eUx/T5ZbX1CvJOvVGuSVqclt5WCjRefnc2o
+vadg5UvSmykriNLmo1iOsgzqHuUZoMdihLRfS7hACrYrdB9d0gC5WYhq3mIiC1lU
+WedfGnh2y/oPMGf0pxTA3XE37kNoVI9H4ULdrHIR2X7N/HXYPe8kEd1IhoEfhObF
+APp4Sipj0r10kQDE5KArAl7Cz2Mbw3CPZ6c1Wez/CCNSCh+8Te5AFis0zYJLfV4H
+KhKsAfqVfP/Dr/vuPHDAG7D2T+BtjivRQjKX8CTk1WVYLY7uZWcBQTYfZSJmU6Ab
+V15k3ZQgLJeqpo3rOMVs5dBCcTE6PRAgTgiu8tMnyAVUOiA9NnK+aElm9j7EDDt5
++QjGHaSWwwpdFaUiJnc3cDulQNttzmWRM329ZKidl4gge9c9c4GbfvYI6RcZe106
+ezmOttAZDtEWOPMrHwcHdUQP5p2dG6iIfUpGIaBdPAvTgkMJ9pU=
+=K6qW
 -----END PGP SIGNATURE-----
 
---tpyx7gKuSYt+mjHM--
+--V7BlxAaPrdhzdIM1--
 
