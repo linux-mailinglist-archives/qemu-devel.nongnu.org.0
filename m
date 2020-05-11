@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AA21CD5BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:57:38 +0200 (CEST)
-Received: from localhost ([::1]:53210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C03C1CD5A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:48:25 +0200 (CEST)
+Received: from localhost ([::1]:55984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY5Bp-0004hF-5n
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43606)
+	id 1jY52u-0000jR-32
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:48:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jY5AR-0003lr-88
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:56:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38672)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jY512-0007jU-Mi; Mon, 11 May 2020 05:46:28 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:40832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jY5AP-0005QD-Rb
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:56:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jY5AN-00068K-Ur
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 09:56:08 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E68BE2E810A
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 09:56:07 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jY511-0002pC-Rp; Mon, 11 May 2020 05:46:28 -0400
+Received: by mail-lf1-x142.google.com with SMTP id u4so6934193lfm.7;
+ Mon, 11 May 2020 02:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=gpH2tKXCjUnkJ4UxAw3yg9UWeRqETvSZhoIE66gIUc0=;
+ b=tjfULMxv5t3BSqs/JN7wUWndEZqMYaZqFK6eRZML9KlurmdQjAcmSfX5JBOf6fRSFW
+ gSyq+YNFmXb8SLmxH8Fbrbh38XL6i6rw+zGGjkN4l15rZsAoT9A5Cw0O8d2ziiIk45II
+ VdKEQEmaLiWWq4HCJNW+sFO16P+S2Zx5FwH+9BowQUydjC/7RQszYuriSx9TvJY2nXtQ
+ 2q3B6TUCBLHKXdM9shi1KNjWkGE+aL71ERDa+ef2FCYOFbvTgspB2uGIuXMp1qebXPiM
+ xUHZ/xMfY+hVrF/CXJXFSzUf7zyZu6z7567s0P/YoNF/kypUutYFV5LTKXXZExnAiu3o
+ m/bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=gpH2tKXCjUnkJ4UxAw3yg9UWeRqETvSZhoIE66gIUc0=;
+ b=O1HtoMidugE068HGvZI2X+roUfj5VBuiDamFMoJHrizH0umr8ByGa0lRA7uMgJdNqg
+ YQH8/Ew//OiGtFNuZdvJDZ7B9vDgYmKHYG1Rb5ZhUxTeAlILGYGwRJPhu4WVdmOqHym3
+ biudQ35VjQr+VARnPiCWIi+fgLQj79JN9k6r2ANSsqe5T2achgfR5qwoy2VfkpX9qLOg
+ 1D8rgmJPbl4JQvHrYPpenpkRvXpdDQpGwyNXUjIacGVG4WpBZpo/CxwAxjjMsA35lM7v
+ FIkH7Vhy8oH8yi8CZVivAzuz/nh2E2/V+s/6P6bp1yS/u49XgB8ZVI+5pSyiZb2WD5/H
+ oUOQ==
+X-Gm-Message-State: AOAM531mXVFZvqwGtbpyaxi93eSJ6VIDGNF91oBnLSwY/xIAHphCLwxn
+ 4P7xP3eYpqCgXpLz/MeybqM=
+X-Google-Smtp-Source: ABdhPJwKQcIsUR1P9Gu4NnWXlNjZRtdZ0QmSECJkJzR5ySzhfdIptBEcQ3dJQ8rAXmrZEQ1EJQZr4Q==
+X-Received: by 2002:a19:700b:: with SMTP id h11mr10497912lfc.62.1589190384034; 
+ Mon, 11 May 2020 02:46:24 -0700 (PDT)
+Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id z5sm9255843lji.30.2020.05.11.02.46.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 02:46:22 -0700 (PDT)
+Date: Mon, 11 May 2020 11:46:06 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 03/11] sysemu/tcg: Only declare tcg_allowed when TCG is
+ available
+Message-ID: <20200511094606.GQ5519@toto>
+References: <20200509130910.26335-1-f4bug@amsat.org>
+ <20200509130910.26335-4-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 11 May 2020 09:45:30 -0000
-From: Stefan Hajnoczi <1877716@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: stefanha zkrx
-X-Launchpad-Bug-Reporter: zkrx (zkrx)
-X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
-References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
- <CAJSP0QW6hE=Svo2RrUpLeamsC3LwCPef64923dJZTQA9JnO++A@mail.gmail.com>
-Message-Id: <CAJSP0QUQu-Uq3W56iT36vb_BVc5yra5VMbWerRTcsJxShyj4bA@mail.gmail.com>
-Subject: Re: [Bug 1877716] [NEW] Win10 guest unsuable after a few minutes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 50337883e18827a27a05547b3ca2d32273b9bd9a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 04:45:50
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200509130910.26335-4-f4bug@amsat.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::142;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,75 +87,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Marek Vasut <marex@denx.de>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>, qemu-ppc@nongnu.org,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 11, 2020 at 10:12 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> On Sat, May 9, 2020 at 9:16 AM Xavier <1877716@bugs.launchpad.net> wrote:
-> >
-> > Public bug reported:
-> >
-> > On Arch Linux, the recent qemu package update seems to misbehave on some
-> > systems. In my case, my Windows 10 guest runs fine for around 5 minutes
-> > and then start to get really sluggish, even unresponsive. It needs to be
-> > forced off. I could reproduce this on a minimal VM with no passthrough,
-> > although my current testing setup involves an nvme pcie passthrough.
-> >
-> > I bisected it to the following commit which rapidly starts to run slugg=
-ishly on my setup:
-> > https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51=
-e4ccf
->
-> Thanks for bisecting this bug! Arch Linux can work around it in the
-> short term by building with ./configure --disable-linux-io-uring
-> and/or removing the liburing build dependency.
+On Sat, May 09, 2020 at 03:09:02PM +0200, Philippe Mathieu-Daudé wrote:
+> When TCG is not available, the tcg_allowed variable does not exist.
 
-Hmm...a brief look at the Arch Linux package source suggests QEMU is
-not being built with io_uring enabled. Anatol, please confirm whether
-this is correct.
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-If io_uring is not enabled then this bug may affect most existing
-users on Linux. Initially I thought it was because Arch Linux had
-enabled the new io_uring feature but I was probably mistaken.
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877716
-
-Title:
-  Win10 guest unusable after a few minutes
-
-Status in QEMU:
-  New
-
-Bug description:
-  On Arch Linux, the recent qemu package update seems to misbehave on
-  some systems. In my case, my Windows 10 guest runs fine for around 5
-  minutes and then start to get really sluggish, even unresponsive. It
-  needs to be forced off. I could reproduce this on a minimal VM with no
-  passthrough, although my current testing setup involves an nvme pcie
-  passthrough.
-
-  I bisected it to the following commit which rapidly starts to run sluggis=
-hly on my setup:
-  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
-ccf
-
-  I've ran the previous commit (
-  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
-89b
-  ) for the entire night without an issue so far.
-
-  I believe this might be a duplicate of
-  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
-
-  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
-6_64 GNU/Linux
-  AMD Ryzen 7 2700X Eight-Core Processor
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/sysemu/tcg.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+> index 7d116d2e80..d9d3ca8559 100644
+> --- a/include/sysemu/tcg.h
+> +++ b/include/sysemu/tcg.h
+> @@ -8,9 +8,9 @@
+>  #ifndef SYSEMU_TCG_H
+>  #define SYSEMU_TCG_H
+>  
+> -extern bool tcg_allowed;
+>  void tcg_exec_init(unsigned long tb_size);
+>  #ifdef CONFIG_TCG
+> +extern bool tcg_allowed;
+>  #define tcg_enabled() (tcg_allowed)
+>  #else
+>  #define tcg_enabled() 0
+> -- 
+> 2.21.3
+> 
 
