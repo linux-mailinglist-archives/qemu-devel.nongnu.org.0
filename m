@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815A11CD23A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 09:12:35 +0200 (CEST)
-Received: from localhost ([::1]:56124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F0C1CD23D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 09:14:16 +0200 (CEST)
+Received: from localhost ([::1]:60884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY2c6-00047y-DZ
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 03:12:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49532)
+	id 1jY2dj-0006YZ-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 03:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY2YA-0001m4-0L; Mon, 11 May 2020 03:08:30 -0400
-Received: from mout.web.de ([217.72.192.78]:54235)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jY2Y8-00007v-Uc; Mon, 11 May 2020 03:08:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589180892;
- bh=kdZYXdLjb9N8p3xlWxsGNaLfKYEwisH80Lk4OmkVxUI=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
- b=nFILUQ9tVPr7vJUhDwdIoH5wkJySXywYutowTyGxfs0Fzp+FfFKEIZmk+iXMHIclD
- L+YTaRbSroq9aBOmMUtr3Bwa4/AcuWxPIhjcV0ov9/lVoqghi3Q1R4BeBoduJAM+0N
- hK+c5vC8IvG+sjH2MoCtDkUZG7XBTf7zEffQ5GbU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MQvsg-1jgBTZ3Yvm-00ULTs; Mon, 11
- May 2020 09:08:11 +0200
-Date: Mon, 11 May 2020 09:08:01 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH] block/replication.c: Avoid cancelling the job twice
-Message-ID: <20200511090801.7ed5d8f3@luklap>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY2Yu-00025I-9J
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 03:09:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33154
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY2Yt-0000Ed-L5
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 03:09:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589180954;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dJH+0FhgWB31ew/3xujSyw7arTj8XDNkT4Re2ahoBVA=;
+ b=ij1R2jacHo7b3U7sIJMpnFU4kcXMyPD8WkRBm2kvhMjVrhW0MB+1PmYrtjGVmjb1ddJpd+
+ ySwYcVz9RjBogxO7qjdECS/PRvW3W602DzN0z1D12fnIR9TmQ55qvkyW8nYDkuqCBhxUbl
+ zrR5sMSvqq1ws7Zr6ZSAanalIqWk4q0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-j5UEszKXPJ-IiFQCPvCmWQ-1; Mon, 11 May 2020 03:09:10 -0400
+X-MC-Unique: j5UEszKXPJ-IiFQCPvCmWQ-1
+Received: by mail-wm1-f70.google.com with SMTP id e15so142197wme.1
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 00:09:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dJH+0FhgWB31ew/3xujSyw7arTj8XDNkT4Re2ahoBVA=;
+ b=ljI5+3tcry17TdNxMg+boV7osttVlsRzXG0YiRUqNJwEJaEQjXKAVcehdZi8T4UGPz
+ h9Vc//Rjh3r5DKO+0Pz0snr81HDyxNfa9pOs9Wl6aQpUz3FgbrfHL+r+8xtzNPLiAbkj
+ NNVkZL/h3KlpYhWKOHynJpkLG6PVk0/s72cJ+Gkm10PG2i9vREt/4prt+nQ9LLhKjlkB
+ h8YjIGgZl7iiox62fP+Qw2qX/I/y1cyEeIr9WLad7Di1X3AvVoQb94HOiOKGnY0PcO3d
+ +QAMce0cKeRROtJS7iad5w+SzNZsKvC14VyQs5mGoUWAWZxRwYgdC11K24RzuubLBOmD
+ MKdQ==
+X-Gm-Message-State: AGi0PuYx9vXziN7HeVUO8tPCl/dlgOoz3t6n/+AL1VnJyvwjD3LQOyRY
+ E3SjAC2RkE2J3nq28krx8/YxiU5o8fcgcIm2I3+euAFFuFVf2uGbJ8oFgTYasX8tRjneNSz/anj
+ WFBGE3AkYiGajpNQ=
+X-Received: by 2002:adf:d841:: with SMTP id k1mr16783191wrl.129.1589180949751; 
+ Mon, 11 May 2020 00:09:09 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJ4LOL3HZtKmNX3XsZkEEsEbRHYZugqIsAnDUbQ/gnB6eGkctZSq9XqZyoaLqrSq5vwrFYYFg==
+X-Received: by 2002:adf:d841:: with SMTP id k1mr16783163wrl.129.1589180949532; 
+ Mon, 11 May 2020 00:09:09 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id n9sm9225376wru.90.2020.05.11.00.09.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 May 2020 00:09:09 -0700 (PDT)
+Subject: Re: [PATCH 0/2] hw/block/nvme: fixes for interrupt behavior
+To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
+References: <20200505203603.278339-1-its@irrelevant.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <635fa8aa-8c8d-98e3-3610-3f3a73a476ef@redhat.com>
+Date: Mon, 11 May 2020 09:09:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/37uZL0=cJI=k9Vn_.CeuFNk";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:DWUOH31qynvI8d72VHP7zZ7twTny8RBbbbt1DauTNcuPV9Z/5ao
- e45UU9vf14ClU/1luvBhsbj7YyUEv7hQnozNzjDZyLIIMyVN2oMdUI3yZqqAgfC948qviDB
- +dEC/8Kaia9o981lDE/No74Jb/DKSbXOXW/NWuTzbktQYlTWqY6B7r2eSYc04taf3VQxZxc
- FN6mm2AOEPwejBE4WIeRg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CuPCsJw5j7A=:fps0FunEtkfBiHWQmes0wq
- 8UIQMYoPZyTNoS7wK6VzGoU5tCXx2gV9WCQYAIOY6DaLf1WKV/zCb126dmvVA83PISmIA/IvY
- Iezi2OlvOCZkIoddXxXV5zwAJv2/Z6/UiL8RHJzrgmMejAAnOvC0l2+1d2AQ40EPmPYeSwion
- WLucvjyPTQFOH5tAEXXClnaDtIxkuKAzsVot6m876i+rkCE2Tmsn6Efd2ytSxlNH4xj5Hr2i4
- y9vJvExsMctB2IG1LU1ZsyXRmn7v3EkYWZssklBpkmEwl8kKJxzQiDwtlx3RkEN0MLNF/vdii
- dY36iYdU+phzmzUeYbIMIUKFWZ+j3O7ZtlQwIjVb5TLol7x0iBH4gIWojQHJyb3FMKhKgYyQF
- ujeMlNGjNXd7UfDFeZ/CxVV0heqjAjMOdQDaMRgJhvlHiZFfD932K7RGAE5cT8VYVFjh6PSAI
- 8d1nlVPYq4iLzYI85ZE3vaJ7v2sBzivURn8c2TauRzcrjLDWf69sLeWqXevqRg4l7QNfMCxdp
- YKcLiYn37AEU+cN+D2fugULFtrO8187ChTlXFQZpwaj/u+G4Y0zVzCg6UEs72ZpVzSqPg497A
- v/3u83+Hy3ZgoyNby4Uj+Dcd+FDSmHKsWjhxMAQnPcaqkIOI/z6ubZDhrwMfUQTqVvGpR+v8X
- +dD14C0d2hFLhSXovanfaqBWWlqfgJUQ5+IMTDb161jd7eAw2zz9uvWW6K6BHk9CH3av+DlY2
- e3ccWYckDZu2fkHz4OZwz0xpFBnP/JSxaUl9oN7xPJgCkKWJSYMvUaaOIQnIdXiEuk/wrzml0
- PQz46YWmzXha/dijxWDfsyMhfpSiDmjWTX82e+w/mpmsy33t6ZwTTkpA7gMw+qP/79S33t2Rz
- AZhqXt/UpYBYjj4/auCZTu8P2VxAzD1kpY4n1nQMjW19MfCYxfrypiUWohZm0LWKhDIwwjhzf
- bCJZyEbvee2zVscHJg60Z4L1nZyEy4gL4jnNArYQcAaUCCgXpeNWi9w1BuhgwmYnHbfsVddEX
- I8qa4GooIQjWcmcRlbZ9IPuj/nU0W54iKqrpmx2eHF6SokCzhoCd62+MDh1RQVi+ssFFuwtS9
- tfWDqkm5fsWozgPoRwvf9pdekxMOSjBIMwIDJvtyL3ZhFN/e6DfyJjc+8qJnptaJZweMVNSoW
- Az5sZlMvbK2mfI9xPUI9Aqd/pvN7cPZqqhdDNB9FMlZmSQG7UB8TfRYgvj+Vt4m2v8wHESeCc
- pu9pZR+tT9pe0atTm
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:08:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+In-Reply-To: <20200505203603.278339-1-its@irrelevant.dk>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,65 +97,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/37uZL0=cJI=k9Vn_.CeuFNk
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
++ Michael & Marcel for MSIX,
+and ping to Keith :)
 
-If qemu in colo secondary mode is stopped, it crashes because
-s->backup_job is canceled twice: First with job_cancel_sync_all()
-in qemu_cleanup() and then in replication_stop().
+On 5/5/20 10:36 PM, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Klaus Jensen (2):
+>    hw/block/nvme: fix pin-based interrupt behavior
+>    hw/block/nvme: allow use of any valid msix vector
+> 
+>   hw/block/nvme.c | 14 +++++++++-----
+>   hw/block/nvme.h |  2 +-
+>   2 files changed, 10 insertions(+), 6 deletions(-)
 
-Fix this by assigning NULL to s->backup_job when the job completes
-so replication_stop() and replication_do_checkpoint() won't touch
-the job.
-
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- block/replication.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/block/replication.c b/block/replication.c
-index da013c2041..33f2f62a44 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -398,6 +398,8 @@ static void backup_job_cleanup(BlockDriverState *bs)
-     BDRVReplicationState *s =3D bs->opaque;
-     BlockDriverState *top_bs;
-=20
-+    s->backup_job =3D NULL;
-+
-     top_bs =3D bdrv_lookup_bs(s->top_id, s->top_id, NULL);
-     if (!top_bs) {
-         return;
---=20
-2.20.1
-
---Sig_/37uZL0=cJI=k9Vn_.CeuFNk
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl64+dEACgkQNasLKJxd
-slg+/w/9FNT9vGcPTDVQo9faWQzNMFgKVvlWNvcquY5Kz5Lw/Tk7eu6H5jNjqauQ
-XvbCayKBQBgKayAUf9bcikZ+8Pg4xF4K/VRWzQ135qV9p8VASSuN91QK3o7brk8A
-JtrX89R4el56y207174kR44+/24k+DCrXPlpB6H/YhL8rsL2hDYFKmuSNrBPsoek
-OhaYyvi9qlXPSFDIF18mrI7olqvK7e6pN6TfHmd/47YedEGtVqhXzurDKDUuUFLu
-nQTlkb+gRHRNnA/bCMizZ60Ku0r2bcUuOvBqWBImyobvaWxWVB4iHkciwcpu/6wW
-UzlOem2VXurDOCe3aoDayj8Rg7fz2g9koBKyLvsYehFdIX70uwm2HO47GvkBxgmZ
-fh7PemMTa+JvP93+5PRBVfMVyAWMXxmH+GCgeibQ0WgP77E7zQ6LarOtLSOIA12N
-Yp7lqRnYlrEU+Psh7EieA0y0nA8m4aZBDNBv4HuIR/4xYybmWHKkgBNi4wVAszpd
-FVdq2tRieJOrNlpP2sdIcXIYEdWN6zC9MI03bg2rUFCV7Y/V2DSxkEsPnxuYCe4O
-ffwM4HmLUIPMP+Rtc1KF8TzBwtO00eHkUb79z1uNS7V9O9WRgDV6Ac0qL+ZfkAmg
-+mKwPIZwquIw3U9mWuJLhe0fIkyiKVKl/KScy6k0RsCB7ocrsrA=
-=9Q56
------END PGP SIGNATURE-----
-
---Sig_/37uZL0=cJI=k9Vn_.CeuFNk--
 
