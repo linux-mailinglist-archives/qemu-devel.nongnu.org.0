@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A861CD67A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:25:56 +0200 (CEST)
-Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE9D1CD680
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 12:27:13 +0200 (CEST)
+Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY5dD-0007Fe-39
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48744)
+	id 1jY5eS-0000yL-FU
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 06:27:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jY5bs-0006Iw-De
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:24:32 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37151)
+ id 1jY5dH-00089h-1y
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:25:59 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jY5br-0004Ms-Df
- for qemu-devel@nongnu.org; Mon, 11 May 2020 06:24:32 -0400
-Received: by mail-wm1-x344.google.com with SMTP id z72so8956277wmc.2
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:24:31 -0700 (PDT)
+ id 1jY5dG-0004he-18
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 06:25:58 -0400
+Received: by mail-wr1-x443.google.com with SMTP id y16so3059764wrs.3
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 03:25:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=haOvfP2ji+PNqgL85X/pNkkTqp+bgl3jt94a1M3WEt0=;
- b=CV0lKFMJL4iSHOczdA7uiVCTfyQ584DZkhnRMFLzPzXmfSu/om8HRAuV/TG7Y04iri
- /hRCezY3cOoYlCYiRqoE0uAehwe/QnDR/XZkibG1ViGrLCeGrWYb4iXhWwfBSAvlQ080
- pLiUyAHw97jCUeqiThbEN4GlApk6ULSlNIclDPS1gVuD4kw/YxozRooDu9QBiocI+uBw
- bDLks6aqOhyvo1/qIGvvelmAX3xi1JYBg7kKeRQqg/MdF9fyp8U+yFlki9NqKi5X4TbI
- jvvKYddmdgJuIuKX8yCsQCzm3hpuZWJKfIqbETEZ0Ya+qawOoK8Tu1alyS3Iml1Nd/7z
- YSvg==
+ bh=SH2zsrKPoKryaS1XPDVCA9WuLNkkpScdEL2lT6GHl/w=;
+ b=SJ1bLvnEPh+JbvlxZVVbES9nb6T/S8f2zQY+cnztLaQgOjiCOsnw+3ZRH9d7BADAqo
+ Py2xeN4OJyBnG5qg95JcDCOqISXvJMF2GuL68Z8NV6vrznHoT5YddGC7l8WkvG4AsNSB
+ TsySHQW+q4wRs6fwRz5y0nJWHQPrgaX5RxvEghdgDK18GgPsOVj8NDSCOVZ3OcDTWxD7
+ lSr24LTvfPnIwUJepYTFGUbsHMMC/MyTvzozEAenI77T8Nz10NILwjhJgeil8hwy5Stb
+ MhieEUK8I2f+4i8gRMMkbpqj78XCIZXA5KyCLYodgljJSSXp0SPcnc5BuzDrVqYlxmC6
+ jVew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=haOvfP2ji+PNqgL85X/pNkkTqp+bgl3jt94a1M3WEt0=;
- b=DvpI5ZOlY9GfYQ/532x7Ii88lkckEYas018JpAvrZxl5rSlzo8jHfzLI7f49ia/0ZV
- 2ByYvMZGCCSDGz/S6cttFxv2TAUnS//GwskL0ua09sPZtYmFcuJgkP0KlAT5lduJoBvh
- SLMBblxWQCvbk9SAVHJz6ewIuEd9d0mlIKIxS9Q0rUVcAO8z9Rpwmg1vlPwWrobuuYeD
- Vvu++NgHmuJlAkEcPaWZi03sLE7lX+xJdfoVsmvSY9o4h7F7KUCF1gwheIgJ1QqKRa+2
- mwQu0lFn8MI6PMkmqjdD+lC/snDP2rGP2nyKup0ecC1kf+sotV2xcmwaUoM2wFWdIGEV
- RPww==
-X-Gm-Message-State: AGi0PuYN0KkOJZDcsJQVGkvxFB04wQSeVwS7r951VRcc7ali5SieiU96
- U64f9yL6tNEkxfww4OYeL4qvCg==
-X-Google-Smtp-Source: APiQypKMjbGZ6nzox2oWkx0tlTrYyfQ+rQ1i0oExf/PPuI2FYTPTnWnlfk9Ni+aSVXf8M1UUqNnwkg==
-X-Received: by 2002:a7b:cc69:: with SMTP id n9mr4787879wmj.145.1589192669788; 
- Mon, 11 May 2020 03:24:29 -0700 (PDT)
+ bh=SH2zsrKPoKryaS1XPDVCA9WuLNkkpScdEL2lT6GHl/w=;
+ b=ZsxvRWMZRhr/06bMD3r6QUIsYHkj/yYvlE68h6Jf+zucilZjTiY61jCjw3WnHd3z5P
+ hVZAzDiaRmszRBYSNvaoyE14RrQDF2ym1XA4rLNjjWOZWfCeWMDMHhHL4gVlzqh1QSx+
+ mMjB9ThghIa0wM1mL4JzM+QtTYO8Rq5fL33B8MXfhbZVft+xm+zj8wmD71F1J39/QNKH
+ 7f7BbDdxro+Man55icX/KYrktY86pHon9VNPxxCfb2iSjlTKdwNBuMBdH2h9/tAi+qn6
+ YdimVX0OdeQUMC0g0MK/1t9+22cLtpJuGuJ6FRkIQx2jO/OsCmSZ8t+aOIv1xNBCdjEP
+ 5GyA==
+X-Gm-Message-State: AGi0PubHTqBHfrnhborZ99vXpF57S7h2rGzTZb8jxNI2RBmTxXGpqnw9
+ U7lVhJZE5G85Bz1WlV77iVjgLg==
+X-Google-Smtp-Source: APiQypJ/XdHvFsBcx80iwLJe3HTQneR6lwcHBGxcMQIQZbTIloxGfdd6fGVsWCxRmP2XrCjqr9In4A==
+X-Received: by 2002:a5d:5686:: with SMTP id f6mr18488751wrv.168.1589192755980; 
+ Mon, 11 May 2020 03:25:55 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v20sm18534412wrd.9.2020.05.11.03.24.27
+ by smtp.gmail.com with ESMTPSA id d6sm3458954wra.63.2020.05.11.03.25.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 03:24:27 -0700 (PDT)
+ Mon, 11 May 2020 03:25:54 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 24C191FF7E;
- Mon, 11 May 2020 11:24:27 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 83FB71FF7E;
+ Mon, 11 May 2020 11:25:53 +0100 (BST)
 References: <20200326193156.4322-1-robert.foley@linaro.org>
- <20200326193156.4322-4-robert.foley@linaro.org>
+ <20200326193156.4322-18-robert.foley@linaro.org>
 User-agent: mu4e 1.4.5; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v8 03/74] cpu: introduce cpu_mutex_lock/unlock
-In-reply-to: <20200326193156.4322-4-robert.foley@linaro.org>
-Date: Mon, 11 May 2020 11:24:26 +0100
-Message-ID: <873686hiqt.fsf@linaro.org>
+Subject: Re: [PATCH v8 17/74] hw/semihosting: convert to cpu_halted_set
+In-reply-to: <20200326193156.4322-18-robert.foley@linaro.org>
+Date: Mon, 11 May 2020 11:25:53 +0100
+Message-ID: <87zhaeg43y.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,108 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, "Emilio G. Cota" <cota@braap.org>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: peter.puhov@linaro.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 Robert Foley <robert.foley@linaro.org> writes:
 
-> From: "Emilio G. Cota" <cota@braap.org>
->
-> The few direct users of &cpu->lock will be converted soon.
->
-> The per-thread bitmap introduced here might seem unnecessary,
-> since a bool could just do. However, once we complete the
-> conversion to per-vCPU locks, we will need to cover the use
-> case where all vCPUs are locked by the same thread, which
-> explains why the bitmap is introduced here.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
 > Signed-off-by: Robert Foley <robert.foley@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->  cpus.c                | 48 +++++++++++++++++++++++++++++++++++++++++--
->  include/hw/core/cpu.h | 33 +++++++++++++++++++++++++++++
->  stubs/Makefile.objs   |  1 +
->  stubs/cpu-lock.c      | 28 +++++++++++++++++++++++++
->  4 files changed, 108 insertions(+), 2 deletions(-)
->  create mode 100644 stubs/cpu-lock.c
+>  hw/semihosting/console.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/cpus.c b/cpus.c
-> index 71bd2f5d55..633734fb5c 100644
-> --- a/cpus.c
-> +++ b/cpus.c
-> @@ -91,6 +91,47 @@ static unsigned int throttle_percentage;
->  #define CPU_THROTTLE_PCT_MAX 99
->  #define CPU_THROTTLE_TIMESLICE_NS 10000000
+> diff --git a/hw/semihosting/console.c b/hw/semihosting/console.c
+> index 6346bd7f50..f70085f3c1 100644
+> --- a/hw/semihosting/console.c
+> +++ b/hw/semihosting/console.c
+> @@ -131,7 +131,7 @@ static void console_wake_up(gpointer data, gpointer u=
+ser_data)
+>  {
+>      CPUState *cs =3D (CPUState *) data;
+>      /* cpu_handle_halt won't know we have work so just unbung here */
+> -    cs->halted =3D 0;
+> +    cpu_halted_set(cs, 0);
+>      qemu_cpu_kick(cs);
+>  }
 >=20=20
-> +/* XXX: is this really the max number of CPUs? */
-> +#define CPU_LOCK_BITMAP_SIZE 2048
+> @@ -154,7 +154,7 @@ target_ulong qemu_semihosting_console_inc(CPUArchStat=
+e *env)
+>      g_assert(current_cpu);
+>      if (fifo8_is_empty(&c->fifo)) {
+>          c->sleeping_cpus =3D g_slist_prepend(c->sleeping_cpus, current_c=
+pu);
+> -        current_cpu->halted =3D 1;
+> +        cpu_halted_set(current_cpu, 1);
+>          current_cpu->exception_index =3D EXCP_HALTED;
+>          cpu_loop_exit(current_cpu);
+>          /* never returns */
 
-I wonder if we should be asserting this somewhere? Given it's an init
-time constant we can probably do it somewhere in the machine realise
-stage. I think the value is set in  MachineState *ms->smp.max_cpus;
-
-<snip>
-> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-> index 45be5dc0ed..d2dd6c94cc 100644
-> --- a/stubs/Makefile.objs
-> +++ b/stubs/Makefile.objs
-> @@ -5,6 +5,7 @@ stub-obj-y +=3D blockdev-close-all-bdrv-states.o
->  stub-obj-y +=3D clock-warp.o
->  stub-obj-y +=3D cpu-get-clock.o
->  stub-obj-y +=3D cpu-get-icount.o
-> +stub-obj-y +=3D cpu-lock.o
->  stub-obj-y +=3D dump.o
->  stub-obj-y +=3D error-printf.o
->  stub-obj-y +=3D fdset.o
-> diff --git a/stubs/cpu-lock.c b/stubs/cpu-lock.c
-> new file mode 100644
-> index 0000000000..ca2ea8a9c2
-> --- /dev/null
-> +++ b/stubs/cpu-lock.c
-> @@ -0,0 +1,28 @@
-> +#include "qemu/osdep.h"
-> +#include "hw/core/cpu.h"
-> +
-> +void cpu_mutex_lock_impl(CPUState *cpu, const char *file, int line)
-> +{
-> +/* coverity gets confused by the indirect function call */
-> +#ifdef __COVERITY__
-> +    qemu_mutex_lock_impl(&cpu->lock, file, line);
-> +#else
-> +    QemuMutexLockFunc f =3D atomic_read(&qemu_mutex_lock_func);
-> +    f(&cpu->lock, file, line);
-> +#endif
-> +}
-> +
-> +void cpu_mutex_unlock_impl(CPUState *cpu, const char *file, int line)
-> +{
-> +    qemu_mutex_unlock_impl(&cpu->lock, file, line);
-> +}
-
-I find this a little confusing because we clearly aren't stubbing
-something out here - we are indeed doing a lock. What we seem to have is
-effectively the linux-user implementation of cpu locking which currently
-doesn't support qsp profiling.
-
-> +bool cpu_mutex_locked(const CPUState *cpu)
-> +{
-> +    return true;
-> +}
-> +
-> +bool no_cpu_mutex_locked(void)
-> +{
-> +    return true;
-> +}
-
-What functions care about these checks. I assume it's only system
-emulation checks that are in common code. Maybe that indicates we could
-achieve better separation of emulation and linux-user code. My worry is
-by adding an assert in linux-user code we wouldn't actually be asserting
-anything.
 
 --=20
 Alex Benn=C3=A9e
