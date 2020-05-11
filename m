@@ -2,53 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626231CDDD7
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:54:58 +0200 (CEST)
-Received: from localhost ([::1]:45958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE961CDDEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 16:59:16 +0200 (CEST)
+Received: from localhost ([::1]:35320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY9pZ-0006tT-BO
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34502)
+	id 1jY9tj-000828-PU
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 10:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geert@linux-m68k.org>)
- id 1jY9nw-0004xk-9d
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:17 -0400
-Received: from xavier.telenet-ops.be ([2a02:1800:120:4::f00:14]:49176)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jY9oX-00064f-7o
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:53 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <geert@linux-m68k.org>)
- id 1jY9nt-0000dl-3B
- for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:16 -0400
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:702c:fb99:3097:2049])
- by xavier.telenet-ops.be with bizsmtp
- id dSsy2200D0GoAb601SsyQf; Mon, 11 May 2020 16:53:09 +0200
-Received: from rox.of.borg ([192.168.97.57]) by ramsan with esmtp (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1jY9ne-00082s-8S; Mon, 11 May 2020 16:52:58 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
- (envelope-from <geert@linux-m68k.org>)
- id 1jY9ne-0005zg-6l; Mon, 11 May 2020 16:52:58 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Harish Jenny K N <harish_kandiga@mentor.com>,
- Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH v7 6/6] MAINTAINERS: Add GPIO Aggregator section
-Date: Mon, 11 May 2020 16:52:57 +0200
-Message-Id: <20200511145257.22970-7-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200511145257.22970-1-geert+renesas@glider.be>
-References: <20200511145257.22970-1-geert+renesas@glider.be>
-Received-SPF: none client-ip=2a02:1800:120:4::f00:14;
- envelope-from=geert@linux-m68k.org; helo=xavier.telenet-ops.be
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1jY9oW-0000jq-D0
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 10:53:52 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x17so11368041wrt.5
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 07:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=W4ejrBo7nrPyJLwfZ1XppUEa5/iDzAO0ZOQ42Dxi07g=;
+ b=YkkfDzerKdRjnBY1tnQiEmOR9Obl4Aqcb7nLstacL4LD4SalyTzls6y13wY31shYSy
+ P5lR8GkpG0+Q+JMQo/eG63/d8yA3sdEzipwZ/d8e24c3TwZDlIIpMlWn6TQjiyN0iMnr
+ O/0TJrsehjOwvrFnXpRTLTYUR17JuXvllXNBhBmB4YxkED8s5QniT1zahwyE98EC9SjK
+ B4WC7NCHvo0r90my9WTzZsIle1q3A5/STQkbU3sifBdKhdDRW43H4/tGUJW/umgTPE0U
+ 6yscda2/1ZYH+Z4U4u2pBE6QJoJuNzPIhynew37Jqgc0ZbWsuwDhKt2dTWTjBcY6qerK
+ U/vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=W4ejrBo7nrPyJLwfZ1XppUEa5/iDzAO0ZOQ42Dxi07g=;
+ b=U5BAPUZQtpfOFHdCPfIBTxYRhtm5HWGSPuXTLOdthz1v4XpCayWv1mfoQrQOmk5hI/
+ f5kMi7TvxRP1Dq7FRjEczfpTpcYTRU1OaBQBa3rlpCibRcKmNmGzbXdrrHmhcDl0i7Yw
+ KGxARZY89dp2glkro+tVsDIT15qsGtLi8jZaL2rsnhBIq/TcKbNaYDzHagNr6g1FLjny
+ rjwokn+1xq2X1vPiDV1xUcINwCuG5ddv725AjnTuG0+ob2gDeXx6yBg4KEajZkaYzRMt
+ RIiqkY4Vs93rZ0vs+jOMz3gdnHJNZuYp10Qp9pAAqFuV7Cq6L6yVbSIorfELIaHFuqID
+ eT5g==
+X-Gm-Message-State: AGi0PuYpkZDog+gA58ilQE52fZQwsZXJ/DC6gEnuCrIafI5MUY75e7kC
+ 0vOfaecFZL08wroH+dm5BDI=
+X-Google-Smtp-Source: APiQypI0x8DrV6noFcZHRW29jMaftsx0DiYmkc/4j2YcMmQpsMkySh+m/X8OJjaWbIyfO9zTmgCZTg==
+X-Received: by 2002:a5d:5047:: with SMTP id h7mr19223822wrt.7.1589208830524;
+ Mon, 11 May 2020 07:53:50 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id l12sm16770186wrh.20.2020.05.11.07.53.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 07:53:49 -0700 (PDT)
+Date: Mon, 11 May 2020 15:53:47 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Geoffrey McRae <geoff@hostfission.com>
+Subject: Re: [PATCH v8] audio/jack: add JACK client audiodev
+Message-ID: <20200511145347.GD182627@stefanha-x1.localdomain>
+References: <20200511042538.60E863A0386@moya.office.hostfission.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SO98HVl1bnMOfKZd"
+Content-Disposition: inline
+In-Reply-To: <20200511042538.60E863A0386@moya.office.hostfission.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=stefanha@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,60 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Geert Uytterhoeven <geert+renesas@glider.be>, linux-doc@vger.kernel.org,
- Marc Zyngier <marc.zyngier@arm.com>, Magnus Damm <magnus.damm@gmail.com>,
- Christoffer Dall <christoffer.dall@arm.com>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- Alexander Graf <graf@amazon.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Phil Reid <preid@electromag.com.au>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a maintainership section for the GPIO Aggregator, covering
-documentation and driver source code.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
----
-v7:
-  - Maintained => Supported,
+--SO98HVl1bnMOfKZd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v6:
-  - No changes,
+On Wed, Apr 29, 2020 at 03:53:58PM +1000, Geoffrey McRae wrote:
+> This commit adds a new audiodev backend to allow QEMU to use JACK as
+> both an audio sink and source.
+>=20
+> Signed-off-by: Geoffrey McRae <geoff@hostfission.com>
+> ---
+>  audio/Makefile.objs    |   5 +
+>  audio/audio.c          |   1 +
+>  audio/audio_template.h |   2 +
+>  audio/jackaudio.c      | 677 +++++++++++++++++++++++++++++++++++++++++
+>  configure              |  17 ++
+>  qapi/audio.json        |  56 +++-
+>  6 files changed, 756 insertions(+), 2 deletions(-)
+>  create mode 100644 audio/jackaudio.c
 
-v5:
-  - Add Reviewed-by, Tested-by,
+Cool! Out of interest, which emulated audio device do you use and have
+you had issues with buffer sizes/latency?
 
-v4:
-  - Drop controversial GPIO repeater,
+I haven't reviewed in depth but in general this looks good.
 
-v3:
-  - New.
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+> +typedef struct QJackBuffer {
+> +    int          channels;
+> +    int          frames;
+> +    _Atomic(int) used;
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fb124a4a29cb539e..4f14c1a88ad45c5b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7232,6 +7232,13 @@ F:	Documentation/firmware-guide/acpi/gpio-properties.rst
- F:	drivers/gpio/gpiolib-acpi.c
- F:	drivers/gpio/gpiolib-acpi.h
- 
-+GPIO AGGREGATOR
-+M:	Geert Uytterhoeven <geert+renesas@glider.be>
-+L:	linux-gpio@vger.kernel.org
-+S:	Supported
-+F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
-+F:	drivers/gpio/gpio-aggregator.c
-+
- GPIO IR Transmitter
- M:	Sean Young <sean@mess.org>
- L:	linux-media@vger.kernel.org
--- 
-2.17.1
+stdatomic.h isn't used directly in QEMU. Can you use "qemu/atomic.h"
+instead?
 
+> +static inline int qjack_buffer_used(QJackBuffer *buffer)
+> +{
+> +    assert(buffer->data);
+> +    return atomic_load_explicit(&buffer->used, memory_order_relaxed);
+> +}
+
+Is this function used?
+
+--SO98HVl1bnMOfKZd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl65ZvsACgkQnKSrs4Gr
+c8j9IwgAktEvu4hbpzGZ54pl2oML6IW7srMptRs/qEqJ8dbycPdTcoffIJG6IWAj
+QFJzAFaWJGUp9pyi9DORJydOWESO4soWfD4CWRPt/Y6O+3xG/L/3cfnLuZdR/zGo
+2j5v1/OdfEauiPn5YlxZJyqooR4I6nBxShII9DDXuep2kyRsJ3cizuMFRHLgo3Up
+9HzIKOn3x41qqQX/Dv2P979dSLNkg2ZluS1I4mkGME1NQldDV840CP6TlDXHvYQS
+Z8okFSzNWFi4+eBWf+FYZYOMGSPDIdOTVMTrGxh5tLWRWp0QUxIEXZjUJBYuQDBX
+oClDbgpazI9uBV2v3HbojK09nRZYgA==
+=Kvsh
+-----END PGP SIGNATURE-----
+
+--SO98HVl1bnMOfKZd--
 
