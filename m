@@ -2,88 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F0C1CD23D
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 09:14:16 +0200 (CEST)
-Received: from localhost ([::1]:60884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CE01CD238
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 09:10:36 +0200 (CEST)
+Received: from localhost ([::1]:54732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY2dj-0006YZ-GJ
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 03:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49636)
+	id 1jY2aB-0003Ld-11
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 03:10:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY2Yu-00025I-9J
- for qemu-devel@nongnu.org; Mon, 11 May 2020 03:09:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:33154
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY2Yt-0000Ed-L5
- for qemu-devel@nongnu.org; Mon, 11 May 2020 03:09:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589180954;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dJH+0FhgWB31ew/3xujSyw7arTj8XDNkT4Re2ahoBVA=;
- b=ij1R2jacHo7b3U7sIJMpnFU4kcXMyPD8WkRBm2kvhMjVrhW0MB+1PmYrtjGVmjb1ddJpd+
- ySwYcVz9RjBogxO7qjdECS/PRvW3W602DzN0z1D12fnIR9TmQ55qvkyW8nYDkuqCBhxUbl
- zrR5sMSvqq1ws7Zr6ZSAanalIqWk4q0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-325-j5UEszKXPJ-IiFQCPvCmWQ-1; Mon, 11 May 2020 03:09:10 -0400
-X-MC-Unique: j5UEszKXPJ-IiFQCPvCmWQ-1
-Received: by mail-wm1-f70.google.com with SMTP id e15so142197wme.1
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 00:09:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dJH+0FhgWB31ew/3xujSyw7arTj8XDNkT4Re2ahoBVA=;
- b=ljI5+3tcry17TdNxMg+boV7osttVlsRzXG0YiRUqNJwEJaEQjXKAVcehdZi8T4UGPz
- h9Vc//Rjh3r5DKO+0Pz0snr81HDyxNfa9pOs9Wl6aQpUz3FgbrfHL+r+8xtzNPLiAbkj
- NNVkZL/h3KlpYhWKOHynJpkLG6PVk0/s72cJ+Gkm10PG2i9vREt/4prt+nQ9LLhKjlkB
- h8YjIGgZl7iiox62fP+Qw2qX/I/y1cyEeIr9WLad7Di1X3AvVoQb94HOiOKGnY0PcO3d
- +QAMce0cKeRROtJS7iad5w+SzNZsKvC14VyQs5mGoUWAWZxRwYgdC11K24RzuubLBOmD
- MKdQ==
-X-Gm-Message-State: AGi0PuYx9vXziN7HeVUO8tPCl/dlgOoz3t6n/+AL1VnJyvwjD3LQOyRY
- E3SjAC2RkE2J3nq28krx8/YxiU5o8fcgcIm2I3+euAFFuFVf2uGbJ8oFgTYasX8tRjneNSz/anj
- WFBGE3AkYiGajpNQ=
-X-Received: by 2002:adf:d841:: with SMTP id k1mr16783191wrl.129.1589180949751; 
- Mon, 11 May 2020 00:09:09 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJ4LOL3HZtKmNX3XsZkEEsEbRHYZugqIsAnDUbQ/gnB6eGkctZSq9XqZyoaLqrSq5vwrFYYFg==
-X-Received: by 2002:adf:d841:: with SMTP id k1mr16783163wrl.129.1589180949532; 
- Mon, 11 May 2020 00:09:09 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id n9sm9225376wru.90.2020.05.11.00.09.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 May 2020 00:09:09 -0700 (PDT)
-Subject: Re: [PATCH 0/2] hw/block/nvme: fixes for interrupt behavior
-To: Klaus Jensen <its@irrelevant.dk>, qemu-block@nongnu.org
-References: <20200505203603.278339-1-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <635fa8aa-8c8d-98e3-3610-3f3a73a476ef@redhat.com>
-Date: Mon, 11 May 2020 09:09:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jY2ZM-0002UB-51; Mon, 11 May 2020 03:09:44 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:38478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1jY2ZK-0000Ij-I4; Mon, 11 May 2020 03:09:43 -0400
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by charlie.dont.surf (Postfix) with ESMTPSA id 0BE6CBF5B8;
+ Mon, 11 May 2020 07:09:40 +0000 (UTC)
+Date: Mon, 11 May 2020 09:09:36 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v5 00/18] nvme: refactoring and cleanups
+Message-ID: <20200511070936.fxarxicz7zrj6mop@apples.localdomain>
+References: <20200505054840.186586-1-its@irrelevant.dk>
+ <20200511062513.3axdfcmr4izulv5x@apples.localdomain>
+ <095f3c9b-5b32-7a88-03e9-ca993ca3f3c9@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200505203603.278339-1-its@irrelevant.dk>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:55:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <095f3c9b-5b32-7a88-03e9-ca993ca3f3c9@redhat.com>
+Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
+ helo=charlie.dont.surf
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:25:18
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,25 +55,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Beata Michalska <beata.michalska@linaro.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Javier Gonzalez <javier.gonz@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+ Michael & Marcel for MSIX,
-and ping to Keith :)
-
-On 5/5/20 10:36 PM, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On May 11 09:00, Philippe Mathieu-Daudé wrote:
+> Hi Klaus,
 > 
-> Klaus Jensen (2):
->    hw/block/nvme: fix pin-based interrupt behavior
->    hw/block/nvme: allow use of any valid msix vector
+> On 5/11/20 8:25 AM, Klaus Jensen wrote:
+> > On May  5 07:48, Klaus Jensen wrote:
+> > > From: Klaus Jensen <k.jensen@samsung.com>
+> > > 
+> > > Changes since v5
+> > > ~~~~~~~~~~~~~~~~
+> > > No functional changes, just updated Reviewed-by tags. Also, I screwed up
+> > > the CC list when sending v4.
+> > > 
+> > > Philippe and Keith, please add a Reviewed-by to
+> > > 
+> > >    * "nvme: factor out pmr setup" and
+> > >    * "do cmb/pmr init as part of pci init"
+> > > 
+> > > since the first one was added and the second one was changed in v4 when
+> > > rebasing on Kevins block-next tree which had the PMR work that was not
+> > > in master at the time.
+> > > 
+> > > With those in place, it should be ready for Kevin to merge.
+> > > 
+> > Gentle ping on this.
+> > 
+> > Also, please see the two patches in "[PATCH 0/2] hw/block/nvme: fixes
+> > for interrupt behavior". I think they should go in preparation to this
+> > series.
 > 
->   hw/block/nvme.c | 14 +++++++++-----
->   hw/block/nvme.h |  2 +-
->   2 files changed, 10 insertions(+), 6 deletions(-)
+> I was going to ping Kevin last week, but then read your comment on pach #7
+> "nvme: add max_ioqpairs device parameter", so I interpreted you would
+> respin.
+> Now it is clearer, applying in the following order you don't need to respin,
+> right?
+> 
+> - [PATCH 0/2] hw/block/nvme: fixes for interrupt behavior"
+> - [PATCH v5 00/18] nvme: refactoring and cleanups
+> 
 
+Ugh. "[PATCH v5 00/18] nvme: refactoring and cleanups" doesn't apply
+completely cleanly.
+
+"[PATCH 0/2] hw/block/nvme: fixes for interrupt behavior" was intented
+to go into master because it fixes a bug, that is why I split them up.
+
+But looks like it is better to just roll it into this series. I'll
+respin a v6 with the two interrupt fixes.
 
