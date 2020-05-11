@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49271CDF10
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 17:31:38 +0200 (CEST)
-Received: from localhost ([::1]:40818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E75341CE57B
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 22:28:45 +0200 (CEST)
+Received: from localhost ([::1]:42006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYAP3-0007Cv-Pk
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 11:31:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42308)
+	id 1jYF2a-0002bq-Fz
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 16:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYANL-000641-Kz
- for qemu-devel@nongnu.org; Mon, 11 May 2020 11:29:51 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47287
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYANK-0005Bw-0E
- for qemu-devel@nongnu.org; Mon, 11 May 2020 11:29:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589210988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0p45Fn+r4miiKELrnuTBmW3zqlOzzP0A2zaL7ya4Ph0=;
- b=St0qBRPw42IZXOmawu6UwViGZRo7a4OAV1SCIt3M22qEtwdmc/CkAqE74cfCIKkYweOREg
- Mhl3f2tzuaYJtzrDXtJRRs3WWuYrpqXQu539JHxP7Xt1ZPXWv2HmY8Yz2EFZYITNS5YeUQ
- orOAZ6pGgCzQ75Y15pE+mc+5yct6ouA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-xT80-a1aMGq7UpLtEG8ibQ-1; Mon, 11 May 2020 11:29:46 -0400
-X-MC-Unique: xT80-a1aMGq7UpLtEG8ibQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 483C28005B7;
- Mon, 11 May 2020 15:29:45 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-142.ams2.redhat.com [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA6AC5D9DC;
- Mon, 11 May 2020 15:29:43 +0000 (UTC)
-Date: Mon, 11 May 2020 17:29:42 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH v2 1/4] iotests/109: Don't mirror with mismatched size
-Message-ID: <20200511152942.GE5661@linux.fritz.box>
-References: <20200511135825.219437-1-kwolf@redhat.com>
- <20200511135825.219437-2-kwolf@redhat.com>
- <8bd8e50f-30b8-f3b7-acd1-6f2cfb32a2f3@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <8bd8e50f-30b8-f3b7-acd1-6f2cfb32a2f3@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lrZ03NoBR/3+SXJZ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <B3r3n@argosnet.com>)
+ id 1jYANP-00066g-4e; Mon, 11 May 2020 11:29:55 -0400
+Received: from mx.argosnet.com ([51.255.124.196]:36735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <B3r3n@argosnet.com>)
+ id 1jYANN-0005CI-9K; Mon, 11 May 2020 11:29:54 -0400
+Received: from mx.argosnet.com (Argosnet [51.255.124.196])
+ by mx.argosnet.com (Postfix) with ESMTP id 879BB3B422;
+ Mon, 11 May 2020 17:29:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=argosnet.com; h=date:to
+ :from:subject:cc:in-reply-to:references:mime-version
+ :content-type; s=mx; bh=mw+EfNiMyMHb0xwdYmKl7xgxEzo=; b=JhPyTxF1
+ TE2/xXNQHVki6nsMZyW9cK+ZgdK04112DtyXYxI9J3mi+rY7Luh4yCRpKiPi9eg5
+ 2Vw/R+EVD/oErxqyJEgnHewo0/d3npqkTw+u53S+KnVZESawT9YZQdaXPl6a22rx
+ 8NOYQCNHsJPq/XqTYvKlIgK9UXuESLO6jes=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=argosnet.com; h=date:to:from
+ :subject:cc:in-reply-to:references:mime-version:content-type; q=
+ dns; s=mx; b=MWhBYlQSaDlnuIru3hV504tLtMSAPw72v7KR/RLT5z2+XH1aabA
+ R82SCzgoQqgtb4ySURxo9Pj8hO3CnnzVNIPsdXcqJmqj+nK9QTtH7IMwZCIIQSB7
+ tfOn4oNyXx7HwfdwVgoF2SqzUTL8aBy/vy4bdcg+dW9NEbn+M8sVD2Q4=
+Received: from Osgiliath.argosnet.com
+ (lfbn-nic-1-419-246.w90-116.abo.wanadoo.fr [90.116.244.246])
+ (Authenticated sender: llevier@pop.argosnet.com)
+ by mx.argosnet.com (Postfix) with ESMTPSA id 5347D3B421;
+ Mon, 11 May 2020 17:29:49 +0200 (CEST)
+X-Mailer: QUALCOMM Windows Eudora Version 7.1.0.9
+Date: Mon, 11 May 2020 17:29:48 +0200
+To: Daniel P. =?iso-8859-1?Q?Berrang=C3=A9?= <berrange@redhat.com>
+From: B3r3n <B3r3n@argosnet.com>
+Subject: Re: Qemu, VNC and non-US keymaps
+Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, B3r3n <B3r3n@argosnet.com>,Gerd 
+ Hoffmann <kraxel@redhat.com>, qemu-discuss@nongnu.org
+In-Reply-To: <20200511151155.GO1135885@redhat.com>
+References: <E1jY9FF-0000Po-2c@lists.gnu.org>
+ <af732fbf-fd70-97bc-3ea8-25d66f5895de@redhat.com>
+ <20200511151155.GO1135885@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Received-SPF: pass client-ip=51.255.124.196; envelope-from=B3r3n@argosnet.com;
+ helo=mx.argosnet.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 10:17:20
+X-ACL-Warn: Detected OS   = FreeBSD  [generic] [fuzzy]
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FORGED_MUA_EUDORA=0.001, MISSING_MID=0.497, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+Message-Id: <E1jYANP-00066g-4e@lists.gnu.org>
+X-Mailman-Approved-At: Mon, 11 May 2020 16:23:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,78 +75,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---lrZ03NoBR/3+SXJZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello Daniel,
 
-Am 11.05.2020 um 17:08 hat Max Reitz geschrieben:
-> On 11.05.20 15:58, Kevin Wolf wrote:
-> > This patch makes the raw image the same size as the file in a different
-> > format that is mirrored as raw to it to avoid errors when mirror starts
-> > to enforce that source and target are the same size.
-> >=20
-> > We check only that the first 512 bytes are zeroed (instead of 64k)
-> > because some image formats create image files that are smaller than 64k=
-,
-> > so trying to read 64k would result in I/O errors. Apart from this, 512
-> > is more appropriate anyway because the raw format driver protects
-> > specifically the first 512 bytes.
-> >=20
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >  tests/qemu-iotests/109           | 10 ++---
-> >  tests/qemu-iotests/109.out       | 74 +++++++++++++-------------------
-> >  tests/qemu-iotests/common.filter |  5 +++
-> >  3 files changed, 41 insertions(+), 48 deletions(-)
-> >=20
-> > diff --git a/tests/qemu-iotests/109 b/tests/qemu-iotests/109
-> > index 5bc2e9b001..3ffeaf3c55 100755
-> > --- a/tests/qemu-iotests/109
-> > +++ b/tests/qemu-iotests/109
-> > @@ -77,14 +77,14 @@ for fmt in qcow qcow2 qed vdi vmdk vpc; do
-> >      echo "=3D=3D=3D Writing a $fmt header into raw =3D=3D=3D"
-> >      echo
-> > =20
-> > -    _make_test_img 64M
-> >      TEST_IMG=3D"$TEST_IMG.src" IMGFMT=3D$fmt _make_test_img 64M
-> > +    _make_test_img $(du -b "$TEST_IMG.src" | cut -f1) | _filter_img_cr=
-eate_size
->=20
-> Why du and not the file length (stat -c '%s')?
+>There is no mention here of what VNC client program is being used, which
+>is quite important, as key handling is a big mess in VNC.
+I tested with TightVNC & noVNC through Apache. Both behaves the same. 
+I did not tested Ultr@VNC.
 
-Because the test from which I copied had 'du' and the internet claimed
-that 'stat -c' isn't portable. Now I see that we do use it in other test
-cases, so I guess it would have been fine, too. Is there a good reason
-why 'stat' would be better?
 
-Kevin
+>The default VNC protocol passes X11 keysyms over the wire.
+>
+>The remote desktop gets hardware scancodes and turns them into keysyms,
+>which the VNC client sees. The VNC client passes them to the VNC server
+>in QEMU, which then has to turn them back into hardware scancodes. This
+>reverse mapping relies on knowledge of the keyboard mapping, and is what
+>the "-k fr" argument tells QEMU.
+>
+>For this to work at all, the keymap used by the remote desktop must
+>match the keymap used by QEMU, which must match the keymap used by
+>the guest OS.  Even this is not sufficient though, because the act
+>of translating hardware scancodes into keysyms is *lossy*. There is
+>no way to reliably go back to hardware scancodes, which is precisely
+>what QEMU tries to do - some reverse mappings will be ambiguous.
+Yes, I saw that topic passing by. Looks messy with all these interferences...
 
---lrZ03NoBR/3+SXJZ
-Content-Type: application/pgp-signature; name="signature.asc"
+>Due to this mess, years ago (over a decade) QEMU introduced a VNC
+>protocol extension that allows for passing hardware scancodes over
+>the wire.
+I guess I also crossed something about this on Internet.
+Are you talking of the RFB protocol ?
 
------BEGIN PGP SIGNATURE-----
+>With this extension, the VNC client gets the hardware scancode
+>from the remote desktop, and passes it straight to the VNC server,
+>which passes it straight to the guest OS, which then applies the
+>localized keyboard mapping.   This is good because the localized
+>keyboard mapping conversion is now only done once, in the guest
+>OS.
+>
+>To make use of this protocol extension to VNC, you must *NOT*
+>pass any "-k" arg to QEMU, and must use a VNC client that has
+>support for this protocol extension.  The GTK-VNC widget supports
+>this and is used by virt-viewer, remote-viewer, virt-manager,
+>GNOME Boxes, Vinagre client applications.  The TigerVNC client
+>also supports this extension.
+So if I read you, if the client "enforce" this protocol (supposed 
+RFB), Qemu will automatically uses it as well ?
+Removing -k option is great to me if it works, since user will have 
+its own mapping and these are international :-)
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl65b2UACgkQfwmycsiP
-L9aROQ//bSsCdnzbvwUOCUd4Op/2gQnyor+x5DBbMoGKMpmyjdztur+wCo3icXfL
-0sdzfSJse6mgaRmjNQD5dWQ7F4sa+foM6cPLnrUmOpJjLvUIZ07IVniyVTWKLjsk
-Ode8UiB678+t6xDFvfZuvb6wYs0GSKg8WBGBzmCtOMP0NxyLtdfrPE7b6yqHrWjC
-fadauwfNzlfS5bPQQoGp6MWw1tO7F/srHXD2dP9/QjvIWbLg0EJziZlgiZ00Fb2U
-lLhVQPf0WXxWm6PECmgUVLTCf95Un7+72mGw5h04pa7okpb6nkyHwITL8FZ754MM
-/QKdvb9yAhqst4OvcciIrRxSjqFFRGrpXaA/SYs6NkvO8OJryiWPpRBT+eqmHEv/
-GMVYJM2eDIJJ5HXThcx/6+RwjY5/aphjqhk79x7SS442qFoAED7o7p3adLhP6y6s
-E5kvosLuzx6lWhnIYql4lPkoR6VEqWJmvd1QNfTpKghn4nQ+lI4DZQtzL6t4YBHF
-lYiFGjlEIvKDy2o+vnOiulWqYEFp5WT5WFGiR6fvDXqlNRECdcOGPRzGjk1FX+ui
-N6zF+U8U6ky6Dmg9dZXQ2zMo49AfP6fkltRyz5m8016flD+aHZnI7zsQ4d8Tbsgr
-CMhhQwxf7Qm7nbc/UODGWTIBUkUaFY2pKNujc+7O3+t0zddmSVc=
-=jAJc
------END PGP SIGNATURE-----
+>To summarize, my recommendation is to remove the "-k" arg entirely,
+>and pick a VNC client that supports the scancode extension.
+For now I am using TightVNC & noVNC. noVNC is precious since it 
+widens the user world, removing any client software constraint.
 
---lrZ03NoBR/3+SXJZ--
+>It is possible there might be a genuine bug in QEMU's 'fr' keymap
+>that can be fixed to deal with AltGr problems. Personally though I
+>don't spend time investigating these problems, as the broad reverse
+>keymapping problem is unfixable. The only sensible option is to take
+>the route of using the VNC hardware scancode extension. It is notable
+>that SPICE learnt from VNC's mistake and used hardware scancodes from
+>the very start.
+
+This was another path I intend to follow : using SPICE and a 
+"noSPICE" client if VNC was too painful.
+If I understand you, using SPICE could also solve the issue ?
+
+Many thanks for your inputs...
+
+Brgrds
+
+
+
+>Regards,
+>Daniel
+>--
+>|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+>|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+>|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
