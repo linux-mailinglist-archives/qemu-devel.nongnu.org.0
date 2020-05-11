@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEDB1CE08F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:34:45 +0200 (CEST)
-Received: from localhost ([::1]:49700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8904F1CE0BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 18:39:13 +0200 (CEST)
+Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYBO8-0003xU-48
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53864)
+	id 1jYBSS-00022O-Il
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 12:39:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jYBMo-0002f6-I5
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:33:22 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:34843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jYBMn-0007HJ-D6
- for qemu-devel@nongnu.org; Mon, 11 May 2020 12:33:22 -0400
-Received: by mail-lf1-x144.google.com with SMTP id x73so8064265lfa.2
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 09:33:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fHGeN+d4UU7Im0dX+ueJk82YhWcBNirec264Uw+ZR+c=;
- b=y9RjR2lGohOkl4P5QyVLkeD1MYsWCf8XLMLEaZic2OQghx6ayWJhPSxX6jNcE3/d5G
- TWyIyRp4IAXNoNxi3eygjh6iVpi88eEVh1zW/Sw5/unFSgMPzJ4U1MvnDhyYVYvB+O1O
- xw5DfGwcTrge4tvgheWkJStRs2zNB229OmsK+s/vOLJ7STtb02jPh5mmivaAFx643RL1
- WRkL8JQX2Y0QQMd2qB8V8h0JG3V94K+PyM/U3lUkC+YgcJWd6d/vdc3X+R4Vgs3wkLrn
- glL5Q0gnaGriL9pRq05qXpWv0OqcsnhdVKrmSdo8t9xFzstv2pQj2tUcE51IHXwDf/N5
- ZUXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fHGeN+d4UU7Im0dX+ueJk82YhWcBNirec264Uw+ZR+c=;
- b=n3agzz90KjaUjvYfPEx2RwU5erDhNbD5v3az2cAmyvz8q/KnAa+UhN7hzEUU+ptQII
- cWCsyYiHIVSBaYSNjNIcvrZRSvBmqG9ZCBeBIn70cFmkFga6CqG5MsLSiLpcVAy53J4J
- 5Hba71sS5k+OKg7Pc0Ct2FpdR5aHLB3mgWymOFFel0PCNBCs/Z+oLC9YvHhyK8ZPPt1G
- nDc3SWpuMzP9n//mNw4CFF7ZZTeQ7aKs43Zqp6dhdcU07cCvr6La1nOyBoF2z6jYPOss
- ULFwvHAUJ6qAi+I13nBmxIkE77gR+xScn4haDVo/XaCqB8pK+JUojwankaoXWu5vLD9p
- OMdA==
-X-Gm-Message-State: AOAM53395YWVyZ9dbrKCL1Qn81wFBtmGhxaGn1t8/6EL/+5O0BUuBrGV
- 71J7QOKHQU66N+K9dhwqzIYvwna2Tg6Aqw/OLERcBA==
-X-Google-Smtp-Source: ABdhPJzRPf/1DnyvBXNgFuPnz1XbSh974vRucZswEMMeDq7Ce8uNG/Fd8gAtiETFL1lQHD1DK0f8tri/f7UOydrQJKc=
-X-Received: by 2002:a19:4f1b:: with SMTP id d27mr11664578lfb.81.1589214794912; 
- Mon, 11 May 2020 09:33:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYBPj-00073U-Rf
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:36:23 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58795
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYBPj-0000i8-1v
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 12:36:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589214981;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Wr1dJLH/HJ+IjgVPORoKsIFDuC53/7po0J0O62kdasg=;
+ b=cuO7Of0WCSu/ABTqb3X60CGwm5FOqhwmkHNRuaaogJnqiYWhJIjAqQMJxXgX7iirwqYwaA
+ Dy3S4FgTRvKW1sclquQb7WyZp9zi7zDkCYdqzn4hvGT/CAd33GrO9z6Ql2zOx0V1BB/sCq
+ wDFCw6VBfrEPUUZFa0iqGtSWc6VB7oU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-1kG8jKLwOC6o6VFu-zlhkA-1; Mon, 11 May 2020 12:36:20 -0400
+X-MC-Unique: 1kG8jKLwOC6o6VFu-zlhkA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B20BB190C420;
+ Mon, 11 May 2020 16:35:39 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-114-142.ams2.redhat.com
+ [10.36.114.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C2CD5C1B5;
+ Mon, 11 May 2020 16:35:38 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/2] iotests: Run pylint and mypy in a testcase
+Date: Mon, 11 May 2020 18:35:27 +0200
+Message-Id: <20200511163529.349329-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20200326193156.4322-1-robert.foley@linaro.org>
- <20200326193156.4322-3-robert.foley@linaro.org> <87r1vqfrxv.fsf@linaro.org>
-In-Reply-To: <87r1vqfrxv.fsf@linaro.org>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Mon, 11 May 2020 12:33:08 -0400
-Message-ID: <CAEyhzFs_J-RChW9ntpOaA+e-pAgtJHK80Bg9qeQ9mpM=wmD9gg@mail.gmail.com>
-Subject: Re: [PATCH v8 02/74] cpu: rename cpu->work_mutex to cpu->lock
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=robert.foley@linaro.org; helo=mail-lf1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 00:05:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,40 +75,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Puhov <peter.puhov@linaro.org>, "Emilio G. Cota" <cota@braap.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 May 2020 at 10:48, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> Hmm while bisecting to find another problem I found this commit:
->
->   /home/alex/lsrc/qemu.git/hw/core/cpu.c: In function =E2=80=98cpu_common=
-_finalize=E2=80=99:
->   /home/alex/lsrc/qemu.git/hw/core/cpu.c:383:27: error: incompatible type=
- for argument 1 of =E2=80=98qemu_mutex_destroy=E2=80=99
->        qemu_mutex_destroy(cpu->lock);
->                           ~~~^~~~~~
->   In file included from /home/alex/lsrc/qemu.git/include/hw/core/cpu.h:31=
-,
->                    from /home/alex/lsrc/qemu.git/hw/core/cpu.c:23:
->   /home/alex/lsrc/qemu.git/include/qemu/thread.h:26:36: note: expected =
-=E2=80=98QemuMutex *=E2=80=99 {aka =E2=80=98struct QemuMutex *=E2=80=99} bu=
-t argument is of type =E2=80=98QemuMutex=E2=80=99 {aka =E2=80=98struct Qemu=
-Mutex=E2=80=99}
->    void qemu_mutex_destroy(QemuMutex *mutex);
->                            ~~~~~~~~~~~^~~~~
->   make: *** [/home/alex/lsrc/qemu.git/rules.mak:69: hw/core/cpu.o] Error =
-1
->
-> which works fine in the final product so I suspect something has slipped
-> between commits somewhere.
+Kevin Wolf (2):
+  iotests: Fix incomplete type declarations
+  iotests: Run pylint and mypy in a testcase
 
-I agree, looks like something is off with the intermediate commits.
-Thanks for noticing it !  Will fix it.
+ tests/qemu-iotests/iotests.py |  8 +++----
+ tests/qemu-iotests/297        | 44 +++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/297.out    |  3 +++
+ tests/qemu-iotests/group      |  1 +
+ 4 files changed, 52 insertions(+), 4 deletions(-)
+ create mode 100755 tests/qemu-iotests/297
+ create mode 100644 tests/qemu-iotests/297.out
 
-Thanks,
--Rob
+-- 
+2.25.3
+
 
