@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8C31CCF42
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:46:53 +0200 (CEST)
-Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B4D1CCF48
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 03:50:04 +0200 (CEST)
+Received: from localhost ([::1]:34946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jXxWu-0003bG-4r
-	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:46:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60642)
+	id 1jXxZz-0000vh-NW
+	for lists+qemu-devel@lfdr.de; Sun, 10 May 2020 21:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jXxUu-0000wl-EJ; Sun, 10 May 2020 21:44:48 -0400
-Received: from ozlabs.org ([203.11.71.1]:33685)
+ id 1jXxUx-00011R-5n; Sun, 10 May 2020 21:44:51 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56995 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jXxUr-0000en-MH; Sun, 10 May 2020 21:44:48 -0400
+ id 1jXxUv-0000hv-92; Sun, 10 May 2020 21:44:50 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 49L3dh1hC2z9sT4; Mon, 11 May 2020 11:44:40 +1000 (AEST)
+ id 49L3dh2KgFz9sT5; Mon, 11 May 2020 11:44:40 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1589161480;
- bh=rNRKRkqr64A3lrJbutaFfIrbgAI/5OJZ0kLFzbu0684=;
+ bh=9ljOHZlsUvOR4IFaWk5w3kI/2osTQHq6jsLMDg9lJmU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cQtUDu/kXka90VoLZu2wQ3P0OvO4PhZGYZkON/NyCcWIZHMKCN452g5cKYMsRAZqP
- 9P2uThCMHbVZDm8C8F1Ibdbq6pr1l5glQzbkGsf7hEspVTJNuN9id/Shs4GWG07HLp
- FkqncZEx5wZNP576vEV8TSOqMJWxkGD00Q8XRekg=
-Date: Mon, 11 May 2020 11:35:22 +1000
+ b=lt1SVYINhBtc5lrLpYmM4ZgaXztULcpuws4KW9K6dfmKQHUSBHS5Yls1OmhCZphPc
+ wWng509QwtmwPxwCyAphdYj5mPUk4/DTgT+yFflB6TefgNdB7cNA3DgIMB9oq1vq1j
+ 85OseHREHkUNN7yqtGYNNTYQNhc8rl34EzkWmNv4=
+Date: Mon, 11 May 2020 11:37:27 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 10/10] exec: Move cpu_physical_memory_* functions to
- 'exec/memory-internal.h'
-Message-ID: <20200511013522.GL2183@umbus.fritz.box>
-References: <20200507173958.25894-1-philmd@redhat.com>
- <20200507173958.25894-11-philmd@redhat.com>
+To: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH] target/ppc: Add support for scv and rfscv instructions
+Message-ID: <20200511013727.GM2183@umbus.fritz.box>
+References: <20200507115328.789175-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GeDkoc8jIzHasOdk"
+ protocol="application/pgp-signature"; boundary="1rguoi8KZGYj2k4L"
 Content-Disposition: inline
-In-Reply-To: <20200507173958.25894-11-philmd@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20200507115328.789175-1-npiggin@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/10 21:17:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -62,791 +60,438 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, Keith Busch <kbusch@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---GeDkoc8jIzHasOdk
-Content-Type: text/plain; charset=iso-8859-1
+--1rguoi8KZGYj2k4L
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 07, 2020 at 07:39:58PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+On Thu, May 07, 2020 at 09:53:28PM +1000, Nicholas Piggin wrote:
+> POWER9 adds scv and rfscv instructions and the system call vectored
+> interrupt. Linux does not support this instruction yet but it has
+> been tested with a modified kernel that runs on real hardware.
+>=20
+> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
 
-ppc parts
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Applied to ppc-for-5.1.
 
 > ---
->  include/exec/memory-internal.h | 305 ++++++++++++++++++++++++++++++++-
->  include/exec/ram_addr.h        | 303 +-------------------------------
->  accel/tcg/cputlb.c             |   1 -
->  hw/ppc/spapr.c                 |   1 -
->  hw/ppc/spapr_pci.c             |   1 -
->  memory.c                       |   1 -
->  6 files changed, 305 insertions(+), 307 deletions(-)
+> This was tested with out-of-tree Linux patches and seems to work fine.
 >=20
-> diff --git a/include/exec/memory-internal.h b/include/exec/memory-interna=
-l.h
-> index b2b7c1e78a..4abb3bbd85 100644
-> --- a/include/exec/memory-internal.h
-> +++ b/include/exec/memory-internal.h
-> @@ -21,8 +21,13 @@
->  #define MEMORY_INTERNAL_H
+> This fixes the linux-user compile error that David reported last time,
+> by disabling everything for CONFIG_USER_ONLY. I have the user
+> implementation which is pretty simple, but we don't have an official
+> user ABI yet so I'll wait until we get support merged in the kernel.
+>=20
+> Thanks,
+> Nick
+>=20
+>  linux-user/ppc/cpu_loop.c       |  1 +
+>  target/ppc/cpu.h                |  7 ++-
+>  target/ppc/excp_helper.c        | 98 ++++++++++++++++++++++++---------
+>  target/ppc/helper.h             |  1 +
+>  target/ppc/translate.c          | 52 ++++++++++++++++-
+>  target/ppc/translate_init.inc.c |  3 +-
+>  6 files changed, 132 insertions(+), 30 deletions(-)
+>=20
+> diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+> index 5b27f8603e..df71e15a25 100644
+> --- a/linux-user/ppc/cpu_loop.c
+> +++ b/linux-user/ppc/cpu_loop.c
+> @@ -267,6 +267,7 @@ void cpu_loop(CPUPPCState *env)
+>              queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+>              break;
+>          case POWERPC_EXCP_SYSCALL:  /* System call exception            =
+     */
+> +        case POWERPC_EXCP_SYSCALL_VECTORED:
+>              cpu_abort(cs, "Syscall exception while in user mode. "
+>                        "Aborting\n");
+>              break;
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 6b6dd7e483..df5c30160d 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -127,8 +127,9 @@ enum {
+>      POWERPC_EXCP_SDOOR_HV =3D 100,
+>      /* ISA 3.00 additions */
+>      POWERPC_EXCP_HVIRT    =3D 101,
+> +    POWERPC_EXCP_SYSCALL_VECTORED =3D 102, /* scv exception             =
+        */
+>      /* EOL                                                              =
+     */
+> -    POWERPC_EXCP_NB       =3D 102,
+> +    POWERPC_EXCP_NB       =3D 103,
+>      /* QEMU exceptions: used internally during code translation         =
+     */
+>      POWERPC_EXCP_STOP         =3D 0x200, /* stop translation            =
+       */
+>      POWERPC_EXCP_BRANCH       =3D 0x201, /* branch instruction          =
+       */
+> @@ -478,6 +479,7 @@ typedef struct ppc_v3_pate_t {
+>  /* Facility Status and Control (FSCR) bits */
+>  #define FSCR_EBB        (63 - 56) /* Event-Based Branch Facility */
+>  #define FSCR_TAR        (63 - 55) /* Target Address Register */
+> +#define FSCR_SCV        (63 - 51) /* System call vectored */
+>  /* Interrupt cause mask and position in FSCR. HFSCR has the same format =
+*/
+>  #define FSCR_IC_MASK    (0xFFULL)
+>  #define FSCR_IC_POS     (63 - 7)
+> @@ -487,6 +489,7 @@ typedef struct ppc_v3_pate_t {
+>  #define FSCR_IC_TM          5
+>  #define FSCR_IC_EBB         7
+>  #define FSCR_IC_TAR         8
+> +#define FSCR_IC_SCV        12
 > =20
->  #include "cpu.h"
-> +#include "sysemu/tcg.h"
-> +#include "sysemu/xen.h"
-> +#include "exec/ramlist.h"
-> +#include "exec/ramblock.h"
+>  /* Exception state register bits definition                             =
+     */
+>  #define ESR_PIL   PPC_BIT(36) /* Illegal Instruction                    =
+*/
+> @@ -554,6 +557,8 @@ enum {
+>      POWERPC_FLAG_VSX      =3D 0x00080000,
+>      /* Has Transaction Memory (ISA 2.07)                                =
+     */
+>      POWERPC_FLAG_TM       =3D 0x00100000,
+> +    /* Has SCV (ISA 3.00)                                               =
+     */
+> +    POWERPC_FLAG_SCV      =3D 0x00200000,
+>  };
 > =20
->  #ifdef CONFIG_SOFTMMU
+>  /***********************************************************************=
+******/
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index f052979664..170b3be4c4 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -67,6 +67,18 @@ static inline void dump_syscall(CPUPPCState *env)
+>                    ppc_dump_gpr(env, 8), env->nip);
+>  }
+> =20
+> +static inline void dump_syscall_vectored(CPUPPCState *env)
+> +{
+> +    qemu_log_mask(CPU_LOG_INT, "syscall r0=3D%016" PRIx64
+> +                  " r3=3D%016" PRIx64 " r4=3D%016" PRIx64 " r5=3D%016" P=
+RIx64
+> +                  " r6=3D%016" PRIx64 " r7=3D%016" PRIx64 " r8=3D%016" P=
+RIx64
+> +                  " nip=3D" TARGET_FMT_lx "\n",
+> +                  ppc_dump_gpr(env, 0), ppc_dump_gpr(env, 3),
+> +                  ppc_dump_gpr(env, 4), ppc_dump_gpr(env, 5),
+> +                  ppc_dump_gpr(env, 6), ppc_dump_gpr(env, 7),
+> +                  ppc_dump_gpr(env, 8), env->nip);
+> +}
 > +
->  static inline AddressSpaceDispatch *flatview_to_dispatch(FlatView *fv)
+>  static inline void dump_hcall(CPUPPCState *env)
 >  {
->      return fv->dispatch;
-> @@ -49,5 +54,303 @@ void address_space_dispatch_free(AddressSpaceDispatch=
- *d);
+>      qemu_log_mask(CPU_LOG_INT, "hypercall r3=3D%016" PRIx64
+> @@ -185,7 +197,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
+excp_model, int excp)
+>      CPUState *cs =3D CPU(cpu);
+>      CPUPPCState *env =3D &cpu->env;
+>      target_ulong msr, new_msr, vector;
+> -    int srr0, srr1, asrr0, asrr1, lev, ail;
+> +    int srr0, srr1, asrr0, asrr1, lev =3D -1, ail;
+>      bool lpes0;
 > =20
->  void mtree_print_dispatch(struct AddressSpaceDispatch *d,
->                            MemoryRegion *root);
-> -#endif
+>      qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
+> @@ -421,6 +433,13 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>              new_msr |=3D (target_ulong)MSR_HVB;
+>          }
+>          break;
+> +    case POWERPC_EXCP_SYSCALL_VECTORED: /* scv exception                =
+     */
+> +        lev =3D env->error_code;
+> +        dump_syscall_vectored(env);
+> +        env->nip +=3D 4;
+> +        new_msr |=3D env->msr & ((target_ulong)1 << MSR_EE);
+> +        new_msr |=3D env->msr & ((target_ulong)1 << MSR_RI);
+> +        break;
+>      case POWERPC_EXCP_FPU:       /* Floating-point unavailable exception=
+     */
+>      case POWERPC_EXCP_APU:       /* Auxiliary processor unavailable     =
+     */
+>      case POWERPC_EXCP_DECR:      /* Decrementer exception               =
+     */
+> @@ -724,12 +743,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>          break;
+>      }
+> =20
+> -    /* Save PC */
+> -    env->spr[srr0] =3D env->nip;
+> -
+> -    /* Save MSR */
+> -    env->spr[srr1] =3D msr;
+> -
+>      /* Sanity check */
+>      if (!(env->msr_mask & MSR_HVB)) {
+>          if (new_msr & MSR_HVB) {
+> @@ -742,14 +755,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>          }
+>      }
+> =20
+> -    /* If any alternate SRR register are defined, duplicate saved values=
+ */
+> -    if (asrr0 !=3D -1) {
+> -        env->spr[asrr0] =3D env->spr[srr0];
+> -    }
+> -    if (asrr1 !=3D -1) {
+> -        env->spr[asrr1] =3D env->spr[srr1];
+> -    }
+> -
+>      /*
+>       * Sort out endianness of interrupt, this differs depending on the
+>       * CPU, the HV mode, etc...
+> @@ -784,14 +789,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>      }
+>  #endif
+> =20
+> -    /* Jump to handler */
+> -    vector =3D env->excp_vectors[excp];
+> -    if (vector =3D=3D (target_ulong)-1ULL) {
+> -        cpu_abort(cs, "Raised an exception without defined vector %d\n",
+> -                  excp);
+> -    }
+> -    vector |=3D env->excp_prefix;
+> -
+>      /*
+>       * AIL only works if there is no HV transition and we are running
+>       * with translations enabled
+> @@ -800,10 +797,21 @@ static inline void powerpc_excp(PowerPCCPU *cpu, in=
+t excp_model, int excp)
+>          ((new_msr & MSR_HVB) && !(msr & MSR_HVB))) {
+>          ail =3D 0;
+>      }
+> -    /* Handle AIL */
+> -    if (ail) {
+> -        new_msr |=3D (1 << MSR_IR) | (1 << MSR_DR);
+> -        vector |=3D ppc_excp_vector_offset(cs, ail);
 > +
-> +#define DIRTY_CLIENTS_ALL     ((1 << DIRTY_MEMORY_NUM) - 1)
-> +#define DIRTY_CLIENTS_NOCODE  (DIRTY_CLIENTS_ALL & ~(1 << DIRTY_MEMORY_C=
-ODE))
+> +    vector =3D env->excp_vectors[excp];
+> +    if (vector =3D=3D (target_ulong)-1ULL) {
+> +        cpu_abort(cs, "Raised an exception without defined vector %d\n",
+> +                  excp);
+> +    }
 > +
-> +static inline bool cpu_physical_memory_get_dirty(ram_addr_t start,
-> +                                                 ram_addr_t length,
-> +                                                 unsigned client)
-> +{
-> +    DirtyMemoryBlocks *blocks;
-> +    unsigned long end, page;
-> +    unsigned long idx, offset, base;
-> +    bool dirty =3D false;
+> +    vector |=3D env->excp_prefix;
 > +
-> +    assert(client < DIRTY_MEMORY_NUM);
+> +    /* If any alternate SRR register are defined, duplicate saved values=
+ */
+> +    if (asrr0 !=3D -1) {
+> +        env->spr[asrr0] =3D env->nip;
+> +    }
+> +    if (asrr1 !=3D -1) {
+> +        env->spr[asrr1] =3D msr;
+>      }
+> =20
+>  #if defined(TARGET_PPC64)
+> @@ -823,6 +831,37 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
+ excp_model, int excp)
+>      }
+>  #endif
+> =20
+> +    if (excp !=3D POWERPC_EXCP_SYSCALL_VECTORED) {
+> +        /* Save PC */
+> +        env->spr[srr0] =3D env->nip;
 > +
-> +    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
-> +    page =3D start >> TARGET_PAGE_BITS;
+> +        /* Save MSR */
+> +        env->spr[srr1] =3D msr;
 > +
-> +    WITH_RCU_READ_LOCK_GUARD() {
-> +        blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
-> +
-> +        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-> +        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
-> +        base =3D page - offset;
-> +        while (page < end) {
-> +            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
-ZE);
-> +            unsigned long num =3D next - base;
-> +            unsigned long found =3D find_next_bit(blocks->blocks[idx],
-> +                                                num, offset);
-> +            if (found < num) {
-> +                dirty =3D true;
-> +                break;
-> +            }
-> +
-> +            page =3D next;
-> +            idx++;
-> +            offset =3D 0;
-> +            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+> +        /* Handle AIL */
+> +        if (ail) {
+> +            new_msr |=3D (1 << MSR_IR) | (1 << MSR_DR);
+> +            vector |=3D ppc_excp_vector_offset(cs, ail);
 > +        }
-> +    }
 > +
-> +    return dirty;
-> +}
-> +
-> +static inline bool cpu_physical_memory_all_dirty(ram_addr_t start,
-> +                                                 ram_addr_t length,
-> +                                                 unsigned client)
-> +{
-> +    DirtyMemoryBlocks *blocks;
-> +    unsigned long end, page;
-> +    unsigned long idx, offset, base;
-> +    bool dirty =3D true;
-> +
-> +    assert(client < DIRTY_MEMORY_NUM);
-> +
-> +    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
-> +    page =3D start >> TARGET_PAGE_BITS;
-> +
-> +    RCU_READ_LOCK_GUARD();
-> +
-> +    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
-> +
-> +    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-> +    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
-> +    base =3D page - offset;
-> +    while (page < end) {
-> +        unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SIZE);
-> +        unsigned long num =3D next - base;
-> +        unsigned long found =3D find_next_zero_bit(blocks->blocks[idx],
-> +                                                 num, offset);
-> +        if (found < num) {
-> +            dirty =3D false;
-> +            break;
+> +#if defined(TARGET_PPC64)
+> +    } else {
+> +        /* scv AIL is a little different */
+> +        if (ail) {
+> +            new_msr |=3D (1 << MSR_IR) | (1 << MSR_DR);
 > +        }
+> +        if (ail =3D=3D AIL_C000_0000_0000_4000) {
+> +            vector |=3D 0xc000000000003000ull;
+> +        } else {
+> +            vector |=3D 0x0000000000017000ull;
+> +        }
+> +        vector +=3D lev * 0x20;
 > +
-> +        page =3D next;
-> +        idx++;
-> +        offset =3D 0;
-> +        base +=3D DIRTY_MEMORY_BLOCK_SIZE;
+> +        env->lr =3D env->nip;
+> +        env->ctr =3D msr;
+> +#endif
 > +    }
 > +
-> +    return dirty;
+>      powerpc_set_excp_state(cpu, vector, new_msr);
+>  }
+> =20
+> @@ -1160,6 +1199,11 @@ void helper_rfid(CPUPPCState *env)
+>      do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1]);
+>  }
+> =20
+> +void helper_rfscv(CPUPPCState *env)
+> +{
+> +    do_rfi(env, env->lr, env->ctr);
 > +}
 > +
-> +static inline bool cpu_physical_memory_get_dirty_flag(ram_addr_t addr,
-> +                                                      unsigned client)
+>  void helper_hrfid(CPUPPCState *env)
+>  {
+>      do_rfi(env, env->spr[SPR_HSRR0], env->spr[SPR_HSRR1]);
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index a95c010391..2dfa1c6942 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -15,6 +15,7 @@ DEF_HELPER_1(rfmci, void, env)
+>  #if defined(TARGET_PPC64)
+>  DEF_HELPER_2(pminsn, void, env, i32)
+>  DEF_HELPER_1(rfid, void, env)
+> +DEF_HELPER_1(rfscv, void, env)
+>  DEF_HELPER_1(hrfid, void, env)
+>  DEF_HELPER_2(store_lpcr, void, env, tl)
+>  DEF_HELPER_2(store_pcr, void, env, tl)
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 807d14faaa..9a7ae9a160 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -173,6 +173,7 @@ struct DisasContext {
+>      bool vsx_enabled;
+>      bool spe_enabled;
+>      bool tm_enabled;
+> +    bool scv_enabled;
+>      bool gtse;
+>      ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+>      int singlestep_enabled;
+> @@ -4012,6 +4013,24 @@ static void gen_rfid(DisasContext *ctx)
+>  #endif
+>  }
+> =20
+> +#if !defined(CONFIG_USER_ONLY)
+> +static void gen_rfscv(DisasContext *ctx)
 > +{
-> +    return cpu_physical_memory_get_dirty(addr, 1, client);
-> +}
-> +
-> +static inline bool cpu_physical_memory_is_clean(ram_addr_t addr)
-> +{
-> +    bool vga =3D cpu_physical_memory_get_dirty_flag(addr, DIRTY_MEMORY_V=
-GA);
-> +    bool code =3D cpu_physical_memory_get_dirty_flag(addr, DIRTY_MEMORY_=
-CODE);
-> +    bool migration =3D cpu_physical_memory_get_dirty_flag(addr,
-> +                                                        DIRTY_MEMORY_MIG=
-RATION);
-> +    return !(vga && code && migration);
-> +}
-> +
-> +static inline uint8_t cpu_physical_memory_range_includes_clean(ram_addr_=
-t start,
-> +                                                            ram_addr_t l=
-ength,
-> +                                                            uint8_t mask)
-> +{
-> +    uint8_t ret =3D 0;
-> +
-> +    if (mask & (1 << DIRTY_MEMORY_VGA) &&
-> +        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_VGA))=
- {
-> +        ret |=3D (1 << DIRTY_MEMORY_VGA);
+> +#if defined(CONFIG_USER_ONLY)
+> +    GEN_PRIV;
+> +#else
+> +    /* Restore CPU state */
+> +    CHK_SV;
+> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> +        gen_io_start();
 > +    }
-> +    if (mask & (1 << DIRTY_MEMORY_CODE) &&
-> +        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_CODE)=
-) {
-> +        ret |=3D (1 << DIRTY_MEMORY_CODE);
-> +    }
-> +    if (mask & (1 << DIRTY_MEMORY_MIGRATION) &&
-> +        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_MIGRA=
-TION)) {
-> +        ret |=3D (1 << DIRTY_MEMORY_MIGRATION);
-> +    }
-> +    return ret;
+> +    gen_update_cfar(ctx, ctx->base.pc_next - 4);
+> +    gen_helper_rfscv(cpu_env);
+> +    gen_sync_exception(ctx);
+> +#endif
 > +}
+> +#endif
 > +
-> +static inline void cpu_physical_memory_set_dirty_flag(ram_addr_t addr,
-> +                                                      unsigned client)
+>  static void gen_hrfid(DisasContext *ctx)
+>  {
+>  #if defined(CONFIG_USER_ONLY)
+> @@ -4030,6 +4049,7 @@ static void gen_hrfid(DisasContext *ctx)
+>  #define POWERPC_SYSCALL POWERPC_EXCP_SYSCALL_USER
+>  #else
+>  #define POWERPC_SYSCALL POWERPC_EXCP_SYSCALL
+> +#define POWERPC_SYSCALL_VECTORED POWERPC_EXCP_SYSCALL_VECTORED
+>  #endif
+>  static void gen_sc(DisasContext *ctx)
+>  {
+> @@ -4039,6 +4059,23 @@ static void gen_sc(DisasContext *ctx)
+>      gen_exception_err(ctx, POWERPC_SYSCALL, lev);
+>  }
+> =20
+> +#if defined(TARGET_PPC64)
+> +#if !defined(CONFIG_USER_ONLY)
+> +static void gen_scv(DisasContext *ctx)
 > +{
-> +    unsigned long page, idx, offset;
-> +    DirtyMemoryBlocks *blocks;
+> +    uint32_t lev;
 > +
-> +    assert(client < DIRTY_MEMORY_NUM);
-> +
-> +    page =3D addr >> TARGET_PAGE_BITS;
-> +    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-> +    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
-> +
-> +    RCU_READ_LOCK_GUARD();
-> +
-> +    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
-> +
-> +    set_bit_atomic(offset, blocks->blocks[idx]);
-> +}
-> +
-> +static inline void cpu_physical_memory_set_dirty_range(ram_addr_t start,
-> +                                                       ram_addr_t length,
-> +                                                       uint8_t mask)
-> +{
-> +    DirtyMemoryBlocks *blocks[DIRTY_MEMORY_NUM];
-> +    unsigned long end, page;
-> +    unsigned long idx, offset, base;
-> +    int i;
-> +
-> +    if (!mask && !xen_enabled()) {
+> +    if (unlikely(!ctx->scv_enabled)) {
+> +        gen_exception_err(ctx, POWERPC_EXCP_FU, FSCR_IC_SCV);
 > +        return;
 > +    }
 > +
-> +    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
-> +    page =3D start >> TARGET_PAGE_BITS;
-> +
-> +    WITH_RCU_READ_LOCK_GUARD() {
-> +        for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
-> +            blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i]);
-> +        }
-> +
-> +        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-> +        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
-> +        base =3D page - offset;
-> +        while (page < end) {
-> +            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
-ZE);
-> +
-> +            if (likely(mask & (1 << DIRTY_MEMORY_MIGRATION))) {
-> +                bitmap_set_atomic(blocks[DIRTY_MEMORY_MIGRATION]->blocks=
-[idx],
-> +                                  offset, next - page);
-> +            }
-> +            if (unlikely(mask & (1 << DIRTY_MEMORY_VGA))) {
-> +                bitmap_set_atomic(blocks[DIRTY_MEMORY_VGA]->blocks[idx],
-> +                                  offset, next - page);
-> +            }
-> +            if (unlikely(mask & (1 << DIRTY_MEMORY_CODE))) {
-> +                bitmap_set_atomic(blocks[DIRTY_MEMORY_CODE]->blocks[idx],
-> +                                  offset, next - page);
-> +            }
-> +
-> +            page =3D next;
-> +            idx++;
-> +            offset =3D 0;
-> +            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
-> +        }
-> +    }
-> +
-> +    xen_hvm_modified_memory(start, length);
+> +    lev =3D (ctx->opcode >> 5) & 0x7F;
+> +    gen_exception_err(ctx, POWERPC_SYSCALL_VECTORED, lev);
 > +}
+> +#endif
+> +#endif
 > +
-> +#if !defined(_WIN32)
-> +static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long =
-*bitmap,
-> +                                                          ram_addr_t sta=
-rt,
-> +                                                          ram_addr_t pag=
-es)
-> +{
-> +    unsigned long i, j;
-> +    unsigned long page_number, c;
-> +    hwaddr addr;
-> +    ram_addr_t ram_addr;
-> +    unsigned long len =3D (pages + HOST_LONG_BITS - 1) / HOST_LONG_BITS;
-> +    unsigned long hpratio =3D qemu_real_host_page_size / TARGET_PAGE_SIZ=
-E;
-> +    unsigned long page =3D BIT_WORD(start >> TARGET_PAGE_BITS);
-> +
-> +    /* start address is aligned at the start of a word? */
-> +    if ((((page * BITS_PER_LONG) << TARGET_PAGE_BITS) =3D=3D start) &&
-> +        (hpratio =3D=3D 1)) {
-> +        unsigned long **blocks[DIRTY_MEMORY_NUM];
-> +        unsigned long idx;
-> +        unsigned long offset;
-> +        long k;
-> +        long nr =3D BITS_TO_LONGS(pages);
-> +
-> +        idx =3D (start >> TARGET_PAGE_BITS) / DIRTY_MEMORY_BLOCK_SIZE;
-> +        offset =3D BIT_WORD((start >> TARGET_PAGE_BITS) %
-> +                          DIRTY_MEMORY_BLOCK_SIZE);
-> +
-> +        WITH_RCU_READ_LOCK_GUARD() {
-> +            for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
-> +                blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i])=
-->blocks;
-> +            }
-> +
-> +            for (k =3D 0; k < nr; k++) {
-> +                if (bitmap[k]) {
-> +                    unsigned long temp =3D leul_to_cpu(bitmap[k]);
-> +
-> +                    atomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], te=
-mp);
-> +
-> +                    if (global_dirty_log) {
-> +                        atomic_or(&blocks[DIRTY_MEMORY_MIGRATION][idx][o=
-ffset],
-> +                                  temp);
-> +                    }
-> +
-> +                    if (tcg_enabled()) {
-> +                        atomic_or(&blocks[DIRTY_MEMORY_CODE][idx][offset=
-],
-> +                                  temp);
-> +                    }
-> +                }
-> +
-> +                if (++offset >=3D BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)=
-) {
-> +                    offset =3D 0;
-> +                    idx++;
-> +                }
-> +            }
-> +        }
-> +
-> +        xen_hvm_modified_memory(start, pages << TARGET_PAGE_BITS);
-> +    } else {
-> +        uint8_t clients =3D tcg_enabled() ? DIRTY_CLIENTS_ALL
-> +                                        : DIRTY_CLIENTS_NOCODE;
-> +
-> +        if (!global_dirty_log) {
-> +            clients &=3D ~(1 << DIRTY_MEMORY_MIGRATION);
-> +        }
-> +
-> +        /*
-> +         * bitmap-traveling is faster than memory-traveling (for addr...)
-> +         * especially when most of the memory is not dirty.
-> +         */
-> +        for (i =3D 0; i < len; i++) {
-> +            if (bitmap[i] !=3D 0) {
-> +                c =3D leul_to_cpu(bitmap[i]);
-> +                do {
-> +                    j =3D ctzl(c);
-> +                    c &=3D ~(1ul << j);
-> +                    page_number =3D (i * HOST_LONG_BITS + j) * hpratio;
-> +                    addr =3D page_number * TARGET_PAGE_SIZE;
-> +                    ram_addr =3D start + addr;
-> +                    cpu_physical_memory_set_dirty_range(ram_addr,
-> +                                       TARGET_PAGE_SIZE * hpratio, clien=
-ts);
-> +                } while (c !=3D 0);
-> +            }
-> +        }
-> +    }
-> +}
-> +#endif /* not _WIN32 */
-> +
-> +bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
-> +                                              ram_addr_t length,
-> +                                              unsigned client);
-> +
-> +DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty(
-> +                                                            MemoryRegion=
- *mr,
-> +                                                            hwaddr offse=
-t,
-> +                                                            hwaddr lengt=
-h,
-> +                                                            unsigned cli=
-ent);
-> +
-> +bool cpu_physical_memory_snapshot_get_dirty(DirtyBitmapSnapshot *snap,
-> +                                            ram_addr_t start,
-> +                                            ram_addr_t length);
-> +
-> +static inline void cpu_physical_memory_clear_dirty_range(ram_addr_t star=
-t,
-> +                                                         ram_addr_t leng=
-th)
-> +{
-> +    cpu_physical_memory_test_and_clear_dirty(start, length,
-> +                                             DIRTY_MEMORY_MIGRATION);
-> +    cpu_physical_memory_test_and_clear_dirty(start, length, DIRTY_MEMORY=
-_VGA);
-> +    cpu_physical_memory_test_and_clear_dirty(start, length, DIRTY_MEMORY=
-_CODE);
-> +}
-> +
-> +#endif /* CONFIG_SOFTMMU */
+>  /***                                Trap                                =
+   ***/
+> =20
+>  /* Check for unconditional traps (always or never) */
+> @@ -7031,6 +7068,12 @@ GEN_HANDLER(mcrf, 0x13, 0x00, 0xFF, 0x00000001, PP=
+C_INTEGER),
+>  GEN_HANDLER(rfi, 0x13, 0x12, 0x01, 0x03FF8001, PPC_FLOW),
+>  #if defined(TARGET_PPC64)
+>  GEN_HANDLER(rfid, 0x13, 0x12, 0x00, 0x03FF8001, PPC_64B),
+> +#if !defined(CONFIG_USER_ONLY)
+> +/* Top bit of opc2 corresponds with low bit of LEV, so use two handlers =
+*/
+> +GEN_HANDLER_E(scv, 0x11, 0x10, 0xFF, 0x03FFF01E, PPC_NONE, PPC2_ISA300),
+> +GEN_HANDLER_E(scv, 0x11, 0x00, 0xFF, 0x03FFF01E, PPC_NONE, PPC2_ISA300),
+> +GEN_HANDLER_E(rfscv, 0x13, 0x12, 0x02, 0x03FF8001, PPC_NONE, PPC2_ISA300=
+),
+> +#endif
+>  GEN_HANDLER_E(stop, 0x13, 0x12, 0x0b, 0x03FFF801, PPC_NONE, PPC2_ISA300),
+>  GEN_HANDLER_E(doze, 0x13, 0x12, 0x0c, 0x03FFF801, PPC_NONE, PPC2_PM_ISA2=
+06),
+>  GEN_HANDLER_E(nap, 0x13, 0x12, 0x0d, 0x03FFF801, PPC_NONE, PPC2_PM_ISA20=
+6),
+> @@ -7038,7 +7081,9 @@ GEN_HANDLER_E(sleep, 0x13, 0x12, 0x0e, 0x03FFF801, =
+PPC_NONE, PPC2_PM_ISA206),
+>  GEN_HANDLER_E(rvwinkle, 0x13, 0x12, 0x0f, 0x03FFF801, PPC_NONE, PPC2_PM_=
+ISA206),
+>  GEN_HANDLER(hrfid, 0x13, 0x12, 0x08, 0x03FF8001, PPC_64H),
 >  #endif
-> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-> index 6acde47a0f..64bf28a332 100644
-> --- a/include/exec/ram_addr.h
-> +++ b/include/exec/ram_addr.h
-> @@ -21,310 +21,9 @@
+> -GEN_HANDLER(sc, 0x11, 0xFF, 0xFF, 0x03FFF01D, PPC_FLOW),
+> +/* Top bit of opc2 corresponds with low bit of LEV, so use two handlers =
+*/
+> +GEN_HANDLER(sc, 0x11, 0x11, 0xFF, 0x03FFF01D, PPC_FLOW),
+> +GEN_HANDLER(sc, 0x11, 0x01, 0xFF, 0x03FFF01D, PPC_FLOW),
+>  GEN_HANDLER(tw, 0x1F, 0x04, 0x00, 0x00000001, PPC_FLOW),
+>  GEN_HANDLER(twi, 0x03, 0xFF, 0xFF, 0x00000000, PPC_FLOW),
+>  #if defined(TARGET_PPC64)
+> @@ -7817,6 +7862,11 @@ static void ppc_tr_init_disas_context(DisasContext=
+Base *dcbase, CPUState *cs)
+>      } else {
+>          ctx->vsx_enabled =3D false;
+>      }
+> +    if ((env->flags & POWERPC_FLAG_SCV) && (env->spr[SPR_FSCR] & (1ull <=
+< FSCR_SCV))) {
+> +        ctx->scv_enabled =3D true;
+> +    } else {
+> +        ctx->scv_enabled =3D false;
+> +    }
+>  #if defined(TARGET_PPC64)
+>      if ((env->flags & POWERPC_FLAG_TM) && msr_tm) {
+>          ctx->tm_enabled =3D !!msr_tm;
+> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+> index fd763e588e..18f275d4fa 100644
+> --- a/target/ppc/translate_init.inc.c
+> +++ b/target/ppc/translate_init.inc.c
+> @@ -3382,6 +3382,7 @@ static void init_excp_POWER9(CPUPPCState *env)
 > =20
->  #ifndef CONFIG_USER_ONLY
->  #include "cpu.h"
-> -#include "sysemu/xen.h"
-> -#include "sysemu/tcg.h"
->  #include "exec/ramlist.h"
->  #include "exec/ramblock.h"
-> -
-> -
-> -
-> -#define DIRTY_CLIENTS_ALL     ((1 << DIRTY_MEMORY_NUM) - 1)
-> -#define DIRTY_CLIENTS_NOCODE  (DIRTY_CLIENTS_ALL & ~(1 << DIRTY_MEMORY_C=
-ODE))
-> -
-> -static inline bool cpu_physical_memory_get_dirty(ram_addr_t start,
-> -                                                 ram_addr_t length,
-> -                                                 unsigned client)
-> -{
-> -    DirtyMemoryBlocks *blocks;
-> -    unsigned long end, page;
-> -    unsigned long idx, offset, base;
-> -    bool dirty =3D false;
-> -
-> -    assert(client < DIRTY_MEMORY_NUM);
-> -
-> -    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
-> -    page =3D start >> TARGET_PAGE_BITS;
-> -
-> -    WITH_RCU_READ_LOCK_GUARD() {
-> -        blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
-> -
-> -        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-> -        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
-> -        base =3D page - offset;
-> -        while (page < end) {
-> -            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
-ZE);
-> -            unsigned long num =3D next - base;
-> -            unsigned long found =3D find_next_bit(blocks->blocks[idx],
-> -                                                num, offset);
-> -            if (found < num) {
-> -                dirty =3D true;
-> -                break;
-> -            }
-> -
-> -            page =3D next;
-> -            idx++;
-> -            offset =3D 0;
-> -            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
-> -        }
-> -    }
-> -
-> -    return dirty;
-> -}
-> -
-> -static inline bool cpu_physical_memory_all_dirty(ram_addr_t start,
-> -                                                 ram_addr_t length,
-> -                                                 unsigned client)
-> -{
-> -    DirtyMemoryBlocks *blocks;
-> -    unsigned long end, page;
-> -    unsigned long idx, offset, base;
-> -    bool dirty =3D true;
-> -
-> -    assert(client < DIRTY_MEMORY_NUM);
-> -
-> -    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
-> -    page =3D start >> TARGET_PAGE_BITS;
-> -
-> -    RCU_READ_LOCK_GUARD();
-> -
-> -    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
-> -
-> -    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-> -    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
-> -    base =3D page - offset;
-> -    while (page < end) {
-> -        unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SIZE);
-> -        unsigned long num =3D next - base;
-> -        unsigned long found =3D find_next_zero_bit(blocks->blocks[idx],
-> -                                                 num, offset);
-> -        if (found < num) {
-> -            dirty =3D false;
-> -            break;
-> -        }
-> -
-> -        page =3D next;
-> -        idx++;
-> -        offset =3D 0;
-> -        base +=3D DIRTY_MEMORY_BLOCK_SIZE;
-> -    }
-> -
-> -    return dirty;
-> -}
-> -
-> -static inline bool cpu_physical_memory_get_dirty_flag(ram_addr_t addr,
-> -                                                      unsigned client)
-> -{
-> -    return cpu_physical_memory_get_dirty(addr, 1, client);
-> -}
-> -
-> -static inline bool cpu_physical_memory_is_clean(ram_addr_t addr)
-> -{
-> -    bool vga =3D cpu_physical_memory_get_dirty_flag(addr, DIRTY_MEMORY_V=
-GA);
-> -    bool code =3D cpu_physical_memory_get_dirty_flag(addr, DIRTY_MEMORY_=
-CODE);
-> -    bool migration =3D cpu_physical_memory_get_dirty_flag(addr,
-> -                                                        DIRTY_MEMORY_MIG=
-RATION);
-> -    return !(vga && code && migration);
-> -}
-> -
-> -static inline uint8_t cpu_physical_memory_range_includes_clean(ram_addr_=
-t start,
-> -                                                            ram_addr_t l=
-ength,
-> -                                                            uint8_t mask)
-> -{
-> -    uint8_t ret =3D 0;
-> -
-> -    if (mask & (1 << DIRTY_MEMORY_VGA) &&
-> -        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_VGA))=
- {
-> -        ret |=3D (1 << DIRTY_MEMORY_VGA);
-> -    }
-> -    if (mask & (1 << DIRTY_MEMORY_CODE) &&
-> -        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_CODE)=
-) {
-> -        ret |=3D (1 << DIRTY_MEMORY_CODE);
-> -    }
-> -    if (mask & (1 << DIRTY_MEMORY_MIGRATION) &&
-> -        !cpu_physical_memory_all_dirty(start, length, DIRTY_MEMORY_MIGRA=
-TION)) {
-> -        ret |=3D (1 << DIRTY_MEMORY_MIGRATION);
-> -    }
-> -    return ret;
-> -}
-> -
-> -static inline void cpu_physical_memory_set_dirty_flag(ram_addr_t addr,
-> -                                                      unsigned client)
-> -{
-> -    unsigned long page, idx, offset;
-> -    DirtyMemoryBlocks *blocks;
-> -
-> -    assert(client < DIRTY_MEMORY_NUM);
-> -
-> -    page =3D addr >> TARGET_PAGE_BITS;
-> -    idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-> -    offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
-> -
-> -    RCU_READ_LOCK_GUARD();
-> -
-> -    blocks =3D atomic_rcu_read(&ram_list.dirty_memory[client]);
-> -
-> -    set_bit_atomic(offset, blocks->blocks[idx]);
-> -}
-> -
-> -static inline void cpu_physical_memory_set_dirty_range(ram_addr_t start,
-> -                                                       ram_addr_t length,
-> -                                                       uint8_t mask)
-> -{
-> -    DirtyMemoryBlocks *blocks[DIRTY_MEMORY_NUM];
-> -    unsigned long end, page;
-> -    unsigned long idx, offset, base;
-> -    int i;
-> -
-> -    if (!mask && !xen_enabled()) {
-> -        return;
-> -    }
-> -
-> -    end =3D TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
-> -    page =3D start >> TARGET_PAGE_BITS;
-> -
-> -    WITH_RCU_READ_LOCK_GUARD() {
-> -        for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
-> -            blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i]);
-> -        }
-> -
-> -        idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-> -        offset =3D page % DIRTY_MEMORY_BLOCK_SIZE;
-> -        base =3D page - offset;
-> -        while (page < end) {
-> -            unsigned long next =3D MIN(end, base + DIRTY_MEMORY_BLOCK_SI=
-ZE);
-> -
-> -            if (likely(mask & (1 << DIRTY_MEMORY_MIGRATION))) {
-> -                bitmap_set_atomic(blocks[DIRTY_MEMORY_MIGRATION]->blocks=
-[idx],
-> -                                  offset, next - page);
-> -            }
-> -            if (unlikely(mask & (1 << DIRTY_MEMORY_VGA))) {
-> -                bitmap_set_atomic(blocks[DIRTY_MEMORY_VGA]->blocks[idx],
-> -                                  offset, next - page);
-> -            }
-> -            if (unlikely(mask & (1 << DIRTY_MEMORY_CODE))) {
-> -                bitmap_set_atomic(blocks[DIRTY_MEMORY_CODE]->blocks[idx],
-> -                                  offset, next - page);
-> -            }
-> -
-> -            page =3D next;
-> -            idx++;
-> -            offset =3D 0;
-> -            base +=3D DIRTY_MEMORY_BLOCK_SIZE;
-> -        }
-> -    }
-> -
-> -    xen_hvm_modified_memory(start, length);
-> -}
-> -
-> -#if !defined(_WIN32)
-> -static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long =
-*bitmap,
-> -                                                          ram_addr_t sta=
-rt,
-> -                                                          ram_addr_t pag=
-es)
-> -{
-> -    unsigned long i, j;
-> -    unsigned long page_number, c;
-> -    hwaddr addr;
-> -    ram_addr_t ram_addr;
-> -    unsigned long len =3D (pages + HOST_LONG_BITS - 1) / HOST_LONG_BITS;
-> -    unsigned long hpratio =3D qemu_real_host_page_size / TARGET_PAGE_SIZ=
-E;
-> -    unsigned long page =3D BIT_WORD(start >> TARGET_PAGE_BITS);
-> -
-> -    /* start address is aligned at the start of a word? */
-> -    if ((((page * BITS_PER_LONG) << TARGET_PAGE_BITS) =3D=3D start) &&
-> -        (hpratio =3D=3D 1)) {
-> -        unsigned long **blocks[DIRTY_MEMORY_NUM];
-> -        unsigned long idx;
-> -        unsigned long offset;
-> -        long k;
-> -        long nr =3D BITS_TO_LONGS(pages);
-> -
-> -        idx =3D (start >> TARGET_PAGE_BITS) / DIRTY_MEMORY_BLOCK_SIZE;
-> -        offset =3D BIT_WORD((start >> TARGET_PAGE_BITS) %
-> -                          DIRTY_MEMORY_BLOCK_SIZE);
-> -
-> -        WITH_RCU_READ_LOCK_GUARD() {
-> -            for (i =3D 0; i < DIRTY_MEMORY_NUM; i++) {
-> -                blocks[i] =3D atomic_rcu_read(&ram_list.dirty_memory[i])=
-->blocks;
-> -            }
-> -
-> -            for (k =3D 0; k < nr; k++) {
-> -                if (bitmap[k]) {
-> -                    unsigned long temp =3D leul_to_cpu(bitmap[k]);
-> -
-> -                    atomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], te=
-mp);
-> -
-> -                    if (global_dirty_log) {
-> -                        atomic_or(&blocks[DIRTY_MEMORY_MIGRATION][idx][o=
-ffset],
-> -                                  temp);
-> -                    }
-> -
-> -                    if (tcg_enabled()) {
-> -                        atomic_or(&blocks[DIRTY_MEMORY_CODE][idx][offset=
-],
-> -                                  temp);
-> -                    }
-> -                }
-> -
-> -                if (++offset >=3D BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)=
-) {
-> -                    offset =3D 0;
-> -                    idx++;
-> -                }
-> -            }
-> -        }
-> -
-> -        xen_hvm_modified_memory(start, pages << TARGET_PAGE_BITS);
-> -    } else {
-> -        uint8_t clients =3D tcg_enabled()
-> -                          ? DIRTY_CLIENTS_ALL : DIRTY_CLIENTS_NOCODE;
-> -
-> -        if (!global_dirty_log) {
-> -            clients &=3D ~(1 << DIRTY_MEMORY_MIGRATION);
-> -        }
-> -
-> -        /*
-> -         * bitmap-traveling is faster than memory-traveling (for addr...)
-> -         * especially when most of the memory is not dirty.
-> -         */
-> -        for (i =3D 0; i < len; i++) {
-> -            if (bitmap[i] !=3D 0) {
-> -                c =3D leul_to_cpu(bitmap[i]);
-> -                do {
-> -                    j =3D ctzl(c);
-> -                    c &=3D ~(1ul << j);
-> -                    page_number =3D (i * HOST_LONG_BITS + j) * hpratio;
-> -                    addr =3D page_number * TARGET_PAGE_SIZE;
-> -                    ram_addr =3D start + addr;
-> -                    cpu_physical_memory_set_dirty_range(ram_addr,
-> -                                       TARGET_PAGE_SIZE * hpratio, clien=
-ts);
-> -                } while (c !=3D 0);
-> -            }
-> -        }
-> -    }
-> -}
-> -#endif /* not _WIN32 */
-> -
-> -bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
-> -                                              ram_addr_t length,
-> -                                              unsigned client);
-> -
-> -DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty(
-> -                                                            MemoryRegion=
- *mr,
-> -                                                            hwaddr offse=
-t,
-> -                                                            hwaddr lengt=
-h,
-> -                                                            unsigned cli=
-ent);
-> -
-> -bool cpu_physical_memory_snapshot_get_dirty(DirtyBitmapSnapshot *snap,
-> -                                            ram_addr_t start,
-> -                                            ram_addr_t length);
-> -
-> -static inline void cpu_physical_memory_clear_dirty_range(ram_addr_t star=
-t,
-> -                                                         ram_addr_t leng=
-th)
-> -{
-> -    cpu_physical_memory_test_and_clear_dirty(start, length,
-> -                                             DIRTY_MEMORY_MIGRATION);
-> -    cpu_physical_memory_test_and_clear_dirty(start, length, DIRTY_MEMORY=
-_VGA);
-> -    cpu_physical_memory_test_and_clear_dirty(start, length, DIRTY_MEMORY=
-_CODE);
-> -}
-> -
-> +#include "exec/memory-internal.h"
+>  #if !defined(CONFIG_USER_ONLY)
+>      env->excp_vectors[POWERPC_EXCP_HVIRT]    =3D 0x00000EA0;
+> +    env->excp_vectors[POWERPC_EXCP_SYSCALL_VECTORED] =3D 0x00000000;
+>  #endif
+>  }
 > =20
->  /* Called with RCU critical section */
->  static inline
-> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-> index e3b5750c3b..922671f246 100644
-> --- a/accel/tcg/cputlb.c
-> +++ b/accel/tcg/cputlb.c
-> @@ -26,7 +26,6 @@
->  #include "exec/cpu_ldst.h"
->  #include "exec/cputlb.h"
->  #include "exec/memory-internal.h"
-> -#include "exec/ram_addr.h"
->  #include "tcg/tcg.h"
->  #include "qemu/error-report.h"
->  #include "exec/log.h"
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index c18eab0a23..d7c3bf3932 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -69,7 +69,6 @@
->  #include "hw/virtio/vhost-scsi-common.h"
-> =20
->  #include "exec/address-spaces.h"
-> -#include "exec/ram_addr.h"
->  #include "hw/usb.h"
->  #include "qemu/config-file.h"
->  #include "qemu/error-report.h"
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 61b84a392d..8d9aeba6e6 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -36,7 +36,6 @@
->  #include "hw/ppc/spapr.h"
->  #include "hw/pci-host/spapr.h"
->  #include "exec/address-spaces.h"
-> -#include "exec/ram_addr.h"
->  #include <libfdt.h>
->  #include "trace.h"
->  #include "qemu/error-report.h"
-> diff --git a/memory.c b/memory.c
-> index e8e7bcd6c7..4e1d19c5fc 100644
-> --- a/memory.c
-> +++ b/memory.c
-> @@ -27,7 +27,6 @@
->  #include "trace-root.h"
-> =20
->  #include "exec/memory-internal.h"
-> -#include "exec/ram_addr.h"
->  #include "exec/ramblock.h"
->  #include "sysemu/kvm.h"
->  #include "sysemu/runstate.h"
+> @@ -9030,7 +9031,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+>      pcc->flags =3D POWERPC_FLAG_VRE | POWERPC_FLAG_SE |
+>                   POWERPC_FLAG_BE | POWERPC_FLAG_PMM |
+>                   POWERPC_FLAG_BUS_CLK | POWERPC_FLAG_CFAR |
+> -                 POWERPC_FLAG_VSX | POWERPC_FLAG_TM;
+> +                 POWERPC_FLAG_VSX | POWERPC_FLAG_TM | POWERPC_FLAG_SCV;
+>      pcc->l1_dcache_size =3D 0x8000;
+>      pcc->l1_icache_size =3D 0x8000;
+>      pcc->interrupts_big_endian =3D ppc_cpu_interrupts_big_endian_lpcr;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -854,25 +499,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---GeDkoc8jIzHasOdk
+--1rguoi8KZGYj2k4L
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl64q9oACgkQbDjKyiDZ
-s5JroQ//c6UBQ+a/Jk9FtTZQcbytG0Xw3jhi1uOlLdNlQOPk6fHHjpTz++Bh42HL
-b1dKEw6vC1t3CS0nQhb7fJsNE/mPcE4L9Nc1iij8HcnbiZXTv0GGBzu+Ug2wx/1w
-eD/JgsuoZvvRjQiJXuPo8ID763LuElDWgNiMu1JVKQktOEfoF9JQrVIerZo23Xmg
-0KhxK+ZJgzfO8b/heI31pMupxVXhCCrbjhgJXQHC+6bXxcOfIBCQMXCbO8sqDVRF
-OuZlS9YsYful12zk9M++7llx6DuAjr0Z1XbxBfKJ1wMXyCexBh4QU7UXxd4Gl/Gb
-dIL+kkfqTZVuP2hHhLjTI7/1vs4Urs6sAUJS8ae6XrulMvSk6xCWnAltOSvJ4GmS
-9Xx8WNHSr2Y6F6EbYNeWz87Wzx5o2AgZ659EppwcGiCoY8mFNPhNDSh0jmsqiblT
-2sg+KcjT6k4m7NeJqI7J0f6dqMC/QSBGUGT6ddmbFXi1QGsdaqgMTVV3UyyrtZuM
-OjPjNdF724ohnuu9WkVbmNPZbMBUhIUQBUrAUbD1AUD210lffHes51ANIdO8EEOq
-aSOo+8WJtCvLzH9nvsW1uJe/azPKNN9dXPnQ/Fz5vlLtileYce+2G9vFXbBWWZdl
-HJPQKkmzOANcGyuyT56NKaj2w7JWPAf64vt+C5WjlJ5fGsZQRZM=
-=4FxC
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl64rFYACgkQbDjKyiDZ
+s5IHKRAAiVdBGcLxTmRlGnq4BB9D3yELogeYjx9GRqujtucV8d9+6btDhFcVDSkc
+LElMz7f0fKpmlE3KR5/ZmntLdZPMhY15H/YaH+8QJSIzrA5f+GRll+5NQpjxOtGa
+5RIaGbEAR4cExMbGDjNHMkNB8lTGOEUql9HVWPcQ/k69q1HyqtJij1h/ypDEySQb
+gShoZShqPosPJlX0oKHKngUwbMedwOjYrYcZ2ZoG9TrNKHlW4obDtQeVEHTkPKYE
+1oOpQK2BW92DJPx7TvEdS15OFuZc3oXB311qtOjQb8JYAMd8R48SE1lXPZsTjBJe
+VGG5ZtW+a0fMKThwcsG8q4Y2Ty4Mgw3ILBWn+l7Yg3D4J5nkPXxTU14MH8TYwftc
+B7f1NGuNP88m0YDelqIfs44i6O9P/Bc5/vxXsx73W6goL8SbrCOTFqLDM71OB394
+VLRRP5U8ArG+nPd6tsJKAuVOuu/mZIwpQLTJQ25mEfWpwsmmBQhV0U3ZhXZ15Vhr
+7qCQUqYYkeF3ueYlWeHfLKuYy5sICveJqRPIEvs4uai/5HTVHHm6JI5jMxdmz3Sr
+X+ghkh6y/+LOE+yD8cR9ZfvyDgEKBrbtORPfEHpS/WRJJ3dcGe3SZHsKd5myyj6t
+3o6tMGJ0txIftnBMhtVH4G8mxYVefGGlKlisbARd8GluKLnUwGU=
+=ZKuG
 -----END PGP SIGNATURE-----
 
---GeDkoc8jIzHasOdk--
+--1rguoi8KZGYj2k4L--
 
