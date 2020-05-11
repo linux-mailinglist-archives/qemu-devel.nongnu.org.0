@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791C91CD9E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:31:45 +0200 (CEST)
-Received: from localhost ([::1]:44948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54CC1CDA72
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 14:48:29 +0200 (CEST)
+Received: from localhost ([::1]:35846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY7ay-00088o-6C
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38006)
+	id 1jY7rB-0002pf-0r
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 08:48:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY7Yz-0007J9-5V
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:29:41 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:40871
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jY7Yv-0006JD-Uj
- for qemu-devel@nongnu.org; Mon, 11 May 2020 08:29:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589200176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L8L4dH79F/shaoDlU4MtTMVVRmb5egfDfK9KucJ74l8=;
- b=huSvlD/4V8ymdevWIYQxB6GpqBtcZbPNX5LSmWSo3UwqQp/l1xaYAXybWy1J/B3a2w3jft
- sR0UIdPsJzEwSdrFTZqLC2Jr9CDHT57qfIL+pdABTcB7AZqP17IHnR2dpAo9t6/VF4Dkva
- cDK0cRpiOHrU7LbtVRaNlA9tDDbFmAA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-eaHbUZ9WNx6j4E0E5HqSPA-1; Mon, 11 May 2020 08:29:34 -0400
-X-MC-Unique: eaHbUZ9WNx6j4E0E5HqSPA-1
-Received: by mail-wr1-f71.google.com with SMTP id 30so5165114wrq.15
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 05:29:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <saket.sinha89@gmail.com>)
+ id 1jY7cV-0001U9-RB
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:33:21 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:37608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <saket.sinha89@gmail.com>)
+ id 1jY7cQ-0007AB-Ln
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 08:33:17 -0400
+Received: by mail-lj1-x242.google.com with SMTP id o14so8199669ljp.4
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 05:33:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oHhlRVxZKnZbliAUXL2ki5LHIVcU18t1hWnVODIM8kE=;
+ b=tzdxTYYuQDgOTkQaCQIpnv7DeeXpVWH/O+8LNEoRIv98ECHBTZzGk2ub9QLoiz6oKh
+ gnThiTBNSw6U8W+V642JnmG1VkQVmCmIhmDTp3P/DbpR8Leur56gTP2MQGqM8iRLkrw8
+ z9fo/syVfmXAG7cY1S7A/2PNxE+6chb3tGSqtsyVo82NTi03+hU5S05/t6om9A455YXe
+ C4A54P5DURMrEjlrZ7aNLe37qRTzttlPDgkaTUzSSn51aRlsBj0zgiIWu2GX1iqvTYnS
+ ienq5BjE9menV4KKH5fLmZBuxo5G4sfQ4BuBda6wn5A/B0OC3AvdahaeYJ4zhLbGUVeW
+ M7Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=L8L4dH79F/shaoDlU4MtTMVVRmb5egfDfK9KucJ74l8=;
- b=in6ya3P3hKBiSKXxDsRhj10KrDS2Caxjnu60BJUgKxMPURwE0TNgQMmxjhyy7XWkBM
- Ge+LV8Cb9sL7XFC7hvqiedG6xKawuDTgA0qWCglov/NJwCZwO7+5EGkgINlpmV6+1ajq
- sK9BwwybYmh7ip24id14qNewRqkstsYI3GzNZdAUrqFrCVcJiqt/YeEUiNtFhryQOU+0
- Dh+0y6mguun4XhKwk1FDH4R2NKdRxqY3nv6P1XgKnk3xFumfo8Um1boXRAOzY9IgRsbq
- 7cCYrRHQaeLg6SbdfUscA6OVwKor0S4bpkgeppz4qoo5yhMmDARFcYOrIEkGpem78Jdr
- MtVg==
-X-Gm-Message-State: AGi0Pub3m2bmpaY4qrLFagoitV1mGwndxckuTCkqhbqAekXBQrQaqMZP
- sYqLQjCeSvtKHhyXtTa7rSpQoTWL+OPv/STJM+LX9qkl3W8PjUqu6AOiSTu8lUYc5Jgp4ekDlAn
- COof2tYgzjHF38TI=
-X-Received: by 2002:a5d:6b90:: with SMTP id n16mr439026wrx.220.1589200173548; 
- Mon, 11 May 2020 05:29:33 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKcKEiOnqfAsZMxICoK31AGYiX38a3/H8tq8UPmIBsMSzRauMwJT4miSZdGi0Vew+lO78Z9xw==
-X-Received: by 2002:a5d:6b90:: with SMTP id n16mr438995wrx.220.1589200173317; 
- Mon, 11 May 2020 05:29:33 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id q17sm9650822wmk.36.2020.05.11.05.29.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 May 2020 05:29:32 -0700 (PDT)
-Subject: Re: [PATCH v26 01/10] acpi: nvdimm: change NVDIMM_UUID_LE to a common
- macro
-To: Dongjiu Geng <gengdongjiu@huawei.com>, imammedo@redhat.com,
- mst@redhat.com, xiaoguangrong.eric@gmail.com, peter.maydell@linaro.org,
- shannon.zhaosl@gmail.com, pbonzini@redhat.com, fam@euphon.net,
- rth@twiddle.net, ehabkost@redhat.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, kvm@vger.kernel.org, qemu-arm@nongnu.org
-References: <20200507134205.7559-1-gengdongjiu@huawei.com>
- <20200507134205.7559-2-gengdongjiu@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4f29e19c-cb37-05e6-0ae3-c019370e090b@redhat.com>
-Date: Mon, 11 May 2020 14:29:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oHhlRVxZKnZbliAUXL2ki5LHIVcU18t1hWnVODIM8kE=;
+ b=jP/7ux9HHysm9zew2NGQWw9fik9cOqhMtmfVq51GreWWTgzejzVAel+qBtjORiY3s0
+ N0ZYRV1EKlTF73EhMymSQv9qnw3kFN8SP7ac9panXiOaBDuQ17tDMssfoRhO062YofiT
+ 1JWGbBlOVLRKiYYU4LXv/kr0nhny//LbNKor3rYMSADaGyDhq1eksaNsba9X0pp4Qisr
+ 7paGryF1HhjbnaxgVWcs+LkVhutVtxGHyHfuBxkDXkO2GiJ6b0kC+vwcvTyZb1L6atia
+ D7DHqLruChY24N5Hizgqpg3UQO2dLrPJtNkwC1BHNCGEDRe2hsx6INQGhOM8Nkb3k+A4
+ CYMA==
+X-Gm-Message-State: AOAM533T8bed2sCwgMqO7jZOOUZxbedadpsV0gXYFqK03HkwMXE07ARl
+ vIhLTFVbxpmbcAz4huiffuqkqFxxe12AyJL+xYw=
+X-Google-Smtp-Source: ABdhPJzRdnYM649Rfmf9USadLnN2By7FRNOk0ZZcMrrjzxwxjn0Wu8vexdR+iPvR1HwfNsuojV+tOqXNMrbF6iMOimQ=
+X-Received: by 2002:a05:651c:54f:: with SMTP id
+ q15mr10457298ljp.145.1589200392494; 
+ Mon, 11 May 2020 05:33:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200507134205.7559-2-gengdongjiu@huawei.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 03:10:56
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
+ <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
+ <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
+ <2515515.r9knKAEANn@os-lin-dmo>
+ <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
+In-Reply-To: <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
+From: Saket Sinha <saket.sinha89@gmail.com>
+Date: Mon, 11 May 2020 14:32:36 +0200
+Message-ID: <CAK25hWNR0WdpddU1kDChUB+PWiLG2A76KJW5u5F-LNkGBREj_g@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
+To: Keiichi Watanabe <keiichiw@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::242;
+ envelope-from=saket.sinha89@gmail.com; helo=mail-lj1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,105 +84,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengxiang9@huawei.com, linuxarm@huawei.com, Jonathan.Cameron@huawei.com
+Cc: Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+ virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
+ Kiran Pawar <Kiran.Pawar@opensynergy.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Tomasz Figa <tfiga@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ libcamera-devel@lists.libcamera.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Sepp <dmitry.sepp@opensynergy.com>, Pawel Osciak <posciak@chromium.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/7/20 3:41 PM, Dongjiu Geng wrote:
-> The little end UUID is used in many places, so make
-> NVDIMM_UUID_LE to a common macro to convert the UUID
-> to a little end array.
-> 
-> Reviewed-by: Xiang Zheng <zhengxiang9@huawei.com>
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> ---
-> Change since v25:
-> 1. Address Peter's comments to add a proper doc-comment comment for
->     UUID_LE macros.
-> ---
->   hw/acpi/nvdimm.c    | 10 +++-------
->   include/qemu/uuid.h | 26 ++++++++++++++++++++++++++
->   slirp               |  2 +-
->   3 files changed, 30 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> index fa7bf8b..9316d12 100644
-> --- a/hw/acpi/nvdimm.c
-> +++ b/hw/acpi/nvdimm.c
-> @@ -27,6 +27,7 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu/uuid.h"
->   #include "hw/acpi/acpi.h"
->   #include "hw/acpi/aml-build.h"
->   #include "hw/acpi/bios-linker-loader.h"
-> @@ -34,18 +35,13 @@
->   #include "hw/mem/nvdimm.h"
->   #include "qemu/nvdimm-utils.h"
->   
-> -#define NVDIMM_UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)             \
-> -   { (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
-> -     (b) & 0xff, ((b) >> 8) & 0xff, (c) & 0xff, ((c) >> 8) & 0xff,          \
-> -     (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }
-> -
->   /*
->    * define Byte Addressable Persistent Memory (PM) Region according to
->    * ACPI 6.0: 5.2.25.1 System Physical Address Range Structure.
->    */
->   static const uint8_t nvdimm_nfit_spa_uuid[] =
-> -      NVDIMM_UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
-> -                     0x18, 0xb7, 0x8c, 0xdb);
-> +      UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
-> +              0x18, 0xb7, 0x8c, 0xdb);
->   
->   /*
->    * NVDIMM Firmware Interface Table
-> diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
-> index 129c45f..2d17a90 100644
-> --- a/include/qemu/uuid.h
-> +++ b/include/qemu/uuid.h
-> @@ -34,6 +34,32 @@ typedef struct {
->       };
->   } QemuUUID;
->   
-> +/**
-> + * @time_low: The low field of the timestamp
-> + * @time_mid: The middle field of the timestamp
-> + * @time_hi_and_version: The high field of the timestamp
-> + *                       multiplexed with the version number
-> + * @clock_seq_hi_and_reserved: The high field of the clock
-> + *                             sequence multiplexed with the variant
-> + * @clock_seq_low: The low field of the clock sequence
-> + * @node0: The spatially unique node0 identifier
-> + * @node1: The spatially unique node1 identifier
-> + * @node2: The spatially unique node2 identifier
-> + * @node3: The spatially unique node3 identifier
-> + * @node4: The spatially unique node4 identifier
-> + * @node5: The spatially unique node5 identifier
-> + *
-> + * This macro converts the fields of UUID to little-endian array
-> + */
-> +#define UUID_LE(time_low, time_mid, time_hi_and_version, \
-> +  clock_seq_hi_and_reserved, clock_seq_low, node0, node1, node2, \
-> +  node3, node4, node5) \
-> +  { (time_low) & 0xff, ((time_low) >> 8) & 0xff, ((time_low) >> 16) & 0xff, \
-> +    ((time_low) >> 24) & 0xff, (time_mid) & 0xff, ((time_mid) >> 8) & 0xff, \
-> +    (time_hi_and_version) & 0xff, ((time_hi_and_version) >> 8) & 0xff, \
-> +    (clock_seq_hi_and_reserved), (clock_seq_low), (node0), (node1), (node2),\
-> +    (node3), (node4), (node5) }
-> +
->   #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
->                    "%02hhx%02hhx-%02hhx%02hhx-" \
->                    "%02hhx%02hhx-" \
-> diff --git a/slirp b/slirp
-> index 2faae0f..55ab21c 160000
-> --- a/slirp
-> +++ b/slirp
-> @@ -1 +1 @@
-> -Subproject commit 2faae0f778f818fadc873308f983289df697eb93
-> +Subproject commit 55ab21c9a36852915b81f1b41ebaf3b6509dd8ba
+Hi Keiichi,
 
-The SLiRP submodule change is certainly unrelated.
+> > > I do not support the approach of  QEMU implementation forwarding
+> > > requests to the host's vicodec module since  this can limit the scope
+> > > of the virtio-video device only for testing,
+> >
+> > That was my understanding as well.
+>
+> Not really because the API which the vicodec provides is V4L2 stateful
+> decoder interface [1], which are also used by other video drivers on
+> Linux.
+> The difference between vicodec and actual device drivers is that
+> vicodec performs decoding in the kernel space without using special
+> video devices. In other words, vicodec is a software decoder in kernel
+> space which provides the same interface with actual video drivers.
+> Thus, if the QEMU implementation can forward virtio-video requests to
+> vicodec, it can forward them to the actual V4L2 video decoder devices
+> as well and VM gets access to a paravirtualized video device.
+>
+> The reason why we discussed vicodec in the previous thread was it'll
+> allow us to test the virtio-video driver without hardware requirement.
+>
+> [1] https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
+>
 
+Thanks for clarification.
+
+Could  you provide your views if it would be possible to support also
+paravirtualized v4l-subdev devices which is enabled by media
+controller to expose ISP processing blocks to linux userspace.
+Ofcourse, we might need to change implementation and spec to support that
+Please refer (1) for details.
+
+> >
+> > > which instead can be used with multiple use cases such as -
+> > >
+> > > 1. VM gets access to paravirtualized  camera devices which shares the
+> > > video frames input through actual HW camera attached to Host.
+> >
+> > This use-case is out of the scope of virtio-video. Initially I had a plan to
+> > support capture-only streams like camera as well, but later the decision was
+> > made upstream that camera should be implemented as separate device type. We
+> > still plan to implement a simple frame capture capability as a downstream
+> > patch though.
+> >
+> > >
+> > > 2. If Host has multiple video devices (especially in ARM SOCs over
+> > > MIPI interfaces or USB), different VM can be started or hotplugged
+> > > with selective video streams from actual HW video devices.
+> >
+> > We do support this in our device implementation. But spec in general has no
+> > requirements or instructions regarding this. And it is in fact flexible enough
+> > to provide abstraction on top of several HW devices.
+> >
+> > >
+> > > Also instead of using libraries like Gstreamer in Host userspace, they
+> > > can also be used inside the VM userspace after getting access to
+> > > paravirtualized HW camera devices .
+>
+> Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
+> can translate virtio-video requests to this API, we can easily support
+> multiple platforms.
+> I'm not sure how feasible it is though, as I have no experience of
+> using this API by myself...
+>
+> [2] https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
+>
+
+Like pointed out above, Gstreamer is not the only framework present there.
+We have the newer libcamera framework [2] and then Openmax (used in
+Android Hal )
+Refer [3] for comparison.
+
+My intentions are to make the implementation more generic so that it
+can be used by different frameworks on different platforms.
+
+[1]: https://static.sched.com/hosted_files/osseu19/21/libcamera.pdf
+[2]: http://libcamera.org
+[3]: https://processors.wiki.ti.com/images/7/7e/OMX_Android_GST_Comparison.pdf
+
+Regards,
+Saket Sinha
 
