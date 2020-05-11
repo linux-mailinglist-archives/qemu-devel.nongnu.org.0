@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870981CD49F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:14:18 +0200 (CEST)
-Received: from localhost ([::1]:40040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766871CD4D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 11:26:58 +0200 (CEST)
+Received: from localhost ([::1]:54506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY4Vt-0001PA-K8
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37524)
+	id 1jY4i9-0001fl-HX
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 05:26:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jY4Un-0000Kv-F2
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:13:09 -0400
-Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:35698)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jY4hF-0000lF-Ph
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:26:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:56046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1jY4Um-0001Hw-Ih
- for qemu-devel@nongnu.org; Mon, 11 May 2020 05:13:09 -0400
-Received: by mail-qv1-xf2d.google.com with SMTP id x13so2245652qvr.2
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 02:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qUbGAK5CfxdKWBwJaiIwNHINFDgmUVSdz3CMTuva/C8=;
- b=byIVLSJcn0lDO6xRS5D8K8QoAhFY2Du9yQYomptEvgsbBZda5/AOvpH/RycAd2msNT
- qR8rT/PDdogybAMYwMSD3b8f8a5QOdPlMjw7ZFQlJwUbmmEOtJAcRgo6CgB/me2Tw+k0
- 04r6qvK9i8Ro7GcjaywwJnXxsvPmnf/m1oK667ARvgewR8K6MMGV64H4JksTLgriQM6u
- fkQ+PVzkxR2bUdzxZrBxxD2ZrdYXz5PjPdA5CXdIXV0HSyOHk5Dr5bSTj8EiAo0N8SM1
- HHvLpXB7MI8iU+TqXs+0ieANjE1GXktk/9EYAKIE3OU10ZJFfM89MGBIu+F2I0+8UvDZ
- MvyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qUbGAK5CfxdKWBwJaiIwNHINFDgmUVSdz3CMTuva/C8=;
- b=SyawAqdeHKDxjF3AuHEuAyLngbIb+6elNr+Gx2WizYVNOYkfyREBa6UeG1Tobx3kTq
- LU5TpnHyGO2dl1rJLEZL+n7DNkvcvsj3ieoHJpBP4DJVpscOf7sAPtCkgYowmnP7vJjX
- o06rfwwP1lScGb1gNrlG6CWV3kxR/WJBz5+YMQt/nmLv434sVD9Nl3x7lu2AZvbWzcXA
- StHZtr50FU2FMeIRTm2s4snifqUC6ciPdh9QFTBkcxUrW/LXrl3ivUR56+oN7NP9LtxJ
- rexlEtL7nTV7Ysc21OJ60CbUviSRLu2NTmxM+7IKTnEn7M/DSbRcLHu6ECz21NFkurpX
- Oc9Q==
-X-Gm-Message-State: AGi0PuY4ESyIRBkV3jzSMmAM8jLZklsnVH6HQ13KlEn7DFI7+9SY84HT
- VK8CEgtmt4Tx/lpGoo/sbiI8IicPkqLDWhNjkCY=
-X-Google-Smtp-Source: APiQypKCrKhVMCtbrr9jnR3MXYw5P5UV+JVYEyiJ6hMNJ/4Iem6rGX69HPtNA7obH/oxiNBPS2h1amJdXjZ5ur15eEE=
-X-Received: by 2002:a0c:ee4b:: with SMTP id m11mr15014202qvs.218.1589188387304; 
- Mon, 11 May 2020 02:13:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jY4hE-0005E7-H4
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 05:26:01 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jY4hC-0000J4-C5
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 09:25:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3A67C2E810C
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 09:25:58 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 11 May 2020 09:12:56 -0000
+From: Stefan Hajnoczi <1877716@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: stefanha zkrx
+X-Launchpad-Bug-Reporter: zkrx (zkrx)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
 References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
-In-Reply-To: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 11 May 2020 10:12:56 +0100
-Message-ID: <CAJSP0QW6hE=Svo2RrUpLeamsC3LwCPef64923dJZTQA9JnO++A@mail.gmail.com>
+Message-Id: <CAJSP0QW6hE=Svo2RrUpLeamsC3LwCPef64923dJZTQA9JnO++A@mail.gmail.com>
 Subject: Re: [Bug 1877716] [NEW] Win10 guest unsuable after a few minutes
-To: Bug 1877716 <1877716@bugs.launchpad.net>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
- envelope-from=stefanha@gmail.com; helo=mail-qv1-xf2d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: c483b6a8758ffd8a566f05af98bc578a1fd6acbc
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 04:45:50
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, anatol.pomozov@gmail.com
+Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,12 +86,54 @@ On Sat, May 9, 2020 at 9:16 AM Xavier <1877716@bugs.launchpad.net> wrote:
 > forced off. I could reproduce this on a minimal VM with no passthrough,
 > although my current testing setup involves an nvme pcie passthrough.
 >
-> I bisected it to the following commit which rapidly starts to run sluggishly on my setup:
-> https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4ccf
+> I bisected it to the following commit which rapidly starts to run sluggis=
+hly on my setup:
+> https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
+ccf
 
 Thanks for bisecting this bug! Arch Linux can work around it in the
 short term by building with ./configure --disable-linux-io-uring
 and/or removing the liburing build dependency.
 
 I will try to reproduce the issue and send a QEMU patch to fix it.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877716
+
+Title:
+  Win10 guest unusable after a few minutes
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Arch Linux, the recent qemu package update seems to misbehave on
+  some systems. In my case, my Windows 10 guest runs fine for around 5
+  minutes and then start to get really sluggish, even unresponsive. It
+  needs to be forced off. I could reproduce this on a minimal VM with no
+  passthrough, although my current testing setup involves an nvme pcie
+  passthrough.
+
+  I bisected it to the following commit which rapidly starts to run sluggis=
+hly on my setup:
+  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
+ccf
+
+  I've ran the previous commit (
+  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
+89b
+  ) for the entire night without an issue so far.
+
+  I believe this might be a duplicate of
+  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
+
+  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
+6_64 GNU/Linux
+  AMD Ryzen 7 2700X Eight-Core Processor
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
 
