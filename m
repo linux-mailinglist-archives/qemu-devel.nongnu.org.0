@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755381CE4FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 22:05:20 +0200 (CEST)
-Received: from localhost ([::1]:36090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869B31CE52E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 22:13:05 +0200 (CEST)
+Received: from localhost ([::1]:50774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYEfv-0008Fe-It
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 16:05:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58036)
+	id 1jYEnQ-0007hQ-1x
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 16:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jYEea-0006wM-NP
- for qemu-devel@nongnu.org; Mon, 11 May 2020 16:03:56 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:26744
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jYEeY-000058-I5
- for qemu-devel@nongnu.org; Mon, 11 May 2020 16:03:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589227433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RMr9FKzJIvLrY0bKbKAeCdvfEr//mY2ris5St7Uaaco=;
- b=BUqtc8z/z9HMF0m/yFI81c6gCzAq+nXm7In0WSfsJ0xRJ8xSAg2oJ/MGxpw64N+X/Dzjiq
- 4XErIPHvgGS5eeki5YAdW5v8QEsLTwUKTTS7GK8/2rEoJRrVbsBOvQDXgthSLTsqwcWUhV
- q9loPbD5dgAIjCJ8DABx0VNXjRuwaF0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-_qaioSmTM2Cys7i2BU9pFw-1; Mon, 11 May 2020 16:03:49 -0400
-X-MC-Unique: _qaioSmTM2Cys7i2BU9pFw-1
-Received: by mail-wm1-f71.google.com with SMTP id w2so8861561wmc.3
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 13:03:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RMr9FKzJIvLrY0bKbKAeCdvfEr//mY2ris5St7Uaaco=;
- b=eTxdXda0649BRQWnED1bGnLeFdUYPJk4lkIaV+/w/DXzWbebrRXIoFgH2TOLc7PdgB
- g+n7yrDCbhq/Gq7082wiXHiHIi7NONHDbBm1V+IUJRbQ5knrri03ZyHxCkZ24zoryq6k
- LZSAhDvUUsN/nxG2cmNih6xVRDwogloBtAA7o4i0sdxCeTaMtSmvWKrXU870iAApHgwS
- w9govkQPMOyJGsyEmeU0Ms1SKZFcQVt7kmYlW39l0cVA208BUOC/MlKCL2cjjZKz1wSz
- CxVXNxZ1PWtMVpAMR/yQ0WAmPQAIKC336+RNRz39FWUFYqWwY5HIEAEfnFlwS6F1WvgR
- oRMw==
-X-Gm-Message-State: AGi0PuZrgDCIgr3WfVuLXw9d02JEGQZaSevN/PHuaooCF0+4cqA74OaB
- CRys1Pb0vxo+gCD51QlpZL4s2h0otAU+cjLk42YpQMQAScuFS2QJxYy6UNy6b3s7nYDgGMBEJNy
- NaFCHLlTtdjZoAcU=
-X-Received: by 2002:adf:e4cf:: with SMTP id v15mr20442154wrm.43.1589227428069; 
- Mon, 11 May 2020 13:03:48 -0700 (PDT)
-X-Google-Smtp-Source: APiQypK1ciI8h807gTMam/ymhqHJQKyTNJ5cvrJEhgCIZave+Ty1FQCDUbTolhkaUPnIQacYfpGi8A==
-X-Received: by 2002:adf:e4cf:: with SMTP id v15mr20442134wrm.43.1589227427841; 
- Mon, 11 May 2020 13:03:47 -0700 (PDT)
-Received: from [192.168.1.37] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id v131sm876492wmb.27.2020.05.11.13.03.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 May 2020 13:03:47 -0700 (PDT)
-Subject: Re: [PATCH] hostmem: don't use mbind() if host-nodes is epmty
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20200430154606.6421-1-imammedo@redhat.com>
- <20200504154450.GM5244@habkost.net>
- <34c80b6d-c6f3-3772-140a-4650e2356d25@redhat.com>
- <20200511212442.6e3f4509@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <db2c1505-d5fb-9310-7805-6c3be2435c04@redhat.com>
-Date: Mon, 11 May 2020 22:03:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jYEm0-0006Wj-W6
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 16:11:37 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:45884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1jYElw-0002f1-Uw
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 16:11:35 -0400
+Received: from mxbackcorp1j.mail.yandex.net (mxbackcorp1j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::162])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 44AAF2E150F;
+ Mon, 11 May 2020 23:11:27 +0300 (MSK)
+Received: from iva8-88b7aa9dc799.qloud-c.yandex.net
+ (iva8-88b7aa9dc799.qloud-c.yandex.net [2a02:6b8:c0c:77a0:0:640:88b7:aa9d])
+ by mxbackcorp1j.mail.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ dQdXt8pCmi-BOWWwokE; Mon, 11 May 2020 23:11:27 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1589227887; bh=1CxsWH8qQ67qh4XSprVBtCuV+KpwaHxh6ZoUgmFQvLo=;
+ h=In-Reply-To:Message-ID:Subject:To:From:References:Date:Cc;
+ b=OCyVhwz3CuNKRlJeW40y7JBIClZetuhncfX3Ryql8bU1/iIsDp8Ecp/cqvzSR3+H8
+ Tpdz5UyMycqCnOobSwyRnVI88B9z+w0AU6fxuwoTr87RK5Zj9oKG5dyLdNrFltfbUK
+ AtiYE40d+MzLMwrxHnj6kxjUmhwM1iOwDmYVNAVA=
+Authentication-Results: mxbackcorp1j.mail.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b080:8209::1:2])
+ by iva8-88b7aa9dc799.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ RLNUdC6ruM-BOW0vEQp; Mon, 11 May 2020 23:11:24 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Mon, 11 May 2020 23:11:23 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Jon Doron <arilou@gmail.com>
+Subject: Re: [PATCH v4 5/6] i386: Hyper-V VMBus ACPI DSDT entry
+Message-ID: <20200511201106.GB1307176@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Jon Doron <arilou@gmail.com>,
+ "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
+ eyakovlev@virtuozzo.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ liran.alon@oracle.com, Roman Kagan <rkagan@virtuozzo.com>,
+ pbonzini@redhat.com, Igor Mammedov <imammedo@redhat.com>,
+ vkuznets@redhat.com
+References: <20200424123444.3481728-1-arilou@gmail.com>
+ <20200424123444.3481728-6-arilou@gmail.com>
+ <20200505150637.7131e79b@redhat.com>
+ <20200505153838.GC2862@jondnuc>
+ <30fea22b-ef36-04d9-17ef-d13e3f93a3c5@maciej.szmigiero.name>
+ <20200507031425.GG2862@jondnuc>
 MIME-Version: 1.0
-In-Reply-To: <20200511212442.6e3f4509@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 01:43:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <20200507031425.GG2862@jondnuc>
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 16:11:27
+X-ACL-Warn: Detected OS   = ???
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,55 +88,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-stable@nongnu.org, qemu-devel@nongnu.org, mhohmann@physnet.uni-hamburg.de,
- pbonzini@redhat.com
+Cc: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>, eyakovlev@virtuozzo.com,
+ ehabkost@redhat.com, qemu-devel@nongnu.org, liran.alon@oracle.com,
+ Roman Kagan <rkagan@virtuozzo.com>, Igor Mammedov <imammedo@redhat.com>,
+ pbonzini@redhat.com, vkuznets@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/20 9:24 PM, Igor Mammedov wrote:
-> On Mon, 11 May 2020 18:00:01 +0200
-> Philippe Mathieu-Daud√© <philmd@redhat.com> wrote:
-> 
->> Hi Eduardo,
->>
->> On 5/4/20 5:44 PM, Eduardo Habkost wrote:
->>> On Thu, Apr 30, 2020 at 11:46:06AM -0400, Igor Mammedov wrote:
->>>> Since 5.0 QEMU uses hostmem backend for allocating main guest RAM.
->>>> The backend however calls mbind() which is typically NOP
->>>> in case of default policy/absent host-nodes bitmap.
->>>> However when runing in container with black-listed mbind()
->>>> syscall, QEMU fails to start with error
->>>>    "cannot bind memory to host NUMA nodes: Operation not permitted"
->>>> even when user hasn't provided host-nodes to pin to explictly
->>>> (which is the case with -m option)
->>>>
->>>> To fix issue, call mbind() only in case when user has provided
->>>> host-nodes explicitly (i.e. host_nodes bitmap is not empty).
->>>> That should allow to run QEMU in containers with black-listed
->>>> mbind() without memory pinning. If QEMU provided memory-pinning
->>>> is required user still has to white-list mbind() in container
->>>> configuration.
->>>>
->>>> Reported-by: Manuel Hohmann <mhohmann@physnet.uni-hamburg.de>
->>>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->>>
->>> Queued on machine-next, thanks!
->>
->> I've been debugging this issue again today and figured it was not
->> merged, if possible can you add the "Cc: qemu-stable@nongnu.org" tag
->> before sending your pull request?
-> it's CCed already, so my impression was that will should picked up once it was reviewed.
+On Thu, May 07, 2020 at 06:14:25AM +0300, Jon Doron wrote:
+> Igor it seems like the IRQ being used is 5 and not 7 & 13 like in the
+> current patch.
 
-Correct, however some distributions find easier to grep for the 'Cc: 
-qemu-stable@nongnu.org' merged tag before qemu-stable is released.
+HyperV using irq 5 doesn't mean QEMU has to too.  Especially so as no
+guest was noticed to use the irqs in ACPI.  I'd rather try and test if
+the guest requires any those at all.
 
-> 
->>
->> Thanks,
->>
->> Phil.
->>
-> 
+> Seems like it needs to reside in the _CRS like you said.
 
+They already are there.
+
+> Seems like it has all those _STA/_DIS/_PS0 just like the way it's currently
+> in the patch (unless I'm missing something).
+
+Right, but, as you can see, they are pretty dumb, so the question is
+whether they are necessary or the guests can do without (Linux
+apparently can).
+
+Thanks,
+Roman.
+
+> Notice _PS3 is not a Method.
+> 
+> So just to summarize the changes i need to do:
+> 1. Change from 2 IRQs to single one (and use 5 as the default)
+> 2. IRQs needs to be under _CRS.
+> 3. You mentioned you want under a different location than the ISA bug where
+> would you want it to be?
+> 
+> Please let me know if there is anything else.
+> 
+> Thanks,
+> -- Jon.
+> 
+> On 06/05/2020, Maciej S. Szmigiero wrote:
+> > On 05.05.2020 17:38, Jon Doron wrote:
+> > > On 05/05/2020, Igor Mammedov wrote:
+> > > 
+> > > I dont know what were the original intentions of the original patch authors (at this point I simply rebased it, and to be honest I did not need this patch to get where I was going to, but it was part of the original patchset).
+> > > 
+> > > But I'm willing to do any changes so we can keep going forward with this.
+> > > 
+> > > > On Fri, 24 Apr 2020 15:34:43 +0300
+> > > > Jon Doron <arilou@gmail.com> wrote:
+> > > > 
+> > > > > Guest OS uses ACPI to discover VMBus presence.† Add a corresponding
+> > > > > entry to DSDT in case VMBus has been enabled.
+> > > > > 
+> > > > > Experimentally Windows guests were found to require this entry to
+> > > > > include two IRQ resources. They seem to never be used but they still
+> > > > > have to be there.
+> > > > > 
+> > > > > Make IRQ numbers user-configurable via corresponding properties; use 7
+> > > > > and 13 by default.
+> > > > well, it seems that at least linux guest driver uses one IRQ,
+> > > > abeit not from ACPI descriptior
+> > > > 
+> > > > perhaps it's what hyperv host puts into _CRS.
+> > > > Could you dump ACPI tables and check how hyperv describes vmbus in acpi?
+> > > > 
+> > > > 
+> > > 
+> > > I can no longer get to the HyperV computer I had (in the office so hopefully if someone else has access to HyperV machine and willing to reply here with the dumped ACPI tables that would be great).
+> > > 
+> > 
+> > Here is a VMBus ACPI device description from Hyper-V in Windows Server 2019:
+> > 
+> > Device (\_SB.VMOD.VMBS)
+> > {
+> >    Name (STA, 0x0F)
+> >    Name (_ADR, Zero)  // _ADR: Address
+> >    Name (_DDN, "VMBUS")  // _DDN: DOS Device Name
+> >    Name (_HID, "VMBus")  // _HID: Hardware ID
+> >    Name (_UID, Zero)  // _UID: Unique ID
+> >    Method (_DIS, 0, NotSerialized)  // _DIS: Disable Device
+> >    {
+> > 	STA &= 0x0D
+> >    }
+> > 
+> >    Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+> >    {
+> > 	STA |= 0x0F
+> >    }
+> > 
+> >    Method (_STA, 0, NotSerialized)  // _STA: Status
+> >    {
+> > 	Return (STA) /* \_SB_.VMOD.VMBS.STA_ */
+> >    }
+> > 
+> >    Name (_PS3, Zero)  // _PS3: Power State 3
+> >    Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+> >    {
+> > 	IRQ (Edge, ActiveHigh, Exclusive, )
+> > 	    {5}
+> >    })
+> > }
+> > 
+> > It seems to use just IRQ 5.
+> > 
+> > Maciej
+> 
 
