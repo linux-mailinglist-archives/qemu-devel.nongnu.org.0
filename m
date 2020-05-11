@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B101CDB49
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:35:56 +0200 (CEST)
-Received: from localhost ([::1]:43102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4811CDB55
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:37:39 +0200 (CEST)
+Received: from localhost ([::1]:51768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8b4-0003X2-P6
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:35:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48864)
+	id 1jY8ck-000736-JX
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:37:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZO-0001bs-Mg
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:10 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41022)
+ id 1jY8ZP-0001dB-N2
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:11 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8ZN-0006zH-FJ
- for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:10 -0400
-Received: by mail-wr1-x432.google.com with SMTP id h17so2097856wrc.8
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:08 -0700 (PDT)
+ id 1jY8ZO-0006zL-FA
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:11 -0400
+Received: by mail-wr1-x441.google.com with SMTP id i15so10961029wrx.10
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0uTj5FuaxLRxQKaETn1roHV13235qFIM0CWbgde5Ozs=;
- b=TtNY21Q+ylAaOWfUa1TZddXisiFB0WizIrBJXguw4YhF2JIHV9hshkc5jIArKVgJG0
- 3EZB8YsUdvOuClWq3XJt9720T5/vSw3Ka1HpDUKDp3ApbJqqQ2ZvUpGduo/qMqXp2rMe
- I9vofwaonazag0dVtUP2Ps95Ai7QQSMkrQjuVBEURCGrs6sK4SN0DJjmC9pgbVppArMx
- pUGVnv105Tr5E4KBz3KM24jK9BQb7Xv0EbGjNXYawReHTeqgu61R9YyvkdW+J7gkDYjB
- AmOXvYKD4CGRsnpKfZTvWtVMAT3DQuM3fJ96Oau1bfVAzJdFd5p5sreUG6EvrL/BD8bb
- E2DA==
+ bh=StLU2CfUIhim1LoWHHxgyFkd3H5dmMx4AUAfUWESJ6c=;
+ b=Wq0ooVIMNvdhavW5QD0xnUpYPMjqNi/EY51Bv9oGWh+P8zXlEJSY5MXK2KEFprCiOw
+ xcaOmIjqAOypqWkHph9is2Kt2spl4NQ313oz2i5eKckFY+Utaji1ZoLBdg7zhiZQaHrs
+ 2nDoCDDgpETwbgcEpZ6j6gVueR2W5jNrIenY7XYKX+C9mk3ZADLTSqkvYr8nJijmuAQk
+ 6Gz364ZDcUs0DKjCYQCvXSPn+5JQT1XZGDNdSkDdUStgNSg5rtNqCi0RVtoPwdCndWCj
+ zpGLfQ9e48IqNrPULg/WecK3g6C++dVOIR98juQYQziAuzcmKv5k2cFUNu7r01i1hcPJ
+ 2Scw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0uTj5FuaxLRxQKaETn1roHV13235qFIM0CWbgde5Ozs=;
- b=i4j9M2xf5sWSnpqLLvnKTrT7R9yj80/VaGZwltfMRHQN+i4dn3B2Dbbd2XekvjDxHF
- fE0cE684Jm7bvtHBVyaKOWo2/B4+/ZZFdCxNpiOlvoJuC1rpIF6Dj+GEYj5Sil53Do9s
- cevDQQqk3JUrB+hszq1Z70hs4StwuzNTf09wfFhXmR8i7+degL2WMb3ITpimxwYMgEWx
- omQJyDCSbzfesqDtprmAND3au44Fo870na536GTE7S935vZfR5W3PKxZDuW3I86OrG0Y
- C8m8X+wIPqLmn8nlFDwa7dwm04+u0OAX9WLf1uRg6qjus5Bp3A/G8e5f19uKEDysz95P
- P6Yw==
-X-Gm-Message-State: AGi0PubjEfbsdlaZyd8jzNVJr7qfqlFQ6PwKzDkwq27adcxdHU7W7aEB
- N7HpWFyCBE2OXURQtzf59fmofgZXOlvBbQ==
-X-Google-Smtp-Source: APiQypKCfug2xkVmnCcoDmBKjmiYY8H+RsWtBvlas4Di2+mmxvMMYCMAJu6ffinl4kAzI7dBGD966g==
-X-Received: by 2002:adf:e752:: with SMTP id c18mr2231718wrn.353.1589204047301; 
- Mon, 11 May 2020 06:34:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=StLU2CfUIhim1LoWHHxgyFkd3H5dmMx4AUAfUWESJ6c=;
+ b=CbhcYW0ada2pF2w9LjZhmtqCq1ClS3Au5VnjQDtf8L19suO+WwxeRnTmNCG+DBFYkI
+ DB9ytjT3EzHVEonl9XsU/9sIDe91LwxyKzvU77A8zDFTMx0hsQJsL6b1Y8OmKhyqvCnl
+ 4dpDs1rXsbTOjnlq9mJYfObF20iFs3qd5JgHlkqb+hprUglQ/OpIYMWZy4JsMCGhb+Xk
+ DOf2OQBcKSEx80e2ZzXLO0ZeWUbt+KEXfS7MpGsxEUnU2uxR/r9EYmHh5Zus3qKhqOrL
+ e76TXBprUSzSKXKy2YuQyH/QIdeGpbD1SP+uxY029K5X8Kk1k5yjmsziN3XlVH+XWf2w
+ E2CQ==
+X-Gm-Message-State: AGi0Pua9iP3v+fGsawcV9GEOo8+U3mDiA1dcHX5ZeS8DbFsX/mfnh6V8
+ xWFhV5bQTIbTNtlq/p4ZSYUbIzuizfPpsw==
+X-Google-Smtp-Source: APiQypJoq7LtFUWPamONC7UtRsJckGpafAecNjbbdqAGArYmTBTWVDP7KtqHdUoL0OlbUh7G6BYhzg==
+X-Received: by 2002:adf:c381:: with SMTP id p1mr19628146wrf.148.1589204048474; 
+ Mon, 11 May 2020 06:34:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.06
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:06 -0700 (PDT)
+ Mon, 11 May 2020 06:34:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/34] target-arm queue
-Date: Mon, 11 May 2020 14:33:31 +0100
-Message-Id: <20200511133405.5275-1-peter.maydell@linaro.org>
+Subject: [PULL 01/34] aspeed: Add boot stub for smp booting
+Date: Mon, 11 May 2020 14:33:32 +0100
+Message-Id: <20200511133405.5275-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
+References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,109 +89,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c88f1ffc19e38008a1c33ae039482a860aa7418c:
+From: Joel Stanley <joel@jms.id.au>
 
-  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2020-05-08 14:29:18 +0100)
+This is a boot stub that is similar to the code u-boot runs, allowing
+the kernel to boot the secondary CPU.
 
-are available in the Git repository at:
+u-boot works as follows:
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200511
+ 1. Initialises the SMP mailbox area in the SCU at 0x1e6e2180 with default values
 
-for you to fetch changes up to 7e17d50ebd359ee5fa3d65d7fdc0fe0336d60694:
+ 2. Copies a stub named 'mailbox_insn' from flash to the SCU, just above the
+    mailbox area
 
-  target/arm: Fix tcg_gen_gvec_dup_imm vs DUP (indexed) (2020-05-11 14:22:54 +0100)
+ 3. Sets AST_SMP_MBOX_FIELD_READY to a magic value to indicate the
+    secondary can begin execution from the stub
 
-----------------------------------------------------------------
-target-arm queue:
- aspeed: Add boot stub for smp booting
- target/arm: Drop access_el3_aa32ns_aa64any()
- aspeed: Support AST2600A1 silicon revision
- aspeed: sdmc: Implement AST2600 locking behaviour
- nrf51: Tracing cleanups
- target/arm: Improve handling of SVE loads and stores
- target/arm: Don't show TCG-only CPUs in KVM-only QEMU builds
- hw/arm/musicpal: Map the UART devices unconditionally
- target/arm: Fix tcg_gen_gvec_dup_imm vs DUP (indexed)
- target/arm: Use tcg_gen_gvec_5_ptr for sve FMLA/FCMLA
+ 4. The stub waits until the AST_SMP_MBOX_FIELD_GOSIGN register is set to
+    a magic value
 
-----------------------------------------------------------------
-Edgar E. Iglesias (1):
-      target/arm: Drop access_el3_aa32ns_aa64any()
+ 5. Jumps to the address in AST_SMP_MBOX_FIELD_ENTRY, starting Linux
 
-Joel Stanley (3):
-      aspeed: Add boot stub for smp booting
-      aspeed: Support AST2600A1 silicon revision
-      aspeed: sdmc: Implement AST2600 locking behaviour
+Linux indicates it is ready by writing the address of its entrypoint
+function to AST_SMP_MBOX_FIELD_ENTRY and the 'go' magic number to
+AST_SMP_MBOX_FIELD_GOSIGN. The secondary CPU sees this at step 4 and
+breaks out of it's loop.
 
-Philippe Mathieu-Daudé (8):
-      hw/arm/nrf51: Add NRF51_PERIPHERAL_SIZE definition
-      hw/timer/nrf51_timer: Display timer ID in trace events
-      hw/timer/nrf51_timer: Add trace event of counter value update
-      target/arm/kvm: Inline set_feature() calls
-      target/arm/cpu: Use ARRAY_SIZE() to iterate over ARMCPUInfo[]
-      target/arm/cpu: Restrict v8M IDAU interface to Aarch32 CPUs
-      target/arm: Restrict TCG cpus to TCG accel
-      hw/arm/musicpal: Map the UART devices unconditionally
+To be compatible, a fixed qemu stub is loaded into the mailbox area. As
+qemu can ensure the stub is loaded before execution starts, we do not
+need to emulate the AST_SMP_MBOX_FIELD_READY behaviour of u-boot. The
+secondary CPU's program counter points to the beginning of the stub,
+allowing qemu to start secondaries at step four.
 
-Richard Henderson (21):
-      exec: Add block comments for watchpoint routines
-      exec: Fix cpu_watchpoint_address_matches address length
-      accel/tcg: Add block comment for probe_access
-      accel/tcg: Adjust probe_access call to page_check_range
-      accel/tcg: Add probe_access_flags
-      accel/tcg: Add endian-specific cpu_{ld, st}* operations
-      target/arm: Use cpu_*_data_ra for sve_ldst_tlb_fn
-      target/arm: Drop manual handling of set/clear_helper_retaddr
-      target/arm: Add sve infrastructure for page lookup
-      target/arm: Adjust interface of sve_ld1_host_fn
-      target/arm: Use SVEContLdSt in sve_ld1_r
-      target/arm: Handle watchpoints in sve_ld1_r
-      target/arm: Use SVEContLdSt for multi-register contiguous loads
-      target/arm: Update contiguous first-fault and no-fault loads
-      target/arm: Use SVEContLdSt for contiguous stores
-      target/arm: Reuse sve_probe_page for gather first-fault loads
-      target/arm: Reuse sve_probe_page for scatter stores
-      target/arm: Reuse sve_probe_page for gather loads
-      target/arm: Remove sve_memopidx
-      target/arm: Use tcg_gen_gvec_5_ptr for sve FMLA/FCMLA
-      target/arm: Fix tcg_gen_gvec_dup_imm vs DUP (indexed)
+Reboot behaviour is preserved by resetting AST_SMP_MBOX_FIELD_GOSIGN
+when the secondaries are reset.
 
-Thomas Huth (1):
-      target/arm: Make set_feature() available for other files
+This is only configured when the system is booted with -kernel and qemu
+does not execute u-boot first.
 
- docs/devel/loads-stores.rst    |   39 +-
- include/exec/cpu-all.h         |   13 +-
- include/exec/cpu_ldst.h        |  283 +++--
- include/exec/exec-all.h        |   39 +
- include/hw/arm/nrf51.h         |    3 +-
- include/hw/core/cpu.h          |   23 +
- include/hw/i2c/microbit_i2c.h  |    2 +-
- include/hw/misc/aspeed_scu.h   |    1 +
- include/hw/timer/nrf51_timer.h |    1 +
- target/arm/cpu.h               |   10 +
- target/arm/helper-sve.h        |   45 +-
- target/arm/internals.h         |    5 -
- accel/tcg/cputlb.c             |  413 ++++---
- accel/tcg/user-exec.c          |  256 ++++-
- exec.c                         |    2 +-
- hw/arm/aspeed.c                |   73 +-
- hw/arm/aspeed_ast2600.c        |    6 +-
- hw/arm/musicpal.c              |   12 +-
- hw/arm/nrf51_soc.c             |    9 +-
- hw/i2c/microbit_i2c.c          |    2 +-
- hw/misc/aspeed_scu.c           |   11 +-
- hw/misc/aspeed_sdmc.c          |   55 +-
- hw/timer/nrf51_timer.c         |   14 +-
- target/arm/cpu.c               |  662 +----------
- target/arm/cpu64.c             |   18 +-
- target/arm/cpu_tcg.c           |  664 +++++++++++
- target/arm/helper.c            |   30 +-
- target/arm/kvm32.c             |   13 +-
- target/arm/kvm64.c             |   22 +-
- target/arm/sve_helper.c        | 2398 +++++++++++++++++++++-------------------
- target/arm/translate-sve.c     |   93 +-
- hw/timer/trace-events          |    5 +-
- target/arm/Makefile.objs       |    1 +
- 33 files changed, 2975 insertions(+), 2248 deletions(-)
- create mode 100644 target/arm/cpu_tcg.c
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/arm/aspeed.c | 65 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index a6a2102a93c..a3a8cd0a58a 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -116,6 +116,58 @@ static const MemoryRegionOps max_ram_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
++#define AST_SMP_MAILBOX_BASE            0x1e6e2180
++#define AST_SMP_MBOX_FIELD_ENTRY        (AST_SMP_MAILBOX_BASE + 0x0)
++#define AST_SMP_MBOX_FIELD_GOSIGN       (AST_SMP_MAILBOX_BASE + 0x4)
++#define AST_SMP_MBOX_FIELD_READY        (AST_SMP_MAILBOX_BASE + 0x8)
++#define AST_SMP_MBOX_FIELD_POLLINSN     (AST_SMP_MAILBOX_BASE + 0xc)
++#define AST_SMP_MBOX_CODE               (AST_SMP_MAILBOX_BASE + 0x10)
++#define AST_SMP_MBOX_GOSIGN             0xabbaab00
++
++static void aspeed_write_smpboot(ARMCPU *cpu,
++                                 const struct arm_boot_info *info)
++{
++    static const uint32_t poll_mailbox_ready[] = {
++        /*
++         * r2 = per-cpu go sign value
++         * r1 = AST_SMP_MBOX_FIELD_ENTRY
++         * r0 = AST_SMP_MBOX_FIELD_GOSIGN
++         */
++        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
++        0xe21000ff,  /* ands    r0, r0, #255          */
++        0xe59f201c,  /* ldr     r2, [pc, #28]         */
++        0xe1822000,  /* orr     r2, r2, r0            */
++
++        0xe59f1018,  /* ldr     r1, [pc, #24]         */
++        0xe59f0018,  /* ldr     r0, [pc, #24]         */
++
++        0xe320f002,  /* wfe                           */
++        0xe5904000,  /* ldr     r4, [r0]              */
++        0xe1520004,  /* cmp     r2, r4                */
++        0x1afffffb,  /* bne     <wfe>                 */
++        0xe591f000,  /* ldr     pc, [r1]              */
++        AST_SMP_MBOX_GOSIGN,
++        AST_SMP_MBOX_FIELD_ENTRY,
++        AST_SMP_MBOX_FIELD_GOSIGN,
++    };
++
++    rom_add_blob_fixed("aspeed.smpboot", poll_mailbox_ready,
++                       sizeof(poll_mailbox_ready),
++                       info->smp_loader_start);
++}
++
++static void aspeed_reset_secondary(ARMCPU *cpu,
++                                   const struct arm_boot_info *info)
++{
++    AddressSpace *as = arm_boot_address_space(cpu, info);
++    CPUState *cs = CPU(cpu);
++
++    /* info->smp_bootreg_addr */
++    address_space_stl_notdirty(as, AST_SMP_MBOX_FIELD_GOSIGN, 0,
++                               MEMTXATTRS_UNSPECIFIED, NULL);
++    cpu_set_pc(cs, info->smp_loader_start);
++}
++
+ #define FIRMWARE_ADDR 0x0
+ 
+ static void write_boot_rom(DriveInfo *dinfo, hwaddr addr, size_t rom_size,
+@@ -270,6 +322,19 @@ static void aspeed_machine_init(MachineState *machine)
+         }
+     }
+ 
++    if (machine->kernel_filename && bmc->soc.num_cpus > 1) {
++        /* With no u-boot we must set up a boot stub for the secondary CPU */
++        MemoryRegion *smpboot = g_new(MemoryRegion, 1);
++        memory_region_init_ram(smpboot, OBJECT(bmc), "aspeed.smpboot",
++                               0x80, &error_abort);
++        memory_region_add_subregion(get_system_memory(),
++                                    AST_SMP_MAILBOX_BASE, smpboot);
++
++        aspeed_board_binfo.write_secondary_boot = aspeed_write_smpboot;
++        aspeed_board_binfo.secondary_cpu_reset_hook = aspeed_reset_secondary;
++        aspeed_board_binfo.smp_loader_start = AST_SMP_MBOX_CODE;
++    }
++
+     aspeed_board_binfo.ram_size = ram_size;
+     aspeed_board_binfo.loader_start = sc->memmap[ASPEED_SDRAM];
+     aspeed_board_binfo.nb_cpus = bmc->soc.num_cpus;
+-- 
+2.20.1
+
 
