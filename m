@@ -2,85 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898671CD1E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:34:59 +0200 (CEST)
-Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6131CD1FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 08:42:00 +0200 (CEST)
+Received: from localhost ([::1]:60570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY21i-0007E3-Jg
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:34:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46184)
+	id 1jY28V-0004pC-8b
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 02:41:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jY20n-0006k8-4f
- for qemu-devel@nongnu.org; Mon, 11 May 2020 02:34:01 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jY20l-0006gf-Up
- for qemu-devel@nongnu.org; Mon, 11 May 2020 02:34:00 -0400
-Received: by mail-wm1-x342.google.com with SMTP id m12so11829342wmc.0
- for <qemu-devel@nongnu.org>; Sun, 10 May 2020 23:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ihtLHJsjvXDzEPmkXFvqJBRb71oCHyYlH1TVJyDtLdk=;
- b=ZjARBELM1YdRX9wnsA2N+q6rlghJmdc4fzZZ9JBxJprD5COMdctwRD1BjqKAjnOgQq
- Hol8naYs/rdpUyXossDQSbL4/LTZNqUmLZxJdSZzRkI/DesRunDbOt2fh3S3nR6K3Goz
- /CNPxo0ApfQDAKSl2b4DGZNph/qLJb34jdon463GlsZQ5JxhIHgWxfsPUbE20XOmxlDd
- RwDKtmGMIkpxvFmLhewFNBZVg+jxIYRGShu4T2OwPp+dAScdEdLkrZYl7oVlBYCbKrjf
- rgTbV7laEXCmf4YPGJ+ketTn0XGGVO/sZPYwrYhF/LDLIL6T5R/pQKVsJpgM6s5EFJOp
- 2fpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ihtLHJsjvXDzEPmkXFvqJBRb71oCHyYlH1TVJyDtLdk=;
- b=kiGAd7oxlhxF514PPL5phZj7e36waMisodhb5Bo0Euee0r/ALTJVz8oacU+KvaUcwN
- Zy/I7o0rMIcYkh4TOSvi2FzHdvrCCdlS1ax7bFsufb6iNtNx95nMQmZrzaK/wC0tPybd
- U/W/Wjc8v3IgRuqBf5lUEfQBguKm19nRgmw7qewZp+tDXUF/MgbQJfhi/y+D0ovWsPSx
- 6gJbBrQ0AiDSeDa03xkipqKTTA9emrQzL13B71bFFSYrAb2l3jLPoQrRDTme7j3AOl8q
- aBIViy+ClMYTY97nKKndJN7NZbatzbhEOptFesu4WxQ/NngFKjtjcqHSL23JX5jSMvEC
- iO6Q==
-X-Gm-Message-State: AGi0PuZeEP8uZ54Mq48HhpBfJOxUIeUqoSUXTyhUvV6CVriSRJ6v/K/2
- AGjzvnH0JjIoMxq/yYwYhDA=
-X-Google-Smtp-Source: APiQypIw7Rg2kg+Munxow2KsSCLi6tAsDETQqbFoDdwX71sPJbbsOmkkjTccykjtZTcYkZJRXPc+3Q==
-X-Received: by 2002:a1c:e90a:: with SMTP id q10mr29086205wmc.22.1589178838289; 
- Sun, 10 May 2020 23:33:58 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id f7sm15075400wrt.10.2020.05.10.23.33.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 10 May 2020 23:33:57 -0700 (PDT)
-Subject: Re: [PATCH 09/12] hw/pci-host/bonito: Map the different PCI ranges
- more detailled
-To: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <20200510210128.18343-1-f4bug@amsat.org>
- <20200510210128.18343-10-f4bug@amsat.org>
- <CAHiYmc4dt43BU41mFrHUv-dK_Xr34Ai8o3xtzXxYikhFaX-N2A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a170e94e-9539-27fd-21a0-04eab99c54b3@amsat.org>
-Date: Mon, 11 May 2020 08:33:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <CAHiYmc4dt43BU41mFrHUv-dK_Xr34Ai8o3xtzXxYikhFaX-N2A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <prvs=4400c99de5=bbhushan2@marvell.com>)
+ id 1jY24z-0001hC-FC; Mon, 11 May 2020 02:38:21 -0400
+Received: from mx0a-0016f401.pphosted.com ([67.231.148.174]:36452
+ helo=mx0b-0016f401.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=4400c99de5=bbhushan2@marvell.com>)
+ id 1jY24t-0007Ca-G8; Mon, 11 May 2020 02:38:16 -0400
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+ by mx0a-0016f401.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04B6Z10T029768; Sun, 10 May 2020 23:38:10 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
+ h=from : to : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pfpt0818;
+ bh=yw80EQ1QIDfh4OV3EYh0xrIXzFiIFDmvJhWkAO86+C8=;
+ b=Naxw6iWAO/g8FND/8sp8aG6bxXHtezy+Qi67a33VHHbeD82/7Uz4oO0al12Vpl2pH5y/
+ SxZOY/FwsNZxrHuFJ8tcBhpMagDL0BAyWJ5Xn65AN9r3S31+QbAjhUAMz4j7lYznidd3
+ HhIHArRv5SzRhNXu/i4YklzVPjByT9gGNerHbpDju0r4BJuSvZyC6VvTUQ7XA1AD6VFk
+ eDNFeRZxwv9cxdmNeqoG508SqSEMG5Du2DAQtjlFdG3JVi6OVRtL3doq7ubSlO5FvCLB
+ 7YntVjumpHNXnVwD004fWYrklu8hEZfaMDS+QilJUZ3DCimgAld9QrHImwKK1ncsCGPN hQ== 
+Received: from sc-exch03.marvell.com ([199.233.58.183])
+ by mx0a-0016f401.pphosted.com with ESMTP id 30wsvqdrw8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Sun, 10 May 2020 23:38:10 -0700
+Received: from DC5-EXCH01.marvell.com (10.69.176.38) by SC-EXCH03.marvell.com
+ (10.93.176.83) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Sun, 10 May 2020 23:38:08 -0700
+Received: from SC-EXCH04.marvell.com (10.93.176.84) by DC5-EXCH01.marvell.com
+ (10.69.176.38) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Sun, 10 May 2020 23:38:08 -0700
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com (104.47.45.52) by
+ SC-EXCH04.marvell.com (10.93.176.84) with Microsoft SMTP Server
+ (TLS) id
+ 15.0.1497.2 via Frontend Transport; Sun, 10 May 2020 23:38:07 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yuq92uKz7zegbfdV9nUWzKjzC+FR/VEKHiAn+4rr5F2Y7NoGKp7BErJyqKZ0683Btsw5nUwz23IkyPDdMgHV8bUriTUTR9veKBJC23Mw9/iGGspeSmKqJ26PWirKn4xze39aWksYPPorOkdDqT4tpzIr0PRjjpnhgfK+eGSSeCPqyseLISG8361RX1LyW9EI6OVC5foAirzNl/e2dzEaKg5bsY6MFp60vIWo5hVHLbjIIMYNmiQgFmIytHevX2ZTKKbhyWQek+sIRb7RUJFuHYTJHEYL2GULNhTfGiUumSaggwS5O80BAYbZCdSC2ZrpyuWgM7pTb+X0pfGIAx9w/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yw80EQ1QIDfh4OV3EYh0xrIXzFiIFDmvJhWkAO86+C8=;
+ b=B0n5KHEpNKMKJl4ueC17LdUeq3b4zjWrenz8QmQm+6Qery9+2A+ytIDQUVNdlYKFO3KGOvsDKqVZi1dwhBscZTg2xNXtgRcpNr0g+EYDyhtj+PE5Jc6gRFL/EnFlaoytY9a5PJNQTapLxFKuzXMR0j0e9+Q3GnrA4p5do30Y7gFrIqHa4IFMQle+soP8UlpVkCAgs5s7B3YIApaDx4kBBp/wbKYOEryL4bgJaLmM4x9FVtcjZNHW9PTV7wwzY7Y3nCeCFS3s9wwUKd/AR3s5ZT6rsHQDlaep8q4JxDErMWYq2uVcq5Yr0ZJeG1jAaYgafcbLeFmmtPSBS/m/1b6qPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=marvell.onmicrosoft.com; s=selector1-marvell-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yw80EQ1QIDfh4OV3EYh0xrIXzFiIFDmvJhWkAO86+C8=;
+ b=cXd8nTZFDq/FLCXMlsEUxPJE1x4IUuujOFzOoNSvSRf600u6ZiS7u7W+pIXV2gZ4kLcQZF6fmY3H6m2yNyT9Ync8FDAAXrTh2RsetBMs5kyZCnipkfdXDL+4HQhsD9SMDwkyo6i9q9zK09UbKRWsLXHVYr8cVtMc0XNcwmGRvUA=
+Received: from MWHPR1801MB1966.namprd18.prod.outlook.com
+ (2603:10b6:301:66::20) by MWHPR1801MB1903.namprd18.prod.outlook.com
+ (2603:10b6:301:6c::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Mon, 11 May
+ 2020 06:38:06 +0000
+Received: from MWHPR1801MB1966.namprd18.prod.outlook.com
+ ([fe80::6028:eab:73:829d]) by MWHPR1801MB1966.namprd18.prod.outlook.com
+ ([fe80::6028:eab:73:829d%3]) with mapi id 15.20.2979.033; Mon, 11 May 2020
+ 06:38:05 +0000
+From: Bharat Bhushan <bbhushan2@marvell.com>
+To: Eric Auger <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
+ <eric.auger.pro@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>, "mst@redhat.com" <mst@redhat.com>,
+ "jean-philippe@linaro.org" <jean-philippe@linaro.org>, "peterx@redhat.com"
+ <peterx@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
+Subject: RE: [EXT] [PATCH v2 2/5] virtio-iommu: Implement RESV_MEM probe
+ request
+Thread-Topic: [EXT] [PATCH v2 2/5] virtio-iommu: Implement RESV_MEM probe
+ request
+Thread-Index: AQHWJV6G7q81t6809kGgvGezOKtQUqiicegg
+Date: Mon, 11 May 2020 06:38:05 +0000
+Message-ID: <MWHPR1801MB19669FBFAD49AD36460B0756E3A10@MWHPR1801MB1966.namprd18.prod.outlook.com>
+References: <20200508173057.32215-1-eric.auger@redhat.com>
+ <20200508173057.32215-3-eric.auger@redhat.com>
+In-Reply-To: <20200508173057.32215-3-eric.auger@redhat.com>
+Accept-Language: en-IN, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=marvell.com;
+x-originating-ip: [122.171.209.213]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c8dd0743-2aac-4c2f-7dfa-08d7f575dcb4
+x-ms-traffictypediagnostic: MWHPR1801MB1903:
+x-microsoft-antispam-prvs: <MWHPR1801MB1903AAC17936E2BD6F9CDD2CE3A10@MWHPR1801MB1903.namprd18.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:378;
+x-forefront-prvs: 04004D94E2
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: d4GiOKXMswdta8Qus+lw3xuTZTa+j0l8+tmDTJJVETLOa19KkppNGvExAag14VGy3SiGEsC0lPyzraND3J5WWvHm0PEYE+UZXpnAkD5gKjgJltWHBr7JN5CQAozzJ3AShd/Wpr00Q0mtkSdSghXqatWPuMs98mfvzLhX51LAlvk3sdo988h58bRXsXzXCy8um1xIQIDOm4FMhEgheUjuXHzUdTijcESwTbaXVxbHHaeSQOVWY0MUQjlT4erUJaEBXHtWvvyXwzv4EhedfAvM5EkL+m6yb2hv9lp/Kdxai1GEtf5NInP3EZEDdmQN9FR+5qnybIofQkcMsYTtOQL56vKBS1j05Qu5+8Gp5MI7Xqf6E8fzqYN4UxagGKtglGNM67maKpmKj/oicgd3+ouKB42vW7EqHRZ6m1YZKsnA+UKOsJUm6Ncadfsao8o2NDrATMVt35Yj8pWsTz11h4vKSpOApXYURsxk5Gh98zbD4KhMKU7Maj6XsExtpBWx9dmYq9XbB2wNoVWFEjdOdZYhxcuTEzUHUcKRtHlcYcuFqfU=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1801MB1966.namprd18.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(39850400004)(136003)(396003)(376002)(346002)(366004)(33430700001)(53546011)(5660300002)(6506007)(7416002)(8936002)(26005)(186003)(8676002)(71200400001)(2906002)(55016002)(9686003)(66556008)(110136005)(316002)(76116006)(33440700001)(33656002)(66446008)(64756008)(7696005)(52536014)(86362001)(66946007)(66476007)(478600001)(921003);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: lE3CjnaXULwbwsXx/4tistS3e7gyuYv/C1Qgg7RsrxxudNp723Xjrid1VY0U72aYfUIF/pWdTCIUsG8Nd6Qgop47kQeuMieciYRQWm8wMpNH2KL+VfjF3ZS0oS88eMC3HTk09EVKfC8MUj8xB4car96aNZudSUhn00hUP4R/b4OAoJVV+Jgy54P94uFSx8VoK5jMl7jkX51va/BTcnY+p2ARLAcz70aGgokmupdHCaWmmKMsIeJjSpNuSjprYsf1lS8VQGb8lguS95cffCQqOVXnt384nQnSBEZ5s83olRS147HW5GtIotXijzuGesenT59zFGwXSsRMeceJye9n//AQ/INEKoutg8PCbxfmtFQkbqpB3Lk8M2q+xheLrOBkiUsvlgl7KWfzvIho3xkD/vzYUnuN9ItiaXz/zyabY7W7vSlgJzWCBx4GiFgwmE1jgT7KwwntOIGP0ncZOk7hllWBP98cB5vcJRkubDGMhwCQTBO+wuAY8IEtEYsj7Mmf
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8dd0743-2aac-4c2f-7dfa-08d7f575dcb4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2020 06:38:05.7570 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g6l3mnFifFGKuYY8DhNU49Yt1Ee6Af0W5yzRhvvm5Ar+KrxE52mP5Sddb1FR6TRbX4v6G2cj2pQU5Sh+/mZKdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1801MB1903
+X-OriginatorOrg: marvell.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-11_01:2020-05-08,
+ 2020-05-11 signatures=0
+Received-SPF: pass client-ip=67.231.148.174;
+ envelope-from=prvs=4400c99de5=bbhushan2@marvell.com;
+ helo=mx0b-0016f401.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 02:38:12
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, KHOP_DYNAMIC=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,134 +148,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Huacai Chen <chenhuacai@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Huacai Chen <chenhc@lemote.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/11/20 8:12 AM, Aleksandar Markovic wrote:
-> нед, 10. мај 2020. у 23:01 Philippe Mathieu-Daudé <f4bug@amsat.org> је
-> написао/ла:
->>
->> Better describe the Bonito64 MEM HI/LO and I/O PCI ranges,
->> add more PCI regions as unimplemented.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/pci-host/bonito.c | 30 ++++++++++++++++++++++++++----
->>   1 file changed, 26 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
->> index 9761780f44..90a6c52a38 100644
->> --- a/hw/pci-host/bonito.c
->> +++ b/hw/pci-host/bonito.c
->> @@ -39,6 +39,7 @@
->>    */
->>
->>   #include "qemu/osdep.h"
->> +#include "qemu/units.h"
->>   #include "qemu/error-report.h"
->>   #include "hw/pci/pci.h"
->>   #include "hw/irq.h"
->> @@ -82,7 +83,7 @@
->>   #define BONITO_PCILO1_BASE      0x14000000
->>   #define BONITO_PCILO2_BASE      0x18000000
->>   #define BONITO_PCIHI_BASE       0x20000000
->> -#define BONITO_PCIHI_SIZE       0x20000000
->> +#define BONITO_PCIHI_SIZE       0x60000000
->>   #define BONITO_PCIHI_TOP        (BONITO_PCIHI_BASE + BONITO_PCIHI_SIZE - 1)
->>   #define BONITO_PCIIO_BASE       0x1fd00000
->>   #define BONITO_PCIIO_BASE_VA    0xbfd00000
->> @@ -606,13 +607,25 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
->>       PCIHostState *phb = PCI_HOST_BRIDGE(dev);
->>       BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
->>
->> -    memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCILO_SIZE);
->> +    memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
->>       phb->bus = pci_register_root_bus(DEVICE(dev), "pci",
->>                                        pci_bonito_set_irq, pci_bonito_map_irq,
->>                                        dev, &bs->pci_mem, get_system_io(),
->>                                        0x28, 32, TYPE_PCI_BUS);
->> -    memory_region_add_subregion(get_system_memory(), BONITO_PCILO_BASE,
->> -                                &bs->pci_mem);
->> +
->> +    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
->> +    for (size_t i = 0; i < 3; i++) {
->> +        char *name = g_strdup_printf("pci.lomem%zu", i);
->> +
->> +        memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
->> +                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
->> +        memory_region_add_subregion(get_system_memory(),
->> +                                    BONITO_PCILO_BASE + i * 64 * MiB,
->> +                                    &pcimem_lo_alias[i]);
->> +        g_free(name);
->> +    }
->> +
->> +    create_unimplemented_device("pci.io", 0x1fd00000, 1 * MiB);
-> 
-> Hi, Philippe.
-> 
-> I am delighted with the whole series, finally cleaning Bonito code feels good.
-> 
-> I just want to ask you if it possible to get rid of constants like
-> 0x1fd00000 (generally in this code, not limited to this patch), and
-> give the some nice "#define" names?
+Hi Eric,
 
-Yes sure. These patches are almost 1year old, gathering the result of a 
-debugging session. Also ...
+> -----Original Message-----
+> From: Eric Auger <eric.auger@redhat.com>
+> Sent: Friday, May 8, 2020 11:01 PM
+> To: eric.auger.pro@gmail.com; eric.auger@redhat.com; qemu-devel@nongnu.or=
+g;
+> qemu-arm@nongnu.org; peter.maydell@linaro.org; mst@redhat.com; jean-
+> philippe@linaro.org; Bharat Bhushan <bbhushan2@marvell.com>;
+> peterx@redhat.com; armbru@redhat.com; pbonzini@redhat.com
+> Subject: [EXT] [PATCH v2 2/5] virtio-iommu: Implement RESV_MEM probe requ=
+est
+>=20
+> External Email
+>=20
+> ----------------------------------------------------------------------
+> This patch implements the PROBE request. At the moment, only THE RESV_MEM
+> property is handled. The first goal is to report iommu wide reserved regi=
+ons such as
+> the MSI regions set by the machine code. On x86 this will be the IOAPIC M=
+SI region,
+> [0xFEE00000 - 0xFEEFFFFF], on ARM this may be the ITS doorbell.
+>=20
+> In the future we may introduce per device reserved regions.
+> This will be useful when protecting host assigned devices which may expos=
+e their
+> own reserved regions
+>=20
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>=20
+> ---
+>=20
+> v1 -> v2:
+> - move the unlock back to the same place
+> - remove the push label and factorize the code after the out label
+> - fix a bunch of cpu_to_leX according to the latest spec revision
+> - do not remove sizeof(last) from free space
+> - check the ep exists
+> ---
+>  include/hw/virtio/virtio-iommu.h |  2 +
+>  hw/virtio/virtio-iommu.c         | 94 ++++++++++++++++++++++++++++++--
+>  hw/virtio/trace-events           |  1 +
+>  3 files changed, 93 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-=
+iommu.h
+> index e653004d7c..49eb105cd8 100644
+> --- a/include/hw/virtio/virtio-iommu.h
+> +++ b/include/hw/virtio/virtio-iommu.h
+> @@ -53,6 +53,8 @@ typedef struct VirtIOIOMMU {
+>      GHashTable *as_by_busptr;
+>      IOMMUPciBus *iommu_pcibus_by_bus_num[PCI_BUS_MAX];
+>      PCIBus *primary_bus;
+> +    ReservedRegion *reserved_regions;
+> +    uint32_t nb_reserved_regions;
+>      GTree *domains;
+>      QemuMutex mutex;
+>      GTree *endpoints;
+> diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c index
+> 22ba8848c2..35d772e021 100644
+> --- a/hw/virtio/virtio-iommu.c
+> +++ b/hw/virtio/virtio-iommu.c
+> @@ -38,6 +38,7 @@
+>=20
+>  /* Max size */
+>  #define VIOMMU_DEFAULT_QUEUE_SIZE 256
+> +#define VIOMMU_PROBE_SIZE 512
+>=20
+>  typedef struct VirtIOIOMMUDomain {
+>      uint32_t id;
+> @@ -378,6 +379,65 @@ static int virtio_iommu_unmap(VirtIOIOMMU *s,
+>      return ret;
+>  }
+>=20
+> +static ssize_t virtio_iommu_fill_resv_mem_prop(VirtIOIOMMU *s, uint32_t =
+ep,
+> +                                               uint8_t *buf, size_t
+> +free) {
+> +    struct virtio_iommu_probe_resv_mem prop =3D {};
+> +    size_t size =3D sizeof(prop), length =3D size - sizeof(prop.head), t=
+otal;
+> +    int i;
+> +
+> +    total =3D size * s->nb_reserved_regions;
+> +
+> +    if (total > free) {
+> +        return -ENOSPC;
+> +    }
+> +
+> +    for (i =3D 0; i < s->nb_reserved_regions; i++) {
+> +        prop.head.type =3D cpu_to_le16(VIRTIO_IOMMU_PROBE_T_RESV_MEM);
+> +        prop.head.length =3D cpu_to_le16(length);
+> +        prop.subtype =3D s->reserved_regions[i].type;
+> +        prop.start =3D cpu_to_le64(s->reserved_regions[i].low);
+> +        prop.end =3D cpu_to_le64(s->reserved_regions[i].high);
+> +
+> +        memcpy(buf, &prop, size);
+> +
+> +        trace_virtio_iommu_fill_resv_property(ep, prop.subtype,
+> +                                              prop.start, prop.end);
+> +        buf +=3D size;
+> +    }
+> +    return total;
+> +}
+> +
+> +/**
+> + * virtio_iommu_probe - Fill the probe request buffer with
+> + * the properties the device is able to return and add a NONE
+> + * property at the end.
+> + */
+> +static int virtio_iommu_probe(VirtIOIOMMU *s,
+> +                              struct virtio_iommu_req_probe *req,
+> +                              uint8_t *buf) {
+> +    uint32_t ep_id =3D le32_to_cpu(req->endpoint);
+> +    size_t free =3D VIOMMU_PROBE_SIZE;
+> +    ssize_t count;
+> +
+> +    if (!virtio_iommu_mr(s, ep_id)) {
+> +        return VIRTIO_IOMMU_S_NOENT;
+> +    }
+> +
+> +    count =3D virtio_iommu_fill_resv_mem_prop(s, ep_id, buf, free);
+> +    if (count < 0) {
+> +        return VIRTIO_IOMMU_S_INVAL;
+> +    }
+> +    buf +=3D count;
+> +    free -=3D count;
+> +
+> +    /* Fill the rest with zeroes */
+> +    memset(buf, 0, free);
 
-> 
-> Yours,
-> Aleksandar
-> 
->>   }
->>
->>   static void bonito_realize(PCIDevice *dev, Error **errp)
->> @@ -620,6 +633,7 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
->>       PCIBonitoState *s = PCI_BONITO(dev);
->>       SysBusDevice *sysbus = SYS_BUS_DEVICE(s->pcihost);
->>       PCIHostState *phb = PCI_HOST_BRIDGE(s->pcihost);
->> +    BonitoState *bs = BONITO_PCI_HOST_BRIDGE(s->pcihost);
->>
->>       /*
->>        * Bonito North Bridge, built on FPGA,
->> @@ -652,6 +666,7 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
->>       sysbus_init_mmio(sysbus, &s->iomem_ldma);
->>       sysbus_mmio_map(sysbus, 3, 0x1fe00200);
->>
->> +    /* PCI copier */
->>       memory_region_init_io(&s->iomem_cop, OBJECT(s), &bonito_cop_ops, s,
->>                             "cop", 0x100);
->>       sysbus_init_mmio(sysbus, &s->iomem_cop);
->> @@ -669,6 +684,13 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
->>       sysbus_init_mmio(sysbus, &s->bonito_localio);
->>       sysbus_mmio_map(sysbus, 6, BONITO_DEV_BASE);
->>
->> +    MemoryRegion *pcimem_alias = g_new(MemoryRegion, 1);
+No need to fill with zero here as "buf" is set to zero on allocation, no?
 
-... I'll declare the variable during function prologue ;)
+Thanks
+-Bharat
 
->> +    memory_region_init_alias(pcimem_alias, NULL, "pci.mem.alias",
->> +                             &bs->pci_mem, 0, BONITO_PCIHI_SIZE);
->> +    memory_region_add_subregion(get_system_memory(),
->> +                                0x20000000ul, pcimem_alias);
->> +    create_unimplemented_device("PCI_2", 0x80000000ul, 2 * GiB); /* pci_hi */
+> +
+> +    return VIRTIO_IOMMU_S_OK;
+> +}
+> +
+>  static int virtio_iommu_iov_to_req(struct iovec *iov,
+>                                     unsigned int iov_cnt,
+>                                     void *req, size_t req_sz) @@ -407,15 =
++467,27 @@
+> virtio_iommu_handle_req(detach)
+>  virtio_iommu_handle_req(map)
+>  virtio_iommu_handle_req(unmap)
+>=20
+> +static int virtio_iommu_handle_probe(VirtIOIOMMU *s,
+> +                                     struct iovec *iov,
+> +                                     unsigned int iov_cnt,
+> +                                     uint8_t *buf) {
+> +    struct virtio_iommu_req_probe req;
+> +    int ret =3D virtio_iommu_iov_to_req(iov, iov_cnt, &req, sizeof(req))=
+;
+> +
+> +    return ret ? ret : virtio_iommu_probe(s, &req, buf); }
+> +
+>  static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *v=
+q)  {
+>      VirtIOIOMMU *s =3D VIRTIO_IOMMU(vdev);
+>      struct virtio_iommu_req_head head;
+>      struct virtio_iommu_req_tail tail =3D {};
+> +    size_t output_size =3D sizeof(tail), sz;
+>      VirtQueueElement *elem;
+>      unsigned int iov_cnt;
+>      struct iovec *iov;
+> -    size_t sz;
+> +    void *buf =3D NULL;
+>=20
+>      for (;;) {
+>          elem =3D virtqueue_pop(vq, sizeof(VirtQueueElement)); @@ -452,6 =
++524,17 @@
+> static void virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq=
+)
+>          case VIRTIO_IOMMU_T_UNMAP:
+>              tail.status =3D virtio_iommu_handle_unmap(s, iov, iov_cnt);
+>              break;
+> +        case VIRTIO_IOMMU_T_PROBE:
+> +        {
+> +            struct virtio_iommu_req_tail *ptail;
+> +
+> +            output_size =3D s->config.probe_size + sizeof(tail);
+> +            buf =3D g_malloc0(output_size);
+> +
+> +            ptail =3D (struct virtio_iommu_req_tail *)
+> +                        (buf + s->config.probe_size);
+> +            ptail->status =3D virtio_iommu_handle_probe(s, iov, iov_cnt,=
+ buf);
+> +        }
+>          default:
+>              tail.status =3D VIRTIO_IOMMU_S_UNSUPP;
+>          }
+> @@ -459,12 +542,13 @@ static void
+> virtio_iommu_handle_command(VirtIODevice *vdev, VirtQueue *vq)
+>=20
+>  out:
+>          sz =3D iov_from_buf(elem->in_sg, elem->in_num, 0,
+> -                          &tail, sizeof(tail));
+> -        assert(sz =3D=3D sizeof(tail));
+> +                          buf ? buf : &tail, output_size);
+> +        assert(sz =3D=3D output_size);
+>=20
+> -        virtqueue_push(vq, elem, sizeof(tail));
+> +        virtqueue_push(vq, elem, sz);
+>          virtio_notify(vdev, vq);
+>          g_free(elem);
+> +        g_free(buf);
+>      }
+>  }
+>=20
+> @@ -667,6 +751,7 @@ static void virtio_iommu_device_realize(DeviceState *=
+dev,
+> Error **errp)
+>      s->config.page_size_mask =3D TARGET_PAGE_MASK;
+>      s->config.input_range.end =3D -1UL;
+>      s->config.domain_range.end =3D 32;
+> +    s->config.probe_size =3D VIOMMU_PROBE_SIZE;
+>=20
+>      virtio_add_feature(&s->features, VIRTIO_RING_F_EVENT_IDX);
+>      virtio_add_feature(&s->features, VIRTIO_RING_F_INDIRECT_DESC); @@ -6=
+76,6
+> +761,7 @@ static void virtio_iommu_device_realize(DeviceState *dev, Error
+> **errp)
+>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MAP_UNMAP);
+>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_BYPASS);
+>      virtio_add_feature(&s->features, VIRTIO_IOMMU_F_MMIO);
+> +    virtio_add_feature(&s->features, VIRTIO_IOMMU_F_PROBE);
+>=20
+>      qemu_mutex_init(&s->mutex);
+>=20
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events index
+> e83500bee9..5550475691 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -73,3 +73,4 @@ virtio_iommu_get_domain(uint32_t domain_id) "Alloc
+> domain=3D%d"
+>  virtio_iommu_put_domain(uint32_t domain_id) "Free domain=3D%d"
+>  virtio_iommu_translate_out(uint64_t virt_addr, uint64_t phys_addr, uint3=
+2_t sid)
+> "0x%"PRIx64" -> 0x%"PRIx64 " for sid=3D%d"
+>  virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpo=
+int,
+> uint64_t addr) "FAULT reason=3D%d flags=3D%d endpoint=3D%d address =3D0x%=
+"PRIx64
+> +virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype,
+> +uint64_t start, uint64_t end) "dev=3D %d, type=3D%d start=3D0x%"PRIx64"
+> +end=3D0x%"PRIx64
+> --
+> 2.20.1
 
-... And add definitions for these addresses.
-
-Thanks for the other reviews in this series!
-
->> +
->>       /* set the default value of north bridge pci config */
->>       pci_set_word(dev->config + PCI_COMMAND, 0x0000);
->>       pci_set_word(dev->config + PCI_STATUS, 0x0000);
->> --
->> 2.21.3
->>
-> 
 
