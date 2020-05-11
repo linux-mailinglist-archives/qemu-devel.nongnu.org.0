@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262301CE4C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 21:49:07 +0200 (CEST)
-Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7F51CE508
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 22:06:37 +0200 (CEST)
+Received: from localhost ([::1]:35578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYEQE-0005xJ-5y
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 15:49:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55436)
+	id 1jYEhA-0007rd-AF
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 16:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jYEJe-00021l-V5
- for qemu-devel@nongnu.org; Mon, 11 May 2020 15:42:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:54339
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jYEJc-00010H-Q9
- for qemu-devel@nongnu.org; Mon, 11 May 2020 15:42:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589226135;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oOh2Z7/M0Scy2VhE1vh2P6Ofb/aNSQeEkWCfPFiyStQ=;
- b=eZTO3QEO/49KihflSwSKW2c1/NTFsANGrcyVRCngfDCqqQyKPEQUoWVNDgDXq6ZBcF6r3o
- G1lDXFlnLrM1N4Xj7GVHrlXKQO1mBwlRNknZzTF4bdmzBcsH7nPchS4nv1zNaseW95dgmH
- w6XtffC+3rYWGR5DaxWMvRndgNz4fTk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-Ycbk1aNhOuef7Tn96R4PIw-1; Mon, 11 May 2020 15:42:12 -0400
-X-MC-Unique: Ycbk1aNhOuef7Tn96R4PIw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C63E8014C0;
- Mon, 11 May 2020 19:42:10 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 345611000232;
- Mon, 11 May 2020 19:42:01 +0000 (UTC)
-Date: Mon, 11 May 2020 21:41:57 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: gengdongjiu <gengdongjiu@huawei.com>
-Subject: Re: [PATCH v26 01/10] acpi: nvdimm: change NVDIMM_UUID_LE to a
- common macro
-Message-ID: <20200511214157.6a64526a@redhat.com>
-In-Reply-To: <777c44a0-b977-a8fe-a3c6-5b217e9093af@huawei.com>
-References: <20200507134205.7559-1-gengdongjiu@huawei.com>
- <20200507134205.7559-2-gengdongjiu@huawei.com>
- <4f29e19c-cb37-05e6-0ae3-c019370e090b@redhat.com>
- <777c44a0-b977-a8fe-a3c6-5b217e9093af@huawei.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jYEbj-00049U-SD; Mon, 11 May 2020 16:01:00 -0400
+Received: from mout.web.de ([212.227.15.14]:35343)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1jYEbi-0007q3-Ix; Mon, 11 May 2020 16:00:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1589227251;
+ bh=o0GBAHDH/4KPa8rw5f4k2nO41w+F7oWdLMFzYd/zU4o=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=qwz/LqRwGzznRNPyU/4TsU7Ue6MOT2WXA4wjJdvVuuxJzK/1B/WZKVWJMqmP7HIlT
+ jJtOmC4Roq7LTCrLJy3Yv48PrRsn/G3mWOvWcmeMTN4+/KaNpygYhVtvwLnl40aGgL
+ OYGuzZoyuKy4TA6Ahmr9XqlWoBnekCodPC3gymCA=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([89.247.255.192]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MevzF-1jj2M62gNl-00OYp2; Mon, 11
+ May 2020 22:00:51 +0200
+Date: Mon, 11 May 2020 22:00:42 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PATCH 2/5] io/channel.c,io/channel-socket.c: Add yank feature
+Message-ID: <20200511220042.1f226f70@luklap>
+In-Reply-To: <20200511115146.GK1135885@redhat.com>
+References: <cover.1589193717.git.lukasstraub2@web.de>
+ <db00ff13f62fe97634132e43105b9bf63bbbf582.1589193717.git.lukasstraub2@web.de>
+ <20200511115146.GK1135885@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 00:05:06
+Content-Type: multipart/signed; boundary="Sig_/hlX8Matle/Uuvv1wk+f81Ux";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+X-Provags-ID: V03:K1:TSah9ZkKk/8xVrmXl/09Q7UAXnzPzKhfXir6MSCpYH4DBKgkLY8
+ Dhc8MCragEmp5gFM55Lt8YJ29ACs7WrSL+wOI61/t9A/KetncaJgQoLO/jdfwWUDAkRoWkp
+ r2GD6PJ17PljeZjlYxyJXu/GED6sMhXCFJVF/6ccZANc5aq6GOB+TinY8CEVCVJbyAwo/iT
+ pT14xmqaZvsSqphW+1plQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+aZVAe/4+IQ=:+O25/xuTUASMN5UkZKUgd1
+ w2w0sYb3CqitPl1122ov8dtAvkHvsjOtYAOJ6B4wHkXjfN6N6LB8A1MmtlLrJj/oaeD6YJIpa
+ J7eibYG2Or4FPi4k19m2SeTfFzzEoRoZP/gRZsg1IozS5BUe8RLpiw1yIWl1sXLU4FzQxN4Lf
+ LInJ7UROZu14+VprMtEjPoLI55UhRhWvrG2niA6E4s4eZbOWtB9RYJUS9gWtHFGpHO1+MOR/P
+ fByw/ZbOrD/DN7EpJ73pRtO8rFnxTG4oPNxuVtXSgVT1huGZrIyhyhCV+uzgPu6XRxA06OTHN
+ c9MaP/o346RF09LDuQbrSM6HnaBLQYFOTo3tSE/AlRdf9W8w25BH+0A2KniwJdMGlnJZO7Z+d
+ zDAJOKblZkp5KNJamElhCBR2w3BMQ08UVqREOnr/SREMUJfjbB8fuBj/klLOtbOBsfvtAgl07
+ yXihesJ8PfHCHUpcWOTPaSSNxZKSgKnIevj/3hPCiPEDI1L2YRAYqTHpT2eZTzA9mI9x+zJey
+ HsPWbMBCeisjbYMOxygfMyujMVehzUAide/+rqYAwtetsMI9IIJUE2DdeN6Qxyx9F5DRgYwPq
+ TxoJERB2+IkHHF5Zhe+st+3RFDjQFCsKWbq2dRMPkyrwGLoakugI6tjtgJJDq/D+VY/5WL2rA
+ kzI0HhHsOcRFZVsoUSAj/aMAYZRX5LAJarc0AvzEQmur31i/Db2J82sS84KlCNTyMXzYtf4J4
+ wGHEUULEi4oUzNr6vF6f3pMpWepKM9gTFLU4h8defBTaV0lAVhRAVhXItlhhWSztfV/CCIgCz
+ pdpCQjpDu60sURSLAeEutakoWmauepdhbOCSxqaksSVr7rOSmPNCbytmu4s71wk/q+LYiq4Rk
+ O8EbpXAPT56bUtaWBcY7g54vqey7o12z3yTqm4cM8KAWyMLo+n2gybzn9jYeuk66KauN0lxD+
+ +vV0OyL2y8Lm3ekIALyAZWB5qTXUvr6UKgVg0lpCZUapqLqoRwjG6Sy5lLcTbeYPJH1jNQi0t
+ q8QIom1//7679j4gdqebLzSCKsBSuThJcEo503bN9CN5RLB6ge1f07+SmwCkncTL9KfeZH5og
+ TVASlh+9g8dgogknH4YUzkvXY5W//YyegtxszWtnFerDVjbwyckIbUh5D8N+N12XKuuRe+iJr
+ 2q2Gt+wzIeGUgjGjoIe1O0JOlI/gU4qdpEk/yLyF5Qa9Y5/BikZaN1d47orIWss4jfpUXaSdt
+ jw7XAftf2FO36vX+W
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 15:45:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,46 +86,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, peter.maydell@linaro.org, xiaoguangrong.eric@gmail.com,
- kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
- qemu-devel@nongnu.org, ehabkost@redhat.com, linuxarm@huawei.com,
- shannon.zhaosl@gmail.com, zhengxiang9@huawei.com, qemu-arm@nongnu.org,
- Jonathan.Cameron@huawei.com, pbonzini@redhat.com,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, rth@twiddle.net
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 May 2020 22:05:28 +0800
-gengdongjiu <gengdongjiu@huawei.com> wrote:
+--Sig_/hlX8Matle/Uuvv1wk+f81Ux
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> >> +=C2=A0=C2=A0=C2=A0 (node3), (node4), (node5) }
-> >> +
-> >> =C2=A0 #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%02hhx%02hhx-%02hhx%02hhx-" \
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%02hhx%02hhx-" \
-> >> diff --git a/slirp b/slirp
-> >> index 2faae0f..55ab21c 160000
-> >> --- a/slirp
-> >> +++ b/slirp
-> >> @@ -1 +1 @@
-> >> -Subproject commit 2faae0f778f818fadc873308f983289df697eb93
-> >> +Subproject commit 55ab21c9a36852915b81f1b41ebaf3b6509dd8ba =20
-> >=20
-> > The SLiRP submodule change is certainly unrelated. =20
->=20
-> Thanks Philippe's review and comments. I submitted another patchset "[PAT=
-CH RESEND v26 00/10] Add ARMv8 RAS virtualization support in QEMU" to fix i=
-t, please review that patchset.
+On Mon, 11 May 2020 12:51:46 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-for future, adding RESEND doesn't make sence here. If you change patches th=
-en just bump version.
->=20
+> On Mon, May 11, 2020 at 01:14:41PM +0200, Lukas Straub wrote:
+> > Add qio_channel_set_yank function to channel and to channel-socket,
+> > which will register a yank function. The yank function calls
+> > shutdown() on the socket.
 > >=20
-> >=20
-> > .
-> >  =20
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > ---
+> >  Makefile.objs               |  1 +
+> >  include/io/channel-socket.h |  1 +
+> >  include/io/channel.h        | 12 ++++++++++++
+> >  io/channel-socket.c         | 29 +++++++++++++++++++++++++++++
+> >  io/channel.c                |  9 +++++++++
+> >  5 files changed, 52 insertions(+) =20
 >=20
+> Assuming we want the yank feature (which I'm not entirely convinced
+> of), then I don't think any of this addition should exist. The
+> QIOChannel class already provides a "qio_channel_shutdown" method
+> which can be invoked. The layer above which is using the QIOChannel
+> should be calling this existing qio_channel_shutdown method in
+> response to any yank request.  The I/O layer shouldn't have any
+> direct dependancy on the yank feature.
 
+Having the code here simplifys the code in the other places.
+
+Regards,
+Lukas Straub
+
+>=20
+> Regards,
+> Daniel
+
+
+--Sig_/hlX8Matle/Uuvv1wk+f81Ux
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl65ruoACgkQNasLKJxd
+sljeWg/8D5/EVQJ0pFLNxNmctBtKS7GyexKAEm+6KqVu+HSTs8/Enf2zmL/FuxHM
+efViTVRa84OUXCZD1wZEfHQGm/40Et73h36gJMC69VLTJ3BuwwABWF+rQmBBG3vP
+62wOXx2d9eIqadQZw8i6to27DTcsFBvlV9abUfx8z5aCYZZAxF0eu4BkQi+HKdTb
+WgSj1n0qfLhpx1Y4U79xf6ZJWJbbwBHm54S/D9ylzy+q7agtcOLSPnva6HYKjc/7
+qlOr7kRCTdFvgMNtIExMxY6L2UKt1Rttmexk1PU91B6HGodEegyQs/ZAFI0f1FyI
+dUEuNNvXqPSQXuGkp0ZHdVt2wGiRfrU+ag5BwDGOhHtq//YF9vlj4xyQfuOl9mwr
+LuCQvQy7zA98uj7nYS1ew34+fSl7yff/bXyUwJN3PjyNEtlciwQbQJCQ/L70Hll4
+njPG/rFxLKaiiawu1qOuUCYEzkRtMZWzX0J2WU+TJtjqnFQep0HIK7ez7rHykV7M
+GCZ1yHVvsQ6MfvOWocg+6MSghSylY0rBOPK6SqaX+afeax5bNwMj9B5/ESfE8syL
+3XrDijp9zDpmyFcpjRHDd17zj2KxvZJTD7atwV5mPZHE6k8zEhdI0wBcIna/Z4dc
+fHtJ69gJ9YsyOYHd5taqTkAZFvLKVhb8JNAiqd2RR48UXSEBv4g=
+=D/VM
+-----END PGP SIGNATURE-----
+
+--Sig_/hlX8Matle/Uuvv1wk+f81Ux--
 
