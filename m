@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5BA1CDC1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:54:24 +0200 (CEST)
-Received: from localhost ([::1]:36300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27B41CDB86
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 May 2020 15:43:13 +0200 (CEST)
+Received: from localhost ([::1]:49734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jY8sx-0004Dg-8K
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:54:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49106)
+	id 1jY8i8-0001xL-N9
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 09:43:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zw-0002Ua-Fy
+ id 1jY8Zw-0002Vt-Uc
  for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:44 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34985)
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jY8Zu-0007CV-Uk
+ id 1jY8Zv-0007Co-Q0
  for qemu-devel@nongnu.org; Mon, 11 May 2020 09:34:44 -0400
-Received: by mail-wr1-x433.google.com with SMTP id j5so11006254wrq.2
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:42 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id f134so5900554wmf.1
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 06:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5udJ6NsXumn6EzqY46EHYT0fqNHGOGDE5W29huFq8fk=;
- b=CvMqB7JqbkqUCzeBm0imbb4NlQ7R2W0OFtMDjNovHmi/AwZDJrspuNVxCDU6Mg+zJH
- nJvT2BKhQdkqyCpby0Es10sFgJedmuMVY2ZmvoQKv3c0Inlm/VZhrDtOu9+NYbvm05Or
- rn8e2OGTY73tXvs0grgZpivuijScaEidisD2okNxl1f8ZSU82xL8RROIllQ0EmNgXkaU
- eykY89/So35ZYH0k9my6Qxbo447f73t6tQgCd0tWSHJVl3YrNAhgDJqG63SX8S+0Jh8T
- ZXADDtzU03iOtrVna29KmP8rHGgILs0mqf8SploThMxeXGfyBJ2sRKH55b4gPZUGUhmA
- VsFw==
+ bh=EycYX61osoiUiTKFgHPBJxcF1OjdHnGeFDt+a8slNIw=;
+ b=IagC0eV3GbvO+tI5GJbDS25Os/grZzVWaQyRGqejkYach3H8Pb3w4FDj04Jspye/Yk
+ OVhzZHzh7k6bscJjZdN1hbCsBIT9+u/UrdWOzBX1obOd0x0q9nk/lT0M6pAQksTtQixh
+ 8RWJ1na0z7hjZ9lFQ3bcwVE+FXoVoNuhA0mHTtYFnE9njZjE0AfUUfg7dxmwaaDrZqQU
+ +EcrUZ1z2DuGt/W1fiO6qYMBJpqn+dGVz9D8CjY+c87Tp+tpYDe7EGn5bvhrdF1QsbN0
+ uZeSwXus3N/aZxtzfP4J8kxQg796Oz9/mBvtSCPC7/7rxn7GnsIbQmTPNuF1YUP8JOF/
+ mupQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5udJ6NsXumn6EzqY46EHYT0fqNHGOGDE5W29huFq8fk=;
- b=ieqiJUWvD+RF2TG+R/c5Fii4dYIVkWvO4TwVgWQMenzkkJWnogH8/EsAu8va2B4OTp
- 5f9Lj+hPx/glQbAbv93DOGWfySYHiNSr+nNd3xQySxRCTae3J9gpq+zJVR2MA4jNfXHJ
- ABCTG5iiUBbJ/obP1jhhastVEd+RMmUno/y6g3TELPjlgcVwRgL+W7KBmqYUYTRfvMRI
- z3Fck114iEvuxeUrsh3BmRVEiZFywFBEPoJ1dtDEDuXJZuwOWhiRmlYm15QC425MXXUZ
- N5JkFDzMYwNYQJoe1Y99Z/YwR9hsxX7sPTYdIYYf4FfwLakazzxNhByQxH9HeVGR+JxS
- KeDA==
-X-Gm-Message-State: AGi0PuYhZpaIZHQ+WdAAzWck3Mfkx0gpgc318viZWB1InmXiCzs7GU/t
- tVtzyMRgWsGxp3vfGD6jaIW10YKSCSkTsQ==
-X-Google-Smtp-Source: APiQypK3OGk+nhW3h9m+7w0h4uAfwb6hl0byUry5zAsbD26qTd5nrCNjVTl0gAzcoLp/e7/mqQ+TmA==
-X-Received: by 2002:a5d:68cb:: with SMTP id p11mr18665544wrw.349.1589204080830; 
- Mon, 11 May 2020 06:34:40 -0700 (PDT)
+ bh=EycYX61osoiUiTKFgHPBJxcF1OjdHnGeFDt+a8slNIw=;
+ b=KW2J2H1lPwi8i3OZZhk3ZkVn5pnH/17zU6gu5Q6N/NwsJGzC9PiQPMOigohSi2tqkZ
+ 7wX8r69H6Jp76adBFhDdl8DpMvOHbq3V2OUsnJA9JfG9WD7WDaT/0jtrP/f0q0jePFuK
+ KSFa/3xlQeMhcYNrnqK1rXPW4VshAWPasfgNi8/RhXtgbI2WMV26Chk4hzxBwEuajoUG
+ 5kNKUlHqndMzG5u3QwtIIKtdmMsQP2vhjZ+2fkFWodZWUJpm2XIyK6crzJuicKEZVXjU
+ 0sP1nqociEE5s9F3lo+5g2DdDVD/wlu83sgD39AqGdavSs9ZV288eDjrvlh+HeFIsvRE
+ 1eeg==
+X-Gm-Message-State: AGi0PuafnvvGeURvCDlHxUxozdPuweLOJgCOM8VW2TClY6/814GG1V0v
+ Xnz1A5uyeDTISVR06/1ZTPqchuEMFEG/tQ==
+X-Google-Smtp-Source: APiQypJQ2fDECOnU6bV5jAI3Nvtmsv4YGdFrpXNHCKF6u9ZNfKGAxI4sOq2WgXkigh9o1lQcopcT4w==
+X-Received: by 2002:a1c:e903:: with SMTP id q3mr30634884wmc.76.1589204082008; 
+ Mon, 11 May 2020 06:34:42 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.39
+ by smtp.gmail.com with ESMTPSA id m3sm2154818wrn.96.2020.05.11.06.34.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 May 2020 06:34:40 -0700 (PDT)
+ Mon, 11 May 2020 06:34:41 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/34] target/arm: Remove sve_memopidx
-Date: Mon, 11 May 2020 14:33:57 +0100
-Message-Id: <20200511133405.5275-27-peter.maydell@linaro.org>
+Subject: [PULL 27/34] target/arm/kvm: Inline set_feature() calls
+Date: Mon, 11 May 2020 14:33:58 +0100
+Message-Id: <20200511133405.5275-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200511133405.5275-1-peter.maydell@linaro.org>
 References: <20200511133405.5275-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,152 +89,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-None of the sve helpers use TCGMemOpIdx any longer, so we can
-stop passing it.
+We want to move the inlined declarations of set_feature()
+from cpu*.c to cpu.h. To avoid clashing with the KVM
+declarations, inline the few KVM calls.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200508154359.7494-20-richard.henderson@linaro.org
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200504172448.9402-2-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h     |  5 -----
- target/arm/sve_helper.c    | 14 +++++++-------
- target/arm/translate-sve.c | 17 +++--------------
- 3 files changed, 10 insertions(+), 26 deletions(-)
+ target/arm/kvm32.c | 13 ++++---------
+ target/arm/kvm64.c | 22 ++++++----------------
+ 2 files changed, 10 insertions(+), 25 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index e633aff36ef..a833e3941d3 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -979,11 +979,6 @@ static inline int arm_num_ctx_cmps(ARMCPU *cpu)
+diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+index f271181ab8e..7b3a19e9aef 100644
+--- a/target/arm/kvm32.c
++++ b/target/arm/kvm32.c
+@@ -22,11 +22,6 @@
+ #include "internals.h"
+ #include "qemu/log.h"
+ 
+-static inline void set_feature(uint64_t *features, int feature)
+-{
+-    *features |= 1ULL << feature;
+-}
+-
+ static int read_sys_reg32(int fd, uint32_t *pret, uint64_t id)
+ {
+     struct kvm_one_reg idreg = { .id = id, .addr = (uintptr_t)pret };
+@@ -146,14 +141,14 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+      * timers; this in turn implies most of the other feature
+      * bits, but a few must be tested.
+      */
+-    set_feature(&features, ARM_FEATURE_V7VE);
+-    set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
++    features |= 1ULL << ARM_FEATURE_V7VE;
++    features |= 1ULL << ARM_FEATURE_GENERIC_TIMER;
+ 
+     if (extract32(id_pfr0, 12, 4) == 1) {
+-        set_feature(&features, ARM_FEATURE_THUMB2EE);
++        features |= 1ULL << ARM_FEATURE_THUMB2EE;
+     }
+     if (extract32(ahcf->isar.mvfr1, 12, 4) == 1) {
+-        set_feature(&features, ARM_FEATURE_NEON);
++        features |= 1ULL << ARM_FEATURE_NEON;
+     }
+ 
+     ahcf->features = features;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index be5b31c2b0f..cd8ab6b8aed 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -447,16 +447,6 @@ void kvm_arm_pmu_set_irq(CPUState *cs, int irq)
      }
  }
  
--/* Note make_memop_idx reserves 4 bits for mmu_idx, and MO_BSWAP is bit 3.
-- * Thus a TCGMemOpIdx, without any MO_ALIGN bits, fits in 8 bits.
-- */
--#define MEMOPIDX_SHIFT  8
--
- /**
-  * v7m_using_psp: Return true if using process stack pointer
-  * Return true if the CPU is currently using the process stack
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index f1870aabc2f..116d535fa5f 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -4440,7 +4440,7 @@ void sve_ldN_r(CPUARMState *env, uint64_t *vg, const target_ulong addr,
-                sve_ldst1_host_fn *host_fn,
-                sve_ldst1_tlb_fn *tlb_fn)
- {
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-+    const unsigned rd = simd_data(desc);
-     const intptr_t reg_max = simd_oprsz(desc);
-     intptr_t reg_off, reg_last, mem_off;
-     SVEContLdSt info;
-@@ -4696,7 +4696,7 @@ void sve_ldnfff1_r(CPUARMState *env, void *vg, const target_ulong addr,
-                    sve_ldst1_host_fn *host_fn,
-                    sve_ldst1_tlb_fn *tlb_fn)
- {
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-+    const unsigned rd = simd_data(desc);
-     void *vd = &env->vfp.zregs[rd];
-     const intptr_t reg_max = simd_oprsz(desc);
-     intptr_t reg_off, mem_off, reg_last;
-@@ -4925,7 +4925,7 @@ void sve_stN_r(CPUARMState *env, uint64_t *vg, target_ulong addr, uint32_t desc,
-                sve_ldst1_host_fn *host_fn,
-                sve_ldst1_tlb_fn *tlb_fn)
- {
--    const unsigned rd = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 5);
-+    const unsigned rd = simd_data(desc);
-     const intptr_t reg_max = simd_oprsz(desc);
-     intptr_t reg_off, reg_last, mem_off;
-     SVEContLdSt info;
-@@ -5131,9 +5131,9 @@ void sve_ld1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                sve_ldst1_host_fn *host_fn,
-                sve_ldst1_tlb_fn *tlb_fn)
- {
--    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
-     const int mmu_idx = cpu_mmu_index(env, false);
-     const intptr_t reg_max = simd_oprsz(desc);
-+    const int scale = simd_data(desc);
-     ARMVectorReg scratch;
-     intptr_t reg_off;
-     SVEHostPage info, info2;
-@@ -5276,10 +5276,10 @@ void sve_ldff1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                  sve_ldst1_tlb_fn *tlb_fn)
- {
-     const int mmu_idx = cpu_mmu_index(env, false);
--    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
-+    const intptr_t reg_max = simd_oprsz(desc);
-+    const int scale = simd_data(desc);
-     const int esize = 1 << esz;
-     const int msize = 1 << msz;
--    const intptr_t reg_max = simd_oprsz(desc);
-     intptr_t reg_off;
-     SVEHostPage info;
-     target_ulong addr, in_page;
-@@ -5430,9 +5430,9 @@ void sve_st1_z(CPUARMState *env, void *vd, uint64_t *vg, void *vm,
-                sve_ldst1_host_fn *host_fn,
-                sve_ldst1_tlb_fn *tlb_fn)
- {
--    const int scale = extract32(desc, SIMD_DATA_SHIFT + MEMOPIDX_SHIFT, 2);
-     const int mmu_idx = cpu_mmu_index(env, false);
-     const intptr_t reg_max = simd_oprsz(desc);
-+    const int scale = simd_data(desc);
-     void *host[ARM_MAX_VQ * 4];
-     intptr_t reg_off, i;
-     SVEHostPage info, info2;
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 6c8bda4e4cc..36816aafaf6 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -4582,11 +4582,6 @@ static const uint8_t dtype_esz[16] = {
-     3, 2, 1, 3
- };
- 
--static TCGMemOpIdx sve_memopidx(DisasContext *s, int dtype)
+-static inline void set_feature(uint64_t *features, int feature)
 -{
--    return make_memop_idx(s->be_data | dtype_mop[dtype], get_mem_index(s));
+-    *features |= 1ULL << feature;
 -}
 -
- static void do_mem_zpa(DisasContext *s, int zt, int pg, TCGv_i64 addr,
-                        int dtype, gen_helper_gvec_mem *fn)
+-static inline void unset_feature(uint64_t *features, int feature)
+-{
+-    *features &= ~(1ULL << feature);
+-}
+-
+ static int read_sys_reg32(int fd, uint32_t *pret, uint64_t id)
  {
-@@ -4599,9 +4594,7 @@ static void do_mem_zpa(DisasContext *s, int zt, int pg, TCGv_i64 addr,
-      * registers as pointers, so encode the regno into the data field.
-      * For consistency, do this even for LD1.
+     uint64_t ret;
+@@ -648,11 +638,11 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+      * with VFPv4+Neon; this in turn implies most of the other
+      * feature bits.
       */
--    desc = sve_memopidx(s, dtype);
--    desc |= zt << MEMOPIDX_SHIFT;
--    desc = simd_desc(vsz, vsz, desc);
-+    desc = simd_desc(vsz, vsz, zt);
-     t_desc = tcg_const_i32(desc);
-     t_pg = tcg_temp_new_ptr();
+-    set_feature(&features, ARM_FEATURE_V8);
+-    set_feature(&features, ARM_FEATURE_NEON);
+-    set_feature(&features, ARM_FEATURE_AARCH64);
+-    set_feature(&features, ARM_FEATURE_PMU);
+-    set_feature(&features, ARM_FEATURE_GENERIC_TIMER);
++    features |= 1ULL << ARM_FEATURE_V8;
++    features |= 1ULL << ARM_FEATURE_NEON;
++    features |= 1ULL << ARM_FEATURE_AARCH64;
++    features |= 1ULL << ARM_FEATURE_PMU;
++    features |= 1ULL << ARM_FEATURE_GENERIC_TIMER;
  
-@@ -4833,9 +4826,7 @@ static void do_ldrq(DisasContext *s, int zt, int pg, TCGv_i64 addr, int msz)
-     int desc, poff;
+     ahcf->features = features;
  
-     /* Load the first quadword using the normal predicated load helpers.  */
--    desc = sve_memopidx(s, msz_dtype(s, msz));
--    desc |= zt << MEMOPIDX_SHIFT;
--    desc = simd_desc(16, 16, desc);
-+    desc = simd_desc(16, 16, zt);
-     t_desc = tcg_const_i32(desc);
- 
-     poff = pred_full_reg_offset(s, pg);
-@@ -5064,9 +5055,7 @@ static void do_mem_zpz(DisasContext *s, int zt, int pg, int zm,
-     TCGv_i32 t_desc;
-     int desc;
- 
--    desc = sve_memopidx(s, msz_dtype(s, msz));
--    desc |= scale << MEMOPIDX_SHIFT;
--    desc = simd_desc(vsz, vsz, desc);
-+    desc = simd_desc(vsz, vsz, scale);
-     t_desc = tcg_const_i32(desc);
- 
-     tcg_gen_addi_ptr(t_pg, cpu_env, pred_full_reg_offset(s, pg));
+@@ -802,7 +792,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     if (cpu->has_pmu) {
+         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_PMU_V3;
+     } else {
+-        unset_feature(&env->features, ARM_FEATURE_PMU);
++        env->features &= ~(1ULL << ARM_FEATURE_PMU);
+     }
+     if (cpu_isar_feature(aa64_sve, cpu)) {
+         assert(kvm_arm_sve_supported(cs));
 -- 
 2.20.1
 
