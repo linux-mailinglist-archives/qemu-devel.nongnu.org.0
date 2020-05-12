@@ -2,67 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CA21CFCFC
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:17:20 +0200 (CEST)
-Received: from localhost ([::1]:48032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A971CFCED
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:14:57 +0200 (CEST)
+Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYZSx-0000VB-MI
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:17:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38180)
+	id 1jYZQe-00069X-2h
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.goffioul@gmail.com>)
- id 1jYZR2-0007Z4-9R
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:15:20 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:47000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <michael.goffioul@gmail.com>)
- id 1jYZR1-0001vm-2N
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:15:19 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id f83so14615382qke.13
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 11:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=icufpQkfVx54SdLk06P8ykURpU7I46kjHuzTIKhlG5c=;
- b=hzgvdPIQ0UK+k9PbQNzZlQo66c0AQoP8t9/0TtHmnYWerERq39zM8qeiS3y2GNBQ3+
- HByz6r+sRMUrCcamsKkSgUCwsjR1BlK8G1gbgHrFRTQDQw7xvb3rmXHjZkx6MWkCTEPm
- B8kIvP/z7gurtcrpY9MtmYkrxdKQ2SwEPL3nBtV9tY8GQ2RP/r2KrATjjDE+eAoO25WH
- kdh9qpnhJYPnaAob0skz00b9XXzIJuVwrheB3TLBe4g+4cL6Wcf8GXGcVWsZ96vjuvFH
- t0OhpADVehv/aEvpaQO3w7WpDnouyBJNEFzgK9ZPRrCqlxcS9eIvucrJMEYuy5pB5tNe
- GqiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=icufpQkfVx54SdLk06P8ykURpU7I46kjHuzTIKhlG5c=;
- b=UiTmBUr7L55OT5aCeGuHnXlY689C/5g+o15uRJ9KfYIrLAHeUxLVYC9QhPTQRco0Wj
- fURjWuXg1pj4CKf0ocL27MteQbentd0qEOLqjvyGWc5/hYcxJIy5X8ZgmfC1OIISDkqw
- LfZlSUC/ampsh6PKJCs6b71B5dGd8v2XDyBFy9da6xOoNIx7E/kHCvQA+9Xdy89ys3UG
- 7451UXOLCeZjHrcOLP5IRtU77i1fMWfzm1iuGw2fc8a0iC8CrBrEGjC3lVmtc0vBY4gI
- 7kM4vmkSVf2QYfYVZ6VQgOYCNWVVMVLu8T3GdyziRETp75rxXCNa80ekyp/RWTwTDQx0
- 92Ew==
-X-Gm-Message-State: AGi0PuYvP14R/AbLpS6fqF28EKoanUQ+eR1+cfXFC5rW7kVGq2VbG+n/
- bCVuZlf9bCEgtw16skgPXpNM3DmTHaiFgfUtbUaY0mP4eio=
-X-Google-Smtp-Source: APiQypLnNIUvPm8C0UP4UcmToYHywNviatHJTnNZYF/UzN7fjLFVMb3DD6ChWFTFk9s6yUZkFZrMPc5qmJXVBcoQ3b8=
-X-Received: by 2002:a37:a917:: with SMTP id s23mr10523046qke.443.1589307315447; 
- Tue, 12 May 2020 11:15:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
+ id 1jYZOp-0004mE-R6; Tue, 12 May 2020 14:13:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37408
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jrossi@linux.ibm.com>)
+ id 1jYZOo-0001OQ-SD; Tue, 12 May 2020 14:13:03 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04CI7dr6144821; Tue, 12 May 2020 14:12:59 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30wsc4jn2f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 May 2020 14:12:59 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04CI7sqj146905;
+ Tue, 12 May 2020 14:12:58 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30wsc4jn22-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 May 2020 14:12:58 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04CI9tVR016099;
+ Tue, 12 May 2020 18:12:58 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma02wdc.us.ibm.com with ESMTP id 3100ub80gw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 May 2020 18:12:58 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04CICukA24903956
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 May 2020 18:12:56 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 42906BE05A;
+ Tue, 12 May 2020 18:12:57 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AFCADBE056;
+ Tue, 12 May 2020 18:12:56 +0000 (GMT)
+Received: from localhost.localdomain.com (unknown [9.85.170.202])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 12 May 2020 18:12:56 +0000 (GMT)
+From: Jared Rossi <jrossi@linux.ibm.com>
+To: Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH v2 0/1] vfio-ccw: Enable transparent CCW IPL from DASD [QEMU]
+Date: Tue, 12 May 2020 14:15:34 -0400
+Message-Id: <20200512181535.18630-1-jrossi@linux.ibm.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-From: Michael Goffioul <michael.goffioul@gmail.com>
-Date: Tue, 12 May 2020 14:15:04 -0400
-Message-ID: <CAB-99Lsm1c6i45L2kQX6J6Wa+FJ+aRPhdVK=+zQC2M6K7RdXDg@mail.gmail.com>
-Subject: Problem with QEMU usermode + jemalloc
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000f9ece405a5777118"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=michael.goffioul@gmail.com; helo=mail-qk1-x72e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-12_06:2020-05-11,
+ 2020-05-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=951
+ impostorscore=0 adultscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005120133
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jrossi@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 10:46:45
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,43 +96,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f9ece405a5777118
-Content-Type: text/plain; charset="UTF-8"
+Remove the explicit prefetch check when using vfio-ccw devices.
+This check does not trigger in practice as all Linux channel programs
+are intended to use prefetch.
 
-Hi,
+QEMU part to make use of the corresponding kernel patch posted here:
 
-I'm running into a problem using QEMU in usermode and jemalloc (this is in
-the context of an ARM-to-x86 translation layer for Android). The issue is
-discussed here:
+https://lore.kernel.org/kvm/20200506212440.31323-1-jrossi@linux.ibm.com/
 
-https://github.com/jemalloc/jemalloc/issues/1844
+It is no longer required to force the PFCH flag, but the option is
+still supported.
 
-In a nutshell, the lack of madvise implementation is making jemalloc return
-non-zeroed memory on calloc. This then creates various crashes in the
-emulated code.
 
-What would be the QEMU devs point of view on this?
+Jared Rossi (1):
+  vfio-ccw: allow non-prefetch ORBs
 
-Thanks,
-Michael.
+ hw/vfio/ccw.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
---000000000000f9ece405a5777118
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+2.17.0
 
-<div dir=3D"ltr">Hi,<div><br></div><div>I&#39;m running into a problem usin=
-g QEMU in usermode and jemalloc (this is in the context of an ARM-to-x86 tr=
-anslation layer for Android). The issue is discussed here:</div><div><br></=
-div><div><a href=3D"https://github.com/jemalloc/jemalloc/issues/1844">https=
-://github.com/jemalloc/jemalloc/issues/1844</a><br></div><div><br></div><di=
-v>In a nutshell, the lack of madvise implementation is making jemalloc retu=
-rn non-zeroed memory on calloc. This then creates various crashes in the em=
-ulated code.</div><div><br></div><div>What would be the QEMU devs point of =
-view on this?</div><div><br></div><div>Thanks,</div><div>Michael.</div><div=
-><br></div></div>
-
---000000000000f9ece405a5777118--
 
