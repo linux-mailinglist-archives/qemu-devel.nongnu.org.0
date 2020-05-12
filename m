@@ -2,77 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110E51CEB89
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:35:23 +0200 (CEST)
-Received: from localhost ([::1]:39002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5372B1CEC21
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 06:42:51 +0200 (CEST)
+Received: from localhost ([::1]:40746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYLhS-0005rl-4I
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58520)
+	id 1jYMkj-0006Bg-Sk
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 00:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jYLgN-0005CN-Lf
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:34:15 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38728
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1jYLgM-0001h1-E7
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:34:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589254453;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0ywAz4mxLcotE5cqpBnbqzSyVB/bG3cN8GlfgNmkNBM=;
- b=iPUs5ejFz6K3zIaq+ZS0UPc4Kl8YAM0Z4ZyRkmic6iy+ZPWueyMGC2FM4AFitFQqnFN+vP
- JqtH4fHqwvk0JpYx+XPEQ6z1NlWb9THV6KpNSnQx2UKiCJWXLicS4h/7tuUlWY66BTCC+x
- pAv22Qv8qA0F/k3PUM8eOreSuQm2wbQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-IC0Qu31ePqyX9woCiAD0yw-1; Mon, 11 May 2020 23:34:09 -0400
-X-MC-Unique: IC0Qu31ePqyX9woCiAD0yw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F3B4108C310;
- Tue, 12 May 2020 03:34:08 +0000 (UTC)
-Received: from [10.72.13.96] (ovpn-13-96.pek2.redhat.com [10.72.13.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 19BAD60C87;
- Tue, 12 May 2020 03:34:06 +0000 (UTC)
-Subject: Re: [PATCH v2] e1000e: Added ICR clearing by corresponding IMS bit.
-To: Andrew Melnichenko <andrew@daynix.com>
-References: <20200506212645.894533-1-andrew@daynix.com>
- <b67e29f9-a904-242f-9df2-801410f07aba@redhat.com>
- <CABcq3pEicPdvMDAC7v_ns_YasCBvc8o-3-6vOb=+mTfXzvTJeQ@mail.gmail.com>
- <53be0d4e-214d-dc9c-58a4-0bbd9c46b78f@redhat.com>
- <CABcq3pGvAdXazPs-91F=seUQxv3VUNVwbFOrQ42CBSLSwMw_Kg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <910f7851-3876-2753-08e7-67adbf64fe21@redhat.com>
-Date: Tue, 12 May 2020 11:34:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jYMjn-0005UG-8j; Tue, 12 May 2020 00:41:51 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40233 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jYMjk-0000Z8-Co; Tue, 12 May 2020 00:41:50 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49LlWT4d14z9sSw; Tue, 12 May 2020 14:41:41 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1589258501;
+ bh=6xk3mG1IlArMMGVReMjxkkXMhTt87S6aGM15FJy/3L0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Kjy8BYNY+kQfTSWfRtNZRHk9KRnvuN/lRGznri7pqkN9CgR2ISSTorbTyXswsIts0
+ PU5Zl80ZvE3v1qV1avPfZYoQS2JEWftRVc2HIMExxROCWkSRnDKe4Up52qS9ceLOQa
+ OTef52ROZ33oG1xeG6TQMXpCT7wWInW5HpzeK9oE=
+Date: Tue, 12 May 2020 13:41:09 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Leonardo Bras <leobras.c@gmail.com>
+Subject: Re: [RESEND PATCH v3 1/1] ppc/spapr: Add hotremovable flag on DIMM
+ LMBs on drmem_v2
+Message-ID: <20200512034109.GX2183@umbus.fritz.box>
+References: <20200511200201.58537-1-leobras.c@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CABcq3pGvAdXazPs-91F=seUQxv3VUNVwbFOrQ42CBSLSwMw_Kg@mail.gmail.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 21:14:00
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ahZICQ7iXVM/oLYH"
+Content-Disposition: inline
+In-Reply-To: <20200511200201.58537-1-leobras.c@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:34:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,187 +61,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dmitry.fleytman@gmail.com, qemu-devel@nongnu.org
+Cc: Bharata B Rao <bharata.rao@in.ibm.com>,
+ Bharata B Rao <bharata@linux.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Leonardo Bras <leonardo@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/5/11 下午6:08, Andrew Melnichenko wrote:
-> Yo,
->
->     So I think we should implement the 82574l behavior?
->
->  Well, as I understand it - its already implemented. I've added ICR 
-> clearance if ICR & IMS(also need to add ICR_ASSERTED check, my bad, 
-> I'll prepare new patch).
+--ahZICQ7iXVM/oLYH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, May 11, 2020 at 05:02:02PM -0300, Leonardo Bras wrote:
+> From: Leonardo Bras <leonardo@linux.ibm.com>
+>=20
+> On reboot, all memory that was previously added using object_add and
+> device_add is placed in this DIMM area.
+>=20
+> The new SPAPR_LMB_FLAGS_HOTREMOVABLE flag helps Linux to put this memory =
+in
+> the correct memory zone, so no unmovable allocations are made there,
+> allowing the object to be easily hot-removed by device_del and
+> object_del.
+>=20
+> This new flag was accepted in Power Architecture documentation.
+>=20
+> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
+> Reviewed-by: Bharata B Rao <bharata@linux.ibm.com>
 
-Yes, but it behave more like e.g 82573 not what we claim to emulate like 
-82574l.
+Applied to ppc-for-5.1, thanks.
 
+>=20
+> ---
+> Changes since v1:
+> - Flag name changed from SPAPR_LMB_FLAGS_HOTPLUGGED to
+> 	SPAPR_LMB_FLAGS_HOTREMOVABLE
+> ---
+>  hw/ppc/spapr.c         | 3 ++-
+>  include/hw/ppc/spapr.h | 1 +
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 9a2bd501aa..fe662e297e 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -446,7 +446,8 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineSta=
+te *spapr, void *fdt,
+>          g_assert(drc);
+>          elem =3D spapr_get_drconf_cell(size / lmb_size, addr,
+>                                       spapr_drc_index(drc), node,
+> -                                     SPAPR_LMB_FLAGS_ASSIGNED);
+> +                                     (SPAPR_LMB_FLAGS_ASSIGNED |
+> +                                      SPAPR_LMB_FLAGS_HOTREMOVABLE);
+>          QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
+>          nr_entries++;
+>          cur_addr =3D addr + size;
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 42d64a0368..93e0d43051 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -880,6 +880,7 @@ int spapr_rtc_import_offset(SpaprRtcState *rtc, int64=
+_t legacy_offset);
+>  #define SPAPR_LMB_FLAGS_ASSIGNED 0x00000008
+>  #define SPAPR_LMB_FLAGS_DRC_INVALID 0x00000020
+>  #define SPAPR_LMB_FLAGS_RESERVED 0x00000080
+> +#define SPAPR_LMB_FLAGS_HOTREMOVABLE 0x00000100
+> =20
+>  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg);
+> =20
 
->
-> At first, I had hacks to clear 'msi_causes_pending' at 
-> 'e1000e_core_set_link_status()' before link down. It works but it's 
-> not a solution.
-> Also, on Windows the bug doesn't reproduce. I've traced Windows and 
-> Linux - the difference that Windows driver clears pending by writing 
-> to ICR, where Linux tries to clear by reading it.
-> I had another possible fix - for Linux driver(writing to ICR at 
-> interrupt routine).
-> I've asked intel guys, does Linux driver works with a device(I don't 
-> have real one). Thay said that it works and suggested to check 8257x 
-> spec. I'll forward the message to you.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--ahZICQ7iXVM/oLYH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Ok.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl66GtMACgkQbDjKyiDZ
+s5I4iRAAgHcx0V1joEa5DMeI5VLxLX8fw+D/xTQEV6PNEn5U1jpF6EqcPD2OVCh3
+61I4+MVHquzSADAPk+sB2Eik/4u2P7b35H0xSe0KbI6znvFYsm9pwlYijZn6U3qF
+Gp86Xg55OdeMrGBGUP9ejmhHRHkooypx2c6sN+9TRyoYea3Vp3gipdvHSoVSzm4P
+gUxTKH18zNLGSxMXYEynMWWi2xunsscRcxPcYH7H0fpjRBFVt6R3E1Dsdyq4GAiu
+0KL68tEiNnnfOz66UeYgJfNFQ6eELKdBb6bzJHDdukXO+urpFc08V5KKE7Xa1U0h
+GhfArBWwxVUuGEodBSguo3F7kQVKtT81cJXieB/mdNXL+Ypem1exZncHgyMYjXZ6
+fGqVUWoWJM/8EklF4IYdwjOnBMkwxIOydAYwdQ02agzLxxbJbxwbVqpNGcwZo6hb
+nfjzGsPdYHJzdf4HQ80j5U5SufsrYMJccbB/p1A8jByCGxVYAlgHF7JDGUmtcjOU
+97ksIS+2uhdMuAC/Qrs6j/uZdthuIjzm0qFmPHkko8oayH+pW0aoqxKBAyLcO5KR
+I79S8PGz/+m6XVCM7u47RuwWdH1GP0APtZQvDbPR6q5+VYJ6HwUXb/DiV2dgEic6
+0t7fgZBa3BcSwY36hw20b3ppBO4PgbXjJK3N12bhmwFoH4UQEMw=
+=U4bp
+-----END PGP SIGNATURE-----
 
-
->
-> On Sat, May 9, 2020 at 9:02 AM Jason Wang <jasowang@redhat.com 
-> <mailto:jasowang@redhat.com>> wrote:
->
->
->     On 2020/5/9 上午2:13, Andrew Melnichenko wrote:
->     > Yo, I've used OpenSDM_8257x-18.pdf specification.
->     > This document was recommended by Intel guys(Also, they
->     referenced to
->     > that note).
->     > I've made a fast fix and it works. Before that I had a fix for
->     Linux
->     > e1000e driver.
->     > Overall, the issue was in pending interrupts that can't be
->     cleared by
->     > reading ICR in Linux(Windows driver clears by writing to ICR).
->     >
->     > You can download spec for example from:
->     >
->     http://iweb.dl.sourceforge.net/project/e1000/8257x%20Developer%20Manual/Revision%201.8/OpenSDM_8257x-18.pdf
->
->
->     Interesting, this spec doesn't include 82574l which is what e1000e
->     claims to emulate:
->
->          c->vendor_id = PCI_VENDOR_ID_INTEL;
->          c->device_id = E1000_DEV_ID_82574L;
->
->     Looking at 82574l spec (using the link mentioned in
->     e1000e_core.c), it
->     said (7.4.3):
->
->     In MSI-X mode the bits in this register can be configured to
->     auto-clear
->     when the MSI-X
->     interrupt message is sent, in order to minimize driver overhead, and
->     when using MSI-X
->     interrupt signaling.
->     In systems that do not support MSI-X, reading the ICR register clears
->     it's bits or writing
->     1b's clears the corresponding bits in this register.
->
->     So the auto clear is under the control of EIAC (MSIX) or
->     unconditionally
->     (non MSI-X).
->
->     But what has been implemented in e1000e_mac_icr_read() is something
->     similar to the behavior of non 82574l card.
->
->     So I think we should implement the 82574l behavior?
->
->     Thanks
->
->
->     >
->     > On Fri, May 8, 2020 at 5:21 AM Jason Wang <jasowang@redhat.com
->     <mailto:jasowang@redhat.com>
->     > <mailto:jasowang@redhat.com <mailto:jasowang@redhat.com>>> wrote:
->     >
->     >
->     >     On 2020/5/7 上午5:26, andrew@daynix.com
->     <mailto:andrew@daynix.com> <mailto:andrew@daynix.com
->     <mailto:andrew@daynix.com>>
->     >     wrote:
->     >     > From: Andrew Melnychenko <andrew@daynix.com
->     <mailto:andrew@daynix.com>
->     >     <mailto:andrew@daynix.com <mailto:andrew@daynix.com>>>
->     >     >
->     >     > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
->     >     > Added ICR clearing if there is IMS bit - according to the
->     note by
->     >     > section 13.3.27 of the 8257X developers manual.
->     >     >
->     >     > Signed-off-by: Andrew Melnychenko <andrew@daynix.com
->     <mailto:andrew@daynix.com>
->     >     <mailto:andrew@daynix.com <mailto:andrew@daynix.com>>>
->     >     > ---
->     >     >   hw/net/e1000e_core.c | 9 +++++++++
->     >     >   hw/net/trace-events  | 1 +
->     >     >   2 files changed, 10 insertions(+)
->     >     >
->     >     > diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
->     >     > index d5676871fa..302e99ff46 100644
->     >     > --- a/hw/net/e1000e_core.c
->     >     > +++ b/hw/net/e1000e_core.c
->     >     > @@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore
->     *core, int
->     >     index)
->     >     >           e1000e_clear_ims_bits(core, core->mac[IAM]);
->     >     >       }
->     >     >
->     >     > +    /*
->     >     > +     * PCIe* GbE Controllers Open Source Software Developer's
->     >     Manual
->     >     > +     * 13.3.27 Interrupt Cause Read Register
->     >     > +     */
->     >
->     >
->     >     Hi Andrew:
->     >
->     >     Which version of the manual did you use? I try to use the one
->     >     mentioned
->     >     in e1000e.c which is
->     >
->     http://www.intel.com/content/dam/doc/datasheet/82574l-gbe-controller-datasheet.pdf.
->     >
->     >     But I couldn't find chapter 13.3.27.
->     >
->     >     Thanks
->     >
->     >
->     >     > +    if (core->mac[ICR] & core->mac[IMS]) {
->     >     > + trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR],
->     >     core->mac[IMS]);
->     >     > +        core->mac[ICR] = 0;
->     >     > +    }
->     >     > +
->     >     >  trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
->     >     >       e1000e_update_interrupt_state(core);
->     >     >       return ret;
->     >     > diff --git a/hw/net/trace-events b/hw/net/trace-events
->     >     > index e18f883cfd..46e40fcfa9 100644
->     >     > --- a/hw/net/trace-events
->     >     > +++ b/hw/net/trace-events
->     >     > @@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr)
->     >     "Starting ICR read. Current ICR: 0x%x"
->     >     >   e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read.
->     >     Current ICR: 0x%x"
->     >     >   e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on
->     read due
->     >     to zero IMS"
->     >     >   e1000e_irq_icr_clear_iame(void) "Clearing ICR on read
->     due to IAME"
->     >     > +e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims)
->     >     "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
->     >     >   e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause)
->     >     "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
->     >     >   e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac)
->     >     "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
->     >     >   e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS
->     bits
->     >     due to IMC write 0x%x"
->     >
->
-
+--ahZICQ7iXVM/oLYH--
 
