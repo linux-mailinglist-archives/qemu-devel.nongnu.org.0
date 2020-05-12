@@ -2,77 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89F31CFB67
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 18:56:35 +0200 (CEST)
-Received: from localhost ([::1]:55610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04ED1CFB64
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 18:55:37 +0200 (CEST)
+Received: from localhost ([::1]:52244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYYCo-00038U-S8
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 12:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50774)
+	id 1jYYBs-0001Zl-QG
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 12:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYXwK-0006yU-M3
- for qemu-devel@nongnu.org; Tue, 12 May 2020 12:39:32 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYXwJ-0006N5-6l
- for qemu-devel@nongnu.org; Tue, 12 May 2020 12:39:32 -0400
-Received: by mail-wm1-x343.google.com with SMTP id w19so9435217wmc.1
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 09:39:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jvTpgwbd+LTkl54Kt4cTm/vhOyWXxlbq+3ojpz64Gk8=;
- b=sEbNz3QB4lL4aDrpkmxAcr6fgTDjTqatABWw3sURm2rR6Dd8qAllDmwCLs+TES7AWI
- Ew1enGJ1mQ6m3iB50WAhoJy/C5xd07nBba73QQEdlv3qK4LmzTKnhDTrbiDmfKV1Jrra
- tuibWe3bgwrCjxHMWsfQsdiuNg3lcXLuP4oIzao2TZUC7Yu45TP7uZ8SXv2dSB5MmNdD
- D4t65L0kx1jfVHR97B6s7ferIeY85z1C72393a+eLxWAv0NbMvYzmlet2H5y6/HHO0YD
- jA6gkBS+vOLI3ul3jrbLncAaQqBHd5Jh/3Ef5vjBY2qePKRJ8pALG+B7l7zHyy8K8HQU
- djpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=jvTpgwbd+LTkl54Kt4cTm/vhOyWXxlbq+3ojpz64Gk8=;
- b=qUU8O1Qh33K6d94cvXBlJ7dYMqEO+SZKvYEsJ8nTJEyxvhhan81YSBM++GSGKO5Ff+
- FMSTMBfC6EMHlR/KUMiupbdg/yBCtIL47Qzk4Un+aI/YiT9epG3pVkhd4QuMFNNDB2EF
- BXkOXy3m3rpyWly1/mZC9FMzVlE4UAfehC6rcspPRS+0PFg3rgxdv6F4x+ZF7jszFmWb
- AXsB6fgfixdZfmBPKgNexRfXD3M4Vo34h9u0qiIbswtQsaZ67wbYvReEZs3GNfsv33ej
- RXCS/rf1xqjXfxAfZb5t+WHW7P9wFrlZqf5hk4oKi03ZgOaO+V0BZvfaxL25NMw2Ue+j
- v3jA==
-X-Gm-Message-State: AGi0PuYLdAf46ducuuq3eibZZOK/62uD+c+epM4tCXDidYTJb/HAi2No
- VzxFVBQUvwOwjE3T3VZ2evyvS+2wU51Ajg==
-X-Google-Smtp-Source: APiQypJMpv1fCmXHkv2Bfkl+PKG4vCSv65KMdHOM5CdwMyt+AiFVsfDwGwQ6cLzbCVtmBjl/aUHNIA==
-X-Received: by 2002:a1c:19c1:: with SMTP id 184mr22810671wmz.29.1589301569642; 
- Tue, 12 May 2020 09:39:29 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o205sm18525981wmo.32.2020.05.12.09.39.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 09:39:29 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 17/17] target/arm: Convert NEON VFMA,
- VFMS 3-reg-same insns to decodetree
-Date: Tue, 12 May 2020 17:39:04 +0100
-Message-Id: <20200512163904.10918-18-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200512163904.10918-1-peter.maydell@linaro.org>
-References: <20200512163904.10918-1-peter.maydell@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jYY7S-0004lv-1P; Tue, 12 May 2020 12:51:02 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jYY7P-0001R3-3A; Tue, 12 May 2020 12:51:00 -0400
+Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92.3)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1jYY7C-0004nT-2s; Tue, 12 May 2020 19:50:46 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v4 00/15] Apply COR-filter to the block-stream permanently
+Date: Tue, 12 May 2020 19:50:30 +0300
+Message-Id: <1589302245-893269-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay.sw.ru
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 10:53:25
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,282 +48,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ andrey.shinkevich@virtuozzo.com, den@openvz.org, mreitz@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon floating point VFMA and VFMS insn to decodetree.
-These are the last insns in the 3-reg-same group so we can
-remove all the support/loop code from the old decoder.
+With this series, all the block-stream COR operations pass through
+the COR-filter. The patches 01-08/15 are taken from the series
+"block: Deal with filters" by Max Reitz, the full version of that
+can be found in the branches:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/neon-dp.decode       |   3 +
- target/arm/translate-neon.inc.c |  41 ++++++++
- target/arm/translate.c          | 176 +-------------------------------
- 3 files changed, 46 insertions(+), 174 deletions(-)
+      https://git.xanclic.moe/XanClic/qemu child-access-functions-v6
+      https://github.com/XanClic/qemu child-access-functions-v6
 
-diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index c276faf8cce..f53bf8a4494 100644
---- a/target/arm/neon-dp.decode
-+++ b/target/arm/neon-dp.decode
-@@ -175,6 +175,9 @@ SHA256H2_3s      1111 001 1 0 . 01 .... .... 1100 . 1 . 0 .... \
- SHA256SU1_3s     1111 001 1 0 . 10 .... .... 1100 . 1 . 0 .... \
-                  vm=%vm_dp vn=%vn_dp vd=%vd_dp
- 
-+VFMA_fp_3s       1111 001 0 0 . 0 . .... .... 1100 ... 1 .... @3same_fp
-+VFMS_fp_3s       1111 001 0 0 . 1 . .... .... 1100 ... 1 .... @3same_fp
-+
- VQRDMLSH_3s      1111 001 1 0 . .. .... .... 1100 ... 1 .... @3same
- 
- VADD_fp_3s       1111 001 0 0 . 0 . .... .... 1101 ... 0 .... @3same_fp
-diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 263d2b47132..7212876e8f0 100644
---- a/target/arm/translate-neon.inc.c
-+++ b/target/arm/translate-neon.inc.c
-@@ -1207,6 +1207,47 @@ static bool trans_VRSQRTS_fp_3s(DisasContext *s, arg_3same *a)
-     return do_3same(s, a, gen_VRSQRTS_fp_3s);
- }
- 
-+static void gen_VFMA_fp_3s(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm,
-+                            TCGv_ptr fpstatus)
-+{
-+    gen_helper_vfp_muladds(vd, vn, vm, vd, fpstatus);
-+}
-+
-+static bool trans_VFMA_fp_3s(DisasContext *s, arg_3same *a)
-+{
-+    if (!dc_isar_feature(aa32_simdfmac, s)) {
-+        return false;
-+    }
-+
-+    if (a->size != 0) {
-+        /* TODO fp16 support */
-+        return false;
-+    }
-+
-+    return do_3same_fp(s, a, gen_VFMA_fp_3s, true);
-+}
-+
-+static void gen_VFMS_fp_3s(TCGv_i32 vd, TCGv_i32 vn, TCGv_i32 vm,
-+                            TCGv_ptr fpstatus)
-+{
-+    gen_helper_vfp_negs(vn, vn);
-+    gen_helper_vfp_muladds(vd, vn, vm, vd, fpstatus);
-+}
-+
-+static bool trans_VFMS_fp_3s(DisasContext *s, arg_3same *a)
-+{
-+    if (!dc_isar_feature(aa32_simdfmac, s)) {
-+        return false;
-+    }
-+
-+    if (a->size != 0) {
-+        /* TODO fp16 support */
-+        return false;
-+    }
-+
-+    return do_3same_fp(s, a, gen_VFMS_fp_3s, true);
-+}
-+
- static bool do_3same_fp_pair(DisasContext *s, arg_3same *a, VFPGen3OpSPFn *fn)
- {
-     /* FP operations handled pairwise 32 bits at a time */
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c1d4fab8e80..4c9bb8b5ac0 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -3391,78 +3391,6 @@ static void gen_neon_narrow_op(int op, int u, int size,
-     }
- }
- 
--/* Symbolic constants for op fields for Neon 3-register same-length.
-- * The values correspond to bits [11:8,4]; see the ARM ARM DDI0406B
-- * table A7-9.
-- */
--#define NEON_3R_VHADD 0
--#define NEON_3R_VQADD 1
--#define NEON_3R_VRHADD 2
--#define NEON_3R_LOGIC 3 /* VAND,VBIC,VORR,VMOV,VORN,VEOR,VBIF,VBIT,VBSL */
--#define NEON_3R_VHSUB 4
--#define NEON_3R_VQSUB 5
--#define NEON_3R_VCGT 6
--#define NEON_3R_VCGE 7
--#define NEON_3R_VSHL 8
--#define NEON_3R_VQSHL 9
--#define NEON_3R_VRSHL 10
--#define NEON_3R_VQRSHL 11
--#define NEON_3R_VMAX 12
--#define NEON_3R_VMIN 13
--#define NEON_3R_VABD 14
--#define NEON_3R_VABA 15
--#define NEON_3R_VADD_VSUB 16
--#define NEON_3R_VTST_VCEQ 17
--#define NEON_3R_VML 18 /* VMLA, VMLS */
--#define NEON_3R_VMUL 19
--#define NEON_3R_VPMAX 20
--#define NEON_3R_VPMIN 21
--#define NEON_3R_VQDMULH_VQRDMULH 22
--#define NEON_3R_VPADD_VQRDMLAH 23
--#define NEON_3R_SHA 24 /* SHA1C,SHA1P,SHA1M,SHA1SU0,SHA256H{2},SHA256SU1 */
--#define NEON_3R_VFM_VQRDMLSH 25 /* VFMA, VFMS, VQRDMLSH */
--#define NEON_3R_FLOAT_ARITH 26 /* float VADD, VSUB, VPADD, VABD */
--#define NEON_3R_FLOAT_MULTIPLY 27 /* float VMLA, VMLS, VMUL */
--#define NEON_3R_FLOAT_CMP 28 /* float VCEQ, VCGE, VCGT */
--#define NEON_3R_FLOAT_ACMP 29 /* float VACGE, VACGT, VACLE, VACLT */
--#define NEON_3R_FLOAT_MINMAX 30 /* float VMIN, VMAX */
--#define NEON_3R_FLOAT_MISC 31 /* float VRECPS, VRSQRTS, VMAXNM/MINNM */
--
--static const uint8_t neon_3r_sizes[] = {
--    [NEON_3R_VHADD] = 0x7,
--    [NEON_3R_VQADD] = 0xf,
--    [NEON_3R_VRHADD] = 0x7,
--    [NEON_3R_LOGIC] = 0xf, /* size field encodes op type */
--    [NEON_3R_VHSUB] = 0x7,
--    [NEON_3R_VQSUB] = 0xf,
--    [NEON_3R_VCGT] = 0x7,
--    [NEON_3R_VCGE] = 0x7,
--    [NEON_3R_VSHL] = 0xf,
--    [NEON_3R_VQSHL] = 0xf,
--    [NEON_3R_VRSHL] = 0xf,
--    [NEON_3R_VQRSHL] = 0xf,
--    [NEON_3R_VMAX] = 0x7,
--    [NEON_3R_VMIN] = 0x7,
--    [NEON_3R_VABD] = 0x7,
--    [NEON_3R_VABA] = 0x7,
--    [NEON_3R_VADD_VSUB] = 0xf,
--    [NEON_3R_VTST_VCEQ] = 0x7,
--    [NEON_3R_VML] = 0x7,
--    [NEON_3R_VMUL] = 0x7,
--    [NEON_3R_VPMAX] = 0x7,
--    [NEON_3R_VPMIN] = 0x7,
--    [NEON_3R_VQDMULH_VQRDMULH] = 0x6,
--    [NEON_3R_VPADD_VQRDMLAH] = 0x7,
--    [NEON_3R_SHA] = 0xf, /* size field encodes op type */
--    [NEON_3R_VFM_VQRDMLSH] = 0x7, /* For VFM, size bit 1 encodes op */
--    [NEON_3R_FLOAT_ARITH] = 0x5, /* size bit 1 encodes op */
--    [NEON_3R_FLOAT_MULTIPLY] = 0x5, /* size bit 1 encodes op */
--    [NEON_3R_FLOAT_CMP] = 0x5, /* size bit 1 encodes op */
--    [NEON_3R_FLOAT_ACMP] = 0x5, /* size bit 1 encodes op */
--    [NEON_3R_FLOAT_MINMAX] = 0x5, /* size bit 1 encodes op */
--    [NEON_3R_FLOAT_MISC] = 0x5, /* size bit 1 encodes op */
--};
--
- /* Symbolic constants for op fields for Neon 2-register miscellaneous.
-  * The values correspond to bits [17:16,10:7]; see the ARM ARM DDI0406B
-  * table A7-13.
-@@ -5383,108 +5311,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-     rm_ofs = neon_reg_offset(rm, 0);
- 
-     if ((insn & (1 << 23)) == 0) {
--        /* Three register same length.  */
--        op = ((insn >> 7) & 0x1e) | ((insn >> 4) & 1);
--        /* Catch invalid op and bad size combinations: UNDEF */
--        if ((neon_3r_sizes[op] & (1 << size)) == 0) {
--            return 1;
--        }
--        /* All insns of this form UNDEF for either this condition or the
--         * superset of cases "Q==1"; we catch the latter later.
--         */
--        if (q && ((rd | rn | rm) & 1)) {
--            return 1;
--        }
--        switch (op) {
--        case NEON_3R_VFM_VQRDMLSH:
--            if (!u) {
--                /* VFM, VFMS */
--                if (size == 1) {
--                    return 1;
--                }
--                break;
--            }
--            /* VQRDMLSH : handled by decodetree */
--            return 1;
--
--        case NEON_3R_VADD_VSUB:
--        case NEON_3R_LOGIC:
--        case NEON_3R_VMAX:
--        case NEON_3R_VMIN:
--        case NEON_3R_VTST_VCEQ:
--        case NEON_3R_VCGT:
--        case NEON_3R_VCGE:
--        case NEON_3R_VQADD:
--        case NEON_3R_VQSUB:
--        case NEON_3R_VMUL:
--        case NEON_3R_VML:
--        case NEON_3R_VSHL:
--        case NEON_3R_SHA:
--        case NEON_3R_VHADD:
--        case NEON_3R_VRHADD:
--        case NEON_3R_VHSUB:
--        case NEON_3R_VABD:
--        case NEON_3R_VABA:
--        case NEON_3R_VQSHL:
--        case NEON_3R_VRSHL:
--        case NEON_3R_VQRSHL:
--        case NEON_3R_VPMAX:
--        case NEON_3R_VPMIN:
--        case NEON_3R_VPADD_VQRDMLAH:
--        case NEON_3R_VQDMULH_VQRDMULH:
--        case NEON_3R_FLOAT_ARITH:
--        case NEON_3R_FLOAT_MULTIPLY:
--        case NEON_3R_FLOAT_CMP:
--        case NEON_3R_FLOAT_ACMP:
--        case NEON_3R_FLOAT_MINMAX:
--        case NEON_3R_FLOAT_MISC:
--            /* Already handled by decodetree */
--            return 1;
--        }
--
--        if (size == 3) {
--            /* 64-bit element instructions: handled by decodetree */
--            return 1;
--        }
--        switch (op) {
--        case NEON_3R_VFM_VQRDMLSH:
--            if (!dc_isar_feature(aa32_simdfmac, s)) {
--                return 1;
--            }
--            break;
--        default:
--            break;
--        }
--
--        for (pass = 0; pass < (q ? 4 : 2); pass++) {
--
--        /* Elementwise.  */
--        tmp = neon_load_reg(rn, pass);
--        tmp2 = neon_load_reg(rm, pass);
--        switch (op) {
--        case NEON_3R_VFM_VQRDMLSH:
--        {
--            /* VFMA, VFMS: fused multiply-add */
--            TCGv_ptr fpstatus = get_fpstatus_ptr(1);
--            TCGv_i32 tmp3 = neon_load_reg(rd, pass);
--            if (size) {
--                /* VFMS */
--                gen_helper_vfp_negs(tmp, tmp);
--            }
--            gen_helper_vfp_muladds(tmp, tmp, tmp2, tmp3, fpstatus);
--            tcg_temp_free_i32(tmp3);
--            tcg_temp_free_ptr(fpstatus);
--            break;
--        }
--        default:
--            abort();
--        }
--        tcg_temp_free_i32(tmp2);
--
--        neon_store_reg(rd, pass, tmp);
--
--        } /* for pass */
--        /* End of 3 register same size operations.  */
-+        /* Three register same length: handled by decodetree */
-+        return 1;
-     } else if (insn & (1 << 4)) {
-         if ((insn & 0x00380080) != 0) {
-             /* Two registers and shift.  */
+      When running iotests, apply "char-socket: Fix race condition"
+      to avoid sporadic segmentation faults.
+v4:
+  01: Initialization of the COR-filter BDRVStateCOR member.
+
+v3:
+  01: The COR filter insert/remove functions moved to block/copy-on-read.c
+      to be a part of API.
+  02: block/stream.c code refactoring.
+  03: The separate call to block_job_add_bdrv() is used to block operations
+      on the active node after the filter inserted and the job created.
+  04: The iotests case 030::test_overlapping_4 was modified to unbound
+      the block-stream job from the base node.
+  05: The COR driver functions preadv/pwritev replaced with their analogous
+      preadv/pwritev_part.
+
+v2:
+  01: No more skipping filters while checking for operation blockers.
+      However, we exclude filters between the bottom node and base
+      because we do not set the operation blockers for filters anymore.
+  02: As stated above, we do not set the operation blockers for filters
+      anymore. So, skip filters when we block operations for the target
+      node.
+  03: The comment added for the patch 4/7.
+  04: The QAPI target version changed to 5.1.
+  05: The 'filter-node-name' now excluded from using in the test #030.
+      If we need it no more in a final version of the series, the patch
+      5/7 may be removed.
+  06: The COR-filter included into the frozen chain of a block-stream job.
+      The 'above_base' node pointer is left because it is essential for
+      finding the base node in case of filters above.
+
+
+Andrey Shinkevich (7):
+  block: prepare block-stream for using COR-filter
+  copy-on-read: Support change filename functions
+  copy-on-read: Support preadv/pwritev_part functions
+  copy-on-read: add filter append/drop functions
+  qapi: add filter-node-name to block-stream
+  iotests: prepare 245 for using filter in block-stream
+  block: apply COR-filter to block-stream jobs
+
+Max Reitz (8):
+  block: Mark commit and mirror as filter drivers
+  copy-on-read: Support compressed writes
+  block: Add child access functions
+  block: Add chain helper functions
+  block: Include filters when freezing backing chain
+  block: Use CAFs in block status functions
+  commit: Deal with filters when blocking intermediate nodes
+  block: Use CAFs when working with backing chains
+
+ block.c                        | 275 ++++++++++++++++++++++++++++++++++-------
+ block/commit.c                 |  85 ++++++++++---
+ block/copy-on-read.c           | 159 ++++++++++++++++++++++--
+ block/io.c                     |  19 +--
+ block/mirror.c                 |   6 +-
+ block/monitor/block-hmp-cmds.c |   4 +-
+ block/stream.c                 |  89 +++++++++----
+ blockdev.c                     |  19 ++-
+ include/block/block.h          |   6 +-
+ include/block/block_int.h      |  67 +++++++++-
+ qapi/block-core.json           |   6 +
+ tests/qemu-iotests/030         |  17 +--
+ tests/qemu-iotests/141.out     |   2 +-
+ tests/qemu-iotests/245         |  10 +-
+ 14 files changed, 625 insertions(+), 139 deletions(-)
+
 -- 
-2.20.1
+1.8.3.1
 
 
