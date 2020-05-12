@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E51B1CECCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 08:03:07 +0200 (CEST)
-Received: from localhost ([::1]:46060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC071CECF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 08:22:09 +0200 (CEST)
+Received: from localhost ([::1]:53334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYO0P-0002WS-Sc
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 02:03:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46826)
+	id 1jYOIq-0000j3-Hj
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 02:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jYNzV-0001nP-IZ
- for qemu-devel@nongnu.org; Tue, 12 May 2020 02:02:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:44010
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jYNzU-0006mo-Rc
- for qemu-devel@nongnu.org; Tue, 12 May 2020 02:02:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589263325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nugp8cv/l75vGPOWqJLtFmJBdhcRZ01YnyHn34TCwiE=;
- b=LY+s0qOFuiL+OTrDA3zvXO+JnIl81fL5smiREvWXY6b0P1bsQlEMxukPYi+4uIQR1HCld9
- uu8q6Xmgtt+a1j0YJDkTkncwWJiDGaMfP+/L11Ttig2lOfbbmtX3zkB1bDyQXt+RHvcytq
- OetaqIbfcbHV17sFyYSJaxOY/SmdvjA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-9kTSJPCUNjuQd4HWHxIfhA-1; Tue, 12 May 2020 02:02:02 -0400
-X-MC-Unique: 9kTSJPCUNjuQd4HWHxIfhA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26EA38015CE;
- Tue, 12 May 2020 06:01:58 +0000 (UTC)
-Received: from gondolin (ovpn-112-176.ams2.redhat.com [10.36.112.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FACB5D9DD;
- Tue, 12 May 2020 06:01:48 +0000 (UTC)
-Date: Tue, 12 May 2020 08:01:46 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH 08/11] target/s390x: Restrict system-mode declarations
-Message-ID: <20200512080146.7d0f4ae2.cohuck@redhat.com>
-In-Reply-To: <2bb91290-32c5-997d-c689-4d651836c7fc@amsat.org>
-References: <20200509130910.26335-1-f4bug@amsat.org>
- <20200509130910.26335-9-f4bug@amsat.org>
- <20200511124804.1a7a43aa.cohuck@redhat.com>
- <2bb91290-32c5-997d-c689-4d651836c7fc@amsat.org>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYOHS-00086a-Vj
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 02:20:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYOHR-00045h-NZ
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 02:20:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYOHP-0007L9-Te
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 06:20:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D9CAE2E8105
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 06:20:39 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Date: Tue, 12 May 2020 06:11:08 -0000
+From: post-factum <1877716@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anatol busimus post-factum stefanha zkrx
+X-Launchpad-Bug-Reporter: zkrx (zkrx)
+X-Launchpad-Bug-Modifier: post-factum (post-factum)
+References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
+Message-Id: <158926386824.12617.14750411613488219320.malone@wampee.canonical.com>
+Subject: [Bug 1877716] Re: Win10 guest unusable after a few minutes
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4eb7e39d88f2a75f68abe9b4bf8056542bf8fce1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:05:32
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,95 +72,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Marek Vasut <marex@denx.de>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
- Richard Henderson <rth@twiddle.net>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 May 2020 14:21:27 +0200
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+Unofficial x86_64 build of v5.0.0 with those 2 patches for Arch is here:
+[1].
 
-> On 5/11/20 12:48 PM, Cornelia Huck wrote:
-> > On Sat,  9 May 2020 15:09:07 +0200
-> > Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-> >  =20
-> >> As these declarations are restricted to !CONFIG_USER_ONLY in
-> >> helper.c, only declare them when system-mode emulation is used.
-> >>
-> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >> ---
-> >>   target/s390x/internal.h | 11 ++++++-----
-> >>   1 file changed, 6 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-> >> index c1678dc6bc..ddc276cdf4 100644
-> >> --- a/target/s390x/internal.h
-> >> +++ b/target/s390x/internal.h
-> >> @@ -236,7 +236,6 @@ int s390_cpu_write_elf64_note(WriteCoreDumpFunctio=
-n f, CPUState *cs,
-> >>  =20
-> >>   /* cc_helper.c */
-> >>   const char *cc_name(enum cc_op cc_op);
-> >> -void load_psw(CPUS390XState *env, uint64_t mask, uint64_t addr);
-> >>   uint32_t calc_cc(CPUS390XState *env, uint32_t cc_op, uint64_t src, u=
-int64_t dst,
-> >>                    uint64_t vr);
-> >>  =20
-> >> @@ -303,18 +302,20 @@ void s390_cpu_gdb_init(CPUState *cs);
-> >>  =20
-> >>   /* helper.c */
-> >>   void s390_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-> >> -hwaddr s390_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-> >> -hwaddr s390_cpu_get_phys_addr_debug(CPUState *cpu, vaddr addr);
-> >> +void do_restart_interrupt(CPUS390XState *env);
-> >> +
-> >> +#ifndef CONFIG_USER_ONLY
-> >> +void load_psw(CPUS390XState *env, uint64_t mask, uint64_t addr); =20
-> >=20
-> > load_psw() is in cc_helper.c (and not in helper.c). Rather add the
-> > #ifndef above, even if it is a bit awkward? Otherwise, the wrong
-> > comment makes it confusing. =20
->=20
-> I've been tempted to remove the kinda outdated /* helper.c */ comment...
+[1] https://download.opensuse.org/repositories/home:/post-
+factum/Arch/x86_64/
 
-I don't think they're really outdated, but not sure how useful they are
-to people. I'm not personally attached to them, other opinions?
+-- =
 
->=20
-> >  =20
-> >>   uint64_t get_psw_mask(CPUS390XState *env);
-> >>   void s390_cpu_recompute_watchpoints(CPUState *cs);
-> >>   void s390x_tod_timer(void *opaque);
-> >>   void s390x_cpu_timer(void *opaque);
-> >> -void do_restart_interrupt(CPUS390XState *env);
-> >>   void s390_handle_wait(S390CPU *cpu);
-> >> +hwaddr s390_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-> >> +hwaddr s390_cpu_get_phys_addr_debug(CPUState *cpu, vaddr addr);
-> >>   #define S390_STORE_STATUS_DEF_ADDR offsetof(LowCore, floating_pt_sav=
-e_area)
-> >>   int s390_store_status(S390CPU *cpu, hwaddr addr, bool store_arch);
-> >>   int s390_store_adtl_status(S390CPU *cpu, hwaddr addr, hwaddr len);
-> >> -#ifndef CONFIG_USER_ONLY
-> >>   LowCore *cpu_map_lowcore(CPUS390XState *env);
-> >>   void cpu_unmap_lowcore(LowCore *lowcore);
-> >>   #endif /* CONFIG_USER_ONLY */ =20
-> >=20
-> >  =20
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877716
 
+Title:
+  Win10 guest unusable after a few minutes
+
+Status in QEMU:
+  New
+
+Bug description:
+  On Arch Linux, the recent qemu package update seems to misbehave on
+  some systems. In my case, my Windows 10 guest runs fine for around 5
+  minutes and then start to get really sluggish, even unresponsive. It
+  needs to be forced off. I could reproduce this on a minimal VM with no
+  passthrough, although my current testing setup involves an nvme pcie
+  passthrough.
+
+  I bisected it to the following commit which rapidly starts to run sluggis=
+hly on my setup:
+  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
+ccf
+
+  I've ran the previous commit (
+  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
+89b
+  ) for the entire night without an issue so far.
+
+  I believe this might be a duplicate of
+  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
+
+  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
+6_64 GNU/Linux
+  AMD Ryzen 7 2700X Eight-Core Processor
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
 
