@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140411CF62E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 15:52:55 +0200 (CEST)
-Received: from localhost ([::1]:45612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E5C1CF635
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 15:54:21 +0200 (CEST)
+Received: from localhost ([::1]:51312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYVL4-0004Ex-4c
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 09:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50862)
+	id 1jYVMS-0006rI-GA
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 09:54:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jYVJS-0002ra-OZ
- for qemu-devel@nongnu.org; Tue, 12 May 2020 09:51:14 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40945
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1jYVJR-0005KQ-O5
- for qemu-devel@nongnu.org; Tue, 12 May 2020 09:51:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589291472;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0ZhEFRCbpTP3nZuV+XBjBn1ZdjfqCI4q0BQ8G2sQtBw=;
- b=NuxJTARc0utu2UDycpX+yc/fWioQOoZwdh/1UHI4XJ1eMVseCE2tWy7hPvMVCa2NI2ps+j
- AxLn6ZFTdKQ1DHiWUzFAoFE0WHbXZdKS6E17eVMBVNFn7WI7zUZi5GFa6QFzPLOPwfKkwS
- KWVEFWc0W/NWCNBZC6kWQ7rrsbDyiCM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-WwWsbyXdNduuXRGERw5mLQ-1; Tue, 12 May 2020 09:51:09 -0400
-X-MC-Unique: WwWsbyXdNduuXRGERw5mLQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 089C0460;
- Tue, 12 May 2020 13:51:07 +0000 (UTC)
-Received: from localhost (ovpn-112-75.ams2.redhat.com [10.36.112.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 903E26E6E9;
- Tue, 12 May 2020 13:50:56 +0000 (UTC)
-Date: Tue, 12 May 2020 14:50:55 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH RESEND v6 20/36] multi-process: Forward PCI config space
- acceses to the remote process
-Message-ID: <20200512135055.GJ300009@stefanha-x1.localdomain>
-References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
- <901295bf44c731d232bb60579ffb48dce5b05cc4.1587614626.git.elena.ufimtseva@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jYVK5-0003Y8-5j
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 09:51:53 -0400
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:35344)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jYVK3-0005SC-5y
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 09:51:52 -0400
+Received: by mail-oo1-xc41.google.com with SMTP id c187so1329387ooc.2
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 06:51:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8XIWQlMgALi/z6ky6qpf55zbyCznsNcFKHapaknfCOo=;
+ b=wPOvp/u6yYYOtJjnCHLsoyhVTF8HyRgbOVMlK9UZu4iPtBwrUa9TdLS4IZ+cfuYuno
+ pxNvE4hZoN3UBvFeHFCYSzfWpn4qSdTRVayNIovDqub6+31nfyHlwvDEUjvSVkXE0H52
+ ySgucybHvnW3rcYwcmaGUkMagximQJUDy5rf/rHFWWWIXgoF8BMxzNEA61+P9ljglPMZ
+ RraZglxW9yhdRAtv22sEj+04IBKVF/pb/3MpHOkW478c2ssKyuaNPkzRDxLLfh8lb8M4
+ OcDBj1SV2nYkOmQ5pWZZ90L2tp9obI9+JJEIL8F/HXrCtshb8U4uhkoCcTAuFCNaoBkY
+ l8vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8XIWQlMgALi/z6ky6qpf55zbyCznsNcFKHapaknfCOo=;
+ b=a8OU+dsugOmoW0ybKtWiStPXF39D6UgdrCzKCFwAtmcD397zMMyn7fydKecbEnMbvN
+ 53kMkI092pIRKgzradGIABQfo1uuOEJdrqiTugrLp42+AQRCwxZz1rYV7rQxSnXlKt6h
+ TDKcChgkznXN5yULSJagKBUA4+qW46h8w4eWwV2em1t1zTfY9k22GQXWYO8xRpu9rFCH
+ kAjbJvAqAFeoHRsccV+J5eiXg2reJoGROqNBKPzO+V0D6/folt+CEZP5gwf27x9B0kLI
+ 0PGZhlnjGHqqGA9m92dfSZW7bH9nwulZ6PU8uzW00wLztLvdbJjtFRlzjIzZYdK03rXC
+ UVjw==
+X-Gm-Message-State: AGi0PubRugA/d3LzIV/tM7XIYQKPirVF9Sd+onloYMefQJak9NpQkTr8
+ vBFEzmuwqUhCasDPcIyWKaMWK16shBP3pAXkmxoLUg==
+X-Google-Smtp-Source: APiQypJpbb66D+0iH1GxhFULjRXGOLC6FTtu/7qTXcjyyhvHpzgvLqUVkBR2k1IWKZrOgfdVnjGdBn7vW8diJ1ObTMY=
+X-Received: by 2002:a4a:d136:: with SMTP id n22mr17968005oor.85.1589291509574; 
+ Tue, 12 May 2020 06:51:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <901295bf44c731d232bb60579ffb48dce5b05cc4.1587614626.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pWOmaDnDlrCGjNh4"
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=stefanha@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:20:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20200508152200.6547-1-richard.henderson@linaro.org>
+ <20200508152200.6547-3-richard.henderson@linaro.org>
+In-Reply-To: <20200508152200.6547-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 May 2020 14:51:38 +0100
+Message-ID: <CAFEAcA-JOwTRz1ZHEBrH5iLG3Qwf-7FvWUFvWvhP769aK-iEiQ@mail.gmail.com>
+Subject: Re: [PATCH v3 02/16] target/arm: Create gen_gvec_{u,s}{rshr,rsra}
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,170 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, liran.alon@oracle.com,
- thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---pWOmaDnDlrCGjNh4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 8 May 2020 at 16:22, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Create vectorized versions of handle_shri_with_rndacc
+> for shift+round and shift+round+accumulate.  Add out-of-line
+> helpers in preparation for longer vector lengths from SVE.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-On Wed, Apr 22, 2020 at 09:13:55PM -0700, elena.ufimtseva@oracle.com wrote:
-> +static int config_op_send(PCIProxyDev *dev, uint32_t addr, uint32_t *val=
-, int l,
-> +                          unsigned int op)
-> +{
-> +    MPQemuMsg msg;
-> +    struct conf_data_msg conf_data;
-> +    int wait;
-> +
-> +    memset(&msg, 0, sizeof(MPQemuMsg));
-> +    conf_data.addr =3D addr;
-> +    conf_data.val =3D (op =3D=3D PCI_CONFIG_WRITE) ? *val : 0;
-> +    conf_data.l =3D l;
-> +
-> +    msg.data2 =3D (uint8_t *)&conf_data;
-> +    if (!msg.data2) {
-> +        return -ENOMEM;
 
-This can never happen since conf_data is on the stack.
+> +    /* tszimm encoding produces immediates in the range [1..esize] */
+> +    tcg_debug_assert(shift > 0);
+> +    tcg_debug_assert(shift <= (8 << vece));
+> +
+> +    if (shift == (8 << vece)) {
+> +        /*
+> +         * Shifts larger than the element size are architecturally valid.
+> +         * Signed results in all sign bits.  With rounding, this produces
+> +         *   (-1 + 1) >> 1 == 0, or (0 + 1) >> 1 == 0.
+> +         * I.e. always zero.
+> +         */
+> +        tcg_gen_gvec_dup_imm(vece, rd_ofs, opr_sz, max_sz, 0);
 
-> +    }
-> +
-> +    msg.size =3D sizeof(conf_data);
-> +    msg.cmd =3D op;
-> +    msg.bytestream =3D 1;
-> +
-> +    if (op =3D=3D PCI_CONFIG_WRITE) {
-> +        msg.num_fds =3D 0;
+Knew I'd forgotten a review comment -- should this "dup_imm to clear
+to zeroes" be using a fixed element size rather than 'vece' to avoid
+the "dup_imm doesn't handle 128 bits" issue? (Similarly elsewhere.)
+
 > +    } else {
-> +        /* TODO: Dont create fd each time for send. */
-> +        wait =3D GET_REMOTE_WAIT;
-> +        msg.num_fds =3D 1;
-> +        msg.fds[0] =3D wait;
+> +        tcg_gen_gvec_2i(rd_ofs, rm_ofs, opr_sz, max_sz, shift, &ops[vece]);
 > +    }
-> +
-> +    mpqemu_msg_send(&msg, dev->mpqemu_link->dev);
-> +
-> +    if (op =3D=3D PCI_CONFIG_READ) {
-
-Are you sure it's correct for writes to be posted instead of waiting for
-completion?
-
-> +        *val =3D (uint32_t)wait_for_remote(wait);
-> +        PUT_REMOTE_WAIT(wait);
-> +    }
-> +
-> +    return 0;
 > +}
-> +
-> +static uint32_t pci_proxy_read_config(PCIDevice *d, uint32_t addr, int l=
-en)
-> +{
-> +    uint32_t val;
-> +
-> +    (void)pci_default_read_config(d, addr, len);
 
-Please add a comment explaining why this local read is necessary.
-
-> +
-> +    config_op_send(PCI_PROXY_DEV(d), addr, &val, len, PCI_CONFIG_READ);
-> +
-> +    return val;
-> +}
-> +
-> +static void pci_proxy_write_config(PCIDevice *d, uint32_t addr, uint32_t=
- val,
-> +                                   int l)
-> +{
-> +    pci_default_write_config(d, addr, val, l);
-
-Please add a comment explaining why this local write is necessary.
-
-> +
-> +    config_op_send(PCI_PROXY_DEV(d), addr, &val, l, PCI_CONFIG_WRITE);
-> +}
-...
-> diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
-> index f780b65181..ef4a07b81a 100644
-> --- a/io/mpqemu-link.c
-> +++ b/io/mpqemu-link.c
-> @@ -381,6 +381,12 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
->              return false;
->          }
->          break;
-> +    case PCI_CONFIG_WRITE:
-> +    case PCI_CONFIG_READ:
-> +        if (msg->size !=3D sizeof(struct conf_data_msg)) {
-> +            return false;
-> +        }
-
-conf_data_msg.l is not validated.
-
-> +        break;
->      default:
->          break;
->      }
-> diff --git a/remote/remote-main.c b/remote/remote-main.c
-> index f541baae6a..834574e172 100644
-> --- a/remote/remote-main.c
-> +++ b/remote/remote-main.c
-> @@ -53,6 +53,32 @@ gchar *print_pid_exec(gchar *str)
-> =20
->  #define LINK_TO_DEV(link) ((PCIDevice *)link->opaque)
-> =20
-> +static void process_config_write(PCIDevice *dev, MPQemuMsg *msg)
-> +{
-> +    struct conf_data_msg *conf =3D (struct conf_data_msg *)msg->data2;
-> +
-> +    qemu_mutex_lock_iothread();
-
-The qemu_mutex_lock_iothread() can be dropped once this is integrated in
-to QEMU's event loop.
-
-> +    pci_default_write_config(dev, conf->addr, conf->val, conf->l);
-
-It is not safe to call this function with arbitrary addr input values.
-
-> +    qemu_mutex_unlock_iothread();
-> +}
-> +
-> +static void process_config_read(PCIDevice *dev, MPQemuMsg *msg)
-> +{
-> +    struct conf_data_msg *conf =3D (struct conf_data_msg *)msg->data2;
-> +    uint32_t val;
-> +    int wait;
-> +
-> +    wait =3D msg->fds[0];
-> +
-> +    qemu_mutex_lock_iothread();
-> +    val =3D pci_default_read_config(dev, conf->addr, conf->l);
-
-It is not safe to call this function with arbitrary addr input values.
-
---pWOmaDnDlrCGjNh4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl66qb8ACgkQnKSrs4Gr
-c8jRaAf/QNZpSvC5K4gCXTdR2WmeK7+a++ib6/B3hhJgTZDlBt5eHf+MBdTHDlFv
-ydtblUFfKpDeLQRhPj+8MZjxZlIiZ3ajSXuy+lNYqa6q0YvW8gp1UeEgE8lXgy//
-YUmaNHrx1Kt+rtk3fbYs97uD9G5R1ybSbEi+wrF3IGnhcb/mVRWAa2wqkMRAgrQd
-vRLoeYWhaNpMdOKbEgsn5q+nuAxC1r6j3Dsr0JMt9SzcZhdze70XFSr7K8vrcryb
-Hdj4++7ia9QES1C9cskG5MozPjBkmIfqHqTwvPT1qnCck5/KAneeRBXZSjHJB3Iv
-Wj6NhunyNGZsqv1J5CTpEgbyjqBwwA==
-=ka/A
------END PGP SIGNATURE-----
-
---pWOmaDnDlrCGjNh4--
-
+thanks
+-- PMM
 
