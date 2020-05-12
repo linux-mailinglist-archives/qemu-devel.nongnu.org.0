@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF60E1CF4A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 14:45:15 +0200 (CEST)
-Received: from localhost ([::1]:35932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 932601CF508
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 14:55:59 +0200 (CEST)
+Received: from localhost ([::1]:46856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYUHa-0001f9-DW
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 08:45:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42232)
+	id 1jYURy-0008So-5q
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 08:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYUGZ-000186-HR
- for qemu-devel@nongnu.org; Tue, 12 May 2020 08:44:11 -0400
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:33493)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYUGY-0001Lh-4P
- for qemu-devel@nongnu.org; Tue, 12 May 2020 08:44:11 -0400
-Received: by mail-oo1-xc44.google.com with SMTP id b3so980135oob.0
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 05:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H2uAqVYHNg2yvKLW2FO44iqltVo4e3uY0P/Jgote3O8=;
- b=vrxXVlrELUH9qpVByiX/6ZKIwwyt+ti4cYs/QFRu8GBmLxucesBGSXHTGS7T3c084B
- UAPABK+B2q1ehC7wHdZ7NZQw4sOi7JCPPcMO42nTvAIN1pmBtVHfKYY1Bz951w4ag3SG
- eSRa+vs564t87w0Pm3kwwsVbq+YEdF0uaYUzXmqvbznrm7W9Zw4C4Kx2gH7dxD63zF/Y
- pDqmS9F5DtyaeE1w+In+HNBgjaIil58pTb0aK5re5KDwCZ8ItK/YpCauEZhH/YeaInD2
- Pk6E+eD4TYLIInkRzg+30Qmq2ATxGPTgodkWAoj6EP+qv6kG949MR6fZreAecpIVfCo+
- culQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H2uAqVYHNg2yvKLW2FO44iqltVo4e3uY0P/Jgote3O8=;
- b=e0NhzgW2B6SrkR+AubAXN0z69Z8+aa2t7H3DrFbEpV82XJcCfnX7VMa+EVuOsUZkwX
- 7r7GAdd8BedKUVMoGHanzz2Ym7oVfbKtwVZVoUFFmD0W4lcc8HGnIBEKx08ahrh/vnpd
- YAWNFyUvMnxTKDVSq3wthppCw7dDWnEI2YBMz81a+D4W8qxQKwFkc2mjmxr54BDsGWA+
- qpLb355+1pBcOxQnoLUuvYIs+fDJosQFLxt9WQLTAGQbt5z48+5C927S9Uz+QBkuiPmq
- TNWSSXOghCmZw7IHYoux+akPdGaxsAKIWlrvDhXgaUsDmw8RkkEettuTd2z8f5NPIoWp
- vLzQ==
-X-Gm-Message-State: AGi0PuYswQa0BzjTizO0UFqQE5lp4YyVRRWu/TB0lIhFB+CiqUdQiaQ8
- bkQEPoruB/I+fRBZd7Oxq2mFuSVxn1ewXQEScSN6ZQ==
-X-Google-Smtp-Source: APiQypI/2xXb3tDrFvY61Uph5x6b2qFcinLg1gwlWVlb7fRgiKmo/1AP440puBH7Ff6yUUlhr2H49I1SyFm2mGNAeBw=
-X-Received: by 2002:a4a:3556:: with SMTP id w22mr11981224oog.20.1589287448622; 
- Tue, 12 May 2020 05:44:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jYUQi-0007mJ-7y
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 08:54:40 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20468
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jYUQf-0004xo-TV
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 08:54:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589288076;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wAhGOfTfee6ikxUsTV5+SHt0o8uc/ijNpWdDTvXF/XA=;
+ b=JLNSf5EpNLmIFq29SUWZHHruu1FMLR0oRnG9SH2Q81zkCL3aalK4/jd2razxlAeEKNSE4F
+ 18Wa8+DPhv/inkNjVZ0WcFGdPEKCibUbqTPw4jDDohGaGBBmduucfSozBPmY1TYEgNQy0H
+ f9jFuxsBHjjt7o80R93GTXatG8KMAec=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-bGF_LdAtNn6AoQplEt1yEA-1; Tue, 12 May 2020 08:54:34 -0400
+X-MC-Unique: bGF_LdAtNn6AoQplEt1yEA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07B7C18A0738;
+ Tue, 12 May 2020 12:54:30 +0000 (UTC)
+Received: from localhost (ovpn-112-75.ams2.redhat.com [10.36.112.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8787D100034E;
+ Tue, 12 May 2020 12:54:20 +0000 (UTC)
+Date: Tue, 12 May 2020 13:54:19 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: elena.ufimtseva@oracle.com
+Subject: Re: [PATCH RESEND v6 19/36] multi-process: Connect Proxy Object with
+ device in the remote process
+Message-ID: <20200512125419.GI300009@stefanha-x1.localdomain>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <fc69772e2a3c5269052c3f1994045a3b3689f949.1587614626.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-References: <20200420212206.12776-1-peter.maydell@linaro.org>
-In-Reply-To: <20200420212206.12776-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 May 2020 13:43:57 +0100
-Message-ID: <CAFEAcA_T+07JhcY8rGLW6dchsfyez54fenZtJAYV++d+dxzn9A@mail.gmail.com>
-Subject: Re: [PATCH 0/4] linux-user/arm: Fix BKPT, SVC immediate handling
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <fc69772e2a3c5269052c3f1994045a3b3689f949.1587614626.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="u/L2/WlOHZg+YGU4"
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,33 +81,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: omerg681@gmail.com, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
+ mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
+ felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
+ konrad.wilk@oracle.com, dgilbert@redhat.com, liran.alon@oracle.com,
+ thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Apr 2020 at 22:22, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> This patchseries fixes issues with the code in linux-user/arm/cpu_loop.c:
->  * it incorrectly thinks BKPT is a syscall instruction
->    (https://bugs.launchpad.net/qemu/+bug/1873898, reported via irc)
->  * a stale line of code means we incorrectly NOP SVC #0xf0002
->  * we don't implement the distinction between 0x9f0000..0x9f07ff
->    (should return -ENOSYS if not implemented) and higher numbers
->    (should cause a SIGILL)
->  * we abort() for bad immediate values to SVC (ie not the 0 of EABI
->    or the >0x9f0000 of OABI); the kernel delivers a SIGILL for these
->  * for Thumb mode, we never use the immediate value from the insn,
->    but we always read it anyway
->
-> This patchseries fixes all those things. (I started out fixing the
-> BKPT bug; everything else is problems I spotted along the way while
-> I was reading this bit of code...)
+--u/L2/WlOHZg+YGU4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Laurent, do you want me to post a v2 with the -2/-4 thinko fixed
-so you can put it via the linux-user tree, or should I just take
-this via target-arm.next?
+On Wed, Apr 22, 2020 at 09:13:54PM -0700, elena.ufimtseva@oracle.com wrote:
+> From: Jagannathan Raman <jag.raman@oracle.com>
+>=20
+> Send a message to the remote process to connect PCI device with the
+> corresponding Proxy object in QEMU
 
-thanks
--- PMM
+The CONNECT_DEV message is no longer necessary with a 1 socket per
+device architecture. Connecting to a specific UNIX domain socket (e.g.
+vm001/lsi-scsi-1.sock) already identifies which device the proxy wishes
+to talk to.
+
+Each device should have an mpqemu link that accepts client connections.
+You can either do that in the main loop or you can use IOThread to run
+dedicated per-device threads.
+
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> ---
+>  hw/proxy/qemu-proxy.c    | 34 +++++++++++++++++++++++++++++++
+>  include/io/mpqemu-link.h |  5 +++++
+>  io/mpqemu-link.c         |  3 +++
+>  remote/remote-main.c     | 43 ++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 85 insertions(+)
+>=20
+> diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
+> index 40bf56fd37..9b5e429a88 100644
+> --- a/hw/proxy/qemu-proxy.c
+> +++ b/hw/proxy/qemu-proxy.c
+> @@ -17,11 +17,45 @@
+>  static void proxy_set_socket(Object *obj, const char *str, Error **errp)
+>  {
+>      PCIProxyDev *pdev =3D PCI_PROXY_DEV(obj);
+> +    DeviceState *dev =3D DEVICE(obj);
+> +    MPQemuMsg msg =3D { 0 };
+> +    int wait, fd[2];
+> =20
+>      pdev->socket =3D atoi(str);
+> =20
+>      mpqemu_init_channel(pdev->mpqemu_link, &pdev->mpqemu_link->com,
+>                          pdev->socket);
+> +
+> +    if (socketpair(AF_UNIX, SOCK_STREAM, 0, fd)) {
+> +        error_setg(errp, "Failed to create socket for device channel");
+> +        return;
+> +    }
+
+This extra connection can be removed. The reasons for having it have
+gone away now that there is just 1 device per socket.
+
+> +
+> +    wait =3D GET_REMOTE_WAIT;
+> +
+> +    msg.cmd =3D CONNECT_DEV;
+> +    msg.bytestream =3D 1;
+> +    msg.data2 =3D (uint8_t *)g_strdup(dev->id);
+> +    msg.size =3D sizeof(msg.data2);
+
+The g_strdup() is unnecessary, dev->id can be used directly.
+
+Should msg.size be strlen(dev->id) instead of sizeof(msg.data2)?
+
+> +    msg.num_fds =3D 2;
+> +    msg.fds[0] =3D wait;
+> +    msg.fds[1] =3D fd[1];
+> +
+> +    mpqemu_msg_send(&msg, pdev->mpqemu_link->com);
+> +
+> +    if (wait_for_remote(wait)) {
+> +        error_setg(errp, "Failed to connect device to the remote");
+> +        close(fd[0]);
+> +    } else {
+> +        mpqemu_init_channel(pdev->mpqemu_link, &pdev->mpqemu_link->dev,
+> +                            fd[0]);
+> +    }
+> +
+> +    PUT_REMOTE_WAIT(wait);
+> +
+> +    close(fd[1]);
+> +
+> +    g_free(msg.data2);
+>  }
+> =20
+>  static void proxy_init(Object *obj)
+> diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+> index 73cc59b874..ebae9afc45 100644
+> --- a/include/io/mpqemu-link.h
+> +++ b/include/io/mpqemu-link.h
+> @@ -38,6 +38,7 @@
+>  typedef enum {
+>      INIT =3D 0,
+>      SYNC_SYSMEM,
+> +    CONNECT_DEV,
+>      MAX,
+>  } mpqemu_cmd_t;
+> =20
+> @@ -120,8 +121,12 @@ struct MPQemuLinkState {
+>      GMainLoop *loop;
+> =20
+>      MPQemuChannel *com;
+> +    MPQemuChannel *dev;
+> =20
+>      mpqemu_link_callback callback;
+> +
+> +    void *opaque;
+> +    QemuThread thread;
+>  };
+> =20
+>  MPQemuLinkState *mpqemu_link_create(void);
+> diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+> index 3f81cef96e..f780b65181 100644
+> --- a/io/mpqemu-link.c
+> +++ b/io/mpqemu-link.c
+> @@ -46,6 +46,9 @@ MPQemuLinkState *mpqemu_link_create(void)
+>      MPQemuLinkState *link =3D MPQEMU_LINK(object_new(TYPE_MPQEMU_LINK));
+> =20
+>      link->com =3D NULL;
+> +    link->dev =3D NULL;
+> +
+> +    link->opaque =3D NULL;
+> =20
+>      return link;
+>  }
+> diff --git a/remote/remote-main.c b/remote/remote-main.c
+> index dbd6ad2529..f541baae6a 100644
+> --- a/remote/remote-main.c
+> +++ b/remote/remote-main.c
+> @@ -35,6 +35,9 @@
+>  #include "exec/ramlist.h"
+>  #include "remote/remote-common.h"
+> =20
+> +static void process_msg(GIOCondition cond, MPQemuLinkState *link,
+> +                        MPQemuChannel *chan);
+> +
+>  static MPQemuLinkState *mpqemu_link;
+> =20
+>  gchar *print_pid_exec(gchar *str)
+> @@ -48,6 +51,43 @@ gchar *print_pid_exec(gchar *str)
+>      return str;
+>  }
+> =20
+> +#define LINK_TO_DEV(link) ((PCIDevice *)link->opaque)
+> +
+> +static gpointer dev_thread(gpointer data)
+> +{
+> +    MPQemuLinkState *link =3D data;
+> +
+> +    mpqemu_start_coms(link, link->dev);
+> +
+> +    return NULL;
+> +}
+> +
+> +static void process_connect_dev_msg(MPQemuMsg *msg)
+> +{
+> +    char *devid =3D (char *)msg->data2;
+
+Input validation is missing for this message. We may not have data2 or
+it may not have a NUL-terminator.
+
+> +    MPQemuLinkState *link =3D NULL;
+> +    DeviceState *dev =3D NULL;
+> +    int wait =3D msg->fds[0];
+
+msg->num_fds wasn't checked.
+
+> +    int ret =3D 0;
+> +
+> +    dev =3D qdev_find_recursive(sysbus_get_default(), devid);
+> +    if (!dev) {
+> +        ret =3D 0xff;
+> +        goto exit;
+> +    }
+> +
+> +    link =3D mpqemu_link_create();
+> +    link->opaque =3D (void *)PCI_DEVICE(dev);
+
+Missing check to see if dev is a PCIDevice subclass.
+
+--u/L2/WlOHZg+YGU4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl66nHsACgkQnKSrs4Gr
+c8haiQgAu2YX3BH+VsevckWIx3k+o3Owc41EIjGHkAf5dH6o3V6lLSqmhHfRE12b
+EGhNtKDMASn/aARcrbhjFhgvkjEV9FCkynAOysVMFaK32ir0UjXi8NkUWZM992IW
+u8Cf82eNqFUnDmpGp2cFrUzO3cAYjfKfosqiUKga9EQOpIu1sygtGs3jh2sscr6w
+A5xtfoKn1OmIZjvohF/ptX96WWSEszTroMcP/wK2A8pFA3mZIhvlxtDhuv9mDkU9
+XlL1hYlGU4+BDgLALBro0LJLXO3dCF3HXYIKrQpZLyvOAtWaBwMa/ESybpFG/sMs
+t59VHqJ+pycx3xoJq0xsv9h9Due6iA==
+=W4p3
+-----END PGP SIGNATURE-----
+
+--u/L2/WlOHZg+YGU4--
+
 
