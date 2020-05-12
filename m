@@ -2,41 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70BD91CF826
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 16:59:37 +0200 (CEST)
-Received: from localhost ([::1]:45024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9101CF848
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:04:44 +0200 (CEST)
+Received: from localhost ([::1]:60844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWNc-0007sa-I1
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 10:59:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60270)
+	id 1jYWSZ-0008TL-9C
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:04:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYWHl-0004v9-3a; Tue, 12 May 2020 10:53:33 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYWHh-0005oy-H6; Tue, 12 May 2020 10:53:32 -0400
-Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92.3)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYWHb-0003c8-4i; Tue, 12 May 2020 17:53:23 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 15/15] block: apply COR-filter to block-stream jobs
-Date: Tue, 12 May 2020 17:53:16 +0300
-Message-Id: <1589295196-773454-16-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1589295196-773454-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1589295196-773454-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay.sw.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 10:53:25
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jYWQs-0006VV-Eg; Tue, 12 May 2020 11:02:58 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:36715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jYWQr-00023j-DD; Tue, 12 May 2020 11:02:58 -0400
+Received: by mail-io1-xd42.google.com with SMTP id k6so14271082iob.3;
+ Tue, 12 May 2020 08:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CfDQNyiETGNBtCmjx4EXW+SurAQLFwlDq8FpjGI7evc=;
+ b=hMLDC0uprZy4vUP6itTSCJrfzbKBDjKuk6O57DtoA2KLdzvpZezKkQwB7u5WuYy81G
+ bw/kxCNMKHo4cEGrHVkQkOIZlBsn2puIS8njmxzF+TPbHYou8PeL5RYEr8FCrl11b3x6
+ XymvI6OKPFBdY8DyRpqhn0D1okvkRuglbIGzNdnoI+XpR6N4SQ01PV0Qzc9IGtWrlpjA
+ Rd50yS3z6yIPYSDJ+A6gw+edLxv0UCkJxtOQ12ir9PZmqqgl8dnSCoPPU2GwReAWydKg
+ ArEPPZEmTOxtn76WZu6pMkTz/nW6QaBMK+/gYY9jndXTPcI41unpnO28U/HwBPzNTJL1
+ Bqiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CfDQNyiETGNBtCmjx4EXW+SurAQLFwlDq8FpjGI7evc=;
+ b=cBwR9x1jBvDLlfyyMguH3F4lmHozDMoJWNLyT5+2n64lHsgZwIXbM4T6z4+rfiwig8
+ ZDWLAEeHyZfFpwwlV2ywoRRkWuuxOJ6j4EJ8AqZ0WwWtXql4Q0KKm1uW7+py3cYNGcbh
+ nsvSdYGw+X5KW9ve48evQY0XERsiTxUWnQ9CSgB+w/7ouJQwFZ7GDDtGSYN37Moxhv3w
+ GLLkI6/nOEmX5aiixEpI2xWxPoWP9v9Yly6eSugE/1Co/jLd/9r1Ynmikol+B+/U2+Sq
+ 5GAw81PYHdtleZsAVm7gF9FuI4I3O2pQO1TYm/K4X0R29M9LJH5klKspWcBROb4HDITM
+ G3gw==
+X-Gm-Message-State: AGi0PuYOx/4RA6zsVQ5Thdi/pTJpX2bqsk3ul5X2uwpoofA7ZKRiHR/q
+ QibsldMRynyy2ql3LtjbWWAJvL9zN21d8gjCr5w=
+X-Google-Smtp-Source: APiQypLoSNWK+kYjVmQwJn8gYtSeeFI1GgCQDngSgP0mGsh452kuplj23NK56Sx1OEkqzfpVxsGz8ahxGMGUpshN1E4=
+X-Received: by 2002:a5d:9604:: with SMTP id w4mr21396125iol.105.1589295774659; 
+ Tue, 12 May 2020 08:02:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200511205246.24621-1-philmd@redhat.com>
+In-Reply-To: <20200511205246.24621-1-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 12 May 2020 07:54:08 -0700
+Message-ID: <CAKmqyKNoMtXp5ApsA3GVsjWbg5R1-Yz3MvdDWTbq4c7j9ivd=A@mail.gmail.com>
+Subject: Re: [PATCH] hw: Use QEMU_IS_ALIGNED() on parallel flash block size
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,257 +79,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- armbru@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- andrey.shinkevich@virtuozzo.com, den@openvz.org, mreitz@redhat.com,
- jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Qemu-block <qemu-block@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <rth@twiddle.net>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Leif Lindholm <leif@nuviainc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch completes the series with the COR-filter insertion to any
-block-stream operation. It also makes changes to the iotests 030 and
-141.out.
+On Mon, May 11, 2020 at 1:54 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> Use the QEMU_IS_ALIGNED() macro to verify the flash block size
+> is properly aligned. It is quicker to process when reviewing.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- block/stream.c             | 83 ++++++++++++++++++++++++++++++++--------------
- tests/qemu-iotests/030     |  8 +++--
- tests/qemu-iotests/141.out |  2 +-
- 3 files changed, 64 insertions(+), 29 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/block/stream.c b/block/stream.c
-index e0b35f8..a74a07b 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -19,6 +19,7 @@
- #include "qapi/qmp/qerror.h"
- #include "qemu/ratelimit.h"
- #include "sysemu/block-backend.h"
-+#include "block/copy-on-read.h"
- 
- enum {
-     /*
-@@ -32,8 +33,11 @@ enum {
- typedef struct StreamBlockJob {
-     BlockJob common;
-     BlockDriverState *bottom;
-+    BlockDriverState *cor_filter_bs;
-+    BlockDriverState *target_bs;
-     BlockdevOnError on_error;
-     char *backing_file_str;
-+    char *base_fmt;
-     bool bs_read_only;
-     bool chain_frozen;
- } StreamBlockJob;
-@@ -52,33 +56,25 @@ static void stream_abort(Job *job)
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
- 
-     if (s->chain_frozen) {
--        BlockJob *bjob = &s->common;
--        bdrv_unfreeze_chain(blk_bs(bjob->blk), s->bottom);
-+        bdrv_unfreeze_chain(s->cor_filter_bs, s->bottom);
-     }
- }
- 
- static int stream_prepare(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
--    BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
-+    BlockDriverState *bs = s->target_bs;
-     BlockDriverState *base = backing_bs(s->bottom);
-     Error *local_err = NULL;
-     int ret = 0;
- 
--    bdrv_unfreeze_chain(bs, s->bottom);
-+    bdrv_unfreeze_chain(s->cor_filter_bs, s->bottom);
-     s->chain_frozen = false;
- 
-     if (bs->backing) {
--        const char *base_id = NULL, *base_fmt = NULL;
--        if (base) {
--            base_id = s->backing_file_str;
--            if (base->drv) {
--                base_fmt = base->drv->format_name;
--            }
--        }
-         bdrv_set_backing_hd(bs, base, &local_err);
--        ret = bdrv_change_backing_file(bs, base_id, base_fmt);
-+        ret = bdrv_change_backing_file(bs, s->backing_file_str,
-+                                       s->base_fmt);
-         if (local_err) {
-             error_report_err(local_err);
-             return -EPERM;
-@@ -92,7 +88,9 @@ static void stream_clean(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
-+    BlockDriverState *bs = s->target_bs;
-+
-+    bdrv_cor_filter_drop(s->cor_filter_bs);
- 
-     /* Reopen the image back in read-only mode if necessary */
-     if (s->bs_read_only) {
-@@ -102,13 +100,14 @@ static void stream_clean(Job *job)
-     }
- 
-     g_free(s->backing_file_str);
-+    g_free(s->base_fmt);
- }
- 
- static int coroutine_fn stream_run(Job *job, Error **errp)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockBackend *blk = s->common.blk;
--    BlockDriverState *bs = blk_bs(blk);
-+    BlockDriverState *bs = s->target_bs;
-     bool enable_cor = !backing_bs(s->bottom);
-     int64_t len;
-     int64_t offset = 0;
-@@ -156,8 +155,8 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         } else if (ret >= 0) {
-             /* Copy if allocated in the intermediate images.  Limit to the
-              * known-unallocated area [offset, offset+n*BDRV_SECTOR_SIZE).  */
--            ret = bdrv_is_allocated_above(backing_bs(bs), s->bottom, true,
--                                          offset, n, &n);
-+            ret = bdrv_is_allocated_above(bdrv_filtered_cow_bs(bs), s->bottom,
-+                                          true, offset, n, &n);
-             /* Finish early if end of backing file has been reached */
-             if (ret == 0 && n == 0) {
-                 n = len - offset;
-@@ -225,7 +224,13 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-     BlockDriverState *iter;
-     bool bs_read_only;
-     int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
-+    BlockDriverState *cor_filter_bs = NULL;
-     BlockDriverState *bottom = bdrv_find_overlay(bs, base);
-+    char *base_fmt = NULL;
-+
-+    if (base && base->drv) {
-+        base_fmt = g_strdup(base->drv->format_name);
-+    }
- 
-     if (bdrv_freeze_chain(bs, bottom, errp) < 0) {
-         return;
-@@ -240,17 +245,35 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-         }
-     }
- 
--    /* Prevent concurrent jobs trying to modify the graph structure here, we
--     * already have our own plans. Also don't allow resize as the image size is
--     * queried only at the job start and then cached. */
--    s = block_job_create(job_id, &stream_job_driver, NULL, bs,
--                         basic_flags | BLK_PERM_GRAPH_MOD,
--                         basic_flags | BLK_PERM_WRITE,
-+    cor_filter_bs = bdrv_cor_filter_append(bs, filter_node_name, errp);
-+    if (cor_filter_bs == NULL) {
-+        goto fail;
-+    }
-+
-+    if (bdrv_freeze_chain(cor_filter_bs, bs, errp) < 0) {
-+        bdrv_cor_filter_drop(cor_filter_bs);
-+        cor_filter_bs = NULL;
-+        goto fail;
-+    }
-+
-+    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
-+                         BLK_PERM_CONSISTENT_READ,
-+                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD,
-                          speed, creation_flags, NULL, NULL, errp);
-     if (!s) {
-         goto fail;
-     }
- 
-+    /*
-+     * Prevent concurrent jobs trying to modify the graph structure here, we
-+     * already have our own plans. Also don't allow resize as the image size is
-+     * queried only at the job start and then cached.
-+     */
-+    if (block_job_add_bdrv(&s->common, "active node", bs,
-+                           basic_flags | BLK_PERM_GRAPH_MOD,
-+                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
-+        goto fail;
-+    }
-     /* Block all intermediate nodes between bs and base, because they will
-      * disappear from the chain after this operation. The streaming job reads
-      * every block only once, assuming that it doesn't change, so forbid writes
-@@ -259,13 +282,17 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-      * due to parallel block jobs running.
-      */
-     base = backing_bs(bottom);
--    for (iter = backing_bs(bs); iter && iter != base; iter = backing_bs(iter)) {
-+    for (iter = bdrv_filtered_bs(bs); iter && iter != base;
-+         iter = bdrv_filtered_bs(iter)) {
-         block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
-                            basic_flags, &error_abort);
-     }
- 
-+    s->cor_filter_bs = cor_filter_bs;
-+    s->target_bs = bs;
-     s->bottom = bottom;
-     s->backing_file_str = g_strdup(backing_file_str);
-+    s->base_fmt = base_fmt;
-     s->bs_read_only = bs_read_only;
-     s->chain_frozen = true;
- 
-@@ -278,5 +305,11 @@ fail:
-     if (bs_read_only) {
-         bdrv_reopen_set_read_only(bs, true, NULL);
-     }
--    bdrv_unfreeze_chain(bs, bottom);
-+
-+    if (cor_filter_bs) {
-+        bdrv_unfreeze_chain(cor_filter_bs, bottom);
-+        bdrv_cor_filter_drop(cor_filter_bs);
-+    } else {
-+        bdrv_unfreeze_chain(bs, bottom);
-+    }
- }
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index d7638cd..9856a08 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -269,12 +269,14 @@ class TestParallelOps(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
- 
-         # Set a speed limit to make sure that this job blocks the rest
--        result = self.vm.qmp('block-stream', device='node4', job_id='stream-node4', base=self.imgs[1], speed=1024*1024)
-+        result = self.vm.qmp('block-stream', device='node4',
-+                job_id='stream-node4', base=self.imgs[1],
-+                filter_node_name='stream-filter', speed=1024*1024)
-         self.assert_qmp(result, 'return', {})
- 
-         result = self.vm.qmp('block-stream', device='node5', job_id='stream-node5', base=self.imgs[2])
-         self.assert_qmp(result, 'error/desc',
--            "Node 'node4' is busy: block device is in use by block job: stream")
-+            "Node 'stream-filter' is busy: block device is in use by block job: stream")
- 
-         result = self.vm.qmp('block-stream', device='node3', job_id='stream-node3', base=self.imgs[2])
-         self.assert_qmp(result, 'error/desc',
-@@ -287,7 +289,7 @@ class TestParallelOps(iotests.QMPTestCase):
-         # block-commit should also fail if it touches nodes used by the stream job
-         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[4], job_id='commit-node4')
-         self.assert_qmp(result, 'error/desc',
--            "Node 'node4' is busy: block device is in use by block job: stream")
-+            "Node 'stream-filter' is busy: block device is in use by block job: stream")
- 
-         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[1], top=self.imgs[3], job_id='commit-node1')
-         self.assert_qmp(result, 'error/desc',
-diff --git a/tests/qemu-iotests/141.out b/tests/qemu-iotests/141.out
-index 263b680..cf18558 100644
---- a/tests/qemu-iotests/141.out
-+++ b/tests/qemu-iotests/141.out
-@@ -99,7 +99,7 @@ wrote 1048576/1048576 bytes at offset 0
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
- {'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
--{"error": {"class": "GenericError", "desc": "Node drv0 is in use"}}
-+{"error": {"class": "GenericError", "desc": "Node 'drv0' is busy: block device is in use by block job: stream"}}
- {'execute': 'block-job-cancel', 'arguments': {'device': 'job0'}}
- {"return": {}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
--- 
-1.8.3.1
+Alistair
 
+> ---
+>  hw/arm/sbsa-ref.c       | 2 +-
+>  hw/arm/virt.c           | 2 +-
+>  hw/block/pflash_cfi01.c | 2 +-
+>  hw/block/pflash_cfi02.c | 2 +-
+>  hw/i386/pc_sysfw.c      | 2 +-
+>  hw/riscv/virt.c         | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+> index 8409ba853d..b379e4a76a 100644
+> --- a/hw/arm/sbsa-ref.c
+> +++ b/hw/arm/sbsa-ref.c
+> @@ -241,7 +241,7 @@ static void sbsa_flash_map1(PFlashCFI01 *flash,
+>  {
+>      DeviceState *dev =3D DEVICE(flash);
+>
+> -    assert(size % SBSA_FLASH_SECTOR_SIZE =3D=3D 0);
+> +    assert(QEMU_IS_ALIGNED(size, SBSA_FLASH_SECTOR_SIZE));
+>      assert(size / SBSA_FLASH_SECTOR_SIZE <=3D UINT32_MAX);
+>      qdev_prop_set_uint32(dev, "num-blocks", size / SBSA_FLASH_SECTOR_SIZ=
+E);
+>      qdev_init_nofail(dev);
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 634db0cfe9..0a99fddb3d 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -978,7 +978,7 @@ static void virt_flash_map1(PFlashCFI01 *flash,
+>  {
+>      DeviceState *dev =3D DEVICE(flash);
+>
+> -    assert(size % VIRT_FLASH_SECTOR_SIZE =3D=3D 0);
+> +    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
+>      assert(size / VIRT_FLASH_SECTOR_SIZE <=3D UINT32_MAX);
+>      qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZ=
+E);
+>      qdev_init_nofail(dev);
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index f586bac269..11922c0f96 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -964,7 +964,7 @@ PFlashCFI01 *pflash_cfi01_register(hwaddr base,
+>      if (blk) {
+>          qdev_prop_set_drive(dev, "drive", blk, &error_abort);
+>      }
+> -    assert(size % sector_len =3D=3D 0);
+> +    assert(QEMU_IS_ALIGNED(size, sector_len));
+>      qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
+>      qdev_prop_set_uint64(dev, "sector-length", sector_len);
+>      qdev_prop_set_uint8(dev, "width", bank_width);
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index c6b6f2d082..895f7daee3 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -1003,7 +1003,7 @@ PFlashCFI02 *pflash_cfi02_register(hwaddr base,
+>      if (blk) {
+>          qdev_prop_set_drive(dev, "drive", blk, &error_abort);
+>      }
+> -    assert(size % sector_len =3D=3D 0);
+> +    assert(QEMU_IS_ALIGNED(size, sector_len));
+>      qdev_prop_set_uint32(dev, "num-blocks", size / sector_len);
+>      qdev_prop_set_uint32(dev, "sector-length", sector_len);
+>      qdev_prop_set_uint8(dev, "width", width);
+> diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+> index f5f3f466b0..fad41f0e73 100644
+> --- a/hw/i386/pc_sysfw.c
+> +++ b/hw/i386/pc_sysfw.c
+> @@ -168,7 +168,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
+>                           blk_name(blk), strerror(-size));
+>              exit(1);
+>          }
+> -        if (size =3D=3D 0 || size % FLASH_SECTOR_SIZE !=3D 0) {
+> +        if (size =3D=3D 0 || !QEMU_IS_ALIGNED(size, FLASH_SECTOR_SIZE)) =
+{
+>              error_report("system firmware block device %s has invalid si=
+ze "
+>                           "%" PRId64,
+>                           blk_name(blk), size);
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index daae3ebdbb..71481d59c2 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -112,7 +112,7 @@ static void virt_flash_map1(PFlashCFI01 *flash,
+>  {
+>      DeviceState *dev =3D DEVICE(flash);
+>
+> -    assert(size % VIRT_FLASH_SECTOR_SIZE =3D=3D 0);
+> +    assert(QEMU_IS_ALIGNED(size, VIRT_FLASH_SECTOR_SIZE));
+>      assert(size / VIRT_FLASH_SECTOR_SIZE <=3D UINT32_MAX);
+>      qdev_prop_set_uint32(dev, "num-blocks", size / VIRT_FLASH_SECTOR_SIZ=
+E);
+>      qdev_init_nofail(dev);
+> --
+> 2.21.3
+>
+>
 
