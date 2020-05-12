@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8411CF6E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 16:18:12 +0200 (CEST)
-Received: from localhost ([::1]:42454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342981CF6E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 16:19:39 +0200 (CEST)
+Received: from localhost ([::1]:45996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYVjX-00054x-9X
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 10:18:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54802)
+	id 1jYVkw-0007AE-7X
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 10:19:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYViB-00046z-NR
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:16:47 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43601)
+ id 1jYVjZ-0005mN-MZ
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 10:18:13 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYViA-0002T9-4O
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:16:47 -0400
-Received: by mail-oi1-x243.google.com with SMTP id i22so1731186oik.10
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 07:16:45 -0700 (PDT)
+ id 1jYVjY-0002yF-RT
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 10:18:13 -0400
+Received: by mail-ot1-x343.google.com with SMTP id a68so2095821otb.10
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 07:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j8clQVz3fsMWPSciXXBVDCSdAONJh6afu24HoRBgs+A=;
- b=KnCLdlcV1sp4CPmQFjCfCNVcLBgNFeDtF/9qvBPVtyhrWK+Tmjusa6KcFmc27N9bRs
- peJpegl04LGTVatDeRhsMPESqBeawPc6iooE3k1GnUdlbsaqtmI9PZXKQTPC2wPvW7Yn
- RF76ZwOs3MUr02sfBgGtiesvIt5AkClycqFm59Zrm7fpxYf+wrsTQ59Zd6x+Snnvu+Ll
- kdZqwPsoMoLlsgVaR82g/MH5OmqBueb1/2g270v5HDoHR6UAIbgU7TT9+KoRLjjoPqAI
- apIfiyu5+G3DsAfZIOMOsAfD/xfazCl/ddIc7JQMjYtS6RQ+e/0Ca/5TgQ+WB4e5oKyK
- CGvg==
+ :cc; bh=uIO8tRfE4zB4VikXgUxYGBnO/90Xv49ZAf/QsuPrmqs=;
+ b=FuTW6FUgXwN4HC+IwLEHD7PPGa5W4CLH5j3JUWlwr4cIfOvOdbovh43WSxmonN7FCm
+ FapZ9Hbb3onr+bSkilXum0OZcFL5MiWdzhyK6AoGO05HXprOVgG1qc2LkHnwDEMRSzmo
+ HUBo8yzO6lHfhI/jZ6zmGx2PSDwPVLqfYPEfMyxjTVNuSi5Nacqv9tQAX+GjneDVMQH6
+ bC6hG6hPtIhx1itVhewk9BjWY8FkuWB+OdQy2I1Fii6gRE2AVyopfSkG5TvSH8JkOwmM
+ 5ZezFfQr5227i9ieVryQWGxWRYKL4zbrQThq+AvF/7YM9543bgbmZTBmCIotIaim42JR
+ rkWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=j8clQVz3fsMWPSciXXBVDCSdAONJh6afu24HoRBgs+A=;
- b=kgjzY5EB7avd5hr0XzdCxcmrOEhNYCzJnuGeX6nvkVRr6S0CiSzB8rFBj/kd4JE0T1
- rhzSdtuJLZzrkHdlZDfNQ+tWgqeYpL9SvNMvwM35hwhPklOp0KQtBKPLYpwkc3j3+pOk
- 0ry1IPKsPfy3vgu+qUmKHqYmLQ+/Ci1ntoIlu2fVvUL+DDtNZCPxRd1REf1M9YAPXEG7
- xSKN8xHvmLr38stU1F93VbTYxHr8HYdFBJ4RQ8ZzEGG5UYp/kgTZ63ar7gUF+KD7pSJK
- 6PYYC43me8NN5dBEYVEtXrJ+a9UuWqtYAClVczqnwNKPtpq3f+lLrVIDA0mc4nUQ6sWj
- cyWA==
-X-Gm-Message-State: AGi0Pub2YCuv3EoBO4lmlo9XClxUzpOUnmpKttJAuLZDhSBGVK7tlXUQ
- YqxGI1QPVgMzG2rMsPDVOOLoRA53zX007kJ0sCwBtw==
-X-Google-Smtp-Source: APiQypLIa3NHAh6PBNNNGVbZI0mlHZv0MK//OofmJ5WSJD3g0MbeGd+fO73/+hgBog0UsICrGy7s817HIE4wqit8HmM=
-X-Received: by 2002:a54:400c:: with SMTP id x12mr22670001oie.146.1589293004610; 
- Tue, 12 May 2020 07:16:44 -0700 (PDT)
+ bh=uIO8tRfE4zB4VikXgUxYGBnO/90Xv49ZAf/QsuPrmqs=;
+ b=HIcwPuE1YA6HyA14nRdlfIedztb2N98m7XsvDHb1Ikk5UThiJDkE4Yj4S+tou7aYp2
+ G8gAvIb0ULnScit1vHyn/DxYF+csWuak/2vIKK2/hA2hNhlPEt+DFQG4FhrbIbSWcrNP
+ AHfVG+LOpNAyg1Hjucez21VZHsyhts7QQk8bl6WjwIsNARqau/8fmvENnZc8gH7fLN7q
+ 16r4EM4UDIToJsjeM/jXEpD8al31LlcYxv6PxRlLlhJ6Sa0OQ0ilq4eY4REMt2VGYks9
+ bTazk+xH+bMcxqPHZJLpB3npy6VH8eTUpU4IleGPQGEIK+b+LZdQ/LXoailZao/5yBDd
+ aSVQ==
+X-Gm-Message-State: AGi0PuaMgBtxojW1AR5+vRt6Z9AcI0XEs5A5J2QUJ5vvClkXxhPv3umT
+ 79QxVMmE5kYmBhpxwEEX4KI0yiE/p1FYPnH/FxFEBQ==
+X-Google-Smtp-Source: APiQypJT8Ug58JbyDI3kwDOej/kvMkITDgsuhnL7xZ+aJKoCzwMUVDR41PQaOmguFf35FeCbp6TssM6t3sdKYl8+y5Y=
+X-Received: by 2002:a05:6830:22dc:: with SMTP id
+ q28mr16020715otc.221.1589293091518; 
+ Tue, 12 May 2020 07:18:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200508152200.6547-1-richard.henderson@linaro.org>
- <20200508152200.6547-10-richard.henderson@linaro.org>
-In-Reply-To: <20200508152200.6547-10-richard.henderson@linaro.org>
+ <20200508152200.6547-11-richard.henderson@linaro.org>
+In-Reply-To: <20200508152200.6547-11-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 May 2020 15:16:33 +0100
-Message-ID: <CAFEAcA9xg=KfsLYKtd9Y0LejfiPyXhfFzLduXTdP993B2fSszQ@mail.gmail.com>
-Subject: Re: [PATCH v3 09/16] target/arm: Create gen_gvec_{cmtst,ushl,sshl}
+Date: Tue, 12 May 2020 15:18:00 +0100
+Message-ID: <CAFEAcA-tKUG_poHdkgnsQBGcknNoJTOB4+Er785EW8vKi_q=kw@mail.gmail.com>
+Subject: Re: [PATCH v3 10/16] target/arm: Create gen_gvec_{uqadd, sqadd, uqsub,
+ sqsub}
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,7 +93,7 @@ On Fri, 8 May 2020 at 16:22, Richard Henderson
 > we provide for other operations.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+> --
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
