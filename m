@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A1C1CFE3F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:27:11 +0200 (CEST)
-Received: from localhost ([::1]:59486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD2D1CFE94
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:45:19 +0200 (CEST)
+Received: from localhost ([::1]:47020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYaYX-0004VJ-NM
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46550)
+	id 1jYaq5-000105-1H
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:45:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jYaXc-0003vy-Ox
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:26:12 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:34693)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYagk-0003rd-4T
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:35:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jYaXb-0007TT-44
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:26:12 -0400
-Received: by mail-lj1-x244.google.com with SMTP id u20so4726331ljo.1
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 12:26:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eLAY8VWzmemJkzXJYANm0A+npwdLDYO45od9Ru/9D1Y=;
- b=YLqUqCNPxvECvYXkIXojxGnEuahKKZC5TCIaAH0HjIJQE7o+VAovGSzYhKj1GlYK6S
- OM4EytuOXhC/BermiU8Kzu05bRbH5u6s+KbZ6tCq6Dtu66elemqB0tY/S5OGIhjnk2W+
- KGaDtmiXwVg8pdehgrTk6aqFU+fzW60cqGhtOpf07nQva2FU4fsfOKS8soGZSDTJbG7d
- m0rcYHJcXhe1w0ZIEr5gwzYi4y9SfECHQGMUKrV8Xtsksmxlti3vp3NznmtGJn6/i8+I
- 3Doo3kNeyhnqfUF6CJoMpzKWPBe1i7ao9mZkNPeUg2X7K+5cYoovyeUdBJnm33YNeNd0
- 48vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eLAY8VWzmemJkzXJYANm0A+npwdLDYO45od9Ru/9D1Y=;
- b=Q9v/C1TvcZGOWW20QluqsvyFUI3x7rXBCtgQbWXZtmjfxnsKtVxlVCChAhiMsVd0dN
- 5pxekrvx2/AnsnP5x4LKFoC0MS/IftggOf+VHOSaDofnlKSzRWGd01Q/AEpxComWEtyI
- czVZmddudfUI7LGcBFQpAXZZFLDVG17rPb2Gw7agnGFjuNSN+n/txSeH09qgNEz4lj09
- eE5pFaAoAX6sIKjDdoef9sbc2lk1RrqxP6Lj5gL2OVYKCMi2Yn+sLjb9XV/2NMrRmn7l
- ZVkSJehrZmBu4n8YtqR32o2Y3fLfSpiFjbRTUbmQ+VqkZDgGNr036+OdENwX82YN6M59
- +Lbw==
-X-Gm-Message-State: AOAM533M1V+WmSwsN9do+85wYhDlsKTWpHPwmZ1mCCb4DZHvCphnRwCH
- atFTfc/VIbFJbgHNOhQs64X9+eOoaqoLSEQ20jqu4g==
-X-Google-Smtp-Source: ABdhPJxaBhlSpkgoXxRKKxHCeSGGGH9z6CCN/+gD466MEJgNvTkWJi6deYNkXEu1tmUBovekvcvrPbe0Wj4EQq+A6Ok=
-X-Received: by 2002:a05:651c:291:: with SMTP id
- b17mr15219374ljo.166.1589311568129; 
- Tue, 12 May 2020 12:26:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYagi-0002dT-ML
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:35:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYagg-0006MI-Qb
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 19:35:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C6E982E8010
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 19:35:34 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200326193156.4322-1-robert.foley@linaro.org>
- <20200326193156.4322-75-robert.foley@linaro.org> <87imh1f79b.fsf@linaro.org>
-In-Reply-To: <87imh1f79b.fsf@linaro.org>
-From: Robert Foley <robert.foley@linaro.org>
-Date: Tue, 12 May 2020 15:26:02 -0400
-Message-ID: <CAEyhzFt1=xDMN5KdQvVx8QyS5n35THa2vY9D3rV8S9emyTYpSw@mail.gmail.com>
-Subject: Re: [PATCH v8 74/74] cputlb: queue async flush jobs without the BQL
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=robert.foley@linaro.org; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Date: Tue, 12 May 2020 19:26:25 -0000
+From: Roman Bolshakov <1823831@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hvf osx
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cuser2 roolebo
+X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
+X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
+References: <155478160922.20745.7830680070590942423.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158931158587.19659.6865147690043247783.malone@chaenomeles.canonical.com>
+Subject: [Bug 1823831] Re: BSD bootloader halts with hypervisor.framework
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="013b6f2a3f3ba130b50b9eee1a89957ee38a5c15";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 4cf2619cc447799282888331150addec77cd6294
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:25:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,34 +74,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Puhov <peter.puhov@linaro.org>, "Emilio G. Cota" <cota@braap.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1823831 <1823831@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 May 2020 at 12:27, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
-> Robert Foley <robert.foley@linaro.org> writes:
->
-> > From: "Emilio G. Cota" <cota@braap.org>
-> >
-> > This yields sizable scalability improvements, as the below results show=
-.
-> >
-> > Host: Two Intel E5-2683 v3 14-core CPUs at 2.00 GHz (Haswell)
-> >
-> > Workload: Ubuntu 18.04 ppc64 compiling the linux kernel with
-> > "make -j N", where N is the number of cores in the guest.
-> >
-> >                       Speedup vs a single thread (higher is better):
-snip
-> >   png: https://imgur.com/zZRvS7q
->
-> Can we re-run these numbers on the re-based series?
+Yes, I've verified. It boots after countdown and responds to keyboard
+events.
 
-Sure, we will re-run the numbers.
+-- =
 
-Regards,
--Rob
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1823831
+
+Title:
+  BSD bootloader halts with hypervisor.framework
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Guest: FreeBSD 12.0 Install CD
+  Host: MacOS 11.14.3 qemu master at 90fb864a7df0a9af677352e94f8225f7b03de9=
+22
+
+  Command arguments:
+
+  qemu-system-x86_64 -m 4000m -cdrom Downloads/FreeBSD-12.0-RELEASE-
+  amd64-bootonly.iso
+
+  When qemu was run with -accel hvf, the bootloader would halt after
+  showing the menu. The bootloader would not respond to any keyboard
+  events.
+
+  Without acceleration option, the bootloader would count down to zero
+  and proceed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1823831/+subscriptions
 
