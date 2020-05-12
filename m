@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B3C1CEB1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:05:56 +0200 (CEST)
-Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C26131CEB0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:03:07 +0200 (CEST)
+Received: from localhost ([::1]:41974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYLEx-0003ZS-Dv
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:05:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52134)
+	id 1jYLCE-0008R9-8H
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:03:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLBY-00086D-Ej
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:02:24 -0400
-Received: from mail-mw2nam10on2101.outbound.protection.outlook.com
- ([40.107.94.101]:41921 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLB8-0007LW-Ot
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:01:58 -0400
+Received: from mail-mw2nam12on2098.outbound.protection.outlook.com
+ ([40.107.244.98]:45797 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLBX-0007sd-NR
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:02:24 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLB7-0007mk-HR
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:01:58 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=diq/t5v+JcvsGQk5HTOvP8YgF4LNcyFBDEaQtwMQBa3qfe5YRPOA9IMD4Lb6NkPVcj7vTRiKQwlT7NV5fC5erIOkBTz91rhfFvKevHRq8fbVa3trBQ/S+HOEyj2oUKDXQT4bg898T/GBFjN9dsPhIfgTuHux8zjnMCI+GGTC/jYZCLN9vvjY4C7j17XTTlegLdRV6K5Eoiecf8+OdK47lfe4CaCwnpGPOUix/XZAeA8qLH/Ax1zt8judEdacpuBASyHn+NK5bxB5D/8HA/jQgX4jor09xPuI+1Dpg7EErYTGrrF5lhI/cnhiYgggzSoMsIdSGesAukbiDD5uLgVtRA==
+ b=h2j+I4/Au2Jj8J4WBVZdxB79369/PCJdAbCinHNTiKI8EOZH9PYwI32Nj+qg0meB90x8uXrW9LtWR8BY5NUfSqonG125DlYtMlrY578YqvW7Botxv+MIGF1KAwHCqljBuAV5QYf+Zaur54cp4icLaa9VAMBf3SZL+iW2fuKcFoIYpEqOemg/4LLx3yiAs62IoDzoG0IRzhZ2o4asWe1JaZFWkEnAeCA+9BRP+WOxNH3ywQ/e6SqGsxF1OxAk5ZVvnOKtwcFsCSYB5CZf20O+/FpNNG3Tkf3yQ0H8LNkusm0/Z61PdDCZecmHFuT+7Rh5HBYTFZFQvTr5hs45MBQ21w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CMs317ntwg0y1MNYW8mN1xSGrmiHmRDMLN4ZdpFQ8a8=;
- b=GBsaFYGFUoz80n4APEwjHet+TL292Kw93KX+1pVD0xnWRgTLD0b7AnBZRBHyjFksF45mLa32aBY02+iJpEYgF42fQzQwZ5W7CDIiSaRuhyQts8lWwe5k9LDYnzZC50qebc6VbPYw/IDGsoPEoMMfVoFwg8lsGq2HpVWvdPfn6mgLOELHhg6BfKesWE6e3k7yztBj+1dmtRGbbXWKDsfciQvruGDQKQGOFApn2eBraE50Baj4XG3SazuJ/iZwm2DjWUKh5TX1+Ij9lyo6HOr9Eu8dR/CTNm0icqxF+Mszkm2dbEkSq+4U7+6UQibZ17qeMKW+k7Jwn9PB2lzKpi7+mg==
+ bh=pb2RvfCo2OZW8d0lv0tSyhRcLeFS5Mba0y8MB52KgeA=;
+ b=cSeDToyFmJlJFvV2xlWMAAQVUeDaFVxIy5b4braPNP13n0IrXkUGMBPaLrYyERtfCEaTpTISUrm2Zb46aJ/lngIMoeyt20T2PdsnBwne3aA9evo6Vs+OxQXM1kQl7NecWTU6p3exHSAsYyXDLrWP5XyWXTz3AVkm27qNmHIOVSW9eQYnppg50UX7fHcpdms/ZSQvMg5NQVsupxNaowbyCFbSiSXaTc/HFAmq1YDr1Vdftx2DBU/L2iKvgbp2kDkRSzt6LpZruDPIMO9P0nQcekdnKCOW+pTtCAB/pg4rMz1oh9RgR1qRmUf9cgbtcCm60oPE57JpyQzrybwJXuOhhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CMs317ntwg0y1MNYW8mN1xSGrmiHmRDMLN4ZdpFQ8a8=;
- b=0EZfzm8N/QUDAflsVBdLO/qK35Ijr2xv1154bLUi84dN5dv9Rn4aKaMjhrfdhpH7gRIABD4q5hDkH6ww40tJq4jm7EiuyoU/ath+L08P26UH34m1xtbrsXpb/N4KA2zcLQc1ki2Hu/PCKc4D1WjUlt3rMpLKCDl/1OS1rY0lDNM=
+ bh=pb2RvfCo2OZW8d0lv0tSyhRcLeFS5Mba0y8MB52KgeA=;
+ b=6ZNofpXjmbcEFJobY5aa+4yNthwY9Dvvtf3U4pTT8mAN2vA2xo8EST/+UsIK9xMWNMro38uncG3epRTUYWV/zafLuvDZ/Flq9OFWi+isfz6n+SWvwvLFcDCwVlQvt0PI7SErtQzaHyP1nSWcT0i4Vw+ojw0tjh9Y0cjz0BWGXks=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN6PR03MB3520.namprd03.prod.outlook.com (2603:10b6:805:4d::27)
+ by SN6PR03MB3887.namprd03.prod.outlook.com (2603:10b6:805:70::28)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Tue, 12 May
- 2020 03:01:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.30; Tue, 12 May
+ 2020 03:01:49 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::640a:1123:37c1:42db]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::640a:1123:37c1:42db%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
- 03:01:47 +0000
+ 03:01:48 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] fuzz: fix typo in i440fx-qtest-reboot arguments
-Date: Mon, 11 May 2020 23:01:31 -0400
-Message-Id: <20200512030133.29896-3-alxndr@bu.edu>
+Subject: [PATCH 3/4] fuzz: add mangled object name to linker script
+Date: Mon, 11 May 2020 23:01:32 -0400
+Message-Id: <20200512030133.29896-4-alxndr@bu.edu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200512030133.29896-1-alxndr@bu.edu>
 References: <20200512030133.29896-1-alxndr@bu.edu>
@@ -62,36 +62,36 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR12CA0025.namprd12.prod.outlook.com (2603:10b6:208:a8::38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2979.26 via Frontend Transport; Tue, 12 May 2020 03:01:47 +0000
+ 15.20.2979.26 via Frontend Transport; Tue, 12 May 2020 03:01:48 +0000
 X-Mailer: git-send-email 2.26.2
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4d150d3f-c8ce-4765-8dc7-08d7f620cf61
-X-MS-TrafficTypeDiagnostic: SN6PR03MB3520:
+X-MS-Office365-Filtering-Correlation-Id: 0bdd21cf-560b-4a5c-eb6d-08d7f620cff7
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3887:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB35207D1662BC8F6BE3121152BABE0@SN6PR03MB3520.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:296;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB3887D66484EC2DF0A4381DE4BABE0@SN6PR03MB3887.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-Forefront-PRVS: 0401647B7F
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5RTUBy8aXyJ41IBCDcxb7bvY83CYXu8zdDTtCc1LCDDAAcRu9FaV0y6b56rAt37vuEAayXBf8wfXTkIlcNyAYmVF6XtrcFzrtuichtpVe1QQis+YAiSkB2HnSETeWflqvHL9V6xo0Plt5ld7j+fe3+n8K71rlAx1gzcJmHIiC9/MqiaI6dsFpJaZ1mrCY1/oea0JG7BGnnvUBW6TuHGXdjCX9mjLVPVGGweOfCMQ58lHRZXPpY3aHYKQtASw37k0jAogN0mO3kI17/Mpc+i+y/YtMNu554M4lVvoEh7RJM+DmyZ5/CyBlmKrBOy1GImZ5SyBib471ki30rh0RYyCHD+RqnqLUCx6yL3u2mXERCRor72zbalXTrS4NYLoQmKwwWaddvT1yTkdSu2FeAtURGPmH7nmZZthl+F8DGapJBc4C1jtzKzeWokFjw9WTK2q8ezmZeUjy5FrQnrPy9dgDFZp/vwHpizttO/8SFff1o7KKaCDF81TkknYWbOIzqjdWwDl4PvYPqkBtoq+86Ik2w==
+X-Microsoft-Antispam-Message-Info: iMJABtwz9/iTlgSUY8dlRYU1lhviRCzzgX4BpiOkM2LC1wrDervDRY1P/GzwcQ6OLVvbbzixB0bSxJbv6rz8463sutsajTv5gVm0Jcfok/OWQknjnPtxidnnMdnAziKn7eAojBhAJixRGEMsoCMQQdRQS53F5LjcWqFmDIzDBuxXP7BLsgKQ0+e+1ZL5HayKA04S4eOhD/Ybt8ZfubpYCsM9l6GLhUtgrkVn0zWbxHpWF4eJgtBmxZx0ePgsWquxF+RtKJQkeAWH/OF6gZsYX9sFWx1bYYlYWhx+y74SzRBR6PNiFI7Wdhn6RMSkJFCkwOzUEOeNSBec9ciMBgQ/WPL0nIpeZb5TleMDhCQWUHcLNGH+fWBW8dGejkOucSlUYXwcnKvntao9qT9yir0S8z+49rWD/hlue12rtgoEuTqcneXCJMVXgPWzq6sN0Ut29fVJVTtsHexZLv1pYzarJUxJbPl2V9RLZpqeFpe/VBH2nOcE36v2zhR5BE1Urptk5qbqcxvmUQKsyAFLt3tZbg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(346002)(366004)(396003)(376002)(136003)(39860400002)(33430700001)(956004)(4326008)(6666004)(2616005)(8936002)(5660300002)(7696005)(316002)(786003)(66476007)(66946007)(52116002)(54906003)(66556008)(6916009)(26005)(75432002)(186003)(86362001)(16526019)(6486002)(4744005)(2906002)(33440700001)(478600001)(1076003)(36756003)(8676002);
+ SFS:(4636009)(366004)(136003)(376002)(346002)(39860400002)(396003)(33430700001)(52116002)(66556008)(66476007)(66946007)(5660300002)(7696005)(8936002)(33440700001)(2616005)(8676002)(36756003)(956004)(6486002)(75432002)(2906002)(86362001)(54906003)(4326008)(186003)(316002)(16526019)(786003)(6666004)(6916009)(478600001)(1076003)(26005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: tN1mghld81LX8exY+yUXTYiEMxLUfOMFy2F4PAZUbcRipBsxKXWVZbALebbJIKD4SvG/u/nt+XIqblfWUaT7sy/7hceVgmEims7t7d4JAkgsxyHERV9jdMFoOmajlIfBvIuvqoDT8yFgbq5a40E26mn2PYpd0DSxM4YRT0UfUsvcWA+FK00Cmn6UY8x1wVp7rrtjulU9858b01KRsnzj0cci/i4iFTuRXnMu8XJJESioiFdH2f9ZkpnzgJEkS41OHG1eF6yaQVm2mgXtg7pv1fcMNWtsb5gyOqVrHx5ukILDhFtqfCyRG6urHHsw8flWI11bbb/OOWqbpwldarebo2hBum48FbPZAFfwQhPGz8XcNeEsY/LTcCxgANypbzS16lBsUpocipFLFhLrAO9x5SYZurwP6SPl2Ql0BaHa4lYUvK6gECSW2xWWd4ciq85gIgvNcfTxE6/HyynUkEHyojIfJd1t4x753KEEBKeRfzo=
+X-MS-Exchange-AntiSpam-MessageData: ibQlwv/AQzs/PuaEHpuDYw0+8ZT+G2FMkKcW3MwmRmSKyJbNR/IfCthP0wtzf9RF8XZTr4U4YuSP6fvsi1xGMx6uMIhMXnSJ1wertVBd7RXqHR8Vfp0nNTWIZW9qb0AyW5udzeBCyNzAVFe7rrBxAtjFgqfpjD/lhbzt9ZN4b+TqaE4y4AqYRMBudxH2+f0ckMnGxMxPUAA1hoqMZRjLr0tEbnWwIDdbN+XtiWcVtDtifaSHzXRLWERd/X5r73ByCIBGST7vgcYndZgYn2qWuC+f8bR1GM3qkCWFmZK7wfSOKeUnwhb72Ksl5z+n8l+IiFxAiYyhv3OJsZhCPodN48O2RjCSVXzbJIl3tx/vmrBLORkGpdeMvEKIrXs/Zhj10gh3rLTMiFGT4ueSguz2aSMST19P7Ay1ABqhVWEIjFkTvwLAJzKrSObycfFqiurUiKey9T45uHHTFJJp4hNhNoPj0YOlfHvBlIho882gpws=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d150d3f-c8ce-4765-8dc7-08d7f620cf61
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 03:01:47.7876 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bdd21cf-560b-4a5c-eb6d-08d7f620cff7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 03:01:48.6841 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iAzOavYIK1A9D1gMiz8IqDk3ASKdpMokV7+cUkkPHXd/XLJhmS63sJfWj3BWVKJR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3520
-Received-SPF: pass client-ip=40.107.94.101; envelope-from=alxndr@bu.edu;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:02:21
+X-MS-Exchange-CrossTenant-UserPrincipalName: T++hVpG9h4TIYEANadSf8FBY16EP/4zXtbWdqPOSwFvjKYC7csd2k9YhevxQX6fi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3887
+Received-SPF: pass client-ip=40.107.244.98; envelope-from=alxndr@bu.edu;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:01:56
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -119,24 +119,36 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Previously, we relied on "FuzzerTracePC*(.bss*)" to place libfuzzer's
+fuzzer::TPC object into our contiguous shared-memory region. This does
+not work for some libfuzzer builds, so this addition identifies the
+region by its mangled name: *(.bss._ZN6fuzzer3TPCE);
+
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- tests/qtest/fuzz/i440fx_fuzz.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/fuzz/fork_fuzz.ld | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
-index ab5f112584..90e75ffaea 100644
---- a/tests/qtest/fuzz/i440fx_fuzz.c
-+++ b/tests/qtest/fuzz/i440fx_fuzz.c
-@@ -143,7 +143,7 @@ static void i440fx_fuzz_qos_fork(QTestState *s,
- }
+This isn't ideal, but I looked at the libfuzzer builds packaged for
+debian, for versions 6, 7, 8, 9, 10 and 11 and this (mangled) object
+name appears consistently in the symbol tables.
+
+diff --git a/tests/qtest/fuzz/fork_fuzz.ld b/tests/qtest/fuzz/fork_fuzz.ld
+index e086bba873..bfb667ed06 100644
+--- a/tests/qtest/fuzz/fork_fuzz.ld
++++ b/tests/qtest/fuzz/fork_fuzz.ld
+@@ -28,6 +28,11 @@ SECTIONS
  
- static const char *i440fx_qtest_argv = TARGET_NAME " -machine accel=qtest"
--                                       "-m 0 -display none";
-+                                       " -m 0 -display none";
- static const char *i440fx_argv(FuzzTarget *t)
- {
-     return i440fx_qtest_argv;
+       /* Internal Libfuzzer TracePC object which contains the ValueProfileMap */
+       FuzzerTracePC*(.bss*);
++      /*
++       * In case the above line fails, explicitly specify the (mangled) name of
++       * the object we care about
++       */
++       *(.bss._ZN6fuzzer3TPCE);
+   }
+   .data.fuzz_end : ALIGN(4K)
+   {
 -- 
 2.26.2
 
