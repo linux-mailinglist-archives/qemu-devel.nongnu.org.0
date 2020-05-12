@@ -2,74 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5601CEBAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:48:58 +0200 (CEST)
-Received: from localhost ([::1]:47676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D80B1CEBB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:50:03 +0200 (CEST)
+Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYLub-0003Np-NL
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:48:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59678)
+	id 1jYLve-0005Jr-6K
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jYLtT-0002KW-Vx
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:47:48 -0400
-Received: from mail-vs1-xe41.google.com ([2607:f8b0:4864:20::e41]:44732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jYLtR-00080q-U2
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:47:47 -0400
-Received: by mail-vs1-xe41.google.com with SMTP id z1so7011753vsn.11
- for <qemu-devel@nongnu.org>; Mon, 11 May 2020 20:47:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLtp-0002rd-Ui
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:48:09 -0400
+Received: from mail-eopbgr750134.outbound.protection.outlook.com
+ ([40.107.75.134]:42296 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLtn-00087Y-SH
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:48:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DzzHbGdej2oJlSzCUpqGwayKB935rwsy8HhCCOA9d7eVBP40olk3VqzUQkrTKwnhiIXvJrUTdJNoT6lkLlpXopfqlLwySGxSVdforQGfzEaCXr+vuYDdSX9LFDUZhrEgHG5bQSj3IWaVpF753QuQOgeU0+n4ZyTBfPcfoAVwGPeQXpFatEeho/JCfRRF1IGBie2MVWOoCmKB++1LB9JBeAFobTlgI9jzhTULhVbuwxAe/d+9RK1C1Y6ZGmfVah9K5GwNBchwMFLjb/rP0R/GGdkW1vITUcJs7YCFGCdGFPBXX64r1hW4C8oMya6qH7bQG2ut/gji4kDW2VzmL2g3ZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WIwMKLwEtszbkbukGhkTwut0u3c8pjf3tS1vbdngRKw=;
+ b=XkMYb5kWSdH9+2ymvdHs1fEPbj+CWEMI1jPzx2ZltbB4XCCiuOAHatXW4mcPkBkV6mzOC3DO79qRsGkxJHMNxWmrzZ4WuKhVl0R+U8Rj4zW9GM7HYeCsYfs1agGPmy9xBjq6bONYZeDvZUuZEKScCehXPuDr3Aoq7VC/R7y6xN3BvZ4KjIpjysb8QX5eY8vBRaomWmRhz0CQJ8c6zHTItH+rhsYtR+D8rCtHXi1flBfnlJehQOYpUO5Gjx/bxuTXkmOB4lgx9EpbITUCkLYBtrkEaTc5YaUWbKSrcmt+MJzlF16g4cDOpY0G/+AKi2JYHYRC1bFirFsZFPsMf8QsnA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=u33zBsyKAyFjoZIKnIeHAoOY0Gc0N3wWjOAB45LATZw=;
- b=mKLnFRYRedqi7hvtSKpjqvMyRUdXSrFemqh37Srh8DSTI44XLq+DnsQ+ZYsF/xBjA3
- cj01qBVHL20/TiZvudpiszNkwk+6Z5pjxRvNNUFc410AJthAyyBl874pkYN3wZtu5RLK
- TB3LbaWvTKvoWrhNTGqDkyqUAnDcT9lfUp0e06j5M1ZgtgheF5qI92grzvco0dJNB5WP
- uQmxILfeZtBKP3W66HDAAKiKNMgwfmmjVMnV0puehJb/OCfrEC7Nu3GfXf7y/Zfv6zbC
- z4VdPysyUUVcKPS5W+hSEFI3nQ4pRcL0hpcGMZjc4AjrB8QMcFvW7HvTI2Ht863fXG4l
- ui1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=u33zBsyKAyFjoZIKnIeHAoOY0Gc0N3wWjOAB45LATZw=;
- b=jsU4UufoN+AgBb8lb7x45tNLMW7MCnaYiJgY2V2VbuEdYHwZKevmasfmpusYaisfnV
- WVZZSIchQHIn4Y0XqzQikx/n/ld4D1kZBBNGDV9x340PDqKkfEfNPBGXCPIalhlTSDhG
- Z+GvO1psH9Amoxd0LxudI9O4Mv+lWyBevvgJZNhOPRm290SgSFiHdyFwFwaz1eKWF0Fm
- 7Iz5e+gdRkFSAT+/k6cDS26mX3Dhbv3S9ycJ7t0RzSpAXSC3Tzi+v9nSTAXaMxvBxb2d
- IIIx7JeuCZuuMm6klmHUPjj4ubkme4QfI2T8IzUp9hdJU+0MR7VENwXHBwhn4lHPRUqB
- cYHw==
-X-Gm-Message-State: AOAM5314w9vPgdZwmGZt7ZUPgoyiZXOyVHZbZJRilCrI7qbX1/TlBkwS
- 5MYjzztuVXAeQDfWthmiTJgoBFBtd+O3T6I+ExyHKA==
-X-Google-Smtp-Source: ABdhPJy7tUinF8SX2qoCyYKWuhw9/pevEUzEF1+liY0uXsc5zPaEY4sxJEgEFMQf2j7CUSB9mQWknkuValesjqeZR/c=
-X-Received: by 2002:a67:1342:: with SMTP id 63mr1602636vst.70.1589255264187;
- Mon, 11 May 2020 20:47:44 -0700 (PDT)
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WIwMKLwEtszbkbukGhkTwut0u3c8pjf3tS1vbdngRKw=;
+ b=Yz7qXNaNGQOUQ28IwRdN4tj0MsDWUFzVIZ84/3GdP3Iunh8H10iEJL9YsTjFVqlsvPkrVWCB93YdkMMSyi/pybmQwuKJpoODaG7Z3LbzfhFxKwFZXu2wodpNCKASnaNgyixn+DvVWqPO+fwM9WwqQeuefG8N5o35SQvzUwEilfY=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB4368.namprd03.prod.outlook.com (2603:10b6:805:f4::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.35; Tue, 12 May
+ 2020 03:48:02 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::640a:1123:37c1:42db]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::640a:1123:37c1:42db%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
+ 03:48:02 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] Add pathin option to -chardev file
+Date: Mon, 11 May 2020 23:47:48 -0400
+Message-Id: <20200512034750.5773-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.26.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR15CA0012.namprd15.prod.outlook.com
+ (2603:10b6:208:1b4::25) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-References: <cover.1588252861.git.dimastep@yandex-team.ru>
- <d25241eb1fe7a55fc7dbe63ecedb4f1adf407837.1588252862.git.dimastep@yandex-team.ru>
- <ed805147-d87d-5ac2-3196-367981b0679c@redhat.com>
- <20200511092541.GA27558@dimastep-nix>
- <fd260f1f-75f3-46ac-8ca5-bbb7e41e712f@redhat.com>
-In-Reply-To: <fd260f1f-75f3-46ac-8ca5-bbb7e41e712f@redhat.com>
-From: Li Feng <fengli@smartx.com>
-Date: Tue, 12 May 2020 11:47:34 +0800
-Message-ID: <CAHckoCx1TE3mShp3eaV-oT2CKw6zFDyFgFgdo+9oc0+TqSAytg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] vhost: add device started check in migration set
- log
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::e41;
- envelope-from=fengli@smartx.com; helo=mail-vs1-xe41.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ MN2PR15CA0012.namprd15.prod.outlook.com (2603:10b6:208:1b4::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26 via Frontend
+ Transport; Tue, 12 May 2020 03:48:01 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [128.197.127.33]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cbb81ca2-ccaa-460e-71fb-08d7f6274504
+X-MS-TrafficTypeDiagnostic: SN6PR03MB4368:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB436893214D3286079D147E26BABE0@SN6PR03MB4368.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eSezWlP6HusxGSxb5dXq9E9Dx3D0CGGJscQGSPXnDMHtQxKkZvFaBeHngFq5H8261+BbcDBgLEHQtkIK25OOxScd14YE9Df8H/rAFysz+AUH3Ie7g2L9GMVe8cgbiEE5Gv1Rmt97kSoeL1R7JFDkFSmvSfgJ+M6vj09eVTHTN+7BQTvoW2Btfu7tN2MbuZiqAGyhcttaraiOTNkU67BckJdGwGFZv8RioW/j1jN62TbgUks8fBESr7COpTKxQx1+xGjvqB/xh5KQWrECesnSN8vZXUMPJ8HVs12skPyVbqzbBQTPjFcHFsZ6/ky/pqj9bRNl+Z3wwprfKZWE7z1GdVKCt5C8ATKx/By/mc9PqMkC7GSqQuku9Zhr274ckhoCOeDIGbaFH0OhjLwFogqAHjKlj7PofrkB3QVVadeJ6g3leNErpb6UPTY7yp+4KPHivN0lXjYnY3HsZlB+U8iel1TUYBO6JbiBdrf7MyQVdQP0nlVr1PevoOA4Ma/qNtj6sZOXPtX3d2w1yVNII6nIzQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(33430700001)(6916009)(316002)(5660300002)(786003)(75432002)(16526019)(8676002)(26005)(4744005)(66556008)(8936002)(186003)(66946007)(6486002)(66476007)(86362001)(6666004)(7696005)(2616005)(2906002)(52116002)(33440700001)(1076003)(36756003)(478600001)(4326008)(956004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: +43S2bTMvzvHIAct+yYZ3sZS/FfVwm+V2OPkoCgLgPi8u6+AEgG7XszB6CT6z/ibCNEhQd7nQy6gHl7fFakRJx3TFIe+GNocJ6oV6RN28wxTNe9UIoB/DSyBgh7FgF04ObWEuVJzEhGOWdTvgosKdw2glbI/zldier9n6/lAfTPL2dsSceH/Zvr+0WFRCFV+IAuxhalCMGV8FI5HV1X985cUIqh1fH6ZAuZYxyml7/LgA0alMwbeSE1AljWuR0qxZEzFVrENO6oSkBH1c0BKSXn5ahppXnqsbdLcbJp1xa1P63JDGYQTKVbCPvOwmUmanUooVJXd67RpFnKYfw18nvy5G7BH8+YihVrzLYcLYDM8BARwasu2z6QB+mueFpCDWhOxt9GmKCuZk67a+vt5YrKzCpYKLWORXpYPDxqjJH60DSGZQwkl9Nx/qjkaWbo1Su7uiJ0Hk2Tu2MwwcyG797IBL1Wpbs+gvdp/WgKi2Y4=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbb81ca2-ccaa-460e-71fb-08d7f6274504
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 03:48:02.0809 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eaWlSw+uq/9DBd+obqZ1BHvS4qGXsQwOSGP9h4JMJ0i+mhWjqiur4iOYGzgVQbod
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4368
+Received-SPF: pass client-ip=40.107.75.134; envelope-from=alxndr@bu.edu;
+ helo=NAM02-BL2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:48:04
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,212 +112,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gonglei <arei.gonglei@huawei.com>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Dima Stepanov <dimastep@yandex-team.ru>, Max Reitz <mreitz@redhat.com>
+Cc: berrange@redhat.com, Alexander Bulekov <alxndr@bu.edu>,
+ darren.kenny@oracle.com, bsd@redhat.com, marcandre.lureau@gmail.com,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Dima.
+This adds a pathin= option to -chardev file, which allows specifying
+distinct input and output paths for the chardev. This functionaliy was
+already available through QMP.
 
-If vhost_migration_log return < 0, then vhost_log_global_start will
-trigger a crash.
-Does your patch have process this abort?
-If a disconnect happens in the migration stage, the correct operation
-is to stop the migration, right?
+v3:
+  * char-test: add a stat()-based check to ensure that the pathin=
+    file is not modified during the execution of the test.
 
- 841 static void vhost_log_global_start(MemoryListener *listener)
- 842 {
- 843     int r;
- 844
- 845     r =3D vhost_migration_log(listener, true);
- 846     if (r < 0) {
- 847         abort();
- 848     }
- 849 }
 
-Thanks,
+Alexander Bulekov (2):
+  chardev: enable distinct input for -chardev file
+  char-file: add test for distinct path= and pathin=
 
-Feng Li
+ chardev/char-file.c |  5 +++
+ chardev/char.c      |  3 ++
+ qemu-options.hx     |  7 +++-
+ tests/test-char.c   | 96 +++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 109 insertions(+), 2 deletions(-)
 
-Jason Wang <jasowang@redhat.com> =E4=BA=8E2020=E5=B9=B45=E6=9C=8812=E6=97=
-=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=8811:33=E5=86=99=E9=81=93=EF=BC=9A
->
->
-> On 2020/5/11 =E4=B8=8B=E5=8D=885:25, Dima Stepanov wrote:
-> > On Mon, May 11, 2020 at 11:15:53AM +0800, Jason Wang wrote:
-> >> On 2020/4/30 =E4=B8=8B=E5=8D=889:36, Dima Stepanov wrote:
-> >>> If vhost-user daemon is used as a backend for the vhost device, then =
-we
-> >>> should consider a possibility of disconnect at any moment. If such
-> >>> disconnect happened in the vhost_migration_log() routine the vhost
-> >>> device structure will be clean up.
-> >>> At the start of the vhost_migration_log() function there is a check:
-> >>>    if (!dev->started) {
-> >>>        dev->log_enabled =3D enable;
-> >>>        return 0;
-> >>>    }
-> >>> To be consistent with this check add the same check after calling the
-> >>> vhost_dev_set_log() routine. This in general help not to break a
-> >>> migration due the assert() message. But it looks like that this code
-> >>> should be revised to handle these errors more carefully.
-> >>>
-> >>> In case of vhost-user device backend the fail paths should consider t=
-he
-> >>> state of the device. In this case we should skip some function calls
-> >>> during rollback on the error paths, so not to get the NULL dereferenc=
-e
-> >>> errors.
-> >>>
-> >>> Signed-off-by: Dima Stepanov <dimastep@yandex-team.ru>
-> >>> ---
-> >>>   hw/virtio/vhost.c | 39 +++++++++++++++++++++++++++++++++++----
-> >>>   1 file changed, 35 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> >>> index 3ee50c4..d5ab96d 100644
-> >>> --- a/hw/virtio/vhost.c
-> >>> +++ b/hw/virtio/vhost.c
-> >>> @@ -787,6 +787,17 @@ static int vhost_dev_set_features(struct vhost_d=
-ev *dev,
-> >>>   static int vhost_dev_set_log(struct vhost_dev *dev, bool enable_log=
-)
-> >>>   {
-> >>>       int r, i, idx;
-> >>> +
-> >>> +    if (!dev->started) {
-> >>> +        /*
-> >>> +         * If vhost-user daemon is used as a backend for the
-> >>> +         * device and the connection is broken, then the vhost_dev
-> >>> +         * structure will be reset all its values to 0.
-> >>> +         * Add additional check for the device state.
-> >>> +         */
-> >>> +        return -1;
-> >>> +    }
-> >>> +
-> >>>       r =3D vhost_dev_set_features(dev, enable_log);
-> >>>       if (r < 0) {
-> >>>           goto err_features;
-> >>> @@ -801,12 +812,19 @@ static int vhost_dev_set_log(struct vhost_dev *=
-dev, bool enable_log)
-> >>>       }
-> >>>       return 0;
-> >>>   err_vq:
-> >>> -    for (; i >=3D 0; --i) {
-> >>> +    /*
-> >>> +     * Disconnect with the vhost-user daemon can lead to the
-> >>> +     * vhost_dev_cleanup() call which will clean up vhost_dev
-> >>> +     * structure.
-> >>> +     */
-> >>> +    for (; dev->started && (i >=3D 0); --i) {
-> >>>           idx =3D dev->vhost_ops->vhost_get_vq_index(
-> >>
-> >> Why need the check of dev->started here, can started be modified outsi=
-de
-> >> mainloop? If yes, I don't get the check of !dev->started in the beginn=
-ing of
-> >> this function.
-> >>
-> > No dev->started can't change outside the mainloop. The main problem is
-> > only for the vhost_user_blk daemon. Consider the case when we
-> > successfully pass the dev->started check at the beginning of the
-> > function, but after it we hit the disconnect on the next call on the
-> > second or third iteration:
-> >       r =3D vhost_virtqueue_set_addr(dev, dev->vqs + i, idx, enable_log=
-);
-> > The unix socket backend device will call the disconnect routine for thi=
-s
-> > device and reset the structure. So the structure will be reset (and
-> > dev->started set to false) inside this set_addr() call.
->
->
-> I still don't get here. I think the disconnect can not happen in the
-> middle of vhost_dev_set_log() since both of them were running in
-> mainloop. And even if it can, we probably need other synchronization
-> mechanism other than simple check here.
->
->
-> >   So
-> > we shouldn't call the clean up calls because this virtqueues were clean
-> > up in the disconnect call. But we should protect these calls somehow, s=
-o
-> > it will not hit SIGSEGV and we will be able to pass migration.
-> >
-> > Just to summarize it:
-> > For the vhost-user-blk devices we ca hit clean up calls twice in case o=
-f
-> > vhost disconnect:
-> > 1. The first time during the disconnect process. The clean up is called
-> > inside it.
-> > 2. The second time during roll back clean up.
-> > So if it is the case we should skip p2.
-> >
-> >>> dev, dev->vq_index + i);
-> >>>           vhost_virtqueue_set_addr(dev, dev->vqs + i, idx,
-> >>>                                    dev->log_enabled);
-> >>>       }
-> >>> -    vhost_dev_set_features(dev, dev->log_enabled);
-> >>> +    if (dev->started) {
-> >>> +        vhost_dev_set_features(dev, dev->log_enabled);
-> >>> +    }
-> >>>   err_features:
-> >>>       return r;
-> >>>   }
-> >>> @@ -832,7 +850,15 @@ static int vhost_migration_log(MemoryListener *l=
-istener, int enable)
-> >>>       } else {
-> >>>           vhost_dev_log_resize(dev, vhost_get_log_size(dev));
-> >>>           r =3D vhost_dev_set_log(dev, true);
-> >>> -        if (r < 0) {
-> >>> +        /*
-> >>> +         * The dev log resize can fail, because of disconnect
-> >>> +         * with the vhost-user-blk daemon. Check the device
-> >>> +         * state before calling the vhost_dev_set_log()
-> >>> +         * function.
-> >>> +         * Don't return error if device isn't started to be
-> >>> +         * consistent with the check above.
-> >>> +         */
-> >>> +        if (dev->started && r < 0) {
-> >>>               return r;
-> >>>           }
-> >>>       }
-> >>> @@ -1739,7 +1765,12 @@ int vhost_dev_start(struct vhost_dev *hdev, Vi=
-rtIODevice *vdev)
-> >>>   fail_log:
-> >>>       vhost_log_put(hdev, false);
-> >>>   fail_vq:
-> >>> -    while (--i >=3D 0) {
-> >>> +    /*
-> >>> +     * Disconnect with the vhost-user daemon can lead to the
-> >>> +     * vhost_dev_cleanup() call which will clean up vhost_dev
-> >>> +     * structure.
-> >>> +     */
-> >>> +    while ((--i >=3D 0) && (hdev->started)) {
-> >>>           vhost_virtqueue_stop(hdev,
-> >>>                                vdev,
-> >>>                                hdev->vqs + i,
-> >>
-> >> This should be a separate patch.
-> > Do you mean i should split this patch to two patches?
->
->
-> Yes.
->
-> Thanks
->
->
-> >
-> > Thanks.
-> >
-> >> Thanks
-> >>
->
+-- 
+2.26.2
+
 
