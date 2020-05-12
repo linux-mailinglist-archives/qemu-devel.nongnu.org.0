@@ -2,86 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD37E1CFEBB
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:53:01 +0200 (CEST)
-Received: from localhost ([::1]:35338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8781CFF04
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 22:10:20 +0200 (CEST)
+Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYaxY-0000Q1-Tp
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49688)
+	id 1jYbEJ-0006ez-4V
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 16:10:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jYauA-0004Ne-8o
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:49:30 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24546
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jYau5-00023n-Ui
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:49:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589312964;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yGv3GMmE+g3aMbzkin35pFeW8TH7QWSRs77egYnH7RY=;
- b=aG64mT1G9c/RWWamppO7+rf0Jdskfguk+lqM/MNGRx/FTwj3wV9k2Rifbw3TtTNIgTDi1A
- 24D1B53nFNYDxeQ/YAPJq3/zggI7pwLjOeuTdw7rtA/7iwW+AD086v8V/vjkOHPuHy6Hif
- LMsGbJXLCEH2/R+kSWFQR5Ov1wwqAl4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-zXgJuxTUOKWbGarUJwqM4g-1; Tue, 12 May 2020 15:49:22 -0400
-X-MC-Unique: zXgJuxTUOKWbGarUJwqM4g-1
-Received: by mail-wr1-f70.google.com with SMTP id 90so7352446wrg.23
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 12:49:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yGv3GMmE+g3aMbzkin35pFeW8TH7QWSRs77egYnH7RY=;
- b=tKdY/BBNuJQ7LBsPepAbcSv/MnK0vXnAdPVOzneszW4328jGe4iA8ihQdxRBTyvEtv
- KIdsBr1IYXLxkhpOzmEDj1ohsGbjixLjgkvtJ0ztbWlBLVsnBm6nG+8mBmm8xm9WNezu
- 5axUPdbpydjtQqJfJYGZC7p47amel298Q3qhL3LHYtpU3gGNgNcnfoD8QfV8uNznJKvS
- 5wfiUwXdG/mwhfQZdGhsvV/tjVpmHCKAksfN/PPi58AhepKmXq7eNyN45Mm+taQPLNsX
- 36w5zYtqhnsICBeWeU/b8DdpdZ69LaDS5ZbuLnfMBLx+0zqqiSkEeSiAsWU4MSJ+JlZP
- wN2Q==
-X-Gm-Message-State: AGi0Puaj9zu1PuBKLrpx5L7rJZZwP1LKBKYehFE9/D4WdCW8MCY/iWK8
- 6H/8uAWYFOYw470QOVcfIsav4h+KBM7+NoyUChvgOeeUkXPkKotK2/Fsjnr5CHh9bMQFzGoxzsH
- ZsnIWHVEGnXiflkI=
-X-Received: by 2002:a1c:acc8:: with SMTP id
- v191mr33624988wme.128.1589312960877; 
- Tue, 12 May 2020 12:49:20 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLPV5Hzvc/pJi8F9SfFATYOIWwd86c8hA8vfuJU2cSN+MThTLzXj0RiOAhfsmzbGQ9A235PDQ==
-X-Received: by 2002:a1c:acc8:: with SMTP id
- v191mr33624959wme.128.1589312960527; 
- Tue, 12 May 2020 12:49:20 -0700 (PDT)
-Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 128sm27215506wme.39.2020.05.12.12.49.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 12:49:19 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/ide: Make IDEDMAOps handlers take a const IDEDMA pointer
-Date: Tue, 12 May 2020 21:49:17 +0200
-Message-Id: <20200512194917.15807-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.21.3
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1jYbDJ-00068s-IL; Tue, 12 May 2020 16:09:17 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:44145)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1jYbDI-0001uT-Fv; Tue, 12 May 2020 16:09:17 -0400
+Received: from [192.168.100.1] ([82.252.135.106]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N95mR-1j4Kz23MmN-0163pk; Tue, 12 May 2020 22:09:04 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: Tomas Krcka <tomas.krcka@gmail.com>, qemu-devel@nongnu.org
+References: <20200506132114.76406-1-tomas.krcka@gmail.com>
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Subject: Re: [PATCH 1/2] linux-user: add do_setsockopt SOL_CAN_RAW
+ CAN_RAW_FILTER support
+Message-ID: <5cf6dee4-7bfa-76b2-9f44-14bfc7f3d510@vivier.eu>
+Date: Tue, 12 May 2020 22:09:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8;
-	text/plain; charset="utf-8"
+In-Reply-To: <20200506132114.76406-1-tomas.krcka@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:41:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Provags-ID: V03:K1:Kr5cnNnJP3am184o777Aa5utcB0Tmo2301IiygVZsBYt84NCmJu
+ 7T+WVTkaaFGFo1BfK8bSeB5Way22Xe/2mCtVSX+gmx71EHOwRk/K3VHfblcUrieHAyO8iK8
+ xfEWEwvhuuyTIXlkD1lKFx4RBDrnxWXU2TY1jXTSVQ97kPuvzrCRYTeNs2fpD/I+pVvTUUj
+ wRM691FWMtgSIn95cqzlw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:M+y3S525V0s=:fvKI0FSswwktw5Et6OHnLs
+ JroHuECTiDCdQhWDvOft1CJXFw1hHwKBbSw7U/mxsDVO170lTNGlrDUe3Rso4MX2YGFzjzdxQ
+ oqJt+Bb2fEnLpyvtWINfVQXAI4Mcto8g7yASP/E08vSmhRyPtAF/82oF9zT9dlbnwROeYtaQ6
+ n1WGvI8Qm4En/Cv3u35pbu8DBtxv9EzqiUxU1QU/pxaf1XE7coYBAk2kxOwdRpmK+yKl87YRJ
+ ZUf8StjzdAIS2En8zcv+SDI0tEfu30uV8e7PR+kd22PcOn4016u3wS5gxb7v/1LNIcay5QvaY
+ vdGivX0QyperQ1j9J46ZUyN31+ljn4ItslcLrd97YXuAyt8Z0BDMdSNDQIWuDfo/Q7F9hgBSr
+ xwpwRRFLTW0caJUFTLV0fl/cMNrWKiqDNdBurciRNy0q/ltvClpgNM5+dqu4MiE5juAFppmqw
+ azOQ29yF6FjM0CF7Dl0Vclh/6Q/5sKFhU4oF9JdYf5KW7FwiGASePCa+q0GngrVGJV0M4OVIk
+ zf/0siJb4pVGNQ+2ICCglnOcjba9rRfnfyYtBwhl2dDn/ymMW1NLtgp4gwRbEhC4hymq4w3iC
+ JHFMseXMXr1zoZsU1ke+KEsVPpyBXHZ5QWtGKBJDbJxFqg5WwV8Ciu6EOU9WvOlfldZ7yxa+0
+ bXqQFLV1l1v85xKmY7Mc5gc4W4YCEZzpKzQCuu86SLqs0lC49xkC07TWj+3SnXANpwlBwdLy/
+ 3gsVFkqDukX1BJFcQlQHzyZw+Ag0duxpU99afm+IMA69bSHtUZ/ezvzX2Z4MTMm+D3f5Uvs3o
+ rfxBpvp6EdlI2rtVOQObn7TWUGIH6IwjLRvUf2E3hoUUAK1wNXBQixUMq/9k1eLiHhq0Tgt
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 16:09:14
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,239 +114,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-trivial@nongnu.org, Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handlers don't need to modify the IDEDMA structure.
-Make it const.
+Le 06/05/2020 à 15:21, Tomas Krcka a écrit :
+> Signed-off-by: Tomas Krcka <tomas.krcka@gmail.com>
+> ---
+>  linux-user/syscall.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 05f03919ff..88d4c85b70 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -56,6 +56,7 @@
+>  #include <linux/wireless.h>
+>  #include <linux/icmp.h>
+>  #include <linux/icmpv6.h>
+> +#include <linux/can/raw.h>
+>  #include <linux/errqueue.h>
+>  #include <linux/random.h>
+>  #ifdef CONFIG_TIMERFD
+> @@ -2111,6 +2112,39 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+>              goto unimplemented;
+>          }
+>          break;
+> +    case SOL_CAN_RAW:
+> +        switch (optname) {
+> +        case CAN_RAW_FILTER:
+> +        {
+> +            if (optlen % sizeof(struct can_filter) != 0) {
+> +                return -TARGET_EINVAL;
+> +            }
+> +
+> +            struct can_filter  *can_filters = NULL;
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/hw/ide/internal.h | 12 ++++++------
- hw/ide/ahci.c             | 18 +++++++++---------
- hw/ide/core.c             |  6 +++---
- hw/ide/macio.c            |  6 +++---
- hw/ide/pci.c              | 12 ++++++------
- 5 files changed, 27 insertions(+), 27 deletions(-)
+Move the declaration to the top of the block.
 
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 55da35d768..1a7869e85d 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -322,12 +322,12 @@ typedef enum { IDE_HD, IDE_CD, IDE_CFATA } IDEDriveKind;
- 
- typedef void EndTransferFunc(IDEState *);
- 
--typedef void DMAStartFunc(IDEDMA *, IDEState *, BlockCompletionFunc *);
--typedef void DMAVoidFunc(IDEDMA *);
--typedef int DMAIntFunc(IDEDMA *, bool);
--typedef int32_t DMAInt32Func(IDEDMA *, int32_t len);
--typedef void DMAu32Func(IDEDMA *, uint32_t);
--typedef void DMAStopFunc(IDEDMA *, bool);
-+typedef void DMAStartFunc(const IDEDMA *, IDEState *, BlockCompletionFunc *);
-+typedef void DMAVoidFunc(const IDEDMA *);
-+typedef int DMAIntFunc(const IDEDMA *, bool);
-+typedef int32_t DMAInt32Func(const IDEDMA *, int32_t len);
-+typedef void DMAu32Func(const IDEDMA *, uint32_t);
-+typedef void DMAStopFunc(const IDEDMA *, bool);
- 
- struct unreported_events {
-     bool eject_request;
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index 13d91e109a..168d34e9f2 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -44,7 +44,7 @@ static int handle_cmd(AHCIState *s, int port, uint8_t slot);
- static void ahci_reset_port(AHCIState *s, int port);
- static bool ahci_write_fis_d2h(AHCIDevice *ad);
- static void ahci_init_d2h(AHCIDevice *ad);
--static int ahci_dma_prepare_buf(IDEDMA *dma, int32_t limit);
-+static int ahci_dma_prepare_buf(const IDEDMA *dma, int32_t limit);
- static bool ahci_map_clb_address(AHCIDevice *ad);
- static bool ahci_map_fis_address(AHCIDevice *ad);
- static void ahci_unmap_clb_address(AHCIDevice *ad);
-@@ -1338,7 +1338,7 @@ out:
- }
- 
- /* Transfer PIO data between RAM and device */
--static void ahci_pio_transfer(IDEDMA *dma)
-+static void ahci_pio_transfer(const IDEDMA *dma)
- {
-     AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
-     IDEState *s = &ad->port.ifs[0];
-@@ -1397,7 +1397,7 @@ out:
-     }
- }
- 
--static void ahci_start_dma(IDEDMA *dma, IDEState *s,
-+static void ahci_start_dma(const IDEDMA *dma, IDEState *s,
-                            BlockCompletionFunc *dma_cb)
- {
-     AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
-@@ -1406,7 +1406,7 @@ static void ahci_start_dma(IDEDMA *dma, IDEState *s,
-     dma_cb(s, 0);
- }
- 
--static void ahci_restart_dma(IDEDMA *dma)
-+static void ahci_restart_dma(const IDEDMA *dma)
- {
-     /* Nothing to do, ahci_start_dma already resets s->io_buffer_offset.  */
- }
-@@ -1415,7 +1415,7 @@ static void ahci_restart_dma(IDEDMA *dma)
-  * IDE/PIO restarts are handled by the core layer, but NCQ commands
-  * need an extra kick from the AHCI HBA.
-  */
--static void ahci_restart(IDEDMA *dma)
-+static void ahci_restart(const IDEDMA *dma)
- {
-     AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
-     int i;
-@@ -1432,7 +1432,7 @@ static void ahci_restart(IDEDMA *dma)
-  * Called in DMA and PIO R/W chains to read the PRDT.
-  * Not shared with NCQ pathways.
-  */
--static int32_t ahci_dma_prepare_buf(IDEDMA *dma, int32_t limit)
-+static int32_t ahci_dma_prepare_buf(const IDEDMA *dma, int32_t limit)
- {
-     AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
-     IDEState *s = &ad->port.ifs[0];
-@@ -1453,7 +1453,7 @@ static int32_t ahci_dma_prepare_buf(IDEDMA *dma, int32_t limit)
-  * Called via dma_buf_commit, for both DMA and PIO paths.
-  * sglist destruction is handled within dma_buf_commit.
-  */
--static void ahci_commit_buf(IDEDMA *dma, uint32_t tx_bytes)
-+static void ahci_commit_buf(const IDEDMA *dma, uint32_t tx_bytes)
- {
-     AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
- 
-@@ -1461,7 +1461,7 @@ static void ahci_commit_buf(IDEDMA *dma, uint32_t tx_bytes)
-     ad->cur_cmd->status = cpu_to_le32(tx_bytes);
- }
- 
--static int ahci_dma_rw_buf(IDEDMA *dma, bool is_write)
-+static int ahci_dma_rw_buf(const IDEDMA *dma, bool is_write)
- {
-     AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
-     IDEState *s = &ad->port.ifs[0];
-@@ -1486,7 +1486,7 @@ static int ahci_dma_rw_buf(IDEDMA *dma, bool is_write)
-     return 1;
- }
- 
--static void ahci_cmd_done(IDEDMA *dma)
-+static void ahci_cmd_done(const IDEDMA *dma)
- {
-     AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
- 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index 689bb36409..d997a78e47 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -2570,16 +2570,16 @@ static void ide_init1(IDEBus *bus, int unit)
-                                            ide_sector_write_timer_cb, s);
- }
- 
--static int ide_nop_int(IDEDMA *dma, bool is_write)
-+static int ide_nop_int(const IDEDMA *dma, bool is_write)
- {
-     return 0;
- }
- 
--static void ide_nop(IDEDMA *dma)
-+static void ide_nop(const IDEDMA *dma)
- {
- }
- 
--static int32_t ide_nop_int32(IDEDMA *dma, int32_t l)
-+static int32_t ide_nop_int32(const IDEDMA *dma, int32_t l)
- {
-     return 0;
- }
-diff --git a/hw/ide/macio.c b/hw/ide/macio.c
-index a9f25e5d02..5b8098268d 100644
---- a/hw/ide/macio.c
-+++ b/hw/ide/macio.c
-@@ -376,17 +376,17 @@ static void macio_ide_reset(DeviceState *dev)
-     ide_bus_reset(&d->bus);
- }
- 
--static int ide_nop_int(IDEDMA *dma, bool is_write)
-+static int ide_nop_int(const IDEDMA *dma, bool is_write)
- {
-     return 0;
- }
- 
--static int32_t ide_nop_int32(IDEDMA *dma, int32_t l)
-+static int32_t ide_nop_int32(const IDEDMA *dma, int32_t l)
- {
-     return 0;
- }
- 
--static void ide_dbdma_start(IDEDMA *dma, IDEState *s,
-+static void ide_dbdma_start(const IDEDMA *dma, IDEState *s,
-                             BlockCompletionFunc *cb)
- {
-     MACIOIDEState *m = container_of(dma, MACIOIDEState, dma);
-diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-index 97347f07f1..5e85c4ad17 100644
---- a/hw/ide/pci.c
-+++ b/hw/ide/pci.c
-@@ -103,7 +103,7 @@ const MemoryRegionOps pci_ide_data_le_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
--static void bmdma_start_dma(IDEDMA *dma, IDEState *s,
-+static void bmdma_start_dma(const IDEDMA *dma, IDEState *s,
-                             BlockCompletionFunc *dma_cb)
- {
-     BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
-@@ -126,7 +126,7 @@ static void bmdma_start_dma(IDEDMA *dma, IDEState *s,
-  * IDEState.io_buffer_size will contain the number of bytes described
-  * by the PRDs, whether or not we added them to the sglist.
-  */
--static int32_t bmdma_prepare_buf(IDEDMA *dma, int32_t limit)
-+static int32_t bmdma_prepare_buf(const IDEDMA *dma, int32_t limit)
- {
-     BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
-     IDEState *s = bmdma_active_if(bm);
-@@ -181,7 +181,7 @@ static int32_t bmdma_prepare_buf(IDEDMA *dma, int32_t limit)
- }
- 
- /* return 0 if buffer completed */
--static int bmdma_rw_buf(IDEDMA *dma, bool is_write)
-+static int bmdma_rw_buf(const IDEDMA *dma, bool is_write)
- {
-     BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
-     IDEState *s = bmdma_active_if(bm);
-@@ -230,7 +230,7 @@ static int bmdma_rw_buf(IDEDMA *dma, bool is_write)
-     return 1;
- }
- 
--static void bmdma_set_inactive(IDEDMA *dma, bool more)
-+static void bmdma_set_inactive(const IDEDMA *dma, bool more)
- {
-     BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
- 
-@@ -242,7 +242,7 @@ static void bmdma_set_inactive(IDEDMA *dma, bool more)
-     }
- }
- 
--static void bmdma_restart_dma(IDEDMA *dma)
-+static void bmdma_restart_dma(const IDEDMA *dma)
- {
-     BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
- 
-@@ -257,7 +257,7 @@ static void bmdma_cancel(BMDMAState *bm)
-     }
- }
- 
--static void bmdma_reset(IDEDMA *dma)
-+static void bmdma_reset(const IDEDMA *dma)
- {
-     BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
- 
--- 
-2.21.3
+> +            if (optlen != 0) {
+
+If you check, like in kernel, "optlen > CAN_RAW_FILTER_MAX *
+sizeof(struct can_filter)", you can exit here (and no need to set
+can_filters to NULL).
+
+> +                can_filters = g_new0(struct can_filter, optlen);
+> +
+> +                if (!can_filters) {
+
+no need to check the result, g_new0() aborts in case of problem.
+
+> +                    return -TARGET_ENOMEM;
+> +                }
+> +                if (copy_from_user(can_filters, optval_addr, optlen)) {
+> +                    g_free(can_filters);
+> +                    return -TARGET_EFAULT;
+> +                }
+
+It would be cleaner not to use the copy_from_user() as we need to
+byte-swap all the fields in the loop below (I know it's done like that
+in SOL_ICMPV6...)
+
+> +                for (val = 0; val < optlen / sizeof(struct can_filter); val++) {
+> +                    can_filters[val].can_id = tswap32(can_filters[val].can_id);
+> +                    can_filters[val].can_mask = tswap32(can_filters[val].can_mask);
+> +                }
+
+So, something like:
+
+target_can_filters = lock_user(VERIFY_READ, optval_addr, optlen, 1);
+for (val = 0; val < optlen / sizeof(struct can_filter); val++) {
+    __get_user(can_filters[val].can_id, \
+               &target_can_filters[val].can_id);
+    __get_user(can_filters[val].can_mask, \
+               &target_can_filters[val].can_mask);
+}
+unlock_user(target_can_filters);
+
+> +            }
+> +            ret = get_errno(setsockopt(sockfd, level, optname,
+> +                                        can_filters, optlen));
+> +            g_free(can_filters);
+> +            break;
+> +        }
+> +        default:
+> +            goto unimplemented;
+> +        }
+> +        break;
+>      case SOL_RAW:
+>          switch (optname) {
+>          case ICMP_FILTER:
+> 
+
+Could you also update getsockopt()?
+
+Thanks,
+Laurent
+
 
 
