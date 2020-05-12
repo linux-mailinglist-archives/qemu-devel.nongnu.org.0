@@ -2,128 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9843A1CF8D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:19:03 +0200 (CEST)
-Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB121CF8FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:22:10 +0200 (CEST)
+Received: from localhost ([::1]:35778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWgQ-0005sz-MD
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:19:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36864)
+	id 1jYWjR-0000o7-Ih
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jYWc4-00011E-Ah
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:14:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49315
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1jYWc0-0005iE-Nc
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:14:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589296467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=bWaVTsypD67oceyRuHYiNedQLxJqRmHYWm1W8E9uGDE=;
- b=hlEUQTWX2WXg7jr6PnA3/7dkL+y0DRmYH6zB8Aj0RaBRrPbwr3tf38+s4LziadwP+iDy2i
- FczLfuou4VDBsM/oogDHVnTPaQfpXj5NiTz99dT20UL8vK6BEK23/QcEUm9/odjpKJ6DGh
- jFxni0chlXj72TL5v0jzIVw1hf3IVUE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-B9lf5wljM2azMMxUWuBzYQ-1; Tue, 12 May 2020 11:14:17 -0400
-X-MC-Unique: B9lf5wljM2azMMxUWuBzYQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 928E4835B41;
- Tue, 12 May 2020 15:14:16 +0000 (UTC)
-Received: from [10.36.113.205] (ovpn-113-205.ams2.redhat.com [10.36.113.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD8236E6EB;
- Tue, 12 May 2020 15:14:08 +0000 (UTC)
-Subject: Re: Assertion failure through vring_split_desc_read
-From: Laurent Vivier <lvivier@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20200511035124.v2ff4f5gyfh6xlgc@mozz.bu.edu>
- <b67bd42d-b832-20ff-411e-dd3f4a40da1a@redhat.com>
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
- D+Ofp0T3KOr1RUHvCZoLURfFhSQ=
-Message-ID: <008dc437-4719-0271-7647-b04f1253049c@redhat.com>
-Date: Tue, 12 May 2020 17:14:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jYWhA-0007nq-0h; Tue, 12 May 2020 11:19:48 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:34904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jYWh8-0006zw-1x; Tue, 12 May 2020 11:19:47 -0400
+Received: by mail-lj1-x241.google.com with SMTP id g4so14117857ljl.2;
+ Tue, 12 May 2020 08:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=S6ITkXEFMuyOg9l4iYA8P7jYSsc9ZK40Dag0etBqLKA=;
+ b=GesP0CaQF0LYnd2oNy2HoTgkYi2RVoY52dGFvPHHCg8eqRBqQj9yem1/t7gtbTwDtV
+ lYrmgFgNOIQo85NXX5vB0hbuUOGMYHbZi4Fhopq9L/BKhv6e+QeRknX1ecakskjnwNKx
+ sn+hHQFC5Evhd8xRWQtzBtglEM2HeSdm0EpPUDv44MYQZ3ONqM9guLc0gXVnbHeCI2e7
+ M4YAGH2ZpDsZkklzag6xkcQZm1Q6ZtDRtgDHPuNtAYPs/M4R/ogl0saOq1i43vi46Jeb
+ JYsaPilQJmoky+e3QANo4HBYPoCksWKwVNuvtaBu/uYzU6e/X5hPHDFhUTYL3GA95MlT
+ DzaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=S6ITkXEFMuyOg9l4iYA8P7jYSsc9ZK40Dag0etBqLKA=;
+ b=EHU4q0py41hW8nrNZ2cSkNoR9gCNzdDEIGdG1NsDuf1dQssU2egnqWhusA4ITeMIvf
+ V79W3B3nDRV3e4KYC9ZST2LzExCMbEff90KbfefEh6CfbVr1Ltk7I//BUiM/rS+1NE93
+ AOuoMI4lQpMjMX6W7k06eed7vOy3JHksz/KS72pQlFkC3cawBOth7Ms9zqRgGyU98jdy
+ 29Imrfjn653HyuDFT4slaCymTA/XM9VeUt5ecj0rwXa1ks0GIyQWA3w7KeuFS3NqNehg
+ FszIZdaWOvxAyH0iooxK8pAX3mq/jHiuDqOyp1QFonI8hJr2r0L1j87D8J6fuqH5VEpk
+ UXhA==
+X-Gm-Message-State: AOAM531hT5UgC2BJJMXrpsamT67TypuBKuRB9/7TMRms35VMeLge1f59
+ rZFQfmaibP2omQ6t7Wrp5HA=
+X-Google-Smtp-Source: ABdhPJyn9mGsSPPyuyyUy/f1Px/0NXvh9KjP7bbfqtdMwofMnyvb+fkQLZYmX7TvulsCGKq4vWAAiw==
+X-Received: by 2002:a05:651c:1b9:: with SMTP id
+ c25mr10043788ljn.285.1589296783863; 
+ Tue, 12 May 2020 08:19:43 -0700 (PDT)
+Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id d19sm14312513lfj.8.2020.05.12.08.19.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 May 2020 08:19:43 -0700 (PDT)
+Date: Tue, 12 May 2020 17:19:26 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: Re: [PATCH v5 07/12] net: cadence_gem: Fix up code style
+Message-ID: <20200512151926.GT5519@toto>
+References: <1589295294-26466-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1589295294-26466-8-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
-In-Reply-To: <b67bd42d-b832-20ff-411e-dd3f4a40da1a@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=lvivier@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1589295294-26466-8-git-send-email-sai.pavan.boddu@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -137,111 +85,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Ramon Fried <rfried.dev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/2020 15:49, Laurent Vivier wrote:
-> On 11/05/2020 05:51, Alexander Bulekov wrote:
->> Hello,
->> While fuzzing, I found an input that triggers an assertion failure
->> through virtio-rng -> vring_split_desc_read. Maybe this is related to:
->> Message-ID: <20200511033001.dzvtbdhl3oz5pgiy@mozz.bu.edu> 
->> Assertion failure through virtio_lduw_phys_cached
->>
->> #8 0x7fe6a9acf091 in __assert_fail /build/glibc-GwnBeO/glibc-2.30/assert/assert.c:101:3
->> #9 0x564cbe7d96fd in address_space_read_cached include/exec/memory.h:2423:5
->> #10 0x564cbe7e79c5 in vring_split_desc_read hw/virtio/virtio.c:236:5
->> #11 0x564cbe7e84ce in virtqueue_split_read_next_desc hw/virtio/virtio.c:929:5
->> #12 0x564cbe78f86b in virtqueue_split_get_avail_bytes hw/virtio/virtio.c:1009:18
->> #13 0x564cbe78ab22 in virtqueue_get_avail_bytes hw/virtio/virtio.c:1208:9
->> #14 0x564cc08aade1 in get_request_size hw/virtio/virtio-rng.c:40:5
->> #15 0x564cc08aa20b in virtio_rng_process hw/virtio/virtio-rng.c:115:12
->> #16 0x564cc08a8c48 in virtio_rng_set_status hw/virtio/virtio-rng.c:172:5
->> #17 0x564cbe7a50be in virtio_set_status hw/virtio/virtio.c:1876:9
->> #18 0x564cc08d1b8f in virtio_pci_common_write hw/virtio/virtio-pci.c:1245:9
->>
->> I can reproduce it in a qemu 5.0 build using these qtest commands:
->> https://paste.debian.net/plain/1146089
->> (not including them here, as some are quite long)
->>
->> wget https://paste.debian.net/plain/1146089 -O qtest-trace; ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc-q35-5.0  -device virtio-rng-pci,addr=04.0 -display none -nodefaults -nographic -qtest stdio < qtest-trace
+On Tue, May 12, 2020 at 08:24:49PM +0530, Sai Pavan Boddu wrote:
+> Fix the code style for register definitions.
 > 
-> Nice work.
-> 
-> If I use directly "curl https://paste.debian.net/plain/1146089 |
-> qemu-system-i386 ..." I have only a warning:
-> 
->     qemu-system-i386: Guest moved used index from 0 to 496
-> 
-> I've added some traces.
-> 
-> The assert is triggered because addr (0xffff0) >= cache->len (0x11d0).
-> 
-> addr is 2nd argument of:
-> 
->     address_space_read_cached(cache, i * sizeof(VRingDesc),
->                               desc, sizeof(VRingDesc));
-> 
-> and "i" appears to be "65535".
-> 
-> In virtqueue_split_read_next_desc(), the value is checked not to be
-> greater than max.
-> 
-> But max is 268345360...
-> 
-> "max" is provided by virtqueue_split_get_avail_bytes(), it's originally
-> vq->vring.num (255), but in the case of VRING_DESC_F_INDIRECT max is
-> updated to "desc.len / sizeof(VRingDesc)". desc.len is 4293525760.
-> 
-> It is set from max to cache->len by address_space_cache_init() but this
-> value seems to be truncated in the next iteration of the loop (where we
-> have the assert()).
-> 
-> I'm investigating why we have that.
 
-The problem is in virtqueue_split_get_avail_bytes().
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-On start, max is set to vq->vring.num (255), then in the
-virtqueue_get_head() loop we read an indirect descriptor and max is set
-to desc.len / sizeof(VRingDesc) (268345360). cache->len is
-indirect_desc_cache.len, initialized from desc_len. So it is fine.
 
-But after that desc is consumed by virtqueue_split_read_next_desc() and
-then indirect_desc_cache is destroyed by address_space_cache_destroy(),
-but max is not reset and used to check the next access with a new desc
-that has a different size.
-
-I think max should be reset when the cache is destroyed or set at the
-begining of the loop.
-
-Something like:
-
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index b6c8ef5bc025..f6d90a99e5e4 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -1001,7 +1001,6 @@ static void
-virtqueue_split_get_avail_bytes(VirtQueue *vq,
-     idx = vq->last_avail_idx;
-     total_bufs = in_total = out_total = 0;
-
--    max = vq->vring.num;
-     caches = vring_get_region_caches(vq);
-     if (!caches) {
-         goto err;
-@@ -1013,6 +1012,7 @@ static void
-virtqueue_split_get_avail_bytes(VirtQueue *vq,
-         VRingDesc desc;
-         unsigned int i;
-
-+        max = vq->vring.num;
-         num_bufs = total_bufs;
-
-         if (!virtqueue_get_head(vq, idx++, &i)) {
-
-Thanks,
-Laurent
-
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> ---
+>  hw/net/cadence_gem.c | 204 ++++++++++++++++++++++++++-------------------------
+>  1 file changed, 103 insertions(+), 101 deletions(-)
+> 
+> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+> index 11e36d0..f6ff27c 100644
+> --- a/hw/net/cadence_gem.c
+> +++ b/hw/net/cadence_gem.c
+> @@ -43,110 +43,112 @@
+>      } \
+>  } while (0)
+>  
+> -#define GEM_NWCTRL        (0x00000000/4) /* Network Control reg */
+> -#define GEM_NWCFG         (0x00000004/4) /* Network Config reg */
+> -#define GEM_NWSTATUS      (0x00000008/4) /* Network Status reg */
+> -#define GEM_USERIO        (0x0000000C/4) /* User IO reg */
+> -#define GEM_DMACFG        (0x00000010/4) /* DMA Control reg */
+> -#define GEM_TXSTATUS      (0x00000014/4) /* TX Status reg */
+> -#define GEM_RXQBASE       (0x00000018/4) /* RX Q Base address reg */
+> -#define GEM_TXQBASE       (0x0000001C/4) /* TX Q Base address reg */
+> -#define GEM_RXSTATUS      (0x00000020/4) /* RX Status reg */
+> -#define GEM_ISR           (0x00000024/4) /* Interrupt Status reg */
+> -#define GEM_IER           (0x00000028/4) /* Interrupt Enable reg */
+> -#define GEM_IDR           (0x0000002C/4) /* Interrupt Disable reg */
+> -#define GEM_IMR           (0x00000030/4) /* Interrupt Mask reg */
+> -#define GEM_PHYMNTNC      (0x00000034/4) /* Phy Maintenance reg */
+> -#define GEM_RXPAUSE       (0x00000038/4) /* RX Pause Time reg */
+> -#define GEM_TXPAUSE       (0x0000003C/4) /* TX Pause Time reg */
+> -#define GEM_TXPARTIALSF   (0x00000040/4) /* TX Partial Store and Forward */
+> -#define GEM_RXPARTIALSF   (0x00000044/4) /* RX Partial Store and Forward */
+> -#define GEM_HASHLO        (0x00000080/4) /* Hash Low address reg */
+> -#define GEM_HASHHI        (0x00000084/4) /* Hash High address reg */
+> -#define GEM_SPADDR1LO     (0x00000088/4) /* Specific addr 1 low reg */
+> -#define GEM_SPADDR1HI     (0x0000008C/4) /* Specific addr 1 high reg */
+> -#define GEM_SPADDR2LO     (0x00000090/4) /* Specific addr 2 low reg */
+> -#define GEM_SPADDR2HI     (0x00000094/4) /* Specific addr 2 high reg */
+> -#define GEM_SPADDR3LO     (0x00000098/4) /* Specific addr 3 low reg */
+> -#define GEM_SPADDR3HI     (0x0000009C/4) /* Specific addr 3 high reg */
+> -#define GEM_SPADDR4LO     (0x000000A0/4) /* Specific addr 4 low reg */
+> -#define GEM_SPADDR4HI     (0x000000A4/4) /* Specific addr 4 high reg */
+> -#define GEM_TIDMATCH1     (0x000000A8/4) /* Type ID1 Match reg */
+> -#define GEM_TIDMATCH2     (0x000000AC/4) /* Type ID2 Match reg */
+> -#define GEM_TIDMATCH3     (0x000000B0/4) /* Type ID3 Match reg */
+> -#define GEM_TIDMATCH4     (0x000000B4/4) /* Type ID4 Match reg */
+> -#define GEM_WOLAN         (0x000000B8/4) /* Wake on LAN reg */
+> -#define GEM_IPGSTRETCH    (0x000000BC/4) /* IPG Stretch reg */
+> -#define GEM_SVLAN         (0x000000C0/4) /* Stacked VLAN reg */
+> -#define GEM_MODID         (0x000000FC/4) /* Module ID reg */
+> -#define GEM_OCTTXLO       (0x00000100/4) /* Octects transmitted Low reg */
+> -#define GEM_OCTTXHI       (0x00000104/4) /* Octects transmitted High reg */
+> -#define GEM_TXCNT         (0x00000108/4) /* Error-free Frames transmitted */
+> -#define GEM_TXBCNT        (0x0000010C/4) /* Error-free Broadcast Frames */
+> -#define GEM_TXMCNT        (0x00000110/4) /* Error-free Multicast Frame */
+> -#define GEM_TXPAUSECNT    (0x00000114/4) /* Pause Frames Transmitted */
+> -#define GEM_TX64CNT       (0x00000118/4) /* Error-free 64 TX */
+> -#define GEM_TX65CNT       (0x0000011C/4) /* Error-free 65-127 TX */
+> -#define GEM_TX128CNT      (0x00000120/4) /* Error-free 128-255 TX */
+> -#define GEM_TX256CNT      (0x00000124/4) /* Error-free 256-511 */
+> -#define GEM_TX512CNT      (0x00000128/4) /* Error-free 512-1023 TX */
+> -#define GEM_TX1024CNT     (0x0000012C/4) /* Error-free 1024-1518 TX */
+> -#define GEM_TX1519CNT     (0x00000130/4) /* Error-free larger than 1519 TX */
+> -#define GEM_TXURUNCNT     (0x00000134/4) /* TX under run error counter */
+> -#define GEM_SINGLECOLLCNT (0x00000138/4) /* Single Collision Frames */
+> -#define GEM_MULTCOLLCNT   (0x0000013C/4) /* Multiple Collision Frames */
+> -#define GEM_EXCESSCOLLCNT (0x00000140/4) /* Excessive Collision Frames */
+> -#define GEM_LATECOLLCNT   (0x00000144/4) /* Late Collision Frames */
+> -#define GEM_DEFERTXCNT    (0x00000148/4) /* Deferred Transmission Frames */
+> -#define GEM_CSENSECNT     (0x0000014C/4) /* Carrier Sense Error Counter */
+> -#define GEM_OCTRXLO       (0x00000150/4) /* Octects Received register Low */
+> -#define GEM_OCTRXHI       (0x00000154/4) /* Octects Received register High */
+> -#define GEM_RXCNT         (0x00000158/4) /* Error-free Frames Received */
+> -#define GEM_RXBROADCNT    (0x0000015C/4) /* Error-free Broadcast Frames RX */
+> -#define GEM_RXMULTICNT    (0x00000160/4) /* Error-free Multicast Frames RX */
+> -#define GEM_RXPAUSECNT    (0x00000164/4) /* Pause Frames Received Counter */
+> -#define GEM_RX64CNT       (0x00000168/4) /* Error-free 64 byte Frames RX */
+> -#define GEM_RX65CNT       (0x0000016C/4) /* Error-free 65-127B Frames RX */
+> -#define GEM_RX128CNT      (0x00000170/4) /* Error-free 128-255B Frames RX */
+> -#define GEM_RX256CNT      (0x00000174/4) /* Error-free 256-512B Frames RX */
+> -#define GEM_RX512CNT      (0x00000178/4) /* Error-free 512-1023B Frames RX */
+> -#define GEM_RX1024CNT     (0x0000017C/4) /* Error-free 1024-1518B Frames RX */
+> -#define GEM_RX1519CNT     (0x00000180/4) /* Error-free 1519-max Frames RX */
+> -#define GEM_RXUNDERCNT    (0x00000184/4) /* Undersize Frames Received */
+> -#define GEM_RXOVERCNT     (0x00000188/4) /* Oversize Frames Received */
+> -#define GEM_RXJABCNT      (0x0000018C/4) /* Jabbers Received Counter */
+> -#define GEM_RXFCSCNT      (0x00000190/4) /* Frame Check seq. Error Counter */
+> -#define GEM_RXLENERRCNT   (0x00000194/4) /* Length Field Error Counter */
+> -#define GEM_RXSYMERRCNT   (0x00000198/4) /* Symbol Error Counter */
+> -#define GEM_RXALIGNERRCNT (0x0000019C/4) /* Alignment Error Counter */
+> -#define GEM_RXRSCERRCNT   (0x000001A0/4) /* Receive Resource Error Counter */
+> -#define GEM_RXORUNCNT     (0x000001A4/4) /* Receive Overrun Counter */
+> -#define GEM_RXIPCSERRCNT  (0x000001A8/4) /* IP header Checksum Error Counter */
+> -#define GEM_RXTCPCCNT     (0x000001AC/4) /* TCP Checksum Error Counter */
+> -#define GEM_RXUDPCCNT     (0x000001B0/4) /* UDP Checksum Error Counter */
+> -
+> -#define GEM_1588S         (0x000001D0/4) /* 1588 Timer Seconds */
+> -#define GEM_1588NS        (0x000001D4/4) /* 1588 Timer Nanoseconds */
+> -#define GEM_1588ADJ       (0x000001D8/4) /* 1588 Timer Adjust */
+> -#define GEM_1588INC       (0x000001DC/4) /* 1588 Timer Increment */
+> -#define GEM_PTPETXS       (0x000001E0/4) /* PTP Event Frame Transmitted (s) */
+> -#define GEM_PTPETXNS      (0x000001E4/4) /* PTP Event Frame Transmitted (ns) */
+> -#define GEM_PTPERXS       (0x000001E8/4) /* PTP Event Frame Received (s) */
+> -#define GEM_PTPERXNS      (0x000001EC/4) /* PTP Event Frame Received (ns) */
+> -#define GEM_PTPPTXS       (0x000001E0/4) /* PTP Peer Frame Transmitted (s) */
+> -#define GEM_PTPPTXNS      (0x000001E4/4) /* PTP Peer Frame Transmitted (ns) */
+> -#define GEM_PTPPRXS       (0x000001E8/4) /* PTP Peer Frame Received (s) */
+> -#define GEM_PTPPRXNS      (0x000001EC/4) /* PTP Peer Frame Received (ns) */
+> +#define GEM_NWCTRL        (0x00000000 / 4) /* Network Control reg */
+> +#define GEM_NWCFG         (0x00000004 / 4) /* Network Config reg */
+> +#define GEM_NWSTATUS      (0x00000008 / 4) /* Network Status reg */
+> +#define GEM_USERIO        (0x0000000C / 4) /* User IO reg */
+> +#define GEM_DMACFG        (0x00000010 / 4) /* DMA Control reg */
+> +#define GEM_TXSTATUS      (0x00000014 / 4) /* TX Status reg */
+> +#define GEM_RXQBASE       (0x00000018 / 4) /* RX Q Base address reg */
+> +#define GEM_TXQBASE       (0x0000001C / 4) /* TX Q Base address reg */
+> +#define GEM_RXSTATUS      (0x00000020 / 4) /* RX Status reg */
+> +#define GEM_ISR           (0x00000024 / 4) /* Interrupt Status reg */
+> +#define GEM_IER           (0x00000028 / 4) /* Interrupt Enable reg */
+> +#define GEM_IDR           (0x0000002C / 4) /* Interrupt Disable reg */
+> +#define GEM_IMR           (0x00000030 / 4) /* Interrupt Mask reg */
+> +#define GEM_PHYMNTNC      (0x00000034 / 4) /* Phy Maintenance reg */
+> +#define GEM_RXPAUSE       (0x00000038 / 4) /* RX Pause Time reg */
+> +#define GEM_TXPAUSE       (0x0000003C / 4) /* TX Pause Time reg */
+> +#define GEM_TXPARTIALSF   (0x00000040 / 4) /* TX Partial Store and Forward */
+> +#define GEM_RXPARTIALSF   (0x00000044 / 4) /* RX Partial Store and Forward */
+> +#define GEM_HASHLO        (0x00000080 / 4) /* Hash Low address reg */
+> +#define GEM_HASHHI        (0x00000084 / 4) /* Hash High address reg */
+> +#define GEM_SPADDR1LO     (0x00000088 / 4) /* Specific addr 1 low reg */
+> +#define GEM_SPADDR1HI     (0x0000008C / 4) /* Specific addr 1 high reg */
+> +#define GEM_SPADDR2LO     (0x00000090 / 4) /* Specific addr 2 low reg */
+> +#define GEM_SPADDR2HI     (0x00000094 / 4) /* Specific addr 2 high reg */
+> +#define GEM_SPADDR3LO     (0x00000098 / 4) /* Specific addr 3 low reg */
+> +#define GEM_SPADDR3HI     (0x0000009C / 4) /* Specific addr 3 high reg */
+> +#define GEM_SPADDR4LO     (0x000000A0 / 4) /* Specific addr 4 low reg */
+> +#define GEM_SPADDR4HI     (0x000000A4 / 4) /* Specific addr 4 high reg */
+> +#define GEM_TIDMATCH1     (0x000000A8 / 4) /* Type ID1 Match reg */
+> +#define GEM_TIDMATCH2     (0x000000AC / 4) /* Type ID2 Match reg */
+> +#define GEM_TIDMATCH3     (0x000000B0 / 4) /* Type ID3 Match reg */
+> +#define GEM_TIDMATCH4     (0x000000B4 / 4) /* Type ID4 Match reg */
+> +#define GEM_WOLAN         (0x000000B8 / 4) /* Wake on LAN reg */
+> +#define GEM_IPGSTRETCH    (0x000000BC / 4) /* IPG Stretch reg */
+> +#define GEM_SVLAN         (0x000000C0 / 4) /* Stacked VLAN reg */
+> +#define GEM_MODID         (0x000000FC / 4) /* Module ID reg */
+> +#define GEM_OCTTXLO       (0x00000100 / 4) /* Octects transmitted Low reg */
+> +#define GEM_OCTTXHI       (0x00000104 / 4) /* Octects transmitted High reg */
+> +#define GEM_TXCNT         (0x00000108 / 4) /* Error-free Frames transmitted */
+> +#define GEM_TXBCNT        (0x0000010C / 4) /* Error-free Broadcast Frames */
+> +#define GEM_TXMCNT        (0x00000110 / 4) /* Error-free Multicast Frame */
+> +#define GEM_TXPAUSECNT    (0x00000114 / 4) /* Pause Frames Transmitted */
+> +#define GEM_TX64CNT       (0x00000118 / 4) /* Error-free 64 TX */
+> +#define GEM_TX65CNT       (0x0000011C / 4) /* Error-free 65-127 TX */
+> +#define GEM_TX128CNT      (0x00000120 / 4) /* Error-free 128-255 TX */
+> +#define GEM_TX256CNT      (0x00000124 / 4) /* Error-free 256-511 */
+> +#define GEM_TX512CNT      (0x00000128 / 4) /* Error-free 512-1023 TX */
+> +#define GEM_TX1024CNT     (0x0000012C / 4) /* Error-free 1024-1518 TX */
+> +#define GEM_TX1519CNT     (0x00000130 / 4) /* Error-free larger than 1519 TX */
+> +#define GEM_TXURUNCNT     (0x00000134 / 4) /* TX under run error counter */
+> +#define GEM_SINGLECOLLCNT (0x00000138 / 4) /* Single Collision Frames */
+> +#define GEM_MULTCOLLCNT   (0x0000013C / 4) /* Multiple Collision Frames */
+> +#define GEM_EXCESSCOLLCNT (0x00000140 / 4) /* Excessive Collision Frames */
+> +#define GEM_LATECOLLCNT   (0x00000144 / 4) /* Late Collision Frames */
+> +#define GEM_DEFERTXCNT    (0x00000148 / 4) /* Deferred Transmission Frames */
+> +#define GEM_CSENSECNT     (0x0000014C / 4) /* Carrier Sense Error Counter */
+> +#define GEM_OCTRXLO       (0x00000150 / 4) /* Octects Received register Low */
+> +#define GEM_OCTRXHI       (0x00000154 / 4) /* Octects Received register High */
+> +#define GEM_RXCNT         (0x00000158 / 4) /* Error-free Frames Received */
+> +#define GEM_RXBROADCNT    (0x0000015C / 4) /* Error-free Broadcast Frames RX */
+> +#define GEM_RXMULTICNT    (0x00000160 / 4) /* Error-free Multicast Frames RX */
+> +#define GEM_RXPAUSECNT    (0x00000164 / 4) /* Pause Frames Received Counter */
+> +#define GEM_RX64CNT       (0x00000168 / 4) /* Error-free 64 byte Frames RX */
+> +#define GEM_RX65CNT       (0x0000016C / 4) /* Error-free 65-127B Frames RX */
+> +#define GEM_RX128CNT      (0x00000170 / 4) /* Error-free 128-255B Frames RX */
+> +#define GEM_RX256CNT      (0x00000174 / 4) /* Error-free 256-512B Frames RX */
+> +#define GEM_RX512CNT      (0x00000178 / 4) /* Error-free 512-1023B Frames RX */
+> +#define GEM_RX1024CNT     (0x0000017C / 4) /* Error-free 1024-1518B Frames RX */
+> +#define GEM_RX1519CNT     (0x00000180 / 4) /* Error-free 1519-max Frames RX */
+> +#define GEM_RXUNDERCNT    (0x00000184 / 4) /* Undersize Frames Received */
+> +#define GEM_RXOVERCNT     (0x00000188 / 4) /* Oversize Frames Received */
+> +#define GEM_RXJABCNT      (0x0000018C / 4) /* Jabbers Received Counter */
+> +#define GEM_RXFCSCNT      (0x00000190 / 4) /* Frame Check seq. Error Counter */
+> +#define GEM_RXLENERRCNT   (0x00000194 / 4) /* Length Field Error Counter */
+> +#define GEM_RXSYMERRCNT   (0x00000198 / 4) /* Symbol Error Counter */
+> +#define GEM_RXALIGNERRCNT (0x0000019C / 4) /* Alignment Error Counter */
+> +#define GEM_RXRSCERRCNT   (0x000001A0 / 4) /* Receive Resource Error Counter */
+> +#define GEM_RXORUNCNT     (0x000001A4 / 4) /* Receive Overrun Counter */
+> +#define GEM_RXIPCSERRCNT  (0x000001A8 / 4) /* IP header Checksum Err Counter */
+> +#define GEM_RXTCPCCNT     (0x000001AC / 4) /* TCP Checksum Error Counter */
+> +#define GEM_RXUDPCCNT     (0x000001B0 / 4) /* UDP Checksum Error Counter */
+> +
+> +#define GEM_1588S         (0x000001D0 / 4) /* 1588 Timer Seconds */
+> +#define GEM_1588NS        (0x000001D4 / 4) /* 1588 Timer Nanoseconds */
+> +#define GEM_1588ADJ       (0x000001D8 / 4) /* 1588 Timer Adjust */
+> +#define GEM_1588INC       (0x000001DC / 4) /* 1588 Timer Increment */
+> +#define GEM_PTPETXS       (0x000001E0 / 4) /* PTP Event Frame Transmitted (s) */
+> +#define GEM_PTPETXNS      (0x000001E4 / 4) /*
+> +                                            * PTP Event Frame Transmitted (ns)
+> +                                            */
+> +#define GEM_PTPERXS       (0x000001E8 / 4) /* PTP Event Frame Received (s) */
+> +#define GEM_PTPERXNS      (0x000001EC / 4) /* PTP Event Frame Received (ns) */
+> +#define GEM_PTPPTXS       (0x000001E0 / 4) /* PTP Peer Frame Transmitted (s) */
+> +#define GEM_PTPPTXNS      (0x000001E4 / 4) /* PTP Peer Frame Transmitted (ns) */
+> +#define GEM_PTPPRXS       (0x000001E8 / 4) /* PTP Peer Frame Received (s) */
+> +#define GEM_PTPPRXNS      (0x000001EC / 4) /* PTP Peer Frame Received (ns) */
+>  
+>  /* Design Configuration Registers */
+> -#define GEM_DESCONF       (0x00000280/4)
+> -#define GEM_DESCONF2      (0x00000284/4)
+> -#define GEM_DESCONF3      (0x00000288/4)
+> -#define GEM_DESCONF4      (0x0000028C/4)
+> -#define GEM_DESCONF5      (0x00000290/4)
+> -#define GEM_DESCONF6      (0x00000294/4)
+> +#define GEM_DESCONF       (0x00000280 / 4)
+> +#define GEM_DESCONF2      (0x00000284 / 4)
+> +#define GEM_DESCONF3      (0x00000288 / 4)
+> +#define GEM_DESCONF4      (0x0000028C / 4)
+> +#define GEM_DESCONF5      (0x00000290 / 4)
+> +#define GEM_DESCONF6      (0x00000294 / 4)
+>  #define GEM_DESCONF6_64B_MASK (1U << 23)
+> -#define GEM_DESCONF7      (0x00000298/4)
+> +#define GEM_DESCONF7      (0x00000298 / 4)
+>  
+>  #define GEM_INT_Q1_STATUS               (0x00000400 / 4)
+>  #define GEM_INT_Q1_MASK                 (0x00000640 / 4)
+> -- 
+> 2.7.4
+> 
 
