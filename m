@@ -2,76 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5031CFF48
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 22:32:32 +0200 (CEST)
-Received: from localhost ([::1]:40640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C12041CFF70
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 22:37:02 +0200 (CEST)
+Received: from localhost ([::1]:46344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYbZn-0006Eb-1e
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 16:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54926)
+	id 1jYbe9-0000cu-F0
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 16:37:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jYbYU-0005Gf-3Y
- for qemu-devel@nongnu.org; Tue, 12 May 2020 16:31:10 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jYbYR-0008Pi-VW
- for qemu-devel@nongnu.org; Tue, 12 May 2020 16:31:09 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ebb077c0000>; Tue, 12 May 2020 13:30:52 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Tue, 12 May 2020 13:31:04 -0700
-X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Tue, 12 May 2020 13:31:04 -0700
-Received: from [10.40.103.94] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 May
- 2020 20:30:58 +0000
-Subject: Re: [PATCH Kernel v18 5/7] vfio iommu: Update UNMAP_DMA ioctl to get
- dirty bitmap before unmap
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <1588607939-26441-1-git-send-email-kwankhede@nvidia.com>
- <1588607939-26441-6-git-send-email-kwankhede@nvidia.com>
- <20200506162511.032bb1e6@w520.home>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <e4a5cb87-3bc3-ff1b-9ffb-479a4d418922@nvidia.com>
-Date: Wed, 13 May 2020 02:00:54 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1jYbd6-00006G-Th
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 16:35:56 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:54216
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1jYbd5-00014t-II
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 16:35:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589315754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ToeW7XloOLGcmuo/1uvD1dXWilmjj+uukSbMpVsXYQs=;
+ b=Knm0hh2w9gk4ysTat6tsaWZrrxCTwCwkTzRI/zoLQVUjU1G2d1odQ06s+LsCV+Ocwdj11M
+ Wmr3C11RMVhqfTWPUGdMSAIppLcmjJk7RQ61F7kjAf+wsEVNN+3l1r+afB5rFq7gIURXGs
+ Xt4rm/s6ofNw4hoQZzgeTRlsaw4sxHM=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-FRdrefXDP62Tyyc_GFFWAA-1; Tue, 12 May 2020 16:35:49 -0400
+X-MC-Unique: FRdrefXDP62Tyyc_GFFWAA-1
+Received: by mail-ot1-f69.google.com with SMTP id r16so6719590otn.21
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 13:35:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ToeW7XloOLGcmuo/1uvD1dXWilmjj+uukSbMpVsXYQs=;
+ b=E88sZCdO4vJVbVrOJl56m4r0H41viZT7MHxupdnDdXqJlswRfxpWjdqmnDMsnVxdx2
+ mKkkojmRy73OE+smh9UA4fG1efthj8b1gBWFkWpYazPdzKlPVXyfpe+kFlgwA1AQ0iNi
+ yNXAdTFvDK+rQE+stid5HIShzxkIX98DjGXua+FNarCej+6xFBTc2PNCWD337aK85a3A
+ v+08f132DNMhR9KuL3yf8jd8jxx/gj5/a+QLxgxRUCkKgFlc3PPRh73qZsfxN7nR9PW5
+ h6BhaWh4KAcDDxo9uZszvwkKAN70BfDF2lF9LK+vqATZfhy3yqYkrrakP8qOcHXRVjZp
+ 131Q==
+X-Gm-Message-State: AGi0PuaMQgOFl1Pls6a5ZRbEcZuA+J4TUFtJ6dwDBxjZf1jBLf6u6h73
+ pPSvPsdI01VDZpAxxi7uoqdlzqnoAXsptqI+LvpMPxJ1z8K+xed2HaVxWJWi2QXPddyMspwSb/v
+ gbCqfqqUpwvwMT4McN9Hj74zZHhU3Jro=
+X-Received: by 2002:a9d:3785:: with SMTP id x5mr18080223otb.81.1589315748479; 
+ Tue, 12 May 2020 13:35:48 -0700 (PDT)
+X-Google-Smtp-Source: APiQypKYeoSqJSokkTbnjWha2vmoaYqizouRlWeQpj0mKNXg8/MGymTl0MOPoQGFwLrY5ydByc1/QdgFO4lpRayBAd8=
+X-Received: by 2002:a9d:3785:: with SMTP id x5mr18080192otb.81.1589315747958; 
+ Tue, 12 May 2020 13:35:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200506162511.032bb1e6@w520.home>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1589315452; bh=SQJfdynECYAMsVxHU87JBCN1XEH3W8wqr29LA9gwC/Q=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
- X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=eNJvT0uKj+2qTv91QGkttQ2w17yFaiVHIx2xiHNV0zs9WzwZ+6TQ8Uwer2EjsDliw
- Ge7WjsKkdXCeNTADsEqE4DNz+szD7wvzVBBc01kYlHot7Jah84yqw5e2m6O4XKtsCB
- cvgTwrbizTOqIcKKnY5NP9+ErSrrEBoj2Z8LtA3TZf+vMJxSZvm9IE1KGuC2vNMYV8
- 4cEw1gIjydr1RG1kZo8DvTJyuxH9Grx2+tIFrvk77gaQKivlo0gDbBcAzRDgNCs7Mr
- /WJo2kzIAL3tEj+6yZrm6KoWo5qXB+WalAKsED2OLdI/LpoDsWh2EFDAnMltsOqC4X
- l9xXE8VR1H/MA==
-Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate26.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 16:31:05
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+References: <20200508180340.675712-1-eblake@redhat.com>
+ <20200508180340.675712-8-eblake@redhat.com>
+ <CAMRbyytP9LvMVJ1R1EEnjHJGKOXtOYg_=ywqn-yVDLBeqFff4g@mail.gmail.com>
+ <d0c62eef-acf6-0996-4928-1836940e2901@redhat.com>
+ <1a9f1d01-5b9a-ac35-334e-1fe090682621@redhat.com>
+In-Reply-To: <1a9f1d01-5b9a-ac35-334e-1fe090682621@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Tue, 12 May 2020 23:35:30 +0300
+Message-ID: <CAMRbyyu=Q-EZoQcY8_JUQQOvMQ+K7W22wRf+BX+tGbShWweNYA@mail.gmail.com>
+Subject: Re: [PATCH v3 7/9] qcow2: Expose bitmaps' size during measure
+To: Eric Blake <eblake@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:41:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,173 +94,338 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
- cjia@nvidia.com, kvm@vger.kernel.org, eskultet@redhat.com, ziye.yang@intel.com,
- qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
- dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
- pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
- jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
- Ken.Xue@amd.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 5/7/2020 3:55 AM, Alex Williamson wrote:
-> On Mon, 4 May 2020 21:28:57 +0530
-> Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> 
->> DMA mapped pages, including those pinned by mdev vendor drivers, might
->> get unpinned and unmapped while migration is active and device is still
->> running. For example, in pre-copy phase while guest driver could access
->> those pages, host device or vendor driver can dirty these mapped pages.
->> Such pages should be marked dirty so as to maintain memory consistency
->> for a user making use of dirty page tracking.
->>
->> To get bitmap during unmap, user should allocate memory for bitmap, set
->> size of allocated memory, set page size to be considered for bitmap and
->> set flag VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP.
->>
->> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
->> Reviewed-by: Neo Jia <cjia@nvidia.com>
->> ---
->>   drivers/vfio/vfio_iommu_type1.c | 84 +++++++++++++++++++++++++++++++++++++++--
->>   include/uapi/linux/vfio.h       | 10 +++++
->>   2 files changed, 90 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
->> index 01dcb417836f..8b27faf1ec38 100644
->> --- a/drivers/vfio/vfio_iommu_type1.c
->> +++ b/drivers/vfio/vfio_iommu_type1.c
->> @@ -983,12 +983,14 @@ static int verify_bitmap_size(uint64_t npages, uint64_t bitmap_size)
->>   }
->>   
->>   static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->> -			     struct vfio_iommu_type1_dma_unmap *unmap)
->> +			     struct vfio_iommu_type1_dma_unmap *unmap,
->> +			     struct vfio_bitmap *bitmap)
->>   {
->>   	uint64_t mask;
->>   	struct vfio_dma *dma, *dma_last = NULL;
->>   	size_t unmapped = 0;
->>   	int ret = 0, retries = 0;
->> +	unsigned long *final_bitmap = NULL, *temp_bitmap = NULL;
->>   
->>   	mask = ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
->>   
->> @@ -1041,6 +1043,7 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->>   			ret = -EINVAL;
->>   			goto unlock;
->>   		}
->> +
->>   		dma = vfio_find_dma(iommu, unmap->iova + unmap->size - 1, 0);
->>   		if (dma && dma->iova + dma->size != unmap->iova + unmap->size) {
->>   			ret = -EINVAL;
->> @@ -1048,6 +1051,22 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->>   		}
->>   	}
->>   
->> +	if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
->> +	     iommu->dirty_page_tracking) {
-> 
-> Why do we even accept VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP when not
-> dirty page tracking rather than returning -EINVAL?  It would simplify
-> things here to reject it at the ioctl and silently ignoring a flag is
-> rarely if ever the right approach.
-> 
->> +		final_bitmap = kvzalloc(bitmap->size, GFP_KERNEL);
->> +		if (!final_bitmap) {
->> +			ret = -ENOMEM;
->> +			goto unlock;
->> +		}
->> +
->> +		temp_bitmap = kvzalloc(bitmap->size, GFP_KERNEL);
->> +		if (!temp_bitmap) {
->> +			ret = -ENOMEM;
->> +			kfree(final_bitmap);
->> +			goto unlock;
->> +		}
-> 
-> YIKES!  So the user can instantly trigger the kernel to internally
-> allocate 2 x 256MB, regardless of how much they can actually map.
-> 
-
-That is worst case senario. I don't think ideally that will ever hit. 
-More comment below regarding this.
-
->> +	}
->> +
->>   	while ((dma = vfio_find_dma(iommu, unmap->iova, unmap->size))) {
->>   		if (!iommu->v2 && unmap->iova > dma->iova)
->>   			break;
->> @@ -1058,6 +1077,24 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
->>   		if (dma->task->mm != current->mm)
->>   			break;
->>   
->> +		if ((unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) &&
->> +		     iommu->dirty_page_tracking) {
->> +			unsigned long pgshift = __ffs(bitmap->pgsize);
->> +			unsigned int npages = dma->size >> pgshift;
->> +			unsigned int shift;
->> +
->> +			vfio_iova_dirty_bitmap(iommu, dma->iova, dma->size,
->> +					bitmap->pgsize, (u64 *)temp_bitmap);
-> 
-> vfio_iova_dirty_bitmap() takes a __user bitmap, we're doing
-> copy_to_user() on a kernel allocated buffer???
-> 
-
-Actually, there is no need to call vfio_iova_dirty_bitmap(), dma pointer 
-is known here and since its getting unmapped, there is no need to 
-repopulate bitmap. Removing vfio_iova_dirty_bitmap() and changing it as 
-below:
-
-if (unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
-     unsigned long pgshift = __ffs(bitmap->pgsize);
-     unsigned int npages = dma->size >> pgshift;
-     unsigned int bitmap_size = DIRTY_BITMAP_BYTES(npages);
-     unsigned int shift = (dma->iova - unmap->iova) >>
-                                             pgshift;
-     /*
-      * mark all pages dirty if all pages are pinned and
-      * mapped.
-      */
-     if (dma->iommu_mapped)
-         bitmap_set(temp_bitmap, 0, npages);
-     else
-         memcpy(temp_bitmap, dma->bitmap, bitmap_size);
-
-     if (shift)
-         bitmap_shift_left(temp_bitmap, temp_bitmap,
-                           shift, npages);
-     bitmap_or(final_bitmap, final_bitmap, temp_bitmap,
-               shift + npages);
-     memset(temp_bitmap, 0, bitmap->size);
-}
-
->> +
->> +			shift = (dma->iova - unmap->iova) >> pgshift;
->> +			if (shift)
->> +				bitmap_shift_left(temp_bitmap, temp_bitmap,
->> +						  shift, npages);
->> +			bitmap_or(final_bitmap, final_bitmap, temp_bitmap,
->> +				  shift + npages);
->> +			memset(temp_bitmap, 0, bitmap->size);
->> +		}
-> 
-> It seems like if the per vfio_dma dirty bitmap was oversized by a long
-> that we could shift it in place, then we'd only need one working bitmap
-> buffer and we could size that to fit the vfio_dma (or the largest
-> vfio_dma if we don't want to free and re-alloc for each vfio_dma).
-> We'd need to do more copy_to/from_user()s, but we'd also avoid copying
-> between sparse mappings (user zero'd bitmap required) and we'd have a
-> far more reasonable memory usage.  Thanks,
+On Tue, May 12, 2020 at 10:39 PM Eric Blake <eblake@redhat.com> wrote:
 >
+> On 5/12/20 6:10 AM, Max Reitz wrote:
+>
+>
+> >> This does not break old code since previously we always reported only
+> >> guest visible content
+> >> here, but it changes the semantics, and now you cannot allocate
+> >> "required" size, you need
+> >> to allocate "required" size with "bitmaps" size.
+> >
+> > Only if you copy the bitmaps, though, which requires using the --bitmap=
+s
+> > switch for convert.
+>
+> First, a usage question: would you rather that 'qemu-img convert
+> --bitmaps' silently succeeds even when the image being converted has no
+> bitmaps, or would you rather that it fails loudly when there are no
+> bitmaps to be copied over?
 
-I thought about it, but couldn't optimize to use one bitmap buffer.
-This case will only hit during migration with vIOMMU enabled.
-Can we keep these 2 bitmap buffers for now and optimize it later?
+I think the meaning of --bitmaps should be "copy also bitmaps".
 
-Thanks,
-Kirti
+This request makes sense only for qcow2 images, since other images do
+not have bitmaps, so failing loudly when the source format does not support
+bitmaps seems right.
+
+Same for the target format does not support bitmaps, this is invalid reques=
+t
+and it should fail loudly.
+
+If the source and target are qcow2, and there are no bitmaps in source, I d=
+on't
+see any reason to fail. We don't want to check if an image has bitmaps befo=
+re
+we copy the image, it does not help us.
+
+> As implemented in this patch series, patch 8
+> currently silently succeeds.
+
+Sounds good for qcow2 format.
+
+> But in order to make patch 7 and 8
+> consistent with one another, I need to know which behavior is easier to
+> use: failing convert if the source lacks bitmaps (and thus measure would
+> suppress the bitmaps:0 output), or treating lack of bitmaps as nothing
+> additional to copy and thereby succeeding (and thus measure should
+> output bitmaps:0 to show that no additional space is needed because
+> nothing else will be copied, successfully).
+
+I don't think showing "bitmaps: 0" in measure is related to how --bitmaps
+behave in convert. If we will have --bitmaps in measure, we don't need to
+show "bitmaps" at all since "required" will include it.
+
+If we want to show bitmaps in measure, I think using the same logic is fine=
+:
+- if format does not support bitmaps - fail
+- if format suppots bitmaps, show what we have - zero is valid result when
+  image does not have any bitmap.
+
+> >> If we add a new
+> >> extension all users will have to
+> >> change the calculation again.
+> >
+> > It was my impression that existing users won=E2=80=99t have to do that,=
+ because
+> > they don=E2=80=99t use --bitmaps yet.
+> >
+> > In contrast, if we included the bitmap size in @required or
+> > @fully-allocated, then previous users that didn=E2=80=99t copy bitmaps =
+to the
+> > destination (which they couldn=E2=80=99t) would allocate too much space=
+.
+> >
+> > ...revisiting this after reading more of your mail: With a --bitmaps
+> > switch, existing users wouldn=E2=80=99t suffer from such compatibility =
+problems.
+> >   However, then users (that now want to copy bitmaps) will have to pass
+> > the new --bitmaps flag in the command line, and I don=E2=80=99t see how=
+ that=E2=80=99s
+> > less complicated than just adding @bitmaps to @required.
+>
+> More concretely, suppose down the road that we add the ability to copy
+> internal snapshots (not that you want to mix internal and external
+> snapshots, but that such information already exists and therefore can be
+> used as an example).  Which is easier:
+>
+> $ qemu-img measure -f qcow2 image.qcow2
+> required size: 8716288
+> fully allocated size: 8716288
+> bitmaps size: 1024
+> internal snapshot size: 2048
+>
+> where you now have to add three numbers prior to creating dest.qcow2 and
+> calling:
+>
+> $ qemu-img convert image.qcow2 -f dest.qcow2 --bitmaps --snapshots
+>
+> or using:
+>
+> $ qemu-img measure --bitmaps --snapshots -f qcow2 image.qcow2
+> required size: 8719360
+> fully allocated size: 8719360
+>
+> where you then call:
+>
+> $ qemu-img convert image.qcow2 -f dest.qcow2 --bitmaps --snapshots
+>
+> with a single size that matches the same arguments you pass to qemu-img
+> convert?
+
+Yes, the second form is a good example of using --bitmaps consistently.
+
+>  What about failure cases?  What happens when qemu-img doesn't
+> understand --snapshots but does understand --bitmaps?  Do you have to
+> try a series of up to three calls to find how much information is support=
+ed:
+>
+> $ qemu-img measure -f qcow2 image.qcow2 --bitmaps --snapshots
+> error: unknown argument
+> $ qemu-img measure -f qcow2 image.qcow2 --bitmaps
+> error: unknown argument
+> $ qemu-img measure -f qcow2 image.qcow2
+> data given, now you know that neither --bitmaps nor --snapshots will work
+
+Assuming that I cannot require a version that support both features, which =
+is
+usually the case when we have to support different platforms with
+different versions
+of qemu-img, I will check the capabilities using qemu-img --help and cache
+the result. For vdsm case we control the host so qemu-img should not be upg=
+raded
+behind vdsm back.
+
+Then I will use the supported features. If both are missing, this
+convert will drop the
+the bitmaps and the snaphosts, and the next incremetnal backup will
+fail or fallback to
+full backup.
+
+> or is it nicer to issue just one measure without options, getting
+> separate output lines, and seeing which output lines exist to know which
+> convert options are supported, at the minor expense of having to add
+> values yourself?
+
+It is a little nicer since we don't need to check the capabilities,
+but we need to
+check them anyway for qemu-img convert, so this does not help much.
+
+But it introduces other issues:
+
+- we need to calculate the required size using required + bitmap or
+required + bitmaps + snapshots
+
+- what if measuring a snapshot is expensive - let's say take 20
+seconds. This is still fast enough
+  if the entire copy takes several minutes, so having a way to measure
+is useful. But users that do not
+  care about the snapshot have to pay for this one every call. So we
+would end with a --snapshot flag
+  to avoid this, and inconsistent API.
+
+> And then back to my question: should 'measure --bitmaps' fail if there
+> are no bitmaps to be measured, or silently succeed and not change the
+> output size?
+
+For raw file yes (invalid request), for qcow2 file no, it should just
+add 0 since this is the actual
+size required for bitmaps in this image.
+
+> >> With the current way, to measure an image we need to do:
+> >>
+> >> qemu-img info --output json ...
+> >> check if image contains bitmaps
+> >> qemu-img measure --output json ...
+> >> check if bitmaps are reported.
+>
+> Why do you have to check 'qemu-img info' first?  If measure reports
+> bitmaps, then you know bitmaps can be copied;
+
+This works only if qemu-img measure will report "bitmaps": 0 when there
+are no bitmaps. Otherwise I don't know if this version does not report bitm=
+aps
+because it does not understand them, or because there are no bitmaps.
+
+Using qemu-img info I can tell the difference if measure does not report 0.
+
+> if it doesn't, then you
+> can check info as a fallback path to compute size yourself - but
+> computing the size yourself doesn't help unless you also have fallbacks
+> to copy the bitmaps via QMP commands, because that qemu-img will also
+> lack 'qemu-img convert --bitmaps' or 'qemu-img bitmaps' to do it via
+> qemu-img.
+
+When we started to work on this it was not clear that we will have a
+way to measure
+bitmaps. If we are going to have support both in convert and measure,
+we can check
+capability only in convert or only in measure.
+
+> >> If image has bitmaps and bitmaps are not reported, we know that we hav=
+e an old
+> >> version of qemu-img that does not know how to measure bitmaps.
+> >
+> > Well, but you=E2=80=99ll also see that convert --bitmaps will fail.  Bu=
+t I can
+> > see that you probably want to know about that before you create the
+> > target image.
+> >
+> >> If bitmaps are reported in both commands we will use the value when cr=
+eating
+> >> block devices.
+> >
+> > And otherwise?  Do you error out, or do you just omit --bitmaps from
+> > convert?
+> >
+> >> If we always report bitmaps even when they are zero, we don't need to
+> >> run "qemu-img info".
+> >>
+> >> But  my preferred interface is:
+> >>
+> >>     qemu-img measure --bitmaps ...
+> >>
+> >> And report bitmaps only if the user asked to get the value. In this
+> >> case the required and
+> >> fully-allocated values will include bitmaps.
+> >
+> > Well, it would be consistent with the convert interface.  If you specif=
+y
+> > it for one, you specify it for the other.
+> >
+> > OTOH, this would mean having to pass around the @bitmaps bool in the
+> > block layer, which is a bit more difficult than just adding a new field
+> > in BlockMeasureInfo.  It would also mean to add a new bool every time w=
+e
+> > add a new extension (which you hinted at above that it might happen).
+>
+> Or, that could be a CLI-only feature: the QMP interface _always_ reports
+> bitmaps separately, but if 'qemu-img measure --bitmaps' is used, the CLI
+> then adds that value in on your behalf after the QMP command but before
+> printing to the end user.
+>
+> >
+> > (We could also let img_measure() in qemu-img add @bitmaps to @required
+> > if --bitmaps was given, so we wouldn=E2=80=99t have to pass the bool ar=
+ound; but
+> > I think letting qemu-img fix up a QAPI object filled by the block drive=
+r
+> > sounds wrong.  (Because that means the block driver didn=E2=80=99t fill=
+ it
+> > correctly.))
+>
+> If we only touch it up in the CLI, then we would have two forms of CLI
+> output:
+>
+> $ qemu-img measure -f qcow2 image.qcow2
+> required size: 8716288
+> fully allocated size: 8716288
+> bitmaps size: 1024
+> $ qemu-img measure -f qcow2 image.qcow2 --bitmaps
+> required size: 8717312
+> fully allocated size: 8717312
+
+I hope we will not have 2 forms. qemu-img is complicated enough ;-)
+
+> > And I don=E2=80=99t see how the interface proposed here by Eric (or rat=
+her, what
+> > I think we had agreed on for the next version) poses any problems for
+> > users.  If you want to copy bitmaps, you just use @required + @bitmaps.
+> >   (If @bitmaps isn=E2=80=99t present, you can=E2=80=99t copy bitmaps, s=
+o that should be
+> > an error.)  If you don=E2=80=99t want to copy bitmaps, you just use @re=
+quired.
+> >
+> > (And if you want to copy bitmaps if present, you use @required +
+> > @bitmaps, and treat @bitmaps as 0 if not present.)
+> >
+> >> To learn if qemu-img measure understand bitmaps we can check --help
+> >> output, like we did
+> >> in the past until we can require the version on all platforms.
+> >>
+> >> An advantage is not having to change old tests.
+> > I personally don=E2=80=99t really consider that a significant advantage=
+...  (On
+> > the contrary, seeing the field in all old tests means the code path is
+> > exercised more often, even though it=E2=80=99s supposed to always just =
+report 0.)
+> >
+> > So all in all the main benefit I see in your proposal, i.e. having
+> > @bitmaps be included in @required with --bitmaps given, is that it woul=
+d
+> > give a symmetrical interface between measure and convert: For simple
+> > cases, you can just replace the =E2=80=9Cconvert=E2=80=9D in your comma=
+nd line by
+> > =E2=80=9Cmeasure=E2=80=9D, retrieve @required/@fully-allocated, create =
+the target image
+> > based on that, and then re-run the same command line, but with =E2=80=
+=9Cconvert=E2=80=9D
+> > this time.
+> >
+> > But I=E2=80=99m not sure whether that=E2=80=99s really an advantage in =
+practice or more
+> > of a gimmick.  With Eric=E2=80=99s proposal, if you want to convert wit=
+h
+> > bitmaps, just add @bitmaps to the target size.  If you don=E2=80=99t, d=
+on=E2=80=99t.  If
+> > you=E2=80=99d prefer to but don=E2=80=99t really care, add =E2=80=9C@bi=
+tmaps ?: 0=E2=80=9D.
+> >
+> > The benefit of Eric=E2=80=99s proposal (not including @bitmaps in @requ=
+ired or
+> > @fully-allocated) is that it doesn=E2=80=99t require passing an additio=
+nal
+> > parameter to the block driver.  It also makes the definition of
+> > BlockMeasureInfo simpler.  With your proposal, it would need to be
+> > parameterized.  (As in, @required sometimes includes the bitmaps,
+> > sometimes it doesn=E2=80=99t, depending on the parameter used to retrie=
+ve
+> > BlockMeasureInfo.)  I=E2=80=99m not sure whether that even makes sense =
+in the
+> > QAPI definition.
+>
+> I'm leaning towards making v4 try a CLI-only 'measure --bitmaps', to see
+> if I can speed the discussion along with concrete patches for comparison.
+
+Thanks, that would be useful.
+
+Nir
+
 
