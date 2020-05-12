@@ -2,55 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E41D1CEB8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:35:51 +0200 (CEST)
-Received: from localhost ([::1]:41094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9011CEC31
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 06:53:39 +0200 (CEST)
+Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYLhu-0006mb-5V
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:35:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
+	id 1jYMvB-0001se-V9
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 00:53:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jYLgu-0005lr-F0; Mon, 11 May 2020 23:34:48 -0400
-Received: from ozlabs.org ([203.11.71.1]:37721)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jYJHk-0002UD-Fw
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 21:00:40 -0400
+Received: from mga17.intel.com ([192.55.52.151]:46290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jYLgs-0001pO-0a; Mon, 11 May 2020 23:34:48 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49Lk243c5Vz9sSg; Tue, 12 May 2020 13:34:36 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1589254476;
- bh=gGahroeaTim0FjgSz+hr+x3pqmkGlST3ysBXTZOj4C8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eGpmjp60MKBOlSy7y71kqpH7rYiRkAFDLpYzwgSAzv/TWOonx02PikaOhHjpkOfSE
- qIqqnmKenOZmnqzh2avK88BX9UMw1QTMqVopbqw5aYcdzjaXbgGvkx4JGA3O+sozQw
- AmjpRd5NrVegBx4KDJLLDKde/hRL2mwOnaNtMARw=
-Date: Tue, 12 May 2020 10:00:20 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 0/6] target/ppc: Various clean-up and fixes for radix64
-Message-ID: <20200512000020.GV2183@umbus.fritz.box>
-References: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
- <20200511014426.GO2183@umbus.fritz.box>
- <20200511185521.1601dbde@bahia.lan>
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1jYJHh-0004SA-8P
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 21:00:39 -0400
+IronPort-SDR: 5QqLayY4u/C88h5KRHkyl3oPD3R5jKTkGSR+gFr8lue144KBYhtw1YIv9atLC9+hcjOW7KNl69
+ x7Mvr4XUf8Wg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 May 2020 18:00:26 -0700
+IronPort-SDR: jB34r3FKCEwqxO0KiWH9w9rZf7/RXIX5ifDI1VvabThwnDCVU/zGspH+Ia1ooKD9jfFrs/YqPc
+ 47AaZu2i4uHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,381,1583222400"; d="scan'208";a="436891403"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.16])
+ by orsmga005.jf.intel.com with ESMTP; 11 May 2020 18:00:21 -0700
+Date: Mon, 11 May 2020 20:50:33 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v16 QEMU 09/16] vfio: Add save state functions to
+ SaveVMHandlers
+Message-ID: <20200512005033.GA27524@joy-OptiPlex-7040>
+References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
+ <1585084154-29461-10-git-send-email-kwankhede@nvidia.com>
+ <20200509053131.GC26056@joy-OptiPlex-7040>
+ <7653e660-1360-7c2b-c4c7-3b53081f14e3@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JEhTuUFIcUlI65CC"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200511185521.1601dbde@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:34:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <7653e660-1360-7c2b-c4c7-3b53081f14e3@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=yan.y.zhao@intel.com;
+ helo=mga17.intel.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 21:00:26
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 12 May 2020 00:52:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,60 +70,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, May 11, 2020 at 06:22:47PM +0800, Kirti Wankhede wrote:
+> 
+> 
+> On 5/9/2020 11:01 AM, Yan Zhao wrote:
+> > On Wed, Mar 25, 2020 at 05:09:07AM +0800, Kirti Wankhede wrote:
+> >> Added .save_live_pending, .save_live_iterate and .save_live_complete_precopy
+> >> functions. These functions handles pre-copy and stop-and-copy phase.
+> >>
+> >> In _SAVING|_RUNNING device state or pre-copy phase:
+> >> - read pending_bytes. If pending_bytes > 0, go through below steps.
+> >> - read data_offset - indicates kernel driver to write data to staging
+> >>    buffer.
+> >> - read data_size - amount of data in bytes written by vendor driver in
+> >>    migration region.
+> > I think we should change the sequence of reading data_size and
+> > data_offset. see the next comment below.
+> > 
+> >> - read data_size bytes of data from data_offset in the migration region.
+> >> - Write data packet to file stream as below:
+> >> {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data,
+> >> VFIO_MIG_FLAG_END_OF_STATE }
+> >>
+> >> In _SAVING device state or stop-and-copy phase
+> >> a. read config space of device and save to migration file stream. This
+> >>     doesn't need to be from vendor driver. Any other special config state
+> >>     from driver can be saved as data in following iteration.
+> >> b. read pending_bytes. If pending_bytes > 0, go through below steps.
+> >> c. read data_offset - indicates kernel driver to write data to staging
+> >>     buffer.
+> >> d. read data_size - amount of data in bytes written by vendor driver in
+> >>     migration region.
+> >> e. read data_size bytes of data from data_offset in the migration region.
+> >> f. Write data packet as below:
+> >>     {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data}
+> >> g. iterate through steps b to f while (pending_bytes > 0)
+> >> h. Write {VFIO_MIG_FLAG_END_OF_STATE}
+> >>
+> >> When data region is mapped, its user's responsibility to read data from
+> >> data_offset of data_size before moving to next steps.
+> >>
+> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> >> ---
+> >>   hw/vfio/migration.c           | 245 +++++++++++++++++++++++++++++++++++++++++-
+> >>   hw/vfio/trace-events          |   6 ++
+> >>   include/hw/vfio/vfio-common.h |   1 +
+> >>   3 files changed, 251 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> >> index 033f76526e49..ecbeed5182c2 100644
+> >> --- a/hw/vfio/migration.c
+> >> +++ b/hw/vfio/migration.c
+> >> @@ -138,6 +138,137 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
+> >>       return 0;
+> >>   }
+> >>   
+> >> +static void *find_data_region(VFIORegion *region,
+> >> +                              uint64_t data_offset,
+> >> +                              uint64_t data_size)
+> >> +{
+> >> +    void *ptr = NULL;
+> >> +    int i;
+> >> +
+> >> +    for (i = 0; i < region->nr_mmaps; i++) {
+> >> +        if ((data_offset >= region->mmaps[i].offset) &&
+> >> +            (data_offset < region->mmaps[i].offset + region->mmaps[i].size) &&
+> >> +            (data_size <= region->mmaps[i].size)) {
+> >> +            ptr = region->mmaps[i].mmap + (data_offset -
+> >> +                                           region->mmaps[i].offset);
+> >> +            break;
+> >> +        }
+> >> +    }
+> >> +    return ptr;
+> >> +}
+> >> +
+> >> +static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
+> >> +{
+> >> +    VFIOMigration *migration = vbasedev->migration;
+> >> +    VFIORegion *region = &migration->region;
+> >> +    uint64_t data_offset = 0, data_size = 0;
+> >> +    int ret;
+> >> +
+> >> +    ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
+> >> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> >> +                                             data_offset));
+> >> +    if (ret != sizeof(data_offset)) {
+> >> +        error_report("%s: Failed to get migration buffer data offset %d",
+> >> +                     vbasedev->name, ret);
+> >> +        return -EINVAL;
+> >> +    }
+> >> +
+> >> +    ret = pread(vbasedev->fd, &data_size, sizeof(data_size),
+> >> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> >> +                                             data_size));
+> >> +    if (ret != sizeof(data_size)) {
+> >> +        error_report("%s: Failed to get migration buffer data size %d",
+> >> +                     vbasedev->name, ret);
+> >> +        return -EINVAL;
+> >> +    }
+> > data_size should be read first, and if it's 0, data_offset will not
+> > be read further.
+> > 
+> > the reasons are below:
+> > 1. if there's no data region provided by vendor driver, there's no
+> > reason to get a valid data_offset, so reading/writing of data_offset
+> > should fail. And this should not be treated as a migration error.
+> > 
+> > 2. even if pending_bytes is 0, vfio_save_iterate() is still possible to be
+> > called and therefore vfio_save_buffer() is called.
+> > 
+> 
+> As I mentioned in reply to Alex in:
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg02476.html
+> 
+> With that, vfio_save_iterate() will read pending_bytes if its 0 and then 
+> if pending_bytes is not 0 then call vfio_save_buffer(). With that your 
+> above concerns should get resolved.
+>
+what if pending_bytes is not 0, but vendor driver just does not want to
+send data in this iteration? isn't it right to get data_size first before
+getting data_offset?
 
---JEhTuUFIcUlI65CC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, May 11, 2020 at 06:55:21PM +0200, Greg Kurz wrote:
-> On Mon, 11 May 2020 11:44:26 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Thu, May 07, 2020 at 07:26:32PM +0200, Greg Kurz wrote:
-> > > First three patches of this series are simple cleanups. The other
-> > > ones fix some regressions introduced by Cedric's recent addition
-> > > of partition-scoped translation.
-> >=20
-> > 1-5/6 applied to ppc-for-5.1.  I have some comments on 6/6.
-> >=20
->=20
-> As said in another mail, since patch 3 breaks build with gcc-9.3.1, I
-> intend to send a v2 for the whole series later this week. I suggest
-> you simply drop the patches you've applied for now.
-
-Ok, done.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---JEhTuUFIcUlI65CC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl655xIACgkQbDjKyiDZ
-s5L9zw/+Kofkp5JFQgai8R8LX8jRUVop/zrDG3Zd+44QMBFVuAPCw2dePncetwcd
-9c8fvjnZS5ne2nZbJZeHiZ85lw0JKXywNa3cmcoFD62+r0r/FzX3Lzlr49r+YpZW
-NB/hsvglmB5L3HvxqClUlJ1mC1sdiNB8elCWNOy9SJuO+qsrvJzaszrCSIF+n+aB
-SeKVjv6b/A3evMX8bdU7MQRkqaHA8iUsKcdOI7xmcfbN5WQLCDVMpSxCI0weJUtx
-TjfTboHiNF2Xmara0BXhH2zTOSCIKwOtscdsIWwsleEp2PhsjVzUnwMd7kmYHYvT
-d2YwbNs1XsM3o+gfp4/wkegEqokOns1TyYImncRfyFGqiUpGrtTh3BMSeuWRbuvm
-+cM1dhR94jmYemNkuqiozqGcIZXIP4XUlZaMTlW0K2LujUUeJ8kY+sKtAY+ham1k
-Bv+5a6MoNk+/es8vWHqsdu6+rq7j5NOq6Nv7zfJozWpULwMGfdIUCIdvz+6FvKAe
-QfWDlJgUhYCR0AFhfN1rF9kgLBjNAAvX+k68ycsCq8tInsJo9YgLSkpZHKtoterY
-ze1dpjmfjrfWYROlHa47keZ2jl5eUjjwp9oQELqZhQCWpcKDl1v4ZW/45mjO/3Pp
-kavLqZu2CF90QeMAQVhlA7OyQ/jy/JLFnFPbwont/brftIU6TpE=
-=N5nf
------END PGP SIGNATURE-----
-
---JEhTuUFIcUlI65CC--
+Thanks
+Yan
 
