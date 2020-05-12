@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3981CF8BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:14:18 +0200 (CEST)
-Received: from localhost ([::1]:41962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2285C1CF92A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:30:34 +0200 (CEST)
+Received: from localhost ([::1]:54708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWbp-0008B2-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35274)
+	id 1jYWrY-0000M2-SS
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:30:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jYWSX-0001Th-A7; Tue, 12 May 2020 11:04:41 -0400
-Received: from mail-bn7nam10on2056.outbound.protection.outlook.com
- ([40.107.92.56]:22250 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ id 1jYWT1-0002Mb-06; Tue, 12 May 2020 11:05:11 -0400
+Received: from mail-mw2nam12on2044.outbound.protection.outlook.com
+ ([40.107.244.44]:23360 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jYWSU-0002eS-7U; Tue, 12 May 2020 11:04:40 -0400
+ id 1jYWSz-0002rh-Iu; Tue, 12 May 2020 11:05:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VF+eW+cGGRR7Q7Dqs6hpQ6plWEA7eMNumW6MhXYRRT8g4HzUm0yJmrFP20BKN82Gb7mq9mm+GFt+SsDlXFmS9C4kAHd3Q9sazsmtYkEdlH08JGiOmqQM08fmiIWG2Ozy6cWhDzh5QwzmX92M+Uqu1TZTcJwDtQ+sDrTykL4SAq7zB4ZY5yDhRgM9EO4Qped4E1N4fmvV+UE4TBn0EeZLGT/UBR5JRB5ingzaDp87WRvNqH9S4jrZRwnh8RVfThWa76B+5UVjVVMqgU2GO/nokdKBu39apA5Cn5OpEn+z71u5E0s1FcmzxKCGPu+wOIHzzPAqZuOlbWeixj71jJKh6g==
+ b=P+IYTO1JKnj28KstfK9V53sAvap/giyGieaC2XaAX5bVh+FVPwGHmo6jGVomG6QsaGnDrRS04VpmDnwHIvTP9wBBYlicW3fM324mUU0JAyl8XCezLQpkT/GmbCLZ2sHQpBfTiJ4wTRzC1cFoC4DQPwoDGR4YFo7w23NkuBIJAfQkfTD8z/TXCgM1hGcXLzMCy6N6LotlAF4WgVNz6Y8OcjUy1M7BtzyuGPtuwyiGuYOT6RTLV5Dv9r57PO84R2QdMQg6Ki2ZS9E4IUYEC6mxywBBaDjzVj41nCbotydetymC8qa0KYP4XgZHhX63/28Ih68x3LoeWsew3Rb4ps1n0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QDDfQay8WPdmdMcKmLynxs0u9Nr1s4msHPOvoJh9eKE=;
- b=hCNe9WQPZJBYeiMewbZ0KYzPw7Ud/2PJTyqDnY8fGywrRXKHxyLWpSnirD5ueFXX3UykKKW9HwH7haobjidL64VQEeTHE/JuHK94R4uDHRdJGNI8SKSFa6j79q37u1JD8wc0y3wvQV5LzcpOo1BMP+abCBsNICK1GH+Jcbdoy4HX6K6wN26k2HwtWN9YrS+Nf5V4czqOav/U72XIucftN9r60nAQRWqIUoi/o2R/2wJNIyxvCiuc7FIB3vcfaSgE9tvQofdrczKF2TjTsREgc7BVkfCsZon3om/QRkozHLaHcbT/vzWAMpPw21MhfgIfcMRYQ3S4HAnFyZuKzSg7DA==
+ bh=4q2+oS9GKCSBUE47+B38hjhpoGkd+/1OAYoUh0Rcrdo=;
+ b=Aoz18CEcHNJhjLIMOfjF/FNdfEzRv0cDIH4OYlyyUW6p2EeaCKLbIOPvW5nbdP9u/1ZntNGr/ujzHLrNCFRYjwXteRSkemmprC28k5+29g30JIqBcCRbZuQLNdO5YPle4il+WYr+ScQe+SO0FtLQtL4JY+iELVGJs1sx78zT9g54KjYlkMjjJ4gCcLhpd76uAyLpp0N4eISd998npk3vd1K/3VB0ypI2bIP5i6jBZoT3QJESm62C4ljTRCCKHCQ4Ao3DeZpm+Y3KzNhpjodvHlXgP3kqpq/v5AkX/Wc/7jl5g6XDdTZOis8spq4VVaqB96Q9js88jpPzwGpzrz537A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.60.83) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -32,17 +32,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QDDfQay8WPdmdMcKmLynxs0u9Nr1s4msHPOvoJh9eKE=;
- b=d9whPErFS5piPFhw2pFasvsUZAaDMI4+Vni+rT9onx6xYk5sM3H4G7h6/twe+v5t7OikVSs1cRXSRVbIcFvtCcGTPSSlBzZYGyabn7DyQJo9HQpSfxO45jUW1SY7dLhs/ZS7nltRpqT/O2vJ+aDl284ldfrmn04AlylI/EOPxLI=
-Received: from BL0PR1501CA0026.namprd15.prod.outlook.com
- (2603:10b6:207:17::39) by MN2PR02MB6605.namprd02.prod.outlook.com
- (2603:10b6:208:15f::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.29; Tue, 12 May
+ bh=4q2+oS9GKCSBUE47+B38hjhpoGkd+/1OAYoUh0Rcrdo=;
+ b=KH0EpMp1MIBJoZBHCRUzlNTWB8/MtqpyGix5uE/FDttiMcpiOHnnnSXRcep6XtVvWA9fjzNkhNPvgYsClStSZp/uRGrCngaSN6fp1u5uaTfv3Igv1rQ46CxqNdfHTC1gVGAhL3fNWrB5lorKBw+Rd1hCdASX6S6sEP17cCuqEIs=
+Received: from CY4PR13CA0042.namprd13.prod.outlook.com (2603:10b6:903:99::28)
+ by BN7PR02MB4004.namprd02.prod.outlook.com (2603:10b6:406:fe::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Tue, 12 May
  2020 15:04:35 +0000
-Received: from BL2NAM02FT028.eop-nam02.prod.protection.outlook.com
- (2603:10b6:207:17:cafe::3b) by BL0PR1501CA0026.outlook.office365.com
- (2603:10b6:207:17::39) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28 via Frontend
+Received: from CY1NAM02FT022.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:99:cafe::ee) by CY4PR13CA0042.outlook.office365.com
+ (2603:10b6:903:99::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.12 via Frontend
  Transport; Tue, 12 May 2020 15:04:35 +0000
 Authentication-Results: spf=pass (sender IP is 149.199.60.83)
  smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
@@ -52,23 +52,23 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT028.mail.protection.outlook.com (10.152.77.165) with Microsoft SMTP
- Server id 15.20.2979.29 via Frontend Transport; Tue, 12 May 2020 15:04:35
+ CY1NAM02FT022.mail.protection.outlook.com (10.152.75.185) with Microsoft SMTP
+ Server id 15.20.2979.29 via Frontend Transport; Tue, 12 May 2020 15:04:34
  +0000
-Received: from [149.199.38.66] (port=48874 helo=xsj-pvapsmtp01)
+Received: from [149.199.38.66] (port=48864 helo=xsj-pvapsmtp01)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jYWSA-00045v-JQ; Tue, 12 May 2020 08:04:18 -0700
+ id 1jYWSA-00045p-AR; Tue, 12 May 2020 08:04:18 -0700
 Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jYWSQ-0003oq-VA; Tue, 12 May 2020 08:04:34 -0700
+ id 1jYWSQ-0003ot-MM; Tue, 12 May 2020 08:04:34 -0700
 Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1jYWSP-0003o8-Oq; Tue, 12 May 2020 08:04:34 -0700
+ id 1jYWSP-0003oA-P3; Tue, 12 May 2020 08:04:34 -0700
 Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 5049813C0175; Tue, 12 May 2020 20:26:29 +0530 (IST)
+ id 57C4713C017D; Tue, 12 May 2020 20:26:29 +0530 (IST)
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
@@ -76,9 +76,9 @@ To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Tong Ho <tong.ho@xilinx.com>, Ramon Fried <rfried.dev@gmail.com>
-Subject: [PATCH v5 07/12] net: cadence_gem: Fix up code style
-Date: Tue, 12 May 2020 20:24:49 +0530
-Message-Id: <1589295294-26466-8-git-send-email-sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v5 08/12] net: cadence_gem: Add support for jumbo frames
+Date: Tue, 12 May 2020 20:24:50 +0530
+Message-Id: <1589295294-26466-9-git-send-email-sai.pavan.boddu@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1589295294-26466-1-git-send-email-sai.pavan.boddu@xilinx.com>
 References: <1589295294-26466-1-git-send-email-sai.pavan.boddu@xilinx.com>
@@ -89,31 +89,31 @@ X-MS-Office365-Filtering-HT: Tenant
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
  SFTY:;
- SFS:(39860400002)(136003)(396003)(346002)(376002)(46966005)(33430700001)(186003)(8936002)(47076004)(5660300002)(81166007)(33440700001)(6266002)(6666004)(30864003)(4326008)(70206006)(36756003)(26005)(70586007)(356005)(82740400003)(42186006)(2906002)(316002)(82310400002)(8676002)(426003)(336012)(478600001)(2616005)(110136005);
+ SFS:(39860400002)(376002)(136003)(396003)(346002)(46966005)(33430700001)(316002)(110136005)(36756003)(33440700001)(426003)(2616005)(70206006)(81166007)(356005)(82310400002)(82740400003)(70586007)(6266002)(8936002)(8676002)(336012)(2906002)(26005)(186003)(4326008)(47076004)(42186006)(478600001)(6666004)(5660300002);
  DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5b891d3b-1774-427a-c667-08d7f685c8a6
-X-MS-TrafficTypeDiagnostic: MN2PR02MB6605:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB66050440839753F6E572AAE0CABE0@MN2PR02MB6605.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 351a239d-7b7e-4383-5f4e-08d7f685c869
+X-MS-TrafficTypeDiagnostic: BN7PR02MB4004:
+X-Microsoft-Antispam-PRVS: <BN7PR02MB4004833E130135CB86649525CABE0@BN7PR02MB4004.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:281;
+X-MS-Oob-TLC-OOBClassifiers: OLM:216;
 X-Forefront-PRVS: 0401647B7F
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kkxo5DyGjCY6nqRhFQUaFc48yi3BjrGQ2+BgW7HfpufJEnDDu9XO2qBmM80p1vbNQHpvoJar2IGYPfIzlyi2qrFe8YICOQBgYO7zicBbB71vfdESxtOB0x+h9nMaEmhCozjMs5pVyL+bmxwSpm+AcxtYqaB6pI6gXr2xHd32edK/yOzmdDXkYng9u4YfuCJmbXKAIWvoftIzpc1aL6JTBE+qeVtIrjcTSbklQhM6L7HtiCco+wth7PIG5nNtLUpf5nuU7L/tewPc/WEpTf1GuR7rvc0NTrcFGiA25JUgnis/r/JG+lx1VGODYAnEKKb28OTEnD7LN+WzTwS9axiS5GgwZYamAno5AmfZGLjAShDmByKExG07G5a1N95KLdouZPrQQJVr95JQrqneWqEi9R4LsXoopIJeiRXrrW86r3//LPqToUlxoi8Di6CRrT8e/k9K8MkZg1lex1J0zUCsGBLG7wW3/idVDKfsIDlDtx22K3T0CyoWWtd/ew12grO4h3qeGjAwVTm6pkWZYI7aDuEuVOfcOydGECbzLE0JuODb4j4QC7PRpNAMlWH7aseMyixa2ARylMD1UTcCEd7erQ==
+X-Microsoft-Antispam-Message-Info: iVOMKIOZ95AzTiPO325HwSJ2LqArZ3km0sO3N+T8lmLVncaOTxWs8ic409RtNPnoTT5MbGTuWFsNmSjYmR/LBJIk+QTOzj/NOdMNc/nuJaXQC9dc+NHz+IwPzvqNA8QU0E5I0VG/mV6Ol1FH4b4z/RG8Dqn0bmGpzjjcgBoUZpp6rPlDodEgQbc/+BwzdRSHYoSBEMu9ZZpIhy8eCGJcPH0sNa8cHIyZmSCM/5CUV7FL3DrRc4ez32bFXxBMpwpClCvmRrZmzJHc+RSUG0nCGigv+L77oo+ihxoFkGWX1jK2yHNrlZlNQwF3IJIJ3G2HtNMa5cNK41qCq6W+Ng5ZpBqeJQqS4pO+pnqAK9xqIiaMWOSx8EZx7JJb7x9sWCkdW0n+Hy/NJp0R22QyMKkVbS37jNprrldgO+F/YShg5B8uOC7RL7r6o1GjepEC/mvMW16qp19tgW1BCBSPB1kWQz3TaT08Ns1Z8KUV5YNVgS4Ed3hs71QBm4ai/vVARBzu6YplpTQRzmDminpSfcxc+8BnLvhPTSo+CWsywIRBG4Dl5dlaIICIJslsfdJKpMnRX0+9eFFtTlzIP0z/OxeroQ==
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 15:04:35.3520 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b891d3b-1774-427a-c667-08d7f685c8a6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 15:04:34.9506 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 351a239d-7b7e-4383-5f4e-08d7f685c869
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6605
-Received-SPF: pass client-ip=40.107.92.56; envelope-from=saipava@xilinx.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:04:36
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB4004
+Received-SPF: pass client-ip=40.107.244.44; envelope-from=saipava@xilinx.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:05:06
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -138,231 +138,171 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the code style for register definitions.
+Add a property "jumbo-max-len", which sets default value of jumbo frames
+up to 16,383 bytes. Add Frame length checks for standard and jumbo
+frames.
 
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 ---
- hw/net/cadence_gem.c | 204 ++++++++++++++++++++++++++-------------------------
- 1 file changed, 103 insertions(+), 101 deletions(-)
+ hw/net/cadence_gem.c         | 51 +++++++++++++++++++++++++++++++++++++++-----
+ include/hw/net/cadence_gem.h |  4 +++-
+ 2 files changed, 49 insertions(+), 6 deletions(-)
 
 diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 11e36d0..f6ff27c 100644
+index f6ff27c..eb02946 100644
 --- a/hw/net/cadence_gem.c
 +++ b/hw/net/cadence_gem.c
-@@ -43,110 +43,112 @@
-     } \
- } while (0)
+@@ -61,6 +61,7 @@
+ #define GEM_TXPAUSE       (0x0000003C / 4) /* TX Pause Time reg */
+ #define GEM_TXPARTIALSF   (0x00000040 / 4) /* TX Partial Store and Forward */
+ #define GEM_RXPARTIALSF   (0x00000044 / 4) /* RX Partial Store and Forward */
++#define GEM_JUMBO_MAX_LEN (0x00000048 / 4) /* Max Jumbo Frame Size */
+ #define GEM_HASHLO        (0x00000080 / 4) /* Hash Low address reg */
+ #define GEM_HASHHI        (0x00000084 / 4) /* Hash High address reg */
+ #define GEM_SPADDR1LO     (0x00000088 / 4) /* Specific addr 1 low reg */
+@@ -212,10 +213,12 @@
+ #define GEM_NWCFG_LERR_DISC    0x00010000 /* Discard RX frames with len err */
+ #define GEM_NWCFG_BUFF_OFST_M  0x0000C000 /* Receive buffer offset mask */
+ #define GEM_NWCFG_BUFF_OFST_S  14         /* Receive buffer offset shift */
++#define GEM_NWCFG_RCV_1538     0x00000100 /* Receive 1538 bytes frame */
+ #define GEM_NWCFG_UCAST_HASH   0x00000080 /* accept unicast if hash match */
+ #define GEM_NWCFG_MCAST_HASH   0x00000040 /* accept multicast if hash match */
+ #define GEM_NWCFG_BCAST_REJ    0x00000020 /* Reject broadcast packets */
+ #define GEM_NWCFG_PROMISC      0x00000010 /* Accept all packets */
++#define GEM_NWCFG_JUMBO_FRAME  0x00000008 /* Jumbo Frames enable */
  
--#define GEM_NWCTRL        (0x00000000/4) /* Network Control reg */
--#define GEM_NWCFG         (0x00000004/4) /* Network Config reg */
--#define GEM_NWSTATUS      (0x00000008/4) /* Network Status reg */
--#define GEM_USERIO        (0x0000000C/4) /* User IO reg */
--#define GEM_DMACFG        (0x00000010/4) /* DMA Control reg */
--#define GEM_TXSTATUS      (0x00000014/4) /* TX Status reg */
--#define GEM_RXQBASE       (0x00000018/4) /* RX Q Base address reg */
--#define GEM_TXQBASE       (0x0000001C/4) /* TX Q Base address reg */
--#define GEM_RXSTATUS      (0x00000020/4) /* RX Status reg */
--#define GEM_ISR           (0x00000024/4) /* Interrupt Status reg */
--#define GEM_IER           (0x00000028/4) /* Interrupt Enable reg */
--#define GEM_IDR           (0x0000002C/4) /* Interrupt Disable reg */
--#define GEM_IMR           (0x00000030/4) /* Interrupt Mask reg */
--#define GEM_PHYMNTNC      (0x00000034/4) /* Phy Maintenance reg */
--#define GEM_RXPAUSE       (0x00000038/4) /* RX Pause Time reg */
--#define GEM_TXPAUSE       (0x0000003C/4) /* TX Pause Time reg */
--#define GEM_TXPARTIALSF   (0x00000040/4) /* TX Partial Store and Forward */
--#define GEM_RXPARTIALSF   (0x00000044/4) /* RX Partial Store and Forward */
--#define GEM_HASHLO        (0x00000080/4) /* Hash Low address reg */
--#define GEM_HASHHI        (0x00000084/4) /* Hash High address reg */
--#define GEM_SPADDR1LO     (0x00000088/4) /* Specific addr 1 low reg */
--#define GEM_SPADDR1HI     (0x0000008C/4) /* Specific addr 1 high reg */
--#define GEM_SPADDR2LO     (0x00000090/4) /* Specific addr 2 low reg */
--#define GEM_SPADDR2HI     (0x00000094/4) /* Specific addr 2 high reg */
--#define GEM_SPADDR3LO     (0x00000098/4) /* Specific addr 3 low reg */
--#define GEM_SPADDR3HI     (0x0000009C/4) /* Specific addr 3 high reg */
--#define GEM_SPADDR4LO     (0x000000A0/4) /* Specific addr 4 low reg */
--#define GEM_SPADDR4HI     (0x000000A4/4) /* Specific addr 4 high reg */
--#define GEM_TIDMATCH1     (0x000000A8/4) /* Type ID1 Match reg */
--#define GEM_TIDMATCH2     (0x000000AC/4) /* Type ID2 Match reg */
--#define GEM_TIDMATCH3     (0x000000B0/4) /* Type ID3 Match reg */
--#define GEM_TIDMATCH4     (0x000000B4/4) /* Type ID4 Match reg */
--#define GEM_WOLAN         (0x000000B8/4) /* Wake on LAN reg */
--#define GEM_IPGSTRETCH    (0x000000BC/4) /* IPG Stretch reg */
--#define GEM_SVLAN         (0x000000C0/4) /* Stacked VLAN reg */
--#define GEM_MODID         (0x000000FC/4) /* Module ID reg */
--#define GEM_OCTTXLO       (0x00000100/4) /* Octects transmitted Low reg */
--#define GEM_OCTTXHI       (0x00000104/4) /* Octects transmitted High reg */
--#define GEM_TXCNT         (0x00000108/4) /* Error-free Frames transmitted */
--#define GEM_TXBCNT        (0x0000010C/4) /* Error-free Broadcast Frames */
--#define GEM_TXMCNT        (0x00000110/4) /* Error-free Multicast Frame */
--#define GEM_TXPAUSECNT    (0x00000114/4) /* Pause Frames Transmitted */
--#define GEM_TX64CNT       (0x00000118/4) /* Error-free 64 TX */
--#define GEM_TX65CNT       (0x0000011C/4) /* Error-free 65-127 TX */
--#define GEM_TX128CNT      (0x00000120/4) /* Error-free 128-255 TX */
--#define GEM_TX256CNT      (0x00000124/4) /* Error-free 256-511 */
--#define GEM_TX512CNT      (0x00000128/4) /* Error-free 512-1023 TX */
--#define GEM_TX1024CNT     (0x0000012C/4) /* Error-free 1024-1518 TX */
--#define GEM_TX1519CNT     (0x00000130/4) /* Error-free larger than 1519 TX */
--#define GEM_TXURUNCNT     (0x00000134/4) /* TX under run error counter */
--#define GEM_SINGLECOLLCNT (0x00000138/4) /* Single Collision Frames */
--#define GEM_MULTCOLLCNT   (0x0000013C/4) /* Multiple Collision Frames */
--#define GEM_EXCESSCOLLCNT (0x00000140/4) /* Excessive Collision Frames */
--#define GEM_LATECOLLCNT   (0x00000144/4) /* Late Collision Frames */
--#define GEM_DEFERTXCNT    (0x00000148/4) /* Deferred Transmission Frames */
--#define GEM_CSENSECNT     (0x0000014C/4) /* Carrier Sense Error Counter */
--#define GEM_OCTRXLO       (0x00000150/4) /* Octects Received register Low */
--#define GEM_OCTRXHI       (0x00000154/4) /* Octects Received register High */
--#define GEM_RXCNT         (0x00000158/4) /* Error-free Frames Received */
--#define GEM_RXBROADCNT    (0x0000015C/4) /* Error-free Broadcast Frames RX */
--#define GEM_RXMULTICNT    (0x00000160/4) /* Error-free Multicast Frames RX */
--#define GEM_RXPAUSECNT    (0x00000164/4) /* Pause Frames Received Counter */
--#define GEM_RX64CNT       (0x00000168/4) /* Error-free 64 byte Frames RX */
--#define GEM_RX65CNT       (0x0000016C/4) /* Error-free 65-127B Frames RX */
--#define GEM_RX128CNT      (0x00000170/4) /* Error-free 128-255B Frames RX */
--#define GEM_RX256CNT      (0x00000174/4) /* Error-free 256-512B Frames RX */
--#define GEM_RX512CNT      (0x00000178/4) /* Error-free 512-1023B Frames RX */
--#define GEM_RX1024CNT     (0x0000017C/4) /* Error-free 1024-1518B Frames RX */
--#define GEM_RX1519CNT     (0x00000180/4) /* Error-free 1519-max Frames RX */
--#define GEM_RXUNDERCNT    (0x00000184/4) /* Undersize Frames Received */
--#define GEM_RXOVERCNT     (0x00000188/4) /* Oversize Frames Received */
--#define GEM_RXJABCNT      (0x0000018C/4) /* Jabbers Received Counter */
--#define GEM_RXFCSCNT      (0x00000190/4) /* Frame Check seq. Error Counter */
--#define GEM_RXLENERRCNT   (0x00000194/4) /* Length Field Error Counter */
--#define GEM_RXSYMERRCNT   (0x00000198/4) /* Symbol Error Counter */
--#define GEM_RXALIGNERRCNT (0x0000019C/4) /* Alignment Error Counter */
--#define GEM_RXRSCERRCNT   (0x000001A0/4) /* Receive Resource Error Counter */
--#define GEM_RXORUNCNT     (0x000001A4/4) /* Receive Overrun Counter */
--#define GEM_RXIPCSERRCNT  (0x000001A8/4) /* IP header Checksum Error Counter */
--#define GEM_RXTCPCCNT     (0x000001AC/4) /* TCP Checksum Error Counter */
--#define GEM_RXUDPCCNT     (0x000001B0/4) /* UDP Checksum Error Counter */
--
--#define GEM_1588S         (0x000001D0/4) /* 1588 Timer Seconds */
--#define GEM_1588NS        (0x000001D4/4) /* 1588 Timer Nanoseconds */
--#define GEM_1588ADJ       (0x000001D8/4) /* 1588 Timer Adjust */
--#define GEM_1588INC       (0x000001DC/4) /* 1588 Timer Increment */
--#define GEM_PTPETXS       (0x000001E0/4) /* PTP Event Frame Transmitted (s) */
--#define GEM_PTPETXNS      (0x000001E4/4) /* PTP Event Frame Transmitted (ns) */
--#define GEM_PTPERXS       (0x000001E8/4) /* PTP Event Frame Received (s) */
--#define GEM_PTPERXNS      (0x000001EC/4) /* PTP Event Frame Received (ns) */
--#define GEM_PTPPTXS       (0x000001E0/4) /* PTP Peer Frame Transmitted (s) */
--#define GEM_PTPPTXNS      (0x000001E4/4) /* PTP Peer Frame Transmitted (ns) */
--#define GEM_PTPPRXS       (0x000001E8/4) /* PTP Peer Frame Received (s) */
--#define GEM_PTPPRXNS      (0x000001EC/4) /* PTP Peer Frame Received (ns) */
-+#define GEM_NWCTRL        (0x00000000 / 4) /* Network Control reg */
-+#define GEM_NWCFG         (0x00000004 / 4) /* Network Config reg */
-+#define GEM_NWSTATUS      (0x00000008 / 4) /* Network Status reg */
-+#define GEM_USERIO        (0x0000000C / 4) /* User IO reg */
-+#define GEM_DMACFG        (0x00000010 / 4) /* DMA Control reg */
-+#define GEM_TXSTATUS      (0x00000014 / 4) /* TX Status reg */
-+#define GEM_RXQBASE       (0x00000018 / 4) /* RX Q Base address reg */
-+#define GEM_TXQBASE       (0x0000001C / 4) /* TX Q Base address reg */
-+#define GEM_RXSTATUS      (0x00000020 / 4) /* RX Status reg */
-+#define GEM_ISR           (0x00000024 / 4) /* Interrupt Status reg */
-+#define GEM_IER           (0x00000028 / 4) /* Interrupt Enable reg */
-+#define GEM_IDR           (0x0000002C / 4) /* Interrupt Disable reg */
-+#define GEM_IMR           (0x00000030 / 4) /* Interrupt Mask reg */
-+#define GEM_PHYMNTNC      (0x00000034 / 4) /* Phy Maintenance reg */
-+#define GEM_RXPAUSE       (0x00000038 / 4) /* RX Pause Time reg */
-+#define GEM_TXPAUSE       (0x0000003C / 4) /* TX Pause Time reg */
-+#define GEM_TXPARTIALSF   (0x00000040 / 4) /* TX Partial Store and Forward */
-+#define GEM_RXPARTIALSF   (0x00000044 / 4) /* RX Partial Store and Forward */
-+#define GEM_HASHLO        (0x00000080 / 4) /* Hash Low address reg */
-+#define GEM_HASHHI        (0x00000084 / 4) /* Hash High address reg */
-+#define GEM_SPADDR1LO     (0x00000088 / 4) /* Specific addr 1 low reg */
-+#define GEM_SPADDR1HI     (0x0000008C / 4) /* Specific addr 1 high reg */
-+#define GEM_SPADDR2LO     (0x00000090 / 4) /* Specific addr 2 low reg */
-+#define GEM_SPADDR2HI     (0x00000094 / 4) /* Specific addr 2 high reg */
-+#define GEM_SPADDR3LO     (0x00000098 / 4) /* Specific addr 3 low reg */
-+#define GEM_SPADDR3HI     (0x0000009C / 4) /* Specific addr 3 high reg */
-+#define GEM_SPADDR4LO     (0x000000A0 / 4) /* Specific addr 4 low reg */
-+#define GEM_SPADDR4HI     (0x000000A4 / 4) /* Specific addr 4 high reg */
-+#define GEM_TIDMATCH1     (0x000000A8 / 4) /* Type ID1 Match reg */
-+#define GEM_TIDMATCH2     (0x000000AC / 4) /* Type ID2 Match reg */
-+#define GEM_TIDMATCH3     (0x000000B0 / 4) /* Type ID3 Match reg */
-+#define GEM_TIDMATCH4     (0x000000B4 / 4) /* Type ID4 Match reg */
-+#define GEM_WOLAN         (0x000000B8 / 4) /* Wake on LAN reg */
-+#define GEM_IPGSTRETCH    (0x000000BC / 4) /* IPG Stretch reg */
-+#define GEM_SVLAN         (0x000000C0 / 4) /* Stacked VLAN reg */
-+#define GEM_MODID         (0x000000FC / 4) /* Module ID reg */
-+#define GEM_OCTTXLO       (0x00000100 / 4) /* Octects transmitted Low reg */
-+#define GEM_OCTTXHI       (0x00000104 / 4) /* Octects transmitted High reg */
-+#define GEM_TXCNT         (0x00000108 / 4) /* Error-free Frames transmitted */
-+#define GEM_TXBCNT        (0x0000010C / 4) /* Error-free Broadcast Frames */
-+#define GEM_TXMCNT        (0x00000110 / 4) /* Error-free Multicast Frame */
-+#define GEM_TXPAUSECNT    (0x00000114 / 4) /* Pause Frames Transmitted */
-+#define GEM_TX64CNT       (0x00000118 / 4) /* Error-free 64 TX */
-+#define GEM_TX65CNT       (0x0000011C / 4) /* Error-free 65-127 TX */
-+#define GEM_TX128CNT      (0x00000120 / 4) /* Error-free 128-255 TX */
-+#define GEM_TX256CNT      (0x00000124 / 4) /* Error-free 256-511 */
-+#define GEM_TX512CNT      (0x00000128 / 4) /* Error-free 512-1023 TX */
-+#define GEM_TX1024CNT     (0x0000012C / 4) /* Error-free 1024-1518 TX */
-+#define GEM_TX1519CNT     (0x00000130 / 4) /* Error-free larger than 1519 TX */
-+#define GEM_TXURUNCNT     (0x00000134 / 4) /* TX under run error counter */
-+#define GEM_SINGLECOLLCNT (0x00000138 / 4) /* Single Collision Frames */
-+#define GEM_MULTCOLLCNT   (0x0000013C / 4) /* Multiple Collision Frames */
-+#define GEM_EXCESSCOLLCNT (0x00000140 / 4) /* Excessive Collision Frames */
-+#define GEM_LATECOLLCNT   (0x00000144 / 4) /* Late Collision Frames */
-+#define GEM_DEFERTXCNT    (0x00000148 / 4) /* Deferred Transmission Frames */
-+#define GEM_CSENSECNT     (0x0000014C / 4) /* Carrier Sense Error Counter */
-+#define GEM_OCTRXLO       (0x00000150 / 4) /* Octects Received register Low */
-+#define GEM_OCTRXHI       (0x00000154 / 4) /* Octects Received register High */
-+#define GEM_RXCNT         (0x00000158 / 4) /* Error-free Frames Received */
-+#define GEM_RXBROADCNT    (0x0000015C / 4) /* Error-free Broadcast Frames RX */
-+#define GEM_RXMULTICNT    (0x00000160 / 4) /* Error-free Multicast Frames RX */
-+#define GEM_RXPAUSECNT    (0x00000164 / 4) /* Pause Frames Received Counter */
-+#define GEM_RX64CNT       (0x00000168 / 4) /* Error-free 64 byte Frames RX */
-+#define GEM_RX65CNT       (0x0000016C / 4) /* Error-free 65-127B Frames RX */
-+#define GEM_RX128CNT      (0x00000170 / 4) /* Error-free 128-255B Frames RX */
-+#define GEM_RX256CNT      (0x00000174 / 4) /* Error-free 256-512B Frames RX */
-+#define GEM_RX512CNT      (0x00000178 / 4) /* Error-free 512-1023B Frames RX */
-+#define GEM_RX1024CNT     (0x0000017C / 4) /* Error-free 1024-1518B Frames RX */
-+#define GEM_RX1519CNT     (0x00000180 / 4) /* Error-free 1519-max Frames RX */
-+#define GEM_RXUNDERCNT    (0x00000184 / 4) /* Undersize Frames Received */
-+#define GEM_RXOVERCNT     (0x00000188 / 4) /* Oversize Frames Received */
-+#define GEM_RXJABCNT      (0x0000018C / 4) /* Jabbers Received Counter */
-+#define GEM_RXFCSCNT      (0x00000190 / 4) /* Frame Check seq. Error Counter */
-+#define GEM_RXLENERRCNT   (0x00000194 / 4) /* Length Field Error Counter */
-+#define GEM_RXSYMERRCNT   (0x00000198 / 4) /* Symbol Error Counter */
-+#define GEM_RXALIGNERRCNT (0x0000019C / 4) /* Alignment Error Counter */
-+#define GEM_RXRSCERRCNT   (0x000001A0 / 4) /* Receive Resource Error Counter */
-+#define GEM_RXORUNCNT     (0x000001A4 / 4) /* Receive Overrun Counter */
-+#define GEM_RXIPCSERRCNT  (0x000001A8 / 4) /* IP header Checksum Err Counter */
-+#define GEM_RXTCPCCNT     (0x000001AC / 4) /* TCP Checksum Error Counter */
-+#define GEM_RXUDPCCNT     (0x000001B0 / 4) /* UDP Checksum Error Counter */
+ #define GEM_DMACFG_ADDR_64B    (1U << 30)
+ #define GEM_DMACFG_TX_BD_EXT   (1U << 29)
+@@ -233,6 +236,7 @@
+ 
+ /* GEM_ISR GEM_IER GEM_IDR GEM_IMR */
+ #define GEM_INT_TXCMPL        0x00000080 /* Transmit Complete */
++#define GEM_INT_AMBA_ERR      0x00000040
+ #define GEM_INT_TXUSED         0x00000008
+ #define GEM_INT_RXUSED         0x00000004
+ #define GEM_INT_RXCMPL        0x00000002
+@@ -453,6 +457,24 @@ static inline void rx_desc_set_sar(uint32_t *desc, int sar_idx)
+ /* The broadcast MAC address: 0xFFFFFFFFFFFF */
+ static const uint8_t broadcast_addr[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+ 
++static uint32_t gem_get_max_buf_len(CadenceGEMState *s, bool tx)
++{
++    uint32_t size;
++    if (s->regs[GEM_NWCFG] & GEM_NWCFG_JUMBO_FRAME) {
++        size = s->regs[GEM_JUMBO_MAX_LEN];
++        if (size > s->jumbo_max_len) {
++            size = s->jumbo_max_len;
++            qemu_log_mask(LOG_GUEST_ERROR, "GEM_JUMBO_MAX_LEN reg cannot be"
++                " greater than 0x%" PRIx32 "\n", s->jumbo_max_len);
++        }
++    } else if (tx) {
++        size = 1518;
++    } else {
++        size = s->regs[GEM_NWCFG] & GEM_NWCFG_RCV_1538 ? 1538 : 1518;
++    }
++    return size;
++}
 +
-+#define GEM_1588S         (0x000001D0 / 4) /* 1588 Timer Seconds */
-+#define GEM_1588NS        (0x000001D4 / 4) /* 1588 Timer Nanoseconds */
-+#define GEM_1588ADJ       (0x000001D8 / 4) /* 1588 Timer Adjust */
-+#define GEM_1588INC       (0x000001DC / 4) /* 1588 Timer Increment */
-+#define GEM_PTPETXS       (0x000001E0 / 4) /* PTP Event Frame Transmitted (s) */
-+#define GEM_PTPETXNS      (0x000001E4 / 4) /*
-+                                            * PTP Event Frame Transmitted (ns)
-+                                            */
-+#define GEM_PTPERXS       (0x000001E8 / 4) /* PTP Event Frame Received (s) */
-+#define GEM_PTPERXNS      (0x000001EC / 4) /* PTP Event Frame Received (ns) */
-+#define GEM_PTPPTXS       (0x000001E0 / 4) /* PTP Peer Frame Transmitted (s) */
-+#define GEM_PTPPTXNS      (0x000001E4 / 4) /* PTP Peer Frame Transmitted (ns) */
-+#define GEM_PTPPRXS       (0x000001E8 / 4) /* PTP Peer Frame Received (s) */
-+#define GEM_PTPPRXNS      (0x000001EC / 4) /* PTP Peer Frame Received (ns) */
+ static void gem_set_isr(CadenceGEMState *s, int q, uint32_t flag)
+ {
+     if (q == 0) {
+@@ -1016,6 +1038,12 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+     /* Find which queue we are targeting */
+     q = get_queue_from_screen(s, rxbuf_ptr, rxbufsize);
  
- /* Design Configuration Registers */
--#define GEM_DESCONF       (0x00000280/4)
--#define GEM_DESCONF2      (0x00000284/4)
--#define GEM_DESCONF3      (0x00000288/4)
--#define GEM_DESCONF4      (0x0000028C/4)
--#define GEM_DESCONF5      (0x00000290/4)
--#define GEM_DESCONF6      (0x00000294/4)
-+#define GEM_DESCONF       (0x00000280 / 4)
-+#define GEM_DESCONF2      (0x00000284 / 4)
-+#define GEM_DESCONF3      (0x00000288 / 4)
-+#define GEM_DESCONF4      (0x0000028C / 4)
-+#define GEM_DESCONF5      (0x00000290 / 4)
-+#define GEM_DESCONF6      (0x00000294 / 4)
- #define GEM_DESCONF6_64B_MASK (1U << 23)
--#define GEM_DESCONF7      (0x00000298/4)
-+#define GEM_DESCONF7      (0x00000298 / 4)
++    if (size > gem_get_max_buf_len(s, false)) {
++        qemu_log_mask(LOG_GUEST_ERROR, "rx frame too long\n");
++        gem_set_isr(s, q, GEM_INT_AMBA_ERR);
++        return -1;
++    }
++
+     while (bytes_to_copy) {
+         hwaddr desc_addr;
  
- #define GEM_INT_Q1_STATUS               (0x00000400 / 4)
- #define GEM_INT_Q1_MASK                 (0x00000640 / 4)
+@@ -1196,12 +1224,13 @@ static void gem_transmit(CadenceGEMState *s)
+                 break;
+             }
+ 
+-            if (tx_desc_get_length(desc) > MAX_FRAME_SIZE -
++            if (tx_desc_get_length(desc) > gem_get_max_buf_len(s, true) -
+                                                (p - s->tx_packet)) {
+-                DB_PRINT("TX descriptor @ 0x%" HWADDR_PRIx \
+-                         " too large: size 0x%x space 0x%zx\n",
++                qemu_log_mask(LOG_GUEST_ERROR, "TX descriptor @ 0x%" \
++                         HWADDR_PRIx " too large: size 0x%x space 0x%zx\n",
+                          packet_desc_addr, tx_desc_get_length(desc),
+-                         MAX_FRAME_SIZE - (p - s->tx_packet));
++                         gem_get_max_buf_len(s, true) - (p - s->tx_packet));
++                gem_set_isr(s, q, GEM_INT_AMBA_ERR);
+                 break;
+             }
+ 
+@@ -1343,9 +1372,10 @@ static void gem_reset(DeviceState *d)
+     s->regs[GEM_RXPARTIALSF] = 0x000003ff;
+     s->regs[GEM_MODID] = s->revision;
+     s->regs[GEM_DESCONF] = 0x02500111;
+-    s->regs[GEM_DESCONF2] = 0x2ab13fff;
++    s->regs[GEM_DESCONF2] = 0x2ab10000 | s->jumbo_max_len;
+     s->regs[GEM_DESCONF5] = 0x002f2045;
+     s->regs[GEM_DESCONF6] = GEM_DESCONF6_64B_MASK;
++    s->regs[GEM_JUMBO_MAX_LEN] = s->jumbo_max_len;
+ 
+     if (s->num_priority_queues > 1) {
+         queues_mask = MAKE_64BIT_MASK(1, s->num_priority_queues - 1);
+@@ -1516,6 +1546,9 @@ static void gem_write(void *opaque, hwaddr offset, uint64_t val,
+         s->regs[GEM_IMR] &= ~val;
+         gem_update_int_status(s);
+         break;
++    case GEM_JUMBO_MAX_LEN:
++        s->regs[GEM_JUMBO_MAX_LEN] = val & MAX_JUMBO_FRAME_SIZE_MASK;
++        break;
+     case GEM_INT_Q1_ENABLE ... GEM_INT_Q7_ENABLE:
+         s->regs[GEM_INT_Q1_MASK + offset - GEM_INT_Q1_ENABLE] &= ~val;
+         gem_update_int_status(s);
+@@ -1610,6 +1643,12 @@ static void gem_realize(DeviceState *dev, Error **errp)
+ 
+     s->nic = qemu_new_nic(&net_gem_info, &s->conf,
+                           object_get_typename(OBJECT(dev)), dev->id, s);
++
++    if (s->jumbo_max_len > MAX_FRAME_SIZE) {
++        error_setg(errp, "jumbo-max-len is greater than %d",
++                  MAX_FRAME_SIZE);
++        return;
++    }
+ }
+ 
+ static void gem_init(Object *obj)
+@@ -1659,6 +1698,8 @@ static Property gem_properties[] = {
+                       num_type1_screeners, 4),
+     DEFINE_PROP_UINT8("num-type2-screeners", CadenceGEMState,
+                       num_type2_screeners, 4),
++    DEFINE_PROP_UINT16("jumbo-max-len", CadenceGEMState,
++                       jumbo_max_len, 10240),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/include/hw/net/cadence_gem.h b/include/hw/net/cadence_gem.h
+index eddac70..54e646f 100644
+--- a/include/hw/net/cadence_gem.h
++++ b/include/hw/net/cadence_gem.h
+@@ -40,7 +40,8 @@
+ #define MAX_TYPE1_SCREENERS             16
+ #define MAX_TYPE2_SCREENERS             16
+ 
+-#define MAX_FRAME_SIZE 2048
++#define MAX_JUMBO_FRAME_SIZE_MASK 0x3FFF
++#define MAX_FRAME_SIZE MAX_JUMBO_FRAME_SIZE_MASK
+ 
+ typedef struct CadenceGEMState {
+     /*< private >*/
+@@ -59,6 +60,7 @@ typedef struct CadenceGEMState {
+     uint8_t num_type1_screeners;
+     uint8_t num_type2_screeners;
+     uint32_t revision;
++    uint16_t jumbo_max_len;
+ 
+     /* GEM registers backing store */
+     uint32_t regs[CADENCE_GEM_MAXREG];
 -- 
 2.7.4
 
