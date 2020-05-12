@@ -2,89 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFE21CEE9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 09:56:01 +0200 (CEST)
-Received: from localhost ([::1]:48656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A9F1CEEAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 10:01:06 +0200 (CEST)
+Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYPlf-0006xR-Uy
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 03:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
+	id 1jYPqb-0004FX-BL
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 04:01:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jYPkK-00062p-Ds
- for qemu-devel@nongnu.org; Tue, 12 May 2020 03:54:36 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:37819
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jYPkI-0003Y5-Jt
- for qemu-devel@nongnu.org; Tue, 12 May 2020 03:54:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589270072;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u/MYEE3LL026i32opmckGgknS6r7+NiLTdtsOAf25vo=;
- b=elz05xO0cvXWiG0MJ1auB050RM5a2yT188uWFT+gQ0LAB5fl4exT2aa9cP7bJWSewARjZq
- ZZpxL/st04nJdRqyPzdreY5fiHpVPIjsqQ3wYosmqEBgvYY227NaG5SDCkx7KGLl23Vujb
- HuAknVAXI7qNdRvObR41fSvuBrmHRFw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-S25bY0OrNvS3z4oGoNQriw-1; Tue, 12 May 2020 03:54:30 -0400
-X-MC-Unique: S25bY0OrNvS3z4oGoNQriw-1
-Received: by mail-wm1-f71.google.com with SMTP id q5so9568026wmc.9
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 00:54:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=u/MYEE3LL026i32opmckGgknS6r7+NiLTdtsOAf25vo=;
- b=Dc6UfqAizJFaP9gAuF+JzBQ6pXtOHy6QembmLzfMcGCFGXNl0YIwr+pm4t2Mi3WYPB
- oqHqOzyw8gu1BTPcPickjuJR2yfRoqL2QDpGj/j2lXquW2CUqjE8CqVPGhkPdY56DHk4
- dbydQWmyBG+12N6jS/SyBeq1Fsx9XVcM+Kzh+EKAvvlh469eSPOdlMk8Tit/jIw+wmYk
- 9Yuxn5u4gsXscAatNG7qbHdqYRnuVWw2jIGXrYcmg/KVQk/suSqjtJr08u3RptDy9ADS
- n9zj5aECZaxBC1zRcIM1L4e1w3BPVlC1j53wqLr8HzKVU0KKICnLyvt+Hbx45N2CdDYf
- T09Q==
-X-Gm-Message-State: AGi0PuZNnJBVzW68MG9kk8KkItWaKvUxsp480VW9Xp5dNM0diOe3uJQ0
- VYN7m6o29Cy2nNFnP0YGDGMQ8gu2LGHSc9eJhKuuVhC2e0iOt0mAPn/Mj011Qbdjhqkt0cjGZsV
- M/BaSpvUvOicQQUk=
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr23024028wrw.311.1589270069792; 
- Tue, 12 May 2020 00:54:29 -0700 (PDT)
-X-Google-Smtp-Source: APiQypJCzBgjMpK4yFwn071XfEIZdrnXGhYtv+pSlpt1rTWKIT49tzHYGX04nanxlWmWYnQp5xLxSg==
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr23023997wrw.311.1589270069463; 
- Tue, 12 May 2020 00:54:29 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id p8sm21067366wre.11.2020.05.12.00.54.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 May 2020 00:54:28 -0700 (PDT)
-Subject: Re: [PATCH] i386/kvm: fix a use-after-free when vcpu plug/unplug
-To: Pan Nengyuan <pannengyuan@huawei.com>, pbonzini@redhat.com,
- rth@twiddle.net, ehabkost@redhat.com, mtosatti@redhat.com
-References: <20200512133933.8696-1-pannengyuan@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <eab55b02-d51b-96c6-3c03-eb69964f162d@redhat.com>
-Date: Tue, 12 May 2020 09:54:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1jYPp3-0003Pf-BZ
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 03:59:29 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:42940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1jYPp0-0004LG-Vv
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 03:59:28 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04C7mGng117527;
+ Tue, 12 May 2020 07:59:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=YnVQjTT/+pZ7DMldMGuzSi+eIuNqO8a7nHaMySuxiGw=;
+ b=P7h/e5BwLXrP+hVAC5izfKHc+XSaVWi1mVU1XU56cWwjQMPZi10J+x6TFcJWAk7Bq1fM
+ DzoMoUihIbAccYZhkZBtSA1mYQdV/NuXRGjsjY9TRRowxfxP8cB9ob0DD+EhSkJPUWst
+ RKhyPzEVUJu0y1+Mmx3nDHVqDZXdqTW93DsHigUX56x7OGMN2gcGvnZe0wKtIicYXI7V
+ FokJ4pSIPVn7+Dcy7D5v4T9dhdWxceVsTnTPIumCr3UMFfyk7q8SWt3E8wZiMZZREs3w
+ 9fA+HM2yAFfqdkZpGzwXmtIp73geKIdie6ymFsfZ23tAGskmERRzBC8+ml9zhGHRDbIO Qg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 30x3gmhe8h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 12 May 2020 07:59:20 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04C7hvxR028655;
+ Tue, 12 May 2020 07:59:20 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 30ydspxbwu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 May 2020 07:59:20 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04C7xJ8f022638;
+ Tue, 12 May 2020 07:59:19 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 12 May 2020 00:59:18 -0700
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id 4BEA36920AFC; Tue, 12 May 2020 08:59:16 +0100 (IST)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/4] fuzz: add datadir for oss-fuzz compatability
+In-Reply-To: <20200512030133.29896-2-alxndr@bu.edu>
+References: <20200512030133.29896-1-alxndr@bu.edu>
+ <20200512030133.29896-2-alxndr@bu.edu>
+Date: Tue, 12 May 2020 08:59:16 +0100
+Message-ID: <m23685mvmz.fsf@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20200512133933.8696-1-pannengyuan@huawei.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:41:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9618
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ suspectscore=5 mlxscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005120067
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9618
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=999
+ clxscore=1015 spamscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
+ malwarescore=0 priorityscore=1501 mlxscore=0 suspectscore=5
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005120067
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=darren.kenny@oracle.com; helo=userp2130.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 03:59:22
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,88 +100,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org, kvm@vger.kernel.org,
- euler.robot@huawei.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, bsd@redhat.com, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/20 3:39 PM, Pan Nengyuan wrote:
-> When we hotplug vcpus, cpu_update_state is added to vm_change_state_head
-> in kvm_arch_init_vcpu(). But it forgot to delete in kvm_arch_destroy_vcpu() after
-> unplug. Then it will cause a use-after-free access. This patch delete it in
-> kvm_arch_destroy_vcpu() to fix that.
-> 
-> Reproducer:
->      virsh setvcpus vm1 4 --live
->      virsh setvcpus vm1 2 --live
->      virsh suspend vm1
->      virsh resume vm1
-> 
-> The UAF stack:
-> ==qemu-system-x86_64==28233==ERROR: AddressSanitizer: heap-use-after-free on address 0x62e00002e798 at pc 0x5573c6917d9e bp 0x7fff07139e50 sp 0x7fff07139e40
-> WRITE of size 1 at 0x62e00002e798 thread T0
->      #0 0x5573c6917d9d in cpu_update_state /mnt/sdb/qemu/target/i386/kvm.c:742
->      #1 0x5573c699121a in vm_state_notify /mnt/sdb/qemu/vl.c:1290
->      #2 0x5573c636287e in vm_prepare_start /mnt/sdb/qemu/cpus.c:2144
->      #3 0x5573c6362927 in vm_start /mnt/sdb/qemu/cpus.c:2150
->      #4 0x5573c71e8304 in qmp_cont /mnt/sdb/qemu/monitor/qmp-cmds.c:173
->      #5 0x5573c727cb1e in qmp_marshal_cont qapi/qapi-commands-misc.c:835
->      #6 0x5573c7694c7a in do_qmp_dispatch /mnt/sdb/qemu/qapi/qmp-dispatch.c:132
->      #7 0x5573c7694c7a in qmp_dispatch /mnt/sdb/qemu/qapi/qmp-dispatch.c:175
->      #8 0x5573c71d9110 in monitor_qmp_dispatch /mnt/sdb/qemu/monitor/qmp.c:145
->      #9 0x5573c71dad4f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu/monitor/qmp.c:234
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+On Monday, 2020-05-11 at 23:01:30 -04, Alexander Bulekov wrote:
+> This allows us to keep pc-bios in executable_dir/pc-bios, rather than
+> executable_dir/../pc-bios, which is incompatible with oss-fuzz' file
+> structure.
+>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+
 > ---
->   target/i386/cpu.h | 1 +
->   target/i386/kvm.c | 5 ++++-
->   2 files changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index e818fc712a..afbd11b7a3 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1631,6 +1631,7 @@ struct X86CPU {
->   
->       CPUNegativeOffsetState neg;
->       CPUX86State env;
-> +    VMChangeStateEntry *vmsentry;
->   
->       uint64_t ucode_rev;
->   
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 4901c6dd74..ff2848357e 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -1770,7 +1770,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
->           }
->       }
->   
-> -    qemu_add_vm_change_state_handler(cpu_update_state, env);
-> +    cpu->vmsentry = qemu_add_vm_change_state_handler(cpu_update_state, env);
->   
->       c = cpuid_find_entry(&cpuid_data.cpuid, 1, 0);
->       if (c) {
-> @@ -1883,6 +1883,9 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
->           env->nested_state = NULL;
->       }
->   
-> +    qemu_del_vm_change_state_handler(cpu->vmsentry);
-> +    cpu->vmsentry = NULL;
-
-Why set it to NULL? there is no non-NULL check.
-
-Anyway if it matters to you, why not do it in 
-qemu_del_vm_change_state_handler()?
-
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+>  include/sysemu/sysemu.h |  2 ++
+>  softmmu/vl.c            |  2 +-
+>  tests/qtest/fuzz/fuzz.c | 15 +++++++++++++++
+>  3 files changed, 18 insertions(+), 1 deletion(-)
+>
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index ef81302e1a..cc96b66fc9 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -15,6 +15,8 @@ extern const char *qemu_name;
+>  extern QemuUUID qemu_uuid;
+>  extern bool qemu_uuid_set;
+>  
+> +void qemu_add_data_dir(const char *path);
 > +
->       return 0;
->   }
->   
-> 
-
+>  void qemu_add_exit_notifier(Notifier *notify);
+>  void qemu_remove_exit_notifier(Notifier *notify);
+>  
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index afd2615fb3..c71485a965 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -1993,7 +1993,7 @@ char *qemu_find_file(int type, const char *name)
+>      return NULL;
+>  }
+>  
+> -static void qemu_add_data_dir(const char *path)
+> +void qemu_add_data_dir(const char *path)
+>  {
+>      int i;
+>  
+> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+> index f5c923852e..33365c3782 100644
+> --- a/tests/qtest/fuzz/fuzz.c
+> +++ b/tests/qtest/fuzz/fuzz.c
+> @@ -137,6 +137,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+>  {
+>  
+>      char *target_name;
+> +    char *dir;
+>  
+>      /* Initialize qgraph and modules */
+>      qos_graph_init();
+> @@ -147,6 +148,20 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+>      target_name = strstr(**argv, "-target-");
+>      if (target_name) {        /* The binary name specifies the target */
+>          target_name += strlen("-target-");
+> +        /*
+> +         * With oss-fuzz, the executable is kept in the root of a directory (we
+> +         * cannot assume the path). All data (including bios binaries) must be
+> +         * in the same dir, or a subdir. Thus, we cannot place the pc-bios so
+> +         * that it would be in exec_dir/../pc-bios.
+> +         * As a workaround, oss-fuzz allows us to use argv[0] to get the
+> +         * location of the executable. Using this we add exec_dir/pc-bios to
+> +         * the datadirs.
+> +         */
+> +        dir = g_build_filename(g_path_get_dirname(**argv), "pc-bios", NULL);
+> +        if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
+> +            qemu_add_data_dir(dir);
+> +        }
+> +        g_free(dir);
+>      } else if (*argc > 1) {  /* The target is specified as an argument */
+>          target_name = (*argv)[1];
+>          if (!strstr(target_name, "--fuzz-target=")) {
+> -- 
+> 2.26.2
 
