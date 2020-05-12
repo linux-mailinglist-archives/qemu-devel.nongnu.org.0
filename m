@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9011CEC31
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 06:53:39 +0200 (CEST)
-Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D761CE9D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 02:56:39 +0200 (CEST)
+Received: from localhost ([::1]:34538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYMvB-0001se-V9
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 00:53:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
+	id 1jYJDq-0000Wv-Gr
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 20:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jYJHk-0002UD-Fw
- for qemu-devel@nongnu.org; Mon, 11 May 2020 21:00:40 -0400
-Received: from mga17.intel.com ([192.55.52.151]:46290)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jYJHh-0004SA-8P
- for qemu-devel@nongnu.org; Mon, 11 May 2020 21:00:39 -0400
-IronPort-SDR: 5QqLayY4u/C88h5KRHkyl3oPD3R5jKTkGSR+gFr8lue144KBYhtw1YIv9atLC9+hcjOW7KNl69
- x7Mvr4XUf8Wg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2020 18:00:26 -0700
-IronPort-SDR: jB34r3FKCEwqxO0KiWH9w9rZf7/RXIX5ifDI1VvabThwnDCVU/zGspH+Ia1ooKD9jfFrs/YqPc
- 47AaZu2i4uHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,381,1583222400"; d="scan'208";a="436891403"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by orsmga005.jf.intel.com with ESMTP; 11 May 2020 18:00:21 -0700
-Date: Mon, 11 May 2020 20:50:33 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v16 QEMU 09/16] vfio: Add save state functions to
- SaveVMHandlers
-Message-ID: <20200512005033.GA27524@joy-OptiPlex-7040>
-References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-10-git-send-email-kwankhede@nvidia.com>
- <20200509053131.GC26056@joy-OptiPlex-7040>
- <7653e660-1360-7c2b-c4c7-3b53081f14e3@nvidia.com>
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1jYJCg-0008UN-MS
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 20:55:26 -0400
+Received: from mail-qv1-xf43.google.com ([2607:f8b0:4864:20::f43]:46069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1jYJCf-0001ty-F4
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 20:55:26 -0400
+Received: by mail-qv1-xf43.google.com with SMTP id z9so3500610qvi.12
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 17:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=braap-org.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=7UDeX33wDJ5aUCrbtiEMQoLEnh7OgkxLNDFtjXuqdeg=;
+ b=XiRX/zQ+4B4md7CF8JfwAOlmGeDAIHMagnJUhkjIvxReQWO24SrUM4hJQr1QXkippj
+ CVDsXN5y3yv1KSEZTff7t9sVG/rQyOk1UoKnFsR1Ki1E7SIEHe6+qe+lZzk8slfPm9IM
+ +vKaYLeDF+iMgpveJ5UG/VLozEZyHWA0IySCuinOmBMeXT2ujBNJXNHv8mOzEN2kaKqO
+ u38a90SpulX6phzLY2A0acMwW68Sl/A19o7AYPd784Avzf/8VMsDJm0TKCjNiXRvbESQ
+ R7dndPy92yvmEKhuDCJ9E+XMEHgTpel3GdPiEXjt8WrLZqhRoAGko4xDvc6uM71tPfhr
+ sBzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7UDeX33wDJ5aUCrbtiEMQoLEnh7OgkxLNDFtjXuqdeg=;
+ b=M5v9YWGmFgI/yVbBf6tLCsuK6cbOA/kfHMkJdJqY0aZafDmB9Gx1vDbG5M6zv1iuqR
+ 3v/8kW2om6fk0Gwj16oSq2tH6YD/5aQXRPxLgQaO9edqHQhoSnJtW/OJODYIqbcjKnhn
+ 9e3slpUPLYsyIhKe/6Rh1pvAJNwi859YAEnkbqqk525Q7zWBV2nBR4lndl0y8k6Zndqx
+ htVrU9dFFxiUSb3EbgfPL8vzvL6tdXH2kTV+0s4Agg6/jSedcEGGEP5wK43jUAONXm3g
+ BJvqmZCt1Pjqxj3m9A7PsUqM0Dp9JFP5ddES2iP0jChCxEvA1fETIxQ9veN2qSKGQJIW
+ lMuQ==
+X-Gm-Message-State: AGi0PuaONEqwFXtnhzyy6gOogOxNwe9LBM+8WtWQ3j7oxSnIFDuYLajF
+ Ur87D74f2njKvAjwCE76B+F+uA==
+X-Google-Smtp-Source: APiQypK6mbakHlAkLhA+umodw8thLqtqeqMLBwuS9wPLbZpwOlkHne91zpEPCUSt7jj39RZoMbl51w==
+X-Received: by 2002:a05:6214:1427:: with SMTP id
+ o7mr7146511qvx.104.1589244922478; 
+ Mon, 11 May 2020 17:55:22 -0700 (PDT)
+Received: from localhost ([70.19.54.161])
+ by smtp.gmail.com with ESMTPSA id l24sm10458431qtp.8.2020.05.11.17.55.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 May 2020 17:55:21 -0700 (PDT)
+Date: Mon, 11 May 2020 20:55:21 -0400
+From: "Emilio G. Cota" <cota@braap.org>
+To: Nikolay Igotti <igotti@gmail.com>
+Subject: Re: [PATCH 3/3] plugins: avoid failing plugin when CPU is inited
+ several times
+Message-ID: <20200512005521.GA198983@sff>
+References: <CAEme+7FPF+inSJSXQPmuv8Up3Eam0N7fT03zqM-RvcvKsxjfVQ@mail.gmail.com>
+ <f4feb648-7dc5-ac54-bc0b-db650dd176f1@vivier.eu>
+ <CAEme+7EtF6B2+2U_yF2dd-g2m+=S3P5=DL1oLmHfmWw2S7PYAw@mail.gmail.com>
+ <20200509230016.GA109593@sff>
+ <CAEme+7H82A2RNk5g09rmhThxW4=6sqWP5o65OCsJ8zf1L-nb+w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7653e660-1360-7c2b-c4c7-3b53081f14e3@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=yan.y.zhao@intel.com;
- helo=mga17.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 21:00:26
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAEme+7H82A2RNk5g09rmhThxW4=6sqWP5o65OCsJ8zf1L-nb+w@mail.gmail.com>
+Received-SPF: softfail client-ip=2607:f8b0:4864:20::f43;
+ envelope-from=cota@braap.org; helo=mail-qv1-xf43.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_SOFTFAIL=0.665,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 12 May 2020 00:52:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,147 +88,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: riku.voipio@iki.fi, Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 11, 2020 at 06:22:47PM +0800, Kirti Wankhede wrote:
-> 
-> 
-> On 5/9/2020 11:01 AM, Yan Zhao wrote:
-> > On Wed, Mar 25, 2020 at 05:09:07AM +0800, Kirti Wankhede wrote:
-> >> Added .save_live_pending, .save_live_iterate and .save_live_complete_precopy
-> >> functions. These functions handles pre-copy and stop-and-copy phase.
-> >>
-> >> In _SAVING|_RUNNING device state or pre-copy phase:
-> >> - read pending_bytes. If pending_bytes > 0, go through below steps.
-> >> - read data_offset - indicates kernel driver to write data to staging
-> >>    buffer.
-> >> - read data_size - amount of data in bytes written by vendor driver in
-> >>    migration region.
-> > I think we should change the sequence of reading data_size and
-> > data_offset. see the next comment below.
-> > 
-> >> - read data_size bytes of data from data_offset in the migration region.
-> >> - Write data packet to file stream as below:
-> >> {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data,
-> >> VFIO_MIG_FLAG_END_OF_STATE }
-> >>
-> >> In _SAVING device state or stop-and-copy phase
-> >> a. read config space of device and save to migration file stream. This
-> >>     doesn't need to be from vendor driver. Any other special config state
-> >>     from driver can be saved as data in following iteration.
-> >> b. read pending_bytes. If pending_bytes > 0, go through below steps.
-> >> c. read data_offset - indicates kernel driver to write data to staging
-> >>     buffer.
-> >> d. read data_size - amount of data in bytes written by vendor driver in
-> >>     migration region.
-> >> e. read data_size bytes of data from data_offset in the migration region.
-> >> f. Write data packet as below:
-> >>     {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data}
-> >> g. iterate through steps b to f while (pending_bytes > 0)
-> >> h. Write {VFIO_MIG_FLAG_END_OF_STATE}
-> >>
-> >> When data region is mapped, its user's responsibility to read data from
-> >> data_offset of data_size before moving to next steps.
-> >>
-> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> >> ---
-> >>   hw/vfio/migration.c           | 245 +++++++++++++++++++++++++++++++++++++++++-
-> >>   hw/vfio/trace-events          |   6 ++
-> >>   include/hw/vfio/vfio-common.h |   1 +
-> >>   3 files changed, 251 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> >> index 033f76526e49..ecbeed5182c2 100644
-> >> --- a/hw/vfio/migration.c
-> >> +++ b/hw/vfio/migration.c
-> >> @@ -138,6 +138,137 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t mask,
-> >>       return 0;
-> >>   }
-> >>   
-> >> +static void *find_data_region(VFIORegion *region,
-> >> +                              uint64_t data_offset,
-> >> +                              uint64_t data_size)
-> >> +{
-> >> +    void *ptr = NULL;
-> >> +    int i;
-> >> +
-> >> +    for (i = 0; i < region->nr_mmaps; i++) {
-> >> +        if ((data_offset >= region->mmaps[i].offset) &&
-> >> +            (data_offset < region->mmaps[i].offset + region->mmaps[i].size) &&
-> >> +            (data_size <= region->mmaps[i].size)) {
-> >> +            ptr = region->mmaps[i].mmap + (data_offset -
-> >> +                                           region->mmaps[i].offset);
-> >> +            break;
-> >> +        }
-> >> +    }
-> >> +    return ptr;
-> >> +}
-> >> +
-> >> +static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
-> >> +{
-> >> +    VFIOMigration *migration = vbasedev->migration;
-> >> +    VFIORegion *region = &migration->region;
-> >> +    uint64_t data_offset = 0, data_size = 0;
-> >> +    int ret;
-> >> +
-> >> +    ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-> >> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> >> +                                             data_offset));
-> >> +    if (ret != sizeof(data_offset)) {
-> >> +        error_report("%s: Failed to get migration buffer data offset %d",
-> >> +                     vbasedev->name, ret);
-> >> +        return -EINVAL;
-> >> +    }
-> >> +
-> >> +    ret = pread(vbasedev->fd, &data_size, sizeof(data_size),
-> >> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> >> +                                             data_size));
-> >> +    if (ret != sizeof(data_size)) {
-> >> +        error_report("%s: Failed to get migration buffer data size %d",
-> >> +                     vbasedev->name, ret);
-> >> +        return -EINVAL;
-> >> +    }
-> > data_size should be read first, and if it's 0, data_offset will not
-> > be read further.
-> > 
-> > the reasons are below:
-> > 1. if there's no data region provided by vendor driver, there's no
-> > reason to get a valid data_offset, so reading/writing of data_offset
-> > should fail. And this should not be treated as a migration error.
-> > 
-> > 2. even if pending_bytes is 0, vfio_save_iterate() is still possible to be
-> > called and therefore vfio_save_buffer() is called.
-> > 
-> 
-> As I mentioned in reply to Alex in:
-> https://lists.nongnu.org/archive/html/qemu-devel/2020-05/msg02476.html
-> 
-> With that, vfio_save_iterate() will read pending_bytes if its 0 and then 
-> if pending_bytes is not 0 then call vfio_save_buffer(). With that your 
-> above concerns should get resolved.
->
-what if pending_bytes is not 0, but vendor driver just does not want to
-send data in this iteration? isn't it right to get data_size first before
-getting data_offset?
+On Mon, May 11, 2020 at 18:53:19 +0300, Nikolay Igotti wrote:
+> Attached to the mail counter.c when running with attached test.c compiled
+> to Linux standalone binary shows failing assert, unless the patch is
+> applied.
 
-Thanks
-Yan
+I didn't get the attachment. Can you paste the code at the end of your
+reply?
+
+Thanks,
+		Emilio
 
