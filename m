@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9116C1CFDBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:48:12 +0200 (CEST)
-Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070631CFDCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:51:42 +0200 (CEST)
+Received: from localhost ([::1]:59106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYZwp-0006X7-Jv
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41940)
+	id 1jYa0D-0001ej-4X
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:51:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jYZuk-00054n-G2
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:46:02 -0400
-Received: from mga17.intel.com ([192.55.52.151]:64743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vishal.l.verma@intel.com>)
- id 1jYZuh-0004rm-C5
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:46:01 -0400
-IronPort-SDR: uzPprFaGGQ75Qt3Q3BQLDiQ/NZdhvm0ibYZQM7tazwEVhDILb0aYH2INYXHkUauf4XirmPgs6n
- YtruIB5VNanQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 May 2020 11:45:45 -0700
-IronPort-SDR: ksG1gJ0z6tpJtGerIbgBRCkpP+pfNoC9F45m8ZuM458RUi4JeIJCwrACfX6mfEybFIkMekQi3r
- Jgr84vun0IRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,384,1583222400"; d="scan'208";a="280234506"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
- by orsmga002.jf.intel.com with ESMTP; 12 May 2020 11:45:45 -0700
-Received: from orsmsx161.amr.corp.intel.com (10.22.240.84) by
- ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Tue, 12 May 2020 11:45:45 -0700
-Received: from orsmsx121.amr.corp.intel.com ([169.254.10.248]) by
- ORSMSX161.amr.corp.intel.com ([169.254.4.217]) with mapi id 14.03.0439.000;
- Tue, 12 May 2020 11:45:45 -0700
-From: "Verma, Vishal L" <vishal.l.verma@intel.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 0/3] account for NVDIMM nodes during SRAT generation
-Thread-Topic: [PATCH 0/3] account for NVDIMM nodes during SRAT generation
-Thread-Index: AQHWHPxhIv/dZlNKYkaQJpWbPC6PXailVhWA
-Date: Tue, 12 May 2020 18:45:44 +0000
-Message-ID: <4f0a068c6a3d388d4ee358d9d50d550eb95d8bf4.camel@intel.com>
-References: <20200428012810.10877-1-vishal.l.verma@intel.com>
-In-Reply-To: <20200428012810.10877-1-vishal.l.verma@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.32.5 (3.32.5-1.fc30) 
-x-originating-ip: [10.18.116.7]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <437EF0930C27384AA7A3154F2C8AD937@intel.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYZwz-0007jc-VP
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:48:22 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:44533
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYZwy-0005P3-NQ
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:48:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589309298;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xMzPFcT5Nok454LniRweHWWspCWzcBRUHtT2+Ik1RuM=;
+ b=R1XPOWWuetuLutNWEF553JVEpVXcMG2NSArgbHcvCclAxUchrUXO0DIspUJgP/ONJeYhF7
+ LlkAx7UqdaraQsNJ3zRAKK4Ccpo6MUUfAAVviGcUrhphx3yOS+V/QsWaVXzyt0pA4Z7aLU
+ HnLitX5p3VhBgu5b01Yh8eLVLjMK82Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-u284LRiUOK-ys49h-mV1cg-1; Tue, 12 May 2020 14:48:14 -0400
+X-MC-Unique: u284LRiUOK-ys49h-mV1cg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C84A1841920;
+ Tue, 12 May 2020 18:48:13 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-74.ams2.redhat.com [10.36.114.74])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 110567D922;
+ Tue, 12 May 2020 18:48:07 +0000 (UTC)
+Date: Tue, 12 May 2020 20:48:04 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 3/4] mirror: Make sure that source and target size match
+Message-ID: <20200512184804.GL5951@linux.fritz.box>
+References: <20200511135825.219437-1-kwolf@redhat.com>
+ <20200511135825.219437-4-kwolf@redhat.com>
+ <cbeba850-5c46-e946-596a-c8f33140b898@virtuozzo.com>
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.151;
- envelope-from=vishal.l.verma@intel.com; helo=mga17.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 14:45:46
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <cbeba850-5c46-e946-596a-c8f33140b898@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 14:17:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,45 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "ehabkost@redhat.com" <ehabkost@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "Liu, Jingqi" <jingqi.liu@intel.com>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "imammedo@redhat.com" <imammedo@redhat.com>, "Williams, 
- Dan J" <dan.j.williams@intel.com>, "rth@twiddle.net" <rth@twiddle.net>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gTW9uLCAyMDIwLTA0LTI3IGF0IDE5OjI4IC0wNjAwLCBWaXNoYWwgVmVybWEgd3JvdGU6DQo+
-IE9uIHRoZSBjb21tYW5kIGxpbmUsIG9uZSBjYW4gc3BlY2lmeSBhIE5VTUEgbm9kZSBmb3IgTlZE
-SU1NIGRldmljZXMuIElmDQo+IHdlIHNldCB1cCB0aGUgdG9wb2xvZ3kgdG8gZ2l2ZSBOVkRJTU1z
-IHRoZWlyIG93biBub2RlcywgaS5lLiBub3QNCj4gY29udGFpbmluZyBhbnkgQ1BVcyBvciByZWd1
-bGFyIG1lbW9yeSwgcWVtdSBkb2Vzbid0IHBvcHVsYXRlIFNSQVQgbWVtb3J5DQo+IGFmZmluaXR5
-IHN0cnVjdHVyZXMgZm9yIHRoZXNlIG5vZGVzLiBIb3dldmVyIHRoZSBORklUIGRvZXMgcmVmZXJl
-bmNlDQo+IHRob3NlIHByb3hpbWl0eSBkb21haW5zLg0KPiANCj4gQXMgYSByZXN1bHQsIExpbnV4
-LCB3aGlsZSBwYXJzaW5nIHRoZSBTUkFULCBmYWlscyB0byBpbml0aWFsaXplIG5vZGUNCj4gcmVs
-YXRlZCBzdHJ1Y3R1cmVzIGZvciB0aGVzZSBub2RlcywgYW5kIHRoZXkgbmV2ZXIgZW5kIHVwIGlu
-IHRoZQ0KPiBub2Rlc19wb3NzaWJsZSBtYXAuIFdoZW4gdGhlc2UgYXJlIG9ubGluZWQgYXQgYSBs
-YXRlciBwb2ludCAodmlhDQo+IGhvdHBsdWcpLCB0aGlzIGNhdXNlcyBwcm9ibGVtcy4NCj4gDQo+
-IEkndmUgZm9sbG93ZWQgdGhlIGluc3RydWN0aW9ucyBpbiBiaW9zLXRhYmxlcy10ZXN0LmMgdG8g
-dXBkYXRlIHRoZQ0KPiBleHBlY3RlZCBTUkFUIGJpbmFyeSwgYW5kIHRoZSB0ZXN0cyAobWFrZSBj
-aGVjaykgcGFzcy4gUGF0Y2hlcyAxIGFuZCAzDQo+IGFyZSB0aGUgcmVsZXZhbnQgb25lcyBmb3Ig
-dGhlIGJpbmFyeSB1cGRhdGUuDQo+IA0KPiBQYXRjaCAyIGlzIHRoZSBtYWluIHBhdGNoIHdoaWNo
-IGNoYW5nZXMgU1JBVCBnZW5lcmF0aW9uLg0KPiANCj4gVmlzaGFsIFZlcm1hICgzKToNCj4gICBk
-aWZmcy1hbGxvd2VkOiBhZGQgdGhlIFNSQVQgQU1MIHRvIGRpZmZzLWFsbG93ZWQNCj4gICBody9h
-Y3BpLWJ1aWxkOiBhY2NvdW50IGZvciBOVkRJTU0gbnVtYSBub2RlcyBpbiBTUkFUDQo+ICAgdGVz
-dHMvYWNwaTogdXBkYXRlIGV4cGVjdGVkIFNSQVQgZmlsZXMNCj4gDQo+ICBody9pMzg2L2FjcGkt
-YnVpbGQuYyAgICAgICAgICAgICB8ICAyMCArKysrKysrKysrKysrKysrKysrKw0KPiAgdGVzdHMv
-ZGF0YS9hY3BpL3BjL1NSQVQuZGltbXB4bSAgfCBCaW4gMzkyIC0+IDM5MiBieXRlcw0KPiAgdGVz
-dHMvZGF0YS9hY3BpL3EzNS9TUkFULmRpbW1weG0gfCBCaW4gMzkyIC0+IDM5MiBieXRlcw0KPiAg
-MyBmaWxlcyBjaGFuZ2VkLCAyMCBpbnNlcnRpb25zKCspDQo+IA0KSGkgQWxsIC0gSnVzdCBwaW5n
-aW5nIHRoaXMgcGF0Y2hzZXQgYWdhaW4uIEkgbmVnbGVjdGVkIHRvIENDIG1haW50YWluZXJzDQpp
-biB0aGUgb3JpZ2luYWwgcG9zdGluZywgZG9pbmcgc28gbm93LiBUaGUgZnVsbCBzZXJpZXMgY2Fu
-IGJlIHNlZW4gaGVyZToNCg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvcWVtdS1kZXZlbC8yMDIw
-MDQyODAxMjgxMC4xMDg3Ny0xLXZpc2hhbC5sLnZlcm1hQGludGVsLmNvbS8NCg0KSWYgSSBzaG91
-bGQgcmVzZW5kIHRoZSBwYXRjaGVzLCBwbGVhc2UgbGV0IG1lIGtub3cgYW5kIEknbGwgYmUgaGFw
-cHkgdG8NCmRvIHNvLg0K
+Am 12.05.2020 um 19:15 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 11.05.2020 16:58, Kevin Wolf wrote:
+> > If the target is shorter than the source, mirror would copy data until
+> > it reaches the end of the target and then fail with an I/O error when
+> > trying to write past the end.
+> > 
+> > If the target is longer than the source, the mirror job would complete
+> > successfully, but the target wouldn't actually be an accurate copy of
+> > the source image (it would contain some additional garbage at the end).
+> > 
+> > Fix this by checking that both images have the same size when the job
+> > starts.
+> > 
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > Message-Id: <20200507145228.323412-3-kwolf@redhat.com>
+> > Reviewed-by: Eric Blake <eblake@redhat.com>
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >   block/mirror.c | 21 ++++++++++++---------
+> >   1 file changed, 12 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/block/mirror.c b/block/mirror.c
+> > index aca95c9bc9..201ffa26f9 100644
+> > --- a/block/mirror.c
+> > +++ b/block/mirror.c
+> > @@ -872,6 +872,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+> >       BlockDriverState *target_bs = blk_bs(s->target);
+> >       bool need_drain = true;
+> >       int64_t length;
+> > +    int64_t target_length;
+> >       BlockDriverInfo bdi;
+> >       char backing_filename[2]; /* we only need 2 characters because we are only
+> >                                    checking for a NULL string */
+> > @@ -887,24 +888,26 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+> >           goto immediate_exit;
+> >       }
+> > +    target_length = blk_getlength(s->target);
+> > +    if (target_length < 0) {
+> > +        ret = target_length;
+> > +        goto immediate_exit;
+> > +    }
+> > +
+> >       /* Active commit must resize the base image if its size differs from the
+> >        * active layer. */
+> >       if (s->base == blk_bs(s->target)) {
+> > -        int64_t base_length;
+> > -
+> > -        base_length = blk_getlength(s->target);
+> > -        if (base_length < 0) {
+> > -            ret = base_length;
+> > -            goto immediate_exit;
+> > -        }
+> > -
+> > -        if (s->bdev_length > base_length) {
+> > +        if (s->bdev_length > target_length) {
+> >               ret = blk_truncate(s->target, s->bdev_length, false,
+> >                                  PREALLOC_MODE_OFF, 0, NULL);
+> >               if (ret < 0) {
+> >                   goto immediate_exit;
+> >               }
+> >           }
+> 
+> Hmm, interesting, if base is larger, is our behavior correct? Blockdev
+> becomes larger after commit and old data becomes available? I think we
+> should zero the tail after old EOF or shrink the target..
+
+Yes, I agree, we should shrink it. But active commit is a different case
+than what I'm fixing in this patch, so I left it unmodified. We'll
+probably need a third series for commit after backup and mirror.
+
+> > +    } else if (s->bdev_length != target_length) {
+> > +        error_setg(errp, "Source and target image have different sizes");
+> > +        ret = -EINVAL;
+> 
+> Seems, the only case, when mirror_run() sets errp. And, therefore, the
+> only correct one..
+
+job_update_rc() takes care to fill job->err (with strerror()) if it
+hasn't been set yet, so the other places aren't strictly wrong, but
+probably provide suboptimal error messages.
+
+Kevin
+
 
