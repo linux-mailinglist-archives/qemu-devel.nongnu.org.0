@@ -2,110 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AD01CEBB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:51:26 +0200 (CEST)
-Received: from localhost ([::1]:56842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4231CEC4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 07:07:06 +0200 (CEST)
+Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYLwz-0007nC-Gr
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59744)
+	id 1jYN8D-0000rs-BF
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 01:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLtr-0002um-Hn
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:48:11 -0400
-Received: from mail-eopbgr750134.outbound.protection.outlook.com
- ([40.107.75.134]:42296 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLtq-00087Y-2d
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:48:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lijSEKWbkqIEt4noTkxQVUlTP/Nk9qU7raAtNalnROl13Wk5vP2nTWcyHeQTWWoQZAg6DSLI8jA4bLNw+zxPlD7GFcfL1/Yu9uL5npaoa7SinNvzc9DwXey6dS0SUInRsfTC0EImHbkm2UcVe7RTDiS4WaSxZ/DLaI/gzGvxDc55HgF0wBSe6t2othBHOWszwzL6ogxbK+9Y3GfQejYjCaTM1Fj+GIg9dvTiHh2gBojf/U8u3EpA31QBdUkFBoiDg8NImWPqImPt+aAHoV4lyGyU10Ny9tMspniaj7PdnLcgEvmkiH8OpmUPJuZC8pWPv24VPF11aO36IFT8sNkmYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4k6wgadRoXlucyxXGAL5yKPn/+NG/tNvMvJWmAIS2Rg=;
- b=mNLWVTdAWFrsvtNpVZo87QXP4nzYw83LwvrqWePLI1RGYGwjNguYJOjlCkQQPCzMG7g7rD3y8QemJVJMRXF3YCjfQmVZ0lIwVA3EZVOLFTD3YEPvozAjXfVSGe3uJnNrZG72c5O568tz8xKn/OHgdWhFY2ThFAV2rIa4bj8tnEfjDE+tNr3sKIrJITepDzBFR3oI2Eq7XnaYFAZNpsFvY0L/yFjXC5Pz7Ra7IuKi6LzjwM+y5bOYKPa2qSHubel3h/d9Q/vmVrHEzbS1WrY3BXXqOi0UUvTHeJWaMTsyFB8TwmC5BywqljTWkbhbcTAz7OZZos4hfXTD/il9eJ6D1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4k6wgadRoXlucyxXGAL5yKPn/+NG/tNvMvJWmAIS2Rg=;
- b=jFGWO3wDTcdnxH120XV1cdvKJ31ZSayLaR26RTTnuZ0/H3enyrKv29q47eNXUit726BPKr5AawIX6bjlDlIa1Th9wvU63YgUU7cdLIjMbe90liJ5JVOgR53x856RVP0n04sQGHWmdh/5pd4pE2Knhpp+W8tlNPzrfVAp0PCvRMo=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN6PR03MB4368.namprd03.prod.outlook.com (2603:10b6:805:f4::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.35; Tue, 12 May
- 2020 03:48:03 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::640a:1123:37c1:42db]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::640a:1123:37c1:42db%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
- 03:48:03 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] char-file: add test for distinct path= and pathin=
-Date: Mon, 11 May 2020 23:47:50 -0400
-Message-Id: <20200512034750.5773-3-alxndr@bu.edu>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200512034750.5773-1-alxndr@bu.edu>
-References: <20200512034750.5773-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR15CA0012.namprd15.prod.outlook.com
- (2603:10b6:208:1b4::25) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYN6m-0007YB-5C
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 01:05:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYN6k-0005hI-OK
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 01:05:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYN6i-0001zN-3C
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 05:05:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0FFC12E8105
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 05:05:32 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mozz.bu.edu (128.197.127.33) by
- MN2PR15CA0012.namprd15.prod.outlook.com (2603:10b6:208:1b4::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26 via Frontend
- Transport; Tue, 12 May 2020 03:48:03 +0000
-X-Mailer: git-send-email 2.26.2
-X-Originating-IP: [128.197.127.33]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 979ea051-6e0d-46b5-cabb-08d7f627461f
-X-MS-TrafficTypeDiagnostic: SN6PR03MB4368:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB43684481014258F7194EAFD8BABE0@SN6PR03MB4368.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
-X-Forefront-PRVS: 0401647B7F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZB7jUvGyOlxyI4seWqWxr83dTKavWs+8a4ecsDwsJTIGzPS8Xs5zsar/rYFOkfJMo/t/haCwSDrIFZVF18Pdvr2MUenVsLc2+faoqYgOFSHFYGt4b0oPaE9wXNNeNGaamwXuKaCkofFKvRc4u4qGZm/i4oyoTLHe8QjKBNeV3GtUX6HLUMFjST/yzenmV37ZLCFvBQUQiw+1BiUWNJm+s4J1N9/HmwW0N5fy2CEXC7Fv8rLylRWsGfOZxZka0u0/gwRcCaC7JcOi9RBXso0GRNsa46q1EgnAiEs25k6MWAEn+PrRf9AGA/SsyltLXKX6mGT5qpfd7qyga7H/e6vl7VspOxtYxHM42LiE7fDFEvGzdmH7EckOKsW9983xEb4LTlD549VnYICuC+pFAKRdPe4eOTmY4T7La42Y9IN+/XMyKjG0I9y8TnZD1wUi9G3cVSBUgjWumiyOdfJHJu4S8zDhi5KJ9VCJgm+wMo3hCLCdE4W5WleJeq3m2SFutpCfsEhwxDdN8QS9uCdga/AHfg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(33430700001)(6916009)(316002)(5660300002)(786003)(75432002)(16526019)(8676002)(26005)(66556008)(8936002)(186003)(66946007)(6486002)(66476007)(86362001)(6666004)(7696005)(2616005)(2906002)(52116002)(33440700001)(1076003)(36756003)(478600001)(4326008)(956004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 7vmMqisHwbGHcW9UPMY8sZchwcCX5bduwvhWa1xBT43Zu5a6snqqatym1+bpl8eBti7QQpv2oDf2yfWomvNZmgfCss1i3n/BtLR7YE/lH/bwdk+nWuQIZwoU6l6CpuOw5I1nLHYzJBWjY50DqLOHfrGWDPzvWOsvQdoUL9wTINlVS99oLYkBStWEAjPlrcmt5yHMuw/pQoYBMUfI8NFE1LAqyFHr3mmLdVuLuBlyTj8EvUHzW838NhE+pimBl//KnkKRvsx9Zckw4rRXQvIfgEeO7+8v8JY6ep6C0fwYV4njtGjSKcM1mhcKur6AQXx2mS/sdtWLgy1MtdkiJXGQaDaG6O+nkvJAGZ55ocbT5fY5RPwxXFxe8KdgJQoXhOknmHwqoI+jej+T7kH40quqewzLTucHveU3VzKGqu2ma0IWLdJqxu6SJulyh8qYuCyB+tI/t6floETWqynd5BOfwBVSWapNzkG69uV891aVw98=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 979ea051-6e0d-46b5-cabb-08d7f627461f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 03:48:03.8639 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ay6qhZqkBigNYI6+riu5QD/Q/nhM/usB2RYMzwcsallQL4f9jegyvs/xVnDdiBL+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4368
-Received-SPF: pass client-ip=40.107.75.134; envelope-from=alxndr@bu.edu;
- helo=NAM02-BL2-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:48:04
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2020 04:58:06 -0000
+From: Alexander Bulekov <1878136@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <158925948674.4440.10313531925488089499.malonedeb@soybean.canonical.com>
+Subject: [Bug 1878136] [NEW] Assertion failures in
+ ati_reg_read_offs/ati_reg_write_offs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 980db0f6ece21ee1aecc6320e16cdf33ea32dfc3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:05:32
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -114,132 +72,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, Alexander Bulekov <alxndr@bu.edu>,
- darren.kenny@oracle.com, bsd@redhat.com, marcandre.lureau@gmail.com,
- stefanha@redhat.com
+Reply-To: Bug 1878136 <1878136@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/test-char.c | 96 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 96 insertions(+)
+Public bug reported:
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 3afc9b1b8d..6c66fae86a 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -1228,6 +1228,101 @@ static void char_file_test_internal(Chardev *ext_chr, const char *filepath)
-     g_free(out);
- }
- 
-+static int file_can_read(void *opaque)
-+{
-+    return 4096;
-+}
-+
-+static void file_read(void *opaque, const uint8_t *buf, int size)
-+{
-+    int ret;
-+    Chardev *chr = *(Chardev **)opaque;
-+    g_assert_cmpint(size, <=, file_can_read(opaque));
-+
-+    g_assert_cmpint(size, ==, 6);
-+    g_assert(strncmp((const char *)buf, "hello!", 6) == 0);
-+    ret = qemu_chr_write_all(chr, (const uint8_t *)"world!", 6);
-+    g_assert_cmpint(ret, ==, 6);
-+    quit = true;
-+}
-+
-+static void char_file_separate_input_file(void)
-+{
-+    char *tmp_path = g_dir_make_tmp("qemu-test-char.XXXXXX", NULL);
-+    char *in;
-+    char *out;
-+    QemuOpts *opts;
-+    Chardev *chr;
-+    ChardevFile file = {};
-+    CharBackend be;
-+    ChardevBackend backend = { .type = CHARDEV_BACKEND_KIND_FILE,
-+                               .u.file.data = &file };
-+    char *contents = NULL;
-+    gsize length;
-+    int ret;
-+    time_t in_mtime;
-+    GStatBuf file_stat;
-+
-+    in = g_build_filename(tmp_path, "in", NULL);
-+    out = g_build_filename(tmp_path, "out", NULL);
-+
-+    ret = g_file_set_contents(in, "hello!", 6, NULL);
-+    g_assert(ret == TRUE);
-+    g_stat(in, &file_stat);
-+    in_mtime = file_stat.st_mtime;
-+    /*
-+     * Sleep to ensure that if the following actions modify the file, the mtime
-+     * will be different
-+     */
-+    sleep(1);
-+    opts = qemu_opts_create(qemu_find_opts("chardev"), "serial-id",
-+                            1, &error_abort);
-+    qemu_opt_set(opts, "backend", "file", &error_abort);
-+    qemu_opt_set(opts, "pathin", in, &error_abort);
-+    qemu_opt_set(opts, "path", out, &error_abort);
-+
-+    chr = qemu_chr_new_from_opts(opts, NULL, NULL);
-+    qemu_chr_fe_init(&be, chr, &error_abort);
-+
-+    file.has_in = true;
-+    file.in = in;
-+    file.out = out;
-+
-+
-+    qemu_chr_fe_set_handlers(&be, file_can_read,
-+                             file_read,
-+                             NULL, NULL, &chr, NULL, true);
-+
-+    chr = qemu_chardev_new(NULL, TYPE_CHARDEV_FILE, &backend,
-+                               NULL, &error_abort);
-+    g_assert_nonnull(chr);
-+
-+    main_loop(); /* should call file_read, and copy contents of in to out */
-+
-+    qemu_chr_fe_deinit(&be, true);
-+
-+    /* Check that out was written to */
-+    ret = g_file_get_contents(out, &contents, &length, NULL);
-+    g_assert(ret == TRUE);
-+    g_assert_cmpint(length, ==, 6);
-+    g_assert(strncmp(contents, "world!", 6) == 0);
-+    g_free(contents);
-+
-+    /* Check that in hasn't been modified */
-+    ret = g_file_get_contents(in, &contents, &length, NULL);
-+    g_assert(ret == TRUE);
-+    g_assert_cmpint(length, ==, 6);
-+    g_assert(strncmp(contents, "hello!", 6) == 0);
-+    g_stat(in, &file_stat);
-+    g_assert(file_stat.st_mtime == in_mtime);
-+
-+    g_free(contents);
-+    g_rmdir(tmp_path);
-+    g_free(tmp_path);
-+    g_free(in);
-+    g_free(out);
-+}
-+
- static void char_file_test(void)
- {
-     char_file_test_internal(NULL, NULL);
-@@ -1398,6 +1493,7 @@ int main(int argc, char **argv)
-     g_test_add_func("/char/pipe", char_pipe_test);
- #endif
-     g_test_add_func("/char/file", char_file_test);
-+    g_test_add_func("/char/file/pathin", char_file_separate_input_file);
- #ifndef _WIN32
-     g_test_add_func("/char/file-fifo", char_file_fifo_test);
- #endif
--- 
-2.26.2
+Hello,
+While fuzzing, I found inputs that trigger assertion failures in
+ati_reg_read_offs/ati_reg_write_offs
 
+uint32_t extract32(uint32_t, int, int): Assertion `start >=3D 0 && length
+> 0 && length <=3D 32 - start' failed
+
+#3 0x00007ffff6866092 in __GI___assert_fail (assertion=3D0x555556e760c0 <st=
+r> "start >=3D 0 && length > 0 && length <=3D 32 - start", file=3D0x555556e=
+76120 <str> "/home/alxndr/Development/qemu/include/qemu/bitops.h", line=3D0=
+x12c, function=3D0x555556e76180 <__PRETTY_FUNCTION__.extract32> "uint32_t e=
+xtract32(uint32_t, int, int)") at assert.c:101
+#4 0x000055555653d8a7 in ati_mm_read (opaque=3D<optimized out>, addr=3D0x1a=
+, size=3D<optimized out>) at /home/alxndr/Development/qemu/include/qemu/log=
+-for-trace.h:29
+#5 0x000055555653c825 in ati_mm_read (opaque=3D<optimized out>, addr=3D0x4,=
+ size=3D<optimized out>) at /home/alxndr/Development/qemu/hw/display/ati.c:=
+289
+#6 0x000055555601446e in memory_region_read_accessor (mr=3D0x63100004dc20, =
+addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>, sh=
+ift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/alxndr=
+/Development/qemu/memory.c:434
+#7 0x0000555556001a70 in access_with_adjusted_size (addr=3D<optimized out>,=
+ value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<optimi=
+zed out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>, m=
+r=3D0x63100004dc20, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:=
+544
+#8 0x0000555556001a70 in memory_region_dispatch_read1 (mr=3D0x63100004dc20,=
+ addr=3D0x4, pval=3D<optimized out>, size=3D0x4, attrs=3D...) at /home/alxn=
+dr/Development/qemu/memory.c:1396
+
+I can reproduce it in qemu 5.0 built with using:
+cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc-q=
+35-5.0 -device ati-vga -nographic -qtest stdio -monitor none -serial none
+outl 0xcf8 0x80001018
+outl 0xcfc 0xe2000000
+outl 0xcf8 0x8000101c
+outl 0xcf8 0x80001004
+outw 0xcfc 0x7
+outl 0xcf8 0x8000fa20
+write 0xe2000004 0x1 0x1a
+readq 0xe2000000
+EOF
+
+Similarly for ati_reg_write_offs:
+cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc-q=
+35-5.0 -device ati-vga -nographic -qtest stdio -monitor none -serial none
+outl 0xcf8 0x80001018
+outl 0xcfc 0xe2000000
+outl 0xcf8 0x8000101c
+outl 0xcf8 0x80001004
+outw 0xcfc 0x7
+outl 0xcf8 0x8000fa20
+write 0xe2000000 0x8 0x6a00000000006a00
+EOF
+
+I also attached the traces to this launchpad report, in case the
+formatting is broken:
+
+qemu-system-i386 -M pc-q35-5.0 -device ati-vga -nographic -qtest stdio
+-monitor none -serial none < attachment
+
+Please let me know if I can provide any further info.
+-Alex
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "attachment"
+   https://bugs.launchpad.net/bugs/1878136/+attachment/5370128/+files/attac=
+hment
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878136
+
+Title:
+   Assertion failures in ati_reg_read_offs/ati_reg_write_offs
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found inputs that trigger assertion failures in
+  ati_reg_read_offs/ati_reg_write_offs
+
+  uint32_t extract32(uint32_t, int, int): Assertion `start >=3D 0 &&
+  length > 0 && length <=3D 32 - start' failed
+
+  #3 0x00007ffff6866092 in __GI___assert_fail (assertion=3D0x555556e760c0 <=
+str> "start >=3D 0 && length > 0 && length <=3D 32 - start", file=3D0x55555=
+6e76120 <str> "/home/alxndr/Development/qemu/include/qemu/bitops.h", line=
+=3D0x12c, function=3D0x555556e76180 <__PRETTY_FUNCTION__.extract32> "uint32=
+_t extract32(uint32_t, int, int)") at assert.c:101
+  #4 0x000055555653d8a7 in ati_mm_read (opaque=3D<optimized out>, addr=3D0x=
+1a, size=3D<optimized out>) at /home/alxndr/Development/qemu/include/qemu/l=
+og-for-trace.h:29
+  #5 0x000055555653c825 in ati_mm_read (opaque=3D<optimized out>, addr=3D0x=
+4, size=3D<optimized out>) at /home/alxndr/Development/qemu/hw/display/ati.=
+c:289
+  #6 0x000055555601446e in memory_region_read_accessor (mr=3D0x63100004dc20=
+, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>, =
+shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/alxn=
+dr/Development/qemu/memory.c:434
+  #7 0x0000555556001a70 in access_with_adjusted_size (addr=3D<optimized out=
+>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opti=
+mized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>,=
+ mr=3D0x63100004dc20, attrs=3D...) at /home/alxndr/Development/qemu/memory.=
+c:544
+  #8 0x0000555556001a70 in memory_region_dispatch_read1 (mr=3D0x63100004dc2=
+0, addr=3D0x4, pval=3D<optimized out>, size=3D0x4, attrs=3D...) at /home/al=
+xndr/Development/qemu/memory.c:1396
+
+  I can reproduce it in qemu 5.0 built with using:
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
+-q35-5.0 -device ati-vga -nographic -qtest stdio -monitor none -serial none
+  outl 0xcf8 0x80001018
+  outl 0xcfc 0xe2000000
+  outl 0xcf8 0x8000101c
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x8000fa20
+  write 0xe2000004 0x1 0x1a
+  readq 0xe2000000
+  EOF
+
+  Similarly for ati_reg_write_offs:
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
+-q35-5.0 -device ati-vga -nographic -qtest stdio -monitor none -serial none
+  outl 0xcf8 0x80001018
+  outl 0xcfc 0xe2000000
+  outl 0xcf8 0x8000101c
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x8000fa20
+  write 0xe2000000 0x8 0x6a00000000006a00
+  EOF
+
+  I also attached the traces to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -M pc-q35-5.0 -device ati-vga -nographic -qtest stdio
+  -monitor none -serial none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878136/+subscriptions
 
