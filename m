@@ -2,95 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 307A91CFD8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:45:34 +0200 (CEST)
-Received: from localhost ([::1]:47056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA88F1CFDC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:48:21 +0200 (CEST)
+Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYZuH-000424-6s
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:45:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41594)
+	id 1jYZwy-0006ne-Vn
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:48:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jYZsr-0002Uq-9C
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:44:05 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47937
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jYZsp-0004OV-PN
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:44:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589309042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iLsoYb26KX1/As9vNOKU6m110aTWSTde6D0A4DCI8lc=;
- b=i7cgu+UuJv0y2CuxJr67dFPVwd4ZERlxO32MtxBMUg8aARyNE8mG8osIXNNO++vaB3/2wO
- 6jVJZ5tgS6v/Ofhi9V4dGCLTBGAVeqaJtsb9N3NNprshBd4q0TtlMk+/T15cgmhuoPuEcd
- UfgHHAAFoOrMtDipU75EukYKKxcBWm0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-yIWRbFEWNcKJhmlNmEDr0Q-1; Tue, 12 May 2020 14:44:00 -0400
-X-MC-Unique: yIWRbFEWNcKJhmlNmEDr0Q-1
-Received: by mail-wr1-f71.google.com with SMTP id z10so3337972wrs.2
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 11:44:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jYZtJ-0003HV-GG
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:44:33 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jYZtI-0004UF-Cj
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:44:32 -0400
+Received: by mail-wm1-x344.google.com with SMTP id k12so23158655wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 11:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=6hv6Z+ErM2Tx/RhfYkWQgackaDiVa+y6R62kWHd6a3E=;
+ b=Oyts7iMKxXCUpW8TOcnr46fA2W7ESqPP+TnbbmjHpsRwPKktxl59fSzgYpXDg9snsF
+ 3j6LZml20RuocZyHMjvQBFIjqZgIANAgZeAh2Pgg6tXOfCDAMvJ3HzSxc95AfFMWaTnK
+ ueSKux0mPha6dXHChKrKR3+LUhAkf37FVv9pqk/s0kTb9880FtLEWOZMzlLsENAF1plo
+ 4xX6EGgm6DNIAOBpVeRONblrrM5U5NM/1QgFH3f7cVAYiwa6QCHXV5PLF+Tte4DWUtRp
+ EFkeFc9RrEm8n2t86JCaIb4/PhbBk/fQQiM43rVq7ZarUHp8Wz4+1A/SkmSyxW6SScjP
+ 93aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iLsoYb26KX1/As9vNOKU6m110aTWSTde6D0A4DCI8lc=;
- b=m+wXmaLhIWi94JjTVUEUyhAxDuYJCMzH7fNf5BgCNHVqT0sThnkiNL29YTlA5uQjHm
- KuHBzr1FBqrkEwG6x3IrNxMmcUo3rBsuw2WUA81XFF6BjkoQ4HDcB8FK4J6QHU/a7t6Q
- dLA8Eju18Pv7HWKeErj1ywGLe+u1HJgUmsrBpfjL+3s9LGDbTeXmBtqMYBf3o31P+blY
- zbGEy2OtjyPsM91FnoyKK2/eg9G+Y2LOkf90b2XGbRiLf6jLjfSOEgpTV+PtylkBqC/x
- fc0tTW7LDIO/9+gLKaRrsazJZckz9syU9jcPJ5hZtEmwEnR75e4903cYPuA+MaxSt6+m
- L/KQ==
-X-Gm-Message-State: AGi0Pua/X9plf8XEXN7HF3B/n2+16LYTdf6I1AuAI3aEMFpKdWn62p8T
- oa12HfszW4ACYSjYjJN8io3ZT6sFXFrBGx3vwQqPKYTzfz4FSW7yWaCHMZIftppZn6uDX6W25f4
- pw54UdWxyCIekEcw=
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr25872055wrw.311.1589309039865; 
- Tue, 12 May 2020 11:43:59 -0700 (PDT)
-X-Google-Smtp-Source: APiQypKloTaXoKHRHPiB0POnsTyy5np/aMiqjF+QgFYkjlz/jeJX0lCw7y0w4hW3oPoFK0imY3UpzQ==
-X-Received: by 2002:a5d:684a:: with SMTP id o10mr25870302wrw.311.1589309014232; 
- Tue, 12 May 2020 11:43:34 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:3045:ae65:70cb:daf1?
- ([2001:b07:6468:f312:3045:ae65:70cb:daf1])
- by smtp.gmail.com with ESMTPSA id g25sm31965218wmh.24.2020.05.12.11.43.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 May 2020 11:43:33 -0700 (PDT)
-Subject: Re: Infinite loop in bus_unparent(), qdev bug or qdev misuse?
-To: Markus Armbruster <armbru@redhat.com>
-References: <87tv0vzrwj.fsf@dusky.pond.sub.org>
- <6fc8633a-6d91-b83a-e6cd-5f714ccaf9ea@redhat.com>
- <875zda8j3m.fsf@dusky.pond.sub.org>
- <a4df3ba3-4759-56ac-68f8-f75eea93e27e@redhat.com>
- <87zhal4lef.fsf@dusky.pond.sub.org> <87o8qttaa9.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1bc75209-ff3a-6226-2384-e643e4ab6d77@redhat.com>
-Date: Tue, 12 May 2020 20:43:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=6hv6Z+ErM2Tx/RhfYkWQgackaDiVa+y6R62kWHd6a3E=;
+ b=QIqErD9wbMCimg8IWOGS/fu8BlL5lGSP7qUk6ldg1n69sBLSXEnhZbn0fU4vPhRvS4
+ mN6BjdkbbCzUaq+fMrj5PInhe4W76UwfVNen5uO5FFdfmdHSfqA/NcPaULTPP0qOxvF4
+ 0jHRt1m2SMiLcDhp6/zRZdOA5fqWNqoNtNj5Va0yUppCX/enzZgvNYWsuWdaToljdkUL
+ 1Ag9HNEPPW0nxWAv2OAuvd3+lHbsTLSCGclXsqtY4bo4cC94UaG/h2z+MMOoO1M/OEHr
+ IFo/q/r18dmQG4Odi362fAn2i0QS3JwxQzappFCtHngFdzN03L09GZITNdFBPKCfWQG5
+ dpjw==
+X-Gm-Message-State: AGi0PuZpGL+R/IK/tseYdMb4Lf7Bs81byVndc20dDX8Rdu1Dkn2nmdCp
+ oDR7WGKqaE6V6UifdnukaazfgQ==
+X-Google-Smtp-Source: APiQypLp/8L+AA8czA0tacaHBGBGuCJxTJm/ORum0IC7FEMfm6hukYhIAtc9t+goSHvbozJJU/6ryg==
+X-Received: by 2002:a1c:7c10:: with SMTP id x16mr37492346wmc.74.1589309070722; 
+ Tue, 12 May 2020 11:44:30 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l13sm7617836wrm.55.2020.05.12.11.44.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 May 2020 11:44:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 898C61FF7E;
+ Tue, 12 May 2020 19:44:28 +0100 (BST)
+References: <20200510171119.20827-1-f4bug@amsat.org>
+User-agent: mu4e 1.4.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 0/3] plugins: Move declarations around and rename
+ 'hwaddr' argument
+In-reply-to: <20200510171119.20827-1-f4bug@amsat.org>
+Date: Tue, 12 May 2020 19:44:28 +0100
+Message-ID: <875zd1f0xf.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87o8qttaa9.fsf@dusky.pond.sub.org>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 14:17:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,24 +89,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-trivial@nongnu.org, "Emilio G . Cota" <cota@braap.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/20 17:58, Markus Armbruster wrote:
-> 
-> Moving "put on qbus" from qdev_create() (and its wrappers) to
-> qdev_init_nofail() means we put on bus by realizing.  No use to
-> recursive realization then,
 
-... for qdev_init_nofail; it may still be useful to *replace*
-qdev_init_nofail with object_property_add_child+qdev_set_parent_bus, and
-do recursive realization.  The bug wouldn't be hit as long as
-qdev_set_parent_bus is only called after object_property_add_child.
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-Certainly not today though!
+> Rename qemu_plugin_hwaddr_is_io() 'hwaddr' argument to later
+> allow declaration of the 'hwaddr' type to be poisoned (see [*]).
+>
+> [*] https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg02254.html
+>     "exec/cpu: Poison 'hwaddr' type in user-mode emulation"
 
-Paolo
 
+Queued to plugins/next, thanks.
+
+>
+> Philippe Mathieu-Daud=C3=A9 (3):
+>   qemu/plugin: Trivial code movement
+>   qemu/plugin: Move !CONFIG_PLUGIN stubs altogether
+>   qemu/qemu-plugin: Make qemu_plugin_hwaddr_is_io() hwaddr argument
+>     const
+>
+>  include/qemu/plugin.h      | 65 ++++++++++++++++++--------------------
+>  include/qemu/qemu-plugin.h |  2 +-
+>  plugins/api.c              |  4 +--
+>  3 files changed, 34 insertions(+), 37 deletions(-)
+
+
+--=20
+Alex Benn=C3=A9e
 
