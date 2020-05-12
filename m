@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D081CFE89
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:43:23 +0200 (CEST)
-Received: from localhost ([::1]:40254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6799D1CFE9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:46:02 +0200 (CEST)
+Received: from localhost ([::1]:49922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYaoE-0005xe-6X
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:43:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
+	id 1jYaqn-0002GK-EK
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:46:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYagE-0002fo-Fo
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:35:06 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYagC-0002Ot-Oo
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:35:06 -0400
-Received: by mail-wr1-x442.google.com with SMTP id s8so17235848wrt.9
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 12:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=KcxF8DVQAqh0pqWSpwPkYBoajfccQl1VsHrDvMroOmI=;
- b=wbUpfrXkjrcBIRoQH/bxnrVYm+/3mIaRCbBO0djoeUVi9xlGXhOAPrVZCwtTWQeVRO
- tTgoKYNU/i1DecECrC6XfqOvr6J1+2mk6cLn15SsjJkkNvf22sBdgh/zqY1WJuuKv9LI
- KdpaaxjDc3zRxt9Vo7NU2vrdLIqMISF2ORF8ca/SQUvE0ZcGJek8tJEfc2Cujxq7GDM+
- Mexv3P91wvfXT3dt5OQfMImhWkA4+B1WlpMRsDROps+8r4SkPylzSihP/Qu56EJfNj7d
- 1coc8NwIJc+v1XF0iE6F2Grh3Y9TsxFoZ05kTdFdgUEa/k264IpE80JGcABr9rWs9E76
- guwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=KcxF8DVQAqh0pqWSpwPkYBoajfccQl1VsHrDvMroOmI=;
- b=hw5JnRVs4ZOQV0nRe9Oi3GYSz1RQIc+Apcc9iAsv2QhvP9bMTDkxhcj7AmFC68B1rw
- LA14VNwkTZoXgLemQRTKr1lIfSy2xkmHp8BSz7Y1VZNO+f6h4Rg/0JZooIlpnkiLXmOF
- s6rxD95mR2AWExYJ4XJbhqeAyiJ+cqAVSFjG9mpjPXeGJmkjV+bVlaX4rd81P/DdkMCe
- ZxP7RqCsAeawaF2reuXuvx2cdiBOwiIPgZTzJrwyduW9AD0HSaGix3BIuXHyc2w+GhoL
- UX0LeFba3hZVMdxsha0yaGBN6q4jokPnRZ6mTL9qHHMKgH32CeNkvMnYAqBorW1fnLPl
- wgZw==
-X-Gm-Message-State: AGi0PubgnEiodcQHDeg80Q5mzIAtXTVLEBgmA772DZgZOeHsp7JFFMmP
- 4ub+8Dxwrg+oTelPWXi/2jONwQ==
-X-Google-Smtp-Source: APiQypIUwM3+giysVFlfVbMfnlo3ZqX1Q0syj3NWOErlKm35HaVzBESt7XGu9u49b36W0KYCBaQ06w==
-X-Received: by 2002:adf:e784:: with SMTP id n4mr28189117wrm.170.1589312102954; 
- Tue, 12 May 2020 12:35:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f128sm20946066wme.1.2020.05.12.12.35.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 12:35:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 315F21FF7E;
- Tue, 12 May 2020 20:35:00 +0100 (BST)
-References: <CAEme+7FPF+inSJSXQPmuv8Up3Eam0N7fT03zqM-RvcvKsxjfVQ@mail.gmail.com>
- <f4feb648-7dc5-ac54-bc0b-db650dd176f1@vivier.eu>
- <CAEme+7EtF6B2+2U_yF2dd-g2m+=S3P5=DL1oLmHfmWw2S7PYAw@mail.gmail.com>
- <20200509230016.GA109593@sff>
- <CAEme+7H82A2RNk5g09rmhThxW4=6sqWP5o65OCsJ8zf1L-nb+w@mail.gmail.com>
- <20200512005521.GA198983@sff>
- <CAEme+7E+d4Obmc=6bDcZgP5oEx9F57qe9RE2X=iFw+Yo=+i9_A@mail.gmail.com>
-User-agent: mu4e 1.4.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Nikolay Igotti <igotti@gmail.com>
-Subject: Re: [PATCH 3/3] plugins: avoid failing plugin when CPU is inited
- several times
-In-reply-to: <CAEme+7E+d4Obmc=6bDcZgP5oEx9F57qe9RE2X=iFw+Yo=+i9_A@mail.gmail.com>
-Date: Tue, 12 May 2020 20:35:00 +0100
-Message-ID: <873685eyl7.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYaka-00020F-BR
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:39:36 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57219
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYakX-0004Wb-AZ
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:39:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589312371;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bm6HrfLGZTnVY9Po1BzA0B+xVviZJXW6NnTxU7Bp2nI=;
+ b=U8VlwAi9NLhIeGM0FaoMZsGH55Zb0rDTw2jocymOMLikUbKoNV/iJujam1Clp1VH85aLlW
+ o+MhinDjPepAvUoF6zRhIV5XiY7OS8u4VafOwD9S8OdEWB3cy0rBQLNfEsJ36Ga/M3+wwj
+ JRIQJJG1JXrDi9PGw9ZrfnF8GIwoaFw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-eIXQ9seZOvOJ7lr2nSkwlg-1; Tue, 12 May 2020 15:39:26 -0400
+X-MC-Unique: eIXQ9seZOvOJ7lr2nSkwlg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D907EC1A1;
+ Tue, 12 May 2020 19:39:25 +0000 (UTC)
+Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCEB41A923;
+ Tue, 12 May 2020 19:39:24 +0000 (UTC)
+Subject: Re: [PATCH v3 7/9] qcow2: Expose bitmaps' size during measure
+To: Max Reitz <mreitz@redhat.com>, Nir Soffer <nsoffer@redhat.com>
+References: <20200508180340.675712-1-eblake@redhat.com>
+ <20200508180340.675712-8-eblake@redhat.com>
+ <CAMRbyytP9LvMVJ1R1EEnjHJGKOXtOYg_=ywqn-yVDLBeqFff4g@mail.gmail.com>
+ <d0c62eef-acf6-0996-4928-1836940e2901@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <1a9f1d01-5b9a-ac35-334e-1fe090682621@redhat.com>
+Date: Tue, 12 May 2020 14:39:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <d0c62eef-acf6-0996-4928-1836940e2901@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:41:59
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,211 +84,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, "Emilio G. Cota" <cota@braap.org>,
- Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/12/20 6:10 AM, Max Reitz wrote:
 
-Nikolay Igotti <igotti@gmail.com> writes:
 
-> --- counter.c
->
-> #include <assert.h>
-> #include <pthread.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <string.h>
-> #include <unistd.h>
->
-> #include <glib.h>
->
-> #include <qemu-plugin.h>
->
-> QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
->
-> // Files with descriptors after this one are intercepted for instruction
-> counting marks.
-> #define CATCH_BASE 0xcafebabe
->
-> static uint64_t insn_count =3D 0;
-> static pthread_t counting =3D false;
-> static pthread_t counting_for =3D 0;
-> static bool on_every_close =3D false;
->
-> static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
-> {
->     if (counting && pthread_self() =3D=3D counting_for)
->         insn_count++;
-> }
->
-> static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-> {
->     size_t n =3D qemu_plugin_tb_n_insns(tb);
->     size_t i;
->
->     for (i =3D 0; i < n; i++) {
->         struct qemu_plugin_insn *insn =3D qemu_plugin_tb_get_insn(tb, i);
->
->         // TODO: do this call only on first insn in bb.
->         qemu_plugin_register_vcpu_insn_exec_cb(
->             insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS, NULL);
->     }
-> }
->
-> static void print_insn_count(void) {
->     g_autofree gchar *out =3D g_strdup_printf("executed %" PRIu64 "
-> instructions\n", insn_count);
->     qemu_plugin_outs(out);
-> }
->
-> static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
->                         int64_t num, uint64_t a1, uint64_t a2,
->                         uint64_t a3, uint64_t a4, uint64_t a5,
->                         uint64_t a6, uint64_t a7, uint64_t a8)
-> {
->     // We put our listener on fd reads in range [CATCH_BASE, CATCH_BASE +=
- 1]
->     if (num =3D=3D 0) { // sys_read
->         switch (a1)
->         {
->             case CATCH_BASE + 0:
->                 counting =3D true;
->                 counting_for =3D pthread_self();
->                 insn_count =3D 0;
->                 break;
->             case CATCH_BASE + 1: {
->                 counting =3D false;
->                 counting_for =3D 0;
->                 if (a3 =3D=3D 8) {
->                     // In case of user emulation in QEMU, addresses are 1=
-:1
-> translated, so we can tell the caller
->                     // number of executed instructions by just writing in=
-to
-> the buffer argument of read.
->                     *(uint64_t*)a2 =3D insn_count;
+>> This does not break old code since previously we always reported only
+>> guest visible content
+>> here, but it changes the semantics, and now you cannot allocate
+>> "required" size, you need
+>> to allocate "required" size with "bitmaps" size.
+> 
+> Only if you copy the bitmaps, though, which requires using the --bitmaps
+> switch for convert.
 
-Hmm this was certainly unintentional - is it the host or guest address
-you are messing with here? I wouldn't count on it pointing where you
-think and relying on it to pass information back to the instrumented
-guest.
+First, a usage question: would you rather that 'qemu-img convert 
+--bitmaps' silently succeeds even when the image being converted has no 
+bitmaps, or would you rather that it fails loudly when there are no 
+bitmaps to be copied over?  As implemented in this patch series, patch 8 
+currently silently succeeds.  But in order to make patch 7 and 8 
+consistent with one another, I need to know which behavior is easier to 
+use: failing convert if the source lacks bitmaps (and thus measure would 
+suppress the bitmaps:0 output), or treating lack of bitmaps as nothing 
+additional to copy and thereby succeeding (and thus measure should 
+output bitmaps:0 to show that no additional space is needed because 
+nothing else will be copied, successfully).
 
-Anyway I have a replication - we are trying to insert the same id into
-the plugin cpu index hash table twice.=20
+>> If we add a new
+>> extension all users will have to
+>> change the calculation again.
+> 
+> It was my impression that existing users won’t have to do that, because
+> they don’t use --bitmaps yet.
+> 
+> In contrast, if we included the bitmap size in @required or
+> @fully-allocated, then previous users that didn’t copy bitmaps to the
+> destination (which they couldn’t) would allocate too much space.
+> 
+> ...revisiting this after reading more of your mail: With a --bitmaps
+> switch, existing users wouldn’t suffer from such compatibility problems.
+>   However, then users (that now want to copy bitmaps) will have to pass
+> the new --bitmaps flag in the command line, and I don’t see how that’s
+> less complicated than just adding @bitmaps to @required.
 
->                 }
->                 print_insn_count();
->                 break;
->             }
->             default:
->                 break;
->         }
->     }
->     if (num =3D=3D 3 && on_every_close) { // sys_close
->         print_insn_count();
->     }
-> }
->
-> QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
->                                            const qemu_info_t *info,
->                                            int argc, char **argv)
-> {
->     int i;
->     for (i =3D 0; i < argc; i++) {
->         if (!strcmp(argv[i], "on_every_close")) {
->             on_every_close =3D true;
->             counting =3D true;
->             counting_for =3D pthread_self();
->         }
->     }
->
->     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
->     qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
->     return 0;
-> }
->
-> --- test.c
->
-> #include <stdint.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <unistd.h>
-> #include <pthread.h>
->
-> #define CATCH_BASE 0xcafebabe
->
-> static void start_counting() {
->     char buf;
->     int rv =3D read(CATCH_BASE, &buf, 1);
->     (void)rv;
-> }
->
-> static void end_counting() {
->     uint64_t counter =3D 0;
->     int rv =3D read(CATCH_BASE + 1, &counter, sizeof(counter));
->     (void)rv;
->     printf("We got %lld from TCG\n", counter);
-> }
->
-> int global =3D 0;
->
-> typedef struct {
->     int delay;
-> } ThreadArg;
->
-> static void* thread_fn(void* varg)  {
->     ThreadArg* arg =3D varg;
->     usleep(arg->delay);
->     free(arg);
->     return NULL;
-> }
->
-> int main(int argc, char** argv) {
->     int i;
->     int repeat =3D 100;
-> #define THREAD_NUM 10
->     pthread_t threads[THREAD_NUM];
->
->     if (argc > 1) {
->         repeat =3D atoi(argv[1]);
->     }
->
->     for (i =3D 0; i < THREAD_NUM; i++) {
->         ThreadArg* arg =3D calloc(sizeof(ThreadArg), 1);
->         arg->delay =3D i * 100;
->         pthread_create(threads + i, NULL, thread_fn, arg);
->     }
->
->     start_counting();
->     for (i =3D 0; i < repeat; i++) {
->         global +=3D i;
->     }
->     end_counting();
->
->     for (i =3D 0; i < THREAD_NUM; i++) {
->         pthread_join(threads[i], NULL);
->     }
->
->     return 0;
-> }
->
-> On Tue, May 12, 2020 at 3:55 AM Emilio G. Cota <cota@braap.org> wrote:
->
->> On Mon, May 11, 2020 at 18:53:19 +0300, Nikolay Igotti wrote:
->> > Attached to the mail counter.c when running with attached test.c compi=
-led
->> > to Linux standalone binary shows failing assert, unless the patch is
->> > applied.
+More concretely, suppose down the road that we add the ability to copy 
+internal snapshots (not that you want to mix internal and external 
+snapshots, but that such information already exists and therefore can be 
+used as an example).  Which is easier:
+
+$ qemu-img measure -f qcow2 image.qcow2
+required size: 8716288
+fully allocated size: 8716288
+bitmaps size: 1024
+internal snapshot size: 2048
+
+where you now have to add three numbers prior to creating dest.qcow2 and 
+calling:
+
+$ qemu-img convert image.qcow2 -f dest.qcow2 --bitmaps --snapshots
+
+or using:
+
+$ qemu-img measure --bitmaps --snapshots -f qcow2 image.qcow2
+required size: 8719360
+fully allocated size: 8719360
+
+where you then call:
+
+$ qemu-img convert image.qcow2 -f dest.qcow2 --bitmaps --snapshots
+
+with a single size that matches the same arguments you pass to qemu-img 
+convert?  What about failure cases?  What happens when qemu-img doesn't 
+understand --snapshots but does understand --bitmaps?  Do you have to 
+try a series of up to three calls to find how much information is supported:
+
+$ qemu-img measure -f qcow2 image.qcow2 --bitmaps --snapshots
+error: unknown argument
+$ qemu-img measure -f qcow2 image.qcow2 --bitmaps
+error: unknown argument
+$ qemu-img measure -f qcow2 image.qcow2
+data given, now you know that neither --bitmaps nor --snapshots will work
+
+or is it nicer to issue just one measure without options, getting 
+separate output lines, and seeing which output lines exist to know which 
+convert options are supported, at the minor expense of having to add 
+values yourself?
+
+And then back to my question: should 'measure --bitmaps' fail if there 
+are no bitmaps to be measured, or silently succeed and not change the 
+output size?
+
+
+>> With the current way, to measure an image we need to do:
 >>
->> I didn't get the attachment. Can you paste the code at the end of your
->> reply?
->>
->> Thanks,
->>                 Emilio
->>
+>> qemu-img info --output json ...
+>> check if image contains bitmaps
+>> qemu-img measure --output json ...
+>> check if bitmaps are reported.
 
+Why do you have to check 'qemu-img info' first?  If measure reports 
+bitmaps, then you know bitmaps can be copied; if it doesn't, then you 
+can check info as a fallback path to compute size yourself - but 
+computing the size yourself doesn't help unless you also have fallbacks 
+to copy the bitmaps via QMP commands, because that qemu-img will also 
+lack 'qemu-img convert --bitmaps' or 'qemu-img bitmaps' to do it via 
+qemu-img.
 
---=20
-Alex Benn=C3=A9e
+>>
+>> If image has bitmaps and bitmaps are not reported, we know that we have an old
+>> version of qemu-img that does not know how to measure bitmaps.
+> 
+> Well, but you’ll also see that convert --bitmaps will fail.  But I can
+> see that you probably want to know about that before you create the
+> target image.
+> 
+>> If bitmaps are reported in both commands we will use the value when creating
+>> block devices.
+> 
+> And otherwise?  Do you error out, or do you just omit --bitmaps from
+> convert?
+> 
+>> If we always report bitmaps even when they are zero, we don't need to
+>> run "qemu-img info".
+>>
+>> But  my preferred interface is:
+>>
+>>     qemu-img measure --bitmaps ...
+>>
+>> And report bitmaps only if the user asked to get the value. In this
+>> case the required and
+>> fully-allocated values will include bitmaps.
+> 
+> Well, it would be consistent with the convert interface.  If you specify
+> it for one, you specify it for the other.
+> 
+> OTOH, this would mean having to pass around the @bitmaps bool in the
+> block layer, which is a bit more difficult than just adding a new field
+> in BlockMeasureInfo.  It would also mean to add a new bool every time we
+> add a new extension (which you hinted at above that it might happen).
+
+Or, that could be a CLI-only feature: the QMP interface _always_ reports 
+bitmaps separately, but if 'qemu-img measure --bitmaps' is used, the CLI 
+then adds that value in on your behalf after the QMP command but before 
+printing to the end user.
+
+> 
+> (We could also let img_measure() in qemu-img add @bitmaps to @required
+> if --bitmaps was given, so we wouldn’t have to pass the bool around; but
+> I think letting qemu-img fix up a QAPI object filled by the block driver
+> sounds wrong.  (Because that means the block driver didn’t fill it
+> correctly.))
+
+If we only touch it up in the CLI, then we would have two forms of CLI 
+output:
+
+$ qemu-img measure -f qcow2 image.qcow2
+required size: 8716288
+fully allocated size: 8716288
+bitmaps size: 1024
+$ qemu-img measure -f qcow2 image.qcow2 --bitmaps
+required size: 8717312
+fully allocated size: 8717312
+
+> 
+> And I don’t see how the interface proposed here by Eric (or rather, what
+> I think we had agreed on for the next version) poses any problems for
+> users.  If you want to copy bitmaps, you just use @required + @bitmaps.
+>   (If @bitmaps isn’t present, you can’t copy bitmaps, so that should be
+> an error.)  If you don’t want to copy bitmaps, you just use @required.
+> 
+> (And if you want to copy bitmaps if present, you use @required +
+> @bitmaps, and treat @bitmaps as 0 if not present.)
+> 
+>> To learn if qemu-img measure understand bitmaps we can check --help
+>> output, like we did
+>> in the past until we can require the version on all platforms.
+>>
+>> An advantage is not having to change old tests.
+> I personally don’t really consider that a significant advantage...  (On
+> the contrary, seeing the field in all old tests means the code path is
+> exercised more often, even though it’s supposed to always just report 0.)
+> 
+> So all in all the main benefit I see in your proposal, i.e. having
+> @bitmaps be included in @required with --bitmaps given, is that it would
+> give a symmetrical interface between measure and convert: For simple
+> cases, you can just replace the “convert” in your command line by
+> “measure”, retrieve @required/@fully-allocated, create the target image
+> based on that, and then re-run the same command line, but with “convert”
+> this time.
+> 
+> But I’m not sure whether that’s really an advantage in practice or more
+> of a gimmick.  With Eric’s proposal, if you want to convert with
+> bitmaps, just add @bitmaps to the target size.  If you don’t, don’t.  If
+> you’d prefer to but don’t really care, add “@bitmaps ?: 0”.
+> 
+> The benefit of Eric’s proposal (not including @bitmaps in @required or
+> @fully-allocated) is that it doesn’t require passing an additional
+> parameter to the block driver.  It also makes the definition of
+> BlockMeasureInfo simpler.  With your proposal, it would need to be
+> parameterized.  (As in, @required sometimes includes the bitmaps,
+> sometimes it doesn’t, depending on the parameter used to retrieve
+> BlockMeasureInfo.)  I’m not sure whether that even makes sense in the
+> QAPI definition.
+
+I'm leaning towards making v4 try a CLI-only 'measure --bitmaps', to see 
+if I can speed the discussion along with concrete patches for comparison.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
