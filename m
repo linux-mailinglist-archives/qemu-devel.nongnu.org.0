@@ -2,72 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4121CFCB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:57:57 +0200 (CEST)
-Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF581CFBCC
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:16:39 +0200 (CEST)
+Received: from localhost ([::1]:35470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYZAC-00054S-Ef
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:57:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
+	id 1jYYWD-0000U0-Nf
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rad@semihalf.com>) id 1jYYN7-0007vl-Fg
- for qemu-devel@nongnu.org; Tue, 12 May 2020 13:07:13 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:44932)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rad@semihalf.com>) id 1jYYN5-00071M-P3
- for qemu-devel@nongnu.org; Tue, 12 May 2020 13:07:13 -0400
-Received: by mail-lf1-x142.google.com with SMTP id d22so5159079lfm.11
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 10:07:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=semihalf-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=avK/Z/6wqRuOjH2arcvxV3LyvE6xojjat6vnYZ0J980=;
- b=W3m7XaTAzx2SnS6KIhm0qcuQjCKmTlTgsEys3eS5uLR4a92ZV3iXeqMGB/ED1Slo+q
- Y7BPFmCHSBmS/xoOWHKuXIzJ2kLDz6zfJ1ux0z5rJ/kok0ZlGSsV3XgedL8K7dr5nPqw
- RrHoIZC9f9r4yxlJ7FNcxRpUDi4M3gka8YFDwXIzxbB+v4qG1TfAxV1dqT+6mS8a4CiL
- SanfpeiyJBdRU7XBm0UovBsipGlRas3PNoH+oe21JBMApUvqiy5kAVsQW/3m76J4EVBz
- Y4yIWB1XWqCjqkDQfkaegXvaNxCm9IxWRh4yLwtySjb/q3TW8Gc9BYeDwTyYnh5X2AmA
- JOqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=avK/Z/6wqRuOjH2arcvxV3LyvE6xojjat6vnYZ0J980=;
- b=tFskVQJcp1wVVyk+erHVNZxiwErqzHLXLvM9XJ8UHQ9dE+lggy1Dq2JT+DN2ePQwZA
- M9rlWWrv4dGghKAIWYnuucrxLsE4GLhMrQ2qgdO6boUNUX/V/7Ol73RDc9ygfncNwS2y
- ExAH/NjgauljNSc9xixbWuJzHDkNEzJde2T1tJoRl/FTn/7RtnJ5a+iBBg7ZOL8aiIuX
- 707ZTuABH3X+disPN4Zt6ps5kEwNx2ocIo4Cah/ric8nWpIXeISUgZkAF5Jr/W8OsBLo
- VoIOnI1xCS4u7Bf+H+G7Eiaf7HYACkuupx54NrCgrBy6AWx0pB0cNjm3GCq+jfYi+qAT
- rZyQ==
-X-Gm-Message-State: AOAM5301SPctvMV065Zw9yMYSStznh9Q+Z6je0qE8iIPnNW8gUKyWcJG
- tRiZbV668/Wxj4peUm6zAQTtng==
-X-Google-Smtp-Source: ABdhPJxen0CtdcekiRq7qj8NHeniTpvC7nwwXqXpruWmJIiQIkMeFasUXJlgJnW0LtjcjKB1+4P5OA==
-X-Received: by 2002:a05:6512:1051:: with SMTP id
- c17mr14582634lfb.206.1589303228751; 
- Tue, 12 May 2020 10:07:08 -0700 (PDT)
-Received: from unknown.lan (ip-179-133.ists.pl. [93.180.179.133])
- by smtp.gmail.com with ESMTPSA id w203sm14350355lff.38.2020.05.12.10.07.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 10:07:08 -0700 (PDT)
-From: Radoslaw Biernacki <rad@semihalf.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Leif Lindholm <leif@nuviainc.com>, qemu-arm <qemu-arm@nongnu.org>
-Subject: [PATCH] MAINTAINERS: Update Radoslaw Biernacki email address
-Date: Tue, 12 May 2020 19:07:04 +0200
-Message-Id: <20200512170704.9290-1-rad@semihalf.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=2a00:1450:4864:20::142;
- envelope-from=rad@semihalf.com; helo=mail-lf1-x142.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jYYUo-0008Ig-Ka; Tue, 12 May 2020 13:15:10 -0400
+Received: from mail-eopbgr60125.outbound.protection.outlook.com
+ ([40.107.6.125]:55429 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jYYUl-0000eI-7d; Tue, 12 May 2020 13:15:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dqNCsghBAQ4tj8kGgPy7tgFQXJ1OXWdKrVCEdnUFFrsR3CiBrtmyhfOFpQe3DG/R7SemvYlJyEunfwYSs5h7bGCb4+O8eycriIe6sRUgUkdhNZRWSdoSLZCR0caHS9V9+xt1FwifmZOiPIomNq4NJ7LwjSoOavHFFBfQ/SNTjXVXN1cYxyJhubdfh/fNARFEDKOtzucTVMO6z3lGQWS8JULVaFDalTmXhVg9YfivAe20PUWJbdjak5aNPcF/i5pPO2+P7sUZgWUv/OhekbKqfdV5RgIeUQvkggERoM/wfnyqwk7MbCB2ItLZM/FkIoz4R2PMwRX7oJMsH+Gg9YEAjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NkUmHUzvKDbPFEGKV6gOwiCLkt4TyYzqqw9VAss6ct4=;
+ b=TmxCIMM29ni2l++W9ZM+Fj2C6Cvtc5dtWFUgJQfjN9ps24HFpOZcTnUcJpKz3hdmFS2ALn6n0cF4fyswMQrUSoTtaDcLB5Q9krAAf+vUBEu4XRciQyQ1OLv9aFz5+rGD5w+q9B6Lv9g6n5eRTaoavj2g35HI0lBFuJEzYJVkQFTEVGgzVjXXHp0xpA0WVVCfJLLdRYhiOoPp9Bg/vIt08uhPeOxInySx4OMqeMDh8y4mwUHOIoCs3De+dWBSp9zKri3/+jD+CzSLOeS1sB9T4/PEf3O26adVw7mV2pLQUd1veZNV3uLIdcComGVEqzgV21nqVjLJqq/ENFqHBrGbAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NkUmHUzvKDbPFEGKV6gOwiCLkt4TyYzqqw9VAss6ct4=;
+ b=jHWIRUMt8f1h/qxjlPBVN61ytGKvGC3yyCuJh3kzNt3hHk1btFEn0fxI3o5RuLzqMJv6grAAFHzsa+lNio9uQWE2jFSJIc5j6sq+7ReTcw/Fgjqshg9u30pp19NwBr3hhMpc4W6sGp7p378r5GiQs+jKDxtdbzguBn0FHaw2v6o=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5461.eurprd08.prod.outlook.com (2603:10a6:20b:10e::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Tue, 12 May
+ 2020 17:15:03 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
+ 17:15:03 +0000
+Subject: Re: [PATCH v2 3/4] mirror: Make sure that source and target size match
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200511135825.219437-1-kwolf@redhat.com>
+ <20200511135825.219437-4-kwolf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <cbeba850-5c46-e946-596a-c8f33140b898@virtuozzo.com>
+Date: Tue, 12 May 2020 20:15:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <20200511135825.219437-4-kwolf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR06CA0091.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.163) by
+ AM0PR06CA0091.eurprd06.prod.outlook.com (2603:10a6:208:fa::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2979.28 via Frontend Transport; Tue, 12 May 2020 17:15:02 +0000
+X-Originating-IP: [185.215.60.163]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 476bd4e1-b702-4001-f6b0-08d7f6980279
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5461:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB546103986AA831843A3879B4C1BE0@AM7PR08MB5461.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:103;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PGmEw9zJsmUd7aLMa9e8fiMbNIZN3p46nlOQ2vuFBC40M/j5aZmHYWMYYV1WKgcWHGlo/fdNvfuuuTbBvi0CM9mdhKWDX4Nk2GttZxMxX2UJtUGY7SJHOgfv6vaKOf+SgcbYaHk1g/gsAAIPXrTxauVxtHLKrzfcPGbzOREPcsvcbsaUab9VGOz9XejOCWvTNq4NkxIGiCelJbGY/7k/hzeW7fvcHZkL9c6ih80zodcB3bfoLV3RrCoAfH+tt5qfxVt0i9VFcwQ+EovIifoTk6kz6V5TzShxkz8OuwLtmZQ+1BpkM5FOsD3e0DGbjGlqKVJ5A0Ag6Qc4tUS53Nx2VMw47mc0rzQNgMy56wkPj7d+HavcKq8nOzpmvB59WJxxhjcsw3zcykbLQkrNJL2VKfv1fgJclfiElgLDraogi0TfejT0Mdo5N0Kk5SgmzRFhOMj9qg+EfEZqMw4fPlvVWZv5lG8hwL1jiahyYWNA6UcupbNhYeyfaqSVTJfgOLrjJA+BZ9t8PKSwieigw8svv7GPQZLxEAJSZRA7QW0cFHT9Q+/Qzkv/QW7S4MzNi22G
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(346002)(366004)(39840400004)(376002)(136003)(396003)(33430700001)(16526019)(86362001)(26005)(52116002)(16576012)(316002)(478600001)(33440700001)(6486002)(186003)(8936002)(8676002)(5660300002)(31696002)(66946007)(66556008)(36756003)(956004)(2906002)(2616005)(4326008)(66476007)(31686004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: ZT/nF7ySV7dNibGOxFhvS/bTsZKrAuU4qP6gIkaR+8IZMR4tXXGdwA5IVj5BSBiYPeiVHmUVt6r8WXcdFdNY4gzKnY3rKoXNzeB7zcCfD7IJbYToHlBIK6xJPKcX16+gPIFMVaM+LHS88mpLyZNS52Crz5bnkLM/C01rnjV+0dmROMsD7ZmWQ6SXlnW4v0GsJPzVqgPNrXDwvm5LTcs6jEewXBh6XCxcu3CiFt9/THVWxU3eSOyGLNiy/htQdtHsuxLEeGO/hac2Fk71BvD1V2AVsRiZT+JZqYagPAwz49tYTKw4N5gh/laL/NiGqQltpl8Sr9zcoaWPggJdcRHHmTqiARQQKsQDxUwSIvd6boAlDkWBO3AaHq+XC298Nspq/dRsiTOZOl8+r91UOrdCo2XbyzgTYwV6kCw7hpyX23Ch/OZpm4HqNO8eBLZ14vpeFlejQOVZyJVbJEOjDe6jsdjbKJhdeGXslh8YQ4aeCcFqkFJ95rb1IIbMPm0/FShX
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 476bd4e1-b702-4001-f6b0-08d7f6980279
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 17:15:03.6011 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vhbzNEjal8G3c126xwKA5ZgF3hIwioAUyeTQKrEOTY6IPKCteUpKhnvYS4AfCdLXi66nOG/RUaN2BzUM1u99YsqKx8jHolIgGqt4wFOdZAs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5461
+Received-SPF: pass client-ip=40.107.6.125;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 13:15:04
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 12 May 2020 13:56:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,45 +115,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel <qemu-devel@nongnu.org>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-My Linaro account is no longer active and stop forwarding emails to me.
-Changing it to my current employer domain.
+11.05.2020 16:58, Kevin Wolf wrote:
+> If the target is shorter than the source, mirror would copy data until
+> it reaches the end of the target and then fail with an I/O error when
+> trying to write past the end.
+> 
+> If the target is longer than the source, the mirror job would complete
+> successfully, but the target wouldn't actually be an accurate copy of
+> the source image (it would contain some additional garbage at the end).
+> 
+> Fix this by checking that both images have the same size when the job
+> starts.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Message-Id: <20200507145228.323412-3-kwolf@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   block/mirror.c | 21 ++++++++++++---------
+>   1 file changed, 12 insertions(+), 9 deletions(-)
+> 
+> diff --git a/block/mirror.c b/block/mirror.c
+> index aca95c9bc9..201ffa26f9 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -872,6 +872,7 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+>       BlockDriverState *target_bs = blk_bs(s->target);
+>       bool need_drain = true;
+>       int64_t length;
+> +    int64_t target_length;
+>       BlockDriverInfo bdi;
+>       char backing_filename[2]; /* we only need 2 characters because we are only
+>                                    checking for a NULL string */
+> @@ -887,24 +888,26 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+>           goto immediate_exit;
+>       }
+>   
+> +    target_length = blk_getlength(s->target);
+> +    if (target_length < 0) {
+> +        ret = target_length;
+> +        goto immediate_exit;
+> +    }
+> +
+>       /* Active commit must resize the base image if its size differs from the
+>        * active layer. */
+>       if (s->base == blk_bs(s->target)) {
+> -        int64_t base_length;
+> -
+> -        base_length = blk_getlength(s->target);
+> -        if (base_length < 0) {
+> -            ret = base_length;
+> -            goto immediate_exit;
+> -        }
+> -
+> -        if (s->bdev_length > base_length) {
+> +        if (s->bdev_length > target_length) {
+>               ret = blk_truncate(s->target, s->bdev_length, false,
+>                                  PREALLOC_MODE_OFF, 0, NULL);
+>               if (ret < 0) {
+>                   goto immediate_exit;
+>               }
+>           }
 
-Signed-off-by: Radoslaw Biernacki <rad@semihalf.com>
----
- .mailmap    | 1 +
- MAINTAINERS | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Hmm, interesting, if base is larger, is our behavior correct? Blockdev becomes larger after commit and old data becomes available? I think we should zero the tail after old EOF or shrink the target..
 
-diff --git a/.mailmap b/.mailmap
-index 6412067bde..668da447e3 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -46,6 +46,7 @@ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
- Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
- James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
-+Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
- Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
- Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
- Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1f84e3ae2c..a9d6893036 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -799,7 +799,7 @@ F: include/hw/misc/imx6_*.h
- F: include/hw/ssi/imx_spi.h
- 
- SBSA-REF
--M: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
-+M: Radoslaw Biernacki <rad@semihalf.com>
- M: Peter Maydell <peter.maydell@linaro.org>
- R: Leif Lindholm <leif@nuviainc.com>
- L: qemu-arm@nongnu.org
+> +    } else if (s->bdev_length != target_length) {
+> +        error_setg(errp, "Source and target image have different sizes");
+> +        ret = -EINVAL;
+
+Seems, the only case, when mirror_run() sets errp. And, therefore, the only correct one..
+
+> +        goto immediate_exit;
+>       }
+>   
+>       if (s->bdev_length == 0) {
+> 
+
+
 -- 
-2.17.1
-
+Best regards,
+Vladimir
 
