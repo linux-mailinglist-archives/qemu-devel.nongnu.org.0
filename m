@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9724E1CF7A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 16:45:31 +0200 (CEST)
-Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4EE71CF7BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 16:47:35 +0200 (CEST)
+Received: from localhost ([::1]:36324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYW9y-0003YB-EO
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 10:45:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58118)
+	id 1jYWBy-0007gR-SH
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 10:47:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYW8J-0002ct-L2
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:43:47 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:47592
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYW8M-0002fN-Cu
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 10:43:50 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:26629
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYW8I-00041C-1F
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:43:47 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYW8L-00041X-D5
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 10:43:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589294625;
+ s=mimecast20190719; t=1589294628;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FQKW6TBh4t9zmYp0B9781KLY+yGuF22r24HrsYvALyQ=;
- b=E0oiMPfZITpGJVz9XE37AaigsP7ITt9LjVvPbjYKYzFVBVx2Jf+tQOb0T82hhkteCOoVSG
- z6eQ9GeRoyW/kzAiz0XtlTkXh15mj4Sa/DwVDF7FDNz2Ai6hp4wtPtWmYH0sIfEpabnMVk
- omyplbialYLSaJMjldej+llswCYjtx0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fGBQWwSx8J3Up4Q8x4/YZuvKiJkHxgyFQvzGyXc9bPE=;
+ b=hB5AsN4XITV59mK6+d9S8MZl8V6mlm4tigfEE/7ErMgNLhTZpUd374s7dUFqSnyFxcUayL
+ 5RuRywzvXYAHK5vCoUdrKjdwPQRuYBY9Ym3jee1K6hNgN5dzRocMxHGU3qWs7x/mLqDtW4
+ tUpJgtq/nbfJDb9REm3yGz43ZxryWog=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-gUnJ9uM_PUCVUjYzAR305g-1; Tue, 12 May 2020 10:43:41 -0400
-X-MC-Unique: gUnJ9uM_PUCVUjYzAR305g-1
+ us-mta-414-UsF_gpGPND6BALCsdxgSew-1; Tue, 12 May 2020 10:43:46 -0400
+X-MC-Unique: UsF_gpGPND6BALCsdxgSew-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3238801504;
- Tue, 12 May 2020 14:43:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B04718A0750;
+ Tue, 12 May 2020 14:43:45 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-114-74.ams2.redhat.com [10.36.114.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8D6D5D9E5;
- Tue, 12 May 2020 14:43:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 661325D9DD;
+ Tue, 12 May 2020 14:43:40 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 0/3] block: Synchronous bdrv_*() from coroutine in
- different AioContext
-Date: Tue, 12 May 2020 16:43:15 +0200
-Message-Id: <20200512144318.181049-1-kwolf@redhat.com>
+Subject: [RFC PATCH 1/3] block: Factor out bdrv_run_co()
+Date: Tue, 12 May 2020 16:43:16 +0200
+Message-Id: <20200512144318.181049-2-kwolf@redhat.com>
+In-Reply-To: <20200512144318.181049-1-kwolf@redhat.com>
+References: <20200512144318.181049-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:05
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:04
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,30 +83,223 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, s.reiter@proxmox.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan (Reiter), after looking a bit closer at this, I think there is no
-bug in QEMU, but the bug is in your coroutine code that calls block
-layer functions without moving into the right AioContext first. I've
-written this series anyway as it potentially makes the life of callers
-easier and would probably make your buggy code correct.
+We have a few bdrv_*() functions that can either spawn a new coroutine
+and wait for it with BDRV_POLL_WHILE() or use a fastpath if they are
+alreeady running in a coroutine. All of them duplicate basically the
+same code.
 
-However, it doesn't feel right to commit something like patch 2 without
-having a user for it. Is there a reason why you can't upstream your
-async snapshot code?
+Factor the common code into a new function bdrv_run_co().
 
-The series would also happen fix a bug in my recent patch to convert
-qmp_block_resize() to coroutines, but I feel it's not how I would
-naturally fix it. Switching the thread already in the QMP handler before
-calling bdrv_truncate() would feel more appropriate. I wonder if it
-wouldn't actually be the same for your snapshot code.
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ block/io.c | 104 +++++++++++++++--------------------------------------
+ 1 file changed, 28 insertions(+), 76 deletions(-)
 
-Kevin Wolf (3):
-  block: Factor out bdrv_run_co()
-  block: Allow bdrv_run_co() from different AioContext
-  block: Assert we're running in the right thread
-
- block/io.c | 122 ++++++++++++++++++++---------------------------------
- 1 file changed, 45 insertions(+), 77 deletions(-)
-
+diff --git a/block/io.c b/block/io.c
+index 7d30e61edc..c1badaadc9 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -891,6 +891,22 @@ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
+     return 0;
+ }
+ 
++static int bdrv_run_co(BlockDriverState *bs, CoroutineEntry *entry,
++                       void *opaque, int *ret)
++{
++    if (qemu_in_coroutine()) {
++        /* Fast-path if already in coroutine context */
++        entry(opaque);
++    } else {
++        Coroutine *co = qemu_coroutine_create(entry, opaque);
++        *ret = NOT_DONE;
++        bdrv_coroutine_enter(bs, co);
++        BDRV_POLL_WHILE(bs, *ret == NOT_DONE);
++    }
++
++    return *ret;
++}
++
+ typedef struct RwCo {
+     BdrvChild *child;
+     int64_t offset;
+@@ -923,25 +939,15 @@ static int bdrv_prwv_co(BdrvChild *child, int64_t offset,
+                         QEMUIOVector *qiov, bool is_write,
+                         BdrvRequestFlags flags)
+ {
+-    Coroutine *co;
+     RwCo rwco = {
+         .child = child,
+         .offset = offset,
+         .qiov = qiov,
+         .is_write = is_write,
+-        .ret = NOT_DONE,
+         .flags = flags,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_rw_co_entry(&rwco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_rw_co_entry, &rwco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
+-    }
+-    return rwco.ret;
++    return bdrv_run_co(child->bs, bdrv_rw_co_entry, &rwco, &rwco.ret);
+ }
+ 
+ int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
+@@ -2230,7 +2236,6 @@ typedef struct BdrvCoBlockStatusData {
+     int64_t *map;
+     BlockDriverState **file;
+     int ret;
+-    bool done;
+ } BdrvCoBlockStatusData;
+ 
+ int coroutine_fn bdrv_co_block_status_from_file(BlockDriverState *bs,
+@@ -2492,7 +2497,6 @@ static void coroutine_fn bdrv_block_status_above_co_entry(void *opaque)
+                                            data->want_zero,
+                                            data->offset, data->bytes,
+                                            data->pnum, data->map, data->file);
+-    data->done = true;
+     aio_wait_kick();
+ }
+ 
+@@ -2508,7 +2512,6 @@ static int bdrv_common_block_status_above(BlockDriverState *bs,
+                                           int64_t *map,
+                                           BlockDriverState **file)
+ {
+-    Coroutine *co;
+     BdrvCoBlockStatusData data = {
+         .bs = bs,
+         .base = base,
+@@ -2518,18 +2521,9 @@ static int bdrv_common_block_status_above(BlockDriverState *bs,
+         .pnum = pnum,
+         .map = map,
+         .file = file,
+-        .done = false,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_block_status_above_co_entry(&data);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_block_status_above_co_entry, &data);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, !data.done);
+-    }
+-    return data.ret;
++    return bdrv_run_co(bs, bdrv_block_status_above_co_entry, &data, &data.ret);
+ }
+ 
+ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+@@ -2669,22 +2663,13 @@ static inline int
+ bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
+                 bool is_read)
+ {
+-    if (qemu_in_coroutine()) {
+-        return bdrv_co_rw_vmstate(bs, qiov, pos, is_read);
+-    } else {
+-        BdrvVmstateCo data = {
+-            .bs         = bs,
+-            .qiov       = qiov,
+-            .pos        = pos,
+-            .is_read    = is_read,
+-            .ret        = -EINPROGRESS,
+-        };
+-        Coroutine *co = qemu_coroutine_create(bdrv_co_rw_vmstate_entry, &data);
+-
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, data.ret == -EINPROGRESS);
+-        return data.ret;
+-    }
++    BdrvVmstateCo data = {
++        .bs         = bs,
++        .qiov       = qiov,
++        .pos        = pos,
++        .is_read    = is_read,
++    };
++    return bdrv_run_co(bs, bdrv_co_rw_vmstate_entry, &data, &data.ret);
+ }
+ 
+ int bdrv_save_vmstate(BlockDriverState *bs, const uint8_t *buf,
+@@ -2890,22 +2875,11 @@ early_exit:
+ 
+ int bdrv_flush(BlockDriverState *bs)
+ {
+-    Coroutine *co;
+     FlushCo flush_co = {
+         .bs = bs,
+-        .ret = NOT_DONE,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_flush_co_entry(&flush_co);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_flush_co_entry, &flush_co);
+-        bdrv_coroutine_enter(bs, co);
+-        BDRV_POLL_WHILE(bs, flush_co.ret == NOT_DONE);
+-    }
+-
+-    return flush_co.ret;
++    return bdrv_run_co(bs, bdrv_flush_co_entry, &flush_co, &flush_co.ret);
+ }
+ 
+ typedef struct DiscardCo {
+@@ -3038,24 +3012,13 @@ out:
+ 
+ int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes)
+ {
+-    Coroutine *co;
+     DiscardCo rwco = {
+         .child = child,
+         .offset = offset,
+         .bytes = bytes,
+-        .ret = NOT_DONE,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_pdiscard_co_entry(&rwco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_pdiscard_co_entry, &rwco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
+-    }
+-
+-    return rwco.ret;
++    return bdrv_run_co(child->bs, bdrv_pdiscard_co_entry, &rwco, &rwco.ret);
+ }
+ 
+ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf)
+@@ -3477,7 +3440,6 @@ static void coroutine_fn bdrv_truncate_co_entry(void *opaque)
+ int bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+                   PreallocMode prealloc, BdrvRequestFlags flags, Error **errp)
+ {
+-    Coroutine *co;
+     TruncateCo tco = {
+         .child      = child,
+         .offset     = offset,
+@@ -3485,17 +3447,7 @@ int bdrv_truncate(BdrvChild *child, int64_t offset, bool exact,
+         .prealloc   = prealloc,
+         .flags      = flags,
+         .errp       = errp,
+-        .ret        = NOT_DONE,
+     };
+ 
+-    if (qemu_in_coroutine()) {
+-        /* Fast-path if already in coroutine context */
+-        bdrv_truncate_co_entry(&tco);
+-    } else {
+-        co = qemu_coroutine_create(bdrv_truncate_co_entry, &tco);
+-        bdrv_coroutine_enter(child->bs, co);
+-        BDRV_POLL_WHILE(child->bs, tco.ret == NOT_DONE);
+-    }
+-
+-    return tco.ret;
++    return bdrv_run_co(child->bs, bdrv_truncate_co_entry, &tco, &tco.ret);
+ }
 -- 
 2.25.3
 
