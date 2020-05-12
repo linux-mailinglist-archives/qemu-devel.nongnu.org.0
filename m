@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E92F21CFD6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:39:04 +0200 (CEST)
-Received: from localhost ([::1]:32858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9681CFD74
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:41:08 +0200 (CEST)
+Received: from localhost ([::1]:36956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYZnz-0004kz-Vi
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:39:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40846)
+	id 1jYZpz-0006nW-9x
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:41:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYZmS-0003ss-B2
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:37:28 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:57085
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYZmP-0003FZ-Ld
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:37:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589308643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RBHa5Cuxad+m+bT1Szig6IiwRvnZWW/s/yP0tv/XhC8=;
- b=iowUVSaeYlRT93eH5C+L/XhhCNqZJV2fIvTyPoL3FINf7v+vepDpinYoORA4NWqPKMQK/+
- Fi+L85BbjZULqJcI8OuCMmOikRo+7Q/WYzYdDXLXT3VP/icACKSvFLF/hpxgAy1AZX/3ZU
- mJKSpTt1Mx0m4NjTc/8MOkJRtNgP9Qs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-oKZXa0InNieA3CkxYtir6g-1; Tue, 12 May 2020 14:37:17 -0400
-X-MC-Unique: oKZXa0InNieA3CkxYtir6g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5178107B768;
- Tue, 12 May 2020 18:37:16 +0000 (UTC)
-Received: from kaapi (unknown [10.40.193.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C8525D9DD;
- Tue, 12 May 2020 18:37:09 +0000 (UTC)
-Date: Wed, 13 May 2020 00:07:06 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-X-X-Sender: pjp@kaapi
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 0/2] use unsigned type for MegasasState fields
-In-Reply-To: <26201c24-c483-85a7-2f4b-b3cc56d4b8b7@redhat.com>
-Message-ID: <nycvar.YSQ.7.76.2005122357030.1451610@xnncv>
-References: <20200507105718.1319187-1-ppandit@redhat.com>
- <26201c24-c483-85a7-2f4b-b3cc56d4b8b7@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jYZnP-0004qq-Ij
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:38:27 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:44988)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jYZnO-0003Pc-Be
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:38:27 -0400
+Received: by mail-oi1-x242.google.com with SMTP id a2so18931458oia.11
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 11:38:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Qc/c0Jv7bY87BnKQmOEc9iv5lqCzVVFlOn1Ozh6qTjM=;
+ b=Hu/pT917sskyvAnooAZWcGECUbN1aNVNXBzPOjfO+Be40LzJ8txBBC/Mb07CF3l3qg
+ gKRwCjiQSaT6ZzhNnLmi5F+/GjH0UteLW8pBQ6WGtPMoJtYZ0J0eDdYv5rw17tNkVJKu
+ Kg/hZnHqmK4DXAdNzi1ZvE8/Y9jp3mGGx/Ym4cgxgjvwlh1it0DOXzS6bzE29iwnzG10
+ e/4UmfNBHXDVimAwA6nY9wlcfoD+B4j+wLOS4PtzZxtoEt/njypLe2zfDBqu7AALqGlp
+ VIQrs/Gd8vkV022bTw3zjwVJha6VmYhJ/smAbhBcRQuuKDdnCLBPcCYmywhLqaVnsOW7
+ OVlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Qc/c0Jv7bY87BnKQmOEc9iv5lqCzVVFlOn1Ozh6qTjM=;
+ b=f3McpN0PlehDCGyb4hLhLb/NedLkoZd5xd83otEwLsH+2/kCBthp7oXw0JOfVGY35X
+ pWfr11qItUru3m9cW8tls95kbo9zaO8cXeQbqfGUhS7sPX/HoCizkeOHnX6JLTUjWGBD
+ qW15DaHirnHvL5sRaetEIId3VAEEKBB4sTDUlChN/elzb/hmdYbhs044SSlxNfRSUN9R
+ yxakd3sdxJXULzbULrWJohX5Z7LOsf3eQcvqsyKgMLoqE2HBOly+VRDCqEGZcY3IBg5C
+ VU+RvEzNklaRRioY5MBh4BEAzl/uYTFlqZEinCnZOl6Dt69WshE72lgPE29K+7xEUDSl
+ Xyiw==
+X-Gm-Message-State: AGi0PuaKiBDXmxsxFoNe4TRpPomQpKsmkKkY4Fd8UQ0xfue5Z1IrMlbs
+ lrE1B+FZCAypHJO1BFMQMTv1dK82AdM1HOCU9spKGA==
+X-Google-Smtp-Source: APiQypJVWLOGRiKRzTnz8Llj1fuhO4ZYnunV33tU8xDsDf/7IFg3lUXPCfpvKvA9DA4Z8yFpyFlugTbHWvC7hZjCCAw=
+X-Received: by 2002:aca:4a45:: with SMTP id x66mr22854374oia.48.1589308704989; 
+ Tue, 12 May 2020 11:38:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed;
- boundary="-1463810047-489165051-1589308636=:1451610"
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+References: <CAB-99Lsm1c6i45L2kQX6J6Wa+FJ+aRPhdVK=+zQC2M6K7RdXDg@mail.gmail.com>
+In-Reply-To: <CAB-99Lsm1c6i45L2kQX6J6Wa+FJ+aRPhdVK=+zQC2M6K7RdXDg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 May 2020 19:38:14 +0100
+Message-ID: <CAFEAcA_96H64pg5er6MNraDtU2Xcu-_XrAGJnrzp25BaH+Gvng@mail.gmail.com>
+Subject: Re: Problem with QEMU usermode + jemalloc
+To: Michael Goffioul <michael.goffioul@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x242.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,59 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Ren Ding <rding@gatech.edu>,
- =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----1463810047-489165051-1589308636=:1451610
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+On Tue, 12 May 2020 at 19:16, Michael Goffioul
+<michael.goffioul@gmail.com> wrote:
+> I'm running into a problem using QEMU in usermode and jemalloc (this is in the context of an ARM-to-x86 translation layer for Android). The issue is discussed here:
+>
+> https://github.com/jemalloc/jemalloc/issues/1844
+>
+> In a nutshell, the lack of madvise implementation is making jemalloc return non-zeroed memory on calloc. This then creates various crashes in the emulated code.
+>
+> What would be the QEMU devs point of view on this?
 
-+-- On Tue, 12 May 2020, Philippe Mathieu-Daudé wrote --+
-| Cc'ing Marc-André our signed/unsigned conversion expert (with Paolo).
+Yes, this is a QEMU bug. The comment in the QEMU code
+suggests that making MADV_DONTNEED zero memory is not going
+to be as straightforward as just passing through the call, though:
 
-  megasas_init_firmware
-    pa_lo = le32_to_cpu(initq->pi_addr_lo);
-    pa_hi = le32_to_cpu(initq->pi_addr_hi);
-    s->producer_pa = ((uint64_t) pa_hi << 32) | pa_lo;
-    s->reply_queue_head = ldl_le_pci_dma(pcid, s->producer_pa);
+    case TARGET_NR_madvise:
+        /* A straight passthrough may not be safe because qemu sometimes
+           turns private file-backed mappings into anonymous mappings.
+           This will break MADV_DONTNEED.
+           This is a hint, so ignoring and returning success is ok.  */
+        return 0;
 
-IIUC, here ldl_le_pci_dma() returns an 'uint32_t' type, but since 
-'reply_queue_head' is a signed int, large 'uint32_t' value turns negative.
+That an "advice" function has been given guaranteed "actual
+behaviour" requirements suggests somebody somewhere along the
+line made a bad API design choice, but we're stuck with it now :-(
 
-| Do you have a reproducer?
+In general, QEMU's syscall emulation is not always perfect; you're
+more likely to run into bugs if you do weird things, and using
+madvise() to zero memory (rather than, say, just zeroing it) is
+somewhat off the beaten path.
 
-  Yes, there is a reproducer with ASAN, though it did not work for me. 
-Ren(CC'd) had shared this trace:
-
-AddressSanitizer: heap-buffer-overflow on address 0x7f9159054058 at pc 0x55763514b5cd bp 0x7f9179bd6d90 sp 0x7f9179bd6d88
-READ of size 8 at 0x7f9159054058 thread T2
-  #0 0x55763514b5cc in megasas_lookup_frame /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:449:30
-  #1 0x55763513205c in megasas_handle_abort /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:1904:17
-  #2 0x55763512d0f8 in megasas_handle_frame /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:1961:24
-  #3 0x55763512ba7d in megasas_mmio_write /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:2122:9
-  #4 0x55763515247c in megasas_port_write /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:2173:5
-  #5 0x557634621b3b in memory_region_write_accessor /home/ren/tmp/redacted-dbg/qemu/memory.c:483:5
-  #6 0x557634621741 in access_with_adjusted_size /home/ren/tmp/redacted-dbg/qemu/memory.c:544:18
-  #7 0x557634620498 in memory_region_dispatch_write /home/ren/tmp/redacted-dbg/qemu/memory.c:1482:16
-  #8 0x5576344b6b6c in flatview_write_continue /home/ren/tmp/redacted-dbg/qemu/exec.c:3161:23
-  #9 0x5576344a87d9 in flatview_write /home/ren/tmp/redacted-dbg/qemu/exec.c:3201:14
-  #10 0x5576344a8376 in address_space_write /home/ren/tmp/redacted-dbg/qemu/exec.c:3291:18
-  #11 0x5576344a8af4 in address_space_rw /home/ren/tmp/redacted-dbg/qemu/exec.c:3301:16
-  #12 0x557634689e10 in kvm_handle_io /home/ren/tmp/redacted-dbg/qemu/accel/kvm/kvm-all.c:2086:9
-  #13 0x557634688a45 in kvm_cpu_exec /home/ren/tmp/redacted-dbg/qemu/accel/kvm/kvm-all.c:2332:13
-  #14 0x5576345ee7aa in qemu_kvm_cpu_thread_fn /home/ren/tmp/redacted-dbg/qemu/cpus.c:1299:17
-  #15 0x557635a11509 in qemu_thread_start /home/ren/tmp/redacted-dbg/qemu/util/qemu-thread-posix.c:519:9
-  #16 0x7f918cec26b9 in start_thread (/lib/x86_64-linux-gnu/libpthread.so.0+0x76b9)
-  #17 0x7f918c5d441c in clone /build/glibc-LK5gWL/glibc-2.23/misc/../sysdeps/unix/sysv/linux/x86_64/clone.S:109
-
-
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
----1463810047-489165051-1589308636=:1451610--
-
+thanks
+-- PMM
 
