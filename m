@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B25D1CE8B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 01:02:30 +0200 (CEST)
-Received: from localhost ([::1]:34428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E41D1CEB8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:35:51 +0200 (CEST)
+Received: from localhost ([::1]:41094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYHRN-0006zw-6b
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 19:02:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54036)
+	id 1jYLhu-0006mb-5V
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:35:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jYHOd-0004MH-RR
- for qemu-devel@nongnu.org; Mon, 11 May 2020 18:59:39 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38119
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1jYHOb-00021L-EH
- for qemu-devel@nongnu.org; Mon, 11 May 2020 18:59:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589237974;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0RoETek6S0S6LH9/sMqViUHVcCuyps0KXjSVs46mQ2Y=;
- b=bMojWTC91EmGx9m3sc77O6eXNFbyIaONXC3Rfa473QWbWxy6yhe/Snrw8OX1hy80Bz+FR6
- ZUXGwZ8V86/FeTR3t+gtlNEWa204DqH68QGCjX/LQwbPZ9QzdkcWP2i9dBiucllvDq5Mqm
- 3AQMpbYVPFHx9+1nUtJzLrYWHVD05ag=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-eJRemzvXPU6hkdiTSl188w-1; Mon, 11 May 2020 18:59:30 -0400
-X-MC-Unique: eJRemzvXPU6hkdiTSl188w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16209460;
- Mon, 11 May 2020 22:59:29 +0000 (UTC)
-Received: from w520.home (ovpn-113-111.phx2.redhat.com [10.3.113.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 245415D782;
- Mon, 11 May 2020 22:59:28 +0000 (UTC)
-Date: Mon, 11 May 2020 16:59:27 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jon Derrick <jonathan.derrick@intel.com>
-Subject: Re: [PATCH for QEMU v2] hw/vfio: Add VMD Passthrough Quirk
-Message-ID: <20200511165927.27b41d65@w520.home>
-In-Reply-To: <20200511190129.9313-2-jonathan.derrick@intel.com>
-References: <20200511190129.9313-1-jonathan.derrick@intel.com>
- <20200511190129.9313-2-jonathan.derrick@intel.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jYLgu-0005lr-F0; Mon, 11 May 2020 23:34:48 -0400
+Received: from ozlabs.org ([203.11.71.1]:37721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1jYLgs-0001pO-0a; Mon, 11 May 2020 23:34:48 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 49Lk243c5Vz9sSg; Tue, 12 May 2020 13:34:36 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1589254476;
+ bh=gGahroeaTim0FjgSz+hr+x3pqmkGlST3ysBXTZOj4C8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eGpmjp60MKBOlSy7y71kqpH7rYiRkAFDLpYzwgSAzv/TWOonx02PikaOhHjpkOfSE
+ qIqqnmKenOZmnqzh2avK88BX9UMw1QTMqVopbqw5aYcdzjaXbgGvkx4JGA3O+sozQw
+ AmjpRd5NrVegBx4KDJLLDKde/hRL2mwOnaNtMARw=
+Date: Tue, 12 May 2020 10:00:20 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 0/6] target/ppc: Various clean-up and fixes for radix64
+Message-ID: <20200512000020.GV2183@umbus.fritz.box>
+References: <158887239173.1564424.16721638327458334129.stgit@bahia.lan>
+ <20200511014426.GO2183@umbus.fritz.box>
+ <20200511185521.1601dbde@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=205.139.110.120;
- envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 00:05:06
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="JEhTuUFIcUlI65CC"
+Content-Disposition: inline
+In-Reply-To: <20200511185521.1601dbde@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:34:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,236 +62,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-pci@vger.kernel.org,
- qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
- Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 May 2020 15:01:27 -0400
-Jon Derrick <jonathan.derrick@intel.com> wrote:
 
-> The VMD endpoint provides a real PCIe domain to the guest, including
+--JEhTuUFIcUlI65CC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please define VMD.  I'm sure this is obvious to many, but I've had to
-do some research.  The best TL;DR summary I've found is Keith's
-original commit 185a383ada2e adding the controller to Linux.  If there's
-something better, please let me know.
+On Mon, May 11, 2020 at 06:55:21PM +0200, Greg Kurz wrote:
+> On Mon, 11 May 2020 11:44:26 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Thu, May 07, 2020 at 07:26:32PM +0200, Greg Kurz wrote:
+> > > First three patches of this series are simple cleanups. The other
+> > > ones fix some regressions introduced by Cedric's recent addition
+> > > of partition-scoped translation.
+> >=20
+> > 1-5/6 applied to ppc-for-5.1.  I have some comments on 6/6.
+> >=20
+>=20
+> As said in another mail, since patch 3 breaks build with gcc-9.3.1, I
+> intend to send a v2 for the whole series later this week. I suggest
+> you simply drop the patches you've applied for now.
 
-> bridges and endpoints. Because the VMD domain is enumerated by the guest
-> kernel, the guest kernel will assign Guest Physical Addresses to the
-> downstream endpoint BARs and bridge windows.
->
-> When the guest kernel performs MMIO to VMD sub-devices, IOMMU will
-> translate from the guest address space to the physical address space.
-> Because the bridges have been programmed with guest addresses, the
-> bridges will reject the transaction containing physical addresses.
+Ok, done.
 
-I'm lost, what IOMMU is involved in CPU access to MMIO space?  My guess
-is that since all MMIO of this domain is mapped behind the host
-endpoint BARs 2 & 4 that QEMU simply accesses it via mapping of those
-BARs into the VM, so it's the MMU, not the IOMMU performing those GPA
-to HPA translations.  But then presumably the bridges within the domain
-are scrambled because their apertures are programmed with ranges that
-don't map into the VMD endpoint BARs.  Is that remotely correct?  Some
-/proc/iomem output and/or lspci listing from the host to see how this
-works would be useful.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> VMD device 28C0 natively assists passthrough by providing the Host
-> Physical Address in shadow registers accessible to the guest for bridge
-> window assignment. The shadow registers are valid if bit 1 is set in VMD
-> VMLOCK config register 0x70. Future VMDs will also support this feature.
-> Existing VMDs have config register 0x70 reserved, and will return 0 on
-> reads.
+--JEhTuUFIcUlI65CC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So these shadow registers are simply exposing the host BAR2 & BAR4
-addresses into the guest, so the quirk is dependent on reading those
-values from the device before anyone has written to them and the BAR
-emulation in the kernel kicks in (not a problem, just an observation).
+-----BEGIN PGP SIGNATURE-----
 
-Does the VMD controller code then use these bases addresses to program
-the bridges/endpoint within the domain?  What does the same /proc/iomem
-or lspci look like inside the guest then?  It seems like we'd see the
-VMD endpoint with GPA BARs, but the devices within the domain using
-HPAs.  If that's remotely true, and we're not forcing an identity
-mapping of this HPA range into the GPA, does the vmd controller driver
-impose a TRA function on these MMIO addresses in the guest?
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl655xIACgkQbDjKyiDZ
+s5L9zw/+Kofkp5JFQgai8R8LX8jRUVop/zrDG3Zd+44QMBFVuAPCw2dePncetwcd
+9c8fvjnZS5ne2nZbJZeHiZ85lw0JKXywNa3cmcoFD62+r0r/FzX3Lzlr49r+YpZW
+NB/hsvglmB5L3HvxqClUlJ1mC1sdiNB8elCWNOy9SJuO+qsrvJzaszrCSIF+n+aB
+SeKVjv6b/A3evMX8bdU7MQRkqaHA8iUsKcdOI7xmcfbN5WQLCDVMpSxCI0weJUtx
+TjfTboHiNF2Xmara0BXhH2zTOSCIKwOtscdsIWwsleEp2PhsjVzUnwMd7kmYHYvT
+d2YwbNs1XsM3o+gfp4/wkegEqokOns1TyYImncRfyFGqiUpGrtTh3BMSeuWRbuvm
++cM1dhR94jmYemNkuqiozqGcIZXIP4XUlZaMTlW0K2LujUUeJ8kY+sKtAY+ham1k
+Bv+5a6MoNk+/es8vWHqsdu6+rq7j5NOq6Nv7zfJozWpULwMGfdIUCIdvz+6FvKAe
+QfWDlJgUhYCR0AFhfN1rF9kgLBjNAAvX+k68ycsCq8tInsJo9YgLSkpZHKtoterY
+ze1dpjmfjrfWYROlHa47keZ2jl5eUjjwp9oQELqZhQCWpcKDl1v4ZW/45mjO/3Pp
+kavLqZu2CF90QeMAQVhlA7OyQ/jy/JLFnFPbwont/brftIU6TpE=
+=N5nf
+-----END PGP SIGNATURE-----
 
-Sorry if I'm way off, I'm piecing things together from scant
-information here.  Please Cc me on future vfio related patches.  Thanks,
-
-Alex
-
- 
-> In order to support existing VMDs, this quirk emulates the VMLOCK and
-> HPA shadow registers for all VMD device ids which don't natively assist
-> with passthrough. The Linux VMD driver is updated to allow existing VMD
-> devices to query VMLOCK for passthrough support.
-> 
-> Signed-off-by: Jon Derrick <jonathan.derrick@intel.com>
-> ---
->  hw/vfio/pci-quirks.c | 103 +++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/pci.c        |   7 +++
->  hw/vfio/pci.h        |   2 +
->  hw/vfio/trace-events |   3 ++
->  4 files changed, 115 insertions(+)
-> 
-> diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-> index 2d348f8237..4060a6a95d 100644
-> --- a/hw/vfio/pci-quirks.c
-> +++ b/hw/vfio/pci-quirks.c
-> @@ -1709,3 +1709,106 @@ free_exit:
->  
->      return ret;
->  }
-> +
-> +/*
-> + * The VMD endpoint provides a real PCIe domain to the guest and the guest
-> + * kernel performs enumeration of the VMD sub-device domain. Guest transactions
-> + * to VMD sub-devices go through IOMMU translation from guest addresses to
-> + * physical addresses. When MMIO goes to an endpoint after being translated to
-> + * physical addresses, the bridge rejects the transaction because the window
-> + * has been programmed with guest addresses.
-> + *
-> + * VMD can use the Host Physical Address in order to correctly program the
-> + * bridge windows in its PCIe domain. VMD device 28C0 has HPA shadow registers
-> + * located at offset 0x2000 in MEMBAR2 (BAR 4). The shadow registers are valid
-> + * if bit 1 is set in the VMD VMLOCK config register 0x70. VMD devices without
-> + * this native assistance can have these registers safely emulated as these
-> + * registers are reserved.
-> + */
-> +typedef struct VFIOVMDQuirk {
-> +    VFIOPCIDevice *vdev;
-> +    uint64_t membar_phys[2];
-> +} VFIOVMDQuirk;
-> +
-> +static uint64_t vfio_vmd_quirk_read(void *opaque, hwaddr addr, unsigned size)
-> +{
-> +    VFIOVMDQuirk *data = opaque;
-> +    uint64_t val = 0;
-> +
-> +    memcpy(&val, (void *)data->membar_phys + addr, size);
-> +    return val;
-> +}
-> +
-> +static const MemoryRegionOps vfio_vmd_quirk = {
-> +    .read = vfio_vmd_quirk_read,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +};
-> +
-> +#define VMD_VMLOCK  0x70
-> +#define VMD_SHADOW  0x2000
-> +#define VMD_MEMBAR2 4
-> +
-> +static int vfio_vmd_emulate_shadow_registers(VFIOPCIDevice *vdev)
-> +{
-> +    VFIOQuirk *quirk;
-> +    VFIOVMDQuirk *data;
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    int ret;
-> +
-> +    data = g_malloc0(sizeof(*data));
-> +    ret = pread(vdev->vbasedev.fd, data->membar_phys, 16,
-> +                vdev->config_offset + PCI_BASE_ADDRESS_2);
-> +    if (ret != 16) {
-> +        error_report("VMD %s cannot read MEMBARs (%d)",
-> +                     vdev->vbasedev.name, ret);
-> +        g_free(data);
-> +        return -EFAULT;
-> +    }
-> +
-> +    quirk = vfio_quirk_alloc(1);
-> +    quirk->data = data;
-> +    data->vdev = vdev;
-> +
-> +    /* Emulate Shadow Registers */
-> +    memory_region_init_io(quirk->mem, OBJECT(vdev), &vfio_vmd_quirk, data,
-> +                          "vfio-vmd-quirk", sizeof(data->membar_phys));
-> +    memory_region_add_subregion_overlap(vdev->bars[VMD_MEMBAR2].region.mem,
-> +                                        VMD_SHADOW, quirk->mem, 1);
-> +    memory_region_set_readonly(quirk->mem, true);
-> +    memory_region_set_enabled(quirk->mem, true);
-> +
-> +    QLIST_INSERT_HEAD(&vdev->bars[VMD_MEMBAR2].quirks, quirk, next);
-> +
-> +    trace_vfio_pci_vmd_quirk_shadow_regs(vdev->vbasedev.name,
-> +                                         data->membar_phys[0],
-> +                                         data->membar_phys[1]);
-> +
-> +    /* Advertise Shadow Register support */
-> +    pci_byte_test_and_set_mask(pdev->config + VMD_VMLOCK, 0x2);
-> +    pci_set_byte(pdev->wmask + VMD_VMLOCK, 0);
-> +    pci_set_byte(vdev->emulated_config_bits + VMD_VMLOCK, 0x2);
-> +
-> +    trace_vfio_pci_vmd_quirk_vmlock(vdev->vbasedev.name,
-> +                                    pci_get_byte(pdev->config + VMD_VMLOCK));
-> +
-> +    return 0;
-> +}
-> +
-> +int vfio_pci_vmd_init(VFIOPCIDevice *vdev)
-> +{
-> +    int ret = 0;
-> +
-> +    switch (vdev->device_id) {
-> +    case 0x28C0: /* Native passthrough support */
-> +        break;
-> +    /* Emulates Native passthrough support */
-> +    case 0x201D:
-> +    case 0x467F:
-> +    case 0x4C3D:
-> +    case 0x9A0B:
-> +        ret = vfio_vmd_emulate_shadow_registers(vdev);
-> +        break;
-> +    }
-> +
-> +    return ret;
-> +}
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 5e75a95129..85425a1a6f 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3024,6 +3024,13 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
->          }
->      }
->  
-> +    if (vdev->vendor_id == PCI_VENDOR_ID_INTEL) {
-> +        ret = vfio_pci_vmd_init(vdev);
-> +        if (ret) {
-> +            error_report("Failed to setup VMD");
-> +        }
-> +    }
-> +
->      vfio_register_err_notifier(vdev);
->      vfio_register_req_notifier(vdev);
->      vfio_setup_resetfn_quirk(vdev);
-> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-> index 0da7a20a7e..e8632d806b 100644
-> --- a/hw/vfio/pci.h
-> +++ b/hw/vfio/pci.h
-> @@ -217,6 +217,8 @@ int vfio_pci_igd_opregion_init(VFIOPCIDevice *vdev,
->  int vfio_pci_nvidia_v100_ram_init(VFIOPCIDevice *vdev, Error **errp);
->  int vfio_pci_nvlink2_init(VFIOPCIDevice *vdev, Error **errp);
->  
-> +int vfio_pci_vmd_init(VFIOPCIDevice *vdev);
-> +
->  void vfio_display_reset(VFIOPCIDevice *vdev);
->  int vfio_display_probe(VFIOPCIDevice *vdev, Error **errp);
->  void vfio_display_finalize(VFIOPCIDevice *vdev);
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index b1ef55a33f..ed64e477db 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -90,6 +90,9 @@ vfio_pci_nvidia_gpu_setup_quirk(const char *name, uint64_t tgt, uint64_t size) "
->  vfio_pci_nvlink2_setup_quirk_ssatgt(const char *name, uint64_t tgt, uint64_t size) "%s tgt=0x%"PRIx64" size=0x%"PRIx64
->  vfio_pci_nvlink2_setup_quirk_lnkspd(const char *name, uint32_t link_speed) "%s link_speed=0x%x"
->  
-> +vfio_pci_vmd_quirk_shadow_regs(const char *name, uint64_t mb1, uint64_t mb2) "%s membar1_phys=0x%"PRIx64" membar2_phys=0x%"PRIx64
-> +vfio_pci_vmd_quirk_vmlock(const char *name, uint8_t vmlock) "%s vmlock=0x%x"
-> +
->  # common.c
->  vfio_region_write(const char *name, int index, uint64_t addr, uint64_t data, unsigned size) " (%s:region%d+0x%"PRIx64", 0x%"PRIx64 ", %d)"
->  vfio_region_read(char *name, int index, uint64_t addr, unsigned size, uint64_t data) " (%s:region%d+0x%"PRIx64", %d) = 0x%"PRIx64
-
+--JEhTuUFIcUlI65CC--
 
