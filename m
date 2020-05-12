@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4588F1CFBA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:09:05 +0200 (CEST)
-Received: from localhost ([::1]:48918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFEE1CFB9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:06:50 +0200 (CEST)
+Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYYOu-0001hX-0x
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:09:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
+	id 1jYYMj-0005vr-Q4
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:06:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYYBP-0001qG-E9
- for qemu-devel@nongnu.org; Tue, 12 May 2020 12:55:07 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYYBN-0002Mb-7i
- for qemu-devel@nongnu.org; Tue, 12 May 2020 12:55:07 -0400
-Received: by mail-wm1-x344.google.com with SMTP id u16so24246710wmc.5
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 09:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=UXmarglZojfO1A8BU3EtiwEdWFl5N2qsjwk/zZKHK3U=;
- b=TbJmIQ9eKX/0wyI8hZejozJkEERzQxSbSySNaj15+uvQnehWvt1w4emPnyjx72jxPt
- WXp7Wnk/LGRWcMUgshC/ZZqZ09K781PMoCDZSQis+OOqrBGogLJS+JlHpWT7tuZhQJ7P
- SyrSfB8JUrh+uzIW6js1tr8wLG1pCtRbDp+s731FBUDIS4krKNOgJ0uta3I59AVXX37V
- 3KQYWzwW3/yM4S+7yb1nLjYn/HkmGuzZfBv7pGU7+A61qr5mLXfTJ8rJaegbIQb+6+Mi
- 0jpQvenRoiZcnDKv5RX1VFE0dsPJxUSD289rxKbr6K4Jiv+hKZh11BzRC2frtqPJLFKa
- NtEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=UXmarglZojfO1A8BU3EtiwEdWFl5N2qsjwk/zZKHK3U=;
- b=ZRr99mOAi5AFSV2V3sSTj88B+YI+TTTnnOfV5gM9DF50DtDsamnksjr4KGz37Liay+
- OjdR6VlHjJlh4shuUAG0VtGclSTb/8e+yPIk0gf+Bx5PP6mHG2KAHMn29OM1+L5NRRVI
- oPSETjAIAVv8WPcTBxLMjozPurHNJPsvUofm8tt1Vg9agjLzBknk65mj9xU9ZfSxBd2x
- r959CSkk14yOk1dMYkDQgX6nhwiUMXjj/6ujE8C03JajWfTB4uvCwBHFlsUhFLJYc+EA
- ltLwMJdNhro+lg8sXXep2FCdm+6rojwwKa/H7lwCaHRXK881TbnzKW9KHxTak07lOXa4
- DA7Q==
-X-Gm-Message-State: AOAM532+DS1QuOZC+8JvJ43EmbQXlmQFyYDLRj08D5/QnaZT7x5Z7hY0
- kvvbKQN6DZFa7jS+9BhMDmKVHFb1Nxg=
-X-Google-Smtp-Source: ABdhPJxcqqHdlFDWQ48S3PtXxHTVj96TGLLmOjkgoyCYwD3Un+m26yRYS677aMntss5DJuaobX0aZQ==
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr2872870wmi.14.1589302502110;
- Tue, 12 May 2020 09:55:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z11sm23164173wro.48.2020.05.12.09.55.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 09:55:00 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 339F01FF7E;
- Tue, 12 May 2020 17:55:00 +0100 (BST)
-References: <20200512133849.10624-1-thuth@redhat.com>
-User-agent: mu4e 1.4.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] travis.yml: Improve the --disable-tcg test on s390x
-In-reply-to: <20200512133849.10624-1-thuth@redhat.com>
-Date: Tue, 12 May 2020 17:55:00 +0100
-Message-ID: <87d079f5zv.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1jYYCA-0003Wr-Ob
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 12:55:54 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:44806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1jYYC8-0002mA-T8
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 12:55:53 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04CGrAW5094372;
+ Tue, 12 May 2020 16:55:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=VyTSberEN8IaUfl/h0047FcmgfWA9aS0fYVk7q9jHrM=;
+ b=J5enENPfeIKwuZUb5NNjQ2CSQ/SWyEHwvlrBmvRSkW4vKHnoE+DURglmUVUtRCmwYBdm
+ Uu+V2Yg5tC/5We6sM+8cVUKGrlSImVSYxBjabSRfJltM2K5G6h6nEMRHlfaSWEIRFizX
+ jIvh8J5Lzju1oApL5saGIknN8IDvJcx1C0n/1V/5uQm04ZhzTjz9NT+xOifoFBUBnUsY
+ GTr8TfofNPHKJb9Z9tXTVmABIoV4j3PlDmk7/TYtxpGImNnqF3qB2b5qasICKivvZfR9
+ T6Y6vLasjh89SkFL9qGmuGRzm/+fLr/hipLTdt+5OJ9HM/cXWk6oXCrvEbaLiBZsxvcU Cw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 30x3mbv6m0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 12 May 2020 16:55:42 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04CGqbLD192798;
+ Tue, 12 May 2020 16:55:41 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 30xbgka5q2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 May 2020 16:55:41 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04CGtcbn028099;
+ Tue, 12 May 2020 16:55:38 GMT
+Received: from dhcp-10-39-202-98.vpn.oracle.com (/10.39.202.98)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 12 May 2020 09:55:38 -0700
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH RESEND v6 00/36] Initial support for multi-process qemu
+From: Jag Raman <jag.raman@oracle.com>
+In-Reply-To: <20200512161319.GA299814@stefanha-x1.localdomain>
+Date: Tue, 12 May 2020 12:55:35 -0400
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Message-Id: <B729C859-0C37-41E7-9D79-67A15C2386AC@oracle.com>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <20200511144005.GC182627@stefanha-x1.localdomain>
+ <2D3D00E3-EFE0-4D60-8B68-9CF41F6154CA@oracle.com>
+ <20200512161319.GA299814@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9619
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxlogscore=999
+ spamscore=0 suspectscore=3 phishscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005120129
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9619
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 impostorscore=0
+ mlxscore=0 suspectscore=3 bulkscore=0 mlxlogscore=999 phishscore=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005120129
+Received-SPF: pass client-ip=156.151.31.85; envelope-from=jag.raman@oracle.com;
+ helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:46:50
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,76 +103,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Philippe =?utf-8?Q?Mathi?= =?utf-8?Q?eu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org,
+ kraxel@redhat.com, quintela@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
+ thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ dgilbert@redhat.com, liran.alon@oracle.com, stefanha@redhat.com,
+ thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Thomas Huth <thuth@redhat.com> writes:
 
-> Since the s390x containers do not allow KVM, we only compile-test
-> the --disable-tcg build on s390x and do not run the qtests. Thus,
-> it does not make sense to install genisoimage here, and it also does
-> not make sense to build the s390-ccw.img here again - it is simply
-> not used without the qtests.
-> On the other hand, if we do not build the s390-ccw.img anymore, we
-> can also compile with Clang - so let's use that compiler here to
-> get some additional test coverage.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> On May 12, 2020, at 12:13 PM, Stefan Hajnoczi <stefanha@gmail.com> =
+wrote:
+>=20
+> On Mon, May 11, 2020 at 03:30:50PM -0400, Jag Raman wrote:
+>>> On May 11, 2020, at 10:40 AM, Stefan Hajnoczi <stefanha@gmail.com> =
+wrote:
+>>>=20
+>>> Hi,
+>>> Have you decided whether to drop the remote device program in favor =
+of
+>>> using a softmmu make target?
+>>>=20
+>>> Is there anything in this series you'd like me to review before you =
+send
+>>> the next revision?
+>>=20
+>> Hi Stefan,
+>>=20
+>> We are planning to drop the separate remote device program in the =
+next
+>> revision. We are planning to use QEMU=E2=80=99s existing event loop =
+instead of
+>> a separate event loop for the remote process, as well as the command
+>> line invocation you suggested in your feedback.
+>>=20
+>> We hope the following core patches look good to you, by and large:
+>> [PATCH RESEND v6 01/36] memory: alloc RAM from file at offset
+>> [PATCH RESEND v6 11/36] multi-process: define mpqemu-link object
+>> [PATCH RESEND v6 12/36] multi-process: add functions to synchronize =
+proxy and remote endpoints
+>> [PATCH RESEND v6 13/36] multi-process: setup PCI host bridge for =
+remote device
+>> [PATCH RESEND v6 14/36] multi-process: setup a machine object for =
+remote device process
+>> [PATCH RESEND v6 15/36] multi-process: setup memory manager for =
+remote device
+>> [PATCH RESEND v6 17/36] multi-process: introduce proxy object
+>> [PATCH RESEND v6 18/36] multi-process: Initialize Proxy Object's =
+communication channel
+>> [PATCH RESEND v6 19/36] multi-process: Connect Proxy Object with =
+device in the remote process
+>> [PATCH RESEND v6 20/36] multi-process: Forward PCI config space =
+acceses to the remote process
+>> [PATCH RESEND v6 21/36] multi-process: PCI BAR read/write handling =
+for proxy & remote endpoints
+>> [PATCH RESEND v6 22/36] multi-process: Synchronize remote memory
+>> [PATCH RESEND v6 23/36] multi-process: create IOHUB object to handle =
+irq
+>> [PATCH RESEND v6 24/36] multi-process: Retrieve PCI info from remote =
+process
+>=20
+> I've completed the review of these patches. Looking forward to
+> discussing more.
 
-Queued to testing/next, thanks.
+Thank you very much, Stefan!
 
-> ---
->  .travis.yml | 18 ++++--------------
->  1 file changed, 4 insertions(+), 14 deletions(-)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index fe708792ca..1ec8a7b465 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -502,9 +502,10 @@ jobs:
->                $(exit $BUILD_RC);
->            fi
->=20=20
-> -    - name: "[s390x] GCC check (KVM)"
-> +    - name: "[s390x] Clang (disable-tcg)"
->        arch: s390x
->        dist: bionic
-> +      compiler: clang
->        addons:
->          apt_packages:
->            - libaio-dev
-> @@ -528,21 +529,10 @@ jobs:
->            - libusb-1.0-0-dev
->            - libvdeplug-dev
->            - libvte-2.91-dev
-> -          # Tests dependencies
-> -          - genisoimage
->        env:
->          - TEST_CMD=3D"make check-unit"
-> -        - CONFIG=3D"--disable-containers --disable-tcg --enable-kvm --di=
-sable-tools"
-> -      script:
-> -        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
-> -        - BUILD_RC=3D0 && make -j${JOBS} || BUILD_RC=3D$?
-> -        - |
-> -          if [ "$BUILD_RC" -eq 0 ] ; then
-> -              mv pc-bios/s390-ccw/*.img pc-bios/ ;
-> -              ${TEST_CMD} ;
-> -          else
-> -              $(exit $BUILD_RC);
-> -          fi
-> +        - CONFIG=3D"--disable-containers --disable-tcg --enable-kvm
-> +                  --disable-tools --host-cc=3Dclang --cxx=3Dclang++"
->=20=20
->      # Release builds
->      # The make-release script expect a QEMU version, so our tag must sta=
-rt with a 'v'.
+We will incorporate the feedback we received from your review.
 
+Thanks!
+--
+Jag
 
---=20
-Alex Benn=C3=A9e
+>=20
+> Stefan
+
 
