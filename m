@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B561CFD24
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:22:51 +0200 (CEST)
-Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2390E1CFD5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:33:50 +0200 (CEST)
+Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYZYI-0005RC-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:22:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38742)
+	id 1jYZiv-00085F-6v
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jYZWj-0004CY-VO; Tue, 12 May 2020 14:21:14 -0400
-Resent-Date: Tue, 12 May 2020 14:21:13 -0400
-Resent-Message-Id: <E1jYZWj-0004CY-VO@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1jYZWa-00043m-QQ; Tue, 12 May 2020 14:21:10 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1589307638; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MqFNSmTs+8on6XbRf0mRnmfQLGStvhaxzqalU3M3Kbmo7SxuK95WR1SEte8dk5XlCMZk61XXqqPkA73qZulKd0Lz/z8/qxks6Q7r5uqtB9uRkpy1bf67SHV5usvvh6NMO0xf2CIuqf9++coQbs4H6kJjd9p2byGevbH3frTYx/8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1589307638;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=1q1PT7vVyTdjPxcVg8vvc0z7vwUZ9yiYsyfIQ5vpR0U=; 
- b=GtJ75KDuSmuT2JKSsnhBEaIQZ7XAz56/d8PUQoRkOXxSYpXBC/6BIxJ12ZBnOnwb/tlTBdYY0A8Yezu54bu3XxDQueFe1AhV8oqpmfwjhqApiBJWTOjx1qVuhJpwGe762U1QcBu+5arJrkBfKnb+x0LOklNcVhab3jrtTCmdVWw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1589307636638646.9063226772754;
- Tue, 12 May 2020 11:20:36 -0700 (PDT)
-Message-ID: <158930763461.4397.5021086568289529940@45ef0f9c86ae>
-In-Reply-To: <1589295196-773454-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Subject: Re: [PATCH v3 00/15] Apply COR-filter to the block-stream permanently
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYZg1-0006TG-BF
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:30:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYZfz-0008UM-GC
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:30:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYZfx-0006B9-OU
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 18:30:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B58AF2E8042
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 18:30:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: andrey.shinkevich@virtuozzo.com
-Date: Tue, 12 May 2020 11:20:36 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 14:20:59
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2020 18:23:20 -0000
+From: Alexander Bulekov <1878255@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <158930780033.13046.17639068194138488918.malonedeb@wampee.canonical.com>
+Subject: [Bug 1878255] [NEW] Assertion failure in bdrv_aio_cancel, through ide
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="013b6f2a3f3ba130b50b9eee1a89957ee38a5c15";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 9fc33eae509240fb1f5619b0a5fb0796c86105ad
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:25:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,57 +71,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, den@openvz.org, andrey.shinkevich@virtuozzo.com,
- mreitz@redhat.com, jsnow@redhat.com
+Reply-To: Bug 1878255 <1878255@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTg5Mjk1MTk2LTc3MzQ1NC0x
-LWdpdC1zZW5kLWVtYWlsLWFuZHJleS5zaGlua2V2aWNoQHZpcnR1b3p6by5jb20vCgoKCkhpLAoK
-VGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2NrZXItcXVpY2tAY2VudG9zNyBidWlsZCB0ZXN0LiBQ
-bGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJ
-ZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBp
-dApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAptYWtlIGRv
-Y2tlci1pbWFnZS1jZW50b3M3IFY9MSBORVRXT1JLPTEKdGltZSBtYWtlIGRvY2tlci10ZXN0LXF1
-aWNrQGNlbnRvczcgU0hPV19FTlY9MSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5E
-ID09PQoKICBDQyAgICAgIGJsb2NrL2NvcHktb24tcmVhZC5vCiAgQ0MgICAgICBibG9jay9ibG9j
-ay1jb3B5Lm8KICBDQyAgICAgIGJsb2NrL2NyeXB0by5vCi90bXAvcWVtdS10ZXN0L3NyYy9ibG9j
-ay9jb3B5LW9uLXJlYWQuYzoyOTozMjogZmF0YWwgZXJyb3I6IGJsb2NrL2NvcHktb24tcmVhZC5o
-OiBObyBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5CiAjaW5jbHVkZSAiYmxvY2svY29weS1vbi1yZWFk
-LmgiCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgpjb21waWxhdGlvbiB0ZXJtaW5h
-dGVkLgotLS0KICBDQyAgICAgIHNjc2kvcHItbWFuYWdlci1oZWxwZXIubwogIENDICAgICAgYmxv
-Y2svZG1nLWJ6Mi5vCiAgQ0MgICAgICBjcnlwdG8vaGFzaC5vCi90bXAvcWVtdS10ZXN0L3NyYy9i
-bG9jay9zdHJlYW0uYzoyMjozMjogZmF0YWwgZXJyb3I6IGJsb2NrL2NvcHktb24tcmVhZC5oOiBO
-byBzdWNoIGZpbGUgb3IgZGlyZWN0b3J5CiAjaW5jbHVkZSAiYmxvY2svY29weS1vbi1yZWFkLmgi
-CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgpjb21waWxhdGlvbiB0ZXJtaW5hdGVk
-LgogIENDICAgICAgY3J5cHRvL2hhc2gtbmV0dGxlLm8KICBDQyAgICAgIGNyeXB0by9obWFjLm8K
-bWFrZTogKioqIFtibG9jay9jb3B5LW9uLXJlYWQub10gRXJyb3IgMQptYWtlOiAqKiogV2FpdGlu
-ZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgptYWtlOiAqKiogW2Jsb2NrL3N0cmVhbS5vXSBFcnJv
-ciAxClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2Rv
-Y2tlci9kb2NrZXIucHkiLCBsaW5lIDY2NCwgaW4gPG1vZHVsZT4KICAgIHN5cy5leGl0KG1haW4o
-KSkKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29kZSwgY21kKQpzdWJwcm9j
-ZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywgJy1uJywgJ2RvY2tlcics
-ICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlkPTA5ZmYwYjQzNjdkNjQ1
-ZDA4M2EwODc1MGE4YjRiNGM3JywgJy11JywgJzEwMDMnLCAnLS1zZWN1cml0eS1vcHQnLCAnc2Vj
-Y29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJU1Q9JywgJy1lJywgJ0VY
-VFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdKPTE0JywgJy1lJywgJ0RF
-QlVHPScsICctZScsICdTSE9XX0VOVj0xJywgJy1lJywgJ0NDQUNIRV9ESVI9L3Zhci90bXAvY2Nh
-Y2hlJywgJy12JywgJy9ob21lL3BhdGNoZXcyLy5jYWNoZS9xZW11LWRvY2tlci1jY2FjaGU6L3Zh
-ci90bXAvY2NhY2hlOnonLCAnLXYnLCAnL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXJmeTZ1
-MW5jL3NyYy9kb2NrZXItc3JjLjIwMjAtMDUtMTItMTQuMTguMTkuMzc1MTovdmFyL3RtcC9xZW11
-Onoscm8nLCAncWVtdTpjZW50b3M3JywgJy92YXIvdG1wL3FlbXUvcnVuJywgJ3Rlc3QtcXVpY2sn
-XScgcmV0dXJuZWQgbm9uLXplcm8gZXhpdCBzdGF0dXMgMi4KZmlsdGVyPS0tZmlsdGVyPWxhYmVs
-PWNvbS5xZW11Lmluc3RhbmNlLnV1aWQ9MDlmZjBiNDM2N2Q2NDVkMDgzYTA4NzUwYThiNGI0YzcK
-bWFrZVsxXTogKioqIFtkb2NrZXItcnVuXSBFcnJvciAxCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0
-b3J5IGAvdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtcmZ5NnUxbmMvc3JjJwptYWtlOiAqKiog
-W2RvY2tlci1ydW4tdGVzdC1xdWlja0BjZW50b3M3XSBFcnJvciAyCgpyZWFsICAgIDJtMTQuNjQ0
-cwp1c2VyICAgIDBtOC4xMzNzCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
-cGF0Y2hldy5vcmcvbG9ncy8xNTg5Mjk1MTk2LTc3MzQ1NC0xLWdpdC1zZW5kLWVtYWlsLWFuZHJl
-eS5zaGlua2V2aWNoQHZpcnR1b3p6by5jb20vdGVzdGluZy5kb2NrZXItcXVpY2tAY2VudG9zNy8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Public bug reported:
+
+Hello,
+While fuzzing, I found an input that triggers an assertion failure in bdrv_=
+aio_cancel, through ide:
+
+#1  0x00007ffff685755b in __GI_abort () at abort.c:79
+#2  0x0000555556a8d396 in bdrv_aio_cancel (acb=3D0x607000061290) at /home/a=
+lxndr/Development/qemu/block/io.c:2746
+#3  0x0000555556a58525 in blk_aio_cancel (acb=3D0x2) at /home/alxndr/Develo=
+pment/qemu/block/block-backend.c:1540
+#4  0x0000555556552f5b in ide_reset (s=3D<optimized out>) at /home/alxndr/D=
+evelopment/qemu/hw/ide/core.c:1318
+#5  0x0000555556552aeb in ide_bus_reset (bus=3D0x62d000017398) at /home/alx=
+ndr/Development/qemu/hw/ide/core.c:2422
+#6  0x0000555556579ba5 in ahci_reset_port (s=3D<optimized out>, port=3D<opt=
+imized out>) at /home/alxndr/Development/qemu/hw/ide/ahci.c:650
+#7  0x000055555657bd8d in ahci_port_write (s=3D0x61e000014d70, port=3D0x2, =
+offset=3D<optimized out>, val=3D0x10) at /home/alxndr/Development/qemu/hw/i=
+de/ahci.c:360
+#8  0x000055555657bd8d in ahci_mem_write (opaque=3D<optimized out>, addr=3D=
+<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home/al=
+xndr/Development/qemu/hw/ide/ahci.c:513
+#9  0x00005555560028d7 in memory_region_write_accessor (mr=3D<optimized out=
+>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>,=
+ shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/alx=
+ndr/Development/qemu/memory.c:483
+#10 0x0000555556002280 in access_with_adjusted_size (addr=3D<optimized out>=
+, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<optim=
+ized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>, =
+mr=3D0x61e000014da0, attrs=3D...) at /home/alxndr/Development/qemu/memory.c=
+:544
+#11 0x0000555556002280 in memory_region_dispatch_write (mr=3D<optimized out=
+>, addr=3D<optimized out>, data=3D0x10, op=3D<optimized out>, attrs=3D...) =
+at /home/alxndr/Development/qemu/memory.c:1476
+#12 0x0000555555f171d4 in flatview_write_continue (fv=3D<optimized out>, ad=
+dr=3D0xe106c22c, attrs=3D..., ptr=3D<optimized out>, len=3D0x1, addr1=3D0x7=
+fffffffb8d0, l=3D<optimized out>, mr=3D0x61e000014da0) at /home/alxndr/Deve=
+lopment/qemu/exec.c:3137
+#13 0x0000555555f0fb98 in flatview_write (fv=3D0x60600003b180, addr=3D<opti=
+mized out>, attrs=3D..., buf=3D<optimized out>, len=3D<optimized out>) at /=
+home/alxndr/Development/qemu/exec.c:3177
+
+I can reproduce it in qemu 5.0 using:
+
+cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtest =
+stdio -monitor none -serial none -M pc-q35-5.0  -nographic
+outl 0xcf8 0x8000fa24
+outl 0xcfc 0xe106c000
+outl 0xcf8 0x8000fa04
+outw 0xcfc 0x7
+outl 0xcf8 0x8000fb20
+write 0x0 0x3 0x2780e7
+write 0xe106c22c 0xd 0x1130c218021130c218021130c2
+write 0xe106c218 0x15 0x110010110010110010110010110010110010110010
+EOF
+
+I also attached the commands to this launchpad report, in case the
+formatting is broken:
+
+qemu-system-i386 -qtest stdio -monitor none -serial none -M pc-q35-5.0
+-nographic < attachment
+
+Please let me know if I can provide any further info.
+-Alex
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "attachment"
+   https://bugs.launchpad.net/bugs/1878255/+attachment/5370499/+files/attac=
+hment
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878255
+
+Title:
+  Assertion failure in bdrv_aio_cancel, through ide
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers an assertion failure in bdr=
+v_aio_cancel, through ide:
+
+  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
+  #2  0x0000555556a8d396 in bdrv_aio_cancel (acb=3D0x607000061290) at /home=
+/alxndr/Development/qemu/block/io.c:2746
+  #3  0x0000555556a58525 in blk_aio_cancel (acb=3D0x2) at /home/alxndr/Deve=
+lopment/qemu/block/block-backend.c:1540
+  #4  0x0000555556552f5b in ide_reset (s=3D<optimized out>) at /home/alxndr=
+/Development/qemu/hw/ide/core.c:1318
+  #5  0x0000555556552aeb in ide_bus_reset (bus=3D0x62d000017398) at /home/a=
+lxndr/Development/qemu/hw/ide/core.c:2422
+  #6  0x0000555556579ba5 in ahci_reset_port (s=3D<optimized out>, port=3D<o=
+ptimized out>) at /home/alxndr/Development/qemu/hw/ide/ahci.c:650
+  #7  0x000055555657bd8d in ahci_port_write (s=3D0x61e000014d70, port=3D0x2=
+, offset=3D<optimized out>, val=3D0x10) at /home/alxndr/Development/qemu/hw=
+/ide/ahci.c:360
+  #8  0x000055555657bd8d in ahci_mem_write (opaque=3D<optimized out>, addr=
+=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home=
+/alxndr/Development/qemu/hw/ide/ahci.c:513
+  #9  0x00005555560028d7 in memory_region_write_accessor (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
+>, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/a=
+lxndr/Development/qemu/memory.c:483
+  #10 0x0000555556002280 in access_with_adjusted_size (addr=3D<optimized ou=
+t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
+imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
+, mr=3D0x61e000014da0, attrs=3D...) at /home/alxndr/Development/qemu/memory=
+.c:544
+  #11 0x0000555556002280 in memory_region_dispatch_write (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, data=3D0x10, op=3D<optimized out>, attrs=3D...=
+) at /home/alxndr/Development/qemu/memory.c:1476
+  #12 0x0000555555f171d4 in flatview_write_continue (fv=3D<optimized out>, =
+addr=3D0xe106c22c, attrs=3D..., ptr=3D<optimized out>, len=3D0x1, addr1=3D0=
+x7fffffffb8d0, l=3D<optimized out>, mr=3D0x61e000014da0) at /home/alxndr/De=
+velopment/qemu/exec.c:3137
+  #13 0x0000555555f0fb98 in flatview_write (fv=3D0x60600003b180, addr=3D<op=
+timized out>, attrs=3D..., buf=3D<optimized out>, len=3D<optimized out>) at=
+ /home/alxndr/Development/qemu/exec.c:3177
+
+  I can reproduce it in qemu 5.0 using:
+
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtes=
+t stdio -monitor none -serial none -M pc-q35-5.0  -nographic
+  outl 0xcf8 0x8000fa24
+  outl 0xcfc 0xe106c000
+  outl 0xcf8 0x8000fa04
+  outw 0xcfc 0x7
+  outl 0xcf8 0x8000fb20
+  write 0x0 0x3 0x2780e7
+  write 0xe106c22c 0xd 0x1130c218021130c218021130c2
+  write 0xe106c218 0x15 0x110010110010110010110010110010110010110010
+  EOF
+
+  I also attached the commands to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -qtest stdio -monitor none -serial none -M pc-q35-5.0
+  -nographic < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878255/+subscriptions
 
