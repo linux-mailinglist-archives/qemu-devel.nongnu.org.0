@@ -2,100 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7931CED3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 08:49:21 +0200 (CEST)
-Received: from localhost ([::1]:41514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB5E1CEEAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 10:00:37 +0200 (CEST)
+Received: from localhost ([::1]:56884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYOjA-0004gK-6c
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 02:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51526)
+	id 1jYPq7-0002wo-Ql
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 04:00:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYOgy-0003UQ-Gc
- for qemu-devel@nongnu.org; Tue, 12 May 2020 02:47:04 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42896
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYOgw-0002uu-R0
- for qemu-devel@nongnu.org; Tue, 12 May 2020 02:47:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589266021;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=frumQvkebfr3tG/owWSE8VTdzB0eiXPRNmi/Q2zYypM=;
- b=H9p76H6MXDZKzZQbhkDoGejLum3wN43x4khaROhwKAvIARGS/YsN/FlDnfTA6JbApFUSO5
- kGY8uFgJx4GdgiL2uqTL3oHmhzsQ4Nyxr7103nttETRVfpMD/eje/1H0sHDttMW/amcuWI
- cjk9oCih+hVwJtPWuAF0qQF/O7f74xM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-60SaPeiJNU63OB9t5nk_Ww-1; Tue, 12 May 2020 02:46:57 -0400
-X-MC-Unique: 60SaPeiJNU63OB9t5nk_Ww-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 539B4106B245;
- Tue, 12 May 2020 06:46:56 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-248.ams2.redhat.com
- [10.36.112.248])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 010C260CD1;
- Tue, 12 May 2020 06:46:54 +0000 (UTC)
-Subject: Re: [PATCH v3 6/9] qemu-img: Add bitmap sub-command
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20200508180340.675712-1-eblake@redhat.com>
- <20200508180340.675712-7-eblake@redhat.com>
- <ce9731fd-d137-f5d2-6dc4-071a0b9e0b97@redhat.com>
- <bf472c11-e3b6-caee-7aa7-7803f762612d@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <e3bc88dc-08bd-c449-d5e6-15852370c948@redhat.com>
-Date: Tue, 12 May 2020 08:46:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <bf472c11-e3b6-caee-7aa7-7803f762612d@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="m7mWvyGn93nZAC61K1Ca6miq8Q0kpQe6V"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:20:15
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ (Exim 4.90_1) (envelope-from <skrll@netbsd.org>) id 1jYOiP-0004Oa-Gb
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 02:48:33 -0400
+Received: from mail.netbsd.org ([2001:470:a085:999::25]:62787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <skrll@netbsd.org>) id 1jYOiO-00033h-Dv
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 02:48:33 -0400
+Received: by mail.netbsd.org (Postfix, from userid 1220)
+ id 07F1384D81; Tue, 12 May 2020 06:48:27 +0000 (UTC)
+From: Nick Hudson <skrll@netbsd.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/1] NetBSD/arm build fix
+Date: Tue, 12 May 2020 07:48:23 +0100
+Message-Id: <20200512064823.13025-1-skrll@netbsd.org>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2001:470:a085:999::25;
+ envelope-from=skrll@netbsd.org; helo=mail.netbsd.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 12 May 2020 03:56:14 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -107,94 +47,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: Nick Hudson <skrll@netbsd.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Kamil Rytarowski <kamil@netbsd.org>, Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---m7mWvyGn93nZAC61K1Ca6miq8Q0kpQe6V
-Content-Type: multipart/mixed; boundary="WM4PoqlJT1hfqTpzjFqB7QfEfUsl66Eev"
+Fix building on NetBSD/arm by extracting the FSR value from the
+correct siginfo_t field.
 
---WM4PoqlJT1hfqTpzjFqB7QfEfUsl66Eev
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Nick Hudson <skrll@netbsd.org>
+---
+ accel/tcg/user-exec.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-On 11.05.20 20:22, Eric Blake wrote:
-> On 5/11/20 6:10 AM, Max Reitz wrote:
->> On 08.05.20 20:03, Eric Blake wrote:
->>> Include actions for --add, --remove, --clear, --enable, --disable, and
->>> --merge (note that --clear is a bit of fluff, because the same can be
->>> accomplished by removing a bitmap and then adding a new one in its
->>> place, but it matches what QMP commands exist).=C2=A0 Listing is omitte=
-d,
->>> because it does not require a bitmap name and because it was already
->>> possible with 'qemu-img info'.=C2=A0 A single command line can play one=
- or
->>> more bitmap commands in sequence on the same bitmap name (although all
->>> added bitmaps share the same granularity, and and all merged bitmaps
->>> come from the same source file).=C2=A0 Merge defaults to other bitmaps =
-in
->>> the primary image, but can also be told to merge bitmaps from a
->>> distinct image.
->>
->> For the record: Yes, my comment was mostly about my confusion around the
->> {}.=C2=A0 So just replacing them by () would have pacified me.
->>
->> But this is more fun, of course.
->>
->=20
->>> +++ b/docs/tools/qemu-img.rst
->>> @@ -281,6 +281,29 @@ Command description:
->>
->> [...]
->>
->>> +=C2=A0 Additional options ``-g`` set a non-default *GRANULARITY* for
->>
->> sets?
->=20
-> Or maybe:
->=20
-> Additional options include ``-g`` which sets a non-default *GRANULARITY*
-> for ``--add``, and ``-b`` and ``-F`` which select an alternative source
-> file for all *SOURCE* bitmaps used by ``--merge``.
-
-Sounds good.
-
-> And in writing this, I just realized - even though you _can_ use --add
-> more than once in a command line, the command is still limited to
-> operating on a single bitmap name, so unless you write contortions like:
->=20
-> qemu-img bitmap --add --remove --add -g 1024 file.qcow2 bitmapname
->=20
-> there will normally be at most one --add operation for a -g to be used
-> with (because otherwise the second --add will fail when attempting to
-> create an already-existing bitmap name).
-
-Sure, but that=E2=80=99s a semantic problem, not a syntactic one. :)
-
-Max
-
-
---WM4PoqlJT1hfqTpzjFqB7QfEfUsl66Eev--
-
---m7mWvyGn93nZAC61K1Ca6miq8Q0kpQe6V
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl66Rl0ACgkQ9AfbAGHV
-z0C2eAf/TQvlix4CnezHt6Sb800IupSaL6gCDQcdXHbEy605ocK1tptROCjxB9PQ
-YNtAHGYg58Z+/YCGttBwOCPMDAvSql8vh9yPA/vrRzrVDeqSRJCd7NVqhC9tvI0J
-f3hlVEg/MrKeo3C/LBLDzS4TqB0cPs0ScSGZE6hICQ6OapBciCFJ4i7S6tTypmOM
-Obwb8iuS7/wa1zpPyg3/a5AKY94VdHcpOlPLZoHhSypj+OIIf2uAsC5RvCb+sqnE
-lNwhcdY1SixD34x/ogyJFvhXuZNx2qifkeFqv0Bgxp9FZqT1TEcgYjaDty6joUnE
-mNrmLILXDd6vbssp+py/LPwTvMSFLw==
-=Lv3R
------END PGP SIGNATURE-----
-
---m7mWvyGn93nZAC61K1Ca6miq8Q0kpQe6V--
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 52359949df..3637626456 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -517,6 +517,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+ 
+ #if defined(__NetBSD__)
+ #include <ucontext.h>
++#include <sys/siginfo.h>
+ #endif
+ 
+ int cpu_signal_handler(int host_signum, void *pinfo,
+@@ -525,6 +526,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+     siginfo_t *info = pinfo;
+ #if defined(__NetBSD__)
+     ucontext_t *uc = puc;
++    siginfo_t *si = pinfo;
+ #else
+     ucontext_t *uc = puc;
+ #endif
+@@ -539,10 +541,18 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+     pc = uc->uc_mcontext.arm_pc;
+ #endif
+ 
++#if defined(__NetBSD__)
++    /* siginfo_t::si_trap is the FSR value, in which bit 11 is WnR
++     * (assuming a v6 or later processor; on v5 we will always report
++     * this as a read).
++     */
++    is_write = extract32(si->si_trap, 11, 1);
++#else
+     /* error_code is the FSR value, in which bit 11 is WnR (assuming a v6 or
+      * later processor; on v5 we will always report this as a read).
+      */
+     is_write = extract32(uc->uc_mcontext.error_code, 11, 1);
++#endif
+     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
+ }
+ 
+-- 
+2.17.1
 
 
