@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E82F1CFE84
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:41:05 +0200 (CEST)
-Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D081CFE89
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:43:23 +0200 (CEST)
+Received: from localhost ([::1]:40254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYam0-0002mq-C4
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
+	id 1jYaoE-0005xe-6X
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:43:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jYaez-0000TN-1v
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:33:49 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:34398)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jYagE-0002fo-Fo
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:35:06 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <robert.foley@linaro.org>)
- id 1jYaer-0001uG-Id
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:33:48 -0400
-Received: by mail-qk1-x743.google.com with SMTP id 190so9347208qki.1
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 12:33:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1jYagC-0002Ot-Oo
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:35:06 -0400
+Received: by mail-wr1-x442.google.com with SMTP id s8so17235848wrt.9
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 12:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=aNR1JmgVz46Qvpg0icRk9M4DFTNu1hcHi8bAg4H6vGg=;
- b=Per6B54NJeJqh2V4COctkhI6NRkRrKNuOwbeEDfzzONC5J/WpCJ/KhuKPe1Tpk4NVN
- cUilz3940OrWEh3nXJjJcWrmSdI4hgJNPWRqlqRUa4mLHNS7aq/t0XYc/725phhjFcDt
- pWjZrMZZgChayQgp3Gntn4Vmj6qFaUtURqkR72znmcIQYbwZjv8fmXy65rQTjLIlxRBH
- VOMIt/uf0B8CbzbCeIjZuTWc4A49XxfkKcjGiJS9p+8NMIOkGw+qcBAO4mtMeBvca4Xn
- i4knQactc8WJy9qPGWcFkrtbuy5txre39hWt40O52V9D3y+hzDPtLK5j0XwvfoLs7VQe
- i+5Q==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=KcxF8DVQAqh0pqWSpwPkYBoajfccQl1VsHrDvMroOmI=;
+ b=wbUpfrXkjrcBIRoQH/bxnrVYm+/3mIaRCbBO0djoeUVi9xlGXhOAPrVZCwtTWQeVRO
+ tTgoKYNU/i1DecECrC6XfqOvr6J1+2mk6cLn15SsjJkkNvf22sBdgh/zqY1WJuuKv9LI
+ KdpaaxjDc3zRxt9Vo7NU2vrdLIqMISF2ORF8ca/SQUvE0ZcGJek8tJEfc2Cujxq7GDM+
+ Mexv3P91wvfXT3dt5OQfMImhWkA4+B1WlpMRsDROps+8r4SkPylzSihP/Qu56EJfNj7d
+ 1coc8NwIJc+v1XF0iE6F2Grh3Y9TsxFoZ05kTdFdgUEa/k264IpE80JGcABr9rWs9E76
+ guwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=aNR1JmgVz46Qvpg0icRk9M4DFTNu1hcHi8bAg4H6vGg=;
- b=NdejrZciyjV1CpOC6MVqt7xlpzCvX1NW11GcED8c6bbtGE5fJqUdvOIVvUrNQOz7JU
- nwBCa9p3QuhH2az7BBzJpMeh13zkExgdgqECliJVsD/GnIiIlKFesNMQMNob0X98PnX7
- 96umsW2hstCeGuF/lSfEiDW3G1kIFNX5aQ/nvzzi5XTH79gdoQxWdFSbDik/WPVwht35
- p/4XQA2pHpcLkfbNge3bpIrR6VnWZLmJh/RhlJ+g34UoPJai/1MEWaMGM+3k3FkCtwFh
- RzOafB0+c2V4ugaAEXEgD+cbzZJs4/gsxp1VwFQFpG3C0C7r8J4kWWH9fyZE+wdOpzsy
- Maiw==
-X-Gm-Message-State: AGi0PuYnLbsETit15nKqfD6mOqZYZiB0oO0RjE5d3oyTpj+RBy74UKpG
- lR8yCZHggenlf8a6npymCaT+45tmrnu3YA==
-X-Google-Smtp-Source: APiQypKifRpgxCaWW/ZIQn/NBeeh0gG8x6e+rAeZpGFYZarph2PV3kxEEyBxYTS04k3RDddzOmEcgQ==
-X-Received: by 2002:a37:50d4:: with SMTP id e203mr21669657qkb.61.1589312018945; 
- Tue, 12 May 2020 12:33:38 -0700 (PDT)
-Received: from Rfoley-MA01.hsd1.ma.comcast.net
- ([2601:199:4480:60c0:d31:9f53:b3eb:9b53])
- by smtp.gmail.com with ESMTPSA id j45sm2100998qtk.14.2020.05.12.12.33.37
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=KcxF8DVQAqh0pqWSpwPkYBoajfccQl1VsHrDvMroOmI=;
+ b=hw5JnRVs4ZOQV0nRe9Oi3GYSz1RQIc+Apcc9iAsv2QhvP9bMTDkxhcj7AmFC68B1rw
+ LA14VNwkTZoXgLemQRTKr1lIfSy2xkmHp8BSz7Y1VZNO+f6h4Rg/0JZooIlpnkiLXmOF
+ s6rxD95mR2AWExYJ4XJbhqeAyiJ+cqAVSFjG9mpjPXeGJmkjV+bVlaX4rd81P/DdkMCe
+ ZxP7RqCsAeawaF2reuXuvx2cdiBOwiIPgZTzJrwyduW9AD0HSaGix3BIuXHyc2w+GhoL
+ UX0LeFba3hZVMdxsha0yaGBN6q4jokPnRZ6mTL9qHHMKgH32CeNkvMnYAqBorW1fnLPl
+ wgZw==
+X-Gm-Message-State: AGi0PubgnEiodcQHDeg80Q5mzIAtXTVLEBgmA772DZgZOeHsp7JFFMmP
+ 4ub+8Dxwrg+oTelPWXi/2jONwQ==
+X-Google-Smtp-Source: APiQypIUwM3+giysVFlfVbMfnlo3ZqX1Q0syj3NWOErlKm35HaVzBESt7XGu9u49b36W0KYCBaQ06w==
+X-Received: by 2002:adf:e784:: with SMTP id n4mr28189117wrm.170.1589312102954; 
+ Tue, 12 May 2020 12:35:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f128sm20946066wme.1.2020.05.12.12.35.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 12:33:38 -0700 (PDT)
-From: Robert Foley <robert.foley@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 9/9] tests/vm: Add workaround to consume console
-Date: Tue, 12 May 2020 15:33:40 -0400
-Message-Id: <20200512193340.265-10-robert.foley@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200512193340.265-1-robert.foley@linaro.org>
-References: <20200512193340.265-1-robert.foley@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
- envelope-from=robert.foley@linaro.org; helo=mail-qk1-x743.google.com
+ Tue, 12 May 2020 12:35:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 315F21FF7E;
+ Tue, 12 May 2020 20:35:00 +0100 (BST)
+References: <CAEme+7FPF+inSJSXQPmuv8Up3Eam0N7fT03zqM-RvcvKsxjfVQ@mail.gmail.com>
+ <f4feb648-7dc5-ac54-bc0b-db650dd176f1@vivier.eu>
+ <CAEme+7EtF6B2+2U_yF2dd-g2m+=S3P5=DL1oLmHfmWw2S7PYAw@mail.gmail.com>
+ <20200509230016.GA109593@sff>
+ <CAEme+7H82A2RNk5g09rmhThxW4=6sqWP5o65OCsJ8zf1L-nb+w@mail.gmail.com>
+ <20200512005521.GA198983@sff>
+ <CAEme+7E+d4Obmc=6bDcZgP5oEx9F57qe9RE2X=iFw+Yo=+i9_A@mail.gmail.com>
+User-agent: mu4e 1.4.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Nikolay Igotti <igotti@gmail.com>
+Subject: Re: [PATCH 3/3] plugins: avoid failing plugin when CPU is inited
+ several times
+In-reply-to: <CAEme+7E+d4Obmc=6bDcZgP5oEx9F57qe9RE2X=iFw+Yo=+i9_A@mail.gmail.com>
+Date: Tue, 12 May 2020 20:35:00 +0100
+Message-ID: <873685eyl7.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,377 +95,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, alex.bennee@linaro.org, robert.foley@linaro.org,
- peter.puhov@linaro.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, "Emilio G. Cota" <cota@braap.org>,
+ Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ConsoleSocket object provides a socket interface
-which will consume all arriving characters on the
-socket, but will provide those chars via recv() as
-would a regular socket.
-This is a workaround we found was needed since
-there is a known issue where QEMU will hang waiting
-for console characters to be consumed.
-We also add the option of logging the console to a file.
 
-Signed-off-by: Robert Foley <robert.foley@linaro.org>
-Reviewed-by: Peter Puhov <peter.puhov@linaro.org>
----
- python/qemu/console_socket.py | 162 ++++++++++++++++++++++++++++++++++
- python/qemu/machine.py        |  23 ++++-
- tests/vm/Makefile.include     |   4 +
- tests/vm/basevm.py            |  24 ++++-
- 4 files changed, 205 insertions(+), 8 deletions(-)
- create mode 100644 python/qemu/console_socket.py
+Nikolay Igotti <igotti@gmail.com> writes:
 
-diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-new file mode 100644
-index 0000000000..a1f74e60ac
---- /dev/null
-+++ b/python/qemu/console_socket.py
-@@ -0,0 +1,162 @@
-+#!/usr/bin/env python3
-+#
-+# This python module implements a ConsoleSocket object which is
-+# designed always drain the socket itself, and place
-+# the bytes into a in memory buffer for later processing.
-+#
-+# Optionally a file path can be passed in and we will also
-+# dump the characters to this file for debug.
-+#
-+# Copyright 2020 Linaro
-+#
-+# Authors:
-+#  Robert Foley <robert.foley@linaro.org>
-+#
-+# This code is licensed under the GPL version 2 or later.  See
-+# the COPYING file in the top-level directory.
-+#
-+import asyncore
-+import socket
-+import threading
-+import io
-+import os
-+import sys
-+from collections import deque
-+import time
-+import traceback
-+
-+class ConsoleSocket(asyncore.dispatcher):
-+
-+    def __init__(self, address, file=None):
-+        self._recv_timeout_sec = 300
-+        self._buffer = deque()
-+        self._asyncore_thread = None
-+        self._sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-+        self._sock.connect(address)
-+        self._logfile = None
-+        if file:
-+            self._logfile = open(file, "w")
-+        asyncore.dispatcher.__init__(self, sock=self._sock)
-+        self._thread_start()
-+        self._open = True
-+
-+    def _thread_start(self):
-+        """Kick off a thread to wait on the asyncore.loop"""
-+        if self._asyncore_thread is not None:
-+            return
-+        self._asyncore_thread = threading.Thread(target=asyncore.loop,
-+                                                 kwargs={'timeout':1})
-+        self._asyncore_thread.daemon = True
-+        self._asyncore_thread.start()
-+
-+    def handle_close(self):
-+        """redirect close to base class"""
-+        # Call the base class close, but not self.close() since
-+        # handle_close() occurs in the context of the thread which
-+        # self.close() attempts to join.
-+        asyncore.dispatcher.close(self)
-+
-+    def close(self):
-+        """Close the base object and wait for the thread to terminate"""
-+        if self._open:
-+            self._open = False
-+            asyncore.dispatcher.close(self)
-+            if self._asyncore_thread is not None:
-+                thread, self._asyncore_thread = self._asyncore_thread, None
-+                thread.join()
-+            if self._logfile:
-+                self._logfile.close()
-+                self._logfile = None
-+
-+    def handle_read(self):
-+        """process arriving characters into in memory _buffer"""
-+        try:
-+            data = asyncore.dispatcher.recv(self, 1)
-+            # latin1 is needed since there are some chars
-+            # we are receiving that cannot be encoded to utf-8
-+            # such as 0xe2, 0x80, 0xA6.
-+            string = data.decode("latin1")
-+        except:
-+            print("Exception seen.")
-+            traceback.print_exc()
-+            return
-+        if self._logfile:
-+            self._logfile.write("{}".format(string))
-+            self._logfile.flush()
-+        for c in string:
-+            self._buffer.append(c)
-+
-+    def recv(self, n=1):
-+        """Return chars from in memory buffer"""
-+        start_time = time.time()
-+        while len(self._buffer) < n:
-+            time.sleep(0.1)
-+            elapsed_sec = time.time() - start_time
-+            if elapsed_sec > self._recv_timeout_sec:
-+                raise socket.timeout
-+        chars = ''.join([self._buffer.popleft() for i in range(n)])
-+        # We choose to use latin1 to remain consistent with
-+        # handle_read() and give back the same data as the user would
-+        # receive if they were reading directly from the
-+        # socket w/o our intervention.
-+        return chars.encode("latin1")
-+
-+    def set_blocking(self):
-+        """Maintain compatibility with socket API"""
-+        pass
-+
-+    def settimeout(self, seconds):
-+        """Set current timeout on recv"""
-+        self._recv_timeout_sec = seconds
-+
-+class ByteBuffer(deque):
-+    """Simple in memory buffer with read/write interface"""
-+    def write(self, bytes):
-+        for i in bytes:
-+            self.append(i)
-+    def read(self, n):
-+        return ''.join([self.popleft() for i in range(n)])
-+
-+if __name__ == '__main__':
-+    # Brief test to exercise the above code.
-+    # The ConsoleSocket will ship some data to the server,
-+    # the server will echo it back and the client will echo what it received.
-+
-+    # First remove the socket.
-+    address = "./test_console_socket"
-+    if os.path.exists(address):
-+        os.unlink(address)
-+
-+    # Create the server side.
-+    server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-+    server_socket.bind(address)
-+    server_socket.listen(1)
-+
-+    # Create the object we are trying to test.
-+    console_socket = ConsoleSocket(address, file="./logfile.txt")
-+
-+    # Generate some data and ship it over the socket.
-+    send_data = ""
-+    for i in range(10):
-+        send_data += "this is a test message {}\n".format(i)
-+    console_socket.send(send_data.encode('latin1'))
-+    connection, client_address = server_socket.accept()
-+
-+    # Process the data on the server and ship it back.
-+    data = connection.recv(len(send_data))
-+    print("server received: {}".format(data))
-+    print("server: sending data back to the client")
-+    connection.sendall(data)
-+
-+    # Client receives teh bytes and displays them.
-+    print("client: receiving bytes")
-+    bytes = console_socket.recv(len(data))
-+    recv_data = bytes.decode('latin1')
-+    print("client received: {}".format(recv_data))
-+    assert(recv_data == send_data)
-+    # Close console connection first, then close server.
-+    console_socket.close()
-+    connection.close()
-+    server_socket.close()
-+    print("test successful.")
-+
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index b9a98e2c86..30e7a16b92 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -24,6 +24,7 @@ import subprocess
- import shutil
- import socket
- import tempfile
-+from qemu.console_socket import ConsoleSocket
- 
- from . import qmp
- 
-@@ -71,7 +72,8 @@ class QEMUMachine(object):
- 
-     def __init__(self, binary, args=None, wrapper=None, name=None,
-                  test_dir="/var/tmp", monitor_address=None,
--                 socket_scm_helper=None, sock_dir=None):
-+                 socket_scm_helper=None, sock_dir=None,
-+                 drain_console=False, console_log=None):
-         '''
-         Initialize a QEMUMachine
- 
-@@ -82,6 +84,9 @@ class QEMUMachine(object):
-         @param test_dir: where to create socket and log file
-         @param monitor_address: address for QMP monitor
-         @param socket_scm_helper: helper program, required for send_fd_scm()
-+        @param sock_dir: where to create socket (overrides test_dir for sock)
-+        @param console_log: (optional) path to console log file
-+        @param drain_console: (optional) True to drain console socket to buffer
-         @note: Qemu process is not started until launch() is used.
-         '''
-         if args is None:
-@@ -118,6 +123,12 @@ class QEMUMachine(object):
-         self._console_address = None
-         self._console_socket = None
-         self._remove_files = []
-+        self._console_log_path = console_log
-+        if self._console_log_path:
-+            # In order to log the console, buffering needs to be enabled.
-+            self._drain_console = True
-+        else:
-+            self._drain_console = drain_console
- 
-         # just in case logging wasn't configured by the main script:
-         logging.basicConfig()
-@@ -568,7 +579,11 @@ class QEMUMachine(object):
-         Returns a socket connected to the console
-         """
-         if self._console_socket is None:
--            self._console_socket = socket.socket(socket.AF_UNIX,
--                                                 socket.SOCK_STREAM)
--            self._console_socket.connect(self._console_address)
-+            if self._drain_console:
-+                self._console_socket = ConsoleSocket(self._console_address,
-+                                                     file=self._console_log_path)
-+            else:
-+                self._console_socket = socket.socket(socket.AF_UNIX,
-+                                                     socket.SOCK_STREAM)
-+                self._console_socket.connect(self._console_address)
-         return self._console_socket
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index 62502c13c2..942062a53b 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -49,6 +49,7 @@ endif
- 	@echo '    EXTRA_CONFIGURE_OPTS="..."'
- 	@echo "    J=[0..9]*            	 - Override the -jN parameter for make commands"
- 	@echo "    DEBUG=1              	 - Enable verbose output on host and interactive debugging"
-+	@echo "    LOG_CONSOLE=1        	 - Log console to file in: ~/.cache/qemu-vm "
- 	@echo "    V=1				 - Enable verbose ouput on host and guest commands"
- 	@echo "    QEMU_LOCAL=1                 - Use QEMU binary local to this build."
- 	@echo "    QEMU=/path/to/qemu		 - Change path to QEMU binary"
-@@ -72,6 +73,7 @@ $(IMAGES_DIR)/%.img:	$(SRC_PATH)/tests/vm/% \
- 	$(call quiet-command, \
- 		$(PYTHON) $< \
- 		$(if $(V)$(DEBUG), --debug) \
-+		$(if $(LOG_CONSOLE),--log-console) \
- 		--build-path $(BUILD_DIR)\
- 		--image "$@" \
- 		--force \
-@@ -87,6 +89,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
- 		$(if $(DEBUG), --interactive) \
- 		$(if $(J),--jobs $(J)) \
- 		$(if $(V),--verbose) \
-+		$(if $(LOG_CONSOLE),--log-console) \
- 		--build-path $(BUILD_DIR)\
- 		--image "$<" \
- 		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
-@@ -109,6 +112,7 @@ vm-boot-ssh-%: $(IMAGES_DIR)/%.img
- 		$(PYTHON) $(SRC_PATH)/tests/vm/$* \
- 		$(if $(J),--jobs $(J)) \
- 		$(if $(V)$(DEBUG), --debug) \
-+		$(if $(LOG_CONSOLE),--log-console) \
- 		--build-path $(BUILD_DIR)\
- 		--image "$<" \
- 		--interactive \
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index bb20d8ca54..c71e059616 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -82,12 +82,14 @@ class BaseVM(object):
-     poweroff = "poweroff"
-     # enable IPv6 networking
-     ipv6 = True
-+    # This is the timeout on the wait for console bytes.
-+    socket_timeout = 120
-     # Scale up some timeouts under TCG.
-     # 4 is arbitrary, but greater than 2,
-     # since we found we need to wait more than twice as long.
-     tcg_ssh_timeout_multiplier = 4
-     def __init__(self, debug=False, vcpus=None, config=None,
--                 build_path=None):
-+                 build_path=None, log_console=False):
-         self._guest = None
-         self._build_path = build_path
-         # Allow input config to override defaults.
-@@ -113,6 +115,11 @@ class BaseVM(object):
-         open(self._ssh_tmp_pub_key_file,
-              "w").write(self._config['ssh_pub_key'])
- 
-+        self._console_log_path = None
-+        if log_console:
-+                self._console_log_path = \
-+                         os.path.join(os.path.expanduser("~/.cache/qemu-vm"),
-+                                      "{}.install.log".format(self.name))
-         self.debug = debug
-         self._stderr = sys.stderr
-         self._devnull = open(os.devnull, "w")
-@@ -268,7 +275,9 @@ class BaseVM(object):
-         args += self._data_args + extra_args + self._config['extra_args']
-         logging.debug("QEMU args: %s", " ".join(args))
-         qemu_path = get_qemu_path(self.arch, self._build_path)
--        guest = QEMUMachine(binary=qemu_path, args=args)
-+        guest = QEMUMachine(binary=qemu_path, args=args,
-+                            console_log=self._console_log_path,
-+                            drain_console=True)
-         guest.set_machine(self._config['machine'])
-         guest.set_console()
-         try:
-@@ -282,6 +291,8 @@ class BaseVM(object):
-             raise
-         atexit.register(self.shutdown)
-         self._guest = guest
-+        # Init console so we can start consuming the chars.
-+        self.console_init()
-         usernet_info = guest.qmp("human-monitor-command",
-                                  command_line="info usernet")
-         self.ssh_port = None
-@@ -293,7 +304,9 @@ class BaseVM(object):
-             raise Exception("Cannot find ssh port from 'info usernet':\n%s" % \
-                             usernet_info)
- 
--    def console_init(self, timeout = 120):
-+    def console_init(self, timeout = None):
-+        if timeout == None:
-+            timeout = self.socket_timeout
-         vm = self._guest
-         vm.console_socket.settimeout(timeout)
-         self.console_raw_path = os.path.join(vm._temp_dir,
-@@ -572,6 +585,8 @@ def parse_args(vmcls):
-                            "See config_example.yaml for example.")
-     parser.add_option("--build-path", default=None,
-                       help="Path of build directory. ")
-+    parser.add_option("--log-console", action="store_true",
-+                      help="Log console to file.")
-     parser.disable_interspersed_args()
-     return parser.parse_args()
- 
-@@ -587,7 +602,8 @@ def main(vmcls, config=None):
-         logging.basicConfig(level=(logging.DEBUG if args.debug
-                                    else logging.WARN))
-         vm = vmcls(debug=args.debug, vcpus=args.jobs, config=config,
--                   build_path=args.build_path)
-+                   build_path=args.build_path,
-+                   log_console=args.log_console)
-         if args.build_image:
-             if os.path.exists(args.image) and not args.force:
-                 sys.stderr.writelines(["Image file exists: %s\n" % args.image,
--- 
-2.17.1
+> --- counter.c
+>
+> #include <assert.h>
+> #include <pthread.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <string.h>
+> #include <unistd.h>
+>
+> #include <glib.h>
+>
+> #include <qemu-plugin.h>
+>
+> QEMU_PLUGIN_EXPORT int qemu_plugin_version =3D QEMU_PLUGIN_VERSION;
+>
+> // Files with descriptors after this one are intercepted for instruction
+> counting marks.
+> #define CATCH_BASE 0xcafebabe
+>
+> static uint64_t insn_count =3D 0;
+> static pthread_t counting =3D false;
+> static pthread_t counting_for =3D 0;
+> static bool on_every_close =3D false;
+>
+> static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+> {
+>     if (counting && pthread_self() =3D=3D counting_for)
+>         insn_count++;
+> }
+>
+> static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+> {
+>     size_t n =3D qemu_plugin_tb_n_insns(tb);
+>     size_t i;
+>
+>     for (i =3D 0; i < n; i++) {
+>         struct qemu_plugin_insn *insn =3D qemu_plugin_tb_get_insn(tb, i);
+>
+>         // TODO: do this call only on first insn in bb.
+>         qemu_plugin_register_vcpu_insn_exec_cb(
+>             insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS, NULL);
+>     }
+> }
+>
+> static void print_insn_count(void) {
+>     g_autofree gchar *out =3D g_strdup_printf("executed %" PRIu64 "
+> instructions\n", insn_count);
+>     qemu_plugin_outs(out);
+> }
+>
+> static void vcpu_syscall(qemu_plugin_id_t id, unsigned int vcpu_index,
+>                         int64_t num, uint64_t a1, uint64_t a2,
+>                         uint64_t a3, uint64_t a4, uint64_t a5,
+>                         uint64_t a6, uint64_t a7, uint64_t a8)
+> {
+>     // We put our listener on fd reads in range [CATCH_BASE, CATCH_BASE +=
+ 1]
+>     if (num =3D=3D 0) { // sys_read
+>         switch (a1)
+>         {
+>             case CATCH_BASE + 0:
+>                 counting =3D true;
+>                 counting_for =3D pthread_self();
+>                 insn_count =3D 0;
+>                 break;
+>             case CATCH_BASE + 1: {
+>                 counting =3D false;
+>                 counting_for =3D 0;
+>                 if (a3 =3D=3D 8) {
+>                     // In case of user emulation in QEMU, addresses are 1=
+:1
+> translated, so we can tell the caller
+>                     // number of executed instructions by just writing in=
+to
+> the buffer argument of read.
+>                     *(uint64_t*)a2 =3D insn_count;
 
+Hmm this was certainly unintentional - is it the host or guest address
+you are messing with here? I wouldn't count on it pointing where you
+think and relying on it to pass information back to the instrumented
+guest.
+
+Anyway I have a replication - we are trying to insert the same id into
+the plugin cpu index hash table twice.=20
+
+>                 }
+>                 print_insn_count();
+>                 break;
+>             }
+>             default:
+>                 break;
+>         }
+>     }
+>     if (num =3D=3D 3 && on_every_close) { // sys_close
+>         print_insn_count();
+>     }
+> }
+>
+> QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+>                                            const qemu_info_t *info,
+>                                            int argc, char **argv)
+> {
+>     int i;
+>     for (i =3D 0; i < argc; i++) {
+>         if (!strcmp(argv[i], "on_every_close")) {
+>             on_every_close =3D true;
+>             counting =3D true;
+>             counting_for =3D pthread_self();
+>         }
+>     }
+>
+>     qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
+>     qemu_plugin_register_vcpu_syscall_cb(id, vcpu_syscall);
+>     return 0;
+> }
+>
+> --- test.c
+>
+> #include <stdint.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <unistd.h>
+> #include <pthread.h>
+>
+> #define CATCH_BASE 0xcafebabe
+>
+> static void start_counting() {
+>     char buf;
+>     int rv =3D read(CATCH_BASE, &buf, 1);
+>     (void)rv;
+> }
+>
+> static void end_counting() {
+>     uint64_t counter =3D 0;
+>     int rv =3D read(CATCH_BASE + 1, &counter, sizeof(counter));
+>     (void)rv;
+>     printf("We got %lld from TCG\n", counter);
+> }
+>
+> int global =3D 0;
+>
+> typedef struct {
+>     int delay;
+> } ThreadArg;
+>
+> static void* thread_fn(void* varg)  {
+>     ThreadArg* arg =3D varg;
+>     usleep(arg->delay);
+>     free(arg);
+>     return NULL;
+> }
+>
+> int main(int argc, char** argv) {
+>     int i;
+>     int repeat =3D 100;
+> #define THREAD_NUM 10
+>     pthread_t threads[THREAD_NUM];
+>
+>     if (argc > 1) {
+>         repeat =3D atoi(argv[1]);
+>     }
+>
+>     for (i =3D 0; i < THREAD_NUM; i++) {
+>         ThreadArg* arg =3D calloc(sizeof(ThreadArg), 1);
+>         arg->delay =3D i * 100;
+>         pthread_create(threads + i, NULL, thread_fn, arg);
+>     }
+>
+>     start_counting();
+>     for (i =3D 0; i < repeat; i++) {
+>         global +=3D i;
+>     }
+>     end_counting();
+>
+>     for (i =3D 0; i < THREAD_NUM; i++) {
+>         pthread_join(threads[i], NULL);
+>     }
+>
+>     return 0;
+> }
+>
+> On Tue, May 12, 2020 at 3:55 AM Emilio G. Cota <cota@braap.org> wrote:
+>
+>> On Mon, May 11, 2020 at 18:53:19 +0300, Nikolay Igotti wrote:
+>> > Attached to the mail counter.c when running with attached test.c compi=
+led
+>> > to Linux standalone binary shows failing assert, unless the patch is
+>> > applied.
+>>
+>> I didn't get the attachment. Can you paste the code at the end of your
+>> reply?
+>>
+>> Thanks,
+>>                 Emilio
+>>
+
+
+--=20
+Alex Benn=C3=A9e
 
