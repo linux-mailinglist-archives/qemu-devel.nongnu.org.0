@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41AD1CF845
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:03:12 +0200 (CEST)
-Received: from localhost ([::1]:55168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F1F1CF7F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 16:55:25 +0200 (CEST)
+Received: from localhost ([::1]:54188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWR5-0005lu-U9
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:03:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60560)
+	id 1jYWJY-0007nS-CC
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 10:55:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYWI1-0005eS-VP; Tue, 12 May 2020 10:53:50 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45860)
+ id 1jYWHj-0004rv-Qb; Tue, 12 May 2020 10:53:31 -0400
+Received: from relay.sw.ru ([185.231.240.75]:45852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYWI0-0005p0-L6; Tue, 12 May 2020 10:53:49 -0400
+ id 1jYWHh-0005ot-D1; Tue, 12 May 2020 10:53:31 -0400
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYWHa-0003c8-5m; Tue, 12 May 2020 17:53:22 +0300
+ id 1jYWHa-0003c8-EA; Tue, 12 May 2020 17:53:22 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 10/15] copy-on-read: Support change filename functions
-Date: Tue, 12 May 2020 17:53:11 +0300
-Message-Id: <1589295196-773454-11-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v3 11/15] copy-on-read: Support preadv/pwritev_part functions
+Date: Tue, 12 May 2020 17:53:12 +0300
+Message-Id: <1589295196-773454-12-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1589295196-773454-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1589295196-773454-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -57,59 +57,68 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The COR-filter driver should support a redirecting function to refresh
-filenames. Otherwise, a file name of the filter will be copied
-instead of the one of a data node. It is also true for the function
-bdrv_change_backing_file().
+Add support for the recently introduced functions
+bdrv_co_preadv_part()
+and
+bdrv_co_pwritev_part()
+to the COR-filter driver.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- block/copy-on-read.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ block/copy-on-read.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index c4fa468..74e01ee 100644
+index 74e01ee..4030d56 100644
 --- a/block/copy-on-read.c
 +++ b/block/copy-on-read.c
-@@ -21,6 +21,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include "block/block_int.h"
- #include "qemu/module.h"
- 
-@@ -128,6 +129,21 @@ static void cor_lock_medium(BlockDriverState *bs, bool locked)
+@@ -74,21 +74,25 @@ static int64_t cor_getlength(BlockDriverState *bs)
  }
  
  
-+static void cor_refresh_filename(BlockDriverState *bs)
-+{
-+    pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
-+            bs->file->bs->filename);
-+}
-+
-+
-+static int cor_change_backing_file(BlockDriverState *bs,
-+                                   const char *backing_file,
-+                                   const char *backing_fmt)
-+{
-+    return bdrv_change_backing_file(bs->file->bs, backing_file, backing_fmt);
-+}
-+
-+
- static BlockDriver bdrv_copy_on_read = {
-     .format_name                        = "copy-on-read",
+-static int coroutine_fn cor_co_preadv(BlockDriverState *bs,
+-                                      uint64_t offset, uint64_t bytes,
+-                                      QEMUIOVector *qiov, int flags)
++static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
++                                           uint64_t offset, uint64_t bytes,
++                                           QEMUIOVector *qiov,
++                                           size_t qiov_offset,
++                                           int flags)
+ {
+-    return bdrv_co_preadv(bs->file, offset, bytes, qiov,
+-                          flags | BDRV_REQ_COPY_ON_READ);
++    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
++                               flags | BDRV_REQ_COPY_ON_READ);
+ }
  
-@@ -146,6 +162,8 @@ static BlockDriver bdrv_copy_on_read = {
-     .bdrv_lock_medium                   = cor_lock_medium,
  
-     .bdrv_co_block_status               = bdrv_co_block_status_from_file,
-+    .bdrv_refresh_filename              = cor_refresh_filename,
-+    .bdrv_change_backing_file           = cor_change_backing_file,
+-static int coroutine_fn cor_co_pwritev(BlockDriverState *bs,
+-                                       uint64_t offset, uint64_t bytes,
+-                                       QEMUIOVector *qiov, int flags)
++static int coroutine_fn cor_co_pwritev_part(BlockDriverState *bs,
++                                            uint64_t offset,
++                                            uint64_t bytes,
++                                            QEMUIOVector *qiov,
++                                            size_t qiov_offset, int flags)
+ {
+-
+-    return bdrv_co_pwritev(bs->file, offset, bytes, qiov, flags);
++    return bdrv_co_pwritev_part(bs->file, offset, bytes, qiov, qiov_offset,
++                                flags);
+ }
  
-     .has_variable_length                = true,
-     .is_filter                          = true,
+ 
+@@ -152,8 +156,8 @@ static BlockDriver bdrv_copy_on_read = {
+ 
+     .bdrv_getlength                     = cor_getlength,
+ 
+-    .bdrv_co_preadv                     = cor_co_preadv,
+-    .bdrv_co_pwritev                    = cor_co_pwritev,
++    .bdrv_co_preadv_part                = cor_co_preadv_part,
++    .bdrv_co_pwritev_part               = cor_co_pwritev_part,
+     .bdrv_co_pwrite_zeroes              = cor_co_pwrite_zeroes,
+     .bdrv_co_pdiscard                   = cor_co_pdiscard,
+     .bdrv_co_pwritev_compressed         = cor_co_pwritev_compressed,
 -- 
 1.8.3.1
 
