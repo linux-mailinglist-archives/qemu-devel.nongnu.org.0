@@ -2,53 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5372B1CEC21
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 06:42:51 +0200 (CEST)
-Received: from localhost ([::1]:40746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693E71CEBAB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:43:54 +0200 (CEST)
+Received: from localhost ([::1]:43702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYMkj-0006Bg-Sk
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 00:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38692)
+	id 1jYLph-0000wc-HG
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:43:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jYMjn-0005UG-8j; Tue, 12 May 2020 00:41:51 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40233 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1jYMjk-0000Z8-Co; Tue, 12 May 2020 00:41:50 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 49LlWT4d14z9sSw; Tue, 12 May 2020 14:41:41 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1589258501;
- bh=6xk3mG1IlArMMGVReMjxkkXMhTt87S6aGM15FJy/3L0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Kjy8BYNY+kQfTSWfRtNZRHk9KRnvuN/lRGznri7pqkN9CgR2ISSTorbTyXswsIts0
- PU5Zl80ZvE3v1qV1avPfZYoQS2JEWftRVc2HIMExxROCWkSRnDKe4Up52qS9ceLOQa
- OTef52ROZ33oG1xeG6TQMXpCT7wWInW5HpzeK9oE=
-Date: Tue, 12 May 2020 13:41:09 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Leonardo Bras <leobras.c@gmail.com>
-Subject: Re: [RESEND PATCH v3 1/1] ppc/spapr: Add hotremovable flag on DIMM
- LMBs on drmem_v2
-Message-ID: <20200512034109.GX2183@umbus.fritz.box>
-References: <20200511200201.58537-1-leobras.c@gmail.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jYLos-0000X4-0o
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:43:02 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54780
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jYLor-0006Bi-1a
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:43:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589254979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1/EMSZsdeSmHyeMtkBdBqYqqnd00W3DNypbFTfpYhjc=;
+ b=KmbKdHqmmp/hfI7/t9jy9Fofay5HBsppIq1i5qb8FOxSBER8c63SxjHJJjYfElWAv4zN+q
+ Afh9+QX3ZyK8/AVkW4gDBoqzPE4U43W9EaFKaU1hjSyElHXr7+ehvk5FYkV60FckMhnEL0
+ vw7iEgoFiCL656rjv2jXzgSxfKF4m2Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-4L_WAeiFOUeWYNmR2jY1WA-1; Mon, 11 May 2020 23:42:58 -0400
+X-MC-Unique: 4L_WAeiFOUeWYNmR2jY1WA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4D80846375;
+ Tue, 12 May 2020 03:42:56 +0000 (UTC)
+Received: from [10.72.13.96] (ovpn-13-96.pek2.redhat.com [10.72.13.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2031170919;
+ Tue, 12 May 2020 03:42:51 +0000 (UTC)
+Subject: Re: [PATCH v8 0/7] reference implementation of RSS and hash report
+To: Yuri Benditovich <yuri.benditovich@daynix.com>, qemu-devel@nongnu.org,
+ mst@redhat.com, quintela@redhat.com, dgilbert@redhat.com
+References: <20200508125934.7861-1-yuri.benditovich@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <c483e590-b7b9-88d5-4297-4c22dea3da02@redhat.com>
+Date: Tue, 12 May 2020 11:42:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ahZICQ7iXVM/oLYH"
-Content-Disposition: inline
-In-Reply-To: <20200511200201.58537-1-leobras.c@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:34:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <20200508125934.7861-1-yuri.benditovich@daynix.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:33:12
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,101 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bharata B Rao <bharata.rao@in.ibm.com>,
- Bharata B Rao <bharata@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Leonardo Bras <leonardo@linux.ibm.com>
+Cc: yan@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ahZICQ7iXVM/oLYH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2020/5/8 下午8:59, Yuri Benditovich wrote:
+> Support for VIRTIO_NET_F_RSS and VIRTIO_NET_F_HASH_REPORT
+> features in QEMU for reference purpose.
+> Implements Toeplitz hash calculation for incoming
+> packets according to configuration provided by driver.
+> Uses calculated hash for decision on receive virtqueue
+> and/or reports the hash in the virtio header
+>
+> Changes from v7:
+> Patch 7.1: removed (RSS and hash report definitions)
+> Patch 7.2: delete configuration struct with RSS definitions
+> Patch 7.4: delete duplicated packet structure
+> Added patch 7 - adapt RSC definitions to updated header
+>
+> Yuri Benditovich (7):
+>    virtio-net: implement RSS configuration command
+>    virtio-net: implement RX RSS processing
+>    tap: allow extended virtio header with hash info
+>    virtio-net: reference implementation of hash report
+>    vmstate.h: provide VMSTATE_VARRAY_UINT16_ALLOC macro
+>    virtio-net: add migration support for RSS and hash report
+>    virtio-net: align RSC fields with updated virtio-net header
+>
+>   hw/net/trace-events            |   3 +
+>   hw/net/virtio-net.c            | 387 +++++++++++++++++++++++++++++----
+>   include/hw/virtio/virtio-net.h |  16 ++
+>   include/migration/vmstate.h    |  10 +
+>   net/tap.c                      |   3 +-
+>   5 files changed, 379 insertions(+), 40 deletions(-)
+>
 
-On Mon, May 11, 2020 at 05:02:02PM -0300, Leonardo Bras wrote:
-> From: Leonardo Bras <leonardo@linux.ibm.com>
->=20
-> On reboot, all memory that was previously added using object_add and
-> device_add is placed in this DIMM area.
->=20
-> The new SPAPR_LMB_FLAGS_HOTREMOVABLE flag helps Linux to put this memory =
-in
-> the correct memory zone, so no unmovable allocations are made there,
-> allowing the object to be easily hot-removed by device_del and
-> object_del.
->=20
-> This new flag was accepted in Power Architecture documentation.
->=20
-> Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
-> Reviewed-by: Bharata B Rao <bharata@linux.ibm.com>
+Applied.
 
-Applied to ppc-for-5.1, thanks.
+Thanks
 
->=20
-> ---
-> Changes since v1:
-> - Flag name changed from SPAPR_LMB_FLAGS_HOTPLUGGED to
-> 	SPAPR_LMB_FLAGS_HOTREMOVABLE
-> ---
->  hw/ppc/spapr.c         | 3 ++-
->  include/hw/ppc/spapr.h | 1 +
->  2 files changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 9a2bd501aa..fe662e297e 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -446,7 +446,8 @@ static int spapr_dt_dynamic_memory_v2(SpaprMachineSta=
-te *spapr, void *fdt,
->          g_assert(drc);
->          elem =3D spapr_get_drconf_cell(size / lmb_size, addr,
->                                       spapr_drc_index(drc), node,
-> -                                     SPAPR_LMB_FLAGS_ASSIGNED);
-> +                                     (SPAPR_LMB_FLAGS_ASSIGNED |
-> +                                      SPAPR_LMB_FLAGS_HOTREMOVABLE);
->          QSIMPLEQ_INSERT_TAIL(&drconf_queue, elem, entry);
->          nr_entries++;
->          cur_addr =3D addr + size;
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 42d64a0368..93e0d43051 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -880,6 +880,7 @@ int spapr_rtc_import_offset(SpaprRtcState *rtc, int64=
-_t legacy_offset);
->  #define SPAPR_LMB_FLAGS_ASSIGNED 0x00000008
->  #define SPAPR_LMB_FLAGS_DRC_INVALID 0x00000020
->  #define SPAPR_LMB_FLAGS_RESERVED 0x00000080
-> +#define SPAPR_LMB_FLAGS_HOTREMOVABLE 0x00000100
-> =20
->  void spapr_do_system_reset_on_cpu(CPUState *cs, run_on_cpu_data arg);
-> =20
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---ahZICQ7iXVM/oLYH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl66GtMACgkQbDjKyiDZ
-s5I4iRAAgHcx0V1joEa5DMeI5VLxLX8fw+D/xTQEV6PNEn5U1jpF6EqcPD2OVCh3
-61I4+MVHquzSADAPk+sB2Eik/4u2P7b35H0xSe0KbI6znvFYsm9pwlYijZn6U3qF
-Gp86Xg55OdeMrGBGUP9ejmhHRHkooypx2c6sN+9TRyoYea3Vp3gipdvHSoVSzm4P
-gUxTKH18zNLGSxMXYEynMWWi2xunsscRcxPcYH7H0fpjRBFVt6R3E1Dsdyq4GAiu
-0KL68tEiNnnfOz66UeYgJfNFQ6eELKdBb6bzJHDdukXO+urpFc08V5KKE7Xa1U0h
-GhfArBWwxVUuGEodBSguo3F7kQVKtT81cJXieB/mdNXL+Ypem1exZncHgyMYjXZ6
-fGqVUWoWJM/8EklF4IYdwjOnBMkwxIOydAYwdQ02agzLxxbJbxwbVqpNGcwZo6hb
-nfjzGsPdYHJzdf4HQ80j5U5SufsrYMJccbB/p1A8jByCGxVYAlgHF7JDGUmtcjOU
-97ksIS+2uhdMuAC/Qrs6j/uZdthuIjzm0qFmPHkko8oayH+pW0aoqxKBAyLcO5KR
-I79S8PGz/+m6XVCM7u47RuwWdH1GP0APtZQvDbPR6q5+VYJ6HwUXb/DiV2dgEic6
-0t7fgZBa3BcSwY36hw20b3ppBO4PgbXjJK3N12bhmwFoH4UQEMw=
-=U4bp
------END PGP SIGNATURE-----
-
---ahZICQ7iXVM/oLYH--
 
