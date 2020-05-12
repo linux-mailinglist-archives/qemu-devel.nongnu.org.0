@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381221CED59
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 08:54:49 +0200 (CEST)
-Received: from localhost ([::1]:60864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DB331CED64
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 08:56:00 +0200 (CEST)
+Received: from localhost ([::1]:40462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYOoS-0005BP-7W
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 02:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52148)
+	id 1jYOpb-00007N-Gv
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 02:55:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
- id 1jYOms-0002Uj-I6
- for qemu-devel@nongnu.org; Tue, 12 May 2020 02:53:10 -0400
-Received: from m12-15.163.com ([220.181.12.15]:54388)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
- id 1jYOmo-0003hn-Ea
- for qemu-devel@nongnu.org; Tue, 12 May 2020 02:53:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=0Plmu
- mm+zQXK5AMhdQ7eYLBwbMpoEI5NJg1tCPeU1u4=; b=MCqTB01le/7sy+DhxBo7r
- /+LdnsjxPjEbP5rye6p4noDmLW3R/IivzNPdtUOIN08TggiIuL6TQtW6PMKzviRk
- KofPLAiJfkYi4mrtvR0FiriIbgFvrfwejrjPz9q7cxUyQowIvQhwoZVX2niLct9B
- Ik0rO+hdbf6IhPmzde/LbU=
-Received: from [10.11.32.40] (unknown [39.155.168.46])
- by smtp11 (Coremail) with SMTP id D8CowABXdkakR7peQKiqCA--.7543S2;
- Tue, 12 May 2020 14:52:20 +0800 (CST)
-Subject: Re: [PATCH v3 1/3] qemu-sockets: add abstract UNIX domain socket
- support
-To: Eric Blake <eblake@redhat.com>, berrange@redhat.com,
- marcandre.lureau@redhat.com, kwolf@redhat.com, armbru@redhat.com
-References: <20200510061422.24841-1-zxq_yx_007@163.com>
- <20200510061422.24841-2-zxq_yx_007@163.com>
- <0ead3ac4-efa3-b773-f5c3-7aa055e2af18@redhat.com>
-From: "xiaoqiang.zhao" <zxq_yx_007@163.com>
-Message-ID: <d9600083-303f-2e55-a0f0-86548774d55b@163.com>
-Date: Tue, 12 May 2020 14:52:20 +0800
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jYOn8-00031M-79
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 02:53:26 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jYOn7-0003pv-Hu
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 02:53:25 -0400
+Received: by mail-wr1-x444.google.com with SMTP id x17so13924845wrt.5
+ for <qemu-devel@nongnu.org>; Mon, 11 May 2020 23:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YUo5UMKHn6UCDXPR56CEsu5aymqY785YMnVFWOsKL5M=;
+ b=YBHzbIv1lbmZVqgvd/JgrnbcLnnzZ8YePyX5PepalFAYw1b+PC4jUVzyE1d9+hCMlm
+ TfKqeMluL576R/zl4AQC7OAhZr7F5yT75i47YbEUz4po3/70QOU0dCTR7SyZ4IlVN56f
+ aPvzZKC5qkCbVjhzclEcC2xJAkfXBd0CTxDEUVXcJCRq3aJgxy0Gyw6vcEtipzkaBq84
+ tDxULgdZVeJQF/kecDHW2Ge+2F10OL8fO5yAfOacNTF1j5AR4c6snU7zeg2iHGqu4hZv
+ bnP4yskyi8/CztfLxLPvfkPZGXpcwPf8Fca9T8DZIabOFQBEbGo7/TZjTZhC2Jm9IzvX
+ 51RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YUo5UMKHn6UCDXPR56CEsu5aymqY785YMnVFWOsKL5M=;
+ b=hHmU3QE4p8HFKoUgfp0Q17TWXn60ffzDOPbDhafflK6Ij9zqGDVn9EK1EVrbzqBxA/
+ hQUmsiceaJYnlRNhNvPYQAODra6VoNSuKLJNhjZXM4zvBXG3hmQy8cNaaZr0Mj5vp7q7
+ xy3Elawa/QkKxVAVzGC3HrBUimfLRlAT01mfNRJ3pnMYEinoC4gAMoFolaftQWt6Rz+u
+ cXaRspvYrnB5LlpYW/fx4/3HHpDCz03Hi23lBcbIzTSxbFlgOtkUlbryM0BJbsW+dUf1
+ 1AntAr4aS2VPFcBSG61T1pBKEOsMbx2IHLAxBgidW69tI7nzZSsZ+adoC+d9734jVJYo
+ 5i7g==
+X-Gm-Message-State: AGi0PuaHXsFE1vKbT0lUQRjn4XrR2m7bulmHr0KYCFLBgd8l+PA8x6I7
+ vX5gVEOncFvqm0OdoC28O6k=
+X-Google-Smtp-Source: APiQypLSSQt5KymKCK9Y2mXCwRM2zJx6EO/hARY14NdHvUQpwH8y/k/M7hVIbI/z46MrciTRLridmQ==
+X-Received: by 2002:a5d:65ce:: with SMTP id e14mr22986097wrw.314.1589266403357; 
+ Mon, 11 May 2020 23:53:23 -0700 (PDT)
+Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id a8sm21479068wrg.85.2020.05.11.23.53.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 May 2020 23:53:22 -0700 (PDT)
+Subject: Re: [PATCH] hw/char/parallel: Convert reset handler to DeviceReset
+To: qemu-devel@nongnu.org
+References: <20200504095623.7252-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <23cdfab9-2cbc-6c43-033b-21a23990131d@amsat.org>
+Date: Tue, 12 May 2020 08:53:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <0ead3ac4-efa3-b773-f5c3-7aa055e2af18@redhat.com>
+In-Reply-To: <20200504095623.7252-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-CM-TRANSID: D8CowABXdkakR7peQKiqCA--.7543S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJF18WrW3KF47Wr1xZrWrXwb_yoW8XF4Up3
- s8KayUK3Z5A3y8Wrs8ua15Jryrtan0q3Wjq3s5J3s0ka9093WSkFW2ka4FqF18Gr1fW3y7
- AFZ09rWSvF1qy37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jheOJUUUUU=
-X-Originating-IP: [39.155.168.46]
-X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/1tbiqAQixlc7PH4i-AAAs4
-Received-SPF: pass client-ip=220.181.12.15; envelope-from=zxq_yx_007@163.com;
- helo=m12-15.163.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:52:48
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,52 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, kraxel@redhat.com,
- pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2020/5/12 上午2:01, Eric Blake 写道:
-> On 5/10/20 1:14 AM, xiaoqiang zhao wrote:
->> unix_listen/connect_saddr now support abstract address types
->>
->> two aditional BOOL switches are introduced:
->> tight: whether to set @addrlen to the minimal string length,
->>         or the maximum sun_path length. default is TRUE
->> abstract: whether we use abstract address. default is FALSE
->>
->> cli example:
->> -monitor unix:/tmp/unix.socket,abstract,tight=off
->> OR
->> -chardev socket,path=/tmp/unix.socket,id=unix1,abstract,tight=on
->>
->> Signed-off-by: xiaoqiang zhao <zxq_yx_007@163.com>
->> ---
->
->> +++ b/qapi/sockets.json
->> @@ -73,12 +73,19 @@
->>   # Captures a socket address in the local ("Unix socket") namespace.
->>   #
->>   # @path: filesystem path to use
->> +# @tight: pass a socket address length that does not include the whole
->> +#         struct sockaddr_un record but (besides other components) only
->> +#         the relevant part of the filename or abstract string.
->> +#         default value is 'true'
->
-> Perhaps:
->
-> pass a socket address length confined to the minimum length of the 
-> abstract string, rather than the full sockaddr_un record length (only 
-> matters for abstract sockets, default true)
->
-Sounds better
->> +# @abstract: whether this is a abstract address, default is 'false'
->
-> Both new fields should have a '(since 5.1)' tag, to make it obvious 
-> that they did not exist in earlier releases with the rest of the struct.
->
-> s/a abstract/an abstract/
->
-Will fix in the next version,  thanks Eric.
+ping?
 
+On 5/4/20 11:56 AM, Philippe Mathieu-Daudé wrote:
+> As TYPE_ISA_PARALLEL inherits from TYPE_ISA_DEVICE, it also
+> inherits from the DEVICE methods. Convert its reset handler
+> into a proper DeviceReset method.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   hw/char/parallel.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/char/parallel.c b/hw/char/parallel.c
+> index 8dd67d1375..f68a96da8e 100644
+> --- a/hw/char/parallel.c
+> +++ b/hw/char/parallel.c
+> @@ -523,6 +523,13 @@ static int parallel_can_receive(void *opaque)
+>        return 1;
+>   }
+>   
+> +static void parallel_isa_reset(DeviceState *dev)
+> +{
+> +    ISAParallelState *isa = ISA_PARALLEL(dev);
+> +
+> +    parallel_reset(&isa->state);
+> +}
+> +
+>   static void parallel_isa_realizefn(DeviceState *dev, Error **errp)
+>   {
+>       static int index;
+> @@ -552,7 +559,6 @@ static void parallel_isa_realizefn(DeviceState *dev, Error **errp)
+>   
+>       base = isa->iobase;
+>       isa_init_irq(isadev, &s->irq, isa->isairq);
+> -    qemu_register_reset(parallel_reset, s);
+>   
+>       qemu_chr_fe_set_handlers(&s->chr, parallel_can_receive, NULL,
+>                                NULL, NULL, s, NULL, true);
+> @@ -625,6 +631,7 @@ static void parallel_isa_class_initfn(ObjectClass *klass, void *data)
+>   {
+>       DeviceClass *dc = DEVICE_CLASS(klass);
+>   
+> +    dc->reset = parallel_isa_reset;
+>       dc->realize = parallel_isa_realizefn;
+>       dc->vmsd = &vmstate_parallel_isa;
+>       device_class_set_props(dc, parallel_isa_properties);
+> 
 
