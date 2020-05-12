@@ -2,70 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE8E1CF545
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 15:10:27 +0200 (CEST)
-Received: from localhost ([::1]:40820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A23A1CF58F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 15:21:09 +0200 (CEST)
+Received: from localhost ([::1]:49460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYUfx-0003Pz-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 09:10:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45426)
+	id 1jYUqI-0000pC-Bs
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 09:21:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYUf8-0002lY-Rr
- for qemu-devel@nongnu.org; Tue, 12 May 2020 09:09:34 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37188)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYUf7-0008G2-K5
- for qemu-devel@nongnu.org; Tue, 12 May 2020 09:09:34 -0400
-Received: by mail-oi1-x243.google.com with SMTP id r25so18136601oij.4
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 06:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f9iUBhOSWgX5zMT0b6oC2hdjDcRTZ/rPVwX9iqas2w0=;
- b=fdbHzyIJPVDqqG7GRv6n5Vn0MAzX4lJv/bIWcQM5pT+o2GKKd88lNsiIQwTxT1hUrK
- 08kQKuFve/zbcNh6xOG8u+sKxBRUxmKAoH7ZbpNShpyRZhYEBUNG3XTJ7FoSaWFCuTmK
- g49dCxiDe1MjTPQ7/NIKGy3wQwwWfmW/nKP6HABQSTgndOn9UvCJ7QbSOtwZNZ+U+noZ
- MvQdeyvWdjcDjhGZ02avsEtWZ91HPQEAPtVQFvQ19eprkfVHBbgJLXgm4vb+ck/DfpKT
- 5lu2qy1YLSCAbm44dnaesZl12MpgfQJ89XNXYw4avABP6BwYB22SiErGFxW/bXpp7aej
- EeJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f9iUBhOSWgX5zMT0b6oC2hdjDcRTZ/rPVwX9iqas2w0=;
- b=AtJabYGCGuCyXjk0djT6w/gu2PwgHG1Bp83xURb7jZ9oLJJiyDzG+pnSZF3Qv5eHcX
- WKmfuUIMpXMzOzmF2Ac2NQn+QLcJFUpGhvBhnQT9sdU52dfOQO2cSvGGTwaJio0KbOZp
- t5wzAFm7oWXH0mPo/35yK+HM35JnS7ALS4tx5QocZ35ircT7189UP5ZjDlrM6kQPSBSG
- rTIhnBrSHABSwNTxE4KD8eXFI8s3IVKWsp7W041KLvIMY9Yk6i/5Zfl00AC5MmZd0Fxw
- MsdVVmHjmNr5XPjYtWrnvWLrdh4OqN/bELTCd1rJCYUvzmQo408sY6pxv+2Jmyx7tP8s
- osQg==
-X-Gm-Message-State: AGi0Pub59DRj/1Hy8NYjQI3xN+JhrF0Mo166lPv4SnpBI4B5XCB8aAmE
- w9u35gfIumX0spoC6YGGuI5Qthso6svl8UhdlKmPLA==
-X-Google-Smtp-Source: APiQypJte6ReRVrO3rZkfJUrURGEew7APjJjx+KWojR8nbPxLyy16yyJzOSuTTEZ5OewwUseZfqV+Ox3p/MB7jCUMMA=
-X-Received: by 2002:a54:400c:: with SMTP id x12mr22432368oie.146.1589288971204; 
- Tue, 12 May 2020 06:09:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jYUnr-0007T1-IF; Tue, 12 May 2020 09:18:35 -0400
+Received: from mail-mw2nam10on2064.outbound.protection.outlook.com
+ ([40.107.94.64]:6145 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1jYUnp-0001zC-Sb; Tue, 12 May 2020 09:18:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZXtmw2Ai4+YF8rY62GeRQUq/mPfgHX8ccTP73m5C+mSFOS0aH7gStR33T2fQIgVh5fREHSmIyxosCqcZVsIHm4BspjyEASp/TqcKC+j3IbfaJnpqBFA83dgN5ug2T+OO/EhXfRDDvUAn5Y9gvon4S+gk+6WB3RQbPiL/JzGgp8arn2SWNGYiP7ARufNI+64E082sEC13NsUnkFYLuCQulb8CestyyacJghuA7oWL3fL5EJ50HcgpWI50NMqhF7uUJA/21lmWSLPsEEnb5Tw5ZEtk1Gzt34XJcyzahtKW0Rz/g82n7pCTTmKYCxqRYLRaJWBBtX4YR2tWtR/iBOslEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CXNdFxGW0sTf0/7o7k+pawDvfv7e8b/Pzl6aIVb+bJc=;
+ b=Zj8ih787s49o2VCsaLxtq2rs3IYbG15IzuROGVYgBv7vQS533fJAnHIuZKdnENbafwfZ5Kg7MDBOArMHGnHA0U4bLwe8vXd0s50X6N+5tvqsb5W4y4OdHouQbktvKEdPstW+VXk7V0XXbaCdVOHp9hqNwkUN6MAJBsyNBHhIXLwn8ZAEo7+B4xrRr6kuqpXJPGGv+/9jfFzCDM20cwiOL4ZLSj8lMZj5lcAQtxt3A/trz0piXgNnW4/0QVGz/4f4ouaDU2aUS69aon9ooJ2O0eGiMMbHy5/d7x7aVScx8b3u+XC1JZ2RAc8DT1qnT7oHkOcryCRS66ttJX0EU9WO5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=wdc.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CXNdFxGW0sTf0/7o7k+pawDvfv7e8b/Pzl6aIVb+bJc=;
+ b=ciRM6XNtJ/5bFtUte8Abm8gziEWU7GBFOwMzmf3YnFQobtuqhDCGaqiEejNxanBTuBMfLxhbeOQBMMkewvEgVlhmwTekv11F+oCu58fEKnQo0/ne8cuJjc2OC29Mx6D4yi38lxtXVcUzB2mpZlEAICUR9IRxhzCyfEOfruyLR68=
+Received: from CY4PR02CA0040.namprd02.prod.outlook.com (2603:10b6:903:117::26)
+ by DM6PR02MB4332.namprd02.prod.outlook.com (2603:10b6:5:23::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.33; Tue, 12 May
+ 2020 13:18:29 +0000
+Received: from CY1NAM02FT003.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:117:cafe::2e) by CY4PR02CA0040.outlook.office365.com
+ (2603:10b6:903:117::26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20 via Frontend
+ Transport; Tue, 12 May 2020 13:18:29 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; wdc.com; dkim=none (message not signed)
+ header.d=none;wdc.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT003.mail.protection.outlook.com (10.152.74.151) with Microsoft SMTP
+ Server id 15.20.2979.29 via Frontend Transport; Tue, 12 May 2020 13:18:28
+ +0000
+Received: from [149.199.38.66] (port=47602 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jYUnU-0002QD-6K; Tue, 12 May 2020 06:18:12 -0700
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1jYUnk-0005Ya-DM; Tue, 12 May 2020 06:18:28 -0700
+Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04CDIR8q016830; 
+ Tue, 12 May 2020 06:18:27 -0700
+Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <saipava@xhdsaipava40.xilinx.com>)
+ id 1jYUnj-0005Y5-4z; Tue, 12 May 2020 06:18:27 -0700
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id BF24913C0168; Tue, 12 May 2020 18:40:23 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Tong Ho <tong.ho@xilinx.com>, Ramon Fried <rfried.dev@gmail.com>
+Subject: [PATCH v4 00/12] Cadence GEM Fixes
+Date: Tue, 12 May 2020 18:39:55 +0530
+Message-Id: <1589289007-23629-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(39860400002)(376002)(346002)(396003)(136003)(46966005)(33430700001)(110136005)(8676002)(26005)(6266002)(478600001)(42186006)(316002)(4326008)(426003)(186003)(2616005)(82310400002)(8936002)(81166007)(36756003)(47076004)(356005)(70586007)(2906002)(33440700001)(5660300002)(70206006)(82740400003)(336012)(6666004);
+ DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
-References: <20200508152200.6547-1-richard.henderson@linaro.org>
- <20200508152200.6547-3-richard.henderson@linaro.org>
-In-Reply-To: <20200508152200.6547-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 May 2020 14:09:20 +0100
-Message-ID: <CAFEAcA9q6ZJqEzgfSTgLiFp0a708yhGjrEGArqhCKUQDVp8XLg@mail.gmail.com>
-Subject: Re: [PATCH v3 02/16] target/arm: Create gen_gvec_{u,s}{rshr,rsra}
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1ddb9a21-04cd-4e63-b64c-08d7f676f5d7
+X-MS-TrafficTypeDiagnostic: DM6PR02MB4332:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB4332580DA4E19B0D7F55C803CABE0@DM6PR02MB4332.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wMb0MyNloREmBeDEXYCWOtDDfhSQ+N1MnwDISp34xtpvSn2MIEbe7Dmt/YgTqRJoVvANqiJor8aroMGT/mMqZT4+jRR1F9P4UilFX+5D3KKmh3CbLectkozbwszvVpUsarhCtMKD6qYlZbwhHajqWC2QQvgCkuy/why+KHU1m1PYrR1yNm9zVXJokAD/mP/R08GjdX8SsIW5x6OX7Fs5FVRiKZxrYQp3P0MMrTWJRBBiCIOh3ksXr9uDYMu6EbqkJPo/cE910fK1QuAUpGXAYl82fye64DSzTRXSnyDs8CQ4m6EAM1Xy0r83oy20UsgklhV54+WJdHGx1WpiGf8Ldta0+WjLOx5Q+913bI9CyZRvbGvSWsxop0AYVo8wqAMiBQH4hnsvQ+UfyP4IlR1S0MPxqtKnXO6N4ijxKyJuiJrBVp8J9eagq37FcJWqzA5veg3/dFFFQEplv2tY6LDbCKtensyCr1Aa88n+/3uovf8RXCdLeh0FxkvDt+LhbG1Txmol2PXrdI3+PMNWeWqaBd7qWYcp3m3KCO7stcLLDZuMgiPPRwJcsGylXxnmAQjO1CZONvHZecpVB7xiq1sj2g==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 13:18:28.7203 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ddb9a21-04cd-4e63-b64c-08d7f676f5d7
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4332
+Received-SPF: pass client-ip=40.107.94.64; envelope-from=saipava@xilinx.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 09:18:31
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,141 +136,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 May 2020 at 16:22, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Create vectorized versions of handle_shri_with_rndacc
-> for shift+round and shift+round+accumulate.  Add out-of-line
-> helpers in preparation for longer vector lengths from SVE.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.h        |  20 ++
->  target/arm/translate.h     |   9 +
->  target/arm/translate-a64.c |  11 +-
->  target/arm/translate.c     | 461 +++++++++++++++++++++++++++++++++++--
->  target/arm/vec_helper.c    |  50 ++++
->  5 files changed, 525 insertions(+), 26 deletions(-)
+Hi,
 
+Following patch series fixes issues with priority queues,
+Adds JUMBO Frame support,
+Makes Debug statements compilable &
+Fixes related to multicast frames.
 
+Changes for V2:
+	Fixed build failure on fedora docker machine
+	Fix buggy debug print to use sized integer casting
+Changes for V3:
+	1/10: Fixed debug statments to use %u and %zd
+	      Remove rxoffset for buffer address
+	2/10: Add inline functions to get tx/rx queue base address.
+	4/10: fix read only mask
+	5/10: Move packet buffers to CadenceGEMState
+	6/10: Add JUMBO MAX LEN register
+Changes for V4:
+	7/11: Fix up the existing code style in register defines
+	8/11: jumbo-max-len property sets the default value of jumbo frame
+	      Add frame lenght checks for tx and rx
 
-> +void gen_gvec_srshr(unsigned vece, uint32_t rd_ofs, uint32_t rm_ofs,
-> +                    int64_t shift, uint32_t opr_sz, uint32_t max_sz)
-> +{
-> +    static const TCGOpcode vecop_list[] = {
-> +        INDEX_op_shri_vec, INDEX_op_sari_vec, INDEX_op_add_vec, 0
-> +    };
-> +    static const GVecGen2i ops[4] = {
-> +        { .fni8 = gen_srshr8_i64,
-> +          .fniv = gen_srshr_vec,
-> +          .fno = gen_helper_gvec_srshr_b,
-> +          .opt_opc = vecop_list,
-> +          .vece = MO_8 },
-> +        { .fni8 = gen_srshr16_i64,
-> +          .fniv = gen_srshr_vec,
-> +          .fno = gen_helper_gvec_srshr_h,
-> +          .opt_opc = vecop_list,
-> +          .vece = MO_16 },
-> +        { .fni4 = gen_srshr32_i32,
-> +          .fniv = gen_srshr_vec,
-> +          .fno = gen_helper_gvec_srshr_s,
-> +          .opt_opc = vecop_list,
-> +          .vece = MO_32 },
-> +        { .fni8 = gen_srshr64_i64,
-> +          .fniv = gen_srshr_vec,
-> +          .fno = gen_helper_gvec_srshr_d,
-> +          .prefer_i64 = TCG_TARGET_REG_BITS == 64,
-> +          .opt_opc = vecop_list,
-> +          .vece = MO_64 },
-> +    };
-> +
-> +    /* tszimm encoding produces immediates in the range [1..esize] */
-> +    tcg_debug_assert(shift > 0);
+Sai Pavan Boddu (11):
+  net: cadence_gem: Fix debug statements
+  net: cadence_gem: Fix the queue address update during wrap around
+  net: cadence_gem: Fix irq update w.r.t queue
+  net: cadence_gem: Define access permission for interrupt registers
+  net: cadence_gem: Set ISR according to queue in use
+  net: cadence_gem: Move tx/rx packet buffert to CadenceGEMState
+  net: cadence_gem: Fix up code style
+  net: cadence_gem: Add support for jumbo frames
+  net: cadnece_gem: Update irq_read_clear field of designcfg_debug1 reg
+  net: cadence_gem: Update the reset value for interrupt mask register
+  net: cadence_gem: TX_LAST bit should be set by guest
 
-This assert can be triggered:
+Tong Ho (1):
+  net: cadence_gem: Fix RX address filtering
 
-#4  0x00000000004ee086 in gen_gvec_ursra (vece=3, rd_ofs=3112,
-rm_ofs=3296, shift=-6, opr_sz=8,
-    max_sz=8) at
-/home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:4413
-#5  0x00000000004f17ad in disas_neon_data_insn (s=0x7fffffffe000,
-insn=4089066426)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:5702
-#6  0x0000000000510dfa in disas_arm_insn (s=0x7fffffffe000, insn=4089066426)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:10803
-#7  0x0000000000511b6b in arm_tr_translate_insn
-(dcbase=0x7fffffffe000, cpu=0xd04ea0)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:11277
-#8  0x000000000045a833 in translator_loop (ops=0xc2ad40
-<arm_translator_ops>, db=0x7fffffffe000,
-    cpu=0xd04ea0, tb=0x7fffe80e3540 <code_gen_buffer+931091>, max_insns=512)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/accel/tcg/translator.c:102
-#9  0x0000000000512303 in gen_intermediate_code (cpu=0xd04ea0,
-    tb=0x7fffe80e3540 <code_gen_buffer+931091>, max_insns=512)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/target/arm/translate.c:11568
-#10 0x0000000000458c01 in tb_gen_code (cpu=0xd04ea0, pc=4268188000,
-cs_base=0, flags=1196032,
-    cflags=-16777216) at
-/home/petmay01/linaro/qemu-from-laptop/qemu/accel/tcg/translate-all.c:1718
-#11 0x0000000000455f73 in tb_find (cpu=0xd04ea0, last_tb=0x0,
-tb_exit=0, cf_mask=0)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/accel/tcg/cpu-exec.c:407
-#12 0x00000000004566d3 in cpu_exec (cpu=0xd04ea0)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/accel/tcg/cpu-exec.c:731
-#13 0x000000000049a380 in cpu_loop (env=0xd0d180)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/linux-user/arm/cpu_loop.c:219
-#14 0x0000000000465637 in main (argc=5, argv=0x7fffffffeb28,
-envp=0x7fffffffeb58)
-    at /home/petmay01/linaro/qemu-from-laptop/qemu/linux-user/main.c:872
+ hw/net/cadence_gem.c         | 453 ++++++++++++++++++++++++-------------------
+ include/hw/net/cadence_gem.h |   6 +
+ 2 files changed, 260 insertions(+), 199 deletions(-)
 
-> +    tcg_debug_assert(shift <= (8 << vece));
-> +
-> +    if (shift == (8 << vece)) {
-> +        /*
-> +         * Shifts larger than the element size are architecturally valid.
-> +         * Signed results in all sign bits.  With rounding, this produces
-> +         *   (-1 + 1) >> 1 == 0, or (0 + 1) >> 1 == 0.
-> +         * I.e. always zero.
-> +         */
-> +        tcg_gen_gvec_dup_imm(vece, rd_ofs, opr_sz, max_sz, 0);
-> +    } else {
-> +        tcg_gen_gvec_2i(rd_ofs, rm_ofs, opr_sz, max_sz, shift, &ops[vece]);
-> +    }
-> +}
+-- 
+2.7.4
 
-
-> @@ -5269,6 +5685,28 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
->                      }
->                      return 0;
->
-> +                case 2: /* VRSHR */
-> +                    /* Right shift comes here negative.  */
-> +                    shift = -shift;
-> +                    if (u) {
-> +                        gen_gvec_urshr(size, rd_ofs, rm_ofs, shift,
-> +                                       vec_size, vec_size);
-> +                    } else {
-> +                        gen_gvec_srshr(size, rd_ofs, rm_ofs, shift,
-> +                                       vec_size, vec_size);
-> +                    }
-> +                    return 0;
-> +
-> +                case 3: /* VRSRA */
-> +                    if (u) {
-> +                        gen_gvec_ursra(size, rd_ofs, rm_ofs, shift,
-> +                                       vec_size, vec_size);
-> +                    } else {
-> +                        gen_gvec_srsra(size, rd_ofs, rm_ofs, shift,
-> +                                       vec_size, vec_size);
-> +                    }
-> +                    return 0;
-
-I think the VRSRA case needs the same "shift = -shift" as VRSHR.
-
-thanks
--- PMM
 
