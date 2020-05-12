@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D2B1CF63D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 15:55:37 +0200 (CEST)
-Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9191CF646
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 15:57:09 +0200 (CEST)
+Received: from localhost ([::1]:60538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYVNg-0000UL-Es
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 09:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51274)
+	id 1jYVPA-0002lk-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 09:57:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYVMK-0007TM-3t
- for qemu-devel@nongnu.org; Tue, 12 May 2020 09:54:12 -0400
-Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:40776)
+ id 1jYVOI-000229-E6
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 09:56:14 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYVMJ-0005rM-BX
- for qemu-devel@nongnu.org; Tue, 12 May 2020 09:54:11 -0400
-Received: by mail-oo1-xc43.google.com with SMTP id r1so2719165oog.7
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 06:54:10 -0700 (PDT)
+ id 1jYVOH-0006By-MY
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 09:56:14 -0400
+Received: by mail-ot1-x341.google.com with SMTP id a68so2030894otb.10
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 06:56:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ui3PJ6FVNtODBG0tqhc0V/U8Dj5w00XU9KyvsbFnbP8=;
- b=M5HPlZBOLuU3TcaJrWw79tWmf9EroBzEdHPLPzSarBqLi9VQpirZdGFC71P/eP3oaW
- CNtwZ9e9VC3WpbhqWB43aNSbHn69LYu3VsyV3iPh377vh7Uc3m0hgF2CAnbYSEsK1rEg
- l5j4b/iLddVqFn2Yq/85enanmIQfk8Pc9gVQVYNKML9e41zllqC4jeItsKN1lCmxpMBd
- pNx0OG8yuS/GNZNaI/TMnNyb7k3Q1FJ0IpV/IiSxjD7VFi9fW4xgwBepsAv/VkpOXAQD
- ouIU1W2SvG/vIoN7inh/Zep6NXwDm/bwOJ12gjuTEieqDtX2IDxMIw4MzuUs+L43W16A
- v/Nw==
+ :cc; bh=RfalNbvMq8wOSnIr4yvFrtBszh8MUQgiZbNl4UOHkts=;
+ b=mpfdlUaljVfsxm35WjdDLEtlK+uUpczztxj59dwepgVTJZOfKA0cM0gYSlZZg9bK3L
+ YKv1VzOi17E8yRGAQ2ir+FVIDWsQPx8QByZVBVEfQQ9EbcaHk8SBN/d7fanLaUvwasGB
+ wW5xQb/eP9Hr+FY+g3gWquUc0wo9NeL1DEn1OVg7UEykKsnKwgHyon+qULTeIOr/oqoJ
+ zqrAhpwUU/Z/GrwT2iXsfeGiuR3dg+myv3JzIzR9KVdZJc+jZcVqm8D9qtlvC0j7Sn04
+ 3mDOHzLDS0Yjr6BiQVoG7cAf4GUeJuTGImfEZ6EZdW+6AN/LHdrE5pcXT6Wyxrdq+jYt
+ CnLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ui3PJ6FVNtODBG0tqhc0V/U8Dj5w00XU9KyvsbFnbP8=;
- b=oCgZkQihjAANmzw9tpHF0sjb1XWuOMOa9bTscLWLW65biyWoWTmo9GFgack4VXhoRW
- nqqGiE6Q0PrbbbqYUZFdgkBlIonbWwBcbULIPAJwoK+FhRN+WsDvcN1htQn9DNJYyI5O
- Jw0A0cJLlaMkyWDmcPgcb3XAMskItr8a2Y9lKcwvRviOzViDczoAZslqV80PQ0w9/384
- oyLNa7RmVPJacJkUYXoeKV55YhczBISib95FvozSolXwos45ySVKRDZm1LqrZ63BBM6L
- G0GxA9FUmQuwpAG+D4tAMS3HamEDXhLQkbjEJAQzCzKB2qNxV/1mg7uHuyKe5oP7rcKV
- X52w==
-X-Gm-Message-State: AGi0PuYkYSU6AWwKrCF8ff+D+zc5EgOwnwtgDmUCDIXhUcQcT7g3HiGL
- Z64vfA+V2XZQ/j2le3LkDGnOOjD5r4y2tcbfZSab4qrk+gQ=
-X-Google-Smtp-Source: APiQypKfrtlI2MK9TDUCpQxj7id8/5GK3Gb2bz+dG9fy3tRUupGGQmZmsDT6DOqM9WwrrhFTHS9tRCAlhP5yRcrSivQ=
-X-Received: by 2002:a4a:3556:: with SMTP id w22mr12230137oog.20.1589291650188; 
- Tue, 12 May 2020 06:54:10 -0700 (PDT)
+ bh=RfalNbvMq8wOSnIr4yvFrtBszh8MUQgiZbNl4UOHkts=;
+ b=FKMHBOSt3s3uxUyKZASKZnnHy9SVUPcrx5rWU6GMw92e0qfWkFvyac6ZiDdci2T7QT
+ uvdThqU3zSMWNEDsJaISW3ho5dfDb7Xool7AqqOjTRFMgqWCtGO9fUpIX8EpHDTWpPvE
+ hxiMUx/q97uB9dNkLTnYHaTjL1Jhu5Fo4uwgQWFXHpJoZtETpcpDMFdhqG1ao1Uh8kjY
+ rr75GhFTbsbVI4h4GRmri6aZnwAwc0z1b58XG37D05snv89TmBmBk/vpc3l/mfj3zx5m
+ C/6PgkxVzws4j1vtUmXBwYljjsm5StYcrW+NCHPdOJNBuVsB8bHueaJoj7L8aHmf49Ft
+ Axvw==
+X-Gm-Message-State: AGi0PuaFWai+aCvi7PaJN1/xjKxkKTXCdbZ/dUvzBTA+sxjojmGXgOMA
+ ubvGCebJApj3FJaZuCqrz4KLvYu2bIPg9FMAh0p4qg==
+X-Google-Smtp-Source: APiQypI/kF/yds36gp9ZcU00LKibJWat0FIL+rx/2MgockR3jkDdXvOkHhJ2Q8h+FNzqGaxhmveH83g9DRz5Fu5bQ+w=
+X-Received: by 2002:a05:6830:1e4e:: with SMTP id
+ e14mr16526749otj.91.1589291772410; 
+ Tue, 12 May 2020 06:56:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200508152200.6547-1-richard.henderson@linaro.org>
- <20200508152200.6547-5-richard.henderson@linaro.org>
-In-Reply-To: <20200508152200.6547-5-richard.henderson@linaro.org>
+ <20200508152200.6547-6-richard.henderson@linaro.org>
+In-Reply-To: <20200508152200.6547-6-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 May 2020 14:53:58 +0100
-Message-ID: <CAFEAcA8C-mROvWCp6KwUGUPFz7pGkZX8Q3LFx7+ESxqterBe8g@mail.gmail.com>
-Subject: Re: [PATCH v3 04/16] target/arm: Remove unnecessary range check for
- VSHL
+Date: Tue, 12 May 2020 14:56:01 +0100
+Message-ID: <CAFEAcA-3Hs9P-R8hQPDoh2z8=OMEgs=EaSpHCYBVH-1m1_jSLQ@mail.gmail.com>
+Subject: Re: [PATCH v3 05/16] target/arm: Tidy handle_vec_simd_shri
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
- envelope-from=peter.maydell@linaro.org; helo=mail-oo1-xc43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,14 +87,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, 8 May 2020 at 16:22, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> In 1dc8425e551, while converting to gvec, I added an extra range check
-> against the shift count.  This was unnecessary because the encoding of
-> the shift count produces 0 to the element size - 1.
+> Now that we've converted all cases to gvec, there is quite a bit
+> of dead code at the end of the function.  Remove it.
+>
+> Sink the call to gen_gvec_fn2i to the end, loading a function
+> pointer within the switch statement.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/translate.c | 12 ++----------
->  1 file changed, 2 insertions(+), 10 deletions(-)
+>  target/arm/translate-a64.c | 56 ++++++++++----------------------------
+>  1 file changed, 14 insertions(+), 42 deletions(-)
 >
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
