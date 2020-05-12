@@ -2,87 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078CE1CFEB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:51:20 +0200 (CEST)
-Received: from localhost ([::1]:53532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8C01CFEC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:56:31 +0200 (CEST)
+Received: from localhost ([::1]:37948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYavu-00043v-5s
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:51:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48384)
+	id 1jYb0w-00024q-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jYanj-0006za-9R; Tue, 12 May 2020 15:42:51 -0400
-Received: from mout.web.de ([212.227.15.3]:34159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jYanh-0006NK-18; Tue, 12 May 2020 15:42:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589312563;
- bh=s+bMxp12l5qIKn128+TmnqbyjvnBXfQnye0liP9hico=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=g0XFcf3cjkpZfcrqUwQitvrKmlP98tPcyTnjSnvzMg66SOi6t7XrWE37A1U2u+mWL
- nZ+Znb/oYe3BtFUXtdoiJ58lzNOjNwajGcDZqoKPrfwnOgZON8PUYlJH5wCnaV+I0v
- s54xKEEAcl9jADLPZ93IGIu6ci8YiaDxcoKyzbLw=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([89.247.255.130]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MumJD-1jGW5A162t-00ro9q; Tue, 12
- May 2020 21:42:43 +0200
-Date: Tue, 12 May 2020 21:42:18 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
- hanging qemu
-Message-ID: <20200512214218.007953fa@luklap>
-In-Reply-To: <20200512094337.GK1191162@redhat.com>
-References: <cover.1589193717.git.lukasstraub2@web.de>
- <20200511114947.GJ1135885@redhat.com>
- <20200511120718.GD2811@work-vm>
- <20200511121714.GL1135885@redhat.com>
- <20200511154645.GI2811@work-vm> <20200512113206.62836e44@luklap>
- <20200512094337.GK1191162@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYb0A-0001R8-BG
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:55:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41140)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYb08-0007Q1-Un
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:55:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYb06-0008OK-Ua
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 19:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E67422E8030
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 19:55:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/xqBLJNooJjZa=lfK8+ANU4=";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:6CBbxyzkDRMe4UTVV8JhpFVMYW3lHsswcwor4mj6WqwnFVoZs5Y
- T5lqpDPrBOnAa5raE+cNRzIhC9Z9Cy1ZGQDPNl9UQEZ1qF8v4q0KJv8z1raRL3fzy1vboQk
- gnKsOwY1cnmfqlP7LPo7q1s4Rl14ZKnvMcDtuyLWVmUHCotSml/clYhpjeBFNNdRK2XnCs+
- V+R5NCSN/lTW8a4SRAkjQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oa9Z5bqeOA0=:DLE+XrzlXapPMS+/UEcIyw
- TVWNTQTamVddoWuPJ5NjmQxtw2Sq/Gyy4b+7mnLZzDTgyqymj8LhaUrAEV8oZ+Ownx4A0wNbW
- tyWfNYZRf0tciMypCwOJIkYlONQ3VrTRUPOmRHie8aYwzj0SIJy3c2D2JwpWqET1ZfEz2emSC
- kYR+7LDo/K7Gd3TeDOeQoqJCN6FPNgVcw36ftDdRTyzMOGdc1OYoNn8cj/mWjunu4V9GfqwGK
- 5jeingrHIbiDuCruILWnyGdusH8ho1Wrke3QxuXHtpCcuSFf3GoUuUnIzyW7c/UAhVjtc2HqA
- +XO4LmGOaS/wTHt7RvUoeSNbOLGWMTW4GxaQfcKQ1oPsGcDQucganPy2g/FoIzQPEF5QHjFI1
- HuMZ5QsPSdvHTZgiJrrj0xU2gULI5EDSa+Ik8zG0RL/X0KJZZqXDK5OCWTBnSPIYkf2B3M49W
- 7gLw/MRPSAMkyVoj/M0SNekJpyiARz/RS4NNQtwLC5IRvVqg/JiOMW+qK/U22gchX9AlbnIPK
- w8+Xx92lErrlDXWgGV9+Rg96T+6qLfruQLUJPzniOAZVQqtUL8mtDvfA7B33i0xSPwYqHGwr8
- 6esgrTyVzvCJ7bo1a2miMG6d/qBWU7T4NgHgd6iEQHdWq5jGbl+1/0cTVoRZ+vPnLuZ4QfUjV
- +9+0LjLcg97dd/qVnBKaklOl/BUVauMRosztQghlJnaZvV1F3qMS7hpkY7F9MpH+Qan7800Z5
- waZaVf42CRnPk+mHoUldL+rPAlnwFZ+tTXsdVvMQrHUHELAfoy5hMtWvN7EToxNSuc6EJ2xN1
- G3ysgF+SEONbzx57BK+zx3ur4MdVSgPgkAMrLPDDP3FFNpedi81TtCJzkpvPU1qSVeamhOtp6
- +lxArMbS6DGsaeECIn1xHo3KQw4xhyeH/dUreVWuUQU5tE8IFF9uM/gBo5iB5Xg3G/W8NTcx5
- 5SonmGBc7IhYzErOB9EvcHMwi/S52CJNX1f46XIj9JKUeViax1g7mH4bTJEHvYvWU2S9xmwYZ
- hcTRogCFyN1vzBbU61J4EJBC2ag93n4Z5fLz9fEnJdeXQLSG/2RMl0PglaK9UFyyfC27v9SaD
- zH19Y1mQcF1PZ4STkWs4z0GH+G5gKvrpXudNGfiIt7zDeV2g8ZWglgX0z4E4x2+7cmgnFm/Ik
- XohZAAIlbCkSKNlnhSqL7rXtBWi1UfphDR9IlxtQ3XazIc+mXgfYJs0brZ3UmnQmuRdTHU49w
- xXp0lJtOQ9uYEaJnh
-Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 15:42:47
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2020 19:45:58 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878255@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <158930780033.13046.17639068194138488918.malonedeb@wampee.canonical.com>
+Message-Id: <158931275813.12860.10374861459999103547.malone@wampee.canonical.com>
+Subject: [Bug 1878255] Re: Assertion failure in bdrv_aio_cancel, through ide
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="013b6f2a3f3ba130b50b9eee1a89957ee38a5c15";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: b9a7e786153640278867c4fc107164891b926d26
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:25:43
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,84 +73,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?B?TWFy?= =?UTF-8?B?Yy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1878255 <1878255@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/xqBLJNooJjZa=lfK8+ANU4=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+(gdb) fr 4
+#4  0x000056378b63e3aa in ide_reset (s=3D0x56378d64d730) at hw/ide/core.c:1=
+318
+1318            blk_aio_cancel(s->pio_aiocb);
+(gdb) p *s->pio_aiocb
+$1 =3D {aiocb_info =3D 0x56378bb55520 <blk_aio_em_aiocb_info>, bs =3D 0x0, =
+cb =3D 0x56378b63d9f8 <ide_flush_cb>, opaque =3D 0x56378d64d730, refcnt =3D=
+ 2}
 
-On Tue, 12 May 2020 10:43:37 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+void bdrv_aio_cancel(BlockAIOCB *acb)
+{
+    qemu_aio_ref(acb);
+    bdrv_aio_cancel_async(acb);
+    while (acb->refcnt > 1) {
+        if (acb->aiocb_info->get_aio_context) {
+            ...
+        } else if (acb->bs) {
+            ...
+        } else {
+            abort();
+        }
 
-> On Tue, May 12, 2020 at 11:32:06AM +0200, Lukas Straub wrote:
-> > ...=20
-> >=20
-> > Good Idea. We could name the connections (/yank callbacks) in the
-> > form "nbd:<node-name>", "chardev:<chardev-name>" and "migration"
-> > (and add "netdev:...", etc. in the future). Then make yank take a
-> > list of connection names as you suggest and silently ignore connections
-> > that don't exist. And maybe even add a 'query-yank' oob command returni=
-ng
-> > a list of registered connections so the management application can do
-> > pattern matching if it wants. =20
->=20
-> Yes, that would make the yank command much more flexible in how it can
-> be used.
->=20
-> As an alternative to using formatted strings like this, it could be
-> modelled more explicitly in QAPI
->=20
->   { 'struct':  'YankChannels',
->     'data': { 'chardev': [ 'string' ],
->               'nbd': ['string'],
-> 	      'migration': bool } }
->=20
-> In this example, 'chardev' would accept a list of chardev IDs which
-> have it enabled, 'nbd' would accept a list of block node IDs which
-> have it enabled, and migration is a singleton on/off.
+-- =
 
-With the new command, the yank feature can then be enabled unconditionally =
-on the instances.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878255
 
-> The benefit of this modelling is that you can introspect QEMU
-> to discover what classes of channels support being yanked by
-> this QEMU build, as well as what instances are configured to
-> be yanked. ie you can distinguish between a QEMU that doesn't
-> support yanking network devices, from a QEMU that does support
-> yanking network devices, but doesn't have it enabled for any
-> network device instances.
->=20
-> Regards,
-> Daniel
+Title:
+  Assertion failure in bdrv_aio_cancel, through ide
 
+Status in QEMU:
+  New
 
---Sig_/xqBLJNooJjZa=lfK8+ANU4=
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers an assertion failure in bdr=
+v_aio_cancel, through ide:
 
------BEGIN PGP SIGNATURE-----
+  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
+  #2  0x0000555556a8d396 in bdrv_aio_cancel (acb=3D0x607000061290) at /home=
+/alxndr/Development/qemu/block/io.c:2746
+  #3  0x0000555556a58525 in blk_aio_cancel (acb=3D0x2) at /home/alxndr/Deve=
+lopment/qemu/block/block-backend.c:1540
+  #4  0x0000555556552f5b in ide_reset (s=3D<optimized out>) at /home/alxndr=
+/Development/qemu/hw/ide/core.c:1318
+  #5  0x0000555556552aeb in ide_bus_reset (bus=3D0x62d000017398) at /home/a=
+lxndr/Development/qemu/hw/ide/core.c:2422
+  #6  0x0000555556579ba5 in ahci_reset_port (s=3D<optimized out>, port=3D<o=
+ptimized out>) at /home/alxndr/Development/qemu/hw/ide/ahci.c:650
+  #7  0x000055555657bd8d in ahci_port_write (s=3D0x61e000014d70, port=3D0x2=
+, offset=3D<optimized out>, val=3D0x10) at /home/alxndr/Development/qemu/hw=
+/ide/ahci.c:360
+  #8  0x000055555657bd8d in ahci_mem_write (opaque=3D<optimized out>, addr=
+=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home=
+/alxndr/Development/qemu/hw/ide/ahci.c:513
+  #9  0x00005555560028d7 in memory_region_write_accessor (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
+>, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/a=
+lxndr/Development/qemu/memory.c:483
+  #10 0x0000555556002280 in access_with_adjusted_size (addr=3D<optimized ou=
+t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
+imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
+, mr=3D0x61e000014da0, attrs=3D...) at /home/alxndr/Development/qemu/memory=
+.c:544
+  #11 0x0000555556002280 in memory_region_dispatch_write (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, data=3D0x10, op=3D<optimized out>, attrs=3D...=
+) at /home/alxndr/Development/qemu/memory.c:1476
+  #12 0x0000555555f171d4 in flatview_write_continue (fv=3D<optimized out>, =
+addr=3D0xe106c22c, attrs=3D..., ptr=3D<optimized out>, len=3D0x1, addr1=3D0=
+x7fffffffb8d0, l=3D<optimized out>, mr=3D0x61e000014da0) at /home/alxndr/De=
+velopment/qemu/exec.c:3137
+  #13 0x0000555555f0fb98 in flatview_write (fv=3D0x60600003b180, addr=3D<op=
+timized out>, attrs=3D..., buf=3D<optimized out>, len=3D<optimized out>) at=
+ /home/alxndr/Development/qemu/exec.c:3177
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl66/BoACgkQNasLKJxd
-slg51Q/+OtkIVnO+Ek/GqwuRguCtBxFA+VScox5f4JENNirL+bXxXjzX0+USuasb
-flB+r9fGLUjQUuY2fNkXy7yg4a8lh4wjN82pQC7kalqynMBS759KTiDe3hRxJl7j
-fZhUMINqMgzV5Qrn/ZIiZU5lL2RzpWTbO88WDhQsSEZJBvSpPrantGVyB/UAeoXs
-xzzi1AHoasGu7CNQXel9lYarB9R99NwYdrkzNgk1t+0UxYzXYRu2gUAWNgHm5hv5
-h5MCr2CFYEe2pXsWhtRBoS7/Ri8VcziD/tbI1glVDFKxAe+RGhmJzJuZArgnUvMv
-et5gAhFbdbAyKSvTNWBNUWQZtA3t4c2lwO0LE0NipxZmfIX+UupnzzaVBzrtPNB+
-XgDI8UQaQs1two0BItAmbpBhFM7YOOUrS3cM/elRCcyjhDXug55Q2oCYbas9tgcH
-qtS1tIp3MA/P/g+9d6cGIZV3snKw6BMGlSCa/QCs1Xk1hbsJ3z9dF+4MZfmLqJhl
-ms0PoFYHjMuu281htSON7MKFjlJ2DWLCo9ptsGTX8osDhM4PRQdQftiS7+bH3/OI
-q0/xvVlNvbbXe1kmp8+eCHOPlYMSLdl8tw2dJwqdKLrASEBZVmQiINQErObL1Gzl
-iqZxG2Ic1C36n/EkxCc4FCnUoebCuOGcS9oJY8CEShB4caL1Aps=
-=RyaK
------END PGP SIGNATURE-----
+  I can reproduce it in qemu 5.0 using:
 
---Sig_/xqBLJNooJjZa=lfK8+ANU4=--
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtes=
+t stdio -monitor none -serial none -M pc-q35-5.0  -nographic
+  outl 0xcf8 0x8000fa24
+  outl 0xcfc 0xe106c000
+  outl 0xcf8 0x8000fa04
+  outw 0xcfc 0x7
+  outl 0xcf8 0x8000fb20
+  write 0x0 0x3 0x2780e7
+  write 0xe106c22c 0xd 0x1130c218021130c218021130c2
+  write 0xe106c218 0x15 0x110010110010110010110010110010110010110010
+  EOF
+
+  I also attached the commands to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -qtest stdio -monitor none -serial none -M pc-q35-5.0
+  -nographic < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878255/+subscriptions
 
