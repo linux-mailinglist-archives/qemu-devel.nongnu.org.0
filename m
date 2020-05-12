@@ -2,126 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5301CF8BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:14:16 +0200 (CEST)
-Received: from localhost ([::1]:41826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD3C1CF899
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:08:59 +0200 (CEST)
+Received: from localhost ([::1]:49668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWbn-00087Q-6f
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35304)
+	id 1jYWWg-0007g0-OB
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:08:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jYWSa-0001ak-DV; Tue, 12 May 2020 11:04:44 -0400
-Received: from mail-bn8nam11on2063.outbound.protection.outlook.com
- ([40.107.236.63]:6221 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1jYWKF-0001zM-N2; Tue, 12 May 2020 10:56:09 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1jYWSU-0002eC-1Y; Tue, 12 May 2020 11:04:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ELBPE0I7ajfoxZORK9cnmkhgDmc02Yu0EMqLTYSH1gmL1ECeJIarl0/ENIdULHYxAumRB9itJRJTYXB0VgPTzTLYxna5gI2knFlaNjXlDb6vbP7AvJZcoWpCj8S54jmg+YEH6Nrhz3vwQrnQ3uJd4nPTwWqUJ8aFEv5ezMgYMRat62vHHmRkeKyu5Q0ry6N/oEpBHfth6gvQ2gRBXce7yZCVvnDC9NMA+aZ/Nu9s72a5rJ98vU2V5uau+PYLCKKjqXzR3OHXisDo7r5eEXlpqvqWrFoEkr4TMDdxGw+tyxTNcfUFkjLoDuEthD610rgqmgFhIPLFG3zXfmMmmwjJug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/XQoTGedvkwS9swdiT58yodiF6SIdBGUmjcFFtpSlYo=;
- b=WRIyN/BApVj2cbpVZt/qdjUZeU90jEcN/2ZRczEFzeNofdUsGqFzln7R8BuPvMR3GB1Dq1bFjdG8Osr/hV505s3w7uFslpsfJIfBBi9Oss/2kw0Q7ibBSjzZnV93DxGKEE1xdh+HVrabPKFPKWoyvi2LcFRO9azzDpgHhgVdKmgxZ51wHHOVoKBB1ibDTGy5tbYOuLXlynaSblcDYToI6bNFRUi+v6GZ0HxZE+aDcuCdNn4oDjA9pukTsHdUXunNkTZ4grD8V30gSjnkNx1kNFsVfxEyRL7JfXiYLy8yQIcyDD6ITmRWIxRdbqxS7klhKahYQqG3ppjnCowFNcZAIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/XQoTGedvkwS9swdiT58yodiF6SIdBGUmjcFFtpSlYo=;
- b=R6y8gbWvKUhA+AmJ/DJqQOcN2llnu1vAIWsBl8/Td19rl+WS5RI5DG1T08KTJrFZz5EySm7E9qpBc83yBztldVP0fFDXZLq/rZSrx/TPyXu1W74xo5JNhbjpghHrQ0DnfstXasaOZHLIwr6UrRqiavh9s7AtIyoXLsH+oNSGMcA=
-Received: from CY4PR01CA0006.prod.exchangelabs.com (2603:10b6:903:1f::16) by
- BYAPR02MB5960.namprd02.prod.outlook.com (2603:10b6:a03:126::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Tue, 12 May
- 2020 15:04:35 +0000
-Received: from CY1NAM02FT015.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:1f:cafe::ad) by CY4PR01CA0006.outlook.office365.com
- (2603:10b6:903:1f::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28 via Frontend
- Transport; Tue, 12 May 2020 15:04:35 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT015.mail.protection.outlook.com (10.152.75.146) with Microsoft SMTP
- Server id 15.20.2979.29 via Frontend Transport; Tue, 12 May 2020 15:04:34
- +0000
-Received: from [149.199.38.66] (port=48859 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jYWSA-00045m-8H; Tue, 12 May 2020 08:04:18 -0700
-Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1jYWSQ-0003ol-J7; Tue, 12 May 2020 08:04:34 -0700
-Received: from [10.140.6.35] (helo=xhdsaipava40.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <saipava@xhdsaipava40.xilinx.com>)
- id 1jYWSP-0003oI-Qw; Tue, 12 May 2020 08:04:34 -0700
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 77CEA13C01B6; Tue, 12 May 2020 20:26:29 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Tong Ho <tong.ho@xilinx.com>, Ramon Fried <rfried.dev@gmail.com>
-Subject: [PATCH v5 12/12] net: cadence_gem: Fix RX address filtering
-Date: Tue, 12 May 2020 20:24:54 +0530
-Message-Id: <1589295294-26466-13-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1589295294-26466-1-git-send-email-sai.pavan.boddu@xilinx.com>
-References: <1589295294-26466-1-git-send-email-sai.pavan.boddu@xilinx.com>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(136003)(396003)(376002)(346002)(39860400002)(46966005)(33430700001)(36756003)(70206006)(316002)(2616005)(426003)(33440700001)(70586007)(478600001)(356005)(6266002)(110136005)(82310400002)(4326008)(2906002)(42186006)(6666004)(186003)(82740400003)(8936002)(5660300002)(81166007)(336012)(26005)(47076004)(8676002);
- DIR:OUT; SFP:1101; 
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1jYWKC-0006qJ-RO; Tue, 12 May 2020 10:56:07 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04CEmIqp195434; Tue, 12 May 2020 10:56:00 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30ws5f5kck-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 May 2020 10:56:00 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04CEmV80196537;
+ Tue, 12 May 2020 10:55:59 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 30ws5f5kbx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 May 2020 10:55:59 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04CEoVrf013367;
+ Tue, 12 May 2020 14:55:58 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma01wdc.us.ibm.com with ESMTP id 30wm56j3r8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 12 May 2020 14:55:58 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04CEtw8g54722894
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 May 2020 14:55:58 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F07D6AC059;
+ Tue, 12 May 2020 14:55:57 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 55F50AC05B;
+ Tue, 12 May 2020 14:55:57 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.85.150.178])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Tue, 12 May 2020 14:55:57 +0000 (GMT)
+Subject: Re: [PATCH v1 3/8] s390/sclp: rework sclp boundary and length checks
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20200508230823.22956-1-walling@linux.ibm.com>
+ <20200508230823.22956-4-walling@linux.ibm.com>
+ <d894a835-d0ea-2d61-0416-c4804a755dca@redhat.com>
+From: Collin Walling <walling@linux.ibm.com>
+Message-ID: <75157d93-2f4d-db25-4a0d-fdb4a7781135@linux.ibm.com>
+Date: Tue, 12 May 2020 10:55:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: faa0bdcf-0e19-4656-3112-08d7f685c867
-X-MS-TrafficTypeDiagnostic: BYAPR02MB5960:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB59608752CD5A0C90B4A9855ACABE0@BYAPR02MB5960.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:236;
-X-Forefront-PRVS: 0401647B7F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q9Ng9b6dLAX2aYSlgm+icdToDwywh75cQPq6x3gUZYwzoM/KiAgldsOzmISAbmIZpCxxNaDXDKW3ORrwIGIFj8U45pEPozgCKKL8qlseWelQwaR1LenPnRDjyBKljHnfW9uExill7GAriED5mDcaLIvu73DOOlMwS+gcE6BcVITz/aB4clOTzQrJdLOmA/drq1E1KvucjN5FTAKA98sz/Zpu9DrfU7JG2rU/MQtqfZgRbIEGgOgy4dDwHG4Qwp3qVwUhoa5L9Y4dpLJesMz+LI3y4Jr/YPOAk8l1W2izhOkmSeMQ2l5HnrLDLpcvl2FJldUd73KkzyU2ZJ3ep2LnNp7b9yb0SU6S5K3zOEysYpHVaOjnm7ZdXCjQf0xFAbuiLRowlrSbtGE71hcVYoMvyvk+0IvSMTGaoSUqZrgdn0e58P6I0Hc3NOqYKsJpkzyYjt7iT/co80gqblVP+nxBX9oIBNHrI9vlJ8sdQVb/VmxKYXD4QXMe2I0ei7R8Yieol8xal1+VRbn3M7qZ1XQ3ocb1qEymhl3D2j3Yog5thDMlqyeXhz4OwvIi8ztOn9ey/hYKPcGombWtY0x9a5Qp/A==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 15:04:34.9363 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: faa0bdcf-0e19-4656-3112-08d7f685c867
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5960
-Received-SPF: pass client-ip=40.107.236.63; envelope-from=saipava@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:04:36
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <d894a835-d0ea-2d61-0416-c4804a755dca@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-12_04:2020-05-11,
+ 2020-05-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0
+ phishscore=0 spamscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 bulkscore=0 adultscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005120110
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=walling@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 10:56:00
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,87 +102,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: frankja@linux.ibm.com, mst@redhat.com, cohuck@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, svens@linux.ibm.com,
+ pbonzini@redhat.com, mihajlov@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tong Ho <tong.ho@xilinx.com>
+On 5/12/20 3:21 AM, David Hildenbrand wrote:
+> On 09.05.20 01:08, Collin Walling wrote:
+>> Let's factor out the SCLP boundary and length checks
+>> into separate functions.
+>>
+>> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+>> ---
+>>   hw/s390x/sclp.c | 41 +++++++++++++++++++++++++++++++++++------
+>>   1 file changed, 35 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+>> index d08a291e40..470d5da7a2 100644
+>> --- a/hw/s390x/sclp.c
+>> +++ b/hw/s390x/sclp.c
+>> @@ -49,6 +49,34 @@ static inline bool sclp_command_code_valid(uint32_t code)
+>>       return false;
+>>   }
+>>   
+>> +static bool check_sccb_boundary_valid(uint64_t sccb_addr, uint32_t code,
+>> +                                      SCCB *sccb)
+> 
+> I suggest naming this
+> 
+> "has_valid_sccb_boundary", then the true/false response is clearer.
+> 
+>> +{
+>> +    uint64_t current_len = sccb_addr + be16_to_cpu(sccb->h.length);
+>> +    uint64_t allowed_len = (sccb_addr & PAGE_MASK) + PAGE_SIZE;
+>> +
+>> +    switch (code & SCLP_CMD_CODE_MASK) {
+>> +    default:
+>> +        if (current_len <= allowed_len) {
+>> +            return true;
+>> +        }
+>> +    }
+>> +    sccb->h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
+>> +    return false;
+>> +}
+>> +
+>> +static bool check_sufficient_sccb_len(SCCB *sccb, int size)
+> 
+> "has_sufficient_sccb_len" ?
+> 
+>> +{
+>> +    MachineState *ms = MACHINE(qdev_get_machine());
+>> +    int required_len = size + ms->possible_cpus->len * sizeof(CPUEntry);
+> 
+> Rather pass in the number of cpus instead. Looking up the machine again
+> in here is ugly.
 
-Two defects are fixed:
+prepare_cpu_entries also looks up the machine again. Should I squeeze
+in a cleanup where we pass the machine to that function too (perhaps
+in the "remove SCLPDevice" patch)?
 
-1/ Detection of multicast frames
-2/ Treating drop of mis-addressed frames as non-error
+> 
+>> +
+>> +    if (be16_to_cpu(sccb->h.length) < required_len) {
+>> +        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
+>> +        return false;
+>> +    }
+>> +    return true;
+>> +}
+>> +
+>>   static void prepare_cpu_entries(CPUEntry *entry, int *count)
+>>   {
+>>       MachineState *ms = MACHINE(qdev_get_machine());
+>> @@ -76,8 +104,7 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
+>>       int rnsize, rnmax;
+>>       IplParameterBlock *ipib = s390_ipl_get_iplb();
+>>   
+>> -    if (be16_to_cpu(sccb->h.length) < (sizeof(ReadInfo) + cpu_count * sizeof(CPUEntry))) {
+>> -        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
+>> +    if (!check_sufficient_sccb_len(sccb, sizeof(ReadInfo))) {
+>>           return;
+>>       }
+>>   
+>> @@ -134,8 +161,7 @@ static void sclp_read_cpu_info(SCLPDevice *sclp, SCCB *sccb)
+>>       ReadCpuInfo *cpu_info = (ReadCpuInfo *) sccb;
+>>       int cpu_count;
+>>   
+>> -    if (be16_to_cpu(sccb->h.length) < (sizeof(ReadCpuInfo) + cpu_count * sizeof(CPUEntry))) {
+>> -        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
+>> +    if (!check_sufficient_sccb_len(sccb, sizeof(ReadCpuInfo))) {
+>>           return;
+>>       }
+>>   
+>> @@ -227,6 +253,10 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
+>>           goto out_write;
+>>       }
+>>   
+>> +    if (!check_sccb_boundary_valid(sccb, code, &work_sccb)) {
+>> +        goto out_write;
+>> +    }
+> 
+> This is not a "factor out". You're adding new code, this needs
+> justification in the patch description.
 
-Signed-off-by: Tong Ho <tong.ho@xilinx.com>
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- hw/net/cadence_gem.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+True. I'll fix up the message.
 
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 57d94a5..71d42b8 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -34,6 +34,7 @@
- #include "qemu/module.h"
- #include "sysemu/dma.h"
- #include "net/checksum.h"
-+#include "net/eth.h"
- 
- #define CADENCE_GEM_ERR_DEBUG 0
- #define DB_PRINT(...) do {\
-@@ -702,7 +703,7 @@ static unsigned calc_mac_hash(const uint8_t *mac)
- static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
- {
-     uint8_t *gem_spaddr;
--    int i;
-+    int i, is_mc;
- 
-     /* Promiscuous mode? */
-     if (s->regs[GEM_NWCFG] & GEM_NWCFG_PROMISC) {
-@@ -718,22 +719,17 @@ static int gem_mac_address_filter(CadenceGEMState *s, const uint8_t *packet)
-     }
- 
-     /* Accept packets -w- hash match? */
--    if ((packet[0] == 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
--        (packet[0] != 0x01 && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
-+    is_mc = is_multicast_ether_addr(packet);
-+    if ((is_mc && (s->regs[GEM_NWCFG] & GEM_NWCFG_MCAST_HASH)) ||
-+        (!is_mc && (s->regs[GEM_NWCFG] & GEM_NWCFG_UCAST_HASH))) {
-+        uint64_t buckets;
-         unsigned hash_index;
- 
-         hash_index = calc_mac_hash(packet);
--        if (hash_index < 32) {
--            if (s->regs[GEM_HASHLO] & (1<<hash_index)) {
--                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
--                                           GEM_RX_UNICAST_HASH_ACCEPT;
--            }
--        } else {
--            hash_index -= 32;
--            if (s->regs[GEM_HASHHI] & (1<<hash_index)) {
--                return packet[0] == 0x01 ? GEM_RX_MULTICAST_HASH_ACCEPT :
--                                           GEM_RX_UNICAST_HASH_ACCEPT;
--            }
-+        buckets = ((uint64_t)s->regs[GEM_HASHHI] << 32) | s->regs[GEM_HASHLO];
-+        if ((buckets >> hash_index) & 1) {
-+            return is_mc ? GEM_RX_MULTICAST_HASH_ACCEPT
-+                         : GEM_RX_UNICAST_HASH_ACCEPT;
-         }
-     }
- 
-@@ -958,7 +954,7 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
-     /* Is this destination MAC address "for us" ? */
-     maf = gem_mac_address_filter(s, buf);
-     if (maf == GEM_RX_REJECT) {
--        return -1;
-+        return size;  /* no, drop siliently b/c it's not an error */
-     }
- 
-     /* Discard packets with receive length error enabled ? */
+> 
+>> +
+>>       sclp_c->execute(sclp, &work_sccb, code);
+>>   out_write:
+>>       s390_cpu_pv_mem_write(env_archcpu(env), 0, &work_sccb,
+>> @@ -272,8 +302,7 @@ int sclp_service_call(CPUS390XState *env, uint64_t sccb, uint32_t code)
+>>           goto out_write;
+>>       }
+>>   
+>> -    if ((sccb + be16_to_cpu(work_sccb.h.length)) > ((sccb & PAGE_MASK) + PAGE_SIZE)) {
+>> -        work_sccb.h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
+>> +    if (!check_sccb_boundary_valid(sccb, code, &work_sccb)) {
+>>           goto out_write;
+>>       }
+>>   
+>>
+> 
+> 
+
+Renamed functions. Thanks for the review!
+
 -- 
-2.7.4
+--
+Regards,
+Collin
 
+Stay safe and stay healthy
 
