@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB8C01CFEC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:56:31 +0200 (CEST)
-Received: from localhost ([::1]:37948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99F51CFEB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 21:51:29 +0200 (CEST)
+Received: from localhost ([::1]:57060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYb0w-00024q-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50480)
+	id 1jYaw4-0006CT-PP
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 15:51:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jYb0A-0001R8-BG
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:55:42 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41140)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jYb08-0007Q1-Un
- for qemu-devel@nongnu.org; Tue, 12 May 2020 15:55:41 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jYb06-0008OK-Ua
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 19:55:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E67422E8030
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 19:55:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYatv-0004BO-7C
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:49:15 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:37160)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYatt-0001sQ-Kz
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 15:49:14 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 04CJm0Pm011076
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 12 May 2020 15:48:03 -0400
+Date: Tue, 12 May 2020 15:48:00 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: P J P <ppandit@redhat.com>
+Subject: Re: [PATCH 0/2] use unsigned type for MegasasState fields
+Message-ID: <20200512194759.nb42yurlnynr5yrw@mozz.bu.edu>
+References: <20200507105718.1319187-1-ppandit@redhat.com>
+ <26201c24-c483-85a7-2f4b-b3cc56d4b8b7@redhat.com>
+ <nycvar.YSQ.7.76.2005122357030.1451610@xnncv>
+ <20200512190803.o6vr2shjmhsplsjx@mozz.bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 May 2020 19:45:58 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878255@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <158930780033.13046.17639068194138488918.malonedeb@wampee.canonical.com>
-Message-Id: <158931275813.12860.10374861459999103547.malone@wampee.canonical.com>
-Subject: [Bug 1878255] Re: Assertion failure in bdrv_aio_cancel, through ide
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="013b6f2a3f3ba130b50b9eee1a89957ee38a5c15";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b9a7e786153640278867c4fc107164891b926d26
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:25:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200512190803.o6vr2shjmhsplsjx@mozz.bu.edu>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 15:09:21
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,109 +60,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878255 <1878255@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ren Ding <rding@gatech.edu>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(gdb) fr 4
-#4  0x000056378b63e3aa in ide_reset (s=3D0x56378d64d730) at hw/ide/core.c:1=
-318
-1318            blk_aio_cancel(s->pio_aiocb);
-(gdb) p *s->pio_aiocb
-$1 =3D {aiocb_info =3D 0x56378bb55520 <blk_aio_em_aiocb_info>, bs =3D 0x0, =
-cb =3D 0x56378b63d9f8 <ide_flush_cb>, opaque =3D 0x56378d64d730, refcnt =3D=
- 2}
+Oops I realized I posted a bad stacktrace and a bad reproducer :)
+Fixed stacktrace:
 
-void bdrv_aio_cancel(BlockAIOCB *acb)
-{
-    qemu_aio_ref(acb);
-    bdrv_aio_cancel_async(acb);
-    while (acb->refcnt > 1) {
-        if (acb->aiocb_info->get_aio_context) {
-            ...
-        } else if (acb->bs) {
-            ...
-        } else {
-            abort();
-        }
+==20527==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7f79f968a5e0 at pc 0x55b6bb84ce28 bp 0x7ffcbca04eb0 sp 0x7ffcbca04ea8
+READ of size 8 at 0x7f79f968a5e0 thread T0
 
--- =
+#0 0x55fbeb2bdafc in megasas_lookup_frame /home/alxndr/Development/qemu-bugs/qemu2/qemu/hw/scsi/megasas.c:449:30
+#1 0x55fbeb27caa9 in megasas_handle_abort /home/alxndr/Development/qemu-bugs/qemu2/qemu/hw/scsi/megasas.c:1904:17
+#2 0x55fbeb26cb77 in megasas_handle_frame /home/alxndr/Development/qemu-bugs/qemu2/qemu/hw/scsi/megasas.c:1961:24
+#3 0x55fbeb267b78 in megasas_mmio_write /home/alxndr/Development/qemu-bugs/qemu2/qemu/hw/scsi/megasas.c:2122:9
+#4 0x55fbe90b117b in memory_region_write_accessor /home/alxndr/Development/qemu-bugs/qemu2/qemu/memory.c:496:5
+#5 0x55fbe90b05e4 in access_with_adjusted_size /home/alxndr/Development/qemu-bugs/qemu2/qemu/memory.c:557:18
+#6 0x55fbe90ae177 in memory_region_dispatch_write /home/alxndr/Development/qemu-bugs/qemu2/qemu/memory.c:1488:16
+#7 0x55fbe8d97325 in flatview_write_continue /home/alxndr/Development/qemu-bugs/qemu2/qemu/exec.c:3174:23
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878255
+Fixed reproducer (tested on qemu 5.0 built with ASAN with these patches):
 
-Title:
-  Assertion failure in bdrv_aio_cancel, through ide
+cat << EOF | qemu-system-i386 -qtest stdio -nographic -monitor none \
+-serial none -M q35 -device megasas -device scsi-cd,drive=null0 \
+-blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic
+outl 0xcf8 0x80001814
+outl 0xcfc 0xc021
+outl 0xcf8 0x80001818
+outl 0xcf8 0x80001804
+outw 0xcfc 0x7
+outl 0xcf8 0x80001810
+outl 0xcfc 0xe10c0000
+outl 0xcf8 0x8000f810
+write 0x0 0x18 0x060017e1ff00f8ffffffff60efffffffffffffffffffffff
+write 0xff00 0x1 0x06
+write 0xc021e10c0040 0x81 0x755e08ff0000845e08ff0000935e08ff0000a25e08ff0000b15e08ff0000c05e08ff0000cf5e08ff0000de5e08ff0000ed5e08ff0000fc5e08ff00000b5e08ff00001a5e08ff0000295e08ff0000385e08ff0000475e08ff0000565e08ff0000655e08ff0000745e08ff0000835e08ff0000925e08ff0000a15e08ff0000b05e08
+-M pc-q35-5.0 -no-shutdown -M q35 -device megasas -device scsi-cd,drive=null0 -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic
 
-Status in QEMU:
-  New
+EOF
 
-Bug description:
-  Hello,
-  While fuzzing, I found an input that triggers an assertion failure in bdr=
-v_aio_cancel, through ide:
-
-  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
-  #2  0x0000555556a8d396 in bdrv_aio_cancel (acb=3D0x607000061290) at /home=
-/alxndr/Development/qemu/block/io.c:2746
-  #3  0x0000555556a58525 in blk_aio_cancel (acb=3D0x2) at /home/alxndr/Deve=
-lopment/qemu/block/block-backend.c:1540
-  #4  0x0000555556552f5b in ide_reset (s=3D<optimized out>) at /home/alxndr=
-/Development/qemu/hw/ide/core.c:1318
-  #5  0x0000555556552aeb in ide_bus_reset (bus=3D0x62d000017398) at /home/a=
-lxndr/Development/qemu/hw/ide/core.c:2422
-  #6  0x0000555556579ba5 in ahci_reset_port (s=3D<optimized out>, port=3D<o=
-ptimized out>) at /home/alxndr/Development/qemu/hw/ide/ahci.c:650
-  #7  0x000055555657bd8d in ahci_port_write (s=3D0x61e000014d70, port=3D0x2=
-, offset=3D<optimized out>, val=3D0x10) at /home/alxndr/Development/qemu/hw=
-/ide/ahci.c:360
-  #8  0x000055555657bd8d in ahci_mem_write (opaque=3D<optimized out>, addr=
-=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home=
-/alxndr/Development/qemu/hw/ide/ahci.c:513
-  #9  0x00005555560028d7 in memory_region_write_accessor (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
->, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/a=
-lxndr/Development/qemu/memory.c:483
-  #10 0x0000555556002280 in access_with_adjusted_size (addr=3D<optimized ou=
-t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
-imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
-, mr=3D0x61e000014da0, attrs=3D...) at /home/alxndr/Development/qemu/memory=
-.c:544
-  #11 0x0000555556002280 in memory_region_dispatch_write (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, data=3D0x10, op=3D<optimized out>, attrs=3D...=
-) at /home/alxndr/Development/qemu/memory.c:1476
-  #12 0x0000555555f171d4 in flatview_write_continue (fv=3D<optimized out>, =
-addr=3D0xe106c22c, attrs=3D..., ptr=3D<optimized out>, len=3D0x1, addr1=3D0=
-x7fffffffb8d0, l=3D<optimized out>, mr=3D0x61e000014da0) at /home/alxndr/De=
-velopment/qemu/exec.c:3137
-  #13 0x0000555555f0fb98 in flatview_write (fv=3D0x60600003b180, addr=3D<op=
-timized out>, attrs=3D..., buf=3D<optimized out>, len=3D<optimized out>) at=
- /home/alxndr/Development/qemu/exec.c:3177
-
-  I can reproduce it in qemu 5.0 using:
-
-  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtes=
-t stdio -monitor none -serial none -M pc-q35-5.0  -nographic
-  outl 0xcf8 0x8000fa24
-  outl 0xcfc 0xe106c000
-  outl 0xcf8 0x8000fa04
-  outw 0xcfc 0x7
-  outl 0xcf8 0x8000fb20
-  write 0x0 0x3 0x2780e7
-  write 0xe106c22c 0xd 0x1130c218021130c218021130c2
-  write 0xe106c218 0x15 0x110010110010110010110010110010110010110010
-  EOF
-
-  I also attached the commands to this launchpad report, in case the
-  formatting is broken:
-
-  qemu-system-i386 -qtest stdio -monitor none -serial none -M pc-q35-5.0
-  -nographic < attachment
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878255/+subscriptions
+On 200512 1508, Alexander Bulekov wrote:
+> Hello Prasad,
+> I noticed this since I found a similar issue recently, using a fuzzer.
+> I applied your patches, but I can still reproduce the heap-overflow,
+> unless I'm missing something:
+> 
+> ==20527==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x7f79f968a5e0 at pc 0x55b6bb84ce28 bp 0x7ffcbca04eb0 sp 0x7ffcbca04ea8
+> READ of size 8 at 0x7f79f968a5e0 thread T0
+>     #0 0x55fbeb2bdafc in megasas_lookup_frame /home/alxndr/Development/qemu-bugs/qemu2/qemu/hw/scsi/megasas.c:449:30
+>     #0 0x55b6bb84ce27 in megasas_lookup_frame (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0x1c1fe27)
+>     #1 0x55b6bb82f3e4 in megasas_handle_abort (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0x1c023e4)
+>     #2 0x55b6bb8293df in megasas_handle_frame (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0x1bfc3df)
+>     #3 0x55b6bb8275eb in megasas_mmio_write (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0x1bfa5eb)
+>     #4 0x55b6bab5c864 in memory_region_write_accessor (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0xf2f864)
+>     #5 0x55b6bab5c239 in access_with_adjusted_size (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0xf2f239)
+>     #6 0x55b6bab5ada5 in memory_region_dispatch_write (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0xf2dda5)
+>     #7 0x55b6ba994bf3 in flatview_write_continue (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0xd67bf3)
+>     #8 0x55b6ba984ad8 in flatview_write (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-system-i386+0xd57ad8)
+>     #1 0x55fbeb27caa9 in megasas_handle_abort /home/alxndr/Development/qemu-bugs/qemu2/qemu/hw/scsi/megasas.c:1904:17
+>     #2 0x55fbeb26cb77 in megasas_handle_frame /home/alxndr/Development/qemu-bugs/qemu2/qemu/hw/scsi/megasas.c:1961:24
+>     #3 0x55fbeb267b78 in megasas_mmio_write /home/alxndr/Development/qemu-bugs/qemu2/qemu/hw/scsi/megasas.c:2122:9
+>     #4 0x55fbe90b117b in memory_region_write_accessor /home/alxndr/Development/qemu-bugs/qemu2/qemu/memory.c:496:5
+>     #5 0x55fbe90b05e4 in access_with_adjusted_size /home/alxndr/Development/qemu-bugs/qemu2/qemu/memory.c:557:18
+>     #6 0x55fbe90ae177 in memory_region_dispatch_write /home/alxndr/Development/qemu-bugs/qemu2/qemu/memory.c:1488:16
+>     #7 0x55fbe8d97325 in flatview_write_continue /home/alxndr/Development/qemu-bugs/qemu2/qemu/exec.c:3174:23
+> 
+> To reproduce:
+> cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtest stdio -nographic -monitor none -serial none  -M q35 -device megasas -device scsi-cd,drive=null0 -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic
+> outl 0xcf8 0x80001814
+> outl 0xcfc 0xc021
+> outl 0xcf8 0x80001818
+> outl 0xcf8 0x80001804
+> outw 0xcfc 0x7
+> outl 0xcf8 0x80001810
+> outl 0xcfc 0xe10c0000
+> outl 0xcf8 0x8000f810
+> write 0x0 0x18 0x060017e1ff00f8ffffffff60efffffffffffffffffffffff
+> write 0xff00 0x1 0x06
+> write 0xc021e10c0040 0x81 0x755e08ff0000845e08ff0000935e08ff0000a25e08ff0000b15e08ff0000c05e08ff0000cf5e08ff0000de5e08ff0000ed5e08ff0000fc5e08ff00000b5e08ff00001a5e08ff0000295e08ff0000385e08ff0000475e08ff0000565e08ff0000655e08ff0000745e08ff0000835e08ff0000925e08ff0000a15e08ff0000b05e08
+> -M pc-q35-5.0 -no-shutdown -M q35 -device megasas -device scsi-cd,drive=null0 -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic
+> EOF
+> 
+> -Alex
+> 
+> On 200513 0007, P J P wrote:
+> > +-- On Tue, 12 May 2020, Philippe Mathieu-Daudé wrote --+
+> > | Cc'ing Marc-André our signed/unsigned conversion expert (with Paolo).
+> > 
+> >   megasas_init_firmware
+> >     pa_lo = le32_to_cpu(initq->pi_addr_lo);
+> >     pa_hi = le32_to_cpu(initq->pi_addr_hi);
+> >     s->producer_pa = ((uint64_t) pa_hi << 32) | pa_lo;
+> >     s->reply_queue_head = ldl_le_pci_dma(pcid, s->producer_pa);
+> > 
+> > IIUC, here ldl_le_pci_dma() returns an 'uint32_t' type, but since 
+> > 'reply_queue_head' is a signed int, large 'uint32_t' value turns negative.
+> > 
+> > | Do you have a reproducer?
+> > 
+> >   Yes, there is a reproducer with ASAN, though it did not work for me. 
+> > Ren(CC'd) had shared this trace:
+> > 
+> > AddressSanitizer: heap-buffer-overflow on address 0x7f9159054058 at pc 0x55763514b5cd bp 0x7f9179bd6d90 sp 0x7f9179bd6d88
+> > READ of size 8 at 0x7f9159054058 thread T2
+> >   #0 0x55763514b5cc in megasas_lookup_frame /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:449:30
+> >   #1 0x55763513205c in megasas_handle_abort /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:1904:17
+> >   #2 0x55763512d0f8 in megasas_handle_frame /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:1961:24
+> >   #3 0x55763512ba7d in megasas_mmio_write /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:2122:9
+> >   #4 0x55763515247c in megasas_port_write /home/ren/tmp/redacted-dbg/qemu/hw/scsi/megasas.c:2173:5
+> >   #5 0x557634621b3b in memory_region_write_accessor /home/ren/tmp/redacted-dbg/qemu/memory.c:483:5
+> >   #6 0x557634621741 in access_with_adjusted_size /home/ren/tmp/redacted-dbg/qemu/memory.c:544:18
+> >   #7 0x557634620498 in memory_region_dispatch_write /home/ren/tmp/redacted-dbg/qemu/memory.c:1482:16
+> >   #8 0x5576344b6b6c in flatview_write_continue /home/ren/tmp/redacted-dbg/qemu/exec.c:3161:23
+> >   #9 0x5576344a87d9 in flatview_write /home/ren/tmp/redacted-dbg/qemu/exec.c:3201:14
+> >   #10 0x5576344a8376 in address_space_write /home/ren/tmp/redacted-dbg/qemu/exec.c:3291:18
+> >   #11 0x5576344a8af4 in address_space_rw /home/ren/tmp/redacted-dbg/qemu/exec.c:3301:16
+> >   #12 0x557634689e10 in kvm_handle_io /home/ren/tmp/redacted-dbg/qemu/accel/kvm/kvm-all.c:2086:9
+> >   #13 0x557634688a45 in kvm_cpu_exec /home/ren/tmp/redacted-dbg/qemu/accel/kvm/kvm-all.c:2332:13
+> >   #14 0x5576345ee7aa in qemu_kvm_cpu_thread_fn /home/ren/tmp/redacted-dbg/qemu/cpus.c:1299:17
+> >   #15 0x557635a11509 in qemu_thread_start /home/ren/tmp/redacted-dbg/qemu/util/qemu-thread-posix.c:519:9
+> >   #16 0x7f918cec26b9 in start_thread (/lib/x86_64-linux-gnu/libpthread.so.0+0x76b9)
+> >   #17 0x7f918c5d441c in clone /build/glibc-LK5gWL/glibc-2.23/misc/../sysdeps/unix/sysv/linux/x86_64/clone.S:109
+> > 
+> > 
+> > Thank you.
+> > --
+> > Prasad J Pandit / Red Hat Product Security Team
+> > 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+> 
+> 
 
