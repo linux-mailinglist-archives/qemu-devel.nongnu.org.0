@@ -2,99 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B248F1CF1EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 11:49:49 +0200 (CEST)
-Received: from localhost ([::1]:41322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7191CF23D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 12:21:55 +0200 (CEST)
+Received: from localhost ([::1]:37816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYRXo-0000FH-QL
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 05:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45502)
+	id 1jYS2s-0000C1-SG
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 06:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
- id 1jYRWS-000861-0r; Tue, 12 May 2020 05:48:24 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:41372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eyal.moscovici@oracle.com>)
- id 1jYRWQ-0003cI-W0; Tue, 12 May 2020 05:48:23 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04C9ev5s155850;
- Tue, 12 May 2020 09:48:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=AECQ/f7glkG2PIr+RcUzuWbqfc7fWwtgJbhBluBsSeU=;
- b=qsq9aiTq8cmAJv+3xVVvUk6sjUVAbYe4w4N1r7/fkQRTgNUSqRd1HJdl6ognYcLRvZUT
- myQwaj7Fv8sfQJn/K8bT4F7oGok7udiptybGxlQ+466T9rYXoYLYLgdU1VoqYhkB/ALF
- VqtFxJsqi632yXMkoTlCHC33NEATlwYiR7lTI6oZo3lduO9PnAJbUk37Ed619II9bU5m
- otNNO5DXrDuX1tll+fyEza0hkkkOAeqDaKOh+/ZUFjxZk/9vsoQdwMMAPyHRjHc4ilRt
- XN6I1bo1ZswXL4EzxcAepTX34vKis9wU0l0lSbLV5uyLip03kiJpZLmKbb3Ie1awlPu0 5g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 30x3gsj05x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 12 May 2020 09:48:20 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04C9c990025997;
- Tue, 12 May 2020 09:48:19 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 30ydsq3y6c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 May 2020 09:48:19 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04C9mIlr021986;
- Tue, 12 May 2020 09:48:18 GMT
-Received: from Eyals-MacBook-Pro.local (/185.175.33.128)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 12 May 2020 02:48:18 -0700
-Subject: Re: [PATCH v2 5/5] qemu-img: Add --start-offset and --max-length to
- map
-To: Eric Blake <eblake@redhat.com>
-References: <59b0896d-85ad-08b5-fcc1-36adad7501a4@redhat.com>
- <20200506213459.44743-1-eyal.moscovici@oracle.com>
- <20200506213459.44743-6-eyal.moscovici@oracle.com>
- <0a3bc115-ea14-4723-2993-6a6c9de12208@redhat.com>
-From: Eyal Moscovici <eyal.moscovici@oracle.com>
-Message-ID: <582a5db0-1ca8-e464-5e0b-d7de21d19af8@oracle.com>
-Date: Tue, 12 May 2020 12:48:13 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYS20-0008CX-AX
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 06:21:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58138)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYS1z-0003YR-6F
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 06:21:00 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYS1w-0006xp-SS
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 10:20:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C324A2E8053
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 10:20:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <0a3bc115-ea14-4723-2993-6a6c9de12208@redhat.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9618
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- suspectscore=0 mlxscore=0
- adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005120077
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9618
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=999
- malwarescore=0 adultscore=0 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 impostorscore=0 clxscore=1015 bulkscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005120077
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=eyal.moscovici@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 03:59:36
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2020 10:06:33 -0000
+From: Thomas Huth <1657538@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: c-kaiser intermediadc th-huth
+X-Launchpad-Bug-Reporter: luigiburdo (intermediadc)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20170118175149.27340.89188.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158927799342.3557.7346333611451043273.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1657538] Re: qemu 2.7.x 2.8 softmmu dont work on BE machine 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: f7e4c3f8a4f6155e2f9d3ca90b99a235a118c1a8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 05:00:57
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,43 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, liran.alon@oracle.com,
- Yoav Elnekave <yoav.elnekave@oracle.com>
+Reply-To: Bug 1657538 <1657538@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Bug watch removed: Red Hat Bugzilla #1332449
+   https://bugzilla.redhat.com/show_bug.cgi?id=3D1332449
 
-On 07/05/2020 1:04, Eric Blake wrote:
-> On 5/6/20 4:34 PM, Eyal Moscovici wrote:
->> The mapping operation of large disks especially ones stored over a
->> long chain of QCOW2 files can take a long time to finish.
->> Additionally when mapping fails there was no way recover by
->> restarting the mapping from the failed location.
->>
->> The new options, --start-offset and --max-length allows the user to
->> divide these type of map operations into shorter independent tasks.
->>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->
-> This patch has some changes from v1.  Among others,...
->
->> @@ -3041,6 +3045,18 @@ static int img_map(int argc, char **argv)
->>           case OPTION_OUTPUT:
->>               output = optarg;
->>               break;
->> +        case 's':
->> +            start_offset = cvtnum("start offset", optarg);
->> +            if (start_offset < 0) {
->> +                return 1;
->> +            }
->> +            break;
->
-> the new semantics of cvtnum() in this series is enough of a difference 
-> that I would have removed R-b to make sure the updated patch gets 
-> re-reviewed, if it had been me as author.  But in this case, it does 
-> look like the changes are all addressed to comments I suggested in v1, 
-> so I'm fine that you left my R-b.
->
-Ok, got it.
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1657538
+
+Title:
+  qemu 2.7.x 2.8 softmmu dont work on BE machine
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Build on Be machine qemu 2.7.1 and 2.8 in pure softmmu (tgc) dont work on=
+ big endian hardware .
+  tested with ppc-softmmu,i386-softmmu,arm-softmmu same result:
+
+  with :
+   ./qemu-system-i386 =
+
+  Gtk-Message: Failed to load module "overlay-scrollbar"
+  qemu-system-i386: Trying to execute code outside RAM or ROM at 0x000a0000
+  This usually means one of the following happened:
+
+  (1) You told QEMU to execute a kernel for the wrong machine type, and it =
+crashed on startup (eg trying to run a raspberry pi kernel on a versatilepb=
+ QEMU machine)
+  (2) You didn't give QEMU a kernel or BIOS filename at all, and QEMU execu=
+ted a ROM full of no-op instructions until it fell off the end
+  (3) Your guest kernel has a bug and crashed by jumping off into nowhere
+
+  This is almost always one of the first two, so check your command line an=
+d that you are using the right type of kernel for this machine.
+  If you think option (3) is likely then you can try debugging your guest w=
+ith the -d debug options; in particular -d guest_errors will cause the log =
+to include a dump of the guest register state at this point.
+
+  Execution cannot continue; stopping here.
+
+  =
+
+  I try to add the -L option with ../pc-bios/bios.bin =
+
+  and have the same result.
+
+  note the ppc-softmmu and ppc64-softmmu work in kvm mode only emulated
+  mode have issue.
+
+  =
+
+  tested on my hardware a  Qriq P5040 and G5 4x970MP with Ubuntu Mate 16.10 =
+
+  thanks
+  Luigi
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1657538/+subscriptions
 
