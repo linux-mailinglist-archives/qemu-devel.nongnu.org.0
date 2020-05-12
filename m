@@ -2,85 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3781CFF11
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 22:12:55 +0200 (CEST)
-Received: from localhost ([::1]:44002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60961CFF49
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 22:32:32 +0200 (CEST)
+Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYbGo-0008Sm-LO
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 16:12:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52138)
+	id 1jYbZn-0006E4-O9
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 16:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYbFo-0007xG-1B
- for qemu-devel@nongnu.org; Tue, 12 May 2020 16:11:52 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:56249)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYbFm-0002hm-4y
- for qemu-devel@nongnu.org; Tue, 12 May 2020 16:11:51 -0400
-Received: by mail-wm1-x341.google.com with SMTP id e26so23578780wmk.5
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 13:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=oFWR84pC7R1oYgU8sts5u3wS5oyXtEHIRCzjpXdgk5A=;
- b=BUg6/bhHGlN6E9o9XYrzZAR2Al7Qb85c7ioeSbPW/35z9okT3xb+QM/qmt5Bw9m/yt
- 2NjWAxjcmU+YhyL0Xauqxf75klmr19PvGTSUxejVC25aosoBfD2PvN6eCSjFj9lOuZ3P
- rGbcn8wV4P/nJ3Z4fn/qNaDh5lQXRgYMN9WNjjduFr9ExwLmeh3LQxL0tw3IxAtKW8lb
- /L4WTUhQZiPL/d3NdF8OrVH8xMgr924obCjMMP0+AVdHawzDBkW7Hgbre6N2Ftoj4Eo8
- 78Wi7GCn8sVtzPMfRFgff/S51trNqWI3eOxX3Ybmr86xkyowRcNbLw0w7Qghrp/a5IPG
- v0IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=oFWR84pC7R1oYgU8sts5u3wS5oyXtEHIRCzjpXdgk5A=;
- b=fz55LQVEkzihyPaLXUm0WdIm2V9gGEXXAPWp47qZDAzn1EH3LtlfFoAs3AT3ABDocK
- 8CpgbUx93EwmMCyP6/l1phrQr5eCnYHT5xsyaAGRIKKTZN7aT9z6azS7G1Xf5wRKcPZR
- GyWbFv1e5fQ7l4DSJVNPm2uov4LeH7tjSZ/blQujr0wUkL3UmCp1+I+7LZcLStwnfQ+7
- EGlxsvgZlyGkMXWi72NkrVCZWp0G+XjK/H+/12F2SKLrB59vhGuJl3AtQyOxToIbuiZ5
- d7ZAjwiqPV6DI/9mmbNWe/f1PgJZiUMHigkHUFyuIeocSXcpMNo/XTLVEb2lzrYGXU0J
- zIrA==
-X-Gm-Message-State: AGi0PubZhvEi81jI7Fc7G7qpMp4bv5cTj8Mg5cJzyoFNoa7QfN8dwZq9
- 6h1zP0FmhMD0/+1GB5uvZAjUyQ==
-X-Google-Smtp-Source: APiQypL8JQsbDB8ILVPa5i4S93Uq38ITkPjC2OAWlJAbgBTaqt2GlHvK5GO5WNgXVn8uurMlaUS0dA==
-X-Received: by 2002:a1c:98c9:: with SMTP id a192mr17098258wme.48.1589314308364; 
- Tue, 12 May 2020 13:11:48 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 89sm23950622wrj.37.2020.05.12.13.11.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 13:11:47 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4AAFF1FF7E;
- Tue, 12 May 2020 21:11:46 +0100 (BST)
-References: <CAEme+7FPF+inSJSXQPmuv8Up3Eam0N7fT03zqM-RvcvKsxjfVQ@mail.gmail.com>
- <f4feb648-7dc5-ac54-bc0b-db650dd176f1@vivier.eu>
- <CAEme+7EtF6B2+2U_yF2dd-g2m+=S3P5=DL1oLmHfmWw2S7PYAw@mail.gmail.com>
- <20200509230016.GA109593@sff>
- <CAEme+7H82A2RNk5g09rmhThxW4=6sqWP5o65OCsJ8zf1L-nb+w@mail.gmail.com>
- <20200512005521.GA198983@sff>
-User-agent: mu4e 1.4.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Emilio G. Cota" <cota@braap.org>
-Subject: Re: [PATCH 3/3] plugins: avoid failing plugin when CPU is inited
- several times
-In-reply-to: <20200512005521.GA198983@sff>
-Date: Tue, 12 May 2020 21:11:46 +0100
-Message-ID: <87zhacewvx.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1jYbYT-0005FR-KU
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 16:31:09 -0400
+Received: from mail-co1nam11on2044.outbound.protection.outlook.com
+ ([40.107.220.44]:58718 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1jYbYR-0008Pm-N4
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 16:31:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C4J0B0kYRVyc2bfE5Nyfre/PQU+sx9pwEbDKd8XU2+f989bjdXXLv450TZhCCMthF+trqltzIr/26LpmBGR+s+uv0MkLEyNM6hx5tzeUUiteIoB0dovrOwIxGJUTp1KFLgTCQDWxpVOP+OC4fNuAj0X+IB4SctQ+NvSgukL48bamkP0F8lk00uQ+EMHaZobn1LX9BJe1VFuxdbmJwzP6XooWmI6teNxGkP2J1xjX2PL3Uy4KIVMihdE8Nl6++TWexO8xPGyt8f86fCire3lED/f61UQinCWKcIJ3w9EY4d2mTHxdkdhJWU/3lAdNSkk4mFfyPNjERIyzxcueSNc3+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AZwcxeIkB9n8lR/gdi/l8HrGAmtGem8GLJKNsQ+xD/0=;
+ b=J9+/MvAGsesyJY1543SHgesrvKVgym9jhtucNBWasSXYw5MIJQuPJexYX8i3ULpa1IqXyZyOJpGp/Jy+KgwRKEMVzLGPqse63uSJu7UC+/P3/HamjF3lxGUdSbr2cGTTR2L0nZATyQOCyaSA2/2pi4bXGGINem0dGHhyBgudQxey2wSw7t1hiD7+fKWuONuj5uoqZG5kOmVO29GYbr03RAt87C5iU1o7XU1oBnhC9FK+hRTwysZ6uiF8ymVVyUwKLsRJIERmdsRopsY3L379gfWMIE7uwczxOcwybEYCqpJBZThosWYHzmt1dNfkP7btW3552d0dDOQjv0ieGVCmBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AZwcxeIkB9n8lR/gdi/l8HrGAmtGem8GLJKNsQ+xD/0=;
+ b=WPcpk4cmE8AxC/iQlmljiivDVn1PeoogZt6U7+VBULwm2Hcv7Jp2bsAmutubWZEvTMESioGvVkCCHurZznVRbJKYioLPs5cUuZZ1Ec3R78YXGKklqp5nY2+d9z5q3s5J+NMODgEkuhEx2B5+DXJf1dgEcpCWb1PaD/WdTMaHQl4=
+Received: from SN4PR0701CA0021.namprd07.prod.outlook.com
+ (2603:10b6:803:28::31) by SN6PR02MB5549.namprd02.prod.outlook.com
+ (2603:10b6:805:e4::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.35; Tue, 12 May
+ 2020 20:16:03 +0000
+Received: from SN1NAM02FT022.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:803:28:cafe::33) by SN4PR0701CA0021.outlook.office365.com
+ (2603:10b6:803:28::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20 via Frontend
+ Transport; Tue, 12 May 2020 20:16:03 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT022.mail.protection.outlook.com (10.152.72.148) with Microsoft SMTP
+ Server id 15.20.2979.29 via Frontend Transport; Tue, 12 May 2020 20:16:02
+ +0000
+Received: from [149.199.38.66] (port=34761 helo=xsj-pvapsmtp01)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1jYbJZ-0000UN-HN
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 13:15:45 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by xsj-pvapsmtp01 with smtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>) id 1jYbJq-00062i-5q
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 13:16:02 -0700
+Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04CKFq8g021434; 
+ Tue, 12 May 2020 13:15:52 -0700
+Received: from [172.19.2.115] (helo=xsjfnuv50.xilinx.com)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1jYbJg-0005zy-8y; Tue, 12 May 2020 13:15:52 -0700
+From: Vikram Garhwal <fnu.vikram@xilinx.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/4] Introduce Xilinx ZynqMP CAN controller
+Date: Tue, 12 May 2020 13:15:48 -0700
+Message-Id: <1589314552-1375-1-git-send-email-fnu.vikram@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFTY:;
+ SFS:(136003)(396003)(39860400002)(376002)(346002)(46966005)(33430700001)(9786002)(8936002)(316002)(2616005)(33440700001)(6666004)(7696005)(356005)(478600001)(82310400002)(81166007)(426003)(36756003)(26005)(186003)(8676002)(70586007)(70206006)(6916009)(4326008)(336012)(5660300002)(107886003)(47076004)(2906002)(82740400003);
+ DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 14d9b7e6-9e3f-44c2-6053-08d7f6b14b0f
+X-MS-TrafficTypeDiagnostic: SN6PR02MB5549:
+X-Microsoft-Antispam-PRVS: <SN6PR02MB554927F3C1F0C82C005FC97ABCBE0@SN6PR02MB5549.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6uWfXZuKYCgLUgjPKR6jeJXUSkbhy/T4Twgad1T5usMooqsOVbCSw5WVXQJqeKgAlqBUjyOZDgWJHfqdRN8DBY7Ndy2oXkBF7LSg9oPSpezca6058WBHj0jaT+TeW+CHqlPTC5+FqnAieuGKqCVZuga/iIk4d0OdQoPKNfmlbdW1Wte4aa+82CxoGaqMfoOJmOBwnqyJLk0KYFJ521piL25DkwT/klqO/yUZfmhUdpsoNJjPAxnLzCYt7smu6RxEK+69LIxjOq4kyocGElzS7hJvbKzK+zyrqM+yMF/jKLryASqxF6+jr18f0IcvAU25izronlo0T/MKqImWMqJZzRUCYJnJHNme2cG2H5tbyZXmvY2RIvuVeYeX+NDw/IM+UlEPKIF+W6D28jF7RJkZIr1ql6D3C65xmpSl7SO7tYP4NxxnElzYyaojczrMP9AbxkYavBknaKbYhyvgePHtnq9Km+NOM6SzaCTmcwRQHWX+kHcjSLRxK3ENZyUgrmMYLp2Y+OGZo/T7BzS+zWoSrN36shrCIgyDVF4Zau0WK4X+0Q2Pdl94OSydkM0niXLKfiC3Bu7QftqLEPEMzYM8lw==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 20:16:02.5037 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14d9b7e6-9e3f-44c2-6053-08d7f6b14b0f
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5549
+Received-SPF: pass client-ip=40.107.220.44; envelope-from=fnuv@xilinx.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 16:31:05
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,60 +129,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- riku.voipio@iki.fi, Laurent Vivier <laurent@vivier.eu>,
- Nikolay Igotti <igotti@gmail.com>
+Cc: francisco.iglesias@xilinx.com, Vikram Garhwal <fnu.vikram@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+ Example for single CAN:
+      -object can-bus,id=canbus0 \
+      -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0 \
+      -object can-host-socketcan,id=socketcan0,if=vcan0,canbus=canbus0
 
-Emilio G. Cota <cota@braap.org> writes:
+ Example for connecting both CAN:
+      -object can-bus,id=canbus0 -object can-bus,id=canbus1 \
+      -global driver=xlnx.zynqmp-can,property=canbus0,value=canbus0 \
+      -global driver=xlnx.zynqmp-can,property=canbus1,value=canbus1 \
+      -object can-host-socketcan,id=socketcan0,if=vcan0,canbus=canbus0 \
+      -object can-host-socketcan,id=socketcan1,if=vcan0,canbus=canbus1
 
-> On Mon, May 11, 2020 at 18:53:19 +0300, Nikolay Igotti wrote:
->> Attached to the mail counter.c when running with attached test.c compiled
->> to Linux standalone binary shows failing assert, unless the patch is
->> applied.
->
-> I didn't get the attachment. Can you paste the code at the end of your
-> reply?
+Changelog:
 
-So the problem is we are recycling cpu_index:
+v3 -> v4:
+    Correct formatting issues.
 
-  21:01:54 [alex@zen:~/l/q/b/all.plugin] plugins/next|=E2=97=8F2=E2=9C=9A3=
-=E2=80=A6(+8 insertions(+)) 127 + ./x86_64-linux-user/qemu-x86_64 ./tests/t=
-cg/x86_64-linux-user/threadcount
-  cpu_list_add: 0x5605598579f0
-  cpu_get_free_index: 0
-  cpu_list_add: 0x5605598c6010
-  cpu_get_free_index: 1
-  cpu_list_add: 0x5605598ec330
-  cpu_get_free_index: 2
-  cpu_list_add: 0x560559912a30
-  cpu_get_free_index: 3
-  cpu_list_add: 0x560559939130
-  cpu_get_free_index: 4
-  cpu_list_add: 0x56055995d360
-  cpu_get_free_index: 1
-  **
-  ERROR:/home/alex/lsrc/qemu.git/plugins/core.c:205:qemu_plugin_vcpu_init_h=
-ook: assertion failed: (success)
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7fa2=
-9c702613
+v2 -> v3:
+    Rectify the build issue.
+    Rearrange the patch order.
 
-However I'm confused as to how. The cpu_index is really just a function
-of the number of CPUs in the cpus list and I can't see where we free
-them up. We never call cpu_common_unrealizefn so the list should never
-shrink. We should just end up with a slowly growing list of now dead CPU
-states.
+v1 -> v2:
+    Rename the CAN device state and address code style issues.
+    Connect the CAN device to Xlnx-ZCU102 board.
+    Add maintainer entry.
+    Add QTEST for the CAN device.
 
-I'm giving up for now but will have a look again in the morning if no
-one else has figured out what is going on by then.
+Vikram Garhwal (4):
+  hw/net/can: Introduce Xilinx ZynqMP CAN controller
+  xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
+  tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
+  MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
 
->
-> Thanks,
-> 		Emilio
+ MAINTAINERS                      |    8 +
+ hw/arm/xlnx-zynqmp.c             |   26 +
+ hw/net/can/Makefile.objs         |    1 +
+ hw/net/can/xlnx-zynqmp-can.c     | 1111 ++++++++++++++++++++++++++++++++++++++
+ include/hw/arm/xlnx-zynqmp.h     |    3 +
+ include/hw/net/xlnx-zynqmp-can.h |   75 +++
+ tests/qtest/Makefile.include     |    2 +
+ tests/qtest/xlnx-can-test.c      |  367 +++++++++++++
+ 8 files changed, 1593 insertions(+)
+ create mode 100644 hw/net/can/xlnx-zynqmp-can.c
+ create mode 100644 include/hw/net/xlnx-zynqmp-can.h
+ create mode 100644 tests/qtest/xlnx-can-test.c
 
+--
+2.7.4
 
---=20
-Alex Benn=C3=A9e
 
