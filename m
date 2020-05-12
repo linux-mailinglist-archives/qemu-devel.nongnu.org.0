@@ -2,65 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7689F1CEC32
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 06:54:56 +0200 (CEST)
-Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143D31CEB49
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:18:15 +0200 (CEST)
+Received: from localhost ([::1]:40926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYMwR-0003Jq-JS
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 00:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47104)
+	id 1jYLQs-0008Ku-5J
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jYKSg-0007Ty-Ru
- for qemu-devel@nongnu.org; Mon, 11 May 2020 22:16:02 -0400
-Received: from mga14.intel.com ([192.55.52.115]:23592)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLPZ-0006Py-Oo
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:16:53 -0400
+Received: from mail-eopbgr760127.outbound.protection.outlook.com
+ ([40.107.76.127]:31527 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1jYKSe-0002Eq-TN
- for qemu-devel@nongnu.org; Mon, 11 May 2020 22:16:02 -0400
-IronPort-SDR: DYqQ4qhJaK7KKMFvNusXpUHcze1r9eUj/gg+p4Bqg5WOZQitrVw82CIQmgQFAnJxaJqZnRnkCD
- WYChAnLwZGsw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 May 2020 19:15:55 -0700
-IronPort-SDR: iXccTIdUWJlLTJGRuHfotT/+4wwHfv8Jpssd8vmdxbb+tkTyDF/6dkLfRkU9BweAAjk2+DFxEv
- 50ocevK7l+BA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,381,1583222400"; d="scan'208";a="286475312"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.16])
- by fmsmga004.fm.intel.com with ESMTP; 11 May 2020 19:15:50 -0700
-Date: Mon, 11 May 2020 22:06:03 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v16 QEMU 09/16] vfio: Add save state functions to
- SaveVMHandlers
-Message-ID: <20200512020603.GB27524@joy-OptiPlex-7040>
-References: <1585084154-29461-1-git-send-email-kwankhede@nvidia.com>
- <1585084154-29461-10-git-send-email-kwankhede@nvidia.com>
- <20200325160311.265ca037@w520.home>
- <b57322be-a337-ccb8-19e3-6c6bc3343119@nvidia.com>
- <20200504223708.6d8c94bf@x1.home>
- <0da3fe3b-1818-3c82-040b-0f9881eb7205@nvidia.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLPY-0004LG-Ld
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:16:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mr1UwOqxSOtAI0tRLtsAUS/uxh4pCsImTKtv3Tq2kLEgm+JXh373boOK1S/FO/J176itDfsFsw1bf9639o8d8O513JjFLzajkqn/EB2yw6IluIIPXYkFjpJIsvp8Q3wUN9GQ6jSdGTDa8Z3V+Nhn0x/iPjUcXltwFD9+eGzVVZ36JqEFAH+h+98XPc6OTwzAYQ9d7U5JQ9WxK+0LfaxNukjjBApLe80xkXf2yKgdf8Ww1eGuuKyU1WVo7dcjIVksy6SYA4+c7z2ze+d9qxEs/jQWHr5CjaYa/vz/eMBzoiL69QuAxVfrhC+T08NHathADMBOQADSePaplcklATtXUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mGaSeRQUISb5Uwe8EOB96n3Pdqu//yfXGtekUZPMv6o=;
+ b=RX224669EljXTEvRg2aMX+oo10ZAhFQ8+QO4p5o+5KlKb6gDov6kWJ1zolW8HSghvDgGkd0od/7DahIW2sn/mM+LCejykX/7XlzrwI+v7fWFG11JNbLMt2uDCObAlJbj1/SpfcrGSxfZuc+4rN070i07c//jc2tz0MqM5o8tFOdqv1NJGxEfnFNWHetaDWDSaXHWWKBjN/CCEyZ/CP0JmKZcdVMbNJIRtdRwCuvVjrzMklK4XBxgMNjkZWGkU/yWW5Kq+VIpNuAj/oiYC52YtdKGSPOtoDRY15qAWZg+Eeck2n77uVIeEetg+BAJ4JpvoscxdsvFUM6qeDPmt2rYFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mGaSeRQUISb5Uwe8EOB96n3Pdqu//yfXGtekUZPMv6o=;
+ b=WiJYxc01SdFDyL+NWTpJ9rAE1GAP3SpQTieqmQgOqleZxYv9NChbqZTYWuhMCpQRH83KoQn4EGT0Y5mzqbGbIVh7iGfGT1zul5vI3D6UolwiKZlECVnJoLzeooZcN5YQ5GuYa1xmPdSZRceGGNs0DqpYHgNbtFpaLjDtC3KtdXQ=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB4176.namprd03.prod.outlook.com (2603:10b6:805:c0::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26; Tue, 12 May
+ 2020 03:01:45 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::640a:1123:37c1:42db]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::640a:1123:37c1:42db%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
+ 03:01:45 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] fuzz: misc changes for oss-fuzz compatability
+Date: Mon, 11 May 2020 23:01:29 -0400
+Message-Id: <20200512030133.29896-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.26.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR12CA0025.namprd12.prod.outlook.com
+ (2603:10b6:208:a8::38) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0da3fe3b-1818-3c82-040b-0f9881eb7205@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=yan.y.zhao@intel.com;
- helo=mga14.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 22:15:55
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mozz.bu.edu (128.197.127.33) by
+ MN2PR12CA0025.namprd12.prod.outlook.com (2603:10b6:208:a8::38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2979.26 via Frontend Transport; Tue, 12 May 2020 03:01:44 +0000
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [128.197.127.33]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 28679fce-fdd7-4c83-4c02-08d7f620cdf6
+X-MS-TrafficTypeDiagnostic: SN6PR03MB4176:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB41760EB01E318332B59006EFBABE0@SN6PR03MB4176.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 74HS4UtTrHswb817hwds6pTfJWBLyloSxDq/0StN5GZPSO1sgbKQdSRC1uMWdIx+4yM+1Pi4WCXSL2HmAEXRQbpFyV7rU8oYdo5NFXzDuvpQYxugrIIE2A0x5wblOfHg6jkV5TqFAHSUh6KUSL14xnPPTeocxStDD1jLWCAT6xICbrfcGMMDMaAT5f/U3Kkr7yr4yOaFvmbBjRMPT/WAqRa4q/zmv4XP/RIhDwaswY54U+Xif5anUOtgXcGzT8clHQZB1Lk3h9iGfURQK8dCPxmjIg7wDP3AiECyBZJVlA6w8H6EAxJ9b+9BWLeZse+9uBx1Go6kk4JwSeNhmgqyjy+pCiVbNhZm/pCSFz5j5heoTF8Dzn6c0c1cUu69oBtHDtvQWvAOHIVl2hi1gpmSjGD3lBHPVwFJvsfQFOfPk9zynfN7iV74WHtU9GuAueARagnU/vYZyV6ReVanBVkfwaqbbYWAlYAMLE8ucdIr1ZMdArvxAyauqitCB9W1TpVQ0BmK4Qtypx8S4H0So/dagQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(136003)(39860400002)(366004)(346002)(376002)(33430700001)(66556008)(66946007)(36756003)(956004)(1076003)(33440700001)(66476007)(16526019)(186003)(8936002)(6916009)(4326008)(6666004)(86362001)(5660300002)(26005)(2906002)(478600001)(786003)(316002)(8676002)(6486002)(52116002)(2616005)(7696005)(75432002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 626/l68SlLFm4IUloye0iILurbpYRWpO7Ft4UmTQLIfU/F6Cjs0ppH9wT1zsBTfHYuFjTuEMCWVBztgCuLUYQCfEYuTsJljMotV0qSeaA6BR3WDhqLxgio9wSp7S8ZaNaPzUv0GFk5gUuVSrRAFZ3B+Lc2bQvHH/L+GLQQB4UY1X3X0DejhHBciX9gBCmo5Jl0XlB8mT/CgPwMc7ZuFe9wydt4hYnM5DZ/GuibFGs1et3FCT3moIBgYPZlmndf1f7dnHYVswtkuLQKEIzmvZAvj9D3T+loi+4pWNfYNokQLM8q4x+xTupd9l3Lxc8YvvKQM3W2kbR1hLQJWOkbpBxUtverZUFF5wBl2RlF1TnEIH0SoQePeiZWNRz3h0/s3sNeXDvHt6Nbad3g/J2q9E+BnwPAOO0Z2zz6Y0+o9opaVV3nmYCr9lw/5PgbAagD3AVee5QEIIj1Zt6AjYFiYhf09SvIforpZqFNtIw9epmYw=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28679fce-fdd7-4c83-4c02-08d7f620cdf6
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 03:01:45.4489 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Byhs0yfKy8nQHVKqmJNuGFwiUD7YDsqpF3kKUIzDWjA1mbD2I7ri2qSo/G6Ufqe+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4176
+Received-SPF: pass client-ip=40.107.76.127; envelope-from=alxndr@bu.edu;
+ helo=NAM02-CY1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/11 23:16:51
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 12 May 2020 00:52:43 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,135 +111,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- Alex Williamson <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 11, 2020 at 05:53:37PM +0800, Kirti Wankhede wrote:
-> 
-> 
-> On 5/5/2020 10:07 AM, Alex Williamson wrote:
-> > On Tue, 5 May 2020 04:48:14 +0530
-> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> > 
-> >> On 3/26/2020 3:33 AM, Alex Williamson wrote:
-> >>> On Wed, 25 Mar 2020 02:39:07 +0530
-> >>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >>>    
+Hello,
+With these patches, the fuzzer passes the oss-fuzz build checks.
+There are also some miscelanous improvement to the fuzzer, in general:
+ * If building for oss-fuzz, check executable_dir/pc-bios for
+   the bios images
+ * Fix a typo in the i440fx-qtest-reboot argument which resulted in an
+   invalid argument to qemu_main
+ * Add an alternate name to resolve libfuzzer's internal fuzzer::TPC
+   object at link-time
+ * For all fork-based fuzzers, run the main-loop in the parent, to
+   prevent the clock from running far-ahead of the previous main-loop.
+-Alex
 
-<...>
+Alexander Bulekov (4):
+  fuzz: add datadir for oss-fuzz compatability
+  fuzz: fix typo in i440fx-qtest-reboot arguments
+  fuzz: add mangled object name to linker script
+  fuzz: run the main-loop in fork-server process
 
-> >>>> +static int vfio_save_iterate(QEMUFile *f, void *opaque)
-> >>>> +{
-> >>>> +    VFIODevice *vbasedev = opaque;
-> >>>> +    int ret, data_size;
-> >>>> +
-> >>>> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
-> >>>> +
-> >>>> +    data_size = vfio_save_buffer(f, vbasedev);
-> >>>> +
-> >>>> +    if (data_size < 0) {
-> >>>> +        error_report("%s: vfio_save_buffer failed %s", vbasedev->name,
-> >>>> +                     strerror(errno));
-> >>>> +        return data_size;
-> >>>> +    }
-> >>>> +
-> >>>> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> >>>> +
-> >>>> +    ret = qemu_file_get_error(f);
-> >>>> +    if (ret) {
-> >>>> +        return ret;
-> >>>> +    }
-> >>>> +
-> >>>> +    trace_vfio_save_iterate(vbasedev->name, data_size);
-> >>>> +    if (data_size == 0) {
-> >>>> +        /* indicates data finished, goto complete phase */
-> >>>> +        return 1;
-> >>>
-> >>> But it's pending_bytes not data_size that indicates we're done.  How do
-> >>> we get away with ignoring pending_bytes for the save_live_iterate phase?
-> >>>    
-> >>
-> >> This is requirement mentioned above qemu_savevm_state_iterate() which
-> >> calls .save_live_iterate.
-> >>
-> >> /*	
-> >>    * this function has three return values:
-> >>    *   negative: there was one error, and we have -errno.
-> >>    *   0 : We haven't finished, caller have to go again
-> >>    *   1 : We have finished, we can go to complete phase
-> >>    */
-> >> int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
-> >>
-> >> This is to serialize savevm_state.handlers (or in other words devices).
-> > 
-> > I've lost all context on this question in the interim, but I think this
-> > highlights my question.  We use pending_bytes to know how close we are
-> > to the end of the stream and data_size to iterate each transaction
-> > within that stream.  So how does data_size == 0 indicate we've
-> > completed the current phase?  It seems like pending_bytes should
-> > indicate that.  Thanks,
-> > 
-> 
-> Fixing this by adding a read on pending_bytes if its 0 and return 
-> accordingly.
->      if (migration->pending_bytes == 0) {
->          ret = vfio_update_pending(vbasedev);
->          if (ret) {
->              return ret;
->          }
-> 
->          if (migration->pending_bytes == 0) {
->              /* indicates data finished, goto complete phase */
->              return 1;
->          }
->      }
-> 
+ include/sysemu/sysemu.h             |  2 ++
+ softmmu/vl.c                        |  2 +-
+ tests/qtest/fuzz/fork_fuzz.ld       |  5 +++++
+ tests/qtest/fuzz/fuzz.c             | 15 +++++++++++++++
+ tests/qtest/fuzz/i440fx_fuzz.c      |  3 ++-
+ tests/qtest/fuzz/virtio_net_fuzz.c  |  2 ++
+ tests/qtest/fuzz/virtio_scsi_fuzz.c |  2 ++
+ 7 files changed, 29 insertions(+), 2 deletions(-)
 
-just a question. if 1 is only returned when migration->pending_bytes is 0,
-does that mean .save_live_iterate of vmstates after "vfio-pci"
-would never be called until migration->pending_bytes is 0 ?
-
-as in qemu_savevm_state_iterate(),
-
-qemu_savevm_state_iterate {
-...
-  QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
-  	...
- 	ret = se->ops->save_live_iterate(f, se->opaque);
-	...
-	if (ret <= 0) {
-            /* Do not proceed to the next vmstate before this one reported
-               completion of the current stage. This serializes the migration
-               and reduces the probability that a faster changing state is
-               synchronized over and over again. */
-            break;
-        }
-  }
-  return ret;
-}
-
-in ram's migration code, its pending_bytes(remaining_size) is only updated in
-ram_save_pending() when it's below threshold, which means in
-ram_save_iterate() the pending_bytes is possible to be 0, so other
-vmstates have their chance to be called.
-
-Thanks
-Yan
+-- 
+2.26.2
 
 
