@@ -2,69 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B2B1CF366
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 13:34:15 +0200 (CEST)
-Received: from localhost ([::1]:59298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9FD1CF371
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 13:37:00 +0200 (CEST)
+Received: from localhost ([::1]:37076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYTAs-0004Yx-GS
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 07:34:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33304)
+	id 1jYTDX-0007P6-Ju
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 07:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYT9p-0003Tr-6j
- for qemu-devel@nongnu.org; Tue, 12 May 2020 07:33:09 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:51894
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jYTC9-0006Fh-Ke
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 07:35:33 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35764
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYT9o-0006iI-97
- for qemu-devel@nongnu.org; Tue, 12 May 2020 07:33:08 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jYTC8-000717-ID
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 07:35:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589283187;
+ s=mimecast20190719; t=1589283331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=humsqq0UQJSXbVwJpOATzrWoKVEJNugwaRhXcYJ/LX4=;
- b=BTTdpCkAKBCUvurGqQPkGNLHirvEp3vTnLKGApVvVwRpSxQMZpA+AZkjdyEdQMbZHkOuEp
- S6RrCblHgeMx43kUocE5yESICpcGEMvSHjIvKcM2nMbWya25D9Gk7pDdMxItZOK6nwxZni
- z4XXWMnR73j96V7yIDVjWocWt+HpmVc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-angsQK-eP3-wbzMvmQWB2g-1; Tue, 12 May 2020 07:33:05 -0400
-X-MC-Unique: angsQK-eP3-wbzMvmQWB2g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87B8D872FE2;
- Tue, 12 May 2020 11:33:04 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-74.ams2.redhat.com [10.36.114.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 39EEA5D9DD;
- Tue, 12 May 2020 11:32:57 +0000 (UTC)
-Date: Tue, 12 May 2020 13:32:55 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [RFC] bdrv_flush: only use fast path when in owned AioContext
-Message-ID: <20200512113255.GK5951@linux.fritz.box>
-References: <20200511165032.11384-1-s.reiter@proxmox.com>
- <20200512105719.GI5951@linux.fritz.box>
+ bh=+BiTuuhaiRCRuygJo/UfgMumeWw31HiTY05kAioh0sw=;
+ b=aI5hNrAW8dWtsg8iX64oeJ+bBnCen+LPzVDJpI6j/48p3MTV4viLvyDnxCGXfnx7f0Zjch
+ zf7sMIqGfqZ8EtSUZUWV8QEsREW8lVsbo8vpLJftZ/ytxRA9V6/wC3gG/0l7SyUlFjBNly
+ x52UXqYwkSth8uoPvc55swUzjzPNlls=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-_TFC3jGqNGamOm0gXK2jqA-1; Tue, 12 May 2020 07:35:29 -0400
+X-MC-Unique: _TFC3jGqNGamOm0gXK2jqA-1
+Received: by mail-wr1-f72.google.com with SMTP id r7so585174wrc.13
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 04:35:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+BiTuuhaiRCRuygJo/UfgMumeWw31HiTY05kAioh0sw=;
+ b=oNvgLzFQyqXA01hGx9dECYvqrJWlo2kI9sx2rdLo41AeRLbtH49tFuICKF7BoNnPIv
+ 8pspnHvGX5Ex6LdUd7PmN8PZcYripoRUIdtZp/KlnjaFr9uvgV7GrblNCMZUkio6yTZm
+ 3U+HbDVrieBLZ9o3N+ujmnYn+NYh7dG1wCRFbGNP1oGsrpYPNlEjGqPV7uVZca97FI6r
+ suXbakcZCYWe7M/buxV0gCi5HRNPjMA/vtbWvMb+KiR2gqfDwKC9jBgCsllCUzdEsSpv
+ pYSGSXL6wbo9yCjkZUepJfv6C6gTQj5KbDiY8c1PrXWRBO2z90N89VqtZRUJKPcer4rs
+ tblw==
+X-Gm-Message-State: AGi0PuaVOwIbNplgxiWQxMgicd6tpYu+I7TJfBwchhia3I007U3LvwlJ
+ W6bjXFJ7Y2yShf5TGxMJ6GQh4iKTMK8VJHz4F4HtIc7ezr0yz0c+rjWdUzRK1NOorg8Dck0y5Zz
+ rF4Zk0TLsVvl5ukg=
+X-Received: by 2002:a7b:c5d4:: with SMTP id n20mr38375028wmk.92.1589283328827; 
+ Tue, 12 May 2020 04:35:28 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIZBWCP2oEj/S8LiXheSW7eg8C7utjhj4b5hLWz7aH6Dpnc1ic28b7BJX+0qQj2+ajALvIbPA==
+X-Received: by 2002:a7b:c5d4:: with SMTP id n20mr38374993wmk.92.1589283328508; 
+ Tue, 12 May 2020 04:35:28 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:4c95:a679:8cf7:9fb6?
+ ([2001:b07:6468:f312:4c95:a679:8cf7:9fb6])
+ by smtp.gmail.com with ESMTPSA id g184sm16877850wmg.1.2020.05.12.04.35.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 May 2020 04:35:27 -0700 (PDT)
+Subject: Re: [PATCH v4 4/6] scripts/kvm/vmxcap: Use Python 3 interpreter and
+ add pseudo-main()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200512103238.7078-1-philmd@redhat.com>
+ <20200512103238.7078-5-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2c1a9a41-6e94-c20b-fdbd-445e260507ec@redhat.com>
+Date: Tue, 12 May 2020 13:35:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200512105719.GI5951@linux.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20200512103238.7078-5-philmd@redhat.com>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:20:15
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:41:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,42 +102,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, t.lamprecht@proxmox.com
+Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org, kvm@vger.kernel.org,
+ qemu-trivial@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 12.05.2020 um 12:57 hat Kevin Wolf geschrieben:
-> Am 11.05.2020 um 18:50 hat Stefan Reiter geschrieben:
-> > Just because we're in a coroutine doesn't imply ownership of the context
-> > of the flushed drive. In such a case use the slow path which explicitly
-> > enters bdrv_flush_co_entry in the correct AioContext.
-> > 
-> > Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-> > ---
-> > 
-> > We've experienced some lockups in this codepath when taking snapshots of VMs
-> > with drives that have IO-Threads enabled (we have an async 'savevm'
-> > implementation running from a coroutine).
-> > 
-> > Currently no reproducer for upstream versions I could find, but in testing this
-> > patch fixes all issues we're seeing and I think the logic checks out.
-> > 
-> > The fast path pattern is repeated a few times in this file, so if this change
-> > makes sense, it's probably worth evaluating the other occurences as well.
+On 12/05/20 12:32, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  scripts/kvm/vmxcap | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> What do you mean by "owning" the context? If it's about taking the
-> AioContext lock, isn't the problem more with calling bdrv_flush() from
-> code that doesn't take the locks?
+> diff --git a/scripts/kvm/vmxcap b/scripts/kvm/vmxcap
+> index 971ed0e721..6fe66d5f57 100755
+> --- a/scripts/kvm/vmxcap
+> +++ b/scripts/kvm/vmxcap
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python3
+>  #
+>  # tool for querying VMX capabilities
+>  #
+> @@ -275,5 +275,6 @@ controls = [
+>          ),
+>      ]
+>  
+> -for c in controls:
+> -    c.show()
+> +if __name__ == '__main__':
+> +    for c in controls:
+> +        c.show()
 > 
-> Though I think we have some code that doesn't only rely on holding the
-> AioContext locks, but that actually depends on running in the right
-> thread, so the change looks right anyway.
 
-Well, the idea is right, but the change itself isn't, of course. If
-we're already in coroutine context, we must not busy wait with
-BDRV_POLL_WHILE(). I'll see if I can put something together after lunch.
-
-Kevin
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
