@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23591CF89B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:09:09 +0200 (CEST)
-Received: from localhost ([::1]:50344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D4E1CF84F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:05:12 +0200 (CEST)
+Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWWq-0007wm-ME
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:09:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33514)
+	id 1jYWT1-0000x8-09
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jYWKg-00032R-P4
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:56:34 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31022
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jYWLk-0005gb-3E
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 10:57:40 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26861
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1jYWKf-0006vp-Mu
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:56:34 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jYWLj-00079t-8i
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 10:57:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589295392;
+ s=mimecast20190719; t=1589295458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vK+7X1PV3xcstDU/tt/jE/s3Cy00piksGfP3b+BWCVY=;
- b=cl+Nt/ulzseIH18Bsc5lTrBZmBY9kd4RHd8rbv5dcW/2SGddRaXHFVVu9MeTJzhbZC5Ptw
- d+tbJ+Rs1woc1TeEeuJNCwxv9Yq+pf4FWcts9MJjw+wSyCmuLD5ILgxKpQ01QlEFK/xexX
- Xk/xgiXBOU4Q2WzruUIuPxVz+oeiM0c=
+ bh=mOXnCNtAmb/z2WUKK25eJ9arm9yFEw2/sy7QLsqaVaE=;
+ b=Yu1tuvt4w9wtyIHJlukgus8HfzzJi9sEPfy21A95F6ienjMcg5A6VqOsH/5s9uqzlv0D1X
+ jlNnZ1WLxJ8Yz2UH24Oqb+WjpbhLHo+2nKDKvhz1APV5ltsGbEW63/HDv4kaPQWOfqxhcW
+ NfytvgtJZRcQ/ZPTcpN5QnymXr6/N2o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-fiSw5kGKPEqyOCWspGO7lQ-1; Tue, 12 May 2020 10:56:30 -0400
-X-MC-Unique: fiSw5kGKPEqyOCWspGO7lQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-211-fNKtj_JeN-u_MAnLnC-Qiw-1; Tue, 12 May 2020 10:57:34 -0400
+X-MC-Unique: fNKtj_JeN-u_MAnLnC-Qiw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38937801E63;
- Tue, 12 May 2020 14:56:29 +0000 (UTC)
-Received: from [10.36.112.22] (ovpn-112-22.ams2.redhat.com [10.36.112.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2BBF71CC;
- Tue, 12 May 2020 14:56:18 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] acpi: Move build_tpm2() in the generic part
-To: Igor Mammedov <imammedo@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BF9C473;
+ Tue, 12 May 2020 14:57:33 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 398475C1B5;
+ Tue, 12 May 2020 14:57:20 +0000 (UTC)
+Date: Tue, 12 May 2020 16:57:17 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 3/3] arm/acpi: Add the TPM2.0 device under the DSDT
+Message-ID: <20200512165717.0aecfda7@redhat.com>
+In-Reply-To: <20200505144419.29174-4-eric.auger@redhat.com>
 References: <20200505144419.29174-1-eric.auger@redhat.com>
- <20200505144419.29174-2-eric.auger@redhat.com>
- <20200506063314.4qvnyfonjixcknuj@kamzik.brq.redhat.com>
- <b8b64cf5-d730-20f0-c9e5-d290b8639e5a@redhat.com>
- <20200512161029.35c77730@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <26885dc1-5b0e-9ebe-9da6-70cc0814c6bf@redhat.com>
-Date: Tue, 12 May 2020 16:56:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ <20200505144419.29174-4-eric.auger@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200512161029.35c77730@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eric.auger@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:41:59
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -86,137 +80,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Andrew Jones <drjones@redhat.com>,
- gshan@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, marcandre.lureau@redhat.com,
- eric.auger.pro@gmail.com, lersek@redhat.com, ardb@kernel.org,
- stefanb@linux.ibm.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
+ mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, marcandre.lureau@redhat.com, eric.auger.pro@gmail.com,
+ lersek@redhat.com, ardb@kernel.org, stefanb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
-On 5/12/20 4:10 PM, Igor Mammedov wrote:
-> On Wed, 6 May 2020 11:50:09 +0200
-> Auger Eric <eric.auger@redhat.com> wrote:
-> 
->> Hi,
->>
->> On 5/6/20 8:33 AM, Andrew Jones wrote:
->>> On Tue, May 05, 2020 at 04:44:17PM +0200, Eric Auger wrote:  
->>>> We plan to build the tpm2 table on ARM too. In order to reuse the
->>>> generation code, let's move build_tpm2() to aml-build.c.
->>>>
->>>> No change in the implementation.
->>>>
->>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->>>> ---
->>>>  include/hw/acpi/aml-build.h |  2 ++
->>>>  hw/acpi/aml-build.c         | 30 ++++++++++++++++++++++++++++++
->>>>  hw/i386/acpi-build.c        | 30 ------------------------------
->>>>  3 files changed, 32 insertions(+), 30 deletions(-)
->>>>
->>>> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
->>>> index 0f4ed53d7f..a67ab4618a 100644
->>>> --- a/include/hw/acpi/aml-build.h
->>>> +++ b/include/hw/acpi/aml-build.h
->>>> @@ -437,4 +437,6 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms);
->>>>  
->>>>  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->>>>                  const char *oem_id, const char *oem_table_id);
->>>> +
->>>> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog);
->>>>  #endif
->>>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
->>>> index 2c3702b882..1f7fd09112 100644
->>>> --- a/hw/acpi/aml-build.c
->>>> +++ b/hw/acpi/aml-build.c
->>>> @@ -26,6 +26,7 @@
->>>>  #include "qemu/bitops.h"
->>>>  #include "sysemu/numa.h"
->>>>  #include "hw/boards.h"
->>>> +#include "hw/acpi/tpm.h"
->>>>  
->>>>  static GArray *build_alloc_array(void)
->>>>  {
->>>> @@ -1875,6 +1876,35 @@ build_hdr:
->>>>                   "FACP", tbl->len - fadt_start, f->rev, oem_id, oem_table_id);
->>>>  }
->>>>  
->>>> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
->>>> +{
->>>> +    Acpi20TPM2 *tpm2_ptr = acpi_data_push(table_data, sizeof *tpm2_ptr);
->>>> +    unsigned log_addr_size = sizeof(tpm2_ptr->log_area_start_address);
->>>> +    unsigned log_addr_offset =
->>>> +        (char *)&tpm2_ptr->log_area_start_address - table_data->data;
->>>> +
->>>> +    tpm2_ptr->platform_class = cpu_to_le16(TPM2_ACPI_CLASS_CLIENT);
->>>> +    if (TPM_IS_TIS_ISA(tpm_find())) {
->>>> +        tpm2_ptr->control_area_address = cpu_to_le64(0);
->>>> +        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_MMIO);
->>>> +    } else if (TPM_IS_CRB(tpm_find())) {
->>>> +        tpm2_ptr->control_area_address = cpu_to_le64(TPM_CRB_ADDR_CTRL);
->>>> +        tpm2_ptr->start_method = cpu_to_le32(TPM2_START_METHOD_CRB);
->>>> +    } else {
->>>> +        g_warn_if_reached();
->>>> +    }
->>>> +
->>>> +    tpm2_ptr->log_area_minimum_length =
->>>> +        cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
->>>> +
->>>> +    /* log area start address to be filled by Guest linker */
->>>> +    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
->>>> +                                   log_addr_offset, log_addr_size,
->>>> +                                   ACPI_BUILD_TPMLOG_FILE, 0);
->>>> +    build_header(linker, table_data,
->>>> +                 (void *)tpm2_ptr, "TPM2", sizeof(*tpm2_ptr), 4, NULL, NULL);
->>>> +}
->>>> +  
->>>
->>> I'll let Igor and mst confirm/deny this, but my understanding was that the
->>> build_append* API was the preferred way to create the table. Indeed, I
->>> don't see too many table.field = cpu_to_le(...) lines in aml-build.c
->>>
->>> I realize this function is just getting moved, but maybe it should get
->>> converted to the build_append* API while being moved?  
->>
->> The reason I did not convert is that the struct is as follows
->>
->> struct Acpi20TPM2 {
->>     ACPI_TABLE_HEADER_DEF
->>     uint16_t platform_class;
->>     uint16_t reserved;
->>     uint64_t control_area_address;
->>     uint32_t start_method;
->>     uint8_t start_method_params[12];
->>     uint32_t log_area_minimum_length;
->>     uint64_t log_area_start_address;
->> } QEMU_PACKED;
->>
->>
->> If I understand correctly the build_append* adds the fields
->> contiguously. It was not straightforward to me how to skip the
->> start_method_params array.
-> 
-> you can use g_array_append_vals() for adding byte array (even is it's all zeros)
+On Tue,  5 May 2020 16:44:19 +0200
+Eric Auger <eric.auger@redhat.com> wrote:
 
-OK I will do.
+> In case it is dynamically instantiated, add the TPM 2.0 device object
+> under the DSDT table in the ACPI namespace. Its HID is MSFT0101
+> while its current resource settings (CRS) property is initialized
+> with the guest physical address and MMIO size of the device.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> 
+> ---
+> 
+> v1 -> v2:
+> - use memory_region_size
+> - fix mingw compilation issue by casting to uint32_t
+> - added Stefan's R-b
+> ---
+>  hw/arm/virt-acpi-build.c | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 1a2ec10c8f..8534d14e20 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -45,6 +45,7 @@
+>  #include "hw/pci/pcie_host.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/arm/virt.h"
+> +#include "hw/platform-bus.h"
+>  #include "sysemu/numa.h"
+>  #include "sysemu/reset.h"
+>  #include "sysemu/tpm.h"
+> @@ -362,6 +363,40 @@ static void acpi_dsdt_add_power_button(Aml *scope)
+>      aml_append(scope, dev);
+>  }
+>  
+> +static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
+> +{
+> +    hwaddr pbus_base = vms->memmap[VIRT_PLATFORM_BUS].base;
+> +    PlatformBusDevice *pbus = PLATFORM_BUS_DEVICE(vms->platform_bus_dev);
+> +    MemoryRegion *sbdev_mr;
+> +    SysBusDevice *sbdev;
+> +    hwaddr tpm_base;
+> +
+> +    sbdev = (SysBusDevice *)object_dynamic_cast(OBJECT(tpm_find()),
+> +                                                TYPE_SYS_BUS_DEVICE);
+SYS_BUS_DEVICE(object_dynamic_cast())
+      
 
-Thank you for your input.
-
-Eric
-> 
->> While we are at it the tcpalog arg is not used. Shall I remove it?
->>
->> Thanks
->>
->> Eric
->>
->>>
->>> Thanks,
->>> drew
->>>
->>>   
-> 
-> 
+> +    if (!sbdev) {
+> +        return;
+> +    }
+> +
+> +    tpm_base = platform_bus_get_mmio_addr(pbus, sbdev, 0);
+> +    assert(tpm_base != -1);
+> +
+> +    tpm_base += pbus_base;
+> +
+> +    sbdev_mr = sysbus_mmio_get_region(sbdev, 0);
+> +
+> +    Aml *dev = aml_device("TPM0");
+> +    aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+> +    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> +
+> +    Aml *crs = aml_resource_template();
+> +    aml_append(crs,
+> +               aml_memory32_fixed(tpm_base,
+> +                                  (uint32_t)memory_region_size(sbdev_mr),
+> +                                  AML_READ_WRITE));
+> +    aml_append(dev, aml_name_decl("_CRS", crs));
+> +    aml_append(scope, dev);
+> +}
+> +
+>  static void
+>  build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>  {
+> @@ -756,6 +791,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>      }
+>  
+>      acpi_dsdt_add_power_button(scope);
+> +    acpi_dsdt_add_tpm(scope, vms);
+>  
+>      aml_append(dsdt, scope);
+>  
 
 
