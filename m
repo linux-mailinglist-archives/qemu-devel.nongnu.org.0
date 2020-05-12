@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9F11CEF87
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 10:53:22 +0200 (CEST)
-Received: from localhost ([::1]:52546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5141CF0B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 11:02:24 +0200 (CEST)
+Received: from localhost ([::1]:44524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYQfB-0001KZ-At
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 04:53:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36796)
+	id 1jYQnv-0002gz-Tj
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 05:02:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jYQeR-0000sq-Ca
- for qemu-devel@nongnu.org; Tue, 12 May 2020 04:52:35 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60847
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1jYQeQ-0003kR-F5
- for qemu-devel@nongnu.org; Tue, 12 May 2020 04:52:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589273553;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s0714OduHS8BI0RwStBnCtCN2TBaZ3BVElIJQvpa+Ps=;
- b=O39e4xlMPUpK7FFUXVTsJ2XN4rzJTC3Xm2ywYZSDHIbAPFsNfQ1gahzszX6lSRkfAZyn/r
- Bm/pYRcf8VJM/kIXCFPQ9O5D1vbDt0e2kIkWXaPZbi0wvYctFdo5pP7uRL4f3i/mVLLb4i
- BZ/QZwqIDsGA4U2V2qWpiWcJvKfyes0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-bhh7ZufKPC6G7-WjEkHujg-1; Tue, 12 May 2020 04:52:28 -0400
-X-MC-Unique: bhh7ZufKPC6G7-WjEkHujg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B16038014D6;
- Tue, 12 May 2020 08:52:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.110.71])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 401EF1002394;
- Tue, 12 May 2020 08:52:22 +0000 (UTC)
-Date: Tue, 12 May 2020 09:52:19 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH 2/5] io/channel.c,io/channel-socket.c: Add yank feature
-Message-ID: <20200512085219.GD1191162@redhat.com>
-References: <cover.1589193717.git.lukasstraub2@web.de>
- <db00ff13f62fe97634132e43105b9bf63bbbf582.1589193717.git.lukasstraub2@web.de>
- <20200511115146.GK1135885@redhat.com>
- <20200511220042.1f226f70@luklap>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYQma-0001x8-5u
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 05:01:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60060)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYQmY-0005is-W0
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 05:00:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYQmW-0002Eu-Pv
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 09:00:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E38A2E810B
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 09:00:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200511220042.1f226f70@luklap>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:41:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2020 08:52:22 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user ppc64 tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier mptcultist
+X-Launchpad-Bug-Reporter: Catherine A. Frederick (mptcultist)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <158906134520.4878.9001427424029475940.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158927354209.4303.16829238998500928223.malone@chaenomeles.canonical.com>
+Subject: [Bug 1877794] Re: Constant Folding on 64-bit Subtraction causes
+ SIGILL on linux-user glxgears ppc64le to x86_64 by way of generating bad
+ shift instruction with c=-1
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 0adba12466fc2fec222a0c72fd6e269e401d1726
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 05:00:57
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,56 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1877794 <1877794@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 11, 2020 at 10:00:42PM +0200, Lukas Straub wrote:
-> On Mon, 11 May 2020 12:51:46 +0100
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
-> 
-> > On Mon, May 11, 2020 at 01:14:41PM +0200, Lukas Straub wrote:
-> > > Add qio_channel_set_yank function to channel and to channel-socket,
-> > > which will register a yank function. The yank function calls
-> > > shutdown() on the socket.
-> > > 
-> > > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > > ---
-> > >  Makefile.objs               |  1 +
-> > >  include/io/channel-socket.h |  1 +
-> > >  include/io/channel.h        | 12 ++++++++++++
-> > >  io/channel-socket.c         | 29 +++++++++++++++++++++++++++++
-> > >  io/channel.c                |  9 +++++++++
-> > >  5 files changed, 52 insertions(+)  
-> > 
-> > Assuming we want the yank feature (which I'm not entirely convinced
-> > of), then I don't think any of this addition should exist. The
-> > QIOChannel class already provides a "qio_channel_shutdown" method
-> > which can be invoked. The layer above which is using the QIOChannel
-> > should be calling this existing qio_channel_shutdown method in
-> > response to any yank request.  The I/O layer shouldn't have any
-> > direct dependancy on the yank feature.
-> 
-> Having the code here simplifys the code in the other places.
+QEMU has been selected to have a GSoC intern to work on new ioctl():
+https://wiki.qemu.org/Google_Summer_of_Code_2020#Extend_linux-user_syscalls=
+_and_ioctls
 
-This introduces a depedancy from the IO channel code into the system
-emulator infra which is not desired. The goal is to keep the io/ module
-isolated and as self-contained as possible.
+Perhaps he can help you by working on DRM ioctl()?
+Perhaps you can send an RFC series to the QEMU mailing list?
 
-I don't think it makes a significant difference to the yank code to
-keep it out of the io layer, and simply call the QIOChannel objects
-via their existing public API.
+-- =
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877794
 
+Title:
+  Constant Folding on 64-bit Subtraction causes SIGILL on linux-user
+  glxgears ppc64le to x86_64 by way of generating bad shift instruction
+  with c=3D-1
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello, I've been recently working on my own little branch of QEMU
+  implementing the drm IOCTLs, when I discovered that glxgears seems to
+  crash in GLXSwapBuffers(); with a SIGILL. I investigated this for
+  about 2 weeks, manually trying to trace the call stack, only to find
+  that we seemingly crash in a bad shift instruction. Originally
+  intended to be an shr_i64 generated to an RLDICL, we end up with an
+  all ones(-1) c value, which gets thrown to the macro for generating
+  the MB, and replaces the instruction with mostly ones. This new
+  instruction, FFFFFFE0 is invalid on ppc64le, and crashes in a host
+  SIGILL in codegen_buffer. I tried to see if the output of translate.c
+  had this bad instruction, but all I got were two (shr eax, cl)
+  instructions, and upon creating a test program with shr (eax, cl) in
+  it, nothing happened. Then figuring that there was nothing actually
+  wrong with the instruction in the first place, I turned my eye to the
+  optimizer, and completely disabled constant folding for arithmetic
+  instructions.  This seemed to actually resolve the issue, and then I
+  slowly enabled constant folding again on various instructions only to
+  find that enabling not on the shifts, but on subtraction seemed to
+  cause the bug to reappear. I am bewildered and frankly at this point
+  I'm not sure I have a chance in hell of figuring out what causes it,
+  so I'm throwing it here.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877794/+subscriptions
 
