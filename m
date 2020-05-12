@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9161CFB7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:00:48 +0200 (CEST)
-Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155F31CFB94
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:05:01 +0200 (CEST)
+Received: from localhost ([::1]:34048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYYGt-0004Gs-V1
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52388)
+	id 1jYYKy-0003Ay-4E
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYY7R-0004mE-Sg; Tue, 12 May 2020 12:51:01 -0400
-Received: from relay.sw.ru ([185.231.240.75]:50546)
+ id 1jYY7T-0004p8-8K; Tue, 12 May 2020 12:51:03 -0400
+Received: from relay.sw.ru ([185.231.240.75]:50562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYY7P-0001R9-5j; Tue, 12 May 2020 12:51:01 -0400
+ id 1jYY7P-0001RA-9E; Tue, 12 May 2020 12:51:02 -0400
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYY7D-0004nT-MV; Tue, 12 May 2020 19:50:47 +0300
+ id 1jYY7D-0004nT-OO; Tue, 12 May 2020 19:50:47 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 12/15] copy-on-read: add filter append/drop functions
-Date: Tue, 12 May 2020 19:50:42 +0300
-Message-Id: <1589302245-893269-13-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v4 13/15] qapi: add filter-node-name to block-stream
+Date: Tue, 12 May 2020 19:50:43 +0300
+Message-Id: <1589302245-893269-14-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1589302245-893269-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1589302245-893269-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -57,159 +57,131 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide API for the COR-filter insertion/removal.
-Also, drop the filter child permissions for an inactive state when the
-filter node is being removed.
+Provide the possibility to pass the 'filter-node-name' parameter to the
+block-stream job as it is done for the commit block job. That will be
+needed for further iotests implementations.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- block/copy-on-read.c | 102 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 102 insertions(+)
+ block/monitor/block-hmp-cmds.c | 4 ++--
+ block/stream.c                 | 4 +++-
+ blockdev.c                     | 8 +++++++-
+ include/block/block_int.h      | 7 ++++++-
+ qapi/block-core.json           | 6 ++++++
+ 5 files changed, 24 insertions(+), 5 deletions(-)
 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 4030d56..229a97c 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -24,11 +24,20 @@
- #include "qemu/cutils.h"
- #include "block/block_int.h"
- #include "qemu/module.h"
-+#include "qapi/error.h"
-+#include "qapi/qmp/qdict.h"
-+#include "block/copy-on-read.h"
+diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+index 4c8c375..6f6636b 100644
+--- a/block/monitor/block-hmp-cmds.c
++++ b/block/monitor/block-hmp-cmds.c
+@@ -507,8 +507,8 @@ void hmp_block_stream(Monitor *mon, const QDict *qdict)
  
+     qmp_block_stream(true, device, device, base != NULL, base, false, NULL,
+                      false, NULL, qdict_haskey(qdict, "speed"), speed, true,
+-                     BLOCKDEV_ON_ERROR_REPORT, false, false, false, false,
+-                     &error);
++                     BLOCKDEV_ON_ERROR_REPORT, false, NULL, false, false, false,
++                     false, &error);
  
-+typedef struct BDRVStateCOR {
-+    bool active;
-+} BDRVStateCOR;
-+
- static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-                     Error **errp)
- {
-+    BDRVStateCOR *state = bs->opaque;
-+
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, false,
-                                errp);
-     if (!bs->file) {
-@@ -42,6 +51,8 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-             bs->file->bs->supported_zero_flags);
- 
-+    state->active = true;
-+
-     return 0;
+     hmp_handle_error(mon, error);
  }
- 
-@@ -57,6 +68,17 @@ static void cor_child_perm(BlockDriverState *bs, BdrvChild *c,
-                            uint64_t perm, uint64_t shared,
-                            uint64_t *nperm, uint64_t *nshared)
+diff --git a/block/stream.c b/block/stream.c
+index 3cca1f9..e0b35f8 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -217,7 +217,9 @@ static const BlockJobDriver stream_job_driver = {
+ void stream_start(const char *job_id, BlockDriverState *bs,
+                   BlockDriverState *base, const char *backing_file_str,
+                   int creation_flags, int64_t speed,
+-                  BlockdevOnError on_error, Error **errp)
++                  BlockdevOnError on_error,
++                  const char *filter_node_name,
++                  Error **errp)
  {
-+    BDRVStateCOR *s = bs->opaque;
-+
-+    if (!s->active) {
-+        /*
-+         * While the filter is being removed
-+         */
-+        *nperm = 0;
-+        *nshared = BLK_PERM_ALL;
-+        return;
-+    }
-+
-     *nperm = perm & PERM_PASSTHROUGH;
-     *nshared = (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
+     StreamBlockJob *s;
+     BlockDriverState *iter;
+diff --git a/blockdev.c b/blockdev.c
+index 97c2ba2..67918fc 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2753,6 +2753,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+                       bool has_backing_file, const char *backing_file,
+                       bool has_speed, int64_t speed,
+                       bool has_on_error, BlockdevOnError on_error,
++                      bool has_filter_node_name, const char *filter_node_name,
+                       bool has_auto_finalize, bool auto_finalize,
+                       bool has_auto_dismiss, bool auto_dismiss,
+                       Error **errp)
+@@ -2769,6 +2770,10 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         on_error = BLOCKDEV_ON_ERROR_REPORT;
+     }
  
-@@ -150,6 +172,7 @@ static int cor_change_backing_file(BlockDriverState *bs,
++    if (!has_filter_node_name) {
++        filter_node_name = NULL;
++    }
++
+     bs = bdrv_lookup_bs(device, device, errp);
+     if (!bs) {
+         return;
+@@ -2840,7 +2845,8 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+     }
  
- static BlockDriver bdrv_copy_on_read = {
-     .format_name                        = "copy-on-read",
-+    .instance_size                      = sizeof(BDRVStateCOR),
+     stream_start(has_job_id ? job_id : NULL, bs, base_bs, base_name,
+-                 job_flags, has_speed ? speed : 0, on_error, &local_err);
++                 job_flags, has_speed ? speed : 0, on_error,
++                 filter_node_name, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         goto out;
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 86f7666..0fdfa9c 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1094,6 +1094,9 @@ int is_windows_drive(const char *filename);
+  *                  See @BlockJobCreateFlags
+  * @speed: The maximum speed, in bytes per second, or 0 for unlimited.
+  * @on_error: The action to take upon error.
++ * @filter_node_name: The node name that should be assigned to the filter
++ * driver that the commit job inserts into the graph above @bs. NULL means
++ * that a node name should be autogenerated.
+  * @errp: Error object.
+  *
+  * Start a streaming operation on @bs.  Clusters that are unallocated
+@@ -1106,7 +1109,9 @@ int is_windows_drive(const char *filename);
+ void stream_start(const char *job_id, BlockDriverState *bs,
+                   BlockDriverState *base, const char *backing_file_str,
+                   int creation_flags, int64_t speed,
+-                  BlockdevOnError on_error, Error **errp);
++                  BlockdevOnError on_error,
++                  const char *filter_node_name,
++                  Error **errp);
  
-     .bdrv_open                          = cor_open,
-     .bdrv_child_perm                    = cor_child_perm,
-@@ -178,4 +201,83 @@ static void bdrv_copy_on_read_init(void)
-     bdrv_register(&bdrv_copy_on_read);
- }
+ /**
+  * commit_start:
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 943df19..df6981e 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2509,6 +2509,11 @@
+ #            'stop' and 'enospc' can only be used if the block device
+ #            supports io-status (see BlockInfo).  Since 1.3.
+ #
++# @filter-node-name: the node name that should be assigned to the
++#                    filter driver that the stream job inserts into the graph
++#                    above @device. If this option is not given, a node name is
++#                    autogenerated. (Since: 5.1)
++#
+ # @auto-finalize: When false, this job will wait in a PENDING state after it has
+ #                 finished its work, waiting for @block-job-finalize before
+ #                 making any block graph changes.
+@@ -2539,6 +2544,7 @@
+   'data': { '*job-id': 'str', 'device': 'str', '*base': 'str',
+             '*base-node': 'str', '*backing-file': 'str', '*speed': 'int',
+             '*on-error': 'BlockdevOnError',
++            '*filter-node-name': 'str',
+             '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
  
-+
-+static BlockDriverState *create_filter_node(BlockDriverState *bs,
-+                                            const char *filter_node_name,
-+                                            Error **errp)
-+{
-+    QDict *opts = qdict_new();
-+
-+    qdict_put_str(opts, "driver", "copy-on-read");
-+    qdict_put_str(opts, "file", bdrv_get_node_name(bs));
-+    if (filter_node_name) {
-+        qdict_put_str(opts, "node-name", filter_node_name);
-+    }
-+
-+    return bdrv_open(NULL, NULL, opts, BDRV_O_RDWR, errp);
-+}
-+
-+
-+BlockDriverState *bdrv_cor_filter_append(BlockDriverState *bs,
-+                                         const char *filter_node_name,
-+                                         Error **errp)
-+{
-+    BlockDriverState *cor_filter_bs;
-+    BDRVStateCOR *state;
-+    Error *local_err = NULL;
-+
-+    cor_filter_bs = create_filter_node(bs, filter_node_name, errp);
-+    if (cor_filter_bs == NULL) {
-+        error_prepend(errp, "Could not create filter node: ");
-+        return NULL;
-+    }
-+
-+    if (!filter_node_name) {
-+        cor_filter_bs->implicit = true;
-+    }
-+
-+    bdrv_drained_begin(bs);
-+    bdrv_replace_node(bs, cor_filter_bs, &local_err);
-+    bdrv_drained_end(bs);
-+
-+    if (local_err) {
-+        bdrv_unref(cor_filter_bs);
-+        error_propagate(errp, local_err);
-+        return NULL;
-+    }
-+
-+    state = cor_filter_bs->opaque;
-+    state->active = true;
-+
-+    return cor_filter_bs;
-+}
-+
-+
-+void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs)
-+{
-+    BdrvChild *child;
-+    BlockDriverState *bs;
-+    BDRVStateCOR *s = cor_filter_bs->opaque;
-+
-+    child = bdrv_filtered_rw_child(cor_filter_bs);
-+    if (!child) {
-+        return;
-+    }
-+    bs = child->bs;
-+
-+    /* Retain the BDS until we complete the graph change. */
-+    bdrv_ref(bs);
-+    /* Hold a guest back from writing while permissions are being reset. */
-+    bdrv_drained_begin(bs);
-+    /* Drop permissions before the graph change. */
-+    s->active = false;
-+    bdrv_child_refresh_perms(cor_filter_bs, child, &error_abort);
-+    bdrv_replace_node(cor_filter_bs, bs, &error_abort);
-+
-+    bdrv_drained_end(bs);
-+    bdrv_unref(bs);
-+    bdrv_unref(cor_filter_bs);
-+}
-+
-+
- block_init(bdrv_copy_on_read_init);
+ ##
 -- 
 1.8.3.1
 
