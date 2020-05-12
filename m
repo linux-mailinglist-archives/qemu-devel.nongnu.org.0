@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468B91CF91C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:27:14 +0200 (CEST)
-Received: from localhost ([::1]:47808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777111CF982
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:43:55 +0200 (CEST)
+Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWoL-0005xe-Bq
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
+	id 1jYX4U-0000rf-Ik
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jYWmz-00056L-0R
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:25:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49646)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jYWhe-0008Jn-50; Tue, 12 May 2020 11:20:18 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:35963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jYWmx-0000dX-LV
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:25:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jYWms-0008Vg-AL
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 15:25:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4D6932E810D
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 15:25:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1jYWhc-00073C-U7; Tue, 12 May 2020 11:20:17 -0400
+Received: by mail-lj1-x241.google.com with SMTP id u15so14125099ljd.3;
+ Tue, 12 May 2020 08:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=tWrK18LUs2ZEDV4D0HtSYOtlHOYDGB4rGn0OlVTepBc=;
+ b=pVq8Cqa24lHODoZdVZeHSJPj7sUfbUXFtJ3MZHG/Z1zQrwSvJyhWwz7UeXmwdhTHwC
+ pkGM2WNBgsvEULaTpXDp+nurv5dA/0DnStfWbnyWIm5wlCEhPGTRD6mlbHIjLc3wUTB0
+ X+Gp0iGLG5q6J9iZAO9x3NeuRod0FT4wbeZm1dirZ77a3YlB6ElaDVSxZveqcyCADPcR
+ rLJ3r/Lgjp+zbw87gNaAKFqE8dj+EU8vgyz0swZ96QMUBUDWbIkJHURzRiMn5fMtbFMc
+ avs8LR9y4e7djPfZk8C5nWwrYzG20zjzYozjxxXTmM+4G6URAykzRIKEDidpOij0xTzk
+ wTNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=tWrK18LUs2ZEDV4D0HtSYOtlHOYDGB4rGn0OlVTepBc=;
+ b=IXV7tEivvCwFN8UnFvhjsDWP8p6B3xCXPrUsPQhLXPXPd3RM28GF1QeVPL+nHFBctg
+ VtWfoZYyZw4rzZedLq2FKr3yrjJmMv0fmF6XqhOR15XzgPPGKbAOuWLPIUc7lH4fJoVi
+ 9DxUkrY2phDmIuvs687d0PliKfC5iIsTFlrxpeBUSymGRXwnBGQtJ0zG+qbc2Lxla90m
+ XeqwiMrzeHb/eRNouLUagEoXBvTj398xktAd/1VxC4DwWf5qRXgfMZqDHa9k3t/0lpvW
+ w3jkGNI1D7KXy8ATChf2LGjYDH8xeyIIz+fHLGIbhdq53YfkTBWABC9bFFQkRinhVv3x
+ ZmxA==
+X-Gm-Message-State: AOAM532nrbB+p1/SfFES85P4VQ92CtDaZ2c/xkSY2r0a7RJxSnu3sBNG
+ KdnTjMEnE+NPaymNig17PTs=
+X-Google-Smtp-Source: ABdhPJxJTTqdu3y33vIFZH4WjG1O8gySE5ZRokb+VOr5O549gnmc23t0oyv14Xh0crF3P8P5y5D1Bg==
+X-Received: by 2002:a2e:9843:: with SMTP id e3mr14223568ljj.249.1589296814076; 
+ Tue, 12 May 2020 08:20:14 -0700 (PDT)
+Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id w29sm14519454lfc.4.2020.05.12.08.20.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 May 2020 08:20:13 -0700 (PDT)
+Date: Tue, 12 May 2020 17:19:56 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: Re: [PATCH v5 08/12] net: cadence_gem: Add support for jumbo frames
+Message-ID: <20200512151956.GU5519@toto>
+References: <1589295294-26466-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1589295294-26466-9-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 May 2020 15:19:38 -0000
-From: zkrx <1877716@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anatol busimus post-factum stefanha zkrx
-X-Launchpad-Bug-Reporter: zkrx (zkrx)
-X-Launchpad-Bug-Modifier: zkrx (zkrx)
-References: <158901182209.5021.12832610872088111923.malonedeb@soybean.canonical.com>
-Message-Id: <158929677818.12255.12177151132371166667.malone@wampee.canonical.com>
-Subject: [Bug 1877716] Re: Win10 guest unusable after a few minutes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fbdff7602bd10fb883bf7e2ddcc7fd5a16f60398";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: b87186053ebd208b7374d63e973af40d5ca878f7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:25:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1589295294-26466-9-git-send-email-sai.pavan.boddu@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,54 +84,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877716 <1877716@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Tong Ho <tong.ho@xilinx.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Ramon Fried <rfried.dev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+On Tue, May 12, 2020 at 08:24:50PM +0530, Sai Pavan Boddu wrote:
+> Add a property "jumbo-max-len", which sets default value of jumbo frames
+> up to 16,383 bytes. Add Frame length checks for standard and jumbo
+> frames.
 
-I applied your series on top of master with io_uring enabled and I no
-longer experience the issue. Let me know if you need additional testing.
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-Thank you for fixing this so promptly.
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877716
-
-Title:
-  Win10 guest unusable after a few minutes
-
-Status in QEMU:
-  New
-
-Bug description:
-  On Arch Linux, the recent qemu package update seems to misbehave on
-  some systems. In my case, my Windows 10 guest runs fine for around 5
-  minutes and then start to get really sluggish, even unresponsive. It
-  needs to be forced off. I could reproduce this on a minimal VM with no
-  passthrough, although my current testing setup involves an nvme pcie
-  passthrough.
-
-  I bisected it to the following commit which rapidly starts to run sluggis=
-hly on my setup:
-  https://github.com/qemu/qemu/commit/73fd282e7b6dd4e4ea1c3bbb3d302c8db51e4=
-ccf
-
-  I've ran the previous commit (
-  https://github.com/qemu/qemu/commit/b321051cf48ccc2d3d832af111d688f2282f0=
-89b
-  ) for the entire night without an issue so far.
-
-  I believe this might be a duplicate of
-  https://bugs.launchpad.net/qemu/+bug/1873032 , although I'm not sure.
-
-  Linux cc 5.6.10-arch1-1 #1 SMP PREEMPT Sat, 02 May 2020 19:11:54 +0000 x8=
-6_64 GNU/Linux
-  AMD Ryzen 7 2700X Eight-Core Processor
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877716/+subscriptions
+> 
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> ---
+>  hw/net/cadence_gem.c         | 51 +++++++++++++++++++++++++++++++++++++++-----
+>  include/hw/net/cadence_gem.h |  4 +++-
+>  2 files changed, 49 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+> index f6ff27c..eb02946 100644
+> --- a/hw/net/cadence_gem.c
+> +++ b/hw/net/cadence_gem.c
+> @@ -61,6 +61,7 @@
+>  #define GEM_TXPAUSE       (0x0000003C / 4) /* TX Pause Time reg */
+>  #define GEM_TXPARTIALSF   (0x00000040 / 4) /* TX Partial Store and Forward */
+>  #define GEM_RXPARTIALSF   (0x00000044 / 4) /* RX Partial Store and Forward */
+> +#define GEM_JUMBO_MAX_LEN (0x00000048 / 4) /* Max Jumbo Frame Size */
+>  #define GEM_HASHLO        (0x00000080 / 4) /* Hash Low address reg */
+>  #define GEM_HASHHI        (0x00000084 / 4) /* Hash High address reg */
+>  #define GEM_SPADDR1LO     (0x00000088 / 4) /* Specific addr 1 low reg */
+> @@ -212,10 +213,12 @@
+>  #define GEM_NWCFG_LERR_DISC    0x00010000 /* Discard RX frames with len err */
+>  #define GEM_NWCFG_BUFF_OFST_M  0x0000C000 /* Receive buffer offset mask */
+>  #define GEM_NWCFG_BUFF_OFST_S  14         /* Receive buffer offset shift */
+> +#define GEM_NWCFG_RCV_1538     0x00000100 /* Receive 1538 bytes frame */
+>  #define GEM_NWCFG_UCAST_HASH   0x00000080 /* accept unicast if hash match */
+>  #define GEM_NWCFG_MCAST_HASH   0x00000040 /* accept multicast if hash match */
+>  #define GEM_NWCFG_BCAST_REJ    0x00000020 /* Reject broadcast packets */
+>  #define GEM_NWCFG_PROMISC      0x00000010 /* Accept all packets */
+> +#define GEM_NWCFG_JUMBO_FRAME  0x00000008 /* Jumbo Frames enable */
+>  
+>  #define GEM_DMACFG_ADDR_64B    (1U << 30)
+>  #define GEM_DMACFG_TX_BD_EXT   (1U << 29)
+> @@ -233,6 +236,7 @@
+>  
+>  /* GEM_ISR GEM_IER GEM_IDR GEM_IMR */
+>  #define GEM_INT_TXCMPL        0x00000080 /* Transmit Complete */
+> +#define GEM_INT_AMBA_ERR      0x00000040
+>  #define GEM_INT_TXUSED         0x00000008
+>  #define GEM_INT_RXUSED         0x00000004
+>  #define GEM_INT_RXCMPL        0x00000002
+> @@ -453,6 +457,24 @@ static inline void rx_desc_set_sar(uint32_t *desc, int sar_idx)
+>  /* The broadcast MAC address: 0xFFFFFFFFFFFF */
+>  static const uint8_t broadcast_addr[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+>  
+> +static uint32_t gem_get_max_buf_len(CadenceGEMState *s, bool tx)
+> +{
+> +    uint32_t size;
+> +    if (s->regs[GEM_NWCFG] & GEM_NWCFG_JUMBO_FRAME) {
+> +        size = s->regs[GEM_JUMBO_MAX_LEN];
+> +        if (size > s->jumbo_max_len) {
+> +            size = s->jumbo_max_len;
+> +            qemu_log_mask(LOG_GUEST_ERROR, "GEM_JUMBO_MAX_LEN reg cannot be"
+> +                " greater than 0x%" PRIx32 "\n", s->jumbo_max_len);
+> +        }
+> +    } else if (tx) {
+> +        size = 1518;
+> +    } else {
+> +        size = s->regs[GEM_NWCFG] & GEM_NWCFG_RCV_1538 ? 1538 : 1518;
+> +    }
+> +    return size;
+> +}
+> +
+>  static void gem_set_isr(CadenceGEMState *s, int q, uint32_t flag)
+>  {
+>      if (q == 0) {
+> @@ -1016,6 +1038,12 @@ static ssize_t gem_receive(NetClientState *nc, const uint8_t *buf, size_t size)
+>      /* Find which queue we are targeting */
+>      q = get_queue_from_screen(s, rxbuf_ptr, rxbufsize);
+>  
+> +    if (size > gem_get_max_buf_len(s, false)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "rx frame too long\n");
+> +        gem_set_isr(s, q, GEM_INT_AMBA_ERR);
+> +        return -1;
+> +    }
+> +
+>      while (bytes_to_copy) {
+>          hwaddr desc_addr;
+>  
+> @@ -1196,12 +1224,13 @@ static void gem_transmit(CadenceGEMState *s)
+>                  break;
+>              }
+>  
+> -            if (tx_desc_get_length(desc) > MAX_FRAME_SIZE -
+> +            if (tx_desc_get_length(desc) > gem_get_max_buf_len(s, true) -
+>                                                 (p - s->tx_packet)) {
+> -                DB_PRINT("TX descriptor @ 0x%" HWADDR_PRIx \
+> -                         " too large: size 0x%x space 0x%zx\n",
+> +                qemu_log_mask(LOG_GUEST_ERROR, "TX descriptor @ 0x%" \
+> +                         HWADDR_PRIx " too large: size 0x%x space 0x%zx\n",
+>                           packet_desc_addr, tx_desc_get_length(desc),
+> -                         MAX_FRAME_SIZE - (p - s->tx_packet));
+> +                         gem_get_max_buf_len(s, true) - (p - s->tx_packet));
+> +                gem_set_isr(s, q, GEM_INT_AMBA_ERR);
+>                  break;
+>              }
+>  
+> @@ -1343,9 +1372,10 @@ static void gem_reset(DeviceState *d)
+>      s->regs[GEM_RXPARTIALSF] = 0x000003ff;
+>      s->regs[GEM_MODID] = s->revision;
+>      s->regs[GEM_DESCONF] = 0x02500111;
+> -    s->regs[GEM_DESCONF2] = 0x2ab13fff;
+> +    s->regs[GEM_DESCONF2] = 0x2ab10000 | s->jumbo_max_len;
+>      s->regs[GEM_DESCONF5] = 0x002f2045;
+>      s->regs[GEM_DESCONF6] = GEM_DESCONF6_64B_MASK;
+> +    s->regs[GEM_JUMBO_MAX_LEN] = s->jumbo_max_len;
+>  
+>      if (s->num_priority_queues > 1) {
+>          queues_mask = MAKE_64BIT_MASK(1, s->num_priority_queues - 1);
+> @@ -1516,6 +1546,9 @@ static void gem_write(void *opaque, hwaddr offset, uint64_t val,
+>          s->regs[GEM_IMR] &= ~val;
+>          gem_update_int_status(s);
+>          break;
+> +    case GEM_JUMBO_MAX_LEN:
+> +        s->regs[GEM_JUMBO_MAX_LEN] = val & MAX_JUMBO_FRAME_SIZE_MASK;
+> +        break;
+>      case GEM_INT_Q1_ENABLE ... GEM_INT_Q7_ENABLE:
+>          s->regs[GEM_INT_Q1_MASK + offset - GEM_INT_Q1_ENABLE] &= ~val;
+>          gem_update_int_status(s);
+> @@ -1610,6 +1643,12 @@ static void gem_realize(DeviceState *dev, Error **errp)
+>  
+>      s->nic = qemu_new_nic(&net_gem_info, &s->conf,
+>                            object_get_typename(OBJECT(dev)), dev->id, s);
+> +
+> +    if (s->jumbo_max_len > MAX_FRAME_SIZE) {
+> +        error_setg(errp, "jumbo-max-len is greater than %d",
+> +                  MAX_FRAME_SIZE);
+> +        return;
+> +    }
+>  }
+>  
+>  static void gem_init(Object *obj)
+> @@ -1659,6 +1698,8 @@ static Property gem_properties[] = {
+>                        num_type1_screeners, 4),
+>      DEFINE_PROP_UINT8("num-type2-screeners", CadenceGEMState,
+>                        num_type2_screeners, 4),
+> +    DEFINE_PROP_UINT16("jumbo-max-len", CadenceGEMState,
+> +                       jumbo_max_len, 10240),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> diff --git a/include/hw/net/cadence_gem.h b/include/hw/net/cadence_gem.h
+> index eddac70..54e646f 100644
+> --- a/include/hw/net/cadence_gem.h
+> +++ b/include/hw/net/cadence_gem.h
+> @@ -40,7 +40,8 @@
+>  #define MAX_TYPE1_SCREENERS             16
+>  #define MAX_TYPE2_SCREENERS             16
+>  
+> -#define MAX_FRAME_SIZE 2048
+> +#define MAX_JUMBO_FRAME_SIZE_MASK 0x3FFF
+> +#define MAX_FRAME_SIZE MAX_JUMBO_FRAME_SIZE_MASK
+>  
+>  typedef struct CadenceGEMState {
+>      /*< private >*/
+> @@ -59,6 +60,7 @@ typedef struct CadenceGEMState {
+>      uint8_t num_type1_screeners;
+>      uint8_t num_type2_screeners;
+>      uint32_t revision;
+> +    uint16_t jumbo_max_len;
+>  
+>      /* GEM registers backing store */
+>      uint32_t regs[CADENCE_GEM_MAXREG];
+> -- 
+> 2.7.4
+> 
 
