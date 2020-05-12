@@ -2,86 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908FD1CF8CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:18:15 +0200 (CEST)
-Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512571CF94D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:35:56 +0200 (CEST)
+Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWfe-0004Ri-KD
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:18:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35378)
+	id 1jYWwk-0003IM-Sg
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jYWT6-0002UU-0t
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:05:16 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <arilou@gmail.com>) id 1jYWT4-0002xV-Sx
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:05:15 -0400
-Received: by mail-wm1-x344.google.com with SMTP id f134so9975837wmf.1
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 08:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=JiKMCkAz1U/iycP9Kf5GYdxP8RqoYzzFqEWx1kd6UNk=;
- b=j9Qk8ECuQOw6qTJl3BYgAle2MuPQWsOy2eTp449ybGNjgiTk+lg5I11KRud+wfIkGG
- sahoCEYNDGtNVNyJE/8kcy8qzmcPxYFo53+llUkPBhNDkdP/m3M1QD8B9ILt6Hm8eU7N
- KWIMY+JxvkY8Myhj0IUoWOkJ7fHenkHyS77SDwvQ2OkC+inkizJUGDfGgo3tdkmpRi5w
- 5eZiF3wGYYv1lVebFWXTjLvomfFmSdDxOh8pzk5JQYJQrKLC2lPpl00pXA0FezmJVE63
- 1YKgRtPUB5MtrCIKFmLSuoRFtcD881jleJ2ZTDpdSCNdkY1Kje3hs/DQT0B1wlQsgYkK
- vTZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JiKMCkAz1U/iycP9Kf5GYdxP8RqoYzzFqEWx1kd6UNk=;
- b=Fz4JnXAIe+gKpq5wvzN41T6iYLKpRVw2aFBlTD85ZihQYuBsCZcUHuqyDsMHCPv4zY
- nNGpgkL+Yn03iV17XUcP+z14HaIK2UV+JAbCc+n08oRoYkNNa1nAmM2MfkKylPpYjx72
- 124iby4AmoM1ceq9aYWE5tIRLQddgqn4ItDDo7kj7Ooxok5dRbC2b5jF6euWaTTl/ETP
- L5vCUHQNPKXEy5SXjLuDBUI3DPvb3MIk6IByr8VPwZBdC7Dg6fATTcs3rlMXZ2VbITCV
- hn95482K9RfNSeyqrAEXMEJPyXYDWXKPoaOnHX+XpwlPoWdzeJPs4Ny8y4glePt+uxZu
- msaw==
-X-Gm-Message-State: AGi0PuaYs80TA/GBBPfZD++hvrJ/dB/ZedMDRuTj7wBM11NKm0kdi40w
- oFMOhs+JPzxl1ooSe+J2EHk=
-X-Google-Smtp-Source: APiQypKgHC7AQBiYer4fEuDhbZKAkUMFal1g20qUXF8kLYdJjKZwDWAw2Fpgs9uRvRGa78us5gizoQ==
-X-Received: by 2002:a1c:98c9:: with SMTP id a192mr15811488wme.48.1589295913142; 
- Tue, 12 May 2020 08:05:13 -0700 (PDT)
-Received: from jondnuc (IGLD-84-229-154-20.inter.net.il. [84.229.154.20])
- by smtp.gmail.com with ESMTPSA id g15sm14783197wro.71.2020.05.12.08.05.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 08:05:12 -0700 (PDT)
-Date: Tue, 12 May 2020 18:05:11 +0300
-From: Jon Doron <arilou@gmail.com>
-To: Roman Kagan <rvkagan@yandex-team.ru>,
- "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
- QEMU <qemu-devel@nongnu.org>,
- Evgeny Yakovlev <eyakovlev@virtuozzo.com>, ehabkost@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Liran Alon <liran.alon@oracle.com>
-Subject: Re: [PATCH v1 5/5] i386: Hyper-V VMBus ACPI DSDT entry
-Message-ID: <20200512150511.GJ2862@jondnuc>
-References: <472544e7-498a-4e28-06e9-83c102d6436b@maciej.szmigiero.name>
- <20200406073246.GA7707@rvkaganb>
- <CAP7QCojPsOYjw94k3rkH0A3rLFADLeVhgy502N=8X5wrUnoC6Q@mail.gmail.com>
- <20200407185608.GA178651@rvkaganb>
- <8c278ea8-81c5-7458-8979-c319470440d7@maciej.szmigiero.name>
- <20200408041639.GA7606@jondnuc> <20200408204742.GA709224@rvkaganb>
- <20200409033518.GC7606@jondnuc>
- <20200512140542.GA9944@rvkaganb.lan>
- <20200512150123.GI2862@jondnuc>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jYWW0-0007PV-Cg
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 11:08:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58072
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1jYWVy-0004VL-9F
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 11:08:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589296092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vNHC52nYCih4FTkBSaQsPKMpbSE5D5EXaaoMW35VIJw=;
+ b=W5yKzHzbGcVXwYEU4Dw3gZVBWJUtv9s4e8F5w4bg9gQ21JJz4yCPEuRspdzSu4FlQs5ugq
+ DQX99xEEitNSstkRwgVEyZsX65+ZePK/FJTXbCMhCue3w9kLhdJoSnCtFayFCjRi9RkaKs
+ 762tIRpt9VZfHjpG8IM8lN/8ufb+7pU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-iS__Ame4P-KdZsBwGb8p1g-1; Tue, 12 May 2020 11:08:08 -0400
+X-MC-Unique: iS__Ame4P-KdZsBwGb8p1g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3D021841920;
+ Tue, 12 May 2020 15:08:06 +0000 (UTC)
+Received: from localhost (ovpn-112-75.ams2.redhat.com [10.36.112.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B37725D782;
+ Tue, 12 May 2020 15:08:00 +0000 (UTC)
+Date: Tue, 12 May 2020 16:07:59 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: elena.ufimtseva@oracle.com
+Subject: Re: [PATCH RESEND v6 22/36] multi-process: Synchronize remote memory
+Message-ID: <20200512150759.GL300009@stefanha-x1.localdomain>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <63a7f84be8c1c86d1bdea5f538239d0d9c3cdb06.1587614626.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+In-Reply-To: <63a7f84be8c1c86d1bdea5f538239d0d9c3cdb06.1587614626.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lR6P3/j+HGelbRkf"
 Content-Disposition: inline
-In-Reply-To: <20200512150123.GI2862@jondnuc>
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=arilou@gmail.com; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:04
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,53 +80,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
+ mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
+ felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
+ konrad.wilk@oracle.com, dgilbert@redhat.com, liran.alon@oracle.com,
+ thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/05/2020, Jon Doron wrote:
->On 12/05/2020, Roman Kagan wrote:
->>On Thu, Apr 09, 2020 at 06:35:18AM +0300, Jon Doron wrote:
->>>On 08/04/2020, Roman Kagan wrote:
->>>> On Wed, Apr 08, 2020 at 07:16:39AM +0300, Jon Doron wrote:
->>>> > Well I have implemented the hyperv synthetic kernel debugger interface, but
->>>> > on Windows 10 it requires to have a working VMBus (it's not really using it,
->>>> > but without a function vmbus that will answer to the initiate contact then
->>>> > the kdnet will simply be stuck in a loop.
->>
->>I tried to google for this interface but the only thing I managed to
->>find was this
->>
->>https://withinrafael.com/2015/02/01/how-to-set-up-synthetic-kernel-debugging-for-hyper-v-virtual-machines/
->>
->>Is this what you're trying to implement?  Are there any more
->>authoritative descriptions of the feature?
->>
->>The document doesn't quite explain the inner workings of the feature,
->>but it looks like the regular network debugging interface, except that
->>IP is forwarded by the hypervisor app, so that the debugger has to
->>connect to the host and avoid setting up full-fledged network
->>connectivity to the guest.  That would be essentially hv-net + slirp.
->>OTOH you say it doesn't use VMBus so I'm confused...
->>
->>Thanks,
->>Roman.
->>
->>>> > In addition to that Michael Kelley from Microsoft has informed us that
->>>> > Microsoft might be dropped the synthetic kernel debugger interface sometime
->>>> > in the future, and it seems like the new mode is simply to use hvnet device
->>>> > for the communication (which is again much faster).
->
->Yes that's indeed the interface I have implemented this part of the 
->patch it not full ready for commit, but I think we can keep going with 
->the VMBUS.
->
->Based on your previous reply it sounds like there is not a real issue 
->with the current patch of ACPI DSDT entry, right?
->
->Thanks,
->-- Jon.
+--lR6P3/j+HGelbRkf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I suggest referring to the KVM patches I have already submitted that 
-Paolo said will probably get in soon.
-https://patchwork.kernel.org/patch/11507663/
+On Wed, Apr 22, 2020 at 09:13:57PM -0700, elena.ufimtseva@oracle.com wrote:
+> diff --git a/hw/proxy/memory-sync.c b/hw/proxy/memory-sync.c
+> new file mode 100644
+> index 0000000000..b3f57747f3
+> --- /dev/null
+> +++ b/hw/proxy/memory-sync.c
+> @@ -0,0 +1,217 @@
+> +/*
+> + * Copyright =A9 2018, 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include <sys/types.h>
+> +#include <stdio.h>
+> +#include <string.h>
+
+These headers should already be included by "qemu/osdep.h".
+
+> +static void proxy_ml_region_addnop(MemoryListener *listener,
+> +                                   MemoryRegionSection *section)
+> +{
+> +    RemoteMemSync *sync =3D container_of(listener, RemoteMemSync, listen=
+er);
+> +    bool need_add =3D true;
+> +    uint64_t mrs_size, mrs_gpa, mrs_page;
+> +    uintptr_t mrs_host;
+> +    RAMBlock *mrs_rb;
+> +    MemoryRegionSection *prev_sec;
+> +
+> +    if (!(memory_region_is_ram(section->mr) &&
+> +          !memory_region_is_rom(section->mr))) {
+> +        return;
+> +    }
+> +
+> +    mrs_rb =3D section->mr->ram_block;
+> +    mrs_page =3D (uint64_t)qemu_ram_pagesize(mrs_rb);
+> +    mrs_size =3D int128_get64(section->size);
+> +    mrs_gpa =3D section->offset_within_address_space;
+> +    mrs_host =3D (uintptr_t)memory_region_get_ram_ptr(section->mr) +
+> +               section->offset_within_region;
+
+These variables are only used in the if (sync->n_mr_sections) case. This
+function could be split into a something like this:
+
+  static void proxy_ml_region_addnop(MemoryListener *listener,
+                                     MemoryRegionSection *section)
+      RemoteMemSync *sync =3D container_of(listener, RemoteMemSync, listene=
+r);
+
+      if (!(memory_region_is_ram(section->mr) &&
+            !memory_region_is_rom(section->mr))) {
+          return;
+      }
+
+      if (try_merge(sync, section)) {
+          return;
+      }
+
+      ...add new section...
+  }
+
+And the try_merge() helper function has the rest of the code:
+
+  /* Returns true if the section was merged */
+  static bool try_merge(RemoteMemSync *sync, MemoryRegionSection *section)
+  {
+      if (sync->n_mr_sections =3D=3D 0) {
+          return false;
+      }
+
+      ...most of the code...
+  }
+
+> +
+> +    if (get_fd_from_hostaddr(mrs_host, NULL) <=3D 0) {
+
+0 is a valid fd number, the comparison should probably be < 0?
+
+> +        return;
+> +    }
+> +
+> +    mrs_host =3D mrs_host & ~(mrs_page - 1);
+> +    mrs_gpa =3D mrs_gpa & ~(mrs_page - 1);
+> +    mrs_size =3D ROUND_UP(mrs_size, mrs_page);
+
+Why is it necessary to align to the RAM block's page size?
+
+Can mrs_host and mrs_size be misaligned to the RAM block's page size?
+
+Why round the *guest* physical address down using the *host* page size?
+
+> +
+> +    if (sync->n_mr_sections) {
+> +        prev_sec =3D sync->mr_sections + (sync->n_mr_sections - 1);
+> +        uint64_t prev_gpa_start =3D prev_sec->offset_within_address_spac=
+e;
+> +        uint64_t prev_size =3D int128_get64(prev_sec->size);
+> +        uint64_t prev_gpa_end   =3D range_get_last(prev_gpa_start, prev_=
+size);
+> +        uint64_t prev_host_start =3D
+> +            (uintptr_t)memory_region_get_ram_ptr(prev_sec->mr) +
+> +            prev_sec->offset_within_region;
+> +        uint64_t prev_host_end =3D range_get_last(prev_host_start, prev_=
+size);
+
+Is it okay not to do the page alignment stuff for the previous
+MemoryRegionSection?
+
+> +void deconfigure_memory_sync(RemoteMemSync *sync)
+> +{
+> +    memory_listener_unregister(&sync->listener);
+> +}
+
+This function is unused? It must be tied into the mpqemu_link lifecycle.
+It must be possible to hot plug/unplug proxy PCI devices without memory
+leaks or use-after-frees.
+
+> diff --git a/include/hw/proxy/memory-sync.h b/include/hw/proxy/memory-syn=
+c.h
+> new file mode 100644
+> index 0000000000..d8329c9b52
+> --- /dev/null
+> +++ b/include/hw/proxy/memory-sync.h
+> @@ -0,0 +1,37 @@
+> +/*
+> + * Copyright =A9 2018, 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#ifndef MEMORY_SYNC_H
+> +#define MEMORY_SYNC_H
+> +
+> +#include <sys/types.h>
+> +
+> +#include "qemu/osdep.h"
+> +#include "qom/object.h"
+> +#include "exec/memory.h"
+> +#include "io/mpqemu-link.h"
+> +
+> +#define TYPE_MEMORY_LISTENER "memory-listener"
+
+This name is too generic. There is already a C struct called
+MemoryListener. Please call this class "remote-memory-sync".
+
+I'm not sure if a QOM object is needed here. Can this just be a plain C
+struct? If you're not using QOM object-orientated features then there is
+no need to define a QOM object.
+
+> @@ -39,8 +40,13 @@ typedef struct ProxyMemoryRegion {
+>  struct PCIProxyDev {
+>      PCIDevice parent_dev;
+> =20
+> +    int n_mr_sections;
+> +    MemoryRegionSection *mr_sections;
+
+Is it necessary to duplicate these fields here since a RemoteMemSync
+field is also being added and it contains these same fields?
+
+--lR6P3/j+HGelbRkf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl66u88ACgkQnKSrs4Gr
+c8gYrwgAwzO8Secg9+YCzGbKCOq3UwE9PZmja9ta7ZgHUF9OwOkq2CxRpvSjpHRN
+2in8/0q8dXIPg6lhN7jI7FDmKRu06rb/7y12eVvJcPHjIZUWfhu9QjeKdHlN9YKQ
+wI4aM/iZdGNP+dJZk05VZNGupv13BvwRFUwAQm28yviTAA65e7pgwvxp2kOioZIy
+a3gTUU8oF0ioE3a4uaxUvJZ2aqh3Culw7vCsBdUBCGNT/Nt6exlQZYexlxPKhwiQ
+XTqLfZ8WyyOalqTKcAAnEo3mL0rxnP9iir9dgy/zAnH4QFgeOulci6YgSOafSMVX
+kjZ2Wohf8ekqGUDgxBUe6io4UGMPyw==
+=JRnl
+-----END PGP SIGNATURE-----
+
+--lR6P3/j+HGelbRkf--
+
 
