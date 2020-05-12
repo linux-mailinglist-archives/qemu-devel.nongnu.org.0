@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F0E1CFAB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 18:31:26 +0200 (CEST)
-Received: from localhost ([::1]:52948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E5B1CFACD
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 18:34:30 +0200 (CEST)
+Received: from localhost ([::1]:58374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYXoR-0005Du-A1
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 12:31:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48644)
+	id 1jYXrR-00080T-Co
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 12:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYXn2-0004TP-RR
- for qemu-devel@nongnu.org; Tue, 12 May 2020 12:29:56 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYXn1-0003vI-Uk
- for qemu-devel@nongnu.org; Tue, 12 May 2020 12:29:56 -0400
-Received: by mail-wm1-x342.google.com with SMTP id w19so9381151wmc.1
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 09:29:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=bza9Wg/RyiC6VUjDcCKwu57gNegQP6dP/i6JoAQPDag=;
- b=uUXrPVny9hJzJS56mN2ml25q9fqJ254y2SubdWePpm4ZYom3Ia20JnFmYokzumWwTq
- 1RdKgZg9LGMyZdLwJE9Q5s/lMzF8Kal+6jsLen1M+wOhCCZKDHpudzqn+0NiT4E3daRW
- gDyJFsknBSbL9Bt+V+nCq2HnchASzp7Bt93nZgTadtLet1fF4M8rJ5rFisBm17BSFiYy
- QzrOdk68Hl3VxcHJCAP1Vgk4PK/NdZP90iyWu31puwUkhhxlxxJxd09+qU5GQU4Z8DiO
- cdajkh48IECBk+cBCWQvFEfDjPg/SRVutK9eyZ/NP7jGXMFpFbO2pgECsLPZJEzVrtI3
- 0T/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=bza9Wg/RyiC6VUjDcCKwu57gNegQP6dP/i6JoAQPDag=;
- b=ttRiOiVxqBrpYWinAZpsS6Ra59ydh6cKIyFeSX2DVrhjwNw4TjyDQQxlNltQSD3hGU
- CLElstihUJf4VH67PjIAkGR9PIaW2AILsHvmmyP6ikrZG2hNTzihe8hbxOp5LRZW3mc+
- /rY/Vfy+ZZkKaq50YPfWuUZThIINc9yY3O3UIa4wIRayxER0bOccM3SssA7nRLmfKyEi
- kTljamCxBTXxSJ54z4AHk61TmI9dK/hlTjqSDYVnERu3VJ5EU63XShfaq0Pk0Ix5EwvJ
- cvloKL/2eenBWiQKJltLn1F5j4jDv7AM4VkNRtvkz7Po1ujVpsla82ZASfaWrwFemfSV
- Oo5Q==
-X-Gm-Message-State: AGi0Pub7Gcsou6EjYplvt/M+NTgHOXiukmJMyt6CB8bVxHyzg1QRdPL6
- zDRBgYFw6a+yomOCOu0hHAdhzA==
-X-Google-Smtp-Source: APiQypIUwqXHhrgO9HAjhV94XPy+NFVq8XmWSj532UnCcM2u8A/4TJgVxq2/iWuVQrfJx/JPlag6KQ==
-X-Received: by 2002:a1c:a557:: with SMTP id o84mr18166249wme.165.1589300994338; 
- Tue, 12 May 2020 09:29:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m65sm16726095wmm.17.2020.05.12.09.29.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 May 2020 09:29:52 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4B47A1FF7E;
- Tue, 12 May 2020 17:29:52 +0100 (BST)
-References: <20200326193156.4322-1-robert.foley@linaro.org>
-User-agent: mu4e 1.4.5; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Robert Foley <robert.foley@linaro.org>
-Subject: Re: [PATCH v8 00/74] per-CPU locks
-In-reply-to: <20200326193156.4322-1-robert.foley@linaro.org>
-Date: Tue, 12 May 2020 17:29:52 +0100
-Message-ID: <87ftc5f75r.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ (Exim 4.90_1) (envelope-from <B3r3n@argosnet.com>)
+ id 1jYXnT-00051X-HL; Tue, 12 May 2020 12:30:23 -0400
+Received: from mx.argosnet.com ([51.255.124.196]:27310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <B3r3n@argosnet.com>)
+ id 1jYXnS-0003yk-Bv; Tue, 12 May 2020 12:30:23 -0400
+Received: from mx.argosnet.com (Argosnet [51.255.124.196])
+ by mx.argosnet.com (Postfix) with ESMTP id 2BF292B153;
+ Tue, 12 May 2020 18:30:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=argosnet.com; h=date:to
+ :from:subject:cc:in-reply-to:references:mime-version
+ :content-type; s=mx; bh=/FGPHdzaqnchEtSMK5RujX97INk=; b=CCg2BUg1
+ GDxZfVXn5YkoYMwif8wn2x4rT+WehyB+Erioe2bZKwicUVbLIiX5Tgq5H6LXQbpw
+ UpTc33vhAarfc7QIHeqI89o4Juockfmyo4z+413ddNRLqJiWSxnyBDlwCuVwlGc4
+ LJjIpfF9fNXyVZwFU7tfY5crzEe/fXbGjJU=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=argosnet.com; h=date:to:from
+ :subject:cc:in-reply-to:references:mime-version:content-type; q=
+ dns; s=mx; b=JRn1WM+q6HI3FlFaWW7VKCR0d5sijVMZGAjyJoReIS+obykk9ak
+ QebWxuejpRutUqrtKvZoqXXM6Cs+IANHrKYhl85Pm/IkNDJDlPi/sZcp0ZbK5q/9
+ NUjtzINY4Ae97iyeP9PlQliAsWyqULdJzF8Jt8vTeyauEfoA+TPHOsPg=
+Received: from Osgiliath.argosnet.com
+ (lfbn-nic-1-419-246.w90-116.abo.wanadoo.fr [90.116.244.246])
+ (Authenticated sender: llevier@pop.argosnet.com)
+ by mx.argosnet.com (Postfix) with ESMTPSA id F27D42B152;
+ Tue, 12 May 2020 18:30:15 +0200 (CEST)
+X-Mailer: QUALCOMM Windows Eudora Version 7.1.0.9
+Date: Tue, 12 May 2020 18:30:16 +0200
+To: Daniel P. =?iso-8859-1?Q?Berrang=C3=A9?= <berrange@redhat.com>
+From: B3r3n <B3r3n@argosnet.com>
+Subject: Re: Qemu, VNC and non-US keymaps
+Cc: B3r3n <B3r3n@argosnet.com>,Philippe =?iso-8859-1?Q?Mathieu-Daud=C3=83?= 
+ ? =?iso-8859-1?Q?=C3=82=C2=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-discuss@nongnu.org
+In-Reply-To: <20200512091106.GH1191162@redhat.com>
+References: <E1jY9FF-0000Po-2c@lists.gnu.org>
+ <af732fbf-fd70-97bc-3ea8-25d66f5895de@redhat.com>
+ <20200511151155.GO1135885@redhat.com>
+ <20200511152957.6CFA8D1826@zmta04.collab.prod.int.phx2.redhat.com>
+ <20200511171930.GS1135885@redhat.com>
+ <20200512074530.8729D1892D3@zmta01.collab.prod.int.phx2.redhat.com>
+ <20200512091106.GH1191162@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Received-SPF: pass client-ip=51.255.124.196; envelope-from=B3r3n@argosnet.com;
+ helo=mx.argosnet.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 12:30:18
+X-ACL-Warn: Detected OS   = FreeBSD  [generic] [fuzzy]
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ FORGED_MUA_EUDORA=0.001, MISSING_MID=0.497, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+Message-Id: <E1jYXnT-00051X-HL@lists.gnu.org>
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,38 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.puhov@linaro.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Dear all,
 
-Robert Foley <robert.foley@linaro.org> writes:
-
-> V7: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg00786.html
+>VNC == RFB - they're two different terms of the same thing.
 >
-> This is a continuation of the series created by Emilio Cota.
-> We are picking up this patch set with the goal to apply=20
-> any fixes or updates needed to get this accepted.
+>The core RFB/VNC protocol only knows about keysyms.
+Ok, so RFB is not the keyword to track :-(
+
+>AFAIK,  TightVNC doesn't support the scancode extension, only TigerVNC.
+Confirmed, I replaced TightVNC viewer by TigerVNC, solves the issue. 
+I got AltGr working + Ctrl_R acting as AltGr (my Debian kbd definition).
+With this client, it is fine.
+
+About this issue:
+> > I realize that AltGr is sending 29+100 (seen via showkey), when CTRL_R only
+> > sends 97.
+> > When using a remote console (iLo and iDRAC), AltGr only sends 100.
+> >
+> > I wonder if the issue would not also be the fact AltGr sends 2 codes, still
+> > another one to select the character key (6 for example).
+> >
+> > Is that normal Qemu is transforming AltGr (100) in 29+100 ?
 >
-> Quoting an earlier patch in the series:
-> "For context, the goal of this series is to substitute the BQL for the
-> per-CPU locks in many places, notably the execution loop in cpus.c.
-> This leads to better scalability for MTTCG, since CPUs don't have
-> to acquire a contended global lock (the BQL) every time they
-> stop executing code.
-> See the last commit for some performance numbers."
+>It is hard to say without seeing debuging to see what QEMU received.
 
-Aside from some minor comments I think this series is pretty good to go
-and would favour an early merging so we get plenty of time to shake out
-any bugs.
+I saw Qemu must be compile with debug support, ok.
+ From this, if you have a recommendation, specific config to setup to 
+debug the particular keyboard, I can do that.
 
-I've been hammering this with my looped build test and everything seems
-pretty stable. So for me have a:
+To me the issue is here since a single keyboard key should produce a 
+single keycode. Since my PC does not send 2 keys (else TigerVNC or 
+noVNC would behave the same), it is elsewhere...
 
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Thanks
 
-for the series.
+Brgrds
 
---=20
-Alex Benn=C3=A9e
 
