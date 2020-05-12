@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDFEE1CFB9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:06:50 +0200 (CEST)
-Received: from localhost ([::1]:40290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4121CFCB2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:57:57 +0200 (CEST)
+Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYYMj-0005vr-Q4
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53112)
+	id 1jYZAC-00054S-Ef
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:57:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1jYYCA-0003Wr-Ob
- for qemu-devel@nongnu.org; Tue, 12 May 2020 12:55:54 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:44806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1jYYC8-0002mA-T8
- for qemu-devel@nongnu.org; Tue, 12 May 2020 12:55:53 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04CGrAW5094372;
- Tue, 12 May 2020 16:55:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=VyTSberEN8IaUfl/h0047FcmgfWA9aS0fYVk7q9jHrM=;
- b=J5enENPfeIKwuZUb5NNjQ2CSQ/SWyEHwvlrBmvRSkW4vKHnoE+DURglmUVUtRCmwYBdm
- Uu+V2Yg5tC/5We6sM+8cVUKGrlSImVSYxBjabSRfJltM2K5G6h6nEMRHlfaSWEIRFizX
- jIvh8J5Lzju1oApL5saGIknN8IDvJcx1C0n/1V/5uQm04ZhzTjz9NT+xOifoFBUBnUsY
- GTr8TfofNPHKJb9Z9tXTVmABIoV4j3PlDmk7/TYtxpGImNnqF3qB2b5qasICKivvZfR9
- T6Y6vLasjh89SkFL9qGmuGRzm/+fLr/hipLTdt+5OJ9HM/cXWk6oXCrvEbaLiBZsxvcU Cw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 30x3mbv6m0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 12 May 2020 16:55:42 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04CGqbLD192798;
- Tue, 12 May 2020 16:55:41 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 30xbgka5q2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 12 May 2020 16:55:41 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04CGtcbn028099;
- Tue, 12 May 2020 16:55:38 GMT
-Received: from dhcp-10-39-202-98.vpn.oracle.com (/10.39.202.98)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 12 May 2020 09:55:38 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH RESEND v6 00/36] Initial support for multi-process qemu
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <20200512161319.GA299814@stefanha-x1.localdomain>
-Date: Tue, 12 May 2020 12:55:35 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B729C859-0C37-41E7-9D79-67A15C2386AC@oracle.com>
-References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
- <20200511144005.GC182627@stefanha-x1.localdomain>
- <2D3D00E3-EFE0-4D60-8B68-9CF41F6154CA@oracle.com>
- <20200512161319.GA299814@stefanha-x1.localdomain>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9619
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=999
- spamscore=0 suspectscore=3 phishscore=0 bulkscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005120129
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9619
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 impostorscore=0
- mlxscore=0 suspectscore=3 bulkscore=0 mlxlogscore=999 phishscore=0
- malwarescore=0 lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005120129
-Received-SPF: pass client-ip=156.151.31.85; envelope-from=jag.raman@oracle.com;
- helo=userp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:46:50
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ (Exim 4.90_1) (envelope-from <rad@semihalf.com>) id 1jYYN7-0007vl-Fg
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 13:07:13 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:44932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rad@semihalf.com>) id 1jYYN5-00071M-P3
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 13:07:13 -0400
+Received: by mail-lf1-x142.google.com with SMTP id d22so5159079lfm.11
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 10:07:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=semihalf-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=avK/Z/6wqRuOjH2arcvxV3LyvE6xojjat6vnYZ0J980=;
+ b=W3m7XaTAzx2SnS6KIhm0qcuQjCKmTlTgsEys3eS5uLR4a92ZV3iXeqMGB/ED1Slo+q
+ Y7BPFmCHSBmS/xoOWHKuXIzJ2kLDz6zfJ1ux0z5rJ/kok0ZlGSsV3XgedL8K7dr5nPqw
+ RrHoIZC9f9r4yxlJ7FNcxRpUDi4M3gka8YFDwXIzxbB+v4qG1TfAxV1dqT+6mS8a4CiL
+ SanfpeiyJBdRU7XBm0UovBsipGlRas3PNoH+oe21JBMApUvqiy5kAVsQW/3m76J4EVBz
+ Y4yIWB1XWqCjqkDQfkaegXvaNxCm9IxWRh4yLwtySjb/q3TW8Gc9BYeDwTyYnh5X2AmA
+ JOqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=avK/Z/6wqRuOjH2arcvxV3LyvE6xojjat6vnYZ0J980=;
+ b=tFskVQJcp1wVVyk+erHVNZxiwErqzHLXLvM9XJ8UHQ9dE+lggy1Dq2JT+DN2ePQwZA
+ M9rlWWrv4dGghKAIWYnuucrxLsE4GLhMrQ2qgdO6boUNUX/V/7Ol73RDc9ygfncNwS2y
+ ExAH/NjgauljNSc9xixbWuJzHDkNEzJde2T1tJoRl/FTn/7RtnJ5a+iBBg7ZOL8aiIuX
+ 707ZTuABH3X+disPN4Zt6ps5kEwNx2ocIo4Cah/ric8nWpIXeISUgZkAF5Jr/W8OsBLo
+ VoIOnI1xCS4u7Bf+H+G7Eiaf7HYACkuupx54NrCgrBy6AWx0pB0cNjm3GCq+jfYi+qAT
+ rZyQ==
+X-Gm-Message-State: AOAM5301SPctvMV065Zw9yMYSStznh9Q+Z6je0qE8iIPnNW8gUKyWcJG
+ tRiZbV668/Wxj4peUm6zAQTtng==
+X-Google-Smtp-Source: ABdhPJxen0CtdcekiRq7qj8NHeniTpvC7nwwXqXpruWmJIiQIkMeFasUXJlgJnW0LtjcjKB1+4P5OA==
+X-Received: by 2002:a05:6512:1051:: with SMTP id
+ c17mr14582634lfb.206.1589303228751; 
+ Tue, 12 May 2020 10:07:08 -0700 (PDT)
+Received: from unknown.lan (ip-179-133.ists.pl. [93.180.179.133])
+ by smtp.gmail.com with ESMTPSA id w203sm14350355lff.38.2020.05.12.10.07.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 May 2020 10:07:08 -0700 (PDT)
+From: Radoslaw Biernacki <rad@semihalf.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Leif Lindholm <leif@nuviainc.com>, qemu-arm <qemu-arm@nongnu.org>
+Subject: [PATCH] MAINTAINERS: Update Radoslaw Biernacki email address
+Date: Tue, 12 May 2020 19:07:04 +0200
+Message-Id: <20200512170704.9290-1-rad@semihalf.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=2a00:1450:4864:20::142;
+ envelope-from=rad@semihalf.com; helo=mail-lf1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 12 May 2020 13:56:41 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,84 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org,
- kraxel@redhat.com, quintela@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, liran.alon@oracle.com, stefanha@redhat.com,
- thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: philmd@redhat.com, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+My Linaro account is no longer active and stop forwarding emails to me.
+Changing it to my current employer domain.
 
+Signed-off-by: Radoslaw Biernacki <rad@semihalf.com>
+---
+ .mailmap    | 1 +
+ MAINTAINERS | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-> On May 12, 2020, at 12:13 PM, Stefan Hajnoczi <stefanha@gmail.com> =
-wrote:
->=20
-> On Mon, May 11, 2020 at 03:30:50PM -0400, Jag Raman wrote:
->>> On May 11, 2020, at 10:40 AM, Stefan Hajnoczi <stefanha@gmail.com> =
-wrote:
->>>=20
->>> Hi,
->>> Have you decided whether to drop the remote device program in favor =
-of
->>> using a softmmu make target?
->>>=20
->>> Is there anything in this series you'd like me to review before you =
-send
->>> the next revision?
->>=20
->> Hi Stefan,
->>=20
->> We are planning to drop the separate remote device program in the =
-next
->> revision. We are planning to use QEMU=E2=80=99s existing event loop =
-instead of
->> a separate event loop for the remote process, as well as the command
->> line invocation you suggested in your feedback.
->>=20
->> We hope the following core patches look good to you, by and large:
->> [PATCH RESEND v6 01/36] memory: alloc RAM from file at offset
->> [PATCH RESEND v6 11/36] multi-process: define mpqemu-link object
->> [PATCH RESEND v6 12/36] multi-process: add functions to synchronize =
-proxy and remote endpoints
->> [PATCH RESEND v6 13/36] multi-process: setup PCI host bridge for =
-remote device
->> [PATCH RESEND v6 14/36] multi-process: setup a machine object for =
-remote device process
->> [PATCH RESEND v6 15/36] multi-process: setup memory manager for =
-remote device
->> [PATCH RESEND v6 17/36] multi-process: introduce proxy object
->> [PATCH RESEND v6 18/36] multi-process: Initialize Proxy Object's =
-communication channel
->> [PATCH RESEND v6 19/36] multi-process: Connect Proxy Object with =
-device in the remote process
->> [PATCH RESEND v6 20/36] multi-process: Forward PCI config space =
-acceses to the remote process
->> [PATCH RESEND v6 21/36] multi-process: PCI BAR read/write handling =
-for proxy & remote endpoints
->> [PATCH RESEND v6 22/36] multi-process: Synchronize remote memory
->> [PATCH RESEND v6 23/36] multi-process: create IOHUB object to handle =
-irq
->> [PATCH RESEND v6 24/36] multi-process: Retrieve PCI info from remote =
-process
->=20
-> I've completed the review of these patches. Looking forward to
-> discussing more.
-
-Thank you very much, Stefan!
-
-We will incorporate the feedback we received from your review.
-
-Thanks!
---
-Jag
-
->=20
-> Stefan
+diff --git a/.mailmap b/.mailmap
+index 6412067bde..668da447e3 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -46,6 +46,7 @@ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com> <arikalo@wavecomp.com>
+ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
+ James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
+ Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
++Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
+ Paul Burton <pburton@wavecomp.com> <paul.burton@mips.com>
+ Paul Burton <pburton@wavecomp.com> <paul.burton@imgtec.com>
+ Paul Burton <pburton@wavecomp.com> <paul@archlinuxmips.org>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1f84e3ae2c..a9d6893036 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -799,7 +799,7 @@ F: include/hw/misc/imx6_*.h
+ F: include/hw/ssi/imx_spi.h
+ 
+ SBSA-REF
+-M: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
++M: Radoslaw Biernacki <rad@semihalf.com>
+ M: Peter Maydell <peter.maydell@linaro.org>
+ R: Leif Lindholm <leif@nuviainc.com>
+ L: qemu-arm@nongnu.org
+-- 
+2.17.1
 
 
