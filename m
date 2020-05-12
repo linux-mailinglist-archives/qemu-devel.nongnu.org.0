@@ -2,72 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D4E1CF84F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:05:12 +0200 (CEST)
-Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614AE1CF87C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:08:03 +0200 (CEST)
+Received: from localhost ([::1]:44982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWT1-0000x8-09
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
+	id 1jYWVm-0005hI-CP
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jYWLk-0005gb-3E
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:57:40 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:26861
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jYWLj-00079t-8i
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:57:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589295458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mOXnCNtAmb/z2WUKK25eJ9arm9yFEw2/sy7QLsqaVaE=;
- b=Yu1tuvt4w9wtyIHJlukgus8HfzzJi9sEPfy21A95F6ienjMcg5A6VqOsH/5s9uqzlv0D1X
- jlNnZ1WLxJ8Yz2UH24Oqb+WjpbhLHo+2nKDKvhz1APV5ltsGbEW63/HDv4kaPQWOfqxhcW
- NfytvgtJZRcQ/ZPTcpN5QnymXr6/N2o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-fNKtj_JeN-u_MAnLnC-Qiw-1; Tue, 12 May 2020 10:57:34 -0400
-X-MC-Unique: fNKtj_JeN-u_MAnLnC-Qiw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BF9C473;
- Tue, 12 May 2020 14:57:33 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 398475C1B5;
- Tue, 12 May 2020 14:57:20 +0000 (UTC)
-Date: Tue, 12 May 2020 16:57:17 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 3/3] arm/acpi: Add the TPM2.0 device under the DSDT
-Message-ID: <20200512165717.0aecfda7@redhat.com>
-In-Reply-To: <20200505144419.29174-4-eric.auger@redhat.com>
-References: <20200505144419.29174-1-eric.auger@redhat.com>
- <20200505144419.29174-4-eric.auger@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jYWOK-0002Xd-Dk; Tue, 12 May 2020 11:00:20 -0400
+Received: from mail-eopbgr10128.outbound.protection.outlook.com
+ ([40.107.1.128]:47236 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jYWOI-0008Kz-KY; Tue, 12 May 2020 11:00:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mEKyORnLZ9GuArvrSQ+4KlFeR+UssQeOllpVULZ3m3lcf7l+tuWlfHG0vy0bcpam0c8AlHPClQCUoyR55MlvZWHTKj5XyR2rdiodhACLBGoHadmXCXxzMa8tOwEBc5v/Z0RQrsrj7z66FI+cQXxNUrEGFvKrN1sN5FILK7PyhUgpA2nsOfo1crH4w1TwQ4bX6QHBUxShOtNVd0qi0jdwSC2FHbQAYlv8gH4WKMH2nL39uQfUdq30IBTRpNVJ8M18EhqZrermZXdlM30iSTuT/3XAFy9GRkYpYzCqjgeQE3gL1Zx4rdqSwKyu8v/WiCDsw9Fuk4DnuJPwCTH52rXAHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T55h4UxxUnju8M10Wws2zLgSVoRZm7uNAsUg5KokPRc=;
+ b=mIjzrLiQ4KHlRhVBqFBZkb2ZZ6sHdXYf0N22wPHtRpVltVXURabZx/m/TARvUV4sG6cRlaM4esO/iP1I/r4qgepaRkerspse26b2XVrGY4Cw9z2+Svb68n0Y75KWEZA9MVTWDROI5Bdzaf29U0uSSNwEFmprqoI48W1aMTOccKa41rtBvtjs9RtJg2yNfBiPLmMdMm+2/bb65fBj+r9+uN8LHcTbEv70c7V/QDzgvEbm02J1LdwMPV1Pl1Qr0L2r7Uzb9rga4tbQZeWPM4gsD+XV58eMfzDpDCNleu7gR3tFbmSQrTh0gSO10ThjegdLxD8o4SLZUAdvjcV1/ncn/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=T55h4UxxUnju8M10Wws2zLgSVoRZm7uNAsUg5KokPRc=;
+ b=efYXyjqhthzquVPupGPiWkORlFepQolqx+AX4oTAmSSAmtF9MvwmdApNMmmUaMu5hmkd+fTEGu52DGaBKlTJbYm62J8OIeZaBf7TauPMxm4X5MFW6DSCOMVwill/4hU4fOU2XTfnXoWyVx8lMlA+r8FP+wDR9ALntt2iod/DWqk=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5414.eurprd08.prod.outlook.com (2603:10a6:20b:105::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Tue, 12 May
+ 2020 15:00:13 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
+ 15:00:13 +0000
+Subject: Re: [PATCH v2 1/4] iotests/109: Don't mirror with mismatched size
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20200511135825.219437-1-kwolf@redhat.com>
+ <20200511135825.219437-2-kwolf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+X-Tagtoolbar-Keys: D20200512180011934
+Message-ID: <63a7d35a-6bc3-2925-5b50-f398e05fc660@virtuozzo.com>
+Date: Tue, 12 May 2020 18:00:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.2.1
+In-Reply-To: <20200511135825.219437-2-kwolf@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 01:41:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-ClientProxiedBy: AM0PR02CA0090.eurprd02.prod.outlook.com
+ (2603:10a6:208:154::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.163) by
+ AM0PR02CA0090.eurprd02.prod.outlook.com (2603:10a6:208:154::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28 via Frontend
+ Transport; Tue, 12 May 2020 15:00:12 +0000
+X-Tagtoolbar-Keys: D20200512180011934
+X-Originating-IP: [185.215.60.163]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e64f9ad6-2e0d-4dc5-465c-08d7f6852c6b
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5414:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54143AAA45409FE0BC4AD6CDC1BE0@AM7PR08MB5414.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OJAHaJGIi9o/H9YSy6g8HYIZALmZBAoKXI29lgL8EXSfpavcoNCkoA2jqEzU9BPpxCk1ZwlMPR/xzAAwiusxgk7IXKmRwfUEmn3F7f+65Z/z665PB8Ybi9RKsU/lNgeDrU+Lg7b2aJx2Riqk0cPvLTt7L6DGXjBdeOJXvT3Whfyn7lkVERmf5l5W+WJnU7alhmeZ6/cJUUmE2RJOKAMmrhThtIn7EQQh8UCK0Q+8aek/xev7vzHKrKhOjmq1QTS9I4+nDY9fwsSczzPT35zbueL64jAXnn40c5rZUA0J8OxfYoxsMttSXQvw3RiC12j2rT+TnW3y6alwy0VvleXqrQWVe6nhHd9rkhgM1/Qrhk/EraHm4Y+zkIsfyX1NAB8MK90KLfyJUjOJecOSx4C7aa9gc1TsMXVZC0iDXMMeRyhQcWmHCzah4MLQFKjcHSXUs+CVCc+gM5F5YSA1S/4/q36ueligeixtd9V1POG7o8baUW7YM3FzJ7XlFUJBKy6FGHG9qupURCmIIc7WLrg5a/0SZA8Gy77kCsVM7R0BDWBsDBhteYk2UKHEsdaXsK6i
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(376002)(39840400004)(346002)(136003)(366004)(33430700001)(66946007)(16576012)(8936002)(66476007)(31696002)(316002)(4326008)(33440700001)(31686004)(8676002)(478600001)(2906002)(66556008)(26005)(36756003)(4744005)(86362001)(186003)(5660300002)(52116002)(956004)(2616005)(16526019)(6486002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: kmwE8I2DFetCFgSYVC6u++Ggx+4CXSsmA2uresbh4ST6ibd7TcbvJQK+DupUTd6ks9+JZbZHDvRp4HF3vAZBrqVUfhO4VyvRlCG1cu4Db/We7k4GIipI0rywkEjDD9Mzmpw8EJfb3HaumJaNvuFvNRI0qkEbEQPAX1CVW0jtb2ezJBOO1jM3iS3K8E7BXD4jFZLCmwj51SdezKAIt+xnVYvZSqAyn0rPq8yRcTZjYer119k30VXz0zSimrJcfKV7O+ih407+mqbna9uIRwLyPrPp674JMWZcxUlgOcmZAr7lRRGawTZYzNhNYSRDbT6LWK83HtINfrJHgU71r0YUV52lFXlZKvFE4j8xIPtSp+hDsJvCqtXFfAO+vJrIrayBVfN6P182PVyFUqwbWtRsUn4/DbPoTcoUzfeVZGLgUYweL87lJ9/Fs02A2+PJq5gmsQS8kf3PDuDFTkj79Arh0i0a0lugQYjXeUWaSRDwPy4=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e64f9ad6-2e0d-4dc5-465c-08d7f6852c6b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 15:00:13.6632 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fd1/meokHhUqcW9JR9d6ZH8240ZRh8bWXOg6lO5tlWi0wSmQb3mLJYY/5PuUd3ks3/+xtd5tbNis3waegcCh4kvk7HM7hIvUdDNbsG49KRU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5414
+Received-SPF: pass client-ip=40.107.1.128;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:00:14
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,97 +118,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
- mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, marcandre.lureau@redhat.com, eric.auger.pro@gmail.com,
- lersek@redhat.com, ardb@kernel.org, stefanb@linux.ibm.com
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  5 May 2020 16:44:19 +0200
-Eric Auger <eric.auger@redhat.com> wrote:
+11.05.2020 16:58, Kevin Wolf wrote:
+> This patch makes the raw image the same size as the file in a different
+> format that is mirrored as raw to it to avoid errors when mirror starts
+> to enforce that source and target are the same size.
+> 
+> We check only that the first 512 bytes are zeroed (instead of 64k)
+> because some image formats create image files that are smaller than 64k,
+> so trying to read 64k would result in I/O errors. Apart from this, 512
+> is more appropriate anyway because the raw format driver protects
+> specifically the first 512 bytes.
+> 
+> Signed-off-by: Kevin Wolf<kwolf@redhat.com>
 
-> In case it is dynamically instantiated, add the TPM 2.0 device object
-> under the DSDT table in the ACPI namespace. Its HID is MSFT0101
-> while its current resource settings (CRS) property is initialized
-> with the guest physical address and MMIO size of the device.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-> 
-> ---
-> 
-> v1 -> v2:
-> - use memory_region_size
-> - fix mingw compilation issue by casting to uint32_t
-> - added Stefan's R-b
-> ---
->  hw/arm/virt-acpi-build.c | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 1a2ec10c8f..8534d14e20 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -45,6 +45,7 @@
->  #include "hw/pci/pcie_host.h"
->  #include "hw/pci/pci.h"
->  #include "hw/arm/virt.h"
-> +#include "hw/platform-bus.h"
->  #include "sysemu/numa.h"
->  #include "sysemu/reset.h"
->  #include "sysemu/tpm.h"
-> @@ -362,6 +363,40 @@ static void acpi_dsdt_add_power_button(Aml *scope)
->      aml_append(scope, dev);
->  }
->  
-> +static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
-> +{
-> +    hwaddr pbus_base = vms->memmap[VIRT_PLATFORM_BUS].base;
-> +    PlatformBusDevice *pbus = PLATFORM_BUS_DEVICE(vms->platform_bus_dev);
-> +    MemoryRegion *sbdev_mr;
-> +    SysBusDevice *sbdev;
-> +    hwaddr tpm_base;
-> +
-> +    sbdev = (SysBusDevice *)object_dynamic_cast(OBJECT(tpm_find()),
-> +                                                TYPE_SYS_BUS_DEVICE);
-SYS_BUS_DEVICE(object_dynamic_cast())
-      
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-> +    if (!sbdev) {
-> +        return;
-> +    }
-> +
-> +    tpm_base = platform_bus_get_mmio_addr(pbus, sbdev, 0);
-> +    assert(tpm_base != -1);
-> +
-> +    tpm_base += pbus_base;
-> +
-> +    sbdev_mr = sysbus_mmio_get_region(sbdev, 0);
-> +
-> +    Aml *dev = aml_device("TPM0");
-> +    aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
-> +    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> +
-> +    Aml *crs = aml_resource_template();
-> +    aml_append(crs,
-> +               aml_memory32_fixed(tpm_base,
-> +                                  (uint32_t)memory_region_size(sbdev_mr),
-> +                                  AML_READ_WRITE));
-> +    aml_append(dev, aml_name_decl("_CRS", crs));
-> +    aml_append(scope, dev);
-> +}
-> +
->  static void
->  build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->  {
-> @@ -756,6 +791,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->      }
->  
->      acpi_dsdt_add_power_button(scope);
-> +    acpi_dsdt_add_tpm(scope, vms);
->  
->      aml_append(dsdt, scope);
->  
-
+-- 
+Best regards,
+Vladimir
 
