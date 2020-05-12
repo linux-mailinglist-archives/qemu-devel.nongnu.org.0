@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F401CF72D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 16:31:39 +0200 (CEST)
-Received: from localhost ([::1]:35664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4771CF733
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 16:34:08 +0200 (CEST)
+Received: from localhost ([::1]:37858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYVwZ-0000Vv-02
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 10:31:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56432)
+	id 1jYVyx-0001eY-59
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 10:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYVv7-0008Nk-Ra
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:30:09 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYVv6-0007H8-AJ
- for qemu-devel@nongnu.org; Tue, 12 May 2020 10:30:09 -0400
-Received: by mail-oi1-x243.google.com with SMTP id o7so18394181oif.2
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 07:30:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Gaa5qNGeRKOlm9Fu0UtVno/cCLdy5JYObMzJkgguNSc=;
- b=nhnKrxiTwmiGJlW3ccU0afHTp8Mnq9BCeZOketCo4JVRzF3W8jgL2YxRHdtlvX+iRW
- lXt9Aa4SvTFRbc7xtQXdHH6uivbMD00+6Siq6Y4aA+7P0oNGgvulvhe1H2xp31G0ZxsA
- +Wr/C24x2XAquQ2wTNyjUsNwyQWP5gDM2LXM6EXgDJqT96YHc4ICRfIH3RmVwScbIu16
- Sxs+OZOUdSJ0XAxjVeabDwJnulzPeVDKvoV3CE7CZ/DcmL8twNDyUadAoLy0YiKmoY9o
- ZTu0yiTph+qjSI1sIz5xvYZNTGRL1Z19cKFNel2UGmESRRYjQXhkGNdDuqr26FWy9HGv
- ZZcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Gaa5qNGeRKOlm9Fu0UtVno/cCLdy5JYObMzJkgguNSc=;
- b=IPilME319kQBaWt5dBdxYytA2OPSwdxVTYFflWygyz1W6uGyzEUD+NdVn7+i+wkt8Q
- mdINfbdDuO1ZWqcQqqU4tiY4G+InA3GlYqWKvA5taPFJ7wjLoVpuOMHXKWV+q2Wmbvv+
- cHdiXuVSicWrGTeDHmuKeni/G2SHOHABN/GR9gO7fpLyi0ChcyRc84/PET19NsQWVf1Y
- Uj0uy2Gi/m5tQfmfUpccPTSElIdCdY+k9V/IxxSF8A+svl8yQoEIKYYp3OtZJpzVM69d
- ONogaZorOyissd926oYWiR+pYez40nLbSgVfiSglKAYoyncXuJT6WVigmLqHoR4eYsAh
- SjKg==
-X-Gm-Message-State: AGi0PuYv+/x5NNoMCaX+kiU1bNJ620LZiPNkHYLcODNQmDQwnz/0P2/J
- 8cyOhgKbSZBit9Pg3ommoXW1CxSmZAKqzjV3U4Acvg==
-X-Google-Smtp-Source: APiQypK4pbp6MiR8O7PJ8pyoBqihvc2pyk0aJzhX4AeoT1/G+DvYkUt3dsGuecqMXAXUfZtRjv2l2q50Kc7XFOACgnU=
-X-Received: by 2002:a54:400c:: with SMTP id x12mr22716288oie.146.1589293806974; 
- Tue, 12 May 2020 07:30:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYVy9-00019I-8X
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 10:33:17 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43096
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYVy7-0000DP-LL
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 10:33:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589293994;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x5Uhq+RFEFyZBHd9uuICDZqzfpG8LjmcJ/yhOW8MB3U=;
+ b=h1mNxJJ4aiLz8gozobRVtecUbT7hJg6WQT2nh6qmzEwMTcn2gmEf0gHbsMCWE2tvP1iiR9
+ ACcCSYLBXJdsGQViWeOXcP0hicmL/L5IbLZ36SnoZcpJteErjjxFvMJji5XmXSKMJ1MR0L
+ CLK3IIvsnVLal9EHDIXxzancLLWSgrw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-MXIsRBJlM6SqLQvHa3jIqQ-1; Tue, 12 May 2020 10:33:04 -0400
+X-MC-Unique: MXIsRBJlM6SqLQvHa3jIqQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D4D81005510
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 14:33:03 +0000 (UTC)
+Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CBC2C7D8EE;
+ Tue, 12 May 2020 14:33:02 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] net: Drop the NetLegacy structure, always use
+ Netdev instead
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>
+References: <20200512123149.30207-1-thuth@redhat.com>
+ <20200512123149.30207-3-thuth@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <3a2bcb19-5ba3-0023-8733-d945ee40aeeb@redhat.com>
+Date: Tue, 12 May 2020 09:32:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200508152200.6547-1-richard.henderson@linaro.org>
- <20200508152200.6547-15-richard.henderson@linaro.org>
-In-Reply-To: <20200508152200.6547-15-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 May 2020 15:29:55 +0100
-Message-ID: <CAFEAcA93iba1E8-gRcDkFcikRJk9UCwbsy2AahOa6msaGdZyTQ@mail.gmail.com>
-Subject: Re: [PATCH v3 14/16] target/arm: Clear tail in gvec_fmul_idx_*,
- gvec_fmla_idx_*
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20200512123149.30207-3-thuth@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,22 +84,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 May 2020 at 16:22, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Must clear the tail for AdvSIMD when SVE is enabled.
->
-> Fixes: ca40a6e6e39
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 5/12/20 7:31 AM, Thomas Huth wrote:
+> Now that the "name" parameter is gone, there is hardly any difference
+> between NetLegacy and Netdev anymore. Drop NetLegacy and always use
+> Netdev to simplify the code quite a bit.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> +++ b/net/net.c
+> @@ -967,13 +967,14 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+>   
+>   static int net_client_init1(const void *object, bool is_netdev, Error **errp)
 
-Is it worth adding a "Cc: qemu-stable@nongnu.org" ?
+Why do we still need the 'is_netdev' parameter?  If all callers are 
+passing in a netdev, then either this parameter needs to be renamed to 
+capture the actual difference between callers, or it can be dropped 
+altogether.
 
-thanks
--- PMM
+>   {
+> -    Netdev legacy = {0};
+> -    const Netdev *netdev;
+> +    const Netdev *netdev = object;
+>       NetClientState *peer = NULL;
+>   
+>       if (is_netdev) {
+> -        netdev = object;
+> -
+> +        if (!netdev->has_id) {
+> +            error_setg(errp, QERR_MISSING_PARAMETER, "id");
+> +            return -1;
+> +        }
+
+You wouldn't need this if 'id' remained mandatory.
+
+> @@ -981,56 +982,11 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
+>               return -1;
+>           }
+>       } else {
+> -        const NetLegacy *net = object;
+> -        const NetLegacyOptions *opts = net->opts;
+> -        legacy.id = net->id;
+> -        netdev = &legacy;
+> -
+> -        /* Map the old options to the new flat type */
+> -        switch (opts->type) {
+> -        case NET_LEGACY_OPTIONS_TYPE_NONE:
+> +        if (netdev->type == NET_CLIENT_DRIVER_NONE) {
+>               return 0; /* nothing to do */
+
+
+> -
+> -        if (!net_client_init_fun[netdev->type]) {
+> +        if (netdev->type == NET_CLIENT_DRIVER_HUBPORT ||
+> +            !net_client_init_fun[netdev->type]) {
+>               error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "type",
+>                          "a net backend type (maybe it is not compiled "
+>                          "into this binary)");
+
+So maybe we still want this legacy-handling code, but renaming 
+'is_netdev' to 'legacy_handling' may make more sense.
+
+> @@ -1039,7 +995,7 @@ static int net_client_init1(const void *object, bool is_netdev, Error **errp)
+>   
+>           /* Do not add to a hub if it's a nic with a netdev= parameter. */
+>           if (netdev->type != NET_CLIENT_DRIVER_NIC ||
+> -            !opts->u.nic.has_netdev) {
+> +            !netdev->u.nic.has_netdev) {
+>               peer = net_hub_add_port(0, NULL, NULL);
+>           }
+>       }
+> @@ -1143,21 +1099,13 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
+>           }
+>       }
+>   
+> -    if (is_netdev) {
+> -        visit_type_Netdev(v, NULL, (Netdev **)&object, &err);
+> -    } else {
+> -        visit_type_NetLegacy(v, NULL, (NetLegacy **)&object, &err);
+> -    }
+> +    visit_type_Netdev(v, NULL, (Netdev **)&object, &err);
+
+Why do we need to cast?  If all callers are passing a Netdev, can't we 
+just give 'object' the correct type to begin with?
+
+
+> +++ b/qapi/net.json
+> @@ -453,7 +453,7 @@
+>   #        'l2tpv3' - since 2.1
+>   ##
+>   { 'union': 'Netdev',
+> -  'base': { 'id': 'str', 'type': 'NetClientDriver' },
+> +  'base': { '*id': 'str', 'type': 'NetClientDriver' },
+
+I don't think we need to make 'id' optional.
+
+>     'discriminator': 'type',
+>     'data': {
+>       'nic':      'NetLegacyNicOptions',
+> @@ -467,52 +467,6 @@
+>       'netmap':   'NetdevNetmapOptions',
+>       'vhost-user': 'NetdevVhostUserOptions' } }
+>   
+> -##
+> -# @NetLegacy:
+> -#
+> -# Captures the configuration of a network device; legacy.
+> -#
+> -# @id: identifier for monitor commands
+> -#
+> -# @opts: device type specific properties (legacy)
+> -#
+> -# Since: 1.2
+> -##
+> -{ 'struct': 'NetLegacy',
+> -  'data': {
+> -    '*id':   'str',
+> -    'opts':  'NetLegacyOptions' } }
+> -
+> -##
+> -# @NetLegacyOptionsType:
+> -#
+> -# Since: 1.2
+> -##
+> -{ 'enum': 'NetLegacyOptionsType',
+> -  'data': ['none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> -           'bridge', 'netmap', 'vhost-user'] }
+
+NetLegacyOptionsType differs from NetClientDriver only by missing 
+'hubport', which your code above special-cased, so on that front, the 
+simplification makes sense.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
