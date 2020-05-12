@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0351CFD51
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:32:16 +0200 (CEST)
-Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBF71CFD76
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:42:08 +0200 (CEST)
+Received: from localhost ([::1]:39526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYZhP-000785-IU
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:32:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39578)
+	id 1jYZqx-00089D-KE
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:42:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYZd9-0003kp-DZ
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:27:52 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:46315)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYZpl-0007Qs-2d
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:40:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jYZd6-0006xj-Q5
- for qemu-devel@nongnu.org; Tue, 12 May 2020 14:27:50 -0400
-Received: by mail-oi1-x244.google.com with SMTP id c124so18881157oib.13
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 11:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pgy+XmfepPu3O9G5sq68UHYxhqlfCYhTSH8YTFX4Ad8=;
- b=XwXGnMnaYn8j0EkbGoyLcspnV6Grc3OwXdViG1LLIx8Ecty8tJ3bo8nQPgPnVZPMqR
- Mu13P/670HpXLVo/8gh49KLKYF1Uy9o/9f6g1h8+DsAVNNoMTvBlbFuWsWmpM8Q0tohW
- O5JGT9InKvcIAl9a8lbj9UsvrRH0gn8hZNyUmPkZrcuqoVAOJrHaeGfx6LHrG8LQqOpX
- GeOzf7eRJGIxQr/cOZcR66ppl6pAx5K3E+/VcTncFBkzjvakW476oIPpuwegWGzQzZLS
- zEQNScS/NuzKDTtSIzzR4l9jOYrX2SUgTcMUtBO9Q0rFdoCMsHKTt7qt+2QIsymG4pER
- cRmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pgy+XmfepPu3O9G5sq68UHYxhqlfCYhTSH8YTFX4Ad8=;
- b=BroXqL7z4x5O4mGfJlxj9ek9vfNQfWXoD3TkGI5mzrQ0IYnmAGG2F1KVmaElAldB45
- NK0YYLhIrG4JdZwrLaCHePk1BiK1fu5wkKYy5slnydM6f+5MKPdi8Qjo86kaqdr7snlr
- FRsh3xvp1CRolUl9zBZNzIpIWE5w0Lu4f5XViirQvP7z18YnAv6jZOJjYCaumNzTzrly
- mK5KQZj+x1GiQnx1hQdu0mZGL0B04ef9GlHIxtYP12dUWQim4MLldMritJAT+O3Fl5BC
- 2kx0JHunnw0ZinAgPHSNN35RiYKLnxJe4Qn3hS0oJT2w0MnfQCz7UxGttnci7rGEQTs2
- AjfQ==
-X-Gm-Message-State: AGi0PuZTIGfKYP5wxwzc/Q8aYB4CaKEHIY3F4EnFSHQIBqoDV1lUylmb
- 1+zU0v2v+2zfEvFZpmU/M6mttS4rHuSOMqXyZP14nA==
-X-Google-Smtp-Source: APiQypLunY4K/jbjOZI8jML2Fte5/5iWLeO9MKYUUxUcl8e1VaPXnyPO0aO/gnkGg2Eejwk6sMBAVTOcMxbhBI5M5YY=
-X-Received: by 2002:a54:400c:: with SMTP id x12mr23528095oie.146.1589308063263; 
- Tue, 12 May 2020 11:27:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYZpg-0003sh-US
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:40:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYZpf-0007Ry-5a
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 18:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1F5782E80E7
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 18:40:47 +0000 (UTC)
 MIME-Version: 1.0
-References: <20200512155505.1703590-1-stefanb@linux.vnet.ibm.com>
-In-Reply-To: <20200512155505.1703590-1-stefanb@linux.vnet.ibm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 May 2020 19:27:32 +0100
-Message-ID: <CAFEAcA_epFn177r_req47WooM+i8MrYDoOCH-MVb=g0g7+U-sg@mail.gmail.com>
-Subject: Re: [PULL v3 0/1] Merge tpm 2020/05/08 v3
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2020 18:31:17 -0000
+From: Alexander Bulekov <1878259@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <158930827727.28996.11410630721148857402.malonedeb@soybean.canonical.com>
+Subject: [Bug 1878259] [NEW] Null-pointer dereference in megasas_handle_frame
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="013b6f2a3f3ba130b50b9eee1a89957ee38a5c15";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 401b59c02a3e6de2f5fb2df0d9365a15b84d10e8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:25:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,37 +71,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1878259 <1878259@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 May 2020 at 16:55, Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
->
-> This PR submits a fix that changes improperly used 'FALSE' to 'false'.
->
->    Stefan
->
-> The following changes since commit c88f1ffc19e38008a1c33ae039482a860aa7418c:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2020-05-08 14:29:18 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2020-05-08-1
->
-> for you to fetch changes up to aadad398e7dc21fe177278498c1be31b8c7d5078:
->
->   hw/tpm: fix usage of bool in tpm-tis.c (2020-05-12 11:47:24 -0400)
->
-> ----------------------------------------------------------------
-> Jafar Abdi (1):
->       hw/tpm: fix usage of bool in tpm-tis.c
+Public bug reported:
 
+Hello,
+While fuzzing, I found an input that triggers a null-pointer dereference in=
+ megasas_handle_frame:
 
-Applied, thanks.
+=3D=3D1595=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000000=
+0000 (pc 0x55e3e83e6e08 bp 0x7ffdb04c63b0 sp 0x7ffd
+=3D=3D1595=3D=3DThe signal is caused by a READ memory access.
+=3D=3D1595=3D=3DHint: address points to the zero page.
+    #0 0x55e3e83e6e08 in megasas_handle_frame /home/alxndr/Development/qemu=
+/hw/scsi/megasas.c:1952:36
+    #1 0x55e3e83e6e08 in megasas_mmio_write /home/alxndr/Development/qemu/h=
+w/scsi/megasas.c:2122:9
+    #2 0x55e3e7d088d6 in memory_region_write_accessor /home/alxndr/Developm=
+ent/qemu/memory.c:483:5
+    #3 0x55e3e7d0827f in access_with_adjusted_size /home/alxndr/Development=
+/qemu/memory.c:544:18
+    #4 0x55e3e7d0827f in memory_region_dispatch_write /home/alxndr/Developm=
+ent/qemu/memory.c:1476:16
+    #5 0x55e3e7c1d1d3 in flatview_write_continue /home/alxndr/Development/q=
+emu/exec.c:3137:23
+    #6 0x55e3e7c15b97 in flatview_write /home/alxndr/Development/qemu/exec.=
+c:3177:14
+    #7 0x55e3e7c15b97 in address_space_write /home/alxndr/Development/qemu/=
+exec.c:3268:18
+    #8 0x55e3e7d03bc4 in qtest_process_command /home/alxndr/Development/qem=
+u/qtest.c:567:9
+    #9 0x55e3e7cfe74d in qtest_process_inbuf /home/alxndr/Development/qemu/=
+qtest.c:710:9
+    #10 0x55e3e8804cad in fd_chr_read /home/alxndr/Development/qemu/chardev=
+/char-fd.c:68:9
+    #11 0x7f602ef2a897 in g_main_context_dispatch (/usr/lib/x86_64-linux-gn=
+u/libglib-2.0.so.0+0x4e897)
+    #12 0x55e3e8948384 in glib_pollfds_poll /home/alxndr/Development/qemu/u=
+til/main-loop.c:219:9
+    #13 0x55e3e8948384 in os_host_main_loop_wait /home/alxndr/Development/q=
+emu/util/main-loop.c:242:5
+    #14 0x55e3e8948384 in main_loop_wait /home/alxndr/Development/qemu/util=
+/main-loop.c:518:11
+    #15 0x55e3e7f27676 in qemu_main_loop /home/alxndr/Development/qemu/soft=
+mmu/vl.c:1664:9
+    #16 0x55e3e8851c6a in main /home/alxndr/Development/qemu/softmmu/main.c=
+:49:5
+    #17 0x7f602dadae0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/=
+csu/../csu/libc-start.c:308:16
+    #18 0x55e3e7b5c7b9 in _start (/home/alxndr/Development/qemu/build/i386-=
+softmmu/qemu-system-i386+0x9027b9)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.1
-for any user-visible changes.
+I can reproduce it in qemu 5.0 using:
 
--- PMM
+cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtest =
+stdio -nographic -monitor none -serial none -M q35 -device megasas
+outl 0xcf8 0x80001814
+outl 0xcfc 0xc021
+outl 0xcf8 0x80001818
+outl 0xcf8 0x80001804
+outw 0xcfc 0x7
+outl 0xcf8 0x80001810
+outl 0xcfc 0xe10c0000
+outl 0xcf8 0x8000f810
+outl 0xcf8 0x8000fa24
+outl 0xcfc 0xe10c4000
+outl 0xcf8 0x8000fa04
+outw 0xcfc 0x7
+outl 0xcf8 0x8000fb20
+write 0xe10c4384 0x15 0x838383838383838383838383838383838383838383
+write 0xc021e10c00c0 0x4 0x082c04dd
+EOF
+
+I also attached the commands to this launchpad report, in case the
+formatting is broken:
+
+qemu-system-i386 -qtest stdio -nographic -monitor none -serial none -M
+q35 -device megasas < attachment
+
+Please let me know if I can provide any further info.
+-Alex
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "attachment"
+   https://bugs.launchpad.net/bugs/1878259/+attachment/5370500/+files/attac=
+hment
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878259
+
+Title:
+  Null-pointer dereference in megasas_handle_frame
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers a null-pointer dereference =
+in megasas_handle_frame:
+
+  =3D=3D1595=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x000000=
+000000 (pc 0x55e3e83e6e08 bp 0x7ffdb04c63b0 sp 0x7ffd
+  =3D=3D1595=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D1595=3D=3DHint: address points to the zero page.
+      #0 0x55e3e83e6e08 in megasas_handle_frame /home/alxndr/Development/qe=
+mu/hw/scsi/megasas.c:1952:36
+      #1 0x55e3e83e6e08 in megasas_mmio_write /home/alxndr/Development/qemu=
+/hw/scsi/megasas.c:2122:9
+      #2 0x55e3e7d088d6 in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/memory.c:483:5
+      #3 0x55e3e7d0827f in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/memory.c:544:18
+      #4 0x55e3e7d0827f in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/memory.c:1476:16
+      #5 0x55e3e7c1d1d3 in flatview_write_continue /home/alxndr/Development=
+/qemu/exec.c:3137:23
+      #6 0x55e3e7c15b97 in flatview_write /home/alxndr/Development/qemu/exe=
+c.c:3177:14
+      #7 0x55e3e7c15b97 in address_space_write /home/alxndr/Development/qem=
+u/exec.c:3268:18
+      #8 0x55e3e7d03bc4 in qtest_process_command /home/alxndr/Development/q=
+emu/qtest.c:567:9
+      #9 0x55e3e7cfe74d in qtest_process_inbuf /home/alxndr/Development/qem=
+u/qtest.c:710:9
+      #10 0x55e3e8804cad in fd_chr_read /home/alxndr/Development/qemu/chard=
+ev/char-fd.c:68:9
+      #11 0x7f602ef2a897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e897)
+      #12 0x55e3e8948384 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/util/main-loop.c:219:9
+      #13 0x55e3e8948384 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/util/main-loop.c:242:5
+      #14 0x55e3e8948384 in main_loop_wait /home/alxndr/Development/qemu/ut=
+il/main-loop.c:518:11
+      #15 0x55e3e7f27676 in qemu_main_loop /home/alxndr/Development/qemu/so=
+ftmmu/vl.c:1664:9
+      #16 0x55e3e8851c6a in main /home/alxndr/Development/qemu/softmmu/main=
+.c:49:5
+      #17 0x7f602dadae0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
+0/csu/../csu/libc-start.c:308:16
+      #18 0x55e3e7b5c7b9 in _start (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0x9027b9)
+
+  I can reproduce it in qemu 5.0 using:
+
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtes=
+t stdio -nographic -monitor none -serial none -M q35 -device megasas
+  outl 0xcf8 0x80001814
+  outl 0xcfc 0xc021
+  outl 0xcf8 0x80001818
+  outl 0xcf8 0x80001804
+  outw 0xcfc 0x7
+  outl 0xcf8 0x80001810
+  outl 0xcfc 0xe10c0000
+  outl 0xcf8 0x8000f810
+  outl 0xcf8 0x8000fa24
+  outl 0xcfc 0xe10c4000
+  outl 0xcf8 0x8000fa04
+  outw 0xcfc 0x7
+  outl 0xcf8 0x8000fb20
+  write 0xe10c4384 0x15 0x838383838383838383838383838383838383838383
+  write 0xc021e10c00c0 0x4 0x082c04dd
+  EOF
+
+  I also attached the commands to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -qtest stdio -nographic -monitor none -serial none -M
+  q35 -device megasas < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878259/+subscriptions
 
