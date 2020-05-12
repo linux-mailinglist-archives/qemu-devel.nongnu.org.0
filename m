@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B6A1D0141
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 23:51:01 +0200 (CEST)
-Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81BF1D01E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 00:21:56 +0200 (CEST)
+Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYcnj-0007Ur-MJ
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 17:50:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39212)
+	id 1jYdHf-0004tL-F9
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 18:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jYcmQ-0006fN-BZ; Tue, 12 May 2020 17:49:38 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:55772 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1jYcmP-0005X5-47; Tue, 12 May 2020 17:49:37 -0400
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 82C5641291;
- Tue, 12 May 2020 21:49:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1589320170; x=1591134571; bh=14sBeVGLUfQ6Kq71xw8hTO
- dV0zWmxwoF6fx6XUUjyRY=; b=mAza9aOJMiKQ8gnzHRq6C1wCRikhwmtYcV7xRM
- XoKZSWUTD4y1+msh5pEKGWsFkJvtUPHKB33mmkJZJa4z29V6QDQRNIkwaFC+n0JT
- SzN0ey8lvPE7AqyVdPEqL13o5s138ox8GV6v7rdpIpQ4pOZVFy0tDwEKxd77795H
- dqOt4=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i2LZIXTbqgB3; Wed, 13 May 2020 00:49:30 +0300 (MSK)
-Received: from T-EXCH-02.corp.yadro.com (t-exch-02.corp.yadro.com
- [172.17.10.102])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 9581641275;
- Wed, 13 May 2020 00:49:29 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-02.corp.yadro.com
- (172.17.10.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 13
- May 2020 00:49:31 +0300
-Date: Wed, 13 May 2020 00:49:30 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: QEMU + HVF Fails to start OVMF.fd (hang before displaying logo)
-Message-ID: <20200512214930.GE98158@SPB-NB-133.local>
-References: <1E2B87BF-BC9F-4A4A-962B-DC70B1232B37@cea.fr>
- <6878b688-dd72-c4e4-bdbc-38d6af10f257@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYdGu-0004PD-Oo
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 18:21:08 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYdGt-0005v7-3y
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 18:21:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYdGr-0006PC-3k
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 22:21:05 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E28592E8115
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 22:21:04 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6878b688-dd72-c4e4-bdbc-38d6af10f257@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-02.corp.yadro.com (172.17.10.102)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 17:49:33
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2020 22:07:05 -0000
+From: Roman Bolshakov <1844946@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: hvf
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nanoant
+X-Launchpad-Bug-Reporter: Adam Strzelecki (nanoant)
+X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
+X-Launchpad-Bug-Duplicate: 1823831
+References: <156918728216.32759.756692081712593785.malonedeb@wampee.canonical.com>
+Message-Id: <158932122613.29675.4568053267058634051.launchpad@soybean.canonical.com>
+Subject: [Bug 1844946] Re: macOS HVF broken with WinXP after Aug 21 2018
+ 92d5f1a414
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="013b6f2a3f3ba130b50b9eee1a89957ee38a5c15";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: d79bdc0be7e3d94d705030ddaf8f99ff47be09a2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 18:06:09
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,78 +76,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: LAHAYE Olivier <olivier.lahaye@cea.fr>, qemu-devel <qemu-devel@nongnu.org>,
- Cameron Esfahani <dirty@apple.com>,
- "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>
+Reply-To: Bug 1844946 <1844946@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 11, 2020 at 12:38:26PM +0200, Philippe Mathieu-Daudé wrote:
-> Hi Olivier,
-> 
-> Cc'ing the HVF maintainers.
-> 
-> On 5/11/20 12:26 PM, LAHAYE Olivier wrote:
-> > Hi,
-> > 
-> > I’m facing a similar problem to this one, but I’m unable to find any
-> > solution via google.
-> > 
-> > https://www.mail-archive.com/qemu-discuss@nongnu.org/msg04372.html
-> > 
-> > I’m trying to run an EFI BIOS using qemu.
-> > 
-> >   * It works fine without acceleration
-> >   * It hangs (display not initialized) when using -accel hvf
-> > 
-> > I’ve tested many OVMF.fd files from internet including the official one
-> > of course whith no differences. (always work with no acceleration and
-> > always fail with HVF acceleration).
-> > 
-> >   * OS: MacOS 10.14.6
-> >   * QEMU 5.0.0 monitor - type 'help' for more information
-> >   * (qemu) qemu-system-x86_64: warning: host doesn't support requested
-> >     feature: CPUID.80000001H:ECX.svm [bit 2]
-> >   * info roms
-> >   * fw=genroms/kvmvapic.bin size=0x002400 name="kvmvapic.bin"
-> >   * addr=00000000fff00000 size=0x100000 mem=rom
-> >     name="/Users/ol222822/data/OVMF.fd"
-> >   * /rom@etc/acpi/tables size=0x200000 name="etc/acpi/tables"
-> >   * /rom@etc/table-loader size=0x001000 name="etc/table-loader"
-> >   * /rom@etc/acpi/rsdp size=0x000014 name="etc/acpi/rsdp"
-> > 
-> > Is it a known issue?
-> > 
-> > Is there something I’m missing?
-> > 
-> > I’m running qemu in the following way:
-> > 
-> > qemu-system-x86_64 -machine q35 -bios ~/data/OVMF.fd -monitor stdio
-> > 
-> > If I add -accel hvf, it’ll hang before tiano core logo.
-> > 
-> > Best regards,
-> > 
-> > -- 
-> > 
-> > Olivier LAHAYE
-> > 
-> 
+*** This bug is a duplicate of bug 1823831 ***
+    https://bugs.launchpad.net/bugs/1823831
 
-I tried to use OVMF shipped with qemu couple months ago and it worked,
-but the latest UEFI from the master branch fails to boot either with hvf
-or without it if built on macOS and the patch addresses the issue:
+** Tags added: hvf
 
-https://edk2.groups.io/g/devel/message/59372
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-I'm able to use UEFI shell on hvf accel if the patch is applied, and I
-tried to boot FreeBSD iso with UEFI, it also works on the master branch
-of qemu:
+** This bug has been marked a duplicate of bug 1823831
+   BSD bootloader halts with hypervisor.framework
 
-$QEMU_CMD -M q35,accel=hvf -m 512 -drive if=pflash,format=raw,readonly,file=Build/OvmfX64/DEBUG_XCODE5/FV/OVMF_CODE.fd -drive if=pflash,format=raw,file=Build/OvmfX64/DEBUG_XCODE5/FV/OVMF_VARS.fd -chardev file,path=debugcon.log,id=debugcon -device isa-debugcon,iobase=0x402,chardev=debugcon -net none -cdrom ~/Downloads/FreeBSD-12.0-RELEASE-amd64-bootonly.iso
+-- =
 
-I'm not sure about the logo though, I've never seen it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1844946
 
-Regards,
-Roman
+Title:
+  macOS HVF broken with WinXP after Aug 21 2018 92d5f1a414
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  I use macOS with own built Qemu to run old XP system that I have migrated=
+ from physical machine. My setup is very simple qemu-system-x86_64 with arg=
+s:
+  -machine pc,accel=3Dhvf,usb=3Doff,vmport=3Doff
+  -cpu host
+  -vga std
+  -m 2048
+  -drive file=3D"$img",format=3Dqcow2,cache=3Dnone,detect-zeroes=3Don
+  -usb -device usb-tablet
+
+  Unfortunately as soon I enable HVF with first 2 lines WinXP SP3 hangs
+  on boot (famous mup.sys). It works fine in TCG.
+
+  I dived into the code checking the differences between HVF, KVM and
+  HAXM and my analysis is:
+
+  1. Sergio Andres Gomez Del Real b7394c8394 - replaces explicit
+  VMCS_GUEST_INTERRUPTIBILITY checks with hflags/hflags2.
+
+  2. Paolo Bonzini 92d5f1a414 - changes hflags/hflags2 behavior which
+  breaks in the end HVF interrupt handling and makes WinXP unable to
+  boot. NOTE: This does not break I believe KVM and HAXM as they still
+  do explicit check instead what HVF does in 1. That's why it was
+  probably not reported and Qemu macOS users are rather niche ;)
+
+  Reverting 92d5f1a414 makes WinXP boot well and work flawlessly.
+  Unfortunately b7394c8394 is not easy anymore as too many changes on the w=
+ay, so it may be not an option.
+
+  This can be reproduced simply by installing /Users/ono/VM/ISO/en_windows_=
+xp_professional_with_service_pack_3_x86_cd_vl_x14-73974.iso
+  with HAL as "Standard PC" selectable with F5 on first run.
+
+  I can also provide fresh ~600MB qcow2 image (without activation key
+  entered yet) that is created before boot that fails. No need for full
+  XP installation to test that.
+
+  Nevertheless I would really appreciate Paolo looking into this.
+  Many thanks for great software,
+  Adam
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1844946/+subscriptions
 
