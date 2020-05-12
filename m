@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B688A1CEBB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:49:21 +0200 (CEST)
-Received: from localhost ([::1]:49394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71AD01CEBB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:51:26 +0200 (CEST)
+Received: from localhost ([::1]:56842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYLuy-00045a-Qk
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59720)
+	id 1jYLwz-0007nC-Gr
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLtn-0002nr-Qo
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:48:07 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLtr-0002um-Hn
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:48:11 -0400
 Received: from mail-eopbgr750134.outbound.protection.outlook.com
  ([40.107.75.134]:42296 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLtm-00087Y-35
- for qemu-devel@nongnu.org; Mon, 11 May 2020 23:48:07 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYLtq-00087Y-2d
+ for qemu-devel@nongnu.org; Mon, 11 May 2020 23:48:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mBEyjAVQ29h5UulgMrCOVnxhPP84/VzOvySasRIcMBBPMhYmhtMvAbMkr52xh2ojQKdwOxELZ6yTS8QvH6WJVHTlPWgwUj/Hr2tc7pvRrjmf+oW6+GqwGynAmqx4CCxZA4u8SQ3z8ps+E8XdciDtm1RF9zRK/RAlD87CdF0cZRNSAt2HfhCHnw87qhgMuJt6Ht55lyxV/jlYFy4gXSlzt6j6LBh2itmSszD4g/GsCcEFy1h1d+Ra/PoteflfzFtWR1De2fdOK4jklEOe7HnKWVae867JXze4dfBfmcnUw/bJdzCUtai3GbitYh0BQBpHE1kX80FyN9zf9++RkwzFww==
+ b=lijSEKWbkqIEt4noTkxQVUlTP/Nk9qU7raAtNalnROl13Wk5vP2nTWcyHeQTWWoQZAg6DSLI8jA4bLNw+zxPlD7GFcfL1/Yu9uL5npaoa7SinNvzc9DwXey6dS0SUInRsfTC0EImHbkm2UcVe7RTDiS4WaSxZ/DLaI/gzGvxDc55HgF0wBSe6t2othBHOWszwzL6ogxbK+9Y3GfQejYjCaTM1Fj+GIg9dvTiHh2gBojf/U8u3EpA31QBdUkFBoiDg8NImWPqImPt+aAHoV4lyGyU10Ny9tMspniaj7PdnLcgEvmkiH8OpmUPJuZC8pWPv24VPF11aO36IFT8sNkmYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZX9qzyTh8nX+O+pqH8+xs5jZxczBKR3q6UPSSmowVTo=;
- b=HcdgXqTzsP6KQ81JtOzfEooZEhM/165klHaPr2wm2VvgB+rxflpa2D28f/KrGTJB4ACSnKNdbAy0qqDi7AbOWcVR25K7pEg5zNW2OWbzXFaUJEYTCn8ia0V4+m0/nJCZLwr5qkhGx9jUHsrcJIrK7EFeRv/uz1bJaArpSuUr3uzZgexy6Hn53RptvLKbGRrN5DxXA2P/lODW3wJwSe+LWhS0psJdlOdEe1reVLB7CEJ1Z1PbIEBtBTQ/pKdu+0aN/iUpe6rH+ufpCCaJHRLHpxpDWw1YaFe8HfW5D1N3NwJsusFDFImmqHvbY/m2cNMPQPYwjXo7puH0APFcKzIkHA==
+ bh=4k6wgadRoXlucyxXGAL5yKPn/+NG/tNvMvJWmAIS2Rg=;
+ b=mNLWVTdAWFrsvtNpVZo87QXP4nzYw83LwvrqWePLI1RGYGwjNguYJOjlCkQQPCzMG7g7rD3y8QemJVJMRXF3YCjfQmVZ0lIwVA3EZVOLFTD3YEPvozAjXfVSGe3uJnNrZG72c5O568tz8xKn/OHgdWhFY2ThFAV2rIa4bj8tnEfjDE+tNr3sKIrJITepDzBFR3oI2Eq7XnaYFAZNpsFvY0L/yFjXC5Pz7Ra7IuKi6LzjwM+y5bOYKPa2qSHubel3h/d9Q/vmVrHEzbS1WrY3BXXqOi0UUvTHeJWaMTsyFB8TwmC5BywqljTWkbhbcTAz7OZZos4hfXTD/il9eJ6D1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZX9qzyTh8nX+O+pqH8+xs5jZxczBKR3q6UPSSmowVTo=;
- b=plTMOdOnANuicn8vvNYI1WpXB+Uu7YAHCokOy6g8U5XnrM8TpYgqM5OWVyxCFoyOg3hDe/T2p2g5JE5eRukQ74K4SstoEeZm0KkePFqfDNMmdiGvWTAQQAspjjWXzUJceKzJeCfFfpHXEkHVADVsLuJZ3RSLuEwEvImAkerENWI=
+ bh=4k6wgadRoXlucyxXGAL5yKPn/+NG/tNvMvJWmAIS2Rg=;
+ b=jFGWO3wDTcdnxH120XV1cdvKJ31ZSayLaR26RTTnuZ0/H3enyrKv29q47eNXUit726BPKr5AawIX6bjlDlIa1Th9wvU63YgUU7cdLIjMbe90liJ5JVOgR53x856RVP0n04sQGHWmdh/5pd4pE2Knhpp+W8tlNPzrfVAp0PCvRMo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
@@ -46,9 +46,9 @@ Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  03:48:03 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] chardev: enable distinct input for -chardev file
-Date: Mon, 11 May 2020 23:47:49 -0400
-Message-Id: <20200512034750.5773-2-alxndr@bu.edu>
+Subject: [PATCH v3 2/2] char-file: add test for distinct path= and pathin=
+Date: Mon, 11 May 2020 23:47:50 -0400
+Message-Id: <20200512034750.5773-3-alxndr@bu.edu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200512034750.5773-1-alxndr@bu.edu>
 References: <20200512034750.5773-1-alxndr@bu.edu>
@@ -63,32 +63,32 @@ Received: from mozz.bu.edu (128.197.127.33) by
  MN2PR15CA0012.namprd15.prod.outlook.com (2603:10b6:208:1b4::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26 via Frontend
- Transport; Tue, 12 May 2020 03:48:02 +0000
+ Transport; Tue, 12 May 2020 03:48:03 +0000
 X-Mailer: git-send-email 2.26.2
 X-Originating-IP: [128.197.127.33]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fb5040fb-1f9b-4268-d7fc-08d7f627459f
+X-MS-Office365-Filtering-Correlation-Id: 979ea051-6e0d-46b5-cabb-08d7f627461f
 X-MS-TrafficTypeDiagnostic: SN6PR03MB4368:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB4368DDF2EB7465A883F2EE27BABE0@SN6PR03MB4368.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB43684481014258F7194EAFD8BABE0@SN6PR03MB4368.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
 X-Forefront-PRVS: 0401647B7F
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yAT8LYNNPvGkFBB5x/D48SdYmwijs5MTTb+/7F/vYF8HPrD0Y5V1DzT9h1ifoc74uLul51u8HKX8VwNE1TskwfexoAJMd9O5WUWRwZV06oVHj14Juwa1ABH8UDMupO2wQy4K0WxXm/vWWp97gJ+7PpkAFWGznTFYeVitQUENid4ecFJDl53/46D79VEkCH+dmNvW78W5DbohNpqIeULv2LqHrOiQCAMtKnDoBxetu6M5Hi21sCN2OZt+3FFRyiBMm4L5ox9JNpEwvOw/Dj+sAqULrz/pCqLq3oBSM13+frU9Dlhe8vCJq2/BjabdrYqa/vUSrELcm5mLny7nEL9nAR99ZetQkxNS/0B7a3W0e/vaXzB3chg6U0s3eNjZpRDaDu4kUcjfGUvxc/BgqI/wPM0gRqcvROtLLqX72zHeiBEt+2MxC+Z8o0aVpuWgcZLtnTK+Z231cGMVodp9FF0z4vzdt0IkXMIuVnimW1HdnUsxGy7k+eZwk/OfmmCM4wPTwaC274UFy+bag50YlUiYnA==
+X-Microsoft-Antispam-Message-Info: ZB7jUvGyOlxyI4seWqWxr83dTKavWs+8a4ecsDwsJTIGzPS8Xs5zsar/rYFOkfJMo/t/haCwSDrIFZVF18Pdvr2MUenVsLc2+faoqYgOFSHFYGt4b0oPaE9wXNNeNGaamwXuKaCkofFKvRc4u4qGZm/i4oyoTLHe8QjKBNeV3GtUX6HLUMFjST/yzenmV37ZLCFvBQUQiw+1BiUWNJm+s4J1N9/HmwW0N5fy2CEXC7Fv8rLylRWsGfOZxZka0u0/gwRcCaC7JcOi9RBXso0GRNsa46q1EgnAiEs25k6MWAEn+PrRf9AGA/SsyltLXKX6mGT5qpfd7qyga7H/e6vl7VspOxtYxHM42LiE7fDFEvGzdmH7EckOKsW9983xEb4LTlD549VnYICuC+pFAKRdPe4eOTmY4T7La42Y9IN+/XMyKjG0I9y8TnZD1wUi9G3cVSBUgjWumiyOdfJHJu4S8zDhi5KJ9VCJgm+wMo3hCLCdE4W5WleJeq3m2SFutpCfsEhwxDdN8QS9uCdga/AHfg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
  SFTY:;
- SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(33430700001)(6916009)(316002)(5660300002)(786003)(75432002)(16526019)(8676002)(26005)(66556008)(8936002)(186003)(66946007)(6486002)(66476007)(86362001)(6666004)(7696005)(2616005)(2906002)(52116002)(33440700001)(54906003)(1076003)(36756003)(478600001)(4326008)(956004);
+ SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(33430700001)(6916009)(316002)(5660300002)(786003)(75432002)(16526019)(8676002)(26005)(66556008)(8936002)(186003)(66946007)(6486002)(66476007)(86362001)(6666004)(7696005)(2616005)(2906002)(52116002)(33440700001)(1076003)(36756003)(478600001)(4326008)(956004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: wBpLA3gjaJAhKgXvezz7Lj9p0bOKSi0DDW8BD6x0QdjRI/nIAeljE2Ly4uVKnPU6fKoA7J9LUXe8EVO5Ms724vA7NXVx0YczRiZKVAC+YN/vtALq/IhFbzmHFSKtlOflht1eif5gLpLkxKqrts0hJzLLeQRfsrtOsVN9/aTsHZ/vaa3ex8QjiXTUP5kH7nMdYSJuVk9qaQ07VvvgRoVmatcpc2ilSHh+P9eT8rhHL+18ico8qL5+qGC5jT7vjDqh1qWGXxgL33zWSPODf39vS938t2Jmg1rob9pNpg5iQ/eis7j5aNKp5e035JtQUKputgTBtM0ckWOn0FyhYrUmkQxbjrM2sx+6Pi9YkTyeLmI8e/++smPyitLTggjyJsqEYk+lWMGy/z2Zox5Gpc0fXY7esLmiti1Upts4odLE+qgwAGBSgpjo6mdT7M4OdQP3USDnllmabU9tdiOUrkWpf/EkvOLYZMcpR8tQst0ExwE=
+X-MS-Exchange-AntiSpam-MessageData: 7vmMqisHwbGHcW9UPMY8sZchwcCX5bduwvhWa1xBT43Zu5a6snqqatym1+bpl8eBti7QQpv2oDf2yfWomvNZmgfCss1i3n/BtLR7YE/lH/bwdk+nWuQIZwoU6l6CpuOw5I1nLHYzJBWjY50DqLOHfrGWDPzvWOsvQdoUL9wTINlVS99oLYkBStWEAjPlrcmt5yHMuw/pQoYBMUfI8NFE1LAqyFHr3mmLdVuLuBlyTj8EvUHzW838NhE+pimBl//KnkKRvsx9Zckw4rRXQvIfgEeO7+8v8JY6ep6C0fwYV4njtGjSKcM1mhcKur6AQXx2mS/sdtWLgy1MtdkiJXGQaDaG6O+nkvJAGZ55ocbT5fY5RPwxXFxe8KdgJQoXhOknmHwqoI+jej+T7kH40quqewzLTucHveU3VzKGqu2ma0IWLdJqxu6SJulyh8qYuCyB+tI/t6floETWqynd5BOfwBVSWapNzkG69uV891aVw98=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb5040fb-1f9b-4268-d7fc-08d7f627459f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 03:48:03.0354 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 979ea051-6e0d-46b5-cabb-08d7f627461f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 03:48:03.8639 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eupur+RWYyOgjWckXaqA/OjGvGafh5PG/cWwek+VR98VNnInFoEd7jBrA4HnDzft
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ay6qhZqkBigNYI6+riu5QD/Q/nhM/usB2RYMzwcsallQL4f9jegyvs/xVnDdiBL+
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4368
 Received-SPF: pass client-ip=40.107.75.134; envelope-from=alxndr@bu.edu;
  helo=NAM02-BL2-obe.outbound.protection.outlook.com
@@ -116,93 +116,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: berrange@redhat.com, Alexander Bulekov <alxndr@bu.edu>,
  darren.kenny@oracle.com, bsd@redhat.com, marcandre.lureau@gmail.com,
- stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-char-file already supports distinct paths for input/output but it was
-only possible to specify a distinct input through QMP. With this change,
-we can also specify a distinct input with the -chardev file argument:
-    qemu -chardev file,id=char1,path=/out/file,pathin=/in/file
-
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- chardev/char-file.c | 5 +++++
- chardev/char.c      | 3 +++
- qemu-options.hx     | 7 +++++--
- 3 files changed, 13 insertions(+), 2 deletions(-)
+ tests/test-char.c | 96 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
 
-diff --git a/chardev/char-file.c b/chardev/char-file.c
-index 2fd80707e5..031f2aa7d7 100644
---- a/chardev/char-file.c
-+++ b/chardev/char-file.c
-@@ -100,6 +100,7 @@ static void qemu_chr_parse_file_out(QemuOpts *opts, ChardevBackend *backend,
-                                     Error **errp)
- {
-     const char *path = qemu_opt_get(opts, "path");
-+    const char *pathin = qemu_opt_get(opts, "pathin");
-     ChardevFile *file;
+diff --git a/tests/test-char.c b/tests/test-char.c
+index 3afc9b1b8d..6c66fae86a 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -1228,6 +1228,101 @@ static void char_file_test_internal(Chardev *ext_chr, const char *filepath)
+     g_free(out);
+ }
  
-     backend->type = CHARDEV_BACKEND_KIND_FILE;
-@@ -110,6 +111,10 @@ static void qemu_chr_parse_file_out(QemuOpts *opts, ChardevBackend *backend,
-     file = backend->u.file.data = g_new0(ChardevFile, 1);
-     qemu_chr_parse_common(opts, qapi_ChardevFile_base(file));
-     file->out = g_strdup(path);
-+    if (pathin) {
-+        file->has_in = true;
-+        file->in = g_strdup(pathin);
-+    }
- 
-     file->has_append = true;
-     file->append = qemu_opt_get_bool(opts, "append", false);
-diff --git a/chardev/char.c b/chardev/char.c
-index e77564060d..97e03a8e48 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -849,6 +849,9 @@ QemuOptsList qemu_chardev_opts = {
-         },{
-             .name = "path",
-             .type = QEMU_OPT_STRING,
-+        },{
-+            .name = "pathin",
-+            .type = QEMU_OPT_STRING,
-         },{
-             .name = "host",
-             .type = QEMU_OPT_STRING,
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 292d4e7c0c..488961099b 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2938,7 +2938,7 @@ DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
-     "-chardev vc,id=id[[,width=width][,height=height]][[,cols=cols][,rows=rows]]\n"
-     "         [,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-     "-chardev ringbuf,id=id[,size=size][,logfile=PATH][,logappend=on|off]\n"
--    "-chardev file,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "-chardev file,id=id,path=path[,pathin=PATH][,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-     "-chardev pipe,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
- #ifdef _WIN32
-     "-chardev console,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-@@ -3137,13 +3137,16 @@ The available backends are:
-     Create a ring buffer with fixed size ``size``. size must be a power
-     of two and defaults to ``64K``.
- 
--``-chardev file,id=id,path=path``
-+``-chardev file,id=id,path=path[,pathin=pathin]``
-     Log all traffic received from the guest to a file.
- 
-     ``path`` specifies the path of the file to be opened. This file will
-     be created if it does not already exist, and overwritten if it does.
-     ``path`` is required.
- 
-+    ``pathin`` specifies a separate file as the input to the chardev. If
-+    ``pathin`` is omitted, ``path`` is used for both input and output
++static int file_can_read(void *opaque)
++{
++    return 4096;
++}
 +
- ``-chardev pipe,id=id,path=path``
-     Create a two-way connection to the guest. The behaviour differs
-     slightly between Windows hosts and other hosts:
++static void file_read(void *opaque, const uint8_t *buf, int size)
++{
++    int ret;
++    Chardev *chr = *(Chardev **)opaque;
++    g_assert_cmpint(size, <=, file_can_read(opaque));
++
++    g_assert_cmpint(size, ==, 6);
++    g_assert(strncmp((const char *)buf, "hello!", 6) == 0);
++    ret = qemu_chr_write_all(chr, (const uint8_t *)"world!", 6);
++    g_assert_cmpint(ret, ==, 6);
++    quit = true;
++}
++
++static void char_file_separate_input_file(void)
++{
++    char *tmp_path = g_dir_make_tmp("qemu-test-char.XXXXXX", NULL);
++    char *in;
++    char *out;
++    QemuOpts *opts;
++    Chardev *chr;
++    ChardevFile file = {};
++    CharBackend be;
++    ChardevBackend backend = { .type = CHARDEV_BACKEND_KIND_FILE,
++                               .u.file.data = &file };
++    char *contents = NULL;
++    gsize length;
++    int ret;
++    time_t in_mtime;
++    GStatBuf file_stat;
++
++    in = g_build_filename(tmp_path, "in", NULL);
++    out = g_build_filename(tmp_path, "out", NULL);
++
++    ret = g_file_set_contents(in, "hello!", 6, NULL);
++    g_assert(ret == TRUE);
++    g_stat(in, &file_stat);
++    in_mtime = file_stat.st_mtime;
++    /*
++     * Sleep to ensure that if the following actions modify the file, the mtime
++     * will be different
++     */
++    sleep(1);
++    opts = qemu_opts_create(qemu_find_opts("chardev"), "serial-id",
++                            1, &error_abort);
++    qemu_opt_set(opts, "backend", "file", &error_abort);
++    qemu_opt_set(opts, "pathin", in, &error_abort);
++    qemu_opt_set(opts, "path", out, &error_abort);
++
++    chr = qemu_chr_new_from_opts(opts, NULL, NULL);
++    qemu_chr_fe_init(&be, chr, &error_abort);
++
++    file.has_in = true;
++    file.in = in;
++    file.out = out;
++
++
++    qemu_chr_fe_set_handlers(&be, file_can_read,
++                             file_read,
++                             NULL, NULL, &chr, NULL, true);
++
++    chr = qemu_chardev_new(NULL, TYPE_CHARDEV_FILE, &backend,
++                               NULL, &error_abort);
++    g_assert_nonnull(chr);
++
++    main_loop(); /* should call file_read, and copy contents of in to out */
++
++    qemu_chr_fe_deinit(&be, true);
++
++    /* Check that out was written to */
++    ret = g_file_get_contents(out, &contents, &length, NULL);
++    g_assert(ret == TRUE);
++    g_assert_cmpint(length, ==, 6);
++    g_assert(strncmp(contents, "world!", 6) == 0);
++    g_free(contents);
++
++    /* Check that in hasn't been modified */
++    ret = g_file_get_contents(in, &contents, &length, NULL);
++    g_assert(ret == TRUE);
++    g_assert_cmpint(length, ==, 6);
++    g_assert(strncmp(contents, "hello!", 6) == 0);
++    g_stat(in, &file_stat);
++    g_assert(file_stat.st_mtime == in_mtime);
++
++    g_free(contents);
++    g_rmdir(tmp_path);
++    g_free(tmp_path);
++    g_free(in);
++    g_free(out);
++}
++
+ static void char_file_test(void)
+ {
+     char_file_test_internal(NULL, NULL);
+@@ -1398,6 +1493,7 @@ int main(int argc, char **argv)
+     g_test_add_func("/char/pipe", char_pipe_test);
+ #endif
+     g_test_add_func("/char/file", char_file_test);
++    g_test_add_func("/char/file/pathin", char_file_separate_input_file);
+ #ifndef _WIN32
+     g_test_add_func("/char/file-fifo", char_file_fifo_test);
+ #endif
 -- 
 2.26.2
 
