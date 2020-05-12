@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318DE1CF8AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:12:33 +0200 (CEST)
-Received: from localhost ([::1]:33350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB901CF958
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:37:32 +0200 (CEST)
+Received: from localhost ([::1]:36508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYWa8-0004Y4-6y
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:12:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36198)
+	id 1jYWyJ-0005mQ-Hp
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jYWYG-0002gG-J5
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:10:36 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:29111
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jYWWg-0000A2-Tf
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 11:08:58 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:28506
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jYWYF-00057R-4S
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:10:36 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1jYWWf-0004bH-W0
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 11:08:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589296233;
+ s=mimecast20190719; t=1589296137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TO1wCtmEG0kb28A1Vn6uR3VPtKNbRZgagbaGz6SP6fM=;
- b=SeFS3OcmiUFq3tSHOBo9fGrFmrCZBFLlyY9ie7u/jOBva6t86eiXkaiER2gN18OzF/d+Ct
- cROWMHD7ExgRm6K+2KhIpHdHBmEf0smpuLO/WiQJah2OhXH37oNWUWM8oKL5dpsTMdAWlv
- EqtBAIh7LaX6yXKOwP/9QxSeSVW4Ynk=
+ bh=oxXSMrOEchlImeEnuCjdXjbQEH5AKvytZXt9+F8uSRM=;
+ b=GCyd69SlEGlbyw4PMlUa7589NUMAsG8thU+Yktcj1uTCCFgA0dA8GvBGiLmdKxtKh+fStG
+ CjKeaV+1koquIKwY4JK5IGU1i3j6vwYo89DxU6/RoZoa4m0HLn6/cfblV0eWRZqrJEn4dw
+ vIllp/d5/U2Q4UeqzrO5tjcdgBqq5Ac=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-Y0zOODp1M4WPn2dzUfC1Dg-1; Tue, 12 May 2020 11:10:32 -0400
-X-MC-Unique: Y0zOODp1M4WPn2dzUfC1Dg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-492-InOx64K3MMqmOJ7hyCJVOA-1; Tue, 12 May 2020 11:08:55 -0400
+X-MC-Unique: InOx64K3MMqmOJ7hyCJVOA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13A2D835B41;
- Tue, 12 May 2020 15:10:31 +0000 (UTC)
-Received: from gondolin (ovpn-112-176.ams2.redhat.com [10.36.112.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D00C26E6E6;
- Tue, 12 May 2020 15:10:28 +0000 (UTC)
-Date: Tue, 12 May 2020 17:08:28 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] travis.yml: Improve the --disable-tcg test on s390x
-Message-ID: <20200512170828.3450ca9a.cohuck@redhat.com>
-In-Reply-To: <20200512133849.10624-1-thuth@redhat.com>
-References: <20200512133849.10624-1-thuth@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F22B473;
+ Tue, 12 May 2020 15:08:54 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FADA10001B3;
+ Tue, 12 May 2020 15:08:39 +0000 (UTC)
+Date: Tue, 12 May 2020 17:08:34 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v5 13/15] acpi: drop build_piix4_pm()
+Message-ID: <20200512170834.29eab76c@redhat.com>
+In-Reply-To: <20200512111605.w5guklhowx3uufss@sirius.home.kraxel.org>
+References: <20200507131640.14041-1-kraxel@redhat.com>
+ <20200507131640.14041-14-kraxel@redhat.com>
+ <20200511213732.4f540923@redhat.com>
+ <20200512111605.w5guklhowx3uufss@sirius.home.kraxel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:04
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,29 +82,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?UTF-8?B?TWF0?= =?UTF-8?B?aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- qemu-s390x@nongnu.org, Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 May 2020 15:38:49 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+On Tue, 12 May 2020 13:16:05 +0200
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> Since the s390x containers do not allow KVM, we only compile-test
-> the --disable-tcg build on s390x and do not run the qtests. Thus,
-> it does not make sense to install genisoimage here, and it also does
-> not make sense to build the s390-ccw.img here again - it is simply
-> not used without the qtests.
-> On the other hand, if we do not build the s390-ccw.img anymore, we
-> can also compile with Clang - so let's use that compiler here to
-> get some additional test coverage.
+> On Mon, May 11, 2020 at 09:37:32PM +0200, Igor Mammedov wrote:
+> > On Thu,  7 May 2020 15:16:38 +0200
+> > Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >   
+> > > The _SB.PCI0.PX13.P13C opregion (holds isa device enable bits)
+> > > is not used any more, remove it from DSDT.
+> > > 
+> > > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > > ---
+> > >  hw/i386/acpi-build.c | 16 ----------------
+> > >  1 file changed, 16 deletions(-)
+> > > 
+> > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > > index 765409a90eb6..c1e63cce5e8e 100644
+> > > --- a/hw/i386/acpi-build.c
+> > > +++ b/hw/i386/acpi-build.c
+> > > @@ -1441,21 +1441,6 @@ static void build_q35_isa_bridge(Aml *table)
+> > >      aml_append(table, scope);
+> > >  }
+> > >  
+> > > -static void build_piix4_pm(Aml *table)
+> > > -{
+> > > -    Aml *dev;
+> > > -    Aml *scope;
+> > > -
+> > > -    scope =  aml_scope("_SB.PCI0");
+> > > -    dev = aml_device("PX13");
+> > > -    aml_append(dev, aml_name_decl("_ADR", aml_int(0x00010003)));  
+> > I agree about removing P13C but I'm not sure if it's safe to remove
+> > whole isa bridge  
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .travis.yml | 18 ++++--------------
->  1 file changed, 4 insertions(+), 14 deletions(-)
+> The isa bridge is _SB0.PCI0.ISA (piix4 function 0).
+> _SB.PCI0.PX13 is the acpi pm device (piix4 function 3).
+> 
+> So this does _not_ remove the isa bridge.  And given that PX13 has
+> nothing declared beside the opregion we are removing and I have not
+> found any other references to the PX13 device I assumed it is ok to drop
+> that one too.  Didn't notice any odd side effects in testing.
+I don't see HID or some other way to tell guest that it should load a driver
+for it so probably we can remove it.
+If it breaks some legacy OS we can always add it back.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
+> 
+> take care,
+>   Gerd
+> 
 
 
