@@ -2,23 +2,23 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9A381CEB1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:07:49 +0200 (CEST)
-Received: from localhost ([::1]:56804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29AD1CEB19
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 05:05:19 +0200 (CEST)
+Received: from localhost ([::1]:48344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYLGm-0006um-WC
-	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:07:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52306)
+	id 1jYLEM-0002lb-Vh
+	for lists+qemu-devel@lfdr.de; Mon, 11 May 2020 23:05:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
- id 1jYLCQ-0000w9-M2; Mon, 11 May 2020 23:03:18 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:40718 helo=huawei.com)
+ id 1jYLCP-0000ur-UZ; Mon, 11 May 2020 23:03:17 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:40716 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gengdongjiu@huawei.com>)
- id 1jYLCP-00083j-9a; Mon, 11 May 2020 23:03:18 -0400
+ id 1jYLCO-00083m-Fw; Mon, 11 May 2020 23:03:17 -0400
 Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by Forcepoint Email with ESMTP id A1BB893D52E1A0235995;
+ by Forcepoint Email with ESMTP id 9119AE9D41E74A1CA8F9;
  Tue, 12 May 2020 11:03:11 +0800 (CST)
 Received: from huawei.com (10.151.151.243) by DGGEMS413-HUB.china.huawei.com
  (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Tue, 12 May 2020
@@ -29,10 +29,9 @@ To: <imammedo@redhat.com>, <mst@redhat.com>, <xiaoguangrong.eric@gmail.com>,
  <rth@twiddle.net>, <ehabkost@redhat.com>, <mtosatti@redhat.com>,
  <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <qemu-arm@nongnu.org>,
  <pbonzini@redhat.com>, <philmd@redhat.com>
-Subject: [PATCH v27 01/10] acpi: nvdimm: change NVDIMM_UUID_LE to a common
- macro
-Date: Tue, 12 May 2020 11:06:00 +0800
-Message-ID: <20200512030609.19593-2-gengdongjiu@huawei.com>
+Subject: [PATCH v27 02/10] hw/arm/virt: Introduce a RAS machine option
+Date: Tue, 12 May 2020 11:06:01 +0800
+Message-ID: <20200512030609.19593-3-gengdongjiu@huawei.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200512030609.19593-1-gengdongjiu@huawei.com>
 References: <20200512030609.19593-1-gengdongjiu@huawei.com>
@@ -67,92 +66,72 @@ Cc: zhengxiang9@huawei.com, Jonathan.Cameron@huawei.com, linuxarm@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The little end UUID is used in many places, so make
-NVDIMM_UUID_LE to a common macro to convert the UUID
-to a little end array.
+RAS Virtualization feature is not supported now, so
+add a RAS machine option and disable it by default.
 
-Reviewed-by: Xiang Zheng <zhengxiang9@huawei.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
-Change since v25:
-1. Address Peter's comments to add a proper doc-comment comment for
-   UUID_LE macros.
----
- hw/acpi/nvdimm.c    | 10 +++-------
- include/qemu/uuid.h | 27 +++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 7 deletions(-)
+ hw/arm/virt.c         | 23 +++++++++++++++++++++++
+ include/hw/arm/virt.h |  1 +
+ 2 files changed, 24 insertions(+)
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index fa7bf8b..9316d12 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -27,6 +27,7 @@
-  */
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 171e690..2d46c3f 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1995,6 +1995,20 @@ static void virt_set_acpi(Object *obj, Visitor *v, const char *name,
+     visit_type_OnOffAuto(v, name, &vms->acpi, errp);
+ }
  
- #include "qemu/osdep.h"
-+#include "qemu/uuid.h"
- #include "hw/acpi/acpi.h"
- #include "hw/acpi/aml-build.h"
- #include "hw/acpi/bios-linker-loader.h"
-@@ -34,18 +35,13 @@
- #include "hw/mem/nvdimm.h"
- #include "qemu/nvdimm-utils.h"
- 
--#define NVDIMM_UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)             \
--   { (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
--     (b) & 0xff, ((b) >> 8) & 0xff, (c) & 0xff, ((c) >> 8) & 0xff,          \
--     (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }
--
- /*
-  * define Byte Addressable Persistent Memory (PM) Region according to
-  * ACPI 6.0: 5.2.25.1 System Physical Address Range Structure.
-  */
- static const uint8_t nvdimm_nfit_spa_uuid[] =
--      NVDIMM_UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
--                     0x18, 0xb7, 0x8c, 0xdb);
-+      UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
-+              0x18, 0xb7, 0x8c, 0xdb);
- 
- /*
-  * NVDIMM Firmware Interface Table
-diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
-index 129c45f..9925feb 100644
---- a/include/qemu/uuid.h
-+++ b/include/qemu/uuid.h
-@@ -34,6 +34,33 @@ typedef struct {
-     };
- } QemuUUID;
- 
-+/**
-+ * UUID_LE - converts the fields of UUID to little-endian array,
-+ * each of parameters is the filed of UUID.
-+ *
-+ * @time_low: The low field of the timestamp
-+ * @time_mid: The middle field of the timestamp
-+ * @time_hi_and_version: The high field of the timestamp
-+ *                       multiplexed with the version number
-+ * @clock_seq_hi_and_reserved: The high field of the clock
-+ *                             sequence multiplexed with the variant
-+ * @clock_seq_low: The low field of the clock sequence
-+ * @node0: The spatially unique node0 identifier
-+ * @node1: The spatially unique node1 identifier
-+ * @node2: The spatially unique node2 identifier
-+ * @node3: The spatially unique node3 identifier
-+ * @node4: The spatially unique node4 identifier
-+ * @node5: The spatially unique node5 identifier
-+ */
-+#define UUID_LE(time_low, time_mid, time_hi_and_version,                    \
-+  clock_seq_hi_and_reserved, clock_seq_low, node0, node1, node2,            \
-+  node3, node4, node5)                                                      \
-+  { (time_low) & 0xff, ((time_low) >> 8) & 0xff, ((time_low) >> 16) & 0xff, \
-+    ((time_low) >> 24) & 0xff, (time_mid) & 0xff, ((time_mid) >> 8) & 0xff, \
-+    (time_hi_and_version) & 0xff, ((time_hi_and_version) >> 8) & 0xff,      \
-+    (clock_seq_hi_and_reserved), (clock_seq_low), (node0), (node1), (node2),\
-+    (node3), (node4), (node5) }
++static bool virt_get_ras(Object *obj, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
 +
- #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
-                  "%02hhx%02hhx-%02hhx%02hhx-" \
-                  "%02hhx%02hhx-" \
++    return vms->ras;
++}
++
++static void virt_set_ras(Object *obj, bool value, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    vms->ras = value;
++}
++
+ static char *virt_get_gic_version(Object *obj, Error **errp)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(obj);
+@@ -2327,6 +2341,15 @@ static void virt_instance_init(Object *obj)
+                                     "Valid values are none and smmuv3",
+                                     NULL);
+ 
++    /* Default disallows RAS instantiation */
++    vms->ras = false;
++    object_property_add_bool(obj, "ras", virt_get_ras,
++                             virt_set_ras, NULL);
++    object_property_set_description(obj, "ras",
++                                    "Set on/off to enable/disable reporting host memory errors "
++                                    "to a KVM guest using ACPI and guest external abort exceptions",
++                                    NULL);
++
+     vms->irqmap = a15irqmap;
+ 
+     virt_flash_create(vms);
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 6d67ace..31878dd 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -132,6 +132,7 @@ typedef struct {
+     bool highmem_ecam;
+     bool its;
+     bool virt;
++    bool ras;
+     OnOffAuto acpi;
+     VirtGICType gic_version;
+     VirtIOMMUType iommu;
 -- 
 1.8.3.1
 
