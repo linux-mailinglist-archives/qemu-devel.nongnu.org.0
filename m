@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 461C41CEE6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 09:46:34 +0200 (CEST)
-Received: from localhost ([::1]:59122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E53F21CEE86
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 09:49:36 +0200 (CEST)
+Received: from localhost ([::1]:36448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYPcX-0006vp-Bt
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 03:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58334)
+	id 1jYPfT-00013V-UO
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 03:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <B3r3n@argosnet.com>)
- id 1jYPbT-0005ig-H5; Tue, 12 May 2020 03:45:27 -0400
-Received: from mx.argosnet.com ([51.255.124.196]:51703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <B3r3n@argosnet.com>)
- id 1jYPbR-0002Uo-QB; Tue, 12 May 2020 03:45:26 -0400
-Received: from mx.argosnet.com (Argosnet [51.255.124.196])
- by mx.argosnet.com (Postfix) with ESMTP id E4B5C4F438;
- Tue, 12 May 2020 09:45:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=argosnet.com; h=date:to
- :from:subject:cc:in-reply-to:references:mime-version
- :content-type; s=mx; bh=wyYNcn0YvQ9aU+5vls1lVMdmbng=; b=b9n+72+j
- V++WrTfgvIK30/RHw3KK38LS6L7nssqrO/VGrt9fh0La7IaZW5cVqX5ATCj2SCiU
- GSpBYIUwvm8OGVyYAjg4D/UIk3mn9QYKNAhy5Lo9WL/Mk5HaSHJgg3fsHoueTqbL
- S1pDgRdGE3EkLUZsMACxZj/cSRQ/S7S7euQ=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=argosnet.com; h=date:to:from
- :subject:cc:in-reply-to:references:mime-version:content-type; q=
- dns; s=mx; b=XKJo23DTo2FGCUO0biVyDlohhFGhGiwEe4mEXhl3eYORXJeyLvC
- J0gIMzgpu+4zc5AHnagk7f6QnF6jJLRsWhDaEOLF0zjZc/HU6pmpwlnMlU9AsYGd
- HEwe63C0SyQ+sx52QNQcC2hQ+wuzCiIhxyybjdBQyo2gAXNO9h6pVEqs=
-Received: from Osgiliath.argosnet.com
- (lfbn-nic-1-419-246.w90-116.abo.wanadoo.fr [90.116.244.246])
- (Authenticated sender: llevier@pop.argosnet.com)
- by mx.argosnet.com (Postfix) with ESMTPSA id 2DAF14F437;
- Tue, 12 May 2020 09:45:20 +0200 (CEST)
-X-Mailer: QUALCOMM Windows Eudora Version 7.1.0.9
-Date: Tue, 12 May 2020 09:45:20 +0200
-To: Daniel P. =?iso-8859-1?Q?Berrang=C3=A9?= <berrange@redhat.com>
-From: B3r3n <B3r3n@argosnet.com>
-Subject: Re: Qemu, VNC and non-US keymaps
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=C3=83=C2=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-discuss@nongnu.org
-In-Reply-To: <20200511171930.GS1135885@redhat.com>
-References: <E1jY9FF-0000Po-2c@lists.gnu.org>
- <af732fbf-fd70-97bc-3ea8-25d66f5895de@redhat.com>
- <20200511151155.GO1135885@redhat.com>
- <20200511152957.6CFA8D1826@zmta04.collab.prod.int.phx2.redhat.com>
- <20200511171930.GS1135885@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Received-SPF: pass client-ip=51.255.124.196; envelope-from=B3r3n@argosnet.com;
- helo=mx.argosnet.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 03:45:23
-X-ACL-Warn: Detected OS   = FreeBSD  [generic] [fuzzy]
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jYPeF-0008SS-NZ; Tue, 12 May 2020 03:48:19 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33944)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jYPeE-0002qP-T9; Tue, 12 May 2020 03:48:19 -0400
+Received: by mail-wm1-x344.google.com with SMTP id g14so8670684wme.1;
+ Tue, 12 May 2020 00:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=O3A4C5qI5xVwTnKvjkGjo0uHCRrBmraBZalUe9e9aIQ=;
+ b=ijGVUwh6yV1Na+WwMs42W1c/8xD3MXEVeD995Zzv+NWy68J48ZqXI6K8LqDcVIzX4T
+ aE6XMHlU0zPC8Or7ezZXyk5P+meaDOHN/1G7CHyJ5zKAZH+ddzkzdcPy55vCNdknV+RQ
+ FVoHQdkXhjZ973PruMkdHSGVPlLv9nc9BKLk99Ppk1xaKEPQzlu9rEHnC3v6LeYytdis
+ kskEv/DLekmVWP9zhATLz6T+7XQsmqH8DokniNp7YZsjqFKQrKc4QRCG80nQCw8kpRWW
+ E2qeaKmLh4we/msSH23IdCkcgLI00JEnfN3Rn21vA7GflyL6ZYdwkIpof2AtzvFoZPbD
+ qhjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=O3A4C5qI5xVwTnKvjkGjo0uHCRrBmraBZalUe9e9aIQ=;
+ b=cQfSrPl8U2PeDLD8szt0gAaC5bKz4+VQZedqKdYa1kF70oXauXQd5ymUhEmWxN6dGq
+ fzh433Yf2fFu1ABwSSdjwqFLYWXD/8XtxL3Tbhgd5kX8irVJsmSYz9KHwW6qUQXxPDf9
+ dsNWON1K020tSuuoKsDRkFBmxv8QXOkDJK7ZrktgxsHkj5eI3nYJHxvdM3WHiELbyuSM
+ zq8kZmbqr72Kl0TOV3Gejy5BAXRI+t+HJVHLcGUoEWedBbIfG+MpuOy/OtT7Au2j5HhP
+ aT5qOIbxbqF+JaUx46W0I/NCGlcN6+JSQ7yFJct5iUyhCN6rtLk6khUU/HvAVFwxpc23
+ JZcQ==
+X-Gm-Message-State: AGi0PuYFC0oqhyIUstKr4c4wL13a6weRuYSHe9fD6khzXkE0d8yfjDn4
+ ksSe64Bb0xHONV3w1QraR/VWdGxuB20=
+X-Google-Smtp-Source: APiQypLOvEi+T8vS8dr0AmdHDYAWQyCZzdFPepEPmBS6uX4RCX7BuRBYmTrXm6/NsF8XiZz2NW/tqQ==
+X-Received: by 2002:a7b:c931:: with SMTP id h17mr38037439wml.105.1589269696534; 
+ Tue, 12 May 2020 00:48:16 -0700 (PDT)
+Received: from localhost.localdomain (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id c7sm7783754wro.80.2020.05.12.00.48.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 May 2020 00:48:15 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] hw: Use qdev gpio rather than qemu_allocate_irqs()
+Date: Tue, 12 May 2020 09:48:10 +0200
+Message-Id: <20200512074813.29992-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FORGED_MUA_EUDORA=0.001, MISSING_MID=0.497, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
-Message-Id: <E1jYPbT-0005ig-H5@lists.gnu.org>
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,47 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, John Snow <jsnow@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Daniel, all,
+Use a coccinelle script to convert few qemu_allocate_irqs()
+calls to the qdev gpio API.
 
-I am a bit confused.
+One memory leak removed in hw/openrisc/pic_cpu.c
 
-Ok, RFB protocol should be the solution that solves all, sending 
-scancodes rather than doing keysyms stuff. No pb for me.
-So I removed my '-k fr' to my Qemu VM start as it was before.
+Since v1:
+- Referrenced Coverity CID (Stafford)
+- Reword AHCI description (Zoltan)
 
-However, reading TightVNC & noVNC docs, both are able to perform RFB.
+Philippe Mathieu-Daudé (3):
+  hw/ide/ahci: Use qdev gpio rather than qemu_allocate_irqs()
+  hw/mips/mips_int: Use qdev gpio rather than qemu_allocate_irqs()
+  hw/openrisc/pic_cpu: Use qdev gpio rather than qemu_allocate_irqs()
 
-Since these explanations, I replayed a bit:
+ hw/ide/ahci.c         | 6 ++----
+ hw/mips/mips_int.c    | 6 ++----
+ hw/openrisc/pic_cpu.c | 5 ++---
+ 3 files changed, 6 insertions(+), 11 deletions(-)
 
-Under my testing Debian 10, I redefined keyboard to French + No 
-compose key + AltGr as CTRL_R
-
-Under noVNC: Ctrl_R works well as alternative but when using AltGr, I 
-received 29+100+7 (AltGr + 6) and keep displaying a minus as with 
-AltGr was not pressed.
-
-Under TightVNC (2.7.10) : Ctrl_R displays characters, I am still in 
-QWERTY for letters, weird mapping for other characters, did not 
-checked if compliant with whatever definition.
-Under TightVNC (last 2.8.27, supposed to be able to RFB): Ctrl_R 
-displays nothing, keys are QWERTY. Seems the same as TightVNC 2.7.10.
-
-With the keyboard defining AltGr as AltGr, no change.
-
-I realize that AltGr is sending 29+100 (seen via showkey), when 
-CTRL_R only sends 97.
-When using a remote console (iLo and iDRAC), AltGr only sends 100.
-
-I wonder if the issue would not also be the fact AltGr sends 2 codes, 
-still another one to select the character key (6 for example).
-
-Is that normal Qemu is transforming AltGr (100) in 29+100 ?
-
-Thanks
-
-Brgrds
+-- 
+2.21.3
 
 
