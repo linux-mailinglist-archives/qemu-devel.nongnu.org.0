@@ -2,112 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD221CFCB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 19:58:06 +0200 (CEST)
-Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F891CFD29
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 20:23:55 +0200 (CEST)
+Received: from localhost ([::1]:60484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYZAL-0005CL-0E
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 13:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35100)
+	id 1jYZZK-0007C4-A7
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 14:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jYZ98-0004Lc-Cy; Tue, 12 May 2020 13:56:50 -0400
-Received: from mail-db8eur05on2113.outbound.protection.outlook.com
- ([40.107.20.113]:1042 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1jYZ96-00026Y-4V; Tue, 12 May 2020 13:56:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=luHxjiDhC4u3vSEnxIgsk9D9TFXHgtRBMji1Papbi7qui+cFwculWM3cjc7FXt/4P8UyPgCzb/bLBuOpf783oQYCGdvTZWrzEr6xU5JlcUrAcFK3FHpTdRM5TVZxa9pPku6oGOUtydbqO9AZIjPm5Hr58ZhiWcYHhHHjkRUiiMG4uwDZv/m5bEcnpnxFh8wdUz0d4FQXk/gvKhz81pgtCNpya/JpQT35jC3G340U1T+KtEe4ZQt9wZqcPIpHGqa0R+LmAyQABuYuIrE8tHzWlxNljPx+mFe8siaFjcYdnjyldLhkOzSgAqLGOAQwlbKR58C05ZFco4eHzp4YEJsj3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=monM/eH3WsarkYI4a9Jm/1sG5vLBdUGQSfWrsO5k/2Y=;
- b=WRbqVZi97seJd+MzP2ALMl1S/luSnWZZyyHLqKg3+ErrSXqAr22Zhgg6N8hYKzfT4Y1sosxfbpIaPmD0G2AihV4GPnE6JJy/Z27kCcXFiVjV2p7xGUtOIAEeTwgMjfrpC+G8sos5V7jmIBNNcBdsr8vjsrTdb1hGesbv5efxrsv/jVuNqjTanx/jetqb5vtaks0BrmBePKeOM4dxzuWIF+7Sgj/5bvY8XhwYgfaYq8dnUUaBUOqBUzM6KELYay6rtHc98Cz4rEOMbYm+mhknAsJMTL0vBXOtm7uQsjVuSEPpc4HO9jGFJm2GTebCUeZxgeD0Hf5vEFDTBx2/1tLZaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=monM/eH3WsarkYI4a9Jm/1sG5vLBdUGQSfWrsO5k/2Y=;
- b=XBJdGGbU5Vf/D0cx4Yu3PtnxbsEk8wHpkfOYxQJag9cwh/zU4zgZ+1BoES6QpB/TKUIPw46FwvNW0R+4yfVp5V9pJdZg5Jw/e4Z/qtwZK6j5gpWo2z4sjQsmDUvWOMtfiwAXPDyQaSpBZwZHpPPIs7eU/2A7Cmxw7OWSINfcMUU=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5334.eurprd08.prod.outlook.com (2603:10a6:20b:10b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.33; Tue, 12 May
- 2020 17:56:44 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::acfa:5:88c8:b7b9%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
- 17:56:44 +0000
-Subject: Re: [PATCH v4 00/15] Apply COR-filter to the block-stream permanently
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-References: <1589302245-893269-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <25e15785-97d9-ae94-a7c4-88a4e699af75@virtuozzo.com>
-Date: Tue, 12 May 2020 20:56:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <1589302245-893269-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM4PR0701CA0010.eurprd07.prod.outlook.com
- (2603:10a6:200:42::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYZWD-0003mW-Oa
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:20:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jYZWB-0003yi-NI
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 14:20:41 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jYZWA-00057Z-2j
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 18:20:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0C01D2E810A
+ for <qemu-devel@nongnu.org>; Tue, 12 May 2020 18:20:38 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.2] (185.215.60.163) by
- AM4PR0701CA0010.eurprd07.prod.outlook.com (2603:10a6:200:42::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.12 via Frontend
- Transport; Tue, 12 May 2020 17:56:43 +0000
-X-Originating-IP: [185.215.60.163]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5150a3e2-ef78-4a2c-c684-08d7f69dd4e9
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5334:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB53345492B5B8BACFBA258DABC1BE0@AM7PR08MB5334.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0401647B7F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ezKYL/8JJ3bCWzXLRQXPDUJ/2fUf9V1hLQLcx5pHnOKgA/gHF6AEkifVGay6hRB6TA0Mu+J6IeiE4khAOvBmnsomeoZXEzhuw90zi58DR7orTZXmGVEBEmVE2iA0G34uV9jx+09mL+1E59qV5PoCj06ysvhPId0rlXn5ll6HBoyG4DKaJCK9+WaKvZkXDK4OqsSVOshxZiYoOgqASbP8a6xh7AGj+RgX3AFbL2pYLbvoL0BXp2yTvKVTu4ULCVqkYx0WeKxkq2yg33KSWjN9EMc1ZGygSgF8AGYKlO4TyDhOSZ65O/nfkRMDfpnYBr+7gGKIJZ7AcsWf0XSy8NRGFlTna+x1LZIRxqxi9IVg71xzmizF2abjQcThhZSHZ4OAtPXnmEdb4xHEUyPVJLr/QoEehLB9BzrSuxuGkeNVHas2GL9qjoMofe5sQz5LKDmB4YkGLAZi0xfhNUJuaezKTei9dYgiEhHdJ4jlDrfuxOTFyPHK+iI919eti0vtjyuF6HfK76Dr8xuTIhBztiZxQ3KnjHoIqC1Pw2a/q6TSJ8xjBQTOpSvX2ILtnMlyCdBsfT2jT33ZJWUz5nXp9e8gq985smiKkmMxoWd5MtgK23Izkpzj1Dhxc3PvtfBl5s4k
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(4636009)(39840400004)(366004)(376002)(396003)(136003)(346002)(33430700001)(6486002)(31686004)(86362001)(8676002)(8936002)(4326008)(31696002)(966005)(26005)(186003)(66946007)(2906002)(66476007)(66556008)(33440700001)(16526019)(478600001)(36756003)(107886003)(5660300002)(2616005)(16576012)(316002)(52116002)(956004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: rMF8y2rmpJ9y7qQxhN85dnBTIJh0UsTzy2IFwS8Ewn/18ornI3uNoMUr9rVX5kq6rxXUryXrAKIBEmhIU6XOragmDOfIWicg2yR2fo6W5s+vOaGqJhAyz/tNHY3CAILfoeJfbo/ErLeoFalkQpt+t6nT8mHalPoZuL8+gjo7TejmDBzSQNiWX4GbV8/wWM0NwkUKlIEJmcaHqSzzMi/Ry4DiroO4yo29HA6nO6/71rSxssUpOOy39fOmbdqbOeVFz+N2laE0kBEp82Maj71p74lHDWfWN4a6Dv71E+W+ZEDdMVNz7HA1Kbayl9fTJ0s72Kj4Mkz2yYMfYsEQJCt74n0YfdtoIdKPIVt6KHRa9YCKWNHnWz70JTIWE0KZAOZl6QtjuPEUjBUKVRnOMjBYS8Wi3YBaDyoSWwTXTXh2cX+nkL92FyNx3I/6UTJk9Et5cf+K/FIUQIi5VrCXjsE3CS6KGJxHF3mCkTUR3SXIZmD5fkL0POzZ7jDAnc6ky8FO
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5150a3e2-ef78-4a2c-c684-08d7f69dd4e9
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 17:56:44.0126 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jp8ObIFWJY8jAp/uUY+eUqLKz8kSYlcBnM77glYI5aTzK2Ek7Mk50XLzkTD5G96blEEKnK6E4PHx5oGpvmyoRoFEp5AlOxybWPq4Uzzx0s4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5334
-Received-SPF: pass client-ip=40.107.20.113;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 13:56:45
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 May 2020 18:10:59 -0000
+From: Alexander Bulekov <1878253@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <158930706000.2313.17393615876486439811.malonedeb@gac.canonical.com>
+Subject: [Bug 1878253] [NEW] null-ptr dereference in address_space_to_flatview
+ through ide
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="013b6f2a3f3ba130b50b9eee1a89957ee38a5c15";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 010ed35a45975bfa8c7737479350f2db43f3090d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 11:25:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -116,101 +72,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, armbru@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, den@openvz.org, mreitz@redhat.com, jsnow@redhat.com
+Reply-To: Bug 1878253 <1878253@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-12.05.2020 19:50, Andrey Shinkevich wrote:
-> With this series, all the block-stream COR operations pass through
-> the COR-filter. The patches 01-08/15 are taken from the series
-> "block: Deal with filters" by Max Reitz, the full version of that
-> can be found in the branches:
-> 
->        https://git.xanclic.moe/XanClic/qemu child-access-functions-v6
->        https://github.com/XanClic/qemu child-access-functions-v6
-> 
->        When running iotests, apply "char-socket: Fix race condition"
->        to avoid sporadic segmentation faults.
-> v4:
->    01: Initialization of the COR-filter BDRVStateCOR member.
+Public bug reported:
 
-Hmm... but 01 doesn't touch COR-filter
+Hello,
+While fuzzing, I found an input that triggers a null-ptr dereference in
+address_space_to_flatview through ide:
 
-> 
-> v3:
->    01: The COR filter insert/remove functions moved to block/copy-on-read.c
->        to be a part of API.
->    02: block/stream.c code refactoring.
->    03: The separate call to block_job_add_bdrv() is used to block operations
->        on the active node after the filter inserted and the job created.
->    04: The iotests case 030::test_overlapping_4 was modified to unbound
->        the block-stream job from the base node.
->    05: The COR driver functions preadv/pwritev replaced with their analogous
->        preadv/pwritev_part.
+=3D=3D31699=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000000=
+00020 (pc 0x55e0f562bafd bp 0x7ffee92355b0 sp 0x7ffee92354e0 T0)
+=3D=3D31699=3D=3DThe signal is caused by a READ memory access.
+=3D=3D31699=3D=3DHint: address points to the zero page.
+    #0 0x55e0f562bafd in address_space_to_flatview /home/alxndr/Development=
+/qemu/include/exec/memory.h:693:12
+    #1 0x55e0f562bafd in address_space_write /home/alxndr/Development/qemu/=
+exec.c:3267:14
+    #2 0x55e0f562dd9c in address_space_unmap /home/alxndr/Development/qemu/=
+exec.c:3592:9
+    #3 0x55e0f5ab8277 in dma_memory_unmap /home/alxndr/Development/qemu/inc=
+lude/sysemu/dma.h:145:5
+    #4 0x55e0f5ab8277 in dma_blk_unmap /home/alxndr/Development/qemu/dma-he=
+lpers.c:104:9
+    #5 0x55e0f5ab8277 in dma_blk_cb /home/alxndr/Development/qemu/dma-helpe=
+rs.c:139:5
+    #6 0x55e0f617a6b8 in blk_aio_complete /home/alxndr/Development/qemu/blo=
+ck/block-backend.c:1398:9
+    #7 0x55e0f617a6b8 in blk_aio_complete_bh /home/alxndr/Development/qemu/=
+block/block-backend.c:1408:5
+    #8 0x55e0f6355efb in aio_bh_call /home/alxndr/Development/qemu/util/asy=
+nc.c:136:5
+    #9 0x55e0f6355efb in aio_bh_poll /home/alxndr/Development/qemu/util/asy=
+nc.c:164:13
+    #10 0x55e0f63608ce in aio_dispatch /home/alxndr/Development/qemu/util/a=
+io-posix.c:380:5
+    #11 0x55e0f635799a in aio_ctx_dispatch /home/alxndr/Development/qemu/ut=
+il/async.c:306:5
+    #12 0x7f16e85d69ed in g_main_context_dispatch (/usr/lib/x86_64-linux-gn=
+u/libglib-2.0.so.0+0x4e9ed)
+    #13 0x55e0f635e384 in glib_pollfds_poll /home/alxndr/Development/qemu/u=
+til/main-loop.c:219:9
+    #14 0x55e0f635e384 in os_host_main_loop_wait /home/alxndr/Development/q=
+emu/util/main-loop.c:242:5
+    #15 0x55e0f635e384 in main_loop_wait /home/alxndr/Development/qemu/util=
+/main-loop.c:518:11
+    #16 0x55e0f593d676 in qemu_main_loop /home/alxndr/Development/qemu/soft=
+mmu/vl.c:1664:9
+    #17 0x55e0f6267c6a in main /home/alxndr/Development/qemu/softmmu/main.c=
+:49:5
+    #18 0x7f16e7186e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/=
+csu/../csu/libc-start.c:308:16
+    #19 0x55e0f55727b9 in _start (/home/alxndr/Development/qemu/build/i386-=
+softmmu/qemu-system-i386+0x9027b9)
 
-I assume, these changes are about your patches, which are 09-15, and Max's patches
-are unchanged, right?
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/include/exec/=
+memory.h:693:12 in address_space_to_flatview
 
-> 
-> v2:
->    01: No more skipping filters while checking for operation blockers.
->        However, we exclude filters between the bottom node and base
->        because we do not set the operation blockers for filters anymore.
->    02: As stated above, we do not set the operation blockers for filters
->        anymore. So, skip filters when we block operations for the target
->        node.
->    03: The comment added for the patch 4/7.
->    04: The QAPI target version changed to 5.1.
->    05: The 'filter-node-name' now excluded from using in the test #030.
->        If we need it no more in a final version of the series, the patch
->        5/7 may be removed.
->    06: The COR-filter included into the frozen chain of a block-stream job.
->        The 'above_base' node pointer is left because it is essential for
->        finding the base node in case of filters above.
-> 
-> 
-> Andrey Shinkevich (7):
->    block: prepare block-stream for using COR-filter
->    copy-on-read: Support change filename functions
->    copy-on-read: Support preadv/pwritev_part functions
->    copy-on-read: add filter append/drop functions
->    qapi: add filter-node-name to block-stream
->    iotests: prepare 245 for using filter in block-stream
->    block: apply COR-filter to block-stream jobs
-> 
-> Max Reitz (8):
->    block: Mark commit and mirror as filter drivers
+I can reproduce it in qemu 5.0 using:
 
-this is for commit
+cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc -=
+nographic -drive file=3Dnull-co://,if=3Dide,cache=3Dwriteback,format=3Draw =
+-nodefaults -display none -nographic -qtest stdio -monitor none -serial none
+outl 0xcf8 0x80000920
+outl 0xcfc 0xc001
+outl 0xcf8 0x80000924
+outl 0xcf8 0x80000904
+outw 0xcfc 0x7
+outb 0x1f7 0xc8
+outw 0x3f6 0xe784
+outw 0x3f6 0xeb01
+outb 0xc005 0x21
+write 0x2103 0x1 0x4e
+outb 0xc000 0x1b
+outw 0x1f7 0xff35
+EOF
 
->    copy-on-read: Support compressed writes
+I also attached the traces to this launchpad report, in case the
+formatting is broken:
 
-for stream
+qemu-system-i386 -M pc -nographic -drive file=3Dnull-
+co://,if=3Dide,cache=3Dwriteback,format=3Draw -nodefaults -display none
+-nographic -qtest stdio -monitor none -serial none < attachment
 
->    block: Add child access functions
+Please let me know if I can provide any further info.
+-Alex
 
-I do think, that for these series we need only filtered child and nothing more
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
->    block: Add chain helper functions
->    block: Include filters when freezing backing chain
->    block: Use CAFs in block status functions
->    commit: Deal with filters when blocking intermediate nodes
->    block: Use CAFs when working with backing chains
+** Attachment added: "attachment"
+   https://bugs.launchpad.net/bugs/1878253/+attachment/5370498/+files/attac=
+hment
 
-So, fix stream, commit and some thing used in it.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878253
 
-Hi Max! Could you take a brief look and say, could we proceed in this way, taking part of your old series? How much it conflicts with your plans?
+Title:
+  null-ptr dereference in address_space_to_flatview through ide
 
-Let me clarify. This all is needed, as we have old proposed feature (and patches): discarding blocks from intermediate images during block-stream. It helps to save disk space during stream process. And the correct way to get access to intermediate nodes (to be able to discard from them) is to append a filter. Firstly we proposed our own filter, but that was proposed on list to use existing COR filter for stream and it seemed a correct way. So we are trying to insert this COR filter.
+Status in QEMU:
+  New
 
-And the problem with it that without your series it breaks iotest 30, which does different magic with parallel stream and commit on the same backing chain.
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers a null-ptr dereference in
+  address_space_to_flatview through ide:
 
-So, it was my proposal to extract something from your series, to make this test work. And the result is here. I thought that the necessary part of your series for stream/commit is smaller.. But still, 8 patches is not too much. The feature for stream is being postponed already for more than a year due to this trouble. We need to proceed somehow. And the feature is useful.
+  =3D=3D31699=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
+0000020 (pc 0x55e0f562bafd bp 0x7ffee92355b0 sp 0x7ffee92354e0 T0)
+  =3D=3D31699=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D31699=3D=3DHint: address points to the zero page.
+      #0 0x55e0f562bafd in address_space_to_flatview /home/alxndr/Developme=
+nt/qemu/include/exec/memory.h:693:12
+      #1 0x55e0f562bafd in address_space_write /home/alxndr/Development/qem=
+u/exec.c:3267:14
+      #2 0x55e0f562dd9c in address_space_unmap /home/alxndr/Development/qem=
+u/exec.c:3592:9
+      #3 0x55e0f5ab8277 in dma_memory_unmap /home/alxndr/Development/qemu/i=
+nclude/sysemu/dma.h:145:5
+      #4 0x55e0f5ab8277 in dma_blk_unmap /home/alxndr/Development/qemu/dma-=
+helpers.c:104:9
+      #5 0x55e0f5ab8277 in dma_blk_cb /home/alxndr/Development/qemu/dma-hel=
+pers.c:139:5
+      #6 0x55e0f617a6b8 in blk_aio_complete /home/alxndr/Development/qemu/b=
+lock/block-backend.c:1398:9
+      #7 0x55e0f617a6b8 in blk_aio_complete_bh /home/alxndr/Development/qem=
+u/block/block-backend.c:1408:5
+      #8 0x55e0f6355efb in aio_bh_call /home/alxndr/Development/qemu/util/a=
+sync.c:136:5
+      #9 0x55e0f6355efb in aio_bh_poll /home/alxndr/Development/qemu/util/a=
+sync.c:164:13
+      #10 0x55e0f63608ce in aio_dispatch /home/alxndr/Development/qemu/util=
+/aio-posix.c:380:5
+      #11 0x55e0f635799a in aio_ctx_dispatch /home/alxndr/Development/qemu/=
+util/async.c:306:5
+      #12 0x7f16e85d69ed in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e9ed)
+      #13 0x55e0f635e384 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/util/main-loop.c:219:9
+      #14 0x55e0f635e384 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/util/main-loop.c:242:5
+      #15 0x55e0f635e384 in main_loop_wait /home/alxndr/Development/qemu/ut=
+il/main-loop.c:518:11
+      #16 0x55e0f593d676 in qemu_main_loop /home/alxndr/Development/qemu/so=
+ftmmu/vl.c:1664:9
+      #17 0x55e0f6267c6a in main /home/alxndr/Development/qemu/softmmu/main=
+.c:49:5
+      #18 0x7f16e7186e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
+0/csu/../csu/libc-start.c:308:16
+      #19 0x55e0f55727b9 in _start (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0x9027b9)
 
+  AddressSanitizer can not provide additional info.
+  SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/include/exe=
+c/memory.h:693:12 in address_space_to_flatview
 
--- 
-Best regards,
-Vladimir
+  I can reproduce it in qemu 5.0 using:
+
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
+ -nographic -drive file=3Dnull-co://,if=3Dide,cache=3Dwriteback,format=3Dra=
+w -nodefaults -display none -nographic -qtest stdio -monitor none -serial n=
+one
+  outl 0xcf8 0x80000920
+  outl 0xcfc 0xc001
+  outl 0xcf8 0x80000924
+  outl 0xcf8 0x80000904
+  outw 0xcfc 0x7
+  outb 0x1f7 0xc8
+  outw 0x3f6 0xe784
+  outw 0x3f6 0xeb01
+  outb 0xc005 0x21
+  write 0x2103 0x1 0x4e
+  outb 0xc000 0x1b
+  outw 0x1f7 0xff35
+  EOF
+
+  I also attached the traces to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -M pc -nographic -drive file=3Dnull-
+  co://,if=3Dide,cache=3Dwriteback,format=3Draw -nodefaults -display none
+  -nographic -qtest stdio -monitor none -serial none < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878253/+subscriptions
 
