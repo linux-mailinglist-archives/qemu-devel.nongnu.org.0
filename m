@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6401CF97B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:42:43 +0200 (CEST)
-Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397371CF9A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 May 2020 17:51:00 +0200 (CEST)
+Received: from localhost ([::1]:33410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYX3K-0002Zm-4G
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40164)
+	id 1jYXBK-00008b-Ok
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 11:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYWyt-0006vR-7t
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:38:07 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40303
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jYXAA-0007rn-7C
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 11:49:46 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:23497
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYWyr-0003xW-HN
- for qemu-devel@nongnu.org; Tue, 12 May 2020 11:38:06 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jYXA7-00088q-Uw
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 11:49:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589297883;
+ s=mimecast20190719; t=1589298581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HVLsXBWDPY60bAVIu6cBZzSs4s0TYkcGDmNPvLvc/A0=;
- b=dt6Zs1cBYsTDIfftuwMSl3krcFZDIIrAE7Fw61ji3u7JKiwCRzktRbKzvxcruaahwB51hg
- jXSY74Dpg2Y8ZfJXRtIH4f2012oU082KGEAxGn0JexQZUqjqq1HauVntv1BfOVL9ZU/TL5
- itu5zJmDMRxYcMWvVyDnZYXJwZI9UKA=
+ bh=fzfozrOy5KSJFpHnpS7fAp0DczTHi+CvFdOlx3IXCxs=;
+ b=OAPaQoizJgmVE3rm2HRGymoWF8R0V05TIpIXVaDxhaAGpq9sBZPaolf7uVSr0vrheujpSC
+ xbvvo3ALadbSTYtaw8LONQZVu7fHEal/A24wHFoS66ANPcJ1Ksj5TF7yNxJ2Png5gQZn9S
+ z7PM/9gaeuNY39abc7EAoTB5gdgaT5k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-mcRKwMi1N_2ZocxxxGm8IQ-1; Tue, 12 May 2020 11:37:57 -0400
-X-MC-Unique: mcRKwMi1N_2ZocxxxGm8IQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-477-4PD3AymmNF2rrBf-bomzew-1; Tue, 12 May 2020 11:49:39 -0400
+X-MC-Unique: 4PD3AymmNF2rrBf-bomzew-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6F491B2C9A9;
- Tue, 12 May 2020 15:37:56 +0000 (UTC)
-Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EFDDB341EC;
- Tue, 12 May 2020 15:37:52 +0000 (UTC)
-Subject: Re: [RFC PATCH 1/3] block: Factor out bdrv_run_co()
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200512144318.181049-1-kwolf@redhat.com>
- <20200512144318.181049-2-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <5f019ab2-076f-4537-9138-9ed93484a727@redhat.com>
-Date: Tue, 12 May 2020 10:37:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37177872FE1;
+ Tue, 12 May 2020 15:49:37 +0000 (UTC)
+Received: from work-vm (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C9FDD5D9DD;
+ Tue, 12 May 2020 15:49:23 +0000 (UTC)
+Date: Tue, 12 May 2020 16:49:21 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH RESEND v6 22/36] multi-process: Synchronize remote memory
+Message-ID: <20200512154921.GG2802@work-vm>
+References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
+ <63a7f84be8c1c86d1bdea5f538239d0d9c3cdb06.1587614626.git.elena.ufimtseva@oracle.com>
+ <20200512150759.GL300009@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200512144318.181049-2-kwolf@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20200512150759.GL300009@stefanha-x1.localdomain>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:02:04
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 02:20:15
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,135 +83,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, armbru@redhat.com,
- s.reiter@proxmox.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, t.lamprecht@proxmox.com
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ jag.raman@oracle.com, quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, liran.alon@oracle.com,
+ thanos.makatos@nutanix.com, rth@twiddle.net, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/20 9:43 AM, Kevin Wolf wrote:
-> We have a few bdrv_*() functions that can either spawn a new coroutine
-> and wait for it with BDRV_POLL_WHILE() or use a fastpath if they are
-> alreeady running in a coroutine. All of them duplicate basically the
-
-already
-
-> same code.
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> On Wed, Apr 22, 2020 at 09:13:57PM -0700, elena.ufimtseva@oracle.com wrote:
+> > diff --git a/hw/proxy/memory-sync.c b/hw/proxy/memory-sync.c
+> > new file mode 100644
+> > index 0000000000..b3f57747f3
+> > --- /dev/null
+> > +++ b/hw/proxy/memory-sync.c
+> > @@ -0,0 +1,217 @@
+> > +/*
+> > + * Copyright © 2018, 2020 Oracle and/or its affiliates.
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + *
+> > + */
+> > +
+> > +#include <sys/types.h>
+> > +#include <stdio.h>
+> > +#include <string.h>
 > 
-> Factor the common code into a new function bdrv_run_co().
+> These headers should already be included by "qemu/osdep.h".
 > 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/io.c | 104 +++++++++++++++--------------------------------------
->   1 file changed, 28 insertions(+), 76 deletions(-)
+> > +static void proxy_ml_region_addnop(MemoryListener *listener,
+> > +                                   MemoryRegionSection *section)
+> > +{
+> > +    RemoteMemSync *sync = container_of(listener, RemoteMemSync, listener);
+> > +    bool need_add = true;
+> > +    uint64_t mrs_size, mrs_gpa, mrs_page;
+> > +    uintptr_t mrs_host;
+> > +    RAMBlock *mrs_rb;
+> > +    MemoryRegionSection *prev_sec;
+> > +
+> > +    if (!(memory_region_is_ram(section->mr) &&
+> > +          !memory_region_is_rom(section->mr))) {
+> > +        return;
+> > +    }
+> > +
+> > +    mrs_rb = section->mr->ram_block;
+> > +    mrs_page = (uint64_t)qemu_ram_pagesize(mrs_rb);
+> > +    mrs_size = int128_get64(section->size);
+> > +    mrs_gpa = section->offset_within_address_space;
+> > +    mrs_host = (uintptr_t)memory_region_get_ram_ptr(section->mr) +
+> > +               section->offset_within_region;
 > 
-> diff --git a/block/io.c b/block/io.c
-> index 7d30e61edc..c1badaadc9 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -891,6 +891,22 @@ static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
->       return 0;
+> These variables are only used in the if (sync->n_mr_sections) case. This
+> function could be split into a something like this:
+> 
+>   static void proxy_ml_region_addnop(MemoryListener *listener,
+>                                      MemoryRegionSection *section)
+>       RemoteMemSync *sync = container_of(listener, RemoteMemSync, listener);
+> 
+>       if (!(memory_region_is_ram(section->mr) &&
+>             !memory_region_is_rom(section->mr))) {
+>           return;
+>       }
+> 
+>       if (try_merge(sync, section)) {
+>           return;
+>       }
+> 
+>       ...add new section...
 >   }
->   
-> +static int bdrv_run_co(BlockDriverState *bs, CoroutineEntry *entry,
-> +                       void *opaque, int *ret)
-> +{
-> +    if (qemu_in_coroutine()) {
-> +        /* Fast-path if already in coroutine context */
-> +        entry(opaque);
-> +    } else {
-> +        Coroutine *co = qemu_coroutine_create(entry, opaque);
-> +        *ret = NOT_DONE;
-> +        bdrv_coroutine_enter(bs, co);
-> +        BDRV_POLL_WHILE(bs, *ret == NOT_DONE);
-
-For my reference, NOT_DONE is defined as INT_MAX, which does not seem to 
-be used as a return value in other situations.
-
-> @@ -923,25 +939,15 @@ static int bdrv_prwv_co(BdrvChild *child, int64_t offset,
->                           QEMUIOVector *qiov, bool is_write,
->                           BdrvRequestFlags flags)
+> 
+> And the try_merge() helper function has the rest of the code:
+> 
+>   /* Returns true if the section was merged */
+>   static bool try_merge(RemoteMemSync *sync, MemoryRegionSection *section)
 >   {
-> -    Coroutine *co;
->       RwCo rwco = {
->           .child = child,
->           .offset = offset,
->           .qiov = qiov,
->           .is_write = is_write,
-> -        .ret = NOT_DONE,
->           .flags = flags,
->       };
->   
-> -    if (qemu_in_coroutine()) {
-> -        /* Fast-path if already in coroutine context */
-> -        bdrv_rw_co_entry(&rwco);
-> -    } else {
-> -        co = qemu_coroutine_create(bdrv_rw_co_entry, &rwco);
-> -        bdrv_coroutine_enter(child->bs, co);
-> -        BDRV_POLL_WHILE(child->bs, rwco.ret == NOT_DONE);
-> -    }
-> -    return rwco.ret;
-> +    return bdrv_run_co(child->bs, bdrv_rw_co_entry, &rwco, &rwco.ret);
-
-So code that previously looped on NOT_DONE is obviously safe, while...
-
+>       if (sync->n_mr_sections == 0) {
+>           return false;
+>       }
+> 
+>       ...most of the code...
 >   }
->   
->   int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
-> @@ -2230,7 +2236,6 @@ typedef struct BdrvCoBlockStatusData {
->       int64_t *map;
->       BlockDriverState **file;
->       int ret;
-> -    bool done;
->   } BdrvCoBlockStatusData;
->   
->   int coroutine_fn bdrv_co_block_status_from_file(BlockDriverState *bs,
-> @@ -2492,7 +2497,6 @@ static void coroutine_fn bdrv_block_status_above_co_entry(void *opaque)
->                                              data->want_zero,
->                                              data->offset, data->bytes,
->                                              data->pnum, data->map, data->file);
-> -    data->done = true;
->       aio_wait_kick();
+> 
+> > +
+> > +    if (get_fd_from_hostaddr(mrs_host, NULL) <= 0) {
+> 
+> 0 is a valid fd number, the comparison should probably be < 0?
+> 
+> > +        return;
+> > +    }
+> > +
+> > +    mrs_host = mrs_host & ~(mrs_page - 1);
+> > +    mrs_gpa = mrs_gpa & ~(mrs_page - 1);
+> > +    mrs_size = ROUND_UP(mrs_size, mrs_page);
+> 
+> Why is it necessary to align to the RAM block's page size?
+> 
+> Can mrs_host and mrs_size be misaligned to the RAM block's page size?
+> 
+> Why round the *guest* physical address down using the *host* page size?
 
-...code that looped on something else now has to be checked that 
-data->ret is still being set to something useful.  Fortunately that is 
-true here.
+That sounds like the type of magic we do for postcopy; where we can only
+'place' pages atomically on a host page boundary.
 
-> @@ -2669,22 +2663,13 @@ static inline int
->   bdrv_rw_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos,
->                   bool is_read)
->   {
-> -    if (qemu_in_coroutine()) {
-> -        return bdrv_co_rw_vmstate(bs, qiov, pos, is_read);
-> -    } else {
-> -        BdrvVmstateCo data = {
-> -            .bs         = bs,
-> -            .qiov       = qiov,
-> -            .pos        = pos,
-> -            .is_read    = is_read,
-> -            .ret        = -EINPROGRESS,
-> -        };
-> -        Coroutine *co = qemu_coroutine_create(bdrv_co_rw_vmstate_entry, &data);
-> -
-> -        bdrv_coroutine_enter(bs, co);
-> -        BDRV_POLL_WHILE(bs, data.ret == -EINPROGRESS);
-> -        return data.ret;
+Dave
 
-It's a little harder to see whether -EINPROGRESS might ever be returned 
-by a driver, but again this looks safe.
+> > +
+> > +    if (sync->n_mr_sections) {
+> > +        prev_sec = sync->mr_sections + (sync->n_mr_sections - 1);
+> > +        uint64_t prev_gpa_start = prev_sec->offset_within_address_space;
+> > +        uint64_t prev_size = int128_get64(prev_sec->size);
+> > +        uint64_t prev_gpa_end   = range_get_last(prev_gpa_start, prev_size);
+> > +        uint64_t prev_host_start =
+> > +            (uintptr_t)memory_region_get_ram_ptr(prev_sec->mr) +
+> > +            prev_sec->offset_within_region;
+> > +        uint64_t prev_host_end = range_get_last(prev_host_start, prev_size);
+> 
+> Is it okay not to do the page alignment stuff for the previous
+> MemoryRegionSection?
+> 
+> > +void deconfigure_memory_sync(RemoteMemSync *sync)
+> > +{
+> > +    memory_listener_unregister(&sync->listener);
+> > +}
+> 
+> This function is unused? It must be tied into the mpqemu_link lifecycle.
+> It must be possible to hot plug/unplug proxy PCI devices without memory
+> leaks or use-after-frees.
+> 
+> > diff --git a/include/hw/proxy/memory-sync.h b/include/hw/proxy/memory-sync.h
+> > new file mode 100644
+> > index 0000000000..d8329c9b52
+> > --- /dev/null
+> > +++ b/include/hw/proxy/memory-sync.h
+> > @@ -0,0 +1,37 @@
+> > +/*
+> > + * Copyright © 2018, 2020 Oracle and/or its affiliates.
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + *
+> > + */
+> > +
+> > +#ifndef MEMORY_SYNC_H
+> > +#define MEMORY_SYNC_H
+> > +
+> > +#include <sys/types.h>
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qom/object.h"
+> > +#include "exec/memory.h"
+> > +#include "io/mpqemu-link.h"
+> > +
+> > +#define TYPE_MEMORY_LISTENER "memory-listener"
+> 
+> This name is too generic. There is already a C struct called
+> MemoryListener. Please call this class "remote-memory-sync".
+> 
+> I'm not sure if a QOM object is needed here. Can this just be a plain C
+> struct? If you're not using QOM object-orientated features then there is
+> no need to define a QOM object.
+> 
+> > @@ -39,8 +40,13 @@ typedef struct ProxyMemoryRegion {
+> >  struct PCIProxyDev {
+> >      PCIDevice parent_dev;
+> >  
+> > +    int n_mr_sections;
+> > +    MemoryRegionSection *mr_sections;
+> 
+> Is it necessary to duplicate these fields here since a RemoteMemSync
+> field is also being added and it contains these same fields?
 
-Here, it's a little less obvious whether any driver might return 
--EINPROGRESS, but it looks like if they did that,
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Conflicts with Vladimir's patches which try to add more coroutine 
-wrappers (but those need a rebase anyway):
-https://lists.gnu.org/archive/html/qemu-devel/2020-04/msg04559.html
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
