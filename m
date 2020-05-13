@@ -2,64 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018DE1D20C4
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 23:16:47 +0200 (CEST)
-Received: from localhost ([::1]:37224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 221361D2173
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 23:48:47 +0200 (CEST)
+Received: from localhost ([::1]:57276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYykA-0007La-2Y
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 17:16:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59576)
+	id 1jYzF8-0005Ms-89
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 17:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYyip-0006jS-6c
- for qemu-devel@nongnu.org; Wed, 13 May 2020 17:15:23 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:56081
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8P-00076F-Ai
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:49 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45633
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYyin-0007nj-L1
- for qemu-devel@nongnu.org; Wed, 13 May 2020 17:15:22 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8N-0005d0-CV
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589404519;
+ s=mimecast20190719; t=1589406106;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T/5kxuKk6uoq38M1wBYdVd8MvBOpmqyw3horMBqAkHA=;
- b=AddcJCiEb+UZVkUZFBnEdLx6oknE2veeKrrtt023gdAS/wud4wEpIDGz+Z4ryRE9zSrAXa
- KUyI5HCb1rOvBw08cQszxBIaOZvm8aPO4RHbT73dhXyekTPZwyW2Vuc7rfYfUx1mkXS/Vj
- ybKTOwxJqwiyG5bsV5aLdCl/iJkq+Hc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oSlb2jaEmHwuQ9ohjRY7zhBH5rgwjx/81mClC66MFYU=;
+ b=P2EMnle8sQX0X1XYyR8QszB7KKyNRNGCCXrbfF+JHnxXRgtrxlote3v56bMarCrSWXmqHH
+ SMOlARZXN04RPLMpQ+y57YeXIdCYKV0Hw7fPGGZiUV/qDdO5yJv54AxQp7tIi/qeNGgvML
+ AcrUld1cOaaGbD1iGjNRYJ6O7xOXCl4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-mpF9kT5BOv6AgrxXrhUsZg-1; Wed, 13 May 2020 17:15:15 -0400
-X-MC-Unique: mpF9kT5BOv6AgrxXrhUsZg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-132-GMYZdX0KPCm7mLI56QxXMQ-1; Wed, 13 May 2020 17:41:33 -0400
+X-MC-Unique: GMYZdX0KPCm7mLI56QxXMQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA37018FF660;
- Wed, 13 May 2020 21:15:14 +0000 (UTC)
-Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 536765C1D3;
- Wed, 13 May 2020 21:15:14 +0000 (UTC)
-Subject: Re: [PATCH v4 34/34] block: Drop @child_class from bdrv_child_perm()
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200513110544.176672-1-mreitz@redhat.com>
- <20200513110544.176672-35-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e5a130fb-4c47-7afe-219c-f746e820f8f0@redhat.com>
-Date: Wed, 13 May 2020 16:15:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08C6B8015CF;
+ Wed, 13 May 2020 21:41:32 +0000 (UTC)
+Received: from probe.redhat.com (ovpn-113-80.rdu2.redhat.com [10.10.113.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E45B41C94D;
+ Wed, 13 May 2020 21:41:30 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFC WIP 0/6] iotests: delinting work-in-progress
+Date: Wed, 13 May 2020 17:41:24 -0400
+Message-Id: <20200513214130.15375-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20200513110544.176672-35-mreitz@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -82,42 +74,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, ehabkost@redhat.com, qemu-block@nongnu.org,
+ philmd@redhat.com, Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/20 6:05 AM, Max Reitz wrote:
-> Implementations should decide the necessary permissions based on @role.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
+I ran out of time, but I was briefly entertaining the idea of hitting
+everything else in the iotests folder with the pylint and mypy beam.
 
-> +++ b/block.c
-> @@ -1947,13 +1947,13 @@ bool bdrv_is_writable(BlockDriverState *bs)
->   }
->   
->   static void bdrv_child_perm(BlockDriverState *bs, BlockDriverState *child_bs,
-> -                            BdrvChild *c, const BdrvChildClass *child_class,
-> -                            BdrvChildRole role, BlockReopenQueue *reopen_queue,
-> +                            BdrvChild *c, BdrvChildRole role,
-> +                            BlockReopenQueue *reopen_queue,
->                               uint64_t parent_perm, uint64_t parent_shared,
->                               uint64_t *nperm, uint64_t *nshared)
->   {
->       assert(bs->drv && bs->drv->bdrv_child_perm);
-> -    bs->drv->bdrv_child_perm(bs, c, child_class, role, reopen_queue,
-> +    bs->drv->bdrv_child_perm(bs, c, role, reopen_queue,
->                                parent_perm, parent_shared,
->                                nperm, nshared);
+This is just a draft of what I had at the time, in case someone gets
+around to it before I do.
 
-Is it worth reflowing this call into two lines rather than three?  But 
-that's cosmetic.
+I forced all of the python scripts in this directory to Python3 and pass
+the formatter check imposed by the pylintrc that we make iotests.py
+adhere to, but there's no guarantee these scripts actually work. I was a
+little rough around the edges.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+qed.py and qcow2.py in particular abuse some python features that pylint
+really doesn't like to see at all, and forcing these to pass a pylint
+check was clearly fighting against the idioms in-use in those files,
+with more than a few unsatisfactory hacks employed just to make pylint
+shut up. They are not necessarily improvements to those scripts.
+
+I created a Makefile check to hit the iotests themselves with the pylint
+checker so we can identify when refactors to the testing infrastructure
+invalidate tests we don't get to run that often; but didn't get around
+to improving the quality of the tests themselves.
+
+(Whether or not this is even worth our time is debatable, it depends on
+how much effort it would take to bring them up to par. Maybe it's a lot,
+I don't know.)
+
+--js
+
+John Snow (6):
+  iotests: type hint wip
+  Makefile: add delint WIP
+  nbd-fault-injector: delint
+  qed.py: delint
+  qcow2.py: delint
+  WIP: delint test files
+
+ tests/qemu-iotests/Makefile              |   6 +
+ tests/qemu-iotests/iotests.py            |  28 ++--
+ tests/qemu-iotests/nbd-fault-injector.py |  34 +++--
+ tests/qemu-iotests/pylintrc              |   1 +
+ tests/qemu-iotests/qcow2.py              | 156 +++++++++++++++--------
+ tests/qemu-iotests/qed.py                |  46 ++++---
+ 6 files changed, 173 insertions(+), 98 deletions(-)
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.21.1
 
 
