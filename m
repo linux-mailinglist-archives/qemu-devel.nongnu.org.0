@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C371D18EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 17:17:08 +0200 (CEST)
-Received: from localhost ([::1]:36746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220C91D1910
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 17:21:27 +0200 (CEST)
+Received: from localhost ([::1]:49858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYt87-0003vB-Ac
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 11:17:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34130)
+	id 1jYtCI-0002CT-7B
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 11:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jYt3c-0004Vt-A6
- for qemu-devel@nongnu.org; Wed, 13 May 2020 11:12:28 -0400
-Received: from 14.mo7.mail-out.ovh.net ([178.33.251.19]:48359)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jYt3l-0004uu-IS
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 11:12:37 -0400
+Received: from 1.mo1.mail-out.ovh.net ([178.32.127.22]:55302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jYt3a-0005Tt-Q0
- for qemu-devel@nongnu.org; Wed, 13 May 2020 11:12:27 -0400
-Received: from player791.ha.ovh.net (unknown [10.108.35.211])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 96CE7163A36
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 17:12:24 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jYt3k-0005Wb-Eh
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 11:12:37 -0400
+Received: from player791.ha.ovh.net (unknown [10.108.54.172])
+ by mo1.mail-out.ovh.net (Postfix) with ESMTP id 8237A1C06FD
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 17:12:34 +0200 (CEST)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player791.ha.ovh.net (Postfix) with ESMTPSA id 41FC11244BEA3;
- Wed, 13 May 2020 15:12:19 +0000 (UTC)
+ by player791.ha.ovh.net (Postfix) with ESMTPSA id 8BCB01244BEFA;
+ Wed, 13 May 2020 15:12:24 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 8/9] ppc/pnv: Add model for POWER9 PHB5 PCIe Host bridge
-Date: Wed, 13 May 2020 17:11:08 +0200
-Message-Id: <20200513151109.453530-9-clg@kaod.org>
+Subject: [PATCH 9/9] ppc/psi: Add support for StoreEOI and 64k ESB pages
+ (POWER10)
+Date: Wed, 13 May 2020 17:11:09 +0200
+Message-Id: <20200513151109.453530-10-clg@kaod.org>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200513151109.453530-1-clg@kaod.org>
 References: <20200513151109.453530-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 1033576114966662118
+X-Ovh-Tracer-Id: 1036390865241410534
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrleeggdekhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgfeitedvfedugeehvdevjeduiefhieetffejteejueekhffggfevudegudegudfgnecukfhppedtrddtrddtrddtpdekvddrieegrddvhedtrddujedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeluddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.33.251.19; envelope-from=clg@kaod.org;
- helo=14.mo7.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 11:12:24
+Received-SPF: pass client-ip=178.32.127.22; envelope-from=clg@kaod.org;
+ helo=1.mo1.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 11:12:34
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,278 +67,123 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PHB4 and PHB5 are very similar. Use the PHB4 models with some minor
-adjustements in a subclass for P10.
+POWER10 adds support for StoreEOI operation and 64K ESB pages on PSIHB
+to be consistent with the other interrupt sources of the system.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/pci-host/pnv_phb4.h |  11 ++++
- include/hw/ppc/pnv.h           |   3 +
- include/hw/ppc/pnv_xscom.h     |   6 ++
- hw/pci-host/pnv_phb4_pec.c     |  44 ++++++++++++++
- hw/ppc/pnv.c                   | 101 +++++++++++++++++++++++++++++++++
- 5 files changed, 165 insertions(+)
+ hw/ppc/pnv.c     |  6 ++++++
+ hw/ppc/pnv_psi.c | 32 +++++++++++++++++++++++++-------
+ 2 files changed, 31 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index c882bfd0aa23..ea3810f74066 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -227,4 +227,15 @@ typedef struct PnvPhb4PecClass {
-     int stk_compat_size;
- } PnvPhb4PecClass;
- 
-+/*
-+ * POWER10 definitions
-+ */
-+
-+#define PNV_PHB5_VERSION           0x000000a500000001ull
-+#define PNV_PHB5_DEVICE_ID         0x0652
-+
-+#define TYPE_PNV_PHB5_PEC "pnv-phb5-pec"
-+#define PNV_PHB5_PEC(obj) \
-+    OBJECT_CHECK(PnvPhb4PecState, (obj), TYPE_PNV_PHB5_PEC)
-+
- #endif /* PCI_HOST_PNV_PHB4_H */
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index 86bfa2107a8c..516229a51e7b 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -127,6 +127,9 @@ typedef struct Pnv10Chip {
-     uint32_t     nr_quads;
-     PnvQuad      *quads;
- 
-+#define PNV10_CHIP_MAX_PEC 2
-+    PnvPhb4PecState pecs[PNV10_CHIP_MAX_PEC];
-+
- } Pnv10Chip;
- 
- #define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index f26c5217764d..433c7b878af4 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -139,6 +139,12 @@ typedef struct PnvXScomInterfaceClass {
- #define PNV10_XSCOM_XIVE2_BASE     0x2010800
- #define PNV10_XSCOM_XIVE2_SIZE     0x400
- 
-+#define PNV10_XSCOM_PEC_NEST_BASE  0x3011800 /* index goes downwards ... */
-+#define PNV10_XSCOM_PEC_NEST_SIZE  0x100
-+
-+#define PNV10_XSCOM_PEC_PCI_BASE   0x8010800 /* index goes upwards ... */
-+#define PNV10_XSCOM_PEC_PCI_SIZE   0x200
-+
- void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp);
- int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset,
-                  uint64_t xscom_base, uint64_t xscom_size,
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 911d147ffd7d..869fd77b62cc 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -586,9 +586,53 @@ static const TypeInfo pnv_pec_stk_type_info = {
-     }
- };
- 
-+/*
-+ * POWER10 definitions
-+ */
-+
-+static uint32_t pnv_phb5_pec_xscom_pci_base(PnvPhb4PecState *pec)
-+{
-+    return PNV10_XSCOM_PEC_PCI_BASE + 0x1000000 * pec->index;
-+}
-+
-+static uint32_t pnv_phb5_pec_xscom_nest_base(PnvPhb4PecState *pec)
-+{
-+    /* index goes down ... */
-+    return PNV10_XSCOM_PEC_NEST_BASE - 0x1000000 * pec->index;
-+}
-+
-+static void pnv_phb5_pec_class_init(ObjectClass *klass, void *data)
-+{
-+    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_CLASS(klass);
-+    static const char compat[] = "ibm,power10-pbcq";
-+    static const char stk_compat[] = "ibm,power10-phb-stack";
-+
-+    pecc->xscom_nest_base = pnv_phb5_pec_xscom_nest_base;
-+    pecc->xscom_pci_base  = pnv_phb5_pec_xscom_pci_base;
-+    pecc->xscom_nest_size = PNV10_XSCOM_PEC_NEST_SIZE;
-+    pecc->xscom_pci_size  = PNV10_XSCOM_PEC_PCI_SIZE;
-+    pecc->compat = compat;
-+    pecc->compat_size = sizeof(compat);
-+    pecc->stk_compat = stk_compat;
-+    pecc->stk_compat_size = sizeof(stk_compat);
-+}
-+
-+static const TypeInfo pnv_phb5_pec_type_info = {
-+    .name          = TYPE_PNV_PHB5_PEC,
-+    .parent        = TYPE_PNV_PHB4_PEC,
-+    .instance_size = sizeof(PnvPhb4PecState),
-+    .class_init    = pnv_phb5_pec_class_init,
-+    .class_size    = sizeof(PnvPhb4PecClass),
-+    .interfaces    = (InterfaceInfo[]) {
-+        { TYPE_PNV_XSCOM_INTERFACE },
-+        { }
-+    }
-+};
-+
- static void pnv_pec_register_types(void)
- {
-     type_register_static(&pnv_pec_type_info);
-+    type_register_static(&pnv_phb5_pec_type_info);
-     type_register_static(&pnv_pec_stk_type_info);
- }
- 
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index fc751dd575d4..ac4bd2a17a9e 100644
+index ac4bd2a17a9e..0062e9b5ab28 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -705,9 +705,17 @@ static void pnv_ipmi_bt_init(ISABus *bus, IPMIBmc *bmc, uint32_t irq)
- static void pnv_chip_power10_pic_print_info(PnvChip *chip, Monitor *mon)
+@@ -1523,6 +1523,9 @@ static void pnv_chip_power9_realize(DeviceState *dev, Error **errp)
+     /* Processor Service Interface (PSI) Host Bridge */
+     object_property_set_int(OBJECT(&chip9->psi), PNV9_PSIHB_BASE(chip),
+                             "bar", &error_fatal);
++    /* This is the only device with 4k ESB pages */
++    object_property_set_int(OBJECT(&chip9->psi), XIVE_ESB_4K, "shift",
++                            &error_fatal);
+     object_property_set_bool(OBJECT(&chip9->psi), true, "realized", &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+@@ -1795,6 +1798,9 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
+     /* Processor Service Interface (PSI) Host Bridge */
+     object_property_set_int(OBJECT(&chip10->psi), PNV10_PSIHB_BASE(chip),
+                             "bar", &error_fatal);
++    /* PSI can now be configured to use 64k ESB pages on POWER10 */
++    object_property_set_int(OBJECT(&chip10->psi), XIVE_ESB_64K, "shift",
++                            &error_fatal);
+     object_property_set_bool(OBJECT(&chip10->psi), true, "realized",
+                              &local_err);
+     if (local_err) {
+diff --git a/hw/ppc/pnv_psi.c b/hw/ppc/pnv_psi.c
+index c34a49b000f2..fbf92cf93a22 100644
+--- a/hw/ppc/pnv_psi.c
++++ b/hw/ppc/pnv_psi.c
+@@ -607,7 +607,6 @@ static const TypeInfo pnv_psi_power8_info = {
+ #define   PSIHB9_IRQ_METHOD             PPC_BIT(0)
+ #define   PSIHB9_IRQ_RESET              PPC_BIT(1)
+ #define PSIHB9_ESB_CI_BASE              0x60
+-#define   PSIHB9_ESB_CI_64K             PPC_BIT(1)
+ #define   PSIHB9_ESB_CI_ADDR_MASK       PPC_BITMASK(8, 47)
+ #define   PSIHB9_ESB_CI_VALID           PPC_BIT(63)
+ #define PSIHB9_ESB_NOTIF_ADDR           0x68
+@@ -652,6 +651,14 @@ static const TypeInfo pnv_psi_power8_info = {
+ #define   PSIHB9_IRQ_STAT_DIO           PPC_BIT(12)
+ #define   PSIHB9_IRQ_STAT_PSU           PPC_BIT(13)
+ 
++/* P10 register extensions */
++
++#define PSIHB10_CR                       PSIHB9_CR
++#define    PSIHB10_CR_STORE_EOI          PPC_BIT(12)
++
++#define PSIHB10_ESB_CI_BASE              PSIHB9_ESB_CI_BASE
++#define   PSIHB10_ESB_CI_64K             PPC_BIT(1)
++
+ static void pnv_psi_notify(XiveNotifier *xf, uint32_t srcno)
  {
-     Pnv10Chip *chip10 = PNV10_CHIP(chip);
-+    int i, j;
+     PnvPsi *psi = PNV_PSI(xf);
+@@ -710,6 +717,13 @@ static void pnv_psi_p9_mmio_write(void *opaque, hwaddr addr,
  
-     pnv_xive2_pic_print_info(&chip10->xive, mon);
-     pnv_psi_pic_print_info(&chip10->psi, mon);
-+
-+    for (i = 0; i < PNV10_CHIP_MAX_PEC; i++) {
-+        PnvPhb4PecState *pec = &chip10->pecs[i];
-+        for (j = 0; j < pec->num_stacks; j++) {
-+            pnv_phb4_pic_print_info(&pec->stacks[j].phb, mon);
+     switch (addr) {
+     case PSIHB9_CR:
++        if (val & PSIHB10_CR_STORE_EOI) {
++            psi9->source.esb_flags |= XIVE_SRC_STORE_EOI;
++        } else {
++            psi9->source.esb_flags &= ~XIVE_SRC_STORE_EOI;
 +        }
-+    }
- }
- 
- static void pnv_init(MachineState *machine)
-@@ -1607,7 +1615,10 @@ static void pnv_chip_power9_class_init(ObjectClass *klass, void *data)
- 
- static void pnv_chip_power10_instance_init(Object *obj)
- {
-+    PnvChip *chip = PNV_CHIP(obj);
-     Pnv10Chip *chip10 = PNV10_CHIP(obj);
-+    PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
-+    int i;
- 
-     object_initialize_child(obj, "xive", &chip10->xive, sizeof(chip10->xive),
-                             TYPE_PNV_XIVE2, &error_abort, NULL);
-@@ -1619,6 +1630,17 @@ static void pnv_chip_power10_instance_init(Object *obj)
-                             TYPE_PNV10_LPC, &error_abort, NULL);
-     object_initialize_child(obj, "occ",  &chip10->occ, sizeof(chip10->occ),
-                             TYPE_PNV10_OCC, &error_abort, NULL);
++        break;
 +
-+    for (i = 0; i < PNV10_CHIP_MAX_PEC; i++) {
-+        object_initialize_child(obj, "pec[*]", &chip10->pecs[i],
-+                                sizeof(chip10->pecs[i]), TYPE_PNV_PHB5_PEC,
-+                                &error_abort, NULL);
-+    }
-+
-+    /*
-+     * Number of PHBs is the chip default
-+     */
-+    chip->num_phbs = pcc->num_phbs;
- }
+     case PSIHB9_SEMR:
+         /* FSP stuff */
+         break;
+@@ -721,15 +735,20 @@ static void pnv_psi_p9_mmio_write(void *opaque, hwaddr addr,
+         break;
  
- 
-@@ -1648,6 +1670,77 @@ static void pnv_chip_power10_quad_realize(Pnv10Chip *chip10, Error **errp)
-     }
- }
- 
-+static void pnv_chip_power10_phb_realize(PnvChip *chip, Error **errp)
-+{
-+    Pnv10Chip *chip10 = PNV10_CHIP(chip);
-+    Error *local_err = NULL;
-+    int i, j;
-+    int phb_id = 0;
-+
-+    for (i = 0; i < PNV10_CHIP_MAX_PEC; i++) {
-+        PnvPhb4PecState *pec = &chip10->pecs[i];
-+        PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
-+        uint32_t pec_nest_base;
-+        uint32_t pec_pci_base;
-+
-+        object_property_set_int(OBJECT(pec), i, "index", &error_fatal);
-+        /*
-+         * PEC0 -> 3 stacks
-+         * PEC1 -> 3 stacks
-+         */
-+        object_property_set_int(OBJECT(pec), 3, "num-stacks",
-+                                &error_fatal);
-+        object_property_set_int(OBJECT(pec), chip->chip_id, "chip-id",
-+                                 &error_fatal);
-+        object_property_set_link(OBJECT(pec), OBJECT(get_system_memory()),
-+                                 "system-memory", &error_abort);
-+        object_property_set_bool(OBJECT(pec), true, "realized", &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            return;
+     case PSIHB9_ESB_CI_BASE:
++        if (val & PSIHB10_ESB_CI_64K) {
++            psi9->source.esb_shift = XIVE_ESB_64K;
++        } else {
++            psi9->source.esb_shift = XIVE_ESB_4K;
 +        }
-+
-+        pec_nest_base = pecc->xscom_nest_base(pec);
-+        pec_pci_base = pecc->xscom_pci_base(pec);
-+
-+        pnv_xscom_add_subregion(chip, pec_nest_base, &pec->nest_regs_mr);
-+        pnv_xscom_add_subregion(chip, pec_pci_base, &pec->pci_regs_mr);
-+
-+        for (j = 0; j < pec->num_stacks && phb_id < chip->num_phbs;
-+             j++, phb_id++) {
-+            PnvPhb4PecStack *stack = &pec->stacks[j];
-+            Object *obj = OBJECT(&stack->phb);
-+
-+            object_property_set_int(obj, phb_id, "index", &error_fatal);
-+            object_property_set_int(obj, chip->chip_id, "chip-id",
-+                                    &error_fatal);
-+            object_property_set_int(obj, PNV_PHB5_VERSION, "version",
-+                                    &error_fatal);
-+            object_property_set_int(obj, PNV_PHB5_DEVICE_ID, "device-id",
-+                                    &error_fatal);
-+            object_property_set_link(obj, OBJECT(stack), "stack", &error_abort);
-+            object_property_set_bool(obj, true, "realized", &local_err);
-+            if (local_err) {
-+                error_propagate(errp, local_err);
-+                return;
-+            }
-+            qdev_set_parent_bus(DEVICE(obj), sysbus_get_default());
-+
-+            /* Populate the XSCOM address space. */
-+            pnv_xscom_add_subregion(chip,
-+                                   pec_nest_base + 0x40 * (stack->stack_no + 1),
-+                                   &stack->nest_regs_mr);
-+            pnv_xscom_add_subregion(chip,
-+                                    pec_pci_base + 0x40 * (stack->stack_no + 1),
-+                                    &stack->pci_regs_mr);
-+            pnv_xscom_add_subregion(chip,
-+                                    pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
-+                                    0x40 * stack->stack_no,
-+                                    &stack->phb_regs_mr);
-+        }
-+    }
-+}
-+
- static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
- {
-     PnvChipClass *pcc = PNV_CHIP_GET_CLASS(dev);
-@@ -1737,6 +1830,13 @@ static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
-     }
-     pnv_xscom_add_subregion(chip, PNV10_XSCOM_OCC_BASE,
-                             &chip10->occ.xscom_regs);
-+
-+    /* PHBs */
-+    pnv_chip_power10_phb_realize(chip, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
+         if (!(val & PSIHB9_ESB_CI_VALID)) {
+             if (psi->regs[reg] & PSIHB9_ESB_CI_VALID) {
+                 memory_region_del_subregion(sysmem, &psi9->source.esb_mmio);
+             }
+         } else {
+             if (!(psi->regs[reg] & PSIHB9_ESB_CI_VALID)) {
+-                memory_region_add_subregion(sysmem,
+-                                        val & ~PSIHB9_ESB_CI_VALID,
+-                                        &psi9->source.esb_mmio);
++                hwaddr addr = val & ~(PSIHB9_ESB_CI_VALID | PSIHB10_ESB_CI_64K);
++                memory_region_add_subregion(sysmem, addr,
++                                            &psi9->source.esb_mmio);
+             }
+         }
+         psi->regs[reg] = val;
+@@ -838,6 +857,8 @@ static void pnv_psi_power9_instance_init(Object *obj)
+ 
+     object_initialize_child(obj, "source", &psi->source, sizeof(psi->source),
+                             TYPE_XIVE_SOURCE, &error_abort, NULL);
++    object_property_add_alias(obj, "shift", OBJECT(&psi->source), "shift",
++                              &error_abort);
  }
  
- static uint32_t pnv_chip_power10_xscom_pcba(PnvChip *chip, uint64_t addr)
-@@ -1763,6 +1863,7 @@ static void pnv_chip_power10_class_init(ObjectClass *klass, void *data)
-     k->xscom_core_base = pnv_chip_power10_xscom_core_base;
-     k->xscom_pcba = pnv_chip_power10_xscom_pcba;
-     dc->desc = "PowerNV Chip POWER10";
-+    k->num_phbs = 6;
+ static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
+@@ -847,9 +868,6 @@ static void pnv_psi_power9_realize(DeviceState *dev, Error **errp)
+     Error *local_err = NULL;
+     int i;
  
-     device_class_set_parent_realize(dc, pnv_chip_power10_realize,
-                                     &k->parent_realize);
+-    /* This is the only device with 4k ESB pages */
+-    object_property_set_int(OBJECT(xsrc), XIVE_ESB_4K, "shift",
+-                            &error_fatal);
+     object_property_set_int(OBJECT(xsrc), PSIHB9_NUM_IRQS, "nr-irqs",
+                             &error_fatal);
+     object_property_set_link(OBJECT(xsrc), OBJECT(psi), "xive", &error_abort);
 -- 
 2.25.4
 
