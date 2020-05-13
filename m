@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF03C1D1136
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:23:05 +0200 (CEST)
-Received: from localhost ([::1]:48704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23861D1102
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:17:55 +0200 (CEST)
+Received: from localhost ([::1]:56394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYpTd-0003kn-0B
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1jYpOc-0003SM-Nl
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:17:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDt-0002S7-98
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:49 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:39230)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDx-0002ba-EA
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:53 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56996
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDq-0003VC-G7
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:48 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDv-0003W6-LQ
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589368005;
+ s=mimecast20190719; t=1589368010;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jiX1JoSl22iGBF2AQe+urEYSDM5hXwhOa/rnd7TcN/s=;
- b=UMvcJ7Fwh3XMfknaW/ZRQX14P/iCanHQFW5ky4+/4iby0iDnabgVgU0epjNlvqayz5hOsM
- Nkw7BwSkVbY9bnCmiO1jmMyc11/fSORAAbXSGCLHyBahrWoPmW3Je39ZkE2I8eHxHh67Ug
- qulk2cGlD6nCAWr93eYntmHjsuvYQ4Q=
+ bh=dMQaVbjJX5uhHdiLqp9dJtd4RxOpfJa8+fJcAuWWp54=;
+ b=e1aQpsqeGjc1x564Y7LMf9DPIw/VANOWFYgxYDHUfn4Pz+t0pXiePb5wkrDgVEDtSanHUn
+ cJP6KnSLWxe+n9hZopxpiQb7oFtyCoM/yqm3TWMGDkTPgcTSK2pYMtkFLXIEiBBSfZMqfB
+ Eipk1xo2a3z32pPIelvdFBG4whUMYQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-z6uP1-F0OAahUwc5jlFhDA-1; Wed, 13 May 2020 07:06:44 -0400
-X-MC-Unique: z6uP1-F0OAahUwc5jlFhDA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-97-pOmQiHPvNmSQIOs8iTlerQ-1; Wed, 13 May 2020 07:06:46 -0400
+X-MC-Unique: pOmQiHPvNmSQIOs8iTlerQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19F5953;
- Wed, 13 May 2020 11:06:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FA50106B243;
+ Wed, 13 May 2020 11:06:45 +0000 (UTC)
 Received: from localhost (unknown [10.40.193.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A64661000337;
- Wed, 13 May 2020 11:06:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 175E45D9E8;
+ Wed, 13 May 2020 11:06:44 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 21/34] block: Switch child_format users to child_of_bds
-Date: Wed, 13 May 2020 13:05:31 +0200
-Message-Id: <20200513110544.176672-22-mreitz@redhat.com>
+Subject: [PATCH v4 22/34] block: Drop child_format
+Date: Wed, 13 May 2020 13:05:32 +0200
+Message-Id: <20200513110544.176672-23-mreitz@redhat.com>
 In-Reply-To: <20200513110544.176672-1-mreitz@redhat.com>
 References: <20200513110544.176672-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=207.211.31.81; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
@@ -81,57 +82,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both users (quorum and blkverify) use child_format for
-not-really-filtered children, so the appropriate BdrvChildRole in both
-cases is DATA.  (Note that this will cause bdrv_inherited_options() to
-force-allow format probing.)
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- block/blkverify.c | 4 ++--
- block/quorum.c    | 6 ++++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ include/block/block_int.h |  1 -
+ block.c                   | 29 -----------------------------
+ 2 files changed, 30 deletions(-)
 
-diff --git a/block/blkverify.c b/block/blkverify.c
-index ba4f6d7b7c..1684b7aa2e 100644
---- a/block/blkverify.c
-+++ b/block/blkverify.c
-@@ -134,8 +134,8 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 3a9dda9be7..4b09fa1124 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -742,7 +742,6 @@ struct BdrvChildClass {
  
-     /* Open the test file */
-     s->test_file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options,
--                                   "test", bs, &child_format, 0, false,
--                                   &local_err);
-+                                   "test", bs, &child_of_bds, BDRV_CHILD_DATA,
-+                                   false, &local_err);
-     if (local_err) {
-         ret = -EINVAL;
-         error_propagate(errp, local_err);
-diff --git a/block/quorum.c b/block/quorum.c
-index d37b77a522..616ac3a927 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -977,7 +977,8 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
-         assert(ret < 32);
+ extern const BdrvChildClass child_of_bds;
+ extern const BdrvChildClass child_file;
+-extern const BdrvChildClass child_format;
+ extern const BdrvChildClass child_backing;
  
-         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
--                                         &child_format, 0, false, &local_err);
-+                                         &child_of_bds, BDRV_CHILD_DATA, false,
-+                                         &local_err);
-         if (local_err) {
-             ret = -EINVAL;
-             goto close_exit;
-@@ -1053,7 +1054,8 @@ static void quorum_add_child(BlockDriverState *bs, BlockDriverState *child_bs,
-     /* We can safely add the child now */
-     bdrv_ref(child_bs);
+ struct BdrvChild {
+diff --git a/block.c b/block.c
+index 088727fdbe..85b4f947ba 100644
+--- a/block.c
++++ b/block.c
+@@ -1172,35 +1172,6 @@ const BdrvChildClass child_file = {
+     .set_aio_ctx     = bdrv_child_cb_set_aio_ctx,
+ };
  
--    child = bdrv_attach_child(bs, child_bs, indexstr, &child_format, 0, errp);
-+    child = bdrv_attach_child(bs, child_bs, indexstr, &child_of_bds,
-+                              BDRV_CHILD_DATA, errp);
-     if (child == NULL) {
-         s->next_child_index--;
-         goto out;
+-/*
+- * Returns the options and flags that bs->file should get if the use of formats
+- * (and not only protocols) is permitted for it, based on the given options and
+- * flags for the parent BDS
+- */
+-static void bdrv_inherited_fmt_options(BdrvChildRole role,
+-                                       bool parent_is_format,
+-                                       int *child_flags, QDict *child_options,
+-                                       int parent_flags, QDict *parent_options)
+-{
+-    bdrv_inherited_options(BDRV_CHILD_DATA, false,
+-                           child_flags, child_options,
+-                           parent_flags, parent_options);
+-}
+-
+-const BdrvChildClass child_format = {
+-    .parent_is_bds   = true,
+-    .get_parent_desc = bdrv_child_get_parent_desc,
+-    .inherit_options = bdrv_inherited_fmt_options,
+-    .drained_begin   = bdrv_child_cb_drained_begin,
+-    .drained_poll    = bdrv_child_cb_drained_poll,
+-    .drained_end     = bdrv_child_cb_drained_end,
+-    .attach          = bdrv_child_cb_attach,
+-    .detach          = bdrv_child_cb_detach,
+-    .inactivate      = bdrv_child_cb_inactivate,
+-    .can_set_aio_ctx = bdrv_child_cb_can_set_aio_ctx,
+-    .set_aio_ctx     = bdrv_child_cb_set_aio_ctx,
+-};
+-
+ static void bdrv_backing_attach(BdrvChild *c)
+ {
+     BlockDriverState *parent = c->opaque;
 -- 
 2.26.2
 
