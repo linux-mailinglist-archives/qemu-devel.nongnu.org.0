@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47ECE1D203D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 22:36:34 +0200 (CEST)
-Received: from localhost ([::1]:36908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3663E1D2039
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 22:35:27 +0200 (CEST)
+Received: from localhost ([::1]:60944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYy7F-0005BQ-BU
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 16:36:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53674)
+	id 1jYy6A-0003Os-7P
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 16:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYy0S-0005Bf-Uh
- for qemu-devel@nongnu.org; Wed, 13 May 2020 16:29:33 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:51796
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYy1r-0007I2-Ak
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 16:30:59 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37911
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYy0Q-0005dv-Vi
- for qemu-devel@nongnu.org; Wed, 13 May 2020 16:29:32 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYy1q-0005yq-MO
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 16:30:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589401770;
+ s=mimecast20190719; t=1589401858;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DiSmrj/KQV3ktYQ37qq6IlB61ZfnKzk8EczAt/IoT7Q=;
- b=KLg50lnzw9Ic/vIP8/Jq9rKpOIOXPWkmoMk+Z64DFanpWIrXhujsyTxeNVrhYXBM2pficX
- lVAyIU6fFCtoB5wpU8tIuR0ltej2IplOoHOPNk87upLKnCbOyDidQccH4EJNgjASw+Rs9f
- 7BN6DGhi1cX9uByJem5bo30s+X1w+ic=
+ bh=EWd27V2ux58LE2c2l2b4ycCPwblmDA5ss2/YwtFmtxk=;
+ b=QJtqxTQXJe1954rNxWuNb2QkTdEGbnoYoG/LdOD5yYZy8GaT3BRz67mwmolP9NHqzXqUkO
+ iFL5QXE+d5KfgE+4mJ+d/2B2zXlOgrsl4bT5sweh2kheZdZOMaKJCt1qNH67lttjWI82+f
+ L35lxEkUjisx2iRpIyDJUqwrbAM0t9s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-BbEvTourNRq50G5O3eCqDA-1; Wed, 13 May 2020 16:29:28 -0400
-X-MC-Unique: BbEvTourNRq50G5O3eCqDA-1
+ us-mta-503-yQvAufOWPheD6fk97cOEKg-1; Wed, 13 May 2020 16:30:54 -0400
+X-MC-Unique: yQvAufOWPheD6fk97cOEKg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33954189952F;
- Wed, 13 May 2020 20:29:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45DD8106BF90;
+ Wed, 13 May 2020 20:30:53 +0000 (UTC)
 Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D602812A4D;
- Wed, 13 May 2020 20:29:26 +0000 (UTC)
-Subject: Re: [PATCH v4 14/34] block: Add child_of_bds
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA31679585;
+ Wed, 13 May 2020 20:30:51 +0000 (UTC)
+Subject: Re: [PATCH v4 15/34] block: Distinguish paths in
+ *_format_default_perms
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200513110544.176672-1-mreitz@redhat.com>
- <20200513110544.176672-15-mreitz@redhat.com>
+ <20200513110544.176672-16-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <a7017bde-a7b5-3c97-e992-93831b3cebee@redhat.com>
-Date: Wed, 13 May 2020 15:29:26 -0500
+Message-ID: <ae9c4842-a74f-bf88-10e2-423cf2e3c346@redhat.com>
+Date: Wed, 13 May 2020 15:30:51 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200513110544.176672-15-mreitz@redhat.com>
+In-Reply-To: <20200513110544.176672-16-mreitz@redhat.com>
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 03:05:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,20 +88,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/13/20 6:05 AM, Max Reitz wrote:
-> Any current user of child_file, child_format, and child_backing can and
-> should use this generic BdrvChildClass instead, as it can handle all of
-> these cases.  However, to be able to do so, the users must pass the
-> appropriate BdrvChildRole when the child is created/attached.  (The
-> following commits will take care of that.)
+> bdrv_format_default_perms() has one code path for backing files, and one
+> for storage files.  We want to pull them out into own functions, so
+
+Grammar suggestion: s/into own/into their own/
+
+> make sure they are completely distinct before so the next patches will
+> be a bit cleaner.
 > 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   include/block/block_int.h |  1 +
->   block.c                   | 24 ++++++++++++++++++++++++
->   2 files changed, 25 insertions(+)
-> 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+R-b still stands.
 
 -- 
 Eric Blake, Principal Software Engineer
