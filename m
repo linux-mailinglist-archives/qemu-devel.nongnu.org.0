@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087751D1091
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:05:34 +0200 (CEST)
-Received: from localhost ([::1]:37580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BACE1D1177
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:35:43 +0200 (CEST)
+Received: from localhost ([::1]:38398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYpCf-0007uF-24
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53880)
+	id 1jYpfq-0001cc-HL
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:35:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jYp8K-0003Fg-LC
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:01:04 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:36918)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jYp8I-0001kJ-Pn
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:01:04 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id 8so10525664lfp.4
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 04:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FvdUmJu1ZvFL9YANH7ScK+J3XoxuyKoXoc1BE6ql+7E=;
- b=aVo8G9g4Xn/rPdV0N1DvZY5j6NMI6c5S/cnRTkvQBpj3GpotZzHmQHE3SWlZTHK69g
- Fa8G0M3gqaaNzycPE+eDLFSTk2/1wTibHlutZMklWZBvd5VYK8jjXT1YNXkcD234VyDK
- gx6SGBdS6oWPM1+Web5+sd1JCL/Nzt1STB29uFce1GXdA/Vpzfb0UcIOJZqlyG+rn0Cs
- VFj2J6/apTAFJ1+3L0ZWr+bdW3uCsk7M01oVtA1/Q5ESZQ/0O56K78JRBAntzhlSgra/
- LjTx9Y5xqwwZ0uNIJ1NrA1gWg6T57v4FrpFLcWxxa8j8mp7O4VmnCoZKqRwLcXhsA0KR
- FNvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FvdUmJu1ZvFL9YANH7ScK+J3XoxuyKoXoc1BE6ql+7E=;
- b=KF4pADj2m3ni/eNUtMlWbadyEyes95SvRA8UX/0d4IJsy0Q9rODQJyaNEQFXS+vhNr
- Hfj6la3folX191qjjhbgdSVVK1W3ZOu2TITegXWpckUH9Pzncj+O0MRTbMmDsECg6nrt
- uSIOAobp22z3WA4Ybttx58tCrAWtAXrs/isDg/CYr5p7duzKywX/9V6Z+zxPGdZQCFpc
- jPgFcqqdwP7qvUHCrXWuDQV515f1e4nh1UK1oh61fN/jV0gQpZA+ZBMziRzYWDMQ2shX
- v3Pwx/dkv7yAuww75HXFM+jGKZpn7mCF1MPqee5b84MPBebxAGX4ZYrxyNfktdTh0c5J
- LEyQ==
-X-Gm-Message-State: AOAM531U/oTq3vJuJZWkzfQM4pf9HSitfhyC1u0MW1Tan5kG6gOt1Pzk
- Trgrj2xPGGHtjQe/RQdabTPcW47frAG5SQ==
-X-Google-Smtp-Source: ABdhPJybbzg72bheTIIOPEw10mzXa7GDxesRIkSaGPohzc35q0TdFZ/qkgIyY2ok+pn4yJcyHHa4EA==
-X-Received: by 2002:a05:6512:2027:: with SMTP id
- s7mr17179065lfs.39.1589367658893; 
- Wed, 13 May 2020 04:00:58 -0700 (PDT)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id x11sm15734897lfe.6.2020.05.13.04.00.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 04:00:58 -0700 (PDT)
-From: andrew@daynix.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] e1000e: Added ICR clearing by corresponding IMS bit.
-Date: Wed, 13 May 2020 14:28:52 +0300
-Message-Id: <20200513112852.1464626-2-andrew@daynix.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200513112852.1464626-1-andrew@daynix.com>
-References: <20200513112852.1464626-1-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <zhang.zhanghailiang@huawei.com>)
+ id 1jYpbg-0002cj-TX
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:31:24 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2520 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhang.zhanghailiang@huawei.com>)
+ id 1jYpbe-0000fd-LR
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:31:24 -0400
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.54])
+ by Forcepoint Email with ESMTP id AC72F8CCDC248E5EE773;
+ Wed, 13 May 2020 19:31:07 +0800 (CST)
+Received: from dggeme706-chm.china.huawei.com (10.1.199.102) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Wed, 13 May 2020 19:31:07 +0800
+Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
+ dggeme706-chm.china.huawei.com (10.1.199.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Wed, 13 May 2020 19:31:07 +0800
+Received: from dggeme756-chm.china.huawei.com ([10.6.80.68]) by
+ dggeme756-chm.china.huawei.com ([10.6.80.68]) with mapi id 15.01.1913.007;
+ Wed, 13 May 2020 19:31:07 +0800
+From: Zhanghailiang <zhang.zhanghailiang@huawei.com>
+To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
+Subject: =?gb2312?B?tPC4tDogW1BBVENIIDEvNl0gbWlncmF0aW9uL2NvbG8uYzogVXNlIGV2ZW50?=
+ =?gb2312?Q?_instead_of_semaphore?=
+Thread-Topic: [PATCH 1/6] migration/colo.c: Use event instead of semaphore
+Thread-Index: AQHWJ4TW5lp+1J6Yi0yErChMAFDRwKil5Bzg
+Date: Wed, 13 May 2020 11:31:06 +0000
+Message-ID: <d2d88cfacf8846589b66816198a725bb@huawei.com>
+References: <cover.1589193382.git.lukasstraub2@web.de>
+ <fd601ba1beb524aada54ba66e87ebfc12cf4574b.1589193382.git.lukasstraub2@web.de>
+In-Reply-To: <fd601ba1beb524aada54ba66e87ebfc12cf4574b.1589193382.git.lukasstraub2@web.de>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.173.220.30]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::12f;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x12f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=zhang.zhanghailiang@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 07:31:08
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: 14
+X-Spam_score: 1.4
+X-Spam_bar: +
+X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,55 +74,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Melnychenko <andrew@daynix.com>
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
-Added ICR clearing if there is IMS bit - according to the note by
-section 13.3.27 of the 8257X developers manual.
-
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/net/e1000e_core.c | 9 +++++++++
- hw/net/trace-events  | 1 +
- 2 files changed, 10 insertions(+)
-
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index d5676871fa..302e99ff46 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
-         e1000e_clear_ims_bits(core, core->mac[IAM]);
-     }
- 
-+    /*
-+     * PCIe* GbE Controllers Open Source Software Developer's Manual
-+     * 13.3.27 Interrupt Cause Read Register
-+     */
-+    if (core->mac[ICR] & core->mac[IMS]) {
-+        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
-+        core->mac[ICR] = 0;
-+    }
-+
-     trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
-     e1000e_update_interrupt_state(core);
-     return ret;
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index e18f883cfd..46e40fcfa9 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
- e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
- e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
- e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
-+e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
- e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
- e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
- e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
--- 
-2.26.2
-
+PiBJZiBtdWx0aXBsZSBwYWNrZXRzIG1pc2NvbXBhcmUgaW4gYSBzaG9ydCB0aW1lZnJhbWUsIHRo
+ZSBzZW1hcGhvcmUgdmFsdWUNCj4gd2lsbCBiZSBpbmNyZWFzZWQgbXVsdGlwbGUgdGltZXMuIFRo
+aXMgY2F1c2VzIG11bHRpcGxlIGNoZWNrcG9pbnRzIGV2ZW4gaWYgb25lDQo+IHdvdWxkIGJlIHN1
+ZmZpY2llbnQuDQo+IA0KDQpZb3UgcmlnaHQsIGdvb2QgY2F0Y2ggOykNCg0KUmV2aWV3ZWQtYnk6
+IHpoYW5naGFpbGlhbmcgPHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT4NCg0KPiBGaXgg
+dGhpcyBieSB1c2luZyBhIGV2ZW50IGluc3RlYWQgb2YgYSBzZW1hcGhvcmUgZm9yIHRyaWdnZXJp
+bmcgY2hlY2twb2ludHMuDQo+IE5vdywgY2hlY2twb2ludCByZXF1ZXN0cyB3aWxsIGJlIGlnbm9y
+ZWQgdW50aWwgdGhlIGNoZWNrcG9pbnQgZXZlbnQgaXMgc2VudA0KPiB0byBjb2xvLWNvbXBhcmUg
+KHdoaWNoIHJlbGVhc2VzIHRoZSBtaXNjb21wYXJlZCBwYWNrZXRzKS4NCj4gDQo+IEJlbmNobWFy
+ayByZXN1bHRzIChpcGVyZjMpOg0KPiBDbGllbnQtdG8tc2VydmVyIHRjcDoNCj4gd2l0aG91dCBw
+YXRjaDogfjY2IE1iaXQvcw0KPiB3aXRoIHBhdGNoOiB+NjEgTWJpdC9zDQo+IFNlcnZlci10by1j
+bGllbnQgdGNwOg0KPiB3aXRob3V0IHBhdGNoOiB+NzAyIEtiaXQvcw0KPiB3aXRoIHBhdGNoOiB+
+MTYgTWJpdC9zDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBMdWthcyBTdHJhdWIgPGx1a2Fzc3RyYXVi
+MkB3ZWIuZGU+DQo+IC0tLQ0KPiAgbWlncmF0aW9uL2NvbG8uYyAgICAgIHwgOSArKysrKy0tLS0N
+Cj4gIG1pZ3JhdGlvbi9taWdyYXRpb24uaCB8IDQgKystLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA3
+IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWlncmF0
+aW9uL2NvbG8uYyBiL21pZ3JhdGlvbi9jb2xvLmMgaW5kZXgNCj4gYTU0YWM4NGY0MS4uMDkxNjg2
+MjdiYyAxMDA2NDQNCj4gLS0tIGEvbWlncmF0aW9uL2NvbG8uYw0KPiArKysgYi9taWdyYXRpb24v
+Y29sby5jDQo+IEBAIC00MzAsNiArNDMwLDcgQEAgc3RhdGljIGludA0KPiBjb2xvX2RvX2NoZWNr
+cG9pbnRfdHJhbnNhY3Rpb24oTWlncmF0aW9uU3RhdGUgKnMsDQo+ICAgICAgICAgIGdvdG8gb3V0
+Ow0KPiAgICAgIH0NCj4gDQo+ICsgICAgcWVtdV9ldmVudF9yZXNldCgmcy0+Y29sb19jaGVja3Bv
+aW50X2V2ZW50KTsNCj4gICAgICBjb2xvX25vdGlmeV9jb21wYXJlc19ldmVudChOVUxMLCBDT0xP
+X0VWRU5UX0NIRUNLUE9JTlQsDQo+ICZsb2NhbF9lcnIpOw0KPiAgICAgIGlmIChsb2NhbF9lcnIp
+IHsNCj4gICAgICAgICAgZ290byBvdXQ7DQo+IEBAIC01ODAsNyArNTgxLDcgQEAgc3RhdGljIHZv
+aWQgY29sb19wcm9jZXNzX2NoZWNrcG9pbnQoTWlncmF0aW9uU3RhdGUNCj4gKnMpDQo+ICAgICAg
+ICAgICAgICBnb3RvIG91dDsNCj4gICAgICAgICAgfQ0KPiANCj4gLSAgICAgICAgcWVtdV9zZW1f
+d2FpdCgmcy0+Y29sb19jaGVja3BvaW50X3NlbSk7DQo+ICsgICAgICAgIHFlbXVfZXZlbnRfd2Fp
+dCgmcy0+Y29sb19jaGVja3BvaW50X2V2ZW50KTsNCj4gDQo+ICAgICAgICAgIGlmIChzLT5zdGF0
+ZSAhPSBNSUdSQVRJT05fU1RBVFVTX0NPTE8pIHsNCj4gICAgICAgICAgICAgIGdvdG8gb3V0Ow0K
+PiBAQCAtNjI4LDcgKzYyOSw3IEBAIG91dDoNCj4gICAgICBjb2xvX2NvbXBhcmVfdW5yZWdpc3Rl
+cl9ub3RpZmllcigmcGFja2V0c19jb21wYXJlX25vdGlmaWVyKTsNCj4gICAgICB0aW1lcl9kZWwo
+cy0+Y29sb19kZWxheV90aW1lcik7DQo+ICAgICAgdGltZXJfZnJlZShzLT5jb2xvX2RlbGF5X3Rp
+bWVyKTsNCj4gLSAgICBxZW11X3NlbV9kZXN0cm95KCZzLT5jb2xvX2NoZWNrcG9pbnRfc2VtKTsN
+Cj4gKyAgICBxZW11X2V2ZW50X2Rlc3Ryb3koJnMtPmNvbG9fY2hlY2twb2ludF9ldmVudCk7DQo+
+IA0KPiAgICAgIC8qDQo+ICAgICAgICogTXVzdCBiZSBjYWxsZWQgYWZ0ZXIgZmFpbG92ZXIgQkgg
+aXMgY29tcGxldGVkLCBAQCAtNjQ1LDcgKzY0Niw3DQo+IEBAIHZvaWQgY29sb19jaGVja3BvaW50
+X25vdGlmeSh2b2lkICpvcGFxdWUpDQo+ICAgICAgTWlncmF0aW9uU3RhdGUgKnMgPSBvcGFxdWU7
+DQo+ICAgICAgaW50NjRfdCBuZXh0X25vdGlmeV90aW1lOw0KPiANCj4gLSAgICBxZW11X3NlbV9w
+b3N0KCZzLT5jb2xvX2NoZWNrcG9pbnRfc2VtKTsNCj4gKyAgICBxZW11X2V2ZW50X3NldCgmcy0+
+Y29sb19jaGVja3BvaW50X2V2ZW50KTsNCj4gICAgICBzLT5jb2xvX2NoZWNrcG9pbnRfdGltZSA9
+DQo+IHFlbXVfY2xvY2tfZ2V0X21zKFFFTVVfQ0xPQ0tfSE9TVCk7DQo+ICAgICAgbmV4dF9ub3Rp
+ZnlfdGltZSA9IHMtPmNvbG9fY2hlY2twb2ludF90aW1lICsNCj4gICAgICAgICAgICAgICAgICAg
+ICAgcy0+cGFyYW1ldGVycy54X2NoZWNrcG9pbnRfZGVsYXk7IEBAIC02NTUsNw0KPiArNjU2LDcg
+QEAgdm9pZCBjb2xvX2NoZWNrcG9pbnRfbm90aWZ5KHZvaWQgKm9wYXF1ZSkgIHZvaWQNCj4gbWln
+cmF0ZV9zdGFydF9jb2xvX3Byb2Nlc3MoTWlncmF0aW9uU3RhdGUgKnMpICB7DQo+ICAgICAgcWVt
+dV9tdXRleF91bmxvY2tfaW90aHJlYWQoKTsNCj4gLSAgICBxZW11X3NlbV9pbml0KCZzLT5jb2xv
+X2NoZWNrcG9pbnRfc2VtLCAwKTsNCj4gKyAgICBxZW11X2V2ZW50X2luaXQoJnMtPmNvbG9fY2hl
+Y2twb2ludF9ldmVudCwgZmFsc2UpOw0KPiAgICAgIHMtPmNvbG9fZGVsYXlfdGltZXIgPSAgdGlt
+ZXJfbmV3X21zKFFFTVVfQ0xPQ0tfSE9TVCwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgY29sb19jaGVja3BvaW50X25vdGlmeSwgcyk7DQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWln
+cmF0aW9uL21pZ3JhdGlvbi5oIGIvbWlncmF0aW9uL21pZ3JhdGlvbi5oIGluZGV4DQo+IDUwNzI4
+NGU1NjMuLmY2MTc5NjA1MjIgMTAwNjQ0DQo+IC0tLSBhL21pZ3JhdGlvbi9taWdyYXRpb24uaA0K
+PiArKysgYi9taWdyYXRpb24vbWlncmF0aW9uLmgNCj4gQEAgLTIxNSw4ICsyMTUsOCBAQCBzdHJ1
+Y3QgTWlncmF0aW9uU3RhdGUNCj4gICAgICAvKiBUaGUgc2VtYXBob3JlIGlzIHVzZWQgdG8gbm90
+aWZ5IENPTE8gdGhyZWFkIHRoYXQgZmFpbG92ZXIgaXMgZmluaXNoZWQNCj4gKi8NCj4gICAgICBR
+ZW11U2VtYXBob3JlIGNvbG9fZXhpdF9zZW07DQo+IA0KPiAtICAgIC8qIFRoZSBzZW1hcGhvcmUg
+aXMgdXNlZCB0byBub3RpZnkgQ09MTyB0aHJlYWQgdG8gZG8gY2hlY2twb2ludCAqLw0KPiAtICAg
+IFFlbXVTZW1hcGhvcmUgY29sb19jaGVja3BvaW50X3NlbTsNCj4gKyAgICAvKiBUaGUgZXZlbnQg
+aXMgdXNlZCB0byBub3RpZnkgQ09MTyB0aHJlYWQgdG8gZG8gY2hlY2twb2ludCAqLw0KPiArICAg
+IFFlbXVFdmVudCBjb2xvX2NoZWNrcG9pbnRfZXZlbnQ7DQo+ICAgICAgaW50NjRfdCBjb2xvX2No
+ZWNrcG9pbnRfdGltZTsNCj4gICAgICBRRU1VVGltZXIgKmNvbG9fZGVsYXlfdGltZXI7DQo+IA0K
+PiAtLQ0KPiAyLjIwLjENCg0K
 
