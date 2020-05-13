@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF571D1C71
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:40:03 +0200 (CEST)
-Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E5E1D1C96
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:50:30 +0200 (CEST)
+Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvMQ-0001Bh-9B
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:40:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
+	id 1jYvWW-0008Ud-HT
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvL1-00089w-Ao
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:38:35 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58911
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvVF-0007Jj-9A
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:49:09 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57069
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvL0-0001Rb-Fx
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:38:35 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvVE-0003pU-Ga
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:49:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589391513;
+ s=mimecast20190719; t=1589392147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ugbRUfWNEZlp1juaG1ptiEH5FtLPvjMli4lyc/TPtKs=;
- b=bfNRth8uDS8Erjd8edMCEF6ljrpZSabHRD8kL8MbFIF6E9IyNWgOCvCvnX/esAYh57pkAb
- ZKA8YsY2laltyOD9P2tL2UJS8/cYGbBeeDruACHACSrdWgxSf/1MOKgkX7AnDg6VUgB2Gz
- WTo6Nem6vTKmohYpxzVk3vOSHYPQ7uE=
+ bh=9ZsWeclbG4prq5TIaY9LwoCrwhAF4vEQkonWU7xUK1U=;
+ b=bIPYQDne+FEhMjdtKqxg0b3l3F89/qd/u/5AzeHUklMGcpY7nmDXyvQDAEY1/LP7PJwf4N
+ VmlgncyGfCZO8gigGB/9G7ua+gwXUP/jSZT1614kNkNF5kb0zcfw9wse8+9Yr0rq2pw4fw
+ YneUUuiyPlRLbkpME3uwCz38qYmhMVg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-X8e8fC-BPKm7qmPR1RGB7Q-1; Wed, 13 May 2020 13:38:32 -0400
-X-MC-Unique: X8e8fC-BPKm7qmPR1RGB7Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-390-9i38PSqFN8Cv_RNcln8cAQ-1; Wed, 13 May 2020 13:49:03 -0400
+X-MC-Unique: 9i38PSqFN8Cv_RNcln8cAQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0ADAEC1A6;
- Wed, 13 May 2020 17:38:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BA66835B8B;
+ Wed, 13 May 2020 17:49:02 +0000 (UTC)
 Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CAF41C92D;
- Wed, 13 May 2020 17:38:30 +0000 (UTC)
-Subject: Re: [PATCH v3 2/4] qemu-img: validate image length in img_map
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B9E5F18A75;
+ Wed, 13 May 2020 17:49:01 +0000 (UTC)
+Subject: Re: [PATCH v3 0/4] Additional parameters for qemu_img map
 To: Eyal Moscovici <eyal.moscovici@oracle.com>
 References: <20200513133629.18508-1-eyal.moscovici@oracle.com>
- <20200513133629.18508-3-eyal.moscovici@oracle.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <634bd3e3-bde8-dd5f-1bd6-feaa34e3252f@redhat.com>
-Date: Wed, 13 May 2020 12:38:29 -0500
+Message-ID: <3a55d6a6-ce3c-6eb4-fddf-baab00be4f11@redhat.com>
+Date: Wed, 13 May 2020 12:49:01 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200513133629.18508-3-eyal.moscovici@oracle.com>
+In-Reply-To: <20200513133629.18508-1-eyal.moscovici@oracle.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,39 +87,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/13/20 8:36 AM, Eyal Moscovici wrote:
-> The code handles this case correctly we merely skip the loop. However it
-
-Grammar suggestion: s/correctly we/correctly: we/
-
-> is probably best to return an explicit error.
+> Hi,
 > 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-
-R-b still stands.
-
-> Acked-by: Mark Kanda <mark.kanda@oracle.com>
-> Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
-> ---
->   qemu-img.c | 5 +++++
->   1 file changed, 5 insertions(+)
+> The following series adds two parameters to qemu-img map:
+> 1. start-offset: mapping starting offset.
+> 2. max-length: the length of the mapping.
 > 
-> diff --git a/qemu-img.c b/qemu-img.c
-> index cc2e4a3799..23e90a99e1 100644
-> --- a/qemu-img.c
-> +++ b/qemu-img.c
-> @@ -3091,6 +3091,11 @@ static int img_map(int argc, char **argv)
->       }
->   
->       length = blk_getlength(blk);
-> +    if (length < 0) {
-> +        error_report("Failed to get size for '%s'", filename);
-> +        return 1;
-> +    }
-> +
->       while (curr.start + curr.length < length) {
->           int64_t offset = curr.start + curr.length;
->           int64_t n;
+> These parameters proved useful when mapping large disk spread across
+> long store file chains. It allows us to bound the execution time of each
+> qemu-img map execution as well as recover from failed mapping
+> operations. In addition the map operation can divided to
+> multiple independent tasks.
 > 
+> V3 changes:
+> 1. Add cvtnum_full and made cvtnum a wrapper function.
+> 2. Keep the original boundaries checks.
+> 3. Tone down error messages.
+
+While this does not directly touch NBD code, I find it quite handy for 
+my tests of incremental backups over NBD (since I frequently use 
+x-dirty-bitmap coupled with qemu-img map to read bitmaps, and subsetting 
+the output is indeed nice), so I'll queue this through my NBD tree.  It 
+may be another week or so before I send a pull request including this 
+and other collected patches.
+
+Congratulations on your first qemu contribution!
+
+>  qemu-img.c                 | 76 +++++++++++++++++---------------------
+>  tests/qemu-iotests/049.out |  8 ++--
+>  2 files changed, 38 insertions(+), 46 deletions(-)
+
+This series diffstat is off; later in the series, in 4/4, I see:
+
+>  docs/tools/qemu-img.rst |  2 +-
+>  qemu-img-cmds.hx        |  4 ++--
+>  qemu-img.c              | 22 +++++++++++++++++++++-
+>  3 files changed, 24 insertions(+), 4 deletions(-)
+
+What I don't see is any iotest coverage of the new options, to ensure 
+they don't regress.  Either a new iotest, or an enhancement to an 
+existing iotest.  If you feel up to the task, post a 5/4 patch; if not, 
+I'll probably enhance 223 (my x-dirty-bitmap reading code mentioned above).
 
 -- 
 Eric Blake, Principal Software Engineer
