@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8491D1C62
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:39:02 +0200 (CEST)
-Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6BA1D1C56
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:33:49 +0200 (CEST)
+Received: from localhost ([::1]:36804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvLR-0007VO-PX
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
+	id 1jYvGO-0006sJ-Er
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYvEv-0004uy-4a
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:32:17 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51752)
+ id 1jYvEq-0004jR-2C
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:32:12 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYvEt-0007nQ-EH
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:32:16 -0400
-Received: by mail-wm1-x331.google.com with SMTP id f134so15293168wmf.1
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 10:32:15 -0700 (PDT)
+ id 1jYvEp-0007m8-4A
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:32:11 -0400
+Received: by mail-wr1-x444.google.com with SMTP id w7so401788wre.13
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 10:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1chDwz94RrS85XCVVBqcwsxgLaBVTqxdPFO1xuLV3bk=;
- b=xpw2fHKXQtK4NYVNby1EzTcnvzHvTpoIFbBtfpjc537l4xdL0yt5wYHRhffX8UBjTu
- ifitgSRksy9OPMF29j3Q3kYYf8gZRFbOhpBuv7V7y0+63xcYHosqx8GwxRTXY5GctW8A
- JS3S/JoyOHEVtSqvvmBk2Iod2tszqTugJW//FVdeLBp5GJNu4meeZdBIbuDkc7A/5aTq
- 8W7QNM5VP2AAbbeTMuiLq1gzW69GGOAig2DoV2JhuD15aVq2fowQ1U7j571x03BvXu3S
- PRA5V68VAWHtOc9B0TiEmXVFf6GcqbX7dmlzgvHF5iJAJF/InEbFzotGX4aRRZOpBpef
- 058w==
+ bh=Gdil8t+xOr7TCjqgJyVIpfNS5QGic/4oGQPhUYY1lwY=;
+ b=Mk0PGW4BIra3cS2PmzSYNrVkdPGBRV8SVZaCqfq3vq6bVcstAaROI1pszAwikYGSsE
+ TABTuaPO8dcIPnw+KIVPuayAZ74+Ee8C5we2skVc3UidC2FUrVbdGFYAyK6kPoAcs/sa
+ 63FiyyTPadcyjIAMJnG30EuPaHzMowRQwdLDf8a2t0ywzKWQtcwCsBQsKQyIUUhAP7ce
+ M2W44Feha5Jb5GYaCOntV4Ufc5SKrdFABO3/cjsc+twW2Cbnm2DR5b6aWEQrqGvu91/i
+ 77VNQd8UrIF9y5DpHeBLPiUi4QDBlIy1xK9cJSvtfzgddm0yosxxqmm9APmdQ+wJdJqe
+ X5dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1chDwz94RrS85XCVVBqcwsxgLaBVTqxdPFO1xuLV3bk=;
- b=hO5TtlHamsDhVXYda8AK2tqtesCKs3MqSnTHvpm7xfPG+GVdfCdMVnYielqw/jIpCT
- RChBHzbKyZebZ0I64azaIlEsYQw6ioVe/RRoNNFi2uej8d0JsuDBtvZdMC/2NLLjIVms
- bc612lR/iAaqJ1WQpYxu1W2iqaTryK3xb/+x9RECqdHU52mK+yyMtNxrJB0MbB59da6N
- ogKIRh6csQVcGSRooztr4x0q8t50JoG3mMLCTV+J1tQom+rlgNnGOQIPLMfcZgWPbKgJ
- Bn3yX/Jsv9c5+7UM5g8mrN+hFLFuyuVdh1OZlyEQSd8v4QvqndY7g1ygsxQ2yRGkN/Z+
- CaSw==
-X-Gm-Message-State: AGi0PubCZerbjg1ANt55XNzczxlaKt3E1rZOrWseg0Sy18EdNvLQYvYf
- P4nmJ0K/IJx/9syrUHkVDqCUKiIUN8o=
-X-Google-Smtp-Source: APiQypKNHIpJm9pe1wQkvX+tNEHXlwNc27iKv6iOuZxwBUpjlVj/btXvrEvoMjFOsBLSijgiKDm5Iw==
-X-Received: by 2002:a1c:6884:: with SMTP id
- d126mr25031171wmc.179.1589391134028; 
- Wed, 13 May 2020 10:32:14 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q18sm2579484wmk.28.2020.05.13.10.32.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=Gdil8t+xOr7TCjqgJyVIpfNS5QGic/4oGQPhUYY1lwY=;
+ b=LrsLrXydAr7uwuqsxmOjbw3oWDFmCFq8ZHfVyFwjMlgH58V6Rn98nHXy09Wn+3wvtp
+ DpPK/l1gAIibMR5wg48eVclkphji72u9f0dyDfocXCfwMwgpuAkNpsGhZ6rwK1pdGVgF
+ 3oMPQv0GSgAO/2yp6vqehAOk+T1erdiW1pYTcNAERzob+e6PVeWtrAdoAn+rP16mvWWn
+ k7gijUOetfPebiL7t8BXoOdOnWLZW1dqTpn4sq0glBycdF4R2dXqdOVjPAGXQeHINY5U
+ 8Fc7u9WGsEX+VGteYh37JoVeFzNdlzHE0hgKKcsgkf2WeQrZeQu9jC3gnncQFG75MkVN
+ 5Vcw==
+X-Gm-Message-State: AOAM5314F65i2Ufv98+kLwQR9LDQxS3DN1mEqip5FobSn9hVOp6fBpGV
+ boeUv+PdKht3pI/x65zqFLZr9Rq7h3I=
+X-Google-Smtp-Source: ABdhPJwL0ElNpBW71yX/nSVyEYQJla9seuk4DtygfC/oZNJJWWx+M2Yj9iDWUOyAf1Iwf4HsqDriOg==
+X-Received: by 2002:adf:97d9:: with SMTP id t25mr438902wrb.176.1589391129690; 
  Wed, 13 May 2020 10:32:09 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b14sm25207574wmb.18.2020.05.13.10.32.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 May 2020 10:32:08 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 40B0B1FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 5727D1FF91;
  Wed, 13 May 2020 18:32:01 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 4/8] MAINTAINERS: update the orphaned cpus-common.c file
-Date: Wed, 13 May 2020 18:31:56 +0100
-Message-Id: <20200513173200.11830-5-alex.bennee@linaro.org>
+Subject: [PATCH v1 5/8] cpus-common: ensure auto-assigned cpu_indexes don't
+ clash
+Date: Wed, 13 May 2020 18:31:57 +0100
+Message-Id: <20200513173200.11830-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200513173200.11830-1-alex.bennee@linaro.org>
 References: <20200513173200.11830-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,30 +89,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Nikolay Igotti <igotti@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We forgot to update MAINTAINERS when this code was re-factored.
+Basing the cpu_index on the number of currently allocated vCPUs fails
+when vCPUs aren't removed in a LIFO manner. This is especially true
+when we are allocating a cpu_index for each guest thread in
+linux-user where there is no ordering constraint on their allocation
+and de-allocation.
 
-Fixes: 267f685b8b
+[I've dropped the assert which is there to guard against out-of-order
+removal as this should probably be caught higher up the stack. Maybe
+we could just ifdef CONFIG_SOFTTMU it?]
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Nikolay Igotti <igotti@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ cpus-common.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1f84e3ae2c6..cfe71898d2f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -115,6 +115,7 @@ M: Richard Henderson <rth@twiddle.net>
- R: Paolo Bonzini <pbonzini@redhat.com>
- S: Maintained
- F: cpus.c
-+F: cpus-common.c
- F: exec.c
- F: accel/tcg/
- F: accel/stubs/tcg-stub.c
+diff --git a/cpus-common.c b/cpus-common.c
+index 55d5df89237..5a7d2f6132b 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -61,13 +61,14 @@ static bool cpu_index_auto_assigned;
+ static int cpu_get_free_index(void)
+ {
+     CPUState *some_cpu;
+-    int cpu_index = 0;
++    int max_cpu_index = 0;
+ 
+     cpu_index_auto_assigned = true;
+     CPU_FOREACH(some_cpu) {
+-        cpu_index++;
++        max_cpu_index = MAX(some_cpu->cpu_index, max_cpu_index);
+     }
+-    return cpu_index;
++    max_cpu_index++;
++    return max_cpu_index;
+ }
+ 
+ void cpu_list_add(CPUState *cpu)
+@@ -90,8 +91,6 @@ void cpu_list_remove(CPUState *cpu)
+         return;
+     }
+ 
+-    assert(!(cpu_index_auto_assigned && cpu != QTAILQ_LAST(&cpus)));
+-
+     QTAILQ_REMOVE_RCU(&cpus, cpu, node);
+     cpu->cpu_index = UNASSIGNED_CPU_INDEX;
+ }
 -- 
 2.20.1
 
