@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7675F1D1C9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:53:05 +0200 (CEST)
-Received: from localhost ([::1]:44490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D051D1CAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:56:38 +0200 (CEST)
+Received: from localhost ([::1]:57968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvZ2-0002II-AJ
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:53:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33370)
+	id 1jYvcT-0007uJ-No
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:56:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYvXg-0000jC-CL
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:51:40 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39574)
+ id 1jYvXi-0000lP-J2
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:51:42 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:33857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYvXf-0004xN-GS
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:51:40 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id y24so29581936wma.4
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 10:51:39 -0700 (PDT)
+ id 1jYvXh-0004xs-AW
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:51:42 -0400
+Received: by mail-wm1-x341.google.com with SMTP id g14so12414459wme.1
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 10:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HFDLFAKOqzqDM16uDgH8kQv5arlsfvslWta0/Fd6rk4=;
- b=FdgXZ2PPep7Gw/rPsOqbqlantISX5CYa3goFQ7oYj3/KXa3OMC24rnfaVSjU/CHNdl
- rR/bV5Dl6f6JNkUTheYRXmbcwm6EeG9yBWSIcvS+pWFkJVbwzbIPFUocjE8+SLhjGxzJ
- BT3JWyBjrXaxB+CrjQKT+ysvmO8ctZoZalbPPSLZGvRx4wmHHFCnYgZ2OAh9qQA8kfLg
- GsP/mHOs+QF7bgradK0Xixqr6Iu3cQrsZqERbb4Sh359Rr3gqSg+44vS4bBdwH9Hvnh8
- o7kh18Jkp2X1DZmvOqED7ybrH82JpgfG186z866ckST0H1r38YpanMGWLElHXeE7GbZh
- chhw==
+ bh=PSejtQaKsSmZz/8Wr+NX++8sCGeGvlfmEfdXWCygToQ=;
+ b=EVmfn26Z3z+7bUbRO5nloiuSx9YmvczUwFD4Y8avIreMZKTFK/HH0sbXIwERQgaO7g
+ /u6zrH5v+xtwdim3Y538lL8wQUxo7WSUSTeEOJPFgo+0Wkndw4oKOiBvQt8PRfoNMGbX
+ DOATXVaCK7uvx6vAdgG1ao+/9/xVUFawNtlrW/hADPYUMyT6nijoBCFgdOYLzJ4vKVaR
+ dGRb6peCtmpsKPkuE4tUt5zHR2uLG50OCly2yNWj2Ep9YAiIML0x75fyrj5eV1nUX8+p
+ h/HqoUeryo+1MBRZ0qscG9Xf7nh8rvNYwEp6fuEeWVFhcAmEE3YZLdR8XpNEp6zQmtxi
+ rBzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HFDLFAKOqzqDM16uDgH8kQv5arlsfvslWta0/Fd6rk4=;
- b=i2/ba3oWihmIP+DP56XcC5R/bxiAX7KkUq5A26VW2UNy9U64iNfjSHHzzo420zH1nM
- bDfs9gYwoXI3kmKfCtavPA8BreGZAmzt9/HMHpUG2fIbBGh9eqmUK6imu27pp2EcXMrf
- JElq5JKk55KRzx2O3GimBpY309Fqw5nbgo4ZMfUfEQHk20hckMIQ2W+R34ib3yGZ/OVL
- my3XXh7PX2W3tX0soDfgjdH1PQelP7SozL2EXENqzmrk/py+xu/OAx6T+rxi8SP3Q1BG
- syr87UvWt93pKlacadziwvefvYxbfzLvVH/kNvMOys8hCreLLg4xDEbuNshLlHGazbbZ
- gDvg==
-X-Gm-Message-State: AGi0PuatJcbqlc9A++zV+/vAgtu8E9rkAzZh9xivXAj6xkfOSALhrgJG
- qYuBq6nzF+9TAPe0zt6z5bwI8A==
-X-Google-Smtp-Source: APiQypJP224MWbAJRR22mSCugCETVMgBNjXAJiJynx3GqeCXI0UYxb5fzE4ypIQ/MkTy367aVynP1g==
-X-Received: by 2002:a1c:5988:: with SMTP id
- n130mr34162317wmb.187.1589392297948; 
- Wed, 13 May 2020 10:51:37 -0700 (PDT)
+ bh=PSejtQaKsSmZz/8Wr+NX++8sCGeGvlfmEfdXWCygToQ=;
+ b=BxRJZqOHra8ZJ/gF7Qfc/m9cO9gQHk+IM5l8qrI8qIJOXIgbV0zpSHAHp8ude1JliL
+ 6bAR6ur6yDZ+W74MGww2y28D1PYcLcMfxQ4kSkE+exA4UUwKEAb9eUejkLzcAGXon61B
+ CFnxt0/hVbmYs3CFkf2UWZjSn6z1kAaJH668o+nm7QWXr1+7Q5bsMh6VkxV4dK7KSYXG
+ qW0AELGXArnyJM60X/9HxRfIljNJU2hbGwQtT2MC/xPqrq6Y+mXgWFwMQAxRDaqC1U0a
+ aEP7PAZLSCjYGB7O3NbrP+jLXVJTsQq4zY16W0gv90NaEkHwPsHnDb+8sG1Il9TqGkw8
+ HYHg==
+X-Gm-Message-State: AGi0PuZACHkU6RC/Lct5sbC7aLq9uBgDJbQpx7HuraQ99PqE6eNRnJbb
+ T+5C8EOBYZsKOinCn3/Az9hf8kLuYPQ=
+X-Google-Smtp-Source: APiQypKisOOrzW7u4O2G41DbGNbSU4YLdXcgGKlPEqt9kgoMOy2mZLQ/VybGujXZgqhiNG67vaauSw==
+X-Received: by 2002:a1c:a545:: with SMTP id o66mr14712113wme.167.1589392299919; 
+ Wed, 13 May 2020 10:51:39 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q17sm19462879wmk.36.2020.05.13.10.51.35
+ by smtp.gmail.com with ESMTPSA id m7sm13722433wmc.40.2020.05.13.10.51.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 May 2020 10:51:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 02B8C1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 189221FF8F;
  Wed, 13 May 2020 18:51:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 02/10] travis.yml: Improve the --disable-tcg test on s390x
-Date: Wed, 13 May 2020 18:51:26 +0100
-Message-Id: <20200513175134.19619-3-alex.bennee@linaro.org>
+Subject: [PATCH v1 03/10] tests/docker: Kludge <linux/swab.h> breakage by
+ pinning linux-libc-dev
+Date: Wed, 13 May 2020 18:51:27 +0100
+Message-Id: <20200513175134.19619-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200513175134.19619-1-alex.bennee@linaro.org>
 References: <20200513175134.19619-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,74 +89,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Since the s390x containers do not allow KVM, we only compile-test
-the --disable-tcg build on s390x and do not run the qtests. Thus,
-it does not make sense to install genisoimage here, and it also does
-not make sense to build the s390-ccw.img here again - it is simply
-not used without the qtests.
-On the other hand, if we do not build the s390-ccw.img anymore, we
-can also compile with Clang - so let's use that compiler here to
-get some additional test coverage.
+Linux kernel commit d5767057c9a [1] aimed to fix an issue with the
+swab() declaration, but doing so it introduced the BITS_PER_LONG
+definition, without using the kernel __ prefix, leading to odd
+failures in userland code using kernel uapi headers, such:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+      CC      block/file-posix.o
+    In file included from include/qemu/timer.h:4,
+                     from include/qemu/timed-average.h:29,
+                     from include/block/accounting.h:28,
+                     from include/block/block_int.h:27,
+                     from block/file-posix.c:30:
+    /usr/include/linux/swab.h: In function `__swab':
+    include/qemu/bitops.h:20:34: error: "sizeof" is not defined, evaluates to 0 [-Werror=undef]
+       20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
+          |                                  ^~~~~~
+    include/qemu/bitops.h:20:41: error: missing binary operator before token "("
+       20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
+          |                                         ^
+    cc1: all warnings being treated as errors
+    make: *** [rules.mak:69: block/file-posix.o] Error 1
+
+The issue has been fixed in Linux kernel commit 467d12f5c78 [2].
+Some distributions already backported the first commit, but still
+lack the second one.
+
+This is the case for Debian Buster.
+The linux-libc-dev package contains the Linux kernel headers.
+Kernel commit d5767057c9a has been backported in package
+commit 1fb0eb7956 "Update to 4.19.116" [3], see debian/changelog:
+
+  +linux (4.19.116-1) UNRELEASED; urgency=medium
+  ...
+  +    - uapi: rename ext2_swab() to swab() and share globally in swab.h
+
+The previous released update before it is debian/4.19.98-1,
+released as debian/4.19.98-1+deb10u1.
+
+We can find this package in the Debian snapshot archives,
+luckily archived on 2020-04-28 21:20:54 (see [4]).
+
+QEMU use Debian based Docker images for most of its cross-builds,
+which are tested by our Shippable CI jobs. The current broken
+package makes most of our CI red. We can kludge this by using the
+latest package released before the breakage. Do so by pinning
+the package version (apt hold), and using the snapshot archives,
+similar to commit b4048a7cd1.
+We'll revert once the fix is backported on Debian.
+
+Reference to commits:
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5767057c9a
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=467d12f5c78
+[3] https://salsa.debian.org/kernel-team/linux/-/commit/1fb0eb7956
+[4] http://snapshot.debian.org/package/linux/4.19.98-1%2Bdeb10u1/#linux-libc-dev_4.19.98-1:2b:deb10u1
+
+Cc: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+[AJB: dropped pinning]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200512133849.10624-1-thuth@redhat.com>
+Message-Id: <20200513120147.21443-1-f4bug@amsat.org>
 ---
- .travis.yml | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
+ tests/docker/dockerfiles/debian10.docker | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/.travis.yml b/.travis.yml
-index fe708792ca2..1ec8a7b4657 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -502,9 +502,10 @@ jobs:
-               $(exit $BUILD_RC);
-           fi
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 0769700a416..58b23117240 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -9,6 +9,15 @@
+ #
+ FROM debian:buster-slim
  
--    - name: "[s390x] GCC check (KVM)"
-+    - name: "[s390x] Clang (disable-tcg)"
-       arch: s390x
-       dist: bionic
-+      compiler: clang
-       addons:
-         apt_packages:
-           - libaio-dev
-@@ -528,21 +529,10 @@ jobs:
-           - libusb-1.0-0-dev
-           - libvdeplug-dev
-           - libvte-2.91-dev
--          # Tests dependencies
--          - genisoimage
-       env:
-         - TEST_CMD="make check-unit"
--        - CONFIG="--disable-containers --disable-tcg --enable-kvm --disable-tools"
--      script:
--        - ( cd ${SRC_DIR} ; git submodule update --init roms/SLOF )
--        - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
--        - |
--          if [ "$BUILD_RC" -eq 0 ] ; then
--              mv pc-bios/s390-ccw/*.img pc-bios/ ;
--              ${TEST_CMD} ;
--          else
--              $(exit $BUILD_RC);
--          fi
-+        - CONFIG="--disable-containers --disable-tcg --enable-kvm
-+                  --disable-tools --host-cc=clang --cxx=clang++"
++ # Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
++ENV DEBIAN_SNAPSHOT_DATE "20200428T212054Z"
++RUN sed -i \
++    "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" \
++    /etc/apt/sources.list
++RUN sed -i \
++    "s%^deb \(https\?://\)security.debian.org/debian-security/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian-security/${DEBIAN_SNAPSHOT_DATE} \2%" \
++    /etc/apt/sources.list
++
+ # Duplicate deb line as deb-src
+ RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
  
-     # Release builds
-     # The make-release script expect a QEMU version, so our tag must start with a 'v'.
 -- 
 2.20.1
 
