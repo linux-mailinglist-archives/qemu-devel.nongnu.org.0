@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644F51D1CB4
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:57:52 +0200 (CEST)
-Received: from localhost ([::1]:35276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3231D1CB8
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:59:09 +0200 (CEST)
+Received: from localhost ([::1]:39804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvdf-0001kT-Fr
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:57:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33444)
+	id 1jYveu-0003fj-JW
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:59:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYvXu-000110-Nm
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:51:54 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44630)
+ id 1jYvZn-0004qt-T7
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:53:51 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1jYvXp-0004z3-OM
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:51:50 -0400
-Received: by mail-wr1-x442.google.com with SMTP id 50so492614wrc.11
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 10:51:49 -0700 (PDT)
+ id 1jYvZm-0005ct-E0
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:53:51 -0400
+Received: by mail-wm1-x341.google.com with SMTP id z72so19942959wmc.2
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 10:53:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vIuy+49GjNnXS0U4P2UnKZDtDhiy+1MKHIiwaKmxtXk=;
- b=sCG7FvrFcphaiut0lleKtWhGxtRuMr9MwqFJ6uOfnkMcFRAchV3vciPJmmg3PFWQdy
- GbcWVuOQ21oliL21EnA9g6odK/KMA4on9HgZ6hSPmdPOubjGvYbpOuYvjWub+7S3oq20
- BSp0pzBbG8GB4X0soZuw/1Yyfrf3WfDB57Unz1tUDFDVeulDLixjsfrMWszFpNqBDtq4
- GxQRkFJOek3WOBEEA+J4Ys30iT01h9kdu0u2XfVDg1k5n6+YvqDDZFvWwXvkES/YaFDW
- Mm3gK1aAc/MizSYhyU0tykLPbqPKicMn9HwcMaMxjdRZed7wFNrTZ0t2EwNI72g/pO9H
- FOpg==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xTK/AsH48qlkGsgsl1dCxQ0TAve1ljfAMIUS/b4hTm8=;
+ b=rlgadNZ7ymWobsXU1Iz5E4bDLo3kul3Ink7SuhJKblxkErNZqvF2hih5TXzUtxtNtm
+ P4SmQYRPn7VNJ4TGOakkFq/vhIYfJJPOn82SLC7YMswKOanyo3DIBuazbWpN7lt6jja4
+ i6I1C+EeicV17eF3DjL2ydxvL5FzOc4wNN1u7UQhouTJDZvX87+LAAaHMxEeL5o7REqw
+ jlYd4//mvxPa1P0waekoeb47gr17CLP9WRs7l8QHCpN0KsEIj9XNpikv65ywlayPIPtw
+ xm1FnJPzv4CUzUd/K2HhAf6f8kYIFp8niveGdBBt/wKjx2jl5F3pU+L++UeRxOZjK70c
+ t5mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vIuy+49GjNnXS0U4P2UnKZDtDhiy+1MKHIiwaKmxtXk=;
- b=q/LunSUhy3R3HopN3jag1lQ/r0l84ip6JD6l39xPZkXqi4yH87ypAPp7qcpv0KZzlj
- rVUIRsDQ4JxaSFRxIrISjL27pjjMqqC/h4M/S8enTZtj8c85/AKQzFIspiB9W2ARQLHL
- aOzhlau8JWx7pfbXNuSMysm1SKNP2bY/ybh/OsmfWJ4OSTiltXg/QB7RbW0ikdWT4Jn6
- C6y6CVjCbJJ21liA9ukSoIp2msJtIkGZTSY33TZdhkgTfJqI9FMfgu1eA9vJYeXIp3v3
- gvdhlYCGzDfDzqvDaSMtv9dnMfvw4QZwX/KpzUAO0bDZOSntGRf+8f0v2XmBYuW4LvvK
- OyyA==
-X-Gm-Message-State: AOAM531ctg22PnDPDvYC8+TYwygnoOfDteqImKYuWunsc3cuF5el0doi
- 2Pd4cY6C9gIEKRwXUvZ5xsdDSQ==
-X-Google-Smtp-Source: ABdhPJwoK/+R9N4beQJaOLCoFhXwz2CGu1ctLPr9miXqFQ3qfCvdNne6jiYU0pl2ip2QlsURGVrSfA==
-X-Received: by 2002:adf:edc1:: with SMTP id v1mr485126wro.125.1589392308395;
- Wed, 13 May 2020 10:51:48 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=xTK/AsH48qlkGsgsl1dCxQ0TAve1ljfAMIUS/b4hTm8=;
+ b=QbXpQ41JtoP9/ICoP8X64cSvXE6umnAfHd1S6e9fdgux9kWvQrvBoMASvAo2WWajqi
+ LBPW0EZhNiQHB17A0kDebB7ntOfBL1ADrXcSiaWrPJnBNjUm49ApEHfYmKGvUU7/msqL
+ LFKFJo1xhlP1LXhb1WzmiAxsbP5bC+IH1lj5FAPr+otJwoTsQdbH9LpuNM9zJ+04ixha
+ ig3oNUFtuB0O/KHR4IRRcebvjQrX0JqdJZSWKBVNlqSErXL+iP80cunCWOG7JVYwQHLn
+ 3m3nSMZwlRjoMyMEqDEHzVHpb8udWDZgYv/d5xJICfbNNljx7INTlepCPlChP46MS0mE
+ 2WYA==
+X-Gm-Message-State: AGi0Pub5jB7fZQUSVkf+/Ngp6F8fOELttpWpijzuFEUHn/HO+uR5xuYN
+ wpAHDItgcnAN+1XcgIWXTyWeOw==
+X-Google-Smtp-Source: APiQypL+PQZucta5TWBOVgw2TUMUvgpN53hse2FKSy0pXVgD0PR7HVhaIgHN1gYsz/cGHW/8kyJocQ==
+X-Received: by 2002:a1c:2888:: with SMTP id
+ o130mr23460771wmo.138.1589392428675; 
+ Wed, 13 May 2020 10:53:48 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u127sm37160769wme.8.2020.05.13.10.51.39
+ by smtp.gmail.com with ESMTPSA id h1sm37375772wme.42.2020.05.13.10.53.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 10:51:41 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C574E1FF99;
- Wed, 13 May 2020 18:51:35 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 10/10] translate-all: include guest address in out_asm
- output
-Date: Wed, 13 May 2020 18:51:34 +0100
-Message-Id: <20200513175134.19619-11-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200513175134.19619-1-alex.bennee@linaro.org>
-References: <20200513175134.19619-1-alex.bennee@linaro.org>
+ Wed, 13 May 2020 10:53:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D8EF91FF7E;
+ Wed, 13 May 2020 18:53:46 +0100 (BST)
+References: <20200513120147.21443-1-f4bug@amsat.org>
+ <87a72beuhn.fsf@linaro.org> <20200513173246.GB1720163@eldamar.local>
+User-agent: mu4e 1.4.5; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Subject: Re: [PATCH] tests/docker: Kludge <linux/swab.h> breakage by pinning
+ linux-libc-dev
+In-reply-to: <20200513173246.GB1720163@eldamar.local>
+Date: Wed, 13 May 2020 18:53:46 +0100
+Message-ID: <871rnnen6d.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,96 +91,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already have information about where each guest instructions
-representation starts stored in the tcg_ctx->gen_insn_data so we can
-rectify the PC for faults. We can re-use this information to annotate
-the out_asm output with guest instruction address which makes it a bit
-easier to work out where you are especially with longer blocks. A
-minor wrinkle is that some instructions get optimised away so we have
-to scan forward until we find some actual generated code.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Salvatore Bonaccorso <carnil@debian.org> writes:
 
----
-v1
-  - better logic for doing chunk at a time
-  - use new "note" facility to tag address
-  - rewrite the commit log
-v2
-  - don't terminate gen_insn_end_off, trust your termination
-    conditions ;-)
----
- accel/tcg/translate-all.c | 39 +++++++++++++++++++++++++++++++++------
- 1 file changed, 33 insertions(+), 6 deletions(-)
+> Hi,
+>
+> On Wed, May 13, 2020 at 04:15:48PM +0100, Alex Benn=C3=A9e wrote:
+>>=20
+>> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+>>=20
+>> > Linux kernel commit d5767057c9a [1] aimed to fix an issue with the
+>> > swab() declaration, but doing so it introduced the BITS_PER_LONG
+>> > definition, without using the kernel __ prefix, leading to odd
+>> > failures in userland code using kernel uapi headers, such:
+>> >
+>> >       CC      block/file-posix.o
+>> >     In file included from include/qemu/timer.h:4,
+>> >                      from include/qemu/timed-average.h:29,
+>> >                      from include/block/accounting.h:28,
+>> >                      from include/block/block_int.h:27,
+>> >                      from block/file-posix.c:30:
+>> >     /usr/include/linux/swab.h: In function `__swab':
+>> >     include/qemu/bitops.h:20:34: error: "sizeof" is not defined, evalu=
+ates to 0 [-Werror=3Dundef]
+>> >        20 | #define BITS_PER_LONG           (sizeof (unsigned long) * =
+BITS_PER_BYTE)
+>> >           |                                  ^~~~~~
+>> >     include/qemu/bitops.h:20:41: error: missing binary operator before=
+ token "("
+>> >        20 | #define BITS_PER_LONG           (sizeof (unsigned long) * =
+BITS_PER_BYTE)
+>> >           |                                         ^
+>> >     cc1: all warnings being treated as errors
+>> >     make: *** [rules.mak:69: block/file-posix.o] Error 1
+>> >
+>> > The issue has been fixed in Linux kernel commit 467d12f5c78 [2].
+>> > Some distributions already backported the first commit, but still
+>> > lack the second one.
+>> >
+>> > This is the case for Debian Buster.
+>> > The linux-libc-dev package contains the Linux kernel headers.
+>> > Kernel commit d5767057c9a has been backported in package
+>> > commit 1fb0eb7956 "Update to 4.19.116" [3], see debian/changelog:
+>> >
+>> >   +linux (4.19.116-1) UNRELEASED; urgency=3Dmedium
+>> >   ...
+>> >   +    - uapi: rename ext2_swab() to swab() and share globally in swab=
+.h
+>> >
+>> > The previous released update before it is debian/4.19.98-1,
+>> > released as debian/4.19.98-1+deb10u1.
+>> >
+>> > We can find this package in the Debian snapshot archives,
+>> > luckily archived on 2020-04-28 21:20:54 (see [4]).
+>> >
+>> > QEMU use Debian based Docker images for most of its cross-builds,
+>> > which are tested by our Shippable CI jobs. The current broken
+>> > package makes most of our CI red. We can kludge this by using the
+>> > latest package released before the breakage. Do so by pinning
+>> > the package version (apt hold), and using the snapshot archives,
+>> > similar to commit b4048a7cd1.
+>> > We'll revert once the fix is backported on Debian.
+>>=20
+>> May as well mention:
+>>=20
+>>   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D960271
+>
+> FWIW, we applied in the buster packaging branch
+> https://salsa.debian.org/kernel-team/linux/-/commit/a4fb2a7b7688f3a7cb36e=
+17b9d8c661ac44a41a4
+>
+> But the point release just happened last weekend, so it might take
+> some time until the fix will enter either via the 10.5 point release
+> or sooner by a needed update.
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index cdf58bb420e..42ce1dfcff7 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1794,14 +1794,43 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM) &&
-         qemu_log_in_addr_range(tb->pc)) {
-         FILE *logfile = qemu_log_lock();
-+        int code_size, data_size = 0;
-+        g_autoptr(GString) note = g_string_new("[tb header & initial instruction]");
-+        size_t chunk_start = 0;
-+        int insn = 0;
-         qemu_log("OUT: [size=%d]\n", gen_code_size);
-         if (tcg_ctx->data_gen_ptr) {
--            size_t code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
--            size_t data_size = gen_code_size - code_size;
--            size_t i;
-+            code_size = tcg_ctx->data_gen_ptr - tb->tc.ptr;
-+            data_size = gen_code_size - code_size;
-+        } else {
-+            code_size = gen_code_size;
-+        }
- 
--            log_disas(tb->tc.ptr, code_size, NULL);
-+        /* Dump header and the first instruction */
-+        chunk_start = tcg_ctx->gen_insn_end_off[insn];
-+        log_disas(tb->tc.ptr, chunk_start, note->str);
- 
-+        /*
-+         * Dump each instruction chunk, wrapping up empty chunks into
-+         * the next instruction. The whole array is offset so the
-+         * first entry is the beginning of the 2nd instruction.
-+         */
-+        while (insn <= tb->icount && chunk_start < code_size) {
-+            size_t chunk_end = tcg_ctx->gen_insn_end_off[insn];
-+            if (chunk_end > chunk_start) {
-+                g_string_printf(note, "[guest addr: " TARGET_FMT_lx "]",
-+                                tcg_ctx->gen_insn_data[insn][0]);
-+                log_disas(tb->tc.ptr + chunk_start, chunk_end - chunk_start,
-+                          note->str);
-+                chunk_start = chunk_end;
-+            }
-+            insn++;
-+        }
-+
-+        /* Finally dump any data we may have after the block */
-+        if (data_size) {
-+            int i;
-+            qemu_log("  data: [size=%d]\n", data_size);
-             for (i = 0; i < data_size; i += sizeof(tcg_target_ulong)) {
-                 if (sizeof(tcg_target_ulong) == 8) {
-                     qemu_log("0x%08" PRIxPTR ":  .quad  0x%016" PRIx64 "\n",
-@@ -1813,8 +1842,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-                              *(uint32_t *)(tcg_ctx->data_gen_ptr + i));
-                 }
-             }
--        } else {
--            log_disas(tb->tc.ptr, gen_code_size, NULL);
-         }
-         qemu_log("\n");
-         qemu_log_flush();
--- 
-2.20.1
+Thanks for the update. So I guess we wait for a CVE to trigger an early
+release ;-)
 
+--=20
+Alex Benn=C3=A9e
 
