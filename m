@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C971B1D0ECF
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 12:02:59 +0200 (CEST)
-Received: from localhost ([::1]:50266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110C61D0DA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 11:55:33 +0200 (CEST)
+Received: from localhost ([::1]:54778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYoE6-0007CL-Sd
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 06:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44724)
+	id 1jYo6t-0005QT-Si
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 05:55:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYo31-0006lL-3d; Wed, 13 May 2020 05:51:31 -0400
-Received: from relay.sw.ru ([185.231.240.75]:53986)
+ id 1jYo2i-0005yg-Fz; Wed, 13 May 2020 05:51:12 -0400
+Received: from relay.sw.ru ([185.231.240.75]:53988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYo2z-0003Z5-6N; Wed, 13 May 2020 05:51:30 -0400
+ id 1jYo2f-0003Z6-2a; Wed, 13 May 2020 05:51:12 -0400
 Received: from dhcp-172-16-25-136.sw.ru ([172.16.25.136] helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92.3)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1jYo2U-0001e4-4y; Wed, 13 May 2020 12:50:58 +0300
+ id 1jYo2U-0001e4-FT; Wed, 13 May 2020 12:50:58 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 00/15] Apply COR-filter to the block-stream permanently
-Date: Wed, 13 May 2020 12:50:41 +0300
-Message-Id: <1589363456-1035571-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v5 01/15] block: Mark commit and mirror as filter drivers
+Date: Wed, 13 May 2020 12:50:42 +0300
+Message-Id: <1589363456-1035571-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1589363456-1035571-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1589363456-1035571-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay.sw.ru
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 05:51:06
@@ -55,88 +57,49 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this series, all the block-stream COR operations pass through
-the COR-filter. The patches 01-08/15 are taken from the series
-"block: Deal with filters" by Max Reitz, the full version of that
-can be found in the branches:
+From: Max Reitz <mreitz@redhat.com>
 
-      https://git.xanclic.moe/XanClic/qemu child-access-functions-v6
-      https://github.com/XanClic/qemu child-access-functions-v6
+The commit and mirror block nodes are filters, so they should be marked
+as such.  (Strictly speaking, BDS.is_filter's documentation states that
+a filter's child must be bs->file.  The following patch will relax this
+restriction, however.)
 
-      When running iotests, apply "char-socket: Fix race condition"
-      to avoid sporadic segmentation faults.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+---
+ block/commit.c | 2 ++
+ block/mirror.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-v5:
-  01: Included forgotten file block/copy-on-read.h
-
-v4:
-  01: Initialization of the COR-filter BDRVStateCOR member.
-
-v3:
-  01: The COR filter insert/remove functions moved to block/copy-on-read.c
-      to be a part of API.
-  02: block/stream.c code refactoring.
-  03: The separate call to block_job_add_bdrv() is used to block operations
-      on the active node after the filter inserted and the job created.
-  04: The iotests case 030::test_overlapping_4 was modified to unbound
-      the block-stream job from the base node.
-  05: The COR driver functions preadv/pwritev replaced with their analogous
-      preadv/pwritev_part.
-
-v2:
-  01: No more skipping filters while checking for operation blockers.
-      However, we exclude filters between the bottom node and base
-      because we do not set the operation blockers for filters anymore.
-  02: As stated above, we do not set the operation blockers for filters
-      anymore. So, skip filters when we block operations for the target
-      node.
-  03: The comment added for the patch 4/7.
-  04: The QAPI target version changed to 5.1.
-  05: The 'filter-node-name' now excluded from using in the test #030.
-      If we need it no more in a final version of the series, the patch
-      5/7 may be removed.
-  06: The COR-filter included into the frozen chain of a block-stream job.
-      The 'above_base' node pointer is left because it is essential for
-      finding the base node in case of filters above.
-
-
-Andrey Shinkevich (7):
-  block: prepare block-stream for using COR-filter
-  copy-on-read: Support change filename functions
-  copy-on-read: Support preadv/pwritev_part functions
-  copy-on-read: add filter append/drop functions
-  qapi: add filter-node-name to block-stream
-  iotests: prepare 245 for using filter in block-stream
-  block: apply COR-filter to block-stream jobs
-
-Max Reitz (8):
-  block: Mark commit and mirror as filter drivers
-  copy-on-read: Support compressed writes
-  block: Add child access functions
-  block: Add chain helper functions
-  block: Include filters when freezing backing chain
-  block: Use CAFs in block status functions
-  commit: Deal with filters when blocking intermediate nodes
-  block: Use CAFs when working with backing chains
-
- block.c                        | 275 ++++++++++++++++++++++++++++++++++-------
- block/commit.c                 |  85 ++++++++++---
- block/copy-on-read.c           | 159 ++++++++++++++++++++++--
- block/copy-on-read.h           |  36 ++++++
- block/io.c                     |  19 +--
- block/mirror.c                 |   6 +-
- block/monitor/block-hmp-cmds.c |   4 +-
- block/stream.c                 |  89 +++++++++----
- blockdev.c                     |  19 ++-
- include/block/block.h          |   6 +-
- include/block/block_int.h      |  67 +++++++++-
- qapi/block-core.json           |   6 +
- tests/qemu-iotests/030         |  17 +--
- tests/qemu-iotests/141.out     |   2 +-
- tests/qemu-iotests/245         |  10 +-
- 15 files changed, 661 insertions(+), 139 deletions(-)
- create mode 100644 block/copy-on-read.h
-
+diff --git a/block/commit.c b/block/commit.c
+index 87f6096..445a280 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -240,6 +240,8 @@ static BlockDriver bdrv_commit_top = {
+     .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
+     .bdrv_refresh_filename      = bdrv_commit_top_refresh_filename,
+     .bdrv_child_perm            = bdrv_commit_top_child_perm,
++
++    .is_filter                  = true,
+ };
+ 
+ void commit_start(const char *job_id, BlockDriverState *bs,
+diff --git a/block/mirror.c b/block/mirror.c
+index aca95c9..b6de24b 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1527,6 +1527,8 @@ static BlockDriver bdrv_mirror_top = {
+     .bdrv_co_block_status       = bdrv_co_block_status_from_backing,
+     .bdrv_refresh_filename      = bdrv_mirror_top_refresh_filename,
+     .bdrv_child_perm            = bdrv_mirror_top_child_perm,
++
++    .is_filter                  = true,
+ };
+ 
+ static BlockJob *mirror_start_job(
 -- 
 1.8.3.1
 
