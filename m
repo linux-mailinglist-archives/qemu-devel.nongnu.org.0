@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA021D106E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:02:58 +0200 (CEST)
-Received: from localhost ([::1]:58376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 087751D1091
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:05:34 +0200 (CEST)
+Received: from localhost ([::1]:37580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYpA9-0004l9-F9
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:02:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53882)
+	id 1jYpCf-0007uF-24
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:05:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jYp8L-0003Gj-A4
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:01:05 -0400
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:43538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jYp8I-0001kA-Pr
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jYp8K-0003Fg-LC
  for qemu-devel@nongnu.org; Wed, 13 May 2020 07:01:04 -0400
-Received: by mail-lf1-x133.google.com with SMTP id 188so13221704lfa.10
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 04:00:59 -0700 (PDT)
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:36918)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jYp8I-0001kJ-Pn
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:01:04 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id 8so10525664lfp.4
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 04:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8eaL6sPQ21vZ9azxJ8jMvNfe89B8y1f0ac4mSBlAOR0=;
- b=pFxwudbjQc+Iv+bDdYiyy0R90sy5RSCxBnalP+eaNkaViivVuGGdzviFWyzwp7gKkZ
- 7GFvUHXY9DI/YdKy5CH+p4bBVH/dEhNQBBHfBq8ag77BbX0ruvU/+AJv/xSwC13eVfHt
- ZO8I06d1lRJS8jNUN8O/uMolkzTD+vMkOpywqW1WX9CZtzAUmZjLNyZATdnXD+0iJ5V/
- O2R9qOdrwifaLfD1UqcFifls6K1ZLmJId5rmK8G/flF2Dd0norNyiQgyY1uN/OFc7Dtu
- HBlqo6AOKEwq8m9RkanSwiI82J+lXl/js/7wxFLr3J3CMMYGeDTfuf2hPnuk2a8aQ9mF
- /Aow==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=FvdUmJu1ZvFL9YANH7ScK+J3XoxuyKoXoc1BE6ql+7E=;
+ b=aVo8G9g4Xn/rPdV0N1DvZY5j6NMI6c5S/cnRTkvQBpj3GpotZzHmQHE3SWlZTHK69g
+ Fa8G0M3gqaaNzycPE+eDLFSTk2/1wTibHlutZMklWZBvd5VYK8jjXT1YNXkcD234VyDK
+ gx6SGBdS6oWPM1+Web5+sd1JCL/Nzt1STB29uFce1GXdA/Vpzfb0UcIOJZqlyG+rn0Cs
+ VFj2J6/apTAFJ1+3L0ZWr+bdW3uCsk7M01oVtA1/Q5ESZQ/0O56K78JRBAntzhlSgra/
+ LjTx9Y5xqwwZ0uNIJ1NrA1gWg6T57v4FrpFLcWxxa8j8mp7O4VmnCoZKqRwLcXhsA0KR
+ FNvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8eaL6sPQ21vZ9azxJ8jMvNfe89B8y1f0ac4mSBlAOR0=;
- b=SnWK9eU0lm1MzcjYKOVOd5M7bvtG7FBJ7n+UX1jtk7rKzBlwkygnDWOGyuz78Xfjzj
- XI1mV908RSvzMGZGmBL/qd4rhPYW90307auo4kVQFpsmM7z0JOehEzJ5hDYbk8TddfjE
- iVHtOzmYV7o0YpnmmqTXhiUZ0V4EuEC8s35EG6Qt2tmDbPdOX5UD8YxHB8HGABsSIo6D
- 3e1aRlvSwYraPPyF8jG00+tDnRHX62gu+5F8epOMycCo/rUFfH3Nk7PGZXB9vdU00j/8
- +gkcKfKuq4NbpAPvpXxe9BqLYLH5TjEcDyPo1rnKWQB1/nnQjJ2nBgewEF8T1ly/sW5t
- 0LrA==
-X-Gm-Message-State: AOAM531O7PLwr5wKexef2LcusY946rbDM/bBU1RO1N7CasoQg0kUyC3W
- QzjrT/d+6Zx+gISnPoF2vawGJTs/XsqOYQ==
-X-Google-Smtp-Source: ABdhPJxuDKz0R5sVVlX4/1Yc2a3kwypGau2FJ+fYZAbzwUjk8rDtOwraEhLpfN8RV9i0TsC57eYnOg==
-X-Received: by 2002:a19:d55:: with SMTP id 82mr17898886lfn.89.1589367657787;
- Wed, 13 May 2020 04:00:57 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FvdUmJu1ZvFL9YANH7ScK+J3XoxuyKoXoc1BE6ql+7E=;
+ b=KF4pADj2m3ni/eNUtMlWbadyEyes95SvRA8UX/0d4IJsy0Q9rODQJyaNEQFXS+vhNr
+ Hfj6la3folX191qjjhbgdSVVK1W3ZOu2TITegXWpckUH9Pzncj+O0MRTbMmDsECg6nrt
+ uSIOAobp22z3WA4Ybttx58tCrAWtAXrs/isDg/CYr5p7duzKywX/9V6Z+zxPGdZQCFpc
+ jPgFcqqdwP7qvUHCrXWuDQV515f1e4nh1UK1oh61fN/jV0gQpZA+ZBMziRzYWDMQ2shX
+ v3Pwx/dkv7yAuww75HXFM+jGKZpn7mCF1MPqee5b84MPBebxAGX4ZYrxyNfktdTh0c5J
+ LEyQ==
+X-Gm-Message-State: AOAM531U/oTq3vJuJZWkzfQM4pf9HSitfhyC1u0MW1Tan5kG6gOt1Pzk
+ Trgrj2xPGGHtjQe/RQdabTPcW47frAG5SQ==
+X-Google-Smtp-Source: ABdhPJybbzg72bheTIIOPEw10mzXa7GDxesRIkSaGPohzc35q0TdFZ/qkgIyY2ok+pn4yJcyHHa4EA==
+X-Received: by 2002:a05:6512:2027:: with SMTP id
+ s7mr17179065lfs.39.1589367658893; 
+ Wed, 13 May 2020 04:00:58 -0700 (PDT)
 Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id x11sm15734897lfe.6.2020.05.13.04.00.55
+ by smtp.gmail.com with ESMTPSA id x11sm15734897lfe.6.2020.05.13.04.00.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 04:00:56 -0700 (PDT)
+ Wed, 13 May 2020 04:00:58 -0700 (PDT)
 From: andrew@daynix.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/1] e1000e: Added ICR clearing by corresponding IMS bit.
-Date: Wed, 13 May 2020 14:28:51 +0300
-Message-Id: <20200513112852.1464626-1-andrew@daynix.com>
+Subject: [PATCH 1/1] e1000e: Added ICR clearing by corresponding IMS bit.
+Date: Wed, 13 May 2020 14:28:52 +0300
+Message-Id: <20200513112852.1464626-2-andrew@daynix.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200513112852.1464626-1-andrew@daynix.com>
+References: <20200513112852.1464626-1-andrew@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::133;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x133.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::12f;
+ envelope-from=andrew@daynix.com; helo=mail-lf1-x12f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -86,15 +89,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Melnychenko <andrew@daynix.com>
 
-Added E1000_ICR_ASSERTED check.
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
+Added ICR clearing if there is IMS bit - according to the note by
+section 13.3.27 of the 8257X developers manual.
 
-Andrew Melnychenko (1):
-  e1000e: Added ICR clearing by corresponding IMS bit.
-
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+---
  hw/net/e1000e_core.c | 9 +++++++++
  hw/net/trace-events  | 1 +
  2 files changed, 10 insertions(+)
 
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index d5676871fa..302e99ff46 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -2624,6 +2624,15 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
+         e1000e_clear_ims_bits(core, core->mac[IAM]);
+     }
+ 
++    /*
++     * PCIe* GbE Controllers Open Source Software Developer's Manual
++     * 13.3.27 Interrupt Cause Read Register
++     */
++    if (core->mac[ICR] & core->mac[IMS]) {
++        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
++        core->mac[ICR] = 0;
++    }
++
+     trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
+     e1000e_update_interrupt_state(core);
+     return ret;
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index e18f883cfd..46e40fcfa9 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
+ e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
+ e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
+ e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
++e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
+ e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
+ e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
+ e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
 -- 
 2.26.2
 
