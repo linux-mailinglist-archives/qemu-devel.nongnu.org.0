@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0001D214A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 23:42:55 +0200 (CEST)
-Received: from localhost ([::1]:44648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CEB91D2160
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 23:46:55 +0200 (CEST)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYz9T-0007yk-0b
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 17:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34078)
+	id 1jYzDK-0003Ha-KW
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 17:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8J-0006uY-85
- for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:38042
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8M-0006zz-9f
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:46 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:33414
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8I-0005bY-8n
- for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:42 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8L-0005cS-9F
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589406101;
+ s=mimecast20190719; t=1589406104;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AQPoy5tHkY9or+yZngAsI3Otf/N2lSJ/rV5CdZXMGCw=;
- b=dEeNTr6dvKaHWg49m0ZvOTh/LAh+rWB3C5ojJrc8n3VJpztp87FkOIAHFgmRidKX8fnyNW
- h2TWBdPrAND/7Ghh0/hRD6BBb3kq263i7DzvIgWbshTdv1mGG4+WbMGQ5u589jTm8ftuN2
- uE4skqS45X3CRc4tSdDK3pVXuj72g3s=
+ bh=mADFPjG4NsDPQUvoHbp1gHPK/gjpmZfpYfEuvG6grrA=;
+ b=jS+y/iFw0GVQnnhByxnHk2PI/NSTuu8z32l/Y4TpzBxgUfwS6oazJEbEgXMSe2WbGcQdTc
+ codHxk59Rbc8l8UYr+FchmRVPpjR2aFNGRbNXnF2toSW33QA3rkYhmC1sn9PaQ1O+R/4Ky
+ orCEg+LCHDexZ5H62ExnXPGr/yX2nRI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-52-QpuKz1NNMhWdpQqL5AO6mw-1; Wed, 13 May 2020 17:41:35 -0400
-X-MC-Unique: QpuKz1NNMhWdpQqL5AO6mw-1
+ us-mta-305-Dz6Hj7TWM3uAr18L59AzaA-1; Wed, 13 May 2020 17:41:36 -0400
+X-MC-Unique: Dz6Hj7TWM3uAr18L59AzaA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE4A5108BD09;
- Wed, 13 May 2020 21:41:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 954EC84638F;
+ Wed, 13 May 2020 21:41:35 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-80.rdu2.redhat.com [10.10.113.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBB512E034;
- Wed, 13 May 2020 21:41:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D312B1C94D;
+ Wed, 13 May 2020 21:41:34 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC WIP 3/6] nbd-fault-injector: delint
-Date: Wed, 13 May 2020 17:41:27 -0400
-Message-Id: <20200513214130.15375-4-jsnow@redhat.com>
+Subject: [PATCH RFC WIP 4/6] qed.py: delint
+Date: Wed, 13 May 2020 17:41:28 -0400
+Message-Id: <20200513214130.15375-5-jsnow@redhat.com>
 In-Reply-To: <20200513214130.15375-1-jsnow@redhat.com>
 References: <20200513214130.15375-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,10 +54,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,121 +84,148 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/Makefile              |  2 +-
- tests/qemu-iotests/nbd-fault-injector.py | 34 ++++++++++++++----------
- 2 files changed, 21 insertions(+), 15 deletions(-)
+ tests/qemu-iotests/Makefile |  2 +-
+ tests/qemu-iotests/qed.py   | 46 ++++++++++++++++++++++++-------------
+ 2 files changed, 31 insertions(+), 17 deletions(-)
 
 diff --git a/tests/qemu-iotests/Makefile b/tests/qemu-iotests/Makefile
-index 7dbb7f0fff..64db48342f 100644
+index 64db48342f..5a3a1e8092 100644
 --- a/tests/qemu-iotests/Makefile
 +++ b/tests/qemu-iotests/Makefile
 @@ -1,6 +1,6 @@
  PYMODULES = $(wildcard *.py)
  
--KNOWN_GOOD = iotests.py
-+KNOWN_GOOD = iotests.py nbd-fault-injector.py
+-KNOWN_GOOD = iotests.py nbd-fault-injector.py
++KNOWN_GOOD = iotests.py nbd-fault-injector.py qed.py
  
  CLEANFILES= *.out.bad *.notrun check.log check.time*
  
-diff --git a/tests/qemu-iotests/nbd-fault-injector.py b/tests/qemu-iotests/nbd-fault-injector.py
-index 588d62aebf..0de6bc643e 100755
---- a/tests/qemu-iotests/nbd-fault-injector.py
-+++ b/tests/qemu-iotests/nbd-fault-injector.py
-@@ -47,10 +47,7 @@
- import socket
+diff --git a/tests/qemu-iotests/qed.py b/tests/qemu-iotests/qed.py
+index d6bec96069..9e016cc2a2 100755
+--- a/tests/qemu-iotests/qed.py
++++ b/tests/qemu-iotests/qed.py
+@@ -13,7 +13,6 @@
+ import sys
  import struct
- import collections
--if sys.version_info.major >= 3:
--    import configparser
--else:
--    import ConfigParser as configparser
-+import configparser
+ import random
+-import optparse
  
- FAKE_DISK_SIZE = 8 * 1024 * 1024 * 1024 # 8 GB
+ # This can be used as a module
+ __all__ = ['QED_F_NEED_CHECK', 'QED']
+@@ -47,7 +46,7 @@ def unpack_table_elem(s):
+ def pack_table_elem(elem):
+     return struct.pack(table_elem_fmt, elem)
  
-@@ -71,7 +68,9 @@
- export_tuple = collections.namedtuple('Export', 'reserved magic opt len')
- export_struct = struct.Struct('>IQII')
- neg2_struct = struct.Struct('>QH124x')
--request_tuple = collections.namedtuple('Request', 'magic type handle from_ len')
-+request_tuple = collections.namedtuple(
-+    'Request', 'magic type handle from_ len'
-+)
- request_struct = struct.Struct('>IIQQI')
- reply_struct = struct.Struct('>IIQ')
+-class QED(object):
++class QED:
+     def __init__(self, f):
+         self.f = f
  
-@@ -84,13 +83,13 @@ def recvall(sock, bufsize):
-     chunks = []
-     while received < bufsize:
-         chunk = sock.recv(bufsize - received)
--        if len(chunk) == 0:
-+        if not chunk:
-             raise Exception('unexpected disconnect')
-         chunks.append(chunk)
-         received += len(chunk)
-     return b''.join(chunks)
+@@ -74,19 +73,22 @@ def store_header(self):
+     def read_table(self, offset):
+         size = self.header['table_size'] * self.header['cluster_size']
+         s = self.raw_pread(offset, size)
+-        table = [unpack_table_elem(s[i:i + table_elem_size]) for i in xrange(0, size, table_elem_size)]
++        table = [unpack_table_elem(s[i:i + table_elem_size])
++                 for i in range(0, size, table_elem_size)]
+         return table
  
--class Rule(object):
-+class Rule:
-     def __init__(self, name, event, io, when):
-         self.name = name
-         self.event = event
-@@ -104,7 +103,7 @@ def match(self, event, io):
-             return False
-         return True
+     def load_l1_table(self):
+         self.l1_table = self.read_table(self.header['l1_table_offset'])
+-        self.table_nelems = self.header['table_size'] * self.header['cluster_size'] // table_elem_size
++        self.table_nelems = (self.header['table_size']
++                             * self.header['cluster_size'] // table_elem_size)
  
--class FaultInjectionSocket(object):
-+class FaultInjectionSocket:
-     def __init__(self, sock, rules):
-         self.sock = sock
-         self.rules = rules
-@@ -150,7 +149,7 @@ def negotiate_export(conn):
-     export = export_tuple._make(export_struct.unpack(buf))
-     assert export.magic == NBD_OPTS_MAGIC
-     assert export.opt == NBD_OPT_EXPORT_NAME
--    name = conn.recv(export.len, event='export-name')
-+    _name = conn.recv(export.len, event='export-name')
+     def write_table(self, offset, table):
+         s = ''.join(pack_table_elem(x) for x in table)
+         self.raw_pwrite(offset, s)
  
-     # Send negotiation part 2
-     buf = neg2_struct.pack(FAKE_DISK_SIZE, 0)
-@@ -200,7 +199,8 @@ def parse_inject_error(name, options):
-     if 'event' not in options:
-         err('missing \"event\" option in %s' % name)
-     event = options['event']
--    if event not in ('neg-classic', 'neg1', 'export', 'neg2', 'request', 'reply', 'data'):
-+    if event not in ('neg-classic', 'neg1', 'export',
-+                     'neg2', 'request', 'reply', 'data'):
-         err('invalid \"event\" option value \"%s\" in %s' % (event, name))
-     io = options.get('io', 'readwrite')
-     if io not in ('read', 'write', 'readwrite'):
-@@ -229,8 +229,8 @@ def parse_config(config):
+ def random_table_item(table):
+-    vals = [(index, offset) for index, offset in enumerate(table) if offset != 0]
++    vals = [(index, offset) for index, offset
++            in enumerate(table) if offset != 0]
+     if not vals:
+         err('cannot pick random item because table is empty')
+     return random.choice(vals)
+@@ -103,7 +105,8 @@ def corrupt_table_duplicate(table):
+ def corrupt_table_invalidate(qed, table):
+     '''Corrupt a table by introducing an invalid offset'''
+     index, _ = random_table_item(table)
+-    table[index] = qed.filesize + random.randint(0, 100 * 1024 * 1024 * 1024 * 1024)
++    table[index] = (qed.filesize
++                    + random.randint(0, 100 * 1024 * 1024 * 1024 * 1024))
  
- def load_rules(filename):
-     config = configparser.RawConfigParser()
--    with open(filename, 'rt') as f:
--        config.readfp(f, filename)
-+    with open(filename, 'rt') as infile:
-+        config.read_file(infile)
-     return parse_config(config)
+ def cmd_show(qed, *args):
+     '''show [header|l1|l2 <offset>]- Show header or l1/l2 tables'''
+@@ -144,7 +147,11 @@ def cmd_invalidate(qed, table_level):
+     qed.write_table(offset, table)
  
- def open_socket(path):
-@@ -252,8 +252,14 @@ def open_socket(path):
-     return sock
+ def cmd_need_check(qed, *args):
+-    '''need-check [on|off] - Test, set, or clear the QED_F_NEED_CHECK header bit'''
++    """
++    need-check [on|off]
++
++    Test, set, or clear the QED_F_NEED_CHECK header bit
++    """
+     if not args:
+         print(bool(qed.header['features'] & QED_F_NEED_CHECK))
+         return
+@@ -165,7 +172,7 @@ def cmd_zero_cluster(qed, pos, *args):
+             err('expected one argument')
+         n = int(args[0])
  
- def usage(args):
--    sys.stderr.write('usage: %s [--classic-negotiation] <tcp-port>|<unix-path> <config-file>\n' % args[0])
--    sys.stderr.write('Run an fault injector NBD server with rules defined in a config file.\n')
-+    name = args[0]
-+    sys.stderr.write(
-+        f'usage: {name} [--classic-negotiation] '
-+        '<tcp-port>|<unix-path> <config-file>\n'
-+    )
-+    sys.stderr.write(
-+        'Run a fault injector NBD server with '
-+        'rules defined in a config file.\n')
-     sys.exit(1)
+-    for i in xrange(n):
++    for _ in range(n):
+         l1_index = pos // qed.header['cluster_size'] // len(qed.l1_table)
+         if qed.l1_table[l1_index] == 0:
+             err('no l2 table allocated')
+@@ -179,7 +186,11 @@ def cmd_zero_cluster(qed, pos, *args):
+         pos += qed.header['cluster_size']
  
- def main(args):
+ def cmd_copy_metadata(qed, outfile):
+-    '''copy-metadata <outfile> - Copy metadata only (for scrubbing corrupted images)'''
++    """
++    copy-metadata <outfile>
++
++    Copy metadata only (for scrubbing corrupted images)
++    """
+     out = open(outfile, 'wb')
+ 
+     # Match file size
+@@ -213,23 +224,26 @@ def usage():
+     print('Supported commands:')
+     for cmd in sorted(x for x in globals() if x.startswith('cmd_')):
+         print(globals()[cmd].__doc__)
+-    sys.exit(1)
++    return 1
+ 
+ def main():
+     if len(sys.argv) < 3:
+-        usage()
+-    filename, cmd = sys.argv[1:3]
++        return usage()
++    filename = sys.argv[1]
++    cmd = sys.argv[2]
+ 
+     cmd = 'cmd_' + cmd.replace('-', '_')
+     if cmd not in globals():
+-        usage()
++        return usage()
+ 
+     qed = QED(open(filename, 'r+b'))
+     try:
+         globals()[cmd](qed, *sys.argv[3:])
+-    except TypeError as e:
++    except TypeError:
+         sys.stderr.write(globals()[cmd].__doc__ + '\n')
+-        sys.exit(1)
++        return 1
++
++    return 0
+ 
+ if __name__ == '__main__':
+-    main()
++    sys.exit(main())
 -- 
 2.21.1
 
