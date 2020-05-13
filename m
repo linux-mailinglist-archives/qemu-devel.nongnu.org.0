@@ -2,98 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBE51D120C
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:59:36 +0200 (CEST)
-Received: from localhost ([::1]:52250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3380B1D1228
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 14:03:15 +0200 (CEST)
+Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYq2x-0003sV-J4
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
+	id 1jYq6U-0005ts-6Z
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 08:03:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jYq1w-0002zT-AU
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:58:32 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:45580
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1jYq1u-0006Z3-Lq
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:58:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589371109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xWJyNQVKgrUyNCt+zQHT1NAcgEKebIL9E/9pqa5EzB0=;
- b=HSnLVz/O48yHDDbel0wZv7JjJSlset/g45zaPC/kP0knR7nH3naRFpa7fmtsF93aFEA+Dh
- kRsPQvbmHZw3uIjWJ7NufUHbtObGhBGgeUXGxKf9ZSbWCfxuks9RDH4ziGshygLW6pK2Kh
- BZsgeXR5yr4m190WHgMrOX13gAAMQwk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-RAO0Yfb1MIK-Sv8Y1S-6fg-1; Wed, 13 May 2020 07:58:27 -0400
-X-MC-Unique: RAO0Yfb1MIK-Sv8Y1S-6fg-1
-Received: by mail-wm1-f69.google.com with SMTP id e15so2459975wme.1
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 04:58:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jYq5E-0004yT-FJ
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 08:01:56 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36984)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jYq5D-0007H7-Hk
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 08:01:56 -0400
+Received: by mail-wr1-x442.google.com with SMTP id l17so6996384wrr.4
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 05:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kKzZHo4L5dfpej90+SdUvjInT8zjdkjYewCTH4sZNAU=;
+ b=f8sPyTdUZqB1Eb1kTbppFVWgmQ7TOTYt9b3qEtCAdx3Fi4VNOM4HZNHIMWiF/P2xCq
+ WPIvFgbGIA3g7srzNChpRo/Y8JNbSXOIl2xmgsPR7X3FHup3bliV8oxGxujPbeUX58ou
+ yt2kEL7fQZPoEfMxBjFZZLcHhqv8dNYtEvkDl0AeVbcgKJ3bq55JNSoWTMKUnZEnEXDQ
+ KNR8XD6fWDkWr53X6Yusab6xKNjZCRB6icJ/r3o/SC9QYxQ4Ll+p9xSlaGiHpto8jUOl
+ TIS7Gdyd3Nz2kbo7aJPltYhIV7UBTB02lgIF3Ubg3ojA5m8s7EnxhJAxPzXuSwbRpOpH
+ RyIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xWJyNQVKgrUyNCt+zQHT1NAcgEKebIL9E/9pqa5EzB0=;
- b=mClLFlK4z9dx3zbmtzjZNfiReOPQOZG/GHakBf4kupQMXnMaauW7YFaf0Ad1eyGLnf
- hrnLzKPv/W6/W2G5gO8lKHQLD+hNJO2n8U5O5hpXklNy0Tjk+p64kQrrdLvg5VI4dtt9
- fWosq1/Zp1vD0LFfw8lmJPNHerjpERig8HgtoQIWGmIaiaPE8yV49lO5vK4OiUBpMDQf
- bmZ3nLEQ1IC94H74SZIKQBlHz5ZRWHm099l4cMT7f01Ul1pDEau5Z9okCgdG5taODi4/
- /Wkvp3swnLzUJwTdV2PdIM75Ea7L7Oiy4Nwxorjux+Iaj5hwDfkM59Pg+V++MrvMVWaG
- GmLA==
-X-Gm-Message-State: AGi0PuZCrkWcLydyctRnTVxnRKyaA8m2BEYxbcDxUgtE67MZp4Yvx1/G
- XUR2fpsnKAyOSZrluv4V/f1KVQqQf/6YB+sd7dg5dlLbjTheSZowfsrfPR11JAUfhqaFgcnN45Q
- PNWgnFoR2x/Tb/tA=
-X-Received: by 2002:a1c:1d41:: with SMTP id d62mr22421624wmd.79.1589371106205; 
- Wed, 13 May 2020 04:58:26 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIo1GE5CnnXoN1bYbe8KntzpKtMfKNjGEbnaTNtyJOeL6CYft+nTWv8kJYfhZeIDj7jSECstA==
-X-Received: by 2002:a1c:1d41:: with SMTP id d62mr22421596wmd.79.1589371105889; 
- Wed, 13 May 2020 04:58:25 -0700 (PDT)
-Received: from [192.168.43.81] (93-33-23-152.ip42.fastwebnet.it.
- [93.33.23.152])
- by smtp.gmail.com with ESMTPSA id s8sm26257276wrt.69.2020.05.13.04.58.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 May 2020 04:58:25 -0700 (PDT)
-Subject: Re: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
- hanging qemu
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <cover.1589193717.git.lukasstraub2@web.de>
- <20200511114947.GJ1135885@redhat.com> <20200511120718.GD2811@work-vm>
- <20200511121714.GL1135885@redhat.com> <20200511154645.GI2811@work-vm>
- <20200512113206.62836e44@luklap> <20200512094337.GK1191162@redhat.com>
- <20200513103245.GD6202@linux.fritz.box> <20200513105359.GF3225@work-vm>
- <20200513111320.GE6202@linux.fritz.box> <20200513112630.GJ1215285@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <31bb69c3-5149-70cf-7527-54680b1e3f6b@redhat.com>
-Date: Wed, 13 May 2020 13:58:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=kKzZHo4L5dfpej90+SdUvjInT8zjdkjYewCTH4sZNAU=;
+ b=dENJGmWiRFSaIaK65249w0FCcabcoLe8wDevlvTLytLm1zE9191sHBkUvM03N+zQNt
+ EQwIp4QnFRBkvtdProJWT8Fo3omQzp3/Zccve+djGSTg08T3uTNBWErJJ8LtkCsxMWQ1
+ xEAZSyThNAo2DbyW4GhWPO89oVMPL+svmHQ5Mc5hKuiGdjWoJKvO9NcIoWZ5LXli9XUH
+ SMlj0JFS408UoRm5DWifzVANs9Vl3pAMhTSdqUGPqXu/YvWjUXGNc8hXcAqBhU/RJ4Dm
+ 0t0N5zqGHdPVX1ny451N9AZE90mDatq/X6EmMbjMG7PrJGHin6kZ8vK93nLpXhforzsE
+ 5Lwg==
+X-Gm-Message-State: AOAM530D6yK7f6eXeTWQbZb6aE3+fqUuBqT/sKLEcxRa5LF1CRjZ7ZU9
+ xt3Ng9rlONZ1m+si+G2dTGEXHFaalIY=
+X-Google-Smtp-Source: ABdhPJzeke5ChPbPNgi+BDAm3Oxov0ZEX6RQ/kqWQcceQniRVxiLYgk9gi181uZBiq+fEes3cFLX3A==
+X-Received: by 2002:a5d:504b:: with SMTP id h11mr1086542wrt.85.1589371310380; 
+ Wed, 13 May 2020 05:01:50 -0700 (PDT)
+Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id g135sm18220095wme.22.2020.05.13.05.01.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 May 2020 05:01:48 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/docker: Kludge <linux/swab.h> breakage by pinning
+ linux-libc-dev
+Date: Wed, 13 May 2020 14:01:47 +0200
+Message-Id: <20200513120147.21443-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-In-Reply-To: <20200513112630.GJ1215285@redhat.com>
-Content-Language: en-US
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,30 +87,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, qemu-block <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/05/20 13:26, Daniel P. Berrangé wrote:
-> Are you referring to the in-kernel NFS client hangs here ?  AFAIK, it is
-> impossible to do anything to get out of those hangs from userspace, because
-> the thread is stuck in an uninterruptable sleep in kernel space.
-> 
-> If using the in-QEMU NFS client, then there is a network connection that
-> can be yanked just like the NBD client.
+Linux kernel commit d5767057c9a [1] aimed to fix an issue with the
+swab() declaration, but doing so it introduced the BITS_PER_LONG
+definition, without using the kernel __ prefix, leading to odd
+failures in userland code using kernel uapi headers, such:
 
-But it's a bad idea to yank it (and also the NBD client) because you're
-not sure which wites have made it to the server (and to the medium) and
-which haven't.
+      CC      block/file-posix.o
+    In file included from include/qemu/timer.h:4,
+                     from include/qemu/timed-average.h:29,
+                     from include/block/accounting.h:28,
+                     from include/block/block_int.h:27,
+                     from block/file-posix.c:30:
+    /usr/include/linux/swab.h: In function `__swab':
+    include/qemu/bitops.h:20:34: error: "sizeof" is not defined, evaluates to 0 [-Werror=undef]
+       20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
+          |                                  ^~~~~~
+    include/qemu/bitops.h:20:41: error: missing binary operator before token "("
+       20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
+          |                                         ^
+    cc1: all warnings being treated as errors
+    make: *** [rules.mak:69: block/file-posix.o] Error 1
 
-Effectively, the in-QEMU NFS client and NBD client are always operating
-in "soft" mode, but we should always treat that as a bug (which cannot
-be fixed) and not a feature for read-write images.
+The issue has been fixed in Linux kernel commit 467d12f5c78 [2].
+Some distributions already backported the first commit, but still
+lack the second one.
 
-Paolo
+This is the case for Debian Buster.
+The linux-libc-dev package contains the Linux kernel headers.
+Kernel commit d5767057c9a has been backported in package
+commit 1fb0eb7956 "Update to 4.19.116" [3], see debian/changelog:
+
+  +linux (4.19.116-1) UNRELEASED; urgency=medium
+  ...
+  +    - uapi: rename ext2_swab() to swab() and share globally in swab.h
+
+The previous released update before it is debian/4.19.98-1,
+released as debian/4.19.98-1+deb10u1.
+
+We can find this package in the Debian snapshot archives,
+luckily archived on 2020-04-28 21:20:54 (see [4]).
+
+QEMU use Debian based Docker images for most of its cross-builds,
+which are tested by our Shippable CI jobs. The current broken
+package makes most of our CI red. We can kludge this by using the
+latest package released before the breakage. Do so by pinning
+the package version (apt hold), and using the snapshot archives,
+similar to commit b4048a7cd1.
+We'll revert once the fix is backported on Debian.
+
+Reference to commits:
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5767057c9a
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=467d12f5c78
+[3] https://salsa.debian.org/kernel-team/linux/-/commit/1fb0eb7956
+[4] http://snapshot.debian.org/package/linux/4.19.98-1%2Bdeb10u1/#linux-libc-dev_4.19.98-1:2b:deb10u1
+
+Cc: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Shippable green again:
+https://app.shippable.com/github/philmd/qemu/runs/759/summary/console
+---
+ tests/docker/dockerfiles/debian10.docker | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 0769700a41..d7084ac283 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -9,6 +9,15 @@
+ #
+ FROM debian:buster-slim
+ 
++ # Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
++ENV DEBIAN_SNAPSHOT_DATE "20200428T212054Z"
++RUN sed -i \
++    "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" \
++    /etc/apt/sources.list
++RUN sed -i \
++    "s%^deb \(https\?://\)security.debian.org/debian-security/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian-security/${DEBIAN_SNAPSHOT_DATE} \2%" \
++    /etc/apt/sources.list
++
+ # Duplicate deb line as deb-src
+ RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
+ 
+@@ -35,4 +44,11 @@ RUN apt update && \
+         texinfo \
+         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+ 
++# Install common build utilities
++RUN apt update && \
++    DEBIAN_FRONTEND=noninteractive eatmydata \
++    apt install -y --allow-downgrades \
++        linux-libc-dev=4.19.98-1+deb10u1 && \
++    apt-mark hold linux-libc-dev
++
+ ENV FEATURES docs
+-- 
+2.21.3
 
 
