@@ -2,80 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43ED1D176B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 16:20:38 +0200 (CEST)
-Received: from localhost ([::1]:58478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626661D1779
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 16:22:51 +0200 (CEST)
+Received: from localhost ([::1]:34842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYsFR-00049v-O7
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 10:20:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53894)
+	id 1jYsHa-0006Lg-G2
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 10:22:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYsDB-0000qO-Rz
- for qemu-devel@nongnu.org; Wed, 13 May 2020 10:18:17 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:55085
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYsDB-0006wj-2x
- for qemu-devel@nongnu.org; Wed, 13 May 2020 10:18:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589379496;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gXGdSORgwy0YhV9ke/TpJnkGKmr4elIO9TcGH0MaN7M=;
- b=ig97InbEE84S9f38oPi9L0HU3szmhPyYSiBTZQ3RYjkLXcpnm/0kD+nqxzYo3AgNl3GWmj
- Nu0VdG81GS2lV2ui0SoCRe/Dnas3JEvF2OWO09fADV4S9oEmXWtza3NpbUyPlsxNXTb50T
- mWC6/CK/OrVIG7I65KI+ZujBoitKajE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-XdHzdVXdP5CQoY9a-lV-Kg-1; Wed, 13 May 2020 10:18:12 -0400
-X-MC-Unique: XdHzdVXdP5CQoY9a-lV-Kg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69FFF18FF66C;
- Wed, 13 May 2020 14:18:11 +0000 (UTC)
-Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 62EEF619B1;
- Wed, 13 May 2020 14:18:05 +0000 (UTC)
-Subject: Re: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
- hanging qemu
-To: Kevin Wolf <kwolf@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20200511121714.GL1135885@redhat.com>
- <20200511154645.GI2811@work-vm> <20200512113206.62836e44@luklap>
- <20200512094337.GK1191162@redhat.com> <20200513103245.GD6202@linux.fritz.box>
- <20200513105359.GF3225@work-vm> <20200513111320.GE6202@linux.fritz.box>
- <20200513125624.GJ3225@work-vm> <20200513130849.GD1253949@redhat.com>
- <20200513134856.GK3225@work-vm> <20200513140650.GH6202@linux.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e96cb70a-8156-55bb-44d7-81772bb77b4b@redhat.com>
-Date: Wed, 13 May 2020 09:18:05 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYsGg-0005RG-Ps
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 10:21:54 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:36595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYsGf-00080X-MN
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 10:21:54 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 04DEKhrQ007516
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 13 May 2020 10:20:45 -0400
+Date: Wed, 13 May 2020 10:20:43 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: P J P <ppandit@redhat.com>
+Subject: Re: [PATCH 0/2] use unsigned type for MegasasState fields
+Message-ID: <20200513142043.lfcamp5j43ke5md4@mozz.bu.edu>
+References: <20200507105718.1319187-1-ppandit@redhat.com>
+ <26201c24-c483-85a7-2f4b-b3cc56d4b8b7@redhat.com>
+ <nycvar.YSQ.7.76.2005122357030.1451610@xnncv>
+ <20200512190803.o6vr2shjmhsplsjx@mozz.bu.edu>
+ <20200512194759.nb42yurlnynr5yrw@mozz.bu.edu>
+ <nycvar.YSQ.7.76.2005131905010.1451610@xnncv>
 MIME-Version: 1.0
-In-Reply-To: <20200513140650.GH6202@linux.fritz.box>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nycvar.YSQ.7.76.2005131905010.1451610@xnncv>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 10:21:51
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,53 +61,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ren Ding <rding@gatech.edu>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/20 9:06 AM, Kevin Wolf wrote:
-
->>>>> One more thing to consider is, what if a single object has multiple
->>>>> connections? In the case of node-names, we have a limited set of allowed
->>>>> characters, so we can use one of the remaining characters as a separator
->>>>> and then suffix a counter. In other places, the identifier isn't
->>>>> restricted, so suffixing doesn't work. Maybe prefixing does, but it
->>>>> would have to be there from the beginning then.
->>>>
->>>> Yeh I worry about whether on nbd if you can have multiple nbd
->>>> connections to one block device.
->>>
->>> The kernel NBD driver now supports multiple parallel connections.
->>> QEMU hasn't implemented this in its NBD code yet, but I certainly
->>> see that being in scope for future.
->>
->> It's not parallel for performance that worries me, it's more about
->> separateq connections for separate uses - e.g. if we're serving the same
->> read-only disk to multiple separate things.
+On 200513 1919, P J P wrote:
+>   Hello Alex,
 > 
-> That would be a concern for the NBD server. I'm not sure if anything in
-> QEMU ever waits for NBD servers (except for the client on the other side
-> of the connection, of course), so there might be no use case for yanking
-> their connections.
+> +-- On Tue, 12 May 2020, Alexander Bulekov wrote --+
+> | I noticed this since I found a similar issue recently, using a fuzzer. I 
+> | applied your patches, but I can still reproduce the heap-overflow, unless 
+> | I'm missing something:
 > 
-> Anyway, here we were talking about the NBD client, which always accesses
-> one disk. If you access a second disk, you have a second NBD block node.
+> Strange, because with uint16_t type, 'reply_queue_head' should not turn 
+> negative.
+> 
+> | cat << EOF | qemu-system-i386 -qtest stdio -nographic -monitor none \
+> | -serial none -M q35 -device megasas -device scsi-cd,drive=null0 \
+> | -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic
+> | outl 0xcf8 0x80001814
+> | outl 0xcfc 0xc021
+> | outl 0xcf8 0x80001818
+> | outl 0xcf8 0x80001804
+> | outw 0xcfc 0x7
+> | outl 0xcf8 0x80001810
+> | outl 0xcfc 0xe10c0000
+> | outl 0xcf8 0x8000f810
+> | write 0x0 0x18 0x060017e1ff00f8ffffffff60efffffffffffffffffffffff
+> | write 0xff00 0x1 0x06
+> | write 0xc021e10c0040 0x81 0x755e08ff0000845e08ff0000935e08ff0000a25e08ff0000b15e08ff0000c05e08ff0000cf5e08ff0000de5e08ff0000ed5e08ff0000fc5e08ff00000b5e08ff00001a5e08ff0000295e08ff0000385e08ff0000475e08ff0000565e08ff0000655e08ff0000745e08ff0000835e08ff0000925e08ff0000a15e08ff0000b05e08
+> | -M pc-q35-5.0 -no-shutdown -M q35 -device megasas -device scsi-cd,drive=null0 -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic
+> | EOF
+> 
+> Are qemu options just above EOF right?
+They are not necessary, but for me QEMU crashes before qtest ever tries
+to parse them. Is your QEMU built with ASAN?
+-Alex
 
-Ah, right, that's the other direction.  No, we do not currently support 
-a single qemu block node backed by multiple NBD clients to one (or more, 
-if they are serving identical content in a failover scenario) NBD 
-servers.  Performance could indeed be potentially improved by doing 
-that, but for now, every time qemu behaves as a new NBD client, it is 
-via an additional block node.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+> 
+> This leads to an assert failure below
+> 
+>   qemu/qtest.c:546:qtest_process_command: assertion failed: (words[1] && words[2] && words[3])
+>   ...
+>   Aborted                 (core dumped) /tmp/im/bin/qemu-system-x86_64 -qtest 
+>   stdio -nographic -monitor none -serial none -M q35 -device megasas -device 
+>   scsi-cd,drive=null0 -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic < ins
+> 
+> 
+> Thank you.
+> --
+> Prasad J Pandit / Red Hat Product Security Team
+> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+> 
 
