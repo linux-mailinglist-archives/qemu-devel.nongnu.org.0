@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA8F1D1C61
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:38:26 +0200 (CEST)
-Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF571D1C71
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:40:03 +0200 (CEST)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvKr-0006Zl-U3
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57914)
+	id 1jYvMQ-0001Bh-9B
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:40:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvJD-0003jt-Fb
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:36:43 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47323
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvL1-00089w-Ao
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:38:35 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:58911
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvJC-0000Hj-1B
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:36:42 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvL0-0001Rb-Fx
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:38:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589391400;
+ s=mimecast20190719; t=1589391513;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=29xR7eSFsft47+HmIv3IYFkHCr2E5RuYKsnBau8upZ8=;
- b=TqdhEPpBWUc9FiK62why9PS8OrX1G6Gds3bG20kPJQjVcXOIWAdljoJJt5ZAA3kkMaUP3f
- 63V4+nPLX6ZZuVXTi3eIfNg340OeOdACrYy0vB+6ZnpPVAxFJVHENNutp1ch68b9qWUkzW
- 5n9Pso/H6ehtNWBLShZyTYE+jNBYt5Y=
+ bh=ugbRUfWNEZlp1juaG1ptiEH5FtLPvjMli4lyc/TPtKs=;
+ b=bfNRth8uDS8Erjd8edMCEF6ljrpZSabHRD8kL8MbFIF6E9IyNWgOCvCvnX/esAYh57pkAb
+ ZKA8YsY2laltyOD9P2tL2UJS8/cYGbBeeDruACHACSrdWgxSf/1MOKgkX7AnDg6VUgB2Gz
+ WTo6Nem6vTKmohYpxzVk3vOSHYPQ7uE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-4EWYO0XuOcujTMossIegkw-1; Wed, 13 May 2020 13:36:28 -0400
-X-MC-Unique: 4EWYO0XuOcujTMossIegkw-1
+ us-mta-157-X8e8fC-BPKm7qmPR1RGB7Q-1; Wed, 13 May 2020 13:38:32 -0400
+X-MC-Unique: X8e8fC-BPKm7qmPR1RGB7Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7D5C1902EA0;
- Wed, 13 May 2020 17:36:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0ADAEC1A6;
+ Wed, 13 May 2020 17:38:30 +0000 (UTC)
 Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C6B438D;
- Wed, 13 May 2020 17:36:26 +0000 (UTC)
-Subject: Re: [PATCH v4 04/34] block: Add BdrvChildRole and BdrvChildRoleBits
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20200513110544.176672-1-mreitz@redhat.com>
- <20200513110544.176672-5-mreitz@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CAF41C92D;
+ Wed, 13 May 2020 17:38:30 +0000 (UTC)
+Subject: Re: [PATCH v3 2/4] qemu-img: validate image length in img_map
+To: Eyal Moscovici <eyal.moscovici@oracle.com>
+References: <20200513133629.18508-1-eyal.moscovici@oracle.com>
+ <20200513133629.18508-3-eyal.moscovici@oracle.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <ac5c9ffc-2399-7b0c-0aaf-accf6c0d377a@redhat.com>
-Date: Wed, 13 May 2020 12:36:25 -0500
+Message-ID: <634bd3e3-bde8-dd5f-1bd6-feaa34e3252f@redhat.com>
+Date: Wed, 13 May 2020 12:38:29 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200513110544.176672-5-mreitz@redhat.com>
+In-Reply-To: <20200513133629.18508-3-eyal.moscovici@oracle.com>
 Content-Language: en-US
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 03:05:18
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,41 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, liran.alon@oracle.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/20 6:05 AM, Max Reitz wrote:
-> This mask will supplement BdrvChildClass when it comes to what role (or
-> combination of roles) a child takes for its parent.  It consists of
-> BdrvChildRoleBits values (which is an enum).
+On 5/13/20 8:36 AM, Eyal Moscovici wrote:
+> The code handles this case correctly we merely skip the loop. However it
+
+Grammar suggestion: s/correctly we/correctly: we/
+
+> is probably best to return an explicit error.
 > 
-> Because empty enums are not allowed, let us just start with it filled.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+R-b still stands.
+
+> Acked-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Eyal Moscovici <eyal.moscovici@oracle.com>
 > ---
->   include/block/block.h | 56 +++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 56 insertions(+)
+>   qemu-img.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> diff --git a/include/block/block.h b/include/block/block.h
-> index bc42e507bb..86cffa9ffd 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-> @@ -268,6 +268,62 @@ enum {
->       DEFAULT_PERM_UNCHANGED      = BLK_PERM_ALL & ~DEFAULT_PERM_PASSTHROUGH,
->   };
+> diff --git a/qemu-img.c b/qemu-img.c
+> index cc2e4a3799..23e90a99e1 100644
+> --- a/qemu-img.c
+> +++ b/qemu-img.c
+> @@ -3091,6 +3091,11 @@ static int img_map(int argc, char **argv)
+>       }
 >   
-> +/*
-> + * Flags parent nodes give for the child nodes to specify what kind of
-> + * role(s) they take.
-
-Reads a bit awkwardly. Maybe:
-
-Flags that parent nodes assign to child nodes to specify what kind of 
-role(s) they take.
-
-Touching up grammar doesn't affect code correctness, so:
-Reviewed-by: Eric Blake <eblake@redhat.com>
+>       length = blk_getlength(blk);
+> +    if (length < 0) {
+> +        error_report("Failed to get size for '%s'", filename);
+> +        return 1;
+> +    }
+> +
+>       while (curr.start + curr.length < length) {
+>           int64_t offset = curr.start + curr.length;
+>           int64_t n;
+> 
 
 -- 
 Eric Blake, Principal Software Engineer
