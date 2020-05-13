@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631371D1D0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:10:42 +0200 (CEST)
-Received: from localhost ([::1]:55336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE7F1D1D0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:10:44 +0200 (CEST)
+Received: from localhost ([::1]:55672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvq5-00037B-8d
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36224)
+	id 1jYvq7-0003FN-Tg
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:10:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYvoT-0001Wc-BG
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:09:01 -0400
-Received: from mail-bn8nam12on2081.outbound.protection.outlook.com
- ([40.107.237.81]:6586 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ id 1jYvoU-0001YJ-Oa
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 14:09:02 -0400
+Received: from mail-bn7nam10on2045.outbound.protection.outlook.com
+ ([40.107.92.45]:6227 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYvoQ-00005p-Gw
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:09:01 -0400
+ id 1jYvoQ-00005S-5S
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 14:09:02 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mypy4kkBOu79EIwNmq6qEcVpBX7zvhvUGdy2IxLDKayF+juW+7rX7NKgUm5tXrKd/j4Yetlt06nV3A9gqQa0Nk13Fzm2NP2G2dDwl4szxqonHyex5+PpzEKWlN7Hw0Z+8yL6neCcTXtxpFbqNGhh2O6B9KgzPYYkjGWdWeGEBPK/b4VUZ7AZbolNTxwxOnTH9Ka96WY21kQRCvkHqHNuEoxgnAKWf1tg4zkuBgcrEvmfYnWBfYyejIuZwssHnYhwrtv7bqIA1RHk6v0YKSgindnYNGIEFHMT9AGbMwxmrErbBPxrqHNGR4sfClvtMV3FmGBbGxJTLOlh68UIdCux1Q==
+ b=l1q7RS9DsySj2fGHHE06x24n4SPZdgwpMx7sTLJnJPJMZplAq5umeW2Qb/GjDfMIltG8sIjuvaxIB4CRs67St56bkYyHNVVhsFOvVGJ/b8xgrIQJTzx5Yls/Zow8gbSouSv+CihkTz4PGlkj4d+1GVp4meIA+0XNNe10vBJZBVKvzsGrAV0ejwbUSFWyOBw2lU++C7ki8FwqyS5amFeeEJQ5jgIEw9vD76Rj72uO5sR6m/LHMSUXbQHC1sVth/bmG039Pr8xl9QCSzfiiww41gLFEZjOUpiTjyxGs0+6alE+4XDE/Elp2/tTFSt/0xTXnBwQw7bm9O0EqNPpvZgErA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ky2frw7xYYuP3OgTRuJ2N2y/8tHtihYuCes7f18Xri4=;
- b=fP34BceaxhWVl8zEgXbm5PrC2fUT2fQN3jIHnnBDAWDp0q0i+3KKGZbZE+KOYLnlZBQhTQ8TVYSvx8du7yvRf4H6/BM0kcJzIozU/CNsY00RLFWnceA41SrZyLOEUPASCVCjeW2lUPAN4T8WiuSezJ/gLJ9iA38KLATOitlAD6t6KdQDPJlVG3TBKafmhSj90keh6G6Hlrx+xc/88xbDkCSGhnpslFwyWTvjsdro75DkVfpPj/RXkWQMGY0KwsozELTu46OUW0voznpCjjud7JZpBrpa2oHBycXWt2OTJVHQYeX4jQHICgHLWN55WQXGNJar9Wr1TW90SMKqKjobkQ==
+ bh=gUBtE68pDVFOLxmda2X/+UzxTjyagMw2y9Wh/zkqtPk=;
+ b=nttwsErfwVdMRv8fVLPzNJZhRTxCij1dkQ2uL1W/pDVtho9cnoJbB+8o2qRpDPp1XA+NR/r6XGVshUaR4kpIJhBovF9xIgcSKwDstAEnpxSqpYSdKCU5EMB2tT51IHXDz79EamxpbaTCYDz/evA5braal+Dw3uMDrAnVzkQv/D765PVSLpX/8ncskiQTI+utcfGzpQXyBMoknKnMcn/i0taDhIh80sceP1Z+UwwC5e+knrtzWy1vPzKsyOzWvZdev0gjmMcKL8ECrEvouht79WFmsIdSV9hWOIKsGccSyClmhquKnCUJaZLbU+PI0w1xLRfX2N7Tt5XQT3fBpeSVQw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -34,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ky2frw7xYYuP3OgTRuJ2N2y/8tHtihYuCes7f18Xri4=;
- b=UwXTF9lUeDMrbjhSg1uNIKFYLdW8s1ZdD6ZD7zToot9e3cpOb8iDU8OMFq8fYowyGyD8kYdwn25GmKCaagO1NVFLUxKwHGA1dCH5opd36bS2iUcI2pXbFzLWumMzUgIDp03rmjpr3cYQa2izFsZkUhg/Et6dIZoJ+ClT/f8Odec=
-Received: from SA9PR10CA0012.namprd10.prod.outlook.com (2603:10b6:806:a7::17)
- by SN6PR02MB4622.namprd02.prod.outlook.com (2603:10b6:805:b2::32)
+ bh=gUBtE68pDVFOLxmda2X/+UzxTjyagMw2y9Wh/zkqtPk=;
+ b=M5mPljSyQuUTqvLjk04Ws+xf9/yGAKWFU0oUBnGphUaBaX5lXcCIxWewBXV8Nz1zcJM0MG8AY1irPoGG47BfXsMWCQmP0fnHglvB+H3vbhH2AStpBb0oz/6c7jdNWWHybMMVh8mU5Sq5DFMHSkJCyfKOz2PhbT/2p+n+nUtr/LE=
+Received: from SN6PR16CA0052.namprd16.prod.outlook.com (2603:10b6:805:ca::29)
+ by MN2PR02MB7103.namprd02.prod.outlook.com (2603:10b6:208:20e::13)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20; Wed, 13 May
- 2020 18:08:56 +0000
-Received: from SN1NAM02FT061.eop-nam02.prod.protection.outlook.com
- (2603:10b6:806:a7:cafe::92) by SA9PR10CA0012.outlook.office365.com
- (2603:10b6:806:a7::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Wed, 13 May
+ 2020 18:08:55 +0000
+Received: from SN1NAM02FT062.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:805:ca:cafe::6a) by SN6PR16CA0052.outlook.office365.com
+ (2603:10b6:805:ca::29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.24 via Frontend
- Transport; Wed, 13 May 2020 18:08:56 +0000
+ Transport; Wed, 13 May 2020 18:08:55 +0000
 Authentication-Results: spf=pass (sender IP is 149.199.60.83)
  smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=bestguesspass action=none
@@ -54,27 +54,26 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT061.mail.protection.outlook.com (10.152.72.196) with Microsoft SMTP
+ SN1NAM02FT062.mail.protection.outlook.com (10.152.72.208) with Microsoft SMTP
  Server id 15.20.2979.29 via Frontend Transport; Wed, 13 May 2020 18:08:54
  +0000
-Received: from [149.199.38.66] (port=59427 helo=xsj-pvapsmtp01)
+Received: from [149.199.38.66] (port=59423 helo=xsj-pvapsmtp01)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <joe.komlodi@xilinx.com>) id 1jYvo4-0007yA-Lk
+ (envelope-from <joe.komlodi@xilinx.com>) id 1jYvo4-0007y7-KF
  for qemu-devel@nongnu.org; Wed, 13 May 2020 11:08:36 -0700
 Received: from [127.0.0.1] (helo=localhost)
  by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <joe.komlodi@xilinx.com>) id 1jYvoM-0002TI-Gv
+ (envelope-from <joe.komlodi@xilinx.com>) id 1jYvoM-0002TI-FO
  for qemu-devel@nongnu.org; Wed, 13 May 2020 11:08:54 -0700
 Received: from [172.19.2.32] (helo=xsjkomlodi50.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <komlodi@xilinx.com>)
- id 1jYvoI-0002SZ-2I; Wed, 13 May 2020 11:08:50 -0700
+ id 1jYvoI-0002SZ-2i; Wed, 13 May 2020 11:08:50 -0700
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 2/4] target/microblaze: gdb: Extend the number of registers
- presented to GDB
-Date: Wed, 13 May 2020 11:08:46 -0700
-Message-Id: <1589393329-223076-2-git-send-email-komlodi@xilinx.com>
+Subject: [PATCH V2 3/4] target/microblaze: gdb: Fix incorrect SReg reporting
+Date: Wed, 13 May 2020 11:08:47 -0700
+Message-Id: <1589393329-223076-3-git-send-email-komlodi@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1589393329-223076-1-git-send-email-komlodi@xilinx.com>
 References: <1589393329-223076-1-git-send-email-komlodi@xilinx.com>
@@ -85,31 +84,31 @@ X-MS-Office365-Filtering-HT: Tenant
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
  SFTY:;
- SFS:(39860400002)(376002)(136003)(346002)(396003)(46966005)(33430700001)(70206006)(2616005)(44832011)(82740400003)(33440700001)(426003)(316002)(2906002)(107886003)(47076004)(8936002)(9786002)(5660300002)(8676002)(336012)(86362001)(82310400002)(36756003)(7696005)(356005)(70586007)(186003)(81166007)(26005)(6666004)(6916009)(478600001)(4326008);
+ SFS:(396003)(376002)(346002)(136003)(39860400002)(46966005)(33430700001)(36756003)(426003)(2616005)(7696005)(107886003)(336012)(70206006)(44832011)(70586007)(2906002)(86362001)(186003)(26005)(8676002)(4326008)(47076004)(8936002)(356005)(5660300002)(82740400003)(9786002)(33440700001)(6916009)(81166007)(6666004)(82310400002)(316002)(478600001);
  DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6b85c4b2-6dca-4992-9da8-08d7f768b301
-X-MS-TrafficTypeDiagnostic: SN6PR02MB4622:
-X-Microsoft-Antispam-PRVS: <SN6PR02MB4622ABE90EA298C1023BAE08D0BF0@SN6PR02MB4622.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: c42d6f02-fe6f-4ac1-73cd-08d7f768b2f9
+X-MS-TrafficTypeDiagnostic: MN2PR02MB7103:
+X-Microsoft-Antispam-PRVS: <MN2PR02MB71036B878AB0AE4109D2D069D0BF0@MN2PR02MB7103.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-Forefront-PRVS: 0402872DA1
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Pz+r8qp62a+O+kZrOChgWDDtVgRkpunXLOuGczVtAngLuK9Dq4cW9Gu/hjEIe7Qynr1IBN9Kb869SpGHtCzkSCD4wZuYYEXECVUzdEpKOsTEeC1vBE5wPFat6ahKM4jsWmoTnYnv7oPZgUKx8haGNrXsRaH2MiVIpPm4NCH8yfOphtygNrK58hNHcwo3bdcloNzOwASKmJZ4D1DVLB0XQiZplVVTy97TPqPuaj9q1iiZOzm0kJrqvo3qZpI6CSnM5hzu0N6ZJXfPp2F5HhBm5CPz2ERG2L8+Qm1W7Oxv8ijtfuQSHSUAfbGbI8xmd31ZI0HK96pglAvsMpZ95UvmEMUKPbi5qPkmHNXWTmbTUR+bIJ+1lSWs5+Ssvl51HBY03ir7eVsEWUaYYAqV4A6kmU6GQlxj3ah4QdaEpA+4r3Z32lXURus0FM+BR5J3E6iXNNNsvdLF7N6H8r5ZENY8e12M7664fJ6Ju1Ao11Is5pjT3SsJBDovmOV+JecuOblml0b0LPioIISN8e38aNiU7ABDd6GNGWI/NheX5Jzhbt8W6zRV9MgJJfRJvZPdqthujjvlbQ2QOzIlBQID7bH8SQ==
+X-Microsoft-Antispam-Message-Info: d+id/tbyT7w+WzUAxkABtBg/NGMLJW03n6e8NIIXtuidQDRlSdgghBwNb1a3P4OLJCCOh9SGEu6VGrq6TNIf2zKQPoLKQoPVwsQbsOG6/rSwvfINMqPAatMpX/WYvfzdenMHKGDqrkjRDm1woNwsoAca6j5eJu4ZeZR13W8Xmh+s/1CRcq/SB2a1TiCEUB4E0CWXCaPVMcBax0KOr2kR7w6NdmqKYi6RHNq/JUh9tFoVlHGk3eGOWiyb9zBDTitnXib9XxLAchw3RFUHpiYhQ8qWVrV1nhRWl/XyuIiylWCqBWo7XJD5cEBBTdIxCpefAxLZeBz5pAwUMfCM68lXhIvPBYRf1XUQUrdObU60r5MCJ+q18AvoIeddg+VQmBTiXEOow/mxDAC6ORv/MrJKGhRyYThqAhPltZSMQFbre/weTlHR10BJX32iPzM0zuGIlvsUGjhdhDrI1TLt0tvkTqMGGTuG3FOtCeP8U0/yMXnyveypqnbwlyG9SkiT98n6O1UKo/nloxK0fMeRpGcaQUg+BblPl3U4np6sKMhSvTJEKugnsmwiy5CFh7IyaH/8RJPjoXuyhyidWX0ba8MIJA==
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2020 18:08:54.8071 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b85c4b2-6dca-4992-9da8-08d7f768b301
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2020 18:08:54.7536 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c42d6f02-fe6f-4ac1-73cd-08d7f768b2f9
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4622
-Received-SPF: pass client-ip=40.107.237.81; envelope-from=komlodi@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 14:08:57
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB7103
+Received-SPF: pass client-ip=40.107.92.45; envelope-from=komlodi@xilinx.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 14:08:56
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -134,35 +133,91 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Increase the number of Microblaze registers QEMU will report when
-talking to GDB.
+SRegs used to be reported to GDB by iterating over the SRegs array,
+however we do not store them in an order that allows them to be
+reported to GDB in that way.
+
+To fix this, a simple map is used to map the register GDB wants to its
+location in the SRegs array.
 
 Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 ---
- target/microblaze/cpu.c     |  2 +-
- target/microblaze/gdbstub.c | 52 ++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 50 insertions(+), 4 deletions(-)
+ target/microblaze/gdbstub.c | 59 +++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 49 insertions(+), 10 deletions(-)
 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 41cac1b..5b6ad5b 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -331,7 +331,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
- #endif
-     dc->vmsd = &vmstate_mb_cpu;
-     device_class_set_props(dc, mb_properties);
--    cc->gdb_num_core_regs = 32 + 5;
-+    cc->gdb_num_core_regs = 32 + 27;
-     cc->gdb_get_dynamic_xml = mb_gdb_get_dynamic_xml;
-     cc->gdb_core_xml_file = "microblaze-core.xml";
- 
 diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
-index cdca434..af29f00 100644
+index af29f00..485b717 100644
 --- a/target/microblaze/gdbstub.c
 +++ b/target/microblaze/gdbstub.c
-@@ -26,12 +26,37 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+@@ -25,6 +25,21 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
      MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
      CPUMBState *env = &cpu->env;
++    /*
++     * GDB expects SREGs in the following order:
++     * PC, MSR, EAR, ESR, FSR, BTR, EDR, PID, ZPR, TLBX, TLBSX, TLBLO, TLBHI.
++     * They aren't stored in this order, so make a map.
++     * PID, ZPR, TLBx, TLBsx, TLBLO, and TLBHI aren't modeled, so we don't
++     * map them to anything and return a value of 0 instead.
++     */
++    static const uint8_t sreg_map[6] = {
++        SR_PC,
++        SR_MSR,
++        SR_EAR,
++        SR_ESR,
++        SR_FSR,
++        SR_BTR
++    };
+ 
+     /*
+      * GDB expects registers to be reported in this order:
+@@ -40,15 +55,16 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+         n -= 32;
+         switch (n) {
+         case 0 ... 5:
+-            return gdb_get_reg32(mem_buf, env->sregs[n]);
++            return gdb_get_reg32(mem_buf, env->sregs[sreg_map[n]]);
+         /* PVR12 is intentionally skipped */
+         case 6 ... 17:
+             n -= 6;
+             return gdb_get_reg32(mem_buf, env->pvr.regs[n]);
+-        case 18 ... 24:
+-            /* Add an offset of 6 to resume where we left off with SRegs */
+-            n = n - 18 + 6;
+-            return gdb_get_reg32(mem_buf, env->sregs[n]);
++        case 18:
++            return gdb_get_reg32(mem_buf, env->sregs[SR_EDR]);
++        /* Other SRegs aren't modeled, so report a value of 0 */
++        case 19 ... 24:
++            return gdb_get_reg32(mem_buf, 0);
+         case 25:
+             return gdb_get_reg32(mem_buf, env->slr);
+         case 26:
+@@ -66,29 +82,52 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+     CPUMBState *env = &cpu->env;
+     uint32_t tmp;
+ 
++    /*
++     * GDB expects SREGs in the following order:
++     * PC, MSR, EAR, ESR, FSR, BTR, EDR, PID, ZPR, TLBX, TLBSX, TLBLO, TLBHI.
++     * They aren't stored in this order, so make a map.
++     * PID, ZPR, TLBx, TLBsx, TLBLO, and TLBHI aren't modeled, so we don't
++     * map them to anything.
++     */
++    static const uint8_t sreg_map[6] = {
++        SR_PC,
++        SR_MSR,
++        SR_EAR,
++        SR_ESR,
++        SR_FSR,
++        SR_BTR
++    };
++
+     if (n > cc->gdb_num_core_regs) {
+         return 0;
+     }
+ 
+     tmp = ldl_p(mem_buf);
  
 +    /*
 +     * GDB expects registers to be reported in this order:
@@ -173,63 +228,29 @@ index cdca434..af29f00 100644
 +     * SLR-SHR
 +     */
      if (n < 32) {
-         return gdb_get_reg32(mem_buf, env->regs[n]);
-     } else {
--        return gdb_get_reg32(mem_buf, env->sregs[n - 32]);
-+        n -= 32;
-+        switch (n) {
-+        case 0 ... 5:
-+            return gdb_get_reg32(mem_buf, env->sregs[n]);
-+        /* PVR12 is intentionally skipped */
-+        case 6 ... 17:
-+            n -= 6;
-+            return gdb_get_reg32(mem_buf, env->pvr.regs[n]);
-+        case 18 ... 24:
-+            /* Add an offset of 6 to resume where we left off with SRegs */
-+            n = n - 18 + 6;
-+            return gdb_get_reg32(mem_buf, env->sregs[n]);
-+        case 25:
-+            return gdb_get_reg32(mem_buf, env->slr);
-+        case 26:
-+            return gdb_get_reg32(mem_buf, env->shr);
-+        default:
-+            return 0;
-+        }
-     }
--    return 0;
- }
- 
- int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-@@ -50,7 +75,28 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-     if (n < 32) {
          env->regs[n] = tmp;
      } else {
--        env->sregs[n - 32] = tmp;
-+        n -= 32;
-+        switch (n) {
-+        case 0 ... 5:
-+            env->sregs[n] = tmp;
-+            break;
-+        /* PVR12 is intentionally skipped */
-+        case 6 ... 17:
-+            n -= 6;
-+            env->pvr.regs[n] = tmp;
-+            break;
-+        case 18 ... 24:
-+            /* Add an offset of 6 to resume where we left off with SRegs */
-+            n = n - 18 + 6;
-+            env->sregs[n] = tmp;
-+            break;
-+        case 25:
-+            env->slr = tmp;
-+            break;
-+        case 26:
-+            env->shr = tmp;
-+            break;
-+        }
-     }
-     return 4;
- }
+         n -= 32;
+         switch (n) {
+         case 0 ... 5:
+-            env->sregs[n] = tmp;
++            env->sregs[sreg_map[n]] = tmp;
+             break;
+         /* PVR12 is intentionally skipped */
+         case 6 ... 17:
+             n -= 6;
+             env->pvr.regs[n] = tmp;
+             break;
+-        case 18 ... 24:
+-            /* Add an offset of 6 to resume where we left off with SRegs */
+-            n = n - 18 + 6;
+-            env->sregs[n] = tmp;
++        /* Only EDR is modeled in these indeces, so ignore the rest */
++        case 18:
++            env->sregs[SR_EDR] = tmp;
+             break;
+         case 25:
+             env->slr = tmp;
 -- 
 2.7.4
 
