@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2E01D195E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 17:27:19 +0200 (CEST)
-Received: from localhost ([::1]:59526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 091971D1969
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 17:29:36 +0200 (CEST)
+Received: from localhost ([::1]:35798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYtHx-0006Zy-Uu
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 11:27:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36546)
+	id 1jYtKB-0008Sj-1q
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 11:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jYtGx-0005QU-5c
- for qemu-devel@nongnu.org; Wed, 13 May 2020 11:26:15 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42098)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jYtI2-0007J2-A4
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 11:27:22 -0400
+Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:36064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1jYtGw-0000s1-BJ
- for qemu-devel@nongnu.org; Wed, 13 May 2020 11:26:14 -0400
-Received: by mail-wr1-x443.google.com with SMTP id s8so21414068wrt.9
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 08:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jYtI1-0001Gk-5Q
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 11:27:21 -0400
+Received: by mail-pj1-x1041.google.com with SMTP id q24so11135588pjd.1
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 08:27:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kjFALF1lvGdunBjoO44+Y/yLPmkWNT/LizyU92EAQ5M=;
- b=tmbbNwy980hfhfWBLLmuCkQN9hGjWFtzzRxG4p0+ngpTY3T4dDiWGTvJQIdr/8b/+B
- sv2wT2gDSNv0jAJU7pnIIc5A4yg4h0PuQNj5yDqfPiNlZujanDSw2z6M1nYBNKMUfKkR
- tJiT0HpEoxZVg6Xev5ZsO6g3oPYz+mZLBR+BEnU9qnkrYdT80P55Ka3RD1uIT0ftKVVC
- ikzsPqf/ppc/sZZ4MyAwo4JRV91JYm0ppzYeGe7nSXfUmSzF3WyS4bmkKd5XOzFvUbTD
- StESneNUeajkwlcbGXYp8MnEHsTjg+r38gkhLPGliw1NKstPIc/psxK3TlSf+ZKZj5uO
- ls5Q==
+ bh=gGl+0cqcyPGE8SPEwh3XVqA6gN6vjt/s9SipbNjudPo=;
+ b=NQ4k3w8zu5zzx9KfMWT4rVFrL/IJcs+svUpIuziHgetYMcvYHZRp+/aY0tUXLA1Hia
+ dtDUJTydLkXfZItEQhftbkd0dN7q3Q97AZPTsOAxPhjzSCOI51gVfEYeVGCTY3KIjbzz
+ 6ONxzbH/Q4NcpLAVuT+Ftxl+WDlgso7p3e1nbETNe9ZcrR8wIokRDV9pwieZZcYn2bY6
+ o3sWYLnXoM3TOzgDI1pb3F09S/KbcffGEuRiquYNf/V8ye/R0JVivA1cN+S6vwr67Q6q
+ 7hPVG3HXZzAd1dqT/CmK6ashjutvOUTbBGcuAzV5+wmOOKoiOII1F3MZwL2jrTgV+sgm
+ jWNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kjFALF1lvGdunBjoO44+Y/yLPmkWNT/LizyU92EAQ5M=;
- b=inGcSBbwZMK38Za26NQgZJcogdoWBkGI/s5p9jzwim3536eZOD5AKjfRrnj8Ujf2ow
- C/fYb/7J0GC894XIXOs0Bfamy7b+iqXDMY/OZbGVtgzGQN1/wksNQHHSRjnAstj3qDF6
- EIJ571U1MHhpJSwTQgrk+gtwUStQKLmDTYifJbPALAYtvSB6JNi+diTnKT7aeQ9KqFWo
- RTQi1LXHXSuCCTP4V07L8BCghQjSR893rw8t7hgLNOyMBjqVpkB1BvRYrWba3wq3tPJh
- mwwah4Le6Td7QwjoL35Jo2iJgMBN8idbnTjj0n/WSACaz5bOv2ZcshUTuEDUupWI+8bp
- yJqg==
-X-Gm-Message-State: AGi0PuYpWFlO9Qcv76HSwbvI8rTVhNN0vI1i1eB4uyds6Pblz5upkjEb
- yi4lQ82q5V/LNrFgvTJKJmA=
-X-Google-Smtp-Source: APiQypL4nthdLkOA2oHiZ6toQjU5bCGwHWZhyWWGMvQVdH9vgOkr4PcoeAIOSVCRRafjdM+3kB5ymg==
-X-Received: by 2002:adf:e64c:: with SMTP id b12mr30891550wrn.131.1589383572833; 
- Wed, 13 May 2020 08:26:12 -0700 (PDT)
-Received: from [192.168.1.38] (17.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id j2sm28276220wrp.47.2020.05.13.08.26.11
+ bh=gGl+0cqcyPGE8SPEwh3XVqA6gN6vjt/s9SipbNjudPo=;
+ b=drOkIZpLgjvQBBEyzEi1IPAnDbUz46+SRV3NPO7iRARY8XV5hBTmM+KXXMgVUcJBWs
+ Ffna7MTzQbaIRkxImIwsZ73MtuE4vBckc1a1ytTHERKpj9WEDozB4iNsF+2Cmq9xitTr
+ tEo4S12NUScq+xPWUhqB24XCtjj0KPLf/A1O59N4pAx/70CJDHUTrjHsNmskithxS7cZ
+ 0q/MqV2iqQGbtyCHi+7z/UO5VBd+SeIJhGERLQCimXRlhFKkcOa+/btDmRVFPC7FpHjd
+ E91OxKVXIjKdI70IKe4NjnoYtvMS/0FVeUCHSlb1Ci7iHcraeI8j5O/kbAEz5dS3qUy3
+ c3Ug==
+X-Gm-Message-State: AGi0Puac0g3/1wb73tZO6UU3lW/9GTwDwp6QEWmFKs1MHUzkAp9GLTbp
+ C5+5Q9RO39uSpbV26iY0nCkt7g==
+X-Google-Smtp-Source: APiQypKymN2vKc5VlHmhJhS3Oapax9Q6m2OqdiSujTulWYinZYOxah7jWivfWExgssgqMeDculzGUQ==
+X-Received: by 2002:a17:90a:1b44:: with SMTP id
+ q62mr32963239pjq.79.1589383639537; 
+ Wed, 13 May 2020 08:27:19 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id h26sm15176681pfk.35.2020.05.13.08.27.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 May 2020 08:26:11 -0700 (PDT)
-Subject: Re: [PATCH] tests/docker: Kludge <linux/swab.h> breakage by pinning
- linux-libc-dev
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20200513120147.21443-1-f4bug@amsat.org>
- <87a72beuhn.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2839ba1a-f4c4-3a4d-cabe-d6e0e1b6accc@amsat.org>
-Date: Wed, 13 May 2020 17:26:10 +0200
+ Wed, 13 May 2020 08:27:18 -0700 (PDT)
+Subject: Re: [PATCH] hw/char/parallel: Convert reset handler to DeviceReset
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20200504095623.7252-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3dcbe57c-bd12-b9c1-8594-59b9d9867ad3@linaro.org>
+Date: Wed, 13 May 2020 08:27:15 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <87a72beuhn.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200504095623.7252-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -92,129 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Salvatore Bonaccorso <carnil@debian.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/20 5:15 PM, Alex Bennée wrote:
+On 5/4/20 2:56 AM, Philippe Mathieu-Daudé wrote:
+> As TYPE_ISA_PARALLEL inherits from TYPE_ISA_DEVICE, it also
+> inherits from the DEVICE methods. Convert its reset handler
+> into a proper DeviceReset method.
 > 
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
->> Linux kernel commit d5767057c9a [1] aimed to fix an issue with the
->> swab() declaration, but doing so it introduced the BITS_PER_LONG
->> definition, without using the kernel __ prefix, leading to odd
->> failures in userland code using kernel uapi headers, such:
->>
->>        CC      block/file-posix.o
->>      In file included from include/qemu/timer.h:4,
->>                       from include/qemu/timed-average.h:29,
->>                       from include/block/accounting.h:28,
->>                       from include/block/block_int.h:27,
->>                       from block/file-posix.c:30:
->>      /usr/include/linux/swab.h: In function `__swab':
->>      include/qemu/bitops.h:20:34: error: "sizeof" is not defined, evaluates to 0 [-Werror=undef]
->>         20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
->>            |                                  ^~~~~~
->>      include/qemu/bitops.h:20:41: error: missing binary operator before token "("
->>         20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
->>            |                                         ^
->>      cc1: all warnings being treated as errors
->>      make: *** [rules.mak:69: block/file-posix.o] Error 1
->>
->> The issue has been fixed in Linux kernel commit 467d12f5c78 [2].
->> Some distributions already backported the first commit, but still
->> lack the second one.
->>
->> This is the case for Debian Buster.
->> The linux-libc-dev package contains the Linux kernel headers.
->> Kernel commit d5767057c9a has been backported in package
->> commit 1fb0eb7956 "Update to 4.19.116" [3], see debian/changelog:
->>
->>    +linux (4.19.116-1) UNRELEASED; urgency=medium
->>    ...
->>    +    - uapi: rename ext2_swab() to swab() and share globally in swab.h
->>
->> The previous released update before it is debian/4.19.98-1,
->> released as debian/4.19.98-1+deb10u1.
->>
->> We can find this package in the Debian snapshot archives,
->> luckily archived on 2020-04-28 21:20:54 (see [4]).
->>
->> QEMU use Debian based Docker images for most of its cross-builds,
->> which are tested by our Shippable CI jobs. The current broken
->> package makes most of our CI red. We can kludge this by using the
->> latest package released before the breakage. Do so by pinning
->> the package version (apt hold), and using the snapshot archives,
->> similar to commit b4048a7cd1.
->> We'll revert once the fix is backported on Debian.
-> 
-> May as well mention:
-> 
->    https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=960271
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/char/parallel.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 
-Sure (I remembered you talked about it on IRC, but was lazy to dig).
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> 
->>
->> Reference to commits:
->> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d5767057c9a
->> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=467d12f5c78
->> [3] https://salsa.debian.org/kernel-team/linux/-/commit/1fb0eb7956
->> [4] http://snapshot.debian.org/package/linux/4.19.98-1%2Bdeb10u1/#linux-libc-dev_4.19.98-1:2b:deb10u1
->>
->> Cc: Salvatore Bonaccorso <carnil@debian.org>
->> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->> Shippable green again:
->> https://app.shippable.com/github/philmd/qemu/runs/759/summary/console
->> ---
->>   tests/docker/dockerfiles/debian10.docker | 16 ++++++++++++++++
->>   1 file changed, 16 insertions(+)
->>
->> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
->> index 0769700a41..d7084ac283 100644
->> --- a/tests/docker/dockerfiles/debian10.docker
->> +++ b/tests/docker/dockerfiles/debian10.docker
->> @@ -9,6 +9,15 @@
->>   #
->>   FROM debian:buster-slim
->>   
->> + # Use a snapshot known to work (see http://snapshot.debian.org/#Usage)
->> +ENV DEBIAN_SNAPSHOT_DATE "20200428T212054Z"
->> +RUN sed -i \
->> +    "s%^deb \(https\?://\)deb.debian.org/debian/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian/${DEBIAN_SNAPSHOT_DATE} \2%" \
->> +    /etc/apt/sources.list
->> +RUN sed -i \
->> +    "s%^deb \(https\?://\)security.debian.org/debian-security/\? \(.*\)%deb [check-valid-until=no] \1snapshot.debian.org/archive/debian-security/${DEBIAN_SNAPSHOT_DATE} \2%" \
->> +    /etc/apt/sources.list
->> +
->>   # Duplicate deb line as deb-src
->>   RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
->>   
->> @@ -35,4 +44,11 @@ RUN apt update && \
->>           texinfo \
->>           $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
->>   
->> +# Install common build utilities
->> +RUN apt update && \
->> +    DEBIAN_FRONTEND=noninteractive eatmydata \
->> +    apt install -y --allow-downgrades \
->> +        linux-libc-dev=4.19.98-1+deb10u1 && \
->> +    apt-mark hold linux-libc-dev
->> +
-> 
-> Do we need this bit? Surely if we have a snapshot URL we don't need to
-> hold the package as it will never get updated?
 
-You are right, it is a remnant from the first approach (pin it without 
-using snapshot) which didn't work. I'll remove this line and the comment 
-in description.
-
-> 
->>   ENV FEATURES docs
-> 
-> 
+r~
 
