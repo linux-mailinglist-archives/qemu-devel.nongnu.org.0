@@ -2,94 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F45F1D17F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 16:53:00 +0200 (CEST)
-Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212B91D180B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 16:56:48 +0200 (CEST)
+Received: from localhost ([::1]:55708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYskl-00039w-5w
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 10:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59102)
+	id 1jYsoR-0001P6-4t
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 10:56:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYsjY-000212-12
- for qemu-devel@nongnu.org; Wed, 13 May 2020 10:51:44 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56007
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYsjX-00081X-6P
- for qemu-devel@nongnu.org; Wed, 13 May 2020 10:51:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589381502;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=byvYp8fR2uUp4e56QqgK6pXWyGW3/dnejn3R3jN6px4=;
- b=HFrDONJCuv1Nem3cgdNlLmfxeLmglgs4+mgJyK2tyXNhCRzXs1qQSulN2zYTMWb+93jas5
- roJ7A99rgUJ5t1LQ+93h2WGPGaChIos47BBSKzDtOxxlAJi6FQHac2XuBsnGgQ80hPoW+N
- JYr29BevTxHdxYynoQyQs2D7FAkYrzY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-MNwNsbnhOM674jw_UDmdVw-1; Wed, 13 May 2020 10:51:37 -0400
-X-MC-Unique: MNwNsbnhOM674jw_UDmdVw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BF7C461;
- Wed, 13 May 2020 14:51:36 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.193.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C0ADD5C1C3;
- Wed, 13 May 2020 14:51:31 +0000 (UTC)
-Subject: Re: [RFC] migration: Add migrate-set-bitmap-node-mapping
-To: qemu-block@nongnu.org
-References: <20200513144941.1469447-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f5d4ce5b-4887-f9ea-07be-feacbc7f3889@redhat.com>
-Date: Wed, 13 May 2020 16:51:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYsmk-0007yL-2K
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 10:55:02 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:55752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1jYsmi-0000f1-NE
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 10:55:01 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 04DErYid029273
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 13 May 2020 10:53:38 -0400
+Date: Wed, 13 May 2020 10:53:34 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: P J P <ppandit@redhat.com>
+Subject: Re: [PATCH 0/2] use unsigned type for MegasasState fields
+Message-ID: <20200513145334.kng7n73jql32rrat@mozz.bu.edu>
+References: <20200507105718.1319187-1-ppandit@redhat.com>
+ <26201c24-c483-85a7-2f4b-b3cc56d4b8b7@redhat.com>
+ <nycvar.YSQ.7.76.2005122357030.1451610@xnncv>
+ <20200512190803.o6vr2shjmhsplsjx@mozz.bu.edu>
+ <20200512194759.nb42yurlnynr5yrw@mozz.bu.edu>
+ <nycvar.YSQ.7.76.2005131905010.1451610@xnncv>
 MIME-Version: 1.0
-In-Reply-To: <20200513144941.1469447-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="vSZmMnz0PAyq77kF4FbPHsgQrbiyWdVOd"
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nycvar.YSQ.7.76.2005131905010.1451610@xnncv>
+User-Agent: NeoMutt/20180716
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 10:54:58
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,59 +62,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Krempa <pkrempa@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, QEMU Developers <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ren Ding <rding@gatech.edu>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---vSZmMnz0PAyq77kF4FbPHsgQrbiyWdVOd
-Content-Type: multipart/mixed; boundary="vjVtlOhGn4f5uGc295t7rzA6CiGq8qzNi"
+On 200513 1919, P J P wrote:
+>   Hello Alex,
+> 
+> +-- On Tue, 12 May 2020, Alexander Bulekov wrote --+
+> | I noticed this since I found a similar issue recently, using a fuzzer. I 
+> | applied your patches, but I can still reproduce the heap-overflow, unless 
+> | I'm missing something:
+> 
+> Strange, because with uint16_t type, 'reply_queue_head' should not turn 
+> negative.
+> 
+> | cat << EOF | qemu-system-i386 -qtest stdio -nographic -monitor none \
+> | -serial none -M q35 -device megasas -device scsi-cd,drive=null0 \
+> | -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic
+> | outl 0xcf8 0x80001814
+> | outl 0xcfc 0xc021
+> | outl 0xcf8 0x80001818
+> | outl 0xcf8 0x80001804
+> | outw 0xcfc 0x7
+> | outl 0xcf8 0x80001810
+> | outl 0xcfc 0xe10c0000
+> | outl 0xcf8 0x8000f810
+> | write 0x0 0x18 0x060017e1ff00f8ffffffff60efffffffffffffffffffffff
+> | write 0xff00 0x1 0x06
+> | write 0xc021e10c0040 0x81 0x755e08ff0000845e08ff0000935e08ff0000a25e08ff0000b15e08ff0000c05e08ff0000cf5e08ff0000de5e08ff0000ed5e08ff0000fc5e08ff00000b5e08ff00001a5e08ff0000295e08ff0000385e08ff0000475e08ff0000565e08ff0000655e08ff0000745e08ff0000835e08ff0000925e08ff0000a15e08ff0000b05e08
+> | -M pc-q35-5.0 -no-shutdown -M q35 -device megasas -device scsi-cd,drive=null0 -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic
+> | EOF
+> 
+> Are qemu options just above EOF right?
+> 
+> This leads to an assert failure below
+> 
+>   qemu/qtest.c:546:qtest_process_command: assertion failed: (words[1] && words[2] && words[3])
+>   ...
+>   Aborted                 (core dumped) /tmp/im/bin/qemu-system-x86_64 -qtest 
+>   stdio -nographic -monitor none -serial none -M q35 -device megasas -device 
+>   scsi-cd,drive=null0 -blockdev driver=null-co,read-zeroes=on,node-name=null0 -nographic < ins
 
---vjVtlOhGn4f5uGc295t7rzA6CiGq8qzNi
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Also, this assertion seems to happen while parsing one of the "write"
+commands. Maybe the formatting was corrupted in the email. I uploaded
+the commands here, just in case:
 
-On 13.05.20 16:49, Max Reitz wrote:
-> This command allows mapping block node names to aliases for the purpose
-> of block dirty bitmap migration.
->=20
-> This way, management tools can use different node names on the source
-> and destination and pass the mapping of how bitmaps are to be
-> transferred to qemu (on the source, the destination, or even both with
-> arbitrary aliases in the migration stream).
->=20
-> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+wget https://paste.debian.net/plain/1146573
 
-Sorry, let me try again, I changed the name of the command and the type
-just before sending and that was a stupid idea, as it turns out.
-
-Max
-
-
---vjVtlOhGn4f5uGc295t7rzA6CiGq8qzNi--
-
---vSZmMnz0PAyq77kF4FbPHsgQrbiyWdVOd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl68CXIACgkQ9AfbAGHV
-z0CcYQgAjqDehu8MuFDKp5yQuSsUtkduBZPQkl0NCqvrHwf+si/4jOQONyKUwIzt
-omTkNzeV+Ebj3Dn9yNB119xzMjUR2A+wN9Umbl7tb/VJNLNGscleiDe6A/blJj7D
-yApJr9a8W/+KDhebNxn93QoN9Y8BdpbtflAPJRFKU8rV2Nmr/xu4XPdx1eQ0r6Bo
-PjwfCycjnV8PUifgs3FV3cAIxKkkDftIozeZiWTa2ynko0MHOlC+q0Y+5gGoCg/l
-pq4vTVxs8oOeCzeCdcB9fmNS5oc/k1xGwV5yY4K+kOpSN7Hiftn12xzb7MZPKo6Y
-15MpXofxBMye1Wq01EjELGBK3n7oKQ==
-=r/tg
------END PGP SIGNATURE-----
-
---vSZmMnz0PAyq77kF4FbPHsgQrbiyWdVOd--
-
+qemu-system-i386 -qtest stdio -nographic -monitor none -serial none \
+-M q35 -device megasas -device scsi-cd,drive=null0 \
+-blockdev driver=null-co,read-zeroes=on,node-name=null0 \
+-nographic < 1146573
+-Alex
+> 
+> Thank you.
+> --
+> Prasad J Pandit / Red Hat Product Security Team
+> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+> 
 
