@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F751D10B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:10:07 +0200 (CEST)
-Received: from localhost ([::1]:55198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5691D10A2
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:08:19 +0200 (CEST)
+Received: from localhost ([::1]:47258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYpGz-00070p-Ii
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54620)
+	id 1jYpFK-0003qF-Pz
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:08:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDH-0001BO-Uw
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDI-0001Bo-CI
  for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:12 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:51180
- helo=us-smtp-delivery-1.mimecast.com)
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:60757
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpD9-0003MD-1M
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDE-0003Mo-P4
  for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589367962;
+ s=mimecast20190719; t=1589367965;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fK6KQ4pwLSoW86nxua2xGTjV9b9+bhfx2+zi+8sREm0=;
- b=H3vc6J21l5zzmP7Wb7YgYKfc8ixaOEquD8lOhnQrVB2sIGaid/xAYXCCqCUtdu/cmMU9ao
- 1weB2bnxQ5vYYvf5VpvjFZa3Gqz9QntbL5bKOyFTSZgT9V4t2D6fjkH3V670WDH21Ay38q
- 18pj8EXnDEfvW4Vk2W/6Y0UJvUgu7FA=
+ bh=eKx4/HMyQj+maUEKoYJPXIWO65gzgbWSvDVbuEHgj8w=;
+ b=PybJaRxwZzHe7qh980rftpqqq2x+G7eouhkh5sc2oTIY4q5JpOqsHAcKLXFFE+7XV/wcMw
+ F+wpETjfveQGx36KqOFnhfURYZY91Sdu4iDpyUPCNvGmOoD3cZJs1+oK6vrgEsQBBXV0cJ
+ koZOi6phKPTpT0yVahhhGTIR0GPSVkk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-miFrCp96O5Sw2JMgwg5hNA-1; Wed, 13 May 2020 07:06:00 -0400
-X-MC-Unique: miFrCp96O5Sw2JMgwg5hNA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-278-4V0k6yv8PXyedkBuE5ZBQg-1; Wed, 13 May 2020 07:06:03 -0400
+X-MC-Unique: 4V0k6yv8PXyedkBuE5ZBQg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B14719200C3;
- Wed, 13 May 2020 11:05:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BDE5107ACF3;
+ Wed, 13 May 2020 11:06:02 +0000 (UTC)
 Received: from localhost (unknown [10.40.193.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E94F1002382;
- Wed, 13 May 2020 11:05:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82C215D9C5;
+ Wed, 13 May 2020 11:06:01 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 04/34] block: Add BdrvChildRole and BdrvChildRoleBits
-Date: Wed, 13 May 2020 13:05:14 +0200
-Message-Id: <20200513110544.176672-5-mreitz@redhat.com>
+Subject: [PATCH v4 05/34] block: Add BdrvChildRole to BdrvChild
+Date: Wed, 13 May 2020 13:05:15 +0200
+Message-Id: <20200513110544.176672-6-mreitz@redhat.com>
 In-Reply-To: <20200513110544.176672-1-mreitz@redhat.com>
 References: <20200513110544.176672-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
@@ -82,83 +82,652 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This mask will supplement BdrvChildClass when it comes to what role (or
-combination of roles) a child takes for its parent.  It consists of
-BdrvChildRoleBits values (which is an enum).
-
-Because empty enums are not allowed, let us just start with it filled.
+For now, it is always set to 0.  Later patches in this series will
+ensure that all callers pass an appropriate combination of flags.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/block/block.h | 56 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ include/block/block.h       |  2 ++
+ include/block/block_int.h   |  2 ++
+ block.c                     | 11 ++++++++---
+ block/backup-top.c          |  3 ++-
+ block/blkdebug.c            |  2 +-
+ block/blklogwrites.c        |  6 +++---
+ block/blkreplay.c           |  2 +-
+ block/blkverify.c           |  4 ++--
+ block/block-backend.c       |  4 ++--
+ block/bochs.c               |  2 +-
+ block/cloop.c               |  2 +-
+ block/copy-on-read.c        |  2 +-
+ block/crypto.c              |  2 +-
+ block/dmg.c                 |  2 +-
+ block/filter-compress.c     |  2 +-
+ block/parallels.c           |  2 +-
+ block/qcow.c                |  2 +-
+ block/qcow2.c               |  6 +++---
+ block/qed.c                 |  2 +-
+ block/quorum.c              |  4 ++--
+ block/raw-format.c          |  2 +-
+ block/replication.c         |  2 +-
+ block/throttle.c            |  2 +-
+ block/vdi.c                 |  2 +-
+ block/vhdx.c                |  2 +-
+ block/vmdk.c                |  4 ++--
+ block/vpc.c                 |  2 +-
+ block/vvfat.c               |  2 +-
+ blockjob.c                  |  5 +++--
+ tests/test-bdrv-drain.c     | 20 +++++++++++---------
+ tests/test-bdrv-graph-mod.c |  4 ++--
+ 31 files changed, 62 insertions(+), 49 deletions(-)
 
 diff --git a/include/block/block.h b/include/block/block.h
-index bc42e507bb..86cffa9ffd 100644
+index 86cffa9ffd..a5c1ddb4a1 100644
 --- a/include/block/block.h
 +++ b/include/block/block.h
-@@ -268,6 +268,62 @@ enum {
-     DEFAULT_PERM_UNCHANGED      = BLK_PERM_ALL & ~DEFAULT_PERM_PASSTHROUGH,
- };
+@@ -353,6 +353,7 @@ BdrvChild *bdrv_open_child(const char *filename,
+                            QDict *options, const char *bdref_key,
+                            BlockDriverState* parent,
+                            const BdrvChildClass *child_class,
++                           BdrvChildRole child_role,
+                            bool allow_none, Error **errp);
+ BlockDriverState *bdrv_open_blockdev_ref(BlockdevRef *ref, Error **errp);
+ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+@@ -598,6 +599,7 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+                              BlockDriverState *child_bs,
+                              const char *child_name,
+                              const BdrvChildClass *child_class,
++                             BdrvChildRole child_role,
+                              Error **errp);
  
-+/*
-+ * Flags parent nodes give for the child nodes to specify what kind of
-+ * role(s) they take.
-+ *
-+ * At least one of DATA, METADATA, FILTERED, or COW must be set for
-+ * every child.
-+ */
-+enum BdrvChildRoleBits {
-+    /*
-+     * This child stores data.
-+     * Any node may have an arbitrary number of such children.
-+     */
-+    BDRV_CHILD_DATA         = (1 << 0),
-+
-+    /*
-+     * This child stores metadata.
-+     * Any node may have an arbitrary number of metadata-storing
-+     * children.
-+     */
-+    BDRV_CHILD_METADATA     = (1 << 1),
-+
-+    /*
-+     * A child that always presents exactly the same visible data as
-+     * the parent, e.g. by virtue of the parent forwarding all reads
-+     * and writes.
-+     * This flag is mutually exclusive with DATA, METADATA, and COW.
-+     * Any node may have at most one filtered child at a time.
-+     */
-+    BDRV_CHILD_FILTERED     = (1 << 2),
-+
-+    /*
-+     * Child from which to read all data that isn’t allocated in the
-+     * parent (i.e., the backing child); such data is copied to the
-+     * parent through COW (and optionally COR).
-+     * This field is mutually exclusive with DATA, METADATA, and
-+     * FILTERED.
-+     * Any node may have at most one such backing child at a time.
-+     */
-+    BDRV_CHILD_COW          = (1 << 3),
-+
-+    /*
-+     * The primary child.  For most drivers, this is the child whose
-+     * filename applies best to the parent node.
-+     * Any node may have at most one primary child at a time.
-+     */
-+    BDRV_CHILD_PRIMARY      = (1 << 4),
-+
-+    /* Useful combination of flags */
-+    BDRV_CHILD_IMAGE        = BDRV_CHILD_DATA
-+                              | BDRV_CHILD_METADATA
-+                              | BDRV_CHILD_PRIMARY,
-+};
-+
-+/* Mask of BdrvChildRoleBits values */
-+typedef unsigned int BdrvChildRole;
-+
- char *bdrv_perm_names(uint64_t perm);
- uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm);
+ bool bdrv_op_is_blocked(BlockDriverState *bs, BlockOpType op, Error **errp);
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 9a78b981e4..1c6641c17a 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -746,6 +746,7 @@ struct BdrvChild {
+     BlockDriverState *bs;
+     char *name;
+     const BdrvChildClass *klass;
++    BdrvChildRole role;
+     void *opaque;
+ 
+     /**
+@@ -1233,6 +1234,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+                                   const char *child_name,
+                                   const BdrvChildClass *child_class,
++                                  BdrvChildRole child_role,
+                                   AioContext *ctx,
+                                   uint64_t perm, uint64_t shared_perm,
+                                   void *opaque, Error **errp);
+diff --git a/block.c b/block.c
+index 0ce9b61c97..14810e0426 100644
+--- a/block.c
++++ b/block.c
+@@ -2571,6 +2571,7 @@ static void bdrv_replace_child(BdrvChild *child, BlockDriverState *new_bs)
+ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+                                   const char *child_name,
+                                   const BdrvChildClass *child_class,
++                                  BdrvChildRole child_role,
+                                   AioContext *ctx,
+                                   uint64_t perm, uint64_t shared_perm,
+                                   void *opaque, Error **errp)
+@@ -2592,6 +2593,7 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+         .bs             = NULL,
+         .name           = g_strdup(child_name),
+         .klass          = child_class,
++        .role           = child_role,
+         .perm           = perm,
+         .shared_perm    = shared_perm,
+         .opaque         = opaque,
+@@ -2644,6 +2646,7 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+                              BlockDriverState *child_bs,
+                              const char *child_name,
+                              const BdrvChildClass *child_class,
++                             BdrvChildRole child_role,
+                              Error **errp)
+ {
+     BdrvChild *child;
+@@ -2656,7 +2659,7 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
+                     perm, shared_perm, &perm, &shared_perm);
+ 
+     child = bdrv_root_attach_child(child_bs, child_name, child_class,
+-                                   bdrv_get_aio_context(parent_bs),
++                                   child_role, bdrv_get_aio_context(parent_bs),
+                                    perm, shared_perm, parent_bs, errp);
+     if (child == NULL) {
+         return NULL;
+@@ -2774,7 +2777,7 @@ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+     }
+ 
+     bs->backing = bdrv_attach_child(bs, backing_hd, "backing", &child_backing,
+-                                    errp);
++                                    0, errp);
+     /* If backing_hd was already part of bs's backing chain, and
+      * inherits_from pointed recursively to bs then let's update it to
+      * point directly to bs (else it will become NULL). */
+@@ -2965,6 +2968,7 @@ BdrvChild *bdrv_open_child(const char *filename,
+                            QDict *options, const char *bdref_key,
+                            BlockDriverState *parent,
+                            const BdrvChildClass *child_class,
++                           BdrvChildRole child_role,
+                            bool allow_none, Error **errp)
+ {
+     BlockDriverState *bs;
+@@ -2975,7 +2979,8 @@ BdrvChild *bdrv_open_child(const char *filename,
+         return NULL;
+     }
+ 
+-    return bdrv_attach_child(parent, bs, bdref_key, child_class, errp);
++    return bdrv_attach_child(parent, bs, bdref_key, child_class, child_role,
++                             errp);
+ }
+ 
+ /*
+diff --git a/block/backup-top.c b/block/backup-top.c
+index 282845a410..f891dd7838 100644
+--- a/block/backup-top.c
++++ b/block/backup-top.c
+@@ -214,7 +214,8 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
+              source->supported_zero_flags);
+ 
+     bdrv_ref(target);
+-    state->target = bdrv_attach_child(top, target, "target", &child_file, errp);
++    state->target = bdrv_attach_child(top, target, "target", &child_file, 0,
++                                      errp);
+     if (!state->target) {
+         bdrv_unref(target);
+         bdrv_unref(top);
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index f369d54ee4..c91e78d5c8 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -497,7 +497,7 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
+ 
+     /* Open the image file */
+     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options, "image",
+-                               bs, &child_file, false, &local_err);
++                               bs, &child_file, 0, false, &local_err);
+     if (local_err) {
+         ret = -EINVAL;
+         error_propagate(errp, local_err);
+diff --git a/block/blklogwrites.c b/block/blklogwrites.c
+index f3b3259d8d..739db6dcf6 100644
+--- a/block/blklogwrites.c
++++ b/block/blklogwrites.c
+@@ -157,7 +157,7 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+ 
+     /* Open the file */
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, false,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0, false,
+                                &local_err);
+     if (local_err) {
+         ret = -EINVAL;
+@@ -166,8 +166,8 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+ 
+     /* Open the log file */
+-    s->log_file = bdrv_open_child(NULL, options, "log", bs, &child_file, false,
+-                                  &local_err);
++    s->log_file = bdrv_open_child(NULL, options, "log", bs, &child_file, 0,
++                                  false, &local_err);
+     if (local_err) {
+         ret = -EINVAL;
+         error_propagate(errp, local_err);
+diff --git a/block/blkreplay.c b/block/blkreplay.c
+index 131c9e8477..9b2814fc58 100644
+--- a/block/blkreplay.c
++++ b/block/blkreplay.c
+@@ -28,7 +28,7 @@ static int blkreplay_open(BlockDriverState *bs, QDict *options, int flags,
+ 
+     /* Open the image file */
+     bs->file = bdrv_open_child(NULL, options, "image",
+-                               bs, &child_file, false, &local_err);
++                               bs, &child_file, 0, false, &local_err);
+     if (local_err) {
+         ret = -EINVAL;
+         error_propagate(errp, local_err);
+diff --git a/block/blkverify.c b/block/blkverify.c
+index ba6b1853ae..ba4f6d7b7c 100644
+--- a/block/blkverify.c
++++ b/block/blkverify.c
+@@ -125,7 +125,7 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
+ 
+     /* Open the raw file */
+     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-raw"), options, "raw",
+-                               bs, &child_file, false, &local_err);
++                               bs, &child_file, 0, false, &local_err);
+     if (local_err) {
+         ret = -EINVAL;
+         error_propagate(errp, local_err);
+@@ -134,7 +134,7 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
+ 
+     /* Open the test file */
+     s->test_file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options,
+-                                   "test", bs, &child_format, false,
++                                   "test", bs, &child_format, 0, false,
+                                    &local_err);
+     if (local_err) {
+         ret = -EINVAL;
+diff --git a/block/block-backend.c b/block/block-backend.c
+index c0af79147a..efc7acb3d8 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -423,7 +423,7 @@ BlockBackend *blk_new_open(const char *filename, const char *reference,
+         return NULL;
+     }
+ 
+-    blk->root = bdrv_root_attach_child(bs, "root", &child_root, blk->ctx,
++    blk->root = bdrv_root_attach_child(bs, "root", &child_root, 0, blk->ctx,
+                                        perm, BLK_PERM_ALL, blk, errp);
+     if (!blk->root) {
+         blk_unref(blk);
+@@ -834,7 +834,7 @@ int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+ {
+     ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+     bdrv_ref(bs);
+-    blk->root = bdrv_root_attach_child(bs, "root", &child_root, blk->ctx,
++    blk->root = bdrv_root_attach_child(bs, "root", &child_root, 0, blk->ctx,
+                                        blk->perm, blk->shared_perm, blk, errp);
+     if (blk->root == NULL) {
+         return -EPERM;
+diff --git a/block/bochs.c b/block/bochs.c
+index e7bbeaa1c4..b013e73063 100644
+--- a/block/bochs.c
++++ b/block/bochs.c
+@@ -110,7 +110,7 @@ static int bochs_open(BlockDriverState *bs, QDict *options, int flags,
+         return ret;
+     }
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/cloop.c b/block/cloop.c
+index f90f1a4b4c..3ed9fa63cc 100644
+--- a/block/cloop.c
++++ b/block/cloop.c
+@@ -71,7 +71,7 @@ static int cloop_open(BlockDriverState *bs, QDict *options, int flags,
+         return ret;
+     }
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 7504ca6ffc..a2c4e6dc58 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -28,7 +28,7 @@
+ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+                     Error **errp)
+ {
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, false,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0, false,
+                                errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/crypto.c b/block/crypto.c
+index bdb2b27475..8b516bfee2 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -218,7 +218,7 @@ static int block_crypto_open_generic(QCryptoBlockFormat format,
+     unsigned int cflags = 0;
+     QDict *cryptoopts = NULL;
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/dmg.c b/block/dmg.c
+index ef3c6e771d..af8188638c 100644
+--- a/block/dmg.c
++++ b/block/dmg.c
+@@ -439,7 +439,7 @@ static int dmg_open(BlockDriverState *bs, QDict *options, int flags,
+         return ret;
+     }
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/filter-compress.c b/block/filter-compress.c
+index 82c315b298..4dc5f9fb8c 100644
+--- a/block/filter-compress.c
++++ b/block/filter-compress.c
+@@ -30,7 +30,7 @@
+ static int compress_open(BlockDriverState *bs, QDict *options, int flags,
+                          Error **errp)
+ {
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, false,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0, false,
+                                errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/parallels.c b/block/parallels.c
+index bd5f6ffa09..9855ac1162 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -739,7 +739,7 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+     Error *local_err = NULL;
+     char *buf;
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/qcow.c b/block/qcow.c
+index 6a72dea049..13583f0339 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -130,7 +130,7 @@ static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
+     qdict_extract_subqdict(options, &encryptopts, "encrypt.");
+     encryptfmt = qdict_get_try_str(encryptopts, "format");
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         ret = -EINVAL;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 76bec61ee9..86335d9403 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1591,7 +1591,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+ 
+     /* Open external data file */
+     s->data_file = bdrv_open_child(NULL, options, "data-file", bs, &child_file,
+-                                   true, &local_err);
++                                   0, true, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         ret = -EINVAL;
+@@ -1601,7 +1601,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+     if (s->incompatible_features & QCOW2_INCOMPAT_DATA_FILE) {
+         if (!s->data_file && s->image_data_file) {
+             s->data_file = bdrv_open_child(s->image_data_file, options,
+-                                           "data-file", bs, &child_file,
++                                           "data-file", bs, &child_file, 0,
+                                            false, errp);
+             if (!s->data_file) {
+                 ret = -EINVAL;
+@@ -1863,7 +1863,7 @@ static int qcow2_open(BlockDriverState *bs, QDict *options, int flags,
+         .ret = -EINPROGRESS
+     };
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/qed.c b/block/qed.c
+index 337eb6dbb6..1ad2aba810 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -547,7 +547,7 @@ static int bdrv_qed_open(BlockDriverState *bs, QDict *options, int flags,
+         .ret = -EINPROGRESS
+     };
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/quorum.c b/block/quorum.c
+index a0824c300d..024de76e6f 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -977,7 +977,7 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+         assert(ret < 32);
+ 
+         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
+-                                         &child_format, false, &local_err);
++                                         &child_format, 0, false, &local_err);
+         if (local_err) {
+             ret = -EINVAL;
+             goto close_exit;
+@@ -1053,7 +1053,7 @@ static void quorum_add_child(BlockDriverState *bs, BlockDriverState *child_bs,
+     /* We can safely add the child now */
+     bdrv_ref(child_bs);
+ 
+-    child = bdrv_attach_child(bs, child_bs, indexstr, &child_format, errp);
++    child = bdrv_attach_child(bs, child_bs, indexstr, &child_format, 0, errp);
+     if (child == NULL) {
+         s->next_child_index--;
+         goto out;
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 00e13bb41e..4b8d4ce8be 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -428,7 +428,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+     BDRVRawState *s = bs->opaque;
+     int ret;
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/replication.c b/block/replication.c
+index 446bba2520..9ee529cffb 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -90,7 +90,7 @@ static int replication_open(BlockDriverState *bs, QDict *options,
+     const char *mode;
+     const char *top_id;
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/throttle.c b/block/throttle.c
+index 71f4bb0ad1..2dea913be7 100644
+--- a/block/throttle.c
++++ b/block/throttle.c
+@@ -82,7 +82,7 @@ static int throttle_open(BlockDriverState *bs, QDict *options,
+     int ret;
+ 
+     bs->file = bdrv_open_child(NULL, options, "file", bs,
+-                               &child_file, false, errp);
++                               &child_file, 0, false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+     }
+diff --git a/block/vdi.c b/block/vdi.c
+index 0ef733ae19..653acb5fc1 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -378,7 +378,7 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
+     Error *local_err = NULL;
+     QemuUUID uuid_link, uuid_parent;
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/vhdx.c b/block/vhdx.c
+index e692cf80cc..dde156c97b 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -996,7 +996,7 @@ static int vhdx_open(BlockDriverState *bs, QDict *options, int flags,
+     uint64_t signature;
+     Error *local_err = NULL;
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 56e85689f3..c2cb741e2d 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -1152,7 +1152,7 @@ static int vmdk_parse_extents(const char *desc, BlockDriverState *bs,
+         assert(ret < 32);
+ 
+         extent_file = bdrv_open_child(extent_path, options, extent_opt_prefix,
+-                                      bs, &child_file, false, &local_err);
++                                      bs, &child_file, 0, false, &local_err);
+         g_free(extent_path);
+         if (local_err) {
+             error_propagate(errp, local_err);
+@@ -1257,7 +1257,7 @@ static int vmdk_open(BlockDriverState *bs, QDict *options, int flags,
+     uint32_t magic;
+     Error *local_err = NULL;
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/vpc.c b/block/vpc.c
+index 46a2d48659..b2a86074a5 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -228,7 +228,7 @@ static int vpc_open(BlockDriverState *bs, QDict *options, int flags,
+     int ret;
+     int64_t bs_size;
+ 
+-    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file,
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_file, 0,
+                                false, errp);
+     if (!bs->file) {
+         return -EINVAL;
+diff --git a/block/vvfat.c b/block/vvfat.c
+index f845d9b485..cd8ae50a2c 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -3183,7 +3183,7 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
+     options = qdict_new();
+     qdict_put_str(options, "write-target.driver", "qcow");
+     s->qcow = bdrv_open_child(s->qcow_filename, options, "write-target", bs,
+-                              &child_vvfat_qcow, false, errp);
++                              &child_vvfat_qcow, 0, false, errp);
+     qobject_unref(options);
+     if (!s->qcow) {
+         ret = -EINVAL;
+diff --git a/blockjob.c b/blockjob.c
+index be38c8c550..470facfd47 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -217,8 +217,9 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+     if (job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_release(job->job.aio_context);
+     }
+-    c = bdrv_root_attach_child(bs, name, &child_job, job->job.aio_context,
+-                               perm, shared_perm, job, errp);
++    c = bdrv_root_attach_child(bs, name, &child_job, 0,
++                               job->job.aio_context, perm, shared_perm, job,
++                               errp);
+     if (job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_acquire(job->job.aio_context);
+     }
+diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
+index 9d683a6c11..c03705ea37 100644
+--- a/tests/test-bdrv-drain.c
++++ b/tests/test-bdrv-drain.c
+@@ -1202,7 +1202,7 @@ static void do_test_delete_by_drain(bool detach_instead_of_delete,
+ 
+     null_bs = bdrv_open("null-co://", NULL, NULL, BDRV_O_RDWR | BDRV_O_PROTOCOL,
+                         &error_abort);
+-    bdrv_attach_child(bs, null_bs, "null-child", &child_file, &error_abort);
++    bdrv_attach_child(bs, null_bs, "null-child", &child_file, 0, &error_abort);
+ 
+     /* This child will be the one to pass to requests through to, and
+      * it will stall until a drain occurs */
+@@ -1211,13 +1211,13 @@ static void do_test_delete_by_drain(bool detach_instead_of_delete,
+     child_bs->total_sectors = 65536 >> BDRV_SECTOR_BITS;
+     /* Takes our reference to child_bs */
+     tts->wait_child = bdrv_attach_child(bs, child_bs, "wait-child", &child_file,
+-                                        &error_abort);
++                                        0, &error_abort);
+ 
+     /* This child is just there to be deleted
+      * (for detach_instead_of_delete == true) */
+     null_bs = bdrv_open("null-co://", NULL, NULL, BDRV_O_RDWR | BDRV_O_PROTOCOL,
+                         &error_abort);
+-    bdrv_attach_child(bs, null_bs, "null-child", &child_file, &error_abort);
++    bdrv_attach_child(bs, null_bs, "null-child", &child_file, 0, &error_abort);
+ 
+     blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
+     blk_insert_bs(blk, bs, &error_abort);
+@@ -1314,7 +1314,7 @@ static void detach_indirect_bh(void *opaque)
+ 
+     bdrv_ref(data->c);
+     data->child_c = bdrv_attach_child(data->parent_b, data->c, "PB-C",
+-                                      &child_file, &error_abort);
++                                      &child_file, 0, &error_abort);
+ }
+ 
+ static void detach_by_parent_aio_cb(void *opaque, int ret)
+@@ -1396,13 +1396,15 @@ static void test_detach_indirect(bool by_parent_cb)
+     /* Set child relationships */
+     bdrv_ref(b);
+     bdrv_ref(a);
+-    child_b = bdrv_attach_child(parent_b, b, "PB-B", &child_file, &error_abort);
+-    child_a = bdrv_attach_child(parent_b, a, "PB-A", &child_backing, &error_abort);
++    child_b = bdrv_attach_child(parent_b, b, "PB-B", &child_file, 0,
++                                &error_abort);
++    child_a = bdrv_attach_child(parent_b, a, "PB-A", &child_backing, 0,
++                                &error_abort);
+ 
+     bdrv_ref(a);
+     bdrv_attach_child(parent_a, a, "PA-A",
+                       by_parent_cb ? &child_file : &detach_by_driver_cb_class,
+-                      &error_abort);
++                      0, &error_abort);
+ 
+     g_assert_cmpint(parent_a->refcnt, ==, 1);
+     g_assert_cmpint(parent_b->refcnt, ==, 1);
+@@ -1813,7 +1815,7 @@ static void test_drop_intermediate_poll(void)
+             /* Takes the reference to chain[i - 1] */
+             chain[i]->backing = bdrv_attach_child(chain[i], chain[i - 1],
+                                                   "chain", &chain_child_class,
+-                                                  &error_abort);
++                                                  0, &error_abort);
+         }
+     }
+ 
+@@ -2031,7 +2033,7 @@ static void do_test_replace_child_mid_drain(int old_drain_count,
+ 
+     bdrv_ref(old_child_bs);
+     parent_bs->backing = bdrv_attach_child(parent_bs, old_child_bs, "child",
+-                                           &child_backing, &error_abort);
++                                           &child_backing, 0, &error_abort);
+ 
+     for (i = 0; i < old_drain_count; i++) {
+         bdrv_drained_begin(old_child_bs);
+diff --git a/tests/test-bdrv-graph-mod.c b/tests/test-bdrv-graph-mod.c
+index fef42cb294..8b8c186c9f 100644
+--- a/tests/test-bdrv-graph-mod.c
++++ b/tests/test-bdrv-graph-mod.c
+@@ -111,7 +111,7 @@ static void test_update_perm_tree(void)
+ 
+     blk_insert_bs(root, bs, &error_abort);
+ 
+-    bdrv_attach_child(filter, bs, "child", &child_file, &error_abort);
++    bdrv_attach_child(filter, bs, "child", &child_file, 0, &error_abort);
+ 
+     bdrv_append(filter, bs, &local_err);
+ 
+@@ -177,7 +177,7 @@ static void test_should_update_child(void)
+     bdrv_set_backing_hd(target, bs, &error_abort);
+ 
+     g_assert(target->backing->bs == bs);
+-    bdrv_attach_child(filter, target, "target", &child_file, &error_abort);
++    bdrv_attach_child(filter, target, "target", &child_file, 0, &error_abort);
+     bdrv_append(filter, bs, &error_abort);
+     g_assert(target->backing->bs == bs);
  
 -- 
 2.26.2
