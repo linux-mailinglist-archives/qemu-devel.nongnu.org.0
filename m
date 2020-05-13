@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888E51D1B99
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 18:52:35 +0200 (CEST)
-Received: from localhost ([::1]:52982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD051D1BA4
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 18:57:19 +0200 (CEST)
+Received: from localhost ([::1]:38302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYucU-0006Bx-I2
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 12:52:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50626)
+	id 1jYuh3-00057t-RG
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 12:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYuak-0003NX-Da
- for qemu-devel@nongnu.org; Wed, 13 May 2020 12:50:46 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37358)
+ id 1jYuff-00048j-CN
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 12:55:53 -0400
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:33140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYuaj-00077Z-7p
- for qemu-devel@nongnu.org; Wed, 13 May 2020 12:50:45 -0400
-Received: by mail-pg1-x544.google.com with SMTP id f23so6309pgj.4
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 09:50:44 -0700 (PDT)
+ id 1jYufe-00089Q-7Z
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 12:55:50 -0400
+Received: by mail-pj1-x1044.google.com with SMTP id z15so2006970pjb.0
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 09:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=HH5OnxezYB8m50PJhDtkb04VNz53jv88eIvTAxwovtw=;
- b=gK7t6ZJeAHFfzV1kZk2s9Kzvvhu36Wzn4UY0bkNqMR13xaBWsV+TtigHcUomI034w4
- o8aCL8dyx2uHKTO5n+a2obZxowttqNDbMQJjQGMEPpsNc5nCEGuLr4ryqxOCGR1zrVjl
- 8RYvIZhogVObQYP+yoqHGBrH7sGGqAbOkB/U5VKXWBMfd8a42hYtdvac5odWg4G4kK2g
- OaerXOj0RjqdmWGPXZKC4UtbH/B+LMd9k1LFaEP+1wdMd6NBXdmWk8kMOf6jBsWGZM+v
- lbUxvmPNP9qUUAZX0LRklK44B9PgsCctsat8WNlAp9XUEx0DwJrPqovMdyLdc2dqtQDs
- XIrw==
+ bh=bcqeH5QwNT88kDHw25bchRVnVdP4xarT+DvNx3L4FJY=;
+ b=wcsY3MTR8k3WSd0YAZyE21KSfAvDFZAc0VDWF3pBPn82ffXWeV2FoNbUTPMRINp+89
+ Ef9VDtzykFHTrdHgZCN1J6vfaoryWc9sNbJDNm1D8a02QysOPeFqqe3AFjg3lskedgte
+ EIaeDtK1q+KO/xQdNL0pUyhYkujybErgeMU9CdJgrbSSj6G4go5jXoQ2ul94diEJHAou
+ D28uNZtq5/VlOKI2fOIItIa0QuMJND65rDX5dIxRWfHkwk3IuuBK5d7MCxOtTIGUh09S
+ a4qMKKe6vbIIbXtq36PVJyKLfIFn0INIs1R1qXVpu6cLZnBcM/WkCyHtFtLu9fO50/H8
+ 3b4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HH5OnxezYB8m50PJhDtkb04VNz53jv88eIvTAxwovtw=;
- b=Dd5mL74Q7YuoYzm9SziJJE1q1O1gGHITVrm2V1VE9zfaUIL6v9N40lPT+/Y2gkJ66A
- gsvwuJPBWAkfaebtFkB6HuFNRGw0L4aK0Jh1YeN6jSxSKMQfHh9hiHucOMjmBS0GvbS1
- 0pg+Y3waNoxlu3nKXn1powMTM1kmR1RkujQnokOV5ghJ1fZMApBc/w8MfjqVhFJJXB8s
- JZzXF3FzXbGFl8rRqxbqTu2pCszdn/7I7Ebf/DMPvWr7WFlbXX7eabxJMqHUc4gvv8cX
- +1g2DUQ5Prwo9/pV1C/pf59GJePoPI7eAbs8iI2DOJ+tHq78fO3+L0+iYadfKqFDzwce
- cIJg==
-X-Gm-Message-State: AOAM530lntJJy2dKFhqUjNuWdX1Gx2cnv8TAoXptCFfnIT82dFG7MzXT
- Tjxsf86YZMeeuEiEHeORD+riQ9nlCdw=
-X-Google-Smtp-Source: ABdhPJzVmePgMtaULIZWA+nNDv8Xcxocfp3weQCMdoAKYA8d+BbbPJdNS6KIoyNfPebqHcNr6nOdrQ==
-X-Received: by 2002:a63:77ca:: with SMTP id s193mr220111pgc.376.1589388643298; 
- Wed, 13 May 2020 09:50:43 -0700 (PDT)
+ bh=bcqeH5QwNT88kDHw25bchRVnVdP4xarT+DvNx3L4FJY=;
+ b=rQiiYDLx0L7v+fjstW1bjLfVO+YP934ElHQqxyievTrWFnFJ/5DupYn7HcNyBAqoE0
+ sDFOrfaQAv/cS+tswQygjrTfqHE6CJgyoP29ZM7yrzWZ2NMATKDOOcTTDjDMaQs2flLV
+ JDSbbkax3VnGc8IwTLKXQRSF1lDXThjwx259GVQLtvPlj1/9DJ2jAJaJSthTbLMJeIT/
+ 7sy+Xn5bBxuqxOrYxjVj0Pimedg+9eICm4CvXSoopyxte10Qhw/439EY1fOzq15bhYYV
+ 8eN2FQQhnNWoEoawE1IKtvDcDdcq4d9gr7YhSSONc77xsf/5nS9y+bl2uaxaVM+Ewaxj
+ CkGA==
+X-Gm-Message-State: AGi0PuZjdyTwdeOcZrH5SfB/NCOwKFROHqtfDveD1jXcQ1zW3yIVLAWZ
+ ulCJvBYVEVGl6HHQfL2qGGeBDLP+Yis=
+X-Google-Smtp-Source: APiQypKHl8fQst8PJ8fzj6nv9sbU9d+0aYNzyBI5GqGHmY7rDCV3dS79i2p6b2s1B2c1uFJU1J4HIA==
+X-Received: by 2002:a17:90a:6f22:: with SMTP id
+ d31mr33336092pjk.14.1589388948498; 
+ Wed, 13 May 2020 09:55:48 -0700 (PDT)
 Received: from [192.168.1.11] (174-21-143-238.tukw.qwest.net. [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id s44sm16500408pjc.28.2020.05.13.09.50.42
+ by smtp.gmail.com with ESMTPSA id t21sm202249pgu.39.2020.05.13.09.55.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 May 2020 09:50:42 -0700 (PDT)
-Subject: Re: [PATCH v2 06/17] target/arm: Convert Neon VRHADD, VHSUB
+ Wed, 13 May 2020 09:55:47 -0700 (PDT)
+Subject: Re: [PATCH v2 07/17] target/arm: Convert Neon VQSHL, VRSHL, VQRSHL
  3-reg-same insns to decodetree
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20200512163904.10918-1-peter.maydell@linaro.org>
- <20200512163904.10918-7-peter.maydell@linaro.org>
+ <20200512163904.10918-8-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <afdf6600-9dba-1fd7-2d4d-f393b051de0a@linaro.org>
-Date: Wed, 13 May 2020 09:50:40 -0700
+Message-ID: <a2050bf0-ea3a-9e5c-09a5-f5578fdcc69d@linaro.org>
+Date: Wed, 13 May 2020 09:55:46 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200512163904.10918-7-peter.maydell@linaro.org>
+In-Reply-To: <20200512163904.10918-8-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1044.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,19 +96,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/12/20 9:38 AM, Peter Maydell wrote:
-> Convert the Neon VRHADD and VHSUB 3-reg-same insns to decodetree.
-> (These are all the other insns in 3-reg-same which were using
-> GEN_NEON_INTEGER_OP() and which are not pairwise or
-> reversed-operands.)
+> Convert the VQSHL, VRSHL and VQRSHL insns in the 3-reg-same
+> group to decodetree. We have already implemented the size==0b11
+> case of these insns; this commit handles the remaining sizes.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/neon-dp.decode       | 6 ++++++
->  target/arm/translate-neon.inc.c | 4 ++++
->  target/arm/translate.c          | 8 ++------
->  3 files changed, 12 insertions(+), 6 deletions(-)
+>  target/arm/neon-dp.decode       | 47 +++++++++++++++++++++++----------
+>  target/arm/translate-neon.inc.c | 43 ++++++++++++++++++++++++++++++
+>  target/arm/translate.c          | 22 +++------------
+>  3 files changed, 79 insertions(+), 33 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+I think I'll come back and clean up this split 64/32-bit decode, as well as
+converting to pointer-to-qc, but this works for now.
 
 
 r~
