@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BACE1D1177
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:35:43 +0200 (CEST)
-Received: from localhost ([::1]:38398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7151D1092
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:05:36 +0200 (CEST)
+Received: from localhost ([::1]:37726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYpfq-0001cc-HL
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:35:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58326)
+	id 1jYpCh-0007xs-81
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhang.zhanghailiang@huawei.com>)
- id 1jYpbg-0002cj-TX
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:31:24 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2520 helo=huawei.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhang.zhanghailiang@huawei.com>)
- id 1jYpbe-0000fd-LR
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:31:24 -0400
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.54])
- by Forcepoint Email with ESMTP id AC72F8CCDC248E5EE773;
- Wed, 13 May 2020 19:31:07 +0800 (CST)
-Received: from dggeme706-chm.china.huawei.com (10.1.199.102) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Wed, 13 May 2020 19:31:07 +0800
-Received: from dggeme756-chm.china.huawei.com (10.3.19.102) by
- dggeme706-chm.china.huawei.com (10.1.199.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Wed, 13 May 2020 19:31:07 +0800
-Received: from dggeme756-chm.china.huawei.com ([10.6.80.68]) by
- dggeme756-chm.china.huawei.com ([10.6.80.68]) with mapi id 15.01.1913.007;
- Wed, 13 May 2020 19:31:07 +0800
-From: Zhanghailiang <zhang.zhanghailiang@huawei.com>
-To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIIDEvNl0gbWlncmF0aW9uL2NvbG8uYzogVXNlIGV2ZW50?=
- =?gb2312?Q?_instead_of_semaphore?=
-Thread-Topic: [PATCH 1/6] migration/colo.c: Use event instead of semaphore
-Thread-Index: AQHWJ4TW5lp+1J6Yi0yErChMAFDRwKil5Bzg
-Date: Wed, 13 May 2020 11:31:06 +0000
-Message-ID: <d2d88cfacf8846589b66816198a725bb@huawei.com>
-References: <cover.1589193382.git.lukasstraub2@web.de>
- <fd601ba1beb524aada54ba66e87ebfc12cf4574b.1589193382.git.lukasstraub2@web.de>
-In-Reply-To: <fd601ba1beb524aada54ba66e87ebfc12cf4574b.1589193382.git.lukasstraub2@web.de>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.173.220.30]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jYpAi-0006br-Q7
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:03:32 -0400
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:38463)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1jYpAg-0002Uq-Im
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:03:32 -0400
+Received: by mail-lf1-x132.google.com with SMTP id b26so13252889lfa.5
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 04:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sloJaQPzW0U0ONEJWXGvQ/PltRAAu+Zk7vHdtQOET7A=;
+ b=JT+n96RqGMf2ycqCNm386JB8XNEixLzizmJbEAAQQA6mDWOGQW0T816zPNa4UPX2Of
+ x/+0EewP02upQb37Io7bRziQQMvIizaSLeqaBgCwh8V2KTCu3FtqbAGQjitp6lnH0WRV
+ FiWsfmg0bhxkPcCScAUQiFDIkdzwBx0qeFXluPwds9aX/43xuMt3j/uZCtup2cKPEEN0
+ UaVRfHSCEQUtwLCSvbL8OsOMsSQJIHZ6wWBy2Q9KOA0ioZzgp1/StMCW67a/j8He3z4I
+ l17wveW45gKea6ROiNOC/0cgRNefeMR9FyU6VUW2JFE8MobBeToiSkw3zrc41IOHPXXl
+ F7aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sloJaQPzW0U0ONEJWXGvQ/PltRAAu+Zk7vHdtQOET7A=;
+ b=hQ3fhOaJN6yzD9G7F0GLbm06iy2wJ9Jn4RY3dAyJUUQUFiGf0bgs0h1s2cFI2O+lWX
+ MZUGXu1SxsOpNEKK0Xz0/+zq+PhjYvjdy+YZzqPZRb9VDVllz7VRiZJkPjZIHAlRZajZ
+ OriJPVKudx5RVQjm9cuJKkhY6NZxR6l2VDjXIH2x0Fxl/kMJuR7zi5ElOqw6+fv8qo9f
+ qzGh4VDjuIFeXxXfNCkP2j3JrjgBgfUngp7pfBUbOnm1n3mMy781fawWIX1gCZsiboGp
+ jMcmvzPHclXHr/EO99jH/Bus4jDvxj5TEdo8naUgIcTi3t3cjSlhm64OIA5HnN7rZeYI
+ JsZw==
+X-Gm-Message-State: AOAM533ER1fsDS7MZVdqYtuGEN2hTXSnxTqI+oW9Crw0pspMs6phwHy3
+ XV3vbzNwl5U1RvW56Cu8cJRK5WpJp6cwLQ==
+X-Google-Smtp-Source: ABdhPJwrhfw8sbfhQB5QbWo1UVWwfBa6p8QuUSrq/LV1uudHB2poNbghNqnw7JsUsB59Q7z7YwpSSA==
+X-Received: by 2002:ac2:50d8:: with SMTP id h24mr18439052lfm.63.1589367808792; 
+ Wed, 13 May 2020 04:03:28 -0700 (PDT)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id s4sm12045991lja.14.2020.05.13.04.03.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 May 2020 04:03:28 -0700 (PDT)
+From: andrew@daynix.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] e1000e: Added ICR clearing by corresponding IMS bit.
+Date: Wed, 13 May 2020 14:31:24 +0300
+Message-Id: <20200513113125.1465650-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=zhang.zhanghailiang@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 07:31:08
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: 14
-X-Spam_score: 1.4
-X-Spam_bar: +
-X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::132;
+ envelope-from=andrew@daynix.com; helo=mail-lf1-x132.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,71 +80,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: jasowang@redhat.com, dmitry.fleytman@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBJZiBtdWx0aXBsZSBwYWNrZXRzIG1pc2NvbXBhcmUgaW4gYSBzaG9ydCB0aW1lZnJhbWUsIHRo
-ZSBzZW1hcGhvcmUgdmFsdWUNCj4gd2lsbCBiZSBpbmNyZWFzZWQgbXVsdGlwbGUgdGltZXMuIFRo
-aXMgY2F1c2VzIG11bHRpcGxlIGNoZWNrcG9pbnRzIGV2ZW4gaWYgb25lDQo+IHdvdWxkIGJlIHN1
-ZmZpY2llbnQuDQo+IA0KDQpZb3UgcmlnaHQsIGdvb2QgY2F0Y2ggOykNCg0KUmV2aWV3ZWQtYnk6
-IHpoYW5naGFpbGlhbmcgPHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT4NCg0KPiBGaXgg
-dGhpcyBieSB1c2luZyBhIGV2ZW50IGluc3RlYWQgb2YgYSBzZW1hcGhvcmUgZm9yIHRyaWdnZXJp
-bmcgY2hlY2twb2ludHMuDQo+IE5vdywgY2hlY2twb2ludCByZXF1ZXN0cyB3aWxsIGJlIGlnbm9y
-ZWQgdW50aWwgdGhlIGNoZWNrcG9pbnQgZXZlbnQgaXMgc2VudA0KPiB0byBjb2xvLWNvbXBhcmUg
-KHdoaWNoIHJlbGVhc2VzIHRoZSBtaXNjb21wYXJlZCBwYWNrZXRzKS4NCj4gDQo+IEJlbmNobWFy
-ayByZXN1bHRzIChpcGVyZjMpOg0KPiBDbGllbnQtdG8tc2VydmVyIHRjcDoNCj4gd2l0aG91dCBw
-YXRjaDogfjY2IE1iaXQvcw0KPiB3aXRoIHBhdGNoOiB+NjEgTWJpdC9zDQo+IFNlcnZlci10by1j
-bGllbnQgdGNwOg0KPiB3aXRob3V0IHBhdGNoOiB+NzAyIEtiaXQvcw0KPiB3aXRoIHBhdGNoOiB+
-MTYgTWJpdC9zDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBMdWthcyBTdHJhdWIgPGx1a2Fzc3RyYXVi
-MkB3ZWIuZGU+DQo+IC0tLQ0KPiAgbWlncmF0aW9uL2NvbG8uYyAgICAgIHwgOSArKysrKy0tLS0N
-Cj4gIG1pZ3JhdGlvbi9taWdyYXRpb24uaCB8IDQgKystLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA3
-IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWlncmF0
-aW9uL2NvbG8uYyBiL21pZ3JhdGlvbi9jb2xvLmMgaW5kZXgNCj4gYTU0YWM4NGY0MS4uMDkxNjg2
-MjdiYyAxMDA2NDQNCj4gLS0tIGEvbWlncmF0aW9uL2NvbG8uYw0KPiArKysgYi9taWdyYXRpb24v
-Y29sby5jDQo+IEBAIC00MzAsNiArNDMwLDcgQEAgc3RhdGljIGludA0KPiBjb2xvX2RvX2NoZWNr
-cG9pbnRfdHJhbnNhY3Rpb24oTWlncmF0aW9uU3RhdGUgKnMsDQo+ICAgICAgICAgIGdvdG8gb3V0
-Ow0KPiAgICAgIH0NCj4gDQo+ICsgICAgcWVtdV9ldmVudF9yZXNldCgmcy0+Y29sb19jaGVja3Bv
-aW50X2V2ZW50KTsNCj4gICAgICBjb2xvX25vdGlmeV9jb21wYXJlc19ldmVudChOVUxMLCBDT0xP
-X0VWRU5UX0NIRUNLUE9JTlQsDQo+ICZsb2NhbF9lcnIpOw0KPiAgICAgIGlmIChsb2NhbF9lcnIp
-IHsNCj4gICAgICAgICAgZ290byBvdXQ7DQo+IEBAIC01ODAsNyArNTgxLDcgQEAgc3RhdGljIHZv
-aWQgY29sb19wcm9jZXNzX2NoZWNrcG9pbnQoTWlncmF0aW9uU3RhdGUNCj4gKnMpDQo+ICAgICAg
-ICAgICAgICBnb3RvIG91dDsNCj4gICAgICAgICAgfQ0KPiANCj4gLSAgICAgICAgcWVtdV9zZW1f
-d2FpdCgmcy0+Y29sb19jaGVja3BvaW50X3NlbSk7DQo+ICsgICAgICAgIHFlbXVfZXZlbnRfd2Fp
-dCgmcy0+Y29sb19jaGVja3BvaW50X2V2ZW50KTsNCj4gDQo+ICAgICAgICAgIGlmIChzLT5zdGF0
-ZSAhPSBNSUdSQVRJT05fU1RBVFVTX0NPTE8pIHsNCj4gICAgICAgICAgICAgIGdvdG8gb3V0Ow0K
-PiBAQCAtNjI4LDcgKzYyOSw3IEBAIG91dDoNCj4gICAgICBjb2xvX2NvbXBhcmVfdW5yZWdpc3Rl
-cl9ub3RpZmllcigmcGFja2V0c19jb21wYXJlX25vdGlmaWVyKTsNCj4gICAgICB0aW1lcl9kZWwo
-cy0+Y29sb19kZWxheV90aW1lcik7DQo+ICAgICAgdGltZXJfZnJlZShzLT5jb2xvX2RlbGF5X3Rp
-bWVyKTsNCj4gLSAgICBxZW11X3NlbV9kZXN0cm95KCZzLT5jb2xvX2NoZWNrcG9pbnRfc2VtKTsN
-Cj4gKyAgICBxZW11X2V2ZW50X2Rlc3Ryb3koJnMtPmNvbG9fY2hlY2twb2ludF9ldmVudCk7DQo+
-IA0KPiAgICAgIC8qDQo+ICAgICAgICogTXVzdCBiZSBjYWxsZWQgYWZ0ZXIgZmFpbG92ZXIgQkgg
-aXMgY29tcGxldGVkLCBAQCAtNjQ1LDcgKzY0Niw3DQo+IEBAIHZvaWQgY29sb19jaGVja3BvaW50
-X25vdGlmeSh2b2lkICpvcGFxdWUpDQo+ICAgICAgTWlncmF0aW9uU3RhdGUgKnMgPSBvcGFxdWU7
-DQo+ICAgICAgaW50NjRfdCBuZXh0X25vdGlmeV90aW1lOw0KPiANCj4gLSAgICBxZW11X3NlbV9w
-b3N0KCZzLT5jb2xvX2NoZWNrcG9pbnRfc2VtKTsNCj4gKyAgICBxZW11X2V2ZW50X3NldCgmcy0+
-Y29sb19jaGVja3BvaW50X2V2ZW50KTsNCj4gICAgICBzLT5jb2xvX2NoZWNrcG9pbnRfdGltZSA9
-DQo+IHFlbXVfY2xvY2tfZ2V0X21zKFFFTVVfQ0xPQ0tfSE9TVCk7DQo+ICAgICAgbmV4dF9ub3Rp
-ZnlfdGltZSA9IHMtPmNvbG9fY2hlY2twb2ludF90aW1lICsNCj4gICAgICAgICAgICAgICAgICAg
-ICAgcy0+cGFyYW1ldGVycy54X2NoZWNrcG9pbnRfZGVsYXk7IEBAIC02NTUsNw0KPiArNjU2LDcg
-QEAgdm9pZCBjb2xvX2NoZWNrcG9pbnRfbm90aWZ5KHZvaWQgKm9wYXF1ZSkgIHZvaWQNCj4gbWln
-cmF0ZV9zdGFydF9jb2xvX3Byb2Nlc3MoTWlncmF0aW9uU3RhdGUgKnMpICB7DQo+ICAgICAgcWVt
-dV9tdXRleF91bmxvY2tfaW90aHJlYWQoKTsNCj4gLSAgICBxZW11X3NlbV9pbml0KCZzLT5jb2xv
-X2NoZWNrcG9pbnRfc2VtLCAwKTsNCj4gKyAgICBxZW11X2V2ZW50X2luaXQoJnMtPmNvbG9fY2hl
-Y2twb2ludF9ldmVudCwgZmFsc2UpOw0KPiAgICAgIHMtPmNvbG9fZGVsYXlfdGltZXIgPSAgdGlt
-ZXJfbmV3X21zKFFFTVVfQ0xPQ0tfSE9TVCwNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgY29sb19jaGVja3BvaW50X25vdGlmeSwgcyk7DQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWln
-cmF0aW9uL21pZ3JhdGlvbi5oIGIvbWlncmF0aW9uL21pZ3JhdGlvbi5oIGluZGV4DQo+IDUwNzI4
-NGU1NjMuLmY2MTc5NjA1MjIgMTAwNjQ0DQo+IC0tLSBhL21pZ3JhdGlvbi9taWdyYXRpb24uaA0K
-PiArKysgYi9taWdyYXRpb24vbWlncmF0aW9uLmgNCj4gQEAgLTIxNSw4ICsyMTUsOCBAQCBzdHJ1
-Y3QgTWlncmF0aW9uU3RhdGUNCj4gICAgICAvKiBUaGUgc2VtYXBob3JlIGlzIHVzZWQgdG8gbm90
-aWZ5IENPTE8gdGhyZWFkIHRoYXQgZmFpbG92ZXIgaXMgZmluaXNoZWQNCj4gKi8NCj4gICAgICBR
-ZW11U2VtYXBob3JlIGNvbG9fZXhpdF9zZW07DQo+IA0KPiAtICAgIC8qIFRoZSBzZW1hcGhvcmUg
-aXMgdXNlZCB0byBub3RpZnkgQ09MTyB0aHJlYWQgdG8gZG8gY2hlY2twb2ludCAqLw0KPiAtICAg
-IFFlbXVTZW1hcGhvcmUgY29sb19jaGVja3BvaW50X3NlbTsNCj4gKyAgICAvKiBUaGUgZXZlbnQg
-aXMgdXNlZCB0byBub3RpZnkgQ09MTyB0aHJlYWQgdG8gZG8gY2hlY2twb2ludCAqLw0KPiArICAg
-IFFlbXVFdmVudCBjb2xvX2NoZWNrcG9pbnRfZXZlbnQ7DQo+ICAgICAgaW50NjRfdCBjb2xvX2No
-ZWNrcG9pbnRfdGltZTsNCj4gICAgICBRRU1VVGltZXIgKmNvbG9fZGVsYXlfdGltZXI7DQo+IA0K
-PiAtLQ0KPiAyLjIwLjENCg0K
+From: Andrew Melnychenko <andrew@daynix.com>
+
+Added E1000_ICR_ASSERTED check.
+
+Andrew Melnychenko (1):
+  e1000e: Added ICR clearing by corresponding IMS bit.
+
+ hw/net/e1000e_core.c | 10 ++++++++++
+ hw/net/trace-events  |  1 +
+ 2 files changed, 11 insertions(+)
+
+-- 
+2.26.2
+
 
