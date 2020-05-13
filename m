@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6060D1D116A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:33:00 +0200 (CEST)
-Received: from localhost ([::1]:55974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A701D1176
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:34:38 +0200 (CEST)
+Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYpdD-0004QS-Dr
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:32:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56832)
+	id 1jYpen-0007o7-3z
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:34:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYpRl-0001vp-3H
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:21:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:46510
+ id 1jYpTk-0005HE-Hy
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:23:12 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:35490
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYpRi-0006R5-M5
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:21:08 -0400
+ id 1jYpTj-0006cd-PL
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:23:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589368865;
+ s=mimecast20190719; t=1589368990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QuEqRupYE5OjBe7MH68MRWjpGHUpJmPaF+5jOcJraX0=;
- b=DaFkKBZJL7vQbxd4K6Xj4CJl2xasCpYVkwgdiYziYsQKYm77CALPLSvK8afVJPjfWb3vCV
- s0CCjzFoSsVokcv1Mg7N42sC4kQh6lQjRhanKe8AfOeZthbn5EWtgiTgPqdwKppufcU2hX
- a1EmKA+hUpMLNhvrRT/98Qqhx74yPtg=
+ bh=7kHMfacoIFVM069h+B2k6eoQbprIkQzen9v4EN7ZPY8=;
+ b=a9500zZSOJ4IfNO4i+BsxWIfc6B81Su9mSoWSOP+r7bAgLEkI48VMzn5RI3jiMOrDvweTc
+ DpPDXME9pXEJpW9iWiMGxRNsocMYi43D3XA95uLR8iLDc1imvjTana6nk2aG9/GYea01+9
+ /vAfx1ATJmHksIFZkOxAQgioUf6yaK0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-ENMldBJzNlO9ZztFobBqFg-1; Wed, 13 May 2020 07:21:03 -0400
-X-MC-Unique: ENMldBJzNlO9ZztFobBqFg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-335-xx-l3ce4OZG-4gE6jr1wXw-1; Wed, 13 May 2020 07:23:09 -0400
+X-MC-Unique: xx-l3ce4OZG-4gE6jr1wXw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB2DB100CCC2;
- Wed, 13 May 2020 11:21:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9E5881E22C;
+ Wed, 13 May 2020 11:23:07 +0000 (UTC)
 Received: from kaapi (unknown [10.74.9.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 145F26E6FC;
- Wed, 13 May 2020 11:20:57 +0000 (UTC)
-Date: Wed, 13 May 2020 16:50:52 +0530 (IST)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D4B6619AC;
+ Wed, 13 May 2020 11:23:03 +0000 (UTC)
+Date: Wed, 13 May 2020 16:52:58 +0530 (IST)
 From: P J P <ppandit@redhat.com>
 X-X-Sender: pjp@kaapi
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 1/2] megasas: use unsigned type for reply_queue_head
-In-Reply-To: <CAFEAcA8Y67h_Kc=M2i5xGz-sQpJwZ++n8wB8szdv0ziViUfmqw@mail.gmail.com>
-Message-ID: <nycvar.YSQ.7.76.2005131647000.1451610@xnncv>
+Subject: Re: [PATCH 2/2] megasas: use unsigned type for positive numeric fields
+In-Reply-To: <CAFEAcA_01feEPG-PbQ9Msy3MNV4qSb2zVJyLAMGcOwfrhezkfQ@mail.gmail.com>
+Message-ID: <nycvar.YSQ.7.76.2005131651260.1451610@xnncv>
 References: <20200507105718.1319187-1-ppandit@redhat.com>
- <20200507105718.1319187-2-ppandit@redhat.com>
- <CAFEAcA8Y67h_Kc=M2i5xGz-sQpJwZ++n8wB8szdv0ziViUfmqw@mail.gmail.com>
+ <20200507105718.1319187-3-ppandit@redhat.com>
+ <CAFEAcA_01feEPG-PbQ9Msy3MNV4qSb2zVJyLAMGcOwfrhezkfQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,24 +86,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 +-- On Tue, 12 May 2020, Peter Maydell wrote --+
-| > +    uint16_t reply_queue_head;
-| 
-| Using a 16-bit type here means that code like this:
-| 
-|     s->reply_queue_head = ldl_le_pci_dma(pcid, s->producer_pa);
-|     s->reply_queue_head %= MEGASAS_MAX_FRAMES;
-| 
-| suddenly does a truncation of the 32-bit loaded value before
-| the modulus operation, which is a bit odd, though since
-| MEGASAS_MAX_FRAMES happens to be a power of 2 the end
-| result won't change.
+| Does an INT32->UINT32 change in vmstate break migration compat? I forget, 
+| but this is the kind of detail it's worth calling out in the commit message 
+| if you've checked and it really is still compatible.
 
-Yes, 16-bit also for its range of value is limitted to MEGASAS_MAX_FRAMES=2048.
- 
-| It's also a bit weird to change reply_queue_head's type
-| but not reply_queue_tail or reply_queue_len.
-
-That's in the second patch.
+No, not sure.
 
 Thank you.
 --
