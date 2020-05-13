@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB9CD1D1D0C
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:10:38 +0200 (CEST)
-Received: from localhost ([::1]:55114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7571D1D0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:10:43 +0200 (CEST)
+Received: from localhost ([::1]:55580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvq1-00031v-8Z
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:10:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36216)
+	id 1jYvq6-0003D6-Jd
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYvoS-0001Uz-2u
+ id 1jYvoR-0001Uv-Vy
  for qemu-devel@nongnu.org; Wed, 13 May 2020 14:09:00 -0400
-Received: from mail-dm6nam12on2086.outbound.protection.outlook.com
- ([40.107.243.86]:65249 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+Received: from mail-bn8nam12on2063.outbound.protection.outlook.com
+ ([40.107.237.63]:6106 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYvoQ-00005V-As
+ id 1jYvoQ-00005f-6Z
  for qemu-devel@nongnu.org; Wed, 13 May 2020 14:08:59 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IfTDhwUn/4a1WhmetwzRmRI32LiU/KhAVx0sQ8yu5B08wZIiTNUwui1w7UywBbZ9jUd8hrhZWguElRQVPz/1IGBvPjuZcXoBIHlJY7LzwNwMmN6PGS2fivx1Lwiiv5NG7DTWmaeQacm2hOZFDxEj3ZpzaPzYpxJKIFBqZwcnWMBeyvuNlj9TUXWVf2TgYPmXsa1qSV+ZVfpR3aMcDJZZshjd1EB6qV5rMjgANEXFC5Yl6slHKY54/WZdtxwunoGyLw2WSLdEiKya2GwaDZjFBQ60OJUQaiAkegaGjy5I4uFL/NC9SMTcIz29khtWuew/90qsQ78LqpBUYGSY1sakMg==
+ b=ZkYLus//yC9GxtX+WXLjsJVU/G5aKThAGriXI79L1yrtL5jwWNH8rCed6GQ/wZ48qsEtleXKb6NgrTnyObjbGOKAUAO22GDtMxuWoCjRU6C9NuvBTHiK0wmmWqD+599Mf5pD/EUiF2sjm71+m1JHPGWLYmBztg/CV7emISfQVdu1ISDgI6iStIu3KJTTiaYsoC/RLmY48y8YP/4phF3PWYA+pkANsap+J8O9W/JO/LWD+/gHvyv6HE0FMyvXiepdTNxVd8x30g9GAZMunl0c4eYh9bVvy1Jb7KlkiO36q2p9+JWPnkrKcQKceDjZrNmCnyszr9keyBn/UnS21GzaAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=95yqqbip7xXPz09ylUg1tmOBtjWhHrQ0bniJROEWzEE=;
- b=TMGN4f22bZa/h0+L6UBp3EBqALDGYKXM3XW8HHfcIWe4CDpqPTkMUYJjMc8iWfHy22TfoR1uTC9Ioz2BU5c4exisR8dzxStDsvMj+w25iv+3mh6blrvIupjF5jQcY533drhHvCkWj3TIPDGXGlT6IYXlmlVVqKD6QaVhkACmkm7fHEU0Fwg2VvrH2vMVsfnZZTFQ6wfKYBtpQcIwxeRGjSFnfYFJ9KvcVKXk46/nTaU0jIvBX2DLcB5q5KkLYyTGg+Y24Gb7NZT2EVpm6QjpqIfacgrSp3Q+iQ29eBvbRgM2Ru3vorOr2PcjcG9J2avJCxU8RzWnh5uEns9fAf/IEw==
+ bh=JmFreeuRNGTY0LY6peknR4B18TyDk5OTPDn1Wgu7a1k=;
+ b=b6eCNl2MXwJLvVDnsB7Uud+A6YfHpD1wCnTB2KyJ/zljsd05/TsE3Do9FiCRw0X5rmdFjV+YtavjYcyF51op64XfyfN6xoAEFvyljdDygswCjVQ9zWXiz5rEzJ2TCdClRNaRudwOy+MrtiMy0tUedGDbkgEY1GWD0qn9kd+SRi1xp3AWG8gDPyaOjFlmVc1T+yafeqe2ZxNHRlNk5yW6R5xzvEpCoChe/Zn2KS2H49CI0qxnA0MoHY9ojfZRpdZPr1Vwyf9BI/WJjno0+bRTtTmxhRLSeYgRUs1Gm73AFU+EkS7sjhMSTbWyBNWUKrWB8hXwf21pzVTx7zpNX8fXCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -34,17 +34,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=95yqqbip7xXPz09ylUg1tmOBtjWhHrQ0bniJROEWzEE=;
- b=hfjmPFBa7S6+YqJCJQah9gWD4ZCoKwTUR1F15rnHo8bXE3qSmJEyDY6Hux+MDmW6qLSyzR+Jue9E0DEqTWcQVpeylZuL6MqjqC8si0akqufMeKsGu8jfghey5Mfaz+6RSQgm7MLZvWJgjFYEXpGILqHc7XJp2fzF6i+aDV+rnvM=
-Received: from SA9PR11CA0025.namprd11.prod.outlook.com (2603:10b6:806:6e::30)
- by MN2PR02MB5920.namprd02.prod.outlook.com (2603:10b6:208:11c::23)
+ bh=JmFreeuRNGTY0LY6peknR4B18TyDk5OTPDn1Wgu7a1k=;
+ b=efeksO4WEscZZSEA+jBuUufZ3QuqcIWWqtiljSieUeX9EHyLGmHle3lirER/Q+E/AS2yq0LTQNy9HbQ0gC7nQGssAD/yNzGuxoEiKqnTScgWkUsCW96cSr99Oa+uG9xk5oxEAAb4uHdRWp1ee/pC163c1hBKnqdQEOn/wt4lRX4=
+Received: from MN2PR19CA0022.namprd19.prod.outlook.com (2603:10b6:208:178::35)
+ by MN2PR02MB6079.namprd02.prod.outlook.com (2603:10b6:208:185::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.35; Wed, 13 May
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Wed, 13 May
  2020 18:08:55 +0000
-Received: from SN1NAM02FT026.eop-nam02.prod.protection.outlook.com
- (2603:10b6:806:6e:cafe::e8) by SA9PR11CA0025.outlook.office365.com
- (2603:10b6:806:6e::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.25 via Frontend
+Received: from BL2NAM02FT059.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:178:cafe::9c) by MN2PR19CA0022.outlook.office365.com
+ (2603:10b6:208:178::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28 via Frontend
  Transport; Wed, 13 May 2020 18:08:55 +0000
 Authentication-Results: spf=pass (sender IP is 149.199.60.83)
  smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
@@ -54,27 +54,27 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.60.83 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT026.mail.protection.outlook.com (10.152.72.97) with Microsoft SMTP
- Server id 15.20.2979.29 via Frontend Transport; Wed, 13 May 2020 18:08:54
+ BL2NAM02FT059.mail.protection.outlook.com (10.152.76.247) with Microsoft SMTP
+ Server id 15.20.2979.29 via Frontend Transport; Wed, 13 May 2020 18:08:55
  +0000
-Received: from [149.199.38.66] (port=59409 helo=xsj-pvapsmtp01)
+Received: from [149.199.38.66] (port=59448 helo=xsj-pvapsmtp01)
  by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <joe.komlodi@xilinx.com>) id 1jYvo4-0007y4-Ha
+ (envelope-from <joe.komlodi@xilinx.com>) id 1jYvo4-0007yG-S9
  for qemu-devel@nongnu.org; Wed, 13 May 2020 11:08:36 -0700
 Received: from [127.0.0.1] (helo=localhost)
  by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <joe.komlodi@xilinx.com>) id 1jYvoM-0002TI-3D
+ (envelope-from <joe.komlodi@xilinx.com>) id 1jYvoM-0002TI-NF
  for qemu-devel@nongnu.org; Wed, 13 May 2020 11:08:54 -0700
 Received: from [172.19.2.32] (helo=xsjkomlodi50.xilinx.com)
  by xsj-pvapsmtp01 with esmtp (Exim 4.63)
  (envelope-from <komlodi@xilinx.com>)
- id 1jYvoI-0002SZ-4I; Wed, 13 May 2020 11:08:50 -0700
+ id 1jYvoI-0002SZ-68; Wed, 13 May 2020 11:08:50 -0700
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 4/4] target/microblaze: monitor: Increase the number of
- registers reported
-Date: Wed, 13 May 2020 11:08:48 -0700
-Message-Id: <1589393329-223076-4-git-send-email-komlodi@xilinx.com>
+Subject: [PATCH V2 0/4] target/microblaze: Add GDB XML and correct SReg
+ reporting
+Date: Wed, 13 May 2020 11:08:49 -0700
+Message-Id: <1589393329-223076-5-git-send-email-komlodi@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1589393329-223076-1-git-send-email-komlodi@xilinx.com>
 References: <1589393329-223076-1-git-send-email-komlodi@xilinx.com>
@@ -85,30 +85,30 @@ X-MS-Office365-Filtering-HT: Tenant
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
  SFTY:;
- SFS:(136003)(39860400002)(346002)(396003)(376002)(46966005)(33430700001)(70586007)(2906002)(8676002)(9786002)(70206006)(4326008)(47076004)(5660300002)(7696005)(478600001)(26005)(186003)(426003)(2616005)(44832011)(336012)(6916009)(107886003)(356005)(86362001)(82310400002)(33440700001)(36756003)(81166007)(82740400003)(316002)(8936002);
+ SFS:(376002)(346002)(39860400002)(396003)(136003)(46966005)(33430700001)(8676002)(426003)(186003)(2906002)(316002)(478600001)(33440700001)(356005)(44832011)(70586007)(26005)(4326008)(2616005)(81166007)(70206006)(36756003)(7696005)(6916009)(8936002)(9786002)(336012)(82310400002)(47076004)(5660300002)(82740400003)(86362001)(107886003);
  DIR:OUT; SFP:1101; 
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e0f830d6-02f6-4b54-e199-08d7f768b2eb
-X-MS-TrafficTypeDiagnostic: MN2PR02MB5920:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB59209D41243EDCA2D1C5B179D0BF0@MN2PR02MB5920.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 381f4887-7aed-4592-263b-08d7f768b32f
+X-MS-TrafficTypeDiagnostic: MN2PR02MB6079:
+X-Microsoft-Antispam-PRVS: <MN2PR02MB607991322804AD8943E0C94ED0BF0@MN2PR02MB6079.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:287;
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-Forefront-PRVS: 0402872DA1
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XSq6pPcpwn7podPtToWD6XRbMTD5h5aRwbdeQIJ1duI+VvwDb0hc4j3DtzWWR+YTRhEfAmtmNmN89PcTojxOukm3huHZNrKkrrYfASbdgEBmknnQKtfN+aCwZN6B0mZH6sy1ZV40OtPh0gAEymE7IjkqKvjJZ+5EwjAwDEkdU/bErt0vI18sf5CnuRkMcCuuDGnKZLPiJOmBCG3djS/zMXS/kn/mEyvS8bo4LCEjz14ZNxyjttY12rmj79TBCrtIiAZNYz5MFMg1AqHMFT+Lbq6ieBrpCVP0D7d6HhM+HJHDJfLWWcJDWEJ4h9c2HEOLNeV1tsChYmY7iKxHEWgg+tFXxIvT087yyIgUWSdeoH5nqihSIMmFQDiodsNhHX8RV5Ea37vkhI+nHPZf6Xu3dyZfxYaTb5fYighvue7d95AZSp0TyhqKvK9j5Y8mV6NeYChMp5b9fdZn6iZYHJQy8uAONQ07NsM0JKidJ2AYVUSX1la/nYfSYmd0uWB8rypqWlwmrQRHBgdYw4JWPJExXR+m0yraXGzE0rkT0/gpICqBcHsXrluc+Gz6FzdPd+ozZTZA2P3NLqx4NMYCCs534A==
+X-Microsoft-Antispam-Message-Info: rg2X+pBXvbnmIgsDj79X+s2FllkmxgZdROMeBtlEifcbRR7l1NRnaq2Pk9tCZYDbWrrUvVXOI8tb2/kFbQE1vTZHOw7j01kHiaK3o9cgB0K5bgg3s3wfEwGBpdu9L9zkE5gRouknyfira2Ammuz9WBtZDQZBydUItxuBhFatKNtlFNVhZStdDmZbRS7F8rnbUyByPt2HZCPTi51Hcjr+WA9UCbfOpub1TA58JRRojSSpl1u+AAXGc8cnBqVM4uz5d3OPtTgp7olDvakYYE9oIFTPybctusBm35mSNo5dNjHZ7bTTVJEQR4feWUat/YBhM6PcYcyTR2huVGdxlnUf6xWGneL+U49B1jul+YPnhHNeQQ0RPDqNfI764xU08NEFDt+iinlYtFta3BG6f8zXV37/bR4JxQphbDEeXer4BzUmSJICXqJo8cGYahzbjAWEna3Osu+LuY7yDJ7tcBXiP073TAtqoGfWRVdc936yQdIkdXwM2xiSfZNoycWdG0CJm8Aw5X8fYVgoWJPMCjzayoK8l7uuMd4f4cHPe+/XB8W/TshArK0TuWYl3wTHl7bI29n04o2npjf2vCng3YkWKw==
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2020 18:08:54.6657 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0f830d6-02f6-4b54-e199-08d7f768b2eb
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2020 18:08:55.0885 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 381f4887-7aed-4592-263b-08d7f768b32f
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
  Helo=[xsj-pvapsmtpgw01]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB5920
-Received-SPF: pass client-ip=40.107.243.86; envelope-from=komlodi@xilinx.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6079
+Received-SPF: pass client-ip=40.107.237.63; envelope-from=komlodi@xilinx.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 14:08:56
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
@@ -134,51 +134,44 @@ Cc: edgar.iglesias@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Increase the number of registers reported to match GDB.
+Hi all,
 
-Registers that aren't modeled are reported as 0.
+This series adds dynamic GDB XML support for Micraoblaze CPUs, and 
+fixes an issue when reporting Microblaze SRegs through GDB.
 
-Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
----
- target/microblaze/translate.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+The SRegs used to be printed out by iterating over the SReg array, but 
+the SReg array isn't laid out in memory in the same order that GDB expects them.
 
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 20b7427..4e7f903a 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1788,9 +1788,11 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     qemu_fprintf(f, "IN: PC=%" PRIx64 " %s\n",
-                  env->sregs[SR_PC], lookup_symbol(env->sregs[SR_PC]));
-     qemu_fprintf(f, "rmsr=%" PRIx64 " resr=%" PRIx64 " rear=%" PRIx64 " "
--                 "debug=%x imm=%x iflags=%x fsr=%" PRIx64 "\n",
-+                 "debug=%x imm=%x iflags=%x fsr=%" PRIx64 " "
-+                 "rbtr=%" PRIx64 "\n",
-                  env->sregs[SR_MSR], env->sregs[SR_ESR], env->sregs[SR_EAR],
--                 env->debug, env->imm, env->iflags, env->sregs[SR_FSR]);
-+                 env->debug, env->imm, env->iflags, env->sregs[SR_FSR],
-+                 env->sregs[SR_BTR]);
-     qemu_fprintf(f, "btaken=%d btarget=%" PRIx64 " mode=%s(saved=%s) "
-                  "eip=%d ie=%d\n",
-                  env->btaken, env->btarget,
-@@ -1798,7 +1800,17 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  (env->sregs[SR_MSR] & MSR_UMS) ? "user" : "kernel",
-                  (bool)(env->sregs[SR_MSR] & MSR_EIP),
-                  (bool)(env->sregs[SR_MSR] & MSR_IE));
-+    for (i = 0; i < 12; i++) {
-+        qemu_fprintf(f, "rpvr%2.2d=%8.8x ", i, env->pvr.regs[i]);
-+        if ((i + 1) % 4 == 0) {
-+            qemu_fprintf(f, "\n");
-+        }
-+    }
- 
-+    /* Registers that aren't modeled are reported as 0 */
-+    qemu_fprintf(f, "redr=%" PRIx64 " rpid=0 rzpr=0 rtlbx=0 rtlbsx=0 "
-+                    "rtlblo=0 rtlbhi=0\n", env->sregs[SR_EDR]);
-+    qemu_fprintf(f, "slr=%x shr=%x\n", env->slr, env->shr);
-     for (i = 0; i < 32; i++) {
-         qemu_fprintf(f, "r%2.2d=%8.8x ", i, env->regs[i]);
-         if ((i + 1) % 4 == 0)
+When reporting register to GDB, note that even though 32-bit 
+Microblaze supports having certain registers wider than 32-bits, we're 
+repoting all of them as being 32-bits wide right now to maintain compatibility with GDB.
+
+Thanks!
+Joe
+
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+
+Changelog:
+v1 -> v2
+ - 1/4: Added missing core XML file
+
+
+Joe Komlodi (4):
+  target/microblaze: gdb: Add dynamic GDB XML register support
+  target/microblaze: gdb: Extend the number of registers presented to
+    GDB
+  target/microblaze: gdb: Fix incorrect SReg reporting
+  target/microblaze: monitor: Increase the number of registers reported
+
+ configure                     |   1 +
+ gdb-xml/microblaze-core.xml   |  64 +++++++++++++
+ target/microblaze/cpu.c       |   6 +-
+ target/microblaze/cpu.h       |   9 ++
+ target/microblaze/gdbstub.c   | 214 +++++++++++++++++++++++++++++++++++++++++-
+ target/microblaze/translate.c |  16 +++-
+ 6 files changed, 304 insertions(+), 6 deletions(-)
+ create mode 100644 gdb-xml/microblaze-core.xml
+
 -- 
 2.7.4
 
