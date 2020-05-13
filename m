@@ -2,107 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612131D1D5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:23:45 +0200 (CEST)
-Received: from localhost ([::1]:42226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906411D1CBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:59:52 +0200 (CEST)
+Received: from localhost ([::1]:42986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYw2i-00013S-EL
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36770)
+	id 1jYvfb-00053d-L4
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYvr4-0006mW-AW
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:11:42 -0400
-Received: from mail-eopbgr680082.outbound.protection.outlook.com
- ([40.107.68.82]:3429 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYvr2-0000nk-MD
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:11:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RDR0BHLWX+N963BN9l3pDUma0k134VxA1KZm2KfoCfGWSLQo39sl2AuYaG8cM5gN5RNE+igmG3nEyBMdriXF1FKJSgNVnMIPjHl4Tn0TweB1ldjPV4IFK39FOdFA5U/cHJ0e9nkIJk8nxwbSYuHHHJxEqo7qXlb43BPxtVsM9dNpLKV2jYGkmEbLQzZjh4gxRUMGi3cSjowA0tmsq5YqeKseaEnS/mhnsBVDywGTZ/7ug/pbhSriyRmAi0jgVrbzUP4IfJtVtykO6xVBeN7ZNFj+bZ+byhK8/B18I3h8cYPgmotxiQ1uUB6qLF1rYsahEk0zf5gn9/GRKdY0y1XPQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pPXSKqUHub+d7gUzRWKyYEQLoTGpM5vfsXITvIjxvCc=;
- b=SDhe9LxW3A78SovqAXm1i32HLFyXz+7JvU5pWq/ZIq9p46DaFpKmkJL7vAZ3Fhrqff9syKKvK+4a6yeP3lNyDWWBwuZ24TsPor6muE5aZDZBhkHP0Lu3d+8ZfUt83lQ0DBMrRd6IQoatBZrTs8DiBh7OuNph4x1hdTnixsaE0M5Ye4wsUeBPcKIPRZAK3HMyuL8DzU4kmCBgsPse/WFiWjYoUJ6nbtEL71COA/LuZKgyVpGK+LT1Xs7tVD8cLJ9kVFRknVbr5ppr5C599RRasfPHwENF1Kww6Op4fokp9Dt/lZ/AWWmLCCTDnT6u79dxfWZB9tekYFsIiUzPfc7QOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pPXSKqUHub+d7gUzRWKyYEQLoTGpM5vfsXITvIjxvCc=;
- b=cLFfrEmJKE5CMGR6pn1YEoQS384R9yO2nSQYEbS3XH93bkt7qvEpoAKJDtax0CsSUdFZypEhGwvUP+5QDymjaNY6fKX3x1yq4nJn9oLgoqJ5RGIAWVkkxiumGIpRjPYYpeEB+HyN9RqgNjLsKddezfEtdOlh4E1NQXBov3g70rY=
-Received: from BY5PR02MB6033.namprd02.prod.outlook.com (2603:10b6:a03:1ff::10)
- by BY5PR02MB6866.namprd02.prod.outlook.com (2603:10b6:a03:237::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.24; Wed, 13 May
- 2020 17:56:37 +0000
-Received: from BY5PR02MB6033.namprd02.prod.outlook.com
- ([fe80::f824:4502:4930:8144]) by BY5PR02MB6033.namprd02.prod.outlook.com
- ([fe80::f824:4502:4930:8144%5]) with mapi id 15.20.3000.022; Wed, 13 May 2020
- 17:56:37 +0000
-From: Joe Komlodi <komlodi@xilinx.com>
-To: Edgar Iglesias <edgari@xilinx.com>
-Subject: RE: [PATCH v1 0/4] target/microblaze: Add dynamic GDB XML and correct
- SReg reporting
-Thread-Topic: [PATCH v1 0/4] target/microblaze: Add dynamic GDB XML and
- correct SReg reporting
-Thread-Index: AQHWJ7c2C6tNs7z8hUWjQjeVEgsbUKimSIkAgAAFbgA=
-Date: Wed, 13 May 2020 17:56:36 +0000
-Message-ID: <BY5PR02MB6033EA92D22B76522643E0B0D0BF0@BY5PR02MB6033.namprd02.prod.outlook.com>
-References: <1589216751-106038-1-git-send-email-komlodi@xilinx.com>
- <20200513172858.GN2945@toto>
-In-Reply-To: <20200513172858.GN2945@toto>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: xilinx.com; dkim=none (message not signed)
- header.d=none;xilinx.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.62.133]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a8e8f6cf-997f-4bde-5391-08d7f766fb6a
-x-ms-traffictypediagnostic: BY5PR02MB6866:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR02MB6866A2FA75BACAE740E7E1D6D0BF0@BY5PR02MB6866.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0402872DA1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: kh5/sGzJWVxFQm7teUoai2d98smzOpFJKERiH1IyTW4NZwmU2Uh/xOfRot7g05ZkyL1Ix4I1d/x77tQlieOZFOZjIH1LH+0+QSXeFAAVGrrz2L5T2TgJXk9z124gZSKKUohmt5j6P1yoyPbZOFkhx+OnJsn60rEMfXjiPMWIB8M2/78BP3O9UmNqIC0IC+HvKohGUEflDKCuRJMfJTQ5+n2GoHkJIvCZwIewQcOZMrZAUYfa0yQB4MZyf41l3o+8qd9rQDNqlqSMMlUKI5Z2l6rgMPp3fuAh15EElp8N0aNP3sDrw8f2LvxEn5RK9bgpGXR66OM4BsQqYM+ynlRXFJ5vR/qIixE5eY8xJqcX0dOVnDUruVCzh09mybB1/8d5+dEDknVxdJYf17hiLEMlaYCZvYsispTb06DWKiCSl7gfSVxi3E6kpgDtXOsbWtbn2xjtR75d2PeyMn7oh586yZyqe1l3DoSz7o7UezrF+NuHo3laizy5dix2tP00p1TKoHTEh2OSZ7ytMgw8fcIJlg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6033.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFTY:;
- SFS:(136003)(39860400002)(396003)(346002)(366004)(376002)(33430700001)(71200400001)(2906002)(4326008)(5660300002)(316002)(33440700001)(6636002)(6862004)(52536014)(8676002)(7696005)(53546011)(6506007)(33656002)(76116006)(86362001)(64756008)(478600001)(8936002)(66556008)(66476007)(9686003)(55016002)(26005)(186003)(66446008)(66946007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: kvL7NhvuYZ+hHLADpvBMyfACUEgbjB/JJiam4Xm5r75wtvJXRrun/2EThtf1w0NEtwUcXZY4JlrPEKmv2BMsI8PyR9GIXC4SCv+9mQk1PkC+zfDFAbQkIsVO6KzF1ND2OXt0lcmMToq7hppFnHSPUW0cOezfL1MhzP2hBstr8u3uLLeXn2dSb58yH7NfdeFvx1JYOx/wbM5U/JbEZ8sCS5HVZS6LU3sRBQSq3LsNZLXIP1eHDHBcG89Nn/I02R4VU0ZOlQhjHF4SombLOrTW2NDkggFGR5Qo/yVj6V4YHmFTlRimy5KjlZW7YUHUn6KMjOVDAyftMyZHNnAWA50JTfCuMhQQNJPyDKlKW4mw8cTA6oM2Tt2fi7qGDScG3iOtZPuD7o+67Nlio6l1N8kwvr58TniJgQ6uutf483SKHI/WLIARsFi7ZpONDjsrWLtBLZHTp5DS6UMsLuJlQqBed8WElHD/QLlbBKZvELwgqIOHGxmQc/vHsfdSA1BcJCLi
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYveW-0003iS-JC
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:58:44 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43860
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYveV-0006XM-9C
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:58:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589392722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=THvK1Og6mJ3bPOyLJFVBvjZOlQbGpLH6hBnibGBbWcY=;
+ b=cE042X/oY9AEYnA39twp70X6yaoCtKwcKUMQjgkMyjQB9Wb9L4vFXL0E9Jp/+Zr6WE6f9y
+ HWDty38fycTjipCLIF1J2i3/NS7squQzMQVOoaOJTHMw190CnvSdw4xu+KyCoFVooGeXDa
+ 43NbCe6gigo9U1X3noXomxCgtWUxxQk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-gx-a_yjuN0iX4UIeAZljow-1; Wed, 13 May 2020 13:58:40 -0400
+X-MC-Unique: gx-a_yjuN0iX4UIeAZljow-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10C39835B59;
+ Wed, 13 May 2020 17:58:39 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-116-145.phx2.redhat.com [10.3.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8682D6A960;
+ Wed, 13 May 2020 17:58:36 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 5/4] iotests: Enhance 223 to cover qemu-img map improvements
+Date: Wed, 13 May 2020 12:58:34 -0500
+Message-Id: <20200513175834.294897-1-eblake@redhat.com>
+In-Reply-To: <reply-to=<20200513133629.18508-1-eyal.moscovici@oracle.com>
+References: <reply-to=<20200513133629.18508-1-eyal.moscovici@oracle.com>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8e8f6cf-997f-4bde-5391-08d7f766fb6a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2020 17:56:37.1439 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HJ3nj5GGBOs88qyyKFtZ2Bpech8Bt4X3Wbkwy8p5bo3sW57qMvUYnVALpARC0oaNx0Z6opZQKKssdx5b93a4kA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6866
-Received-SPF: pass client-ip=40.107.68.82; envelope-from=komlodi@xilinx.com;
- helo=NAM04-BN3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 14:11:39
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,73 +77,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, liran.alon@oracle.com, eyal.moscovici@oracle.com,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Edgar,
+Since qemu-img map + x-dirty-bitmap remains the easiest way to read
+persistent bitmaps at the moment, it makes a reasonable place to add
+coverage to ensure we do not regress on the just-added parameters to
+qemu-img map.
 
-Ah, I did.  It was in my directory but didn't get added to git.
-It should have been part of the first patch.
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
 
-I'll add it to the first patch and send up a v2.
+My enthusiasm got the better of me - I whipped out this patch instead
+of waiting for Eyal's response ;)
 
-Thanks!
-Joe
+ tests/qemu-iotests/223     | 6 ++++--
+ tests/qemu-iotests/223.out | 3 ++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
------Original Message-----=09
-From: Edgar E. Iglesias <edgar.iglesias@xilinx.com>=20
-Sent: Wednesday, May 13, 2020 10:29 AM
-To: Joe Komlodi <komlodi@xilinx.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 0/4] target/microblaze: Add dynamic GDB XML and corr=
-ect SReg reporting
+diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
+index 56fbc5fb09a0..d68bc3cb6f1a 100755
+--- a/tests/qemu-iotests/223
++++ b/tests/qemu-iotests/223
+@@ -2,7 +2,7 @@
+ #
+ # Test reading dirty bitmap over NBD
+ #
+-# Copyright (C) 2018-2019 Red Hat, Inc.
++# Copyright (C) 2018-2020 Red Hat, Inc.
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -206,7 +206,9 @@ $QEMU_IMG map --output=json --image-opts \
 
-On Mon, May 11, 2020 at 10:05:47AM -0700, Joe Komlodi wrote:
-> Hi all,
->=20
-> This series adds dynamic GDB XML support for Micraoblaze CPUs, and=20
-> fixes an issue when reporting Microblaze SRegs through GDB.
->=20
-> The SRegs used to be printed out by iterating over the SReg array, but=20
-> the SReg array isn't laid out in memory in the same order that GDB expect=
-s them.
->=20
-> When reporting register to GDB, note that even though 32-bit=20
-> Microblaze supports having certain registers wider than 32-bits, we're=20
-> repoting all of them as being 32-bits wide right now to maintain compatib=
-ility with GDB.
->=20
-> Thanks!
-> Joe
+ nbd_server_start_unix_socket -f $IMGFMT -B b2 "$TEST_IMG"
+ IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
+-$QEMU_IMG map --output=json --image-opts \
++$QEMU_IMG map --output=json --image-opts --max-length=12345 \
++  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
++$QEMU_IMG map --output=json --image-opts --start-offset=12345 \
+   "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
 
-Hi Joe,
+ # success, all done
+diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+index 80c0cf65095b..e1eaaedb55b3 100644
+--- a/tests/qemu-iotests/223.out
++++ b/tests/qemu-iotests/223.out
+@@ -201,6 +201,7 @@ read 2097152/2097152 bytes at offset 2097152
+ { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
+ [{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
+-{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 1024, "length": 11321, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
++[{ "start": 12345, "length": 2084807, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
+ *** done
+-- 
+2.26.2
 
-Looks like you forgot the patch that adds the xml file?
-
-Thanks,
-Edgar
-
-
-
->=20
-> Joe Komlodi (4):
->   target/microblaze: gdb: Add dynamic GDB XML register support
->   target/microblaze: gdb: Extend the number of registers presented to
->     GDB
->   target/microblaze: gdb: Fix incorrect SReg reporting
->   target/microblaze: monitor: Increase the number of registers=20
-> reported
->=20
->  configure                     |   1 +
->  target/microblaze/cpu.c       |   6 +-
->  target/microblaze/cpu.h       |   9 ++
->  target/microblaze/gdbstub.c   | 214 ++++++++++++++++++++++++++++++++++++=
-+++++-
->  target/microblaze/translate.c |  16 +++-
->  5 files changed, 240 insertions(+), 6 deletions(-)
->=20
-> --
-> 2.7.4
->=20
 
