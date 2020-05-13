@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE0B1D1381
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 14:57:38 +0200 (CEST)
-Received: from localhost ([::1]:43848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F7A1D13F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 15:04:30 +0200 (CEST)
+Received: from localhost ([::1]:50164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYqx7-0003fW-BI
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 08:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41240)
+	id 1jYr3l-0006lo-Om
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 09:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jYqwA-0002rl-O8
- for qemu-devel@nongnu.org; Wed, 13 May 2020 08:56:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:41439
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYr2F-00069J-KV
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 09:02:55 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23568
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jYqw9-00036x-VZ
- for qemu-devel@nongnu.org; Wed, 13 May 2020 08:56:38 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYr2D-0004JD-Ps
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 09:02:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589374597;
+ s=mimecast20190719; t=1589374970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bmVyGrn7EsK0lzpNMgE2EAgG0RRPlvASEec4rxnV6Zw=;
- b=YmCzA7dFt2MwQB98kVDRnKI4WdF8udI8Ta/WmLIlaW6jk2fx6n1OVowNpsJTuAUeKLiSWU
- gBe5vR4ANrvD6dJUYsvsuGlFPGEb6SYmloULpCdZ1Qcpe+sqZ9c2oMvhclc8J/xD9BVarq
- GdhX6Mpy5iRcSX8JTn1t1ppHJkfRj/U=
+ bh=jgOK/t1yGbKjH4hJpEQipRPpCZ0/HnAaH0VptHfbWzU=;
+ b=jO3I2pZMsJKqspkrhFpfoFQxJk8zVNBkyMjBZYthMnOa1Fv0cqX+pQHfxqSrHRaHMDL2GK
+ IveuZ/ur9MxsnC+/xrdhEy+bJmEoRf8gNSLetXwyejDdgnVfNYeho9AClQaBzHJRq3sCZ6
+ u/loYQfUbFY4wY48tSveQhLgkyVq5PM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-M-VxV1hGN36pRk2WllYnWw-1; Wed, 13 May 2020 08:56:33 -0400
-X-MC-Unique: M-VxV1hGN36pRk2WllYnWw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-146-vsbJpPQYOxKe1xWk5Qx7Hw-1; Wed, 13 May 2020 09:02:48 -0400
+X-MC-Unique: vsbJpPQYOxKe1xWk5Qx7Hw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7F021902EA2;
- Wed, 13 May 2020 12:56:32 +0000 (UTC)
-Received: from work-vm (ovpn-115-30.ams2.redhat.com [10.36.115.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC07E62B1E;
- Wed, 13 May 2020 12:56:26 +0000 (UTC)
-Date: Wed, 13 May 2020 13:56:24 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
- hanging qemu
-Message-ID: <20200513125624.GJ3225@work-vm>
-References: <cover.1589193717.git.lukasstraub2@web.de>
- <20200511114947.GJ1135885@redhat.com>
- <20200511120718.GD2811@work-vm>
- <20200511121714.GL1135885@redhat.com>
- <20200511154645.GI2811@work-vm> <20200512113206.62836e44@luklap>
- <20200512094337.GK1191162@redhat.com>
- <20200513103245.GD6202@linux.fritz.box>
- <20200513105359.GF3225@work-vm>
- <20200513111320.GE6202@linux.fritz.box>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B6FD80B71B;
+ Wed, 13 May 2020 13:02:45 +0000 (UTC)
+Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 96E52610AF;
+ Wed, 13 May 2020 13:02:44 +0000 (UTC)
+Subject: Re: [PATCH] qemu-nbd: Close inherited stderr
+To: Raphael Pour <raphael.pour@hetzner.com>, qemu-devel@nongnu.org
+References: <ac17fad1-baf1-75ad-843d-cab8d17f1b2e@hetzner.com>
+ <fa1525c8-879a-56cd-5585-e855c7c1abce@hetzner.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <090a7294-4f13-dc8b-cfc3-e4e432aa5f2c@redhat.com>
+Date: Wed, 13 May 2020 08:02:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200513111320.GE6202@linux.fritz.box>
-User-Agent: Mutt/1.13.4 (2020-02-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <fa1525c8-879a-56cd-5585-e855c7c1abce@hetzner.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
  helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
@@ -77,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,111 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Kevin Wolf (kwolf@redhat.com) wrote:
-> Am 13.05.2020 um 12:53 hat Dr. David Alan Gilbert geschrieben:
-> > * Kevin Wolf (kwolf@redhat.com) wrote:
-> > > Am 12.05.2020 um 11:43 hat Daniel P. Berrangé geschrieben:
-> > > > On Tue, May 12, 2020 at 11:32:06AM +0200, Lukas Straub wrote:
-> > > > > On Mon, 11 May 2020 16:46:45 +0100
-> > > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > > > 
-> > > > > > * Daniel P. BerrangÃ© (berrange@redhat.com) wrote: 
-> > > > > > > ...
-> > > > > > > That way if QEMU does get stuck, you can start by tearing down the
-> > > > > > > least distruptive channel. eg try tearing down the migration connection
-> > > > > > > first (which shouldn't negatively impact the guest), and only if that
-> > > > > > > doesn't work then, move on to tear down the NBD connection (which risks
-> > > > > > > data loss)  
-> > > > > > 
-> > > > > > I wonder if a different way would be to make all network connections
-> > > > > > register with yank, but then make yank take a list of connections to
-> > > > > > shutdown(2).
-> > > > > 
-> > > > > Good Idea. We could name the connections (/yank callbacks) in the
-> > > > > form "nbd:<node-name>", "chardev:<chardev-name>" and "migration"
-> > > > > (and add "netdev:...", etc. in the future). Then make yank take a
-> > > > > list of connection names as you suggest and silently ignore connections
-> > > > > that don't exist. And maybe even add a 'query-yank' oob command returning
-> > > > > a list of registered connections so the management application can do
-> > > > > pattern matching if it wants.
-> > > 
-> > > I'm generally not a big fan of silently ignoring things. Is there a
-> > > specific requirement to do it in this case, or can management
-> > > applications be expected to know which connections exist?
-> > > 
-> > > > Yes, that would make the yank command much more flexible in how it can
-> > > > be used.
-> > > > 
-> > > > As an alternative to using formatted strings like this, it could be
-> > > > modelled more explicitly in QAPI
-> > > > 
-> > > >   { 'struct':  'YankChannels',
-> > > >     'data': { 'chardev': [ 'string' ],
-> > > >               'nbd': ['string'],
-> > > > 	      'migration': bool } }
-> > > > 
-> > > > In this example, 'chardev' would accept a list of chardev IDs which
-> > > > have it enabled, 'nbd' would accept a list of block node IDs which
-> > > > have it enabled, and migration is a singleton on/off.
-> > > 
-> > > Of course, it also means that the yank code needs to know about every
-> > > single object that supports the operation, whereas if you only have
-> > > strings, the objects could keep registering their connection with a
-> > > generic function like yank_register_function() in this version.
-> > > 
-> > > I'm not sure if the additional complexity is worth the benefits.
-> > 
-> > I tend to agree; although we do have to ensure we either use an existing
-> > naming scheme (e.g. QOM object names?) or make sure we've got a well
-> > defined list of prefixes.
+On 5/13/20 2:14 AM, Raphael Pour wrote:
+> On 5/12/20 3:57 PM, Eric Blake wrote:
+>> Wouldn't it just be simpler to not dup in the first place?
+>>
+>> diff --git i/qemu-nbd.c w/qemu-nbd.c
+>> index 4aa005004ebd..6ba2544feb3a 100644
+>> --- i/qemu-nbd.c
+>> +++ w/qemu-nbd.c
+>> @@ -916,7 +916,9 @@ int main(int argc, char **argv)
+>>           } else if (pid == 0) {
+>>               close(stderr_fd[0]);
+>>
+>> -            old_stderr = dup(STDERR_FILENO);
+>> +            if (fork_process) {
+>> +                old_stderr = dup(STDERR_FILENO);
+>> +            }
+>>               ret = qemu_daemon(1, 0);
+>>
+>>               /* Temporarily redirect stderr to the parent's pipe...  */
 > 
-> Not everything that has a network connection is a QOM object (in fact,
-> neither migration nor chardev nor nbd are QOM objects).
-
-Hmm, migrationstate is a qdev object.
-
-> I guess it would be nice to have a single namespace for everything in
-> QEMU, but the reality is that we have a few separate ones. As long as we
-> consistently add a prefix that identifies the namespace in question, I
-> think that would work.
-
-> This means that if we're using node-name to identify the NBD connection,
-> the namespace should be 'block' rather than 'nbd'.
+> Yes, you're right. We tested your patch and it also fixes the unwanted
+> open stderr.
 > 
-> One more thing to consider is, what if a single object has multiple
-> connections? In the case of node-names, we have a limited set of allowed
-> characters, so we can use one of the remaining characters as a separator
-> and then suffix a counter. In other places, the identifier isn't
-> restricted, so suffixing doesn't work. Maybe prefixing does, but it
-> would have to be there from the beginning then.
+> Could you consider this patch in one of the next releases?
 
-Yeh I worry about whether on nbd if you can have multiple nbd
-connections to one block device.
+Yes, now that we know about it, the bug will be fixed in 5.1; we can 
+also cc: qemu-stable to get it backported to the next 5.0.x release 
+(downstream developers are also more likely to backport it to their 
+ports as well if it lands on qemu-stable).  Would you like to try your 
+hand at a v2 patch, or shall I just turn my proposal into a formal patch 
+and mention you as the reporter?  Time-wise, it may be faster for me to 
+just take over the patch than to spend the time coaching you through to 
+the point of your first successful submission, but project-wise, it is 
+always better to welcome in new contributors and share the wealth, 
+rather than making maintainers become the bottleneck.
 
-> And another thing: Do we really want to document this as limited to
-> network connections? Another common cause of hangs is when you have
-> image files on an NFS mount and the connection goes away. Of course, in
-> the end this is still networking, but inside of QEMU it looks like
-> accessing any other file. I'm not sure that we'll allow yanking access
-> to image files anytime soon, but it might not hurt to keep it at the
-> back of our mind as a potential option we might want the design to
-> allow.
-
-Yep.
-
-Dave
-
-> Kevin
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
