@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CBE71D043A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 03:18:36 +0200 (CEST)
-Received: from localhost ([::1]:40896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 376751D0438
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 03:18:31 +0200 (CEST)
+Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYg2d-0003HK-J8
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 21:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41140)
+	id 1jYg2X-0002yk-OZ
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 21:18:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYg14-0000oS-0e
- for qemu-devel@nongnu.org; Tue, 12 May 2020 21:16:59 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27188
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYg13-0000nk-KU
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 21:16:57 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41989
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYg12-0004Bj-3o
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYg12-0004Bn-5Y
  for qemu-devel@nongnu.org; Tue, 12 May 2020 21:16:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589332614;
+ s=mimecast20190719; t=1589332615;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qfzq08Le1zJf7CAaoM1AwB/IXH0chskOmrefaRv4knQ=;
- b=V3uVriHzyZNi6oc8vR9tuUYRVTAOkpe8lj4CJKYeDTGVlra0CEOibnTI92bCxZxrEdn6qE
- KOuewX8ZHUrtcHCe28AuubuNloxP43D0skxdAaal3pHZLnWFJgM6z68IHrTIBFCgfnCXNM
- 9U5UNOwTs8HDlZJ5zV40ti0/qC3wyCs=
+ bh=3rv6/Ww2pSYf1tT1GUATjc6owc1G5Z2EM/1i2BOuOog=;
+ b=Ack7GHg9vFiVPHeclM/NrcIybmq5WoGaJR1HOhqIenMaamgtHXmejfvOm62+pcwk7GciC2
+ XQ2mfOycICDFVp1HzxuOvFyngVv3cvyiHnUyAr0Bn85TD4zV1Y7dlbhudnOzU0JS3LedeX
+ ptJIXniFsDJTvOOyxIaH5wZD4KIHFbg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-CTIk880YNc2xVbUx4x3dGg-1; Tue, 12 May 2020 21:16:52 -0400
-X-MC-Unique: CTIk880YNc2xVbUx4x3dGg-1
+ us-mta-408-yT9Wcb91MdWDHYrSVjP55w-1; Tue, 12 May 2020 21:16:53 -0400
+X-MC-Unique: yT9Wcb91MdWDHYrSVjP55w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0B831007B08;
- Wed, 13 May 2020 01:16:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B0AF473;
+ Wed, 13 May 2020 01:16:52 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2FC9E3A0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CF5AB1A923;
  Wed, 13 May 2020 01:16:51 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/9] docs: Sort sections on qemu-img subcommand parameters
-Date: Tue, 12 May 2020 20:16:40 -0500
-Message-Id: <20200513011648.166876-2-eblake@redhat.com>
+Subject: [PATCH v4 2/9] qemu-img: Fix stale comments on doc location
+Date: Tue, 12 May 2020 20:16:41 -0500
+Message-Id: <20200513011648.166876-3-eblake@redhat.com>
 In-Reply-To: <20200513011648.166876-1-eblake@redhat.com>
 References: <20200513011648.166876-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,10 +54,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 21:16:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 21:16:55
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,82 +82,41 @@ Cc: kwolf@redhat.com, nsoffer@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already list the subcommand summaries alphabetically, we should do
-the same for the documentation related to subcommand-specific
-parameters.
+Missed in commit e13c59fa.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- docs/tools/qemu-img.rst | 48 ++++++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+ qemu-img.c       | 2 +-
+ qemu-img-cmds.hx | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index 0080f83a76c9..7d08c48d308f 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -142,30 +142,6 @@ by the used format or see the format descriptions below for details.
-   the documentation of the emulator's ``-drive cache=...`` option for allowed
-   values.
+diff --git a/qemu-img.c b/qemu-img.c
+index 6a4327aaba56..b6e8af9202a5 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -108,7 +108,7 @@ static void QEMU_NORETURN unrecognized_option(const char *option)
+     error_exit("unrecognized option '%s'", option);
+ }
 
--Parameters to snapshot subcommand:
--
--.. program:: qemu-img-snapshot
--
--.. option:: snapshot
--
--  Is the name of the snapshot to create, apply or delete
--
--.. option:: -a
--
--  Applies a snapshot (revert disk to saved state)
--
--.. option:: -c
--
--  Creates a snapshot
--
--.. option:: -d
--
--  Deletes a snapshot
--
--.. option:: -l
--
--  Lists all snapshots in the given image
--
- Parameters to compare subcommand:
+-/* Please keep in synch with qemu-img.texi */
++/* Please keep in synch with docs/tools/qemu-img.rst */
+ static void QEMU_NORETURN help(void)
+ {
+     const char *help_msg =
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index c9c54de1df40..e0886437b1f2 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -7,7 +7,7 @@ HXCOMM command structures and help message.
+ HXCOMM HXCOMM can be used for comments, discarded from both rST and C
 
- .. program:: qemu-img-compare
-@@ -245,6 +221,30 @@ Parameters to dd subcommand:
+ HXCOMM When amending the rST sections, please remember to copy the usage
+-HXCOMM over to the per-command sections in qemu-img.texi.
++HXCOMM over to the per-command sections in docs/tools/qemu-img.rst.
 
-   Sets the number of input blocks to skip
-
-+Parameters to snapshot subcommand:
-+
-+.. program:: qemu-img-snapshot
-+
-+.. option:: snapshot
-+
-+  Is the name of the snapshot to create, apply or delete
-+
-+.. option:: -a
-+
-+  Applies a snapshot (revert disk to saved state)
-+
-+.. option:: -c
-+
-+  Creates a snapshot
-+
-+.. option:: -d
-+
-+  Deletes a snapshot
-+
-+.. option:: -l
-+
-+  Lists all snapshots in the given image
-+
- Command description:
-
- .. program:: qemu-img-commands
+ DEF("amend", img_amend,
+     "amend [--object objectdef] [--image-opts] [-p] [-q] [-f fmt] [-t cache] -o options filename")
 -- 
 2.26.2
 
