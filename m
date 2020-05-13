@@ -2,121 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7571D1D0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:10:43 +0200 (CEST)
-Received: from localhost ([::1]:55580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905761D1D34
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:16:25 +0200 (CEST)
+Received: from localhost ([::1]:44684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvq6-0003D6-Jd
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36214)
+	id 1jYvvb-0005PM-2v
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:16:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYvoR-0001Uv-Vy
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:09:00 -0400
-Received: from mail-bn8nam12on2063.outbound.protection.outlook.com
- ([40.107.237.63]:6106 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1jYvoQ-00005f-6Z
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:08:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZkYLus//yC9GxtX+WXLjsJVU/G5aKThAGriXI79L1yrtL5jwWNH8rCed6GQ/wZ48qsEtleXKb6NgrTnyObjbGOKAUAO22GDtMxuWoCjRU6C9NuvBTHiK0wmmWqD+599Mf5pD/EUiF2sjm71+m1JHPGWLYmBztg/CV7emISfQVdu1ISDgI6iStIu3KJTTiaYsoC/RLmY48y8YP/4phF3PWYA+pkANsap+J8O9W/JO/LWD+/gHvyv6HE0FMyvXiepdTNxVd8x30g9GAZMunl0c4eYh9bVvy1Jb7KlkiO36q2p9+JWPnkrKcQKceDjZrNmCnyszr9keyBn/UnS21GzaAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JmFreeuRNGTY0LY6peknR4B18TyDk5OTPDn1Wgu7a1k=;
- b=b6eCNl2MXwJLvVDnsB7Uud+A6YfHpD1wCnTB2KyJ/zljsd05/TsE3Do9FiCRw0X5rmdFjV+YtavjYcyF51op64XfyfN6xoAEFvyljdDygswCjVQ9zWXiz5rEzJ2TCdClRNaRudwOy+MrtiMy0tUedGDbkgEY1GWD0qn9kd+SRi1xp3AWG8gDPyaOjFlmVc1T+yafeqe2ZxNHRlNk5yW6R5xzvEpCoChe/Zn2KS2H49CI0qxnA0MoHY9ojfZRpdZPr1Vwyf9BI/WJjno0+bRTtTmxhRLSeYgRUs1Gm73AFU+EkS7sjhMSTbWyBNWUKrWB8hXwf21pzVTx7zpNX8fXCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JmFreeuRNGTY0LY6peknR4B18TyDk5OTPDn1Wgu7a1k=;
- b=efeksO4WEscZZSEA+jBuUufZ3QuqcIWWqtiljSieUeX9EHyLGmHle3lirER/Q+E/AS2yq0LTQNy9HbQ0gC7nQGssAD/yNzGuxoEiKqnTScgWkUsCW96cSr99Oa+uG9xk5oxEAAb4uHdRWp1ee/pC163c1hBKnqdQEOn/wt4lRX4=
-Received: from MN2PR19CA0022.namprd19.prod.outlook.com (2603:10b6:208:178::35)
- by MN2PR02MB6079.namprd02.prod.outlook.com (2603:10b6:208:185::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.34; Wed, 13 May
- 2020 18:08:55 +0000
-Received: from BL2NAM02FT059.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:178:cafe::9c) by MN2PR19CA0022.outlook.office365.com
- (2603:10b6:208:178::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28 via Frontend
- Transport; Wed, 13 May 2020 18:08:55 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT059.mail.protection.outlook.com (10.152.76.247) with Microsoft SMTP
- Server id 15.20.2979.29 via Frontend Transport; Wed, 13 May 2020 18:08:55
- +0000
-Received: from [149.199.38.66] (port=59448 helo=xsj-pvapsmtp01)
- by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
- (envelope-from <joe.komlodi@xilinx.com>) id 1jYvo4-0007yG-S9
- for qemu-devel@nongnu.org; Wed, 13 May 2020 11:08:36 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <joe.komlodi@xilinx.com>) id 1jYvoM-0002TI-NF
- for qemu-devel@nongnu.org; Wed, 13 May 2020 11:08:54 -0700
-Received: from [172.19.2.32] (helo=xsjkomlodi50.xilinx.com)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <komlodi@xilinx.com>)
- id 1jYvoI-0002SZ-68; Wed, 13 May 2020 11:08:50 -0700
-From: Joe Komlodi <joe.komlodi@xilinx.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jYvpO-0003ed-Nz
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 14:09:58 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:43249)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1jYvpN-0000KX-DB
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 14:09:58 -0400
+Received: by mail-pg1-x533.google.com with SMTP id f4so89144pgi.10
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 11:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eV8fASr6zLNPOM9+MqNBiDQt3yfbdc9NuVmqRCKMy8M=;
+ b=WCO/A1M8QQyXI3lxK3iQZw/57NL7oXtRPtkW2F8krPU9BtddrTZ2uteqna+uE6NKLh
+ jg9mIfmtahAjz2j8ZzjElPp/YvrcFw3KGBEWlsdukB2KvFcBHHYsxMlGEiPlyHqeFYta
+ uJvgO0QMhYb6IJqyQJ9EijV3s8pxDTlz/cIySJuh2mf4tvt5qBoXMFM5OOy3EeyLR8H+
+ g3XEg3roqPeFOXKJ/24iaUrh7fsGfdHJV8Bc1b+1pJ3tjB03f9AQhwkIi9Y4RfgCZBSB
+ reJeqd3X0BOm3geYhyQQaAiVC2hGulPk7smBue7ksJQBCoN6w0kIyjZv6/f5UZ9drJ5I
+ zROw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eV8fASr6zLNPOM9+MqNBiDQt3yfbdc9NuVmqRCKMy8M=;
+ b=j+/5BFVrkse/uoGLd+Gg5t+0bS9uB/XzamRptNdujOTHi6AdYGI7Tr64CDvOXKxy5W
+ 89jDOKI9JBXmTRZTNwAfFSWpf2ZE6SFFDB5tKvxWbU1JOF3bedU41SFkfDxnOwGJiGUb
+ J3gppdubtpA9tFhxVvSrKJosr3CGQPYKV9UoaZargQFobf0AIAdASl59rVw9Jcpqmu7E
+ x4aGxVoxOgJrWnV1/DuoOwE16VXgnKmY4wpmEx9m/XTgXvbetzJxkmy9pBCKVR5GROtQ
+ xp5taeDtdRM5UB08YMtxm31tUbuqKpCXNcKRO7kTH+DFiV1YtAYEBhCSXapsQtetx7Tp
+ w7SA==
+X-Gm-Message-State: AOAM530/iZtLWubOdJkjt6NzeLJn+lxOaE7x7Zvkyg/rAdfBz0HPdhef
+ gy3eL6YPY1w17sVi7vK4JhH7TRAElg0=
+X-Google-Smtp-Source: ABdhPJzWz3y48z15WLAgeW99lcPayPBdb1+1R8c+5ygH9VlsztmM9vj2+HOF873w9hTuyK/n5PjqrA==
+X-Received: by 2002:a63:7519:: with SMTP id q25mr506986pgc.224.1589393395411; 
+ Wed, 13 May 2020 11:09:55 -0700 (PDT)
+Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
+ [174.21.143.238])
+ by smtp.gmail.com with ESMTPSA id i185sm197361pfg.14.2020.05.13.11.09.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 May 2020 11:09:54 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 0/4] target/microblaze: Add GDB XML and correct SReg
- reporting
-Date: Wed, 13 May 2020 11:08:49 -0700
-Message-Id: <1589393329-223076-5-git-send-email-komlodi@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1589393329-223076-1-git-send-email-komlodi@xilinx.com>
-References: <1589393329-223076-1-git-send-email-komlodi@xilinx.com>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
- SFTY:;
- SFS:(376002)(346002)(39860400002)(396003)(136003)(46966005)(33430700001)(8676002)(426003)(186003)(2906002)(316002)(478600001)(33440700001)(356005)(44832011)(70586007)(26005)(4326008)(2616005)(81166007)(70206006)(36756003)(7696005)(6916009)(8936002)(9786002)(336012)(82310400002)(47076004)(5660300002)(82740400003)(86362001)(107886003);
- DIR:OUT; SFP:1101; 
+Subject: [RISU 0/9] risu cleanups and improvements
+Date: Wed, 13 May 2020 11:09:44 -0700
+Message-Id: <20200513180953.20376-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 381f4887-7aed-4592-263b-08d7f768b32f
-X-MS-TrafficTypeDiagnostic: MN2PR02MB6079:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB607991322804AD8943E0C94ED0BF0@MN2PR02MB6079.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0402872DA1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rg2X+pBXvbnmIgsDj79X+s2FllkmxgZdROMeBtlEifcbRR7l1NRnaq2Pk9tCZYDbWrrUvVXOI8tb2/kFbQE1vTZHOw7j01kHiaK3o9cgB0K5bgg3s3wfEwGBpdu9L9zkE5gRouknyfira2Ammuz9WBtZDQZBydUItxuBhFatKNtlFNVhZStdDmZbRS7F8rnbUyByPt2HZCPTi51Hcjr+WA9UCbfOpub1TA58JRRojSSpl1u+AAXGc8cnBqVM4uz5d3OPtTgp7olDvakYYE9oIFTPybctusBm35mSNo5dNjHZ7bTTVJEQR4feWUat/YBhM6PcYcyTR2huVGdxlnUf6xWGneL+U49B1jul+YPnhHNeQQ0RPDqNfI764xU08NEFDt+iinlYtFta3BG6f8zXV37/bR4JxQphbDEeXer4BzUmSJICXqJo8cGYahzbjAWEna3Osu+LuY7yDJ7tcBXiP073TAtqoGfWRVdc936yQdIkdXwM2xiSfZNoycWdG0CJm8Aw5X8fYVgoWJPMCjzayoK8l7uuMd4f4cHPe+/XB8W/TshArK0TuWYl3wTHl7bI29n04o2npjf2vCng3YkWKw==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2020 18:08:55.0885 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 381f4887-7aed-4592-263b-08d7f768b32f
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
- Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6079
-Received-SPF: pass client-ip=40.107.237.63; envelope-from=komlodi@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 14:08:56
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -130,49 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+This patch set does alter the format of the trace files, and thus
+means we'll have to re-generate these.  However, the space saved
+for sve trace files is significant, so I consider it worthwhile.
 
-This series adds dynamic GDB XML support for Micraoblaze CPUs, and 
-fixes an issue when reporting Microblaze SRegs through GDB.
-
-The SRegs used to be printed out by iterating over the SReg array, but 
-the SReg array isn't laid out in memory in the same order that GDB expects them.
-
-When reporting register to GDB, note that even though 32-bit 
-Microblaze supports having certain registers wider than 32-bits, we're 
-repoting all of them as being 32-bits wide right now to maintain compatibility with GDB.
-
-Thanks!
-Joe
-
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-Changelog:
-v1 -> v2
- - 1/4: Added missing core XML file
+In addition, the new --dump option allows one to inspect the
+contents of the trace file.
 
 
-Joe Komlodi (4):
-  target/microblaze: gdb: Add dynamic GDB XML register support
-  target/microblaze: gdb: Extend the number of registers presented to
-    GDB
-  target/microblaze: gdb: Fix incorrect SReg reporting
-  target/microblaze: monitor: Increase the number of registers reported
+r~
 
- configure                     |   1 +
- gdb-xml/microblaze-core.xml   |  64 +++++++++++++
- target/microblaze/cpu.c       |   6 +-
- target/microblaze/cpu.h       |   9 ++
- target/microblaze/gdbstub.c   | 214 +++++++++++++++++++++++++++++++++++++++++-
- target/microblaze/translate.c |  16 +++-
- 6 files changed, 304 insertions(+), 6 deletions(-)
- create mode 100644 gdb-xml/microblaze-core.xml
+
+Richard Henderson (9):
+  Use bool for tracing variables
+  Unify master_fd and apprentice_fd to comm_fd
+  Hoist trace file opening
+  Adjust tracefile open for write
+  Use EXIT_FAILURE, EXIT_SUCCESS
+  Add magic and size to the trace header
+  Compute reginfo_size based on the reginfo
+  aarch64: Reorg sve reginfo to save space
+  Add --dump option to inspect trace files
+
+ risu.h                 |  12 ++-
+ risu_reginfo_aarch64.h |  16 +---
+ comms.c                |  26 +++---
+ reginfo.c              |  45 ++++++---
+ risu.c                 | 208 ++++++++++++++++++++++++++++++-----------
+ risu_reginfo_aarch64.c | 192 ++++++++++++++++++++-----------------
+ risu_reginfo_arm.c     |   6 +-
+ risu_reginfo_i386.c    |   8 +-
+ risu_reginfo_m68k.c    |   6 +-
+ risu_reginfo_ppc64.c   |   6 +-
+ 10 files changed, 342 insertions(+), 183 deletions(-)
 
 -- 
-2.7.4
+2.20.1
 
 
