@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C741D129D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 14:27:21 +0200 (CEST)
-Received: from localhost ([::1]:49384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 509FC1D12C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 14:34:20 +0200 (CEST)
+Received: from localhost ([::1]:58154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYqTn-0002Of-KZ
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 08:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37082)
+	id 1jYqaY-0000tw-Th
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 08:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jYqSe-0001TO-Hu
- for qemu-devel@nongnu.org; Wed, 13 May 2020 08:26:08 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:31698
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYqYe-00087q-Hq
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 08:32:21 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44436
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1jYqSd-0004D7-RF
- for qemu-devel@nongnu.org; Wed, 13 May 2020 08:26:08 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYqYb-0005MF-LF
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 08:32:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589372767;
+ s=mimecast20190719; t=1589373136;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kV12P1VagXnxek/oZ4oaCuW5iCc053eJM7RoTlqM1vI=;
- b=E632Ultqok22w2gZZGOooXJWHq0qmv2YLyxn4zhNxRnxFsp6hAdiU6Df2JeC+ISt4ro0bf
- KHwD1JLMpP2mu4DejdAxDeyZBAqvs/Nj4u0hAGnlW/C02sSPjaWY1K7FgUlh5K/dKGEiTo
- 9Mc6N23ynDVkfcfHMnBic37cbM410vw=
+ bh=/K31d/JxI245jJyQB2zQWxDzX86IIbHt7WVLqN3A8d8=;
+ b=LaL8cY8NNogVwM9jPoAolyy0lg3fDx7LuEhLaEKa0YHBdQ/mCarPCdf7MXE4Z5JWevhCAB
+ Vuk6NpPus3PC0xDhY1m+UIMWyqVOe0pTzUZEYisSf4WCptGhr0x7fkgocmWzDcekk63pGi
+ ifKlGBU9/+jF3yk1zYITceVo5wRzmoA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-3BTLyaaKOHaHdT5AyZb8YA-1; Wed, 13 May 2020 08:26:02 -0400
-X-MC-Unique: 3BTLyaaKOHaHdT5AyZb8YA-1
+ us-mta-375-rBLSJfxpOaqmDP8m4nDxyg-1; Wed, 13 May 2020 08:32:12 -0400
+X-MC-Unique: rBLSJfxpOaqmDP8m4nDxyg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7729B1841928;
- Wed, 13 May 2020 12:26:01 +0000 (UTC)
-Received: from work-vm (ovpn-115-30.ams2.redhat.com [10.36.115.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C08B85D9C5;
- Wed, 13 May 2020 12:25:56 +0000 (UTC)
-Date: Wed, 13 May 2020 13:25:54 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 921DB1005510;
+ Wed, 13 May 2020 12:32:11 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-80.ams2.redhat.com [10.36.114.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 15F465D9C5;
+ Wed, 13 May 2020 12:32:03 +0000 (UTC)
+Date: Wed, 13 May 2020 14:32:02 +0200
+From: Kevin Wolf <kwolf@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
 Subject: Re: [PATCH 0/5] Introduce 'yank' oob qmp command to recover from
  hanging qemu
-Message-ID: <20200513122554.GH3225@work-vm>
+Message-ID: <20200513123202.GG6202@linux.fritz.box>
 References: <20200511120718.GD2811@work-vm>
  <20200511121714.GL1135885@redhat.com>
  <20200511154645.GI2811@work-vm> <20200512113206.62836e44@luklap>
@@ -60,14 +58,13 @@ References: <20200511120718.GD2811@work-vm>
  <31bb69c3-5149-70cf-7527-54680b1e3f6b@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <31bb69c3-5149-70cf-7527-54680b1e3f6b@redhat.com>
-User-Agent: Mutt/1.13.4 (2020-02-15)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
 Content-Disposition: inline
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -76,8 +73,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_HK_NAME_DR=0.01 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,15 +87,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+Cc: Lukas Straub <lukasstraub2@web.de>,
  Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
  qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
+Am 13.05.2020 um 13:58 hat Paolo Bonzini geschrieben:
 > On 13/05/20 13:26, Daniel P. Berrangé wrote:
 > > Are you referring to the in-kernel NFS client hangs here ?  AFAIK, it is
 > > impossible to do anything to get out of those hangs from userspace, because
@@ -111,22 +110,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > not sure which wites have made it to the server (and to the medium) and
 > which haven't.
 
-No, that's OK - if you look at the COLO case, and some other cases,
-you've got a dead storage device but your redundant pair might be OK;
-so it's OK to yank it.
-Other similar storage cases are trying to migrate a VM that has one dead
-disk, even if you know and accept it's dead and unresponding, you often
-can't kill it off if the device is hung.
+This (undefined content) is generally what guests should expect when a
+write request returns an error.
 
 > Effectively, the in-QEMU NFS client and NBD client are always operating
 > in "soft" mode, but we should always treat that as a bug (which cannot
 > be fixed) and not a feature for read-write images.
-Dave
 
-> 
-> Paolo
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+It certainly means that you can't continue as if nothing had happened.
+
+However, writing to the same area again (and successfully) restores a
+valid state, so with werror=stop you would get into a state where you
+can later reconnect and continue where you stopped, but the monitor
+would stay responsive during that time.
+
+Or if the disk isn't critical for the guest, you could replace the NBD
+block node with a node that always returns I/O errors, so the guest
+would see a broken disk (actually, just reporting the errors from
+yanking to the guest might be enough to make it give up on the disk and
+stop sending new requests). Then you can resume the VM right away.
+
+Kevin
 
 
