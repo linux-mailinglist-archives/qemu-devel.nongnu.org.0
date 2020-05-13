@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B0F1D17FD
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 16:56:01 +0200 (CEST)
-Received: from localhost ([::1]:51368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F191D17FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 16:55:59 +0200 (CEST)
+Received: from localhost ([::1]:51220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYsng-0007n7-7C
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 10:56:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59596)
+	id 1jYsne-0007iG-GT
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 10:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYslk-0005ol-JH
- for qemu-devel@nongnu.org; Wed, 13 May 2020 10:54:00 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57187
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYslx-0006LI-Mq
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 10:54:13 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:41278
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYslj-0000Uf-LX
- for qemu-devel@nongnu.org; Wed, 13 May 2020 10:54:00 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jYslw-0000Y0-S5
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 10:54:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589381638;
+ s=mimecast20190719; t=1589381651;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pZa0srxIE+pVMSoS5sbhGTfduGXK7VP1GouHRlrtWwU=;
- b=L+mVmAfy657WM3Dc82PqwqxnP5juERyIBLnmeOf/VDlPC0Tz/NTqN+Pk/AwdKsuK4R+sMv
- J/1tHkaFD3W31A101BuLbFVefaVAXdujc2bY4UJSe9zkOgtZneVw/gf5bHqZlRzXJ3J9pa
- 5uzG+j4SQ2v2BrMZjqn6z9g8EB9mawA=
+ bh=axpfmdDFPjG5EZz9BmNH/EB/sijSubCbry9C2F/GjuU=;
+ b=cTRfMudDP8B8K9gcwZEWlu3pp4gZAREItJTUX6f6+VjnVx6EBWeVWkhKr81ZAjPHL02EXr
+ 89OXVuSr44RqWB//xqWHM33RtETY8HaNmTKkqavcwKNH2gWJziutDJ7E3qji6LcwM6H36F
+ 2UWekxRuyA6qRlUF3z6IE9RNLkYl7Vc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-WpU0OJoWOGed8Lg0L_zdiA-1; Wed, 13 May 2020 10:53:56 -0400
-X-MC-Unique: WpU0OJoWOGed8Lg0L_zdiA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-215-7mjdG-v2N22DrOjf1AowzQ-1; Wed, 13 May 2020 10:54:06 -0400
+X-MC-Unique: 7mjdG-v2N22DrOjf1AowzQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4931E8014D7;
- Wed, 13 May 2020 14:53:55 +0000 (UTC)
-Received: from kaapi (unknown [10.74.9.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F5C660F8D;
- Wed, 13 May 2020 14:53:48 +0000 (UTC)
-Date: Wed, 13 May 2020 20:23:45 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-X-X-Sender: pjp@kaapi
-To: Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [PATCH 0/2] use unsigned type for MegasasState fields
-In-Reply-To: <20200513142043.lfcamp5j43ke5md4@mozz.bu.edu>
-Message-ID: <nycvar.YSQ.7.76.2005132016550.1451610@xnncv>
-References: <20200507105718.1319187-1-ppandit@redhat.com>
- <26201c24-c483-85a7-2f4b-b3cc56d4b8b7@redhat.com>
- <nycvar.YSQ.7.76.2005122357030.1451610@xnncv>
- <20200512190803.o6vr2shjmhsplsjx@mozz.bu.edu>
- <20200512194759.nb42yurlnynr5yrw@mozz.bu.edu>
- <nycvar.YSQ.7.76.2005131905010.1451610@xnncv>
- <20200513142043.lfcamp5j43ke5md4@mozz.bu.edu>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D7F1461;
+ Wed, 13 May 2020 14:54:04 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-80.ams2.redhat.com [10.36.114.80])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BE8B6A977;
+ Wed, 13 May 2020 14:54:03 +0000 (UTC)
+Date: Wed, 13 May 2020 16:54:01 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 2/2] iotests: Run pylint and mypy in a testcase
+Message-ID: <20200513145401.GJ6202@linux.fritz.box>
+References: <20200511163529.349329-1-kwolf@redhat.com>
+ <20200511163529.349329-3-kwolf@redhat.com>
+ <c2292ce0-6885-216e-b23f-26a341a5afd3@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <c2292ce0-6885-216e-b23f-26a341a5afd3@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=ppandit@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5/uDoXvLw7AC5HRs"
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,27 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Ren Ding <rding@gatech.edu>,
- =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+-- On Wed, 13 May 2020, Alexander Bulekov wrote --+
-| They are not necessary, but for me QEMU crashes before qtest ever tries to 
-| parse them. Is your QEMU built with ASAN?
+--5/uDoXvLw7AC5HRs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, it is
- QEMU_CFLAGS       -I/usr/include/pixman-1   -Werror -fsanitize=address
- QEMU_LDFLAGS      -Wl,--warn-common -fsanitize=address
+Am 13.05.2020 um 14:14 hat Max Reitz geschrieben:
+> On 11.05.20 18:35, Kevin Wolf wrote:
+> > We made sure that iotests.py passes pylint. It would be a shame if we
+> > allowed new patches in that break this again, so let's just add a
+> > meta-test case that runs pylint on it.
+> >=20
+> > While we don't pass mypy --strict yet, we can already run it with a few
+> > options that would be part of --strict to make sure that we won't
+> > regress on these aspects at least until we can enable the full thing.
+> >=20
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  tests/qemu-iotests/297     | 44 ++++++++++++++++++++++++++++++++++++++
+> >  tests/qemu-iotests/297.out |  3 +++
+> >  tests/qemu-iotests/group   |  1 +
+> >  3 files changed, 48 insertions(+)
+> >  create mode 100755 tests/qemu-iotests/297
+> >  create mode 100644 tests/qemu-iotests/297.out
+>=20
+> Bit of a shame that this takes 8 s (on my machine at least) and will run
+> with every format/protocol combination unless I explictly exclude it
+> with -x meta...
 
-Btw, Ren confirmed that he wasn't able to reproduce the issue with the 
-proposed patch.
+Yes, it's surprising how slow these tools are. At least mypy caches some
+stuff, so the second run is considerably faster, but pylint doesn't do
+that.
 
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+I wonder if there is some overlap between mypy and pylint that we could
+configure away in pylint to speed it up.
+
+> But I suppose the actual problem here is the fact that
+> tests still can=E2=80=99t just define a =E2=80=9CThis is the format/proto=
+col combination
+> I require=E2=80=9D and then you can just let all tests run once with that
+> default combination.  (And maybe afterwards run all tests again with
+> some custom combinations, but only when that makes sense.)
+
+It's probably not hard to find more "actual problems" in the test
+harness...
+
+Kevin
+
+--5/uDoXvLw7AC5HRs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl68CgkACgkQfwmycsiP
+L9a74xAAoAOiOZmGBNww2APLdJwDsp3lWFpdqC3z2Kn26il3tyZhRwzHxXwtTUBL
+5Qa9QhlGLwnakdLHJ7nANIVOabwzEWj9YFmfxbqAwZTJQtpBPQdkFLY027rBd5jL
+i4Kc5Mdh8GuCPaZDp0bKIjmMHE3TE2Qg5tDjZQoBSlAmkPlD0beVxKRcECo5HWlQ
+AhOqN6V4pbL3JSAOOeRfGfS6qP08vEPXOIQoVZoIXVAtbfn4eAjaS/ZuksHcscJD
+6Iu7wScQRH/d1HECat2GG8JGfi2rcRaK9+kjdmxcaQW04E/AK64ixYcs4GGc/XHB
+utdVKlFyXBSAJsYKUZhs+wdneIVPlwQ8xou1jZxjY9Y8LKVyDUVuiSnPIIMi/Yaa
+7PmIL73DyKkmXuk395uveI/5E8o+zTRArZehxTaCdnNmEQA2a8vKLAnaY3RzlsUf
+NjdoMI6zQzPubErm8or4AHePzt3k80SfAePgRutgFqV3ZVZsiyqO6RrQEN6Dtk5g
+UUX9xfm+buAHqqpQB6of5MknesYvi3qcsPVD2wPdwlcs9bCBIHr+V4SpPTTTtsPX
+7KBZ76ILlAVXVC8AvgNTAFo/+rp+ZGxXl+CNJ7LJFZ5m1lWdo2wQmN4mD+1+mYuT
+0wxabB6SKSSaAcaZvMTGMFOlCwaVfTaR/GPxI8iJTwhN9DTq6KU=
+=0xMi
+-----END PGP SIGNATURE-----
+
+--5/uDoXvLw7AC5HRs--
 
 
