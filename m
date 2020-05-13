@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988C21D10B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:10:29 +0200 (CEST)
-Received: from localhost ([::1]:56000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388371D10C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 13:12:41 +0200 (CEST)
+Received: from localhost ([::1]:36174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYpHQ-0007KI-Bj
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:10:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54660)
+	id 1jYpJY-0002R3-9h
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 07:12:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDM-0001Jt-1C
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:16 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:57501
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDK-0001Ep-0l
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:42246
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDG-0003NT-K7
- for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:15 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jYpDH-0003Nh-J4
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 07:06:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589367969;
+ s=mimecast20190719; t=1589367970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TkIa4ntaazlXqU8PKJM77+JrQaNwnzHwOPLkML/5hDE=;
- b=D5wj3BoxcoUDyVY8PvGUinDCmGBL0Z5GdXldicMXq+HFSERvixUyELKlsd89dpsB5H77Vd
- Coqsjzepeib4tmZOvmAeX2DEyeq3Z6cVvkWt+CnozLt+XVgU1URcShsoOAXh/ExMbQskXE
- tcuArFES4jaZIoxs8H2lZoB5O4pROtw=
+ bh=RtWfznVJLxHtCzQkfc9vyJGmqbnFPdK/k6Zjk/Zfujs=;
+ b=e2Jsx3pK4MFrYinJ50a6X5JOurUH3Tis1qZFA7SxqQtGrapEwlPsPmOGxyXeY0vvhl9pY/
+ UA2usLSgNpbEHYErN8ujngbFavOL3R/IM+jmvxpmtIjlvptGs8l1uNJd4KEa+YiQyfBt8J
+ 72fMM5zN6FmtGzJjfpCkpt5SgB1QdTo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-y2yhZ43tOeCCGcSwIpDa1w-1; Wed, 13 May 2020 07:06:06 -0400
-X-MC-Unique: y2yhZ43tOeCCGcSwIpDa1w-1
+ us-mta-238-tekOPRhUNoCnnQopNE88cQ-1; Wed, 13 May 2020 07:06:08 -0400
+X-MC-Unique: tekOPRhUNoCnnQopNE88cQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24B3219200C4;
- Wed, 13 May 2020 11:06:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2BD58014D7;
+ Wed, 13 May 2020 11:06:07 +0000 (UTC)
 Received: from localhost (unknown [10.40.193.218])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F3E92E034;
- Wed, 13 May 2020 11:06:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2698638D;
+ Wed, 13 May 2020 11:06:06 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 06/34] block: Pass BdrvChildRole to bdrv_child_perm()
-Date: Wed, 13 May 2020 13:05:16 +0200
-Message-Id: <20200513110544.176672-7-mreitz@redhat.com>
+Subject: [PATCH v4 07/34] block: Pass BdrvChildRole to .inherit_options()
+Date: Wed, 13 May 2020 13:05:17 +0200
+Message-Id: <20200513110544.176672-8-mreitz@redhat.com>
 In-Reply-To: <20200513110544.176672-1-mreitz@redhat.com>
 References: <20200513110544.176672-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -82,341 +82,232 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For now, all callers pass 0 and no callee evaluates this value.  Later
-patches will change both.
+For now, all callers (effectively) pass 0 and no callee evaluates thie
+value.  Later patches will change both.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- include/block/block_int.h   |  5 ++++-
- block.c                     | 22 ++++++++++++----------
- block/backup-top.c          |  3 ++-
- block/blkdebug.c            |  5 +++--
- block/blklogwrites.c        |  9 +++++----
- block/commit.c              |  1 +
- block/copy-on-read.c        |  1 +
- block/mirror.c              |  1 +
- block/quorum.c              |  1 +
- block/replication.c         |  1 +
- block/vvfat.c               |  1 +
- tests/test-bdrv-drain.c     |  5 +++--
- tests/test-bdrv-graph-mod.c |  1 +
- 13 files changed, 36 insertions(+), 20 deletions(-)
+ include/block/block_int.h |  3 ++-
+ block.c                   | 40 +++++++++++++++++++++++----------------
+ block/block-backend.c     |  3 ++-
+ block/vvfat.c             |  3 ++-
+ 4 files changed, 30 insertions(+), 19 deletions(-)
 
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 1c6641c17a..dc4bc486d6 100644
+index dc4bc486d6..8c1160a577 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -556,7 +556,7 @@ struct BlockDriver {
-      * the parents in @parent_perm and @parent_shared.
-      *
-      * If @c is NULL, return the permissions for attaching a new child for the
--     * given @child_class.
-+     * given @child_class and @role.
-      *
-      * If @reopen_queue is non-NULL, don't return the currently needed
-      * permissions, but those that will be needed after applying the
-@@ -564,6 +564,7 @@ struct BlockDriver {
-      */
-      void (*bdrv_child_perm)(BlockDriverState *bs, BdrvChild *c,
-                              const BdrvChildClass *child_class,
-+                             BdrvChildRole role,
-                              BlockReopenQueue *reopen_queue,
-                              uint64_t parent_perm, uint64_t parent_shared,
-                              uint64_t *nperm, uint64_t *nshared);
-@@ -1266,6 +1267,7 @@ int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error **errp);
-  * all children */
- void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
-                                const BdrvChildClass *child_class,
-+                               BdrvChildRole child_role,
-                                BlockReopenQueue *reopen_queue,
-                                uint64_t perm, uint64_t shared,
-                                uint64_t *nperm, uint64_t *nshared);
-@@ -1276,6 +1278,7 @@ void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
-  * CONSISTENT_READ and doesn't share WRITE. */
- void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
-                                const BdrvChildClass *child_class,
-+                               BdrvChildRole child_role,
-                                BlockReopenQueue *reopen_queue,
-                                uint64_t perm, uint64_t shared,
-                                uint64_t *nperm, uint64_t *nshared);
+@@ -677,7 +677,8 @@ struct BdrvChildClass {
+      * non-BDS parents. */
+     bool parent_is_bds;
+ 
+-    void (*inherit_options)(int *child_flags, QDict *child_options,
++    void (*inherit_options)(BdrvChildRole role,
++                            int *child_flags, QDict *child_options,
+                             int parent_flags, QDict *parent_options);
+ 
+     void (*change_media)(BdrvChild *child, bool load);
 diff --git a/block.c b/block.c
-index 14810e0426..5d9a331f5b 100644
+index 5d9a331f5b..40db0b78b9 100644
 --- a/block.c
 +++ b/block.c
-@@ -1954,12 +1954,12 @@ bool bdrv_is_writable(BlockDriverState *bs)
+@@ -77,6 +77,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+                                            QDict *options, int flags,
+                                            BlockDriverState *parent,
+                                            const BdrvChildClass *child_class,
++                                           BdrvChildRole child_role,
+                                            Error **errp);
  
- static void bdrv_child_perm(BlockDriverState *bs, BlockDriverState *child_bs,
-                             BdrvChild *c, const BdrvChildClass *child_class,
--                            BlockReopenQueue *reopen_queue,
-+                            BdrvChildRole role, BlockReopenQueue *reopen_queue,
-                             uint64_t parent_perm, uint64_t parent_shared,
-                             uint64_t *nperm, uint64_t *nshared)
+ /* If non-zero, use only whitelisted block drivers */
+@@ -1153,7 +1154,8 @@ static void bdrv_temp_snapshot_options(int *child_flags, QDict *child_options,
+  * Returns the options and flags that bs->file should get if a protocol driver
+  * is expected, based on the given options and flags for the parent BDS
+  */
+-static void bdrv_inherited_options(int *child_flags, QDict *child_options,
++static void bdrv_inherited_options(BdrvChildRole role,
++                                   int *child_flags, QDict *child_options,
+                                    int parent_flags, QDict *parent_options)
  {
-     assert(bs->drv && bs->drv->bdrv_child_perm);
--    bs->drv->bdrv_child_perm(bs, c, child_class, reopen_queue,
-+    bs->drv->bdrv_child_perm(bs, c, child_class, role, reopen_queue,
-                              parent_perm, parent_shared,
-                              nperm, nshared);
-     /* TODO Take force_share from reopen_queue */
-@@ -2053,7 +2053,7 @@ static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-         uint64_t cur_perm, cur_shared;
-         bool child_tighten_restr;
- 
--        bdrv_child_perm(bs, c->bs, c, c->klass, q,
-+        bdrv_child_perm(bs, c->bs, c, c->klass, c->role, q,
-                         cumulative_perms, cumulative_shared_perms,
-                         &cur_perm, &cur_shared);
-         ret = bdrv_child_check_perm(c, q, cur_perm, cur_shared, ignore_children,
-@@ -2120,7 +2120,7 @@ static void bdrv_set_perm(BlockDriverState *bs, uint64_t cumulative_perms,
-     /* Update all children */
-     QLIST_FOREACH(c, &bs->children, next) {
-         uint64_t cur_perm, cur_shared;
--        bdrv_child_perm(bs, c->bs, c, c->klass, NULL,
-+        bdrv_child_perm(bs, c->bs, c, c->klass, c->role, NULL,
-                         cumulative_perms, cumulative_shared_perms,
-                         &cur_perm, &cur_shared);
-         bdrv_child_set_perm(c, cur_perm, cur_shared);
-@@ -2348,14 +2348,15 @@ int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error **errp)
-     uint64_t perms, shared;
- 
-     bdrv_get_cumulative_perm(bs, &parent_perms, &parent_shared);
--    bdrv_child_perm(bs, c->bs, c, c->klass, NULL, parent_perms, parent_shared,
--                    &perms, &shared);
-+    bdrv_child_perm(bs, c->bs, c, c->klass, c->role, NULL,
-+                    parent_perms, parent_shared, &perms, &shared);
- 
-     return bdrv_child_try_set_perm(c, perms, shared, errp);
- }
- 
- void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
-                                const BdrvChildClass *child_class,
-+                               BdrvChildRole role,
-                                BlockReopenQueue *reopen_queue,
-                                uint64_t perm, uint64_t shared,
-                                uint64_t *nperm, uint64_t *nshared)
-@@ -2366,6 +2367,7 @@ void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
- 
- void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
-                                const BdrvChildClass *child_class,
-+                               BdrvChildRole role,
-                                BlockReopenQueue *reopen_queue,
-                                uint64_t perm, uint64_t shared,
-                                uint64_t *nperm, uint64_t *nshared)
-@@ -2378,7 +2380,7 @@ void bdrv_format_default_perms(BlockDriverState *bs, BdrvChild *c,
- 
-         /* Apart from the modifications below, the same permissions are
-          * forwarded and left alone as for filters */
--        bdrv_filter_default_perms(bs, c, child_class, reopen_queue,
-+        bdrv_filter_default_perms(bs, c, child_class, role, reopen_queue,
-                                   perm, shared, &perm, &shared);
- 
-         /* Format drivers may touch metadata even if the guest doesn't write */
-@@ -2655,7 +2657,7 @@ BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
-     bdrv_get_cumulative_perm(parent_bs, &perm, &shared_perm);
- 
-     assert(parent_bs->drv);
--    bdrv_child_perm(parent_bs, child_bs, NULL, child_class, NULL,
-+    bdrv_child_perm(parent_bs, child_bs, NULL, child_class, child_role, NULL,
-                     perm, shared_perm, &perm, &shared_perm);
- 
-     child = bdrv_root_attach_child(child_bs, child_name, child_class,
-@@ -3683,7 +3685,7 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
-         if (state->replace_backing_bs && state->new_backing_bs) {
-             uint64_t nperm, nshared;
-             bdrv_child_perm(state->bs, state->new_backing_bs,
--                            NULL, &child_backing, bs_queue,
-+                            NULL, &child_backing, 0, bs_queue,
-                             state->perm, state->shared_perm,
-                             &nperm, &nshared);
-             ret = bdrv_check_update_perm(state->new_backing_bs, NULL,
-@@ -3806,7 +3808,7 @@ static void bdrv_reopen_perm(BlockReopenQueue *q, BlockDriverState *bs,
-         } else {
-             uint64_t nperm, nshared;
- 
--            bdrv_child_perm(parent->state.bs, bs, c, c->klass, q,
-+            bdrv_child_perm(parent->state.bs, bs, c, c->klass, c->role, q,
-                             parent->state.perm, parent->state.shared_perm,
-                             &nperm, &nshared);
- 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index f891dd7838..e2b4d2acd3 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -123,6 +123,7 @@ static void backup_top_refresh_filename(BlockDriverState *bs)
- 
- static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                   const BdrvChildClass *child_class,
-+                                  BdrvChildRole role,
-                                   BlockReopenQueue *reopen_queue,
-                                   uint64_t perm, uint64_t shared,
-                                   uint64_t *nperm, uint64_t *nshared)
-@@ -155,7 +156,7 @@ static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
-         *nperm = BLK_PERM_WRITE;
-     } else {
-         /* Source child */
--        bdrv_filter_default_perms(bs, c, child_class, reopen_queue,
-+        bdrv_filter_default_perms(bs, c, child_class, role, reopen_queue,
-                                   perm, shared, nperm, nshared);
- 
-         if (perm & BLK_PERM_WRITE) {
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index c91e78d5c8..8dd8ed6055 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -994,14 +994,15 @@ static int blkdebug_reopen_prepare(BDRVReopenState *reopen_state,
- 
- static void blkdebug_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                 const BdrvChildClass *child_class,
-+                                BdrvChildRole role,
-                                 BlockReopenQueue *reopen_queue,
-                                 uint64_t perm, uint64_t shared,
-                                 uint64_t *nperm, uint64_t *nshared)
+     int flags = parent_flags;
+@@ -1202,10 +1204,11 @@ const BdrvChildClass child_file = {
+  * (and not only protocols) is permitted for it, based on the given options and
+  * flags for the parent BDS
+  */
+-static void bdrv_inherited_fmt_options(int *child_flags, QDict *child_options,
++static void bdrv_inherited_fmt_options(BdrvChildRole role,
++                                       int *child_flags, QDict *child_options,
+                                        int parent_flags, QDict *parent_options)
  {
-     BDRVBlkdebugState *s = bs->opaque;
+-    child_file.inherit_options(child_flags, child_options,
++    child_file.inherit_options(role, child_flags, child_options,
+                                parent_flags, parent_options);
  
--    bdrv_filter_default_perms(bs, c, child_class, reopen_queue, perm, shared,
--                              nperm, nshared);
-+    bdrv_filter_default_perms(bs, c, child_class, role, reopen_queue,
-+                              perm, shared, nperm, nshared);
- 
-     *nperm |= s->take_child_perms;
-     *nshared &= ~s->unshare_child_perms;
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index 739db6dcf6..4faf912ef1 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -283,6 +283,7 @@ static int64_t blk_log_writes_getlength(BlockDriverState *bs)
- 
- static void blk_log_writes_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                       const BdrvChildClass *child_class,
-+                                      BdrvChildRole role,
-                                       BlockReopenQueue *ro_q,
-                                       uint64_t perm, uint64_t shrd,
-                                       uint64_t *nperm, uint64_t *nshrd)
-@@ -294,11 +295,11 @@ static void blk_log_writes_child_perm(BlockDriverState *bs, BdrvChild *c,
+     *child_flags &= ~(BDRV_O_PROTOCOL | BDRV_O_NO_IO);
+@@ -1286,7 +1289,8 @@ static void bdrv_backing_detach(BdrvChild *c)
+  * Returns the options and flags that bs->backing should get, based on the
+  * given options and flags for the parent BDS
+  */
+-static void bdrv_backing_options(int *child_flags, QDict *child_options,
++static void bdrv_backing_options(BdrvChildRole role,
++                                 int *child_flags, QDict *child_options,
+                                  int parent_flags, QDict *parent_options)
+ {
+     int flags = parent_flags;
+@@ -2876,7 +2880,7 @@ int bdrv_open_backing_file(BlockDriverState *bs, QDict *parent_options,
      }
  
-     if (!strcmp(c->name, "log")) {
--        bdrv_format_default_perms(bs, c, child_class, ro_q, perm, shrd, nperm,
--                                  nshrd);
-+        bdrv_format_default_perms(bs, c, child_class, role, ro_q, perm, shrd,
-+                                  nperm, nshrd);
-     } else {
--        bdrv_filter_default_perms(bs, c, child_class, ro_q, perm, shrd, nperm,
--                                  nshrd);
-+        bdrv_filter_default_perms(bs, c, child_class, role, ro_q, perm, shrd,
-+                                  nperm, nshrd);
+     backing_hd = bdrv_open_inherit(backing_filename, reference, options, 0, bs,
+-                                   &child_backing, errp);
++                                   &child_backing, 0, errp);
+     if (!backing_hd) {
+         bs->open_flags |= BDRV_O_NO_BACKING;
+         error_prepend(errp, "Could not open backing file: ");
+@@ -2911,7 +2915,7 @@ free_exit:
+ static BlockDriverState *
+ bdrv_open_child_bs(const char *filename, QDict *options, const char *bdref_key,
+                    BlockDriverState *parent, const BdrvChildClass *child_class,
+-                   bool allow_none, Error **errp)
++                   BdrvChildRole child_role, bool allow_none, Error **errp)
+ {
+     BlockDriverState *bs = NULL;
+     QDict *image_options;
+@@ -2942,7 +2946,7 @@ bdrv_open_child_bs(const char *filename, QDict *options, const char *bdref_key,
      }
+ 
+     bs = bdrv_open_inherit(filename, reference, image_options, 0,
+-                           parent, child_class, errp);
++                           parent, child_class, child_role, errp);
+     if (!bs) {
+         goto done;
+     }
+@@ -2976,7 +2980,7 @@ BdrvChild *bdrv_open_child(const char *filename,
+     BlockDriverState *bs;
+ 
+     bs = bdrv_open_child_bs(filename, options, bdref_key, parent, child_class,
+-                            allow_none, errp);
++                            child_role, allow_none, errp);
+     if (bs == NULL) {
+         return NULL;
+     }
+@@ -3020,7 +3024,7 @@ BlockDriverState *bdrv_open_blockdev_ref(BlockdevRef *ref, Error **errp)
+ 
+     }
+ 
+-    bs = bdrv_open_inherit(NULL, reference, qdict, 0, NULL, NULL, errp);
++    bs = bdrv_open_inherit(NULL, reference, qdict, 0, NULL, NULL, 0, errp);
+     obj = NULL;
+     qobject_unref(obj);
+     visit_free(v);
+@@ -3117,6 +3121,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+                                            QDict *options, int flags,
+                                            BlockDriverState *parent,
+                                            const BdrvChildClass *child_class,
++                                           BdrvChildRole child_role,
+                                            Error **errp)
+ {
+     int ret;
+@@ -3169,7 +3174,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+ 
+     if (child_class) {
+         bs->inherits_from = parent;
+-        child_class->inherit_options(&flags, options,
++        child_class->inherit_options(child_role, &flags, options,
+                                      parent->open_flags, parent->options);
+     }
+ 
+@@ -3198,7 +3203,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+                                    flags, options);
+         /* Let bdrv_backing_options() override "read-only" */
+         qdict_del(options, BDRV_OPT_READ_ONLY);
+-        bdrv_backing_options(&flags, options, flags, options);
++        bdrv_backing_options(0, &flags, options, flags, options);
+     }
+ 
+     bs->open_flags = flags;
+@@ -3240,7 +3245,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+         BlockDriverState *file_bs;
+ 
+         file_bs = bdrv_open_child_bs(filename, options, "file", bs,
+-                                     &child_file, true, &local_err);
++                                     &child_file, 0, true, &local_err);
+         if (local_err) {
+             goto fail;
+         }
+@@ -3385,7 +3390,7 @@ BlockDriverState *bdrv_open(const char *filename, const char *reference,
+                             QDict *options, int flags, Error **errp)
+ {
+     return bdrv_open_inherit(filename, reference, options, flags, NULL,
+-                             NULL, errp);
++                             NULL, 0, errp);
  }
  
-diff --git a/block/commit.c b/block/commit.c
-index 834eeae412..6af1c808bc 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -224,6 +224,7 @@ static void bdrv_commit_top_refresh_filename(BlockDriverState *bs)
+ /* Return true if the NULL-terminated @list contains @str */
+@@ -3482,6 +3487,7 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+                                                  BlockDriverState *bs,
+                                                  QDict *options,
+                                                  const BdrvChildClass *klass,
++                                                 BdrvChildRole role,
+                                                  QDict *parent_options,
+                                                  int parent_flags,
+                                                  bool keep_old_opts)
+@@ -3537,7 +3543,8 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+     /* Inherit from parent node */
+     if (parent_options) {
+         flags = 0;
+-        klass->inherit_options(&flags, options, parent_flags, parent_options);
++        klass->inherit_options(role, &flags, options,
++                               parent_flags, parent_options);
+     } else {
+         flags = bdrv_get_flags(bs);
+     }
+@@ -3628,7 +3635,8 @@ static BlockReopenQueue *bdrv_reopen_queue_child(BlockReopenQueue *bs_queue,
+         }
  
- static void bdrv_commit_top_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                        const BdrvChildClass *child_class,
-+                                       BdrvChildRole role,
-                                        BlockReopenQueue *reopen_queue,
-                                        uint64_t perm, uint64_t shared,
-                                        uint64_t *nperm, uint64_t *nshared)
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index a2c4e6dc58..a2d92ac394 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -52,6 +52,7 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+         bdrv_reopen_queue_child(bs_queue, child->bs, new_child_options,
+-                                child->klass, options, flags, child_keep_old);
++                                child->klass, child->role, options, flags,
++                                child_keep_old);
+     }
  
- static void cor_child_perm(BlockDriverState *bs, BdrvChild *c,
-                            const BdrvChildClass *child_class,
-+                           BdrvChildRole role,
-                            BlockReopenQueue *reopen_queue,
-                            uint64_t perm, uint64_t shared,
-                            uint64_t *nperm, uint64_t *nshared)
-diff --git a/block/mirror.c b/block/mirror.c
-index d6598463d5..cb4bdad32a 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1493,6 +1493,7 @@ static void bdrv_mirror_top_refresh_filename(BlockDriverState *bs)
+     return bs_queue;
+@@ -3638,7 +3646,7 @@ BlockReopenQueue *bdrv_reopen_queue(BlockReopenQueue *bs_queue,
+                                     BlockDriverState *bs,
+                                     QDict *options, bool keep_old_opts)
+ {
+-    return bdrv_reopen_queue_child(bs_queue, bs, options, NULL, NULL, 0,
++    return bdrv_reopen_queue_child(bs_queue, bs, options, NULL, 0, NULL, 0,
+                                    keep_old_opts);
+ }
  
- static void bdrv_mirror_top_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                        const BdrvChildClass *child_class,
-+                                       BdrvChildRole role,
-                                        BlockReopenQueue *reopen_queue,
-                                        uint64_t perm, uint64_t shared,
-                                        uint64_t *nperm, uint64_t *nshared)
-diff --git a/block/quorum.c b/block/quorum.c
-index 024de76e6f..d37b77a522 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -1152,6 +1152,7 @@ static char *quorum_dirname(BlockDriverState *bs, Error **errp)
+diff --git a/block/block-backend.c b/block/block-backend.c
+index efc7acb3d8..5539ca8816 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -120,7 +120,8 @@ static QTAILQ_HEAD(, BlockBackend) block_backends =
+ static QTAILQ_HEAD(, BlockBackend) monitor_block_backends =
+     QTAILQ_HEAD_INITIALIZER(monitor_block_backends);
  
- static void quorum_child_perm(BlockDriverState *bs, BdrvChild *c,
-                               const BdrvChildClass *child_class,
-+                              BdrvChildRole role,
-                               BlockReopenQueue *reopen_queue,
-                               uint64_t perm, uint64_t shared,
-                               uint64_t *nperm, uint64_t *nshared)
-diff --git a/block/replication.c b/block/replication.c
-index 9ee529cffb..61119ed36c 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -164,6 +164,7 @@ static void replication_close(BlockDriverState *bs)
- 
- static void replication_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                    const BdrvChildClass *child_class,
-+                                   BdrvChildRole role,
-                                    BlockReopenQueue *reopen_queue,
-                                    uint64_t perm, uint64_t shared,
-                                    uint64_t *nperm, uint64_t *nshared)
+-static void blk_root_inherit_options(int *child_flags, QDict *child_options,
++static void blk_root_inherit_options(BdrvChildRole role,
++                                     int *child_flags, QDict *child_options,
+                                      int parent_flags, QDict *parent_options)
+ {
+     /* We're not supposed to call this function for root nodes */
 diff --git a/block/vvfat.c b/block/vvfat.c
-index cd8ae50a2c..6cf3c74fe3 100644
+index 6cf3c74fe3..4033e4f369 100644
 --- a/block/vvfat.c
 +++ b/block/vvfat.c
-@@ -3211,6 +3211,7 @@ err:
+@@ -3128,7 +3128,8 @@ static BlockDriver vvfat_write_target = {
+     .bdrv_co_pwritev    = write_target_commit,
+ };
  
- static void vvfat_child_perm(BlockDriverState *bs, BdrvChild *c,
-                              const BdrvChildClass *child_class,
-+                             BdrvChildRole role,
-                              BlockReopenQueue *reopen_queue,
-                              uint64_t perm, uint64_t shared,
-                              uint64_t *nperm, uint64_t *nshared)
-diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
-index c03705ea37..b3d7960bd0 100644
---- a/tests/test-bdrv-drain.c
-+++ b/tests/test-bdrv-drain.c
-@@ -87,6 +87,7 @@ static int coroutine_fn bdrv_test_co_preadv(BlockDriverState *bs,
- 
- static void bdrv_test_child_perm(BlockDriverState *bs, BdrvChild *c,
-                                  const BdrvChildClass *child_class,
-+                                 BdrvChildRole role,
-                                  BlockReopenQueue *reopen_queue,
-                                  uint64_t perm, uint64_t shared,
-                                  uint64_t *nperm, uint64_t *nshared)
-@@ -99,8 +100,8 @@ static void bdrv_test_child_perm(BlockDriverState *bs, BdrvChild *c,
-         child_class = &child_file;
-     }
- 
--    bdrv_format_default_perms(bs, c, child_class, reopen_queue, perm, shared,
--                              nperm, nshared);
-+    bdrv_format_default_perms(bs, c, child_class, role, reopen_queue,
-+                              perm, shared, nperm, nshared);
- }
- 
- static int bdrv_test_change_backing_file(BlockDriverState *bs,
-diff --git a/tests/test-bdrv-graph-mod.c b/tests/test-bdrv-graph-mod.c
-index 8b8c186c9f..3707e2533c 100644
---- a/tests/test-bdrv-graph-mod.c
-+++ b/tests/test-bdrv-graph-mod.c
-@@ -31,6 +31,7 @@ static BlockDriver bdrv_pass_through = {
- 
- static void no_perm_default_perms(BlockDriverState *bs, BdrvChild *c,
-                                          const BdrvChildClass *child_class,
-+                                         BdrvChildRole role,
-                                          BlockReopenQueue *reopen_queue,
-                                          uint64_t perm, uint64_t shared,
-                                          uint64_t *nperm, uint64_t *nshared)
+-static void vvfat_qcow_options(int *child_flags, QDict *child_options,
++static void vvfat_qcow_options(BdrvChildRole role,
++                               int *child_flags, QDict *child_options,
+                                int parent_flags, QDict *parent_options)
+ {
+     qdict_set_default_str(child_options, BDRV_OPT_READ_ONLY, "off");
 -- 
 2.26.2
 
