@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D296C1D0963
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 09:02:02 +0200 (CEST)
-Received: from localhost ([::1]:33866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421EB1D097F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 09:06:11 +0200 (CEST)
+Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYlOz-0003I5-Bt
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 03:02:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50350)
+	id 1jYlT0-0006pn-Bd
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 03:06:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jYlNQ-0002jt-70
- for qemu-devel@nongnu.org; Wed, 13 May 2020 03:00:24 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:37039
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jYlSC-0006IU-Sv
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 03:05:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:40070
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jYlNO-0005fC-Iq
- for qemu-devel@nongnu.org; Wed, 13 May 2020 03:00:23 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1jYlSC-0006PR-5C
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 03:05:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589353221;
+ s=mimecast20190719; t=1589353519;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=njkb1LqGpcHzOslpX3N6XpN4CrFaOxtQ2J0+BtOJa6Q=;
- b=EOP9KmJxx7bJmsXmfERwY70KDTx5gNCl99T+JeiInhhlBoBqm0EnUShqBOavbAmRNuoCvn
- UbTlIkkUBHevBkdsEN1ghS9EL8184OXnjJrK5/PgFBgUu0TD8KRel85rI/yOPau34XHQca
- 4ZxorGAVO3r26TXw5sJVw0U8T11+FdA=
+ bh=4kupgTKDTy7NvN8jOLzjEcNwAp9ZzF+dzKc5eeJgmg0=;
+ b=ROk2Qq4iOIcUpRy3+Uj7dVeHTY8YyeaaWwzHay9vJDAEr/QiPlrFlMZSzP3rSJbXBUEC8H
+ u1eY8o6+YYbr0x0CMtLdsUoVDwILVuLunSRxDYQuIk/+lgdBPDf3bpThJyT3D+zncn4nTV
+ u9TWBRaRPkKtuWDVhEuwe5HePscJ8T0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-2uNvdgsYO1ShhF4mAUkDYA-1; Wed, 13 May 2020 03:00:19 -0400
-X-MC-Unique: 2uNvdgsYO1ShhF4mAUkDYA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-41-iiTvemBGNlGfT4RWDhgD9A-1; Wed, 13 May 2020 03:05:15 -0400
+X-MC-Unique: iiTvemBGNlGfT4RWDhgD9A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18CBA8014D5;
- Wed, 13 May 2020 07:00:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B77A835B41;
+ Wed, 13 May 2020 07:05:13 +0000 (UTC)
 Received: from gondolin (ovpn-113-93.ams2.redhat.com [10.36.113.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1D5318A75;
- Wed, 13 May 2020 07:00:07 +0000 (UTC)
-Date: Wed, 13 May 2020 09:00:00 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E83CE60FB9;
+ Wed, 13 May 2020 07:05:10 +0000 (UTC)
+Date: Wed, 13 May 2020 09:05:08 +0200
 From: Cornelia Huck <cohuck@redhat.com>
 To: Collin Walling <walling@linux.ibm.com>
-Subject: Re: [PATCH v1 3/8] s390/sclp: rework sclp boundary and length checks
-Message-ID: <20200513090000.4272ddab.cohuck@redhat.com>
-In-Reply-To: <75157d93-2f4d-db25-4a0d-fdb4a7781135@linux.ibm.com>
+Subject: Re: [PATCH v1 7/8] s390/kvm: header sync for diag318
+Message-ID: <20200513090508.79b7fc54.cohuck@redhat.com>
+In-Reply-To: <20200508230823.22956-8-walling@linux.ibm.com>
 References: <20200508230823.22956-1-walling@linux.ibm.com>
- <20200508230823.22956-4-walling@linux.ibm.com>
- <d894a835-d0ea-2d61-0416-c4804a755dca@redhat.com>
- <75157d93-2f4d-db25-4a0d-fdb4a7781135@linux.ibm.com>
+ <20200508230823.22956-8-walling@linux.ibm.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=cohuck@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 03:05:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,47 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frankja@linux.ibm.com, mst@redhat.com, David Hildenbrand <david@redhat.com>,
+Cc: frankja@linux.ibm.com, mst@redhat.com, david@redhat.com,
  qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
  qemu-s390x@nongnu.org, svens@linux.ibm.com, pbonzini@redhat.com,
  mihajlov@linux.ibm.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 May 2020 10:55:56 -0400
+On Fri,  8 May 2020 19:08:22 -0400
 Collin Walling <walling@linux.ibm.com> wrote:
 
-> On 5/12/20 3:21 AM, David Hildenbrand wrote:
-> > On 09.05.20 01:08, Collin Walling wrote:  
-
-> >> +static bool check_sufficient_sccb_len(SCCB *sccb, int size)  
-> > 
-> > "has_sufficient_sccb_len" ?
-> >   
-> >> +{
-> >> +    MachineState *ms = MACHINE(qdev_get_machine());
-> >> +    int required_len = size + ms->possible_cpus->len * sizeof(CPUEntry);  
-> > 
-> > Rather pass in the number of cpus instead. Looking up the machine again
-> > in here is ugly.  
+> Signed-off-by: Collin Walling <walling@linux.ibm.com>
+> ---
+>  linux-headers/asm-s390/kvm.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> prepare_cpu_entries also looks up the machine again. Should I squeeze
-> in a cleanup where we pass the machine to that function too (perhaps
-> in the "remove SCLPDevice" patch)?
+> diff --git a/linux-headers/asm-s390/kvm.h b/linux-headers/asm-s390/kvm.h
+> index 0138ccb0d8..b661feafdc 100644
+> --- a/linux-headers/asm-s390/kvm.h
+> +++ b/linux-headers/asm-s390/kvm.h
+> @@ -74,6 +74,7 @@ struct kvm_s390_io_adapter_req {
+>  #define KVM_S390_VM_CRYPTO		2
+>  #define KVM_S390_VM_CPU_MODEL		3
+>  #define KVM_S390_VM_MIGRATION		4
+> +#define KVM_S390_VM_MISC		5
+>  
+>  /* kvm attributes for mem_ctrl */
+>  #define KVM_S390_VM_MEM_ENABLE_CMMA	0
+> @@ -171,6 +172,10 @@ struct kvm_s390_vm_cpu_subfunc {
+>  #define KVM_S390_VM_MIGRATION_START	1
+>  #define KVM_S390_VM_MIGRATION_STATUS	2
+>  
+> +/* kvm attributes for KVM_S390_VM_MISC */
+> +#define KVM_S390_VM_MISC_ENABLE_DIAG318		0
+> +#define KVM_S390_VM_MISC_DIAG318			1
+> +
+>  /* for KVM_GET_REGS and KVM_SET_REGS */
+>  struct kvm_regs {
+>  	/* general purpose regs for s390 */
 
-sclp_read_cpu_info() does not have the machine handy, so you'd need to
-move machine lookup there; but I think it's worth getting rid of
-duplicate lookups.
-
-> 
-> >   
-> >> +
-> >> +    if (be16_to_cpu(sccb->h.length) < required_len) {
-> >> +        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
-> >> +        return false;
-> >> +    }
-> >> +    return true;
-> >> +}
-> >> +
+Hm... remind me what the state of the kernel part is?
 
 
