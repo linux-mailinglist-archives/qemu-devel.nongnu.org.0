@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1A31D203C
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 22:36:32 +0200 (CEST)
-Received: from localhost ([::1]:36794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C9B1D205A
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 22:44:11 +0200 (CEST)
+Received: from localhost ([::1]:32928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYy7D-00058f-S8
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 16:36:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54004)
+	id 1jYyEc-0008J8-Cj
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 16:44:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYy3z-0001km-5l
- for qemu-devel@nongnu.org; Wed, 13 May 2020 16:33:11 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:53640
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYy9N-0008S7-Tg
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 16:38:45 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48163
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYy3y-0006J5-C1
- for qemu-devel@nongnu.org; Wed, 13 May 2020 16:33:10 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYy9M-00071J-8X
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 16:38:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589401989;
+ s=mimecast20190719; t=1589402323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ubEdXYk0yCRGB0JhU9wye9DBEstwBWDPX/d9X+foojA=;
- b=bGqbKMdZXIyUPitU4oemP23xOKfT5KoZWLK3drBbsq+gBgNHfW400oR4KBJRn0sSxQADLT
- 5GpCJZRitxaumHjKCetWmLT0D6jYSViggCCaEvIlrIpeOQhvb8XR+X4lhkuQsAa58Xcmcp
- 8ftwoOHyyHaKJMdu50BlsRpdczOJVD4=
+ bh=P8VreEU7ZOM4GYqCc7fio9zvAb0d2WOaLsvHXzyBD78=;
+ b=jCFHRDBnudOkeNoqrw/1f5aOjQRMH1h7p/xfl5CtepfnTeVWbh5vkv3BKwBA/arg2a+O1y
+ TFFxQ9nJRcOsXiapLfL1xUuStROpRUNww04DSjyIZTAFnwn2ShDSTQ5QBAe2LCQBncgM0o
+ QV+vZx/9sLJHzuWXbn4N+Si1Xt4/PKA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-KUwYI_BoP_yxdaMxMe2gDw-1; Wed, 13 May 2020 16:33:07 -0400
-X-MC-Unique: KUwYI_BoP_yxdaMxMe2gDw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-439-lVBACNqVNiatxVkM18FjFg-1; Wed, 13 May 2020 16:38:39 -0400
+X-MC-Unique: lVBACNqVNiatxVkM18FjFg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B1038015CE;
- Wed, 13 May 2020 20:33:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 667841009618;
+ Wed, 13 May 2020 20:38:38 +0000 (UTC)
 Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E68B610013D9;
- Wed, 13 May 2020 20:33:05 +0000 (UTC)
-Subject: Re: [PATCH v4 16/34] block: Pull out bdrv_default_perms_for_cow()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 115C95D9F5;
+ Wed, 13 May 2020 20:38:36 +0000 (UTC)
+Subject: Re: [PATCH v4 18/34] block: Relax *perms_for_storage for data children
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20200513110544.176672-1-mreitz@redhat.com>
- <20200513110544.176672-17-mreitz@redhat.com>
+ <20200513110544.176672-19-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <1d9c968f-a98a-089d-236c-5070f936361f@redhat.com>
-Date: Wed, 13 May 2020 15:33:05 -0500
+Message-ID: <592ca9de-8046-4a53-1081-b92d019d808c@redhat.com>
+Date: Wed, 13 May 2020 15:38:36 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200513110544.176672-17-mreitz@redhat.com>
+In-Reply-To: <20200513110544.176672-19-mreitz@redhat.com>
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=eblake@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,16 +87,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/13/20 6:05 AM, Max Reitz wrote:
-> Right now, bdrv_format_default_perms() is used by format parents
-> (generally). We want to switch to a model where most parents use a
-> single BdrvChildClass, which then decides the permissions based on the
-> child role. To do so, we have to split bdrv_format_default_perms() into
-> separate functions for each such role.
+> We can be less restrictive about pure data children than those with
+> metadata on them, so let bdrv_default_perms_for_storage() handle
+> metadata children differently from pure data children.
+> 
+> As explained in the code, the restrictions on metadata children are
+> strictly stricter than those for pure data children, so in theory we
+> just have to distinguish between pure-data and all other storage
+> children (pure metadata or data+metadata).  In practice, that is not
+> obvious, though, so we have two independent code paths for metadata and
+> for data children, and data+metadata children will go through both
+> (without the path for data children doing anything meaningful).
 > 
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->   block.c | 62 +++++++++++++++++++++++++++++++++++++--------------------
->   1 file changed, 40 insertions(+), 22 deletions(-)
+>   block.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++----------
+>   1 file changed, 48 insertions(+), 10 deletions(-)
 > 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
