@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBDC1D2324
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 01:34:35 +0200 (CEST)
-Received: from localhost ([::1]:41522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8281D233F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 01:52:37 +0200 (CEST)
+Received: from localhost ([::1]:56164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ0tW-0003pR-G8
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 19:34:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49658)
+	id 1jZ1Ay-0003jO-TL
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 19:52:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1jZ0sl-0003J0-6T
- for qemu-devel@nongnu.org; Wed, 13 May 2020 19:33:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1jZ0sk-0006E1-9w
- for qemu-devel@nongnu.org; Wed, 13 May 2020 19:33:46 -0400
-Received: from localhost (c-67-164-102-47.hsd1.ca.comcast.net [67.164.102.47])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id F35BB205ED;
- Wed, 13 May 2020 23:33:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1589412825;
- bh=TcJ3zY0gPufgFjam3YpGCUkqpNC2j+10Ko2ZjTOb6gs=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=PhRAfSxqRy9oT4YlpFdFx5y8P3uhDFE45miKpr200BZ0PqDkEMdThs01c1dQ5j0uU
- 883M+Pc9XAAq2iOs/Z8VKXLBuINna2SmUU04V++4dmWtQ+qICNAnoWXarlDDL4KUpk
- IKjwJVo6mzs7iF68V9dQcZX0MkypG07jPAM/N7Ho=
-Date: Wed, 13 May 2020 16:33:44 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 0/2] 9pfs: regression init_in_iov_from_pdu truncating size
-In-Reply-To: <20200514010713.492e0c82@bahia.lan>
-Message-ID: <alpine.DEB.2.21.2005131633150.26167@sstabellini-ThinkPad-T480s>
-References: <cover.1589132512.git.qemu_oss@crudebyte.com>
- <20200512113823.3c292c27@bahia.lan> <20200514010713.492e0c82@bahia.lan>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZ195-0000jq-HY
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 19:50:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42218)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZ194-0002Fj-6z
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 19:50:39 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jZ192-0000Fe-7U
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 23:50:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 35ACC2E80E7
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 23:50:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=198.145.29.99;
- envelope-from=sstabellini@kernel.org; helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 19:31:31
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 13 May 2020 23:44:07 -0000
+From: easyaspi314 <1878501@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: i386 linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: husseydevin
+X-Launchpad-Bug-Reporter: easyaspi314 (husseydevin)
+X-Launchpad-Bug-Modifier: easyaspi314 (husseydevin)
+Message-Id: <158941344748.31408.6066832909673515633.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1878501] [NEW] qemu-i386 does not define AT_SYSINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 8153661d407e4d6477520e1906968f92c2580907
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 19:50:36
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,45 +72,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Paul Durrant <paul@xen.org>
+Reply-To: Bug 1878501 <1878501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 May 2020, Greg Kurz wrote:
-> On Tue, 12 May 2020 11:38:23 +0200
-> Greg Kurz <groug@kaod.org> wrote:
-> 
-> > On Sun, 10 May 2020 19:41:52 +0200
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > 
-> > > Stefano, looks like your original patch needs some more fine tuning:
-> > > 
-> > > https://bugs.launchpad.net/bugs/1877688
-> > > 
-> > > Please check if the assumptions I made about Xen are correct, and please
-> > > also test whether these changes still work for you with Xen as intended by
-> > > you.
-> > > 
-> > > Christian Schoenebeck (2):
-> > >   xen-9pfs: Fix log messages of reply errors
-> > >   9pfs: fix init_in_iov_from_pdu truncating size
-> > > 
-> > >  hw/9pfs/virtio-9p-device.c | 35 ++++++++++++++++++++++++--------
-> > >  hw/9pfs/xen-9p-backend.c   | 41 ++++++++++++++++++++++++++++----------
-> > >  2 files changed, 58 insertions(+), 18 deletions(-)
-> > > 
-> > 
-> > Sorry, I'm off this week, not sure I'll have time to review.
-> > So I've only applied patch 1 for now and I'll let Stefano
-> > and you sort out what should be done for patch 2.
-> > 
-> 
-> IIUC this requires more thinking and may end up in a complete rewrite of
-> the truncating logic. I intend to send a PR soon : is it worth keeping
-> patch 1 anyway ? 
+Public bug reported:
 
-Patch 1 is fine. For patch 2 we might need a little more time.
+qemu-i386 does not define the AT_SYSINFO auxval when running i386 Linux
+binaries.
+
+On most libcs, this is properly handled, but this is mandatory for the
+i686 Bionic (Android) libc or it will segfault.
+
+This is due to a blind assumption that getauxval(AT_SYSINFO) will return
+a valid function pointer:
+
+The code varies from version to version, but it looks like this:
+
+void *__libc_sysinfo;
+// mangled as _Z19__libc_init_sysinfov
+void __libc_init_sysinfo() {
+  bool dummy;
+  // __bionic_getauxval =3D getauxval
+  __libc_sysinfo =3D reinterpret_cast<void *>(__bionic_getauxval(AT_SYSINFO=
+, dummy));
+}
+
+A simple way to reproduce is to compile a basic C program against the
+NDK:
+
+int main(void) { return 0; }
+
+$ i686-linux-android-clang -static empty.c -o empty
+$ qemu-i386 -cpu max ./empty
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+Segmentation fault
+
+The place where it segfaults is misleading: It will, at least on the
+current NDK, crash on __set_thread_area, this is due to it calling a
+function pointer to __libc_sysinfo returned by __kernel_syscall.
+
+QEMU 4.1.1 (aarch64)
+Pixel 2 XL via Termux
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: i386 linux-user
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878501
+
+Title:
+  qemu-i386 does not define AT_SYSINFO
+
+Status in QEMU:
+  New
+
+Bug description:
+  qemu-i386 does not define the AT_SYSINFO auxval when running i386
+  Linux binaries.
+
+  On most libcs, this is properly handled, but this is mandatory for the
+  i686 Bionic (Android) libc or it will segfault.
+
+  This is due to a blind assumption that getauxval(AT_SYSINFO) will
+  return a valid function pointer:
+
+  The code varies from version to version, but it looks like this:
+
+  void *__libc_sysinfo;
+  // mangled as _Z19__libc_init_sysinfov
+  void __libc_init_sysinfo() {
+    bool dummy;
+    // __bionic_getauxval =3D getauxval
+    __libc_sysinfo =3D reinterpret_cast<void *>(__bionic_getauxval(AT_SYSIN=
+FO, dummy));
+  }
+
+  A simple way to reproduce is to compile a basic C program against the
+  NDK:
+
+  int main(void) { return 0; }
+
+  $ i686-linux-android-clang -static empty.c -o empty
+  $ qemu-i386 -cpu max ./empty
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+
+  The place where it segfaults is misleading: It will, at least on the
+  current NDK, crash on __set_thread_area, this is due to it calling a
+  function pointer to __libc_sysinfo returned by __kernel_syscall.
+
+  QEMU 4.1.1 (aarch64)
+  Pixel 2 XL via Termux
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878501/+subscriptions
 
