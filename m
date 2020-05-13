@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205EF1D1D35
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:16:29 +0200 (CEST)
-Received: from localhost ([::1]:44760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A6B1D1D48
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:19:07 +0200 (CEST)
+Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvvf-0005RS-PT
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:16:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36438)
+	id 1jYvyE-0000Pl-B2
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYvpY-0003pP-DW
+ id 1jYvpZ-0003qA-QU
  for qemu-devel@nongnu.org; Wed, 13 May 2020 14:10:09 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:44305)
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:42175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYvpW-0000MT-De
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:10:08 -0400
-Received: by mail-pf1-x435.google.com with SMTP id x13so85235pfn.11
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 11:10:03 -0700 (PDT)
+ id 1jYvpW-0000Me-E1
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 14:10:09 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id k19so136966pll.9
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 11:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AMQUtdh7GLtHPDRn6Oq7V+4ssQorJyRBdGwREFAHbh4=;
- b=kymvCFFhFOFLhJ4hFYNOMm3/3e3hmC5maCZsO3r0Usp++7HlaZ0iBISGndlnh243l7
- bQvFecuDz3lGzcbpy7jbrFeJ+ZSmUZPrRZn20e7IllcuwVL4ZR8L24Vvn8J2fpTQQmAk
- U5eI5Oq/eYBKYSSHcGNy2GuQwkwxNb79kDU9B6zqy1S6fPhOgeRBJerOnAfg457cVctI
- ZiNB8SmXDFWFcQIuZMtfsCFQtb6x7oBmp8VPB1YoaqWw5Bj+oonN0FMiDogUOPCYkURM
- nytDtGjk4yblUJ2f/dSSlnigS5S0Bl0X1EN+37tAxWH2EhBG2T+bwEJWLLALWcBPGn7f
- osVA==
+ bh=JSmowOO+YiAA0eSN0s8xOlbrTguVMlQ6LjWvJ71pNA4=;
+ b=uRuXKhanODepsH+nLE0Bb8fz3ZKAZFQjhC1YneZy2V5DmXo9Afaj/r790teAy/xf4P
+ qEX9WC/A+s00ibSqa2gk2EDgt3CJzKts3E1vXGhdTnqjlO4rVwKTC1lZp0EZrs31nDC9
+ YW6msOereGCOEgUxgkrQZssyah5L+Zd0XJRgmr/OHQ8S9JOtAmLVTtsrdvb2vyJNA8V9
+ QQy36j+xLsHIkeGZsYTED/iAj8U5rSKIQ9AUIsHOtj8yVDAzmVmVjnrKdR//scCYcJ9g
+ eO9W8jodpSbuXG38j2sK4P1sM+TzNt/EgncxOCtQuIHPaFFAfOhIaU1LP/UBKaWjSHZ3
+ 2ZlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AMQUtdh7GLtHPDRn6Oq7V+4ssQorJyRBdGwREFAHbh4=;
- b=jESNxP/QkAJKdqRfrIOPGq0/PDMluxR/hECnlRQGRg8re1dm1ghN45Hna78gBlJ4Ki
- 8v9s4nyVvbtYiFioJI4VJ3B5QAsCl95HDHHsTFlAmrTVZQDV3yhZppKqaSmZthq5YBpa
- X9LM/jqxBCPp0bL6ihKHEyKDN01SUPyou6dJ8afUAFYZiNB+5mfrnrME5SUQrvtwAK5i
- 03ZcPr7YyY7mZiwNynD9FAZHeltcbOxhkljuKHApODRE0vyoUiwCZ3MsgampSw8ffMK8
- sAMxOJ5+3rAh+bF+WL7yFdJihj473oLP1E2JmirFWbrVY6NfY5YzqRXK+LBgHyGUGBTg
- 2WTQ==
-X-Gm-Message-State: AOAM531qsTN+Vh9F092AqFShItGfS31fPcYfLoWbn65It+Y5cz2MA2uO
- XFXIycM5/ZfIWjxnoBwBP5MjCyYTGzs=
-X-Google-Smtp-Source: ABdhPJxPsUq4BV0znn8LSy5Q8X5IvJNNg9vZ8Vr8iGOiak2Wx6Mk7ExopK6xiFHsTWWq7fbYS140Qg==
-X-Received: by 2002:a62:144b:: with SMTP id 72mr516753pfu.246.1589393402119;
- Wed, 13 May 2020 11:10:02 -0700 (PDT)
+ bh=JSmowOO+YiAA0eSN0s8xOlbrTguVMlQ6LjWvJ71pNA4=;
+ b=JvvGSQ94vva7VwMMK5vxRRk9RRrcW/f0OOKNqK2RciedXs7i6Ngtr6rqWA/rE1h+ZI
+ gG3u+0QVxAm+JFTZCnFMJC5IqtiEmbL1s9lTbYE9Pb2XL3rO2V3wWHSjwqJAvnhCZB7W
+ YZdF9KcTdUURENOSpaxdIevymAUDkS/OOMKgMV3fBKbBC6EAGqn9SibY0Sixowa4mplL
+ O4qIu7eWJ2nvjtZWTPCEA7HO8KR29fxjDdLAtm2S+Jx4p89OyGa7dimmWUvYzUllJjed
+ Sn4E3B3/8tMP0w1nIRQEKCBYMAphsmE217cVhRs6uWPK4Me4ZK05vkSQr2WJ0DGV/kiR
+ 5EDQ==
+X-Gm-Message-State: AOAM531HSTl/sOSv8eOeE/sAoFvUcH0S/Fj8FL1BhXQrdZRM1FfutTkZ
+ ALHYRJsU685Xmjp6SLYkIplPDPnC50o=
+X-Google-Smtp-Source: ABdhPJw7g4PxyzaTN7O9I3mh7nZi82hE9YDbRpG8X7a6cvSiMopn09USryoCl4EU+/oTnJOOJwIfoA==
+X-Received: by 2002:a17:90a:be09:: with SMTP id
+ a9mr2678962pjs.165.1589393403834; 
+ Wed, 13 May 2020 11:10:03 -0700 (PDT)
 Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
  [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id i185sm197361pfg.14.2020.05.13.11.10.01
+ by smtp.gmail.com with ESMTPSA id i185sm197361pfg.14.2020.05.13.11.10.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 11:10:01 -0700 (PDT)
+ Wed, 13 May 2020 11:10:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RISU 5/9] Use EXIT_FAILURE, EXIT_SUCCESS
-Date: Wed, 13 May 2020 11:09:49 -0700
-Message-Id: <20200513180953.20376-6-richard.henderson@linaro.org>
+Subject: [RISU 6/9] Add magic and size to the trace header
+Date: Wed, 13 May 2020 11:09:50 -0700
+Message-Id: <20200513180953.20376-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200513180953.20376-1-richard.henderson@linaro.org>
 References: <20200513180953.20376-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,257 +90,132 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the time we exit via the return value from main.
-This can make it easier to tell what it is we're returning.
+Sanity check that we're not getting out of sync with
+the trace stream.  This will be especially bad with
+the change in size of the sve save data.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- comms.c                | 26 +++++++++++++-------------
- risu.c                 | 22 +++++++++++-----------
- risu_reginfo_aarch64.c |  4 ++--
- risu_reginfo_i386.c    |  2 +-
- 4 files changed, 27 insertions(+), 27 deletions(-)
+ risu.h    |  6 +++++-
+ reginfo.c | 42 ++++++++++++++++++++++++++++++++----------
+ 2 files changed, 37 insertions(+), 11 deletions(-)
 
-diff --git a/comms.c b/comms.c
-index 6946fd9..861e845 100644
---- a/comms.c
-+++ b/comms.c
-@@ -31,7 +31,7 @@ int apprentice_connect(const char *hostname, int port)
-     sock = socket(PF_INET, SOCK_STREAM, 0);
-     if (sock < 0) {
-         perror("socket");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     struct hostent *hostinfo;
-     sa.sin_family = AF_INET;
-@@ -39,12 +39,12 @@ int apprentice_connect(const char *hostname, int port)
-     hostinfo = gethostbyname(hostname);
-     if (!hostinfo) {
-         fprintf(stderr, "Unknown host %s\n", hostname);
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     sa.sin_addr = *(struct in_addr *) hostinfo->h_addr;
-     if (connect(sock, (struct sockaddr *) &sa, sizeof(sa)) < 0) {
-         perror("connect");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     return sock;
- }
-@@ -56,13 +56,13 @@ int master_connect(int port)
-     sock = socket(PF_INET, SOCK_STREAM, 0);
-     if (sock < 0) {
-         perror("socket");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     int sora = 1;
-     if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &sora, sizeof(sora)) !=
-         0) {
-         perror("setsockopt(SO_REUSEADDR)");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
+diff --git a/risu.h b/risu.h
+index e2b4508..3fc198f 100644
+--- a/risu.h
++++ b/risu.h
+@@ -62,10 +62,14 @@ extern void *memblock;
+ struct reginfo;
  
-     sa.sin_family = AF_INET;
-@@ -70,11 +70,11 @@ int master_connect(int port)
-     sa.sin_addr.s_addr = htonl(INADDR_ANY);
-     if (bind(sock, (struct sockaddr *) &sa, sizeof(sa)) < 0) {
-         perror("bind");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     if (listen(sock, 1) < 0) {
-         perror("listen");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     /* Just block until we get a connection */
-     fprintf(stderr, "master: waiting for connection on port %d...\n",
-@@ -84,7 +84,7 @@ int master_connect(int port)
-     int nsock = accept(sock, (struct sockaddr *) &csa, &csasz);
-     if (nsock < 0) {
-         perror("accept");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     /* We're done with the server socket now */
-     close(sock);
-@@ -104,7 +104,7 @@ static void recv_bytes(int sock, void *pkt, int pktlen)
-                 continue;
-             }
-             perror("read failed");
--            exit(1);
-+            exit(EXIT_FAILURE);
-         }
-         pktlen -= i;
-         p += i;
-@@ -127,7 +127,7 @@ static void recv_and_discard_bytes(int sock, int pktlen)
-                 continue;
-             }
-             perror("read failed");
--            exit(1);
-+            exit(EXIT_FAILURE);
-         }
-         pktlen -= i;
-     }
-@@ -186,12 +186,12 @@ int send_data_pkt(int sock, void *pkt, int pktlen)
+ typedef struct {
+-   uintptr_t pc;
++   uint32_t magic;
++   uint32_t size;
+    uint32_t risu_op;
++   uintptr_t pc;
+ } trace_header_t;
  
-     if (safe_writev(sock, iov, 2) == -1) {
-         perror("writev failed");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
++#define RISU_MAGIC  (('R' << 24) | ('i' << 16) | ('S' << 8) | 'u')
++
+ /* Functions operating on reginfo */
  
-     if (read(sock, &resp, 1) != 1) {
-         perror("read failed");
--        exit(1);
-+        exit(EXIT_FAILURE);
+ /* Function prototypes for read/write helper functions.
+diff --git a/reginfo.c b/reginfo.c
+index 1b2a821..a4f7da6 100644
+--- a/reginfo.c
++++ b/reginfo.c
+@@ -26,20 +26,45 @@ int send_register_info(write_fn write_fn, void *uc)
+     struct reginfo ri;
+     trace_header_t header;
+     int op;
++    void *extra;
+ 
+     reginfo_init(&ri, uc);
+     op = get_risuop(&ri);
+ 
+     /* Write a header with PC/op to keep in sync */
++    header.magic = RISU_MAGIC;
+     header.pc = get_pc(&ri);
+     header.risu_op = op;
++
++    switch (op) {
++    case OP_TESTEND:
++    case OP_COMPARE:
++    default:
++        header.size = reginfo_size();
++        extra = &ri;
++        break;
++
++    case OP_SETMEMBLOCK:
++    case OP_GETMEMBLOCK:
++        header.size = 0;
++        extra = NULL;
++        break;
++
++    case OP_COMPAREMEM:
++        header.size = MEMBLOCKLEN;
++        extra = memblock;
++        break;
++    }
++
+     if (write_fn(&header, sizeof(header)) != 0) {
+         return -1;
      }
-     return resp;
- }
-@@ -217,6 +217,6 @@ void send_response_byte(int sock, int resp)
-     unsigned char r = resp;
-     if (write(sock, &r, 1) != 1) {
-         perror("write failed");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
- }
-diff --git a/risu.c b/risu.c
-index f404d8f..979341c 100644
---- a/risu.c
-+++ b/risu.c
-@@ -153,13 +153,13 @@ void apprentice_sigill(int sig, siginfo_t *si, void *uc)
-         return;
-     case 1:
-         /* end of test */
--        exit(0);
-+        exit(EXIT_SUCCESS);
++    if (extra && write_fn(extra, header.size) != 0) {
++        return -1;
++    }
+ 
+     switch (op) {
+     case OP_TESTEND:
+-        write_fn(&ri, reginfo_size());
+         /* if we are tracing write_fn will return 0 unlike a remote
+            end, hence we force return of 1 here */
+         return 1;
+@@ -51,14 +76,9 @@ int send_register_info(write_fn write_fn, void *uc)
+                               get_reginfo_paramreg(&ri) + (uintptr_t)memblock);
+         break;
+     case OP_COMPAREMEM:
+-        return write_fn(memblock, MEMBLOCKLEN);
+-        break;
+     case OP_COMPARE:
      default:
-         /* mismatch */
-         if (trace) {
-             siglongjmp(jmpbuf, 1);
-         }
--        exit(1);
-+        exit(EXIT_FAILURE);
+-        /* Do a simple register compare on (a) explicit request
+-         * (b) end of test (c) a non-risuop UNDEF
+-         */
+-        return write_fn(&ri, reginfo_size());
++        break;
      }
+     return 0;
  }
- 
-@@ -173,7 +173,7 @@ static void set_sigill_handler(void (*fn) (int, siginfo_t *, void *))
-     sigemptyset(&sa.sa_mask);
-     if (sigaction(SIGILL, &sa, 0) != 0) {
-         perror("sigaction");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
- }
- 
-@@ -190,11 +190,11 @@ void load_image(const char *imgfile)
-     int fd = open(imgfile, O_RDONLY);
-     if (fd < 0) {
-         fprintf(stderr, "failed to open image file %s\n", imgfile);
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     if (fstat(fd, &st) != 0) {
-         perror("fstat");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     size_t len = st.st_size;
-     void *addr;
-@@ -207,7 +207,7 @@ void load_image(const char *imgfile)
-              0);
-     if (!addr) {
-         perror("mmap");
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     close(fd);
-     image_start = addr;
-@@ -226,7 +226,7 @@ int master(void)
-         if (trace) {
-             fprintf(stderr, "trace complete after %zd checkpoints\n",
-                     signal_count);
--            return 0;
-+            return EXIT_SUCCESS;
-         } else {
-             return report_match_status(false);
-         }
-@@ -237,7 +237,7 @@ int master(void)
-     fprintf(stderr, "starting image\n");
-     image_start();
-     fprintf(stderr, "image returned unexpectedly\n");
--    exit(1);
-+    return EXIT_FAILURE;
- }
- 
- int apprentice(void)
-@@ -258,7 +258,7 @@ int apprentice(void)
-     fprintf(stderr, "starting image\n");
-     image_start();
-     fprintf(stderr, "image returned unexpectedly\n");
--    exit(1);
-+    return EXIT_FAILURE;
- }
- 
- int ismaster;
-@@ -355,7 +355,7 @@ int main(int argc, char **argv)
-             break;
-         case '?':
-             usage();
--            exit(1);
-+            return EXIT_FAILURE;
-         default:
-             assert(c >= FIRST_ARCH_OPT);
-             process_arch_opt(c, optarg);
-@@ -382,7 +382,7 @@ int main(int argc, char **argv)
-     if (!imgfile) {
-         fprintf(stderr, "Error: must specify image file name\n\n");
-         usage();
--        exit(1);
-+        return EXIT_FAILURE;
+@@ -84,7 +104,7 @@ int recv_and_compare_register_info(read_fn read_fn,
+         return -1;
      }
  
-     load_image(imgfile);
-diff --git a/risu_reginfo_aarch64.c b/risu_reginfo_aarch64.c
-index 00d1c8b..028c690 100644
---- a/risu_reginfo_aarch64.c
-+++ b/risu_reginfo_aarch64.c
-@@ -51,7 +51,7 @@ void process_arch_opt(int opt, const char *arg)
- 
-     if (test_sve <= 0 || test_sve > SVE_VQ_MAX) {
-         fprintf(stderr, "Invalid value for VQ (1-%d)\n", SVE_VQ_MAX);
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
-     want = sve_vl_from_vq(test_sve);
-     got = prctl(PR_SVE_SET_VL, want);
-@@ -62,7 +62,7 @@ void process_arch_opt(int opt, const char *arg)
-             fprintf(stderr, "Unsupported value for VQ (%d != %d)\n",
-                     test_sve, (int)sve_vq_from_vl(got));
-         }
--        exit(1);
-+        exit(EXIT_FAILURE);
-     }
- #else
-     abort();
-diff --git a/risu_reginfo_i386.c b/risu_reginfo_i386.c
-index 194e0ad..60fc239 100644
---- a/risu_reginfo_i386.c
-+++ b/risu_reginfo_i386.c
-@@ -69,7 +69,7 @@ void process_arch_opt(int opt, const char *arg)
-             fprintf(stderr,
-                     "Unable to parse '%s' in '%s' into an xfeatures integer mask\n",
-                     endptr, arg);
--            exit(1);
-+            exit(EXIT_FAILURE);
-         }
-     }
- }
+-    if (header.risu_op != op) {
++    if (header.magic != RISU_MAGIC || header.risu_op != op) {
+         /* We are out of sync */
+         resp = 2;
+         resp_fn(resp);
+@@ -101,7 +121,8 @@ int recv_and_compare_register_info(read_fn read_fn,
+         /* Do a simple register compare on (a) explicit request
+          * (b) end of test (c) a non-risuop UNDEF
+          */
+-        if (read_fn(&apprentice_ri, reginfo_size())) {
++        if (header.size != reginfo_size() ||
++            read_fn(&apprentice_ri, header.size)) {
+             packet_mismatch = 1;
+             resp = 2;
+         } else if (!reginfo_is_eq(&master_ri, &apprentice_ri)) {
+@@ -121,7 +142,8 @@ int recv_and_compare_register_info(read_fn read_fn,
+         break;
+     case OP_COMPAREMEM:
+         mem_used = 1;
+-        if (read_fn(apprentice_memblock, MEMBLOCKLEN)) {
++        if (header.size != MEMBLOCKLEN ||
++            read_fn(apprentice_memblock, MEMBLOCKLEN)) {
+             packet_mismatch = 1;
+             resp = 2;
+         } else if (memcmp(memblock, apprentice_memblock, MEMBLOCKLEN) != 0) {
 -- 
 2.20.1
 
