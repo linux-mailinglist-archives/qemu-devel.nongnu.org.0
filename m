@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5A21D1F3E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 21:31:49 +0200 (CEST)
-Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5708D1D1F1D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 21:26:53 +0200 (CEST)
+Received: from localhost ([::1]:53306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYx6a-0004Ag-K8
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 15:31:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45796)
+	id 1jYx1o-0006dI-EX
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 15:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYx3O-0000XM-QZ
- for qemu-devel@nongnu.org; Wed, 13 May 2020 15:28:30 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36962
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jYx0s-0006C2-74
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 15:25:55 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33921
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYx3N-0000gz-RI
- for qemu-devel@nongnu.org; Wed, 13 May 2020 15:28:30 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jYx0q-00009F-5m
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 15:25:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589398109;
+ s=mimecast20190719; t=1589397949;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QCWBQbQl4M0in0x4J/3XDJi50raXKE6Z4/fhXhruLoA=;
- b=Py7+t4JfMck7Kw9jdm9vhuYd9mwAQjA/PgAflYGwB+Ms8CkHoM5T2PdyFzlE+kjftIUD5x
- LLqpZabNoMnglCqtj9Yh7CUJbDkwcv7vOB+tThOZr8KPPlWwjfPpVPRNykgB75o201Bm8Y
- jAOWSUmVUefbJF4L0T8wyLWUTL7Dg7A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-JBgZyYFKNgWwTLHAe9vcDw-1; Wed, 13 May 2020 15:28:27 -0400
-X-MC-Unique: JBgZyYFKNgWwTLHAe9vcDw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E17BA107ACCA;
- Wed, 13 May 2020 19:28:25 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.74.9.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B57046A977;
- Wed, 13 May 2020 19:28:18 +0000 (UTC)
-From: P J P <ppandit@redhat.com>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v2 3/3] megasas: use unsigned type for positive numeric fields
-Date: Thu, 14 May 2020 00:55:40 +0530
-Message-Id: <20200513192540.1583887-4-ppandit@redhat.com>
-In-Reply-To: <20200513192540.1583887-1-ppandit@redhat.com>
-References: <20200513192540.1583887-1-ppandit@redhat.com>
+ bh=PqIz3Zq4225MzQvnzb+SWEclGBBVT/nBoOZnQ550/JE=;
+ b=SbLEoRnyGh3sfjBsM6A1KH3nkrGROg1tLnsuVbK3L8bAbWwzWyYT0+T6sDtyA3yKhmFyYc
+ A6QQDOMYtF98ypv+xKEQgkW4RqknA4sTGg+7jCcoYdryz71718rPtmwjJXu8ExmQU+GNNy
+ 5TpBHDqtEcSxAgoTYVkPMEYj8ZXX00g=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-zuQFENyAMX2EEayfEniV6w-1; Wed, 13 May 2020 15:25:45 -0400
+X-MC-Unique: zuQFENyAMX2EEayfEniV6w-1
+Received: by mail-wr1-f72.google.com with SMTP id p13so215810wrw.1
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 12:25:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PqIz3Zq4225MzQvnzb+SWEclGBBVT/nBoOZnQ550/JE=;
+ b=DhnWHdZ69hu94JxBFgu4iVn+OXCjcopPJP54z/UMYYk/PB74oAs1fDnRSEIhECkBcP
+ nnZ2jOt0SE3h1JUJNpaHhsWtEcp0jD2eZ+JXSGes9NvYnFHYkIpIu44EdGQlGldtj/R7
+ RtJfKy/kE856c247T9KMnGA7JGKxi0DnaFJIECszpYzT8wDZMDqJ2IJq9qpefHocl3jA
+ 3LzJS5yA2XGpcwRxMOmCyWxCNg42d1JoCnQpbpXm6HrZNx+fsW4Szi9Wc7obs0NTNNnB
+ Jo0OWBZolcV2rqrh0/aWWn3ITDmaefGTciLGPogCR5JUOZEyH1zHOVLHDepXq3jNyGKt
+ wL5w==
+X-Gm-Message-State: AGi0PuYTHb2aeDyLrkh8Hw2elqYIhPGjEMjCn4rSNtMEKr4lyLIMbwG9
+ I8eIPRwddsYx0L0EgnxgUDg+jxLEnQSsIqF326jYhmPBjX7t6xmBtHo6Tw20IR4s0C6gVX/tV1O
+ fFk5HZy/OPFpQwvA=
+X-Received: by 2002:a05:600c:14d4:: with SMTP id
+ i20mr46342741wmh.118.1589397943824; 
+ Wed, 13 May 2020 12:25:43 -0700 (PDT)
+X-Google-Smtp-Source: APiQypLvFAfTpjPrO3aGFM2r1ChI0RnC7DAB6K8PxhnEsua6s1m4fQiMmJpjvx8hStXJb4gQX92hGQ==
+X-Received: by 2002:a05:600c:14d4:: with SMTP id
+ i20mr46342724wmh.118.1589397943605; 
+ Wed, 13 May 2020 12:25:43 -0700 (PDT)
+Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id x17sm597019wrp.71.2020.05.13.12.25.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 May 2020 12:25:42 -0700 (PDT)
+Subject: Re: [PATCH v1 0/8] plugins/next (cleanup, cpu_index and lockstep)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20200513173200.11830-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <be92fc0a-250d-5fb4-cd58-84c3ab17e2e9@redhat.com>
+Date: Wed, 13 May 2020 21:25:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200513173200.11830-1-alex.bennee@linaro.org>
+Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -79,103 +100,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Prasad J Pandit <pjp@fedoraproject.org>,
- Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Ding Ren <rding@gatech.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+On 5/13/20 7:31 PM, Alex Bennée wrote:
+> Hi,
+> 
+> This is the current state of my plugins/next tree. It contains 3 bits
+> of work.
+> 
+> First some minor clean-ups from Phillipe to help with his other
+> re-factoring work.
 
-Use unsigned type for the MegasasState fields which hold positive
-numeric values.
+Thanks for picking these. Note they already have:
+Reviewed-by: Emilio G. Cota <cota@braap.org>
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg701882.html
 
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
----
- hw/scsi/megasas.c | 38 +++++++++++++++++++-------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
-
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index b531d88a9b..634af0bbb8 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -86,34 +86,34 @@ typedef struct MegasasState {
-     MemoryRegion queue_io;
-     uint32_t frame_hi;
- 
--    int fw_state;
-+    uint32_t fw_state;
-     uint32_t fw_sge;
-     uint32_t fw_cmds;
-     uint32_t flags;
--    int fw_luns;
--    int intr_mask;
--    int doorbell;
--    int busy;
--    int diag;
--    int adp_reset;
-+    uint32_t fw_luns;
-+    uint32_t intr_mask;
-+    uint32_t doorbell;
-+    uint32_t busy;
-+    uint32_t diag;
-+    uint32_t adp_reset;
-     OnOffAuto msi;
-     OnOffAuto msix;
- 
-     MegasasCmd *event_cmd;
--    int event_locale;
-+    uint16_t event_locale;
-     int event_class;
--    int event_count;
--    int shutdown_event;
--    int boot_event;
-+    uint32_t event_count;
-+    uint32_t shutdown_event;
-+    uint32_t boot_event;
- 
-     uint64_t sas_addr;
-     char *hba_serial;
- 
-     uint64_t reply_queue_pa;
-     void *reply_queue;
--    int reply_queue_len;
-+    uint16_t reply_queue_len;
-     uint16_t reply_queue_head;
--    int reply_queue_tail;
-+    uint16_t reply_queue_tail;
-     uint64_t consumer_pa;
-     uint64_t producer_pa;
- 
-@@ -2259,9 +2259,9 @@ static const VMStateDescription vmstate_megasas_gen1 = {
-         VMSTATE_PCI_DEVICE(parent_obj, MegasasState),
-         VMSTATE_MSIX(parent_obj, MegasasState),
- 
--        VMSTATE_INT32(fw_state, MegasasState),
--        VMSTATE_INT32(intr_mask, MegasasState),
--        VMSTATE_INT32(doorbell, MegasasState),
-+        VMSTATE_UINT32(fw_state, MegasasState),
-+        VMSTATE_UINT32(intr_mask, MegasasState),
-+        VMSTATE_UINT32(doorbell, MegasasState),
-         VMSTATE_UINT64(reply_queue_pa, MegasasState),
-         VMSTATE_UINT64(consumer_pa, MegasasState),
-         VMSTATE_UINT64(producer_pa, MegasasState),
-@@ -2278,9 +2278,9 @@ static const VMStateDescription vmstate_megasas_gen2 = {
-         VMSTATE_PCI_DEVICE(parent_obj, MegasasState),
-         VMSTATE_MSIX(parent_obj, MegasasState),
- 
--        VMSTATE_INT32(fw_state, MegasasState),
--        VMSTATE_INT32(intr_mask, MegasasState),
--        VMSTATE_INT32(doorbell, MegasasState),
-+        VMSTATE_UINT32(fw_state, MegasasState),
-+        VMSTATE_UINT32(intr_mask, MegasasState),
-+        VMSTATE_UINT32(doorbell, MegasasState),
-         VMSTATE_UINT64(reply_queue_pa, MegasasState),
-         VMSTATE_UINT64(consumer_pa, MegasasState),
-         VMSTATE_UINT64(producer_pa, MegasasState),
--- 
-2.25.4
+> 
+> Next are some fixes for a crash reported by Nikolay on the list. The
+> root cause was a re-use of cpu_index although I've also tried to clean
+> up the handling of pthread termination.
+> 
+> Finally there is another iteration of my lockstep plugin which has had
+> a little more tinkering to better detect divergence between two
+> QEMU's. It's no Rehoboam but it will hopefully be helpful.
+> 
+> The following patches need review:
+> 
+>   - plugins: new lockstep plugin for debugging TCG changes
+>   - tests/tcg: add new threadcount test
+>   - linux-user: properly "unrealize" vCPU object
+>   - cpus-common: ensure auto-assigned cpu_indexes don't clash
+>   - MAINTAINERS: update the orphaned cpus-common.c file
+> 
+> Alex Bennée (5):
+>    MAINTAINERS: update the orphaned cpus-common.c file
+>    cpus-common: ensure auto-assigned cpu_indexes don't clash
+>    linux-user: properly "unrealize" vCPU object
+>    tests/tcg: add new threadcount test
+>    plugins: new lockstep plugin for debugging TCG changes
+> 
+> Philippe Mathieu-Daudé (3):
+>    qemu/plugin: Trivial code movement
+>    qemu/plugin: Move !CONFIG_PLUGIN stubs altogether
+>    qemu/qemu-plugin: Make qemu_plugin_hwaddr_is_io() hwaddr argument
+>      const
+> 
+>   include/qemu/plugin.h               |  65 +++---
+>   include/qemu/qemu-plugin.h          |   2 +-
+>   cpus-common.c                       |   9 +-
+>   linux-user/syscall.c                |  19 +-
+>   plugins/api.c                       |   4 +-
+>   tests/plugin/lockstep.c             | 345 ++++++++++++++++++++++++++++
+>   tests/tcg/multiarch/threadcount.c   |  62 +++++
+>   MAINTAINERS                         |   1 +
+>   tests/plugin/Makefile               |   1 +
+>   tests/tcg/Makefile.target           |   2 +-
+>   tests/tcg/multiarch/Makefile.target |   2 +
+>   11 files changed, 461 insertions(+), 51 deletions(-)
+>   create mode 100644 tests/plugin/lockstep.c
+>   create mode 100644 tests/tcg/multiarch/threadcount.c
+> 
 
 
