@@ -2,61 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AAF41D1435
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 15:12:56 +0200 (CEST)
-Received: from localhost ([::1]:32880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 857D81D0970
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 09:03:25 +0200 (CEST)
+Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYrBv-0003WH-F0
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 09:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43720)
+	id 1jYlQK-00050y-IP
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 03:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jYrB8-000373-2m
- for qemu-devel@nongnu.org; Wed, 13 May 2020 09:12:06 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:47935)
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1jYlPM-0004CF-41
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 03:02:24 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:49694 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jYrB6-0006JM-Hq
- for qemu-devel@nongnu.org; Wed, 13 May 2020 09:12:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=ppXfdfqmV2KaY3iTJLetCQIO+IFebWsreEWjiSPqrbQ=; b=lV+kRiV4cg5Eh3Jc0h1Vc+1SFQ
- L94lk9ebKczfhZKie2+oY7d9JP5oa6SLiyA+5v+SiHSI3QnPlv3fB4U4eOqpQS46uNgYdZvVHDw3e
- a+RUxseXvQmuKh90AhkvsGk9bla9XnFP59LWoQKeP/hTIRGbE/OCq/ziqQBiVEpw0HzwsRQ9FANQP
- VJqU6+K6GL/wYWxXoBPul6372noBtstVFmhy8N21OoSXmrlvryFRBF88UOzkkoCX/rg2mrde4lltI
- ot9MMtkN0T4x1GcufCWq2cLcqq5be6JfDk1Rca+1soxnBqPZnCWVSrLpwDVlJZBjEniUE3cyaeKTC
- q5DJmkrb6sxl1h50htz3muM5VlNYv/l8DzaGXV9NT8GRSXjZ0xl8ykrkUJrHhnM3fLb3n3hoC0eA9
- /S1S6WTueALpJg9ACIRKjWS/g3MzEXUFAFV90dY8wvbtwKE4rUDzMS1GKuX3+n53vi4YpGAbY0w+h
- D0zmM6HIkM0c/vW/N2xONi9HrY3KtHe96DsJTlCxDnJf14KehzuQaMhaSg4wxki/pToJKchqN3r7l
- 2bxuEGOlz6jZcclmJHSqFVYFw6TiNtCpgoavf+tpSwxb3FH4lnsLSz6PUqNmRKzLRaG4q58wtT1vs
- WJKBHPBQeB9J9TWUGWel6n3RBbZ0RmxMZvsFeI27k=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Greg Kurz <groug@kaod.org>,
- Paul Durrant <paul@xen.org>
-Subject: Re: [PATCH 2/2] 9pfs: fix init_in_iov_from_pdu truncating size
-Date: Wed, 13 May 2020 15:11:52 +0200
-Message-ID: <6359442.q4qrkmKcdg@silver>
-In-Reply-To: <alpine.DEB.2.21.2005121602520.26167@sstabellini-ThinkPad-T480s>
-References: <cover.1589132512.git.qemu_oss@crudebyte.com>
- <3732481.xNstV0F5bx@silver>
- <alpine.DEB.2.21.2005121602520.26167@sstabellini-ThinkPad-T480s>
+ (Exim 4.90_1) (envelope-from <pannengyuan@huawei.com>)
+ id 1jYlPK-00060n-7f
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 03:02:23 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by Forcepoint Email with ESMTP id D2CC1BA2BD7B96820548;
+ Wed, 13 May 2020 15:02:15 +0800 (CST)
+Received: from opensource.huawei.com (10.175.100.98) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 13 May 2020 15:02:05 +0800
+From: Pan Nengyuan <pannengyuan@huawei.com>
+To: <pbonzini@redhat.com>, <rth@twiddle.net>, <ehabkost@redhat.com>,
+ <mtosatti@redhat.com>
+Subject: [PATCH v2] i386/kvm: fix a use-after-free when vcpu plug/unplug
+Date: Wed, 13 May 2020 09:26:30 -0400
+Message-ID: <20200513132630.13412-1-pannengyuan@huawei.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 09:12:01
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.100.98]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=pannengyuan@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 03:02:16
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,147 +59,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: euler.robot@huawei.com, Pan Nengyuan <pannengyuan@huawei.com>,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 13. Mai 2020 01:24:16 CEST Stefano Stabellini wrote:
-> Let me premise that this patch fixes an important bug, so I am not
-> asking you to do any more work to get this patch committed right now :-)
+When we hotplug vcpus, cpu_update_state is added to vm_change_state_head
+in kvm_arch_init_vcpu(). But it forgot to delete in kvm_arch_destroy_vcpu() after
+unplug. Then it will cause a use-after-free access. This patch delete it in
+kvm_arch_destroy_vcpu() to fix that.
 
-Actually, I realized that this overall issue is much more delicate to handle 
-than I thought. My patch would still miss other important things, like e.g. it 
-does not roll back the read / readdir streaming positions of the respective 
-FID on 9P server side. -> data loss / undefined behaviour on subsequent read / 
-readdir
+Reproducer:
+    virsh setvcpus vm1 4 --live
+    virsh setvcpus vm1 2 --live
+    virsh suspend vm1
+    virsh resume vm1
 
-Also the 'count' parameter in the Rread response would need to be updated as 
-well. -> undefined behaviour
+The UAF stack:
+==qemu-system-x86_64==28233==ERROR: AddressSanitizer: heap-use-after-free on address 0x62e00002e798 at pc 0x5573c6917d9e bp 0x7fff07139e50 sp 0x7fff07139e40
+WRITE of size 1 at 0x62e00002e798 thread T0
+    #0 0x5573c6917d9d in cpu_update_state /mnt/sdb/qemu/target/i386/kvm.c:742
+    #1 0x5573c699121a in vm_state_notify /mnt/sdb/qemu/vl.c:1290
+    #2 0x5573c636287e in vm_prepare_start /mnt/sdb/qemu/cpus.c:2144
+    #3 0x5573c6362927 in vm_start /mnt/sdb/qemu/cpus.c:2150
+    #4 0x5573c71e8304 in qmp_cont /mnt/sdb/qemu/monitor/qmp-cmds.c:173
+    #5 0x5573c727cb1e in qmp_marshal_cont qapi/qapi-commands-misc.c:835
+    #6 0x5573c7694c7a in do_qmp_dispatch /mnt/sdb/qemu/qapi/qmp-dispatch.c:132
+    #7 0x5573c7694c7a in qmp_dispatch /mnt/sdb/qemu/qapi/qmp-dispatch.c:175
+    #8 0x5573c71d9110 in monitor_qmp_dispatch /mnt/sdb/qemu/monitor/qmp.c:145
+    #9 0x5573c71dad4f in monitor_qmp_bh_dispatcher /mnt/sdb/qemu/monitor/qmp.c:234
 
-For these and other reasons already described, I start to think that it is 
-actually not a good idea to truncate the response at all, at least not at that 
-final transport stage (as my or your patch do).
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+- v2: remove unnecessary set vmsentry to null(there is no non-null check).
+---
+ target/i386/cpu.h | 1 +
+ target/i386/kvm.c | 4 +++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-Question: is there really no way to handle this overall issue exlusively on 
-Xen side, i.e. delaying response delivery until large enough transport buffer 
-would be available or acquiring on-demand the required buffer size? Or by 
-looking ahead at msize in advance (see below)?
-
-From what I see now, I would recommend completely reverting response 
-truncation on virtio transport side at least. Because so far I have not seen a 
-single case with virtio where the transport buffer was too small for 
-delivering any response. And as you can see, response truncation at late 
-transport level opens all kinds of severe issues on other ends. It is not easy 
-to do and requires a lot of code!
-
-> But I think it would be good to test what would happen if the client did
-> a read on a directory with hundreds of entries, such as a maildir
-> directory. There has to be point where the number of directory entries
-> is larger than the shared buffer. What happens then?
-
-I'm talking about virtio only now: that scenario does not happen. When client 
-opens a 9P session, client transmits 'msize' as parameter for the 9P sesssion 
-which is the "maximum message size" ever to be assumed on both sides for  
-client requests and server responses. By default msize is 4 kiB (4096 bytes) 
-with Linux clients, and our server would immediately error out if any client 
-tries to open a session with 'msize' < 4 kiB (for similar reasons discussed; 
-because some 9P response types cannot be truncated at all):
-
-https://github.com/qemu/qemu/commit/
-e16453a31a00c1c0a199cab0617e8aa888f6419a#diff-f3e98ed0a65e27743b14785fa85b7d79
-
-The Rread and Rreaddir responses are already truncated (in a sane and correct 
-way) in 9p.c by server's request handler in case the response would exceed 
-'msize'. For that reason it is actually unexpected that transport would not be 
-able to provide the required transport buffer size for any response.
-
-> I am guessing that we'll have to implement the "truncate at the
-> boundaries of individual entries" to get it right in all cases.
-> 
-> Given that it doesn't look like truncation would work right with
-> Rreaddir anyway today, I think it would be OK to fix it in a separate
-> patch.
-
-If there is really no way with Xen to ensure there's always a buffer size 
-according to msize, then I fear this would need to be addressed in a 
-completely different way: by changing the transport interface, early asking 
-transport what the biggest buffer size would be, and then passing that info 
-already early over to the 9P request handler (9p.c), such that it would 
-already be able to assemble the individual responses *correctly* by using
-
-	max_response_size = MIN(msize, client_requested_size, transport_size)
-
-> > And that's it, for all other 9P types we can't truncate response at all.
-> > For those types we could probably just return EAGAIN, but would it help?
-> > Probably would require changes on client side as well then to handle this
-> > correctly.
-> I think the critical ones are Rread and Rreaddir. I wonder if we could
-> even reproduce a bug with any of the other 9p types. Probably not. So
-> returning an error might be good enough. Returning an error is also way
-> better than calling virtio_error or xen_9pfs_disconnect, more on this
-> below.
-
-Xen *MUST* ensure to always deliver a transport buffer at least 4kiB in size 
-for 9P responses. See my commit log message in the commit link provided above 
-for detailed explanation why.
-
-And IMO Xen should always be able to provide a transport buffer that's at 
-least msize large. If that's the case, then we don't have to worry about 
-anything else and can drop this transport truncation code.
-
-> > > > Fixes: 16724a173049ac29c7b5ade741da93a0f46edff7
-> > > > Fixes: https://bugs.launchpad.net/bugs/1877688
-> > > > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > > ---
-> > > > 
-> > > >  hw/9pfs/virtio-9p-device.c | 35 +++++++++++++++++++++++++++--------
-> > > >  hw/9pfs/xen-9p-backend.c   | 38
-> > > >  +++++++++++++++++++++++++++++---------
-> > > >  2 files changed, 56 insertions(+), 17 deletions(-)
-> > > > 
-> > > > diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
-> > > > index 536447a355..57e4d92ecb 100644
-> > > > --- a/hw/9pfs/virtio-9p-device.c
-> > > > +++ b/hw/9pfs/virtio-9p-device.c
-> > > > @@ -154,15 +154,34 @@ static void virtio_init_in_iov_from_pdu(V9fsPDU
-> > > > *pdu, struct iovec **piov,>
-> > > > 
-> > > >      VirtQueueElement *elem = v->elems[pdu->idx];
-> > > >      size_t buf_size = iov_size(elem->in_sg, elem->in_num);
-> > > > 
-> > > > -    if (buf_size < P9_IOHDRSZ) {
-> > > > -        VirtIODevice *vdev = VIRTIO_DEVICE(v);
-> > > > +    if (pdu->id + 1 == P9_RREAD) {
-> > > > +        /* size[4] Rread tag[2] count[4] data[count] */
-> > > 
-> > > 4+2+4 = 10
-> > 
-> > That's 4+1+2+4 = 11
-> > 
-> > You were missing "Rread" here which identifies the (numeric) 9P response
-> > type and which is always 1 byte in size.
-> 
-> I thought so. Could you please update the comment in the code? As is it
-> is a bit confusing.
-
-I just copy pasted the 9P specs here, but NP, that's the smallest issue to 
-address.
-
-> I think we have to return here because the connection gets closed by
-> xen_9pfs_disconnect. I wonder if we should return -EAGAIN like you
-> suggested instead of calling xen_9pfs_disconnect() which is
-> irrecoverable. But that could be done later in a separate patch.
-
-Even -EAGAIN would require a bunch of code, since the precise error response 
-type depends a) on the protocol dialect (9p2000.L vs. 9p2000.u) and b) even 
-depending on the precise request type. For some 9P request types it is not 
-even allowed to return an error response at all.
-
-As you can see it all boils down to one thing: better look for a solution for 
-Xen to deliver the required buffer size, or in worst case: yield the 
-coroutine, i.e. delay delivery of response until that can be assured by Xen.
-
-Best regards,
-Christian Schoenebeck
-
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index e818fc712a..afbd11b7a3 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1631,6 +1631,7 @@ struct X86CPU {
+ 
+     CPUNegativeOffsetState neg;
+     CPUX86State env;
++    VMChangeStateEntry *vmsentry;
+ 
+     uint64_t ucode_rev;
+ 
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 4901c6dd74..0a4eca5a85 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -1770,7 +1770,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         }
+     }
+ 
+-    qemu_add_vm_change_state_handler(cpu_update_state, env);
++    cpu->vmsentry = qemu_add_vm_change_state_handler(cpu_update_state, env);
+ 
+     c = cpuid_find_entry(&cpuid_data.cpuid, 1, 0);
+     if (c) {
+@@ -1883,6 +1883,8 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+         env->nested_state = NULL;
+     }
+ 
++    qemu_del_vm_change_state_handler(cpu->vmsentry);
++
+     return 0;
+ }
+ 
+-- 
+2.18.2
 
 
