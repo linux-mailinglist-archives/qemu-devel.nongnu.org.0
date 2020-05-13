@@ -2,57 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2921D09AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 09:15:37 +0200 (CEST)
-Received: from localhost ([::1]:42316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109F01D0A0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 09:46:13 +0200 (CEST)
+Received: from localhost ([::1]:56288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYlc8-0002Uc-HM
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 03:15:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52412)
+	id 1jYm5j-0005h7-Vd
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 03:46:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.pour@hetzner.com>)
- id 1jYlbJ-0001xv-D0; Wed, 13 May 2020 03:14:45 -0400
-Received: from mail.hetzner.company ([2a01:4f8:d0a:203a::1]:32940)
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1jYm2b-0004EK-VR
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 03:42:57 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:54138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.pour@hetzner.com>)
- id 1jYlbH-0000YI-36; Wed, 13 May 2020 03:14:44 -0400
-Received: from [88.198.139.25] (helo=[10.17.32.77])
- by mail.hetzner.company with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
- (Exim 4.89) (envelope-from <raphael.pour@hetzner.com>)
- id 1jYlbD-00014t-1h; Wed, 13 May 2020 09:14:39 +0200
-Subject: Re: [PATCH] qemu-nbd: Close inherited stderr
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <ac17fad1-baf1-75ad-843d-cab8d17f1b2e@hetzner.com>
-From: Raphael Pour <raphael.pour@hetzner.com>
-Autocrypt: addr=raphael.pour@hetzner.com; keydata=
- mDMEXmXjyxYJKwYBBAHaRw8BAQdAtiEYnlLIuIUjvvqOH//nEbhrxSa54ZyAl7Iel403QaW0
- J1JhcGhhZWwgUG91ciA8cmFwaGFlbC5wb3VyQGhldHpuZXIuY29tPoiWBBMWCAA+FiEEvj4O
- DnHb6pxm/uWJzbHrt4XF634FAl5l48sCGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
- F4AACgkQzbHrt4XF635TcwD+NEMqL1HZPHP/WRsYujCDtqt0p+7uxGcpvzv//AjqMZ0A+wUh
- 0bOYYNdlXWNMMNLA88SsAT2mxAfD+F/paVmLpdoLuDgEXmXjyxIKKwYBBAGXVQEFAQEHQB0z
- JYP6jtTj989IJL1vguinsiIxia5fkW83OB1+Bb4QAwEIB4h+BBgWCAAmFiEEvj4ODnHb6pxm
- /uWJzbHrt4XF634FAl5l48sCGwwFCQlmAYAACgkQzbHrt4XF6372LgEAi3qfceU+R53Ehg/Y
- SSHV4wg+zfPwrD6ylEg/xKabYDcBALrD0E3YX458RPjLIOC8H0u0rcFIvBqNYx/kGaMEmbEG
-Message-ID: <fa1525c8-879a-56cd-5585-e855c7c1abce@hetzner.com>
-Date: Wed, 13 May 2020 09:14:35 +0200
+ (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
+ id 1jYm2a-0006Qf-BO
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 03:42:57 -0400
+Received: from [172.17.10.14] (unknown [172.17.10.14])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id F2C6296EF0;
+ Wed, 13 May 2020 07:42:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1589355771;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TMwdZkT30SoG5B/pP6AiyvynZ/VCT5RUVG6G//PFVgY=;
+ b=AEN/tkoa3fSJpr9XLhJTCmKUcUcU6izqfAgKgjO721tUgeZXBfu+O2aAsmSfR7mK+odmCJ
+ REuS2FrufSN5pjyacuh2MQr7Tjnaq7U/1aDU8QxnztdyfOuG9LsWtK0p0wdrdCu8/VuEex
+ 4YHGyFxTj1RdT/dqlYsBZqA3golYvVM=
+Subject: Re: [PATCH v1 1/1] target/microblaze: Add MFS Rd,EDR translation
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20200512143649.21655-1-edgar.iglesias@gmail.com>
+ <20200512143649.21655-2-edgar.iglesias@gmail.com>
+From: Luc Michel <luc.michel@greensocs.com>
+Message-ID: <1bdab726-5a41-40c9-1d3c-811a7c32b53a@greensocs.com>
+Date: Wed, 13 May 2020 09:42:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <ac17fad1-baf1-75ad-843d-cab8d17f1b2e@hetzner.com>
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature";
- boundary="lqvG1G9aj2jlFJ8CBJHN6nG4YsLXkMcmc"
-X-Authenticated-Sender: raphael.pour@hetzner.com
-Received-SPF: pass client-ip=2a01:4f8:d0a:203a::1;
- envelope-from=raphael.pour@hetzner.com; helo=mail.hetzner.company
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+In-Reply-To: <20200512143649.21655-2-edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1589355772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TMwdZkT30SoG5B/pP6AiyvynZ/VCT5RUVG6G//PFVgY=;
+ b=hvNIIDVCfVlB3UMyPGwQ9qyoKib3VQkSCDYV16/NAE8FXVkEHk3kt63wDec6UtTuyLrcGQ
+ QGo/ORoTCpiF8U97StqU/WxG0wu4GKczAklenqwbMe75/7ATfRTt+zIlax4exI5sFE+K1K
+ 4dQjV0yG8IEZEE5n9Wrk2QSsUMlIKNM=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1589355772; a=rsa-sha256; cv=none;
+ b=jSd3lMHfiMzTBOvJ7k3ghiUT+WT6Ki+jOOsR759abtvlsiIFRgSMSQxDtJnrb6vp1bjD+f
+ 4BAbyGAAdJeZACRzKL58GkK2SYcRgpGRQBKJvuqJFmQXNSALHwHag1E4LPstB5r8LfWfeb
+ SYLRfLpp8xtmciBRslssuRoshHIOn8M=
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=luc smtp.mailfrom=luc.michel@greensocs.com
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 03:42:52
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,79 +84,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org
+Cc: figlesia@xilinx.com, peter.maydell@linaro.org, sstabellini@kernel.org,
+ edgar.iglesias@xilinx.com, sai.pavan.boddu@xilinx.com,
+ frasse.iglesias@gmail.com, alistair@alistair23.me, frederic.konrad@adacore.com,
+ tong.ho@xilinx.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lqvG1G9aj2jlFJ8CBJHN6nG4YsLXkMcmc
-Content-Type: multipart/mixed; boundary="a2C7scKlfoD8pjLd51v7Nkk3iZ86TYlEk"
+On 5/12/20 4:36 PM, Edgar E. Iglesias wrote:
+> From: Tong Ho <tong.ho@xilinx.com>
+> 
+> This is to fix cpu-abort with 'qemu: fatal: unknown mfs reg d'
+> (in the default case) when microblaze guest issues 'MFS Rd,EDR'
+> instruction.
+> 
+> Since embeddedsw release 2019.2, XPlm_ExceptionHandler() issues
+> the instruction on exception, and microblaze model aborts when
+> PLM firmware guest encounters an exception.
+> 
+> Signed-off-by: Tong Ho <tong.ho@xilinx.com>
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
---a2C7scKlfoD8pjLd51v7Nkk3iZ86TYlEk
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 
-On 5/12/20 3:57 PM, Eric Blake wrote:
-> Wouldn't it just be simpler to not dup in the first place?
->=20
-> diff --git i/qemu-nbd.c w/qemu-nbd.c
-> index 4aa005004ebd..6ba2544feb3a 100644
-> --- i/qemu-nbd.c
-> +++ w/qemu-nbd.c
-> @@ -916,7 +916,9 @@ int main(int argc, char **argv)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (pid =3D=3D =
-0) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- close(stderr_fd[0]);
->=20
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 old=
-_stderr =3D dup(STDERR_FILENO);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-(fork_process) {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 old_stderr =3D dup(STDERR_FILENO);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- ret =3D qemu_daemon(1, 0);
->=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- /* Temporarily redirect stderr to the parent's pipe...=C2=A0 */
-
-Yes, you're right. We tested your patch and it also fixes the unwanted
-open stderr.
-
-Could you consider this patch in one of the next releases?
-
-Thanks!
-Raphael
-
---=20
-Hetzner Online GmbH
-Am Datacenter-Park 1
-08223 Falkenstein/Vogtland
-raphael.pour@hetzner.com
-www.hetzner.com
-
-Registergericht Ansbach, HRB 6089
-Gesch=C3=A4ftsf=C3=BChrer: Martin Hetzner, Stephan Konvickova, G=C3=BCnth=
-er M=C3=BCller
-
-
---a2C7scKlfoD8pjLd51v7Nkk3iZ86TYlEk--
-
---lqvG1G9aj2jlFJ8CBJHN6nG4YsLXkMcmc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQS+Pg4OcdvqnGb+5YnNseu3hcXrfgUCXrueWwAKCRDNseu3hcXr
-fuKDAQDFeK87V/5G5tlSy8EWPvuKcTh20b7xhin32ALn4DqotgD8CJx5Y6XnuUJu
-pVEpGl4PUZqmMbTyi6kaIqSC2IwY5Qk=
-=081x
------END PGP SIGNATURE-----
-
---lqvG1G9aj2jlFJ8CBJHN6nG4YsLXkMcmc--
+> ---
+>  target/microblaze/translate.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+> index 20b7427811..92b3630804 100644
+> --- a/target/microblaze/translate.c
+> +++ b/target/microblaze/translate.c
+> @@ -581,6 +581,7 @@ static void dec_msr(DisasContext *dc)
+>              case SR_ESR:
+>              case SR_FSR:
+>              case SR_BTR:
+> +            case SR_EDR:
+>                  tcg_gen_extrl_i64_i32(cpu_R[dc->rd], cpu_SR[sr]);
+>                  break;
+>              case 0x800:
+> 
 
