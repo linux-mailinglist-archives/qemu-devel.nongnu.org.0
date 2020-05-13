@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E4851D049E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 04:07:23 +0200 (CEST)
-Received: from localhost ([::1]:45932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFB21D04B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 04:19:21 +0200 (CEST)
+Received: from localhost ([::1]:53254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYgnq-0001o1-7A
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 22:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45822)
+	id 1jYgzQ-0006ev-KN
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 22:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYgn9-0001MV-0F
- for qemu-devel@nongnu.org; Tue, 12 May 2020 22:06:39 -0400
-Received: from mail-pj1-x1041.google.com ([2607:f8b0:4864:20::1041]:54900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYgn8-0006vb-2G
- for qemu-devel@nongnu.org; Tue, 12 May 2020 22:06:38 -0400
-Received: by mail-pj1-x1041.google.com with SMTP id s69so2129660pjb.4
- for <qemu-devel@nongnu.org>; Tue, 12 May 2020 19:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8b9fpcuJ6oVaoHTbgJD2FTGlfEUYk/UcMkckrsvWnOk=;
- b=QUl2tVwHeI4tPxNOUjhZu6UzRP6hz/2IL1r3wj1eKtnWYNuxNtp4gj9BvEoaoWHFkX
- 1+B9b2psFgd5WOu/r98zWnpCn21gxpe4fgtdv1qnS0gZlLJSqygP93Tc+EVfWwz567pL
- HGVn66FEArXHmcYhe8mGScSB0wywWjCGOqd142k1IH9+TQ0pNJH7JFr0oI4zdyEueurF
- 2UJhYdSWxNPgpcx3EXkGk38dpHNerAO5GKQAR3ZmZYP1+JyxL3ESxlP77aBMnM5hpQOX
- uFI4Izv6ByPnRM9FXowsfOYcYYwubYgGonZk0YIqg228s7rgaNeYRpGnDGIe/6H0Bq7K
- W9fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8b9fpcuJ6oVaoHTbgJD2FTGlfEUYk/UcMkckrsvWnOk=;
- b=C0BGpYY74PRpOThZiBw/sh1F3Y4AQQMA8z2q41qf7P7CGNwJIn3pSnrafS1GKM56NR
- HgQW/rrQH+UQzQR1g1ym1Vcy5lxxIDsbsPFHoLKZFiefkCqEBSNZpZODgmqK/dwnjcXL
- dYLxFZk8bXRYsPeGb1i1L4xm5eDbcbAELL5nr5FLJJZh8S+E0eBtKxUHfMWlQSNcnZPb
- wyANelZa+nlXZ7gwhxTYtk4aYPHtt7QAQPRGZ0U0pCvwFNxr/bh6OqtICMZvqeH7wr/Y
- WzuBAseuyDIZCwrWv8adZNm4U2PhRoRk28YnQJgkmsL2yykcyP1LEv29Nw73fOXtFvw8
- 0zlQ==
-X-Gm-Message-State: AGi0PuYlK3ZAiauPQR7begm6vsKZU3SD7GilrPjoQJfI9p5poRuor3DR
- 0jlQ54eoCQwEeM7O0KWrTA1zS9ysdwg=
-X-Google-Smtp-Source: APiQypLI3U0LjWsti44jRYuDUOd3RzDndYtud3rmw6fJbYKeTvpVe3B7c21Vc9c9O/Uauc+cJ7r1dA==
-X-Received: by 2002:a17:90a:8a14:: with SMTP id
- w20mr32809499pjn.176.1589335596154; 
- Tue, 12 May 2020 19:06:36 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-149-226.tukw.qwest.net. [174.21.149.226])
- by smtp.gmail.com with ESMTPSA id p5sm3519484pgk.28.2020.05.12.19.06.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 May 2020 19:06:35 -0700 (PDT)
-Subject: Re: [PATCH v3 02/16] target/arm: Create gen_gvec_{u,s}{rshr,rsra}
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200508152200.6547-1-richard.henderson@linaro.org>
- <20200508152200.6547-3-richard.henderson@linaro.org>
- <CAFEAcA-JOwTRz1ZHEBrH5iLG3Qwf-7FvWUFvWvhP769aK-iEiQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c19aaaff-1add-6aae-bee2-6d1dcd54927e@linaro.org>
-Date: Tue, 12 May 2020 19:06:33 -0700
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jYgyR-0006GG-13
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 22:18:19 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56213
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1jYgyP-0008JG-Q9
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 22:18:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589336296;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9B4e0Li6DXy6xnOAaI4nc5maIyx6g7r0Lqysj9CUE84=;
+ b=PfxIXudboUCcBOz49yM414Qc1KYCrTQ2TMuE11si2s1bAUeAMIg2cnkeMD0KFVbSRES/vC
+ RDM2FElGT0l6iCmg7zPjHMt1zSypJHPOIjye/HcpoBBsN8jS0daIkwwGXPurzzGx2bXP5y
+ zJ1wNNeNpI8kyuvhV8UxcP7waB/AxGQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-ViHxsKrbNbmbxcppSFuoYQ-1; Tue, 12 May 2020 22:18:14 -0400
+X-MC-Unique: ViHxsKrbNbmbxcppSFuoYQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CE6280B70B;
+ Wed, 13 May 2020 02:18:13 +0000 (UTC)
+Received: from [10.72.13.188] (ovpn-13-188.pek2.redhat.com [10.72.13.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 49CF66E6E8;
+ Wed, 13 May 2020 02:18:10 +0000 (UTC)
+Subject: Re: [RFC PATCH 0/3] hw/net/tulip: Fix LP#1874539
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20200423231644.15786-1-f4bug@amsat.org>
+ <20200424152722.GA14573@ls3530.fritz.box>
+ <1f04b513-eece-baa7-5556-4665afe1f637@redhat.com>
+ <CAFEAcA-vJXRcjNPnyB5t4UOrmH5wnUoZsx-JAwDYNavQ_L64XQ@mail.gmail.com>
+ <24b9c9a3-a0b6-2d9b-eade-dbc43bd71ff4@redhat.com>
+ <ed40763d-93c7-643d-51aa-4b36396c7c58@amsat.org>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <de204d63-b0ba-907d-249a-0e23c9f2870f@redhat.com>
+Date: Wed, 13 May 2020 10:18:09 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-JOwTRz1ZHEBrH5iLG3Qwf-7FvWUFvWvhP769aK-iEiQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <ed40763d-93c7-643d-51aa-4b36396c7c58@amsat.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1041;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1041.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 21:16:56
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,20 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Helge Deller <deller@gmx.de>, Sven Schnelle <svens@stackframe.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/20 6:51 AM, Peter Maydell wrote:
->> +        tcg_gen_gvec_dup_imm(vece, rd_ofs, opr_sz, max_sz, 0);
-> 
-> Knew I'd forgotten a review comment -- should this "dup_imm to clear
-> to zeroes" be using a fixed element size rather than 'vece' to avoid
-> the "dup_imm doesn't handle 128 bits" issue? (Similarly elsewhere.)
+
+On 2020/5/12 下午3:13, Philippe Mathieu-Daudé wrote:
+> Hi Jason,
+>
+> On 4/27/20 5:32 AM, Jason Wang wrote:
+>> On 2020/4/26 下午3:57, Peter Maydell wrote:
+>>> On Sun, 26 Apr 2020 at 03:50, Jason Wang<jasowang@redhat.com>  wrote:
+>>>
+>>>> Looks good to me.
+>>>>
+>>>> Would you please send a formal patch and cc Peter.
+>>>>
+>>>> Consider we are about to release 5.0, it's better for him to apply the
+>>>> patch directly.
+>>> I am not applying any further patches for 5.0 unless they come
+>>> with an attached rock-solid justification for why we should
+>>> delay the release again for them.
+>>>
+>>> thanks
+>>> -- PMM
+>>
+>>
+>> Ok.
+>>
+>> I will queue that patch for 5.1.
+>
+> Can you queue patches #1 and #2?
 
 
-No, because here we cannot have 128-bit elements (not 128-bit vectors).
+Queued.
+
+Thanks
 
 
-r~
+>
+>>
+>> Thanks
+>>
+>>
+>>>
+>>
+>>
+>
+
 
