@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376751D0438
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 03:18:31 +0200 (CEST)
-Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D551D0440
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 03:19:56 +0200 (CEST)
+Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYg2X-0002yk-OZ
-	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 21:18:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41130)
+	id 1jYg3w-0006Zu-03
+	for lists+qemu-devel@lfdr.de; Tue, 12 May 2020 21:19:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYg13-0000nk-KU
- for qemu-devel@nongnu.org; Tue, 12 May 2020 21:16:57 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:41989
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYg15-0000s9-Pl
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 21:16:59 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:56904
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYg12-0004Bn-5Y
- for qemu-devel@nongnu.org; Tue, 12 May 2020 21:16:57 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYg13-0004Bx-Bn
+ for qemu-devel@nongnu.org; Tue, 12 May 2020 21:16:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1589332615;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3rv6/Ww2pSYf1tT1GUATjc6owc1G5Z2EM/1i2BOuOog=;
- b=Ack7GHg9vFiVPHeclM/NrcIybmq5WoGaJR1HOhqIenMaamgtHXmejfvOm62+pcwk7GciC2
- XQ2mfOycICDFVp1HzxuOvFyngVv3cvyiHnUyAr0Bn85TD4zV1Y7dlbhudnOzU0JS3LedeX
- ptJIXniFsDJTvOOyxIaH5wZD4KIHFbg=
+ bh=xcdd4VT4WQ1rIZLHk1We7xWT93yBTAqFG8L81BCdCLc=;
+ b=Pf2/MYmkcZkV85brnFek9SzoOi6uSWNiH/X0b0n84FoW+SD3+an57M5pZc2ydTlPJKo570
+ Atbf9zuozshfcwBFy8pvDIQSGGhZ2WylV3sMyalCKN8vgjlswC3XtK3HVILNhkyfsKFQoS
+ K9pzXTiqC9GJW7QkwJMUqBlDW4QO8YA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-yT9Wcb91MdWDHYrSVjP55w-1; Tue, 12 May 2020 21:16:53 -0400
-X-MC-Unique: yT9Wcb91MdWDHYrSVjP55w-1
+ us-mta-431-XxUSsHkjNvaQhLsguZx4Sw-1; Tue, 12 May 2020 21:16:54 -0400
+X-MC-Unique: XxUSsHkjNvaQhLsguZx4Sw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B0AF473;
- Wed, 13 May 2020 01:16:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1ED691902EA0;
+ Wed, 13 May 2020 01:16:53 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF5AB1A923;
- Wed, 13 May 2020 01:16:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 856913A0;
+ Wed, 13 May 2020 01:16:52 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/9] qemu-img: Fix stale comments on doc location
-Date: Tue, 12 May 2020 20:16:41 -0500
-Message-Id: <20200513011648.166876-3-eblake@redhat.com>
+Subject: [PATCH v4 3/9] block: Make it easier to learn which BDS support
+ bitmaps
+Date: Tue, 12 May 2020 20:16:42 -0500
+Message-Id: <20200513011648.166876-4-eblake@redhat.com>
 In-Reply-To: <20200513011648.166876-1-eblake@redhat.com>
 References: <20200513011648.166876-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -54,10 +55,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 21:16:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/12 21:16:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,46 +78,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, nsoffer@redhat.com, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, mreitz@redhat.com, nsoffer@redhat.com,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missed in commit e13c59fa.
+Upcoming patches will enhance bitmap support in qemu-img, but in doing
+so, it turns out to be nice to suppress output when persistent bitmaps
+make no sense (such as on a qcow2 v2 image).  Add a hook to make this
+easier to query.
+
+This patch adds a new callback .bdrv_supports_persistent_dirty_bitmap,
+rather than trying to shoehorn the answer in via existing callbacks.
+In particular, while it might have been possible to overload
+.bdrv_co_can_store_new_dirty_bitmap to special-case a NULL input to
+answer whether any persistent bitmaps are supported, that is at odds
+with whether a particular bitmap can be stored (for example, even on
+an image that supports persistent bitmaps but has currently filled up
+the maximum number of bitmaps, attempts to store another one should
+fail); and the new functionality doesn't require coroutine safety.
+Similarly, we could have added one more piece of information to
+.bdrv_get_info, but then again, most callers to that function tend to
+already discard extraneous information, and making it a catch-all
+rather than a series of dedicated scalar queries hasn't really
+simplified life.
+
+In the future, when we improve the ability to look up bitmaps through
+a filter, we will probably also want to teach the block layer to
+automatically let filters pass this request on through.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- qemu-img.c       | 2 +-
- qemu-img-cmds.hx | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ block/qcow2.h                | 1 +
+ include/block/block_int.h    | 1 +
+ include/block/dirty-bitmap.h | 1 +
+ block/dirty-bitmap.c         | 9 +++++++++
+ block/qcow2-bitmap.c         | 7 +++++++
+ block/qcow2.c                | 2 ++
+ 6 files changed, 21 insertions(+)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 6a4327aaba56..b6e8af9202a5 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -108,7 +108,7 @@ static void QEMU_NORETURN unrecognized_option(const char *option)
-     error_exit("unrecognized option '%s'", option);
+diff --git a/block/qcow2.h b/block/qcow2.h
+index f4de0a27d5c3..c94beb7f8716 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -764,6 +764,7 @@ bool qcow2_co_can_store_new_dirty_bitmap(BlockDriverState *bs,
+ int qcow2_co_remove_persistent_dirty_bitmap(BlockDriverState *bs,
+                                             const char *name,
+                                             Error **errp);
++bool qcow2_supports_persistent_dirty_bitmap(BlockDriverState *bs);
+
+ ssize_t coroutine_fn
+ qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index df6d0273d679..5bcd6aa39f6c 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -560,6 +560,7 @@ struct BlockDriver {
+                              uint64_t parent_perm, uint64_t parent_shared,
+                              uint64_t *nperm, uint64_t *nshared);
+
++    bool (*bdrv_supports_persistent_dirty_bitmap)(BlockDriverState *bs);
+     bool (*bdrv_co_can_store_new_dirty_bitmap)(BlockDriverState *bs,
+                                                const char *name,
+                                                uint32_t granularity,
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index 8a1002941892..5a8d52e4deaf 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -16,6 +16,7 @@ typedef enum BitmapCheckFlags {
+
+ #define BDRV_BITMAP_MAX_NAME_SIZE 1023
+
++bool bdrv_supports_persistent_dirty_bitmap(BlockDriverState *bs);
+ BdrvDirtyBitmap *bdrv_create_dirty_bitmap(BlockDriverState *bs,
+                                           uint32_t granularity,
+                                           const char *name,
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 063793e31606..f9bfc77985e8 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -478,6 +478,15 @@ int bdrv_remove_persistent_dirty_bitmap(BlockDriverState *bs, const char *name,
+     }
  }
 
--/* Please keep in synch with qemu-img.texi */
-+/* Please keep in synch with docs/tools/qemu-img.rst */
- static void QEMU_NORETURN help(void)
- {
-     const char *help_msg =
-diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index c9c54de1df40..e0886437b1f2 100644
---- a/qemu-img-cmds.hx
-+++ b/qemu-img-cmds.hx
-@@ -7,7 +7,7 @@ HXCOMM command structures and help message.
- HXCOMM HXCOMM can be used for comments, discarded from both rST and C
++bool
++bdrv_supports_persistent_dirty_bitmap(BlockDriverState *bs)
++{
++    if (bs->drv && bs->drv->bdrv_supports_persistent_dirty_bitmap) {
++        return bs->drv->bdrv_supports_persistent_dirty_bitmap(bs);
++    }
++    return false;
++}
++
+ static bool coroutine_fn
+ bdrv_co_can_store_new_dirty_bitmap(BlockDriverState *bs, const char *name,
+                                    uint32_t granularity, Error **errp)
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index cb06954b4a5a..1cf6d2ab77a3 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -1748,3 +1748,10 @@ fail:
+                   name, bdrv_get_device_or_node_name(bs));
+     return false;
+ }
++
++bool qcow2_supports_persistent_dirty_bitmap(BlockDriverState *bs)
++{
++    BDRVQcow2State *s = bs->opaque;
++
++    return s->qcow_version >= 3;
++}
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 1ad95ff04851..1c8f3ab8ae68 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -5663,6 +5663,8 @@ BlockDriver bdrv_qcow2 = {
+     .bdrv_detach_aio_context  = qcow2_detach_aio_context,
+     .bdrv_attach_aio_context  = qcow2_attach_aio_context,
 
- HXCOMM When amending the rST sections, please remember to copy the usage
--HXCOMM over to the per-command sections in qemu-img.texi.
-+HXCOMM over to the per-command sections in docs/tools/qemu-img.rst.
-
- DEF("amend", img_amend,
-     "amend [--object objectdef] [--image-opts] [-p] [-q] [-f fmt] [-t cache] -o options filename")
++    .bdrv_supports_persistent_dirty_bitmap =
++            qcow2_supports_persistent_dirty_bitmap,
+     .bdrv_co_can_store_new_dirty_bitmap = qcow2_co_can_store_new_dirty_bitmap,
+     .bdrv_co_remove_persistent_dirty_bitmap =
+             qcow2_co_remove_persistent_dirty_bitmap,
 -- 
 2.26.2
 
