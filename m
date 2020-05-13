@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774041D214D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 23:44:50 +0200 (CEST)
-Received: from localhost ([::1]:48684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446681D2149
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 23:42:53 +0200 (CEST)
+Received: from localhost ([::1]:44456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYzBJ-0001Au-HV
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 17:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34056)
+	id 1jYz9P-0007u8-Q9
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 17:42:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8F-0006re-Ip
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8F-0006rh-IO
  for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:39 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:34531
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:21271
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8E-0005a5-5w
- for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYz8E-0005ac-RL
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 17:41:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589406096;
+ s=mimecast20190719; t=1589406098;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kXoCwbk+3HXyEFBiiOU0vwvD6R17WSdenHb1GicYPzY=;
- b=dXGVCZM8SuMtSgKjgdZR1uhxlQugFnlfStQxsPiMET4xQiBsHR0CpmD9eJG/YyJL4KEWiJ
- QAGviX6LiokLaY+Tc2SQoPCT/moOXOYX6p3GG3yxrn2EoXeqZtCRo66+FsUorem/y6jMRf
- 1cbC4FMzapqqzZF12PP0/RzFcP6svvA=
+ bh=0QffVv5xbmQImW4UmidPHrV3KfMFnmJXLW/0kpOw5Hc=;
+ b=VhBY6n87g+8U+4nlIniW+JC6u1PDNgOJaKQAwF68tul5V+loDBjCEfOUVeSZ2oY9DVq+ck
+ q4vnWYJ3zGi10k/DDk6TVyMnTy0r6l4oRmusBwaODWRJrPMGfMRJ2/lyjf7kJTJiLCK7XB
+ dM50V8R8OM2kbLYll4AVKIaSnC8QWyQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-fMQ1shCZOFaNvBsxlgv9Pw-1; Wed, 13 May 2020 17:41:33 -0400
-X-MC-Unique: fMQ1shCZOFaNvBsxlgv9Pw-1
+ us-mta-172-UdF1q2RmN5qu5NPljf8WsA-1; Wed, 13 May 2020 17:41:34 -0400
+X-MC-Unique: UdF1q2RmN5qu5NPljf8WsA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD834801503;
- Wed, 13 May 2020 21:41:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8AE883DE6C;
+ Wed, 13 May 2020 21:41:33 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-80.rdu2.redhat.com [10.10.113.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2BEB21C94D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0DE9A1C94D;
  Wed, 13 May 2020 21:41:32 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC WIP 1/6] iotests: type hint wip
-Date: Wed, 13 May 2020 17:41:25 -0400
-Message-Id: <20200513214130.15375-2-jsnow@redhat.com>
+Subject: [PATCH RFC WIP 2/6] Makefile: add delint WIP
+Date: Wed, 13 May 2020 17:41:26 -0400
+Message-Id: <20200513214130.15375-3-jsnow@redhat.com>
 In-Reply-To: <20200513214130.15375-1-jsnow@redhat.com>
 References: <20200513214130.15375-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,60 +84,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ tests/qemu-iotests/Makefile | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 6c0e781af7..27c477c8a7 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -90,7 +90,7 @@
- luks_default_key_secret_opt = 'key-secret=keysec0'
+diff --git a/tests/qemu-iotests/Makefile b/tests/qemu-iotests/Makefile
+index 27380e60c1..7dbb7f0fff 100644
+--- a/tests/qemu-iotests/Makefile
++++ b/tests/qemu-iotests/Makefile
+@@ -1,3 +1,6 @@
++PYMODULES = $(wildcard *.py)
++
++KNOWN_GOOD = iotests.py
  
+ CLEANFILES= *.out.bad *.notrun check.log check.time*
  
--def qemu_img(*args):
-+def qemu_img(*args) -> int:
-     '''Run qemu-img and return the exit code'''
-     devnull = open('/dev/null', 'r+')
-     exitcode = subprocess.call(qemu_img_args + list(args),
-@@ -113,24 +113,24 @@ def ordered_qmp(qmsg, conv_keys=True):
-         return od
-     return qmsg
+@@ -7,3 +10,6 @@ default:
+ clean:
+ 	rm -f $(CLEANFILES)
  
--def qemu_img_create(*args):
--    args = list(args)
-+def qemu_img_create(*args: str) -> int:
-+    qargs = list(args)
- 
-     # default luks support
--    if '-f' in args and args[args.index('-f') + 1] == 'luks':
--        if '-o' in args:
--            i = args.index('-o')
--            if 'key-secret' not in args[i + 1]:
--                args[i + 1].append(luks_default_key_secret_opt)
--                args.insert(i + 2, '--object')
--                args.insert(i + 3, luks_default_secret_object)
-+    if '-f' in qargs and qargs[qargs.index('-f') + 1] == 'luks':
-+        if '-o' in qargs:
-+            i = qargs.index('-o')
-+            if 'key-secret' not in qargs[i + 1]:
-+                qargs[i + 1].append(luks_default_key_secret_opt)
-+                qargs.insert(i + 2, '--object')
-+                qargs.insert(i + 3, luks_default_secret_object)
-         else:
--            args = ['-o', luks_default_key_secret_opt,
--                    '--object', luks_default_secret_object] + args
-+            qargs = ['-o', luks_default_key_secret_opt,
-+                     '--object', luks_default_secret_object] + qargs
- 
--    args.insert(0, 'create')
-+    qargs.insert(0, 'create')
- 
--    return qemu_img(*args)
-+    return qemu_img(*qargs)
- 
- def qemu_img_verbose(*args):
-     '''Run qemu-img without suppressing its output and return the exit code'''
++delint:
++	pylint $(KNOWN_GOOD)
++	pylint --disable=R,C,W $(filter-out $(KNOWN_GOOD), $(PYMODULES))
 -- 
 2.21.1
 
