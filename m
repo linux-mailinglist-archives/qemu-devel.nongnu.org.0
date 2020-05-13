@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4169F1D1C76
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:40:36 +0200 (CEST)
-Received: from localhost ([::1]:56216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA8F1D1C61
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 19:38:26 +0200 (CEST)
+Received: from localhost ([::1]:51588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYvMw-0000nQ-Td
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:40:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56904)
+	id 1jYvKr-0006Zl-U3
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 13:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <salvatore.bonaccorso@gmail.com>)
- id 1jYvFS-0006Bk-5Q
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:32:50 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <salvatore.bonaccorso@gmail.com>)
- id 1jYvFR-0007ss-97
- for qemu-devel@nongnu.org; Wed, 13 May 2020 13:32:49 -0400
-Received: by mail-wr1-x442.google.com with SMTP id y3so494421wrt.1
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 10:32:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=7ORQbsJQ5tB+ize2DN3Qw0Beopk/JpiGedXtzTLQn+c=;
- b=aOuiIYvETSyzv0eLcXvFWxzlYPbpPvWL5YZtK67Axp6LiyxoIkgdBdQs5PifnMuP9I
- 7ArN1VHSv6Hig4M91dgqqZ7ov233ggSxTnTmvkuadlEfif5QM6UGblSTJR4Jjw9k1Uz7
- r5Gi8BxOnywD5fRo/K0T4ROAF8aQmfq7sDOa0XWjJtr3EcNqyeCi65tCZtPTU2iCtuWB
- FywGg0nI6b7FFThELP/JQNiOvrv1KU4m0vsYryGecjG0MN0Aj9oil5gseJE+bjjvc2Xa
- nuJGsS5ddCS4CzIK5sSzEfcPEpN2IRfkyoAEgfrTu9x0eA+J1FA9mog1pB8hpjfZFy8K
- OIfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=7ORQbsJQ5tB+ize2DN3Qw0Beopk/JpiGedXtzTLQn+c=;
- b=eMNPDeyhwDuvNRB3CmYZEquVqaJefIAYc/JQigxWE+j49dYdL8PY30ydox3GN1LTUz
- 0QOSeudguWXWj/PRzePEJKvjlBVmoQnIETeSKcw+B7+m4KNGQRJMUDm+78/XSwosocjb
- 0p7e9OdtI4pOm5tL1A6/SjNI7WvkHmxkWuzmXNazvMGgA/zwc3J0tVCuDI5BUKHz2Y5y
- 3PBFp/RHadXCBszb28VD7Fi0BQMjCnuavdeIv+NL+qC8rIgsX4U/MqrJ8DhI33IdPhX5
- djTG038tyQ6ATxDk7QhwHGzDB5b5d7ZhDosyCbXPxhs29NSKXl9K8AibcA6rst8Q85Il
- k96A==
-X-Gm-Message-State: AOAM5327FemAPn1ggduxH2XoVnrrHbGu9YKdeXBII9M8/ApIFKlppvTU
- Wv2nMnGM9xLgxgCPVVdDhP0=
-X-Google-Smtp-Source: ABdhPJx+fmeOCb28BEqWV2svM81xlrBvbm18UvIYXSdJAqS54LqIIDKOXblsUv+OQjjO72nkRXgIVA==
-X-Received: by 2002:adf:f786:: with SMTP id q6mr451963wrp.120.1589391167667;
- Wed, 13 May 2020 10:32:47 -0700 (PDT)
-Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
- by smtp.gmail.com with ESMTPSA id j2sm236991wrp.47.2020.05.13.10.32.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 10:32:46 -0700 (PDT)
-Date: Wed, 13 May 2020 19:32:46 +0200
-From: Salvatore Bonaccorso <carnil@debian.org>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH] tests/docker: Kludge <linux/swab.h> breakage by pinning
- linux-libc-dev
-Message-ID: <20200513173246.GB1720163@eldamar.local>
-References: <20200513120147.21443-1-f4bug@amsat.org>
- <87a72beuhn.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvJD-0003jt-Fb
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:36:43 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47323
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvJC-0000Hj-1B
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 13:36:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589391400;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=29xR7eSFsft47+HmIv3IYFkHCr2E5RuYKsnBau8upZ8=;
+ b=TqdhEPpBWUc9FiK62why9PS8OrX1G6Gds3bG20kPJQjVcXOIWAdljoJJt5ZAA3kkMaUP3f
+ 63V4+nPLX6ZZuVXTi3eIfNg340OeOdACrYy0vB+6ZnpPVAxFJVHENNutp1ch68b9qWUkzW
+ 5n9Pso/H6ehtNWBLShZyTYE+jNBYt5Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-4EWYO0XuOcujTMossIegkw-1; Wed, 13 May 2020 13:36:28 -0400
+X-MC-Unique: 4EWYO0XuOcujTMossIegkw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7D5C1902EA0;
+ Wed, 13 May 2020 17:36:26 +0000 (UTC)
+Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C6B438D;
+ Wed, 13 May 2020 17:36:26 +0000 (UTC)
+Subject: Re: [PATCH v4 04/34] block: Add BdrvChildRole and BdrvChildRoleBits
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20200513110544.176672-1-mreitz@redhat.com>
+ <20200513110544.176672-5-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ac5c9ffc-2399-7b0c-0aaf-accf6c0d377a@redhat.com>
+Date: Wed, 13 May 2020 12:36:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87a72beuhn.fsf@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=salvatore.bonaccorso@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+In-Reply-To: <20200513110544.176672-5-mreitz@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 03:05:18
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,78 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Christian Borntraeger <borntraeger@de.ibm.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On Wed, May 13, 2020 at 04:15:48PM +0100, Alex Bennée wrote:
+On 5/13/20 6:05 AM, Max Reitz wrote:
+> This mask will supplement BdrvChildClass when it comes to what role (or
+> combination of roles) a child takes for its parent.  It consists of
+> BdrvChildRoleBits values (which is an enum).
 > 
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> Because empty enums are not allowed, let us just start with it filled.
 > 
-> > Linux kernel commit d5767057c9a [1] aimed to fix an issue with the
-> > swab() declaration, but doing so it introduced the BITS_PER_LONG
-> > definition, without using the kernel __ prefix, leading to odd
-> > failures in userland code using kernel uapi headers, such:
-> >
-> >       CC      block/file-posix.o
-> >     In file included from include/qemu/timer.h:4,
-> >                      from include/qemu/timed-average.h:29,
-> >                      from include/block/accounting.h:28,
-> >                      from include/block/block_int.h:27,
-> >                      from block/file-posix.c:30:
-> >     /usr/include/linux/swab.h: In function `__swab':
-> >     include/qemu/bitops.h:20:34: error: "sizeof" is not defined, evaluates to 0 [-Werror=undef]
-> >        20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
-> >           |                                  ^~~~~~
-> >     include/qemu/bitops.h:20:41: error: missing binary operator before token "("
-> >        20 | #define BITS_PER_LONG           (sizeof (unsigned long) * BITS_PER_BYTE)
-> >           |                                         ^
-> >     cc1: all warnings being treated as errors
-> >     make: *** [rules.mak:69: block/file-posix.o] Error 1
-> >
-> > The issue has been fixed in Linux kernel commit 467d12f5c78 [2].
-> > Some distributions already backported the first commit, but still
-> > lack the second one.
-> >
-> > This is the case for Debian Buster.
-> > The linux-libc-dev package contains the Linux kernel headers.
-> > Kernel commit d5767057c9a has been backported in package
-> > commit 1fb0eb7956 "Update to 4.19.116" [3], see debian/changelog:
-> >
-> >   +linux (4.19.116-1) UNRELEASED; urgency=medium
-> >   ...
-> >   +    - uapi: rename ext2_swab() to swab() and share globally in swab.h
-> >
-> > The previous released update before it is debian/4.19.98-1,
-> > released as debian/4.19.98-1+deb10u1.
-> >
-> > We can find this package in the Debian snapshot archives,
-> > luckily archived on 2020-04-28 21:20:54 (see [4]).
-> >
-> > QEMU use Debian based Docker images for most of its cross-builds,
-> > which are tested by our Shippable CI jobs. The current broken
-> > package makes most of our CI red. We can kludge this by using the
-> > latest package released before the breakage. Do so by pinning
-> > the package version (apt hold), and using the snapshot archives,
-> > similar to commit b4048a7cd1.
-> > We'll revert once the fix is backported on Debian.
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   include/block/block.h | 56 +++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 56 insertions(+)
 > 
-> May as well mention:
-> 
->   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=960271
+> diff --git a/include/block/block.h b/include/block/block.h
+> index bc42e507bb..86cffa9ffd 100644
+> --- a/include/block/block.h
+> +++ b/include/block/block.h
+> @@ -268,6 +268,62 @@ enum {
+>       DEFAULT_PERM_UNCHANGED      = BLK_PERM_ALL & ~DEFAULT_PERM_PASSTHROUGH,
+>   };
+>   
+> +/*
+> + * Flags parent nodes give for the child nodes to specify what kind of
+> + * role(s) they take.
 
-FWIW, we applied in the buster packaging branch
-https://salsa.debian.org/kernel-team/linux/-/commit/a4fb2a7b7688f3a7cb36e17b9d8c661ac44a41a4
+Reads a bit awkwardly. Maybe:
 
-But the point release just happened last weekend, so it might take
-some time until the fix will enter either via the 10.5 point release
-or sooner by a needed update.
+Flags that parent nodes assign to child nodes to specify what kind of 
+role(s) they take.
 
-Regards,
-Salvatore
+Touching up grammar doesn't affect code correctness, so:
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
