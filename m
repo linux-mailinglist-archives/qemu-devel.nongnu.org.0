@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08CA31D1D5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:23:40 +0200 (CEST)
-Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020041D1D70
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:28:29 +0200 (CEST)
+Received: from localhost ([::1]:49234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYw2d-0000rQ-4L
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:23:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37118)
+	id 1jYw7H-0004wz-Ip
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvuL-0003sU-KN
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:15:05 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33042
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvuK-0001Ud-QT
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:15:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589393703;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gApSd30ZMKg/jas2KCKE4mCNtRGqWOp2oITD/c0hT+4=;
- b=YwpfcKnaTncLAElnmG+M09AjzR2QFxLfw0WEmvyOYwjXRvWo0SAiJoC8C1JNg3sEYooi3/
- H7w+R9LZSBxT8cSu1zP5r3FVQCtBn++JIO3MJ8hZRg1oJSEKsUNXTUcVnrjahOyKPpdbmT
- MpF3F3MnR1pApEopHhPXnd8AV/mIrYg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-HrFAXTf4Nd2hEC_EC7W4Og-1; Wed, 13 May 2020 14:14:59 -0400
-X-MC-Unique: HrFAXTf4Nd2hEC_EC7W4Og-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B91A11005512;
- Wed, 13 May 2020 18:14:58 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D0A760BF1;
- Wed, 13 May 2020 18:14:58 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/4] iotests: Enhance 223 to cover qemu-img map improvements
-Date: Wed, 13 May 2020 13:14:54 -0500
-Message-Id: <20200513181455.295267-1-eblake@redhat.com>
-In-Reply-To: <20200513133629.18508-1-eyal.moscovici@oracle.com>
-References: <20200513133629.18508-1-eyal.moscovici@oracle.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jYw6M-0004W2-Hx; Wed, 13 May 2020 14:27:30 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:37239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1jYw6L-0004BU-Id; Wed, 13 May 2020 14:27:30 -0400
+Received: by mail-io1-xd42.google.com with SMTP id u11so116639iow.4;
+ Wed, 13 May 2020 11:27:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nR7TRlGZlczMjxePx9kVhUNZSjisCs5/kvp3RzWY+WE=;
+ b=qGr3W9iHugFcL+p3nQS4eGtU/ql5PNU1rdIE32oyCofdJYuAAXPcxXsUExIMFBGunn
+ uniavoczhTnEg75am9NmwSMKHh11UU7LGkOPpndv9PnD06Kz7QCgYz9RmCMPxQ7YaIp/
+ h6AtPj9ABdg6VpGEkFGD4fsyuuIgxMdw2mlLNaHWMyBO8AJPewC+U8H7CYZXmWuMeOsV
+ JkOcxnfV38HQajpygwl3t0VmJ8oALAJoivlwBxJr8VV53SwiKLmi9LbuC1MB4oawl3yD
+ JoPyO9iJMznaj6we9FmLUeECCEXt8CuWBaiT5vkV1kMhb2TLS9aYNmBIS+X2BOT13F2/
+ NNIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nR7TRlGZlczMjxePx9kVhUNZSjisCs5/kvp3RzWY+WE=;
+ b=NHrBc8fpEWetB0WCLzGZamTGVFSHFALiPbhNdagetZyvzbplYPUaSuXkB+6CFObyYe
+ UvCMwh1bK6sAMYxWQLciVJqoXfiNm9gOqWSReLpxlpVuVZhh53CHcX2fOCai3FmhZI0H
+ jdjxd3fGXvnOhqVHSwG3AZLTFohfbXkYh1qBdbcbTfP7kch/XU4KQ8FeewLC5Jm/iJ/j
+ bkhhI4BFMBxqutyLFau4j2513+/zy4YBJCYSXllLYoUpx/95A+rQeUX/MHRaBbQIxJEv
+ fnRNCkLT4RbdJcZWUQqBgip4IjizEYXbHDQO9Q1PszAv2uMdIV/j709GO2trXlXGHbDt
+ hV4g==
+X-Gm-Message-State: AGi0PuY0/1BLu7a4NGVEqB4HPpUzqR5IbDyZDDPPti7cZxIhLX9CWs/t
+ FEEdGt46UQ9QaQGRYzdFkASiWgJVgNr1LOmPufg=
+X-Google-Smtp-Source: APiQypKVjBczwQNkp2UndcF5QIZapeVDIunMaBx8KEupdg3trjJkKbjzibAYd6ksv2gwkoWaHO7xor/Zsw+p01ttEz8=
+X-Received: by 2002:a02:a887:: with SMTP id l7mr786093jam.91.1589394447638;
+ Wed, 13 May 2020 11:27:27 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+References: <cover.1588878756.git.alistair.francis@wdc.com>
+In-Reply-To: <cover.1588878756.git.alistair.francis@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 13 May 2020 11:18:41 -0700
+Message-ID: <CAKmqyKNaVRi3u6qe4Obui5NktjemZYHFEbNz6PmsYk+Kf=hOfw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] RISC-V Add the OpenTitan Machine
+To: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,64 +78,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, liran.alon@oracle.com, eyal.moscovici@oracle.com,
- qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since qemu-img map + x-dirty-bitmap remains the easiest way to read
-persistent bitmaps at the moment, it makes a reasonable place to add
-coverage to ensure we do not regress on the just-added parameters to
-qemu-img map.
+On Thu, May 7, 2020 at 12:21 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> OpenTitan is an open source silicon Root of Trust (RoT) project. This
+> series adds initial support for the OpenTitan machine to QEMU.
+>
+> This series add the Ibex CPU to the QEMU RISC-V target. It then adds the
+> OpenTitan machine, the Ibex UART and the Ibex PLIC.
+>
+> The UART has been tested sending and receiving data.
+>
+> With this series QEMU can boot the OpenTitan ROM, Tock OS and a Tock
+> userspace app.
+>
+> The Ibex PLIC is similar to the RISC-V PLIC (and is based on the QEMU
+> implementation) with some differences. The hope is that the Ibex PLIC
+> will converge to follow the RISC-V spec. As that happens I want to
+> update the QEMU Ibex PLIC and hopefully eventually replace the current
+> PLIC as the implementation is a little overlay complex.
+>
+> For more details on OpenTitan, see here: https://docs.opentitan.org/
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
+Ping!
 
-[Resend for proper threading, since --in=reply-to= is not the same as
---in-reply-to=]
++ Some people who might be able to review this series (or at least ack).
 
- tests/qemu-iotests/223     | 6 ++++--
- tests/qemu-iotests/223.out | 3 ++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+I'll give it another week and if I don't hear anything I'll merge it.
 
-diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
-index 56fbc5fb09a0..d68bc3cb6f1a 100755
---- a/tests/qemu-iotests/223
-+++ b/tests/qemu-iotests/223
-@@ -2,7 +2,7 @@
- #
- # Test reading dirty bitmap over NBD
- #
--# Copyright (C) 2018-2019 Red Hat, Inc.
-+# Copyright (C) 2018-2020 Red Hat, Inc.
- #
- # This program is free software; you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
-@@ -206,7 +206,9 @@ $QEMU_IMG map --output=json --image-opts \
+Alistair
 
- nbd_server_start_unix_socket -f $IMGFMT -B b2 "$TEST_IMG"
- IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
--$QEMU_IMG map --output=json --image-opts \
-+$QEMU_IMG map --output=json --image-opts --max-length=12345 \
-+  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
-+$QEMU_IMG map --output=json --image-opts --start-offset=12345 \
-   "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
-
- # success, all done
-diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
-index 80c0cf65095b..e1eaaedb55b3 100644
---- a/tests/qemu-iotests/223.out
-+++ b/tests/qemu-iotests/223.out
-@@ -201,6 +201,7 @@ read 2097152/2097152 bytes at offset 2097152
- { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
- [{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
--{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 1024, "length": 11321, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+[{ "start": 12345, "length": 2084807, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
- *** done
--- 
-2.26.2
-
+>
+> v2:
+>  - Rebase on master
+>  - Get uart receive working
+>
+> Alistair Francis (9):
+>   riscv/boot: Add a missing header include
+>   target/riscv: Don't overwrite the reset vector
+>   target/riscv: Add the lowRISC Ibex CPU
+>   riscv: Initial commit of OpenTitan machine
+>   hw/char: Initial commit of Ibex UART
+>   hw/intc: Initial commit of lowRISC Ibex PLIC
+>   riscv/opentitan: Connect the PLIC device
+>   riscv/opentitan: Connect the UART device
+>   target/riscv: Use a smaller guess size for no-MMU PMP
+>
+>  MAINTAINERS                         |  14 +
+>  default-configs/riscv32-softmmu.mak |   1 +
+>  default-configs/riscv64-softmmu.mak |  11 +-
+>  hw/char/Makefile.objs               |   1 +
+>  hw/char/ibex_uart.c                 | 490 ++++++++++++++++++++++++++++
+>  hw/intc/Makefile.objs               |   1 +
+>  hw/intc/ibex_plic.c                 | 261 +++++++++++++++
+>  hw/riscv/Kconfig                    |   9 +
+>  hw/riscv/Makefile.objs              |   1 +
+>  hw/riscv/opentitan.c                | 204 ++++++++++++
+>  include/hw/char/ibex_uart.h         | 110 +++++++
+>  include/hw/intc/ibex_plic.h         |  63 ++++
+>  include/hw/riscv/boot.h             |   1 +
+>  include/hw/riscv/opentitan.h        |  79 +++++
+>  target/riscv/cpu.c                  |  30 +-
+>  target/riscv/cpu.h                  |   1 +
+>  target/riscv/pmp.c                  |  19 +-
+>  17 files changed, 1281 insertions(+), 15 deletions(-)
+>  create mode 100644 hw/char/ibex_uart.c
+>  create mode 100644 hw/intc/ibex_plic.c
+>  create mode 100644 hw/riscv/opentitan.c
+>  create mode 100644 include/hw/char/ibex_uart.h
+>  create mode 100644 include/hw/intc/ibex_plic.h
+>  create mode 100644 include/hw/riscv/opentitan.h
+>
+> --
+> 2.26.2
+>
 
