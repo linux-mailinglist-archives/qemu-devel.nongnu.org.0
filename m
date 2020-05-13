@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641981D207B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 22:59:45 +0200 (CEST)
-Received: from localhost ([::1]:55746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BCA1D2080
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 23:00:17 +0200 (CEST)
+Received: from localhost ([::1]:56960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYyTg-0003x6-F0
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 16:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57030)
+	id 1jYyUC-0004R8-SG
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 17:00:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYySR-000385-2g
- for qemu-devel@nongnu.org; Wed, 13 May 2020 16:58:27 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:54058
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYySn-0003aJ-S6
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 16:58:49 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:36505
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYySP-0003HZ-F9
- for qemu-devel@nongnu.org; Wed, 13 May 2020 16:58:26 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jYySm-0003Jm-U9
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 16:58:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589403504;
+ s=mimecast20190719; t=1589403528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8wLUdnFT09GDL04b6CqFzsLR99c0+umfo+U+BpFvMQk=;
- b=cCnyZ7Zt9yrMejnT51f4kVtkjMEpEyw23Bx/JglKHTmE7ST9w2+e2WsEAkDH26/PA1q2vm
- LgRMiGIxyXl4Qe24SjWrot0SWVds4/ZiNoMPzrujruxMBLUkQI3E/bfq2Pp3gT23NvWqvB
- RL9vLDPyZcIqsRXwG9di4eSvq4MZ9dc=
+ bh=3S+XiYEU0Qy7gvXO6xV0YhD9LowZaw7admNaj9kvec0=;
+ b=ZUlC192MC5USX/fcWDiIHckrv2CHsVfdrMbYk4silSQKMdINIcDDaPjXqa7t+qwI6p/OFA
+ mPOD90enlicufhZ7kSLdTOEoOkyJEhfp6LwstLWn4pChRFEQhfkZ1xVKo38qYScdVMOCUV
+ uzspD4XJwphFrVKnJqWQESnPVhxmcPk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-YZBuYDFdNvmjWrusuW7G8Q-1; Wed, 13 May 2020 16:58:19 -0400
-X-MC-Unique: YZBuYDFdNvmjWrusuW7G8Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-360-GYi5p3VONKG_gV_lbF5tyQ-1; Wed, 13 May 2020 16:58:45 -0400
+X-MC-Unique: GYi5p3VONKG_gV_lbF5tyQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD9ED1009443;
- Wed, 13 May 2020 20:58:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C19A380B70D;
+ Wed, 13 May 2020 20:58:43 +0000 (UTC)
 Received: from [10.10.113.80] (ovpn-113-80.rdu2.redhat.com [10.10.113.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92ADA6A94A;
- Wed, 13 May 2020 20:58:13 +0000 (UTC)
-Subject: Re: [PATCH v4 1/6] scripts/qemugdb: Remove shebang header
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F01C75297;
+ Wed, 13 May 2020 20:58:39 +0000 (UTC)
+Subject: Re: [PATCH v4 2/6] scripts/qemu-gdb: Use Python 3 interpreter
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20200512103238.7078-1-philmd@redhat.com>
- <20200512103238.7078-2-philmd@redhat.com>
+ <20200512103238.7078-3-philmd@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
@@ -121,18 +121,18 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <2178978e-5d14-3a94-d65c-f4d849e153ba@redhat.com>
-Date: Wed, 13 May 2020 16:58:13 -0400
+Message-ID: <ea78edf3-3ac0-8125-62c2-d1a8f41fb790@redhat.com>
+Date: Wed, 13 May 2020 16:58:38 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200512103238.7078-2-philmd@redhat.com>
+In-Reply-To: <20200512103238.7078-3-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
@@ -166,17 +166,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-
 On 5/12/20 6:32 AM, Philippe Mathieu-Daudé wrote:
 > From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > 
-> These scripts are loaded as plugin by GDB (and they don't
-> have any __main__ entry point). Remove the shebang header.
-> 
-> Acked-by: Alex Bennée <alex.bennee@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org
-(The A-B should come below the S-O-B unless you do mean to indicate
-you've since made changes that AB didn't acknowledge, I think.)
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
