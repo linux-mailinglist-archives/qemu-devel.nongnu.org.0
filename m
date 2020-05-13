@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668681D1F34
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 21:29:47 +0200 (CEST)
-Received: from localhost ([::1]:33592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5A21D1F3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 21:31:49 +0200 (CEST)
+Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYx4c-0001p0-F9
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 15:29:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45778)
+	id 1jYx6a-0004Ag-K8
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 15:31:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYx3G-0000Pz-7Q
- for qemu-devel@nongnu.org; Wed, 13 May 2020 15:28:27 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:38579
+ id 1jYx3O-0000XM-QZ
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 15:28:30 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36962
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1jYx3F-0000gL-Bg
- for qemu-devel@nongnu.org; Wed, 13 May 2020 15:28:21 -0400
+ id 1jYx3N-0000gz-RI
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 15:28:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589398100;
+ s=mimecast20190719; t=1589398109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g7Wwtk9ifLt2PW9urZRkD/faqZdWOc0LKdJZFY+87xA=;
- b=CRtFKZpGZ9MeqZcISkzv91NXDmPbzz2PHB0LqUSboXM9EYIkWSosankGSwp710hgIU8dJb
- PDUc/ORwdftA4tQ5OwW9rXWgvRU36apz+f+HSpoP+WfXe8oQNUmSff/p+D0zSdXO4K5AYh
- dUhbMIGDz4loFXFg+TJNiF/iU+RxYho=
+ bh=QCWBQbQl4M0in0x4J/3XDJi50raXKE6Z4/fhXhruLoA=;
+ b=Py7+t4JfMck7Kw9jdm9vhuYd9mwAQjA/PgAflYGwB+Ms8CkHoM5T2PdyFzlE+kjftIUD5x
+ LLqpZabNoMnglCqtj9Yh7CUJbDkwcv7vOB+tThOZr8KPPlWwjfPpVPRNykgB75o201Bm8Y
+ jAOWSUmVUefbJF4L0T8wyLWUTL7Dg7A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-yQ0E7Sn-OsivOsMxnUBH8Q-1; Wed, 13 May 2020 15:28:18 -0400
-X-MC-Unique: yQ0E7Sn-OsivOsMxnUBH8Q-1
+ us-mta-249-JBgZyYFKNgWwTLHAe9vcDw-1; Wed, 13 May 2020 15:28:27 -0400
+X-MC-Unique: JBgZyYFKNgWwTLHAe9vcDw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C4E6102CE3C;
- Wed, 13 May 2020 19:28:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E17BA107ACCA;
+ Wed, 13 May 2020 19:28:25 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.74.9.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 86B0B6A977;
- Wed, 13 May 2020 19:28:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B57046A977;
+ Wed, 13 May 2020 19:28:18 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v2 2/3] megasas: avoid NULL pointer dereference
-Date: Thu, 14 May 2020 00:55:39 +0530
-Message-Id: <20200513192540.1583887-3-ppandit@redhat.com>
+Subject: [PATCH v2 3/3] megasas: use unsigned type for positive numeric fields
+Date: Thu, 14 May 2020 00:55:40 +0530
+Message-Id: <20200513192540.1583887-4-ppandit@redhat.com>
 In-Reply-To: <20200513192540.1583887-1-ppandit@redhat.com>
 References: <20200513192540.1583887-1-ppandit@redhat.com>
 MIME-Version: 1.0
@@ -56,10 +56,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ppandit@redhat.com;
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=ppandit@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,30 +89,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-While in megasas_handle_frame(), megasas_enqueue_frame() may
-set a NULL frame into MegasasCmd object for a given 'frame_addr'
-address. Add check to avoid a NULL pointer dereference issue.
+Use unsigned type for the MegasasState fields which hold positive
+numeric values.
 
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Fixes: https://bugs.launchpad.net/qemu/+bug/1878259
 Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- hw/scsi/megasas.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/scsi/megasas.c | 38 +++++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index 6ce598cd69..b531d88a9b 100644
+index b531d88a9b..634af0bbb8 100644
 --- a/hw/scsi/megasas.c
 +++ b/hw/scsi/megasas.c
-@@ -504,7 +504,7 @@ static MegasasCmd *megasas_enqueue_frame(MegasasState *s,
-     cmd->pa = frame;
-     /* Map all possible frames */
-     cmd->frame = pci_dma_map(pcid, frame, &frame_size_p, 0);
--    if (frame_size_p != frame_size) {
-+    if (!cmd->frame || frame_size_p != frame_size) {
-         trace_megasas_qf_map_failed(cmd->index, (unsigned long)frame);
-         if (cmd->frame) {
-             megasas_unmap_frame(s, cmd);
+@@ -86,34 +86,34 @@ typedef struct MegasasState {
+     MemoryRegion queue_io;
+     uint32_t frame_hi;
+ 
+-    int fw_state;
++    uint32_t fw_state;
+     uint32_t fw_sge;
+     uint32_t fw_cmds;
+     uint32_t flags;
+-    int fw_luns;
+-    int intr_mask;
+-    int doorbell;
+-    int busy;
+-    int diag;
+-    int adp_reset;
++    uint32_t fw_luns;
++    uint32_t intr_mask;
++    uint32_t doorbell;
++    uint32_t busy;
++    uint32_t diag;
++    uint32_t adp_reset;
+     OnOffAuto msi;
+     OnOffAuto msix;
+ 
+     MegasasCmd *event_cmd;
+-    int event_locale;
++    uint16_t event_locale;
+     int event_class;
+-    int event_count;
+-    int shutdown_event;
+-    int boot_event;
++    uint32_t event_count;
++    uint32_t shutdown_event;
++    uint32_t boot_event;
+ 
+     uint64_t sas_addr;
+     char *hba_serial;
+ 
+     uint64_t reply_queue_pa;
+     void *reply_queue;
+-    int reply_queue_len;
++    uint16_t reply_queue_len;
+     uint16_t reply_queue_head;
+-    int reply_queue_tail;
++    uint16_t reply_queue_tail;
+     uint64_t consumer_pa;
+     uint64_t producer_pa;
+ 
+@@ -2259,9 +2259,9 @@ static const VMStateDescription vmstate_megasas_gen1 = {
+         VMSTATE_PCI_DEVICE(parent_obj, MegasasState),
+         VMSTATE_MSIX(parent_obj, MegasasState),
+ 
+-        VMSTATE_INT32(fw_state, MegasasState),
+-        VMSTATE_INT32(intr_mask, MegasasState),
+-        VMSTATE_INT32(doorbell, MegasasState),
++        VMSTATE_UINT32(fw_state, MegasasState),
++        VMSTATE_UINT32(intr_mask, MegasasState),
++        VMSTATE_UINT32(doorbell, MegasasState),
+         VMSTATE_UINT64(reply_queue_pa, MegasasState),
+         VMSTATE_UINT64(consumer_pa, MegasasState),
+         VMSTATE_UINT64(producer_pa, MegasasState),
+@@ -2278,9 +2278,9 @@ static const VMStateDescription vmstate_megasas_gen2 = {
+         VMSTATE_PCI_DEVICE(parent_obj, MegasasState),
+         VMSTATE_MSIX(parent_obj, MegasasState),
+ 
+-        VMSTATE_INT32(fw_state, MegasasState),
+-        VMSTATE_INT32(intr_mask, MegasasState),
+-        VMSTATE_INT32(doorbell, MegasasState),
++        VMSTATE_UINT32(fw_state, MegasasState),
++        VMSTATE_UINT32(intr_mask, MegasasState),
++        VMSTATE_UINT32(doorbell, MegasasState),
+         VMSTATE_UINT64(reply_queue_pa, MegasasState),
+         VMSTATE_UINT64(consumer_pa, MegasasState),
+         VMSTATE_UINT64(producer_pa, MegasasState),
 -- 
 2.25.4
 
