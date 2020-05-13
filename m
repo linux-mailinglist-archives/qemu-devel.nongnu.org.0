@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1381D1783
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 16:23:51 +0200 (CEST)
-Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159D01D17E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 16:49:46 +0200 (CEST)
+Received: from localhost ([::1]:34158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYsIY-0007pj-8E
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 10:23:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54502)
+	id 1jYshc-00074c-IN
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 10:49:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jYsHm-0007GC-9b
- for qemu-devel@nongnu.org; Wed, 13 May 2020 10:23:02 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:47151
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1jYsHl-0008GJ-Ey
- for qemu-devel@nongnu.org; Wed, 13 May 2020 10:23:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589379780;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9x9TkzH8Dgz+/crwUdJg5lEphBmRSN3yhYChYSmeAgI=;
- b=LW+1h80vTZ+da/oWF1Y0y+GNX5GUBBXDR4E+OBRlUDmDvd2e4GN6Czv/QXefq8/vAWovbT
- uNaIHhUC1zljiB8sgy7XVtdwE8giTgcvXITjRmSpWb/an8Vs1RvrSGq9FWlQ1uLuCVZ2Jp
- HhTXrYiwys6VGlf0E6ks+JNU5KFaFw8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-c48pkinhMN-OxMSRvNzfNA-1; Wed, 13 May 2020 10:22:57 -0400
-X-MC-Unique: c48pkinhMN-OxMSRvNzfNA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86FC98730B3;
- Wed, 13 May 2020 14:22:56 +0000 (UTC)
-Received: from localhost (ovpn-112-208.phx2.redhat.com [10.3.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D3D46B8C5;
- Wed, 13 May 2020 14:22:55 +0000 (UTC)
-Date: Wed, 13 May 2020 10:22:55 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/1] machine queue, 2020-05-13
-Message-ID: <20200513142255.GA577771@habkost.net>
-References: <20200513140057.576234-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1jYsgC-0006O6-RQ
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 10:48:16 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25094)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1jYsgB-00070y-5H
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 10:48:16 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04DEWKEQ009170; Wed, 13 May 2020 10:48:10 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3101maet5m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 May 2020 10:48:10 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04DEYsxJ027295;
+ Wed, 13 May 2020 10:48:10 -0400
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3101maet4n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 May 2020 10:48:10 -0400
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04DEl8OU025719;
+ Wed, 13 May 2020 14:48:08 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03wdc.us.ibm.com with ESMTP id 3100ub79bh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 13 May 2020 14:48:08 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04DEm7pd25559398
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 May 2020 14:48:07 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A9BCE6A051;
+ Wed, 13 May 2020 14:48:07 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C47C66A047;
+ Wed, 13 May 2020 14:48:06 +0000 (GMT)
+Received: from [9.160.50.49] (unknown [9.160.50.49])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 13 May 2020 14:48:06 +0000 (GMT)
+Subject: Re: [PATCH 0/4] Add support for SafeStack
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20200429194420.21147-1-dbuono@linux.vnet.ibm.com>
+ <51f28cf2-0f34-508f-96f8-02c02b3c8a85@redhat.com>
+ <20200505133111.GM764268@redhat.com>
+ <c6ac2d0e-34bf-9927-f2fe-2ef0408dcbfb@redhat.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <7f6916f8-c559-ebae-e6b2-75083f3ff2e5@linux.vnet.ibm.com>
+Date: Wed, 13 May 2020 10:48:04 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200513140057.576234-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 01:56:38
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <c6ac2d0e-34bf-9927-f2fe-2ef0408dcbfb@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-13_06:2020-05-13,
+ 2020-05-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ cotscore=-2147483648 clxscore=1011 malwarescore=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=999
+ spamscore=0 phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2005130126
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 10:48:11
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,75 +106,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---liOOAslEiF7prFVr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello everybody, just pinging since it it's been a few days.
 
-Peter, note that my PGP key had expired 2 weeks ago, so you'll
-probably see a few signature check warnings.
-
-On Wed, May 13, 2020 at 10:00:56AM -0400, Eduardo Habkost wrote:
-> The following changes since commit de2f658b6bb422ec0e0fa94a49e476018602ee=
-ea:
->=20
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
-00511' into staging (2020-05-11 14:34:27 +0100)
->=20
-> are available in the Git repository at:
->=20
->   git://github.com/ehabkost/qemu.git tags/machine-next-pull-request
->=20
-> for you to fetch changes up to 70b6d525dfb51d5e523d568d1139fc051bc223c5:
->=20
->   hostmem: don't use mbind() if host-nodes is empty (2020-05-12 12:48:57 =
--0400)
->=20
-> ----------------------------------------------------------------
-> machine queue, 2020-05-13
->=20
-> Bug fixes:
-> * hostmem: don't use mbind() if host-nodes is empty (Igor Mammedov)
->=20
-> ----------------------------------------------------------------
->=20
-> Igor Mammedov (1):
->   hostmem: don't use mbind() if host-nodes is empty
->=20
->  backends/hostmem.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> --=20
-> 2.26.2
->=20
-
---=20
-Eduardo
-
---liOOAslEiF7prFVr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEWjIv1avE09usz9GqKAeTb5hNxaYFAl68ArsACgkQKAeTb5hN
-xaaeZQ//Vp6uDxlci+1JAkgMYIvjHJD+y67xtPZyDqiE15MLel1kFfqFPD1mCKPW
-xghYAndXwGMm5df562Vs0XE6pAedKWijmYo7ZJGBJguaqaZlPm9M0tj4l1Ug7fik
-a+Ylwliami3Rn60c4Y4XhZC8X+duboys8S4WMWsMVIaXAiK5g9ffck9VvuyNAGo6
-GLKfkYeKRd9Sd91omsSyegEtP3/ffmQC5WKidSyiCRJrjnEeSKyl7aG5Ux8lsTDa
-gXQv10wXdAE3HfyAQFdreqLH20Jxwk4IgOoiRpwlKXPo8q2z5mGQ5GqPVjP3ueZE
-3Y8HOq0TniSDi/HYzBxNVY3bfyaUQnv00jYm3hht0qxtfPtlOdtqN+v3Ij/Ahsrb
-gmytT5UWkxI+JKWFKCRdNlm4+ogYlnE961Gs7CgLBhNfesaSSYgEJOaLixHflE1a
-J14ZbHjfnmfizy49a8SVLfNosF/rPdQVOGTdwWf8/FKomowjLsrbtj5EFdGCblwD
-jiUJ8NGN5RTlJu/UO10kCnKMxvMLAaOpZxS4e8DJDpARe8CYEehCKaeNDCbND4Pv
-pRUIuab4KVnRRdmP/COFs8FfwOfKGGeIQNXcXTSD0fahBfcyBq/qSwiLBNvOX+t+
-aOyBd4QXRNRjig/e2PmqgPC4P2szXIqPRPjcs4UobS/6HUv5oCo=
-=dhgX
------END PGP SIGNATURE-----
-
---liOOAslEiF7prFVr--
-
+On 5/5/2020 9:56 AM, Philippe Mathieu-Daudé wrote:
+> On 5/5/20 3:31 PM, Daniel P. Berrangé wrote:
+>> On Tue, May 05, 2020 at 03:15:18PM +0200, Philippe Mathieu-Daudé wrote:
+>>> +Alex & Daniel who keep track on CI stuff.
+>>>
+>>> On 4/29/20 9:44 PM, Daniele Buono wrote:
+>>>> LLVM supports SafeStack instrumentation to protect against stack buffer
+>>>> overflows, since version 3.7
+>>>>
+>>>>   From https://clang.llvm.org/docs/SafeStack.html:
+>>>> "It works by separating the program stack into two distinct regions: 
+>>>> the
+>>>> safe stack and the unsafe stack. The safe stack stores return 
+>>>> addresses,
+>>>> register spills, and local variables that are always accessed in a safe
+>>>> way, while the unsafe stack stores everything else. This separation
+>>>> ensures that buffer overflows on the unsafe stack cannot be used to
+>>>> overwrite anything on the safe stack."
+>>>>
+>>>> Unfortunately, the use of two stack regions does not cope well with
+>>>> QEMU's coroutines. The second stack region is not properly set up with
+>>>> both ucontext and sigaltstack, so multiple coroutines end up sharing 
+>>>> the
+>>>> same memory area for the unsafe stack, causing undefined behaviors at
+>>>> runtime (and most iochecks to fail).
+>>>>
+>>>> This patch series fixes the implementation of the ucontext backend and
+>>>> make sure that sigaltstack is never used if the compiler is applying
+>>>> the SafeStack instrumentation. It also adds a configure flag to enable
+>>>> SafeStack, and enables iotests when SafeStack is used.
+>>>>
+>>>> This is an RFC mainly because of the low-level use of the SafeStack
+>>>> runtime.
+>>>> When running swapcontext(), we have to manually set the unsafe stack
+>>>> pointer to the new area allocated for the coroutine. LLVM does not 
+>>>> allow
+>>>> this by using builtin, so we have to use implementation details that 
+>>>> may
+>>>> change in the future.
+>>>> This patch has been tested briefly ( make check on an x86 system ) with
+>>>> clang v3.9, v4.0, v5.0, v6.0
+>>>> Heavier testing, with make check-acceptance has been performed with
+>>>> clang v7.0
+>>>
+>>> I noticed building using SafeStack is slower, and running with it is 
+>>> even
+>>> sloooower. It makes sense to have this integrated if we use it 
+>>> regularly. Do
+>>> you have plan for this? Using public CI doesn't seem reasonable.
+>>
+>> The runtime behaviour is rather odd, given the docs they provide:
+>>
+>> "The performance overhead of the SafeStack instrumentation is
+>>   less than 0.1% on average across a variety of benchmarks
+>>   This is mainly because most small functions do not have any
+>>   variables that require the unsafe stack and, hence, do not
+>>   need unsafe stack frames to be created. The cost of creating
+>>   unsafe stack frames for large functions is amortized by the
+>>   cost of executing the function.
+>>
+>>    In some cases, SafeStack actually improves the performance"
+> 
+> I'm sorry I was testing this with a single core instead of all of 
+> them... Thanks for looking at the doc.
+> 
+>>
+>> Regards,
+>> Daniel
+>>
+> 
+> 
 
