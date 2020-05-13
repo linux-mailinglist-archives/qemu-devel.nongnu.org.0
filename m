@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1016C1D1D58
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:21:25 +0200 (CEST)
-Received: from localhost ([::1]:60442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CA31D1D5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 May 2020 20:23:40 +0200 (CEST)
+Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jYw0R-0003r9-KO
-	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:21:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36452)
+	id 1jYw2d-0000rQ-4L
+	for lists+qemu-devel@lfdr.de; Wed, 13 May 2020 14:23:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYvpc-0003vV-7P
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:10:12 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:36629)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1jYvpZ-0000NC-Pv
- for qemu-devel@nongnu.org; Wed, 13 May 2020 14:10:11 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id z1so104466pfn.3
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 11:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NLyUmEZ5i6oZApVfDSFYVtzokpBFXsLQ3SNKAJFbA44=;
- b=jVxX5j5LyRLS0DrRPjvuhoE7z2M1L0tjIIJuQ64bdi7yqih7+KWZqf/t37HtF+5H/6
- DBJLXN1rbhhtoDyj5CwrPd+SAFfh5kiled4mJmekfee1Iid07BNMluryy7VqIirSH49t
- jX9E8jL/iAarOnuj/R/wxrU1YU5tcWqvQBa6LE3P7zaxhIBsh2KTDnmCcedbnA5Q4ijX
- YiCr+uQxRXYrPXVEvueuGms8OdoF+VCkMmRRoG4yXOO/kG18I97mlUk3W1Dv8X3hq8EZ
- /nIiYff4oLIPX5Q/YJd+xj7dGJ6p6Uyitb9m0opDp5teBnQL1mdBLBcwsEE8y9M+DnER
- q1Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NLyUmEZ5i6oZApVfDSFYVtzokpBFXsLQ3SNKAJFbA44=;
- b=RmMew+ipvmleTQBM9zQEsqEmVIe0p/X45VDCDwYhddcd1fbIk5IgwJYS5COzy5TCdr
- VwU7rRWvzJjhv7PoqXmAxRAsCnyH9IRxrzHBd9WQOMBmvP4K4jLWKJOPmWWfm/c11yoN
- lOwEwUZ2UMWYDiYLnShjK4Bx6L2S1qVepAcNuMG3OPt955ciPDb29dZ81UuCLi8grZ1A
- /rznhd3iOm981dXiO9DiRJceRz1VcKDPPyUFj26dp12SzUlqQdXePDdGL/ZyqKisQ9Yo
- L5xMIwigQmw1VuzhuvN7sqor0zwLhQP/VvuTJZ8OhnFSPgi+075Jx1E6MxPeoSJUYLCB
- tHEA==
-X-Gm-Message-State: AOAM531OC20bvQS4GAstSvuaiNY75frQUNAwBYfWhCXzLrZcOlh+A6iQ
- uFdbb6ao8UTm82Zk1jnJtjz7wIs77uQ=
-X-Google-Smtp-Source: ABdhPJz9bTowWW2/MORGr/yqj0c93Nq3mAwJa8A0xxX6Vqvt/4gW1JC+rFwFsW7QnKjpVbG9uxuYSA==
-X-Received: by 2002:a63:5542:: with SMTP id f2mr489628pgm.384.1589393407686;
- Wed, 13 May 2020 11:10:07 -0700 (PDT)
-Received: from localhost.localdomain (174-21-143-238.tukw.qwest.net.
- [174.21.143.238])
- by smtp.gmail.com with ESMTPSA id i185sm197361pfg.14.2020.05.13.11.10.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 May 2020 11:10:06 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvuL-0003sU-KN
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 14:15:05 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:33042
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jYvuK-0001Ud-QT
+ for qemu-devel@nongnu.org; Wed, 13 May 2020 14:15:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589393703;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gApSd30ZMKg/jas2KCKE4mCNtRGqWOp2oITD/c0hT+4=;
+ b=YwpfcKnaTncLAElnmG+M09AjzR2QFxLfw0WEmvyOYwjXRvWo0SAiJoC8C1JNg3sEYooi3/
+ H7w+R9LZSBxT8cSu1zP5r3FVQCtBn++JIO3MJ8hZRg1oJSEKsUNXTUcVnrjahOyKPpdbmT
+ MpF3F3MnR1pApEopHhPXnd8AV/mIrYg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-113-HrFAXTf4Nd2hEC_EC7W4Og-1; Wed, 13 May 2020 14:14:59 -0400
+X-MC-Unique: HrFAXTf4Nd2hEC_EC7W4Og-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B91A11005512;
+ Wed, 13 May 2020 18:14:58 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-116-145.phx2.redhat.com [10.3.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D0A760BF1;
+ Wed, 13 May 2020 18:14:58 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RISU 9/9] Add --dump option to inspect trace files
-Date: Wed, 13 May 2020 11:09:53 -0700
-Message-Id: <20200513180953.20376-10-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200513180953.20376-1-richard.henderson@linaro.org>
-References: <20200513180953.20376-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 5/4] iotests: Enhance 223 to cover qemu-img map improvements
+Date: Wed, 13 May 2020 13:14:54 -0500
+Message-Id: <20200513181455.295267-1-eblake@redhat.com>
+In-Reply-To: <20200513133629.18508-1-eyal.moscovici@oracle.com>
+References: <20200513133629.18508-1-eyal.moscovici@oracle.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 04:17:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,381 +77,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
+Cc: kwolf@redhat.com, liran.alon@oracle.com, eyal.moscovici@oracle.com,
+ qemu-block@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adjust some of the aarch64 code to look at the reginfo struct
-instead of looking at test_sve, so that we do not need to pass
-the --test-sve option in order to dump sve trace files.
+Since qemu-img map + x-dirty-bitmap remains the easiest way to read
+persistent bitmaps at the moment, it makes a reasonable place to add
+coverage to ensure we do not regress on the just-added parameters to
+qemu-img map.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- risu.h                 |   1 +
- risu.c                 | 111 ++++++++++++++++++++++++++++++++++++++++-
- risu_reginfo_aarch64.c |  55 ++++++++++++--------
- risu_reginfo_arm.c     |   4 ++
- risu_reginfo_i386.c    |   4 ++
- risu_reginfo_m68k.c    |   4 ++
- risu_reginfo_ppc64.c   |   4 ++
- 7 files changed, 161 insertions(+), 22 deletions(-)
 
-diff --git a/risu.h b/risu.h
-index 0ae7fa9..515e5c2 100644
---- a/risu.h
-+++ b/risu.h
-@@ -23,6 +23,7 @@
- extern const struct option * const arch_long_opts;
- extern const char * const arch_extra_help;
- void process_arch_opt(int opt, const char *arg);
-+void arch_init(void);
- #define FIRST_ARCH_OPT   0x100
- 
- /* GCC computed include to pull in the correct risu_reginfo_*.h for
-diff --git a/risu.c b/risu.c
-index 979341c..6410b2f 100644
---- a/risu.c
-+++ b/risu.c
-@@ -261,6 +261,94 @@ int apprentice(void)
-     return EXIT_FAILURE;
- }
- 
-+int dump_trace(void)
-+{
-+    trace_header_t header;
-+    union {
-+        struct reginfo ri;
-+        unsigned char memblock[MEMBLOCKLEN];
-+    } u;
-+    const char *op_name;
-+
-+    while (1) {
-+        if (read_trace(&header, sizeof(header))) {
-+            fprintf(stderr, "Trace header read failed\n");
-+            return EXIT_FAILURE;
-+        }
-+
-+        if (header.magic != RISU_MAGIC) {
-+            fprintf(stderr, "Unexpected header magic (%#x)\n", header.magic);
-+            return EXIT_FAILURE;
-+        }
-+
-+        switch (header.risu_op) {
-+        case OP_COMPARE:
-+           op_name = "COMPARE";
-+           break;
-+        case OP_TESTEND:
-+           op_name = "TESTEND";
-+           break;
-+        case OP_SETMEMBLOCK:
-+           op_name = "SETMEMBLOCK";
-+           break;
-+        case OP_GETMEMBLOCK:
-+           op_name = "GETMEMBLOCK";
-+           break;
-+        case OP_COMPAREMEM:
-+           op_name = "COMPAREMEM";
-+           break;
-+        case -1:
-+           op_name = "FAULT";
-+           break;
-+        default:
-+           op_name = "<unknown>";
-+           break;
-+        }
-+
-+        switch (header.risu_op) {
-+        case OP_COMPARE:
-+        case OP_TESTEND:
-+        default:
-+            if (header.size > sizeof(u.ri)) {
-+                fprintf(stderr, "Unexpected trace size (%u)\n", header.size);
-+                return EXIT_FAILURE;
-+            }
-+            if (read_trace(&u.ri, header.size)) {
-+                fprintf(stderr, "Reginfo read failed\n");
-+                return EXIT_FAILURE;
-+            }
-+            if (header.size != reginfo_size(&u.ri)) {
-+                fprintf(stderr, "Unexpected trace size (%u)\n", header.size);
-+                return EXIT_FAILURE;
-+            }
-+            printf("%s: (pc %#lx)\n", op_name, (unsigned long)header.pc);
-+            reginfo_dump(&u.ri, stdout);
-+            putchar('\n');
-+            if (header.risu_op == OP_TESTEND) {
-+                return EXIT_SUCCESS;
-+            }
-+            break;
-+
-+        case OP_COMPAREMEM:
-+            if (header.size != MEMBLOCKLEN) {
-+                fprintf(stderr, "Unexpected trace size (%u)\n", header.size);
-+                return EXIT_FAILURE;
-+            }
-+            if (read_trace(&u.memblock, MEMBLOCKLEN)) {
-+                fprintf(stderr, "Memblock read failed\n");
-+                return EXIT_FAILURE;
-+            }
-+            /* TODO: Dump 8k of data? */
-+            /* fall through */
-+
-+        case OP_SETMEMBLOCK:
-+        case OP_GETMEMBLOCK:
-+            printf("%s\n", op_name);
-+            break;
-+        }
-+    }
-+}
-+
- int ismaster;
- 
- void usage(void)
-@@ -273,6 +361,7 @@ void usage(void)
-     fprintf(stderr, "between master and apprentice risu processes.\n\n");
-     fprintf(stderr, "Options:\n");
-     fprintf(stderr, "  --master          Be the master (server)\n");
-+    fprintf(stderr, "  -d, --dump=FILE   Dump " TRACE_TYPE " trace file\n");
-     fprintf(stderr, "  -t, --trace=FILE  Record/playback " TRACE_TYPE " trace file\n");
-     fprintf(stderr,
-             "  -h, --host=HOST   Specify master host machine (apprentice only)"
-@@ -293,11 +382,12 @@ static struct option * setup_options(char **short_opts)
-         {"host", required_argument, 0, 'h'},
-         {"port", required_argument, 0, 'p'},
-         {"trace", required_argument, 0, 't'},
-+        {"dump", required_argument, 0, 'd'},
-         {0, 0, 0, 0}
-     };
-     struct option *lopts = &default_longopts[0];
- 
--    *short_opts = "h:p:t:";
-+    *short_opts = "d:h:p:t:";
- 
-     if (arch_long_opts) {
-         const size_t osize = sizeof(struct option);
-@@ -328,6 +418,7 @@ int main(int argc, char **argv)
-     char *trace_fn = NULL;
-     struct option *longopts;
-     char *shortopts;
-+    bool dump = false;
- 
-     longopts = setup_options(&shortopts);
- 
-@@ -342,6 +433,10 @@ int main(int argc, char **argv)
-         case 0:
-             /* flag set by getopt_long, do nothing */
-             break;
-+        case 'd':
-+            trace_fn = optarg;
-+            dump = true;
-+            break;
-         case 't':
-             trace_fn = optarg;
-             trace = true;
-@@ -363,7 +458,12 @@ int main(int argc, char **argv)
-         }
-     }
- 
--    if (trace) {
-+    if (dump && ismaster) {
-+        usage();
-+        exit(1);
-+    }
-+
-+    if (trace || dump) {
-         if (strcmp(trace_fn, "-") == 0) {
-             comm_fd = ismaster ? STDOUT_FILENO : STDIN_FILENO;
-         } else {
-@@ -378,6 +478,10 @@ int main(int argc, char **argv)
-         }
-     }
- 
-+    if (dump) {
-+        return dump_trace();
-+    }
-+
-     imgfile = argv[optind];
-     if (!imgfile) {
-         fprintf(stderr, "Error: must specify image file name\n\n");
-@@ -387,6 +491,9 @@ int main(int argc, char **argv)
- 
-     load_image(imgfile);
- 
-+    /* Select requested SVE vector length. */
-+    arch_init();
-+
-     if (ismaster) {
-         if (!trace) {
-             fprintf(stderr, "master port %d\n", port);
-diff --git a/risu_reginfo_aarch64.c b/risu_reginfo_aarch64.c
-index a1020ac..fb8e11a 100644
---- a/risu_reginfo_aarch64.c
-+++ b/risu_reginfo_aarch64.c
-@@ -44,8 +44,6 @@ const char * const arch_extra_help
- void process_arch_opt(int opt, const char *arg)
- {
- #ifdef SVE_MAGIC
--    long want, got;
--
-     assert(opt == FIRST_ARCH_OPT);
-     test_sve = strtol(arg, 0, 10);
- 
-@@ -53,22 +51,37 @@ void process_arch_opt(int opt, const char *arg)
-         fprintf(stderr, "Invalid value for VQ (1-%d)\n", SVE_VQ_MAX);
-         exit(EXIT_FAILURE);
-     }
--    want = sve_vl_from_vq(test_sve);
--    got = prctl(PR_SVE_SET_VL, want);
--    if (want != got) {
--        if (got < 0) {
--            perror("prctl PR_SVE_SET_VL");
--        } else {
--            fprintf(stderr, "Unsupported value for VQ (%d != %d)\n",
--                    test_sve, (int)sve_vq_from_vl(got));
--        }
--        exit(EXIT_FAILURE);
--    }
- #else
-     abort();
- #endif
- }
- 
-+void arch_init(void)
-+{
-+#ifdef SVE_MAGIC
-+    long want, got1, got2;
-+
-+    if (test_sve == 0) {
-+        return;
-+    }
-+
-+    want = sve_vl_from_vq(test_sve);
-+    asm(".arch_extension sve\n\trdvl %0, #1" : "=r"(got1));
-+    if (want != got1) {
-+        got2 = prctl(PR_SVE_SET_VL, want);
-+        if (want != got2) {
-+            if (got2 < 0) {
-+                perror("prctl PR_SVE_SET_VL");
-+                got2 = got1;
-+            }
-+            fprintf(stderr, "Unsupported value for VQ (%d != %d)\n",
-+                    test_sve, (int)sve_vq_from_vl(got1));
-+            exit(EXIT_FAILURE);
-+        }
-+    }
-+#endif
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
- #ifdef SVE_MAGIC
-@@ -170,6 +183,7 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-         if (sve->head.size < SVE_SIG_CONTEXT_SIZE(vq)) {
-             if (sve->head.size == sizeof(*sve)) {
-                 /* SVE state is empty -- not an error.  */
-+                goto do_simd;
-             } else {
-                 fprintf(stderr, "risu_reginfo_aarch64: "
-                         "failed to get complete SVE state\n");
-@@ -182,6 +196,7 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-                SVE_SIG_CONTEXT_SIZE(vq) - SVE_SIG_REGS_OFFSET);
-         return;
-     }
-+ do_simd:
- #endif /* SVE_MAGIC */
- 
-     for (i = 0; i < 32; i++) {
-@@ -260,8 +275,9 @@ int reginfo_dump(struct reginfo *ri, FILE * f)
-     fprintf(f, "  fpcr   : %08x\n", ri->fpcr);
- 
- #ifdef SVE_MAGIC
--    if (test_sve) {
--        int q, vq = test_sve;
-+    if (ri->sve_vl) {
-+        int vq = sve_vq_from_vl(ri->sve_vl);
-+        int q;
- 
-         fprintf(f, "  vl     : %d\n", ri->sve_vl);
- 
-@@ -339,13 +355,12 @@ int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE * f)
-     }
- 
- #ifdef SVE_MAGIC
--    if (test_sve) {
-+    if (m->sve_vl != a->sve_vl) {
-+        fprintf(f, "  vl    : %d vs %d\n", m->sve_vl, a->sve_vl);
-+    }
-+    if (m->sve_vl) {
-         int vq = sve_vq_from_vl(m->sve_vl);
- 
--        if (m->sve_vl != a->sve_vl) {
--            fprintf(f, "  vl    : %d vs %d\n", m->sve_vl, a->sve_vl);
--        }
--
-         for (i = 0; i < SVE_NUM_ZREGS; i++) {
-             uint64_t *zm = reginfo_zreg(m, vq, i);
-             uint64_t *za = reginfo_zreg(a, vq, i);
-diff --git a/risu_reginfo_arm.c b/risu_reginfo_arm.c
-index 3832e27..2982435 100644
---- a/risu_reginfo_arm.c
-+++ b/risu_reginfo_arm.c
-@@ -36,6 +36,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(struct reginfo);
-diff --git a/risu_reginfo_i386.c b/risu_reginfo_i386.c
-index 902d33e..68f2323 100644
---- a/risu_reginfo_i386.c
-+++ b/risu_reginfo_i386.c
-@@ -74,6 +74,10 @@ void process_arch_opt(int opt, const char *arg)
-     }
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(struct reginfo);
-diff --git a/risu_reginfo_m68k.c b/risu_reginfo_m68k.c
-index 361f172..499fdc4 100644
---- a/risu_reginfo_m68k.c
-+++ b/risu_reginfo_m68k.c
-@@ -23,6 +23,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(struct reginfo);
-diff --git a/risu_reginfo_ppc64.c b/risu_reginfo_ppc64.c
-index c86313c..3b04747 100644
---- a/risu_reginfo_ppc64.c
-+++ b/risu_reginfo_ppc64.c
-@@ -32,6 +32,10 @@ void process_arch_opt(int opt, const char *arg)
-     abort();
- }
- 
-+void arch_init(void)
-+{
-+}
-+
- int reginfo_size(struct reginfo *ri)
- {
-     return sizeof(struct reginfo);
+[Resend for proper threading, since --in=reply-to= is not the same as
+--in-reply-to=]
+
+ tests/qemu-iotests/223     | 6 ++++--
+ tests/qemu-iotests/223.out | 3 ++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/tests/qemu-iotests/223 b/tests/qemu-iotests/223
+index 56fbc5fb09a0..d68bc3cb6f1a 100755
+--- a/tests/qemu-iotests/223
++++ b/tests/qemu-iotests/223
+@@ -2,7 +2,7 @@
+ #
+ # Test reading dirty bitmap over NBD
+ #
+-# Copyright (C) 2018-2019 Red Hat, Inc.
++# Copyright (C) 2018-2020 Red Hat, Inc.
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -206,7 +206,9 @@ $QEMU_IMG map --output=json --image-opts \
+
+ nbd_server_start_unix_socket -f $IMGFMT -B b2 "$TEST_IMG"
+ IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
+-$QEMU_IMG map --output=json --image-opts \
++$QEMU_IMG map --output=json --image-opts --max-length=12345 \
++  "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
++$QEMU_IMG map --output=json --image-opts --start-offset=12345 \
+   "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
+
+ # success, all done
+diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+index 80c0cf65095b..e1eaaedb55b3 100644
+--- a/tests/qemu-iotests/223.out
++++ b/tests/qemu-iotests/223.out
+@@ -201,6 +201,7 @@ read 2097152/2097152 bytes at offset 2097152
+ { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
+ [{ "start": 0, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 512, "length": 512, "depth": 0, "zero": false, "data": false},
+-{ "start": 1024, "length": 2096128, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 1024, "length": 11321, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
++[{ "start": 12345, "length": 2084807, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": false}]
+ *** done
 -- 
-2.20.1
+2.26.2
 
 
