@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3EA1D27EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:36:02 +0200 (CEST)
-Received: from localhost ([::1]:42864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A7C1D27F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:38:34 +0200 (CEST)
+Received: from localhost ([::1]:52190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ7TM-0001D4-NM
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:36:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40848)
+	id 1jZ7Vp-0005cH-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jZ7PF-0004V4-3t
- for qemu-devel@nongnu.org; Thu, 14 May 2020 02:31:46 -0400
-Received: from 10.mo178.mail-out.ovh.net ([46.105.76.150]:46572)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jZ7ST-0001Q1-Bd
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 02:35:05 -0400
+Received: from 15.mo7.mail-out.ovh.net ([87.98.180.21]:46957)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jZ7PB-0001PG-Ti
- for qemu-devel@nongnu.org; Thu, 14 May 2020 02:31:44 -0400
-Received: from player789.ha.ovh.net (unknown [10.108.35.122])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id 3CDA49E43C
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 08:31:40 +0200 (CEST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1jZ7SR-0002HC-1M
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 02:35:05 -0400
+Received: from player734.ha.ovh.net (unknown [10.108.42.196])
+ by mo7.mail-out.ovh.net (Postfix) with ESMTP id 078F6160E86
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 08:35:01 +0200 (CEST)
 Received: from kaod.org (82-64-250-170.subs.proxad.net [82.64.250.170])
  (Authenticated sender: clg@kaod.org)
- by player789.ha.ovh.net (Postfix) with ESMTPSA id AE785125F3869;
- Thu, 14 May 2020 06:31:36 +0000 (UTC)
+ by player734.ha.ovh.net (Postfix) with ESMTPSA id 8A5F91232B139;
+ Thu, 14 May 2020 06:34:57 +0000 (UTC)
 Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0018b60205b-a213-420b-95b5-1b7ce67a7f57,92317E36A8DCBCCD86D4D3FC09BF80838F08FB4C)
+ (GARM-96R001b52fda9c-6d62-4f12-b561-81b15c564397,92317E36A8DCBCCD86D4D3FC09BF80838F08FB4C)
  smtp.auth=clg@kaod.org
-Subject: Re: [PATCH v2 3/6] target/ppc: Don't initialize some local variables
- in ppc_radix64_xlate()
+Subject: Re: [PATCH v2 6/6] target/ppc: Don't update radix PTE R/C bits with
+ gdbstub
 To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 References: <158941060199.240484.5620994992064687533.stgit@bahia.lan>
- <158941062048.240484.9693581559252337111.stgit@bahia.lan>
+ <158941063899.240484.2778628492106387793.stgit@bahia.lan>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <2f65c119-8e92-b2b2-a66c-0d0d6e9210c8@kaod.org>
-Date: Thu, 14 May 2020 08:31:28 +0200
+Message-ID: <083fee97-e40c-8cfa-cf3d-166ed2a67395@kaod.org>
+Date: Thu, 14 May 2020 08:34:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <158941062048.240484.9693581559252337111.stgit@bahia.lan>
+In-Reply-To: <158941063899.240484.2778628492106387793.stgit@bahia.lan>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 16558609933549931347
+X-Ovh-Tracer-Id: 16614904925954214739
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrleehgddutdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefffdvtddugeeifeduuefghfejgfeigeeigeeltedthefgieeiveeuiefhgeefgfenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeelrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.76.150; envelope-from=clg@kaod.org;
- helo=10.mo178.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 02:31:40
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduhedrleehgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefffdvtddugeeifeduuefghfejgfeigeeigeeltedthefgieeiveeuiefhgeefgfenucfkpheptddrtddrtddrtddpkedvrdeigedrvdehtddrudejtdenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeegrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=87.98.180.21; envelope-from=clg@kaod.org;
+ helo=15.mo7.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 02:35:01
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,58 +73,179 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/14/20 12:57 AM, Greg Kurz wrote:
-> It is the job of the ppc_radix64_get_fully_qualified_addr() function
-> which is called at the beginning of ppc_radix64_xlate() to set both
-> lpid *and* pid. It doesn't buy us anything to initialize them first.
+> gdbstub shouldn't silently change guest visible state when doing address
+> translation. Since the R/C bits can only be updated when handling a MMU
+> fault, let's reuse the cause_excp flag and rename it to guest_visible.
+> While here drop a not very useful comment.
 > 
-> Worse, a bug in ppc_radix64_get_fully_qualified_addr(), eg. failing to
-> set either lpid or pid, would be undetectable by static analysis tools
-> like coverity.
+> This was found while reading the code. I could verify that this affects
+> both powernv and pseries, but I failed to observe any actual bug.
 > 
-> Some recent versions of gcc (eg. gcc-9.3.1-2.fc30) may still think
-> that lpid or pid is used uninitialized though, so this also adds
-> default cases in the switch statements to make it clear this cannot
-> happen.
-> 
+> Fixes: d04ea940c597 "target/ppc: Add support for Radix partition-scoped translation"
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 > ---
->  target/ppc/mmu-radix64.c |    6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  target/ppc/mmu-radix64.c |   39 +++++++++++++++++++++------------------
+>  1 file changed, 21 insertions(+), 18 deletions(-)
 > 
 > diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index c76879f65b78..07f956c9864f 100644
+> index 7ce37cb778db..0d3922537c4c 100644
 > --- a/target/ppc/mmu-radix64.c
 > +++ b/target/ppc/mmu-radix64.c
-> @@ -50,6 +50,8 @@ static bool ppc_radix64_get_fully_qualified_addr(const CPUPPCState *env,
->              *lpid = 0;
->              *pid = 0;
->              break;
-> +        default:
-> +            g_assert_not_reached();
+> @@ -274,7 +274,7 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>                                                ppc_v3_pate_t pate,
+>                                                hwaddr *h_raddr, int *h_prot,
+>                                                int *h_page_size, bool pde_addr,
+> -                                              bool cause_excp)
+> +                                              bool guest_visible)
+>  {
+>      int fault_cause = 0;
+>      hwaddr pte_addr;
+> @@ -289,14 +289,15 @@ static int ppc_radix64_partition_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>          if (pde_addr) { /* address being translated was that of a guest pde */
+>              fault_cause |= DSISR_PRTABLE_FAULT;
 >          }
->      } else {  /* !MSR[HV] -> Guest */
->          switch (eaddr & R_EADDR_QUADRANT) {
-> @@ -64,6 +66,8 @@ static bool ppc_radix64_get_fully_qualified_addr(const CPUPPCState *env,
->              *lpid = env->spr[SPR_LPIDR];
->              *pid = 0; /* pid set to 0 -> addresses guest operating system */
->              break;
-> +        default:
-> +            g_assert_not_reached();
+> -        if (cause_excp) {
+> +        if (guest_visible) {
+>              ppc_radix64_raise_hsi(cpu, rwx, eaddr, g_raddr, fault_cause);
 >          }
+>          return 1;
 >      }
 >  
-> @@ -433,7 +437,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
->                               bool cause_excp)
+> -    /* Update Reference and Change Bits */
+> -    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, h_prot);
+> +    if (guest_visible) {
+> +        ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, h_prot);
+> +    }
+>  
+>      return 0;
+>  }
+> @@ -305,7 +306,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>                                              vaddr eaddr, uint64_t pid,
+>                                              ppc_v3_pate_t pate, hwaddr *g_raddr,
+>                                              int *g_prot, int *g_page_size,
+> -                                            bool cause_excp)
+> +                                            bool guest_visible)
+>  {
+>      CPUState *cs = CPU(cpu);
+>      CPUPPCState *env = &cpu->env;
+> @@ -319,7 +320,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>      size = 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+>      if (offset >= size) {
+>          /* offset exceeds size of the process table */
+> -        if (cause_excp) {
+> +        if (guest_visible) {
+>              ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+>          }
+>          return 1;
+> @@ -340,7 +341,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>          ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, prtbe_addr,
+>                                                   pate, &h_raddr, &h_prot,
+>                                                   &h_page_size, true,
+> -                                                 cause_excp);
+> +                                                 guest_visible);
+>          if (ret) {
+>              return ret;
+>          }
+> @@ -360,7 +361,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>                                      &fault_cause, &pte_addr);
+>          if (ret) {
+>              /* No valid PTE */
+> -            if (cause_excp) {
+> +            if (guest_visible) {
+>                  ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+>              }
+>              return ret;
+> @@ -380,7 +381,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>              ret = ppc_radix64_partition_scoped_xlate(cpu, 0, eaddr, pte_addr,
+>                                                       pate, &h_raddr, &h_prot,
+>                                                       &h_page_size, true,
+> -                                                     cause_excp);
+> +                                                     guest_visible);
+>              if (ret) {
+>                  return ret;
+>              }
+> @@ -389,7 +390,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>                                           &nls, g_page_size, &pte, &fault_cause);
+>              if (ret) {
+>                  /* No valid pte */
+> -                if (cause_excp) {
+> +                if (guest_visible) {
+>                      ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+>                  }
+>                  return ret;
+> @@ -406,13 +407,15 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>  
+>      if (ppc_radix64_check_prot(cpu, rwx, pte, &fault_cause, g_prot, false)) {
+>          /* Access denied due to protection */
+> -        if (cause_excp) {
+> +        if (guest_visible) {
+>              ppc_radix64_raise_si(cpu, rwx, eaddr, fault_cause);
+>          }
+>          return 1;
+>      }
+>  
+> -    ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, g_prot);
+> +    if (guest_visible) {
+> +        ppc_radix64_set_rc(cpu, rwx, pte, pte_addr, g_prot);
+> +    }
+>  
+>      return 0;
+>  }
+> @@ -437,7 +440,7 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu, int rwx,
+>  static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>                               bool relocation,
+>                               hwaddr *raddr, int *psizep, int *protp,
+> -                             bool cause_excp)
+> +                             bool guest_visible)
 >  {
 >      CPUPPCState *env = &cpu->env;
-> -    uint64_t lpid = 0, pid = 0;
-> +    uint64_t lpid, pid;
->      ppc_v3_pate_t pate;
->      int psize, prot;
->      hwaddr g_raddr;
+>      uint64_t lpid, pid;
+> @@ -447,7 +450,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>  
+>      /* Virtual Mode Access - get the fully qualified address */
+>      if (!ppc_radix64_get_fully_qualified_addr(&cpu->env, eaddr, &lpid, &pid)) {
+> -        if (cause_excp) {
+> +        if (guest_visible) {
+>              ppc_radix64_raise_segi(cpu, rwx, eaddr);
+>          }
+>          return 1;
+> @@ -460,13 +463,13 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>          vhc->get_pate(cpu->vhyp, &pate);
+>      } else {
+>          if (!ppc64_v3_get_pate(cpu, lpid, &pate)) {
+> -            if (cause_excp) {
+> +            if (guest_visible) {
+>                  ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_NOPTE);
+>              }
+>              return 1;
+>          }
+>          if (!validate_pate(cpu, lpid, &pate)) {
+> -            if (cause_excp) {
+> +            if (guest_visible) {
+>                  ppc_radix64_raise_si(cpu, rwx, eaddr, DSISR_R_BADCONFIG);
+>              }
+>              return 1;
+> @@ -487,7 +490,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>      if (relocation) {
+>          int ret = ppc_radix64_process_scoped_xlate(cpu, rwx, eaddr, pid,
+>                                                     pate, &g_raddr, &prot,
+> -                                                   &psize, cause_excp);
+> +                                                   &psize, guest_visible);
+>          if (ret) {
+>              return ret;
+>          }
+> @@ -510,7 +513,7 @@ static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
+>  
+>              ret = ppc_radix64_partition_scoped_xlate(cpu, rwx, eaddr, g_raddr,
+>                                                       pate, raddr, &prot, &psize,
+> -                                                     0, cause_excp);
+> +                                                     0, guest_visible);
+>              if (ret) {
+>                  return ret;
+>              }
 > 
 
 
