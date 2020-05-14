@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3971D302F
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 14:45:49 +0200 (CEST)
-Received: from localhost ([::1]:32852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDCE1D3023
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 14:44:08 +0200 (CEST)
+Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZDFE-0006uS-IT
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 08:45:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53086)
+	id 1jZDDb-0003Tw-Dm
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 08:44:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jZD7T-0003Fq-2K; Thu, 14 May 2020 08:37:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24606)
+ id 1jZD7T-0003HB-K6; Thu, 14 May 2020 08:37:47 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jZD7S-0006Vh-4J; Thu, 14 May 2020 08:37:46 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ id 1jZD7S-0006Vv-Nh; Thu, 14 May 2020 08:37:47 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04ECX1cV129248; Thu, 14 May 2020 08:37:44 -0400
+ 04ECWMMj038728; Thu, 14 May 2020 08:37:45 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 310ub02pue-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3111w8gjpr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 May 2020 08:37:45 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04ECWPhe040317;
+ Thu, 14 May 2020 08:37:44 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3111w8gjnu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 14 May 2020 08:37:44 -0400
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04ECX7ri129909;
- Thu, 14 May 2020 08:37:44 -0400
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 310ub02pt7-1
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04ECZL7W008048;
+ Thu, 14 May 2020 12:37:42 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma02fra.de.ibm.com with ESMTP id 3100ub9ghy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 08:37:43 -0400
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04ECZMAZ011971;
- Thu, 14 May 2020 12:37:41 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 3100ub3mqk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 12:37:41 +0000
+ Thu, 14 May 2020 12:37:42 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04ECbdGA57868304
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 04ECbe4j53739960
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 May 2020 12:37:39 GMT
+ Thu, 14 May 2020 12:37:40 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4CF39A4065;
+ by IMSVA (Postfix) with ESMTP id 1B5D4A4054;
+ Thu, 14 May 2020 12:37:40 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7408DA4066;
  Thu, 14 May 2020 12:37:39 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AF9A1A4060;
- Thu, 14 May 2020 12:37:38 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 14 May 2020 12:37:38 +0000 (GMT)
+ Thu, 14 May 2020 12:37:39 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/9] pc-bios: s390x: Replace 0x00 with 0x0 or 0
-Date: Thu, 14 May 2020 08:37:28 -0400
-Message-Id: <20200514123729.156283-9-frankja@linux.ibm.com>
+Subject: [PATCH v2 9/9] pc-bios: s390x: Make u32 ptr check explicit
+Date: Thu, 14 May 2020 08:37:29 -0400
+Message-Id: <20200514123729.156283-10-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200514123729.156283-1-frankja@linux.ibm.com>
 References: <20200514123729.156283-1-frankja@linux.ibm.com>
@@ -70,12 +70,12 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
  definitions=2020-05-14_02:2020-05-14,
  2020-05-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 mlxscore=0 phishscore=0 adultscore=0 suspectscore=1
- lowpriorityscore=0 spamscore=0 clxscore=1015 cotscore=-2147483648
- mlxlogscore=513 bulkscore=0 priorityscore=1501 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005140112
+ lowpriorityscore=0
+ bulkscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ cotscore=-2147483648 clxscore=1015 mlxscore=0 malwarescore=0
+ mlxlogscore=594 phishscore=0 adultscore=0 suspectscore=1 classifier=spam
+ adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005140109
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 07:20:14
@@ -103,70 +103,29 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-0x00 looks odd, time to replace it with 0 or 0x0 (for pointers).
+Let's make it a bit more clear that we check the full 64 bits to fit
+into the 32 we return.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 ---
- pc-bios/s390-ccw/dasd-ipl.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ pc-bios/s390-ccw/helper.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/pc-bios/s390-ccw/dasd-ipl.c b/pc-bios/s390-ccw/dasd-ipl.c
-index b932531e6f..764ee89e92 100644
---- a/pc-bios/s390-ccw/dasd-ipl.c
-+++ b/pc-bios/s390-ccw/dasd-ipl.c
-@@ -98,18 +98,18 @@ static int run_dynamic_ccw_program(SubChannelId schid, uint16_t cutype,
- 
- static void make_readipl(void)
+diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
+index 78d5bc7442..8a50ec91bb 100644
+--- a/pc-bios/s390-ccw/helper.h
++++ b/pc-bios/s390-ccw/helper.h
+@@ -18,7 +18,7 @@
+ /* Avoids compiler warnings when casting a pointer to a u32 */
+ static inline uint32_t ptr2u32(void *ptr)
  {
--    Ccw0 *ccwIplRead = (Ccw0 *)0x00;
-+    Ccw0 *ccwIplRead = (Ccw0 *)0x0;
- 
-     /* Create Read IPL ccw at address 0 */
-     ccwIplRead->cmd_code = CCW_CMD_READ_IPL;
--    ccwIplRead->cda = 0x00; /* Read into address 0x00 in main memory */
-+    ccwIplRead->cda = 0x0; /* Read into address 0x00 in main memory */
-     ccwIplRead->chain = 0; /* Chain flag */
-     ccwIplRead->count = 0x18; /* Read 0x18 bytes of data */
+-    IPL_assert((uint64_t)ptr <= 0xffffffff, "ptr2u32: ptr too large");
++    IPL_assert((uint64_t)ptr <= 0xffffffffull, "ptr2u32: ptr too large");
+     return (uint32_t)(uint64_t)ptr;
  }
  
- static void run_readipl(SubChannelId schid, uint16_t cutype)
- {
--    if (do_cio(schid, cutype, 0x00, CCW_FMT0)) {
-+    if (do_cio(schid, cutype, 0x0, CCW_FMT0)) {
-         panic("dasd-ipl: Failed to run Read IPL channel program\n");
-     }
- }
-@@ -133,10 +133,10 @@ static void check_ipl2(uint32_t ipl2_addr)
- {
-     Ccw0 *ccw = u32toptr(ipl2_addr);
- 
--    if (ipl2_addr == 0x00) {
-+    if (ipl2_addr == 0) {
-         panic("IPL2 address invalid. Is this disk really bootable?\n");
-     }
--    if (ccw->cmd_code == 0x00) {
-+    if (ccw->cmd_code == 0) {
-         panic("IPL2 ccw data invalid. Is this disk really bootable?\n");
-     }
- }
-@@ -161,7 +161,7 @@ static void ipl1_fixup(void)
-     memcpy(ccwRead, (void *)0x08, 16);
- 
-     /* Disable chaining so we don't TIC to IPL2 channel program */
--    ccwRead->chain = 0x00;
-+    ccwRead->chain = 0;
- 
-     ccwSeek->cmd_code = CCW_CMD_DASD_SEEK;
-     ccwSeek->cda = ptr2u32(seekData);
-@@ -206,7 +206,7 @@ static void run_ipl2(SubChannelId schid, uint16_t cutype, uint32_t addr)
-  */
- void dasd_ipl(SubChannelId schid, uint16_t cutype)
- {
--    PSWLegacy *pswl = (PSWLegacy *) 0x00;
-+    PSWLegacy *pswl = (PSWLegacy *) 0x0;
-     uint32_t ipl2_addr;
- 
-     /* Construct Read IPL CCW and run it to read IPL1 from boot disk */
 -- 
 2.25.1
 
