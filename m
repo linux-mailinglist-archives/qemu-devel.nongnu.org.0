@@ -2,84 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06AD11D4096
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 00:14:08 +0200 (CEST)
-Received: from localhost ([::1]:46192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8B1E1D4163
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 May 2020 01:03:38 +0200 (CEST)
+Received: from localhost ([::1]:53652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZM7C-0008B9-H3
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 18:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44526)
+	id 1jZMt7-0002j0-HZ
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 19:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1jZM5k-0007gO-3h; Thu, 14 May 2020 18:12:36 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:15256)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1jZM5i-00070Q-O6; Thu, 14 May 2020 18:12:35 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04EM349Q188899; Thu, 14 May 2020 18:12:30 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 310tjpnc4c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 18:12:30 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04EMCCgG014839;
- Thu, 14 May 2020 18:12:30 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 310tjpnc3r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 18:12:30 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04EM6BG6016675;
- Thu, 14 May 2020 22:12:27 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3100ubce61-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 22:12:27 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04EMCPqu61931542
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 May 2020 22:12:25 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EA73352050;
- Thu, 14 May 2020 22:12:24 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 7BF765204F;
- Thu, 14 May 2020 22:12:24 +0000 (GMT)
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] virtio-ccw: auto-manage VIRTIO_F_IOMMU_PLATFORM if PV
-Date: Fri, 15 May 2020 00:11:55 +0200
-Message-Id: <20200514221155.32079-1-pasic@linux.ibm.com>
-X-Mailer: git-send-email 2.17.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-14_07:2020-05-14,
- 2020-05-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 clxscore=1011
- suspectscore=0 phishscore=0 adultscore=0 priorityscore=1501
- cotscore=-2147483648 malwarescore=0 mlxscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005140193
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 18:12:31
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jZMsE-0002Hp-6W
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 19:02:42 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:55941
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jZMsB-0004vS-Ht
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 19:02:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589497357;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iuHSSJ/1NsIj2/Y2xJouyGAuKbTnaWmt9HWfOk+vPEM=;
+ b=DHjsrqi1CZQCgAPKlkUomoIy3gPSCwEk5OWsWyJqTdaPeC3R8kJEDljG4eVy80C23yPFI/
+ dz8WDIb6OhjgihFJ9+Z16uC5Ygq09sz1hb176iECdw/hVgXgCXkv7JAcD5in7sBjfuTGFl
+ C4ha7KN576Aloa1E/OgzF58h8UNIad0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-222-KuS7g_-5PtWMoc98WDvwMg-1; Thu, 14 May 2020 19:02:33 -0400
+X-MC-Unique: KuS7g_-5PtWMoc98WDvwMg-1
+Received: by mail-wr1-f71.google.com with SMTP id l12so182562wrw.9
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 16:02:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iuHSSJ/1NsIj2/Y2xJouyGAuKbTnaWmt9HWfOk+vPEM=;
+ b=Ip/XroraAFvXElBJjyC4L5W2hyRrAFHpoOT4Ju03b+cLZ/56/dxgiBHQaUVq3bx2b0
+ dLo7daz5QVUQhOtV7gCK1nBOE5cNBa2vS23ed9xbIWhvvqYLA/3XJ04xAMPggZKsoSC9
+ hZUi3SkLWv3v+KjqnJgBw1g7OOJG+IVeTWQlhX0NKlpN7epeU0NoQo2mFcRdwyhPARxp
+ Kp0l4+AaM3dp+o91nPIgElK0ki8AZLTnnvkRIifoCflwrZFlAD+EVHSIVt/Hnbs6wT5U
+ cdqCr0D1zH9ajYOBuik/rzMePjfaeGTfg/AwDQAvJUOQYD00jIuUGGWb7TrEvJkWWVjA
+ Gslw==
+X-Gm-Message-State: AOAM5324WwzinMyjNLGBLj4So9krE3mYQsHneOqi9PeMb6hrX4hLlQiG
+ 7IeOnSE8JrOzGTL4q2byHBvdow6OMvbHBZgUHR/4L6XEZ/yQ1XbD8yn882pxJhJLq4NQBzE3nLw
+ NXC6+Cbt+DUH7pHs=
+X-Received: by 2002:a5d:56c7:: with SMTP id m7mr793071wrw.256.1589497352296;
+ Thu, 14 May 2020 16:02:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwuZLrZfn4PhfaAmkCXxhmaafuhc6ZODhGDSn68VpYntWCz20PxTB6HjowfhP42RxPdNu8dA==
+X-Received: by 2002:a5d:56c7:: with SMTP id m7mr793049wrw.256.1589497352062;
+ Thu, 14 May 2020 16:02:32 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:bdd8:ac77:1ff4:62c6?
+ ([2001:b07:6468:f312:bdd8:ac77:1ff4:62c6])
+ by smtp.gmail.com with ESMTPSA id q5sm727164wra.36.2020.05.14.16.02.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 May 2020 16:02:31 -0700 (PDT)
+Subject: Re: Ping Re: [PATCH 0/5] target/i386: fxtract, fscale fixes
+To: Joseph Myers <joseph@codesourcery.com>, qemu-devel@nongnu.org,
+ rth@twiddle.net, ehabkost@redhat.com
+References: <alpine.DEB.2.21.2005070038550.18350@digraph.polyomino.org.uk>
+ <alpine.DEB.2.21.2005141821240.23319@digraph.polyomino.org.uk>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ddbea348-698c-0e41-983c-9b617b872fdf@redhat.com>
+Date: Fri, 15 May 2020 01:02:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.21.2005141821240.23319@digraph.polyomino.org.uk>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 19:02:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,128 +101,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, Viktor Mihajlovski <mihajlov@linux.ibm.com>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtio specification tells that the device is to present
-VIRTIO_F_ACCESS_PLATFORM (a.k.a. VIRTIO_F_IOMMU_PLATFORM) when the
-device "can only access certain memory addresses with said access
-specified and/or granted by the platform". This is the case for a
-protected VMs, as the device can access only memory addresses that are
-in pages that are currently shared (only the guest can share/unsare its
-pages).
+On 14/05/20 20:25, Joseph Myers wrote:
+> Ping for this patch series 
+> <https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01465.html>.
+> 
+> Although my three patch series so far for floatx80 and i386 floating-point 
+> instructions fixes are independent of each other, it's likely future patch 
+> series in this area will depend on some of the previous patch series.
 
-No VM, however, starts out as a protected VM, but some VMs may be
-converted to protected VMs if the guest decides so.
+Sorry, I'm lagging behind on my QEMU reviews.  I'll get to it tomorrow
+or next week.
 
-Making the end user explicitly manage the VIRTIO_F_ACCESS_PLATFORM via
-the property iommu_on is a minor disaster. Since the correctness of the
-paravirtualized virtio devices depends (and thus in a sense the
-correctness of the hypervisor) it, then the hypervisor should have the
-last word about whether VIRTIO_F_ACCESS_PLATFORM is to be presented or
-not.
+Thanks,
 
-Currently presenting a PV guest with a (paravirtualized) virtio-ccw
-device has catastrophic consequences for the VM (after the hypervisors
-access to protected memory). This is especially grave in case of device
-hotplug (because in this case the guest is more likely to be in the
-middle of something important).
-
-Let us manage the VIRTIO_F_ACCESS_PLATFORM virtio feature automatically
-for virtio-ccw devices, i.e. force it before we start the protected VM.
-If the VM should cease to be protected, the original value is restored.
-
-Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
----
-
-NOTES:
-
-* Doing more system_resets() is a big hack.  We should look into this.
-* The user interface implications of this patch are also an ugly can of
-worms. We need to discuss them.
-
-
-v1 --> v2:
-* Use the default or user supplied iommu_on flag when when !PV
-* Use virtio functions for feature manipulation
-
-Link to v1:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg683775.html
-
-Unfortunately the v1 did not see much discussion because we had more
-pressing issues.
-
----
- hw/s390x/s390-virtio-ccw.c |  2 ++
- hw/s390x/virtio-ccw.c      | 14 ++++++++++++++
- hw/s390x/virtio-ccw.h      |  1 +
- 3 files changed, 17 insertions(+)
-
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index f660070d22..705e6b153a 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -330,6 +330,7 @@ static void s390_machine_unprotect(S390CcwMachineState *ms)
-     migrate_del_blocker(pv_mig_blocker);
-     error_free_or_abort(&pv_mig_blocker);
-     qemu_balloon_inhibit(false);
-+    subsystem_reset();
- }
- 
- static int s390_machine_protect(S390CcwMachineState *ms)
-@@ -382,6 +383,7 @@ static int s390_machine_protect(S390CcwMachineState *ms)
-     if (rc) {
-         goto out_err;
-     }
-+    subsystem_reset();
-     return rc;
- 
- out_err:
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 64f928fc7d..67d5bc68ba 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -874,6 +874,20 @@ static void virtio_ccw_reset(DeviceState *d)
-     VirtioCcwDevice *dev = VIRTIO_CCW_DEVICE(d);
-     VirtIODevice *vdev = virtio_bus_get_device(&dev->bus);
-     VirtIOCCWDeviceClass *vdc = VIRTIO_CCW_DEVICE_GET_CLASS(dev);
-+    S390CcwMachineState *ms = S390_CCW_MACHINE(qdev_get_machine());
-+
-+    /*
-+     * An attempt to use a paravirt device without VIRTIO_F_IOMMU_PLATFORM
-+     * in PV, has catastrophic consequences for the VM. Let's force
-+     * VIRTIO_F_IOMMU_PLATFORM not already specified.
-+     */
-+    if (ms->pv && !virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-+        virtio_add_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-+        dev->forced_iommu_platform = true;
-+    } else if (!ms->pv && dev->forced_iommu_platform) {
-+        virtio_clear_feature(&vdev->host_features, VIRTIO_F_IOMMU_PLATFORM);
-+        dev->forced_iommu_platform = false;
-+    }
- 
-     virtio_ccw_reset_virtio(dev, vdev);
-     if (vdc->parent_reset) {
-diff --git a/hw/s390x/virtio-ccw.h b/hw/s390x/virtio-ccw.h
-index 3453aa1f98..34ff7b0b4e 100644
---- a/hw/s390x/virtio-ccw.h
-+++ b/hw/s390x/virtio-ccw.h
-@@ -99,6 +99,7 @@ struct VirtioCcwDevice {
-     IndAddr *summary_indicator;
-     uint64_t ind_bit;
-     bool force_revision_1;
-+    bool forced_iommu_platform;
- };
- 
- /* The maximum virtio revision we support. */
-
-base-commit: 0ffd3d64bd1bb8b84950e52159a0062fdab34628
--- 
-2.17.1
+Paolo
 
 
