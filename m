@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125951D3D8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 21:33:51 +0200 (CEST)
-Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BD351D3D61
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 21:25:20 +0200 (CEST)
+Received: from localhost ([::1]:45182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZJc6-00083X-1G
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 15:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
+	id 1jZJTr-0003it-Ho
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 15:25:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jZJQK-0007cK-AQ
- for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:40 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:34159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jZJQE-0007Oh-76
- for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:40 -0400
-Received: by mail-lj1-x242.google.com with SMTP id b6so4843478ljj.1
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 12:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sGqFZp4/8DHvwZ4dwcHeJPKSRCfhEUhOLVb+pJ0fcYc=;
- b=kcoVmf/7rWZQ3ieQtqhjlmoFlCaRBPBGQI6mdwc0aROGhX/M6LeTzE7g+K1mebcTX3
- zatmeS9MIz3rF6828fY69IlwCRk0kzpG1YQtE/CYH8BD/3Ef2LdOG2ibAqt1pgC72ZdI
- 6R3WXQsUi/qvZ4SPBRGhuQiJZcmiW4isewgwc0eNxrneEswZnGjOE0U5JErFIYIuzR58
- r1fWeXbT29zZgwoaZrQZ7n97P/JpOBjJJftIjGjzZ80Buq2VjA4R+lkhmpq3vMizTbh4
- kkg8em0Wa4880VwHwOw6KvDAjnVFqcXdkGxG2kMER2Ai99bH7FaN2d5D+mOerDrgAL3H
- f5XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sGqFZp4/8DHvwZ4dwcHeJPKSRCfhEUhOLVb+pJ0fcYc=;
- b=DXgNhGrOMUqB5om0I7Cx7kMNjj3YFTAIfNNCq4poukTUn0JH9WahxdC5jJne3N2RBQ
- GAlDiGzPs8sSEDiCCxGERbRdRGKjZRB2Rr8cdmKiVCwlxJK0RpxwGn5cbhOot9mP4XwU
- hwALL0n/4yXGrWm57RTrVluXn28PqmGZXHsUzdZQBV2fsdCPbNWq5kUW299U8xQfxeN+
- xHbrePX5WI6ifBjxszJIQdC0TVOw4ZYGEFzVt4CSXMyMwwE3lO02WcuZwO76HWzAlTdQ
- 5vCyuo25C+OB3GTza/hkFwglDPx8USf+E6RDpuJHDdzTtqVJHt4/sXUov9dhGV8UP1Fa
- n0cA==
-X-Gm-Message-State: AOAM530FtPxWszI/4aB0PscHSF38LQgMVptrXswl4RAnkx64FJUa9Sii
- qNXjz2+zpU5gA/qAe3f8EyJ5JvzqC7s=
-X-Google-Smtp-Source: ABdhPJxW+wUIvOrX83fnFTMxN+5xQ5rkrx/+jSt8OjtZ1Msh66IPDpIV/ya6oW14ZgD0CFOc9xRhpw==
-X-Received: by 2002:a2e:8296:: with SMTP id y22mr3834680ljg.254.1589484091338; 
- Thu, 14 May 2020 12:21:31 -0700 (PDT)
-Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id h3sm2427257lfk.3.2020.05.14.12.21.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 12:21:30 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/17] hw/mips: Convert Malta "ifdef 0"-ed code to comments
-Date: Thu, 14 May 2020 21:20:47 +0200
-Message-Id: <20200514192047.5297-18-aleksandar.qemu.devel@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
-References: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1jZJPo-0006l3-Ko
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1jZJPn-0007KZ-Sd
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:08 -0400
+Received: from localhost (c-67-164-102-47.hsd1.ca.comcast.net [67.164.102.47])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 61F4220643;
+ Thu, 14 May 2020 19:21:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1589484066;
+ bh=bcl+HQLsQ3uSbKrpOFk/KGUy91oGnSfW+C4K65fi8ko=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=x2bd5mWEwKF2sE9ZO6Pven/XrGo/cZkgmeNjW7b9QpOB3m+AqSxjO5Fek09SwfOVZ
+ tGXfaxxiv4zKnrOAQy4PoU/oGGbGSsV/+N0l0Fbha2bzSdGFhZJ3puBKpl+tNuYpbQ
+ rmW1egeifZyctl7F4kTVCAkFGAFIsX90YrZxBU04=
+Date: Thu, 14 May 2020 12:21:05 -0700 (PDT)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
+To: groug@kaod.org
+Subject: Re: [PATCH 0/1] virtio-9pfs: don't truncate response
+In-Reply-To: <cover.1589481482.git.qemu_oss@crudebyte.com>
+Message-ID: <alpine.DEB.2.21.2005141220040.26167@sstabellini-ThinkPad-T480s>
+References: <cover.1589481482.git.qemu_oss@crudebyte.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x242.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=198.145.29.99;
+ envelope-from=sstabellini@kernel.org; helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 15:19:31
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,61 +64,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@rt-rk.com,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Anthony Perard <anthony.perard@citrix.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu_oss@crudebyte.com,
+ qemu-devel@nongnu.org, Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The checkpatch complain about "#ifdef 0". Convert corresponding
-dead code to comments. In future, these cases could be converted
-to some no-nonsense logging/tracing.
+On Thu, 14 May 2020, Christian Schoenebeck wrote:
+> The following patch reverts
+> SHA-1 16724a173049ac29c7b5ade741da93a0f46edff for the virtio backend.
+> 
+> Greg, it is intended as a quick fix for
+> https://bugs.launchpad.net/bugs/1877688 at least for virtio, for the
+> case the appropriate fix on Xen side might still take a while. Because
+> this bug is too serious to let it rest for too long.
+> 
+> In case Stefano comes up with a fix for Xen soon, you might just ignore
+> this patch and just revert SHA-1 16724a173049ac29c7b5ade741da93a0f46edff
+> entirely instead of course.
 
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-CC: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/mips/mips_malta.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index e4c4de1b4e..f91fa34b06 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -427,10 +427,12 @@ static uint64_t malta_fpga_read(void *opaque, hwaddr addr,
-         break;
- 
-     default:
--#if 0
--        printf("malta_fpga_read: Bad register offset 0x" TARGET_FMT_lx "\n",
--               addr);
--#endif
-+/*
-+ * Possible logging:
-+ *
-+ *        printf("malta_fpga_read: Bad register offset 0x" TARGET_FMT_lx "\n",
-+ *               addr);
-+ */
-         break;
-     }
-     return val;
-@@ -515,10 +517,12 @@ static void malta_fpga_write(void *opaque, hwaddr addr,
-         break;
- 
-     default:
--#if 0
--        printf("malta_fpga_write: Bad register offset 0x" TARGET_FMT_lx "\n",
--               addr);
--#endif
-+/*
-+ * Possible logging:
-+ *
-+ *        printf("malta_fpga_write: Bad register offset 0x" TARGET_FMT_lx "\n",
-+ *               addr);
-+ */
-         break;
-     }
- }
--- 
-2.20.1
-
+I am aiming at getting this fixed within a few days.  Up to you as you
+want to proceed with the patches. I am happy either way.
 
