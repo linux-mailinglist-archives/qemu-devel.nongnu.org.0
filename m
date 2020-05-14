@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4391D26EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 07:59:39 +0200 (CEST)
-Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8451D2709
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:06:43 +0200 (CEST)
+Received: from localhost ([::1]:50822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ6uA-0007nQ-Bu
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 01:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36484)
+	id 1jZ710-0005aN-CE
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pF-00055v-Lo
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:33 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43705
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pc-0005ja-Uc
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:56 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46404
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pE-0001c3-A6
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:33 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pb-0001hY-5O
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589435671;
+ s=mimecast20190719; t=1589435694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dcSV8AcRgboD0791Na12TrghYbWW2S4QzDgd970wraM=;
- b=EXYki1MYAuEX7vro3IDYfq0E6EIsOqnNAvjeVBjGG2gQ92H1QEKpeLe3F7kXIV78ZpSfSW
- xbWo88yHIFMClVdIPMqC0jmF/CFpWagGopfv/MM9H5soj7eBpH+OUhqvx9n8swegu/WynY
- qKfNbQr8W+PIc78NouLhuDFwNSR9MEA=
+ bh=qRLuNsUV4q6lrwdDP4dnHXeBvVF8C22HGPdVkR9yFzg=;
+ b=M0N5MQM+saDU7MCNPYUb5Jht6rDK55Qq2hpgRO7tR2K6PD8Pv8C89acNCiwUStWjMNSDhA
+ /xtbBIF2ZJO9glvgksfaiEoPa6EpkKiJEf4YBWHl3iE8Ub+yHC+0xQMSW3+xsxtZYBMYJV
+ p1bvUB4yMBpGIEzf+QnN3czbv1FIRMI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-3iFNAzb_O8GPtS9Ssli7uA-1; Thu, 14 May 2020 01:54:29 -0400
-X-MC-Unique: 3iFNAzb_O8GPtS9Ssli7uA-1
+ us-mta-47-MyrWZbVGOUWYjjTJXVQDiw-1; Thu, 14 May 2020 01:54:34 -0400
+X-MC-Unique: MyrWZbVGOUWYjjTJXVQDiw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89DF2BFC0;
- Thu, 14 May 2020 05:54:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCE7F107ACCD;
+ Thu, 14 May 2020 05:54:32 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-9.rdu2.redhat.com [10.10.113.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29B326A977;
- Thu, 14 May 2020 05:54:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5C6F6A977;
+ Thu, 14 May 2020 05:54:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 11/32] python/qemu/lib: remove Python2 style super() calls
-Date: Thu, 14 May 2020 01:53:42 -0400
-Message-Id: <20200514055403.18902-12-jsnow@redhat.com>
+Subject: [PATCH RFC 12/32] python/qemu/lib: fix socket.makefile() typing
+Date: Thu, 14 May 2020 01:53:43 -0400
+Message-Id: <20200514055403.18902-13-jsnow@redhat.com>
 In-Reply-To: <20200514055403.18902-1-jsnow@redhat.com>
 References: <20200514055403.18902-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,10 +54,10 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,68 +87,118 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the Python3 style instead.
+Note:
+
+A bug in typeshed (https://github.com/python/typeshed/issues/3977)
+misinterprets the type of makefile(). Work around this by explicitly
+stating that we are opening a text-mode file.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/lib/machine.py |  2 +-
- python/qemu/lib/qtest.py   | 15 +++++++--------
- 2 files changed, 8 insertions(+), 9 deletions(-)
+ python/qemu/lib/qmp.py   | 10 +++++++---
+ python/qemu/lib/qtest.py | 12 ++++++++----
+ 2 files changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/python/qemu/lib/machine.py b/python/qemu/lib/machine.py
-index 4b260fa2cb..b2f0412197 100644
---- a/python/qemu/lib/machine.py
-+++ b/python/qemu/lib/machine.py
-@@ -55,7 +55,7 @@ def __init__(self, reply):
-             desc = reply["error"]["desc"]
-         except KeyError:
-             desc = reply
--        super(MonitorResponseError, self).__init__(desc)
-+        super().__init__(desc)
-         self.reply = reply
+diff --git a/python/qemu/lib/qmp.py b/python/qemu/lib/qmp.py
+index 6ae7693965..73d49050ed 100644
+--- a/python/qemu/lib/qmp.py
++++ b/python/qemu/lib/qmp.py
+@@ -11,6 +11,10 @@
+ import errno
+ import socket
+ import logging
++from typing import (
++    Optional,
++    TextIO,
++)
  
  
+ class QMPError(Exception):
+@@ -61,7 +65,7 @@ def __init__(self, address, server=False, nickname=None):
+         self.__events = []
+         self.__address = address
+         self.__sock = self.__get_sock()
+-        self.__sockfile = None
++        self.__sockfile: Optional[TextIO] = None
+         self._nickname = nickname
+         if self._nickname:
+             self.logger = logging.getLogger('QMP').getChild(self._nickname)
+@@ -157,7 +161,7 @@ def connect(self, negotiate=True):
+         @raise QMPCapabilitiesError if fails to negotiate capabilities
+         """
+         self.__sock.connect(self.__address)
+-        self.__sockfile = self.__sock.makefile()
++        self.__sockfile = self.__sock.makefile(mode='r')
+         if negotiate:
+             return self.__negotiate_capabilities()
+         return None
+@@ -180,7 +184,7 @@ def accept(self, timeout=15.0):
+         """
+         self.__sock.settimeout(timeout)
+         self.__sock, _ = self.__sock.accept()
+-        self.__sockfile = self.__sock.makefile()
++        self.__sockfile = self.__sock.makefile(mode='r')
+         return self.__negotiate_capabilities()
+ 
+     def cmd_obj(self, qmp_cmd):
 diff --git a/python/qemu/lib/qtest.py b/python/qemu/lib/qtest.py
-index 53d814c064..7943487c2b 100644
+index 7943487c2b..4c88590eb0 100644
 --- a/python/qemu/lib/qtest.py
 +++ b/python/qemu/lib/qtest.py
-@@ -101,29 +101,28 @@ def __init__(self, binary, args=None, name=None, test_dir="/var/tmp",
-             name = "qemu-%d" % os.getpid()
-         if sock_dir is None:
-             sock_dir = test_dir
--        super(QEMUQtestMachine,
--              self).__init__(binary, args, name=name, test_dir=test_dir,
--                             socket_scm_helper=socket_scm_helper,
--                             sock_dir=sock_dir)
-+        super().__init__(binary, args, name=name, test_dir=test_dir,
-+                         socket_scm_helper=socket_scm_helper,
-+                         sock_dir=sock_dir)
-         self._qtest = None
-         self._qtest_path = os.path.join(sock_dir, name + "-qtest.sock")
+@@ -19,6 +19,7 @@
  
-     def _base_args(self):
--        args = super(QEMUQtestMachine, self)._base_args()
-+        args = super()._base_args()
-         args.extend(['-qtest', 'unix:path=' + self._qtest_path,
-                      '-accel', 'qtest'])
-         return args
+ import socket
+ import os
++from typing import Optional, TextIO
  
-     def _pre_launch(self):
--        super(QEMUQtestMachine, self)._pre_launch()
-+        super()._pre_launch()
-         self._qtest = QEMUQtestProtocol(self._qtest_path, server=True)
+ from .machine import QEMUMachine
  
-     def _post_launch(self):
--        super(QEMUQtestMachine, self)._post_launch()
-+        super()._post_launch()
-         self._qtest.accept()
+@@ -40,7 +41,7 @@ class QEMUQtestProtocol:
+     def __init__(self, address, server=False):
+         self._address = address
+         self._sock = self._get_sock()
+-        self._sockfile = None
++        self._sockfile: Optional[TextIO] = None
+         if server:
+             self._sock.bind(self._address)
+             self._sock.listen(1)
+@@ -59,7 +60,7 @@ def connect(self):
+         @raise socket.error on socket connection errors
+         """
+         self._sock.connect(self._address)
+-        self._sockfile = self._sock.makefile()
++        self._sockfile = self._sock.makefile(mode='r')
  
-     def _post_shutdown(self):
--        super(QEMUQtestMachine, self)._post_shutdown()
-+        super()._post_shutdown()
-         self._remove_if_exists(self._qtest_path)
+     def accept(self):
+         """
+@@ -68,7 +69,7 @@ def accept(self):
+         @raise socket.error on socket connection errors
+         """
+         self._sock, _ = self._sock.accept()
+-        self._sockfile = self._sock.makefile()
++        self._sockfile = self._sock.makefile(mode='r')
  
-     def qtest(self, cmd):
+     def cmd(self, qtest_cmd):
+         """
+@@ -76,6 +77,7 @@ def cmd(self, qtest_cmd):
+ 
+         @param qtest_cmd: qtest command text to be sent
+         """
++        assert self._sockfile is not None
+         self._sock.sendall((qtest_cmd + "\n").encode('utf-8'))
+         resp = self._sockfile.readline()
+         return resp
+@@ -83,7 +85,9 @@ def cmd(self, qtest_cmd):
+     def close(self):
+         """Close this socket."""
+         self._sock.close()
+-        self._sockfile.close()
++        if self._sockfile:
++            self._sockfile.close()
++            self._sockfile = None
+ 
+     def settimeout(self, timeout):
+         """Set a timeout, in seconds."""
 -- 
 2.21.1
 
