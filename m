@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE911D3D63
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 21:25:56 +0200 (CEST)
-Received: from localhost ([::1]:47616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EBDF1D3D5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 21:23:50 +0200 (CEST)
+Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZJUR-000500-A3
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 15:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58078)
+	id 1jZJSP-0000tO-Ez
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 15:23:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jZJPq-0006pG-DV
- for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:10 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:40036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jZJPp-0007Kn-JC
- for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:10 -0400
-Received: by mail-lj1-x243.google.com with SMTP id g1so4759006ljk.7
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 12:21:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sYYgHAo2+EKZquY3ZxB7P+G7B9EmMHUqv6UWZNAADzw=;
- b=iOMsP/otSUituW3WOeGUXfT+MfvpkJuDxpFSJaoy67uDsJdXdVqDfm+WQ701bAsLYa
- EiHzgr/yjWwPG2+xh1RakpPuqcLn9hnkjd1RWwBNYERTbk6Jb95+BM7uKM7NIl5l2Uqk
- AGpKNzbLSUqGGrCJuH7SUppD6dUnOcNk8xjgZtnPisaNntq6LVgo44MTA7HbVi0F2R8e
- upGpSQFFYUyEFsC32GMDwqkoTwyuMRVI2h46ULNG8Y+v+ZAgYRB/Nu2afpVap0Hn9n5W
- KOzJUlZVm3qf3XWKPDwh/zFXvhvordJ54EeQIFbXZJP5YP1aujpyZKJl5ezI5vQhEI6O
- XxUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sYYgHAo2+EKZquY3ZxB7P+G7B9EmMHUqv6UWZNAADzw=;
- b=ekXYJMJhr+iZvwFEzSkzGVaAMM1Z8y11f3zZBK1ryxov6tYFMJpqblnTN4e/l+uND7
- C279Nd3W16ZC9ntHAJL5Ie/MFlb+M5PjCPabfxbkaPlFWJbPgGk62WQgo3UVplTAKkVU
- IFZrRb4MtN2tag0JRITtTg8bti4jxwBvni3bsDwlWYQ9IuVhkBThVOKUrDVVRTXtMfAa
- ZvjgIxcBEeuRSqspWYHmYuENIwdIqEHFflgGqWyAiPQJekenEeodK6m7j2+lHr2RaHmy
- cbEycJenu+e+JRX246wOmhzPC+VvkcnE/4KApCUIppgUVKSRczkUMumxYBKXh86RFEqp
- sIcg==
-X-Gm-Message-State: AOAM530a0HTh2c++t/ekn9AZ0xXEdc9KWFfG9eYEIdVSIjTtzMxFfp2j
- IpiSiBG7ovvmktg8vNfxhys9OKO52QU=
-X-Google-Smtp-Source: ABdhPJwl8u45Lac3R++rH1C2EMGCn/K3zltzqY+HWBGqeJsn0zWl9+psfuEgkmjF5hh10bopd6S7vA==
-X-Received: by 2002:a2e:9ada:: with SMTP id p26mr3890091ljj.14.1589484067514; 
- Thu, 14 May 2020 12:21:07 -0700 (PDT)
-Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id h3sm2427257lfk.3.2020.05.14.12.21.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 12:21:07 -0700 (PDT)
-From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/17] target/mips: fpu: Demacro ADD.<D|S|PS>
-Date: Thu, 14 May 2020 21:20:31 +0200
-Message-Id: <20200514192047.5297-2-aleksandar.qemu.devel@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
-References: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jZJPh-0006Qa-5Q
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:01 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:23175
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1jZJPf-0007In-Bc
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589484057;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sYhxwmcCxDkhf+3ZjmXPVIIlOTv6CwVksSvU6004YAw=;
+ b=Zz74n2Q7oP+pw3Za713ji/mobcWNCsOxqyhRWdtCYs40i6RxeC0SE2eFUij9wXhbtvoRQ5
+ tjiqwXuHxVsbaEUP4FAOk9OA+VlSi9yyT9+wsSPaabezST8RRC748QFIIAG/E0ESX2mqBn
+ adv8kLmJcTPn0IJN67v1kv9JNykyUCU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-DEokjF9rPo2tEfEIx0HCSA-1; Thu, 14 May 2020 15:20:41 -0400
+X-MC-Unique: DEokjF9rPo2tEfEIx0HCSA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 545F3100A91C;
+ Thu, 14 May 2020 19:20:39 +0000 (UTC)
+Received: from w520.home (ovpn-113-111.phx2.redhat.com [10.3.113.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 880175D9F1;
+ Thu, 14 May 2020 19:20:32 +0000 (UTC)
+Date: Thu, 14 May 2020 13:20:32 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: John G Johnson <john.g.johnson@oracle.com>
+Subject: Re: RFC: use VFIO over a UNIX domain socket to implement device
+ offloading
+Message-ID: <20200514132032.5e635249@w520.home>
+In-Reply-To: <8101D131-3B95-4CF5-8D46-8755593AA97D@oracle.com>
+References: <MN2PR02MB62052E54C752229C115EAD898BCF0@MN2PR02MB6205.namprd02.prod.outlook.com>
+ <20200401091712.GA221892@stefanha-x1.localdomain>
+ <MW2PR02MB372349E25A0842DE045B95F58BD40@MW2PR02MB3723.namprd02.prod.outlook.com>
+ <8101D131-3B95-4CF5-8D46-8755593AA97D@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x243.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=205.139.110.120;
+ envelope-from=alex.williamson@redhat.com; helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:31:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,74 +83,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aleksandar.rikalo@rt-rk.com,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: "Walker, Benjamin" <benjamin.walker@intel.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>, Jag Raman <jag.raman@oracle.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>, "Harris,
+ James R" <james.r.harris@intel.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Kanth Ghatraju <Kanth.Ghatraju@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, "Zhang,
+ Tina" <tina.zhang@intel.com>, "Liu, Changpeng" <changpeng.liu@intel.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is just a cosmetic change to enable tools like gcov, gdb,
-callgrind, etc. to better display involved source code.
+On Thu, 14 May 2020 09:32:15 -0700
+John G Johnson <john.g.johnson@oracle.com> wrote:
 
-Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
----
- target/mips/fpu_helper.c | 38 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+> =09Thanos and I have made some changes to the doc in response to the
+> feedback we=E2=80=99ve received.  The biggest difference is that it is le=
+ss reliant
+> on the reader being familiar with the current VFIO implementation.  We=E2=
+=80=99d
+> appreciate any additional feedback you could give on the changes.  Thanks
+> in advance.
+>=20
+> =09=09=09=09=09=09=09Thanos and JJ
+>=20
+>=20
+> The link remains the same:
+>=20
+> https://docs.google.com/document/d/1FspkL0hVEnZqHbdoqGLUpyC38rSk_7HhY471T=
+sVwyK8/edit?usp=3Dsharing
 
-diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index 5287c86c61..984f3f4dfb 100644
---- a/target/mips/fpu_helper.c
-+++ b/target/mips/fpu_helper.c
-@@ -1208,12 +1208,48 @@ uint64_t helper_float_ ## name ## _ps(CPUMIPSState *env,           \
-     return ((uint64_t)wth2 << 32) | wt2;                           \
- }
- 
--FLOAT_BINOP(add)
- FLOAT_BINOP(sub)
- FLOAT_BINOP(mul)
- FLOAT_BINOP(div)
- #undef FLOAT_BINOP
- 
-+uint64_t helper_float_add_d(CPUMIPSState *env,
-+                            uint64_t fdt0, uint64_t fdt1)
-+{
-+    uint64_t dt2;
-+
-+    dt2 = float64_add(fdt0, fdt1, &env->active_fpu.fp_status);
-+    update_fcr31(env, GETPC());
-+    return dt2;
-+}
-+
-+uint32_t helper_float_add_s(CPUMIPSState *env,
-+                            uint32_t fst0, uint32_t fst1)
-+{
-+    uint32_t wt2;
-+
-+    wt2 = float32_sub(fst0, fst1, &env->active_fpu.fp_status);
-+    update_fcr31(env, GETPC());
-+    return wt2;
-+}
-+
-+uint64_t helper_float_add_ps(CPUMIPSState *env,
-+                             uint64_t fdt0, uint64_t fdt1)
-+{
-+    uint32_t fstl0 = fdt0 & 0XFFFFFFFF;
-+    uint32_t fsth0 = fdt0 >> 32;
-+    uint32_t fstl1 = fdt1 & 0XFFFFFFFF;
-+    uint32_t fsth1 = fdt1 >> 32;
-+    uint32_t wtl2;
-+    uint32_t wth2;
-+
-+    wtl2 = float32_add(fstl0, fstl1, &env->active_fpu.fp_status);
-+    wth2 = float32_add(fsth0, fsth1, &env->active_fpu.fp_status);
-+    update_fcr31(env, GETPC());
-+    return ((uint64_t)wth2 << 32) | wtl2;
-+}
-+
-+
- /* MIPS specific binary operations */
- uint64_t helper_float_recip2_d(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt2)
- {
--- 
-2.20.1
+Hi,
+
+I'm confused by VFIO_USER_ADD_MEMORY_REGION vs VFIO_USER_IOMMU_MAP_DMA.
+The former seems intended to provide the server with access to the
+entire GPA space, while the latter indicates an IOVA to GPA mapping of
+those regions.  Doesn't this break the basic isolation of a vIOMMU?
+This essentially says to me "here's all the guest memory, but please
+only access these regions for which we're providing DMA mappings".
+That invites abuse.
+
+Also regarding VFIO_USER_ADD_MEMORY_REGION, it's not clear to me how
+"an array of file descriptors will be sent as part of the message
+meta-data" works.  Also consider s/SUB/DEL/.  Why is the Device ID in
+the table specified as 0?  How does a client learn their Device ID?
+
+VFIO_USER_DEVICE_GET_REGION_INFO (or anything else making use of a
+capability chain), the cap_offset and next pointers within the chain
+need to specify what their offset is relative to (ie. the start of the
+packet, the start of the vfio compatible data structure, etc).  I
+assume the latter for client compatibility.
+
+Also on REGION_INFO, offset is specified as "the base offset to be
+given to the mmap() call for regions with the MMAP attribute".  Base
+offset from what?  Is the mmap performed on the socket fd?  Do we not
+allow read/write, we need to use VFIO_USER_MMIO_READ/WRITE instead?
+Why do we specify "MMIO" in those operations versus simply "REGION"?
+Are we arbitrarily excluding support for I/O port regions or device
+specific regions?  If these commands replace direct read and write to
+an fd offset, how is PCI config space handled?
+
+VFIO_USER_MMIO_READ specifies the count field is zero and the reply
+will include the count specifying the amount of data read.  How does
+the client specify how much data to read?  Via message size?
+
+VFIO_USER_DMA_READ/WRITE, is the address a GPA or IOVA?  IMO the device
+should only ever have access via IOVA, which implies a DMA mapping
+exists for the device.  Can you provide an example of why we need these
+commands since there seems little point to this interface if a device
+cannot directly interact with VM memory.
+
+The IOMMU commands should be unnecessary, a vIOMMU should be
+transparent to the server by virtue that the device only knows about
+IOVA mappings accessible to the device.  Requiring the client to expose
+all memory to the server implies that the server must always be trusted.
+
+Interrupt info format, s/type/index/, s/vector/subindex/
+
+In addition to the unused ioctls, the entire concept of groups and
+containers are not found in this specification.  To some degree that
+makes sense and even mdevs and typically SR-IOV VFs have a 1:1 device
+to group relationship.  However, the container is very much involved in
+the development of migration support, where it's the container that
+provides dirty bitmaps.  Since we're doing map and unmap without that
+container concept here, perhaps we'd equally apply those APIs to this
+same socket.  Thanks,
+
+Alex
 
 
