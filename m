@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162B61D3297
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:20:36 +0200 (CEST)
-Received: from localhost ([::1]:60914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6643A1D32C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:25:18 +0200 (CEST)
+Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEix-0007hw-2F
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38510)
+	id 1jZEnV-0006tw-Db
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:25:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcx-0007k2-Sf
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:23 -0400
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:44199)
+ id 1jZEcy-0007l0-Jl
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:25 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:36632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcw-0003oB-77
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:22 -0400
-Received: by mail-lf1-x136.google.com with SMTP id d22so2744332lfm.11
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:21 -0700 (PDT)
+ id 1jZEcx-0003oV-SG
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:24 -0400
+Received: by mail-lj1-x241.google.com with SMTP id u15so3717717ljd.3
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KBuh5XtT3vvpSuwwP/oXkh8fEbk4QnxLl6WMFlm593E=;
- b=WbIPQQg9BH7E4IXWsisbm0S36p6JyMe15G06iAuUYCYGJ/KYm6GK7CVRDhiEHIWJMa
- QrzzVF+uzK/7p/hhUr30o7lKmsPi/DeLZMDAl5oiryzsa9jmnFS0tiyRK/AoVbNRlSjP
- +1uN/7OJGzOaIH5OiVWmpG9f71uMZVEwe45uSxMZ8/vkPd2DthnohGbBClXO+c1xn0Cw
- XylAocg99frX+xnrpRbT2DZxBCHkA/X4tuR/oXApfAVCvuot8WN9/VBrvAaLT31GU7kd
- rNjydQ9cFDqjroRTp/6FY6jN1jg7gBxYXFGtCcZUn7MEY9+x7yt9assI0m56TD3t6aAL
- O4eA==
+ bh=7FoM1+aW2rkN6WZGeGZa1NdTwyvt1XBX/M5a6guzNPc=;
+ b=Z1rvc4d+iouPEPJFEGxRF7k5GZfcOjA7SOTurgq6CnZ39swZ8ibRCNr09ZmL9pywrz
+ r+ne+HSrzZ1FKmp9ctJzlQoawp27d+fZgaRlOUSKtrxBEVmnnz0JGthzaMwztldS/6dA
+ FFHOVnt4P8OJIZN1AM6EAaww2KR+b5cL1hsNhSdo77Eh1GD9dtm8X2dpSiX5eJk70wLt
+ 6hOlpRS6NGe/9S/yCSjsrsA6a2FAkhO11XTnDjQ0oX3OTJ5uhOWSIIZjtSbWuZd09llU
+ Eq8p3NyoAd62QQ2HbatVirjm4mB/7grbqRUCIYdPgRdKQ/CBIa/6i9IruxtejwGN/LUf
+ 8l9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KBuh5XtT3vvpSuwwP/oXkh8fEbk4QnxLl6WMFlm593E=;
- b=sCQUZszu+eY8LxJ4JbZkxxUl6RFz2Q77Tdz+/Q/VlqU1mT+b6ZUow3lKpXxD9/YGJ5
- +2FexlrLC7wd0yDSI68KmOlKtTW+8Gn77uf7k7foUKrMW8/EuK7hFTLUtKy2tCCEoV32
- fCons0TjUGMG0HGcpxUqAbbOBo02xayuvKLUNETV0wzWtfdwQMAUYLrjQogTreXUua2q
- TZjO8Llw2B2D0bpHhBFef897ZJgagnxL4XaQcuZmB1uxhYkMnPdNPeinhayUO/+pJjOn
- UOy7pazQ6MFwBKbtPy1/g9GEeg0MinoEzJrZEVI9bXqn7pkIrIFFEEjiOUhtrC4BjwUC
- O86g==
-X-Gm-Message-State: AOAM533C+tnsrZPJh7HsNmTUTNtMD+S3klUEolKnHgH8j0fzeSCv5qMw
- djTsq3nEUnJBH0QCOlQaqk2VakLoqH0=
-X-Google-Smtp-Source: ABdhPJx4rNxQSn/ladKfvChx1xMenPQS6RTfV1KFDhwxWqGwM4wavhU2UwOEcz94kLa052gsw+6FIA==
-X-Received: by 2002:a19:d:: with SMTP id 13mr3491868lfa.167.1589465660321;
- Thu, 14 May 2020 07:14:20 -0700 (PDT)
+ bh=7FoM1+aW2rkN6WZGeGZa1NdTwyvt1XBX/M5a6guzNPc=;
+ b=m6doRPhgHmW2PR734eKiwwWqR7pnnirVtjDuw6BqSWKxTiFRZD2DLUBhJiEE0+wg3p
+ C0XSIleGCcOiyzg0SltW8iHOHLA7eMU37fXmzXsCcAaGlDcoNxcrUax98rxnwXnYRLP/
+ PPZLOCbPbHbPk6A3kwiZNT2KRbC+efRLOK2FocH+jbG0gfQ/maszdOwSrDOzy+Qtpw20
+ sIb+zQehiTBAU041Svm7oTEFHs+TDP/2CPY+1SQDrIs0XxpJpoNPs3RS2174fGkp1tEB
+ LJo20CFAnU7HDEkk430f7vUBHXoRH60mCUxBQ2WcUvg5Vf6gN2H7agMvv8NuYMb4fSO8
+ xBgA==
+X-Gm-Message-State: AOAM532J1V12aGP5L6zw6EZg5WdwzhYovW2VJqWlA41PLTl25ERUAzZB
+ 9R3cIZ3ztOgTbLHtAouNhcCXVVrdTGg=
+X-Google-Smtp-Source: ABdhPJwsVWycX4KYMrtnKmcyEfJjqyfbHirrVzs42xxW0oi48lPv8r7u7QNtREKle+NbFidKbZu1GA==
+X-Received: by 2002:a2e:9a54:: with SMTP id k20mr3092933ljj.265.1589465661589; 
+ Thu, 14 May 2020 07:14:21 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id w29sm1963622lfc.4.2020.05.14.07.14.19
+ by smtp.gmail.com with ESMTPSA id z17sm1365436ljc.81.2020.05.14.07.14.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:14:19 -0700 (PDT)
+ Thu, 14 May 2020 07:14:20 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 12/14] target/microblaze: gdb: Extend the number of
- registers presented to GDB
-Date: Thu, 14 May 2020 16:14:00 +0200
-Message-Id: <20200514141402.12498-13-edgar.iglesias@gmail.com>
+Subject: [PULL v1 13/14] target/microblaze: gdb: Fix incorrect SReg reporting
+Date: Thu, 14 May 2020 16:14:01 +0200
+Message-Id: <20200514141402.12498-14-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x136.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 13
@@ -91,38 +90,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 
-Increase the number of Microblaze registers QEMU will report when
-talking to GDB.
+SRegs used to be reported to GDB by iterating over the SRegs array,
+however we do not store them in an order that allows them to be
+reported to GDB in that way.
+
+To fix this, a simple map is used to map the register GDB wants to its
+location in the SRegs array.
 
 Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-Id: <1589393329-223076-2-git-send-email-komlodi@xilinx.com>
+Message-Id: <1589393329-223076-3-git-send-email-komlodi@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/cpu.c     |  2 +-
- target/microblaze/gdbstub.c | 52 ++++++++++++++++++++++++++++++++++---
- 2 files changed, 50 insertions(+), 4 deletions(-)
+ target/microblaze/gdbstub.c | 59 ++++++++++++++++++++++++++++++-------
+ 1 file changed, 49 insertions(+), 10 deletions(-)
 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index aa9983069a..51e5c85b10 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -329,7 +329,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
- #endif
-     dc->vmsd = &vmstate_mb_cpu;
-     device_class_set_props(dc, mb_properties);
--    cc->gdb_num_core_regs = 32 + 5;
-+    cc->gdb_num_core_regs = 32 + 27;
- 
-     cc->disas_set_info = mb_disas_set_info;
-     cc->tcg_initialize = mb_tcg_init;
 diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
-index f41ebf1f33..54cc7857d1 100644
+index 54cc7857d1..73e8973597 100644
 --- a/target/microblaze/gdbstub.c
 +++ b/target/microblaze/gdbstub.c
-@@ -26,12 +26,37 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+@@ -25,6 +25,21 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
      MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
      CPUMBState *env = &cpu->env;
++    /*
++     * GDB expects SREGs in the following order:
++     * PC, MSR, EAR, ESR, FSR, BTR, EDR, PID, ZPR, TLBX, TLBSX, TLBLO, TLBHI.
++     * They aren't stored in this order, so make a map.
++     * PID, ZPR, TLBx, TLBsx, TLBLO, and TLBHI aren't modeled, so we don't
++     * map them to anything and return a value of 0 instead.
++     */
++    static const uint8_t sreg_map[6] = {
++        SR_PC,
++        SR_MSR,
++        SR_EAR,
++        SR_ESR,
++        SR_FSR,
++        SR_BTR
++    };
+ 
+     /*
+      * GDB expects registers to be reported in this order:
+@@ -40,15 +55,16 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+         n -= 32;
+         switch (n) {
+         case 0 ... 5:
+-            return gdb_get_reg32(mem_buf, env->sregs[n]);
++            return gdb_get_reg32(mem_buf, env->sregs[sreg_map[n]]);
+         /* PVR12 is intentionally skipped */
+         case 6 ... 17:
+             n -= 6;
+             return gdb_get_reg32(mem_buf, env->pvr.regs[n]);
+-        case 18 ... 24:
+-            /* Add an offset of 6 to resume where we left off with SRegs */
+-            n = n - 18 + 6;
+-            return gdb_get_reg32(mem_buf, env->sregs[n]);
++        case 18:
++            return gdb_get_reg32(mem_buf, env->sregs[SR_EDR]);
++        /* Other SRegs aren't modeled, so report a value of 0 */
++        case 19 ... 24:
++            return gdb_get_reg32(mem_buf, 0);
+         case 25:
+             return gdb_get_reg32(mem_buf, env->slr);
+         case 26:
+@@ -66,29 +82,52 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+     CPUMBState *env = &cpu->env;
+     uint32_t tmp;
+ 
++    /*
++     * GDB expects SREGs in the following order:
++     * PC, MSR, EAR, ESR, FSR, BTR, EDR, PID, ZPR, TLBX, TLBSX, TLBLO, TLBHI.
++     * They aren't stored in this order, so make a map.
++     * PID, ZPR, TLBx, TLBsx, TLBLO, and TLBHI aren't modeled, so we don't
++     * map them to anything.
++     */
++    static const uint8_t sreg_map[6] = {
++        SR_PC,
++        SR_MSR,
++        SR_EAR,
++        SR_ESR,
++        SR_FSR,
++        SR_BTR
++    };
++
+     if (n > cc->gdb_num_core_regs) {
+         return 0;
+     }
+ 
+     tmp = ldl_p(mem_buf);
  
 +    /*
 +     * GDB expects registers to be reported in this order:
@@ -133,63 +188,29 @@ index f41ebf1f33..54cc7857d1 100644
 +     * SLR-SHR
 +     */
      if (n < 32) {
-         return gdb_get_reg32(mem_buf, env->regs[n]);
-     } else {
--        return gdb_get_reg32(mem_buf, env->sregs[n - 32]);
-+        n -= 32;
-+        switch (n) {
-+        case 0 ... 5:
-+            return gdb_get_reg32(mem_buf, env->sregs[n]);
-+        /* PVR12 is intentionally skipped */
-+        case 6 ... 17:
-+            n -= 6;
-+            return gdb_get_reg32(mem_buf, env->pvr.regs[n]);
-+        case 18 ... 24:
-+            /* Add an offset of 6 to resume where we left off with SRegs */
-+            n = n - 18 + 6;
-+            return gdb_get_reg32(mem_buf, env->sregs[n]);
-+        case 25:
-+            return gdb_get_reg32(mem_buf, env->slr);
-+        case 26:
-+            return gdb_get_reg32(mem_buf, env->shr);
-+        default:
-+            return 0;
-+        }
-     }
--    return 0;
- }
- 
- int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-@@ -50,7 +75,28 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-     if (n < 32) {
          env->regs[n] = tmp;
      } else {
--        env->sregs[n - 32] = tmp;
-+        n -= 32;
-+        switch (n) {
-+        case 0 ... 5:
-+            env->sregs[n] = tmp;
-+            break;
-+        /* PVR12 is intentionally skipped */
-+        case 6 ... 17:
-+            n -= 6;
-+            env->pvr.regs[n] = tmp;
-+            break;
-+        case 18 ... 24:
-+            /* Add an offset of 6 to resume where we left off with SRegs */
-+            n = n - 18 + 6;
-+            env->sregs[n] = tmp;
-+            break;
-+        case 25:
-+            env->slr = tmp;
-+            break;
-+        case 26:
-+            env->shr = tmp;
-+            break;
-+        }
-     }
-     return 4;
- }
+         n -= 32;
+         switch (n) {
+         case 0 ... 5:
+-            env->sregs[n] = tmp;
++            env->sregs[sreg_map[n]] = tmp;
+             break;
+         /* PVR12 is intentionally skipped */
+         case 6 ... 17:
+             n -= 6;
+             env->pvr.regs[n] = tmp;
+             break;
+-        case 18 ... 24:
+-            /* Add an offset of 6 to resume where we left off with SRegs */
+-            n = n - 18 + 6;
+-            env->sregs[n] = tmp;
++        /* Only EDR is modeled in these indeces, so ignore the rest */
++        case 18:
++            env->sregs[SR_EDR] = tmp;
+             break;
+         case 25:
+             env->slr = tmp;
 -- 
 2.20.1
 
