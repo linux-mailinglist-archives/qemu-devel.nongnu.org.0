@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631761D3271
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:16:29 +0200 (CEST)
-Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8341D3270
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:16:21 +0200 (CEST)
+Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEey-0001ma-9s
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:16:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
+	id 1jZEep-0001QR-VL
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:16:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEch-0007Eb-Kt
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:07 -0400
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:33388)
+ id 1jZEci-0007Gt-UX
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:08 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:39921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcg-0003lN-UH
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:07 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id z22so2806244lfd.0
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:06 -0700 (PDT)
+ id 1jZEci-0003lV-7Y
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:08 -0400
+Received: by mail-lj1-x241.google.com with SMTP id u6so3682402ljl.6
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1PhlQHMBIBZyhaIVdNeOmpiXX6PbldkHvHxVIsbvZwc=;
- b=E1qai1NJLvdh6rguS0SM/8QbbjRIzvPX+fJFDUh1V03wPnHAzDUXDkBZWDPW5paO9+
- CIWG+DVWatL9DJjksyppeThBa/PbDj2OJ8agLhL9rIop18mvddgnAgn/1YLuK9g3oc0H
- KCQUMIXIGRU/e/KyFBYUQF1dlCEc2tKxLuRK9xDXd915g0VdPjUHO9mH0UO39/FgkcpD
- 7ggJOAeEsvcfTEsvjlqpYyFgL3ATsO9VPm5z3ZoB/38gOxuzavqkpDNDaDwqBMWmI4UL
- A667xHgxQzM2SS66rgchhs/L7r8R/t/2Td1gIgAcTVD0tq3PxqTKaViE8kTL3d2iyiUM
- fhgg==
+ bh=5d6jbtddgGFL5WCJTRJhnSo2ooSc1NJpLI9in/SUXbM=;
+ b=q0yqi/X/LYs4yCqVyIullYi7RDgXfysKHhW4D2zYd49eDkmlR7ImGdFUNcQ3qs1PFx
+ r2CoJDWCgDExyDSM7GD4hCFuoQwm408PXOstqK8a802rjfz1/Qk1KwV3StxZIbjBrZCP
+ FhuHXxyAsTPrlcxauJNp4DxVPkHv2k1HaJAX4iPI4HbBijCUItByc3KrF27mH3kJdzw9
+ esFGzOVpriCe/MbcxRKySN7ed63spNuPdDdWrchNLAwqavG5/0ujRQxPavelPgjIeeh/
+ rgHVfTGxZXIy7/Aj5VI1KXvcbpNwBEudwMxmMctiG2LeQmugt90zZJB6LUJiqdTi5IG5
+ QgMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1PhlQHMBIBZyhaIVdNeOmpiXX6PbldkHvHxVIsbvZwc=;
- b=RI59c+RgeSUPqa8dHWhxXZMt7A+/ptFGItF0ikfviyYmDRCAvIGYdhRBDMj9UcSUJH
- 7OgUEyhp7EJSS5ZUOzqSJr9fQPTE8VJtXzgj6KCfNm0Eq0F+6TegVMESNQbESKVX7XL4
- KVP6Ugrl4rD4ORVIfcIGQ6A57bFLpPGAm+kPPaX0mK8Ygu/xsXmNTonbFzhMZIFnAkZx
- fpwfyNx++9WEARm/iBdms+qujHwaGO2RT+3PhwKqf9jRXkR4aAw23DgPbNE/IHePT7jv
- emFmKfsHGXaHdGezkqD8bKBzSuk3SKrhj4Up1BB+f6Qbf75+IgBG1jz1tnmXkqe8ZZAE
- DJvg==
-X-Gm-Message-State: AOAM533knGv4VFV/20UvQ6tcz4zNEHFE7OApb5UMCdIyHUCO3UNUL+RU
- Ax++4K2pfZ6pyG9KV1/0OsMF/EoEo5M=
-X-Google-Smtp-Source: ABdhPJx61lXYooqthv1DVwyn+D+vQxgeA54AujYJpCrFVA0ZMuS2ByV/C4+s5DhM7DpvGQRLZGPVgw==
-X-Received: by 2002:ac2:599e:: with SMTP id w30mr2757177lfn.188.1589465644922; 
- Thu, 14 May 2020 07:14:04 -0700 (PDT)
+ bh=5d6jbtddgGFL5WCJTRJhnSo2ooSc1NJpLI9in/SUXbM=;
+ b=CoaTVb8m8qVZs2FlinrJ0EZWFrvb3/y2aRccDaUTimGGg8y1tXTRiCtIxIdxnnTrpw
+ rPuYm3PSLP+r0mpfHg/lZnC1sRme/ysc2XjHirUTq9AzfqDuYHHPvxAUK3Kx8QGxhz4O
+ i2KVCCwGE4n747u4j51OyoKXIXQCjVmVjFjEpVROMjMJ6OpGujnAaOLlo1a480g6z20s
+ B7kZESf2ngOyzcGE+qxtciKC+SQio8zctjF2Q9ETQxTBbhWzpwlx4Uf+v+nkNZ3qN0s3
+ 5iRqUc7mYLLiIVr0+ZzQXp2IzJzkMBpf9EbZQlrYxCNwi0rGKk2gt6pNOGp6ACWUdxEj
+ +SKg==
+X-Gm-Message-State: AOAM532cxwDcFj5fK5LYfbLx8wdgP/qFzeV2ingpT+V+QxVrXnmTbYXE
+ ME7+bBa5uGGCvszuXEGgrI0hynGke8I=
+X-Google-Smtp-Source: ABdhPJxwB9urorrEJw4EbtD0neypToKHGXNAwUpQnfeuNXdpUmd77TOR1Hzc3cRADvzzBJHg8kqNqA==
+X-Received: by 2002:a2e:8813:: with SMTP id x19mr2951450ljh.83.1589465646254; 
+ Thu, 14 May 2020 07:14:06 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id d9sm1917486lfa.77.2020.05.14.07.14.04
+ by smtp.gmail.com with ESMTPSA id g11sm1575083ljg.24.2020.05.14.07.14.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:14:04 -0700 (PDT)
+ Thu, 14 May 2020 07:14:05 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 01/14] hw/net/xilinx_axienet: Auto-clear PHY Autoneg
-Date: Thu, 14 May 2020 16:13:49 +0200
-Message-Id: <20200514141402.12498-2-edgar.iglesias@gmail.com>
+Subject: [PULL v1 02/14] hw/net/xilinx_axienet: Cleanup stream->push assignment
+Date: Thu, 14 May 2020 16:13:50 +0200
+Message-Id: <20200514141402.12498-3-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x241.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 13
@@ -90,31 +91,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Auto-clear PHY CR Autoneg bits. This makes this model
-work with recent Linux kernels.
+Split the shared stream_class_init function to assign
+stream->push with better type-safety.
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-Id: <20200506082513.18751-2-edgar.iglesias@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200506082513.18751-3-edgar.iglesias@gmail.com>
 ---
- hw/net/xilinx_axienet.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/net/xilinx_axienet.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-index 704788811a..0f97510d8a 100644
+index 0f97510d8a..84073753d7 100644
 --- a/hw/net/xilinx_axienet.c
 +++ b/hw/net/xilinx_axienet.c
-@@ -149,8 +149,8 @@ tdk_write(struct PHY *phy, unsigned int req, unsigned int data)
-             break;
-     }
- 
--    /* Unconditionally clear regs[BMCR][BMCR_RESET] */
--    phy->regs[0] &= ~0x8000;
-+    /* Unconditionally clear regs[BMCR][BMCR_RESET] and auto-neg */
-+    phy->regs[0] &= ~0x8200;
+@@ -1029,11 +1029,19 @@ static void xilinx_enet_class_init(ObjectClass *klass, void *data)
+     dc->reset = xilinx_axienet_reset;
  }
  
- static void
+-static void xilinx_enet_stream_class_init(ObjectClass *klass, void *data)
++static void xilinx_enet_control_stream_class_init(ObjectClass *klass,
++                                                  void *data)
+ {
+     StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
+ 
+-    ssc->push = data;
++    ssc->push = xilinx_axienet_control_stream_push;
++}
++
++static void xilinx_enet_data_stream_class_init(ObjectClass *klass, void *data)
++{
++    StreamSlaveClass *ssc = STREAM_SLAVE_CLASS(klass);
++
++    ssc->push = xilinx_axienet_data_stream_push;
+ }
+ 
+ static const TypeInfo xilinx_enet_info = {
+@@ -1048,8 +1056,7 @@ static const TypeInfo xilinx_enet_data_stream_info = {
+     .name          = TYPE_XILINX_AXI_ENET_DATA_STREAM,
+     .parent        = TYPE_OBJECT,
+     .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+-    .class_init    = xilinx_enet_stream_class_init,
+-    .class_data    = xilinx_axienet_data_stream_push,
++    .class_init    = xilinx_enet_data_stream_class_init,
+     .interfaces = (InterfaceInfo[]) {
+             { TYPE_STREAM_SLAVE },
+             { }
+@@ -1060,8 +1067,7 @@ static const TypeInfo xilinx_enet_control_stream_info = {
+     .name          = TYPE_XILINX_AXI_ENET_CONTROL_STREAM,
+     .parent        = TYPE_OBJECT,
+     .instance_size = sizeof(struct XilinxAXIEnetStreamSlave),
+-    .class_init    = xilinx_enet_stream_class_init,
+-    .class_data    = xilinx_axienet_control_stream_push,
++    .class_init    = xilinx_enet_control_stream_class_init,
+     .interfaces = (InterfaceInfo[]) {
+             { TYPE_STREAM_SLAVE },
+             { }
 -- 
 2.20.1
 
