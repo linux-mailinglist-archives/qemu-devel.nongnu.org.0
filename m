@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970031D32A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:22:54 +0200 (CEST)
-Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162B61D3297
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:20:36 +0200 (CEST)
+Received: from localhost ([::1]:60914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZElB-0003I5-Im
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
+	id 1jZEix-0007hw-2F
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcv-0007il-TF
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:21 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:37004)
+ id 1jZEcx-0007k2-Sf
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:23 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:44199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcu-0003nq-VR
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:21 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id 8so2785383lfp.4
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:20 -0700 (PDT)
+ id 1jZEcw-0003oB-77
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:22 -0400
+Received: by mail-lf1-x136.google.com with SMTP id d22so2744332lfm.11
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Cdqb6YfEnUEOZ9+1iE9YYK31lx3pNnIUCeb18hsJxJs=;
- b=e8rt/9YY/PiTZBRxClnOBelZoDeKUflQn/FM+2u7lhwn4vTAJcoqC2gROKM+PvBxLI
- cszU/9/iErG54X15q//gmh4EvtS5Hw4EeuV7Z5BOZa+NmSRxEOdDstPo7t+Y2l+HJZ1v
- 3VdwfkjaMh6uHzieUg9qzxx5l7lCe1jn5dfR2ge4Lp9zjwYtqiX4abfY8S8Z0fHJo3TY
- VXn69BEJRLcUla9gu+aDDICS5hvlLYPPB0O8+whtSP622FSACTT5NiFUS4TyOFtJeT/n
- PzxxOIm8xIZ/54tmFHg2GI9y9hcIX6b9/8hEzSv0+NytITlwwLSSvdp9rZI/a3hFJsrG
- kobg==
+ bh=KBuh5XtT3vvpSuwwP/oXkh8fEbk4QnxLl6WMFlm593E=;
+ b=WbIPQQg9BH7E4IXWsisbm0S36p6JyMe15G06iAuUYCYGJ/KYm6GK7CVRDhiEHIWJMa
+ QrzzVF+uzK/7p/hhUr30o7lKmsPi/DeLZMDAl5oiryzsa9jmnFS0tiyRK/AoVbNRlSjP
+ +1uN/7OJGzOaIH5OiVWmpG9f71uMZVEwe45uSxMZ8/vkPd2DthnohGbBClXO+c1xn0Cw
+ XylAocg99frX+xnrpRbT2DZxBCHkA/X4tuR/oXApfAVCvuot8WN9/VBrvAaLT31GU7kd
+ rNjydQ9cFDqjroRTp/6FY6jN1jg7gBxYXFGtCcZUn7MEY9+x7yt9assI0m56TD3t6aAL
+ O4eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Cdqb6YfEnUEOZ9+1iE9YYK31lx3pNnIUCeb18hsJxJs=;
- b=nDS/dJjUkTbWf8WhkKpBr7boW9e/Y/4vhde0vGIXucVBVUJeYWq5V+v8aas4oJTLs7
- 5lGku0h+PdY6Czl8QItLL987Oj/R1fNOTzTVsYllRHE1g07KAyXZj1GcyQGyu1yd91lB
- OJf5FPAkJ5up0sS9O9MCENgYz+4UYfo/MGKcqfsud5HHlxDkyg+WKC+orEqXHtXpbW4f
- jtkYRoa9ojBEgt5BYQ2PImu/ljMWUbv+7S0cBg9aR/xmY4F2bWsBqIzP3QnRBLc5MvJA
- FYMVLu3cvZPs7VuI06BdQYyXTelxe+qqIOhs0a6lhP6+mqrSoEUJur7Lg79elKHxEKtH
- td8g==
-X-Gm-Message-State: AOAM532jOKz3ebrXSu4TBA08OebKuR1pLLnxnXjGJxoJ1Euax1yvsyba
- QdmGgUzUpt60uD/iIfkyMYqyhsGuSs0=
-X-Google-Smtp-Source: ABdhPJwOedG4C5dNUh6HlP0ISJXczYVAmAnAz2CnIiq8H9JKQ8CHZO3ryT9cqSau7iYsBtsk42h6Vw==
-X-Received: by 2002:ac2:558e:: with SMTP id v14mr3507672lfg.138.1589465659126; 
- Thu, 14 May 2020 07:14:19 -0700 (PDT)
+ bh=KBuh5XtT3vvpSuwwP/oXkh8fEbk4QnxLl6WMFlm593E=;
+ b=sCQUZszu+eY8LxJ4JbZkxxUl6RFz2Q77Tdz+/Q/VlqU1mT+b6ZUow3lKpXxD9/YGJ5
+ +2FexlrLC7wd0yDSI68KmOlKtTW+8Gn77uf7k7foUKrMW8/EuK7hFTLUtKy2tCCEoV32
+ fCons0TjUGMG0HGcpxUqAbbOBo02xayuvKLUNETV0wzWtfdwQMAUYLrjQogTreXUua2q
+ TZjO8Llw2B2D0bpHhBFef897ZJgagnxL4XaQcuZmB1uxhYkMnPdNPeinhayUO/+pJjOn
+ UOy7pazQ6MFwBKbtPy1/g9GEeg0MinoEzJrZEVI9bXqn7pkIrIFFEEjiOUhtrC4BjwUC
+ O86g==
+X-Gm-Message-State: AOAM533C+tnsrZPJh7HsNmTUTNtMD+S3klUEolKnHgH8j0fzeSCv5qMw
+ djTsq3nEUnJBH0QCOlQaqk2VakLoqH0=
+X-Google-Smtp-Source: ABdhPJx4rNxQSn/ladKfvChx1xMenPQS6RTfV1KFDhwxWqGwM4wavhU2UwOEcz94kLa052gsw+6FIA==
+X-Received: by 2002:a19:d:: with SMTP id 13mr3491868lfa.167.1589465660321;
+ Thu, 14 May 2020 07:14:20 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id 26sm1619235ljp.22.2020.05.14.07.14.18
+ by smtp.gmail.com with ESMTPSA id w29sm1963622lfc.4.2020.05.14.07.14.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:14:18 -0700 (PDT)
+ Thu, 14 May 2020 07:14:19 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 11/14] target/microblaze: Fix FPU2 instruction check
-Date: Thu, 14 May 2020 16:13:59 +0200
-Message-Id: <20200514141402.12498-12-edgar.iglesias@gmail.com>
+Subject: [PULL v1 12/14] target/microblaze: gdb: Extend the number of
+ registers presented to GDB
+Date: Thu, 14 May 2020 16:14:00 +0200
+Message-Id: <20200514141402.12498-13-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x136.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 13
@@ -90,32 +91,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 
-The check to see if we can use FPU2 instructions would return 0 if
-cfg.use_fpu == 2, rather than returning the PVR2_USE_FPU2_MASK.
-
-This would cause all FPU2 instructions (fsqrt, flt, fint) to not be used.
+Increase the number of Microblaze registers QEMU will report when
+talking to GDB.
 
 Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-Id: <1589219346-106769-2-git-send-email-komlodi@xilinx.com>
+Message-Id: <1589393329-223076-2-git-send-email-komlodi@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/translate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/microblaze/cpu.c     |  2 +-
+ target/microblaze/gdbstub.c | 52 ++++++++++++++++++++++++++++++++++---
+ 2 files changed, 50 insertions(+), 4 deletions(-)
 
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 92b3630804..8079724f32 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1392,7 +1392,7 @@ static int dec_check_fpuv2(DisasContext *dc)
-         tcg_gen_movi_i64(cpu_SR[SR_ESR], ESR_EC_FPU);
-         t_gen_raise_exception(dc, EXCP_HW_EXCP);
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index aa9983069a..51e5c85b10 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -329,7 +329,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+ #endif
+     dc->vmsd = &vmstate_mb_cpu;
+     device_class_set_props(dc, mb_properties);
+-    cc->gdb_num_core_regs = 32 + 5;
++    cc->gdb_num_core_regs = 32 + 27;
+ 
+     cc->disas_set_info = mb_disas_set_info;
+     cc->tcg_initialize = mb_tcg_init;
+diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
+index f41ebf1f33..54cc7857d1 100644
+--- a/target/microblaze/gdbstub.c
++++ b/target/microblaze/gdbstub.c
+@@ -26,12 +26,37 @@ int mb_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+     CPUMBState *env = &cpu->env;
+ 
++    /*
++     * GDB expects registers to be reported in this order:
++     * R0-R31
++     * PC-BTR
++     * PVR0-PVR11
++     * EDR-TLBHI
++     * SLR-SHR
++     */
+     if (n < 32) {
+         return gdb_get_reg32(mem_buf, env->regs[n]);
+     } else {
+-        return gdb_get_reg32(mem_buf, env->sregs[n - 32]);
++        n -= 32;
++        switch (n) {
++        case 0 ... 5:
++            return gdb_get_reg32(mem_buf, env->sregs[n]);
++        /* PVR12 is intentionally skipped */
++        case 6 ... 17:
++            n -= 6;
++            return gdb_get_reg32(mem_buf, env->pvr.regs[n]);
++        case 18 ... 24:
++            /* Add an offset of 6 to resume where we left off with SRegs */
++            n = n - 18 + 6;
++            return gdb_get_reg32(mem_buf, env->sregs[n]);
++        case 25:
++            return gdb_get_reg32(mem_buf, env->slr);
++        case 26:
++            return gdb_get_reg32(mem_buf, env->shr);
++        default:
++            return 0;
++        }
      }
--    return (dc->cpu->cfg.use_fpu == 2) ? 0 : PVR2_USE_FPU2_MASK;
-+    return (dc->cpu->cfg.use_fpu == 2) ? PVR2_USE_FPU2_MASK : 0;
+-    return 0;
  }
  
- static void dec_fpu(DisasContext *dc)
+ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+@@ -50,7 +75,28 @@ int mb_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+     if (n < 32) {
+         env->regs[n] = tmp;
+     } else {
+-        env->sregs[n - 32] = tmp;
++        n -= 32;
++        switch (n) {
++        case 0 ... 5:
++            env->sregs[n] = tmp;
++            break;
++        /* PVR12 is intentionally skipped */
++        case 6 ... 17:
++            n -= 6;
++            env->pvr.regs[n] = tmp;
++            break;
++        case 18 ... 24:
++            /* Add an offset of 6 to resume where we left off with SRegs */
++            n = n - 18 + 6;
++            env->sregs[n] = tmp;
++            break;
++        case 25:
++            env->slr = tmp;
++            break;
++        case 26:
++            env->shr = tmp;
++            break;
++        }
+     }
+     return 4;
+ }
 -- 
 2.20.1
 
