@@ -2,61 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C1A1D37F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 19:23:22 +0200 (CEST)
-Received: from localhost ([::1]:37110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEC21D3821
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 19:28:06 +0200 (CEST)
+Received: from localhost ([::1]:46908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZHZp-0003FP-3x
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 13:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39920)
+	id 1jZHeP-0008SM-Sm
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 13:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jZHYr-0002Yi-Oe
- for qemu-devel@nongnu.org; Thu, 14 May 2020 13:22:21 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:54989)
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1jZHdT-0007nV-9j; Thu, 14 May 2020 13:27:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15320
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jZHYq-00040K-Cd
- for qemu-devel@nongnu.org; Thu, 14 May 2020 13:22:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=mtN0R/ptMyE+mE3/AJdxZw2L0CMhN1Mw1lkJBm/6uXw=; b=JbnXDvuMuFjahDqG+yRVBUfCxF
- 4vj71abu2CiHWILcFlBpCb7uvn9VPRLZNsRW8zMiL1BsijCBphvx7a9RWoeJeaD3tMhoJp2lbY1F1
- WYVdEk4PXT5lLEpiXjtG6iOoZ/jrQK0A/4Yv0jkemoEQ5G0rdaoKXfMDq1ixY/mJGWD6c7oLN9Trv
- G/4O5xBXuaGw7bGqijxcpSVFXMSKqamzlCzoRchlgkCgkK5LTC5FjXsjdY91ECBCwtJLmyqkeRiU7
- 9dHbWeQgpXhyAUdam4ocZnzAlEUIzZjtKmchdwwBpsCT4BTSeLreFHV7G9Wf8K5Fg+wzu1xxTCsJM
- sosNZqH7APArQmgz0ovlZkLhFbagxcjIvdoVtuIOfqK/zQuNuA5SB/06AMTfNMozXnslyWEYEhemQ
- lrp0EhGvacyEkMO3sSWN4fyXiC53TcOGikTddk7ECxsRsD3nIKT+Z0yXJyt9QVkumzT1aVR51K5Iu
- UIOeRH/6h9pELTKAo78AV4x9zLIvzpIPNTzDMLMypRCXJw1qe6w1zZc7vFhiAZd3GSBbWd8Or6cqk
- h2AN4wKzPy5TY5SEVq8W3LXv+B4hpgMgHPh4kwwutWfIddnuEKRORvAEc2nwQQ8Gt50kexdRHNO6q
- g5sD/wuq65JSm1w1L/ByNTuCJx0M9LBjWjbSYmLuM=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Stefano Stabellini <sstabellini@kernel.org>
-Cc: qemu-devel@nongnu.org, Anthony Perard <anthony.perard@citrix.com>,
- Paul Durrant <paul@xen.org>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 2/2] 9pfs: fix init_in_iov_from_pdu truncating size
-Date: Thu, 14 May 2020 19:21:51 +0200
-Message-ID: <3682218.KU1Dzr61pV@silver>
-In-Reply-To: <alpine.DEB.2.21.2005140853310.26167@sstabellini-ThinkPad-T480s>
-References: <cover.1589132512.git.qemu_oss@crudebyte.com>
- <3966630.RI2PehbzW4@silver>
- <alpine.DEB.2.21.2005140853310.26167@sstabellini-ThinkPad-T480s>
+ (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
+ id 1jZHdS-0006G1-FU; Thu, 14 May 2020 13:27:06 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04EH2TCc187921; Thu, 14 May 2020 13:27:05 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3119d99ws3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 May 2020 13:27:05 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04EHR4ex116146;
+ Thu, 14 May 2020 13:27:04 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3119d99wrq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 May 2020 13:27:04 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04EHEmWi020001;
+ Thu, 14 May 2020 17:22:03 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02dal.us.ibm.com with ESMTP id 3100ucce4m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 May 2020 17:22:03 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04EHM2s720775188
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 May 2020 17:22:02 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 26605C6057;
+ Thu, 14 May 2020 17:22:02 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3EE6DC6061;
+ Thu, 14 May 2020 17:22:01 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.85.130.116])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Thu, 14 May 2020 17:22:01 +0000 (GMT)
+Subject: Re: [PATCH v1 2/8] s390/sclp: check sccb len before filling in data
+To: Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>
+References: <20200508230823.22956-1-walling@linux.ibm.com>
+ <20200508230823.22956-3-walling@linux.ibm.com>
+ <58bc496c-28bb-26f8-ab46-aba6ad141717@linux.ibm.com>
+ <737869a8-13b2-1831-00c6-629d5a109d9c@redhat.com>
+ <05ab2e59-10c0-c7df-c014-b54883ddccd3@linux.ibm.com>
+ <9a39a948-91a1-7cfe-f2a5-d30e5564f318@redhat.com>
+ <20200512180140.4be69d60.cohuck@redhat.com>
+ <5ed5bc04-e4e3-21ca-057f-a978ef411ad8@linux.ibm.com>
+ <20200513101637.2f325838.cohuck@redhat.com>
+From: Collin Walling <walling@linux.ibm.com>
+Message-ID: <3de4ba3e-e609-c753-fd57-4ed00242e820@linux.ibm.com>
+Date: Thu, 14 May 2020 13:22:00 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 12:10:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20200513101637.2f325838.cohuck@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
+ definitions=2020-05-14_05:2020-05-14,
+ 2020-05-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 spamscore=0
+ priorityscore=1501 cotscore=-2147483648 phishscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 clxscore=1015 adultscore=0
+ malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2005140147
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 13:23:19
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,100 +109,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mst@redhat.com, David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ svens@linux.ibm.com, pbonzini@redhat.com, mihajlov@linux.ibm.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 14. Mai 2020 18:24:58 CEST Stefano Stabellini wrote:
-> > > The Xen transport
-> > > (https://xenbits.xenproject.org/docs/4.13-testing/misc/9pfs.html) has a
-> > > shared memory area with 64 pages, so 256KB. It is split in half: 128KB
-> > > for requests and 128KB for responses.
-> > 
-> > That's very little. That also means you won't be able to ever achieve
-> > decent 9pfs performance with Xen, because that requires a much larger
-> > msize of approximately msize >= 4MB, depending on the underlying I/O
-> > hardware, tendency growing (due to rising I/O hardware bandwidth).
+On 5/13/20 4:16 AM, Cornelia Huck wrote:
+> On Wed, 13 May 2020 09:43:37 +0200
+> Janosch Frank <frankja@linux.ibm.com> wrote:
 > 
-> That's great feedback. Fortunately the size of the transport is
-> configurable so it is one liner away from becoming much bigger (well,
-> two oneliners, see net/9p/trans_xen.c:XEN_9PFS_RING_ORDER in Linux, and
-> hw/9pfs/xen-9p-backend.c:MAX_RING_ORDER in QEMU.)
+>> On 5/12/20 6:01 PM, Cornelia Huck wrote:
+>>> On Mon, 11 May 2020 17:02:06 +0200
+>>> David Hildenbrand <david@redhat.com> wrote:
+>>>   
+>>>> On 11.05.20 16:50, Janosch Frank wrote:  
+>>>>> On 5/11/20 4:44 PM, David Hildenbrand wrote:    
+>>>>>> On 11.05.20 16:36, Janosch Frank wrote:    
+>>>>>>> On 5/9/20 1:08 AM, Collin Walling wrote:    
+>>>>>>>> The SCCB must be checked for a sufficient length before it is filled
+>>>>>>>> with any data. If the length is insufficient, then the SCLP command
+>>>>>>>> is suppressed and the proper response code is set in the SCCB header.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Collin Walling <walling@linux.ibm.com>    
+>>>>>>>
+>>>>>>> Fixes tag?  
+>>>
+>>> Probably
+>>>
+>>> Fixes: 832be0d8a3bb ("s390x: sclp: Report insufficient SCCB length")
+>>>
+>>> ?
+>>>   
+>>>>>>> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>    
+>>>>>>
+>>>>>> This is not a fix AFAIKs.
+>>>>>> sclp_service_call()/sclp_service_call_protected() always supplies a full
+>>>>>> SCCB of exactly 4k size.
+>>>>>>    
+>>>>>
+>>>>> We don't check for QEMU's 4k buffer here, but for the length that was
+>>>>> specified by the guest.
+>>>>>
+>>>>> It's valid for the guest to request cpu info and state that its buffer
+>>>>> is only 1k. We can't write everything in 1k if we have ~200 cpus, so
+>>>>> we'll report the insufficient length rc.
+>>>>>
+>>>>> What he fixes here is the time of the length check, it should be done
+>>>>> before any changes are being done to the work_sccb.    
+>>>>
+>>>> I don't have access to the spec, especially, if the guest can expect
+>>>> nothing else in the sccb to change in case we report an error code. So
+>>>> whatever you tell me, I have to trust you :)  
+>>>
+>>> Same here. Sounds plausible, but I have to trust the folks with the
+>>> documentation :)
+>>>   
+>>
+>> The AR states that:
+>> * Command validity check (has prio over length, as length is dependent
+>> on command)
+>> * boundary (if extended-length is not available)
+>> * Sufficient length check
+>>
+>> are done before "any other command action is taken".
+>> If a test fails the command is suppressed.
 > 
-> Would you recommend 4MB each way, so a total of 8MB?
-
-It would be an improvement for Xen, sure. But what if a user picks e.g. 
-msize=100MB? Then you are back at square one, because if guest does this on a 
-huge file:
-
-	const size_t sz = 5*1024*1024;
-	char* buf = malloc(sz);
-	// read file in 5MiB chunks
-	while (read(fd, buf, sz) > 0) {
-		...
-	}
-
-then you are still unable to handle this; the yield hack would loop forever.
-
-> > As far as I understand you now, the problem with Xen transport seems to be
-> > that clients can submit requests more quickly than the 9pfs server could
-> > process. That would change the overall situation completely, because my
-> > hack solution with delaying delivery (yield) suggested previously, was
-> > based on the assumption that this low transport buffer scenario only
-> > happens once on boot, but not possibly at any later point again and
-> > again.
+> Thanks, makes sense.
 > 
-> Yes I think it could happen at any time, not just at boot.
-> 
-> From my understanding, I don't think it is necessarily due to QEMU being
-> slow. In fact, if QEMU was slow and the client fast, the reply ring
-> would be empty because the client would be up to speed, therefore msize
-> == transport_available_size, and there is no problem.
 
-Right, if msize == transport_max_size then Xen easily runs into this 
-situation, no matter how fast client is to pull responses. Because in this 
-situation it requires just a single response still pending to be pulled by 
-client to trigger this Xen transport buffer underrun situation.
+Thanks, Janosch! (I suppose I could've said the same as well. Sorry
+about that).
 
-> So maybe it is OK to delaying delivery because it seems to me that is
-> the issue.
-> 
-> Also I am thinking that if we are going to increase the ring size to
-> 4MB, maybe we should take the opportunity to set msize=transport_size/2
-> just to reduce the likelihood of this kind of issue, in addition to a
-> proper fix.
+-- 
+--
+Regards,
+Collin
 
-To prevent the yield hack to loop forever, yes, you would at least need to 
-limit 'msize' according to Xen's maximum transport buffer size. This must be 
-done when client opens a 9P session when client sends Tversion:
-
-http://ericvh.github.io/9p-rfc/rfc9p2000.html#version
-
-However I would make the Xen transport buffer size at least configurable for 
-administrators. You'll never know how large people want to pick 'msize' for 
-performance reasons.
-
-> Yes, I think we want to do three things:
-> - increase the transport size for performance
-> - set msize=transport_size/2 to decrease the likehood of this kind of
->   issues
-
-Sounds like a plan to me!
-
-> - introduce a slow but safe fix when the issue happens, and
->   qemu_coroutine_yield() or yield_until_fd_readable() could be OK if it
->   is very rare
-
-Yeah, and better test that this would not hang. ;-)
-
-I would also call warn_report_once() in case this slow yield hack is 
-triggered, to let admin know that Xen's transport buffer should be increased 
-to avoid this performance issue.
-
-Likewise call warn_report_once() if server's Tversion request handler had to 
-reduce msize.
-
-Best regards,
-Christian Schoenebeck
-
-
+Stay safe and stay healthy
 
