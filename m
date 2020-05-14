@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDCE1D3023
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 14:44:08 +0200 (CEST)
-Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A581D300D
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 14:42:04 +0200 (CEST)
+Received: from localhost ([::1]:45512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZDDb-0003Tw-Dm
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 08:44:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53092)
+	id 1jZDBb-00009v-Q2
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 08:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jZD7T-0003HB-K6; Thu, 14 May 2020 08:37:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jZD7S-0006Vv-Nh; Thu, 14 May 2020 08:37:47 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04ECWMMj038728; Thu, 14 May 2020 08:37:45 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3111w8gjpr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 08:37:45 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04ECWPhe040317;
- Thu, 14 May 2020 08:37:44 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3111w8gjnu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 08:37:44 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04ECZL7W008048;
- Thu, 14 May 2020 12:37:42 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma02fra.de.ibm.com with ESMTP id 3100ub9ghy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 12:37:42 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 04ECbe4j53739960
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 May 2020 12:37:40 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1B5D4A4054;
- Thu, 14 May 2020 12:37:40 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7408DA4066;
- Thu, 14 May 2020 12:37:39 +0000 (GMT)
-Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 14 May 2020 12:37:39 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 9/9] pc-bios: s390x: Make u32 ptr check explicit
-Date: Thu, 14 May 2020 08:37:29 -0400
-Message-Id: <20200514123729.156283-10-frankja@linux.ibm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200514123729.156283-1-frankja@linux.ibm.com>
-References: <20200514123729.156283-1-frankja@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jZD7P-0003Dt-Ov
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 08:37:44 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:48008
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1jZD7O-0006UN-7k
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 08:37:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589459859;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0y6nJaMZhXP1jolp25B2s089NXrD2AuMR5kyFxxMgG4=;
+ b=MSUKbFkoOQvz3yFGd1FYF9Hrxq7dcqprptTd6Xp8tbnysT/MDlm9OYtLJJdzj1uk/JOywU
+ Fu6rz5FIet2bHB4bbKXvYpXOtHVZ0IHNh2qAL/k/EJ3Hq81ThozlBIaojzfZox8zrYPE0w
+ vIArRNvvCMTsXk1CzvuZzppuZL6Fxes=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-hAqFIhhjPRqryGXHndKkuw-1; Thu, 14 May 2020 08:37:36 -0400
+X-MC-Unique: hAqFIhhjPRqryGXHndKkuw-1
+Received: by mail-wr1-f71.google.com with SMTP id 90so1500327wrg.23
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 05:37:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0y6nJaMZhXP1jolp25B2s089NXrD2AuMR5kyFxxMgG4=;
+ b=OX9dTMh1dTHR/HweeIB/koYbPSy1SpyHQvSG0VOCCe+cgqYLwhhHvZ6ASdZX0/jpjo
+ FHPkAiOPVxeJRi1CVd5Dz8IbAw1PvGFCinuymhN5a9s/vdgS7NjnW/7G3CKvWXOocxBu
+ 0/SqjfzhyAsYM2AQtE60RuWfCDy9iiDpMOg21N+ni4Y0/QQNCIajKndCwFD9SjaGHE8N
+ LLOqMLFTVRYGh8ev03ynhYLu9KwmVzrqBQLRhEr5PgD8UZxVuebKEOCbn3Aq8Zr7lWf6
+ zWzTtBd5KWlKwDaddZq0DWzP1QwUdWfrus4NxgiIHe0A7TpHSUQ+nclOnNqOyzTES0QC
+ 6Ysw==
+X-Gm-Message-State: AOAM532g7UWtRlxY1n/Oj8ukwnOquz08zPmXn9gWQ5JJS8yZ1QWAm3YC
+ 9rXfIZea51qTjSRc8T7BXcK05yoQjrycJdlyfzgSGs3gos0X8l8bYa7X64wXYJY5u7Exsr2K/hw
+ SBUNN4f6etH+eR+c=
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr7524649wmi.86.1589459855867; 
+ Thu, 14 May 2020 05:37:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSqviVDlr3rvpQkracila8FKxEp+YQcIFf6IDAWtK/JY0A7U7k0TvLCjhcsTUljEMklNJX6A==
+X-Received: by 2002:a1c:770e:: with SMTP id t14mr7524632wmi.86.1589459855641; 
+ Thu, 14 May 2020 05:37:35 -0700 (PDT)
+Received: from [192.168.178.58] ([151.30.85.171])
+ by smtp.gmail.com with ESMTPSA id 2sm3970739wre.25.2020.05.14.05.37.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 May 2020 05:37:34 -0700 (PDT)
+Subject: Re: proposal: deprecate -readconfig/-writeconfig
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <7599153e-89a2-9a86-16ad-4a3c6a107b18@redhat.com>
+ <20200514085622.GB1280939@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1287b3b8-9fd0-04d5-1dd2-66b695dace5d@redhat.com>
+Date: Thu, 14 May 2020 14:37:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200514085622.GB1280939@redhat.com>
+Content-Language: en-US
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-14_02:2020-05-14,
- 2020-05-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 impostorscore=0
- cotscore=-2147483648 clxscore=1015 mlxscore=0 malwarescore=0
- mlxlogscore=594 phishscore=0 adultscore=0 suspectscore=1 classifier=spam
- adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005140109
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 07:20:14
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,35 +99,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
- david@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's make it a bit more clear that we check the full 64 bits to fit
-into the 32 we return.
+On 14/05/20 10:56, Daniel P. Berrangé wrote:
+> On Thu, May 14, 2020 at 10:09:21AM +0200, Paolo Bonzini wrote:
+>> IMHO configuration files are in general a failed experiment.  In
+>> practice, they do not add much value over just a shell script because
+>> they don't allow configuring all QEMU options, they are very much fixed
+>> (by their nature).  I think it's more or less agreed that they are not
+>> solving any problem for higher-level management stacks as well; those
+>> would prefer to configure the VM via QMP or another API.
+>>
+>> So, any objections to deprecating -readconfig and -writeconfig?
+> 
+> Libvirt would like to have a config file for QEMU, but it would have
+> to be one that actually covers all the config options QEMU supports,
+> and ideally using a data format in common with that used for runtime
+> changes. So for libvirt's needs the current readconfig is entirely
+> useless.
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Suggested-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
----
- pc-bios/s390-ccw/helper.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yes, this is what I was thinking about.
 
-diff --git a/pc-bios/s390-ccw/helper.h b/pc-bios/s390-ccw/helper.h
-index 78d5bc7442..8a50ec91bb 100644
---- a/pc-bios/s390-ccw/helper.h
-+++ b/pc-bios/s390-ccw/helper.h
-@@ -18,7 +18,7 @@
- /* Avoids compiler warnings when casting a pointer to a u32 */
- static inline uint32_t ptr2u32(void *ptr)
- {
--    IPL_assert((uint64_t)ptr <= 0xffffffff, "ptr2u32: ptr too large");
-+    IPL_assert((uint64_t)ptr <= 0xffffffffull, "ptr2u32: ptr too large");
-     return (uint32_t)(uint64_t)ptr;
- }
- 
--- 
-2.25.1
+> For a less general purpose mgmt app, that targets some specific use
+> cases I could imagine people might have used readconfig. [...]
+> If we deprecate them, the only alternative users have right now is
+> to go back to passing CLI args. [...] We'd be deciding to kill the
+> feature with no direct replacement, even though it is potentially
+> useful in some limited scenarios.
+> 
+> If we have a general strategy to eliminate QemuOpts and move entirely
+> to QAPI based config, then I can see -readcofig/-writeconfig may be
+> creating a burden of back compatibility on maintainers.
+
+I don't see QemuOpts going away anytime soon, but I do see more QMP/QAPI
+and less command line in the future as far as management tools are
+concerned.  QemuOpts and HMP will remain for direct usage, for the
+foreseeable future.
+
+So I guess we can keep -readconfig but deprecate, or even remove,
+-writeconfig.
+
+Paolo
 
 
