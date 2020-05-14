@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8D61D3334
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:39:10 +0200 (CEST)
-Received: from localhost ([::1]:52922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFE21D333F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:41:34 +0200 (CEST)
+Received: from localhost ([::1]:33200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZF0v-0001XK-7E
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
+	id 1jZF3F-0005GX-2D
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkV-0003Up-F9
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:11 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45462)
+ id 1jZEkX-0003VJ-LC
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:15 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkT-0005lI-Oe
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:11 -0400
-Received: by mail-wr1-x434.google.com with SMTP id v12so4315595wrp.12
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:08 -0700 (PDT)
+ id 1jZEkV-0005oP-4N
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:13 -0400
+Received: by mail-wm1-x343.google.com with SMTP id k12so30571570wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=SakX2inMtJLZ1FmAb3OkCKDIGikkYphNK+yETDcbpHM=;
- b=Qg/XkE4WGLewrDWtFkQebk9jTmBxTDNVP4+a3ES8lVcUPFMxg8j151NdiLhmfnvK2q
- +DdQ40l1MUaoGQbIB9qPZIjVy0vGajCGPQAYJW5Rs4Z/uCorc8RaV+csgrWEUaEpMCUl
- reH+oC4CNVhJuvaWBwWKCBteyxUro/y0DBJi/GKwnolj1JyO+l+nZT4Wei/wfezY9Ydp
- B7zTNHrWfeIKJYIW00ysNuAzga8XvwBRX4c8qp+FoG/+gZOGASLkVwfJMYHjUdaPd8VG
- ZyEd28DZWXutH7ij/14RzqHOwSaG9e8vSD2rdSFO4XzUykQq4s9DV8JSNOHP07zoZDar
- bqvw==
+ bh=+e0KnBNeEY/okZVW+Hjye5rPrfTMQhkiDKc5yXXoSU4=;
+ b=VBLIXfmAf4K376cKrO9sTpMeuA3X66xHaYy/IKsmoDT+ysGpvXiFCKrXjm1A9CTh+J
+ 8fRoX1y5LVqVPBj3o59tjyIvX8dj9KCg2J6xMnhO03Yyr55wJkTuOxTjgt55pNlXHWB7
+ vmp6yjTvsjSBBvywrGiKowDpCDX8ZkfsckDJD3EjE1xUs5HGK5y+yHxDvPeyCjc8BbVL
+ gEF/duWHGTp9/avbDu8K4/MeVPRHrCAsgTwBlr0iTpan0/XPNlCLg3JfeRKWA8SSmBvG
+ 7I9F7Ikg2GcRdklTNuk2EPk+AHWRkiRv2Xq/O/ZsE6VS1POzImjXxSFQOcchk7AsBfAC
+ Rshg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SakX2inMtJLZ1FmAb3OkCKDIGikkYphNK+yETDcbpHM=;
- b=TrZ/W5LEGdg7SJ7WSVcN6/LFUjOAGFPQfFamdryLUL1zdYvILtjAsQ+7fg4mSjAZVd
- Iyrt6lDDSon+69EmYGS4EsgKQWwly2SWewAywxqz6L6tRNrbgQezz1Vr0WHOKGCLi/fx
- 3O/LIMHfTxH8xjjjJhQEpSEdvrlbEPSH/R6B1bQqnTLSR44YHUNT5EKc/VlRYgNyAMPh
- GUbZWAplJ5FlP8gr8xa0xAUVUKA/OsFScPZBq0bKt0WK+vghbmVnMeo3AlMNBUYbYQWX
- TMCxhUuPxzHmsd2rjR4xW7Fre0mOrtE8uvZcOz7jqFsJ/dfTO2axbDSUWXSxFSya/tez
- OI7A==
-X-Gm-Message-State: AOAM533M0jnpTJR328xrhFSdhP3K5181yKx5bUENdYRksPW/W2TpZ49/
- AzDcjeAZJLbppKJGMG4PM69KFyqG3e9bMg==
-X-Google-Smtp-Source: ABdhPJwl7pj4TAezAoDFxZn4KqdTWnjLAW+UDddobIcX7YJ0kARwlRKPpS/1Eu/pSLVAbjno/OG2CQ==
-X-Received: by 2002:a5d:514b:: with SMTP id u11mr6114251wrt.53.1589466127241; 
- Thu, 14 May 2020 07:22:07 -0700 (PDT)
+ bh=+e0KnBNeEY/okZVW+Hjye5rPrfTMQhkiDKc5yXXoSU4=;
+ b=g07n6LGkZ2D2uGm6wnQ+3FgMYYRKVrW710r+nvMbFlrNYy6BX+OF7jtCaWtcbc/zod
+ 6Gkrbn3T94B16MBTJM+AtBzmBL+BtrsvLc+q/Iq7Gbj79mViHfK6vpb/XB4e4XhDho7Z
+ 7DnDuLjwlhFbrqRY6vUhwbp9+nRxeX05L+nXOwTJTQYSfr6V7D9wk84g7LbWSz4yVZHi
+ 9Yrf0Rk3bICCmgkiqhKTS/xsIUPbo5Rt5TykRwJiQmLJXpHaeDr8GktAcEHQGOwwjoKe
+ DJ+Y2Ku4SU8wEHHRLTBddrhrw70EnUKJUpaR6TbHS+zCuwVoOl7Z7cPet8CwQ55kD/Ml
+ k2Aw==
+X-Gm-Message-State: AGi0PuYY3S21ScCLuOFhBuxSyXxlZEriLNa+fxiQhdAJs1v4NFZZL2fG
+ xmfTdwd2fM/uAXSYqs8YiMZcT17klcQOWw==
+X-Google-Smtp-Source: APiQypK43fo9AFBtWLITSRznHkGcXEBOJHi/fw1kepES3DwHA7BRNJdmaMFjiNRSrjN6OQKYEmUm5Q==
+X-Received: by 2002:a7b:c7d5:: with SMTP id z21mr31974450wmk.112.1589466128405; 
+ Thu, 14 May 2020 07:22:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.06
+ by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:22:06 -0700 (PDT)
+ Thu, 14 May 2020 07:22:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/45] hw/arm/virt: Introduce a RAS machine option
-Date: Thu, 14 May 2020 15:21:13 +0100
-Message-Id: <20200514142138.20875-21-peter.maydell@linaro.org>
+Subject: [PULL 21/45] docs: APEI GHES generation and CPER record description
+Date: Thu, 14 May 2020 15:21:14 +0100
+Message-Id: <20200514142138.20875-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514142138.20875-1-peter.maydell@linaro.org>
 References: <20200514142138.20875-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,74 +90,145 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Dongjiu Geng <gengdongjiu@huawei.com>
 
-RAS Virtualization feature is not supported now, so
-add a RAS machine option and disable it by default.
+Add APEI/GHES detailed design document
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
 Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-id: 20200512030609.19593-3-gengdongjiu@huawei.com
+Message-id: 20200512030609.19593-4-gengdongjiu@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/virt.h |  1 +
- hw/arm/virt.c         | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+ docs/specs/acpi_hest_ghes.rst | 110 ++++++++++++++++++++++++++++++++++
+ docs/specs/index.rst          |   1 +
+ 2 files changed, 111 insertions(+)
+ create mode 100644 docs/specs/acpi_hest_ghes.rst
 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 6d67ace76e1..31878ddc722 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -132,6 +132,7 @@ typedef struct {
-     bool highmem_ecam;
-     bool its;
-     bool virt;
-+    bool ras;
-     OnOffAuto acpi;
-     VirtGICType gic_version;
-     VirtIOMMUType iommu;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 634db0cfe97..9e76fa7b01b 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1995,6 +1995,20 @@ static void virt_set_acpi(Object *obj, Visitor *v, const char *name,
-     visit_type_OnOffAuto(v, name, &vms->acpi, errp);
- }
- 
-+static bool virt_get_ras(Object *obj, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
+diff --git a/docs/specs/acpi_hest_ghes.rst b/docs/specs/acpi_hest_ghes.rst
+new file mode 100644
+index 00000000000..68f1fbe0a4a
+--- /dev/null
++++ b/docs/specs/acpi_hest_ghes.rst
+@@ -0,0 +1,110 @@
++APEI tables generating and CPER record
++======================================
 +
-+    return vms->ras;
-+}
++..
++   Copyright (c) 2020 HUAWEI TECHNOLOGIES CO., LTD.
 +
-+static void virt_set_ras(Object *obj, bool value, Error **errp)
-+{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
++   This work is licensed under the terms of the GNU GPL, version 2 or later.
++   See the COPYING file in the top-level directory.
 +
-+    vms->ras = value;
-+}
++Design Details
++--------------
 +
- static char *virt_get_gic_version(Object *obj, Error **errp)
- {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
-@@ -2327,6 +2341,15 @@ static void virt_instance_init(Object *obj)
-                                     "Valid values are none and smmuv3",
-                                     NULL);
- 
-+    /* Default disallows RAS instantiation */
-+    vms->ras = false;
-+    object_property_add_bool(obj, "ras", virt_get_ras,
-+                             virt_set_ras, NULL);
-+    object_property_set_description(obj, "ras",
-+                                    "Set on/off to enable/disable reporting host memory errors "
-+                                    "to a KVM guest using ACPI and guest external abort exceptions",
-+                                    NULL);
++::
 +
-     vms->irqmap = a15irqmap;
- 
-     virt_flash_create(vms);
++         etc/acpi/tables                           etc/hardware_errors
++      ====================                   ===============================
++  + +--------------------------+            +----------------------------+
++  | | HEST                     | +--------->|    error_block_address1    |------+
++  | +--------------------------+ |          +----------------------------+      |
++  | | GHES1                    | | +------->|    error_block_address2    |------+-+
++  | +--------------------------+ | |        +----------------------------+      | |
++  | | .................        | | |        |      ..............        |      | |
++  | | error_status_address-----+-+ |        -----------------------------+      | |
++  | | .................        |   |   +--->|    error_block_addressN    |------+-+---+
++  | | read_ack_register--------+-+ |   |    +----------------------------+      | |   |
++  | | read_ack_preserve        | +-+---+--->|     read_ack_register1     |      | |   |
++  | | read_ack_write           |   |   |    +----------------------------+      | |   |
++  + +--------------------------+   | +-+--->|     read_ack_register2     |      | |   |
++  | | GHES2                    |   | | |    +----------------------------+      | |   |
++  + +--------------------------+   | | |    |       .............        |      | |   |
++  | | .................        |   | | |    +----------------------------+      | |   |
++  | | error_status_address-----+---+ | | +->|     read_ack_registerN     |      | |   |
++  | | .................        |     | | |  +----------------------------+      | |   |
++  | | read_ack_register--------+-----+ | |  |Generic Error Status Block 1|<-----+ |   |
++  | | read_ack_preserve        |       | |  |-+------------------------+-+        |   |
++  | | read_ack_write           |       | |  | |          CPER          | |        |   |
++  + +--------------------------|       | |  | |          CPER          | |        |   |
++  | | ...............          |       | |  | |          ....          | |        |   |
++  + +--------------------------+       | |  | |          CPER          | |        |   |
++  | | GHESN                    |       | |  |-+------------------------+-|        |   |
++  + +--------------------------+       | |  |Generic Error Status Block 2|<-------+   |
++  | | .................        |       | |  |-+------------------------+-+            |
++  | | error_status_address-----+-------+ |  | |           CPER         | |            |
++  | | .................        |         |  | |           CPER         | |            |
++  | | read_ack_register--------+---------+  | |           ....         | |            |
++  | | read_ack_preserve        |            | |           CPER         | |            |
++  | | read_ack_write           |            +-+------------------------+-+            |
++  + +--------------------------+            |         ..........         |            |
++                                            |----------------------------+            |
++                                            |Generic Error Status Block N |<----------+
++                                            |-+-------------------------+-+
++                                            | |          CPER           | |
++                                            | |          CPER           | |
++                                            | |          ....           | |
++                                            | |          CPER           | |
++                                            +-+-------------------------+-+
++
++
++(1) QEMU generates the ACPI HEST table. This table goes in the current
++    "etc/acpi/tables" fw_cfg blob. Each error source has different
++    notification types.
++
++(2) A new fw_cfg blob called "etc/hardware_errors" is introduced. QEMU
++    also needs to populate this blob. The "etc/hardware_errors" fw_cfg blob
++    contains an address registers table and an Error Status Data Block table.
++
++(3) The address registers table contains N Error Block Address entries
++    and N Read Ack Register entries. The size for each entry is 8-byte.
++    The Error Status Data Block table contains N Error Status Data Block
++    entries. The size for each entry is 4096(0x1000) bytes. The total size
++    for the "etc/hardware_errors" fw_cfg blob is (N * 8 * 2 + N * 4096) bytes.
++    N is the number of the kinds of hardware error sources.
++
++(4) QEMU generates the ACPI linker/loader script for the firmware. The
++    firmware pre-allocates memory for "etc/acpi/tables", "etc/hardware_errors"
++    and copies blob contents there.
++
++(5) QEMU generates N ADD_POINTER commands, which patch addresses in the
++    "error_status_address" fields of the HEST table with a pointer to the
++    corresponding "address registers" in the "etc/hardware_errors" blob.
++
++(6) QEMU generates N ADD_POINTER commands, which patch addresses in the
++    "read_ack_register" fields of the HEST table with a pointer to the
++    corresponding "read_ack_register" within the "etc/hardware_errors" blob.
++
++(7) QEMU generates N ADD_POINTER commands for the firmware, which patch
++    addresses in the "error_block_address" fields with a pointer to the
++    respective "Error Status Data Block" in the "etc/hardware_errors" blob.
++
++(8) QEMU defines a third and write-only fw_cfg blob which is called
++    "etc/hardware_errors_addr". Through that blob, the firmware can send back
++    the guest-side allocation addresses to QEMU. The "etc/hardware_errors_addr"
++    blob contains a 8-byte entry. QEMU generates a single WRITE_POINTER command
++    for the firmware. The firmware will write back the start address of
++    "etc/hardware_errors" blob to the fw_cfg file "etc/hardware_errors_addr".
++
++(9) When QEMU gets a SIGBUS from the kernel, QEMU writes CPER into corresponding
++    "Error Status Data Block", guest memory, and then injects platform specific
++    interrupt (in case of arm/virt machine it's Synchronous External Abort) as a
++    notification which is necessary for notifying the guest.
++
++(10) This notification (in virtual hardware) will be handled by the guest
++     kernel, on receiving notification, guest APEI driver could read the CPER error
++     and take appropriate action.
++
++(11) kvm_arch_on_sigbus_vcpu() uses source_id as index in "etc/hardware_errors" to
++     find out "Error Status Data Block" entry corresponding to error source. So supported
++     source_id values should be assigned here and not be changed afterwards to make sure
++     that guest will write error into expected "Error Status Data Block" even if guest was
++     migrated to a newer QEMU.
+diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+index de46a8b5e7d..426632a4755 100644
+--- a/docs/specs/index.rst
++++ b/docs/specs/index.rst
+@@ -14,3 +14,4 @@ Contents:
+    ppc-spapr-xive
+    acpi_hw_reduced_hotplug
+    tpm
++   acpi_hest_ghes
 -- 
 2.20.1
 
