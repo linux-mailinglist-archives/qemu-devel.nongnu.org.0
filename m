@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00301D25FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 06:48:05 +0200 (CEST)
-Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435881D25FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 06:48:11 +0200 (CEST)
+Received: from localhost ([::1]:34444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ5mu-0002YC-Bl
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 00:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
+	id 1jZ5n0-0002qk-8A
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 00:48:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jZ5lU-0000S2-0z; Thu, 14 May 2020 00:46:36 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:43710)
+ id 1jZ5lT-0000S1-Sm; Thu, 14 May 2020 00:46:35 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:43720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jZ5lS-0003jg-1f; Thu, 14 May 2020 00:46:35 -0400
+ id 1jZ5lR-0003jh-Vt; Thu, 14 May 2020 00:46:35 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 6381EBF647;
- Thu, 14 May 2020 04:46:29 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 31367BFDA3;
+ Thu, 14 May 2020 04:46:30 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 00/20] nvme: small fixes, refactoring and cleanups
-Date: Thu, 14 May 2020 06:45:51 +0200
-Message-Id: <20200514044611.734782-1-its@irrelevant.dk>
+Subject: [PATCH v6 01/20] hw/block/nvme: fix pci doorbell size calculation
+Date: Thu, 14 May 2020 06:45:52 +0200
+Message-Id: <20200514044611.734782-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200514044611.734782-1-its@irrelevant.dk>
+References: <20200514044611.734782-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,51 +64,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Changes since v5
-~~~~~~~~~~~~~~~~
-* Prefixed all patches with "hw/block/nvme" to avoid confusion with the
-  nvme block driver.
+The size of the BAR is 0x1000 (main registers) + 8 bytes for each
+queue. Currently, the size of the BAR is calculated like so:
 
-* Added patch two patches:
+    n->reg_size = pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
 
-    hw/block/nvme: fix pin-based interrupt behavior
-    hw/block/nvme: allow use of any valid msix vector
+Since the 'num_queues' parameter already accounts for the admin queue,
+this should in any case not need to be incremented by one. Also, the
+size should be initialized to (0x1000).
 
-  These were previously posted separately, but I'm including them in this
-  series since I didnt get any response on the separate series anyway.
+    n->reg_size = pow2ceil(0x1000 + 2 * n->num_queues * 4);
 
-* Fixed Maxim's email in the R-b on "hw/block/nvme: refactor
-  nvme_addr_read"
+This, with the default value of num_queues (64), we will set aside room
+for 1 admin queue and 63 I/O queues (4 bytes per doorbell, 2 doorbells
+per queue).
 
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+---
+ hw/block/nvme.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Klaus Jensen (20):
-  hw/block/nvme: fix pci doorbell size calculation
-  hw/block/nvme: rename trace events to pci_nvme
-  hw/block/nvme: remove superfluous breaks
-  hw/block/nvme: move device parameters to separate struct
-  hw/block/nvme: use constants in identify
-  hw/block/nvme: refactor nvme_addr_read
-  hw/block/nvme: fix pin-based interrupt behavior
-  hw/block/nvme: allow use of any valid msix vector
-  hw/block/nvme: add max_ioqpairs device parameter
-  hw/block/nvme: remove redundant cmbloc/cmbsz members
-  hw/block/nvme: factor out property/constraint checks
-  hw/block/nvme: factor out device state setup
-  hw/block/nvme: factor out block backend setup
-  hw/block/nvme: add namespace helpers
-  hw/block/nvme: factor out namespace setup
-  hw/block/nvme: factor out pci setup
-  hw/block/nvme: factor out cmb setup
-  hw/block/nvme: factor out pmr setup
-  hw/block/nvme: do cmb/pmr init as part of pci init
-  hw/block/nvme: factor out controller identify setup
-
- hw/block/nvme.c       | 555 ++++++++++++++++++++++++------------------
- hw/block/nvme.h       |  33 ++-
- hw/block/trace-events | 180 +++++++-------
- include/block/nvme.h  |   8 +
- 4 files changed, 438 insertions(+), 338 deletions(-)
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 9b453423cf2c..1d7d7fb3c67a 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -54,6 +54,9 @@
+ #include "trace.h"
+ #include "nvme.h"
+ 
++#define NVME_REG_SIZE 0x1000
++#define NVME_DB_SIZE  4
++
+ #define NVME_GUEST_ERR(trace, fmt, ...) \
+     do { \
+         (trace_##trace)(__VA_ARGS__); \
+@@ -1403,7 +1406,9 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     pcie_endpoint_cap_init(pci_dev, 0x80);
+ 
+     n->num_namespaces = 1;
+-    n->reg_size = pow2ceil(0x1004 + 2 * (n->num_queues + 1) * 4);
++
++    /* num_queues is really number of pairs, so each has two doorbells */
++    n->reg_size = pow2ceil(NVME_REG_SIZE + 2 * n->num_queues * NVME_DB_SIZE);
+     n->ns_size = bs_size / (uint64_t)n->num_namespaces;
+ 
+     n->namespaces = g_new0(NvmeNamespace, n->num_namespaces);
 -- 
 2.26.2
 
