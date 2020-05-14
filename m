@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F911D274E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:13:10 +0200 (CEST)
-Received: from localhost ([::1]:50312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10511D26F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:03:17 +0200 (CEST)
+Received: from localhost ([::1]:35210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ77F-00011E-RA
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:13:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36682)
+	id 1jZ6xg-0006lr-N6
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:03:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pn-0006Ag-Jg
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:55:07 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:44717
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pX-0005cl-BY
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:51 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51799
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pm-0001pR-Nj
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:55:07 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pV-0001gg-Mc
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589435706;
+ s=mimecast20190719; t=1589435689;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cms2elH+4uyg7e8PjWNJQdMfCXIDcXzwsVXUQlKodMI=;
- b=JZf9SKSP8/KzLKpp8yXcWkUUFRG66/bcf2i73phtO8M216/v5rvW7LtB2cjshRscGtE3Qd
- OoSRGhvVBkC6lpCO+5o5O7h8/Q419EuR4uuYfKdTJ11YvUT+wmQrPbgDjHJNr5e4QJsq+a
- /GeECAY23cnE3FQj+bhksiaTLc5ZcZY=
+ bh=bL6cC0ljly/wbLmslRqO+su0FKs1lFJp2Wid4hDE+q8=;
+ b=HB3A6NxL6QtqboThhC+qUU57Nz2uGoyZBfL0Oh6NlR94Y2cO7yJEobO9trt44tNTFi0zB/
+ qefwC+yBQkfGE0al/1BgbYHCvh013nJBQHNAo559wHrLHMq3GWepefEg1l7VDhfBHoZFv4
+ AuFLTIdneOZ6zxnmp8hG6trR0UbDxC0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-wXe8Y-HCODujVWYq8ZDegw-1; Thu, 14 May 2020 01:54:45 -0400
-X-MC-Unique: wXe8Y-HCODujVWYq8ZDegw-1
+ us-mta-185-7I3zEvAlMtCmSzMHJo36Iw-1; Thu, 14 May 2020 01:54:47 -0400
+X-MC-Unique: 7I3zEvAlMtCmSzMHJo36Iw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A49D801504;
- Thu, 14 May 2020 05:54:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5DA4800053;
+ Thu, 14 May 2020 05:54:45 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-9.rdu2.redhat.com [10.10.113.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D22286A977;
- Thu, 14 May 2020 05:54:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 656367D952;
+ Thu, 14 May 2020 05:54:44 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 19/32] python//qmp.py: add QMPProtocolError
-Date: Thu, 14 May 2020 01:53:50 -0400
-Message-Id: <20200514055403.18902-20-jsnow@redhat.com>
+Subject: [PATCH RFC 20/32] python//qmp.py: assert sockfile is not None
+Date: Thu, 14 May 2020 01:53:51 -0400
+Message-Id: <20200514055403.18902-21-jsnow@redhat.com>
 In-Reply-To: <20200514055403.18902-1-jsnow@redhat.com>
 References: <20200514055403.18902-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -87,42 +87,29 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the case that we receive a reply but are unable to understand it, use
-this exception name to indicate that case.
+In truth, if you don't do this, you'll just get a TypeError
+exception. Now, you'll get an AssertionError.
+
+Is this tangibly better? No.
+Does mypy complain less? Yes.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/lib/qmp.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ python/qemu/lib/qmp.py | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/python/qemu/lib/qmp.py b/python/qemu/lib/qmp.py
-index e460234f2e..5fb16f4b42 100644
+index 5fb16f4b42..1aefc00c93 100644
 --- a/python/qemu/lib/qmp.py
 +++ b/python/qemu/lib/qmp.py
-@@ -62,6 +62,12 @@ class QMPTimeoutError(QMPError):
-     """
+@@ -132,6 +132,7 @@ def __negotiate_capabilities(self):
+         raise QMPCapabilitiesError
  
- 
-+class QMPProtocolError(QMPError):
-+    """
-+    QMP protocol error; unexpected response
-+    """
-+
-+
- class QMPResponseError(QMPError):
-     """
-     Represents erroneous QMP monitor reply
-@@ -265,6 +271,10 @@ def command(self, cmd, **kwds):
-         ret = self.cmd(cmd, kwds)
-         if 'error' in ret:
-             raise QMPResponseError(ret)
-+        if 'return' not in ret:
-+            raise QMPProtocolError(
-+                "'return' key not found in QMP response '{}'".format(str(ret))
-+            )
-         return cast(QMPReturnValue, ret['return'])
- 
-     def pull_event(self, wait=False):
+     def __json_read(self, only_event=False):
++        assert self.__sockfile is not None
+         while True:
+             data = self.__sockfile.readline()
+             if not data:
 -- 
 2.21.1
 
