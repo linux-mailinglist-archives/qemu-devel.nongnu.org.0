@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF14F1D339A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:54:03 +0200 (CEST)
-Received: from localhost ([::1]:57156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E71241D33B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:55:57 +0200 (CEST)
+Received: from localhost ([::1]:37514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFFK-0004wK-Oo
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40990)
+	id 1jZFHA-0000Tx-VA
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jZEsU-0003iG-6P
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:30:27 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42063
- helo=us-smtp-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZEsx-0004UE-MT
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:30:56 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:50839
+ helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jZEsS-0008Kp-7F
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:30:25 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZEsw-0008Sv-Vn
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:30:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589466621;
+ s=mimecast20190719; t=1589466653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=/TSYecf9tCKoTNwZlfBDYF5K/mywxkb8Owsfs6lcgCI=;
- b=JvJtgTVmPW6FeBOGINwLhEPstKKVui31sEMToAt4Qb6kIQLPxGW4L6E6PUztdoLRt45Q41
- 2zMSZArMLg11wAQkA4KWIoxLfz17kH5PMaRpILrRK5mVzbQHvmAdyDJNA9GWnFbWVo4ZsK
- 1drzvNHrGJicw5V5/VDGfd/v8l6bwa4=
+ in-reply-to:in-reply-to:references:references;
+ bh=PH0X7ZuUXlM/l+V6DdyjSkoOU/Xbmk9SZztGaWbY5zU=;
+ b=ZfImiSUZO/FeIu6JDZlewGSty6a00B1fs1Tx5Kk7QMIGdyTIihwVtCVTS1H6wMChMSkiNm
+ zIjqBi//SyKYQJS4bg3v9aCJ3nc7d2KlXdenjAGC928aTAp6yLjF5E6CqbqcIy7meeiPzl
+ jLevV2OQ/8LzJP70T/Rf+DCwemZtlpI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-CQGTHRJjO9yhGfl8_1HhZg-1; Thu, 14 May 2020 10:30:19 -0400
-X-MC-Unique: CQGTHRJjO9yhGfl8_1HhZg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-335-ri4fLjiNOA6m5si2zcoMYA-1; Thu, 14 May 2020 10:30:50 -0400
+X-MC-Unique: ri4fLjiNOA6m5si2zcoMYA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5771180058A;
- Thu, 14 May 2020 14:30:18 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-113-212.ams2.redhat.com
- [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AED9A7D928;
- Thu, 14 May 2020 14:30:16 +0000 (UTC)
-Subject: Re: [PATCH v6 08/14] block/qcow2: extend qemu-img amend interface
- with crypto options
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20200510134037.18487-1-mlevitsk@redhat.com>
- <20200510134037.18487-9-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <2ed2c0fc-7b47-a46c-1603-b1c25bd1b0ae@redhat.com>
-Date: Thu, 14 May 2020 16:30:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D577019200C1;
+ Thu, 14 May 2020 14:30:48 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-9.ams2.redhat.com [10.36.114.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A47B5100164D;
+ Thu, 14 May 2020 14:30:44 +0000 (UTC)
+Date: Thu, 14 May 2020 16:30:43 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Reiter <s.reiter@proxmox.com>
+Subject: Re: [RFC PATCH 3/3] block: Assert we're running in the right thread
+Message-ID: <20200514143043.GI5518@linux.fritz.box>
+References: <20200512144318.181049-1-kwolf@redhat.com>
+ <20200512144318.181049-4-kwolf@redhat.com>
+ <4d2d9ecd-b921-c9e8-2eb4-066e092e6c1f@proxmox.com>
 MIME-Version: 1.0
-In-Reply-To: <20200510134037.18487-9-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <4d2d9ecd-b921-c9e8-2eb4-066e092e6c1f@proxmox.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="P4DBve8KDB8L5ORTVWu2Iprdk19CS8IAo"
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
- helo=us-smtp-1.mimecast.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
@@ -106,76 +78,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, mreitz@redhat.com, t.lamprecht@proxmox.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---P4DBve8KDB8L5ORTVWu2Iprdk19CS8IAo
-Content-Type: multipart/mixed; boundary="1Zxk49IWmT1Liw4s51xCPNUVxQhNhH74W"
+Am 14.05.2020 um 15:52 hat Stefan Reiter geschrieben:
+> On 5/12/20 4:43 PM, Kevin Wolf wrote:
+> > tracked_request_begin() is called for most I/O operations, so it's a
+> > good place to assert that we're indeed running in the home thread of the
+> > node's AioContext.
+> > 
+> 
+> Is this patch supposed to be always correct or only together with nr. 2?
+> 
+> I changed our code to call bdrv_flush_all from the main AIO context and it
+> certainly works just fine (even without this series, so I suppose that would
+> be the 'correct' way to fix it you mention on the cover), though of course
+> it trips this assert without patch 2.
 
---1Zxk49IWmT1Liw4s51xCPNUVxQhNhH74W
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Yes, I think this is a basic assumption that should always be true.
+This series shouldn't fix anything for upstream QEMU (at least I'm not
+aware of anything that needs it), so the assertion could be added even
+without the other patches.
 
-On 10.05.20 15:40, Maxim Levitsky wrote:
-> Now that we have all the infrastructure in place,
-> wire it in the qcow2 driver and expose this to the user.
->=20
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->  block/qcow2.c              | 72 +++++++++++++++++++++++++++++++++-----
->  tests/qemu-iotests/082.out | 45 ++++++++++++++++++++++++
+In fact, I'm currently thinking that committing just patch 1 (because
+it's a nice cleanup anyway) and patch 3 (because it will let us know
+when we mess up) might make sense.
 
-Again, some rebasing required because of compression_type.
+Kevin
 
->  2 files changed, 108 insertions(+), 9 deletions(-)
->=20
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index db86500839..4bb6e3fc8f 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-
-[...]
-
-> @@ -4744,17 +4757,11 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *=
-opts, BlockDriverState *in_bs,
->      g_free(optstr);
-> =20
->      if (has_luks) {
-> +
-
-Why?
-
-With this line dropped, and 082.out fixed up:
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---1Zxk49IWmT1Liw4s51xCPNUVxQhNhH74W--
-
---P4DBve8KDB8L5ORTVWu2Iprdk19CS8IAo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl69VfcACgkQ9AfbAGHV
-z0AeLwf/V5zgw6kIeoZ8Txjtf5jVg3WKaR6xV6X6OkQG8CLpWmXUiiIIKV0UcP1D
-P2qO/rdWE3rjzVYy3ktWmu914okIcg48PO9WY8WVSoCXTCH92Rym+EWT3QxlnAbR
-TCDFArdwtJtofFFgbOvJGQEnQIQidlUfjbKkg2UMUSJU5hWJ7pVIZdUwUww2luV8
-7FGT/j8FjapmLTIPCoXgMoacvbNWfHrIaqJH58BxwL9qlR32IadHv2aF8NULU4TE
-ISCBFr8M02pC0mk+z7eZvdcq0a24REML8YkYJnsXSoicLF8+BsoE1qum+a9Y/I2y
-Qo943YWYa/3dsx2gU+wh5zwaBQtoJw==
-=h+/a
------END PGP SIGNATURE-----
-
---P4DBve8KDB8L5ORTVWu2Iprdk19CS8IAo--
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >   block/io.c | 5 ++++-
+> >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/block/io.c b/block/io.c
+> > index 7808e8bdc0..924bf5ba46 100644
+> > --- a/block/io.c
+> > +++ b/block/io.c
+> > @@ -695,14 +695,17 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
+> >                                     uint64_t bytes,
+> >                                     enum BdrvTrackedRequestType type)
+> >   {
+> > +    Coroutine *self = qemu_coroutine_self();
+> > +
+> >       assert(bytes <= INT64_MAX && offset <= INT64_MAX - bytes);
+> > +    assert(bs->aio_context == qemu_coroutine_get_aio_context(self));
+> >       *req = (BdrvTrackedRequest){
+> >           .bs = bs,
+> >           .offset         = offset,
+> >           .bytes          = bytes,
+> >           .type           = type,
+> > -        .co             = qemu_coroutine_self(),
+> > +        .co             = self,
+> >           .serialising    = false,
+> >           .overlap_offset = offset,
+> >           .overlap_bytes  = bytes,
+> > 
+> 
 
 
