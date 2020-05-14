@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37A21D339B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:54:29 +0200 (CEST)
-Received: from localhost ([::1]:51894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9412A1D33B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:56:41 +0200 (CEST)
+Received: from localhost ([::1]:41116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFFk-0001j2-It
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41198)
+	id 1jZFHs-00020v-Ib
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:56:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jZEtg-0005VO-Dv
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:31:40 -0400
-Received: from mout.web.de ([217.72.192.78]:32841)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jZEtq-0005bO-UU; Thu, 14 May 2020 10:31:51 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1jZEte-0000Pt-Hf
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:31:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1589466675;
- bh=k6BwiqNVkyaaVhHBVXOjGsv9ADTyjkH5GRGyAHrc1AE=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=XyviM7x7HpsXbF21a/ZmzkGSl/GujOs06I4DfRT5wmXv8e63TZxGXgVdrSsfbH0Ec
- cKqgnXZa/WRrWA2JMlY+epkBIdeXWCceljB7RSRdjcJ9YGiCdoyumJa6wZ0ww3B+N4
- NgLnbCxtWhAOO1b1NlnljBMFKJ8NfKyUSjQVfaaQ=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.68]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0LsyZi-1j7Ijo3Fz0-012Zra; Thu, 14
- May 2020 16:31:14 +0200
-Date: Thu, 14 May 2020 16:31:05 +0200
-From: Lukas Straub <lukasstraub2@web.de>
-To: Zhanghailiang <zhang.zhanghailiang@huawei.com>
-Subject: Re: [PATCH 6/6] migration/colo.c: Move colo_notify_compares_event
- to the right place
-Message-ID: <20200514163105.14d7b97d@luklap>
-In-Reply-To: <f2ea9b8ff1824a09ae8837625d6ac3f5@huawei.com>
-References: <cover.1589193382.git.lukasstraub2@web.de>
- <d4555dd5146a54518c4d9d4efd996b7c745c6687.1589193382.git.lukasstraub2@web.de>
- <f2ea9b8ff1824a09ae8837625d6ac3f5@huawei.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1jZEtq-0000R9-0n; Thu, 14 May 2020 10:31:50 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y16so4440760wrs.3;
+ Thu, 14 May 2020 07:31:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6dEkqGwX3ANiGV0kFl51uDv7FKXAb9zRqWwSMJvEoTc=;
+ b=dQivoLTJThr14z4DFgsJBFZDylXDppKgeeQKPqE1myU5UyFFXYJbdX9SC7XGswhPNF
+ 0uSdSTxFnrY8rO5SBFbKbaNPGJ2XK+qMVNlEK8Rk2gSl3JIRIgW5Wn6RoFUboltsarqY
+ K7X5ZPGdkqL89nrPOHWdDCN+3FoFu73xCvPgutzv+lFgxtC0AlETPhCzLuGhYf9TNkf1
+ 25zMqxNaUMkPz1RWqYuMQJSVE+vvXUQaepiBeGnD5F/o66IwUAXcDktSPIXV0SZXyJww
+ 5FLqvwF+YhR1hi7u1Z6YTwoxjyXXnWQja/FEWpxyp0mPFBdo6tO2Az1pXS1HLnQLVM3l
+ jU/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6dEkqGwX3ANiGV0kFl51uDv7FKXAb9zRqWwSMJvEoTc=;
+ b=eDd+Opc+s8MrPGU+YPjz3b3KkIScH2W2k+k10GlFnnckCDwI7ne4T59l8HAWazlBow
+ 7WvhuOnTUPxfMTHk0m5UwgK64VMVn7Rk2aZNHc/mOFbh/efmHkXtUXI1hScTFdPLt+5h
+ WOKrcryvnEW99YYU1YnFNVHkYXoD8aL3COuyV24sNZIlx6E24bAMo0DWRkN0wF5ZBgLG
+ qc8cuUbDK1S/pgCBvUqM/VY6w+Nh69zn1dwRVrZijOiV3eaTeGlVTJltWIAdMx5EPlkI
+ sjKvpetIz6AvAK+5ukpefvkoJvCp5j1IFJvyXqdUgHc++Fe81iMdRTn5/eTReNKXvwN2
+ G5uw==
+X-Gm-Message-State: AOAM532atCycFKq5vA8Pyi84Q4ZwCbwp21dZ/KE2nQmJEoEkzZFIgcSB
+ fmEMniKfvmiesdzJqvKCfQs=
+X-Google-Smtp-Source: ABdhPJxJavPDYtGhOEhciVB1KQYpDWlf49rUYRHKn0BsDyGa0j0f3eTwj/1EsJf2hcpSZj73zxWnsQ==
+X-Received: by 2002:a5d:61c5:: with SMTP id q5mr5976974wrv.398.1589466708076; 
+ Thu, 14 May 2020 07:31:48 -0700 (PDT)
+Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id v126sm11915814wmb.4.2020.05.14.07.31.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 May 2020 07:31:47 -0700 (PDT)
+Subject: Re: [PATCH v2 2/3] hw/mips/mips_int: Use qdev gpio rather than
+ qemu_allocate_irqs()
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20200512074813.29992-1-f4bug@amsat.org>
+ <20200512074813.29992-3-f4bug@amsat.org>
+ <CAFEAcA9=OkWR5mo=6K_YhraSUhQhzV3_G7cKQ9S5mPWhFZVfdw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d5e3b0a0-83f7-06ff-04be-a5dae669e654@amsat.org>
+Date: Thu, 14 May 2020 16:31:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/HXnf3nXgZ5xa./Cjr+Lz79N";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:EqREIUxXx6IFCSnTExE/O9AcKEpUm7qABGYXFPwLHBnveHQjvUA
- 8J3GoSIPBJqCxmw7TAczy2uyYse+bBssJLelZ917LUkpS1oL/FRcqJJgatCjEiKuB9hp+Fy
- 63oHxpVUtefHqAS+ye+AAXtrv5d3DFO/44q8WYU+UKJingwr6dOXwmgS4Gmexgtz0SLSd4r
- 5S+xQZa2Y6CB0jWbMOs7Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9ahI8z8JtLc=:FgsX9rAl9NdjmfBM7J6SDA
- aAWGqYQ3bfz56zY+QB8uriG5HnbTl0wlCcdTKQByH+gVS1AfYrLPU8oXXa8N6Jmzmx1uuYjAF
- ks73wGFJtGkzKiVQPUWifpGNDGluLVfbLnJRd8dtbmwPeMKLhj+yQFn85A0X7EqMWiFbJgj/A
- i3y5Qul/0WTP8wJkly2Cbic8fk4uVmO9/6eyq0ugcj+9jNxqrY4+ZybQD7A5elL+rVe4bo8gG
- JFH+Sn2sVeJZIQT2IpUJynXji6h+1qBhYsbi0HlSJiKu5bsJV9N8pkd2aygVwcAjbjASMfsPg
- CynVkFkGacyfYa8EnOKvj0sH0FTZW1u/7m0zdKtVPMHKLlSINWLVNvxWvrG+6qoB1vbczYtKE
- Mb6DTx9T5DhbHSiEqiVFJmPKVyOKt8RYEpeTzUg3wWBjWeAT4mH7eoN9NjFmvkEhBnhW17RN8
- mnaraIu2fMtfVDigknSQVGuDvkOLFY/94R7nfrp8qBY/DN55Wj1HZzHUiqwVl9VsXLGIg3MFn
- /Gd6/0Pt9WbMiYUe5SIHmXVAEhOIbzLTvkaN2pXfdbmlzxfkcFx5SbDvxOpV//7Y+1iCcvSTy
- JRGVp6aOpr/RoJp9iJdA0S5LcTLLmSaxSCebrXsQMqH+Aht2JYHX2rLFMy1oRk9Lo2cX8K+uj
- FLjjCsdLZLh1n36XItARQEOAAJxvRPH83APPXrnJopBMaiWXzWqJ5N/vwrw+xIIyfmXLaTU4S
- B/XkK5tkQFe2LaWZW+cspaE3unKjJH6LzV80xg4hqXfbO4nbgEDN0e0zKnvR5NpQSZyRnrVEC
- EP/aATRtNaBTHY5TuWwTcxoZVinQNnB7Y1SqIEKZCEfxXO9HMCLFrmYsRMXyqdtmVwwVrWmyt
- jZRvpalFXughF5BMcIZSvnMFHACJp/tYvZY3n0JW58et3VAoVJEVBm9kLpKgjkP3bD1HRyZGC
- Upoen++U8q+JC2pNx1SEi3RoNjEQLFti0EvkQWzyTN+E+KJ8dtH0eNGOySB9I4UMQKnD+rQ4N
- 5Eks+PLFGf/RQ7iwuAdBZQUl62eA64msgXDeslJaJI6FgI/vvD10Gy5327qylabJDHqBQzx5D
- jb3L2mwWa7+Tzil0AtQpVam8Zd+69B6xaXUCxK9qOdug6+Jx/6S8a8ni883O39jNaI0y45Ua+
- AOrPAUYQgkA7wxxBx4onIizEvdzG8nbYA7MUdDv59lv4GnsGHkIIxsKG5F6SXcJMhArZzt0oK
- bGgoSzuQ1aSKh5syG
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 10:31:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+In-Reply-To: <CAFEAcA9=OkWR5mo=6K_YhraSUhQhzV3_G7cKQ9S5mPWhFZVfdw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,120 +91,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, John Snow <jsnow@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/HXnf3nXgZ5xa./Cjr+Lz79N
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 5/14/20 3:24 PM, Peter Maydell wrote:
+> On Tue, 12 May 2020 at 08:48, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Switch to using the qdev gpio API which is preferred over
+>> qemu_allocate_irqs(). One step to eventually deprecate and
+>> remove qemu_allocate_irqs() one day.
+> 
+>> diff --git a/hw/mips/mips_int.c b/hw/mips/mips_int.c
+>> index 796730b11d..91788c51a9 100644
+>> --- a/hw/mips/mips_int.c
+>> +++ b/hw/mips/mips_int.c
+>> @@ -74,14 +74,12 @@ static void cpu_mips_irq_request(void *opaque, int irq, int level)
+>>   void cpu_mips_irq_init_cpu(MIPSCPU *cpu)
+>>   {
+>>       CPUMIPSState *env = &cpu->env;
+>> -    qemu_irq *qi;
+>>       int i;
+>>
+>> -    qi = qemu_allocate_irqs(cpu_mips_irq_request, cpu, 8);
+>> +    qdev_init_gpio_in(DEVICE(cpu), cpu_mips_irq_request, 8);
+>>       for (i = 0; i < 8; i++) {
+>> -        env->irq[i] = qi[i];
+>> +        env->irq[i] = qdev_get_gpio_in(DEVICE(cpu), i);
+>>       }
+>> -    g_free(qi);
+>>   }
+> 
+> Similar comments as with the openrisc patch apply here:
+>   * ideally this code should be in target/mips/, not in hw/mips
+>   * board code should call qdev_get_gpio_in() to get the IRQ
+>     line, rather than fishing env->irq[] out of the CPU object
+>     directly
+> This is a bit more complicated than with openrisc, because there's
+> more than just a single board model, and not all MIPS boards call
+> cpu_mips_irq_init_cpu() so figuring out whether MIPS CPUs should
+> always provide inbound CPU lines, or only those with some
+> particular feature, or something else, would need some
+> investigation or MIPS knowledge.
 
-On Thu, 14 May 2020 13:27:30 +0000
-Zhanghailiang <zhang.zhanghailiang@huawei.com> wrote:
+Yes, I'm aware of at least 3 different to map interrupts to a MIPS core.
+QEMU models at least 2.
 
-> Cc: Zhang Chen <chen.zhang@intel.com>
->=20
-> >=20
-> > If the secondary has to failover during checkpointing, it still is in t=
-he old state
-> > (i.e. different state than primary). Thus we can't expose the primary s=
-tate
-> > until after the checkpoint is sent.
-> >  =20
->=20
-> Hmm, do you mean we should not flush the net packages to client connectio=
-n until checkpointing
-> Process almost success because it may fail during checkpointing ?
+As X86, MIPS code use old QEMU API, I don't see the codebase being 
+upgraded anytime soon.
 
-No.
-If the primary fails/crashes during checkpointing, the secondary is still i=
-n different state than the primary because it didn't receive the full check=
-point. We can release the miscompared packets only after both primary and s=
-econdary are in the same state.
+This is another borderline case between architecture and hardware, as 
+the cache units, or the ARM NVIC. Ideally we should keep target/* free 
+of references to hw/* code. In my experience it often give troubles.
 
-Example:
-1. Client opens a TCP connection, sends SYN.
-2. Primary accepts the connection with SYN-ACK, but due to nondeterministic=
- execution the secondary is delayed.
-3. Checkpoint happens, primary releases the SYN-ACK packet but then crashes=
- while sending the checkpoint.
-4. The Secondary fails over. At this point it is still in the old state whe=
-re it hasn't sent the SYN-ACK packet.
-5. The client responds with ACK to the SYN-ACK packet.
-6. Because it doesn't know the connection, the secondary responds with RST,=
- connection reset.
+> But this is an OK first
+> step anyway, so
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Regards,
-Lukas Straub
+Thanks. The idea to keep qemu_allocate_irqs() as internal as possible, 
+and have devices use the qdev GPIO API.
 
-> > This fixes sporadic connection reset of client connections during failo=
-ver.
-> >=20
-> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> > ---
-> >  migration/colo.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/migration/colo.c b/migration/colo.c index
-> > a69782efc5..a3fc21e86e 100644
-> > --- a/migration/colo.c
-> > +++ b/migration/colo.c
-> > @@ -430,12 +430,6 @@ static int
-> > colo_do_checkpoint_transaction(MigrationState *s,
-> >          goto out;
-> >      }
-> >=20
-> > -    qemu_event_reset(&s->colo_checkpoint_event);
-> > -    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT,
-> > &local_err);
-> > -    if (local_err) {
-> > -        goto out;
-> > -    }
-> > -
-> >      /* Disable block migration */
-> >      migrate_set_block_enabled(false, &local_err);
-> >      qemu_mutex_lock_iothread();
-> > @@ -494,6 +488,12 @@ static int
-> > colo_do_checkpoint_transaction(MigrationState *s,
-> >          goto out;
-> >      }
-> >=20
-> > +    qemu_event_reset(&s->colo_checkpoint_event);
-> > +    colo_notify_compares_event(NULL, COLO_EVENT_CHECKPOINT,
-> > &local_err);
-> > +    if (local_err) {
-> > +        goto out;
-> > +    }
-> > +
-> >      colo_receive_check_message(s->rp_state.from_dst_file,
-> >                         COLO_MESSAGE_VMSTATE_LOADED, &local_err);
-> >      if (local_err) {
-> > --
-> > 2.20.1 =20
-
-
---Sig_/HXnf3nXgZ5xa./Cjr+Lz79N
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl69VikACgkQNasLKJxd
-slgPMg//cr558I4PHTTC4FB0fxhKh8PjTphHrLy/OcqtJMK9SD3Df3+v8ARAjuus
-x+Cev3r1/FlMGWvWorWjnL0SIuVtoIqYx6rfUfeJyCIOY6B9fjTYs7G3fwmb4U9u
-6VkLYoXCB1ljkNpMxCZjFfj0WUrd+7B2PAJ78FcyH86RAOB9Hb2ykYROXrDjQK7o
-NpnTldb5KSkIbZaVWkhDN4yq6VD6k2OqWOmCJ8A98Atuqm/y2d7jzgWCeK51vr1c
-51fAtmL6MfxS4OpwcA6XzIiGj0QsxA9IYPp26Canu9Iebh5V61fZnuLJhnE/9FaM
-S+y4SIjDxr2TH+YQtdZSesPl3Mg1KfjMYfNbUup8BoduZ7RsLiBc7DlWTNfydEcv
-TGUWr1l2EKlzlz5A1sFzjTXXokqNl39zRGaD8QuFCLIlnZs58v6/a1Zg8ce3wOV9
-qHBu1gxl88nFl8xBFNwButz+GjedyVhpSKyYKasBICyR27yYNefmVEAQphaR7Qaw
-sXY10JiBGPWZviDTBjGl3BrEFmt856IkNCngaIjJQKIP+LVZ1J31MqJfhT29u7BU
-5JhBMwVbuU2KrBf+/8Vboy+zLfEgZ6DMaP7148I47cMVS02Tgk9fgmLES1wOKnW3
-PWTStcf3SOYT2hMyaS3itMj8n0AEzyvBMKjuoqApfQWV2YuoAFU=
-=uv6Q
------END PGP SIGNATURE-----
-
---Sig_/HXnf3nXgZ5xa./Cjr+Lz79N--
+> 
+> thanks
+> -- PMM
+> 
 
