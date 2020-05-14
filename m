@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359151D302B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 14:44:56 +0200 (CEST)
-Received: from localhost ([::1]:56208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBBD11D3032
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 14:46:17 +0200 (CEST)
+Received: from localhost ([::1]:34300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZDEN-0004uB-8N
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 08:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53920)
+	id 1jZDFg-0007WH-SR
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 08:46:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZDCh-00036U-Fp
- for qemu-devel@nongnu.org; Thu, 14 May 2020 08:43:11 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40030)
+ id 1jZDDE-0003k2-Ig
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 08:43:44 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:35998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZDCg-0007mv-DH
- for qemu-devel@nongnu.org; Thu, 14 May 2020 08:43:11 -0400
-Received: by mail-oi1-x243.google.com with SMTP id v128so7566631oia.7
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 05:43:09 -0700 (PDT)
+ id 1jZDDC-0007s6-V2
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 08:43:44 -0400
+Received: by mail-ot1-x336.google.com with SMTP id t3so2221890otp.3
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 05:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yhcEEKeDt1+Oysa6f9yYfKb0i5g/9aIadZPVlgSEpSU=;
- b=eodUBwEazMuofMRe5flRoAT4WkYF7OhAegpbA78ad3rv3DTU5e8e3RbWSQ1iTS6d5H
- bpWR1CoI+yLV1yzxvsPpBucjbrCR4iwQYnvRmebPTE5Qf9nYyTX/1aosHPaP0tmaZB/K
- UCawyh1OqRzzEhdFrFIGZosk6xt/uunQZZjAbZCd94ouC5QyBTT6IxMfpvort8vVQ8PN
- JNzVIFNTl8PkSTl4myt5/EMe6r2LGWefN8/RcmDjHO9uz5YnN8jyaDVbL2G0XgAqggSF
- MWDXkseD3hcTvQ4LB1xz9Me5qyWFR3FZo5E3kLSXyvA4xPWoom9VtKFxqsQAy7cxlz4m
- fL4w==
+ :cc; bh=1oyf3cwa4ysv0F+1gus4rSNb6qxm3CMa4cO5H6tMf2I=;
+ b=ypVTyL7cDMoH7l0+bEz1PvWvRoTGnmzkwEhJMemYlViCP3ME+po2WXRtzCrH32ibpl
+ Ms1yBFDXmSRlg2HsqN3ggloNRmZX4sDaqv+xAxgUqSM2vy1YLHlp4SotmgxRIgTfY9DK
+ fUADazs7u19X1vHtN60EuwZXjpXIu0967bUwxdxWeS5JqLMUMqEQ/rcDPQaKGCRlHoEW
+ MwLACr1ieJwkDjSJ6KCi/S2fsjhrTTDHj+0t7Ok+BOnI6+kp6CxAIyLdKw3Zo0/gKqtg
+ HMYrOxcfSIR7MoHdK6lIzPzr515j5C1m1i1jHJ9oIKz85OTsEnofgAqDAcPWsRv67Kvk
+ iZkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yhcEEKeDt1+Oysa6f9yYfKb0i5g/9aIadZPVlgSEpSU=;
- b=fdtDVcgU5Nq2DPgtxIcqTm5NT9MOY4j3qdIn2HDtqHeSZg1tpp8vSXU3eAHZ8Z7O8a
- pi8X+BzT4dFHuyJhJ2AcTZVD2Xb7F/5ftaLMOBqxanF6giOyghL6///eJYOBdTq5zlq2
- ThLzgyG3A7o8+PTmg7gBFAd2K99LHZm2nSt0WsSvjLBNtWAT+CITsyVUQSvaprk1PUoP
- 5jAi8YIutmhQnVeWfaR2DzZIgxkjl/MolJ6UzIJ9JyWUp9M/vOSRD2MiFAwt1EqzBXS4
- F3EF3Ri2hmP51+EQdrwYCyKMgd+mgu6Vz9Axptq/NEDBFUrAw3uB+fn/LGR/wpSPNJyd
- dhIA==
-X-Gm-Message-State: AGi0PuY4k3WF7qqgewLxJZ+pymp/7kADTWmt5x4L87mymsvBh+SRdBV/
- 0TZ+57CYWB0VoAc1TcAoyWWikZKLLy9VMlQuFEPeCg==
-X-Google-Smtp-Source: APiQypLlviM2O0oU64Vw1pLseUYfMvYpMDS2+1g+kRZlrlw5H1kbOE6cQmwHMaP4de2Hroj2S7AR3gm26CpQ4yDOxP4=
-X-Received: by 2002:aca:895:: with SMTP id 143mr30523705oii.163.1589460188702; 
- Thu, 14 May 2020 05:43:08 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=1oyf3cwa4ysv0F+1gus4rSNb6qxm3CMa4cO5H6tMf2I=;
+ b=UkVlAas0eqWZMENL9Nj/DVvhxoP0GeM/itBIIaKVTb8r8iMlt5y8cOik3VBRrm13TT
+ t5lRxE+ubr5Q26lmQo+LfEQDTB2l67ykDtsbj9xcGY8evuPPf0xS8v2NKnnwvtBedWB/
+ Cr0KxxECNoEi9vHvlbU4cdnelGKBHk17ycLU6A6+LNknCfa0pUtXvulM5y5v8adH8G82
+ Ovu+piN4+vP3kOGk0ybL4+KtPCvdPDX/tcKzL0a9BKV+y9SP8vwodwGr2KlbZkeEigEM
+ jXLwot/rfiZgGJ9cFfkshQTVZucl4zmiSvZnooSzy15ePw2X2fpLm/M+eJCOlIC/At9m
+ ljNA==
+X-Gm-Message-State: AOAM530yDW/gm0G8n/Tiz0+PNu/25oJtjJn49KipsjAPmlSRsMpAvZ9J
+ 4ShYyP72Dwy71j4vMEGmvJIGS3bkOR83BxDX44RlSA==
+X-Google-Smtp-Source: ABdhPJzsGeeWbjUJG9PoslK7o66IiZMjfHK16DUSK/odnSdg1A2Ox7po60O/De7mg3D9WmiN52KawZNa3lVmWXgJEPg=
+X-Received: by 2002:a9d:398b:: with SMTP id y11mr3378687otb.135.1589460221598; 
+ Thu, 14 May 2020 05:43:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200512064900.28554-1-pauldzim@gmail.com>
- <20200514122223.hyffhhvjkearqgao@sirius.home.kraxel.org>
-In-Reply-To: <20200514122223.hyffhhvjkearqgao@sirius.home.kraxel.org>
+References: <20200514122334.25089-1-kraxel@redhat.com>
+In-Reply-To: <20200514122334.25089-1-kraxel@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 14 May 2020 13:42:57 +0100
-Message-ID: <CAFEAcA-kKtQdt3TvSFaxxO=c1kTihmxEJj49U=REWmBxNtHamw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] dwc-hsotg (aka dwc2) USB host controller emulation
+Date: Thu, 14 May 2020 13:43:30 +0100
+Message-ID: <CAFEAcA-Hmh+SygS7eWfYWsHSYnTFWFccz1GrXDbX=UHqOH38mA@mail.gmail.com>
+Subject: Re: [PULL 0/7] Usb 20200514 patches
 To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ot1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -81,28 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@gmail.com>, John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Paul Zimmerman <pauldzim@gmail.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 May 2020 at 13:22, Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Thu, 14 May 2020 at 13:23, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> On Mon, May 11, 2020 at 11:48:53PM -0700, Paul Zimmerman wrote:
-> > Gerd, Peter, what do you think about accepting this patch series? The
-> > only possibly disruptive patch is #5, which modifies the dev-storage.c
-> > code a bit, the rest is all new code which shouldn't affect anything
-> > else. Felippe Mathieu-Daud=C3=A9 has done quite a bit of review of the
-> > patches, and has said he thinks it could be accepted now.
+> The following changes since commit d5c75ec500d96f1d93447f990cd5a4ef5ba27fae:
 >
-> Looks all sane and passes basic tests, good.
+>   Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2020-05-08-1' into staging (2020-05-12 17:00:10 +0100)
 >
-> Will send pull req with this series (no other usb bits pending atm)
-> in a moment.
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/usb-20200514-pull-request
+>
+> for you to fetch changes up to 8b2b45c506f4d71b831473d8de93b3cedaea4844:
+>
+>   raspi2 acceptance test: add test for dwc-hsotg (dwc2) USB host (2020-05-13 11:06:37 +0200)
+>
+> ----------------------------------------------------------------
+> usb: add dwc2 emulation for raspi machines.
+>
+> ----------------------------------------------------------------
+>
+> Paul Zimmerman (7):
+>   raspi: add BCM2835 SOC MPHI emulation
+>   dwc-hsotg (dwc2) USB host controller register definitions
+>   dwc-hsotg (dwc2) USB host controller state definitions
+>   dwc-hsotg (dwc2) USB host controller emulation
+>   usb: add short-packet handling to usb-storage driver
+>   wire in the dwc-hsotg (dwc2) USB host controller emulation
+>   raspi2 acceptance test: add test for dwc-hsotg (dwc2) USB host
 
-Most of the patches haven't got a reviewed-by tag yet...
+Could we wait til we've had the patches reviewed first, please?
 
 thanks
 -- PMM
