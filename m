@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A377E1D3636
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 18:17:00 +0200 (CEST)
-Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7CB1D3613
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 18:11:30 +0200 (CEST)
+Received: from localhost ([::1]:50614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZGXb-0008RF-7b
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 12:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57706)
+	id 1jZGSG-0001nj-Ju
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 12:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZGWJ-0007FW-5U
- for qemu-devel@nongnu.org; Thu, 14 May 2020 12:15:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZGWH-0004mS-Ny
- for qemu-devel@nongnu.org; Thu, 14 May 2020 12:15:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jZGWF-0005MU-V0
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 16:15:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DA7BD2E8109
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 16:15:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZGR4-0000mr-9z
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 12:10:14 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:60985
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZGR3-0003ao-1N
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 12:10:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589472610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v1TmkoMKvA+iFj6D38uXaDMSCDoLrUosH2djQ5PHBXI=;
+ b=guNyncBGWXzi5PPbERAdYyzMBuV1Kfu7QsbGKbs/malk4jg3Kvg7gUvFZnVgF7mgjBRSQW
+ vrmYG3a59CYJeIhwdv0czBX9fROzfQ5I89sE3kYUaboRqVjgfjazaROM4NucDrc9vltDyl
+ 6IxVRoepms4z7yAx/ocoV5+oeR+MtHg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-h9Mkg50ZNayg451O6A9OSw-1; Thu, 14 May 2020 12:10:04 -0400
+X-MC-Unique: h9Mkg50ZNayg451O6A9OSw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3D2A461;
+ Thu, 14 May 2020 16:10:03 +0000 (UTC)
+Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1311960BF1;
+ Thu, 14 May 2020 16:10:02 +0000 (UTC)
+Subject: Re: [PATCH v6 04/14] block/amend: separate amend and create options
+ for qemu-img
+To: Max Reitz <mreitz@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200510134037.18487-1-mlevitsk@redhat.com>
+ <20200510134037.18487-5-mlevitsk@redhat.com>
+ <5b389390-eadb-e1d6-48f8-be99c2dfad99@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <52231bba-4ef1-2e96-1e82-9e350a68b106@redhat.com>
+Date: Thu, 14 May 2020 11:10:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 May 2020 16:07:44 -0000
-From: Alexander Bulekov <1878645@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <158947246472.30762.752698283456022174.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1878645] [NEW] null-ptr dereference in tcg_handle_interrupt
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
- Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 19b7d88e408d29d2f85e7459cc5727cf53095900
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:40:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <5b389390-eadb-e1d6-48f8-be99c2dfad99@redhat.com>
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=eblake@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:35:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,189 +85,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878645 <1878645@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 5/14/20 7:28 AM, Max Reitz wrote:
+> On 10.05.20 15:40, Maxim Levitsky wrote:
+>> Some options are only useful for creation
+>> (or hard to be amended, like cluster size for qcow2), while some other
+>> options are only useful for amend, like upcoming keyslot management
+>> options for luks
+>>
 
-Hello,
-While fuzzing, I found an input which triggers a NULL pointer dereference in
-tcg_handle_interrupt. It seems the culprint is a "cpu" pointer - maybe this=
- bug
-is specific to QTest?
+>>   
+>> +#define QCOW_COMMON_OPTIONS                                         \
+>> +    {                                                               \
 
-=3D=3D23862=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000000=
-000b4 (pc 0x55b9dc7c9dce bp 0x7ffc346a0900 sp 0x7ffc346a0880 T0)
-=3D=3D23862=3D=3DThe signal is caused by a READ memory access.
-=3D=3D23862=3D=3DHint: address points to the zero page.
-    #0 0x55b9dc7c9dce in tcg_handle_interrupt /home/alxndr/Development/qemu=
-/accel/tcg/tcg-all.c:57:21
-    #1 0x55b9dc904799 in cpu_interrupt /home/alxndr/Development/qemu/includ=
-e/hw/core/cpu.h:872:5
-    #2 0x55b9dc9085e8 in ich9_apm_ctrl_changed /home/alxndr/Development/qem=
-u/hw/isa/lpc_ich9.c:442:13
-    #3 0x55b9dd19cdc8 in apm_ioport_writeb /home/alxndr/Development/qemu/hw=
-/isa/apm.c:50:13
-    #4 0x55b9dc73f8b4 in memory_region_write_accessor /home/alxndr/Developm=
-ent/qemu/memory.c:483:5
-    #5 0x55b9dc73f289 in access_with_adjusted_size /home/alxndr/Development=
-/qemu/memory.c:544:18
-    #6 0x55b9dc73ddf5 in memory_region_dispatch_write /home/alxndr/Developm=
-ent/qemu/memory.c:1476:16
-    #7 0x55b9dc577bf3 in flatview_write_continue /home/alxndr/Development/q=
-emu/exec.c:3137:23
-    #8 0x55b9dc567ad8 in flatview_write /home/alxndr/Development/qemu/exec.=
-c:3177:14
-    #9 0x55b9dc567608 in address_space_write /home/alxndr/Development/qemu/=
-exec.c:3268:18
-    #10 0x55b9dc723fe7 in cpu_outb /home/alxndr/Development/qemu/ioport.c:6=
-0:5
-    #11 0x55b9dc72d3c0 in qtest_process_command /home/alxndr/Development/qe=
-mu/qtest.c:392:13
-    #12 0x55b9dc72b186 in qtest_process_inbuf /home/alxndr/Development/qemu=
-/qtest.c:710:9
-    #13 0x55b9dc72a8b3 in qtest_read /home/alxndr/Development/qemu/qtest.c:=
-722:5
-    #14 0x55b9ddc6e60b in qemu_chr_be_write_impl /home/alxndr/Development/q=
-emu/chardev/char.c:183:9
-    #15 0x55b9ddc6e75a in qemu_chr_be_write /home/alxndr/Development/qemu/c=
-hardev/char.c:195:9
-    #16 0x55b9ddc77979 in fd_chr_read /home/alxndr/Development/qemu/chardev=
-/char-fd.c:68:9
-    #17 0x55b9ddcff0e9 in qio_channel_fd_source_dispatch /home/alxndr/Devel=
-opment/qemu/io/channel-watch.c:84:12
-    #18 0x7f7161eac897 in g_main_context_dispatch (/usr/lib/x86_64-linux-gn=
-u/libglib-2.0.so.0+0x4e897)
-    #19 0x55b9ddebcb84 in glib_pollfds_poll /home/alxndr/Development/qemu/u=
-til/main-loop.c:219:9
-    #20 0x55b9ddebb57d in os_host_main_loop_wait /home/alxndr/Development/q=
-emu/util/main-loop.c:242:5
-    #21 0x55b9ddebb176 in main_loop_wait /home/alxndr/Development/qemu/util=
-/main-loop.c:518:11
-    #22 0x55b9dcb4bd1d in qemu_main_loop /home/alxndr/Development/qemu/soft=
-mmu/vl.c:1664:9
-    #23 0x55b9ddd1629c in main /home/alxndr/Development/qemu/softmmu/main.c=
-:49:5
-    #24 0x7f7160a5ce0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30/=
-csu/../csu/libc-start.c:308:16
-    #25 0x55b9dc49c819 in _start (/home/alxndr/Development/qemu/build/i386-=
-softmmu/qemu-system-i386+0xc9c819)
+>> +        .help = "Width of a reference count entry in bits",         \
+>> +        .def_value_str = "16"                                       \
+>> +    }                                                               \
+> 
+> I think the last line should have a comma in it (otherwise the final
+> backslash doesn’t make much sense, because whenever we’d add a new
+> option, we would need to modify the line anyway to insert a comma).
 
+Except that...
 
-I can reproduce this in qemu 5.0 built with AddressSanitizer using these qt=
-est commands:
+> 
+> Speaking of adding option, this requires a rebase due to the
+> compression_type option added (not trivial in the strict sense, but
+> still straightforward to handle).
+> 
+>> +
+>>   static QemuOptsList qcow2_create_opts = {
+>>       .name = "qcow2-create-opts",
+>>       .head = QTAILQ_HEAD_INITIALIZER(qcow2_create_opts.head),
+>>       .desc = {
+>>
+> 
+> [...]
+> 
+>> +        QCOW_COMMON_OPTIONS,
+>> +        { /* end of list */ }
 
-cat << EOF | ./qemu-system-i386 \
--qtest stdio -nographic -monitor none -serial none \
--M pc-q35-5.0
-outl 0xcf8 0x8400f841
-outl 0xcfc 0xaa215d6d
-outl 0x6d30 0x2ef8ffbe
-outb 0xb2 0x20
-EOF
+...the intended usage is to use the macro name followed by a comma, so 
+including a trailing comma in the macro itself would lead to a syntax 
+error.  I think the better fix is to eliminate the trailing \ on the 
+final line, and have '}' without a trailing comma in the macro.
 
-Please let me know if I can provide any further info.
--Alex
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878645
-
-Title:
-  null-ptr dereference in tcg_handle_interrupt
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-  While fuzzing, I found an input which triggers a NULL pointer dereference=
- in
-  tcg_handle_interrupt. It seems the culprint is a "cpu" pointer - maybe th=
-is bug
-  is specific to QTest?
-
-  =3D=3D23862=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
-00000b4 (pc 0x55b9dc7c9dce bp 0x7ffc346a0900 sp 0x7ffc346a0880 T0)
-  =3D=3D23862=3D=3DThe signal is caused by a READ memory access.
-  =3D=3D23862=3D=3DHint: address points to the zero page.
-      #0 0x55b9dc7c9dce in tcg_handle_interrupt /home/alxndr/Development/qe=
-mu/accel/tcg/tcg-all.c:57:21
-      #1 0x55b9dc904799 in cpu_interrupt /home/alxndr/Development/qemu/incl=
-ude/hw/core/cpu.h:872:5
-      #2 0x55b9dc9085e8 in ich9_apm_ctrl_changed /home/alxndr/Development/q=
-emu/hw/isa/lpc_ich9.c:442:13
-      #3 0x55b9dd19cdc8 in apm_ioport_writeb /home/alxndr/Development/qemu/=
-hw/isa/apm.c:50:13
-      #4 0x55b9dc73f8b4 in memory_region_write_accessor /home/alxndr/Develo=
-pment/qemu/memory.c:483:5
-      #5 0x55b9dc73f289 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/memory.c:544:18
-      #6 0x55b9dc73ddf5 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/memory.c:1476:16
-      #7 0x55b9dc577bf3 in flatview_write_continue /home/alxndr/Development=
-/qemu/exec.c:3137:23
-      #8 0x55b9dc567ad8 in flatview_write /home/alxndr/Development/qemu/exe=
-c.c:3177:14
-      #9 0x55b9dc567608 in address_space_write /home/alxndr/Development/qem=
-u/exec.c:3268:18
-      #10 0x55b9dc723fe7 in cpu_outb /home/alxndr/Development/qemu/ioport.c=
-:60:5
-      #11 0x55b9dc72d3c0 in qtest_process_command /home/alxndr/Development/=
-qemu/qtest.c:392:13
-      #12 0x55b9dc72b186 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/qtest.c:710:9
-      #13 0x55b9dc72a8b3 in qtest_read /home/alxndr/Development/qemu/qtest.=
-c:722:5
-      #14 0x55b9ddc6e60b in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/chardev/char.c:183:9
-      #15 0x55b9ddc6e75a in qemu_chr_be_write /home/alxndr/Development/qemu=
-/chardev/char.c:195:9
-      #16 0x55b9ddc77979 in fd_chr_read /home/alxndr/Development/qemu/chard=
-ev/char-fd.c:68:9
-      #17 0x55b9ddcff0e9 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/io/channel-watch.c:84:12
-      #18 0x7f7161eac897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-      #19 0x55b9ddebcb84 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/util/main-loop.c:219:9
-      #20 0x55b9ddebb57d in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/util/main-loop.c:242:5
-      #21 0x55b9ddebb176 in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:518:11
-      #22 0x55b9dcb4bd1d in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1664:9
-      #23 0x55b9ddd1629c in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #24 0x7f7160a5ce0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #25 0x55b9dc49c819 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0xc9c819)
-
-  =
-
-  I can reproduce this in qemu 5.0 built with AddressSanitizer using these =
-qtest commands:
-
-  cat << EOF | ./qemu-system-i386 \
-  -qtest stdio -nographic -monitor none -serial none \
-  -M pc-q35-5.0
-  outl 0xcf8 0x8400f841
-  outl 0xcfc 0xaa215d6d
-  outl 0x6d30 0x2ef8ffbe
-  outb 0xb2 0x20
-  EOF
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878645/+subscriptions
 
