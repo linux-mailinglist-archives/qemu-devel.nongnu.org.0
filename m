@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A691D34AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:12:23 +0200 (CEST)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E901D34BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:14:34 +0200 (CEST)
+Received: from localhost ([::1]:55096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFX4-0005Wn-VZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46594)
+	id 1jZFZB-0000St-UG
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jZFVB-0002dt-SL
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:10:25 -0400
-Received: from mail-ua1-x933.google.com ([2607:f8b0:4864:20::933]:44549)
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jZFXo-0007PR-2E
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:13:08 -0400
+Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29]:45126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jZFVA-0000xV-8Y
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:10:25 -0400
-Received: by mail-ua1-x933.google.com with SMTP id z16so1236382uae.11
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 08:10:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1jZFXj-0001du-4j
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:13:06 -0400
+Received: by mail-vs1-xe29.google.com with SMTP id e10so2138182vsp.12
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 08:13:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=smartx-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=WZw11k3WTIkIls6UR/pZsIkj2G2RW+0rshDY6qEqg6A=;
- b=TGPuc6pqjWtpYvme1FZPkosUGZ30ZxTZBLMGCVfcix5Is8OWGAx8b5Z8m/6wTvMFVT
- YoYPmIKP+oUIKIHpF3dqh9JdLaRoeoWv7ScVnKppY6Jp8ZYuh5j1IxsoEh8Rs71f2oRH
- +F44RXlcsXjveH3CU2EGOa2OYvs6P3aEsGD6OlVeE51dzyxvMLopsXI+XwOr1g7yFuP0
- XKsRkjL+EPbHF2Iz4NFNAX5LPBXgMNervjbEH30m6z9M/rV0Y2QXN1PftHYC280JnLNe
- FiRor6/A+nF/foUpM5YNJSU8G0VwzDWZaY19/y3qVqgMqz6HGjDaFnKhPL2wPX+C9gE5
- 48qg==
+ bh=vlyTX4bLX1NoDs7kqXaQ0Jd2wQokjOgMCCYtvjIN5Mc=;
+ b=dJFOnwA51AvtPM1BItGBC0sIYy1x+pT/MAFJRe6vBBlnd+U11GzsEZpZ5hSDOUTta9
+ C+Lqj75GiFFaHCUmbXxT7h2PaRmWsEGODUhACTUkhwq8gvGoil5dVwUy+CggWymn4WvI
+ rMR2wnZ+bgy+fzQ/XL19as87iCRwP+NNiU2yseR9oV4bGswwmMVbp80Em0j0QsbzMXSy
+ jAMWl8kjMjhrCa+IemLnAlZletbUhYqom5VUr8F5a+PtVVV4jcpgDAY69kZJMrTGFhyT
+ twA4kOMEq4vC/IdrWOZyx4XQ3q/zRTjEQjLeXkiIUvU1CtEEKwfIkBCLM8MSPx6WO/rQ
+ 6QPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=WZw11k3WTIkIls6UR/pZsIkj2G2RW+0rshDY6qEqg6A=;
- b=OZ/XyTxmWvJ1jvF5XwF9iXrSgqZafNwfCQ+Qyy919hyoVbTB9Pvv+SLRBCb3oTn1KJ
- yKLi+ngukQ7gL8MISqtMrS1jghnMwTLkktfWM5WD3nP+QEuUruMPB+ihyzVDoP79AFsF
- xDl2m4QdHN9hQr6Z7kd11WWrD3jsF4UuDuPp9qoNjnSV6pNi6bX6L/fX4KAx3LKgZPi8
- hQC3F1fUHS4ARea7HTpT+oIEax9exhSY9/M3eqTbt+jD7mVbq9f/iLKKbyIoOxEr6z+I
- EasjGKCXzGBmkWT2D4/vti02Uv+bTgqPPTy2loLIjRfUP1t920PK1oxmtrwsKIQdaqPA
- fxiw==
-X-Gm-Message-State: AOAM531wOMNY5rOUpGTMuqMqlvy7qsUqTSDl4m3CTxG9GRkCm4zoK8Y3
- rhqiEPr1xlZ5ubjIikHC1kpaTkGdqtbzbc9z/12DlQ==
-X-Google-Smtp-Source: ABdhPJyilNUp7a8vEpp8/a/bb9XtlP01ViUkm8IEfg4d8Wy2qQAi1ZBDnydk18JbYLwIL75TlZVGjI6rmj5k4S/HOts=
-X-Received: by 2002:ab0:b13:: with SMTP id b19mr4372213uak.91.1589469021929;
- Thu, 14 May 2020 08:10:21 -0700 (PDT)
+ bh=vlyTX4bLX1NoDs7kqXaQ0Jd2wQokjOgMCCYtvjIN5Mc=;
+ b=sG9PPJ/n5Pf2GicCgKAlpNpwRluFGGgNEm9dvbIjLankHx5kZIv+ex8buRV0zOqROJ
+ C7MIGASpOAz+863B+qCG2bxs4fBsOiOg2Rgc34IWjDDr/vi10c5wxmTqr+o2tw3Dc1Yq
+ LCGP1ebA6NR2xnz4R4tF4vwmlvcGDfmYLV0JKY19b9HIgK4e6QLPCo9qFc1Vc6zTjTL1
+ /sVTlyUXD8VHI+aNabISw4xCpoggX+kudNIg9KxjazW0gR5QIlZ97CDnisy8fEyF7wqB
+ S2CvqfjdaRVdCAPY170xRTzL7NtfActUj8czOw81kGyc8pxTOJICg/LaA7Z2j4KtIzsj
+ Ap3A==
+X-Gm-Message-State: AOAM5321JG3Ejh2IS9LaJwoaETTX2X4GQvHN/HUsoxvqbGDhkouAiEMW
+ 9KQe1WH778q72ss/A9/dg/dt9W5GD4pzbtF56Nl0KQ==
+X-Google-Smtp-Source: ABdhPJwjgZ2gRY8nPQXCyCwhNsSjVbw64QudraO7XMmCYJAAg4schHhbsEfk+r72lv+JOFi5DugYSzK/ZJCcflM3Yhw=
+X-Received: by 2002:a67:1342:: with SMTP id 63mr3739779vst.70.1589469180287;
+ Thu, 14 May 2020 08:13:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHckoCymFfuVd=tKV-hk+PHn2fk6ydWjSxwKVorj9Qe5KV6nGQ@mail.gmail.com>
  <CAHckoCzWmN4oedOHMvR_TbbBcbYqSjg1fUr2RjJkh-iuZO-Jng@mail.gmail.com>
  <55b6466c-0769-6652-a237-c6bc18704064@redhat.com>
  <20200514125220.GJ2787@work-vm>
-In-Reply-To: <20200514125220.GJ2787@work-vm>
+ <CAHckoCyegWG9yH_y6VjHhnghfHJD-Wq+EmOyRZE3EYguTOHfPw@mail.gmail.com>
+In-Reply-To: <CAHckoCyegWG9yH_y6VjHhnghfHJD-Wq+EmOyRZE3EYguTOHfPw@mail.gmail.com>
 From: Li Feng <fengli@smartx.com>
-Date: Thu, 14 May 2020 23:10:10 +0800
-Message-ID: <CAHckoCyegWG9yH_y6VjHhnghfHJD-Wq+EmOyRZE3EYguTOHfPw@mail.gmail.com>
+Date: Thu, 14 May 2020 23:12:48 +0800
+Message-ID: <CAHckoCw8PGz=Ugq0P0E-miSjtuwuuvMQzbLs7UJvFp=7mLsTiQ@mail.gmail.com>
 Subject: Re: kvm_buf_set_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs'
  failed.
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::933;
- envelope-from=fengli@smartx.com; helo=mail-ua1-x933.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::e29;
+ envelope-from=fengli@smartx.com; helo=mail-vs1-xe29.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -88,129 +89,143 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, vkuznets@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-EXSi CPU is : Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
-This is my vm, I run qemu in it.
+L1 kernel is :
+(base) 20-05-14 23:31:32 root@31_216:~  uname -a
+Linux 31_216 5.6.7-1.el7.centos.x86_64 #1 SMP Mon Apr 27 15:26:08 CST
+2020 x86_64 x86_64 x86_64 GNU/Linux
 
-(base) 20-05-14 15:32:50 root@31_216:~  lscpu
-Architecture:          x86_64
-CPU op-mode(s):        32-bit, 64-bit
-Byte Order:            Little Endian
-CPU(s):                16
-On-line CPU(s) list:   0-15
-Thread(s) per core:    1
-Core(s) per socket:    1
-Socket(s):             16
-NUMA node(s):          1
-Vendor ID:             GenuineIntel
-CPU family:            6
-Model:                 63
-Model name:            Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
-Stepping:              2
-CPU MHz:               2599.998
-BogoMIPS:              5199.99
-Virtualization:        VT-x
-Hypervisor vendor:     VMware
-Virtualization type:   full
-L1d cache:             32K
-L1i cache:             32K
-L2 cache:              256K
-L3 cache:              20480K
-NUMA node0 CPU(s):     0-15
-Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep
-mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall
-nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology
-tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid
-sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx
-f16c rdrand hypervisor lahf_lm abm cpuid_fault invpcid_single
-tpr_shadow vnmi ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2
-invpcid xsaveopt arat
+The OS is CentOS 7.
 
 Thanks,
 
 Feng Li
 
-Dr. David Alan Gilbert <dgilbert@redhat.com> =E4=BA=8E2020=E5=B9=B45=E6=9C=
-=8814=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=888:52=E5=86=99=E9=81=93=
-=EF=BC=9A
+Li Feng <fengli@smartx.com> =E4=BA=8E2020=E5=B9=B45=E6=9C=8814=E6=97=A5=E5=
+=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=8811:10=E5=86=99=E9=81=93=EF=BC=9A
 >
-> * Philippe Mathieu-Daud=C3=A9 (philmd@redhat.com) wrote:
-> > Cc'ing David/Paolo in case they have a clue...
+> EXSi CPU is : Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
+> This is my vm, I run qemu in it.
+>
+> (base) 20-05-14 15:32:50 root@31_216:~  lscpu
+> Architecture:          x86_64
+> CPU op-mode(s):        32-bit, 64-bit
+> Byte Order:            Little Endian
+> CPU(s):                16
+> On-line CPU(s) list:   0-15
+> Thread(s) per core:    1
+> Core(s) per socket:    1
+> Socket(s):             16
+> NUMA node(s):          1
+> Vendor ID:             GenuineIntel
+> CPU family:            6
+> Model:                 63
+> Model name:            Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
+> Stepping:              2
+> CPU MHz:               2599.998
+> BogoMIPS:              5199.99
+> Virtualization:        VT-x
+> Hypervisor vendor:     VMware
+> Virtualization type:   full
+> L1d cache:             32K
+> L1i cache:             32K
+> L2 cache:              256K
+> L3 cache:              20480K
+> NUMA node0 CPU(s):     0-15
+> Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep
+> mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall
+> nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology
+> tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid
+> sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx
+> f16c rdrand hypervisor lahf_lm abm cpuid_fault invpcid_single
+> tpr_shadow vnmi ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2
+> invpcid xsaveopt arat
+>
+> Thanks,
+>
+> Feng Li
+>
+> Dr. David Alan Gilbert <dgilbert@redhat.com> =E4=BA=8E2020=E5=B9=B45=E6=
+=9C=8814=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=888:52=E5=86=99=E9=81=
+=93=EF=BC=9A
 > >
-> > On 5/14/20 1:27 PM, Li Feng wrote:
-> > > Dear all,
+> > * Philippe Mathieu-Daud=C3=A9 (philmd@redhat.com) wrote:
+> > > Cc'ing David/Paolo in case they have a clue...
 > > >
-> > > I have encountered a weird crash.
-> > > I remember before a few days it works well and I rebase my code from =
-upstream.
-> > >
-> > > This is the command:
-> > > /root/qemu-master/x86_64-softmmu/qemu-system-x86_64 -enable-kvm
-> > > -device virtio-balloon -cpu host -smp 4 -m 2G -drive
-> > > file=3D/root/html/fedora-10g.img,format=3Draw,cache=3Dnone,aio=3Dnati=
-ve,if=3Dnone,id=3Ddrive-virtio-disk1
-> > > -device virtio-blk-pci,scsi=3Doff,drive=3Ddrive-virtio-disk1,id=3Dvir=
-tio-disk1,bootindex=3D1
-> > > -device virtio-net,netdev=3Dnw1,mac=3D00:11:22:EE:EE:10 -netdev
-> > > tap,id=3Dnw1,script=3Dno,downscript=3Dno,ifname=3Dtap0 -serial mon:st=
-dio
-> > > -nographic -object
-> > > memory-backend-file,id=3Dmem0,size=3D2G,mem-path=3D/dev/hugepages,sha=
-re=3Don
-> > > -numa node,memdev=3Dmem0 -vnc 0.0.0.0:100 -machine usb=3Don,nvdimm -d=
-evice
-> > > usb-tablet -monitor unix:///tmp/a.socket,server,nowait -device
-> > > virtio-serial-pci,id=3Dvirtio-serial0,max_ports=3D16 -chardev
-> > > socket,id=3Dchannel1,path=3D/tmp/helloworld1,server,nowait -device
-> > > virtserialport,chardev=3Dchannel1,name=3Dcom.redhat.rhevm.vdsm1,bus=
+> > > On 5/14/20 1:27 PM, Li Feng wrote:
+> > > > Dear all,
+> > > >
+> > > > I have encountered a weird crash.
+> > > > I remember before a few days it works well and I rebase my code fro=
+m upstream.
+> > > >
+> > > > This is the command:
+> > > > /root/qemu-master/x86_64-softmmu/qemu-system-x86_64 -enable-kvm
+> > > > -device virtio-balloon -cpu host -smp 4 -m 2G -drive
+> > > > file=3D/root/html/fedora-10g.img,format=3Draw,cache=3Dnone,aio=3Dna=
+tive,if=3Dnone,id=3Ddrive-virtio-disk1
+> > > > -device virtio-blk-pci,scsi=3Doff,drive=3Ddrive-virtio-disk1,id=3Dv=
+irtio-disk1,bootindex=3D1
+> > > > -device virtio-net,netdev=3Dnw1,mac=3D00:11:22:EE:EE:10 -netdev
+> > > > tap,id=3Dnw1,script=3Dno,downscript=3Dno,ifname=3Dtap0 -serial mon:=
+stdio
+> > > > -nographic -object
+> > > > memory-backend-file,id=3Dmem0,size=3D2G,mem-path=3D/dev/hugepages,s=
+hare=3Don
+> > > > -numa node,memdev=3Dmem0 -vnc 0.0.0.0:100 -machine usb=3Don,nvdimm =
+-device
+> > > > usb-tablet -monitor unix:///tmp/a.socket,server,nowait -device
+> > > > virtio-serial-pci,id=3Dvirtio-serial0,max_ports=3D16 -chardev
+> > > > socket,id=3Dchannel1,path=3D/tmp/helloworld1,server,nowait -device
+> > > > virtserialport,chardev=3Dchannel1,name=3Dcom.redhat.rhevm.vdsm1,bus=
 =3Dvirtio-serial0.0,id=3Dport1
-> > > -qmp tcp:0.0.0.0:2234,server,nowait
-> > > qemu-system-x86_64: error: failed to set MSR 0x48f to 0x7fefff00036df=
-b
-> > > qemu-system-x86_64: /root/qemu-master/target/i386/kvm.c:2695:
-> > > kvm_buf_set_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' fail=
-ed.
->
-> 48f is MSR_IA32_VMX_TRUE_EXIT_CTLS
-> I've not got a note of seeing that one before.
->
-> > > This is the commit record:
-> > > *   c88f1ffc19 - (origin/master, origin/HEAD) Merge remote-tracking
-> > > branch 'remotes/kevin/tags/for-upstream' into staging (3 days ago)
-> > > <Peter Maydell>
-> > > |\
-> > > | * 47e0b38a13 - block: Drop unused .bdrv_has_zero_init_truncate (3
-> > > days ago) <Eric Blake>
-> > > | * dbc636e791 - vhdx: Rework truncation logic (3 days ago) <Eric Bla=
-ke>
-> > > | * bda4cdcbb9 - parallels: Rework truncation logic (3 days ago) <Eri=
-c Blake>
-> > > | * be9c9404db - ssh: Support BDRV_REQ_ZERO_WRITE for truncate (3 day=
-s
-> > > ago) <Eric Blake>
-> > > | * fec00559e7 - sheepdog: Support BDRV_REQ_ZERO_WRITE for truncate (=
-3
-> > > days ago) <Eric Blake>
-> > > | * 2f98910d5b - rbd: Support BDRV_REQ_ZERO_WRITE for truncate (3 day=
-s
-> > > ago) <Eric Blake>
-> > >
-> > > I run this qemu in a VM base on EXSi.
-> > >
-> > > Does anyone have the same issue?
->
-> cc'ing in Vitaly since he knows VMWare stuff.
->
-> What's your host CPU?
->
-> Dave
->
-> > >
-> > > Thanks,
-> > >
-> > > Feng Li
-> > >
+> > > > -qmp tcp:0.0.0.0:2234,server,nowait
+> > > > qemu-system-x86_64: error: failed to set MSR 0x48f to 0x7fefff00036=
+dfb
+> > > > qemu-system-x86_64: /root/qemu-master/target/i386/kvm.c:2695:
+> > > > kvm_buf_set_msrs: Assertion `ret =3D=3D cpu->kvm_msr_buf->nmsrs' fa=
+iled.
 > >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
+> > 48f is MSR_IA32_VMX_TRUE_EXIT_CTLS
+> > I've not got a note of seeing that one before.
+> >
+> > > > This is the commit record:
+> > > > *   c88f1ffc19 - (origin/master, origin/HEAD) Merge remote-tracking
+> > > > branch 'remotes/kevin/tags/for-upstream' into staging (3 days ago)
+> > > > <Peter Maydell>
+> > > > |\
+> > > > | * 47e0b38a13 - block: Drop unused .bdrv_has_zero_init_truncate (3
+> > > > days ago) <Eric Blake>
+> > > > | * dbc636e791 - vhdx: Rework truncation logic (3 days ago) <Eric B=
+lake>
+> > > > | * bda4cdcbb9 - parallels: Rework truncation logic (3 days ago) <E=
+ric Blake>
+> > > > | * be9c9404db - ssh: Support BDRV_REQ_ZERO_WRITE for truncate (3 d=
+ays
+> > > > ago) <Eric Blake>
+> > > > | * fec00559e7 - sheepdog: Support BDRV_REQ_ZERO_WRITE for truncate=
+ (3
+> > > > days ago) <Eric Blake>
+> > > > | * 2f98910d5b - rbd: Support BDRV_REQ_ZERO_WRITE for truncate (3 d=
+ays
+> > > > ago) <Eric Blake>
+> > > >
+> > > > I run this qemu in a VM base on EXSi.
+> > > >
+> > > > Does anyone have the same issue?
+> >
+> > cc'ing in Vitaly since he knows VMWare stuff.
+> >
+> > What's your host CPU?
+> >
+> > Dave
+> >
+> > > >
+> > > > Thanks,
+> > > >
+> > > > Feng Li
+> > > >
+> > >
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >
 
