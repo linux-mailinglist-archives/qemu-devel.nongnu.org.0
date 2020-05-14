@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1A71D3D5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 21:23:42 +0200 (CEST)
-Received: from localhost ([::1]:38160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE911D3D63
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 21:25:56 +0200 (CEST)
+Received: from localhost ([::1]:47616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZJSH-0000XV-DR
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 15:23:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58072)
+	id 1jZJUR-000500-A3
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 15:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jZJPp-0006nH-Ef
- for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:09 -0400
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d]:39426)
+ id 1jZJPq-0006pG-DV
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:10 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:40036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aleksandar.qemu.devel@gmail.com>)
- id 1jZJPo-0007Kc-MP
- for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:09 -0400
-Received: by mail-lj1-x22d.google.com with SMTP id u6so4787915ljl.6
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 12:21:07 -0700 (PDT)
+ id 1jZJPp-0007Kn-JC
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 15:21:10 -0400
+Received: by mail-lj1-x243.google.com with SMTP id g1so4759006ljk.7
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 12:21:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nslBjmjjb5KYVHFB1WwajBujV0mgFXW5eqYEf7sSWeY=;
- b=Yh69AKjp6AAhgOAvICC+xbVlN6k8ND1rRSsDIQ4iAispG9gyMvSTcqffj5N635G2mS
- zJ+5dRl2Z3ZVll9gDNsWA4JvDo/xmlKk9QYYY8vboYAQRF7lTm3ClIxNduG6wyPO+vY+
- Tr1w97iiWh2X3eqVmhK9uFD81SvaJGjFOXSfzhveP6KJIYo/cXvcTlrB8fTAZdnNFwqt
- lmUJA/MdqqKS5RZxIpg3+Gy6iTHTKB3pA0WP4onkb2v9xlFofAtE2pWasKBinxnvyydT
- Gk2F7h7rz2NBExsWGY4085F8fFGxlsqSAtTs+TCFIhKD+UxFIgM3uCADNwDTzRAxSGOl
- IZxg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sYYgHAo2+EKZquY3ZxB7P+G7B9EmMHUqv6UWZNAADzw=;
+ b=iOMsP/otSUituW3WOeGUXfT+MfvpkJuDxpFSJaoy67uDsJdXdVqDfm+WQ701bAsLYa
+ EiHzgr/yjWwPG2+xh1RakpPuqcLn9hnkjd1RWwBNYERTbk6Jb95+BM7uKM7NIl5l2Uqk
+ AGpKNzbLSUqGGrCJuH7SUppD6dUnOcNk8xjgZtnPisaNntq6LVgo44MTA7HbVi0F2R8e
+ upGpSQFFYUyEFsC32GMDwqkoTwyuMRVI2h46ULNG8Y+v+ZAgYRB/Nu2afpVap0Hn9n5W
+ KOzJUlZVm3qf3XWKPDwh/zFXvhvordJ54EeQIFbXZJP5YP1aujpyZKJl5ezI5vQhEI6O
+ XxUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nslBjmjjb5KYVHFB1WwajBujV0mgFXW5eqYEf7sSWeY=;
- b=BTzE/ag41EpAXqhAtwLt3Loe0QHY06e2UxqTCiQB/8MWyz18ckwCI/DSzILhn5x1J/
- 5+2rdez80Fs5lk4s1iz91yHtOd9cFeDPHJzfuv19TPdmTRw/teHbIjfceRVbIzx64mrN
- 1l1F1JZe9M6POx18Yfy92k4E53vwYk1d5Qmkfugghp8z1x/pueDnoEasHB1zVQ6aImKx
- 2UupKxHwbUs1FM2oyx5KZx/2SPFKUZwCNDHg9S2tRmBw2HEQx25uLBnUX40pv+NrQ/eU
- xTTSMPdwi+2naqy9UkXlXTjOuIUbZegqMxV8dMrNq8lWT4TO5QwwpwZYbUmX4cUGcW+N
- TpXg==
-X-Gm-Message-State: AOAM531dCzjSMdcd9rTj/mcGscWSwsjPBbeBEdVhKr7MoCVqS/rnAeBP
- hz9zNavqsn+M5T+NlnUddWSfzeh60zA=
-X-Google-Smtp-Source: ABdhPJyMGHEKaUhvKZHLCc1EAu+dxKa2240jX1KYIKTHWiQFb2GM3Iq3boRE2I62phfdE8clR9aW+w==
-X-Received: by 2002:a2e:b0d6:: with SMTP id g22mr3933360ljl.232.1589484066259; 
- Thu, 14 May 2020 12:21:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=sYYgHAo2+EKZquY3ZxB7P+G7B9EmMHUqv6UWZNAADzw=;
+ b=ekXYJMJhr+iZvwFEzSkzGVaAMM1Z8y11f3zZBK1ryxov6tYFMJpqblnTN4e/l+uND7
+ C279Nd3W16ZC9ntHAJL5Ie/MFlb+M5PjCPabfxbkaPlFWJbPgGk62WQgo3UVplTAKkVU
+ IFZrRb4MtN2tag0JRITtTg8bti4jxwBvni3bsDwlWYQ9IuVhkBThVOKUrDVVRTXtMfAa
+ ZvjgIxcBEeuRSqspWYHmYuENIwdIqEHFflgGqWyAiPQJekenEeodK6m7j2+lHr2RaHmy
+ cbEycJenu+e+JRX246wOmhzPC+VvkcnE/4KApCUIppgUVKSRczkUMumxYBKXh86RFEqp
+ sIcg==
+X-Gm-Message-State: AOAM530a0HTh2c++t/ekn9AZ0xXEdc9KWFfG9eYEIdVSIjTtzMxFfp2j
+ IpiSiBG7ovvmktg8vNfxhys9OKO52QU=
+X-Google-Smtp-Source: ABdhPJwl8u45Lac3R++rH1C2EMGCn/K3zltzqY+HWBGqeJsn0zWl9+psfuEgkmjF5hh10bopd6S7vA==
+X-Received: by 2002:a2e:9ada:: with SMTP id p26mr3890091ljj.14.1589484067514; 
+ Thu, 14 May 2020 12:21:07 -0700 (PDT)
 Received: from localhost.localdomain ([109.245.227.98])
- by smtp.gmail.com with ESMTPSA id h3sm2427257lfk.3.2020.05.14.12.21.04
+ by smtp.gmail.com with ESMTPSA id h3sm2427257lfk.3.2020.05.14.12.21.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 12:21:05 -0700 (PDT)
+ Thu, 14 May 2020 12:21:07 -0700 (PDT)
 From: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/17] target/mips: FPU and other cleanups and improvements
-Date: Thu, 14 May 2020 21:20:30 +0200
-Message-Id: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH v2 01/17] target/mips: fpu: Demacro ADD.<D|S|PS>
+Date: Thu, 14 May 2020 21:20:31 +0200
+Message-Id: <20200514192047.5297-2-aleksandar.qemu.devel@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
+References: <20200514192047.5297-1-aleksandar.qemu.devel@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
- envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x22d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=aleksandar.qemu.devel@gmail.com; helo=mail-lj1-x243.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -86,48 +88,68 @@ Cc: aleksandar.rikalo@rt-rk.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series contains mostly cosmetic FPU cleanups aimed to
-make source code recognition easier for tools like gdb, gcov,
-calgrind, and others.
+This is just a cosmetic change to enable tools like gcov, gdb,
+callgrind, etc. to better display involved source code.
 
-There is also a patch that refactors conversion from ieee to
-mips fp exception flags. This refactoring will improve the
-performance of almost all fp-related mips instructions, albait
-very modestly (less that one percent).
+Signed-off-by: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+---
+ target/mips/fpu_helper.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-Finally, there is a patch that frees mips_malta.c from
-checkpatch warnings.
-
-v1->v2:
-
-  - added more demacroing
-
-Aleksandar Markovic (17):
-  target/mips: fpu: Demacro ADD.<D|S|PS>
-  target/mips: fpu: Demacro SUB.<D|S|PS>
-  target/mips: fpu: Demacro MUL.<D|S|PS>
-  target/mips: fpu: Demacro DIV.<D|S|PS>
-  target/mips: fpu: Remove now unused macro FLOAT_BINOP
-  target/mips: fpu: Demacro MADD.<D|S|PS>
-  target/mips: fpu: Demacro MSUB.<D|S|PS>
-  target/mips: fpu: Demacro NMADD.<D|S|PS>
-  target/mips: fpu: Demacro NMSUB.<D|S|PS>
-  target/mips: fpu: Remove now unused UNFUSED_FMA and FLOAT_FMA macros
-  target/mips: fpu: Demacro CLASS.<D|S>
-  target/mips: fpu: Remove now unused FLOAT_CLASS macro
-  target/mips: fpu: Demacro RINT.<D|S>
-  target/mips: fpu: Remove now unused FLOAT_RINT macro
-  target/mips: fpu: Name better paired-single variables
-  target/mips: fpu: Refactor conversion from ieee to mips exception
-    flags
-  hw/mips: Convert Malta "ifdef 0"-ed code to comments
-
- hw/mips/mips_malta.c     |  20 +-
- target/mips/fpu_helper.c | 658 +++++++++++++++++++++++++++------------
- target/mips/internal.h   |   1 -
- target/mips/msa_helper.c |  77 +++--
- 4 files changed, 517 insertions(+), 239 deletions(-)
-
+diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
+index 5287c86c61..984f3f4dfb 100644
+--- a/target/mips/fpu_helper.c
++++ b/target/mips/fpu_helper.c
+@@ -1208,12 +1208,48 @@ uint64_t helper_float_ ## name ## _ps(CPUMIPSState *env,           \
+     return ((uint64_t)wth2 << 32) | wt2;                           \
+ }
+ 
+-FLOAT_BINOP(add)
+ FLOAT_BINOP(sub)
+ FLOAT_BINOP(mul)
+ FLOAT_BINOP(div)
+ #undef FLOAT_BINOP
+ 
++uint64_t helper_float_add_d(CPUMIPSState *env,
++                            uint64_t fdt0, uint64_t fdt1)
++{
++    uint64_t dt2;
++
++    dt2 = float64_add(fdt0, fdt1, &env->active_fpu.fp_status);
++    update_fcr31(env, GETPC());
++    return dt2;
++}
++
++uint32_t helper_float_add_s(CPUMIPSState *env,
++                            uint32_t fst0, uint32_t fst1)
++{
++    uint32_t wt2;
++
++    wt2 = float32_sub(fst0, fst1, &env->active_fpu.fp_status);
++    update_fcr31(env, GETPC());
++    return wt2;
++}
++
++uint64_t helper_float_add_ps(CPUMIPSState *env,
++                             uint64_t fdt0, uint64_t fdt1)
++{
++    uint32_t fstl0 = fdt0 & 0XFFFFFFFF;
++    uint32_t fsth0 = fdt0 >> 32;
++    uint32_t fstl1 = fdt1 & 0XFFFFFFFF;
++    uint32_t fsth1 = fdt1 >> 32;
++    uint32_t wtl2;
++    uint32_t wth2;
++
++    wtl2 = float32_add(fstl0, fstl1, &env->active_fpu.fp_status);
++    wth2 = float32_add(fsth0, fsth1, &env->active_fpu.fp_status);
++    update_fcr31(env, GETPC());
++    return ((uint64_t)wth2 << 32) | wtl2;
++}
++
++
+ /* MIPS specific binary operations */
+ uint64_t helper_float_recip2_d(CPUMIPSState *env, uint64_t fdt0, uint64_t fdt2)
+ {
 -- 
 2.20.1
 
