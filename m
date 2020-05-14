@@ -2,47 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A202A1D31D5
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 15:53:25 +0200 (CEST)
-Received: from localhost ([::1]:39642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E431D31F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 15:57:13 +0200 (CEST)
+Received: from localhost ([::1]:52596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEIe-0002qz-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 09:53:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34870)
+	id 1jZEMK-0008FX-3d
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 09:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1jZEHX-0001eu-6e; Thu, 14 May 2020 09:52:15 -0400
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:46985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1jZEHV-00073d-R7; Thu, 14 May 2020 09:52:14 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 0870242DF3;
- Thu, 14 May 2020 15:52:04 +0200 (CEST)
-Subject: Re: [RFC PATCH 3/3] block: Assert we're running in the right thread
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20200512144318.181049-1-kwolf@redhat.com>
- <20200512144318.181049-4-kwolf@redhat.com>
-From: Stefan Reiter <s.reiter@proxmox.com>
-Message-ID: <4d2d9ecd-b921-c9e8-2eb4-066e092e6c1f@proxmox.com>
-Date: Thu, 14 May 2020 15:52:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZEHc-0001ok-ME
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 09:52:20 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:28337
+ helo=us-smtp-delivery-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZEHb-000792-Kv
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 09:52:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589464338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IBQUpl2gbrr4CKbO4wL5bsSnCSA/hdFqeXGYvAcb6dc=;
+ b=ee0bYxzJUOE7Jn3qXcOpoAZ4b2quDn2+QzJ1kXNxTuuB1WojPg2anmdlT1x6z8tTST7yl0
+ W459dP6Xr+Ip8ylaQHx2RAnkP/zDc8nO8bRQvv3FpvPD8tuZuJEnGIgNrJnlTepRh1ZmYK
+ JIZ9ytFP6U0phfoFKUm8NgJDmeqwX6s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-yQofZomCOhugmDRV86gbjw-1; Thu, 14 May 2020 09:52:14 -0400
+X-MC-Unique: yQofZomCOhugmDRV86gbjw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7281E800053;
+ Thu, 14 May 2020 13:52:13 +0000 (UTC)
+Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0922D61989;
+ Thu, 14 May 2020 13:52:12 +0000 (UTC)
+Subject: Re: [PATCH] bitmaps: Add myself as maintainer
+To: John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20200513141407.185198-1-eblake@redhat.com>
+ <55059458-923c-505c-d16b-89ff3334c3c5@redhat.com>
+ <30070988-e0da-00f2-3780-d4fae816b589@virtuozzo.com>
+ <ad142f8d-8d10-1909-c1d4-7ca8441ab3ba@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <962f8c29-6b42-ea7c-cdf9-ad63288da955@redhat.com>
+Date: Thu, 14 May 2020 08:52:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200512144318.181049-4-kwolf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <ad142f8d-8d10-1909-c1d4-7ca8441ab3ba@redhat.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=212.186.127.180;
- envelope-from=s.reiter@proxmox.com; helo=proxmox-new.maurer-it.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 09:21:15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=207.211.31.81; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,52 +86,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, t.lamprecht@proxmox.com, armbru@redhat.com,
- stefanha@redhat.com, mreitz@redhat.com
+Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/20 4:43 PM, Kevin Wolf wrote:
-> tracked_request_begin() is called for most I/O operations, so it's a
-> good place to assert that we're indeed running in the home thread of the
-> node's AioContext.
+On 5/14/20 12:08 AM, John Snow wrote:
 > 
-
-Is this patch supposed to be always correct or only together with nr. 2?
-
-I changed our code to call bdrv_flush_all from the main AIO context and 
-it certainly works just fine (even without this series, so I suppose 
-that would be the 'correct' way to fix it you mention on the cover), 
-though of course it trips this assert without patch 2.
-
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->   block/io.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/block/io.c b/block/io.c
-> index 7808e8bdc0..924bf5ba46 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -695,14 +695,17 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
->                                     uint64_t bytes,
->                                     enum BdrvTrackedRequestType type)
->   {
-> +    Coroutine *self = qemu_coroutine_self();
-> +
->       assert(bytes <= INT64_MAX && offset <= INT64_MAX - bytes);
-> +    assert(bs->aio_context == qemu_coroutine_get_aio_context(self));
->   
->       *req = (BdrvTrackedRequest){
->           .bs = bs,
->           .offset         = offset,
->           .bytes          = bytes,
->           .type           = type,
-> -        .co             = qemu_coroutine_self(),
-> +        .co             = self,
->           .serialising    = false,
->           .overlap_offset = offset,
->           .overlap_bytes  = bytes,
+> On 5/14/20 12:49 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> 13.05.2020 23:24, John Snow wrote:
+>>>
+>>>
+>>> On 5/13/20 10:14 AM, Eric Blake wrote:
+>>>> Dirty bitmaps are important to incremental backups, including exposure
+>>>> over NBD where I'm already maintainer.  Also, I'm aware that lately I
+>>>> have been doing as much code/review on bitmaps as John Snow, who is
+>>>> hoping to scale back on this front.
+>>>>
+>>>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>>>>
+>>>> ---
+
+>>>>    Dirty Bitmaps
+>>>>    M: John Snow <jsnow@redhat.com>
+>>>> +M: Eric Blake <eblake@redhat.com>
+>>>>    R: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>>    L: qemu-block@nongnu.org
+>>>>    S: Supported
+>>>>
+>>>
+>>> I'd also like to point out that I wouldn't mind if Vladimir became an
+>>> official maintainer, but I can't remember if he wanted the title when we
+>>> last spoke at KVM Forum.
+>>
+>> Actually, it would be nice, I'd glad to get it, thanks :)
+>> I can send a separate patch, or we may s/R/M/ in this one?
+>>
 > 
+> That would be very good!
+> 
+> I'd be quite happy to be demoted to reviewer; it's about all the time
+> I've been truthfully able to give lately.
+> 
+> (I won't speak for Eric!)
+
+I can post a v2 that produces the following results:
+
+M: Vladimir
+M: Eric
+R: John
+
+Does that sound reasonable?
+
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
