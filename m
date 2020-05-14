@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E031D3327
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:37:50 +0200 (CEST)
-Received: from localhost ([::1]:47932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542F11D333C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:40:12 +0200 (CEST)
+Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEzd-0007yj-87
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39576)
+	id 1jZF1v-000376-91
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkS-0003Tn-7t
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:09 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38662)
+ id 1jZEkV-0003VE-Sv
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:14 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkQ-0005kR-7I
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:07 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id e1so4370931wrt.5
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:05 -0700 (PDT)
+ id 1jZEkR-0005l5-Ss
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:11 -0400
+Received: by mail-wr1-x443.google.com with SMTP id v12so4315520wrp.12
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=m1cXMEf819ei0U9NxDaXvIBey1vkQdupb4YJ8Nj4HNU=;
- b=eSSNpvethVRCEgZs+uB9BPymtY73p09YTrQKlPQOMfmXOz18IyTfxTDVHg7Q2yLFHD
- oBThL9DjJMQm+qhXHGVdZ2tW8zMOJ4zVPY31X9wbC1w6lC8JjY0xsjLtg/B3vqYsE+MK
- j45riPNYUZ9LNE3d+Cz55ITZXSOs243bVIOdB7e3YyAmijrS9zJsmkLJYiXecI0uvK6L
- Apmy1pymft2wUeU3J7lc35hvjWF80HbSxYSczD4nxhrC0wN9dm4MV8pGDNPGY6LkXLEN
- lrN+yyd2ijdfFkK4gAamtUKXUUkGoZ9WDexezVW7hWJ9xAdw+9GY8odOAnJ80SXfM9dA
- N22A==
+ bh=fnV23OpPxCoSIZpEIyS3Xorm1PSAB8juwD7uMO6vdoo=;
+ b=HQY6ZRW/frko9i4nrT6ffiBsFjKcV3owfRlU3zWi/YPPSBrwTs2KIXhoFWfLdnYoMt
+ 8UPUnUgjpocDR6PbjCWrDXASGRidzp7q4Da9DoDnUutYs7O0KoAAWLAIW7SKFoKhOgsh
+ j2CuwUH6ufH1YBsHiQk6UtgdpbpPVIkgkRXoMRtvFmgRX2MJlbg2dPCQPJ7IyvMezLWl
+ 34NUDEVrOOgG8UW5agjx76tBQP02f5g7q67demYAsDmEBmLSPelW3uFwI23gP9ejFfv4
+ hn9qobuC3AbyVQZ6td8tquUYfqElWNA+BswFJtp58wllmwQo1FH6VYJ0MJdLUA76SE/V
+ Pm7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m1cXMEf819ei0U9NxDaXvIBey1vkQdupb4YJ8Nj4HNU=;
- b=E0/VH0kDzdQR9Pxf8Uf1Z5GqDq6QZeNYF0UBxIyuGA1XVSCX6Pst1qtBX9MwhR3D2m
- W4w3Z7WmCelsXhcxh7wIX/+natw7jme84QGuXbkU8c+XioQUYBPR0TEyK9OgQqkacWpd
- 1NMrQABPEFW3KWoNxuACQUcb2C7mg+oeQ3YBwe6ZmJI3z0SVAfe0yb6kYoCJA+L2rw90
- O6t7JRNcBRjX6mO7GsdbfBB0MOiF9GuSLNmORAcPZ2fD5v1wl7teOWwzXrlWUcLQ5Vlm
- 8o8zdxzaCKjsacOwmnJUlIx/KrsVagn15bGKX0C3O8X6eYm4LodEF7Eo2f9q9Rx2c56b
- /JEQ==
-X-Gm-Message-State: AOAM532PCmh6CegDRPs7dXqwMI4Ox25T0PEvYcXmequidX7sjdoPAxuk
- eqkmhESW3qmTXpy2yuC9gn2uF+wSN01EKQ==
-X-Google-Smtp-Source: ABdhPJwwzfCkgNFM8/IMo2RPngAGbfCnphc12XKSfT2gCQK+errDeqMqFX7Zb23O8sQIjzuNAqn/jA==
-X-Received: by 2002:a5d:5189:: with SMTP id k9mr5666294wrv.3.1589466124576;
- Thu, 14 May 2020 07:22:04 -0700 (PDT)
+ bh=fnV23OpPxCoSIZpEIyS3Xorm1PSAB8juwD7uMO6vdoo=;
+ b=Y2o19xh/SWL5WeCbZujiDNXH4hqDVpfD+em2EQpAvDVdCmJIQwZ9XqjfKxp+HpnN+O
+ bCZrCprr0lTSStFa2XcA5tApDnAfuGQux/MsJOo3LQbQooQFUOKxlggh02mSItr4x3G2
+ uFf2Zri84kbW7Dj6k6SEJ+N0eYbIsneWade/M4LosXPPnIbqVNSMXE3acRDypPjN+aAv
+ su+LckNMYTHr5zMBTX9vFwGQ9R9vU9tKFs3a0FVfP4M6gY9qaYU5PXwenA+hMvosNFxu
+ +dufnBubNeQlBHQBKyxx9r2ytwofmt3086tAXOtBvu1Mc5nDYfZpjGz2pXDpLlAoP3Oh
+ TFWw==
+X-Gm-Message-State: AOAM532jo9L+3yhIsV8By7Fw48hzw+okh5xVJ4uqk9U4qPJ7PnYNcP6D
+ c8zs2bf/bMxqDqviifwMQvk3VhumnuN24g==
+X-Google-Smtp-Source: ABdhPJwlhyb9H2mHjp6qr+b6g+4GLqR36EDCRTz7FuptSx7pg2c4xrt4JqpcxWnGjxQj3Rs2x0N0eQ==
+X-Received: by 2002:adf:afdb:: with SMTP id y27mr5463944wrd.323.1589466126197; 
+ Thu, 14 May 2020 07:22:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.03
+ by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:22:03 -0700 (PDT)
+ Thu, 14 May 2020 07:22:05 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/45] aspeed: Add support for the sonorapass-bmc board
-Date: Thu, 14 May 2020 15:21:11 +0100
-Message-Id: <20200514142138.20875-19-peter.maydell@linaro.org>
+Subject: [PULL 19/45] acpi: nvdimm: change NVDIMM_UUID_LE to a common macro
+Date: Thu, 14 May 2020 15:21:12 +0100
+Message-Id: <20200514142138.20875-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514142138.20875-1-peter.maydell@linaro.org>
 References: <20200514142138.20875-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,136 +88,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Patrick Williams <patrick@stwcx.xyz>
+From: Dongjiu Geng <gengdongjiu@huawei.com>
 
-Sonora Pass is a 2 socket x86 motherboard designed by Facebook
-and supported by OpenBMC.  Strapping configuration was obtained
-from hardware and i2c configuration is based on dts found at:
+The little end UUID is used in many places, so make
+NVDIMM_UUID_LE to a common macro to convert the UUID
+to a little end array.
 
-https://github.com/facebook/openbmc-linux/blob/1633c87b8ba7c162095787c988979b748ba65dc8/arch/arm/boot/dts/aspeed-bmc-facebook-sonorapass.dts
-
-Booted a test image of http://github.com/facebook/openbmc to login
-prompt.
-
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-Reviewed-by: Amithash Prasad <amithash@fb.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-[PMM: fixed block comment style nit]
+Reviewed-by: Xiang Zheng <zhengxiang9@huawei.com>
+Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+Message-id: 20200512030609.19593-2-gengdongjiu@huawei.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 78 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
+ include/qemu/uuid.h | 27 +++++++++++++++++++++++++++
+ hw/acpi/nvdimm.c    | 10 +++-------
+ 2 files changed, 30 insertions(+), 7 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 1eacb2fc172..4d57d1e4363 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -73,6 +73,21 @@ struct AspeedBoardState {
-         SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              \
-         SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
+diff --git a/include/qemu/uuid.h b/include/qemu/uuid.h
+index 129c45f2c5e..9925febfa54 100644
+--- a/include/qemu/uuid.h
++++ b/include/qemu/uuid.h
+@@ -34,6 +34,33 @@ typedef struct {
+     };
+ } QemuUUID;
  
-+/* Sonorapass hardware value: 0xF100D216 */
-+#define SONORAPASS_BMC_HW_STRAP1 (                                      \
-+        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     \
-+        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        \
-+        SCU_AST2500_HW_STRAP_UART_DEBUG |                               \
-+        SCU_AST2500_HW_STRAP_RESERVED28 |                               \
-+        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              \
-+        SCU_HW_STRAP_VGA_CLASS_CODE |                                   \
-+        SCU_HW_STRAP_LPC_RESET_PIN |                                    \
-+        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER) |                \
-+        SCU_AST2500_HW_STRAP_SET_AXI_AHB_RATIO(AXI_AHB_RATIO_2_1) |     \
-+        SCU_HW_STRAP_VGA_BIOS_ROM |                                     \
-+        SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       \
-+        SCU_AST2500_HW_STRAP_RESERVED1)
++/**
++ * UUID_LE - converts the fields of UUID to little-endian array,
++ * each of parameters is the filed of UUID.
++ *
++ * @time_low: The low field of the timestamp
++ * @time_mid: The middle field of the timestamp
++ * @time_hi_and_version: The high field of the timestamp
++ *                       multiplexed with the version number
++ * @clock_seq_hi_and_reserved: The high field of the clock
++ *                             sequence multiplexed with the variant
++ * @clock_seq_low: The low field of the clock sequence
++ * @node0: The spatially unique node0 identifier
++ * @node1: The spatially unique node1 identifier
++ * @node2: The spatially unique node2 identifier
++ * @node3: The spatially unique node3 identifier
++ * @node4: The spatially unique node4 identifier
++ * @node5: The spatially unique node5 identifier
++ */
++#define UUID_LE(time_low, time_mid, time_hi_and_version,                    \
++  clock_seq_hi_and_reserved, clock_seq_low, node0, node1, node2,            \
++  node3, node4, node5)                                                      \
++  { (time_low) & 0xff, ((time_low) >> 8) & 0xff, ((time_low) >> 16) & 0xff, \
++    ((time_low) >> 24) & 0xff, (time_mid) & 0xff, ((time_mid) >> 8) & 0xff, \
++    (time_hi_and_version) & 0xff, ((time_hi_and_version) >> 8) & 0xff,      \
++    (clock_seq_hi_and_reserved), (clock_seq_low), (node0), (node1), (node2),\
++    (node3), (node4), (node5) }
 +
- /* Swift hardware value: 0xF11AD206 */
- #define SWIFT_BMC_HW_STRAP1 (                                           \
-         AST2500_HW_STRAP1_DEFAULTS |                                    \
-@@ -437,6 +452,50 @@ static void swift_bmc_i2c_init(AspeedBoardState *bmc)
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105", 0x4a);
- }
+ #define UUID_FMT "%02hhx%02hhx%02hhx%02hhx-" \
+                  "%02hhx%02hhx-%02hhx%02hhx-" \
+                  "%02hhx%02hhx-" \
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index fa7bf8b5075..9316d12b702 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -27,6 +27,7 @@
+  */
  
-+static void sonorapass_bmc_i2c_init(AspeedBoardState *bmc)
-+{
-+    AspeedSoCState *soc = &bmc->soc;
-+
-+    /* bus 2 : */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 2), "tmp105", 0x48);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 2), "tmp105", 0x49);
-+    /* bus 2 : pca9546 @ 0x73 */
-+
-+    /* bus 3 : pca9548 @ 0x70 */
-+
-+    /* bus 4 : */
-+    uint8_t *eeprom4_54 = g_malloc0(8 * 1024);
-+    smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), 0x54,
-+                          eeprom4_54);
-+    /* PCA9539 @ 0x76, but PCA9552 is compatible */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), "pca9552", 0x76);
-+    /* PCA9539 @ 0x77, but PCA9552 is compatible */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), "pca9552", 0x77);
-+
-+    /* bus 6 : */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 6), "tmp105", 0x48);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 6), "tmp105", 0x49);
-+    /* bus 6 : pca9546 @ 0x73 */
-+
-+    /* bus 8 : */
-+    uint8_t *eeprom8_56 = g_malloc0(8 * 1024);
-+    smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), 0x56,
-+                          eeprom8_56);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "pca9552", 0x60);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "pca9552", 0x61);
-+    /* bus 8 : adc128d818 @ 0x1d */
-+    /* bus 8 : adc128d818 @ 0x1f */
-+
-+    /*
-+     * bus 13 : pca9548 @ 0x71
-+     *      - channel 3:
-+     *          - tmm421 @ 0x4c
-+     *          - tmp421 @ 0x4e
-+     *          - tmp421 @ 0x4f
-+     */
-+
-+}
-+
- static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
- {
-     AspeedSoCState *soc = &bmc->soc;
-@@ -549,6 +608,21 @@ static void aspeed_machine_romulus_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_size       = 512 * MiB;
- };
+ #include "qemu/osdep.h"
++#include "qemu/uuid.h"
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/aml-build.h"
+ #include "hw/acpi/bios-linker-loader.h"
+@@ -34,18 +35,13 @@
+ #include "hw/mem/nvdimm.h"
+ #include "qemu/nvdimm-utils.h"
  
-+static void aspeed_machine_sonorapass_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "OCP SonoraPass BMC (ARM1176)";
-+    amc->soc_name  = "ast2500-a1";
-+    amc->hw_strap1 = SONORAPASS_BMC_HW_STRAP1;
-+    amc->fmc_model = "mx66l1g45g";
-+    amc->spi_model = "mx66l1g45g";
-+    amc->num_cs    = 2;
-+    amc->i2c_init  = sonorapass_bmc_i2c_init;
-+    mc->default_ram_size       = 512 * MiB;
-+};
-+
- static void aspeed_machine_swift_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -628,6 +702,10 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = MACHINE_TYPE_NAME("swift-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
-         .class_init    = aspeed_machine_swift_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("sonorapass-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_sonorapass_class_init,
-     }, {
-         .name          = MACHINE_TYPE_NAME("witherspoon-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
+-#define NVDIMM_UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)             \
+-   { (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
+-     (b) & 0xff, ((b) >> 8) & 0xff, (c) & 0xff, ((c) >> 8) & 0xff,          \
+-     (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }
+-
+ /*
+  * define Byte Addressable Persistent Memory (PM) Region according to
+  * ACPI 6.0: 5.2.25.1 System Physical Address Range Structure.
+  */
+ static const uint8_t nvdimm_nfit_spa_uuid[] =
+-      NVDIMM_UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
+-                     0x18, 0xb7, 0x8c, 0xdb);
++      UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
++              0x18, 0xb7, 0x8c, 0xdb);
+ 
+ /*
+  * NVDIMM Firmware Interface Table
 -- 
 2.20.1
 
