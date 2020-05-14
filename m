@@ -2,73 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DA71D3371
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:49:02 +0200 (CEST)
-Received: from localhost ([::1]:35722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF14F1D339A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:54:03 +0200 (CEST)
+Received: from localhost ([::1]:57156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFAT-0001IT-27
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40828)
+	id 1jZFFK-0004wK-Oo
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:54:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZErc-000267-RI
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:29:32 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:21394
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jZEsU-0003iG-6P
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:30:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:42063
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1jZErb-0007un-0u
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:29:31 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jZEsS-0008Kp-7F
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:30:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589466569;
+ s=mimecast20190719; t=1589466621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2NyK+Z72m2q/7wAX9l5WGmJQ+PygSdIQ/OQ+rmCLnb8=;
- b=ScCUI5ejLivHy41GoKO340ITy+EAyiS70uTMvvPnQdln/d9CFQIXbmm9fqRWQIBJiaPe+o
- 0gN5buL4PEx4bGSW0WgzBz/25xuaYd6o1mjlx9UQJOBl3UoLilFHpwaxXw6okE/u1B+/Ad
- zPfWPozGi+KnMyMLygSnscuqUueVD+4=
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/TSYecf9tCKoTNwZlfBDYF5K/mywxkb8Owsfs6lcgCI=;
+ b=JvJtgTVmPW6FeBOGINwLhEPstKKVui31sEMToAt4Qb6kIQLPxGW4L6E6PUztdoLRt45Q41
+ 2zMSZArMLg11wAQkA4KWIoxLfz17kH5PMaRpILrRK5mVzbQHvmAdyDJNA9GWnFbWVo4ZsK
+ 1drzvNHrGJicw5V5/VDGfd/v8l6bwa4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-LLdzFXCmMoCgIGvLJgWGZg-1; Thu, 14 May 2020 10:29:24 -0400
-X-MC-Unique: LLdzFXCmMoCgIGvLJgWGZg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-167-CQGTHRJjO9yhGfl8_1HhZg-1; Thu, 14 May 2020 10:30:19 -0400
+X-MC-Unique: CQGTHRJjO9yhGfl8_1HhZg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47779845EE9;
- Thu, 14 May 2020 14:29:23 +0000 (UTC)
-Received: from [10.3.116.145] (ovpn-116-145.phx2.redhat.com [10.3.116.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 928E25C1D6;
- Thu, 14 May 2020 14:29:22 +0000 (UTC)
-Subject: Re: [PATCH v2 0/1] qemu-nbd: Close inherited stderr
-To: qemu-devel@nongnu.org, raphael.pour@hetzner.com
-References: <158946069407.13639.5714365663552293557@45ef0f9c86ae>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <ece77427-d918-d766-b2bc-08cf7d4660bc@redhat.com>
-Date: Thu, 14 May 2020 09:29:20 -0500
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5771180058A;
+ Thu, 14 May 2020 14:30:18 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-212.ams2.redhat.com
+ [10.36.113.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AED9A7D928;
+ Thu, 14 May 2020 14:30:16 +0000 (UTC)
+Subject: Re: [PATCH v6 08/14] block/qcow2: extend qemu-img amend interface
+ with crypto options
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20200510134037.18487-1-mlevitsk@redhat.com>
+ <20200510134037.18487-9-mlevitsk@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <2ed2c0fc-7b47-a46c-1603-b1c25bd1b0ae@redhat.com>
+Date: Thu, 14 May 2020 16:30:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <158946069407.13639.5714365663552293557@45ef0f9c86ae>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200510134037.18487-9-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="P4DBve8KDB8L5ORTVWu2Iprdk19CS8IAo"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,53 +106,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/14/20 7:51 AM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20200514063112.1457125-1-raphael.pour@hetzner.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series seems to have some coding style problems. See output below for
-> more information:
-> 
-> Message-id: 20200514063112.1457125-1-raphael.pour@hetzner.com
-> Subject: [PATCH v2 0/1] qemu-nbd: Close inherited stderr
-> Type: series
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--P4DBve8KDB8L5ORTVWu2Iprdk19CS8IAo
+Content-Type: multipart/mixed; boundary="1Zxk49IWmT1Liw4s51xCPNUVxQhNhH74W"
 
-> 
-> === OUTPUT BEGIN ===
-> WARNING: Block comments use a leading /* on a separate line
-> #20: FILE: qemu-nbd.c:919:
-> +            /* Remember parents stderr only if the fork option is set.
-> 
-> ERROR: suspect code indent for conditional statements (12, 14)
-> #23: FILE: qemu-nbd.c:922:
-> +            if (fork_process) {
-> +              old_stderr = dup(STDERR_FILENO);
-> 
-> ERROR: Missing Signed-off-by: line(s)
+--1Zxk49IWmT1Liw4s51xCPNUVxQhNhH74W
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Patchew is correct.  All three things should be fixed (the missing S-o-b 
-is most important - I can't supply that; the missing spaces and comment 
-formatting are something I could touch up).
+On 10.05.20 15:40, Maxim Levitsky wrote:
+> Now that we have all the infrastructure in place,
+> wire it in the qcow2 driver and expose this to the user.
+>=20
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  block/qcow2.c              | 72 +++++++++++++++++++++++++++++++++-----
+>  tests/qemu-iotests/082.out | 45 ++++++++++++++++++++++++
 
-The comment could use some grammar help (s/parents/parent's/), and in 
-truth, I don't think it adds much beyond what the code itself is already 
-doing, so rather than adding another line to silence patchew, you could 
-instead just eliminate the comment and life would still be fine.  Or if 
-you want a one-line comment, I might suggest:
+Again, some rebasing required because of compression_type.
 
-/* Remember parent's stderr if we will restoring it. */
+>  2 files changed, 108 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index db86500839..4bb6e3fc8f 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+[...]
+
+> @@ -4744,17 +4757,11 @@ static BlockMeasureInfo *qcow2_measure(QemuOpts *=
+opts, BlockDriverState *in_bs,
+>      g_free(optstr);
+> =20
+>      if (has_luks) {
+> +
+
+Why?
+
+With this line dropped, and 082.out fixed up:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+
+--1Zxk49IWmT1Liw4s51xCPNUVxQhNhH74W--
+
+--P4DBve8KDB8L5ORTVWu2Iprdk19CS8IAo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl69VfcACgkQ9AfbAGHV
+z0AeLwf/V5zgw6kIeoZ8Txjtf5jVg3WKaR6xV6X6OkQG8CLpWmXUiiIIKV0UcP1D
+P2qO/rdWE3rjzVYy3ktWmu914okIcg48PO9WY8WVSoCXTCH92Rym+EWT3QxlnAbR
+TCDFArdwtJtofFFgbOvJGQEnQIQidlUfjbKkg2UMUSJU5hWJ7pVIZdUwUww2luV8
+7FGT/j8FjapmLTIPCoXgMoacvbNWfHrIaqJH58BxwL9qlR32IadHv2aF8NULU4TE
+ISCBFr8M02pC0mk+z7eZvdcq0a24REML8YkYJnsXSoicLF8+BsoE1qum+a9Y/I2y
+Qo943YWYa/3dsx2gU+wh5zwaBQtoJw==
+=h+/a
+-----END PGP SIGNATURE-----
+
+--P4DBve8KDB8L5ORTVWu2Iprdk19CS8IAo--
 
 
