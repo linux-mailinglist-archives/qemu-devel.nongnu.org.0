@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A9F1D302A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 14:44:49 +0200 (CEST)
-Received: from localhost ([::1]:55674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108B31D300E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 14:42:05 +0200 (CEST)
+Received: from localhost ([::1]:45652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZDEG-0004g0-1M
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 08:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53090)
+	id 1jZDBc-0000Dr-4N
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 08:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jZD7T-0003Gd-DG; Thu, 14 May 2020 08:37:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39724)
+ id 1jZD7Q-0003Dx-Bf; Thu, 14 May 2020 08:37:44 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1jZD7P-0006Uz-3C; Thu, 14 May 2020 08:37:47 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1jZD7O-0006Ud-Oh; Thu, 14 May 2020 08:37:44 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04ECX0VO019496; Thu, 14 May 2020 08:37:41 -0400
+ 04ECZRKa114355; Thu, 14 May 2020 08:37:40 -0400
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 310tjp4929-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 08:37:41 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04ECZ96B026237;
- Thu, 14 May 2020 08:37:40 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 310tjp490d-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 310tcmuydw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 14 May 2020 08:37:40 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04ECZR05005337;
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04ECZnib116171;
+ Thu, 14 May 2020 08:37:40 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 310tcmuydd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 May 2020 08:37:39 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04ECZN5S007631;
  Thu, 14 May 2020 12:37:37 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 3100ub1fj9-1
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3100ubbn7u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 14 May 2020 12:37:37 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 04ECaNax59507188
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 04ECbZhp4522408
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 May 2020 12:36:23 GMT
+ Thu, 14 May 2020 12:37:35 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B548CA4064;
- Thu, 14 May 2020 12:37:34 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 78BC2A405C;
+ Thu, 14 May 2020 12:37:35 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 227E4A4054;
+ by IMSVA (Postfix) with ESMTP id DB087A405B;
  Thu, 14 May 2020 12:37:34 +0000 (GMT)
 Received: from linux01.pok.stglabs.ibm.com (unknown [9.114.17.81])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
  Thu, 14 May 2020 12:37:34 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/9] pc-bios: s390x: Consolidate timing functions into
- time.h
-Date: Thu, 14 May 2020 08:37:22 -0400
-Message-Id: <20200514123729.156283-3-frankja@linux.ibm.com>
+Subject: [PATCH v2 3/9] pc-bios: s390x: Get rid of magic offsets into the
+ lowcore
+Date: Thu, 14 May 2020 08:37:23 -0400
+Message-Id: <20200514123729.156283-4-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200514123729.156283-1-frankja@linux.ibm.com>
 References: <20200514123729.156283-1-frankja@linux.ibm.com>
@@ -71,11 +71,11 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
  definitions=2020-05-14_02:2020-05-14,
  2020-05-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- lowpriorityscore=0 mlxlogscore=999 spamscore=0 clxscore=1015
- suspectscore=1 phishscore=0 adultscore=0 priorityscore=1501
- cotscore=-2147483648 malwarescore=0 mlxscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ mlxlogscore=674
+ priorityscore=1501 suspectscore=1 phishscore=0 clxscore=1015
+ impostorscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 bulkscore=0 cotscore=-2147483648 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
  definitions=main-2005140112
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -104,228 +104,62 @@ Cc: borntraeger@de.ibm.com, qemu-s390x@nongnu.org, cohuck@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's consolidate timing related functions into one header.
+If we have a lowcore struct that has members for offsets that we want
+to touch, why not use it?
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- pc-bios/s390-ccw/menu.c        |  1 +
- pc-bios/s390-ccw/netmain.c     | 15 +++----------
- pc-bios/s390-ccw/s390-ccw.h    | 18 ----------------
- pc-bios/s390-ccw/time.h        | 39 ++++++++++++++++++++++++++++++++++
- pc-bios/s390-ccw/virtio-net.c  |  1 +
- pc-bios/s390-ccw/virtio-scsi.c |  1 +
- pc-bios/s390-ccw/virtio.c      | 18 +++-------------
- 7 files changed, 48 insertions(+), 45 deletions(-)
- create mode 100644 pc-bios/s390-ccw/time.h
+ pc-bios/s390-ccw/cio.h  | 17 +++++++++++------
+ pc-bios/s390-ccw/main.c |  8 +++-----
+ 2 files changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/menu.c b/pc-bios/s390-ccw/menu.c
-index ce3815b201..7925c33248 100644
---- a/pc-bios/s390-ccw/menu.c
-+++ b/pc-bios/s390-ccw/menu.c
-@@ -12,6 +12,7 @@
- #include "libc.h"
- #include "s390-ccw.h"
- #include "sclp.h"
-+#include "time.h"
+diff --git a/pc-bios/s390-ccw/cio.h b/pc-bios/s390-ccw/cio.h
+index aaa432dedd..1ce5344b85 100644
+--- a/pc-bios/s390-ccw/cio.h
++++ b/pc-bios/s390-ccw/cio.h
+@@ -122,12 +122,17 @@ typedef struct schib {
+ } __attribute__ ((packed, aligned(4))) Schib;
  
- #define KEYCODE_NO_INP '\0'
- #define KEYCODE_ESCAPE '\033'
-diff --git a/pc-bios/s390-ccw/netmain.c b/pc-bios/s390-ccw/netmain.c
-index 309ffa30d9..73def8de4f 100644
---- a/pc-bios/s390-ccw/netmain.c
-+++ b/pc-bios/s390-ccw/netmain.c
-@@ -35,6 +35,7 @@
- #include "s390-ccw.h"
- #include "cio.h"
- #include "virtio.h"
-+#include "time.h"
+ typedef struct subchannel_id {
+-        __u32 cssid:8;
+-        __u32:4;
+-        __u32 m:1;
+-        __u32 ssid:2;
+-        __u32 one:1;
+-        __u32 sch_no:16;
++    union {
++        struct {
++            __u16 cssid:8;
++            __u16 reserved:4;
++            __u16 m:1;
++            __u16 ssid:2;
++            __u16 one:1;
++        };
++        __u16 sch_id;
++    };
++        __u16 sch_no;
+ } __attribute__ ((packed, aligned(4))) SubChannelId;
  
- #define DEFAULT_BOOT_RETRIES 10
- #define DEFAULT_TFTP_RETRIES 20
-@@ -57,24 +58,14 @@ static SubChannelId net_schid = { .one = 1 };
- static uint8_t mac[6];
- static uint64_t dest_timer;
- 
--static uint64_t get_timer_ms(void)
--{
--    uint64_t clk;
--
--    asm volatile(" stck %0 " : : "Q"(clk) : "memory");
--
--    /* Bit 51 is incremented each microsecond */
--    return (clk >> (63 - 51)) / 1000;
--}
--
- void set_timer(int val)
- {
--    dest_timer = get_timer_ms() + val;
-+    dest_timer = get_time_ms() + val;
- }
- 
- int get_timer(void)
- {
--    return dest_timer - get_timer_ms();
-+    return dest_timer - get_time_ms();
- }
- 
- int get_sec_ticks(void)
-diff --git a/pc-bios/s390-ccw/s390-ccw.h b/pc-bios/s390-ccw/s390-ccw.h
-index 21f27e7990..c5820e43ae 100644
---- a/pc-bios/s390-ccw/s390-ccw.h
-+++ b/pc-bios/s390-ccw/s390-ccw.h
-@@ -74,8 +74,6 @@ unsigned long virtio_load_direct(ulong rec_list1, ulong rec_list2,
- bool virtio_is_supported(SubChannelId schid);
- void virtio_blk_setup_device(SubChannelId schid);
- int virtio_read(ulong sector, void *load_addr);
--u64 get_clock(void);
--ulong get_second(void);
- 
- /* bootmap.c */
- void zipl_load(void);
-@@ -144,24 +142,8 @@ static inline void debug_print_addr(const char *desc, void *p)
- #define KVM_S390_VIRTIO_SET_STATUS      2
- #define KVM_S390_VIRTIO_CCW_NOTIFY      3
- 
--static inline void yield(void)
--{
--    asm volatile ("diag 0,0,0x44"
--                  : :
--                  : "memory", "cc");
--}
--
- #define MAX_SECTOR_SIZE 4096
- 
--static inline void sleep(unsigned int seconds)
--{
--    ulong target = get_second() + seconds;
--
--    while (get_second() < target) {
--        yield();
--    }
--}
--
- static inline void IPL_assert(bool term, const char *message)
- {
-     if (!term) {
-diff --git a/pc-bios/s390-ccw/time.h b/pc-bios/s390-ccw/time.h
-new file mode 100644
-index 0000000000..899de83ae7
---- /dev/null
-+++ b/pc-bios/s390-ccw/time.h
-@@ -0,0 +1,39 @@
-+#ifndef TIME_H
-+#define TIME_H
-+
-+static inline u64 get_clock(void)
-+{
-+    u64 r;
-+
-+    asm volatile("stck %0" : "=Q" (r) : : "cc");
-+    return r;
-+}
-+
-+static inline u64 get_time_ms(void)
-+{
-+    /* Bit 51 is incremented each microsecond */
-+    return (get_clock() >> 12) / 1000;
-+}
-+
-+static inline u64 get_time_seconds(void)
-+{
-+    return (get_time_ms()) / 1000;
-+}
-+
-+static inline void yield(void)
-+{
-+    asm volatile ("diag 0,0,0x44"
-+                  : :
-+                  : "memory", "cc");
-+}
-+
-+static inline void sleep(unsigned int seconds)
-+{
-+    ulong target = get_time_seconds() + seconds;
-+
-+    while (get_time_seconds() < target) {
-+        yield();
-+    }
-+}
-+
-+#endif
-diff --git a/pc-bios/s390-ccw/virtio-net.c b/pc-bios/s390-ccw/virtio-net.c
-index ff7f4dad25..4de03728bb 100644
---- a/pc-bios/s390-ccw/virtio-net.c
-+++ b/pc-bios/s390-ccw/virtio-net.c
-@@ -19,6 +19,7 @@
- #include <ethernet.h>
- #include "s390-ccw.h"
- #include "virtio.h"
-+#include "time.h"
- 
- #ifndef DEBUG_VIRTIO_NET
- #define DEBUG_VIRTIO_NET 0
-diff --git a/pc-bios/s390-ccw/virtio-scsi.c b/pc-bios/s390-ccw/virtio-scsi.c
-index 4fe4b9d261..0620651da8 100644
---- a/pc-bios/s390-ccw/virtio-scsi.c
-+++ b/pc-bios/s390-ccw/virtio-scsi.c
-@@ -14,6 +14,7 @@
- #include "virtio.h"
- #include "scsi.h"
- #include "virtio-scsi.h"
-+#include "time.h"
- 
- static ScsiDevice default_scsi_device;
- static VirtioScsiCmdReq req;
-diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
-index fb40ca9828..43717b83d7 100644
---- a/pc-bios/s390-ccw/virtio.c
-+++ b/pc-bios/s390-ccw/virtio.c
-@@ -15,6 +15,7 @@
- #include "virtio-scsi.h"
- #include "bswap.h"
- #include "helper.h"
-+#include "time.h"
- 
- #define VRING_WAIT_REPLY_TIMEOUT 30
- 
-@@ -157,19 +158,6 @@ void vring_send_buf(VRing *vr, void *p, int len, int flags)
-     }
- }
- 
--u64 get_clock(void)
--{
--    u64 r;
--
--    asm volatile("stck %0" : "=Q" (r) : : "cc");
--    return r;
--}
--
--ulong get_second(void)
--{
--    return (get_clock() >> 12) / 1000000;
--}
--
- int vr_poll(VRing *vr)
- {
-     if (vr->used->idx == vr->used_idx) {
-@@ -194,7 +182,7 @@ int vr_poll(VRing *vr)
+ struct chsc_header {
+diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+index 4e65b411e1..8b912454c9 100644
+--- a/pc-bios/s390-ccw/main.c
++++ b/pc-bios/s390-ccw/main.c
+@@ -36,11 +36,9 @@ LowCore *lowcore; /* Yes, this *is* a pointer to address 0 */
   */
- int vring_wait_reply(void)
+ void write_subsystem_identification(void)
  {
--    ulong target_second = get_second() + vdev.wait_reply_timeout;
-+    ulong target_second = get_time_seconds() + vdev.wait_reply_timeout;
- 
-     /* Wait for any queue to be updated by the host */
-     do {
-@@ -207,7 +195,7 @@ int vring_wait_reply(void)
-         if (r) {
-             return 0;
-         }
--    } while (!vdev.wait_reply_timeout || (get_second() < target_second));
-+    } while (!vdev.wait_reply_timeout || (get_time_seconds() < target_second));
- 
-     return 1;
+-    SubChannelId *schid = (SubChannelId *) 184;
+-    uint32_t *zeroes = (uint32_t *) 188;
+-
+-    *schid = blk_schid;
+-    *zeroes = 0;
++    lowcore->subchannel_id = blk_schid.sch_id;
++    lowcore->subchannel_nr = blk_schid.sch_no;
++    lowcore->io_int_parm = 0;
  }
+ 
+ void write_iplb_location(void)
 -- 
 2.25.1
 
