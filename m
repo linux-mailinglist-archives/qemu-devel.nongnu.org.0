@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2541D3346
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:42:13 +0200 (CEST)
-Received: from localhost ([::1]:36770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4881D336E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:48:42 +0200 (CEST)
+Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZF3s-0006i2-4y
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:42:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39646)
+	id 1jZFA9-0000jE-Ss
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkf-0003Y0-8C
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:21 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50462)
+ id 1jZEki-0003eg-6L
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:24 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkd-0005zB-1I
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:20 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id m12so25712670wmc.0
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:18 -0700 (PDT)
+ id 1jZEke-0005zL-Qe
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:23 -0400
+Received: by mail-wr1-x432.google.com with SMTP id v12so4316390wrp.12
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=qdOEMhxxvT6hbl7Fu0qDZqIxDI9xAolUTrRMAN8HlCw=;
- b=CE2dzmYR88uTDt/cuhSNBTP/cZ75uNRuE4ulNE8j3mka0zE45CsERDhWCitTA4UGmg
- jdX71aZyX4iPaY41JqpASrNXlFe/Y6BgZDHyXXyjQdxen4/q6Ya9UEOA+V/NQP2K12UL
- QiNVnN8F7CAv4D4RRAdQS5RK0UUgDz8ymGK/cKesjSOaZ9jZEb1sCTlvsDFLDFHQRjqN
- On174IQrw8mz5l8diezselRDT3sOOYdOvGoXFIjcCpzMeG03W54QGlaT7Jc26zQr0oN7
- 8p8GvcZC3WNlW36aVRjTBzGjzLv49oXxp9OKZHP5K6gWHPe8RbedRDJ0vMTNu0/4KGlj
- Lqxg==
+ bh=jHDUHnWFXKGEIUTqu2NnFwNlVDUYSXsCftelUh+UFoI=;
+ b=ChuO5K4tCd8zS5eIzRk+6NXrzZhVFAegMSLm69The7eZQA7nqIMgyPBibFFicSjkWh
+ 720218/vDOw9OAeKODdadRxaJgz+r6RlxEsWUA1An3FN3zoU24XdxFLEnIHsEW7615Vt
+ HvsKAfDnblFWv2YAZwoVfmh+S5Bx3usFnRPp31WzLuWZ0rU0ldvtMJ2XB7h8WH+qGT6E
+ jQ3u+JdcYWaYH/Bu3nnvCyemCfO7m8MC240sWLOKTO9K/lFxfGE6ky/MlZ0vfbYxhKDC
+ Dj6lhtM1Fc64PQQFVFa3wE69gKoplbQgzGAXIzu8skg+cKCfroEApyf+ao7ehi+OWsUb
+ Rnzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qdOEMhxxvT6hbl7Fu0qDZqIxDI9xAolUTrRMAN8HlCw=;
- b=A3m35EHBYJfThBi5KS7lf+mZmNNiZung/2jBLaIH5unneITv5yMf+GYzShjPo+8QTh
- gdelEWtY1N4PNpUAMhZngotFzBHTO7VSEKjf6xIugf6CZw2EpfmEOabgtgAnIo8yaz6c
- tZCviaXj3EinW9ajAlpgtYgUV3NMsTx4QKhMh8LzCazs9MBwALT0Uv65GTmQtHy2gvwY
- CBIT7i5wLwtAySoKJ5taaUZwnsjnLUsZ/fBjcWKepnOttJylGwkW87Ip9O3WSBWIfLys
- 0MOoJihsFnbrHWBpc1ek+L2gpQFh3QZSbpJt3FhRcTQUdRt58BDFBObax+iarhwU6USE
- 2dZg==
-X-Gm-Message-State: AGi0PuY6ZA3u+92uDZlUu3opfg4y679n6uGPeFUCcYoAOqyc5uzqmen/
- zNcfLsQw6l5iJqMNGZ0iYhKUVR4dJHnfkA==
-X-Google-Smtp-Source: APiQypJVBxb+Rura5s3TU9T1xzpvQvlhn0NIaA5u01TXcFQ+ecM/mn9/4+A9wz7ZilWFyHJdj/jHbQ==
-X-Received: by 2002:a7b:c399:: with SMTP id s25mr47245775wmj.169.1589466137391; 
- Thu, 14 May 2020 07:22:17 -0700 (PDT)
+ bh=jHDUHnWFXKGEIUTqu2NnFwNlVDUYSXsCftelUh+UFoI=;
+ b=Xg7OdTO9dWn8HpEvBnetn5ZM0/jtukr8MHbIGrBLs/rteT3PwJ37pS3SWut/cR3k16
+ e6iM4RofnrSjnolMhIxHekkpGLsl4wTWiIRN8natQnace3SlbRRb/Gjlzq1vY/8RSllg
+ /1GkTe5xbWSL/1iq5QL34HREjse99OHYFSEr2CvU5WbbMX1sLEz0NRD2f26TWdCKknUy
+ O3FyloxkVSFKvfNeG22r8tyLk3fxdVl7FOQVyFEXnkCCOVvmAQFfnYOAyYOYCVqPsqvj
+ 9oKvNz16c1A15kepmIyd2b4GD5SKhpDw/Q3CFcggHK03sEtJAeRvcPVwyKMMOCMGiSW1
+ buyQ==
+X-Gm-Message-State: AOAM530FSDtbEFOiXbJEwsUp1qJdDv3+Ml8mSxAt8oeqZyKOJvF09lpz
+ +cOM1xghmBaJqvz+4u1HCzPoelJjZXnE9Q==
+X-Google-Smtp-Source: ABdhPJx+UIo9pHBS2oR9TzntuS6QkCg0wfJwlDVS7LHdrcAT9upiYnIM9fVvX6r9PTT/la+UI4QBfw==
+X-Received: by 2002:a5d:5189:: with SMTP id k9mr5667389wrv.3.1589466138765;
+ Thu, 14 May 2020 07:22:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.16
+ by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:22:16 -0700 (PDT)
+ Thu, 14 May 2020 07:22:17 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/45] MAINTAINERS: Add ACPI/HEST/GHES entries
-Date: Thu, 14 May 2020 15:21:21 +0100
-Message-Id: <20200514142138.20875-29-peter.maydell@linaro.org>
+Subject: [PULL 29/45] target/arm: Convert Neon 3-reg-same VQRDMLAH/VQRDMLSH to
+ decodetree
+Date: Thu, 14 May 2020 15:21:22 +0100
+Message-Id: <20200514142138.20875-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514142138.20875-1-peter.maydell@linaro.org>
 References: <20200514142138.20875-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,41 +89,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dongjiu Geng <gengdongjiu@huawei.com>
+Convert the Neon VQRDMLAH and VQRDMLSH insns in the 3-reg-same group
+to decodetree.  These don't use do_3same() because they want to
+operate on VFP double registers, whose offsets are different from the
+neon_reg_offset() calculations do_3same does.
 
-I and Xiang are willing to review the APEI-related patches and
-volunteer as the reviewers for the HEST/GHES part.
-
-Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Message-id: 20200512030609.19593-11-gengdongjiu@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20200512163904.10918-2-peter.maydell@linaro.org
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ target/arm/neon-dp.decode       |  3 +++
+ target/arm/translate-neon.inc.c | 15 +++++++++++++++
+ target/arm/translate.c          | 14 ++------------
+ 3 files changed, 20 insertions(+), 12 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 005ee98a59f..f972e12bfdd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1516,6 +1516,15 @@ F: tests/qtest/bios-tables-test.c
- F: tests/qtest/acpi-utils.[hc]
- F: tests/data/acpi/
+diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
+index 593f7fff03d..82503c582ef 100644
+--- a/target/arm/neon-dp.decode
++++ b/target/arm/neon-dp.decode
+@@ -97,3 +97,6 @@ VMLS_3s          1111 001 1 0 . .. .... .... 1001 . . . 0 .... @3same
  
-+ACPI/HEST/GHES
-+R: Dongjiu Geng <gengdongjiu@huawei.com>
-+R: Xiang Zheng <zhengxiang9@huawei.com>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/acpi/ghes.c
-+F: include/hw/acpi/ghes.h
-+F: docs/specs/acpi_hest_ghes.rst
+ VMUL_3s          1111 001 0 0 . .. .... .... 1001 . . . 1 .... @3same
+ VMUL_p_3s        1111 001 1 0 . .. .... .... 1001 . . . 1 .... @3same
 +
- ppc4xx
- M: David Gibson <david@gibson.dropbear.id.au>
- L: qemu-ppc@nongnu.org
++VQRDMLAH_3s      1111 001 1 0 . .. .... .... 1011 ... 1 .... @3same
++VQRDMLSH_3s      1111 001 1 0 . .. .... .... 1100 ... 1 .... @3same
+diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
+index 099491b16f3..661b5fc4cf2 100644
+--- a/target/arm/translate-neon.inc.c
++++ b/target/arm/translate-neon.inc.c
+@@ -671,3 +671,18 @@ static bool trans_VMUL_p_3s(DisasContext *s, arg_3same *a)
+     }
+     return do_3same(s, a, gen_VMUL_p_3s);
+ }
++
++#define DO_VQRDMLAH(INSN, FUNC)                                         \
++    static bool trans_##INSN##_3s(DisasContext *s, arg_3same *a)        \
++    {                                                                   \
++        if (!dc_isar_feature(aa32_rdm, s)) {                            \
++            return false;                                               \
++        }                                                               \
++        if (a->size != 1 && a->size != 2) {                             \
++            return false;                                               \
++        }                                                               \
++        return do_3same(s, a, FUNC);                                    \
++    }
++
++DO_VQRDMLAH(VQRDMLAH, gen_gvec_sqrdmlah_qc)
++DO_VQRDMLAH(VQRDMLSH, gen_gvec_sqrdmlsh_qc)
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index e3d37ef2e99..1f06cb5a87f 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -5450,12 +5450,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+             if (!u) {
+                 break;  /* VPADD */
+             }
+-            /* VQRDMLAH */
+-            if (dc_isar_feature(aa32_rdm, s) && (size == 1 || size == 2)) {
+-                gen_gvec_sqrdmlah_qc(size, rd_ofs, rn_ofs, rm_ofs,
+-                                     vec_size, vec_size);
+-                return 0;
+-            }
++            /* VQRDMLAH : handled by decodetree */
+             return 1;
+ 
+         case NEON_3R_VFM_VQRDMLSH:
+@@ -5466,12 +5461,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                 }
+                 break;
+             }
+-            /* VQRDMLSH */
+-            if (dc_isar_feature(aa32_rdm, s) && (size == 1 || size == 2)) {
+-                gen_gvec_sqrdmlsh_qc(size, rd_ofs, rn_ofs, rm_ofs,
+-                                     vec_size, vec_size);
+-                return 0;
+-            }
++            /* VQRDMLSH : handled by decodetree */
+             return 1;
+ 
+         case NEON_3R_VABD:
 -- 
 2.20.1
 
