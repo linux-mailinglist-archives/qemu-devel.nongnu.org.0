@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033851D2BBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 11:49:07 +0200 (CEST)
-Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5915F1D2C14
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 12:02:25 +0200 (CEST)
+Received: from localhost ([::1]:39726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZAUD-00020c-Jr
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 05:49:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60926)
+	id 1jZAh6-000354-Cw
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 06:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jZATR-0001Gs-Fh
- for qemu-devel@nongnu.org; Thu, 14 May 2020 05:48:17 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36163
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1jZATP-0001Ls-GO
- for qemu-devel@nongnu.org; Thu, 14 May 2020 05:48:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589449694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wezZf97zHc1vER7xhcCBW4T6vrvcCMZsNkBbLhG1L4g=;
- b=Po754wdPdTajF/TTmELW8eTeDDRQO3qS7WDGeQefCTyxodo96tYsX2xnFwsfGNxd+UDWm1
- q1JLJbEywnmsMtw8zXCXYiUvC+DJbFa1ka8EXnn+XB9qFX6Hr5BTjDUwc5ZNDVLdMU6h1Z
- GQOU/VOhmRhpAVEVEbXEFeOKysvPPEY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-qH78R0bUMeej200-QHx9lQ-1; Thu, 14 May 2020 05:48:10 -0400
-X-MC-Unique: qH78R0bUMeej200-QHx9lQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D561E107B79F;
- Thu, 14 May 2020 09:48:07 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7CC8247337;
- Thu, 14 May 2020 09:47:48 +0000 (UTC)
-Date: Thu, 14 May 2020 11:47:43 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH RESEND v6 01/36] memory: alloc RAM from file at offset
-Message-ID: <20200514114743.6061dff4@redhat.com>
-In-Reply-To: <C83E7EA9-7813-4C81-A635-E1A513902330@oracle.com>
-References: <cover.1587614626.git.elena.ufimtseva@oracle.com>
- <cb792b8d6f93d00c10790de8698c468b6ff4ab69.1587614626.git.elena.ufimtseva@oracle.com>
- <20200512084855.GC1191162@redhat.com>
- <B4DB4B9E-E7E3-4F1F-917C-898F9B150EFB@oracle.com>
- <20200513084042.GA317907@stefanha-x1.localdomain>
- <20200513172547.48d87447@redhat.com>
- <C83E7EA9-7813-4C81-A635-E1A513902330@oracle.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZAfi-0002HB-0Q
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 06:00:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZAfg-0004IE-LL
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 06:00:57 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jZAfd-0005zC-GJ
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 10:00:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 647812E810C
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 10:00:53 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=207.211.31.120; envelope-from=imammedo@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Date: Thu, 14 May 2020 09:49:51 -0000
+From: Stefan Hajnoczi <1878255@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd stefanha
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <158930780033.13046.17639068194138488918.malonedeb@wampee.canonical.com>
+Message-Id: <158944979117.17285.3487024034778267788.malone@soybean.canonical.com>
+Subject: [Bug 1878255] Re: Assertion failure in bdrv_aio_cancel, through ide
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: a8c987d9b6c95267f8dc18bf4494fed0367e4cfb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 02:11:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,140 +72,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, fam@euphon.net,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, qemu-devel@nongnu.org,
- kraxel@redhat.com, quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- liran.alon@oracle.com, Stefan Hajnoczi <stefanha@redhat.com>,
- pbonzini@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- Daniel Berrange <berrange@redhat.com>, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Reply-To: Bug 1878255 <1878255@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 13 May 2020 16:08:06 -0400
-Jag Raman <jag.raman@oracle.com> wrote:
+Hi John,
+Looks like an AHCI emulation issue. I have subscribed you to this bug repor=
+t.
 
-> > On May 13, 2020, at 11:25 AM, Igor Mammedov <imammedo@redhat.com> wrote=
-:
-> >=20
-> > On Wed, 13 May 2020 09:40:42 +0100
-> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >  =20
-> >> On Tue, May 12, 2020 at 07:56:33AM -0400, Jag Raman wrote: =20
-> >>>=20
-> >>>  =20
-> >>>> On May 12, 2020, at 4:48 AM, Daniel P. Berrang=C3=A9 <berrange@redha=
-t.com> wrote:
-> >>>>=20
-> >>>> On Wed, Apr 22, 2020 at 09:13:36PM -0700, elena.ufimtseva@oracle.com=
- wrote:   =20
-> >>>>> From: Jagannathan Raman <jag.raman@oracle.com>
-> >>>>>=20
-> >>>>> Allow RAM MemoryRegion to be created from an offset in a file, inst=
-ead
-> >>>>> of allocating at offset of 0 by default. This is needed to synchron=
-ize
-> >>>>> RAM between QEMU & remote process.   =20
-> >>>>=20
-> >>>> Can you elaborate on why remote processes require the RAM to be offs=
-et
-> >>>> from zero ?   =20
-> >>>=20
-> >>> Hi Daniel,
-> >>>=20
-> >>> As it turns out, the RAM is scattered across the physical address spa=
-ce
-> >>> (system_memory) of QEMU. Therefore, the system memory is composed
-> >>> of multiple sections of RAM, and some sections start at a non-zero RA=
-M
-> >>> offset.
-> >>>=20
-> >>> As a result, the remote process needs the ability to map these RAM
-> >>> sections into system_memory.   =20
-> >>=20
-> >> To explain a bit more, my understanding is that the offset is
-> >> specifically for mmap(2). As Jag alluded to, multiple sections can use=
- a
-> >> single backing RAM file. These sections have different offsets in the
-> >> file.
-> >>=20
-> >> Jag, maybe you can include a concrete explanation like the following i=
-n
-> >> the commit description:
-> >>=20
-> >> Launch QEMU like this:
-> >>=20
-> >>  qemu-system-x86_64 -mem-path /dev/shm -m 8G
-> >>=20
-> >> There is only one RAM file descriptor:
-> >>=20
-> >>  $ cat /proc/$(pidof qemu)/fd
-> >>  ...
-> >>  lrwx------. 1 stefanha stefanha 64 May 13 09:34 19 -> '/dev/shm/qemu_=
-back_mem.pc.ram.7YAlqn (deleted)'
-> >>=20
-> >> But the memory tree shows that single file is split into multiple rang=
-es
-> >> of guest physical address space:
-> >>=20
-> >>  (qemu) info mtree
-> >>  memory-region: system
-> >>  0000000000000000-ffffffffffffffff (prio 0, i/o): system
-> >>    0000000000000000-00000000bfffffff (prio 0, i/o): alias ram-below-4g=
- @pc.ram 0000000000000000-00000000bfffffff
-> >>    ...
-> >>    0000000100000000-000000023fffffff (prio 0, i/o): alias ram-above-4g=
- @pc.ram 00000000c0000000-00000001ffffffff
-> >>=20
-> >> This means QEMU needs to send two regions to the remote device process=
-.
-> >> They both mmap the same file but from different starting file offsets.=
- =20
-> >=20
-> > are we talking here about GPA offests her or about host offsets in mmap=
-ed host file?
-> > If it's the later then above mtree doesn't show true picture (those ent=
-ries are just aliases),
-> > main guest RAM is allocated as a single continuous chunk (so far) which=
- belongs
-> > to a memory-backend. =20
->=20
-> Thanks for the info about =E2=80=98mtree=E2=80=99 QMP option. We=E2=80=99=
-ll use that to better explain the need for offset
-> during memory allocation.
->=20
-> As we can observe from the =E2=80=98mtree=E2=80=99 output, different sect=
-ions of system memory vector into the
-> RAM. Since we have only one file descriptor available for all of RAM, we =
-need to mmap() these
-> sections at different offsets within the memory file.
->=20
-> Hey Igor, the offset passed into the mmap() syscall is the offset within =
-host file. Thanks for
-> pointing out that these are aliases. I believe the mmap() operation is eq=
-uivalent to the =E2=80=9Calias=E2=80=9D
-> operation within MemoryRegion framework. We are sending the =E2=80=98fd=
-=E2=80=99, =E2=80=98offset=E2=80=99 within the fd and
-> the size of these RAM regions to the remote device over the unix socket. =
-Hopefully, this looks
-> good to you.
+-- =
 
-could you point to a specific patch where on remote device that is being re=
-ceived and used?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878255
 
->=20
-> Thanks!
-> --
-> Jag
->=20
-> >  =20
-> >> Stefan =20
-> >=20
-> >  =20
->=20
+Title:
+  Assertion failure in bdrv_aio_cancel, through ide
 
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found an input that triggers an assertion failure in bdr=
+v_aio_cancel, through ide:
+
+  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
+  #2  0x0000555556a8d396 in bdrv_aio_cancel (acb=3D0x607000061290) at /home=
+/alxndr/Development/qemu/block/io.c:2746
+  #3  0x0000555556a58525 in blk_aio_cancel (acb=3D0x2) at /home/alxndr/Deve=
+lopment/qemu/block/block-backend.c:1540
+  #4  0x0000555556552f5b in ide_reset (s=3D<optimized out>) at /home/alxndr=
+/Development/qemu/hw/ide/core.c:1318
+  #5  0x0000555556552aeb in ide_bus_reset (bus=3D0x62d000017398) at /home/a=
+lxndr/Development/qemu/hw/ide/core.c:2422
+  #6  0x0000555556579ba5 in ahci_reset_port (s=3D<optimized out>, port=3D<o=
+ptimized out>) at /home/alxndr/Development/qemu/hw/ide/ahci.c:650
+  #7  0x000055555657bd8d in ahci_port_write (s=3D0x61e000014d70, port=3D0x2=
+, offset=3D<optimized out>, val=3D0x10) at /home/alxndr/Development/qemu/hw=
+/ide/ahci.c:360
+  #8  0x000055555657bd8d in ahci_mem_write (opaque=3D<optimized out>, addr=
+=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /home=
+/alxndr/Development/qemu/hw/ide/ahci.c:513
+  #9  0x00005555560028d7 in memory_region_write_accessor (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
+>, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/a=
+lxndr/Development/qemu/memory.c:483
+  #10 0x0000555556002280 in access_with_adjusted_size (addr=3D<optimized ou=
+t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
+imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
+, mr=3D0x61e000014da0, attrs=3D...) at /home/alxndr/Development/qemu/memory=
+.c:544
+  #11 0x0000555556002280 in memory_region_dispatch_write (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, data=3D0x10, op=3D<optimized out>, attrs=3D...=
+) at /home/alxndr/Development/qemu/memory.c:1476
+  #12 0x0000555555f171d4 in flatview_write_continue (fv=3D<optimized out>, =
+addr=3D0xe106c22c, attrs=3D..., ptr=3D<optimized out>, len=3D0x1, addr1=3D0=
+x7fffffffb8d0, l=3D<optimized out>, mr=3D0x61e000014da0) at /home/alxndr/De=
+velopment/qemu/exec.c:3137
+  #13 0x0000555555f0fb98 in flatview_write (fv=3D0x60600003b180, addr=3D<op=
+timized out>, attrs=3D..., buf=3D<optimized out>, len=3D<optimized out>) at=
+ /home/alxndr/Development/qemu/exec.c:3177
+
+  I can reproduce it in qemu 5.0 using:
+
+  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtes=
+t stdio -monitor none -serial none -M pc-q35-5.0  -nographic
+  outl 0xcf8 0x8000fa24
+  outl 0xcfc 0xe106c000
+  outl 0xcf8 0x8000fa04
+  outw 0xcfc 0x7
+  outl 0xcf8 0x8000fb20
+  write 0x0 0x3 0x2780e7
+  write 0xe106c22c 0xd 0x1130c218021130c218021130c2
+  write 0xe106c218 0x15 0x110010110010110010110010110010110010110010
+  EOF
+
+  I also attached the commands to this launchpad report, in case the
+  formatting is broken:
+
+  qemu-system-i386 -qtest stdio -monitor none -serial none -M pc-q35-5.0
+  -nographic < attachment
+
+  Please let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878255/+subscriptions
 
