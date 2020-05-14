@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9AB1D33C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:58:37 +0200 (CEST)
-Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D5A1D33EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:02:46 +0200 (CEST)
+Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFJk-0006Es-Ar
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:58:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41610)
+	id 1jZFNk-0003iD-IP
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:02:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZEwo-0003ei-H6
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:34:54 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44462
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZEws-0003jB-4C
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:34:58 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32354
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZEwn-0000vs-Cv
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:34:54 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZEwr-0000yR-8W
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:34:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589466892;
+ s=mimecast20190719; t=1589466896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XQICVOUmn0GmgHY69lut7hQVpNY+iYPUxS659CEWKSg=;
- b=eYFEOY+cfzSu4GPq/1te9cqDguci/MRKlqplynf9UY2j/uY7WG8pI7zt1QxGo8w2wzdpg4
- GEDPlmjAe1sqojIZzNiT+BWD/6r8hDuALx6vQcqeCTRjRbgH5vVvSX+RfqG1cSkV9QyR9i
- 4TK2MXqBPCTqKBNCcxEJT3SSkVENSiI=
+ bh=lZ1u6qNZotSgU2037p6zpII9seREemya6EtGwZgs+40=;
+ b=bh90yliIuMyuWCFH3bMIFpvrbYr+lEBYqUJdd9zNt5MUskEB4YxZF/9wk72fx7GvpmyHmI
+ ixWGKSezsU73dcWa+jgfGTRXdE+thPqxLTiAaju+VsQa1mXfZen9NizpbpLx/X5KofyAM9
+ rrusECA4cysfb6HfuxusOlMY/Xfi3TI=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-IRv18QBPNimhnSzOCEuvig-1; Thu, 14 May 2020 10:34:50 -0400
-X-MC-Unique: IRv18QBPNimhnSzOCEuvig-1
-Received: by mail-wm1-f72.google.com with SMTP id x11so3910930wmc.9
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:34:50 -0700 (PDT)
+ us-mta-362-L44-yClhM2ODLziVKGjt1A-1; Thu, 14 May 2020 10:34:55 -0400
+X-MC-Unique: L44-yClhM2ODLziVKGjt1A-1
+Received: by mail-wm1-f72.google.com with SMTP id q5so13575547wmc.9
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:34:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XQICVOUmn0GmgHY69lut7hQVpNY+iYPUxS659CEWKSg=;
- b=CDKAVvRXsV9niaj/ld2ZsYyiYCYV611jBluxgn67qWhjJMJfXKs+9UFILkwD3FuthH
- HAm1D7DzYpynTX+4VnP9y7clZpxjr9kaS3P1whI5RAh3OczvTsVPzrdA5KvzZJNGobIw
- UpMXOmAHP2Re2WCyxeGnRBQ8blLe42ORxw6O+VDAOlAIuUReRT2TOm8ObFIxWPM4qOiq
- KhP9xQrrY8i6cEXPO9QJ2yeYsVJCQp4f6Unv0z7fiCuePnVbsrIX1YNcRtpfNRyygDcE
- vZpY3tr/IAQ9B6soDnXvelzQ7gg3MfYVA6zcVlwWKuuEBE/1hMjsDBQJ4wM7TMMkiWkh
- wW8Q==
-X-Gm-Message-State: AOAM531wObtQxRVwTocNG1yFxZrmFjwib2p1h8R4diqSdAKzmH6RjpGe
- 8MH2Fra33tYNST5Of37yU5HE5YpWRI2O/bQvNP9UWGjWOz3UIq6sCqaJz36w4d0rqlKlYU8F6lS
- dCTAvDWh2wVEmOtg=
-X-Received: by 2002:adf:face:: with SMTP id a14mr5701245wrs.397.1589466889177; 
- Thu, 14 May 2020 07:34:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzIviuCGVPPeKwNGTvWdOys/g/tHCSHkAAH2BJ5U5uwIYtCpJ90NkD6twCV15ZejiWE3CQXFg==
-X-Received: by 2002:adf:face:: with SMTP id a14mr5701225wrs.397.1589466888977; 
- Thu, 14 May 2020 07:34:48 -0700 (PDT)
+ bh=lZ1u6qNZotSgU2037p6zpII9seREemya6EtGwZgs+40=;
+ b=Sd8RueTkmd+W2uHFWsXDFA2K7pQmucPDUELBNtSK6Tpb0khoNab8OCuvk9rvjZ4BEU
+ cNTmwbvVA6Kz5o/62avA+fZwkNhBjCsMrS9X9/ob42G6Bnsp8YoQM9zkLXZIrFFu5Xhw
+ twgoDoePjBNgY+lit2kP9z03hXK46OIKFeR14x2rPPRCe1WTFJilnMRfd+m6HZXKxcPe
+ kA0BWvi+D7uoVVJ+S4tQ+RX1U7VeO80ataym0whmZUwFSk9GnwUs+kLBJYSZR3mft0NX
+ JKPcZUIgtSv3hSevS2rE2QDqErDbwiZHALsFC5iU1nWf6zeWDvks/ujiF0dbCeArXmHb
+ yJIw==
+X-Gm-Message-State: AOAM530gX/pwFuxxwnDhf8WJaRaovfE8ufAH3t7CvAEKOkY2ryXIZrgy
+ 72Ppvou1QDEYp9FD2Qpobqv3c+4nOhlF9D6ocGjXnJHyKsiybyK9cUzvyYwBra2TUUq1NyOWZzC
+ 5bhN+DcBllljNTdU=
+X-Received: by 2002:a5d:5105:: with SMTP id s5mr5887749wrt.202.1589466893760; 
+ Thu, 14 May 2020 07:34:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYhEwP2vSKQSTCH6UQ0+PvQcHOfYvpcR5pJ8b2UKz9ijVcmwRgA+DFo8SxlApETN+s1XUYkg==
+X-Received: by 2002:a5d:5105:: with SMTP id s5mr5887740wrt.202.1589466893614; 
+ Thu, 14 May 2020 07:34:53 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id u10sm17279760wmc.31.2020.05.14.07.34.47
+ by smtp.gmail.com with ESMTPSA id s14sm38387741wmh.18.2020.05.14.07.34.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:34:48 -0700 (PDT)
+ Thu, 14 May 2020 07:34:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] tests/fuzz: Add missing space in test description
-Date: Thu, 14 May 2020 16:34:30 +0200
-Message-Id: <20200514143433.18569-4-philmd@redhat.com>
+Subject: [PATCH 4/6] tests/fuzz: Remove unuseful/unused typedefs
+Date: Thu, 14 May 2020 16:34:31 +0200
+Message-Id: <20200514143433.18569-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200514143433.18569-1-philmd@redhat.com>
 References: <20200514143433.18569-1-philmd@redhat.com>
@@ -102,44 +102,55 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These typedefs are not used. Use a simple structure,
+remote the typedefs.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Note: The descriptions are not very accurate (copy/paste?)
----
- tests/qtest/fuzz/i440fx_fuzz.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/fuzz/i440fx_fuzz.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
-index ab5f112584..96fed9ff12 100644
+index 96fed9ff12..c197b026db 100644
 --- a/tests/qtest/fuzz/i440fx_fuzz.c
 +++ b/tests/qtest/fuzz/i440fx_fuzz.c
-@@ -159,7 +159,7 @@ static void register_pci_fuzz_targets(void)
-     /* Uses simple qtest commands and reboots to reset state */
-     fuzz_add_target(&(FuzzTarget){
-                 .name = "i440fx-qtest-reboot-fuzz",
--                .description = "Fuzz the i440fx using raw qtest commands and"
-+                .description = "Fuzz the i440fx using raw qtest commands and "
-                                "rebooting after each run",
-                 .get_init_cmdline = i440fx_argv,
-                 .fuzz = i440fx_fuzz_qtest});
-@@ -167,7 +167,7 @@ static void register_pci_fuzz_targets(void)
-     /* Uses libqos and forks to prevent state leakage */
-     fuzz_add_qos_target(&(FuzzTarget){
-                 .name = "i440fx-qos-fork-fuzz",
--                .description = "Fuzz the i440fx using raw qtest commands and"
-+                .description = "Fuzz the i440fx using raw qtest commands and "
-                                "rebooting after each run",
-                 .pre_vm_init = &fork_init,
-                 .fuzz = i440fx_fuzz_qos_fork,},
-@@ -182,7 +182,7 @@ static void register_pci_fuzz_targets(void)
+@@ -45,12 +45,11 @@ static void i440fx_fuzz_qtest(QTestState *s,
+      * loop over the Data, breaking it up into actions. each action has an
+      * opcode, address offset and value
       */
-     fuzz_add_qos_target(&(FuzzTarget){
-                 .name = "i440fx-qos-noreset-fuzz",
--                .description = "Fuzz the i440fx using raw qtest commands and"
-+                .description = "Fuzz the i440fx using raw qtest commands and "
-                                "rebooting after each run",
-                 .fuzz = i440fx_fuzz_qos,},
-                 "i440FX-pcihost",
+-    typedef struct QTestFuzzAction {
++    struct {
+         uint8_t opcode;
+         uint8_t addr;
+         uint32_t value;
+-    } QTestFuzzAction;
+-    QTestFuzzAction a;
++    } a;
+ 
+     while (Size >= sizeof(a)) {
+         /* make a copy of the action so we can normalize the values in-place */
+@@ -91,19 +90,18 @@ static void i440fx_fuzz_qos(QTestState *s,
+      * Same as i440fx_fuzz_qtest, but using QOS. devfn is incorporated into the
+      * value written over Port IO
+      */
+-    typedef struct QOSFuzzAction {
++    struct {
+         uint8_t opcode;
+         uint8_t offset;
+         int devfn;
+         uint32_t value;
+-    } QOSFuzzAction;
++    } a;
+ 
+     static QPCIBus *bus;
+     if (!bus) {
+         bus = qpci_new_pc(s, fuzz_qos_alloc);
+     }
+ 
+-    QOSFuzzAction a;
+     while (Size >= sizeof(a)) {
+         memcpy(&a, Data, sizeof(a));
+         switch (a.opcode % ACTION_MAX) {
 -- 
 2.21.3
 
