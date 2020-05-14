@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4DD1D326E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:15:52 +0200 (CEST)
-Received: from localhost ([::1]:44022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631761D3271
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:16:29 +0200 (CEST)
+Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEeN-0000Vg-RR
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:15:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38406)
+	id 1jZEey-0001ma-9s
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEci-0007Fa-6q
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:08 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:34426)
+ id 1jZEch-0007Eb-Kt
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:07 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:33388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcg-0003lM-Vw
+ id 1jZEcg-0003lN-UH
  for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:07 -0400
-Received: by mail-lj1-x235.google.com with SMTP id b6so3733560ljj.1
+Received: by mail-lf1-x12d.google.com with SMTP id z22so2806244lfd.0
  for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=72ECmrG/08kvuMO0CCNbIeO6GU3AR4WLVgAwouR/APw=;
- b=GS6IYaRiDCj7/XuUMImQ/LFUHvSgBHGePtuwzBvkEGQULobGZ1fGt0YlDXJ5ivDHGA
- fx3/h7tfKRcEoVFXQNq/huIS/EGkVVhR8nMIcCsPLYY/UuLr7xnTAcBZMLNu1e6u/ba7
- 20izAg0T8JyP0pNJaVhfSMs2uxerVsOTXgENklvrtGw9uHFr6kX/q8rSW4l8cAF2/CNG
- /bQvo8gV4aUl45aGthtj9DxrJu/chdyDcLMpftjtdjGrE1AvaIh9X0Kpc2gc1hQDFagp
- pNFeBDcHOlU+vOK0Z0eOOe1+8h6wW3rkrmRVu89NWgGixq24BVQLxw7htVus0sn7Dpio
- LPBw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1PhlQHMBIBZyhaIVdNeOmpiXX6PbldkHvHxVIsbvZwc=;
+ b=E1qai1NJLvdh6rguS0SM/8QbbjRIzvPX+fJFDUh1V03wPnHAzDUXDkBZWDPW5paO9+
+ CIWG+DVWatL9DJjksyppeThBa/PbDj2OJ8agLhL9rIop18mvddgnAgn/1YLuK9g3oc0H
+ KCQUMIXIGRU/e/KyFBYUQF1dlCEc2tKxLuRK9xDXd915g0VdPjUHO9mH0UO39/FgkcpD
+ 7ggJOAeEsvcfTEsvjlqpYyFgL3ATsO9VPm5z3ZoB/38gOxuzavqkpDNDaDwqBMWmI4UL
+ A667xHgxQzM2SS66rgchhs/L7r8R/t/2Td1gIgAcTVD0tq3PxqTKaViE8kTL3d2iyiUM
+ fhgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=72ECmrG/08kvuMO0CCNbIeO6GU3AR4WLVgAwouR/APw=;
- b=XJXPc2EZ9JIFenmpzUCt9FScv05IqXmznc03iw7KfufFlmKPaf6Gg/g5h8WxvaKIZC
- kjMV9z46YzOuOKV6KO1THxIKNcpXob6ge7aYoomzS5F0xMSv91gm9FvgOCrfKc8U7zok
- BksUx/9qAlIJ+oyLTz2a6ousk5rxYAuaLjmD9q6jkEBCq4mEs92VUBDlS8ctZME8gcfH
- x/3etZpeX1GmPakkGghWxsUSR8B7o/52ZC1OZuOjwLKzcs2er2b+jEC3pDB0gJyfHyij
- 1NaUrQl9toMqqdzXZMKGftHfOdicYJsNmMQcX0EnEO84JkhoIqQdB2J6qyLBNEfNzMEs
- 6kWQ==
-X-Gm-Message-State: AOAM533i+fHGnpLnRgRjQ8KTD3dbRPcQ+4mN3cipQLJYTh3p5yZyzEmH
- vQwM/7aC0gmlpxTOcgBrrvKsZa/W5zI=
-X-Google-Smtp-Source: ABdhPJxqofVq3HqHwyuGaRN/IMM/e+YdztXL3O/wU9XALfLgcLSBb3vAolmRAHeZukOMQgtPpvgilQ==
-X-Received: by 2002:a2e:731a:: with SMTP id o26mr3023256ljc.189.1589465643800; 
- Thu, 14 May 2020 07:14:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1PhlQHMBIBZyhaIVdNeOmpiXX6PbldkHvHxVIsbvZwc=;
+ b=RI59c+RgeSUPqa8dHWhxXZMt7A+/ptFGItF0ikfviyYmDRCAvIGYdhRBDMj9UcSUJH
+ 7OgUEyhp7EJSS5ZUOzqSJr9fQPTE8VJtXzgj6KCfNm0Eq0F+6TegVMESNQbESKVX7XL4
+ KVP6Ugrl4rD4ORVIfcIGQ6A57bFLpPGAm+kPPaX0mK8Ygu/xsXmNTonbFzhMZIFnAkZx
+ fpwfyNx++9WEARm/iBdms+qujHwaGO2RT+3PhwKqf9jRXkR4aAw23DgPbNE/IHePT7jv
+ emFmKfsHGXaHdGezkqD8bKBzSuk3SKrhj4Up1BB+f6Qbf75+IgBG1jz1tnmXkqe8ZZAE
+ DJvg==
+X-Gm-Message-State: AOAM533knGv4VFV/20UvQ6tcz4zNEHFE7OApb5UMCdIyHUCO3UNUL+RU
+ Ax++4K2pfZ6pyG9KV1/0OsMF/EoEo5M=
+X-Google-Smtp-Source: ABdhPJx61lXYooqthv1DVwyn+D+vQxgeA54AujYJpCrFVA0ZMuS2ByV/C4+s5DhM7DpvGQRLZGPVgw==
+X-Received: by 2002:ac2:599e:: with SMTP id w30mr2757177lfn.188.1589465644922; 
+ Thu, 14 May 2020 07:14:04 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id b8sm1891256lfq.70.2020.05.14.07.14.03
+ by smtp.gmail.com with ESMTPSA id d9sm1917486lfa.77.2020.05.14.07.14.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:14:03 -0700 (PDT)
+ Thu, 14 May 2020 07:14:04 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 00/14] Xilinx queue 2020-05-14
-Date: Thu, 14 May 2020 16:13:48 +0200
-Message-Id: <20200514141402.12498-1-edgar.iglesias@gmail.com>
+Subject: [PULL v1 01/14] hw/net/xilinx_axienet: Auto-clear PHY Autoneg
+Date: Thu, 14 May 2020 16:13:49 +0200
+Message-Id: <20200514141402.12498-2-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
+References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x235.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 13
@@ -88,53 +90,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-The following changes since commit 035b448b84f3557206abc44d786c5d3db2638f7d:
+Auto-clear PHY CR Autoneg bits. This makes this model
+work with recent Linux kernels.
 
-  Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-14' into staging (2020-05-14 10:58:30 +0100)
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Message-Id: <20200506082513.18751-2-edgar.iglesias@gmail.com>
+---
+ hw/net/xilinx_axienet.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
-
-  git@github.com:edgarigl/qemu.git tags/edgar/xilinx-next-2020-05-14.for-upstream
-
-for you to fetch changes up to 2ead1b18ca1bbc41c09a82d980e1e5f53afa08eb:
-
-  target/microblaze: monitor: Increase the number of registers reported (2020-05-14 16:01:02 +0200)
-
-----------------------------------------------------------------
-Upstream
-
-----------------------------------------------------------------
-Edgar E. Iglesias (9):
-      hw/net/xilinx_axienet: Auto-clear PHY Autoneg
-      hw/net/xilinx_axienet: Cleanup stream->push assignment
-      hw/net/xilinx_axienet: Remove unncessary cast
-      hw/dma/xilinx_axidma: Add DMA memory-region property
-      hw/core: stream: Add an end-of-packet flag
-      hw/net/xilinx_axienet: Handle fragmented packets from DMA
-      hw/dma/xilinx_axidma: mm2s: Stream descriptor by descriptor
-      hw/dma/xilinx_axidma: s2mm: Support stream fragments
-      MAINTAINERS: Add myself as streams maintainer
-
-Joe Komlodi (4):
-      target/microblaze: Fix FPU2 instruction check
-      target/microblaze: gdb: Extend the number of registers presented to GDB
-      target/microblaze: gdb: Fix incorrect SReg reporting
-      target/microblaze: monitor: Increase the number of registers reported
-
-Tong Ho (1):
-      target/microblaze: Add MFS Rd,EDR translation
-
- include/hw/stream.h           |  5 ++-
- hw/core/stream.c              |  4 +-
- hw/dma/xilinx_axidma.c        | 75 ++++++++++++++++++++++-------------
- hw/net/xilinx_axienet.c       | 70 +++++++++++++++++++++++++--------
- hw/ssi/xilinx_spips.c         |  2 +-
- target/microblaze/cpu.c       |  2 +-
- target/microblaze/gdbstub.c   | 91 +++++++++++++++++++++++++++++++++++++++++--
- target/microblaze/translate.c | 19 +++++++--
- MAINTAINERS                   |  6 +++
- 9 files changed, 218 insertions(+), 56 deletions(-)
-
+diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+index 704788811a..0f97510d8a 100644
+--- a/hw/net/xilinx_axienet.c
++++ b/hw/net/xilinx_axienet.c
+@@ -149,8 +149,8 @@ tdk_write(struct PHY *phy, unsigned int req, unsigned int data)
+             break;
+     }
+ 
+-    /* Unconditionally clear regs[BMCR][BMCR_RESET] */
+-    phy->regs[0] &= ~0x8000;
++    /* Unconditionally clear regs[BMCR][BMCR_RESET] and auto-neg */
++    phy->regs[0] &= ~0x8200;
+ }
+ 
+ static void
 -- 
 2.20.1
 
