@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB9A1D3625
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 18:12:40 +0200 (CEST)
-Received: from localhost ([::1]:54802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7F91D3655
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 18:20:44 +0200 (CEST)
+Received: from localhost ([::1]:34760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZGTP-0003ni-UO
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 12:12:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57024)
+	id 1jZGbD-00022N-SW
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 12:20:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jZGRF-00019E-BM
- for qemu-devel@nongnu.org; Thu, 14 May 2020 12:10:25 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:40387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1jZGRE-0003dP-1R
- for qemu-devel@nongnu.org; Thu, 14 May 2020 12:10:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Wdugl2i5oFNVcLwzxNnowffl27F7rDS9ksvKBJXsQgQ=; b=vC4b0pIGPco/4/q+/Qil7SOsbj
- CsNQQe2fn0cFZ7R82IXCnBBKtz9ZgxvRZto6O46iE5sdV7M0fdw5hrMCfuzqthtZscIIkJafWdX/F
- nki4BrBY/+tg2T3U9Vq2+PqxxzwM6+yRMaZPjdBrHzejrKYAhgxjfxbhGsuI44JnBjwEupKaleAC0
- OJ+winktQWY8T9Edt2MHtVOCJj9UPT24kVmazpu/sBjCE4m8h43SB7E8WdJcNmAvxpDhU86Y1yKSn
- 78v4uWjep2k/uKZRd39LaqD7vZZDU90FX9ZsNt7sp3O2U+RXzPxiAPW/i7YpJTVXr2kefe7RTv+vZ
- oWD8eqMAA6U2VwO1y9CpaGhqAVt+6H7KcS95WnV4LXPXa5g+ylYFiO0Y2bvvngWFVszHxMKvAUbs2
- Atqx+t8pdRJJWd2EEjeU91PaPBgnJxFu1mSpNLcPOhagw9lBMgrWRYzRdnIfGWq2PYmm4n2/MMwzY
- FggRamSK2c3HsJoJZxiWfivcWPXTUczKcsaDNgRmzuT6hW6YPofSl6MXacwgtzJoDPaelTYdacASw
- yQv6aABim7d/yvP/Tn845bVMH0h4efo4QrPM7CBVpGqa0xge9UwWLQA7l00FFFBiqfctLDxyNBQD4
- HafOcxwAH9d/GAjBFDElkHobAUCsNb5mcAgA8nzEw=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Greg Kurz <groug@kaod.org>,
- Paul Durrant <paul@xen.org>
-Subject: Re: [PATCH 2/2] 9pfs: fix init_in_iov_from_pdu truncating size
-Date: Thu, 14 May 2020 18:10:20 +0200
-Message-ID: <2330066.V6eqdYP2KO@silver>
-In-Reply-To: <alpine.DEB.2.21.2005140846460.26167@sstabellini-ThinkPad-T480s>
-References: <cover.1589132512.git.qemu_oss@crudebyte.com>
- <3966630.RI2PehbzW4@silver>
- <alpine.DEB.2.21.2005140846460.26167@sstabellini-ThinkPad-T480s>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZGZz-0001JQ-B7
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 12:19:27 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:47538
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZGZy-0005rA-Ak
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 12:19:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589473164;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sLqJCySUNX45WU2F3jU3H8WwsE/kf862knzxAgJZJwY=;
+ b=S/ndab66pkHAy55dBFwqvMfZXZK4XuKO9DM3KnWAEFZmI61rfpdIDe6/M6MNem+4pvaKop
+ aNnl0Aqkq1qmzizqJXkf4X0XcwTlwKWzBKc/dRGVSozbwREP5gd2V5A4AKjeIMZawrk1dU
+ /I0pG0otDbcfL/GFInobGUp0C2LgnNA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-e8Tj2Pd-ODKAdmRK0OvlQQ-1; Thu, 14 May 2020 12:19:23 -0400
+X-MC-Unique: e8Tj2Pd-ODKAdmRK0OvlQQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8720D8015CF;
+ Thu, 14 May 2020 16:19:21 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-114-9.ams2.redhat.com [10.36.114.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6737D5C1D3;
+ Thu, 14 May 2020 16:19:20 +0000 (UTC)
+Date: Thu, 14 May 2020 18:19:18 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/2] block/block-copy: Fix uninitialized variable in
+ block_copy_task_entry
+Message-ID: <20200514161918.GN5518@linux.fritz.box>
+References: <20200507121129.29760-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 12:10:22
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+In-Reply-To: <20200507121129.29760-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:35:35
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,49 +79,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 14. Mai 2020 17:51:27 CEST Stefano Stabellini wrote:
-> On Thu, 14 May 2020, Christian Schoenebeck wrote:
-> > Looks like this issue will still take quite some time to be fixed with
-> > Xen. If you don't mind I'll send out a patch to revert truncation on
-> > virtio side, so that at least this bug is fixed with virtio ASAP.
-> 
-> Let me answer to this quickly so that if you want to get the patch out
-> today you can.
-> 
-> 
-> Yes, I think it is OK to revert truncation in virtio now. 
+Am 07.05.2020 um 14:11 hat Philippe Mathieu-Daudé geschrieben:
+> block_copy_task_entry() might be written differently to avoid
+> the initialization. This silents the warning and let me build.
 
-Good
+Thanks, applied to the block branch.
 
-> Only one
-> thing: would there still be any value in doing for Xen:
-> 
-> +    if (pdu->id + 1 == P9_RREAD) {
-> +        /* size[4] Rread tag[2] count[4] data[count] */
-> +        const size_t hdr_size = 11;
-> +        /*
-> +         * If current transport buffer size is smaller than actually
-> required +         * for this Rreaddir response, then truncate the response
-> to the +         * currently available transport buffer size, however only
-> if it would +         * at least allow to return 1 payload byte to client.
-> +         */
-> +        if (buf_size < hdr_size + 1) {
-> 
-> 
-> like your patch here does? Although not a complete solution it looks
-> like it would still be a good improvement over the current situation for
-> Xen.
-
-IMO in its current form, no. It would just move the problematic from a clearly 
-visible 9pfs server termination with error, towards a silent data loss 
-(without any error) on client side. Remember: this patch does not roll back 
-the filesystem driver's read position.
-
-Best regards,
-Christian Schoenebeck
-
+Kevin
 
 
