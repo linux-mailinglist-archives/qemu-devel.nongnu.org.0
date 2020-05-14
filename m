@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B9C1D329A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:21:05 +0200 (CEST)
-Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EE341D327F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:18:13 +0200 (CEST)
+Received: from localhost ([::1]:52490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEjQ-0000BV-8G
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:21:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38468)
+	id 1jZEge-00046r-66
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:18:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcq-0007XM-9f
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:16 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:40394)
+ id 1jZEcr-0007Zt-CI
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:17 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:46862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcp-0003ma-BO
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:15 -0400
-Received: by mail-lf1-x141.google.com with SMTP id h188so2022410lfd.7
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:14 -0700 (PDT)
+ id 1jZEcq-0003mr-NB
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:17 -0400
+Received: by mail-lf1-x144.google.com with SMTP id v5so2724845lfp.13
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r7a5kGEyzosESTdmEwVGGd/q63HdJiXWSrEI6m5XxK4=;
- b=Ge4N30UKYfgXdi3mmq031ONleaEHuug4sPQzs7eiPuPiYmR5U5hlzmuAS1yDYDXaor
- 77phzA8mSbhZkAhL3B2fzlVfx6zgT+D05SdCIGLAtr+/1y5soRF1VyFf9rxqZ4syOdCM
- Wl8RaT/GZ8uPpIwqS0/qjU8u7ob+tmAeWJt6lHYaHFUreuig0zjS6yxGrRhP4nT736i0
- C6wrK6F51atOAoeE5Tto+VpCne81YsgolvenVq+7XyNL8pE8w4946sHmZBNk2WZCSWSB
- IGwbMkrDafxDYOHc1lJeXUoeCr/XOkBf3JkxzDPH3sIRdclYIjSD3n6+zTcCAQJYphxy
- Jkhg==
+ bh=D7sjpbEKoLtEYjs/TnSi3AkdRZRMvGw4zpygQ0M/4uc=;
+ b=Ibe5ZPsODULQP0cOJOLydJd1oWTboFQ6CUtEokDDzAbTow+co1I3kuwGZwwTp+4HR+
+ mhPCmzU2NgdNMTnifxF2YkFu+AeqmPLKuznthGr0nXILySb4jLoCG8n1umutjg4nVImk
+ mMhG2C9PyBPpoL6CDapFxF/hOnw6lu/LGLnKAlgE2+sqwKnnxddCe9dFYV8DuwRTUL+8
+ pbHK4n0ffNTNrUpx/oXl2NlS5SAVWt+UAWlXX1J/KLEbBgyomm78QPj9haKFQ4odzQ/G
+ 8NOp3r2/eNmUmQ/NRDPqBfnO5sjZvFn7Pgjr9kNw3DT/pYx5zCgEtOGdnPk61nGAiuOL
+ 2HnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=r7a5kGEyzosESTdmEwVGGd/q63HdJiXWSrEI6m5XxK4=;
- b=jB3riGZb0VCyyo9gpQF5DIvVXOrzj1dTAx66vLYC2z7AV9r3SEGY9U1hhItw+sWoRM
- 4i1q+1gYy2j5Wtr+oHo2U+86zh2Cetuyzh3+z6wW/FjDup9OY9PKM/QUrb6WAKIrD8Tb
- SrkgAo+gy2M2Y7SausxuGvCPAE9f10BFgByJG2rIzz9Q8gtQ8KUq3ruzwQ5OhCy/fICo
- sjVXLX53T8M+krOP5es6n6zAzuIHRRDXigrBFj0lfKDwcc2BdiiL+OsLR72hKZEi9TMH
- EJBrtEFyxPHzDVgNATu0F10q/5DsZM+ftSkjksLzKKxKXhmXaH32bauRRO0kQS1lIxMZ
- Hb6w==
-X-Gm-Message-State: AOAM532FMlE2yhVPgcWBppKeAqAadxa6wFrL+ZuhA0iN8FTvkeHzcxX8
- +rED4kiqziyOWdeL5yjmREBYLIxw7PQ=
-X-Google-Smtp-Source: ABdhPJxhcdOP9vo1zJNV7XfYgDKgChzM4BUUzRNmEVggJ9A0pPyPuFuTFW0N63qhAaiPShKcNqBp1g==
-X-Received: by 2002:a05:6512:691:: with SMTP id
- t17mr3650080lfe.85.1589465653567; 
- Thu, 14 May 2020 07:14:13 -0700 (PDT)
+ bh=D7sjpbEKoLtEYjs/TnSi3AkdRZRMvGw4zpygQ0M/4uc=;
+ b=I63PqZULcQYynYm/onzBKnkGdWjMOXDsLXD79D8xexdREyDD2ZW8PLh2gfjcYnvBAx
+ L7BNdpAA6bKU3vPQg8qI6OTLeTXPPYGoJgEQd5tZnjwK9xr44Bn72Nyam7dG5xemHKCK
+ r4AhJazwyKXlYZ+EMJxHu0iXmtIbDKEhxYEOUUiS/LJOnI1cYcNS4jaseygP5UUIEbUg
+ xalbvLHiPysteMvZE6AgJerjjorRbKBLRwNoWdYx93mYRitQx3qFpTFwIqoMTr5hlPFY
+ KO927E/T35frUopJW83ICTGDIp2lHSa5DSHiQ3kuiArqXammnw4IZ6K2wdE65qh17ZaT
+ wXLg==
+X-Gm-Message-State: AOAM531LMNIwB0eyEwURPrfxSSm7Fpok/xblbkyOKQrfRc2u6AbIyB3R
+ wdk1beunp2UiK/G2vF0pMMU8tiZi/J4=
+X-Google-Smtp-Source: ABdhPJzm0R9iSevxSuM0/0Yl7LeyFkf7UXkmYgLLee1tR6VlQCkDrI2Pem3eQDaXzKQ03+e/bUgODQ==
+X-Received: by 2002:ac2:414c:: with SMTP id c12mr3402243lfi.47.1589465654753; 
+ Thu, 14 May 2020 07:14:14 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id r9sm1582242ljg.69.2020.05.14.07.14.12
+ by smtp.gmail.com with ESMTPSA id r23sm1520524lji.32.2020.05.14.07.14.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:14:12 -0700 (PDT)
+ Thu, 14 May 2020 07:14:14 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 07/14] hw/dma/xilinx_axidma: mm2s: Stream descriptor by
- descriptor
-Date: Thu, 14 May 2020 16:13:55 +0200
-Message-Id: <20200514141402.12498-8-edgar.iglesias@gmail.com>
+Subject: [PULL v1 08/14] hw/dma/xilinx_axidma: s2mm: Support stream fragments
+Date: Thu, 14 May 2020 16:13:56 +0200
+Message-Id: <20200514141402.12498-9-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x141.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x144.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 13
@@ -92,81 +90,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
-Stream descriptor by descriptor from memory instead of
-buffering entire packets before pushing. This enables
-non-packet streaming clients to work and also lifts the
-limitation that our internal DMA buffer needs to be able
-to hold entire packets.
+Add support for stream fragments.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-Id: <20200506082513.18751-8-edgar.iglesias@gmail.com>
+Message-Id: <20200506082513.18751-9-edgar.iglesias@gmail.com>
 ---
- hw/dma/xilinx_axidma.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+ hw/dma/xilinx_axidma.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-index a770e12c96..101d32a965 100644
+index 101d32a965..87be9cade7 100644
 --- a/hw/dma/xilinx_axidma.c
 +++ b/hw/dma/xilinx_axidma.c
-@@ -111,7 +111,6 @@ struct Stream {
+@@ -110,6 +110,7 @@ struct Stream {
+ 
      int nr;
  
++    bool sof;
      struct SDesc desc;
--    int pos;
      unsigned int complete_cnt;
      uint32_t regs[R_MAX];
-     uint8_t app[20];
-@@ -267,7 +266,9 @@ static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
-                                  StreamSlave *tx_control_dev)
+@@ -174,6 +175,7 @@ static void stream_reset(struct Stream *s)
+ {
+     s->regs[R_DMASR] = DMASR_HALTED;  /* starts up halted.  */
+     s->regs[R_DMACR] = 1 << 16; /* Starts with one in compl threshold.  */
++    s->sof = true;
+ }
+ 
+ /* Map an offset addr into a channel index.  */
+@@ -321,12 +323,11 @@ static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
+ }
+ 
+ static size_t stream_process_s2mem(struct Stream *s, unsigned char *buf,
+-                                   size_t len)
++                                   size_t len, bool eop)
  {
      uint32_t prev_d;
--    unsigned int txlen;
-+    uint32_t txlen;
-+    uint64_t addr;
-+    bool eop;
+     unsigned int rxlen;
+     size_t pos = 0;
+-    int sof = 1;
  
      if (!stream_running(s) || stream_idle(s)) {
-         return;
-@@ -282,24 +283,26 @@ static void stream_process_mem2s(struct Stream *s, StreamSlave *tx_data_dev,
-         }
+         return 0;
+@@ -352,16 +353,16 @@ static size_t stream_process_s2mem(struct Stream *s, unsigned char *buf,
+         pos += rxlen;
  
-         if (stream_desc_sof(&s->desc)) {
--            s->pos = 0;
-             stream_push(tx_control_dev, s->desc.app, sizeof(s->desc.app), true);
-         }
- 
-         txlen = s->desc.control & SDESC_CTRL_LEN_MASK;
--        if ((txlen + s->pos) > sizeof s->txbuf) {
--            hw_error("%s: too small internal txbuf! %d\n", __func__,
--                     txlen + s->pos);
--        }
- 
--        address_space_read(&s->dma->as, s->desc.buffer_address,
--                           MEMTXATTRS_UNSPECIFIED,
--                           s->txbuf + s->pos, txlen);
--        s->pos += txlen;
-+        eop = stream_desc_eof(&s->desc);
-+        addr = s->desc.buffer_address;
-+        while (txlen) {
-+            unsigned int len;
-+
-+            len = txlen > sizeof s->txbuf ? sizeof s->txbuf : txlen;
-+            address_space_read(&s->dma->as, addr,
-+                               MEMTXATTRS_UNSPECIFIED,
-+                               s->txbuf, len);
-+            stream_push(tx_data_dev, s->txbuf, len, eop && len == txlen);
-+            txlen -= len;
-+            addr += len;
-+        }
- 
--        if (stream_desc_eof(&s->desc)) {
--            stream_push(tx_data_dev, s->txbuf, s->pos, true);
--            s->pos = 0;
+         /* Update the descriptor.  */
+-        if (!len) {
 +        if (eop) {
              stream_complete(s);
+             memcpy(s->desc.app, s->app, sizeof(s->desc.app));
+             s->desc.status |= SDESC_STATUS_EOF;
          }
  
+-        s->desc.status |= sof << SDESC_STATUS_SOF_BIT;
++        s->desc.status |= s->sof << SDESC_STATUS_SOF_BIT;
+         s->desc.status |= SDESC_STATUS_COMPLETE;
+         stream_desc_store(s, s->regs[R_CURDESC]);
+-        sof = 0;
++        s->sof = eop;
+ 
+         /* Advance.  */
+         prev_d = s->regs[R_CURDESC];
+@@ -426,8 +427,7 @@ xilinx_axidma_data_stream_push(StreamSlave *obj, unsigned char *buf, size_t len,
+     struct Stream *s = &ds->dma->streams[1];
+     size_t ret;
+ 
+-    assert(eop);
+-    ret = stream_process_s2mem(s, buf, len);
++    ret = stream_process_s2mem(s, buf, len, eop);
+     stream_update_irq(s);
+     return ret;
+ }
 -- 
 2.20.1
 
