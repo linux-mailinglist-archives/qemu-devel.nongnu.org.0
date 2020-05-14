@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5D31D31E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 15:56:17 +0200 (CEST)
-Received: from localhost ([::1]:48372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624131D31FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 15:59:20 +0200 (CEST)
+Received: from localhost ([::1]:35002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZELQ-0006Q3-GC
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 09:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35272)
+	id 1jZEON-0004f4-EL
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 09:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEJs-00054L-7e; Thu, 14 May 2020 09:54:40 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:46855)
+ id 1jZEKM-0006Bz-Hh; Thu, 14 May 2020 09:55:10 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:44523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEJq-0008Cn-OL; Thu, 14 May 2020 09:54:39 -0400
-Received: by mail-lj1-x243.google.com with SMTP id f18so3568323lja.13;
- Thu, 14 May 2020 06:54:37 -0700 (PDT)
+ id 1jZEKL-0008MX-Ng; Thu, 14 May 2020 09:55:10 -0400
+Received: by mail-lf1-x143.google.com with SMTP id d22so2682160lfm.11;
+ Thu, 14 May 2020 06:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=iO3sxqa6uRbK6tbM9gvYcV5wCzXYGAcL3OcFmKTeXU8=;
- b=L8SyS4cLvHZ32MAPdS91cLeNrTFXVTVEeGLdkGX+yFPuuVqbLsSq/n+bVw66x/m//v
- +lUDWWsT6hFoHEGmraMtnnZI9tDSKX3aSHxJdvTeRfKTUB1qkW/GHUnMW3KGMuuoMI5v
- 7/pl0DLIs9YB0lKXMcyK4HtJZ5EzqLCoKGndirAVw4fDWWEU3u51+3loilhTI7s16zy/
- XsA5+87uKhfs66cQGjqNUFTKx/ehte3x1tiSLVL00N2Q/jh0ZVOIMPxBTi3Hpjd5maBX
- 25pRyTRcBfp5Q2/DU1/krj0K576UUMcPy11QGp6fhwwhVBhdq1GkzB+pCDZ/BhlIJaq/
- cBTg==
+ bh=Fwa9E1kynr3Sx/7kJs6FRrjoDiyCspTyloxodGW5mYw=;
+ b=l6TdBuId8hIyrCRzvz7NaHT45pPR+eDTeYHYszd6VV3L0lBzs1jThUFr4GNp1vEoTB
+ 7OjOz8fAvHixh8VsbMSLChToBzJ4Q7eFmIjjeKYdy2yGleTrb40/oqdHa7fXT1eV8j/S
+ yd/Oqupa4knrqVK9VJjPP/UG+IQ0I0FJ1cV/sRj1VCUTjcgqo7suuDhHx1d+5ZDFClRD
+ k1cugrC7jb9fWoybjM4BqD+bx/O3Iay+ooeKnN0m2t8VHwrnNunVEXfCZYJf3w9SBKIo
+ Bv1wMOy9WbU1jdZFBcvnOwaGeldSCw0yx8wJOwwFu63n1NdaQwQRf2yz9IWLF8WMHbhC
+ C/Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=iO3sxqa6uRbK6tbM9gvYcV5wCzXYGAcL3OcFmKTeXU8=;
- b=jQIqYU0VagXp5nQHmD3rT8rjRn7rDenzEldKM4VPyrgLuK3Ysp5DcOtJOrbUFSUmwh
- bBBS7DvwNPqt6jox17oT7gBC8LOTnHTPKlFMWzAjkd5F7h2Znk/9omuscAvozgl3aJXh
- u/aHynPh2c1EHYfZISFn15ctvFcYPzX/9FmUjuSXgU/A2zvK/tqeMhzETdoRJJ5DEHzj
- sUVjbARAvczZcmV/LXZzOCJNqJvEpc70jos4F7dRb/54wh1cAthIHPIV1VQ6sF97gCM8
- XrTFaaMkZbiGQEs1cZO7CB2sNn3bM1TJHTH4s3mFT8jKTSTWLpnGND6HfNIdDvlxSNY/
- JHww==
-X-Gm-Message-State: AOAM530ph48nuKE7J2PeoXNZutYkCyrbQ4u8gJ2znqrYpMAWdIFyNZ3l
- R3TJKt8snrXRsdYNJubCe50=
-X-Google-Smtp-Source: ABdhPJxoDJa79M7EzM6PpUhWgH6/VWV5hdQTK0WSFsj+FKLKF+Cs9aB2oXOSHUkH4N8UGEGxdZ+RlA==
-X-Received: by 2002:a2e:8590:: with SMTP id b16mr2994989lji.45.1589464476110; 
- Thu, 14 May 2020 06:54:36 -0700 (PDT)
+ bh=Fwa9E1kynr3Sx/7kJs6FRrjoDiyCspTyloxodGW5mYw=;
+ b=VBUyGbuM5QCt2VFLoOubfgXn0IKhNuNQ8o0nVdDxq2kaYOuu1NWmkQNpZjmdzYQo28
+ JXfEOLk0vEwhzs6+2s5DWFaSTzSkhD+EfARvVa5sC6IE0LcdvISEMJhDslF2CY3kCIue
+ 4Sp70Zcefb7rVbynfqoZlKkQx/YF2yWFHZli2QT9Yw4Wrccb9LqdmulapW1/ifLVSwHj
+ ojPkYoeezrS+6xVyb/3WyOcGJ7FOcE6Y3PSO0jQCONbd70SUoN7qFvSxaEqYLoainXj1
+ fG4wrcFN5yvfTmAK2R2hRwvZdoD8IpWg2KlrUSeM5cIGrSPo6zSSN6+2nlNl13OJkpi6
+ N0nA==
+X-Gm-Message-State: AOAM531RWFe6ObLqWvnw3vrnoaBc4Xn6WCi4JKEDqgGo30vk1snLd+Bl
+ Ct2M2tAa9sfbzwIoLK8v0LQ=
+X-Google-Smtp-Source: ABdhPJwefx0JwhQkR2MFChjYKQuHV0COHhCRYLtaPksJAe3r7DrTGXM7ca8S2uvjI7oNzWxZiyIxeA==
+X-Received: by 2002:a19:84c7:: with SMTP id g190mr3009309lfd.69.1589464507348; 
+ Thu, 14 May 2020 06:55:07 -0700 (PDT)
 Received: from localhost (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id i11sm1941877ljg.9.2020.05.14.06.54.35
+ by smtp.gmail.com with ESMTPSA id d22sm1876291lfi.31.2020.05.14.06.55.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 06:54:35 -0700 (PDT)
-Date: Thu, 14 May 2020 15:54:18 +0200
+ Thu, 14 May 2020 06:55:06 -0700 (PDT)
+Date: Thu, 14 May 2020 15:54:50 +0200
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 1/5] docs/system: Add 'Arm' to the Integrator/CP document
- title
-Message-ID: <20200514135418.GW5519@toto>
+Subject: Re: [PATCH 2/5] docs/system: Sort Arm board index into alphabetical
+ order
+Message-ID: <20200514135450.GX5519@toto>
 References: <20200507151819.28444-1-peter.maydell@linaro.org>
- <20200507151819.28444-2-peter.maydell@linaro.org>
+ <20200507151819.28444-3-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200507151819.28444-2-peter.maydell@linaro.org>
+In-Reply-To: <20200507151819.28444-3-peter.maydell@linaro.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x243.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x143.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,33 +89,46 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 07, 2020 at 04:18:15PM +0100, Peter Maydell wrote:
-> Add 'Arm' to the Integrator/CP document title, for consistency with
-> the titling of the other documentation of Arm devboard models
-> (versatile, realview).
+On Thu, May 07, 2020 at 04:18:16PM +0100, Peter Maydell wrote:
+> Sort the board index into alphabetical order.  (Note that we need to
+> sort alphabetically by the title text of each file, which isn't the
+> same ordering as sorting by the filename.)
 
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
 
 
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  docs/system/arm/integratorcp.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  docs/system/target-arm.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/docs/system/arm/integratorcp.rst b/docs/system/arm/integratorcp.rst
-> index e6f050f602b..594438008e4 100644
-> --- a/docs/system/arm/integratorcp.rst
-> +++ b/docs/system/arm/integratorcp.rst
-> @@ -1,5 +1,5 @@
-> -Integrator/CP (``integratorcp``)
-> -================================
-> +Arm Integrator/CP (``integratorcp``)
-> +====================================
+> diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+> index 324e2af1cbc..d1196cbe01c 100644
+> --- a/docs/system/target-arm.rst
+> +++ b/docs/system/target-arm.rst
+> @@ -71,15 +71,15 @@ undocumented; you can get a complete list by running
+>     :maxdepth: 1
 >  
->  The Arm Integrator/CP board is emulated with the following devices:
+>     arm/integratorcp
+> -   arm/versatile
+>     arm/realview
+> -   arm/xscale
+> -   arm/palm
+> -   arm/nseries
+> -   arm/stellaris
+> +   arm/versatile
+>     arm/musicpal
+> -   arm/sx1
+> +   arm/nseries
+>     arm/orangepi
+> +   arm/palm
+> +   arm/xscale
+> +   arm/sx1
+> +   arm/stellaris
 >  
+>  Arm CPU features
+>  ================
 > -- 
 > 2.20.1
 > 
