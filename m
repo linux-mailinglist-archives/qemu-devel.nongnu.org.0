@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BF61D274C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:12:30 +0200 (CEST)
-Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0C11D2753
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:14:31 +0200 (CEST)
+Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ76b-0007NW-Dr
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:12:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38038)
+	id 1jZ78Y-000364-FR
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:14:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZ72b-0001A1-9m
- for qemu-devel@nongnu.org; Thu, 14 May 2020 02:08:21 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59489
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZ77N-0001ne-Hw
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 02:13:17 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:56332
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZ72Z-0004BU-LM
- for qemu-devel@nongnu.org; Thu, 14 May 2020 02:08:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZ77L-00061t-SL
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 02:13:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589436498;
+ s=mimecast20190719; t=1589436794;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YktV8Jjv+RFhP+q0aGBN/iX3gZKOLcpwmQN4AG/uZDw=;
- b=iDfMJRXOaMk2EJiV1hMBAptEsqYBOxrKYU0Xzwk97/hOqDqblGRZ4z4L4IubbPhVTk44DV
- Y8ndnDxA6Vjr16s1+hLlf/2UzFLD42WUKBQeswqwxM67/HKFnoAD5CU0kUL6wl8jFLJHdu
- xD0LxRHaObllzoXUzAxBm450mKlj/pE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-AJrC83wwNPKSegM9_xttsw-1; Thu, 14 May 2020 02:08:17 -0400
-X-MC-Unique: AJrC83wwNPKSegM9_xttsw-1
-Received: by mail-wm1-f69.google.com with SMTP id a67so6782142wme.6
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 23:08:16 -0700 (PDT)
+ bh=pdYM7Mc6D/jn82kFpKg4BL6IAeWb9hIpvE+qgVtjEt0=;
+ b=bpD2sRFZA2A496w54v+MqfW0zHAfB7+MpgJrJ+PmYWA9LCxxIfq04XeTXOw5tiuSVhjbWc
+ r3DDCAmg9jS2XY5M6IMSO2KCSUTzbBJ3C8ezSZxycjpqFyzpY7400qG9ETP9GUU/UDT/6R
+ Gv+bH90pXd4qWKnPdJR8cWHYNyrQz6s=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496-_NQxYQeZPxmpJHW7wTkCJQ-1; Thu, 14 May 2020 02:13:11 -0400
+X-MC-Unique: _NQxYQeZPxmpJHW7wTkCJQ-1
+Received: by mail-wr1-f70.google.com with SMTP id z5so1006346wrt.17
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 23:13:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YktV8Jjv+RFhP+q0aGBN/iX3gZKOLcpwmQN4AG/uZDw=;
- b=WFwgh56PsweiJ6U9tObGY4fHK5AyKPsGBUhppvIEIzid/xS5QqtddMhqaYdT0tMmT1
- afuz5k1GozOhVuy9p8kRhCstORMYGCt1mYC0Q0NiGOs0/H4PY1E0XLkHWKrbQ0sQJjQ4
- ePRHdqzV3hWXE8DhwnabYVWAww5P5A0mWrvQ3/YVd2DdWWPZdOZAMI4cZItZ4WFES0+D
- WTfdlVf05fV8t80/u0RWnyA3Q8Y5NPST10sRfGlnOy26pNHdSi7lVuR5W6VL3cKZ/PhT
- wnCyOm5lCa9EBGSWHN/hZHGhWNlLYdcjlF51vRTsNGs//6yK+PoJUan0OwRdgwyKI3c1
- KN/Q==
-X-Gm-Message-State: AOAM530X3xP8DJ1IeDAh4Bs7QbVqJghEm0pUSmleLQMcrq9QvWE5VbJ7
- Fd+o3M5m3Bc2b65SQ10hQySgghAyQFrQCJp0rUHxmMseDyNVRMG/NN3gmcXuEclMeglSOr43vrC
- BGOtrp7INtzHNAnk=
-X-Received: by 2002:a5d:4651:: with SMTP id j17mr3206798wrs.50.1589436495975; 
- Wed, 13 May 2020 23:08:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxjiLJuRp3PQZebPclIpW2GrFr0HGu/5dFXeOP7rPFR57jEnRxcIH70037nojvoal5uxIMXwA==
-X-Received: by 2002:a5d:4651:: with SMTP id j17mr3206767wrs.50.1589436495721; 
- Wed, 13 May 2020 23:08:15 -0700 (PDT)
+ bh=pdYM7Mc6D/jn82kFpKg4BL6IAeWb9hIpvE+qgVtjEt0=;
+ b=HkyFfWiIszDxspjeFNW5ZkbqcWpbOC+BlTC17w0SKdqdkzWcPp3e1g2jPLdWcMq/bI
+ Z6nMCq9b+4ggPY82wd8NRXHJRGlIbmalc6C30jhwVdm8+006cXMM+6xwc5CAnwba7QmL
+ bXF3ro9nXZQ5AEQL65CHse2b8xpIl53HQC2c875yuEhSoysqj2Mn5ZbnyffsncdYRqfA
+ TNgoBx11a5SNrM/Ej6orp7xM+XLaHqGbf6QObTeou800NdXEI5/ml9lAmeIXNAqcghq6
+ sYJBEo8ZiLmXsX2kH5/Y+adn1XHubb7/UCAh+KEtElaxcmeLfPgQ4XvNsKbaSz3obLCN
+ 6eRw==
+X-Gm-Message-State: AOAM532wd7FM1NW787YmDxHVRO66ipbbWXp75KHgbwPnrNDsrBlkWvUx
+ qgapdZPVQo9SqJiPV08JlnIfoSoh9pI7V/o8VpuuKr4ECMYt03Og/6STX0j1pXVRNddl1Su2wbY
+ rld41Zl/R1MVVMN8=
+X-Received: by 2002:a5d:614b:: with SMTP id y11mr3641780wrt.77.1589436790556; 
+ Wed, 13 May 2020 23:13:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqvfd24ZC2sJMfjuNavoonNmNxIm87ZoipHfs/KB1N0cFiZa79tDx3YTOHJ8f6s1y/83w/pQ==
+X-Received: by 2002:a5d:614b:: with SMTP id y11mr3641750wrt.77.1589436790310; 
+ Wed, 13 May 2020 23:13:10 -0700 (PDT)
 Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id s17sm37548986wmc.48.2020.05.13.23.08.14
+ by smtp.gmail.com with ESMTPSA id h1sm39274904wme.42.2020.05.13.23.13.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 May 2020 23:08:15 -0700 (PDT)
-Subject: Re: [PATCH RFC 23/32] python//machine.py: reorder __init__
+ Wed, 13 May 2020 23:13:09 -0700 (PDT)
+Subject: Re: [PATCH RFC 29/32] python//qtest.py: Check before accessing _qtest
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200514055403.18902-1-jsnow@redhat.com>
- <20200514055403.18902-24-jsnow@redhat.com>
+ <20200514055403.18902-30-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9fbe1ee7-2077-0bd1-370f-96bb526db9cf@redhat.com>
-Date: Thu, 14 May 2020 08:08:13 +0200
+Message-ID: <a5fa2a9c-a4f3-798e-253d-b6a3bf121d33@redhat.com>
+Date: Thu, 14 May 2020 08:13:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200514055403.18902-24-jsnow@redhat.com>
+In-Reply-To: <20200514055403.18902-30-jsnow@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
@@ -107,76 +107,45 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/14/20 7:53 AM, John Snow wrote:
-> Put the init arg handling all at the top, and mostly in order (deviating
-> when one is dependent on another), and put what is effectively runtime
-> state declaration at the bottom.
+On 5/14/20 7:54 AM, John Snow wrote:
+> It can be None; so add assertions or exceptions where appropriate to
+> guard the access accordingly.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   python/qemu/lib/machine.py | 29 +++++++++++++++++------------
->   1 file changed, 17 insertions(+), 12 deletions(-)
+>   python/qemu/lib/qtest.py | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
 > 
-> diff --git a/python/qemu/lib/machine.py b/python/qemu/lib/machine.py
-> index 6a4aea7725..beb31be453 100644
-> --- a/python/qemu/lib/machine.py
-> +++ b/python/qemu/lib/machine.py
-> @@ -80,38 +80,43 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
->           @param socket_scm_helper: helper program, required for send_fd_scm()
->           @note: Qemu process is not started until launch() is used.
->           '''
-> +        # Direct user configuration
+> diff --git a/python/qemu/lib/qtest.py b/python/qemu/lib/qtest.py
+> index a8be0c782f..05c63a1d58 100644
+> --- a/python/qemu/lib/qtest.py
+> +++ b/python/qemu/lib/qtest.py
+> @@ -126,7 +126,8 @@ def _pre_launch(self):
+>           super()._pre_launch()
+>           self._qtest = QEMUQtestProtocol(self._qtest_path, server=True)
+>   
+> -    def _post_launch(self):
+> +    def _post_launch(self) -> None:
+> +        assert self._qtest is not None
+>           super()._post_launch()
+>           self._qtest.accept()
+>   
+> @@ -134,6 +135,13 @@ def _post_shutdown(self):
+>           super()._post_shutdown()
+>           self._remove_if_exists(self._qtest_path)
+>   
+> -    def qtest(self, cmd):
+> -        '''Send a qtest command to guest'''
+> +    def qtest(self, cmd: str) -> str:
+> +        """
+> +        Send a qtest command to the guest.
 > +
-> +        self._binary = binary
-> +
->           if args is None:
->               args = []
-> +        # Copy mutable input: we will be modifying our copy
-> +        self._args = list(args)
-> +
->           if wrapper is None:
->               wrapper = []
-> -        if name is None:
-> -            name = "qemu-%d" % os.getpid()
-> -        if sock_dir is None:
-> -            sock_dir = test_dir
-> -        self._name = name
-> +        self._wrapper = wrapper
-> +
-> +        self._name = name or "qemu-%d" % os.getpid()
-> +        self._test_dir = test_dir
-> +        self._sock_dir = sock_dir or self._test_dir
-> +        self._socket_scm_helper = socket_scm_helper
-> +
->           if monitor_address is not None:
->               self._monitor_address = monitor_address
->               self._remove_monitor_sockfile = False
->           else:
->               self._monitor_address = os.path.join(
-> -                sock_dir, f"{name}-monitor.sock"
-> +                self._sock_dir, f"{self._name}-monitor.sock"
->               )
->               self._remove_monitor_sockfile = True
-> +
-> +        # Runstate
->           self._qemu_log_path = None
->           self._qemu_log_file = None
->           self._popen = None
-> -        self._binary = binary
-> -        self._args = list(args)     # Force copy args in case we modify them
-> -        self._wrapper = wrapper
->           self._events = []
->           self._iolog = None
-> -        self._socket_scm_helper = socket_scm_helper
->           self._qmp_set = True   # Enable QMP monitor by default.
->           self._qmp = None
->           self._qemu_full_args = None
-> -        self._test_dir = test_dir
->           self._temp_dir = None
-> -        self._sock_dir = sock_dir
->           self._launched = False
->           self._machine = None
->           self._console_index = 0
+> +        :param cmd: qtest command to send
+> +        :return: qtest server response
+> +        """
+> +        if self._qtest is None:
+> +            raise RuntimeError("qtest socket not available")
+>           return self._qtest.cmd(cmd)
 > 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
