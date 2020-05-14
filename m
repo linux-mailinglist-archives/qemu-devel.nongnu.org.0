@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DF31D34D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:18:31 +0200 (CEST)
-Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60DE1D34CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:16:48 +0200 (CEST)
+Received: from localhost ([::1]:60306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFd0-00061L-4p
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44996)
+	id 1jZFbL-0002h1-SJ
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:16:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZFLv-0002hl-HR
+ id 1jZFLu-0002hQ-4K
  for qemu-devel@nongnu.org; Thu, 14 May 2020 11:00:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37706)
+Received: from indium.canonical.com ([91.189.90.7]:37650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZFLu-0006Di-En
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:00:50 -0400
+ id 1jZFLs-0006Cr-RC
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:00:49 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jZFLt-0000DE-6g
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:00:49 +0000
+ id 1jZFLq-0000BC-QV
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:00:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 309C72E8023
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:00:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C529D2E80E7
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:00:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 May 2020 14:50:47 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878627@bugs.launchpad.net>
+Date: Thu, 14 May 2020 14:52:10 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878628@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -42,15 +42,15 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-Message-Id: <158946784791.31573.15508045306154621472.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1878627] [NEW] audio/mixeng build failure using Clang 10
+Message-Id: <158946793086.21783.444088944852561068.malonedeb@wampee.canonical.com>
+Subject: [Bug 1878628] [NEW] linux-user/mmap build failure using Clang 10
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 38cdd50bcce7c0f414c31aca8c2181ae138cd62b
+X-Launchpad-Hash: 6fedd2ff811cdabc457f79b63af2f8479c76076e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:00:47
@@ -73,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878627 <1878627@bugs.launchpad.net>
+Reply-To: Bug 1878628 <1878628@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,16 +81,12 @@ Public bug reported:
 
 When building with Clang 10 on Fedora 32, we get:
 
-    CC      audio/mixeng.o
-  audio/mixeng.c:274:34: error: implicit conversion from 'unsigned int' to =
-'float' changes value from 4294967295 to 4294967296 [-Werror,-Wimplicit-int=
--float-conversion]
-  static const float float_scale =3D UINT_MAX / 2.f;
-                                   ^~~~~~~~ ~
-  /usr/lib64/clang/10.0.0/include/limits.h:56:37: note: expanded from macro=
- 'UINT_MAX'
-  #define UINT_MAX  (__INT_MAX__  *2U +1U)
-                     ~~~~~~~~~~~~~~~~~^~~
+    CC      linux-user/mmap.o
+  linux-user/mmap.c:720:49: error: result of comparison 'unsigned long' > 1=
+8446744073709551615 is always false [-Werror,-Wtautological-type-limit-comp=
+are]
+          if ((unsigned long)host_addr + new_size > (abi_ulong)-1) {
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
 
 ** Affects: qemu
      Importance: Undecided
@@ -100,10 +96,10 @@ When building with Clang 10 on Fedora 32, we get:
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878627
+https://bugs.launchpad.net/bugs/1878628
 
 Title:
-  audio/mixeng build failure using Clang 10
+  linux-user/mmap build failure using Clang 10
 
 Status in QEMU:
   New
@@ -111,17 +107,13 @@ Status in QEMU:
 Bug description:
   When building with Clang 10 on Fedora 32, we get:
 
-      CC      audio/mixeng.o
-    audio/mixeng.c:274:34: error: implicit conversion from 'unsigned int' t=
-o 'float' changes value from 4294967295 to 4294967296 [-Werror,-Wimplicit-i=
-nt-float-conversion]
-    static const float float_scale =3D UINT_MAX / 2.f;
-                                     ^~~~~~~~ ~
-    /usr/lib64/clang/10.0.0/include/limits.h:56:37: note: expanded from mac=
-ro 'UINT_MAX'
-    #define UINT_MAX  (__INT_MAX__  *2U +1U)
-                       ~~~~~~~~~~~~~~~~~^~~
+      CC      linux-user/mmap.o
+    linux-user/mmap.c:720:49: error: result of comparison 'unsigned long' >=
+ 18446744073709551615 is always false [-Werror,-Wtautological-type-limit-co=
+mpare]
+            if ((unsigned long)host_addr + new_size > (abi_ulong)-1) {
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878627/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1878628/+subscriptions
 
