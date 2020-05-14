@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB951D2C29
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 12:07:37 +0200 (CEST)
-Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFA31D2C78
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 12:21:54 +0200 (CEST)
+Received: from localhost ([::1]:33396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZAm7-0006Bc-N6
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 06:07:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34696)
+	id 1jZAzw-00089H-MV
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 06:21:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZAlC-00051w-S3
- for qemu-devel@nongnu.org; Thu, 14 May 2020 06:06:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:31651
- helo=us-smtp-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1jZAlB-0005YG-9R
- for qemu-devel@nongnu.org; Thu, 14 May 2020 06:06:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589450795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Zh1eourHcSUlN1PgQxstmLVVfQd5CfUjGEOn8Z+2gBc=;
- b=LxzWLW0maCUWXdZVGWM9ClWASLvXxgVxMQn1zZanEpB0pfrfYlwhI4MEfF2rJ5izhnWdzX
- E2fOP+72/e4/9RZXbA+GZEpOVeh4nlHOTrjMXV/VIBnprT6ihBobI57+7qC0TZ3Z3kYMW1
- YCG2CEFw5TXOgJdHzHLz+ehrEMjvgZo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-WKDVwSHwOpWgbZ_sqvj6Og-1; Thu, 14 May 2020 06:06:32 -0400
-X-MC-Unique: WKDVwSHwOpWgbZ_sqvj6Og-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A9AE835B7B;
- Thu, 14 May 2020 10:06:31 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-114-9.ams2.redhat.com [10.36.114.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E6757D96D;
- Thu, 14 May 2020 10:06:25 +0000 (UTC)
-Date: Thu, 14 May 2020 12:06:23 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v10 14/14] iotests: use python logging for iotests.log()
-Message-ID: <20200514100623.GB5518@linux.fritz.box>
-References: <20200331000014.11581-1-jsnow@redhat.com>
- <20200331000014.11581-15-jsnow@redhat.com>
- <20200331134446.GF7030@linux.fritz.box>
- <1a38728b-aa4b-f3e4-c3ad-1a2b8d2e9269@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZAz8-0007ie-Iq
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 06:21:02 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1jZAz7-0000ZB-IB
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 06:21:02 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1jZAz4-0001aU-4b
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 10:20:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 281A42E8137
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 10:20:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1a38728b-aa4b-f3e4-c3ad-1a2b8d2e9269@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=kwolf@redhat.com;
- helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 14 May 2020 10:07:07 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange christophe-lyon laurent-vivier pmaydell
+X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <158935359452.19393.4863679569975227091.malonedeb@chaenomeles.canonical.com>
+Message-Id: <158945082731.17123.9423961562102159855.malone@soybean.canonical.com>
+Subject: [Bug 1878348] Re: --static build fails in v5.0 (since
+ 5010cec2bc87dafab39b3913c8ca91f88df9c540)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
+ Instance="production-secrets-lazr.conf"
+X-Launchpad-Hash: 3a257c6715079272426746f6150d0e0d2b5bce50
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 02:11:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,91 +73,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, qemu-block@nongnu.org, armbru@redhat.com,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>, philmd@redhat.com
+Reply-To: Bug 1878348 <1878348@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.05.2020 um 08:24 hat John Snow geschrieben:
-> On 3/31/20 9:44 AM, Kevin Wolf wrote:
-> > Am 31.03.2020 um 02:00 hat John Snow geschrieben:
-> >> We can turn logging on/off globally instead of per-function.
-> >>
-> >> Remove use_log from run_job, and use python logging to turn on
-> >> diffable output when we run through a script entry point.
-> >>
-> >> iotest 245 changes output order due to buffering reasons.
-> >>
-> >>
-> >> An extended note on python logging:
-> >>
-> >> A NullHandler is added to `qemu.iotests` to stop output from being
-> >> generated if this code is used as a library without configuring logging.
-> >> A NullHandler is only needed at the root, so a duplicate handler is not
-> >> needed for `qemu.iotests.diff_io`.
-> >>
-> >> When logging is not configured, messages at the 'WARNING' levels or
-> >> above are printed with default settings. The NullHandler stops this from
-> >> occurring, which is considered good hygiene for code used as a library.
-> >>
-> >> See https://docs.python.org/3/howto/logging.html#library-config
-> >>
-> >> When logging is actually enabled (always at the behest of an explicit
-> >> call by a client script), a root logger is implicitly created at the
-> >> root, which allows messages to propagate upwards and be handled/emitted
-> >> from the root logger with default settings.
-> >>
-> >> When we want iotest logging, we attach a handler to the
-> >> qemu.iotests.diff_io logger and disable propagation to avoid possible
-> >> double-printing.
-> >>
-> >> For more information on python logging infrastructure, I highly
-> >> recommend downloading the pip package `logging_tree`, which provides
-> >> convenient visualizations of the hierarchical logging configuration
-> >> under different circumstances.
-> >>
-> >> See https://pypi.org/project/logging_tree/ for more information.
-> >>
-> >> Signed-off-by: John Snow <jsnow@redhat.com>
-> >> Reviewed-by: Max Reitz <mreitz@redhat.com>
-> > 
-> > Should we enable logger if -d is given?
-> > 
-> > Previously we had:
-> > 
-> > $ ./check -d -T -raw 281
-> > [...]
-> > 281 not run: not suitable for this image format: raw
-> > 281      not run    [15:39:03] [15:39:04]                    not suitable for this image format: raw
-> > Not run: 281
-> > 
-> > After this series, the first line of output from notrun() is missing.
-> > Not that I think it's important to have the line, but as long as we
-> > bother to call logger.warning(), I thought that maybe we want to be able
-> > to actually see the effect of it somehwere?
-> > 
-> > Kevin
-> > 
-> 
-> Uh, okay. So this is weirder than I thought it was going to be!
-> 
-> So, if you move the debug configuration up above the _verify calls,
-> you'll see the message printed out to the debug stream:
-> 
-> DEBUG:qemu.iotests:iotests debugging messages active
-> WARNING:qemu.iotests:281 not run: not suitable for this image format: raw
-> 
-> ...but if you omit the `-d` flag, the message vanishes into a black
-> hole. Did it always work like that ...?
+I think it's largely that many distros ship pkg-config files which are
+just broken for the static linking case -- so configure tests "does pkg-
+config say this will work for static linking", and pkg-config says "yes,
+that will work", and then it doesn't. If you care about trying to get
+this to be more reliable you'd want to investigate all of these and file
+bugs upstream with your distro and get them fixed...
 
-Yes, this is how it used to work. It's a result of ./check only printing
-the test output with -d, and such log messages are basically just test
-output.
+-- =
 
-And I think it's exactly what we want: Without -d, you want only the
-summary, i.e. a single line that says "pass", "fail" or "notrun",
-potentially with a small note at the end of the line, but that's it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878348
 
-Kevin
+Title:
+  --static build fails in v5.0 (since
+  5010cec2bc87dafab39b3913c8ca91f88df9c540)
 
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  Since commit 5010cec2bc87dafab39b3913c8ca91f88df9c540, building qemu
+  fails when configured with --static (eg ../configure --target-
+  list=3Dx86_64-softmmu,x86_64-linux-user --enable-debug --static).
+
+  On ubuntu 16.04, it fails to find -lffi and -lselinux.
+
+  After I apt-get install libffi-dev libselinux1-dev, the build still fails:
+  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pre=
+_save':
+  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:29: undefine=
+d reference to `_TRACE_DBUS_VMSTATE_PRE_SAVE_DSTATE'
+  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_pos=
+t_load':
+  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:52: undefine=
+d reference to `_TRACE_DBUS_VMSTATE_POST_LOAD_DSTATE'
+  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_loa=
+ding':
+  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:75: undefine=
+d reference to `_TRACE_DBUS_VMSTATE_LOADING_DSTATE'
+  ../backends/dbus-vmstate.o: In function `_nocheck__trace_dbus_vmstate_sav=
+ing':
+  /home/christophe.lyon/src/qemu/build-static/backends/trace.h:98: undefine=
+d reference to `_TRACE_DBUS_VMSTATE_SAVING_DSTATE'
+  collect2: error: ld returned 1 exit status
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878348/+subscriptions
 
