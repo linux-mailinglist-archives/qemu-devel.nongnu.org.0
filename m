@@ -2,147 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30C891D34B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:12:51 +0200 (CEST)
-Received: from localhost ([::1]:49628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4010F1D34A0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:11:01 +0200 (CEST)
+Received: from localhost ([::1]:40564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFXW-0006V8-8c
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1jZFVk-0002j7-9l
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:11:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZFSm-0006UR-55
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:07:56 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:24018
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZFSk-0000Xu-02
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:07:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589468872;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OxfKMeNak/g0s9oH965lYtb/LkG3//9UjlWh905/HxY=;
- b=YZZmVdFUadoFnhhGHzvj9DnbPjB8RvyCzhZbJkcXt0O6QztryvdR5Njchc6j8T4llxj1T1
- LaDAk4pOE/RocCUA2eqprwVQKjc9ULDphb9Sp6s2UpCLiyu+OTuoxVW10Nw2+OzR/+v97z
- QxqiRYUfXnBknbZYvjOy/sDxwuuroM8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-HLf3GH2NPaC7UZKXypzq1Q-1; Thu, 14 May 2020 11:07:42 -0400
-X-MC-Unique: HLf3GH2NPaC7UZKXypzq1Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44A49835B41;
- Thu, 14 May 2020 15:07:41 +0000 (UTC)
-Received: from [10.10.113.9] (ovpn-113-9.rdu2.redhat.com [10.10.113.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BD015D714;
- Thu, 14 May 2020 15:07:39 +0000 (UTC)
-Subject: Re: [PATCH v4 1/3] qmp.py: change event_wait to use a dict
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20200514022536.2568-1-jsnow@redhat.com>
- <20200514022536.2568-2-jsnow@redhat.com>
- <20200514144732.GJ5518@linux.fritz.box>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <de1026e4-9815-f89c-4cfd-6da35ac23197@redhat.com>
-Date: Thu, 14 May 2020 11:07:38 -0400
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jZFUK-0000jg-UB; Thu, 14 May 2020 11:09:32 -0400
+Received: from mail-vi1eur05on2126.outbound.protection.outlook.com
+ ([40.107.21.126]:65120 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jZFUI-0000oY-EV; Thu, 14 May 2020 11:09:31 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UpqJMbeFwexHNFgGvWQvtMsi7HPPrhtza65LGKJV7TJC8vb6RrphqHOrhqHZiiwTi3eUZZQtLQI+dqVldYWLAufYQvBGQLwBfIrlk3X9zeBPRJUprnEZvGX+I0yQHMNb1iPFEdEOZb/LiPGo2UjSFCekctHn0ssKIP/6Xn63kOWblzyIYLTk7nkSGDAB3+HF0pdkGvsWW1/dL0vhU7is6e3XTVPTwldPwc7gVmE2u36wtJ5Yci/Y5hUrqq9CCUs+KlIX3qEHte2hsLG3woqwprl0ZAFoqF7H9QZvM4i6HuEwa8qflFwy/YJESyLDRkFOstnwDk8lcbbEA8YVa4L8gQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HQFTmFhLrDfZMp/XbSGKfN7AZM6IKdnastP5OnCXi7s=;
+ b=HVIP1+xz6ECq934Z50AVxUcGBZvbu39DjCdX4WB0noTQiieYcASAxuoZEbRgvayLQjAwFtk+6h+L+FPd7wYvY3Miph6AoQo6lEL9NsTQy4NhvGVMIUUhydTqEHFH5IFRHGanChM8inp4ilWnvZI1tlvfhVCtOVyPbR9d1PsvITC3OK9vDJxUnoZgI9kZatLr/9KJMwcWfdFhy0fWET+HuY9D+OwhrndsYFOjs2WMyY6ALELFIXWe91UDGSjMPXN6j3P3NQpVeOyfkbrhThrVwMni1249sZWJyOsfltzKTSBkMY3wtzzIZfvjLJ73PVbU+ERXCk8tAKyySDiA8iO60w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HQFTmFhLrDfZMp/XbSGKfN7AZM6IKdnastP5OnCXi7s=;
+ b=c1H8JeVi8+ERvI173LgOdtpQj3ZzZRuhUZ8MeqWn1fVRfGmsJhM8P1nCpPkiVvNmW8JXoQ30ZVCP9lmAAd6ZCihPDRPpnYNGvm9wLntXLJ9p4Q4CNTIOmDGWEc0nBc/csv9Bs5jBjZ70qQN3HJ2BBfSKJFeHHGfmxURqVY5M/NQ=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5512.eurprd08.prod.outlook.com (2603:10a6:20b:de::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28; Thu, 14 May
+ 2020 15:09:25 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.016; Thu, 14 May 2020
+ 15:09:25 +0000
+Subject: Re: [PATCH v4 6/9] qemu-img: Add bitmap sub-command
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20200513011648.166876-1-eblake@redhat.com>
+ <20200513011648.166876-7-eblake@redhat.com>
+ <ef44c5c0-1032-76e3-a3ce-ad0cc43d297c@virtuozzo.com>
+ <0542a587-424c-a596-1778-e7aaf494298c@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <a76362b3-b237-6b40-7ce9-3935649c7609@virtuozzo.com>
+Date: Thu, 14 May 2020 18:09:22 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200514144732.GJ5518@linux.fritz.box>
+ Thunderbird/68.8.0
+In-Reply-To: <0542a587-424c-a596-1778-e7aaf494298c@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-ClientProxiedBy: AM0PR10CA0065.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.186) by
+ AM0PR10CA0065.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3000.20 via Frontend Transport; Thu, 14 May 2020 15:09:24 +0000
+X-Originating-IP: [185.215.60.186]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a52dffe8-aeee-44b2-faf0-08d7f818ca21
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5512:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5512BD0D5F03B844698EFFECC1BC0@AM7PR08MB5512.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 040359335D
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Lg7MtA7fu6KNRq3NUB8ia9ty7M5NXaYJYPEWA7Pbl7SDtBaWBWn22PkCwExGpeTZITQxoicy4tpzZASVZ5OvtuSn2VuIiTAVzQqLHnKuT4sGo1kp3iLqsntJ9YIY5gb7lQUkvEvIFCN+F94ifv0B+tej+BnJ2VMhQknkJyxqcq2v2ShVXwHU7o5cOR2epo7+22l5SDwV341WwYenv6u1NhsRMK6I45X2+itHEYrtsU7ebuqxmR0FLSArzUSfLkgZsyTP2dOJ1Taj82Yt9H1hg0x6Jq9Q0OQzeY3F2sN0qy0A5gSMNhgjqwv/9rBQRv6uTKAcUMOceV7X9NQShZ2h36bgTPfeOWAh5M8/R56m+KSGoq2PlZbELHBlDQLn7j2jtCX9W2kUqDE/6xuP1/U0zgAABL28CjGpa4EMWsDbxzBj1eZ59UxGjNn9/Mm+Fkm2CIVIRlBY7T96Y9GI56AKMoClcxFUyLZMMeRxSwLx7W5SHJ3hdIL8JHTq5sIPZZw+
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(396003)(136003)(346002)(376002)(366004)(39840400004)(478600001)(36756003)(2906002)(16526019)(8676002)(186003)(53546011)(6486002)(4326008)(5660300002)(26005)(8936002)(31686004)(66476007)(66556008)(316002)(956004)(16576012)(52116002)(2616005)(66946007)(31696002)(86362001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: UzjQ8SD5RDoRRUcfKQoQ/p00Y3ooEOL5cZlnDVuRyXO4avzPzPNEgf7S6tovavUcGbrPGEfz62ys4H1KLvvUt1o76oefEuAmlNQD8y2pYraWejRxyELvrkMY2uHIIQ2/1GY9eE89J2Jt4ydB8SU/JwTtE/gpZpcu5nuhuKFfIVmKHdorg4fyiC8CUBenbHdE59zyLpB5IWgAfITJDEvaeXp8JNKS+xnatowNLZr9Fneq4EgEoukhYjwlujHfSIF2Q9yfLpu9FuVcmXdOKwxJirpX9rbMN0bY0e2kVOEmJdRVmlxpx8eyiCHbkqyj0LPBE07l4NJ3dawsiSOHi5gq3gzM4KEwUZECuQryi3Mb8wzFIoJjWvPHgdnLAVkJ9zeJ/kdTZvvZzYkckwQLbmvhuV4JtupOEigD3JhhM3hNWHghIj4Q+MZLRfJFjHUPwWJ4sFxZvQVYAGllf0og+xYcitbr7/E2EUvdVgsZ3Ov1ELPh1cB15xaMWhU9VrHVDCQF
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a52dffe8-aeee-44b2-faf0-08d7f818ca21
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2020 15:09:25.1696 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: D/YGKjmpjO9Y4K3RIaxvJn9WBWmh9O7cIKZTJ0JNMoK9YcNIKedy76G3tYQ+6khJ9+JKtBiOwaGIX6z/aoT0etBDOUj+ZcXc/wtt8WVq+3g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5512
+Received-SPF: pass client-ip=40.107.21.126;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:09:26
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -156,143 +117,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>
+Cc: kwolf@redhat.com, nsoffer@redhat.com, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 5/14/20 10:47 AM, Kevin Wolf wrote:
-> Am 14.05.2020 um 04:25 hat John Snow geschrieben:
->> It's easier to work with than a list of tuples, because we can check the
->> keys for membership.
+14.05.2020 17:20, Eric Blake wrote:
+> On 5/14/20 1:45 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> 13.05.2020 04:16, Eric Blake wrote:
+>>> Include actions for --add, --remove, --clear, --enable, --disable, and
+>>> --merge (note that --clear is a bit of fluff, because the same can be
+>>> accomplished by removing a bitmap and then adding a new one in its
+>>> place, but it matches what QMP commands exist).  Listing is omitted,
+>>> because it does not require a bitmap name and because it was already
+>>> possible with 'qemu-img info'.  A single command line can play one or
+>>> more bitmap commands in sequence on the same bitmap name (although all
+>>> added bitmaps share the same granularity, and and all merged bitmaps
+>>> come from the same source file).  Merge defaults to other bitmaps in
+>>> the primary image, but can also be told to merge bitmaps from a
+>>> distinct image.
+>>>
+> 
 >>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  python/qemu/machine.py        | 10 +++++-----
->>  tests/qemu-iotests/040        | 12 ++++++------
->>  tests/qemu-iotests/260        |  5 +++--
->>  tests/qemu-iotests/iotests.py | 16 ++++++++--------
->>  4 files changed, 22 insertions(+), 21 deletions(-)
+>> I'm sorry for asking it only now on v4.. But still. Why do we need it? 
 > 
-> I think you need to convert scripts/simplebench/bench_block_job.py, too.
-
-Oh, right -- that one is new since I did this. A lot of these scripts
-need to be moved over into the python/ directory and managed under the
-same pylint/mypy regime as everything else.
-
-A *ton* of our scripts are in various states of disrepair.
-
+> Ease of use.
 > 
->> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
->> index b9a98e2c86..eaedc25172 100644
->> --- a/python/qemu/machine.py
->> +++ b/python/qemu/machine.py
->> @@ -478,21 +478,21 @@ def event_wait(self, name, timeout=60.0, match=None):
->>          timeout: QEMUMonitorProtocol.pull_event timeout parameter.
->>          match: Optional match criteria. See event_match for details.
->>          """
->> -        return self.events_wait([(name, match)], timeout)
->> +        return self.events_wait({name: match}, timeout)
->>  
->>      def events_wait(self, events, timeout=60.0):
->>          """
->>          events_wait waits for and returns a named event from QMP with a timeout.
->>  
->> -        events: a sequence of (name, match_criteria) tuples.
->> +        events: a mapping containing {name: match_criteria}.
->>                  The match criteria are optional and may be None.
->>                  See event_match for details.  timeout:
->>                  QEMUMonitorProtocol.pull_event timeout parameter.
->>                  """
->>          def _match(event):
->> -            for name, match in events:
->> -                if event['event'] == name and self.event_match(event, match):
->> -                    return True
->> +            name = event['event']
->> +            if name in events:
->> +                return self.event_match(event, events[name])
+>> We can instead run qemu binary (or even new qemu-storage-daemon) and just use existing qmp commands. Is there a real benefit in developing qemu-img, maintaining two interfaces for the same thing?
 > 
-> This part confused me a bit for a second. Of course, that's probably
-> mostly just me, but I feel 'events' isn't a good name any more when the
-> values of the dict are match strings rather than events.
+> If it makes someone's life easier, and is not hard to maintain, then yes.  A command line interface that calls into QMP is not hard to maintain.  And _I_ certainly found it easier to write iotests with this patch in place, so it already has at least one client.
+> 
+>> Of-course, just run qmp commands from terminal is a lot less comfortable than just a qemu img command.. But may be we need some wrapper, which make it simple to run one qmp command on an image?
+>>
+>> It's simple to make a python wrapper working like
+>>
+>> qemu-qmp block-dirty-bitmap-add '{node: self, name: bitmap0, persistent: true}' /path/to/x.qcow2
+> 
+> This _IS_ such a wrapper.  The whole point of this patch is that it is now simpler to run one (or more) QMP command on an offline image from the command line.  Just because I wrote it in C instead of python, and attached it to an existing tool instead of writing a new tool, doesn't change the fact that it is just a wrapper around the existing QMP commands.
 > 
 
-This is honestly a really bad function. When I was trying to type
-everything, this one was at the bottom of the pile and it was the worst.
+OK, that's right.
 
-It needs an overhaul.
+The thing that I didn't like is that we have to make cli-to-qapi interface mapping by hand. But I see now that interface you implementing is prepared to make several actions with same bitmap-name, which can't be achieved with some kind of automatic interface matching anyway, so my proposal don't match your needs, sorry for my haste)
 
-In my 32 patch series, I left the "match" types as "Any" pretty much
-everywhere, because it's such a laissez-faire series of functions.
-
-I'll keep the feedback in mind.
-
->>              return False
->>  
->>          # Search cached events
->> diff --git a/tests/qemu-iotests/040 b/tests/qemu-iotests/040
->> index 32c82b4ec6..90b59081ff 100755
->> --- a/tests/qemu-iotests/040
->> +++ b/tests/qemu-iotests/040
->> @@ -485,12 +485,12 @@ class TestErrorHandling(iotests.QMPTestCase):
->>  
->>      def run_job(self, expected_events, error_pauses_job=False):
->>          match_device = {'data': {'device': 'job0'}}
->> -        events = [
->> -            ('BLOCK_JOB_COMPLETED', match_device),
->> -            ('BLOCK_JOB_CANCELLED', match_device),
->> -            ('BLOCK_JOB_ERROR', match_device),
->> -            ('BLOCK_JOB_READY', match_device),
->> -        ]
->> +        events = {
->> +            'BLOCK_JOB_COMPLETED': match_device,
->> +            'BLOCK_JOB_CANCELLED': match_device,
->> +            'BLOCK_JOB_ERROR': match_device,
->> +            'BLOCK_JOB_READY': match_device,
->> +        }
->>  
->>          completed = False
->>          log = []
->> diff --git a/tests/qemu-iotests/260 b/tests/qemu-iotests/260
->> index 804a7addb9..729f031122 100755
->> --- a/tests/qemu-iotests/260
->> +++ b/tests/qemu-iotests/260
->> @@ -67,8 +67,9 @@ def test(persistent, restart):
->>  
->>      vm.qmp_log('block-commit', device='drive0', top=top,
->>                 filters=[iotests.filter_qmp_testfiles])
->> -    ev = vm.events_wait((('BLOCK_JOB_READY', None),
->> -                         ('BLOCK_JOB_COMPLETED', None)))
->> +    ev = vm.events_wait({
->> +        'BLOCK_JOB_READY': None,
->> +        'BLOCK_JOB_COMPLETED': None })
-> 
-> So, I'm not sure if this is nitpicking or rather bikeshedding, but
-> having the closing brackets on the next line would be more consistent
-> with the other instances in this patch.
-> 
-
-Nah, it's fine. I'll clean it up. This is pretty close to an RFC series
-anyway, so I didn't really polish it.
-
-(Or, I will try to clean it up. I probably won't work on it again in the
-near term. I think I just wanted to see if this seemed useful in general
-to people.
-
-As part of maybe moving the python library onto a package, I thought
-that maybe developing a JobRunner tool would be useful to have in that
-library. As you can see, I nestled it into iotests.py, though.)
-
->>      log(filter_qmp_event(ev))
->>      if (ev['event'] == 'BLOCK_JOB_COMPLETED'):
->>          vm.shutdown()
-> 
-> Kevin
-> 
 
 -- 
-—js
-
+Best regards,
+Vladimir
 
