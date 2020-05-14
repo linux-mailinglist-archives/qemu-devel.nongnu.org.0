@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020DD1D348D
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:09:43 +0200 (CEST)
-Received: from localhost ([::1]:33960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B650D1D345F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:04:59 +0200 (CEST)
+Received: from localhost ([::1]:43754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFUU-0008U5-1P
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43186)
+	id 1jZFPu-00008B-OV
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:04:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jZFA8-000271-1c
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:48:40 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:49568
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jZFAu-00047j-N7
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:49:28 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:54849
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1jZFA6-0003gX-LW
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:48:39 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1jZFAt-0003nJ-HM
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:49:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589467717;
+ s=mimecast20190719; t=1589467766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=imtP1xe7M/PDqZTnyzKNtYEVsK1ctI2D/xE0IoyipfU=;
- b=KH6wA6bbKaS1a3fk8yHk1H1797hNxsSEF35wwSh7Lfjza2IzzBG8bInChaEoNPfvAwEynQ
- aMUCahyYKeIbHzX8zI9ruDE2HbkaKFSitNkyN2YFMyzAwlyPUmTV0dMwmZebyWMTcgy43+
- Tlm4K+1Ri2WoQJV2ZFZxHDvFRtrEIms=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-slrPq8U-OEufVkHGkSCVxg-1; Thu, 14 May 2020 10:48:36 -0400
-X-MC-Unique: slrPq8U-OEufVkHGkSCVxg-1
-Received: by mail-wm1-f69.google.com with SMTP id t23so3993833wmi.2
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:48:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=imtP1xe7M/PDqZTnyzKNtYEVsK1ctI2D/xE0IoyipfU=;
- b=NwHIvqWQIu5ic1r1/gCFAxPlXQCmQq/nz9K3oB/2KKao9wpcQ4Vs/26NPq84vFjLNP
- sWwQj6yVRIV19U2HyZLhoHcZduBbpi/7BmSHLEtU7nPZRiESoHHj346gfsUxgqbD8qxg
- Wwry5QNzQ8Y0+w37yeeacUciTlHvFoWi8/q2mL/FK06K0r+RKKxSMCdPZ1Bt8RVM99Ij
- jyri4rhy05Y1YtFc62gNKLjkXTGxlcA07VntXNdBAEub5yO4HJLhRcze7zZtwvC3evi4
- vNBWX2HSC+wvjNtb8rh76wlL9ls9iSP0Qz17JkAtS+in+zf6HnNC83oy+r1aKp6qwvQP
- OHCQ==
-X-Gm-Message-State: AOAM533e6y/25iSE3Zu7CkQ9FTsadADy/P/iwM0aYp2RibGVfMtbCraa
- +1vsCDhrJL6HXqgMkTgUZnP/Df8MJIZyTyqmvcqI7vi6UOS9mu7Qm4nrQtLb1lxOQMzN8B8tDk7
- 1Y0kCBLP5pKaVwAQ=
-X-Received: by 2002:adf:f512:: with SMTP id q18mr6301836wro.38.1589467714537; 
- Thu, 14 May 2020 07:48:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz7pcoFIEEtwpC0CLEwQyShMThHMJmrqRBG72uvE/j8+N02OMarGRZee+Vj7ATx9g56MwZpRQ==
-X-Received: by 2002:adf:f512:: with SMTP id q18mr6301807wro.38.1589467714222; 
- Thu, 14 May 2020 07:48:34 -0700 (PDT)
-Received: from redhat.com (bzq-79-179-68-225.red.bezeqint.net. [79.179.68.225])
- by smtp.gmail.com with ESMTPSA id l19sm40956159wmj.14.2020.05.14.07.48.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:48:33 -0700 (PDT)
-Date: Thu, 14 May 2020 10:48:31 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Maxime Coquelin <maxime.coquelin@redhat.com>
-Subject: Re: [PATCH] vhost-user: add support for VHOST_USER_SET_STATUS
-Message-ID: <20200514104455-mutt-send-email-mst@kernel.org>
-References: <20200514073332.1434576-1-maxime.coquelin@redhat.com>
- <33dae8af-a7ee-e005-f8d5-2b4a038b8211@redhat.com>
- <670d4623-fba9-dba6-8eea-2f1c16f2ad4b@redhat.com>
- <20200514064721-mutt-send-email-mst@kernel.org>
- <b915c324-2e07-9149-e527-2be8087f8b06@redhat.com>
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WiFjeVi7t51T4IcxHHQVuNI7d1jrE7Kn6UaNtPs3K+A=;
+ b=Gsv/WZytT1Uj2uRnRI1yMRnfIImeBV7AS943pHd5SuOytW9uZIX91mhpKN+vADvTPXUQrS
+ Am4ISl8OqklC6101dCIHtg2h2XGE1Z7TRbnIYaoZSA+0/Fzda1Y8kQrvMvdgr5dviuzDCQ
+ C2uXo38BV8Qawsj5gzKqQBJA+rh+zOs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-gOF59GHlP_aXR8zDXmndYg-1; Thu, 14 May 2020 10:49:24 -0400
+X-MC-Unique: gOF59GHlP_aXR8zDXmndYg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AD481895A32;
+ Thu, 14 May 2020 14:49:23 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-212.ams2.redhat.com
+ [10.36.113.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C9A3E620AF;
+ Thu, 14 May 2020 14:49:21 +0000 (UTC)
+Subject: Re: [PATCH v6 09/14] iotests: filter few more luks specific create
+ options
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20200510134037.18487-1-mlevitsk@redhat.com>
+ <20200510134037.18487-10-mlevitsk@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <9916f5ef-3373-8999-1c1b-bcc97e1ce7cd@redhat.com>
+Date: Thu, 14 May 2020 16:49:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <b915c324-2e07-9149-e527-2be8087f8b06@redhat.com>
+In-Reply-To: <20200510134037.18487-10-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=mst@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="yIAbCxUt7pCJRdT1veX1fK4X4Udhcx0Xv"
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=mreitz@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,283 +106,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shahafs@mellanox.com, lulu@redhat.com, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, amorenoz@redhat.com, matan@mellanox.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 14, 2020 at 04:39:26PM +0200, Maxime Coquelin wrote:
-> 
-> 
-> On 5/14/20 12:51 PM, Michael S. Tsirkin wrote:
-> > On Thu, May 14, 2020 at 12:14:32PM +0200, Maxime Coquelin wrote:
-> >>
-> >>
-> >> On 5/14/20 9:53 AM, Jason Wang wrote:
-> >>>
-> >>> On 2020/5/14 下午3:33, Maxime Coquelin wrote:
-> >>>> It is usefull for the Vhost-user backend to know
-> >>>> about about the Virtio device status updates,
-> >>>> especially when the driver sets the DRIVER_OK bit.
-> >>>>
-> >>>> With that information, no more need to do hazardous
-> >>>> assumptions on when the driver is done with the
-> >>>> device configuration.
-> >>>>
-> >>>> Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
-> >>>> ---
-> >>>>
-> >>>> This patch applies on top of Cindy's "vDPA support in qemu"
-> >>>> series, which introduces the .vhost_set_state vhost-backend
-> >>>> ops.
-> >>>>
-> >>>>   docs/interop/vhost-user.rst | 12 ++++++++++++
-> >>>>   hw/net/vhost_net.c          | 10 +++++-----
-> >>>>   hw/virtio/vhost-user.c      | 35 +++++++++++++++++++++++++++++++++++
-> >>>>   3 files changed, 52 insertions(+), 5 deletions(-)
-> >>>>
-> >>>> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-> >>>> index 3b1b6602c7..f108de7458 100644
-> >>>> --- a/docs/interop/vhost-user.rst
-> >>>> +++ b/docs/interop/vhost-user.rst
-> >>>> @@ -815,6 +815,7 @@ Protocol features
-> >>>>     #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD       12
-> >>>>     #define VHOST_USER_PROTOCOL_F_RESET_DEVICE         13
-> >>>>     #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
-> >>>> +  #define VHOST_USER_PROTOCOL_F_STATUS               15
-> >>>>     Master message types
-> >>>>   --------------------
-> >>>> @@ -1263,6 +1264,17 @@ Master message types
-> >>>>       The state.num field is currently reserved and must be set to 0.
-> >>>>   +``VHOST_USER_SET_STATUS``
-> >>>> +  :id: 36
-> >>>> +  :equivalent ioctl: VHOST_VDPA_SET_STATUS
-> >>>> +  :slave payload: N/A
-> >>>> +  :master payload: ``u64``
-> >>>> +
-> >>>> +  When the ``VHOST_USER_PROTOCOL_F_STATUS`` protocol feature has been
-> >>>> +  successfully negotiated, this message is submitted by the master to
-> >>>> +  notify the backend with updated device status as defined in the Virtio
-> >>>> +  specification.
-> >>>> +
-> >>>>   Slave message types
-> >>>>   -------------------
-> >>>>   diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> >>>> index 463e333531..37f3156dbc 100644
-> >>>> --- a/hw/net/vhost_net.c
-> >>>> +++ b/hw/net/vhost_net.c
-> >>>> @@ -517,10 +517,10 @@ int vhost_set_state(NetClientState *nc, int state)
-> >>>>   {
-> >>>>       struct vhost_net *net = get_vhost_net(nc);
-> >>>>       struct vhost_dev *hdev = &net->dev;
-> >>>> -    if (nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
-> >>>> -        if (hdev->vhost_ops->vhost_set_state) {
-> >>>> -                return hdev->vhost_ops->vhost_set_state(hdev, state);
-> >>>> -             }
-> >>>> -        }
-> >>>> +
-> >>>> +    if (hdev->vhost_ops->vhost_set_state) {
-> >>>> +        return hdev->vhost_ops->vhost_set_state(hdev, state);
-> >>>> +    }
-> >>>> +
-> >>>>       return 0;
-> >>>>   }
-> >>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> >>>> index ec21e8fbe8..b7e52d97fc 100644
-> >>>> --- a/hw/virtio/vhost-user.c
-> >>>> +++ b/hw/virtio/vhost-user.c
-> >>>> @@ -59,6 +59,7 @@ enum VhostUserProtocolFeature {
-> >>>>       VHOST_USER_PROTOCOL_F_HOST_NOTIFIER = 11,
-> >>>>       VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD = 12,
-> >>>>       VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
-> >>>> +    VHOST_USER_PROTOCOL_F_STATUS = 15,
-> >>>>       VHOST_USER_PROTOCOL_F_MAX
-> >>>>   };
-> >>>>   @@ -100,6 +101,7 @@ typedef enum VhostUserRequest {
-> >>>>       VHOST_USER_SET_INFLIGHT_FD = 32,
-> >>>>       VHOST_USER_GPU_SET_SOCKET = 33,
-> >>>>       VHOST_USER_RESET_DEVICE = 34,
-> >>>> +    VHOST_USER_SET_STATUS = 36,
-> >>>>       VHOST_USER_MAX
-> >>>>   } VhostUserRequest;
-> >>>>   @@ -1886,6 +1888,38 @@ static int vhost_user_set_inflight_fd(struct
-> >>>> vhost_dev *dev,
-> >>>>       return 0;
-> >>>>   }
-> >>>>   +static int vhost_user_set_state(struct vhost_dev *dev, int state)
-> >>>> +{
-> >>>> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
-> >>>> +                                             
-> >>>> VHOST_USER_PROTOCOL_F_REPLY_ACK);
-> >>>> +
-> >>>> +    VhostUserMsg msg = {
-> >>>> +        .hdr.request = VHOST_USER_SET_STATUS,
-> >>>> +        .hdr.flags = VHOST_USER_VERSION,
-> >>>> +        .hdr.size = sizeof(msg.payload.u64),
-> >>>> +        .payload.u64 = (uint64_t)state,
-> >>>> +    };
-> >>>> +
-> >>>> +    if (!virtio_has_feature(dev->protocol_features,
-> >>>> +                VHOST_USER_PROTOCOL_F_STATUS)) {
-> >>>> +        return -1;
-> >>>> +    }
-> >>>> +
-> >>>> +    if (reply_supported) {
-> >>>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-> >>>> +    }
-> >>>> +
-> >>>> +    if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
-> >>>> +        return -1;
-> >>>> +    }
-> >>>> +
-> >>>> +    if (reply_supported) {
-> >>>> +        return process_message_reply(dev, &msg);
-> >>>> +    }
-> >>>> +
-> >>>> +    return 0;
-> >>>> +}
-> >>>
-> >>>
-> >>> Interesting, I wonder how vm stop will be handled in this case.
-> >>
-> >> For now, my DPDK series only use DRIVER_OK to help determine when the
-> >> driver is done with the initialization. For VM stop, it still relies on
-> >> GET_VRING_BASE.
-> > 
-> > Sounds like a good fit.
-> > GET_VRING_BASE is transparent to guest, as is vmstop.
-> > This is more for driver 
-> > 
-> > 
-> >>
-> >> GET_VRING_BASE arrives before DRIVER_OK bit is cleared is the tests I've
-> >> done (logs from backend side):
-> > 
-> > 
-> > One problem is with legacy guests, for these you can't rely
-> > on DRIVER_OK, they often kick before that, and sometimes
-> > expect buffers to be used too (e.g. for scsi).
-> 
-> Ok, I remember this case now.
-> Any idea on how the backend would detect such legacy guests?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--yIAbCxUt7pCJRdT1veX1fK4X4Udhcx0Xv
+Content-Type: multipart/mixed; boundary="aMCMT070m20Wjqlp9jjrO2sRSrvzHOxBg"
 
-It's mostly safe to assume that it's only the case for pre-1.0 since 1.0
-spec says you must not.  A small window after 1.0 has the bug too but I
-think it's safe to just ask that these guests are fixed.
+--aMCMT070m20Wjqlp9jjrO2sRSrvzHOxBg
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 10.05.20 15:40, Maxim Levitsky wrote:
+> This allows more tests to be able to have same output on both qcow2 luks =
+encrypted images
+> and raw luks images
+>=20
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  tests/qemu-iotests/087.out       |  6 ++---
+>  tests/qemu-iotests/134.out       |  2 +-
+>  tests/qemu-iotests/158.out       |  4 +--
+>  tests/qemu-iotests/188.out       |  2 +-
+>  tests/qemu-iotests/189.out       |  4 +--
+>  tests/qemu-iotests/198.out       |  4 +--
+>  tests/qemu-iotests/263.out       |  4 +--
+>  tests/qemu-iotests/274.out       | 46 ++++++++++++++++----------------
+>  tests/qemu-iotests/284.out       |  6 ++---
+>  tests/qemu-iotests/common.filter |  6 +++--
+>  10 files changed, 43 insertions(+), 41 deletions(-)
+
+[...]
+
+> diff --git a/tests/qemu-iotests/274.out b/tests/qemu-iotests/274.out
+> index 9d6fdeb1f7..59de176b99 100644
+> --- a/tests/qemu-iotests/274.out
+> +++ b/tests/qemu-iotests/274.out
+> @@ -1,9 +1,9 @@
+>  =3D=3D Commit tests =3D=3D
+> -Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 size=3D2097152 cluster_size=
+=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+> +Formatting 'TEST_DIR/PID-base', fmt=3Dqcow2 cluster_size=3D65536 size=3D=
+2097152 lazy_refcounts=3Doff refcount_bits=3D16
+> =20
+> -Formatting 'TEST_DIR/PID-mid', fmt=3Dqcow2 size=3D1048576 backing_file=
+=3DTEST_DIR/PID-base cluster_size=3D65536 lazy_refcounts=3Doff refcount_bit=
+s=3D16
+> +Formatting 'TEST_DIR/PID-mid', fmt=3Dqcow2 cluster_size=3D65536 size=3D1=
+048576 backing_file=3DTEST_DIR/PID-base lazy_refcounts=3Doff refcount_bits=
+=3D16
+> =20
+> -Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 size=3D2097152 backing_file=
+=3DTEST_DIR/PID-mid cluster_size=3D65536 lazy_refcounts=3Doff refcount_bits=
+=3D16
+> +Formatting 'TEST_DIR/PID-top', fmt=3Dqcow2 cluster_size=3D65536 size=3D2=
+097152 backing_file=3DTEST_DIR/PID-mid lazy_refcounts=3Doff refcount_bits=
+=3D16
+
+@size and @cluster_size swapping positions doesn=E2=80=99t look right for t=
+his
+patch.  I think all hunks for 274.out should be in patch 5.
+
+Max
 
 
-> If I'm not mistaken, we discussed the idea to poll on the kick to detect
-> the rings are ready to be processed. But the problem is that Qemu writes
-> a kick at eventfd creation time:
-> 
-> vhost_user_backend_start():
-> -> vhost_dev_enable_notifiers()
-> 	->virtio_bus_set_host_notifier()
-> 		->event_notifier_init(, 1); //1 means active
-> ->vhost_dev_start();
-> 
-> We could change the behavior in Qemu, but the backend won't know if
-> Qemu has the fix or not, so won't know if it can rely on the kick.
+--aMCMT070m20Wjqlp9jjrO2sRSrvzHOxBg--
 
-eventfd counts kicks. So you can read the counter and check whether
-there was another kick or not. The difficulty is around migration, we
-should migrate the "ring kicked" state but we don't. We really should
-just fix that, it's an old bug affecting not just vhost-user but
-vhost too.
+--yIAbCxUt7pCJRdT1veX1fK4X4Udhcx0Xv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> >>
-> >> VHOST_CONFIG: read message VHOST_USER_GET_VRING_BASE
-> >>
-> >> destroy port /tmp/vhost-user1, did: 0
-> >> VHOST_CONFIG: vring base idx:0 file:41
-> >> VHOST_CONFIG: read message VHOST_USER_GET_VRING_BASE
-> >> VHOST_CONFIG: vring base idx:1 file:0
-> >> VHOST_CONFIG: read message VHOST_USER_SET_STATUS
-> >> VHOST_CONFIG: New device status(0x0000000b):
-> >> 	-ACKNOWLEDGE: 1
-> >> 	-DRIVER: 1
-> >> 	-FEATURES_OK: 1
-> >> 	-DRIVER_OK: 0
-> >> 	-DEVICE_NEED_RESET: 0
-> >> 	-FAILED: 0
-> >>
-> >>> In the case of vDPA kernel, we probable don't want to mirror the virtio
-> >>> device status to vdpa device status directly.
-> >>
-> >> In vDPA DPDK, we don't mirror the Virtio device status either. It could
-> >> make sense to do that, but would require some API changes.
-> >>
-> >>> Since qemu may stop
-> >>> vhost-vdpa device through e.g resting vdpa device, but in the mean time,
-> >>> guest should not detect such condition in virtio device status.
-> >>
-> >>
-> >>
-> >>> So in the new version of vDPA support, we probably need to do:
-> >>>
-> >>> static int vhost_vdpa_set_state(struct vhost_dev *dev, bool started)
-> >>> {
-> >>>     if (started) {
-> >>>         uint8_t status = 0;
-> >>>
-> >>>         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> >>>         vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-> >>>
-> >>>         return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
-> >>>     } else {
-> >>>         vhost_vdpa_reset_device(dev);
-> >>>         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >>>                                    VIRTIO_CONFIG_S_DRIVER);
-> >>>         return 0;
-> >>>     }
-> >>> }
-> >>
-> >> IIUC, you have another copy of the status register not matching 1:1 what
-> >> the guest sets/sees.
-> >>
-> >> Is vhost_vdpa_add_status() sending VHOST_VDPA_SET_STATUS to the backend?
-> >>
-> >> And why reading back the status from the backend? Just to confirm the
-> >> change is taken into account?
-> > 
-> > Making sure features have been acked makes sense IMHO.
-> > 
-> > 
-> >>> And vhost_set_state() will be called from vhost_dev_start()/stop().
-> >>>
-> >>> Does this work for vhost-user as well?
-> >>
-> >> IIUC what you did above, I think it would work. And we won't need
-> >> GET_STATUS request, but just rely on the REPLY_ACK.
-> > 
-> > Right. Need to document that though.
-> 
-> Ok, will do in v2.
-> 
-> Thanks,
-> Maxime
-> 
-> > 
-> >>
-> >> Thanks,
-> >> Maxime
-> >>
-> >>> Thanks
-> >>>
-> >>>
-> >>>> +
-> >>>>   bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error
-> >>>> **errp)
-> >>>>   {
-> >>>>       if (user->chr) {
-> >>>> @@ -1947,4 +1981,5 @@ const VhostOps user_ops = {
-> >>>>           .vhost_backend_mem_section_filter =
-> >>>> vhost_user_mem_section_filter,
-> >>>>           .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
-> >>>>           .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
-> >>>> +        .vhost_set_state = vhost_user_set_state,
-> >>>>   };
-> > 
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl69WnAACgkQ9AfbAGHV
+z0BPtAf+LUPCI/63tP2K5P5917Qbs0e52ab8rG3x2Dtgr1ZxgeeQSw1sev17v6T3
+FKbOCqTxanO5vfZgVuYIhl9W40oghMfAVsUXluehqOBcpMKSdfRKByvKvQtc0e78
+TMrL9aSlOmdWEcrCOnJkqrtrd8v2OeeC+mukvoX/+TrxPxcRTuqj+WJ6DpLtGVl5
+aMHsuax2cmKS/QMNovMcpDqfmNHKShJCnBvqiIZN1JkMRugTOdHOycwVlyRbxH/J
+gYrCx6APYE/hW8WSaasFOLJ+Bum0XXOIINI+DP7bUeGK98a80xycCJNEvfh7Mr4s
+wstmsnmqm1QDY+zaAf1Jc1FaLEVXFg==
+=cdkt
+-----END PGP SIGNATURE-----
+
+--yIAbCxUt7pCJRdT1veX1fK4X4Udhcx0Xv--
 
 
