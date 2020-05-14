@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D51B1D3282
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:19:11 +0200 (CEST)
-Received: from localhost ([::1]:55556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 970031D32A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:22:54 +0200 (CEST)
+Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEha-0005NE-3L
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:19:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38488)
+	id 1jZElB-0003I5-Im
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcu-0007fS-Jt
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:20 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:35397)
+ id 1jZEcv-0007il-TF
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:21 -0400
+Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:37004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEct-0003nU-Ri
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:20 -0400
-Received: by mail-lf1-x129.google.com with SMTP id 82so1260498lfh.2
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:19 -0700 (PDT)
+ id 1jZEcu-0003nq-VR
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:21 -0400
+Received: by mail-lf1-x12b.google.com with SMTP id 8so2785383lfp.4
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/cXvZwwyTvG/wDqV3+ggOWwm7XO+vMd18cZdVrDcu8Q=;
- b=Paw4sG1vXyNPxXDl0NMkyb0swgYnGuF6Ico54OGJTOGD5rVgtUWfUGBHyRqXKcJWTO
- MS3ZwjNZA4ISfsIJ9NQHUbu7aI12oNUqSVne98Us+WSlo1hI+5dpktySZv0HkohWaGNQ
- VqrNLO8+LLpVUVkt9mdoskm+qvLqwFrNTl0znni7l+9+YYMlQmUZdj9L5HuR/fta1D6K
- UbZf+TGsGiGcHX49ZY2ozJ4nMecW+Mi8tccKrUxKy1tPFlK3/D7mr1DOkAauXDggAI0P
- 2CvV2Xcro8q2kR1Rz3f1D2M60GV52wcSymdFW31t084XFo7KCUf89XtZr5o8EfEUm+T/
- oB/w==
+ bh=Cdqb6YfEnUEOZ9+1iE9YYK31lx3pNnIUCeb18hsJxJs=;
+ b=e8rt/9YY/PiTZBRxClnOBelZoDeKUflQn/FM+2u7lhwn4vTAJcoqC2gROKM+PvBxLI
+ cszU/9/iErG54X15q//gmh4EvtS5Hw4EeuV7Z5BOZa+NmSRxEOdDstPo7t+Y2l+HJZ1v
+ 3VdwfkjaMh6uHzieUg9qzxx5l7lCe1jn5dfR2ge4Lp9zjwYtqiX4abfY8S8Z0fHJo3TY
+ VXn69BEJRLcUla9gu+aDDICS5hvlLYPPB0O8+whtSP622FSACTT5NiFUS4TyOFtJeT/n
+ PzxxOIm8xIZ/54tmFHg2GI9y9hcIX6b9/8hEzSv0+NytITlwwLSSvdp9rZI/a3hFJsrG
+ kobg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/cXvZwwyTvG/wDqV3+ggOWwm7XO+vMd18cZdVrDcu8Q=;
- b=iVDemDKQfKOvRT2oeZHNkM+yUyN/N17mvZhP5u0PS1p2gJqX7JXrc4LyWoJqlw/UoB
- WieSM6859NzYtOiiIx3i08zdJwzXBtoHrIJtFHDgCFHqdmuVTvnQaJOeuuFq2JaPSL5a
- UwgWUQ2QlNVCiKKG6Vkx+an6b40f0bOnCf02/nr4oVpvuygw7lx5yXNOA+xgePerFlXz
- Uk2mr76VrD5tYQbAV/+ihBD93Vi8w/2DvhGQIPb8rtXKBiyINKnURO5g3W0EnZB6Vt1U
- vZ7rb6tlwLZ91wCJwMv5IgZDs47xLSA4tlUDGN047KsqNO1Lt2fbIMUDN/1opyFUOurB
- zB4Q==
-X-Gm-Message-State: AOAM532FDM7bpcMUbfFAZvUleBznGvNlUA2Y+NifHFwuwjnAuVc1TP4j
- T9NbXUegJ2zx8PutUkv71zIrxMaOWjU=
-X-Google-Smtp-Source: ABdhPJyWAKlaCuvUpw/hbr6xvkFCG5nrvZ6L88NOAAw1YDzgSoeLJHjimAj96FoVN73ywoc6QV9reg==
-X-Received: by 2002:a19:ad49:: with SMTP id s9mr3551750lfd.9.1589465657992;
- Thu, 14 May 2020 07:14:17 -0700 (PDT)
+ bh=Cdqb6YfEnUEOZ9+1iE9YYK31lx3pNnIUCeb18hsJxJs=;
+ b=nDS/dJjUkTbWf8WhkKpBr7boW9e/Y/4vhde0vGIXucVBVUJeYWq5V+v8aas4oJTLs7
+ 5lGku0h+PdY6Czl8QItLL987Oj/R1fNOTzTVsYllRHE1g07KAyXZj1GcyQGyu1yd91lB
+ OJf5FPAkJ5up0sS9O9MCENgYz+4UYfo/MGKcqfsud5HHlxDkyg+WKC+orEqXHtXpbW4f
+ jtkYRoa9ojBEgt5BYQ2PImu/ljMWUbv+7S0cBg9aR/xmY4F2bWsBqIzP3QnRBLc5MvJA
+ FYMVLu3cvZPs7VuI06BdQYyXTelxe+qqIOhs0a6lhP6+mqrSoEUJur7Lg79elKHxEKtH
+ td8g==
+X-Gm-Message-State: AOAM532jOKz3ebrXSu4TBA08OebKuR1pLLnxnXjGJxoJ1Euax1yvsyba
+ QdmGgUzUpt60uD/iIfkyMYqyhsGuSs0=
+X-Google-Smtp-Source: ABdhPJwOedG4C5dNUh6HlP0ISJXczYVAmAnAz2CnIiq8H9JKQ8CHZO3ryT9cqSau7iYsBtsk42h6Vw==
+X-Received: by 2002:ac2:558e:: with SMTP id v14mr3507672lfg.138.1589465659126; 
+ Thu, 14 May 2020 07:14:19 -0700 (PDT)
 Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id b25sm1537138ljp.105.2020.05.14.07.14.16
+ by smtp.gmail.com with ESMTPSA id 26sm1619235ljp.22.2020.05.14.07.14.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:14:16 -0700 (PDT)
+ Thu, 14 May 2020 07:14:18 -0700 (PDT)
 From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v1 10/14] target/microblaze: Add MFS Rd,EDR translation
-Date: Thu, 14 May 2020 16:13:58 +0200
-Message-Id: <20200514141402.12498-11-edgar.iglesias@gmail.com>
+Subject: [PULL v1 11/14] target/microblaze: Fix FPU2 instruction check
+Date: Thu, 14 May 2020 16:13:59 +0200
+Message-Id: <20200514141402.12498-12-edgar.iglesias@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x129.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: 13
@@ -88,37 +88,34 @@ Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tong Ho <tong.ho@xilinx.com>
+From: Joe Komlodi <joe.komlodi@xilinx.com>
 
-This is to fix cpu-abort with 'qemu: fatal: unknown mfs reg d'
-(in the default case) when microblaze guest issues 'MFS Rd,EDR'
-instruction.
+The check to see if we can use FPU2 instructions would return 0 if
+cfg.use_fpu == 2, rather than returning the PVR2_USE_FPU2_MASK.
 
-Since embeddedsw release 2019.2, XPlm_ExceptionHandler() issues
-the instruction on exception, and microblaze model aborts when
-PLM firmware guest encounters an exception.
+This would cause all FPU2 instructions (fsqrt, flt, fint) to not be used.
 
-Signed-off-by: Tong Ho <tong.ho@xilinx.com>
+Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Message-Id: <20200512143649.21655-2-edgar.iglesias@gmail.com>
+Message-Id: <1589219346-106769-2-git-send-email-komlodi@xilinx.com>
 Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- target/microblaze/translate.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/microblaze/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 20b7427811..92b3630804 100644
+index 92b3630804..8079724f32 100644
 --- a/target/microblaze/translate.c
 +++ b/target/microblaze/translate.c
-@@ -581,6 +581,7 @@ static void dec_msr(DisasContext *dc)
-             case SR_ESR:
-             case SR_FSR:
-             case SR_BTR:
-+            case SR_EDR:
-                 tcg_gen_extrl_i64_i32(cpu_R[dc->rd], cpu_SR[sr]);
-                 break;
-             case 0x800:
+@@ -1392,7 +1392,7 @@ static int dec_check_fpuv2(DisasContext *dc)
+         tcg_gen_movi_i64(cpu_SR[SR_ESR], ESR_EC_FPU);
+         t_gen_raise_exception(dc, EXCP_HW_EXCP);
+     }
+-    return (dc->cpu->cfg.use_fpu == 2) ? 0 : PVR2_USE_FPU2_MASK;
++    return (dc->cpu->cfg.use_fpu == 2) ? PVR2_USE_FPU2_MASK : 0;
+ }
+ 
+ static void dec_fpu(DisasContext *dc)
 -- 
 2.20.1
 
