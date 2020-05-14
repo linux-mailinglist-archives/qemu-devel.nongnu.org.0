@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6D21D2769
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:20:57 +0200 (CEST)
-Received: from localhost ([::1]:40800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB2C1D274B
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:12:27 +0200 (CEST)
+Received: from localhost ([::1]:46156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ7Em-00023q-D9
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:20:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37694)
+	id 1jZ76Y-0007IZ-MJ
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:12:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZ6zn-00043M-PR
- for qemu-devel@nongnu.org; Thu, 14 May 2020 02:05:28 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:36802
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZ70y-0006SA-5N
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 02:06:40 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36862
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZ6zn-0003jt-4F
- for qemu-devel@nongnu.org; Thu, 14 May 2020 02:05:27 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZ70x-0003ux-Ck
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 02:06:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589436326;
+ s=mimecast20190719; t=1589436398;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nBn8uweOTimmlNufc4N5jzEMTUTFTEdBAb6MvjRVGrI=;
- b=fB+d01/Y8nyDlySLnEh8M8vEJjqv/FNNv1cs73WPZLH+YgVT/AAzgUSHgMYYwg0CBwX71N
- oL0j3jWTCpw9y9aF+rmvrEByfQlg0D/RTtXWXOt7JO2JHGuc4LAt1fMCHFYWTvUoCKyxj7
- BdgM0HAmzQkRk9kgRiiDqfoEMe9WZbo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-uir_FcDCMOqsQa5TbJn0jA-1; Thu, 14 May 2020 02:05:22 -0400
-X-MC-Unique: uir_FcDCMOqsQa5TbJn0jA-1
-Received: by mail-wr1-f69.google.com with SMTP id h12so998362wrr.19
- for <qemu-devel@nongnu.org>; Wed, 13 May 2020 23:05:22 -0700 (PDT)
+ bh=33ditrsyO39HI9CujDx1q5QCELt6a7U8fW17A+zaTeg=;
+ b=WZ5NtuIWQM6h/pRmPVUWb7z8r32PUpiuRQ/INfZR1ePYBVLTKJ5wqHdN/jCKTL3wKWjLqG
+ 7h4zLO7RYT0EdLCoEfNjllw8dkIqkAP+mym318PiYYTNMz2hj8Ef04Dt1qOrBs4nUz7Nqa
+ LIMriFZiA+tU+IknaYRKGQLsDWXQt68=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-138-BBxH2EaMMte2qq_2aOssmA-1; Thu, 14 May 2020 02:06:37 -0400
+X-MC-Unique: BBxH2EaMMte2qq_2aOssmA-1
+Received: by mail-wr1-f70.google.com with SMTP id z10so1023120wrs.2
+ for <qemu-devel@nongnu.org>; Wed, 13 May 2020 23:06:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nBn8uweOTimmlNufc4N5jzEMTUTFTEdBAb6MvjRVGrI=;
- b=UJXrO9Qif2JX9rwAhiO3wWob8GerkLY1tYHYf+pywt6/asW614yV/5SDDsavLQ0zxU
- N2SCbGNhQDd8qMsjR0Ju6EdLEPVlBV7fTiPKvjeRzMZA0kmNc4h+oIh2DgXvYrPO4GvX
- WMZjBfyLON4zHhUJlsOp8oCYQwfwwXB/b4P5R2uLibV/6X9XA0RfJqifHe0Fo/APkq/L
- XjEylXHBoRoVJaah8y+6lT4Eyh8mL6YwPk/ueV8jLZIC4+cXdntHy7c1aB2EtnBxKW7U
- qSIpkUnY5dhwir2/tDq6bgQC5OsDvgWu1lGivqnLDVl8jyh8WGDGVBQZCJiGlSaYZC2u
- aRSA==
-X-Gm-Message-State: AOAM532fK4U5hXbkvEZUqh+mqXJ1VSFJV0/DL2Wg+9xqNSpzPRuPIRBr
- QtY37LOsB1V5lF1BSyu3bTskGot/4xCDrvyxpCkmKC4uu1QGOC7eqKyFbn70uZWBFnsh2Mvhnj/
- 7gVFpbkKvGllZBY0=
-X-Received: by 2002:a5d:4b0a:: with SMTP id v10mr3115742wrq.33.1589436321824; 
- Wed, 13 May 2020 23:05:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxoyDwJo/Ve37MHPFfNl91b+0Rg7DxiCTXi1dyxsyUpCPc7Ki2U1Jw207aUZBKZAHoIRYQppA==
-X-Received: by 2002:a5d:4b0a:: with SMTP id v10mr3115722wrq.33.1589436321652; 
- Wed, 13 May 2020 23:05:21 -0700 (PDT)
+ bh=33ditrsyO39HI9CujDx1q5QCELt6a7U8fW17A+zaTeg=;
+ b=Oi9t8R4Jnbk7T/530LToHRLbu14ewfA2NfJbpEd2zjtgBfME5knEtuFvBVqYyGiz+4
+ rKvSyZgHbWergYsqb5W4HcePCV+Gs9htviorcfl1cTduxKn90SQhOwZCn+SssBx8Vvxs
+ fn0JWuCtirFknr0QRj5gLmFWasLqz1RYCGg2osfQP8Dvtq1SMRkGIKjOmqPHOAcS5UOZ
+ Zst0HncpBVKBSm0vHauAuAmH4P62l2fLbdsw2vei2NLZ1MR+oI3njwm8Rjgn00eIjIuk
+ p5kGJAkC4V5f8oHOWZnvFdEmXwYsXFN5hO/TuXLbCDt/Uub9wYF02W0QFQkqLGpwU/c7
+ rrEg==
+X-Gm-Message-State: AOAM530rQERIZcB4+fb+jaN5Pd1TefPe084BKFXyZmt+AeDgEtUhEQcm
+ xVI6kY+ard9Tep5ymjlakrHyCUZmQXP1aPUBEYtnt8RAALjQlwZCyQSaSj2q0P4zXLixiXirFI5
+ kvzuVYKMWlCcR6mc=
+X-Received: by 2002:adf:de05:: with SMTP id b5mr3318232wrm.299.1589436396101; 
+ Wed, 13 May 2020 23:06:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxy6O1sWAsJzVVbFpUQaImjd4jp9TnGmIlf5uwiE5Fq5CCfGPXYRhoLRrUwvi8uxRKlfNxd/g==
+X-Received: by 2002:adf:de05:: with SMTP id b5mr3318213wrm.299.1589436395868; 
+ Wed, 13 May 2020 23:06:35 -0700 (PDT)
 Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id 128sm33567403wme.39.2020.05.13.23.05.20
+ by smtp.gmail.com with ESMTPSA id v5sm2324179wrr.93.2020.05.13.23.06.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 May 2020 23:05:21 -0700 (PDT)
-Subject: Re: [PATCH RFC 19/32] python//qmp.py: add QMPProtocolError
+ Wed, 13 May 2020 23:06:35 -0700 (PDT)
+Subject: Re: [PATCH RFC 21/32] python//machine.py: remove logging configuration
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20200514055403.18902-1-jsnow@redhat.com>
- <20200514055403.18902-20-jsnow@redhat.com>
+ <20200514055403.18902-22-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <78f19125-5e6c-611f-3e6e-97a5dcfe62de@redhat.com>
-Date: Thu, 14 May 2020 08:05:19 +0200
+Message-ID: <134b3341-4791-7a26-808a-36eddaf6a7d7@redhat.com>
+Date: Thu, 14 May 2020 08:06:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200514055403.18902-20-jsnow@redhat.com>
+In-Reply-To: <20200514055403.18902-22-jsnow@redhat.com>
 Content-Language: en-US
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,42 +108,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/14/20 7:53 AM, John Snow wrote:
-> In the case that we receive a reply but are unable to understand it, use
-> this exception name to indicate that case.
+> Python 3.5 and above do not print a warning when logging is not
+> configured. As a library, it's best practice to leave logging
+> configuration to the client executable.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   python/qemu/lib/qmp.py | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>   python/qemu/lib/machine.py | 3 ---
+>   1 file changed, 3 deletions(-)
 > 
-> diff --git a/python/qemu/lib/qmp.py b/python/qemu/lib/qmp.py
-> index e460234f2e..5fb16f4b42 100644
-> --- a/python/qemu/lib/qmp.py
-> +++ b/python/qemu/lib/qmp.py
-> @@ -62,6 +62,12 @@ class QMPTimeoutError(QMPError):
->       """
+> diff --git a/python/qemu/lib/machine.py b/python/qemu/lib/machine.py
+> index c31bf7cabb..e92afe8649 100644
+> --- a/python/qemu/lib/machine.py
+> +++ b/python/qemu/lib/machine.py
+> @@ -110,9 +110,6 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
+>           self._console_socket = None
+>           self._remove_files = []
 >   
+> -        # just in case logging wasn't configured by the main script:
+> -        logging.basicConfig()
+> -
+>       def __enter__(self):
+>           return self
 >   
-> +class QMPProtocolError(QMPError):
-> +    """
-> +    QMP protocol error; unexpected response
-> +    """
-> +
-> +
->   class QMPResponseError(QMPError):
->       """
->       Represents erroneous QMP monitor reply
-> @@ -265,6 +271,10 @@ def command(self, cmd, **kwds):
->           ret = self.cmd(cmd, kwds)
->           if 'error' in ret:
->               raise QMPResponseError(ret)
-> +        if 'return' not in ret:
-> +            raise QMPProtocolError(
-> +                "'return' key not found in QMP response '{}'".format(str(ret))
-> +            )
->           return cast(QMPReturnValue, ret['return'])
->   
->       def pull_event(self, wait=False):
 > 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
