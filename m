@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED09C1D2606
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 06:49:53 +0200 (CEST)
-Received: from localhost ([::1]:43872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3012F1D2615
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 06:54:30 +0200 (CEST)
+Received: from localhost ([::1]:34464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ5oe-0006pe-VM
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 00:49:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56714)
+	id 1jZ5t7-0006HV-5Y
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 00:54:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jZ5lq-0001TP-B4; Thu, 14 May 2020 00:46:58 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:43804)
+ id 1jZ5lY-0000bH-KL; Thu, 14 May 2020 00:46:40 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:43802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jZ5lp-0003kT-Fy; Thu, 14 May 2020 00:46:58 -0400
+ id 1jZ5lV-0003kS-5K; Thu, 14 May 2020 00:46:40 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 02EE5BFE24;
- Thu, 14 May 2020 04:46:31 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 6196DBFE25;
+ Thu, 14 May 2020 04:46:32 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 05/20] hw/block/nvme: use constants in identify
-Date: Thu, 14 May 2020 06:45:56 +0200
-Message-Id: <20200514044611.734782-6-its@irrelevant.dk>
+Subject: [PATCH v6 06/20] hw/block/nvme: refactor nvme_addr_read
+Date: Thu, 14 May 2020 06:45:57 +0200
+Message-Id: <20200514044611.734782-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200514044611.734782-1-its@irrelevant.dk>
 References: <20200514044611.734782-1-its@irrelevant.dk>
@@ -64,62 +64,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
+Pull the controller memory buffer check to its own function. The check
+will be used on its own in later patches.
+
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c      | 8 ++++----
- include/block/nvme.h | 8 ++++++++
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index e26db7591574..4058f2c79796 100644
+index 4058f2c79796..623a88be93dc 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -693,7 +693,7 @@ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeIdentify *c)
+@@ -66,14 +66,22 @@
  
- static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
+ static void nvme_process_sq(void *opaque);
+ 
++static bool nvme_addr_is_cmb(NvmeCtrl *n, hwaddr addr)
++{
++    hwaddr low = n->ctrl_mem.addr;
++    hwaddr hi  = n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size);
++
++    return addr >= low && addr < hi;
++}
++
+ static void nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
  {
--    static const int data_len = 4 * KiB;
-+    static const int data_len = NVME_IDENTIFY_DATA_SIZE;
-     uint32_t min_nsid = le32_to_cpu(c->nsid);
-     uint64_t prp1 = le64_to_cpu(c->prp1);
-     uint64_t prp2 = le64_to_cpu(c->prp2);
-@@ -723,11 +723,11 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
-     NvmeIdentify *c = (NvmeIdentify *)cmd;
- 
-     switch (le32_to_cpu(c->cns)) {
--    case 0x00:
-+    case NVME_ID_CNS_NS:
-         return nvme_identify_ns(n, c);
--    case 0x01:
-+    case NVME_ID_CNS_CTRL:
-         return nvme_identify_ctrl(n, c);
--    case 0x02:
-+    case NVME_ID_CNS_NS_ACTIVE_LIST:
-         return nvme_identify_nslist(n, c);
-     default:
-         trace_pci_nvme_err_invalid_identify_cns(le32_to_cpu(c->cns));
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 5525c8e34308..1720ee1d5158 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -705,6 +705,14 @@ typedef struct NvmePSD {
-     uint8_t     resv[16];
- } NvmePSD;
- 
-+#define NVME_IDENTIFY_DATA_SIZE 4096
+-    if (n->cmbsz && addr >= n->ctrl_mem.addr &&
+-                addr < (n->ctrl_mem.addr + int128_get64(n->ctrl_mem.size))) {
++    if (n->cmbsz && nvme_addr_is_cmb(n, addr)) {
+         memcpy(buf, (void *)&n->cmbuf[addr - n->ctrl_mem.addr], size);
+-    } else {
+-        pci_dma_read(&n->parent_obj, addr, buf, size);
++        return;
+     }
 +
-+enum {
-+    NVME_ID_CNS_NS             = 0x0,
-+    NVME_ID_CNS_CTRL           = 0x1,
-+    NVME_ID_CNS_NS_ACTIVE_LIST = 0x2,
-+};
-+
- typedef struct NvmeIdCtrl {
-     uint16_t    vid;
-     uint16_t    ssvid;
++    pci_dma_read(&n->parent_obj, addr, buf, size);
+ }
+ 
+ static int nvme_check_sqid(NvmeCtrl *n, uint16_t sqid)
 -- 
 2.26.2
 
