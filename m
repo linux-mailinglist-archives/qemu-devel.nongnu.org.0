@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E3B1D26E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 07:57:15 +0200 (CEST)
-Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BE91D26DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 07:55:46 +0200 (CEST)
+Received: from localhost ([::1]:54668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ6rr-0002O0-1E
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 01:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36402)
+	id 1jZ6qP-000622-21
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 01:55:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6ov-0004G0-Qp
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:13 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:48181
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6ou-0004FY-FP
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:12 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44480
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6ou-0001ZX-Q9
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:13 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6ot-0001ZH-4U
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589435652;
+ s=mimecast20190719; t=1589435650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dH4ZXqAFuug2EBmy1VfGMeC26e+iQIpv36Jr8GdOoe4=;
- b=cFYZvWFMX3TtOgekq9jongVIYogx9D4ZbpVs8PoeJKg8jn1je63H5TVHmXRMt0DRUWn2P4
- xp/1BQ06qZgz5qFJkk2pm9rSeqT9wUY8S9JlLyGiCFrc2G9tVIUqz0ySxwZUdDUN6opKjM
- gPrg6gdiZbqQE7SBqEyEkFyPkgrA2Uc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=42GgRBxZblLaf2qM0qkYFg+G0IvXQZU790nzwM9ThSg=;
+ b=IUVisbNf+fKN7mcXdtmLp8E+LZKljI/qgi4bEcDPWwcDjDt2fczVBlp0AZee0Ln4HJzAWA
+ dpuweiwzKXXhq/cY76xBx0BkkSbe/eFsKzAU+3Ls0/Q/Ivza7p2SQGajKkyRrTeBKJx0ip
+ K0q+z698rJsC5eWHIPTt6rEk7BDg5fk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-OzmykLznNey4zqYZOisEEA-1; Thu, 14 May 2020 01:54:07 -0400
-X-MC-Unique: OzmykLznNey4zqYZOisEEA-1
+ us-mta-152-0JRiK0G9Mx2XCGUmaPB6pg-1; Thu, 14 May 2020 01:54:08 -0400
+X-MC-Unique: 0JRiK0G9Mx2XCGUmaPB6pg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB96B83DA41;
- Thu, 14 May 2020 05:54:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 723B5107ACCA;
+ Thu, 14 May 2020 05:54:07 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-9.rdu2.redhat.com [10.10.113.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64D077D959;
- Thu, 14 May 2020 05:54:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 028817D952;
+ Thu, 14 May 2020 05:54:05 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 00/32] python/qemu: refactor as installable package
-Date: Thu, 14 May 2020 01:53:31 -0400
-Message-Id: <20200514055403.18902-1-jsnow@redhat.com>
+Subject: [PATCH RFC 01/32] python/qemu: create qemu.lib module
+Date: Thu, 14 May 2020 01:53:32 -0400
+Message-Id: <20200514055403.18902-2-jsnow@redhat.com>
+In-Reply-To: <20200514055403.18902-1-jsnow@redhat.com>
+References: <20200514055403.18902-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
  helo=us-smtp-1.mimecast.com
@@ -84,127 +87,333 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey, I got lost on my way to the store and I accidentally got 32 patches
-that convert our python library into something that passes pylint,
-flake8, and mypy --strict.
+move python/qemu/*.py to python/qemu/lib/*.py.
 
-...So, a few things:
+To create a namespace package, the 'qemu' directory itself shouldn't
+have module files in it. Thus, these files will go under a 'lib' package
+directory instead.
 
-1. This is just an RFC. The actual design of these libraries really
-needs adjusted to be more pythonic. In general this means less
-Optional[T] return types and raising more exceptions. This could be
-handled later, but we ought to address it before publishing, if we do.
+Bolster the lib/__init__.py file a little bit, Make the top-level
+classes and functions available directly inside the `qemu.lib`
+namespace, to facilitate a convenient shorthand:
 
-2. We still need to think carefully about how we package this, if we
-even want to package it, what the license on the top-level package
-should be, etc.
+> from qemu.lib import QEMUQtestMachine, QEMUMonitorProtocol
 
-3. We should consider how to version it. For now, I'm using a lockstep
-versioning.
+Lastly, update all of the existing import directives.
 
-4. You can install this package using pip3 or python3 setup.py to a
-virtual environment or to your real one. From there, any python code in
-the QEMU tree that imports these modules will work with no sys.path
-hacking or custom PYTHONPATH exports.
+(Note: these scripts were not necessarily tested to see if they still
+work. Some of these scripts are in obvious states of disrepair and it is
+beyond the scope of this patch to attempt to fix them.)
 
-5. You don't have to install it, though. I left all of the usual hacks
-in place in the rest of the tree so that everything will just keep
-working exactly as-is for right now. It's just that you COULD install it.
-
-6. Here's a cool trick if you don't know about it yet:
-
-> cd qemu/python/qemu
-> pip3 install --user -e .
-
-This will install the package in "develop" mode, which installs a
-forwarder package. When you update your source tree, the installed
-package stays "up to date" with the most recent edits.
-
-Alright, have fun, stay safe!
-
-John Snow (32):
-  python/qemu: create qemu.lib module
-  scripts/qmp: Fix shebang and imports
-  python//machine.py: remove bare except
-  python/qemu/lib: delint, add pylintrc
-  python/qemu/lib: delint; add flake8 config
-  python/qemu: formalize as package
-  python/qemu: add README.rst
-  python/qemu: Add Pipfile
-  python/qemu: add pylint to Pipfile
-  python/qemu: Add flake8 to Pipfile
-  python/qemu/lib: remove Python2 style super() calls
-  python/qemu/lib: fix socket.makefile() typing
-  python/qemu/lib: Adjust traceback typing
-  python//qmp.py: use True/False for non/blocking modes
-  python//qmp.py: Define common types
-  python//qmp.py: re-absorb MonitorResponseError
-  python//qmp.py: Do not return None from cmd_obj
-  python//qmp.py: add casts to JSON deserialization
-  python//qmp.py: add QMPProtocolError
-  python//qmp.py: assert sockfile is not None
-  python//machine.py: remove logging configuration
-  python//machine.py: Fix monitor address typing
-  python//machine.py: reorder __init__
-  python//machine.py: Don't modify state in _base_args()
-  python//machine.py: Handle None events in event_wait
-  python//machine.py: use qmp.command
-  python//machine.py: Add _qmp access shim
-  python//machine.py: fix _popen access
-  python//qtest.py: Check before accessing _qtest
-  python/qemu/lib: make 'args' style arguments immutable
-  python/qemu: add mypy to Pipfile
-  python/qemu/lib: Add mypy type annotations
-
- python/README.rst                         |   6 +
- python/qemu/README.rst                    |   8 +
- python/Pipfile                            |  14 +
- python/Pipfile.lock                       | 187 +++++++++++++
- python/qemu/__init__.py                   |  11 -
- python/qemu/lib/.flake8                   |   2 +
- python/qemu/lib/__init__.py               |  57 ++++
- python/qemu/{ => lib}/accel.py            |  17 +-
- python/qemu/{ => lib}/machine.py          | 320 +++++++++++++---------
- python/qemu/lib/pylintrc                  |  58 ++++
- python/qemu/{ => lib}/qmp.py              | 140 +++++++---
- python/qemu/lib/qtest.py                  | 160 +++++++++++
- python/qemu/qtest.py                      | 119 --------
- python/setup.py                           |  50 ++++
- scripts/device-crash-test                 |   2 +-
- scripts/qmp/qemu-ga-client                |   2 +-
- scripts/qmp/qmp                           |   4 +-
- scripts/qmp/qmp-shell                     |   2 +-
- scripts/qmp/qom-fuse                      |   4 +-
- scripts/qmp/qom-get                       |   6 +-
- scripts/qmp/qom-list                      |   4 +-
- scripts/qmp/qom-set                       |   6 +-
- scripts/qmp/qom-tree                      |   6 +-
- scripts/render_block_graph.py             |   5 +-
- scripts/simplebench/bench_block_job.py    |   4 +-
- tests/acceptance/avocado_qemu/__init__.py |   2 +-
- tests/acceptance/boot_linux.py            |   3 +-
- tests/acceptance/virtio_check_params.py   |   2 +-
- tests/acceptance/virtio_version.py        |   2 +-
- tests/migration/guestperf/engine.py       |   2 +-
- tests/qemu-iotests/235                    |   2 +-
- tests/qemu-iotests/iotests.py             |   2 +-
- tests/vm/basevm.py                        |   6 +-
- 33 files changed, 881 insertions(+), 334 deletions(-)
- create mode 100644 python/README.rst
- create mode 100644 python/qemu/README.rst
- create mode 100644 python/Pipfile
- create mode 100644 python/Pipfile.lock
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/qemu/__init__.py                   | 11 -----
+ python/qemu/lib/__init__.py               | 57 +++++++++++++++++++++++
+ python/qemu/{ => lib}/accel.py            |  0
+ python/qemu/{ => lib}/machine.py          |  0
+ python/qemu/{ => lib}/qmp.py              |  0
+ python/qemu/{ => lib}/qtest.py            |  0
+ scripts/device-crash-test                 |  2 +-
+ scripts/qmp/qemu-ga-client                |  2 +-
+ scripts/qmp/qmp-shell                     |  2 +-
+ scripts/render_block_graph.py             |  3 +-
+ scripts/simplebench/bench_block_job.py    |  4 +-
+ tests/acceptance/avocado_qemu/__init__.py |  2 +-
+ tests/acceptance/boot_linux.py            |  3 +-
+ tests/acceptance/virtio_check_params.py   |  2 +-
+ tests/acceptance/virtio_version.py        |  2 +-
+ tests/migration/guestperf/engine.py       |  2 +-
+ tests/qemu-iotests/235                    |  2 +-
+ tests/qemu-iotests/iotests.py             |  2 +-
+ tests/vm/basevm.py                        |  6 +--
+ 19 files changed, 74 insertions(+), 28 deletions(-)
  delete mode 100644 python/qemu/__init__.py
- create mode 100644 python/qemu/lib/.flake8
  create mode 100644 python/qemu/lib/__init__.py
- rename python/qemu/{ => lib}/accel.py (86%)
- rename python/qemu/{ => lib}/machine.py (67%)
- create mode 100644 python/qemu/lib/pylintrc
- rename python/qemu/{ => lib}/qmp.py (70%)
- create mode 100644 python/qemu/lib/qtest.py
- delete mode 100644 python/qemu/qtest.py
- create mode 100755 python/setup.py
+ rename python/qemu/{ => lib}/accel.py (100%)
+ rename python/qemu/{ => lib}/machine.py (100%)
+ rename python/qemu/{ => lib}/qmp.py (100%)
+ rename python/qemu/{ => lib}/qtest.py (100%)
 
+diff --git a/python/qemu/__init__.py b/python/qemu/__init__.py
+deleted file mode 100644
+index 4ca06c34a4..0000000000
+--- a/python/qemu/__init__.py
++++ /dev/null
+@@ -1,11 +0,0 @@
+-# QEMU library
+-#
+-# Copyright (C) 2015-2016 Red Hat Inc.
+-# Copyright (C) 2012 IBM Corp.
+-#
+-# Authors:
+-#  Fam Zheng <famz@redhat.com>
+-#
+-# This work is licensed under the terms of the GNU GPL, version 2.  See
+-# the COPYING file in the top-level directory.
+-#
+diff --git a/python/qemu/lib/__init__.py b/python/qemu/lib/__init__.py
+new file mode 100644
+index 0000000000..afc587bfdc
+--- /dev/null
++++ b/python/qemu/lib/__init__.py
+@@ -0,0 +1,57 @@
++"""
++QEMU development and testing library.
++
++This library provides a few high-level classes for driving QEMU from a
++test suite, not intended for production use.
++
++- QEMUMachine: Configure and Boot a QEMU VM
++ - QEMUQtestMachine: VM class, with a qtest socket.
++
++- QEMUMonitorProtocol: Connect to, send/receive QMP messages.
++- QEMUQtestProtocol: Connect to, send/receive qtest message.
++
++- list_accel: List available accelerators
++- kvm_available: Probe for KVM support
++- tcg_available: Probe for TCG support
++"""
++
++# Copyright (C) 2020 John Snow for Red Hat Inc.
++# Copyright (C) 2015-2016 Red Hat Inc.
++# Copyright (C) 2012 IBM Corp.
++#
++# Authors:
++#  John Snow <jsnow@redhat.com>
++#  Fam Zheng <fam@euphon.net>
++#
++# This work is licensed under the terms of the GNU GPL, version 2.  See
++# the COPYING file in the top-level directory.
++#
++
++from .accel import (
++    list_accel,
++    kvm_available,
++    tcg_available,
++)
++
++from .qmp import (
++    QEMUMonitorProtocol,
++)
++
++from .machine import (
++    QEMUMachine,
++)
++
++from .qtest import (
++    QEMUQtestProtocol,
++    QEMUQtestMachine,
++)
++
++__all__ = (
++    'list_accel',
++    'kvm_available',
++    'tcg_available',
++    'QEMUMonitorProtocol',
++    'QEMUMachine',
++    'QEMUQtestProtocol',
++    'QEMUQtestMachine',
++)
+diff --git a/python/qemu/accel.py b/python/qemu/lib/accel.py
+similarity index 100%
+rename from python/qemu/accel.py
+rename to python/qemu/lib/accel.py
+diff --git a/python/qemu/machine.py b/python/qemu/lib/machine.py
+similarity index 100%
+rename from python/qemu/machine.py
+rename to python/qemu/lib/machine.py
+diff --git a/python/qemu/qmp.py b/python/qemu/lib/qmp.py
+similarity index 100%
+rename from python/qemu/qmp.py
+rename to python/qemu/lib/qmp.py
+diff --git a/python/qemu/qtest.py b/python/qemu/lib/qtest.py
+similarity index 100%
+rename from python/qemu/qtest.py
+rename to python/qemu/lib/qtest.py
+diff --git a/scripts/device-crash-test b/scripts/device-crash-test
+index 305d0427af..49efd4abd7 100755
+--- a/scripts/device-crash-test
++++ b/scripts/device-crash-test
+@@ -35,7 +35,7 @@ import argparse
+ from itertools import chain
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
+-from qemu.machine import QEMUMachine
++from qemu.lib import QEMUMachine
+ 
+ logger = logging.getLogger('device-crash-test')
+ dbg = logger.debug
+diff --git a/scripts/qmp/qemu-ga-client b/scripts/qmp/qemu-ga-client
+index ce122984a9..db27cfcd55 100755
+--- a/scripts/qmp/qemu-ga-client
++++ b/scripts/qmp/qemu-ga-client
+@@ -42,7 +42,7 @@ import base64
+ import random
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu import qmp
++from qemu.lib import qmp
+ 
+ 
+ class QemuGuestAgent(qmp.QEMUMonitorProtocol):
+diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+index a01d31de1e..2441f4ae01 100755
+--- a/scripts/qmp/qmp-shell
++++ b/scripts/qmp/qmp-shell
+@@ -75,7 +75,7 @@ import atexit
+ import re
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu import qmp
++from qemu.lib import qmp
+ 
+ if sys.version_info[0] == 2:
+     input = raw_input
+diff --git a/scripts/render_block_graph.py b/scripts/render_block_graph.py
+index 409b4321f2..8048d9fbbe 100755
+--- a/scripts/render_block_graph.py
++++ b/scripts/render_block_graph.py
+@@ -25,7 +25,8 @@
+ from graphviz import Digraph
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
+-from qemu.machine import MonitorResponseError
++from qemu.lib import QEMUMonitorProtocol
++from qemu.lib.machine import MonitorResponseError
+ 
+ 
+ def perm(arr):
+diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
+index 9808d696cf..dbac12ddec 100755
+--- a/scripts/simplebench/bench_block_job.py
++++ b/scripts/simplebench/bench_block_job.py
+@@ -25,8 +25,8 @@
+ import json
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu.machine import QEMUMachine
+-from qemu.qmp import QMPConnectError
++from qemu.lib import QEMUMachine
++from qemu.lib.qmp import QMPConnectError
+ 
+ 
+ def bench_block_job(cmd, cmd_args, qemu_args):
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 59e7b4f763..bc433d4f40 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -32,7 +32,7 @@
+ 
+ sys.path.append(os.path.join(SOURCE_DIR, 'python'))
+ 
+-from qemu.machine import QEMUMachine
++from qemu.lib import QEMUMachine
+ 
+ def is_readable_executable_file(path):
+     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
+diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+index 075a386300..4a51e1324b 100644
+--- a/tests/acceptance/boot_linux.py
++++ b/tests/acceptance/boot_linux.py
+@@ -12,8 +12,7 @@
+ 
+ from avocado_qemu import Test, BUILD_DIR
+ 
+-from qemu.accel import kvm_available
+-from qemu.accel import tcg_available
++from qemu.lib import kvm_available, tcg_available
+ 
+ from avocado.utils import cloudinit
+ from avocado.utils import network
+diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/virtio_check_params.py
+index 87e6c839d1..be8069778a 100644
+--- a/tests/acceptance/virtio_check_params.py
++++ b/tests/acceptance/virtio_check_params.py
+@@ -23,7 +23,7 @@
+ import logging
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu.machine import QEMUMachine
++from qemu.lib import QEMUMachine
+ from avocado_qemu import Test
+ from avocado import skip
+ 
+diff --git a/tests/acceptance/virtio_version.py b/tests/acceptance/virtio_version.py
+index 33593c29dd..726f50c603 100644
+--- a/tests/acceptance/virtio_version.py
++++ b/tests/acceptance/virtio_version.py
+@@ -12,7 +12,7 @@
+ import os
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu.machine import QEMUMachine
++from qemu.lib import QEMUMachine
+ from avocado_qemu import Test
+ 
+ # Virtio Device IDs:
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index fd63c66601..22dab849f9 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -29,7 +29,7 @@
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__),
+                              '..', '..', '..', 'python'))
+-from qemu.machine import QEMUMachine
++from qemu.lib import QEMUMachine
+ 
+ 
+ class Engine(object):
+diff --git a/tests/qemu-iotests/235 b/tests/qemu-iotests/235
+index d1b10ac36b..13a565934c 100755
+--- a/tests/qemu-iotests/235
++++ b/tests/qemu-iotests/235
+@@ -25,7 +25,7 @@ from iotests import qemu_img_create, qemu_io, file_path, log
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ 
+-from qemu.machine import QEMUMachine
++from qemu.lib import QEMUMachine
+ 
+ iotests.script_initialize(supported_fmts=['qcow2'])
+ 
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 6c0e781af7..c69ac07e69 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -34,7 +34,7 @@
+ 
+ # pylint: disable=import-error, wrong-import-position
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu import qtest
++from qemu.lib import qtest
+ 
+ assert sys.version_info >= (3, 6)
+ 
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 756ccf7aca..4c89c62fb8 100644
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -18,9 +18,6 @@
+ import logging
+ import time
+ import datetime
+-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu.accel import kvm_available
+-from qemu.machine import QEMUMachine
+ import subprocess
+ import hashlib
+ import optparse
+@@ -30,6 +27,9 @@
+ import multiprocessing
+ import traceback
+ 
++sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
++from qemu.lib import kvm_available, QEMUMachine
++
+ SSH_KEY = open(os.path.join(os.path.dirname(__file__),
+                "..", "keys", "id_rsa")).read()
+ SSH_PUB_KEY = open(os.path.join(os.path.dirname(__file__),
 -- 
 2.21.1
 
