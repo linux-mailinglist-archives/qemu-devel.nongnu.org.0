@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41211D32CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:27:48 +0200 (CEST)
-Received: from localhost ([::1]:60768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC361D32E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:29:33 +0200 (CEST)
+Received: from localhost ([::1]:40954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEpv-0003jE-UQ
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:27:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39388)
+	id 1jZErc-0000G2-Ja
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEk3-0002eq-U5
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:21:43 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37153)
+ id 1jZEk5-0002iL-H3
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:21:45 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEk2-0005Mq-Ji
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:21:43 -0400
-Received: by mail-wr1-x429.google.com with SMTP id l17so4377371wrr.4
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:21:42 -0700 (PDT)
+ id 1jZEk4-0005O6-9c
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:21:45 -0400
+Received: by mail-wr1-x436.google.com with SMTP id i15so4311335wrx.10
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JaG+BjkA6VM628CB8baRfDvcdIasSLEWsnM5ah049i8=;
- b=h2dBo3YLOoZOe1wLZI2wichBLj1K+4urqGchRdFU0V+OpgWMkPv2FnznKMSGmup4SB
- +tHjW5yapUCyH/wxjlDMCzLP4uCTAQN0cJx0FumoOT6mFOY8CfVJiiypgIHutA/4Q+5v
- OZgJ0ihqlr0xtPJajpU3x5qCfFQsqj55PaOqgSY/VT4evjZpZFjUqBKHtq8xtKCvkhir
- zUe9lTEBdM+9uHYq7i8hLDg1QZi6XUjMG4pDKeG8bpJ5BHvGBIHRKMaBLzgElgEyxdEH
- 80Vvlt0UtoqU3W4rERM9dwVMzCoBhguuoaE4LysuZzcgr6rjIrrR3XzbSakDoGVNqokr
- KFog==
+ bh=jQ5ROymPXM1FOLeh2Cx6fwb6C2RBNoLv4XYhme6BRJ4=;
+ b=dGtlLJX7qQst05sF5xzTHdFu6bkDiMcH3hNlsw2JdNqQ0KNREZZfY93jjXG32OuArI
+ lsmuulVzbFQzUIcXTYlmU2yKzFuoAgRfpNWQSY8f4dc64MRcTdwvXayJwPwT6c08OElM
+ J/HJ7BcDMw3vEVvhltsSLrVpBnI4qT+Qlv7KdrrC88ABDr8Cv/EVRCL1jFbu17ZCTEQy
+ N7wOm/ll9UqT+y7cpxcWco1MJ4+MTBTjnldVnN5h/P/cr7/hVKN2ug1eZC8CIzmh69rT
+ Yu/Atmd0LK/v+uCa6dpD6/g1lwB6Z7my4ikWX5RsXCfanGu8nBR7uU9gKb6A/X7vXdNm
+ dtfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JaG+BjkA6VM628CB8baRfDvcdIasSLEWsnM5ah049i8=;
- b=PX3ccjrIVWGi6x0HS3e0hSmjNZo2Sc66MMYHrHht6tEDaOtrpBRFIMjjKLKL89A3hf
- 9U6fchhrxLJosZffS+uztYgwVRzR4gYv9fya9KPZKoiz8kSzWeIZCP5VRouOBGdDLZ/B
- lUyYbaD6wtmuiuq1vw5x7U1Pq7LMLIGFkHf79ydb5x6FaejZ9ZqFhUwrxwv++EHT8co4
- KicmHj2c8UtrnTqwOs/jhqmJdKJKf5wiVAXXfr4S5if1DMzNqL8/OkstzT1N4+clhLxO
- FX0Ph+N1kbvFQm2O2tHNULOcTPUPuXVFfyYbANSzdF77I3i6ZLyk0OdPM5eSiGk1UtQ1
- qxsw==
-X-Gm-Message-State: AOAM531xWkmyzQWW4Z+pI46S0QgN10lKth7hmHCFxbZKLDWisBaqwbdx
- CihJkT4sHKjH6IkGIhh+tSMSXOWIm97SQg==
-X-Google-Smtp-Source: ABdhPJzpM8JZUv1w/W8HeARdE4mP1piPzJByNLM6xUUU1S28zsXf0C+f+QeIIUaLRm+fx7x4fOHrBQ==
-X-Received: by 2002:adf:afdb:: with SMTP id y27mr5461991wrd.323.1589466100454; 
- Thu, 14 May 2020 07:21:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jQ5ROymPXM1FOLeh2Cx6fwb6C2RBNoLv4XYhme6BRJ4=;
+ b=PBsEqfLrPZPpoDvoGt4ANZMaHyNIFALH7zhVpPJA0B1Qi7wNZaxR5ZdI6i2xN6FacO
+ m38NKyHlkc1YfCvbkLpf70Kg9bULvhWEIR6WxFX6OS2KA43wNNKamGsHoIPrrTpFLJ9H
+ imNZ/U4pqUrpfGF/1MFSRJznBA5Bt8ltu2nEuDEK/9s6igs0ShPEGPbOgjkm+7pr3KwA
+ H2moA9Q6Mcq8kfx6XDKNFW3D6Hz7XRRS6y1IL20BxLk1y6bCRtPDBoBY9Ye02kM/qIX6
+ P/OLgcYfUW7EUpSMXBc8wx12vve1iqox/4zI9Z+Z7YhySTISgqVdZ6lhwrDzsxG5wuFu
+ yDsQ==
+X-Gm-Message-State: AOAM5321zhPPXXehvGieWyHUXZf7Cyqu1h0OGetLygQ9NVX1lXGFS8Ui
+ +cRIjbAKNimdntQqiLUlTuYkXo8xbmhrTg==
+X-Google-Smtp-Source: ABdhPJyrfMbgnVZwk8MHxKiszVZFrPslVDIDmI/auA9EOLo7aN86LNFtBZIoRkGce2piv3huOwWD5g==
+X-Received: by 2002:adf:fdc5:: with SMTP id i5mr2410247wrs.176.1589466102308; 
+ Thu, 14 May 2020 07:21:42 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.21.39
+ by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.21.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:21:39 -0700 (PDT)
+ Thu, 14 May 2020 07:21:41 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/45] target-arm queue
-Date: Thu, 14 May 2020 15:20:53 +0100
-Message-Id: <20200514142138.20875-1-peter.maydell@linaro.org>
+Subject: [PULL 01/45] target/arm: Use correct GDB XML for M-profile cores
+Date: Thu, 14 May 2020 15:20:54 +0100
+Message-Id: <20200514142138.20875-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200514142138.20875-1-peter.maydell@linaro.org>
+References: <20200514142138.20875-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,133 +89,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly this is patches from me and RTH cleaning up and doing
-more decodetree conversion for AArch32 Neon. The major new feature
-is Dongjiu Geng's patchset to report host memory errors to KVM guests;
-also a new aspeed board from Patrick Williams.
+GDB's remote protocol requires M-profile cores to use the feature
+name 'org.gnu.gdb.arm.m-profile' instead of the 'org.gnu.gdb.arm.core'
+feature used for A- and R-profile cores. We weren't doing this, which
+meant GDB treated our M-profile cores like A-profile ones. This mostly
+doesn't matter, but for instance means that it doesn't correctly
+handle backtraces where an M-profile exception frame is involved.
 
-thanks
--- PMM
+Ship a copy of GDB's arm-m-profile.xml and use it on the M-profile
+cores.  The integer registers have the same offsets as the
+arm-core.xml, but register 25 is the M-profile XPSR rather than the
+A-profile CPSR, so we need to update arm_cpu_gdb_read_register() and
+arm_cpu_gdb_write_register() to handle XSPR reads and writes.
 
-The following changes since commit 035b448b84f3557206abc44d786c5d3db2638f7d:
-
-  Merge remote-tracking branch 'remotes/gkurz/tags/9p-next-2020-05-14' into staging (2020-05-14 10:58:30 +0100)
-
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20200514
-
-for you to fetch changes up to e95485f85657be21135c17a9226e297c21e73360:
-
-  target/arm: Convert NEON VFMA, VFMS 3-reg-same insns to decodetree (2020-05-14 15:03:09 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * target/arm: Use correct GDB XML for M-profile cores
- * target/arm: Code cleanup to use gvec APIs better
- * aspeed: Add support for the sonorapass-bmc board
- * target/arm: Support reporting KVM host memory errors
-   to the guest via ACPI notifications
- * target/arm: Finish conversion of Neon 3-reg-same insns to decodetree
-
-----------------------------------------------------------------
-Dongjiu Geng (10):
-      acpi: nvdimm: change NVDIMM_UUID_LE to a common macro
-      hw/arm/virt: Introduce a RAS machine option
-      docs: APEI GHES generation and CPER record description
-      ACPI: Build related register address fields via hardware error fw_cfg blob
-      ACPI: Build Hardware Error Source Table
-      ACPI: Record the Generic Error Status Block address
-      KVM: Move hwpoison page related functions into kvm-all.c
-      ACPI: Record Generic Error Status Block(GESB) table
-      target-arm: kvm64: handle SIGBUS signal from kernel or KVM
-      MAINTAINERS: Add ACPI/HEST/GHES entries
-
-Patrick Williams (1):
-      aspeed: Add support for the sonorapass-bmc board
-
-Peter Maydell (18):
-      target/arm: Use correct GDB XML for M-profile cores
-      target/arm: Convert Neon 3-reg-same VQRDMLAH/VQRDMLSH to decodetree
-      target/arm: Convert Neon 3-reg-same SHA to decodetree
-      target/arm: Convert Neon 64-bit element 3-reg-same insns
-      target/arm: Convert Neon VHADD 3-reg-same insns
-      target/arm: Convert Neon VABA/VABD 3-reg-same to decodetree
-      target/arm: Convert Neon VRHADD, VHSUB 3-reg-same insns to decodetree
-      target/arm: Convert Neon VQSHL, VRSHL, VQRSHL 3-reg-same insns to decodetree
-      target/arm: Convert Neon VPMAX/VPMIN 3-reg-same insns to decodetree
-      target/arm: Convert Neon VPADD 3-reg-same insns to decodetree
-      target/arm: Convert Neon VQDMULH/VQRDMULH 3-reg-same to decodetree
-      target/arm: Convert Neon VADD, VSUB, VABD 3-reg-same insns to decodetree
-      target/arm: Convert Neon VPMIN/VPMAX/VPADD float 3-reg-same insns to decodetree
-      target/arm: Convert Neon fp VMUL, VMLA, VMLS 3-reg-same insns to decodetree
-      target/arm: Convert Neon 3-reg-same compare insns to decodetree
-      target/arm: Move 'env' argument of recps_f32 and rsqrts_f32 helpers to usual place
-      target/arm: Convert Neon fp VMAX/VMIN/VMAXNM/VMINNM/VRECPS/VRSQRTS to decodetree
-      target/arm: Convert NEON VFMA, VFMS 3-reg-same insns to decodetree
-
-Richard Henderson (16):
-      target/arm: Create gen_gvec_[us]sra
-      target/arm: Create gen_gvec_{u,s}{rshr,rsra}
-      target/arm: Create gen_gvec_{sri,sli}
-      target/arm: Remove unnecessary range check for VSHL
-      target/arm: Tidy handle_vec_simd_shri
-      target/arm: Create gen_gvec_{ceq,clt,cle,cgt,cge}0
-      target/arm: Create gen_gvec_{mla,mls}
-      target/arm: Swap argument order for VSHL during decode
-      target/arm: Create gen_gvec_{cmtst,ushl,sshl}
-      target/arm: Create gen_gvec_{uqadd, sqadd, uqsub, sqsub}
-      target/arm: Remove fp_status from helper_{recpe, rsqrte}_u32
-      target/arm: Create gen_gvec_{qrdmla,qrdmls}
-      target/arm: Pass pointer to qc to qrdmla/qrdmls
-      target/arm: Clear tail in gvec_fmul_idx_*, gvec_fmla_idx_*
-      target/arm: Vectorize SABD/UABD
-      target/arm: Vectorize SABA/UABA
-
- docs/specs/acpi_hest_ghes.rst          |  110 ++
- docs/specs/index.rst                   |    1 +
- configure                              |    4 +-
- default-configs/arm-softmmu.mak        |    1 +
- include/hw/acpi/aml-build.h            |    1 +
- include/hw/acpi/generic_event_device.h |    2 +
- include/hw/acpi/ghes.h                 |   74 +
- include/hw/arm/virt.h                  |    1 +
- include/qemu/uuid.h                    |   27 +
- include/sysemu/kvm.h                   |    3 +-
- include/sysemu/kvm_int.h               |   12 +
- target/arm/cpu.h                       |    4 +
- target/arm/helper.h                    |   78 +-
- target/arm/internals.h                 |    5 +-
- target/arm/translate.h                 |   84 +-
- target/i386/cpu.h                      |    2 +
- target/arm/neon-dp.decode              |  119 +-
- accel/kvm/kvm-all.c                    |   36 +
- hw/acpi/aml-build.c                    |    2 +
- hw/acpi/generic_event_device.c         |   19 +
- hw/acpi/ghes.c                         |  448 ++++++
- hw/acpi/nvdimm.c                       |   10 +-
- hw/arm/aspeed.c                        |   78 ++
- hw/arm/virt-acpi-build.c               |   15 +
- hw/arm/virt.c                          |   23 +
- target/arm/cpu_tcg.c                   |    1 +
- target/arm/gdbstub.c                   |   22 +-
- target/arm/helper.c                    |    2 +-
- target/arm/kvm64.c                     |   77 ++
- target/arm/neon_helper.c               |   17 -
- target/arm/tlb_helper.c                |    2 +-
- target/arm/translate-a64.c             |  210 +--
- target/arm/translate-neon.inc.c        |  682 +++++++++-
- target/arm/translate.c                 | 2349 +++++++++++++++++---------------
- target/arm/vec_helper.c                |  240 +++-
- target/arm/vfp_helper.c                |    9 +-
- target/i386/kvm.c                      |   36 -
- MAINTAINERS                            |    9 +
- gdb-xml/arm-m-profile.xml              |   27 +
- hw/acpi/Kconfig                        |    4 +
- hw/acpi/Makefile.objs                  |    1 +
- 41 files changed, 3402 insertions(+), 1445 deletions(-)
- create mode 100644 docs/specs/acpi_hest_ghes.rst
- create mode 100644 include/hw/acpi/ghes.h
- create mode 100644 hw/acpi/ghes.c
+Fixes: https://bugs.launchpad.net/qemu/+bug/1877136
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20200507134755.13997-1-peter.maydell@linaro.org
+---
+ configure                 |  4 ++--
+ target/arm/cpu_tcg.c      |  1 +
+ target/arm/gdbstub.c      | 22 ++++++++++++++++++----
+ gdb-xml/arm-m-profile.xml | 27 +++++++++++++++++++++++++++
+ 4 files changed, 48 insertions(+), 6 deletions(-)
  create mode 100644 gdb-xml/arm-m-profile.xml
+
+diff --git a/configure b/configure
+index c50c006b864..26084fc53ad 100755
+--- a/configure
++++ b/configure
+@@ -7806,14 +7806,14 @@ case "$target_name" in
+     TARGET_SYSTBL_ABI=common,oabi
+     bflt="yes"
+     mttcg="yes"
+-    gdb_xml_files="arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
++    gdb_xml_files="arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml arm-m-profile.xml"
+   ;;
+   aarch64|aarch64_be)
+     TARGET_ARCH=aarch64
+     TARGET_BASE_ARCH=arm
+     bflt="yes"
+     mttcg="yes"
+-    gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml"
++    gdb_xml_files="aarch64-core.xml aarch64-fpu.xml arm-core.xml arm-vfp.xml arm-vfp3.xml arm-neon.xml arm-m-profile.xml"
+   ;;
+   cris)
+   ;;
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 591baef5351..00b0e08f33e 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -605,6 +605,7 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
+ #endif
+ 
+     cc->cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt;
++    cc->gdb_core_xml_file = "arm-m-profile.xml";
+ }
+ 
+ static const ARMCPUInfo arm_tcg_cpus[] = {
+diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+index 063551df234..ecfa88f8e60 100644
+--- a/target/arm/gdbstub.c
++++ b/target/arm/gdbstub.c
+@@ -57,8 +57,12 @@ int arm_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+         }
+         return gdb_get_reg32(mem_buf, 0);
+     case 25:
+-        /* CPSR */
+-        return gdb_get_reg32(mem_buf, cpsr_read(env));
++        /* CPSR, or XPSR for M-profile */
++        if (arm_feature(env, ARM_FEATURE_M)) {
++            return gdb_get_reg32(mem_buf, xpsr_read(env));
++        } else {
++            return gdb_get_reg32(mem_buf, cpsr_read(env));
++        }
+     }
+     /* Unknown register.  */
+     return 0;
+@@ -98,8 +102,18 @@ int arm_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+         }
+         return 4;
+     case 25:
+-        /* CPSR */
+-        cpsr_write(env, tmp, 0xffffffff, CPSRWriteByGDBStub);
++        /* CPSR, or XPSR for M-profile */
++        if (arm_feature(env, ARM_FEATURE_M)) {
++            /*
++             * Don't allow writing to XPSR.Exception as it can cause
++             * a transition into or out of handler mode (it's not
++             * writeable via the MSR insn so this is a reasonable
++             * restriction). Other fields are safe to update.
++             */
++            xpsr_write(env, tmp, ~XPSR_EXCP);
++        } else {
++            cpsr_write(env, tmp, 0xffffffff, CPSRWriteByGDBStub);
++        }
+         return 4;
+     }
+     /* Unknown register.  */
+diff --git a/gdb-xml/arm-m-profile.xml b/gdb-xml/arm-m-profile.xml
+new file mode 100644
+index 00000000000..5319d764eeb
+--- /dev/null
++++ b/gdb-xml/arm-m-profile.xml
+@@ -0,0 +1,27 @@
++<?xml version="1.0"?>
++<!-- Copyright (C) 2010-2020 Free Software Foundation, Inc.
++
++     Copying and distribution of this file, with or without modification,
++     are permitted in any medium without royalty provided the copyright
++     notice and this notice are preserved.  -->
++
++<!DOCTYPE feature SYSTEM "gdb-target.dtd">
++<feature name="org.gnu.gdb.arm.m-profile">
++  <reg name="r0" bitsize="32"/>
++  <reg name="r1" bitsize="32"/>
++  <reg name="r2" bitsize="32"/>
++  <reg name="r3" bitsize="32"/>
++  <reg name="r4" bitsize="32"/>
++  <reg name="r5" bitsize="32"/>
++  <reg name="r6" bitsize="32"/>
++  <reg name="r7" bitsize="32"/>
++  <reg name="r8" bitsize="32"/>
++  <reg name="r9" bitsize="32"/>
++  <reg name="r10" bitsize="32"/>
++  <reg name="r11" bitsize="32"/>
++  <reg name="r12" bitsize="32"/>
++  <reg name="sp" bitsize="32" type="data_ptr"/>
++  <reg name="lr" bitsize="32"/>
++  <reg name="pc" bitsize="32" type="code_ptr"/>
++  <reg name="xpsr" bitsize="32" regnum="25"/>
++</feature>
+-- 
+2.20.1
+
 
