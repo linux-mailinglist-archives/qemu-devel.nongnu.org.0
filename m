@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10511D26F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:03:17 +0200 (CEST)
-Received: from localhost ([::1]:35210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F6B1D26FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 08:04:53 +0200 (CEST)
+Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ6xg-0006lr-N6
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:03:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36564)
+	id 1jZ6zE-0001JO-Dm
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 02:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pX-0005cl-BY
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:51 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51799
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pY-0005dG-4i
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:52 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:59871
  helo=us-smtp-delivery-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pV-0001gg-Mc
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6pX-0001gk-5P
  for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589435689;
+ s=mimecast20190719; t=1589435690;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bL6cC0ljly/wbLmslRqO+su0FKs1lFJp2Wid4hDE+q8=;
- b=HB3A6NxL6QtqboThhC+qUU57Nz2uGoyZBfL0Oh6NlR94Y2cO7yJEobO9trt44tNTFi0zB/
- qefwC+yBQkfGE0al/1BgbYHCvh013nJBQHNAo559wHrLHMq3GWepefEg1l7VDhfBHoZFv4
- AuFLTIdneOZ6zxnmp8hG6trR0UbDxC0=
+ bh=/tVN0afalNgUBbGXwQsgXCGn6NurJEflGZeF3kN7Gek=;
+ b=XKXdom4ULknmZQzfTfoLzGp/ssk4STotexo502oqJ8xbRBUef+6+TfH3JGrPbS0XRTo43W
+ IHWZoF1va8HdNmgbnALCPWx/So8xRhU25Ne3egc4z/2APV4UHGuTYVCr3bYIH5/eiJvQmT
+ UUqVLwtSk9Bq06wt0BObE0UEpaSUUxA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-7I3zEvAlMtCmSzMHJo36Iw-1; Thu, 14 May 2020 01:54:47 -0400
-X-MC-Unique: 7I3zEvAlMtCmSzMHJo36Iw-1
+ us-mta-328-fsTI_4BEMVSSEUIoa571Pw-1; Thu, 14 May 2020 01:54:48 -0400
+X-MC-Unique: fsTI_4BEMVSSEUIoa571Pw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5DA4800053;
- Thu, 14 May 2020 05:54:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ECFF107ACF3;
+ Thu, 14 May 2020 05:54:47 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-9.rdu2.redhat.com [10.10.113.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 656367D952;
- Thu, 14 May 2020 05:54:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F16F36A977;
+ Thu, 14 May 2020 05:54:45 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 20/32] python//qmp.py: assert sockfile is not None
-Date: Thu, 14 May 2020 01:53:51 -0400
-Message-Id: <20200514055403.18902-21-jsnow@redhat.com>
+Subject: [PATCH RFC 21/32] python//machine.py: remove logging configuration
+Date: Thu, 14 May 2020 01:53:52 -0400
+Message-Id: <20200514055403.18902-22-jsnow@redhat.com>
 In-Reply-To: <20200514055403.18902-1-jsnow@redhat.com>
 References: <20200514055403.18902-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,16 +54,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=205.139.110.61; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,29 +87,29 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In truth, if you don't do this, you'll just get a TypeError
-exception. Now, you'll get an AssertionError.
-
-Is this tangibly better? No.
-Does mypy complain less? Yes.
+Python 3.5 and above do not print a warning when logging is not
+configured. As a library, it's best practice to leave logging
+configuration to the client executable.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/lib/qmp.py | 1 +
- 1 file changed, 1 insertion(+)
+ python/qemu/lib/machine.py | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/python/qemu/lib/qmp.py b/python/qemu/lib/qmp.py
-index 5fb16f4b42..1aefc00c93 100644
---- a/python/qemu/lib/qmp.py
-+++ b/python/qemu/lib/qmp.py
-@@ -132,6 +132,7 @@ def __negotiate_capabilities(self):
-         raise QMPCapabilitiesError
+diff --git a/python/qemu/lib/machine.py b/python/qemu/lib/machine.py
+index c31bf7cabb..e92afe8649 100644
+--- a/python/qemu/lib/machine.py
++++ b/python/qemu/lib/machine.py
+@@ -110,9 +110,6 @@ def __init__(self, binary, args=None, wrapper=None, name=None,
+         self._console_socket = None
+         self._remove_files = []
  
-     def __json_read(self, only_event=False):
-+        assert self.__sockfile is not None
-         while True:
-             data = self.__sockfile.readline()
-             if not data:
+-        # just in case logging wasn't configured by the main script:
+-        logging.basicConfig()
+-
+     def __enter__(self):
+         return self
+ 
 -- 
 2.21.1
 
