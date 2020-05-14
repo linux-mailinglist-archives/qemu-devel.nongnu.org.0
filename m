@@ -2,98 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475B21D3812
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 19:26:23 +0200 (CEST)
-Received: from localhost ([::1]:44130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769021D38A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 19:52:11 +0200 (CEST)
+Received: from localhost ([::1]:35994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZHck-0007Ed-Bw
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 13:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40022)
+	id 1jZI1i-00041u-0O
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 13:52:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jZHZp-0003cW-Vr; Thu, 14 May 2020 13:23:22 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36424
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <walling@linux.ibm.com>)
- id 1jZHZo-0004B1-UZ; Thu, 14 May 2020 13:23:21 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04EH1aKZ069673; Thu, 14 May 2020 13:23:19 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3119dg1ta9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 13:23:19 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04EH1bue069764;
- Thu, 14 May 2020 13:23:18 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3119dg1t9w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 13:23:18 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04EHE6AZ020547;
- Thu, 14 May 2020 17:23:18 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 3100ubvfg5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 17:23:17 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04EHNGva30343600
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 May 2020 17:23:16 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6B1F5C6057;
- Thu, 14 May 2020 17:23:16 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ADDE1C6055;
- Thu, 14 May 2020 17:23:15 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.85.130.116])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Thu, 14 May 2020 17:23:15 +0000 (GMT)
-Subject: Re: [PATCH v1 3/8] s390/sclp: rework sclp boundary and length checks
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20200508230823.22956-1-walling@linux.ibm.com>
- <20200508230823.22956-4-walling@linux.ibm.com>
- <d894a835-d0ea-2d61-0416-c4804a755dca@redhat.com>
- <75157d93-2f4d-db25-4a0d-fdb4a7781135@linux.ibm.com>
- <20200513090000.4272ddab.cohuck@redhat.com>
-From: Collin Walling <walling@linux.ibm.com>
-Message-ID: <8acc1593-535d-bf1a-3129-bbb21d1d060a@linux.ibm.com>
-Date: Thu, 14 May 2020 13:23:15 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZI0u-0003Zm-NS
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 13:51:20 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:40838
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZI0s-0003Uw-JK
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 13:51:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589478676;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qa20nHTJDbAydpwpo44PiiSeQuV5VNwv6uBL6FlPDhc=;
+ b=GZQF/cmkUH5r+qaZmVLneEcxIa3Dnha/aSon0c9pf6IsGHwte4YO5PqQJtRNhEOzL31WFv
+ FAuQRqHf74bEHRXOWdvXtueUb+FRb5i9a6vvv4ykVUUVt3JRj+PPWN/47H/FK/DRSL8bsH
+ DP/D5UWtW+FZJ5JI8rdq6DWUxaHUhto=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-cOCM-jdGP1uOwCUU5qXHFg-1; Thu, 14 May 2020 13:51:15 -0400
+X-MC-Unique: cOCM-jdGP1uOwCUU5qXHFg-1
+Received: by mail-wr1-f69.google.com with SMTP id p2so1934675wrm.6
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 10:51:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Qa20nHTJDbAydpwpo44PiiSeQuV5VNwv6uBL6FlPDhc=;
+ b=TTjlJVI+WAaBmeQgPqhiyL+lcskFOVwxG6VawumSkqde9QSa8fjzIlTQm4FAlN8Bsi
+ FNBM1vmfHqt7LXKOZpEC1oJqQPl3RmTNAvJSvlVMMx1mAa3n+nXV8JlbtA8/YzfWlm2G
+ 6aAANBo3Ju5ZI/1HnzU6C8WmUHgOXk0Ix8yUb4pyNz9jyO6jkZxExOrrooxJpDGLqqbR
+ pniMwV91N4OwsaspmRsrLLR908sBo3siT6fYaLCqlPpzdrqXe6d2mXvobJXShHtHClTf
+ 7PrH0BLoauXMbk2jhGO3Eodz/l1cP8XCGXu3Q8ZGgQUxrsokdsycXSelgD6RxXL7600j
+ Ir/Q==
+X-Gm-Message-State: AGi0PuaDd1dVTS7w805znmkMWePUduPOHLfvwQLWRgGGNcVQNKZpdT7x
+ PrU8ZaA26y88EU/z27Osj2rafEaIcnCcQFy7mpUxHihS4SgaT0gSya6RQM4paqR80pGhWReCL7O
+ 6LTzcljt+MmueGH4=
+X-Received: by 2002:a1c:bbc5:: with SMTP id
+ l188mr29079709wmf.163.1589478673732; 
+ Thu, 14 May 2020 10:51:13 -0700 (PDT)
+X-Google-Smtp-Source: APiQypJozDXVExZJuu49wNv3EcmH+TwsLU9aIQ1Y+5sQbbc7ak/zOKmmqpW1NWH7beQtyiXm+8ULfw==
+X-Received: by 2002:a1c:bbc5:: with SMTP id
+ l188mr29079689wmf.163.1589478673430; 
+ Thu, 14 May 2020 10:51:13 -0700 (PDT)
+Received: from [192.168.1.39] (17.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.17])
+ by smtp.gmail.com with ESMTPSA id w82sm12660026wmg.28.2020.05.14.10.51.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 May 2020 10:51:12 -0700 (PDT)
+Subject: Re: [PATCH v2 1/9] riscv/boot: Add a missing header include
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair23@gmail.com>
+References: <cover.1588878756.git.alistair.francis@wdc.com>
+ <dc10c6b220154fd448630ef7a790e5d7e59ab45a.1588878756.git.alistair.francis@wdc.com>
+ <CAEUhbmVMu4hov1WxafL9+8kET_Q_Q2hMi8JTnbKE78EhU4kaHQ@mail.gmail.com>
+ <CAKmqyKP6khvkjPbYuth3cXgyS6Zed8S29tfwW1Yv_x1MmxG4sw@mail.gmail.com>
+ <CAEUhbmWoT0oBszNsY7mPHD+nkY0pOXwN-M0q-AZS45_6p5vG4Q@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <81488a39-a2b0-b9c7-59a6-233052aaa4f6@redhat.com>
+Date: Thu, 14 May 2020 19:51:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200513090000.4272ddab.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAEUhbmWoT0oBszNsY7mPHD+nkY0pOXwN-M0q-AZS45_6p5vG4Q@mail.gmail.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
- definitions=2020-05-14_05:2020-05-14,
- 2020-05-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- mlxscore=0 spamscore=0 priorityscore=1501 cotscore=-2147483648
- adultscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=971
- impostorscore=0 malwarescore=0 clxscore=1015 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005140147
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=walling@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 13:23:19
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:31:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, KHOP_DYNAMIC=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,62 +103,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frankja@linux.ibm.com, David Hildenbrand <david@redhat.com>, mst@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, svens@linux.ibm.com, pbonzini@redhat.com,
- mihajlov@linux.ibm.com, rth@twiddle.net
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/20 3:00 AM, Cornelia Huck wrote:
-> On Tue, 12 May 2020 10:55:56 -0400
-> Collin Walling <walling@linux.ibm.com> wrote:
-> 
->> On 5/12/20 3:21 AM, David Hildenbrand wrote:
->>> On 09.05.20 01:08, Collin Walling wrote:  
-> 
->>>> +static bool check_sufficient_sccb_len(SCCB *sccb, int size)  
->>>
->>> "has_sufficient_sccb_len" ?
->>>   
->>>> +{
->>>> +    MachineState *ms = MACHINE(qdev_get_machine());
->>>> +    int required_len = size + ms->possible_cpus->len * sizeof(CPUEntry);  
->>>
->>> Rather pass in the number of cpus instead. Looking up the machine again
->>> in here is ugly.  
+On 5/14/20 5:46 PM, Bin Meng wrote:
+> On Thu, May 14, 2020 at 11:38 PM Alistair Francis <alistair23@gmail.com> wrote:
 >>
->> prepare_cpu_entries also looks up the machine again. Should I squeeze
->> in a cleanup where we pass the machine to that function too (perhaps
->> in the "remove SCLPDevice" patch)?
-> 
-> sclp_read_cpu_info() does not have the machine handy, so you'd need to
-> move machine lookup there; but I think it's worth getting rid of
-> duplicate lookups.
-> 
-
-Sounds good, then. I'll propose a change to patch 1 that removes the
-unused SCLPDevice param and accepts a MachineState instead. Should make
-things a bit cleaner :)
-
+>> On Thu, May 14, 2020 at 8:34 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>
+>>> On Fri, May 8, 2020 at 3:24 AM Alistair Francis
+>>> <alistair.francis@wdc.com> wrote:
+>>>>
+>>>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>>>> ---
+>>>>   include/hw/riscv/boot.h | 1 +
+>>>>   1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+>>>> index 474a940ad5..9daa98da08 100644
+>>>> --- a/include/hw/riscv/boot.h
+>>>> +++ b/include/hw/riscv/boot.h
+>>>> @@ -21,6 +21,7 @@
+>>>>   #define RISCV_BOOT_H
+>>>>
+>>>>   #include "exec/cpu-defs.h"
+>>>> +#include "hw/loader.h"
+>>>
+>>> Why is this needed? Currently this does not break build.
 >>
->>>   
->>>> +
->>>> +    if (be16_to_cpu(sccb->h.length) < required_len) {
->>>> +        sccb->h.response_code = cpu_to_be16(SCLP_RC_INSUFFICIENT_SCCB_LENGTH);
->>>> +        return false;
->>>> +    }
->>>> +    return true;
->>>> +}
->>>> +
+>> Currently every c file that includes boot.h also includes loader.h
+>> before it. Which is why the build works fine. We should be able to
+>> include just boot.h though so this is a small fixup to allow that.
+>>
 > 
+> I wonder if this is a required convention to make the header file
+> self-contained? The only thing that is offending seems to be the
+> symbol_fn_t typedef.
+
+Indeed the use of the symbol_fn_t typedef justifies including its 
+declaration :)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> 
+> Regards,
+> Bin
 > 
 
-
--- 
---
-Regards,
-Collin
-
-Stay safe and stay healthy
 
