@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681EF1D334F
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:44:25 +0200 (CEST)
-Received: from localhost ([::1]:45290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8401D3331
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:38:52 +0200 (CEST)
+Received: from localhost ([::1]:52132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZF60-0001gM-ET
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:44:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39656)
+	id 1jZF0d-0001CO-6J
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:38:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkg-0003bG-OF
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:22 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37162)
+ id 1jZEkh-0003dF-JO
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:23 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1jZEkf-0005zS-Iq
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:22 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id l17so4380197wrr.4
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:21 -0700 (PDT)
+ id 1jZEkg-0005zf-JH
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:22:23 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id s8so4340107wrt.9
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=TdPpeoTHitQZeq3EKviTzp7kPEV6WJt0TBSu0NetBw4=;
- b=Gr+CpkfD2e7+KLhQ72I+nJ2a+DxVPC3py2Kg2W6OSq1tPWV5VOmp/nfADHWbLX1EHI
- UD+DMOb4tbHOrLj4H3O4AYLFV+UqgvlceitFlOw84YtQoCiSReMnrVrJiCUdKk8PA8EF
- cOFsXCNAmgC3zYiGu3c6WcA3d9G50t29abXA0ShFxgn8FSXFwNijSfkmI2yqSLJ3J/d7
- oM7i+NWTjy+PoN2kQEYMVxYbWykJurauWPasIMu7Wyva9wrfieykN54HSIPynYC/Ycbo
- ZIkt4ttGsdqAnnzFLRHmhjBW0IzdzUDZ+4Mc3oCkHi8MSsdUgqZKs5loJXPmN7/F5iL9
- v2jg==
+ bh=rOocNAVFm8fxOf1lEb5dM4+1aqo/08SHs9Bs29VwNzc=;
+ b=wCdahtifU1DcLJIsvJXMZShizFMgAlg9utWM/RB0ZYOWfyVeedDNWF0a3RpsTi3moM
+ gXZE/TEbQYKw1uZQO10WzX8EY4MTwltMQLh+lQPrUyuajpqriPc47Dzs+/Q06trPqoZE
+ 2p48yQMPVy4DnEaJkEaMSuB7bpaCYiBUG1LgJ+diuOa1Kr8xDrIVzweHBdYoqL7PXcMa
+ Z4+36k042Q1EAaUPgS1fG5wf7R7GVpp3NczKsTpvcFL9uOqBc0sxjoWglt7BSdhUpVXE
+ yU7KY+x9V0ox1i50h5rYSHr8D8+FpeaZrfDNbLO/mwFzR60Z7z8e0g5YUo9Sa8hDL1Hu
+ elUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TdPpeoTHitQZeq3EKviTzp7kPEV6WJt0TBSu0NetBw4=;
- b=Um/JKmG9vIgSyCTHW96j+HSimz81mkZ8Cg4HoKl7yW5LVbyQj6xww7BvACvJeb0MDD
- pZHuubrCwY7Mjp9lwJBPWLnBbbErd+Q/9X8Q0tT453G9ppbS67witA4WsajBYr7ne45z
- nqIASp/a4NZH1+KCdqwAbn9RfSTPlxUWZz6jRfvloTJXWIjf0+92ZvxUeh2iI/VzWV1p
- TKYmMkKVApeu7yXlaRJZp66nCYu5HVb2RdriIXBKHSAWy5K7ogGc29BNW+plx0ZEXTnw
- rPwYR1jzkkbC4hd9OytC16EXStJC1pY58BOk9fSj921gIUF6shUtujDEFd9styprmB6s
- M7Dg==
-X-Gm-Message-State: AOAM532XTMYmBiohTAmk9Bu/FciUcAiP5Va8znMvHRmtS3xtxf1ACzVX
- TCe45mDc6XcQ1Wde4Iy62w8PTa+wgx6AOw==
-X-Google-Smtp-Source: ABdhPJzkeRE9ItIc1aeuD3Cb4LpMWW21itq7NVXDn4MYTVpVX6M49xKkcUHSHxN7s9NobU0lZELYJQ==
-X-Received: by 2002:a5d:53c7:: with SMTP id a7mr6012754wrw.334.1589466139837; 
- Thu, 14 May 2020 07:22:19 -0700 (PDT)
+ bh=rOocNAVFm8fxOf1lEb5dM4+1aqo/08SHs9Bs29VwNzc=;
+ b=kjM85kusFS4SJ6Bvtsfyzy428H6DP6qBr2TG5BW57APFM9MNVImAWAoOEoB09vwPBM
+ 4hvQrSI5siemfY0c2+UVCBS/odeq8UjCbttmCwCAGqAAKvZwkQMfDmoN/XgO4Oisf1+8
+ FZLWWkOfD/en9Z/Eamy+7j+n0hhLaLbO4ZoCep7gPVZRmi4zGLzMCCjvNxex12RFCxcR
+ nEISPjumMl72QZjGZRTRV+6oH5JBMZL5OTqaBCH1IRJGNfg2CSfWMPvOkMkTNKO7BaC3
+ 571OkpppjuYuSCG0HNIg94I6MMNCkgeR61rmW6eQSnFOQkBUWVlZAqAcqyvSj1/IbLbm
+ t87Q==
+X-Gm-Message-State: AOAM531uH5DBVnUJxVVGRI3eaIpa3TkZkTnJRqXaMYXViD5MRrUyZno7
+ RnSodcG314w5Ym32lM6B2oaSPBDcC4z+IA==
+X-Google-Smtp-Source: ABdhPJzLZnN/H5RgCix9N7IQiUQ/WG/+dNLM2oRDs8srI86YMhahwVa4TgbFu8k7c74hULP6XaXY6Q==
+X-Received: by 2002:adf:8483:: with SMTP id 3mr5825302wrg.206.1589466140974;
+ Thu, 14 May 2020 07:22:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.18
+ by smtp.gmail.com with ESMTPSA id 88sm4077443wrq.77.2020.05.14.07.22.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:22:19 -0700 (PDT)
+ Thu, 14 May 2020 07:22:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/45] target/arm: Convert Neon 3-reg-same SHA to decodetree
-Date: Thu, 14 May 2020 15:21:23 +0100
-Message-Id: <20200514142138.20875-31-peter.maydell@linaro.org>
+Subject: [PULL 31/45] target/arm: Convert Neon 64-bit element 3-reg-same insns
+Date: Thu, 14 May 2020 15:21:24 +0100
+Message-Id: <20200514142138.20875-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200514142138.20875-1-peter.maydell@linaro.org>
 References: <20200514142138.20875-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,255 +88,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the Neon SHA instructions in the 3-reg-same group
-to decodetree.
+Convert the 64-bit element insns in the 3-reg-same group
+to decodetree. This covers VQSHL, VRSHL and VQRSHL where
+size==0b11.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20200512163904.10918-3-peter.maydell@linaro.org
+Message-id: 20200512163904.10918-4-peter.maydell@linaro.org
 ---
- target/arm/neon-dp.decode       |  10 +++
- target/arm/translate-neon.inc.c | 139 ++++++++++++++++++++++++++++++++
- target/arm/translate.c          |  46 +----------
- 3 files changed, 151 insertions(+), 44 deletions(-)
+ target/arm/neon-dp.decode       | 13 +++++++++++
+ target/arm/translate-neon.inc.c | 24 +++++++++++++++++++++
+ target/arm/translate.c          | 38 ++-------------------------------
+ 3 files changed, 39 insertions(+), 36 deletions(-)
 
 diff --git a/target/arm/neon-dp.decode b/target/arm/neon-dp.decode
-index 82503c582ef..72eae12b265 100644
+index 72eae12b265..fa52b998e87 100644
 --- a/target/arm/neon-dp.decode
 +++ b/target/arm/neon-dp.decode
-@@ -99,4 +99,14 @@ VMUL_3s          1111 001 0 0 . .. .... .... 1001 . . . 1 .... @3same
- VMUL_p_3s        1111 001 1 0 . .. .... .... 1001 . . . 1 .... @3same
+@@ -81,6 +81,19 @@ VCGE_U_3s        1111 001 1 0 . .. .... .... 0011 . . . 1 .... @3same
+ VSHL_S_3s        1111 001 0 0 . .. .... .... 0100 . . . 0 .... @3same_rev
+ VSHL_U_3s        1111 001 1 0 . .. .... .... 0100 . . . 0 .... @3same_rev
  
- VQRDMLAH_3s      1111 001 1 0 . .. .... .... 1011 ... 1 .... @3same
++# Insns operating on 64-bit elements (size!=0b11 handled elsewhere)
++# The _rev suffix indicates that Vn and Vm are reversed (as explained
++# by the comment for the @3same_rev format).
++@3same_64_rev    .... ... . . . 11 .... .... .... . q:1 . . .... \
++                 &3same vm=%vn_dp vn=%vm_dp vd=%vd_dp size=3
 +
-+SHA1_3s          1111 001 0 0 . optype:2 .... .... 1100 . 1 . 0 .... \
-+                 vm=%vm_dp vn=%vn_dp vd=%vd_dp
-+SHA256H_3s       1111 001 1 0 . 00 .... .... 1100 . 1 . 0 .... \
-+                 vm=%vm_dp vn=%vn_dp vd=%vd_dp
-+SHA256H2_3s      1111 001 1 0 . 01 .... .... 1100 . 1 . 0 .... \
-+                 vm=%vm_dp vn=%vn_dp vd=%vd_dp
-+SHA256SU1_3s     1111 001 1 0 . 10 .... .... 1100 . 1 . 0 .... \
-+                 vm=%vm_dp vn=%vn_dp vd=%vd_dp
++VQSHL_S64_3s     1111 001 0 0 . .. .... .... 0100 . . . 1 .... @3same_64_rev
++VQSHL_U64_3s     1111 001 1 0 . .. .... .... 0100 . . . 1 .... @3same_64_rev
++VRSHL_S64_3s     1111 001 0 0 . .. .... .... 0101 . . . 0 .... @3same_64_rev
++VRSHL_U64_3s     1111 001 1 0 . .. .... .... 0101 . . . 0 .... @3same_64_rev
++VQRSHL_S64_3s    1111 001 0 0 . .. .... .... 0101 . . . 1 .... @3same_64_rev
++VQRSHL_U64_3s    1111 001 1 0 . .. .... .... 0101 . . . 1 .... @3same_64_rev
 +
- VQRDMLSH_3s      1111 001 1 0 . .. .... .... 1100 ... 1 .... @3same
+ VMAX_S_3s        1111 001 0 0 . .. .... .... 0110 . . . 0 .... @3same
+ VMAX_U_3s        1111 001 1 0 . .. .... .... 0110 . . . 0 .... @3same
+ VMIN_S_3s        1111 001 0 0 . .. .... .... 0110 . . . 1 .... @3same
 diff --git a/target/arm/translate-neon.inc.c b/target/arm/translate-neon.inc.c
-index 661b5fc4cf2..03b3337e460 100644
+index 03b3337e460..05c6dcdc9b9 100644
 --- a/target/arm/translate-neon.inc.c
 +++ b/target/arm/translate-neon.inc.c
-@@ -686,3 +686,142 @@ static bool trans_VMUL_p_3s(DisasContext *s, arg_3same *a)
+@@ -825,3 +825,27 @@ static bool trans_SHA256SU1_3s(DisasContext *s, arg_SHA256SU1_3s *a)
  
- DO_VQRDMLAH(VQRDMLAH, gen_gvec_sqrdmlah_qc)
- DO_VQRDMLAH(VQRDMLSH, gen_gvec_sqrdmlsh_qc)
+     return true;
+ }
 +
-+static bool trans_SHA1_3s(DisasContext *s, arg_SHA1_3s *a)
-+{
-+    TCGv_ptr ptr1, ptr2, ptr3;
-+    TCGv_i32 tmp;
++#define DO_3SAME_64(INSN, FUNC)                                         \
++    static void gen_##INSN##_3s(unsigned vece, uint32_t rd_ofs,         \
++                                uint32_t rn_ofs, uint32_t rm_ofs,       \
++                                uint32_t oprsz, uint32_t maxsz)         \
++    {                                                                   \
++        static const GVecGen3 op = { .fni8 = FUNC };                    \
++        tcg_gen_gvec_3(rd_ofs, rn_ofs, rm_ofs, oprsz, maxsz, &op);      \
++    }                                                                   \
++    DO_3SAME(INSN, gen_##INSN##_3s)
 +
-+    if (!arm_dc_feature(s, ARM_FEATURE_NEON) ||
-+        !dc_isar_feature(aa32_sha1, s)) {
-+        return false;
-+    }
++#define DO_3SAME_64_ENV(INSN, FUNC)                                     \
++    static void gen_##INSN##_elt(TCGv_i64 d, TCGv_i64 n, TCGv_i64 m)    \
++    {                                                                   \
++        FUNC(d, cpu_env, n, m);                                         \
++    }                                                                   \
++    DO_3SAME_64(INSN, gen_##INSN##_elt)
 +
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vn | a->vm) & 0x10)) {
-+        return false;
-+    }
-+
-+    if ((a->vn | a->vm | a->vd) & 1) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    ptr1 = vfp_reg_ptr(true, a->vd);
-+    ptr2 = vfp_reg_ptr(true, a->vn);
-+    ptr3 = vfp_reg_ptr(true, a->vm);
-+    tmp = tcg_const_i32(a->optype);
-+    gen_helper_crypto_sha1_3reg(ptr1, ptr2, ptr3, tmp);
-+    tcg_temp_free_i32(tmp);
-+    tcg_temp_free_ptr(ptr1);
-+    tcg_temp_free_ptr(ptr2);
-+    tcg_temp_free_ptr(ptr3);
-+
-+    return true;
-+}
-+
-+static bool trans_SHA256H_3s(DisasContext *s, arg_SHA256H_3s *a)
-+{
-+    TCGv_ptr ptr1, ptr2, ptr3;
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_NEON) ||
-+        !dc_isar_feature(aa32_sha2, s)) {
-+        return false;
-+    }
-+
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vn | a->vm) & 0x10)) {
-+        return false;
-+    }
-+
-+    if ((a->vn | a->vm | a->vd) & 1) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    ptr1 = vfp_reg_ptr(true, a->vd);
-+    ptr2 = vfp_reg_ptr(true, a->vn);
-+    ptr3 = vfp_reg_ptr(true, a->vm);
-+    gen_helper_crypto_sha256h(ptr1, ptr2, ptr3);
-+    tcg_temp_free_ptr(ptr1);
-+    tcg_temp_free_ptr(ptr2);
-+    tcg_temp_free_ptr(ptr3);
-+
-+    return true;
-+}
-+
-+static bool trans_SHA256H2_3s(DisasContext *s, arg_SHA256H2_3s *a)
-+{
-+    TCGv_ptr ptr1, ptr2, ptr3;
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_NEON) ||
-+        !dc_isar_feature(aa32_sha2, s)) {
-+        return false;
-+    }
-+
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vn | a->vm) & 0x10)) {
-+        return false;
-+    }
-+
-+    if ((a->vn | a->vm | a->vd) & 1) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    ptr1 = vfp_reg_ptr(true, a->vd);
-+    ptr2 = vfp_reg_ptr(true, a->vn);
-+    ptr3 = vfp_reg_ptr(true, a->vm);
-+    gen_helper_crypto_sha256h2(ptr1, ptr2, ptr3);
-+    tcg_temp_free_ptr(ptr1);
-+    tcg_temp_free_ptr(ptr2);
-+    tcg_temp_free_ptr(ptr3);
-+
-+    return true;
-+}
-+
-+static bool trans_SHA256SU1_3s(DisasContext *s, arg_SHA256SU1_3s *a)
-+{
-+    TCGv_ptr ptr1, ptr2, ptr3;
-+
-+    if (!arm_dc_feature(s, ARM_FEATURE_NEON) ||
-+        !dc_isar_feature(aa32_sha2, s)) {
-+        return false;
-+    }
-+
-+    /* UNDEF accesses to D16-D31 if they don't exist. */
-+    if (!dc_isar_feature(aa32_simd_r32, s) &&
-+        ((a->vd | a->vn | a->vm) & 0x10)) {
-+        return false;
-+    }
-+
-+    if ((a->vn | a->vm | a->vd) & 1) {
-+        return false;
-+    }
-+
-+    if (!vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    ptr1 = vfp_reg_ptr(true, a->vd);
-+    ptr2 = vfp_reg_ptr(true, a->vn);
-+    ptr3 = vfp_reg_ptr(true, a->vm);
-+    gen_helper_crypto_sha256su1(ptr1, ptr2, ptr3);
-+    tcg_temp_free_ptr(ptr1);
-+    tcg_temp_free_ptr(ptr2);
-+    tcg_temp_free_ptr(ptr3);
-+
-+    return true;
-+}
++DO_3SAME_64(VRSHL_S64, gen_helper_neon_rshl_s64)
++DO_3SAME_64(VRSHL_U64, gen_helper_neon_rshl_u64)
++DO_3SAME_64_ENV(VQSHL_S64, gen_helper_neon_qshl_s64)
++DO_3SAME_64_ENV(VQSHL_U64, gen_helper_neon_qshl_u64)
++DO_3SAME_64_ENV(VQRSHL_S64, gen_helper_neon_qrshl_s64)
++DO_3SAME_64_ENV(VQRSHL_U64, gen_helper_neon_qrshl_u64)
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 1f06cb5a87f..ee2b8d6f6e3 100644
+index ee2b8d6f6e3..1ce3e182867 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -5359,7 +5359,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-     int vec_size;
-     uint32_t imm;
-     TCGv_i32 tmp, tmp2, tmp3, tmp4, tmp5;
--    TCGv_ptr ptr1, ptr2, ptr3;
-+    TCGv_ptr ptr1, ptr2;
-     TCGv_i64 tmp64;
+@@ -5459,42 +5459,8 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+         }
  
-     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-@@ -5403,49 +5403,6 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-             return 1;
-         }
-         switch (op) {
--        case NEON_3R_SHA:
--            /* The SHA-1/SHA-256 3-register instructions require special
--             * treatment here, as their size field is overloaded as an
--             * op type selector, and they all consume their input in a
--             * single pass.
--             */
--            if (!q) {
--                return 1;
+         if (size == 3) {
+-            /* 64-bit element instructions. */
+-            for (pass = 0; pass < (q ? 2 : 1); pass++) {
+-                neon_load_reg64(cpu_V0, rn + pass);
+-                neon_load_reg64(cpu_V1, rm + pass);
+-                switch (op) {
+-                case NEON_3R_VQSHL:
+-                    if (u) {
+-                        gen_helper_neon_qshl_u64(cpu_V0, cpu_env,
+-                                                 cpu_V1, cpu_V0);
+-                    } else {
+-                        gen_helper_neon_qshl_s64(cpu_V0, cpu_env,
+-                                                 cpu_V1, cpu_V0);
+-                    }
+-                    break;
+-                case NEON_3R_VRSHL:
+-                    if (u) {
+-                        gen_helper_neon_rshl_u64(cpu_V0, cpu_V1, cpu_V0);
+-                    } else {
+-                        gen_helper_neon_rshl_s64(cpu_V0, cpu_V1, cpu_V0);
+-                    }
+-                    break;
+-                case NEON_3R_VQRSHL:
+-                    if (u) {
+-                        gen_helper_neon_qrshl_u64(cpu_V0, cpu_env,
+-                                                  cpu_V1, cpu_V0);
+-                    } else {
+-                        gen_helper_neon_qrshl_s64(cpu_V0, cpu_env,
+-                                                  cpu_V1, cpu_V0);
+-                    }
+-                    break;
+-                default:
+-                    abort();
+-                }
+-                neon_store_reg64(cpu_V0, rd + pass);
 -            }
--            if (!u) { /* SHA-1 */
--                if (!dc_isar_feature(aa32_sha1, s)) {
--                    return 1;
--                }
--                ptr1 = vfp_reg_ptr(true, rd);
--                ptr2 = vfp_reg_ptr(true, rn);
--                ptr3 = vfp_reg_ptr(true, rm);
--                tmp4 = tcg_const_i32(size);
--                gen_helper_crypto_sha1_3reg(ptr1, ptr2, ptr3, tmp4);
--                tcg_temp_free_i32(tmp4);
--            } else { /* SHA-256 */
--                if (!dc_isar_feature(aa32_sha2, s) || size == 3) {
--                    return 1;
--                }
--                ptr1 = vfp_reg_ptr(true, rd);
--                ptr2 = vfp_reg_ptr(true, rn);
--                ptr3 = vfp_reg_ptr(true, rm);
--                switch (size) {
--                case 0:
--                    gen_helper_crypto_sha256h(ptr1, ptr2, ptr3);
--                    break;
--                case 1:
--                    gen_helper_crypto_sha256h2(ptr1, ptr2, ptr3);
--                    break;
--                case 2:
--                    gen_helper_crypto_sha256su1(ptr1, ptr2, ptr3);
--                    break;
--                }
--            }
--            tcg_temp_free_ptr(ptr1);
--            tcg_temp_free_ptr(ptr2);
--            tcg_temp_free_ptr(ptr3);
 -            return 0;
--
-         case NEON_3R_VPADD_VQRDMLAH:
-             if (!u) {
-                 break;  /* VPADD */
-@@ -5496,6 +5453,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-         case NEON_3R_VMUL:
-         case NEON_3R_VML:
-         case NEON_3R_VSHL:
-+        case NEON_3R_SHA:
-             /* Already handled by decodetree */
-             return 1;
++            /* 64-bit element instructions: handled by decodetree */
++            return 1;
          }
+         pairwise = 0;
+         switch (op) {
 -- 
 2.20.1
 
