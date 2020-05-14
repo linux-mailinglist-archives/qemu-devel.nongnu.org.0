@@ -2,148 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674731D3EF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 22:22:56 +0200 (CEST)
-Received: from localhost ([::1]:47286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF681D3FC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 23:12:31 +0200 (CEST)
+Received: from localhost ([::1]:58492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZKNb-0000Wr-FE
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 16:22:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38722)
+	id 1jZL9Z-00057h-Pz
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 17:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZKMW-0008DG-Vw
- for qemu-devel@nongnu.org; Thu, 14 May 2020 16:21:49 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:45517
- helo=us-smtp-delivery-1.mimecast.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZKMU-0004Ub-Sp
- for qemu-devel@nongnu.org; Thu, 14 May 2020 16:21:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589487705;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Iul9M0m1s7Qhd7lW9ZF7OaIW3H4XdJCv0njcS9Nn/7c=;
- b=MRWQB9S3nWocnBGl/HNq0QrD1zdJh5S4R4btMWYlZ7rTYtZT//wk/jho+ZJRyPeuThuTu8
- JH07JBVyrmZkJHlyE8ZD1vl7a83xq6KTrRrwtOWwNyCORuFg55auHPgxCvvKsOds0bio8/
- 49JJD0VgdYbUVQnR6X71pKcwMHPbrTM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-oNtkZsVlPeaMgA0iCHeAxQ-1; Thu, 14 May 2020 16:21:43 -0400
-X-MC-Unique: oNtkZsVlPeaMgA0iCHeAxQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1B56835B57;
- Thu, 14 May 2020 20:21:42 +0000 (UTC)
-Received: from [10.10.119.184] (ovpn-119-184.rdu2.redhat.com [10.10.119.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E68361463;
- Thu, 14 May 2020 20:21:41 +0000 (UTC)
-Subject: Re: [PATCH] hw/ide: Make IDEDMAOps handlers take a const IDEDMA
- pointer
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20200512194917.15807-1-philmd@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <01f5f413-d1d0-43cb-65cc-9f7bd1e59893@redhat.com>
-Date: Thu, 14 May 2020 16:21:40 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1jZL8G-000488-Bb
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 17:11:08 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14252)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1jZL8D-0000jY-IK
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 17:11:06 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5ebdb35c0001>; Thu, 14 May 2020 14:08:44 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 14 May 2020 14:11:02 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 14 May 2020 14:11:02 -0700
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 14 May
+ 2020 21:11:01 +0000
+Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 14 May 2020 21:10:54 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH Kernel v20 0/8] Add UAPIs to support migration for VFIO devices
+Date: Fri, 15 May 2020 02:07:39 +0530
+Message-ID: <1589488667-9683-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20200512194917.15807-1-philmd@redhat.com>
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 12:05:55
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1589490524; bh=DgfFVf9CfgfR9vafvaAWE6FVdgjJMQGPGDhGSFAK7fw=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=KchRK1hZ//d4E/7H7DBQwEnJ5fW/h2m5XepBKVrOEdwXGcAyLbg9JOsyWS99ccwwK
+ cLxcnzLTmAv+OuVrjxvY3tTbrNlAWBurJZYoOFMLI70zRaetQLvYXmmJRiez9U2TFg
+ LnrAepFpK2rJVBCPdEAKKqx48v9GRU8n5BNlTmFbhC9eQgJ/jOzhqsrOfjAVEW9lJE
+ DC1iPl386tE283OFzQZ1bichc3ineWllZlczJ9Gb94AEXCF/mcbZTQm6HCm4zjcVTf
+ KL0J42rij8nonpxFHXCtxE8x9qvu3F5YwQXMPiNzcC9yKuBV2TIUU62o2RRJNPyYUb
+ ptf+FssnG5TxQ==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 17:11:02
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_PASS=-0.001 autolearn=_AUTOLEARN
+ RCVD_IN_DNSWL_HI=-5, SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -156,246 +74,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ yan.y.zhao@intel.com, kvm@vger.kernel.org, eskultet@redhat.com,
+ ziye.yang@intel.com, qemu-devel@nongnu.org, cohuck@redhat.com,
+ shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com, zhi.a.wang@intel.com,
+ mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
+
+This patch set adds:
+* IOCTL VFIO_IOMMU_DIRTY_PAGES to get dirty pages bitmap with
+  respect to IOMMU container rather than per device. All pages pinned by
+  vendor driver through vfio_pin_pages external API has to be marked as
+  dirty during  migration. When IOMMU capable device is present in the
+  container and all pages are pinned and mapped, then all pages are marked
+  dirty.
+  When there are CPU writes, CPU dirty page tracking can identify dirtied
+  pages, but any page pinned by vendor driver can also be written by
+  device. As of now there is no device which has hardware support for
+  dirty page tracking. So all pages which are pinned should be considered
+  as dirty.
+  This ioctl is also used to start/stop dirty pages tracking for pinned and
+  unpinned pages while migration is active.
+
+* Updated IOCTL VFIO_IOMMU_UNMAP_DMA to get dirty pages bitmap before
+  unmapping IO virtual address range.
+  With vIOMMU, during pre-copy phase of migration, while CPUs are still
+  running, IO virtual address unmap can happen while device still keeping
+  reference of guest pfns. Those pages should be reported as dirty before
+  unmap, so that VFIO user space application can copy content of those
+  pages from source to destination.
+
+* Patch 8 detect if IOMMU capable device driver is smart to report pages
+  to be marked dirty by pinning pages using vfio_pin_pages() API.
 
 
-On 5/12/20 3:49 PM, Philippe Mathieu-Daudé wrote:
-> Handlers don't need to modify the IDEDMA structure.
-> Make it const.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Yet TODO:
+Since there is no device which has hardware support for system memmory
+dirty bitmap tracking, right now there is no other API from vendor driver
+to VFIO IOMMU module to report dirty pages. In future, when such hardware
+support will be implemented, an API will be required such that vendor
+driver could report dirty pages to VFIO module during migration phases.
 
-I'll trust your judgment. As long as it still compiles and passes
-qtests, I'm happy if you're happy.
+Adding revision history from previous QEMU patch set to understand KABI
+changes done till now
 
-Acked-by: John Snow <jsnow@redhat.com>
+v19 -> v20
+- Fixed ioctl to get dirty bitmap to get bitmap of multiple vfio_dmas
+- Fixed unmap ioctl to get dirty bitmap of multiple vfio_dmas.
+- Removed flag definition from migration capability.
 
-> ---
->  include/hw/ide/internal.h | 12 ++++++------
->  hw/ide/ahci.c             | 18 +++++++++---------
->  hw/ide/core.c             |  6 +++---
->  hw/ide/macio.c            |  6 +++---
->  hw/ide/pci.c              | 12 ++++++------
->  5 files changed, 27 insertions(+), 27 deletions(-)
-> 
-> diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-> index 55da35d768..1a7869e85d 100644
-> --- a/include/hw/ide/internal.h
-> +++ b/include/hw/ide/internal.h
-> @@ -322,12 +322,12 @@ typedef enum { IDE_HD, IDE_CD, IDE_CFATA } IDEDriveKind;
->  
->  typedef void EndTransferFunc(IDEState *);
->  
-> -typedef void DMAStartFunc(IDEDMA *, IDEState *, BlockCompletionFunc *);
-> -typedef void DMAVoidFunc(IDEDMA *);
-> -typedef int DMAIntFunc(IDEDMA *, bool);
-> -typedef int32_t DMAInt32Func(IDEDMA *, int32_t len);
-> -typedef void DMAu32Func(IDEDMA *, uint32_t);
-> -typedef void DMAStopFunc(IDEDMA *, bool);
-> +typedef void DMAStartFunc(const IDEDMA *, IDEState *, BlockCompletionFunc *);
-> +typedef void DMAVoidFunc(const IDEDMA *);
-> +typedef int DMAIntFunc(const IDEDMA *, bool);
-> +typedef int32_t DMAInt32Func(const IDEDMA *, int32_t len);
-> +typedef void DMAu32Func(const IDEDMA *, uint32_t);
-> +typedef void DMAStopFunc(const IDEDMA *, bool);
->  
->  struct unreported_events {
->      bool eject_request;
-> diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-> index 13d91e109a..168d34e9f2 100644
-> --- a/hw/ide/ahci.c
-> +++ b/hw/ide/ahci.c
-> @@ -44,7 +44,7 @@ static int handle_cmd(AHCIState *s, int port, uint8_t slot);
->  static void ahci_reset_port(AHCIState *s, int port);
->  static bool ahci_write_fis_d2h(AHCIDevice *ad);
->  static void ahci_init_d2h(AHCIDevice *ad);
-> -static int ahci_dma_prepare_buf(IDEDMA *dma, int32_t limit);
-> +static int ahci_dma_prepare_buf(const IDEDMA *dma, int32_t limit);
->  static bool ahci_map_clb_address(AHCIDevice *ad);
->  static bool ahci_map_fis_address(AHCIDevice *ad);
->  static void ahci_unmap_clb_address(AHCIDevice *ad);
-> @@ -1338,7 +1338,7 @@ out:
->  }
->  
->  /* Transfer PIO data between RAM and device */
-> -static void ahci_pio_transfer(IDEDMA *dma)
-> +static void ahci_pio_transfer(const IDEDMA *dma)
->  {
->      AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
->      IDEState *s = &ad->port.ifs[0];
-> @@ -1397,7 +1397,7 @@ out:
->      }
->  }
->  
-> -static void ahci_start_dma(IDEDMA *dma, IDEState *s,
-> +static void ahci_start_dma(const IDEDMA *dma, IDEState *s,
->                             BlockCompletionFunc *dma_cb)
->  {
->      AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
-> @@ -1406,7 +1406,7 @@ static void ahci_start_dma(IDEDMA *dma, IDEState *s,
->      dma_cb(s, 0);
->  }
->  
-> -static void ahci_restart_dma(IDEDMA *dma)
-> +static void ahci_restart_dma(const IDEDMA *dma)
->  {
->      /* Nothing to do, ahci_start_dma already resets s->io_buffer_offset.  */
->  }
-> @@ -1415,7 +1415,7 @@ static void ahci_restart_dma(IDEDMA *dma)
->   * IDE/PIO restarts are handled by the core layer, but NCQ commands
->   * need an extra kick from the AHCI HBA.
->   */
-> -static void ahci_restart(IDEDMA *dma)
-> +static void ahci_restart(const IDEDMA *dma)
->  {
->      AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
->      int i;
-> @@ -1432,7 +1432,7 @@ static void ahci_restart(IDEDMA *dma)
->   * Called in DMA and PIO R/W chains to read the PRDT.
->   * Not shared with NCQ pathways.
->   */
-> -static int32_t ahci_dma_prepare_buf(IDEDMA *dma, int32_t limit)
-> +static int32_t ahci_dma_prepare_buf(const IDEDMA *dma, int32_t limit)
->  {
->      AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
->      IDEState *s = &ad->port.ifs[0];
-> @@ -1453,7 +1453,7 @@ static int32_t ahci_dma_prepare_buf(IDEDMA *dma, int32_t limit)
->   * Called via dma_buf_commit, for both DMA and PIO paths.
->   * sglist destruction is handled within dma_buf_commit.
->   */
-> -static void ahci_commit_buf(IDEDMA *dma, uint32_t tx_bytes)
-> +static void ahci_commit_buf(const IDEDMA *dma, uint32_t tx_bytes)
->  {
->      AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
->  
-> @@ -1461,7 +1461,7 @@ static void ahci_commit_buf(IDEDMA *dma, uint32_t tx_bytes)
->      ad->cur_cmd->status = cpu_to_le32(tx_bytes);
->  }
->  
-> -static int ahci_dma_rw_buf(IDEDMA *dma, bool is_write)
-> +static int ahci_dma_rw_buf(const IDEDMA *dma, bool is_write)
->  {
->      AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
->      IDEState *s = &ad->port.ifs[0];
-> @@ -1486,7 +1486,7 @@ static int ahci_dma_rw_buf(IDEDMA *dma, bool is_write)
->      return 1;
->  }
->  
-> -static void ahci_cmd_done(IDEDMA *dma)
-> +static void ahci_cmd_done(const IDEDMA *dma)
->  {
->      AHCIDevice *ad = DO_UPCAST(AHCIDevice, dma, dma);
->  
-> diff --git a/hw/ide/core.c b/hw/ide/core.c
-> index 689bb36409..d997a78e47 100644
-> --- a/hw/ide/core.c
-> +++ b/hw/ide/core.c
-> @@ -2570,16 +2570,16 @@ static void ide_init1(IDEBus *bus, int unit)
->                                             ide_sector_write_timer_cb, s);
->  }
->  
-> -static int ide_nop_int(IDEDMA *dma, bool is_write)
-> +static int ide_nop_int(const IDEDMA *dma, bool is_write)
->  {
->      return 0;
->  }
->  
-> -static void ide_nop(IDEDMA *dma)
-> +static void ide_nop(const IDEDMA *dma)
->  {
->  }
->  
-> -static int32_t ide_nop_int32(IDEDMA *dma, int32_t l)
-> +static int32_t ide_nop_int32(const IDEDMA *dma, int32_t l)
->  {
->      return 0;
->  }
-> diff --git a/hw/ide/macio.c b/hw/ide/macio.c
-> index a9f25e5d02..5b8098268d 100644
-> --- a/hw/ide/macio.c
-> +++ b/hw/ide/macio.c
-> @@ -376,17 +376,17 @@ static void macio_ide_reset(DeviceState *dev)
->      ide_bus_reset(&d->bus);
->  }
->  
-> -static int ide_nop_int(IDEDMA *dma, bool is_write)
-> +static int ide_nop_int(const IDEDMA *dma, bool is_write)
->  {
->      return 0;
->  }
->  
-> -static int32_t ide_nop_int32(IDEDMA *dma, int32_t l)
-> +static int32_t ide_nop_int32(const IDEDMA *dma, int32_t l)
->  {
->      return 0;
->  }
->  
-> -static void ide_dbdma_start(IDEDMA *dma, IDEState *s,
-> +static void ide_dbdma_start(const IDEDMA *dma, IDEState *s,
->                              BlockCompletionFunc *cb)
->  {
->      MACIOIDEState *m = container_of(dma, MACIOIDEState, dma);
-> diff --git a/hw/ide/pci.c b/hw/ide/pci.c
-> index 97347f07f1..5e85c4ad17 100644
-> --- a/hw/ide/pci.c
-> +++ b/hw/ide/pci.c
-> @@ -103,7 +103,7 @@ const MemoryRegionOps pci_ide_data_le_ops = {
->      .endianness = DEVICE_LITTLE_ENDIAN,
->  };
->  
-> -static void bmdma_start_dma(IDEDMA *dma, IDEState *s,
-> +static void bmdma_start_dma(const IDEDMA *dma, IDEState *s,
->                              BlockCompletionFunc *dma_cb)
->  {
->      BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
-> @@ -126,7 +126,7 @@ static void bmdma_start_dma(IDEDMA *dma, IDEState *s,
->   * IDEState.io_buffer_size will contain the number of bytes described
->   * by the PRDs, whether or not we added them to the sglist.
->   */
-> -static int32_t bmdma_prepare_buf(IDEDMA *dma, int32_t limit)
-> +static int32_t bmdma_prepare_buf(const IDEDMA *dma, int32_t limit)
->  {
->      BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
->      IDEState *s = bmdma_active_if(bm);
-> @@ -181,7 +181,7 @@ static int32_t bmdma_prepare_buf(IDEDMA *dma, int32_t limit)
->  }
->  
->  /* return 0 if buffer completed */
-> -static int bmdma_rw_buf(IDEDMA *dma, bool is_write)
-> +static int bmdma_rw_buf(const IDEDMA *dma, bool is_write)
->  {
->      BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
->      IDEState *s = bmdma_active_if(bm);
-> @@ -230,7 +230,7 @@ static int bmdma_rw_buf(IDEDMA *dma, bool is_write)
->      return 1;
->  }
->  
-> -static void bmdma_set_inactive(IDEDMA *dma, bool more)
-> +static void bmdma_set_inactive(const IDEDMA *dma, bool more)
->  {
->      BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
->  
-> @@ -242,7 +242,7 @@ static void bmdma_set_inactive(IDEDMA *dma, bool more)
->      }
->  }
->  
-> -static void bmdma_restart_dma(IDEDMA *dma)
-> +static void bmdma_restart_dma(const IDEDMA *dma)
->  {
->      BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
->  
-> @@ -257,7 +257,7 @@ static void bmdma_cancel(BMDMAState *bm)
->      }
->  }
->  
-> -static void bmdma_reset(IDEDMA *dma)
-> +static void bmdma_reset(const IDEDMA *dma)
->  {
->      BMDMAState *bm = DO_UPCAST(BMDMAState, dma, dma);
->  
-> 
+v18 -> v19
+- Updated migration capability with supported page sizes bitmap for dirty
+  page tracking and  maximum bitmap size supported by kernel module.
+- Added patch to calculate and cache pgsize_bitmap when iommu->domain_list
+  is updated.
+- Removed extra buffers added in previous version for bitmap manipulation
+  and optimised the code.
+
+v17 -> v18
+- Add migration capability to the capability chain for VFIO_IOMMU_GET_INFO
+  ioctl
+- Updated UMAP_DMA ioctl to return bitmap of multiple vfio_dma
+
+v16 -> v17
+- Fixed errors reported by kbuild test robot <lkp@intel.com> on i386
+
+v15 -> v16
+- Minor edits and nit picks (Auger Eric)
+- On copying bitmap to user, re-populated bitmap only for pinned pages,
+  excluding unmapped pages and CPU dirtied pages.
+- Patches are on tag: next-20200318 and 1-3 patches from Yan's series
+  https://lkml.org/lkml/2020/3/12/1255
+
+v14 -> v15
+- Minor edits and nit picks.
+- In the verification of user allocated bitmap memory, added check of
+   maximum size.
+- Patches are on tag: next-20200318 and 1-3 patches from Yan's series
+  https://lkml.org/lkml/2020/3/12/1255
+
+v13 -> v14
+- Added struct vfio_bitmap to kabi. updated structure
+  vfio_iommu_type1_dirty_bitmap_get and vfio_iommu_type1_dma_unmap.
+- All small changes suggested by Alex.
+- Patches are on tag: next-20200318 and 1-3 patches from Yan's series
+  https://lkml.org/lkml/2020/3/12/1255
+
+v12 -> v13
+- Changed bitmap allocation in vfio_iommu_type1 to per vfio_dma
+- Changed VFIO_IOMMU_DIRTY_PAGES ioctl behaviour to be per vfio_dma range.
+- Changed vfio_iommu_type1_dirty_bitmap structure to have separate data
+  field.
+
+v11 -> v12
+- Changed bitmap allocation in vfio_iommu_type1.
+- Remove atomicity of ref_count.
+- Updated comments for migration device state structure about error
+  reporting.
+- Nit picks from v11 reviews
+
+v10 -> v11
+- Fix pin pages API to free vpfn if it is marked as unpinned tracking page.
+- Added proposal to detect if IOMMU capable device calls external pin pages
+  API to mark pages dirty.
+- Nit picks from v10 reviews
+
+v9 -> v10:
+- Updated existing VFIO_IOMMU_UNMAP_DMA ioctl to get dirty pages bitmap
+  during unmap while migration is active
+- Added flag in VFIO_IOMMU_GET_INFO to indicate driver support dirty page
+  tracking.
+- If iommu_mapped, mark all pages dirty.
+- Added unpinned pages tracking while migration is active.
+- Updated comments for migration device state structure with bit
+  combination table and state transition details.
+
+v8 -> v9:
+- Split patch set in 2 sets, Kernel and QEMU.
+- Dirty pages bitmap is queried from IOMMU container rather than from
+  vendor driver for per device. Added 2 ioctls to achieve this.
+
+v7 -> v8:
+- Updated comments for KABI
+- Added BAR address validation check during PCI device's config space load
+  as suggested by Dr. David Alan Gilbert.
+- Changed vfio_migration_set_state() to set or clear device state flags.
+- Some nit fixes.
+
+v6 -> v7:
+- Fix build failures.
+
+v5 -> v6:
+- Fix build failure.
+
+v4 -> v5:
+- Added decriptive comment about the sequence of access of members of
+  structure vfio_device_migration_info to be followed based on Alex's
+  suggestion
+- Updated get dirty pages sequence.
+- As per Cornelia Huck's suggestion, added callbacks to VFIODeviceOps to
+  get_object, save_config and load_config.
+- Fixed multiple nit picks.
+- Tested live migration with multiple vfio device assigned to a VM.
+
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration,
+  that is removed assumption that data will be till end of migration
+  region.
+- If vendor driver supports mappable sparsed region, map those region
+  during setup state of save/load, similarly unmap those from cleanup
+  routines.
+- Handles race condition that causes data corruption in migration region
+  during save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Split into multiple functional patches.
+
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2
+  bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined
+  action on read and write access on its members.
+
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with
+  region type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed
+  at 0th offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section
+  of the region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested
+  pages are copied.
+
+Thanks,
+Kirti
+
+
+
+Kirti Wankhede (8):
+  vfio: UAPI for migration interface for device state
+  vfio iommu: Remove atomicity of ref_count of pinned pages
+  vfio iommu: Cache pgsize_bitmap in struct vfio_iommu
+  vfio iommu: Add ioctl definition for dirty pages tracking
+  vfio iommu: Implementation of ioctl for dirty pages tracking
+  vfio iommu: Update UNMAP_DMA ioctl to get dirty bitmap before unmap
+  vfio iommu: Add migration capability to report supported features
+  vfio: Selective dirty page tracking if IOMMU backed device pins pages
+
+ drivers/vfio/vfio.c             |  13 +-
+ drivers/vfio/vfio_iommu_type1.c | 565 ++++++++++++++++++++++++++++++++++++----
+ include/linux/vfio.h            |   4 +-
+ include/uapi/linux/vfio.h       | 315 ++++++++++++++++++++++
+ 4 files changed, 838 insertions(+), 59 deletions(-)
+
+-- 
+2.7.0
 
 
