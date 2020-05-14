@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F761D2A8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 10:45:36 +0200 (CEST)
-Received: from localhost ([::1]:44088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912B51D2AAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 10:53:01 +0200 (CEST)
+Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ9Ul-0001aU-V1
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 04:45:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53982)
+	id 1jZ9bw-0004p5-2U
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 04:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <1482995675@qq.com>) id 1jZ9TY-0000fz-L4
- for qemu-devel@nongnu.org; Thu, 14 May 2020 04:44:20 -0400
-Received: from smtpbg517.qq.com ([203.205.250.89]:40059 helo=smtpbg.qq.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <1482995675@qq.com>) id 1jZ9TT-0004IV-3j
- for qemu-devel@nongnu.org; Thu, 14 May 2020 04:44:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
- t=1589445842; bh=t9uPlfgpTjYvCWVXTG0szBaQujOUEpnoUT8c6bOhHBY=;
- h=From:To:Subject:Mime-Version:Date:Message-ID;
- b=O3eVZauHmjOlycGTceapiemNsFIvKrKccJ0X5MfWgbyKcxGOsI4AwFx75oc3th065
- 1Wm4dHUyA4YEVtQJ2Te5NrnXQluGk8/FxHtzBiMkAL+ZgZC9P3r9DUrWLpW5/WL+rY
- wesWBxSsIJop8jrtxJ1TvqYvDerwQ1RhB6V084OM=
-X-QQ-FEAT: dj/tecPKMqTQz43gL8LGo4qut83aZUAOq6btISHHiW7CgZYyqT9zl3eUV4dJu
- sC+4IfIQFBvGLGWpdBmCiU1o8CxaEJED4NpJNbQFrTpKzcGD9BWJBwZOj1mOKhIIAh+sla7
- 2q9tW8uOWby7SPODnwpUeEeGgU98Wsr6eeuJuN59eEQv08RqOMwu0C9SEBDGt5muVe2KDuD
- 3c9Vfrjke5ROXUDGdFn858R5lBNXQB2NZPwSJqATgrYRavxQNaNfD+bVYr5Qh8puES/zpcO
- pLR3RQi5r1LnQJXf9yaCp8z1Xm+P9U3qcN9g==
-X-QQ-SSF: 00010000000000F000000000000000D
-X-QQ-XMAILINFO: NoZAByudGW8nhaWupmHRYQZXbDLRKRKZzjorxPCGDx6oguYcFl69PuTo8fPeMr
- AmJ4IXuoP5tzWNaRHtmAQYLn3j1lY9H5aXrY3i94IZzGXoienzVpZ5LoY14j9TIXYuB9f3G4DHELk
- +3SRCzntAmo+qqBatcourZs68XhYQwLtzHPJ7uc8OMSezrAs/eehhk/u9RLgn0s2tK5JqEUGrKOgl
- W/7/tw4YghWNQyTEuAk/IAxUOvDzcNWrgj0LNRhvavFmyiHBBpgmBMew6yd6/OmO1Q/ZP3hKi9Nj/
- lJmKxYEwIOo4P+5SGdYiLdX6zBiHnQa+/bYHykDXfHH8/dxLWgoDTLZwPZ3C26KcYcp014YkM60fV
- eO0mf9o0veJvExqb9PRT1tqVQllzQX283eiXw9dSfDpuoyZiLhmWMreQUjChlXZZGF+Ow8WuBSqS/
- Yr9VrZ2cSnrEb2cz33bq2wARfgJX6TU5s6apIdEo/8n73QWo1oToO+6wRXf0BRvu1BUA+hqSm24IC
- CUQEpx0EmTy04MzuqbTBNIHis53C3d33AszAX4LlEfsi/Hg+wm4rmH+Hww51GRZEsnUfyIdYTvt0J
- rSmSnsPAoR0hY5Hzm8LHhIukPNpHbGy/lm60BlO35f5Dj1oriPnx3JYy7maaGrNNVhTZPyc4WbGst
- 6ZLXBQnDS4YKL7dnZxA3Pvr5cavJoBoosJef+w
-X-HAS-ATTACH: no
-X-QQ-BUSINESS-ORIGIN: 2
-X-Originating-IP: 124.64.24.103
-X-QQ-STYLE: 
-X-QQ-mid: webmail725t1589445839t5064347
-From: "=?gb18030?B?Y2FzbWFj?=" <1482995675@qq.com>
-To: "=?gb18030?B?UGV0ZXIgTWF5ZGVsbA==?=" <peter.maydell@linaro.org>,
- "=?gb18030?B?cWVtdS1kZXZlbA==?=" <qemu-devel@nongnu.org>
-Subject: =?gb18030?B?cmWjuiBob3cgdG8gZXh0ZW5kIHRvIGxvYWQgQ09G?=
- =?gb18030?B?RiBleGVjdXRhYmxlIGltYWdlIGZpbGU=?=
-Mime-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="----=_NextPart_5EBD04CF_101BA210_0BA4902A"
-Content-Transfer-Encoding: 8Bit
-Date: Thu, 14 May 2020 16:43:59 +0800
-X-Priority: 3
-Message-ID: <tencent_129CC651BFBFE9CB46B508FB74F1364C170A@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-SENDSIZE: 520
-Received: from qq.com (unknown [127.0.0.1]) by smtp.qq.com (ESMTP) with SMTP
- id ; Thu, 14 May 2020 16:44:01 +0800 (CST)
-Feedback-ID: webmail:qq.com:bgweb:bgweb5
-Received-SPF: pass client-ip=203.205.250.89; envelope-from=1482995675@qq.com;
- helo=smtpbg.qq.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 04:44:04
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10
-X-Spam_score_int: 48
-X-Spam_score: 4.8
-X-Spam_bar: ++++
-X-Spam_report: (4.8 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FROM_EXCESS_BASE64=0.979,
- HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45, MSGID_FROM_MTA_HEADER=0.001,
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jZ9ad-0003mu-CH
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 04:51:39 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:41907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1jZ9ab-00064M-QZ
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 04:51:38 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id 19so23907431oiy.8
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 01:51:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rYT/VCdSarMI+aJTrFiH7Pju/Kl2UMI0NV/J6/Si8vc=;
+ b=e7iMmhmcVFzufhXeRHAEeQvCdQDmYCnfM0DIN1F6+CY+wVF+xKOv4eth1X6y7iNgBJ
+ eGxQ4cKj7iP3O7DpW5T4g1XJSNR3Ju9844zBj+6EI0W2v7Fk/UBzURdBnjuX58h81uUs
+ mMCYuOGVWIla+VhfU1JCFE4QhgjXYfDPfB9rlODPnPIQ/+hcSf/9tCJXP4uZobfpcTk4
+ dk4u0x6feTroo81J57Gb7gpG6Jz0nKqnpQ1xQcQjdw5pWB7R9lNZzQq9sKOCeWi4NFz1
+ Q95J8VAzsKE79KuJLkRbiIastP1kAd0KxvZnr4UwYoxJV/S1asG8PNu6q//NtkaRLL+f
+ zMOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rYT/VCdSarMI+aJTrFiH7Pju/Kl2UMI0NV/J6/Si8vc=;
+ b=hcDn9HICjSBvan86MW7sfzVch5XxNSqVJYtwL32445/AbmXYPrfkAHKXTr1GHqfY4j
+ 7KVTmaSg6GxY9MGXcBn8R1fjG84jrqEbrRY3LsxHUf224FMLsn+PC/4Z+RDSe1TWtaLY
+ 2gg940D3kVaSlmJ6nrebC9KGjAc0EAlnPnL/8irktMX0KgrFBa6VJO+HvBlVS3ov+7Pv
+ ovRTMTULmePcpbvYedQ51oQyKQFiixnPt8g5aArJ2ksk7jbRox31IcPPUAwo0h6NbQbQ
+ gejrd5EPCybbYLY86juvn2tSUDv8PPKLpFMQJ9G3lA13Vu10qc+ldKmPRAogB337BSNI
+ sEPw==
+X-Gm-Message-State: AGi0Pua8NoMmCDSvquvHetCSEl21f3bgPornVaKOlp5kRMY9Jg64kB3W
+ yKfZHTQWPrT+hljN2knympmzh+MtPw2VjU1BfQkbuQ==
+X-Google-Smtp-Source: APiQypLAJbYGip2k0D/aY2vWj/YZCrFsf4S08PC8JYTG0o2mPQAhlP6LndEgRk3ilp9h14nYsCtzEyBirXNiUG2lgRY=
+X-Received: by 2002:a54:400c:: with SMTP id x12mr28810939oie.146.1589446296240; 
+ Thu, 14 May 2020 01:51:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <tencent_129CC651BFBFE9CB46B508FB74F1364C170A@qq.com>
+In-Reply-To: <tencent_129CC651BFBFE9CB46B508FB74F1364C170A@qq.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 14 May 2020 09:51:25 +0100
+Message-ID: <CAFEAcA-K3hCmESBHSPzyiFL1529Sj-ZKbqg=2UmCzx4d_ejomA@mail.gmail.com>
+Subject: Re: how to extend to load COFF executable image file
+To: casmac <1482995675@qq.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-oi1-x22d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
@@ -88,259 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
+On Thu, 14 May 2020 at 09:44, casmac <1482995675@qq.com> wrote:
+>
+> Hello,
+>    Thanks for the detailed explaination and insightful advise!!
+>    I firstly give a try to use objcopy from GNU binutils, but it seems th=
+e COFF file I am work on (which is generated by TI's CCS IDE) cannot be rec=
+ognized. The COFF format used by TI sllightly differs from GNU's definition=
+. So I guess I have to parse and load the COFF file myself.
 
-------=_NextPart_5EBD04CF_101BA210_0BA4902A
-Content-Type: text/plain;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
+Ha. Over a decade ago I had to deal with TI's weirdo COFF file
+variant. I took the approach of getting binutils to handle it
+at least sufficiently to do COFF-to-ELF conversion:
+http://www.chiark.greenend.org.uk/~pmaydell/misc/binutils.notes.txt
+http://www.chiark.greenend.org.uk/~pmaydell/misc/binutils.patch.txt
+though I imagine that getting that to work with a modern binutils
+might be a bit of a pain.
 
-SGVsbG8sDQombmJzcDsgJm5ic3A7VGhhbmtzIGZvciB0aGUgZGV0YWlsZWQgZXhwbGFpbmF0
-aW9uIGFuZCBpbnNpZ2h0ZnVsIGFkdmlzZSEhDQombmJzcDsgJm5ic3A7SSBmaXJzdGx5IGdp
-dmUgYSB0cnkgdG8gdXNlIG9iamNvcHkgZnJvbSBHTlUgYmludXRpbHMsIGJ1dCBpdCBzZWVt
-cyB0aGUgQ09GRiBmaWxlIEkgYW0gd29yayBvbiAod2hpY2ggaXMgZ2VuZXJhdGVkIGJ5IFRJ
-J3MgQ0NTIElERSkgY2Fubm90IGJlIHJlY29nbml6ZWQuIFRoZSBDT0ZGIGZvcm1hdCB1c2Vk
-IGJ5IFRJIHNsbGlnaHRseSBkaWZmZXJzIGZyb20gR05VJ3MgZGVmaW5pdGlvbi4gU28gSSBn
-dWVzcyBJIGhhdmUgdG8gcGFyc2UgYW5kIGxvYWQgdGhlIENPRkYgZmlsZSBteXNlbGYuDQom
-bmJzcDsgJm5ic3A7QXMgZmFyIGFzIEkgdW5kZXJzdGFuZCBob3cgYSBDT0ZGIGV4ZWN1dGFi
-bGUgZmlsZSBpcyBvcmdhbml6ZWQsIHRoZXJlIGFyZSBnZW5lcmFsbHkgMyBzZWN0aW9uICdj
-aHVuY2tzJyZuYnNwOyB0byBsb2FkLiBBIHNlY3Rpb24gY2h1bmNrIG1heSBjb250YWluIG11
-dGlscGxlIHNlY3Rpb25zLiBGb3IgZXhhbXBsZSwgYSBwcm9ncmFtIG1heSBjb250YWluIDMg
-c2VjdGlvbiBjaHVja3M6DQpTZWN0aW9uIGNodWNrczombmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt0YXJnZXQgYWRkcmVzcyBvbiBE
-U1AgcHJvY2Vzc29yDQpDaHVuayAxID0gdHh0ICsgYnNzJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAweDEwMDANCkNo
-dW5jayAyPSBjaW8rY29uc3QrZGF0YStzdGFjayZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOzB4ODAwMDAwDQpDaHVuY2szID0gdmVjdG9yJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgMHg4MDlmYzENCg0KJm5ic3A7ICZuYnNwOyBOb3csIEkgYW0gdHJ5aW5n
-IHRvIG1ha2UgdXNlIG9mICJST00gYmxvYnMiIGFuZCByb21fYWRkX2Jsb2IoKSBjYWxsLiBJ
-IGFtIGNvbmZ1c2VkIGFib3V0IGhvdyB0byBtYXAgdGhlIHNlY3Rpb25zIHRvIGJsb2JzLCBv
-bmUgUk9NIGZvciBvbmUgc2VjdGlvbihmb3IgZXhhbXBsZSAudHh0KSAsIG9yIG9uZSBST00g
-Zm9yIGEgc2VjdGlvbiBjaHVuaz8mbmJzcDsgTWVhbndoaWxlLCBob3cgdG8gdXNlIHRoZSBm
-aWxlZHMgZnJvbSB0aGUmbmJzcDsgUm9tIHN0cnVjdDogDQoNCg0Kc3RydWN0IFJvbSB7DQom
-bmJzcDsgJm5ic3A7IGNoYXIgKm5hbWU7DQombmJzcDsgJm5ic3A7IGNoYXIgKnBhdGg7DQom
-bmJzcDsgJm5ic3A7IHNpemVfdCByb21zaXplOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7IC8vDQombmJzcDsgJm5ic3A7IHNpemVfdCBkYXRhc2l6ZTsmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOy8vJm5ic3A7IGRhdGEgc2l6
-ZSBvZiBhIHNlY3Rpb24/DQombmJzcDsgJm5ic3A7IHVpbnQ4X3QgKmRhdGE7CQkvLyBvZmZz
-ZXQgb2Ygc2VjdGlvbiByYXcgZGF0YSBmcm9tIHRoZSBjb2ZmPwkJDQombmJzcDsgJm5ic3A7
-IE1lbW9yeVJlZ2lvbiAqbXI7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsvL2Fzc29jaWF0ZWQgdG8gdGhlIHRhcmdldCBEU1AgbWVtb3J5IHJlZ2lvbj8gd2hl
-biB0aGUgdGFyZ2V0IG1lbW9yeSByZWdpb24gaXMgbGlua2VkIHRvIFJPTT8NCiZuYnNwOyAm
-bmJzcDsgQWRkcmVzc1NwYWNlICphczsNCiZuYnNwOyAmbmJzcDsgaW50IGlzcm9tOw0KJm5i
-c3A7ICZuYnNwOyBjaGFyICpmd19kaXI7DQombmJzcDsgJm5ic3A7IGNoYXIgKmZ3X2ZpbGU7
-DQombmJzcDsgJm5ic3A7IEdNYXBwZWRGaWxlICptYXBwZWRfZmlsZTsmbmJzcDsgJm5ic3A7
-IC8vbWFwcGVkIGZyb20gdGhlIGNvZmYgZmlsZSwgbGlrZSB3aGF0IGlzIGRvbmUgZm9yIEVM
-Rj8NCiZuYnNwOyAmbmJzcDsgYm9vbCBjb21taXR0ZWQ7DQombmJzcDsgJm5ic3A7IGh3YWRk
-ciBhZGRyOw0KJm5ic3A7ICZuYnNwOyBRVEFJTFFfRU5UUlkoUm9tKSBuZXh0Ow0KfTsNCg0K
-Jm5ic3A7ICZuYnNwO0kgaG9wZSB0aGVyZSBpcyBubyBuZWVkIHRvIG1vZGlmeSBvciBhZGQg
-bmV3IHN0dWZmIHRvIFJPTS4NCiZuYnNwOyAmbmJzcDtBbnkgYWR2aXNlIHdvdWxkIGJlIGFw
-cHJlY2lhdGVkISENCnJlZ2FyZHMsDQoNCg0KeGlhb2xlaQ0KDQoNCi0tLS0tLS0tLS0tLS0t
-LS0tLSDUrcq808q8/iAtLS0tLS0tLS0tLS0tLS0tLS0NCreivP7IyzombmJzcDsiUGV0ZXIg
-TWF5ZGVsbCI8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnJmd0OzsNCreiy83KsbzkOiZuYnNw
-OzIwMjDE6jXUwjEyyNUo0MfG2rb+KSDPws7nNTozMQ0KytW8/sjLOiZuYnNwOyJjYXNtYWMi
-PDE0ODI5OTU2NzVAcXEuY29tJmd0OzsNCrOty806Jm5ic3A7InFlbXUtZGV2ZWwiPHFlbXUt
-ZGV2ZWxAbm9uZ251Lm9yZyZndDs7DQrW98ziOiZuYnNwO1JlOiBob3cgdG8gZXh0ZW5kIHRv
-IGxvYWQgQ09GRiBleGVjdXRhYmxlIGltYWdlIGZpbGUNCg0KDQoNCk9uIFR1ZSwgMTIgTWF5
-IDIwMjAgYXQgMDg6NDEsIHhpYW9sZWkgPDE0ODI5OTU2NzVAcXEuY29tJmd0OyB3cm90ZToN
-CiZndDsNCiZndDsgSGkgYWxsLA0KJmd0OyAmbmJzcDsgSSBhdHRlbXB0IHRvIGFkZCBEU1Ag
-YXJjaGl0ZWN0dXJlIHN1cHBvcnQgZm9yIHNvbWUgVEkgcHJvY2Vzc29yLCBiYXNlZCBvbiBR
-RU1VIDQuMi4NCg0KRG9uJ3QgdHJ5IHRvIGFkZCBuZXcgY29kZSB0byBRRU1VIGJhc2VkIG9u
-IGFuIG9sZCB2ZXJzaW9uLg0KWW91IHNob3VsZCBhbHdheXMgd29yayB3aXRoIHRoZSBoZWFk
-LW9mLWdpdC4gT3RoZXJ3aXNlIHlvdSdsbA0KYmUgZGVhbGluZyB3aXRoIHN0dWZmIHRoYXQn
-cyBncmFkdWFsbHkgZHJpZnRpbmcgb3V0IG9mIGRhdGUNCmFuZCB5b3UnbGwgZW5kIHVwIHdp
-dGggcGFpbiB3aGVuIHlvdSBuZWVkIHRvIHJlYmFzZS4NCg0KJmd0OyAmbmJzcDsgV2hlbiBJ
-IHdvcmsgb24gdGhlIGV4ZWN1dGFibGUgZmlsZSBsb2FkaW5nICwgSSB0cnkgdG8gbG9hZCBD
-T0ZGIGV4ZWN1dGFibGUmbmJzcDsgZmlsZS4gRm9sbG93aW5nIHRoZSBFTEYgZmlsZSBwcm9j
-ZXNzaW5nIHNjaGVtZSwgSSB0aG91Z2h0IEkgY291bGQgd3JpdGUgYSBmdW5jdGlvbiBzaW1p
-bGFyIHRvIDoNCiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgcm9tX2FkZF9lbGZf
-cHJvZ3JhbShsYWJlbCwgbWFwcGVkX2ZpbGUsIGRhdGEsIGZpbGVfc2l6ZSwgbWVtX3NpemUs
-IGFkZHIsIGFzKTsNCiZndDsgJm5ic3A7IEJ1dCBJIGdvdCBsb3N0IHdoZW4gSSB0cmFjayBk
-b3duIHRoZSB1c2FnZSB0byB0aGUgZ2xvYmFsIHZhcmlhYmxlJm5ic3A7IDpzdGF0aWMgUVRB
-SUxRX0hFQUQoLCBSb20pIHJvbXM7DQomZ3Q7ICZuYnNwOyBJIGRpZCBub3QgZ2V0IHdoZXJl
-IHRoaXMgJ3JvbXMnJm5ic3A7IGlzIHVzZWQgZm9yIHByb2dyYW0gbG9hZGluZywgYW5kIGhv
-dyB0aGUgbG9hZGVkIHByb2dyYW0gZ2V0IHRvIHJ1biBldmVudHVhbGx5LiZuYnNwOyBDYW4g
-c29tZW9uZSBnaXZlIG1lIHNvbWUgaGludHM/DQoNCllvdSd2ZSBnb25lIGRvd24gdG9vIGZh
-ciBpbnRvIHRoZSBpbnRlcm5hbHMgb2YgdGhlIGltcGxlbWVudGF0aW9uIHRoZXJlLg0KVGhl
-IHdheSB0aGF0IFFFTVUncyBpbWFnZSBsb2FkaW5nIGNvZGUgd29ya3MgaXMgdGhhdCBhbGwg
-dGhlIGRhdGENCnRoYXQgbXVzdCBiZSBsb2FkZWQgaXMgcHV0IGludG8gYSBzZXQgb2YgIlJP
-TSBibG9icyIsIHdoaWNoIHdlDQprZWVwIGluIGEgbGlua2VkIGxpc3QuIFdoZW4gdGhlIHN5
-c3RlbSBpcyByZXNldCB0aGVuIHRoZSBmdW5jdGlvbg0Kcm9tX3Jlc2V0KCkgcnVucyB0aHJv
-dWdoIHRoZSBsaXN0IGFuZCBjb3BpZXMgdGhlIGRhdGEgaW4gZWFjaA0KYmxvYiBpbnRvIHRo
-ZSByaWdodCBsb2NhdGlvbiBpbiB0aGUgZ3Vlc3QgbWVtb3J5LiBUaGUgc2ltcGxlc3QNCndh
-eSB0byBjcmVhdGUgYSBibG9iIGlzIHRvIHVzZSByb21fYWRkX2Jsb2IoKTsgYnV0IHlvdSBj
-b3VsZA0KYWxzbyB1c2Ugcm9tX2FkZF9lbGZfcHJvZ3JhbSgpIGlmIHlvdSB3YW50ZWQuIFRo
-YXQgZnVuY3Rpb24gaXMNCmEgYml0IG1pc25hbWVkOiBpdCdzIG5vdCBFTEYgc3BlY2lmaWMg
-YW5kIGl0IGRvZXNuJ3QgaGFuZGxlDQphbiBlbnRpcmUgcHJvZ3JhbTsgaXQganVzdCBoYXMg
-YSBjb3VwbGUgb2YgZXh0cmEgcHJvcGVydGllcyBvdmVyDQpyb21fYWRkX2Jsb2I6DQombmJz
-cDsqIGl0IGxldHMgdGhlIGNhbGxlciBwcm92aWRlIGRhdGEgd2hpY2ggb25seSBwYXJ0bHkg
-ZmlsbHMNCiZuYnNwOyZuYnNwOyB0aGUgYmxvYiwgd2l0aCB0aGUgcmVtYWluZGVyIHRvIGJl
-IHplcm9lcw0KJm5ic3A7KiBpdCBjYW4gd29yayB3aXRoIGEgR01hcHBlZEZpbGUgc28geW91
-IGRvbid0IG5lZWQgdG8gY29weQ0KJm5ic3A7Jm5ic3A7IHRoZSBkYXRhIG91dCBvZiB0aGUg
-bWFwcGVkIGZpbGUgdG8gcGFzcyB0byBpdA0KDQomZ3Q7ICZuYnNwOyBBbHNvLCB0aGUgQ09G
-RiBmaWxlIGZvcm1hdCBkaWZmZXJzIGZyb20gdGhlIEVMRiwgdGhlcmUgaXMgbm8gcHJvZ3Jh
-bSBoZWFkZXIuIEkgd29uZGVyIGlmIEkgY291bGQgcmV1c2UgdGhlICdyb20nIHN0cnVjdHVy
-ZSBsaWtlIGxvYWRpbmcgYSBFTEYuIE9yIHRoZXJlIGlzIGEgYmV0dGVyIHdheSB0byBkbyBp
-dC4NCg0KWWVzLCB5b3Ugd2FudCB0byByZXVzZSB0aGUgUm9tIHN0cnVjdCwgd2hpY2ggaXNu
-J3QgRUxGIHNwZWNpZmljDQood2UgYWxzbyB1c2UgaXQgZm9yIGxvYWRpbmcgcmF3IGZpbGVz
-IGFuZCB1SW1hZ2VzKS4gWW91IHdvdWxkDQpuZWVkIHRvIHdyaXRlIGNvZGUgd2hpY2ggY291
-bGQgcmVhZCBhbmQgcGFyc2UgYSBDT0ZGIGZpbGUgYW5kDQppZGVudGlmeSB3aGF0IHBhcnRz
-IG9mIHRoZSBpbnB1dCBmaWxlIG5lZWRlZCB0byBnbyB3aGVyZSBpbg0KbWVtb3J5IChhbmQg
-d2hhdCBwYXJ0cyBvZiBtZW1vcnkgd291bGQgbmVlZCB0byBiZSB6ZXJvZWQpLiBUaGVuDQpm
-b3IgZWFjaCBvZiB0aG9zZSBwYXJ0cyBvZiBtZW1vcnkgeW91IGNyZWF0ZSBhIHJvbSBibG9i
-DQoodmlhIHJvbV9hZGRfYmxvYigpIG9yIHJvbV9hZGRfZWxmX3Byb2dyYW0oKSkuIFRoYXQg
-aXMsIHlvdQ0Kd2FudCB0aGUgZXF1aXZhbGVudCBvZiB0aGUgZnVuY3Rpb24gInN0YXRpYyBp
-bnQgZ2x1ZShsb2FkX2VsZiwgU1opIg0KaW4gaW5jbHVkZS9ody9lbGZfb3BzLmguIChUaGF0
-IGZ1bmN0aW9uIGlzIGEgYml0IG9kZCBiZWNhdXNlDQp3ZSB1c2UgdGhlIEMgcHJlcHJvY2Vz
-c29yIHRvIGNyZWF0ZSBhIDMyIGJpdCBhbmQgYSA2NCBiaXQNCnZlcnNpb24gb2YgdGhlIGZ1
-bmN0aW9uIHNvIHdlIGNhbiBsb2FkIDMyLWJpdCBFTEYgYW5kIDY0LWJpdA0KRUxGIGZpbGVz
-LiBDT0ZGIG1heSBub3QgbmVlZCB0aGF0IGNvbXBsaWNhdGlvbi4pDQoNCkNvbnNpZGVyIGFs
-c28gdGFraW5nIHRoZSBzaW1wbGVyIGFwcHJvYWNoIG9mIGp1c3QgdXNpbmcNCmJpbnV0aWxz
-IG9iamNvcHkgdG8gY29udmVydCB0aGUgQ09GRiBmaWxlIGludG8gYW4gRUxGDQphbmQgdGhl
-biBwYXNzaW5nIHRoYXQgRUxGIGZpbGUgdG8gUUVNVS4gSW4gcGFydGljdWxhcg0KaWYgeW91
-J3JlIGFsc28gdHJ5aW5nIHRvIGltcGxlbWVudCBhbiBlbnRpcmUgbmV3IGFyY2hpdGVjdHVy
-ZQ0KeW91IG1pZ2h0IGFzIHdlbGwgc2tpcCB0aGUgcGFpbiBvZiB3cml0aW5nIGEgQ09GRiBm
-aWxlDQpsb2FkZXIgZm9yIHRoZSBtb21lbnQuDQoNCnRoYW5rcw0KLS0gUE1N
+>    As far as I understand how a COFF executable file is organized, there =
+are generally 3 section 'chuncks'  to load. A section chunck may contain mu=
+tilple sections. For example, a program may contain 3 section chucks:
+> Section chucks:                               target address on DSP proce=
+ssor
+> Chunk 1 =3D txt + bss                                  0x1000
+> Chunck 2=3D cio+const+data+stack             0x800000
+> Chunck3 =3D vector                                    0x809fc1
+>     Now, I am trying to make use of "ROM blobs" and rom_add_blob() call. =
+I am confused about how to map the sections to blobs, one ROM for one secti=
+on(for example .txt) , or one ROM for a section chunk?
 
-------=_NextPart_5EBD04CF_101BA210_0BA4902A
-Content-Type: text/html;
-	charset="gb18030"
-Content-Transfer-Encoding: base64
+You want one ROM blob for each contiguous lump of guest memory
+for which you have data to provide. Guest memory which is
+all-zeroes you can either do by passing a block of zeroes
+to rom_add_blob(), or for the special case where the zeroes
+directly follow a lump of other data, you can use
+rom_add_elf_program() to avoid having to allocate the zeroes.
 
-PG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNo
-YXJzZXQ9R0IxODAzMCI+PGRpdj5IZWxsbyw8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDtUaGFu
-a3MgZm9yIHRoZSBkZXRhaWxlZCBleHBsYWluYXRpb24gYW5kIGluc2lnaHRmdWwgYWR2aXNl
-ISE8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDtJIGZpcnN0bHkgZ2l2ZSBhIHRyeSB0byB1c2Ug
-b2JqY29weSBmcm9tIEdOVSBiaW51dGlscywgYnV0IGl0IHNlZW1zIHRoZSBDT0ZGIGZpbGUg
-SSBhbSB3b3JrIG9uICh3aGljaCBpcyBnZW5lcmF0ZWQgYnkgVEkncyBDQ1MgSURFKSBjYW5u
-b3QgYmUgcmVjb2duaXplZC4gVGhlIENPRkYgZm9ybWF0IHVzZWQgYnkgVEkgc2xsaWdodGx5
-IGRpZmZlcnMgZnJvbSBHTlUncyBkZWZpbml0aW9uLiBTbyBJIGd1ZXNzIEkgaGF2ZSB0byBw
-YXJzZSBhbmQgbG9hZCB0aGUgQ09GRiBmaWxlIG15c2VsZi48L2Rpdj48ZGl2PiZuYnNwOyAm
-bmJzcDtBcyBmYXIgYXMgSSB1bmRlcnN0YW5kIGhvdyBhIENPRkYgZXhlY3V0YWJsZSBmaWxl
-IGlzIG9yZ2FuaXplZCwgdGhlcmUgYXJlIGdlbmVyYWxseSAzIHNlY3Rpb24gJ2NodW5ja3Mn
-Jm5ic3A7IHRvIGxvYWQuIEEgc2VjdGlvbiBjaHVuY2sgbWF5IGNvbnRhaW4gbXV0aWxwbGUg
-c2VjdGlvbnMuIEZvciBleGFtcGxlLCBhIHByb2dyYW0gbWF5IGNvbnRhaW4gMyBzZWN0aW9u
-IGNodWNrczo8L2Rpdj48ZGl2PjxkaXY+U2VjdGlvbiBjaHVja3M6Jm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7dGFyZ2V0IGFkZHJl
-c3Mgb24gRFNQIHByb2Nlc3NvcjwvZGl2PjxkaXY+Q2h1bmsgMSA9IHR4dCArIGJzcyZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgMHgxMDAwPC9kaXY+PGRpdj5DaHVuY2sgMj0gY2lvK2NvbnN0K2RhdGErc3RhY2sm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsweDgwMDAw
-MDwvZGl2PjxkaXY+Q2h1bmNrMyA9IHZlY3RvciZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IDB4ODA5ZmMx
-PC9kaXY+PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7IE5vdywgSSBhbSB0cnlpbmcgdG8gbWFr
-ZSB1c2Ugb2YgIlJPTSBibG9icyIgYW5kIHJvbV9hZGRfYmxvYigpIGNhbGwuIEkgYW0gY29u
-ZnVzZWQgYWJvdXQgaG93IHRvIG1hcCB0aGUgc2VjdGlvbnMgdG8gYmxvYnMsIG9uZSBST00g
-Zm9yIG9uZSBzZWN0aW9uKGZvciBleGFtcGxlIC50eHQpICwgb3Igb25lIFJPTSBmb3IgYSBz
-ZWN0aW9uIGNodW5rPyZuYnNwOyBNZWFud2hpbGUsIGhvdyB0byB1c2UgdGhlIGZpbGVkcyBm
-cm9tIHRoZSZuYnNwOyBSb20gc3RydWN0OiA8L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2Pjxk
-aXY+c3RydWN0IFJvbSB7PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7IGNoYXIgKm5hbWU7PC9k
-aXY+PGRpdj4mbmJzcDsgJm5ic3A7IGNoYXIgKnBhdGg7PC9kaXY+PGRpdj4mbmJzcDsgJm5i
-c3A7IHNpemVfdCByb21zaXplOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7IC8vPC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7IHNpemVfdCBkYXRhc2l6ZTsmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOy8vJm5ic3A7IGRhdGEgc2l6
-ZSBvZiBhIHNlY3Rpb24/PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7IHVpbnQ4X3QgKmRhdGE7
-PHNwYW4gc3R5bGU9IndoaXRlLXNwYWNlOnByZSI+CQk8L3NwYW4+Ly8gb2Zmc2V0IG9mIHNl
-Y3Rpb24gcmF3IGRhdGEgZnJvbSB0aGUgY29mZj88c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6
-cHJlIj4JCTwvc3Bhbj48L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgTWVtb3J5UmVnaW9uICpt
-cjsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOy8vYXNzb2NpYXRl
-ZCB0byB0aGUgdGFyZ2V0IERTUCBtZW1vcnkgcmVnaW9uPyB3aGVuIHRoZSB0YXJnZXQgbWVt
-b3J5IHJlZ2lvbiBpcyBsaW5rZWQgdG8gUk9NPzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyBB
-ZGRyZXNzU3BhY2UgKmFzOzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwOyBpbnQgaXNyb207PC9k
-aXY+PGRpdj4mbmJzcDsgJm5ic3A7IGNoYXIgKmZ3X2Rpcjs8L2Rpdj48ZGl2PiZuYnNwOyAm
-bmJzcDsgY2hhciAqZndfZmlsZTs8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgR01hcHBlZEZp
-bGUgKm1hcHBlZF9maWxlOyZuYnNwOyAmbmJzcDsgLy9tYXBwZWQgZnJvbSB0aGUgY29mZiBm
-aWxlLCBsaWtlIHdoYXQgaXMgZG9uZSBmb3IgRUxGPzwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNw
-OyBib29sIGNvbW1pdHRlZDs8L2Rpdj48ZGl2PiZuYnNwOyAmbmJzcDsgaHdhZGRyIGFkZHI7
-PC9kaXY+PGRpdj4mbmJzcDsgJm5ic3A7IFFUQUlMUV9FTlRSWShSb20pIG5leHQ7PC9kaXY+
-PGRpdj59OzwvZGl2PjwvZGl2PjxkaXY+Jm5ic3A7ICZuYnNwO0kgaG9wZSB0aGVyZSBpcyBu
-byBuZWVkIHRvIG1vZGlmeSBvciBhZGQgbmV3IHN0dWZmIHRvIFJPTS48L2Rpdj48ZGl2PiZu
-YnNwOyAmbmJzcDtBbnkgYWR2aXNlIHdvdWxkIGJlIGFwcHJlY2lhdGVkISE8L2Rpdj48ZGl2
-PnJlZ2FyZHMsPC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj54aWFvbGVpPC9kaXY+PGRpdj48
-YnI+PC9kaXY+PGRpdj48ZGl2IHN0eWxlPSJmb250LXNpemU6IDEycHg7Zm9udC1mYW1pbHk6
-IEFyaWFsIE5hcnJvdztwYWRkaW5nOjJweCAwIDJweCAwOyI+LS0tLS0tLS0tLS0tLS0tLS0t
-INStyrzTyrz+IC0tLS0tLS0tLS0tLS0tLS0tLTwvZGl2PjxkaXYgc3R5bGU9ImZvbnQtc2l6
-ZTogMTJweDtiYWNrZ3JvdW5kOiNlZmVmZWY7cGFkZGluZzo4cHg7Ij48ZGl2PjxiPreivP7I
-yzo8L2I+Jm5ic3A7IlBldGVyIE1heWRlbGwiJmx0O3BldGVyLm1heWRlbGxAbGluYXJvLm9y
-ZyZndDs7PC9kaXY+PGRpdj48Yj63osvNyrG85Do8L2I+Jm5ic3A7MjAyMMTqNdTCMTLI1SjQ
-x8batv4pIM/Czuc1OjMxPC9kaXY+PGRpdj48Yj7K1bz+yMs6PC9iPiZuYnNwOyJjYXNtYWMi
-Jmx0OzE0ODI5OTU2NzVAcXEuY29tJmd0Ozs8d2JyPjwvZGl2PjxkaXY+PGI+s63LzTo8L2I+
-Jm5ic3A7InFlbXUtZGV2ZWwiJmx0O3FlbXUtZGV2ZWxAbm9uZ251Lm9yZyZndDs7PHdicj48
-L2Rpdj48ZGl2PjxiPtb3zOI6PC9iPiZuYnNwO1JlOiBob3cgdG8gZXh0ZW5kIHRvIGxvYWQg
-Q09GRiBleGVjdXRhYmxlIGltYWdlIGZpbGU8L2Rpdj48L2Rpdj48ZGl2Pjxicj48L2Rpdj5P
-biBUdWUsIDEyIE1heSAyMDIwIGF0IDA4OjQxLCB4aWFvbGVpICZsdDsxNDgyOTk1Njc1QHFx
-LmNvbSZndDsgd3JvdGU6PGJyPiZndDs8YnI+Jmd0OyBIaSBhbGwsPGJyPiZndDsgJm5ic3A7
-IEkgYXR0ZW1wdCB0byBhZGQgRFNQIGFyY2hpdGVjdHVyZSBzdXBwb3J0IGZvciBzb21lIFRJ
-IHByb2Nlc3NvciwgYmFzZWQgb24gUUVNVSA0LjIuPGJyPjxicj5Eb24ndCB0cnkgdG8gYWRk
-IG5ldyBjb2RlIHRvIFFFTVUgYmFzZWQgb24gYW4gb2xkIHZlcnNpb24uPGJyPllvdSBzaG91
-bGQgYWx3YXlzIHdvcmsgd2l0aCB0aGUgaGVhZC1vZi1naXQuIE90aGVyd2lzZSB5b3UnbGw8
-YnI+YmUgZGVhbGluZyB3aXRoIHN0dWZmIHRoYXQncyBncmFkdWFsbHkgZHJpZnRpbmcgb3V0
-IG9mIGRhdGU8YnI+YW5kIHlvdSdsbCBlbmQgdXAgd2l0aCBwYWluIHdoZW4geW91IG5lZWQg
-dG8gcmViYXNlLjxicj48YnI+Jmd0OyAmbmJzcDsgV2hlbiBJIHdvcmsgb24gdGhlIGV4ZWN1
-dGFibGUgZmlsZSBsb2FkaW5nICwgSSB0cnkgdG8gbG9hZCBDT0ZGIGV4ZWN1dGFibGUmbmJz
-cDsgZmlsZS4gRm9sbG93aW5nIHRoZSBFTEYgZmlsZSBwcm9jZXNzaW5nIHNjaGVtZSwgSSB0
-aG91Z2h0IEkgY291bGQgd3JpdGUgYSBmdW5jdGlvbiBzaW1pbGFyIHRvIDo8YnI+Jmd0OyZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyByb21fYWRkX2VsZl9wcm9ncmFtKGxhYmVsLCBt
-YXBwZWRfZmlsZSwgZGF0YSwgZmlsZV9zaXplLCBtZW1fc2l6ZSwgYWRkciwgYXMpOzxicj4m
-Z3Q7ICZuYnNwOyBCdXQgSSBnb3QgbG9zdCB3aGVuIEkgdHJhY2sgZG93biB0aGUgdXNhZ2Ug
-dG8gdGhlIGdsb2JhbCB2YXJpYWJsZSZuYnNwOyA6c3RhdGljIFFUQUlMUV9IRUFEKCwgUm9t
-KSByb21zOzxicj4mZ3Q7ICZuYnNwOyBJIGRpZCBub3QgZ2V0IHdoZXJlIHRoaXMgJ3JvbXMn
-Jm5ic3A7IGlzIHVzZWQgZm9yIHByb2dyYW0gbG9hZGluZywgYW5kIGhvdyB0aGUgbG9hZGVk
-IHByb2dyYW0gZ2V0IHRvIHJ1biBldmVudHVhbGx5LiZuYnNwOyBDYW4gc29tZW9uZSBnaXZl
-IG1lIHNvbWUgaGludHM/PGJyPjxicj5Zb3UndmUgZ29uZSBkb3duIHRvbyBmYXIgaW50byB0
-aGUgaW50ZXJuYWxzIG9mIHRoZSBpbXBsZW1lbnRhdGlvbiB0aGVyZS48YnI+VGhlIHdheSB0
-aGF0IFFFTVUncyBpbWFnZSBsb2FkaW5nIGNvZGUgd29ya3MgaXMgdGhhdCBhbGwgdGhlIGRh
-dGE8YnI+dGhhdCBtdXN0IGJlIGxvYWRlZCBpcyBwdXQgaW50byBhIHNldCBvZiAiUk9NIGJs
-b2JzIiwgd2hpY2ggd2U8YnI+a2VlcCBpbiBhIGxpbmtlZCBsaXN0LiBXaGVuIHRoZSBzeXN0
-ZW0gaXMgcmVzZXQgdGhlbiB0aGUgZnVuY3Rpb248YnI+cm9tX3Jlc2V0KCkgcnVucyB0aHJv
-dWdoIHRoZSBsaXN0IGFuZCBjb3BpZXMgdGhlIGRhdGEgaW4gZWFjaDxicj5ibG9iIGludG8g
-dGhlIHJpZ2h0IGxvY2F0aW9uIGluIHRoZSBndWVzdCBtZW1vcnkuIFRoZSBzaW1wbGVzdDxi
-cj53YXkgdG8gY3JlYXRlIGEgYmxvYiBpcyB0byB1c2Ugcm9tX2FkZF9ibG9iKCk7IGJ1dCB5
-b3UgY291bGQ8YnI+YWxzbyB1c2Ugcm9tX2FkZF9lbGZfcHJvZ3JhbSgpIGlmIHlvdSB3YW50
-ZWQuIFRoYXQgZnVuY3Rpb24gaXM8YnI+YSBiaXQgbWlzbmFtZWQ6IGl0J3Mgbm90IEVMRiBz
-cGVjaWZpYyBhbmQgaXQgZG9lc24ndCBoYW5kbGU8YnI+YW4gZW50aXJlIHByb2dyYW07IGl0
-IGp1c3QgaGFzIGEgY291cGxlIG9mIGV4dHJhIHByb3BlcnRpZXMgb3Zlcjxicj5yb21fYWRk
-X2Jsb2I6PGJyPiZuYnNwOyogaXQgbGV0cyB0aGUgY2FsbGVyIHByb3ZpZGUgZGF0YSB3aGlj
-aCBvbmx5IHBhcnRseSBmaWxsczxicj4mbmJzcDsmbmJzcDsgdGhlIGJsb2IsIHdpdGggdGhl
-IHJlbWFpbmRlciB0byBiZSB6ZXJvZXM8YnI+Jm5ic3A7KiBpdCBjYW4gd29yayB3aXRoIGEg
-R01hcHBlZEZpbGUgc28geW91IGRvbid0IG5lZWQgdG8gY29weTxicj4mbmJzcDsmbmJzcDsg
-dGhlIGRhdGEgb3V0IG9mIHRoZSBtYXBwZWQgZmlsZSB0byBwYXNzIHRvIGl0PGJyPjxicj4m
-Z3Q7ICZuYnNwOyBBbHNvLCB0aGUgQ09GRiBmaWxlIGZvcm1hdCBkaWZmZXJzIGZyb20gdGhl
-IEVMRiwgdGhlcmUgaXMgbm8gcHJvZ3JhbSBoZWFkZXIuIEkgd29uZGVyIGlmIEkgY291bGQg
-cmV1c2UgdGhlICdyb20nIHN0cnVjdHVyZSBsaWtlIGxvYWRpbmcgYSBFTEYuIE9yIHRoZXJl
-IGlzIGEgYmV0dGVyIHdheSB0byBkbyBpdC48YnI+PGJyPlllcywgeW91IHdhbnQgdG8gcmV1
-c2UgdGhlIFJvbSBzdHJ1Y3QsIHdoaWNoIGlzbid0IEVMRiBzcGVjaWZpYzxicj4od2UgYWxz
-byB1c2UgaXQgZm9yIGxvYWRpbmcgcmF3IGZpbGVzIGFuZCB1SW1hZ2VzKS4gWW91IHdvdWxk
-PGJyPm5lZWQgdG8gd3JpdGUgY29kZSB3aGljaCBjb3VsZCByZWFkIGFuZCBwYXJzZSBhIENP
-RkYgZmlsZSBhbmQ8YnI+aWRlbnRpZnkgd2hhdCBwYXJ0cyBvZiB0aGUgaW5wdXQgZmlsZSBu
-ZWVkZWQgdG8gZ28gd2hlcmUgaW48YnI+bWVtb3J5IChhbmQgd2hhdCBwYXJ0cyBvZiBtZW1v
-cnkgd291bGQgbmVlZCB0byBiZSB6ZXJvZWQpLiBUaGVuPGJyPmZvciBlYWNoIG9mIHRob3Nl
-IHBhcnRzIG9mIG1lbW9yeSB5b3UgY3JlYXRlIGEgcm9tIGJsb2I8YnI+KHZpYSByb21fYWRk
-X2Jsb2IoKSBvciByb21fYWRkX2VsZl9wcm9ncmFtKCkpLiBUaGF0IGlzLCB5b3U8YnI+d2Fu
-dCB0aGUgZXF1aXZhbGVudCBvZiB0aGUgZnVuY3Rpb24gInN0YXRpYyBpbnQgZ2x1ZShsb2Fk
-X2VsZiwgU1opIjxicj5pbiBpbmNsdWRlL2h3L2VsZl9vcHMuaC4gKFRoYXQgZnVuY3Rpb24g
-aXMgYSBiaXQgb2RkIGJlY2F1c2U8YnI+d2UgdXNlIHRoZSBDIHByZXByb2Nlc3NvciB0byBj
-cmVhdGUgYSAzMiBiaXQgYW5kIGEgNjQgYml0PGJyPnZlcnNpb24gb2YgdGhlIGZ1bmN0aW9u
-IHNvIHdlIGNhbiBsb2FkIDMyLWJpdCBFTEYgYW5kIDY0LWJpdDxicj5FTEYgZmlsZXMuIENP
-RkYgbWF5IG5vdCBuZWVkIHRoYXQgY29tcGxpY2F0aW9uLik8YnI+PGJyPkNvbnNpZGVyIGFs
-c28gdGFraW5nIHRoZSBzaW1wbGVyIGFwcHJvYWNoIG9mIGp1c3QgdXNpbmc8YnI+YmludXRp
-bHMgb2JqY29weSB0byBjb252ZXJ0IHRoZSBDT0ZGIGZpbGUgaW50byBhbiBFTEY8YnI+YW5k
-IHRoZW4gcGFzc2luZyB0aGF0IEVMRiBmaWxlIHRvIFFFTVUuIEluIHBhcnRpY3VsYXI8YnI+
-aWYgeW91J3JlIGFsc28gdHJ5aW5nIHRvIGltcGxlbWVudCBhbiBlbnRpcmUgbmV3IGFyY2hp
-dGVjdHVyZTxicj55b3UgbWlnaHQgYXMgd2VsbCBza2lwIHRoZSBwYWluIG9mIHdyaXRpbmcg
-YSBDT0ZGIGZpbGU8YnI+bG9hZGVyIGZvciB0aGUgbW9tZW50Ljxicj48YnI+dGhhbmtzPGJy
-Pi0tIFBNTTxicj48L2Rpdj4=
+> Meanwhile, how to use the fileds from the  Rom struct:
 
-------=_NextPart_5EBD04CF_101BA210_0BA4902A--
+You don't need to look at the rom struct fields. Just
+call either rom_add_blob() or rom_add_elf_program() and
+those functions will handle the rom struct for you.
 
+thanks
+-- PMM
 
