@@ -2,60 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C0D1D3914
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 20:26:43 +0200 (CEST)
-Received: from localhost ([::1]:58928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCFA1D3D4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 21:19:50 +0200 (CEST)
+Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZIZ8-0005dk-JU
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 14:26:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48312)
+	id 1jZJOW-0003ys-Pm
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 15:19:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jZIY7-0005By-Bh
- for qemu-devel@nongnu.org; Thu, 14 May 2020 14:25:39 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:44267)
+ (Exim 4.90_1)
+ (envelope-from <2cc8d6c4ae9fa8210c48c349b207dfb68cb15290@lizzy.crudebyte.com>)
+ id 1jZJNg-0003Oe-K5
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 15:18:56 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joseph_myers@mentor.com>)
- id 1jZIY5-0002Zw-EK
- for qemu-devel@nongnu.org; Thu, 14 May 2020 14:25:38 -0400
-IronPort-SDR: iMTLqojzLNy3EgMVBIfUTkbz0Y8LH3/A31A3lGHqyTVFbhvRiAPP2qXOA/028MHYsO5qOo+D5G
- Wgl1FRN8hgOlrvTa4PF2bMl8Bkqiq7WnZyMue8NzKDbhczWp6CbH+mwEkJKbmPac9LJo5+56UO
- L2U9CnEZDLU397iaDDP/JehQ2MKJGGnL33euGPdlmO1rO3WCAHE3q5Sl+cHTZyJh9hkmp32bDt
- DojC56ARS5D+fZMIGHkMPnZYkX42OuAKI0qH2YC5Me0JVW+CNd2qXfzome7/dCXkwA7ndtkpwm
- Tw0=
-X-IronPort-AV: E=Sophos;i="5.73,392,1583222400"; d="scan'208";a="50888058"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
- by esa1.mentor.iphmx.com with ESMTP; 14 May 2020 10:25:34 -0800
-IronPort-SDR: htvO48n/qAnfCi1CQdG+XoYQcidTHf6JLJhowjhYYpo30JESm9l/5eHTY6FN/L3ZWZsKomZwl4
- qjHk/VkSfUiTfgvzaOIGFr9ZsogvMyXqZl/gHSqVBKFNtnOFeDuvFs1aQdXm+FsUDUjOuTjSVc
- agiYWcjfWTHHuHId5my1Kb3kv+Pc0IIKD2+1YyU+V9iE6sKQWEsApbuYTnnuXWmcmVfMO8oEIW
- RCTAO9RmhOffPZHZJAvzCSak1bB/ZElm7/+AG2CvUBWGgKW2B6Sz01aIQBmd0jfnTa/aDNtNXP
- Rqw=
-Date: Thu, 14 May 2020 18:25:28 +0000
-From: Joseph Myers <joseph@codesourcery.com>
-X-X-Sender: jsm28@digraph.polyomino.org.uk
-To: <qemu-devel@nongnu.org>, <pbonzini@redhat.com>, <rth@twiddle.net>,
- <ehabkost@redhat.com>
-Subject: Ping Re: [PATCH 0/5] target/i386: fxtract, fscale fixes
-In-Reply-To: <alpine.DEB.2.21.2005070038550.18350@digraph.polyomino.org.uk>
-Message-ID: <alpine.DEB.2.21.2005141821240.23319@digraph.polyomino.org.uk>
-References: <alpine.DEB.2.21.2005070038550.18350@digraph.polyomino.org.uk>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
-Received-SPF: pass client-ip=68.232.129.153;
- envelope-from=joseph_myers@mentor.com; helo=esa1.mentor.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 14:25:34
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3, SPF_PASS=-0.001,
+ (Exim 4.90_1)
+ (envelope-from <2cc8d6c4ae9fa8210c48c349b207dfb68cb15290@lizzy.crudebyte.com>)
+ id 1jZJNe-0006PH-J2
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 15:18:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=wS4qczauhBOj6sgHwbdGA4ceIYc4fObuVM5GVKolD5s=; b=gSZAj
+ McONRy/opbqxtmuMKE8MymZZmYAj7Kk4gjYOnxwfUmomAQ63jVpgMmb5v2Ga/SBymsHF6u1yIEOMg
+ gE6jLeUZMIYRVSP0TFGVQs0MKlYioU+7JtXp/5ON1HoPE2ZtPjc2KWEnt3M3jYHzSpi0OiwJ1Xk+6
+ v6e00Oag0o2JFBOUbLFjyB4UZmWyVkEy3mn8q2yVwLbxFXLzIpFjNw0cInyMDhQAw1KqTKzMQIv72
+ yVSO+QPT+YMlr1qLeK0YhK2/lEr84Nd8IDtPqMlzjPskM5dIk8pEFK8KtMGjhbhyPoj9x69zpYvSy
+ 1Ax43yZde+Jr9uIEtv2wXkNhmvsBQ==;
+Message-Id: <2cc8d6c4ae9fa8210c48c349b207dfb68cb15290.1589481482.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1589481482.git.qemu_oss@crudebyte.com>
+References: <cover.1589481482.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Thu, 14 May 2020 20:26:04 +0200
+Subject: [PATCH 1/1] virtio-9pfs: don't truncate response
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=2cc8d6c4ae9fa8210c48c349b207dfb68cb15290@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 14:49:51
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,14 +65,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping for this patch series 
-<https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg01465.html>.
+Commit SHA-1 16724a173049ac29c7b5ade741da93a0f46edff7 introduced
+truncating the response to the currently available transport buffer size,
+which was supposed to fix an 9pfs error on Xen boot where transport buffer
+might still be smaller than required for response.
 
-Although my three patch series so far for floatx80 and i386 floating-point 
-instructions fixes are independent of each other, it's likely future patch 
-series in this area will depend on some of the previous patch series.
+Unfortunately this change broke small reads (with less than 12 bytes).
 
+To fix this introduced bug for virtio at least, let's revert this change
+for the virtio transport. Unlike with Xen, we should never come into
+this situation with virtio that the available transport buffer would be
+too small for delivering any response to client. So truncating the buffer
+is not necessary with virtio in the first place.
+
+This bug still needs to be addressed for Xen appropriately though.
+
+Fixes: 16724a173049ac29c7b5ade741da93a0f46edff7 (for virtio only)
+Fixes: https://bugs.launchpad.net/bugs/1877688 (for virtio only)
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ hw/9pfs/virtio-9p-device.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/hw/9pfs/virtio-9p-device.c b/hw/9pfs/virtio-9p-device.c
+index 536447a355..bb6154945a 100644
+--- a/hw/9pfs/virtio-9p-device.c
++++ b/hw/9pfs/virtio-9p-device.c
+@@ -154,16 +154,13 @@ static void virtio_init_in_iov_from_pdu(V9fsPDU *pdu, struct iovec **piov,
+     VirtQueueElement *elem = v->elems[pdu->idx];
+     size_t buf_size = iov_size(elem->in_sg, elem->in_num);
+ 
+-    if (buf_size < P9_IOHDRSZ) {
++    if (buf_size < *size) {
+         VirtIODevice *vdev = VIRTIO_DEVICE(v);
+ 
+         virtio_error(vdev,
+-                     "VirtFS reply type %d needs %zu bytes, buffer has %zu, less than minimum",
++                     "VirtFS reply type %d needs %zu bytes, buffer has %zu",
+                      pdu->id + 1, *size, buf_size);
+     }
+-    if (buf_size < *size) {
+-        *size = buf_size;
+-    }
+ 
+     *piov = elem->in_sg;
+     *pniov = elem->in_num;
 -- 
-Joseph S. Myers
-joseph@codesourcery.com
+2.20.1
+
 
