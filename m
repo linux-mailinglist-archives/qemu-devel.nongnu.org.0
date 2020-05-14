@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958EA1D3559
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:40:07 +0200 (CEST)
-Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC37A1D352A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:33:42 +0200 (CEST)
+Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFxu-00023U-Md
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:40:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53132)
+	id 1jZFrh-0003SE-9H
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jZFwk-0000lr-3v; Thu, 14 May 2020 11:38:54 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:44937)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1jZFwj-0004Th-4v; Thu, 14 May 2020 11:38:53 -0400
-Received: by mail-il1-x144.google.com with SMTP id j3so3694106ilk.11;
- Thu, 14 May 2020 08:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fRkLzUuK1FZmLm45b8Vqv/xhaBJhqQ2j7GRNauOGDLc=;
- b=JSI6FTnnOlMmVjImQjbg4V3BhAD/bCR8Q9csVARXnM2U9Y7gFRYG0ltzQ1FpQQa7Tl
- 9A9WgVxwxeGJ50BAh3WpY5Dt9GTNErLX2BQDDGAnaENDNs1NSrDvASGJD20iFpPW+Zj1
- paTRyDo+w28uFxkUvSIhxIolt60OlGboUw7A3JDEXBcJcm5HAN/z9HhC47tTsFvcxlXW
- L26q7qZUTJ+pr+V/4s8wEygFHjkUOWu9I3dXlaqt96tUOOHPsz9CYuBLx9mUChCybFFi
- oOwvAamWvDEYC+e+xw7Ij4qsLyKWjwUEuviiS9gtKQ3aCkoSVy3GtYDLJVr6K9bh7kQs
- Q9Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fRkLzUuK1FZmLm45b8Vqv/xhaBJhqQ2j7GRNauOGDLc=;
- b=dlkcUAWB0vrP3tIim06VnyPoYAwtJRWUzmR64P8coB/inDlwWUCimE19yYMfDPy93t
- TU/it3j316CANZBclVVyy7ADUu7HfytP86WXtvWiSyUN/ugjb3V3L0/1bL57KYNajf89
- E43TF/sCXf7gBRERX7FPy8Nb4OZ0aUKgJ4VgibH7kg2dwGREtPNta7//b3/KQ6oA3FWG
- SrWVT9dZoXhKJA3phEPr8VKoPFVfK34xZ/Mn6Wjj9dEA2jlpMrZPxQ2+NCgLvEyfnvSv
- ooDAu3+gPg1SYvqC3JX4pHxJSkEV9YkV58y4WU3kj2DDKzdOjTlfivnLwWLJyz0l9I6e
- 8FZQ==
-X-Gm-Message-State: AOAM533fx8Hub0tlMJQ209oB0UiVu4OMlE9n0PC6t+/PuNGjuUd1cDHp
- AC5xwBdlSgzu+RoYMNszH8sB4qGld52IWgk1e2g=
-X-Google-Smtp-Source: ABdhPJxN7STwDFxKs+jSjglMVTl/5Wa6iH940lmBMESctDwOPAD3eijEz2QvTGfRi5IyPYR+S3ThDd2rpRGNdZcQT28=
-X-Received: by 2002:a92:de02:: with SMTP id x2mr5368257ilm.267.1589470731239; 
- Thu, 14 May 2020 08:38:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jZFpj-0001cJ-Pl
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:31:39 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:44733
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1jZFph-0002hY-Rl
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:31:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589470296;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PawMKXT3yUDmpgOrenVqnfNRcSxIo+BufxdLLcivY2k=;
+ b=jFjwQEYDeGuTCT2IbOmHWxcSvFwZmd8bcAm1ZGekjXaNI1qDdsC8KaJRTZlSfIw+Ioafjp
+ 7x4IbJF+yJ78c/r1puH7yAhqkI93yS4S15ySjDpNjinWZ872HJztfPDGZtJ7rgM4AfUcNb
+ i9XQMQ7MbIs3GBYaDOI/keBXWAzvGZQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-UVZbLNZLOEa1QDfPv6X5BA-1; Thu, 14 May 2020 11:31:34 -0400
+X-MC-Unique: UVZbLNZLOEa1QDfPv6X5BA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F6FEEC1A2;
+ Thu, 14 May 2020 15:31:33 +0000 (UTC)
+Received: from work-vm (ovpn-114-247.ams2.redhat.com [10.36.114.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 397855C220;
+ Thu, 14 May 2020 15:31:32 +0000 (UTC)
+Date: Thu, 14 May 2020 16:31:29 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Li Feng <fengli@smartx.com>
+Subject: Re: kvm_buf_set_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs'
+ failed.
+Message-ID: <20200514153129.GP2787@work-vm>
+References: <CAHckoCymFfuVd=tKV-hk+PHn2fk6ydWjSxwKVorj9Qe5KV6nGQ@mail.gmail.com>
+ <CAHckoCzWmN4oedOHMvR_TbbBcbYqSjg1fUr2RjJkh-iuZO-Jng@mail.gmail.com>
+ <55b6466c-0769-6652-a237-c6bc18704064@redhat.com>
+ <20200514125220.GJ2787@work-vm>
+ <CAHckoCyegWG9yH_y6VjHhnghfHJD-Wq+EmOyRZE3EYguTOHfPw@mail.gmail.com>
+ <20200514151600.GO2787@work-vm>
+ <CAHckoCxc2XTA3ckU0sq-BmbZZFtfAY_GaEOW46XFzfZ2qXjeMQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1588878756.git.alistair.francis@wdc.com>
- <dc10c6b220154fd448630ef7a790e5d7e59ab45a.1588878756.git.alistair.francis@wdc.com>
- <CAEUhbmVMu4hov1WxafL9+8kET_Q_Q2hMi8JTnbKE78EhU4kaHQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmVMu4hov1WxafL9+8kET_Q_Q2hMi8JTnbKE78EhU4kaHQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 14 May 2020 08:30:03 -0700
-Message-ID: <CAKmqyKP6khvkjPbYuth3cXgyS6Zed8S29tfwW1Yv_x1MmxG4sw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] riscv/boot: Add a missing header include
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+In-Reply-To: <CAHckoCxc2XTA3ckU0sq-BmbZZFtfAY_GaEOW46XFzfZ2qXjeMQ@mail.gmail.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:31:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_HK_NAME_DR=0.01, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,46 +88,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vkuznets@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 14, 2020 at 8:34 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Fri, May 8, 2020 at 3:24 AM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
+* Li Feng (fengli@smartx.com) wrote:
+> Dr. David Alan Gilbert <dgilbert@redhat.com> 于2020年5月14日周四 下午11:16写道：
 > >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  include/hw/riscv/boot.h | 1 +
-> >  1 file changed, 1 insertion(+)
+> > * Li Feng (fengli@smartx.com) wrote:
+> > > EXSi CPU is : Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
+> > > This is my vm, I run qemu in it.
 > >
-> > diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> > index 474a940ad5..9daa98da08 100644
-> > --- a/include/hw/riscv/boot.h
-> > +++ b/include/hw/riscv/boot.h
-> > @@ -21,6 +21,7 @@
-> >  #define RISCV_BOOT_H
-> >
-> >  #include "exec/cpu-defs.h"
-> > +#include "hw/loader.h"
->
-> Why is this needed? Currently this does not break build.
+> > Do you know what the real hardware is?
+> What information do you need? I could send it out.
+> The EXSi version: VMware ESXi, 6.5.0, 5969303
 
-Currently every c file that includes boot.h also includes loader.h
-before it. Which is why the build works fine. We should be able to
-include just boot.h though so this is a small fixup to allow that.
+VMWare is saying to the guest it's an E5-2640 v3; is that what
+your real CPU is?
 
-Alistair
+Dave
 
->
 > >
-> >  void riscv_find_and_load_firmware(MachineState *machine,
-> >                                    const char *default_machine_firmware,
->
-> Regards,
-> Bin
+> > Dave
+> >
+> > > (base) 20-05-14 15:32:50 root@31_216:~  lscpu
+> > > Architecture:          x86_64
+> > > CPU op-mode(s):        32-bit, 64-bit
+> > > Byte Order:            Little Endian
+> > > CPU(s):                16
+> > > On-line CPU(s) list:   0-15
+> > > Thread(s) per core:    1
+> > > Core(s) per socket:    1
+> > > Socket(s):             16
+> > > NUMA node(s):          1
+> > > Vendor ID:             GenuineIntel
+> > > CPU family:            6
+> > > Model:                 63
+> > > Model name:            Intel(R) Xeon(R) CPU E5-2640 v3 @ 2.60GHz
+> > > Stepping:              2
+> > > CPU MHz:               2599.998
+> > > BogoMIPS:              5199.99
+> > > Virtualization:        VT-x
+> > > Hypervisor vendor:     VMware
+> > > Virtualization type:   full
+> > > L1d cache:             32K
+> > > L1i cache:             32K
+> > > L2 cache:              256K
+> > > L3 cache:              20480K
+> > > NUMA node0 CPU(s):     0-15
+> > > Flags:                 fpu vme de pse tsc msr pae mce cx8 apic sep
+> > > mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss syscall
+> > > nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts nopl xtopology
+> > > tsc_reliable nonstop_tsc cpuid pni pclmulqdq vmx ssse3 fma cx16 pcid
+> > > sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx
+> > > f16c rdrand hypervisor lahf_lm abm cpuid_fault invpcid_single
+> > > tpr_shadow vnmi ept vpid fsgsbase tsc_adjust bmi1 avx2 smep bmi2
+> > > invpcid xsaveopt arat
+> > >
+> > > Thanks,
+> > >
+> > > Feng Li
+> > >
+> > > Dr. David Alan Gilbert <dgilbert@redhat.com> 于2020年5月14日周四 下午8:52写道：
+> > > >
+> > > > * Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> > > > > Cc'ing David/Paolo in case they have a clue...
+> > > > >
+> > > > > On 5/14/20 1:27 PM, Li Feng wrote:
+> > > > > > Dear all,
+> > > > > >
+> > > > > > I have encountered a weird crash.
+> > > > > > I remember before a few days it works well and I rebase my code from upstream.
+> > > > > >
+> > > > > > This is the command:
+> > > > > > /root/qemu-master/x86_64-softmmu/qemu-system-x86_64 -enable-kvm
+> > > > > > -device virtio-balloon -cpu host -smp 4 -m 2G -drive
+> > > > > > file=/root/html/fedora-10g.img,format=raw,cache=none,aio=native,if=none,id=drive-virtio-disk1
+> > > > > > -device virtio-blk-pci,scsi=off,drive=drive-virtio-disk1,id=virtio-disk1,bootindex=1
+> > > > > > -device virtio-net,netdev=nw1,mac=00:11:22:EE:EE:10 -netdev
+> > > > > > tap,id=nw1,script=no,downscript=no,ifname=tap0 -serial mon:stdio
+> > > > > > -nographic -object
+> > > > > > memory-backend-file,id=mem0,size=2G,mem-path=/dev/hugepages,share=on
+> > > > > > -numa node,memdev=mem0 -vnc 0.0.0.0:100 -machine usb=on,nvdimm -device
+> > > > > > usb-tablet -monitor unix:///tmp/a.socket,server,nowait -device
+> > > > > > virtio-serial-pci,id=virtio-serial0,max_ports=16 -chardev
+> > > > > > socket,id=channel1,path=/tmp/helloworld1,server,nowait -device
+> > > > > > virtserialport,chardev=channel1,name=com.redhat.rhevm.vdsm1,bus=virtio-serial0.0,id=port1
+> > > > > > -qmp tcp:0.0.0.0:2234,server,nowait
+> > > > > > qemu-system-x86_64: error: failed to set MSR 0x48f to 0x7fefff00036dfb
+> > > > > > qemu-system-x86_64: /root/qemu-master/target/i386/kvm.c:2695:
+> > > > > > kvm_buf_set_msrs: Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed.
+> > > >
+> > > > 48f is MSR_IA32_VMX_TRUE_EXIT_CTLS
+> > > > I've not got a note of seeing that one before.
+> > > >
+> > > > > > This is the commit record:
+> > > > > > *   c88f1ffc19 - (origin/master, origin/HEAD) Merge remote-tracking
+> > > > > > branch 'remotes/kevin/tags/for-upstream' into staging (3 days ago)
+> > > > > > <Peter Maydell>
+> > > > > > |\
+> > > > > > | * 47e0b38a13 - block: Drop unused .bdrv_has_zero_init_truncate (3
+> > > > > > days ago) <Eric Blake>
+> > > > > > | * dbc636e791 - vhdx: Rework truncation logic (3 days ago) <Eric Blake>
+> > > > > > | * bda4cdcbb9 - parallels: Rework truncation logic (3 days ago) <Eric Blake>
+> > > > > > | * be9c9404db - ssh: Support BDRV_REQ_ZERO_WRITE for truncate (3 days
+> > > > > > ago) <Eric Blake>
+> > > > > > | * fec00559e7 - sheepdog: Support BDRV_REQ_ZERO_WRITE for truncate (3
+> > > > > > days ago) <Eric Blake>
+> > > > > > | * 2f98910d5b - rbd: Support BDRV_REQ_ZERO_WRITE for truncate (3 days
+> > > > > > ago) <Eric Blake>
+> > > > > >
+> > > > > > I run this qemu in a VM base on EXSi.
+> > > > > >
+> > > > > > Does anyone have the same issue?
+> > > >
+> > > > cc'ing in Vitaly since he knows VMWare stuff.
+> > > >
+> > > > What's your host CPU?
+> > > >
+> > > > Dave
+> > > >
+> > > > > >
+> > > > > > Thanks,
+> > > > > >
+> > > > > > Feng Li
+> > > > > >
+> > > > >
+> > > > --
+> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > > >
+> > >
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
