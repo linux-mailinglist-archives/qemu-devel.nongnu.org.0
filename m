@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D5A1D33EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:02:46 +0200 (CEST)
-Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3D11D33CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:59:53 +0200 (CEST)
+Received: from localhost ([::1]:55498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFNk-0003iD-IP
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
+	id 1jZFKy-0000Iw-Ku
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:59:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZEws-0003jB-4C
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:34:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:32354
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZEx0-0003sG-KJ
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:35:07 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:46520
  helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZEwr-0000yR-8W
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:34:57 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1jZEww-00010I-48
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:35:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589466896;
+ s=mimecast20190719; t=1589466901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lZ1u6qNZotSgU2037p6zpII9seREemya6EtGwZgs+40=;
- b=bh90yliIuMyuWCFH3bMIFpvrbYr+lEBYqUJdd9zNt5MUskEB4YxZF/9wk72fx7GvpmyHmI
- ixWGKSezsU73dcWa+jgfGTRXdE+thPqxLTiAaju+VsQa1mXfZen9NizpbpLx/X5KofyAM9
- rrusECA4cysfb6HfuxusOlMY/Xfi3TI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-L44-yClhM2ODLziVKGjt1A-1; Thu, 14 May 2020 10:34:55 -0400
-X-MC-Unique: L44-yClhM2ODLziVKGjt1A-1
-Received: by mail-wm1-f72.google.com with SMTP id q5so13575547wmc.9
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:34:54 -0700 (PDT)
+ bh=dKBg489UvBQaihTp0WQ97c7cEJhAfL3iNmIIgh7rIBI=;
+ b=DxjpFmBE88Z4jue2nhjCxliGmEn1p8MonFxINONyJJtLAiI1/6E4MYhn9oUqMsYXA0BDqt
+ gasLGqtqfwDVWGTi0R4UzVzjbIxutFjL/ggSAUt/Pcw9r0/M2Lu1RLA8YjYIy1R2Ql8FuR
+ 7D8ZnrpMm4HYJATD9LV881dzk6fXe7A=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-Y7myE9dnPlWAFM0MbpGuog-1; Thu, 14 May 2020 10:34:59 -0400
+X-MC-Unique: Y7myE9dnPlWAFM0MbpGuog-1
+Received: by mail-wr1-f71.google.com with SMTP id w9so1682629wrr.3
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:34:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lZ1u6qNZotSgU2037p6zpII9seREemya6EtGwZgs+40=;
- b=Sd8RueTkmd+W2uHFWsXDFA2K7pQmucPDUELBNtSK6Tpb0khoNab8OCuvk9rvjZ4BEU
- cNTmwbvVA6Kz5o/62avA+fZwkNhBjCsMrS9X9/ob42G6Bnsp8YoQM9zkLXZIrFFu5Xhw
- twgoDoePjBNgY+lit2kP9z03hXK46OIKFeR14x2rPPRCe1WTFJilnMRfd+m6HZXKxcPe
- kA0BWvi+D7uoVVJ+S4tQ+RX1U7VeO80ataym0whmZUwFSk9GnwUs+kLBJYSZR3mft0NX
- JKPcZUIgtSv3hSevS2rE2QDqErDbwiZHALsFC5iU1nWf6zeWDvks/ujiF0dbCeArXmHb
- yJIw==
-X-Gm-Message-State: AOAM530gX/pwFuxxwnDhf8WJaRaovfE8ufAH3t7CvAEKOkY2ryXIZrgy
- 72Ppvou1QDEYp9FD2Qpobqv3c+4nOhlF9D6ocGjXnJHyKsiybyK9cUzvyYwBra2TUUq1NyOWZzC
- 5bhN+DcBllljNTdU=
-X-Received: by 2002:a5d:5105:: with SMTP id s5mr5887749wrt.202.1589466893760; 
- Thu, 14 May 2020 07:34:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYhEwP2vSKQSTCH6UQ0+PvQcHOfYvpcR5pJ8b2UKz9ijVcmwRgA+DFo8SxlApETN+s1XUYkg==
-X-Received: by 2002:a5d:5105:: with SMTP id s5mr5887740wrt.202.1589466893614; 
- Thu, 14 May 2020 07:34:53 -0700 (PDT)
+ bh=dKBg489UvBQaihTp0WQ97c7cEJhAfL3iNmIIgh7rIBI=;
+ b=M6mhi2HsQsqpuIkhE9oX/e5bbane5/fHDzoexacsFPeq+unnIgVbfUUOki5xRaEb5a
+ pJl1ZSCK/0wP93MO8jBG1YgU7Ny3n/AlMZak6fW6r6zbW94Ck9k7MvMbbpUHSMTwmyps
+ 1ZTcpSuPnEujP1zEQ7Z9zaUE5zhejcD0jHYB648oMCDJWEIjQyVttaIc9yXKKYIhGwwQ
+ T+RKxOsjJmkN+Hr6v0n6kvH+wKrQH3znW20kw4SxIDjyq0gKPNUa2JImhjP6TWHjx5kx
+ 6XO//b6+YLglWPyvc0+5a2KbDzctxSjvs47A+zNz1H6wfPLr38yxQvnYJp7TsPbzlIFo
+ rgZg==
+X-Gm-Message-State: AOAM531yG8H5h1dnLgClKJoPNRLHKd8lbqu4l0k2HszfOl2eKXeRSKzO
+ OH02EKdUcRSkl+s0SX/6fbh+k7gBC1gn75VaqNyAcSq1Ac+AaSsrF8qZT80X9r2Na/rptDe5B7x
+ s35tAnITsCn20/is=
+X-Received: by 2002:adf:fac5:: with SMTP id a5mr6191433wrs.210.1589466898398; 
+ Thu, 14 May 2020 07:34:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzf4mP97oGpyO8sYY7ImQ/EDLo5CIbK8M5c6ZcsL1f4Kc7V5VEfyWI02QONOGNA9XmcI3jrfw==
+X-Received: by 2002:adf:fac5:: with SMTP id a5mr6191419wrs.210.1589466898241; 
+ Thu, 14 May 2020 07:34:58 -0700 (PDT)
 Received: from x1w.redhat.com (17.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.17])
- by smtp.gmail.com with ESMTPSA id s14sm38387741wmh.18.2020.05.14.07.34.52
+ by smtp.gmail.com with ESMTPSA id s8sm4329464wrg.34.2020.05.14.07.34.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:34:53 -0700 (PDT)
+ Thu, 14 May 2020 07:34:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] tests/fuzz: Remove unuseful/unused typedefs
-Date: Thu, 14 May 2020 16:34:31 +0200
-Message-Id: <20200514143433.18569-5-philmd@redhat.com>
+Subject: [PATCH 5/6] tests/fuzz: Extract pciconfig_fuzz_qos() method
+Date: Thu, 14 May 2020 16:34:32 +0200
+Message-Id: <20200514143433.18569-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200514143433.18569-1-philmd@redhat.com>
 References: <20200514143433.18569-1-philmd@redhat.com>
@@ -72,10 +72,10 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8;
 	text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=205.139.110.120; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=philmd@redhat.com;
  helo=us-smtp-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,55 +102,60 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These typedefs are not used. Use a simple structure,
-remote the typedefs.
+Extract the generic pciconfig_fuzz_qos() method from
+i440fx_fuzz_qos(). This will help to write tests not
+specific to the i440FX controller.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/fuzz/i440fx_fuzz.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ tests/qtest/fuzz/i440fx_fuzz.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qtest/fuzz/i440fx_fuzz.c b/tests/qtest/fuzz/i440fx_fuzz.c
-index 96fed9ff12..c197b026db 100644
+index c197b026db..558fa17c93 100644
 --- a/tests/qtest/fuzz/i440fx_fuzz.c
 +++ b/tests/qtest/fuzz/i440fx_fuzz.c
-@@ -45,12 +45,11 @@ static void i440fx_fuzz_qtest(QTestState *s,
-      * loop over the Data, breaking it up into actions. each action has an
-      * opcode, address offset and value
-      */
--    typedef struct QTestFuzzAction {
-+    struct {
-         uint8_t opcode;
-         uint8_t addr;
-         uint32_t value;
--    } QTestFuzzAction;
--    QTestFuzzAction a;
-+    } a;
+@@ -84,7 +84,7 @@ static void i440fx_fuzz_qtest(QTestState *s,
+     flush_events(s);
+ }
  
-     while (Size >= sizeof(a)) {
-         /* make a copy of the action so we can normalize the values in-place */
-@@ -91,19 +90,18 @@ static void i440fx_fuzz_qos(QTestState *s,
+-static void i440fx_fuzz_qos(QTestState *s,
++static void pciconfig_fuzz_qos(QTestState *s, QPCIBus *bus,
+         const unsigned char *Data, size_t Size) {
+     /*
       * Same as i440fx_fuzz_qtest, but using QOS. devfn is incorporated into the
-      * value written over Port IO
-      */
--    typedef struct QOSFuzzAction {
-+    struct {
-         uint8_t opcode;
-         uint8_t offset;
-         int devfn;
+@@ -97,11 +97,6 @@ static void i440fx_fuzz_qos(QTestState *s,
          uint32_t value;
--    } QOSFuzzAction;
-+    } a;
+     } a;
  
-     static QPCIBus *bus;
-     if (!bus) {
-         bus = qpci_new_pc(s, fuzz_qos_alloc);
-     }
- 
--    QOSFuzzAction a;
+-    static QPCIBus *bus;
+-    if (!bus) {
+-        bus = qpci_new_pc(s, fuzz_qos_alloc);
+-    }
+-
      while (Size >= sizeof(a)) {
          memcpy(&a, Data, sizeof(a));
          switch (a.opcode % ACTION_MAX) {
+@@ -130,6 +125,19 @@ static void i440fx_fuzz_qos(QTestState *s,
+     flush_events(s);
+ }
+ 
++static void i440fx_fuzz_qos(QTestState *s,
++                            const unsigned char *Data,
++                            size_t Size)
++{
++    static QPCIBus *bus;
++
++    if (!bus) {
++        bus = qpci_new_pc(s, fuzz_qos_alloc);
++    }
++
++    pciconfig_fuzz_qos(s, bus, Data, Size);
++}
++
+ static void i440fx_fuzz_qos_fork(QTestState *s,
+         const unsigned char *Data, size_t Size) {
+     if (fork() == 0) {
 -- 
 2.21.3
 
