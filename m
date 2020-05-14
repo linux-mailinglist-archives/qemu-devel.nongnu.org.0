@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60DE1D34CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:16:48 +0200 (CEST)
-Received: from localhost ([::1]:60306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA9A1D3481
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 17:08:29 +0200 (CEST)
+Received: from localhost ([::1]:57090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZFbL-0002h1-SJ
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:16:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44980)
+	id 1jZFTI-0006Or-W1
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 11:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZFLu-0002hQ-4K
+ id 1jZFLv-0002i0-Ls
  for qemu-devel@nongnu.org; Thu, 14 May 2020 11:00:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37650)
+Received: from indium.canonical.com ([91.189.90.7]:37664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1jZFLs-0006Cr-RC
- for qemu-devel@nongnu.org; Thu, 14 May 2020 11:00:49 -0400
+ id 1jZFLs-0006D1-Pv
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 11:00:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1jZFLq-0000BC-QV
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:00:46 +0000
+ id 1jZFLr-0000CD-OG
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:00:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C529D2E80E7
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:00:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B37D22E8023
+ for <qemu-devel@nongnu.org>; Thu, 14 May 2020 15:00:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 May 2020 14:52:10 -0000
+Date: Thu, 14 May 2020 14:53:12 -0000
 From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1878628@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,15 +42,16 @@ X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-Message-Id: <158946793086.21783.444088944852561068.malonedeb@wampee.canonical.com>
-Subject: [Bug 1878628] [NEW] linux-user/mmap build failure using Clang 10
+References: <158946793086.21783.444088944852561068.malonedeb@wampee.canonical.com>
+Message-Id: <158946799266.22723.4938127547803618929.malone@wampee.canonical.com>
+Subject: [Bug 1878628] Re: linux-user/mmap build failure using Clang 10
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="0385b538081bc4718df6fb844a3afc89729c94ce";
  Instance="production-secrets-lazr.conf"
-X-Launchpad-Hash: 6fedd2ff811cdabc457f79b63af2f8479c76076e
+X-Launchpad-Hash: a73ca4300c1eefc8527223b2b034cc06c22175b0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 11:00:47
@@ -77,20 +78,9 @@ Reply-To: Bug 1878628 <1878628@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Suggested fix: Use -Wno-tautological-type-limit-compare in configure:
 
-When building with Clang 10 on Fedora 32, we get:
-
-    CC      linux-user/mmap.o
-  linux-user/mmap.c:720:49: error: result of comparison 'unsigned long' > 1=
-8446744073709551615 is always false [-Werror,-Wtautological-type-limit-comp=
-are]
-          if ((unsigned long)host_addr + new_size > (abi_ulong)-1) {
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg699808.html
 
 -- =
 
