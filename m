@@ -2,44 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 610DD1D2614
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 06:54:28 +0200 (CEST)
-Received: from localhost ([::1]:34262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315BC1D262E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 07:00:52 +0200 (CEST)
+Received: from localhost ([::1]:54214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ5t5-0006Ab-BU
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 00:54:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56752)
+	id 1jZ5zH-0008KR-7m
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 01:00:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jZ5lt-0001dx-KG; Thu, 14 May 2020 00:47:01 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:43884)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jZ5oT-0007Wj-Ef; Thu, 14 May 2020 00:49:41 -0400
+Received: from mail-db8eur05on2114.outbound.protection.outlook.com
+ ([40.107.20.114]:25409 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jZ5ls-0003lq-AX; Thu, 14 May 2020 00:47:01 -0400
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id 18F1BBFDAD;
- Thu, 14 May 2020 04:46:38 +0000 (UTC)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-block@nongnu.org
-Subject: [PATCH v6 20/20] hw/block/nvme: factor out controller identify setup
-Date: Thu, 14 May 2020 06:46:11 +0200
-Message-Id: <20200514044611.734782-21-its@irrelevant.dk>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200514044611.734782-1-its@irrelevant.dk>
-References: <20200514044611.734782-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1jZ5oQ-00046d-Uo; Thu, 14 May 2020 00:49:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k4kiK79AnkG/nC4OSmcqINgljRyA+9lNguf5stJTB0n+gBXqZqT4fbUUXZqn317laqHQfep+PX5gZKv48TaiBM3r4nPXxdtnWQI/bKHBZlReuhxJaQWC1KPFB+TkGNvHilj4+xeXd6AfmJf6rb0BBH6t/M9z57H0B0P/f+OWyd/zP40K9rh8mbI57vq6Rt9qM8Y2OycwZyMqwmXBFv6TTpFNOgMYY2lPfBgMHSsbM04nmyoqWohH0nWS9AcqiqXXFz8ZDRIIEsf92ve+TFMfswrKUll296gU7DwzzOthXu5Q49QEiJcfcbAibHCO8dwWvkgnQwGs4XDH9mkLiNoz0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VIUa+BJgMIKjZFiQ9QlDMY+mJhaiX2/leaO818TXCAc=;
+ b=Gj/ejY/m/kI9OrpVW9nPlgFjeEY3SgloXWH5z53z2w73L0patpoPJ8NLX/1hHGdBuBXtvyojD0ApymxdW1KDzm1QUpMmmeEjC+h1PVR5DzD8fhie840oUskdmFULdFg/I8nXAA/9btqhzEqpH8AfXlm2MfAlTWBn9B+dqyxTnc690BoO9O4fgBpta1OZwXMM/gfbJEIpFCnkyJ9+rcuYLckhED0pwucpDL364hlTgXZqolqnVbJR2UM9T2scQh9E2RKQqCuWsviWCD1m6isHlXms8ODLBIbvATM8Sd2j7ISW1T1DNch/odIunyPGxIujbivpGyvlBdiXbmb0B9H0ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VIUa+BJgMIKjZFiQ9QlDMY+mJhaiX2/leaO818TXCAc=;
+ b=sIj/T9EcpSnYegdXkcbtncDYvMteE0AJeuCr88SJwDPm0yYXDpT3jKE9qFM1mifXHevSrcPiq7ccsJxLA3qzaPvpxehLsD13D5HVGosi8dkMTsFQML7l5B/cQWkLxuI6a63mVh07l98Z3+uPJYo5fn6vLVHmpUl5IQdRXgAODX0=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5349.eurprd08.prod.outlook.com (2603:10a6:20b:107::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.20; Thu, 14 May
+ 2020 04:49:35 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::acfa:5:88c8:b7b9%4]) with mapi id 15.20.3000.016; Thu, 14 May 2020
+ 04:49:35 +0000
+Subject: Re: [PATCH] bitmaps: Add myself as maintainer
+To: John Snow <jsnow@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20200513141407.185198-1-eblake@redhat.com>
+ <55059458-923c-505c-d16b-89ff3334c3c5@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <30070988-e0da-00f2-3780-d4fae816b589@virtuozzo.com>
+Date: Thu, 14 May 2020 07:49:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <55059458-923c-505c-d16b-89ff3334c3c5@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR10CA0088.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::41) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
- helo=charlie.dont.surf
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 00:46:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.2] (185.215.60.186) by
+ AM0PR10CA0088.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3000.20 via Frontend Transport; Thu, 14 May 2020 04:49:35 +0000
+X-Originating-IP: [185.215.60.186]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ab2cf703-c9e9-400c-eb03-08d7f7c23351
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5349:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5349A27A94EF8AB6DE092B85C1BC0@AM7PR08MB5349.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 040359335D
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QcZtkIQZNilILZ/l0yvbb/NBfXfnO4NsO8+FD9elMzAUaWb1Y6dARA2SQx32anG40ZKY065/cpFVbQaGeisdx0UvLcJrDS40AxjxvVn9Xw0XiH4NBIVyiT7opqEi9O2M8jsVd221hFbV7DVzgkNjXu+Tjy0Q/3rYTyKBFly6hoMnakyIM/sW7DOiytmxQvFNp6I0lsIWN4QFWEA98nqZKYHYGvvmBFJcYSzWMAp2dnk3vUvwU6D03D/jj54pAmXaw9jLgKaZpshxYPpgKtF4NV9zoZJct112KhyAtSZx4ALBgWjisa0N1QCqmCFR+qgq/LorCinYwSefwxQUEXlOX+fDl3HmfKT68qL6pfmGA6/8mu4D8dvjQMsKo/F6c+mNw1EL/DGk8rT2AcH+TFkIinLGhabYoXbLPlbaltZDjx9KgXlkXwdOTi+lIKbBqveGJWYqSIh2N8+JLDZoNQy4z8qSZOeNpr+MYWcfxQLO+npGgmmDbwmSv1avU3//74OhJpTZahASG1Z1C5Ol/R5QVsbfiJmGe4gfstWCTT1ZUQ+mnHvOJ/l396oPPy2dvrqy+DYTGWbAO8zbil6FLdPqdQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFTY:;
+ SFS:(4636009)(376002)(366004)(346002)(39840400004)(136003)(396003)(52116002)(66946007)(31696002)(66476007)(66556008)(110136005)(956004)(8936002)(53546011)(2616005)(16576012)(8676002)(4326008)(316002)(16526019)(6486002)(2906002)(186003)(966005)(36756003)(31686004)(478600001)(5660300002)(26005)(86362001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: +Y/jCiHmFu7z7/cLSJ0mE10v2eUkvT91c4edxtJmeh43uVFTmnS9vSMOQc+Ym6327jLvVeRwKh6+EsGYuNF09mMo0W5+701DV2KRno0xVSn22dzK3C5DwT/tByFmyji2sUe1J6e6CZ4/J8v1Puata4g1s8I/qed8ZKbH7XHjX+D4VkVvN1afNPxzfr/ZDivms6LdctzDth6SRnPqbEJPKoH3peAjIskRYJQX9WZJSsNg4WQdAHv0Pvp/5OXON+mGOpZwWNl5Ej7MVXaFYjPGWrrQHzS/g7z9vEmxxoTIZ2a1uNKY/APbAONYxDhIwA/XSJhSGJknyZ3GKRvy/ozNcCCPyLGVc/XSSD39+E7Oq4PdYOAa7TF28cPq+kh5x7V1PtGat3egaBD0z3dyjmRLl4wU7o2Nww6wSlqL4rSBAmQ3uazTb41+ZLZfqpR7bA/KSW+9Mg90QSBI8wOxL+I8iWULbC2Q2izkui4CP+J2fLjSEO9tCZ+Hnz9YVcxvjN78
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab2cf703-c9e9-400c-eb03-08d7f7c23351
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2020 04:49:35.4769 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gG7oS2cjRQEWyUzM1tLJqQxFH2YojUSzxcQ4iV2U6Z1C0N2fGAzF5VswL1iaOoKpvCbBNzsWaaKEUlS6nSjkE1Ym/C/396xqA/XEIjzPAkI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5349
+Received-SPF: pass client-ip=40.107.20.114;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 00:49:36
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,96 +116,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- Javier Gonzalez <javier.gonz@samsung.com>,
- Maxim Levitsky <mlevitsk@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+13.05.2020 23:24, John Snow wrote:
+> 
+> 
+> On 5/13/20 10:14 AM, Eric Blake wrote:
+>> Dirty bitmaps are important to incremental backups, including exposure
+>> over NBD where I'm already maintainer.  Also, I'm aware that lately I
+>> have been doing as much code/review on bitmaps as John Snow, who is
+>> hoping to scale back on this front.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>>
+>> ---
+>> This still leaves John as maintainer for: IDE, Floppy, and Block Jobs,
+>> which I did not feel comfortable taking on at this time.
+>>
+>> If this patch makes sense, I'm happy to take on my recent 'qemu-img
+>> bitmap' series as my first bitmap-related pull request, once it has
+>> sufficient review.
+>> ---
+>>   MAINTAINERS | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 6a8dc1e69d42..f7caf7c0cc7f 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -2002,6 +2002,7 @@ T: git https://repo.or.cz/qemu/armbru.git block-next
+>>
+>>   Dirty Bitmaps
+>>   M: John Snow <jsnow@redhat.com>
+>> +M: Eric Blake <eblake@redhat.com>
+>>   R: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>   L: qemu-block@nongnu.org
+>>   S: Supported
+>>
+> 
+> I'd also like to point out that I wouldn't mind if Vladimir became an
+> official maintainer, but I can't remember if he wanted the title when we
+> last spoke at KVM Forum.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
----
- hw/block/nvme.c | 49 ++++++++++++++++++++++++++-----------------------
- 1 file changed, 26 insertions(+), 23 deletions(-)
+Actually, it would be nice, I'd glad to get it, thanks :)
+I can send a separate patch, or we may s/R/M/ in this one?
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 2addcc86034a..149abef497c4 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1535,32 +1535,11 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
-     }
- }
- 
--static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
- {
--    NvmeCtrl *n = NVME(pci_dev);
-     NvmeIdCtrl *id = &n->id_ctrl;
--    Error *local_err = NULL;
-+    uint8_t *pci_conf = pci_dev->config;
- 
--    int i;
--    uint8_t *pci_conf;
--
--    nvme_check_constraints(n, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
--    nvme_init_state(n);
--
--    nvme_init_blk(n, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
--    nvme_init_pci(n, pci_dev);
--
--    pci_conf = pci_dev->config;
-     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
-     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
-     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
-@@ -1593,6 +1572,30 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
- 
-     n->bar.vs = 0x00010200;
-     n->bar.intmc = n->bar.intms = 0;
-+}
-+
-+static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-+{
-+    NvmeCtrl *n = NVME(pci_dev);
-+    Error *local_err = NULL;
-+
-+    int i;
-+
-+    nvme_check_constraints(n, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    nvme_init_state(n);
-+    nvme_init_blk(n, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    nvme_init_pci(n, pci_dev);
-+    nvme_init_ctrl(n, pci_dev);
- 
-     for (i = 0; i < n->num_namespaces; i++) {
-         nvme_init_namespace(n, &n->namespaces[i], &local_err);
+> 
+> Regardless; I am clearly not keeping up with reviews right now as my
+> attention has been pulled elsewhere, so:
+> 
+> Reviewed-by: John Snow <jsnow@redhat.com>
+> 
+
+
 -- 
-2.26.2
-
+Best regards,
+Vladimir
 
