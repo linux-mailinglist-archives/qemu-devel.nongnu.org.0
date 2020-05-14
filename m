@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB461D26E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 07:58:52 +0200 (CEST)
-Received: from localhost ([::1]:44096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27FF1D26DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 07:56:01 +0200 (CEST)
+Received: from localhost ([::1]:55740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ6tP-0006XT-EX
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 01:58:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36442)
+	id 1jZ6qe-0006Zr-Ry
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 01:56:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6p2-0004Z9-QQ
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:20 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:48472
- helo=us-smtp-delivery-1.mimecast.com)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6p3-0004br-S5
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:21 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:55022
+ helo=us-smtp-1.mimecast.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6p2-0001b3-0Y
- for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:20 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1jZ6p2-0001bD-Tw
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 01:54:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1589435658;
+ s=mimecast20190719; t=1589435660;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eIVREeXd6nvTZkOSZ5iRHZDJSFp7tIw6PyIaTwCOjGQ=;
- b=P+uVGgvcgQRG7udCDuGzc3gJUhF24JVM5tzTnJ6Pscfs43mtzo3eJDT2y/vICbl2Z8uV1l
- r6s8gWTjxd80CdZ5WmJ8nlS8PXHJg2/VvMh0qPKxb557i3yIm0dgvuS1/nAdMMdID0KiNb
- xI05HwwknNItJs/TuTcmvetnBUESZy0=
+ bh=y1L7/1jsi/rhDBlb9C3wBKXfsbtA5yKILSP/UiA+PmE=;
+ b=BrfvKtZtyDqRYs1Pfr748bWErYbaC1OvwMQGQ/7pdmlPH9M58SkKuVKpwIqaQvpv35Kjvv
+ a109HIg/xaOEs52CRuFgN281i33mJSytNVoT+PkTRIziL8XBOjSJBnr0quhREOgUjgsga+
+ XotkvAQelY8BA2Ygwd6OV58sQoQ31og=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-aBVQFwdkNA2zDIkkVPt0qA-1; Thu, 14 May 2020 01:54:15 -0400
-X-MC-Unique: aBVQFwdkNA2zDIkkVPt0qA-1
+ us-mta-88-MWPk_DUnNt279V8j_uDrGQ-1; Thu, 14 May 2020 01:54:16 -0400
+X-MC-Unique: MWPk_DUnNt279V8j_uDrGQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEC341054F8F;
- Thu, 14 May 2020 05:54:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8154D1899528;
+ Thu, 14 May 2020 05:54:15 +0000 (UTC)
 Received: from probe.redhat.com (ovpn-113-9.rdu2.redhat.com [10.10.113.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85D067D952;
- Thu, 14 May 2020 05:54:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26CB56A977;
+ Thu, 14 May 2020 05:54:14 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 05/32] python/qemu/lib: delint; add flake8 config
-Date: Thu, 14 May 2020 01:53:36 -0400
-Message-Id: <20200514055403.18902-6-jsnow@redhat.com>
+Subject: [PATCH RFC 06/32] python/qemu: formalize as package
+Date: Thu, 14 May 2020 01:53:37 -0400
+Message-Id: <20200514055403.18902-7-jsnow@redhat.com>
 In-Reply-To: <20200514055403.18902-1-jsnow@redhat.com>
 References: <20200514055403.18902-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -54,16 +54,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=207.211.31.81; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-1.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=205.139.110.120; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:42
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
  URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,124 +87,89 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly, ignore the "no bare except" rule, because flake8 is not
-contextual and cannot determine if we re-raise. Pylint can, though, so
-always prefer pylint for that.
+NB: I am choosing Python 3.6 here. Although our minimum requirement is
+3.5, this code is used only by iotests (so far) under which we have been
+using a minimum version of 3.6.
+
+3.6 is being preferred here for variable type hint capability, which
+enables us to use mypy for this package.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/lib/.flake8    |  2 ++
- python/qemu/lib/accel.py   |  9 ++++++---
- python/qemu/lib/machine.py | 13 +++++++++----
- python/qemu/lib/qmp.py     |  4 ++--
- 4 files changed, 19 insertions(+), 9 deletions(-)
- create mode 100644 python/qemu/lib/.flake8
+ python/README.rst |  6 ++++++
+ python/setup.py   | 50 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
+ create mode 100644 python/README.rst
+ create mode 100755 python/setup.py
 
-diff --git a/python/qemu/lib/.flake8 b/python/qemu/lib/.flake8
+diff --git a/python/README.rst b/python/README.rst
 new file mode 100644
-index 0000000000..45d8146f3f
+index 0000000000..25f6d93fd5
 --- /dev/null
-+++ b/python/qemu/lib/.flake8
-@@ -0,0 +1,2 @@
-+[flake8]
-+extend-ignore = E722  # Pylint handles this, but smarter.
-\ No newline at end of file
-diff --git a/python/qemu/lib/accel.py b/python/qemu/lib/accel.py
-index 36ae85791e..7fabe62920 100644
---- a/python/qemu/lib/accel.py
-+++ b/python/qemu/lib/accel.py
-@@ -23,11 +23,12 @@
- # Mapping host architecture to any additional architectures it can
- # support which often includes its 32 bit cousin.
- ADDITIONAL_ARCHES = {
--    "x86_64" : "i386",
--    "aarch64" : "armhf",
--    "ppc64le" : "ppc64",
-+    "x86_64": "i386",
-+    "aarch64": "armhf",
-+    "ppc64le": "ppc64",
- }
- 
++++ b/python/README.rst
+@@ -0,0 +1,6 @@
++QEMU Python Tooling
++-------------------
 +
- def list_accel(qemu_bin):
-     """
-     List accelerators enabled in the QEMU binary.
-@@ -47,6 +48,7 @@ def list_accel(qemu_bin):
-     # Skip the first line which is the header.
-     return [acc.strip() for acc in out.splitlines()[1:]]
- 
++This package provides QEMU tooling used by the QEMU project to build,
++configure, and test QEMU. It is not a fully-fledged SDK and it is subject
++to change at any time.
+diff --git a/python/setup.py b/python/setup.py
+new file mode 100755
+index 0000000000..f897ceac97
+--- /dev/null
++++ b/python/setup.py
+@@ -0,0 +1,50 @@
++#!/usr/bin/env3 python
++"""
++QEMU tooling installer script
++Copyright (c) 2020 John Snow for Red Hat, Inc.
++"""
 +
- def kvm_available(target_arch=None, qemu_bin=None):
-     """
-     Check if KVM is available using the following heuristic:
-@@ -69,6 +71,7 @@ def kvm_available(target_arch=None, qemu_bin=None):
-         return False
-     return True
- 
++import setuptools
 +
- def tcg_available(qemu_bin):
-     """
-     Check if TCG is available.
-diff --git a/python/qemu/lib/machine.py b/python/qemu/lib/machine.py
-index c79fc8fb89..4b260fa2cb 100644
---- a/python/qemu/lib/machine.py
-+++ b/python/qemu/lib/machine.py
-@@ -29,6 +29,7 @@
- 
- LOG = logging.getLogger(__name__)
- 
++def main():
++    """
++    QEMU tooling installer
++    """
 +
- class QEMUMachineError(Exception):
-     """
-     Exception called when an error in QEMUMachine happens.
-@@ -62,7 +63,8 @@ class QEMUMachine:
-     """
-     A QEMU VM
- 
--    Use this object as a context manager to ensure the QEMU process terminates::
-+    Use this object as a context manager to ensure
-+    the QEMU process terminates::
- 
-         with VM(binary) as vm:
-             ...
-@@ -188,8 +190,10 @@ def send_fd_scm(self, fd=None, file_path=None):
-             fd_param.append(str(fd))
- 
-         devnull = open(os.path.devnull, 'rb')
--        proc = subprocess.Popen(fd_param, stdin=devnull, stdout=subprocess.PIPE,
--                                stderr=subprocess.STDOUT, close_fds=False)
-+        proc = subprocess.Popen(
-+            fd_param, stdin=devnull, stdout=subprocess.PIPE,
-+            stderr=subprocess.STDOUT, close_fds=False
-+        )
-         output = proc.communicate()[0]
-         if output:
-             LOG.debug(output)
-@@ -491,7 +495,8 @@ def event_wait(self, name, timeout=60.0, match=None):
- 
-     def events_wait(self, events, timeout=60.0):
-         """
--        events_wait waits for and returns a named event from QMP with a timeout.
-+        events_wait waits for and returns a named event
-+        from QMP with a timeout.
- 
-         events: a sequence of (name, match_criteria) tuples.
-                 The match criteria are optional and may be None.
-diff --git a/python/qemu/lib/qmp.py b/python/qemu/lib/qmp.py
-index d6c9b2f4b1..6ae7693965 100644
---- a/python/qemu/lib/qmp.py
-+++ b/python/qemu/lib/qmp.py
-@@ -168,8 +168,8 @@ def accept(self, timeout=15.0):
- 
-         @param timeout: timeout in seconds (nonnegative float number, or
-                         None). The value passed will set the behavior of the
--                        underneath QMP socket as described in [1]. Default value
--                        is set to 15.0.
-+                        underneath QMP socket as described in [1].
-+                        Default value is set to 15.0.
-         @return QMP greeting dict
-         @raise OSError on socket connection errors
-         @raise QMPConnectError if the greeting is not received
++    kwargs = {
++        'name': 'qemu',
++        'use_scm_version': {
++            'root': '..',
++            'relative_to': __file__,
++        },
++        'maintainer': 'QEMU Developer Team',
++        'maintainer_email': 'qemu-devel@nongnu.org',
++        'url': 'https://www.qemu.org/',
++        'download_url': 'https://www.qemu.org/download/',
++        'packages': setuptools.find_namespace_packages(),
++        'description': 'QEMU Python Build, Debug and SDK tooling.',
++        'classifiers': [
++            'Development Status :: 5 - Production/Stable',
++            'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
++            'Natural Language :: English',
++            'Operating System :: OS Independent',
++        ],
++        'platforms': [],
++        'keywords': [],
++        'setup_requires': [
++            'setuptools',
++            'setuptools_scm',
++        ],
++        'install_requires': [
++        ],
++        'python_requires': '>=3.6',
++        'long_description_content_type': 'text/x-rst',
++    }
++
++    with open("README.rst", "r") as fh:
++        kwargs['long_description'] = fh.read()
++
++    setuptools.setup(**kwargs)
++
++if __name__ == '__main__':
++    main()
 -- 
 2.21.1
 
