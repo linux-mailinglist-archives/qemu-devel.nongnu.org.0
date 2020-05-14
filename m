@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE471D2AEC
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 11:07:52 +0200 (CEST)
-Received: from localhost ([::1]:37522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BAE1D2AE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 11:06:55 +0200 (CEST)
+Received: from localhost ([::1]:60222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ9qJ-0000Z9-9m
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 05:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56680)
+	id 1jZ9pO-00066f-Rq
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 05:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZ9oM-0004c1-0G
- for qemu-devel@nongnu.org; Thu, 14 May 2020 05:05:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6854
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZ9oG-0004SQ-7o
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 05:05:44 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZ9oL-0000vg-85
- for qemu-devel@nongnu.org; Thu, 14 May 2020 05:05:49 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04E91adx109875; Thu, 14 May 2020 05:05:24 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 310uaum8ru-1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZ9oF-0000tW-Fe
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 05:05:43 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04E928sd166444; Thu, 14 May 2020 05:05:26 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3111wgj8s6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 05:05:24 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04E8xm8b017248;
- Thu, 14 May 2020 09:05:22 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3100ubba77-1
+ Thu, 14 May 2020 05:05:26 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04E92DTE166830;
+ Thu, 14 May 2020 05:05:26 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3111wgj8r5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 09:05:22 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 04E95KqS63111252
+ Thu, 14 May 2020 05:05:25 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04E8xhfZ020792;
+ Thu, 14 May 2020 09:05:23 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3100ub39fs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 May 2020 09:05:23 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 04E94AQq55443876
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 May 2020 09:05:20 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 92F8511C04A;
- Thu, 14 May 2020 09:05:20 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6A77411C04C;
- Thu, 14 May 2020 09:05:20 +0000 (GMT)
+ Thu, 14 May 2020 09:04:10 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4E7E9A405B;
+ Thu, 14 May 2020 09:05:21 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 156CDA405F;
+ Thu, 14 May 2020 09:05:21 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 14 May 2020 09:05:20 +0000 (GMT)
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 14 May 2020 09:05:21 +0000 (GMT)
 Received: from bahia.ibmuc.com (sig-9-145-63-64.uk.ibm.com [9.145.63.64])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id BAA42220190;
- Thu, 14 May 2020 11:05:19 +0200 (CEST)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 597762201A2;
+ Thu, 14 May 2020 11:05:20 +0200 (CEST)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/4] 9p patches 2020-05-14
-Date: Thu, 14 May 2020 11:05:07 +0200
-Message-Id: <20200514090511.256550-1-groug@kaod.org>
+Subject: [PULL 1/4] MAINTAINERS: Upgrade myself as 9pfs co-maintainer
+Date: Thu, 14 May 2020 11:05:08 +0200
+Message-Id: <20200514090511.256550-2-groug@kaod.org>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20200514090511.256550-1-groug@kaod.org>
+References: <20200514090511.256550-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -66,15 +74,14 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
  definitions=2020-05-14_01:2020-05-13,
  2020-05-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0
- cotscore=-2147483648 mlxscore=0 phishscore=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 impostorscore=0 mlxlogscore=776
- priorityscore=1501 bulkscore=0 clxscore=1034 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005140077
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=groug@kaod.org;
+ phishscore=0 clxscore=1034
+ cotscore=-2147483648 priorityscore=1501 impostorscore=0 bulkscore=0
+ adultscore=0 spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ mlxscore=0 mlxlogscore=593 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005140077
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=groug@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 05:05:36
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 05:05:42
 X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -94,44 +101,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d5c75ec500d96f1d93447f990cd5a4ef5ba27f=
-ae:
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-  Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2020-0=
-5-08-1' into staging (2020-05-12 17:00:10 +0100)
+As suggested by Greg, let's upgrade myself as co-maintainer of 9pfs.
 
-are available in the Git repository at:
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <E1jEYz4-0004pt-Cs@lizzy.crudebyte.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://github.com/gkurz/qemu.git tags/9p-next-2020-05-14
-
-for you to fetch changes up to 9bbb7e0fe081efff2e41f8517c256b72a284fe9b:
-
-  xen-9pfs: Fix log messages of reply errors (2020-05-14 08:06:43 +0200)
-
-----------------------------------------------------------------
-Changes:
-- Christian Schoenebeck is now co-maintainer for 9pfs
-- relax checks for O_NOATIME
-- minor documentation updates
-
-----------------------------------------------------------------
-Christian Schoenebeck (3):
-      MAINTAINERS: Upgrade myself as 9pfs co-maintainer
-      qemu-options.hx: 9p: clarify -virtfs vs. -fsdev
-      xen-9pfs: Fix log messages of reply errors
-
-Omar Sandoval (1):
-      9pfs: local: ignore O_NOATIME if we don't have permissions
-
- MAINTAINERS              |  2 +-
- hw/9pfs/9p-util.h        | 13 +++++++++++++
- hw/9pfs/xen-9p-backend.c |  9 +++++----
- qemu-options.hx          | 14 +++++++++++---
- 4 files changed, 30 insertions(+), 8 deletions(-)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1f84e3ae2c6a..005ee98a59f3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1657,7 +1657,7 @@ F: include/sysemu/balloon.h
+=20
+ virtio-9p
+ M: Greg Kurz <groug@kaod.org>
+-R: Christian Schoenebeck <qemu_oss@crudebyte.com>
++M: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ S: Odd Fixes
+ F: hw/9pfs/
+ X: hw/9pfs/xen-9p*
 --=20
 2.21.3
 
