@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975991D2AE7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 11:06:53 +0200 (CEST)
-Received: from localhost ([::1]:59972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581A51D2AE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 11:06:56 +0200 (CEST)
+Received: from localhost ([::1]:60362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ9pM-00060Q-IG
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 05:06:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56624)
+	id 1jZ9pP-0006A0-Cn
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 05:06:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZ9oC-0004RG-4I
- for qemu-devel@nongnu.org; Thu, 14 May 2020 05:05:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6318
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZ9oI-0004Tx-IL
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 05:05:46 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:47036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZ9oA-0000qS-Pt
- for qemu-devel@nongnu.org; Thu, 14 May 2020 05:05:39 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 04E8WgXd009859; Thu, 14 May 2020 05:05:27 -0400
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 310v8rk255-1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1jZ9oH-0000up-LF
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 05:05:46 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 04E926FV166323; Thu, 14 May 2020 05:05:27 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3111wgj8rr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 05:05:26 -0400
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 04E8e11g086128;
- Thu, 14 May 2020 05:05:26 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0b-001b2d01.pphosted.com with ESMTP id 310v8rk243-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 May 2020 05:05:26 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04E906Ga020036;
+ Thu, 14 May 2020 05:05:27 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.27/8.16.0.27) with SMTP id 04E8xiFQ017236;
  Thu, 14 May 2020 09:05:24 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04fra.de.ibm.com with ESMTP id 3100uc1bav-1
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 3100ubba78-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 14 May 2020 09:05:24 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 04E95LQ153805344
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 04E94BXq51183926
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 May 2020 09:05:22 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D43AC52065;
- Thu, 14 May 2020 09:05:21 +0000 (GMT)
+ Thu, 14 May 2020 09:04:11 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8477E42052;
+ Thu, 14 May 2020 09:05:22 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5410F42059;
+ Thu, 14 May 2020 09:05:22 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id A455E5205F;
- Thu, 14 May 2020 09:05:21 +0000 (GMT)
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 14 May 2020 09:05:22 +0000 (GMT)
 Received: from bahia.ibmuc.com (sig-9-145-63-64.uk.ibm.com [9.145.63.64])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 0833D220190;
- Thu, 14 May 2020 11:05:20 +0200 (CEST)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id A18522201A2;
+ Thu, 14 May 2020 11:05:21 +0200 (CEST)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/4] qemu-options.hx: 9p: clarify -virtfs vs. -fsdev
-Date: Thu, 14 May 2020 11:05:09 +0200
-Message-Id: <20200514090511.256550-3-groug@kaod.org>
+Subject: [PULL 3/4] 9pfs: local: ignore O_NOATIME if we don't have permissions
+Date: Thu, 14 May 2020 11:05:10 +0200
+Message-Id: <20200514090511.256550-4-groug@kaod.org>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20200514090511.256550-1-groug@kaod.org>
 References: <20200514090511.256550-1-groug@kaod.org>
@@ -71,14 +65,14 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216, 18.0.676
  definitions=2020-05-14_01:2020-05-13,
  2020-05-14 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- spamscore=0 priorityscore=1501 clxscore=1034 impostorscore=0 mlxscore=0
- lowpriorityscore=0 suspectscore=0 bulkscore=0 cotscore=-2147483648
- phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005140077
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=groug@kaod.org;
+ phishscore=0 clxscore=1034
+ cotscore=-2147483648 priorityscore=1501 impostorscore=0 bulkscore=0
+ adultscore=0 spamscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ mlxscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005140077
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=groug@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 05:05:36
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 05:05:42
 X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -98,62 +92,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ Omar Sandoval <osandov@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+From: Omar Sandoval <osandov@fb.com>
 
-The docs are ambiguous about the difference (or actually their
-equality) between options '-virtfs' vs. '-fsdev'. So clarify that
-'-virtfs' is actually just a convenience shortcut for its
-generalized form '-fsdev' in conjunction with '-device virtio-9p-pci'.
+QEMU's local 9pfs server passes through O_NOATIME from the client. If
+the QEMU process doesn't have permissions to use O_NOATIME (namely, it
+does not own the file nor have the CAP_FOWNER capability), the open will
+fail. This causes issues when from the client's point of view, it
+believes it has permissions to use O_NOATIME (e.g., a process running as
+root in the virtual machine). Additionally, overlayfs on Linux opens
+files on the lower layer using O_NOATIME, so in this case a 9pfs mount
+can't be used as a lower layer for overlayfs (cf.
+https://github.com/osandov/drgn/blob/dabfe1971951701da13863dbe6d8a1d172ad=
+9650/vmtest/onoatimehack.c
+and https://github.com/NixOS/nixpkgs/issues/54509).
 
-And as we're at it, also be a bit more descriptive what 9pfs is
-actually used for.
+Luckily, O_NOATIME is effectively a hint, and is often ignored by, e.g.,
+network filesystems. open(2) notes that O_NOATIME "may not be effective
+on all filesystems. One example is NFS, where the server maintains the
+access time." This means that we can honor it when possible but fall
+back to ignoring it.
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <208f1fceffce2feaf7c900b29e326b967dce7762.1585661532.git.qemu=
-_oss@crudebyte.com>
+Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Omar Sandoval <osandov@fb.com>
+Message-Id: <e9bee604e8df528584693a4ec474ded6295ce8ad.1587149256.git.osan=
+dov@fb.com>
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- qemu-options.hx | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ hw/9pfs/9p-util.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 292d4e7c0cef..e2dca8a4e96b 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1542,9 +1542,17 @@ SRST
- ``-virtfs proxy,sock_fd=3Dsock_fd,mount_tag=3Dmount_tag [,writeout=3Dwri=
-teout][,readonly]``
-   \
- ``-virtfs synth,mount_tag=3Dmount_tag``
--    Define a new filesystem device and expose it to the guest using a
--    virtio-9p-device. The general form of a Virtual File system
--    pass-through options are:
-+    Define a new virtual filesystem device and expose it to the guest us=
-ing
-+    a virtio-9p-device (a.k.a. 9pfs), which essentially means that a cer=
-tain
-+    directory on host is made directly accessible by guest as a pass-thr=
-ough
-+    file system by using the 9P network protocol for communication betwe=
-en
-+    host and guests, if desired even accessible, shared by several guest=
-s
-+    simultaniously.
-+
-+    Note that ``-virtfs`` is actually just a convenience shortcut for it=
-s
-+    generalized form ``-fsdev -device virtio-9p-pci``.
-+
-+    The general form of pass-through file system options are:
+diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
+index 79ed6b233e58..546f46dc7dc6 100644
+--- a/hw/9pfs/9p-util.h
++++ b/hw/9pfs/9p-util.h
+@@ -37,9 +37,22 @@ static inline int openat_file(int dirfd, const char *n=
+ame, int flags,
+ {
+     int fd, serrno, ret;
 =20
-     ``local``
-         Accesses to the filesystem are done by QEMU.
++again:
+     fd =3D openat(dirfd, name, flags | O_NOFOLLOW | O_NOCTTY | O_NONBLOC=
+K,
+                 mode);
+     if (fd =3D=3D -1) {
++        if (errno =3D=3D EPERM && (flags & O_NOATIME)) {
++            /*
++             * The client passed O_NOATIME but we lack permissions to ho=
+nor it.
++             * Rather than failing the open, fall back without O_NOATIME=
+. This
++             * doesn't break the semantics on the client side, as the Li=
+nux
++             * open(2) man page notes that O_NOATIME "may not be effecti=
+ve on
++             * all filesystems". In particular, NFS and other network
++             * filesystems ignore it entirely.
++             */
++            flags &=3D ~O_NOATIME;
++            goto again;
++        }
+         return -1;
+     }
+=20
 --=20
 2.21.3
 
