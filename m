@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAD81D32B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:24:24 +0200 (CEST)
-Received: from localhost ([::1]:47692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9F11D32A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 16:22:25 +0200 (CEST)
+Received: from localhost ([::1]:39160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZEmd-00065S-8t
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38522)
+	id 1jZEkh-0002Pg-Va
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 10:22:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEd0-0007mL-4G
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:27 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:43233)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1jZEcz-0003oi-DJ
- for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:25 -0400
-Received: by mail-lj1-x244.google.com with SMTP id l19so3664604lje.10
- for <qemu-devel@nongnu.org>; Thu, 14 May 2020 07:14:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hHXzvT0ne/aeVCxE+iMY7gU5VPnnGQChVHUMUTuz5KQ=;
- b=iP3oBFQjQcoENgO8zf2xhHRlly1V2mMzMQM9Qq58k8I0L5lCK01QgJwtxvB5R0DCXH
- aijXJv70S44d9uw7trn2bdDYWOvSjKlfomBDi7Yj/pU0jGtKzZ7GKaMriqWUoTIRLA0x
- tuZ7OjNbNlgkcKWDbhmcettoCUfRjaogmBAPyZ9sgy2M35WIa95mmUecDM4wU70pYOeJ
- ihXpVyS0a+xjcUn30NPtdRhF+C1DUhUFGnH1itPJVZ8X8MtH6L472TvTf21zsh0rDrdP
- O8hTS48BrBpYnHQpryppFQxKZpTOa+p4cyLqmAZdzaIWvMxlXTCFASQZUXsg0ZSezi7f
- hqvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hHXzvT0ne/aeVCxE+iMY7gU5VPnnGQChVHUMUTuz5KQ=;
- b=aZuqZ1Klm+MmsxhOLPhsXbxFmFf2NKK0BoqfQsq0deC6Ad3cYWvgp0GHZcSzXhV1hH
- jhdHFcqwomJ5n9/UvskUzlGSz90ju4Yenb/ZLDAzGyzgn+O/D122plpaZEO7Zbq3TtAp
- jKDnZVZp2s0Nd7mGzdrRtKuYjcDB3h5rXhNxSk38RKPA6HWCGGSlc1w9EP7+ljCIdmQK
- hpvkyMDm9brht2ka6YHk1yuzibv35BBxty3ore/MpOkO45/eKCs1UIPGW+sHbCESX4u2
- CEH4Mn+DqbDCFYzNAkGczg5D81CUnfeflDs21utCQ9P09lkqCKPrTPsdc4MJK8ZSz8Mp
- RioA==
-X-Gm-Message-State: AOAM530My/Q07SE024+4uwrO+D95wfjLtXz9UFdCiPHzkfRDsiI17biR
- CdlTvpvPGz1RCGHVdUxtnYcDXujnc2A=
-X-Google-Smtp-Source: ABdhPJxFcWsTA2HP5+hC1Ms7pxBKavniROcQpahL3GUuMYzzFk4y5zcVelcSX3IBi3ilx72boJs1GQ==
-X-Received: by 2002:a2e:7508:: with SMTP id q8mr3045648ljc.234.1589465663341; 
- Thu, 14 May 2020 07:14:23 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id m15sm1561799lji.21.2020.05.14.07.14.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 May 2020 07:14:22 -0700 (PDT)
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v1 14/14] target/microblaze: monitor: Increase the number of
- registers reported
-Date: Thu, 14 May 2020 16:14:02 +0200
-Message-Id: <20200514141402.12498-15-edgar.iglesias@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200514141402.12498-1-edgar.iglesias@gmail.com>
-References: <20200514141402.12498-1-edgar.iglesias@gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jZEd3-0007pB-H6
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:29 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:45572
+ helo=us-smtp-1.mimecast.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1jZEd1-0003pC-UG
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 10:14:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1589465666;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kddAf0OUGIL+GWNN2CM1uGVSiQ/lYcCZ4WkqHaU4dpU=;
+ b=Atu7ZVg3nRZstRRDJj+vGnt1G6w7NUvJ8b2jJCtoU6UV+po7cUnytArE+ARaEF5dOEfp5m
+ ZUbk3fRxlemHbJ0Y4jFA6EncUer9/pdJVHB9rrt+IfpTzLxydDXw4Lf2buamYU5SVxLvVs
+ BCuUWkbM5xX8vybsHMT0owvP/aSPF8M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-Jn2WUKHyP1G8LbnBkVgUCg-1; Thu, 14 May 2020 10:14:25 -0400
+X-MC-Unique: Jn2WUKHyP1G8LbnBkVgUCg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 194421899528;
+ Thu, 14 May 2020 14:14:24 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.110.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 151461001B07;
+ Thu, 14 May 2020 14:14:21 +0000 (UTC)
+Date: Thu, 14 May 2020 15:14:18 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH v6 07/14] block/crypto: implement the encryption key
+ management
+Message-ID: <20200514141418.GJ1280939@redhat.com>
+References: <20200510134037.18487-1-mlevitsk@redhat.com>
+ <20200510134037.18487-8-mlevitsk@redhat.com>
+ <1413abb3-f226-5ecc-3ea9-3dd945a134ed@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <1413abb3-f226-5ecc-3ea9-3dd945a134ed@redhat.com>
+User-Agent: Mutt/1.13.4 (2020-02-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::244;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x244.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- FSL_HELO_FAKE=3.399, RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
+Content-Disposition: inline
+Received-SPF: pass client-ip=207.211.31.120; envelope-from=berrange@redhat.com;
+ helo=us-smtp-1.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/13 22:25:46
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_EXCESS_BASE64=0.979, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_PASS=-0.001, URIBL_BLOCKED=0.001 autolearn=_AUTOLEARN
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,61 +85,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joe Komlodi <joe.komlodi@xilinx.com>
+On Thu, May 14, 2020 at 04:09:59PM +0200, Max Reitz wrote:
+> On 10.05.20 15:40, Maxim Levitsky wrote:
+> > This implements the encryption key management using the generic code in
+> > qcrypto layer and exposes it to the user via qemu-img
+> > 
+> > This code adds another 'write_func' because the initialization
+> > write_func works directly on the underlying file, and amend
+> > works on instance of luks device.
+> > 
+> > This commit also adds a 'hack/workaround' I and Kevin Wolf (thanks)
+> > made to make the driver both support write sharing (to avoid breaking the users),
+> > and be safe against concurrent  metadata update (the keyslots)
+> > 
+> > Eventually the write sharing for luks driver will be deprecated
+> > and removed together with this hack.
+> > 
+> > The hack is that we ask (as a format driver) for BLK_PERM_CONSISTENT_READ
+> > and then when we want to update the keys, we unshare that permission.
+> > So if someone else has the image open, even readonly, encryption
+> > key update will fail gracefully.
+> > 
+> > Also thanks to Daniel Berrange for the idea of
+> > unsharing read, rather that write permission which allows
+> > to avoid cases when the other user had opened the image read-only.
+> > 
+> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  block/crypto.c | 127 +++++++++++++++++++++++++++++++++++++++++++++++--
+> >  block/crypto.h |  34 +++++++++++++
+> >  2 files changed, 158 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/block/crypto.c b/block/crypto.c
+> > index 2e16b62bdc..b14cb0ff06 100644
+> > --- a/block/crypto.c
+> > +++ b/block/crypto.c
+> 
+> [...]
+> 
+> > +static void
+> > +block_crypto_child_perms(BlockDriverState *bs, BdrvChild *c,
+> > +                         const BdrvChildRole *role,
+> > +                         BlockReopenQueue *reopen_queue,
+> > +                         uint64_t perm, uint64_t shared,
+> > +                         uint64_t *nperm, uint64_t *nshared)
+> > +{
+> > +
+> > +    BlockCrypto *crypto = bs->opaque;
+> > +
+> > +    bdrv_filter_default_perms(bs, c, role, reopen_queue,
+> > +            perm, shared, nperm, nshared);
+> > +    /*
+> > +     * Ask for consistent read permission so that if
+> > +     * someone else tries to open this image with this permission
+> > +     * neither will be able to edit encryption keys, since
+> > +     * we will unshare that permission while trying to
+> > +     * update the encryption keys
+> > +     */
+> > +    if (!(bs->open_flags & BDRV_O_NO_IO)) {
+> > +        *nperm |= BLK_PERM_CONSISTENT_READ;
+> > +    }
+> 
+> I’m not sure this is important, because this really means we won’t do
+> I/O.  Its only relevant use in this case is for qemu-img info.  Do we
+> really care if someone edits the key slots while qemu-img info is
+> processing?
 
-Increase the number of registers reported to match GDB.
+FWIW, OpenStack runs  qemu-img info in a periodic background job, so
+it can be concurrent with anything else they are running. Having said
+that due to previous QEMU bugs, they unconditonally pass the arg to
+qemu-img to explicitly disable locking
 
-Registers that aren't modeled are reported as 0.
 
-Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-Id: <1589393329-223076-4-git-send-email-komlodi@xilinx.com>
-Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
----
- target/microblaze/translate.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index 8079724f32..f6ff2591c3 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1789,9 +1789,11 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     qemu_fprintf(f, "IN: PC=%" PRIx64 " %s\n",
-                  env->sregs[SR_PC], lookup_symbol(env->sregs[SR_PC]));
-     qemu_fprintf(f, "rmsr=%" PRIx64 " resr=%" PRIx64 " rear=%" PRIx64 " "
--                 "debug=%x imm=%x iflags=%x fsr=%" PRIx64 "\n",
-+                 "debug=%x imm=%x iflags=%x fsr=%" PRIx64 " "
-+                 "rbtr=%" PRIx64 "\n",
-                  env->sregs[SR_MSR], env->sregs[SR_ESR], env->sregs[SR_EAR],
--                 env->debug, env->imm, env->iflags, env->sregs[SR_FSR]);
-+                 env->debug, env->imm, env->iflags, env->sregs[SR_FSR],
-+                 env->sregs[SR_BTR]);
-     qemu_fprintf(f, "btaken=%d btarget=%" PRIx64 " mode=%s(saved=%s) "
-                  "eip=%d ie=%d\n",
-                  env->btaken, env->btarget,
-@@ -1799,7 +1801,17 @@ void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  (env->sregs[SR_MSR] & MSR_UMS) ? "user" : "kernel",
-                  (bool)(env->sregs[SR_MSR] & MSR_EIP),
-                  (bool)(env->sregs[SR_MSR] & MSR_IE));
-+    for (i = 0; i < 12; i++) {
-+        qemu_fprintf(f, "rpvr%2.2d=%8.8x ", i, env->pvr.regs[i]);
-+        if ((i + 1) % 4 == 0) {
-+            qemu_fprintf(f, "\n");
-+        }
-+    }
- 
-+    /* Registers that aren't modeled are reported as 0 */
-+    qemu_fprintf(f, "redr=%" PRIx64 " rpid=0 rzpr=0 rtlbx=0 rtlbsx=0 "
-+                    "rtlblo=0 rtlbhi=0\n", env->sregs[SR_EDR]);
-+    qemu_fprintf(f, "slr=%x shr=%x\n", env->slr, env->shr);
-     for (i = 0; i < 32; i++) {
-         qemu_fprintf(f, "r%2.2d=%8.8x ", i, env->regs[i]);
-         if ((i + 1) % 4 == 0)
+Regards,
+Daniel
 -- 
-2.20.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
