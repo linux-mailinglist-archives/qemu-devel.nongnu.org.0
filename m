@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FAC1D260E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 06:52:13 +0200 (CEST)
-Received: from localhost ([::1]:53928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 610DD1D2614
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 06:54:28 +0200 (CEST)
+Received: from localhost ([::1]:34262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZ5qu-0002Vt-Km
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 00:52:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56750)
+	id 1jZ5t5-0006Ab-BU
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 00:54:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jZ5lt-0001dA-Cq; Thu, 14 May 2020 00:47:01 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:43882)
+ id 1jZ5lt-0001dx-KG; Thu, 14 May 2020 00:47:01 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:43884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1jZ5ls-0003lp-8l; Thu, 14 May 2020 00:47:01 -0400
+ id 1jZ5ls-0003lq-AX; Thu, 14 May 2020 00:47:01 -0400
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by charlie.dont.surf (Postfix) with ESMTPSA id B042EBFE5B;
- Thu, 14 May 2020 04:46:37 +0000 (UTC)
+ by charlie.dont.surf (Postfix) with ESMTPSA id 18F1BBFDAD;
+ Thu, 14 May 2020 04:46:38 +0000 (UTC)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 19/20] hw/block/nvme: do cmb/pmr init as part of pci init
-Date: Thu, 14 May 2020 06:46:10 +0200
-Message-Id: <20200514044611.734782-20-its@irrelevant.dk>
+Subject: [PATCH v6 20/20] hw/block/nvme: factor out controller identify setup
+Date: Thu, 14 May 2020 06:46:11 +0200
+Message-Id: <20200514044611.734782-21-its@irrelevant.dk>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200514044611.734782-1-its@irrelevant.dk>
 References: <20200514044611.734782-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=128.199.63.193; envelope-from=its@irrelevant.dk;
  helo=charlie.dont.surf
@@ -64,41 +65,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Klaus Jensen <k.jensen@samsung.com>
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/block/nvme.c | 49 ++++++++++++++++++++++++++-----------------------
+ 1 file changed, 26 insertions(+), 23 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 7254b66ae199..2addcc86034a 100644
+index 2addcc86034a..149abef497c4 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1527,6 +1527,12 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
-     pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
-                      PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
-     msix_init_exclusive_bar(pci_dev, n->params.max_ioqpairs + 1, 4, NULL);
-+
-+    if (n->params.cmb_size_mb) {
-+        nvme_init_cmb(n, pci_dev);
-+    } else if (n->pmrdev) {
-+        nvme_init_pmr(n, pci_dev);
-+    }
+@@ -1535,32 +1535,11 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev)
+     }
  }
  
- static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-@@ -1588,12 +1594,6 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-     n->bar.vs = 0x00010200;
-     n->bar.intmc = n->bar.intms = 0;
+-static void nvme_realize(PCIDevice *pci_dev, Error **errp)
++static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+ {
+-    NvmeCtrl *n = NVME(pci_dev);
+     NvmeIdCtrl *id = &n->id_ctrl;
+-    Error *local_err = NULL;
++    uint8_t *pci_conf = pci_dev->config;
  
--    if (n->params.cmb_size_mb) {
--        nvme_init_cmb(n, pci_dev);
--    } else if (n->pmrdev) {
--        nvme_init_pmr(n, pci_dev);
+-    int i;
+-    uint8_t *pci_conf;
+-
+-    nvme_check_constraints(n, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
 -    }
 -
+-    nvme_init_state(n);
+-
+-    nvme_init_blk(n, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
+-
+-    nvme_init_pci(n, pci_dev);
+-
+-    pci_conf = pci_dev->config;
+     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+     strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
+@@ -1593,6 +1572,30 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+ 
+     n->bar.vs = 0x00010200;
+     n->bar.intmc = n->bar.intms = 0;
++}
++
++static void nvme_realize(PCIDevice *pci_dev, Error **errp)
++{
++    NvmeCtrl *n = NVME(pci_dev);
++    Error *local_err = NULL;
++
++    int i;
++
++    nvme_check_constraints(n, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    nvme_init_state(n);
++    nvme_init_blk(n, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    nvme_init_pci(n, pci_dev);
++    nvme_init_ctrl(n, pci_dev);
+ 
      for (i = 0; i < n->num_namespaces; i++) {
          nvme_init_namespace(n, &n->namespaces[i], &local_err);
-         if (local_err) {
 -- 
 2.26.2
 
