@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD25F1D3FD1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 23:15:57 +0200 (CEST)
-Received: from localhost ([::1]:44752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E8E1D3FC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 May 2020 23:13:05 +0200 (CEST)
+Received: from localhost ([::1]:32810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1jZLCu-0003GQ-O4
-	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 17:15:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47592)
+	id 1jZLA8-0006BY-0h
+	for lists+qemu-devel@lfdr.de; Thu, 14 May 2020 17:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jZL8X-0004SO-L6
- for qemu-devel@nongnu.org; Thu, 14 May 2020 17:11:25 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14330)
+ id 1jZL8e-0004cO-Bg
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 17:11:32 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1jZL8W-0000mI-Fu
- for qemu-devel@nongnu.org; Thu, 14 May 2020 17:11:25 -0400
+ id 1jZL8d-0000pV-Bx
+ for qemu-devel@nongnu.org; Thu, 14 May 2020 17:11:32 -0400
 Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5ebdb3710001>; Thu, 14 May 2020 14:09:05 -0700
+ id <B5ebdb3780000>; Thu, 14 May 2020 14:09:12 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
  by hqpgpgate102.nvidia.com (PGP Universal service);
- Thu, 14 May 2020 14:11:23 -0700
+ Thu, 14 May 2020 14:11:29 -0700
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Thu, 14 May 2020 14:11:23 -0700
+ by hqpgpgate102.nvidia.com on Thu, 14 May 2020 14:11:29 -0700
 Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 14 May
- 2020 21:11:23 +0000
+ 2020 21:11:29 +0000
 Received: from kwankhede-dev.nvidia.com (10.124.1.5) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 14 May 2020 21:11:16 +0000
+ Transport; Thu, 14 May 2020 21:11:23 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH Kernel v20 3/8] vfio iommu: Cache pgsize_bitmap in struct
- vfio_iommu
-Date: Fri, 15 May 2020 02:07:42 +0530
-Message-ID: <1589488667-9683-4-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH Kernel v20 4/8] vfio iommu: Add ioctl definition for dirty
+ pages tracking
+Date: Fri, 15 May 2020 02:07:43 +0530
+Message-ID: <1589488667-9683-5-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1589488667-9683-1-git-send-email-kwankhede@nvidia.com>
 References: <1589488667-9683-1-git-send-email-kwankhede@nvidia.com>
@@ -46,16 +46,16 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1589490545; bh=ZBRmkoeTJZ1FSdM0f83CcxykXlKpxr6CXlXwN8RMx60=;
+ t=1589490552; bh=7skbcRjTpE5J4BrETbG3/j023kmrIrZpwcbOzE+xq2I=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=Iv3Wj2blOsVqLChs6/aqnR6VoiHLu+0SnYF7c6Y6gVIyCpd10LojEPUGmCwgWJzds
- zFTSCy12Jrq1854wtaHuhpI2EtHodBBs+0vknlaFAIgqL8mQb2mPSe9jzOUP5OAB7h
- QH5aEq2foLEwYVXWcD0YCsCTEzhJWkV5c1QNTBKDr8ytYYWpcSY35Guro4KH/j5qan
- QrDrVQ3s7tU5ZpZwkCW/2UVFjD3hkxcdMZHDl6PzKvf6ED2lD98DZ/HF5WBSIwTuu/
- M2Nv8oAZAQSrN2nIfr+2ZgkNeraWbPFfnzGcgQyTiT/RJBgYizhvtg8+Mq2I/avdS/
- t6ezQ9V81ALjw==
+ b=SmXz/4m0VvL+i3KPiHksW9rlBVCN2lk7fQT5iSDCwgN9NJraxMVo9AmMoKDLXBhah
+ 11T9dBBrl1dq1MbSRond4KtIswaAnKQDXWkvNCRXOro3AgGXb1ScLdUm2+id3BGV9+
+ FYzxuTch6KlNnsb2k0sGxu3m5gqnNwmrCT5alBzrWkXVWtkopGsSzvt5Dbj87nOy4m
+ qCqNcLWa3eJDn1aPpID1+jFtW3CuxtzS8AjNQ8Gpl06iqK5D/dv/NxyQDKpHoXi9Bj
+ oNqTyH+zT1pZVt2rVSj1ksntwhjHo5AXW+UPfn60onwxXTRxb7u/0NHnExHmJm9Mug
+ XtKk7R1PpZCFg==
 Received-SPF: pass client-ip=216.228.121.143;
  envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/05/14 17:11:02
@@ -88,226 +88,92 @@ Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Calculate and cache pgsize_bitmap when iommu->domain_list is updated
-and iommu->external_domain is set for mdev device.
-Add iommu->lock protection when cached pgsize_bitmap is accessed.
+IOMMU container maintains a list of all pages pinned by vfio_pin_pages API.
+All pages pinned by vendor driver through this API should be considered as
+dirty during migration. When container consists of IOMMU capable device and
+all pages are pinned and mapped, then all pages are marked dirty.
+Added support to start/stop dirtied pages tracking and to get bitmap of all
+dirtied pages for requested IO virtual address range.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- drivers/vfio/vfio_iommu_type1.c | 88 +++++++++++++++++++++++------------------
- 1 file changed, 49 insertions(+), 39 deletions(-)
+ include/uapi/linux/vfio.h | 55 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index fa735047b04d..de17787ffece 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -69,6 +69,7 @@ struct vfio_iommu {
- 	struct rb_root		dma_list;
- 	struct blocking_notifier_head notifier;
- 	unsigned int		dma_avail;
-+	uint64_t		pgsize_bitmap;
- 	bool			v2;
- 	bool			nesting;
- };
-@@ -805,15 +806,14 @@ static void vfio_remove_dma(struct vfio_iommu *iommu, struct vfio_dma *dma)
- 	iommu->dma_avail++;
- }
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+index ad9bb5af3463..123de3bc2dce 100644
+--- a/include/uapi/linux/vfio.h
++++ b/include/uapi/linux/vfio.h
+@@ -1033,6 +1033,12 @@ struct vfio_iommu_type1_dma_map {
  
--static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu)
-+static void vfio_pgsize_bitmap(struct vfio_iommu *iommu)
- {
- 	struct vfio_domain *domain;
--	unsigned long bitmap = ULONG_MAX;
+ #define VFIO_IOMMU_MAP_DMA _IO(VFIO_TYPE, VFIO_BASE + 13)
  
--	mutex_lock(&iommu->lock);
-+	iommu->pgsize_bitmap = ULONG_MAX;
++struct vfio_bitmap {
++	__u64        pgsize;	/* page size for bitmap in bytes */
++	__u64        size;	/* in bytes */
++	__u64 __user *data;	/* one bit per page */
++};
 +
- 	list_for_each_entry(domain, &iommu->domain_list, next)
--		bitmap &= domain->domain->pgsize_bitmap;
--	mutex_unlock(&iommu->lock);
-+		iommu->pgsize_bitmap &= domain->domain->pgsize_bitmap;
+ /**
+  * VFIO_IOMMU_UNMAP_DMA - _IOWR(VFIO_TYPE, VFIO_BASE + 14,
+  *							struct vfio_dma_unmap)
+@@ -1059,6 +1065,55 @@ struct vfio_iommu_type1_dma_unmap {
+ #define VFIO_IOMMU_ENABLE	_IO(VFIO_TYPE, VFIO_BASE + 15)
+ #define VFIO_IOMMU_DISABLE	_IO(VFIO_TYPE, VFIO_BASE + 16)
  
- 	/*
- 	 * In case the IOMMU supports page sizes smaller than PAGE_SIZE
-@@ -823,12 +823,10 @@ static unsigned long vfio_pgsize_bitmap(struct vfio_iommu *iommu)
- 	 * granularity while iommu driver can use the sub-PAGE_SIZE size
- 	 * to map the buffer.
- 	 */
--	if (bitmap & ~PAGE_MASK) {
--		bitmap &= PAGE_MASK;
--		bitmap |= PAGE_SIZE;
-+	if (iommu->pgsize_bitmap & ~PAGE_MASK) {
-+		iommu->pgsize_bitmap &= PAGE_MASK;
-+		iommu->pgsize_bitmap |= PAGE_SIZE;
- 	}
--
--	return bitmap;
- }
- 
- static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
-@@ -839,19 +837,28 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
- 	size_t unmapped = 0;
- 	int ret = 0, retries = 0;
- 
--	mask = ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
-+	mutex_lock(&iommu->lock);
++/**
++ * VFIO_IOMMU_DIRTY_PAGES - _IOWR(VFIO_TYPE, VFIO_BASE + 17,
++ *                                     struct vfio_iommu_type1_dirty_bitmap)
++ * IOCTL is used for dirty pages tracking.
++ * Caller should set flag depending on which operation to perform, details as
++ * below:
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_START set, indicates
++ * migration is active and IOMMU module should track pages which are dirtied or
++ * potentially dirtied by device.
++ * Dirty pages are tracked until tracking is stopped by user application by
++ * setting VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP flag.
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP set, indicates
++ * IOMMU should stop tracking dirtied pages.
++ *
++ * When IOCTL is called with VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP flag set,
++ * IOCTL returns dirty pages bitmap for IOMMU container during migration for
++ * given IOVA range. User must provide data[] as the structure
++ * vfio_iommu_type1_dirty_bitmap_get through which user provides IOVA range and
++ * pgsize. This interface supports to get bitmap of smallest supported pgsize
++ * only and can be modified in future to get bitmap of specified pgsize.
++ * User must allocate memory for bitmap, zero the bitmap memory  and set size
++ * of allocated memory in bitmap.size field. One bit is used to represent one
++ * page consecutively starting from iova offset. User should provide page size
++ * in bitmap.pgsize field. Bit set in bitmap indicates page at that offset from
++ * iova is dirty. Caller must set argsz including size of structure
++ * vfio_iommu_type1_dirty_bitmap_get.
++ *
++ * Only one of the flags _START, STOP and _GET may be specified at a time.
++ *
++ */
++struct vfio_iommu_type1_dirty_bitmap {
++	__u32        argsz;
++	__u32        flags;
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_START	(1 << 0)
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP	(1 << 1)
++#define VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP	(1 << 2)
++	__u8         data[];
++};
 +
-+	mask = ((uint64_t)1 << __ffs(iommu->pgsize_bitmap)) - 1;
++struct vfio_iommu_type1_dirty_bitmap_get {
++	__u64              iova;	/* IO virtual address */
++	__u64              size;	/* Size of iova range */
++	struct vfio_bitmap bitmap;
++};
 +
-+	if (unmap->iova & mask) {
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
++#define VFIO_IOMMU_DIRTY_PAGES             _IO(VFIO_TYPE, VFIO_BASE + 17)
 +
-+	if (!unmap->size || unmap->size & mask) {
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
+ /* -------- Additional API for SPAPR TCE (Server POWERPC) IOMMU -------- */
  
--	if (unmap->iova & mask)
--		return -EINVAL;
--	if (!unmap->size || unmap->size & mask)
--		return -EINVAL;
- 	if (unmap->iova + unmap->size - 1 < unmap->iova ||
--	    unmap->size > SIZE_MAX)
--		return -EINVAL;
-+	    unmap->size > SIZE_MAX) {
-+		ret = -EINVAL;
-+		goto unlock;
-+	}
- 
- 	WARN_ON(mask & PAGE_MASK);
- again:
--	mutex_lock(&iommu->lock);
- 
- 	/*
- 	 * vfio-iommu-type1 (v1) - User mappings were coalesced together to
-@@ -930,6 +937,7 @@ static int vfio_dma_do_unmap(struct vfio_iommu *iommu,
- 			blocking_notifier_call_chain(&iommu->notifier,
- 						    VFIO_IOMMU_NOTIFY_DMA_UNMAP,
- 						    &nb_unmap);
-+			mutex_lock(&iommu->lock);
- 			goto again;
- 		}
- 		unmapped += dma->size;
-@@ -1045,24 +1053,28 @@ static int vfio_dma_do_map(struct vfio_iommu *iommu,
- 	if (map->size != size || map->vaddr != vaddr || map->iova != iova)
- 		return -EINVAL;
- 
--	mask = ((uint64_t)1 << __ffs(vfio_pgsize_bitmap(iommu))) - 1;
--
--	WARN_ON(mask & PAGE_MASK);
--
- 	/* READ/WRITE from device perspective */
- 	if (map->flags & VFIO_DMA_MAP_FLAG_WRITE)
- 		prot |= IOMMU_WRITE;
- 	if (map->flags & VFIO_DMA_MAP_FLAG_READ)
- 		prot |= IOMMU_READ;
- 
--	if (!prot || !size || (size | iova | vaddr) & mask)
--		return -EINVAL;
-+	mutex_lock(&iommu->lock);
- 
--	/* Don't allow IOVA or virtual address wrap */
--	if (iova + size - 1 < iova || vaddr + size - 1 < vaddr)
--		return -EINVAL;
-+	mask = ((uint64_t)1 << __ffs(iommu->pgsize_bitmap)) - 1;
- 
--	mutex_lock(&iommu->lock);
-+	WARN_ON(mask & PAGE_MASK);
-+
-+	if (!prot || !size || (size | iova | vaddr) & mask) {
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	/* Don't allow IOVA or virtual address wrap */
-+	if (iova + size - 1 < iova || vaddr + size - 1 < vaddr) {
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
- 
- 	if (vfio_find_dma(iommu, iova, size)) {
- 		ret = -EEXIST;
-@@ -1668,6 +1680,7 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 			if (!iommu->external_domain) {
- 				INIT_LIST_HEAD(&domain->group_list);
- 				iommu->external_domain = domain;
-+				vfio_pgsize_bitmap(iommu);
- 			} else {
- 				kfree(domain);
- 			}
-@@ -1793,6 +1806,7 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 	}
- 
- 	list_add(&domain->next, &iommu->domain_list);
-+	vfio_pgsize_bitmap(iommu);
- done:
- 	/* Delete the old one and insert new iova list */
- 	vfio_iommu_iova_insert_copy(iommu, &iova_copy);
-@@ -2004,6 +2018,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 			list_del(&domain->next);
- 			kfree(domain);
- 			vfio_iommu_aper_expand(iommu, &iova_copy);
-+			vfio_pgsize_bitmap(iommu);
- 		}
- 		break;
- 	}
-@@ -2136,8 +2151,6 @@ static int vfio_iommu_iova_build_caps(struct vfio_iommu *iommu,
- 	size_t size;
- 	int iovas = 0, i = 0, ret;
- 
--	mutex_lock(&iommu->lock);
--
- 	list_for_each_entry(iova, &iommu->iova_list, list)
- 		iovas++;
- 
-@@ -2146,17 +2159,14 @@ static int vfio_iommu_iova_build_caps(struct vfio_iommu *iommu,
- 		 * Return 0 as a container with a single mdev device
- 		 * will have an empty list
- 		 */
--		ret = 0;
--		goto out_unlock;
-+		return 0;
- 	}
- 
- 	size = sizeof(*cap_iovas) + (iovas * sizeof(*cap_iovas->iova_ranges));
- 
- 	cap_iovas = kzalloc(size, GFP_KERNEL);
--	if (!cap_iovas) {
--		ret = -ENOMEM;
--		goto out_unlock;
--	}
-+	if (!cap_iovas)
-+		return -ENOMEM;
- 
- 	cap_iovas->nr_iovas = iovas;
- 
-@@ -2169,8 +2179,6 @@ static int vfio_iommu_iova_build_caps(struct vfio_iommu *iommu,
- 	ret = vfio_iommu_iova_add_cap(caps, cap_iovas, size);
- 
- 	kfree(cap_iovas);
--out_unlock:
--	mutex_unlock(&iommu->lock);
- 	return ret;
- }
- 
-@@ -2215,11 +2223,13 @@ static long vfio_iommu_type1_ioctl(void *iommu_data,
- 			info.cap_offset = 0; /* output, no-recopy necessary */
- 		}
- 
-+		mutex_lock(&iommu->lock);
- 		info.flags = VFIO_IOMMU_INFO_PGSIZES;
- 
--		info.iova_pgsizes = vfio_pgsize_bitmap(iommu);
-+		info.iova_pgsizes = iommu->pgsize_bitmap;
- 
- 		ret = vfio_iommu_iova_build_caps(iommu, &caps);
-+		mutex_unlock(&iommu->lock);
- 		if (ret)
- 			return ret;
- 
+ /*
 -- 
 2.7.0
 
